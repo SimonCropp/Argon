@@ -45,12 +45,7 @@ using Newtonsoft.Json.Utilities;
 using Newtonsoft.Json.Tests.TestObjects;
 using System.Globalization;
 using Newtonsoft.Json.Tests.TestObjects.GeoCoding;
-#if NET20
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-
-#endif
 
 namespace Newtonsoft.Json.Tests.Bson
 {
@@ -798,7 +793,6 @@ namespace Newtonsoft.Json.Tests.Bson
             Assert.AreEqual(c.AGuid, c2.AGuid.ToString());
         }
 
-#if !(NET20 || NET35 || PORTABLE || PORTABLE40) || NETSTANDARD2_0
         [Test]
         public void WriteBigInteger()
         {
@@ -940,7 +934,6 @@ namespace Newtonsoft.Json.Tests.Bson
             // nothing is written because a BSON document needs to be completed before it can be written
             Assert.AreEqual(string.Empty, (BitConverter.ToString(ms.ToArray())));
         }
-#endif
     }
 }
 #pragma warning restore 618

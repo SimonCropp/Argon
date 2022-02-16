@@ -23,22 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET35 || NET20 || PORTABLE40)
-using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
-using Newtonsoft.Json.Converters;
-#if DNXCORE50
-using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-
-#endif
-
 namespace Newtonsoft.Json.Tests.Converters
 {
     [TestFixture]

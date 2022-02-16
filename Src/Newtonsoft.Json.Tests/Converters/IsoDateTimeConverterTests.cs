@@ -161,7 +161,6 @@ namespace Newtonsoft.Json.Tests.Converters
         }
 #endif
 
-#if !NET20
         [Test]
         public void SerializeDateTimeOffset()
         {
@@ -261,7 +260,6 @@ namespace Newtonsoft.Json.Tests.Converters
                 Assert.AreNotEqual(json, json2);
             }
         }
-#endif
 
         [Test]
         public void BlogCodeSample()
@@ -283,7 +281,6 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(@"{""Name"":""Keith"",""BirthDate"":""1980-03-08T00:00:00"",""LastModified"":""2009-04-12T20:44:55""}", jsonText);
         }
 
-#if !NET20
         [Test]
         public void DeserializeDateTimeOffset()
         {
@@ -301,6 +298,5 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(dto, test);
             Assert.AreEqual(dto.ToString("o"), test.ToString("o"));
         }
-#endif
     }
 }

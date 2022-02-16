@@ -83,7 +83,6 @@ namespace Newtonsoft.Json.Tests.Converters
             Four = 4
         }
 
-#if !NET20
         public enum NamedEnum
         {
             [EnumMember(Value = "@first")]
@@ -118,7 +117,6 @@ namespace Newtonsoft.Json.Tests.Converters
             [EnumMember(Value = ",")]
             JustComma
         }
-#endif
 
         public class NegativeEnumClass
         {
