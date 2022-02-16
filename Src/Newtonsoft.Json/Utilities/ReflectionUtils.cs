@@ -167,13 +167,6 @@ namespace Newtonsoft.Json.Utilities
             if (binder != null)
             {
                 binder.BindToName(t, out string? assemblyName, out string? typeName);
-#if (NET20 || NET35)
-                // for older SerializationBinder implementations that didn't have BindToName
-                if (assemblyName == null & typeName == null)
-                {
-                    return t.AssemblyQualifiedName;
-                }
-#endif
                 return typeName + (assemblyName == null ? "" : ", " + assemblyName);
             }
 
@@ -776,15 +769,6 @@ namespace Newtonsoft.Json.Utilities
                 case Type t:
                     object[] array = attributeType != null ? t.GetCustomAttributes(attributeType, inherit) : t.GetCustomAttributes(inherit);
                     Attribute[] attributes = array.Cast<Attribute>().ToArray();
-
-#if (NET20 || NET35)
-                    // ye olde .NET GetCustomAttributes doesn't respect the inherit argument
-                    if (inherit && t.BaseType != null)
-                    {
-                        attributes = attributes.Union(GetAttributes(t.BaseType, attributeType, inherit)).ToArray();
-                    }
-#endif
-
                     return attributes;
                 case Assembly a:
                     return (attributeType != null) ? Attribute.GetCustomAttributes(a, attributeType) : Attribute.GetCustomAttributes(a);

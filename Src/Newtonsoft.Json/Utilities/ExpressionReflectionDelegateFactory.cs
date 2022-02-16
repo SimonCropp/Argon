@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET20 || NET35)
-
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -394,5 +392,3 @@ namespace Newtonsoft.Json.Utilities
         }
     }
 }
-
-#endif

@@ -242,19 +242,6 @@ namespace Newtonsoft.Json.Serialization
 
             CanDeserialize = canDeserialize;
 
-#if (NET20 || NET35)
-            if (CollectionItemType != null && ReflectionUtils.IsNullableType(CollectionItemType))
-            {
-                // bug in .NET 2.0 & 3.5 that List<Nullable<T>> throws an error when adding null via IList.Add(object)
-                // wrapper will handle calling Add(T) instead
-                if (ReflectionUtils.InheritsGenericDefinition(CreatedType, typeof(List<>), out tempCollectionType)
-                    || (IsArray && !IsMultidimensionalArray))
-                {
-                    ShouldCreateWrapper = true;
-                }
-            }
-#endif
-
             if (CollectionItemType != null &&
                 ImmutableCollectionsUtils.TryBuildImmutableForArrayContract(
                 NonNullableUnderlyingType,

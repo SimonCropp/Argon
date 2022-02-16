@@ -82,7 +82,6 @@ namespace Newtonsoft.Json.Tests.Converters
             );
         }
 
-#if !NET20
         [Test]
         public void SerializeDateTimeOffset()
         {
@@ -159,7 +158,6 @@ namespace Newtonsoft.Json.Tests.Converters
                 "Cannot convert invalid value to System.DateTimeOffset. Path '', line 1, position 5."
             );
         }
-#endif
 
         [Test]
         public void DeserializeIntegerToDateTime()

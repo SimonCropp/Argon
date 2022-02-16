@@ -610,7 +610,6 @@ namespace Newtonsoft.Json.Tests.Converters
             StringAssert.AreEqual(@"null", json);
         }
 
-#if !(NET20 || PORTABLE || PORTABLE40)
         [Test]
         public void DeserializedTypedDataTableWithConverter()
         {
@@ -666,7 +665,6 @@ namespace Newtonsoft.Json.Tests.Converters
                 }
             }
         }
-#endif
 
         [Test]
         public void HandleColumnOnError()

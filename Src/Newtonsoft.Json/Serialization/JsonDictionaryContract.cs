@@ -192,18 +192,6 @@ namespace Newtonsoft.Json.Serialization
             DictionaryKeyType = keyType;
             DictionaryValueType = valueType;
 
-#if (NET20 || NET35)
-            if (DictionaryValueType != null && ReflectionUtils.IsNullableType(DictionaryValueType))
-            {
-                // bug in .NET 2.0 & 3.5 that Dictionary<TKey, Nullable<TValue>> throws an error when adding null via IDictionary[key] = object
-                // wrapper will handle calling Add(T) instead
-                if (ReflectionUtils.InheritsGenericDefinition(CreatedType, typeof(Dictionary<,>), out _))
-                {
-                    ShouldCreateWrapper = true;
-                }
-            }
-#endif
-
             if (DictionaryKeyType != null && 
                 DictionaryValueType != null &&
                 ImmutableCollectionsUtils.TryBuildImmutableForDictionaryContract(
