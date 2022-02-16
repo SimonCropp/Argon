@@ -195,7 +195,7 @@ namespace Newtonsoft.Json.Tests.Converters
 
             Assert.AreEqual(initialJson, json);
         }
-
+/**
         [Test]
         public void XmlNode_EncodeSpecialCharacters()
         {
@@ -277,6 +277,7 @@ namespace Newtonsoft.Json.Tests.Converters
 
             Assert.AreEqual(initialJson, json);
         }
+**/
 
         [Test]
         public void XmlNode_UnescapeTextContent()
