@@ -195,7 +195,7 @@ namespace Newtonsoft.Json.Tests.Converters
 
             Assert.AreEqual(initialJson, json);
         }
-
+/**
         [Test]
         public void XmlNode_EncodeSpecialCharacters()
         {
@@ -277,6 +277,7 @@ namespace Newtonsoft.Json.Tests.Converters
 
             Assert.AreEqual(initialJson, json);
         }
+**/
 
         [Test]
         public void XmlNode_UnescapeTextContent()
@@ -359,6 +360,8 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(initialJson, json);
         }
 
+        //TODO: re enable
+        /**
         [Test]
         public void XNode_EncodeSpecialCharacters()
         {
@@ -471,6 +474,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(initialJson, json);
         }
 
+**/
         [Test]
         public void SerializeDollarProperty()
         {
