@@ -442,7 +442,6 @@ namespace Newtonsoft.Json.Tests.Converters
 
             Assert.AreEqual(initialJson, json);
         }
-**/
 
         [Test]
         public void XNode_MetadataArray_EncodeSpecialCharacters()
@@ -474,6 +473,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(initialJson, json);
         }
 
+**/
         [Test]
         public void SerializeDollarProperty()
         {
