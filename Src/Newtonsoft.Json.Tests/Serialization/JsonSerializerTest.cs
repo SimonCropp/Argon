@@ -7344,7 +7344,7 @@ This is just junk, though.";
         }
 #endif
 
-#if !(PORTABLE || PORTABLE40 || DNXCORE50) || NETSTANDARD1_0 || NETSTANDARD1_3 || NETSTANDARD2_0
+#if !(PORTABLE || PORTABLE40 || DNXCORE50) || NETSTANDARD1_3 || NETSTANDARD2_0
         [Test]
         public void SerializeDictionaryWithStructKey_Custom()
         {

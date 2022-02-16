@@ -102,7 +102,7 @@ namespace Newtonsoft.Json.Tests
             }
         }
 
-#if !(NETSTANDARD1_0 || PORTABLE) || NETSTANDARD2_0
+#if !(PORTABLE) || NETSTANDARD2_0
         [Test]
         public async Task WriteLazy()
         {
