@@ -2450,7 +2450,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(@"﻿<?xml version=""1.0"" encoding=""utf-8""?><root booleanType=""true"" />", xmlString);
         }
 
-#if !(NETSTANDARD1_0 || NETSTANDARD1_3)
+#if !NETSTANDARD1_3
         [Test]
         public void IgnoreCultureForTypedAttributes()
         {
