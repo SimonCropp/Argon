@@ -2291,7 +2291,7 @@ keyword such as type of business.""
   ""Bool"": true,
   ""Char"": ""\u0000""
 }";
-#elif !(PORTABLE || DNXCORE50) || NETSTANDARD1_3
+#elif !(PORTABLE || DNXCORE50)
             expected = @"{
   ""String"": ""string"",
   ""Int32"": 2147483647,

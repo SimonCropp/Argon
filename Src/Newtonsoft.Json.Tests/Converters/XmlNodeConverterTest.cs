@@ -2450,7 +2450,6 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(@"﻿<?xml version=""1.0"" encoding=""utf-8""?><root booleanType=""true"" />", xmlString);
         }
 
-#if !NETSTANDARD1_3
         [Test]
         public void IgnoreCultureForTypedAttributes()
         {
@@ -2486,7 +2485,6 @@ namespace Newtonsoft.Json.Tests.Converters
                 System.Threading.Thread.CurrentThread.CurrentCulture = originalCulture;
             }
         }
-#endif
 
         [Test]
         public void NullAttributeValue()
