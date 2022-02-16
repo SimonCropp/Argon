@@ -234,12 +234,8 @@ namespace Newtonsoft.Json.Linq.JsonPath
             string patternText = regexText.Substring(1, patternOptionDelimiterIndex - 1);
             string optionsText = regexText.Substring(patternOptionDelimiterIndex + 1);
 
-#if HAVE_REGEX_TIMEOUTS
             TimeSpan timeout = settings?.RegexMatchTimeout ?? Regex.InfiniteMatchTimeout;
             return Regex.IsMatch((string)input.Value!, patternText, MiscellaneousUtils.GetRegexOptions(optionsText), timeout);
-#else
-            return Regex.IsMatch((string)input.Value!, patternText, MiscellaneousUtils.GetRegexOptions(optionsText));
-#endif
         }
 
         internal static bool EqualsWithStringCoercion(JValue value, JValue queryValue)

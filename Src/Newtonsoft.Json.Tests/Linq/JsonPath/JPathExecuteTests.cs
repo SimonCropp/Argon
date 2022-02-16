@@ -26,14 +26,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-#if !(PORTABLE || PORTABLE40 || NET35 || NET20) || NETSTANDARD1_3 || NETSTANDARD2_0
+#if !(PORTABLE || PORTABLE40 || NET35 || NET20) || NETSTANDARD2_0
 using System.Numerics;
 #endif
 using Newtonsoft.Json.Linq.JsonPath;
 using Newtonsoft.Json.Tests.Bson;
-#if HAVE_REGEX_TIMEOUTS
 using System.Text.RegularExpressions;
-#endif
 #if DNXCORE50
 using Xunit;
 using Test = Xunit.FactAttribute;
@@ -73,7 +71,6 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(jObj, dd);
         }
 
-#if HAVE_REGEX_TIMEOUTS
         [Test]
         public void BacktrackingRegex_SingleMatch_TimeoutRespected()
         {
@@ -92,7 +89,6 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
                     }).ToArray();
             });
         }
-#endif
 
         [Test]
         public void GreaterThanWithIntegerParameterAndStringValue()
@@ -981,7 +977,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.IsTrue(JToken.DeepEquals(new JObject(new JProperty("hi", 3)), t[1]));
         }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40 || NET35 || NET20) || NETSTANDARD1_3 || NETSTANDARD2_0
+#if !(PORTABLE || DNXCORE50 || PORTABLE40 || NET35 || NET20) || NETSTANDARD2_0
         [Test]
         public void GreaterQueryBigInteger()
         {
