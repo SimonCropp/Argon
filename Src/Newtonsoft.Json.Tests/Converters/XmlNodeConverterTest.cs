@@ -64,13 +64,7 @@ namespace Newtonsoft.Json.Tests.Converters
             string json = JsonConvert.SerializeXmlNode(node, Formatting.Indented);
 
 #if !(NET20)
-#if !NETSTANDARD1_3
             XmlReader reader = new XmlNodeReader(node);
-#else
-            StringReader sr = new StringReader(node.OuterXml);
-            XmlReader reader = XmlReader.Create(sr);
-#endif
-
             XObject xNode;
             if (node is XmlDocument)
             {
@@ -1018,7 +1012,6 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(expected, jsonText);
         }
 
-#if !NETSTANDARD1_3
         [Test]
         public void XmlDocumentTypeSerialize()
         {
@@ -1119,7 +1112,6 @@ namespace Newtonsoft.Json.Tests.Converters
             StringAssert.AreEqual(xml, ToStringWithDeclaration(doc22));
 #endif
         }
-#endif
 
         public class Utf8StringWriter : StringWriter
         {
