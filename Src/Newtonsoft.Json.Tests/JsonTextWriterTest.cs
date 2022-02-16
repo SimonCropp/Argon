@@ -27,11 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-#if NET20
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 using System.Runtime.Serialization;
 using System.Text;
 using System.Xml;
@@ -136,7 +132,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(1, arrayPool.FreeArrays.Count);
         }
 
-#if !(NET20 || NET35 || NET40 || PORTABLE || PORTABLE40 || DNXCORE50) || NETSTANDARD2_0
+#if !(NET40 || DNXCORE50) || NETSTANDARD2_0
         [Test]
         public void BufferErroringWithInvalidSize()
         {
@@ -303,21 +299,15 @@ namespace Newtonsoft.Json.Tests
                 jsonWriter.WriteValue((decimal?)1.1m);
                 jsonWriter.WriteValue((DateTime?)null);
                 jsonWriter.WriteValue((DateTime?)new DateTime(DateTimeUtils.InitialJavaScriptDateTicks, DateTimeKind.Utc));
-#if !NET20
                 jsonWriter.WriteValue((DateTimeOffset?)null);
                 jsonWriter.WriteValue((DateTimeOffset?)new DateTimeOffset(DateTimeUtils.InitialJavaScriptDateTicks, TimeSpan.Zero));
-#endif
                 jsonWriter.WriteEndArray();
             }
 
             string json = sw.ToString();
             string expected;
 
-#if !NET20
             expected = @"[null,""c"",null,true,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1.1,null,1.1,null,1.1,null,""1970-01-01T00:00:00Z"",null,""1970-01-01T00:00:00+00:00""]";
-#else
-            expected = @"[null,""c"",null,true,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1.1,null,1.1,null,1.1,null,""1970-01-01T00:00:00Z""]";
-#endif
 
             Assert.AreEqual(expected, json);
         }
@@ -1388,7 +1378,6 @@ _____'propertyName': NaN,
             Assert.AreEqual("{'Blah':", sw.ToString());
         }
 
-#if !NET20
         [Test]
         public void QuoteChar()
         {
@@ -1457,7 +1446,6 @@ _____'propertyName': NaN,
   '2000 a.m.'
 ]", sw.ToString());
         }
-#endif
 
         [Test]
         public void CompareNewStringEscapingWithOld()

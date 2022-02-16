@@ -27,9 +27,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-#if NET20
-using Newtonsoft.Json.Utilities.LinqBridge;
-#endif
 #if !(NET20 || NET35 || PORTABLE) || NETSTANDARD2_0
 using System.Numerics;
 #endif

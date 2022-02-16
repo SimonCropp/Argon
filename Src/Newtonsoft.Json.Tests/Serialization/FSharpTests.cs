@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET40 || NET35 || NET20 || DNXCORE50) || NETSTANDARD2_0
+#if !(NET40 || DNXCORE50) || NETSTANDARD2_0
 #if DNXCORE50
 using Xunit;
 using Test = Xunit.FactAttribute;

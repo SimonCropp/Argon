@@ -35,9 +35,7 @@ using System.Numerics;
 #endif
 using System.Runtime.Serialization;
 using System.Text;
-#if !(NET20 || NET35)
 using System.Threading.Tasks;
-#endif
 using System.Xml;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -626,13 +624,11 @@ namespace Newtonsoft.Json.Tests
             value = new DateTime(DateTimeUtils.InitialJavaScriptDateTicks, DateTimeKind.Utc);
             Assert.AreEqual(@"""\/Date(0)\/""", JsonConvert.ToString((DateTime)value, DateFormatHandling.MicrosoftDateFormat, DateTimeZoneHandling.RoundtripKind));
 
-#if !NET20
             value = new DateTimeOffset(DateTimeUtils.InitialJavaScriptDateTicks, TimeSpan.Zero);
             Assert.AreEqual(@"""1970-01-01T00:00:00+00:00""", JsonConvert.ToString(value));
 
             value = new DateTimeOffset(DateTimeUtils.InitialJavaScriptDateTicks, TimeSpan.Zero);
             Assert.AreEqual(@"""\/Date(0+0000)\/""", JsonConvert.ToString((DateTimeOffset)value, DateFormatHandling.MicrosoftDateFormat));
-#endif
 
             value = null;
             Assert.AreEqual("null", JsonConvert.ToString(value));
@@ -674,10 +670,8 @@ namespace Newtonsoft.Json.Tests
             int i = JsonConvert.DeserializeObject<int>("1");
             Assert.AreEqual(1, i);
 
-#if !NET20
             DateTimeOffset d = JsonConvert.DeserializeObject<DateTimeOffset>(@"""\/Date(-59011455539000+0000)\/""");
             Assert.AreEqual(new DateTimeOffset(new DateTime(100, 1, 1, 1, 1, 1, DateTimeKind.Utc)), d);
-#endif
 
             bool b = JsonConvert.DeserializeObject<bool>("true");
             Assert.AreEqual(true, b);
@@ -863,7 +857,6 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(@"\/Date(-62135596800000)\/", result.MsDateUnspecified);
             Assert.AreEqual(@"\/Date(-62135596800000)\/", result.MsDateUtc);
 
-#if !NET20
             result = TestDateTime("DateTimeOffset TimeSpan Zero", new DateTimeOffset(2000, 1, 1, 1, 1, 1, TimeSpan.Zero));
             Assert.AreEqual("2000-01-01T01:01:01+00:00", result.IsoDateRoundtrip);
             Assert.AreEqual(@"\/Date(946688461000+0000)\/", result.MsDateRoundtrip);
@@ -895,7 +888,6 @@ namespace Newtonsoft.Json.Tests
             result = TestDateTime("DateTimeOffset Default", default(DateTimeOffset));
             Assert.AreEqual("0001-01-01T00:00:00+00:00", result.IsoDateRoundtrip);
             Assert.AreEqual(@"\/Date(-62135596800000+0000)\/", result.MsDateRoundtrip);
-#endif
         }
 
         public class DateTimeResult
@@ -946,13 +938,11 @@ namespace Newtonsoft.Json.Tests
                 Console.WriteLine(XmlConvert.ToString((DateTimeOffset)(object)value));
             }
 
-#if !NET20
             MemoryStream ms = new MemoryStream();
             DataContractSerializer s = new DataContractSerializer(typeof(T));
             s.WriteObject(ms, value);
             string json = Encoding.UTF8.GetString(ms.ToArray(), 0, Convert.ToInt32(ms.Length));
             Console.WriteLine(json);
-#endif
 
             Console.WriteLine();
 
@@ -969,9 +959,7 @@ namespace Newtonsoft.Json.Tests
             }
             else
             {
-#if !NET20
                 date = JsonConvert.ToString((DateTimeOffset)(object)value, format);
-#endif
             }
 
             Console.WriteLine(format.ToString("g") + "-" + timeZoneHandling.ToString("g") + ": " + date);
@@ -1073,7 +1061,6 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual("Bad Boys", m.Name);
         }
 
-#if !NET20
         [Test]
         public void TestJsonDateTimeOffsetRoundtrip()
         {
@@ -1110,7 +1097,6 @@ namespace Newtonsoft.Json.Tests
 
             Assert.AreEqual(@"""2000-12-31T20:59:59.9999999+11:33""", sw.ToString());
         }
-#endif
 
         [Test]
         public void MaximumDateTimeLength()

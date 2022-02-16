@@ -61,10 +61,8 @@ namespace Newtonsoft.Json.Serialization
         private static readonly ThreadSafeStore<Type, Func<object[]?, object>> CreatorCache = 
             new ThreadSafeStore<Type, Func<object[]?, object>>(GetCreator);
 
-#if !(NET20 || DOTNET)
         private static readonly ThreadSafeStore<Type, Type?> AssociatedMetadataTypesCache = new ThreadSafeStore<Type, Type?>(GetAssociateMetadataTypeFromAttribute);
         private static ReflectionObject? _metadataTypeAttributeReflectionObject;
-#endif
 
         public static T? GetCachedAttribute<T>(object attributeProvider) where T : Attribute
         {
@@ -275,7 +273,6 @@ namespace Newtonsoft.Json.Serialization
             };
         }
 
-#if !(NET20 || DOTNET)
         private static Type? GetAssociatedMetadataType(Type type)
         {
             return AssociatedMetadataTypesCache.Get(type);
@@ -306,13 +303,11 @@ namespace Newtonsoft.Json.Serialization
 
             return null;
         }
-#endif
 
         private static T? GetAttribute<T>(Type type) where T : Attribute
         {
             T? attribute;
 
-#if !(NET20 || DOTNET)
             Type? metadataType = GetAssociatedMetadataType(type);
             if (metadataType != null)
             {
@@ -322,7 +317,6 @@ namespace Newtonsoft.Json.Serialization
                     return attribute;
                 }
             }
-#endif
 
             attribute = ReflectionUtils.GetAttribute<T>(type, true);
             if (attribute != null)

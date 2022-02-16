@@ -29,11 +29,7 @@ using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
-#if (NET20 || NET35)
-using Newtonsoft.Json.Serialization;
-#else
 using System.Runtime.Serialization.Json;
-#endif
 using System.Text;
 using System.Threading;
 using Newtonsoft.Json.Linq;
@@ -46,16 +42,10 @@ using NUnit.Framework;
 #endif
 using Newtonsoft.Json.Utilities;
 using System.Collections;
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
+#if !(NET40)
 using System.Threading.Tasks;
 #endif
-#if NET20
-using Newtonsoft.Json.Utilities.LinqBridge;
-using Action = Newtonsoft.Json.Serialization.Action;
-#else
 using System.Linq;
-
-#endif
 
 namespace Newtonsoft.Json.Tests
 {
@@ -199,7 +189,6 @@ namespace Newtonsoft.Json.Tests
     [TestFixture]
     public abstract class TestFixtureBase
     {
-#if !(NET20 || NET35)
         protected string GetDataContractJsonSerializeResult(object o)
         {
             MemoryStream ms = new MemoryStream();
@@ -209,7 +198,6 @@ namespace Newtonsoft.Json.Tests
             var data = ms.ToArray();
             return Encoding.UTF8.GetString(data, 0, data.Length);
         }
-#endif
 
         public static string ResolvePath(string path)
         {
@@ -414,7 +402,7 @@ namespace Newtonsoft.Json.Tests
             }
         }
 
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
+#if !(NET40)
         public static async Task<TException> ThrowsAsync<TException>(Func<Task> action, params string[] possibleMessages)
             where TException : Exception
         {

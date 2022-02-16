@@ -30,11 +30,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Web;
 using Newtonsoft.Json.Linq;
-#if NET20
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 #if DNXCORE50
 using Xunit;
 using Test = Xunit.FactAttribute;
