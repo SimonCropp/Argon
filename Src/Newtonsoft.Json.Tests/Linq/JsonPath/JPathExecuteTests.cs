@@ -31,9 +31,7 @@ using System.Numerics;
 #endif
 using Newtonsoft.Json.Linq.JsonPath;
 using Newtonsoft.Json.Tests.Bson;
-#if HAVE_REGEX_TIMEOUTS
 using System.Text.RegularExpressions;
-#endif
 #if DNXCORE50
 using Xunit;
 using Test = Xunit.FactAttribute;
@@ -73,7 +71,6 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(jObj, dd);
         }
 
-#if HAVE_REGEX_TIMEOUTS
         [Test]
         public void BacktrackingRegex_SingleMatch_TimeoutRespected()
         {
@@ -92,7 +89,6 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
                     }).ToArray();
             });
         }
-#endif
 
         [Test]
         public void GreaterThanWithIntegerParameterAndStringValue()
