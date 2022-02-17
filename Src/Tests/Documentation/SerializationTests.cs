@@ -515,7 +515,7 @@ namespace Argon.Tests.Documentation
             IPerson person = people[0];
 
             Console.WriteLine(person.GetType());
-            // Newtonsoft.Json.Tests.Employee
+            // Argon.Tests.Employee
 
             Console.WriteLine(person.FirstName);
             // Maurice

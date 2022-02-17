@@ -77,10 +77,10 @@ namespace Argon.Tests.Documentation.Samples.Serializer
 
             Console.WriteLine(jsonTypeNameAll);
             // {
-            //   "$type": "Argon.Samples.Stockholder, Newtonsoft.Json.Tests",
+            //   "$type": "Argon.Samples.Stockholder, Tests",
             //   "FullName": "Steve Stockholder",
             //   "Businesses": {
-            //     "$type": "System.Collections.Generic.List`1[[Argon.Samples.Business, Newtonsoft.Json.Tests]], mscorlib",
+            //     "$type": "System.Collections.Generic.List`1[[Argon.Samples.Business, Tests]], mscorlib",
             //     "$values": [
             //       {
             //         "$type": "Argon.Samples.Hotel, Argon.Tests",

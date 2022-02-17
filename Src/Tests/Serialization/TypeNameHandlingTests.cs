@@ -731,7 +731,7 @@ namespace Argon.Tests.Serialization
         {
             string json = @"{
   ""$id"": ""1"",
-  ""$type"": ""Newtonsoft.Json.Tests.TestObjects.Employee"",
+  ""$type"": ""Argon.Tests.TestObjects.Employee"",
   ""Name"": ""Name!"",
   ""Manager"": null
 }";
@@ -742,7 +742,7 @@ namespace Argon.Tests.Serialization
                 {
                     TypeNameHandling = TypeNameHandling.Objects
                 });
-            }, "Type specified in JSON 'Newtonsoft.Json.Tests.TestObjects.Employee' was not resolved. Path '$type', line 3, position 55.");
+            }, "Type specified in JSON 'Argon.Tests.TestObjects.Employee' was not resolved. Path '$type', line 3, position 55.");
         }
 
         public interface ICorrelatedMessage
@@ -925,7 +925,7 @@ namespace Argon.Tests.Serialization
         {
             string json = @"{
   ""$id"": ""1"",
-  ""$type"": ""Newtonsoft.Json.Tests.TestObjects.Employee"",
+  ""$type"": ""Argon.Tests.TestObjects.Employee"",
   ""Name"": ""Name!""
 }";
 
@@ -955,7 +955,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeUsingCustomBinder()
         {
-            TypeNameSerializationBinder binder = new TypeNameSerializationBinder("Newtonsoft.Json.Tests.Serialization.{0}, Newtonsoft.Json.Tests");
+            TypeNameSerializationBinder binder = new TypeNameSerializationBinder("Argon.Tests.Serialization.{0}, Tests");
 
             IList<object> values = new List<object>
             {
@@ -1048,7 +1048,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void NewSerializeUsingCustomBinder()
         {
-            NewTypeNameSerializationBinder binder = new NewTypeNameSerializationBinder("Newtonsoft.Json.Tests.Serialization.{0}, Newtonsoft.Json.Tests");
+            NewTypeNameSerializationBinder binder = new NewTypeNameSerializationBinder("Argon.Tests.Serialization.{0}, Tests");
 
             IList<object> values = new List<object>
             {
@@ -1223,7 +1223,7 @@ namespace Argon.Tests.Serialization
             // {
             //   "Address": "http://www.google.com",
             //   "Body": {
-            //     "$type": "Newtonsoft.Json.Tests.Serialization.SearchDetails, Newtonsoft.Json.Tests",
+            //     "$type": "Argon.Tests.Serialization.SearchDetails, Tests",
             //     "Query": "Json.NET",
             //     "Language": "en-us"
             //   }

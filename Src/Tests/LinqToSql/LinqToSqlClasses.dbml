@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<Database EntityNamespace="Newtonsoft.Json.Tests.LinqToSql" ContextNamespace="Newtonsoft.Json.Tests.LinqToSql"
+<Database EntityNamespace="Argon.Tests.LinqToSql" ContextNamespace="Newtonsoft.Json.Tests.LinqToSql"
           Class="LinqToSqlClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Table Name="" Member="Persons">
     <Type Name="Person">

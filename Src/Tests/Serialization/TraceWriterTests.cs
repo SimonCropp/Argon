@@ -274,12 +274,12 @@ Argon Error: 0 : Error!
                 staff,
                 new JsonSerializerSettings { TraceWriter = traceWriter, Converters = { new JavaScriptDateTimeConverter() } });
 
-            // 2012-11-11T12:08:42.761 Info Started serializing Newtonsoft.Json.Tests.Serialization.Staff. Path ''.
+            // 2012-11-11T12:08:42.761 Info Started serializing Argon.Tests.Serialization.Staff. Path ''.
             // 2012-11-11T12:08:42.785 Info Started serializing System.DateTime with converter Newtonsoft.Json.Converters.JavaScriptDateTimeConverter. Path 'StartDate'.
             // 2012-11-11T12:08:42.791 Info Finished serializing System.DateTime with converter Newtonsoft.Json.Converters.JavaScriptDateTimeConverter. Path 'StartDate'.
             // 2012-11-11T12:08:42.797 Info Started serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
             // 2012-11-11T12:08:42.798 Info Finished serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
-            // 2012-11-11T12:08:42.799 Info Finished serializing Newtonsoft.Json.Tests.Serialization.Staff. Path ''.
+            // 2012-11-11T12:08:42.799 Info Finished serializing Argon.Tests.Serialization.Staff. Path ''.
 
             MemoryTraceWriter memoryTraceWriter = (MemoryTraceWriter)traceWriter;
             string output = memoryTraceWriter.ToString();
@@ -818,7 +818,7 @@ Argon Error: 0 : Error!
       ""key!"": ""value!""
     },
     {
-      ""$type"": ""Newtonsoft.Json.Tests.TestObjects.VersionOld, Newtonsoft.Json.Tests"",
+      ""$type"": ""Argon.Tests.TestObjects.VersionOld, Tests"",
       ""Major"": 1,
       ""Minor"": 2,
       ""Build"": 3,
