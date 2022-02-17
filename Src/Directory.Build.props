@@ -6,10 +6,10 @@
     <MicrosoftCodeAnalysisNetAnalyzersPackageVersion>6.0.0</MicrosoftCodeAnalysisNetAnalyzersPackageVersion>
     <MicrosoftCSharpPackageVersion>4.3.0</MicrosoftCSharpPackageVersion>
     <MicrosoftSourceLinkGitHubPackageVersion>1.0.0</MicrosoftSourceLinkGitHubPackageVersion>
-    <MicrosoftNETTestSdkPackageVersion>16.3.0</MicrosoftNETTestSdkPackageVersion>
+    <MicrosoftNETTestSdkPackageVersion>17.1.0</MicrosoftNETTestSdkPackageVersion>
     <MoqPackageVersion>4.8.1</MoqPackageVersion>
-    <NunitPackageVersion>3.11.0</NunitPackageVersion>
-    <Nunit3TestAdapterPackageVersion>3.13.0</Nunit3TestAdapterPackageVersion>
+    <NunitPackageVersion>3.13.1</NunitPackageVersion>
+    <Nunit3TestAdapterPackageVersion>4.2.1</Nunit3TestAdapterPackageVersion>
     <SystemBuffersPackageVersion>4.4.0</SystemBuffersPackageVersion>
     <SystemCollectionsImmutablePackageVersion>1.4.0</SystemCollectionsImmutablePackageVersion>
     <SystemComponentModelTypeConverterPackageVersion>4.3.0</SystemComponentModelTypeConverterPackageVersion>
@@ -19,7 +19,7 @@
     <SystemRuntimeSerializationXmlPackageVersion>4.3.0</SystemRuntimeSerializationXmlPackageVersion>
     <SystemXmlXmlDocumentPackageVersion>4.3.0</SystemXmlXmlDocumentPackageVersion>
     <SystemValueTuplePackageVersion>4.4.0</SystemValueTuplePackageVersion>
-    <XunitPackageVersion>2.3.1</XunitPackageVersion>
-    <XunitRunnerVisualStudioPackageVersion>2.3.1</XunitRunnerVisualStudioPackageVersion>
+    <XunitPackageVersion>2.4.1</XunitPackageVersion>
+    <XunitRunnerVisualStudioPackageVersion>2.4.3 </XunitRunnerVisualStudioPackageVersion>
   </PropertyGroup>
 </Project>
