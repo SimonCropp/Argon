@@ -923,7 +923,7 @@ namespace Argon.Converters
     /// </summary>
     public class XmlNodeConverter : JsonConverter
     {
-        internal static readonly List<IXmlNode> EmptyChildNodes = new List<IXmlNode>();
+        internal static readonly List<IXmlNode> EmptyChildNodes = new();
 
         private const string TextName = "#text";
         private const string CommentName = "#comment";

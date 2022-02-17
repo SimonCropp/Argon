@@ -83,7 +83,7 @@ namespace Argon.Utilities
             _mapType = fsharpCoreAssembly.GetType("Microsoft.FSharp.Collections.FSharpMap`2");
         }
 
-        private static readonly object Lock = new object();
+        private static readonly object Lock = new();
         private static FSharpUtils? _instance;
 
         public static FSharpUtils Instance

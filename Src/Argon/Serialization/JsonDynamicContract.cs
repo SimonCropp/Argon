@@ -48,10 +48,10 @@ namespace Argon.Serialization
         public Func<string, string>? PropertyNameResolver { get; set; }
 
         private readonly ThreadSafeStore<string, CallSite<Func<CallSite, object, object>>> _callSiteGetters =
-            new ThreadSafeStore<string, CallSite<Func<CallSite, object, object>>>(CreateCallSiteGetter);
+            new(CreateCallSiteGetter);
 
         private readonly ThreadSafeStore<string, CallSite<Func<CallSite, object, object?, object>>> _callSiteSetters =
-            new ThreadSafeStore<string, CallSite<Func<CallSite, object, object?, object>>>(CreateCallSiteSetter);
+            new(CreateCallSiteSetter);
 
         private static CallSite<Func<CallSite, object, object>> CreateCallSiteGetter(string name)
         {

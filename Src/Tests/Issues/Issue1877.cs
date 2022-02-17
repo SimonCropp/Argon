@@ -59,7 +59,7 @@ namespace Argon.Tests.Issues
 
         class Fubar
         {
-            public Version Version { get; set; } = new Version("1.0");
+            public Version Version { get; set; } = new("1.0");
 
             // ...
         }
@@ -67,7 +67,7 @@ namespace Argon.Tests.Issues
         private class Fubar2 : Fubar
         {
             [JsonIgnore]
-            public new Version Version { get; set; } = new Version("2.0");
+            public new Version Version { get; set; } = new("2.0");
 
             // ...
         }

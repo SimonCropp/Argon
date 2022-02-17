@@ -41,7 +41,7 @@ namespace Argon.Tests.Issues
             var activities = new Activities();
             activities.List = new List<Activity>
             {
-                new Activity
+                new()
                 {
                     Name = "An activity"
                 }
@@ -63,7 +63,7 @@ namespace Argon.Tests.Issues
             var activities = new ActivitiesSubClass();
             activities.List = new List<Activity>
             {
-                new Activity
+                new()
                 {
                     Name = "An activity"
                 }

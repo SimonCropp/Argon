@@ -688,7 +688,7 @@ namespace Argon.Tests
 
     public class JsonArrayPool : IArrayPool<char>
     {
-        public static readonly JsonArrayPool Instance = new JsonArrayPool();
+        public static readonly JsonArrayPool Instance = new();
 
         public char[] Rent(int minimumLength)
         {

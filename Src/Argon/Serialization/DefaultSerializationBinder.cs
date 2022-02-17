@@ -41,7 +41,7 @@ namespace Argon.Serialization
 #pragma warning restore 618
         ISerializationBinder
     {
-        internal static readonly DefaultSerializationBinder Instance = new DefaultSerializationBinder();
+        internal static readonly DefaultSerializationBinder Instance = new();
 
         private readonly ThreadSafeStore<StructMultiKey<string?, string>, Type> _typeCache;
 

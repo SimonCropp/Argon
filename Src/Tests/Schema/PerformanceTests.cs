@@ -141,7 +141,7 @@ namespace Argon.Tests.Schema
 
     public class PerformanceTester : IDisposable
     {
-        private readonly Stopwatch _stopwatch = new Stopwatch();
+        private readonly Stopwatch _stopwatch = new();
         private readonly Action<TimeSpan> _callback;
 
         public PerformanceTester(string description)

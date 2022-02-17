@@ -350,7 +350,7 @@ namespace Argon.Tests.Serialization
         {
             var dic = new List<KeyValuePair<string, object>>
             {
-                new KeyValuePair<string, object>("movie", new Movie { Name = "Die Hard" })
+                new("movie", new Movie { Name = "Die Hard" })
             };
 
             var json = JsonConvert.SerializeObject(dic, Formatting.Indented, new JsonSerializerSettings
@@ -477,7 +477,7 @@ namespace Argon.Tests.Serialization
             var wrapper = new Wrapper();
             wrapper.Array = new List<EmployeeReference>
             {
-                new EmployeeReference()
+                new()
             };
             wrapper.Dictionary = new Dictionary<string, EmployeeReference>
             {
@@ -1250,8 +1250,8 @@ namespace Argon.Tests.Serialization
                 {
                     "List", new List<UrlStatus>
                     {
-                        new UrlStatus { Status = 300, Url = @"http://www.yahoo.com" },
-                        new UrlStatus { Status = 200, Url = @"http://www.askjeeves.com" }
+                        new() { Status = 300, Url = @"http://www.yahoo.com" },
+                        new() { Status = 200, Url = @"http://www.askjeeves.com" }
                     }
                 }
             };
@@ -2166,7 +2166,7 @@ namespace Argon.Tests.Serialization
         public void GenericItemTypeCollection()
         {
             var data = new DataType();
-            data.Rows.Add("key", new List<MyInterfaceImplementationType> { new MyInterfaceImplementationType() { SomeProperty = "property" } });
+            data.Rows.Add("key", new List<MyInterfaceImplementationType> { new() { SomeProperty = "property" } });
             var serialized = JsonConvert.SerializeObject(data, Formatting.Indented);
 
             var listTypeName = ReflectionUtils.GetTypeName(typeof(List<MyInterfaceImplementationType>), TypeNameAssemblyFormatHandling.Simple, null);
@@ -2318,7 +2318,7 @@ namespace Argon.Tests.Serialization
 
         public class FancyBinder : ISerializationBinder
         {
-            private static readonly string Annotate = new string(':', 3);
+            private static readonly string Annotate = new(':', 3);
 
             public void BindToName(Type serializedType, out string assemblyName, out string typeName)
             {

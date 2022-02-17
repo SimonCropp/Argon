@@ -219,7 +219,7 @@ namespace Argon.Tests.Serialization
 
         public class ConstructorParameterDefaultStringValueContractResolver : DefaultContractResolver
         {
-            public static new ConstructorParameterDefaultStringValueContractResolver Instance = new ConstructorParameterDefaultStringValueContractResolver();
+            public static new ConstructorParameterDefaultStringValueContractResolver Instance = new();
 
             protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
             {

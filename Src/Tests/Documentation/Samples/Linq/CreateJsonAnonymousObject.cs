@@ -52,7 +52,7 @@ namespace Argon.Tests.Documentation.Samples.Linq
             #region Usage
             var posts = new List<Post>
             {
-                new Post
+                new()
                 {
                     Title = "Episode VII",
                     Description = "Episode VII production",

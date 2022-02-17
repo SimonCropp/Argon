@@ -47,7 +47,7 @@ namespace Argon.Linq
         , ICustomTypeDescriptor
         , INotifyPropertyChanging
     {
-        private readonly JPropertyKeyedCollection _properties = new JPropertyKeyedCollection();
+        private readonly JPropertyKeyedCollection _properties = new();
 
         /// <summary>
         /// Gets the container's children tokens.

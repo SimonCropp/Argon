@@ -20,8 +20,8 @@ namespace Argon.Tests.Converters
 
             IList<KeyValuePair<string, int>> values = new List<KeyValuePair<string, int>>
             {
-                new KeyValuePair<string, int>("123", 123),
-                new KeyValuePair<string, int>("456", 456)
+                new("123", 123),
+                new("456", 456)
             };
 
             var json = JsonConvert.SerializeObject(values, Formatting.Indented);

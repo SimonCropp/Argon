@@ -31,7 +31,7 @@ namespace Argon.Tests.TestObjects
 {
     public class ModelStateDictionary<T> : IDictionary<string, T>
     {
-        private readonly Dictionary<string, T> _innerDictionary = new Dictionary<string, T>(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<string, T> _innerDictionary = new(StringComparer.OrdinalIgnoreCase);
 
         public ModelStateDictionary()
         {

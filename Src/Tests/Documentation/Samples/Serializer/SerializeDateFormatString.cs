@@ -41,9 +41,9 @@ namespace Argon.Tests.Documentation.Samples.Serializer
             #region Usage
             IList<DateTime> dateList = new List<DateTime>
             {
-                new DateTime(2009, 12, 7, 23, 10, 0, DateTimeKind.Utc),
-                new DateTime(2010, 1, 1, 9, 0, 0, DateTimeKind.Utc),
-                new DateTime(2010, 2, 10, 10, 0, 0, DateTimeKind.Utc)
+                new(2009, 12, 7, 23, 10, 0, DateTimeKind.Utc),
+                new(2010, 1, 1, 9, 0, 0, DateTimeKind.Utc),
+                new(2010, 2, 10, 10, 0, 0, DateTimeKind.Utc)
             };
 
             var json = JsonConvert.SerializeObject(dateList, new JsonSerializerSettings

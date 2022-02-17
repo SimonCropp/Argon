@@ -50,7 +50,7 @@ namespace Argon.Tests.Documentation.Samples.Linq
         {
             return new List<Post>
             {
-                new Post
+                new()
                 {
                     Title = "Title!",
                     Categories = new List<string>

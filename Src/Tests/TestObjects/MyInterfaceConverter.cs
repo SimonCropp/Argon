@@ -33,7 +33,7 @@ namespace Argon.Tests.TestObjects
 {
     internal class MyInterfaceConverter : TypeConverter
     {
-        private readonly List<IMyInterface> _writers = new List<IMyInterface>
+        private readonly List<IMyInterface> _writers = new()
         {
             new ConsoleWriter(),
             new TraceWriter()

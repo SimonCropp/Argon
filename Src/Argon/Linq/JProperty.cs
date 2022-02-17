@@ -138,7 +138,7 @@ namespace Argon.Linq
         }
         #endregion
 
-        private readonly JPropertyList _content = new JPropertyList();
+        private readonly JPropertyList _content = new();
         private readonly string _name;
 
         /// <summary>

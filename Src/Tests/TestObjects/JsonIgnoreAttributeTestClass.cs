@@ -47,6 +47,6 @@ namespace Argon.Tests.TestObjects
         }
 
         [JsonIgnore]
-        public Product IgnoredObject = new Product();
+        public Product IgnoredObject = new();
     }
 }

@@ -30,8 +30,8 @@ namespace Argon.Tests.TestObjects.JsonTextReaderTests
 {
     public class FakeArrayPool : IArrayPool<char>
     {
-        public readonly List<char[]> FreeArrays = new List<char[]>();
-        public readonly List<char[]> UsedArrays = new List<char[]>();
+        public readonly List<char[]> FreeArrays = new();
+        public readonly List<char[]> UsedArrays = new();
 
         public char[] Rent(int minimumLength)
         {

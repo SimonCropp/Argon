@@ -383,9 +383,9 @@ Parameter name: index",
 
             IEnumerable<ListItemFields> t = new List<ListItemFields>
             {
-                new ListItemFields { ListItemText = "First", ListItemValue = 1 },
-                new ListItemFields { ListItemText = "Second", ListItemValue = 2 },
-                new ListItemFields { ListItemText = "Third", ListItemValue = 3 }
+                new() { ListItemText = "First", ListItemValue = 1 },
+                new() { ListItemText = "Second", ListItemValue = 2 },
+                new() { ListItemText = "Third", ListItemValue = 3 }
             };
 
             var optionValues =

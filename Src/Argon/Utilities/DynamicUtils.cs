@@ -172,7 +172,7 @@ namespace Argon.Utilities
 
     internal class NoThrowExpressionVisitor : ExpressionVisitor
     {
-        internal static readonly object ErrorResult = new object();
+        internal static readonly object ErrorResult = new();
 
         protected override Expression VisitConditional(ConditionalExpression node)
         {

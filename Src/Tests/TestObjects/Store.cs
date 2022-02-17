@@ -31,7 +31,7 @@ namespace Argon.Tests.TestObjects
     public class Store
     {
         public StoreColor Color = StoreColor.Yellow;
-        public DateTime Establised = new DateTime(2010, 1, 22, 1, 1, 1, DateTimeKind.Utc);
+        public DateTime Establised = new(2010, 1, 22, 1, 1, 1, DateTimeKind.Utc);
         public double Width = 1.1;
         public int Employees = 999;
         public int[] RoomsPerFloor = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
@@ -39,13 +39,13 @@ namespace Argon.Tests.TestObjects
         public char Symbol = '@';
 
         [JsonProperty(ObjectCreationHandling = ObjectCreationHandling.Replace)]
-        public List<string> Mottos = new List<string>();
+        public List<string> Mottos = new();
 
         public decimal Cost = 100980.1M;
         public string Escape = "\r\n\t\f\b?{\\r\\n\"\'";
 
         [JsonProperty(ObjectCreationHandling = ObjectCreationHandling.Replace)]
-        public List<Product> product = new List<Product>();
+        public List<Product> product = new();
 
         public Store()
         {

@@ -102,7 +102,7 @@ namespace Argon.Utilities
     internal static class ConvertUtils
     {
         private static readonly Dictionary<Type, PrimitiveTypeCode> TypeCodeMap =
-            new Dictionary<Type, PrimitiveTypeCode>
+            new()
             {
                 { typeof(char), PrimitiveTypeCode.Char },
                 { typeof(char?), PrimitiveTypeCode.CharNullable },
@@ -149,25 +149,25 @@ namespace Argon.Utilities
         private static readonly TypeInformation[] PrimitiveTypeCodes =
         {
             // need all of these. lookup against the index with TypeCode value
-            new TypeInformation(typeof(object), PrimitiveTypeCode.Empty), 
-            new TypeInformation(typeof(object), PrimitiveTypeCode.Object), 
-            new TypeInformation(typeof(object), PrimitiveTypeCode.DBNull), 
-            new TypeInformation(typeof(bool), PrimitiveTypeCode.Boolean), 
-            new TypeInformation(typeof(char), PrimitiveTypeCode.Char), 
-            new TypeInformation(typeof(sbyte), PrimitiveTypeCode.SByte), 
-            new TypeInformation(typeof(byte), PrimitiveTypeCode.Byte), 
-            new TypeInformation(typeof(short), PrimitiveTypeCode.Int16), 
-            new TypeInformation(typeof(ushort), PrimitiveTypeCode.UInt16), 
-            new TypeInformation(typeof(int), PrimitiveTypeCode.Int32), 
-            new TypeInformation(typeof(uint), PrimitiveTypeCode.UInt32), 
-            new TypeInformation(typeof(long), PrimitiveTypeCode.Int64), 
-            new TypeInformation(typeof(ulong), PrimitiveTypeCode.UInt64), 
-            new TypeInformation(typeof(float), PrimitiveTypeCode.Single), 
-            new TypeInformation(typeof(double), PrimitiveTypeCode.Double), 
-            new TypeInformation(typeof(decimal), PrimitiveTypeCode.Decimal), 
-            new TypeInformation(typeof(DateTime), PrimitiveTypeCode.DateTime), 
-            new TypeInformation(typeof(object), PrimitiveTypeCode.Empty), // no 17 in TypeCode for some reason
-            new TypeInformation(typeof(string), PrimitiveTypeCode.String)
+            new(typeof(object), PrimitiveTypeCode.Empty), 
+            new(typeof(object), PrimitiveTypeCode.Object), 
+            new(typeof(object), PrimitiveTypeCode.DBNull), 
+            new(typeof(bool), PrimitiveTypeCode.Boolean), 
+            new(typeof(char), PrimitiveTypeCode.Char), 
+            new(typeof(sbyte), PrimitiveTypeCode.SByte), 
+            new(typeof(byte), PrimitiveTypeCode.Byte), 
+            new(typeof(short), PrimitiveTypeCode.Int16), 
+            new(typeof(ushort), PrimitiveTypeCode.UInt16), 
+            new(typeof(int), PrimitiveTypeCode.Int32), 
+            new(typeof(uint), PrimitiveTypeCode.UInt32), 
+            new(typeof(long), PrimitiveTypeCode.Int64), 
+            new(typeof(ulong), PrimitiveTypeCode.UInt64), 
+            new(typeof(float), PrimitiveTypeCode.Single), 
+            new(typeof(double), PrimitiveTypeCode.Double), 
+            new(typeof(decimal), PrimitiveTypeCode.Decimal), 
+            new(typeof(DateTime), PrimitiveTypeCode.DateTime), 
+            new(typeof(object), PrimitiveTypeCode.Empty), // no 17 in TypeCode for some reason
+            new(typeof(string), PrimitiveTypeCode.String)
         };
 
         public static PrimitiveTypeCode GetTypeCode(Type t)
@@ -222,7 +222,7 @@ namespace Argon.Utilities
         }
 
         private static readonly ThreadSafeStore<StructMultiKey<Type, Type>, Func<object?, object?>?> CastConverters =
-            new ThreadSafeStore<StructMultiKey<Type, Type>, Func<object?, object?>?>(CreateCastConverter);
+            new(CreateCastConverter);
 
         private static Func<object?, object?>? CreateCastConverter(StructMultiKey<Type, Type> t)
         {

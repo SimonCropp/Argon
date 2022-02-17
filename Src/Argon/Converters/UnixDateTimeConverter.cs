@@ -34,7 +34,7 @@ namespace Argon.Converters
     /// </summary>
     public class UnixDateTimeConverter : DateTimeConverterBase
     {
-        internal static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        internal static readonly DateTime UnixEpoch = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         /// <summary>
         /// Writes the JSON representation of the object.

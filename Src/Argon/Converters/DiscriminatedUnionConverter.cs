@@ -75,8 +75,8 @@ namespace Argon.Converters
         private const string CasePropertyName = "Case";
         private const string FieldsPropertyName = "Fields";
 
-        private static readonly ThreadSafeStore<Type, Union> UnionCache = new ThreadSafeStore<Type, Union>(CreateUnion);
-        private static readonly ThreadSafeStore<Type, Type> UnionTypeLookupCache = new ThreadSafeStore<Type, Type>(CreateUnionTypeLookup);
+        private static readonly ThreadSafeStore<Type, Union> UnionCache = new(CreateUnion);
+        private static readonly ThreadSafeStore<Type, Type> UnionTypeLookupCache = new(CreateUnionTypeLookup);
 
         private static Type CreateUnionTypeLookup(Type t)
         {

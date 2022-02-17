@@ -776,14 +776,14 @@ keyword such as type of business.""
         {
             return new List<Post>()
             {
-                new Post()
+                new()
                 {
                     Title = "LINQ to JSON beta",
                     Description = "Announcing LINQ to JSON",
                     Link = "http://james.newtonking.com/projects/json-net.aspx",
                     Categories = new List<string>() { "Json.NET", "LINQ" }
                 },
-                new Post()
+                new()
                 {
                     Title = "Json.NET 1.3 + New license + Now on CodePlex",
                     Description = "Announcing the release of Json.NET 1.3, the MIT license and being available on CodePlex",
@@ -1052,10 +1052,10 @@ keyword such as type of business.""
         {
             var testDates = new List<DateTimeOffset>
             {
-                new DateTimeOffset(new DateTime(100, 1, 1, 1, 1, 1, DateTimeKind.Utc)),
-                new DateTimeOffset(2000, 1, 1, 1, 1, 1, TimeSpan.Zero),
-                new DateTimeOffset(2000, 1, 1, 1, 1, 1, TimeSpan.FromHours(13)),
-                new DateTimeOffset(2000, 1, 1, 1, 1, 1, TimeSpan.FromHours(-3.5)),
+                new(new DateTime(100, 1, 1, 1, 1, 1, DateTimeKind.Utc)),
+                new(2000, 1, 1, 1, 1, 1, TimeSpan.Zero),
+                new(2000, 1, 1, 1, 1, 1, TimeSpan.FromHours(13)),
+                new(2000, 1, 1, 1, 1, 1, TimeSpan.FromHours(-3.5)),
             };
 
             var jsonSerializer = new JsonSerializer();

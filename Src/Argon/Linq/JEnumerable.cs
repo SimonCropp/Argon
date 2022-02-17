@@ -40,7 +40,7 @@ namespace Argon.Linq
         /// <summary>
         /// An empty collection of <see cref="JToken"/> objects.
         /// </summary>
-        public static readonly JEnumerable<T> Empty = new JEnumerable<T>(Enumerable.Empty<T>());
+        public static readonly JEnumerable<T> Empty = new(Enumerable.Empty<T>());
 
         private readonly IEnumerable<T> _enumerable;
 

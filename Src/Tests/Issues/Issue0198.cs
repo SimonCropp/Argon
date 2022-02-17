@@ -40,11 +40,11 @@ namespace Argon.Tests.Issues
         {
             IEnumerable<TestClass1> objects = new List<TestClass1>
             {
-                new TestClass1
+                new()
                 {
                     Prop1 = new HashSet<TestClass2>
                     {
-                        new TestClass2
+                        new()
                         {
                             MyProperty1 = "Test1",
                             MyProperty2 = "Test2",
@@ -57,7 +57,7 @@ namespace Argon.Tests.Issues
                     },
                     Prop3 = new HashSet<TestClass2>
                     {
-                        new TestClass2
+                        new()
                         {
                             MyProperty1 = "Test1",
                             MyProperty2 = "Test2",

@@ -65,13 +65,13 @@ namespace Argon.Tests.Issues
 
         public class TestClass
         {
-            public List<int> Items { get; } = new List<int>();
+            public List<int> Items { get; } = new();
         }
 
         public class TestClassWithJsonConverter
         {
             [JsonConverter(typeof(OneItemListJsonConverter))]
-            public List<int> Items { get; } = new List<int>();
+            public List<int> Items { get; } = new();
         }
 
         public class CustomContractResolver : DefaultContractResolver

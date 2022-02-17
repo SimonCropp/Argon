@@ -43,7 +43,7 @@ namespace Argon.Serialization
     {
         private Type? _rootType;
         private int _rootLevel;
-        private readonly List<object> _serializeStack = new List<object>();
+        private readonly List<object> _serializeStack = new();
 
         public JsonSerializerInternalWriter(JsonSerializer serializer)
             : base(serializer)

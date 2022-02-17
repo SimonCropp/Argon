@@ -39,7 +39,7 @@ namespace Argon.Bson
 
     internal class BsonObject : BsonToken, IEnumerable<BsonProperty>
     {
-        private readonly List<BsonProperty> _children = new List<BsonProperty>();
+        private readonly List<BsonProperty> _children = new();
 
         public void Add(string name, BsonToken token)
         {
@@ -62,7 +62,7 @@ namespace Argon.Bson
 
     internal class BsonArray : BsonToken, IEnumerable<BsonToken>
     {
-        private readonly List<BsonToken> _children = new List<BsonToken>();
+        private readonly List<BsonToken> _children = new();
 
         public void Add(BsonToken token)
         {
@@ -114,8 +114,8 @@ namespace Argon.Bson
 
     internal class BsonBoolean : BsonValue
     {
-        public static readonly BsonBoolean False = new BsonBoolean(false);
-        public static readonly BsonBoolean True = new BsonBoolean(true);
+        public static readonly BsonBoolean False = new(false);
+        public static readonly BsonBoolean True = new(true);
 
         private BsonBoolean(bool value)
             : base(value, BsonType.Boolean)

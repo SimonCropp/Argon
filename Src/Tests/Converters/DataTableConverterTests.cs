@@ -112,7 +112,7 @@ namespace Argon.Tests.Converters
                 [typeof(TimeSpan)] = TimeSpan.Zero,
                 [typeof(char[])] = new char[] {'a', 'b', 'c' },
                 [typeof(Type)] = typeof(string),
-                [typeof(Object)] = new object(),
+                [typeof(Object)] = new(),
                 [typeof(byte[])] = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 },
                 [typeof(Uri)] = new Uri("http://localhost"),
                 [typeof(Guid)] = new Guid(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11),

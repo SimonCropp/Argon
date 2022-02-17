@@ -40,7 +40,7 @@ namespace Argon.Utilities
         private const char EnumSeparatorChar = ',';
         private const string EnumSeparatorString = ", ";
 
-        private static readonly ThreadSafeStore<StructMultiKey<Type, NamingStrategy?>, EnumInfo> ValuesAndNamesPerEnum = new ThreadSafeStore<StructMultiKey<Type, NamingStrategy?>, EnumInfo>(InitializeValuesAndNames);
+        private static readonly ThreadSafeStore<StructMultiKey<Type, NamingStrategy?>, EnumInfo> ValuesAndNamesPerEnum = new(InitializeValuesAndNames);
 
         private static EnumInfo InitializeValuesAndNames(StructMultiKey<Type, NamingStrategy?> key)
         {
@@ -113,7 +113,7 @@ namespace Argon.Utilities
         }
 
         // Used by Newtonsoft.Json.Schema
-        private static CamelCaseNamingStrategy _camelCaseNamingStrategy = new CamelCaseNamingStrategy();
+        private static CamelCaseNamingStrategy _camelCaseNamingStrategy = new();
         public static bool TryToString(Type enumType, object value, bool camelCase, [NotNullWhen(true)]out string? name)
         {
             return TryToString(enumType, value, camelCase ? _camelCaseNamingStrategy : null, out name);

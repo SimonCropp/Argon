@@ -2210,7 +2210,7 @@ namespace Argon.Tests.Converters
                 Name = "Hi",
                 Products = new List<Product>
                 {
-                    new Product { Name = "First" }
+                    new() { Name = "First" }
                 }
             };
 

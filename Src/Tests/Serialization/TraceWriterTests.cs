@@ -234,9 +234,9 @@ Argon Error: 0 : Error!
 
             var raws = new List<JRaw>
             {
-                new JRaw("$('#element')"),
-                new JRaw("$('#element')"),
-                new JRaw("$('#element')")
+                new("$('#element')"),
+                new("$('#element')"),
+                new("$('#element')")
             };
 
             var json = JsonConvert.SerializeObject(raws, new JsonSerializerSettings
@@ -761,7 +761,7 @@ Argon Error: 0 : Error!
 
             IList<DateTime> d = new List<DateTime>
             {
-                new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc)
+                new(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc)
             };
 
             var json = JsonConvert.SerializeObject(d, Formatting.Indented, new JsonSerializerSettings

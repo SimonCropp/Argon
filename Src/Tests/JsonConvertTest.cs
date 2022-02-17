@@ -1687,7 +1687,7 @@ namespace Argon.Tests
         public sealed class HasReadOnlyEnumerableObject
         {
             [JsonProperty("foo")]
-            public EnumerableWithConverter Foo { get; } = new EnumerableWithConverter();
+            public EnumerableWithConverter Foo { get; } = new();
 
             [JsonConstructor]
             public HasReadOnlyEnumerableObject([JsonProperty("bar")] int bar)
@@ -1699,7 +1699,7 @@ namespace Argon.Tests
         public sealed class HasReadOnlyEnumerableObjectAndDefaultConstructor
         {
             [JsonProperty("foo")]
-            public EnumerableWithConverter Foo { get; } = new EnumerableWithConverter();
+            public EnumerableWithConverter Foo { get; } = new();
 
             [JsonConstructor]
             public HasReadOnlyEnumerableObjectAndDefaultConstructor()
@@ -1724,7 +1724,7 @@ namespace Argon.Tests
         public sealed class HasEnumerableObject
         {
             [JsonProperty("foo")]
-            public EnumerableWithConverter Foo { get; set; } = new EnumerableWithConverter();
+            public EnumerableWithConverter Foo { get; set; } = new();
 
             [JsonConstructor]
             public HasEnumerableObject([JsonProperty("bar")] int bar)
@@ -1780,7 +1780,7 @@ namespace Argon.Tests
         [JsonObject(ItemRequired = Required.Always)]
         public sealed class ItemsRequiredObjectWithIgnoredProperty
         {
-            private static readonly DateTime s_unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            private static readonly DateTime s_unixEpoch = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
             [JsonProperty("exp")]
             private int _expiration

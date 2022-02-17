@@ -31,7 +31,7 @@ namespace Argon.Tests.TestObjects
     {
         public string personsName;
 
-        public List<PhoneNumber> pNumbers = new List<PhoneNumber>();
+        public List<PhoneNumber> pNumbers = new();
 
         public Name(string personsName)
         {

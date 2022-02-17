@@ -1992,12 +1992,12 @@ keyword such as type of business.""
         {
             var testDates = new List<DateTime>
             {
-                new DateTime(100, 1, 1, 1, 1, 1, DateTimeKind.Local),
-                new DateTime(100, 1, 1, 1, 1, 1, DateTimeKind.Unspecified),
-                new DateTime(100, 1, 1, 1, 1, 1, DateTimeKind.Utc),
-                new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Local),
-                new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Unspecified),
-                new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc),
+                new(100, 1, 1, 1, 1, 1, DateTimeKind.Local),
+                new(100, 1, 1, 1, 1, 1, DateTimeKind.Unspecified),
+                new(100, 1, 1, 1, 1, 1, DateTimeKind.Utc),
+                new(2000, 1, 1, 1, 1, 1, DateTimeKind.Local),
+                new(2000, 1, 1, 1, 1, 1, DateTimeKind.Unspecified),
+                new(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc),
             };
 
             var ms = new MemoryStream();
@@ -2017,10 +2017,10 @@ keyword such as type of business.""
         {
             var testDates = new List<DateTimeOffset>
             {
-                new DateTimeOffset(new DateTime(100, 1, 1, 1, 1, 1, DateTimeKind.Utc)),
-                new DateTimeOffset(2000, 1, 1, 1, 1, 1, TimeSpan.Zero),
-                new DateTimeOffset(2000, 1, 1, 1, 1, 1, TimeSpan.FromHours(13)),
-                new DateTimeOffset(2000, 1, 1, 1, 1, 1, TimeSpan.FromHours(-3.5)),
+                new(new DateTime(100, 1, 1, 1, 1, 1, DateTimeKind.Utc)),
+                new(2000, 1, 1, 1, 1, 1, TimeSpan.Zero),
+                new(2000, 1, 1, 1, 1, 1, TimeSpan.FromHours(13)),
+                new(2000, 1, 1, 1, 1, 1, TimeSpan.FromHours(-3.5)),
             };
 
             var result = JsonConvert.SerializeObject(testDates);
@@ -2032,10 +2032,10 @@ keyword such as type of business.""
         {
             var testDates = new List<DateTimeOffset>
             {
-                new DateTimeOffset(new DateTime(100, 1, 1, 1, 1, 1, DateTimeKind.Utc)),
-                new DateTimeOffset(2000, 1, 1, 1, 1, 1, TimeSpan.Zero),
-                new DateTimeOffset(2000, 1, 1, 1, 1, 1, TimeSpan.FromHours(13)),
-                new DateTimeOffset(2000, 1, 1, 1, 1, 1, TimeSpan.FromHours(-3.5)),
+                new(new DateTime(100, 1, 1, 1, 1, 1, DateTimeKind.Utc)),
+                new(2000, 1, 1, 1, 1, 1, TimeSpan.Zero),
+                new(2000, 1, 1, 1, 1, 1, TimeSpan.FromHours(13)),
+                new(2000, 1, 1, 1, 1, 1, TimeSpan.FromHours(-3.5)),
             };
 
             var result = JsonConvert.SerializeObject(testDates, new JsonSerializerSettings { DateFormatHandling = DateFormatHandling.MicrosoftDateFormat });
@@ -3249,8 +3249,8 @@ keyword such as type of business.""
                 Text = "Blah, blah, blah",
                 Children = new List<Content>
                 {
-                    new Content { Text = "First" },
-                    new Content { Text = "Second" }
+                    new() { Text = "First" },
+                    new() { Text = "Second" }
                 }
             };
 

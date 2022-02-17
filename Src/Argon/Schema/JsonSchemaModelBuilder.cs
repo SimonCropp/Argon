@@ -34,8 +34,8 @@ namespace Argon.Schema
     [Obsolete("JSON Schema validation has been moved to its own package. See https://www.newtonsoft.com/jsonschema for more details.")]
     internal class JsonSchemaModelBuilder
     {
-        private JsonSchemaNodeCollection _nodes = new JsonSchemaNodeCollection();
-        private Dictionary<JsonSchemaNode, JsonSchemaModel> _nodeModels = new Dictionary<JsonSchemaNode, JsonSchemaModel>();
+        private JsonSchemaNodeCollection _nodes = new();
+        private Dictionary<JsonSchemaNode, JsonSchemaModel> _nodeModels = new();
         private JsonSchemaNode _node;
 
         public JsonSchemaModel Build(JsonSchema schema)

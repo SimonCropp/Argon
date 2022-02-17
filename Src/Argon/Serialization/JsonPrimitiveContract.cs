@@ -54,7 +54,7 @@ namespace Argon.Serialization
             }
         }
 
-        private static readonly Dictionary<Type, ReadType> ReadTypeMap = new Dictionary<Type, ReadType>
+        private static readonly Dictionary<Type, ReadType> ReadTypeMap = new()
         {
             [typeof(byte[])] = ReadType.ReadAsBytes,
             [typeof(byte)] = ReadType.ReadAsInt32,

@@ -52,7 +52,7 @@ namespace Argon.Tests.Serialization
         {
             IList<Person> people = new List<Person>
             {
-                new Person { Name = "Initial" }
+                new() { Name = "Initial" }
             };
 
             JsonConvert.PopulateObject(@"[{""Name"":""James""}, null]", people);
@@ -70,7 +70,7 @@ namespace Argon.Tests.Serialization
             s.Color = StoreColor.Red;
             s.product = new List<Product>
             {
-                new Product
+                new()
                 {
                     ExpiryDate = new DateTime(2000, 12, 3, 0, 0, 0, DateTimeKind.Utc),
                     Name = "ProductName!",

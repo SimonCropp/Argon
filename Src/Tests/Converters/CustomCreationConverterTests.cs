@@ -42,7 +42,7 @@ namespace Argon.Tests.Converters
         {
             var json = JsonConvert.SerializeObject(new List<Employee>
             {
-                new Employee
+                new()
                 {
                     BirthDate = new DateTime(1977, 12, 30, 1, 1, 1, DateTimeKind.Utc),
                     FirstName = "Maurice",
@@ -50,7 +50,7 @@ namespace Argon.Tests.Converters
                     Department = "IT",
                     JobTitle = "Support"
                 },
-                new Employee
+                new()
                 {
                     BirthDate = new DateTime(1978, 3, 15, 1, 1, 1, DateTimeKind.Utc),
                     FirstName = "Jen",

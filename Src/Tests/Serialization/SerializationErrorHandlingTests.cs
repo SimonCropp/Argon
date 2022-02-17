@@ -187,18 +187,18 @@ namespace Argon.Tests.Serialization
             {
                 {
                     {
-                        new ListErrorObject
+                        new()
                         {
                             Member = "Value1",
                             ThrowError = "Handle this!",
                             Member2 = "Member1"
                         },
-                        new ListErrorObject
+                        new()
                         {
                             Member = "Value2",
                             Member2 = "Member2"
                         },
-                        new ListErrorObject
+                        new()
                         {
                             Member = "Value3",
                             ThrowError = "Handle that!",
@@ -206,18 +206,18 @@ namespace Argon.Tests.Serialization
                         }
                     },
                     {
-                        new ListErrorObject
+                        new()
                         {
                             Member = "Value1",
                             ThrowError = "Handle this!",
                             Member2 = "Member1"
                         },
-                        new ListErrorObject
+                        new()
                         {
                             Member = "Value2",
                             Member2 = "Member2"
                         },
-                        new ListErrorObject
+                        new()
                         {
                             Member = "Value3",
                             ThrowError = "Handle that!",
@@ -280,18 +280,18 @@ namespace Argon.Tests.Serialization
         {
             var c = new ListErrorObjectCollection
             {
-                new ListErrorObject
+                new()
                 {
                     Member = "Value1",
                     ThrowError = "Handle this!",
                     Member2 = "Member1"
                 },
-                new ListErrorObject
+                new()
                 {
                     Member = "Value2",
                     Member2 = "Member2"
                 },
-                new ListErrorObject
+                new()
                 {
                     Member = "Value3",
                     ThrowError = "Handle that!",
@@ -769,9 +769,9 @@ namespace Argon.Tests.Serialization
 
             var data = new List<ErrorPerson2>()
             {
-                new ErrorPerson2 { FirstName = "Scott", LastName = "Hanselman" },
-                new ErrorPerson2 { FirstName = "Scott", LastName = "Hunter" },
-                new ErrorPerson2 { FirstName = "Scott", LastName = "Guthrie" },
+                new() { FirstName = "Scott", LastName = "Hanselman" },
+                new() { FirstName = "Scott", LastName = "Hunter" },
+                new() { FirstName = "Scott", LastName = "Guthrie" },
             };
 
             var dictionary = data.GroupBy(person => person.FirstName).ToDictionary(group => @group.Key, group => @group.Cast<IErrorPerson2>());
@@ -787,10 +787,10 @@ namespace Argon.Tests.Serialization
 
             var data = new List<ErrorPerson2>
             {
-                new ErrorPerson2 { FirstName = "Scott", LastName = "Hanselman" },
-                new ErrorPerson2 { FirstName = "Scott", LastName = "Hunter" },
-                new ErrorPerson2 { FirstName = "Scott", LastName = "Guthrie" },
-                new ErrorPerson2 { FirstName = "James", LastName = "Newton-King" },
+                new() { FirstName = "Scott", LastName = "Hanselman" },
+                new() { FirstName = "Scott", LastName = "Hunter" },
+                new() { FirstName = "Scott", LastName = "Guthrie" },
+                new() { FirstName = "James", LastName = "Newton-King" },
             };
 
             var dictionary = data.GroupBy(person => person.FirstName).ToDictionary(group => @group.Key, group => @group.Cast<IErrorPerson2>());

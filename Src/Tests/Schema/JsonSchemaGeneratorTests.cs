@@ -654,7 +654,7 @@ namespace Argon.Tests.Schema
 
     public class Workspace : DMDSLBase
     {
-        public ControlFlowItemCollection Jobs = new ControlFlowItemCollection();
+        public ControlFlowItemCollection Jobs = new();
     }
 
     public class ControlFlowItemBase : DMDSLBase
@@ -664,8 +664,8 @@ namespace Argon.Tests.Schema
 
     public class ControlFlowItem : ControlFlowItemBase //A Job
     {
-        public TaskCollection Tasks = new TaskCollection();
-        public ContainerCollection Containers = new ContainerCollection();
+        public TaskCollection Tasks = new();
+        public ContainerCollection Containers = new();
     }
 
     public class ControlFlowItemCollection : List<ControlFlowItem>
@@ -674,8 +674,8 @@ namespace Argon.Tests.Schema
 
     public class Task : ControlFlowItemBase
     {
-        public DataFlowTaskCollection DataFlowTasks = new DataFlowTaskCollection();
-        public BulkInsertTaskCollection BulkInsertTask = new BulkInsertTaskCollection();
+        public DataFlowTaskCollection DataFlowTasks = new();
+        public BulkInsertTaskCollection BulkInsertTask = new();
     }
 
     public class TaskCollection : List<Task>
@@ -684,7 +684,7 @@ namespace Argon.Tests.Schema
 
     public class Container : ControlFlowItemBase
     {
-        public ControlFlowItemCollection ContainerJobs = new ControlFlowItemCollection();
+        public ControlFlowItemCollection ContainerJobs = new();
     }
 
     public class ContainerCollection : List<Container>

@@ -38,7 +38,7 @@ namespace Argon.Converters
         private const string KeyName = "Key";
         private const string ValueName = "Value";
 
-        private static readonly ThreadSafeStore<Type, ReflectionObject> ReflectionObjectPerType = new ThreadSafeStore<Type, ReflectionObject>(InitializeReflectionObject);
+        private static readonly ThreadSafeStore<Type, ReflectionObject> ReflectionObjectPerType = new(InitializeReflectionObject);
 
         private static ReflectionObject InitializeReflectionObject(Type t)
         {

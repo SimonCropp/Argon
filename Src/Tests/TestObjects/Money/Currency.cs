@@ -37,22 +37,22 @@ namespace Argon.Tests.TestObjects.Money
         internal readonly int _tag;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never), CompilerGenerated]
-        internal static readonly Currency _unique_AUD = new Currency(1);
+        internal static readonly Currency _unique_AUD = new(1);
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never), CompilerGenerated]
-        internal static readonly Currency _unique_EUR = new Currency(4);
+        internal static readonly Currency _unique_EUR = new(4);
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never), CompilerGenerated]
-        internal static readonly Currency _unique_JPY = new Currency(5);
+        internal static readonly Currency _unique_JPY = new(5);
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never), CompilerGenerated]
-        internal static readonly Currency _unique_LocalCurrency = new Currency(0);
+        internal static readonly Currency _unique_LocalCurrency = new(0);
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never), CompilerGenerated]
-        internal static readonly Currency _unique_NZD = new Currency(2);
+        internal static readonly Currency _unique_NZD = new(2);
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never), CompilerGenerated]
-        internal static readonly Currency _unique_USD = new Currency(3);
+        internal static readonly Currency _unique_USD = new(3);
 
         [CompilerGenerated, DebuggerNonUserCode]
         internal Currency(int _tag)

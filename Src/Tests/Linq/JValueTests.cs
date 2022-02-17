@@ -405,7 +405,7 @@ namespace Argon.Tests.Linq
             public decimal Compoundings { get; set; }
         }
 
-        private readonly Rate rate = new Rate { Compoundings = 12.166666666666666666666666667m };
+        private readonly Rate rate = new() { Compoundings = 12.166666666666666666666666667m };
 
         [Fact]
         public void WriteFullDecimalPrecision()

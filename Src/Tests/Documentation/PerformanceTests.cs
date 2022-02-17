@@ -53,7 +53,7 @@ namespace Argon.Tests.Documentation
     #region JsonConverterContractResolver
     public class ConverterContractResolver : DefaultContractResolver
     {
-        public new static readonly ConverterContractResolver Instance = new ConverterContractResolver();
+        public new static readonly ConverterContractResolver Instance = new();
 
         protected override JsonContract CreateContract(Type objectType)
         {

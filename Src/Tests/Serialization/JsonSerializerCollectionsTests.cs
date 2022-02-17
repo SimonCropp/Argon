@@ -444,7 +444,7 @@ namespace Argon.Tests.Serialization
             {
                 ((IDictionary)this).Add("key2", new List<SomeObject>
                 {
-                    new SomeObject
+                    new()
                     {
                         Text1 = "value2"
                     }
@@ -458,7 +458,7 @@ namespace Argon.Tests.Serialization
             IDictionary d = new CustomConcurrentDictionary();
             d.Add("key", new List<SomeObject>
             {
-                new SomeObject
+                new()
                 {
                     Text1 = "value1"
                 }
@@ -1866,9 +1866,9 @@ namespace Argon.Tests.Serialization
         {
             var collection = new ProductCollection()
             {
-                new Product() { Name = "Test1" },
-                new Product() { Name = "Test2" },
-                new Product() { Name = "Test3" }
+                new() { Name = "Test1" },
+                new() { Name = "Test2" },
+                new() { Name = "Test3" }
             };
 
             var jsonSerializer = new JsonSerializer();
@@ -2145,8 +2145,8 @@ namespace Argon.Tests.Serialization
             public KeyValuePair<string, string>[] Dimensions =>
                 this.metricDimensions ?? (this.metricDimensions = new KeyValuePair<string, string>[]
                 {
-                    new KeyValuePair<string, string>("Endpoint", this.Endpoint.ToString()),
-                    new KeyValuePair<string, string>("Name", this.Name)
+                    new("Endpoint", this.Endpoint.ToString()),
+                    new("Name", this.Name)
                 });
         }
 

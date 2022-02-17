@@ -74,28 +74,28 @@ namespace Argon.Tests.Serialization
                     name = Guid.NewGuid().ToString(),
                     myBaz = new Baz1[]
                     {
-                        new Baz1()
+                        new()
                         {
                             name = Guid.NewGuid().ToString(),
                             myFrob = new Frob1[]
                             {
-                                new Frob1 { name = Guid.NewGuid().ToString() }
+                                new() { name = Guid.NewGuid().ToString() }
                             }
                         },
-                        new Baz1()
+                        new()
                         {
                             name = Guid.NewGuid().ToString(),
                             myFrob = new Frob1[]
                             {
-                                new Frob1 { name = Guid.NewGuid().ToString() }
+                                new() { name = Guid.NewGuid().ToString() }
                             }
                         },
-                        new Baz1()
+                        new()
                         {
                             name = Guid.NewGuid().ToString(),
                             myFrob = new Frob1[]
                             {
-                                new Frob1 { name = Guid.NewGuid().ToString() }
+                                new() { name = Guid.NewGuid().ToString() }
                             }
                         },
                     }
@@ -613,7 +613,7 @@ namespace Argon.Tests.Serialization
 
     public class ShouldDeserializeContractResolver : DefaultContractResolver
     {
-        public static new readonly ShouldDeserializeContractResolver Instance = new ShouldDeserializeContractResolver();
+        public static new readonly ShouldDeserializeContractResolver Instance = new();
 
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {

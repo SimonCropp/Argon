@@ -38,7 +38,7 @@ namespace Argon.Tests.Issues
         {
             IList<KeyValuePair<string, string>> values = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("123", "2017-05-19T11:00:59")
+                new("123", "2017-05-19T11:00:59")
             };
 
             var json = JsonConvert.SerializeObject(values, Formatting.Indented);

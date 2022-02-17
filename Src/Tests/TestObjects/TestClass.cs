@@ -67,7 +67,7 @@ namespace Argon.Tests.TestObjects
             set { _Address1 = value; }
         }
 
-        private Address _Address1 = new Address();
+        private Address _Address1 = new();
 
         [DataMember]
         public List<Address> Addresses
@@ -76,12 +76,12 @@ namespace Argon.Tests.TestObjects
             set { _Addresses = value; }
         }
 
-        private List<Address> _Addresses = new List<Address>();
+        private List<Address> _Addresses = new();
 
         [DataMember]
-        public List<string> strings = new List<string>();
+        public List<string> strings = new();
 
         [DataMember]
-        public Dictionary<string, int> dictionary = new Dictionary<string, int>();
+        public Dictionary<string, int> dictionary = new();
     }
 }

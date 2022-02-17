@@ -284,7 +284,7 @@ namespace Argon.Tests.Serialization
             var circularList = new CircularList();
             circularList.Add(null);
             circularList.Add(new CircularList { null });
-            circularList.Add(new CircularList { new CircularList { circularList } });
+            circularList.Add(new CircularList { new() { circularList } });
 
             ExceptionAssert.Throws<JsonSerializationException>(() => { JsonConvert.SerializeObject(circularList, Formatting.Indented); }, "Self referencing loop detected with type '" + classRef + "'. Path '[2][0]'.");
         }
@@ -295,7 +295,7 @@ namespace Argon.Tests.Serialization
             var circularList = new CircularList();
             circularList.Add(null);
             circularList.Add(new CircularList { null });
-            circularList.Add(new CircularList { new CircularList { circularList } });
+            circularList.Add(new CircularList { new() { circularList } });
 
             var json = JsonConvert.SerializeObject(circularList,
                 Formatting.Indented,
@@ -318,7 +318,7 @@ namespace Argon.Tests.Serialization
             var circularList = new CircularList();
             circularList.Add(null);
             circularList.Add(new CircularList { null });
-            circularList.Add(new CircularList { new CircularList { circularList } });
+            circularList.Add(new CircularList { new() { circularList } });
 
             var json = JsonConvert.SerializeObject(circularList, Formatting.Indented,
                 new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.All });

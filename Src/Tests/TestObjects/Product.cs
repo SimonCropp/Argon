@@ -30,7 +30,7 @@ namespace Argon.Tests.TestObjects
     public class Product
     {
         public string Name;
-        public DateTime ExpiryDate = new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        public DateTime ExpiryDate = new(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         public decimal Price;
         public string[] Sizes;
 

@@ -317,11 +317,11 @@ namespace Argon.Tests.Serialization
             var e = new EntityKey("DataServicesTestDatabaseEntities.Folder",
                 new List<EntityKeyMember>
                 {
-                    new EntityKeyMember("GuidId", new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E")),
-                    new EntityKeyMember("IntId", int.MaxValue),
-                    new EntityKeyMember("LongId", long.MaxValue),
-                    new EntityKeyMember("StringId", "String!"),
-                    new EntityKeyMember("DateTimeId", new DateTime(2000, 12, 10, 10, 50, 0, DateTimeKind.Utc))
+                    new("GuidId", new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E")),
+                    new("IntId", int.MaxValue),
+                    new("LongId", long.MaxValue),
+                    new("StringId", "String!"),
+                    new("DateTimeId", new DateTime(2000, 12, 10, 10, 50, 0, DateTimeKind.Utc))
                 });
 
             var settings = new JsonSerializerSettings
@@ -387,11 +387,11 @@ namespace Argon.Tests.Serialization
             var e = new EntityKey("DataServicesTestDatabaseEntities.Folder",
                 new List<EntityKeyMember>
                 {
-                    new EntityKeyMember("GuidId", new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E")),
-                    new EntityKeyMember("IntId", int.MaxValue),
-                    new EntityKeyMember("LongId", long.MaxValue),
-                    new EntityKeyMember("StringId", "String!"),
-                    new EntityKeyMember("DateTimeId", new DateTime(2000, 12, 10, 10, 50, 0, DateTimeKind.Utc))
+                    new("GuidId", new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E")),
+                    new("IntId", int.MaxValue),
+                    new("LongId", long.MaxValue),
+                    new("StringId", "String!"),
+                    new("DateTimeId", new DateTime(2000, 12, 10, 10, 50, 0, DateTimeKind.Utc))
                 });
 
             var json = JsonConvert.SerializeObject(e, Formatting.Indented);

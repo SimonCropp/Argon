@@ -4,7 +4,7 @@ namespace Argon.Linq.JsonPath
 {
     internal class RootFilter : PathFilter
     {
-        public static readonly RootFilter Instance = new RootFilter();
+        public static readonly RootFilter Instance = new();
 
         private RootFilter()
         {

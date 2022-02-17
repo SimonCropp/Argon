@@ -54,7 +54,7 @@ namespace Argon.Tests.Documentation.Samples.Linq
             #region Usage
             IList<BlogPost> blogPosts = new List<BlogPost>
             {
-                new BlogPost
+                new()
                 {
                     Title = "Json.NET is awesome!",
                     AuthorName = "James Newton-King",

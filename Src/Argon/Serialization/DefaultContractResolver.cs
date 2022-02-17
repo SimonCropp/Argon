@@ -72,7 +72,7 @@ namespace Argon.Serialization
             new RegexConverter()
         };
 
-        private readonly DefaultJsonNameTable _nameTable = new DefaultJsonNameTable();
+        private readonly DefaultJsonNameTable _nameTable = new();
 
         private readonly ThreadSafeStore<Type, JsonContract> _contractCache;
 

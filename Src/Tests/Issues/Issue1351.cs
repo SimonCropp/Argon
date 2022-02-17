@@ -56,7 +56,7 @@ namespace Argon.Tests.Issues
 
         public static class Colors
         {
-            public static Color White = new Color(0xFFFFFFFF);
+            public static Color White = new(0xFFFFFFFF);
         }
 
         [DataContract]
@@ -76,7 +76,7 @@ namespace Argon.Tests.Issues
         {
             var t = new List<TestClass>
             {
-                new TestClass
+                new()
                 {
                     Color = new Color
                     {
@@ -86,7 +86,7 @@ namespace Argon.Tests.Issues
                         R = 1
                     }
                 },
-                new TestClass
+                new()
                 {
                     Color = new Color
                     {
@@ -120,7 +120,7 @@ namespace Argon.Tests.Issues
         {
             var t = new List<TestClass>
             {
-                new TestClass
+                new()
                 {
                     Color = new Color
                     {
@@ -130,7 +130,7 @@ namespace Argon.Tests.Issues
                         R = 1
                     }
                 },
-                new TestClass
+                new()
                 {
                     Color = new Color
                     {
