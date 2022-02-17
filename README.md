@@ -10,6 +10,3 @@
 - [Contributing Guidelines](CONTRIBUTING.md)
 - [License](LICENSE.md)
 - [Stack Overflow](https://stackoverflow.com/questions/tagged/json.net)
-
-
-https://thenounproject.com/icon/helmet-1681772/

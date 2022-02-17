@@ -4,7 +4,6 @@
     <TargetFrameworks>net461;net5.0</TargetFrameworks>
     <!-- Disabled because SourceLink isn't referenced to calculate paths -->
     <DeterministicSourcePaths>false</DeterministicSourcePaths>
-    <RootNamespace>Newtonsoft.Json.TestConsole</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Using Remove="System.Net.Http" />
