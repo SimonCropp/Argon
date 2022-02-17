@@ -47,7 +47,7 @@ namespace Argon.Tests.TestObjects
 
         public T this[int id]
         {
-            get { return Enumerable.FirstOrDefault(_dict1.Values, x => x.Id == id); }
+            get { return _dict1.Values.FirstOrDefault(x => x.Id == id); }
             set
             {
                 var item = this[id];
@@ -70,7 +70,7 @@ namespace Argon.Tests.TestObjects
 
         public T[] TheItems
         {
-            get { return Enumerable.ToArray<T>(_dict1.Values); }
+            get { return _dict1.Values.ToArray<T>(); }
             set
             {
                 foreach (var item in value)
