@@ -26,9 +26,7 @@
 using System;
 using System.Diagnostics;
 using System.Globalization;
-#if HAVE_BIG_INTEGER
 using System.Numerics;
-#endif
 using Newtonsoft.Json.Utilities;
 
 namespace Newtonsoft.Json.Linq
@@ -224,14 +222,12 @@ namespace Newtonsoft.Json.Linq
         /// <param name="value">The <see cref="Object"/> value to write.</param>
         public override void WriteValue(object? value)
         {
-#if HAVE_BIG_INTEGER
             if (value is BigInteger)
             {
                 InternalWriteValue(JsonToken.Integer);
                 AddValue(value, JsonToken.Integer);
             }
             else
-#endif
             {
                 base.WriteValue(value);
             }
@@ -386,11 +382,7 @@ namespace Newtonsoft.Json.Linq
         {
             base.WriteValue(value);
             string s;
-#if HAVE_CHAR_TO_STRING_WITH_CULTURE
             s = value.ToString(CultureInfo.InvariantCulture);
-#else
-            s = value.ToString();
-#endif
             AddValue(s, JsonToken.String);
         }
 
@@ -436,7 +428,6 @@ namespace Newtonsoft.Json.Linq
             AddValue(value, JsonToken.Date);
         }
 
-#if HAVE_DATE_TIME_OFFSET
         /// <summary>
         /// Writes a <see cref="DateTimeOffset"/> value.
         /// </summary>
@@ -446,7 +437,6 @@ namespace Newtonsoft.Json.Linq
             base.WriteValue(value);
             AddValue(value, JsonToken.Date);
         }
-#endif
 
         /// <summary>
         /// Writes a <see cref="Byte"/>[] value.

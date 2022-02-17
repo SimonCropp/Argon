@@ -29,15 +29,9 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
 using System.Security;
-#if HAVE_CAS
 using System.Security.Permissions;
-#endif
 using Newtonsoft.Json.Utilities;
-#if !HAVE_LINQ
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 using System.Runtime.Serialization;
 
 namespace Newtonsoft.Json.Serialization
@@ -69,7 +63,6 @@ namespace Newtonsoft.Json.Serialization
             return CachedAttributeGetter<T>.GetAttribute(attributeProvider);
         }
 
-#if HAVE_TYPE_DESCRIPTOR
         public static bool CanTypeDescriptorConvertString(Type type, out TypeConverter typeConverter)
         {
             typeConverter = TypeDescriptor.GetConverter(type);
@@ -91,9 +84,7 @@ namespace Newtonsoft.Json.Serialization
 
             return false;
         }
-#endif
 
-#if HAVE_DATA_CONTRACTS
         public static DataContractAttribute? GetDataContractAttribute(Type type)
         {
             // DataContractAttribute does not have inheritance
@@ -147,7 +138,6 @@ namespace Newtonsoft.Json.Serialization
 
             return result;
         }
-#endif
 
         public static MemberSerialization GetObjectMemberSerialization(Type objectType, bool ignoreSerializableAttribute)
         {
@@ -157,20 +147,16 @@ namespace Newtonsoft.Json.Serialization
                 return objectAttribute.MemberSerialization;
             }
 
-#if HAVE_DATA_CONTRACTS
             DataContractAttribute? dataContractAttribute = GetDataContractAttribute(objectType);
             if (dataContractAttribute != null)
             {
                 return MemberSerialization.OptIn;
             }
-#endif
 
-#if HAVE_BINARY_SERIALIZATION
             if (!ignoreSerializableAttribute && IsSerializable(objectType))
             {
                 return MemberSerialization.Fields;
             }
-#endif
 
             // the default
             return MemberSerialization.OptOut;
@@ -381,39 +367,17 @@ namespace Newtonsoft.Json.Serialization
             return null;
         }
 
-#if HAVE_NON_SERIALIZED_ATTRIBUTE
         public static bool IsNonSerializable(object provider)
         {
-#if HAVE_FULL_REFLECTION
             // no inheritance
             return (ReflectionUtils.GetAttribute<NonSerializedAttribute>(provider, false) != null);
-#else
-            if (provider is FieldInfo fieldInfo && (fieldInfo.Attributes & FieldAttributes.NotSerialized) == FieldAttributes.NotSerialized)
-            {
-                return true;
-            }
-
-            return false;
-#endif
         }
-#endif
 
-#if HAVE_BINARY_SERIALIZATION
         public static bool IsSerializable(object provider)
         {
-#if HAVE_FULL_REFLECTION
             // no inheritance
             return (ReflectionUtils.GetAttribute<SerializableAttribute>(provider, false) != null);
-#else
-            if (provider is Type type && (type.GetTypeInfo().Attributes & TypeAttributes.Serializable) == TypeAttributes.Serializable)
-            {
-                return true;
-            }
-
-            return false;
-#endif
         }
-#endif
 
         public static T? GetAttribute<T>(object provider) where T : Attribute
         {

@@ -1,5 +1,4 @@
-﻿#if HAVE_TRACE_WRITER
-using System;
+﻿using System;
 using System.Diagnostics;
 using DiagnosticsTrace = System.Diagnostics.Trace;
 
@@ -75,5 +74,3 @@ namespace Newtonsoft.Json.Serialization
         }
     }
 }
-
-#endif

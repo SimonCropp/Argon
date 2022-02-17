@@ -45,12 +45,10 @@ namespace Newtonsoft.Json.Converters
             {
                 return true;
             }
-#if HAVE_DATE_TIME_OFFSET
             if (objectType == typeof(DateTimeOffset) || objectType == typeof(DateTimeOffset?))
             {
                 return true;
             }
-#endif
 
             return false;
         }

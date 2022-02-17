@@ -27,26 +27,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-#if HAVE_DYNAMIC
 using System.ComponentModel;
 using System.Dynamic;
-#endif
 using System.Diagnostics;
 using System.Globalization;
-#if HAVE_BIG_INTEGER
 using System.Numerics;
-#endif
 using System.Reflection;
 using System.Runtime.Serialization;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Utilities;
 using System.Runtime.CompilerServices;
 using System.Diagnostics.CodeAnalysis;
-#if !HAVE_LINQ
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 
 namespace Newtonsoft.Json.Serialization
 {
@@ -337,12 +329,10 @@ namespace Newtonsoft.Json.Serialization
                         return EnsureType(reader, constructorName, CultureInfo.InvariantCulture, contract, objectType);
                     case JsonToken.Null:
                     case JsonToken.Undefined:
-#if HAVE_ADO_NET
                         if (objectType == typeof(DBNull))
                         {
                             return DBNull.Value;
                         }
-#endif
 
                         return EnsureType(reader, reader.Value, CultureInfo.InvariantCulture, contract, objectType);
                     case JsonToken.Raw:
@@ -369,12 +359,8 @@ namespace Newtonsoft.Json.Serialization
             {
                 case JsonContractType.Object:
                 case JsonContractType.Dictionary:
-#if HAVE_BINARY_SERIALIZATION
                 case JsonContractType.Serializable:
-#endif
-#if HAVE_DYNAMIC
                 case JsonContractType.Dynamic:
-#endif
                     return @"JSON object (e.g. {""name"":""value""})";
                 case JsonContractType.Array:
                     return @"JSON array (e.g. [1,2,3])";
@@ -579,16 +565,12 @@ namespace Newtonsoft.Json.Serialization
 
                     return targetDictionary;
                 }
-#if HAVE_DYNAMIC
                 case JsonContractType.Dynamic:
                     JsonDynamicContract dynamicContract = (JsonDynamicContract)contract;
                     return CreateDynamic(reader, dynamicContract, member, id);
-#endif
-#if HAVE_BINARY_SERIALIZATION
                 case JsonContractType.Serializable:
                     JsonISerializableContract serializableContract = (JsonISerializableContract)contract;
                     return CreateISerializable(reader, serializableContract, member, id);
-#endif
             }
 
             string message = @"Cannot deserialize the current JSON object (e.g. {{""name"":""value""}}) into type '{0}' because the type requires a {1} to deserialize correctly." + Environment.NewLine +
@@ -808,9 +790,7 @@ namespace Newtonsoft.Json.Serialization
                 }
 
                 if (objectType != null
-#if HAVE_DYNAMIC
                     && objectType != typeof(IDynamicMetaObjectProvider)
-#endif
                     && !objectType.IsAssignableFrom(specifiedType))
                 {
                     throw JsonSerializationException.Create(reader, "Type specified in JSON '{0}' is not compatible with '{1}'.".FormatWith(CultureInfo.InvariantCulture, specifiedType.AssemblyQualifiedName, objectType.AssemblyQualifiedName));
@@ -932,9 +912,7 @@ namespace Newtonsoft.Json.Serialization
         private bool HasNoDefinedType(JsonContract? contract)
         {
             return (contract == null || contract.UnderlyingType == typeof(object) || contract.ContractType == JsonContractType.Linq
-#if HAVE_DYNAMIC
                     || contract.UnderlyingType == typeof(IDynamicMetaObjectProvider)
-#endif
                 );
         }
 
@@ -987,12 +965,10 @@ namespace Newtonsoft.Json.Serialization
                             }
                         }
 
-#if HAVE_BIG_INTEGER
                         if (value is BigInteger integer)
                         {
                             return ConvertUtils.FromBigInteger(integer, contract.NonNullableUnderlyingType);
                         }
-#endif
 
                         // this won't work when converting to a custom IConvertible
                         return Convert.ChangeType(value, contract.NonNullableUnderlyingType, culture);
@@ -1404,7 +1380,6 @@ namespace Newtonsoft.Json.Serialization
                                             : EnsureType(reader, keyValue, CultureInfo.InvariantCulture, contract.KeyContract, contract.DictionaryKeyType)!;
                                         break;
                                     }
-#if HAVE_DATE_TIME_OFFSET
                                     case PrimitiveTypeCode.DateTimeOffset:
                                     case PrimitiveTypeCode.DateTimeOffsetNullable:
                                     {
@@ -1413,7 +1388,6 @@ namespace Newtonsoft.Json.Serialization
                                             : EnsureType(reader, keyValue, CultureInfo.InvariantCulture, contract.KeyContract, contract.DictionaryKeyType)!;
                                         break;
                                     }
-#endif
                                     default:
                                         keyValue = contract.KeyContract != null && contract.KeyContract.IsEnum
                                             ? EnumUtils.ParseEnum(contract.KeyContract.NonNullableUnderlyingType, (Serializer._contractResolver as DefaultContractResolver)?.NamingStrategy, keyValue.ToString(), false)
@@ -1725,7 +1699,6 @@ namespace Newtonsoft.Json.Serialization
 #pragma warning restore CS8600, CS8602, CS8603, CS8604
         }
 
-#if HAVE_BINARY_SERIALIZATION
         private object CreateISerializable(JsonReader reader, JsonISerializableContract contract, JsonProperty? member, string? id)
         {
             Type objectType = contract.UnderlyingType;
@@ -1818,9 +1791,7 @@ namespace Newtonsoft.Json.Serialization
 
             return result;
         }
-#endif
 
-#if HAVE_DYNAMIC
         private object CreateDynamic(JsonReader reader, JsonDynamicContract contract, JsonProperty? member, string? id)
         {
             IDynamicMetaObjectProvider newObject;
@@ -1930,7 +1901,6 @@ namespace Newtonsoft.Json.Serialization
 
             return newObject;
         }
-#endif
 
         internal class CreatorPropertyContext
         {

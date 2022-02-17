@@ -192,12 +192,8 @@ namespace Newtonsoft.Json.Schema
                 return containerAttribute.Description;
             }
 
-#if HAVE_ADO_NET
             DescriptionAttribute descriptionAttribute = ReflectionUtils.GetAttribute<DescriptionAttribute>(type);
             return descriptionAttribute?.Description;
-#else
-            return null;
-#endif
         }
 
         private string GetTypeId(Type type, bool explicitOnly)
@@ -346,16 +342,12 @@ namespace Newtonsoft.Json.Schema
                             }
                         }
                         break;
-#if HAVE_BINARY_SERIALIZATION
                     case JsonContractType.Serializable:
                         CurrentSchema.Type = AddNullType(JsonSchemaType.Object, valueRequired);
                         CurrentSchema.Id = GetTypeId(type, false);
                         GenerateISerializableContract(type, (JsonISerializableContract)contract);
                         break;
-#endif
-#if HAVE_DYNAMIC
                     case JsonContractType.Dynamic:
-#endif
                     case JsonContractType.Linq:
                         CurrentSchema.Type = JsonSchemaType.Any;
                         break;
@@ -411,12 +403,10 @@ namespace Newtonsoft.Json.Schema
             }
         }
 
-#if HAVE_BINARY_SERIALIZATION
         private void GenerateISerializableContract(Type type, JsonISerializableContract contract)
         {
             CurrentSchema.AllowAdditionalProperties = true;
         }
-#endif
 
         internal static bool HasFlag(JsonSchemaType? value, JsonSchemaType flag)
         {
@@ -476,9 +466,7 @@ namespace Newtonsoft.Json.Schema
                 case PrimitiveTypeCode.UInt32:
                 case PrimitiveTypeCode.Int64:
                 case PrimitiveTypeCode.UInt64:
-#if HAVE_BIG_INTEGER
                 case PrimitiveTypeCode.BigInteger:
-#endif
                     return schemaType | JsonSchemaType.Integer;
                 case PrimitiveTypeCode.Single:
                 case PrimitiveTypeCode.Double:
@@ -486,9 +474,7 @@ namespace Newtonsoft.Json.Schema
                     return schemaType | JsonSchemaType.Float;
                 // convert to string?
                 case PrimitiveTypeCode.DateTime:
-#if HAVE_DATE_TIME_OFFSET
                 case PrimitiveTypeCode.DateTimeOffset:
-#endif
                     return schemaType | JsonSchemaType.String;
                 case PrimitiveTypeCode.String:
                 case PrimitiveTypeCode.Uri:

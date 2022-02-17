@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if HAVE_DYNAMIC
 using System;
 using System.Dynamic;
 using System.Runtime.CompilerServices;
@@ -112,5 +111,3 @@ namespace Newtonsoft.Json.Serialization
         }
     }
 }
-
-#endif

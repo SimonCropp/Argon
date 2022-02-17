@@ -74,7 +74,6 @@ namespace Newtonsoft.Json.Serialization
                 assembly = Assembly.Load(assemblyName);
 #endif
 
-#if HAVE_APP_DOMAIN
                 if (assembly == null)
                 {
                     // will find assemblies loaded with Assembly.LoadFile outside of the main directory
@@ -89,7 +88,6 @@ namespace Newtonsoft.Json.Serialization
                         }
                     }
                 }
-#endif
 
                 if (assembly == null)
                 {
@@ -197,19 +195,10 @@ namespace Newtonsoft.Json.Serialization
         /// <param name="serializedType">The type of the object the formatter creates a new instance of.</param>
         /// <param name="assemblyName">Specifies the <see cref="Assembly"/> name of the serialized object.</param>
         /// <param name="typeName">Specifies the <see cref="System.Type"/> name of the serialized object.</param>
-        public
-#if HAVE_SERIALIZATION_BINDER_BIND_TO_NAME
-        override
-#endif
-        void BindToName(Type serializedType, out string? assemblyName, out string? typeName)
+        public override void BindToName(Type serializedType, out string? assemblyName, out string? typeName)
         {
-#if !HAVE_FULL_REFLECTION
-            assemblyName = serializedType.GetTypeInfo().Assembly.FullName;
-            typeName = serializedType.FullName;
-#else
             assemblyName = serializedType.Assembly.FullName;
             typeName = serializedType.FullName;
-#endif
         }
     }
 }

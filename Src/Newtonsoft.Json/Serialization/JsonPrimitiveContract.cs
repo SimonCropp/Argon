@@ -64,9 +64,7 @@ namespace Newtonsoft.Json.Serialization
             [typeof(bool)] = ReadType.ReadAsBoolean,
             [typeof(string)] = ReadType.ReadAsString,
             [typeof(DateTime)] = ReadType.ReadAsDateTime,
-#if HAVE_DATE_TIME_OFFSET
             [typeof(DateTimeOffset)] = ReadType.ReadAsDateTimeOffset,
-#endif
             [typeof(float)] = ReadType.ReadAsDouble,
             [typeof(double)] = ReadType.ReadAsDouble,
             [typeof(long)] = ReadType.ReadAsInt64

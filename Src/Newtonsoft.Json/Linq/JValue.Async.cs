@@ -23,13 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if HAVE_ASYNC
 
 using System;
 using System.Globalization;
-#if HAVE_BIG_INTEGER
 using System.Numerics;
-#endif
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Utilities;
@@ -84,12 +81,10 @@ namespace Newtonsoft.Json.Linq
                         return writer.WriteValueAsync(ul, cancellationToken);
                     }
 
-#if HAVE_BIG_INTEGER
                     if (_value is BigInteger integer)
                     {
                         return writer.WriteValueAsync(integer, cancellationToken);
                     }
-#endif
 
                     return writer.WriteValueAsync(Convert.ToInt64(_value, CultureInfo.InvariantCulture), cancellationToken);
                 case JTokenType.Float:
@@ -134,5 +129,3 @@ namespace Newtonsoft.Json.Linq
         }
     }
 }
-
-#endif

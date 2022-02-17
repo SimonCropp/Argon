@@ -180,10 +180,7 @@ namespace Newtonsoft.Json.Serialization
             Properties = new JsonPropertyCollection(UnderlyingType);
         }
 
-#if HAVE_BINARY_FORMATTER
-#if HAVE_SECURITY_SAFE_CRITICAL_ATTRIBUTE
         [SecuritySafeCritical]
-#endif
         internal object GetUninitializedObject()
         {
             // we should never get here if the environment is not fully trusted, check just in case
@@ -194,6 +191,5 @@ namespace Newtonsoft.Json.Serialization
 
             return FormatterServices.GetUninitializedObject(NonNullableUnderlyingType);
         }
-#endif
     }
 }
