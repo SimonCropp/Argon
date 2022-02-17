@@ -268,7 +268,6 @@ namespace Newtonsoft.Json.Tests.Serialization
 }", json);
         }
 
-#if !(PORTABLE || DNXCORE50) || NETSTANDARD2_0
         public class SerializationEventContextTestObject
         {
             public string TestMember { get; set; }
@@ -297,9 +296,7 @@ namespace Newtonsoft.Json.Tests.Serialization
   ""TestMember"": ""Remoting ContextValue""
 }", json);
         }
-#endif
 
-#if !(PORTABLE || DNXCORE50) || NETSTANDARD2_0
         [Test]
         public void WhenSerializationErrorDetectedBySerializer_ThenCallbackIsCalled()
         {
@@ -321,7 +318,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             // When fixed, this would pass.
             Assert.AreEqual(25, foo.Identifier);
         }
-#endif
 
         public class FooEvent
         {

@@ -24,7 +24,6 @@
 #endregion
 
 using System.Linq;
-#if !(PORTABLE) || NETSTANDARD2_0
 using System.Collections.ObjectModel;
 using System.Dynamic;
 using System.Text;
@@ -558,7 +557,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("Name!", ((EmployeeReference)employee).Name);
         }
 
-#if !(PORTABLE || DNXCORE50)
         [Test]
         public void DeserializeTypeNameFromGacAssembly()
         {
@@ -576,7 +574,6 @@ namespace Newtonsoft.Json.Tests.Serialization
 
             CustomAssert.IsInstanceOfType(typeof(Cookie), cookie);
         }
-#endif
 
         [Test]
         public void SerializeGenericObjectListWithTypeName()
@@ -1504,9 +1501,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 #pragma warning restore CS0618 // Type or member is obsolete
                 ContractResolver = new DefaultContractResolver
                 {
-#if !(PORTABLE || DNXCORE50)
                     IgnoreSerializableAttribute = true
-#endif
                 }
             });
 
@@ -1532,7 +1527,6 @@ namespace Newtonsoft.Json.Tests.Serialization
 #endif
             }
         }
-#endif
 
         [Test]
         public void TypeNameIntList()

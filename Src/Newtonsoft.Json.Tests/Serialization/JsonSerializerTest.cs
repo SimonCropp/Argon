@@ -3399,7 +3399,7 @@ To fix this error either change the JSON to a JSON object (e.g. {""name"":""valu
 Path '', line 1, position 1.");
         }
 
-#if !(PORTABLE || DNXCORE50) || NETSTANDARD2_0
+#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void CannotDeserializeArrayIntoSerializable()
         {
