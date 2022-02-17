@@ -45,7 +45,6 @@ using System.IO;
 using Newtonsoft.Json.Linq;
 using System.Text;
 using Extensions = Newtonsoft.Json.Schema.Extensions;
-using Newtonsoft.Json.Utilities.LinqBridge;
 using System.Linq;
 using Newtonsoft.Json.Tests.Serialization;
 
