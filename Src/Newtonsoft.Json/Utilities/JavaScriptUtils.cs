@@ -25,10 +25,8 @@
 
 using System;
 using System.IO;
-#if HAVE_ASYNC
 using System.Threading;
 using System.Threading.Tasks;
-#endif
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -361,7 +359,6 @@ namespace Newtonsoft.Json.Utilities
             return -1;
         }
 
-#if HAVE_ASYNC
         public static Task WriteEscapedJavaScriptStringAsync(TextWriter writer, string s, char delimiter, bool appendDelimiters, bool[] charEscapeFlags, StringEscapeHandling stringEscapeHandling, JsonTextWriter client, char[] writeBuffer, CancellationToken cancellationToken = default)
         {
             if (cancellationToken.IsCancellationRequested)
@@ -566,7 +563,6 @@ namespace Newtonsoft.Json.Utilities
                 await writer.WriteAsync(writeBuffer, 0, length, cancellationToken).ConfigureAwait(false);
             }
         }
-#endif
 
         public static bool TryGetDateFromConstructorJson(JsonReader reader, out DateTime dateTime, [NotNullWhen(false)]out string? errorMessage)
         {

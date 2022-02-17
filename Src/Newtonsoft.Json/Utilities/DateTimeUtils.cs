@@ -276,7 +276,6 @@ namespace Newtonsoft.Json.Utilities
             return true;
         }
 
-#if HAVE_DATE_TIME_OFFSET
         internal static bool TryParseDateTimeOffsetIso(StringReference text, out DateTimeOffset dt)
         {
             DateTimeParser dateTimeParser = new DateTimeParser();
@@ -316,7 +315,6 @@ namespace Newtonsoft.Json.Utilities
             dt = new DateTimeOffset(d, offset);
             return true;
         }
-#endif
 
         private static DateTime CreateDateTime(DateTimeParser dateTimeParser)
         {
@@ -413,7 +411,6 @@ namespace Newtonsoft.Json.Utilities
             return false;
         }
 
-#if HAVE_DATE_TIME_OFFSET
         internal static bool TryParseDateTimeOffset(StringReference s, string? dateFormatString, CultureInfo culture, out DateTimeOffset dt)
         {
             if (s.Length > 0)
@@ -487,7 +484,6 @@ namespace Newtonsoft.Json.Utilities
             dt = default;
             return false;
         }
-#endif
 
         private static bool TryParseMicrosoftDate(StringReference text, out long ticks, out TimeSpan offset, out DateTimeKind kind)
         {
@@ -559,7 +555,6 @@ namespace Newtonsoft.Json.Utilities
             return false;
         }
 
-#if HAVE_DATE_TIME_OFFSET
         private static bool TryParseDateTimeOffsetMicrosoft(StringReference text, out DateTimeOffset dt)
         {
             if (!TryParseMicrosoftDate(text, out long ticks, out TimeSpan offset, out _))
@@ -585,7 +580,6 @@ namespace Newtonsoft.Json.Utilities
             dt = default;
             return false;
         }
-#endif
 
         private static bool TryReadOffset(StringReference offsetText, int startIndex, out TimeSpan offset)
         {
@@ -750,7 +744,6 @@ namespace Newtonsoft.Json.Utilities
             return start;
         }
 
-#if HAVE_DATE_TIME_OFFSET
         internal static void WriteDateTimeOffsetString(TextWriter writer, DateTimeOffset value, DateFormatHandling format, string? formatString, CultureInfo culture)
         {
             if (StringUtils.IsNullOrEmpty(formatString))
@@ -765,7 +758,6 @@ namespace Newtonsoft.Json.Utilities
                 writer.Write(value.ToString(formatString, culture));
             }
         }
-#endif
         #endregion
 
         private static void GetDateValues(DateTime td, out int year, out int month, out int day)

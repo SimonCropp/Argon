@@ -100,11 +100,7 @@ namespace Newtonsoft.Json.Utilities
 
         public static MethodInfo Method(this Delegate d)
         {
-#if HAVE_FULL_REFLECTION
             return d.Method;
-#else
-            return d.GetMethodInfo();
-#endif
         }
 
         public static MemberTypes MemberType(this MemberInfo memberInfo)
@@ -137,74 +133,42 @@ namespace Newtonsoft.Json.Utilities
 
         public static bool ContainsGenericParameters(this Type type)
         {
-#if HAVE_FULL_REFLECTION
             return type.ContainsGenericParameters;
-#else
-            return type.GetTypeInfo().ContainsGenericParameters;
-#endif
         }
 
         public static bool IsInterface(this Type type)
         {
-#if HAVE_FULL_REFLECTION
             return type.IsInterface;
-#else
-            return type.GetTypeInfo().IsInterface;
-#endif
         }
 
         public static bool IsGenericType(this Type type)
         {
-#if HAVE_FULL_REFLECTION
             return type.IsGenericType;
-#else
-            return type.GetTypeInfo().IsGenericType;
-#endif
         }
 
         public static bool IsGenericTypeDefinition(this Type type)
         {
-#if HAVE_FULL_REFLECTION
             return type.IsGenericTypeDefinition;
-#else
-            return type.GetTypeInfo().IsGenericTypeDefinition;
-#endif
         }
 
         public static Type BaseType(this Type type)
         {
-#if HAVE_FULL_REFLECTION
             return type.BaseType;
-#else
-            return type.GetTypeInfo().BaseType;
-#endif
         }
 
         public static Assembly Assembly(this Type type)
         {
-#if HAVE_FULL_REFLECTION
             return type.Assembly;
-#else
-            return type.GetTypeInfo().Assembly;
-#endif
         }
 
         public static bool IsEnum(this Type type)
         {
-#if HAVE_FULL_REFLECTION
             return type.IsEnum;
-#else
-            return type.GetTypeInfo().IsEnum;
-#endif
         }
 
         public static bool IsClass(this Type type)
         {
-#if HAVE_FULL_REFLECTION
             return type.IsClass;
-#else
-            return type.GetTypeInfo().IsClass;
-#endif
         }
 
         public static bool IsSealed(this Type type)

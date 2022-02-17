@@ -408,14 +408,12 @@ namespace Newtonsoft.Json.Serialization
 
         public static bool DynamicCodeGeneration
         {
-#if HAVE_SECURITY_SAFE_CRITICAL_ATTRIBUTE
             [SecuritySafeCritical]
-#endif
             get
             {
                 if (_dynamicCodeGeneration == null)
                 {
-#if HAVE_CAS
+#if !NETSTANDARD2_0
                     try
                     {
                         new ReflectionPermission(ReflectionPermissionFlag.MemberAccess).Demand();

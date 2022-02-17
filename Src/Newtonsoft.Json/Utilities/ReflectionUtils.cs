@@ -25,20 +25,14 @@
 
 using System;
 using System.Collections.Generic;
-#if HAVE_BIG_INTEGER
 using System.Numerics;
-#endif
 using System.Reflection;
 using System.Collections;
 using System.Globalization;
 using System.Text;
 using System.Runtime.CompilerServices;
 using System.Diagnostics.CodeAnalysis;
-#if !HAVE_LINQ
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 using Newtonsoft.Json.Serialization;
 
 namespace Newtonsoft.Json.Utilities
@@ -87,11 +81,7 @@ namespace Newtonsoft.Json.Utilities
 
         static ReflectionUtils()
         {
-#if HAVE_EMPTY_TYPES
             EmptyTypes = Type.EmptyTypes;
-#else
-            EmptyTypes = CollectionUtils.ArrayEmpty<Type>();
-#endif
         }
 
         public static bool IsVirtual(this PropertyInfo propertyInfo)
@@ -1068,16 +1058,12 @@ namespace Newtonsoft.Json.Utilities
                     return 0m;
                 case PrimitiveTypeCode.DateTime:
                     return new DateTime();
-#if HAVE_BIG_INTEGER
                 case PrimitiveTypeCode.BigInteger:
                     return new BigInteger();
-#endif
                 case PrimitiveTypeCode.Guid:
                     return new Guid();
-#if HAVE_DATE_TIME_OFFSET
                 case PrimitiveTypeCode.DateTimeOffset:
                     return new DateTimeOffset();
-#endif
             }
 
             if (IsNullable(type))

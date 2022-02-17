@@ -28,23 +28,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-#if HAVE_BIG_INTEGER
 using System.Numerics;
-#endif
-#if !HAVE_GUID_TRY_PARSE
-using System.Text;
-using System.Text.RegularExpressions;
-#endif
 using Newtonsoft.Json.Serialization;
 using System.Reflection;
 using System.Diagnostics.CodeAnalysis;
-#if !HAVE_LINQ
-using Newtonsoft.Json.Utilities.LinqBridge;
-#endif
-#if HAVE_ADO_NET
 using System.Data.SqlTypes;
-
-#endif
 
 namespace Newtonsoft.Json.Utilities
 {
@@ -145,29 +133,22 @@ namespace Newtonsoft.Json.Utilities
                 { typeof(double?), PrimitiveTypeCode.DoubleNullable },
                 { typeof(DateTime), PrimitiveTypeCode.DateTime },
                 { typeof(DateTime?), PrimitiveTypeCode.DateTimeNullable },
-#if HAVE_DATE_TIME_OFFSET
                 { typeof(DateTimeOffset), PrimitiveTypeCode.DateTimeOffset },
                 { typeof(DateTimeOffset?), PrimitiveTypeCode.DateTimeOffsetNullable },
-#endif
                 { typeof(decimal), PrimitiveTypeCode.Decimal },
                 { typeof(decimal?), PrimitiveTypeCode.DecimalNullable },
                 { typeof(Guid), PrimitiveTypeCode.Guid },
                 { typeof(Guid?), PrimitiveTypeCode.GuidNullable },
                 { typeof(TimeSpan), PrimitiveTypeCode.TimeSpan },
                 { typeof(TimeSpan?), PrimitiveTypeCode.TimeSpanNullable },
-#if HAVE_BIG_INTEGER
                 { typeof(BigInteger), PrimitiveTypeCode.BigInteger },
                 { typeof(BigInteger?), PrimitiveTypeCode.BigIntegerNullable },
-#endif
                 { typeof(Uri), PrimitiveTypeCode.Uri },
                 { typeof(string), PrimitiveTypeCode.String },
                 { typeof(byte[]), PrimitiveTypeCode.Bytes },
-#if HAVE_ADO_NET
                 { typeof(DBNull), PrimitiveTypeCode.DBNull }
-#endif
             };
 
-#if HAVE_ICONVERTIBLE
         private static readonly TypeInformation[] PrimitiveTypeCodes =
         {
             // need all of these. lookup against the index with TypeCode value
@@ -191,7 +172,6 @@ namespace Newtonsoft.Json.Utilities
             new TypeInformation(typeof(object), PrimitiveTypeCode.Empty), // no 17 in TypeCode for some reason
             new TypeInformation(typeof(string), PrimitiveTypeCode.String)
         };
-#endif
 
         public static PrimitiveTypeCode GetTypeCode(Type t)
         {
@@ -228,32 +208,20 @@ namespace Newtonsoft.Json.Utilities
             return PrimitiveTypeCode.Object;
         }
 
-#if HAVE_ICONVERTIBLE
         public static TypeInformation GetTypeInformation(IConvertible convertable)
         {
             TypeInformation typeInformation = PrimitiveTypeCodes[(int)convertable.GetTypeCode()];
             return typeInformation;
         }
-#endif
 
         public static bool IsConvertible(Type t)
         {
-#if HAVE_ICONVERTIBLE
             return typeof(IConvertible).IsAssignableFrom(t);
-#else
-            return (
-                t == typeof(bool) || t == typeof(byte) || t == typeof(char) || t == typeof(DateTime) || t == typeof(decimal) || t == typeof(double) || t == typeof(short) || t == typeof(int) ||
-                t == typeof(long) || t == typeof(sbyte) || t == typeof(float) || t == typeof(string) || t == typeof(ushort) || t == typeof(uint) || t == typeof(ulong) || t.IsEnum());
-#endif
         }
 
         public static TimeSpan ParseTimeSpan(string input)
         {
-#if HAVE_TIME_SPAN_PARSE_WITH_CULTURE
             return TimeSpan.Parse(input, CultureInfo.InvariantCulture);
-#else
-            return TimeSpan.Parse(input);
-#endif
         }
 
         private static readonly ThreadSafeStore<StructMultiKey<Type, Type>, Func<object?, object?>?> CastConverters =
@@ -276,7 +244,6 @@ namespace Newtonsoft.Json.Utilities
             return o => call(null, o);
         }
 
-#if HAVE_BIG_INTEGER
         internal static BigInteger ToBigInteger(object value)
         {
             if (value is BigInteger integer)
@@ -358,9 +325,7 @@ namespace Newtonsoft.Json.Utilities
                 throw new InvalidOperationException("Can not convert from BigInteger to {0}.".FormatWith(CultureInfo.InvariantCulture, targetType), ex);
             }
         }
-#endif
 
-#region TryConvert
         internal enum ConvertResult
         {
             Success = 0,
@@ -446,13 +411,11 @@ namespace Newtonsoft.Json.Utilities
                 return ConvertResult.Success;
             }
 
-#if HAVE_DATE_TIME_OFFSET
             if (initialValue is DateTime dt && targetType == typeof(DateTimeOffset))
             {
                 value = new DateTimeOffset(dt);
                 return ConvertResult.Success;
             }
-#endif
 
             if (initialValue is byte[] bytes && targetType == typeof(Guid))
             {
@@ -505,7 +468,6 @@ namespace Newtonsoft.Json.Utilities
                 }
             }
 
-#if HAVE_BIG_INTEGER
             if (targetType == typeof(BigInteger))
             {
                 value = ToBigInteger(initialValue);
@@ -516,9 +478,7 @@ namespace Newtonsoft.Json.Utilities
                 value = FromBigInteger(integer, targetType);
                 return ConvertResult.Success;
             }
-#endif
 
-#if HAVE_TYPE_DESCRIPTOR
             // see if source or target types have a TypeConverter that converts between the two
             TypeConverter toConverter = TypeDescriptor.GetConverter(initialType);
 
@@ -535,8 +495,6 @@ namespace Newtonsoft.Json.Utilities
                 value = fromConverter.ConvertFrom(null, culture, initialValue);
                 return ConvertResult.Success;
             }
-#endif
-#if HAVE_ADO_NET
             // handle DBNull
             if (initialValue == DBNull.Value)
             {
@@ -550,7 +508,6 @@ namespace Newtonsoft.Json.Utilities
                 value = null;
                 return ConvertResult.CannotConvertNull;
             }
-#endif
 
             if (targetType.IsInterface() || targetType.IsGenericTypeDefinition() || targetType.IsAbstract())
             {
@@ -561,7 +518,6 @@ namespace Newtonsoft.Json.Utilities
             value = null;
             return ConvertResult.NoValidConversion;
         }
-#endregion
 
 #region ConvertOrCast
         /// <summary>
@@ -626,21 +582,7 @@ namespace Newtonsoft.Json.Utilities
 
         public static bool VersionTryParse(string input, [NotNullWhen(true)]out Version? result)
         {
-#if HAVE_VERSION_TRY_PARSE
             return Version.TryParse(input, out result);
-#else
-            // improve failure performance with regex?
-            try
-            {
-                result = new Version(input);
-                return true;
-            }
-            catch
-            {
-                result = null;
-                return false;
-            }
-#endif
         }
 
         public static bool IsInteger(object value)

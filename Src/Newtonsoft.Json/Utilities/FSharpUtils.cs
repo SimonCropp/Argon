@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if HAVE_FSHARP_TYPES
 using System.Threading;
 using System;
 using System.Collections.Generic;
@@ -201,5 +200,3 @@ namespace Newtonsoft.Json.Utilities
         }
     }
 }
-
-#endif

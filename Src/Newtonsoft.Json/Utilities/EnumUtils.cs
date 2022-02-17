@@ -63,7 +63,6 @@ namespace Newtonsoft.Json.Utilities
                 values[i] = ToUInt64(f.GetValue(null));
 
                 string resolvedName;
-#if HAVE_DATA_CONTRACTS
                 string specifiedName = f.GetCustomAttributes(typeof(EnumMemberAttribute), true)
                          .Cast<EnumMemberAttribute>()
                          .Select(a => a.Value)
@@ -75,10 +74,6 @@ namespace Newtonsoft.Json.Utilities
                 {
                     throw new InvalidOperationException("Enum name '{0}' already exists on enum '{1}'.".FormatWith(CultureInfo.InvariantCulture, resolvedName, enumType.Name));
                 }
-#else
-                resolvedName = name;
-                hasSpecifiedName = false;
-#endif
 
                 resolvedNames[i] = key.Value2 != null
                     ? key.Value2.GetPropertyName(resolvedName, hasSpecifiedName)

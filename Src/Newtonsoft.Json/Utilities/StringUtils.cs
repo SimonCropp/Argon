@@ -195,11 +195,7 @@ namespace Newtonsoft.Json.Utilities
 
         private static char ToLower(char c)
         {
-#if HAVE_CHAR_TO_LOWER_WITH_CULTURE
             c = char.ToLower(c, CultureInfo.InvariantCulture);
-#else
-            c = char.ToLowerInvariant(c);
-#endif
             return c;
         }
 
@@ -256,11 +252,7 @@ namespace Newtonsoft.Json.Utilities
                     }
 
                     char c;
-#if HAVE_CHAR_TO_LOWER_WITH_CULTURE
                     c = char.ToLower(s[i], CultureInfo.InvariantCulture);
-#else
-                    c = char.ToLowerInvariant(s[i]);
-#endif
                     sb.Append(c);
 
                     state = SeparatedCaseState.Upper;
@@ -287,20 +279,12 @@ namespace Newtonsoft.Json.Utilities
 
         public static bool IsHighSurrogate(char c)
         {
-#if HAVE_UNICODE_SURROGATE_DETECTION
             return char.IsHighSurrogate(c);
-#else
-            return (c >= 55296 && c <= 56319);
-#endif
         }
 
         public static bool IsLowSurrogate(char c)
         {
-#if HAVE_UNICODE_SURROGATE_DETECTION
             return char.IsLowSurrogate(c);
-#else
-            return (c >= 56320 && c <= 57343);
-#endif
         }
 
         public static bool StartsWith(this string source, char value)

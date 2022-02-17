@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if HAVE_DYNAMIC
 using System.Collections.Generic;
 using System.Dynamic;
 
@@ -105,5 +104,3 @@ namespace Newtonsoft.Json.Utilities
         }
     }
 }
-
-#endif
