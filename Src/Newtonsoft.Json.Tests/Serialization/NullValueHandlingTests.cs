@@ -25,15 +25,10 @@
 
 using System;
 using System.IO;
-using Newtonsoft.Json.Tests.TestObjects;
-#if NET5_0_OR_GREATER
-using Xunit;
+using Newtonsoft.Json.Tests.TestObjects;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
 
-#endif
 
 namespace Newtonsoft.Json.Tests.Serialization
 {
@@ -54,21 +49,21 @@ namespace Newtonsoft.Json.Tests.Serialization
   ""Description"": ""It's no Bad Boys""
 }";
 
-        [Test]
+        [Fact]
         public void DeserializeNullIntoDateTime()
         {
             DateTimeTestClass c = JsonConvert.DeserializeObject<DateTimeTestClass>(@"{DateTimeField:null}", new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
             Assert.AreEqual(c.DateTimeField, default(DateTime));
         }
 
-        [Test]
+        [Fact]
         public void DeserializeEmptyStringIntoDateTimeWithEmptyStringDefaultValue()
         {
             DateTimeTestClass c = JsonConvert.DeserializeObject<DateTimeTestClass>(@"{DateTimeField:""""}", new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
             Assert.AreEqual(c.DateTimeField, default(DateTime));
         }
 
-        [Test]
+        [Fact]
         public void NullValueHandlingSerialization()
         {
             Store s1 = new Store();
@@ -93,7 +88,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(s1.Establised, s3.Establised);
         }
 
-        [Test]
+        [Fact]
         public void NullValueHandlingBlogPost()
         {
             Movie movie = new Movie();
@@ -127,7 +122,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             StringAssert.AreEqual(MovieNullValueHandlingIgnoreExpectedResult, ignored);
         }
 
-        [Test]
+        [Fact]
         public void JsonObjectNullValueHandlingIgnore()
         {
             var movie = new MovieWithJsonObjectNullValueHandlingIgnore
@@ -148,7 +143,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             StringAssert.AreEqual(MovieNullValueHandlingIgnoreExpectedResult, ignored);
         }
 
-        [Test]
+        [Fact]
         public void JsonObjectNullValueHandlingInclude()
         {
             var movie = new MovieWithJsonObjectNullValueHandlingInclude

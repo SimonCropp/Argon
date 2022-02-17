@@ -31,15 +31,10 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
-#if NET5_0_OR_GREATER
-using Xunit;
+using Newtonsoft.Json.Serialization;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
 
-#endif
 
 namespace Newtonsoft.Json.Tests.Serialization
 {
@@ -60,7 +55,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 
-        [Test]
+        [Fact]
         public void VirtualShouldSerializeSimple()
         {
             string json = JsonConvert.SerializeObject(new B());
@@ -68,7 +63,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("{}", json);
         }
 
-        [Test]
+        [Fact]
         public void VirtualShouldSerialize()
         {
             var setFoo = new Foo2()
@@ -146,7 +141,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             return sw.ToString();
         }
 
-        [Test]
+        [Fact]
         public void ShouldSerializeTest()
         {
             ShouldSerializeTestClass c = new ShouldSerializeTestClass();
@@ -172,7 +167,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(27, deserialized.Age);
         }
 
-        [Test]
+        [Fact]
         public void ShouldSerializeExample()
         {
             Employee joe = new Employee();
@@ -209,7 +204,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 ]", json);
         }
 
-        [Test]
+        [Fact]
         public void SpecifiedTest()
         {
             SpecifiedTestClass c = new SpecifiedTestClass();
@@ -255,7 +250,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(23, deserialized.FavoriteNumber);
         }
 
-        //    [Test]
+        //    [Fact]
         //    public void XmlSerializerSpecifiedTrueTest()
         //    {
         //      XmlSerializer s = new XmlSerializer(typeof(OptionalOrder));
@@ -275,7 +270,7 @@ namespace Newtonsoft.Json.Tests.Serialization
         //      Console.WriteLine(o.FirstOrderSpecified);
         //    }
 
-        //    [Test]
+        //    [Fact]
         //    public void XmlSerializerSpecifiedFalseTest()
         //    {
         //      XmlSerializer s = new XmlSerializer(typeof(OptionalOrder));
@@ -315,7 +310,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             public bool NumberOfChildrenSpecified { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void SpecifiedExample()
         {
             FamilyDetails joe = new FamilyDetails();
@@ -360,7 +355,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(true, mike.NumberOfChildrenSpecified);
         }
 
-        [Test]
+        [Fact]
         public void ShouldSerializeInheritedClassTest()
         {
             NewEmployee joe = new NewEmployee();
@@ -394,7 +389,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void ShouldDeserialize_True()
         {
             string json = @"{'HasName':true,'Name':'Name!'}";
@@ -413,7 +408,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.IsTrue(traceWriter.GetTraceMessages().Any(m => m.EndsWith("Verbose ShouldDeserialize result for property 'Name' on Newtonsoft.Json.Tests.Serialization.ShouldDeserializeTestClass: True. Path 'Name'.")));
         }
 
-        [Test]
+        [Fact]
         public void ShouldDeserialize_False()
         {
             string json = @"{'HasName':false,'Name':'Name!'}";

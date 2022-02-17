@@ -27,22 +27,17 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json.Tests.TestObjects;
-using Newtonsoft.Json.Tests.TestObjects.Organization;
-#if NET5_0_OR_GREATER
-using Xunit;
+using Newtonsoft.Json.Tests.TestObjects.Organization;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
 
-#endif
 
 namespace Newtonsoft.Json.Tests.Serialization
 {
     [TestFixture]
     public class PopulateTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void PopulatePerson()
         {
             Person p = new Person();
@@ -52,7 +47,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("James", p.Name);
         }
 
-        [Test]
+        [Fact]
         public void PopulateArray()
         {
             IList<Person> people = new List<Person>
@@ -68,7 +63,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(null, people[2]);
         }
 
-        [Test]
+        [Fact]
         public void PopulateStore()
         {
             Store s = new Store();
@@ -130,7 +125,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             //Assert.AreEqual("James", p.Name);
         }
 
-        [Test]
+        [Fact]
         public void PopulateListOfPeople()
         {
             List<Person> p = new List<Person>();
@@ -143,7 +138,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("Jim", p[1].Name);
         }
 
-        [Test]
+        [Fact]
         public void PopulateDictionary()
         {
             Dictionary<string, string> p = new Dictionary<string, string>();
@@ -155,7 +150,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("James", p["Name"]);
         }
 
-        [Test]
+        [Fact]
         public void PopulateWithBadJson()
         {
             ExceptionAssert.Throws<JsonSerializationException>(() => { JsonConvert.PopulateObject("1", new Person()); }, "Unexpected initial token 'Integer' when populating object. Expected JSON object or array. Path '', line 1, position 1.");

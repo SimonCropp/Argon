@@ -1,13 +1,9 @@
 using System;
 using System.Reflection;
 using Newtonsoft.Json.Utilities;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using System.Linq;
 
 namespace Newtonsoft.Json.Tests.Utilities
@@ -59,7 +55,7 @@ namespace Newtonsoft.Json.Tests.Utilities
     [TestFixture]
     public class LateboundReflectionDelegateFactoryTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void ConstructorWithInString()
         {
             ConstructorInfo constructor = TestReflectionUtils.GetConstructors(typeof(InTestClass)).Single(c => c.GetParameters().Count() == 1);
@@ -72,7 +68,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.AreEqual("Value", o.Value);
         }
 
-        [Test]
+        [Fact]
         public void ConstructorWithInStringAndBool()
         {
             ConstructorInfo constructor = TestReflectionUtils.GetConstructors(typeof(InTestClass)).Single(c => c.GetParameters().Count() == 2);
@@ -86,7 +82,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.AreEqual(true, o.B1);
         }
 
-        [Test]
+        [Fact]
         public void ConstructorWithRefString()
         {
             ConstructorInfo constructor = TestReflectionUtils.GetConstructors(typeof(OutAndRefTestClass)).Single(c => c.GetParameters().Count() == 1);
@@ -99,7 +95,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.AreEqual("Input", o.Input);
         }
 
-        [Test]
+        [Fact]
         public void ConstructorWithRefStringAndOutBool()
         {
             ConstructorInfo constructor = TestReflectionUtils.GetConstructors(typeof(OutAndRefTestClass)).Single(c => c.GetParameters().Count() == 2);
@@ -112,7 +108,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.AreEqual("Input", o.Input);
         }
 
-        [Test]
+        [Fact]
         public void ConstructorWithRefStringAndRefBoolAndRefBool()
         {
             ConstructorInfo constructor = TestReflectionUtils.GetConstructors(typeof(OutAndRefTestClass)).Single(c => c.GetParameters().Count() == 3);

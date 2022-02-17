@@ -27,13 +27,9 @@
 using System;
 using System.Diagnostics;
 using System.Reflection;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Utilities;
 using Newtonsoft.Json.Tests.TestObjects;
@@ -46,7 +42,7 @@ namespace Newtonsoft.Json.Tests.Utilities
     [TestFixture]
     public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void ConstructorWithInString()
         {
             ConstructorInfo constructor = TestReflectionUtils.GetConstructors(typeof(InTestClass)).Single(c => c.GetParameters().Count() == 1);
@@ -59,7 +55,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.AreEqual("Value", o.Value);
         }
 
-        [Test]
+        [Fact]
         public void ConstructorWithInStringAndBool()
         {
             ConstructorInfo constructor = TestReflectionUtils.GetConstructors(typeof(InTestClass)).Single(c => c.GetParameters().Count() == 2);
@@ -73,7 +69,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.AreEqual(true, o.B1);
         }
 
-        [Test]
+        [Fact]
         public void ConstructorWithRefString()
         {
             ConstructorInfo constructor = typeof(OutAndRefTestClass).GetConstructors().Single(c => c.GetParameters().Count() == 1);
@@ -86,7 +82,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.AreEqual("Input", o.Input);
         }
 
-        [Test]
+        [Fact]
         public void ConstructorWithRefStringAndOutBool()
         {
             ConstructorInfo constructor = typeof(OutAndRefTestClass).GetConstructors().Single(c => c.GetParameters().Count() == 2);
@@ -100,7 +96,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.AreEqual(true, o.B1);
         }
 
-        [Test]
+        [Fact]
         public void ConstructorWithRefStringAndRefBoolAndRefBool()
         {
             ConstructorInfo constructor = typeof(OutAndRefTestClass).GetConstructors().Single(c => c.GetParameters().Count() == 3);
@@ -115,7 +111,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.AreEqual(false, o.B2);
         }
 
-        [Test]
+        [Fact]
         public void CreateGetWithBadObjectTarget()
         {
             ExceptionAssert.Throws<InvalidCastException>(() =>
@@ -129,7 +125,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             }, "Unable to cast object of type 'Newtonsoft.Json.Tests.TestObjects.Organization.Person' to type 'Newtonsoft.Json.Tests.TestObjects.Movie'.");
         }
 
-        [Test]
+        [Fact]
         public void CreateSetWithBadObjectTarget()
         {
             ExceptionAssert.Throws<InvalidCastException>(() =>
@@ -149,7 +145,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             }, "Unable to cast object of type 'Newtonsoft.Json.Tests.TestObjects.Organization.Person' to type 'Newtonsoft.Json.Tests.TestObjects.Movie'.");
         }
 
-        [Test]
+        [Fact]
         public void CreateSetWithBadTarget()
         {
             ExceptionAssert.Throws<InvalidCastException>(() =>
@@ -166,7 +162,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             }, "Specified cast is not valid.");
         }
 
-        [Test]
+        [Fact]
         public void CreateSetWithBadObjectValue()
         {
             ExceptionAssert.Throws<InvalidCastException>(() =>
@@ -179,7 +175,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             }, "Unable to cast object of type 'System.Version' to type 'System.String'.");
         }
 
-        [Test]
+        [Fact]
         public void CreateStaticMethodCall()
         {
             MethodInfo castMethodInfo = typeof(DictionaryKey).GetMethod("op_Implicit", new[] { typeof(string) });
@@ -195,7 +191,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.AreEqual("First!", key.Value);
         }
 
-        [Test]
+        [Fact]
         public void CreatePropertyGetter()
         {
             PropertyInfo namePropertyInfo = typeof(Person).GetProperty(nameof(Person.Name));
@@ -213,7 +209,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.AreEqual("Name!", (string)result);
         }
 
-        [Test]
+        [Fact]
         public void ConstructorStruct()
         {
             var creator1 = DynamicReflectionDelegateFactory.Instance.CreateDefaultConstructor<object>(typeof(MyStruct));
@@ -240,7 +236,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             return new TestStruct(s.Value + s.Value);
         }
 
-        [Test]
+        [Fact]
         public void CreateStructMethodCall()
         {
             MethodInfo methodInfo = typeof(DynamicReflectionDelegateFactoryTests).GetMethod(nameof(StructMethod), new[] { typeof(TestStruct) });

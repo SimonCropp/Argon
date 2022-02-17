@@ -23,13 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Utilities;
 
 namespace Newtonsoft.Json.Tests.Utilities
@@ -37,7 +33,7 @@ namespace Newtonsoft.Json.Tests.Utilities
     [TestFixture]
     public class StringUtilsTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void ToCamelCaseTest()
         {
             Assert.AreEqual("urlValue", StringUtils.ToCamelCase("URLValue"));
@@ -70,7 +66,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.AreEqual("building PROPERTY", StringUtils.ToCamelCase("BUILDING PROPERTY"));
         }
 
-        [Test]
+        [Fact]
         public void ToSnakeCaseTest()
         {
             Assert.AreEqual("url_value", StringUtils.ToSnakeCase("URLValue"));
@@ -99,7 +95,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.AreEqual("hi!!_this_is_text._time_to_test.", StringUtils.ToSnakeCase("Hi!! This is text. Time to test."));
         }
 
-        [Test]
+        [Fact]
         public void ToKebabCaseTest()
         {
             Assert.AreEqual("url-value", StringUtils.ToKebabCase("URLValue"));

@@ -29,22 +29,17 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Newtonsoft.Json.Utilities;
-#if NET5_0_OR_GREATER
+
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
 using TestCaseSource = Xunit.MemberDataAttribute;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Utilities
 {
     public class EnumUtilsTests : TestFixtureBase
     {
-#if NET5_0_OR_GREATER
         [Theory]
-#endif
         [TestCaseSource(nameof(Parse_TestData))]
         public void Parse(string value, object expected)
         {
@@ -54,9 +49,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.AreEqual(expected, result);
         }
 
-#if NET5_0_OR_GREATER
         [Theory]
-#endif
         [TestCaseSource(nameof(Parse_Invalid_TestData))]
         public void Parse_Invalid(Type enumType, string value, Type exceptionType)
         {
@@ -73,9 +66,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.Fail($"Expected {exceptionType.FullName} exception.");
         }
 
-#if NET5_0_OR_GREATER
         [Theory]
-#endif
         [TestCaseSource(nameof(ToString_Format_TestData))]
         public static void ToString_Format(Enum e, string expected)
         {

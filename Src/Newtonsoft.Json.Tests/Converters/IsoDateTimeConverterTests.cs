@@ -26,13 +26,9 @@
 using System;
 using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Tests.TestObjects.Organization;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Utilities;
 using System.Globalization;
@@ -42,7 +38,7 @@ namespace Newtonsoft.Json.Tests.Converters
     [TestFixture]
     public class IsoDateTimeConverterTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void PropertiesShouldBeSet()
         {
             IsoDateTimeConverter converter = new IsoDateTimeConverter();
@@ -69,7 +65,7 @@ namespace Newtonsoft.Json.Tests.Converters
             return utcOffset.Hours.ToString("+00;-00", CultureInfo.InvariantCulture) + ":" + utcOffset.Minutes.ToString("00;00", CultureInfo.InvariantCulture);
         }
 
-        [Test]
+        [Fact]
         public void SerializeDateTime()
         {
             IsoDateTimeConverter converter = new IsoDateTimeConverter();
@@ -87,7 +83,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(@"""2000-12-15T22:11:03.055" + GetUtcOffsetText(d) + @"""", result);
         }
 
-        [Test]
+        [Fact]
         public void SerializeFormattedDateTimeInvariantCulture()
         {
             IsoDateTimeConverter converter = new IsoDateTimeConverter() { DateTimeFormat = "F", Culture = CultureInfo.InvariantCulture };
@@ -105,7 +101,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(@"""Friday, 15 December 2000 22:11:03""", result);
         }
 
-        [Test]
+        [Fact]
         public void SerializeCustomFormattedDateTime()
         {
             IsoDateTimeConverter converter = new IsoDateTimeConverter
@@ -123,7 +119,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(2006, d.Year);
         }
 
-        [Test]
+        [Fact]
         public void SerializeFormattedDateTimeNewZealandCulture()
         {
             CultureInfo culture = new CultureInfo("en-NZ");
@@ -145,7 +141,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(@"""Friday, 15 December 2000 10:11:03 p.m.""", result);
         }
 
-        [Test]
+        [Fact]
         public void SerializeDateTimeCulture()
         {
             IsoDateTimeConverter converter = new IsoDateTimeConverter() { Culture = CultureInfo.GetCultureInfo("en-NZ") };
@@ -159,7 +155,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(2006, d.Year);
         }
 
-        [Test]
+        [Fact]
         public void SerializeDateTimeOffset()
         {
             IsoDateTimeConverter converter = new IsoDateTimeConverter();
@@ -173,7 +169,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(d, JsonConvert.DeserializeObject<DateTimeOffset>(result, converter));
         }
 
-        [Test]
+        [Fact]
         public void SerializeUTC()
         {
             DateTimeTestClass c = new DateTimeTestClass();
@@ -193,7 +189,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(@"{""PreField"":""Pre"",""DateTimeField"":""2008-01-01T01:01:01Z"",""DateTimeOffsetField"":""2008-01-01T01:01:01+00:00"",""PostField"":""Post""}", json);
         }
 
-        [Test]
+        [Fact]
         public void NullableSerializeUTC()
         {
             NullableDateTimeTestClass c = new NullableDateTimeTestClass();
@@ -213,7 +209,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(@"{""PreField"":""Pre"",""DateTimeField"":null,""DateTimeOffsetField"":null,""PostField"":""Post""}", json);
         }
 
-        [Test]
+        [Fact]
         public void NullableDeserializeEmptyString()
         {
             string json = @"{""DateTimeField"":""""}";
@@ -223,7 +219,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(null, c.DateTimeField);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeNullToNonNullable()
         {
             ExceptionAssert.Throws<JsonSerializationException>(() =>
@@ -233,7 +229,7 @@ namespace Newtonsoft.Json.Tests.Converters
             }, "Cannot convert null value to System.DateTime. Path 'DateTimeField', line 1, position 38.");
         }
 
-        [Test]
+        [Fact]
         public void SerializeShouldChangeNonUTCDates()
         {
             DateTime localDateTime = new DateTime(2008, 1, 1, 1, 1, 1, 0, DateTimeKind.Local);
@@ -259,7 +255,7 @@ namespace Newtonsoft.Json.Tests.Converters
             }
         }
 
-        [Test]
+        [Fact]
         public void BlogCodeSample()
         {
             Person p = new Person
@@ -279,7 +275,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(@"{""Name"":""Keith"",""BirthDate"":""1980-03-08T00:00:00"",""LastModified"":""2009-04-12T20:44:55""}", jsonText);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeDateTimeOffset()
         {
             var settings = new JsonSerializerSettings();

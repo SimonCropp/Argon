@@ -33,20 +33,16 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Xml;
 using System.Xml.Linq;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Issues
 {
     [TestFixture]
     public class Issue1321 : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Test()
         {
             ExceptionAssert.Throws<JsonWriterException>(() =>
@@ -57,7 +53,7 @@ namespace Newtonsoft.Json.Tests.Issues
             }, "Unexpected end when reading token. Path ''.");
         }
 
-        [Test]
+        [Fact]
         public void Test2()
         {
             JArray a = new JArray();
@@ -72,7 +68,7 @@ namespace Newtonsoft.Json.Tests.Issues
             }, "Unexpected end when reading token. Path ''.");
         }
 
-        [Test]
+        [Fact]
         public async Task Test2_Async()
         {
             JArray a = new JArray();
@@ -87,7 +83,7 @@ namespace Newtonsoft.Json.Tests.Issues
             }, "Unexpected end when reading token. Path ''.");
         }
 
-        [Test]
+        [Fact]
         public void Test3()
         {
             JArray a = new JArray();
@@ -103,7 +99,7 @@ namespace Newtonsoft.Json.Tests.Issues
             }, "Unexpected end when reading token. Path ''.");
         }
 
-        [Test]
+        [Fact]
         public async Task Test3_Async()
         {
             JArray a = new JArray();
@@ -119,7 +115,7 @@ namespace Newtonsoft.Json.Tests.Issues
             }, "Unexpected end when reading token. Path ''.");
         }
 
-        [Test]
+        [Fact]
         public void Test4()
         {
             JArray a = new JArray();
@@ -136,7 +132,7 @@ namespace Newtonsoft.Json.Tests.Issues
             }, "Unexpected end when reading token. Path ''.");
         }
 
-        [Test]
+        [Fact]
         public async Task Test4_Async()
         {
             JArray a = new JArray();
@@ -153,7 +149,7 @@ namespace Newtonsoft.Json.Tests.Issues
             }, "Unexpected end when reading token. Path ''.");
         }
 
-        [Test]
+        [Fact]
         public void Test5()
         {
             StringWriter sw = new StringWriter();
@@ -170,7 +166,7 @@ namespace Newtonsoft.Json.Tests.Issues
             }, "Unexpected end when reading token. Path '[0]'.");
         }
 
-        [Test]
+        [Fact]
         public async Task Test5_Async()
         {
             StringWriter sw = new StringWriter();

@@ -26,22 +26,17 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Xml;
-#if NET5_0_OR_GREATER
-using Xunit;
+using System.Xml;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
 
-#endif
 
 namespace Newtonsoft.Json.Tests.Documentation.Samples.Xml
 {
     [TestFixture]
     public class ConvertXmlToJson : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Example()
         {
             #region Usage

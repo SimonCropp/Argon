@@ -31,15 +31,10 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Tests.TestObjects.Organization;
-using Newtonsoft.Json.Utilities;
-#if NET5_0_OR_GREATER
-using Xunit;
+using Newtonsoft.Json.Utilities;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
 
-#endif
 
 namespace Newtonsoft.Json.Tests.Serialization
 {
@@ -51,7 +46,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             public string Name { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void Demo()
         {
             string json = @"{
@@ -72,7 +67,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(u.Name, "James");
         }
 
-        [Test]
+        [Fact]
         public void DeserializeArraysWithPreserveObjectReferences()
         {
             string json = @"{
@@ -112,7 +107,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }, @"Cannot preserve reference to array or readonly list, or list created from a non-default constructor: System.String[][]. Path '$values', line 3, position 14.");
         }
 
-        [Test]
+        [Fact]
         public void SerializeDeserialize_DictionaryContextContainsGuid_DeserializesItemAsGuid()
         {
             const string contextKey = "k1";
@@ -139,7 +134,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(someValue, deserializedObject[contextKey]);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeGuid()
         {
             Item expected = new Item()
@@ -177,7 +172,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             CollectionAssert.AreEquivalent(new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, bytes);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeListsWithPreserveObjectReferences()
         {
             string json = @"{
@@ -221,7 +216,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.IsTrue(ReferenceEquals(circularList, circularList[2][0][0]));
         }
 
-        [Test]
+        [Fact]
         public void DeserializeTypeNameOnly()
         {
             string json = @"{
@@ -241,7 +236,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }, "Type specified in JSON 'Newtonsoft.Json.Tests.TestObjects.Employee' was not resolved. Path '$type', line 3, position 55.");
         }
 
-        [Test]
+        [Fact]
         public void SerializeRefNull()
         {
             var reference = new Dictionary<string, object>();
@@ -276,7 +271,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("blah!", (string)((JObject)result["Father"])["blah"]);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeEmployeeReference()
         {
             string json = @"[
@@ -294,7 +289,7 @@ namespace Newtonsoft.Json.Tests.Serialization
   }
 ]";
 
-            List<EmployeeReference> employees = JsonConvert.DeserializeObject<List<EmployeeReference>>(json, new JsonSerializerSettings
+            var employees = JsonConvert.DeserializeObject<List<EmployeeReference>>(json, new JsonSerializerSettings
             {
                 MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
             });
@@ -305,7 +300,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(employees[0], employees[1].Manager);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeFromJToken()
         {
             string json = @"[
@@ -326,10 +321,11 @@ namespace Newtonsoft.Json.Tests.Serialization
             JToken t1 = JToken.Parse(json);
             JToken t2 = t1.CloneToken();
 
-            List<EmployeeReference> employees = t1.ToObject<List<EmployeeReference>>(JsonSerializer.Create(new JsonSerializerSettings
+            var serializer = JsonSerializer.Create(new JsonSerializerSettings
             {
                 MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
-            }));
+            });
+            List<EmployeeReference> employees = t1.ToObject<List<EmployeeReference>>(serializer);
 
             Assert.AreEqual(2, employees.Count);
             Assert.AreEqual("Mike Manager", employees[0].Name);
@@ -339,7 +335,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.IsTrue(JToken.DeepEquals(t1, t2));
         }
 
-        [Test]
+        [Fact]
         public void DeserializeGenericObjectListWithTypeName()
         {
             string employeeRef = typeof(EmployeeReference).AssemblyQualifiedName;
@@ -392,7 +388,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual((long)int.MinValue, values[3]);
         }
 
-        [Test]
+        [Fact]
         public void WriteListTypeNameForProperty()
         {
             string listRef = ReflectionUtils.GetTypeName(typeof(List<int>), TypeNameAssemblyFormatHandling.Simple, null);
@@ -453,7 +449,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             public string Type { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void MetadataPropertyHandlingIgnore()
         {
             MetadataPropertyDisabledTestClass c1 = new MetadataPropertyDisabledTestClass
@@ -487,7 +483,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("Values!", c2.Values);
         }
 
-        [Test]
+        [Fact]
         public void MetadataPropertyHandlingIgnore_EmptyObject()
         {
             string json = @"{}";
@@ -500,7 +496,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(null, c.Id);
         }
 
-        [Test]
+        [Fact]
         public void PrimitiveType_MetadataPropertyIgnore()
         {
             Item actual = JsonConvert.DeserializeObject<Item>(@"{
@@ -527,7 +523,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(null, o.Parent);
         }
 
-        [Test]
+        [Fact]
         public void ReadAhead_JObject_NoParent()
         {
             ItemWithUntypedPayload actual = JsonConvert.DeserializeObject<ItemWithUntypedPayload>(@"{
@@ -549,7 +545,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             public JArray Payload3 { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void ReadAhead_TypedJValue_NoParent()
         {
             ItemWithJTokens actual = (ItemWithJTokens)JsonConvert.DeserializeObject(@"{
@@ -577,7 +573,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(null, actual.Payload3.Parent);
         }
 
-        [Test]
+        [Fact]
         public void ReadAhead_JArray_NoParent()
         {
             ItemWithUntypedPayload actual = JsonConvert.DeserializeObject<ItemWithUntypedPayload>(@"{
@@ -597,7 +593,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             public object Payload { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void PrimitiveType_MetadataPropertyIgnore_WithNoType()
         {
             ItemWithUntypedPayload actual = JsonConvert.DeserializeObject<ItemWithUntypedPayload>(@"{
@@ -628,7 +624,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.IsTrue(actual.Payload is JObject);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeCircularReferencesWithConverter()
         {
             string json = @"{

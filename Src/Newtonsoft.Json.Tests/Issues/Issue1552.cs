@@ -24,21 +24,18 @@
 #endregion
 
 using System;
-#if NET5_0_OR_GREATER
+
 using System.Reflection;
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Issues
 {
     [TestFixture]
     public class Issue1552 : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Test_Error()
         {
             RefAndRefReadonlyTestClass c = new RefAndRefReadonlyTestClass(123);
@@ -51,7 +48,7 @@ namespace Newtonsoft.Json.Tests.Issues
             Assert.AreEqual("Could not create getter for Int32& RefField. ByRef return values are not supported.", ex.InnerException.Message);
         }
 
-        [Test]
+        [Fact]
         public void Test_Ignore()
         {
             RefAndRefReadonlyIgnoredTestClass c = new RefAndRefReadonlyIgnoredTestClass(123);

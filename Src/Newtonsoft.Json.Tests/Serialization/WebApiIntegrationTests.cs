@@ -28,13 +28,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using System.Runtime.Serialization.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -43,7 +39,7 @@ namespace Newtonsoft.Json.Tests.Serialization
     [TestFixture]
     public class WebApiIntegrationTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void SerializeSerializableType()
         {
             SerializableType serializableType = new SerializableType("protected")
@@ -78,7 +74,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(expected, json);
         }
 
-        [Test]
+        [Fact]
         public void SerializeInheritedType()
         {
             InheritedType serializableType = new InheritedType("protected")

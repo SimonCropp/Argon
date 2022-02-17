@@ -35,20 +35,16 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Utilities;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Issues
 {
     [TestFixture]
     public class Issue1752 : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Test_EmptyString()
         {
             JsonSerializerSettings settings = new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto };
@@ -62,7 +58,7 @@ namespace Newtonsoft.Json.Tests.Issues
             Assert.AreEqual(0, data.Length);
         }
 
-        [Test]
+        [Fact]
         public void Test_Null()
         {
             TestObject1 t1 = JsonConvert.DeserializeObject<TestObject1>("{'Obj':null}");

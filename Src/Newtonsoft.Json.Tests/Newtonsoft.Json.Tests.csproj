@@ -19,6 +19,9 @@
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
     <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
     <None Remove="**\*.orig" />
     <None Include="large.json">
@@ -43,8 +46,6 @@
   </ItemGroup>
   
   <ItemGroup Condition="'$(TargetFramework)'=='net461'">
-    <PackageReference Include="NUnit" Version="$(NunitPackageVersion)" />
-    <PackageReference Include="NUnit3TestAdapter" Version="$(Nunit3TestAdapterPackageVersion)" />
     <PackageReference Include="Autofac" Version="$(AutofacPackageVersion)" />
     <PackageReference Include="BenchmarkDotNet" Version="$(BenchmarkDotNetPackageVersion)" />
     <PackageReference Include="FSharp.Core" Version="$(FSharpCorePackageVersion)" />
@@ -72,9 +73,6 @@
     <PackageReference Include="System.ValueTuple" Version="$(SystemValueTuplePackageVersion)" />
     <PackageReference Include="Autofac" Version="$(AutofacPackageVersion)" />
     <PackageReference Include="Moq" Version="$(MoqPackageVersion)" />
-    <PackageReference Include="xunit" Version="$(XunitPackageVersion)" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="$(XunitRunnerVisualStudioPackageVersion)" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(MicrosoftNETTestSdkPackageVersion)" />
   </ItemGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='net5.0'">
     <DefineConstants>NETSTANDARD2_0;$(AdditionalConstants)</DefineConstants>

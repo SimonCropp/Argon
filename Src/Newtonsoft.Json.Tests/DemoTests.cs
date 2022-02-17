@@ -34,15 +34,10 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
 using Newtonsoft.Json.Serialization;
-using System.Threading.Tasks;
-#if NET5_0_OR_GREATER
-using Xunit;
+using System.Threading.Tasks;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
 
-#endif
 
 namespace Newtonsoft.Json.Tests
 {
@@ -56,7 +51,7 @@ namespace Newtonsoft.Json.Tests
             public int Blue { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void JsonConverter()
         {
             HtmlColor red = new HtmlColor
@@ -150,7 +145,7 @@ namespace Newtonsoft.Json.Tests
             }
         }
 
-        [Test]
+        [Fact]
         public void SerializationGuide()
         {
             IList<string> roles = new List<string>
@@ -186,7 +181,7 @@ namespace Newtonsoft.Json.Tests
             // }
         }
 
-        [Test]
+        [Fact]
         public void SerializationBasics()
         {
             IList<string> roles = new List<string>
@@ -213,7 +208,7 @@ namespace Newtonsoft.Json.Tests
             // ]
         }
 
-        [Test]
+        [Fact]
         public void SerializationBasics2()
         {
             var s = new Session
@@ -240,7 +235,7 @@ namespace Newtonsoft.Json.Tests
 }", j);
         }
 
-        [Test]
+        [Fact]
         public void DeserializationBasics1()
         {
             string j = @"{
@@ -258,7 +253,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual("Serialize All The Things", s.Name);
         }
 
-        [Test]
+        [Fact]
         public void DeserializationBasics2()
         {
             Session s = new Session();
@@ -289,7 +284,7 @@ namespace Newtonsoft.Json.Tests
             public IList<Employee> Reportees { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void SerializeReferencesByValue()
         {
             Employee arnie = new Employee { Name = "Arnie Admin" };
@@ -335,7 +330,7 @@ namespace Newtonsoft.Json.Tests
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void SerializeReferencesWithMetadata()
         {
             Employee arnie = new Employee { Name = "Arnie Admin" };
@@ -398,7 +393,7 @@ namespace Newtonsoft.Json.Tests
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void RoundtripTypesAndReferences()
         {
             string json = @"{
@@ -512,7 +507,7 @@ namespace Newtonsoft.Json.Tests
             public DateTime BuildDate { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void SerializeAttributes()
         {
             var house = new House3();
@@ -548,7 +543,7 @@ namespace Newtonsoft.Json.Tests
             // }
         }
 
-        [Test]
+        [Fact]
         public void MergeJson()
         {
             JObject o1 = JObject.Parse(@"{
@@ -590,7 +585,7 @@ namespace Newtonsoft.Json.Tests
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void ArrayPooling()
         {
             IList<int> value;
@@ -606,7 +601,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(4, value.Count);
         }
 
-        [Test]
+        [Fact]
         public void SerializeDataTable()
         {
             DataTable dt = new DataTable();
@@ -647,7 +642,7 @@ namespace Newtonsoft.Json.Tests
 ]", json);
         }
 
-        [Test]
+        [Fact]
         public void JsonPathRegex()
         {
             JArray packages = JArray.Parse(@"[
@@ -671,13 +666,13 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(1, newtonsoftPackages.Count);
         }
 
-        [Test]
+        [Fact]
         public async Task AsyncDemo()
         {
             JArray largeJson;
 
             // read asynchronously from a file
-            using (TextReader textReader = new StreamReader(new FileStream(ResolvePath(@"large.json"), FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true)))
+            using (TextReader textReader = new StreamReader(new FileStream("large.json", FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true)))
             {
                 largeJson = await JArray.LoadAsync(new JsonTextReader(textReader));
             }
@@ -686,7 +681,7 @@ namespace Newtonsoft.Json.Tests
             user["isActive"] = false;
 
             // write asynchronously to a file
-            using (TextWriter textWriter = new StreamWriter(new FileStream(ResolvePath(@"large.json"), FileMode.Open, FileAccess.Write, FileShare.Write, 4096, true)))
+            using (TextWriter textWriter = new StreamWriter(new FileStream("large.json", FileMode.Open, FileAccess.Write, FileShare.Write, 4096, true)))
             {
                 await largeJson.WriteToAsync(new JsonTextWriter(textWriter));
             }

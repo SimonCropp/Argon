@@ -22,22 +22,16 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
-
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-
-#endif
 
 namespace Newtonsoft.Json.Tests
 {
     [TestFixture]
     public class JsonArrayAttributeTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void IsReferenceTest()
         {
             JsonPropertyAttribute attribute = new JsonPropertyAttribute();
@@ -53,7 +47,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(true, attribute.IsReference);
         }
 
-        [Test]
+        [Fact]
         public void NullValueHandlingTest()
         {
             JsonPropertyAttribute attribute = new JsonPropertyAttribute();
@@ -65,7 +59,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(NullValueHandling.Ignore, attribute.NullValueHandling);
         }
 
-        [Test]
+        [Fact]
         public void DefaultValueHandlingTest()
         {
             JsonPropertyAttribute attribute = new JsonPropertyAttribute();

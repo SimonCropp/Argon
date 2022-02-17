@@ -31,15 +31,10 @@ using System.Data.Linq;
 using System.Data.SqlTypes;
 #endif
 using System.Text;
-using Newtonsoft.Json.Converters;
-#if NET5_0_OR_GREATER
-using Xunit;
+using Newtonsoft.Json.Converters;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
 
-#endif
 
 namespace Newtonsoft.Json.Tests.Converters
 {
@@ -59,7 +54,7 @@ namespace Newtonsoft.Json.Tests.Converters
             }
         }
 
-        [Test]
+        [Fact]
         public void WriteJsonObject()
         {
             StringWriter sw = new StringWriter();
@@ -71,7 +66,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(@"""String!""", sw.ToString());
         }
 
-        [Test]
+        [Fact]
         public void WriteJsonGeneric()
         {
             StringWriter sw = new StringWriter();
@@ -83,7 +78,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(@"""String!""", sw.ToString());
         }
 
-        [Test]
+        [Fact]
         public void WriteJsonBadType()
         {
             StringWriter sw = new StringWriter();
@@ -97,7 +92,7 @@ namespace Newtonsoft.Json.Tests.Converters
             }, "Converter cannot write specified value to JSON. System.String is required.");
         }
 
-        [Test]
+        [Fact]
         public void ReadJsonGenericExistingValueNull()
         {
             StringReader sr = new StringReader("'String!'");
@@ -110,7 +105,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(@"String!", s);
         }
 
-        [Test]
+        [Fact]
         public void ReadJsonGenericExistingValueString()
         {
             StringReader sr = new StringReader("'String!'");
@@ -123,7 +118,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(@"String!Existing!", s);
         }
 
-        [Test]
+        [Fact]
         public void ReadJsonObjectExistingValueNull()
         {
             StringReader sr = new StringReader("'String!'");
@@ -136,7 +131,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(@"String!", s);
         }
 
-        [Test]
+        [Fact]
         public void ReadJsonObjectExistingValueWrongType()
         {
             StringReader sr = new StringReader("'String!'");

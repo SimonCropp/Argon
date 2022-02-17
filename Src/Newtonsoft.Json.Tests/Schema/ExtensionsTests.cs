@@ -26,13 +26,9 @@
 #pragma warning disable 618
 using System;
 using System.Collections.Generic;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Schema;
 using Newtonsoft.Json.Linq;
 using System.IO;
@@ -48,7 +44,7 @@ namespace Newtonsoft.Json.Tests.Schema
     [TestFixture]
     public class ExtensionsTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void IsValid()
         {
             JsonSchema schema = JsonSchema.Parse("{'type':'integer'}");
@@ -66,7 +62,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual("Invalid type. Expected Integer but got String.", errorMessages[0]);
         }
 
-        [Test]
+        [Fact]
         public void ValidateWithEventHandler()
         {
             JsonSchema schema = JsonSchema.Parse("{'pattern':'lol'}");
@@ -84,7 +80,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual("String 'pie' does not match regex pattern 'lol'.", errors[0]);
         }
 
-        [Test]
+        [Fact]
         public void ValidateWithOutEventHandlerFailure()
         {
             ExceptionAssert.Throws<JsonSchemaException>(() =>
@@ -95,7 +91,7 @@ namespace Newtonsoft.Json.Tests.Schema
             }, @"String 'pie' does not match regex pattern 'lol'.");
         }
 
-        [Test]
+        [Fact]
         public void ValidateWithOutEventHandlerSuccess()
         {
             JsonSchema schema = JsonSchema.Parse("{'pattern':'lol'}");
@@ -103,7 +99,7 @@ namespace Newtonsoft.Json.Tests.Schema
             stringToken.Validate(schema);
         }
 
-        [Test]
+        [Fact]
         public void ValidateFailureWithOutLineInfoBecauseOfEndToken()
         {
             // changed in 6.0.6 to now include line info!
@@ -117,7 +113,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(1, errors.Count);
         }
 
-        [Test]
+        [Fact]
         public void ValidateRequiredFieldsWithLineInfo()
         {
             JsonSchema schema = JsonSchema.Parse("{'properties':{'lol':{'type':'string'}}}");
@@ -131,7 +127,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(1, errors.Count);
         }
 
-        [Test]
+        [Fact]
         public void Blog()
         {
             string schemaJson = @"
@@ -188,7 +184,7 @@ namespace Newtonsoft.Json.Tests.Schema
             }
         }
 
-        [Test]
+        [Fact]
         public void GenerateSchemaAndSerializeFromTypeTests()
         {
             GenerateSchemaAndSerializeFromType(new List<string> { "1", "Two", "III" });
@@ -216,7 +212,7 @@ namespace Newtonsoft.Json.Tests.Schema
             GenerateSchemaAndSerializeFromType(new JsonPropertyWithHandlingValues());
         }
 
-        [Test]
+        [Fact]
         public void UndefinedPropertyOnNoPropertySchema()
         {
             JsonSchema schema = JsonSchema.Parse(@"{
@@ -236,7 +232,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual("Property 'g' has not been defined and the schema does not allow additional properties. Line 1, position 5.", errors[0]);
         }
 
-        [Test]
+        [Fact]
         public void ExclusiveMaximum_Int()
         {
             ExceptionAssert.Throws<JsonSchemaException>(() =>
@@ -250,7 +246,7 @@ namespace Newtonsoft.Json.Tests.Schema
             }, "Integer 10 equals maximum value of 10 and exclusive maximum is true.");
         }
 
-        [Test]
+        [Fact]
         public void ExclusiveMaximum_Float()
         {
             ExceptionAssert.Throws<JsonSchemaException>(() =>
@@ -264,7 +260,7 @@ namespace Newtonsoft.Json.Tests.Schema
             }, "Float 10.1 equals maximum value of 10.1 and exclusive maximum is true.");
         }
 
-        [Test]
+        [Fact]
         public void ExclusiveMinimum_Int()
         {
             ExceptionAssert.Throws<JsonSchemaException>(() =>
@@ -278,7 +274,7 @@ namespace Newtonsoft.Json.Tests.Schema
             }, "Integer 10 equals minimum value of 10 and exclusive minimum is true.");
         }
 
-        [Test]
+        [Fact]
         public void ExclusiveMinimum_Float()
         {
             ExceptionAssert.Throws<JsonSchemaException>(() =>
@@ -292,7 +288,7 @@ namespace Newtonsoft.Json.Tests.Schema
             }, "Float 10.1 equals minimum value of 10.1 and exclusive minimum is true.");
         }
 
-        [Test]
+        [Fact]
         public void DivisibleBy_Int()
         {
             ExceptionAssert.Throws<JsonSchemaException>(() =>
@@ -305,7 +301,7 @@ namespace Newtonsoft.Json.Tests.Schema
             }, "Integer 10 is not evenly divisible by 3.");
         }
 
-        [Test]
+        [Fact]
         public void DivisibleBy_Approx()
         {
             JsonSchema schema = new JsonSchema();
@@ -315,7 +311,7 @@ namespace Newtonsoft.Json.Tests.Schema
             v.Validate(schema);
         }
 
-        [Test]
+        [Fact]
         public void UniqueItems_SimpleUnique()
         {
             JsonSchema schema = new JsonSchema();
@@ -325,7 +321,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.IsTrue(a.IsValid(schema));
         }
 
-        [Test]
+        [Fact]
         public void UniqueItems_SimpleDuplicate()
         {
             JsonSchema schema = new JsonSchema();
@@ -339,7 +335,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual("Non-unique array item at index 4.", errorMessages[1]);
         }
 
-        [Test]
+        [Fact]
         public void UniqueItems_ComplexDuplicate()
         {
             JsonSchema schema = new JsonSchema();
@@ -354,7 +350,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual("Non-unique array item at index 7.", errorMessages[2]);
         }
 
-        [Test]
+        [Fact]
         public void UniqueItems_NestedDuplicate()
         {
             JsonSchema schema = new JsonSchema();
@@ -384,7 +380,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual("Non-unique array item at index 4.", errorMessages[3]);
         }
 
-        [Test]
+        [Fact]
         public void Enum_Properties()
         {
             JsonSchema schema = new JsonSchema();
@@ -417,7 +413,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(1, errorMessages.Count);
         }
 
-        [Test]
+        [Fact]
         public void UniqueItems_Property()
         {
             JsonSchema schema = new JsonSchema();
@@ -440,7 +436,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(1, errorMessages.Count);
         }
 
-        [Test]
+        [Fact]
         public void Items_Positional()
         {
             JsonSchema schema = new JsonSchema();

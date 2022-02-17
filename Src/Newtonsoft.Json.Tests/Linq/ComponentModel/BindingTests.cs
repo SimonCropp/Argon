@@ -24,7 +24,7 @@
 #endregion
 
 #if !NET5_0_OR_GREATER
-using NUnit.Framework;
+using Xunit;
 using System.Web.UI;
 using Newtonsoft.Json.Linq;
 
@@ -33,7 +33,7 @@ namespace Newtonsoft.Json.Tests.Linq.ComponentModel
     [TestFixture]
     public class BindingTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void DataBinderEval()
         {
             JObject o = new JObject(
@@ -53,22 +53,22 @@ namespace Newtonsoft.Json.Tests.Linq.ComponentModel
             object value;
 
             value = (string)DataBinder.Eval(o, "First.Value");
-            Assert.AreEqual(value, (string)o["First"]);
+            Assert.Equal(value, (string)o["First"]);
 
             value = DataBinder.Eval(o, "Second.Value");
-            Assert.AreEqual(value, (decimal)o["Second"]);
+            Assert.Equal(value, (decimal)o["Second"]);
 
             value = DataBinder.Eval(o, "Third");
-            Assert.AreEqual(value, o["Third"]);
+            Assert.Equal(value, o["Third"]);
 
             value = DataBinder.Eval(o, "Third[0].Value");
-            Assert.AreEqual((int)value, (int)o["Third"][0]);
+            Assert.Equal((int)value, (int)o["Third"][0]);
 
             value = DataBinder.Eval(o, "Third[5].Fourth.Value");
-            Assert.AreEqual(value, (string)o["Third"][5]["Fourth"]);
+            Assert.Equal(value, (string)o["Third"][5]["Fourth"]);
 
             value = DataBinder.Eval(o, "Third[5].Fifth.Sixth.Value");
-            Assert.AreEqual(value, (string)o["Third"][5]["Fifth"]["Sixth"]);
+            Assert.Equal(value, (string)o["Third"][5]["Fifth"]["Sixth"]);
         }
     }
 }

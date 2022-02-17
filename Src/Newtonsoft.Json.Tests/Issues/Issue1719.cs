@@ -36,20 +36,16 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Utilities;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Issues
 {
     [TestFixture]
     public class Issue1719 : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Test()
         {
             ExtensionDataTestClass a = JsonConvert.DeserializeObject<ExtensionDataTestClass>("{\"E\":null}", new JsonSerializerSettings
@@ -60,7 +56,7 @@ namespace Newtonsoft.Json.Tests.Issues
             Assert.IsNull(a.PropertyBag);
         }
 
-        [Test]
+        [Fact]
         public void Test_PreviousWorkaround()
         {
             ExtensionDataTestClassWorkaround a = JsonConvert.DeserializeObject<ExtensionDataTestClassWorkaround>("{\"E\":null}", new JsonSerializerSettings
@@ -71,7 +67,7 @@ namespace Newtonsoft.Json.Tests.Issues
             Assert.IsNull(a.PropertyBag);
         }
 
-        [Test]
+        [Fact]
         public void Test_DefaultValue()
         {
             ExtensionDataWithDefaultValueTestClass a = JsonConvert.DeserializeObject<ExtensionDataWithDefaultValueTestClass>("{\"E\":2}", new JsonSerializerSettings

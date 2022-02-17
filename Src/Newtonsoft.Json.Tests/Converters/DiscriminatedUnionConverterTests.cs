@@ -35,13 +35,9 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Tests.TestObjects.GeometricForms;
 using Newtonsoft.Json.Tests.TestObjects.Money;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Converters
 {
@@ -70,7 +66,7 @@ namespace Newtonsoft.Json.Tests.Converters
             }
         }
 
-        [Test]
+        [Fact]
         public void SerializeUnionWithConverter()
         {
             string json = JsonConvert.SerializeObject(Shape.NewRectangle(10.0, 5.0), new DoubleDoubleConverter());
@@ -86,7 +82,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(10.0, r.width);
         }
 
-        [Test]
+        [Fact]
         public void SerializeBasicUnion()
         {
             string json = JsonConvert.SerializeObject(Currency.AUD);
@@ -94,7 +90,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(@"{""Case"":""AUD""}", json);
         }
 
-        [Test]
+        [Fact]
         public void SerializePerformance()
         {
             List<Shape> values = new List<Shape>
@@ -118,7 +114,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Console.WriteLine(ts.Elapsed.TotalSeconds);
         }
 
-        [Test]
+        [Fact]
         public void DeserializePerformance()
         {
             string json = @"[
@@ -144,7 +140,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Console.WriteLine(ts.Elapsed.TotalSeconds);
         }
 
-        [Test]
+        [Fact]
         public void SerializeUnionWithFields()
         {
             string json = JsonConvert.SerializeObject(Shape.NewRectangle(10.0, 5.0));
@@ -152,7 +148,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(@"{""Case"":""Rectangle"",""Fields"":[10.0,5.0]}", json);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeBasicUnion()
         {
             Currency c = JsonConvert.DeserializeObject<Currency>(@"{""Case"":""AUD""}");
@@ -165,7 +161,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(null, c);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeUnionWithFields()
         {
             Shape c = JsonConvert.DeserializeObject<Shape>(@"{""Case"":""Rectangle"",""Fields"":[10.0,5.0]}");
@@ -216,7 +212,7 @@ namespace Newtonsoft.Json.Tests.Converters
             return u;
         }
 
-        [Test]
+        [Fact]
         public void Serialize()
         {
             Shape value = Shape.NewRectangle(10.0, 5.0);
@@ -233,7 +229,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(5d, fields[1]);
         }
 
-        [Test]
+        [Fact]
         public void Deserialize()
         {
             Union union = CreateUnion(typeof(Shape.Rectangle));
@@ -250,43 +246,43 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(5, value.length);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeBasicUnion_NoMatch()
         {
             ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<Currency>(@"{""Case"":""abcdefg"",""Fields"":[]}"), "No union type found with the name 'abcdefg'. Path 'Case', line 1, position 17.");
         }
 
-        [Test]
+        [Fact]
         public void DeserializeBasicUnion_MismatchedFieldCount()
         {
             ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<Currency>(@"{""Case"":""AUD"",""Fields"":[1]}"), "The number of field values does not match the number of properties defined by union 'AUD'. Path '', line 1, position 27.");
         }
 
-        [Test]
+        [Fact]
         public void DeserializeBasicUnion_NoCaseName()
         {
             ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<Currency>(@"{""Fields"":[1]}"), "No 'Case' property with union name found. Path '', line 1, position 14.");
         }
 
-        [Test]
+        [Fact]
         public void DeserializeBasicUnion_UnexpectedEnd()
         {
             ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<Currency>(@"{""Case"":"), "Unexpected end when reading JSON. Path 'Case', line 1, position 8.");
         }
 
-        [Test]
+        [Fact]
         public void DeserializeBasicUnion_FieldsObject()
         {
             ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<Currency>(@"{""Case"":""AUD"",""Fields"":{}}"), "Union fields must been an array. Path 'Fields', line 1, position 24.");
         }
 
-        [Test]
+        [Fact]
         public void DeserializeBasicUnion_UnexpectedProperty()
         {
             ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<Currency>(@"{""Case123"":""AUD""}"), "Unexpected property 'Case123' found when reading union. Path 'Case123', line 1, position 11.");
         }
 
-        [Test]
+        [Fact]
         public void SerializeUnionWithTypeNameHandlingAndReferenceTracking()
         {
             string json = JsonConvert.SerializeObject(Shape.NewRectangle(10.0, 5.0), new JsonSerializerSettings

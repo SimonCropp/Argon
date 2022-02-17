@@ -27,22 +27,17 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Linq.JsonPath;
-#if NET5_0_OR_GREATER
-using Xunit;
+using Newtonsoft.Json.Linq.JsonPath;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
 
-#endif
 
 namespace Newtonsoft.Json.Tests.Linq.JsonPath
 {
     [TestFixture]
     public class QueryExpressionTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void AndExpressionTest()
         {
             CompositeExpression compositeExpression = new CompositeExpression(QueryOperator.And)
@@ -79,7 +74,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.IsFalse(compositeExpression.IsMatch(o3, o3));
         }
 
-        [Test]
+        [Fact]
         public void OrExpressionTest()
         {
             CompositeExpression compositeExpression = new CompositeExpression(QueryOperator.Or)
@@ -116,7 +111,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.IsFalse(compositeExpression.IsMatch(o3, o3));
         }
         
-        [Test]
+        [Fact]
         public void BooleanExpressionTest_RegexEqualsOperator()
         {
             BooleanQueryExpression e1 = new BooleanQueryExpression(QueryOperator.RegexEquals, new List<PathFilter> { new ArrayIndexFilter() }, new JValue("/foo.*d/"));
@@ -134,7 +129,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.IsFalse(e2.IsMatch(null, new JArray("foo", "foog", "good")));
         }
 
-        [Test]
+        [Fact]
         public void BooleanExpressionTest_RegexEqualsOperator_CornerCase()
         {
             BooleanQueryExpression e1 = new BooleanQueryExpression(QueryOperator.RegexEquals, new List<PathFilter> { new ArrayIndexFilter() }, new JValue("/// comment/"));
@@ -148,7 +143,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.IsFalse(e2.IsMatch(null, new JArray("<tag>Test<tag>")));
         }
 
-        [Test]
+        [Fact]
         public void BooleanExpressionTest()
         {
             BooleanQueryExpression e1 = new BooleanQueryExpression(QueryOperator.LessThan, new List<PathFilter> { new ArrayIndexFilter() }, new JValue(3));
@@ -168,7 +163,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.IsFalse(e1.IsMatch(null, new JArray("11", 5)));
         }
 
-        [Test]
+        [Fact]
         public void BooleanExpressionTest_GreaterThanOperator()
         {
             BooleanQueryExpression e1 = new BooleanQueryExpression(QueryOperator.GreaterThan, new List<PathFilter> { new ArrayIndexFilter() }, new JValue(3));
@@ -179,7 +174,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.IsFalse(e1.IsMatch(null, new JArray("2", "3")));
         }
 
-        [Test]
+        [Fact]
         public void BooleanExpressionTest_GreaterThanOrEqualsOperator()
         {
             BooleanQueryExpression e1 = new BooleanQueryExpression(QueryOperator.GreaterThanOrEquals, new List<PathFilter> { new ArrayIndexFilter() }, new JValue(3));

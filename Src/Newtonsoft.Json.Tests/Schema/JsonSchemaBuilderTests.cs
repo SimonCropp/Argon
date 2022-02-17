@@ -25,13 +25,9 @@
 
 #pragma warning disable 618
 using System;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Schema;
 using System.IO;
 using Newtonsoft.Json.Linq;
@@ -41,7 +37,7 @@ namespace Newtonsoft.Json.Tests.Schema
     [TestFixture]
     public class JsonSchemaBuilderTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Simple()
         {
             string json = @"
@@ -72,7 +68,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(JsonSchemaType.String, schema.Properties["hobbies"].Items[0].Type);
         }
 
-        [Test]
+        [Fact]
         public void MultipleTypes()
         {
             string json = @"{
@@ -87,7 +83,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(JsonSchemaType.String | JsonSchemaType.Integer, schema.Type);
         }
 
-        [Test]
+        [Fact]
         public void MultipleItems()
         {
             string json = @"{
@@ -104,7 +100,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(JsonSchemaType.Array, schema.Items[1].Type);
         }
 
-        [Test]
+        [Fact]
         public void AdditionalProperties()
         {
             string json = @"{
@@ -120,7 +116,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(JsonSchemaType.Object | JsonSchemaType.Boolean, schema.AdditionalProperties.Type);
         }
 
-        [Test]
+        [Fact]
         public void Required()
         {
             string json = @"{
@@ -135,7 +131,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(true, schema.Required);
         }
 
-        [Test]
+        [Fact]
         public void ExclusiveMinimum_ExclusiveMaximum()
         {
             string json = @"{
@@ -150,7 +146,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(true, schema.ExclusiveMaximum);
         }
 
-        [Test]
+        [Fact]
         public void ReadOnly()
         {
             string json = @"{
@@ -165,7 +161,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(true, schema.ReadOnly);
         }
 
-        [Test]
+        [Fact]
         public void Hidden()
         {
             string json = @"{
@@ -180,7 +176,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(true, schema.Hidden);
         }
 
-        [Test]
+        [Fact]
         public void Id()
         {
             string json = @"{
@@ -195,7 +191,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual("testid", schema.Id);
         }
 
-        [Test]
+        [Fact]
         public void Title()
         {
             string json = @"{
@@ -210,7 +206,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual("testtitle", schema.Title);
         }
 
-        [Test]
+        [Fact]
         public void Pattern()
         {
             string json = @"{
@@ -225,7 +221,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual("testpattern", schema.Pattern);
         }
 
-        [Test]
+        [Fact]
         public void Format()
         {
             string json = @"{
@@ -240,7 +236,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual("testformat", schema.Format);
         }
 
-        [Test]
+        [Fact]
         public void Requires()
         {
             string json = @"{
@@ -255,7 +251,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual("PurpleMonkeyDishwasher", schema.Requires);
         }
 
-        [Test]
+        [Fact]
         public void MinimumMaximum()
         {
             string json = @"{
@@ -282,7 +278,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(3, schema.DivisibleBy);
         }
 
-        [Test]
+        [Fact]
         public void DisallowSingleType()
         {
             string json = @"{
@@ -297,7 +293,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(JsonSchemaType.String, schema.Disallow);
         }
 
-        [Test]
+        [Fact]
         public void DisallowMultipleTypes()
         {
             string json = @"{
@@ -312,7 +308,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(JsonSchemaType.String | JsonSchemaType.Float, schema.Disallow);
         }
 
-        [Test]
+        [Fact]
         public void DefaultPrimitiveType()
         {
             string json = @"{
@@ -327,7 +323,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(1.1, (double)schema.Default);
         }
 
-        [Test]
+        [Fact]
         public void DefaultComplexType()
         {
             string json = @"{
@@ -342,7 +338,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.IsTrue(JToken.DeepEquals(JObject.Parse(@"{""pie"":true}"), schema.Default));
         }
 
-        [Test]
+        [Fact]
         public void Enum()
         {
             string json = @"{
@@ -362,7 +358,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual("any", (string)schema.Enum[schema.Enum.Count - 1]);
         }
 
-        [Test]
+        [Fact]
         public void CircularReference()
         {
             string json = @"{
@@ -382,7 +378,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(schema, schema.Items[0]);
         }
 
-        [Test]
+        [Fact]
         public void UnresolvedReference()
         {
             ExceptionAssert.Throws<Exception>(() =>
@@ -399,7 +395,7 @@ namespace Newtonsoft.Json.Tests.Schema
             }, @"Could not resolve schema reference 'MyUnresolvedReference'.");
         }
 
-        [Test]
+        [Fact]
         public void PatternProperties()
         {
             string json = @"{
@@ -416,7 +412,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual("Blah", schema.PatternProperties["[abc]"].Id);
         }
 
-        [Test]
+        [Fact]
         public void AdditionalItems()
         {
             string json = @"{
@@ -432,7 +428,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(true, schema.AllowAdditionalItems);
         }
 
-        [Test]
+        [Fact]
         public void DisallowAdditionalItems()
         {
             string json = @"{
@@ -447,7 +443,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(false, schema.AllowAdditionalItems);
         }
 
-        [Test]
+        [Fact]
         public void AllowAdditionalItems()
         {
             string json = @"{
@@ -462,7 +458,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(false, schema.AllowAdditionalItems);
         }
 
-        [Test]
+        [Fact]
         public void Location()
         {
             string json = @"{
@@ -493,7 +489,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual("#/properties/foo/items/1/properties/foo", schema.Properties["foo"].Items[1].Properties["foo"].Location);
         }
 
-        [Test]
+        [Fact]
         public void Reference_BackwardsLocation()
         {
             string json = @"{
@@ -509,7 +505,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(schema.Properties["foo"], schema.Properties["bar"]);
         }
 
-        [Test]
+        [Fact]
         public void Reference_ForwardsLocation()
         {
             string json = @"{
@@ -525,7 +521,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(schema.Properties["foo"], schema.Properties["bar"]);
         }
 
-        [Test]
+        [Fact]
         public void Reference_NonStandardLocation()
         {
             string json = @"{
@@ -544,7 +540,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(schema.Properties["foo"], schema.Properties["bar"]);
         }
 
-        [Test]
+        [Fact]
         public void EscapedReferences()
         {
             string json = @"{
@@ -566,7 +562,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(JsonSchemaType.Array, schema.Properties["percent"].Type);
         }
 
-        [Test]
+        [Fact]
         public void References_Array()
         {
             string json = @"{
@@ -584,7 +580,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(JsonSchemaType.Object, schema.Properties["arrayprop"].Type);
         }
 
-        [Test]
+        [Fact]
         public void References_IndexTooBig()
         {
             // JsonException : Could not resolve schema reference '#/array/10'.
@@ -604,7 +600,7 @@ namespace Newtonsoft.Json.Tests.Schema
             }, "Could not resolve schema reference '#/array/10'.");
         }
 
-        [Test]
+        [Fact]
         public void References_IndexNegative()
         {
             string json = @"{
@@ -622,7 +618,7 @@ namespace Newtonsoft.Json.Tests.Schema
             }, "Could not resolve schema reference '#/array/-1'.");
         }
 
-        [Test]
+        [Fact]
         public void References_IndexNotInteger()
         {
             string json = @"{

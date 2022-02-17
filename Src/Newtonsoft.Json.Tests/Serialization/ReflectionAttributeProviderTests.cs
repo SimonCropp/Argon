@@ -31,15 +31,10 @@ using System.Runtime.Serialization;
 using System.Text;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
-using Newtonsoft.Json.Utilities;
-#if NET5_0_OR_GREATER
-using Xunit;
+using Newtonsoft.Json.Utilities;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
 
-#endif
 
 namespace Newtonsoft.Json.Tests.Serialization
 {
@@ -64,7 +59,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 
-        [Test]
+        [Fact]
         public void GetAttributes_Property()
         {
             PropertyInfo property;
@@ -83,7 +78,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(2, attributes.Count);
         }
 
-        [Test]
+        [Fact]
         public void GetAttributes_Field()
         {
             FieldInfo field;
@@ -102,7 +97,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(2, attributes.Count);
         }
 
-        [Test]
+        [Fact]
         public void GetAttributes_Parameter()
         {
             ParameterInfo[] parameters = typeof(ReflectionTestObject).GetConstructor(new[] { typeof(int) }).GetParameters();

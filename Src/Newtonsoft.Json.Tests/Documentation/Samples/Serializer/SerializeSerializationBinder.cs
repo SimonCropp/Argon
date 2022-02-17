@@ -28,13 +28,9 @@ using System.Collections.Generic;
 using Newtonsoft.Json.Serialization;
 using System.Runtime.Serialization;
 using System.Text;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using System.Linq;
 
 namespace Newtonsoft.Json.Tests.Documentation.Samples.Serializer
@@ -66,7 +62,7 @@ namespace Newtonsoft.Json.Tests.Documentation.Samples.Serializer
         }
         #endregion
 
-        [Test]
+        [Fact]
         public void Example()
         {
             #region Usage

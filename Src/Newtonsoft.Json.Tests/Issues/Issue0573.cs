@@ -30,20 +30,16 @@ using Newtonsoft.Json.Serialization;
 using System.Diagnostics;
 using System.Linq;
 using System.Collections.Generic;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Issues
 {
     [TestFixture]
     public class Issue0573
     {
-        [Test]
+        [Fact]
         public void Test()
         {
             string json = "{'Value':'hi'}";

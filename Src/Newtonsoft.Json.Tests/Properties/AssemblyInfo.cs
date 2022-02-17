@@ -31,9 +31,7 @@ using System.Security;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-#if NET5_0_OR_GREATER
 [assembly: Xunit.CollectionBehavior(DisableTestParallelization = true)]
-#endif
 
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

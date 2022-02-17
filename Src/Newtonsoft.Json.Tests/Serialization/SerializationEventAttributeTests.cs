@@ -33,13 +33,9 @@ using System.Runtime.Serialization;
 using System.Text;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Utilities;
 
@@ -48,7 +44,7 @@ namespace Newtonsoft.Json.Tests.Serialization
     [TestFixture]
     public class SerializationEventAttributeTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void ObjectEvents()
         {
             SerializationEventTestObject[] objs = new[] { new SerializationEventTestObject(), new DerivedSerializationEventTestObject() };
@@ -103,7 +99,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 
-        [Test]
+        [Fact]
         public void ObjectWithConstructorEvents()
         {
             SerializationEventTestObjectWithConstructor obj = new SerializationEventTestObjectWithConstructor(11, "Hello World!", null);
@@ -133,7 +129,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("This value was set after deserialization.", obj.Member4);
         }
 
-        [Test]
+        [Fact]
         public void ListEvents()
         {
             SerializationEventTestList obj = new SerializationEventTestList
@@ -171,7 +167,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("This value was set after deserialization.", obj.Member4);
         }
 
-        [Test]
+        [Fact]
         public void DictionaryEvents()
         {
             SerializationEventTestDictionary obj = new SerializationEventTestDictionary
@@ -209,7 +205,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("This value was set after deserialization.", obj.Member4);
         }
 
-        [Test]
+        [Fact]
         public void ObjectEventsDocumentationExample()
         {
             SerializationEventTestObject obj = new SerializationEventTestObject();
@@ -257,7 +253,7 @@ namespace Newtonsoft.Json.Tests.Serialization
         {
         }
 
-        [Test]
+        [Fact]
         public void SerializationEventContextTestObjectSubClassTest()
         {
             SerializationEventContextSubClassTestObject obj = new SerializationEventContextSubClassTestObject();
@@ -279,7 +275,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 
-        [Test]
+        [Fact]
         public void SerializationEventContextTest()
         {
             SerializationEventContextTestObject value = new SerializationEventContextTestObject();
@@ -297,7 +293,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void WhenSerializationErrorDetectedBySerializer_ThenCallbackIsCalled()
         {
             // Verify contract is properly finding our callback
@@ -335,7 +331,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 
-        [Test]
+        [Fact]
         public void DerivedSerializationEvents()
         {
             var c = JsonConvert.DeserializeObject<DerivedSerializationEventOrderTestObject>("{}");
@@ -354,7 +350,7 @@ OnSerialized
 OnSerialized_Derived", string.Join(Environment.NewLine, e.ToArray()));
         }
 
-        [Test]
+        [Fact]
         public void DerivedDerivedSerializationEvents()
         {
             var c = JsonConvert.DeserializeObject<DerivedDerivedSerializationEventOrderTestObject>("{}");
@@ -377,7 +373,7 @@ OnSerialized_Derived
 OnSerialized_Derived_Derived", string.Join(Environment.NewLine, e.ToArray()));
         }
 
-        [Test]
+        [Fact]
         public void DerivedDerivedSerializationEvents_DataContractSerializer()
         {
             string xml = @"<DerivedDerivedSerializationEventOrderTestObject xmlns=""http://schemas.datacontract.org/2004/07/Newtonsoft.Json.Tests.Serialization"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""/>";
@@ -405,7 +401,7 @@ OnSerialized_Derived
 OnSerialized_Derived_Derived", string.Join(Environment.NewLine, e.ToArray()));
         }
 
-        [Test]
+        [Fact]
         public void NoStreamingContextParameter()
         {
             ExportPostData d = new ExportPostData

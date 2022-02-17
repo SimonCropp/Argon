@@ -27,15 +27,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Newtonsoft.Json.Bson;
-#if NET5_0_OR_GREATER
-using Xunit;
+using Newtonsoft.Json.Bson;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
 
-#endif
 
 namespace Newtonsoft.Json.Tests.Documentation.Samples.Bson
 {
@@ -51,7 +46,7 @@ namespace Newtonsoft.Json.Tests.Documentation.Samples.Bson
         #endregion
 
 #pragma warning disable 618
-        [Test]
+        [Fact]
         public void Example()
         {
             #region Usage

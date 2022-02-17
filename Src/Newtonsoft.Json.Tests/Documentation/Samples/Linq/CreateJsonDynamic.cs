@@ -32,14 +32,14 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
 #else
-using NUnit.Framework;
+using Xunit;
 
 namespace Newtonsoft.Json.Tests.Documentation.Samples.Linq
 {
     [TestFixture]
     public class CreateJsonDynamic : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Example()
         {
             #region Usage

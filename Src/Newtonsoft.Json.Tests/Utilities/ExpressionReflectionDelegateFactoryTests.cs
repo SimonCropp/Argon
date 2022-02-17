@@ -28,13 +28,9 @@ using System.Linq;
 using System;
 using System.Diagnostics;
 using System.Reflection;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Utilities;
 using Newtonsoft.Json.Tests.TestObjects;
@@ -46,7 +42,7 @@ namespace Newtonsoft.Json.Tests.Utilities
     [TestFixture]
     public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void ConstructorWithInString()
         {
             ConstructorInfo constructor = TestReflectionUtils.GetConstructors(typeof(InTestClass)).Single(c => c.GetParameters().Count() == 1);
@@ -59,7 +55,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.AreEqual("Value", o.Value);
         }
 
-        [Test]
+        [Fact]
         public void ConstructorWithInStringAndBool()
         {
             ConstructorInfo constructor = TestReflectionUtils.GetConstructors(typeof(InTestClass)).Single(c => c.GetParameters().Count() == 2);
@@ -73,7 +69,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.AreEqual(true, o.B1);
         }
 
-        [Test]
+        [Fact]
         public void ConstructorWithRefString()
         {
             ConstructorInfo constructor = TestReflectionUtils.GetConstructors(typeof(OutAndRefTestClass)).Single(c => c.GetParameters().Count() == 1);
@@ -86,7 +82,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.AreEqual("Input", o.Input);
         }
 
-        [Test]
+        [Fact]
         public void ConstructorWithRefStringAndOutBool()
         {
             ConstructorInfo constructor = TestReflectionUtils.GetConstructors(typeof(OutAndRefTestClass)).Single(c => c.GetParameters().Count() == 2);
@@ -99,7 +95,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.AreEqual("Input", o.Input);
         }
 
-        [Test]
+        [Fact]
         public void ConstructorWithRefStringAndRefBoolAndRefBool()
         {
             ConstructorInfo constructor = TestReflectionUtils.GetConstructors(typeof(OutAndRefTestClass)).Single(c => c.GetParameters().Count() == 3);
@@ -114,7 +110,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.AreEqual(false, o.B2);
         }
 
-        [Test]
+        [Fact]
         public void DefaultConstructor()
         {
             Func<object> create = ExpressionReflectionDelegateFactory.Instance.CreateDefaultConstructor<object>(typeof(Movie));
@@ -123,7 +119,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.IsNotNull(m);
         }
 
-        [Test]
+        [Fact]
         public void DefaultConstructor_Struct()
         {
             Func<object> create = ExpressionReflectionDelegateFactory.Instance.CreateDefaultConstructor<object>(typeof(StructTest));
@@ -132,7 +128,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.IsNotNull(m);
         }
 
-        [Test]
+        [Fact]
         public void DefaultConstructor_Abstract()
         {
             ExceptionAssert.Throws<Exception>(
@@ -148,7 +144,7 @@ namespace Newtonsoft.Json.Tests.Utilities
                 });
         }
 
-        [Test]
+        [Fact]
         public void CreatePropertySetter()
         {
             Action<object, object> setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(TestReflectionUtils.GetProperty(typeof(Movie), "Name"));
@@ -160,7 +156,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.AreEqual("OH HAI!", m.Name);
         }
 
-        [Test]
+        [Fact]
         public void CreatePropertyGetter()
         {
             Func<object, object> getter = ExpressionReflectionDelegateFactory.Instance.CreateGet<object>(TestReflectionUtils.GetProperty(typeof(Movie), "Name"));
@@ -173,7 +169,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.AreEqual("OH HAI!", value);
         }
 
-        [Test]
+        [Fact]
         public void CreateMethodCall()
         {
             MethodCall<object, object> method = ExpressionReflectionDelegateFactory.Instance.CreateMethodCall<object>(TestReflectionUtils.GetMethod(typeof(Movie), "ToString"));
@@ -188,7 +184,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.AreEqual(true, result);
         }
 
-        [Test]
+        [Fact]
         public void CreateMethodCall_Constructor()
         {
             MethodCall<object, object> method = ExpressionReflectionDelegateFactory.Instance.CreateMethodCall<object>(typeof(Movie).GetConstructor(new Type[0]));
@@ -204,7 +200,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             public static string StringProperty { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void GetStatic()
         {
             StaticTestClass.StringField = "Field!";
@@ -221,7 +217,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.AreEqual(StaticTestClass.StringField, v);
         }
 
-        [Test]
+        [Fact]
         public void SetStatic()
         {
             Action<object, object> setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(TestReflectionUtils.GetProperty(typeof(StaticTestClass), "StringProperty"));
@@ -243,7 +239,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             public readonly int IntReadOnlyField = int.MaxValue;
         }
 
-        [Test]
+        [Fact]
         public void CreateGetField()
         {
             FieldsTestClass c = new FieldsTestClass
@@ -263,7 +259,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.AreEqual(true, value);
         }
 
-        [Test]
+        [Fact]
         public void CreateSetField_ReadOnly()
         {
             FieldsTestClass c = new FieldsTestClass();
@@ -274,7 +270,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.AreEqual(int.MinValue, c.IntReadOnlyField);
         }
 
-        [Test]
+        [Fact]
         public void CreateSetField()
         {
             FieldsTestClass c = new FieldsTestClass();
@@ -290,7 +286,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.AreEqual(true, c.BoolField);
         }
 
-        [Test]
+        [Fact]
         public void SetOnStruct()
         {
             object structTest = new StructTest();
@@ -306,7 +302,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.AreEqual("Hi2", ((StructTest)structTest).StringField);
         }
 
-        [Test]
+        [Fact]
         public void CreateGetWithBadObjectTarget()
         {
             ExceptionAssert.Throws<InvalidCastException>(
@@ -326,7 +322,7 @@ namespace Newtonsoft.Json.Tests.Utilities
                 });
         }
 
-        [Test]
+        [Fact]
         public void CreateSetWithBadObjectTarget()
         {
             ExceptionAssert.Throws<InvalidCastException>(
@@ -352,7 +348,7 @@ namespace Newtonsoft.Json.Tests.Utilities
                 });
         }
 
-        [Test]
+        [Fact]
         public void CreateSetWithBadObjectValue()
         {
             ExceptionAssert.Throws<InvalidCastException>(
@@ -370,7 +366,7 @@ namespace Newtonsoft.Json.Tests.Utilities
                 });
         }
 
-        [Test]
+        [Fact]
         public void CreateStaticMethodCall()
         {
             MethodInfo castMethodInfo = typeof(DictionaryKey).GetMethod("op_Implicit", new[] { typeof(string) });
@@ -386,7 +382,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.AreEqual("First!", key.Value);
         }
 
-        [Test]
+        [Fact]
         public void ConstructorStruct()
         {
             Func<object> creator1 = ExpressionReflectionDelegateFactory.Instance.CreateDefaultConstructor<object>(typeof(MyStruct));
@@ -413,7 +409,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             return new TestStruct(s.Value + s.Value);
         }
 
-        [Test]
+        [Fact]
         public void CreateStructMethodCall()
         {
             MethodInfo methodInfo = typeof(ExpressionReflectionDelegateFactoryTests).GetMethod(nameof(StructMethod), new[] { typeof(TestStruct) });

@@ -28,13 +28,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using System.Runtime.Serialization;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
@@ -46,7 +42,7 @@ namespace Newtonsoft.Json.Tests.Documentation.Samples.Serializer
     [TestFixture]
     public class SerializeImmutableCollections : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Example()
         {
             #region Usage

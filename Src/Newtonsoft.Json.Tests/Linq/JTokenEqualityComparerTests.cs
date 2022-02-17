@@ -24,13 +24,9 @@
 #endregion
 
 using System.Collections.Generic;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Linq;
 
 namespace Newtonsoft.Json.Tests.Linq
@@ -38,7 +34,7 @@ namespace Newtonsoft.Json.Tests.Linq
     [TestFixture]
     public class JTokenEqualityComparerTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void CompareEmptyProperties()
         {
             JObject o1 = JObject.Parse("{}");
@@ -54,7 +50,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.IsFalse(c.Equals(o1, o2));
         }
 
-        [Test]
+        [Fact]
         public void JValueDictionary()
         {
             Dictionary<JToken, int> dic = new Dictionary<JToken, int>(JToken.EqualityComparer);
@@ -66,7 +62,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(2, dic[v11]);
         }
 
-        [Test]
+        [Fact]
         public void JArrayDictionary()
         {
             Dictionary<JToken, int> dic = new Dictionary<JToken, int>(JToken.EqualityComparer);
@@ -78,7 +74,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(2, dic[v11]);
         }
 
-        [Test]
+        [Fact]
         public void JObjectDictionary()
         {
             Dictionary<JToken, int> dic = new Dictionary<JToken, int>(JToken.EqualityComparer);
@@ -90,7 +86,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(2, dic[v11]);
         }
 
-        [Test]
+        [Fact]
         public void JConstructorDictionary()
         {
             Dictionary<JToken, int> dic = new Dictionary<JToken, int>(JToken.EqualityComparer);

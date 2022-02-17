@@ -34,13 +34,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Tests.TestObjects.JsonTextReaderTests;
 using Newtonsoft.Json.Utilities;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Tests.TestObjects;
 
 namespace Newtonsoft.Json.Tests
@@ -101,7 +97,7 @@ namespace Newtonsoft.Json.Tests
             }
         }
 
-        [Test]
+        [Fact]
         public async Task WriteLazy()
         {
             LazyStringWriter sw = new LazyStringWriter(CultureInfo.InvariantCulture);
@@ -200,7 +196,7 @@ namespace Newtonsoft.Json.Tests
 }", sw.ToString());
         }
 
-        [Test]
+        [Fact]
         public async Task WriteLazy_Property()
         {
             LazyStringWriter sw = new LazyStringWriter(CultureInfo.InvariantCulture);
@@ -226,7 +222,7 @@ namespace Newtonsoft.Json.Tests
 ]", sw.ToString());
         }
 
-        [Test]
+        [Fact]
         public async Task BufferTestAsync()
         {
             FakeArrayPool arrayPool = new FakeArrayPool();
@@ -270,7 +266,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(3, arrayPool.FreeArrays.Count);
         }
 
-        [Test]
+        [Fact]
         public async Task BufferTest_WithErrorAsync()
         {
             FakeArrayPool arrayPool = new FakeArrayPool();
@@ -305,7 +301,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(1, arrayPool.FreeArrays.Count);
         }
 
-        [Test]
+        [Fact]
         public async Task NewLineAsync()
         {
             MemoryStream ms = new MemoryStream();
@@ -331,7 +327,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(@"{" + '\n' + @"  ""prop"": true" + '\n' + "}", json);
         }
 
-        [Test]
+        [Fact]
         public async Task QuoteNameAndStringsAsync()
         {
             StringBuilder sb = new StringBuilder();
@@ -349,7 +345,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(@"{name:""value""}", sb.ToString());
         }
 
-        [Test]
+        [Fact]
         public async Task CloseOutputAsync()
         {
             MemoryStream ms = new MemoryStream();
@@ -367,7 +363,7 @@ namespace Newtonsoft.Json.Tests
             Assert.IsTrue(ms.CanRead);
         }
 
-        [Test]
+        [Fact]
         public async Task WriteIConvertableAsync()
         {
             var sw = new StringWriter();
@@ -377,7 +373,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual("1", sw.ToString());
         }
 
-        [Test]
+        [Fact]
         public async Task ValueFormattingAsync()
         {
             StringBuilder sb = new StringBuilder();
@@ -408,7 +404,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(expected, result);
         }
 
-        [Test]
+        [Fact]
         public async Task NullableValueFormattingAsync()
         {
             StringWriter sw = new StringWriter();
@@ -454,7 +450,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(expected, json);
         }
 
-        [Test]
+        [Fact]
         public async Task WriteValueObjectWithNullableAsync()
         {
             StringWriter sw = new StringWriter();
@@ -473,7 +469,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(expected, json);
         }
 
-        [Test]
+        [Fact]
         public async Task WriteValueObjectWithUnsupportedValueAsync()
         {
             await ExceptionAssert.ThrowsAsync<JsonWriterException>(async () =>
@@ -488,7 +484,7 @@ namespace Newtonsoft.Json.Tests
             }, @"Unsupported type: System.Version. Use the JsonSerializer class to get the object's JSON representation. Path ''.");
         }
 
-        [Test]
+        [Fact]
         public async Task StringEscapingAsync()
         {
             StringBuilder sb = new StringBuilder();
@@ -510,7 +506,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(expected, result);
         }
 
-        [Test]
+        [Fact]
         public async Task WriteEndAsync()
         {
             StringBuilder sb = new StringBuilder();
@@ -550,7 +546,7 @@ namespace Newtonsoft.Json.Tests
             StringAssert.AreEqual(expected, result);
         }
 
-        [Test]
+        [Fact]
         public async Task CloseWithRemainingContentAsync()
         {
             StringBuilder sb = new StringBuilder();
@@ -589,7 +585,7 @@ namespace Newtonsoft.Json.Tests
             StringAssert.AreEqual(expected, result);
         }
 
-        [Test]
+        [Fact]
         public async Task IndentingAsync()
         {
             StringBuilder sb = new StringBuilder();
@@ -641,7 +637,7 @@ namespace Newtonsoft.Json.Tests
             StringAssert.AreEqual(expected, result);
         }
 
-        [Test]
+        [Fact]
         public async Task StateAsync()
         {
             StringBuilder sb = new StringBuilder();
@@ -684,7 +680,7 @@ namespace Newtonsoft.Json.Tests
             }
         }
 
-        [Test]
+        [Fact]
         public async Task FloatingPointNonFiniteNumbers_SymbolAsync()
         {
             StringBuilder sb = new StringBuilder();
@@ -720,7 +716,7 @@ namespace Newtonsoft.Json.Tests
             StringAssert.AreEqual(expected, result);
         }
 
-        [Test]
+        [Fact]
         public async Task FloatingPointNonFiniteNumbers_ZeroAsync()
         {
             StringBuilder sb = new StringBuilder();
@@ -768,7 +764,7 @@ namespace Newtonsoft.Json.Tests
             StringAssert.AreEqual(expected, result);
         }
 
-        [Test]
+        [Fact]
         public async Task FloatingPointNonFiniteNumbers_StringAsync()
         {
             StringBuilder sb = new StringBuilder();
@@ -804,7 +800,7 @@ namespace Newtonsoft.Json.Tests
             StringAssert.AreEqual(expected, result);
         }
 
-        [Test]
+        [Fact]
         public async Task FloatingPointNonFiniteNumbers_QuoteCharAsync()
         {
             StringBuilder sb = new StringBuilder();
@@ -841,7 +837,7 @@ namespace Newtonsoft.Json.Tests
             StringAssert.AreEqual(expected, result);
         }
 
-        [Test]
+        [Fact]
         public async Task WriteRawInStartAsync()
         {
             StringBuilder sb = new StringBuilder();
@@ -867,7 +863,7 @@ namespace Newtonsoft.Json.Tests
             StringAssert.AreEqual(expected, result);
         }
 
-        [Test]
+        [Fact]
         public async Task WriteRawInArrayAsync()
         {
             StringBuilder sb = new StringBuilder();
@@ -895,7 +891,7 @@ namespace Newtonsoft.Json.Tests
             StringAssert.AreEqual(expected, result);
         }
 
-        [Test]
+        [Fact]
         public async Task WriteRawInObjectAsync()
         {
             StringBuilder sb = new StringBuilder();
@@ -916,7 +912,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(expected, result);
         }
 
-        [Test]
+        [Fact]
         public async Task WriteTokenAsync()
         {
             CancellationToken cancel = CancellationToken.None;
@@ -931,7 +927,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual("1", sw.ToString());
         }
 
-        [Test]
+        [Fact]
         public async Task WriteRawValueAsync()
         {
             StringBuilder sb = new StringBuilder();
@@ -958,7 +954,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(@"{""d0"":[1,2],""d1"":[1,2],""d2"":[1,2]}", sb.ToString());
         }
 
-        [Test]
+        [Fact]
         public async Task WriteObjectNestedInConstructorAsync()
         {
             StringBuilder sb = new StringBuilder();
@@ -982,7 +978,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(@"{""con"":new Ext.data.JsonStore({""aa"":""aa""})}", sb.ToString());
         }
 
-        [Test]
+        [Fact]
         public async Task WriteFloatingPointNumberAsync()
         {
             StringBuilder sb = new StringBuilder();
@@ -1020,7 +1016,7 @@ namespace Newtonsoft.Json.Tests
 #endif
         }
 
-        [Test]
+        [Fact]
         public async Task WriteIntegerNumberAsync()
         {
             StringBuilder sb = new StringBuilder();
@@ -1060,7 +1056,7 @@ namespace Newtonsoft.Json.Tests
 ]", sb.ToString());
         }
 
-        [Test]
+        [Fact]
         public async Task WriteTokenDirectAsync()
         {
             StringBuilder sb = new StringBuilder();
@@ -1080,7 +1076,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(@"[1,{""string"":2147483647}]", sb.ToString());
         }
 
-        [Test]
+        [Fact]
         public async Task WriteTokenDirect_BadValueAsync()
         {
             StringBuilder sb = new StringBuilder();
@@ -1097,7 +1093,7 @@ Parameter name: value", "Value cannot be null. (Parameter 'value')");
             }
         }
 
-        [Test]
+        [Fact]
         public async Task WriteTokenNullCheckAsync()
         {
             using (JsonWriter jsonWriter = new JsonTextWriter(new StringWriter()))
@@ -1107,7 +1103,7 @@ Parameter name: value", "Value cannot be null. (Parameter 'value')");
             }
         }
 
-        [Test]
+        [Fact]
         public async Task TokenTypeOutOfRangeAsync()
         {
             using (JsonWriter jsonWriter = new JsonTextWriter(new StringWriter()))
@@ -1120,7 +1116,7 @@ Parameter name: value", "Value cannot be null. (Parameter 'value')");
             }
         }
 
-        [Test]
+        [Fact]
         public async Task BadWriteEndArrayAsync()
         {
             await ExceptionAssert.ThrowsAsync<JsonWriterException>(async () =>
@@ -1140,7 +1136,7 @@ Parameter name: value", "Value cannot be null. (Parameter 'value')");
             }, "No token to close. Path ''.");
         }
 
-        [Test]
+        [Fact]
         public async Task IndentationAsync()
         {
             StringBuilder sb = new StringBuilder();
@@ -1187,7 +1183,7 @@ _____'propertyName': NaN,
             StringAssert.AreEqual(expected, result);
         }
 
-        [Test]
+        [Fact]
         public async Task WriteSingleBytesAsync()
         {
             StringBuilder sb = new StringBuilder();
@@ -1214,7 +1210,7 @@ _____'propertyName': NaN,
             Assert.AreEqual(text, Encoding.UTF8.GetString(d2, 0, d2.Length));
         }
 
-        [Test]
+        [Fact]
         public async Task WriteBytesInArrayAsync()
         {
             StringBuilder sb = new StringBuilder();
@@ -1249,7 +1245,7 @@ _____'propertyName': NaN,
             StringAssert.AreEqual(expected, result);
         }
 
-        [Test]
+        [Fact]
         public async Task PathAsync()
         {
             StringBuilder sb = new StringBuilder();
@@ -1319,7 +1315,7 @@ _____'propertyName': NaN,
 ]", sb.ToString());
         }
 
-        [Test]
+        [Fact]
         public async Task DateTimeZoneHandlingAsync()
         {
             StringWriter sw = new StringWriter();
@@ -1333,7 +1329,7 @@ _____'propertyName': NaN,
             Assert.AreEqual(@"""2000-01-01T01:01:01Z""", sw.ToString());
         }
 
-        [Test]
+        [Fact]
         public async Task HtmlStringEscapeHandlingAsync()
         {
             StringWriter sw = new StringWriter();
@@ -1355,7 +1351,7 @@ _____'propertyName': NaN,
             Assert.AreEqual(script, reader.ReadAsString());
         }
 
-        [Test]
+        [Fact]
         public async Task NonAsciiStringEscapeHandlingAsync()
         {
             StringWriter sw = new StringWriter();
@@ -1391,7 +1387,7 @@ _____'propertyName': NaN,
             Assert.AreEqual("\"\u5f20\"", json);
         }
 
-        [Test]
+        [Fact]
         public async Task WriteEndOnPropertyAsync()
         {
             StringWriter sw = new StringWriter();
@@ -1405,7 +1401,7 @@ _____'propertyName': NaN,
             Assert.AreEqual("{'Blah':null}", sw.ToString());
         }
 
-        [Test]
+        [Fact]
         public async Task QuoteCharAsync()
         {
             StringWriter sw = new StringWriter();
@@ -1447,7 +1443,7 @@ _____'propertyName': NaN,
 ]", sw.ToString());
         }
 
-        [Test]
+        [Fact]
         public async Task CultureAsync()
         {
             CultureInfo culture = new CultureInfo("en-NZ");
@@ -1474,7 +1470,7 @@ _____'propertyName': NaN,
 ]", sw.ToString());
         }
 
-        [Test]
+        [Fact]
         public async Task CompareNewStringEscapingWithOldAsync()
         {
             char c = (char)0;
@@ -1636,7 +1632,7 @@ _____'propertyName': NaN,
             }
         }
 
-        [Test]
+        [Fact]
         public async Task CustomJsonTextWriterTestsAsync()
         {
             StringWriter sw = new StringWriter();
@@ -1656,7 +1652,7 @@ _____'propertyName': NaN,
 }}}", sw.ToString());
         }
 
-        [Test]
+        [Fact]
         public async Task QuoteDictionaryNamesAsync()
         {
             var d = new Dictionary<string, int>
@@ -1682,7 +1678,7 @@ _____'propertyName': NaN,
             }
         }
 
-        [Test]
+        [Fact]
         public async Task WriteCommentsAsync()
         {
             string json = @"//comment*//*hi*/
@@ -1730,7 +1726,7 @@ null//comment
 }/*comment *//*comment 1 */", sw.ToString());
         }
 
-        [Test]
+        [Fact]
         public void AsyncMethodsAlreadyCancelled()
         {
             CancellationTokenSource source = new CancellationTokenSource();
@@ -1813,7 +1809,7 @@ null//comment
             }
         }
 
-        [Test]
+        [Fact]
         public void AsyncMethodsAlreadyCancelledOnTextWriterSubclass()
         {
             CancellationTokenSource source = new CancellationTokenSource();
@@ -1882,7 +1878,7 @@ null//comment
             Assert.IsTrue(writer.WriteWhitespaceAsync(" ", token).IsCanceled);
         }
 
-        [Test]
+        [Fact]
         public void AsyncMethodsAlreadyCancelledOnWriterSubclass()
         {
             CancellationTokenSource source = new CancellationTokenSource();
@@ -1951,7 +1947,7 @@ null//comment
             Assert.IsTrue(writer.WriteWhitespaceAsync(" ", token).IsCanceled);
         }
 
-        [Test]
+        [Fact]
         public async Task FailureOnStartWriteProperty()
         {
             JsonTextWriter writer = new JsonTextWriter(new ThrowingWriter(' '));
@@ -1961,7 +1957,7 @@ null//comment
         }
 
 
-        [Test]
+        [Fact]
         public async Task FailureOnStartWriteObject()
         {
             JsonTextWriter writer = new JsonTextWriter(new ThrowingWriter('{'));

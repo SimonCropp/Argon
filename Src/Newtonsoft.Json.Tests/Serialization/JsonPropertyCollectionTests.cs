@@ -23,13 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
 
@@ -38,7 +34,7 @@ namespace Newtonsoft.Json.Tests.Serialization
     [TestFixture]
     public class JsonPropertyCollectionTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void AddPropertyIncludesPrivateImplementations()
         {
             var value = new PrivateImplementationBClass

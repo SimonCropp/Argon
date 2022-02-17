@@ -24,21 +24,18 @@
 #endregion
 
 using System;
-#if NET5_0_OR_GREATER
+
 using System.Reflection;
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Issues
 {
     [TestFixture]
     public class Issue1561 : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Test()
         {
             Data data = new Data

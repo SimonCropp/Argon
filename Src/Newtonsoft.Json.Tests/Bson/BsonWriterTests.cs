@@ -29,13 +29,9 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
 using System.Text.RegularExpressions;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Bson;
 using System.IO;
 using Newtonsoft.Json.Linq;
@@ -50,7 +46,7 @@ namespace Newtonsoft.Json.Tests.Bson
     [TestFixture]
     public class BsonWriterTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void CloseOutput()
         {
             MemoryStream ms = new MemoryStream();
@@ -68,7 +64,7 @@ namespace Newtonsoft.Json.Tests.Bson
             Assert.IsTrue(ms.CanRead);
         }
 
-        [Test]
+        [Fact]
         public void WriteSingleObject()
         {
             MemoryStream ms = new MemoryStream();
@@ -83,7 +79,7 @@ namespace Newtonsoft.Json.Tests.Bson
             Assert.AreEqual("0F-00-00-00-10-42-6C-61-68-00-01-00-00-00-00", bson);
         }
 
-        [Test]
+        [Fact]
         public void WriteValues()
         {
             MemoryStream ms = new MemoryStream();
@@ -110,7 +106,7 @@ namespace Newtonsoft.Json.Tests.Bson
             Assert.AreEqual("8C-00-00-00-12-30-00-FF-FF-FF-FF-FF-FF-FF-7F-12-31-00-FF-FF-FF-FF-FF-FF-FF-7F-10-32-00-FF-FF-FF-7F-10-33-00-FF-FF-FF-7F-10-34-00-FF-00-00-00-10-35-00-7F-00-00-00-02-36-00-02-00-00-00-61-00-01-37-00-00-00-00-00-00-00-F0-45-01-38-00-FF-FF-FF-FF-FF-FF-EF-7F-01-39-00-00-00-00-E0-FF-FF-EF-47-08-31-30-00-01-05-31-31-00-05-00-00-00-00-00-01-02-03-04-09-31-32-00-40-C5-E2-BA-E3-00-00-00-09-31-33-00-40-C5-E2-BA-E3-00-00-00-00", bson);
         }
 
-        [Test]
+        [Fact]
         public void WriteDouble()
         {
             MemoryStream ms = new MemoryStream();
@@ -124,7 +120,7 @@ namespace Newtonsoft.Json.Tests.Bson
             Assert.AreEqual("10-00-00-00-01-30-00-8F-C2-F5-28-5C-FF-58-40-00", bson);
         }
 
-        [Test]
+        [Fact]
         public void WriteGuid()
         {
             Guid g = new Guid("D821EED7-4B5C-43C9-8AC2-6928E579B705");
@@ -140,7 +136,7 @@ namespace Newtonsoft.Json.Tests.Bson
             Assert.AreEqual("1D-00-00-00-05-30-00-10-00-00-00-04-D7-EE-21-D8-5C-4B-C9-43-8A-C2-69-28-E5-79-B7-05-00", bson);
         }
 
-        [Test]
+        [Fact]
         public void WriteArrayBsonFromSite()
         {
             MemoryStream ms = new MemoryStream();
@@ -161,7 +157,7 @@ namespace Newtonsoft.Json.Tests.Bson
             Assert.AreEqual(expected, bson);
         }
 
-        [Test]
+        [Fact]
         public void WriteBytes()
         {
             byte[] data = Encoding.UTF8.GetBytes("Hello world!");
@@ -193,7 +189,7 @@ namespace Newtonsoft.Json.Tests.Bson
             CollectionAssert.AreEquivalent(data, (byte[])reader.Value);
         }
 
-        [Test]
+        [Fact]
         public void WriteNestedArray()
         {
             MemoryStream ms = new MemoryStream();
@@ -230,7 +226,7 @@ namespace Newtonsoft.Json.Tests.Bson
             Assert.AreEqual(expected, bson);
         }
 
-        [Test]
+        [Fact]
         public void WriteSerializedStore()
         {
             MemoryStream ms = new MemoryStream();
@@ -280,7 +276,7 @@ namespace Newtonsoft.Json.Tests.Bson
             CollectionAssert.AreEquivalent(ms.ToArray(), ms1.ToArray());
         }
 
-        [Test]
+        [Fact]
         public void WriteLargeStrings()
         {
             MemoryStream ms = new MemoryStream();
@@ -307,7 +303,7 @@ namespace Newtonsoft.Json.Tests.Bson
             Assert.AreEqual("4E-02-00-00-02-30-2D-31-2D-32-2D-33-2D-34-2D-35-2D-36-2D-37-2D-38-2D-39-2D-31-30-2D-31-31-2D-31-32-2D-31-33-2D-31-34-2D-31-35-2D-31-36-2D-31-37-2D-31-38-2D-31-39-2D-32-30-2D-32-31-2D-32-32-2D-32-33-2D-32-34-2D-32-35-2D-32-36-2D-32-37-2D-32-38-2D-32-39-2D-33-30-2D-33-31-2D-33-32-2D-33-33-2D-33-34-2D-33-35-2D-33-36-2D-33-37-2D-33-38-2D-33-39-2D-34-30-2D-34-31-2D-34-32-2D-34-33-2D-34-34-2D-34-35-2D-34-36-2D-34-37-2D-34-38-2D-34-39-2D-35-30-2D-35-31-2D-35-32-2D-35-33-2D-35-34-2D-35-35-2D-35-36-2D-35-37-2D-35-38-2D-35-39-2D-36-30-2D-36-31-2D-36-32-2D-36-33-2D-36-34-2D-36-35-2D-36-36-2D-36-37-2D-36-38-2D-36-39-2D-37-30-2D-37-31-2D-37-32-2D-37-33-2D-37-34-2D-37-35-2D-37-36-2D-37-37-2D-37-38-2D-37-39-2D-38-30-2D-38-31-2D-38-32-2D-38-33-2D-38-34-2D-38-35-2D-38-36-2D-38-37-2D-38-38-2D-38-39-2D-39-30-2D-39-31-2D-39-32-2D-39-33-2D-39-34-2D-39-35-2D-39-36-2D-39-37-2D-39-38-2D-39-39-00-22-01-00-00-30-2D-31-2D-32-2D-33-2D-34-2D-35-2D-36-2D-37-2D-38-2D-39-2D-31-30-2D-31-31-2D-31-32-2D-31-33-2D-31-34-2D-31-35-2D-31-36-2D-31-37-2D-31-38-2D-31-39-2D-32-30-2D-32-31-2D-32-32-2D-32-33-2D-32-34-2D-32-35-2D-32-36-2D-32-37-2D-32-38-2D-32-39-2D-33-30-2D-33-31-2D-33-32-2D-33-33-2D-33-34-2D-33-35-2D-33-36-2D-33-37-2D-33-38-2D-33-39-2D-34-30-2D-34-31-2D-34-32-2D-34-33-2D-34-34-2D-34-35-2D-34-36-2D-34-37-2D-34-38-2D-34-39-2D-35-30-2D-35-31-2D-35-32-2D-35-33-2D-35-34-2D-35-35-2D-35-36-2D-35-37-2D-35-38-2D-35-39-2D-36-30-2D-36-31-2D-36-32-2D-36-33-2D-36-34-2D-36-35-2D-36-36-2D-36-37-2D-36-38-2D-36-39-2D-37-30-2D-37-31-2D-37-32-2D-37-33-2D-37-34-2D-37-35-2D-37-36-2D-37-37-2D-37-38-2D-37-39-2D-38-30-2D-38-31-2D-38-32-2D-38-33-2D-38-34-2D-38-35-2D-38-36-2D-38-37-2D-38-38-2D-38-39-2D-39-30-2D-39-31-2D-39-32-2D-39-33-2D-39-34-2D-39-35-2D-39-36-2D-39-37-2D-39-38-2D-39-39-00-00", bson);
         }
 
-        [Test]
+        [Fact]
         public void SerializeGoogleGeoCode()
         {
             string json = @"{
@@ -382,7 +378,7 @@ namespace Newtonsoft.Json.Tests.Bson
             Assert.AreEqual(0m, placemark.Point.Coordinates[2]);
         }
 
-        [Test]
+        [Fact]
         public void WriteEmptyStrings()
         {
             MemoryStream ms = new MemoryStream();
@@ -397,7 +393,7 @@ namespace Newtonsoft.Json.Tests.Bson
             Assert.AreEqual("0C-00-00-00-02-00-01-00-00-00-00-00", bson);
         }
 
-        [Test]
+        [Fact]
         public void WriteComment()
         {
             ExceptionAssert.Throws<JsonWriterException>(() =>
@@ -410,7 +406,7 @@ namespace Newtonsoft.Json.Tests.Bson
             }, "Cannot write JSON comment as BSON. Path ''.");
         }
 
-        [Test]
+        [Fact]
         public void WriteConstructor()
         {
             ExceptionAssert.Throws<JsonWriterException>(() =>
@@ -423,7 +419,7 @@ namespace Newtonsoft.Json.Tests.Bson
             }, "Cannot write JSON constructor as BSON. Path ''.");
         }
 
-        [Test]
+        [Fact]
         public void WriteRaw()
         {
             ExceptionAssert.Throws<JsonWriterException>(() =>
@@ -436,7 +432,7 @@ namespace Newtonsoft.Json.Tests.Bson
             }, "Cannot write raw JSON as BSON. Path ''.");
         }
 
-        [Test]
+        [Fact]
         public void WriteRawValue()
         {
             ExceptionAssert.Throws<JsonWriterException>(() =>
@@ -449,7 +445,7 @@ namespace Newtonsoft.Json.Tests.Bson
             }, "Cannot write raw JSON as BSON. Path ''.");
         }
 
-        [Test]
+        [Fact]
         public void Example()
         {
             Product p = new Product();
@@ -488,7 +484,7 @@ namespace Newtonsoft.Json.Tests.Bson
             Assert.AreEqual(3, deserializedProduct.Sizes.Length);
         }
 
-        [Test]
+        [Fact]
         public void WriteOid()
         {
             MemoryStream ms = new MemoryStream();
@@ -521,7 +517,7 @@ namespace Newtonsoft.Json.Tests.Bson
             Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
         }
 
-        [Test]
+        [Fact]
         public void WriteOidPlusContent()
         {
             MemoryStream ms = new MemoryStream();
@@ -539,7 +535,7 @@ namespace Newtonsoft.Json.Tests.Bson
             CollectionAssert.AreEquivalent(expected, ms.ToArray());
         }
 
-        [Test]
+        [Fact]
         public void WriteRegexPlusContent()
         {
             MemoryStream ms = new MemoryStream();
@@ -557,7 +553,7 @@ namespace Newtonsoft.Json.Tests.Bson
             CollectionAssert.AreEquivalent(expected, ms.ToArray());
         }
 
-        [Test]
+        [Fact]
         public void SerializeEmptyAndNullStrings()
         {
             Product p = new Product();
@@ -587,7 +583,7 @@ namespace Newtonsoft.Json.Tests.Bson
             Assert.AreEqual(null, deserializedProduct.Sizes[2]);
         }
 
-        [Test]
+        [Fact]
         public void WriteReadEmptyAndNullStrings()
         {
             MemoryStream ms = new MemoryStream();
@@ -625,7 +621,7 @@ namespace Newtonsoft.Json.Tests.Bson
             Assert.IsFalse(reader.Read());
         }
 
-        [Test]
+        [Fact]
         public void WriteDateTimes()
         {
             MemoryStream ms = new MemoryStream();
@@ -665,7 +661,7 @@ namespace Newtonsoft.Json.Tests.Bson
             Assert.IsFalse(reader.Read());
         }
 
-        [Test]
+        [Fact]
         public void WriteValueOutsideOfObjectOrArray()
         {
             ExceptionAssert.Throws<JsonWriterException>(() =>
@@ -680,7 +676,7 @@ namespace Newtonsoft.Json.Tests.Bson
             }, "Error writing String value. BSON must start with an Object or Array. Path ''.");
         }
 
-        [Test]
+        [Fact]
         public void DateTimeZoneHandling()
         {
             MemoryStream ms = new MemoryStream();
@@ -701,7 +697,7 @@ namespace Newtonsoft.Json.Tests.Bson
             public Regex Regex { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void SerializeDeserializeRegex()
         {
             Regex r1 = new Regex("(hi)", RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
@@ -724,7 +720,7 @@ namespace Newtonsoft.Json.Tests.Bson
 }", o.ToString());
         }
 
-        [Test]
+        [Fact]
         public void SerializeByteArray_ErrorWhenTopLevel()
         {
             byte[] b = Encoding.UTF8.GetBytes("Hello world");
@@ -747,7 +743,7 @@ namespace Newtonsoft.Json.Tests.Bson
             public string AGuid { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void WriteReadGuid()
         {
             GuidTestClass c = new GuidTestClass();
@@ -768,7 +764,7 @@ namespace Newtonsoft.Json.Tests.Bson
             Assert.AreEqual(c.AGuid, c2.AGuid);
         }
 
-        [Test]
+        [Fact]
         public void WriteStringReadGuid()
         {
             StringTestClass c = new StringTestClass();
@@ -789,7 +785,7 @@ namespace Newtonsoft.Json.Tests.Bson
             Assert.AreEqual(c.AGuid, c2.AGuid.ToString());
         }
 
-        [Test]
+        [Fact]
         public void WriteBigInteger()
         {
             BigInteger i = BigInteger.Parse("1999999999999999999999999999999999999999999999999999999999990");
@@ -824,7 +820,7 @@ namespace Newtonsoft.Json.Tests.Bson
             Assert.IsFalse(reader.Read());
         }
 
-        [Test]
+        [Fact]
         public void WriteUri()
         {
             MemoryStream ms = new MemoryStream();
@@ -849,7 +845,7 @@ namespace Newtonsoft.Json.Tests.Bson
             Assert.IsNull(reader.ReadAsString());
         }
 
-        [Test]
+        [Fact]
         public void WriteByteArray()
         {
             MemoryStream ms = new MemoryStream();
@@ -874,7 +870,7 @@ namespace Newtonsoft.Json.Tests.Bson
             Assert.IsNull(reader.ReadAsBytes());
         }
 
-        [Test]
+        [Fact]
         public void WriteEndOnProperty()
         {
             MemoryStream ms = new MemoryStream();
@@ -887,7 +883,7 @@ namespace Newtonsoft.Json.Tests.Bson
             Assert.AreEqual("0B-00-00-00-0A-42-6C-61-68-00-00", (BitConverter.ToString(ms.ToArray())));
         }
 
-        [Test]
+        [Fact]
         public void WriteEndOnProperty_Close()
         {
             MemoryStream ms = new MemoryStream();
@@ -900,7 +896,7 @@ namespace Newtonsoft.Json.Tests.Bson
             Assert.AreEqual("0B-00-00-00-0A-42-6C-61-68-00-00", (BitConverter.ToString(ms.ToArray())));
         }
 
-        [Test]
+        [Fact]
         public void WriteEndOnProperty_Dispose()
         {
             MemoryStream ms = new MemoryStream();
@@ -913,7 +909,7 @@ namespace Newtonsoft.Json.Tests.Bson
             Assert.AreEqual("0B-00-00-00-0A-42-6C-61-68-00-00", (BitConverter.ToString(ms.ToArray())));
         }
 
-        [Test]
+        [Fact]
         public void AutoCompleteOnClose_False()
         {
             MemoryStream ms = new MemoryStream();

@@ -26,13 +26,9 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Serialization;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Tests.TestObjects.Organization;
 using Newtonsoft.Json.Linq;
@@ -44,7 +40,7 @@ namespace Newtonsoft.Json.Tests.Serialization
     [TestFixture]
     public class CamelCaseNamingStrategyTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void JsonConvertSerializerSettings()
         {
             Person person = new Person();
@@ -85,7 +81,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void JTokenWriter_OverrideSpecifiedName()
         {
             JsonIgnoreAttributeOnClassTestClass ignoreAttributeOnClassTestClass = new JsonIgnoreAttributeOnClassTestClass();
@@ -113,7 +109,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(int.MinValue, (int)p.Value);
         }
 
-        [Test]
+        [Fact]
         public void BlogPostExample()
         {
             Product product = new Product
@@ -159,7 +155,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void DynamicCamelCasePropertyNames()
         {
             dynamic o = new TestDynamicObject();
@@ -189,7 +185,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void DictionaryCamelCasePropertyNames_Disabled()
         {
             Dictionary<string, string> values = new Dictionary<string, string>
@@ -215,7 +211,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void DictionaryCamelCasePropertyNames_Enabled()
         {
             Dictionary<string, string> values = new Dictionary<string, string>
@@ -253,7 +249,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             public string HasAttributeNamingStrategy { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void JsonPropertyAttribute_NamingStrategyType()
         {
             PropertyAttributeNamingStrategyTestClass c = new PropertyAttributeNamingStrategyTestClass
@@ -279,7 +275,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             public string HasAttributeNamingStrategy { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void JsonObjectAttribute_NamingStrategyType()
         {
             ContainerAttributeNamingStrategyTestClass c = new ContainerAttributeNamingStrategyTestClass
@@ -302,7 +298,7 @@ namespace Newtonsoft.Json.Tests.Serialization
         {
         }
 
-        [Test]
+        [Fact]
         public void JsonDictionaryAttribute_NamingStrategyType()
         {
             DictionaryAttributeNamingStrategyTestClass c = new DictionaryAttributeNamingStrategyTestClass

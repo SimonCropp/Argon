@@ -33,13 +33,9 @@ using System.Runtime.Serialization;
 using System.Text;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Utilities;
@@ -74,7 +70,7 @@ namespace Newtonsoft.Json.Tests.Documentation
     [TestFixture]
     public class LinqToJsonTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void LinqToJsonBasic()
         {
             #region LinqToJsonBasic
@@ -98,7 +94,7 @@ namespace Newtonsoft.Json.Tests.Documentation
             #endregion
         }
 
-        [Test]
+        [Fact]
         public void LinqToJsonCreateNormal()
         {
             #region LinqToJsonCreateNormal
@@ -130,7 +126,7 @@ namespace Newtonsoft.Json.Tests.Documentation
             return new List<Post>();
         }
 
-        [Test]
+        [Fact]
         public void LinqToJsonCreateDeclaratively()
         {
             #region LinqToJsonCreateDeclaratively
@@ -188,7 +184,7 @@ namespace Newtonsoft.Json.Tests.Documentation
             #endregion
         }
 
-        [Test]
+        [Fact]
         public void LinqToJsonCreateFromObject()
         {
             List<Post> posts = GetPosts();
@@ -216,7 +212,7 @@ namespace Newtonsoft.Json.Tests.Documentation
             #endregion
         }
 
-        [Test]
+        [Fact]
         public void LinqToJsonCreateParse()
         {
             #region LinqToJsonCreateParse
@@ -232,7 +228,7 @@ namespace Newtonsoft.Json.Tests.Documentation
             #endregion
         }
 
-        [Test]
+        [Fact]
         public void LinqToJsonCreateParseArray()
         {
             #region LinqToJsonCreateParseArray
@@ -246,7 +242,7 @@ namespace Newtonsoft.Json.Tests.Documentation
             #endregion
         }
 
-        [Test]
+        [Fact]
         public void LinqToJsonReadObject()
         {
             #region LinqToJsonReadObject
@@ -258,7 +254,7 @@ namespace Newtonsoft.Json.Tests.Documentation
             #endregion
         }
 
-        [Test]
+        [Fact]
         public void LinqToJsonSimpleQuerying()
         {
             #region LinqToJsonSimpleQuerying
@@ -307,7 +303,7 @@ namespace Newtonsoft.Json.Tests.Documentation
             #endregion
         }
 
-        [Test]
+        [Fact]
         public void LinqToJsonQuerying()
         {
             JObject rss = JObject.Parse(@"{
@@ -388,7 +384,7 @@ namespace Newtonsoft.Json.Tests.Documentation
         }
         #endregion
 
-        [Test]
+        [Fact]
         public void LinqToJsonDeserializeExample()
         {
             #region LinqToJsonDeserializeExample
@@ -427,7 +423,7 @@ namespace Newtonsoft.Json.Tests.Documentation
             Assert.AreEqual("No action taken", shortie.Error.ErrorMessage);
         }
 
-        [Test]
+        [Fact]
         public void SelectTokenSimple()
         {
             JObject o = JObject.Parse(@"{
@@ -468,7 +464,7 @@ namespace Newtonsoft.Json.Tests.Documentation
             Assert.AreEqual("Acme Co", name);
         }
 
-        [Test]
+        [Fact]
         public void SelectTokenComplex()
         {
             #region SelectTokenComplex
@@ -518,7 +514,7 @@ namespace Newtonsoft.Json.Tests.Documentation
             Assert.AreEqual("Elbow Grease", productName);
         }
 
-        [Test]
+        [Fact]
         public void SelectTokenLinq()
         {
             JObject o = JObject.Parse(@"{

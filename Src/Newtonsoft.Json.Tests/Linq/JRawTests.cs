@@ -23,13 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Linq;
 
 namespace Newtonsoft.Json.Tests.Linq
@@ -37,7 +33,7 @@ namespace Newtonsoft.Json.Tests.Linq
     [TestFixture]
     public class JRawTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void RawEquals()
         {
             JRaw r1 = new JRaw("raw1");
@@ -48,7 +44,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.IsFalse(JToken.DeepEquals(r1, r3));
         }
 
-        [Test]
+        [Fact]
         public void RawClone()
         {
             JRaw r1 = new JRaw("raw1");
@@ -57,7 +53,7 @@ namespace Newtonsoft.Json.Tests.Linq
             CustomAssert.IsInstanceOfType(typeof(JRaw), r2);
         }
 
-        [Test]
+        [Fact]
         public void RawToObject()
         {
             JRaw r1 = new JRaw("1");

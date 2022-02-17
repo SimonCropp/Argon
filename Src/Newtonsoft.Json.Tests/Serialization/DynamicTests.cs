@@ -35,22 +35,17 @@ using System.Runtime.Serialization.Formatters;
 using System.Text;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
-using Newtonsoft.Json.Utilities;
-#if NET5_0_OR_GREATER
-using Xunit;
+using Newtonsoft.Json.Utilities;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
 
-#endif
 
 namespace Newtonsoft.Json.Tests.Serialization
 {
     [TestFixture]
     public class DynamicTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void SerializeDynamicObject()
         {
             TestDynamicObject dynamicObject = new TestDynamicObject();
@@ -100,7 +95,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(dynamicObject.ChildObject.Text, d.ChildObject.Text);
         }
 
-        [Test]
+        [Fact]
         public void SerializeDynamicObjectWithObjectTracking()
         {
             dynamic o = new ExpandoObject();
@@ -151,7 +146,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(int.MinValue, n.DynamicChildObject.Integer);
         }
 
-        [Test]
+        [Fact]
         public void NoPublicDefaultConstructor()
         {
             ExceptionAssert.Throws<JsonSerializationException>(() =>
@@ -182,7 +177,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 
-        [Test]
+        [Fact]
         public void AllowNonPublicDefaultConstructor()
         {
             var settings = new JsonSerializerSettings();
@@ -250,7 +245,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(false, foo.Values["retweeted"]);
         }
 
-        [Test]
+        [Fact]
         public void SerializeDynamicObjectWithNullValueHandlingIgnore()
         {
             dynamic o = new TestDynamicObject();
@@ -271,7 +266,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void SerializeDynamicObjectWithNullValueHandlingInclude()
         {
             dynamic o = new TestDynamicObject();
@@ -294,7 +289,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void SerializeDynamicObjectWithDefaultValueHandlingIgnore()
         {
             dynamic o = new TestDynamicObject();

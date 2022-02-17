@@ -33,13 +33,9 @@ using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading;
 using Newtonsoft.Json.Linq;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
 using XAssert = Xunit.Assert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Utilities;
 using System.Collections;
 using System.Threading.Tasks;
@@ -86,7 +82,6 @@ namespace Newtonsoft.Json.Tests
         }
     }
 
-#if NET5_0_OR_GREATER
     public class TestFixtureAttribute : Attribute
     {
         // xunit doesn't need a test fixture attribute
@@ -182,7 +177,6 @@ namespace Newtonsoft.Json.Tests
             XAssert.Equal(expected, actual);
         }
     }
-#endif
 
     [TestFixture]
     public abstract class TestFixtureBase
@@ -195,13 +189,6 @@ namespace Newtonsoft.Json.Tests
 
             var data = ms.ToArray();
             return Encoding.UTF8.GetString(data, 0, data.Length);
-        }
-
-        public static string ResolvePath(string path)
-        {
-            var assemblyPath = Path.GetDirectoryName(typeof(TestFixtureBase).Assembly().Location);
-
-            return Path.Combine(assemblyPath, path);
         }
 
         protected string GetOffset(DateTime d, DateFormatHandling dateFormatHandling)
@@ -262,12 +249,7 @@ namespace Newtonsoft.Json.Tests
             return bytes;
         }
 
-#if NET5_0_OR_GREATER
         protected TestFixtureBase()
-#else
-        [SetUp]
-        protected void TestSetup()
-#endif
         {
 #if !NET5_0_OR_GREATER
             //CultureInfo turkey = CultureInfo.CreateSpecificCulture("tr");
@@ -324,14 +306,10 @@ namespace Newtonsoft.Json.Tests
 
         public static void Contains(IList collection, object value, string message)
         {
-#if !NET5_0_OR_GREATER
-            Assert.Contains(value, collection, message);
-#else
             if (!collection.Cast<object>().Any(i => i.Equals(value)))
             {
                 throw new Exception(message ?? "Value not found in collection.");
             }
-#endif
         }
     }
 

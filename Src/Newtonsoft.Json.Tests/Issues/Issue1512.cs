@@ -27,21 +27,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-#if NET5_0_OR_GREATER
+
 using System.Reflection;
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Issues
 {
     [TestFixture]
     public class Issue1512 : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Test_Constructor()
         {
             var json = @"[
@@ -57,7 +54,7 @@ namespace Newtonsoft.Json.Tests.Issues
             Assert.AreEqual("bye", result[0].Inners.Value[1]);
         }
 
-        [Test]
+        [Fact]
         public void Test_Property()
         {
             var json = @"[

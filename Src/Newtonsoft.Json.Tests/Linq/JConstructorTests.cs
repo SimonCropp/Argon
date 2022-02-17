@@ -26,13 +26,9 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using System.IO;
 using System.Linq;
 
@@ -41,7 +37,7 @@ namespace Newtonsoft.Json.Tests.Linq
     [TestFixture]
     public class JConstructorTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Load()
         {
             JsonReader reader = new JsonTextReader(new StringReader("new Date(123)"));
@@ -52,7 +48,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.IsTrue(JToken.DeepEquals(new JValue(123), constructor.Values().ElementAt(0)));
         }
 
-        [Test]
+        [Fact]
         public void CreateWithMultiValue()
         {
             JConstructor constructor = new JConstructor("Test", new List<int> { 1, 2, 3 });
@@ -63,7 +59,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(3, (int)constructor.Children().ElementAt(2));
         }
 
-        [Test]
+        [Fact]
         public void Iterate()
         {
             JConstructor c = new JConstructor("MrConstructor", 1, 2, 3, 4, 5);
@@ -76,7 +72,7 @@ namespace Newtonsoft.Json.Tests.Linq
             }
         }
 
-        [Test]
+        [Fact]
         public void SetValueWithInvalidIndex()
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
@@ -86,7 +82,7 @@ namespace Newtonsoft.Json.Tests.Linq
             }, @"Set JConstructor values with invalid key value: ""badvalue"". Argument position index expected.");
         }
 
-        [Test]
+        [Fact]
         public void SetValue()
         {
             object key = 0;

@@ -35,20 +35,16 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Utilities;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Issues
 {
     [TestFixture]
     public class Issue1834 : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Test()
         {
             string json = "{'foo':'test!'}";
@@ -57,7 +53,7 @@ namespace Newtonsoft.Json.Tests.Issues
             Assert.IsNull(c.ExtensionData);
         }
 
-        [Test]
+        [Fact]
         public void Test_UnsetRequired()
         {
             string json = "{'foo':'test!'}";

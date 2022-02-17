@@ -23,13 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using System.Collections.Generic;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Converters;
@@ -41,7 +37,7 @@ namespace Newtonsoft.Json.Tests.Issues
     [TestFixture]
     public class Issue2450
     {
-        [Test]
+        [Fact]
         public void Test()
         {
             var resolver = new DefaultContractResolver();
@@ -54,7 +50,7 @@ namespace Newtonsoft.Json.Tests.Issues
             Assert.IsTrue(contract is JsonDictionaryContract);
         }
 
-        [Test]
+        [Fact]
         public void Test_Serialize()
         {
             Dict d = new Dict(new Dictionary<string, object>
@@ -67,7 +63,7 @@ namespace Newtonsoft.Json.Tests.Issues
             Assert.AreEqual(@"{""prop1"":1,""prop2"":2}", json);
         }
 
-        [Test]
+        [Fact]
         public void Test_Deserialize()
         {
             string json = @"{""prop1"":1,""prop2"":2}";

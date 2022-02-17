@@ -26,13 +26,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Tests.TestObjects.Organization;
@@ -44,7 +40,7 @@ namespace Newtonsoft.Json.Tests.Linq
     [TestFixture]
     public class LinqToJsonAsyncTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public async Task CommentsAndReadFromAsync()
         {
             StringReader textReader = new StringReader(@"[
@@ -65,7 +61,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(" hi", ((JValue)a[0]).Value);
         }
 
-        [Test]
+        [Fact]
         public async Task CommentsAndReadFrom_IgnoreCommentsAsync()
         {
             StringReader textReader = new StringReader(@"[
@@ -83,7 +79,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(1L, ((JValue)a[0]).Value);
         }
 
-        [Test]
+        [Fact]
         public async Task StartingCommentAndReadFromAsync()
         {
             StringReader textReader = new StringReader(@"
@@ -108,7 +104,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(5, lineInfo.LinePosition);
         }
 
-        [Test]
+        [Fact]
         public async Task StartingCommentAndReadFrom_IgnoreCommentsAsync()
         {
             StringReader textReader = new StringReader(@"
@@ -133,7 +129,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(1, lineInfo.LinePosition);
         }
 
-        [Test]
+        [Fact]
         public async Task StartingUndefinedAndReadFromAsync()
         {
             StringReader textReader = new StringReader(@"
@@ -155,7 +151,7 @@ undefined
             Assert.AreEqual(9, lineInfo.LinePosition);
         }
 
-        [Test]
+        [Fact]
         public async Task StartingEndArrayAndReadFromAsync()
         {
             StringReader textReader = new StringReader(@"[]");

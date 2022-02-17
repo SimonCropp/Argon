@@ -26,13 +26,9 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq.JsonPath;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Linq;
 using System.Linq;
 
@@ -41,7 +37,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
     [TestFixture]
     public class JPathParseTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void BooleanQuery_TwoValues()
         {
             JPath path = new JPath("[?(1 > 2)]");
@@ -52,7 +48,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(QueryOperator.GreaterThan, booleanExpression.Operator);
         }
 
-        [Test]
+        [Fact]
         public void BooleanQuery_TwoPaths()
         {
             JPath path = new JPath("[?(@.price > @.max_price)]");
@@ -66,7 +62,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(QueryOperator.GreaterThan, booleanExpression.Operator);
         }
 
-        [Test]
+        [Fact]
         public void SingleProperty()
         {
             JPath path = new JPath("Blah");
@@ -74,7 +70,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual("Blah", ((FieldFilter)path.Filters[0]).Name);
         }
 
-        [Test]
+        [Fact]
         public void SingleQuotedProperty()
         {
             JPath path = new JPath("['Blah']");
@@ -82,7 +78,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual("Blah", ((FieldFilter)path.Filters[0]).Name);
         }
 
-        [Test]
+        [Fact]
         public void SingleQuotedPropertyWithWhitespace()
         {
             JPath path = new JPath("[  'Blah'  ]");
@@ -90,7 +86,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual("Blah", ((FieldFilter)path.Filters[0]).Name);
         }
 
-        [Test]
+        [Fact]
         public void SingleQuotedPropertyWithDots()
         {
             JPath path = new JPath("['Blah.Ha']");
@@ -98,7 +94,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual("Blah.Ha", ((FieldFilter)path.Filters[0]).Name);
         }
 
-        [Test]
+        [Fact]
         public void SingleQuotedPropertyWithBrackets()
         {
             JPath path = new JPath("['[*]']");
@@ -106,7 +102,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual("[*]", ((FieldFilter)path.Filters[0]).Name);
         }
 
-        [Test]
+        [Fact]
         public void SinglePropertyWithRoot()
         {
             JPath path = new JPath("$.Blah");
@@ -114,7 +110,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual("Blah", ((FieldFilter)path.Filters[0]).Name);
         }
 
-        [Test]
+        [Fact]
         public void SinglePropertyWithRootWithStartAndEndWhitespace()
         {
             JPath path = new JPath(" $.Blah ");
@@ -122,25 +118,25 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual("Blah", ((FieldFilter)path.Filters[0]).Name);
         }
 
-        [Test]
+        [Fact]
         public void RootWithBadWhitespace()
         {
             ExceptionAssert.Throws<JsonException>(() => { new JPath("$ .Blah"); }, @"Unexpected character while parsing path:  ");
         }
 
-        [Test]
+        [Fact]
         public void NoFieldNameAfterDot()
         {
             ExceptionAssert.Throws<JsonException>(() => { new JPath("$.Blah."); }, @"Unexpected end while parsing path.");
         }
 
-        [Test]
+        [Fact]
         public void RootWithBadWhitespace2()
         {
             ExceptionAssert.Throws<JsonException>(() => { new JPath("$. Blah"); }, @"Unexpected character while parsing path:  ");
         }
 
-        [Test]
+        [Fact]
         public void WildcardPropertyWithRoot()
         {
             JPath path = new JPath("$.*");
@@ -148,7 +144,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(null, ((FieldFilter)path.Filters[0]).Name);
         }
 
-        [Test]
+        [Fact]
         public void WildcardArrayWithRoot()
         {
             JPath path = new JPath("$.[*]");
@@ -156,7 +152,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(null, ((ArrayIndexFilter)path.Filters[0]).Index);
         }
 
-        [Test]
+        [Fact]
         public void RootArrayNoDot()
         {
             JPath path = new JPath("$[1]");
@@ -164,7 +160,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(1, ((ArrayIndexFilter)path.Filters[0]).Index);
         }
 
-        [Test]
+        [Fact]
         public void WildcardArray()
         {
             JPath path = new JPath("[*]");
@@ -172,7 +168,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(null, ((ArrayIndexFilter)path.Filters[0]).Index);
         }
 
-        [Test]
+        [Fact]
         public void WildcardArrayWithProperty()
         {
             JPath path = new JPath("[ * ].derp");
@@ -181,7 +177,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual("derp", ((FieldFilter)path.Filters[1]).Name);
         }
 
-        [Test]
+        [Fact]
         public void QuotedWildcardPropertyWithRoot()
         {
             JPath path = new JPath("$.['*']");
@@ -189,7 +185,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual("*", ((FieldFilter)path.Filters[0]).Name);
         }
 
-        [Test]
+        [Fact]
         public void SingleScanWithRoot()
         {
             JPath path = new JPath("$..Blah");
@@ -197,7 +193,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual("Blah", ((ScanFilter)path.Filters[0]).Name);
         }
 
-        [Test]
+        [Fact]
         public void QueryTrue()
         {
             JPath path = new JPath("$.elements[?(true)]");
@@ -206,7 +202,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(QueryOperator.Exists, ((QueryFilter)path.Filters[1]).Expression.Operator);
         }
 
-        [Test]
+        [Fact]
         public void ScanQuery()
         {
             JPath path = new JPath("$.elements..[?(@.id=='AAA')]");
@@ -220,7 +216,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.IsInstanceOf(typeof(FieldFilter), paths[0]);
         }
 
-        [Test]
+        [Fact]
         public void WildcardScanWithRoot()
         {
             JPath path = new JPath("$..*");
@@ -228,7 +224,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(null, ((ScanFilter)path.Filters[0]).Name);
         }
 
-        [Test]
+        [Fact]
         public void WildcardScanWithRootWithWhitespace()
         {
             JPath path = new JPath("$..* ");
@@ -236,7 +232,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(null, ((ScanFilter)path.Filters[0]).Name);
         }
 
-        [Test]
+        [Fact]
         public void TwoProperties()
         {
             JPath path = new JPath("Blah.Two");
@@ -245,7 +241,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual("Two", ((FieldFilter)path.Filters[1]).Name);
         }
 
-        [Test]
+        [Fact]
         public void OnePropertyOneScan()
         {
             JPath path = new JPath("Blah..Two");
@@ -254,7 +250,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual("Two", ((ScanFilter)path.Filters[1]).Name);
         }
 
-        [Test]
+        [Fact]
         public void SinglePropertyAndIndexer()
         {
             JPath path = new JPath("Blah[0]");
@@ -263,7 +259,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(0, ((ArrayIndexFilter)path.Filters[1]).Index);
         }
 
-        [Test]
+        [Fact]
         public void SinglePropertyAndExistsQuery()
         {
             JPath path = new JPath("Blah[ ?( @..name ) ]");
@@ -276,7 +272,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual("name", ((ScanFilter)paths[0]).Name);
         }
 
-        [Test]
+        [Fact]
         public void SinglePropertyAndFilterWithWhitespace()
         {
             JPath path = new JPath("Blah[ ?( @.name=='hi' ) ]");
@@ -287,7 +283,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual("hi", (string)(JToken)expressions.Right);
         }
 
-        [Test]
+        [Fact]
         public void SinglePropertyAndFilterWithEscapeQuote()
         {
             JPath path = new JPath(@"Blah[ ?( @.name=='h\'i' ) ]");
@@ -298,7 +294,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual("h'i", (string)(JToken)expressions.Right);
         }
 
-        [Test]
+        [Fact]
         public void SinglePropertyAndFilterWithDoubleEscape()
         {
             JPath path = new JPath(@"Blah[ ?( @.name=='h\\i' ) ]");
@@ -309,7 +305,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual("h\\i", (string)(JToken)expressions.Right);
         }
 
-        [Test]
+        [Fact]
         public void SinglePropertyAndFilterWithRegexAndOptions()
         {
             JPath path = new JPath("Blah[ ?( @.name=~/hi/i ) ]");
@@ -320,7 +316,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual("/hi/i", (string)(JToken)expressions.Right);
         }
 
-        [Test]
+        [Fact]
         public void SinglePropertyAndFilterWithRegex()
         {
             JPath path = new JPath("Blah[?(@.title =~ /^.*Sword.*$/)]");
@@ -331,7 +327,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual("/^.*Sword.*$/", (string)(JToken)expressions.Right);
         }
 
-        [Test]
+        [Fact]
         public void SinglePropertyAndFilterWithEscapedRegex()
         {
             JPath path = new JPath(@"Blah[?(@.title =~ /[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g)]");
@@ -342,19 +338,19 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(@"/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g", (string)(JToken)expressions.Right);
         }
 
-        [Test]
+        [Fact]
         public void SinglePropertyAndFilterWithOpenRegex()
         {
             ExceptionAssert.Throws<JsonException>(() => { new JPath(@"Blah[?(@.title =~ /[\"); }, "Path ended with an open regex.");
         }
 
-        [Test]
+        [Fact]
         public void SinglePropertyAndFilterWithUnknownEscape()
         {
             ExceptionAssert.Throws<JsonException>(() => { new JPath(@"Blah[ ?( @.name=='h\i' ) ]"); }, @"Unknown escape character: \i");
         }
 
-        [Test]
+        [Fact]
         public void SinglePropertyAndFilterWithFalse()
         {
             JPath path = new JPath("Blah[ ?( @.name==false ) ]");
@@ -365,7 +361,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(false, (bool)(JToken)expressions.Right);
         }
 
-        [Test]
+        [Fact]
         public void SinglePropertyAndFilterWithTrue()
         {
             JPath path = new JPath("Blah[ ?( @.name==true ) ]");
@@ -376,7 +372,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(true, (bool)(JToken)expressions.Right);
         }
 
-        [Test]
+        [Fact]
         public void SinglePropertyAndFilterWithNull()
         {
             JPath path = new JPath("Blah[ ?( @.name==null ) ]");
@@ -387,7 +383,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(null, ((JValue)expressions.Right).Value);
         }
 
-        [Test]
+        [Fact]
         public void FilterWithScan()
         {
             JPath path = new JPath("[?(@..name<>null)]");
@@ -396,7 +392,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual("name", ((ScanFilter)paths[0]).Name);
         }
 
-        [Test]
+        [Fact]
         public void FilterWithNotEquals()
         {
             JPath path = new JPath("[?(@.name<>null)]");
@@ -404,7 +400,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(QueryOperator.NotEquals, expressions.Operator);
         }
 
-        [Test]
+        [Fact]
         public void FilterWithNotEquals2()
         {
             JPath path = new JPath("[?(@.name!=null)]");
@@ -412,7 +408,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(QueryOperator.NotEquals, expressions.Operator);
         }
 
-        [Test]
+        [Fact]
         public void FilterWithLessThan()
         {
             JPath path = new JPath("[?(@.name<null)]");
@@ -420,7 +416,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(QueryOperator.LessThan, expressions.Operator);
         }
 
-        [Test]
+        [Fact]
         public void FilterWithLessThanOrEquals()
         {
             JPath path = new JPath("[?(@.name<=null)]");
@@ -428,7 +424,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(QueryOperator.LessThanOrEquals, expressions.Operator);
         }
 
-        [Test]
+        [Fact]
         public void FilterWithGreaterThan()
         {
             JPath path = new JPath("[?(@.name>null)]");
@@ -436,7 +432,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(QueryOperator.GreaterThan, expressions.Operator);
         }
 
-        [Test]
+        [Fact]
         public void FilterWithGreaterThanOrEquals()
         {
             JPath path = new JPath("[?(@.name>=null)]");
@@ -444,7 +440,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(QueryOperator.GreaterThanOrEquals, expressions.Operator);
         }
 
-        [Test]
+        [Fact]
         public void FilterWithInteger()
         {
             JPath path = new JPath("[?(@.name>=12)]");
@@ -452,7 +448,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(12, (int)(JToken)expressions.Right);
         }
 
-        [Test]
+        [Fact]
         public void FilterWithNegativeInteger()
         {
             JPath path = new JPath("[?(@.name>=-12)]");
@@ -460,7 +456,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(-12, (int)(JToken)expressions.Right);
         }
 
-        [Test]
+        [Fact]
         public void FilterWithFloat()
         {
             JPath path = new JPath("[?(@.name>=12.1)]");
@@ -468,7 +464,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(12.1d, (double)(JToken)expressions.Right);
         }
 
-        [Test]
+        [Fact]
         public void FilterExistWithAnd()
         {
             JPath path = new JPath("[?(@.name&&@.title)]");
@@ -487,7 +483,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(QueryOperator.Exists, second.Operator);
         }
 
-        [Test]
+        [Fact]
         public void FilterExistWithAndOr()
         {
             JPath path = new JPath("[?(@.name&&@.title||@.pie)]");
@@ -514,7 +510,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(QueryOperator.Exists, orSecond.Operator);
         }
 
-        [Test]
+        [Fact]
         public void FilterWithRoot()
         {
             JPath path = new JPath("[?($.name>=12.1)]");
@@ -525,55 +521,55 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.IsInstanceOf(typeof(FieldFilter), paths[1]);
         }
 
-        [Test]
+        [Fact]
         public void BadOr1()
         {
             ExceptionAssert.Throws<JsonException>(() => new JPath("[?(@.name||)]"), "Unexpected character while parsing path query: )");
         }
 
-        [Test]
+        [Fact]
         public void BaddOr2()
         {
             ExceptionAssert.Throws<JsonException>(() => new JPath("[?(@.name|)]"), "Unexpected character while parsing path query: |");
         }
 
-        [Test]
+        [Fact]
         public void BaddOr3()
         {
             ExceptionAssert.Throws<JsonException>(() => new JPath("[?(@.name|"), "Unexpected character while parsing path query: |");
         }
 
-        [Test]
+        [Fact]
         public void BaddOr4()
         {
             ExceptionAssert.Throws<JsonException>(() => new JPath("[?(@.name||"), "Path ended with open query.");
         }
 
-        [Test]
+        [Fact]
         public void NoAtAfterOr()
         {
             ExceptionAssert.Throws<JsonException>(() => new JPath("[?(@.name||s"), "Unexpected character while parsing path query: s");
         }
 
-        [Test]
+        [Fact]
         public void NoPathAfterAt()
         {
             ExceptionAssert.Throws<JsonException>(() => new JPath("[?(@.name||@"), @"Path ended with open query.");
         }
 
-        [Test]
+        [Fact]
         public void NoPathAfterDot()
         {
             ExceptionAssert.Throws<JsonException>(() => new JPath("[?(@.name||@."), @"Unexpected end while parsing path.");
         }
 
-        [Test]
+        [Fact]
         public void NoPathAfterDot2()
         {
             ExceptionAssert.Throws<JsonException>(() => new JPath("[?(@.name||@.)]"), @"Unexpected end while parsing path.");
         }
 
-        [Test]
+        [Fact]
         public void FilterWithFloatExp()
         {
             JPath path = new JPath("[?(@.name>=5.56789e+0)]");
@@ -581,7 +577,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(5.56789e+0, (double)(JToken)expressions.Right);
         }
 
-        [Test]
+        [Fact]
         public void MultiplePropertiesAndIndexers()
         {
             JPath path = new JPath("Blah[0]..Two.Three[1].Four");
@@ -594,19 +590,19 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual("Four", ((FieldFilter)path.Filters[5]).Name);
         }
 
-        [Test]
+        [Fact]
         public void BadCharactersInIndexer()
         {
             ExceptionAssert.Throws<JsonException>(() => { new JPath("Blah[[0]].Two.Three[1].Four"); }, @"Unexpected character while parsing path indexer: [");
         }
 
-        [Test]
+        [Fact]
         public void UnclosedIndexer()
         {
             ExceptionAssert.Throws<JsonException>(() => { new JPath("Blah[0"); }, @"Path ended with open indexer.");
         }
 
-        [Test]
+        [Fact]
         public void IndexerOnly()
         {
             JPath path = new JPath("[111119990]");
@@ -614,7 +610,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(111119990, ((ArrayIndexFilter)path.Filters[0]).Index);
         }
 
-        [Test]
+        [Fact]
         public void IndexerOnlyWithWhitespace()
         {
             JPath path = new JPath("[  10  ]");
@@ -622,7 +618,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(10, ((ArrayIndexFilter)path.Filters[0]).Index);
         }
 
-        [Test]
+        [Fact]
         public void MultipleIndexes()
         {
             JPath path = new JPath("[111119990,3]");
@@ -632,7 +628,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(3, ((ArrayMultipleIndexFilter)path.Filters[0]).Indexes[1]);
         }
 
-        [Test]
+        [Fact]
         public void MultipleIndexesWithWhitespace()
         {
             JPath path = new JPath("[   111119990  ,   3   ]");
@@ -642,7 +638,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(3, ((ArrayMultipleIndexFilter)path.Filters[0]).Indexes[1]);
         }
 
-        [Test]
+        [Fact]
         public void MultipleQuotedIndexes()
         {
             JPath path = new JPath("['111119990','3']");
@@ -652,7 +648,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual("3", ((FieldMultipleFilter)path.Filters[0]).Names[1]);
         }
 
-        [Test]
+        [Fact]
         public void MultipleQuotedIndexesWithWhitespace()
         {
             JPath path = new JPath("[ '111119990' , '3' ]");
@@ -662,7 +658,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual("3", ((FieldMultipleFilter)path.Filters[0]).Names[1]);
         }
 
-        [Test]
+        [Fact]
         public void SlicingIndexAll()
         {
             JPath path = new JPath("[111119990:3:2]");
@@ -672,7 +668,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(2, ((ArraySliceFilter)path.Filters[0]).Step);
         }
 
-        [Test]
+        [Fact]
         public void SlicingIndex()
         {
             JPath path = new JPath("[111119990:3]");
@@ -682,7 +678,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(null, ((ArraySliceFilter)path.Filters[0]).Step);
         }
 
-        [Test]
+        [Fact]
         public void SlicingIndexNegative()
         {
             JPath path = new JPath("[-111119990:-3:-2]");
@@ -692,7 +688,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(-2, ((ArraySliceFilter)path.Filters[0]).Step);
         }
 
-        [Test]
+        [Fact]
         public void SlicingIndexEmptyStop()
         {
             JPath path = new JPath("[  -3  :  ]");
@@ -702,7 +698,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(null, ((ArraySliceFilter)path.Filters[0]).Step);
         }
 
-        [Test]
+        [Fact]
         public void SlicingIndexEmptyStart()
         {
             JPath path = new JPath("[ : 1 : ]");
@@ -712,7 +708,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(null, ((ArraySliceFilter)path.Filters[0]).Step);
         }
 
-        [Test]
+        [Fact]
         public void SlicingIndexWhitespace()
         {
             JPath path = new JPath("[  -111119990  :  -3  :  -2  ]");
@@ -722,19 +718,19 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(-2, ((ArraySliceFilter)path.Filters[0]).Step);
         }
 
-        [Test]
+        [Fact]
         public void EmptyIndexer()
         {
             ExceptionAssert.Throws<JsonException>(() => { new JPath("[]"); }, "Array index expected.");
         }
 
-        [Test]
+        [Fact]
         public void IndexerCloseInProperty()
         {
             ExceptionAssert.Throws<JsonException>(() => { new JPath("]"); }, "Unexpected character while parsing path: ]");
         }
 
-        [Test]
+        [Fact]
         public void AdjacentIndexers()
         {
             JPath path = new JPath("[1][0][0][" + int.MaxValue + "]");
@@ -745,13 +741,13 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(int.MaxValue, ((ArrayIndexFilter)path.Filters[3]).Index);
         }
 
-        [Test]
+        [Fact]
         public void MissingDotAfterIndexer()
         {
             ExceptionAssert.Throws<JsonException>(() => { new JPath("[1]Blah"); }, "Unexpected character following indexer: B");
         }
 
-        [Test]
+        [Fact]
         public void PropertyFollowingEscapedPropertyName()
         {
             JPath path = new JPath("frameworks.NET5_0_OR_GREATER.dependencies.['System.Xml.ReaderWriter'].source");

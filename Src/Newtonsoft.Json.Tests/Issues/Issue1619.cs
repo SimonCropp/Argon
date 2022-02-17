@@ -25,20 +25,16 @@
 
 using System;
 using System.IO;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Issues
 {
     [TestFixture]
     public class Issue1619 : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Test()
         {
             Foo value = new Foo

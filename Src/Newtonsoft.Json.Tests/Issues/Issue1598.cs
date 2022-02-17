@@ -33,20 +33,16 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Issues
 {
     [TestFixture]
     public class Issue1598 : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Test()
         {
             Activities activities = new Activities();
@@ -68,7 +64,7 @@ namespace Newtonsoft.Json.Tests.Issues
 ]", json);
         }
 
-        [Test]
+        [Fact]
         public void Test_SubClass()
         {
             ActivitiesSubClass activities = new ActivitiesSubClass();

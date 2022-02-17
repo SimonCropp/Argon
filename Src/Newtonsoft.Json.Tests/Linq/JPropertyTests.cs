@@ -29,13 +29,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Newtonsoft.Json.Linq;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using System.IO;
 
 namespace Newtonsoft.Json.Tests.Linq
@@ -43,7 +39,7 @@ namespace Newtonsoft.Json.Tests.Linq
     [TestFixture]
     public class JPropertyTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void NullValue()
         {
             JProperty p = new JProperty("TestProperty", null);
@@ -57,7 +53,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(p, p.Value.Parent);
         }
 
-        [Test]
+        [Fact]
         public void ListChanged()
         {
             JProperty p = new JProperty("TestProperty", null);
@@ -78,7 +74,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(0, index.Value);
         }
 
-        [Test]
+        [Fact]
         public void IListCount()
         {
             JProperty p = new JProperty("TestProperty", null);
@@ -87,7 +83,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(1, l.Count);
         }
 
-        [Test]
+        [Fact]
         public void IListClear()
         {
             JProperty p = new JProperty("TestProperty", null);
@@ -96,7 +92,7 @@ namespace Newtonsoft.Json.Tests.Linq
             ExceptionAssert.Throws<JsonException>(() => { l.Clear(); }, "Cannot add or remove items from Newtonsoft.Json.Linq.JProperty.");
         }
 
-        [Test]
+        [Fact]
         public void IListAdd()
         {
             JProperty p = new JProperty("TestProperty", null);
@@ -105,7 +101,7 @@ namespace Newtonsoft.Json.Tests.Linq
             ExceptionAssert.Throws<JsonException>(() => { l.Add(null); }, "Newtonsoft.Json.Linq.JProperty cannot have multiple values.");
         }
 
-        [Test]
+        [Fact]
         public void IListRemove()
         {
             JProperty p = new JProperty("TestProperty", null);
@@ -114,7 +110,7 @@ namespace Newtonsoft.Json.Tests.Linq
             ExceptionAssert.Throws<JsonException>(() => { l.Remove(p.Value); }, "Cannot add or remove items from Newtonsoft.Json.Linq.JProperty.");
         }
 
-        [Test]
+        [Fact]
         public void IListRemoveAt()
         {
             JProperty p = new JProperty("TestProperty", null);
@@ -123,7 +119,7 @@ namespace Newtonsoft.Json.Tests.Linq
             ExceptionAssert.Throws<JsonException>(() => { l.RemoveAt(0); }, "Cannot add or remove items from Newtonsoft.Json.Linq.JProperty.");
         }
 
-        [Test]
+        [Fact]
         public void JPropertyLinq()
         {
             JProperty p = new JProperty("TestProperty", null);
@@ -133,7 +129,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(1, result.Count);
         }
 
-        [Test]
+        [Fact]
         public void JPropertyDeepEquals()
         {
             JProperty p1 = new JProperty("TestProperty", null);
@@ -142,7 +138,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(true, JToken.DeepEquals(p1, p2));
         }
 
-        [Test]
+        [Fact]
         public void JPropertyIndexOf()
         {
             JValue v = new JValue(1);
@@ -155,7 +151,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(0, l2.IndexOf(v));
         }
 
-        [Test]
+        [Fact]
         public void JPropertyContains()
         {
             JValue v = new JValue(1);
@@ -165,7 +161,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(false, p.Contains(new JValue(1)));
         }
 
-        [Test]
+        [Fact]
         public void Load()
         {
             JsonReader reader = new JsonTextReader(new StringReader("{'propertyname':['value1']}"));
@@ -193,7 +189,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
         }
 
-        [Test]
+        [Fact]
         public void MultiContentConstructor()
         {
             JProperty p = new JProperty("error", new List<string> { "one", "two" });
@@ -204,7 +200,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual("two", (string)a[1]);
         }
 
-        [Test]
+        [Fact]
         public void IListGenericAdd()
         {
             IList<JToken> t = new JProperty("error", new List<string> { "one", "two" });
@@ -212,7 +208,7 @@ namespace Newtonsoft.Json.Tests.Linq
             ExceptionAssert.Throws<JsonException>(() => { t.Add(1); }, "Newtonsoft.Json.Linq.JProperty cannot have multiple values.");
         }
 
-        [Test]
+        [Fact]
         public void NullParent()
         {
             var json = @"{

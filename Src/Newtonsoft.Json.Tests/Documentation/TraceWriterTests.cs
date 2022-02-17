@@ -37,13 +37,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
@@ -129,7 +125,7 @@ namespace Newtonsoft.Json.Tests.Documentation
         }
         #endregion
 
-        [Test]
+        [Fact]
         public void MemoryTraceWriterTest()
         {
             #region MemoryTraceWriterExample

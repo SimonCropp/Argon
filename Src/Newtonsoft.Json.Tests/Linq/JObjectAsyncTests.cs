@@ -25,13 +25,9 @@
 
 using System.Collections.Generic;
 using Newtonsoft.Json.Tests.TestObjects;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Threading.Tasks;
@@ -41,7 +37,7 @@ namespace Newtonsoft.Json.Tests.Linq
     [TestFixture]
     public class JObjectAsyncTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public async Task ReadWithSupportMultipleContentAsync()
         {
             string json = @"{ 'name': 'Admin' }{ 'name': 'Publisher' }";
@@ -68,7 +64,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual("Publisher", (string)roles[1]["name"]);
         }
 
-        [Test]
+        [Fact]
         public async Task JTokenReaderAsync()
         {
             PersonRaw raw = new PersonRaw
@@ -109,7 +105,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.IsFalse(await reader.ReadAsync());
         }
 
-        [Test]
+        [Fact]
         public async Task LoadFromNestedObjectAsync()
         {
             string jsonText = @"{
@@ -138,7 +134,7 @@ namespace Newtonsoft.Json.Tests.Linq
 }", o.ToString(Formatting.Indented));
         }
 
-        [Test]
+        [Fact]
         public async Task LoadFromNestedObjectIncompleteAsync()
         {
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () =>
@@ -161,7 +157,7 @@ namespace Newtonsoft.Json.Tests.Linq
             }, "Unexpected end of content while loading JObject. Path 'short.error.code', line 6, position 14.");
         }
 
-        [Test]
+        [Fact]
         public async Task ParseMultipleProperties_EmptySettingsAsync()
         {
             string json = @"{
@@ -176,7 +172,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual("Name2", value);
         }
 
-        [Test]
+        [Fact]
         public async Task ParseMultipleProperties_IgnoreDuplicateSettingAsync()
         {
             string json = @"{

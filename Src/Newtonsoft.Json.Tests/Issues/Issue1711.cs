@@ -33,27 +33,23 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Utilities;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Issues
 {
     [TestFixture]
     public class Issue1711 : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Test_Raw()
         {
             FooClass c = JsonConvert.DeserializeObject<FooClass>(@"{ ""Value"" : 96.014e-05 }");
             Assert.AreEqual(0.00096014m, c.Value);
         }
 
-        [Test]
+        [Fact]
         public void Test_String()
         {
             FooClass c = JsonConvert.DeserializeObject<FooClass>(@"{ ""Value"" : ""96.014e-05"" }");

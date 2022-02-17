@@ -25,14 +25,11 @@
 
 using System;
 using System.IO;
-#if NET5_0_OR_GREATER
+
 using System.Reflection;
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Issues
 {
@@ -40,27 +37,27 @@ namespace Newtonsoft.Json.Tests.Issues
     public class Issue1541 : TestFixtureBase
     {
 #if NET5_0_OR_GREATER
-        [Test]
+        [Fact]
         public void Test_DirectoryInfo()
         {
-            FileInfo fileInfo = new FileInfo(TestFixtureBase.ResolvePath("large.json"));
+            FileInfo fileInfo = new FileInfo("large.json");
 
             ExceptionAssert.Throws<JsonSerializationException>(
                 () => JsonConvert.SerializeObject(fileInfo.Directory),
                 "Unable to serialize instance of 'System.IO.DirectoryInfo'.");
         }
 
-        [Test]
+        [Fact]
         public void Test_FileInfo()
         {
-            FileInfo fileInfo = new FileInfo(TestFixtureBase.ResolvePath("large.json"));
+            FileInfo fileInfo = new FileInfo("large.json");
 
             ExceptionAssert.Throws<JsonSerializationException>(
                 () => JsonConvert.SerializeObject(fileInfo),
                 "Unable to serialize instance of 'System.IO.FileInfo'.");
         }
 
-        [Test]
+        [Fact]
         public void Test_DriveInfo()
         {
             DriveInfo drive = DriveInfo.GetDrives()[0];

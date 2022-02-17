@@ -26,13 +26,9 @@
 using System;
 using System.Numerics;
 using System.Text;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Linq;
 using System.Linq;
 using System.Threading.Tasks;
@@ -42,7 +38,7 @@ namespace Newtonsoft.Json.Tests.Linq
     [TestFixture]
     public class JTokenWriterAsyncTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public async Task ValueFormattingAsync()
         {
             byte[] data = Encoding.UTF8.GetBytes("Hello world.");
@@ -86,7 +82,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(data, (byte[])root[12]);
         }
 
-        [Test]
+        [Fact]
         public async Task StateAsync()
         {
             using (JsonWriter jsonWriter = new JTokenWriter())
@@ -125,7 +121,7 @@ namespace Newtonsoft.Json.Tests.Linq
             }
         }
 
-        [Test]
+        [Fact]
         public async Task CurrentTokenAsync()
         {
             using (JTokenWriter jsonWriter = new JTokenWriter())
@@ -179,7 +175,7 @@ namespace Newtonsoft.Json.Tests.Linq
             }
         }
 
-        [Test]
+        [Fact]
         public async Task WriteCommentAsync()
         {
             JTokenWriter writer = new JTokenWriter();
@@ -192,7 +188,7 @@ namespace Newtonsoft.Json.Tests.Linq
   /*fail*/]", writer.Token.ToString());
         }
 
-        [Test]
+        [Fact]
         public async Task WriteBigIntegerAsync()
         {
             JTokenWriter writer = new JTokenWriter();
@@ -211,7 +207,7 @@ namespace Newtonsoft.Json.Tests.Linq
 ]", writer.Token.ToString());
         }
 
-        [Test]
+        [Fact]
         public async Task WriteRawAsync()
         {
             JTokenWriter writer = new JTokenWriter();
@@ -228,7 +224,7 @@ namespace Newtonsoft.Json.Tests.Linq
 ]", writer.Token.ToString());
         }
 
-        [Test]
+        [Fact]
         public async Task WriteTokenWithParentAsync()
         {
             JObject o = new JObject
@@ -259,7 +255,7 @@ namespace Newtonsoft.Json.Tests.Linq
 ]", writer.Token.ToString());
         }
 
-        [Test]
+        [Fact]
         public async Task WriteTokenWithPropertyParentAsync()
         {
             JValue v = new JValue(1);
@@ -280,7 +276,7 @@ namespace Newtonsoft.Json.Tests.Linq
 }", writer.Token.ToString());
         }
 
-        [Test]
+        [Fact]
         public async Task WriteValueTokenWithParentAsync()
         {
             JValue v = new JValue(1);
@@ -300,7 +296,7 @@ namespace Newtonsoft.Json.Tests.Linq
 ]", writer.Token.ToString());
         }
 
-        [Test]
+        [Fact]
         public async Task WriteEmptyTokenAsync()
         {
             JObject o = new JObject();
@@ -322,7 +318,7 @@ namespace Newtonsoft.Json.Tests.Linq
             StringAssert.AreEqual(@"[]", writer.Token.ToString());
         }
 
-        [Test]
+        [Fact]
         public async Task WriteRawValueAsync()
         {
             JTokenWriter writer = new JTokenWriter();
@@ -338,7 +334,7 @@ namespace Newtonsoft.Json.Tests.Linq
 ]", writer.Token.ToString());
         }
 
-        [Test]
+        [Fact]
         public async Task WriteDuplicatePropertyNameAsync()
         {
             JTokenWriter writer = new JTokenWriter();
@@ -360,7 +356,7 @@ namespace Newtonsoft.Json.Tests.Linq
 }", writer.Token.ToString());
         }
 
-        [Test]
+        [Fact]
         public async Task DateTimeZoneHandlingAsync()
         {
             JTokenWriter writer = new JTokenWriter

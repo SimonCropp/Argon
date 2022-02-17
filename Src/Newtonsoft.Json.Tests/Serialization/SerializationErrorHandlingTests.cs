@@ -32,13 +32,9 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
 using System.Linq;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using System.IO;
 using Newtonsoft.Json.Linq;
 using ErrorEventArgs = Newtonsoft.Json.Serialization.ErrorEventArgs;
@@ -48,7 +44,7 @@ namespace Newtonsoft.Json.Tests.Serialization
     [TestFixture]
     public class SerializationErrorHandlingTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void ErrorHandlingMetadata()
         {
             List<Exception> errors = new List<Exception>();
@@ -68,7 +64,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("Error resolving type specified in JSON '<Namespace>.JsonTest+MyTest2, <Assembly>'. Path 'MyTest.$type', line 1, position 61.", errors[0].Message);
         }
 
-        [Test]
+        [Fact]
         public void ErrorHandlingMetadata_TopLevel()
         {
             List<Exception> errors = new List<Exception>();
@@ -104,7 +100,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             public bool Mybool { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void ErrorDeserializingIntegerInObject()
         {
             var errors = new List<string>();
@@ -122,7 +118,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("JSON integer 3554860000 is too large or small for an Int32. Path 'myint', line 1, position 19.", errors[0]);
         }
 
-        [Test]
+        [Fact]
         public void ErrorDeserializingListHandled()
         {
             string json = @"[
@@ -152,7 +148,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.IsTrue(possibleMsgs.Any(m => m == c.Messages[0]), "Expected One of: " + Environment.NewLine + string.Join(Environment.NewLine, possibleMsgs) + Environment.NewLine + "Was: " + Environment.NewLine + c.Messages[0]);
         }
 
-        [Test]
+        [Fact]
         public void DeserializingErrorInChildObject()
         {
             ListErrorObjectCollection c = JsonConvert.DeserializeObject<ListErrorObjectCollection>(@"[
@@ -185,7 +181,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("Handle this!", c[2].ThrowError);
         }
 
-        [Test]
+        [Fact]
         public void SerializingErrorIn3DArray()
         {
             ListErrorObject[,,] c = new ListErrorObject[,,]
@@ -280,7 +276,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 ]", json);
         }
 
-        [Test]
+        [Fact]
         public void SerializingErrorInChildObject()
         {
             ListErrorObjectCollection c = new ListErrorObjectCollection
@@ -323,7 +319,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 ]", json);
         }
 
-        [Test]
+        [Fact]
         public void DeserializingErrorInDateTimeCollection()
         {
             DateTimeErrorObjectCollection c = JsonConvert.DeserializeObject<DateTimeErrorObjectCollection>(@"[
@@ -343,7 +339,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(new DateTime(2000, 12, 1, 0, 0, 0, DateTimeKind.Utc), c[2]);
         }
 
-        [Test]
+        [Fact]
         public void DeserializingErrorHandlingUsingEvent()
         {
             List<string> errors = new List<string>();
@@ -396,7 +392,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("[4] - 4 - Cannot convert null value to System.DateTime. Path '[4]', line 8, position 12.", errors[2]);
         }
 
-        [Test]
+        [Fact]
         public void DeserializingErrorInDateTimeCollectionWithAttributeWithEventNotCalled()
         {
             bool eventErrorHandlerCalled = false;
@@ -429,7 +425,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(false, eventErrorHandlerCalled);
         }
 
-        [Test]
+        [Fact]
         public void SerializePerson()
         {
             PersonError person = new PersonError
@@ -449,7 +445,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeNestedUnhandled()
         {
             List<string> errors = new List<string>();
@@ -482,7 +478,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(@"[0][0] - 0 - Could not convert string to DateTime: kjhkjhkjhkjh. Path '[0][0]', line 1, position 16.", errors[0]);
         }
 
-        [Test]
+        [Fact]
         public void MultipleRequiredPropertyErrors()
         {
             string json = "{}";
@@ -501,7 +497,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.IsTrue(errors[1].StartsWith(" - Required2 - Required property 'Required2' not found in JSON. Path '', line 1, position 2."));
         }
 
-        [Test]
+        [Fact]
         public void HandlingArrayErrors()
         {
             string json = "[\"a\",\"b\",\"45\",34]";
@@ -522,7 +518,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("[1] - 1 - Could not convert string to integer: b. Path '[1]', line 1, position 8.", errors[1]);
         }
 
-        [Test]
+        [Fact]
         public void HandlingMultidimensionalArrayErrors()
         {
             string json = "[[\"a\",\"45\"],[\"b\",34]]";
@@ -543,7 +539,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("[1][0] - 0 - Could not convert string to integer: b. Path '[1][0]', line 1, position 16.", errors[1]);
         }
 
-        [Test]
+        [Fact]
         public void ErrorHandlingAndAvoidingRecursiveDepthError()
         {
             string json = "{'A':{'A':{'A':{'A':{'A':{}}}}}}";
@@ -566,7 +562,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             public Nest A { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void InfiniteErrorHandlingLoopFromInputError()
         {
             IList<string> errors = new List<string>();
@@ -587,7 +583,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("Infinite loop detected from error handling. Path '[1023]', line 1, position 65536.", errors[2]);
         }
 
-        [Test]
+        [Fact]
         public void ArrayHandling()
         {
             IList<string> errors = new List<string>();
@@ -613,7 +609,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(0, ((int[])o)[0]);
         }
 
-        [Test]
+        [Fact]
         public void ArrayHandling_JTokenReader()
         {
             IList<string> errors = new List<string>();
@@ -639,7 +635,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(0, ((int[])o)[0]);
         }
 
-        [Test]
+        [Fact]
         public void ArrayHandlingInObject()
         {
             IList<string> errors = new List<string>();
@@ -668,7 +664,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(2, o["badarray"][1]);
         }
 
-        [Test]
+        [Fact]
         public void ErrorHandlingEndOfContent()
         {
             IList<string> errors = new List<string>();
@@ -702,7 +698,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(@"Unexpected end when deserializing object. Path 'events[1].code', line 1, position 45.", errors[2]);
         }
 
-        [Test]
+        [Fact]
         public void ErrorHandlingEndOfContentDictionary()
         {
             IList<string> errors = new List<string>();
@@ -732,7 +728,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(@"Unexpected end when deserializing object. Path 'events2.code', line 1, position 49.", errors[1]);
         }
 
-        [Test]
+        [Fact]
         public void ErrorHandlingEndOfContentDynamic()
         {
             IList<string> errors = new List<string>();
@@ -766,7 +762,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(@"Unexpected end when deserializing object. Path 'ChildObject.Integer', line 6, position 18.", errors[1]);
         }
 
-        [Test]
+        [Fact]
         public void WriteEndOnPropertyState()
         {
             JsonSerializerSettings settings = new JsonSerializerSettings();
@@ -784,7 +780,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(@"{""Scott"":[]}", output);
         }
 
-        [Test]
+        [Fact]
         public void WriteEndOnPropertyState2()
         {
             JsonSerializerSettings settings = new JsonSerializerSettings();
@@ -804,7 +800,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(@"{""Scott"":[],""James"":[]}", output);
         }
 
-        [Test]
+        [Fact]
         public void NoObjectWithEvent()
         {
             string json = "{\"}";
@@ -818,7 +814,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.IsNull(obj);
         }
 
-        [Test]
+        [Fact]
         public void NoObjectWithAttribute()
         {
             string json = "{\"}";
@@ -921,7 +917,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 
-        [Test]
+        [Fact]
         public void DeserializeWrappingErrorsAndErrorHandling()
         {
             var serialiser = JsonSerializer.Create(new JsonSerializerSettings() { });
@@ -932,7 +928,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             ExceptionAssert.Throws<Exception>(() => { serialiser.Deserialize(reader, typeof(Something)); }, "An error occurred.");
         }
 
-        [Test]
+        [Fact]
         public void SerializeWrappingErrorsAndErrorHandling()
         {
             var serialiser = JsonSerializer.Create(new JsonSerializerSettings() { });
@@ -954,7 +950,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             ExceptionAssert.Throws<Exception>(() => { serialiser.Serialize(writer, r); }, "An error occurred.");
         }
 
-        [Test]
+        [Fact]
         public void DeserializeRootConverter()
         {
             SomethingElse result = JsonConvert.DeserializeObject<SomethingElse>("{}", new JsonSerializerSettings
@@ -965,7 +961,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.IsNull(result);
         }
 
-        [Test]
+        [Fact]
         public void SerializeRootConverter()
         {
             string result = JsonConvert.SerializeObject(new SomethingElse(), new JsonSerializerSettings
@@ -976,7 +972,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(string.Empty, result);
         }
 
-        [Test]
+        [Fact]
         public void IntegerToLarge_ReadNextValue()
         {
             IList<string> errorMessages = new List<string>();
@@ -1015,7 +1011,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("Could not convert string to DateTime: 200NOTDATE. Path 'dateTime1', line 7, position 27.", errorMessages[2]);
         }
 
-        [Test]
+        [Fact]
         public void HandleErrorInDictionaryObject()
         {
             var json = @"{

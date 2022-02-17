@@ -25,13 +25,9 @@
 
 using System;
 using System.Globalization;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Utilities;
 
 namespace Newtonsoft.Json.Tests.Utilities
@@ -67,7 +63,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             }
         }
 
-        [Test]
+        [Fact]
         public void DoubleTryParse()
         {
             AssertDoubleTryParse("0e-10", ParseResult.Success, 0e-10);
@@ -141,7 +137,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             AssertDoubleTryParse("1E-4294967297", ParseResult.Success, 0);
         }
 
-        [Test]
+        [Fact]
         public void DoubleTryParse_Exponents()
         {
             AssertDoubleTryParse("4.94065645841247e-324", ParseResult.Success, double.Epsilon);
@@ -189,7 +185,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             }
         }
 
-        [Test]
+        [Fact]
         public void DecimalTryParse()
         {
             AssertDecimalTryParse("0", ParseResult.Success, 0M);
@@ -260,7 +256,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             AssertDecimalTryParse("00", ParseResult.Invalid, null);
         }
 
-        [Test]
+        [Fact]
         public void Int64TryParse()
         {
             long l;
@@ -301,7 +297,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             }
         }
 
-        [Test]
+        [Fact]
         public void Int32TryParse()
         {
             int i;
@@ -354,7 +350,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             }
         }
 
-        [Test]
+        [Fact]
         public void HexParse()
         {
             HexParseSame("0000");
@@ -368,7 +364,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             HexParseSame("FFFF");
         }
 
-        [Test]
+        [Fact]
         public void HexParseOffset()
         {
             int value;
@@ -376,7 +372,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.AreEqual(0, value);
         }
 
-        [Test]
+        [Fact]
         public void HexParseError()
         {
             int value;

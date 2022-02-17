@@ -30,20 +30,16 @@ using System.Collections.Generic;
 using System.Xml;
 using System.IO;
 using System.Xml.Linq;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Issues
 {
     [TestFixture]
     public class Issue1734
     {
-        [Test]
+        [Fact]
         public void Test_XmlNode()
         {
             XmlDocument xmlDoc = JsonConvert.DeserializeXmlNode(JsonWithoutNamespace, "", true);
@@ -136,7 +132,7 @@ namespace Newtonsoft.Json.Tests.Issues
             return sw.ToString();
         }
 
-        [Test]
+        [Fact]
         public void Test_XNode()
         {
             XDocument xmlDoc = JsonConvert.DeserializeXNode(JsonWithoutNamespace, "", true);

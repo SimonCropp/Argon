@@ -24,20 +24,16 @@
 #endregion
 
 using Newtonsoft.Json.Serialization;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Serialization
 {
     [TestFixture]
     public class NamingStrategyEquality: TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void CamelCaseNamingStrategyEquality()
         {
             var s1 = new CamelCaseNamingStrategy();
@@ -46,7 +42,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.IsTrue(s1.GetHashCode() == s2.GetHashCode());
         }
 
-        [Test]
+        [Fact]
         public void CamelCaseNamingStrategyEqualityVariants()
         {
             CheckInequality<CamelCaseNamingStrategy>(false, false, true);
@@ -57,7 +53,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             CheckInequality<CamelCaseNamingStrategy>(true, true, true);
         }
 
-        [Test]
+        [Fact]
         public void DefaultNamingStrategyEquality()
         {
             var s1 = new DefaultNamingStrategy();
@@ -66,7 +62,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.IsTrue(s1.GetHashCode() == s2.GetHashCode());
         }
 
-        [Test]
+        [Fact]
         public void DefaultNamingStrategyEqualityVariants()
         {
             CheckInequality<DefaultNamingStrategy>(false, false, true);
@@ -77,7 +73,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             CheckInequality<DefaultNamingStrategy>(true, true, true);
         }
 
-        [Test]
+        [Fact]
         public void SnakeCaseStrategyEquality()
         {
             var s1 = new SnakeCaseNamingStrategy();
@@ -86,7 +82,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.IsTrue(s1.GetHashCode() == s2.GetHashCode());
         }
 
-        [Test]
+        [Fact]
         public void SnakeCaseNamingStrategyEqualityVariants()
         {
             CheckInequality<SnakeCaseNamingStrategy>(false, false, true);
@@ -97,7 +93,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             CheckInequality<SnakeCaseNamingStrategy>(true, true, true);
         }
 
-        [Test]
+        [Fact]
         public void KebabCaseStrategyEquality()
         {
             var s1 = new KebabCaseNamingStrategy();
@@ -106,7 +102,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.IsTrue(s1.GetHashCode() == s2.GetHashCode());
         }
 
-        [Test]
+        [Fact]
         public void KebabCaseNamingStrategyEqualityVariants()
         {
             CheckInequality<KebabCaseNamingStrategy>(false, false, true);
@@ -117,7 +113,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             CheckInequality<KebabCaseNamingStrategy>(true, true, true);
         }
 
-        [Test]
+        [Fact]
         public void DifferentStrategyEquality()
         {
             NamingStrategy s1 = new SnakeCaseNamingStrategy();

@@ -27,20 +27,16 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Issues
 {
     [TestFixture]
     public class Issue2165
     {
-        [Test]
+        [Fact]
         public void Test_Deserializer()
         {
             ExceptionAssert.Throws<JsonWriterException>(
@@ -48,7 +44,7 @@ namespace Newtonsoft.Json.Tests.Issues
                 "Unexpected end when reading token. Path ''.");
         }
 
-        [Test]
+        [Fact]
         public void Test()
         {
             StringWriter w = new StringWriter();
@@ -62,7 +58,7 @@ namespace Newtonsoft.Json.Tests.Issues
                 "Unexpected end when reading token. Path ''.");
         }
 
-        [Test]
+        [Fact]
         public async Task TestAsync()
         {
             StringWriter w = new StringWriter();

@@ -32,20 +32,16 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Xml;
 using System.Xml.Linq;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Issues
 {
     [TestFixture]
     public class Issue1362 : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Test()
         {
             string js = "[2.8144, 2.8144, 2.6962, 2.6321, 2.5693, 2.5243, 2.5087, 2.5504, 2.535, 2.5506, 2.532, 2.491, 2.3533]";

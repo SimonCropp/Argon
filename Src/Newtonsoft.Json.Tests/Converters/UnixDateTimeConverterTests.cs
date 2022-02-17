@@ -25,13 +25,9 @@
 
 using System;
 using System.Collections.Generic;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Tests.TestObjects;
@@ -41,7 +37,7 @@ namespace Newtonsoft.Json.Tests.Converters
     [TestFixture]
     public class UnixDateTimeConverterTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void SerializeDateTime()
         {
             DateTime unixEpoch = UnixDateTimeConverter.UnixEpoch;
@@ -51,7 +47,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual("0", result);
         }
 
-        [Test]
+        [Fact]
         public void SerializeDateTimeNow()
         {
             DateTime now = DateTime.Now;
@@ -62,7 +58,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(nowSeconds + "", result);
         }
 
-        [Test]
+        [Fact]
         public void SerializeInvalidDate()
         {
             ExceptionAssert.Throws<JsonSerializationException>(
@@ -71,7 +67,7 @@ namespace Newtonsoft.Json.Tests.Converters
             );
         }
 
-        [Test]
+        [Fact]
         public void WriteJsonInvalidType()
         {
             UnixDateTimeConverter converter = new UnixDateTimeConverter();
@@ -82,7 +78,7 @@ namespace Newtonsoft.Json.Tests.Converters
             );
         }
 
-        [Test]
+        [Fact]
         public void SerializeDateTimeOffset()
         {
             DateTimeOffset now = new DateTimeOffset(2018, 1, 1, 16, 1, 16, TimeSpan.FromHours(-5));
@@ -92,7 +88,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual("1514840476", result);
         }
 
-        [Test]
+        [Fact]
         public void SerializeNullableDateTimeClass()
         {
             NullableDateTimeTestClass t = new NullableDateTimeTestClass
@@ -117,7 +113,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(@"{""PreField"":null,""DateTimeField"":1514840476,""DateTimeOffsetField"":2750778,""PostField"":null}", result);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeNullToNonNullable()
         {
             ExceptionAssert.Throws<Exception>(
@@ -129,7 +125,7 @@ namespace Newtonsoft.Json.Tests.Converters
             );
         }
 
-        [Test]
+        [Fact]
         public void DeserializeDateTimeOffset()
         {
             UnixDateTimeConverter converter = new UnixDateTimeConverter();
@@ -142,7 +138,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(new DateTimeOffset(1970, 2, 1, 20, 6, 18, TimeSpan.Zero), result);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeStringToDateTimeOffset()
         {
             DateTimeOffset result = JsonConvert.DeserializeObject<DateTimeOffset>(@"""1514840476""", new UnixDateTimeConverter());
@@ -150,7 +146,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(new DateTimeOffset(2018, 1, 1, 21, 1, 16, TimeSpan.Zero), result);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeInvalidStringToDateTimeOffset()
         {
             ExceptionAssert.Throws<JsonSerializationException>(
@@ -159,7 +155,7 @@ namespace Newtonsoft.Json.Tests.Converters
             );
         }
 
-        [Test]
+        [Fact]
         public void DeserializeIntegerToDateTime()
         {
             DateTime result = JsonConvert.DeserializeObject<DateTime>("1514840476", new UnixDateTimeConverter());
@@ -167,7 +163,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(new DateTime(2018, 1, 1, 21, 1, 16, DateTimeKind.Utc), result);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeNullToNullable()
         {
             DateTime? result = JsonConvert.DeserializeObject<DateTime?>("null", new UnixDateTimeConverter());
@@ -175,7 +171,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.IsNull(result);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeInvalidValue()
         {
             ExceptionAssert.Throws<JsonSerializationException>(
@@ -184,7 +180,7 @@ namespace Newtonsoft.Json.Tests.Converters
             );
         }
 
-        [Test]
+        [Fact]
         public void DeserializeInvalidValueType()
         {
             ExceptionAssert.Throws<JsonSerializationException>(
@@ -193,7 +189,7 @@ namespace Newtonsoft.Json.Tests.Converters
             );
         }
 
-        [Test]
+        [Fact]
         public void ConverterList()
         {
             UnixConverterList<object> l1 = new UnixConverterList<object>
@@ -215,7 +211,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(new DateTime(1970, 1, 1, 0, 0, 3, DateTimeKind.Utc), l2[1]);
         }
 
-        [Test]
+        [Fact]
         public void ConverterDictionary()
         {
             UnixConverterDictionary<object> l1 = new UnixConverterDictionary<object>
@@ -237,7 +233,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(new DateTime(2018, 1, 1, 21, 1, 16, DateTimeKind.Utc), l2["Second"]);
         }
 
-        [Test]
+        [Fact]
         public void ConverterObject()
         {
             UnixConverterObject obj1 = new UnixConverterObject

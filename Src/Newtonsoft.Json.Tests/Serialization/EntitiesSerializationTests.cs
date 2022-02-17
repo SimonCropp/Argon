@@ -30,22 +30,17 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
-using Newtonsoft.Json.Converters;
-#if NET5_0_OR_GREATER
-using Xunit;
+using Newtonsoft.Json.Converters;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
 
-#endif
 
 namespace Newtonsoft.Json.Tests.Serialization
 {
     [TestFixture]
     public class EntitiesSerializationTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void SerializeEntity()
         {
             Folder rootFolder = CreateEntitiesTestData();
@@ -126,7 +121,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             StringAssert.AreEqual(expected, json);
         }
 
-        [Test]
+        [Fact]
         public void SerializeEntityCamelCase()
         {
             Folder rootFolder = CreateEntitiesTestData();
@@ -216,7 +211,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             StringAssert.AreEqual(expected, json);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeEntity()
         {
             string json = @"{
@@ -316,7 +311,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(null, childFolder.ParentFolderReference.EntityKey);
         }
 
-        [Test]
+        [Fact]
         public void SerializeMultiValueEntityKey()
         {
             EntityKey e = new EntityKey("DataServicesTestDatabaseEntities.Folder",
@@ -386,7 +381,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(new DateTime(2000, 12, 10, 10, 50, 0, DateTimeKind.Utc), newKey.EntityKeyValues[4].Value);
         }
 
-        [Test]
+        [Fact]
         public void SerializeMultiValueEntityKeyCameCase()
         {
             EntityKey e = new EntityKey("DataServicesTestDatabaseEntities.Folder",

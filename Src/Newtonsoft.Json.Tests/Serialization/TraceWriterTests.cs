@@ -8,13 +8,9 @@ using System.Numerics;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters;
 using System.Text;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
@@ -40,7 +36,7 @@ namespace Newtonsoft.Json.Tests.Serialization
     [TestFixture]
     public class TraceWriterTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void DeserializedJsonWithAlreadyReadReader()
         {
             string json = @"{ 'name': 'Admin' }{ 'name': 'Publisher' }";
@@ -75,7 +71,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 }", traceWriter.TraceRecords[5].Message);
         }
 
-        [Test]
+        [Fact]
         public async Task DeserializedJsonWithAlreadyReadReader_Async()
         {
             string json = @"{ 'name': 'Admin' }{ 'name': 'Publisher' }";
@@ -110,7 +106,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 }", traceWriter.TraceRecords[5].Message);
         }
 
-        [Test]
+        [Fact]
         public void DiagnosticsTraceWriterTest()
         {
             StringWriter sw = new StringWriter();
@@ -141,7 +137,7 @@ Newtonsoft.Json Error: 0 : Error!
             }
         }
 
-        [Test]
+        [Fact]
         public void WriteNullableByte()
         {
             StringWriter sw = new StringWriter();
@@ -156,7 +152,7 @@ Newtonsoft.Json Error: 0 : Error!
 ]", traceJsonWriter.GetSerializedJsonMessage());
         }
 
-        [Test]
+        [Fact]
         public void WriteNullObject()
         {
             StringWriter sw = new StringWriter();
@@ -171,7 +167,7 @@ Newtonsoft.Json Error: 0 : Error!
 ]", traceJsonWriter.GetSerializedJsonMessage());
         }
 
-        [Test]
+        [Fact]
         public void WriteNullString()
         {
             StringWriter sw = new StringWriter();
@@ -186,7 +182,7 @@ Newtonsoft.Json Error: 0 : Error!
 ]", traceJsonWriter.GetSerializedJsonMessage());
         }
 
-        [Test]
+        [Fact]
         public void WriteNullUri()
         {
             StringWriter sw = new StringWriter();
@@ -201,7 +197,7 @@ Newtonsoft.Json Error: 0 : Error!
 ]", traceJsonWriter.GetSerializedJsonMessage());
         }
 
-        [Test]
+        [Fact]
         public void WriteNullByteArray()
         {
             StringWriter sw = new StringWriter();
@@ -216,7 +212,7 @@ Newtonsoft.Json Error: 0 : Error!
 ]", traceJsonWriter.GetSerializedJsonMessage());
         }
 
-        [Test]
+        [Fact]
         public void WriteJRaw()
         {
             ITraceWriter traceWriter = new MemoryTraceWriter();
@@ -232,7 +228,7 @@ Newtonsoft.Json Error: 0 : Error!
             Assert.IsTrue(traceWriter.ToString().EndsWith("Verbose Serialized JSON: " + Environment.NewLine + "$('#element')", StringComparison.Ordinal));
         }
 
-        [Test]
+        [Fact]
         public void WriteJRawInArray()
         {
             ITraceWriter traceWriter = new MemoryTraceWriter();
@@ -264,7 +260,7 @@ Newtonsoft.Json Error: 0 : Error!
 ]"), StringComparison.Ordinal));
         }
 
-        [Test]
+        [Fact]
         public void MemoryTraceWriterSerializeTest()
         {
             Staff staff = new Staff();
@@ -308,7 +304,7 @@ Newtonsoft.Json Error: 0 : Error!
             Assert.IsTrue(output.Contains(json));
         }
 
-        [Test]
+        [Fact]
         public void MemoryTraceWriterDeserializeTest()
         {
             string json = @"{
@@ -366,7 +362,7 @@ Newtonsoft.Json Error: 0 : Error!
             Assert.IsTrue(output.Contains(json));
         }
 
-        [Test]
+        [Fact]
         public void MemoryTraceWriterLimitTest()
         {
             MemoryTraceWriter traceWriter = new MemoryTraceWriter();
@@ -384,7 +380,7 @@ Newtonsoft.Json Error: 0 : Error!
             Assert.IsTrue(traceMessages.Last().EndsWith(" 1005"));
         }
 
-        [Test]
+        [Fact]
         public async Task MemoryTraceWriterThreadSafety_Trace()
         {
             List<Task> tasks = new List<Task>();
@@ -409,7 +405,7 @@ Newtonsoft.Json Error: 0 : Error!
             Assert.AreEqual(1000, traceMessages.Count);
         }
 
-        [Test]
+        [Fact]
         public async Task MemoryTraceWriterThreadSafety_ToString()
         {
             List<Task> tasks = new List<Task>();
@@ -439,7 +435,7 @@ Newtonsoft.Json Error: 0 : Error!
             Assert.IsNotNull(s);
         }
 
-        [Test]
+        [Fact]
         public void Serialize()
         {
             var traceWriter = new InMemoryTraceWriter
@@ -483,7 +479,7 @@ Newtonsoft.Json Error: 0 : Error!
             Assert.IsFalse(traceWriter.TraceRecords.Any(r => r.Level == TraceLevel.Verbose));
         }
 
-        [Test]
+        [Fact]
         public void Deserialize()
         {
             InMemoryTraceWriter traceWriter = new InMemoryTraceWriter
@@ -543,7 +539,7 @@ Newtonsoft.Json Error: 0 : Error!
             Assert.IsFalse(traceWriter.TraceRecords.Any(r => r.Level == TraceLevel.Verbose));
         }
 
-        [Test]
+        [Fact]
         public void Populate()
         {
             InMemoryTraceWriter traceWriter = new InMemoryTraceWriter
@@ -606,7 +602,7 @@ Newtonsoft.Json Error: 0 : Error!
             Assert.IsFalse(traceWriter.TraceRecords.Any(r => r.Level == TraceLevel.Verbose));
         }
 
-        [Test]
+        [Fact]
         public void ErrorDeserializing()
         {
             string json = @"{""Integer"":""hi""}";
@@ -635,7 +631,7 @@ Newtonsoft.Json Error: 0 : Error!
             Assert.AreEqual("Error deserializing Newtonsoft.Json.Tests.Serialization.IntegerTestClass. Could not convert string to integer: hi. Path 'Integer', line 1, position 15.", traceWriter.TraceRecords[1].Message);
         }
 
-        [Test]
+        [Fact]
         public void ErrorDeserializingNested()
         {
             string json = @"{""IntList"":[1, ""two""]}";
@@ -667,7 +663,7 @@ Newtonsoft.Json Error: 0 : Error!
             Assert.AreEqual("Error deserializing System.Collections.Generic.IList`1[System.Int32]. Could not convert string to integer: two. Path 'IntList[1]', line 1, position 20.", traceWriter.TraceRecords[2].Message);
         }
 
-        [Test]
+        [Fact]
         public void SerializeDictionarysWithPreserveObjectReferences()
         {
             PreserveReferencesHandlingTests.CircularDictionary circularDictionary = new PreserveReferencesHandlingTests.CircularDictionary();
@@ -693,7 +689,7 @@ Newtonsoft.Json Error: 0 : Error!
             Assert.IsTrue(traceWriter.TraceRecords.Any(r => r.Message == "Writing object reference to Id '1' for Newtonsoft.Json.Tests.Serialization.PreserveReferencesHandlingTests+CircularDictionary. Path 'self'."));
         }
 
-        [Test]
+        [Fact]
         public void DeserializeDictionarysWithPreserveObjectReferences()
         {
             string json = @"{
@@ -725,7 +721,7 @@ Newtonsoft.Json Error: 0 : Error!
             Assert.IsTrue(traceWriter.TraceRecords.Any(r => r.Message.StartsWith("Resolved object reference '1' to Newtonsoft.Json.Tests.Serialization.PreserveReferencesHandlingTests+CircularDictionary. Path 'self'")));
         }
 
-        [Test]
+        [Fact]
         public void WriteTypeNameForObjects()
         {
             InMemoryTraceWriter traceWriter = new InMemoryTraceWriter
@@ -756,7 +752,7 @@ Newtonsoft.Json Error: 0 : Error!
             Assert.AreEqual("Finished serializing System.Collections.Generic.List`1[System.Object]. Path ''.", traceWriter.TraceRecords[8].Message);
         }
 
-        [Test]
+        [Fact]
         public void SerializeConverter()
         {
             InMemoryTraceWriter traceWriter = new InMemoryTraceWriter
@@ -781,7 +777,7 @@ Newtonsoft.Json Error: 0 : Error!
             Assert.AreEqual("Finished serializing System.Collections.Generic.List`1[System.DateTime]. Path ''.", traceWriter.TraceRecords[3].Message);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeConverter()
         {
             string json = @"[new Date(976623132000)]";
@@ -806,7 +802,7 @@ Newtonsoft.Json Error: 0 : Error!
             Assert.AreEqual("Finished deserializing System.Collections.Generic.List`1[System.DateTime]. Path '', line 1, position 24.", traceWriter.TraceRecords[3].Message);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeTypeName()
         {
             InMemoryTraceWriter traceWriter = new InMemoryTraceWriter
@@ -852,7 +848,7 @@ Newtonsoft.Json Error: 0 : Error!
             Assert.IsTrue(traceWriter.TraceRecords[9].Message.StartsWith("Finished deserializing System.Collections.Generic.List`1[System.Object]. Path '$values'"));
         }
 
-        [Test]
+        [Fact]
         public void DeserializeISerializable()
         {
             InMemoryTraceWriter traceWriter = new InMemoryTraceWriter
@@ -884,7 +880,7 @@ Newtonsoft.Json Error: 0 : Error!
             Assert.AreEqual(TraceLevel.Error, traceWriter.TraceRecords[1].Level);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeMissingMember()
         {
             InMemoryTraceWriter traceWriter = new InMemoryTraceWriter
@@ -904,7 +900,7 @@ Newtonsoft.Json Error: 0 : Error!
             Assert.IsTrue(traceWriter.TraceRecords[2].Message.StartsWith("Finished deserializing Newtonsoft.Json.Tests.TestObjects.Organization.Person. Path ''"));
         }
 
-        [Test]
+        [Fact]
         public void DeserializeMissingMemberConstructor()
         {
             InMemoryTraceWriter traceWriter = new InMemoryTraceWriter
@@ -933,7 +929,7 @@ Newtonsoft.Json Error: 0 : Error!
             Assert.IsTrue(traceWriter.TraceRecords[3].Message.StartsWith("Finished deserializing Newtonsoft.Json.Tests.TestObjects.VersionOld. Path ''"));
         }
 
-        [Test]
+        [Fact]
         public void PublicParameterizedConstructorWithPropertyNameConflictWithAttribute()
         {
             InMemoryTraceWriter traceWriter = new InMemoryTraceWriter
@@ -954,7 +950,7 @@ Newtonsoft.Json Error: 0 : Error!
             Assert.AreEqual("Deserializing Newtonsoft.Json.Tests.TestObjects.PublicParameterizedConstructorWithPropertyNameConflictWithAttribute using creator with parameters: name. Path 'name', line 1, position 6.", traceWriter.TraceRecords[0].Message);
         }
 
-        [Test]
+        [Fact]
         public void ShouldSerializeTestClass()
         {
             ShouldSerializeTestClass c = new ShouldSerializeTestClass();
@@ -985,7 +981,7 @@ Newtonsoft.Json Error: 0 : Error!
             Assert.AreEqual(TraceLevel.Verbose, traceWriter.TraceRecords[1].Level);
         }
 
-        [Test]
+        [Fact]
         public void SpecifiedTest()
         {
             SpecifiedTestClass c = new SpecifiedTestClass();
@@ -1064,7 +1060,7 @@ Newtonsoft.Json Error: 0 : Error!
             Assert.AreEqual(23, deserialized.FavoriteNumber);
         }
 
-        [Test]
+        [Fact]
         public void TraceJsonWriterTest_WriteObjectInObject()
         {
             StringWriter sw = new StringWriter(CultureInfo.InvariantCulture);
@@ -1085,7 +1081,7 @@ Newtonsoft.Json Error: 0 : Error!
             StringAssert.AreEqual("Serialized JSON: " + Environment.NewLine + json, traceWriter.GetSerializedJsonMessage());
         }
 
-        [Test]
+        [Fact]
         public async Task TraceJsonWriterTest_WriteObjectInObjectAsync()
         {
             StringWriter sw = new StringWriter(CultureInfo.InvariantCulture);
@@ -1106,7 +1102,7 @@ Newtonsoft.Json Error: 0 : Error!
             StringAssert.AreEqual("Serialized JSON: " + Environment.NewLine + json, traceWriter.GetSerializedJsonMessage());
         }
 
-        [Test]
+        [Fact]
         public void TraceJsonWriterTest()
         {
             StringWriter sw = new StringWriter(CultureInfo.InvariantCulture);
@@ -1225,7 +1221,7 @@ Newtonsoft.Json Error: 0 : Error!
             StringAssert.AreEqual("Serialized JSON: " + Environment.NewLine + json, traceWriter.GetSerializedJsonMessage());
         }
 
-        [Test]
+        [Fact]
         public void TraceJsonReaderTest()
         {
             string json = @"{

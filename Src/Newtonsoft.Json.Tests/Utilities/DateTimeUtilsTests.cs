@@ -28,13 +28,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Utilities;
 
 namespace Newtonsoft.Json.Tests.Utilities
@@ -42,7 +38,7 @@ namespace Newtonsoft.Json.Tests.Utilities
     [TestFixture]
     public class DateTimeUtilsTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void RoundTripDateTimeMinAndMax()
         {
             RoundtripDateIso(DateTime.MinValue);
@@ -66,7 +62,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.AreEqual(value, parsedDt);
         }
 
-        [Test]
+        [Fact]
         public void Parse24HourDateTime()
         {
             DateTime dt;
@@ -78,7 +74,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.IsFalse(DateTimeUtils.TryParseDateTimeIso(CreateStringReference("2000-12-15T24:00:00.0000001Z"), DateTimeZoneHandling.RoundtripKind, out dt));
         }
 
-        [Test]
+        [Fact]
         public void Parse24HourDateTimeOffset()
         {
             DateTimeOffset dt;
@@ -90,7 +86,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.IsFalse(DateTimeUtils.TryParseDateTimeOffsetIso(CreateStringReference("2000-12-15T24:00:00.0000001Z"), out dt));
         }
 
-        [Test]
+        [Fact]
         public void NewDateTimeParse()
         {
             AssertNewDateTimeParseEqual("999x-12-31T23:59:59");
@@ -170,7 +166,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             AssertNewDateTimeParseEqual(text, oldDt);
         }
 
-        [Test]
+        [Fact]
         public void ReadOffsetMSDateTimeOffset()
         {
             char[] c = @"12345/Date(1418924498000+0800)/12345".ToCharArray();
@@ -185,7 +181,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.AreEqual(8, d.Offset.Hours);
         }
 
-        [Test]
+        [Fact]
         public void NewDateTimeOffsetParse()
         {
             AssertNewDateTimeOffsetParseEqual("0001-01-01T00:00:00");

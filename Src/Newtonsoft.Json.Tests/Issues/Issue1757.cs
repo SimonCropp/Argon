@@ -42,7 +42,7 @@ using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
 using System.Text;
 #else
-using NUnit.Framework;
+using Xunit;
 #endif
 
 namespace Newtonsoft.Json.Tests.Issues
@@ -50,19 +50,19 @@ namespace Newtonsoft.Json.Tests.Issues
     [TestFixture]
     public class Issue1757 : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Test_Serialize()
         {
             JsonConvert.SerializeObject(new TestObject());
         }
 
-        [Test]
+        [Fact]
         public void Test_SerializeEncoding()
         {
             JsonConvert.SerializeObject(Encoding.UTF8);
         }
 
-        [Test]
+        [Fact]
         public void Test_Deserialize()
         {
             JsonConvert.DeserializeObject<TestObject>(@"{'Room':{},'RefLike':{}}");

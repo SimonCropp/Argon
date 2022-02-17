@@ -26,13 +26,9 @@
 using System;
 using System.Text;
 using System.Threading.Tasks;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using System.IO;
 using System.Numerics;
 using Newtonsoft.Json.Linq;
@@ -44,7 +40,7 @@ namespace Newtonsoft.Json.Tests.Linq
     [TestFixture]
     public class JTokenReaderAsyncTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public async Task ConvertBigIntegerToDoubleAsync()
         {
             var jObject = JObject.Parse("{ maxValue:10000000000000000000}");
@@ -56,7 +52,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.IsTrue(await reader.ReadAsync());
         }
 
-        [Test]
+        [Fact]
         public async Task YahooFinanceAsync()
         {
             JObject o =
@@ -133,7 +129,7 @@ namespace Newtonsoft.Json.Tests.Linq
             }
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsDateTimeOffsetBadStringAsync()
         {
             string json = @"{""Offset"":""blablahbla""}";
@@ -151,7 +147,7 @@ namespace Newtonsoft.Json.Tests.Linq
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsDateTimeOffsetAsync(); }, "Could not convert string to DateTimeOffset: blablahbla. Path 'Offset', line 1, position 22.");
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsDateTimeOffsetBooleanAsync()
         {
             string json = @"{""Offset"":true}";
@@ -169,7 +165,7 @@ namespace Newtonsoft.Json.Tests.Linq
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsDateTimeOffsetAsync(); }, "Error reading date. Unexpected token: Boolean. Path 'Offset', line 1, position 14.");
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsDateTimeOffsetStringAsync()
         {
             string json = @"{""Offset"":""2012-01-24T03:50Z""}";
@@ -190,7 +186,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(new DateTimeOffset(2012, 1, 24, 3, 50, 0, TimeSpan.Zero), reader.Value);
         }
 
-        [Test]
+        [Fact]
         public async Task ReadLineInfoAsync()
         {
             string input = @"{
@@ -291,7 +287,7 @@ namespace Newtonsoft.Json.Tests.Linq
             }
         }
 
-        [Test]
+        [Fact]
         public async Task ReadBytesAsync()
         {
             byte[] data = Encoding.UTF8.GetBytes("Hello world!");
@@ -321,7 +317,7 @@ namespace Newtonsoft.Json.Tests.Linq
             }
         }
 
-        [Test]
+        [Fact]
         public async Task ReadBytesFailureAsync()
         {
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () =>
@@ -350,7 +346,7 @@ namespace Newtonsoft.Json.Tests.Linq
             public byte[] Bytes { get; set; }
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsDecimalIntAsync()
         {
             string json = @"{""Name"":1}";
@@ -371,7 +367,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(1m, reader.Value);
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsInt32IntAsync()
         {
             string json = @"{""Name"":1}";
@@ -395,7 +391,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(1, reader.Value);
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsInt32BadStringAsync()
         {
             string json = @"{""Name"":""hi""}";
@@ -413,7 +409,7 @@ namespace Newtonsoft.Json.Tests.Linq
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsInt32Async(); }, "Could not convert string to integer: hi. Path 'Name', line 1, position 12.");
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsInt32BooleanAsync()
         {
             string json = @"{""Name"":true}";
@@ -431,7 +427,7 @@ namespace Newtonsoft.Json.Tests.Linq
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsInt32Async(); }, "Error reading integer. Unexpected token: Boolean. Path 'Name', line 1, position 12.");
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsDecimalStringAsync()
         {
             string json = @"{""Name"":""1.1""}";
@@ -452,7 +448,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(1.1m, reader.Value);
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsDecimalBadStringAsync()
         {
             string json = @"{""Name"":""blah""}";
@@ -470,7 +466,7 @@ namespace Newtonsoft.Json.Tests.Linq
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsDecimalAsync(); }, "Could not convert string to decimal: blah. Path 'Name', line 1, position 14.");
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsDecimalBooleanAsync()
         {
             string json = @"{""Name"":true}";
@@ -488,7 +484,7 @@ namespace Newtonsoft.Json.Tests.Linq
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsDecimalAsync(); }, "Error reading decimal. Unexpected token: Boolean. Path 'Name', line 1, position 12.");
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsDecimalNullAsync()
         {
             string json = @"{""Name"":null}";
@@ -509,7 +505,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(null, reader.Value);
         }
 
-        [Test]
+        [Fact]
         public async Task InitialPath_PropertyBase_PropertyTokenAsync()
         {
             JObject o = new JObject
@@ -537,7 +533,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual("baseprop", reader.Path);
         }
 
-        [Test]
+        [Fact]
         public async Task InitialPath_ArrayBase_PropertyTokenAsync()
         {
             JObject o = new JObject
@@ -565,7 +561,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual("[0]", reader.Path);
         }
 
-        [Test]
+        [Fact]
         public async Task InitialPath_PropertyBase_ArrayTokenAsync()
         {
             JArray a = new JArray
@@ -593,7 +589,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual("baseprop", reader.Path);
         }
 
-        [Test]
+        [Fact]
         public async Task InitialPath_ArrayBase_ArrayTokenAsync()
         {
             JArray a = new JArray
@@ -621,7 +617,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual("[0]", reader.Path);
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsDouble_InvalidTokenAsync()
         {
             JArray a = new JArray
@@ -636,7 +632,7 @@ namespace Newtonsoft.Json.Tests.Linq
                 "Error reading double. Unexpected token: StartArray. Path ''.");
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsBoolean_InvalidTokenAsync()
         {
             JArray a = new JArray
@@ -651,7 +647,7 @@ namespace Newtonsoft.Json.Tests.Linq
                 "Error reading boolean. Unexpected token: StartArray. Path ''.");
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsDateTime_InvalidTokenAsync()
         {
             JArray a = new JArray
@@ -666,7 +662,7 @@ namespace Newtonsoft.Json.Tests.Linq
                 "Error reading date. Unexpected token: StartArray. Path ''.");
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsDateTimeOffset_InvalidTokenAsync()
         {
             JArray a = new JArray
@@ -681,7 +677,7 @@ namespace Newtonsoft.Json.Tests.Linq
                 "Error reading date. Unexpected token: StartArray. Path ''.");
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsDateTimeOffset_DateTimeAsync()
         {
             JValue v = new JValue(new DateTime(2001, 12, 12, 12, 12, 12, DateTimeKind.Utc));
@@ -691,7 +687,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(new DateTimeOffset(2001, 12, 12, 12, 12, 12, TimeSpan.Zero), await reader.ReadAsDateTimeOffsetAsync());
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsDateTimeOffset_StringAsync()
         {
             JValue v = new JValue("2012-01-24T03:50Z");
@@ -701,7 +697,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(new DateTimeOffset(2012, 1, 24, 3, 50, 0, TimeSpan.Zero), await reader.ReadAsDateTimeOffsetAsync());
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsDateTime_DateTimeOffsetAsync()
         {
             JValue v = new JValue(new DateTimeOffset(2012, 1, 24, 3, 50, 0, TimeSpan.Zero));
@@ -711,7 +707,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(new DateTime(2012, 1, 24, 3, 50, 0, DateTimeKind.Utc), await reader.ReadAsDateTimeAsync());
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsDateTime_StringAsync()
         {
             JValue v = new JValue("2012-01-24T03:50Z");
@@ -721,7 +717,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(new DateTime(2012, 1, 24, 3, 50, 0, DateTimeKind.Utc), await reader.ReadAsDateTimeAsync());
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsDouble_String_SuccessAsync()
         {
             JValue s = JValue.CreateString("123.4");
@@ -731,7 +727,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(123.4d, await reader.ReadAsDoubleAsync());
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsDouble_Null_SuccessAsync()
         {
             JValue n = JValue.CreateNull();
@@ -741,7 +737,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(null, await reader.ReadAsDoubleAsync());
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsDouble_Integer_SuccessAsync()
         {
             JValue n = new JValue(1);
@@ -751,7 +747,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(1d, await reader.ReadAsDoubleAsync());
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsBoolean_BigInteger_SuccessAsync()
         {
             JValue s = new JValue(BigInteger.Parse("99999999999999999999999999999999999999999999999999999999999999999999999999"));
@@ -761,7 +757,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(true, await reader.ReadAsBooleanAsync());
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsBoolean_String_SuccessAsync()
         {
             JValue s = JValue.CreateString("true");
@@ -771,7 +767,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(true, await reader.ReadAsBooleanAsync());
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsBoolean_Null_SuccessAsync()
         {
             JValue n = JValue.CreateNull();
@@ -781,7 +777,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(null, await reader.ReadAsBooleanAsync());
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsBoolean_Integer_SuccessAsync()
         {
             JValue n = new JValue(1);
@@ -791,7 +787,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(true, await reader.ReadAsBooleanAsync());
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsDateTime_Null_SuccessAsync()
         {
             JValue n = JValue.CreateNull();
@@ -801,7 +797,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(null, await reader.ReadAsDateTimeAsync());
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsDateTimeOffset_Null_SuccessAsync()
         {
             JValue n = JValue.CreateNull();
@@ -811,7 +807,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(null, await reader.ReadAsDateTimeOffsetAsync());
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsString_Integer_SuccessAsync()
         {
             JValue n = new JValue(1);
@@ -821,7 +817,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual("1", await reader.ReadAsStringAsync());
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsString_Guid_SuccessAsync()
         {
             JValue n = new JValue(new Uri("http://www.test.com"));
@@ -831,7 +827,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual("http://www.test.com", await reader.ReadAsStringAsync());
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsBytes_Integer_SuccessAsync()
         {
             JValue n = JValue.CreateNull();
@@ -841,7 +837,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(null, await reader.ReadAsBytesAsync());
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsBytes_ArrayAsync()
         {
             JArray a = new JArray
@@ -858,7 +854,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(2, bytes[1]);
         }
 
-        [Test]
+        [Fact]
         public async Task ReadAsBytes_NullAsync()
         {
             JValue n = JValue.CreateNull();
