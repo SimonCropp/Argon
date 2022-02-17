@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if HAVE_ENTITY_FRAMEWORK
 using System;
 using Newtonsoft.Json.Serialization;
 using System.Globalization;
@@ -161,5 +160,3 @@ namespace Newtonsoft.Json.Converters
         }
     }
 }
-
-#endif

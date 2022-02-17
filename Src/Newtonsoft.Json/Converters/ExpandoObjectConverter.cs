@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if HAVE_DYNAMIC
 
 using System;
 using System.Collections.Generic;
@@ -161,5 +160,3 @@ namespace Newtonsoft.Json.Converters
         public override bool CanWrite => false;
     }
 }
-
-#endif

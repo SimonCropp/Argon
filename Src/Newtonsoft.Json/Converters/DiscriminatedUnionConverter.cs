@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if HAVE_FSHARP_TYPES
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
@@ -266,11 +265,7 @@ namespace Newtonsoft.Json.Converters
             // all fsharp objects have CompilationMappingAttribute
             // get the fsharp assembly from the attribute and initialize latebound methods
             object[] attributes;
-#if HAVE_FULL_REFLECTION
             attributes = objectType.GetCustomAttributes(true);
-#else
-            attributes = objectType.GetTypeInfo().GetCustomAttributes(true).ToArray();
-#endif
 
             bool isFSharpType = false;
             foreach (object attribute in attributes)
@@ -294,5 +289,3 @@ namespace Newtonsoft.Json.Converters
         }
     }
 }
-
-#endif

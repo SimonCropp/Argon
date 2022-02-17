@@ -235,11 +235,7 @@ namespace Newtonsoft.Json.Bson
 
             if (CloseInput)
             {
-#if HAVE_STREAM_READER_WRITER_CLOSE
                 _reader?.Close();
-#else
-                _reader?.Dispose();
-#endif
             }
         }
 

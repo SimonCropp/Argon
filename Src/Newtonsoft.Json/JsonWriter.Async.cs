@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if HAVE_ASYNC
-
 using System;
 using System.Globalization;
 using System.Threading;
@@ -1793,5 +1791,3 @@ namespace Newtonsoft.Json
         }
     }
 }
-
-#endif

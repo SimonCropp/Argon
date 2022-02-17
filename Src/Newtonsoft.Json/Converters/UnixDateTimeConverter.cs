@@ -50,12 +50,10 @@ namespace Newtonsoft.Json.Converters
             {
                 seconds = (long)(dateTime.ToUniversalTime() - UnixEpoch).TotalSeconds;
             }
-#if HAVE_DATE_TIME_OFFSET
             else if (value is DateTimeOffset dateTimeOffset)
             {
                 seconds = (long)(dateTimeOffset.ToUniversalTime() - UnixEpoch).TotalSeconds;
             }
-#endif
             else
             {
                 throw new JsonSerializationException("Expected date object value.");
@@ -112,7 +110,6 @@ namespace Newtonsoft.Json.Converters
             {
                 DateTime d = UnixEpoch.AddSeconds(seconds);
 
-#if HAVE_DATE_TIME_OFFSET
                 Type t = (nullable)
                     ? Nullable.GetUnderlyingType(objectType)
                     : objectType;
@@ -120,7 +117,6 @@ namespace Newtonsoft.Json.Converters
                 {
                     return new DateTimeOffset(d, TimeSpan.Zero);
                 }
-#endif
                 return d;
             }
             else

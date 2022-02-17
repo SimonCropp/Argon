@@ -268,13 +268,11 @@ namespace Newtonsoft.Json.Linq.JsonPath
                 case JTokenType.Date:
                     using (StringWriter writer = StringUtils.CreateStringWriter(64))
                     {
-#if HAVE_DATE_TIME_OFFSET
                         if (value.Value is DateTimeOffset offset)
                         {
                             DateTimeUtils.WriteDateTimeOffsetString(writer, offset, DateFormatHandling.IsoDateFormat, null, CultureInfo.InvariantCulture);
                         }
                         else
-#endif
                         {
                             DateTimeUtils.WriteDateTimeString(writer, (DateTime)value.Value!, DateFormatHandling.IsoDateFormat, null, CultureInfo.InvariantCulture);
                         }
