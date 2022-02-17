@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(DNXCORE50) || NETSTANDARD2_0
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -183,5 +182,3 @@ namespace Newtonsoft.Json.Tests.Documentation
         }
     }
 }
-
-#endif
