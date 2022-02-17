@@ -27,7 +27,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !(PORTABLE || NET35 || NET20 || PORTABLE40 || DNXCORE50) || NETSTANDARD2_0
+#if !(DNXCORE50)|| NETSTANDARD2_0
     public class SerializableContractResolver : DefaultContractResolver
     {
         public SerializableContractResolver()

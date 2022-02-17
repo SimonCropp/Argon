@@ -255,7 +255,7 @@ namespace Newtonsoft.Json.Tests.Serialization
                 @"Error converting value {null} to type 'System.Boolean'. Path '[0]', line 1, position 3.");
         }
 
-#if !(PORTABLE || PORTABLE40 || NET35 || NET20) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
         [Test]
         public void DeserializeBooleans()
         {
@@ -589,7 +589,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("Name!", c2.Name);
         }
 
-#if !(NET20 || NET35 || PORTABLE40)
         [Test]
         public void SerializeValueTuple()
         {
@@ -609,7 +608,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(2, t2.Item2);
             Assert.AreEqual("string", t2.Item3);
         }
-#endif
 
         [Test]
         public void DeserializeStructWithConstructorAttribute()
@@ -720,7 +718,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.IsNull(otc.Value5);
         }
 
-#if !(NET20 || NET35 || PORTABLE40 || PORTABLE) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
         [Test]
         public void ReadIntegerWithError()
         {
@@ -1048,7 +1046,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             serializer.TraceWriter = traceWriter;
             Assert.AreEqual(traceWriter, serializer.TraceWriter);
 
-#if !(PORTABLE || PORTABLE40 || NET20 || DNXCORE50) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
 #pragma warning disable 618
             serializer.TypeNameAssemblyFormat = FormatterAssemblyStyle.Full;
             Assert.AreEqual(FormatterAssemblyStyle.Full, serializer.TypeNameAssemblyFormat);
@@ -1168,7 +1166,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             settings.TraceWriter = traceWriter;
             Assert.AreEqual(traceWriter, settings.TraceWriter);
 
-#if !(PORTABLE || PORTABLE40 || NET20 || DNXCORE50) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
 #pragma warning disable 618
             settings.TypeNameAssemblyFormat = FormatterAssemblyStyle.Full;
             Assert.AreEqual(FormatterAssemblyStyle.Full, settings.TypeNameAssemblyFormat);
@@ -1293,7 +1291,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             serializerProxy.TraceWriter = traceWriter;
             Assert.AreEqual(traceWriter, serializerProxy.TraceWriter);
 
-#if !(PORTABLE || PORTABLE40 || NET20 || DNXCORE50) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
 #pragma warning disable 618
             serializerProxy.TypeNameAssemblyFormat = FormatterAssemblyStyle.Full;
             Assert.AreEqual(FormatterAssemblyStyle.Full, serializerProxy.TypeNameAssemblyFormat);
@@ -1314,7 +1312,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(TypeNameHandling.All, serializerProxy.TypeNameHandling);
         }
 
-#if !(PORTABLE || PORTABLE40 || DNXCORE50) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
         [Test]
         public void DeserializeISerializableIConvertible()
         {
@@ -2294,7 +2292,7 @@ keyword such as type of business.""
             ConverableMembers c = JsonConvert.DeserializeObject<ConverableMembers>(json);
             Assert.AreEqual("string", c.String);
             Assert.AreEqual(double.MaxValue, c.Double);
-#if !(PORTABLE || DNXCORE50 || PORTABLE40)
+#if !(DNXCORE50)
             Assert.AreEqual(DBNull.Value, c.DBNull);
 #endif
         }
@@ -3459,7 +3457,6 @@ Path '', line 1, position 1.");
                 @"Unexpected character encountered while parsing value: [. Path '', line 1, position 1.");
         }
 
-#if !(NET35 || NET20 || PORTABLE40)
         [Test]
         public void CannotDeserializeArrayIntoDynamic()
         {
@@ -3471,7 +3468,6 @@ Path '', line 1, position 1.");
 To fix this error either change the JSON to a JSON object (e.g. {""name"":""value""}) or change the deserialized type to an array or a type that implements a collection interface (e.g. ICollection, IList) like List<T> that can be deserialized from a JSON array. JsonArrayAttribute can also be added to the type to force it to deserialize from a JSON array.
 Path '', line 1, position 1.");
         }
-#endif
 
         [Test]
         public void CannotDeserializeArrayIntoLinqToJson()
@@ -3551,7 +3547,7 @@ Path '', line 1, position 1.");
                 {
                     ContractResolver = new DefaultContractResolver
                     {
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
                         IgnoreSerializableAttribute = true
 #endif
                     }
@@ -3568,7 +3564,7 @@ Path '', line 1, position 1.");
                 {
                     ContractResolver = new DefaultContractResolver
                     {
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
                         IgnoreSerializableAttribute = true
 #endif
                     }
@@ -3585,7 +3581,7 @@ Path '', line 1, position 1.");
                 {
                     ContractResolver = new DefaultContractResolver
                     {
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
                         IgnoreSerializableAttribute = true
 #endif
                     }
@@ -3602,7 +3598,7 @@ Path '', line 1, position 1.");
                 {
                     ContractResolver = new DefaultContractResolver
                     {
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
                         IgnoreSerializableAttribute = true
 #endif
                     }
@@ -4064,7 +4060,7 @@ Path '', line 1, position 1.");
             Assert.AreEqual("value", newModelStateDictionary["key"]);
         }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
 #if DEBUG
         [Test]
         public void SerializeISerializableInPartialTrustWithIgnoreInterface()
@@ -4301,7 +4297,7 @@ Path '', line 1, position 1.");
 }", json);
         }
 
-#if !(PORTABLE) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
         [Test]
         public void DeserializeClassWithInheritedProtectedMember()
         {
@@ -4370,7 +4366,6 @@ Path '', line 1, position 1.");
         }
 #endif
 
-#if !(NET20 || PORTABLE40)
         [Test]
         public void SerializeDeserializeXNodeProperties()
         {
@@ -4399,9 +4394,8 @@ Path '', line 1, position 1.");
 
             Assert.IsNull(newTestObject.Element.Parent);
         }
-#endif
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
         [Test]
         public void SerializeDeserializeXmlNodeProperties()
         {
@@ -4755,7 +4749,6 @@ Path '', line 1, position 1.");
 }", json);
         }
 
-#if !(NET35 || NET20 || PORTABLE40)
         [Test]
         public void SerializeExpandoObject()
         {
@@ -4793,7 +4786,6 @@ Path '', line 1, position 1.");
             CustomAssert.IsInstanceOfType(typeof(DateTime), o["DateTime"]);
             Assert.AreEqual(expando.Complex.DateTime, o["DateTime"]);
         }
-#endif
 
         [Test]
         public void DeserializeDecimalExact()
@@ -5308,7 +5300,7 @@ Path '', line 1, position 1.");
             Assert.AreEqual(new Guid("bb2f3da7-bf79-4d14-9d54-0a1f7ff5f902"), c.clientId);
         }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
         [Test]
         public void SerializeException1()
         {
@@ -5627,7 +5619,7 @@ Path '', line 1, position 1.");
             }, "Error converting value {null} to type 'System.Int32'. Path '[3]', line 5, position 6.");
         }
 
-#if !(PORTABLE) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
         [Test]
         public void SerializeIConvertible()
         {
@@ -6357,7 +6349,7 @@ Path '', line 1, position 1.");
             Assert.AreEqual("", s);
         }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
         [Test]
         public void SerializeAndDeserializeWithAttributes()
         {
@@ -6554,7 +6546,7 @@ lines.*/
             ExceptionAssert.Throws<JsonReaderException>(() => { s.Deserialize<Dictionary<string, int>>(new JsonTextReader(new StringReader(json))); }, "Additional text encountered after finished reading JSON content: {. Path '', line 7, position 0.");
         }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40)
+#if !(DNXCORE50)
         [Test]
         public void DeserializeException()
         {
@@ -6806,7 +6798,7 @@ This is just junk, though.";
         }
 #endif
 
-#if !(PORTABLE || NET35 || NET20 || PORTABLE40 || DNXCORE50) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
         [Test]
         public void SerializeTupleWithSerializableAttribute()
         {
@@ -7021,7 +7013,7 @@ This is just junk, though.";
 
             Assert.AreEqual(@"{""First"":""One"",""Second"":2}", json);
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
             DefaultContractResolver r = new DefaultContractResolver();
             r.IgnoreSerializableAttribute = false;
 
@@ -7128,7 +7120,7 @@ This is just junk, though.";
             Assert.AreEqual(1234567890.123456m, d);
         }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
         [Test]
         public void DontSerializeStaticFields()
         {
@@ -7152,7 +7144,7 @@ This is just junk, though.";
         }
 #endif
 
-#if !(NET20 || NET35 || PORTABLE || PORTABLE40) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
         [Test]
         public void SerializeBigInteger()
         {
@@ -7276,7 +7268,7 @@ This is just junk, though.";
 ]", json);
         }
 
-#if !(PORTABLE || PORTABLE40 || DNXCORE50)
+#if !(DNXCORE50)
         [Test]
         public void SerializeDictionaryWithStructKey()
         {
@@ -7293,7 +7285,7 @@ This is just junk, though.";
         }
 #endif
 
-#if !(PORTABLE || PORTABLE40 || DNXCORE50) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
         [Test]
         public void SerializeDictionaryWithStructKey_Custom()
         {
@@ -7384,7 +7376,7 @@ This is just junk, though.";
             Assert.AreEqual(jane, john.Spouse);
         }
 
-#if !(NET35 || NET20 || PORTABLE || PORTABLE40) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
         [Test]
         public void TypeConverterOnInterface()
         {
@@ -7450,7 +7442,7 @@ This is just junk, though.";
             ParticipantEntity deserializedProduct = JsonConvert.DeserializeObject<ParticipantEntity>(json);
         }
 
-#if !(PORTABLE) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
         [Test]
         public void ConvertibleIdTest()
         {
@@ -7776,7 +7768,7 @@ This is just junk, though.";
             Assert.AreEqual("derived", d.DerivedProperty);
         }
 
-#if !(NET20 || NET35 || PORTABLE || PORTABLE40) || NETSTANDARD2_0
+#if !(DNXCORE50)|| NETSTANDARD2_0
         [Test]
         public void DeserializeNullableUnsignedLong()
         {

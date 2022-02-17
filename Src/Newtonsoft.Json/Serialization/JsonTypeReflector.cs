@@ -442,23 +442,9 @@ namespace Newtonsoft.Json.Serialization
             {
                 if (_fullyTrusted == null)
                 {
-#if (DOTNET || PORTABLE || PORTABLE40)
-                    _fullyTrusted = true;
-#elif !(NET20 || NET35 || PORTABLE40)
                     AppDomain appDomain = AppDomain.CurrentDomain;
 
                     _fullyTrusted = appDomain.IsHomogenous && appDomain.IsFullyTrusted;
-#else
-                    try
-                    {
-                        new SecurityPermission(PermissionState.Unrestricted).Demand();
-                        _fullyTrusted = true;
-                    }
-                    catch (Exception)
-                    {
-                        _fullyTrusted = false;
-                    }
-#endif
                 }
 
                 return _fullyTrusted.GetValueOrDefault();
@@ -469,7 +455,7 @@ namespace Newtonsoft.Json.Serialization
         {
             get
             {
-#if !(PORTABLE40 || PORTABLE || DOTNET || NETSTANDARD2_0)
+#if !NETSTANDARD2_0
                 if (DynamicCodeGeneration)
                 {
                     return DynamicReflectionDelegateFactory.Instance;

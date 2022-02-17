@@ -159,7 +159,6 @@ namespace Newtonsoft.Json.Tests.Serialization
 }", json);
         }
 
-#if !(NET35 || NET20 || PORTABLE40)
         [Test]
         public void DynamicSnakeCasePropertyNames()
         {
@@ -189,7 +188,6 @@ namespace Newtonsoft.Json.Tests.Serialization
   ""child_object"": null
 }", json);
         }
-#endif
 
         [Test]
         public void DictionarySnakeCasePropertyNames_Disabled()

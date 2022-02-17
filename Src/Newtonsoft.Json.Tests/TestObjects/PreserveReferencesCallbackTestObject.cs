@@ -28,7 +28,7 @@ using System.Runtime.Serialization;
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !(PORTABLE || PORTABLE40 || DNXCORE50) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
     [Serializable]
     public class PreserveReferencesCallbackTestObject : ISerializable
     {

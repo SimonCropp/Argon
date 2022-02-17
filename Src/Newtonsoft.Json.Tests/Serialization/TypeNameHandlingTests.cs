@@ -24,11 +24,9 @@
 #endregion
 
 using System.Linq;
-#if !(PORTABLE || PORTABLE40) || NETSTANDARD2_0
+#if !(PORTABLE) || NETSTANDARD2_0
 using System.Collections.ObjectModel;
-#if !(NET35 || NET20)
 using System.Dynamic;
-#endif
 using System.Text;
 using Newtonsoft.Json.Tests.Linq;
 using System;
@@ -1914,7 +1912,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(1, (int)j["MyProperty"]);
         }
 
-#if !(NET35 || NET20 || PORTABLE40)
         [Test]
         public void PropertyItemTypeNameHandlingDynamic()
         {
@@ -1986,7 +1983,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             o = (JObject)data4.one;
             Assert.AreEqual(2, (int)o["MyProperty"]);
         }
-#endif
 
 #if !(DNXCORE50) || NETSTANDARD2_0
         [Test]
@@ -2217,7 +2213,7 @@ namespace Newtonsoft.Json.Tests.Serialization
         }
 #endif
 
-#if !(NET20 || PORTABLE || PORTABLE40)
+#if !(DNXCORE50)
         [Test]
         public void DeserializeComplexGenericDictionary_Simple()
         {
@@ -2578,13 +2574,11 @@ namespace Newtonsoft.Json.Tests.Serialization
         public TypeNameHandlingTestObject Data { get; set; }
     }
 
-#if !(NET35 || NET20 || PORTABLE40)
     public class PropertyItemTypeNameHandlingDynamic
     {
         [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
         public DynamicDictionary Data { get; set; }
     }
-#endif
 
     public class TypeNameHandlingTestObject
     {

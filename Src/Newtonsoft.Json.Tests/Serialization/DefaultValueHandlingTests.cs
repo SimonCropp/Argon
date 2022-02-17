@@ -315,7 +315,7 @@ namespace Newtonsoft.Json.Tests.Serialization
         {
             EmitDefaultValueClass c = new EmitDefaultValueClass();
 
-#if !(PORTABLE)
+#if !(DNXCORE50)
             DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(typeof(EmitDefaultValueClass));
 
             MemoryStream ms = new MemoryStream();

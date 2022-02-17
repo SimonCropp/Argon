@@ -54,7 +54,6 @@ namespace Newtonsoft.Json.Utilities
             return TimeZoneInfo.Local.GetUtcOffset(d);
         }
 
-#if !(PORTABLE40 || PORTABLE)
         public static XmlDateTimeSerializationMode ToSerializationMode(DateTimeKind kind)
         {
             switch (kind)
@@ -69,7 +68,7 @@ namespace Newtonsoft.Json.Utilities
                     throw MiscellaneousUtils.CreateArgumentOutOfRangeException(nameof(kind), kind, "Unexpected DateTimeKind value.");
             }
         }
-#else
+        
         public static string ToDateTimeFormat(DateTimeKind kind)
         {
             switch (kind)
@@ -84,7 +83,6 @@ namespace Newtonsoft.Json.Utilities
                     throw MiscellaneousUtils.CreateArgumentOutOfRangeException(nameof(kind), kind, "Unexpected DateTimeKind value.");
             }
         }
-#endif
 
         internal static DateTime EnsureDateTime(DateTime value, DateTimeZoneHandling timeZone)
         {

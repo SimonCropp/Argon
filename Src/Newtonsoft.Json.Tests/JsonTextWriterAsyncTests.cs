@@ -101,7 +101,7 @@ namespace Newtonsoft.Json.Tests
             }
         }
 
-#if !(PORTABLE) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
         [Test]
         public async Task WriteLazy()
         {
@@ -369,7 +369,7 @@ namespace Newtonsoft.Json.Tests
             Assert.IsTrue(ms.CanRead);
         }
 
-#if !(PORTABLE) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
         [Test]
         public async Task WriteIConvertableAsync()
         {

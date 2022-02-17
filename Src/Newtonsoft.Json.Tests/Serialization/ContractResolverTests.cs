@@ -577,7 +577,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 }", startingWithB);
         }
 
-#if !(PORTABLE) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
 #pragma warning disable 618
         [Test]
         public void SerializeCompilerGeneratedMembers()

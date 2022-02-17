@@ -48,16 +48,14 @@ using Assert = Newtonsoft.Json.Tests.XUnitAssert;
 #else
 using NUnit.Framework;
 #endif
-#if !NET20 && !PORTABLE40
 using System.Xml.Linq;
-#endif
 
 namespace Newtonsoft.Json.Tests.Serialization
 {
     [TestFixture]
     public class JsonSerializerCollectionsTests : TestFixtureBase
     {
-#if !(PORTABLE) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
         [Test]
         public void DeserializeNonGenericListTypeAndReadOnlyListViaConstructor()
         {
@@ -448,7 +446,7 @@ namespace Newtonsoft.Json.Tests.Serialization
         }
 #endif
 
-#if !(PORTABLE) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
         public class SomeObject
         {
             public string Text1 { get; set; }
@@ -1088,7 +1086,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(3, v2["Third"]);
         }
 
-#if !(PORTABLE) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
         [Test]
         public void DeserializeConcurrentDictionary()
         {
@@ -2090,7 +2088,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             }, "Unable to find a constructor to use for type Newtonsoft.Json.Tests.Serialization.ReadOnlyCollectionWithArrayArgument`1[System.Double]. Path '', line 1, position 1.");
         }
 
-#if !NET20 && !PORTABLE40
         [Test]
         public void NonDefaultConstructor_DuplicateKeyInDictionary_Replace()
         {
@@ -2100,7 +2097,6 @@ namespace Newtonsoft.Json.Tests.Serialization
 
             Assert.AreEqual("replaced!", result.Person["groups"]);
         }
-#endif
 
         [Test]
         public void GenericIListAndOverrideConstructor()
@@ -2112,7 +2108,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("goose", deserialized[2]);
         }
 
-#if !(PORTABLE)
+#if !(DNXCORE50)
         [Test]
         public void DeserializeCultureInfoKey()
         {
@@ -2273,7 +2269,6 @@ namespace Newtonsoft.Json.Tests.Serialization
         }
     }
 
-#if !NET20 && !PORTABLE40
     public class CASResponce
     {
         //<?xml version='1.0' encoding='iso-8859-1' ?>
@@ -2507,7 +2502,6 @@ namespace Newtonsoft.Json.Tests.Serialization
         public string OrganizationName { get; private set; }
 
     }
-#endif
 
     public class ReadOnlyCollectionWithArrayArgument<T> : IList<T>
     {

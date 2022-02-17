@@ -151,7 +151,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 }", json);
         }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
         [Serializable]
         public class MainClass : ISerializable
         {
@@ -212,7 +212,6 @@ namespace Newtonsoft.Json.Tests.Serialization
         }
 #endif
 
-#if !(NET20 || NET35 || PORTABLE40)
         public class DictionaryDynamicObject : DynamicObject
         {
             public IDictionary<string, object> Values { get; private set; }
@@ -267,7 +266,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             var c = JsonConvert.SerializeObject(parent, settings);
             Assert.AreEqual(@"{""child"":{""name"":""child""},""name"":""parent""}", c);
         }
-#endif
 
         [Test]
         public void EqualityComparer()
