@@ -948,10 +948,12 @@ namespace Argon
         /// <returns>The deserialized <see cref="XmlNode"/>.</returns>
         public static XmlDocument? DeserializeXmlNode(string value, string? deserializeRootElementName, bool writeArrayAttribute, bool encodeSpecialCharacters)
         {
-            var converter = new XmlNodeConverter();
-            converter.DeserializeRootElementName = deserializeRootElementName;
-            converter.WriteArrayAttribute = writeArrayAttribute;
-            converter.EncodeSpecialCharacters = encodeSpecialCharacters;
+            var converter = new XmlNodeConverter
+            {
+                DeserializeRootElementName = deserializeRootElementName,
+                WriteArrayAttribute = writeArrayAttribute,
+                EncodeSpecialCharacters = encodeSpecialCharacters
+            };
 
             return (XmlDocument?)DeserializeObject(value, typeof(XmlDocument), converter);
         }
@@ -1047,10 +1049,12 @@ namespace Argon
         /// <returns>The deserialized <see cref="XNode"/>.</returns>
         public static XDocument? DeserializeXNode(string value, string? deserializeRootElementName, bool writeArrayAttribute, bool encodeSpecialCharacters)
         {
-            var converter = new XmlNodeConverter();
-            converter.DeserializeRootElementName = deserializeRootElementName;
-            converter.WriteArrayAttribute = writeArrayAttribute;
-            converter.EncodeSpecialCharacters = encodeSpecialCharacters;
+            var converter = new XmlNodeConverter
+            {
+                DeserializeRootElementName = deserializeRootElementName,
+                WriteArrayAttribute = writeArrayAttribute,
+                EncodeSpecialCharacters = encodeSpecialCharacters
+            };
 
             return (XDocument?)DeserializeObject(value, typeof(XDocument), converter);
         }

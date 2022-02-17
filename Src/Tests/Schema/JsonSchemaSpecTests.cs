@@ -88,16 +88,16 @@ namespace Argon.Tests.Schema
                 {
                     foreach (JObject test in testCase["tests"])
                     {
-                        var jsonSchemaSpecTest = new JsonSchemaSpecTest();
-
-                        jsonSchemaSpecTest.FileName = Path.GetFileName(testFile);
-                        jsonSchemaSpecTest.TestCaseDescription = (string)testCase["description"];
-                        jsonSchemaSpecTest.Schema = (JObject)testCase["schema"];
-
-                        jsonSchemaSpecTest.TestDescription = (string)test["description"];
-                        jsonSchemaSpecTest.Data = test["data"];
-                        jsonSchemaSpecTest.IsValid = (bool)test["valid"];
-                        jsonSchemaSpecTest.TestNumber = specTests.Count + 1;
+                        var jsonSchemaSpecTest = new JsonSchemaSpecTest
+                        {
+                            FileName = Path.GetFileName(testFile),
+                            TestCaseDescription = (string)testCase["description"],
+                            Schema = (JObject)testCase["schema"],
+                            TestDescription = (string)test["description"],
+                            Data = test["data"],
+                            IsValid = (bool)test["valid"],
+                            TestNumber = specTests.Count + 1
+                        };
 
                         specTests.Add(jsonSchemaSpecTest);
                     }

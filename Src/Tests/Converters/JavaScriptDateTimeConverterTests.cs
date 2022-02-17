@@ -241,10 +241,12 @@ namespace Argon.Tests.Converters
         [Fact]
         public void ConverterObject()
         {
-            var l1 = new ConverterObject();
-            l1.Object1 = new DateTime(2000, 12, 12, 20, 10, 0, DateTimeKind.Utc);
-            l1.Object2 = null;
-            l1.ObjectNotHandled = new DateTime(2000, 12, 12, 20, 10, 0, DateTimeKind.Utc);
+            var l1 = new ConverterObject
+            {
+                Object1 = new DateTime(2000, 12, 12, 20, 10, 0, DateTimeKind.Utc),
+                Object2 = null,
+                ObjectNotHandled = new DateTime(2000, 12, 12, 20, 10, 0, DateTimeKind.Utc)
+            };
 
             var json = JsonConvert.SerializeObject(l1, Formatting.Indented);
             StringAssert.AreEqual(@"{

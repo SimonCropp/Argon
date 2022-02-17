@@ -41,12 +41,13 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void MissingMemberDeserialize()
         {
-            var product = new Product();
-
-            product.Name = "Apple";
-            product.ExpiryDate = new DateTime(2008, 12, 28);
-            product.Price = 3.99M;
-            product.Sizes = new string[] { "Small", "Medium", "Large" };
+            var product = new Product
+            {
+                Name = "Apple",
+                ExpiryDate = new DateTime(2008, 12, 28),
+                Price = 3.99M,
+                Sizes = new string[] { "Small", "Medium", "Large" }
+            };
 
             var output = JsonConvert.SerializeObject(product, Formatting.Indented);
             //{
@@ -69,12 +70,13 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void MissingMemberDeserializeOkay()
         {
-            var product = new Product();
-
-            product.Name = "Apple";
-            product.ExpiryDate = new DateTime(2008, 12, 28);
-            product.Price = 3.99M;
-            product.Sizes = new string[] { "Small", "Medium", "Large" };
+            var product = new Product
+            {
+                Name = "Apple",
+                ExpiryDate = new DateTime(2008, 12, 28),
+                Price = 3.99M,
+                Sizes = new string[] { "Small", "Medium", "Large" }
+            };
 
             var output = JsonConvert.SerializeObject(product);
             //{
@@ -88,8 +90,10 @@ namespace Argon.Tests.Serialization
             //  ]
             //}
 
-            var jsonSerializer = new JsonSerializer();
-            jsonSerializer.MissingMemberHandling = MissingMemberHandling.Ignore;
+            var jsonSerializer = new JsonSerializer
+            {
+                MissingMemberHandling = MissingMemberHandling.Ignore
+            };
 
             object deserializedValue;
 

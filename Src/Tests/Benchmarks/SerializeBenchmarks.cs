@@ -45,8 +45,10 @@ namespace Argon.Tests.Benchmarks
         {
             using (var file = System.IO.File.CreateText("largewrite.json"))
             {
-                var serializer = new JsonSerializer();
-                serializer.Formatting = Formatting.Indented;
+                var serializer = new JsonSerializer
+                {
+                    Formatting = Formatting.Indented
+                };
                 serializer.Serialize(file, LargeCollection);
             }
         }

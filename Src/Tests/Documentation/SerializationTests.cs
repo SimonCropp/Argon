@@ -55,12 +55,13 @@ namespace Argon.Tests.Documentation
         public void SerializeObject()
         {
             #region SerializeObject
-            var product = new Product();
-
-            product.Name = "Apple";
-            product.ExpiryDate = new DateTime(2008, 12, 28);
-            product.Price = 3.99M;
-            product.Sizes = new string[] { "Small", "Medium", "Large" };
+            var product = new Product
+            {
+                Name = "Apple",
+                ExpiryDate = new DateTime(2008, 12, 28),
+                Price = 3.99M,
+                Sizes = new string[] { "Small", "Medium", "Large" }
+            };
 
             var output = JsonConvert.SerializeObject(product);
             //{
@@ -84,8 +85,10 @@ namespace Argon.Tests.Documentation
         public void JsonSerializerToStream()
         {
             #region JsonSerializerToStream
-            var product = new Product();
-            product.ExpiryDate = new DateTime(2008, 12, 28);
+            var product = new Product
+            {
+                ExpiryDate = new DateTime(2008, 12, 28)
+            };
 
             var serializer = new JsonSerializer();
             serializer.Converters.Add(new JavaScriptDateTimeConverter());
@@ -753,9 +756,11 @@ namespace Argon.Tests.Documentation
         public void ReducingSerializedJsonSizeNullValueHandlingExample()
         {
             #region ReducingSerializedJsonSizeNullValueHandlingExample
-            var movie = new Movie();
-            movie.Name = "Bad Boys III";
-            movie.Description = "It's no Bad Boys";
+            var movie = new Movie
+            {
+                Name = "Bad Boys III",
+                Description = "It's no Bad Boys"
+            };
 
             var included = JsonConvert.SerializeObject(movie,
                 Formatting.Indented,

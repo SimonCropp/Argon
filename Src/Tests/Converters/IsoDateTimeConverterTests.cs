@@ -122,9 +122,14 @@ namespace Argon.Tests.Converters
         [Fact]
         public void SerializeFormattedDateTimeNewZealandCulture()
         {
-            var culture = new CultureInfo("en-NZ");
-            culture.DateTimeFormat.AMDesignator = "a.m.";
-            culture.DateTimeFormat.PMDesignator = "p.m.";
+            var culture = new CultureInfo("en-NZ")
+            {
+                DateTimeFormat =
+                {
+                    AMDesignator = "a.m.",
+                    PMDesignator = "p.m."
+                }
+            };
 
             var converter = new IsoDateTimeConverter { DateTimeFormat = "F", Culture = culture };
 
@@ -172,11 +177,13 @@ namespace Argon.Tests.Converters
         [Fact]
         public void SerializeUTC()
         {
-            var c = new DateTimeTestClass();
-            c.DateTimeField = new DateTime(2008, 12, 12, 12, 12, 12, 0, DateTimeKind.Utc).ToLocalTime();
-            c.DateTimeOffsetField = new DateTime(2008, 12, 12, 12, 12, 12, 0, DateTimeKind.Utc).ToLocalTime();
-            c.PreField = "Pre";
-            c.PostField = "Post";
+            var c = new DateTimeTestClass
+            {
+                DateTimeField = new DateTime(2008, 12, 12, 12, 12, 12, 0, DateTimeKind.Utc).ToLocalTime(),
+                DateTimeOffsetField = new DateTime(2008, 12, 12, 12, 12, 12, 0, DateTimeKind.Utc).ToLocalTime(),
+                PreField = "Pre",
+                PostField = "Post"
+            };
             var json = JsonConvert.SerializeObject(c, new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal });
             Assert.AreEqual(@"{""PreField"":""Pre"",""DateTimeField"":""2008-12-12T12:12:12Z"",""DateTimeOffsetField"":""2008-12-12T12:12:12+00:00"",""PostField"":""Post""}", json);
 
@@ -192,11 +199,13 @@ namespace Argon.Tests.Converters
         [Fact]
         public void NullableSerializeUTC()
         {
-            var c = new NullableDateTimeTestClass();
-            c.DateTimeField = new DateTime(2008, 12, 12, 12, 12, 12, 0, DateTimeKind.Utc).ToLocalTime();
-            c.DateTimeOffsetField = new DateTime(2008, 12, 12, 12, 12, 12, 0, DateTimeKind.Utc).ToLocalTime();
-            c.PreField = "Pre";
-            c.PostField = "Post";
+            var c = new NullableDateTimeTestClass
+            {
+                DateTimeField = new DateTime(2008, 12, 12, 12, 12, 12, 0, DateTimeKind.Utc).ToLocalTime(),
+                DateTimeOffsetField = new DateTime(2008, 12, 12, 12, 12, 12, 0, DateTimeKind.Utc).ToLocalTime(),
+                PreField = "Pre",
+                PostField = "Post"
+            };
             var json = JsonConvert.SerializeObject(c, new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal });
             Assert.AreEqual(@"{""PreField"":""Pre"",""DateTimeField"":""2008-12-12T12:12:12Z"",""DateTimeOffsetField"":""2008-12-12T12:12:12+00:00"",""PostField"":""Post""}", json);
 
@@ -234,10 +243,12 @@ namespace Argon.Tests.Converters
         {
             var localDateTime = new DateTime(2008, 1, 1, 1, 1, 1, 0, DateTimeKind.Local);
 
-            var c = new DateTimeTestClass();
-            c.DateTimeField = localDateTime;
-            c.PreField = "Pre";
-            c.PostField = "Post";
+            var c = new DateTimeTestClass
+            {
+                DateTimeField = localDateTime,
+                PreField = "Pre",
+                PostField = "Post"
+            };
             var json = JsonConvert.SerializeObject(c, new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }); //note that this fails without the Utc converter...
             c.DateTimeField = new DateTime(2008, 1, 1, 1, 1, 1, 0, DateTimeKind.Utc);
             var json2 = JsonConvert.SerializeObject(c, new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal });
@@ -278,8 +289,10 @@ namespace Argon.Tests.Converters
         [Fact]
         public void DeserializeDateTimeOffset()
         {
-            var settings = new JsonSerializerSettings();
-            settings.DateParseHandling = DateParseHandling.DateTimeOffset;
+            var settings = new JsonSerializerSettings
+            {
+                DateParseHandling = DateParseHandling.DateTimeOffset
+            };
             settings.Converters.Add(new IsoDateTimeConverter());
 
             // Intentionally use an offset that is unlikely in the real world,

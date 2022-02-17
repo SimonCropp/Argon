@@ -186,21 +186,24 @@ namespace Argon.Tests.Converters
 
         private Union CreateUnion(Type t)
         {
-            var u = new Union();
-
-            u.TagReader = s => FSharpValue.PreComputeUnionTagReader(t, null).Invoke(s);
-            u.Cases = new List<UnionCase>();
+            var u = new Union
+            {
+                TagReader = s => FSharpValue.PreComputeUnionTagReader(t, null).Invoke(s),
+                Cases = new List<UnionCase>()
+            };
 
             var cases = FSharpType.GetUnionCases(t, null);
 
             foreach (var unionCaseInfo in cases)
             {
-                var unionCase = new UnionCase();
-                unionCase.Tag = unionCaseInfo.Tag;
-                unionCase.Name = unionCaseInfo.Name;
-                unionCase.Fields = unionCaseInfo.GetFields();
-                unionCase.FieldReader = s => FSharpValue.PreComputeUnionReader(unionCaseInfo, null).Invoke(s);
-                unionCase.Constructor = s => FSharpValue.PreComputeUnionConstructor(unionCaseInfo, null).Invoke(s);
+                var unionCase = new UnionCase
+                {
+                    Tag = unionCaseInfo.Tag,
+                    Name = unionCaseInfo.Name,
+                    Fields = unionCaseInfo.GetFields(),
+                    FieldReader = s => FSharpValue.PreComputeUnionReader(unionCaseInfo, null).Invoke(s),
+                    Constructor = s => FSharpValue.PreComputeUnionConstructor(unionCaseInfo, null).Invoke(s)
+                };
 
                 u.Cases.Add(unionCase);
             }

@@ -68,8 +68,10 @@ namespace Argon.Tests.Serialization
         {
             var s1 = new Store();
 
-            var jsonSerializer = new JsonSerializer();
-            jsonSerializer.NullValueHandling = NullValueHandling.Ignore;
+            var jsonSerializer = new JsonSerializer
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            };
 
             var sw = new StringWriter();
             jsonSerializer.Serialize(sw, s1);
@@ -91,9 +93,11 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void NullValueHandlingBlogPost()
         {
-            var movie = new Movie();
-            movie.Name = "Bad Boys III";
-            movie.Description = "It's no Bad Boys";
+            var movie = new Movie
+            {
+                Name = "Bad Boys III",
+                Description = "It's no Bad Boys"
+            };
 
             var included = JsonConvert.SerializeObject(movie,
                 Formatting.Indented,

@@ -660,8 +660,10 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DefaultContractResolverIgnoreShouldSerializeTrue()
         {
-            var resolver = new DefaultContractResolver();
-            resolver.IgnoreShouldSerializeMembers = true;
+            var resolver = new DefaultContractResolver
+            {
+                IgnoreShouldSerializeMembers = true
+            };
 
             var contract = (JsonObjectContract)resolver.ResolveContract(typeof(ClassWithShouldSerialize));
 
@@ -725,8 +727,10 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DefaultContractResolverIgnoreIsSpecifiedTrue()
         {
-            var resolver = new DefaultContractResolver();
-            resolver.IgnoreIsSpecifiedMembers = true;
+            var resolver = new DefaultContractResolver
+            {
+                IgnoreIsSpecifiedMembers = true
+            };
 
             var contract = (JsonObjectContract)resolver.ResolveContract(typeof(ClassWithIsSpecified));
 

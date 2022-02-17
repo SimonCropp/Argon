@@ -156,8 +156,10 @@ namespace Argon.Tests.Utilities
         {
             var getter = ExpressionReflectionDelegateFactory.Instance.CreateGet<object>(TestReflectionUtils.GetProperty(typeof(Movie), "Name"));
 
-            var m = new Movie();
-            m.Name = "OH HAI!";
+            var m = new Movie
+            {
+                Name = "OH HAI!"
+            };
 
             var value = getter(m);
 
@@ -303,8 +305,10 @@ namespace Argon.Tests.Utilities
             ExceptionAssert.Throws<InvalidCastException>(
                 () =>
                 {
-                    var p = new Person();
-                    p.Name = "Hi";
+                    var p = new Person
+                    {
+                        Name = "Hi"
+                    };
 
                     var setter = ExpressionReflectionDelegateFactory.Instance.CreateGet<object>(TestReflectionUtils.GetProperty(typeof(Movie), "Name"));
 

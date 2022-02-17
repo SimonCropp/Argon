@@ -38,12 +38,14 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test()
         {
-            var activities = new Activities();
-            activities.List = new List<Activity>
+            var activities = new Activities
             {
-                new()
+                List = new List<Activity>
                 {
-                    Name = "An activity"
+                    new()
+                    {
+                        Name = "An activity"
+                    }
                 }
             };
 
@@ -60,12 +62,14 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test_SubClass()
         {
-            var activities = new ActivitiesSubClass();
-            activities.List = new List<Activity>
+            var activities = new ActivitiesSubClass
             {
-                new()
+                List = new List<Activity>
                 {
-                    Name = "An activity"
+                    new()
+                    {
+                        Name = "An activity"
+                    }
                 }
             };
 

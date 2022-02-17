@@ -65,8 +65,10 @@ namespace Argon.Tests.Issues
                 }
                 else if (token.Type == JTokenType.Array)
                 {
-                    var result = new MyClass2();
-                    result.Dummy = token.Select(t => (int)t).ToArray();
+                    var result = new MyClass2
+                    {
+                        Dummy = token.Select(t => (int)t).ToArray()
+                    };
                     return result;
                 }
                 else if (token.Type == JTokenType.Comment)

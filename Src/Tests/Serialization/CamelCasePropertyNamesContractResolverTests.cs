@@ -60,10 +60,12 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void JsonConvertSerializerSettings()
         {
-            var person = new Person();
-            person.BirthDate = new DateTime(2000, 11, 20, 23, 55, 44, DateTimeKind.Utc);
-            person.LastModified = new DateTime(2000, 11, 20, 23, 55, 44, DateTimeKind.Utc);
-            person.Name = "Name!";
+            var person = new Person
+            {
+                BirthDate = new DateTime(2000, 11, 20, 23, 55, 44, DateTimeKind.Utc),
+                LastModified = new DateTime(2000, 11, 20, 23, 55, 44, DateTimeKind.Utc),
+                Name = "Name!"
+            };
 
             var json = JsonConvert.SerializeObject(person, Formatting.Indented, new JsonSerializerSettings
             {
@@ -96,11 +98,15 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void JTokenWriter()
         {
-            var ignoreAttributeOnClassTestClass = new JsonIgnoreAttributeOnClassTestClass();
-            ignoreAttributeOnClassTestClass.Field = int.MinValue;
+            var ignoreAttributeOnClassTestClass = new JsonIgnoreAttributeOnClassTestClass
+            {
+                Field = int.MinValue
+            };
 
-            var serializer = new JsonSerializer();
-            serializer.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            var serializer = new JsonSerializer
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
 
             var writer = new JTokenWriter();
 

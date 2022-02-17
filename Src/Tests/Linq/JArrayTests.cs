@@ -469,8 +469,10 @@ Parameter name: index",
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                var a = new JArray();
-                a["badvalue"] = new JValue(3);
+                var a = new JArray
+                {
+                    ["badvalue"] = new JValue(3)
+                };
             }, @"Set JArray values with invalid key value: ""badvalue"". Int32 array index expected.");
         }
 
@@ -479,8 +481,10 @@ Parameter name: index",
         {
             object key = 0;
 
-            var a = new JArray((object)null);
-            a[key] = new JValue(3);
+            var a = new JArray((object)null)
+            {
+                [key] = new JValue(3)
+            };
 
             Assert.AreEqual(3, (int)a[key]);
         }

@@ -427,9 +427,11 @@ namespace Argon.Tests.Schema
         [Fact]
         public void WriteTo_ExclusiveMinimum_ExclusiveMaximum()
         {
-            var schema = new JsonSchema();
-            schema.ExclusiveMinimum = true;
-            schema.ExclusiveMaximum = true;
+            var schema = new JsonSchema
+            {
+              ExclusiveMinimum = true,
+              ExclusiveMaximum = true
+            };
 
             var writer = new StringWriter();
             var jsonWriter = new JsonTextWriter(writer);
@@ -448,10 +450,12 @@ namespace Argon.Tests.Schema
         [Fact]
         public void WriteTo_PatternProperties()
         {
-            var schema = new JsonSchema();
-            schema.PatternProperties = new Dictionary<string, JsonSchema>
+            var schema = new JsonSchema
             {
+              PatternProperties = new Dictionary<string, JsonSchema>
+              {
                 { "[abc]", new JsonSchema() }
+              }
             };
 
             var writer = new StringWriter();
@@ -488,8 +492,10 @@ namespace Argon.Tests.Schema
         [Fact]
         public void WriteTo_PositionalItemsValidation_True()
         {
-            var schema = new JsonSchema();
-            schema.PositionalItemsValidation = true;
+            var schema = new JsonSchema
+            {
+              PositionalItemsValidation = true
+            };
 
             var writer = new StringWriter();
             var jsonWriter = new JsonTextWriter(writer);
@@ -507,9 +513,11 @@ namespace Argon.Tests.Schema
         [Fact]
         public void WriteTo_PositionalItemsValidation_TrueWithItemsSchema()
         {
-            var schema = new JsonSchema();
-            schema.PositionalItemsValidation = true;
-            schema.Items = new List<JsonSchema> { new JsonSchema { Type = JsonSchemaType.String } };
+            var schema = new JsonSchema
+            {
+              PositionalItemsValidation = true,
+              Items = new List<JsonSchema> { new JsonSchema { Type = JsonSchemaType.String } }
+            };
 
             var writer = new StringWriter();
             var jsonWriter = new JsonTextWriter(writer);
@@ -531,8 +539,10 @@ namespace Argon.Tests.Schema
         [Fact]
         public void WriteTo_PositionalItemsValidation_FalseWithItemsSchema()
         {
-            var schema = new JsonSchema();
-            schema.Items = new List<JsonSchema> { new JsonSchema { Type = JsonSchemaType.String } };
+            var schema = new JsonSchema
+            {
+              Items = new List<JsonSchema> { new JsonSchema { Type = JsonSchemaType.String } }
+            };
 
             var writer = new StringWriter();
             var jsonWriter = new JsonTextWriter(writer);

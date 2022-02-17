@@ -501,9 +501,11 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
         [Fact]
         public void SerializeNegativeFlagsEnum()
         {
-            var negativeEnumClass = new NegativeFlagsEnumClass();
-            negativeEnumClass.Value1 = NegativeFlagsEnum.NegativeFour | NegativeFlagsEnum.NegativeTwo;
-            negativeEnumClass.Value2 = NegativeFlagsEnum.Two | NegativeFlagsEnum.Four;
+            var negativeEnumClass = new NegativeFlagsEnumClass
+            {
+                Value1 = NegativeFlagsEnum.NegativeFour | NegativeFlagsEnum.NegativeTwo,
+                Value2 = NegativeFlagsEnum.Two | NegativeFlagsEnum.Four
+            };
 
             var json = JsonConvert.SerializeObject(negativeEnumClass, Formatting.Indented, new StringEnumConverter());
 

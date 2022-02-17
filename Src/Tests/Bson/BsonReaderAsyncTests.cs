@@ -1250,8 +1250,10 @@ namespace Argon.Tests.Bson
             Assert.IsTrue(await reader.ReadAsync());
             Assert.IsFalse(await reader.ReadAsync());
 
-            var serializer = new JsonSerializer();
-            serializer.MetadataPropertyHandling = MetadataPropertyHandling.Default;
+            var serializer = new JsonSerializer
+            {
+                MetadataPropertyHandling = MetadataPropertyHandling.Default
+            };
             var b = serializer.Deserialize<ObjectTestClass>(new BsonReader(new MemoryStream(bytes)));
             Assert.AreEqual(typeof(Guid), b.TheGuid.GetType());
             Assert.AreEqual(g, (Guid)b.TheGuid);
@@ -1316,8 +1318,10 @@ namespace Argon.Tests.Bson
             Assert.IsTrue(await reader.ReadAsync());
             Assert.IsFalse(await reader.ReadAsync());
 
-            var serializer = new JsonSerializer();
-            serializer.MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead;
+            var serializer = new JsonSerializer
+            {
+                MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
+            };
             var b = serializer.Deserialize<BytesTestClass>(new BsonReader(new MemoryStream(bytes)));
             CollectionAssert.AreEquivalent(g.ToByteArray(), b.TheGuid);
         }

@@ -47,26 +47,32 @@ namespace Argon.Tests.Benchmarks
 
         private static TestClass CreateSerializationObject()
         {
-            var test = new TestClass();
+            var test = new TestClass
+            {
+                dictionary = new Dictionary<string, int> { { "Val & asd1", 1 }, { "Val2 & asd1", 3 }, { "Val3 & asd1", 4 } },
+                Address1 =
+                {
+                    Street = "fff Street",
+                    Entered = DateTime.Now.AddDays(20)
+                },
+                BigNumber = 34123123123.121M,
+                Now = DateTime.Now.AddHours(1),
+                strings = new List<string> { null, "Markus egger ]><[, (2nd)", null }
+            };
 
-            test.dictionary = new Dictionary<string, int> { { "Val & asd1", 1 }, { "Val2 & asd1", 3 }, { "Val3 & asd1", 4 } };
-
-            test.Address1.Street = "fff Street";
-            test.Address1.Entered = DateTime.Now.AddDays(20);
-
-            test.BigNumber = 34123123123.121M;
-            test.Now = DateTime.Now.AddHours(1);
-            test.strings = new List<string> { null, "Markus egger ]><[, (2nd)", null };
-
-            var address = new Address();
-            address.Entered = DateTime.Now.AddDays(-1);
-            address.Street = "\u001farray\u003caddress";
+            var address = new Address
+            {
+                Entered = DateTime.Now.AddDays(-1),
+                Street = "\u001farray\u003caddress"
+            };
 
             test.Addresses.Add(address);
 
-            address = new Address();
-            address.Entered = DateTime.Now.AddDays(-2);
-            address.Street = "array 2 address";
+            address = new Address
+            {
+                Entered = DateTime.Now.AddDays(-2),
+                Street = "array 2 address"
+            };
             test.Addresses.Add(address);
             return test;
         }

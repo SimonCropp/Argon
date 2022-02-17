@@ -37,8 +37,10 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test()
         {
-            var f2 = new Fubar2();
-            f2.Version = new Version("3.0");
+            var f2 = new Fubar2
+            {
+                Version = new Version("3.0")
+            };
             (f2 as Fubar).Version = new Version("4.0");
 
             var s = JsonConvert.SerializeObject(f2, new JsonSerializerSettings

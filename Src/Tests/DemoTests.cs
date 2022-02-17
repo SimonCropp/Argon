@@ -254,8 +254,10 @@ namespace Argon.Tests
         [Fact]
         public void DeserializationBasics2()
         {
-            var s = new Session();
-            s.Date = new DateTime(2014, 6, 4);
+            var s = new Session
+            {
+                Date = new DateTime(2014, 6, 4)
+            };
 
             var j = @"{
               'Name': 'Serialize All The Things'
@@ -508,11 +510,13 @@ namespace Argon.Tests
         [Fact]
         public void SerializeAttributes()
         {
-            var house = new House3();
-            house.StreetAddress = "221B Baker Street";
-            house.Bedrooms = 2;
-            house.FloorArea = 100m;
-            house.BuildDate = new DateTime(1890, 1, 1);
+            var house = new House3
+            {
+                StreetAddress = "221B Baker Street",
+                Bedrooms = 2,
+                FloorArea = 100m,
+                BuildDate = new DateTime(1890, 1, 1)
+            };
 
             var json = JsonConvert.SerializeObject(house, Formatting.Indented);
             // {

@@ -52,10 +52,14 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            var joe = new Employee();
-            joe.Name = "Joe Employee";
-            var mike = new Employee();
-            mike.Name = "Mike Manager";
+            var joe = new Employee
+            {
+                Name = "Joe Employee"
+            };
+            var mike = new Employee
+            {
+                Name = "Mike Manager"
+            };
 
             joe.Manager = mike;
 

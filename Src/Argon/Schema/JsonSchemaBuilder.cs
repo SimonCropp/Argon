@@ -210,8 +210,10 @@ namespace Argon.Schema
 
             if (schemaObject.TryGetValue(JsonTypeReflector.RefPropertyName, out var referenceToken))
             {
-                var deferredSchema = new JsonSchema();
-                deferredSchema.DeferredReference = (string)referenceToken;
+                var deferredSchema = new JsonSchema
+                {
+                    DeferredReference = (string)referenceToken
+                };
 
                 return deferredSchema;
             }

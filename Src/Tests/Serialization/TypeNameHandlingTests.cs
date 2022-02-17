@@ -386,8 +386,10 @@ namespace Argon.Tests.Serialization
             ExceptionAssert.Throws<JsonSerializationException>(() =>
             {
                 var reader = new JsonTextReader(new StringReader(sb.ToString()));
-                var ser = new JsonSerializer();
-                ser.MetadataPropertyHandling = MetadataPropertyHandling.Default;
+                var ser = new JsonSerializer
+                {
+                    MetadataPropertyHandling = MetadataPropertyHandling.Default
+                };
                 ser.Deserialize<sbyte>(reader);
             }, "Unexpected token when deserializing primitive value: StartObject. Path '$value', line 1, position 11.");
         }
@@ -474,14 +476,16 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeWrapper()
         {
-            var wrapper = new Wrapper();
-            wrapper.Array = new List<EmployeeReference>
+            var wrapper = new Wrapper
             {
-                new()
-            };
-            wrapper.Dictionary = new Dictionary<string, EmployeeReference>
-            {
-                { "First", new EmployeeReference() }
+                Array = new List<EmployeeReference>
+                {
+                    new()
+                },
+                Dictionary = new Dictionary<string, EmployeeReference>
+                {
+                    { "First", new EmployeeReference() }
+                }
             };
 
             var json = JsonConvert.SerializeObject(wrapper, Formatting.Indented, new JsonSerializerSettings
@@ -1136,15 +1140,18 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void CollectionWithAbstractItems()
         {
-            var testObject = new HolderClass();
-            testObject.TestMember = new ContentSubClass("First One");
-            testObject.AnotherTestMember = new Dictionary<int, IList<ContentBaseClass>>();
-            testObject.AnotherTestMember.Add(1, new List<ContentBaseClass>());
+            var testObject = new HolderClass
+            {
+                TestMember = new ContentSubClass("First One"),
+                AnotherTestMember = new Dictionary<int, IList<ContentBaseClass>> {{1, new List<ContentBaseClass>()}}
+            };
             testObject.AnotherTestMember[1].Add(new ContentSubClass("Second One"));
             testObject.AThirdTestMember = new ContentSubClass("Third One");
 
-            var serializingTester = new JsonSerializer();
-            serializingTester.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            var serializingTester = new JsonSerializer
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
 
             var sw = new StringWriter();
             using (var jsonWriter = new JsonTextWriter(sw))
@@ -1210,12 +1217,14 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void WriteObjectTypeNameForPropertyDemo()
         {
-            var message = new Message();
-            message.Address = "http://www.google.com";
-            message.Body = new SearchDetails
+            var message = new Message
             {
-                Query = "Json.NET",
-                Language = "en-us"
+                Address = "http://www.google.com",
+                Body = new SearchDetails
+                {
+                    Query = "Json.NET",
+                    Language = "en-us"
+                }
             };
 
             var json = JsonConvert.SerializeObject(message, Formatting.Indented);
@@ -1395,14 +1404,18 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ByteArrays()
         {
-            var testerObject = new Car();
-            testerObject.Year = new DateTime(2000, 10, 5, 1, 1, 1, DateTimeKind.Utc);
+            var testerObject = new Car
+            {
+                Year = new DateTime(2000, 10, 5, 1, 1, 1, DateTimeKind.Utc)
+            };
             var data = new byte[] { 75, 65, 82, 73, 82, 65 };
             testerObject.Objects = new object[] { data, "prueba" };
 
-            var jsonSettings = new JsonSerializerSettings();
-            jsonSettings.NullValueHandling = NullValueHandling.Ignore;
-            jsonSettings.TypeNameHandling = TypeNameHandling.All;
+            var jsonSettings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                TypeNameHandling = TypeNameHandling.All
+            };
 
             var output = JsonConvert.SerializeObject(testerObject, Formatting.Indented, jsonSettings);
 
@@ -1462,8 +1475,10 @@ namespace Argon.Tests.Serialization
             var writer = new StringWriter();
 
             //Create our serializer and set Type Name Handling appropriately
-            var serializer = new JsonSerializer();
-            serializer.TypeNameHandling = flag;
+            var serializer = new JsonSerializer
+            {
+                TypeNameHandling = flag
+            };
 
             //Do the actual serialization and dump to Console for inspection
             serializer.Serialize(new JsonTextWriter(writer), e);
@@ -1611,13 +1626,14 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void TypeNameObjectItems()
         {
-            var o1 = new TypeNameObject();
-
-            o1.Object1 = new TestComponentSimple { MyProperty = 1 };
-            o1.Object2 = 123;
-            o1.ObjectNotHandled = new TestComponentSimple { MyProperty = int.MaxValue };
-            o1.String = "String!";
-            o1.Integer = int.MaxValue;
+            var o1 = new TypeNameObject
+            {
+                Object1 = new TestComponentSimple { MyProperty = 1 },
+                Object2 = 123,
+                ObjectNotHandled = new TestComponentSimple { MyProperty = int.MaxValue },
+                String = "String!",
+                Integer = int.MaxValue
+            };
 
             var json = JsonConvert.SerializeObject(o1, Formatting.Indented);
             var expected = @"{
@@ -1649,12 +1665,14 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void PropertyItemTypeNameHandling()
         {
-            var c1 = new PropertyItemTypeNameHandling();
-            c1.Data = new List<object>
+            var c1 = new PropertyItemTypeNameHandling
             {
-                1,
-                "two",
-                new TestComponentSimple { MyProperty = 1 }
+                Data = new List<object>
+                {
+                    1,
+                    "two",
+                    new TestComponentSimple { MyProperty = 1 }
+                }
             };
 
             var json = JsonConvert.SerializeObject(c1, Formatting.Indented);
@@ -2070,13 +2088,14 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ParentTypeNameHandlingWithISerializableValues()
         {
-            var pp = new ParentParent();
-
-            pp.ParentProp = new MyParent
+            var pp = new ParentParent
             {
-                Child = new MyChild
+                ParentProp = new MyParent
                 {
-                    MyProperty = "string!"
+                    Child = new MyChild
+                    {
+                        MyProperty = "string!"
+                    }
                 }
             };
 

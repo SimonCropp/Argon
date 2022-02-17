@@ -99,16 +99,20 @@ namespace Argon.Converters
 
         public IXmlNode CreateAttribute(string name, string? value)
         {
-            var attribute = new XmlNodeWrapper(_document.CreateAttribute(name));
-            attribute.Value = value;
+            var attribute = new XmlNodeWrapper(_document.CreateAttribute(name))
+            {
+                Value = value
+            };
 
             return attribute;
         }
 
         public IXmlNode CreateAttribute(string qualifiedName, string namespaceUri, string? value)
         {
-            var attribute = new XmlNodeWrapper(_document.CreateAttribute(qualifiedName, namespaceUri));
-            attribute.Value = value;
+            var attribute = new XmlNodeWrapper(_document.CreateAttribute(qualifiedName, namespaceUri))
+            {
+                Value = value
+            };
 
             return attribute;
         }
@@ -1496,9 +1500,11 @@ namespace Argon.Converters
                     throw JsonSerializationException.Create(reader, "XmlNodeConverter only supports deserializing XmlDocument, XmlElement or XmlNode.");
                 }
 
-                var d = new XmlDocument();
-                // prevent http request when resolving any DTD references
-                d.XmlResolver = null;
+                var d = new XmlDocument
+                {
+                    // prevent http request when resolving any DTD references
+                    XmlResolver = null
+                };
 
                 document = new XmlDocumentWrapper(d);
                 rootNode = document;

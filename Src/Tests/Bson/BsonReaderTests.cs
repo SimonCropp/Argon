@@ -1443,8 +1443,10 @@ namespace Argon.Tests.Bson
         {
             var test = new TestObject("Test", new byte[] { 72, 63, 62, 71, 92, 55 });
 
-            var serializer = new JsonSerializer();
-            serializer.TypeNameHandling = TypeNameHandling.All;
+            var serializer = new JsonSerializer
+            {
+                TypeNameHandling = TypeNameHandling.All
+            };
 
             byte[] objectBytes;
             using (var bsonStream = new MemoryStream())
@@ -1471,8 +1473,10 @@ namespace Argon.Tests.Bson
         public void Utf8Text()
         {
             var badText = System.IO.File.ReadAllText("PoisonText.txt");
-            var j = new JObject();
-            j["test"] = badText;
+            var j = new JObject
+            {
+                ["test"] = badText
+            };
 
             var memoryStream = new MemoryStream();
             var bsonWriter = new BsonWriter(memoryStream);
@@ -1660,8 +1664,10 @@ namespace Argon.Tests.Bson
             Assert.IsTrue(reader.Read());
             Assert.IsFalse(reader.Read());
 
-            var serializer = new JsonSerializer();
-            serializer.MetadataPropertyHandling = MetadataPropertyHandling.Default;
+            var serializer = new JsonSerializer
+            {
+                MetadataPropertyHandling = MetadataPropertyHandling.Default
+            };
             var b = serializer.Deserialize<ObjectTestClass>(new BsonReader(new MemoryStream(bytes)));
             Assert.AreEqual(typeof(Guid), b.TheGuid.GetType());
             Assert.AreEqual(g, (Guid)b.TheGuid);
@@ -1726,8 +1732,10 @@ namespace Argon.Tests.Bson
             Assert.IsTrue(reader.Read());
             Assert.IsFalse(reader.Read());
 
-            var serializer = new JsonSerializer();
-            serializer.MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead;
+            var serializer = new JsonSerializer
+            {
+                MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
+            };
             var b = serializer.Deserialize<BytesTestClass>(new BsonReader(new MemoryStream(bytes)));
             CollectionAssert.AreEquivalent(g.ToByteArray(), b.TheGuid);
         }

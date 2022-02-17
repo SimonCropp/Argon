@@ -116,8 +116,10 @@ namespace Argon.Tests.Utilities
         {
             ExceptionAssert.Throws<InvalidCastException>(() =>
             {
-                var p = new Person();
-                p.Name = "Hi";
+                var p = new Person
+                {
+                    Name = "Hi"
+                };
 
                 var setter = DynamicReflectionDelegateFactory.Instance.CreateGet<object>(typeof(Movie).GetProperty("Name"));
 
@@ -200,8 +202,10 @@ namespace Argon.Tests.Utilities
 
             var call = DynamicReflectionDelegateFactory.Instance.CreateGet<Person>(namePropertyInfo);
 
-            var p = new Person();
-            p.Name = "Name!";
+            var p = new Person
+            {
+                Name = "Name!"
+            };
 
             var result = call(p);
             Assert.IsNotNull(result);

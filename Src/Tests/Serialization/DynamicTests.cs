@@ -42,8 +42,10 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeDynamicObject()
         {
-            var dynamicObject = new TestDynamicObject();
-            dynamicObject.Explicit = true;
+            var dynamicObject = new TestDynamicObject
+            {
+                Explicit = true
+            };
 
             dynamic d = dynamicObject;
             d.Int = 1;
@@ -144,8 +146,10 @@ namespace Argon.Tests.Serialization
         {
             ExceptionAssert.Throws<JsonSerializationException>(() =>
             {
-                var settings = new JsonSerializerSettings();
-                settings.NullValueHandling = NullValueHandling.Ignore;
+                var settings = new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                };
                 var json = @"{
   ""contributors"": null
 }";
@@ -173,8 +177,10 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void AllowNonPublicDefaultConstructor()
         {
-            var settings = new JsonSerializerSettings();
-            settings.ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor;
+            var settings = new JsonSerializerSettings
+            {
+                ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
+            };
 
             var json = @"{
   ""contributors"": null,

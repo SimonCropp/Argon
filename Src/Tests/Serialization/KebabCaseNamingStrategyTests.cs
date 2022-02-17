@@ -41,10 +41,12 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void JsonConvertSerializerSettings()
         {
-            var person = new Person();
-            person.BirthDate = new DateTime(2000, 11, 20, 23, 55, 44, DateTimeKind.Utc);
-            person.LastModified = new DateTime(2000, 11, 20, 23, 55, 44, DateTimeKind.Utc);
-            person.Name = "Name!";
+            var person = new Person
+            {
+                BirthDate = new DateTime(2000, 11, 20, 23, 55, 44, DateTimeKind.Utc),
+                LastModified = new DateTime(2000, 11, 20, 23, 55, 44, DateTimeKind.Utc),
+                Name = "Name!"
+            };
 
             var contractResolver = new DefaultContractResolver
             {
@@ -82,8 +84,10 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void JTokenWriter_OverrideSpecifiedName()
         {
-            var ignoreAttributeOnClassTestClass = new JsonIgnoreAttributeOnClassTestClass();
-            ignoreAttributeOnClassTestClass.Field = int.MinValue;
+            var ignoreAttributeOnClassTestClass = new JsonIgnoreAttributeOnClassTestClass
+            {
+                Field = int.MinValue
+            };
 
             var contractResolver = new DefaultContractResolver
             {
@@ -93,8 +97,10 @@ namespace Argon.Tests.Serialization
                 }
             };
 
-            var serializer = new JsonSerializer();
-            serializer.ContractResolver = contractResolver;
+            var serializer = new JsonSerializer
+            {
+                ContractResolver = contractResolver
+            };
 
             var writer = new JTokenWriter();
 

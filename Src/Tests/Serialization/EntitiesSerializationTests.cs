@@ -447,15 +447,19 @@ namespace Argon.Tests.Serialization
 
         private Folder CreateEntitiesTestData()
         {
-            var folder = new Folder();
-            folder.FolderId = new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E");
+            var folder = new Folder
+            {
+              FolderId = new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E")
+            };
             folder.EntityKey = new EntityKey("DataServicesTestDatabaseEntities.Folder", "FolderId", folder.FolderId);
             folder.Name = "Root folder";
             folder.Description = "Description!";
             folder.CreatedDate = new DateTime(2000, 12, 10, 10, 50, 0, DateTimeKind.Utc);
 
-            var childFolder = new Folder();
-            childFolder.FolderId = new Guid("484936E2-7CBB-4592-93FF-B2103E5705E4");
+            var childFolder = new Folder
+            {
+              FolderId = new Guid("484936E2-7CBB-4592-93FF-B2103E5705E4")
+            };
             childFolder.EntityKey = new EntityKey("DataServicesTestDatabaseEntities.Folder", "FolderId", childFolder.FolderId);
             childFolder.Name = "Child folder";
             childFolder.Description = "Description!";
@@ -463,8 +467,10 @@ namespace Argon.Tests.Serialization
 
             folder.ChildFolders.Add(childFolder);
 
-            var file1 = new File();
-            file1.FileId = new Guid("CC76D734-49F1-4616-BB38-41514228AC6C");
+            var file1 = new File
+            {
+              FileId = new Guid("CC76D734-49F1-4616-BB38-41514228AC6C")
+            };
             file1.EntityKey = new EntityKey("DataServicesTestDatabaseEntities.File", "FileId", file1.FileId);
             file1.Name = "File 1";
             file1.Description = "Description!";

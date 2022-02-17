@@ -54,11 +54,15 @@ namespace Argon.Tests.TestObjects
             Mottos.Add(null);
             Mottos.Add(" ");
 
-            var rocket = new Product();
-            rocket.Name = "Rocket";
-            rocket.ExpiryDate = new DateTime(2000, 2, 2, 23, 1, 30, DateTimeKind.Utc);
-            var alien = new Product();
-            alien.Name = "Alien";
+            var rocket = new Product
+            {
+                Name = "Rocket",
+                ExpiryDate = new DateTime(2000, 2, 2, 23, 1, 30, DateTimeKind.Utc)
+            };
+            var alien = new Product
+            {
+                Name = "Alien"
+            };
 
             product.Add(rocket);
             product.Add(alien);

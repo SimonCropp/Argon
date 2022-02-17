@@ -46,8 +46,10 @@ namespace Argon.Tests.Documentation.Samples.Serializer
 
             public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
             {
-                var user = new User();
-                user.UserName = (string)reader.Value;
+                var user = new User
+                {
+                    UserName = (string)reader.Value
+                };
 
                 return user;
             }

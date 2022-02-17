@@ -1446,9 +1446,14 @@ _____'propertyName': NaN,
         [Fact]
         public async Task CultureAsync()
         {
-            var culture = new CultureInfo("en-NZ");
-            culture.DateTimeFormat.AMDesignator = "a.m.";
-            culture.DateTimeFormat.PMDesignator = "p.m.";
+            var culture = new CultureInfo("en-NZ")
+            {
+                DateTimeFormat =
+                {
+                    AMDesignator = "a.m.",
+                    PMDesignator = "p.m."
+                }
+            };
 
             var sw = new StringWriter();
             var writer = new JsonTextWriter(sw);

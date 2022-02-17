@@ -482,8 +482,10 @@ namespace Argon.Tests.Serialization
         {
             var json = "{}";
             var errors = new List<string>();
-            var serializer = new JsonSerializer();
-            serializer.MetadataPropertyHandling = MetadataPropertyHandling.Default;
+            var serializer = new JsonSerializer
+            {
+                MetadataPropertyHandling = MetadataPropertyHandling.Default
+            };
             serializer.Error += delegate(object _, ErrorEventArgs args)
             {
                 errors.Add(args.ErrorContext.Path + " - " + args.ErrorContext.Member + " - " + args.ErrorContext.Error.Message);
@@ -985,11 +987,13 @@ namespace Argon.Tests.Serialization
   ""dateTime1"": ""200NOTDATE"",
   ""string4"": ""even more blah""
 }"));
-            var settings = new JsonSerializerSettings();
-            settings.Error = (_, args) =>
+            var settings = new JsonSerializerSettings
             {
-                errorMessages.Add(args.ErrorContext.Error.Message);
-                args.ErrorContext.Handled = true;
+                Error = (_, args) =>
+                {
+                    errorMessages.Add(args.ErrorContext.Error.Message);
+                    args.ErrorContext.Handled = true;
+                }
             };
             var serializer = JsonSerializer.Create(settings);
 

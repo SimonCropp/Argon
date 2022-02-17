@@ -43,14 +43,18 @@ namespace Argon.Tests.LinqToSql
         [Fact]
         public void Serialize()
         {
-            var role = new Role();
-            role.Name = "Role1";
-            role.RoleId = new Guid("67EA92B7-4BD3-4718-BD75-3C7EDF800B34");
+            var role = new Role
+            {
+              Name = "Role1",
+              RoleId = new Guid("67EA92B7-4BD3-4718-BD75-3C7EDF800B34")
+            };
 
-            var person = new Person();
-            person.FirstName = "FirstName!";
-            person.LastName = "LastName!";
-            person.PersonId = new Guid("7AA027AA-C995-4986-908D-999D8063599F");
+            var person = new Person
+            {
+              FirstName = "FirstName!",
+              LastName = "LastName!",
+              PersonId = new Guid("7AA027AA-C995-4986-908D-999D8063599F")
+            };
             person.PersonRoles.Add(new PersonRole
             {
                 PersonRoleId = new Guid("B012DD41-71DF-4839-B8D5-D1333FB886BC"),

@@ -259,8 +259,10 @@ namespace Argon.Tests.Schema
         [Fact]
         public void CircularReferenceWithTypeNameId()
         {
-            var generator = new JsonSchemaGenerator();
-            generator.UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseTypeName;
+            var generator = new JsonSchemaGenerator
+            {
+              UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseTypeName
+            };
 
             var schema = generator.Generate(typeof(CircularReferenceClass), true);
 
@@ -286,8 +288,10 @@ namespace Argon.Tests.Schema
         [Fact]
         public void GenerateSchemaForType()
         {
-            var generator = new JsonSchemaGenerator();
-            generator.UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseTypeName;
+            var generator = new JsonSchemaGenerator
+            {
+              UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseTypeName
+            };
 
             var schema = generator.Generate(typeof(Type));
 
@@ -302,8 +306,10 @@ namespace Argon.Tests.Schema
         [Fact]
         public void GenerateSchemaForISerializable()
         {
-            var generator = new JsonSchemaGenerator();
-            generator.UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseTypeName;
+            var generator = new JsonSchemaGenerator
+            {
+              UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseTypeName
+            };
 
             var schema = generator.Generate(typeof(ISerializableTestObject));
 
@@ -315,8 +321,10 @@ namespace Argon.Tests.Schema
         [Fact]
         public void GenerateSchemaForDBNull()
         {
-            var generator = new JsonSchemaGenerator();
-            generator.UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseTypeName;
+            var generator = new JsonSchemaGenerator
+            {
+              UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseTypeName
+            };
 
             var schema = generator.Generate(typeof(DBNull));
 
@@ -353,11 +361,13 @@ namespace Argon.Tests.Schema
         [Fact]
         public void GenerateSchemaCamelCase()
         {
-            var generator = new JsonSchemaGenerator();
-            generator.UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseTypeName;
-            generator.ContractResolver = new CamelCasePropertyNamesContractResolver
+            var generator = new JsonSchemaGenerator
             {
+              UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseTypeName,
+              ContractResolver = new CamelCasePropertyNamesContractResolver
+              {
                 IgnoreSerializableAttribute = true
+              }
             };
 
             var schema = generator.Generate(typeof(VersionOld), true);
@@ -436,8 +446,10 @@ namespace Argon.Tests.Schema
 }", json);
 
             var jsonWriter = new JTokenWriter();
-            var serializer = new JsonSerializer();
-            serializer.ContractResolver = contractResolver;
+            var serializer = new JsonSerializer
+            {
+              ContractResolver = contractResolver
+            };
             serializer.Serialize(jsonWriter, new SerializableTestObject
             {
                 Name = "Name!"
@@ -497,9 +509,11 @@ namespace Argon.Tests.Schema
         public void CircularCollectionReferences()
         {
             var type = typeof(Workspace);
-            var jsonSchemaGenerator = new JsonSchemaGenerator();
+            var jsonSchemaGenerator = new JsonSchemaGenerator
+            {
+              UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseTypeName
+            };
 
-            jsonSchemaGenerator.UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseTypeName;
             var jsonSchema = jsonSchemaGenerator.Generate(type);
 
             // should succeed
@@ -509,9 +523,11 @@ namespace Argon.Tests.Schema
         [Fact]
         public void CircularReferenceWithMixedRequires()
         {
-            var jsonSchemaGenerator = new JsonSchemaGenerator();
+            var jsonSchemaGenerator = new JsonSchemaGenerator
+            {
+              UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseTypeName
+            };
 
-            jsonSchemaGenerator.UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseTypeName;
             var jsonSchema = jsonSchemaGenerator.Generate(typeof(CircularReferenceClass));
             var json = jsonSchema.ToString();
 
@@ -536,9 +552,11 @@ namespace Argon.Tests.Schema
         [Fact]
         public void JsonPropertyWithHandlingValues()
         {
-            var jsonSchemaGenerator = new JsonSchemaGenerator();
+            var jsonSchemaGenerator = new JsonSchemaGenerator
+            {
+              UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseTypeName
+            };
 
-            jsonSchemaGenerator.UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseTypeName;
             var jsonSchema = jsonSchemaGenerator.Generate(typeof(JsonPropertyWithHandlingValues));
             var json = jsonSchema.ToString();
 

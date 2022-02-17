@@ -45,8 +45,10 @@ namespace Argon.Tests.TestObjects
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            var nameContainer = new NameContainer();
-            nameContainer.Value = (string)reader.Value;
+            var nameContainer = new NameContainer
+            {
+                Value = (string)reader.Value
+            };
 
             return nameContainer;
         }

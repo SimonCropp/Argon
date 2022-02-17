@@ -84,9 +84,11 @@ namespace Argon.Tests.Converters
         [Fact]
         public void SerializeBinaryClass()
         {
-            var binaryClass = new BinaryClass();
-            binaryClass.Binary = new Binary(TestData);
-            binaryClass.NullBinary = null;
+            var binaryClass = new BinaryClass
+            {
+                Binary = new Binary(TestData),
+                NullBinary = null
+            };
 
             var json = JsonConvert.SerializeObject(binaryClass, Formatting.Indented, new BinaryConverter());
 
@@ -100,9 +102,11 @@ namespace Argon.Tests.Converters
         [Fact]
         public void SerializeByteArrayClass()
         {
-            var byteArrayClass = new ByteArrayClass();
-            byteArrayClass.ByteArray = TestData;
-            byteArrayClass.NullByteArray = null;
+            var byteArrayClass = new ByteArrayClass
+            {
+                ByteArray = TestData,
+                NullByteArray = null
+            };
 
             var json = JsonConvert.SerializeObject(byteArrayClass, Formatting.Indented);
 
@@ -122,10 +126,12 @@ namespace Argon.Tests.Converters
         [Fact]
         public void SerializeSqlBinaryClass()
         {
-            var sqlBinaryClass = new SqlBinaryClass();
-            sqlBinaryClass.SqlBinary = new SqlBinary(TestData);
-            sqlBinaryClass.NullableSqlBinary1 = new SqlBinary(TestData);
-            sqlBinaryClass.NullableSqlBinary2 = null;
+            var sqlBinaryClass = new SqlBinaryClass
+            {
+                SqlBinary = new SqlBinary(TestData),
+                NullableSqlBinary1 = new SqlBinary(TestData),
+                NullableSqlBinary2 = null
+            };
 
             var json = JsonConvert.SerializeObject(sqlBinaryClass, Formatting.Indented, new BinaryConverter());
 

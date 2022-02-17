@@ -87,10 +87,12 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test_Collection()
         {
-            var c = new TestClass3();
-            c.Prop1 = new Dictionary<string, string>
+            var c = new TestClass3
             {
-                ["key"] = "value"
+                Prop1 = new Dictionary<string, string>
+                {
+                    ["key"] = "value"
+                }
             };
 
             var serializedData = JsonConvert.SerializeObject(c, new JsonSerializerSettings

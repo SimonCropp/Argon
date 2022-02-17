@@ -66,19 +66,21 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void PopulateStore()
         {
-            var s = new Store();
-            s.Color = StoreColor.Red;
-            s.product = new List<Product>
+            var s = new Store
             {
-                new()
+                Color = StoreColor.Red,
+                product = new List<Product>
                 {
-                    ExpiryDate = new DateTime(2000, 12, 3, 0, 0, 0, DateTimeKind.Utc),
-                    Name = "ProductName!",
-                    Price = 9.9m
-                }
+                    new()
+                    {
+                        ExpiryDate = new DateTime(2000, 12, 3, 0, 0, 0, DateTimeKind.Utc),
+                        Name = "ProductName!",
+                        Price = 9.9m
+                    }
+                },
+                Width = 99.99d,
+                Mottos = new List<string> { "Can do!", "We deliver!" }
             };
-            s.Width = 99.99d;
-            s.Mottos = new List<string> { "Can do!", "We deliver!" };
 
             var json = @"{
   ""Color"": 2,

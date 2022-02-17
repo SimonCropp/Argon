@@ -39,9 +39,11 @@ namespace Argon.Tests.LinqToSql
         {
             var department = (Department)value;
 
-            var o = new JObject();
-            o["DepartmentId"] = new JValue(department.DepartmentId.ToString());
-            o["Name"] = new JValue(new string(department.Name.Reverse().ToArray()));
+            var o = new JObject
+            {
+                ["DepartmentId"] = new JValue(department.DepartmentId.ToString()),
+                ["Name"] = new JValue(new string(department.Name.Reverse().ToArray()))
+            };
 
             o.WriteTo(writer);
         }
@@ -50,9 +52,11 @@ namespace Argon.Tests.LinqToSql
         {
             var o = JObject.Load(reader);
 
-            var department = new Department();
-            department.DepartmentId = new Guid((string)o["DepartmentId"]);
-            department.Name = new string(((string)o["Name"]).Reverse().ToArray());
+            var department = new Department
+            {
+                DepartmentId = new Guid((string)o["DepartmentId"]),
+                Name = new string(((string)o["Name"]).Reverse().ToArray())
+            };
 
             return department;
         }

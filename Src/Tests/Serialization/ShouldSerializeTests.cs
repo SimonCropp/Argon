@@ -144,9 +144,11 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ShouldSerializeTest()
         {
-            var c = new ShouldSerializeTestClass();
-            c.Name = "James";
-            c.Age = 27;
+            var c = new ShouldSerializeTestClass
+            {
+                Name = "James",
+                Age = 27
+            };
 
             var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
@@ -170,10 +172,14 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ShouldSerializeExample()
         {
-            var joe = new Employee();
-            joe.Name = "Joe Employee";
-            var mike = new Employee();
-            mike.Name = "Mike Manager";
+            var joe = new Employee
+            {
+                Name = "Joe Employee"
+            };
+            var mike = new Employee
+            {
+                Name = "Mike Manager"
+            };
 
             joe.Manager = mike;
             mike.Manager = mike;
@@ -207,10 +213,12 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SpecifiedTest()
         {
-            var c = new SpecifiedTestClass();
-            c.Name = "James";
-            c.Age = 27;
-            c.NameSpecified = false;
+            var c = new SpecifiedTestClass
+            {
+                Name = "James",
+                Age = 27,
+                NameSpecified = false
+            };
 
             var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
@@ -313,15 +321,19 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SpecifiedExample()
         {
-            var joe = new FamilyDetails();
-            joe.Name = "Joe Family Details";
-            joe.NumberOfChildren = 4;
-            joe.NumberOfChildrenSpecified = true;
+            var joe = new FamilyDetails
+            {
+                Name = "Joe Family Details",
+                NumberOfChildren = 4,
+                NumberOfChildrenSpecified = true
+            };
 
-            var martha = new FamilyDetails();
-            martha.Name = "Martha Family Details";
-            martha.NumberOfChildren = 3;
-            martha.NumberOfChildrenSpecified = false;
+            var martha = new FamilyDetails
+            {
+                Name = "Martha Family Details",
+                NumberOfChildren = 3,
+                NumberOfChildrenSpecified = false
+            };
 
             var json = JsonConvert.SerializeObject(new[] { joe, martha }, Formatting.Indented);
             //[
@@ -358,12 +370,16 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ShouldSerializeInheritedClassTest()
         {
-            var joe = new NewEmployee();
-            joe.Name = "Joe Employee";
-            joe.Age = 100;
+            var joe = new NewEmployee
+            {
+                Name = "Joe Employee",
+                Age = 100
+            };
 
-            var mike = new Employee();
-            mike.Name = "Mike Manager";
+            var mike = new Employee
+            {
+                Name = "Mike Manager"
+            };
             mike.Manager = mike;
 
             joe.Manager = mike;

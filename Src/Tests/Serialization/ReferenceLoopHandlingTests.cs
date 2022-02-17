@@ -117,8 +117,10 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializePropertyItemReferenceLoopHandling()
         {
-            var c = new PropertyItemReferenceLoopHandling();
-            c.Text = "Text!";
+            var c = new PropertyItemReferenceLoopHandling
+            {
+                Text = "Text!"
+            };
             c.SetData(new List<PropertyItemReferenceLoopHandling> { c });
 
             var json = JsonConvert.SerializeObject(c, Formatting.Indented);
@@ -172,10 +174,11 @@ namespace Argon.Tests.Serialization
         public void ErrorISerializableCyclicReferenceLoop()
         {
             var main = new MainClass();
-            var child = new ChildClass();
-
-            child.Name = "Child1";
-            child.Parent = main; // Obvious Circular Reference
+            var child = new ChildClass
+            {
+                Name = "Child1",
+                Parent = main // Obvious Circular Reference
+            };
 
             main.Child = child;
 
@@ -189,10 +192,11 @@ namespace Argon.Tests.Serialization
         public void IgnoreISerializableCyclicReferenceLoop()
         {
             var main = new MainClass();
-            var child = new ChildClass();
-
-            child.Name = "Child1";
-            child.Parent = main; // Obvious Circular Reference
+            var child = new ChildClass
+            {
+                Name = "Child1",
+                Parent = main // Obvious Circular Reference
+            };
 
             main.Child = child;
 

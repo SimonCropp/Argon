@@ -482,9 +482,11 @@ namespace Argon.Tests.Converters
         [Fact]
         public void ConvertNullString()
         {
-            var json = new JObject();
-            json["Prop1"] = (string)null;
-            json["Prop2"] = new MyModel().MyProperty;
+            var json = new JObject
+            {
+              ["Prop1"] = (string)null,
+              ["Prop2"] = new MyModel().MyProperty
+            };
 
             var xmlNodeConverter = new XmlNodeConverter { DeserializeRootElementName = "object" };
             var jsonSerializerSettings = new JsonSerializerSettings { Converters = new JsonConverter[] { xmlNodeConverter } };
@@ -1051,8 +1053,10 @@ namespace Argon.Tests.Converters
   }
 }";
 
-            var doc1 = new XmlDocument();
-            doc1.XmlResolver = null;
+            var doc1 = new XmlDocument
+            {
+              XmlResolver = null
+            };
             doc1.LoadXml(xml);
 
             var json1 = JsonConvert.SerializeXmlNode(doc1, Formatting.Indented);
@@ -1238,8 +1242,10 @@ namespace Argon.Tests.Converters
 
         private string GetIndentedInnerXml(XmlNode node)
         {
-            var settings = new XmlWriterSettings();
-            settings.Indent = true;
+            var settings = new XmlWriterSettings
+            {
+              Indent = true
+            };
 
             var sw = new StringWriter();
 
@@ -2164,12 +2170,13 @@ namespace Argon.Tests.Converters
         [Fact]
         public void SingleItemArrayPropertySerialization()
         {
-            var product = new Product();
-
-            product.Name = "Apple";
-            product.ExpiryDate = new DateTime(2008, 12, 28, 0, 0, 0, DateTimeKind.Utc);
-            product.Price = 3.99M;
-            product.Sizes = new string[] { "Small" };
+            var product = new Product
+            {
+              Name = "Apple",
+              ExpiryDate = new DateTime(2008, 12, 28, 0, 0, 0, DateTimeKind.Utc),
+              Price = 3.99M,
+              Sizes = new string[] { "Small" }
+            };
 
             var output = JsonConvert.SerializeObject(product, new IsoDateTimeConverter());
 
@@ -3160,8 +3167,10 @@ namespace Argon.Tests.Converters
         [Fact]
         public void Serialize_XDocument_NoRootWithDeclaration()
         {
-            var d = new XDocument();
-            d.Declaration = new XDeclaration("Version!", "Encoding!", "Standalone!");
+            var d = new XDocument
+            {
+              Declaration = new XDeclaration("Version!", "Encoding!", "Standalone!")
+            };
 
             var json = JsonConvert.SerializeXNode(d);
 
@@ -3315,10 +3324,12 @@ namespace Argon.Tests.Converters
         [Fact]
         public void DeserializeDateInElementText()
         {
-            var model = new Model();
-            model.Document = new XElement("Value", new XAttribute("foo", "bar"))
+            var model = new Model
             {
+              Document = new XElement("Value", new XAttribute("foo", "bar"))
+              {
                 Value = "2001-01-01T11:11:11"
+              }
             };
 
             var serializer = JsonSerializer.Create(new JsonSerializerSettings

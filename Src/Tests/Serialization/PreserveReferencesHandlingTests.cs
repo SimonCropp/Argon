@@ -91,14 +91,21 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeReferenceInConvert()
         {
-            var settings = new JsonSerializerSettings();
-            settings.PreserveReferencesHandling = PreserveReferencesHandling.All;
-            settings.TypeNameHandling = TypeNameHandling.All;
-            settings.Formatting = Formatting.Indented;
+            var settings = new JsonSerializerSettings
+            {
+                PreserveReferencesHandling = PreserveReferencesHandling.All,
+                TypeNameHandling = TypeNameHandling.All,
+                Formatting = Formatting.Indented
+            };
 
             var c1 = new Container();
-            var content = new ContentA();
-            content.B.SomeValue = true;
+            var content = new ContentA
+            {
+                B =
+                {
+                    SomeValue = true
+                }
+            };
             c1.ListA.Add(content);
             c1.ListB.Add(content);
 
@@ -484,10 +491,12 @@ namespace Argon.Tests.Serialization
 
                 var reference = serializer.ReferenceResolver.GetReference(serializer, circularReferenceClass);
 
-                var me = new JObject();
-                me["$id"] = new JValue(reference);
-                me["$type"] = new JValue(value.GetType().Name);
-                me["Name"] = new JValue(circularReferenceClass.Name);
+                var me = new JObject
+                {
+                    ["$id"] = new JValue(reference),
+                    ["$type"] = new JValue(value.GetType().Name),
+                    ["Name"] = new JValue(circularReferenceClass.Name)
+                };
 
                 var o = JObject.FromObject(circularReferenceClass.Child, serializer);
                 me["Child"] = o;
@@ -1199,9 +1208,11 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ReferencedObjectItems()
         {
-            var o1 = new ReferenceObject();
+            var o1 = new ReferenceObject
+            {
+                Component1 = new TestComponentSimple { MyProperty = 1 }
+            };
 
-            o1.Component1 = new TestComponentSimple { MyProperty = 1 };
             o1.Component2 = o1.Component1;
             o1.ComponentNotReference = new TestComponentSimple();
             o1.String = "String!";

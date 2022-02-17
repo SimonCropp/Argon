@@ -435,8 +435,10 @@ namespace Argon.Tests.Linq
 
             var o = JObject.Parse(json);
 
-            var serializer = new JsonSerializer();
-            serializer.TypeNameHandling = TypeNameHandling.All;
+            var serializer = new JsonSerializer
+            {
+                TypeNameHandling = TypeNameHandling.All
+            };
 
             using (var nodeReader = o.CreateReader())
             {

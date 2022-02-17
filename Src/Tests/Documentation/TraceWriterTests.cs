@@ -117,10 +117,12 @@ namespace Argon.Tests.Documentation
         public void MemoryTraceWriterTest()
         {
             #region MemoryTraceWriterExample
-            var staff = new Staff();
-            staff.Name = "Arnie Admin";
-            staff.Roles = new List<string> { "Administrator" };
-            staff.StartDate = new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc);
+            var staff = new Staff
+            {
+                Name = "Arnie Admin",
+                Roles = new List<string> { "Administrator" },
+                StartDate = new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc)
+            };
 
             ITraceWriter traceWriter = new MemoryTraceWriter();
 

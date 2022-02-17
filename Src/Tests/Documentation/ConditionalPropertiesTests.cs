@@ -82,10 +82,14 @@ namespace Argon.Tests.Documentation
         public void ShouldSerializeClassTest()
         {
             #region ShouldSerializeClassTest
-            var joe = new Employee();
-            joe.Name = "Joe Employee";
-            var mike = new Employee();
-            mike.Name = "Mike Manager";
+            var joe = new Employee
+            {
+                Name = "Joe Employee"
+            };
+            var mike = new Employee
+            {
+                Name = "Mike Manager"
+            };
 
             joe.Manager = mike;
 
@@ -123,10 +127,14 @@ namespace Argon.Tests.Documentation
         [Fact]
         public void ShouldSerializeContractResolverTest()
         {
-            var joe = new Argon.Tests.Documentation.Employee();
-            joe.Name = "Joe Employee";
-            var mike = new Argon.Tests.Documentation.Employee();
-            mike.Name = "Mike Manager";
+            var joe = new Argon.Tests.Documentation.Employee
+            {
+                Name = "Joe Employee"
+            };
+            var mike = new Argon.Tests.Documentation.Employee
+            {
+                Name = "Mike Manager"
+            };
 
             joe.Manager = mike;
             mike.Manager = mike;

@@ -257,8 +257,10 @@ namespace Argon.Tests.TestObjects
             var ds = new CustomerDataSet();
             var type = new global::System.Xml.Schema.XmlSchemaComplexType();
             var sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-            var any = new global::System.Xml.Schema.XmlSchemaAny();
-            any.Namespace = ds.Namespace;
+            var any = new global::System.Xml.Schema.XmlSchemaAny
+            {
+                Namespace = ds.Namespace
+            };
             sequence.Items.Add(any);
             type.Particle = sequence;
             var dsSchema = ds.GetSchemaSerializable();
@@ -530,24 +532,32 @@ namespace Argon.Tests.TestObjects
                 var type = new global::System.Xml.Schema.XmlSchemaComplexType();
                 var sequence = new global::System.Xml.Schema.XmlSchemaSequence();
                 var ds = new CustomerDataSet();
-                var any1 = new global::System.Xml.Schema.XmlSchemaAny();
-                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
-                any1.MinOccurs = new decimal(0);
-                any1.MaxOccurs = decimal.MaxValue;
-                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                var any1 = new global::System.Xml.Schema.XmlSchemaAny
+                {
+                    Namespace = "http://www.w3.org/2001/XMLSchema",
+                    MinOccurs = new decimal(0),
+                    MaxOccurs = decimal.MaxValue,
+                    ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax
+                };
                 sequence.Items.Add(any1);
-                var any2 = new global::System.Xml.Schema.XmlSchemaAny();
-                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
-                any2.MinOccurs = new decimal(1);
-                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                var any2 = new global::System.Xml.Schema.XmlSchemaAny
+                {
+                    Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1",
+                    MinOccurs = new decimal(1),
+                    ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax
+                };
                 sequence.Items.Add(any2);
-                var attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute1.Name = "namespace";
-                attribute1.FixedValue = ds.Namespace;
+                var attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute
+                {
+                    Name = "namespace",
+                    FixedValue = ds.Namespace
+                };
                 type.Attributes.Add(attribute1);
-                var attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "CustomersDataTable";
+                var attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute
+                {
+                    Name = "tableTypeName",
+                    FixedValue = "CustomersDataTable"
+                };
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 var dsSchema = ds.GetSchemaSerializable();

@@ -47,8 +47,10 @@ namespace Argon.Tests.Linq
         public void EscapedQuotePath()
         {
             var v = new JValue(1);
-            var o = new JObject();
-            o["We're offline!"] = v;
+            var o = new JObject
+            {
+                ["We're offline!"] = v
+            };
 
             Assert.AreEqual(@"['We\'re offline!']", v.Path);
         }

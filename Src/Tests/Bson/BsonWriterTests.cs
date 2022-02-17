@@ -231,11 +231,13 @@ namespace Argon.Tests.Bson
             var ms = new MemoryStream();
             var writer = new BsonWriter(ms);
 
-            var s1 = new Store();
-            s1.Color = StoreColor.White;
-            s1.Cost = 999.59m;
-            s1.Employees = int.MaxValue - 1;
-            s1.Open = true;
+            var s1 = new Store
+            {
+                Color = StoreColor.White,
+                Cost = 999.59m,
+                Employees = int.MaxValue - 1,
+                Open = true
+            };
             s1.product.Add(new Product
             {
                 ExpiryDate = new DateTime(2000, 9, 28, 3, 59, 58, DateTimeKind.Local),
@@ -447,11 +449,13 @@ namespace Argon.Tests.Bson
         [Fact]
         public void Example()
         {
-            var p = new Product();
-            p.ExpiryDate = DateTime.Parse("2009-04-05T14:45:00Z");
-            p.Name = "Carlos' Spicy Wieners";
-            p.Price = 9.95m;
-            p.Sizes = new[] { "Small", "Medium", "Large" };
+            var p = new Product
+            {
+                ExpiryDate = DateTime.Parse("2009-04-05T14:45:00Z"),
+                Name = "Carlos' Spicy Wieners",
+                Price = 9.95m,
+                Sizes = new[] { "Small", "Medium", "Large" }
+            };
 
             var ms = new MemoryStream();
             var serializer = new JsonSerializer();
@@ -555,11 +559,13 @@ namespace Argon.Tests.Bson
         [Fact]
         public void SerializeEmptyAndNullStrings()
         {
-            var p = new Product();
-            p.ExpiryDate = DateTime.Parse("2009-04-05T14:45:00Z");
-            p.Name = null;
-            p.Price = 9.95m;
-            p.Sizes = new[] { "Small", "", null };
+            var p = new Product
+            {
+                ExpiryDate = DateTime.Parse("2009-04-05T14:45:00Z"),
+                Name = null,
+                Price = 9.95m,
+                Sizes = new[] { "Small", "", null }
+            };
 
             var ms = new MemoryStream();
             var serializer = new JsonSerializer();
@@ -745,8 +751,10 @@ namespace Argon.Tests.Bson
         [Fact]
         public void WriteReadGuid()
         {
-            var c = new GuidTestClass();
-            c.AGuid = new Guid("af45dccf-df13-44fe-82be-6212c09eda84");
+            var c = new GuidTestClass
+            {
+                AGuid = new Guid("af45dccf-df13-44fe-82be-6212c09eda84")
+            };
 
             var ms = new MemoryStream();
             var serializer = new JsonSerializer();
@@ -766,8 +774,10 @@ namespace Argon.Tests.Bson
         [Fact]
         public void WriteStringReadGuid()
         {
-            var c = new StringTestClass();
-            c.AGuid = new Guid("af45dccf-df13-44fe-82be-6212c09eda84").ToString();
+            var c = new StringTestClass
+            {
+                AGuid = new Guid("af45dccf-df13-44fe-82be-6212c09eda84").ToString()
+            };
 
             var ms = new MemoryStream();
             var serializer = new JsonSerializer();

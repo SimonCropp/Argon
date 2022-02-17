@@ -42,8 +42,10 @@ namespace Argon.Tests.Documentation.Samples.Linq
             array.Add("Manual text");
             array.Add(new DateTime(2000, 5, 23));
 
-            var o = new JObject();
-            o["MyArray"] = array;
+            var o = new JObject
+            {
+                ["MyArray"] = array
+            };
 
             var json = o.ToString();
             // {

@@ -179,10 +179,12 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ExtensionDataDeserializeWithNonDefaultConstructorTest()
         {
-            var c = new ExtensionDataDeserializeWithNonDefaultConstructor("Name!");
-            c._extensionData = new Dictionary<string, JToken>
+            var c = new ExtensionDataDeserializeWithNonDefaultConstructor("Name!")
             {
-                { "Key!", "Value!" }
+                _extensionData = new Dictionary<string, JToken>
+                {
+                    { "Key!", "Value!" }
+                }
             };
 
             var json = JsonConvert.SerializeObject(c, Formatting.Indented);
@@ -327,13 +329,15 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void RoundTripJObjectExtensionData()
         {
-            var c = new JObjectExtensionDataTestClass();
-            c.Name = "Name!";
-            c.ExtensionData = new JObject
+            var c = new JObjectExtensionDataTestClass
             {
-                { "one", 1 },
-                { "two", "II" },
-                { "three", new JArray(1, 1, 1) }
+                Name = "Name!",
+                ExtensionData = new JObject
+                {
+                    { "one", 1 },
+                    { "two", "II" },
+                    { "three", new JArray(1, 1, 1) }
+                }
             };
 
             var json = JsonConvert.SerializeObject(c, Formatting.Indented);

@@ -77,8 +77,10 @@ namespace Argon.Tests.Linq
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                var c = new JConstructor();
-                c["badvalue"] = new JValue(3);
+                var c = new JConstructor
+                {
+                    ["badvalue"] = new JValue(3)
+                };
             }, @"Set JConstructor values with invalid key value: ""badvalue"". Argument position index expected.");
         }
 
@@ -87,8 +89,10 @@ namespace Argon.Tests.Linq
         {
             object key = 0;
 
-            var c = new JConstructor();
-            c.Name = "con";
+            var c = new JConstructor
+            {
+                Name = "con"
+            };
             c.Add(null);
             c[key] = new JValue(3);
 

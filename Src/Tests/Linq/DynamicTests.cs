@@ -816,10 +816,12 @@ namespace Argon.Tests.Linq
         [Fact]
         public void DynamicLinqExample()
         {
-            var oldAndBusted = new JObject();
-            oldAndBusted["Name"] = "Arnie Admin";
-            oldAndBusted["Enabled"] = true;
-            oldAndBusted["Roles"] = new JArray(new[] { "Admin", "User" });
+            var oldAndBusted = new JObject
+            {
+                ["Name"] = "Arnie Admin",
+                ["Enabled"] = true,
+                ["Roles"] = new JArray(new[] { "Admin", "User" })
+            };
 
             var oldRole = (string)oldAndBusted["Roles"][0];
             // Admin

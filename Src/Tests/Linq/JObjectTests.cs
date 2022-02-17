@@ -154,8 +154,10 @@ namespace Argon.Tests.Linq
         [Fact]
         public void DictionaryItemShouldSet()
         {
-            var o = new JObject();
-            o["PropertyNameValue"] = new JValue(1);
+            var o = new JObject
+            {
+                ["PropertyNameValue"] = new JValue(1)
+            };
             Assert.AreEqual(1, o.Children().Count());
 
             Assert.AreEqual(true, o.TryGetValue("PropertyNameValue", out var t));
@@ -516,9 +518,11 @@ Parameter name: arrayIndex",
         [Fact]
         public void RawChildValues()
         {
-            var o = new JObject();
-            o["val1"] = new JRaw("1");
-            o["val2"] = new JRaw("1");
+            var o = new JObject
+            {
+                ["val1"] = new JRaw("1"),
+                ["val2"] = new JRaw("1")
+            };
 
             var json = o.ToString();
 
@@ -572,8 +576,10 @@ Parameter name: arrayIndex",
             Assert.AreEqual(null, v.Value);
             Assert.AreEqual(JTokenType.String, v.Type);
 
-            var o = new JObject();
-            o["title"] = v;
+            var o = new JObject
+            {
+                ["title"] = v
+            };
 
             var output = o.ToString();
 
@@ -649,10 +655,12 @@ Parameter name: arrayIndex",
         [Fact]
         public void JObjectContainingHtml()
         {
-            var o = new JObject();
-            o["rc"] = new JValue(200);
-            o["m"] = new JValue("");
-            o["o"] = new JValue(@"<div class='s1'>" + StringUtils.CarriageReturnLineFeed + @"</div>");
+            var o = new JObject
+            {
+                ["rc"] = new JValue(200),
+                ["m"] = new JValue(""),
+                ["o"] = new JValue(@"<div class='s1'>" + StringUtils.CarriageReturnLineFeed + @"</div>")
+            };
 
             StringAssert.AreEqual(@"{
   ""rc"": 200,
@@ -664,12 +672,14 @@ Parameter name: arrayIndex",
         [Fact]
         public void ImplicitValueConversions()
         {
-            var moss = new JObject();
-            moss["FirstName"] = new JValue("Maurice");
-            moss["LastName"] = new JValue("Moss");
-            moss["BirthDate"] = new JValue(new DateTime(1977, 12, 30));
-            moss["Department"] = new JValue("IT");
-            moss["JobTitle"] = new JValue("Support");
+            var moss = new JObject
+            {
+                ["FirstName"] = new JValue("Maurice"),
+                ["LastName"] = new JValue("Moss"),
+                ["BirthDate"] = new JValue(new DateTime(1977, 12, 30)),
+                ["Department"] = new JValue("IT"),
+                ["JobTitle"] = new JValue("Support")
+            };
 
             StringAssert.AreEqual(@"{
   ""FirstName"": ""Maurice"",
@@ -679,12 +689,14 @@ Parameter name: arrayIndex",
   ""JobTitle"": ""Support""
 }", moss.ToString());
 
-            var jen = new JObject();
-            jen["FirstName"] = "Jen";
-            jen["LastName"] = "Barber";
-            jen["BirthDate"] = new DateTime(1978, 3, 15);
-            jen["Department"] = "IT";
-            jen["JobTitle"] = "Manager";
+            var jen = new JObject
+            {
+                ["FirstName"] = "Jen",
+                ["LastName"] = "Barber",
+                ["BirthDate"] = new DateTime(1978, 3, 15),
+                ["Department"] = "IT",
+                ["JobTitle"] = "Manager"
+            };
 
             StringAssert.AreEqual(@"{
   ""FirstName"": ""Jen"",
@@ -1559,8 +1571,10 @@ Parameter name: arrayIndex",
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                var o = new JObject();
-                o[0] = new JValue(3);
+                var o = new JObject
+                {
+                    [0] = new JValue(3)
+                };
             }, "Set JObject values with invalid key value: 0. Object property name expected.");
         }
 
@@ -1569,8 +1583,10 @@ Parameter name: arrayIndex",
         {
             object key = "TestKey";
 
-            var o = new JObject();
-            o[key] = new JValue(3);
+            var o = new JObject
+            {
+                [key] = new JValue(3)
+            };
 
             Assert.AreEqual(3, (int)o[key]);
         }
@@ -1645,8 +1661,10 @@ Parameter name: arrayIndex",
             Assert.AreEqual(DBNull.Value, v.Value);
             Assert.AreEqual(JTokenType.Null, v.Type);
 
-            var o = new JObject();
-            o["title"] = v;
+            var o = new JObject
+            {
+                ["title"] = v
+            };
 
             var output = o.ToString();
 
@@ -1945,10 +1963,12 @@ Parameter name: arrayIndex",
         [Fact]
         public void GetValue()
         {
-            var a = new JObject();
-            a["Name"] = "Name!";
-            a["name"] = "name!";
-            a["title"] = "Title!";
+            var a = new JObject
+            {
+                ["Name"] = "Name!",
+                ["name"] = "name!",
+                ["title"] = "Title!"
+            };
 
             Assert.AreEqual(null, a.GetValue("NAME", StringComparison.Ordinal));
             Assert.AreEqual(null, a.GetValue("NAME"));
@@ -2093,10 +2113,12 @@ Parameter name: arrayIndex",
         [Fact]
         public void Property()
         {
-            var a = new JObject();
-            a["Name"] = "Name!";
-            a["name"] = "name!";
-            a["title"] = "Title!";
+            var a = new JObject
+            {
+                ["Name"] = "Name!",
+                ["name"] = "name!",
+                ["title"] = "Title!"
+            };
 
             Assert.AreEqual(null, a.Property("NAME", StringComparison.Ordinal));
             Assert.AreEqual(null, a.Property("NAME"));

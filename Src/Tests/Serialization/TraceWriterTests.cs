@@ -49,9 +49,11 @@ namespace Argon.Tests.Serialization
                 {
                     break;
                 }
-                var serializer = new JsonSerializer();
-                //the next line raise an exception
-                serializer.TraceWriter = traceWriter;
+                var serializer = new JsonSerializer
+                {
+                    //the next line raise an exception
+                    TraceWriter = traceWriter
+                };
                 var role = serializer.Deserialize<RoleTrace>(reader);
                 roles.Add(role);
             }
@@ -84,9 +86,11 @@ namespace Argon.Tests.Serialization
                 {
                     break;
                 }
-                var serializer = new JsonSerializer();
-                //the next line raise an exception
-                serializer.TraceWriter = traceWriter;
+                var serializer = new JsonSerializer
+                {
+                    //the next line raise an exception
+                    TraceWriter = traceWriter
+                };
                 var role = serializer.Deserialize<RoleTrace>(reader);
                 roles.Add(role);
             }
@@ -262,10 +266,12 @@ Argon Error: 0 : Error!
         [Fact]
         public void MemoryTraceWriterSerializeTest()
         {
-            var staff = new Staff();
-            staff.Name = "Arnie Admin";
-            staff.Roles = new List<string> { "Administrator" };
-            staff.StartDate = new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc);
+            var staff = new Staff
+            {
+                Name = "Arnie Admin",
+                Roles = new List<string> { "Administrator" },
+                StartDate = new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc)
+            };
 
             ITraceWriter traceWriter = new MemoryTraceWriter();
 
@@ -316,10 +322,12 @@ Argon Error: 0 : Error!
   ]
 }";
 
-            var staff = new Staff();
-            staff.Name = "Arnie Admin";
-            staff.Roles = new List<string> { "Administrator" };
-            staff.StartDate = new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc);
+            var staff = new Staff
+            {
+                Name = "Arnie Admin",
+                Roles = new List<string> { "Administrator" },
+                StartDate = new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc)
+            };
 
             ITraceWriter traceWriter = new MemoryTraceWriter();
 
@@ -952,10 +960,12 @@ Argon Error: 0 : Error!
         [Fact]
         public void ShouldSerializeTestClass()
         {
-            var c = new ShouldSerializeTestClass();
-            c.Age = 29;
-            c.Name = "Jim";
-            c._shouldSerializeName = true;
+            var c = new ShouldSerializeTestClass
+            {
+                Age = 29,
+                Name = "Jim",
+                _shouldSerializeName = true
+            };
 
             var traceWriter = new InMemoryTraceWriter
             {
@@ -983,10 +993,12 @@ Argon Error: 0 : Error!
         [Fact]
         public void SpecifiedTest()
         {
-            var c = new SpecifiedTestClass();
-            c.Name = "James";
-            c.Age = 27;
-            c.NameSpecified = false;
+            var c = new SpecifiedTestClass
+            {
+                Name = "James",
+                Age = 27,
+                NameSpecified = false
+            };
 
             var traceWriter = new InMemoryTraceWriter
             {

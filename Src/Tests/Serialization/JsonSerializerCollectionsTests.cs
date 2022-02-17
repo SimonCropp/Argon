@@ -129,8 +129,10 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeConcurrentDictionary()
         {
-            var dic1 = new ConcurrentDictionary<int, int>();
-            dic1[1] = int.MaxValue;
+            var dic1 = new ConcurrentDictionary<int, int>
+            {
+                [1] = int.MaxValue
+            };
 
             var output = JsonConvert.SerializeObject(dic1);
             Assert.AreEqual(@"{""1"":2147483647}", output);
@@ -999,8 +1001,10 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void StringListAppenderConverterTest()
         {
-            var p = new Movie();
-            p.ReleaseCountries = new List<string> { "Existing" };
+            var p = new Movie
+            {
+                ReleaseCountries = new List<string> { "Existing" }
+            };
 
             JsonConvert.PopulateObject("{'ReleaseCountries':['Appended']}", p, new JsonSerializerSettings
             {
@@ -1015,8 +1019,10 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void StringAppenderConverterTest()
         {
-            var p = new Movie();
-            p.Name = "Existing,";
+            var p = new Movie
+            {
+                Name = "Existing,"
+            };
 
             JsonConvert.PopulateObject("{'Name':'Appended'}", p, new JsonSerializerSettings
             {
@@ -1271,10 +1277,12 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeArray2D()
         {
-            var aa = new Array2D();
-            aa.Before = "Before!";
-            aa.After = "After!";
-            aa.Coordinates = new[,] { { 1, 1 }, { 1, 2 }, { 2, 1 }, { 2, 2 } };
+            var aa = new Array2D
+            {
+                Before = "Before!",
+                After = "After!",
+                Coordinates = new[,] { { 1, 1 }, { 1, 2 }, { 2, 1 }, { 2, 2 } }
+            };
 
             var json = JsonConvert.SerializeObject(aa);
 
@@ -1284,10 +1292,12 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeArray3D()
         {
-            var aa = new Array3D();
-            aa.Before = "Before!";
-            aa.After = "After!";
-            aa.Coordinates = new[,,] { { { 1, 1, 1 }, { 1, 1, 2 } }, { { 1, 2, 1 }, { 1, 2, 2 } }, { { 2, 1, 1 }, { 2, 1, 2 } }, { { 2, 2, 1 }, { 2, 2, 2 } } };
+            var aa = new Array3D
+            {
+                Before = "Before!",
+                After = "After!",
+                Coordinates = new[,,] { { { 1, 1, 1 }, { 1, 1, 2 } }, { { 1, 2, 1 }, { 1, 2, 2 } }, { { 2, 1, 1 }, { 2, 1, 2 } }, { { 2, 2, 1 }, { 2, 2, 2 } } }
+            };
 
             var json = JsonConvert.SerializeObject(aa);
 
@@ -1297,10 +1307,12 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeArray3DWithConverter()
         {
-            var aa = new Array3DWithConverter();
-            aa.Before = "Before!";
-            aa.After = "After!";
-            aa.Coordinates = new[,,] { { { 1, 1, 1 }, { 1, 1, 2 } }, { { 1, 2, 1 }, { 1, 2, 2 } }, { { 2, 1, 1 }, { 2, 1, 2 } }, { { 2, 2, 1 }, { 2, 2, 2 } } };
+            var aa = new Array3DWithConverter
+            {
+                Before = "Before!",
+                After = "After!",
+                Coordinates = new[,,] { { { 1, 1, 1 }, { 1, 1, 2 } }, { { 1, 2, 1 }, { 1, 2, 2 } }, { { 2, 1, 1 }, { 2, 1, 2 } }, { { 2, 2, 1 }, { 2, 2, 2 } } }
+            };
 
             var json = JsonConvert.SerializeObject(aa, Formatting.Indented);
 
@@ -1511,10 +1523,12 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeEmpty3DArray()
         {
-            var aa = new Array3D();
-            aa.Before = "Before!";
-            aa.After = "After!";
-            aa.Coordinates = new int[0, 0, 0];
+            var aa = new Array3D
+            {
+                Before = "Before!",
+                After = "After!",
+                Coordinates = new int[0, 0, 0]
+            };
 
             var json = JsonConvert.SerializeObject(aa);
 
@@ -1867,8 +1881,10 @@ namespace Argon.Tests.Serialization
                 new() { Name = "Test3" }
             };
 
-            var jsonSerializer = new JsonSerializer();
-            jsonSerializer.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            var jsonSerializer = new JsonSerializer
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
 
             var sw = new StringWriter();
 

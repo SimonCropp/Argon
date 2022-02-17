@@ -166,8 +166,10 @@ namespace Argon.Tests.Schema
 
         private void GenerateSchemaAndSerializeFromType<T>(T value)
         {
-            var generator = new JsonSchemaGenerator();
-            generator.UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseAssemblyQualifiedName;
+            var generator = new JsonSchemaGenerator
+            {
+                UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseAssemblyQualifiedName
+            };
             var typeSchema = generator.Generate(typeof(T));
             var schema = typeSchema.ToString();
 
@@ -237,9 +239,11 @@ namespace Argon.Tests.Schema
         {
             ExceptionAssert.Throws<JsonSchemaException>(() =>
             {
-                var schema = new JsonSchema();
-                schema.Maximum = 10;
-                schema.ExclusiveMaximum = true;
+                var schema = new JsonSchema
+                {
+                    Maximum = 10,
+                    ExclusiveMaximum = true
+                };
 
                 var v = new JValue(10);
                 v.Validate(schema);
@@ -251,9 +255,11 @@ namespace Argon.Tests.Schema
         {
             ExceptionAssert.Throws<JsonSchemaException>(() =>
             {
-                var schema = new JsonSchema();
-                schema.Maximum = 10.1;
-                schema.ExclusiveMaximum = true;
+                var schema = new JsonSchema
+                {
+                    Maximum = 10.1,
+                    ExclusiveMaximum = true
+                };
 
                 var v = new JValue(10.1);
                 v.Validate(schema);
@@ -265,9 +271,11 @@ namespace Argon.Tests.Schema
         {
             ExceptionAssert.Throws<JsonSchemaException>(() =>
             {
-                var schema = new JsonSchema();
-                schema.Minimum = 10;
-                schema.ExclusiveMinimum = true;
+                var schema = new JsonSchema
+                {
+                    Minimum = 10,
+                    ExclusiveMinimum = true
+                };
 
                 var v = new JValue(10);
                 v.Validate(schema);
@@ -279,9 +287,11 @@ namespace Argon.Tests.Schema
         {
             ExceptionAssert.Throws<JsonSchemaException>(() =>
             {
-                var schema = new JsonSchema();
-                schema.Minimum = 10.1;
-                schema.ExclusiveMinimum = true;
+                var schema = new JsonSchema
+                {
+                    Minimum = 10.1,
+                    ExclusiveMinimum = true
+                };
 
                 var v = new JValue(10.1);
                 v.Validate(schema);
@@ -293,8 +303,10 @@ namespace Argon.Tests.Schema
         {
             ExceptionAssert.Throws<JsonSchemaException>(() =>
             {
-                var schema = new JsonSchema();
-                schema.DivisibleBy = 3;
+                var schema = new JsonSchema
+                {
+                    DivisibleBy = 3
+                };
 
                 var v = new JValue(10);
                 v.Validate(schema);
@@ -304,8 +316,10 @@ namespace Argon.Tests.Schema
         [Fact]
         public void DivisibleBy_Approx()
         {
-            var schema = new JsonSchema();
-            schema.DivisibleBy = 0.01;
+            var schema = new JsonSchema
+            {
+                DivisibleBy = 0.01
+            };
 
             var v = new JValue(20.49);
             v.Validate(schema);
@@ -314,8 +328,10 @@ namespace Argon.Tests.Schema
         [Fact]
         public void UniqueItems_SimpleUnique()
         {
-            var schema = new JsonSchema();
-            schema.UniqueItems = true;
+            var schema = new JsonSchema
+            {
+                UniqueItems = true
+            };
 
             var a = new JArray(1, 2, 3);
             Assert.IsTrue(a.IsValid(schema));
@@ -324,8 +340,10 @@ namespace Argon.Tests.Schema
         [Fact]
         public void UniqueItems_SimpleDuplicate()
         {
-            var schema = new JsonSchema();
-            schema.UniqueItems = true;
+            var schema = new JsonSchema
+            {
+                UniqueItems = true
+            };
 
             var a = new JArray(1, 2, 3, 2, 2);
             IList<string> errorMessages;
@@ -338,8 +356,10 @@ namespace Argon.Tests.Schema
         [Fact]
         public void UniqueItems_ComplexDuplicate()
         {
-            var schema = new JsonSchema();
-            schema.UniqueItems = true;
+            var schema = new JsonSchema
+            {
+                UniqueItems = true
+            };
 
             var a = new JArray(1, new JObject(new JProperty("value", "value!")), 3, 2, new JObject(new JProperty("value", "value!")), 4, 2, new JObject(new JProperty("value", "value!")));
             IList<string> errorMessages;
@@ -353,16 +373,18 @@ namespace Argon.Tests.Schema
         [Fact]
         public void UniqueItems_NestedDuplicate()
         {
-            var schema = new JsonSchema();
-            schema.UniqueItems = true;
-            schema.Items = new List<JsonSchema>
+            var schema = new JsonSchema
             {
-                new JsonSchema
+                UniqueItems = true,
+                Items = new List<JsonSchema>
                 {
-                    UniqueItems = true
-                }
+                    new JsonSchema
+                    {
+                        UniqueItems = true
+                    }
+                },
+                PositionalItemsValidation = false
             };
-            schema.PositionalItemsValidation = false;
 
             var a = new JArray(
                 new JArray(1, 2),
@@ -383,17 +405,19 @@ namespace Argon.Tests.Schema
         [Fact]
         public void Enum_Properties()
         {
-            var schema = new JsonSchema();
-            schema.Properties = new Dictionary<string, JsonSchema>
+            var schema = new JsonSchema
             {
+                Properties = new Dictionary<string, JsonSchema>
                 {
-                    "bar",
-                    new JsonSchema
                     {
-                        Enum = new List<JToken>
+                        "bar",
+                        new JsonSchema
                         {
-                            new JValue(1),
-                            new JValue(2)
+                            Enum = new List<JToken>
+                            {
+                                new JValue(1),
+                                new JValue(2)
+                            }
                         }
                     }
                 }
@@ -416,14 +440,16 @@ namespace Argon.Tests.Schema
         [Fact]
         public void UniqueItems_Property()
         {
-            var schema = new JsonSchema();
-            schema.Properties = new Dictionary<string, JsonSchema>
+            var schema = new JsonSchema
             {
+                Properties = new Dictionary<string, JsonSchema>
                 {
-                    "bar",
-                    new JsonSchema
                     {
-                        UniqueItems = true
+                        "bar",
+                        new JsonSchema
+                        {
+                            UniqueItems = true
+                        }
                     }
                 }
             };
@@ -439,13 +465,15 @@ namespace Argon.Tests.Schema
         [Fact]
         public void Items_Positional()
         {
-            var schema = new JsonSchema();
-            schema.Items = new List<JsonSchema>
+            var schema = new JsonSchema
             {
-                new JsonSchema { Type = JsonSchemaType.Object },
-                new JsonSchema { Type = JsonSchemaType.Integer }
+                Items = new List<JsonSchema>
+                {
+                    new JsonSchema { Type = JsonSchemaType.Object },
+                    new JsonSchema { Type = JsonSchemaType.Integer }
+                },
+                PositionalItemsValidation = true
             };
-            schema.PositionalItemsValidation = true;
 
             var a = new JArray(new JObject(), 1);
             IList<string> errorMessages;

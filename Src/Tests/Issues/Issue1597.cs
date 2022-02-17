@@ -77,13 +77,15 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test_Serialize()
         {
-            var o = new Dictionary<CollectionStatus, int>();
-            o[CollectionStatus.Wish] = 264;
-            o[CollectionStatus.Collect] = 7498;
-            o[CollectionStatus.Doing] = 385;
-            o[CollectionStatus.OnHold] = 285;
-            o[CollectionStatus.Dropped] = 221;
-            o[(CollectionStatus)int.MaxValue] = int.MaxValue;
+            var o = new Dictionary<CollectionStatus, int>
+            {
+                [CollectionStatus.Wish] = 264,
+                [CollectionStatus.Collect] = 7498,
+                [CollectionStatus.Doing] = 385,
+                [CollectionStatus.OnHold] = 285,
+                [CollectionStatus.Dropped] = 221,
+                [(CollectionStatus) int.MaxValue] = int.MaxValue
+            };
 
             var json = JsonConvert.SerializeObject(o, Formatting.Indented);
 
