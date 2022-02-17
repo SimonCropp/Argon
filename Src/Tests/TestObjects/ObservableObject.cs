@@ -31,9 +31,6 @@ namespace Argon.Tests.TestObjects
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected PropertyChangedEventHandler PropertyChangedHandler
-        {
-            get { return PropertyChanged; }
-        }
+        protected PropertyChangedEventHandler PropertyChangedHandler => PropertyChanged;
     }
 }

@@ -36,9 +36,6 @@ namespace Argon.Tests.TestObjects
             _value = Convert.ToInt32(nameParameter);
         }
 
-        public int Name
-        {
-            get { return _value; }
-        }
+        public int Name => _value;
     }
 }

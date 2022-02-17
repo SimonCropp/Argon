@@ -30,10 +30,7 @@ namespace Argon.Tests.TestObjects
     [TypeConverter(typeof(MyInterfaceConverter))]
     internal class ConsoleWriter : IMyInterface
     {
-        public string Name
-        {
-            get { return "Console Writer"; }
-        }
+        public string Name => "Console Writer";
 
         public string PrintTest()
         {

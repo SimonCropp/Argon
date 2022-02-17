@@ -33,15 +33,15 @@ namespace Argon.Tests.TestObjects
         [JsonProperty("PropertyB")]
         string IPrivateImplementationB.PropertyB
         {
-            get { return PropertyB; }
-            set { PropertyB = value; }
+            get => PropertyB;
+            set => PropertyB = value;
         }
 
         [JsonProperty("OverriddenProperty")]
         private string OverriddenPropertyString
         {
-            get { return OverriddenProperty.ToString(); }
-            set { OverriddenProperty = value; }
+            get => OverriddenProperty.ToString();
+            set => OverriddenProperty = value;
         }
 
         [JsonIgnore]
@@ -50,8 +50,8 @@ namespace Argon.Tests.TestObjects
         [JsonIgnore]
         object IPrivateOverriddenImplementation.OverriddenProperty
         {
-            get { return OverriddenProperty; }
-            set { OverriddenProperty = value; }
+            get => OverriddenProperty;
+            set => OverriddenProperty = value;
         }
     }
 }

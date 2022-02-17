@@ -145,18 +145,12 @@ namespace Argon.Tests.Serialization
 
         public class Parent
         {
-            public Child ReadOnlyChild
-            {
-                get { return Child1; }
-            }
+            public Child ReadOnlyChild => Child1;
 
             public Child Child1 { get; set; }
             public Child Child2 { get; set; }
 
-            public IList<string> ReadOnlyList
-            {
-                get { return List1; }
-            }
+            public IList<string> ReadOnlyList => List1;
 
             public IList<string> List1 { get; set; }
             public IList<string> List2 { get; set; }
@@ -1011,8 +1005,8 @@ namespace Argon.Tests.Serialization
 
             public Type SecretType
             {
-                get { return Type.GetType(secretType); }
-                set { secretType = value.AssemblyQualifiedName; }
+                get => Type.GetType(secretType);
+                set => secretType = value.AssemblyQualifiedName;
             }
 
             [JsonProperty]

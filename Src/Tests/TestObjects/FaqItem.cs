@@ -51,10 +51,7 @@ namespace Argon.Tests.TestObjects
     partial class FaqItem
     {
         [JsonProperty("FullSectionsProp")]
-        public ICollection<FaqSection> FullSections
-        {
-            get { return Sections; }
-        }
+        public ICollection<FaqSection> FullSections => Sections;
     }
 
     public class FaqItemMetadata
@@ -73,8 +70,8 @@ namespace Argon.Tests.TestObjects
 
         public override ICollection<FaqSection> Sections
         {
-            get { return base.Sections; }
-            set { base.Sections = value; }
+            get => base.Sections;
+            set => base.Sections = value;
         }
     }
 #endif

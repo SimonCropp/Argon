@@ -48,7 +48,7 @@ namespace Argon.Tests.TestObjects
 
                 return _roles;
             }
-            set { _roles = value; }
+            set => _roles = value;
         }
 
         public string Title { get; set; }

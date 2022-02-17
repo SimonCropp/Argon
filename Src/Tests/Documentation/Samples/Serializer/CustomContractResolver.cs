@@ -63,10 +63,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
             public string FirstName { get; set; }
             public string LastName { get; set; }
 
-            public string FullName
-            {
-                get { return FirstName + " " + LastName; }
-            }
+            public string FullName => FirstName + " " + LastName;
         }
         #endregion
 

@@ -1595,10 +1595,7 @@ namespace Argon.Tests
                 _rounding = rounding;
             }
 
-            public override bool CanRead
-            {
-                get { return false; }
-            }
+            public override bool CanRead => false;
 
             public override bool CanConvert(Type objectType)
             {
@@ -1785,14 +1782,8 @@ namespace Argon.Tests
             [JsonProperty("exp")]
             private int _expiration
             {
-                get
-                {
-                    return (int)(Expiration - s_unixEpoch).TotalSeconds;
-                }
-                set
-                {
-                    Expiration = s_unixEpoch.AddSeconds(value);
-                }
+                get => (int)(Expiration - s_unixEpoch).TotalSeconds;
+                set => Expiration = s_unixEpoch.AddSeconds(value);
             }
 
             public bool Active { get; set; }

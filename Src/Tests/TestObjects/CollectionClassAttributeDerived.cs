@@ -54,15 +54,9 @@ namespace Argon.Tests.TestObjects
             throw new NotImplementedException();
         }
 
-        public int Count
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public int Count => throw new NotImplementedException();
 
-        public bool IsReadOnly
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public bool IsReadOnly => throw new NotImplementedException();
 
         public bool Remove(object item)
         {

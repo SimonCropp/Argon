@@ -35,9 +35,6 @@ namespace Argon.Tests.TestObjects
             m_Item1 = item1;
         }
 
-        public T1 Item1
-        {
-            get { return m_Item1; }
-        }
+        public T1 Item1 => m_Item1;
     }
 }

@@ -169,10 +169,7 @@ namespace Argon.Tests.Schema
             }
         }
 
-        public TimeSpan Result
-        {
-            get { return _stopwatch.Elapsed; }
-        }
+        public TimeSpan Result => _stopwatch.Elapsed;
     }
 }
 

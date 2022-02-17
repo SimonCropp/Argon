@@ -38,8 +38,8 @@ namespace Argon.Tests.TestObjects
 
         public string Name
         {
-            get { return _name; }
-            set { _name = value; }
+            get => _name;
+            set => _name = value;
         }
 
         [NonSerialized]
@@ -47,8 +47,8 @@ namespace Argon.Tests.TestObjects
 
         public int Age
         {
-            get { return _age; }
-            set { _age = value; }
+            get => _age;
+            set => _age = value;
         }
     }
 }

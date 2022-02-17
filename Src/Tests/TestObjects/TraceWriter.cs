@@ -27,10 +27,7 @@ namespace Argon.Tests.TestObjects
 {
     internal class TraceWriter : IMyInterface
     {
-        public string Name
-        {
-            get { return "Trace Writer"; }
-        }
+        public string Name => "Trace Writer";
 
         public override string ToString()
         {

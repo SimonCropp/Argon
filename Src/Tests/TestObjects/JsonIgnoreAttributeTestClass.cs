@@ -32,19 +32,13 @@ namespace Argon.Tests.TestObjects
 
         public int Field;
 
-        public int Property
-        {
-            get { return _property; }
-        }
+        public int Property => _property;
 
         [JsonIgnore]
         public int IgnoredField;
 
         [JsonIgnore]
-        public int IgnoredProperty
-        {
-            get { return _ignoredProperty; }
-        }
+        public int IgnoredProperty => _ignoredProperty;
 
         [JsonIgnore]
         public Product IgnoredObject = new();

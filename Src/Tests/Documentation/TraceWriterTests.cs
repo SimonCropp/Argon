@@ -75,11 +75,9 @@ namespace Argon.Tests.Documentation
         {
             private static readonly Logger Logger = LogManager.GetLogger("NLogTraceWriter");
 
-            public TraceLevel LevelFilter
-            {
+            public TraceLevel LevelFilter =>
                 // trace all messages. nlog can handle filtering
-                get { return TraceLevel.Verbose; }
-            }
+                TraceLevel.Verbose;
 
             public void Trace(TraceLevel level, string message, Exception ex)
             {

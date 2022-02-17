@@ -36,15 +36,15 @@ namespace Argon.Tests.TestObjects
         [DataMember]
         public StructISerializable Foo1
         {
-            get { return _foo1; }
-            set { _foo1 = value; }
+            get => _foo1;
+            set => _foo1 = value;
         }
 
         [DataMember]
         public StructISerializable? Foo2
         {
-            get { return _foo2; }
-            set { _foo2 = value; }
+            get => _foo2;
+            set => _foo2 = value;
         }
     }
 }

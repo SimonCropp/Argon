@@ -34,9 +34,6 @@ namespace Argon.Tests.TestObjects
             _name = nameParameter;
         }
 
-        public string Name
-        {
-            get { return _name; }
-        }
+        public string Name => _name;
     }
 }

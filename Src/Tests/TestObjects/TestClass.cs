@@ -36,8 +36,8 @@ namespace Argon.Tests.TestObjects
         [DataMember]
         public string Name
         {
-            get { return _Name; }
-            set { _Name = value; }
+            get => _Name;
+            set => _Name = value;
         }
 
         private string _Name = "Rick";
@@ -45,8 +45,8 @@ namespace Argon.Tests.TestObjects
         [DataMember]
         public DateTime Now
         {
-            get { return _Now; }
-            set { _Now = value; }
+            get => _Now;
+            set => _Now = value;
         }
 
         private DateTime _Now = DateTime.Now;
@@ -54,8 +54,8 @@ namespace Argon.Tests.TestObjects
         [DataMember]
         public decimal BigNumber
         {
-            get { return _BigNumber; }
-            set { _BigNumber = value; }
+            get => _BigNumber;
+            set => _BigNumber = value;
         }
 
         private decimal _BigNumber = 1212121.22M;
@@ -63,8 +63,8 @@ namespace Argon.Tests.TestObjects
         [DataMember]
         public Address Address1
         {
-            get { return _Address1; }
-            set { _Address1 = value; }
+            get => _Address1;
+            set => _Address1 = value;
         }
 
         private Address _Address1 = new();
@@ -72,8 +72,8 @@ namespace Argon.Tests.TestObjects
         [DataMember]
         public List<Address> Addresses
         {
-            get { return _Addresses; }
-            set { _Addresses = value; }
+            get => _Addresses;
+            set => _Addresses = value;
         }
 
         private List<Address> _Addresses = new();

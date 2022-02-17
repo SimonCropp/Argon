@@ -93,7 +93,7 @@ namespace Argon.Tests.Serialization
 
             public string Data
             {
-                get { return _data; }
+                get => _data;
                 set
                 {
                     _data = value;
@@ -422,7 +422,7 @@ namespace Argon.Tests.Serialization
             [JsonProperty]
             public ExportFormat? ExportFormat
             {
-                get { return _exportFormat; }
+                get => _exportFormat;
                 private set
                 {
                     if (!value.HasValue)
@@ -437,7 +437,7 @@ namespace Argon.Tests.Serialization
             [JsonProperty]
             public string Format
             {
-                get { return _format; }
+                get => _format;
                 private set
                 {
                     if (value == null)

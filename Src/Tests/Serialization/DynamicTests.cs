@@ -328,10 +328,7 @@ namespace Argon.Tests.Serialization
 
         public DynamicChildObject ChildObject { get; set; }
 
-        internal Dictionary<string, object> Members
-        {
-            get { return _members; }
-        }
+        internal Dictionary<string, object> Members => _members;
 
         public TestDynamicObject()
         {

@@ -73,42 +73,42 @@ namespace Argon.Tests.TestObjects.GeometricForms
         public static Shape Empty
         {
             [CompilationMapping(SourceConstructFlags.UnionCase, 3)]
-            get { return _unique_Empty; }
+            get => _unique_Empty;
         }
 
         [CompilerGenerated, DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool IsCircle
         {
             [CompilerGenerated]
-            get { return this.Tag == 1; }
+            get => this.Tag == 1;
         }
 
         [CompilerGenerated, DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool IsEmpty
         {
             [CompilerGenerated]
-            get { return this.Tag == 3; }
+            get => this.Tag == 3;
         }
 
         [CompilerGenerated, DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool IsPrism
         {
             [CompilerGenerated]
-            get { return this.Tag == 2; }
+            get => this.Tag == 2;
         }
 
         [CompilerGenerated, DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool IsRectangle
         {
             [CompilerGenerated]
-            get { return this.Tag == 0; }
+            get => this.Tag == 0;
         }
 
         [CompilerGenerated, DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public int Tag
         {
             [CompilerGenerated]
-            get { return this._tag; }
+            get => this._tag;
         }
 
         [Serializable, DebuggerDisplay("{__DebugDisplay(),nq}")]
@@ -130,7 +130,7 @@ namespace Argon.Tests.TestObjects.GeometricForms
             public double radius
             {
                 [CompilerGenerated, DebuggerNonUserCode]
-                get { return this._radius; }
+                get => this._radius;
             }
         }
 
@@ -158,21 +158,21 @@ namespace Argon.Tests.TestObjects.GeometricForms
             public double height
             {
                 [CompilerGenerated, DebuggerNonUserCode]
-                get { return this._height; }
+                get => this._height;
             }
 
             [CompilationMapping(SourceConstructFlags.Field, 2, 1), CompilerGenerated, DebuggerNonUserCode]
             public double Item2
             {
                 [CompilerGenerated, DebuggerNonUserCode]
-                get { return this.item2; }
+                get => this.item2;
             }
 
             [CompilationMapping(SourceConstructFlags.Field, 2, 0), CompilerGenerated, DebuggerNonUserCode]
             public double width
             {
                 [CompilerGenerated, DebuggerNonUserCode]
-                get { return this._width; }
+                get => this._width;
             }
         }
 
@@ -196,14 +196,14 @@ namespace Argon.Tests.TestObjects.GeometricForms
             public double length
             {
                 [CompilerGenerated, DebuggerNonUserCode]
-                get { return this._length; }
+                get => this._length;
             }
 
             [CompilationMapping(SourceConstructFlags.Field, 0, 0), CompilerGenerated, DebuggerNonUserCode]
             public double width
             {
                 [CompilerGenerated, DebuggerNonUserCode]
-                get { return this._width; }
+                get => this._width;
             }
         }
     }

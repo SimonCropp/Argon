@@ -27,9 +27,6 @@ namespace Argon.Tests.TestObjects
 {
     public class ArgumentConverterPrecedenceClassConverter : ConverterPrecedenceClassConverter
     {
-        public override string ConverterType
-        {
-            get { return "Argument"; }
-        }
+        public override string ConverterType => "Argument";
     }
 }

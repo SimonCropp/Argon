@@ -154,7 +154,7 @@ namespace Argon.Linq
         public string Name
         {
             [DebuggerStepThrough]
-            get { return _name; }
+            get => _name;
         }
 
         /// <summary>
@@ -164,7 +164,7 @@ namespace Argon.Linq
         public JToken Value
         {
             [DebuggerStepThrough]
-            get { return _content._token!; }
+            get => _content._token!;
             set
             {
                 CheckReentrancy();
@@ -294,7 +294,7 @@ namespace Argon.Linq
         public override JTokenType Type
         {
             [DebuggerStepThrough]
-            get { return JTokenType.Property; }
+            get => JTokenType.Property;
         }
 
         internal JProperty(string name)

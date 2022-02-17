@@ -38,28 +38,28 @@ namespace Argon.Tests.TestObjects
         [JsonIgnore]
         public Guid InternalId
         {
-            get { return _internalId; }
-            set { _internalId = value; }
+            get => _internalId;
+            set => _internalId = value;
         }
 
         [JsonProperty("first_name")]
         public string FirstName
         {
-            get { return _firstName; }
-            set { _firstName = value; }
+            get => _firstName;
+            set => _firstName = value;
         }
 
         public JRaw RawContent
         {
-            get { return _rawContent; }
-            set { _rawContent = value; }
+            get => _rawContent;
+            set => _rawContent = value;
         }
 
         [JsonProperty("last_name")]
         public string LastName
         {
-            get { return _lastName; }
-            set { _lastName = value; }
+            get => _lastName;
+            set => _lastName = value;
         }
     }
 }

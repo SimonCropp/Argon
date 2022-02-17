@@ -35,8 +35,8 @@ namespace Argon.Tests.TestObjects
 
         public string B2
         {
-            get { return _B2; }
-            set { _B2 = value; }
+            get => _B2;
+            set => _B2 = value;
         }
 
         [JsonProperty("B3")]

@@ -106,49 +106,46 @@ namespace Argon.Tests.TestObjects.Events
 
         public string sublocation
         {
-            get { return _sublocation; }
-            set { _sublocation = value; }
+            get => _sublocation;
+            set => _sublocation = value;
         }
 
         public int userId
         {
-            get { return _userId; }
-            set { _userId = value; }
+            get => _userId;
+            set => _userId = value;
         }
 
         public EventType type
         {
-            get { return _type; }
-            set { _type = value; }
+            get => _type;
+            set => _type = value;
         }
 
         public string summary
         {
-            get { return _summary; }
-            set { _summary = value; }
+            get => _summary;
+            set => _summary = value;
         }
 
         public string details
         {
-            get { return _details; }
-            set { _details = value; }
+            get => _details;
+            set => _details = value;
         }
 
         public string stackTrace
         {
-            get { return _stackTrace; }
-            set { _stackTrace = value; }
+            get => _stackTrace;
+            set => _stackTrace = value;
         }
 
         public string tag
         {
-            get { return _tag; }
-            set { _tag = value; }
+            get => _tag;
+            set => _tag = value;
         }
 
-        public DateTime time
-        {
-            get { return _time; }
-        }
+        public DateTime time => _time;
     }
 }

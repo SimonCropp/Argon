@@ -128,8 +128,8 @@ namespace Argon.Tests.Utilities
 
         public int IntProperty
         {
-            get { return _intProperty; }
-            set { _intProperty = value; }
+            get => _intProperty;
+            set => _intProperty = value;
         }
     }
 }

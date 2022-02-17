@@ -399,7 +399,7 @@ namespace Argon.Tests.Serialization
                 }
                 return null;
             }
-            set { _value = value; }
+            set => _value = value;
         }
     }
 }

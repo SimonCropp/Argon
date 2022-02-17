@@ -36,8 +36,8 @@ namespace Argon.Tests.TestObjects
         [DataMember]
         public string Street
         {
-            get { return _street; }
-            set { _street = value; }
+            get => _street;
+            set => _street = value;
         }
 
         private string _street = "32 Kaiea";
@@ -45,8 +45,8 @@ namespace Argon.Tests.TestObjects
         [DataMember]
         public string Phone
         {
-            get { return _Phone; }
-            set { _Phone = value; }
+            get => _Phone;
+            set => _Phone = value;
         }
 
         private string _Phone = "(503) 814-6335";
@@ -54,8 +54,8 @@ namespace Argon.Tests.TestObjects
         [DataMember]
         public DateTime Entered
         {
-            get { return _Entered; }
-            set { _Entered = value; }
+            get => _Entered;
+            set => _Entered = value;
         }
 
         private DateTime _Entered = DateTime.Parse("01/01/2007", CultureInfo.CurrentCulture.DateTimeFormat);

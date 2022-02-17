@@ -34,9 +34,6 @@ namespace Argon.Tests.TestObjects
             _nameContainer = nameParameter;
         }
 
-        public NameContainer Name
-        {
-            get { return _nameContainer; }
-        }
+        public NameContainer Name => _nameContainer;
     }
 }

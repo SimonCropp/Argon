@@ -40,8 +40,8 @@ namespace Argon.Tests.TestObjects
         [JsonProperty("sweet_cakes_count")]
         public int SweetCakesCount
         {
-            get { return _sweetCakesCount; }
-            set { _sweetCakesCount = value; }
+            get => _sweetCakesCount;
+            set => _sweetCakesCount = value;
         }
     }
 }

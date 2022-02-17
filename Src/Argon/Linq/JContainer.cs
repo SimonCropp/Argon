@@ -70,8 +70,8 @@ namespace Argon.Linq
         /// </summary>
         public event NotifyCollectionChangedEventHandler CollectionChanged
         {
-            add { _collectionChanged += value; }
-            remove { _collectionChanged -= value; }
+            add => _collectionChanged += value;
+            remove => _collectionChanged -= value;
         }
 
         /// <summary>

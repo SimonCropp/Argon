@@ -33,8 +33,8 @@ namespace Argon.Tests.TestObjects
         [JsonProperty("PropertyA")]
         string IPrivateImplementationA.PropertyA
         {
-            get { return PropertyA; }
-            set { PropertyA = value; }
+            get => PropertyA;
+            set => PropertyA = value;
         }
     }
 }

@@ -35,9 +35,6 @@ namespace Argon.Tests.TestObjects
         }
 
         [JsonConverter(typeof(NameContainerConverter))]
-        public NameContainer Name
-        {
-            get { return _nameContainer; }
-        }
+        public NameContainer Name => _nameContainer;
     }
 }

@@ -116,8 +116,8 @@ namespace Argon.Tests.Serialization
 
         public string PublicProperty
         {
-            get { return privateField; }
-            set { privateField = value; }
+            get => privateField;
+            set => privateField = value;
         }
 
 #if !NET5_0_OR_GREATER

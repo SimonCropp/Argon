@@ -29,9 +29,6 @@ namespace Argon.Tests.TestObjects
     {
         public string Field = "Field";
 
-        public string GetOnlyProperty
-        {
-            get { return "GetOnlyProperty"; }
-        }
+        public string GetOnlyProperty => "GetOnlyProperty";
     }
 }

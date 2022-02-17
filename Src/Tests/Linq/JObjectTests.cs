@@ -2018,10 +2018,7 @@ Parameter name: arrayIndex",
                 throw new NotSupportedException("This custom converter only supportes serialization and not deserialization.");
             }
 
-            public override bool CanRead
-            {
-                get { return false; }
-            }
+            public override bool CanRead => false;
 
             public override bool CanConvert(Type objectType)
             {

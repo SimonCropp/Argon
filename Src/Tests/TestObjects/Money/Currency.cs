@@ -70,91 +70,91 @@ namespace Argon.Tests.TestObjects.Money
         public static Currency AUD
         {
             [CompilationMapping(SourceConstructFlags.UnionCase, 1)]
-            get { return _unique_AUD; }
+            get => _unique_AUD;
         }
 
         [CompilerGenerated, DebuggerNonUserCode, DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public static Currency EUR
         {
             [CompilationMapping(SourceConstructFlags.UnionCase, 4)]
-            get { return _unique_EUR; }
+            get => _unique_EUR;
         }
 
         [CompilerGenerated, DebuggerNonUserCode, DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool IsAUD
         {
             [CompilerGenerated, DebuggerNonUserCode]
-            get { return this.Tag == 1; }
+            get => this.Tag == 1;
         }
 
         [CompilerGenerated, DebuggerNonUserCode, DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool IsEUR
         {
             [CompilerGenerated, DebuggerNonUserCode]
-            get { return this.Tag == 4; }
+            get => this.Tag == 4;
         }
 
         [CompilerGenerated, DebuggerNonUserCode, DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool IsJPY
         {
             [CompilerGenerated, DebuggerNonUserCode]
-            get { return this.Tag == 5; }
+            get => this.Tag == 5;
         }
 
         [CompilerGenerated, DebuggerNonUserCode, DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool IsLocalCurrency
         {
             [CompilerGenerated, DebuggerNonUserCode]
-            get { return this.Tag == 0; }
+            get => this.Tag == 0;
         }
 
         [CompilerGenerated, DebuggerNonUserCode, DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool IsNZD
         {
             [CompilerGenerated, DebuggerNonUserCode]
-            get { return this.Tag == 2; }
+            get => this.Tag == 2;
         }
 
         [CompilerGenerated, DebuggerNonUserCode, DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool IsUSD
         {
             [CompilerGenerated, DebuggerNonUserCode]
-            get { return this.Tag == 3; }
+            get => this.Tag == 3;
         }
 
         [CompilerGenerated, DebuggerNonUserCode, DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public static Currency JPY
         {
             [CompilationMapping(SourceConstructFlags.UnionCase, 5)]
-            get { return _unique_JPY; }
+            get => _unique_JPY;
         }
 
         [CompilerGenerated, DebuggerNonUserCode, DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public static Currency LocalCurrency
         {
             [CompilationMapping(SourceConstructFlags.UnionCase, 0)]
-            get { return _unique_LocalCurrency; }
+            get => _unique_LocalCurrency;
         }
 
         [CompilerGenerated, DebuggerNonUserCode, DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public static Currency NZD
         {
             [CompilationMapping(SourceConstructFlags.UnionCase, 2)]
-            get { return _unique_NZD; }
+            get => _unique_NZD;
         }
 
         [CompilerGenerated, DebuggerNonUserCode, DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public int Tag
         {
             [CompilerGenerated, DebuggerNonUserCode]
-            get { return this._tag; }
+            get => this._tag;
         }
 
         [CompilerGenerated, DebuggerNonUserCode, DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public static Currency USD
         {
             [CompilationMapping(SourceConstructFlags.UnionCase, 3)]
-            get { return _unique_USD; }
+            get => _unique_USD;
         }
     }
 }

@@ -746,10 +746,7 @@ namespace Argon.Tests.Linq
                 return objectType == typeof(string);
             }
 
-            public override bool CanWrite
-            {
-                get { return false; }
-            }
+            public override bool CanWrite => false;
         }
 
         [Fact]

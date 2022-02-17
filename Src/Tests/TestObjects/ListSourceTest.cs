@@ -35,15 +35,12 @@ namespace Argon.Tests.TestObjects
 
         public string strprop
         {
-            get { return str; }
-            set { str = value; }
+            get => str;
+            set => str = value;
         }
 
         [JsonIgnore]
-        public bool ContainsListCollection
-        {
-            get { return false; }
-        }
+        public bool ContainsListCollection => false;
 
         public IList GetList()
         {

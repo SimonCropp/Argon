@@ -35,18 +35,12 @@ namespace Argon.Tests.TestObjects
         public int Field;
 
         [JsonProperty]
-        public int Property
-        {
-            get { return _property; }
-        }
+        public int Property => _property;
 
         public int IgnoredField;
 
         [JsonProperty]
         [JsonIgnore] // JsonIgnore should take priority
-        public int IgnoredProperty
-        {
-            get { return _ignoredProperty; }
-        }
+        public int IgnoredProperty => _ignoredProperty;
     }
 }

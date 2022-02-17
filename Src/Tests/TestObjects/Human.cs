@@ -27,10 +27,7 @@ namespace Argon.Tests.TestObjects
 {
     public class Human : Animal
     {
-        public override string Name
-        {
-            get { return typeof(Human).Name; }
-        }
+        public override string Name => typeof(Human).Name;
 
         public string Ethnicity { get; set; }
     }

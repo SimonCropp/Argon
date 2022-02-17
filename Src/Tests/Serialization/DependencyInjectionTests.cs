@@ -72,10 +72,7 @@ namespace Argon.Tests.Serialization
             _dt = dt;
         }
 
-        public DateTime DateTime
-        {
-            get { return _dt; }
-        }
+        public DateTime DateTime => _dt;
 
         public string Level { get; set; }
     }
@@ -91,15 +88,9 @@ namespace Argon.Tests.Serialization
             _logger = logger;
         }
 
-        public ITaskRepository Repository
-        {
-            get { return _repository; }
-        }
+        public ITaskRepository Repository => _repository;
 
-        public ILogger Logger
-        {
-            get { return _logger; }
-        }
+        public ILogger Logger => _logger;
     }
 
     public class HasSettableProperty

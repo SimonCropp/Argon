@@ -27,9 +27,6 @@ namespace Argon.Tests.TestObjects
 {
     public class DerivedEvent : LogEvent
     {
-        public override string EventName
-        {
-            get { return "derived"; }
-        }
+        public override string EventName => "derived";
     }
 }

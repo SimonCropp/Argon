@@ -125,7 +125,7 @@ namespace Argon
         /// <value></value>
         public override char QuoteChar
         {
-            get { return _reader.QuoteChar; }
+            get => _reader.QuoteChar;
             protected internal set { }
         }
 

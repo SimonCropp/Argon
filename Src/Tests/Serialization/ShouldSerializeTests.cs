@@ -501,8 +501,8 @@ namespace Argon.Tests.Serialization
         [JsonIgnore]
         public bool NameSpecified
         {
-            get { return _nameSpecified; }
-            set { _nameSpecified = value; }
+            get => _nameSpecified;
+            set => _nameSpecified = value;
         }
 
         [JsonIgnore]
@@ -513,11 +513,9 @@ namespace Argon.Tests.Serialization
         public bool HeightSpecified;
 
         [JsonIgnore]
-        public bool FavoriteNumberSpecified
-        {
+        public bool FavoriteNumberSpecified =>
             // get only example
-            get { return FavoriteNumber != 0; }
-        }
+            FavoriteNumber != 0;
     }
 
     public class Foo2
@@ -526,16 +524,16 @@ namespace Argon.Tests.Serialization
 
         public Bar2 myBar
         {
-            get { return myBarField; }
-            set { myBarField = value; }
+            get => myBarField;
+            set => myBarField = value;
         }
 
         private string nameField;
 
         public string name
         {
-            get { return nameField; }
-            set { nameField = value; }
+            get => nameField;
+            set => nameField = value;
         }
 
         public virtual bool ShouldSerializemyBar()
@@ -558,16 +556,16 @@ namespace Argon.Tests.Serialization
 
         public Baz1[] myBaz
         {
-            get { return myBazField; }
-            set { myBazField = value; }
+            get => myBazField;
+            set => myBazField = value;
         }
 
         private string nameField;
 
         public string name
         {
-            get { return nameField; }
-            set { nameField = value; }
+            get => nameField;
+            set => nameField = value;
         }
 
         public virtual bool ShouldSerializemyBaz()
@@ -588,16 +586,16 @@ namespace Argon.Tests.Serialization
 
         public Frob1[] myFrob
         {
-            get { return myFrobField; }
-            set { myFrobField = value; }
+            get => myFrobField;
+            set => myFrobField = value;
         }
 
         private string nameField;
 
         public string name
         {
-            get { return nameField; }
-            set { nameField = value; }
+            get => nameField;
+            set => nameField = value;
         }
 
         public virtual bool ShouldSerializename()
@@ -617,8 +615,8 @@ namespace Argon.Tests.Serialization
 
         public string name
         {
-            get { return nameField; }
-            set { nameField = value; }
+            get => nameField;
+            set => nameField = value;
         }
 
         public virtual bool ShouldSerializename()

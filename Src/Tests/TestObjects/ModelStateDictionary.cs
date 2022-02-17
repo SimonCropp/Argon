@@ -50,20 +50,11 @@ namespace Argon.Tests.TestObjects
             }
         }
 
-        public int Count
-        {
-            get { return _innerDictionary.Count; }
-        }
+        public int Count => _innerDictionary.Count;
 
-        public bool IsReadOnly
-        {
-            get { return ((IDictionary<string, T>)_innerDictionary).IsReadOnly; }
-        }
+        public bool IsReadOnly => ((IDictionary<string, T>)_innerDictionary).IsReadOnly;
 
-        public ICollection<string> Keys
-        {
-            get { return _innerDictionary.Keys; }
-        }
+        public ICollection<string> Keys => _innerDictionary.Keys;
 
         public T this[string key]
         {
@@ -72,13 +63,10 @@ namespace Argon.Tests.TestObjects
                 _innerDictionary.TryGetValue(key, out var value);
                 return value;
             }
-            set { _innerDictionary[key] = value; }
+            set => _innerDictionary[key] = value;
         }
 
-        public ICollection<T> Values
-        {
-            get { return _innerDictionary.Values; }
-        }
+        public ICollection<T> Values => _innerDictionary.Values;
 
         public void Add(KeyValuePair<string, T> item)
         {

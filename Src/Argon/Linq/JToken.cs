@@ -88,8 +88,8 @@ namespace Argon.Linq
         public JContainer? Parent
         {
             [DebuggerStepThrough]
-            get { return _parent; }
-            internal set { _parent = value; }
+            get => _parent;
+            internal set => _parent = value;
         }
 
         /// <summary>

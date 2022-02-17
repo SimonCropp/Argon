@@ -31,7 +31,7 @@ namespace Argon.Tests.TestObjects
 
         public object SetOnlyProperty
         {
-            set { _value = value; }
+            set => _value = value;
         }
 
         public object GetValue()

@@ -29,13 +29,13 @@ namespace Argon.Tests.TestObjects
     {
         protected internal object this[string propertyName]
         {
-            get { return null; }
+            get => null;
             set { }
         }
 
         protected internal object this[object property]
         {
-            get { return null; }
+            get => null;
             set { }
         }
     }

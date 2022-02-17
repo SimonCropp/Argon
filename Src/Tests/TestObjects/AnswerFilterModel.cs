@@ -79,9 +79,6 @@ namespace Argon.Tests.TestObjects
         /// <summary>
         /// Gets the answer values.
         /// </summary>
-        public IEnumerable AnswerValues
-        {
-            get { return answerValues; }
-        }
+        public IEnumerable AnswerValues => answerValues;
     }
 }

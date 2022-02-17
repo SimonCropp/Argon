@@ -91,15 +91,9 @@ namespace Argon.Tests.Documentation.Samples.Serializer
                 _logger = logger;
             }
 
-            public ITaskRepository Repository
-            {
-                get { return _repository; }
-            }
+            public ITaskRepository Repository => _repository;
 
-            public ILogger Logger
-            {
-                get { return _logger; }
-            }
+            public ILogger Logger => _logger;
         }
         #endregion
 

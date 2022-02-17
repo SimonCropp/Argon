@@ -97,10 +97,7 @@ namespace Argon.Tests.TestObjects
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public CustomersDataTable Customers
-        {
-            get { return tableCustomers; }
-        }
+        public CustomersDataTable Customers => tableCustomers;
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -108,25 +105,19 @@ namespace Argon.Tests.TestObjects
         [global::System.ComponentModel.DesignerSerializationVisibilityAttribute(global::System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public override global::System.Data.SchemaSerializationMode SchemaSerializationMode
         {
-            get { return _schemaSerializationMode; }
-            set { _schemaSerializationMode = value; }
+            get => _schemaSerializationMode;
+            set => _schemaSerializationMode = value;
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.DesignerSerializationVisibilityAttribute(global::System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public new global::System.Data.DataTableCollection Tables
-        {
-            get { return base.Tables; }
-        }
+        public new global::System.Data.DataTableCollection Tables => base.Tables;
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.DesignerSerializationVisibilityAttribute(global::System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public new global::System.Data.DataRelationCollection Relations
-        {
-            get { return base.Relations; }
-        }
+        public new global::System.Data.DataRelationCollection Relations => base.Relations;
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -362,25 +353,16 @@ namespace Argon.Tests.TestObjects
 
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn CustomerIDColumn
-            {
-                get { return columnCustomerID; }
-            }
+            public global::System.Data.DataColumn CustomerIDColumn => columnCustomerID;
 
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
-            public int Count
-            {
-                get { return Rows.Count; }
-            }
+            public int Count => Rows.Count;
 
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public CustomersRow this[int index]
-            {
-                get { return (CustomersRow)Rows[index]; }
-            }
+            public CustomersRow this[int index] => (CustomersRow)Rows[index];
 
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public event CustomersRowChangeEventHandler CustomersRowChanging;
@@ -637,7 +619,7 @@ namespace Argon.Tests.TestObjects
                         throw new global::System.Data.StrongTypingException("The value for column \'CustomerID\' in table \'Customers\' is DBNull.", e);
                     }
                 }
-                set { this[tableCustomers.CustomerIDColumn] = value; }
+                set => this[tableCustomers.CustomerIDColumn] = value;
             }
 
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -675,17 +657,11 @@ namespace Argon.Tests.TestObjects
 
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public CustomersRow Row
-            {
-                get { return eventRow; }
-            }
+            public CustomersRow Row => eventRow;
 
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataRowAction Action
-            {
-                get { return eventAction; }
-            }
+            public global::System.Data.DataRowAction Action => eventAction;
         }
     }
 }

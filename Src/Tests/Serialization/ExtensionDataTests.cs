@@ -53,10 +53,7 @@ namespace Argon.Tests.Serialization
                 return _inner.ContainsKey(key);
             }
 
-            public ICollection<string> Keys
-            {
-                get { return _inner.Keys; }
-            }
+            public ICollection<string> Keys => _inner.Keys;
 
             public bool Remove(string key)
             {
@@ -68,15 +65,12 @@ namespace Argon.Tests.Serialization
                 return _inner.TryGetValue(key, out value);
             }
 
-            public ICollection<object> Values
-            {
-                get { return _inner.Values; }
-            }
+            public ICollection<object> Values => _inner.Values;
 
             public object this[string key]
             {
-                get { return _inner[key]; }
-                set { _inner[key] = value; }
+                get => _inner[key];
+                set => _inner[key] = value;
             }
 
             public void Add(KeyValuePair<string, object> item)
@@ -99,15 +93,9 @@ namespace Argon.Tests.Serialization
                 _inner.CopyTo(array, arrayIndex);
             }
 
-            public int Count
-            {
-                get { return _inner.Count; }
-            }
+            public int Count => _inner.Count;
 
-            public bool IsReadOnly
-            {
-                get { return _inner.IsReadOnly; }
-            }
+            public bool IsReadOnly => _inner.IsReadOnly;
 
             public bool Remove(KeyValuePair<string, object> item)
             {
@@ -292,10 +280,7 @@ namespace Argon.Tests.Serialization
 
             public bool GetPrivate { get; internal set; }
 
-            public bool GetOnly
-            {
-                get { return true; }
-            }
+            public bool GetOnly => true;
 
             public readonly string Readonly = "Readonly";
             public IList<int> Ints { get; set; }
@@ -958,10 +943,7 @@ namespace Argon.Tests.Serialization
             public string Name { get; set; }
 
             [JsonExtensionData]
-            public JObject Content
-            {
-                get { return _content; }
-            }
+            public JObject Content => _content;
         }
 
         [Fact]

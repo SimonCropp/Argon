@@ -42,20 +42,12 @@ namespace Argon.Tests.TestObjects
         }
 
         #region Properties
-        public int Numerator
-        {
-            get { return _numerator; }
-        }
+        public int Numerator => _numerator;
 
-        public int Denominator
-        {
-            get { return _denominator; }
-        }
+        public int Denominator => _denominator;
 
-        public bool IsNan
-        {
-            get { return _denominator == 0; }
-        }
+        public bool IsNan => _denominator == 0;
+
         #endregion
 
         #region Serialization operations

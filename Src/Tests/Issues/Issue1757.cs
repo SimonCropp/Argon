@@ -72,22 +72,22 @@ namespace Argon.Tests.Issues
         {
             public Span<int> this[int i]
             {
-                get { return default(Span<int>); }
-                set { DoNothing(value); }
+                get => default(Span<int>);
+                set => DoNothing(value);
             }
             public static Span<int> Space
             {
-                get { return default(Span<int>); }
-                set { DoNothing(value); }
+                get => default(Span<int>);
+                set => DoNothing(value);
             }
             public Span<int> Room
             {
-                get { return default(Span<int>); }
-                set { DoNothing(value); }
+                get => default(Span<int>);
+                set => DoNothing(value);
             }
             public MyByRefLikeType RefLike
             {
-                get { return default(MyByRefLikeType); }
+                get => default(MyByRefLikeType);
                 set { }
             }
             private static void DoNothing(Span<int> param)

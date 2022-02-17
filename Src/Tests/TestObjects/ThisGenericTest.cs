@@ -41,8 +41,8 @@ namespace Argon.Tests.TestObjects
 
         public T this[string key]
         {
-            get { return _dict1[key]; }
-            set { _dict1[key] = value; }
+            get => _dict1[key];
+            set => _dict1[key] = value;
         }
 
         public T this[int id]
@@ -70,7 +70,7 @@ namespace Argon.Tests.TestObjects
 
         public T[] TheItems
         {
-            get { return _dict1.Values.ToArray<T>(); }
+            get => _dict1.Values.ToArray<T>();
             set
             {
                 foreach (var item in value)

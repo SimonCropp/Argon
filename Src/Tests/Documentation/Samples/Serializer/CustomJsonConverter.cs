@@ -70,10 +70,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
                 throw new NotImplementedException("Unnecessary because CanRead is false. The type will skip the converter.");
             }
 
-            public override bool CanRead
-            {
-                get { return false; }
-            }
+            public override bool CanRead => false;
 
             public override bool CanConvert(Type objectType)
             {

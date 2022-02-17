@@ -110,10 +110,7 @@ namespace Argon.Tests.Issues
 
     public class LineInfoConverter : JsonConverter
     {
-        public override bool CanWrite
-        {
-            get { return false; }
-        }
+        public override bool CanWrite => false;
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {

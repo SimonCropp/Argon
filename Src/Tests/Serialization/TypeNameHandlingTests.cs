@@ -2648,8 +2648,8 @@ namespace Argon.Tests.Serialization
         [DataMember]
         public ulong WantedUnitID
         {
-            get { return _wantedUnit; }
-            set { _wantedUnit = value; }
+            get => _wantedUnit;
+            set => _wantedUnit = value;
         }
     }
 }
