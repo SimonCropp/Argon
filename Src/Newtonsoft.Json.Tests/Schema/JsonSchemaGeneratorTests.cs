@@ -366,9 +366,7 @@ namespace Newtonsoft.Json.Tests.Schema
             generator.UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseTypeName;
             generator.ContractResolver = new CamelCasePropertyNamesContractResolver()
             {
-#if !(PORTABLE || DNXCORE50) || NETSTANDARD2_0
                 IgnoreSerializableAttribute = true
-#endif
             };
 
             JsonSchema schema = generator.Generate(typeof(VersionOld), true);
@@ -411,7 +409,6 @@ namespace Newtonsoft.Json.Tests.Schema
 }", json);
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void GenerateSchemaSerializable()
         {
@@ -468,7 +465,6 @@ namespace Newtonsoft.Json.Tests.Schema
             SerializableTestObject c = jsonWriter.Token.ToObject<SerializableTestObject>(serializer);
             Assert.AreEqual("Name!", c.Name);
         }
-#endif
 
         public enum SortTypeFlag
         {
@@ -724,7 +720,6 @@ namespace Newtonsoft.Json.Tests.Schema
     {
     }
 
-#if !DNXCORE50 || NETSTANDARD2_0
     [Serializable]
     public sealed class SerializableTestObject
     {
@@ -736,7 +731,6 @@ namespace Newtonsoft.Json.Tests.Schema
             set { _name = value; }
         }
     }
-#endif
 }
 
 #pragma warning restore 618

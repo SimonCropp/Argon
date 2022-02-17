@@ -112,7 +112,6 @@ namespace Newtonsoft.Json.Tests.Serialization
     [TestFixture]
     public class ContractResolverTests : TestFixtureBase
     {
-#if !(PORTABLE ) || NETSTANDARD2_0
         [Test]
         public void ResolveSerializableContract()
         {
@@ -142,7 +141,6 @@ namespace Newtonsoft.Json.Tests.Serialization
 
             Assert.AreEqual(MemberSerialization.Fields, contract.MemberSerialization);
         }
-#endif
 
         [Test]
         public void JsonPropertyDefaultValue()
@@ -577,7 +575,6 @@ namespace Newtonsoft.Json.Tests.Serialization
 }", startingWithB);
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
 #pragma warning disable 618
         [Test]
         public void SerializeCompilerGeneratedMembers()
@@ -622,7 +619,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(2, (int)o["<IntProperty>k__BackingField"]);
         }
 #pragma warning restore 618
-#endif
 
         public class ClassWithExtensionData
         {

@@ -25,9 +25,7 @@
 
 using System;
 using System.IO;
-#if !DNXCORE50 || NETSTANDARD2_0
 using System.Runtime.Serialization.Formatters.Binary;
-#endif
 using Newtonsoft.Json.Schema;
 #if DNXCORE50
 using Xunit;
