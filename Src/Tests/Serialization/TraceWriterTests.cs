@@ -841,7 +841,7 @@ Argon Error: 0 : Error!
             Assert.AreEqual("Resolved type 'System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.String, mscorlib]], mscorlib' to System.Collections.Generic.Dictionary`2[System.String,System.String]. Path '$values[0].$type', line 5, position 119.", traceWriter.TraceRecords[2].Message);
             Assert.AreEqual("Started deserializing System.Collections.Generic.Dictionary`2[System.String,System.String]. Path '$values[0].key!', line 6, position 13.", traceWriter.TraceRecords[3].Message);
             Assert.IsTrue(traceWriter.TraceRecords[4].Message.StartsWith("Finished deserializing System.Collections.Generic.Dictionary`2[System.String,System.String]. Path '$values[0]'"));
-            Assert.AreEqual("Resolved type 'Argon.Tests.TestObjects.VersionOld, Tests' to Argon.Tests.TestObjects.VersionOld. Path '$values[1].$type', line 9, position 84.", traceWriter.TraceRecords[5].Message);
+            Assert.AreEqual("Resolved type 'Argon.Tests.TestObjects.VersionOld, Tests' to Argon.Tests.TestObjects.VersionOld. Path '$values[1].$type', line 9, position 58.", traceWriter.TraceRecords[5].Message);
             Assert.AreEqual("Deserializing Argon.Tests.TestObjects.VersionOld using creator with parameters: Major, Minor, Build, Revision. Path '$values[1].Major', line 10, position 14.", traceWriter.TraceRecords[6].Message);
             Assert.IsTrue(traceWriter.TraceRecords[7].Message.StartsWith("Started deserializing Argon.Tests.TestObjects.VersionOld. Path '$values[1]'"));
             Assert.IsTrue(traceWriter.TraceRecords[8].Message.StartsWith("Finished deserializing Argon.Tests.TestObjects.VersionOld. Path '$values[1]'"));

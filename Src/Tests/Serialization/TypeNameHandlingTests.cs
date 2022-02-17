@@ -742,7 +742,7 @@ namespace Argon.Tests.Serialization
                 {
                     TypeNameHandling = TypeNameHandling.Objects
                 });
-            }, "Type specified in JSON 'Argon.Tests.TestObjects.Employee' was not resolved. Path '$type', line 3, position 55.");
+            }, "Type specified in JSON 'Argon.Tests.TestObjects.Employee' was not resolved. Path '$type', line 3, position 45.");
         }
 
         public interface ICorrelatedMessage

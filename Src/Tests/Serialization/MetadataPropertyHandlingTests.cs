@@ -233,7 +233,7 @@ namespace Argon.Tests.Serialization
                     TypeNameHandling = TypeNameHandling.Objects,
                     MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
                 });
-            }, "Type specified in JSON 'Argon.Tests.TestObjects.Employee' was not resolved. Path '$type', line 3, position 55.");
+            }, "Type specified in JSON 'Argon.Tests.TestObjects.Employee' was not resolved. Path '$type', line 3, position 48.");
         }
 
         [Fact]
