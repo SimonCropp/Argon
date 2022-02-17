@@ -124,7 +124,7 @@ namespace Newtonsoft.Json.Tests.Serialization
         [Fact]
         public void DontCloseInputOnDeserializeError()
         {
-            using (var s = System.IO.File.OpenRead(ResolvePath("large.json")))
+            using (var s = System.IO.File.OpenRead("large.json"))
             {
                 try
                 {

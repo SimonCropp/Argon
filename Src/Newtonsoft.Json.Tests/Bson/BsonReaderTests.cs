@@ -53,7 +53,7 @@ namespace Newtonsoft.Json.Tests.Bson
         [Fact]
         public void DeserializeLargeBsonObject()
         {
-            byte[] data = System.IO.File.ReadAllBytes(ResolvePath(@"SpaceShipV2.bson"));
+            byte[] data = System.IO.File.ReadAllBytes("SpaceShipV2.bson");
 
             MemoryStream ms = new MemoryStream(data);
             BsonReader reader = new BsonReader(ms);
