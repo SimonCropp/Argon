@@ -55,7 +55,7 @@ namespace Argon.Utilities
 
             if (method is ConstructorInfo c)
             {
-                return (o, a) => c.Invoke(a);
+                return (_, a) => c.Invoke(a);
             }
 
             return (o, a) => method.Invoke(o, a);

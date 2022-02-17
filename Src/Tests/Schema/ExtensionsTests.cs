@@ -69,12 +69,12 @@ namespace Argon.Tests.Schema
             var stringToken = JToken.FromObject("pie lol");
 
             var errors = new List<string>();
-            stringToken.Validate(schema, (sender, args) => errors.Add(args.Message));
+            stringToken.Validate(schema, (_, args) => errors.Add(args.Message));
             Assert.AreEqual(0, errors.Count);
 
             stringToken = JToken.FromObject("pie");
 
-            stringToken.Validate(schema, (sender, args) => errors.Add(args.Message));
+            stringToken.Validate(schema, (_, args) => errors.Add(args.Message));
             Assert.AreEqual(1, errors.Count);
 
             Assert.AreEqual("String 'pie' does not match regex pattern 'lol'.", errors[0]);
@@ -107,7 +107,7 @@ namespace Argon.Tests.Schema
             var o = JObject.Parse("{}");
 
             var errors = new List<string>();
-            o.Validate(schema, (sender, args) => errors.Add(args.Message));
+            o.Validate(schema, (_, args) => errors.Add(args.Message));
 
             Assert.AreEqual("Required properties are missing from object: lol. Line 1, position 1.", errors[0]);
             Assert.AreEqual(1, errors.Count);
@@ -120,7 +120,7 @@ namespace Argon.Tests.Schema
             var o = JObject.Parse("{'lol':1}");
 
             var errors = new List<string>();
-            o.Validate(schema, (sender, args) => errors.Add(args.Path + " - " + args.Message));
+            o.Validate(schema, (_, args) => errors.Add(args.Path + " - " + args.Message));
 
             Assert.AreEqual("lol - Invalid type. Expected String but got Integer. Line 1, position 8.", errors[0]);
             Assert.AreEqual("1", o.SelectToken("lol").ToString());
@@ -176,7 +176,7 @@ namespace Argon.Tests.Schema
 
             var errors = new List<string>();
 
-            token.Validate(typeSchema, (sender, args) => { errors.Add(args.Message); });
+            token.Validate(typeSchema, (_, args) => { errors.Add(args.Message); });
 
             if (errors.Count > 0)
             {
@@ -226,7 +226,7 @@ namespace Argon.Tests.Schema
             var o = JObject.Parse("{'g':1}");
 
             var errors = new List<string>();
-            o.Validate(schema, (sender, args) => errors.Add(args.Message));
+            o.Validate(schema, (_, args) => errors.Add(args.Message));
 
             Assert.AreEqual(1, errors.Count);
             Assert.AreEqual("Property 'g' has not been defined and the schema does not allow additional properties. Line 1, position 5.", errors[0]);

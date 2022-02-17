@@ -238,7 +238,7 @@ namespace Argon.Tests.Documentation
                 ]",
                 new JsonSerializerSettings
                 {
-                    Error = delegate(object sender, ErrorEventArgs args)
+                    Error = delegate(object _, ErrorEventArgs args)
                     {
                         errors.Add(args.ErrorContext.Error.Message);
                         args.ErrorContext.Handled = true;
@@ -265,7 +265,7 @@ namespace Argon.Tests.Documentation
             var errors = new List<string>();
 
             var serializer = new JsonSerializer();
-            serializer.Error += delegate(object sender, ErrorEventArgs args)
+            serializer.Error += delegate(object _, ErrorEventArgs args)
             {
                 // only log an error once
                 if (args.CurrentObject == args.ErrorContext.OriginalObject)

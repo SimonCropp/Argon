@@ -111,7 +111,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
             var builder = new ContainerBuilder();
             builder.RegisterType<TaskRepository>().As<ITaskRepository>();
             builder.RegisterType<TaskController>();
-            builder.Register(c => new LogService(new DateTime(2000, 12, 12))).As<ILogger>();
+            builder.Register(_ => new LogService(new DateTime(2000, 12, 12))).As<ILogger>();
 
             var container = builder.Build();
 

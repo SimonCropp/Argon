@@ -73,7 +73,7 @@ namespace Argon.Tests
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
             var schema = JsonSchema.Parse(schemaJson);
             reader.Schema = schema;
             Assert.AreEqual(schema, reader.Schema);
@@ -143,7 +143,7 @@ namespace Argon.Tests
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
             Assert.IsTrue(reader.Read());
@@ -218,7 +218,7 @@ namespace Argon.Tests
             ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
             Assert.IsTrue(reader.Read());
@@ -242,7 +242,7 @@ namespace Argon.Tests
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
             Assert.IsTrue(reader.Read());
@@ -269,7 +269,7 @@ namespace Argon.Tests
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
             Assert.IsTrue(reader.Read());
@@ -306,7 +306,7 @@ namespace Argon.Tests
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
             Assert.IsTrue(reader.Read());
@@ -330,7 +330,7 @@ namespace Argon.Tests
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
             Assert.IsTrue(reader.Read());
@@ -354,7 +354,7 @@ namespace Argon.Tests
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
             Assert.IsTrue(reader.Read());
@@ -377,7 +377,7 @@ namespace Argon.Tests
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            v.Validate(JsonSchema.Parse(schemaJson), (sender, args) => { validationEventArgs = args; });
+            v.Validate(JsonSchema.Parse(schemaJson), (_, args) => { validationEventArgs = args; });
 
             Assert.IsNotNull(validationEventArgs);
             Assert.AreEqual("Integer 1 is less than minimum value of 5.", validationEventArgs.Message);
@@ -414,7 +414,7 @@ namespace Argon.Tests
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
             Assert.IsTrue(reader.Read());
@@ -441,7 +441,7 @@ namespace Argon.Tests
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
             Assert.IsTrue(reader.Read());
@@ -478,7 +478,7 @@ namespace Argon.Tests
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
             Assert.IsTrue(reader.Read());
@@ -501,7 +501,7 @@ namespace Argon.Tests
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
             Assert.IsTrue(reader.Read());
@@ -528,7 +528,7 @@ namespace Argon.Tests
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
             Assert.IsTrue(reader.Read());
@@ -568,7 +568,7 @@ namespace Argon.Tests
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
             Assert.IsTrue(reader.Read());
@@ -608,7 +608,7 @@ namespace Argon.Tests
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
             Assert.IsTrue(reader.Read());
@@ -638,7 +638,7 @@ namespace Argon.Tests
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
             Assert.IsTrue(reader.Read());
@@ -671,7 +671,7 @@ namespace Argon.Tests
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
             Assert.IsTrue(reader.Read());
@@ -702,7 +702,7 @@ namespace Argon.Tests
 
             ValidationEventArgs validationEventArgs = null;
 
-            a.Validate(JsonSchema.Parse(schemaJson), (sender, args) => { validationEventArgs = args; });
+            a.Validate(JsonSchema.Parse(schemaJson), (_, args) => { validationEventArgs = args; });
 
             Assert.IsNull(validationEventArgs);
         }
@@ -722,7 +722,7 @@ namespace Argon.Tests
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
             Assert.IsTrue(reader.Read());
@@ -754,7 +754,7 @@ namespace Argon.Tests
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
             Assert.IsTrue(reader.Read());
@@ -788,7 +788,7 @@ namespace Argon.Tests
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
             Assert.IsTrue(reader.Read());
@@ -823,7 +823,7 @@ namespace Argon.Tests
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
             Assert.IsTrue(reader.Read());
@@ -859,7 +859,7 @@ namespace Argon.Tests
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
             Assert.IsTrue(reader.Read());
@@ -890,7 +890,7 @@ namespace Argon.Tests
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
             Assert.IsTrue(reader.Read());
@@ -916,7 +916,7 @@ namespace Argon.Tests
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
             Assert.IsTrue(reader.Read());
@@ -955,7 +955,7 @@ namespace Argon.Tests
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
             Assert.IsTrue(reader.Read());
@@ -997,7 +997,7 @@ namespace Argon.Tests
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
             Assert.IsTrue(reader.Read());
@@ -1036,7 +1036,7 @@ namespace Argon.Tests
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
             Assert.IsTrue(reader.Read());
@@ -1093,7 +1093,7 @@ namespace Argon.Tests
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) =>
+            reader.ValidationEventHandler += (_, args) =>
             {
                 validationEventArgs = args;
                 errors.Add(validationEventArgs.Message);
@@ -1146,7 +1146,7 @@ namespace Argon.Tests
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
             reader.Schema = GetExtendedSchema();
 
             Assert.IsTrue(reader.Read());
@@ -1204,7 +1204,7 @@ namespace Argon.Tests
             var errors = new List<string>();
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { errors.Add(args.Message); };
+            reader.ValidationEventHandler += (_, args) => { errors.Add(args.Message); };
             reader.Schema = GetExtendedSchema();
 
             Assert.IsTrue(reader.Read());
@@ -1231,7 +1231,7 @@ namespace Argon.Tests
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
             Assert.IsTrue(reader.Read());
@@ -1277,7 +1277,7 @@ namespace Argon.Tests
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
             Assert.IsTrue(reader.Read());
@@ -1385,7 +1385,7 @@ namespace Argon.Tests
             var errors = new List<string>();
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) =>
+            reader.ValidationEventHandler += (_, args) =>
             {
                 validationEventArgs = args;
                 errors.Add(validationEventArgs.Path + " - " + validationEventArgs.Message);
@@ -1562,7 +1562,7 @@ namespace Argon.Tests
             IList<ValidationEventArgs> validationEventArgs = new List<ValidationEventArgs>();
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs.Add(args); };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs.Add(args); };
             reader.Schema = JsonSchema.Parse(schema);
 
             while (reader.Read())
@@ -1677,7 +1677,7 @@ namespace Argon.Tests
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
             reader.Read();
@@ -1713,7 +1713,7 @@ namespace Argon.Tests
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
-            reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
+            reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
             reader.Read();

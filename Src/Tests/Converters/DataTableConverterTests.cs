@@ -80,7 +80,7 @@ namespace Argon.Tests.Converters
                 dt.Columns.Add(ss.Name, ss);
             }
 
-            dt.Rows.Add(types.Select(t => (object)null).ToArray());
+            dt.Rows.Add(types.Select(_ => (object)null).ToArray());
 
             var sw = new StringWriter();
             var jsonWriter = new JsonTextWriter(sw);

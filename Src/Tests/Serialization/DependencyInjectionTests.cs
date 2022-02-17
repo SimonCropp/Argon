@@ -206,7 +206,7 @@ namespace Argon.Tests.Serialization
             var builder = new ContainerBuilder();
             builder.RegisterType<TaskRepository>().As<ITaskRepository>();
             builder.RegisterType<TaskController>();
-            builder.Register(c =>
+            builder.Register(_ =>
             {
                 count++;
                 return new LogManager(new DateTime(2000, 12, 12));
@@ -240,13 +240,13 @@ namespace Argon.Tests.Serialization
             var count = 0;
 
             var builder = new ContainerBuilder();
-            builder.Register(c =>
+            builder.Register(_ =>
             {
                 count++;
                 return new TaskRepository();
             }).As<ITaskRepository>();
             builder.RegisterType<HasSettableProperty>();
-            builder.Register(c =>
+            builder.Register(_ =>
             {
                 count++;
                 return new LogManager(new DateTime(2000, 12, 12));

@@ -184,7 +184,7 @@ namespace Argon.Tests.Serialization
                 //This works on properties but not on a objects property.
                 /* So nameERROR:{"first":"ni"} would throw. The payload name:{"firstERROR":"hi"} would not */
                 MissingMemberHandling = MissingMemberHandling.Error,
-                Error = (sender, args) =>
+                Error = (_, args) =>
                 {
                     // A more concrete error type would be nice but we are limited by Newtonsofts library here.
                     errors.Add(args.ErrorContext.Error.Message);
@@ -210,7 +210,7 @@ namespace Argon.Tests.Serialization
                 //This works on properties but not on a objects property.
                 /* So nameERROR:{"first":"ni"} would throw. The payload name:{"firstERROR":"hi"} would not */
                 MissingMemberHandling = MissingMemberHandling.Error,
-                Error = (sender, args) =>
+                Error = (_, args) =>
                 {
                     // A more concrete error type would be nice but we are limited by Newtonsofts library here.
                     errors.Add(args.ErrorContext.Error.Message);

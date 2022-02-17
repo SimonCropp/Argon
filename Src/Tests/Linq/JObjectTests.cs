@@ -1394,7 +1394,7 @@ Parameter name: arrayIndex",
         public void IBindingListAddNewWithEvent()
         {
             var o = new JObject();
-            o._addingNew += (s, e) => e.NewObject = new JProperty("Property!");
+            o._addingNew += (_, e) => e.NewObject = new JProperty("Property!");
 
             IBindingList l = o;
             var newObject = l.AddNew();
@@ -1436,7 +1436,7 @@ Parameter name: arrayIndex",
             ListChangedType? changedType = null;
             int? index = null;
 
-            o.ListChanged += (s, a) =>
+            o.ListChanged += (_, a) =>
             {
                 changedType = a.ListChangedType;
                 index = a.NewIndex;
@@ -1474,7 +1474,7 @@ Parameter name: arrayIndex",
             NotifyCollectionChangedAction? changedType = null;
             int? index = null;
 
-            o._collectionChanged += (s, a) =>
+            o._collectionChanged += (_, a) =>
             {
                 changedType = a.Action;
                 index = a.NewStartingIndex;

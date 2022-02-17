@@ -56,7 +56,7 @@ namespace Argon.Tests.Documentation.Samples.Schema
             }");
 
             IList<string> messages = new List<string>();
-            ValidationEventHandler validationEventHandler = (sender, args) => { messages.Add(args.Message); };
+            ValidationEventHandler validationEventHandler = (_, args) => { messages.Add(args.Message); };
 
             person.Validate(schema, validationEventHandler);
 

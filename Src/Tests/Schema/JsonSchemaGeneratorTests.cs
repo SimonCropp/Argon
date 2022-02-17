@@ -445,7 +445,7 @@ namespace Argon.Tests.Schema
 
 
             var errors = new List<string>();
-            jsonWriter.Token.Validate(schema, (sender, args) => errors.Add(args.Message));
+            jsonWriter.Token.Validate(schema, (_, args) => errors.Add(args.Message));
 
             Assert.AreEqual(0, errors.Count);
 

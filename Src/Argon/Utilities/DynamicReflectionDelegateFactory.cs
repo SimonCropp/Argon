@@ -312,7 +312,7 @@ namespace Argon.Utilities
             if (fieldInfo.IsLiteral)
             {
                 var constantValue = fieldInfo.GetValue(null);
-                Func<T, object?> getter = o => constantValue;
+                Func<T, object?> getter = _ => constantValue;
                 return getter;
             }
 

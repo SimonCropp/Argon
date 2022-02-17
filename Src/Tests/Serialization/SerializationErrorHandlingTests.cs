@@ -51,7 +51,7 @@ namespace Argon.Tests.Serialization
             var a2 = JsonConvert.DeserializeObject<AAA>(@"{""MyTest"":{""$type"":""<Namespace>.JsonTest+MyTest2, <Assembly>""}}", new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto,
-                Error = (object sender, Argon.Serialization.ErrorEventArgs e) =>
+                Error = (object _, Argon.Serialization.ErrorEventArgs e) =>
                 {
                     errors.Add(e.ErrorContext.Error);
                     e.ErrorContext.Handled = true;
@@ -71,7 +71,7 @@ namespace Argon.Tests.Serialization
             var a2 = (JObject)JsonConvert.DeserializeObject(@"{""$type"":""<Namespace>.JsonTest+MyTest2, <Assembly>""}", new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto,
-                Error = (object sender, Argon.Serialization.ErrorEventArgs e) =>
+                Error = (object _, Argon.Serialization.ErrorEventArgs e) =>
                 {
                     errors.Add(e.ErrorContext.Error);
                     e.ErrorContext.Handled = true;
@@ -106,7 +106,7 @@ namespace Argon.Tests.Serialization
             var json = "{\"myint\":3554860000,\"Mybool\":false}";
             var i = JsonConvert.DeserializeObject<MyClass1>(json, new JsonSerializerSettings
             {
-                Error = delegate (object sender, Argon.Serialization.ErrorEventArgs args)
+                Error = delegate (object _, Argon.Serialization.ErrorEventArgs args)
                 {
                     errors.Add(args.ErrorContext.Error.Message);
                     args.ErrorContext.Handled = true;
@@ -230,7 +230,7 @@ namespace Argon.Tests.Serialization
             var json = JsonConvert.SerializeObject(c, new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
-                Error = (s, e) =>
+                Error = (_, e) =>
                 {
                     if (e.CurrentObject.GetType().IsArray)
                     {
@@ -345,7 +345,7 @@ namespace Argon.Tests.Serialization
 
             var serializer = JsonSerializer.Create(new JsonSerializerSettings
             {
-                Error = delegate(object sender, ErrorEventArgs args)
+                Error = delegate(object _, ErrorEventArgs args)
                 {
                     errors.Add(args.ErrorContext.Path + " - " + args.ErrorContext.Member + " - " + args.ErrorContext.Error.Message);
                     args.ErrorContext.Handled = true;
@@ -409,7 +409,7 @@ namespace Argon.Tests.Serialization
 ]",
                 new JsonSerializerSettings
                 {
-                    Error = (s, a) => eventErrorHandlerCalled = true,
+                    Error = (_, _) => eventErrorHandlerCalled = true,
                     Converters =
                     {
                         new IsoDateTimeConverter()
@@ -455,7 +455,7 @@ namespace Argon.Tests.Serialization
             try
             {
                 var serializer = new JsonSerializer();
-                serializer.Error += delegate(object sender, ErrorEventArgs args)
+                serializer.Error += delegate(object _, ErrorEventArgs args)
                 {
                     // only log an error once
                     if (args.CurrentObject == args.ErrorContext.OriginalObject)
@@ -484,7 +484,7 @@ namespace Argon.Tests.Serialization
             var errors = new List<string>();
             var serializer = new JsonSerializer();
             serializer.MetadataPropertyHandling = MetadataPropertyHandling.Default;
-            serializer.Error += delegate(object sender, ErrorEventArgs args)
+            serializer.Error += delegate(object _, ErrorEventArgs args)
             {
                 errors.Add(args.ErrorContext.Path + " - " + args.ErrorContext.Member + " - " + args.ErrorContext.Error.Message);
                 args.ErrorContext.Handled = true;
@@ -504,7 +504,7 @@ namespace Argon.Tests.Serialization
             var errors = new List<string>();
 
             var serializer = new JsonSerializer();
-            serializer.Error += delegate(object sender, ErrorEventArgs args)
+            serializer.Error += delegate(object _, ErrorEventArgs args)
             {
                 errors.Add(args.ErrorContext.Path + " - " + args.ErrorContext.Member + " - " + args.ErrorContext.Error.Message);
                 args.ErrorContext.Handled = true;
@@ -525,7 +525,7 @@ namespace Argon.Tests.Serialization
             var errors = new List<string>();
 
             var serializer = new JsonSerializer();
-            serializer.Error += delegate(object sender, ErrorEventArgs args)
+            serializer.Error += delegate(object _, ErrorEventArgs args)
             {
                 errors.Add(args.ErrorContext.Path + " - " + args.ErrorContext.Member + " - " + args.ErrorContext.Error.Message);
                 args.ErrorContext.Handled = true;
@@ -544,7 +544,7 @@ namespace Argon.Tests.Serialization
             var json = "{'A':{'A':{'A':{'A':{'A':{}}}}}}";
             var serializer = new JsonSerializer() { };
             IList<string> errors = new List<string>();
-            serializer.Error += (sender, e) =>
+            serializer.Error += (_, e) =>
             {
                 e.ErrorContext.Handled = true;
                 errors.Add(e.ErrorContext.Path);
@@ -567,7 +567,7 @@ namespace Argon.Tests.Serialization
             IList<string> errors = new List<string>();
 
             var serializer = new JsonSerializer();
-            serializer.Error += (sender, e) =>
+            serializer.Error += (_, e) =>
             {
                 errors.Add(e.ErrorContext.Error.Message);
                 e.ErrorContext.Handled = true;
@@ -592,7 +592,7 @@ namespace Argon.Tests.Serialization
                 typeof(int[]),
                 new JsonSerializerSettings
                 {
-                    Error = (sender, arg) =>
+                    Error = (_, arg) =>
                     {
                         errors.Add(arg.ErrorContext.Error.Message);
                         arg.ErrorContext.Handled = true;
@@ -617,7 +617,7 @@ namespace Argon.Tests.Serialization
 
             var serializer = JsonSerializer.Create(new JsonSerializerSettings
             {
-                Error = (sender, arg) =>
+                Error = (_, arg) =>
                 {
                     errors.Add(arg.ErrorContext.Error.Message);
                     arg.ErrorContext.Handled = true;
@@ -644,7 +644,7 @@ namespace Argon.Tests.Serialization
                 new JsonSerializerSettings
                 {
                     MetadataPropertyHandling = MetadataPropertyHandling.Default,
-                    Error = (sender, arg) =>
+                    Error = (_, arg) =>
                     {
                         errors.Add(arg.ErrorContext.Error.Message);
                         arg.ErrorContext.Handled = true;
@@ -678,7 +678,7 @@ namespace Argon.Tests.Serialization
                     MaxDepth = maxDepth,
                     MetadataPropertyHandling = MetadataPropertyHandling.Default
                 });
-                jsonSerializer.Error += (sender, e) =>
+                jsonSerializer.Error += (_, e) =>
                 {
                     errors.Add(e.ErrorContext.Error.Message);
                     e.ErrorContext.Handled = true;
@@ -708,7 +708,7 @@ namespace Argon.Tests.Serialization
             using (var jsonTextReader = new JsonTextReader(new StringReader(input)) { MaxDepth = maxDepth })
             {
                 var jsonSerializer = JsonSerializer.Create(new JsonSerializerSettings { MaxDepth = maxDepth, MetadataPropertyHandling = MetadataPropertyHandling.Default });
-                jsonSerializer.Error += (sender, e) =>
+                jsonSerializer.Error += (_, e) =>
                 {
                     errors.Add(e.ErrorContext.Error.Message);
                     e.ErrorContext.Handled = true;
@@ -741,7 +741,7 @@ namespace Argon.Tests.Serialization
 
             var newDynamicObject = JsonConvert.DeserializeObject<TestDynamicObject>(json, new JsonSerializerSettings
             {
-                Error = (sender, e) =>
+                Error = (_, e) =>
                 {
                     errors.Add(e.ErrorContext.Error.Message);
                     e.ErrorContext.Handled = true;
@@ -765,7 +765,7 @@ namespace Argon.Tests.Serialization
         public void WriteEndOnPropertyState()
         {
             var settings = new JsonSerializerSettings();
-            settings.Error += (obj, args) => { args.ErrorContext.Handled = true; };
+            settings.Error += (_, args) => { args.ErrorContext.Handled = true; };
 
             var data = new List<ErrorPerson2>()
             {
@@ -783,7 +783,7 @@ namespace Argon.Tests.Serialization
         public void WriteEndOnPropertyState2()
         {
             var settings = new JsonSerializerSettings();
-            settings.Error += (obj, args) => { args.ErrorContext.Handled = true; };
+            settings.Error += (_, args) => { args.ErrorContext.Handled = true; };
 
             var data = new List<ErrorPerson2>
             {
@@ -807,7 +807,7 @@ namespace Argon.Tests.Serialization
             var stream = new MemoryStream(byteArray);
             var jReader = new JsonTextReader(new StreamReader(stream));
             var s = new JsonSerializer();
-            s.Error += (sender, args) => { args.ErrorContext.Handled = true; };
+            s.Error += (_, args) => { args.ErrorContext.Handled = true; };
             var obj = s.Deserialize<ErrorPerson2>(jReader);
 
             Assert.IsNull(obj);
@@ -954,7 +954,7 @@ namespace Argon.Tests.Serialization
         {
             var result = JsonConvert.DeserializeObject<SomethingElse>("{}", new JsonSerializerSettings
             {
-                Error = (o, e) => { e.ErrorContext.Handled = true; }
+                Error = (_, e) => { e.ErrorContext.Handled = true; }
             });
 
             Assert.IsNull(result);
@@ -965,7 +965,7 @@ namespace Argon.Tests.Serialization
         {
             var result = JsonConvert.SerializeObject(new SomethingElse(), new JsonSerializerSettings
             {
-                Error = (o, e) => { e.ErrorContext.Handled = true; }
+                Error = (_, e) => { e.ErrorContext.Handled = true; }
             });
 
             Assert.AreEqual(string.Empty, result);
@@ -986,7 +986,7 @@ namespace Argon.Tests.Serialization
   ""string4"": ""even more blah""
 }"));
             var settings = new JsonSerializerSettings();
-            settings.Error = (sender, args) =>
+            settings.Error = (_, args) =>
             {
                 errorMessages.Add(args.ErrorContext.Error.Message);
                 args.ErrorContext.Handled = true;

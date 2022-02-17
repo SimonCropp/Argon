@@ -67,7 +67,7 @@ namespace Argon.Tests.Documentation.Samples.Schema
             validatingReader.Schema = JsonSchema.Parse(schemaJson);
 
             IList<string> messages = new List<string>();
-            validatingReader.ValidationEventHandler += (o, a) => messages.Add(a.Message);
+            validatingReader.ValidationEventHandler += (_, a) => messages.Add(a.Message);
 
             var serializer = new JsonSerializer();
             var p = serializer.Deserialize<Person>(validatingReader);

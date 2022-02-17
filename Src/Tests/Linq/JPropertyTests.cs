@@ -61,7 +61,7 @@ namespace Argon.Tests.Linq
             ListChangedType? listChangedType = null;
             int? index = null;
 
-            l.ListChanged += (sender, args) =>
+            l.ListChanged += (_, args) =>
             {
                 listChangedType = args.ListChangedType;
                 index = args.NewIndex;

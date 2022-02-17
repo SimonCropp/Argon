@@ -110,7 +110,7 @@ namespace Argon.Tests.Documentation
             validatingReader.Schema = JsonSchema.Parse(schemaJson);
 
             IList<string> messages = new List<string>();
-            validatingReader.ValidationEventHandler += (o, a) => messages.Add(a.Message);
+            validatingReader.ValidationEventHandler += (_, a) => messages.Add(a.Message);
 
             var serializer = new JsonSerializer();
             var p = serializer.Deserialize<Person>(validatingReader);
@@ -136,18 +136,20 @@ namespace Argon.Tests.Documentation
         public void ManuallyCreateJsonSchema()
         {
             #region ManuallyCreateJsonSchema
-            var schema = new JsonSchema();
-            schema.Type = JsonSchemaType.Object;
-            schema.Properties = new Dictionary<string, JsonSchema>
+            var schema = new JsonSchema
             {
-                { "name", new JsonSchema { Type = JsonSchemaType.String } },
+                Type = JsonSchemaType.Object,
+                Properties = new Dictionary<string, JsonSchema>
                 {
-                    "hobbies", new JsonSchema
+                    { "name", new JsonSchema { Type = JsonSchemaType.String } },
                     {
-                        Type = JsonSchemaType.Array,
-                        Items = new List<JsonSchema> { new JsonSchema { Type = JsonSchemaType.String } }
-                    }
-                },
+                        "hobbies", new JsonSchema
+                        {
+                            Type = JsonSchemaType.Array,
+                            Items = new List<JsonSchema> { new JsonSchema { Type = JsonSchemaType.String } }
+                        }
+                    },
+                }
             };
 
             var person = JObject.Parse(@"{

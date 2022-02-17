@@ -36,18 +36,20 @@ namespace Argon.Tests.Documentation.Samples.Schema
         public void Example()
         {
             #region Usage
-            var schema = new JsonSchema();
-            schema.Type = JsonSchemaType.Object;
-            schema.Properties = new Dictionary<string, JsonSchema>
+            var schema = new JsonSchema
             {
-                { "name", new JsonSchema { Type = JsonSchemaType.String } },
+                Type = JsonSchemaType.Object,
+                Properties = new Dictionary<string, JsonSchema>
                 {
-                    "hobbies", new JsonSchema
+                    { "name", new JsonSchema { Type = JsonSchemaType.String } },
                     {
-                        Type = JsonSchemaType.Array,
-                        Items = new List<JsonSchema> { new JsonSchema { Type = JsonSchemaType.String } }
-                    }
-                },
+                        "hobbies", new JsonSchema
+                        {
+                            Type = JsonSchemaType.Array,
+                            Items = new List<JsonSchema> { new JsonSchema { Type = JsonSchemaType.String } }
+                        }
+                    },
+                }
             };
 
             var schemaJson = schema.ToString();

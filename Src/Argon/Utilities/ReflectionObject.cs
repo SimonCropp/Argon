@@ -87,7 +87,7 @@ namespace Argon.Utilities
                 {
                     var ctor = delegateFactory.CreateDefaultConstructor<object>(t);
 
-                    creatorConstructor = args => ctor();
+                    creatorConstructor = _ => ctor();
                 }
             }
 

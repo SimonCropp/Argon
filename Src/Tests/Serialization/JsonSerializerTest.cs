@@ -713,7 +713,7 @@ namespace Argon.Tests.Serialization
 
             var l = JsonConvert.DeserializeObject<Link>(json, new JsonSerializerSettings
             {
-                Error = (s, a) => a.ErrorContext.Handled = true
+                Error = (_, a) => a.ErrorContext.Handled = true
             });
 
             Assert.AreEqual(0, l.ChildId);
@@ -6006,7 +6006,7 @@ Path '', line 1, position 1.");
             var json = "{}";
             IList<string> errors = new List<string>();
 
-            EventHandler<Argon.Serialization.ErrorEventArgs> error = (s, e) =>
+            EventHandler<Argon.Serialization.ErrorEventArgs> error = (_, e) =>
             {
                 errors.Add(e.ErrorContext.Error.Message);
                 e.ErrorContext.Handled = true;
@@ -6031,7 +6031,7 @@ Path '', line 1, position 1.");
             var json = "{'NonAttributeProperty':null,'UnsetProperty':null,'AllowNullProperty':null,'AlwaysProperty':null}";
             IList<string> errors = new List<string>();
 
-            EventHandler<Argon.Serialization.ErrorEventArgs> error = (s, e) =>
+            EventHandler<Argon.Serialization.ErrorEventArgs> error = (_, e) =>
             {
                 errors.Add(e.ErrorContext.Error.Message);
                 e.ErrorContext.Handled = true;
@@ -6054,7 +6054,7 @@ Path '', line 1, position 1.");
         {
             IList<string> errors = new List<string>();
 
-            EventHandler<Argon.Serialization.ErrorEventArgs> error = (s, e) =>
+            EventHandler<Argon.Serialization.ErrorEventArgs> error = (_, e) =>
             {
                 errors.Add(e.ErrorContext.Error.Message);
                 e.ErrorContext.Handled = true;

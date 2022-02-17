@@ -60,7 +60,7 @@ namespace Argon.Schema
         public static bool IsValid(this JToken source, JsonSchema schema)
         {
             var valid = true;
-            source.Validate(schema, (sender, args) => { valid = false; });
+            source.Validate(schema, (_, _) => { valid = false; });
             return valid;
         }
 
@@ -83,7 +83,7 @@ namespace Argon.Schema
         {
             IList<string> errors = new List<string>();
 
-            source.Validate(schema, (sender, args) => errors.Add(args.Message));
+            source.Validate(schema, (_, args) => errors.Add(args.Message));
 
             errorMessages = errors;
             return (errorMessages.Count == 0);
