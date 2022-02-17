@@ -51,7 +51,7 @@ namespace Newtonsoft.Json.Tests.Documentation
     {
         public class StreamWriter : OriginalStreamWriter
         {
-            public StreamWriter(string path) : base(TestFixtureBase.ResolvePath(Path.GetFileName(path)))
+            public StreamWriter(string path) : base(Path.GetFileName(path))
             {
             }
         }

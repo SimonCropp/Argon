@@ -191,13 +191,6 @@ namespace Newtonsoft.Json.Tests
             return Encoding.UTF8.GetString(data, 0, data.Length);
         }
 
-        public static string ResolvePath(string path)
-        {
-            var assemblyPath = Path.GetDirectoryName(typeof(TestFixtureBase).Assembly().Location);
-
-            return Path.Combine(assemblyPath, path);
-        }
-
         protected string GetOffset(DateTime d, DateFormatHandling dateFormatHandling)
         {
             char[] chars = new char[8];
