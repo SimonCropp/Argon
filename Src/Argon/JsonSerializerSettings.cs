@@ -31,6 +31,7 @@ using System.Runtime.Serialization.Formatters;
 using Argon.Serialization;
 using System.Runtime.Serialization;
 using System.Diagnostics;
+using ErrorEventArgs = Argon.Serialization.ErrorEventArgs;
 
 namespace Argon
 {

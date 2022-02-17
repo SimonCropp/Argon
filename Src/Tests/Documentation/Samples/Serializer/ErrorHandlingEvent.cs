@@ -29,6 +29,7 @@ using Argon.Converters;
 using Argon.Serialization;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
+using ErrorEventArgs = Argon.Serialization.ErrorEventArgs;
 
 
 namespace Argon.Tests.Documentation.Samples.Serializer
