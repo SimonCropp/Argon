@@ -613,7 +613,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 
     public class ShouldDeserializeContractResolver : DefaultContractResolver
     {
-        public new static readonly ShouldDeserializeContractResolver Instance = new ShouldDeserializeContractResolver();
+        public static new readonly ShouldDeserializeContractResolver Instance = new ShouldDeserializeContractResolver();
 
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {

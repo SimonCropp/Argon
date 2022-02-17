@@ -30,7 +30,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using ErrorEventArgs = Newtonsoft.Json.Serialization.ErrorEventArgs;
+
 
 namespace Newtonsoft.Json.Tests.Documentation.Samples.Serializer
 {
