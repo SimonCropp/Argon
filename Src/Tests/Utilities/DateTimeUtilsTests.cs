@@ -54,8 +54,7 @@ namespace Argon.Tests.Utilities
             DateTimeUtils.WriteDateTimeString(sw, value, DateFormatHandling.IsoDateFormat, null, CultureInfo.InvariantCulture);
             var minDateText = sw.ToString();
 
-            DateTime parsedDt;
-            DateTimeUtils.TryParseDateTimeIso(CreateStringReference(minDateText), DateTimeZoneHandling.RoundtripKind, out parsedDt);
+            DateTimeUtils.TryParseDateTimeIso(CreateStringReference(minDateText), DateTimeZoneHandling.RoundtripKind, out var parsedDt);
 
             Assert.AreEqual(value, parsedDt);
         }
@@ -63,8 +62,7 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void Parse24HourDateTime()
         {
-            DateTime dt;
-            Assert.IsTrue(DateTimeUtils.TryParseDateTimeIso(CreateStringReference("2000-12-15T24:00:00Z"), DateTimeZoneHandling.RoundtripKind, out dt));
+            Assert.IsTrue(DateTimeUtils.TryParseDateTimeIso(CreateStringReference("2000-12-15T24:00:00Z"), DateTimeZoneHandling.RoundtripKind, out var dt));
             Assert.AreEqual(new DateTime(2000, 12, 16, 0, 0, 0, DateTimeKind.Utc), dt);
 
             Assert.IsFalse(DateTimeUtils.TryParseDateTimeIso(CreateStringReference("2000-12-15T24:01:00Z"), DateTimeZoneHandling.RoundtripKind, out dt));
@@ -75,8 +73,7 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void Parse24HourDateTimeOffset()
         {
-            DateTimeOffset dt;
-            Assert.IsTrue(DateTimeUtils.TryParseDateTimeOffsetIso(CreateStringReference("2000-12-15T24:00:00Z"), out dt));
+            Assert.IsTrue(DateTimeUtils.TryParseDateTimeOffsetIso(CreateStringReference("2000-12-15T24:00:00Z"), out var dt));
             Assert.AreEqual(new DateTimeOffset(2000, 12, 16, 0, 0, 0, TimeSpan.Zero), dt);
 
             Assert.IsFalse(DateTimeUtils.TryParseDateTimeOffsetIso(CreateStringReference("2000-12-15T24:01:00Z"), out dt));
@@ -130,15 +127,13 @@ namespace Argon.Tests.Utilities
 
         private void AssertNewDateTimeParseEqual(string text, object oldDate)
         {
-            object oldDt;
-            if (TryParseDateIso(text, DateParseHandling.DateTime, DateTimeZoneHandling.RoundtripKind, out oldDt))
+            if (TryParseDateIso(text, DateParseHandling.DateTime, DateTimeZoneHandling.RoundtripKind, out var oldDt))
             {
                 oldDate = oldDt;
             }
 
             object newDt = null;
-            DateTime temp;
-            if (DateTimeUtils.TryParseDateTimeIso(CreateStringReference(text), DateTimeZoneHandling.RoundtripKind, out temp))
+            if (DateTimeUtils.TryParseDateTimeIso(CreateStringReference(text), DateTimeZoneHandling.RoundtripKind, out var temp))
             {
                 newDt = temp;
             }
@@ -158,8 +153,7 @@ namespace Argon.Tests.Utilities
         {
             //Console.WriteLine("Parsing date text: " + text);
 
-            object oldDt;
-            TryParseDateIso(text, DateParseHandling.DateTime, DateTimeZoneHandling.RoundtripKind, out oldDt);
+            TryParseDateIso(text, DateParseHandling.DateTime, DateTimeZoneHandling.RoundtripKind, out var oldDt);
 
             AssertNewDateTimeParseEqual(text, oldDt);
         }
@@ -170,8 +164,7 @@ namespace Argon.Tests.Utilities
             var c = @"12345/Date(1418924498000+0800)/12345".ToCharArray();
             var reference = new StringReference(c, 5, c.Length - 10);
 
-            DateTimeOffset d;
-            DateTimeUtils.TryParseDateTimeOffset(reference, null, CultureInfo.InvariantCulture, out d);
+            DateTimeUtils.TryParseDateTimeOffset(reference, null, CultureInfo.InvariantCulture, out var d);
 
             var initialTicks = DateTimeUtils.ConvertDateTimeToJavaScriptTicks(d.DateTime, d.Offset);
 
@@ -210,13 +203,11 @@ namespace Argon.Tests.Utilities
 
         private void AssertNewDateTimeOffsetParseEqual(string text)
         {
-            object oldDt;
             object newDt = null;
 
-            TryParseDateIso(text, DateParseHandling.DateTimeOffset, DateTimeZoneHandling.Unspecified, out oldDt);
+            TryParseDateIso(text, DateParseHandling.DateTimeOffset, DateTimeZoneHandling.Unspecified, out var oldDt);
 
-            DateTimeOffset temp;
-            if (DateTimeUtils.TryParseDateTimeOffsetIso(CreateStringReference(text), out temp))
+            if (DateTimeUtils.TryParseDateTimeOffsetIso(CreateStringReference(text), out var temp))
             {
                 newDt = temp;
             }
@@ -240,8 +231,7 @@ namespace Argon.Tests.Utilities
 
             if (dateParseHandling == DateParseHandling.DateTimeOffset)
             {
-                DateTimeOffset dateTimeOffset;
-                if (DateTimeOffset.TryParseExact(text, isoDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out dateTimeOffset))
+                if (DateTimeOffset.TryParseExact(text, isoDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out var dateTimeOffset))
                 {
                     dt = dateTimeOffset;
                     return true;
@@ -249,8 +239,7 @@ namespace Argon.Tests.Utilities
             }
             else
             {
-                DateTime dateTime;
-                if (DateTime.TryParseExact(text, isoDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out dateTime))
+                if (DateTime.TryParseExact(text, isoDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out var dateTime))
                 {
                     dateTime = DateTimeUtils.EnsureDateTime(dateTime, dateTimeZoneHandling);
 

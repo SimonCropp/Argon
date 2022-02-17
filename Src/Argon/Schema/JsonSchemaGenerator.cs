@@ -322,9 +322,7 @@ namespace Argon.Schema
                     case JsonContractType.Dictionary:
                         CurrentSchema.Type = AddNullType(JsonSchemaType.Object, valueRequired);
 
-                        Type keyType;
-                        Type valueType;
-                        ReflectionUtils.GetDictionaryKeyValueTypes(type, out keyType, out valueType);
+                        ReflectionUtils.GetDictionaryKeyValueTypes(type, out var keyType, out var valueType);
 
                         if (keyType != null)
                         {

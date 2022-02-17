@@ -141,8 +141,7 @@ namespace Argon.Tests.Linq
             o.Add("PropertyNameValue", new JValue(1));
             Assert.AreEqual(1, o.Children().Count());
 
-            JToken t;
-            Assert.AreEqual(false, o.TryGetValue("sdf", out t));
+            Assert.AreEqual(false, o.TryGetValue("sdf", out var t));
             Assert.AreEqual(null, t);
 
             Assert.AreEqual(false, o.TryGetValue(null, out t));
@@ -159,8 +158,7 @@ namespace Argon.Tests.Linq
             o["PropertyNameValue"] = new JValue(1);
             Assert.AreEqual(1, o.Children().Count());
 
-            JToken t;
-            Assert.AreEqual(true, o.TryGetValue("PropertyNameValue", out t));
+            Assert.AreEqual(true, o.TryGetValue("PropertyNameValue", out var t));
             Assert.AreEqual(true, JToken.DeepEquals(new JValue(1), t));
 
             o["PropertyNameValue"] = new JValue(2);
@@ -1960,8 +1958,7 @@ Parameter name: arrayIndex",
             Assert.AreEqual(null, a.GetValue(null, StringComparison.Ordinal));
             Assert.AreEqual(null, a.GetValue(null));
 
-            JToken v;
-            Assert.IsFalse(a.TryGetValue("NAME", StringComparison.Ordinal, out v));
+            Assert.IsFalse(a.TryGetValue("NAME", StringComparison.Ordinal, out var v));
             Assert.AreEqual(null, v);
 
             Assert.IsFalse(a.TryGetValue("NAME", out v));

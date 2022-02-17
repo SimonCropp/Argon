@@ -90,8 +90,7 @@ namespace Argon.Tests.Issues
                     return new Id((long)reader.Value);
 
                 var str = reader.Value as string;
-                Guid guid;
-                return Guid.TryParse(str, out guid) ? new Id(guid) : new Id(str);
+                return Guid.TryParse(str, out var guid) ? new Id(guid) : new Id(str);
             }
 
             public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)

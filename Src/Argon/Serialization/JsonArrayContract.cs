@@ -115,7 +115,6 @@ namespace Argon.Serialization
 
             bool canDeserialize;
 
-            Type? tempCollectionType;
             if (IsArray)
             {
                 CollectionItemType = ReflectionUtils.GetCollectionItemType(UnderlyingType);
@@ -168,7 +167,7 @@ namespace Argon.Serialization
                 canDeserialize = true;
                 ShouldCreateWrapper = true;
             }
-            else if (ReflectionUtils.ImplementsGenericDefinition(NonNullableUnderlyingType, typeof(IReadOnlyCollection<>), out tempCollectionType))
+            else if (ReflectionUtils.ImplementsGenericDefinition(NonNullableUnderlyingType, typeof(IReadOnlyCollection<>), out var tempCollectionType))
             {
                 CollectionItemType = tempCollectionType.GetGenericArguments()[0];
 

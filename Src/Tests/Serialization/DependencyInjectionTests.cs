@@ -163,8 +163,7 @@ namespace Argon.Tests.Serialization
         private JsonObjectContract ResolveContact(Type objectType)
         {
             // attempt to create the contact from the resolved type
-            IComponentRegistration registration;
-            if (_container.ComponentRegistry.TryGetRegistration(new TypedService(objectType), out registration))
+            if (_container.ComponentRegistry.TryGetRegistration(new TypedService(objectType), out var registration))
             {
                 var viewType = (registration.Activator as ReflectionActivator)?.LimitType;
                 if (viewType != null)

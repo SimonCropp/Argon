@@ -183,8 +183,7 @@ namespace Argon.Tests.TestObjects
 
         public static Ratio Parse(string input, IFormatProvider formatProvider)
         {
-            Ratio result;
-            if (!TryParse(input, formatProvider, out result))
+            if (!TryParse(input, formatProvider, out var result))
             {
                 throw new FormatException(
                     string.Format(
@@ -217,9 +216,8 @@ namespace Argon.Tests.TestObjects
                 }
                 else
                 {
-                    int denominator;
                     if (int.TryParse(input.Substring(0, fractionIndex), NumberStyles.Integer, formatProvider, out numerator) &&
-                        int.TryParse(input.Substring(fractionIndex + 1), NumberStyles.Integer, formatProvider, out denominator))
+                        int.TryParse(input.Substring(fractionIndex + 1), NumberStyles.Integer, formatProvider, out var denominator))
                     {
                         result = new Ratio(numerator, denominator);
                         return true;

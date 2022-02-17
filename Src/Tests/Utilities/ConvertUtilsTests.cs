@@ -158,12 +158,10 @@ namespace Argon.Tests.Utilities
 
         private void AssertDecimalTryParse(string s, ParseResult expectedResult, decimal? expectedValue)
         {
-            decimal d;
             var c = s.ToCharArray();
-            var result = ConvertUtils.DecimalTryParse(c, 0, c.Length, out d);
+            var result = ConvertUtils.DecimalTryParse(c, 0, c.Length, out var d);
 
-            decimal d2;
-            var result2 = decimal.TryParse(s, NumberStyles.Float, CultureInfo.InvariantCulture, out d2)
+            var result2 = decimal.TryParse(s, NumberStyles.Float, CultureInfo.InvariantCulture, out var d2)
                           && !s.StartsWith(".")
                           && !s.EndsWith(".")
                           && !(s.StartsWith("0") && s.Length > 1 && !s.StartsWith("0.") && !s.StartsWith("0e", StringComparison.OrdinalIgnoreCase))
@@ -259,9 +257,8 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void Int64TryParse()
         {
-            long l;
             var c = "43443333222211111117".ToCharArray();
-            var result = ConvertUtils.Int64TryParse(c, 0, c.Length, out l);
+            var result = ConvertUtils.Int64TryParse(c, 0, c.Length, out var l);
             Assert.AreEqual(ParseResult.Overflow, result);
 
             c = "9223372036854775807".ToCharArray();
@@ -300,9 +297,8 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void Int32TryParse()
         {
-            int i;
             var c = "43443333227".ToCharArray();
-            var result = ConvertUtils.Int32TryParse(c, 0, c.Length, out i);
+            var result = ConvertUtils.Int32TryParse(c, 0, c.Length, out var i);
             Assert.AreEqual(ParseResult.Overflow, result);
 
             c = "2147483647".ToCharArray();
@@ -367,16 +363,14 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void HexParseOffset()
         {
-            int value;
-            Assert.IsTrue(ConvertUtils.TryHexTextToInt("!0000".ToCharArray(), 1, 5, out value));
+            Assert.IsTrue(ConvertUtils.TryHexTextToInt("!0000".ToCharArray(), 1, 5, out var value));
             Assert.AreEqual(0, value);
         }
 
         [Fact]
         public void HexParseError()
         {
-            int value;
-            Assert.IsFalse(ConvertUtils.TryHexTextToInt("-100".ToCharArray(), 0, 4, out value));
+            Assert.IsFalse(ConvertUtils.TryHexTextToInt("-100".ToCharArray(), 0, 4, out var value));
             Assert.IsFalse(ConvertUtils.TryHexTextToInt("000g".ToCharArray(), 0, 4, out value));
             Assert.IsFalse(ConvertUtils.TryHexTextToInt(" ssd".ToCharArray(), 0, 4, out value));
             Assert.IsFalse(ConvertUtils.TryHexTextToInt("000:".ToCharArray(), 0, 4, out value));
@@ -387,8 +381,7 @@ namespace Argon.Tests.Utilities
         {
             var v1 = int.Parse(text, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
 
-            int v2;
-            Assert.IsTrue(ConvertUtils.TryHexTextToInt(text.ToCharArray(), 0, 4, out v2));
+            Assert.IsTrue(ConvertUtils.TryHexTextToInt(text.ToCharArray(), 0, 4, out var v2));
 
             Assert.AreEqual(v1, v2, "Invalid result when parsing hex text: " + text);
         }

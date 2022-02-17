@@ -491,8 +491,7 @@ namespace Argon.Bson
                     break;
                 }
                 case BsonType.Binary:
-                    BsonBinaryType binaryType;
-                    var data = ReadBinary(out binaryType);
+                    var data = ReadBinary(out var binaryType);
 
                     var value = (binaryType != BsonBinaryType.Uuid)
                         ? data

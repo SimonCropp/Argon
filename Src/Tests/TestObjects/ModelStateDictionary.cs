@@ -69,8 +69,7 @@ namespace Argon.Tests.TestObjects
         {
             get
             {
-                T value;
-                _innerDictionary.TryGetValue(key, out value);
+                _innerDictionary.TryGetValue(key, out var value);
                 return value;
             }
             set { _innerDictionary[key] = value; }

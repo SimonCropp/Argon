@@ -75,8 +75,7 @@ namespace Argon.Tests.Linq
         {
             string s = d.ToString();
 
-            int c;
-            if (!counts.TryGetValue(s, out c))
+            if (!counts.TryGetValue(s, out var c))
             {
                 c = 0;
             }
@@ -230,8 +229,7 @@ namespace Argon.Tests.Linq
             Assert.IsNull(count);
             Assert.IsNull(d["Count"]);
 
-            JToken v;
-            Assert.IsTrue(d.TryGetValue("ChildValue", out v));
+            Assert.IsTrue(d.TryGetValue("ChildValue", out JToken v));
             Assert.AreEqual("blah blah", (string)v);
         }
 

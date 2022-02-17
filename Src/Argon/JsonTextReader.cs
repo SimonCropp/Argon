@@ -161,13 +161,12 @@ namespace Argon
             switch (readType)
             {
                 case ReadType.ReadAsBytes:
-                    Guid g;
                     byte[] data;
                     if (_stringReference.Length == 0)
                     {
                         data = CollectionUtils.ArrayEmpty<byte>();
                     }
-                    else if (_stringReference.Length == 36 && ConvertUtils.TryConvertGuid(_stringReference.ToString(), out g))
+                    else if (_stringReference.Length == 36 && ConvertUtils.TryConvertGuid(_stringReference.ToString(), out var g))
                     {
                         data = g.ToByteArray();
                     }

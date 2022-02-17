@@ -57,8 +57,7 @@ namespace Argon.Tests.Serialization
 
             foreach (var memberName in dynamicObject.GetDynamicMemberNames())
             {
-                object value;
-                dynamicContract.TryGetMember(dynamicObject, memberName, out value);
+                dynamicContract.TryGetMember(dynamicObject, memberName, out var value);
 
                 values.Add(memberName, value);
             }

@@ -55,8 +55,7 @@ namespace Argon.Tests.Documentation.Samples.Schema
               'hobbies': ['Invalid content', 0.123456789]
             }");
 
-            IList<string> messages;
-            var valid = person.IsValid(schema, out messages);
+            var valid = person.IsValid(schema, out var messages);
 
             Console.WriteLine(valid);
             // false

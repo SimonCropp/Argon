@@ -45,9 +45,8 @@ namespace Argon.Tests.TestObjects
 
             var address = messageJObject.GetValue("Address", StringComparison.OrdinalIgnoreCase).ToObject<string>();
 
-            JToken displayNameToken;
             string displayName;
-            if (messageJObject.TryGetValue("DisplayName", StringComparison.OrdinalIgnoreCase, out displayNameToken)
+            if (messageJObject.TryGetValue("DisplayName", StringComparison.OrdinalIgnoreCase, out var displayNameToken)
                 && !string.IsNullOrEmpty(displayName = displayNameToken.ToObject<string>()))
             {
                 return new System.Net.Mail.MailAddress(address, displayName);

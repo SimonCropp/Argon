@@ -94,8 +94,7 @@ namespace Argon.Tests.Serialization
             Assert.AreEqual(@"[1]", output);
 
             var queue2 = JsonConvert.DeserializeObject<ConcurrentQueue<int>>(output);
-            int i;
-            Assert.IsTrue(queue2.TryDequeue(out i));
+            Assert.IsTrue(queue2.TryDequeue(out var i));
             Assert.AreEqual(1, i);
         }
 
@@ -109,8 +108,7 @@ namespace Argon.Tests.Serialization
             Assert.AreEqual(@"[1]", output);
 
             var bag2 = JsonConvert.DeserializeObject<ConcurrentBag<int>>(output);
-            int i;
-            Assert.IsTrue(bag2.TryTake(out i));
+            Assert.IsTrue(bag2.TryTake(out var i));
             Assert.AreEqual(1, i);
         }
 
@@ -124,8 +122,7 @@ namespace Argon.Tests.Serialization
             Assert.AreEqual(@"[1]", output);
 
             var stack2 = JsonConvert.DeserializeObject<ConcurrentStack<int>>(output);
-            int i;
-            Assert.IsTrue(stack2.TryPop(out i));
+            Assert.IsTrue(stack2.TryPop(out var i));
             Assert.AreEqual(1, i);
         }
 
@@ -139,8 +136,7 @@ namespace Argon.Tests.Serialization
             Assert.AreEqual(@"{""1"":2147483647}", output);
 
             var dic2 = JsonConvert.DeserializeObject<ConcurrentDictionary<int, int>>(output);
-            int i;
-            Assert.IsTrue(dic2.TryGetValue(1, out i));
+            Assert.IsTrue(dic2.TryGetValue(1, out var i));
             Assert.AreEqual(int.MaxValue, i);
         }
 

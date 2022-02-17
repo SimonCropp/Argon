@@ -37,8 +37,7 @@ namespace Argon.Tests.TestObjects
         {
             var id = new Guid(reference);
 
-            PersonReference p;
-            _people.TryGetValue(id, out p);
+            _people.TryGetValue(id, out var p);
 
             return p;
         }
