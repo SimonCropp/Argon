@@ -63,7 +63,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         var json = @"{'name':""James"",'hobbies':[""pie"",'cake']}";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
@@ -133,7 +133,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         var json = "['pie','cake',['nested1','nested2'],{'nestedproperty1':1.1,'nestedproperty2':[null]}]";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
@@ -232,7 +232,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         var json = "'The quick brown fox jumps over the lazy dog.'";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
@@ -259,7 +259,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         var json = "['one','two','THREE']";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
@@ -296,7 +296,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         var json = "'The quick brown fox jumps over the lazy dog.'";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
@@ -320,7 +320,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         var json = "10";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
@@ -344,7 +344,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         var json = "99999999999999999999999999999999999999999999999999999999999999999999";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
@@ -368,7 +368,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         var v = new JValue(new BigInteger(1));
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         v.Validate(JsonSchema.Parse(schemaJson), (_, args) => { validationEventArgs = args; });
 
@@ -404,7 +404,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         var json = "1";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
@@ -431,7 +431,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         var json = "[1,2,3]";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
@@ -468,7 +468,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         var json = "10.0";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
@@ -491,7 +491,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         var json = "1.1";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
@@ -518,7 +518,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         var json = "[1.1,2.2,3.0]";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
@@ -558,7 +558,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         var json = "[1.1,2.2,4.001]";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
@@ -598,7 +598,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         var json = "[999999999999999999999999999999999999999999999999999999998]";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
@@ -628,7 +628,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         var json = "[999999999999999999999999999999999999999999999999999999999]";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
@@ -661,7 +661,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         var json = "[999999999999999999999999999999999999999999999999999999999]";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
@@ -712,7 +712,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         var json = "[1]";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
@@ -744,7 +744,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         var json = "[null]";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
@@ -778,7 +778,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         var json = "[true,false]";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
@@ -813,7 +813,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         var json = "[null,null,null,null]";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
@@ -849,7 +849,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         var json = "[null]";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
@@ -880,7 +880,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         var json = "[null,null,null,null]";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
@@ -906,7 +906,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         var json = "['pie',1.1]";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
@@ -945,7 +945,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         var json = "{'name':'James'}";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
@@ -987,7 +987,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         var json = "{'name':'James'}";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
@@ -1026,7 +1026,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         var json = "{'name':'James','additionalProperty1':null,'additionalProperty2':null}";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
@@ -1083,7 +1083,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
         var errors = new List<string>();
         var json = "'The quick brown fox jumps over the lazy dog.'";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
         reader.ValidationEventHandler += (_, args) =>
@@ -1136,7 +1136,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
     {
         var json = "{'firstproperty':'blah','secondproperty':'blah2','additional':'blah3','additional2':'blah4'}";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
@@ -1221,7 +1221,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         var json = @"[1, 'a', null]";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
@@ -1267,7 +1267,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
   ""hey"": ""A string!""
 }";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
@@ -1374,7 +1374,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
   }
 }";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
         var errors = new List<string>();
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
@@ -1667,7 +1667,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         var json = "[1,2]";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
@@ -1703,7 +1703,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         var json = "[1,2";
 
-        Argon.Schema.ValidationEventArgs validationEventArgs = null;
+        ValidationEventArgs validationEventArgs = null;
 
         var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };

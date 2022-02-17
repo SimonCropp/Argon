@@ -39,7 +39,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
     public async Task ReadSingleObjectAsync()
     {
         var data = HexToBytes("0F-00-00-00-10-42-6C-61-68-00-01-00-00-00-00");
-        var ms = new MemoryStream(data);
+        var ms = new System.IO.MemoryStream(data);
         var reader = new BsonReader(ms);
 
         Assert.IsTrue(await reader.ReadAsync());

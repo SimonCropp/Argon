@@ -33,8 +33,8 @@ public struct Pair<TFirst, TSecond>
     public Pair(TFirst first, TSecond second)
         : this()
     {
-        this.First = first;
-        this.Second = second;
+        First = first;
+        Second = second;
     }
 
     [DataMember]

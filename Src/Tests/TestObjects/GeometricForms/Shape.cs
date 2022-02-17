@@ -77,35 +77,35 @@ public class Shape
     public bool IsCircle
     {
         [CompilerGenerated]
-        get => this.Tag == 1;
+        get => Tag == 1;
     }
 
     [CompilerGenerated, DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public bool IsEmpty
     {
         [CompilerGenerated]
-        get => this.Tag == 3;
+        get => Tag == 3;
     }
 
     [CompilerGenerated, DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public bool IsPrism
     {
         [CompilerGenerated]
-        get => this.Tag == 2;
+        get => Tag == 2;
     }
 
     [CompilerGenerated, DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public bool IsRectangle
     {
         [CompilerGenerated]
-        get => this.Tag == 0;
+        get => Tag == 0;
     }
 
     [CompilerGenerated, DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public int Tag
     {
         [CompilerGenerated]
-        get => this._tag;
+        get => _tag;
     }
 
     [Serializable, DebuggerDisplay("{__DebugDisplay(),nq}")]
@@ -127,7 +127,7 @@ public class Shape
         public double radius
         {
             [CompilerGenerated, DebuggerNonUserCode]
-            get => this._radius;
+            get => _radius;
         }
     }
 
@@ -155,21 +155,21 @@ public class Shape
         public double height
         {
             [CompilerGenerated, DebuggerNonUserCode]
-            get => this._height;
+            get => _height;
         }
 
         [CompilationMapping(SourceConstructFlags.Field, 2, 1), CompilerGenerated, DebuggerNonUserCode]
         public double Item2
         {
             [CompilerGenerated, DebuggerNonUserCode]
-            get => this.item2;
+            get => item2;
         }
 
         [CompilationMapping(SourceConstructFlags.Field, 2, 0), CompilerGenerated, DebuggerNonUserCode]
         public double width
         {
             [CompilerGenerated, DebuggerNonUserCode]
-            get => this._width;
+            get => _width;
         }
     }
 
@@ -193,14 +193,14 @@ public class Shape
         public double length
         {
             [CompilerGenerated, DebuggerNonUserCode]
-            get => this._length;
+            get => _length;
         }
 
         [CompilationMapping(SourceConstructFlags.Field, 0, 0), CompilerGenerated, DebuggerNonUserCode]
         public double width
         {
             [CompilerGenerated, DebuggerNonUserCode]
-            get => this._width;
+            get => _width;
         }
     }
 }

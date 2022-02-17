@@ -31,10 +31,10 @@ public class HolderClass
     {
     }
 
-    [Argon.JsonProperty(TypeNameHandling = Argon.TypeNameHandling.All)]
+    [JsonProperty(TypeNameHandling = TypeNameHandling.All)]
     public ContentBaseClass TestMember { get; set; }
 
-    [Argon.JsonProperty(TypeNameHandling = Argon.TypeNameHandling.All)]
+    [JsonProperty(TypeNameHandling = TypeNameHandling.All)]
     public Dictionary<int, IList<ContentBaseClass>> AnotherTestMember { get; set; }
 
     public ContentBaseClass AThirdTestMember { get; set; }
