@@ -41,7 +41,7 @@ namespace Argon.Tests.Documentation.Samples.JsonPath
         public void Example()
         {
             #region Usage
-            JArray packages = JArray.Parse(@"[
+            JArray array = JArray.Parse(@"[
               {
                 'PackageId': 'Argon',
                 'Version': '11.0.1',
@@ -54,18 +54,18 @@ namespace Argon.Tests.Documentation.Samples.JsonPath
               }
             ]");
 
-            // Find Newtonsoft packages
-            List<JToken> newtonsoftPackages = packages.SelectTokens(@"$.[?(@.PackageId =~ /^Argon/)]").ToList();
+            // Find packages
+            List<JToken> packages = array.SelectTokens(@"$.[?(@.PackageId =~ /^Argon/)]").ToList();
 
-            foreach (JToken item in newtonsoftPackages)
+            foreach (JToken item in packages)
             {
                 Console.WriteLine((string) item["PackageId"]);
             }
             // Argon
             #endregion
 
-            Assert.AreEqual(1, newtonsoftPackages.Count);
-            Assert.AreEqual("Argon", (string)newtonsoftPackages[0]["PackageId"]);
+            Assert.AreEqual(1, packages.Count);
+            Assert.AreEqual("Argon", (string)packages[0]["PackageId"]);
         }
     }
 }

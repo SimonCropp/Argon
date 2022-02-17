@@ -284,7 +284,7 @@ Argon Error: 0 : Error!
             MemoryTraceWriter memoryTraceWriter = (MemoryTraceWriter)traceWriter;
             string output = memoryTraceWriter.ToString();
 
-            Assert.AreEqual(916, output.Length);
+            Assert.AreEqual(876, output.Length);
             Assert.AreEqual(7, memoryTraceWriter.GetTraceMessages().Count());
 
             string json = @"Serialized JSON: 
@@ -353,7 +353,7 @@ Argon Error: 0 : Error!
             MemoryTraceWriter memoryTraceWriter = (MemoryTraceWriter)traceWriter;
             string output = memoryTraceWriter.ToString();
 
-            Assert.AreEqual(1058, output.Length);
+            Assert.AreEqual(1018, output.Length);
             Assert.AreEqual(7, memoryTraceWriter.GetTraceMessages().Count());
 
             json = StringAssert.Normalize(json);

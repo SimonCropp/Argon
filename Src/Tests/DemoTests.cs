@@ -609,20 +609,20 @@ namespace Argon.Tests
             dt.Columns.Add("Version", typeof(string));
             dt.Columns.Add("ReleaseDate", typeof(DateTime));
 
-            dt.Rows.Add("Newtonsoft.Json", "11.0.1", new DateTime(2018, 2, 17));
-            dt.Rows.Add("Newtonsoft.Json", "10.0.3", new DateTime(2017, 6, 18));
+            dt.Rows.Add("Argon", "11.0.1", new DateTime(2018, 2, 17));
+            dt.Rows.Add("Argon", "10.0.3", new DateTime(2017, 6, 18));
 
             string json = JsonConvert.SerializeObject(dt, Formatting.Indented);
 
             Console.WriteLine(json);
             // [
             //   {
-            //     "PackageId": "Newtonsoft.Json",
+            //     "PackageId": "Argon",
             //     "Version": "11.0.1",
             //     "ReleaseDate": "2018-02-17T00:00:00"
             //   },
             //   {
-            //     "PackageId": "Newtonsoft.Json",
+            //     "PackageId": "Argon",
             //     "Version": "10.0.3",
             //     "ReleaseDate": "2017-06-18T00:00:00"
             //   }
@@ -630,12 +630,12 @@ namespace Argon.Tests
 
             StringAssert.AreEqual(@"[
   {
-    ""PackageId"": ""Newtonsoft.Json"",
+    ""PackageId"": ""Argon"",
     ""Version"": ""11.0.1"",
     ""ReleaseDate"": ""2018-02-17T00:00:00""
   },
   {
-    ""PackageId"": ""Newtonsoft.Json"",
+    ""PackageId"": ""Argon"",
     ""Version"": ""10.0.3"",
     ""ReleaseDate"": ""2017-06-18T00:00:00""
   }
@@ -645,9 +645,9 @@ namespace Argon.Tests
         [Fact]
         public void JsonPathRegex()
         {
-            JArray packages = JArray.Parse(@"[
+            JArray array = JArray.Parse(@"[
               {
-                ""PackageId"": ""Newtonsoft.Json"",
+                ""PackageId"": ""Argon"",
                 ""Version"": ""11.0.1"",
                 ""ReleaseDate"": ""2018-02-17T00:00:00""
               },
@@ -658,12 +658,12 @@ namespace Argon.Tests
               }
             ]");
 
-            List<JToken> newtonsoftPackages = packages.SelectTokens(@"$.[?(@.PackageId =~ /^Newtonsoft\.(.*)$/)]").ToList();
+            List<JToken> packages = array.SelectTokens(@"$.[?(@.PackageId =~ /^Argon/)]").ToList();
 
-            Console.WriteLine(newtonsoftPackages.Count);
+            Console.WriteLine(packages.Count);
             // 1
 
-            Assert.AreEqual(1, newtonsoftPackages.Count);
+            Assert.AreEqual(1, packages.Count);
         }
 
         [Fact]
