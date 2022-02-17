@@ -764,21 +764,15 @@ namespace Newtonsoft.Json.Utilities
                     return (attributeType != null) ? Attribute.GetCustomAttributes(a, attributeType) : Attribute.GetCustomAttributes(a);
                 case MemberInfo mi:
                     return (attributeType != null) ? Attribute.GetCustomAttributes(mi, attributeType, inherit) : Attribute.GetCustomAttributes(mi, inherit);
-#if !PORTABLE40
                 case Module m:
                     return (attributeType != null) ? Attribute.GetCustomAttributes(m, attributeType, inherit) : Attribute.GetCustomAttributes(m, inherit);
-#endif
                 case ParameterInfo p:
                     return (attributeType != null) ? Attribute.GetCustomAttributes(p, attributeType, inherit) : Attribute.GetCustomAttributes(p, inherit);
                 default:
-#if !PORTABLE40
                     ICustomAttributeProvider customAttributeProvider = (ICustomAttributeProvider)attributeProvider;
                     object[] result = (attributeType != null) ? customAttributeProvider.GetCustomAttributes(attributeType, inherit) : customAttributeProvider.GetCustomAttributes(inherit);
 
                     return (Attribute[])result;
-#else
-                    throw new Exception("Cannot get attributes from '{0}'.".FormatWith(CultureInfo.InvariantCulture, provider));
-#endif
             }
         }
 #else
