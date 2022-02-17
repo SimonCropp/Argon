@@ -307,7 +307,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
         }
 
-#if !(NET20 || NET35) && DEBUG
+#if DEBUG
         [Test]
         public void ReadLargeObjects()
         {

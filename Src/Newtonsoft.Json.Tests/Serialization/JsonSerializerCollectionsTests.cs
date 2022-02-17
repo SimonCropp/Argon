@@ -57,7 +57,7 @@ namespace Newtonsoft.Json.Tests.Serialization
     [TestFixture]
     public class JsonSerializerCollectionsTests : TestFixtureBase
     {
-#if !(NET35 || NET20 || PORTABLE || PORTABLE40) || NETSTANDARD2_0
+#if !(PORTABLE) || NETSTANDARD2_0
         [Test]
         public void DeserializeNonGenericListTypeAndReadOnlyListViaConstructor()
         {
@@ -94,7 +94,6 @@ namespace Newtonsoft.Json.Tests.Serialization
         }
 #endif
 
-#if !(NET20 || NET35)
         [Test]
         public void SerializeConcurrentQueue()
         {
@@ -154,7 +153,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.IsTrue(dic2.TryGetValue(1, out i));
             Assert.AreEqual(int.MaxValue, i);
         }
-#endif
 
         [Test]
         public void DoubleKey_WholeValue()
@@ -299,7 +297,7 @@ namespace Newtonsoft.Json.Tests.Serialization
                 "Constructor for 'Newtonsoft.Json.Tests.Serialization.JsonSerializerCollectionsTests+TestCollectionBadIEnumerableParameter' must have no parameters or a single parameter that implements 'System.Collections.Generic.IEnumerable`1[System.Int32]'.");
         }
 
-#if !(DNXCORE50 || PORTABLE) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
         public class TestCollectionNonGeneric : ArrayList
         {
             [JsonConstructor]
@@ -412,7 +410,7 @@ namespace Newtonsoft.Json.Tests.Serialization
                 "Constructor for 'Newtonsoft.Json.Tests.Serialization.JsonSerializerCollectionsTests+TestDictionaryBadIEnumerableParameter' must have no parameters or a single parameter that implements 'System.Collections.Generic.IEnumerable`1[System.Collections.Generic.KeyValuePair`2[System.String,System.Int32]]'.");
         }
 
-#if !(DNXCORE50 || PORTABLE) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
         public class TestDictionaryNonGeneric : Hashtable
         {
             [JsonConstructor]
@@ -450,7 +448,7 @@ namespace Newtonsoft.Json.Tests.Serialization
         }
 #endif
 
-#if !(NET35 || NET20 || PORTABLE || PORTABLE40) || NETSTANDARD2_0
+#if !(PORTABLE) || NETSTANDARD2_0
         public class SomeObject
         {
             public string Text1 { get; set; }
@@ -1090,7 +1088,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(3, v2["Third"]);
         }
 
-#if !(NET35 || NET20 || PORTABLE || PORTABLE40) || NETSTANDARD2_0
+#if !(PORTABLE) || NETSTANDARD2_0
         [Test]
         public void DeserializeConcurrentDictionary()
         {
@@ -2114,7 +2112,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("goose", deserialized[2]);
         }
 
-#if !(PORTABLE || PORTABLE40)
+#if !(PORTABLE)
         [Test]
         public void DeserializeCultureInfoKey()
         {

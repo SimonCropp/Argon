@@ -25,21 +25,15 @@
 
 using System;
 using System.ComponentModel;
-#if !(NET35 || NET20)
 using System.Collections.Concurrent;
-#endif
 using System.Collections.Generic;
-#if !(NET20 || NET35 || PORTABLE) || NETSTANDARD2_0
 using System.Numerics;
-#endif
-#if !(NET20 || DNXCORE50) || NETSTANDARD2_0
 using System.ComponentModel.DataAnnotations;
 using System.Configuration;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization.Formatters;
 using System.Threading;
-#endif
-#if !(NET20 || DNXCORE50)
+#if !(DNXCORE50)
 using System.Web.Script.Serialization;
 #endif
 using System.Text;
@@ -61,9 +55,7 @@ using System.Diagnostics;
 using Newtonsoft.Json.Bson;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Converters;
-#if !(NET20 || NET35)
 using System.Runtime.Serialization.Json;
-#endif
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.Linq;
 using Newtonsoft.Json.Tests.TestObjects;
@@ -74,14 +66,10 @@ using System.Runtime.Serialization;
 using System.Globalization;
 using Newtonsoft.Json.Utilities;
 using System.Reflection;
-#if !NET20
 using System.Xml.Linq;
 using System.Collections.Specialized;
 using System.Linq.Expressions;
-#endif
-#if !(NET35 || NET20)
 using System.Dynamic;
-#endif
 using System.Linq;
 #if !(DNXCORE50)
 using System.Drawing;
@@ -215,7 +203,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("def", enumerableObject[1].Value);
         }
 
-#if !(PORTABLE || PORTABLE40 || NET20 || NET35) || NETSTANDARD2_0
         [Test]
         public void LargeIntegerAsString()
         {
@@ -225,9 +212,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             var largeOddWorkingNumber = JsonConvert.DeserializeObject<Foo64>("{\"Blah\": 53443333222211111117 }");
             Assert.AreEqual("53443333222211111117", largeOddWorkingNumber.Blah);
         }
-#endif
 
-#if !NET20
         [Test]
         public void DeserializeMSDateTimeOffset()
         {
@@ -237,7 +222,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(1418924498000, initialTicks);
             Assert.AreEqual(8, d.Offset.Hours);
         }
-#endif
 
         [Test]
         public void DeserializeBoolean_Null()

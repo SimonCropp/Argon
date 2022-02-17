@@ -1389,7 +1389,6 @@ keyword such as type of business.""
             Assert.AreEqual("hi!", (string)a[0]);
         }
 
-#if !(NET35 || NET20)
         [Test]
         public void ExceptionFromOverloadWithJValue()
         {
@@ -1405,9 +1404,7 @@ keyword such as type of business.""
                 Assert.AreEqual(users["name2"], "Matthew Doig");
             }, "The best overloaded method match for 'System.Collections.Generic.IDictionary<string,string>.Add(string, string)' has some invalid arguments");
         }
-#endif
 
-#if !(NET20)
         [JsonConverter(typeof(StringEnumConverter))]
         public enum FooBar
         {
@@ -1454,7 +1451,6 @@ keyword such as type of business.""
             FooBarNoEnum e = o["FooBarNoEnum"].ToObject<FooBarNoEnum>();
             Assert.AreEqual(FooBarNoEnum.SomeOtherValue, e);
         }
-#endif
 
         [Test]
         public void SerializeWithNoRedundentIdPropertiesTest()
