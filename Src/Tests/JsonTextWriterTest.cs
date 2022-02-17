@@ -1216,7 +1216,7 @@ _____'propertyName': NaN,
 
         var values = new List<object>();
 
-        foreach (var field in enumType.GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static))
+        foreach (var field in enumType.GetFields(BindingFlags.Public | BindingFlags.Static))
         {
             var value = field.GetValue(enumType);
             values.Add(value);

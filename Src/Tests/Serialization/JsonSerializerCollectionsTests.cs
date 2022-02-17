@@ -1054,13 +1054,13 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializeConcurrentDictionary()
     {
-        IDictionary<string, TestObjects.Component> components = new Dictionary<string, TestObjects.Component>
+        IDictionary<string, Component> components = new Dictionary<string, Component>
         {
-            { "Key!", new TestObjects.Component() }
+            { "Key!", new Component() }
         };
         var go = new GameObject
         {
-            Components = new ConcurrentDictionary<string, TestObjects.Component>(components),
+            Components = new ConcurrentDictionary<string, Component>(components),
             Id = "Id!",
             Name = "Name!"
         };

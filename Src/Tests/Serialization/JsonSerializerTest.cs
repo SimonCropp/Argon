@@ -4806,7 +4806,7 @@ Path '', line 1, position 1.");
         {
             var obj = new VectorParent
             {
-                Position = new TestObjects.Vector { X = 1, Y = 2, Z = 3 }
+                Position = new() { X = 1, Y = 2, Z = 3 }
             };
 
             var str = JsonConvert.SerializeObject(obj);
@@ -5247,7 +5247,7 @@ Path '', line 1, position 1.");
         public class CustomClass
         {
             [Required]
-            public System.Guid? clientId { get; set; }
+            public Guid? clientId { get; set; }
         }
 
         [Fact]
