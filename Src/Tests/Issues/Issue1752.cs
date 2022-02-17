@@ -35,9 +35,9 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test_EmptyString()
         {
-            var settings = new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto };
+            var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
 
-            var s1 = JsonConvert.SerializeObject(new TestObject() { Obj = new byte[] { } }, settings);
+            var s1 = JsonConvert.SerializeObject(new TestObject { Obj = new byte[] { } }, settings);
 
             var t1 = JsonConvert.DeserializeObject<TestObject>(s1, settings);
             Assert.IsNotNull(t1.Obj);

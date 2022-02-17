@@ -193,7 +193,7 @@ namespace Argon.Tests.Schema
             GenerateSchemaAndSerializeFromType(new Store());
             GenerateSchemaAndSerializeFromType(new Person());
             GenerateSchemaAndSerializeFromType(new PersonRaw());
-            GenerateSchemaAndSerializeFromType(new CircularReferenceClass() { Name = "I'm required" });
+            GenerateSchemaAndSerializeFromType(new CircularReferenceClass { Name = "I'm required" });
             GenerateSchemaAndSerializeFromType(new CircularReferenceWithIdClass());
             GenerateSchemaAndSerializeFromType(new ClassWithArray());
             GenerateSchemaAndSerializeFromType(new ClassWithGuid());

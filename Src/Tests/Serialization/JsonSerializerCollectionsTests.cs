@@ -1864,7 +1864,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void CustomCollectionSerialization()
         {
-            var collection = new ProductCollection()
+            var collection = new ProductCollection
             {
                 new() { Name = "Test1" },
                 new() { Name = "Test2" },

@@ -41,7 +41,7 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test()
         {
-            var settings = new JsonSerializerSettings()
+            var settings = new JsonSerializerSettings
             {
                 ContractResolver = new CustomContractResolver()
             };

@@ -63,7 +63,7 @@ namespace Argon.Tests.Converters
         [Fact]
         public void SerializeNullableDateTimeClass()
         {
-            var t = new NullableDateTimeTestClass()
+            var t = new NullableDateTimeTestClass
             {
                 DateTimeField = null,
                 DateTimeOffsetField = null
@@ -76,7 +76,7 @@ namespace Argon.Tests.Converters
             result = JsonConvert.SerializeObject(t, converter);
             Assert.AreEqual(@"{""PreField"":null,""DateTimeField"":null,""DateTimeOffsetField"":null,""PostField"":null}", result);
 
-            t = new NullableDateTimeTestClass()
+            t = new NullableDateTimeTestClass
             {
                 DateTimeField = new DateTime(2000, 12, 15, 22, 11, 3, 55, DateTimeKind.Utc),
                 DateTimeOffsetField = new DateTimeOffset(2000, 12, 15, 22, 11, 3, 55, TimeSpan.Zero)

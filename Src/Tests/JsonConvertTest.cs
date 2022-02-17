@@ -896,7 +896,7 @@ namespace Argon.Tests
         {
             Console.WriteLine(name);
 
-            var result = new DateTimeResult()
+            var result = new DateTimeResult
             {
                 IsoDateRoundtrip = TestDateTimeFormat(value, DateFormatHandling.IsoDateFormat, DateTimeZoneHandling.RoundtripKind)
             };
@@ -1056,7 +1056,7 @@ namespace Argon.Tests
             var now = DateTimeOffset.Now;
             var dict = new Dictionary<string, object> { { "foo", now } };
 
-            var settings = new JsonSerializerSettings()
+            var settings = new JsonSerializerSettings
             {
                 DateFormatHandling = DateFormatHandling.IsoDateFormat,
                 DateParseHandling = DateParseHandling.DateTimeOffset,

@@ -1443,7 +1443,7 @@ namespace Argon.Tests.Linq.JsonPath
                 { "referenceDate", new JValue(DateTime.MinValue) },
                 {
                     "dateObjectsArray",
-                    new JArray()
+                    new JArray
                     {
                         new JObject { { "date", new JValue(DateTime.MinValue) } },
                         new JObject { { "date", new JValue(DateTime.MaxValue) } },

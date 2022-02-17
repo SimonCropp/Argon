@@ -523,7 +523,7 @@ undefined
             var a = JArray.Parse(json);
             var list = a.Values<int>().ToList();
 
-            var expected = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            var expected = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
             CollectionAssert.AreEqual(expected, list);
         }
@@ -626,7 +626,7 @@ keyword such as type of business.""
 
             var resultUrls = o["results"].Children().Values<string>("url").ToList();
 
-            var expectedUrls = new List<string>() { "http://www.google.com/", "http://news.google.com/", "http://groups.google.com/", "http://maps.google.com/" };
+            var expectedUrls = new List<string> { "http://www.google.com/", "http://news.google.com/", "http://groups.google.com/", "http://maps.google.com/" };
 
             CollectionAssert.AreEqual(expectedUrls, resultUrls);
 
@@ -774,21 +774,21 @@ keyword such as type of business.""
 
         private List<Post> GetPosts()
         {
-            return new List<Post>()
+            return new List<Post>
             {
                 new()
                 {
                     Title = "LINQ to JSON beta",
                     Description = "Announcing LINQ to JSON",
                     Link = "http://james.newtonking.com/projects/json-net.aspx",
-                    Categories = new List<string>() { "Json.NET", "LINQ" }
+                    Categories = new List<string> { "Json.NET", "LINQ" }
                 },
                 new()
                 {
                     Title = "Json.NET 1.3 + New license + Now on CodePlex",
                     Description = "Announcing the release of Json.NET 1.3, the MIT license and being available on CodePlex",
                     Link = "http://james.newtonking.com/projects/json-net.aspx",
-                    Categories = new List<string>() { "Json.NET", "CodePlex" }
+                    Categories = new List<string> { "Json.NET", "CodePlex" }
                 }
             };
         }
@@ -1127,7 +1127,7 @@ keyword such as type of business.""
             Assert.AreEqual("James Newton-King", (string)o["channel"]["title"]);
             Assert.AreEqual(2, o["channel"]["item"].Children().Count());
 
-            var a = JArray.FromObject(new List<int>() { 0, 1, 2, 3, 4 });
+            var a = JArray.FromObject(new List<int> { 0, 1, 2, 3, 4 });
             CustomAssert.IsInstanceOfType(typeof(JArray), a);
             Assert.AreEqual(5, a.Count());
         }
@@ -1192,7 +1192,7 @@ keyword such as type of business.""
             Assert.AreEqual("James Newton-King", (string)o["channel"]["title"]);
             Assert.AreEqual(2, o["channel"]["item"].Children().Count());
 
-            var a = JArray.FromObject(new List<int>() { 0, 1, 2, 3, 4 });
+            var a = JArray.FromObject(new List<int> { 0, 1, 2, 3, 4 });
             CustomAssert.IsInstanceOfType(typeof(JArray), a);
             Assert.AreEqual(5, a.Count());
         }

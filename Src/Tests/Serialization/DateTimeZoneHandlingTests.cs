@@ -44,17 +44,17 @@ namespace Argon.Tests.Serialization
     ""Value"": ""2017-12-05T21:59:00""
   }";
 
-            var c1 = JsonConvert.DeserializeObject<DateTimeWrapper>(json, new JsonSerializerSettings()
+            var c1 = JsonConvert.DeserializeObject<DateTimeWrapper>(json, new JsonSerializerSettings
             {
                 DateTimeZoneHandling = DateTimeZoneHandling.Utc
             });
 
-            var c2 = JsonConvert.DeserializeObject<DateTimeWrapper>(json, new JsonSerializerSettings()
+            var c2 = JsonConvert.DeserializeObject<DateTimeWrapper>(json, new JsonSerializerSettings
             {
                 DateTimeZoneHandling = DateTimeZoneHandling.Local
             });
 
-            var c3 = JsonConvert.DeserializeObject<DateTimeWrapper>(json, new JsonSerializerSettings()
+            var c3 = JsonConvert.DeserializeObject<DateTimeWrapper>(json, new JsonSerializerSettings
             {
                 DateTimeZoneHandling = DateTimeZoneHandling.Unspecified
             });

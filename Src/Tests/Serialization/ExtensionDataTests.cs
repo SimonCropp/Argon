@@ -418,7 +418,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ExtensionDataTest_SerializeWithNamingStrategy_Enabled()
         {
-            var c = new ExtensionDataTestClass()
+            var c = new ExtensionDataTestClass
             {
                 ExtensionData = new Dictionary<string, JToken>
                 {
@@ -461,7 +461,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ExtensionDataTest_SerializeWithNamingStrategy_Disabled()
         {
-            var c = new ExtensionDataTestClass()
+            var c = new ExtensionDataTestClass
             {
                 ExtensionData = new Dictionary<string, JToken>
                 {
@@ -501,7 +501,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ExtensionDataTest_SerializeWithNamingStrategyAttribute()
         {
-            var c = new ExtensionDataWithNamingStrategyTestClass()
+            var c = new ExtensionDataWithNamingStrategyTestClass
             {
                 ExtensionData = new Dictionary<string, JToken>
                 {

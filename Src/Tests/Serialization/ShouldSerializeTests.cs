@@ -66,10 +66,10 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void VirtualShouldSerialize()
         {
-            var setFoo = new Foo2()
+            var setFoo = new Foo2
             {
                 name = Guid.NewGuid().ToString(),
-                myBar = new Bar2()
+                myBar = new Bar2
                 {
                     name = Guid.NewGuid().ToString(),
                     myBaz = new Baz1[]

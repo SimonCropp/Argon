@@ -46,7 +46,7 @@ namespace Argon.Tests.Converters
             Assert.AreEqual(string.Empty, converter.DateTimeFormat);
             Assert.AreEqual(DateTimeStyles.RoundtripKind, converter.DateTimeStyles);
 
-            converter = new IsoDateTimeConverter()
+            converter = new IsoDateTimeConverter
             {
                 DateTimeFormat = "F",
                 Culture = CultureInfo.InvariantCulture,
@@ -86,7 +86,7 @@ namespace Argon.Tests.Converters
         [Fact]
         public void SerializeFormattedDateTimeInvariantCulture()
         {
-            var converter = new IsoDateTimeConverter() { DateTimeFormat = "F", Culture = CultureInfo.InvariantCulture };
+            var converter = new IsoDateTimeConverter { DateTimeFormat = "F", Culture = CultureInfo.InvariantCulture };
 
             var d = new DateTime(2000, 12, 15, 22, 11, 3, 0, DateTimeKind.Utc);
             string result;
@@ -126,7 +126,7 @@ namespace Argon.Tests.Converters
             culture.DateTimeFormat.AMDesignator = "a.m.";
             culture.DateTimeFormat.PMDesignator = "p.m.";
 
-            var converter = new IsoDateTimeConverter() { DateTimeFormat = "F", Culture = culture };
+            var converter = new IsoDateTimeConverter { DateTimeFormat = "F", Culture = culture };
 
             var d = new DateTime(2000, 12, 15, 22, 11, 3, 0, DateTimeKind.Utc);
             string result;
@@ -144,7 +144,7 @@ namespace Argon.Tests.Converters
         [Fact]
         public void SerializeDateTimeCulture()
         {
-            var converter = new IsoDateTimeConverter() { Culture = CultureInfo.GetCultureInfo("en-NZ") };
+            var converter = new IsoDateTimeConverter { Culture = CultureInfo.GetCultureInfo("en-NZ") };
 
             var json = @"""09/12/2006""";
 
@@ -177,7 +177,7 @@ namespace Argon.Tests.Converters
             c.DateTimeOffsetField = new DateTime(2008, 12, 12, 12, 12, 12, 0, DateTimeKind.Utc).ToLocalTime();
             c.PreField = "Pre";
             c.PostField = "Post";
-            var json = JsonConvert.SerializeObject(c, new IsoDateTimeConverter() { DateTimeStyles = DateTimeStyles.AssumeUniversal });
+            var json = JsonConvert.SerializeObject(c, new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal });
             Assert.AreEqual(@"{""PreField"":""Pre"",""DateTimeField"":""2008-12-12T12:12:12Z"",""DateTimeOffsetField"":""2008-12-12T12:12:12+00:00"",""PostField"":""Post""}", json);
 
             //test the other edge case too
@@ -185,7 +185,7 @@ namespace Argon.Tests.Converters
             c.DateTimeOffsetField = new DateTime(2008, 1, 1, 1, 1, 1, 0, DateTimeKind.Utc).ToLocalTime();
             c.PreField = "Pre";
             c.PostField = "Post";
-            json = JsonConvert.SerializeObject(c, new IsoDateTimeConverter() { DateTimeStyles = DateTimeStyles.AssumeUniversal });
+            json = JsonConvert.SerializeObject(c, new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal });
             Assert.AreEqual(@"{""PreField"":""Pre"",""DateTimeField"":""2008-01-01T01:01:01Z"",""DateTimeOffsetField"":""2008-01-01T01:01:01+00:00"",""PostField"":""Post""}", json);
         }
 
@@ -197,7 +197,7 @@ namespace Argon.Tests.Converters
             c.DateTimeOffsetField = new DateTime(2008, 12, 12, 12, 12, 12, 0, DateTimeKind.Utc).ToLocalTime();
             c.PreField = "Pre";
             c.PostField = "Post";
-            var json = JsonConvert.SerializeObject(c, new IsoDateTimeConverter() { DateTimeStyles = DateTimeStyles.AssumeUniversal });
+            var json = JsonConvert.SerializeObject(c, new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal });
             Assert.AreEqual(@"{""PreField"":""Pre"",""DateTimeField"":""2008-12-12T12:12:12Z"",""DateTimeOffsetField"":""2008-12-12T12:12:12+00:00"",""PostField"":""Post""}", json);
 
             //test the other edge case too
@@ -205,7 +205,7 @@ namespace Argon.Tests.Converters
             c.DateTimeOffsetField = null;
             c.PreField = "Pre";
             c.PostField = "Post";
-            json = JsonConvert.SerializeObject(c, new IsoDateTimeConverter() { DateTimeStyles = DateTimeStyles.AssumeUniversal });
+            json = JsonConvert.SerializeObject(c, new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal });
             Assert.AreEqual(@"{""PreField"":""Pre"",""DateTimeField"":null,""DateTimeOffsetField"":null,""PostField"":""Post""}", json);
         }
 
@@ -225,7 +225,7 @@ namespace Argon.Tests.Converters
             ExceptionAssert.Throws<JsonSerializationException>(() =>
             {
                 var c2 =
-                    JsonConvert.DeserializeObject<DateTimeTestClass>(@"{""PreField"":""Pre"",""DateTimeField"":null,""DateTimeOffsetField"":null,""PostField"":""Post""}", new IsoDateTimeConverter() { DateTimeStyles = DateTimeStyles.AssumeUniversal });
+                    JsonConvert.DeserializeObject<DateTimeTestClass>(@"{""PreField"":""Pre"",""DateTimeField"":null,""DateTimeOffsetField"":null,""PostField"":""Post""}", new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal });
             }, "Cannot convert null value to System.DateTime. Path 'DateTimeField', line 1, position 38.");
         }
 
@@ -238,9 +238,9 @@ namespace Argon.Tests.Converters
             c.DateTimeField = localDateTime;
             c.PreField = "Pre";
             c.PostField = "Post";
-            var json = JsonConvert.SerializeObject(c, new IsoDateTimeConverter() { DateTimeStyles = DateTimeStyles.AssumeUniversal }); //note that this fails without the Utc converter...
+            var json = JsonConvert.SerializeObject(c, new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }); //note that this fails without the Utc converter...
             c.DateTimeField = new DateTime(2008, 1, 1, 1, 1, 1, 0, DateTimeKind.Utc);
-            var json2 = JsonConvert.SerializeObject(c, new IsoDateTimeConverter() { DateTimeStyles = DateTimeStyles.AssumeUniversal });
+            var json2 = JsonConvert.SerializeObject(c, new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal });
 
             var offset = localDateTime.GetUtcOffset();
 

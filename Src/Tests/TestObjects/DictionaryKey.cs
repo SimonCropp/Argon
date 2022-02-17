@@ -36,7 +36,7 @@ namespace Argon.Tests.TestObjects
 
         public static implicit operator DictionaryKey(string value)
         {
-            return new DictionaryKey() { Value = value };
+            return new DictionaryKey { Value = value };
         }
     }
 }

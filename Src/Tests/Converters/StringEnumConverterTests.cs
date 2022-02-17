@@ -423,7 +423,7 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
         [Fact]
         public void SerializeEnumClass()
         {
-            var enumClass = new EnumClass()
+            var enumClass = new EnumClass
             {
                 StoreColor = StoreColor.Red,
                 NullableStoreColor1 = StoreColor.White,
@@ -442,7 +442,7 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
         [Fact]
         public void SerializeEnumClassWithCamelCase()
         {
-            var enumClass = new EnumClass()
+            var enumClass = new EnumClass
             {
                 StoreColor = StoreColor.Red,
                 NullableStoreColor1 = StoreColor.DarkGoldenrod,
@@ -463,7 +463,7 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
         [Fact]
         public void SerializeEnumClassUndefined()
         {
-            var enumClass = new EnumClass()
+            var enumClass = new EnumClass
             {
                 StoreColor = (StoreColor)1000,
                 NullableStoreColor1 = (StoreColor)1000,
@@ -482,7 +482,7 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
         [Fact]
         public void SerializeFlagEnum()
         {
-            var enumClass = new EnumClass()
+            var enumClass = new EnumClass
             {
                 StoreColor = StoreColor.Red | StoreColor.White,
                 NullableStoreColor1 = StoreColor.White & StoreColor.Yellow,
@@ -530,7 +530,7 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
         [Fact]
         public void SerializeNegativeEnum()
         {
-            var negativeEnumClass = new NegativeEnumClass()
+            var negativeEnumClass = new NegativeEnumClass
             {
                 Value1 = NegativeEnum.Negative,
                 Value2 = (NegativeEnum)int.MinValue
@@ -731,7 +731,7 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
             Assert.AreEqual(Foo.FooBar | Foo.SerializeAsBaz, foos[4]);
             Assert.AreEqual((Foo)int.MaxValue, foos[5]);
 
-            var lbar = new List<Bar>() { Bar.FooBar, Bar.Bat, Bar.SerializeAsBaz };
+            var lbar = new List<Bar> { Bar.FooBar, Bar.Bat, Bar.SerializeAsBaz };
 
 #pragma warning disable CS0618 // Type or member is obsolete
             var json2 = JsonConvert.SerializeObject(lbar, Formatting.Indented, new StringEnumConverter { CamelCaseText = true });

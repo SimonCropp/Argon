@@ -66,7 +66,7 @@ namespace Argon.Tests.Serialization
 
             public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
             {
-                return new ContentA() { B = serializer.Deserialize<ContentB>(reader) }; // Construct my data back.
+                return new ContentA { B = serializer.Deserialize<ContentB>(reader) }; // Construct my data back.
             }
 
             public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
@@ -1063,7 +1063,7 @@ namespace Argon.Tests.Serialization
                 c
             };
 
-            var ser = new JsonSerializer()
+            var ser = new JsonSerializer
             {
                 PreserveReferencesHandling = PreserveReferencesHandling.All
             };

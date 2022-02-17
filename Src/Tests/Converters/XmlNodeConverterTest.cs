@@ -2353,7 +2353,7 @@ namespace Argon.Tests.Converters
         {
             var dict = new Dictionary<string, object> { { "Int16", (short)1 }, { "Float", 2f }, { "Int32", 3 } };
             var obj = JObject.FromObject(dict);
-            var serializer = JsonSerializer.Create(new JsonSerializerSettings { Converters = { new XmlNodeConverter() { DeserializeRootElementName = "root" } } });
+            var serializer = JsonSerializer.Create(new JsonSerializerSettings { Converters = { new XmlNodeConverter { DeserializeRootElementName = "root" } } });
             using (var reader = obj.CreateReader())
             {
                 var value = (XmlDocument)serializer.Deserialize(reader, typeof(XmlDocument));

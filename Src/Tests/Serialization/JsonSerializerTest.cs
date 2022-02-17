@@ -617,7 +617,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeMetadataType()
         {
-            var c = new CustomerWithMetadataType()
+            var c = new CustomerWithMetadataType
             {
                 UpdatedBy_Id = Guid.NewGuid()
             };
@@ -789,7 +789,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void CanSerializeWithBuiltInTypeAsGenericArgument()
         {
-            var input = new ResponseWithNewGenericProperty<int>()
+            var input = new ResponseWithNewGenericProperty<int>
             {
                 Message = "Trying out integer as type parameter",
                 Data = 25,
@@ -807,7 +807,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void CanSerializeWithBuiltInTypeAsGenericArgumentVirtual()
         {
-            var input = new ResponseWithNewGenericPropertyVirtual<int>()
+            var input = new ResponseWithNewGenericPropertyVirtual<int>
             {
                 Message = "Trying out integer as type parameter",
                 Data = 25,
@@ -825,7 +825,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void CanSerializeWithBuiltInTypeAsGenericArgumentOverride()
         {
-            var input = new ResponseWithNewGenericPropertyOverride<int>()
+            var input = new ResponseWithNewGenericPropertyOverride<int>
             {
                 Message = "Trying out integer as type parameter",
                 Data = 25,
@@ -843,7 +843,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void CanSerializedWithGenericClosedTypeAsArgument()
         {
-            var input = new ResponseWithNewGenericProperty<List<int>>()
+            var input = new ResponseWithNewGenericProperty<List<int>>
             {
                 Message = "More complex case - generic list of int",
                 Data = Enumerable.Range(50, 70).ToList(),
@@ -2068,7 +2068,7 @@ keyword such as type of business.""
                     IntValue = int.MaxValue,
                     NestedAnonymous = new { NestedValue = byte.MaxValue },
                     NestedArray = new[] { 1, 2 },
-                    Product = new Product() { Name = "TestProduct" }
+                    Product = new Product { Name = "TestProduct" }
                 };
 
             var json = JsonConvert.SerializeObject(anonymous);
@@ -2618,7 +2618,7 @@ keyword such as type of business.""
         [Fact]
         public void RequiredMembersClass()
         {
-            var c = new RequiredMembersClass()
+            var c = new RequiredMembersClass
             {
                 BirthDate = new DateTime(2000, 12, 20, 10, 55, 55, DateTimeKind.Utc),
                 FirstName = "Bob",
@@ -3960,11 +3960,11 @@ Path '', line 1, position 1.");
         [Fact]
         public void DataContractJsonSerializerTest()
         {
-            var c = new DataContractJsonSerializerTestClass()
+            var c = new DataContractJsonSerializerTestClass
             {
                 TimeSpanProperty = new TimeSpan(200, 20, 59, 30, 900),
                 GuidProperty = new Guid("66143115-BE2A-4a59-AF0A-348E1EA15B1E"),
-                AnimalProperty = new Human() { Ethnicity = "European" }
+                AnimalProperty = new Human { Ethnicity = "European" }
             };
             var ms = new MemoryStream();
             var serializer = new DataContractJsonSerializer(
@@ -4345,10 +4345,10 @@ Path '', line 1, position 1.");
         [Fact]
         public void FullClientMapSerialization()
         {
-            var source = new ClientMap()
+            var source = new ClientMap
             {
-                position = new Pos() { X = 100, Y = 200 },
-                center = new PosDouble() { X = 251.6, Y = 361.3 }
+                position = new Pos { X = 100, Y = 200 },
+                center = new PosDouble { X = 251.6, Y = 361.3 }
             };
 
             var json = JsonConvert.SerializeObject(source, new PosConverter(), new PosDoubleConverter());
@@ -4465,8 +4465,8 @@ Path '', line 1, position 1.");
         {
             var dictionary = new Dictionary<DictionaryKey, string>();
 
-            dictionary.Add(new DictionaryKey() { Value = "First!" }, "First");
-            dictionary.Add(new DictionaryKey() { Value = "Second!" }, "Second");
+            dictionary.Add(new DictionaryKey { Value = "First!" }, "First");
+            dictionary.Add(new DictionaryKey { Value = "Second!" }, "Second");
 
             var json = JsonConvert.SerializeObject(dictionary, Formatting.Indented);
 
@@ -4511,7 +4511,7 @@ Path '', line 1, position 1.");
         [Fact]
         public void SerializeHashSet()
         {
-            var jsonText = JsonConvert.SerializeObject(new HashSet<string>()
+            var jsonText = JsonConvert.SerializeObject(new HashSet<string>
             {
                 "One",
                 "2",
@@ -4554,9 +4554,9 @@ Path '', line 1, position 1.");
         {
             var classRef = typeof(StringDictionary).FullName;
 
-            var s1 = new StringDictionaryTestClass()
+            var s1 = new StringDictionaryTestClass
             {
-                StringDictionaryProperty = new StringDictionary()
+                StringDictionaryProperty = new StringDictionary
                 {
                     { "1", "One" },
                     { "2", "II" },
@@ -4791,14 +4791,14 @@ Path '', line 1, position 1.");
         [Fact]
         public void DeserializeNullableStruct()
         {
-            var nullableStructPropertyClass = new NullableStructPropertyClass()
+            var nullableStructPropertyClass = new NullableStructPropertyClass
             {
-                Foo1 = new StructISerializable() { Name = "foo 1" },
-                Foo2 = new StructISerializable() { Name = "foo 2" }
+                Foo1 = new StructISerializable { Name = "foo 1" },
+                Foo2 = new StructISerializable { Name = "foo 2" }
             };
-            var barWithNull = new NullableStructPropertyClass()
+            var barWithNull = new NullableStructPropertyClass
             {
-                Foo1 = new StructISerializable() { Name = "foo 1" },
+                Foo1 = new StructISerializable { Name = "foo 1" },
                 Foo2 = null
             };
 
@@ -5636,7 +5636,7 @@ Path '', line 1, position 1.");
         [Fact]
         public void DeserializeGuid()
         {
-            var expected = new Item()
+            var expected = new Item
             {
                 SourceTypeID = new Guid("d8220a4b-75b1-4b7a-8112-b7bdae956a45"),
                 BrokerID = new Guid("951663c4-924e-4c86-a57a-7ed737501dbd"),
@@ -6253,7 +6253,7 @@ Path '', line 1, position 1.");
         [Fact]
         public void SerializeAndDeserializeWithAttributes()
         {
-            var testObj = new PersonSerializable() { Name = "John Doe", Age = 28 };
+            var testObj = new PersonSerializable { Name = "John Doe", Age = 28 };
 
             var json = Serialize(testObj);
             var objDeserialized = Deserialize<PersonSerializable>(json);
@@ -6335,7 +6335,7 @@ Path '', line 1, position 1.");
         [Fact]
         public void IgnoreDataMemberTest()
         {
-            var json = JsonConvert.SerializeObject(new IgnoreDataMemberTestClass() { Ignored = int.MaxValue }, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(new IgnoreDataMemberTestClass { Ignored = int.MaxValue }, Formatting.Indented);
             Assert.AreEqual(@"{}", json);
         }
 
@@ -6718,7 +6718,7 @@ This is just junk, though.";
         {
             var content = @"{""startDateTime"":""2012-07-19T14:30:00+09:30""}";
 
-            var jsonSerializerSettings = new JsonSerializerSettings() { DateFormatHandling = DateFormatHandling.IsoDateFormat, DateParseHandling = DateParseHandling.DateTimeOffset, DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind };
+            var jsonSerializerSettings = new JsonSerializerSettings { DateFormatHandling = DateFormatHandling.IsoDateFormat, DateParseHandling = DateParseHandling.DateTimeOffset, DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind };
 
             var obj = (JObject)JsonConvert.DeserializeObject(content, jsonSerializerSettings);
 

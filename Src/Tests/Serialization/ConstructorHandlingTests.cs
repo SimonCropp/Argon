@@ -183,7 +183,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ConstructorParametersRespectDefaultValueTest_Attrbutes()
         {
-            var testObject = JsonConvert.DeserializeObject<ConstructorParametersRespectDefaultValueAttributes>("{'Parameter2':'value!'}", new JsonSerializerSettings()
+            var testObject = JsonConvert.DeserializeObject<ConstructorParametersRespectDefaultValueAttributes>("{'Parameter2':'value!'}", new JsonSerializerSettings
             {
                 DefaultValueHandling = DefaultValueHandling.Populate
             });
@@ -197,7 +197,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ConstructorParametersRespectDefaultValueTest()
         {
-            var testObject = JsonConvert.DeserializeObject<ConstructorParametersRespectDefaultValue>("{}", new JsonSerializerSettings() { ContractResolver = ConstructorParameterDefaultStringValueContractResolver.Instance });
+            var testObject = JsonConvert.DeserializeObject<ConstructorParametersRespectDefaultValue>("{}", new JsonSerializerSettings { ContractResolver = ConstructorParameterDefaultStringValueContractResolver.Instance });
 
             Assert.AreEqual("Default Value", testObject.Parameter1);
             Assert.AreEqual("Default Value", testObject.Parameter2);

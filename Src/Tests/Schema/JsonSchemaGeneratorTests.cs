@@ -70,7 +70,7 @@ namespace Argon.Tests.Schema
 
             var value = new Dictionary<string, List<string>>
             {
-                { "HasValue", new List<string>() { "first", "second", null } },
+                { "HasValue", new List<string> { "first", "second", null } },
                 { "NoValue", null }
             };
 
@@ -355,7 +355,7 @@ namespace Argon.Tests.Schema
         {
             var generator = new JsonSchemaGenerator();
             generator.UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseTypeName;
-            generator.ContractResolver = new CamelCasePropertyNamesContractResolver()
+            generator.ContractResolver = new CamelCasePropertyNamesContractResolver
             {
                 IgnoreSerializableAttribute = true
             };

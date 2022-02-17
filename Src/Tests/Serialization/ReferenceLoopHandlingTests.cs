@@ -197,7 +197,7 @@ namespace Argon.Tests.Serialization
             main.Child = child;
 
             var settings =
-                new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+                new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
 
             var c = JsonConvert.SerializeObject(main, settings);
             Assert.AreEqual(@"{""Child"":{""Name"":""Child1""}}", c);

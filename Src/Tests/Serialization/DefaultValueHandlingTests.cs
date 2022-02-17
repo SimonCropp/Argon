@@ -116,7 +116,7 @@ namespace Argon.Tests.Serialization
         {
             var json = "{\"Data\":\"Other with some more text\"}";
 
-            var result = JsonConvert.DeserializeObject<MyClass>(json, new JsonSerializerSettings() { DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate });
+            var result = JsonConvert.DeserializeObject<MyClass>(json, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate });
 
             Assert.AreEqual(MyEnum.Other, result.Status);
         }

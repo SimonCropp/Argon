@@ -542,7 +542,7 @@ namespace Argon.Tests.Serialization
         public void ErrorHandlingAndAvoidingRecursiveDepthError()
         {
             var json = "{'A':{'A':{'A':{'A':{'A':{}}}}}}";
-            var serializer = new JsonSerializer() { };
+            var serializer = new JsonSerializer { };
             IList<string> errors = new List<string>();
             serializer.Error += (_, e) =>
             {
@@ -767,7 +767,7 @@ namespace Argon.Tests.Serialization
             var settings = new JsonSerializerSettings();
             settings.Error += (_, args) => { args.ErrorContext.Handled = true; };
 
-            var data = new List<ErrorPerson2>()
+            var data = new List<ErrorPerson2>
             {
                 new() { FirstName = "Scott", LastName = "Hanselman" },
                 new() { FirstName = "Scott", LastName = "Hunter" },
@@ -919,7 +919,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeWrappingErrorsAndErrorHandling()
         {
-            var serialiser = JsonSerializer.Create(new JsonSerializerSettings() { });
+            var serialiser = JsonSerializer.Create(new JsonSerializerSettings { });
 
             var foo = "{ something: { rootSomethingElse { somethingElse: 0 } } }";
             var reader = new System.IO.StringReader(foo);
@@ -930,7 +930,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeWrappingErrorsAndErrorHandling()
         {
-            var serialiser = JsonSerializer.Create(new JsonSerializerSettings() { });
+            var serialiser = JsonSerializer.Create(new JsonSerializerSettings { });
 
             var s = new Something
             {

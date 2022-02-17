@@ -56,7 +56,7 @@ namespace Argon.Tests.Benchmarks
 
             test.BigNumber = 34123123123.121M;
             test.Now = DateTime.Now.AddHours(1);
-            test.strings = new List<string>() { null, "Markus egger ]><[, (2nd)", null };
+            test.strings = new List<string> { null, "Markus egger ]><[, (2nd)", null };
 
             var address = new Address();
             address.Entered = DateTime.Now.AddDays(-1);

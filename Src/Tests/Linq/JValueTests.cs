@@ -474,7 +474,7 @@ namespace Argon.Tests.Linq
         {
             var content = @"{""startDateTime"":""2012-07-19T14:30:00+09:30""}";
 
-            var jsonSerializerSettings = new JsonSerializerSettings() { DateFormatHandling = DateFormatHandling.IsoDateFormat, DateParseHandling = DateParseHandling.DateTimeOffset, DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind };
+            var jsonSerializerSettings = new JsonSerializerSettings { DateFormatHandling = DateFormatHandling.IsoDateFormat, DateParseHandling = DateParseHandling.DateTimeOffset, DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind };
             var obj = (JObject)JsonConvert.DeserializeObject(content, jsonSerializerSettings);
 
             object startDateTime = obj["startDateTime"];

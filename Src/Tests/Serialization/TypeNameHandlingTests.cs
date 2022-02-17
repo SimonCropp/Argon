@@ -395,7 +395,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeRootTypeNameIfDerivedWithAuto()
         {
-            var serializer = new JsonSerializer()
+            var serializer = new JsonSerializer
             {
                 TypeNameHandling = TypeNameHandling.Auto
             };
@@ -1243,7 +1243,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void GenericDictionaryObject()
         {
-            var collection = new Dictionary<string, object>()
+            var collection = new Dictionary<string, object>
             {
                 { "First", new UrlStatus { Status = 404, Url = @"http://www.bing.com" } },
                 { "Second", new UrlStatus { Status = 400, Url = @"http://www.google.com" } },
@@ -1758,7 +1758,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void PropertyItemTypeNameHandlingNestedDictionaries()
         {
-            var c1 = new PropertyItemTypeNameHandlingDictionary()
+            var c1 = new PropertyItemTypeNameHandlingDictionary
             {
                 Data = new Dictionary<string, object>
                 {
@@ -1975,7 +1975,7 @@ namespace Argon.Tests.Serialization
             var inputContext = new Dictionary<string, Guid>();
             inputContext.Add(contextKey, someValue);
 
-            var jsonSerializerSettings = new JsonSerializerSettings()
+            var jsonSerializerSettings = new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
                 TypeNameHandling = TypeNameHandling.All
@@ -2290,7 +2290,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ObsoleteBinderThrowsIfISerializationBinderSet()
         {
-            var serializer = JsonSerializer.Create(new JsonSerializerSettings() { SerializationBinder = new FancyBinder() });
+            var serializer = JsonSerializer.Create(new JsonSerializerSettings { SerializationBinder = new FancyBinder() });
             ExceptionAssert.Throws<InvalidOperationException>(() =>
             {
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -2306,7 +2306,7 @@ namespace Argon.Tests.Serialization
         public void SetOldBinderAndSerializationBinderReturnsWrapper()
         {
 #pragma warning disable CS0618 // Type or member is obsolete
-            var serializer = JsonSerializer.Create(new JsonSerializerSettings() { Binder = new OldBinder() });
+            var serializer = JsonSerializer.Create(new JsonSerializerSettings { Binder = new OldBinder() });
             Assert.IsInstanceOf(typeof(OldBinder), serializer.Binder);
 #pragma warning restore CS0618 // Type or member is obsolete
 

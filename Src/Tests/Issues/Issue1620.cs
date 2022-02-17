@@ -44,7 +44,7 @@ namespace Argon.Tests.Issues
             var mock = new Mock<IFoo>();
             var foo = mock.Object;
 
-            var json = JsonConvert.SerializeObject(foo, new JsonSerializerSettings() { Converters = { new FooConverter() } });
+            var json = JsonConvert.SerializeObject(foo, new JsonSerializerSettings { Converters = { new FooConverter() } });
             Assert.AreEqual(@"""foo""", json);
         }
 

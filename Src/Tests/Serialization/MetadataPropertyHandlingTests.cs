@@ -115,7 +115,7 @@ namespace Argon.Tests.Serialization
             var inputContext = new Dictionary<string, Guid>();
             inputContext.Add(contextKey, someValue);
 
-            var jsonSerializerSettings = new JsonSerializerSettings()
+            var jsonSerializerSettings = new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
                 TypeNameHandling = TypeNameHandling.All,
@@ -136,7 +136,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeGuid()
         {
-            var expected = new Item()
+            var expected = new Item
             {
                 SourceTypeID = new Guid("d8220a4b-75b1-4b7a-8112-b7bdae956a45"),
                 BrokerID = new Guid("951663c4-924e-4c86-a57a-7ed737501dbd"),

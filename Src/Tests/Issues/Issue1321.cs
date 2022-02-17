@@ -42,7 +42,7 @@ namespace Argon.Tests.Issues
             {
                 JsonConvert.DeserializeObject(
                     @"[""1"",",
-                    new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.None, MaxDepth = 1024 });
+                    new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.None, MaxDepth = 1024 });
             }, "Unexpected end when reading token. Path ''.");
         }
 

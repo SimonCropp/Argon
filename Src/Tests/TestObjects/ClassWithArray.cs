@@ -35,7 +35,7 @@ namespace Argon.Tests.TestObjects
 
         public ClassWithArray()
         {
-            bar = new List<Int64>() { int.MaxValue };
+            bar = new List<Int64> { int.MaxValue };
         }
 
         [JsonProperty("foo")]
