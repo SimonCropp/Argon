@@ -7,7 +7,7 @@
     </summary>
     -->
     <introduction>
-      <para>The <codeEntityReference>T:Newtonsoft.Json.Serialization.IContractResolver</codeEntityReference>
+      <para>The <codeEntityReference>T:Argon.Serialization.IContractResolver</codeEntityReference>
       interface provides a way to customize how the
       JsonSerializer serializes and deserializes .NET objects to JSON without placing attributes on your classes.
       </para>
@@ -15,7 +15,7 @@
       can also be set using an IContractResolver.</para>
       <autoOutline lead="none" excludeRelatedTopics="true" />
 <alert class="note">
-  <para>For performance you should create a contract resolver once and reuse instances when possible. Resolving contracts is slow and implementations of <codeEntityReference>T:Newtonsoft.Json.Serialization.IContractResolver</codeEntityReference> typically cache contracts.</para>
+  <para>For performance you should create a contract resolver once and reuse instances when possible. Resolving contracts is slow and implementations of <codeEntityReference>T:Argon.Serialization.IContractResolver</codeEntityReference> typically cache contracts.</para>
 </alert>
     </introduction>
     <!-- Add one or more top-level section elements.  These are collapsible.
@@ -26,7 +26,7 @@
       <content>
         <!-- Uncomment this to create a sub-section outline
         <autoOutline /> -->
-        <para>The <codeEntityReference>T:Newtonsoft.Json.Serialization.DefaultContractResolver</codeEntityReference>
+        <para>The <codeEntityReference>T:Argon.Serialization.DefaultContractResolver</codeEntityReference>
         is the default resolver used by the
         serializer. It provides many avenues of extensibility in the form of
         virtual methods that can be overridden.</para>
@@ -37,7 +37,7 @@
       <content>
         <!-- Uncomment this to create a sub-section outline
         <autoOutline /> -->
-        <para><codeEntityReference>T:Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver</codeEntityReference>
+        <para><codeEntityReference>T:Argon.Serialization.CamelCasePropertyNamesContractResolver</codeEntityReference>
         inherits from DefaultContractResolver and simply overrides the JSON
         property name to be written in <externalLink>
 <linkText>camelcase</linkText>
@@ -45,26 +45,26 @@
 <linkTarget>_blank</linkTarget>
 </externalLink>.</para>
 
-<code lang="cs" source="..\Src\Newtonsoft.Json.Tests\Documentation\SerializationTests.cs" region="ContractResolver" title="ContractResolver" />
+<code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="ContractResolver" title="ContractResolver" />
       </content>
     </section>
     <section address="CustomIContractResolverExamples">
       <title>Custom IContractResolver Examples</title>
       <content>
-<code lang="cs" source="..\Src\Newtonsoft.Json.Tests\Documentation\PerformanceTests.cs" region="JsonConverterContractResolver" title="Use JsonConverter with IContractResolver" />
+<code lang="cs" source="..\Src\Tests\Documentation\PerformanceTests.cs" region="JsonConverterContractResolver" title="Use JsonConverter with IContractResolver" />
 
-        <para>This example sets a <codeEntityReference>T:Newtonsoft.Json.JsonConverter</codeEntityReference> for a type
+        <para>This example sets a <codeEntityReference>T:Argon.JsonConverter</codeEntityReference> for a type
         using an IContractResolver. Using a contract resolver here is useful because DateTime is not your own type and it is not possible to place a JsonConverterAttribute on it.</para>
 
-<code lang="cs" source="..\Src\Newtonsoft.Json.Tests\Documentation\ConditionalPropertiesTests.cs" region="ShouldSerializeContractResolver" title="Conditional properties with IContractResolver" />
+<code lang="cs" source="..\Src\Tests\Documentation\ConditionalPropertiesTests.cs" region="ShouldSerializeContractResolver" title="Conditional properties with IContractResolver" />
 
         <para>This example sets up <link xlink:href="ConditionalProperties">conditional serialization for a property</link> using an IContractResolver. This is useful if you want to conditionally serialize a property but don't want to add additional methods to your type.</para>
       </content>
     </section>
     <relatedTopics>
-      <codeEntityReference>T:Newtonsoft.Json.Serialization.IContractResolver</codeEntityReference>
-      <codeEntityReference>T:Newtonsoft.Json.Serialization.DefaultContractResolver</codeEntityReference>
-      <codeEntityReference>T:Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver</codeEntityReference>
+      <codeEntityReference>T:Argon.Serialization.IContractResolver</codeEntityReference>
+      <codeEntityReference>T:Argon.Serialization.DefaultContractResolver</codeEntityReference>
+      <codeEntityReference>T:Argon.Serialization.CamelCasePropertyNamesContractResolver</codeEntityReference>
     </relatedTopics>
   </developerConceptualDocument>
 </topic>

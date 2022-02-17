@@ -11,17 +11,17 @@
       can extract the pieces of JSON you want to deserialize before passing them to the
       Json.NET serializer.</para>
 
-<code lang="cs" source="..\Src\Newtonsoft.Json.Tests\Documentation\SerializationTests.cs" region="SerializingPartialJsonFragmentsObject" title="Fragments Object" />
-<code lang="cs" source="..\Src\Newtonsoft.Json.Tests\Documentation\SerializationTests.cs" region="SerializingPartialJsonFragmentsExample" title="Deserializing Partial JSON Fragment Example" />
+<code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="SerializingPartialJsonFragmentsObject" title="Fragments Object" />
+<code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="SerializingPartialJsonFragmentsExample" title="Deserializing Partial JSON Fragment Example" />
 
     </introduction>
     <relatedTopics>
-      <codeEntityReference>T:Newtonsoft.Json.JsonReader</codeEntityReference>
-      <codeEntityReference>T:Newtonsoft.Json.JsonWriter</codeEntityReference>
-      <codeEntityReference>T:Newtonsoft.Json.Linq.JTokenReader</codeEntityReference>
-      <codeEntityReference>T:Newtonsoft.Json.Linq.JTokenWriter</codeEntityReference>
-      <codeEntityReference>T:Newtonsoft.Json.Bson.BsonReader</codeEntityReference>
-      <codeEntityReference>T:Newtonsoft.Json.Bson.BsonWriter</codeEntityReference>
+      <codeEntityReference>T:Argon.JsonReader</codeEntityReference>
+      <codeEntityReference>T:Argon.JsonWriter</codeEntityReference>
+      <codeEntityReference>T:Argon.Linq.JTokenReader</codeEntityReference>
+      <codeEntityReference>T:Argon.Linq.JTokenWriter</codeEntityReference>
+      <codeEntityReference>T:Argon.Bson.BsonReader</codeEntityReference>
+      <codeEntityReference>T:Argon.Bson.BsonWriter</codeEntityReference>
     </relatedTopics>
   </developerConceptualDocument>
 </topic>

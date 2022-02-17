@@ -8,12 +8,12 @@
     -->
     <introduction>
       <para>JsonSerializer has a number of properties on it to customize how it serializes JSON. These can also be used
-      with the methods on JsonConvert via the <codeEntityReference>T:Newtonsoft.Json.JsonSerializerSettings</codeEntityReference> overloads.</para>
+      with the methods on JsonConvert via the <codeEntityReference>T:Argon.JsonSerializerSettings</codeEntityReference> overloads.</para>
       <autoOutline lead="none" excludeRelatedTopics="true" />
     </introduction>
 <section address="DateFormatHandling">
  <title>DateFormatHandling</title>
- <content><para><codeEntityReference>T:Newtonsoft.Json.DateFormatHandling</codeEntityReference> controls how dates are serialized.</para>
+ <content><para><codeEntityReference>T:Argon.DateFormatHandling</codeEntityReference> controls how dates are serialized.</para>
  
 <table>
   <tableHeader>
@@ -37,7 +37,7 @@
 
 <section address="MissingMemberHandling">
  <title>MissingMemberHandling</title>
- <content><para><codeEntityReference>T:Newtonsoft.Json.MissingMemberHandling</codeEntityReference> controls how missing members, e.g. JSON contains a property that isn't a member on the object, are handled during deserialization.</para>
+ <content><para><codeEntityReference>T:Argon.MissingMemberHandling</codeEntityReference> controls how missing members, e.g. JSON contains a property that isn't a member on the object, are handled during deserialization.</para>
  
 <table>
   <tableHeader>
@@ -62,7 +62,7 @@
 <section address="ReferenceLoopHandling">
  <title>ReferenceLoopHandling</title>
  <content>
-   <para><codeEntityReference>T:Newtonsoft.Json.ReferenceLoopHandling</codeEntityReference> controls how circular referencing objects,
+   <para><codeEntityReference>T:Argon.ReferenceLoopHandling</codeEntityReference> controls how circular referencing objects,
    e.g. a Person object referencing itself via a Manager property, are serialized.</para>
    <para>The <codeEntityReference>M:System.Object.Equals(System.Object)</codeEntityReference> method is used to test whether an object is in a circular reference.
    By default <codeInline>Object.Equals(Object)</codeInline> will test whether the references are equal for reference types and private and public values
@@ -88,16 +88,16 @@
   </row>
 </table>
 <para>ReferenceLoopHandling can be used as an argument when calling the serializer, it can be set on an object's properties or
-a collection's items using <codeEntityReference>P:Newtonsoft.Json.JsonContainerAttribute.ItemReferenceLoopHandling</codeEntityReference>,
-customized on a property with <codeEntityReference>P:Newtonsoft.Json.JsonPropertyAttribute.ReferenceLoopHandling</codeEntityReference>
+a collection's items using <codeEntityReference>P:Argon.JsonContainerAttribute.ItemReferenceLoopHandling</codeEntityReference>,
+customized on a property with <codeEntityReference>P:Argon.JsonPropertyAttribute.ReferenceLoopHandling</codeEntityReference>
 or a property's object properties or collection items using
-<codeEntityReference>P:Newtonsoft.Json.JsonPropertyAttribute.ItemReferenceLoopHandling</codeEntityReference>.</para>
+<codeEntityReference>P:Argon.JsonPropertyAttribute.ItemReferenceLoopHandling</codeEntityReference>.</para>
 </content>
 </section>
 
 <section address="NullValueHandling">
  <title>NullValueHandling</title>
- <content><para><codeEntityReference>T:Newtonsoft.Json.NullValueHandling</codeEntityReference> controls how null values on .NET objects are handled during serialization and how null values in JSON are handled during deserialization.</para>
+ <content><para><codeEntityReference>T:Argon.NullValueHandling</codeEntityReference> controls how null values on .NET objects are handled during serialization and how null values in JSON are handled during deserialization.</para>
  
 <table>
   <tableHeader>
@@ -122,7 +122,7 @@ or a property's object properties or collection items using
 
 <section address="DefaultValueHandling">
  <title>DefaultValueHandling</title>
- <content><para><codeEntityReference>T:Newtonsoft.Json.DefaultValueHandling</codeEntityReference> controls how Json.NET uses default values set using the .NET <codeEntityReference>T:System.ComponentModel.DefaultValueAttribute</codeEntityReference> when serializing and deserializing.</para>
+ <content><para><codeEntityReference>T:Argon.DefaultValueHandling</codeEntityReference> controls how Json.NET uses default values set using the .NET <codeEntityReference>T:System.ComponentModel.DefaultValueAttribute</codeEntityReference> when serializing and deserializing.</para>
  
 <table>
   <tableHeader>
@@ -150,7 +150,7 @@ or a property's object properties or collection items using
 
 <section address="ObjectCreationHandling">
  <title>ObjectCreationHandling</title>
- <content><para><codeEntityReference>T:Newtonsoft.Json.ObjectCreationHandling</codeEntityReference> controls how objects are created and deserialized to during deserialization.</para>
+ <content><para><codeEntityReference>T:Argon.ObjectCreationHandling</codeEntityReference> controls how objects are created and deserialized to during deserialization.</para>
  
 <table>
   <tableHeader>
@@ -182,25 +182,25 @@ or a property's object properties or collection items using
  <content>
  <alert class="caution">
   <para>
- <codeEntityReference>T:Newtonsoft.Json.TypeNameHandling</codeEntityReference> should be used with caution when your application deserializes JSON from an external source.
+ <codeEntityReference>T:Argon.TypeNameHandling</codeEntityReference> should be used with caution when your application deserializes JSON from an external source.
   </para>
   <para>
-    Incoming types should be validated with a custom <codeEntityReference>T:Newtonsoft.Json.Serialization.ISerializationBinder</codeEntityReference> when deserializing with a value other than <codeInline>TypeNameHandling.None</codeInline>.
+    Incoming types should be validated with a custom <codeEntityReference>T:Argon.Serialization.ISerializationBinder</codeEntityReference> when deserializing with a value other than <codeInline>TypeNameHandling.None</codeInline>.
   </para>
  </alert>
  
  <para>
-   <codeEntityReference>T:Newtonsoft.Json.TypeNameHandling</codeEntityReference> controls whether Json.NET includes .NET type names
+   <codeEntityReference>T:Argon.TypeNameHandling</codeEntityReference> controls whether Json.NET includes .NET type names
    during serialization with a <codeInline>$type</codeInline> property and reads .NET type names from that property to determine what type to create during
    deserialization.
  </para>
  <para>
    Metadata properties like <codeInline>$type</codeInline> must be located at the beginning of a JSON object to be successfully detected during deserialization. If you can't control
-   the order of properties in your JSON object then <codeEntityReference>T:Newtonsoft.Json.MetadataPropertyHandling</codeEntityReference> can be used to remove this restriction.
+   the order of properties in your JSON object then <codeEntityReference>T:Argon.MetadataPropertyHandling</codeEntityReference> can be used to remove this restriction.
  </para>
  <para>
    The value of the <codeInline>$type</codeInline> property can be customized and validated by creating your own 
-   <codeEntityReference>T:Newtonsoft.Json.Serialization.ISerializationBinder</codeEntityReference>.
+   <codeEntityReference>T:Argon.Serialization.ISerializationBinder</codeEntityReference>.
  </para>
 
 <table>
@@ -232,10 +232,10 @@ or a property's object properties or collection items using
   </row>
 </table>
 <para>TypeNameHandling can be used as an argument when calling the serializer, it can be set on an object's properties or
-a collection's items using <codeEntityReference>P:Newtonsoft.Json.JsonContainerAttribute.ItemTypeNameHandling</codeEntityReference>,
-customized on a property with <codeEntityReference>P:Newtonsoft.Json.JsonPropertyAttribute.TypeNameHandling</codeEntityReference>
+a collection's items using <codeEntityReference>P:Argon.JsonContainerAttribute.ItemTypeNameHandling</codeEntityReference>,
+customized on a property with <codeEntityReference>P:Argon.JsonPropertyAttribute.TypeNameHandling</codeEntityReference>
 or a property's object properties or collection items using
-<codeEntityReference>P:Newtonsoft.Json.JsonPropertyAttribute.ItemTypeNameHandling</codeEntityReference>.</para>
+<codeEntityReference>P:Argon.JsonPropertyAttribute.ItemTypeNameHandling</codeEntityReference>.</para>
 </content>
 </section>
 
@@ -266,15 +266,15 @@ or a property's object properties or collection items using
 
 <section address="SerializationBinder">
  <title>SerializationBinder</title>
- <content><para>The <codeEntityReference>T:Newtonsoft.Json.Serialization.ISerializationBinder</codeEntityReference> is used to resolve .NET types to type names during serialization and type names to .NET types during deserialization.</para>
+ <content><para>The <codeEntityReference>T:Argon.Serialization.ISerializationBinder</codeEntityReference> is used to resolve .NET types to type names during serialization and type names to .NET types during deserialization.</para>
  <para>
- If TypeNameHandling is enabled then it is strongly recommended that a custom <codeEntityReference>T:Newtonsoft.Json.Serialization.ISerializationBinder</codeEntityReference> is used to validate incoming type names for security reasons.</para>
+ If TypeNameHandling is enabled then it is strongly recommended that a custom <codeEntityReference>T:Argon.Serialization.ISerializationBinder</codeEntityReference> is used to validate incoming type names for security reasons.</para>
 </content>
 </section>
 
 <section address="MetadataPropertyHandling">
  <title>MetadataPropertyHandling</title>
- <content><para><codeEntityReference>T:Newtonsoft.Json.MetadataPropertyHandling</codeEntityReference> controls how metadata properties like <codeInline>$type</codeInline> and <codeInline>$id</codeInline> are read during deserialization.</para>
+ <content><para><codeEntityReference>T:Argon.MetadataPropertyHandling</codeEntityReference> controls how metadata properties like <codeInline>$type</codeInline> and <codeInline>$id</codeInline> are read during deserialization.</para>
  <para>
   For performance reasons by default the JsonSerializer assumes that any metadata properties are located at the beginning of a JSON object.
   If you are unable to guarantee the order of properties in JSON you are deserializing then <codeInline>MetadataPropertyHandling.ReadAhead</codeInline> removes this
@@ -307,7 +307,7 @@ or a property's object properties or collection items using
 
 <section address="ConstructorHandling">
  <title>ConstructorHandling</title>
- <content><para><codeEntityReference>T:Newtonsoft.Json.ConstructorHandling</codeEntityReference> controls how constructors are used when initializing objects during deserialization.</para>
+ <content><para><codeEntityReference>T:Argon.ConstructorHandling</codeEntityReference> controls how constructors are used when initializing objects during deserialization.</para>
  
 <table>
   <tableHeader>
@@ -335,7 +335,7 @@ or a property's object properties or collection items using
 <section address="Converters">
  <title>Converters</title>
  <content><para>This is the collection of JsonConverters that will be used during serialization and deserialization.</para>
- <para>A <codeEntityReference>T:Newtonsoft.Json.JsonConverter</codeEntityReference> allows JSON to be manually written during serialization and read during deserialization.
+ <para>A <codeEntityReference>T:Argon.JsonConverter</codeEntityReference> allows JSON to be manually written during serialization and read during deserialization.
  This is useful for particularly complex JSON structures or for when you want to change how a type is serialized.</para>
  <para>When a JsonConverter has been added to a JsonSerializer it will be checked for every value that is being serialized/deserialized
  using its CanConvert to see if it should be used. If CanConvert returns true then the JsonConverter will be used to read or write
@@ -343,17 +343,17 @@ or a property's object properties or collection items using
  features are no longer available like type name and reference handling.</para>
 
 <para>JsonConverters can be used as an argument when calling the serializer, it can be set on an object or property
-using <codeEntityReference>T:Newtonsoft.Json.JsonConverterAttribute</codeEntityReference>, it be set on an object's properties or
-a collection's items using <codeEntityReference>P:Newtonsoft.Json.JsonContainerAttribute.ItemConverterType</codeEntityReference>,
+using <codeEntityReference>T:Argon.JsonConverterAttribute</codeEntityReference>, it be set on an object's properties or
+a collection's items using <codeEntityReference>P:Argon.JsonContainerAttribute.ItemConverterType</codeEntityReference>,
 or a property's object properties or collection items using
-<codeEntityReference>P:Newtonsoft.Json.JsonPropertyAttribute.ItemConverterType</codeEntityReference>.</para>
+<codeEntityReference>P:Argon.JsonPropertyAttribute.ItemConverterType</codeEntityReference>.</para>
 
  <para>To create your own custom converter inherit from the JsonConverter class. Read more about the built-in JsonConverters below:</para>
 <list class="bullet">
   <listItem><para><link xlink:href="DatesInJSON" /></para></listItem>
   <listItem><para><link xlink:href="ConvertingJSONandXML" /></para></listItem>
   <listItem><para><link xlink:href="CustomCreationConverter" /></para></listItem>
-  <listItem><para><codeEntityReference>T:Newtonsoft.Json.Converters.StringEnumConverter</codeEntityReference></para></listItem>
+  <listItem><para><codeEntityReference>T:Argon.Converters.StringEnumConverter</codeEntityReference></para></listItem>
 </list>
 
 
@@ -363,7 +363,7 @@ or a property's object properties or collection items using
 <section address="ContractResolver">
  <title>ContractResolver</title>
  <content><para>Internally for every .NET type the JsonSerializer will create a contract of how the type should be serialized and deserialized,
- based on type metadata and attributes applied to the class. Specifying a custom <codeEntityReference>T:Newtonsoft.Json.Serialization.IContractResolver</codeEntityReference>
+ based on type metadata and attributes applied to the class. Specifying a custom <codeEntityReference>T:Argon.Serialization.IContractResolver</codeEntityReference>
  allows the creation of contracts to be customized.</para>
  <para>Read more about Contract Resolvers here: <link xlink:href="ContractResolver" /></para>
 </content>
@@ -372,7 +372,7 @@ or a property's object properties or collection items using
 <section address="TraceWriter">
  <title>TraceWriter</title>
  <content><para>The Json.NET serializer supports logging and debugging using the
-      <codeEntityReference>T:Newtonsoft.Json.Serialization.ITraceWriter</codeEntityReference> interface.
+      <codeEntityReference>T:Argon.Serialization.ITraceWriter</codeEntityReference> interface.
       By assigning a trace writer you can debug what happens inside the Json.NET serializer when serializing and deserializing JSON.</para>
  <para>Read more about TraceWriters here: <link xlink:href="SerializationTracing" /></para>
 </content>
@@ -380,7 +380,7 @@ or a property's object properties or collection items using
 
 <section address="Error">
  <title>Error</title>
- <content><para>The <codeEntityReference>E:Newtonsoft.Json.JsonSerializer.Error</codeEntityReference> event can catch errors during serialization and either handle the event and continue with
+ <content><para>The <codeEntityReference>E:Argon.JsonSerializer.Error</codeEntityReference> event can catch errors during serialization and either handle the event and continue with
  serialization or let the error bubble up and be thrown to the application.</para>
  <para>Read more about error handling here: <link xlink:href="SerializationErrorHandling" /></para>
 </content>
@@ -390,9 +390,9 @@ or a property's object properties or collection items using
       <link xlink:href="SerializationAttributes" />
       <link xlink:href="DatesInJSON" />
       
-      <codeEntityReference>T:Newtonsoft.Json.JsonSerializer</codeEntityReference>
-      <codeEntityReference>T:Newtonsoft.Json.JsonSerializerSettings</codeEntityReference>
-      <codeEntityReference>T:Newtonsoft.Json.JsonConverter</codeEntityReference>
+      <codeEntityReference>T:Argon.JsonSerializer</codeEntityReference>
+      <codeEntityReference>T:Argon.JsonSerializerSettings</codeEntityReference>
+      <codeEntityReference>T:Argon.JsonConverter</codeEntityReference>
       <codeEntityReference>T:System.Runtime.Serialization.SerializationBinder</codeEntityReference>
     </relatedTopics>
   </developerConceptualDocument>

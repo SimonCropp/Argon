@@ -40,11 +40,11 @@ serialization lifecycle, decorate a method with the appropriate attribute
         <autoOutline /> -->
         <para>Example object with serialization callback methods:</para>
 
-<code lang="cs" source="..\Src\Newtonsoft.Json.Tests\Documentation\SerializationTests.cs" region="SerializationCallbacksObject" title="Serialization Callback Attributes" />
+<code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="SerializationCallbacksObject" title="Serialization Callback Attributes" />
 
         <para>The example object being serialized and deserialized by Json.NET:</para>
 
-<code lang="cs" source="..\Src\Newtonsoft.Json.Tests\Documentation\SerializationTests.cs" region="SerializationCallbacksExample" title="Serialization Callback Example" />
+<code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="SerializationCallbacksExample" title="Serialization Callback Example" />
 
       </content>
     </section>

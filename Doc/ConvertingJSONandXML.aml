@@ -3,7 +3,7 @@
   <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
     <introduction>
       <para>Json.NET supports converting JSON to XML and vice versa using the
-      <codeEntityReference>T:Newtonsoft.Json.Converters.XmlNodeConverter</codeEntityReference>.</para>
+      <codeEntityReference>T:Argon.Converters.XmlNodeConverter</codeEntityReference>.</para>
       <para>Elements, attributes, text, comments, character data, processing instructions,
       namespaces, and the XML declaration are all preserved when converting between the two. The
       only caveat is that it is possible to lose the order of differently named nodes at the
@@ -42,10 +42,10 @@ You can find out more about using LINQ to JSON with LINQ <link xlink:href="Query
       <content>
    
        <para>The JsonConvert has two helper methods for converting between JSON and XML. The first is
-       <codeEntityReference>Overload:Newtonsoft.Json.JsonConvert.SerializeXmlNode</codeEntityReference>.
+       <codeEntityReference>Overload:Argon.JsonConvert.SerializeXmlNode</codeEntityReference>.
        This method takes an XmlNode and serializes it to JSON text.</para>
 
-<code lang="cs" source="..\Src\Newtonsoft.Json.Tests\Documentation\ConvertingJsonAndXmlTests.cs" region="SerializeXmlNode" title="Converting XML to JSON with SerializeXmlNode" />
+<code lang="cs" source="..\Src\Tests\Documentation\ConvertingJsonAndXmlTests.cs" region="SerializeXmlNode" title="Converting XML to JSON with SerializeXmlNode" />
 
        <para>Because multiple nodes with the same name at the same level are grouped together into an array,
        the conversion process can produce different JSON depending on the number of nodes. For example, if some
@@ -55,7 +55,7 @@ You can find out more about using LINQ to JSON with LINQ <link xlink:href="Query
        
        <para>To fix this situation a custom XML attribute can be added to force a JSON array to be created.</para>
 
-<code lang="cs" source="..\Src\Newtonsoft.Json.Tests\Documentation\ConvertingJsonAndXmlTests.cs" region="ForceJsonArray" title="Attribute to Force a JSON Array" />
+<code lang="cs" source="..\Src\Tests\Documentation\ConvertingJsonAndXmlTests.cs" region="ForceJsonArray" title="Attribute to Force a JSON Array" />
     </content>
     </section>
     <section>
@@ -63,7 +63,7 @@ You can find out more about using LINQ to JSON with LINQ <link xlink:href="Query
       <content>
    
        <para>The second helper method on JsonConvert is
-       <codeEntityReference>Overload:Newtonsoft.Json.JsonConvert.DeserializeXmlNode</codeEntityReference>.
+       <codeEntityReference>Overload:Argon.JsonConvert.DeserializeXmlNode</codeEntityReference>.
        This method takes JSON text and deserializes it into an XmlNode.</para>
    
        <para>Because valid XML must have one root element, the JSON passed to DeserializeXmlNode should
@@ -71,13 +71,13 @@ You can find out more about using LINQ to JSON with LINQ <link xlink:href="Query
        the overload that also takes an element name should be used. A root element with that name will
        be inserted into the deserialized XmlNode.</para>
 
-<code lang="cs" source="..\Src\Newtonsoft.Json.Tests\Documentation\ConvertingJsonAndXmlTests.cs" region="DeserializeXmlNode" title="Converting JSON to XML with DeserializeXmlNode" />
+<code lang="cs" source="..\Src\Tests\Documentation\ConvertingJsonAndXmlTests.cs" region="DeserializeXmlNode" title="Converting JSON to XML with DeserializeXmlNode" />
 
       </content>
     </section>
     <relatedTopics>
-      <codeEntityReference>T:Newtonsoft.Json.Converters.XmlNodeConverter</codeEntityReference>
-      <codeEntityReference>T:Newtonsoft.Json.JsonConvert</codeEntityReference>
+      <codeEntityReference>T:Argon.Converters.XmlNodeConverter</codeEntityReference>
+      <codeEntityReference>T:Argon.JsonConvert</codeEntityReference>
     </relatedTopics>
   </developerConceptualDocument>
 </topic>

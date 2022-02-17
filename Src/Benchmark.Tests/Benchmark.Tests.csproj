@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>net461;net5.0</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+    <IsPackable>false</IsPackable>
+    <!-- Disabled because SourceLink isn't referenced to calculate paths -->
+    <DeterministicSourcePaths>false</DeterministicSourcePaths>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="BenchmarkDotNet.Artifacts\**" />
+    <ProjectReference Include="..\Tests\Tests.csproj" />
+  </ItemGroup>
+</Project>

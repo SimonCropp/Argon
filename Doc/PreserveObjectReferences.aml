@@ -12,7 +12,7 @@
       same object, then the JsonSerializer will write out all the names and values
       for each reference.</para>
       
-<code lang="cs" source="..\Src\Newtonsoft.Json.Tests\Documentation\SerializationTests.cs" region="PreservingObjectReferencesOff" title="Preserve Object References Off" />
+<code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="PreservingObjectReferencesOff" title="Preserve Object References Off" />
       
       <para>In most cases this is the desired result, but in certain scenarios
       writing the second item in the list as a reference to the first is a better
@@ -28,10 +28,10 @@
     <section address="PreserveReferencesHandling">
       <title>PreserveReferencesHandling</title>
       <content>
-        <para>Setting <codeEntityReference>T:Newtonsoft.Json.PreserveReferencesHandling</codeEntityReference> will track object references
+        <para>Setting <codeEntityReference>T:Argon.PreserveReferencesHandling</codeEntityReference> will track object references
         when serializing and deserializing JSON.</para>
         
-<code lang="cs" source="..\Src\Newtonsoft.Json.Tests\Documentation\SerializationTests.cs" region="PreservingObjectReferencesOn" title="Preserve Object References On" />       
+<code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="PreservingObjectReferencesOn" title="Preserve Object References On" />       
         
         <para>The first Person in the list is serialized with the addition of an
         object ID. The second Person in JSON is now only a reference to the first.</para>
@@ -40,7 +40,7 @@
         what we started with.</para>
  <para>
    Metadata properties like <codeInline>$id</codeInline> must be located at the beginning of a JSON object to be successfully detected during deserialization. If you can't control
-   the order of properties in your JSON object then <codeEntityReference>T:Newtonsoft.Json.MetadataPropertyHandling</codeEntityReference> can be used to remove this restriction.
+   the order of properties in your JSON object then <codeEntityReference>T:Argon.MetadataPropertyHandling</codeEntityReference> can be used to remove this restriction.
  </para>
 <alert class="note">
   <para>References cannot be preserved when a value is set via a non-default constructor.
@@ -67,7 +67,7 @@
         JsonPropertyAttribute to true will serialize only that property as a
         reference.</para>
 
-<code lang="cs" source="..\Src\Newtonsoft.Json.Tests\Documentation\SerializationTests.cs" region="PreservingObjectReferencesAttribute" title="IsReference" />
+<code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="PreservingObjectReferencesAttribute" title="IsReference" />
       </content>
     </section>
     
@@ -75,13 +75,13 @@
       <title>IReferenceResolver</title>
       <content>
         <para>To customize how references are generated and resolved the
-        <codeEntityReference>T:Newtonsoft.Json.Serialization.IReferenceResolver</codeEntityReference>
+        <codeEntityReference>T:Argon.Serialization.IReferenceResolver</codeEntityReference>
         interface is available to inherit from and use with
         the JsonSerializer.</para>
       </content>
     </section>
     <relatedTopics>
-      <codeEntityReference>T:Newtonsoft.Json.PreserveReferencesHandling</codeEntityReference>
+      <codeEntityReference>T:Argon.PreserveReferencesHandling</codeEntityReference>
     </relatedTopics>
   </developerConceptualDocument>
 </topic>
