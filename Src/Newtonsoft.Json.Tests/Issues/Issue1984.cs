@@ -26,7 +26,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;

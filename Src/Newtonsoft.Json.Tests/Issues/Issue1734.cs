@@ -30,7 +30,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.IO;
 using System.Xml.Linq;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;

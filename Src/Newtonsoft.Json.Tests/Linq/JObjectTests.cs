@@ -31,7 +31,7 @@ using System.Numerics;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Tests.TestObjects.Organization;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -41,7 +41,7 @@ using NUnit.Framework;
 using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Collections;
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
 using System.Web.UI;
 #endif
 using System.Linq;

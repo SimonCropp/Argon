@@ -32,7 +32,7 @@ namespace Newtonsoft.Json.Tests.TestObjects
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
             writer.WriteValue(":::" + value.ToString().ToUpper(CultureInfo.InvariantCulture) + ":::");
 #else
             writer.WriteValue(":::" + value.ToString().ToUpper() + ":::");
@@ -47,7 +47,7 @@ namespace Newtonsoft.Json.Tests.TestObjects
                 return null;
             }
 
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
             return s.ToLower(CultureInfo.InvariantCulture).Trim(new[] { ':' });
 #else
             return s.ToLower().Trim(new[] { ':' });

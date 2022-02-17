@@ -28,7 +28,7 @@ using System.Runtime.Serialization;
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
     [Serializable]
 #endif
     [DataContract]

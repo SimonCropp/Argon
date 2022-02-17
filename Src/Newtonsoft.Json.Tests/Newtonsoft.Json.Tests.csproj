@@ -61,7 +61,7 @@
     <Reference Include="System.Data.DataSetExtensions" />
   </ItemGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='net461'">
-    <DefineConstants>HAVE_BENCHMARKS;;$(AdditionalConstants)</DefineConstants>
+    <DefineConstants>HAVE_BENCHMARKS;$(AdditionalConstants)</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='net5.0'">
@@ -80,6 +80,6 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(MicrosoftNETTestSdkPackageVersion)" />
   </ItemGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='net5.0'">
-    <DefineConstants>NETSTANDARD2_0;DNXCORE50;$(AdditionalConstants)</DefineConstants>
+    <DefineConstants>NETSTANDARD2_0;$(AdditionalConstants)</DefineConstants>
   </PropertyGroup>
 </Project>

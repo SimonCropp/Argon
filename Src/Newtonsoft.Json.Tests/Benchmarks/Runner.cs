@@ -30,7 +30,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using BenchmarkDotNet.Running;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;

@@ -27,7 +27,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;

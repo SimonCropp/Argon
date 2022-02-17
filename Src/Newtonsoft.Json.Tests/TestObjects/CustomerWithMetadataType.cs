@@ -31,7 +31,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
     [MetadataType(typeof(CustomerValidation))]
     public partial class CustomerWithMetadataType
     {

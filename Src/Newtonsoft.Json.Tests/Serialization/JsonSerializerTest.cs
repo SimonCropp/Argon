@@ -33,12 +33,12 @@ using System.Configuration;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization.Formatters;
 using System.Threading;
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
 using System.Web.Script.Serialization;
 #endif
 using System.Text;
 using System.Text.RegularExpressions;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -71,7 +71,7 @@ using System.Collections.Specialized;
 using System.Linq.Expressions;
 using System.Dynamic;
 using System.Linq;
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
 using System.Drawing;
 
 #endif
@@ -624,7 +624,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             public string Value { get; }
         }
 
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
         [Test]
         public void SerializeMetadataType()
         {
@@ -1981,7 +1981,7 @@ keyword such as type of business.""
         {
             string json = @"[""vvv\/vvv\tvvv\""vvv\bvvv\nvvv\rvvv\\vvv\fvvv""]";
 
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
             JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
             List<string> javaScriptSerializerResult = javaScriptSerializer.Deserialize<List<string>>(json);
 #endif
@@ -1993,7 +1993,7 @@ keyword such as type of business.""
 
             Assert.AreEqual(1, jsonNetResult.Count);
             Assert.AreEqual(dataContractResult[0], jsonNetResult[0]);
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
             Assert.AreEqual(javaScriptSerializerResult[0], jsonNetResult[0]);
 #endif
         }
@@ -2220,7 +2220,7 @@ keyword such as type of business.""
   ""Bool"": true,
   ""Char"": ""\u0000""
 }";
-#elif !DNXCORE50
+#elif !NET5_0_OR_GREATER
             expected = @"{
   ""String"": ""string"",
   ""Int32"": 2147483647,
@@ -2260,7 +2260,7 @@ keyword such as type of business.""
             ConverableMembers c = JsonConvert.DeserializeObject<ConverableMembers>(json);
             Assert.AreEqual("string", c.String);
             Assert.AreEqual(double.MaxValue, c.Double);
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
             Assert.AreEqual(DBNull.Value, c.DBNull);
 #endif
         }
@@ -3077,7 +3077,7 @@ keyword such as type of business.""
             Assert.AreEqual("titleId", n.FidOrder[n.FidOrder.Count - 1]);
         }
 
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
         [Test]
         public void OptInClassMetadataSerialization()
         {
@@ -5896,7 +5896,7 @@ Path '', line 1, position 1.");
             Assert.AreEqual(person.Name, roundtrippedPerson.Name);
         }
 
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
         [Test]
         public void MetroBlogPost()
         {
@@ -6452,7 +6452,7 @@ lines.*/
             ExceptionAssert.Throws<JsonReaderException>(() => { s.Deserialize<Dictionary<string, int>>(new JsonTextReader(new StringReader(json))); }, "Additional text encountered after finished reading JSON content: {. Path '', line 7, position 0.");
         }
 
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
         [Test]
         public void DeserializeException()
         {
@@ -7158,7 +7158,7 @@ This is just junk, though.";
 ]", json);
         }
 
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
         [Test]
         public void SerializeDictionaryWithStructKey()
         {

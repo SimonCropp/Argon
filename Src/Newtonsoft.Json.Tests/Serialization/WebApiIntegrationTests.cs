@@ -28,7 +28,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -55,7 +55,7 @@ namespace Newtonsoft.Json.Tests.Serialization
                 nonSerializedField = "Error"
             };
 
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
             MemoryStream ms = new MemoryStream();
             DataContractJsonSerializer dataContractJsonSerializer = new DataContractJsonSerializer(typeof(SerializableType));
             dataContractJsonSerializer.WriteObject(ms, serializableType);
@@ -126,7 +126,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             set { privateField = value; }
         }
 
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
         [NonSerialized]
 #else
         [JsonIgnore]

@@ -28,7 +28,7 @@ using Newtonsoft.Json.Linq.JsonPath;
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Converters;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;

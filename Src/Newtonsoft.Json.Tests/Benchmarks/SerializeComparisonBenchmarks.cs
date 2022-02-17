@@ -28,7 +28,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
-#if (!DNXCORE50)
+#if (!NET5_0_OR_GREATER)
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Web.Script.Serialization;
 #endif
@@ -93,7 +93,7 @@ namespace Newtonsoft.Json.Tests.Benchmarks
             }
         }
 
-#if (!DNXCORE50)
+#if (!NET5_0_OR_GREATER)
         [Benchmark]
         public byte[] BinaryFormatter()
         {

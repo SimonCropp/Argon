@@ -30,7 +30,7 @@ using System.Numerics;
 using Newtonsoft.Json.Linq.JsonPath;
 using Newtonsoft.Json.Tests.Bson;
 using System.Text.RegularExpressions;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -1527,7 +1527,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.IsNotNull(t.SelectToken(@"Values[?(@.Property == 1.0)]"));
         }
 
-#if DNXCORE50
+#if NET5_0_OR_GREATER
         [Theory]
 #endif
         [TestCaseSource(nameof(StrictMatchWithInverseTestData))]

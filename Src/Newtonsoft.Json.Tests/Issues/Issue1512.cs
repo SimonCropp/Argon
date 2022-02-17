@@ -27,7 +27,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using System.Reflection;
 using Xunit;
 using Test = Xunit.FactAttribute;

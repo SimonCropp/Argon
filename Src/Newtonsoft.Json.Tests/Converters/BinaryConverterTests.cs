@@ -25,13 +25,13 @@
 
 using System;
 using System.Collections.Generic;
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
 using System.Data.Linq;
 #endif
 using System.Data.SqlTypes;
 using System.Text;
 using Newtonsoft.Json.Converters;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -53,7 +53,7 @@ namespace Newtonsoft.Json.Tests.Converters
             public byte[] NullByteArray { get; set; }
         }
 
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
         [Test]
         public void DeserializeBinaryClass()
         {

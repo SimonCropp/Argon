@@ -34,7 +34,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Tests.TestObjects.JsonTextReaderTests;
 using Newtonsoft.Json.Utilities;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;

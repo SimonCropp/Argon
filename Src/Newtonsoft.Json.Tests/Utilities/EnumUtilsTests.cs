@@ -29,7 +29,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Newtonsoft.Json.Utilities;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -42,7 +42,7 @@ namespace Newtonsoft.Json.Tests.Utilities
 {
     public class EnumUtilsTests : TestFixtureBase
     {
-#if DNXCORE50
+#if NET5_0_OR_GREATER
         [Theory]
 #endif
         [TestCaseSource(nameof(Parse_TestData))]
@@ -54,7 +54,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.AreEqual(expected, result);
         }
 
-#if DNXCORE50
+#if NET5_0_OR_GREATER
         [Theory]
 #endif
         [TestCaseSource(nameof(Parse_Invalid_TestData))]
@@ -73,7 +73,7 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.Fail($"Expected {exceptionType.FullName} exception.");
         }
 
-#if DNXCORE50
+#if NET5_0_OR_GREATER
         [Theory]
 #endif
         [TestCaseSource(nameof(ToString_Format_TestData))]

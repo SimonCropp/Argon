@@ -42,7 +42,7 @@ using Newtonsoft.Json.Tests.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Tests.TestObjects.Organization;
 using Newtonsoft.Json.Utilities;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -631,7 +631,7 @@ namespace Newtonsoft.Json.Tests
             value = null;
             Assert.AreEqual("null", JsonConvert.ToString(value));
 
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
             value = DBNull.Value;
             Assert.AreEqual("null", JsonConvert.ToString(value));
 #endif

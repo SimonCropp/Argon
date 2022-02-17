@@ -27,7 +27,7 @@ using System;
 using System.Globalization;
 using System.Numerics;
 using System.Text;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -41,7 +41,7 @@ using Newtonsoft.Json.Tests.TestObjects.JsonTextReaderTests;
 namespace Newtonsoft.Json.Tests.JsonTextReaderTests
 {
     [TestFixture]
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
     [Category("JsonTextReaderTests")]
 #endif
     public class ExceptionHandlingAsyncTests : TestFixtureBase
@@ -999,7 +999,7 @@ new Date()"));
         {
             string json = @"{
   ""frameworks"": {
-    ""dnxcore50"": {
+    ""NET5_0_OR_GREATER"": {
       ""dependencies"": {
         ""System.Xml.ReaderWriter"": {
           ""source"": !!! !!!
@@ -1017,7 +1017,7 @@ new Date()"));
                     {
                     }
                 },
-                "Unexpected character encountered while parsing value: !. Path 'frameworks.dnxcore50.dependencies['System.Xml.ReaderWriter'].source', line 6, position 20.");
+                "Unexpected character encountered while parsing value: !. Path 'frameworks.NET5_0_OR_GREATER.dependencies['System.Xml.ReaderWriter'].source', line 6, position 20.");
         }
 
         [Test]

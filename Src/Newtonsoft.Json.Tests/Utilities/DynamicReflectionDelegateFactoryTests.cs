@@ -23,11 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
 using System;
 using System.Diagnostics;
 using System.Reflection;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;

@@ -35,7 +35,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Tests.TestObjects.GeometricForms;
 using Newtonsoft.Json.Tests.TestObjects.Money;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;

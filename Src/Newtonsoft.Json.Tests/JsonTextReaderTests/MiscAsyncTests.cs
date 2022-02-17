@@ -26,7 +26,7 @@
 using System;
 using System.Globalization;
 using System.Text;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -41,7 +41,7 @@ using Newtonsoft.Json.Utilities;
 namespace Newtonsoft.Json.Tests.JsonTextReaderTests
 {
     [TestFixture]
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
     [Category("JsonTextReaderTests")]
 #endif
     public class MiscAsyncTests : TestFixtureBase

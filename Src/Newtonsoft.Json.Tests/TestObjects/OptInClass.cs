@@ -28,13 +28,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
 using System.ComponentModel.DataAnnotations;
 #endif
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
     [MetadataType(typeof(OptInClassMetadata))]
     public class OptInClass
     {

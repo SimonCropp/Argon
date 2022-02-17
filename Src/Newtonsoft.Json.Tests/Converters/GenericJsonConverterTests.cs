@@ -26,13 +26,13 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
 using System.Data.Linq;
 using System.Data.SqlTypes;
 #endif
 using System.Text;
 using Newtonsoft.Json.Converters;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;

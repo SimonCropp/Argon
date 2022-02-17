@@ -28,7 +28,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
 using Newtonsoft.Json.Converters;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -1279,7 +1279,7 @@ namespace Newtonsoft.Json.Tests.Linq
                 "Additional text encountered after finished reading JSON content: {. Path '', line 3, position 0.");
         }
 
-#if DNXCORE50
+#if NET5_0_OR_GREATER
         [Theory]
 #endif
         [TestCase("test customer", "['test customer']")]

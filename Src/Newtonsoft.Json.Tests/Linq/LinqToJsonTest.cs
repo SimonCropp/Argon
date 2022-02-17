@@ -27,7 +27,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -388,7 +388,7 @@ undefined
         {
             string json = @"{
   ""frameworks"": {
-    ""dnxcore50"": {
+    ""NET5_0_OR_GREATER"": {
       ""dependencies"": {
         ""System.Xml.ReaderWriter"": {
           ""source"": ""NuGet""
@@ -400,9 +400,9 @@ undefined
 
             JObject o = JObject.Parse(json);
 
-            JToken v1 = o["frameworks"]["dnxcore50"]["dependencies"]["System.Xml.ReaderWriter"]["source"];
+            JToken v1 = o["frameworks"]["NET5_0_OR_GREATER"]["dependencies"]["System.Xml.ReaderWriter"]["source"];
 
-            Assert.AreEqual("frameworks.dnxcore50.dependencies['System.Xml.ReaderWriter'].source", v1.Path);
+            Assert.AreEqual("frameworks.NET5_0_OR_GREATER.dependencies['System.Xml.ReaderWriter'].source", v1.Path);
 
             JToken v2 = o.SelectToken(v1.Path);
 

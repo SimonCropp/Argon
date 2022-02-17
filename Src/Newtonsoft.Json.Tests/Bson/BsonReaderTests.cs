@@ -34,7 +34,7 @@ using Newtonsoft.Json.Tests.TestObjects;
 using System.Numerics;
 using System.Text;
 using System.Text.RegularExpressions;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;

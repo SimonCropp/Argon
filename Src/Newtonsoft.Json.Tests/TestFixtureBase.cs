@@ -33,7 +33,7 @@ using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading;
 using Newtonsoft.Json.Linq;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
 using XAssert = Xunit.Assert;
@@ -51,7 +51,7 @@ namespace Newtonsoft.Json.Tests
     {
         public static IEnumerable<ConstructorInfo> GetConstructors(Type type)
         {
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
             return type.GetConstructors();
 #else
             return type.GetTypeInfo().DeclaredConstructors;
@@ -60,7 +60,7 @@ namespace Newtonsoft.Json.Tests
 
         public static PropertyInfo GetProperty(Type type, string name)
         {
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
             return type.GetProperty(name);
 #else
             return type.GetTypeInfo().GetDeclaredProperty(name);
@@ -69,7 +69,7 @@ namespace Newtonsoft.Json.Tests
 
         public static FieldInfo GetField(Type type, string name)
         {
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
             return type.GetField(name);
 #else
             return type.GetTypeInfo().GetDeclaredField(name);
@@ -78,7 +78,7 @@ namespace Newtonsoft.Json.Tests
 
         public static MethodInfo GetMethod(Type type, string name)
         {
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
             return type.GetMethod(name);
 #else
             return type.GetTypeInfo().GetDeclaredMethod(name);
@@ -86,7 +86,7 @@ namespace Newtonsoft.Json.Tests
         }
     }
 
-#if DNXCORE50
+#if NET5_0_OR_GREATER
     public class TestFixtureAttribute : Attribute
     {
         // xunit doesn't need a test fixture attribute
@@ -262,14 +262,14 @@ namespace Newtonsoft.Json.Tests
             return bytes;
         }
 
-#if DNXCORE50
+#if NET5_0_OR_GREATER
         protected TestFixtureBase()
 #else
         [SetUp]
         protected void TestSetup()
 #endif
         {
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
             //CultureInfo turkey = CultureInfo.CreateSpecificCulture("tr");
             //Thread.CurrentThread.CurrentCulture = turkey;
             //Thread.CurrentThread.CurrentUICulture = turkey;
@@ -324,7 +324,7 @@ namespace Newtonsoft.Json.Tests
 
         public static void Contains(IList collection, object value, string message)
         {
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
             Assert.Contains(value, collection, message);
 #else
             if (!collection.Cast<object>().Any(i => i.Equals(value)))

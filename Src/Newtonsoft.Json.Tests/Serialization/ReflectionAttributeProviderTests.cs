@@ -32,7 +32,7 @@ using System.Text;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Utilities;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -68,7 +68,7 @@ namespace Newtonsoft.Json.Tests.Serialization
         public void GetAttributes_Property()
         {
             PropertyInfo property;
-#if DNXCORE50 && !NETSTANDARD2_0
+#if NET5_0_OR_GREATER && !NETSTANDARD2_0
             property = Newtonsoft.Json.Utilities.TypeExtensions.GetProperty(typeof(ReflectionTestObject), "TestProperty");
 #else
             property = typeof(ReflectionTestObject).GetProperty("TestProperty");
@@ -87,7 +87,7 @@ namespace Newtonsoft.Json.Tests.Serialization
         public void GetAttributes_Field()
         {
             FieldInfo field;
-#if DNXCORE50 && !NETSTANDARD2_0
+#if NET5_0_OR_GREATER && !NETSTANDARD2_0
             field = (FieldInfo)Newtonsoft.Json.Utilities.TypeExtensions.GetField(typeof(ReflectionTestObject), "TestField");
 #else
             field = typeof(ReflectionTestObject).GetField("TestField");

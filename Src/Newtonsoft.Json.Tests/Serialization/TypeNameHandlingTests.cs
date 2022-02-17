@@ -37,7 +37,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Tests.TestObjects.Organization;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -1520,7 +1520,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             public override void BindToName(Type serializedType, out string assemblyName, out string typeName)
             {
                 assemblyName = "AssemblyName";
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
                 typeName = ":::" + serializedType.Name.ToUpper(CultureInfo.InvariantCulture) + ":::";
 #else
                 typeName = ":::" + serializedType.Name.ToUpper() + ":::";
@@ -2194,7 +2194,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("property", deserialized.Rows["key"].First().SomeProperty);
         }
 
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
         [Test]
         public void DeserializeComplexGenericDictionary_Simple()
         {

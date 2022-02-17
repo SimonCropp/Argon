@@ -27,12 +27,12 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.Serialization;
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
 using System.Runtime.Serialization.Json;
 #endif
 using System.Text;
 using Newtonsoft.Json.Tests.TestObjects;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -315,7 +315,7 @@ namespace Newtonsoft.Json.Tests.Serialization
         {
             EmitDefaultValueClass c = new EmitDefaultValueClass();
 
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
             DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(typeof(EmitDefaultValueClass));
 
             MemoryStream ms = new MemoryStream();

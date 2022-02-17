@@ -25,7 +25,7 @@
 
 #pragma warning disable 618
 using Newtonsoft.Json.Schema;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;

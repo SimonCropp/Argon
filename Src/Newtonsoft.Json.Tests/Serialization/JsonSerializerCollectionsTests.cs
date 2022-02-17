@@ -41,7 +41,7 @@ using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Tests.TestObjects.Events;
 using Newtonsoft.Json.Tests.TestObjects.Organization;
 using Newtonsoft.Json.Utilities;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -2092,7 +2092,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("goose", deserialized[2]);
         }
 
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
         [Test]
         public void DeserializeCultureInfoKey()
         {
