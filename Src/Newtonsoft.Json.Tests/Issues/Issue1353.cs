@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET20 || NET35)
 using System;
 using System.Collections.Concurrent;
 #if DNXCORE50
@@ -54,4 +53,3 @@ namespace Newtonsoft.Json.Tests.Issues
         }
     }
 }
-#endif

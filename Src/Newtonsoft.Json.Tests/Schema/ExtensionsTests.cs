@@ -201,9 +201,7 @@ namespace Newtonsoft.Json.Tests.Schema
             GenerateSchemaAndSerializeFromType(new CircularReferenceWithIdClass());
             GenerateSchemaAndSerializeFromType(new ClassWithArray());
             GenerateSchemaAndSerializeFromType(new ClassWithGuid());
-#if !NET20
             GenerateSchemaAndSerializeFromType(new NullableDateTimeTestClass());
-#endif
 #if !(PORTABLE || DNXCORE50 || PORTABLE40)
             GenerateSchemaAndSerializeFromType(new DataSet());
 #endif

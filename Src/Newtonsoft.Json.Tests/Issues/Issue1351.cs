@@ -33,9 +33,7 @@ using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Xml;
-#if !NET20
 using System.Xml.Linq;
-#endif
 #if DNXCORE50
 using Xunit;
 using Test = Xunit.FactAttribute;

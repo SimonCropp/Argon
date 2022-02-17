@@ -27,7 +27,7 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.Serialization;
-#if !(NET20 || NET35 || PORTABLE || DNXCORE50)
+#if !(DNXCORE50)
 using System.Runtime.Serialization.Json;
 #endif
 using System.Text;
@@ -310,26 +310,22 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.IsFalse(MathUtils.ApproxEquals(0.0, 0.00001));
         }
 
-#if !NET20
         [Test]
         public void EmitDefaultValueTest()
         {
             EmitDefaultValueClass c = new EmitDefaultValueClass();
 
-#if !(NET20 || NET35 || PORTABLE)
             DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(typeof(EmitDefaultValueClass));
 
             MemoryStream ms = new MemoryStream();
             jsonSerializer.WriteObject(ms, c);
 
             Assert.AreEqual("{}", Encoding.UTF8.GetString(ms.ToArray()));
-#endif
 
             string json = JsonConvert.SerializeObject(c);
 
             Assert.AreEqual("{}", json);
         }
-#endif
 
         [Test]
         public void DefaultValueHandlingPropertyTest()

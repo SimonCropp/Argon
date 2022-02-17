@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET40 || NET35 || NET20 || PORTABLE || DNXCORE50) || NETSTANDARD2_0
+#if !(NET40 || DNXCORE50) || NETSTANDARD2_0
 #pragma warning disable 618
 using System;
 using System.Collections.Generic;

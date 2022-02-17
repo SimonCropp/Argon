@@ -45,11 +45,8 @@ using System.IO;
 using Newtonsoft.Json.Linq;
 using System.Text;
 using Extensions = Newtonsoft.Json.Schema.Extensions;
-#if NET20
 using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 using Newtonsoft.Json.Tests.Serialization;
 
 namespace Newtonsoft.Json.Tests.Schema

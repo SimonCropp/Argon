@@ -36,11 +36,7 @@ using Assert = Newtonsoft.Json.Tests.XUnitAssert;
 #else
 using NUnit.Framework;
 #endif
-#if NET20
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Tests.TestObjects.Organization;
@@ -109,9 +105,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 
     public class AddressWithDataMember
     {
-#if !NET20
         [DataMember(Name = "CustomerAddress1")]
-#endif
         public string AddressLine1 { get; set; }
     }
 
@@ -446,7 +440,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.IsFalse(p._skipPropertyNameEscape);
         }
 
-#if !NET20
         [Test]
         public void DeserializeDataMemberClassWithNoDataContract()
         {
@@ -455,7 +448,6 @@ namespace Newtonsoft.Json.Tests.Serialization
 
             Assert.AreEqual("AddressLine1", contract.Properties[0].PropertyName);
         }
-#endif
 
         [Test]
         public void ResolveProperties_IgnoreStatic()

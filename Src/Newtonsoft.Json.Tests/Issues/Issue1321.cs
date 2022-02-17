@@ -28,15 +28,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
 using System.Threading.Tasks;
-#endif
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Xml;
-#if !NET20
 using System.Xml.Linq;
-#endif
 #if DNXCORE50
 using Xunit;
 using Test = Xunit.FactAttribute;
@@ -76,7 +72,7 @@ namespace Newtonsoft.Json.Tests.Issues
             }, "Unexpected end when reading token. Path ''.");
         }
 
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
+#if !(NET40)
         [Test]
         public async Task Test2_Async()
         {
@@ -109,7 +105,7 @@ namespace Newtonsoft.Json.Tests.Issues
             }, "Unexpected end when reading token. Path ''.");
         }
 
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
+#if !(NET40)
         [Test]
         public async Task Test3_Async()
         {
@@ -144,7 +140,7 @@ namespace Newtonsoft.Json.Tests.Issues
             }, "Unexpected end when reading token. Path ''.");
         }
 
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
+#if !(NET40)
         [Test]
         public async Task Test4_Async()
         {
@@ -180,7 +176,7 @@ namespace Newtonsoft.Json.Tests.Issues
             }, "Unexpected end when reading token. Path '[0]'.");
         }
 
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
+#if !(NET40)
         [Test]
         public async Task Test5_Async()
         {

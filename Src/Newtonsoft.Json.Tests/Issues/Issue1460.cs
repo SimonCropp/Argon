@@ -31,7 +31,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
+#if !(NET40)
 using System.Threading.Tasks;
 #endif
 using Newtonsoft.Json;
@@ -39,9 +39,7 @@ using Newtonsoft.Json.Linq;
 using System.Xml;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Utilities;
-#if !NET20
 using System.Xml.Linq;
-#endif
 #if DNXCORE50
 using Xunit;
 using Test = Xunit.FactAttribute;
@@ -65,7 +63,7 @@ namespace Newtonsoft.Json.Tests.Issues
             Assert.AreEqual("null", sw.ToString());
         }
 
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
+#if !(NET40)
         [Test]
         public async Task TestAsync()
         {
