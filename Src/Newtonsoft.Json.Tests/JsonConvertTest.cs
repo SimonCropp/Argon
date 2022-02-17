@@ -30,9 +30,7 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using Newtonsoft.Json.Schema;
-#if !(NET20 || NET35 || PORTABLE40 || PORTABLE) || NETSTANDARD2_0
 using System.Numerics;
-#endif
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;

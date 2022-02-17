@@ -36,8 +36,6 @@ using NUnit.Framework;
 
 #endif
 
-#if !(DNXCORE50) || NETSTANDARD2_0
-
 namespace Newtonsoft.Json.Tests.Documentation.Samples.Xml
 {
     [TestFixture]
@@ -91,5 +89,3 @@ namespace Newtonsoft.Json.Tests.Documentation.Samples.Xml
         }
     }
 }
-
-#endif

@@ -26,10 +26,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-#if !(DNXCORE50)
-using System.Data.Linq;
-#endif
 #if !DNXCORE50
+using System.Data.Linq;
 using System.Data.SqlTypes;
 #endif
 using System.Text;
