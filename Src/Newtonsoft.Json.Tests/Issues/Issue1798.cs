@@ -90,12 +90,7 @@ namespace Newtonsoft.Json.Tests.Issues
             var objectContract = (JsonObjectContract) resolver.ResolveContract(typeof(NonSerializableException));
             Assert.IsFalse(objectContract.Properties.Contains("TargetSite"));
 
-#if (PORTABLE40 || PORTABLE) && !(NETSTANDARD2_0)
-            objectContract = (JsonObjectContract) resolver.ResolveContract(typeof(Exception));
-            Assert.IsFalse(objectContract.Properties.Contains("TargetSite"));
-#else
             Assert.IsInstanceOf(typeof(JsonISerializableContract), resolver.ResolveContract(typeof(Exception)));
-#endif
         }
 
         private void AssertNoTargetSite(string json)

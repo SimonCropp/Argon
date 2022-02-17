@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(PORTABLE || PORTABLE40 || DNXCORE50)
+#if !(DNXCORE50)
 using System;
 using System.Collections;
 using System.Collections.Generic;

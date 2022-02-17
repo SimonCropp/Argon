@@ -25,9 +25,7 @@
 
 using System;
 using System.Globalization;
-#if !PORTABLE || NETSTANDARD2_0
 using System.Numerics;
-#endif
 using System.Text;
 #if DNXCORE50
 using Xunit;
@@ -589,7 +587,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             }
         }
 
-#if !PORTABLE || NETSTANDARD2_0
         [Test]
         public async Task ReadInt64OverflowAsync()
         {
@@ -629,7 +626,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
                 Assert.AreEqual(typeof(BigInteger), reader.ValueType);
             }
         }
-#endif
 
         [Test]
         public async Task ReadAsString_Null_AdditionalBadDataAsync()

@@ -447,7 +447,6 @@ Parameter name: index",
             }
         }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
         [Test]
         public void ITypedListGetItemProperties()
         {
@@ -461,7 +460,6 @@ Parameter name: index",
             Assert.AreEqual("Test1", propertyDescriptors[0].Name);
             Assert.AreEqual("Test2", propertyDescriptors[1].Name);
         }
-#endif
 
         [Test]
         public void AddArrayToSelf()

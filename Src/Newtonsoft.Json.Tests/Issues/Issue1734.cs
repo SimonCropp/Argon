@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Linq.JsonPath;
 using System;
@@ -44,7 +43,6 @@ namespace Newtonsoft.Json.Tests.Issues
     [TestFixture]
     public class Issue1734
     {
-#if !(PORTABLE || PORTABLE40)
         [Test]
         public void Test_XmlNode()
         {
@@ -137,7 +135,6 @@ namespace Newtonsoft.Json.Tests.Issues
 
             return sw.ToString();
         }
-#endif
 
         [Test]
         public void Test_XNode()
@@ -311,4 +308,3 @@ namespace Newtonsoft.Json.Tests.Issues
 }";
     }
 }
-#endif

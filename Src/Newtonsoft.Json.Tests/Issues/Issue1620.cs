@@ -35,11 +35,7 @@ using System.Runtime.Serialization;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Utilities;
-#if PORTABLE && !NETSTANDARD2_0
-using BindingFlags = Newtonsoft.Json.Utilities.BindingFlags;
-#else
 using BindingFlags = System.Reflection.BindingFlags;
-#endif
 #if DNXCORE50
 using Xunit;
 using Test = Xunit.FactAttribute;

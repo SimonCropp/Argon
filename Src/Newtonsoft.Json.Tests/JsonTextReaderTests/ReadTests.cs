@@ -28,9 +28,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using Newtonsoft.Json.Linq;
-#if !(NET20 || NET35 || PORTABLE40 || PORTABLE) || NETSTANDARD2_0
 using System.Numerics;
-#endif
 using System.Text;
 #if DNXCORE50
 using Xunit;
@@ -94,7 +92,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             );
         }
 
-#if !(NET20 || NET35 || PORTABLE40 || PORTABLE) || NETSTANDARD2_0
         [Test]
         public void ReadAsInt32_BigIntegerValue_Success()
         {
@@ -103,7 +100,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             int? i = token.CreateReader().ReadAsInt32();
             Assert.AreEqual(1, i);
         }
-#endif
 
         [Test]
         public void ReadMissingInt64()
@@ -137,7 +133,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
                 "Unexpected character encountered while parsing value: u. Path '', line 1, position 1.");
         }
 
-#if !(PORTABLE || PORTABLE40 || NET35 || NET20) || NETSTANDARD2_0
         [Test]
         public void ReadAsBoolean()
         {
@@ -222,7 +217,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.AreEqual(JsonToken.None, reader.TokenType);
             Assert.AreEqual("", reader.Path);
         }
-#endif
 
         [Test]
         public void ReadAsBoolean_NullChar()
@@ -1262,9 +1256,6 @@ second line
 third line", jsonTextReader.Value);
         }
 
-
-
-#if !(NET20 || NET35 || PORTABLE40 || PORTABLE) || NETSTANDARD2_0
         [Test]
         public void ReadBigInteger()
         {
@@ -1301,8 +1292,6 @@ third line", jsonTextReader.Value);
             var i = (BigInteger)((JValue)o["ChildId"]).Value;
             Assert.AreEqual(BigInteger.Parse("333333333333333333333333333333333333333"), i);
         }
-#endif
-
 
         [Test]
         public void ReadBadMSDateAsString()

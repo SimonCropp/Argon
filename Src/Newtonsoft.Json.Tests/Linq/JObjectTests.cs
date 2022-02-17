@@ -27,9 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
-#if !(NET20 || NET35 || PORTABLE)
 using System.Numerics;
-#endif
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Tests.TestObjects.Organization;
@@ -58,7 +56,6 @@ namespace Newtonsoft.Json.Tests.Linq
     [TestFixture]
     public class JObjectTests : TestFixtureBase
     {
-#if !(NET35 || NET20 || PORTABLE40) || NETSTANDARD2_0
         [Test]
         public void EmbedJValueStringInNewJObject()
         {
@@ -75,7 +72,6 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(null, v.Value);
             Assert.IsNull((string)o.title);
         }
-#endif
 
         [Test]
         public void ReadWithSupportMultipleContent()
@@ -743,7 +739,6 @@ Parameter name: arrayIndex",
             Assert.AreEqual(p4, l[1]);
         }
 
-#if !(NET20 || PORTABLE || PORTABLE40) || NETSTANDARD2_0
         [Test]
         public void PropertyChanging()
         {
@@ -802,7 +797,6 @@ Parameter name: arrayIndex",
             Assert.AreEqual(4, changingCount);
             Assert.AreEqual(4, changedCount);
         }
-#endif
 
         [Test]
         public void PropertyChanged()
@@ -1286,7 +1280,6 @@ Parameter name: arrayIndex",
             }, "Can not add property Test3 to Newtonsoft.Json.Linq.JObject. Property with the same name already exists on object.");
         }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
         [Test]
         public void IBindingListSortDirection()
         {
@@ -1479,9 +1472,7 @@ Parameter name: arrayIndex",
             Assert.AreEqual(index, 0);
             Assert.AreEqual(2, (int)o["Test1"]);
         }
-#endif
 
-#if !(NET20 || NET35 || PORTABLE40) || NETSTANDARD2_0
         [Test]
         public void CollectionChanged()
         {
@@ -1519,7 +1510,6 @@ Parameter name: arrayIndex",
             Assert.AreEqual(index, 0);
             Assert.AreEqual(2, (int)o["Test1"]);
         }
-#endif
 
         [Test]
         public void GetGeocodeAddress()
