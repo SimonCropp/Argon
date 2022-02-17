@@ -3,7 +3,7 @@
   <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
     <introduction>
       <para>This sample validates JSON while deserializing an object using
-      <codeEntityReference>T:Newtonsoft.Json.JsonValidatingReader</codeEntityReference>.</para>
+      <codeEntityReference>T:Argon.JsonValidatingReader</codeEntityReference>.</para>
     </introduction>
 <alert class="caution">
   <para>
@@ -18,8 +18,8 @@
     <section>
       <title>Sample</title>
       <content>
-        <code lang="cs" source="..\Src\Newtonsoft.Json.Tests\Documentation\Samples\Schema\JsonValidatingReaderAndSerializer.cs" region="Types" title="Types" />
-        <code lang="cs" source="..\Src\Newtonsoft.Json.Tests\Documentation\Samples\Schema\JsonValidatingReaderAndSerializer.cs" region="Usage" title="Usage" />
+        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Schema\JsonValidatingReaderAndSerializer.cs" region="Types" title="Types" />
+        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Schema\JsonValidatingReaderAndSerializer.cs" region="Usage" title="Usage" />
       </content>
     </section>
   </developerConceptualDocument>

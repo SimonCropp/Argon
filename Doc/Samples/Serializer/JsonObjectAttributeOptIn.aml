@@ -3,16 +3,16 @@
   <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
     <introduction>
       <para>This sample uses
-      <codeEntityReference>T:Newtonsoft.Json.JsonObjectAttribute</codeEntityReference>
-      and <codeEntityReference>T:Newtonsoft.Json.MemberSerialization</codeEntityReference> to specify that 
-      only properties that have been explicitly specified with <codeEntityReference>T:Newtonsoft.Json.JsonPropertyAttribute</codeEntityReference>
+      <codeEntityReference>T:Argon.JsonObjectAttribute</codeEntityReference>
+      and <codeEntityReference>T:Argon.MemberSerialization</codeEntityReference> to specify that 
+      only properties that have been explicitly specified with <codeEntityReference>T:Argon.JsonPropertyAttribute</codeEntityReference>
       should be serialized.</para>
     </introduction>
     <section>
       <title>Sample</title>
       <content>
-        <code lang="cs" source="..\Src\Newtonsoft.Json.Tests\Documentation\Samples\Serializer\JsonObjectAttributeOptIn.cs" region="Types" title="Types" />
-        <code lang="cs" source="..\Src\Newtonsoft.Json.Tests\Documentation\Samples\Serializer\JsonObjectAttributeOptIn.cs" region="Usage" title="Usage" />
+        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\JsonObjectAttributeOptIn.cs" region="Types" title="Types" />
+        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\JsonObjectAttributeOptIn.cs" region="Usage" title="Usage" />
       </content>
     </section>
   </developerConceptualDocument>

@@ -30,10 +30,10 @@
         <autoOutline /> -->
         <para>By default Json.NET will include all of a class's public properties and fields
         in the JSON it creates. Adding the
-        <codeEntityReference>T:Newtonsoft.Json.JsonIgnoreAttribute</codeEntityReference>
+        <codeEntityReference>T:Argon.JsonIgnoreAttribute</codeEntityReference>
         to a property tells the serializer to always skip writing it to the JSON result.</para>
 
-<code lang="cs" source="..\Src\Newtonsoft.Json.Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeOptOut" title="Opt-out Serialization Example" />
+<code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeOptOut" title="Opt-out Serialization Example" />
         
         <para>If a class has many properties and you only want to serialize a small subset
         of them, then adding JsonIgnore to all the others will be tedious and error prone.
@@ -45,14 +45,14 @@
         serialization - only the properties you mark up will be serialized, unlike
         opt-out serialization using JsonIgnoreAttribute.</para>
 
-<code lang="cs" source="..\Src\Newtonsoft.Json.Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeOptIn" title="Opt-in Serialization Example" />
+<code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeOptIn" title="Opt-in Serialization Example" />
       </content>
     </section>
     <section address="Formatting">
       <title>Formatting</title>
       <content>
         <para>JSON written by the serializer with an option of
-        <codeEntityReference>T:Newtonsoft.Json.Formatting</codeEntityReference>
+        <codeEntityReference>T:Argon.Formatting</codeEntityReference>
         set to Indented produces
         nicely formatted, easy-to-read JSON that is great for readability when you are
         developing. <codeInline>Formatting.None</codeInline> on the other hand keeps the JSON result small, skipping
@@ -63,18 +63,18 @@
     <section address="NullValueHandling">
       <title>NullValueHandling</title>
       <content>
-        <para><codeEntityReference>T:Newtonsoft.Json.NullValueHandling</codeEntityReference>
+        <para><codeEntityReference>T:Argon.NullValueHandling</codeEntityReference>
         is an option on the JsonSerializer and controls how the
         serializer handles properties with a null value. By setting a value of
         NullValueHandling.Ignore the JsonSerializer skips writing any properties that have
         a value of null.</para>
 
-<code lang="cs" source="..\Src\Newtonsoft.Json.Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeNullValueHandlingObject" title="NullValueHandling Class" />
-<code lang="cs" source="..\Src\Newtonsoft.Json.Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeNullValueHandlingExample" title="NullValueHandling Ignore Example" />
+<code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeNullValueHandlingObject" title="NullValueHandling Class" />
+<code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeNullValueHandlingExample" title="NullValueHandling Ignore Example" />
 
         <para>NullValueHandling can also be customized on individual properties
         using the
-        <codeEntityReference>T:Newtonsoft.Json.JsonPropertyAttribute</codeEntityReference>.
+        <codeEntityReference>T:Argon.JsonPropertyAttribute</codeEntityReference>.
         The JsonPropertyAttribute value of
         NullValueHandling will override the setting on the JsonSerializer for that
         property.</para>
@@ -83,7 +83,7 @@
     <section address="DefaultValueHandling">
       <title>DefaultValueHandling</title>
       <content>
-        <para><codeEntityReference>T:Newtonsoft.Json.DefaultValueHandling</codeEntityReference>
+        <para><codeEntityReference>T:Argon.DefaultValueHandling</codeEntityReference>
         is an option on the JsonSerializer and controls how the serializer handles
         properties with a default value. Setting a value of DefaultValueHandling.Ignore
         will make the JsonSerializer skip writing any properties that have a default
@@ -100,11 +100,11 @@
         with that value will mean Department is no longer written to JSON unless it has a
         value.</para>
         
-<code lang="cs" source="..\Src\Newtonsoft.Json.Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeDefaultValueHandlingObject" title="DefaultValueHandling Class" />
-<code lang="cs" source="..\Src\Newtonsoft.Json.Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeDefaultValueHandlingExample" title="DefaultValueHandling Ignore Example" />
+<code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeDefaultValueHandlingObject" title="DefaultValueHandling Class" />
+<code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeDefaultValueHandlingExample" title="DefaultValueHandling Ignore Example" />
         
         <para>DefaultValueHandling can also be customized on individual properties using
-        the <codeEntityReference>T:Newtonsoft.Json.JsonPropertyAttribute</codeEntityReference>.
+        the <codeEntityReference>T:Argon.JsonPropertyAttribute</codeEntityReference>.
         The JsonPropertyAttribute value of DefaultValueHandling
         will override the setting on the JsonSerializer for that property.</para>
       </content>
@@ -113,21 +113,21 @@
       <title>IContractResolver</title>
       <content>
         <para>For more flexibility, the
-        <codeEntityReference>T:Newtonsoft.Json.Serialization.IContractResolver</codeEntityReference>
+        <codeEntityReference>T:Argon.Serialization.IContractResolver</codeEntityReference>
         provides an interface to customize
         almost every aspect of how a .NET object gets serialized to JSON, including changing
         serialization behavior at runtime.</para>
 
-<code lang="cs" source="..\Src\Newtonsoft.Json.Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeContractResolverObject" title="IContractResolver Class" />
-<code lang="cs" source="..\Src\Newtonsoft.Json.Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeContractResolverExample" title="IContractResolver Example" />
+<code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeContractResolverObject" title="IContractResolver Class" />
+<code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeContractResolverExample" title="IContractResolver Example" />
         
       </content>
     </section>
     <relatedTopics>
-      <codeEntityReference>T:Newtonsoft.Json.Formatting</codeEntityReference>
-      <codeEntityReference>T:Newtonsoft.Json.JsonIgnoreAttribute</codeEntityReference>
-      <codeEntityReference>T:Newtonsoft.Json.DefaultValueHandling</codeEntityReference>
-      <codeEntityReference>T:Newtonsoft.Json.NullValueHandling</codeEntityReference>
+      <codeEntityReference>T:Argon.Formatting</codeEntityReference>
+      <codeEntityReference>T:Argon.JsonIgnoreAttribute</codeEntityReference>
+      <codeEntityReference>T:Argon.DefaultValueHandling</codeEntityReference>
+      <codeEntityReference>T:Argon.NullValueHandling</codeEntityReference>
     </relatedTopics>
   </developerConceptualDocument>
 </topic>

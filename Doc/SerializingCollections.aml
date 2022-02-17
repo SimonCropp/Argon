@@ -29,7 +29,7 @@
         you want to get JSON for. Json.NET will serialize the collection and all
         of the values it contains.</para>
 
-<code lang="cs" source="..\Src\Newtonsoft.Json.Tests\Documentation\SerializationTests.cs" region="SerializingCollectionsSerializing" title="Serializing Collections" />
+<code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="SerializingCollectionsSerializing" title="Serializing Collections" />
       </content>
     </section>
     <section address="DeserializingCollections">
@@ -40,7 +40,7 @@
         <para>To deserialize JSON into a .NET collection, just specify the collection
         type you want to deserialize to. Json.NET supports a wide range of collection
         types.</para>
-<code lang="cs" source="..\Src\Newtonsoft.Json.Tests\Documentation\SerializationTests.cs" region="SerializingCollectionsDeserializing" title="Deserializing Collections" />
+<code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="SerializingCollectionsDeserializing" title="Deserializing Collections" />
       </content>
     </section>
     <section address="DeserializingDictionaries">
@@ -51,13 +51,13 @@
         <para>Using Json.NET you can also deserialize a JSON object into a .NET
         generic dictionary. The JSON object's property names and values will be
         added to the dictionary.</para>
-<code lang="cs" source="..\Src\Newtonsoft.Json.Tests\Documentation\SerializationTests.cs" region="SerializingCollectionsDeserializingDictionaries" title="Deserializing Dictionaries" />
+<code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="SerializingCollectionsDeserializingDictionaries" title="Deserializing Dictionaries" />
       </content>
     </section>
     <relatedTopics>
       <link xlink:href="SerializationGuide" />
-      <codeEntityReference>T:Newtonsoft.Json.JsonConvert</codeEntityReference>
-      <codeEntityReference>T:Newtonsoft.Json.JsonSerializer</codeEntityReference>
+      <codeEntityReference>T:Argon.JsonConvert</codeEntityReference>
+      <codeEntityReference>T:Argon.JsonSerializer</codeEntityReference>
     </relatedTopics>
   </developerConceptualDocument>
 </topic>

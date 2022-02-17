@@ -87,7 +87,7 @@
     <entry>
     <para><legacyBold>Enum</legacyBold></para>
     </entry>
-    <entry><para>Integer (can be the enum value name with <codeEntityReference>T:Newtonsoft.Json.Converters.StringEnumConverter</codeEntityReference>)</para></entry>
+    <entry><para>Integer (can be the enum value name with <codeEntityReference>T:Argon.Converters.StringEnumConverter</codeEntityReference>)</para></entry>
   </row>
   <row>
     <entry>
@@ -264,7 +264,7 @@
       <content>
         <!-- Uncomment this to create a sub-section outline
         <autoOutline /> -->
-        <para>Serialization of values that are convertible by a <codeEntityReference>T:Newtonsoft.Json.JsonConverter</codeEntityReference>
+        <para>Serialization of values that are convertible by a <codeEntityReference>T:Argon.JsonConverter</codeEntityReference>
         (i.e. CanConvert returns true for its type) is
         completely overridden by the JsonConverter. The test to see whether a value can be converted by the JsonSerializer takes
         precedence over all other tests.</para>
@@ -288,8 +288,8 @@
       <link xlink:href="SerializationAttributes" />
       <link xlink:href="DatesInJSON" />
 
-      <codeEntityReference>T:Newtonsoft.Json.JsonSerializer</codeEntityReference>
-      <codeEntityReference>T:Newtonsoft.Json.JsonSerializerSettings</codeEntityReference>
+      <codeEntityReference>T:Argon.JsonSerializer</codeEntityReference>
+      <codeEntityReference>T:Argon.JsonSerializerSettings</codeEntityReference>
     </relatedTopics>
   </developerConceptualDocument>
 </topic>

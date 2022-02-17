@@ -34,9 +34,9 @@
         format: <codeInline>"\/Date(1198908717056)\/"</codeInline>. If you want to use this format, or
         you want to maintain compatibility with Microsoft JSON serializers or
         older versions of Json.NET, then change the
-        <codeEntityReference>T:Newtonsoft.Json.DateFormatHandling</codeEntityReference>
+        <codeEntityReference>T:Argon.DateFormatHandling</codeEntityReference>
         setting to MicrosoftDateFormat.</para>
-        <para>The <codeEntityReference>T:Newtonsoft.Json.DateTimeZoneHandling</codeEntityReference> setting can be
+        <para>The <codeEntityReference>T:Argon.DateTimeZoneHandling</codeEntityReference> setting can be
         used to convert a DateTime's <codeEntityReference>T:System.DateTimeKind</codeEntityReference> when serializing. For example set
         DateTimeZoneHandling to Utc to serialize all DateTimes as UTC dates. Note that this setting does not effect DateTimeOffsets.</para>
         <para>If your dates don't follow the ISO 8601 standard, then the DateFormatString setting can be used to customize the format of
@@ -58,7 +58,7 @@
         custom dates: JsonConverters. A JsonConverter is used to override how a
         type is serialized.</para>
         
-<code lang="cs" source="..\Src\Newtonsoft.Json.Tests\Documentation\SerializationTests.cs" region="SerializingDatesInJson" title="DateTime JsonConverters Example" />        
+<code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="SerializingDatesInJson" title="DateTime JsonConverters Example" />        
         
         <para>Simply pass the JsonConverter you wish to use to the Json.NET
         serializer.</para>
@@ -96,10 +96,10 @@
       </content>
     </section>
     <relatedTopics>
-      <codeEntityReference>T:Newtonsoft.Json.DateFormatHandling</codeEntityReference>
-      <codeEntityReference>T:Newtonsoft.Json.DateTimeZoneHandling</codeEntityReference>
-      <codeEntityReference>T:Newtonsoft.Json.Converters.JavaScriptDateTimeConverter</codeEntityReference>
-      <codeEntityReference>T:Newtonsoft.Json.Converters.IsoDateTimeConverter</codeEntityReference>
+      <codeEntityReference>T:Argon.DateFormatHandling</codeEntityReference>
+      <codeEntityReference>T:Argon.DateTimeZoneHandling</codeEntityReference>
+      <codeEntityReference>T:Argon.Converters.JavaScriptDateTimeConverter</codeEntityReference>
+      <codeEntityReference>T:Argon.Converters.IsoDateTimeConverter</codeEntityReference>
     </relatedTopics>
   </developerConceptualDocument>
 </topic>

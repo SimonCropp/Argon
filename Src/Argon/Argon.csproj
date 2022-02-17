@@ -15,7 +15,6 @@
     <Summary>Json.NET is a popular high-performance JSON framework for .NET</Summary>
     <NeutralLanguage>en-US</NeutralLanguage>
     <Title>Json.NET</Title>
-    <PackageId>Newtonsoft.Json</PackageId>
     <PackageTags>json</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>packageIcon.png</PackageIcon>
