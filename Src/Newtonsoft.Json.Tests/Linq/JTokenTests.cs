@@ -28,14 +28,11 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
 using Newtonsoft.Json.Converters;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
 using TestCase = Xunit.InlineDataAttribute;
-#else
-using NUnit.Framework;
-#endif
+
 using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Linq;
@@ -46,7 +43,7 @@ namespace Newtonsoft.Json.Tests.Linq
     [TestFixture]
     public class JTokenTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void DeepEqualsObjectOrder()
         {
             string ob1 = @"{""key1"":""1"",""key2"":""2""}";
@@ -57,7 +54,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.IsTrue(j1.DeepEquals(j2));
         }
 
-        [Test]
+        [Fact]
         public void ReadFrom()
         {
             JObject o = (JObject)JToken.ReadFrom(new JsonTextReader(new StringReader("{'pie':true}")));
@@ -99,21 +96,21 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(new DateTimeOffset(DateTimeUtils.InitialJavaScriptDateTicks, new TimeSpan(12, 31, 0)), v.Value);
         }
 
-        [Test]
+        [Fact]
         public void Load()
         {
             JObject o = (JObject)JToken.Load(new JsonTextReader(new StringReader("{'pie':true}")));
             Assert.AreEqual(true, (bool)o["pie"]);
         }
 
-        [Test]
+        [Fact]
         public void Parse()
         {
             JObject o = (JObject)JToken.Parse("{'pie':true}");
             Assert.AreEqual(true, (bool)o["pie"]);
         }
 
-        [Test]
+        [Fact]
         public void Parent()
         {
             JArray v = new JArray(new JConstructor("TestConstructor"), new JValue(new DateTime(2000, 12, 20)));
@@ -155,7 +152,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(true, JToken.DeepEquals(o1.Value, o2.Value));
         }
 
-        [Test]
+        [Fact]
         public void Next()
         {
             JArray a =
@@ -179,7 +176,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.IsNull(next);
         }
 
-        [Test]
+        [Fact]
         public void Previous()
         {
             JArray a =
@@ -203,7 +200,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.IsNull(previous);
         }
 
-        [Test]
+        [Fact]
         public void Children()
         {
             JArray a =
@@ -218,7 +215,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(3, a.Children<JArray>().Count());
         }
 
-        [Test]
+        [Fact]
         public void BeforeAfter()
         {
             JArray a =
@@ -233,7 +230,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(2, a[2].BeforeSelf().Count());
         }
 
-        [Test]
+        [Fact]
         public void BeforeSelf_NoParent_ReturnEmpty()
         {
             JObject o = new JObject();
@@ -242,7 +239,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(0, result.Count);
         }
 
-        [Test]
+        [Fact]
         public void BeforeSelf_OnlyChild_ReturnEmpty()
         {
             JArray a = new JArray();
@@ -254,7 +251,7 @@ namespace Newtonsoft.Json.Tests.Linq
         }
 
 #nullable enable
-        [Test]
+        [Fact]
         public void Casting()
         {
             Assert.AreEqual(1L, (long)(new JValue(1)));
@@ -403,7 +400,7 @@ namespace Newtonsoft.Json.Tests.Linq
         }
 #nullable disable
 
-        [Test]
+        [Fact]
         public void FailedCasting()
         {
             ExceptionAssert.Throws<ArgumentException>(() => { var i = (DateTime)new JValue(true); }, "Can not convert Boolean to DateTime.");
@@ -459,7 +456,7 @@ namespace Newtonsoft.Json.Tests.Linq
             ExceptionAssert.Throws<ArgumentException>(() => { var i = (new JValue("Ordinal1")).ToObject<StringComparison?>(); }, "Could not convert 'Ordinal1' to StringComparison.");
         }
 
-        [Test]
+        [Fact]
         public void ToObject()
         {
             Assert.AreEqual((BigInteger)1, (new JValue(1).ToObject(typeof(BigInteger))));
@@ -508,7 +505,7 @@ namespace Newtonsoft.Json.Tests.Linq
         }
 
 #nullable enable
-        [Test]
+        [Fact]
         public void ImplicitCastingTo()
         {
             Assert.IsTrue(JToken.DeepEquals(new JValue(new DateTime(2000, 12, 20)), (JValue)new DateTime(2000, 12, 20)));
@@ -572,7 +569,7 @@ namespace Newtonsoft.Json.Tests.Linq
         }
 #nullable disable
 
-        [Test]
+        [Fact]
         public void Root()
         {
             JArray a =
@@ -588,7 +585,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(a, ((JArray)a[2])[0].Root);
         }
 
-        [Test]
+        [Fact]
         public void Remove()
         {
             JToken t;
@@ -626,7 +623,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.IsNull(t.Parent);
         }
 
-        [Test]
+        [Fact]
         public void AfterSelf()
         {
             JArray a =
@@ -645,7 +642,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.IsTrue(JToken.DeepEquals(new JArray(1, 2, 3), afterTokens[1]));
         }
 
-        [Test]
+        [Fact]
         public void BeforeSelf()
         {
             JArray a =
@@ -664,7 +661,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.IsTrue(JToken.DeepEquals(new JArray(1), beforeTokens[1]));
         }
 
-        [Test]
+        [Fact]
         public void HasValues()
         {
             JArray a =
@@ -678,7 +675,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.IsTrue(a.HasValues);
         }
 
-        [Test]
+        [Fact]
         public void Ancestors()
         {
             JArray a =
@@ -696,7 +693,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(a, ancestors[1]);
         }
 
-        [Test]
+        [Fact]
         public void AncestorsAndSelf()
         {
             JArray a =
@@ -715,7 +712,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(a, ancestors[2]);
         }
 
-        [Test]
+        [Fact]
         public void AncestorsAndSelf_Many()
         {
             JArray a =
@@ -746,7 +743,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(o, ancestors[5]);
         }
 
-        [Test]
+        [Fact]
         public void Ancestors_Many()
         {
             JArray a =
@@ -775,7 +772,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(o, ancestors[3]);
         }
 
-        [Test]
+        [Fact]
         public void Descendants()
         {
             JArray a =
@@ -795,7 +792,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(3, (int)descendants[descendants.Count - 1]);
         }
 
-        [Test]
+        [Fact]
         public void Descendants_Many()
         {
             JArray a =
@@ -824,7 +821,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(o["prop1"], descendants[descendants.Count - 1]);
         }
 
-        [Test]
+        [Fact]
         public void DescendantsAndSelf()
         {
             JArray a =
@@ -845,7 +842,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(3, (int)descendantsAndSelf[descendantsAndSelf.Count - 1]);
         }
 
-        [Test]
+        [Fact]
         public void DescendantsAndSelf_Many()
         {
             JArray a =
@@ -876,7 +873,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(o["prop1"], descendantsAndSelf[descendantsAndSelf.Count - 1]);
         }
 
-        [Test]
+        [Fact]
         public void CreateWriter()
         {
             JArray a =
@@ -904,7 +901,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.IsTrue(JToken.DeepEquals(new JObject(new JProperty("Property", "PropertyValue")), a[5]));
         }
 
-        [Test]
+        [Fact]
         public void AddFirst()
         {
             JArray a =
@@ -931,7 +928,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(a[0], a[0].Next.Previous);
         }
 
-        [Test]
+        [Fact]
         public void RemoveAll()
         {
             JArray a =
@@ -952,7 +949,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.IsNull(first.Next);
         }
 
-        [Test]
+        [Fact]
         public void AddPropertyToArray()
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
@@ -962,7 +959,7 @@ namespace Newtonsoft.Json.Tests.Linq
             }, "Can not add Newtonsoft.Json.Linq.JProperty to Newtonsoft.Json.Linq.JArray.");
         }
 
-        [Test]
+        [Fact]
         public void AddValueToObject()
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
@@ -972,7 +969,7 @@ namespace Newtonsoft.Json.Tests.Linq
             }, "Can not add Newtonsoft.Json.Linq.JValue to Newtonsoft.Json.Linq.JObject.");
         }
 
-        [Test]
+        [Fact]
         public void Replace()
         {
             JArray a =
@@ -997,7 +994,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.IsTrue(JToken.DeepEquals(new JArray(int.MaxValue, new JArray("Test"), int.MaxValue, new JArray(1, 2, 3)), a));
         }
 
-        [Test]
+        [Fact]
         public void ToStringWithConverters()
         {
             JArray a =
@@ -1016,7 +1013,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(@"[""2009-02-15T00:00:00Z""]", json);
         }
 
-        [Test]
+        [Fact]
         public void ToStringWithNoIndenting()
         {
             JArray a =
@@ -1029,7 +1026,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(@"[""2009-02-15T00:00:00Z""]", json);
         }
 
-        [Test]
+        [Fact]
         public void AddAfterSelf()
         {
             JArray a =
@@ -1053,7 +1050,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual("lastpie", (string)a.Last);
         }
 
-        [Test]
+        [Fact]
         public void AddBeforeSelf()
         {
             JArray a =
@@ -1087,7 +1084,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(7, a.Count());
         }
 
-        [Test]
+        [Fact]
         public void DeepClone()
         {
             JArray a =
@@ -1137,7 +1134,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.IsTrue(a.DeepEquals(a2));
         }
 
-        [Test]
+        [Fact]
         public void Clone()
         {
             JArray a =
@@ -1163,7 +1160,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.IsTrue(a.DeepEquals(a2));
         }
 
-        [Test]
+        [Fact]
         public void DoubleDeepEquals()
         {
             JArray a =
@@ -1185,7 +1182,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.IsTrue(v1.DeepEquals(v2));
         }
 
-        [Test]
+        [Fact]
         public void ParseAdditionalContent()
         {
             ExceptionAssert.Throws<JsonReaderException>(() =>
@@ -1200,7 +1197,7 @@ namespace Newtonsoft.Json.Tests.Linq
             }, "Additional text encountered after finished reading JSON content: ,. Path '', line 5, position 1.");
         }
 
-        [Test]
+        [Fact]
         public void Path()
         {
             JObject o =
@@ -1238,7 +1235,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual("[0]", a[0].Path);
         }
 
-        [Test]
+        [Fact]
         public void Parse_NoComments()
         {
             string json = "{'prop':[1,2/*comment*/,3]}";
@@ -1254,7 +1251,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(3, (int)o["prop"][2]);
         }
 
-        [Test]
+        [Fact]
         public void Parse_ExcessiveContentJustComments()
         {
             string json = @"{'prop':[1,2,3]}/*comment*/
@@ -1268,7 +1265,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(3, (int)o["prop"][2]);
         }
 
-        [Test]
+        [Fact]
         public void Parse_ExcessiveContent()
         {
             string json = @"{'prop':[1,2,3]}/*comment*/
@@ -1279,9 +1276,7 @@ namespace Newtonsoft.Json.Tests.Linq
                 "Additional text encountered after finished reading JSON content: {. Path '', line 3, position 0.");
         }
 
-#if NET5_0_OR_GREATER
         [Theory]
-#endif
         [TestCase("test customer", "['test customer']")]
         [TestCase("test customer's", "['test customer\\'s']")]
         [TestCase("testcustomer's", "['testcustomer\\'s']")]

@@ -26,15 +26,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Newtonsoft.Json.Linq;
-#if NET5_0_OR_GREATER
-using Xunit;
+using Newtonsoft.Json.Linq;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
 
-#endif
 
 namespace Newtonsoft.Json.Tests.Documentation.Samples.Linq
 {
@@ -48,7 +43,7 @@ namespace Newtonsoft.Json.Tests.Documentation.Samples.Linq
         }
         #endregion
 
-        [Test]
+        [Fact]
         public void Example()
         {
             #region Usage

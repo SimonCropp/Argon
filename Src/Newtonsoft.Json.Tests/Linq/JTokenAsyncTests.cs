@@ -25,13 +25,9 @@
 
 using System;
 using System.Threading.Tasks;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Linq;
@@ -42,7 +38,7 @@ namespace Newtonsoft.Json.Tests.Linq
     [TestFixture]
     public class JTokenAsyncTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public async Task ReadFromAsync()
         {
             JObject o = (JObject)await JToken.ReadFromAsync(new JsonTextReader(new StringReader("{'pie':true}")));
@@ -82,14 +78,14 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(new DateTimeOffset(DateTimeUtils.InitialJavaScriptDateTicks, new TimeSpan(12, 31, 0)), v.Value);
         }
 
-        [Test]
+        [Fact]
         public async Task LoadAsync()
         {
             JObject o = (JObject)await JToken.LoadAsync(new JsonTextReader(new StringReader("{'pie':true}")));
             Assert.AreEqual(true, (bool)o["pie"]);
         }
 
-        [Test]
+        [Fact]
         public async Task CreateWriterAsync()
         {
             JArray a =

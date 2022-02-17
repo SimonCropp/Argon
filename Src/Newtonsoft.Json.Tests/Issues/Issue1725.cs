@@ -33,20 +33,16 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Utilities;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Issues
 {
     [TestFixture]
     public class Issue1725 : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Test_In()
         {
             var p1 = new InPerson("some name");
@@ -56,7 +52,7 @@ namespace Newtonsoft.Json.Tests.Issues
             Assert.AreEqual("some name", p2.Name);
         }
 
-        [Test]
+        [Fact]
         public void Test_Ref()
         {
             string value = "some name";
@@ -67,7 +63,7 @@ namespace Newtonsoft.Json.Tests.Issues
             Assert.AreEqual("some name", p2.Name);
         }
 
-        [Test]
+        [Fact]
         public void Test_InNullable()
         {
             var p1 = new InNullablePerson(1);
@@ -77,7 +73,7 @@ namespace Newtonsoft.Json.Tests.Issues
             Assert.AreEqual(1, p2.Age);
         }
 
-        [Test]
+        [Fact]
         public void Test_RefNullable()
         {
             int? value = 1;

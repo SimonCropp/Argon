@@ -33,13 +33,9 @@ using System.Runtime.Serialization;
 using System.Text;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Utilities;
@@ -60,7 +56,7 @@ namespace Newtonsoft.Json.Tests.Documentation
             }
         }
 
-        [Test]
+        [Fact]
         public void SerializeObject()
         {
             #region SerializeObject
@@ -89,7 +85,7 @@ namespace Newtonsoft.Json.Tests.Documentation
             Assert.AreEqual("Apple", deserializedProduct.Name);
         }
 
-        [Test]
+        [Fact]
         public void JsonSerializerToStream()
         {
             #region JsonSerializerToStream
@@ -183,7 +179,7 @@ namespace Newtonsoft.Json.Tests.Documentation
         }
         #endregion
 
-        [Test]
+        [Fact]
         public void SerializationCallbacksExample()
         {
             #region SerializationCallbacksExample
@@ -229,7 +225,7 @@ namespace Newtonsoft.Json.Tests.Documentation
             Assert.AreEqual(11, obj.Member1);
         }
 
-        [Test]
+        [Fact]
         public void SerializationErrorHandling()
         {
             #region SerializationErrorHandling
@@ -267,7 +263,7 @@ namespace Newtonsoft.Json.Tests.Documentation
             Assert.AreEqual(new DateTime(2009, 9, 9, 0, 0, 0, DateTimeKind.Utc), c[0]);
         }
 
-        [Test]
+        [Fact]
         public void SerializationErrorHandlingWithParent()
         {
             #region SerializationErrorHandlingWithParent
@@ -317,7 +313,7 @@ namespace Newtonsoft.Json.Tests.Documentation
         }
         #endregion
 
-        [Test]
+        [Fact]
         public void SerializationErrorHandlingAttributeExample()
         {
             #region SerializationErrorHandlingAttributeExample
@@ -346,7 +342,7 @@ namespace Newtonsoft.Json.Tests.Documentation
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void PreservingObjectReferencesOff()
         {
             #region PreservingObjectReferencesOff
@@ -390,7 +386,7 @@ namespace Newtonsoft.Json.Tests.Documentation
 ]", json);
         }
 
-        [Test]
+        [Fact]
         public void PreservingObjectReferencesOn()
         {
             Person p = new Person
@@ -476,7 +472,7 @@ namespace Newtonsoft.Json.Tests.Documentation
         }
         #endregion
 
-        [Test]
+        [Fact]
         public void CustomCreationConverterExample()
         {
             string json = @"[
@@ -533,7 +529,7 @@ namespace Newtonsoft.Json.Tests.Documentation
             Assert.AreEqual("Support", employee.JobTitle);
         }
 
-        [Test]
+        [Fact]
         public void ContractResolver()
         {
             #region ContractResolver
@@ -576,7 +572,7 @@ namespace Newtonsoft.Json.Tests.Documentation
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void SerializingCollectionsSerializing()
         {
             #region SerializingCollectionsSerializing
@@ -630,7 +626,7 @@ namespace Newtonsoft.Json.Tests.Documentation
 ]", json);
         }
 
-        [Test]
+        [Fact]
         public void SerializingCollectionsDeserializing()
         {
             #region SerializingCollectionsDeserializing
@@ -663,7 +659,7 @@ namespace Newtonsoft.Json.Tests.Documentation
             Assert.AreEqual("Product 1", p1.Name);
         }
 
-        [Test]
+        [Fact]
         public void SerializingCollectionsDeserializingDictionaries()
         {
             #region SerializingCollectionsDeserializingDictionaries
@@ -688,7 +684,7 @@ namespace Newtonsoft.Json.Tests.Documentation
             public DateTime LogDate { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void WriteJsonDates()
         {
             LogEntry entry = new LogEntry
@@ -758,7 +754,7 @@ namespace Newtonsoft.Json.Tests.Documentation
         }
         #endregion
 
-        [Test]
+        [Fact]
         public void ReducingSerializedJsonSizeNullValueHandlingExample()
         {
             #region ReducingSerializedJsonSizeNullValueHandlingExample
@@ -824,7 +820,7 @@ namespace Newtonsoft.Json.Tests.Documentation
         }
         #endregion
 
-        [Test]
+        [Fact]
         public void ReducingSerializedJsonSizeDefaultValueHandlingExample()
         {
             #region ReducingSerializedJsonSizeDefaultValueHandlingExample
@@ -908,7 +904,7 @@ namespace Newtonsoft.Json.Tests.Documentation
         }
         #endregion
 
-        [Test]
+        [Fact]
         public void ReducingSerializedJsonSizeContractResolverExample()
         {
             #region ReducingSerializedJsonSizeContractResolverExample
@@ -960,7 +956,7 @@ namespace Newtonsoft.Json.Tests.Documentation
         }
         #endregion
 
-        [Test]
+        [Fact]
         public void SerializingPartialJsonFragmentsExample()
         {
             #region SerializingPartialJsonFragmentsExample
@@ -1042,7 +1038,7 @@ namespace Newtonsoft.Json.Tests.Documentation
             Assert.AreEqual("<b>Paris Hilton</b> - Wikipedia, the free encyclopedia", searchResults[0].Title);
         }
 
-        [Test]
+        [Fact]
         public void SerializeMultidimensionalArrayExample()
         {
             string[,] famousCouples = new string[,]

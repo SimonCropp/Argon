@@ -25,15 +25,10 @@
 
 using System;
 using System.IO;
-using Newtonsoft.Json.Converters;
-#if NET5_0_OR_GREATER
-using Xunit;
+using Newtonsoft.Json.Converters;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
 
-#endif
 
 namespace Newtonsoft.Json.Tests.Converters
 {
@@ -93,7 +88,7 @@ namespace Newtonsoft.Json.Tests.Converters
             }
         }
 
-        [Test]
+        [Fact]
         public void WriteJsonNull()
         {
             StringWriter sw = new StringWriter();
@@ -105,7 +100,7 @@ namespace Newtonsoft.Json.Tests.Converters
             StringAssert.AreEqual(@"null", sw.ToString());
         }
 
-        [Test]
+        [Fact]
         public void SerializeVersionClass()
         {
             VersionHelperClass.SerializeVersionClass("1.0.0.0", "2.0.0.0");
@@ -118,7 +113,7 @@ namespace Newtonsoft.Json.Tests.Converters
             VersionHelperClass.SerializeVersionClass("1.2.3.4", "2.3.4.5");
         }
 
-        [Test]
+        [Fact]
         public void DeserializeVersionClass()
         {
             VersionHelperClass.DeserializeVersionClass("1.0.0.0", "2.0.0.0");
@@ -131,7 +126,7 @@ namespace Newtonsoft.Json.Tests.Converters
             VersionHelperClass.DeserializeVersionClass("1.2.3.4", "2.3.4.5");
         }
 
-        [Test]
+        [Fact]
         public void RoundtripImplicitConverter()
         {
             var version = new Version(1, 0, 0, 0);

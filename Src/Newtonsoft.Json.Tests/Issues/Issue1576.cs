@@ -30,20 +30,16 @@ using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Issues
 {
     [TestFixture]
     public class Issue1576 : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Test()
         {
             var settings = new JsonSerializerSettings()
@@ -58,7 +54,7 @@ namespace Newtonsoft.Json.Tests.Issues
             Assert.AreEqual(result.Items[0], 11);
         }
 
-        [Test]
+        [Fact]
         public void Test_WithJsonConverterAttribute()
         {
             var result = JsonConvert.DeserializeObject<TestClassWithJsonConverter>("{ 'Items': '11' }");

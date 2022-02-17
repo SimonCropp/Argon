@@ -28,22 +28,17 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Schema;
-#if NET5_0_OR_GREATER
-using Xunit;
+using Newtonsoft.Json.Schema;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
 
-#endif
 
 namespace Newtonsoft.Json.Tests.Schema
 {
     [TestFixture]
     public class JsonSchemaTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Extends()
         {
             string json;
@@ -122,7 +117,7 @@ namespace Newtonsoft.Json.Tests.Schema
 }", writtenJson);
         }
 
-        [Test]
+        [Fact]
         public void Extends_Multiple()
         {
             string json = @"{
@@ -203,7 +198,7 @@ namespace Newtonsoft.Json.Tests.Schema
 }", newJson);
         }
 
-        [Test]
+        [Fact]
         public void WriteTo_AdditionalProperties()
         {
             StringWriter writer = new StringWriter();
@@ -235,7 +230,7 @@ namespace Newtonsoft.Json.Tests.Schema
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void WriteTo_Properties()
         {
             JsonSchema schema = JsonSchema.Parse(@"{
@@ -277,7 +272,7 @@ namespace Newtonsoft.Json.Tests.Schema
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void WriteTo_Enum()
         {
             JsonSchema schema = JsonSchema.Parse(@"{
@@ -315,7 +310,7 @@ namespace Newtonsoft.Json.Tests.Schema
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void WriteTo_CircularReference()
         {
             string json = @"{
@@ -345,7 +340,7 @@ namespace Newtonsoft.Json.Tests.Schema
 }", writtenJson);
         }
 
-        [Test]
+        [Fact]
         public void WriteTo_DisallowMultiple()
         {
             JsonSchema schema = JsonSchema.Parse(@"{
@@ -378,7 +373,7 @@ namespace Newtonsoft.Json.Tests.Schema
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void WriteTo_DisallowSingle()
         {
             JsonSchema schema = JsonSchema.Parse(@"{
@@ -407,7 +402,7 @@ namespace Newtonsoft.Json.Tests.Schema
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void WriteTo_MultipleItems()
         {
             JsonSchema schema = JsonSchema.Parse(@"{
@@ -430,7 +425,7 @@ namespace Newtonsoft.Json.Tests.Schema
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void WriteTo_ExclusiveMinimum_ExclusiveMaximum()
         {
             JsonSchema schema = new JsonSchema();
@@ -451,7 +446,7 @@ namespace Newtonsoft.Json.Tests.Schema
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void WriteTo_PatternProperties()
         {
             JsonSchema schema = new JsonSchema();
@@ -475,7 +470,7 @@ namespace Newtonsoft.Json.Tests.Schema
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void ToString_AdditionalItems()
         {
             JsonSchema schema = JsonSchema.Parse(@"{
@@ -491,7 +486,7 @@ namespace Newtonsoft.Json.Tests.Schema
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void WriteTo_PositionalItemsValidation_True()
         {
             JsonSchema schema = new JsonSchema();
@@ -510,7 +505,7 @@ namespace Newtonsoft.Json.Tests.Schema
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void WriteTo_PositionalItemsValidation_TrueWithItemsSchema()
         {
             JsonSchema schema = new JsonSchema();
@@ -534,7 +529,7 @@ namespace Newtonsoft.Json.Tests.Schema
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void WriteTo_PositionalItemsValidation_FalseWithItemsSchema()
         {
             JsonSchema schema = new JsonSchema();
@@ -555,7 +550,7 @@ namespace Newtonsoft.Json.Tests.Schema
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void IntegerValidatesAgainstFloatFlags()
         {
             JsonSchema schema = JsonSchema.Parse(@"{

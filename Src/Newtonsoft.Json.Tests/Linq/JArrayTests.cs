@@ -26,13 +26,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Linq;
 using System.Linq;
 
@@ -41,7 +37,7 @@ namespace Newtonsoft.Json.Tests.Linq
     [TestFixture]
     public class JArrayTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void RemoveSpecificAndRemoveSelf()
         {
             JObject o = new JObject
@@ -61,7 +57,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(2, a.Count);
         }
 
-        [Test]
+        [Fact]
         public void Clear()
         {
             JArray a = new JArray { 1 };
@@ -71,7 +67,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(0, a.Count);
         }
 
-        [Test]
+        [Fact]
         public void AddToSelf()
         {
             JArray a = new JArray();
@@ -80,7 +76,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.IsFalse(ReferenceEquals(a[0], a));
         }
 
-        [Test]
+        [Fact]
         public void Contains()
         {
             JValue v = new JValue(1);
@@ -93,7 +89,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(true, a.Contains(v));
         }
 
-        [Test]
+        [Fact]
         public void GenericCollectionCopyTo()
         {
             JArray j = new JArray();
@@ -117,7 +113,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(null, a[4]);
         }
 
-        [Test]
+        [Fact]
         public void GenericCollectionCopyToNullArrayShouldThrow()
         {
             JArray j = new JArray();
@@ -128,7 +124,7 @@ Parameter name: array",
                 "Value cannot be null. (Parameter 'array')");
         }
 
-        [Test]
+        [Fact]
         public void GenericCollectionCopyToNegativeArrayIndexShouldThrow()
         {
             JArray j = new JArray();
@@ -139,7 +135,7 @@ Parameter name: arrayIndex",
                 "arrayIndex is less than 0. (Parameter 'arrayIndex')");
         }
 
-        [Test]
+        [Fact]
         public void GenericCollectionCopyToArrayIndexEqualGreaterToArrayLengthShouldThrow()
         {
             JArray j = new JArray();
@@ -147,7 +143,7 @@ Parameter name: arrayIndex",
             ExceptionAssert.Throws<ArgumentException>(() => { ((ICollection<JToken>)j).CopyTo(new JToken[1], 1); }, @"arrayIndex is equal to or greater than the length of array.");
         }
 
-        [Test]
+        [Fact]
         public void GenericCollectionCopyToInsufficientArrayCapacity()
         {
             JArray j = new JArray();
@@ -158,7 +154,7 @@ Parameter name: arrayIndex",
             ExceptionAssert.Throws<ArgumentException>(() => { ((ICollection<JToken>)j).CopyTo(new JToken[3], 1); }, @"The number of elements in the source JObject is greater than the available space from arrayIndex to the end of the destination array.");
         }
 
-        [Test]
+        [Fact]
         public void Remove()
         {
             JValue v = new JValue(1);
@@ -175,7 +171,7 @@ Parameter name: arrayIndex",
             Assert.AreEqual(0, j.Count);
         }
 
-        [Test]
+        [Fact]
         public void IndexOf()
         {
             JValue v1 = new JValue(1);
@@ -202,7 +198,7 @@ Parameter name: arrayIndex",
             Assert.AreEqual(-1, j.IndexOf(v3));
         }
 
-        [Test]
+        [Fact]
         public void RemoveAt()
         {
             JValue v1 = new JValue(1);
@@ -226,7 +222,7 @@ Parameter name: arrayIndex",
             Assert.AreEqual(1, j.Count);
         }
 
-        [Test]
+        [Fact]
         public void RemoveAtOutOfRangeIndexShouldError()
         {
             JArray j = new JArray();
@@ -238,7 +234,7 @@ Parameter name: index",
                 "Index is equal to or greater than Count. (Parameter 'index')");
         }
 
-        [Test]
+        [Fact]
         public void RemoveAtNegativeIndexShouldError()
         {
             JArray j = new JArray();
@@ -250,7 +246,7 @@ Parameter name: index",
                 "Index is less than 0. (Parameter 'index')");
         }
 
-        [Test]
+        [Fact]
         public void Insert()
         {
             JValue v1 = new JValue(1);
@@ -271,7 +267,7 @@ Parameter name: index",
             Assert.AreEqual(3, j.IndexOf(v3));
         }
 
-        [Test]
+        [Fact]
         public void AddFirstAddedTokenShouldBeFirst()
         {
             JValue v1 = new JValue(1);
@@ -295,7 +291,7 @@ Parameter name: index",
             Assert.AreEqual(v1, j.Last);
         }
 
-        [Test]
+        [Fact]
         public void InsertShouldInsertAtZeroIndex()
         {
             JValue v1 = new JValue(1);
@@ -311,7 +307,7 @@ Parameter name: index",
             Assert.AreEqual(0, j.IndexOf(v2));
         }
 
-        [Test]
+        [Fact]
         public void InsertNull()
         {
             JArray j = new JArray();
@@ -320,7 +316,7 @@ Parameter name: index",
             Assert.AreEqual(null, ((JValue)j[0]).Value);
         }
 
-        [Test]
+        [Fact]
         public void InsertNegativeIndexShouldThrow()
         {
             JArray j = new JArray();
@@ -332,7 +328,7 @@ Parameter name: index",
                 "Index was out of range. Must be non-negative and less than the size of the collection. (Parameter 'index')");
         }
 
-        [Test]
+        [Fact]
         public void InsertOutOfRangeIndexShouldThrow()
         {
             JArray j = new JArray();
@@ -344,7 +340,7 @@ Parameter name: index",
                 "Index must be within the bounds of the List. (Parameter 'index')");
         }
 
-        [Test]
+        [Fact]
         public void Item()
         {
             JValue v1 = new JValue(1);
@@ -366,7 +362,7 @@ Parameter name: index",
             Assert.AreEqual(1, j.IndexOf(v4));
         }
 
-        [Test]
+        [Fact]
         public void Parse_ShouldThrowOnUnexpectedToken()
         {
             string json = @"{""prop"":""value""}";
@@ -380,7 +376,7 @@ Parameter name: index",
             public object ListItemValue { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void ArrayOrder()
         {
             string itemZeroText = "Zero text";
@@ -429,7 +425,7 @@ Parameter name: index",
 }", result);
         }
 
-        [Test]
+        [Fact]
         public void Iterate()
         {
             JArray a = new JArray(1, 2, 3, 4, 5);
@@ -442,7 +438,7 @@ Parameter name: index",
             }
         }
 
-        [Test]
+        [Fact]
         public void ITypedListGetItemProperties()
         {
             JProperty p1 = new JProperty("Test1", 1);
@@ -456,7 +452,7 @@ Parameter name: index",
             Assert.AreEqual("Test2", propertyDescriptors[1].Name);
         }
 
-        [Test]
+        [Fact]
         public void AddArrayToSelf()
         {
             JArray a = new JArray(1, 2);
@@ -468,7 +464,7 @@ Parameter name: index",
             Assert.AreNotSame(a, a[2]);
         }
 
-        [Test]
+        [Fact]
         public void SetValueWithInvalidIndex()
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
@@ -478,7 +474,7 @@ Parameter name: index",
             }, @"Set JArray values with invalid key value: ""badvalue"". Int32 array index expected.");
         }
 
-        [Test]
+        [Fact]
         public void SetValue()
         {
             object key = 0;
@@ -489,7 +485,7 @@ Parameter name: index",
             Assert.AreEqual(3, (int)a[key]);
         }
 
-        [Test]
+        [Fact]
         public void ReplaceAll()
         {
             JArray a = new JArray(new[] { 1, 2, 3 });
@@ -503,13 +499,13 @@ Parameter name: index",
             Assert.AreEqual(1, (int)a[0]);
         }
 
-        [Test]
+        [Fact]
         public void ParseIncomplete()
         {
             ExceptionAssert.Throws<JsonReaderException>(() => { JArray.Parse("[1"); }, "Unexpected end of content while loading JArray. Path '[0]', line 1, position 2.");
         }
 
-        [Test]
+        [Fact]
         public void InsertAddEnd()
         {
             JArray array = new JArray();
@@ -521,7 +517,7 @@ Parameter name: index",
             Assert.AreEqual(456, (int)array[1]);
         }
 
-        [Test]
+        [Fact]
         public void ParseAdditionalContent()
         {
             string json = @"[
@@ -533,7 +529,7 @@ Parameter name: index",
             ExceptionAssert.Throws<JsonReaderException>(() => { JArray.Parse(json); }, "Additional text encountered after finished reading JSON content: ,. Path '', line 5, position 1.");
         }
 
-        [Test]
+        [Fact]
         public void ToListOnEmptyArray()
         {
             string json = @"{""decks"":[]}";
@@ -549,7 +545,7 @@ Parameter name: index",
             Assert.AreEqual(1, l.Count);
         }
 
-        [Test]
+        [Fact]
         public void Parse_NoComments()
         {
             string json = "[1,2/*comment*/,3]";
@@ -583,7 +579,7 @@ Parameter name: index",
             Assert.AreEqual(3, (int)a[3]);
         }
 
-        [Test]
+        [Fact]
         public void Parse_ExcessiveContentJustComments()
         {
             string json = @"[1,2,3]/*comment*/
@@ -597,7 +593,7 @@ Parameter name: index",
             Assert.AreEqual(3, (int)a[2]);
         }
 
-        [Test]
+        [Fact]
         public void Parse_ExcessiveContent()
         {
             string json = @"[1,2,3]/*comment*/
@@ -608,7 +604,7 @@ Parameter name: index",
                 "Additional text encountered after finished reading JSON content: [. Path '', line 3, position 0.");
         }
 
-        [Test]
+        [Fact]
         public void Parse_LineInfo()
         {
             string json = "[1,2,3]";

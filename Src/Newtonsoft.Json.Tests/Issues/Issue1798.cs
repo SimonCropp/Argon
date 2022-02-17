@@ -31,13 +31,9 @@ using Newtonsoft.Json.Converters;
 using System.Reflection;
 using System.Runtime.Versioning;
 using Newtonsoft.Json.Serialization;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Issues
 {
@@ -48,7 +44,7 @@ namespace Newtonsoft.Json.Tests.Issues
         {
         }
 
-        [Test]
+        [Fact]
         public void Test()
         {
             string nonSerializableJson = null;
@@ -82,7 +78,7 @@ namespace Newtonsoft.Json.Tests.Issues
             AssertNoTargetSite(serializableJson);
         }
 
-        [Test]
+        [Fact]
         public void Test_DefaultContractResolver()
         {
             DefaultContractResolver resolver = new DefaultContractResolver();

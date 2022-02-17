@@ -29,13 +29,9 @@ using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Issues
 {
@@ -96,7 +92,7 @@ namespace Newtonsoft.Json.Tests.Issues
 
         }
 
-        [Test]
+        [Fact]
         public void Test()
         {
             string json = @"{

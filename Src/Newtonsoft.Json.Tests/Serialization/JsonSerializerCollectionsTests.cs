@@ -41,13 +41,9 @@ using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Tests.TestObjects.Events;
 using Newtonsoft.Json.Tests.TestObjects.Organization;
 using Newtonsoft.Json.Utilities;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using System.Xml.Linq;
 
 namespace Newtonsoft.Json.Tests.Serialization
@@ -55,7 +51,7 @@ namespace Newtonsoft.Json.Tests.Serialization
     [TestFixture]
     public class JsonSerializerCollectionsTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void DeserializeNonGenericListTypeAndReadOnlyListViaConstructor()
         {
             ConstructorCollectionContainer a = JsonConvert.DeserializeObject<ConstructorCollectionContainer>("{'a':1,'b':['aaa'],'c':['aaa']}");
@@ -78,7 +74,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 
-        [Test]
+        [Fact]
         public void DeserializeConcurrentDictionaryWithNullValue()
         {
             const string key = "id";
@@ -90,7 +86,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.IsNull(deserializedObject[key]);
         }
 
-        [Test]
+        [Fact]
         public void SerializeConcurrentQueue()
         {
             ConcurrentQueue<int> queue1 = new ConcurrentQueue<int>();
@@ -105,7 +101,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(1, i);
         }
 
-        [Test]
+        [Fact]
         public void SerializeConcurrentBag()
         {
             ConcurrentBag<int> bag1 = new ConcurrentBag<int>();
@@ -120,7 +116,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(1, i);
         }
 
-        [Test]
+        [Fact]
         public void SerializeConcurrentStack()
         {
             ConcurrentStack<int> stack1 = new ConcurrentStack<int>();
@@ -135,7 +131,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(1, i);
         }
 
-        [Test]
+        [Fact]
         public void SerializeConcurrentDictionary()
         {
             ConcurrentDictionary<int, int> dic1 = new ConcurrentDictionary<int, int>();
@@ -150,7 +146,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(int.MaxValue, i);
         }
 
-        [Test]
+        [Fact]
         public void DoubleKey_WholeValue()
         {
             Dictionary<double, int> dictionary = new Dictionary<double, int> { { 1d, 1 } };
@@ -161,7 +157,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(1d, deserializedValue.First().Key);
         }
 
-        [Test]
+        [Fact]
         public void DoubleKey_MaxValue()
         {
             Dictionary<double, int> dictionary = new Dictionary<double, int> { { double.MaxValue, 1 } };
@@ -172,7 +168,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(double.MaxValue, deserializedValue.First().Key);
         }
 
-        [Test]
+        [Fact]
         public void FloatKey_MaxValue()
         {
             Dictionary<float, int> dictionary = new Dictionary<float, int> { { float.MaxValue, 1 } };
@@ -212,7 +208,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
 
-        [Test]
+        [Fact]
         public void CollectionJsonConstructorPrivateParameterized()
         {
             TestCollectionPrivateParameterized c1 = new TestCollectionPrivateParameterized();
@@ -243,7 +239,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 
-        [Test]
+        [Fact]
         public void CollectionJsonConstructorPrivate()
         {
             TestCollectionPrivate c1 = TestCollectionPrivate.Create();
@@ -269,7 +265,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 
-        [Test]
+        [Fact]
         public void CollectionJsonConstructorMultipleParameters()
         {
             ExceptionAssert.Throws<JsonException>(
@@ -285,7 +281,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 
-        [Test]
+        [Fact]
         public void CollectionJsonConstructorBadIEnumerableParameter()
         {
             ExceptionAssert.Throws<JsonException>(
@@ -302,7 +298,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 
-        [Test]
+        [Fact]
         public void CollectionJsonConstructorNonGeneric()
         {
             string json = @"[1,2,3]";
@@ -327,7 +323,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 
-        [Test]
+        [Fact]
         public void DictionaryJsonConstructorPrivateParameterized()
         {
             TestDictionaryPrivateParameterized c1 = new TestDictionaryPrivateParameterized();
@@ -356,7 +352,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 
-        [Test]
+        [Fact]
         public void DictionaryJsonConstructorPrivate()
         {
             TestDictionaryPrivate c1 = TestDictionaryPrivate.Create();
@@ -380,7 +376,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 
-        [Test]
+        [Fact]
         public void DictionaryJsonConstructorMultipleParameters()
         {
             ExceptionAssert.Throws<JsonException>(
@@ -396,7 +392,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 
-        [Test]
+        [Fact]
         public void DictionaryJsonConstructorBadIEnumerableParameter()
         {
             ExceptionAssert.Throws<JsonException>(
@@ -413,7 +409,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 
-        [Test]
+        [Fact]
         public void DictionaryJsonConstructorNonGeneric()
         {
             string json = @"{'zero':0,'one':1,'two':2}";
@@ -430,7 +426,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             public NameValueCollection Collection { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void DeserializeNameValueCollection()
         {
             ExceptionAssert.Throws<JsonSerializationException>(
@@ -458,7 +454,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 
-        [Test]
+        [Fact]
         public void SerializeCustomConcurrentDictionary()
         {
             IDictionary d = new CustomConcurrentDictionary();
@@ -487,7 +483,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("value2", d2["key2"][0].Text1);
         }
 
-        [Test]
+        [Fact]
         public void NonZeroBasedArray()
         {
             var onebasedArray = Array.CreateInstance(typeof(string), new[] { 3 }, new[] { 2 });
@@ -506,7 +502,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 ]", output);
         }
 
-        [Test]
+        [Fact]
         public void NonZeroBasedMultiArray()
         {
             // lets create a two dimensional array, each rank is 1-based of with a capacity of 4.
@@ -543,7 +539,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 ]", output);
         }
 
-        [Test]
+        [Fact]
         public void MultiDObjectArray()
         {
             object[,] myOtherArray =
@@ -609,7 +605,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 
-        [Test]
+        [Fact]
         public void DeserializeIEnumerableFromConstructor()
         {
             string json = @"[
@@ -646,7 +642,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 
-        [Test]
+        [Fact]
         public void DeserializeIEnumerableFromConstructor_Failure()
         {
             string json = @"[
@@ -665,7 +661,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 
-        [Test]
+        [Fact]
         public void DeserializePrivateListCtor()
         {
             ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<PrivateDefaultCtorList<int>>("[1,2]"), "Unable to find a constructor to use for type Newtonsoft.Json.Tests.Serialization.JsonSerializerCollectionsTests+PrivateDefaultCtorList`1[System.Int32]. Path '', line 1, position 1.");
@@ -691,7 +687,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 
-        [Test]
+        [Fact]
         public void DeserializePrivateListConstructor()
         {
             var list = JsonConvert.DeserializeObject<PrivateDefaultCtorWithIEnumerableCtorList<int>>("[1,2]");
@@ -702,7 +698,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(0, list[2]);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeNonIsoDateDictionaryKey()
         {
             Dictionary<DateTime, string> d = JsonConvert.DeserializeObject<Dictionary<DateTime, string>>(@"{""04/28/2013 00:00:00"":""test""}");
@@ -713,7 +709,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("test", d[key]);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeNonGenericList()
         {
             IList l = JsonConvert.DeserializeObject<IList>("['string!']");
@@ -723,7 +719,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("string!", l[0]);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeReadOnlyListInterface()
         {
             IReadOnlyList<int> list = JsonConvert.DeserializeObject<IReadOnlyList<int>>("[1,2,3]");
@@ -734,7 +730,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(3, list[2]);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeReadOnlyCollectionInterface()
         {
             IReadOnlyCollection<int> list = JsonConvert.DeserializeObject<IReadOnlyCollection<int>>("[1,2,3]");
@@ -746,7 +742,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(3, list.ElementAt(2));
         }
 
-        [Test]
+        [Fact]
         public void DeserializeReadOnlyCollection()
         {
             ReadOnlyCollection<int> list = JsonConvert.DeserializeObject<ReadOnlyCollection<int>>("[1,2,3]");
@@ -758,7 +754,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(3, list[2]);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeReadOnlyDictionaryInterface()
         {
             IReadOnlyDictionary<string, int> dic = JsonConvert.DeserializeObject<IReadOnlyDictionary<string, int>>("{'one':1,'two':2}");
@@ -771,7 +767,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             CustomAssert.IsInstanceOfType(typeof(ReadOnlyDictionary<string, int>), dic);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeReadOnlyDictionary()
         {
             ReadOnlyDictionary<string, int> dic = JsonConvert.DeserializeObject<ReadOnlyDictionary<string, int>>("{'one':1,'two':2}");
@@ -832,7 +828,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 
-        [Test]
+        [Fact]
         public void SerializeCustomReadOnlyDictionary()
         {
             IDictionary<string, int> d = new Dictionary<string, int>
@@ -875,7 +871,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 
-        [Test]
+        [Fact]
         public void SerializeCustomReadOnlyCollection()
         {
             IList<int> l = new List<int>
@@ -895,7 +891,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 ]", json);
         }
 
-        [Test]
+        [Fact]
         public void TestEscapeDictionaryStrings()
         {
             const string s = @"host\user";
@@ -921,7 +917,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 
-        [Test]
+        [Fact]
         public void DeserializeExistingGenericList()
         {
             GenericListTestClass c = new GenericListTestClass();
@@ -935,7 +931,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(typeof(List<string>), newValue.GenericList.GetType());
         }
 
-        [Test]
+        [Fact]
         public void DeserializeSimpleKeyValuePair()
         {
             List<KeyValuePair<string, string>> list = new List<KeyValuePair<string, string>>();
@@ -954,7 +950,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("value2", result[1].Value);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeComplexKeyValuePair()
         {
             DateTime dateTime = new DateTime(2000, 12, 1, 23, 1, 1, DateTimeKind.Utc);
@@ -1006,7 +1002,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(2, result[1].Value.HourlyWage);
         }
 
-        [Test]
+        [Fact]
         public void StringListAppenderConverterTest()
         {
             Movie p = new Movie();
@@ -1022,7 +1018,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("Appended", p.ReleaseCountries[1]);
         }
 
-        [Test]
+        [Fact]
         public void StringAppenderConverterTest()
         {
             Movie p = new Movie();
@@ -1036,7 +1032,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("Existing,Appended", p.Name);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeIDictionary()
         {
             IDictionary dictionary = JsonConvert.DeserializeObject<IDictionary>("{'name':'value!'}");
@@ -1044,14 +1040,14 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("value!", dictionary["name"]);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeIList()
         {
             IList list = JsonConvert.DeserializeObject<IList>("['1', 'two', 'III']");
             Assert.AreEqual(3, list.Count);
         }
 
-        [Test]
+        [Fact]
         public void NullableValueGenericDictionary()
         {
             IDictionary<string, int?> v1 = new Dictionary<string, int?>
@@ -1076,7 +1072,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(3, v2["Third"]);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeConcurrentDictionary()
         {
             IDictionary<string, TestObjects.Component> components = new Dictionary<string, TestObjects.Component>
@@ -1107,7 +1103,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("Name!", newObject.Name);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeKeyValuePairArray()
         {
             string json = @"[ { ""Value"": [ ""1"", ""2"" ], ""Key"": ""aaa"", ""BadContent"": [ 0 ] }, { ""Value"": [ ""3"", ""4"" ], ""Key"": ""bbb"" } ]";
@@ -1125,7 +1121,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("4", values[1].Value[1]);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeNullableKeyValuePairArray()
         {
             string json = @"[ { ""Value"": [ ""1"", ""2"" ], ""Key"": ""aaa"", ""BadContent"": [ 0 ] }, null, { ""Value"": [ ""3"", ""4"" ], ""Key"": ""bbb"" } ]";
@@ -1144,7 +1140,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("4", values[2].Value.Value[1]);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeNullToNonNullableKeyValuePairArray()
         {
             string json = @"[ null ]";
@@ -1188,7 +1184,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 
-        [Test]
+        [Fact]
         public void SerializeReadOnlyCollections()
         {
             PopulateReadOnlyTestClass c1 = new PopulateReadOnlyTestClass();
@@ -1229,7 +1225,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void PopulateReadOnlyCollections()
         {
             string json = @"{
@@ -1278,7 +1274,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(13, c2.Array[0]);
         }
 
-        [Test]
+        [Fact]
         public void SerializeArray2D()
         {
             Array2D aa = new Array2D();
@@ -1291,7 +1287,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(@"{""Before"":""Before!"",""Coordinates"":[[1,1],[1,2],[2,1],[2,2]],""After"":""After!""}", json);
         }
 
-        [Test]
+        [Fact]
         public void SerializeArray3D()
         {
             Array3D aa = new Array3D();
@@ -1304,7 +1300,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(@"{""Before"":""Before!"",""Coordinates"":[[[1,1,1],[1,1,2]],[[1,2,1],[1,2,2]],[[2,1,1],[2,1,2]],[[2,2,1],[2,2,2]]],""After"":""After!""}", json);
         }
 
-        [Test]
+        [Fact]
         public void SerializeArray3DWithConverter()
         {
             Array3DWithConverter aa = new Array3DWithConverter();
@@ -1370,7 +1366,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeArray3DWithConverter()
         {
             string json = @"{
@@ -1439,7 +1435,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(2, aa.Coordinates[1, 1, 1]);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeArray2D()
         {
             string json = @"{""Before"":""Before!"",""Coordinates"":[[1,1],[1,2],[2,1],[2,2]],""After"":""After!""}";
@@ -1458,7 +1454,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(json, after);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeArray2D_WithTooManyItems()
         {
             string json = @"{""Before"":""Before!"",""Coordinates"":[[1,1],[1,2,3],[2,1],[2,2]],""After"":""After!""}";
@@ -1466,7 +1462,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             ExceptionAssert.Throws<Exception>(() => JsonConvert.DeserializeObject<Array2D>(json), "Cannot deserialize non-cubical array as multidimensional array.");
         }
 
-        [Test]
+        [Fact]
         public void DeserializeArray2D_WithTooFewItems()
         {
             string json = @"{""Before"":""Before!"",""Coordinates"":[[1,1],[1],[2,1],[2,2]],""After"":""After!""}";
@@ -1474,7 +1470,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             ExceptionAssert.Throws<Exception>(() => JsonConvert.DeserializeObject<Array2D>(json), "Cannot deserialize non-cubical array as multidimensional array.");
         }
 
-        [Test]
+        [Fact]
         public void DeserializeArray3D()
         {
             string json = @"{""Before"":""Before!"",""Coordinates"":[[[1,1,1],[1,1,2]],[[1,2,1],[1,2,2]],[[2,1,1],[2,1,2]],[[2,2,1],[2,2,2]]],""After"":""After!""}";
@@ -1494,7 +1490,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(json, after);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeArray3D_WithTooManyItems()
         {
             string json = @"{""Before"":""Before!"",""Coordinates"":[[[1,1,1],[1,1,2,1]],[[1,2,1],[1,2,2]],[[2,1,1],[2,1,2]],[[2,2,1],[2,2,2]]],""After"":""After!""}";
@@ -1502,7 +1498,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             ExceptionAssert.Throws<Exception>(() => JsonConvert.DeserializeObject<Array3D>(json), "Cannot deserialize non-cubical array as multidimensional array.");
         }
 
-        [Test]
+        [Fact]
         public void DeserializeArray3D_WithBadItems()
         {
             string json = @"{""Before"":""Before!"",""Coordinates"":[[[1,1,1],[1,1,2]],[[1,2,1],[1,2,2]],[[2,1,1],[2,1,2]],[[2,2,1],{}]],""After"":""After!""}";
@@ -1510,7 +1506,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<Array3D>(json), "Unexpected token when deserializing multidimensional array: StartObject. Path 'Coordinates[3][1]', line 1, position 99.");
         }
 
-        [Test]
+        [Fact]
         public void DeserializeArray3D_WithTooFewItems()
         {
             string json = @"{""Before"":""Before!"",""Coordinates"":[[[1,1,1],[1,1]],[[1,2,1],[1,2,2]],[[2,1,1],[2,1,2]],[[2,2,1],[2,2,2]]],""After"":""After!""}";
@@ -1518,7 +1514,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             ExceptionAssert.Throws<Exception>(() => JsonConvert.DeserializeObject<Array3D>(json), "Cannot deserialize non-cubical array as multidimensional array.");
         }
 
-        [Test]
+        [Fact]
         public void SerializeEmpty3DArray()
         {
             Array3D aa = new Array3D();
@@ -1531,7 +1527,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(@"{""Before"":""Before!"",""Coordinates"":[],""After"":""After!""}", json);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeEmpty3DArray()
         {
             string json = @"{""Before"":""Before!"",""Coordinates"":[],""After"":""After!""}";
@@ -1549,7 +1545,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(json, after);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeIncomplete3DArray()
         {
             string json = @"{""Before"":""Before!"",""Coordinates"":[/*hi*/[/*hi*/[1/*hi*/,/*hi*/1/*hi*/,1]/*hi*/,/*hi*/[1,1";
@@ -1557,7 +1553,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             ExceptionAssert.Throws<JsonException>(() => JsonConvert.DeserializeObject<Array3D>(json));
         }
 
-        [Test]
+        [Fact]
         public void DeserializeIncompleteNotTopLevel3DArray()
         {
             string json = @"{""Before"":""Before!"",""Coordinates"":[/*hi*/[/*hi*/";
@@ -1565,7 +1561,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             ExceptionAssert.Throws<JsonException>(() => JsonConvert.DeserializeObject<Array3D>(json));
         }
 
-        [Test]
+        [Fact]
         public void DeserializeNull3DArray()
         {
             string json = @"{""Before"":""Before!"",""Coordinates"":null,""After"":""After!""}";
@@ -1581,7 +1577,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(json, after);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeSemiEmpty3DArray()
         {
             string json = @"{""Before"":""Before!"",""Coordinates"":[[]],""After"":""After!""}";
@@ -1599,7 +1595,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(json, after);
         }
 
-        [Test]
+        [Fact]
         public void SerializeReferenceTracked3DArray()
         {
             Event1 e1 = new Event1
@@ -1653,7 +1649,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void SerializeTypeName3DArray()
         {
             Event1 e1 = new Event1
@@ -1754,7 +1750,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("EventName!", values2[0][0, 0].EventName);
         }
 
-        [Test]
+        [Fact]
         public void PrimitiveValuesInObjectArray()
         {
             string json = @"{""action"":""Router"",""method"":""Navigate"",""data"":[""dashboard"",null],""type"":""rpc"",""tid"":2}";
@@ -1768,7 +1764,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(null, o.Data[1]);
         }
 
-        [Test]
+        [Fact]
         public void ComplexValuesInObjectArray()
         {
             string json = @"{""action"":""Router"",""method"":""Navigate"",""data"":[""dashboard"",[""id"", 1, ""teststring"", ""test""],{""one"":1}],""type"":""rpc"",""tid"":2}";
@@ -1786,7 +1782,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(1, (int)((JObject)o.Data[2])["one"]);
         }
 
-        [Test]
+        [Fact]
         public void SerializeArrayAsArrayList()
         {
             string jsonText = @"[3, ""somestring"",[1,2,3],{}]";
@@ -1797,7 +1793,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(0, ((JObject)o[3]).Count);
         }
 
-        [Test]
+        [Fact]
         public void SerializeMemberGenericList()
         {
             Name name = new Name("The Idiot in Next To Me");
@@ -1835,7 +1831,7 @@ namespace Newtonsoft.Json.Tests.Serialization
         [TestFixture]
         public class MultipleDefinedPropertySerialization
         {
-            [Test]
+            [Fact]
             public void SerializePropertyDefinedInMultipleInterfaces()
             {
                 const string propertyValue = "value";
@@ -1867,7 +1863,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 
-        [Test]
+        [Fact]
         public void CustomCollectionSerialization()
         {
             ProductCollection collection = new ProductCollection()
@@ -1892,7 +1888,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             CollectionAssert.AreEqual(collection, collectionNew);
         }
 
-        [Test]
+        [Fact]
         public void GenericCollectionInheritance()
         {
             string json;
@@ -1916,7 +1912,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(@"{""selectList"":[{""Value"":""Hello""}]}", json);
         }
 
-        [Test]
+        [Fact]
         public void InheritedListSerialize()
         {
             Article a1 = new Article("a1");
@@ -1934,7 +1930,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(articles1[0].Name, articles2[0].Name);
         }
 
-        [Test]
+        [Fact]
         public void ReadOnlyCollectionSerialize()
         {
             ReadOnlyCollection<int> r1 = new ReadOnlyCollection<int>(new int[] { 0, 1, 2, 3, 4 });
@@ -1948,7 +1944,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             CollectionAssert.AreEqual(r1, r2);
         }
 
-        [Test]
+        [Fact]
         public void SerializeGenericList()
         {
             Product p1 = new Product
@@ -2000,7 +1996,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 ]", json);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeGenericList()
         {
             string json = @"[
@@ -2026,7 +2022,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("Product 1", p1.Name);
         }
 
-        [Test]
+        [Fact]
         public void ReadOnlyIntegerList()
         {
             ReadOnlyIntegerList l = new ReadOnlyIntegerList(new List<int>
@@ -2047,7 +2043,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 ]", json);
         }
 
-        [Test]
+        [Fact]
         public void EmptyStringInHashtableIsDeserialized()
         {
             string externalJson = @"{""$type"":""System.Collections.Hashtable, mscorlib"",""testkey"":""""}";
@@ -2060,7 +2056,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(deserializeTest2["testkey"], "");
         }
 
-        [Test]
+        [Fact]
         public void DeserializeCollectionWithConstructorArrayArgument()
         {
             var v = new ReadOnlyCollectionWithArrayArgument<double>(new[] { -0.014147478859765236, -0.011419606805541858, -0.010038461483676238 });
@@ -2072,7 +2068,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }, "Unable to find a constructor to use for type Newtonsoft.Json.Tests.Serialization.ReadOnlyCollectionWithArrayArgument`1[System.Double]. Path '', line 1, position 1.");
         }
 
-        [Test]
+        [Fact]
         public void NonDefaultConstructor_DuplicateKeyInDictionary_Replace()
         {
             string json = @"{ ""user"":""bpan"", ""Person"":{ ""groups"":""replaced!"", ""domain"":""adm"", ""mail"":""bpan@sdu.dk"", ""sn"":""Pan"", ""gn"":""Benzhi"", ""cn"":""Benzhi Pan"", ""eo"":""BQHLJaVTMr0eWsi1jaIut4Ls/pSuMeNEmsWfWsfKo="", ""guid"":""9A38CE8E5B288942A8DA415CF5E687"", ""employeenumber"":""2674"", ""omk1"":""930"", ""language"":""da"" }, ""XMLResponce"":""<?xml version='1.0' encoding='iso-8859-1' ?>\n<cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>\n\t<cas:authenticationSuccess>\n\t\t<cas:user>bpan</cas:user>\n\t\t<norEduPerson>\n\t\t\t<groups>FNC-PRI-APP-SUNDB-EDOR-A,FNC-RI-APP-SUB-EDITOR-B</groups>\n\t\t\t<domain>adm</domain>\n\t\t\t<mail>bpan@sdu.dk</mail>\n\t\t\t<sn>Pan</sn>\n\t\t\t<gn>Benzhi</gn>\n\t\t\t<cn>Benzhi Pan</cn>\n\t\t\t<eo>BQHLJaVTMr0eWsi1jaIut4Lsfr/pSuMeNEmsWfWsfKo=</eo>\n\t\t\t<guid>9A38CE8E5B288942A8DA415C2C687</guid>\n\t\t\t<employeenumber>274</employeenumber>\n\t\t\t<omk1>930</omk1>\n\t\t\t<language>da</language>\n\t\t</norEduPerson>\n\t</cas:authenticationSuccess>\n</cas:serviceResponse>\n"", ""Language"":1, ""Groups"":[ ""FNC-PRI-APP-SNDB-EDOR-A"", ""FNC-PI-APP-SUNDB-EDOR-B"" ], ""Domain"":""adm"", ""Mail"":""bpan@sdu.dk"", ""Surname"":""Pan"", ""Givenname"":""Benzhi"", ""CommonName"":""Benzhi Pan"", ""OrganizationName"":null }";
@@ -2082,7 +2078,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("replaced!", result.Person["groups"]);
         }
 
-        [Test]
+        [Fact]
         public void GenericIListAndOverrideConstructor()
         {
             MyClass deserialized = JsonConvert.DeserializeObject<MyClass>(@"[""apple"", ""monkey"", ""goose""]");
@@ -2093,7 +2089,7 @@ namespace Newtonsoft.Json.Tests.Serialization
         }
 
 #if !NET5_0_OR_GREATER
-        [Test]
+        [Fact]
         public void DeserializeCultureInfoKey()
         {
             string json = @"{ ""en-US"": ""Hi"", ""sv-SE"": ""Hej"" }";
@@ -2103,14 +2099,14 @@ namespace Newtonsoft.Json.Tests.Serialization
         }
 #endif
 
-        [Test]
+        [Fact]
         public void DeserializeEmptyEnumerable_NoItems()
         {
             ValuesClass c = JsonConvert.DeserializeObject<ValuesClass>(@"{""Values"":[]}");
             Assert.AreEqual(0, c.Values.Count());
         }
 
-        [Test]
+        [Fact]
         public void DeserializeEmptyEnumerable_HasItems()
         {
             ValuesClass c = JsonConvert.DeserializeObject<ValuesClass>(@"{""Values"":[""hello""]}");
@@ -2123,7 +2119,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             public IEnumerable<string> Values { get; set; } = Enumerable.Empty<string>();
         }
 
-        [Test]
+        [Fact]
         public void DeserializeConstructorWithReadonlyArrayProperty()
         {
             string json = @"{""Endpoint"":""http://localhost"",""Name"":""account1"",""Dimensions"":[{""Key"":""Endpoint"",""Value"":""http://localhost""},{""Key"":""Name"",""Value"":""account1""}]}";

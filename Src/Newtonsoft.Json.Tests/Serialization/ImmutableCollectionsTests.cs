@@ -29,13 +29,9 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Linq;
 
 namespace Newtonsoft.Json.Tests.Serialization
@@ -44,7 +40,7 @@ namespace Newtonsoft.Json.Tests.Serialization
     public class ImmutableCollectionsTests : TestFixtureBase
     {
         #region List
-        [Test]
+        [Fact]
         public void SerializeList()
         {
             ImmutableList<string> l = ImmutableList.CreateRange(new List<string>
@@ -62,7 +58,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 ]", json);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeList()
         {
             string json = @"[
@@ -79,7 +75,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("3", l[2]);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeListInterface()
         {
             string json = @"[
@@ -99,7 +95,7 @@ namespace Newtonsoft.Json.Tests.Serialization
         #endregion
 
         #region Array
-        [Test]
+        [Fact]
         public void SerializeArray()
         {
             ImmutableArray<string> l = ImmutableArray.CreateRange(new List<string>
@@ -117,7 +113,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 ]", json);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeArray()
         {
             string json = @"[
@@ -134,7 +130,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("3", l[2]);
         }
 
-        [Test]
+        [Fact]
         public void SerializeDefaultArray()
         {
             ExceptionAssert.Throws<InvalidOperationException>(
@@ -144,7 +140,7 @@ namespace Newtonsoft.Json.Tests.Serialization
         #endregion
 
         #region Queue
-        [Test]
+        [Fact]
         public void SerializeQueue()
         {
             ImmutableQueue<string> l = ImmutableQueue.CreateRange(new List<string>
@@ -162,7 +158,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 ]", json);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeQueue()
         {
             string json = @"[
@@ -179,7 +175,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("3", l.ElementAt(2));
         }
 
-        [Test]
+        [Fact]
         public void DeserializeQueueInterface()
         {
             string json = @"[
@@ -198,7 +194,7 @@ namespace Newtonsoft.Json.Tests.Serialization
         #endregion
 
         #region Stack
-        [Test]
+        [Fact]
         public void SerializeStack()
         {
             ImmutableStack<string> l = ImmutableStack.CreateRange(new List<string>
@@ -216,7 +212,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 ]", json);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeStack()
         {
             string json = @"[
@@ -233,7 +229,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("One", l.ElementAt(2));
         }
 
-        [Test]
+        [Fact]
         public void DeserializeStackInterface()
         {
             string json = @"[
@@ -252,7 +248,7 @@ namespace Newtonsoft.Json.Tests.Serialization
         #endregion
 
         #region HashSet
-        [Test]
+        [Fact]
         public void SerializeHashSet()
         {
             ImmutableHashSet<string> l = ImmutableHashSet.CreateRange(new List<string>
@@ -271,7 +267,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.IsTrue(a.Any(t => t.DeepEquals("3")));
         }
 
-        [Test]
+        [Fact]
         public void DeserializeHashSet()
         {
             string json = @"[
@@ -288,7 +284,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.IsTrue(l.Contains("One"));
         }
 
-        [Test]
+        [Fact]
         public void DeserializeHashSetInterface()
         {
             string json = @"[
@@ -309,7 +305,7 @@ namespace Newtonsoft.Json.Tests.Serialization
         #endregion
 
         #region SortedSet
-        [Test]
+        [Fact]
         public void SerializeSortedSet()
         {
             ImmutableSortedSet<string> l = ImmutableSortedSet.CreateRange(new List<string>
@@ -327,7 +323,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 ]", json);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeSortedSet()
         {
             string json = @"[
@@ -346,7 +342,7 @@ namespace Newtonsoft.Json.Tests.Serialization
         #endregion
 
         #region Dictionary
-        [Test]
+        [Fact]
         public void SerializeDictionary()
         {
             ImmutableDictionary<int, string> l = ImmutableDictionary.CreateRange(new Dictionary<int, string>
@@ -364,7 +360,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("3", (string)a["3"]);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeDictionary()
         {
             string json = @"{
@@ -381,7 +377,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("3", l[3]);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeDictionaryInterface()
         {
             string json = @"{
@@ -402,7 +398,7 @@ namespace Newtonsoft.Json.Tests.Serialization
         #endregion
 
         #region SortedDictionary
-        [Test]
+        [Fact]
         public void SerializeSortedDictionary()
         {
             ImmutableSortedDictionary<int, string> l = ImmutableSortedDictionary.CreateRange(new SortedDictionary<int, string>
@@ -420,7 +416,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeSortedDictionary()
         {
             string json = @"{

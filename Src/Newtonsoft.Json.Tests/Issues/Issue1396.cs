@@ -33,20 +33,16 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Xml;
 using System.Xml.Linq;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Issues
 {
     [TestFixture]
     public class Issue1396 : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Test()
         {
             using (var stringReader = new StringReader(","))

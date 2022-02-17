@@ -28,22 +28,17 @@ using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Tests.TestObjects;
-#if NET5_0_OR_GREATER
-using Xunit;
+using Newtonsoft.Json.Tests.TestObjects;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
 
-#endif
 
 namespace Newtonsoft.Json.Tests.Serialization
 {
     [TestFixture]
     public class MissingMemberHandlingTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void MissingMemberDeserialize()
         {
             Product product = new Product();
@@ -71,7 +66,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }, @"Could not find member 'Price' on object of type 'ProductShort'. Path 'Price', line 4, position 10.");
         }
 
-        [Test]
+        [Fact]
         public void MissingMemberDeserializeOkay()
         {
             Product product = new Product();
@@ -112,7 +107,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("Large", deserializedProductShort.Sizes[2]);
         }
 
-        [Test]
+        [Fact]
         public void MissingMemberIgnoreComplexValue()
         {
             JsonSerializer serializer = new JsonSerializer { MissingMemberHandling = MissingMemberHandling.Ignore };
@@ -126,7 +121,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(2, myClass.PostProperty);
         }
 
-        [Test]
+        [Fact]
         public void CaseInsensitive()
         {
             string json = @"{""height"":1}";
@@ -136,7 +131,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(1d, c.Height);
         }
 
-        [Test]
+        [Fact]
         public void MissingMemeber()
         {
             string json = @"{""Missing"":1}";
@@ -144,7 +139,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             ExceptionAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<DoubleClass>(json, new JsonSerializerSettings { MissingMemberHandling = MissingMemberHandling.Error }); }, "Could not find member 'Missing' on object of type 'DoubleClass'. Path 'Missing', line 1, position 11.");
         }
 
-        [Test]
+        [Fact]
         public void MissingJson()
         {
             string json = @"{}";
@@ -155,7 +150,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             });
         }
 
-        [Test]
+        [Fact]
         public void MissingErrorAttribute()
         {
             string json = @"{""Missing"":1}";
@@ -179,7 +174,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             public Name Name { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void MissingMemberHandling_RootObject()
         {
             IList<string> errors = new List<string>();
@@ -205,7 +200,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("Could not find member 'nameERROR' on object of type 'Person'. Path 'nameERROR', line 1, position 11.", errors[0]);
         }
 
-        [Test]
+        [Fact]
         public void MissingMemberHandling_InnerObject()
         {
             IList<string> errors = new List<string>();
@@ -243,7 +238,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             public SimpleExtendableObject Data;
         }
 
-        [Test]
+        [Fact]
         public void TestMissingMemberHandlingForDirectObjects()
         {
             string json = @"{""extensionData1"": [1,2,3]}";
@@ -252,7 +247,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(JTokenType.Array, o1.Type);
         }
 
-        [Test]
+        [Fact]
         public void TestMissingMemberHandlingForChildObjects()
         {
             string json = @"{""Data"":{""extensionData1"": [1,2,3]}}";
@@ -261,7 +256,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(JTokenType.Array, o1.Type);
         }
 
-        [Test]
+        [Fact]
         public void TestMissingMemberHandlingForChildObjectsWithInvalidData()
         {
             string json = @"{""InvalidData"":{""extensionData1"": [1,2,3]}}";

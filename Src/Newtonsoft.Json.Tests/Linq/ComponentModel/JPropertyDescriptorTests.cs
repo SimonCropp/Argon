@@ -23,13 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Linq;
 
 namespace Newtonsoft.Json.Tests.Linq.ComponentModel
@@ -37,7 +33,7 @@ namespace Newtonsoft.Json.Tests.Linq.ComponentModel
     [TestFixture]
     public class JPropertyDescriptorTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void GetValue()
         {
             JObject o = JObject.Parse("{prop1:'12345!',prop2:[1,'two','III']}");
@@ -49,7 +45,7 @@ namespace Newtonsoft.Json.Tests.Linq.ComponentModel
             Assert.AreEqual(o["prop2"], prop2.GetValue(o));
         }
 
-        [Test]
+        [Fact]
         public void GetValue_NullOwner_ReturnsNull()
         {
             JPropertyDescriptor prop1 = new JPropertyDescriptor("prop1");
@@ -57,7 +53,7 @@ namespace Newtonsoft.Json.Tests.Linq.ComponentModel
             Assert.AreEqual(null, prop1.GetValue(null));
         }
 
-        [Test]
+        [Fact]
         public void SetValue()
         {
             JObject o = JObject.Parse("{prop1:'12345!'}");
@@ -69,7 +65,7 @@ namespace Newtonsoft.Json.Tests.Linq.ComponentModel
             Assert.AreEqual("54321!", (string)o["prop1"]);
         }
 
-        [Test]
+        [Fact]
         public void SetValue_NullOwner_NoError()
         {
             JPropertyDescriptor prop1 = new JPropertyDescriptor("prop1");
@@ -77,7 +73,7 @@ namespace Newtonsoft.Json.Tests.Linq.ComponentModel
             prop1.SetValue(null, "value!");
         }
 
-        [Test]
+        [Fact]
         public void ResetValue()
         {
             JObject o = JObject.Parse("{prop1:'12345!'}");
@@ -88,7 +84,7 @@ namespace Newtonsoft.Json.Tests.Linq.ComponentModel
             Assert.AreEqual("12345!", (string)o["prop1"]);
         }
 
-        [Test]
+        [Fact]
         public void IsReadOnly()
         {
             JPropertyDescriptor propertyDescriptor1 = new JPropertyDescriptor("prop1");
@@ -96,7 +92,7 @@ namespace Newtonsoft.Json.Tests.Linq.ComponentModel
             Assert.AreEqual(false, propertyDescriptor1.IsReadOnly);
         }
 
-        [Test]
+        [Fact]
         public void PropertyType()
         {
             JPropertyDescriptor propertyDescriptor1 = new JPropertyDescriptor("prop1");

@@ -30,7 +30,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json.Tests.LinqToSql;
-using NUnit.Framework;
+using Xunit;
 using System.Reflection;
 using System.ComponentModel;
 using Newtonsoft.Json.Serialization;
@@ -40,7 +40,7 @@ namespace Newtonsoft.Json.Tests.LinqToSql
 {
     public class LinqToSqlClassesSerializationTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Serialize()
         {
             Role role = new Role();
@@ -88,7 +88,7 @@ namespace Newtonsoft.Json.Tests.LinqToSql
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void Deserialize()
         {
             string json = @"{
@@ -113,24 +113,24 @@ namespace Newtonsoft.Json.Tests.LinqToSql
 }";
 
             Person person = JsonConvert.DeserializeObject<Person>(json);
-            Assert.IsNotNull(person);
+            Assert.NotNull(person);
 
-            Assert.AreEqual(new Guid("7AA027AA-C995-4986-908D-999D8063599F"), person.PersonId);
-            Assert.AreEqual("FirstName!", person.FirstName);
-            Assert.AreEqual("LastName!", person.LastName);
-            Assert.AreEqual(1, person.PersonRoles.Count);
-            Assert.AreEqual(person.PersonId, person.PersonRoles[0].PersonId);
-            Assert.AreEqual(new Guid("67EA92B7-4BD3-4718-BD75-3C7EDF800B34"), person.PersonRoles[0].RoleId);
-            Assert.IsNotNull(person.PersonRoles[0].Role);
-            Assert.AreEqual(1, person.PersonRoles[0].Role.PersonRoles.Count);
+            Assert.Equal(new Guid("7AA027AA-C995-4986-908D-999D8063599F"), person.PersonId);
+            Assert.Equal("FirstName!", person.FirstName);
+            Assert.Equal("LastName!", person.LastName);
+            Assert.Single(person.PersonRoles);
+            Assert.Equal(person.PersonId, person.PersonRoles[0].PersonId);
+            Assert.Equal(new Guid("67EA92B7-4BD3-4718-BD75-3C7EDF800B34"), person.PersonRoles[0].RoleId);
+            Assert.NotNull(person.PersonRoles[0].Role);
+            Assert.Single(person.PersonRoles[0].Role.PersonRoles);
 
-            Assert.AreEqual("Name!", person.Department.Name);
+            Assert.Equal("Name!", person.Department.Name);
 
             TableAttribute tableAttribute = JsonTypeReflector.GetAttribute<TableAttribute>(typeof(Person));
-            Assert.AreEqual("", tableAttribute.Name);
+            Assert.Equal("", tableAttribute.Name);
 
             ColumnAttribute columnAttribute = JsonTypeReflector.GetAttribute<ColumnAttribute>(typeof(Person).GetProperty("FirstName"));
-            Assert.AreEqual("_FirstName", columnAttribute.Storage);
+            Assert.Equal("_FirstName", columnAttribute.Storage);
         }
     }
 }

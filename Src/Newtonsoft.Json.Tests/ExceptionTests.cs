@@ -26,22 +26,17 @@
 using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using Newtonsoft.Json.Schema;
-#if NET5_0_OR_GREATER
-using Xunit;
+using Newtonsoft.Json.Schema;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
 
-#endif
 
 namespace Newtonsoft.Json.Tests
 {
     [TestFixture]
     public class ExceptionTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void JsonSerializationException()
         {
             JsonSerializationException exception = new JsonSerializationException();
@@ -56,7 +51,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual("Inner!", exception.InnerException.Message);
         }
 
-        [Test]
+        [Fact]
         public void JsonWriterException()
         {
             JsonWriterException exception = new JsonWriterException();
@@ -71,7 +66,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual("Inner!", exception.InnerException.Message);
         }
 
-        [Test]
+        [Fact]
         public void JsonReaderException()
         {
             JsonReaderException exception = new JsonReaderException();
@@ -87,7 +82,7 @@ namespace Newtonsoft.Json.Tests
         }
 
 #pragma warning disable 618
-        [Test]
+        [Fact]
         public void JsonSchemaException()
         {
             JsonSchemaException exception = new JsonSchemaException();
@@ -103,7 +98,7 @@ namespace Newtonsoft.Json.Tests
         }
 #pragma warning restore 618
 
-        [Test]
+        [Fact]
         public void BinarySerializeException()
         {
             JsonReaderException exception = new JsonReaderException("message!");

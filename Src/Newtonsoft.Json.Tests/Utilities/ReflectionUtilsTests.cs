@@ -27,13 +27,9 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Utilities;
 
 namespace Newtonsoft.Json.Tests.Utilities
@@ -41,7 +37,7 @@ namespace Newtonsoft.Json.Tests.Utilities
     [TestFixture]
     public class ReflectionUtilsTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void GetTypeNameSimpleForGenericTypes()
         {
             string typeName;

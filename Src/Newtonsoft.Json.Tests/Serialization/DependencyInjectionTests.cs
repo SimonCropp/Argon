@@ -35,15 +35,10 @@ using System.Threading.Tasks;
 using Autofac.Core;
 using Autofac.Core.Activators.Reflection;
 using Microsoft.FSharp.Collections;
-using Newtonsoft.Json.Tests.TestObjects.Organization;
-#if NET5_0_OR_GREATER
-using Xunit;
+using Newtonsoft.Json.Tests.TestObjects.Organization;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
 
-#endif
 
 namespace Newtonsoft.Json.Tests.Serialization
 {
@@ -191,7 +186,7 @@ namespace Newtonsoft.Json.Tests.Serialization
     [TestFixture]
     public class DependencyInjectionTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void ResolveContractFromAutofac()
         {
             ContainerBuilder builder = new ContainerBuilder();
@@ -208,7 +203,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("Company name!", user.Company.CompanyName);
         }
 
-        [Test]
+        [Fact]
         public void CreateObjectWithParameters()
         {
             int count = 0;
@@ -244,7 +239,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("Debug", controller.Logger.Level);
         }
 
-        [Test]
+        [Fact]
         public void CreateObjectWithSettableParameter()
         {
             int count = 0;

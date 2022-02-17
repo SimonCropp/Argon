@@ -25,13 +25,9 @@
 
 using System;
 using System.Text;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Tests.TestObjects.JsonTextReaderTests;
@@ -40,12 +36,9 @@ using Newtonsoft.Json.Utilities;
 namespace Newtonsoft.Json.Tests.JsonTextReaderTests
 {
     [TestFixture]
-#if !NET5_0_OR_GREATER
-    [Category("JsonTextReaderTests")]
-#endif
     public class ParseAsyncTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public async Task ParseAdditionalContent_WhitespaceAsync()
         {
             string json = @"[
@@ -62,7 +55,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             }
         }
 
-        [Test]
+        [Fact]
         public async Task ParsingQuotedPropertyWithControlCharactersAsync()
         {
             JsonReader reader = new JsonTextReader(new StringReader(@"{'hi\r\nbye':1}"));
@@ -78,7 +71,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.IsFalse(await reader.ReadAsync());
         }
 
-        [Test]
+        [Fact]
         public async Task ParseIntegersAsync()
         {
             JsonTextReader reader = new JsonTextReader(new StringReader("1"));
@@ -118,7 +111,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => await reader.ReadAsInt32Async(), "Input string '-' is not a valid integer. Path '', line 1, position 1.");
         }
 
-        [Test]
+        [Fact]
         public async Task ParseDecimalsAsync()
         {
             JsonTextReader reader = new JsonTextReader(new StringReader("1.1"));
@@ -150,7 +143,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => await reader.ReadAsDecimalAsync(), "Input string '-' is not a valid decimal. Path '', line 1, position 1.");
         }
 
-        [Test]
+        [Fact]
         public async Task ParseDoublesAsync()
         {
             JsonTextReader reader = new JsonTextReader(new StringReader("1.1"));
@@ -224,7 +217,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.AreEqual(1e-23, reader.Value);
         }
 
-        [Test]
+        [Fact]
         public async Task ParseArrayWithMissingValuesAsync()
         {
             string json = "[,,, \n\r\n \0   \r  , ,    ]";
@@ -252,7 +245,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
         }
 
-        [Test]
+        [Fact]
         public async Task ParseBooleanWithNoExtraContentAsync()
         {
             string json = "[true ";
@@ -263,7 +256,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.IsFalse(await reader.ReadAsync());
         }
 
-        [Test]
+        [Fact]
         public async Task ParseContentDelimitedByNonStandardWhitespaceAsync()
         {
             string json = "\x00a0{\x00a0'h\x00a0i\x00a0'\x00a0:\x00a0[\x00a0true\x00a0,\x00a0new\x00a0Date\x00a0(\x00a0)\x00a0]\x00a0/*\x00a0comment\x00a0*/\x00a0}\x00a0";
@@ -299,7 +292,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.IsFalse(await reader.ReadAsync());
         }
 
-        [Test]
+        [Fact]
         public async Task ParseObjectWithNoEndAsync()
         {
             string json = "{hi:1, ";
@@ -311,7 +304,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.IsFalse(await reader.ReadAsync());
         }
 
-        [Test]
+        [Fact]
         public async Task ParseEmptyArrayAsync()
         {
             string json = "[]";
@@ -324,7 +317,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
         }
 
-        [Test]
+        [Fact]
         public async Task ParseEmptyObjectAsync()
         {
             string json = "{}";
@@ -337,7 +330,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
         }
 
-        [Test]
+        [Fact]
         public async Task ParseEmptyConstructorAsync()
         {
             string json = "new Date()";
@@ -350,7 +343,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.AreEqual(JsonToken.EndConstructor, reader.TokenType);
         }
 
-        [Test]
+        [Fact]
         public async Task ParseHexNumberAsync()
         {
             string json = @"0x20";
@@ -362,7 +355,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.AreEqual(32m, reader.Value);
         }
 
-        [Test]
+        [Fact]
         public async Task ParseNumbersAsync()
         {
             string json = @"[0,1,2 , 3]";
@@ -388,7 +381,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
         }
 
-        [Test]
+        [Fact]
         public async Task ParseLineFeedDelimitedConstructorAsync()
         {
             string json = "new Date\n()";
@@ -402,7 +395,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.AreEqual(JsonToken.EndConstructor, reader.TokenType);
         }
 
-        [Test]
+        [Fact]
         public async Task ParseNullStringConstructorAsync()
         {
             string json = "new Date\0()";
@@ -419,7 +412,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.AreEqual(JsonToken.EndConstructor, reader.TokenType);
         }
 
-        [Test]
+        [Fact]
         public async Task ParseOctalNumberAsync()
         {
             string json = @"010";
@@ -431,7 +424,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.AreEqual(8m, reader.Value);
         }
 
-        [Test]
+        [Fact]
         public async Task DateParseHandlingAsync()
         {
             string json = @"[""1970-01-01T00:00:00Z"",""\/Date(0)\/""]";

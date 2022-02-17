@@ -29,15 +29,10 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using BenchmarkDotNet.Running;
-#if NET5_0_OR_GREATER
-using Xunit;
+using BenchmarkDotNet.Running;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
 
-#endif
 
 namespace Newtonsoft.Json.Tests.Benchmarks
 {
@@ -45,7 +40,7 @@ namespace Newtonsoft.Json.Tests.Benchmarks
     public class Runner : TestFixtureBase
     {
 #if false
-        [Test]
+        [Fact]
         public void RunBenchmarks()
         {
             new BenchmarkSwitcher(typeof(Runner).GetTypeInfo().Assembly).Run(new []{ "*" });

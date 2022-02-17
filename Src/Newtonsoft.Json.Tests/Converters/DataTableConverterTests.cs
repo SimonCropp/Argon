@@ -30,13 +30,9 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using System.Data;
 using System.Data.SqlTypes;
 using System.Linq;
@@ -47,7 +43,7 @@ namespace Newtonsoft.Json.Tests.Converters
 {
     public class DataTableConverterTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void DeserializeEmptyNestedArray()
         {
             var jsonString2 = @"[{""col1"": []}]";
@@ -64,7 +60,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(0, value.Length);
         }
 
-        [Test]
+        [Fact]
         public void SerializeNullValues()
         {
             DataTable dt = new DataTable();
@@ -108,7 +104,7 @@ namespace Newtonsoft.Json.Tests.Converters
 ]", sw.ToString());
         }
 
-        [Test]
+        [Fact]
         public void SerializeValues()
         {
             DataTable dt = new DataTable();
@@ -158,7 +154,7 @@ namespace Newtonsoft.Json.Tests.Converters
 ]", sw.ToString());
         }
 
-        [Test]
+        [Fact]
         public void WriteJsonNull()
         {
             StringWriter sw = new StringWriter();
@@ -170,7 +166,7 @@ namespace Newtonsoft.Json.Tests.Converters
             StringAssert.AreEqual(@"null", sw.ToString());
         }
 
-        [Test]
+        [Fact]
         public void Deserialize()
         {
             string json = @"[
@@ -235,7 +231,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(new DateTime(2000, 12, 29, 0, 0, 0, DateTimeKind.Utc), dr2["DateCol"]);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeParseHandling()
         {
             string json = @"[
@@ -274,7 +270,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(99.9999999999999999999m, dr2["FloatCol"]);
         }
 
-        [Test]
+        [Fact]
         public void Serialize()
         {
             // create a new DataTable.
@@ -385,7 +381,7 @@ namespace Newtonsoft.Json.Tests.Converters
             }
         }
 
-        [Test]
+        [Fact]
         public void PassedInJsonConverterOverridesInternalConverter()
         {
             DataTable t1 = new DataTable("Custom");
@@ -398,7 +394,7 @@ namespace Newtonsoft.Json.Tests.Converters
         }
 
 #pragma warning disable 618
-        [Test]
+        [Fact]
         public void RoundtripBsonBytes()
         {
             Guid g = new Guid("EDE9A599-A7D9-44A9-9243-7C287049DD20");
@@ -440,7 +436,7 @@ namespace Newtonsoft.Json.Tests.Converters
         }
 #pragma warning restore 618
 
-        [Test]
+        [Fact]
         public void SerializeDataTableWithNull()
         {
             var table = new DataTable();
@@ -457,7 +453,7 @@ namespace Newtonsoft.Json.Tests.Converters
                             + @"{""item"":""shoes"",""price"":null}]", json);
         }
 
-        [Test]
+        [Fact]
         public void SerializeDataTableWithNullAndIgnoreNullHandling()
         {
             var table = new DataTable();
@@ -477,7 +473,7 @@ namespace Newtonsoft.Json.Tests.Converters
                             + @"{""item"":""shoes""}]", json);
         }
 
-        [Test]
+        [Fact]
         public void DerializeDataTableWithImplicitNull()
         {
             const string json = @"["
@@ -493,7 +489,7 @@ namespace Newtonsoft.Json.Tests.Converters
             CustomAssert.IsInstanceOfType(typeof(System.DBNull), table.Rows[2]["price"]);
         }
 
-        [Test]
+        [Fact]
         public void DerializeDataTableWithExplicitNull()
         {
             const string json = @"["
@@ -509,7 +505,7 @@ namespace Newtonsoft.Json.Tests.Converters
             CustomAssert.IsInstanceOfType(typeof(System.DBNull), table.Rows[2]["price"]);
         }
 
-        [Test]
+        [Fact]
         public void SerializeKeyValuePairWithDataTableKey()
         {
             DataTable table = new DataTable();
@@ -545,7 +541,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual("item!", pair2.Key.Rows[0]["item"]);
         }
 
-        [Test]
+        [Fact]
         public void SerializedTypedDataTable()
         {
             CustomerDataSet.CustomersDataTable dt = new CustomerDataSet.CustomersDataTable();
@@ -560,7 +556,7 @@ namespace Newtonsoft.Json.Tests.Converters
 ]", json);
         }
 
-        [Test]
+        [Fact]
         public void DeserializedTypedDataTable()
         {
             string json = @"[
@@ -579,7 +575,7 @@ namespace Newtonsoft.Json.Tests.Converters
             public DataTable Table { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void SerializeNull()
         {
             DataTableTestClass c1 = new DataTableTestClass
@@ -598,7 +594,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(null, c2.Table);
         }
 
-        [Test]
+        [Fact]
         public void SerializeNullRoot()
         {
             string json = JsonConvert.SerializeObject(null, typeof(DataTable), new JsonSerializerSettings
@@ -609,7 +605,7 @@ namespace Newtonsoft.Json.Tests.Converters
             StringAssert.AreEqual(@"null", json);
         }
 
-        [Test]
+        [Fact]
         public void DeserializedTypedDataTableWithConverter()
         {
             string json = @"{
@@ -665,7 +661,7 @@ namespace Newtonsoft.Json.Tests.Converters
             }
         }
 
-        [Test]
+        [Fact]
         public void HandleColumnOnError()
         {
             string json = "[{\"timeCol\":\"\"}]";

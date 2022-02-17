@@ -38,20 +38,16 @@ using System.Xml;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Utilities;
 using System.Xml.Linq;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Issues
 {
     [TestFixture]
     public class Issue1460 : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Test()
         {
             StringWriter sw = new StringWriter();
@@ -61,7 +57,7 @@ namespace Newtonsoft.Json.Tests.Issues
             Assert.AreEqual("null", sw.ToString());
         }
 
-        [Test]
+        [Fact]
         public async Task TestAsync()
         {
             StringWriter sw = new StringWriter();

@@ -26,20 +26,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Issues
 {
     [TestFixture]
     public class Issue1984
     {
-        [Test]
+        [Fact]
         public void Test_NullValue()
         {
             var actual = JsonConvert.DeserializeObject<A>("{ Values: null}");
@@ -47,7 +43,7 @@ namespace Newtonsoft.Json.Tests.Issues
             Assert.IsNull(actual.Values);
         }
 
-        [Test]
+        [Fact]
         public void Test_WithoutValue()
         {
             var actual = JsonConvert.DeserializeObject<A>("{ }");

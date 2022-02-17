@@ -24,13 +24,9 @@
 #endregion
 
 using Newtonsoft.Json.Serialization;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -42,7 +38,7 @@ namespace Newtonsoft.Json.Tests.Documentation.Samples.Serializer
     [TestFixture]
     public class DeserializeMetadataPropertyHandling : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Example()
         {
             try

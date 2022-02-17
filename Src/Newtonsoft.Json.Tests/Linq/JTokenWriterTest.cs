@@ -27,13 +27,9 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json;
 using System.IO;
 using Newtonsoft.Json.Linq;
@@ -44,7 +40,7 @@ namespace Newtonsoft.Json.Tests.Linq
     [TestFixture]
     public class JTokenWriterTest : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void ValueFormatting()
         {
             byte[] data = Encoding.UTF8.GetBytes("Hello world.");
@@ -88,7 +84,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(data, (byte[])root[12]);
         }
 
-        [Test]
+        [Fact]
         public void State()
         {
             using (JsonWriter jsonWriter = new JTokenWriter())
@@ -127,7 +123,7 @@ namespace Newtonsoft.Json.Tests.Linq
             }
         }
 
-        [Test]
+        [Fact]
         public void CurrentToken()
         {
             using (JTokenWriter jsonWriter = new JTokenWriter())
@@ -181,7 +177,7 @@ namespace Newtonsoft.Json.Tests.Linq
             }
         }
 
-        [Test]
+        [Fact]
         public void WriteComment()
         {
             JTokenWriter writer = new JTokenWriter();
@@ -194,7 +190,7 @@ namespace Newtonsoft.Json.Tests.Linq
   /*fail*/]", writer.Token.ToString());
         }
 
-        [Test]
+        [Fact]
         public void WriteBigInteger()
         {
             JTokenWriter writer = new JTokenWriter();
@@ -213,7 +209,7 @@ namespace Newtonsoft.Json.Tests.Linq
 ]", writer.Token.ToString());
         }
 
-        [Test]
+        [Fact]
         public void WriteRaw()
         {
             JTokenWriter writer = new JTokenWriter();
@@ -232,7 +228,7 @@ namespace Newtonsoft.Json.Tests.Linq
 ]", writer.Token.ToString());
         }
 
-        [Test]
+        [Fact]
         public void WriteTokenWithParent()
         {
             JObject o = new JObject
@@ -263,7 +259,7 @@ namespace Newtonsoft.Json.Tests.Linq
 ]", writer.Token.ToString());
         }
 
-        [Test]
+        [Fact]
         public void WriteTokenWithPropertyParent()
         {
             JValue v = new JValue(1);
@@ -284,7 +280,7 @@ namespace Newtonsoft.Json.Tests.Linq
 }", writer.Token.ToString());
         }
 
-        [Test]
+        [Fact]
         public void WriteValueTokenWithParent()
         {
             JValue v = new JValue(1);
@@ -304,7 +300,7 @@ namespace Newtonsoft.Json.Tests.Linq
 ]", writer.Token.ToString());
         }
 
-        [Test]
+        [Fact]
         public void WriteEmptyToken()
         {
             JObject o = new JObject();
@@ -326,7 +322,7 @@ namespace Newtonsoft.Json.Tests.Linq
             StringAssert.AreEqual(@"[]", writer.Token.ToString());
         }
 
-        [Test]
+        [Fact]
         public void WriteRawValue()
         {
             JTokenWriter writer = new JTokenWriter();
@@ -342,7 +338,7 @@ namespace Newtonsoft.Json.Tests.Linq
 ]", writer.Token.ToString());
         }
 
-        [Test]
+        [Fact]
         public void WriteDuplicatePropertyName()
         {
             JTokenWriter writer = new JTokenWriter();
@@ -364,7 +360,7 @@ namespace Newtonsoft.Json.Tests.Linq
 }", writer.Token.ToString());
         }
 
-        [Test]
+        [Fact]
         public void DateTimeZoneHandling()
         {
             JTokenWriter writer = new JTokenWriter
@@ -380,7 +376,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc), dt);
         }
 
-        [Test]
+        [Fact]
         public void WriteTokenDirect()
         {
             JToken token;

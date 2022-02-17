@@ -23,13 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +38,7 @@ namespace Newtonsoft.Json.Tests.Serialization
     [TestFixture]
     public class FSharpTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void List()
         {
             FSharpList<int> l = ListModule.OfSeq(new List<int> { 1, 2, 3 });
@@ -61,7 +57,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             CollectionAssert.AreEquivalent(l, l2);
         }
 
-        [Test]
+        [Fact]
         public void Set()
         {
             FSharpSet<int> l = SetModule.OfSeq(new List<int> { 1, 2, 3 });
@@ -80,7 +76,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             CollectionAssert.AreEquivalent(l, l2);
         }
 
-        [Test]
+        [Fact]
         public void Map()
         {
             FSharpMap<string, int> m1 = MapModule.OfSeq(new List<Tuple<string, int>> { Tuple.Create("one", 1), Tuple.Create("II", 2), Tuple.Create("3", 3) });

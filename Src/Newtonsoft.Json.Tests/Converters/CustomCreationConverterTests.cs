@@ -27,22 +27,17 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Tests.TestObjects;
-using Newtonsoft.Json.Tests.TestObjects.Organization;
-#if NET5_0_OR_GREATER
-using Xunit;
+using Newtonsoft.Json.Tests.TestObjects.Organization;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
 
-#endif
 
 namespace Newtonsoft.Json.Tests.Converters
 {
     [TestFixture]
     public class CustomCreationConverterTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void DeserializeObject()
         {
             string json = JsonConvert.SerializeObject(new List<Employee>
@@ -121,7 +116,7 @@ namespace Newtonsoft.Json.Tests.Converters
             }
         }
 
-        [Test]
+        [Fact]
         public void AssertDoesDeserialize()
         {
             const string json = @"{
@@ -138,7 +133,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(123, myClass.Thing.Number);
         }
 
-        [Test]
+        [Fact]
         public void AssertShouldSerializeTest()
         {
             MyClass myClass = new MyClass
@@ -190,7 +185,7 @@ namespace Newtonsoft.Json.Tests.Converters
             }
         }
 
-        [Test]
+        [Fact]
         public void DeserializeAndConvertNullValue()
         {
             NullInterfaceTestClass initial = new NullInterfaceTestClass

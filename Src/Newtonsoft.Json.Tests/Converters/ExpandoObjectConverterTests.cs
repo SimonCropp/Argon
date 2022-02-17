@@ -28,15 +28,10 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Text;
-using Newtonsoft.Json.Converters;
-#if NET5_0_OR_GREATER
-using Xunit;
+using Newtonsoft.Json.Converters;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
 
-#endif
 
 namespace Newtonsoft.Json.Tests.Converters
 {
@@ -50,7 +45,7 @@ namespace Newtonsoft.Json.Tests.Converters
             public string After { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void SerializeExpandoObject()
         {
             ExpandoContainer d = new ExpandoContainer
@@ -92,7 +87,7 @@ namespace Newtonsoft.Json.Tests.Converters
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void SerializeNullExpandoObject()
         {
             ExpandoContainer d = new ExpandoContainer();
@@ -106,7 +101,7 @@ namespace Newtonsoft.Json.Tests.Converters
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeExpandoObject()
         {
             string json = @"{
@@ -162,7 +157,7 @@ namespace Newtonsoft.Json.Tests.Converters
             CustomAssert.IsInstanceOfType(typeof(long), d.Object.First);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeNullExpandoObject()
         {
             string json = @"{

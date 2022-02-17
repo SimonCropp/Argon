@@ -24,22 +24,17 @@
 #endregion
 
 #pragma warning disable 618
-using Newtonsoft.Json.Schema;
-#if NET5_0_OR_GREATER
-using Xunit;
+using Newtonsoft.Json.Schema;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
 
-#endif
 
 namespace Newtonsoft.Json.Tests.Schema
 {
     [TestFixture]
     public class JsonSchemaModelBuilderTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void ExtendedComplex()
         {
             string first = @"{
@@ -121,7 +116,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(null, model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].AdditionalProperties);
         }
 
-        [Test]
+        [Fact]
         public void CircularReference()
         {
             string json = @"{
@@ -142,7 +137,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(model, model.Items[0]);
         }
 
-        [Test]
+        [Fact]
         public void Required()
         {
             string schemaJson = @"{

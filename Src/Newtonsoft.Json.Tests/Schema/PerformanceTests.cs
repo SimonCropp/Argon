@@ -29,22 +29,17 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-using Newtonsoft.Json.Schema;
-#if NET5_0_OR_GREATER
-using Xunit;
+using Newtonsoft.Json.Schema;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
 
-#endif
 
 namespace Newtonsoft.Json.Tests.Schema
 {
     [TestFixture]
     public class PerformanceTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void ReaderPerformance()
         {
             string json = @"[

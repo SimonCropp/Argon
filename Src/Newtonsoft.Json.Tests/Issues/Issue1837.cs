@@ -26,13 +26,9 @@
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Linq.JsonPath;
 using System;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Issues
 {
@@ -42,7 +38,7 @@ namespace Newtonsoft.Json.Tests.Issues
     [TestFixture]
     public class Issue1837
     {
-        [Test]
+        [Fact]
         public void AllStrictEqualityTests()
         {
             // this is a bit cargo-culty; making absolutely sure no false positives caused by instance equivalence

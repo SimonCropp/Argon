@@ -33,13 +33,9 @@ using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Tests.TestObjects.Organization;
 using Newtonsoft.Json.Utilities;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Schema;
 using System.IO;
 using Newtonsoft.Json.Linq;
@@ -53,7 +49,7 @@ namespace Newtonsoft.Json.Tests.Schema
     [TestFixture]
     public class JsonSchemaGeneratorTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Generate_GenericDictionary()
         {
             JsonSchemaGenerator generator = new JsonSchemaGenerator();
@@ -90,7 +86,7 @@ namespace Newtonsoft.Json.Tests.Schema
         }
 
 #if !NET5_0_OR_GREATER
-        [Test]
+        [Fact]
         public void Generate_DefaultValueAttributeTestClass()
         {
             JsonSchemaGenerator generator = new JsonSchemaGenerator();
@@ -121,7 +117,7 @@ namespace Newtonsoft.Json.Tests.Schema
         }
 #endif
 
-        [Test]
+        [Fact]
         public void Generate_Person()
         {
             JsonSchemaGenerator generator = new JsonSchemaGenerator();
@@ -154,7 +150,7 @@ namespace Newtonsoft.Json.Tests.Schema
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void Generate_UserNullable()
         {
             JsonSchemaGenerator generator = new JsonSchemaGenerator();
@@ -212,7 +208,7 @@ namespace Newtonsoft.Json.Tests.Schema
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void Generate_RequiredMembersClass()
         {
             JsonSchemaGenerator generator = new JsonSchemaGenerator();
@@ -224,7 +220,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(JsonSchemaType.String, schema.Properties["BirthDate"].Type);
         }
 
-        [Test]
+        [Fact]
         public void Generate_Store()
         {
             JsonSchemaGenerator generator = new JsonSchemaGenerator();
@@ -238,7 +234,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(4, productSchema.Properties.Count);
         }
 
-        [Test]
+        [Fact]
         public void MissingSchemaIdHandlingTest()
         {
             JsonSchemaGenerator generator = new JsonSchemaGenerator();
@@ -255,7 +251,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(typeof(Store).AssemblyQualifiedName, schema.Id);
         }
 
-        [Test]
+        [Fact]
         public void CircularReferenceError()
         {
             ExceptionAssert.Throws<Exception>(() =>
@@ -265,7 +261,7 @@ namespace Newtonsoft.Json.Tests.Schema
             }, @"Unresolved circular reference for type 'Newtonsoft.Json.Tests.TestObjects.CircularReferenceClass'. Explicitly define an Id for the type using a JsonObject/JsonArray attribute or automatically generate a type Id using the UndefinedSchemaIdHandling property.");
         }
 
-        [Test]
+        [Fact]
         public void CircularReferenceWithTypeNameId()
         {
             JsonSchemaGenerator generator = new JsonSchemaGenerator();
@@ -279,7 +275,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(schema, schema.Properties["Child"]);
         }
 
-        [Test]
+        [Fact]
         public void CircularReferenceWithExplicitId()
         {
             JsonSchemaGenerator generator = new JsonSchemaGenerator();
@@ -292,7 +288,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(schema, schema.Properties["Child"]);
         }
 
-        [Test]
+        [Fact]
         public void GenerateSchemaForType()
         {
             JsonSchemaGenerator generator = new JsonSchemaGenerator();
@@ -308,7 +304,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.IsTrue(v.IsValid(schema));
         }
 
-        [Test]
+        [Fact]
         public void GenerateSchemaForISerializable()
         {
             JsonSchemaGenerator generator = new JsonSchemaGenerator();
@@ -321,7 +317,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(null, schema.Properties);
         }
 
-        [Test]
+        [Fact]
         public void GenerateSchemaForDBNull()
         {
             JsonSchemaGenerator generator = new JsonSchemaGenerator();
@@ -359,7 +355,7 @@ namespace Newtonsoft.Json.Tests.Schema
             }
         }
 
-        [Test]
+        [Fact]
         public void GenerateSchemaCamelCase()
         {
             JsonSchemaGenerator generator = new JsonSchemaGenerator();
@@ -409,7 +405,7 @@ namespace Newtonsoft.Json.Tests.Schema
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void GenerateSchemaSerializable()
         {
             JsonSchemaGenerator generator = new JsonSchemaGenerator();
@@ -478,7 +474,7 @@ namespace Newtonsoft.Json.Tests.Schema
             public SortTypeFlag x;
         }
 
-        [Test]
+        [Fact]
         public void GenerateSchemaWithNegativeEnum()
         {
             JsonSchemaGenerator jsonSchemaGenerator = new JsonSchemaGenerator();
@@ -502,7 +498,7 @@ namespace Newtonsoft.Json.Tests.Schema
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void CircularCollectionReferences()
         {
             Type type = typeof(Workspace);
@@ -515,7 +511,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.IsNotNull(jsonSchema);
         }
 
-        [Test]
+        [Fact]
         public void CircularReferenceWithMixedRequires()
         {
             JsonSchemaGenerator jsonSchemaGenerator = new JsonSchemaGenerator();
@@ -542,7 +538,7 @@ namespace Newtonsoft.Json.Tests.Schema
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void JsonPropertyWithHandlingValues()
         {
             JsonSchemaGenerator jsonSchemaGenerator = new JsonSchemaGenerator();
@@ -615,7 +611,7 @@ namespace Newtonsoft.Json.Tests.Schema
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void GenerateForNullableInt32()
         {
             JsonSchemaGenerator jsonSchemaGenerator = new JsonSchemaGenerator();

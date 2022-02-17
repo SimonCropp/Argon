@@ -26,13 +26,9 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Serialization;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Tests.TestObjects.Organization;
 using Newtonsoft.Json.Linq;
@@ -44,7 +40,7 @@ namespace Newtonsoft.Json.Tests.Serialization
     [TestFixture]
     public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void EnsureContractsShared()
         {
             CamelCasePropertyNamesContractResolver resolver1 = new CamelCasePropertyNamesContractResolver();
@@ -61,7 +57,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.IsTrue(ReferenceEquals(nt1, nt2));
         }
 
-        [Test]
+        [Fact]
         public void JsonConvertSerializerSettings()
         {
             Person person = new Person();
@@ -97,7 +93,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void JTokenWriter()
         {
             JsonIgnoreAttributeOnClassTestClass ignoreAttributeOnClassTestClass = new JsonIgnoreAttributeOnClassTestClass();
@@ -120,7 +116,7 @@ namespace Newtonsoft.Json.Tests.Serialization
         }
 
 #pragma warning disable 618
-        [Test]
+        [Fact]
         public void MemberSearchFlags()
         {
             PrivateMembersClass privateMembersClass = new PrivateMembersClass("PrivateString!", "InternalString!");
@@ -153,7 +149,7 @@ namespace Newtonsoft.Json.Tests.Serialization
         }
 #pragma warning restore 618
 
-        [Test]
+        [Fact]
         public void BlogPostExample()
         {
             Product product = new Product
@@ -194,7 +190,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void DynamicCamelCasePropertyNames()
         {
             dynamic o = new TestDynamicObject();
@@ -216,7 +212,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void DictionaryCamelCasePropertyNames()
         {
             Dictionary<string, string> values = new Dictionary<string, string>

@@ -24,21 +24,18 @@
 #endregion
 
 using System;
-#if NET5_0_OR_GREATER
+
 using System.Reflection;
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Issues
 {
     [TestFixture]
     public class Issue1545 : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Test_Populate()
         {
             string json = @"{
@@ -61,7 +58,7 @@ namespace Newtonsoft.Json.Tests.Issues
             Assert.AreEqual("item2", s.Array[1].Value);
         }
 
-        [Test]
+        [Fact]
         public void Test_Multidimensional()
         {
             string json = @"[

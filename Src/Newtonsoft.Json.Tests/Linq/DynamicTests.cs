@@ -31,13 +31,9 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using Newtonsoft.Json.Linq;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Utilities;
 using System.Globalization;
 
@@ -46,7 +42,7 @@ namespace Newtonsoft.Json.Tests.Linq
     [TestFixture]
     public class DynamicTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void AccessPropertyValue()
         {
             string rawJson = @"{
@@ -61,7 +57,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(new DateTime(2012, 12, 3, 0, 0, 0, DateTimeKind.Unspecified), dueDate);
         }
 
-        [Test]
+        [Fact]
         public void PropertyDoesNotEqualNull()
         {
             dynamic session = JsonConvert.DeserializeObject<dynamic>("{}");
@@ -89,7 +85,7 @@ namespace Newtonsoft.Json.Tests.Linq
             counts[s] = c;
         }
 
-        [Test]
+        [Fact]
         public void DeserializeLargeDynamic()
         {
             dynamic d;
@@ -126,7 +122,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Console.WriteLine("Time (secs): " + sw.Elapsed.TotalSeconds);
         }
 
-        [Test]
+        [Fact]
         public void JObjectPropertyNames()
         {
             JObject o = new JObject(
@@ -156,7 +152,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.IsTrue(ReferenceEquals(newValue1, newValue2));
         }
 
-        [Test]
+        [Fact]
         public void JObjectCount()
         {
             JObject o = new JObject();
@@ -173,7 +169,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(99, c2);
         }
 
-        [Test]
+        [Fact]
         public void JObjectEnumerator()
         {
             JObject o = new JObject(
@@ -194,7 +190,7 @@ namespace Newtonsoft.Json.Tests.Linq
             }
         }
 
-        [Test]
+        [Fact]
         public void JObjectPropertyNameWithJArray()
         {
             JObject o = new JObject(
@@ -208,7 +204,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(1, d.First.Count);
         }
 
-        [Test]
+        [Fact]
         public void JObjectPropertyNameWithNonToken()
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
@@ -219,7 +215,7 @@ namespace Newtonsoft.Json.Tests.Linq
             }, "Could not determine JSON object type for type System.String[].");
         }
 
-        [Test]
+        [Fact]
         public void JObjectMethods()
         {
             JObject o = new JObject(
@@ -239,7 +235,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual("blah blah", (string)v);
         }
 
-        [Test]
+        [Fact]
         public void JValueEquals()
         {
             JObject o = new JObject(
@@ -340,7 +336,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.IsTrue(d.TimeSpan >= null);
         }
 
-        [Test]
+        [Fact]
         public void JValueAddition()
         {
             JObject o = new JObject(
@@ -665,7 +661,7 @@ namespace Newtonsoft.Json.Tests.Linq
             #endregion
         }
 
-        [Test]
+        [Fact]
         public void JValueToString()
         {
             JObject o = new JObject(
@@ -697,7 +693,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual("100", d.BigInteger.ToString());
         }
 
-        [Test]
+        [Fact]
         public void JObjectGetDynamicPropertyNames()
         {
             JObject o = new JObject(
@@ -725,7 +721,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual("Hello Joe1", memberNames[1]);
         }
 
-        [Test]
+        [Fact]
         public void JValueConvert()
         {
             AssertValueConverted<bool>(true);
@@ -794,7 +790,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(expected, t);
         }
 
-        [Test]
+        [Fact]
         public void DynamicSerializerExample()
         {
             dynamic value = new DynamicDictionary();
@@ -819,7 +815,7 @@ namespace Newtonsoft.Json.Tests.Linq
             // Admin
         }
 
-        [Test]
+        [Fact]
         public void DynamicLinqExample()
         {
             JObject oldAndBusted = new JObject();
@@ -842,7 +838,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual("Admin", newRole);
         }
 
-        [Test]
+        [Fact]
         public void ImprovedDynamicLinqExample()
         {
             dynamic product = new JObject();
@@ -877,7 +873,7 @@ namespace Newtonsoft.Json.Tests.Linq
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void DynamicAccess_ToJToken_ShouldNotFail()
         {
             Guid g = Guid.NewGuid();
@@ -887,7 +883,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(g, ((JValue)token).Value);
         }
 
-        [Test]
+        [Fact]
         public void DynamicAccess_ToJTokenExplicit_ShouldNotFail()
         {
             Guid g = Guid.NewGuid();
@@ -897,7 +893,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(g, ((JValue)token).Value);
         }
 
-        [Test]
+        [Fact]
         public void DynamicAccess_ToJTokenSafeCast_ShouldNotFail()
         {
             Guid g = Guid.NewGuid();
@@ -907,7 +903,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(g, ((JValue)token).Value);
         }
 
-        [Test]
+        [Fact]
         public void IndexAccess_ToJToken_ShouldNotFail()
         {
             Guid g = Guid.NewGuid();
@@ -917,7 +913,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(g, ((JValue)token).Value);
         }
 
-        [Test]
+        [Fact]
         public void DynamicAccess_ToJToken_ShouldFail()
         {
             Guid g = Guid.NewGuid();

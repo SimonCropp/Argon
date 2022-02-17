@@ -32,14 +32,11 @@ using System.Reflection;
 using System.Text;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
-#if NET5_0_OR_GREATER
+
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
 using TestCaseSource = Xunit.MemberDataAttribute;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Schema
 {
@@ -62,9 +59,7 @@ namespace Newtonsoft.Json.Tests.Schema
     [TestFixture]
     public class JsonSchemaSpecTests : TestFixtureBase
     {
-#if NET5_0_OR_GREATER
         [Theory]
-#endif
         [TestCaseSource(nameof(GetSpecTestDetails))]
         public void SpecTest(JsonSchemaSpecTest jsonSchemaSpecTest)
         {

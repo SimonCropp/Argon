@@ -33,13 +33,9 @@ using System.Runtime.Serialization;
 using System.Text;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Utilities;
@@ -51,7 +47,7 @@ namespace Newtonsoft.Json.Tests.Documentation
     [TestFixture]
     public class ReadingAndWritingJsonTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void ReadingAndWritingJsonText()
         {
             #region ReadingAndWritingJsonText
@@ -90,7 +86,7 @@ namespace Newtonsoft.Json.Tests.Documentation
             #endregion
         }
 
-        [Test]
+        [Fact]
         public void ReadingJsonText()
         {
             #region ReadingJsonText
@@ -134,7 +130,7 @@ namespace Newtonsoft.Json.Tests.Documentation
             #endregion
         }
 
-        [Test]
+        [Fact]
         public void ReadingAndWritingJsonLinq()
         {
             #region ReadingAndWritingJsonLinq

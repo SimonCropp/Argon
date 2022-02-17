@@ -24,13 +24,9 @@
 #endregion
 
 using Newtonsoft.Json.Linq;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,7 +37,7 @@ namespace Newtonsoft.Json.Tests.Documentation.Samples.JsonPath
     [TestFixture]
     public class StrictEqualsQuery : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Example()
         {
             #region Usage

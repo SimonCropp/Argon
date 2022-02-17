@@ -23,13 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using System.Collections.Generic;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Converters;
@@ -39,7 +35,7 @@ namespace Newtonsoft.Json.Tests.Issues
     [TestFixture]
     public class Issue2444
     {
-        [Test]
+        [Fact]
         public void Test()
         {
             var namingStrategy = new SnakeCaseNamingStrategy();

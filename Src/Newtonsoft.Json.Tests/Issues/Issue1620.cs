@@ -36,20 +36,16 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Utilities;
 using BindingFlags = System.Reflection.BindingFlags;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Issues
 {
     [TestFixture]
     public class Issue1620 : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Test_SerializeMock()
         {
             Mock<IFoo> mock = new Mock<IFoo>();
@@ -59,7 +55,7 @@ namespace Newtonsoft.Json.Tests.Issues
             Assert.AreEqual(@"""foo""", json);
         }
 
-        [Test]
+        [Fact]
         public void Test_GetFieldsAndProperties()
         {
             Mock<IFoo> mock = new Mock<IFoo>();

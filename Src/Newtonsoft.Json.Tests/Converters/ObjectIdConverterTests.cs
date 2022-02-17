@@ -26,15 +26,10 @@
 #pragma warning disable 618
 using System.IO;
 using Newtonsoft.Json.Bson;
-using Newtonsoft.Json.Utilities;
-#if NET5_0_OR_GREATER
-using Xunit;
+using Newtonsoft.Json.Utilities;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
 
-#endif
 
 namespace Newtonsoft.Json.Tests.Converters
 {
@@ -50,7 +45,7 @@ namespace Newtonsoft.Json.Tests.Converters
             public string Test { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void Serialize()
         {
             ObjectIdTestClass c = new ObjectIdTestClass
@@ -71,7 +66,7 @@ namespace Newtonsoft.Json.Tests.Converters
             CollectionAssert.AreEquivalent(expected, ms.ToArray());
         }
 
-        [Test]
+        [Fact]
         public void Deserialize()
         {
             byte[] bson = HexToBytes("29000000075F6964004ABBED9D1D8B0F02180000010274657374000900000031323334C2A335360000");

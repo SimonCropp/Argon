@@ -33,20 +33,16 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Issues
 {
     [TestFixture]
     public class Issue1597 : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Test()
         {
             string json = @"{
@@ -66,7 +62,7 @@ namespace Newtonsoft.Json.Tests.Issues
             Assert.AreEqual(221, o[CollectionStatus.Dropped]);
         }
 
-        [Test]
+        [Fact]
         public void Test_WithNumbers()
         {
             string json = @"{
@@ -86,7 +82,7 @@ namespace Newtonsoft.Json.Tests.Issues
             Assert.AreEqual(221, o[CollectionStatus.Dropped]);
         }
 
-        [Test]
+        [Fact]
         public void Test_Serialize()
         {
             Dictionary<CollectionStatus, int> o = new Dictionary<CollectionStatus, int>();

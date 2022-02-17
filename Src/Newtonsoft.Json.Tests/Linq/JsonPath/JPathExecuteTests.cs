@@ -30,14 +30,11 @@ using System.Numerics;
 using Newtonsoft.Json.Linq.JsonPath;
 using Newtonsoft.Json.Tests.Bson;
 using System.Text.RegularExpressions;
-#if NET5_0_OR_GREATER
+
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
 using TestCaseSource = Xunit.MemberDataAttribute;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Linq;
 using System.Linq;
 
@@ -46,7 +43,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
     [TestFixture]
     public class JPathExecuteTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void GreaterThanIssue1518()
         {
             string statusJson = @"{""usingmem"": ""214376""}";//214,376
@@ -65,7 +62,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(jObj, dd);
         }
 
-        [Test]
+        [Fact]
         public void BacktrackingRegex_SingleMatch_TimeoutRespected()
         {
             const string RegexBacktrackingPattern = "(?<a>(.*?))[|].*(?<b>(.*?))[|].*(?<c>(.*?))[|].*(?<d>[1-3])[|].*(?<e>(.*?))[|].*[|].*[|].*(?<f>(.*?))[|].*[|].*(?<g>(.*?))[|].*(?<h>(.*))";
@@ -84,7 +81,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             });
         }
 
-        [Test]
+        [Fact]
         public void GreaterThanWithIntegerParameterAndStringValue()
         {
             string json = @"{
@@ -107,7 +104,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(1, results.Count);
         }
 
-        [Test]
+        [Fact]
         public void GreaterThanWithStringParameterAndIntegerValue()
         {
             string json = @"{
@@ -130,7 +127,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(1, results.Count);
         }
 
-        [Test]
+        [Fact]
         public void RecursiveWildcard()
         {
             string json = @"{
@@ -167,7 +164,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(4, (int)results[2]);
         }
 
-        [Test]
+        [Fact]
         public void ScanFilter()
         {
             string json = @"{
@@ -206,7 +203,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(models["elements"][0]["children"][0]["children"][0], results[0]);
         }
 
-        [Test]
+        [Fact]
         public void FilterTrue()
         {
             string json = @"{
@@ -246,7 +243,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(results[1], models["elements"][1]);
         }
 
-        [Test]
+        [Fact]
         public void ScanFilterTrue()
         {
             string json = @"{
@@ -284,7 +281,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(25, results.Count);
         }
 
-        [Test]
+        [Fact]
         public void ScanQuoted()
         {
             string json = @"{
@@ -320,7 +317,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(1, result);
         }
 
-        [Test]
+        [Fact]
         public void ScanMultipleQuoted()
         {
             string json = @"{
@@ -359,7 +356,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual("Val6", (string)results[6]);
         }
 
-        [Test]
+        [Fact]
         public void ParseWithEmptyArrayContent()
         {
             var json = @"{
@@ -405,7 +402,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual("Name", (string)tokens[2]);
         }
 
-        [Test]
+        [Fact]
         public void SelectTokenAfterEmptyContainer()
         {
             string json = @"{
@@ -421,7 +418,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual("no one will find me", (string)results[0]);
         }
 
-        [Test]
+        [Fact]
         public void EvaluatePropertyWithRequired()
         {
             string json = "{\"bookId\":\"1000\"}";
@@ -432,7 +429,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual("1000", bookId);
         }
 
-        [Test]
+        [Fact]
         public void EvaluateEmptyPropertyIndexer()
         {
             JObject o = new JObject(
@@ -442,7 +439,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(1, (int)t);
         }
 
-        [Test]
+        [Fact]
         public void EvaluateEmptyString()
         {
             JObject o = new JObject(
@@ -455,7 +452,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(null, t);
         }
 
-        [Test]
+        [Fact]
         public void EvaluateEmptyStringWithMatchingEmptyProperty()
         {
             JObject o = new JObject(
@@ -465,7 +462,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(1, (int)t);
         }
 
-        [Test]
+        [Fact]
         public void EvaluateWhitespaceString()
         {
             JObject o = new JObject(
@@ -475,7 +472,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(o, t);
         }
 
-        [Test]
+        [Fact]
         public void EvaluateDollarString()
         {
             JObject o = new JObject(
@@ -485,7 +482,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(o, t);
         }
 
-        [Test]
+        [Fact]
         public void EvaluateDollarTypeString()
         {
             JObject o = new JObject(
@@ -495,7 +492,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(2, (int)t);
         }
 
-        [Test]
+        [Fact]
         public void EvaluateSingleProperty()
         {
             JObject o = new JObject(
@@ -507,7 +504,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(1, (int)t);
         }
 
-        [Test]
+        [Fact]
         public void EvaluateWildcardProperty()
         {
             JObject o = new JObject(
@@ -521,7 +518,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(2, (int)t[1]);
         }
 
-        [Test]
+        [Fact]
         public void QuoteName()
         {
             JObject o = new JObject(
@@ -533,7 +530,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(1, (int)t);
         }
 
-        [Test]
+        [Fact]
         public void EvaluateMissingProperty()
         {
             JObject o = new JObject(
@@ -543,7 +540,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.IsNull(t);
         }
 
-        [Test]
+        [Fact]
         public void EvaluateIndexerOnObject()
         {
             JObject o = new JObject(
@@ -553,7 +550,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.IsNull(t);
         }
 
-        [Test]
+        [Fact]
         public void EvaluateIndexerOnObjectWithError()
         {
             JObject o = new JObject(
@@ -562,7 +559,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             ExceptionAssert.Throws<JsonException>(() => { o.SelectToken("[1]", true); }, @"Index 1 not valid on JObject.");
         }
 
-        [Test]
+        [Fact]
         public void EvaluateWildcardIndexOnObjectWithError()
         {
             JObject o = new JObject(
@@ -571,7 +568,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             ExceptionAssert.Throws<JsonException>(() => { o.SelectToken("[*]", true); }, @"Index * not valid on JObject.");
         }
 
-        [Test]
+        [Fact]
         public void EvaluateSliceOnObjectWithError()
         {
             JObject o = new JObject(
@@ -580,7 +577,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             ExceptionAssert.Throws<JsonException>(() => { o.SelectToken("[:]", true); }, @"Array slice is not valid on JObject.");
         }
 
-        [Test]
+        [Fact]
         public void EvaluatePropertyOnArray()
         {
             JArray a = new JArray(1, 2, 3, 4, 5);
@@ -589,7 +586,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.IsNull(t);
         }
 
-        [Test]
+        [Fact]
         public void EvaluateMultipleResultsError()
         {
             JArray a = new JArray(1, 2, 3, 4, 5);
@@ -597,7 +594,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             ExceptionAssert.Throws<JsonException>(() => { a.SelectToken("[0, 1]"); }, @"Path returned multiple tokens.");
         }
 
-        [Test]
+        [Fact]
         public void EvaluatePropertyOnArrayWithError()
         {
             JArray a = new JArray(1, 2, 3, 4, 5);
@@ -605,7 +602,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             ExceptionAssert.Throws<JsonException>(() => { a.SelectToken("BlahBlah", true); }, @"Property 'BlahBlah' not valid on JArray.");
         }
 
-        [Test]
+        [Fact]
         public void EvaluateNoResultsWithMultipleArrayIndexes()
         {
             JArray a = new JArray(1, 2, 3, 4, 5);
@@ -613,7 +610,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             ExceptionAssert.Throws<JsonException>(() => { a.SelectToken("[9,10]", true); }, @"Index 9 outside the bounds of JArray.");
         }
 
-        [Test]
+        [Fact]
         public void EvaluateConstructorOutOfBoundsIndxerWithError()
         {
             JConstructor c = new JConstructor("Blah");
@@ -621,7 +618,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             ExceptionAssert.Throws<JsonException>(() => { c.SelectToken("[1]", true); }, @"Index 1 outside the bounds of JConstructor.");
         }
 
-        [Test]
+        [Fact]
         public void EvaluateConstructorOutOfBoundsIndxer()
         {
             JConstructor c = new JConstructor("Blah");
@@ -629,7 +626,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.IsNull(c.SelectToken("[1]"));
         }
 
-        [Test]
+        [Fact]
         public void EvaluateMissingPropertyWithError()
         {
             JObject o = new JObject(
@@ -638,7 +635,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             ExceptionAssert.Throws<JsonException>(() => { o.SelectToken("Missing", true); }, "Property 'Missing' does not exist on JObject.");
         }
 
-        [Test]
+        [Fact]
         public void EvaluatePropertyWithoutError()
         {
             JObject o = new JObject(
@@ -648,7 +645,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(1, v.Value);
         }
 
-        [Test]
+        [Fact]
         public void EvaluateMissingPropertyIndexWithError()
         {
             JObject o = new JObject(
@@ -657,7 +654,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             ExceptionAssert.Throws<JsonException>(() => { o.SelectToken("['Missing','Missing2']", true); }, "Property 'Missing' does not exist on JObject.");
         }
 
-        [Test]
+        [Fact]
         public void EvaluateMultiPropertyIndexOnArrayWithError()
         {
             JArray a = new JArray(1, 2, 3, 4, 5);
@@ -665,7 +662,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             ExceptionAssert.Throws<JsonException>(() => { a.SelectToken("['Missing','Missing2']", true); }, "Properties 'Missing', 'Missing2' not valid on JArray.");
         }
 
-        [Test]
+        [Fact]
         public void EvaluateArraySliceWithError()
         {
             JArray a = new JArray(1, 2, 3, 4, 5);
@@ -681,7 +678,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             ExceptionAssert.Throws<JsonException>(() => { a.SelectToken("[:]", true); }, "Array slice of * to * returned no results.");
         }
 
-        [Test]
+        [Fact]
         public void EvaluateOutOfBoundsIndxer()
         {
             JArray a = new JArray(1, 2, 3, 4, 5);
@@ -690,7 +687,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.IsNull(t);
         }
 
-        [Test]
+        [Fact]
         public void EvaluateArrayOutOfBoundsIndxerWithError()
         {
             JArray a = new JArray(1, 2, 3, 4, 5);
@@ -698,7 +695,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             ExceptionAssert.Throws<JsonException>(() => { a.SelectToken("[1000].Ha", true); }, "Index 1000 outside the bounds of JArray.");
         }
 
-        [Test]
+        [Fact]
         public void EvaluateArray()
         {
             JArray a = new JArray(1, 2, 3, 4);
@@ -709,7 +706,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(2, (int)t);
         }
 
-        [Test]
+        [Fact]
         public void EvaluateArraySlice()
         {
             JArray a = new JArray(1, 2, 3, 4, 5, 6, 7, 8, 9);
@@ -757,7 +754,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(1, (int)t[4]);
         }
 
-        [Test]
+        [Fact]
         public void EvaluateWildcardArray()
         {
             JArray a = new JArray(1, 2, 3, 4);
@@ -771,7 +768,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(4, (int)t[3]);
         }
 
-        [Test]
+        [Fact]
         public void EvaluateArrayMultipleIndexes()
         {
             JArray a = new JArray(1, 2, 3, 4);
@@ -784,7 +781,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(1, (int)t.ElementAt(2));
         }
 
-        [Test]
+        [Fact]
         public void EvaluateScan()
         {
             JObject o1 = new JObject { { "Name", 1 } };
@@ -798,7 +795,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(2, (int)t[1]);
         }
 
-        [Test]
+        [Fact]
         public void EvaluateWildcardScan()
         {
             JObject o1 = new JObject { { "Name", 1 } };
@@ -815,7 +812,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(2, (int)t[4]);
         }
 
-        [Test]
+        [Fact]
         public void EvaluateScanNestResults()
         {
             JObject o1 = new JObject { { "Name", 1 } };
@@ -832,7 +829,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.IsTrue(JToken.DeepEquals(new JArray(3), t[3]));
         }
 
-        [Test]
+        [Fact]
         public void EvaluateWildcardScanNestResults()
         {
             JObject o1 = new JObject { { "Name", 1 } };
@@ -855,7 +852,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(3, (int)t[8]);
         }
 
-        [Test]
+        [Fact]
         public void EvaluateSinglePropertyReturningArray()
         {
             JObject o = new JObject(
@@ -870,7 +867,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(3, (int)t);
         }
 
-        [Test]
+        [Fact]
         public void EvaluateLastSingleCharacterProperty()
         {
             JObject o2 = JObject.Parse("{'People':[{'N':'Jeff'}]}");
@@ -879,7 +876,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual("Jeff", a2);
         }
 
-        [Test]
+        [Fact]
         public void ExistsQuery()
         {
             JArray a = new JArray(new JObject(new JProperty("hi", "ho")), new JObject(new JProperty("hi2", "ha")));
@@ -890,7 +887,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.IsTrue(JToken.DeepEquals(new JObject(new JProperty("hi", "ho")), t[0]));
         }
 
-        [Test]
+        [Fact]
         public void EqualsQuery()
         {
             JArray a = new JArray(
@@ -903,7 +900,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.IsTrue(JToken.DeepEquals(new JObject(new JProperty("hi", "ha")), t[0]));
         }
 
-        [Test]
+        [Fact]
         public void NotEqualsQuery()
         {
             JArray a = new JArray(
@@ -916,7 +913,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.IsTrue(JToken.DeepEquals(new JArray(new JObject(new JProperty("hi", "ho"))), t[0]));
         }
 
-        [Test]
+        [Fact]
         public void NoPathQuery()
         {
             JArray a = new JArray(1, 2, 3);
@@ -928,7 +925,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(3, (int)t[1]);
         }
 
-        [Test]
+        [Fact]
         public void MultipleQueries()
         {
             JArray a = new JArray(1, 2, 3, 4, 5, 6, 7, 8, 9);
@@ -941,7 +938,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(0, t.Count);
         }
 
-        [Test]
+        [Fact]
         public void GreaterQuery()
         {
             JArray a = new JArray(
@@ -956,7 +953,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.IsTrue(JToken.DeepEquals(new JObject(new JProperty("hi", 3)), t[1]));
         }
 
-        [Test]
+        [Fact]
         public void LesserQuery_ValueFirst()
         {
             JArray a = new JArray(
@@ -971,7 +968,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.IsTrue(JToken.DeepEquals(new JObject(new JProperty("hi", 3)), t[1]));
         }
 
-        [Test]
+        [Fact]
         public void GreaterQueryBigInteger()
         {
             JArray a = new JArray(
@@ -986,7 +983,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.IsTrue(JToken.DeepEquals(new JObject(new JProperty("hi", 3)), t[1]));
         }
 
-        [Test]
+        [Fact]
         public void GreaterOrEqualQuery()
         {
             JArray a = new JArray(
@@ -1004,7 +1001,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.IsTrue(JToken.DeepEquals(new JObject(new JProperty("hi", 3)), t[3]));
         }
 
-        [Test]
+        [Fact]
         public void NestedQuery()
         {
             JArray a = new JArray(
@@ -1029,7 +1026,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual("Independence Day", (string)t[1]);
         }
 
-        [Test]
+        [Fact]
         public void PathWithConstructor()
         {
             JArray a = JArray.Parse(@"[
@@ -1057,7 +1054,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(1L, v.Value);
         }
 
-        [Test]
+        [Fact]
         public void MultiplePaths()
         {
             JArray a = JArray.Parse(@"[
@@ -1080,7 +1077,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(a[2], results[0]);
         }
 
-        [Test]
+        [Fact]
         public void Exists_True()
         {
             JArray a = JArray.Parse(@"[
@@ -1105,7 +1102,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(a[2], results[2]);
         }
 
-        [Test]
+        [Fact]
         public void Exists_Null()
         {
             JArray a = JArray.Parse(@"[
@@ -1130,7 +1127,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(a[2], results[2]);
         }
 
-        [Test]
+        [Fact]
         public void WildcardWithProperty()
         {
             JObject o = JObject.Parse(@"{
@@ -1176,7 +1173,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(6, tokens.Count);
         }
 
-        [Test]
+        [Fact]
         public void QueryAgainstNonStringValues()
         {
             IList<object> values = new List<object>
@@ -1222,7 +1219,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(2, t.Count);
         }
 
-        [Test]
+        [Fact]
         public void Example()
         {
             JObject o = JObject.Parse(@"{
@@ -1289,7 +1286,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(149.95m, totalPrice);
         }
 
-        [Test]
+        [Fact]
         public void NotEqualsAndNonPrimativeValues()
         {
             string json = @"[
@@ -1336,7 +1333,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(4, result.Count);
         }
 
-        [Test]
+        [Fact]
         public void RootInFilter()
         {
             string json = @"[
@@ -1388,7 +1385,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(0, result.Count);
         }
 
-        [Test]
+        [Fact]
         public void RootInFilterWithRootObject()
         {
             string json = @"{
@@ -1440,7 +1437,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(3, result.Count);
         }
 
-        [Test]
+        [Fact]
         public void RootInFilterWithInitializers()
         {
             JObject rootObject = new JObject
@@ -1462,7 +1459,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(2, result.Count);
         }
 
-        [Test]
+        [Fact]
         public void IdentityOperator()
         {
             JObject o = JObject.Parse(@"{
@@ -1496,7 +1493,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual("String", mustBeString2.Single());
         }
 
-        [Test]
+        [Fact]
         public void QueryWithEscapedPath()
         {
             JToken t = JToken.Parse(@"{
@@ -1513,7 +1510,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.AreEqual(1, tokens.Count);
         }
 
-        [Test]
+        [Fact]
         public void Equals_FloatWithInt()
         {
             JToken t = JToken.Parse(@"{
@@ -1527,9 +1524,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.IsNotNull(t.SelectToken(@"Values[?(@.Property == 1.0)]"));
         }
 
-#if NET5_0_OR_GREATER
         [Theory]
-#endif
         [TestCaseSource(nameof(StrictMatchWithInverseTestData))]
         public static void EqualsStrict(string value1, string value2, bool matchStrict)
         {

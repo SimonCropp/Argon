@@ -34,13 +34,9 @@ using System.Text;
 using System.Xml;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Utilities;
@@ -52,7 +48,7 @@ namespace Newtonsoft.Json.Tests.Documentation
     [TestFixture]
     public class ConvertingJsonAndXmlTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void SerializeXmlNode()
         {
             #region SerializeXmlNode
@@ -95,7 +91,7 @@ namespace Newtonsoft.Json.Tests.Documentation
             #endregion
         }
 
-        [Test]
+        [Fact]
         public void DeserializeXmlNode()
         {
             #region DeserializeXmlNode
@@ -135,7 +131,7 @@ namespace Newtonsoft.Json.Tests.Documentation
             #endregion
         }
 
-        [Test]
+        [Fact]
         public void ForceJsonArray()
         {
             #region ForceJsonArray

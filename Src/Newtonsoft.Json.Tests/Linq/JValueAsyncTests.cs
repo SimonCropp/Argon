@@ -27,13 +27,9 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using System.Text;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Linq;
 
 namespace Newtonsoft.Json.Tests.Linq
@@ -41,7 +37,7 @@ namespace Newtonsoft.Json.Tests.Linq
     [TestFixture]
     public class JValueAsyncTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public async Task FloatParseHandlingAsync()
         {
             JValue v = (JValue)await JToken.ReadFromAsync(
@@ -62,7 +58,7 @@ namespace Newtonsoft.Json.Tests.Linq
         private readonly Rate _rate = new Rate { Compoundings = 12.166666666666666666666666667m };
 
 
-        [Test]
+        [Fact]
         public async Task ParseAndConvertDateTimeOffsetAsync()
         {
             var json = @"{ d: ""\/Date(0+0100)\/"" }";
@@ -84,7 +80,7 @@ namespace Newtonsoft.Json.Tests.Linq
             }
         }
 
-        [Test]
+        [Fact]
         public async Task ParseIsoTimeZonesAsync()
         {
             DateTimeOffset expectedDate = new DateTimeOffset(2013, 08, 14, 4, 38, 31, TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(30)));

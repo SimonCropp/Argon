@@ -2,22 +2,17 @@
 using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
-#if NET5_0_OR_GREATER
-using Xunit;
+using Newtonsoft.Json.Serialization;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
 
-#endif
 
 namespace Newtonsoft.Json.Tests.Converters
 {
     [TestFixture]
     public class KeyValuePairConverterTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void SerializeUsingInternalConverter()
         {
             DefaultContractResolver contractResolver = new DefaultContractResolver();
@@ -53,7 +48,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(456, v2[1].Value);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeUnexpectedEnd()
         {
             ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<KeyValuePair<string, int>>(@"{""Key"": ""123"","), "Unexpected end when reading JSON. Path 'Key', line 1, position 14.");

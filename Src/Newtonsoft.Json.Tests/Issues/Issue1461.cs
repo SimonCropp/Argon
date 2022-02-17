@@ -35,20 +35,16 @@ using Newtonsoft.Json.Linq;
 using System.Xml;
 using Newtonsoft.Json.Serialization;
 using System.Xml.Linq;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Issues
 {
     [TestFixture]
     public class Issue1461 : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Test()
         {
             JsonSerializerSettings settings = new JsonSerializerSettings

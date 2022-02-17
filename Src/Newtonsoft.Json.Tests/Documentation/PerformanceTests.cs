@@ -35,13 +35,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Utilities;
@@ -115,7 +111,7 @@ namespace Newtonsoft.Json.Tests.Documentation
             public static readonly IContractResolver SnakeCaseContractResolver = new DefaultContractResolver();
         }
 
-        [Test]
+        [Fact]
         public void ReuseContractResolverTest()
         {
             Person person = new Person();
@@ -146,7 +142,7 @@ namespace Newtonsoft.Json.Tests.Documentation
             #endregion
         }
 
-        [Test]
+        [Fact]
         public void ConverterContractResolverTest()
         {
             string json = JsonConvert.SerializeObject(new DateTime(2000, 10, 10, 10, 10, 10, DateTimeKind.Utc), new JsonSerializerSettings
@@ -170,7 +166,7 @@ namespace Newtonsoft.Json.Tests.Documentation
             }
         }
 
-        [Test]
+        [Fact]
         public void DeserializeString()
         {
             #region DeserializeString
@@ -184,7 +180,7 @@ namespace Newtonsoft.Json.Tests.Documentation
             #endregion
         }
 
-        [Test]
+        [Fact]
         public void DeserializeStream()
         {
             #region DeserializeStream

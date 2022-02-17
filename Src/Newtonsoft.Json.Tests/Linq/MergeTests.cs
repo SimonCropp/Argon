@@ -27,22 +27,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Newtonsoft.Json.Linq;
-#if NET5_0_OR_GREATER
-using Xunit;
+using Newtonsoft.Json.Linq;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
 
-#endif
 
 namespace Newtonsoft.Json.Tests.Linq
 {
     [TestFixture]
     public class MergeTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void MergeInvalidObject()
         {
             var a = new JObject();
@@ -54,7 +49,7 @@ Parameter name: content",
                 @"Could not determine JSON object type for type System.Version. (Parameter 'content')");
         }
 
-        [Test]
+        [Fact]
         public void MergeArraySelf()
         {
             var a = new JArray { "1", "2" };
@@ -62,7 +57,7 @@ Parameter name: content",
             Assert.AreEqual(new JArray { "1", "2" }, a);
         }
 
-        [Test]
+        [Fact]
         public void MergeObjectSelf()
         {
             var a = new JObject
@@ -78,7 +73,7 @@ Parameter name: content",
             }, a);
         }
 
-        [Test]
+        [Fact]
         public void MergeArrayIntoArray_Replace()
         {
             var a = new JArray { "1", "2" };
@@ -86,7 +81,7 @@ Parameter name: content",
             Assert.AreEqual(new JArray { "3", "4" }, a);
         }
 
-        [Test]
+        [Fact]
         public void MergeArrayIntoArray_Concat()
         {
             var a = new JArray { "1", "2" };
@@ -94,7 +89,7 @@ Parameter name: content",
             Assert.AreEqual(new JArray { "1", "2", "3", "4" }, a);
         }
 
-        [Test]
+        [Fact]
         public void MergeArrayIntoArray_Union()
         {
             var a = new JArray { "1", "2" };
@@ -102,7 +97,7 @@ Parameter name: content",
             Assert.AreEqual(new JArray { "1", "2", "3", "4" }, a);
         }
 
-        [Test]
+        [Fact]
         public void MergeArrayIntoArray_Merge()
         {
             var a = new JArray { "1", "2" };
@@ -110,7 +105,7 @@ Parameter name: content",
             Assert.AreEqual(new JArray { "2", "2" }, a);
         }
 
-        [Test]
+        [Fact]
         public void MergeNullString()
         {
             var a = new JObject { ["a"] = 1 };
@@ -120,7 +115,7 @@ Parameter name: content",
             Assert.AreEqual(1, (int)a["a"]);
         }
 
-        [Test]
+        [Fact]
         public void MergeObjectProperty()
         {
             var left = (JObject)JToken.FromObject(new
@@ -142,7 +137,7 @@ Parameter name: content",
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void MergeChildObject()
         {
             var left = (JObject)JToken.FromObject(new
@@ -166,7 +161,7 @@ Parameter name: content",
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void MergeMismatchedTypesRoot()
         {
             var left = (JObject)JToken.FromObject(new
@@ -190,7 +185,7 @@ Parameter name: content",
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void MergeMultipleObjects()
         {
             var left = (JObject)JToken.FromObject(new
@@ -216,7 +211,7 @@ Parameter name: content",
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void MergeArray()
         {
             var left = (JObject)JToken.FromObject(new
@@ -299,7 +294,7 @@ Parameter name: content",
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void ConcatArray()
         {
             var left = (JObject)JToken.FromObject(new
@@ -348,7 +343,7 @@ Parameter name: content",
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void MergeMismatchingTypesInArray()
         {
             var left = (JArray)JToken.FromObject(new object[]
@@ -400,7 +395,7 @@ Parameter name: content",
 ]", json);
         }
 
-        [Test]
+        [Fact]
         public void MergeMismatchingTypesInObject()
         {
             var left = (JObject)JToken.FromObject(new
@@ -443,7 +438,7 @@ Parameter name: content",
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void MergeArrayOverwrite_Nested()
         {
             var left = (JObject)JToken.FromObject(new
@@ -479,7 +474,7 @@ Parameter name: content",
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void MergeArrayOverwrite_Root()
         {
             var left = (JArray)JToken.FromObject(new object[]
@@ -507,7 +502,7 @@ Parameter name: content",
 ]", json);
         }
 
-        [Test]
+        [Fact]
         public void UnionArrays()
         {
             var left = (JObject)JToken.FromObject(new
@@ -553,7 +548,7 @@ Parameter name: content",
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void MergeJProperty()
         {
             JProperty p1 = new JProperty("p1", 1);
@@ -573,7 +568,7 @@ Parameter name: content",
             Assert.AreEqual(2, (int)p1.Value);
         }
 
-        [Test]
+        [Fact]
         public void MergeJConstructor()
         {
             JConstructor c1 = new JConstructor("c1", new[] { 1, 2 });
@@ -596,7 +591,7 @@ Parameter name: content",
             CollectionAssert.AreEquivalent(new[] { 5, 6 }, c1.Select(i => (int)i));
         }
 
-        [Test]
+        [Fact]
         public void MergeDefaultContainers()
         {
             JConstructor c = new JConstructor();
@@ -618,7 +613,7 @@ Parameter name: content",
             Assert.AreEqual(0, p.Count);
         }
 
-        [Test]
+        [Fact]
         public void MergeNull()
         {
             JConstructor c = new JConstructor();
@@ -640,7 +635,7 @@ Parameter name: content",
             Assert.AreEqual(0, p.Count);
         }
 
-        [Test]
+        [Fact]
         public void MergeNullValue()
         {
             var source = new JObject
@@ -671,7 +666,7 @@ Parameter name: content",
             Assert.AreEqual(JTokenType.Null, source["Property5"].Type);
         }
 
-        [Test]
+        [Fact]
         public void MergeNullValueHandling_Array()
         {
             string originalJson = @"{
@@ -703,7 +698,7 @@ Parameter name: content",
             StringAssert.AreEqual(newJson, newFoo.ToString());
         }
 
-        [Test]
+        [Fact]
         public void MergeNullValueHandling_Object()
         {
             string originalJson = @"{
@@ -731,7 +726,7 @@ Parameter name: content",
             StringAssert.AreEqual(newJson, newFoo.ToString());
         }
 
-        [Test]
+        [Fact]
         public void Merge_IgnorePropertyCase()
         {
             JObject o1 = JObject.Parse(@"{
@@ -758,7 +753,7 @@ Parameter name: content",
             Assert.AreEqual("Name", (string)words[1]);
         }
 
-        [Test]
+        [Fact]
         public void MergeSettingsComparisonDefault()
         {
             JsonMergeSettings settings = new JsonMergeSettings();

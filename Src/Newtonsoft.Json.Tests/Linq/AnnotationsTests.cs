@@ -2,22 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Newtonsoft.Json.Linq;
-#if NET5_0_OR_GREATER
-using Xunit;
+using Newtonsoft.Json.Linq;using Xunit;
 using TestAttribute = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-
-#endif
 
 namespace Newtonsoft.Json.Tests.Linq
 {
     [TestFixture]
     public class AnnotationsTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void AddAnnotation()
         {
             JObject o = new JObject();
@@ -30,7 +24,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual("A string!", s);
         }
 
-        [Test]
+        [Fact]
         public void AddAnnotation_MultipleOfTheSameType()
         {
             JObject o = new JObject();
@@ -44,7 +38,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual("A string!", s);
         }
 
-        [Test]
+        [Fact]
         public void AddAnnotation_MultipleOfDifferentTypes()
         {
             JObject o = new JObject();
@@ -64,7 +58,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(new Uri("http://www.google.com/"), i);
         }
 
-        [Test]
+        [Fact]
         public void GetAnnotation_NeverSet()
         {
             JObject o = new JObject();
@@ -76,7 +70,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(null, s);
         }
 
-        [Test]
+        [Fact]
         public void GetAnnotations()
         {
             JObject o = new JObject();
@@ -99,7 +93,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual("A string 3!", l[2]);
         }
 
-        [Test]
+        [Fact]
         public void GetAnnotations_MultipleTypes()
         {
             JObject o = new JObject();
@@ -125,7 +119,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(new Uri("http://www.google.com/"), l[3]);
         }
 
-        [Test]
+        [Fact]
         public void RemoveAnnotation()
         {
             JObject o = new JObject();
@@ -137,7 +131,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(null, s);
         }
 
-        [Test]
+        [Fact]
         public void RemoveAnnotation_NonGeneric()
         {
             JObject o = new JObject();
@@ -152,7 +146,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(null, s);
         }
 
-        [Test]
+        [Fact]
         public void RemoveAnnotation_Multiple()
         {
             JObject o = new JObject();
@@ -174,7 +168,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(null, i);
         }
 
-        [Test]
+        [Fact]
         public void RemoveAnnotation_MultipleCalls()
         {
             JObject o = new JObject();
@@ -191,7 +185,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(null, i);
         }
 
-        [Test]
+        [Fact]
         public void RemoveAnnotation_Multiple_NonGeneric()
         {
             JObject o = new JObject();
@@ -204,7 +198,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(null, s);
         }
 
-        [Test]
+        [Fact]
         public void RemoveAnnotation_MultipleCalls_NonGeneric()
         {
             JObject o = new JObject();
@@ -221,7 +215,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(null, i);
         }
 
-        [Test]
+        [Fact]
         public void RemoveAnnotation_MultipleWithDifferentTypes()
         {
             JObject o = new JObject();
@@ -237,7 +231,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(new Uri("http://www.google.com/"), i);
         }
 
-        [Test]
+        [Fact]
         public void RemoveAnnotation_MultipleWithDifferentTypes_NonGeneric()
         {
             JObject o = new JObject();
@@ -253,7 +247,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(new Uri("http://www.google.com/"), i);
         }
 
-        [Test]
+        [Fact]
         public void AnnotationsAreCopied()
         {
             JObject o = new JObject();
@@ -281,7 +275,7 @@ namespace Newtonsoft.Json.Tests.Linq
             AssertCloneCopy(r, "string!");
         }
 
-        [Test]
+        [Fact]
         public void MultipleAnnotationsAreCopied()
         {
             Version version = new Version(1, 2, 3, 4);
@@ -304,7 +298,7 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(annotation, t.DeepClone().Annotation<T>());
         }
 
-        [Test]
+        [Fact]
         public void Example()
         {
             JObject o = JObject.Parse(@"{

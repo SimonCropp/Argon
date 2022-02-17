@@ -25,20 +25,16 @@
 
 using System.Linq;
 using Newtonsoft.Json.Linq;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Issues
 {
     [TestFixture]
     public class Issue1962
     {
-        [Test]
+        [Fact]
         public void Test_Default()
         {
             string json = @"// comment
@@ -49,7 +45,7 @@ namespace Newtonsoft.Json.Tests.Issues
             Assert.AreEqual(" comment", ((JValue)token).Value);
         }
 
-        [Test]
+        [Fact]
         public void Test_LoadComments()
         {
             string json = @"// comment
@@ -66,7 +62,7 @@ namespace Newtonsoft.Json.Tests.Issues
             Assert.IsNull(obj);
         }
 
-        [Test]
+        [Fact]
         public void Test_IgnoreComments()
         {
             string json = @"// comment

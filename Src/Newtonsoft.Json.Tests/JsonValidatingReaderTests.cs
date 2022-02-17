@@ -29,13 +29,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
 using System.Text;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using System.Xml;
 using System.Xml.Schema;
 using Newtonsoft.Json.Linq;
@@ -48,7 +44,7 @@ namespace Newtonsoft.Json.Tests
     [TestFixture]
     public class JsonValidatingReaderTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void CheckInnerReader()
         {
             string json = "{'name':'James','hobbies':['pie','cake']}";
@@ -58,7 +54,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(reader, validatingReader.Reader);
         }
 
-        [Test]
+        [Fact]
         public void ValidateTypes()
         {
             string schemaJson = @"{
@@ -138,7 +134,7 @@ namespace Newtonsoft.Json.Tests
             Assert.IsNull(validationEventArgs);
         }
 
-        [Test]
+        [Fact]
         public void ValidateUnrestrictedArray()
         {
             string schemaJson = @"{
@@ -211,7 +207,7 @@ namespace Newtonsoft.Json.Tests
             Assert.IsNull(validationEventArgs);
         }
 
-        [Test]
+        [Fact]
         public void StringLessThanMinimumLength()
         {
             string schemaJson = @"{
@@ -235,7 +231,7 @@ namespace Newtonsoft.Json.Tests
             Assert.IsNotNull(validationEventArgs);
         }
 
-        [Test]
+        [Fact]
         public void StringGreaterThanMaximumLength()
         {
             string schemaJson = @"{
@@ -259,7 +255,7 @@ namespace Newtonsoft.Json.Tests
             Assert.IsNotNull(validationEventArgs);
         }
 
-        [Test]
+        [Fact]
         public void StringIsNotInEnum()
         {
             string schemaJson = @"{
@@ -300,7 +296,7 @@ namespace Newtonsoft.Json.Tests
             Assert.IsNotNull(validationEventArgs);
         }
 
-        [Test]
+        [Fact]
         public void StringDoesNotMatchPattern()
         {
             string schemaJson = @"{
@@ -324,7 +320,7 @@ namespace Newtonsoft.Json.Tests
             Assert.IsNotNull(validationEventArgs);
         }
 
-        [Test]
+        [Fact]
         public void IntegerGreaterThanMaximumValue()
         {
             string schemaJson = @"{
@@ -348,7 +344,7 @@ namespace Newtonsoft.Json.Tests
             Assert.IsNotNull(validationEventArgs);
         }
 
-        [Test]
+        [Fact]
         public void IntegerGreaterThanMaximumValue_BigInteger()
         {
             string schemaJson = @"{
@@ -372,7 +368,7 @@ namespace Newtonsoft.Json.Tests
             Assert.IsNotNull(validationEventArgs);
         }
 
-        [Test]
+        [Fact]
         public void IntegerLessThanMaximumValue_BigInteger()
         {
             string schemaJson = @"{
@@ -391,7 +387,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual("", validationEventArgs.Path);
         }
 
-        [Test]
+        [Fact]
         public void ThrowExceptionWhenNoValidationEventHandler()
         {
             ExceptionAssert.Throws<JsonSchemaException>(() =>
@@ -408,7 +404,7 @@ namespace Newtonsoft.Json.Tests
             }, "Integer 10 exceeds maximum value of 5. Line 1, position 2.");
         }
 
-        [Test]
+        [Fact]
         public void IntegerLessThanMinimumValue()
         {
             string schemaJson = @"{
@@ -431,7 +427,7 @@ namespace Newtonsoft.Json.Tests
             Assert.IsNotNull(validationEventArgs);
         }
 
-        [Test]
+        [Fact]
         public void IntegerIsNotInEnum()
         {
             string schemaJson = @"{
@@ -472,7 +468,7 @@ namespace Newtonsoft.Json.Tests
             Assert.IsNotNull(validationEventArgs);
         }
 
-        [Test]
+        [Fact]
         public void FloatGreaterThanMaximumValue()
         {
             string schemaJson = @"{
@@ -495,7 +491,7 @@ namespace Newtonsoft.Json.Tests
             Assert.IsNotNull(validationEventArgs);
         }
 
-        [Test]
+        [Fact]
         public void FloatLessThanMinimumValue()
         {
             string schemaJson = @"{
@@ -518,7 +514,7 @@ namespace Newtonsoft.Json.Tests
             Assert.IsNotNull(validationEventArgs);
         }
 
-        [Test]
+        [Fact]
         public void FloatIsNotInEnum()
         {
             string schemaJson = @"{
@@ -559,7 +555,7 @@ namespace Newtonsoft.Json.Tests
             Assert.IsNotNull(validationEventArgs);
         }
 
-        [Test]
+        [Fact]
         public void FloatDivisibleBy()
         {
             string schemaJson = @"{
@@ -599,7 +595,7 @@ namespace Newtonsoft.Json.Tests
             Assert.IsNotNull(validationEventArgs);
         }
 
-        [Test]
+        [Fact]
         public void BigIntegerDivisibleBy_Success()
         {
             string schemaJson = @"{
@@ -629,7 +625,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
         }
 
-        [Test]
+        [Fact]
         public void BigIntegerDivisibleBy_Failure()
         {
             string schemaJson = @"{
@@ -662,7 +658,7 @@ namespace Newtonsoft.Json.Tests
             Assert.IsNotNull(validationEventArgs);
         }
 
-        [Test]
+        [Fact]
         public void BigIntegerDivisibleBy_Fraction()
         {
             string schemaJson = @"{
@@ -694,7 +690,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
         }
 
-        [Test]
+        [Fact]
         public void BigIntegerDivisibleBy_FractionWithZeroValue()
         {
             string schemaJson = @"{
@@ -714,7 +710,7 @@ namespace Newtonsoft.Json.Tests
             Assert.IsNull(validationEventArgs);
         }
 
-        [Test]
+        [Fact]
         public void IntValidForNumber()
         {
             string schemaJson = @"{
@@ -744,7 +740,7 @@ namespace Newtonsoft.Json.Tests
             Assert.IsNull(validationEventArgs);
         }
 
-        [Test]
+        [Fact]
         public void NullNotInEnum()
         {
             string schemaJson = @"{
@@ -778,7 +774,7 @@ namespace Newtonsoft.Json.Tests
             Assert.IsNotNull(validationEventArgs);
         }
 
-        [Test]
+        [Fact]
         public void BooleanNotInEnum()
         {
             string schemaJson = @"{
@@ -816,7 +812,7 @@ namespace Newtonsoft.Json.Tests
             Assert.IsNotNull(validationEventArgs);
         }
 
-        [Test]
+        [Fact]
         public void ArrayCountGreaterThanMaximumItems()
         {
             string schemaJson = @"{
@@ -852,7 +848,7 @@ namespace Newtonsoft.Json.Tests
             Assert.IsNotNull(validationEventArgs);
         }
 
-        [Test]
+        [Fact]
         public void ArrayCountLessThanMinimumItems()
         {
             string schemaJson = @"{
@@ -882,7 +878,7 @@ namespace Newtonsoft.Json.Tests
             Assert.IsNotNull(validationEventArgs);
         }
 
-        [Test]
+        [Fact]
         public void InvalidDataType()
         {
             string schemaJson = @"{
@@ -907,7 +903,7 @@ namespace Newtonsoft.Json.Tests
             Assert.IsNotNull(validationEventArgs);
         }
 
-        [Test]
+        [Fact]
         public void StringDisallowed()
         {
             string schemaJson = @"{
@@ -943,7 +939,7 @@ namespace Newtonsoft.Json.Tests
             Assert.IsNotNull(validationEventArgs);
         }
 
-        [Test]
+        [Fact]
         public void MissingRequiredProperties()
         {
             string schemaJson = @"{
@@ -985,7 +981,7 @@ namespace Newtonsoft.Json.Tests
             Assert.IsNotNull(validationEventArgs);
         }
 
-        [Test]
+        [Fact]
         public void MissingNonRequiredProperties()
         {
             string schemaJson = @"{
@@ -1025,7 +1021,7 @@ namespace Newtonsoft.Json.Tests
             Assert.IsNull(validationEventArgs);
         }
 
-        [Test]
+        [Fact]
         public void DisableAdditionalProperties()
         {
             string schemaJson = @"{
@@ -1082,7 +1078,7 @@ namespace Newtonsoft.Json.Tests
             Assert.IsNotNull(validationEventArgs);
         }
 
-        [Test]
+        [Fact]
         public void ExtendsStringGreaterThanMaximumLength()
         {
             string schemaJson = @"{
@@ -1145,7 +1141,7 @@ namespace Newtonsoft.Json.Tests
             return secondSchema;
         }
 
-        [Test]
+        [Fact]
         public void ExtendsDisallowAdditionProperties()
         {
             string json = "{'firstproperty':'blah','secondproperty':'blah2','additional':'blah3','additional2':'blah4'}";
@@ -1203,7 +1199,7 @@ namespace Newtonsoft.Json.Tests
             Assert.IsFalse(reader.Read());
         }
 
-        [Test]
+        [Fact]
         public void ExtendsMissingRequiredProperties()
         {
             string json = "{}";
@@ -1224,7 +1220,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual("Required properties are missing from object: secondproperty, firstproperty. Line 1, position 2.", errors[0]);
         }
 
-        [Test]
+        [Fact]
         public void NoAdditionalItems()
         {
             string schemaJson = @"{
@@ -1262,7 +1258,7 @@ namespace Newtonsoft.Json.Tests
             Assert.IsFalse(reader.Read());
         }
 
-        [Test]
+        [Fact]
         public void PatternPropertiesNoAdditionalProperties()
         {
             string schemaJson = @"{
@@ -1325,7 +1321,7 @@ namespace Newtonsoft.Json.Tests
             Assert.IsFalse(reader.Read());
         }
 
-        [Test]
+        [Fact]
         public void ExtendedComplex()
         {
             string first = @"{
@@ -1463,7 +1459,7 @@ namespace Newtonsoft.Json.Tests
             Assert.IsFalse(reader.Read());
         }
 
-        [Test]
+        [Fact]
         public void DuplicateErrorsTest()
         {
             string schema = @"{
@@ -1579,7 +1575,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(1, validationEventArgs.Count);
         }
 
-        [Test]
+        [Fact]
         public void ReadAsBytes()
         {
             JsonSchema s = new JsonSchemaGenerator().Generate(typeof(byte[]));
@@ -1595,7 +1591,7 @@ namespace Newtonsoft.Json.Tests
             CollectionAssert.AreEquivalent(data, bytes);
         }
 
-        [Test]
+        [Fact]
         public void ReadAsInt32()
         {
             JsonSchema s = new JsonSchemaGenerator().Generate(typeof(int));
@@ -1609,7 +1605,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(1, i);
         }
 
-        [Test]
+        [Fact]
         public void ReadAsInt32Failure()
         {
             ExceptionAssert.Throws<JsonSchemaException>(() =>
@@ -1625,7 +1621,7 @@ namespace Newtonsoft.Json.Tests
             }, "Integer 5 exceeds maximum value of 2. Line 1, position 1.");
         }
 
-        [Test]
+        [Fact]
         public void ReadAsDecimal()
         {
             JsonSchema s = new JsonSchemaGenerator().Generate(typeof(decimal));
@@ -1639,7 +1635,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(1.5m, d);
         }
 
-        [Test]
+        [Fact]
         public void ReadAsDecimalFailure()
         {
             ExceptionAssert.Throws<JsonSchemaException>(() =>
@@ -1655,7 +1651,7 @@ namespace Newtonsoft.Json.Tests
             }, "Float 5.5 is not evenly divisible by 1. Line 1, position 3.");
         }
 
-        [Test]
+        [Fact]
         public void ReadAsInt32FromSerializer()
         {
             JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader("[1,2,3]")));
@@ -1668,7 +1664,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(3, values[2]);
         }
 
-        [Test]
+        [Fact]
         public void ReadAsInt32InArray()
         {
             string schemaJson = @"{
@@ -1704,7 +1700,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual("", validationEventArgs.Path);
         }
 
-        [Test]
+        [Fact]
         public void ReadAsInt32InArrayIncomplete()
         {
             string schemaJson = @"{
@@ -1739,7 +1735,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(null, validationEventArgs);
         }
 
-        [Test]
+        [Fact]
         public void CloseAlsoClosesUnderlyingReader()
         {
             var underlyingReader = new TestObjects.JsonReaderStubWithIsClosed();

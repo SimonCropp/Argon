@@ -29,15 +29,10 @@ using System.Reflection.Emit;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
 using System;
-using System.Linq;
-#if NET5_0_OR_GREATER
-using Xunit;
+using System.Linq;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
 
-#endif
 
 namespace Newtonsoft.Json.Tests.Serialization
 {
@@ -60,7 +55,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 
-        [Test]
+        [Fact]
         public void UseDynamicConcreteIfTargetObjectTypeIsAnInterfaceWithNoBackingClass()
         {
             string json = @"{Name:""Name!""}";
@@ -73,7 +68,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("Name!", c.Name);
         }
 
-        [Test]
+        [Fact]
         public void UseDynamicConcreteIfTargetObjectTypeIsAnAbstractClassWithNoConcrete()
         {
             string json = @"{Name:""Name!"", Game:""Same""}";
@@ -87,7 +82,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("Same", c.Game);
         }
 
-        [Test]
+        [Fact]
         public void AnyMethodsExposedByDynamicConcreteAreHarmless()
         {
             string json = @"{Name:""Name!""}";

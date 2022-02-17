@@ -27,13 +27,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using System.Dynamic;
 using System.Runtime.Serialization;
 using Newtonsoft.Json.Tests.Linq;
@@ -43,7 +39,7 @@ namespace Newtonsoft.Json.Tests.Serialization
     [TestFixture]
     public class ReferenceLoopHandlingTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void ReferenceLoopHandlingTest()
         {
             JsonPropertyAttribute attribute = new JsonPropertyAttribute();
@@ -55,7 +51,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(ReferenceLoopHandling.Ignore, attribute.ReferenceLoopHandling);
         }
 
-        [Test]
+        [Fact]
         public void IgnoreObjectReferenceLoop()
         {
             ReferenceLoopHandlingObjectContainerAttribute o = new ReferenceLoopHandlingObjectContainerAttribute();
@@ -68,7 +64,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("{}", json);
         }
 
-        [Test]
+        [Fact]
         public void IgnoreObjectReferenceLoopWithPropertyOverride()
         {
             ReferenceLoopHandlingObjectContainerAttributeWithPropertyOverride o = new ReferenceLoopHandlingObjectContainerAttributeWithPropertyOverride();
@@ -93,7 +89,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void IgnoreArrayReferenceLoop()
         {
             ReferenceLoopHandlingList a = new ReferenceLoopHandlingList();
@@ -106,7 +102,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("[]", json);
         }
 
-        [Test]
+        [Fact]
         public void IgnoreDictionaryReferenceLoop()
         {
             ReferenceLoopHandlingDictionary d = new ReferenceLoopHandlingDictionary();
@@ -119,7 +115,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("{}", json);
         }
 
-        [Test]
+        [Fact]
         public void SerializePropertyItemReferenceLoopHandling()
         {
             PropertyItemReferenceLoopHandling c = new PropertyItemReferenceLoopHandling();
@@ -173,7 +169,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 
-        [Test]
+        [Fact]
         public void ErrorISerializableCyclicReferenceLoop()
         {
             var main = new MainClass();
@@ -190,7 +186,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.SerializeObject(main, settings), "Self referencing loop detected with type 'Newtonsoft.Json.Tests.Serialization.ReferenceLoopHandlingTests+MainClass'. Path 'Child'.");
         }
 
-        [Test]
+        [Fact]
         public void IgnoreISerializableCyclicReferenceLoop()
         {
             var main = new MainClass();
@@ -234,7 +230,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 
-        [Test]
+        [Fact]
         public void ErrorDynamicCyclicReferenceLoop()
         {
             dynamic parent = new DictionaryDynamicObject();
@@ -247,7 +243,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.SerializeObject(parent, settings), "Self referencing loop detected with type 'Newtonsoft.Json.Tests.Serialization.ReferenceLoopHandlingTests+DictionaryDynamicObject'. Path 'child'.");
         }
 
-        [Test]
+        [Fact]
         public void IgnoreDynamicCyclicReferenceLoop()
         {
             dynamic parent = new DictionaryDynamicObject();
@@ -263,7 +259,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(@"{""child"":{""name"":""child""},""name"":""parent""}", c);
         }
 
-        [Test]
+        [Fact]
         public void EqualityComparer()
         {
             AccountWithEquals account = new AccountWithEquals

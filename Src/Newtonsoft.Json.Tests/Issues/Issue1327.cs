@@ -31,13 +31,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Xml;
 using System.Xml.Linq;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Issues
 {
@@ -64,7 +60,7 @@ namespace Newtonsoft.Json.Tests.Issues
             public int IdNumber { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void Test_XmlNode()
         {
             string json = @"{
@@ -86,7 +82,7 @@ namespace Newtonsoft.Json.Tests.Issues
             Assert.AreEqual("vinoth", p.TestXml.SelectSingleNode("//name").InnerText);
         }
 
-        [Test]
+        [Fact]
         public void Test_XObject()
         {
             string json = @"{

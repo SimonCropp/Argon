@@ -33,14 +33,14 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
 #else
-using NUnit.Framework;
+using Xunit;
 
 namespace Newtonsoft.Json.Tests.Documentation.Samples.Linq
 {
     [TestFixture]
     public class QueryJsonDynamic : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Example()
         {
             #region Usage
@@ -77,7 +77,7 @@ namespace Newtonsoft.Json.Tests.Documentation.Samples.Linq
             // 23/01/2013 7:30:00 p.m.
             #endregion
 
-            Assert.AreEqual("Json.NET is awesome!", title);
+            Assert.Equal("Json.NET is awesome!", title);
         }
     }
 }

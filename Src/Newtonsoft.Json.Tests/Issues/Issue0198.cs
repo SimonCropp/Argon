@@ -34,20 +34,16 @@ using System.Runtime.Serialization;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Issues
 {
     [TestFixture]
     public class Issue0198 : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Test_List()
         {
             IEnumerable<TestClass1> objects = new List<TestClass1>
@@ -96,7 +92,7 @@ namespace Newtonsoft.Json.Tests.Issues
             Assert.AreEqual(1, o.Prop3.Count);
         }
 
-        [Test]
+        [Fact]
         public void Test_Collection()
         {
             TestClass3 c = new TestClass3();

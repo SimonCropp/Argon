@@ -41,22 +41,17 @@ using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Tests.TestObjects.Organization;
-using Newtonsoft.Json.Utilities;
-#if NET5_0_OR_GREATER
-using Xunit;
+using Newtonsoft.Json.Utilities;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
 
-#endif
 
 namespace Newtonsoft.Json.Tests
 {
     [TestFixture]
     public class JsonConvertTest : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void ToStringEnsureEscapedArrayLength()
         {
             const char nonAsciiChar = (char)257;
@@ -73,7 +68,7 @@ namespace Newtonsoft.Json.Tests
             public decimal Prop { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void PopulateObjectWithHeaderComment()
         {
             string json = @"// file header
@@ -87,7 +82,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(1m, o.Prop);
         }
 
-        [Test]
+        [Fact]
         public void PopulateObjectWithMultipleHeaderComment()
         {
             string json = @"// file header
@@ -102,7 +97,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(1m, o.Prop);
         }
 
-        [Test]
+        [Fact]
         public void PopulateObjectWithNoContent()
         {
             ExceptionAssert.Throws<JsonSerializationException>(() =>
@@ -114,7 +109,7 @@ namespace Newtonsoft.Json.Tests
             }, "No JSON content found. Path '', line 0, position 0.");
         }
 
-        [Test]
+        [Fact]
         public void PopulateObjectWithOnlyComment()
         {
             var ex = ExceptionAssert.Throws<JsonSerializationException>(() =>
@@ -130,7 +125,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(string.Empty, ex.Path);
         }
 
-        [Test]
+        [Fact]
         public void DefaultSettings()
         {
             try
@@ -194,7 +189,7 @@ namespace Newtonsoft.Json.Tests
             }
         }
 
-        [Test]
+        [Fact]
         public void NameTableTest()
         {
             StringReader sr = new StringReader("{'property':'hi'}");
@@ -218,7 +213,7 @@ namespace Newtonsoft.Json.Tests
             }
         }
 
-        [Test]
+        [Fact]
         public void CustonNameTableTest()
         {
             StringReader sr = new StringReader("{'property':'hi'}");
@@ -234,7 +229,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(nameTable, jsonTextReader.PropertyNameTable);
         }
 
-        [Test]
+        [Fact]
         public void DefaultSettings_Example()
         {
             try
@@ -277,7 +272,7 @@ namespace Newtonsoft.Json.Tests
             }
         }
 
-        [Test]
+        [Fact]
         public void DefaultSettings_Override()
         {
             try
@@ -300,7 +295,7 @@ namespace Newtonsoft.Json.Tests
             }
         }
 
-        [Test]
+        [Fact]
         public void DefaultSettings_Override_JsonConverterOrder()
         {
             try
@@ -330,7 +325,7 @@ namespace Newtonsoft.Json.Tests
             }
         }
 
-        [Test]
+        [Fact]
         public void DefaultSettings_Create()
         {
             try
@@ -376,7 +371,7 @@ namespace Newtonsoft.Json.Tests
             }
         }
 
-        [Test]
+        [Fact]
         public void DefaultSettings_CreateWithSettings()
         {
             try
@@ -446,42 +441,42 @@ namespace Newtonsoft.Json.Tests
             }
         }
 
-        [Test]
+        [Fact]
         public void DeserializeObject_EmptyString()
         {
             object result = JsonConvert.DeserializeObject(string.Empty);
             Assert.IsNull(result);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeObject_Integer()
         {
             object result = JsonConvert.DeserializeObject("1");
             Assert.AreEqual(1L, result);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeObject_Integer_EmptyString()
         {
             int? value = JsonConvert.DeserializeObject<int?>("");
             Assert.IsNull(value);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeObject_Decimal_EmptyString()
         {
             decimal? value = JsonConvert.DeserializeObject<decimal?>("");
             Assert.IsNull(value);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeObject_DateTime_EmptyString()
         {
             DateTime? value = JsonConvert.DeserializeObject<DateTime?>("");
             Assert.IsNull(value);
         }
 
-        [Test]
+        [Fact]
         public void EscapeJavaScriptString()
         {
             string result;
@@ -542,7 +537,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(result, @"""\u001farray<address""");
         }
 
-        [Test]
+        [Fact]
         public void EscapeJavaScriptString_UnicodeLinefeeds()
         {
             string result;
@@ -557,13 +552,13 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(@"""before\u2029after""", result);
         }
 
-        [Test]
+        [Fact]
         public void ToStringInvalid()
         {
             ExceptionAssert.Throws<ArgumentException>(() => { JsonConvert.ToString(new Version(1, 0)); }, "Unsupported type: System.Version. Use the JsonSerializer class to get the object's JSON representation.");
         }
 
-        [Test]
+        [Fact]
         public void GuidToString()
         {
             Guid guid = new Guid("BED7F4EA-1A96-11d2-8F08-00A0C9A6186D");
@@ -571,14 +566,14 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(@"""bed7f4ea-1a96-11d2-8f08-00a0c9a6186d""", json);
         }
 
-        [Test]
+        [Fact]
         public void EnumToString()
         {
             string json = JsonConvert.ToString(StringComparison.CurrentCultureIgnoreCase);
             Assert.AreEqual("1", json);
         }
 
-        [Test]
+        [Fact]
         public void ObjectToString()
         {
             object value;
@@ -646,7 +641,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(@"""c""", JsonConvert.ToString(value));
         }
 
-        [Test]
+        [Fact]
         public void TestInvalidStrings()
         {
             ExceptionAssert.Throws<JsonReaderException>(() =>
@@ -662,7 +657,7 @@ namespace Newtonsoft.Json.Tests
             }, "Additional text encountered after finished reading JSON content: t. Path '', line 1, position 19.");
         }
 
-        [Test]
+        [Fact]
         public void DeserializeValueObjects()
         {
             int i = JsonConvert.DeserializeObject<int>("1");
@@ -681,7 +676,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(null, u);
         }
 
-        [Test]
+        [Fact]
         public void FloatToString()
         {
             Assert.AreEqual("1.1", JsonConvert.ToString(1.1));
@@ -700,7 +695,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(JsonConvert.NaN, JsonConvert.ToString(Double.NaN));
         }
 
-        [Test]
+        [Fact]
         public void DecimalToString()
         {
             Assert.AreEqual("1.1", JsonConvert.ToString(1.1m));
@@ -719,7 +714,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual("-79228162514264337593543950335.0", JsonConvert.ToString(Decimal.MinValue));
         }
 
-        [Test]
+        [Fact]
         public void StringEscaping()
         {
             string v = "It's a good day\r\n\"sunshine\"";
@@ -728,7 +723,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(@"""It's a good day\r\n\""sunshine\""""", json);
         }
 
-        [Test]
+        [Fact]
         public void ToStringStringEscapeHandling()
         {
             string v = "<b>hi " + '\u20AC' + "</b>";
@@ -743,7 +738,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(@"""<b>hi \u20ac</b>""", json);
         }
 
-        [Test]
+        [Fact]
         public void WriteDateTime()
         {
             DateTimeResult result = null;
@@ -1026,7 +1021,7 @@ namespace Newtonsoft.Json.Tests
             return (T)converter.ReadJson(reader, typeof(T), null, null);
         }
 
-        [Test]
+        [Fact]
         public void SerializeObjectDateTimeZoneHandling()
         {
             string json = JsonConvert.SerializeObject(
@@ -1039,7 +1034,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(@"""2000-01-01T01:01:01Z""", json);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeObject()
         {
             string json = @"{
@@ -1059,7 +1054,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual("Bad Boys", m.Name);
         }
 
-        [Test]
+        [Fact]
         public void TestJsonDateTimeOffsetRoundtrip()
         {
             var now = DateTimeOffset.Now;
@@ -1081,7 +1076,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(date, now);
         }
 
-        [Test]
+        [Fact]
         public void MaximumDateTimeOffsetLength()
         {
             DateTimeOffset dt = new DateTimeOffset(2000, 12, 31, 20, 59, 59, new TimeSpan(0, 11, 33, 0, 0));
@@ -1096,7 +1091,7 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(@"""2000-12-31T20:59:59.9999999+11:33""", sw.ToString());
         }
 
-        [Test]
+        [Fact]
         public void MaximumDateTimeLength()
         {
             DateTime dt = new DateTime(2000, 12, 31, 20, 59, 59, DateTimeKind.Local);
@@ -1109,7 +1104,7 @@ namespace Newtonsoft.Json.Tests
             writer.Flush();
         }
 
-        [Test]
+        [Fact]
         public void MaximumDateTimeMicrosoftDateFormatLength()
         {
             DateTime dt = DateTime.MaxValue;
@@ -1123,7 +1118,7 @@ namespace Newtonsoft.Json.Tests
             writer.Flush();
         }
 
-        [Test]
+        [Fact]
         public void IntegerLengthOverflows()
         {
             // Maximum javascript number length (in characters) is 380
@@ -1136,7 +1131,7 @@ namespace Newtonsoft.Json.Tests
             ExceptionAssert.Throws<JsonReaderException>(() => JObject.Parse(@"{""biginteger"":" + new String('9', 381) + "}"), "JSON integer " + new String('9', 381) + " is too large to parse. Path 'biginteger', line 1, position 395.");
         }
 
-        [Test]
+        [Fact]
         public void ParseIsoDate()
         {
             StringReader sr = new StringReader(@"""2014-02-14T14:25:02-13:00""");
@@ -1148,7 +1143,7 @@ namespace Newtonsoft.Json.Tests
         }
 
 #if false
-        [Test]
+        [Fact]
         public void StackOverflowTest()
         {
             StringBuilder sb = new StringBuilder();
@@ -1177,7 +1172,7 @@ namespace Newtonsoft.Json.Tests
             public Nest A { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void ParametersPassedToJsonConverterConstructor()
         {
             ClobberMyProperties clobber = new ClobberMyProperties { One = "Red", Two = "Green", Three = "Yellow", Four = "Black" };
@@ -1233,7 +1228,7 @@ namespace Newtonsoft.Json.Tests
             }
         }
 
-        [Test]
+        [Fact]
         public void WrongParametersPassedToJsonConvertConstructorShouldThrow()
         {
             IncorrectJsonConvertParameters value = new IncorrectJsonConvertParameters { One = "Boom" };
@@ -1342,7 +1337,7 @@ namespace Newtonsoft.Json.Tests
             public int Overload { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void JsonConverterConstructor_OverloadWithTypeParam()
         {
             OverloadWithTypeParameter value = new OverloadWithTypeParameter();
@@ -1357,7 +1352,7 @@ namespace Newtonsoft.Json.Tests
             public int Overload { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void JsonConverterConstructor_OverloadWithUnhandledParam_FallbackToObject()
         {
             OverloadWithUnhandledParameter value = new OverloadWithUnhandledParameter();
@@ -1438,7 +1433,7 @@ namespace Newtonsoft.Json.Tests
             public int Overload { get; set; }
         }
         
-        [Test]
+        [Fact]
         public void JsonConverterConstructor_OverloadsWithPrimitiveParams()
         {
             {
@@ -1530,7 +1525,7 @@ namespace Newtonsoft.Json.Tests
             public int WithoutParams { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void JsonConverterConstructor_OverloadsWithArrayParams()
         {
             OverloadWithArrayParameters value = new OverloadWithArrayParameters();
@@ -1545,7 +1540,7 @@ namespace Newtonsoft.Json.Tests
             public int Overload { get; set; }
         }
 
-        //[Test]
+        //[Fact]
         //[Ignore("https://github.com/dotnet/roslyn/issues/36974")]
         //public void JsonConverterConstructor_OverloadsWithBaseTypes()
         //{
@@ -1556,7 +1551,7 @@ namespace Newtonsoft.Json.Tests
         //}
 
 
-        [Test]
+        [Fact]
         public void CustomDoubleRounding()
         {
             var measurements = new Measurements
@@ -1625,7 +1620,7 @@ namespace Newtonsoft.Json.Tests
             }
         }
 
-        [Test]
+        [Fact]
         public void GenericBaseClassSerialization()
         {
             string json = JsonConvert.SerializeObject(new NonGenericChildClass());
@@ -1646,35 +1641,35 @@ namespace Newtonsoft.Json.Tests
         {
         }
 
-        [Test]
+        [Fact]
         public void ShouldNotPopulateReadOnlyEnumerableObjectWithNonDefaultConstructor()
         {
             object actual = JsonConvert.DeserializeObject<HasReadOnlyEnumerableObject>("{\"foo\":{}}");
             Assert.IsNotNull(actual);
         }
 
-        [Test]
+        [Fact]
         public void ShouldNotPopulateReadOnlyEnumerableObjectWithDefaultConstructor()
         {
             object actual = JsonConvert.DeserializeObject<HasReadOnlyEnumerableObjectAndDefaultConstructor>("{\"foo\":{}}");
             Assert.IsNotNull(actual);
         }
 
-        [Test]
+        [Fact]
         public void ShouldNotPopulateContructorArgumentEnumerableObject()
         {
             object actual = JsonConvert.DeserializeObject<AcceptsEnumerableObjectToConstructor>("{\"foo\":{}}");
             Assert.IsNotNull(actual);
         }
 
-        [Test]
+        [Fact]
         public void ShouldNotPopulateEnumerableObjectProperty()
         {
             object actual = JsonConvert.DeserializeObject<HasEnumerableObject>("{\"foo\":{}}");
             Assert.IsNotNull(actual);
         }
 
-        [Test]
+        [Fact]
         public void ShouldNotPopulateReadOnlyDictionaryObjectWithNonDefaultConstructor()
         {
             object actual = JsonConvert.DeserializeObject<HasReadOnlyDictionary>("{\"foo\":{'key':'value'}}");
@@ -1773,7 +1768,7 @@ namespace Newtonsoft.Json.Tests
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
 
-        [Test]
+        [Fact]
         public void ShouldNotRequireIgnoredPropertiesWithItemsRequired()
         {
             string json = @"{

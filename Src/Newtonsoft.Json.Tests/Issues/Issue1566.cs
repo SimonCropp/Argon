@@ -26,21 +26,17 @@
 using System;
 using System.Runtime.Serialization;
 using Newtonsoft.Json.Converters;
-#if NET5_0_OR_GREATER
 using System.Reflection;
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Issues
 {
     [TestFixture]
     public class Issue1566 : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Github_deserialize_pr_state_should_be_case_insensitive()
         {
             // Arrange
@@ -56,7 +52,7 @@ namespace Newtonsoft.Json.Tests.Issues
             Assert.AreEqual(GitHubPullRequestReviewState.Approved, jsonObjectWithLowercase.State);
         }
 
-        [Test]
+        [Fact]
         public void Github_deserialize_pr_state_changes_requested_should_be_case_insensitive()
         {
             // Arrange

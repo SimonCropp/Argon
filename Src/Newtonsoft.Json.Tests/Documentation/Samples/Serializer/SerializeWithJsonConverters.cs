@@ -27,22 +27,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Newtonsoft.Json.Converters;
-#if NET5_0_OR_GREATER
-using Xunit;
+using Newtonsoft.Json.Converters;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
 
-#endif
 
 namespace Newtonsoft.Json.Tests.Documentation.Samples.Serializer
 {
     [TestFixture]
     public class SerializeWithJsonConverters : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void Example()
         {
             #region Usage

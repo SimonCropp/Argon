@@ -30,15 +30,10 @@ using System.Data.Linq;
 #endif
 using System.Data.SqlTypes;
 using System.Text;
-using Newtonsoft.Json.Converters;
-#if NET5_0_OR_GREATER
-using Xunit;
+using Newtonsoft.Json.Converters;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
 
-#endif
 
 namespace Newtonsoft.Json.Tests.Converters
 {
@@ -54,7 +49,7 @@ namespace Newtonsoft.Json.Tests.Converters
         }
 
 #if !NET5_0_OR_GREATER
-        [Test]
+        [Fact]
         public void DeserializeBinaryClass()
         {
             string json = @"{
@@ -68,7 +63,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(null, binaryClass.NullBinary);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeBinaryClassFromJsonArray()
         {
             string json = @"{
@@ -88,7 +83,7 @@ namespace Newtonsoft.Json.Tests.Converters
             public Binary NullBinary { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void SerializeBinaryClass()
         {
             BinaryClass binaryClass = new BinaryClass();
@@ -104,7 +99,7 @@ namespace Newtonsoft.Json.Tests.Converters
         }
 #endif
 
-        [Test]
+        [Fact]
         public void SerializeByteArrayClass()
         {
             ByteArrayClass byteArrayClass = new ByteArrayClass();
@@ -126,7 +121,7 @@ namespace Newtonsoft.Json.Tests.Converters
             public SqlBinary? NullableSqlBinary2 { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void SerializeSqlBinaryClass()
         {
             SqlBinaryClass sqlBinaryClass = new SqlBinaryClass();
@@ -143,7 +138,7 @@ namespace Newtonsoft.Json.Tests.Converters
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeSqlBinaryClass()
         {
             string json = @"{
@@ -159,7 +154,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(null, sqlBinaryClass.NullableSqlBinary2);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeByteArrayClass()
         {
             string json = @"{
@@ -173,7 +168,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(null, byteArrayClass.NullByteArray);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeByteArrayFromJsonArray()
         {
             string json = @"{

@@ -31,22 +31,17 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Tests.TestObjects.Organization;
-using Newtonsoft.Json.Utilities;
-#if NET5_0_OR_GREATER
-using Xunit;
+using Newtonsoft.Json.Utilities;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
 
-#endif
 
 namespace Newtonsoft.Json.Tests.Serialization
 {
     [TestFixture]
     public class DateTimeZoneHandlingTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public void DeserializeObject()
         {
             string json = @"
@@ -77,7 +72,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(DateTimeKind.Unspecified, c4.Value.Kind);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeFromJObject()
         {
             string json = @"

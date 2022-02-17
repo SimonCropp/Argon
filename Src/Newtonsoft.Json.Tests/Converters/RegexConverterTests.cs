@@ -31,13 +31,9 @@ using Newtonsoft.Json.Bson;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Utilities;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using Newtonsoft.Json.Tests.TestObjects;
 
 namespace Newtonsoft.Json.Tests.Converters
@@ -50,7 +46,7 @@ namespace Newtonsoft.Json.Tests.Converters
             public Regex Regex { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void WriteJsonNull()
         {
             StringWriter sw = new StringWriter();
@@ -62,7 +58,7 @@ namespace Newtonsoft.Json.Tests.Converters
             StringAssert.AreEqual(@"null", sw.ToString());
         }
 
-        [Test]
+        [Fact]
         public void SerializeToText()
         {
             Regex regex = new Regex("abc", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
@@ -75,7 +71,7 @@ namespace Newtonsoft.Json.Tests.Converters
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void SerializeCamelCaseAndStringEnums()
         {
             Regex regex = new Regex("abc", RegexOptions.IgnoreCase);
@@ -94,7 +90,7 @@ namespace Newtonsoft.Json.Tests.Converters
 }", json);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeCamelCaseAndStringEnums()
         {
             string json = @"{
@@ -111,7 +107,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(RegexOptions.IgnoreCase, regex.Options);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeISerializeRegexJson()
         {
             string json = @"{
@@ -128,7 +124,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture, r.Regex.Options);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeStringRegex()
         {
             string json = @"{
@@ -144,7 +140,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(RegexOptions.None, c.Regex.Options);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeStringRegex_NoStartSlash_Error()
         {
             string json = @"{
@@ -159,7 +155,7 @@ namespace Newtonsoft.Json.Tests.Converters
                 "Regex pattern must be enclosed by slashes. Path 'Regex', line 2, position 18.");
         }
 
-        [Test]
+        [Fact]
         public void DeserializeStringRegex_NoEndSlash_Error()
         {
             string json = @"{
@@ -174,7 +170,7 @@ namespace Newtonsoft.Json.Tests.Converters
                 "Regex pattern must be enclosed by slashes. Path 'Regex', line 2, position 18.");
         }
 
-        [Test]
+        [Fact]
         public void DeserializeStringRegex_NoStartAndEndSlashes_Error()
         {
             string json = @"{
@@ -190,7 +186,7 @@ namespace Newtonsoft.Json.Tests.Converters
         }
 
 #pragma warning disable 618
-        [Test]
+        [Fact]
         public void SerializeToBson()
         {
             Regex regex = new Regex("abc", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
@@ -208,7 +204,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(expected, bson);
         }
 
-        [Test]
+        [Fact]
         public void DeserializeFromBson()
         {
             MemoryStream ms = new MemoryStream(HexToBytes("13-00-00-00-0B-52-65-67-65-78-00-61-62-63-00-69-75-00-00"));
@@ -222,7 +218,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(RegexOptions.IgnoreCase, c.Regex.Options);
         }
 
-        [Test]
+        [Fact]
         public void ConvertEmptyRegexBson()
         {
             Regex regex = new Regex(string.Empty);
@@ -244,7 +240,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(RegexOptions.None, c.Regex.Options);
         }
 
-        [Test]
+        [Fact]
         public void ConvertRegexWithAllOptionsBson()
         {
             Regex regex = new Regex(
@@ -274,7 +270,7 @@ namespace Newtonsoft.Json.Tests.Converters
         }
 #pragma warning restore 618
 
-        [Test]
+        [Fact]
         public void DeserializeFromText()
         {
             string json = @"{
@@ -287,7 +283,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(RegexOptions.IgnoreCase | RegexOptions.CultureInvariant, newRegex.Options);
         }
 
-        [Test]
+        [Fact]
         public void ConvertEmptyRegexJson()
         {
             Regex regex = new Regex("");
@@ -311,7 +307,7 @@ namespace Newtonsoft.Json.Tests.Converters
             public Regex RegProp { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void DeserializeNullRegex()
         {
             string json = JsonConvert.SerializeObject(new SimpleClassWithRegex { RegProp = null });

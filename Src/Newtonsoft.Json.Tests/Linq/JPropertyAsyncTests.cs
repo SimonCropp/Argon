@@ -24,13 +24,9 @@
 #endregion
 
 using Newtonsoft.Json.Linq;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using System.IO;
 using System.Threading.Tasks;
 
@@ -39,7 +35,7 @@ namespace Newtonsoft.Json.Tests.Linq
     [TestFixture]
     public class JPropertyAsyncTests : TestFixtureBase
     {
-        [Test]
+        [Fact]
         public async Task LoadAsync()
         {
             JsonReader reader = new JsonTextReader(new StringReader("{'propertyname':['value1']}"));

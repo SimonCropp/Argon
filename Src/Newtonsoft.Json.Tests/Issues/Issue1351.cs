@@ -33,13 +33,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Xml;
 using System.Xml.Linq;
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 
 namespace Newtonsoft.Json.Tests.Issues
 {
@@ -83,7 +79,7 @@ namespace Newtonsoft.Json.Tests.Issues
             public Color Color { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void Test()
         {
             var t = new List<TestClass>
@@ -127,7 +123,7 @@ namespace Newtonsoft.Json.Tests.Issues
             Assert.AreEqual("A different Id has already been assigned for value 'Newtonsoft.Json.Tests.Issues.Issue1351+Color'. This error may be caused by an object being reused multiple times during deserialization and can be fixed with the setting ObjectCreationHandling.Replace.", exception.InnerException.Message);
         }
 
-        [Test]
+        [Fact]
         public void Test_Replace()
         {
             var t = new List<TestClass>

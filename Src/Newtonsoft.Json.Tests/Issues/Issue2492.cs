@@ -23,13 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-#else
-using NUnit.Framework;
-#endif
 using System.Collections.Generic;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Converters;
@@ -43,7 +39,7 @@ namespace Newtonsoft.Json.Tests.Issues
     [TestFixture]
     public class Issue2492
     {
-        [Test]
+        [Fact]
         public void Test_Object()
         {
             string jsontext = @"{ ""ABC"": //DEF
@@ -58,7 +54,7 @@ namespace Newtonsoft.Json.Tests.Issues
             Assert.AreEqual(JTokenType.Object, x["ABC"].Type);
         }
 
-        [Test]
+        [Fact]
         public void Test_Integer()
         {
             string jsontext = "{ \"ABC\": /*DEF*/ 1}";
