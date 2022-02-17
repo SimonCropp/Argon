@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if (NET45 || NET50)
 #if DNXCORE50
 using Xunit;
 using Test = Xunit.FactAttribute;
@@ -74,8 +73,8 @@ namespace Newtonsoft.Json.Tests.Issues
             string json = @"{""prop1"":1,""prop2"":2}";
 
             var d = JsonConvert.DeserializeObject<Dict?>(json);
-            Assert.AreEqual(1, d.Value["prop1"]);
-            Assert.AreEqual(2, d.Value["prop2"]);
+            Assert.AreEqual((Int64)1, d.Value["prop1"]);
+            Assert.AreEqual((Int64)2, d.Value["prop2"]);
         }
 
         public struct Dict : IReadOnlyDictionary<string, object>
@@ -94,4 +93,3 @@ namespace Newtonsoft.Json.Tests.Issues
         }
     }
 }
-#endif
