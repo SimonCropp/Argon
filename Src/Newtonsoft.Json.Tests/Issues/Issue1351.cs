@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !NET20
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -173,4 +172,3 @@ namespace Newtonsoft.Json.Tests.Issues
         }
     }
 }
-#endif

@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !NET20
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -31,7 +30,7 @@ using System.IO;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.Serialization;
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
+#if !(NET40)
 using System.Threading.Tasks;
 #endif
 using Newtonsoft.Json.Converters;
@@ -63,7 +62,7 @@ namespace Newtonsoft.Json.Tests.Issues
                 "Cannot read number value as type. Path 'enddate', line 1, position 13.");
         }
 
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
+#if !(NET40)
         [Test]
         public async Task Test_Async()
         {
@@ -78,4 +77,3 @@ namespace Newtonsoft.Json.Tests.Issues
 #endif
     }
 }
-#endif

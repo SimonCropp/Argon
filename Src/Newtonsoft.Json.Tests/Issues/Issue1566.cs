@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !NET20
 using System;
 using System.Runtime.Serialization;
 using Newtonsoft.Json.Converters;
@@ -99,4 +98,3 @@ namespace Newtonsoft.Json.Tests.Issues
         }
     }
 }
-#endif

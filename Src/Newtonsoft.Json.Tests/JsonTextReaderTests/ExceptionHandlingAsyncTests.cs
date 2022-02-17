@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
+#if !(NET40)
 
 using System;
 using System.Globalization;
@@ -108,7 +108,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
                 "After parsing a value an unexpected character was encountered: '. Path '[0]', line 1, position 24.");
         }
 
-#if !NET20
         [Test]
         public async Task ReadAsDateTimeOffset_MissingCommaAsync()
         {
@@ -122,7 +121,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
                 () => reader.ReadAsDateTimeOffsetAsync(),
                 "After parsing a value an unexpected character was encountered: '. Path '[0]', line 1, position 24.");
         }
-#endif
 
         [Test]
         public async Task ReadAsString_MissingCommaAsync()
@@ -830,7 +828,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsDateTimeAsync(); }, "Unexpected character encountered while parsing value: t. Path '', line 1, position 1.");
         }
 
-#if !NET20
         [Test]
         public async Task ReadAsDateTimeOffsetBadContentAsync()
         {
@@ -838,7 +835,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsDateTimeOffsetAsync(); }, "Unexpected character encountered while parsing value: e. Path '', line 1, position 2.");
         }
-#endif
 
         [Test]
         public async Task ReadAsDecimalBadContentAsync()

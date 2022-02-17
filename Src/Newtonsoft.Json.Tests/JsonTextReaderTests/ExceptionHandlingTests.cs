@@ -44,11 +44,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-#if NET20
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 using System.Xml;
 using Newtonsoft.Json.Tests.TestObjects.JsonTextReaderTests;
 using Newtonsoft.Json.Utilities;
@@ -119,7 +115,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
                 "After parsing a value an unexpected character was encountered: '. Path '[0]', line 1, position 24.");
         }
 
-#if !NET20
         [Test]
         public void ReadAsDateTimeOffset_MissingComma()
         {
@@ -133,7 +128,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
                 () => reader.ReadAsDateTimeOffset(),
                 "After parsing a value an unexpected character was encountered: '. Path '[0]', line 1, position 24.");
         }
-#endif
 
         [Test]
         public void ReadAsString_MissingComma()
@@ -617,7 +611,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             }
         }
 
-#if !(NET20 || NET35 || PORTABLE40 || PORTABLE) || NETSTANDARD2_0
         [Test]
         public void ReadInt64Overflow()
         {
@@ -637,9 +630,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
                 Assert.AreEqual(typeof(BigInteger), reader.ValueType);
             }
         }
-#endif
 
-#if !(NET20 || NET35 || PORTABLE40 || PORTABLE) || NETSTANDARD2_0
         [Test]
         public void ReadInt64Overflow_Negative()
         {
@@ -659,7 +650,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
                 Assert.AreEqual(typeof(BigInteger), reader.ValueType);
             }
         }
-#endif
 
         [Test]
         public void ReadAsString_Null_AdditionalBadData()

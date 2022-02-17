@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !NET20
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -73,4 +72,3 @@ namespace Newtonsoft.Json.Tests.Issues
         }
     }
 }
-#endif

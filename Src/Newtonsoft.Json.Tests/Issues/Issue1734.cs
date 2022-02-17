@@ -30,9 +30,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml;
 using System.IO;
-#if !NET20
 using System.Xml.Linq;
-#endif
 #if DNXCORE50
 using Xunit;
 using Test = Xunit.FactAttribute;
@@ -141,7 +139,6 @@ namespace Newtonsoft.Json.Tests.Issues
         }
 #endif
 
-#if !NET20
         [Test]
         public void Test_XNode()
         {
@@ -219,7 +216,6 @@ namespace Newtonsoft.Json.Tests.Issues
   </ns3:collections>
 </ns3:Test_Service>", xml);
         }
-#endif
 
         private const string JsonWithoutNamespace = @"{
   ""Test_Service"": {
