@@ -23,11 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if NET20
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 #if !(PORTABLE || PORTABLE40) || NETSTANDARD2_0
 using System.Collections.ObjectModel;
 #if !(NET35 || NET20)

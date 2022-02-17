@@ -39,11 +39,7 @@ using NUnit.Framework;
 #endif
 using Newtonsoft.Json.Linq;
 using System.Globalization;
-#if NET20
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 using Newtonsoft.Json.Tests.Serialization;
 
 namespace Newtonsoft.Json.Tests.Linq
