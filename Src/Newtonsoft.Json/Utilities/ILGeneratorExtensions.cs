@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if HAVE_REFLECTION_EMIT
+#if !NETSTANDARD2_0
 using System;
 using System.Reflection.Emit;
 using System.Reflection;
