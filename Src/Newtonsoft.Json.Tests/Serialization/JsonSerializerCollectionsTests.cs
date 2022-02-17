@@ -2048,7 +2048,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("Product 1", p1.Name);
         }
 
-#if !(NET40 || NET35 || NET20 || PORTABLE40)
         [Test]
         public void ReadOnlyIntegerList()
         {
@@ -2069,7 +2068,6 @@ namespace Newtonsoft.Json.Tests.Serialization
   2147483647
 ]", json);
         }
-#endif
 
 #if !DNXCORE50 || NETSTANDARD2_0
         [Test]

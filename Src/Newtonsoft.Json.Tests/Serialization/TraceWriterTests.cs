@@ -28,9 +28,7 @@ using Newtonsoft.Json.Utilities.LinqBridge;
 using System.Linq;
 
 #endif
-#if !(NET20 || NET35 || NET40 || PORTABLE40 || PORTABLE) || DNXCORE50
 using System.Threading.Tasks;
-#endif
 
 namespace Newtonsoft.Json.Tests.Serialization
 { 
@@ -84,7 +82,6 @@ namespace Newtonsoft.Json.Tests.Serialization
 }", traceWriter.TraceRecords[5].Message);
         }
 
-#if !(NET20 || NET35 || NET40 || PORTABLE40 || PORTABLE) || DNXCORE50
         [Test]
         public async Task DeserializedJsonWithAlreadyReadReader_Async()
         {
@@ -119,9 +116,7 @@ namespace Newtonsoft.Json.Tests.Serialization
   ""name"": ""Publisher""
 }", traceWriter.TraceRecords[5].Message);
         }
-#endif
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
         [Test]
         public void DiagnosticsTraceWriterTest()
         {
@@ -152,7 +147,6 @@ Newtonsoft.Json Error: 0 : Error!
                 Trace.AutoFlush = false;
             }
         }
-#endif
 
         [Test]
         public void WriteNullableByte()
@@ -397,7 +391,6 @@ Newtonsoft.Json Error: 0 : Error!
             Assert.IsTrue(traceMessages.Last().EndsWith(" 1005"));
         }
 
-#if !(NET20 || NET35 || NET40 || PORTABLE40 || PORTABLE) || DNXCORE50
         [Test]
         public async Task MemoryTraceWriterThreadSafety_Trace()
         {
@@ -452,7 +445,6 @@ Newtonsoft.Json Error: 0 : Error!
 
             Assert.IsNotNull(s);
         }
-#endif
 
         [Test]
         public void Serialize()
@@ -1102,7 +1094,6 @@ Newtonsoft.Json Error: 0 : Error!
             StringAssert.AreEqual("Serialized JSON: " + Environment.NewLine + json, traceWriter.GetSerializedJsonMessage());
         }
 
-#if !(NET20 || NET35 || NET40 || PORTABLE || PORTABLE40)
         [Test]
         public async Task TraceJsonWriterTest_WriteObjectInObjectAsync()
         {
@@ -1123,9 +1114,7 @@ Newtonsoft.Json Error: 0 : Error!
 
             StringAssert.AreEqual("Serialized JSON: " + Environment.NewLine + json, traceWriter.GetSerializedJsonMessage());
         }
-#endif
 
-#if !(NET20 || NET35 || PORTABLE || PORTABLE40) || NETSTANDARD2_0
         [Test]
         public void TraceJsonWriterTest()
         {
@@ -1357,7 +1346,6 @@ Newtonsoft.Json Error: 0 : Error!
 
             StringAssert.AreEqual("Deserialized JSON: " + Environment.NewLine + json, traceReader.GetDeserializedJsonMessage());
         }
-#endif
     }
 
     public class TraceRecord

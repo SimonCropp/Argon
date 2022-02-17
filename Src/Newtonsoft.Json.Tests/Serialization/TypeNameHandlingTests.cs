@@ -272,7 +272,6 @@ namespace Newtonsoft.Json.Tests.Serialization
         }
 #endif
 
-#if !(NET20 || NET35 || NET40)
         public class KnownAutoTypes
         {
             public ICollection<string> Collection { get; set; }
@@ -333,7 +332,6 @@ namespace Newtonsoft.Json.Tests.Serialization
   }
 }", json);
         }
-#endif
 
         [Test]
         public void DictionaryAuto()

@@ -1678,7 +1678,6 @@ namespace Newtonsoft.Json.Tests
             Assert.IsNotNull(actual);
         }
 
-#if !(NET40 || NET35 || NET20 || PORTABLE40)
         [Test]
         public void ShouldNotPopulateReadOnlyDictionaryObjectWithNonDefaultConstructor()
         {
@@ -1697,7 +1696,6 @@ namespace Newtonsoft.Json.Tests
 
             }
         }
-#endif
 
         public sealed class HasReadOnlyEnumerableObject
         {

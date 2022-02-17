@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET40 || NET35 || NET20 || DNXCORE50) || NETSTANDARD2_0
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -159,4 +158,3 @@ namespace Newtonsoft.Json.Tests.TestObjects.Money
         }
     }
 }
-#endif

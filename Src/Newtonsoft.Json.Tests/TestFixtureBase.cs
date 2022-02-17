@@ -42,9 +42,7 @@ using NUnit.Framework;
 #endif
 using Newtonsoft.Json.Utilities;
 using System.Collections;
-#if !(NET40)
 using System.Threading.Tasks;
-#endif
 using System.Linq;
 
 namespace Newtonsoft.Json.Tests
@@ -402,7 +400,6 @@ namespace Newtonsoft.Json.Tests
             }
         }
 
-#if !(NET40)
         public static async Task<TException> ThrowsAsync<TException>(Func<Task> action, params string[] possibleMessages)
             where TException : Exception
         {
@@ -434,7 +431,5 @@ namespace Newtonsoft.Json.Tests
                 throw new Exception(string.Format("Exception of type {0} expected; got exception of type {1}.", typeof(TException).Name, ex.GetType().Name), ex);
             }
         }
-#endif
-
     }
 }

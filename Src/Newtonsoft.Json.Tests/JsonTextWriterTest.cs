@@ -132,7 +132,6 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual(1, arrayPool.FreeArrays.Count);
         }
 
-#if !(NET40 || DNXCORE50) || NETSTANDARD2_0
         [Test]
         public void BufferErroringWithInvalidSize()
         {
@@ -157,7 +156,6 @@ namespace Newtonsoft.Json.Tests
   ""BodyHtml"": ""<h3>Title!</h3>\r\n                                                                                                    <p>Content!</p>""
 }", result);
         }
-#endif
 
         [Test]
         public void NewLine()
