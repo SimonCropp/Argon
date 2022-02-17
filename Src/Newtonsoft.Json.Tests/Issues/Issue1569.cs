@@ -23,13 +23,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET20 || NET35 || NET40 || PORTABLE || PORTABLE40) || NETSTANDARD2_0
 using System;
 using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using System.Reflection;
 using Xunit;
 using Test = Xunit.FactAttribute;
@@ -122,4 +121,3 @@ namespace Newtonsoft.Json.Tests.Issues
         }
     }
 }
-#endif

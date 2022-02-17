@@ -27,17 +27,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-#if NET20
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -272,7 +268,6 @@ namespace Newtonsoft.Json.Tests.Serialization
 }", json);
         }
 
-#if !(PORTABLE || DNXCORE50) || NETSTANDARD2_0
         public class SerializationEventContextTestObject
         {
             public string TestMember { get; set; }
@@ -301,9 +296,7 @@ namespace Newtonsoft.Json.Tests.Serialization
   ""TestMember"": ""Remoting ContextValue""
 }", json);
         }
-#endif
 
-#if !(PORTABLE || DNXCORE50) || NETSTANDARD2_0
         [Test]
         public void WhenSerializationErrorDetectedBySerializer_ThenCallbackIsCalled()
         {
@@ -325,7 +318,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             // When fixed, this would pass.
             Assert.AreEqual(25, foo.Identifier);
         }
-#endif
 
         public class FooEvent
         {
@@ -385,7 +377,6 @@ OnSerialized_Derived
 OnSerialized_Derived_Derived", string.Join(Environment.NewLine, e.ToArray()));
         }
 
-#if !(NET20)
         [Test]
         public void DerivedDerivedSerializationEvents_DataContractSerializer()
         {
@@ -413,7 +404,6 @@ OnSerialized
 OnSerialized_Derived
 OnSerialized_Derived_Derived", string.Join(Environment.NewLine, e.ToArray()));
         }
-#endif
 
         [Test]
         public void NoStreamingContextParameter()

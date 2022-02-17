@@ -28,19 +28,14 @@ using System.Collections.Generic;
 using Newtonsoft.Json.Serialization;
 using System.Runtime.Serialization;
 using System.Text;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
 #else
 using NUnit.Framework;
 #endif
-#if NET20
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-
-#endif
 
 namespace Newtonsoft.Json.Tests.Documentation.Samples.Serializer
 {

@@ -27,9 +27,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-#if HAVE_BIG_INTEGER
 using System.Numerics;
-#endif
 using System.Text;
 using Newtonsoft.Json.Utilities;
 using Newtonsoft.Json.Linq;
@@ -237,14 +235,12 @@ namespace Newtonsoft.Json.Bson
         /// <param name="value">The <see cref="Object"/> value to write.</param>
         public override void WriteValue(object value)
         {
-#if HAVE_BIG_INTEGER
             if (value is BigInteger i)
             {
                 SetWriteState(JsonToken.Integer, null);
                 AddToken(new BsonBinary(i.ToByteArray(), BsonBinaryType.Binary));
             }
             else
-#endif
             {
                 base.WriteValue(value);
             }
@@ -389,11 +385,7 @@ namespace Newtonsoft.Json.Bson
         {
             base.WriteValue(value);
             string s = null;
-#if HAVE_CHAR_TO_STRING_WITH_CULTURE
             s = value.ToString(CultureInfo.InvariantCulture);
-#else
-            s = value.ToString();
-#endif
             AddToken(new BsonString(s, true));
         }
 
@@ -439,7 +431,6 @@ namespace Newtonsoft.Json.Bson
             AddValue(value, BsonType.Date);
         }
 
-#if HAVE_DATE_TIME_OFFSET
         /// <summary>
         /// Writes a <see cref="DateTimeOffset"/> value.
         /// </summary>
@@ -449,7 +440,6 @@ namespace Newtonsoft.Json.Bson
             base.WriteValue(value);
             AddValue(value, BsonType.Date);
         }
-#endif
 
         /// <summary>
         /// Writes a <see cref="Byte"/>[] value.

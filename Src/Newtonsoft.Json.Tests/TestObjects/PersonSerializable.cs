@@ -27,7 +27,6 @@ using System;
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !(PORTABLE || DNXCORE50) || NETSTANDARD2_0
     [Serializable]
     public class PersonSerializable
     {
@@ -52,5 +51,4 @@ namespace Newtonsoft.Json.Tests.TestObjects
             set { _age = value; }
         }
     }
-#endif
 }

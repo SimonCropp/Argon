@@ -24,7 +24,7 @@
 #endregion
 
 using System;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using System.Reflection;
 using Xunit;
 using Test = Xunit.FactAttribute;
@@ -125,7 +125,7 @@ namespace Newtonsoft.Json.Tests.Issues
 
         public override bool CanConvert(Type objectType)
         {
-#if DNXCORE50
+#if NET5_0_OR_GREATER
             return typeof(JsonLineInfo).GetTypeInfo().IsAssignableFrom(objectType.GetTypeInfo());
 #else
             return typeof(JsonLineInfo).IsAssignableFrom(objectType);

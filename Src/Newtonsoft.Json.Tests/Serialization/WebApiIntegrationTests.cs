@@ -26,20 +26,16 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-#if !NET20
 using System.Linq;
-#endif
 using System.Text;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
 #else
 using NUnit.Framework;
 #endif
-#if !(NET20 || NET35 || DNXCORE50)
 using System.Runtime.Serialization.Json;
-#endif
 using Newtonsoft.Json.Serialization;
 
 namespace Newtonsoft.Json.Tests.Serialization
@@ -59,7 +55,7 @@ namespace Newtonsoft.Json.Tests.Serialization
                 nonSerializedField = "Error"
             };
 
-#if !(NET20 || NET35 || PORTABLE || DNXCORE50 || PORTABLE40)
+#if !NET5_0_OR_GREATER
             MemoryStream ms = new MemoryStream();
             DataContractJsonSerializer dataContractJsonSerializer = new DataContractJsonSerializer(typeof(SerializableType));
             dataContractJsonSerializer.WriteObject(ms, serializableType);
@@ -75,16 +71,13 @@ namespace Newtonsoft.Json.Tests.Serialization
             {
                 ContractResolver = new DefaultContractResolver
                 {
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
                     IgnoreSerializableAttribute = false
-#endif
                 }
             });
 
             Assert.AreEqual(expected, json);
         }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
         [Test]
         public void SerializeInheritedType()
         {
@@ -102,7 +95,6 @@ namespace Newtonsoft.Json.Tests.Serialization
 
             Assert.AreEqual(@"{""inheritedTypeField"":""inherited"",""publicField"":""public"",""PublicProperty"":""private""}", json);
         }
-#endif
     }
 
     public class InheritedType : SerializableType
@@ -114,11 +106,7 @@ namespace Newtonsoft.Json.Tests.Serialization
         }
     }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
     [Serializable]
-#else
-    [JsonObject(MemberSerialization.Fields)]
-#endif
     public class SerializableType : IEquatable<SerializableType>
     {
         public SerializableType(string protectedFieldValue)
@@ -138,7 +126,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             set { privateField = value; }
         }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40)
+#if !NET5_0_OR_GREATER
         [NonSerialized]
 #else
         [JsonIgnore]

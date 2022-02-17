@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-#if NET20
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 using System.Text;
 using Newtonsoft.Json.Linq;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using TestAttribute = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -308,7 +304,6 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(annotation, t.DeepClone().Annotation<T>());
         }
 
-#if !NET20
         [Test]
         public void Example()
         {
@@ -331,6 +326,5 @@ namespace Newtonsoft.Json.Tests.Linq
 
             Assert.AreEqual(2, changedProperties.Count);
         }
-#endif
     }
 }

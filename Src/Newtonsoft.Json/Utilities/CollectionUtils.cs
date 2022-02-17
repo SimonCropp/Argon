@@ -30,15 +30,9 @@ using System.Reflection;
 using System.Text;
 using System.Collections;
 using System.Diagnostics;
-#if !HAVE_LINQ
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 using System.Globalization;
-#if HAVE_METHOD_IMPL_ATTRIBUTE
 using System.Runtime.CompilerServices;
-#endif
 using Newtonsoft.Json.Serialization;
 
 namespace Newtonsoft.Json.Utilities
@@ -84,16 +78,6 @@ namespace Newtonsoft.Json.Utilities
             }
         }
 
-#if !HAVE_COVARIANT_GENERICS
-        public static void AddRange<T>(this IList<T> initial, IEnumerable collection)
-        {
-            ValidationUtils.ArgumentNotNull(initial, nameof(initial));
-
-            // because earlier versions of .NET didn't support covariant generics
-            initial.AddRange(collection.Cast<T>());
-        }
-#endif
-
         public static bool IsDictionaryType(Type type)
         {
             ValidationUtils.ArgumentNotNull(type, nameof(type));
@@ -106,12 +90,10 @@ namespace Newtonsoft.Json.Utilities
             {
                 return true;
             }
-#if HAVE_READ_ONLY_COLLECTIONS
             if (ReflectionUtils.ImplementsGenericDefinition(type, typeof(IReadOnlyDictionary<,>)))
             {
                 return true;
             }
-#endif
 
             return false;
         }
@@ -252,7 +234,6 @@ namespace Newtonsoft.Json.Utilities
             return -1;
         }
 
-#if HAVE_FAST_REVERSE
         // faster reverse in .NET Framework with value types - https://github.com/JamesNK/Newtonsoft.Json/issues/1430
         public static void FastReverse<T>(this List<T> list)
         {
@@ -267,7 +248,6 @@ namespace Newtonsoft.Json.Utilities
                 j--;
             }
         }
-#endif
 
         private static IList<int> GetDimensions(IList values, int dimensionsCount)
         {

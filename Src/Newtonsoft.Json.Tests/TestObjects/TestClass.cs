@@ -29,7 +29,6 @@ using System.Runtime.Serialization;
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !(NET20)
     [Serializable]
     [DataContract]
     public class TestClass
@@ -85,5 +84,4 @@ namespace Newtonsoft.Json.Tests.TestObjects
         [DataMember]
         public Dictionary<string, int> dictionary = new Dictionary<string, int>();
     }
-#endif
 }

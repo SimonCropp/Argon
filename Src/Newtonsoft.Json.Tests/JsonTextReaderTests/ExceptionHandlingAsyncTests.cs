@@ -23,15 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
-
 using System;
 using System.Globalization;
-#if !PORTABLE || NETSTANDARD2_0
 using System.Numerics;
-#endif
 using System.Text;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -45,7 +41,7 @@ using Newtonsoft.Json.Tests.TestObjects.JsonTextReaderTests;
 namespace Newtonsoft.Json.Tests.JsonTextReaderTests
 {
     [TestFixture]
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
     [Category("JsonTextReaderTests")]
 #endif
     public class ExceptionHandlingAsyncTests : TestFixtureBase
@@ -108,7 +104,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
                 "After parsing a value an unexpected character was encountered: '. Path '[0]', line 1, position 24.");
         }
 
-#if !NET20
         [Test]
         public async Task ReadAsDateTimeOffset_MissingCommaAsync()
         {
@@ -122,7 +117,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
                 () => reader.ReadAsDateTimeOffsetAsync(),
                 "After parsing a value an unexpected character was encountered: '. Path '[0]', line 1, position 24.");
         }
-#endif
 
         [Test]
         public async Task ReadAsString_MissingCommaAsync()
@@ -593,7 +587,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             }
         }
 
-#if !PORTABLE || NETSTANDARD2_0
         [Test]
         public async Task ReadInt64OverflowAsync()
         {
@@ -633,7 +626,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
                 Assert.AreEqual(typeof(BigInteger), reader.ValueType);
             }
         }
-#endif
 
         [Test]
         public async Task ReadAsString_Null_AdditionalBadDataAsync()
@@ -830,7 +822,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsDateTimeAsync(); }, "Unexpected character encountered while parsing value: t. Path '', line 1, position 1.");
         }
 
-#if !NET20
         [Test]
         public async Task ReadAsDateTimeOffsetBadContentAsync()
         {
@@ -838,7 +829,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsDateTimeOffsetAsync(); }, "Unexpected character encountered while parsing value: e. Path '', line 1, position 2.");
         }
-#endif
 
         [Test]
         public async Task ReadAsDecimalBadContentAsync()
@@ -1009,7 +999,7 @@ new Date()"));
         {
             string json = @"{
   ""frameworks"": {
-    ""dnxcore50"": {
+    ""NET5_0_OR_GREATER"": {
       ""dependencies"": {
         ""System.Xml.ReaderWriter"": {
           ""source"": !!! !!!
@@ -1027,7 +1017,7 @@ new Date()"));
                     {
                     }
                 },
-                "Unexpected character encountered while parsing value: !. Path 'frameworks.dnxcore50.dependencies['System.Xml.ReaderWriter'].source', line 6, position 20.");
+                "Unexpected character encountered while parsing value: !. Path 'frameworks.NET5_0_OR_GREATER.dependencies['System.Xml.ReaderWriter'].source', line 6, position 20.");
         }
 
         [Test]
@@ -1104,5 +1094,3 @@ new Date()"));
         }
     }
 }
-
-#endif

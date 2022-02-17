@@ -27,7 +27,6 @@ using System.Runtime.Serialization;
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !(NET20)
     [DataContract]
     public class BaseDataContract
     {
@@ -43,5 +42,4 @@ namespace Newtonsoft.Json.Tests.TestObjects
         public override string VirtualMember { get; set; }
         public string NewMember { get; set; }
     }
-#endif
 }

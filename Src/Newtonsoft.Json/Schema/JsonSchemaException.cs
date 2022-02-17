@@ -38,9 +38,7 @@ namespace Newtonsoft.Json.Schema
     /// JSON Schema validation has been moved to its own package. See <see href="https://www.newtonsoft.com/jsonschema">https://www.newtonsoft.com/jsonschema</see> for more details.
     /// </note>
     /// </summary>
-#if HAVE_BINARY_EXCEPTION_SERIALIZATION
     [Serializable]
-#endif
     [Obsolete("JSON Schema validation has been moved to its own package. See https://www.newtonsoft.com/jsonschema for more details.")]
     public class JsonSchemaException : JsonException
     {
@@ -90,7 +88,6 @@ namespace Newtonsoft.Json.Schema
         {
         }
 
-#if HAVE_BINARY_EXCEPTION_SERIALIZATION
         /// <summary>
         /// Initializes a new instance of the <see cref="JsonSchemaException"/> class.
         /// </summary>
@@ -102,7 +99,6 @@ namespace Newtonsoft.Json.Schema
             : base(info, context)
         {
         }
-#endif
 
         internal JsonSchemaException(string message, Exception innerException, string path, int lineNumber, int linePosition)
             : base(message, innerException)

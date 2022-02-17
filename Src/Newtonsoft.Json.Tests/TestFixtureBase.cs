@@ -29,15 +29,11 @@ using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
-#if (NET20 || NET35)
-using Newtonsoft.Json.Serialization;
-#else
 using System.Runtime.Serialization.Json;
-#endif
 using System.Text;
 using System.Threading;
 using Newtonsoft.Json.Linq;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
 using XAssert = Xunit.Assert;
@@ -46,16 +42,8 @@ using NUnit.Framework;
 #endif
 using Newtonsoft.Json.Utilities;
 using System.Collections;
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
 using System.Threading.Tasks;
-#endif
-#if NET20
-using Newtonsoft.Json.Utilities.LinqBridge;
-using Action = Newtonsoft.Json.Serialization.Action;
-#else
 using System.Linq;
-
-#endif
 
 namespace Newtonsoft.Json.Tests
 {
@@ -63,7 +51,7 @@ namespace Newtonsoft.Json.Tests
     {
         public static IEnumerable<ConstructorInfo> GetConstructors(Type type)
         {
-#if !(DNXCORE50)
+#if !NET5_0_OR_GREATER
             return type.GetConstructors();
 #else
             return type.GetTypeInfo().DeclaredConstructors;
@@ -72,7 +60,7 @@ namespace Newtonsoft.Json.Tests
 
         public static PropertyInfo GetProperty(Type type, string name)
         {
-#if !(DNXCORE50)
+#if !NET5_0_OR_GREATER
             return type.GetProperty(name);
 #else
             return type.GetTypeInfo().GetDeclaredProperty(name);
@@ -81,7 +69,7 @@ namespace Newtonsoft.Json.Tests
 
         public static FieldInfo GetField(Type type, string name)
         {
-#if !(DNXCORE50)
+#if !NET5_0_OR_GREATER
             return type.GetField(name);
 #else
             return type.GetTypeInfo().GetDeclaredField(name);
@@ -90,7 +78,7 @@ namespace Newtonsoft.Json.Tests
 
         public static MethodInfo GetMethod(Type type, string name)
         {
-#if !(DNXCORE50)
+#if !NET5_0_OR_GREATER
             return type.GetMethod(name);
 #else
             return type.GetTypeInfo().GetDeclaredMethod(name);
@@ -98,7 +86,7 @@ namespace Newtonsoft.Json.Tests
         }
     }
 
-#if DNXCORE50
+#if NET5_0_OR_GREATER
     public class TestFixtureAttribute : Attribute
     {
         // xunit doesn't need a test fixture attribute
@@ -199,7 +187,6 @@ namespace Newtonsoft.Json.Tests
     [TestFixture]
     public abstract class TestFixtureBase
     {
-#if !(NET20 || NET35)
         protected string GetDataContractJsonSerializeResult(object o)
         {
             MemoryStream ms = new MemoryStream();
@@ -209,7 +196,6 @@ namespace Newtonsoft.Json.Tests
             var data = ms.ToArray();
             return Encoding.UTF8.GetString(data, 0, data.Length);
         }
-#endif
 
         public static string ResolvePath(string path)
         {
@@ -276,14 +262,14 @@ namespace Newtonsoft.Json.Tests
             return bytes;
         }
 
-#if DNXCORE50
+#if NET5_0_OR_GREATER
         protected TestFixtureBase()
 #else
         [SetUp]
         protected void TestSetup()
 #endif
         {
-#if !(DNXCORE50)
+#if !NET5_0_OR_GREATER
             //CultureInfo turkey = CultureInfo.CreateSpecificCulture("tr");
             //Thread.CurrentThread.CurrentCulture = turkey;
             //Thread.CurrentThread.CurrentUICulture = turkey;
@@ -338,7 +324,7 @@ namespace Newtonsoft.Json.Tests
 
         public static void Contains(IList collection, object value, string message)
         {
-#if !(DNXCORE50)
+#if !NET5_0_OR_GREATER
             Assert.Contains(value, collection, message);
 #else
             if (!collection.Cast<object>().Any(i => i.Equals(value)))
@@ -414,7 +400,6 @@ namespace Newtonsoft.Json.Tests
             }
         }
 
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
         public static async Task<TException> ThrowsAsync<TException>(Func<Task> action, params string[] possibleMessages)
             where TException : Exception
         {
@@ -446,7 +431,5 @@ namespace Newtonsoft.Json.Tests
                 throw new Exception(string.Format("Exception of type {0} expected; got exception of type {1}.", typeof(TException).Name, ex.GetType().Name), ex);
             }
         }
-#endif
-
     }
 }

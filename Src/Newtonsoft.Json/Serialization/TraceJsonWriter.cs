@@ -26,9 +26,7 @@
 using System;
 using System.Globalization;
 using System.IO;
-#if HAVE_BIG_INTEGER
 using System.Numerics;
-#endif
 
 namespace Newtonsoft.Json.Serialization
 {
@@ -179,7 +177,6 @@ namespace Newtonsoft.Json.Serialization
             }
         }
 
-#if HAVE_DATE_TIME_OFFSET
         public override void WriteValue(DateTimeOffset value)
         {
             _textWriter.WriteValue(value);
@@ -200,7 +197,6 @@ namespace Newtonsoft.Json.Serialization
                 base.WriteUndefined();
             }
         }
-#endif
 
         public override void WriteValue(double value)
         {
@@ -323,7 +319,6 @@ namespace Newtonsoft.Json.Serialization
 
         public override void WriteValue(object? value)
         {
-#if HAVE_BIG_INTEGER
             if (value is BigInteger)
             {
                 _textWriter.WriteValue(value);
@@ -331,7 +326,6 @@ namespace Newtonsoft.Json.Serialization
                 InternalWriteValue(JsonToken.Integer);
             }
             else
-#endif
             {
                 _textWriter.WriteValue(value);
                 _innerWriter.WriteValue(value);

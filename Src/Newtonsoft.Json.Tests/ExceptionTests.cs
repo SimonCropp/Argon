@@ -25,11 +25,9 @@
 
 using System;
 using System.IO;
-#if !(PORTABLE || DNXCORE50) || NETSTANDARD2_0
 using System.Runtime.Serialization.Formatters.Binary;
-#endif
 using Newtonsoft.Json.Schema;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -105,7 +103,6 @@ namespace Newtonsoft.Json.Tests
         }
 #pragma warning restore 618
 
-#if !(PORTABLE || PORTABLE40 || DNXCORE50) || NETSTANDARD2_0
         [Test]
         public void BinarySerializeException()
         {
@@ -118,6 +115,5 @@ namespace Newtonsoft.Json.Tests
 #pragma warning restore SYSLIB0011 // Type or member is obsolete
             }
         }
-#endif
     }
 }

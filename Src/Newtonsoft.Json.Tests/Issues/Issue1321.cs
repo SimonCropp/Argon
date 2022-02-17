@@ -28,16 +28,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
 using System.Threading.Tasks;
-#endif
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Xml;
-#if !NET20
 using System.Xml.Linq;
-#endif
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -76,7 +72,6 @@ namespace Newtonsoft.Json.Tests.Issues
             }, "Unexpected end when reading token. Path ''.");
         }
 
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
         [Test]
         public async Task Test2_Async()
         {
@@ -91,7 +86,6 @@ namespace Newtonsoft.Json.Tests.Issues
                 await writer.WriteTokenAsync(reader);
             }, "Unexpected end when reading token. Path ''.");
         }
-#endif
 
         [Test]
         public void Test3()
@@ -109,7 +103,6 @@ namespace Newtonsoft.Json.Tests.Issues
             }, "Unexpected end when reading token. Path ''.");
         }
 
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
         [Test]
         public async Task Test3_Async()
         {
@@ -125,7 +118,6 @@ namespace Newtonsoft.Json.Tests.Issues
                 await writer.WriteTokenAsync(reader);
             }, "Unexpected end when reading token. Path ''.");
         }
-#endif
 
         [Test]
         public void Test4()
@@ -144,7 +136,6 @@ namespace Newtonsoft.Json.Tests.Issues
             }, "Unexpected end when reading token. Path ''.");
         }
 
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
         [Test]
         public async Task Test4_Async()
         {
@@ -161,7 +152,6 @@ namespace Newtonsoft.Json.Tests.Issues
                 await writer.WriteTokenAsync(reader);
             }, "Unexpected end when reading token. Path ''.");
         }
-#endif
 
         [Test]
         public void Test5()
@@ -180,7 +170,6 @@ namespace Newtonsoft.Json.Tests.Issues
             }, "Unexpected end when reading token. Path '[0]'.");
         }
 
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
         [Test]
         public async Task Test5_Async()
         {
@@ -197,6 +186,5 @@ namespace Newtonsoft.Json.Tests.Issues
                 await writer.WriteTokenAsync(reader);
             }, "Unexpected end when reading token. Path '[0]'.");
         }
-#endif
     }
 }

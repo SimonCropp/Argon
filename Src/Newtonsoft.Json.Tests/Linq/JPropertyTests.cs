@@ -27,13 +27,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-#if NET20
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 using Newtonsoft.Json.Linq;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -61,7 +57,6 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(p, p.Value.Parent);
         }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
         [Test]
         public void ListChanged()
         {
@@ -82,7 +77,6 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(ListChangedType.ItemChanged, listChangedType.Value);
             Assert.AreEqual(0, index.Value);
         }
-#endif
 
         [Test]
         public void IListCount()

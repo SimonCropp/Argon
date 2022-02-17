@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !NET20
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -31,14 +30,12 @@ using System.IO;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.Serialization;
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
 using System.Threading.Tasks;
-#endif
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Utilities;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -63,7 +60,6 @@ namespace Newtonsoft.Json.Tests.Issues
                 "Cannot read number value as type. Path 'enddate', line 1, position 13.");
         }
 
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
         [Test]
         public async Task Test_Async()
         {
@@ -75,7 +71,5 @@ namespace Newtonsoft.Json.Tests.Issues
                 () => reader.ReadAsDateTimeAsync(),
                 "Cannot read number value as type. Path 'enddate', line 1, position 13.");
         }
-#endif
     }
 }
-#endif

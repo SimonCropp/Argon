@@ -26,8 +26,6 @@
 using System;
 using System.Runtime.Serialization;
 
-#if !NET20
-
 namespace Newtonsoft.Json.Tests.TestObjects
 {
     [DataContract]
@@ -47,5 +45,3 @@ namespace Newtonsoft.Json.Tests.TestObjects
         public DateTime NextShipmentDate { get; set; }
     }
 }
-
-#endif

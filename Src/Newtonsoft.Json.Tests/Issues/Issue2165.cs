@@ -25,11 +25,9 @@
 
 using System;
 using System.IO;
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
 using System.Threading.Tasks;
-#endif
 using Newtonsoft.Json.Linq;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -64,7 +62,6 @@ namespace Newtonsoft.Json.Tests.Issues
                 "Unexpected end when reading token. Path ''.");
         }
 
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
         [Test]
         public async Task TestAsync()
         {
@@ -78,6 +75,5 @@ namespace Newtonsoft.Json.Tests.Issues
                 () => writer.WriteTokenAsync(jsonReader),
                 "Unexpected end when reading token. Path ''.");
         }
-#endif
     }
 }

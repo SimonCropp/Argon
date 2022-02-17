@@ -23,10 +23,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
-
 using Newtonsoft.Json.Linq;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -70,5 +68,3 @@ namespace Newtonsoft.Json.Tests.Linq
         }
     }
 }
-
-#endif

@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(PORTABLE40 || PORTABLE || DNXCORE50) || NETSTANDARD2_0
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -684,5 +683,3 @@ namespace Newtonsoft.Json.Tests.TestObjects
         }
     }
 }
-
-#endif

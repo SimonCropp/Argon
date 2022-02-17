@@ -29,18 +29,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.Serialization;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
 #else
 using NUnit.Framework;
 #endif
-#if NET20
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Tests.TestObjects.Organization;
@@ -109,16 +105,13 @@ namespace Newtonsoft.Json.Tests.Serialization
 
     public class AddressWithDataMember
     {
-#if !NET20
         [DataMember(Name = "CustomerAddress1")]
-#endif
         public string AddressLine1 { get; set; }
     }
 
     [TestFixture]
     public class ContractResolverTests : TestFixtureBase
     {
-#if !(PORTABLE || PORTABLE40) || NETSTANDARD2_0
         [Test]
         public void ResolveSerializableContract()
         {
@@ -148,7 +141,6 @@ namespace Newtonsoft.Json.Tests.Serialization
 
             Assert.AreEqual(MemberSerialization.Fields, contract.MemberSerialization);
         }
-#endif
 
         [Test]
         public void JsonPropertyDefaultValue()
@@ -446,7 +438,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.IsFalse(p._skipPropertyNameEscape);
         }
 
-#if !NET20
         [Test]
         public void DeserializeDataMemberClassWithNoDataContract()
         {
@@ -455,7 +446,6 @@ namespace Newtonsoft.Json.Tests.Serialization
 
             Assert.AreEqual("AddressLine1", contract.Properties[0].PropertyName);
         }
-#endif
 
         [Test]
         public void ResolveProperties_IgnoreStatic()
@@ -585,7 +575,6 @@ namespace Newtonsoft.Json.Tests.Serialization
 }", startingWithB);
         }
 
-#if !(PORTABLE || PORTABLE40) || NETSTANDARD2_0
 #pragma warning disable 618
         [Test]
         public void SerializeCompilerGeneratedMembers()
@@ -630,7 +619,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(2, (int)o["<IntProperty>k__BackingField"]);
         }
 #pragma warning restore 618
-#endif
 
         public class ClassWithExtensionData
         {

@@ -28,11 +28,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using Newtonsoft.Json.Linq;
-#if !(NET20 || NET35 || PORTABLE40 || PORTABLE) || NETSTANDARD2_0
 using System.Numerics;
-#endif
 using System.Text;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -44,11 +42,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-#if NET20
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 using System.Xml;
 using Newtonsoft.Json.Tests.TestObjects.JsonTextReaderTests;
 using Newtonsoft.Json.Utilities;
@@ -56,7 +50,7 @@ using Newtonsoft.Json.Utilities;
 namespace Newtonsoft.Json.Tests.JsonTextReaderTests
 {
     [TestFixture]
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
     [Category("JsonTextReaderTests")]
 #endif
     public class ParseTests : TestFixtureBase
@@ -470,7 +464,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.AreEqual(typeof(DateTime), reader.ValueType);
             Assert.IsTrue(reader.Read());
 
-#if !NET20
             reader = new JsonTextReader(new StringReader(json));
             reader.DateParseHandling = Json.DateParseHandling.DateTimeOffset;
 
@@ -482,7 +475,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.AreEqual(new DateTimeOffset(DateTimeUtils.InitialJavaScriptDateTicks, TimeSpan.Zero), reader.Value);
             Assert.AreEqual(typeof(DateTimeOffset), reader.ValueType);
             Assert.IsTrue(reader.Read());
-#endif
 
             reader = new JsonTextReader(new StringReader(json));
             reader.DateParseHandling = Json.DateParseHandling.None;
@@ -496,7 +488,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.AreEqual(typeof(string), reader.ValueType);
             Assert.IsTrue(reader.Read());
 
-#if !NET20
             reader = new JsonTextReader(new StringReader(json));
             reader.DateParseHandling = Json.DateParseHandling.DateTime;
 
@@ -520,7 +511,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.AreEqual(new DateTime(DateTimeUtils.InitialJavaScriptDateTicks, DateTimeKind.Utc), reader.Value);
             Assert.AreEqual(typeof(DateTime), reader.ValueType);
             Assert.IsTrue(reader.Read());
-#endif
         }
     }
 }

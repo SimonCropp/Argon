@@ -26,9 +26,7 @@
 using System;
 using System.IO;
 using System.Globalization;
-#if HAVE_BIG_INTEGER
 using System.Numerics;
-#endif
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Utilities;
 using System.Xml;
@@ -38,9 +36,7 @@ using System.Text;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Diagnostics.CodeAnalysis;
-#if HAVE_XLINQ
 using System.Xml.Linq;
-#endif
 
 namespace Newtonsoft.Json
 {
@@ -126,7 +122,6 @@ namespace Newtonsoft.Json
             }
         }
 
-#if HAVE_DATE_TIME_OFFSET
         /// <summary>
         /// Converts the <see cref="DateTimeOffset"/> to its JSON string representation.
         /// </summary>
@@ -153,7 +148,6 @@ namespace Newtonsoft.Json
                 return writer.ToString();
             }
         }
-#endif
 
         /// <summary>
         /// Converts the <see cref="Boolean"/> to its JSON string representation.
@@ -237,12 +231,10 @@ namespace Newtonsoft.Json
             return value.ToString(null, CultureInfo.InvariantCulture);
         }
 
-#if HAVE_BIG_INTEGER
         private static string ToStringInternal(BigInteger value)
         {
             return value.ToString(null, CultureInfo.InvariantCulture);
         }
-#endif
 
         /// <summary>
         /// Converts the <see cref="UInt64"/> to its JSON string representation.
@@ -365,13 +357,8 @@ namespace Newtonsoft.Json
         {
             string text;
             string qc;
-#if HAVE_CHAR_TO_STRING_WITH_CULTURE
             text = value.ToString("D", CultureInfo.InvariantCulture);
             qc = quoteChar.ToString(CultureInfo.InvariantCulture);
-#else
-            text = value.ToString("D");
-            qc = quoteChar.ToString();
-#endif
 
             return qc + text + qc;
         }
@@ -495,24 +482,18 @@ namespace Newtonsoft.Json
                     return ToString((DateTime)value);
                 case PrimitiveTypeCode.Decimal:
                     return ToString((decimal)value);
-#if HAVE_DB_NULL_TYPE_CODE
                 case PrimitiveTypeCode.DBNull:
                     return Null;
-#endif
-#if HAVE_DATE_TIME_OFFSET
                 case PrimitiveTypeCode.DateTimeOffset:
                     return ToString((DateTimeOffset)value);
-#endif
                 case PrimitiveTypeCode.Guid:
                     return ToString((Guid)value);
                 case PrimitiveTypeCode.Uri:
                     return ToString((Uri)value);
                 case PrimitiveTypeCode.TimeSpan:
                     return ToString((TimeSpan)value);
-#if HAVE_BIG_INTEGER
                 case PrimitiveTypeCode.BigInteger:
                     return ToStringInternal((BigInteger)value);
-#endif
             }
 
             throw new ArgumentException("Unsupported type: {0}. Use the JsonSerializer class to get the object's JSON representation.".FormatWith(CultureInfo.InvariantCulture, value.GetType()));
@@ -877,7 +858,6 @@ namespace Newtonsoft.Json
         #endregion
 
         #region Xml
-#if HAVE_XML_DOCUMENT
         /// <summary>
         /// Serializes the <see cref="XmlNode"/> to a JSON string.
         /// </summary>
@@ -978,9 +958,7 @@ namespace Newtonsoft.Json
 
             return (XmlDocument?)DeserializeObject(value, typeof(XmlDocument), converter);
         }
-#endif
 
-#if HAVE_XLINQ
         /// <summary>
         /// Serializes the <see cref="XNode"/> to a JSON string.
         /// </summary>
@@ -1079,7 +1057,6 @@ namespace Newtonsoft.Json
 
             return (XDocument?)DeserializeObject(value, typeof(XDocument), converter);
         }
-#endif
         #endregion
     }
 }

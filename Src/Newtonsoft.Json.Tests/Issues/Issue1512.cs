@@ -23,12 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET20 || NET35 || NET40)
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using System.Reflection;
 using Xunit;
 using Test = Xunit.FactAttribute;
@@ -90,4 +89,3 @@ namespace Newtonsoft.Json.Tests.Issues
         public ImmutableArray<string>? Inners { get; set; }
     }
 }
-#endif

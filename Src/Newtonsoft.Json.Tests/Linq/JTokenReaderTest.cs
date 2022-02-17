@@ -26,7 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -35,9 +35,7 @@ using NUnit.Framework;
 #endif
 using Newtonsoft.Json;
 using System.IO;
-#if !(NET20 || NET35 || PORTABLE40 || PORTABLE) || NETSTANDARD2_0
 using System.Numerics;
-#endif
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Tests.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
@@ -47,7 +45,6 @@ namespace Newtonsoft.Json.Tests.Linq
     [TestFixture]
     public class JTokenReaderTest : TestFixtureBase
     {
-#if !(NET20 || NET35 || PORTABLE40 || PORTABLE) || NETSTANDARD2_0
         [Test]
         public void ConvertBigIntegerToDouble()
         {
@@ -71,7 +68,6 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(10000000000000000000m, reader.ReadAsDecimal());
             Assert.IsTrue(reader.Read());
         }
-#endif
 
         [Test]
         public void ErrorTokenIndex()
@@ -86,7 +82,6 @@ namespace Newtonsoft.Json.Tests.Linq
             }, "Could not convert string to integer: two. Path 'IntList[1]', line 1, position 20.");
         }
 
-#if !NET20
         [Test]
         public void YahooFinance()
         {
@@ -220,7 +215,6 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(typeof(DateTimeOffset), reader.ValueType);
             Assert.AreEqual(new DateTimeOffset(2012, 1, 24, 3, 50, 0, TimeSpan.Zero), reader.Value);
         }
-#endif
 
         [Test]
         public void ReadLineInfo()
@@ -797,7 +791,6 @@ namespace Newtonsoft.Json.Tests.Linq
                 "Error reading date. Unexpected token: StartArray. Path ''.");
         }
 
-#if !NET20
         [Test]
         public void ReadAsDateTimeOffset_InvalidToken()
         {
@@ -842,7 +835,6 @@ namespace Newtonsoft.Json.Tests.Linq
 
             Assert.AreEqual(new DateTime(2012, 1, 24, 3, 50, 0, DateTimeKind.Utc), reader.ReadAsDateTime());
         }
-#endif
 
         [Test]
         public void ReadAsDateTime_String()
@@ -884,7 +876,6 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(1d, reader.ReadAsDouble());
         }
 
-#if !(NET20 || NET35 || PORTABLE40 || PORTABLE) || NETSTANDARD2_0
         [Test]
         public void ReadAsBoolean_BigInteger_Success()
         {
@@ -894,7 +885,6 @@ namespace Newtonsoft.Json.Tests.Linq
 
             Assert.AreEqual(true, reader.ReadAsBoolean());
         }
-#endif
 
         [Test]
         public void ReadAsBoolean_String_Success()
@@ -936,7 +926,6 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(null, reader.ReadAsDateTime());
         }
 
-#if !NET20
         [Test]
         public void ReadAsDateTimeOffset_Null_Success()
         {
@@ -946,7 +935,6 @@ namespace Newtonsoft.Json.Tests.Linq
 
             Assert.AreEqual(null, reader.ReadAsDateTimeOffset());
         }
-#endif
 
         [Test]
         public void ReadAsString_Integer_Success()

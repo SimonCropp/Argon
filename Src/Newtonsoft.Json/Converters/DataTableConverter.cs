@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if HAVE_ADO_NET
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -250,5 +249,3 @@ namespace Newtonsoft.Json.Converters
         }
     }
 }
-
-#endif

@@ -27,12 +27,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json.Serialization;
-#if NET20
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;

@@ -26,17 +26,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-#if HAVE_BIG_INTEGER
 using System.Numerics;
-#endif
 using Newtonsoft.Json.Utilities;
 using System.Globalization;
-#if !HAVE_LINQ
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-
-#endif
 
 namespace Newtonsoft.Json
 {
@@ -548,13 +541,11 @@ namespace Newtonsoft.Json
                     break;
                 case JsonToken.Integer:
                     ValidationUtils.ArgumentNotNull(value, nameof(value));
-#if HAVE_BIG_INTEGER
                     if (value is BigInteger integer)
                     {
                         WriteValue(integer);
                     }
                     else
-#endif
                     {
                         WriteValue(Convert.ToInt64(value, CultureInfo.InvariantCulture));
                     }
@@ -604,13 +595,11 @@ namespace Newtonsoft.Json
                     break;
                 case JsonToken.Date:
                     ValidationUtils.ArgumentNotNull(value, nameof(value));
-#if HAVE_DATE_TIME_OFFSET
                     if (value is DateTimeOffset dt)
                     {
                         WriteValue(dt);
                     }
                     else
-#endif
                     {
                         WriteValue(Convert.ToDateTime(value, CultureInfo.InvariantCulture));
                     }
@@ -1073,7 +1062,6 @@ namespace Newtonsoft.Json
             InternalWriteValue(JsonToken.Date);
         }
 
-#if HAVE_DATE_TIME_OFFSET
         /// <summary>
         /// Writes a <see cref="DateTimeOffset"/> value.
         /// </summary>
@@ -1082,7 +1070,6 @@ namespace Newtonsoft.Json
         {
             InternalWriteValue(JsonToken.Date);
         }
-#endif
 
         /// <summary>
         /// Writes a <see cref="Guid"/> value.
@@ -1330,7 +1317,6 @@ namespace Newtonsoft.Json
             }
         }
 
-#if HAVE_DATE_TIME_OFFSET
         /// <summary>
         /// Writes a <see cref="Nullable{T}"/> of <see cref="DateTimeOffset"/> value.
         /// </summary>
@@ -1346,7 +1332,6 @@ namespace Newtonsoft.Json
                 WriteValue(value.GetValueOrDefault());
             }
         }
-#endif
 
         /// <summary>
         /// Writes a <see cref="Nullable{T}"/> of <see cref="Guid"/> value.
@@ -1425,14 +1410,12 @@ namespace Newtonsoft.Json
             }
             else
             {
-#if HAVE_BIG_INTEGER
                 // this is here because adding a WriteValue(BigInteger) to JsonWriter will
                 // mean the user has to add a reference to System.Numerics.dll
                 if (value is BigInteger)
                 {
                     throw CreateUnsupportedTypeException(this, value);
                 }
-#endif
 
                 WriteValue(this, ConvertUtils.GetTypeCode(value.GetType()), value);
             }
@@ -1585,7 +1568,6 @@ namespace Newtonsoft.Json
                         writer.WriteValue((value == null) ? (DateTime?)null : (DateTime)value);
                         return;
 
-#if HAVE_DATE_TIME_OFFSET
                     case PrimitiveTypeCode.DateTimeOffset:
                         writer.WriteValue((DateTimeOffset)value);
                         return;
@@ -1593,7 +1575,6 @@ namespace Newtonsoft.Json
                     case PrimitiveTypeCode.DateTimeOffsetNullable:
                         writer.WriteValue((value == null) ? (DateTimeOffset?)null : (DateTimeOffset)value);
                         return;
-#endif
                     case PrimitiveTypeCode.Decimal:
                         writer.WriteValue((decimal)value);
                         return;
@@ -1618,7 +1599,6 @@ namespace Newtonsoft.Json
                         writer.WriteValue((value == null) ? (TimeSpan?)null : (TimeSpan)value);
                         return;
 
-#if HAVE_BIG_INTEGER
                     case PrimitiveTypeCode.BigInteger:
                         // this will call to WriteValue(object)
                         writer.WriteValue((BigInteger)value);
@@ -1628,7 +1608,6 @@ namespace Newtonsoft.Json
                         // this will call to WriteValue(object)
                         writer.WriteValue((value == null) ? (BigInteger?)null : (BigInteger)value);
                         return;
-#endif
                     case PrimitiveTypeCode.Uri:
                         writer.WriteValue((Uri)value);
                         return;
@@ -1641,19 +1620,15 @@ namespace Newtonsoft.Json
                         writer.WriteValue((byte[])value);
                         return;
 
-#if HAVE_DB_NULL_TYPE_CODE
                     case PrimitiveTypeCode.DBNull:
                         writer.WriteNull();
                         return;
-#endif
                     default:
-#if HAVE_ICONVERTIBLE
                         if (value is IConvertible convertible)
                         {
                             ResolveConvertibleValue(convertible, out typeCode, out value);
                             continue;
                         }
-#endif
 
                         // write an unknown null value, fix https://github.com/JamesNK/Newtonsoft.Json/issues/1460
                         if (value == null)
@@ -1667,7 +1642,6 @@ namespace Newtonsoft.Json
             }
         }
 
-#if HAVE_ICONVERTIBLE
         private static void ResolveConvertibleValue(IConvertible convertible, out PrimitiveTypeCode typeCode, out object value)
         {
             // the value is a non-standard IConvertible
@@ -1679,7 +1653,6 @@ namespace Newtonsoft.Json
             Type resolvedType = typeInformation.TypeCode == PrimitiveTypeCode.Object ? typeof(string) : typeInformation.Type;
             value = convertible.ToType(resolvedType, CultureInfo.InvariantCulture);
         }
-#endif
 
         private static JsonWriterException CreateUnsupportedTypeException(JsonWriter writer, object value)
         {

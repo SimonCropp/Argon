@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if HAVE_BENCHMARKS
-
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -35,13 +33,8 @@ using System.Text;
 using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 using Newtonsoft.Json.Utilities;
-#if !PORTABLE || NETSTANDARD2_0
 using MemberTypes = System.Reflection.MemberTypes;
 using BindingFlags = System.Reflection.BindingFlags;
-#else
-using MemberTypes = Newtonsoft.Json.Utilities.MemberTypes;
-using BindingFlags = Newtonsoft.Json.Utilities.BindingFlags;
-#endif
 
 namespace Newtonsoft.Json.Tests.Benchmarks
 {
@@ -149,5 +142,3 @@ If attributes are not mentioned, default values are used in each case.
         }
     }
 }
-
-#endif

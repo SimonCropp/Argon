@@ -29,7 +29,6 @@ using System.Runtime.Serialization;
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !(DNXCORE50) || NETSTANDARD2_0
     [Serializable]
     public struct Ratio : IConvertible, IFormattable, ISerializable
     {
@@ -233,5 +232,4 @@ namespace Newtonsoft.Json.Tests.TestObjects
         }
         #endregion
     }
-#endif
 }

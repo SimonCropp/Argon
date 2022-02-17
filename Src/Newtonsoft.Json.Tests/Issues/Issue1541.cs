@@ -25,7 +25,7 @@
 
 using System;
 using System.IO;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using System.Reflection;
 using Xunit;
 using Test = Xunit.FactAttribute;
@@ -39,7 +39,7 @@ namespace Newtonsoft.Json.Tests.Issues
     [TestFixture]
     public class Issue1541 : TestFixtureBase
     {
-#if DNXCORE50
+#if NET5_0_OR_GREATER
         [Test]
         public void Test_DirectoryInfo()
         {

@@ -26,7 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -34,12 +34,7 @@ using Assert = Newtonsoft.Json.Tests.XUnitAssert;
 using NUnit.Framework;
 #endif
 using Newtonsoft.Json.Linq;
-#if NET20
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-
-#endif
 
 namespace Newtonsoft.Json.Tests.Linq
 {
@@ -447,7 +442,6 @@ Parameter name: index",
             }
         }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
         [Test]
         public void ITypedListGetItemProperties()
         {
@@ -461,7 +455,6 @@ Parameter name: index",
             Assert.AreEqual("Test1", propertyDescriptors[0].Name);
             Assert.AreEqual("Test2", propertyDescriptors[1].Name);
         }
-#endif
 
         [Test]
         public void AddArrayToSelf()

@@ -26,7 +26,7 @@
 #pragma warning disable 618
 using System;
 using System.Collections.Generic;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -38,7 +38,7 @@ using Newtonsoft.Json.Linq;
 using System.IO;
 using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Tests.TestObjects.Organization;
-#if !(DNXCORE50)
+#if !NET5_0_OR_GREATER
 using System.Data;
 
 #endif
@@ -201,10 +201,8 @@ namespace Newtonsoft.Json.Tests.Schema
             GenerateSchemaAndSerializeFromType(new CircularReferenceWithIdClass());
             GenerateSchemaAndSerializeFromType(new ClassWithArray());
             GenerateSchemaAndSerializeFromType(new ClassWithGuid());
-#if !NET20
             GenerateSchemaAndSerializeFromType(new NullableDateTimeTestClass());
-#endif
-#if !(PORTABLE || DNXCORE50 || PORTABLE40)
+#if !NET5_0_OR_GREATER
             GenerateSchemaAndSerializeFromType(new DataSet());
 #endif
             GenerateSchemaAndSerializeFromType(new object());
@@ -212,7 +210,7 @@ namespace Newtonsoft.Json.Tests.Schema
             GenerateSchemaAndSerializeFromType("Hi");
             GenerateSchemaAndSerializeFromType(new DateTime(2000, 12, 29, 23, 59, 0, DateTimeKind.Utc));
             GenerateSchemaAndSerializeFromType(TimeSpan.FromTicks(1000000));
-#if !(PORTABLE || DNXCORE50 || PORTABLE40)
+#if !NET5_0_OR_GREATER
             GenerateSchemaAndSerializeFromType(DBNull.Value);
 #endif
             GenerateSchemaAndSerializeFromType(new JsonPropertyWithHandlingValues());

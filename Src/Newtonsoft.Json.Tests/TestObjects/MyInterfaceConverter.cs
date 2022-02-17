@@ -27,15 +27,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
-#if NET20
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !(NET35 || NET20 || PORTABLE || PORTABLE40) || NETSTANDARD2_0
     internal class MyInterfaceConverter : TypeConverter
     {
         private readonly List<IMyInterface> _writers = new List<IMyInterface>
@@ -74,5 +69,4 @@ namespace Newtonsoft.Json.Tests.TestObjects
             return ((IMyInterface)value).Name;
         }
     }
-#endif
 }

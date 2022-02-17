@@ -27,7 +27,6 @@ using System;
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !(PORTABLE) || NETSTANDARD2_0
     public struct ConvertibleInt : IConvertible
     {
         private readonly int _value;
@@ -127,5 +126,4 @@ namespace Newtonsoft.Json.Tests.TestObjects
             throw new NotImplementedException();
         }
     }
-#endif
 }

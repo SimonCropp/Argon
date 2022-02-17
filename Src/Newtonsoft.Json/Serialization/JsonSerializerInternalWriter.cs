@@ -27,9 +27,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-#if HAVE_DYNAMIC
 using System.Dynamic;
-#endif
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -39,11 +37,7 @@ using Newtonsoft.Json.Utilities;
 using System.Runtime.Serialization;
 using System.Runtime.CompilerServices;
 using System.Diagnostics.CodeAnalysis;
-#if !HAVE_LINQ
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 
 namespace Newtonsoft.Json.Serialization
 {
@@ -201,16 +195,12 @@ namespace Newtonsoft.Json.Serialization
                     JsonDictionaryContract dictionaryContract = (JsonDictionaryContract)valueContract;
                     SerializeDictionary(writer, (value is IDictionary dictionary) ? dictionary : dictionaryContract.CreateWrapper(value), dictionaryContract, member, containerContract, containerProperty);
                     break;
-#if HAVE_DYNAMIC
                 case JsonContractType.Dynamic:
                     SerializeDynamic(writer, (IDynamicMetaObjectProvider)value, (JsonDynamicContract)valueContract, member, containerContract, containerProperty);
                     break;
-#endif
-#if HAVE_BINARY_SERIALIZATION
                 case JsonContractType.Serializable:
                     SerializeISerializable(writer, (ISerializable)value, (JsonISerializableContract)valueContract, member, containerContract, containerProperty);
                     break;
-#endif
                 case JsonContractType.Linq:
                     ((JToken)value).WriteTo(writer, Serializer.Converters.ToArray());
                     break;
@@ -396,21 +386,17 @@ namespace Newtonsoft.Json.Serialization
 
         internal static bool TryConvertToString(object value, Type type, [NotNullWhen(true)]out string? s)
         {
-#if HAVE_TYPE_DESCRIPTOR
             if (JsonTypeReflector.CanTypeDescriptorConvertString(type, out TypeConverter converter))
             {
                 s = converter.ConvertToInvariantString(value);
                 return true;
             }
-#endif
 
-#if (DOTNET || PORTABLE)
             if (value is Guid || value is Uri || value is TimeSpan)
             {
                 s = value.ToString();
                 return true;
             }
-#endif
 
             if (value is Type t)
             {
@@ -849,10 +835,7 @@ namespace Newtonsoft.Json.Serialization
             return writeMetadataObject;
         }
 
-#if HAVE_BINARY_SERIALIZATION
-#if HAVE_SECURITY_SAFE_CRITICAL_ATTRIBUTE
         [SecuritySafeCritical]
-#endif
         private void SerializeISerializable(JsonWriter writer, ISerializable value, JsonISerializableContract contract, JsonProperty? member, JsonContainerContract? collectionContract, JsonProperty? containerProperty)
         {
             if (!JsonTypeReflector.FullyTrusted)
@@ -893,9 +876,7 @@ namespace Newtonsoft.Json.Serialization
             _serializeStack.RemoveAt(_serializeStack.Count - 1);
             OnSerialized(writer, contract, value);
         }
-#endif
 
-#if HAVE_DYNAMIC
         private void SerializeDynamic(JsonWriter writer, IDynamicMetaObjectProvider value, JsonDynamicContract contract, JsonProperty? member, JsonContainerContract? collectionContract, JsonProperty? containerProperty)
         {
             OnSerializing(writer, contract, value);
@@ -978,7 +959,6 @@ namespace Newtonsoft.Json.Serialization
             _serializeStack.RemoveAt(_serializeStack.Count - 1);
             OnSerialized(writer, contract, value);
         }
-#endif
 
         private bool ShouldWriteDynamicProperty(object? memberValue)
         {
@@ -1141,7 +1121,6 @@ namespace Newtonsoft.Json.Serialization
                         DateTimeUtils.WriteDateTimeString(sw, dt, writer.DateFormatHandling, writer.DateFormatString, writer.Culture);
                         return sw.ToString();
                     }
-#if HAVE_DATE_TIME_OFFSET
                     case PrimitiveTypeCode.DateTimeOffset:
                     case PrimitiveTypeCode.DateTimeOffsetNullable:
                     {
@@ -1150,7 +1129,6 @@ namespace Newtonsoft.Json.Serialization
                         DateTimeUtils.WriteDateTimeOffsetString(sw, (DateTimeOffset)name, writer.DateFormatHandling, writer.DateFormatString, writer.Culture);
                         return sw.ToString();
                     }
-#endif
                     case PrimitiveTypeCode.Double:
                     case PrimitiveTypeCode.DoubleNullable:
                     {

@@ -23,10 +23,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
-
 using System;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -39,7 +37,7 @@ using System.Threading.Tasks;
 namespace Newtonsoft.Json.Tests.JsonTextReaderTests
 {
     [TestFixture]
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
     [Category("JsonTextReaderTests")]
 #endif
     public class FloatAsyncTests : TestFixtureBase
@@ -348,5 +346,3 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
         }
     }
 }
-
-#endif

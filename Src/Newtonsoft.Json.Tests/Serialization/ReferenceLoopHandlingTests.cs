@@ -27,16 +27,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
 #else
 using NUnit.Framework;
 #endif
-#if !(NET20 || NET35)
 using System.Dynamic;
-#endif
 using System.Runtime.Serialization;
 using Newtonsoft.Json.Tests.Linq;
 
@@ -151,7 +149,6 @@ namespace Newtonsoft.Json.Tests.Serialization
 }", json);
         }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
         [Serializable]
         public class MainClass : ISerializable
         {
@@ -210,9 +207,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             var c = JsonConvert.SerializeObject(main, settings);
             Assert.AreEqual(@"{""Child"":{""Name"":""Child1""}}", c);
         }
-#endif
 
-#if !(NET20 || NET35 || PORTABLE40)
         public class DictionaryDynamicObject : DynamicObject
         {
             public IDictionary<string, object> Values { get; private set; }
@@ -267,7 +262,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             var c = JsonConvert.SerializeObject(parent, settings);
             Assert.AreEqual(@"{""child"":{""name"":""child""},""name"":""parent""}", c);
         }
-#endif
 
         [Test]
         public void EqualityComparer()

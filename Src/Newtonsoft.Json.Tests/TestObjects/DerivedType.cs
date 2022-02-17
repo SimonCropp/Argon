@@ -27,7 +27,6 @@ using System.Runtime.Serialization;
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !(NET20)
     [DataContract]
     public class DerivedType : BaseType
     {
@@ -52,5 +51,4 @@ namespace Newtonsoft.Json.Tests.TestObjects
         [JsonProperty(Order = -2)]
         public string dinosaur;
     }
-#endif
 }

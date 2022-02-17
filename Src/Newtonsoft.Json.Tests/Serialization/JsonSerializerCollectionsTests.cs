@@ -32,11 +32,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
-#if NET20
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 using System.Text;
 using System.Xml;
 using Newtonsoft.Json.Linq;
@@ -45,23 +41,20 @@ using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Tests.TestObjects.Events;
 using Newtonsoft.Json.Tests.TestObjects.Organization;
 using Newtonsoft.Json.Utilities;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
 #else
 using NUnit.Framework;
 #endif
-#if !NET20 && !PORTABLE40
 using System.Xml.Linq;
-#endif
 
 namespace Newtonsoft.Json.Tests.Serialization
 {
     [TestFixture]
     public class JsonSerializerCollectionsTests : TestFixtureBase
     {
-#if !(NET35 || NET20 || PORTABLE || PORTABLE40) || NETSTANDARD2_0
         [Test]
         public void DeserializeNonGenericListTypeAndReadOnlyListViaConstructor()
         {
@@ -96,9 +89,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 
             Assert.IsNull(deserializedObject[key]);
         }
-#endif
 
-#if !(NET20 || NET35)
         [Test]
         public void SerializeConcurrentQueue()
         {
@@ -158,7 +149,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.IsTrue(dic2.TryGetValue(1, out i));
             Assert.AreEqual(int.MaxValue, i);
         }
-#endif
 
         [Test]
         public void DoubleKey_WholeValue()
@@ -303,7 +293,6 @@ namespace Newtonsoft.Json.Tests.Serialization
                 "Constructor for 'Newtonsoft.Json.Tests.Serialization.JsonSerializerCollectionsTests+TestCollectionBadIEnumerableParameter' must have no parameters or a single parameter that implements 'System.Collections.Generic.IEnumerable`1[System.Int32]'.");
         }
 
-#if !(DNXCORE50 || PORTABLE) || NETSTANDARD2_0
         public class TestCollectionNonGeneric : ArrayList
         {
             [JsonConstructor]
@@ -324,7 +313,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(2L, l[1]);
             Assert.AreEqual(3L, l[2]);
         }
-#endif
 
         public class TestDictionaryPrivateParameterized : Dictionary<string, int>
         {
@@ -416,7 +404,6 @@ namespace Newtonsoft.Json.Tests.Serialization
                 "Constructor for 'Newtonsoft.Json.Tests.Serialization.JsonSerializerCollectionsTests+TestDictionaryBadIEnumerableParameter' must have no parameters or a single parameter that implements 'System.Collections.Generic.IEnumerable`1[System.Collections.Generic.KeyValuePair`2[System.String,System.Int32]]'.");
         }
 
-#if !(DNXCORE50 || PORTABLE) || NETSTANDARD2_0
         public class TestDictionaryNonGeneric : Hashtable
         {
             [JsonConstructor]
@@ -437,9 +424,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(1L, d["one"]);
             Assert.AreEqual(2L, d["two"]);
         }
-#endif
 
-#if !(DNXCORE50) || NETSTANDARD2_0
         public class NameValueCollectionTestClass
         {
             public NameValueCollection Collection { get; set; }
@@ -452,9 +437,7 @@ namespace Newtonsoft.Json.Tests.Serialization
                 () => JsonConvert.DeserializeObject<NameValueCollectionTestClass>("{Collection:[]}"),
                 "Cannot create and populate list type System.Collections.Specialized.NameValueCollection. Path 'Collection', line 1, position 13.");
         }
-#endif
 
-#if !(NET35 || NET20 || PORTABLE || PORTABLE40) || NETSTANDARD2_0
         public class SomeObject
         {
             public string Text1 { get; set; }
@@ -503,7 +486,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("value1", d2["key"][0].Text1);
             Assert.AreEqual("value2", d2["key2"][0].Text1);
         }
-#endif
 
         [Test]
         public void NonZeroBasedArray()
@@ -741,7 +723,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("string!", l[0]);
         }
 
-#if !(NET40 || NET35 || NET20 || PORTABLE40)
         [Test]
         public void DeserializeReadOnlyListInterface()
         {
@@ -913,7 +894,6 @@ namespace Newtonsoft.Json.Tests.Serialization
   3
 ]", json);
         }
-#endif
 
         [Test]
         public void TestEscapeDictionaryStrings()
@@ -1096,7 +1076,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(3, v2["Third"]);
         }
 
-#if !(NET35 || NET20 || PORTABLE || PORTABLE40) || NETSTANDARD2_0
         [Test]
         public void DeserializeConcurrentDictionary()
         {
@@ -1127,7 +1106,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("Id!", newObject.Id);
             Assert.AreEqual("Name!", newObject.Name);
         }
-#endif
 
         [Test]
         public void DeserializeKeyValuePairArray()
@@ -1174,7 +1152,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             ExceptionAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<IList<KeyValuePair<string, IList<string>>>>(json); }, "Cannot convert null value to KeyValuePair. Path '[0]', line 1, position 6.");
         }
 
-#if !(NET40 || NET35 || NET20 || PORTABLE40)
         public class PopulateReadOnlyTestClass
         {
             public IList<int> NonReadOnlyList { get; set; }
@@ -1300,7 +1277,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(1, c2.Array.Count);
             Assert.AreEqual(13, c2.Array[0]);
         }
-#endif
 
         [Test]
         public void SerializeArray2D()
@@ -1810,7 +1786,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(1, (int)((JObject)o.Data[2])["one"]);
         }
 
-#if !(DNXCORE50) || NETSTANDARD2_0
         [Test]
         public void SerializeArrayAsArrayList()
         {
@@ -1821,7 +1796,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(3, ((JArray)o[2]).Count);
             Assert.AreEqual(0, ((JObject)o[3]).Count);
         }
-#endif
 
         [Test]
         public void SerializeMemberGenericList()
@@ -2052,7 +2026,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("Product 1", p1.Name);
         }
 
-#if !(NET40 || NET35 || NET20 || PORTABLE40)
         [Test]
         public void ReadOnlyIntegerList()
         {
@@ -2073,9 +2046,7 @@ namespace Newtonsoft.Json.Tests.Serialization
   2147483647
 ]", json);
         }
-#endif
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void EmptyStringInHashtableIsDeserialized()
         {
@@ -2088,7 +2059,6 @@ namespace Newtonsoft.Json.Tests.Serialization
 
             Assert.AreEqual(deserializeTest2["testkey"], "");
         }
-#endif
 
         [Test]
         public void DeserializeCollectionWithConstructorArrayArgument()
@@ -2102,7 +2072,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             }, "Unable to find a constructor to use for type Newtonsoft.Json.Tests.Serialization.ReadOnlyCollectionWithArrayArgument`1[System.Double]. Path '', line 1, position 1.");
         }
 
-#if !NET20 && !PORTABLE40
         [Test]
         public void NonDefaultConstructor_DuplicateKeyInDictionary_Replace()
         {
@@ -2112,7 +2081,6 @@ namespace Newtonsoft.Json.Tests.Serialization
 
             Assert.AreEqual("replaced!", result.Person["groups"]);
         }
-#endif
 
         [Test]
         public void GenericIListAndOverrideConstructor()
@@ -2124,7 +2092,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("goose", deserialized[2]);
         }
 
-#if !(PORTABLE || PORTABLE40)
+#if !NET5_0_OR_GREATER
         [Test]
         public void DeserializeCultureInfoKey()
         {
@@ -2285,7 +2253,6 @@ namespace Newtonsoft.Json.Tests.Serialization
         }
     }
 
-#if !NET20 && !PORTABLE40
     public class CASResponce
     {
         //<?xml version='1.0' encoding='iso-8859-1' ?>
@@ -2519,7 +2486,6 @@ namespace Newtonsoft.Json.Tests.Serialization
         public string OrganizationName { get; private set; }
 
     }
-#endif
 
     public class ReadOnlyCollectionWithArrayArgument<T> : IList<T>
     {
@@ -2589,7 +2555,6 @@ namespace Newtonsoft.Json.Tests.Serialization
         }
     }
 
-#if !(NET40 || NET35 || NET20 || PORTABLE40)
     public class ReadOnlyIntegerList : IReadOnlyCollection<int>
     {
         private readonly List<int> _list;
@@ -2614,7 +2579,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             return GetEnumerator();
         }
     }
-#endif
 
     public class Array2D
     {

@@ -25,10 +25,8 @@
 
 using System;
 using System.IO;
-#if HAVE_ASYNC
 using System.Threading;
 using System.Threading.Tasks;
-#endif
 
 namespace Newtonsoft.Json.Utilities
 {
@@ -156,8 +154,6 @@ namespace Newtonsoft.Json.Utilities
             _writer.Write(chars, index, count);
         }
 
-#if HAVE_ASYNC
-
         public async Task EncodeAsync(byte[] buffer, int index, int count, CancellationToken cancellationToken)
         {
             ValidateEncode(buffer, index, count);
@@ -210,8 +206,5 @@ namespace Newtonsoft.Json.Utilities
 
             return AsyncUtils.CompletedTask;
         }
-
-#endif
-
     }
 }

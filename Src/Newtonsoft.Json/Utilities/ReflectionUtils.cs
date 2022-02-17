@@ -25,75 +25,20 @@
 
 using System;
 using System.Collections.Generic;
-#if HAVE_BIG_INTEGER
 using System.Numerics;
-#endif
 using System.Reflection;
 using System.Collections;
 using System.Globalization;
 using System.Text;
 using System.Runtime.CompilerServices;
 using System.Diagnostics.CodeAnalysis;
-#if !HAVE_LINQ
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 using Newtonsoft.Json.Serialization;
 
 namespace Newtonsoft.Json.Utilities
 {
-#if (DOTNET || PORTABLE || PORTABLE40) && !NETSTANDARD2_0
-    [Flags]
-    internal enum MemberTypes
-    {
-        Event = 2,
-        Field = 4,
-        Method = 8,
-        Property = 16
-    }
-#endif
-
-#if PORTABLE && !NETSTANDARD2_0
-    [Flags]
-    internal enum BindingFlags
-    {
-        Default = 0,
-        IgnoreCase = 1,
-        DeclaredOnly = 2,
-        Instance = 4,
-        Static = 8,
-        Public = 16,
-        NonPublic = 32,
-        FlattenHierarchy = 64,
-        InvokeMethod = 256,
-        CreateInstance = 512,
-        GetField = 1024,
-        SetField = 2048,
-        GetProperty = 4096,
-        SetProperty = 8192,
-        PutDispProperty = 16384,
-        ExactBinding = 65536,
-        PutRefDispProperty = 32768,
-        SuppressChangeType = 131072,
-        OptionalParamBinding = 262144,
-        IgnoreReturn = 16777216
-    }
-#endif
-
     internal static class ReflectionUtils
     {
-        public static readonly Type[] EmptyTypes;
-
-        static ReflectionUtils()
-        {
-#if HAVE_EMPTY_TYPES
-            EmptyTypes = Type.EmptyTypes;
-#else
-            EmptyTypes = CollectionUtils.ArrayEmpty<Type>();
-#endif
-        }
-
         public static bool IsVirtual(this PropertyInfo propertyInfo)
         {
             ValidationUtils.ArgumentNotNull(propertyInfo, nameof(propertyInfo));
@@ -167,13 +112,6 @@ namespace Newtonsoft.Json.Utilities
             if (binder != null)
             {
                 binder.BindToName(t, out string? assemblyName, out string? typeName);
-#if (NET20 || NET35)
-                // for older SerializationBinder implementations that didn't have BindToName
-                if (assemblyName == null & typeName == null)
-                {
-                    return t.AssemblyQualifiedName;
-                }
-#endif
                 return typeName + (assemblyName == null ? "" : ", " + assemblyName);
             }
 
@@ -749,7 +687,6 @@ namespace Newtonsoft.Json.Utilities
             return attributes?.FirstOrDefault();
         }
 
-#if !(DOTNET || PORTABLE) || NETSTANDARD2_0
         public static T[] GetAttributes<T>(object attributeProvider, bool inherit) where T : Attribute
         {
             Attribute[] a = GetAttributes(attributeProvider, typeof(T), inherit);
@@ -776,64 +713,22 @@ namespace Newtonsoft.Json.Utilities
                 case Type t:
                     object[] array = attributeType != null ? t.GetCustomAttributes(attributeType, inherit) : t.GetCustomAttributes(inherit);
                     Attribute[] attributes = array.Cast<Attribute>().ToArray();
-
-#if (NET20 || NET35)
-                    // ye olde .NET GetCustomAttributes doesn't respect the inherit argument
-                    if (inherit && t.BaseType != null)
-                    {
-                        attributes = attributes.Union(GetAttributes(t.BaseType, attributeType, inherit)).ToArray();
-                    }
-#endif
-
                     return attributes;
                 case Assembly a:
                     return (attributeType != null) ? Attribute.GetCustomAttributes(a, attributeType) : Attribute.GetCustomAttributes(a);
                 case MemberInfo mi:
                     return (attributeType != null) ? Attribute.GetCustomAttributes(mi, attributeType, inherit) : Attribute.GetCustomAttributes(mi, inherit);
-#if !PORTABLE40
                 case Module m:
                     return (attributeType != null) ? Attribute.GetCustomAttributes(m, attributeType, inherit) : Attribute.GetCustomAttributes(m, inherit);
-#endif
                 case ParameterInfo p:
                     return (attributeType != null) ? Attribute.GetCustomAttributes(p, attributeType, inherit) : Attribute.GetCustomAttributes(p, inherit);
                 default:
-#if !PORTABLE40
                     ICustomAttributeProvider customAttributeProvider = (ICustomAttributeProvider)attributeProvider;
                     object[] result = (attributeType != null) ? customAttributeProvider.GetCustomAttributes(attributeType, inherit) : customAttributeProvider.GetCustomAttributes(inherit);
 
                     return (Attribute[])result;
-#else
-                    throw new Exception("Cannot get attributes from '{0}'.".FormatWith(CultureInfo.InvariantCulture, provider));
-#endif
             }
         }
-#else
-        public static T[] GetAttributes<T>(object attributeProvider, bool inherit) where T : Attribute
-        {
-            return GetAttributes(attributeProvider, typeof(T), inherit).Cast<T>().ToArray();
-        }
-
-        public static Attribute[] GetAttributes(object provider, Type? attributeType, bool inherit)
-        {
-            switch (provider)
-            {
-                case Type t:
-                    return (attributeType != null)
-                        ? t.GetTypeInfo().GetCustomAttributes(attributeType, inherit).ToArray()
-                        : t.GetTypeInfo().GetCustomAttributes(inherit).ToArray();
-                case Assembly a:
-                    return (attributeType != null) ? a.GetCustomAttributes(attributeType).ToArray() : a.GetCustomAttributes().ToArray();
-                case MemberInfo memberInfo:
-                    return (attributeType != null) ? memberInfo.GetCustomAttributes(attributeType, inherit).ToArray() : memberInfo.GetCustomAttributes(inherit).ToArray();
-                case Module module:
-                    return (attributeType != null) ? module.GetCustomAttributes(attributeType).ToArray() : module.GetCustomAttributes().ToArray();
-                case ParameterInfo parameterInfo:
-                    return (attributeType != null) ? parameterInfo.GetCustomAttributes(attributeType, inherit).ToArray() : parameterInfo.GetCustomAttributes(inherit).ToArray();
-            }
-
-            throw new Exception("Cannot get attributes from '{0}'.".FormatWith(CultureInfo.InvariantCulture, provider));
-        }
-#endif
 
         public static StructMultiKey<string?, string> SplitFullyQualifiedTypeName(string fullyQualifiedTypeName)
         {
@@ -906,16 +801,13 @@ namespace Newtonsoft.Json.Utilities
             ValidationUtils.ArgumentNotNull(targetType, nameof(targetType));
 
             List<MemberInfo> fieldInfos = new List<MemberInfo>(targetType.GetFields(bindingAttr));
-#if !PORTABLE
             // Type.GetFields doesn't return inherited private fields
             // manually find private fields from base class
             GetChildPrivateFields(fieldInfos, targetType, bindingAttr);
-#endif
 
             return fieldInfos.Cast<FieldInfo>();
         }
 
-#if !PORTABLE
         private static void GetChildPrivateFields(IList<MemberInfo> initialFields, Type targetType, BindingFlags bindingAttr)
         {
             // fix weirdness with private FieldInfos only being returned for the current Type
@@ -935,7 +827,6 @@ namespace Newtonsoft.Json.Utilities
                 }
             }
         }
-#endif
 
         public static IEnumerable<PropertyInfo> GetProperties(Type targetType, BindingFlags bindingAttr)
         {
@@ -1084,16 +975,12 @@ namespace Newtonsoft.Json.Utilities
                     return 0m;
                 case PrimitiveTypeCode.DateTime:
                     return new DateTime();
-#if HAVE_BIG_INTEGER
                 case PrimitiveTypeCode.BigInteger:
                     return new BigInteger();
-#endif
                 case PrimitiveTypeCode.Guid:
                     return new Guid();
-#if HAVE_DATE_TIME_OFFSET
                 case PrimitiveTypeCode.DateTimeOffset:
                     return new DateTimeOffset();
-#endif
             }
 
             if (IsNullable(type))

@@ -30,10 +30,8 @@ using System.Text;
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !NET20
     public class DateTimeOffsetTestClass
     {
         public DateTimeOffset Foo { get; set; }
     }
-#endif
 }

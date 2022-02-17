@@ -28,11 +28,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using Newtonsoft.Json.Linq;
-#if !(NET20 || NET35 || PORTABLE40 || PORTABLE) || NETSTANDARD2_0
 using System.Numerics;
-#endif
 using System.Text;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -44,11 +42,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-#if NET20
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 using System.Xml;
 using Newtonsoft.Json.Tests.TestObjects.JsonTextReaderTests;
 using Newtonsoft.Json.Utilities;
@@ -56,7 +50,7 @@ using Newtonsoft.Json.Utilities;
 namespace Newtonsoft.Json.Tests.JsonTextReaderTests
 {
     [TestFixture]
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
     [Category("JsonTextReaderTests")]
 #endif
     public class ExceptionHandlingTests : TestFixtureBase
@@ -119,7 +113,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
                 "After parsing a value an unexpected character was encountered: '. Path '[0]', line 1, position 24.");
         }
 
-#if !NET20
         [Test]
         public void ReadAsDateTimeOffset_MissingComma()
         {
@@ -133,7 +126,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
                 () => reader.ReadAsDateTimeOffset(),
                 "After parsing a value an unexpected character was encountered: '. Path '[0]', line 1, position 24.");
         }
-#endif
 
         [Test]
         public void ReadAsString_MissingComma()
@@ -617,7 +609,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             }
         }
 
-#if !(NET20 || NET35 || PORTABLE40 || PORTABLE) || NETSTANDARD2_0
         [Test]
         public void ReadInt64Overflow()
         {
@@ -637,9 +628,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
                 Assert.AreEqual(typeof(BigInteger), reader.ValueType);
             }
         }
-#endif
 
-#if !(NET20 || NET35 || PORTABLE40 || PORTABLE) || NETSTANDARD2_0
         [Test]
         public void ReadInt64Overflow_Negative()
         {
@@ -659,7 +648,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
                 Assert.AreEqual(typeof(BigInteger), reader.ValueType);
             }
         }
-#endif
 
         [Test]
         public void ReadAsString_Null_AdditionalBadData()
@@ -856,7 +844,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsDateTime(); }, "Unexpected character encountered while parsing value: t. Path '', line 1, position 1.");
         }
 
-#if !NET20
         [Test]
         public void ReadAsDateTimeOffsetBadContent()
         {
@@ -864,7 +851,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsDateTimeOffset(); }, "Unexpected character encountered while parsing value: e. Path '', line 1, position 2.");
         }
-#endif
 
         [Test]
         public void ReadAsDecimalBadContent()
@@ -1035,7 +1021,7 @@ new Date()"));
         {
             string json = @"{
   ""frameworks"": {
-    ""dnxcore50"": {
+    ""NET5_0_OR_GREATER"": {
       ""dependencies"": {
         ""System.Xml.ReaderWriter"": {
           ""source"": !!! !!!
@@ -1053,7 +1039,7 @@ new Date()"));
                     {
                     }
                 },
-                "Unexpected character encountered while parsing value: !. Path 'frameworks.dnxcore50.dependencies['System.Xml.ReaderWriter'].source', line 6, position 20.");
+                "Unexpected character encountered while parsing value: !. Path 'frameworks.NET5_0_OR_GREATER.dependencies['System.Xml.ReaderWriter'].source', line 6, position 20.");
         }
 
         [Test]

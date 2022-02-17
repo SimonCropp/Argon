@@ -23,12 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
-
 using System;
 using System.Text;
 using System.Threading.Tasks;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -36,9 +34,7 @@ using Assert = Newtonsoft.Json.Tests.XUnitAssert;
 using NUnit.Framework;
 #endif
 using System.IO;
-#if !PORTABLE || NETSTANDARD2_0
 using System.Numerics;
-#endif
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Tests.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
@@ -48,7 +44,6 @@ namespace Newtonsoft.Json.Tests.Linq
     [TestFixture]
     public class JTokenReaderAsyncTests : TestFixtureBase
     {
-#if !PORTABLE || NETSTANDARD2_0
         [Test]
         public async Task ConvertBigIntegerToDoubleAsync()
         {
@@ -60,7 +55,6 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(10000000000000000000d, await reader.ReadAsDoubleAsync());
             Assert.IsTrue(await reader.ReadAsync());
         }
-#endif
 
         [Test]
         public async Task YahooFinanceAsync()
@@ -757,7 +751,6 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(1d, await reader.ReadAsDoubleAsync());
         }
 
-#if !PORTABLE || NETSTANDARD2_0
         [Test]
         public async Task ReadAsBoolean_BigInteger_SuccessAsync()
         {
@@ -767,7 +760,6 @@ namespace Newtonsoft.Json.Tests.Linq
 
             Assert.AreEqual(true, await reader.ReadAsBooleanAsync());
         }
-#endif
 
         [Test]
         public async Task ReadAsBoolean_String_SuccessAsync()
@@ -877,5 +869,3 @@ namespace Newtonsoft.Json.Tests.Linq
         }
     }
 }
-
-#endif

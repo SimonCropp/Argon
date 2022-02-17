@@ -25,7 +25,7 @@
 
 using System;
 using System.Collections.Generic;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -53,7 +53,6 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual("new Date(976918263055)", result);
         }
 
-#if !NET20
         [Test]
         public void SerializeDateTimeOffset()
         {
@@ -113,7 +112,6 @@ namespace Newtonsoft.Json.Tests.Converters
             DateTimeOffset result = JsonConvert.DeserializeObject<DateTimeOffset>(json, converter);
             Assert.AreEqual(new DateTimeOffset(2000, 12, 15, 22, 11, 3, 55, TimeSpan.Zero), result);
         }
-#endif
 
         [Test]
         public void DeserializeDateTime()

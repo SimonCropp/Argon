@@ -31,12 +31,10 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
-#if !(NET20 || NET35 || PORTABLE) || NETSTANDARD2_0
 using System.Numerics;
-#endif
 using System.Text;
 using System.Text.RegularExpressions;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -1495,7 +1493,6 @@ namespace Newtonsoft.Json.Tests.Bson
             Assert.AreEqual(badText, (string)o["test"]);
         }
 
-#if !(NET20 || NET35 || PORTABLE || PORTABLE40) || NETSTANDARD2_0
         public class BigIntegerTestClass
         {
             public BigInteger Blah { get; set; }
@@ -1517,7 +1514,6 @@ namespace Newtonsoft.Json.Tests.Bson
 
             Assert.AreEqual(i, c.Blah);
         }
-#endif
 
         public class RegexTestClass
         {
@@ -1593,7 +1589,6 @@ namespace Newtonsoft.Json.Tests.Bson
         {
             public bool BindToTypeCalled { get; set; }
 
-#if !(NET20 || NET35)
             public bool BindToNameCalled { get; set; }
 
             public override void BindToName(Type serializedType, out string assemblyName, out string typeName)
@@ -1601,7 +1596,6 @@ namespace Newtonsoft.Json.Tests.Bson
                 BindToNameCalled = true;
                 base.BindToName(serializedType, out assemblyName, out typeName);
             }
-#endif
 
             public override Type BindToType(string assemblyName, string typeName)
             {
@@ -1643,9 +1637,7 @@ namespace Newtonsoft.Json.Tests.Bson
             Assert.AreEqual("Dog!", deserialized.Animals[0].Name);
             Assert.IsTrue(deserialized.Animals[0] is Dog);
 
-#if !(NET20 || NET35)
             Assert.IsTrue(binder.BindToNameCalled);
-#endif
             Assert.IsTrue(binder.BindToTypeCalled);
         }
 

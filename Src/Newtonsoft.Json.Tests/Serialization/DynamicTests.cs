@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET35 || NET20 || PORTABLE40)
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -37,7 +36,7 @@ using System.Text;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Utilities;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -101,7 +100,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(dynamicObject.ChildObject.Text, d.ChildObject.Text);
         }
 
-#if !(PORTABLE || PORTABLE40) || NETSTANDARD2_0
         [Test]
         public void SerializeDynamicObjectWithObjectTracking()
         {
@@ -152,7 +150,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("Child text!", n.DynamicChildObject.Text);
             Assert.AreEqual(int.MinValue, n.DynamicChildObject.Integer);
         }
-#endif
 
         [Test]
         public void NoPublicDefaultConstructor()
@@ -393,5 +390,3 @@ namespace Newtonsoft.Json.Tests.Serialization
         }
     }
 }
-
-#endif

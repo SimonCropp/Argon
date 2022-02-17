@@ -23,14 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if HAVE_ASYNC
 
 using System;
 using System.Globalization;
 using System.Threading;
-#if HAVE_BIG_INTEGER
 using System.Numerics;
-#endif
 using System.Threading.Tasks;
 using Newtonsoft.Json.Utilities;
 using System.Diagnostics;
@@ -41,9 +38,7 @@ namespace Newtonsoft.Json
     {
         // It's not safe to perform the async methods here in a derived class as if the synchronous equivalent
         // has been overriden then the asychronous method will no longer be doing the same operation.
-#if HAVE_ASYNC // Double-check this isn't included inappropriately.
         private readonly bool _safeAsync;
-#endif
 
         /// <summary>
         /// Asynchronously flushes whatever is in the buffer to the destination and also flushes the destination.
@@ -854,11 +849,7 @@ namespace Newtonsoft.Json
             await InternalWriteValueAsync(JsonToken.String, cancellationToken).ConfigureAwait(false);
 
             await _writer.WriteAsync(_quoteChar).ConfigureAwait(false);
-#if HAVE_CHAR_TO_STRING_WITH_CULTURE
             await _writer.WriteAsync(value.ToString("D", CultureInfo.InvariantCulture), cancellationToken).ConfigureAwait(false);
-#else
-            await _writer.WriteAsync(value.ToString("D"), cancellationToken).ConfigureAwait(false);
-#endif
             await _writer.WriteAsync(_quoteChar).ConfigureAwait(false);
         }
 
@@ -942,12 +933,10 @@ namespace Newtonsoft.Json
             return value == null ? DoWriteNullAsync(cancellationToken) : WriteIntegerValueAsync(value.GetValueOrDefault(), cancellationToken);
         }
 
-#if HAVE_BIG_INTEGER
         internal Task WriteValueAsync(BigInteger value, CancellationToken cancellationToken)
         {
             return WriteValueInternalAsync(JsonToken.Integer, value.ToString(CultureInfo.InvariantCulture), cancellationToken);
         }
-#endif
 
         /// <summary>
         /// Asynchronously writes a <see cref="object"/> value.
@@ -965,12 +954,10 @@ namespace Newtonsoft.Json
                 {
                     return WriteNullAsync(cancellationToken);
                 }
-#if HAVE_BIG_INTEGER
                 if (value is BigInteger i)
                 {
                     return WriteValueAsync(i, cancellationToken);
                 }
-#endif
 
                 return WriteValueAsync(this, ConvertUtils.GetTypeCode(value.GetType()), value, cancellationToken);
             }
@@ -1358,4 +1345,3 @@ namespace Newtonsoft.Json
         }
     }
 }
-#endif

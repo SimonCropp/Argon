@@ -27,7 +27,6 @@ using System.Runtime.Serialization;
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !NET20
     [DataContract]
     public class SubWithoutContractVirtualProperties : BaseWithContract
     {
@@ -36,5 +35,4 @@ namespace Newtonsoft.Json.Tests.TestObjects
         [DataMember(Name = "VirtualSub")]
         public override string Virtual { get; set; }
     }
-#endif
 }

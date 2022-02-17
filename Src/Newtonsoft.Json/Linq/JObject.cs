@@ -25,25 +25,17 @@
 
 using System;
 using System.Collections.Generic;
-#if HAVE_INOTIFY_COLLECTION_CHANGED
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-#endif
 using System.ComponentModel;
-#if HAVE_DYNAMIC
 using System.Dynamic;
 using System.Linq.Expressions;
-#endif
 using System.IO;
 using Newtonsoft.Json.Utilities;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Diagnostics.CodeAnalysis;
-#if !HAVE_LINQ
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 
 namespace Newtonsoft.Json.Linq
 {
@@ -54,12 +46,8 @@ namespace Newtonsoft.Json.Linq
     ///   <code lang="cs" source="..\Src\Newtonsoft.Json.Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParse" title="Parsing a JSON Object from Text" />
     /// </example>
     public partial class JObject : JContainer, IDictionary<string, JToken?>, INotifyPropertyChanged
-#if HAVE_COMPONENT_MODEL
         , ICustomTypeDescriptor
-#endif
-#if HAVE_INOTIFY_PROPERTY_CHANGING
         , INotifyPropertyChanging
-#endif
     {
         private readonly JPropertyKeyedCollection _properties = new JPropertyKeyedCollection();
 
@@ -74,12 +62,10 @@ namespace Newtonsoft.Json.Linq
         /// </summary>
         public event PropertyChangedEventHandler? PropertyChanged;
 
-#if HAVE_INOTIFY_PROPERTY_CHANGING
         /// <summary>
         /// Occurs when a property value is changing.
         /// </summary>
         public event PropertyChangingEventHandler? PropertyChanging;
-#endif
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JObject"/> class.
@@ -223,25 +209,19 @@ namespace Newtonsoft.Json.Linq
         internal void InternalPropertyChanged(JProperty childProperty)
         {
             OnPropertyChanged(childProperty.Name);
-#if HAVE_COMPONENT_MODEL
             if (_listChanged != null)
             {
                 OnListChanged(new ListChangedEventArgs(ListChangedType.ItemChanged, IndexOfItem(childProperty)));
             }
-#endif
-#if HAVE_INOTIFY_COLLECTION_CHANGED
             if (_collectionChanged != null)
             {
                 OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, childProperty, childProperty, IndexOfItem(childProperty)));
             }
-#endif
         }
 
         internal void InternalPropertyChanging(JProperty childProperty)
         {
-#if HAVE_INOTIFY_PROPERTY_CHANGING
             OnPropertyChanging(childProperty.Name);
-#endif
         }
 
         internal override JToken CloneToken()
@@ -372,9 +352,7 @@ namespace Newtonsoft.Json.Linq
                 }
                 else
                 {
-#if HAVE_INOTIFY_PROPERTY_CHANGING
                     OnPropertyChanging(propertyName);
-#endif
                     Add(propertyName, value);
                     OnPropertyChanged(propertyName);
                 }
@@ -722,7 +700,6 @@ namespace Newtonsoft.Json.Linq
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-#if HAVE_INOTIFY_PROPERTY_CHANGING
         /// <summary>
         /// Raises the <see cref="PropertyChanging"/> event with the provided arguments.
         /// </summary>
@@ -731,9 +708,7 @@ namespace Newtonsoft.Json.Linq
         {
             PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(propertyName));
         }
-#endif
 
-#if HAVE_COMPONENT_MODEL
         // include custom type descriptor on JObject rather than use a provider because the properties are specific to a type
 
         #region ICustomTypeDescriptor
@@ -811,9 +786,6 @@ namespace Newtonsoft.Json.Linq
         }
         #endregion
 
-#endif
-
-#if HAVE_DYNAMIC                            
         /// <summary>
         /// Returns the <see cref="DynamicMetaObject"/> responsible for binding operations performed on this object.
         /// </summary>
@@ -852,6 +824,5 @@ namespace Newtonsoft.Json.Linq
                 return instance.Properties().Select(p => p.Name);
             }
         }
-#endif
     }
 }

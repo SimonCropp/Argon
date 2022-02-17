@@ -23,16 +23,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
-
 using System;
 using System.Globalization;
 using Newtonsoft.Json.Linq;
-#if !PORTABLE || NETSTANDARD2_0
 using System.Numerics;
-#endif
 using System.Text;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -51,7 +47,7 @@ using Newtonsoft.Json.Utilities;
 namespace Newtonsoft.Json.Tests.JsonTextReaderTests
 {
     [TestFixture]
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
     [Category("JsonTextReaderTests")]
 #endif
     public class ReadAsyncTests : TestFixtureBase
@@ -89,7 +85,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             );
         }
 
-#if !(NET20 || NET35 || PORTABLE40 || PORTABLE) || NETSTANDARD2_0
         [Test]
         public async Task ReadAsInt32Async_BigIntegerValue_Success()
         {
@@ -98,7 +93,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             int? i = await token.CreateReader().ReadAsInt32Async();
             Assert.AreEqual(1, i);
         }
-#endif
 
         [Test]
         public async Task ReadMissingInt64()
@@ -132,7 +126,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
                 "Unexpected character encountered while parsing value: u. Path '', line 1, position 1.");
         }
 
-#if !(PORTABLE || PORTABLE40 || NET35 || NET20) || NETSTANDARD2_0
         [Test]
         public async Task ReadAsBooleanAsync()
         {
@@ -217,7 +210,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.AreEqual(JsonToken.None, reader.TokenType);
             Assert.AreEqual("", reader.Path);
         }
-#endif
 
         [Test]
         public async Task ReadAsBoolean_NullCharAsync()
@@ -1245,7 +1237,6 @@ second line
 third line", jsonTextReader.Value);
         }
 
-#if !PORTABLE || NETSTANDARD2_0
         [Test]
         public async Task ReadBigIntegerAsync()
         {
@@ -1282,7 +1273,6 @@ third line", jsonTextReader.Value);
             var i = (BigInteger)((JValue)o["ChildId"]).Value;
             Assert.AreEqual(BigInteger.Parse("333333333333333333333333333333333333333"), i);
         }
-#endif
 
         [Test]
         public async Task ReadBadMSDateAsStringAsync()
@@ -1817,4 +1807,3 @@ third line", jsonTextReader.Value);
         }
     }
 }
-#endif

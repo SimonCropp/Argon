@@ -30,7 +30,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -83,7 +83,6 @@ namespace Newtonsoft.Json.Tests.Converters
             Four = 4
         }
 
-#if !NET20
         public enum NamedEnum
         {
             [EnumMember(Value = "@first")]
@@ -118,7 +117,6 @@ namespace Newtonsoft.Json.Tests.Converters
             [EnumMember(Value = ",")]
             JustComma
         }
-#endif
 
         public class NegativeEnumClass
         {
@@ -329,7 +327,6 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
             Assert.AreEqual(9, (int)e);
         }
 
-#if !NET20
         [Test]
         public void NamedEnumDuplicateTest()
         {
@@ -426,7 +423,6 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
             c = JsonConvert.DeserializeObject<EnumContainer<NamedEnum>>(json, new StringEnumConverter());
             Assert.AreEqual(NamedEnum.Third, c.Enum);
         }
-#endif
 
         [Test]
         public void SerializeEnumClass()
@@ -702,7 +698,6 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
             Assert.Fail();
         }
 
-#if !NET20
         [Test]
         public void EnumMemberPlusFlags()
         {
@@ -861,7 +856,6 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
 
             Assert.AreEqual(NumberNamesEnum.fourth, e);
         }
-#endif
 
         [Test]
         public void AllowIntegerValueAndStringNumber()
@@ -944,7 +938,6 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
             Assert.AreEqual(EnumWithDifferentCases.m, e);
         }
 
-#if !NET20
         [JsonConverter(typeof(StringEnumConverter))]
         public enum EnumMemberDoesNotMatchName
         {
@@ -1042,10 +1035,8 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
 
             Assert.AreEqual(EnumMemberWithDifferentCases.Minute, e);
         }
-#endif
     }
 
-#if !NET20
     [DataContract]
     public class DuplicateEnumNameTestClass
     {
@@ -1100,5 +1091,4 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
         [EnumMember(Value = "TEST")]
         foo_bar_NOT_USED = 3
     }
-#endif
 }

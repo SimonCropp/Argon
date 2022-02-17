@@ -25,16 +25,11 @@
 
 using System;
 using System.ComponentModel;
-#if NET20
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 using Newtonsoft.Json.Utilities;
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !(NET35 || NET20 || PORTABLE || PORTABLE40) || NETSTANDARD2_0
     internal class TypeConverterJsonConverter : JsonConverter
     {
         private TypeConverter GetConverter(Type type)
@@ -73,5 +68,4 @@ namespace Newtonsoft.Json.Tests.TestObjects
             return GetConverter(objectType) != null;
         }
     }
-#endif
 }

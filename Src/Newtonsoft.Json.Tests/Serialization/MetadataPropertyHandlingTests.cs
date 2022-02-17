@@ -32,7 +32,7 @@ using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Tests.TestObjects.Organization;
 using Newtonsoft.Json.Utilities;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -339,7 +339,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.IsTrue(JToken.DeepEquals(t1, t2));
         }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
         [Test]
         public void DeserializeGenericObjectListWithTypeName()
         {
@@ -435,7 +434,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(4, nested[3]);
             Assert.AreEqual(5, nested[4]);
         }
-#endif
 
         public class MetadataPropertyDisabledTestClass
         {

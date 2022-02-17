@@ -23,17 +23,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Linq.JsonPath;
 using System;
 using System.Collections.Generic;
 using System.Xml;
 using System.IO;
-#if !NET20
 using System.Xml.Linq;
-#endif
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -46,7 +43,6 @@ namespace Newtonsoft.Json.Tests.Issues
     [TestFixture]
     public class Issue1734
     {
-#if !(PORTABLE || PORTABLE40)
         [Test]
         public void Test_XmlNode()
         {
@@ -139,9 +135,7 @@ namespace Newtonsoft.Json.Tests.Issues
 
             return sw.ToString();
         }
-#endif
 
-#if !NET20
         [Test]
         public void Test_XNode()
         {
@@ -219,7 +213,6 @@ namespace Newtonsoft.Json.Tests.Issues
   </ns3:collections>
 </ns3:Test_Service>", xml);
         }
-#endif
 
         private const string JsonWithoutNamespace = @"{
   ""Test_Service"": {
@@ -315,4 +308,3 @@ namespace Newtonsoft.Json.Tests.Issues
 }";
     }
 }
-#endif

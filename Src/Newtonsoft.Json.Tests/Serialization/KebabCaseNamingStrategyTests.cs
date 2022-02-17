@@ -26,7 +26,7 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Serialization;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -159,7 +159,6 @@ namespace Newtonsoft.Json.Tests.Serialization
 }", json);
         }
 
-#if !(NET35 || NET20 || PORTABLE40)
         [Test]
         public void DynamicKebabCasePropertyNames()
         {
@@ -189,7 +188,6 @@ namespace Newtonsoft.Json.Tests.Serialization
   ""child-object"": null
 }", json);
         }
-#endif
 
         [Test]
         public void DictionaryKebabCasePropertyNames_Disabled()

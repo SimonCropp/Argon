@@ -30,10 +30,6 @@ using System.Reflection;
 using Newtonsoft.Json.Utilities;
 using System.Collections;
 
-#if !HAVE_LINQ
-using Newtonsoft.Json.Utilities.LinqBridge;
-#endif
-
 namespace Newtonsoft.Json.Serialization
 {
     /// <summary>
@@ -139,12 +135,9 @@ namespace Newtonsoft.Json.Serialization
                     }
                 }
 
-#if HAVE_READ_ONLY_COLLECTIONS
                 IsReadOnlyOrFixedSize = ReflectionUtils.InheritsGenericDefinition(NonNullableUnderlyingType, typeof(ReadOnlyDictionary<,>));
-#endif
 
             }
-#if HAVE_READ_ONLY_COLLECTIONS
             else if (ReflectionUtils.ImplementsGenericDefinition(NonNullableUnderlyingType, typeof(IReadOnlyDictionary<,>), out _genericCollectionDefinitionType))
             {
                 keyType = _genericCollectionDefinitionType.GetGenericArguments()[0];
@@ -157,7 +150,6 @@ namespace Newtonsoft.Json.Serialization
 
                 IsReadOnlyOrFixedSize = true;
             }
-#endif
             else
             {
                 ReflectionUtils.GetDictionaryKeyValueTypes(NonNullableUnderlyingType, out keyType, out valueType);
@@ -175,13 +167,11 @@ namespace Newtonsoft.Json.Serialization
                     typeof(KeyValuePair<,>).MakeGenericType(keyType, valueType),
                     typeof(IDictionary<,>).MakeGenericType(keyType, valueType));
 
-#if HAVE_FSHARP_TYPES
                 if (!HasParameterizedCreatorInternal && NonNullableUnderlyingType.Name == FSharpUtils.FSharpMapTypeName)
                 {
                     FSharpUtils.EnsureInitialized(NonNullableUnderlyingType.Assembly());
                     _parameterizedCreator = FSharpUtils.Instance.CreateMap(keyType, valueType);
                 }
-#endif
             }
 
             if (!typeof(IDictionary).IsAssignableFrom(CreatedType))
@@ -191,18 +181,6 @@ namespace Newtonsoft.Json.Serialization
 
             DictionaryKeyType = keyType;
             DictionaryValueType = valueType;
-
-#if (NET20 || NET35)
-            if (DictionaryValueType != null && ReflectionUtils.IsNullableType(DictionaryValueType))
-            {
-                // bug in .NET 2.0 & 3.5 that Dictionary<TKey, Nullable<TValue>> throws an error when adding null via IDictionary[key] = object
-                // wrapper will handle calling Add(T) instead
-                if (ReflectionUtils.InheritsGenericDefinition(CreatedType, typeof(Dictionary<,>), out _))
-                {
-                    ShouldCreateWrapper = true;
-                }
-            }
-#endif
 
             if (DictionaryKeyType != null && 
                 DictionaryValueType != null &&

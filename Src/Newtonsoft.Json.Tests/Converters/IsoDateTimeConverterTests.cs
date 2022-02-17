@@ -26,7 +26,7 @@
 using System;
 using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Tests.TestObjects.Organization;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -123,7 +123,6 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(2006, d.Year);
         }
 
-#if !(DNXCORE50) || NETSTANDARD2_0
         [Test]
         public void SerializeFormattedDateTimeNewZealandCulture()
         {
@@ -159,9 +158,7 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(12, d.Month);
             Assert.AreEqual(2006, d.Year);
         }
-#endif
 
-#if !NET20
         [Test]
         public void SerializeDateTimeOffset()
         {
@@ -261,7 +258,6 @@ namespace Newtonsoft.Json.Tests.Converters
                 Assert.AreNotEqual(json, json2);
             }
         }
-#endif
 
         [Test]
         public void BlogCodeSample()
@@ -283,7 +279,6 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(@"{""Name"":""Keith"",""BirthDate"":""1980-03-08T00:00:00"",""LastModified"":""2009-04-12T20:44:55""}", jsonText);
         }
 
-#if !NET20
         [Test]
         public void DeserializeDateTimeOffset()
         {
@@ -301,6 +296,5 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(dto, test);
             Assert.AreEqual(dto.ToString("o"), test.ToString("o"));
         }
-#endif
     }
 }

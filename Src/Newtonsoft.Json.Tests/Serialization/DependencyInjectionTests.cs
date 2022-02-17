@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET40 || NET35 || NET20 || DNXCORE50 || PORTABLE || PORTABLE40) || NETSTANDARD2_0
 using Autofac;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
@@ -37,7 +36,7 @@ using Autofac.Core;
 using Autofac.Core.Activators.Reflection;
 using Microsoft.FSharp.Collections;
 using Newtonsoft.Json.Tests.TestObjects.Organization;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -126,7 +125,6 @@ namespace Newtonsoft.Json.Tests.Serialization
         }
     }
 
-#if !NET20
     [DataContract]
     public class User
     {
@@ -148,7 +146,6 @@ namespace Newtonsoft.Json.Tests.Serialization
         [DataMember(Name = "company_name")]
         public string CompanyName { get; set; }
     }
-#endif
 
     public class AutofacContractResolver : DefaultContractResolver
     {
@@ -310,5 +307,3 @@ namespace Newtonsoft.Json.Tests.Serialization
         }
     }
 }
-
-#endif

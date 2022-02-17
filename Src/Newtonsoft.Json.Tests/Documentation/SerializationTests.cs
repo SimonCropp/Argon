@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET35 || NET20 || PORTABLE || DNXCORE50) || NETSTANDARD2_0
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -34,7 +33,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -1071,5 +1070,3 @@ namespace Newtonsoft.Json.Tests.Documentation
         }
     }
 }
-
-#endif

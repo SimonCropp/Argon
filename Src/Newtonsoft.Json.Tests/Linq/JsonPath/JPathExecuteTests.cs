@@ -26,13 +26,11 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-#if !(PORTABLE || PORTABLE40 || NET35 || NET20) || NETSTANDARD2_0
 using System.Numerics;
-#endif
 using Newtonsoft.Json.Linq.JsonPath;
 using Newtonsoft.Json.Tests.Bson;
 using System.Text.RegularExpressions;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -41,11 +39,7 @@ using TestCaseSource = Xunit.MemberDataAttribute;
 using NUnit.Framework;
 #endif
 using Newtonsoft.Json.Linq;
-#if NET20
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 
 namespace Newtonsoft.Json.Tests.Linq.JsonPath
 {
@@ -977,7 +971,6 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.IsTrue(JToken.DeepEquals(new JObject(new JProperty("hi", 3)), t[1]));
         }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40 || NET35 || NET20) || NETSTANDARD2_0
         [Test]
         public void GreaterQueryBigInteger()
         {
@@ -992,7 +985,6 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.IsTrue(JToken.DeepEquals(new JObject(new JProperty("hi", 2)), t[0]));
             Assert.IsTrue(JToken.DeepEquals(new JObject(new JProperty("hi", 3)), t[1]));
         }
-#endif
 
         [Test]
         public void GreaterOrEqualQuery()
@@ -1195,10 +1187,8 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
                 new Uri("http://localhost"),
                 "2000-12-05T05:07:59Z",
                 new DateTime(2000, 12, 5, 5, 7, 59, DateTimeKind.Utc),
-#if !NET20
                 "2000-12-05T05:07:59-10:00",
                 new DateTimeOffset(2000, 12, 5, 5, 7, 59, -TimeSpan.FromHours(10)),
-#endif
                 "SGVsbG8gd29ybGQ=",
                 Encoding.UTF8.GetBytes("Hello world"),
                 "365.23:59:59",
@@ -1222,10 +1212,8 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             t = o.SelectTokens("$.prop[?(@.childProp =='2000-12-05T05:07:59Z')]").ToList();
             Assert.AreEqual(2, t.Count);
 
-#if !NET20
             t = o.SelectTokens("$.prop[?(@.childProp =='2000-12-05T05:07:59-10:00')]").ToList();
             Assert.AreEqual(2, t.Count);
-#endif
 
             t = o.SelectTokens("$.prop[?(@.childProp =='SGVsbG8gd29ybGQ=')]").ToList();
             Assert.AreEqual(2, t.Count);
@@ -1539,7 +1527,7 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             Assert.IsNotNull(t.SelectToken(@"Values[?(@.Property == 1.0)]"));
         }
 
-#if DNXCORE50
+#if NET5_0_OR_GREATER
         [Theory]
 #endif
         [TestCaseSource(nameof(StrictMatchWithInverseTestData))]

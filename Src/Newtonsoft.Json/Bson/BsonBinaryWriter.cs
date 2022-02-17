@@ -56,11 +56,7 @@ namespace Newtonsoft.Json.Bson
 
         public void Close()
         {
-#if HAVE_STREAM_READER_WRITER_CLOSE
             _writer.Close();
-#else
-            _writer.Dispose();
-#endif
         }
 
         public void WriteToken(BsonToken t)
@@ -150,13 +146,11 @@ namespace Newtonsoft.Json.Bson
 
                         ticks = DateTimeUtils.ConvertDateTimeToJavaScriptTicks(dateTime, false);
                     }
-#if HAVE_DATE_TIME_OFFSET
                     else
                     {
                         DateTimeOffset dateTimeOffset = (DateTimeOffset)value.Value;
                         ticks = DateTimeUtils.ConvertDateTimeToJavaScriptTicks(dateTimeOffset.UtcDateTime, dateTimeOffset.Offset);
                     }
-#endif
 
                     _writer.Write(ticks);
                 }

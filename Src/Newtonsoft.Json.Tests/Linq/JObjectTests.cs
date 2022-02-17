@@ -27,13 +27,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
-#if !(NET20 || NET35 || PORTABLE)
 using System.Numerics;
-#endif
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Tests.TestObjects.Organization;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -43,14 +41,10 @@ using NUnit.Framework;
 using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Collections;
-#if !(DNXCORE50)
+#if !NET5_0_OR_GREATER
 using System.Web.UI;
 #endif
-#if NET20
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 using Newtonsoft.Json.Utilities;
 
 namespace Newtonsoft.Json.Tests.Linq
@@ -58,7 +52,6 @@ namespace Newtonsoft.Json.Tests.Linq
     [TestFixture]
     public class JObjectTests : TestFixtureBase
     {
-#if !(NET35 || NET20 || PORTABLE40) || NETSTANDARD2_0
         [Test]
         public void EmbedJValueStringInNewJObject()
         {
@@ -75,7 +68,6 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(null, v.Value);
             Assert.IsNull((string)o.title);
         }
-#endif
 
         [Test]
         public void ReadWithSupportMultipleContent()
@@ -743,7 +735,6 @@ Parameter name: arrayIndex",
             Assert.AreEqual(p4, l[1]);
         }
 
-#if !(NET20 || PORTABLE || PORTABLE40) || NETSTANDARD2_0
         [Test]
         public void PropertyChanging()
         {
@@ -802,7 +793,6 @@ Parameter name: arrayIndex",
             Assert.AreEqual(4, changingCount);
             Assert.AreEqual(4, changedCount);
         }
-#endif
 
         [Test]
         public void PropertyChanged()
@@ -1286,7 +1276,6 @@ Parameter name: arrayIndex",
             }, "Can not add property Test3 to Newtonsoft.Json.Linq.JObject. Property with the same name already exists on object.");
         }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
         [Test]
         public void IBindingListSortDirection()
         {
@@ -1479,9 +1468,7 @@ Parameter name: arrayIndex",
             Assert.AreEqual(index, 0);
             Assert.AreEqual(2, (int)o["Test1"]);
         }
-#endif
 
-#if !(NET20 || NET35 || PORTABLE40) || NETSTANDARD2_0
         [Test]
         public void CollectionChanged()
         {
@@ -1519,7 +1506,6 @@ Parameter name: arrayIndex",
             Assert.AreEqual(index, 0);
             Assert.AreEqual(2, (int)o["Test1"]);
         }
-#endif
 
         [Test]
         public void GetGeocodeAddress()
@@ -1658,7 +1644,6 @@ Parameter name: arrayIndex",
             Assert.AreEqual("Name2", value);
         }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
         [Test]
         public void WriteObjectNullDBNullValue()
         {
@@ -1676,7 +1661,6 @@ Parameter name: arrayIndex",
   ""title"": null
 }", output);
         }
-#endif
 
         [Test]
         public void InvalidValueCastExceptionMessage()
@@ -1770,7 +1754,6 @@ Parameter name: arrayIndex",
             }, "Unexpected end of content while loading JObject. Path 'short.error.code', line 6, position 14.");
         }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
         [Test]
         public void GetProperties()
         {
@@ -1809,7 +1792,6 @@ Parameter name: arrayIndex",
             Assert.AreEqual(false, prop4.CanResetValue(o));
             Assert.AreEqual(false, prop4.ShouldSerializeValue(o));
         }
-#endif
 
         [Test]
         public void ParseEmptyObjectWithComment()
@@ -2095,7 +2077,6 @@ Parameter name: arrayIndex",
                 "Additional text encountered after finished reading JSON content: [. Path '', line 3, position 0.");
         }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
         [Test]
         public void GetPropertyOwner_ReturnsJObject()
         {
@@ -2116,7 +2097,6 @@ Parameter name: arrayIndex",
             object value = pd.GetValue(owner);
             Assert.AreEqual(1, (int)(JToken)value);
         }
-#endif
 
         [Test]
         public void Property()

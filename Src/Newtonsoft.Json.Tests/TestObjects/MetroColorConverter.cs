@@ -24,13 +24,13 @@
 #endregion
 
 using System;
-#if !(DNXCORE50)
+#if !NET5_0_OR_GREATER
 using System.Drawing;
 #endif
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !(DNXCORE50)
+#if !NET5_0_OR_GREATER
     public class MetroColorConverter : JsonConverter
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)

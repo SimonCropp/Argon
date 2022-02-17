@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,10 +30,8 @@ using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Xml;
-#if !NET20
 using System.Xml.Linq;
-#endif
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -47,7 +44,6 @@ namespace Newtonsoft.Json.Tests.Issues
     [TestFixture]
     public class Issue1327 : TestFixtureBase
     {
-#if !PORTABLE || NETSTANDARD2_0
         public class PersonWithXmlNode
         {
             public XmlNode TestXml { get; set; }
@@ -56,9 +52,7 @@ namespace Newtonsoft.Json.Tests.Issues
 
             public int IdNumber { get; set; }
         }
-#endif
 
-#if !NET20
         public class PersonWithXObject
         {
             public XObject TestXml1 { get; set; }
@@ -69,9 +63,7 @@ namespace Newtonsoft.Json.Tests.Issues
 
             public int IdNumber { get; set; }
         }
-#endif
 
-#if !PORTABLE || NETSTANDARD2_0
         [Test]
         public void Test_XmlNode()
         {
@@ -93,9 +85,7 @@ namespace Newtonsoft.Json.Tests.Issues
             Assert.AreEqual("Kumar", p.Name);
             Assert.AreEqual("vinoth", p.TestXml.SelectSingleNode("//name").InnerText);
         }
-#endif
 
-#if !NET20
         [Test]
         public void Test_XObject()
         {
@@ -135,7 +125,5 @@ namespace Newtonsoft.Json.Tests.Issues
             Assert.AreEqual("vinoth", (string)((XDocument)p.TestXml2).Root.Element("order").Element("name"));
             Assert.AreEqual("vinoth", (string)((XDocument)p.TestXml3).Root.Element("order").Element("name"));
         }
-#endif
     }
 }
-#endif

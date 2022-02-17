@@ -25,9 +25,7 @@
 
 using System;
 using System.Collections.Generic;
-#if HAVE_INOTIFY_COLLECTION_CHANGED
 using System.Collections.Specialized;
-#endif
 using System.Threading;
 using Newtonsoft.Json.Utilities;
 using System.Collections;
@@ -36,11 +34,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Diagnostics.CodeAnalysis;
-#if !HAVE_LINQ
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 
 namespace Newtonsoft.Json.Linq
 {
@@ -48,15 +42,10 @@ namespace Newtonsoft.Json.Linq
     /// Represents a token that can contain other tokens.
     /// </summary>
     public abstract partial class JContainer : JToken, IList<JToken>
-#if HAVE_COMPONENT_MODEL
         , ITypedList, IBindingList
-#endif
         , IList
-#if HAVE_INOTIFY_COLLECTION_CHANGED
         , INotifyCollectionChanged
-#endif
     {
-#if HAVE_COMPONENT_MODEL
         internal ListChangedEventHandler? _listChanged;
         internal AddingNewEventHandler? _addingNew;
 
@@ -77,8 +66,6 @@ namespace Newtonsoft.Json.Linq
             add => _addingNew += value;
             remove => _addingNew -= value;
         }
-#endif
-#if HAVE_INOTIFY_COLLECTION_CHANGED
         internal NotifyCollectionChangedEventHandler? _collectionChanged;
 
         /// <summary>
@@ -89,7 +76,6 @@ namespace Newtonsoft.Json.Linq
             add { _collectionChanged += value; }
             remove { _collectionChanged -= value; }
         }
-#endif
 
         /// <summary>
         /// Gets the container's children tokens.
@@ -98,9 +84,7 @@ namespace Newtonsoft.Json.Linq
         protected abstract IList<JToken> ChildrenTokens { get; }
 
         private object? _syncRoot;
-#if (HAVE_COMPONENT_MODEL || HAVE_INOTIFY_COLLECTION_CHANGED)
         private bool _busy;
-#endif
 
         internal JContainer()
         {
@@ -123,12 +107,10 @@ namespace Newtonsoft.Json.Linq
 
         internal void CheckReentrancy()
         {
-#if (HAVE_COMPONENT_MODEL || HAVE_INOTIFY_COLLECTION_CHANGED)
             if (_busy)
             {
                 throw new InvalidOperationException("Cannot change {0} during a collection change event.".FormatWith(CultureInfo.InvariantCulture, GetType()));
             }
-#endif
         }
 
         internal virtual IList<JToken> CreateChildrenCollection()
@@ -136,7 +118,6 @@ namespace Newtonsoft.Json.Linq
             return new List<JToken>();
         }
 
-#if HAVE_COMPONENT_MODEL
         /// <summary>
         /// Raises the <see cref="AddingNew"/> event.
         /// </summary>
@@ -167,8 +148,7 @@ namespace Newtonsoft.Json.Linq
                 }
             }
         }
-#endif
-#if HAVE_INOTIFY_COLLECTION_CHANGED
+
         /// <summary>
         /// Raises the <see cref="CollectionChanged"/> event.
         /// </summary>
@@ -190,7 +170,6 @@ namespace Newtonsoft.Json.Linq
                 }
             }
         }
-#endif
 
         /// <summary>
         /// Gets a value indicating whether this token has child tokens.
@@ -384,18 +363,14 @@ namespace Newtonsoft.Json.Linq
 
             children.Insert(index, item);
 
-#if HAVE_COMPONENT_MODEL
             if (_listChanged != null)
             {
                 OnListChanged(new ListChangedEventArgs(ListChangedType.ItemAdded, index));
             }
-#endif
-#if HAVE_INOTIFY_COLLECTION_CHANGED
             if (_collectionChanged != null)
             {
                 OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, index));
             }
-#endif
 
             return true;
         }
@@ -434,18 +409,14 @@ namespace Newtonsoft.Json.Linq
 
             children.RemoveAt(index);
 
-#if HAVE_COMPONENT_MODEL
             if (_listChanged != null)
             {
                 OnListChanged(new ListChangedEventArgs(ListChangedType.ItemDeleted, index));
             }
-#endif
-#if HAVE_INOTIFY_COLLECTION_CHANGED
             if (_collectionChanged != null)
             {
                 OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, index));
             }
-#endif
         }
 
         internal virtual bool RemoveItem(JToken? item)
@@ -517,18 +488,14 @@ namespace Newtonsoft.Json.Linq
             existing.Previous = null;
             existing.Next = null;
 
-#if HAVE_COMPONENT_MODEL
             if (_listChanged != null)
             {
                 OnListChanged(new ListChangedEventArgs(ListChangedType.ItemChanged, index));
             }
-#endif
-#if HAVE_INOTIFY_COLLECTION_CHANGED
             if (_collectionChanged != null)
             {
                 OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, item, existing, index));
             }
-#endif
         }
 
         internal virtual void ClearItems()
@@ -546,18 +513,14 @@ namespace Newtonsoft.Json.Linq
 
             children.Clear();
 
-#if HAVE_COMPONENT_MODEL
             if (_listChanged != null)
             {
                 OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
             }
-#endif
-#if HAVE_INOTIFY_COLLECTION_CHANGED
             if (_collectionChanged != null)
             {
                 OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
             }
-#endif
         }
 
         internal virtual void ReplaceItem(JToken existing, JToken replacement)
@@ -941,7 +904,6 @@ namespace Newtonsoft.Json.Linq
             return hashCode;
         }
 
-#if HAVE_COMPONENT_MODEL
         string ITypedList.GetListName(PropertyDescriptor[] listAccessors)
         {
             return string.Empty;
@@ -952,7 +914,6 @@ namespace Newtonsoft.Json.Linq
             ICustomTypeDescriptor? d = First as ICustomTypeDescriptor;
             return d?.GetProperties();
         }
-#endif
 
         #region IList<JToken> Members
         int IList<JToken>.IndexOf(JToken item)
@@ -1098,7 +1059,6 @@ namespace Newtonsoft.Json.Linq
         #endregion
 
         #region IBindingList Members
-#if HAVE_COMPONENT_MODEL
         void IBindingList.AddIndex(PropertyDescriptor property)
         {
         }
@@ -1159,7 +1119,6 @@ namespace Newtonsoft.Json.Linq
         bool IBindingList.SupportsSearching => false;
 
         bool IBindingList.SupportsSorting => false;
-#endif
         #endregion
 
         internal static void MergeEnumerableContent(JContainer target, IEnumerable content, JsonMergeSettings? settings)
@@ -1173,7 +1132,6 @@ namespace Newtonsoft.Json.Linq
                     }
                     break;
                 case MergeArrayHandling.Union:
-#if HAVE_HASH_SET
                     HashSet<JToken> items = new HashSet<JToken>(target, EqualityComparer);
 
                     foreach (object item in content)
@@ -1185,24 +1143,6 @@ namespace Newtonsoft.Json.Linq
                             target.Add(contentItem);
                         }
                     }
-#else
-                    Dictionary<JToken, bool> items = new Dictionary<JToken, bool>(EqualityComparer);
-                    foreach (JToken t in target)
-                    {
-                        items[t] = true;
-                    }
-
-                    foreach (object item in content)
-                    {
-                        JToken contentItem = CreateFromContent(item);
-
-                        if (!items.ContainsKey(contentItem))
-                        {
-                            items[contentItem] = true;
-                            target.Add(contentItem);
-                        }
-                    }
-#endif
                     break;
                 case MergeArrayHandling.Replace:
                     if (target == content)

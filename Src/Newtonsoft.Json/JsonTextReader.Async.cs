@@ -23,14 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if HAVE_ASYNC
-
 using System;
 using System.Globalization;
 using System.Threading;
-#if HAVE_BIG_INTEGER
 using System.Numerics;
-#endif
 using System.Threading.Tasks;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Utilities;
@@ -42,9 +38,7 @@ namespace Newtonsoft.Json
     {
         // It's not safe to perform the async methods here in a derived class as if the synchronous equivalent
         // has been overriden then the asychronous method will no longer be doing the same operation
-#if HAVE_ASYNC // Double-check this isn't included inappropriately.
         private readonly bool _safeAsync;
-#endif
 
         /// <summary>
         /// Asynchronously reads the next JSON token from the source.
@@ -1481,13 +1475,11 @@ namespace Newtonsoft.Json
                             case '9':
                                 await ParseNumberAsync(ReadType.Read, cancellationToken).ConfigureAwait(false);
                                 bool b;
-#if HAVE_BIG_INTEGER
                                 if (Value is BigInteger i)
                                 {
                                     b = i != 0;
                                 }
                                 else
-#endif
                                 {
                                     b = Convert.ToBoolean(Value, CultureInfo.InvariantCulture);
                                 }
@@ -1802,5 +1794,3 @@ namespace Newtonsoft.Json
         }
     }
 }
-
-#endif

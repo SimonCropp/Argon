@@ -26,7 +26,7 @@
 using System;
 using System.IO;
 using Newtonsoft.Json.Tests.TestObjects;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -54,7 +54,6 @@ namespace Newtonsoft.Json.Tests.Serialization
   ""Description"": ""It's no Bad Boys""
 }";
 
-#if !NET20
         [Test]
         public void DeserializeNullIntoDateTime()
         {
@@ -68,7 +67,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             DateTimeTestClass c = JsonConvert.DeserializeObject<DateTimeTestClass>(@"{DateTimeField:""""}", new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
             Assert.AreEqual(c.DateTimeField, default(DateTime));
         }
-#endif
 
         [Test]
         public void NullValueHandlingSerialization()

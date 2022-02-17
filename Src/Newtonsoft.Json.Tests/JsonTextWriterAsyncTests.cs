@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
 
 using System;
 using System.Collections.Generic;
@@ -35,7 +34,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Tests.TestObjects.JsonTextReaderTests;
 using Newtonsoft.Json.Utilities;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -102,7 +101,6 @@ namespace Newtonsoft.Json.Tests
             }
         }
 
-#if !(PORTABLE) || NETSTANDARD2_0
         [Test]
         public async Task WriteLazy()
         {
@@ -227,7 +225,6 @@ namespace Newtonsoft.Json.Tests
     }
 ]", sw.ToString());
         }
-#endif
 
         [Test]
         public async Task BufferTestAsync()
@@ -370,7 +367,6 @@ namespace Newtonsoft.Json.Tests
             Assert.IsTrue(ms.CanRead);
         }
 
-#if !(PORTABLE) || NETSTANDARD2_0
         [Test]
         public async Task WriteIConvertableAsync()
         {
@@ -380,7 +376,6 @@ namespace Newtonsoft.Json.Tests
 
             Assert.AreEqual("1", sw.ToString());
         }
-#endif
 
         [Test]
         public async Task ValueFormattingAsync()
@@ -2081,4 +2076,3 @@ null//comment
         }
     }
 }
-#endif

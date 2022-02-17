@@ -28,11 +28,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using Newtonsoft.Json.Linq;
-#if !(NET20 || NET35 || PORTABLE40 || PORTABLE) || NETSTANDARD2_0
 using System.Numerics;
-#endif
 using System.Text;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -44,11 +42,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-#if NET20
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 using System.Xml;
 using Newtonsoft.Json.Tests.TestObjects.JsonTextReaderTests;
 using Newtonsoft.Json.Utilities;
@@ -56,7 +50,7 @@ using Newtonsoft.Json.Utilities;
 namespace Newtonsoft.Json.Tests.JsonTextReaderTests
 {
     [TestFixture]
-#if !DNXCORE50
+#if !NET5_0_OR_GREATER
     [Category("JsonTextReaderTests")]
 #endif
     public class ReadTests : TestFixtureBase
@@ -94,7 +88,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             );
         }
 
-#if !(NET20 || NET35 || PORTABLE40 || PORTABLE) || NETSTANDARD2_0
         [Test]
         public void ReadAsInt32_BigIntegerValue_Success()
         {
@@ -103,7 +96,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             int? i = token.CreateReader().ReadAsInt32();
             Assert.AreEqual(1, i);
         }
-#endif
 
         [Test]
         public void ReadMissingInt64()
@@ -137,7 +129,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
                 "Unexpected character encountered while parsing value: u. Path '', line 1, position 1.");
         }
 
-#if !(PORTABLE || PORTABLE40 || NET35 || NET20) || NETSTANDARD2_0
         [Test]
         public void ReadAsBoolean()
         {
@@ -222,7 +213,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.AreEqual(JsonToken.None, reader.TokenType);
             Assert.AreEqual("", reader.Path);
         }
-#endif
 
         [Test]
         public void ReadAsBoolean_NullChar()
@@ -317,7 +307,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
         }
 
-#if !(NET20 || NET35) && DEBUG
+#if DEBUG
         [Test]
         public void ReadLargeObjects()
         {
@@ -494,7 +484,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.AreEqual(JsonToken.None, reader.TokenType);
         }
 
-#if !NET20
         [Test]
         public void ReadAsDateTimeOffsetNoContent()
         {
@@ -503,9 +492,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.IsNull(reader.ReadAsDateTimeOffset());
             Assert.AreEqual(JsonToken.None, reader.TokenType);
         }
-#endif
 
-#if !NET20
         [Test]
         public void ReadAsDateTimeOffset()
         {
@@ -527,9 +514,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
         }
-#endif
 
-#if !NET20
         [Test]
         public void ReadAsDateTimeOffsetNegative()
         {
@@ -551,9 +536,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
         }
-#endif
 
-#if !NET20
         [Test]
         public void ReadAsDateTimeOffsetBadString()
         {
@@ -569,9 +552,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsDateTimeOffset(); }, "Could not convert string to DateTimeOffset: blablahbla. Path 'Offset', line 1, position 22.");
         }
-#endif
 
-#if !NET20
         [Test]
         public void ReadAsDateTimeOffsetHoursOnly()
         {
@@ -593,9 +574,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
         }
-#endif
 
-#if !NET20
         [Test]
         public void ReadAsDateTimeOffsetWithMinutes()
         {
@@ -617,9 +596,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
         }
-#endif
 
-#if !NET20
         [Test]
         public void ReadAsDateTimeOffsetIsoDate()
         {
@@ -641,9 +618,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
         }
-#endif
 
-#if !NET20
         [Test]
         public void ReadAsDateTimeOffsetUnitedStatesDate()
         {
@@ -668,9 +643,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
         }
-#endif
 
-#if !NET20
         [Test]
         public void ReadAsDateTimeOffsetNewZealandDate()
         {
@@ -695,7 +668,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
         }
-#endif
 
         [Test]
         public void ReadAsDecimalInt()
@@ -929,7 +901,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.IsFalse(reader.Read());
         }
 
-#if !NET20
         [Test]
         public void ReadValue_EmptyString_Position()
         {
@@ -962,7 +933,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.IsNull(reader.ReadAsBytes());
             Assert.AreEqual(JsonToken.None, reader.TokenType);
         }
-#endif
 
         [Test]
         public void ReadValueComments()
@@ -1262,9 +1232,6 @@ second line
 third line", jsonTextReader.Value);
         }
 
-
-
-#if !(NET20 || NET35 || PORTABLE40 || PORTABLE) || NETSTANDARD2_0
         [Test]
         public void ReadBigInteger()
         {
@@ -1301,8 +1268,6 @@ third line", jsonTextReader.Value);
             var i = (BigInteger)((JValue)o["ChildId"]).Value;
             Assert.AreEqual(BigInteger.Parse("333333333333333333333333333333333333333"), i);
         }
-#endif
-
 
         [Test]
         public void ReadBadMSDateAsString()

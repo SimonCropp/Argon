@@ -23,13 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
-
 using System;
 using System.IO;
 using System.Threading.Tasks;
 using System.Text;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -86,10 +84,6 @@ namespace Newtonsoft.Json.Tests.Linq
             }
         }
 
-#if !PORTABLE
-
-#endif
-
         [Test]
         public async Task ParseIsoTimeZonesAsync()
         {
@@ -107,5 +101,3 @@ namespace Newtonsoft.Json.Tests.Linq
         }
     }
 }
-
-#endif

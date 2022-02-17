@@ -24,13 +24,12 @@
 #endregion
 
 #pragma warning disable 618
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
 using System.Text;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -1339,5 +1338,4 @@ namespace Newtonsoft.Json.Tests.Bson
     }
 }
 
-#endif
 #pragma warning restore 618

@@ -23,16 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if NET20
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
-#if !(PORTABLE || PORTABLE40) || NETSTANDARD2_0
 using System.Collections.ObjectModel;
-#if !(NET35 || NET20)
 using System.Dynamic;
-#endif
 using System.Text;
 using Newtonsoft.Json.Tests.Linq;
 using System;
@@ -44,7 +37,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Tests.TestObjects.Organization;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -241,7 +234,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             CollectionAssert.AreEquivalent(Convert.FromBase64String("cGFzc3dvcmQ="), value.EncryptedPassword);
         }
 
-#if !(NET20 || NET35)
         [Test]
         public void SerializeValueTupleWithTypeName()
         {
@@ -270,9 +262,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(2, t2.Item2);
             Assert.AreEqual("string", t2.Item3);
         }
-#endif
 
-#if !(NET20 || NET35 || NET40)
         public class KnownAutoTypes
         {
             public ICollection<string> Collection { get; set; }
@@ -333,7 +323,6 @@ namespace Newtonsoft.Json.Tests.Serialization
   }
 }", json);
         }
-#endif
 
         [Test]
         public void DictionaryAuto()
@@ -568,7 +557,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("Name!", ((EmployeeReference)employee).Name);
         }
 
-#if !(PORTABLE || DNXCORE50)
         [Test]
         public void DeserializeTypeNameFromGacAssembly()
         {
@@ -586,7 +574,6 @@ namespace Newtonsoft.Json.Tests.Serialization
 
             CustomAssert.IsInstanceOfType(typeof(Cookie), cookie);
         }
-#endif
 
         [Test]
         public void SerializeGenericObjectListWithTypeName()
@@ -969,7 +956,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 
-#if !(NET20 || NET35)
         [Test]
         public void SerializeUsingCustomBinder()
         {
@@ -1062,7 +1048,6 @@ namespace Newtonsoft.Json.Tests.Serialization
                 return Type.GetType(resolvedTypeName, true);
             }
         }
-#endif
 
         [Test]
         public void NewSerializeUsingCustomBinder()
@@ -1454,7 +1439,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             CollectionAssert.AreEquivalent(data, d);
         }
 
-#if !(DNXCORE50) || NETSTANDARD2_0
         [Test]
         public void ISerializableTypeNameHandlingTest()
         {
@@ -1498,9 +1482,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             //Check Round Trip
             Assert.AreEqual(e, f, "Objects should be equal after round trip json serialization");
         }
-#endif
 
-#if !(NET20 || NET35)
         [Test]
         public void SerializationBinderWithFullName()
         {
@@ -1519,9 +1501,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 #pragma warning restore CS0618 // Type or member is obsolete
                 ContractResolver = new DefaultContractResolver
                 {
-#if !(PORTABLE || DNXCORE50)
                     IgnoreSerializableAttribute = true
-#endif
                 }
             });
 
@@ -1540,14 +1520,13 @@ namespace Newtonsoft.Json.Tests.Serialization
             public override void BindToName(Type serializedType, out string assemblyName, out string typeName)
             {
                 assemblyName = "AssemblyName";
-#if !(DNXCORE50)
+#if !NET5_0_OR_GREATER
                 typeName = ":::" + serializedType.Name.ToUpper(CultureInfo.InvariantCulture) + ":::";
 #else
                 typeName = ":::" + serializedType.Name.ToUpper() + ":::";
 #endif
             }
         }
-#endif
 
         [Test]
         public void TypeNameIntList()
@@ -1920,7 +1899,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(1, (int)j["MyProperty"]);
         }
 
-#if !(NET35 || NET20 || PORTABLE40)
         [Test]
         public void PropertyItemTypeNameHandlingDynamic()
         {
@@ -1992,9 +1970,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             o = (JObject)data4.one;
             Assert.AreEqual(2, (int)o["MyProperty"]);
         }
-#endif
 
-#if !(DNXCORE50) || NETSTANDARD2_0
         [Test]
         public void SerializeDeserialize_DictionaryContextContainsGuid_DeserializesItemAsGuid()
         {
@@ -2134,7 +2110,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             CustomAssert.IsInstanceOfType(typeof(MyChild), p2.Child);
             Assert.AreEqual("string!", ((MyChild)p2.Child).MyProperty);
         }
-#endif
 
         [Test]
         public void ListOfStackWithFullAssemblyName()
@@ -2166,7 +2141,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("Nine", strings[8]);
         }
 
-#if !NET20
         [Test]
         public void ExistingBaseValue()
         {
@@ -2192,9 +2166,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             ReportItemKeys item = (ReportItemKeys)g.ItemIdentifier;
             Assert.AreEqual(1UL, item.WantedUnitID);
         }
-#endif
 
-#if !(NET20 || NET35)
         [Test]
         public void GenericItemTypeCollection()
         {
@@ -2221,9 +2193,8 @@ namespace Newtonsoft.Json.Tests.Serialization
 
             Assert.AreEqual("property", deserialized.Rows["key"].First().SomeProperty);
         }
-#endif
 
-#if !(NET20 || PORTABLE || PORTABLE40)
+#if !NET5_0_OR_GREATER
         [Test]
         public void DeserializeComplexGenericDictionary_Simple()
         {
@@ -2310,7 +2281,6 @@ namespace Newtonsoft.Json.Tests.Serialization
         }
 #endif
 
-#if !(NET20 || NET35)
         [Test]
         public void SerializerWithDefaultBinder()
         {
@@ -2376,7 +2346,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 #pragma warning restore CS0618 // Type or member is obsolete
-#endif
     }
 
     public struct Message2
@@ -2423,7 +2392,6 @@ namespace Newtonsoft.Json.Tests.Serialization
         public string SomeProperty { get; set; }
     }
 
-#if !(DNXCORE50) || NETSTANDARD2_0
     public class ParentParent
     {
         [JsonProperty(ItemTypeNameHandling = TypeNameHandling.Auto)]
@@ -2463,7 +2431,6 @@ namespace Newtonsoft.Json.Tests.Serialization
     public interface ISomeBase
     {
     }
-#endif
 
     public class Message
     {
@@ -2491,7 +2458,6 @@ namespace Newtonsoft.Json.Tests.Serialization
         public int Quantity { get; set; }
     }
 
-#if !(DNXCORE50) || NETSTANDARD2_0
     public class SerializableWrapper
     {
         public object Content { get; set; }
@@ -2576,7 +2542,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             return Name.GetHashCode();
         }
     }
-#endif
 
     public class PropertyItemTypeNameHandlingObject
     {
@@ -2584,13 +2549,11 @@ namespace Newtonsoft.Json.Tests.Serialization
         public TypeNameHandlingTestObject Data { get; set; }
     }
 
-#if !(NET35 || NET20 || PORTABLE40)
     public class PropertyItemTypeNameHandlingDynamic
     {
         [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
         public DynamicDictionary Data { get; set; }
     }
-#endif
 
     public class TypeNameHandlingTestObject
     {
@@ -2635,7 +2598,6 @@ namespace Newtonsoft.Json.Tests.Serialization
         public int Integer { get; set; }
     }
 
-#if !NET20
     [DataContract]
     public class GroupingInfo
     {
@@ -2670,6 +2632,4 @@ namespace Newtonsoft.Json.Tests.Serialization
             set { _wantedUnit = value; }
         }
     }
-#endif
 }
-#endif

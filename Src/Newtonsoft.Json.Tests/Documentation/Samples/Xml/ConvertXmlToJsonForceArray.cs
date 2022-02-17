@@ -27,7 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -35,8 +35,6 @@ using Assert = Newtonsoft.Json.Tests.XUnitAssert;
 using NUnit.Framework;
 
 #endif
-
-#if !(NET20 || DNXCORE50 || PORTABLE || PORTABLE40) || NETSTANDARD2_0
 
 namespace Newtonsoft.Json.Tests.Documentation.Samples.Xml
 {
@@ -96,5 +94,3 @@ namespace Newtonsoft.Json.Tests.Documentation.Samples.Xml
         }
     }
 }
-
-#endif

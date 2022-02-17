@@ -29,15 +29,9 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
 using System.Security;
-#if HAVE_CAS
 using System.Security.Permissions;
-#endif
 using Newtonsoft.Json.Utilities;
-#if !HAVE_LINQ
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 using System.Runtime.Serialization;
 
 namespace Newtonsoft.Json.Serialization
@@ -61,17 +55,14 @@ namespace Newtonsoft.Json.Serialization
         private static readonly ThreadSafeStore<Type, Func<object[]?, object>> CreatorCache = 
             new ThreadSafeStore<Type, Func<object[]?, object>>(GetCreator);
 
-#if !(NET20 || DOTNET)
         private static readonly ThreadSafeStore<Type, Type?> AssociatedMetadataTypesCache = new ThreadSafeStore<Type, Type?>(GetAssociateMetadataTypeFromAttribute);
         private static ReflectionObject? _metadataTypeAttributeReflectionObject;
-#endif
 
         public static T? GetCachedAttribute<T>(object attributeProvider) where T : Attribute
         {
             return CachedAttributeGetter<T>.GetAttribute(attributeProvider);
         }
 
-#if HAVE_TYPE_DESCRIPTOR
         public static bool CanTypeDescriptorConvertString(Type type, out TypeConverter typeConverter)
         {
             typeConverter = TypeDescriptor.GetConverter(type);
@@ -93,9 +84,7 @@ namespace Newtonsoft.Json.Serialization
 
             return false;
         }
-#endif
 
-#if HAVE_DATA_CONTRACTS
         public static DataContractAttribute? GetDataContractAttribute(Type type)
         {
             // DataContractAttribute does not have inheritance
@@ -149,7 +138,6 @@ namespace Newtonsoft.Json.Serialization
 
             return result;
         }
-#endif
 
         public static MemberSerialization GetObjectMemberSerialization(Type objectType, bool ignoreSerializableAttribute)
         {
@@ -159,20 +147,16 @@ namespace Newtonsoft.Json.Serialization
                 return objectAttribute.MemberSerialization;
             }
 
-#if HAVE_DATA_CONTRACTS
             DataContractAttribute? dataContractAttribute = GetDataContractAttribute(objectType);
             if (dataContractAttribute != null)
             {
                 return MemberSerialization.OptIn;
             }
-#endif
 
-#if HAVE_BINARY_SERIALIZATION
             if (!ignoreSerializableAttribute && IsSerializable(objectType))
             {
                 return MemberSerialization.Fields;
             }
-#endif
 
             // the default
             return MemberSerialization.OptOut;
@@ -275,7 +259,6 @@ namespace Newtonsoft.Json.Serialization
             };
         }
 
-#if !(NET20 || DOTNET)
         private static Type? GetAssociatedMetadataType(Type type)
         {
             return AssociatedMetadataTypesCache.Get(type);
@@ -306,13 +289,11 @@ namespace Newtonsoft.Json.Serialization
 
             return null;
         }
-#endif
 
         private static T? GetAttribute<T>(Type type) where T : Attribute
         {
             T? attribute;
 
-#if !(NET20 || DOTNET)
             Type? metadataType = GetAssociatedMetadataType(type);
             if (metadataType != null)
             {
@@ -322,7 +303,6 @@ namespace Newtonsoft.Json.Serialization
                     return attribute;
                 }
             }
-#endif
 
             attribute = ReflectionUtils.GetAttribute<T>(type, true);
             if (attribute != null)
@@ -346,7 +326,6 @@ namespace Newtonsoft.Json.Serialization
         {
             T? attribute;
 
-#if !(NET20 || DOTNET)
             Type? metadataType = GetAssociatedMetadataType(memberInfo.DeclaringType);
             if (metadataType != null)
             {
@@ -361,7 +340,6 @@ namespace Newtonsoft.Json.Serialization
                     }
                 }
             }
-#endif
 
             attribute = ReflectionUtils.GetAttribute<T>(memberInfo, true);
             if (attribute != null)
@@ -389,39 +367,17 @@ namespace Newtonsoft.Json.Serialization
             return null;
         }
 
-#if HAVE_NON_SERIALIZED_ATTRIBUTE
         public static bool IsNonSerializable(object provider)
         {
-#if HAVE_FULL_REFLECTION
             // no inheritance
             return (ReflectionUtils.GetAttribute<NonSerializedAttribute>(provider, false) != null);
-#else
-            if (provider is FieldInfo fieldInfo && (fieldInfo.Attributes & FieldAttributes.NotSerialized) == FieldAttributes.NotSerialized)
-            {
-                return true;
-            }
-
-            return false;
-#endif
         }
-#endif
 
-#if HAVE_BINARY_SERIALIZATION
         public static bool IsSerializable(object provider)
         {
-#if HAVE_FULL_REFLECTION
             // no inheritance
             return (ReflectionUtils.GetAttribute<SerializableAttribute>(provider, false) != null);
-#else
-            if (provider is Type type && (type.GetTypeInfo().Attributes & TypeAttributes.Serializable) == TypeAttributes.Serializable)
-            {
-                return true;
-            }
-
-            return false;
-#endif
         }
-#endif
 
         public static T? GetAttribute<T>(object provider) where T : Attribute
         {
@@ -452,14 +408,12 @@ namespace Newtonsoft.Json.Serialization
 
         public static bool DynamicCodeGeneration
         {
-#if HAVE_SECURITY_SAFE_CRITICAL_ATTRIBUTE
             [SecuritySafeCritical]
-#endif
             get
             {
                 if (_dynamicCodeGeneration == null)
                 {
-#if HAVE_CAS
+#if !NETSTANDARD2_0
                     try
                     {
                         new ReflectionPermission(ReflectionPermissionFlag.MemberAccess).Demand();
@@ -488,23 +442,9 @@ namespace Newtonsoft.Json.Serialization
             {
                 if (_fullyTrusted == null)
                 {
-#if (DOTNET || PORTABLE || PORTABLE40)
-                    _fullyTrusted = true;
-#elif !(NET20 || NET35 || PORTABLE40)
                     AppDomain appDomain = AppDomain.CurrentDomain;
 
                     _fullyTrusted = appDomain.IsHomogenous && appDomain.IsFullyTrusted;
-#else
-                    try
-                    {
-                        new SecurityPermission(PermissionState.Unrestricted).Demand();
-                        _fullyTrusted = true;
-                    }
-                    catch (Exception)
-                    {
-                        _fullyTrusted = false;
-                    }
-#endif
                 }
 
                 return _fullyTrusted.GetValueOrDefault();
@@ -515,7 +455,7 @@ namespace Newtonsoft.Json.Serialization
         {
             get
             {
-#if !(PORTABLE40 || PORTABLE || DOTNET || NETSTANDARD2_0)
+#if !NETSTANDARD2_0
                 if (DynamicCodeGeneration)
                 {
                     return DynamicReflectionDelegateFactory.Instance;

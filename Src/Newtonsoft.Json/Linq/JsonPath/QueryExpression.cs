@@ -4,11 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
-#if !HAVE_LINQ
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 using Newtonsoft.Json.Utilities;
 
 namespace Newtonsoft.Json.Linq.JsonPath
@@ -268,13 +264,11 @@ namespace Newtonsoft.Json.Linq.JsonPath
                 case JTokenType.Date:
                     using (StringWriter writer = StringUtils.CreateStringWriter(64))
                     {
-#if HAVE_DATE_TIME_OFFSET
                         if (value.Value is DateTimeOffset offset)
                         {
                             DateTimeUtils.WriteDateTimeOffsetString(writer, offset, DateFormatHandling.IsoDateFormat, null, CultureInfo.InvariantCulture);
                         }
                         else
-#endif
                         {
                             DateTimeUtils.WriteDateTimeString(writer, (DateTime)value.Value!, DateFormatHandling.IsoDateFormat, null, CultureInfo.InvariantCulture);
                         }

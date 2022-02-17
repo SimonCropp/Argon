@@ -24,11 +24,7 @@
 #endregion
 
 using System.Collections.Generic;
-#if NET20
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 
 namespace Newtonsoft.Json.Tests.TestObjects.JsonTextReaderTests
 {

@@ -27,7 +27,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -39,11 +39,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Tests.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Tests.TestObjects.Organization;
-#if NET20
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 using System.IO;
 using System.Runtime.Serialization;
 
@@ -62,7 +58,6 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(@"['We\'re offline!']", v.Path);
         }
 
-#if !(NET20 || NET35 || PORTABLE40 || PORTABLE) || NETSTANDARD2_0
         public class DemoClass
         {
             public decimal maxValue;
@@ -76,7 +71,6 @@ namespace Newtonsoft.Json.Tests.Linq
 
             Assert.AreEqual(10000000000000000000m, list[0].maxValue);
         }
-#endif
 
         [Test]
         public void ToObjectFromGuidToString()
@@ -394,7 +388,7 @@ undefined
         {
             string json = @"{
   ""frameworks"": {
-    ""dnxcore50"": {
+    ""NET5_0_OR_GREATER"": {
       ""dependencies"": {
         ""System.Xml.ReaderWriter"": {
           ""source"": ""NuGet""
@@ -406,9 +400,9 @@ undefined
 
             JObject o = JObject.Parse(json);
 
-            JToken v1 = o["frameworks"]["dnxcore50"]["dependencies"]["System.Xml.ReaderWriter"]["source"];
+            JToken v1 = o["frameworks"]["NET5_0_OR_GREATER"]["dependencies"]["System.Xml.ReaderWriter"]["source"];
 
-            Assert.AreEqual("frameworks.dnxcore50.dependencies['System.Xml.ReaderWriter'].source", v1.Path);
+            Assert.AreEqual("frameworks.NET5_0_OR_GREATER.dependencies['System.Xml.ReaderWriter'].source", v1.Path);
 
             JToken v2 = o.SelectToken(v1.Path);
 
@@ -1026,7 +1020,6 @@ keyword such as type of business.""
             }, @"Accessed JConstructor values with invalid key value: ""purple"". Argument position index expected.");
         }
 
-#if !NET20
         [Test]
         public void ToStringJsonConverter()
         {
@@ -1080,7 +1073,6 @@ keyword such as type of business.""
 
             Assert.AreEqual(4, jsonWriter.Token.Children().Count());
         }
-#endif
 
         [Test]
         public void FromObject()
@@ -1235,7 +1227,6 @@ keyword such as type of business.""
             Assert.AreEqual(new DateTime(2000, 10, 15, 5, 5, 5, DateTimeKind.Utc), d);
         }
 
-#if !(NET20 || NET35 || PORTABLE40)
         [Test]
         public void CovariantIJEnumerable()
         {
@@ -1248,9 +1239,7 @@ keyword such as type of business.""
             IJEnumerable<JToken> values = o.Properties();
             Assert.AreEqual(4, values.Count());
         }
-#endif
 
-#if !NET20
         [Test]
         public void LinqCast()
         {
@@ -1261,7 +1250,6 @@ keyword such as type of business.""
             Assert.AreEqual(12, list1[0]);
             Assert.AreEqual(55, list1[1]);
         }
-#endif
 
         [Test]
         public void ChildrenExtension()
@@ -1399,7 +1387,6 @@ keyword such as type of business.""
             Assert.AreEqual("hi!", (string)a[0]);
         }
 
-#if !(NET35 || NET20)
         [Test]
         public void ExceptionFromOverloadWithJValue()
         {
@@ -1415,9 +1402,7 @@ keyword such as type of business.""
                 Assert.AreEqual(users["name2"], "Matthew Doig");
             }, "The best overloaded method match for 'System.Collections.Generic.IDictionary<string,string>.Add(string, string)' has some invalid arguments");
         }
-#endif
 
-#if !(NET20)
         [JsonConverter(typeof(StringEnumConverter))]
         public enum FooBar
         {
@@ -1464,7 +1449,6 @@ keyword such as type of business.""
             FooBarNoEnum e = o["FooBarNoEnum"].ToObject<FooBarNoEnum>();
             Assert.AreEqual(FooBarNoEnum.SomeOtherValue, e);
         }
-#endif
 
         [Test]
         public void SerializeWithNoRedundentIdPropertiesTest()

@@ -23,11 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !NET20
 using System;
 using System.Runtime.Serialization;
 using Newtonsoft.Json.Converters;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using System.Reflection;
 using Xunit;
 using Test = Xunit.FactAttribute;
@@ -99,4 +98,3 @@ namespace Newtonsoft.Json.Tests.Issues
         }
     }
 }
-#endif

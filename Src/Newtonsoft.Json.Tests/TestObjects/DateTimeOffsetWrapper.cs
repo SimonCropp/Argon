@@ -27,12 +27,10 @@ using System;
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !NET20
     public class DateTimeOffsetWrapper
     {
         public DateTimeOffset DateTimeOffsetValue { get; set; }
 
         public DateTime DateTimeValue { get; set; }
     }
-#endif
 }

@@ -24,12 +24,11 @@
 #endregion
 
 using System.Collections.Generic;
-#if !(NET20 || NET35)
 using System.Linq;
 using System;
 using System.Diagnostics;
 using System.Reflection;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -431,5 +430,3 @@ namespace Newtonsoft.Json.Tests.Utilities
         }
     }
 }
-
-#endif

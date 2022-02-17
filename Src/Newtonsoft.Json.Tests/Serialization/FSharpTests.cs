@@ -23,8 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET40 || NET35 || NET20 || DNXCORE50) || NETSTANDARD2_0
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -97,5 +96,3 @@ namespace Newtonsoft.Json.Tests.Serialization
         }
     }
 }
-
-#endif

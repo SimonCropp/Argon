@@ -27,14 +27,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-#if NET20
-using Newtonsoft.Json.Utilities.LinqBridge;
-#endif
-#if !(NET20 || NET35 || PORTABLE) || NETSTANDARD2_0
 using System.Numerics;
-#endif
 using System.Text;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -353,7 +348,6 @@ namespace Newtonsoft.Json.Tests
             Assert.IsNotNull(validationEventArgs);
         }
 
-#if !(NET20 || NET35 || PORTABLE || PORTABLE40) || NETSTANDARD2_0
         [Test]
         public void IntegerGreaterThanMaximumValue_BigInteger()
         {
@@ -396,7 +390,6 @@ namespace Newtonsoft.Json.Tests
             Assert.AreEqual("Integer 1 is less than minimum value of 5.", validationEventArgs.Message);
             Assert.AreEqual("", validationEventArgs.Path);
         }
-#endif
 
         [Test]
         public void ThrowExceptionWhenNoValidationEventHandler()
@@ -606,7 +599,6 @@ namespace Newtonsoft.Json.Tests
             Assert.IsNotNull(validationEventArgs);
         }
 
-#if !(NET20 || NET35 || PORTABLE || PORTABLE40) || NETSTANDARD2_0
         [Test]
         public void BigIntegerDivisibleBy_Success()
         {
@@ -721,7 +713,6 @@ namespace Newtonsoft.Json.Tests
 
             Assert.IsNull(validationEventArgs);
         }
-#endif
 
         [Test]
         public void IntValidForNumber()

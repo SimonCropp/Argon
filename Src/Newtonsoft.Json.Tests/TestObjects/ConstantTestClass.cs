@@ -27,12 +27,10 @@ using System.Runtime.Serialization;
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !NET20
     [DataContract]
     public class ConstantTestClass
     {
         [DataMember]
         public const char MY_CONSTANT = '.';
     }
-#endif
 }

@@ -33,9 +33,7 @@ namespace Newtonsoft.Json
     /// <summary>
     /// The exception thrown when an error occurs while reading JSON text.
     /// </summary>
-#if HAVE_BINARY_EXCEPTION_SERIALIZATION
     [Serializable]
-#endif
     public class JsonReaderException : JsonException
     {
         /// <summary>
@@ -84,7 +82,6 @@ namespace Newtonsoft.Json
         {
         }
 
-#if HAVE_BINARY_EXCEPTION_SERIALIZATION
         /// <summary>
         /// Initializes a new instance of the <see cref="JsonReaderException"/> class.
         /// </summary>
@@ -96,7 +93,6 @@ namespace Newtonsoft.Json
             : base(info, context)
         {
         }
-#endif
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JsonReaderException"/> class

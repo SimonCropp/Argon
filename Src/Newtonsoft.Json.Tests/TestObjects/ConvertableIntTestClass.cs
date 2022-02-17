@@ -27,12 +27,10 @@ using System;
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !(PORTABLE) || NETSTANDARD2_0
     public class ConvertableIntTestClass
     {
         public ConvertibleInt Integer { get; set; }
         public ConvertibleInt? NullableInteger1 { get; set; }
         public ConvertibleInt? NullableInteger2 { get; set; }
     }
-#endif
 }

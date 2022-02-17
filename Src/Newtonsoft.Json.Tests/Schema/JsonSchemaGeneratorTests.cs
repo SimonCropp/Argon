@@ -33,7 +33,7 @@ using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Tests.TestObjects.Organization;
 using Newtonsoft.Json.Utilities;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -45,11 +45,7 @@ using System.IO;
 using Newtonsoft.Json.Linq;
 using System.Text;
 using Extensions = Newtonsoft.Json.Schema.Extensions;
-#if NET20
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 using Newtonsoft.Json.Tests.Serialization;
 
 namespace Newtonsoft.Json.Tests.Schema
@@ -93,7 +89,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.IsTrue(o.IsValid(schema));
         }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40)
+#if !NET5_0_OR_GREATER
         [Test]
         public void Generate_DefaultValueAttributeTestClass()
         {
@@ -312,7 +308,6 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.IsTrue(v.IsValid(schema));
         }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
         [Test]
         public void GenerateSchemaForISerializable()
         {
@@ -325,9 +320,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(true, schema.AllowAdditionalProperties);
             Assert.AreEqual(null, schema.Properties);
         }
-#endif
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40)
         [Test]
         public void GenerateSchemaForDBNull()
         {
@@ -338,9 +331,7 @@ namespace Newtonsoft.Json.Tests.Schema
 
             Assert.AreEqual(JsonSchemaType.Null, schema.Type);
         }
-#endif
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
         public class CustomDirectoryInfoMapper : DefaultContractResolver
         {
             public CustomDirectoryInfoMapper()
@@ -367,7 +358,6 @@ namespace Newtonsoft.Json.Tests.Schema
                 return c;
             }
         }
-#endif
 
         [Test]
         public void GenerateSchemaCamelCase()
@@ -376,9 +366,7 @@ namespace Newtonsoft.Json.Tests.Schema
             generator.UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseTypeName;
             generator.ContractResolver = new CamelCasePropertyNamesContractResolver()
             {
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
                 IgnoreSerializableAttribute = true
-#endif
             };
 
             JsonSchema schema = generator.Generate(typeof(VersionOld), true);
@@ -421,7 +409,6 @@ namespace Newtonsoft.Json.Tests.Schema
 }", json);
         }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
         [Test]
         public void GenerateSchemaSerializable()
         {
@@ -478,7 +465,6 @@ namespace Newtonsoft.Json.Tests.Schema
             SerializableTestObject c = jsonWriter.Token.ToObject<SerializableTestObject>(serializer);
             Assert.AreEqual("Name!", c.Name);
         }
-#endif
 
         public enum SortTypeFlag
         {
@@ -734,7 +720,6 @@ namespace Newtonsoft.Json.Tests.Schema
     {
     }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
     [Serializable]
     public sealed class SerializableTestObject
     {
@@ -746,7 +731,6 @@ namespace Newtonsoft.Json.Tests.Schema
             set { _name = value; }
         }
     }
-#endif
 }
 
 #pragma warning restore 618

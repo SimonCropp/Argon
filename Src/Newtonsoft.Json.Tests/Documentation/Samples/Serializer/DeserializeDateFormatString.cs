@@ -23,12 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !DNXCORE50 || NETSTANDARD2_0
-
 using System;
 using System.Collections.Generic;
 using System.Text;
-#if DNXCORE50
+#if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
@@ -72,5 +70,3 @@ namespace Newtonsoft.Json.Tests.Documentation.Samples.Serializer
         }
     }
 }
-
-#endif
