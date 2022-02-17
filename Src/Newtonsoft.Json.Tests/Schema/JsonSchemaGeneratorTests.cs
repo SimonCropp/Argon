@@ -89,7 +89,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.IsTrue(o.IsValid(schema));
         }
 
-#if !(DNXCORE50)
+#if !DNXCORE50
         [Test]
         public void Generate_DefaultValueAttributeTestClass()
         {
@@ -411,7 +411,7 @@ namespace Newtonsoft.Json.Tests.Schema
 }", json);
         }
 
-#if !(DNXCORE50) || NETSTANDARD2_0
+#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void GenerateSchemaSerializable()
         {
@@ -724,7 +724,7 @@ namespace Newtonsoft.Json.Tests.Schema
     {
     }
 
-#if !(DNXCORE50) || NETSTANDARD2_0
+#if !DNXCORE50 || NETSTANDARD2_0
     [Serializable]
     public sealed class SerializableTestObject
     {

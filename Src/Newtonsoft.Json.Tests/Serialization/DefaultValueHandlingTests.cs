@@ -27,7 +27,7 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.Serialization;
-#if !(DNXCORE50)
+#if !DNXCORE50
 using System.Runtime.Serialization.Json;
 #endif
 using System.Text;
@@ -315,7 +315,7 @@ namespace Newtonsoft.Json.Tests.Serialization
         {
             EmitDefaultValueClass c = new EmitDefaultValueClass();
 
-#if !(DNXCORE50)
+#if !DNXCORE50
             DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(typeof(EmitDefaultValueClass));
 
             MemoryStream ms = new MemoryStream();

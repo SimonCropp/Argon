@@ -149,7 +149,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 }", json);
         }
 
-#if !(DNXCORE50) || NETSTANDARD2_0
+#if !DNXCORE50 || NETSTANDARD2_0
         [Serializable]
         public class MainClass : ISerializable
         {

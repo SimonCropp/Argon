@@ -631,7 +631,7 @@ namespace Newtonsoft.Json.Tests
             value = null;
             Assert.AreEqual("null", JsonConvert.ToString(value));
 
-#if !(DNXCORE50)
+#if !DNXCORE50
             value = DBNull.Value;
             Assert.AreEqual("null", JsonConvert.ToString(value));
 #endif
@@ -1123,7 +1123,7 @@ namespace Newtonsoft.Json.Tests
             writer.Flush();
         }
 
-#if !(DNXCORE50)|| NETSTANDARD2_0
+#if !DNXCORE50|| NETSTANDARD2_0
         [Test]
         public void IntegerLengthOverflows()
         {

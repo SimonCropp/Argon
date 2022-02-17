@@ -55,7 +55,7 @@ namespace Newtonsoft.Json.Tests.Serialization
                 nonSerializedField = "Error"
             };
 
-#if !(DNXCORE50)
+#if !DNXCORE50
             MemoryStream ms = new MemoryStream();
             DataContractJsonSerializer dataContractJsonSerializer = new DataContractJsonSerializer(typeof(SerializableType));
             dataContractJsonSerializer.WriteObject(ms, serializableType);
@@ -71,7 +71,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             {
                 ContractResolver = new DefaultContractResolver
                 {
-#if !(DNXCORE50) || NETSTANDARD2_0
+#if !DNXCORE50 || NETSTANDARD2_0
                     IgnoreSerializableAttribute = false
 #endif
                 }
@@ -80,7 +80,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(expected, json);
         }
 
-#if !(DNXCORE50) || NETSTANDARD2_0
+#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void SerializeInheritedType()
         {
@@ -110,7 +110,7 @@ namespace Newtonsoft.Json.Tests.Serialization
         }
     }
 
-#if !(DNXCORE50) || NETSTANDARD2_0
+#if !DNXCORE50 || NETSTANDARD2_0
     [Serializable]
 #else
     [JsonObject(MemberSerialization.Fields)]
@@ -134,7 +134,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             set { privateField = value; }
         }
 
-#if !(DNXCORE50)
+#if !DNXCORE50
         [NonSerialized]
 #else
         [JsonIgnore]

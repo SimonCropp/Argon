@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(DNXCORE50) || NETSTANDARD2_0
 using System.Diagnostics;
 using System.Reflection;
 using Microsoft.FSharp.Core;
@@ -308,5 +307,3 @@ namespace Newtonsoft.Json.Tests.Converters
         }
     }
 }
-
-#endif

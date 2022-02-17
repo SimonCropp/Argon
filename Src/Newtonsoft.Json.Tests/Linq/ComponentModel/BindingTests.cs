@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(DNXCORE50)
+#if !DNXCORE50
 using NUnit.Framework;
 using System.Web.UI;
 using Newtonsoft.Json.Linq;

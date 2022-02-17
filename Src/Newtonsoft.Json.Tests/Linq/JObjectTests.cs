@@ -41,7 +41,7 @@ using NUnit.Framework;
 using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Collections;
-#if !(DNXCORE50)
+#if !DNXCORE50
 using System.Web.UI;
 #endif
 using System.Linq;

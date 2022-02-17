@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(DNXCORE50)
+#if !DNXCORE50
 using System.Reflection;
 using System.Reflection.Emit;
 using Newtonsoft.Json.Serialization;

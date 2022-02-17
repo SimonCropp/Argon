@@ -51,7 +51,7 @@ namespace Newtonsoft.Json.Tests
     {
         public static IEnumerable<ConstructorInfo> GetConstructors(Type type)
         {
-#if !(DNXCORE50)
+#if !DNXCORE50
             return type.GetConstructors();
 #else
             return type.GetTypeInfo().DeclaredConstructors;
@@ -60,7 +60,7 @@ namespace Newtonsoft.Json.Tests
 
         public static PropertyInfo GetProperty(Type type, string name)
         {
-#if !(DNXCORE50)
+#if !DNXCORE50
             return type.GetProperty(name);
 #else
             return type.GetTypeInfo().GetDeclaredProperty(name);
@@ -69,7 +69,7 @@ namespace Newtonsoft.Json.Tests
 
         public static FieldInfo GetField(Type type, string name)
         {
-#if !(DNXCORE50)
+#if !DNXCORE50
             return type.GetField(name);
 #else
             return type.GetTypeInfo().GetDeclaredField(name);
@@ -78,7 +78,7 @@ namespace Newtonsoft.Json.Tests
 
         public static MethodInfo GetMethod(Type type, string name)
         {
-#if !(DNXCORE50)
+#if !DNXCORE50
             return type.GetMethod(name);
 #else
             return type.GetTypeInfo().GetDeclaredMethod(name);
@@ -269,7 +269,7 @@ namespace Newtonsoft.Json.Tests
         protected void TestSetup()
 #endif
         {
-#if !(DNXCORE50)
+#if !DNXCORE50
             //CultureInfo turkey = CultureInfo.CreateSpecificCulture("tr");
             //Thread.CurrentThread.CurrentCulture = turkey;
             //Thread.CurrentThread.CurrentUICulture = turkey;
@@ -324,7 +324,7 @@ namespace Newtonsoft.Json.Tests
 
         public static void Contains(IList collection, object value, string message)
         {
-#if !(DNXCORE50)
+#if !DNXCORE50
             Assert.Contains(value, collection, message);
 #else
             if (!collection.Cast<object>().Any(i => i.Equals(value)))

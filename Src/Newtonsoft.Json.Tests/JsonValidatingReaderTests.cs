@@ -27,7 +27,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-#if !(DNXCORE50) || NETSTANDARD2_0
+#if !DNXCORE50 || NETSTANDARD2_0
 using System.Numerics;
 #endif
 using System.Text;

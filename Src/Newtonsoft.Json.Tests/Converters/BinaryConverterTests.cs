@@ -28,9 +28,7 @@ using System.Collections.Generic;
 #if !DNXCORE50
 using System.Data.Linq;
 #endif
-#if !DNXCORE50 || NETSTANDARD2_0
 using System.Data.SqlTypes;
-#endif
 using System.Text;
 using Newtonsoft.Json.Converters;
 #if DNXCORE50

@@ -38,7 +38,7 @@ using Newtonsoft.Json.Linq;
 using System.IO;
 using Newtonsoft.Json.Tests.TestObjects;
 using Newtonsoft.Json.Tests.TestObjects.Organization;
-#if !(DNXCORE50)
+#if !DNXCORE50
 using System.Data;
 
 #endif
@@ -202,7 +202,7 @@ namespace Newtonsoft.Json.Tests.Schema
             GenerateSchemaAndSerializeFromType(new ClassWithArray());
             GenerateSchemaAndSerializeFromType(new ClassWithGuid());
             GenerateSchemaAndSerializeFromType(new NullableDateTimeTestClass());
-#if !(DNXCORE50)
+#if !DNXCORE50
             GenerateSchemaAndSerializeFromType(new DataSet());
 #endif
             GenerateSchemaAndSerializeFromType(new object());
@@ -210,7 +210,7 @@ namespace Newtonsoft.Json.Tests.Schema
             GenerateSchemaAndSerializeFromType("Hi");
             GenerateSchemaAndSerializeFromType(new DateTime(2000, 12, 29, 23, 59, 0, DateTimeKind.Utc));
             GenerateSchemaAndSerializeFromType(TimeSpan.FromTicks(1000000));
-#if !(DNXCORE50)
+#if !DNXCORE50
             GenerateSchemaAndSerializeFromType(DBNull.Value);
 #endif
             GenerateSchemaAndSerializeFromType(new JsonPropertyWithHandlingValues());
