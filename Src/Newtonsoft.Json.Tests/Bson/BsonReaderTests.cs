@@ -31,9 +31,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
-#if !(NET20 || NET35 || PORTABLE) || NETSTANDARD2_0
 using System.Numerics;
-#endif
 using System.Text;
 using System.Text.RegularExpressions;
 #if DNXCORE50
@@ -1495,7 +1493,6 @@ namespace Newtonsoft.Json.Tests.Bson
             Assert.AreEqual(badText, (string)o["test"]);
         }
 
-#if !(NET20 || NET35 || PORTABLE || PORTABLE40) || NETSTANDARD2_0
         public class BigIntegerTestClass
         {
             public BigInteger Blah { get; set; }
@@ -1517,7 +1514,6 @@ namespace Newtonsoft.Json.Tests.Bson
 
             Assert.AreEqual(i, c.Blah);
         }
-#endif
 
         public class RegexTestClass
         {

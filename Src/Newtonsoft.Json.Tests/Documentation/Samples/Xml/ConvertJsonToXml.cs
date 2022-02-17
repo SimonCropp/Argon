@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET20 || PORTABLE40)
-
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -93,5 +91,3 @@ namespace Newtonsoft.Json.Tests.Documentation.Samples.Xml
         }
     }
 }
-
-#endif

@@ -24,11 +24,8 @@
 #endregion
 
 #pragma warning disable 618
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
 using System;
-#if !(NET20 || NET35 || PORTABLE) || NETSTANDARD2_0
 using System.Numerics;
-#endif
 using System.Text;
 using System.Threading.Tasks;
 #if DNXCORE50
@@ -538,5 +535,4 @@ namespace Newtonsoft.Json.Tests.Bson
     }
 }
 
-#endif
 #pragma warning restore 618

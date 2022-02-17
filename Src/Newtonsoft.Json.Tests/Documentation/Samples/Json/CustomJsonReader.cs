@@ -39,8 +39,6 @@ using NUnit.Framework;
 
 #endif
 
-#if !(DNXCORE50 || NET20) || NETSTANDARD2_0
-
 namespace Newtonsoft.Json.Tests.Documentation.Samples.Json
 {
 
@@ -511,5 +509,3 @@ namespace Newtonsoft.Json.Tests.Documentation.Samples.Json
         }
     }
 }
-
-#endif

@@ -37,8 +37,6 @@ using NUnit.Framework;
 
 #endif
 
-#if !(DNXCORE50 || NET20 || NET35) || NETSTANDARD2_0
-
 namespace Newtonsoft.Json.Tests.Documentation.Samples.Serializer
 {
     [TestFixture]
@@ -122,5 +120,3 @@ namespace Newtonsoft.Json.Tests.Documentation.Samples.Serializer
         }
     }
 }
-
-#endif

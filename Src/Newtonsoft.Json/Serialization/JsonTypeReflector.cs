@@ -340,7 +340,6 @@ namespace Newtonsoft.Json.Serialization
         {
             T? attribute;
 
-#if !(NET20 || DOTNET)
             Type? metadataType = GetAssociatedMetadataType(memberInfo.DeclaringType);
             if (metadataType != null)
             {
@@ -355,7 +354,6 @@ namespace Newtonsoft.Json.Serialization
                     }
                 }
             }
-#endif
 
             attribute = ReflectionUtils.GetAttribute<T>(memberInfo, true);
             if (attribute != null)
