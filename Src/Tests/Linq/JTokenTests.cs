@@ -954,8 +954,7 @@ namespace Argon.Tests.Linq
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                var a = new JArray();
-                a.Add(new JProperty("PropertyName"));
+                var a = new JArray {new JProperty("PropertyName")};
             }, "Can not add Argon.Linq.JProperty to Argon.Linq.JArray.");
         }
 
@@ -964,8 +963,7 @@ namespace Argon.Tests.Linq
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                var o = new JObject();
-                o.Add(5);
+                var o = new JObject {5};
             }, "Can not add Argon.Linq.JValue to Argon.Linq.JObject.");
         }
 

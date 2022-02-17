@@ -112,8 +112,7 @@ namespace Argon.Tests.Serialization
             const string contextKey = "k1";
             var someValue = new Guid("5dd2dba0-20c0-49f8-a054-1fa3b0a8d774");
 
-            var inputContext = new Dictionary<string, Guid>();
-            inputContext.Add(contextKey, someValue);
+            var inputContext = new Dictionary<string, Guid> {{contextKey, someValue}};
 
             var jsonSerializerSettings = new JsonSerializerSettings
             {
@@ -238,15 +237,19 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeRefNull()
         {
-            var reference = new Dictionary<string, object>();
-            reference.Add("blah", "blah!");
-            reference.Add("$ref", null);
-            reference.Add("$id", null);
+            var reference = new Dictionary<string, object>
+            {
+                {"blah", "blah!"},
+                {"$ref", null},
+                {"$id", null}
+            };
 
-            var child = new Dictionary<string, object>();
-            child.Add("_id", 2);
-            child.Add("Name", "Isabell");
-            child.Add("Father", reference);
+            var child = new Dictionary<string, object>
+            {
+                {"_id", 2},
+                {"Name", "Isabell"},
+                {"Father", reference}
+            };
 
             var json = JsonConvert.SerializeObject(child, Formatting.Indented);
 

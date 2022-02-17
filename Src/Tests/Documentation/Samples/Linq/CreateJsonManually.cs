@@ -38,9 +38,11 @@ namespace Argon.Tests.Documentation.Samples.Linq
         public void Example()
         {
             #region Usage
-            var array = new JArray();
-            array.Add("Manual text");
-            array.Add(new DateTime(2000, 5, 23));
+            var array = new JArray
+            {
+                "Manual text",
+                new DateTime(2000, 5, 23)
+            };
 
             var o = new JObject
             {

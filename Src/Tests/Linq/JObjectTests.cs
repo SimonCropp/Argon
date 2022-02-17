@@ -113,8 +113,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void WritePropertyWithNoValue()
         {
-            var o = new JObject();
-            o.Add(new JProperty("novalue"));
+            var o = new JObject {new JProperty("novalue")};
 
             StringAssert.AreEqual(@"{
   ""novalue"": null
@@ -137,8 +136,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void TryGetValue()
         {
-            var o = new JObject();
-            o.Add("PropertyNameValue", new JValue(1));
+            var o = new JObject {{"PropertyNameValue", new JValue(1)}};
             Assert.AreEqual(1, o.Children().Count());
 
             Assert.AreEqual(false, o.TryGetValue("sdf", out var t));
@@ -179,8 +177,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void Remove()
         {
-            var o = new JObject();
-            o.Add("PropertyNameValue", new JValue(1));
+            var o = new JObject {{"PropertyNameValue", new JValue(1)}};
             Assert.AreEqual(1, o.Children().Count());
 
             Assert.AreEqual(false, o.Remove("sdf"));
@@ -194,8 +191,7 @@ namespace Argon.Tests.Linq
         public void GenericCollectionRemove()
         {
             var v = new JValue(1);
-            var o = new JObject();
-            o.Add("PropertyNameValue", v);
+            var o = new JObject {{"PropertyNameValue", v}};
             Assert.AreEqual(1, o.Children().Count());
 
             Assert.AreEqual(false, ((ICollection<KeyValuePair<string, JToken>>)o).Remove(new KeyValuePair<string, JToken>("PropertyNameValue1", new JValue(1))));
@@ -211,18 +207,19 @@ namespace Argon.Tests.Linq
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                var o = new JObject();
-                o.Add("PropertyNameValue", null);
-                o.Add("PropertyNameValue", null);
+                var o = new JObject
+                {
+                    {"PropertyNameValue", null},
+                    {"PropertyNameValue", null}
+                };
             }, "Can not add property PropertyNameValue to Argon.Linq.JObject. Property with the same name already exists on object.");
         }
 
         [Fact]
         public void GenericDictionaryAdd()
         {
-            var o = new JObject();
+            var o = new JObject {{"PropertyNameValue", new JValue(1)}};
 
-            o.Add("PropertyNameValue", new JValue(1));
             Assert.AreEqual(1, (int)o["PropertyNameValue"]);
 
             o.Add("PropertyNameValue1", null);
@@ -244,8 +241,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void GenericCollectionClear()
         {
-            var o = new JObject();
-            o.Add("PropertyNameValue", new JValue(1));
+            var o = new JObject {{"PropertyNameValue", new JValue(1)}};
             Assert.AreEqual(1, o.Children().Count());
 
             var p = (JProperty)o.Children().ElementAt(0);
@@ -260,8 +256,7 @@ namespace Argon.Tests.Linq
         public void GenericCollectionContains()
         {
             var v = new JValue(1);
-            var o = new JObject();
-            o.Add("PropertyNameValue", v);
+            var o = new JObject {{"PropertyNameValue", v}};
             Assert.AreEqual(1, o.Children().Count());
 
             var contains = ((ICollection<KeyValuePair<string, JToken>>)o).Contains(new KeyValuePair<string, JToken>("PropertyNameValue", new JValue(1)));
@@ -283,8 +278,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void Contains()
         {
-            var o = new JObject();
-            o.Add("PropertyNameValue", new JValue(1));
+            var o = new JObject {{"PropertyNameValue", new JValue(1)}};
             Assert.AreEqual(1, o.Children().Count());
 
             var contains = o.ContainsKey("PropertyNameValue");
@@ -306,8 +300,7 @@ Parameter name: propertyName",
         [Fact]
         public void GenericDictionaryContains()
         {
-            var o = new JObject();
-            o.Add("PropertyNameValue", new JValue(1));
+            var o = new JObject {{"PropertyNameValue", new JValue(1)}};
             Assert.AreEqual(1, o.Children().Count());
 
             var contains = ((IDictionary<string, JToken>)o).ContainsKey("PropertyNameValue");
@@ -317,10 +310,12 @@ Parameter name: propertyName",
         [Fact]
         public void GenericCollectionCopyTo()
         {
-            var o = new JObject();
-            o.Add("PropertyNameValue", new JValue(1));
-            o.Add("PropertyNameValue2", new JValue(2));
-            o.Add("PropertyNameValue3", new JValue(3));
+            var o = new JObject
+            {
+                {"PropertyNameValue", new JValue(1)},
+                {"PropertyNameValue2", new JValue(2)},
+                {"PropertyNameValue3", new JValue(3)}
+            };
             Assert.AreEqual(3, o.Children().Count());
 
             var a = new KeyValuePair<string, JToken>[5];
@@ -382,10 +377,12 @@ Parameter name: arrayIndex",
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                var o = new JObject();
-                o.Add("PropertyNameValue", new JValue(1));
-                o.Add("PropertyNameValue2", new JValue(2));
-                o.Add("PropertyNameValue3", new JValue(3));
+                var o = new JObject
+                {
+                    {"PropertyNameValue", new JValue(1)},
+                    {"PropertyNameValue2", new JValue(2)},
+                    {"PropertyNameValue3", new JValue(3)}
+                };
 
                 ((ICollection<KeyValuePair<string, JToken>>)o).CopyTo(new KeyValuePair<string, JToken>[3], 1);
             }, @"The number of elements in the source JObject is greater than the available space from arrayIndex to the end of the destination array.");
@@ -535,9 +532,11 @@ Parameter name: arrayIndex",
         [Fact]
         public void Iterate()
         {
-            var o = new JObject();
-            o.Add("PropertyNameValue1", new JValue(1));
-            o.Add("PropertyNameValue2", new JValue(2));
+            var o = new JObject
+            {
+                {"PropertyNameValue1", new JValue(1)},
+                {"PropertyNameValue2", new JValue(2)}
+            };
 
             JToken t = o;
 
@@ -554,9 +553,11 @@ Parameter name: arrayIndex",
         [Fact]
         public void KeyValuePairIterate()
         {
-            var o = new JObject();
-            o.Add("PropertyNameValue1", new JValue(1));
-            o.Add("PropertyNameValue2", new JValue(2));
+            var o = new JObject
+            {
+                {"PropertyNameValue1", new JValue(1)},
+                {"PropertyNameValue2", new JValue(2)}
+            };
 
             var i = 1;
             foreach (var pair in o)
@@ -1933,9 +1934,8 @@ Parameter name: arrayIndex",
             Assert.IsTrue(JToken.DeepEquals(new JObject(), new JObject()));
 
             var a = new JObject();
-            var b = new JObject();
+            var b = new JObject {{"hi", "bye"}};
 
-            b.Add("hi", "bye");
             b.Remove("hi");
 
             Assert.IsTrue(JToken.DeepEquals(a, b));

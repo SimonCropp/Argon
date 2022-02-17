@@ -38,6 +38,7 @@ using System.Xml;
 using Argon.Converters;
 using Argon.Linq;
 using System.Xml.Linq;
+// ReSharper disable UseObjectOrCollectionInitializer
 
 namespace Argon.Tests.Converters
 {

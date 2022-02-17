@@ -32,6 +32,7 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 using System.Dynamic;
 using System.Runtime.Serialization;
+// ReSharper disable UseObjectOrCollectionInitializer
 
 namespace Argon.Tests.Serialization
 {

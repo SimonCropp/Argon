@@ -31,6 +31,7 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 using Argon.Linq;
 using System.Linq;
+// ReSharper disable UseObjectOrCollectionInitializer
 
 namespace Argon.Tests.Linq
 {
@@ -92,10 +93,12 @@ namespace Argon.Tests.Linq
         [Fact]
         public void GenericCollectionCopyTo()
         {
-            var j = new JArray();
-            j.Add(new JValue(1));
-            j.Add(new JValue(2));
-            j.Add(new JValue(3));
+            var j = new JArray
+            {
+                new JValue(1),
+                new JValue(2),
+                new JValue(3)
+            };
             Assert.AreEqual(3, j.Count);
 
             var a = new JToken[5];
@@ -146,10 +149,12 @@ Parameter name: arrayIndex",
         [Fact]
         public void GenericCollectionCopyToInsufficientArrayCapacity()
         {
-            var j = new JArray();
-            j.Add(new JValue(1));
-            j.Add(new JValue(2));
-            j.Add(new JValue(3));
+            var j = new JArray
+            {
+                new JValue(1),
+                new JValue(2),
+                new JValue(3)
+            };
 
             ExceptionAssert.Throws<ArgumentException>(() => { ((ICollection<JToken>)j).CopyTo(new JToken[3], 1); }, @"The number of elements in the source JObject is greater than the available space from arrayIndex to the end of the destination array.");
         }
@@ -158,8 +163,7 @@ Parameter name: arrayIndex",
         public void Remove()
         {
             var v = new JValue(1);
-            var j = new JArray();
-            j.Add(v);
+            var j = new JArray {v};
 
             Assert.AreEqual(1, j.Count);
 
@@ -178,9 +182,8 @@ Parameter name: arrayIndex",
             var v2 = new JValue(1);
             var v3 = new JValue(1);
 
-            var j = new JArray();
+            var j = new JArray {v1};
 
-            j.Add(v1);
             Assert.AreEqual(0, j.IndexOf(v1));
 
             j.Add(v2);
@@ -205,11 +208,12 @@ Parameter name: arrayIndex",
             var v2 = new JValue(1);
             var v3 = new JValue(1);
 
-            var j = new JArray();
-
-            j.Add(v1);
-            j.Add(v2);
-            j.Add(v3);
+            var j = new JArray
+            {
+                v1,
+                v2,
+                v3
+            };
 
             Assert.AreEqual(true, j.Contains(v1));
             j.RemoveAt(0);
@@ -254,11 +258,13 @@ Parameter name: index",
             var v3 = new JValue(3);
             var v4 = new JValue(4);
 
-            var j = new JArray();
+            var j = new JArray
+            {
+                v1,
+                v2,
+                v3
+            };
 
-            j.Add(v1);
-            j.Add(v2);
-            j.Add(v3);
             j.Insert(1, v4);
 
             Assert.AreEqual(0, j.IndexOf(v1));
@@ -348,11 +354,12 @@ Parameter name: index",
             var v3 = new JValue(3);
             var v4 = new JValue(4);
 
-            var j = new JArray();
-
-            j.Add(v1);
-            j.Add(v2);
-            j.Add(v3);
+            var j = new JArray
+            {
+                v1,
+                v2,
+                v3
+            };
 
             j[1] = v4;
 

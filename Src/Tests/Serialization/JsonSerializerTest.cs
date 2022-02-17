@@ -2060,9 +2060,11 @@ keyword such as type of business.""
         [Fact]
         public void NonStringKeyDictionary()
         {
-            var values = new Dictionary<int, int>();
-            values.Add(-5, 6);
-            values.Add(int.MinValue, int.MaxValue);
+            var values = new Dictionary<int, int>
+            {
+                {-5, 6},
+                {int.MinValue, int.MaxValue}
+            };
 
             var json = JsonConvert.SerializeObject(values);
 
@@ -3589,11 +3591,12 @@ Path '', line 1, position 1.");
         [Fact]
         public void SerializeGenericListOfStrings()
         {
-            var strings = new List<String>();
-
-            strings.Add("str_1");
-            strings.Add("str_2");
-            strings.Add("str_3");
+            var strings = new List<String>
+            {
+                "str_1",
+                "str_2",
+                "str_3"
+            };
 
             var json = JsonConvert.SerializeObject(strings);
             Assert.AreEqual(@"[""str_1"",""str_2"",""str_3""]", json);
@@ -3668,9 +3671,11 @@ Path '', line 1, position 1.");
         [Fact]
         public void SerializeGuidKeyedDictionary()
         {
-            var dictionary = new Dictionary<Guid, int>();
-            dictionary.Add(new Guid("F60EAEE0-AE47-488E-B330-59527B742D77"), 1);
-            dictionary.Add(new Guid("C2594C02-EBA1-426A-AA87-8DD8871350B0"), 2);
+            var dictionary = new Dictionary<Guid, int>
+            {
+                {new("F60EAEE0-AE47-488E-B330-59527B742D77"), 1},
+                {new("C2594C02-EBA1-426A-AA87-8DD8871350B0"), 2}
+            };
 
             var json = JsonConvert.SerializeObject(dictionary, Formatting.Indented);
             StringAssert.AreEqual(@"{
@@ -3682,9 +3687,11 @@ Path '', line 1, position 1.");
         [Fact]
         public void SerializePersonKeyedDictionary()
         {
-            var dictionary = new Dictionary<Person, int>();
-            dictionary.Add(new Person { Name = "p1" }, 1);
-            dictionary.Add(new Person { Name = "p2" }, 2);
+            var dictionary = new Dictionary<Person, int>
+            {
+                {new Person {Name = "p1"}, 1},
+                {new Person {Name = "p2"}, 2}
+            };
 
             var json = JsonConvert.SerializeObject(dictionary, Formatting.Indented);
 
@@ -4024,8 +4031,7 @@ Path '', line 1, position 1.");
         [Fact]
         public void SerializeNonIDictionary()
         {
-            var modelStateDictionary = new ModelStateDictionary<string>();
-            modelStateDictionary.Add("key", "value");
+            var modelStateDictionary = new ModelStateDictionary<string> {{"key", "value"}};
 
             var json = JsonConvert.SerializeObject(modelStateDictionary);
 
@@ -4403,14 +4409,18 @@ Path '', line 1, position 1.");
         {
             //Additional text found in JSON string after finishing deserializing object.
             //Test 1
-            var reference = new Dictionary<string, object>();
-            reference.Add("$ref", "Persons");
-            reference.Add("$id", 1);
+            var reference = new Dictionary<string, object>
+            {
+                {"$ref", "Persons"},
+                {"$id", 1}
+            };
 
-            var child = new Dictionary<string, object>();
-            child.Add("_id", 2);
-            child.Add("Name", "Isabell");
-            child.Add("Father", reference);
+            var child = new Dictionary<string, object>
+            {
+                {"_id", 2},
+                {"Name", "Isabell"},
+                {"Father", reference}
+            };
 
             var json = JsonConvert.SerializeObject(child, Formatting.Indented);
 
@@ -4424,14 +4434,18 @@ Path '', line 1, position 1.");
             {
                 //Additional text found in JSON string after finishing deserializing object.
                 //Test 1
-                var reference = new Dictionary<string, object>();
-                reference.Add("$ref", 1);
-                reference.Add("$id", 1);
+                var reference = new Dictionary<string, object>
+                {
+                    {"$ref", 1},
+                    {"$id", 1}
+                };
 
-                var child = new Dictionary<string, object>();
-                child.Add("_id", 2);
-                child.Add("Name", "Isabell");
-                child.Add("Father", reference);
+                var child = new Dictionary<string, object>
+                {
+                    {"_id", 2},
+                    {"Name", "Isabell"},
+                    {"Father", reference}
+                };
 
                 var json = JsonConvert.SerializeObject(child, Formatting.Indented);
                 JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
@@ -4441,15 +4455,19 @@ Path '', line 1, position 1.");
         [Fact]
         public void SerializeRefNull()
         {
-            var reference = new Dictionary<string, object>();
-            reference.Add("$ref", null);
-            reference.Add("$id", null);
-            reference.Add("blah", "blah!");
+            var reference = new Dictionary<string, object>
+            {
+                {"$ref", null},
+                {"$id", null},
+                {"blah", "blah!"}
+            };
 
-            var child = new Dictionary<string, object>();
-            child.Add("_id", 2);
-            child.Add("Name", "Isabell");
-            child.Add("Father", reference);
+            var child = new Dictionary<string, object>
+            {
+                {"_id", 2},
+                {"Name", "Isabell"},
+                {"Father", reference}
+            };
 
             var json = JsonConvert.SerializeObject(child);
 
@@ -4506,10 +4524,11 @@ Path '', line 1, position 1.");
         [Fact]
         public void SerializeDeserializeDictionaryKey()
         {
-            var dictionary = new Dictionary<DictionaryKey, string>();
-
-            dictionary.Add(new DictionaryKey { Value = "First!" }, "First");
-            dictionary.Add(new DictionaryKey { Value = "Second!" }, "Second");
+            var dictionary = new Dictionary<DictionaryKey, string>
+            {
+                {new DictionaryKey {Value = "First!"}, "First"},
+                {new DictionaryKey {Value = "Second!"}, "Second"}
+            };
 
             var json = JsonConvert.SerializeObject(dictionary, Formatting.Indented);
 
@@ -7350,8 +7369,7 @@ This is just junk, though.";
             // Case 2: Serialize a dictionary where the interface is the key
             // The key is always serialized with its ToString() method and therefore needs a mechanism to be restored from that (using the type converter)
             //
-            var dict2 = new Dictionary<IMyInterface, string>();
-            dict2.Add(consoleWriter, "Console");
+            var dict2 = new Dictionary<IMyInterface, string> {{consoleWriter, "Console"}};
 
             var text2 = JsonConvert.SerializeObject(dict2, Formatting.Indented, options);
             StringAssert.AreEqual(@"{
@@ -7365,8 +7383,7 @@ This is just junk, though.";
             // Case 3 Serialize a dictionary where the interface is the value
             // The key is always serialized with its ToString() method and therefore needs a mechanism to be restored from that (using the type converter)
             //
-            var dict3 = new Dictionary<string, IMyInterface>();
-            dict3.Add("Console", consoleWriter);
+            var dict3 = new Dictionary<string, IMyInterface> {{"Console", consoleWriter}};
 
             var text3 = JsonConvert.SerializeObject(dict3, Formatting.Indented, options);
             StringAssert.AreEqual(@"{

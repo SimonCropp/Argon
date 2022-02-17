@@ -1541,10 +1541,12 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void TypeNameIntList()
         {
-            var l = new TypeNameList<int>();
-            l.Add(1);
-            l.Add(2);
-            l.Add(3);
+            var l = new TypeNameList<int>
+            {
+                1,
+                2,
+                3
+            };
 
             var json = JsonConvert.SerializeObject(l, Formatting.Indented);
             StringAssert.AreEqual(@"[
@@ -1559,15 +1561,17 @@ namespace Argon.Tests.Serialization
         {
             var c1 = new TestComponentSimple();
 
-            var l = new TypeNameList<object>();
-            l.Add(c1);
-            l.Add(new Employee
+            var l = new TypeNameList<object>
             {
-                BirthDate = new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc),
-                Department = "Department!"
-            });
-            l.Add("String!");
-            l.Add(long.MaxValue);
+                c1,
+                new Employee
+                {
+                    BirthDate = new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc),
+                    Department = "Department!"
+                },
+                "String!",
+                long.MaxValue
+            };
 
             var json = JsonConvert.SerializeObject(l, Formatting.Indented);
             StringAssert.AreEqual(@"[
@@ -1599,10 +1603,12 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void TypeNameDictionary()
         {
-            var l = new TypeNameDictionary<object>();
-            l.Add("First", new TestComponentSimple { MyProperty = 1 });
-            l.Add("Second", "String!");
-            l.Add("Third", long.MaxValue);
+            var l = new TypeNameDictionary<object>
+            {
+                {"First", new TestComponentSimple {MyProperty = 1}},
+                {"Second", "String!"},
+                {"Third", long.MaxValue}
+            };
 
             var json = JsonConvert.SerializeObject(l, Formatting.Indented);
             StringAssert.AreEqual(@"{
@@ -1990,8 +1996,7 @@ namespace Argon.Tests.Serialization
             const string contextKey = "k1";
             var someValue = new Guid("a6e986df-fc2c-4906-a1ef-9492388f7833");
 
-            var inputContext = new Dictionary<string, Guid>();
-            inputContext.Add(contextKey, someValue);
+            var inputContext = new Dictionary<string, Guid> {{contextKey, someValue}};
 
             var jsonSerializerSettings = new JsonSerializerSettings
             {
@@ -2128,11 +2133,12 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ListOfStackWithFullAssemblyName()
         {
-            var input = new List<Stack<string>>();
-
-            input.Add(new Stack<string>(new List<string> { "One", "Two", "Three" }));
-            input.Add(new Stack<string>(new List<string> { "Four", "Five", "Six" }));
-            input.Add(new Stack<string>(new List<string> { "Seven", "Eight", "Nine" }));
+            var input = new List<Stack<string>>
+            {
+                new(new List<string> {"One", "Two", "Three"}),
+                new(new List<string> {"Four", "Five", "Six"}),
+                new(new List<string> { "Seven", "Eight", "Nine" })
+            };
 
             var serialized = JsonConvert.SerializeObject(input,
                 Argon.Formatting.Indented,

@@ -34,6 +34,7 @@ using Argon.Tests.TestObjects.Organization;
 using Argon.Utilities;using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
+// ReSharper disable UseObjectOrCollectionInitializer
 
 
 namespace Argon.Tests.Serialization
@@ -235,6 +236,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeDictionarysWithPreserveObjectReferences()
         {
+            // ReSharper disable once UseObjectOrCollectionInitializer
             var circularDictionary = new CircularDictionary();
             circularDictionary.Add("other", new CircularDictionary { { "blah", null } });
             circularDictionary.Add("self", circularDictionary);
@@ -930,9 +932,11 @@ namespace Argon.Tests.Serialization
                 Name = "James"
             };
 
-            var people = new List<Person>();
-            people.Add(p);
-            people.Add(p);
+            var people = new List<Person>
+            {
+                p,
+                p
+            };
 
             var json = JsonConvert.SerializeObject(people, Formatting.Indented);
             //[
@@ -960,9 +964,11 @@ namespace Argon.Tests.Serialization
                 Name = "James"
             };
 
-            var people = new List<Person>();
-            people.Add(p);
-            people.Add(p);
+            var people = new List<Person>
+            {
+                p,
+                p
+            };
 
             var json = JsonConvert.SerializeObject(people, Formatting.Indented,
                 new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects });
@@ -1120,10 +1126,12 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ReferencedIntList()
         {
-            var l = new ReferencedList<int>();
-            l.Add(1);
-            l.Add(2);
-            l.Add(3);
+            var l = new ReferencedList<int>
+            {
+                1,
+                2,
+                3
+            };
 
             var json = JsonConvert.SerializeObject(l, Formatting.Indented);
             StringAssert.AreEqual(@"[
@@ -1138,10 +1146,12 @@ namespace Argon.Tests.Serialization
         {
             var c1 = new TestComponentSimple();
 
-            var l = new ReferencedList<TestComponentSimple>();
-            l.Add(c1);
-            l.Add(new TestComponentSimple());
-            l.Add(c1);
+            var l = new ReferencedList<TestComponentSimple>
+            {
+                c1,
+                new(),
+                c1
+            };
 
             var json = JsonConvert.SerializeObject(l, Formatting.Indented);
             StringAssert.AreEqual(@"[
@@ -1162,10 +1172,12 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ReferencedIntDictionary()
         {
-            var l = new ReferencedDictionary<int>();
-            l.Add("First", 1);
-            l.Add("Second", 2);
-            l.Add("Third", 3);
+            var l = new ReferencedDictionary<int>
+            {
+                {"First", 1},
+                {"Second", 2},
+                {"Third", 3}
+            };
 
             var json = JsonConvert.SerializeObject(l, Formatting.Indented);
             StringAssert.AreEqual(@"{
@@ -1180,10 +1192,12 @@ namespace Argon.Tests.Serialization
         {
             var c1 = new TestComponentSimple();
 
-            var l = new ReferencedDictionary<TestComponentSimple>();
-            l.Add("First", c1);
-            l.Add("Second", new TestComponentSimple());
-            l.Add("Third", c1);
+            var l = new ReferencedDictionary<TestComponentSimple>
+            {
+                {"First", c1},
+                {"Second", new TestComponentSimple()},
+                {"Third", c1}
+            };
 
             var json = JsonConvert.SerializeObject(l, Formatting.Indented);
             StringAssert.AreEqual(@"{

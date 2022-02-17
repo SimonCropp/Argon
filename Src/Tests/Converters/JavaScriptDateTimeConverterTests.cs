@@ -193,9 +193,11 @@ namespace Argon.Tests.Converters
         [Fact]
         public void ConverterList()
         {
-            var l1 = new ConverterList<object>();
-            l1.Add(new DateTime(2000, 12, 12, 20, 10, 0, DateTimeKind.Utc));
-            l1.Add(new DateTime(1983, 10, 9, 23, 10, 0, DateTimeKind.Utc));
+            var l1 = new ConverterList<object>
+            {
+                new DateTime(2000, 12, 12, 20, 10, 0, DateTimeKind.Utc),
+                new DateTime(1983, 10, 9, 23, 10, 0, DateTimeKind.Utc)
+            };
 
             var json = JsonConvert.SerializeObject(l1, Formatting.Indented);
             StringAssert.AreEqual(@"[
@@ -217,6 +219,7 @@ namespace Argon.Tests.Converters
         [Fact]
         public void ConverterDictionary()
         {
+            // ReSharper disable once UseObjectOrCollectionInitializer
             var l1 = new ConverterDictionary<object>();
             l1.Add("First", new DateTime(2000, 12, 12, 20, 10, 0, DateTimeKind.Utc));
             l1.Add("Second", new DateTime(1983, 10, 9, 23, 10, 0, DateTimeKind.Utc));

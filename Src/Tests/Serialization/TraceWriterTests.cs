@@ -17,6 +17,7 @@ using Argon.Tests.TestObjects.Organization;
 using Argon.Utilities;
 using System.Linq;
 using System.Threading.Tasks;
+// ReSharper disable UseObjectOrCollectionInitializer
 
 namespace Argon.Tests.Serialization
 { 

@@ -351,9 +351,11 @@ namespace Argon.Tests.Documentation
                 Name = "James"
             };
 
-            var people = new List<Person>();
-            people.Add(p);
-            people.Add(p);
+            var people = new List<Person>
+            {
+                p,
+                p
+            };
 
             var json = JsonConvert.SerializeObject(people, Formatting.Indented);
             //[
@@ -587,9 +589,11 @@ namespace Argon.Tests.Documentation
                 ExpiryDate = new DateTime(2009, 7, 31, 0, 0, 0, DateTimeKind.Utc),
             };
 
-            var products = new List<Product>();
-            products.Add(p1);
-            products.Add(p2);
+            var products = new List<Product>
+            {
+                p1,
+                p2
+            };
 
             var json = JsonConvert.SerializeObject(products, Formatting.Indented);
             //[

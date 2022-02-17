@@ -101,8 +101,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeConcurrentBag()
         {
-            var bag1 = new ConcurrentBag<int>();
-            bag1.Add(1);
+            var bag1 = new ConcurrentBag<int> {1};
 
             var output = JsonConvert.SerializeObject(bag1);
             Assert.AreEqual(@"[1]", output);
@@ -207,10 +206,12 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void CollectionJsonConstructorPrivateParameterized()
         {
-            var c1 = new TestCollectionPrivateParameterized();
-            c1.Add(0);
-            c1.Add(1);
-            c1.Add(2);
+            var c1 = new TestCollectionPrivateParameterized
+            {
+                0,
+                1,
+                2
+            };
             var json = JsonConvert.SerializeObject(c1);
             var c2 = JsonConvert.DeserializeObject<TestCollectionPrivateParameterized>(json);
 
@@ -322,10 +323,12 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DictionaryJsonConstructorPrivateParameterized()
         {
-            var c1 = new TestDictionaryPrivateParameterized();
-            c1.Add("zero", 0);
-            c1.Add("one", 1);
-            c1.Add("two", 2);
+            var c1 = new TestDictionaryPrivateParameterized
+            {
+                {"zero", 0},
+                {"one", 1},
+                {"two", 2}
+            };
             var json = JsonConvert.SerializeObject(c1);
             var c2 = JsonConvert.DeserializeObject<TestDictionaryPrivateParameterized>(json);
 
@@ -894,12 +897,10 @@ namespace Argon.Tests.Serialization
             var serialized = JsonConvert.SerializeObject(s);
             Assert.AreEqual(@"""host\\user""", serialized);
 
-            var d1 = new Dictionary<int, object>();
-            d1.Add(5, s);
+            var d1 = new Dictionary<int, object> {{5, s}};
             Assert.AreEqual(@"{""5"":""host\\user""}", JsonConvert.SerializeObject(d1));
 
-            var d2 = new Dictionary<string, object>();
-            d2.Add(s, 5);
+            var d2 = new Dictionary<string, object> {{s, 5}};
             Assert.AreEqual(@"{""host\\user"":5}", JsonConvert.SerializeObject(d2));
         }
 
@@ -930,9 +931,11 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeSimpleKeyValuePair()
         {
-            var list = new List<KeyValuePair<string, string>>();
-            list.Add(new KeyValuePair<string, string>("key1", "value1"));
-            list.Add(new KeyValuePair<string, string>("key2", "value2"));
+            var list = new List<KeyValuePair<string, string>>
+            {
+                new("key1", "value1"),
+                new("key2", "value2")
+            };
 
             var json = JsonConvert.SerializeObject(list);
 
@@ -951,21 +954,23 @@ namespace Argon.Tests.Serialization
         {
             var dateTime = new DateTime(2000, 12, 1, 23, 1, 1, DateTimeKind.Utc);
 
-            var list = new List<KeyValuePair<string, WagePerson>>();
-            list.Add(new KeyValuePair<string, WagePerson>("key1", new WagePerson
+            var list = new List<KeyValuePair<string, WagePerson>>
             {
-                BirthDate = dateTime,
-                Department = "Department1",
-                LastModified = dateTime,
-                HourlyWage = 1
-            }));
-            list.Add(new KeyValuePair<string, WagePerson>("key2", new WagePerson
-            {
-                BirthDate = dateTime,
-                Department = "Department2",
-                LastModified = dateTime,
-                HourlyWage = 2
-            }));
+                new("key1", new WagePerson
+                {
+                    BirthDate = dateTime,
+                    Department = "Department1",
+                    LastModified = dateTime,
+                    HourlyWage = 1
+                }),
+                new("key2", new WagePerson
+                {
+                    BirthDate = dateTime,
+                    Department = "Department2",
+                    LastModified = dateTime,
+                    HourlyWage = 2
+                })
+            };
 
             var json = JsonConvert.SerializeObject(list, Formatting.Indented);
 
@@ -1928,9 +1933,11 @@ namespace Argon.Tests.Serialization
             var a1 = new Article("a1");
             var a2 = new Article("a2");
 
-            var articles1 = new ArticleCollection();
-            articles1.Add(a1);
-            articles1.Add(a2);
+            var articles1 = new ArticleCollection
+            {
+                a1,
+                a2
+            };
 
             var jsonText = JsonConvert.SerializeObject(articles1);
 
@@ -1970,9 +1977,11 @@ namespace Argon.Tests.Serialization
                 ExpiryDate = new DateTime(2009, 7, 31, 0, 0, 0, DateTimeKind.Utc),
             };
 
-            var products = new List<Product>();
-            products.Add(p1);
-            products.Add(p2);
+            var products = new List<Product>
+            {
+                p1,
+                p2
+            };
 
             var json = JsonConvert.SerializeObject(products, Formatting.Indented);
             //[

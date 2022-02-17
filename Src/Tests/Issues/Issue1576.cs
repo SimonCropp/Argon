@@ -106,8 +106,7 @@ namespace Argon.Tests.Issues
                     return token.ToObject(objectType, serializer);
                 }
 
-                var array = new JArray();
-                array.Add(token);
+                var array = new JArray {token};
 
                 var list = array.ToObject(objectType, serializer) as IEnumerable;
                 var existing = existingValue as IList;
