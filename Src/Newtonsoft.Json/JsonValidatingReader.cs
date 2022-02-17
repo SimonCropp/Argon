@@ -25,22 +25,14 @@
 
 using System;
 using System.Collections.Generic;
-#if HAVE_BIG_INTEGER
 using System.Numerics;
-#endif
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
 using Newtonsoft.Json.Utilities;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.IO;
-#if !HAVE_LINQ
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-
-#endif
-
 #nullable disable
 
 namespace Newtonsoft.Json
@@ -461,7 +453,6 @@ namespace Newtonsoft.Json
             return dateTime;
         }
 
-#if HAVE_DATE_TIME_OFFSET
         /// <summary>
         /// Reads the next JSON token from the underlying <see cref="JsonReader"/> as a <see cref="Nullable{T}"/> of <see cref="DateTimeOffset"/>.
         /// </summary>
@@ -473,7 +464,6 @@ namespace Newtonsoft.Json
             ValidateCurrentToken();
             return dateTimeOffset;
         }
-#endif
 
         /// <summary>
         /// Reads the next JSON token from the underlying <see cref="JsonReader"/>.
@@ -823,7 +813,6 @@ namespace Newtonsoft.Json
             if (schema.DivisibleBy != null)
             {
                 bool notDivisible;
-#if HAVE_BIG_INTEGER
                 if (value is BigInteger i)
                 {
                     // not that this will lose any decimal point on DivisibleBy
@@ -839,7 +828,6 @@ namespace Newtonsoft.Json
                     }
                 }
                 else
-#endif
                 {
                     notDivisible = !IsZero(Convert.ToInt64(value, CultureInfo.InvariantCulture) % schema.DivisibleBy.GetValueOrDefault());
                 }

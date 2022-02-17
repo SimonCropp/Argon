@@ -30,12 +30,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Utilities;
 using Newtonsoft.Json.Serialization;
-#if !HAVE_LINQ
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-
-#endif
 
 #nullable disable
 
@@ -450,10 +445,8 @@ namespace Newtonsoft.Json.Schema
                 case PrimitiveTypeCode.Empty:
                 case PrimitiveTypeCode.Object:
                     return schemaType | JsonSchemaType.String;
-#if HAVE_DB_NULL_TYPE_CODE
                 case PrimitiveTypeCode.DBNull:
                     return schemaType | JsonSchemaType.Null;
-#endif
                 case PrimitiveTypeCode.Boolean:
                     return schemaType | JsonSchemaType.Boolean;
                 case PrimitiveTypeCode.Char:

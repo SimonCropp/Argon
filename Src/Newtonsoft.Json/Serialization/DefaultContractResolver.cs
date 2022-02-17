@@ -39,12 +39,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Utilities;
 using Newtonsoft.Json.Linq;
 using System.Runtime.CompilerServices;
-#if !HAVE_LINQ
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-
-#endif
 using Newtonsoft.Json.Serialization;
 
 namespace Newtonsoft.Json.Serialization

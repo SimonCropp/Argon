@@ -78,16 +78,6 @@ namespace Newtonsoft.Json.Utilities
             }
         }
 
-#if !HAVE_COVARIANT_GENERICS
-        public static void AddRange<T>(this IList<T> initial, IEnumerable collection)
-        {
-            ValidationUtils.ArgumentNotNull(initial, nameof(initial));
-
-            // because earlier versions of .NET didn't support covariant generics
-            initial.AddRange(collection.Cast<T>());
-        }
-#endif
-
         public static bool IsDictionaryType(Type type)
         {
             ValidationUtils.ArgumentNotNull(type, nameof(type));

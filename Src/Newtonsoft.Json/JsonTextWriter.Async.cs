@@ -27,9 +27,7 @@
 using System;
 using System.Globalization;
 using System.Threading;
-#if HAVE_BIG_INTEGER
 using System.Numerics;
-#endif
 using System.Threading.Tasks;
 using Newtonsoft.Json.Utilities;
 using System.Diagnostics;
@@ -851,11 +849,7 @@ namespace Newtonsoft.Json
             await InternalWriteValueAsync(JsonToken.String, cancellationToken).ConfigureAwait(false);
 
             await _writer.WriteAsync(_quoteChar).ConfigureAwait(false);
-#if HAVE_CHAR_TO_STRING_WITH_CULTURE
             await _writer.WriteAsync(value.ToString("D", CultureInfo.InvariantCulture), cancellationToken).ConfigureAwait(false);
-#else
-            await _writer.WriteAsync(value.ToString("D"), cancellationToken).ConfigureAwait(false);
-#endif
             await _writer.WriteAsync(_quoteChar).ConfigureAwait(false);
         }
 
@@ -939,12 +933,10 @@ namespace Newtonsoft.Json
             return value == null ? DoWriteNullAsync(cancellationToken) : WriteIntegerValueAsync(value.GetValueOrDefault(), cancellationToken);
         }
 
-#if HAVE_BIG_INTEGER
         internal Task WriteValueAsync(BigInteger value, CancellationToken cancellationToken)
         {
             return WriteValueInternalAsync(JsonToken.Integer, value.ToString(CultureInfo.InvariantCulture), cancellationToken);
         }
-#endif
 
         /// <summary>
         /// Asynchronously writes a <see cref="object"/> value.
@@ -962,12 +954,10 @@ namespace Newtonsoft.Json
                 {
                     return WriteNullAsync(cancellationToken);
                 }
-#if HAVE_BIG_INTEGER
                 if (value is BigInteger i)
                 {
                     return WriteValueAsync(i, cancellationToken);
                 }
-#endif
 
                 return WriteValueAsync(this, ConvertUtils.GetTypeCode(value.GetType()), value, cancellationToken);
             }

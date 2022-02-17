@@ -28,11 +28,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
-#if !HAVE_REFLECTION_BINDER
 using System.Reflection;
-#else
-using Microsoft.CSharp.RuntimeBinder;
-#endif
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Globalization;
@@ -45,7 +41,6 @@ namespace Newtonsoft.Json.Utilities
     {
         internal static class BinderWrapper
         {
-#if !HAVE_REFLECTION_BINDER
             public const string CSharpAssemblyName = "Microsoft.CSharp, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a";
 
             private const string BinderTypeName = "Microsoft.CSharp.RuntimeBinder.Binder, " + CSharpAssemblyName;
@@ -110,36 +105,21 @@ namespace Newtonsoft.Json.Utilities
                 MethodInfo setMemberMethod = binderType.GetMethod("SetMember", new[] { csharpBinderFlagsType, typeof(string), typeof(Type), csharpArgumentInfoTypeEnumerableType });
                 _setMemberCall = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object?>(setMemberMethod);
             }
-#endif
 
             public static CallSiteBinder GetMember(string name, Type context)
             {
-#if !HAVE_REFLECTION_BINDER
                 Init();
                 MiscellaneousUtils.Assert(_getMemberCall != null);
                 MiscellaneousUtils.Assert(_getCSharpArgumentInfoArray != null);
                 return (CallSiteBinder)_getMemberCall(null, 0, name, context, _getCSharpArgumentInfoArray)!;
-#else
-                return Binder.GetMember(
-                    CSharpBinderFlags.None, name, context, new[] {CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, null)});
-#endif
             }
 
             public static CallSiteBinder SetMember(string name, Type context)
             {
-#if !HAVE_REFLECTION_BINDER
                 Init();
                 MiscellaneousUtils.Assert(_setMemberCall != null);
                 MiscellaneousUtils.Assert(_setCSharpArgumentInfoArray != null);
                 return (CallSiteBinder)_setMemberCall(null, 0, name, context, _setCSharpArgumentInfoArray)!;
-#else
-                return Binder.SetMember(
-                    CSharpBinderFlags.None, name, context, new[]
-                                                               {
-                                                                   CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.UseCompileTimeType, null),
-                                                                   CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.Constant, null)
-                                                               });
-#endif
             }
         }
 

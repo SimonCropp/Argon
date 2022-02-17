@@ -26,9 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-#if HAVE_BIG_INTEGER
 using System.Numerics;
-#endif
 using System.Text;
 using System.IO;
 using System.Xml;
@@ -163,9 +161,7 @@ namespace Newtonsoft.Json
 
             UpdateCharEscapeFlags();
 
-#if HAVE_ASYNC
             _safeAsync = GetType() == typeof(JsonTextWriter);
-#endif
         }
 
         /// <summary>
@@ -198,11 +194,7 @@ namespace Newtonsoft.Json
 
             if (CloseOutput)
             {
-#if HAVE_STREAM_READER_WRITER_CLOSE
                 _writer?.Close();
-#else
-                _writer?.Dispose();
-#endif
             }
         }
 
@@ -390,14 +382,12 @@ namespace Newtonsoft.Json
         /// <param name="value">The <see cref="Object"/> value to write.</param>
         public override void WriteValue(object? value)
         {
-#if HAVE_BIG_INTEGER
             if (value is BigInteger i)
             {
                 InternalWriteValue(JsonToken.Integer);
                 WriteValueInternal(i.ToString(CultureInfo.InvariantCulture), JsonToken.String);
             }
             else
-#endif
             {
                 base.WriteValue(value);
             }
@@ -679,7 +669,6 @@ namespace Newtonsoft.Json
             }
         }
 
-#if HAVE_DATE_TIME_OFFSET
         /// <summary>
         /// Writes a <see cref="DateTimeOffset"/> value.
         /// </summary>
@@ -713,7 +702,6 @@ namespace Newtonsoft.Json
             _writeBuffer[pos++] = _quoteChar;
             return pos;
         }
-#endif
 
         /// <summary>
         /// Writes a <see cref="Guid"/> value.
@@ -725,11 +713,7 @@ namespace Newtonsoft.Json
 
             string text;
 
-#if HAVE_CHAR_TO_STRING_WITH_CULTURE
             text = value.ToString("D", CultureInfo.InvariantCulture);
-#else
-            text = value.ToString("D");
-#endif
 
             _writer.Write(_quoteChar);
             _writer.Write(text);

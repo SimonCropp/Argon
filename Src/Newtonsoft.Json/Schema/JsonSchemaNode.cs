@@ -26,12 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-#if !HAVE_LINQ
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-
-#endif
 
 #nullable disable
 
@@ -77,11 +72,7 @@ namespace Newtonsoft.Json.Schema
 
         public static string GetId(IEnumerable<JsonSchema> schemata)
         {
-            return string.Join("-", schemata.Select(s => s.InternalId).OrderBy(id => id, StringComparer.Ordinal)
-#if !HAVE_STRING_JOIN_WITH_ENUMERABLE
-                    .ToArray()
-#endif
-                );
+            return string.Join("-", schemata.Select(s => s.InternalId).OrderBy(id => id, StringComparer.Ordinal));
         }
     }
 }

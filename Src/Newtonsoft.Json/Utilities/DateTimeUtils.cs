@@ -51,11 +51,7 @@ namespace Newtonsoft.Json.Utilities
 
         public static TimeSpan GetUtcOffset(this DateTime d)
         {
-#if !HAVE_TIME_ZONE_INFO
-            return TimeZone.CurrentTimeZone.GetUtcOffset(d);
-#else
             return TimeZoneInfo.Local.GetUtcOffset(d);
-#endif
         }
 
 #if !(PORTABLE40 || PORTABLE)

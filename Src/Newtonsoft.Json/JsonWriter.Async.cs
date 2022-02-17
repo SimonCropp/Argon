@@ -26,9 +26,7 @@
 using System;
 using System.Globalization;
 using System.Threading;
-#if HAVE_BIG_INTEGER
 using System.Numerics;
-#endif
 using System.Threading.Tasks;
 using Newtonsoft.Json.Utilities;
 
@@ -698,9 +696,7 @@ namespace Newtonsoft.Json
                 case JsonToken.Integer:
                     ValidationUtils.ArgumentNotNull(value, nameof(value));
                     return
-#if HAVE_BIG_INTEGER
                         value is BigInteger integer ? WriteValueAsync(integer, cancellationToken) :
-#endif
                         WriteValueAsync(Convert.ToInt64(value, CultureInfo.InvariantCulture), cancellationToken);
                 case JsonToken.Float:
                     ValidationUtils.ArgumentNotNull(value, nameof(value));
@@ -1750,7 +1746,6 @@ namespace Newtonsoft.Json
                         return writer.WriteValueAsync((TimeSpan)value, cancellationToken);
                     case PrimitiveTypeCode.TimeSpanNullable:
                         return writer.WriteValueAsync(value == null ? (TimeSpan?)null : (TimeSpan)value, cancellationToken);
-#if HAVE_BIG_INTEGER
                     case PrimitiveTypeCode.BigInteger:
 
                         // this will call to WriteValueAsync(object)
@@ -1759,25 +1754,20 @@ namespace Newtonsoft.Json
 
                         // this will call to WriteValueAsync(object)
                         return writer.WriteValueAsync(value == null ? (BigInteger?)null : (BigInteger)value, cancellationToken);
-#endif
                     case PrimitiveTypeCode.Uri:
                         return writer.WriteValueAsync((Uri)value, cancellationToken);
                     case PrimitiveTypeCode.String:
                         return writer.WriteValueAsync((string)value, cancellationToken);
                     case PrimitiveTypeCode.Bytes:
                         return writer.WriteValueAsync((byte[])value, cancellationToken);
-#if HAVE_DB_NULL_TYPE_CODE
                     case PrimitiveTypeCode.DBNull:
                         return writer.WriteNullAsync(cancellationToken);
-#endif
                     default:
-#if HAVE_ICONVERTIBLE
                         if (value is IConvertible convertible)
                         {
                             ResolveConvertibleValue(convertible, out typeCode, out value);
                             continue;
                         }
-#endif
 
                         // write an unknown null value, fix https://github.com/JamesNK/Newtonsoft.Json/issues/1460
                         if (value == null)

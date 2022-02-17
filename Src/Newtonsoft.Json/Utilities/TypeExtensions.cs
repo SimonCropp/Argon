@@ -173,11 +173,7 @@ namespace Newtonsoft.Json.Utilities
 
         public static bool IsSealed(this Type type)
         {
-#if HAVE_FULL_REFLECTION
             return type.IsSealed;
-#else
-            return type.GetTypeInfo().IsSealed;
-#endif
         }
 
 #if (PORTABLE40 || DOTNET || PORTABLE)
@@ -508,38 +504,22 @@ namespace Newtonsoft.Json.Utilities
 
         public static bool IsAbstract(this Type type)
         {
-#if HAVE_FULL_REFLECTION
             return type.IsAbstract;
-#else
-            return type.GetTypeInfo().IsAbstract;
-#endif
         }
 
         public static bool IsVisible(this Type type)
         {
-#if HAVE_FULL_REFLECTION
             return type.IsVisible;
-#else
-            return type.GetTypeInfo().IsVisible;
-#endif
         }
 
         public static bool IsValueType(this Type type)
         {
-#if HAVE_FULL_REFLECTION
             return type.IsValueType;
-#else
-            return type.GetTypeInfo().IsValueType;
-#endif
         }
         
         public static bool IsPrimitive(this Type type)
         {
-#if HAVE_FULL_REFLECTION
             return type.IsPrimitive;
-#else
-            return type.GetTypeInfo().IsPrimitive;
-#endif
         }
 
         public static bool AssignableToTypeName(this Type type, string fullTypeName, bool searchInterfaces, [NotNullWhen(true)]out Type? match)
