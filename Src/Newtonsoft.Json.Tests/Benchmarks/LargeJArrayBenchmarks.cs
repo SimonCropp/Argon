@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if HAVE_BENCHMARKS
-
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -74,5 +72,3 @@ namespace Newtonsoft.Json.Tests.Benchmarks
         }
     }
 }
-
-#endif

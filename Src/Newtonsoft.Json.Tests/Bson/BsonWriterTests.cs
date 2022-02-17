@@ -26,9 +26,7 @@
 #pragma warning disable 618
 using System;
 using System.Collections.Generic;
-#if !(NET20 || NET35 || PORTABLE) || NETSTANDARD2_0
 using System.Numerics;
-#endif
 using System.Text;
 using System.Text.RegularExpressions;
 #if DNXCORE50

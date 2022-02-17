@@ -121,7 +121,6 @@ namespace Newtonsoft.Json.Tests.Converters
 }", json);
         }
 
-#if !(PORTABLE || PORTABLE40 || DNXCORE50) || NETSTANDARD2_0
         public class SqlBinaryClass
         {
             public SqlBinary SqlBinary { get; set; }
@@ -161,7 +160,6 @@ namespace Newtonsoft.Json.Tests.Converters
             Assert.AreEqual(new SqlBinary(TestData), sqlBinaryClass.NullableSqlBinary1);
             Assert.AreEqual(null, sqlBinaryClass.NullableSqlBinary2);
         }
-#endif
 
         [Test]
         public void DeserializeByteArrayClass()

@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if HAVE_BENCHMARKS
 
 using System;
 using System.Collections.Generic;
@@ -327,5 +326,3 @@ namespace Newtonsoft.Json.Tests.Benchmarks
 #pragma warning restore 618
     }
 }
-
-#endif

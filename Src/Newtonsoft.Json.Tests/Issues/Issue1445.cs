@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(PORTABLE) || NETSTANDARD2_0
 using System;
 using System.Data;
 using System.Linq;
@@ -66,4 +65,3 @@ namespace Newtonsoft.Json.Tests.Issues
         }
     }
 }
-#endif

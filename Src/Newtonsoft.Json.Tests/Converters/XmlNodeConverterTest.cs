@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -114,7 +113,6 @@ namespace Newtonsoft.Json.Tests.Converters
 
             return node;
         }
-#endif
 
         private string IndentXml(string xml)
         {
@@ -133,7 +131,6 @@ namespace Newtonsoft.Json.Tests.Converters
             return sw.ToString();
         }
 
-#if !PORTABLE || NETSTANDARD2_0
         [Test]
         public void DeserializeXmlNode_DefaultDate()
         {
@@ -271,7 +268,6 @@ namespace Newtonsoft.Json.Tests.Converters
 
             Assert.AreEqual(@"{""root"":""A > B""}", json);
         }
-#endif
 
         [Test]
         public void DeserializeXNode_DefaultDate()
@@ -551,7 +547,6 @@ namespace Newtonsoft.Json.Tests.Converters
             StringAssert.AreEqual(xml, doc.ToString());
         }
 
-#if !PORTABLE || NETSTANDARD2_0
         [Test]
         public void MultipleNamespacesXmlDocument()
         {
@@ -617,7 +612,6 @@ namespace Newtonsoft.Json.Tests.Converters
   }
 ]", json);
         }
-#endif
 
         [Test]
         public void SerializeXElement()

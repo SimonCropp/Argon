@@ -496,7 +496,6 @@ namespace Newtonsoft.Json.Tests.Bson
             Assert.AreEqual("10-00-00-00-09-30-00-C8-88-07-6B-DC-00-00-00-00", (BitConverter.ToString(ms.ToArray())));
         }
 
-#if !PORTABLE || NETSTANDARD2_0
         [Test]
         public async Task WriteBigIntegerAsync()
         {
@@ -531,7 +530,6 @@ namespace Newtonsoft.Json.Tests.Bson
 
             Assert.IsFalse(await reader.ReadAsync());
         }
-#endif
     }
 }
 
