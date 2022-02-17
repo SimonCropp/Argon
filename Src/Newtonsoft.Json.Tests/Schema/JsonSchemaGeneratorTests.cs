@@ -89,7 +89,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.IsTrue(o.IsValid(schema));
         }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40)
+#if !(DNXCORE50)
         [Test]
         public void Generate_DefaultValueAttributeTestClass()
         {
@@ -308,7 +308,6 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.IsTrue(v.IsValid(schema));
         }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
         [Test]
         public void GenerateSchemaForISerializable()
         {
@@ -321,9 +320,7 @@ namespace Newtonsoft.Json.Tests.Schema
             Assert.AreEqual(true, schema.AllowAdditionalProperties);
             Assert.AreEqual(null, schema.Properties);
         }
-#endif
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40)
         [Test]
         public void GenerateSchemaForDBNull()
         {
@@ -334,9 +331,7 @@ namespace Newtonsoft.Json.Tests.Schema
 
             Assert.AreEqual(JsonSchemaType.Null, schema.Type);
         }
-#endif
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
         public class CustomDirectoryInfoMapper : DefaultContractResolver
         {
             public CustomDirectoryInfoMapper()
@@ -363,7 +358,6 @@ namespace Newtonsoft.Json.Tests.Schema
                 return c;
             }
         }
-#endif
 
         [Test]
         public void GenerateSchemaCamelCase()
@@ -417,7 +411,7 @@ namespace Newtonsoft.Json.Tests.Schema
 }", json);
         }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
         [Test]
         public void GenerateSchemaSerializable()
         {
@@ -730,7 +724,7 @@ namespace Newtonsoft.Json.Tests.Schema
     {
     }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
+#if !(DNXCORE50) || NETSTANDARD2_0
     [Serializable]
     public sealed class SerializableTestObject
     {

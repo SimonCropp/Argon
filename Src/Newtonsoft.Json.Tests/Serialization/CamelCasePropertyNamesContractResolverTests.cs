@@ -119,7 +119,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             string json = o.ToString();
         }
 
-#if !(PORTABLE || PORTABLE40) || NETSTANDARD2_0
 #pragma warning disable 618
         [Test]
         public void MemberSearchFlags()
@@ -153,7 +152,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(0, ReflectionUtils.GetMemberValue(typeof(PrivateMembersClass).GetField("i", BindingFlags.Instance | BindingFlags.NonPublic), deserializedPrivateMembersClass));
         }
 #pragma warning restore 618
-#endif
 
         [Test]
         public void BlogPostExample()
