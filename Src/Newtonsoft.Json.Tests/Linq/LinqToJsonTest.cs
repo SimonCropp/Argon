@@ -1020,7 +1020,6 @@ keyword such as type of business.""
             }, @"Accessed JConstructor values with invalid key value: ""purple"". Argument position index expected.");
         }
 
-#if !NET20
         [Test]
         public void ToStringJsonConverter()
         {
@@ -1074,7 +1073,6 @@ keyword such as type of business.""
 
             Assert.AreEqual(4, jsonWriter.Token.Children().Count());
         }
-#endif
 
         [Test]
         public void FromObject()

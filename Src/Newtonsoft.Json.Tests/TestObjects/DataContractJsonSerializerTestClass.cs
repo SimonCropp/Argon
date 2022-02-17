@@ -27,12 +27,10 @@ using System;
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !(NET20 || NET35)
     public class DataContractJsonSerializerTestClass
     {
         public TimeSpan TimeSpanProperty { get; set; }
         public Guid GuidProperty { get; set; }
         public Animal AnimalProperty { get; set; }
     }
-#endif
 }

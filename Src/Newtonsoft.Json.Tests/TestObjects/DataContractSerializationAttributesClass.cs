@@ -27,7 +27,6 @@ using System.Runtime.Serialization;
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !(NET20 || NET35)
     [DataContract]
     public class DataContractSerializationAttributesClass
     {
@@ -43,5 +42,4 @@ namespace Newtonsoft.Json.Tests.TestObjects
         [DataMember]
         public string IgnoreDataMemberAndDataMemberAttribute { get; set; }
     }
-#endif
 }

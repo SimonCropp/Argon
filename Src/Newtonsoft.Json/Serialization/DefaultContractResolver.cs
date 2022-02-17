@@ -1556,7 +1556,7 @@ namespace Newtonsoft.Json.Serialization
 
         private Predicate<object>? CreateShouldSerializeTest(MemberInfo member)
         {
-            MethodInfo shouldSerializeMethod = member.DeclaringType.GetMethod(JsonTypeReflector.ShouldSerializePrefix + member.Name, ReflectionUtils.EmptyTypes);
+            MethodInfo shouldSerializeMethod = member.DeclaringType.GetMethod(JsonTypeReflector.ShouldSerializePrefix + member.Name, Type.EmptyTypes);
 
             if (shouldSerializeMethod == null || shouldSerializeMethod.ReturnType != typeof(bool))
             {

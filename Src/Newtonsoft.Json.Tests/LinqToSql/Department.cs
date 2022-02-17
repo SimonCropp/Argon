@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(DNXCORE50 || NET20)
+#if !(DNXCORE50)
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

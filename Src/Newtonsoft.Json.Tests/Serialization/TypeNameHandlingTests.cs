@@ -235,7 +235,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             CollectionAssert.AreEquivalent(Convert.FromBase64String("cGFzc3dvcmQ="), value.EncryptedPassword);
         }
 
-#if !(NET20 || NET35)
         [Test]
         public void SerializeValueTupleWithTypeName()
         {
@@ -264,7 +263,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(2, t2.Item2);
             Assert.AreEqual("string", t2.Item3);
         }
-#endif
 
         public class KnownAutoTypes
         {
@@ -961,7 +959,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 
-#if !(NET20 || NET35)
         [Test]
         public void SerializeUsingCustomBinder()
         {
@@ -1054,7 +1051,6 @@ namespace Newtonsoft.Json.Tests.Serialization
                 return Type.GetType(resolvedTypeName, true);
             }
         }
-#endif
 
         [Test]
         public void NewSerializeUsingCustomBinder()
@@ -1492,7 +1488,6 @@ namespace Newtonsoft.Json.Tests.Serialization
         }
 #endif
 
-#if !(NET20 || NET35)
         [Test]
         public void SerializationBinderWithFullName()
         {
@@ -2156,7 +2151,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("Nine", strings[8]);
         }
 
-#if !NET20
         [Test]
         public void ExistingBaseValue()
         {
@@ -2182,9 +2176,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             ReportItemKeys item = (ReportItemKeys)g.ItemIdentifier;
             Assert.AreEqual(1UL, item.WantedUnitID);
         }
-#endif
 
-#if !(NET20 || NET35)
         [Test]
         public void GenericItemTypeCollection()
         {
@@ -2211,9 +2203,8 @@ namespace Newtonsoft.Json.Tests.Serialization
 
             Assert.AreEqual("property", deserialized.Rows["key"].First().SomeProperty);
         }
-#endif
 
-#if !(DNXCORE50)
+#if !DNXCORE50
         [Test]
         public void DeserializeComplexGenericDictionary_Simple()
         {
@@ -2300,7 +2291,6 @@ namespace Newtonsoft.Json.Tests.Serialization
         }
 #endif
 
-#if !(NET20 || NET35)
         [Test]
         public void SerializerWithDefaultBinder()
         {
@@ -2366,7 +2356,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             }
         }
 #pragma warning restore CS0618 // Type or member is obsolete
-#endif
     }
 
     public struct Message2
@@ -2623,7 +2612,6 @@ namespace Newtonsoft.Json.Tests.Serialization
         public int Integer { get; set; }
     }
 
-#if !NET20
     [DataContract]
     public class GroupingInfo
     {
@@ -2658,6 +2646,4 @@ namespace Newtonsoft.Json.Tests.Serialization
             set { _wantedUnit = value; }
         }
     }
-#endif
 }
-#endif

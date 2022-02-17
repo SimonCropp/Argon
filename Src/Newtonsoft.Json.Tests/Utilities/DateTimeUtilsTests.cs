@@ -78,7 +78,6 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.IsFalse(DateTimeUtils.TryParseDateTimeIso(CreateStringReference("2000-12-15T24:00:00.0000001Z"), DateTimeZoneHandling.RoundtripKind, out dt));
         }
 
-#if !NET20
         [Test]
         public void Parse24HourDateTimeOffset()
         {
@@ -90,7 +89,6 @@ namespace Newtonsoft.Json.Tests.Utilities
             Assert.IsFalse(DateTimeUtils.TryParseDateTimeOffsetIso(CreateStringReference("2000-12-15T24:00:01Z"), out dt));
             Assert.IsFalse(DateTimeUtils.TryParseDateTimeOffsetIso(CreateStringReference("2000-12-15T24:00:00.0000001Z"), out dt));
         }
-#endif
 
         [Test]
         public void NewDateTimeParse()
@@ -172,7 +170,6 @@ namespace Newtonsoft.Json.Tests.Utilities
             AssertNewDateTimeParseEqual(text, oldDt);
         }
 
-#if !NET20
         [Test]
         public void ReadOffsetMSDateTimeOffset()
         {
@@ -242,13 +239,11 @@ namespace Newtonsoft.Json.Tests.Utilities
                     newTicks));
             }
         }
-#endif
 
         internal static bool TryParseDateIso(string text, DateParseHandling dateParseHandling, DateTimeZoneHandling dateTimeZoneHandling, out object dt)
         {
             const string isoDateFormat = "yyyy-MM-ddTHH:mm:ss.FFFFFFFK";
 
-#if !NET20
             if (dateParseHandling == DateParseHandling.DateTimeOffset)
             {
                 DateTimeOffset dateTimeOffset;
@@ -259,7 +254,6 @@ namespace Newtonsoft.Json.Tests.Utilities
                 }
             }
             else
-#endif
             {
                 DateTime dateTime;
                 if (DateTime.TryParseExact(text, isoDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out dateTime))

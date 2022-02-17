@@ -27,7 +27,6 @@ using System;
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !NET20
     public class NullableTestClass
     {
         public bool? MyNullableBool { get; set; }
@@ -36,5 +35,4 @@ namespace Newtonsoft.Json.Tests.TestObjects
         public DateTimeOffset? MyNullableDateTimeOffset { get; set; }
         public Decimal? MyNullableDecimal { get; set; }
     }
-#endif
 }

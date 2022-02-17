@@ -462,7 +462,6 @@ namespace Newtonsoft.Json.Tests.Serialization
                 "Unexpected end when deserializing object. Path 'key', line 1, position 8.");
         }
 
-#if !NET20
         [Test]
         public void DeserializeEnumsByName()
         {
@@ -472,7 +471,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             var e2 = JsonConvert.DeserializeObject<EnumA>("'value_a'", new StringEnumConverter());
             Assert.AreEqual(EnumA.ValueA, e2);
         }
-#endif
 
         [Test]
         public void RequiredPropertyTest()
@@ -628,7 +626,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             public string Value { get; }
         }
 
-#if !(DNXCORE50 || NET20)
+#if !DNXCORE50
         [Test]
         public void SerializeMetadataType()
         {
@@ -736,7 +734,6 @@ namespace Newtonsoft.Json.Tests.Serialization
         }
 #endif
 
-#if !(NET20 || NET35)
         [Test]
         public void DeserializeObservableCollection()
         {
@@ -759,7 +756,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("1", c2[0]);
             Assert.AreEqual("2", c2[1]);
         }
-#endif
 
         [Test]
         public void DeserializeBoolAsStringInDictionary()
@@ -769,7 +765,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("false", d["Test1"]);
         }
 
-#if !NET20
         [Test]
         public void PopulateResetSettings()
         {
@@ -787,7 +782,6 @@ namespace Newtonsoft.Json.Tests.Serialization
 
             Assert.AreEqual(DateParseHandling.DateTime, reader.DateParseHandling);
         }
-#endif
 
         [Test]
         public void NewProperty()
@@ -1521,7 +1515,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             stopWatch.Stop();
         }
 
-#if !(NET20 || NET35)
         [Test]
         public void ChildDataContractTestWithHidden()
         {
@@ -1672,7 +1665,6 @@ namespace Newtonsoft.Json.Tests.Serialization
 
             return jsonNetJson.ToString();
         }
-#endif
 
         [Test]
         public void PersonTypedObjectDeserialization()
@@ -1760,14 +1752,12 @@ namespace Newtonsoft.Json.Tests.Serialization
 
             string jsonText = JsonConvert.SerializeObject(testDictionary);
 
-#if !(NET20 || NET35)
             MemoryStream ms = new MemoryStream();
             DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(Dictionary<string, object>));
             serializer.WriteObject(ms, testDictionary);
 
             byte[] data = ms.ToArray();
             string output = Encoding.UTF8.GetString(data, 0, data.Length);
-#endif
 
             Dictionary<string, object> deserializedDictionary = (Dictionary<string, object>)JsonConvert.DeserializeObject(jsonText, typeof(Dictionary<string, object>));
             DateTime deserializedDate = (DateTime)deserializedDictionary["date"];
@@ -1992,7 +1982,6 @@ keyword such as type of business.""
             ExceptionAssert.Throws<JsonReaderException>(() => { JsonConvert.DeserializeObject<List<string>>(json); }, @"Bad JSON escape sequence: \j. Path '', line 1, position 7.");
         }
 
-#if !(NET20 || NET35)
         [Test]
         public void Unicode()
         {
@@ -2083,7 +2072,6 @@ keyword such as type of business.""
             string result = JsonConvert.SerializeObject(testDates, new JsonSerializerSettings { DateFormatHandling = DateFormatHandling.MicrosoftDateFormat });
             Assert.AreEqual(@"[""\/Date(-59011455539000+0000)\/"",""\/Date(946688461000+0000)\/"",""\/Date(946641661000+1300)\/"",""\/Date(946701061000-0330)\/""]", result);
         }
-#endif
 
         [Test]
         public void NonStringKeyDictionary()
@@ -3109,7 +3097,7 @@ keyword such as type of business.""
             Assert.AreEqual("titleId", n.FidOrder[n.FidOrder.Count - 1]);
         }
 
-#if !(NET20 || DNXCORE50)
+#if !DNXCORE50
         [Test]
         public void OptInClassMetadataSerialization()
         {
@@ -3136,7 +3124,6 @@ keyword such as type of business.""
         }
 #endif
 
-#if !NET20
         [Test]
         public void SerializeDataContractPrivateMembers()
         {
@@ -3154,7 +3141,6 @@ keyword such as type of business.""
             DataContractPrivateMembers cc = JsonConvert.DeserializeObject<DataContractPrivateMembers>(json);
             Assert.AreEqual("_name: Jeff, _age: 26, Rank: 10, JsonTitle: Dr", cc.ToString());
         }
-#endif
 
         [Test]
         public void DeserializeDictionaryInterface()
@@ -3365,7 +3351,6 @@ keyword such as type of business.""
             Assert.AreEqual("value2", values["key2"]);
         }
 
-#if !NET20
         [Test]
         public void DeserializeEmptyStringToNullableDateTime()
         {
@@ -3374,7 +3359,6 @@ keyword such as type of business.""
             NullableDateTimeTestClass c = JsonConvert.DeserializeObject<NullableDateTimeTestClass>(json);
             Assert.AreEqual(null, c.DateTimeField);
         }
-#endif
 
         [Test]
         public void FailWhenClassWithNoDefaultConstructorHasMultipleConstructorsWithArguments()
@@ -3940,7 +3924,6 @@ Path '', line 1, position 1.");
 }", json);
         }
 
-#if !NET20
         [Test]
         public void DeserializeDateTimeOffsetAndDateTime()
         {
@@ -3962,7 +3945,6 @@ Path '', line 1, position 1.");
 
             Assert.AreEqual(c.DateTimeOffsetValue, cISO.DateTimeOffsetValue);
         }
-#endif
 
         [Test]
         public void CircularConstructorDeserialize()
@@ -4016,7 +3998,6 @@ Path '', line 1, position 1.");
             Assert.AreEqual(123L, item.Value);
         }
 
-#if !(NET20 || NET35)
         [Test]
         public void DataContractJsonSerializerTest()
         {
@@ -4043,7 +4024,6 @@ Path '', line 1, position 1.");
             //    //               TypeNameHandling = TypeNameHandling.Objects
             //  }));
         }
-#endif
 
         [Test]
         public void SerializeNonIDictionary()
@@ -4150,11 +4130,7 @@ Path '', line 1, position 1.");
 
             DateTimeOffset dateTimeOffset = new DateTimeOffset(2000, 12, 20, 22, 59, 59, TimeSpan.FromHours(2));
             string dateTimeOffsetText;
-#if !NET20
             dateTimeOffsetText = @"2000-12-20T22:59:59+02:00";
-#else
-            dateTimeOffsetText = @"12/20/2000 22:59:59 +02:00";
-#endif
 
             ISerializableTestObject o = new ISerializableTestObject("String!", int.MinValue, dateTimeOffset, person);
 
@@ -4204,11 +4180,7 @@ Path '', line 1, position 1.");
 
             DateTimeOffset dateTimeOffset = new DateTimeOffset(2000, 12, 20, 22, 59, 59, TimeSpan.FromHours(2));
             string dateTimeOffsetText;
-#if !NET20
             dateTimeOffsetText = @"\/Date(977345999000+0200)\/";
-#else
-            dateTimeOffsetText = @"12/20/2000 22:59:59 +02:00";
-#endif
 
             ISerializableTestObject o = new ISerializableTestObject("String!", int.MinValue, dateTimeOffset, person);
 
@@ -4583,7 +4555,6 @@ Path '', line 1, position 1.");
             Assert.AreEqual(null, d[2]);
         }
 
-#if !NET20
         [Test]
         public void SerializeHashSet()
         {
@@ -4607,7 +4578,6 @@ Path '', line 1, position 1.");
             Assert.IsTrue(d.Contains("2"));
             Assert.IsTrue(d.Contains("III"));
         }
-#endif
 
         [Test]
         public void DeserializeByteArray()
@@ -4626,7 +4596,7 @@ Path '', line 1, position 1.");
             Assert.AreEqual(0, z[1].Prop1.Length);
         }
 
-#if !(NET20 || DNXCORE50) || NETSTANDARD2_0
+#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void StringDictionaryTest()
         {
@@ -4680,7 +4650,6 @@ Path '', line 1, position 1.");
             Assert.AreEqual(int.MaxValue, newStruct.MyInt);
         }
 
-#if !NET20
         [Test]
         public void ReadWriteTimeZoneOffsetIso()
         {
@@ -4737,7 +4706,6 @@ Path '', line 1, position 1.");
             NullableDateTimeTestClass d = JsonConvert.DeserializeObject<NullableDateTimeTestClass>("{\"DateTimeOffsetField\":\"\\/Date(946663200000+0600)\\/\"}");
             Assert.AreEqual(new DateTimeOffset(new DateTime(2000, 1, 1), TimeSpan.FromHours(6)), d.DateTimeOffsetField);
         }
-#endif
 
         [Test]
         public void OverridenPropertyMembers()
@@ -4869,7 +4837,7 @@ Path '', line 1, position 1.");
             Assert.AreEqual(meh.IDontWork, "meh");
         }
 
-#if !(NET20 || DNXCORE50) || NETSTANDARD2_0
+#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void DeserializeNullableStruct()
         {
@@ -5075,7 +5043,6 @@ Path '', line 1, position 1.");
             JsonConvert.DeserializeObject<EnumerableArrayPropertyClass>(json);
         }
 
-#if !(NET20)
         [Test]
         public void ChildDataContractTest()
         {
@@ -5116,7 +5083,6 @@ Path '', line 1, position 1.");
 
             Assert.AreEqual(@"<ChildDataContract xmlns=""http://schemas.datacontract.org/2004/07/Newtonsoft.Json.Tests.TestObjects"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""><nonVirtualMember>NonVirtualMember!</nonVirtualMember><virtualMember>VirtualMember!</virtualMember><NewMember i:nil=""true""/></ChildDataContract>", xml);
         }
-#endif
 
         [Test]
         public void ChildObjectTest()
@@ -5262,7 +5228,6 @@ Path '', line 1, position 1.");
             Assert.IsNull(r.Departures.ElementAt(2));
         }
 
-#if !(NET20)
         [Test]
         public void JsonPropertyDataMemberOrder()
         {
@@ -5280,11 +5245,10 @@ Path '', line 1, position 1.");
   ""antelope"": null
 }", json);
         }
-#endif
 
         public class CustomClass
         {
-#if !(NET20 || PORTABLE)
+#if !PORTABLE
             [Required]
 #endif
             public System.Guid? clientId { get; set; }
@@ -5519,7 +5483,7 @@ Path '', line 1, position 1.");
             Assert.AreEqual(-3, StaticTestClass.z);
         }
 
-#if !(NET20 || DNXCORE50) || NETSTANDARD2_0
+#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void DeserializeDecimalsWithCulture()
         {
@@ -5911,7 +5875,6 @@ Path '', line 1, position 1.");
             Assert.AreEqual(DateTimeKind.Local, c.Value.Kind);
         }
 
-#if !NET20
         [Test]
         public void DeserializeUTC()
         {
@@ -5980,9 +5943,8 @@ Path '', line 1, position 1.");
 
             Assert.AreEqual(person.Name, roundtrippedPerson.Name);
         }
-#endif
 
-#if !(DNXCORE50)
+#if !DNXCORE50
         [Test]
         public void MetroBlogPost()
         {
@@ -6214,7 +6176,6 @@ Path '', line 1, position 1.");
             Assert.AreEqual(@"{""Data"":["":::ONE:::"","":::TWO:::"","":::THREE:::""]}", json);
         }
 
-#if !NET20
         [Test]
         public void DateTimeDictionaryKey_DateTimeOffset_Iso()
         {
@@ -6263,7 +6224,6 @@ Path '', line 1, position 1.");
             Assert.AreEqual(1, dic2[new DateTimeOffset(2000, 12, 12, 12, 12, 12, TimeSpan.Zero)]);
             Assert.AreEqual(2, dic2[new DateTimeOffset(2013, 12, 12, 12, 12, 12, TimeSpan.Zero)]);
         }
-#endif
 
         [Test]
         public void DateTimeDictionaryKey_DateTime_Iso()
@@ -6433,16 +6393,13 @@ Path '', line 1, position 1.");
 }", json);
         }
 
-#if !(NET20 || NET35)
         [Test]
         public void IgnoreDataMemberTest()
         {
             string json = JsonConvert.SerializeObject(new IgnoreDataMemberTestClass() { Ignored = int.MaxValue }, Formatting.Indented);
             Assert.AreEqual(@"{}", json);
         }
-#endif
 
-#if !(NET20 || NET35)
         [Test]
         public void SerializeDataContractSerializationAttributes()
         {
@@ -6480,7 +6437,6 @@ Path '', line 1, position 1.");
   ""DataMemberAttribute"": ""Value!""
 }", json);
         }
-#endif
 
         [Test]
         public void CheckAdditionalContent()
@@ -6820,7 +6776,6 @@ This is just junk, though.";
         }
 #endif
 
-#if !NET20
         [Test]
         public void RoundtripOfDateTimeOffset()
         {
@@ -6944,7 +6899,6 @@ This is just junk, though.";
 ]", json);
         }
 
-#if !(NET20 || NET35)
         [Test]
         public void SerializeDeserializeTuple()
         {
@@ -6956,7 +6910,6 @@ This is just junk, though.";
             Assert.AreEqual(500, tuple2.Item1);
             Assert.AreEqual(20, tuple2.Item2);
         }
-#endif
 
         [Test]
         public void JsonSerializerStringEscapeHandling()
@@ -7068,9 +7021,7 @@ This is just junk, though.";
 
             Assert.AreEqual(expected, actual);
         }
-#endif
 
-#if !NET20
         [Test]
         public void TestStringToNullableDeserialization()
         {
@@ -7089,9 +7040,7 @@ This is just junk, though.";
             Assert.IsNull(c2.MyNullableDateTimeOffset);
             Assert.IsNull(c2.MyNullableDecimal);
         }
-#endif
 
-#if !(NET20 || NET35)
         [Test]
         public void HashSetInterface()
         {
@@ -7107,7 +7056,6 @@ This is just junk, though.";
                 Assert.IsTrue(s2.Contains(s));
             }
         }
-#endif
 
         [Test]
         public void DeserializeDecimal()
@@ -7120,7 +7068,7 @@ This is just junk, though.";
             Assert.AreEqual(1234567890.123456m, d);
         }
 
-#if !(DNXCORE50) || NETSTANDARD2_0
+#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void DontSerializeStaticFields()
         {
@@ -7144,7 +7092,7 @@ This is just junk, though.";
         }
 #endif
 
-#if !(DNXCORE50) || NETSTANDARD2_0
+#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void SerializeBigInteger()
         {
@@ -7613,7 +7561,6 @@ This is just junk, though.";
             Assert.AreEqual(dt, d.Keys.ElementAt(0));
         }
 
-#if !NET20
         [Test]
         public void DateFormatStringWithDictionaryKey_DateTimeOffset()
         {
@@ -7708,7 +7655,6 @@ This is just junk, though.";
 
             JsonConvert.DeserializeObject<ConstantTestClass>(json);
         }
-#endif
 
         [Test]
         public void SerializeObjectWithEvent()

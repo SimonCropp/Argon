@@ -304,7 +304,6 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(annotation, t.DeepClone().Annotation<T>());
         }
 
-#if !NET20
         [Test]
         public void Example()
         {
@@ -327,6 +326,5 @@ namespace Newtonsoft.Json.Tests.Linq
 
             Assert.AreEqual(2, changedProperties.Count);
         }
-#endif
     }
 }

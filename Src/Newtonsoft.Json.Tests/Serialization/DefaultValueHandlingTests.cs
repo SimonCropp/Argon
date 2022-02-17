@@ -392,7 +392,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(null, o.ClassValue);
         }
 
-#if !NET20
         [Test]
         public void EmitDefaultValueIgnoreAndPopulate()
         {
@@ -404,7 +403,6 @@ namespace Newtonsoft.Json.Tests.Serialization
 
             Assert.AreEqual("fff", obj.Field1);
         }
-#endif
 
         [Test]
         public void PopulateTest()
@@ -494,7 +492,6 @@ namespace Newtonsoft.Json.Tests.Serialization
         }
     }
 
-#if !NET20
     [DataContract]
     public class TestClass
     {
@@ -503,7 +500,6 @@ namespace Newtonsoft.Json.Tests.Serialization
         [DefaultValue("fff")]
         public string Field1 { set; get; }
     }
-#endif
 
     public class DefaultValueHandlingDeserialize
     {
@@ -570,7 +566,6 @@ namespace Newtonsoft.Json.Tests.Serialization
         public int IntDefault { get; set; }
     }
 
-#if !NET20
     [DataContract]
     public class EmitDefaultValueClass
     {
@@ -637,7 +632,6 @@ namespace Newtonsoft.Json.Tests.Serialization
         [DataMember(EmitDefaultValue = false)]
         public object Object { get; set; }
     }
-#endif
 
     public enum ExportFormat
     {

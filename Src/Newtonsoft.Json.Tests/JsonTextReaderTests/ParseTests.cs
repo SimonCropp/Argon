@@ -464,7 +464,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.AreEqual(typeof(DateTime), reader.ValueType);
             Assert.IsTrue(reader.Read());
 
-#if !NET20
             reader = new JsonTextReader(new StringReader(json));
             reader.DateParseHandling = Json.DateParseHandling.DateTimeOffset;
 
@@ -476,7 +475,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.AreEqual(new DateTimeOffset(DateTimeUtils.InitialJavaScriptDateTicks, TimeSpan.Zero), reader.Value);
             Assert.AreEqual(typeof(DateTimeOffset), reader.ValueType);
             Assert.IsTrue(reader.Read());
-#endif
 
             reader = new JsonTextReader(new StringReader(json));
             reader.DateParseHandling = Json.DateParseHandling.None;
@@ -490,7 +488,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.AreEqual(typeof(string), reader.ValueType);
             Assert.IsTrue(reader.Read());
 
-#if !NET20
             reader = new JsonTextReader(new StringReader(json));
             reader.DateParseHandling = Json.DateParseHandling.DateTime;
 
@@ -514,7 +511,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.AreEqual(new DateTime(DateTimeUtils.InitialJavaScriptDateTicks, DateTimeKind.Utc), reader.Value);
             Assert.AreEqual(typeof(DateTime), reader.ValueType);
             Assert.IsTrue(reader.Read());
-#endif
         }
     }
 }

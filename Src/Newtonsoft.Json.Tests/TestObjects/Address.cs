@@ -29,7 +29,6 @@ using System.Runtime.Serialization;
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !(NET20)
     [Serializable]
     [DataContract]
     public class Address
@@ -61,5 +60,4 @@ namespace Newtonsoft.Json.Tests.TestObjects
 
         private DateTime _Entered = DateTime.Parse("01/01/2007", CultureInfo.CurrentCulture.DateTimeFormat);
     }
-#endif
 }

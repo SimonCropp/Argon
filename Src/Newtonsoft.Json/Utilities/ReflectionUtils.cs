@@ -37,53 +37,8 @@ using Newtonsoft.Json.Serialization;
 
 namespace Newtonsoft.Json.Utilities
 {
-#if (DOTNET || PORTABLE || PORTABLE40) && !NETSTANDARD2_0
-    [Flags]
-    internal enum MemberTypes
-    {
-        Event = 2,
-        Field = 4,
-        Method = 8,
-        Property = 16
-    }
-#endif
-
-#if PORTABLE && !NETSTANDARD2_0
-    [Flags]
-    internal enum BindingFlags
-    {
-        Default = 0,
-        IgnoreCase = 1,
-        DeclaredOnly = 2,
-        Instance = 4,
-        Static = 8,
-        Public = 16,
-        NonPublic = 32,
-        FlattenHierarchy = 64,
-        InvokeMethod = 256,
-        CreateInstance = 512,
-        GetField = 1024,
-        SetField = 2048,
-        GetProperty = 4096,
-        SetProperty = 8192,
-        PutDispProperty = 16384,
-        ExactBinding = 65536,
-        PutRefDispProperty = 32768,
-        SuppressChangeType = 131072,
-        OptionalParamBinding = 262144,
-        IgnoreReturn = 16777216
-    }
-#endif
-
     internal static class ReflectionUtils
     {
-        public static readonly Type[] EmptyTypes;
-
-        static ReflectionUtils()
-        {
-            EmptyTypes = Type.EmptyTypes;
-        }
-
         public static bool IsVirtual(this PropertyInfo propertyInfo)
         {
             ValidationUtils.ArgumentNotNull(propertyInfo, nameof(propertyInfo));

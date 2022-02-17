@@ -844,7 +844,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsDateTime(); }, "Unexpected character encountered while parsing value: t. Path '', line 1, position 1.");
         }
 
-#if !NET20
         [Test]
         public void ReadAsDateTimeOffsetBadContent()
         {
@@ -852,7 +851,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsDateTimeOffset(); }, "Unexpected character encountered while parsing value: e. Path '', line 1, position 2.");
         }
-#endif
 
         [Test]
         public void ReadAsDecimalBadContent()

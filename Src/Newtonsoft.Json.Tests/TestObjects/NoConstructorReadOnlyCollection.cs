@@ -28,12 +28,10 @@ using System.Collections.ObjectModel;
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !NET20
     public class NoConstructorReadOnlyCollection<T> : ReadOnlyCollection<T>
     {
         public NoConstructorReadOnlyCollection() : base(new List<T>())
         {
         }
     }
-#endif
 }

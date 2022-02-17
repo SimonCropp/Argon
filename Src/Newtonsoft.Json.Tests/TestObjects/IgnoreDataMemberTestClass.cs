@@ -27,11 +27,9 @@ using System.Runtime.Serialization;
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !(NET20 || NET35)
     public class IgnoreDataMemberTestClass
     {
         [IgnoreDataMember]
         public int Ignored { get; set; }
     }
-#endif
 }

@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET35 || NET20)
 using System.Collections.Concurrent;
 
 namespace Newtonsoft.Json.Tests.TestObjects
@@ -46,5 +45,3 @@ namespace Newtonsoft.Json.Tests.TestObjects
         }
     }
 }
-
-#endif

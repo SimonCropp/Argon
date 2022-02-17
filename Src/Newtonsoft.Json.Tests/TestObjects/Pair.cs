@@ -28,7 +28,6 @@ using System.Runtime.Serialization;
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !NET20
 #if !(DNXCORE50)
     [Serializable]
 #endif
@@ -48,5 +47,4 @@ namespace Newtonsoft.Json.Tests.TestObjects
         [DataMember]
         public TSecond Second { get; set; }
     }
-#endif
 }

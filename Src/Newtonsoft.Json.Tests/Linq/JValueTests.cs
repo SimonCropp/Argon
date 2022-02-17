@@ -433,7 +433,6 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(rate.Compoundings, rate2.Compoundings);
         }
 
-#if !NET20
         public class ObjectWithDateTimeOffset
         {
             public DateTimeOffset DateTimeOffset { get; set; }
@@ -487,7 +486,6 @@ namespace Newtonsoft.Json.Tests.Linq
 
             CustomAssert.IsInstanceOfType(typeof(DateTimeOffset), ((JValue)startDateTime).Value);
         }
-#endif
 
         [Test]
         public void ConvertsToBoolean()

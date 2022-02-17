@@ -381,7 +381,6 @@ OnSerialized_Derived
 OnSerialized_Derived_Derived", string.Join(Environment.NewLine, e.ToArray()));
         }
 
-#if !(NET20)
         [Test]
         public void DerivedDerivedSerializationEvents_DataContractSerializer()
         {
@@ -409,7 +408,6 @@ OnSerialized
 OnSerialized_Derived
 OnSerialized_Derived_Derived", string.Join(Environment.NewLine, e.ToArray()));
         }
-#endif
 
         [Test]
         public void NoStreamingContextParameter()

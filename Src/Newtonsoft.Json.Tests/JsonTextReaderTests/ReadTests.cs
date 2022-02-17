@@ -484,7 +484,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.AreEqual(JsonToken.None, reader.TokenType);
         }
 
-#if !NET20
         [Test]
         public void ReadAsDateTimeOffsetNoContent()
         {
@@ -493,9 +492,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.IsNull(reader.ReadAsDateTimeOffset());
             Assert.AreEqual(JsonToken.None, reader.TokenType);
         }
-#endif
 
-#if !NET20
         [Test]
         public void ReadAsDateTimeOffset()
         {
@@ -517,9 +514,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
         }
-#endif
 
-#if !NET20
         [Test]
         public void ReadAsDateTimeOffsetNegative()
         {
@@ -541,9 +536,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
         }
-#endif
 
-#if !NET20
         [Test]
         public void ReadAsDateTimeOffsetBadString()
         {
@@ -559,9 +552,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsDateTimeOffset(); }, "Could not convert string to DateTimeOffset: blablahbla. Path 'Offset', line 1, position 22.");
         }
-#endif
 
-#if !NET20
         [Test]
         public void ReadAsDateTimeOffsetHoursOnly()
         {
@@ -583,9 +574,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
         }
-#endif
 
-#if !NET20
         [Test]
         public void ReadAsDateTimeOffsetWithMinutes()
         {
@@ -607,9 +596,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
         }
-#endif
 
-#if !NET20
         [Test]
         public void ReadAsDateTimeOffsetIsoDate()
         {
@@ -631,9 +618,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
         }
-#endif
 
-#if !NET20
         [Test]
         public void ReadAsDateTimeOffsetUnitedStatesDate()
         {
@@ -658,9 +643,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
         }
-#endif
 
-#if !NET20
         [Test]
         public void ReadAsDateTimeOffsetNewZealandDate()
         {
@@ -685,7 +668,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
         }
-#endif
 
         [Test]
         public void ReadAsDecimalInt()
@@ -919,7 +901,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.IsFalse(reader.Read());
         }
 
-#if !NET20
         [Test]
         public void ReadValue_EmptyString_Position()
         {
@@ -952,7 +933,6 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.IsNull(reader.ReadAsBytes());
             Assert.AreEqual(JsonToken.None, reader.TokenType);
         }
-#endif
 
         [Test]
         public void ReadValueComments()

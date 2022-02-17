@@ -25,7 +25,6 @@
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !(NET35 || NET20)
     [JsonObject(MemberSerialization.OptIn)]
     public class TestComponent : Component
     {
@@ -36,5 +35,4 @@ namespace Newtonsoft.Json.Tests.TestObjects
         {
         }
     }
-#endif
 }

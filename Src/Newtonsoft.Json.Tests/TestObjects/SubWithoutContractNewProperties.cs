@@ -27,7 +27,6 @@ using System.Runtime.Serialization;
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !NET20
     [DataContract]
     public class SubWithoutContractNewProperties : BaseWithContract
     {
@@ -43,5 +42,4 @@ namespace Newtonsoft.Json.Tests.TestObjects
         public string JustAProperty { get; set; }
 #pragma warning restore 108, 114
     }
-#endif
 }

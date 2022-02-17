@@ -24,7 +24,6 @@
 #endregion
 
 using System.Collections.Generic;
-#if !(NET20 || NET35)
 using System.Linq;
 using System;
 using System.Diagnostics;
@@ -431,5 +430,3 @@ namespace Newtonsoft.Json.Tests.Utilities
         }
     }
 }
-
-#endif

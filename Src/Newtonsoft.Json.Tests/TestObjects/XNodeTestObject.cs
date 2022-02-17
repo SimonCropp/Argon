@@ -26,17 +26,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-#if !NET20
 using System.Xml.Linq;
-#endif
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !NET20
     public class XNodeTestObject
     {
         public XDocument Document { get; set; }
         public XElement Element { get; set; }
     }
-#endif
 }

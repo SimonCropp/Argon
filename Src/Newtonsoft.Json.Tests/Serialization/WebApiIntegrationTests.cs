@@ -26,9 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-#if !NET20
 using System.Linq;
-#endif
 using System.Text;
 #if DNXCORE50
 using Xunit;
@@ -37,9 +35,7 @@ using Assert = Newtonsoft.Json.Tests.XUnitAssert;
 #else
 using NUnit.Framework;
 #endif
-#if !(NET20 || NET35 || DNXCORE50)
 using System.Runtime.Serialization.Json;
-#endif
 using Newtonsoft.Json.Serialization;
 
 namespace Newtonsoft.Json.Tests.Serialization

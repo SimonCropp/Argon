@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET20 || NET35)
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -308,4 +307,3 @@ namespace Newtonsoft.Json.Tests.Utilities
         Max = long.MaxValue,
     }
 }
-#endif

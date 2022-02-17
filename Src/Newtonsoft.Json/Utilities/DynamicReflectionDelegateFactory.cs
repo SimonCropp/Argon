@@ -77,7 +77,7 @@ namespace Newtonsoft.Json.Utilities
             generator.Emit(OpCodes.Ldlen);
             generator.Emit(OpCodes.Ldc_I4, args.Length);
             generator.Emit(OpCodes.Beq, argsOk);
-            generator.Emit(OpCodes.Newobj, typeof(TargetParameterCountException).GetConstructor(ReflectionUtils.EmptyTypes));
+            generator.Emit(OpCodes.Newobj, typeof(TargetParameterCountException).GetConstructor(Type.EmptyTypes));
             generator.Emit(OpCodes.Throw);
 
             generator.MarkLabel(argsOk);
@@ -241,7 +241,7 @@ namespace Newtonsoft.Json.Utilities
 
         public override Func<T> CreateDefaultConstructor<T>(Type type)
         {
-            DynamicMethod dynamicMethod = CreateDynamicMethod("Create" + type.FullName, typeof(T), ReflectionUtils.EmptyTypes, type);
+            DynamicMethod dynamicMethod = CreateDynamicMethod("Create" + type.FullName, typeof(T), Type.EmptyTypes, type);
             dynamicMethod.InitLocals = true;
             ILGenerator generator = dynamicMethod.GetILGenerator();
 
@@ -266,7 +266,7 @@ namespace Newtonsoft.Json.Utilities
             else
             {
                 ConstructorInfo constructorInfo =
-                    type.GetConstructor(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, null, ReflectionUtils.EmptyTypes, null);
+                    type.GetConstructor(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, null, Type.EmptyTypes, null);
 
                 if (constructorInfo == null)
                 {

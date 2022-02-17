@@ -27,7 +27,6 @@ using System.Runtime.Serialization;
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !NET20
     [DataContract]
     public class SubWithContractVirtualProperties : BaseWithContract
     {
@@ -36,5 +35,4 @@ namespace Newtonsoft.Json.Tests.TestObjects
         public virtual string VirtualWithDataMember { get; set; }
 #pragma warning restore 108, 114
     }
-#endif
 }
