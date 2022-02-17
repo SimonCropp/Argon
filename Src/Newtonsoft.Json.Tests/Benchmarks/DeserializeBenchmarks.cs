@@ -57,7 +57,7 @@ namespace Newtonsoft.Json.Tests.Benchmarks
         [Benchmark]
         public IList<RootObject> DeserializeLargeJsonFile()
         {
-            using (var jsonFile = System.IO.File.OpenText(TestFixtureBase.ResolvePath("large.json")))
+            using (var jsonFile = System.IO.File.OpenText("large.json"))
             using (JsonTextReader jsonTextReader = new JsonTextReader(jsonFile))
             {
                 JsonSerializer serializer = new JsonSerializer();

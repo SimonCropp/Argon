@@ -90,7 +90,7 @@ namespace Newtonsoft.Json.Tests.Linq
         {
             dynamic d;
 
-            using (var jsonFile = System.IO.File.OpenText(ResolvePath("large.json")))
+            using (var jsonFile = System.IO.File.OpenText("large.json"))
             using (JsonTextReader jsonTextReader = new JsonTextReader(jsonFile))
             {
                 JsonSerializer serializer = new JsonSerializer();

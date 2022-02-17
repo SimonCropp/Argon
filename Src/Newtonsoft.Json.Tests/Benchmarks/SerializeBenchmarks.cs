@@ -43,7 +43,7 @@ namespace Newtonsoft.Json.Tests.Benchmarks
 
         static SerializeBenchmarks()
         {
-            string json = System.IO.File.ReadAllText(TestFixtureBase.ResolvePath("large.json"));
+            string json = System.IO.File.ReadAllText("large.json");
 
             LargeCollection = JsonConvert.DeserializeObject<IList<RootObject>>(json);
         }

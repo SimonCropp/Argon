@@ -40,7 +40,7 @@ namespace Newtonsoft.Json.Tests.Issues
         [Fact]
         public void Test_DirectoryInfo()
         {
-            FileInfo fileInfo = new FileInfo(TestFixtureBase.ResolvePath("large.json"));
+            FileInfo fileInfo = new FileInfo("large.json");
 
             ExceptionAssert.Throws<JsonSerializationException>(
                 () => JsonConvert.SerializeObject(fileInfo.Directory),
@@ -50,7 +50,7 @@ namespace Newtonsoft.Json.Tests.Issues
         [Fact]
         public void Test_FileInfo()
         {
-            FileInfo fileInfo = new FileInfo(TestFixtureBase.ResolvePath("large.json"));
+            FileInfo fileInfo = new FileInfo("large.json");
 
             ExceptionAssert.Throws<JsonSerializationException>(
                 () => JsonConvert.SerializeObject(fileInfo),
