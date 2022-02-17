@@ -215,7 +215,7 @@ namespace Argon.Serialization
                 ? ReflectionDelegateFactory.CreateDefaultConstructor<object>(type)
                 : null;
 
-            return (parameters) =>
+            return parameters =>
             {
                 try
                 {
