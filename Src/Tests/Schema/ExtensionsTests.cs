@@ -51,9 +51,8 @@ namespace Argon.Tests.Schema
             var stringToken = JToken.FromObject("pie");
             var integerToken = JToken.FromObject(1);
 
-            IList<string> errorMessages;
             Assert.AreEqual(true, integerToken.IsValid(schema));
-            Assert.AreEqual(true, integerToken.IsValid(schema, out errorMessages));
+            Assert.AreEqual(true, integerToken.IsValid(schema, out var errorMessages));
             Assert.AreEqual(0, errorMessages.Count);
 
             Assert.AreEqual(false, stringToken.IsValid(schema));
@@ -346,8 +345,7 @@ namespace Argon.Tests.Schema
             };
 
             var a = new JArray(1, 2, 3, 2, 2);
-            IList<string> errorMessages;
-            Assert.IsFalse(a.IsValid(schema, out errorMessages));
+            Assert.IsFalse(a.IsValid(schema, out var errorMessages));
             Assert.AreEqual(2, errorMessages.Count);
             Assert.AreEqual("Non-unique array item at index 3.", errorMessages[0]);
             Assert.AreEqual("Non-unique array item at index 4.", errorMessages[1]);
@@ -362,8 +360,7 @@ namespace Argon.Tests.Schema
             };
 
             var a = new JArray(1, new JObject(new JProperty("value", "value!")), 3, 2, new JObject(new JProperty("value", "value!")), 4, 2, new JObject(new JProperty("value", "value!")));
-            IList<string> errorMessages;
-            Assert.IsFalse(a.IsValid(schema, out errorMessages));
+            Assert.IsFalse(a.IsValid(schema, out var errorMessages));
             Assert.AreEqual(3, errorMessages.Count);
             Assert.AreEqual("Non-unique array item at index 4.", errorMessages[0]);
             Assert.AreEqual("Non-unique array item at index 6.", errorMessages[1]);
@@ -393,8 +390,7 @@ namespace Argon.Tests.Schema
                 new JArray(1, 2),
                 new JArray(1, 1)
                 );
-            IList<string> errorMessages;
-            Assert.IsFalse(a.IsValid(schema, out errorMessages));
+            Assert.IsFalse(a.IsValid(schema, out var errorMessages));
             Assert.AreEqual(4, errorMessages.Count);
             Assert.AreEqual("Non-unique array item at index 1.", errorMessages[0]);
             Assert.AreEqual("Non-unique array item at index 3.", errorMessages[1]);
@@ -426,8 +422,7 @@ namespace Argon.Tests.Schema
             var o = new JObject(
                 new JProperty("bar", 1)
                 );
-            IList<string> errorMessages;
-            Assert.IsTrue(o.IsValid(schema, out errorMessages));
+            Assert.IsTrue(o.IsValid(schema, out var errorMessages));
             Assert.AreEqual(0, errorMessages.Count);
 
             o = new JObject(
@@ -457,8 +452,7 @@ namespace Argon.Tests.Schema
             var o = new JObject(
                 new JProperty("bar", new JArray(1, 2, 3, 3))
                 );
-            IList<string> errorMessages;
-            Assert.IsFalse(o.IsValid(schema, out errorMessages));
+            Assert.IsFalse(o.IsValid(schema, out var errorMessages));
             Assert.AreEqual(1, errorMessages.Count);
         }
 
@@ -476,8 +470,7 @@ namespace Argon.Tests.Schema
             };
 
             var a = new JArray(new JObject(), 1);
-            IList<string> errorMessages;
-            Assert.IsTrue(a.IsValid(schema, out errorMessages));
+            Assert.IsTrue(a.IsValid(schema, out var errorMessages));
             Assert.AreEqual(0, errorMessages.Count);
         }
     }
