@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if HAVE_ASYNC
-
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -114,5 +112,3 @@ namespace Newtonsoft.Json.Linq
         }
     }
 }
-
-#endif

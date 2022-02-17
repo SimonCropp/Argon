@@ -26,25 +26,17 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq.JsonPath;
-#if HAVE_DYNAMIC
 using System.Dynamic;
 using System.Linq.Expressions;
-#endif
 using System.IO;
-#if HAVE_BIG_INTEGER
 using System.Numerics;
-#endif
 using Newtonsoft.Json.Utilities;
 using System.Diagnostics;
 using System.Globalization;
 using System.Collections;
 using System.Runtime.CompilerServices;
 using System.Diagnostics.CodeAnalysis;
-#if !HAVE_LINQ
-using Newtonsoft.Json.Utilities.LinqBridge;
-#else
 using System.Linq;
-#endif
 using Newtonsoft.Json.Serialization;
 
 namespace Newtonsoft.Json.Linq
@@ -53,12 +45,8 @@ namespace Newtonsoft.Json.Linq
     /// Represents an abstract JSON token.
     /// </summary>
     public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
-#if HAVE_ICLONEABLE
         , ICloneable
-#endif
-#if HAVE_DYNAMIC
         , IDynamicMetaObjectProvider
-#endif
     {
         private static JTokenEqualityComparer? _equalityComparer;
 
@@ -69,9 +57,7 @@ namespace Newtonsoft.Json.Linq
 
         private static readonly JTokenType[] BooleanTypes = new[] { JTokenType.Integer, JTokenType.Float, JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.Boolean };
         private static readonly JTokenType[] NumberTypes = new[] { JTokenType.Integer, JTokenType.Float, JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.Boolean };
-#if HAVE_BIG_INTEGER
         private static readonly JTokenType[] BigIntegerTypes = new[] { JTokenType.Integer, JTokenType.Float, JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.Boolean, JTokenType.Bytes };
-#endif
         private static readonly JTokenType[] StringTypes = new[] { JTokenType.Date, JTokenType.Integer, JTokenType.Float, JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.Boolean, JTokenType.Bytes, JTokenType.Guid, JTokenType.TimeSpan, JTokenType.Uri };
         private static readonly JTokenType[] GuidTypes = new[] { JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.Guid, JTokenType.Bytes };
         private static readonly JTokenType[] TimeSpanTypes = new[] { JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.TimeSpan };
@@ -215,11 +201,7 @@ namespace Newtonsoft.Json.Linq
                     previous = current;
                 }
 
-#if HAVE_FAST_REVERSE
                 positions.FastReverse();
-#else
-                positions.Reverse();
-#endif
 
                 return JsonPosition.BuildPath(positions, null);
             }
@@ -500,17 +482,14 @@ namespace Newtonsoft.Json.Linq
                 throw new ArgumentException("Can not convert {0} to Boolean.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
             }
 
-#if HAVE_BIG_INTEGER
             if (v.Value is BigInteger integer)
             {
                 return Convert.ToBoolean((int)integer);
             }
-#endif
 
             return Convert.ToBoolean(v.Value, CultureInfo.InvariantCulture);
         }
 
-#if HAVE_DATE_TIME_OFFSET
         /// <summary>
         /// Performs an explicit conversion from <see cref="Newtonsoft.Json.Linq.JToken"/> to <see cref="System.DateTimeOffset"/>.
         /// </summary>
@@ -536,7 +515,6 @@ namespace Newtonsoft.Json.Linq
 
             return new DateTimeOffset(Convert.ToDateTime(v.Value, CultureInfo.InvariantCulture));
         }
-#endif
 
         /// <summary>
         /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Nullable{T}"/> of <see cref="Boolean"/>.
@@ -556,12 +534,10 @@ namespace Newtonsoft.Json.Linq
                 throw new ArgumentException("Can not convert {0} to Boolean.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
             }
 
-#if HAVE_BIG_INTEGER
             if (v.Value is BigInteger integer)
             {
                 return Convert.ToBoolean((int)integer);
             }
-#endif
 
             return (v.Value != null) ? (bool?)Convert.ToBoolean(v.Value, CultureInfo.InvariantCulture) : null;
         }
@@ -607,17 +583,14 @@ namespace Newtonsoft.Json.Linq
                 throw new ArgumentException("Can not convert {0} to DateTime.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
             }
 
-#if HAVE_DATE_TIME_OFFSET
             if (v.Value is DateTimeOffset offset)
             {
                 return offset.DateTime;
             }
-#endif
 
             return (v.Value != null) ? (DateTime?)Convert.ToDateTime(v.Value, CultureInfo.InvariantCulture) : null;
         }
 
-#if HAVE_DATE_TIME_OFFSET
         /// <summary>
         /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Nullable{T}"/> of <see cref="DateTimeOffset"/>.
         /// </summary>
@@ -652,7 +625,6 @@ namespace Newtonsoft.Json.Linq
 
             return new DateTimeOffset(Convert.ToDateTime(v.Value, CultureInfo.InvariantCulture));
         }
-#endif
 
         /// <summary>
         /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Nullable{T}"/> of <see cref="Decimal"/>.
@@ -672,12 +644,10 @@ namespace Newtonsoft.Json.Linq
                 throw new ArgumentException("Can not convert {0} to Decimal.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
             }
 
-#if HAVE_BIG_INTEGER
             if (v.Value is BigInteger integer)
             {
                 return (decimal?)integer;
             }
-#endif
 
             return (v.Value != null) ? (decimal?)Convert.ToDecimal(v.Value, CultureInfo.InvariantCulture) : null;
         }
@@ -700,12 +670,10 @@ namespace Newtonsoft.Json.Linq
                 throw new ArgumentException("Can not convert {0} to Double.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
             }
 
-#if HAVE_BIG_INTEGER
             if (v.Value is BigInteger integer)
             {
                 return (double?)integer;
             }
-#endif
 
             return (v.Value != null) ? (double?)Convert.ToDouble(v.Value, CultureInfo.InvariantCulture) : null;
         }
