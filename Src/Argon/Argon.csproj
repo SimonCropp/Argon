@@ -28,7 +28,6 @@
     <MinClientVersion>2.12</MinClientVersion>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <CodeAnalysisRuleset>Newtonsoft.Json.ruleset</CodeAnalysisRuleset>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <!--Package Validation-->
     <EnablePackageValidation>true</EnablePackageValidation>

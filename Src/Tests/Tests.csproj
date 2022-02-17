@@ -47,7 +47,7 @@
     <None Include="PoisonText.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <ProjectReference Include="..\Newtonsoft.Json\Newtonsoft.Json.csproj" />
+    <ProjectReference Include="..\Argon\Argon.csproj" />
   </ItemGroup>
   
   <ItemGroup Condition="'$(TargetFramework)'=='net461'">
