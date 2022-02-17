@@ -149,7 +149,6 @@ namespace Newtonsoft.Json.Tests.Serialization
 }", json);
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Serializable]
         public class MainClass : ISerializable
         {
@@ -208,7 +207,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             var c = JsonConvert.SerializeObject(main, settings);
             Assert.AreEqual(@"{""Child"":{""Name"":""Child1""}}", c);
         }
-#endif
 
         public class DictionaryDynamicObject : DynamicObject
         {

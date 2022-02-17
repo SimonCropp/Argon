@@ -28,7 +28,6 @@ using System.Runtime.Serialization;
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !DNXCORE50 || NETSTANDARD2_0
     [Serializable]
     public class PreserveReferencesCallbackTestObject : ISerializable
     {
@@ -82,6 +81,4 @@ namespace Newtonsoft.Json.Tests.TestObjects
             _serializationInfo = null;
         }
     }
-#endif
-
 }

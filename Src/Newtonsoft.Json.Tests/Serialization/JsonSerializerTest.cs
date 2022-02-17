@@ -255,7 +255,6 @@ namespace Newtonsoft.Json.Tests.Serialization
                 @"Error converting value {null} to type 'System.Boolean'. Path '[0]', line 1, position 3.");
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void DeserializeBooleans()
         {
@@ -329,7 +328,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(null, l[i++]);
             Assert.AreEqual(null, l[i++]);
         }
-#endif
 
         [Test]
         public void CaseInsensitiveRequiredPropertyConstructorCreation()
@@ -716,7 +714,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.IsNull(otc.Value5);
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void ReadIntegerWithError()
         {
@@ -732,7 +729,6 @@ namespace Newtonsoft.Json.Tests.Serialization
 
             Assert.AreEqual(0, l.ChildId);
         }
-#endif
 
         [Test]
         public void DeserializeObservableCollection()
@@ -969,10 +965,8 @@ namespace Newtonsoft.Json.Tests.Serialization
             serializer.ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor;
             Assert.AreEqual(ConstructorHandling.AllowNonPublicDefaultConstructor, serializer.ConstructorHandling);
 
-#if !DNXCORE50 || NETSTANDARD2_0
             serializer.Context = new StreamingContext(StreamingContextStates.Other);
             Assert.AreEqual(new StreamingContext(StreamingContextStates.Other), serializer.Context);
-#endif
 
             CamelCasePropertyNamesContractResolver resolver = new CamelCasePropertyNamesContractResolver();
             serializer.ContractResolver = resolver;
@@ -1040,7 +1034,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             serializer.TraceWriter = traceWriter;
             Assert.AreEqual(traceWriter, serializer.TraceWriter);
 
-#if !DNXCORE50 || NETSTANDARD2_0
 #pragma warning disable 618
             serializer.TypeNameAssemblyFormat = FormatterAssemblyStyle.Full;
             Assert.AreEqual(FormatterAssemblyStyle.Full, serializer.TypeNameAssemblyFormat);
@@ -1052,7 +1045,6 @@ namespace Newtonsoft.Json.Tests.Serialization
 #pragma warning disable 618
             Assert.AreEqual(FormatterAssemblyStyle.Simple, serializer.TypeNameAssemblyFormat);
 #pragma warning restore 618
-#endif
 
             serializer.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full;
             Assert.AreEqual(TypeNameAssemblyFormatHandling.Full, serializer.TypeNameAssemblyFormatHandling);
@@ -1083,10 +1075,8 @@ namespace Newtonsoft.Json.Tests.Serialization
             settings.ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor;
             Assert.AreEqual(ConstructorHandling.AllowNonPublicDefaultConstructor, settings.ConstructorHandling);
 
-#if !DNXCORE50 || NETSTANDARD2_0
             settings.Context = new StreamingContext(StreamingContextStates.Other);
             Assert.AreEqual(new StreamingContext(StreamingContextStates.Other), settings.Context);
-#endif
 
             CamelCasePropertyNamesContractResolver resolver = new CamelCasePropertyNamesContractResolver();
             settings.ContractResolver = resolver;
@@ -1160,7 +1150,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             settings.TraceWriter = traceWriter;
             Assert.AreEqual(traceWriter, settings.TraceWriter);
 
-#if !DNXCORE50 || NETSTANDARD2_0
 #pragma warning disable 618
             settings.TypeNameAssemblyFormat = FormatterAssemblyStyle.Full;
             Assert.AreEqual(FormatterAssemblyStyle.Full, settings.TypeNameAssemblyFormat);
@@ -1172,7 +1161,6 @@ namespace Newtonsoft.Json.Tests.Serialization
 #pragma warning disable 618
             Assert.AreEqual(FormatterAssemblyStyle.Simple, settings.TypeNameAssemblyFormat);
 #pragma warning restore 618
-#endif
 
             settings.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full;
             Assert.AreEqual(TypeNameAssemblyFormatHandling.Full, settings.TypeNameAssemblyFormatHandling);
@@ -1214,10 +1202,8 @@ namespace Newtonsoft.Json.Tests.Serialization
             serializerProxy.ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor;
             Assert.AreEqual(ConstructorHandling.AllowNonPublicDefaultConstructor, serializerProxy.ConstructorHandling);
 
-#if !DNXCORE50 || NETSTANDARD2_0
             serializerProxy.Context = new StreamingContext(StreamingContextStates.Other);
             Assert.AreEqual(new StreamingContext(StreamingContextStates.Other), serializerProxy.Context);
-#endif
 
             CamelCasePropertyNamesContractResolver resolver = new CamelCasePropertyNamesContractResolver();
             serializerProxy.ContractResolver = resolver;
@@ -1285,7 +1271,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             serializerProxy.TraceWriter = traceWriter;
             Assert.AreEqual(traceWriter, serializerProxy.TraceWriter);
 
-#if !DNXCORE50 || NETSTANDARD2_0
 #pragma warning disable 618
             serializerProxy.TypeNameAssemblyFormat = FormatterAssemblyStyle.Full;
             Assert.AreEqual(FormatterAssemblyStyle.Full, serializerProxy.TypeNameAssemblyFormat);
@@ -1297,7 +1282,6 @@ namespace Newtonsoft.Json.Tests.Serialization
 #pragma warning disable 618
             Assert.AreEqual(FormatterAssemblyStyle.Simple, serializerProxy.TypeNameAssemblyFormat);
 #pragma warning restore 618
-#endif
 
             serializerProxy.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full;
             Assert.AreEqual(TypeNameAssemblyFormatHandling.Full, serializerProxy.TypeNameAssemblyFormatHandling);
@@ -1306,7 +1290,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(TypeNameHandling.All, serializerProxy.TypeNameHandling);
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void DeserializeISerializableIConvertible()
         {
@@ -1385,7 +1368,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(obj2._person2.Spouse, obj2._person1);
             Assert.AreEqual(obj2._parent, obj2);
         }
-#endif
 
         [Test]
         public void DeserializeLargeFloat()
@@ -1784,7 +1766,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(executorObject2.clientGetResultFunction, "ClientBanSubsCB");
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void HashtableDeserialization()
         {
@@ -1807,7 +1788,6 @@ namespace Newtonsoft.Json.Tests.Serialization
   ""01/24/2010 12:00:00""
 ]", p.Hash["UntypedArray"].ToString());
         }
-#endif
 
         [Test]
         public void SerializeDeserializeGetOnlyProperty()
@@ -3531,9 +3511,7 @@ Path '', line 1, position 1.");
                 {
                     ContractResolver = new DefaultContractResolver
                     {
-#if !DNXCORE50 || NETSTANDARD2_0
                         IgnoreSerializableAttribute = true
-#endif
                     }
                 });
             }, @"Error getting value from 'ReadTimeout' on 'System.IO.MemoryStream'.");
@@ -3548,9 +3526,7 @@ Path '', line 1, position 1.");
                 {
                     ContractResolver = new DefaultContractResolver
                     {
-#if !DNXCORE50 || NETSTANDARD2_0
                         IgnoreSerializableAttribute = true
-#endif
                     }
                 });
             }, @"Error setting value to 'ReadTimeout' on 'System.IO.MemoryStream'.");
@@ -3565,9 +3541,7 @@ Path '', line 1, position 1.");
                 {
                     ContractResolver = new DefaultContractResolver
                     {
-#if !DNXCORE50 || NETSTANDARD2_0
                         IgnoreSerializableAttribute = true
-#endif
                     }
                 });
             }, @"Error converting value {null} to type 'System.Int32'. Path 'ReadTimeout', line 1, position 15.");
@@ -3582,9 +3556,7 @@ Path '', line 1, position 1.");
                 {
                     ContractResolver = new DefaultContractResolver
                     {
-#if !DNXCORE50 || NETSTANDARD2_0
                         IgnoreSerializableAttribute = true
-#endif
                     }
                 });
             }, @"Error converting value {null} to type 'System.Int32'. Path 'ReadTimeout', line 1, position 17.");
@@ -4040,7 +4012,6 @@ Path '', line 1, position 1.");
             Assert.AreEqual("value", newModelStateDictionary["key"]);
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
 #if DEBUG
         [Test]
         public void SerializeISerializableInPartialTrustWithIgnoreInterface()
@@ -4117,7 +4088,6 @@ Path '', line 1, position 1.");
                 JsonTypeReflector.SetFullyTrusted(null);
             }
         }
-#endif
 
         [Test]
         public void SerializeISerializableTestObject_IsoDate()
@@ -4269,7 +4239,6 @@ Path '', line 1, position 1.");
 }", json);
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void DeserializeClassWithInheritedProtectedMember()
         {
@@ -4336,7 +4305,6 @@ Path '', line 1, position 1.");
             Assert.AreEqual(3, ReflectionUtils.GetMemberValue(typeof(BBTestClass).GetProperty("BB_property7", BindingFlags.Instance | BindingFlags.Public), myB));
             Assert.AreEqual(3, ReflectionUtils.GetMemberValue(typeof(BBTestClass).GetProperty("BB_property8", BindingFlags.Instance | BindingFlags.Public), myB));
         }
-#endif
 
         [Test]
         public void SerializeDeserializeXNodeProperties()
@@ -4367,7 +4335,6 @@ Path '', line 1, position 1.");
             Assert.IsNull(newTestObject.Element.Parent);
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void SerializeDeserializeXmlNodeProperties()
         {
@@ -4387,7 +4354,6 @@ Path '', line 1, position 1.");
             XmlNodeTestObject newTestObject = JsonConvert.DeserializeObject<XmlNodeTestObject>(json);
             Assert.AreEqual(testObject.Document.InnerXml, newTestObject.Document.InnerXml);
         }
-#endif
 
         [Test]
         public void FullClientMapSerialization()
@@ -4596,7 +4562,6 @@ Path '', line 1, position 1.");
             Assert.AreEqual(0, z[1].Prop1.Length);
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void StringDictionaryTest()
         {
@@ -4629,7 +4594,6 @@ Path '', line 1, position 1.");
                 ExceptionAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<StringDictionaryTestClass>(json); }, "Cannot create and populate list type " + classRef + ". Path 'StringDictionaryProperty', line 2, position 31.");
             }
         }
-#endif
 
         [Test]
         public void SerializeStructWithJsonObjectAttribute()
@@ -4837,7 +4801,6 @@ Path '', line 1, position 1.");
             Assert.AreEqual(meh.IDontWork, "meh");
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void DeserializeNullableStruct()
         {
@@ -4875,7 +4838,6 @@ Path '', line 1, position 1.");
                     MissingMemberHandling = MissingMemberHandling.Ignore
                 });
         }
-#endif
 
         [Test]
         public void DeserializeJToken()
@@ -5264,7 +5226,6 @@ Path '', line 1, position 1.");
             Assert.AreEqual(new Guid("bb2f3da7-bf79-4d14-9d54-0a1f7ff5f902"), c.clientId);
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void SerializeException1()
         {
@@ -5286,7 +5247,6 @@ Path '', line 1, position 1.");
             dex = JsonConvert.DeserializeObject<ClassWithException>(sex); // this fails!
             Assert.AreEqual(dex.Exceptions[0].ToString(), dex.Exceptions[0].ToString());
         }
-#endif
 
         [Test]
         public void UriGuidTimeSpanTestClassEmptyTest()
@@ -5483,7 +5443,6 @@ Path '', line 1, position 1.");
             Assert.AreEqual(-3, StaticTestClass.z);
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void DeserializeDecimalsWithCulture()
         {
@@ -5509,7 +5468,6 @@ Path '', line 1, position 1.");
                 Thread.CurrentThread.CurrentUICulture = initialCulture;
             }
         }
-#endif
 
         [Test]
         public void ReadForTypeHackFixDecimal()
@@ -5583,7 +5541,6 @@ Path '', line 1, position 1.");
             }, "Error converting value {null} to type 'System.Int32'. Path '[3]', line 5, position 6.");
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void SerializeIConvertible()
         {
@@ -5614,7 +5571,6 @@ Path '', line 1, position 1.");
 
             ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<ConvertableIntTestClass>(json), "Error converting value 1 to type 'Newtonsoft.Json.Tests.TestObjects.ConvertibleInt'. Path 'Integer', line 2, position 14.");
         }
-#endif
 
         [Test]
         public void SerializeNullableWidgetStruct()
@@ -6309,7 +6265,6 @@ Path '', line 1, position 1.");
             Assert.AreEqual("", s);
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void SerializeAndDeserializeWithAttributes()
         {
@@ -6348,7 +6303,6 @@ Path '', line 1, position 1.");
 
             return serializer.Deserialize(jsonReader, typeof(T)) as T;
         }
-#endif
 
         [Test]
         public void PropertyItemConverter()
@@ -6754,7 +6708,6 @@ This is just junk, though.";
         }
 #endif
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void SerializeTupleWithSerializableAttribute()
         {
@@ -6774,7 +6727,6 @@ This is just junk, though.";
             });
             Assert.AreEqual(500, obj.Item1);
         }
-#endif
 
         [Test]
         public void RoundtripOfDateTimeOffset()
@@ -6966,7 +6918,6 @@ This is just junk, though.";
 
             Assert.AreEqual(@"{""First"":""One"",""Second"":2}", json);
 
-#if !DNXCORE50 || NETSTANDARD2_0
             DefaultContractResolver r = new DefaultContractResolver();
             r.IgnoreSerializableAttribute = false;
 
@@ -6976,7 +6927,6 @@ This is just junk, though.";
             });
 
             Assert.AreEqual(@"{""First"":""One"",""Second"":2}", json);
-#endif
         }
 
         [Test]
@@ -7068,7 +7018,6 @@ This is just junk, though.";
             Assert.AreEqual(1234567890.123456m, d);
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void DontSerializeStaticFields()
         {
@@ -7090,9 +7039,7 @@ This is just junk, though.";
   ""<Unbeantwortet>k__BackingField"": false
 }", json);
         }
-#endif
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void SerializeBigInteger()
         {
@@ -7104,7 +7051,6 @@ This is just junk, though.";
   123456789999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999990
 ]", json);
         }
-#endif
 
         [Test]
         public void DeserializeWithConstructor()
@@ -7233,7 +7179,6 @@ This is just junk, though.";
         }
 #endif
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void SerializeDictionaryWithStructKey_Custom()
         {
@@ -7248,7 +7193,6 @@ This is just junk, though.";
             Assert.AreEqual(new TypeConverterSize(1, 2), d.Keys.First());
             Assert.AreEqual(new TypeConverterSize(3, 4), d.Values.First());
         }
-#endif
 
         [Test]
         public void DeserializeCustomReferenceResolver()
@@ -7324,7 +7268,6 @@ This is just junk, though.";
             Assert.AreEqual(jane, john.Spouse);
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void TypeConverterOnInterface()
         {
@@ -7377,7 +7320,6 @@ This is just junk, though.";
             var restoredDict2 = JsonConvert.DeserializeObject<Dictionary<string, IMyInterface>>(text3, options);
             Assert.AreEqual("ConsoleWriter", restoredDict2.First().Value.PrintTest());
         }
-#endif
 
         [Test]
         public void Main()
@@ -7390,7 +7332,6 @@ This is just junk, though.";
             ParticipantEntity deserializedProduct = JsonConvert.DeserializeObject<ParticipantEntity>(json);
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void ConvertibleIdTest()
         {
@@ -7401,7 +7342,6 @@ This is just junk, though.";
   ""X"": 2
 }", s);
         }
-#endif
 
         [Test]
         public void DuplicatePropertiesInNestedObject()
@@ -7729,7 +7669,6 @@ This is just junk, though.";
         }
 #endif
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void MailMessageConverterTest()
         {
@@ -7783,7 +7722,6 @@ This is just junk, though.";
                 },
                 "Cannot populate list type System.Net.Mime.HeaderCollection. Path 'Headers', line 26, position 14.");
         }
-#endif
 
         [Test]
         public void ParametrizedConstructor_IncompleteJson()

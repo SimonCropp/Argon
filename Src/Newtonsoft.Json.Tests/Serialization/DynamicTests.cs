@@ -100,7 +100,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(dynamicObject.ChildObject.Text, d.ChildObject.Text);
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void SerializeDynamicObjectWithObjectTracking()
         {
@@ -151,7 +150,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("Child text!", n.DynamicChildObject.Text);
             Assert.AreEqual(int.MinValue, n.DynamicChildObject.Integer);
         }
-#endif
 
         [Test]
         public void NoPublicDefaultConstructor()

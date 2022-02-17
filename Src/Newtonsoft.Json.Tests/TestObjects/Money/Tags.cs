@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !DNXCORE50 || NETSTANDARD2_0
-
 namespace Newtonsoft.Json.Tests.TestObjects.Money
 {
     public static class Tags
@@ -37,4 +35,3 @@ namespace Newtonsoft.Json.Tests.TestObjects.Money
         public const int USD = 3;
     }
 }
-#endif

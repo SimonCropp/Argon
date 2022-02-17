@@ -101,7 +101,6 @@ namespace Newtonsoft.Json.Tests
             }
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public async Task WriteLazy()
         {
@@ -226,7 +225,6 @@ namespace Newtonsoft.Json.Tests
     }
 ]", sw.ToString());
         }
-#endif
 
         [Test]
         public async Task BufferTestAsync()
@@ -369,7 +367,6 @@ namespace Newtonsoft.Json.Tests
             Assert.IsTrue(ms.CanRead);
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public async Task WriteIConvertableAsync()
         {
@@ -379,7 +376,6 @@ namespace Newtonsoft.Json.Tests
 
             Assert.AreEqual("1", sw.ToString());
         }
-#endif
 
         [Test]
         public async Task ValueFormattingAsync()

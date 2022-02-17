@@ -339,7 +339,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.IsTrue(JToken.DeepEquals(t1, t2));
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void DeserializeGenericObjectListWithTypeName()
         {
@@ -435,7 +434,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(4, nested[3]);
             Assert.AreEqual(5, nested[4]);
         }
-#endif
 
         public class MetadataPropertyDisabledTestClass
         {

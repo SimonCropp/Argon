@@ -25,7 +25,6 @@
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !DNXCORE50 || NETSTANDARD2_0
     internal class TraceWriter : IMyInterface
     {
         public string Name
@@ -43,5 +42,4 @@ namespace Newtonsoft.Json.Tests.TestObjects
             return "TraceWriter";
         }
     }
-#endif
 }

@@ -219,7 +219,6 @@ namespace Newtonsoft.Json.Tests
             Assert.IsTrue(ms.CanRead);
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void WriteIConvertable()
         {
@@ -229,7 +228,6 @@ namespace Newtonsoft.Json.Tests
 
             Assert.AreEqual("1", sw.ToString());
         }
-#endif
 
         [Test]
         public void ValueFormatting()

@@ -1442,7 +1442,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             CollectionAssert.AreEquivalent(data, d);
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void ISerializableTypeNameHandlingTest()
         {
@@ -1486,7 +1485,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             //Check Round Trip
             Assert.AreEqual(e, f, "Objects should be equal after round trip json serialization");
         }
-#endif
 
         [Test]
         public void SerializationBinderWithFullName()
@@ -1979,7 +1977,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(2, (int)o["MyProperty"]);
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void SerializeDeserialize_DictionaryContextContainsGuid_DeserializesItemAsGuid()
         {
@@ -2119,7 +2116,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             CustomAssert.IsInstanceOfType(typeof(MyChild), p2.Child);
             Assert.AreEqual("string!", ((MyChild)p2.Child).MyProperty);
         }
-#endif
 
         [Test]
         public void ListOfStackWithFullAssemblyName()
@@ -2402,7 +2398,6 @@ namespace Newtonsoft.Json.Tests.Serialization
         public string SomeProperty { get; set; }
     }
 
-#if !DNXCORE50 || NETSTANDARD2_0
     public class ParentParent
     {
         [JsonProperty(ItemTypeNameHandling = TypeNameHandling.Auto)]
@@ -2442,7 +2437,6 @@ namespace Newtonsoft.Json.Tests.Serialization
     public interface ISomeBase
     {
     }
-#endif
 
     public class Message
     {
@@ -2470,7 +2464,6 @@ namespace Newtonsoft.Json.Tests.Serialization
         public int Quantity { get; set; }
     }
 
-#if !DNXCORE50 || NETSTANDARD2_0
     public class SerializableWrapper
     {
         public object Content { get; set; }
@@ -2555,7 +2548,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             return Name.GetHashCode();
         }
     }
-#endif
 
     public class PropertyItemTypeNameHandlingObject
     {

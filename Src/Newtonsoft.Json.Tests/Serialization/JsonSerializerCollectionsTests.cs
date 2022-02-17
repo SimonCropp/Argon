@@ -55,7 +55,6 @@ namespace Newtonsoft.Json.Tests.Serialization
     [TestFixture]
     public class JsonSerializerCollectionsTests : TestFixtureBase
     {
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void DeserializeNonGenericListTypeAndReadOnlyListViaConstructor()
         {
@@ -90,7 +89,6 @@ namespace Newtonsoft.Json.Tests.Serialization
 
             Assert.IsNull(deserializedObject[key]);
         }
-#endif
 
         [Test]
         public void SerializeConcurrentQueue()
@@ -295,7 +293,6 @@ namespace Newtonsoft.Json.Tests.Serialization
                 "Constructor for 'Newtonsoft.Json.Tests.Serialization.JsonSerializerCollectionsTests+TestCollectionBadIEnumerableParameter' must have no parameters or a single parameter that implements 'System.Collections.Generic.IEnumerable`1[System.Int32]'.");
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
         public class TestCollectionNonGeneric : ArrayList
         {
             [JsonConstructor]
@@ -316,7 +313,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(2L, l[1]);
             Assert.AreEqual(3L, l[2]);
         }
-#endif
 
         public class TestDictionaryPrivateParameterized : Dictionary<string, int>
         {
@@ -408,7 +404,6 @@ namespace Newtonsoft.Json.Tests.Serialization
                 "Constructor for 'Newtonsoft.Json.Tests.Serialization.JsonSerializerCollectionsTests+TestDictionaryBadIEnumerableParameter' must have no parameters or a single parameter that implements 'System.Collections.Generic.IEnumerable`1[System.Collections.Generic.KeyValuePair`2[System.String,System.Int32]]'.");
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
         public class TestDictionaryNonGeneric : Hashtable
         {
             [JsonConstructor]
@@ -429,9 +424,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(1L, d["one"]);
             Assert.AreEqual(2L, d["two"]);
         }
-#endif
 
-#if !DNXCORE50 || NETSTANDARD2_0
         public class NameValueCollectionTestClass
         {
             public NameValueCollection Collection { get; set; }
@@ -444,9 +437,7 @@ namespace Newtonsoft.Json.Tests.Serialization
                 () => JsonConvert.DeserializeObject<NameValueCollectionTestClass>("{Collection:[]}"),
                 "Cannot create and populate list type System.Collections.Specialized.NameValueCollection. Path 'Collection', line 1, position 13.");
         }
-#endif
 
-#if !DNXCORE50 || NETSTANDARD2_0
         public class SomeObject
         {
             public string Text1 { get; set; }
@@ -495,7 +486,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("value1", d2["key"][0].Text1);
             Assert.AreEqual("value2", d2["key2"][0].Text1);
         }
-#endif
 
         [Test]
         public void NonZeroBasedArray()
@@ -1086,7 +1076,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(3, v2["Third"]);
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void DeserializeConcurrentDictionary()
         {
@@ -1117,7 +1106,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("Id!", newObject.Id);
             Assert.AreEqual("Name!", newObject.Name);
         }
-#endif
 
         [Test]
         public void DeserializeKeyValuePairArray()
@@ -1798,7 +1786,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(1, (int)((JObject)o.Data[2])["one"]);
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void SerializeArrayAsArrayList()
         {
@@ -1809,7 +1796,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(3, ((JArray)o[2]).Count);
             Assert.AreEqual(0, ((JObject)o[3]).Count);
         }
-#endif
 
         [Test]
         public void SerializeMemberGenericList()
@@ -2061,7 +2047,6 @@ namespace Newtonsoft.Json.Tests.Serialization
 ]", json);
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void EmptyStringInHashtableIsDeserialized()
         {
@@ -2074,7 +2059,6 @@ namespace Newtonsoft.Json.Tests.Serialization
 
             Assert.AreEqual(deserializeTest2["testkey"], "");
         }
-#endif
 
         [Test]
         public void DeserializeCollectionWithConstructorArrayArgument()

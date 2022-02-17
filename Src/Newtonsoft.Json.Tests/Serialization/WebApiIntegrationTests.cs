@@ -71,16 +71,13 @@ namespace Newtonsoft.Json.Tests.Serialization
             {
                 ContractResolver = new DefaultContractResolver
                 {
-#if !DNXCORE50 || NETSTANDARD2_0
                     IgnoreSerializableAttribute = false
-#endif
                 }
             });
 
             Assert.AreEqual(expected, json);
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void SerializeInheritedType()
         {
@@ -98,7 +95,6 @@ namespace Newtonsoft.Json.Tests.Serialization
 
             Assert.AreEqual(@"{""inheritedTypeField"":""inherited"",""publicField"":""public"",""PublicProperty"":""private""}", json);
         }
-#endif
     }
 
     public class InheritedType : SerializableType
@@ -110,11 +106,7 @@ namespace Newtonsoft.Json.Tests.Serialization
         }
     }
 
-#if !DNXCORE50 || NETSTANDARD2_0
     [Serializable]
-#else
-    [JsonObject(MemberSerialization.Fields)]
-#endif
     public class SerializableType : IEquatable<SerializableType>
     {
         public SerializableType(string protectedFieldValue)

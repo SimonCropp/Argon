@@ -103,7 +103,6 @@ namespace Newtonsoft.Json.Tests
         }
 #pragma warning restore 618
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void BinarySerializeException()
         {
@@ -116,6 +115,5 @@ namespace Newtonsoft.Json.Tests
 #pragma warning restore SYSLIB0011 // Type or member is obsolete
             }
         }
-#endif
     }
 }

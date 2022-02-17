@@ -854,7 +854,6 @@ Newtonsoft.Json Error: 0 : Error!
             Assert.IsTrue(traceWriter.TraceRecords[9].Message.StartsWith("Finished deserializing System.Collections.Generic.List`1[System.Object]. Path '$values'"));
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void DeserializeISerializable()
         {
@@ -886,7 +885,6 @@ Newtonsoft.Json Error: 0 : Error!
 
             Assert.AreEqual(TraceLevel.Error, traceWriter.TraceRecords[1].Level);
         }
-#endif
 
         [Test]
         public void DeserializeMissingMember()
