@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net46;net5.0</TargetFrameworks>
+    <TargetFrameworks>net461;net5.0</TargetFrameworks>
     <LangVersion>9.0</LangVersion>
     <VersionPrefix>1.0</VersionPrefix>
     <Authors>James Newton-King</Authors>
@@ -42,7 +42,7 @@
     <ProjectReference Include="..\Newtonsoft.Json\Newtonsoft.Json.csproj" />
   </ItemGroup>
   
-  <ItemGroup Condition="'$(TargetFramework)'=='net46'">
+  <ItemGroup Condition="'$(TargetFramework)'=='net461'">
     <PackageReference Include="NUnit" Version="$(NunitPackageVersion)" />
     <PackageReference Include="NUnit3TestAdapter" Version="$(Nunit3TestAdapterPackageVersion)" />
     <PackageReference Include="Autofac" Version="$(AutofacPackageVersion)" />
@@ -60,10 +60,8 @@
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Data.DataSetExtensions" />
   </ItemGroup>
-  <PropertyGroup Condition="'$(TargetFramework)'=='net46'">
-    <AssemblyTitle>Json.NET Tests</AssemblyTitle>
-    <ReferringTargetFrameworkForProjectReferences>.NETFramework,Version=v4.5</ReferringTargetFrameworkForProjectReferences>
-    <DefineConstants>NET45;HAVE_BENCHMARKS;;$(AdditionalConstants)</DefineConstants>
+  <PropertyGroup Condition="'$(TargetFramework)'=='net461'">
+    <DefineConstants>HAVE_BENCHMARKS;;$(AdditionalConstants)</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='net5.0'">
