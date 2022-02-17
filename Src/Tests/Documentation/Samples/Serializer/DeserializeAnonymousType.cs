@@ -28,31 +28,30 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class DeserializeAnonymousType : TestFixtureBase
 {
-    [TestFixture]
-    public class DeserializeAnonymousType : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var definition = new { Name = "" };
+        #region Usage
+        var definition = new { Name = "" };
 
-            var json1 = @"{'Name':'James'}";
-            var customer1 = JsonConvert.DeserializeAnonymousType(json1, definition);
+        var json1 = @"{'Name':'James'}";
+        var customer1 = JsonConvert.DeserializeAnonymousType(json1, definition);
 
-            Console.WriteLine(customer1.Name);
-            // James
+        Console.WriteLine(customer1.Name);
+        // James
 
-            var json2 = @"{'Name':'Mike'}";
-            var customer2 = JsonConvert.DeserializeAnonymousType(json2, definition);
+        var json2 = @"{'Name':'Mike'}";
+        var customer2 = JsonConvert.DeserializeAnonymousType(json2, definition);
 
-            Console.WriteLine(customer2.Name);
-            // Mike
-            #endregion
+        Console.WriteLine(customer2.Name);
+        // Mike
+        #endregion
 
-            Assert.AreEqual("Mike", customer2.Name);
-        }
+        Assert.AreEqual("Mike", customer2.Name);
     }
 }

@@ -23,17 +23,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class NonDefaultConstructorWithReadOnlyCollectionProperty
-    {
-        public string Title { get; set; }
-        public IList<string> Categories { get; private set; }
+namespace Argon.Tests.TestObjects;
 
-        public NonDefaultConstructorWithReadOnlyCollectionProperty(string title)
-        {
-            Title = title;
-            Categories = new List<string>();
-        }
+public class NonDefaultConstructorWithReadOnlyCollectionProperty
+{
+    public string Title { get; set; }
+    public IList<string> Categories { get; private set; }
+
+    public NonDefaultConstructorWithReadOnlyCollectionProperty(string title)
+    {
+        Title = title;
+        Categories = new List<string>();
     }
 }

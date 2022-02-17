@@ -23,15 +23,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[Flags]
+public enum StoreColor
 {
-    [Flags]
-    public enum StoreColor
-    {
-        Black = 1,
-        Red = 2,
-        Yellow = 4,
-        White = 8,
-        DarkGoldenrod = 16
-    }
+    Black = 1,
+    Red = 2,
+    Yellow = 4,
+    White = 8,
+    DarkGoldenrod = 16
 }

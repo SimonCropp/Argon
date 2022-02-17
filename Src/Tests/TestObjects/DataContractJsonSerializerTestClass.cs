@@ -23,12 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class DataContractJsonSerializerTestClass
 {
-    public class DataContractJsonSerializerTestClass
-    {
-        public TimeSpan TimeSpanProperty { get; set; }
-        public Guid GuidProperty { get; set; }
-        public Animal AnimalProperty { get; set; }
-    }
+    public TimeSpan TimeSpanProperty { get; set; }
+    public Guid GuidProperty { get; set; }
+    public Animal AnimalProperty { get; set; }
 }

@@ -23,58 +23,57 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[Serializable]
+public class AnswerFilterModel
 {
-    [Serializable]
-    public class AnswerFilterModel
+    [NonSerialized]
+    private readonly IList answerValues;
+
+    /// <summary>
+    /// Initializes a new instance of the  class.
+    /// </summary>
+    public AnswerFilterModel()
     {
-        [NonSerialized]
-        private readonly IList answerValues;
-
-        /// <summary>
-        /// Initializes a new instance of the  class.
-        /// </summary>
-        public AnswerFilterModel()
-        {
-            answerValues = (from answer in Enum.GetNames(typeof(Antworten))
+        answerValues = (from answer in Enum.GetNames(typeof(Antworten))
                 select new SelectListItem { Text = answer, Value = answer, Selected = false })
-                .ToList();
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether active.
-        /// </summary>
-        public bool Active { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether ja.
-        /// nach bisherigen Antworten.
-        /// </summary>
-        public bool Ja { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether handlungsbedarf.
-        /// </summary>
-        public bool Handlungsbedarf { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether beratungsbedarf.
-        /// </summary>
-        public bool Beratungsbedarf { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether unzutreffend.
-        /// </summary>
-        public bool Unzutreffend { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether unbeantwortet.
-        /// </summary>
-        public bool Unbeantwortet { get; set; }
-
-        /// <summary>
-        /// Gets the answer values.
-        /// </summary>
-        public IEnumerable AnswerValues => answerValues;
+            .ToList();
     }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether active.
+    /// </summary>
+    public bool Active { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether ja.
+    /// nach bisherigen Antworten.
+    /// </summary>
+    public bool Ja { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether handlungsbedarf.
+    /// </summary>
+    public bool Handlungsbedarf { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether beratungsbedarf.
+    /// </summary>
+    public bool Beratungsbedarf { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether unzutreffend.
+    /// </summary>
+    public bool Unzutreffend { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether unbeantwortet.
+    /// </summary>
+    public bool Unbeantwortet { get; set; }
+
+    /// <summary>
+    /// Gets the answer values.
+    /// </summary>
+    public IEnumerable AnswerValues => answerValues;
 }

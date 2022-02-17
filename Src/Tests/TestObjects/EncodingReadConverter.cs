@@ -23,29 +23,28 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class EncodingReadConverter : JsonConverter
 {
-    public class EncodingReadConverter : JsonConverter
+    public override bool CanConvert(Type objectType)
     {
-        public override bool CanConvert(Type objectType)
+        return typeof(Encoding).IsAssignableFrom(objectType);
+    }
+
+    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    {
+        var encodingName = serializer.Deserialize<string>(reader);
+        if (encodingName == null)
         {
-            return typeof(Encoding).IsAssignableFrom(objectType);
+            return null;
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            var encodingName = serializer.Deserialize<string>(reader);
-            if (encodingName == null)
-            {
-                return null;
-            }
+        return Encoding.GetEncoding(encodingName);
+    }
 
-            return Encoding.GetEncoding(encodingName);
-        }
-
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            throw new NotImplementedException();
-        }
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+    {
+        throw new NotImplementedException();
     }
 }

@@ -28,37 +28,36 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Linq
-{
-    [TestFixture]
-    public class ReadJson : TestFixtureBase
-    {
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var o1 = JObject.Parse(File.ReadAllText(@"c:\videogames.json"));
+namespace Argon.Tests.Documentation.Samples.Linq;
 
-            // read JSON directly from a file
-            using (var file = File.OpenText(@"c:\videogames.json"))
-            using (var reader = new JsonTextReader(file))
-            {
-                var o2 = (JObject)JToken.ReadFrom(reader);
-            }
-            #endregion
+[TestFixture]
+public class ReadJson : TestFixtureBase
+{
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var o1 = JObject.Parse(File.ReadAllText(@"c:\videogames.json"));
+
+        // read JSON directly from a file
+        using (var file = File.OpenText(@"c:\videogames.json"))
+        using (var reader = new JsonTextReader(file))
+        {
+            var o2 = (JObject)JToken.ReadFrom(reader);
+        }
+        #endregion
+    }
+
+    public static class File
+    {
+        public static StreamReader OpenText(string path)
+        {
+            return new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes("{}")));
         }
 
-        public static class File
+        public static string ReadAllText(string path)
         {
-            public static StreamReader OpenText(string path)
-            {
-                return new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes("{}")));
-            }
-
-            public static string ReadAllText(string path)
-            {
-                return "{}";
-            }
+            return "{}";
         }
     }
 }

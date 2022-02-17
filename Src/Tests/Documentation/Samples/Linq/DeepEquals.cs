@@ -28,48 +28,47 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Linq
+namespace Argon.Tests.Documentation.Samples.Linq;
+
+[TestFixture]
+public class DeepEquals : TestFixtureBase
 {
-    [TestFixture]
-    public class DeepEquals : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
+        #region Usage
+        var s1 = new JValue("A string");
+        var s2 = new JValue("A string");
+        var s3 = new JValue("A STRING");
+
+        Console.WriteLine(JToken.DeepEquals(s1, s2));
+        // true
+
+        Console.WriteLine(JToken.DeepEquals(s2, s3));
+        // false
+
+        var o1 = new JObject
         {
-            #region Usage
-            var s1 = new JValue("A string");
-            var s2 = new JValue("A string");
-            var s3 = new JValue("A STRING");
+            { "Integer", 12345 },
+            { "String", "A string" },
+            { "Items", new JArray(1, 2) }
+        };
 
-            Console.WriteLine(JToken.DeepEquals(s1, s2));
-            // true
+        var o2 = new JObject
+        {
+            { "Integer", 12345 },
+            { "String", "A string" },
+            { "Items", new JArray(1, 2) }
+        };
 
-            Console.WriteLine(JToken.DeepEquals(s2, s3));
-            // false
+        Console.WriteLine(JToken.DeepEquals(o1, o2));
+        // true
 
-            var o1 = new JObject
-            {
-                { "Integer", 12345 },
-                { "String", "A string" },
-                { "Items", new JArray(1, 2) }
-            };
+        Console.WriteLine(JToken.DeepEquals(s1, o1["String"]));
+        // true
+        #endregion
 
-            var o2 = new JObject
-            {
-                { "Integer", 12345 },
-                { "String", "A string" },
-                { "Items", new JArray(1, 2) }
-            };
-
-            Console.WriteLine(JToken.DeepEquals(o1, o2));
-            // true
-
-            Console.WriteLine(JToken.DeepEquals(s1, o1["String"]));
-            // true
-            #endregion
-
-            Assert.IsTrue(JToken.DeepEquals(o1, o2));
-            Assert.IsTrue(JToken.DeepEquals(s1, o1["String"]));
-        }
+        Assert.IsTrue(JToken.DeepEquals(o1, o2));
+        Assert.IsTrue(JToken.DeepEquals(s1, o1["String"]));
     }
 }

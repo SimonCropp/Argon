@@ -27,53 +27,52 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue2444
 {
-    [TestFixture]
-    public class Issue2444
+    [Fact]
+    public void Test()
     {
-        [Fact]
-        public void Test()
+        var namingStrategy = new SnakeCaseNamingStrategy();
+        var settings = new JsonSerializerSettings
         {
-            var namingStrategy = new SnakeCaseNamingStrategy();
-            var settings = new JsonSerializerSettings
+            ContractResolver = new DefaultContractResolver
             {
-                ContractResolver = new DefaultContractResolver
-                {
-                    NamingStrategy = namingStrategy
-                }
-            };
+                NamingStrategy = namingStrategy
+            }
+        };
 
-            var json = @"{""dict"":{""value1"":""a"",""text_value"":""b""}}";
-            var c = JsonConvert.DeserializeObject<DataClass>(json, settings);
+        var json = @"{""dict"":{""value1"":""a"",""text_value"":""b""}}";
+        var c = JsonConvert.DeserializeObject<DataClass>(json, settings);
 
-            Assert.AreEqual(2, c.Dict.Count);
-            Assert.AreEqual("a", c.Dict[MyEnum.Value1]);
-            Assert.AreEqual("b", c.Dict[MyEnum.TextValue]);
+        Assert.AreEqual(2, c.Dict.Count);
+        Assert.AreEqual("a", c.Dict[MyEnum.Value1]);
+        Assert.AreEqual("b", c.Dict[MyEnum.TextValue]);
 
-            var json1 = @"{""dict"":{""Value1"":""a"",""TextValue"":""b""}}";
-            var c1 = JsonConvert.DeserializeObject<DataClass>(json1, settings);
+        var json1 = @"{""dict"":{""Value1"":""a"",""TextValue"":""b""}}";
+        var c1 = JsonConvert.DeserializeObject<DataClass>(json1, settings);
 
-            Assert.AreEqual(2, c1.Dict.Count);
-            Assert.AreEqual("a", c1.Dict[MyEnum.Value1]);
-            Assert.AreEqual("b", c1.Dict[MyEnum.TextValue]);
+        Assert.AreEqual(2, c1.Dict.Count);
+        Assert.AreEqual("a", c1.Dict[MyEnum.Value1]);
+        Assert.AreEqual("b", c1.Dict[MyEnum.TextValue]);
 
-            // Non-dictionary values should still error
-            ExceptionAssert.Throws<JsonSerializationException>(() =>
-            {
-                JsonConvert.DeserializeObject<List<MyEnum>>(@"[""text_value""]", settings);
-            }, @"Error converting value ""text_value"" to type 'Argon.Tests.Issues.Issue2444+MyEnum'. Path '[0]', line 1, position 13.");
-        }
-
-        public enum MyEnum
+        // Non-dictionary values should still error
+        ExceptionAssert.Throws<JsonSerializationException>(() =>
         {
-            Value1,
-            TextValue
-        }
+            JsonConvert.DeserializeObject<List<MyEnum>>(@"[""text_value""]", settings);
+        }, @"Error converting value ""text_value"" to type 'Argon.Tests.Issues.Issue2444+MyEnum'. Path '[0]', line 1, position 13.");
+    }
 
-        public class DataClass
-        {
-            public Dictionary<MyEnum, string> Dict { get; set; }
-        }
+    public enum MyEnum
+    {
+        Value1,
+        TextValue
+    }
+
+    public class DataClass
+    {
+        public Dictionary<MyEnum, string> Dict { get; set; }
     }
 }

@@ -27,76 +27,75 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Linq.ComponentModel
+namespace Argon.Tests.Linq.ComponentModel;
+
+[TestFixture]
+public class JPropertyDescriptorTests : TestFixtureBase
 {
-    [TestFixture]
-    public class JPropertyDescriptorTests : TestFixtureBase
+    [Fact]
+    public void GetValue()
     {
-        [Fact]
-        public void GetValue()
-        {
-            var o = JObject.Parse("{prop1:'12345!',prop2:[1,'two','III']}");
+        var o = JObject.Parse("{prop1:'12345!',prop2:[1,'two','III']}");
 
-            var prop1 = new JPropertyDescriptor("prop1");
-            var prop2 = new JPropertyDescriptor("prop2");
+        var prop1 = new JPropertyDescriptor("prop1");
+        var prop2 = new JPropertyDescriptor("prop2");
 
-            Assert.AreEqual("12345!", ((JValue)prop1.GetValue(o)).Value);
-            Assert.AreEqual(o["prop2"], prop2.GetValue(o));
-        }
+        Assert.AreEqual("12345!", ((JValue)prop1.GetValue(o)).Value);
+        Assert.AreEqual(o["prop2"], prop2.GetValue(o));
+    }
 
-        [Fact]
-        public void GetValue_NullOwner_ReturnsNull()
-        {
-            var prop1 = new JPropertyDescriptor("prop1");
+    [Fact]
+    public void GetValue_NullOwner_ReturnsNull()
+    {
+        var prop1 = new JPropertyDescriptor("prop1");
 
-            Assert.AreEqual(null, prop1.GetValue(null));
-        }
+        Assert.AreEqual(null, prop1.GetValue(null));
+    }
 
-        [Fact]
-        public void SetValue()
-        {
-            var o = JObject.Parse("{prop1:'12345!'}");
+    [Fact]
+    public void SetValue()
+    {
+        var o = JObject.Parse("{prop1:'12345!'}");
 
-            var propertyDescriptor1 = new JPropertyDescriptor("prop1");
+        var propertyDescriptor1 = new JPropertyDescriptor("prop1");
 
-            propertyDescriptor1.SetValue(o, "54321!");
+        propertyDescriptor1.SetValue(o, "54321!");
 
-            Assert.AreEqual("54321!", (string)o["prop1"]);
-        }
+        Assert.AreEqual("54321!", (string)o["prop1"]);
+    }
 
-        [Fact]
-        public void SetValue_NullOwner_NoError()
-        {
-            var prop1 = new JPropertyDescriptor("prop1");
+    [Fact]
+    public void SetValue_NullOwner_NoError()
+    {
+        var prop1 = new JPropertyDescriptor("prop1");
 
-            prop1.SetValue(null, "value!");
-        }
+        prop1.SetValue(null, "value!");
+    }
 
-        [Fact]
-        public void ResetValue()
-        {
-            var o = JObject.Parse("{prop1:'12345!'}");
+    [Fact]
+    public void ResetValue()
+    {
+        var o = JObject.Parse("{prop1:'12345!'}");
 
-            var propertyDescriptor1 = new JPropertyDescriptor("prop1");
-            propertyDescriptor1.ResetValue(o);
+        var propertyDescriptor1 = new JPropertyDescriptor("prop1");
+        propertyDescriptor1.ResetValue(o);
 
-            Assert.AreEqual("12345!", (string)o["prop1"]);
-        }
+        Assert.AreEqual("12345!", (string)o["prop1"]);
+    }
 
-        [Fact]
-        public void IsReadOnly()
-        {
-            var propertyDescriptor1 = new JPropertyDescriptor("prop1");
+    [Fact]
+    public void IsReadOnly()
+    {
+        var propertyDescriptor1 = new JPropertyDescriptor("prop1");
 
-            Assert.AreEqual(false, propertyDescriptor1.IsReadOnly);
-        }
+        Assert.AreEqual(false, propertyDescriptor1.IsReadOnly);
+    }
 
-        [Fact]
-        public void PropertyType()
-        {
-            var propertyDescriptor1 = new JPropertyDescriptor("prop1");
+    [Fact]
+    public void PropertyType()
+    {
+        var propertyDescriptor1 = new JPropertyDescriptor("prop1");
 
-            Assert.AreEqual(typeof(object), propertyDescriptor1.PropertyType);
-        }
+        Assert.AreEqual(typeof(object), propertyDescriptor1.PropertyType);
     }
 }

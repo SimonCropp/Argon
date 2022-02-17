@@ -23,11 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class Pos
 {
-    public class Pos
-    {
-        public int X { get; set; }
-        public int Y { get; set; }
-    }
+    public int X { get; set; }
+    public int Y { get; set; }
 }

@@ -28,28 +28,27 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 using Argon.Tests.TestObjects;
 
-namespace Argon.Tests.Serialization
+namespace Argon.Tests.Serialization;
+
+[TestFixture]
+public class JsonPropertyCollectionTests : TestFixtureBase
 {
-    [TestFixture]
-    public class JsonPropertyCollectionTests : TestFixtureBase
+    [Fact]
+    public void AddPropertyIncludesPrivateImplementations()
     {
-        [Fact]
-        public void AddPropertyIncludesPrivateImplementations()
+        var value = new PrivateImplementationBClass
         {
-            var value = new PrivateImplementationBClass
-            {
-                OverriddenProperty = "OverriddenProperty",
-                PropertyA = "PropertyA",
-                PropertyB = "PropertyB"
-            };
+            OverriddenProperty = "OverriddenProperty",
+            PropertyA = "PropertyA",
+            PropertyB = "PropertyB"
+        };
 
-            var resolver = new DefaultContractResolver();
-            var contract = (JsonObjectContract)resolver.ResolveContract(value.GetType());
+        var resolver = new DefaultContractResolver();
+        var contract = (JsonObjectContract)resolver.ResolveContract(value.GetType());
 
-            Assert.AreEqual(3, contract.Properties.Count);
-            Assert.IsTrue(contract.Properties.Contains("OverriddenProperty"), "Contract is missing property 'OverriddenProperty'");
-            Assert.IsTrue(contract.Properties.Contains("PropertyA"), "Contract is missing property 'PropertyA'");
-            Assert.IsTrue(contract.Properties.Contains("PropertyB"), "Contract is missing property 'PropertyB'");
-        }
+        Assert.AreEqual(3, contract.Properties.Count);
+        Assert.IsTrue(contract.Properties.Contains("OverriddenProperty"), "Contract is missing property 'OverriddenProperty'");
+        Assert.IsTrue(contract.Properties.Contains("PropertyA"), "Contract is missing property 'PropertyA'");
+        Assert.IsTrue(contract.Properties.Contains("PropertyB"), "Contract is missing property 'PropertyB'");
     }
 }

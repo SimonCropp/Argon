@@ -28,16 +28,16 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Linq
+namespace Argon.Tests.Documentation.Samples.Linq;
+
+[TestFixture]
+public class ParseJsonObject : TestFixtureBase
 {
-    [TestFixture]
-    public class ParseJsonObject : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var json = @"{
+        #region Usage
+        var json = @"{
               CPU: 'Intel',
               Drives: [
                 'DVD read/writer',
@@ -45,25 +45,24 @@ namespace Argon.Tests.Documentation.Samples.Linq
               ]
             }";
 
-            var o = JObject.Parse(json);
+        var o = JObject.Parse(json);
 
-            Console.WriteLine(o.ToString());
-            // {
-            //   "CPU": "Intel",
-            //   "Drives": [
-            //     "DVD read/writer",
-            //     "500 gigabyte hard drive"
-            //   ]
-            // }
-            #endregion
+        Console.WriteLine(o.ToString());
+        // {
+        //   "CPU": "Intel",
+        //   "Drives": [
+        //     "DVD read/writer",
+        //     "500 gigabyte hard drive"
+        //   ]
+        // }
+        #endregion
 
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""CPU"": ""Intel"",
   ""Drives"": [
     ""DVD read/writer"",
     ""500 gigabyte hard drive""
   ]
 }", o.ToString());
-        }
     }
 }

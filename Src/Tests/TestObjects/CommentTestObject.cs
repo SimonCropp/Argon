@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class CommentTestObject
 {
-    public class CommentTestObject
-    {
-        public bool? A { get; set; }
-    }
+    public bool? A { get; set; }
 }

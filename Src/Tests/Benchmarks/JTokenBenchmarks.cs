@@ -25,66 +25,65 @@
 
 using BenchmarkDotNet.Attributes;
 
-namespace Argon.Tests.Benchmarks
+namespace Argon.Tests.Benchmarks;
+
+public class JTokenBenchmarks
 {
-    public class JTokenBenchmarks
+    private static readonly JObject JObjectSample = JObject.Parse(BenchmarkConstants.JsonText);
+    private static readonly string JsonTextSample;
+    private static readonly string NestedJsonText;
+
+    static JTokenBenchmarks()
     {
-        private static readonly JObject JObjectSample = JObject.Parse(BenchmarkConstants.JsonText);
-        private static readonly string JsonTextSample;
-        private static readonly string NestedJsonText;
-
-        static JTokenBenchmarks()
+        var o = new JObject();
+        for (var i = 0; i < 50; i++)
         {
-            var o = new JObject();
-            for (var i = 0; i < 50; i++)
-            {
-                o[i.ToString()] = i;
-            }
-            JsonTextSample = o.ToString();
-
-            NestedJsonText = new string('[', 100000) + "1" + new string(']', 100000);
+            o[i.ToString()] = i;
         }
+        JsonTextSample = o.ToString();
 
-        [Benchmark]
-        public void TokenWriteTo()
+        NestedJsonText = new string('[', 100000) + "1" + new string(']', 100000);
+    }
+
+    [Benchmark]
+    public void TokenWriteTo()
+    {
+        var sw = new StringWriter();
+        JObjectSample.WriteTo(new JsonTextWriter(sw));
+    }
+
+    [Benchmark]
+    public Task TokenWriteToAsync()
+    {
+        var sw = new StringWriter();
+        return JObjectSample.WriteToAsync(new JsonTextWriter(sw));
+    }
+
+    [Benchmark]
+    public JObject JObjectParse()
+    {
+        return JObject.Parse(JsonTextSample);
+    }
+
+    [Benchmark]
+    public JArray JArrayNestedParse()
+    {
+        return JArray.Parse(NestedJsonText);
+    }
+
+    [Benchmark]
+    public JArray JArrayNestedBuild()
+    {
+        var current = new JArray();
+        var root = current;
+        for (var j = 0; j < 100000; j++)
         {
-            var sw = new StringWriter();
-            JObjectSample.WriteTo(new JsonTextWriter(sw));
+            var temp = new JArray();
+            current.Add(temp);
+            current = temp;
         }
+        current.Add(1);
 
-        [Benchmark]
-        public Task TokenWriteToAsync()
-        {
-            var sw = new StringWriter();
-            return JObjectSample.WriteToAsync(new JsonTextWriter(sw));
-        }
-
-        [Benchmark]
-        public JObject JObjectParse()
-        {
-            return JObject.Parse(JsonTextSample);
-        }
-
-        [Benchmark]
-        public JArray JArrayNestedParse()
-        {
-            return JArray.Parse(NestedJsonText);
-        }
-
-        [Benchmark]
-        public JArray JArrayNestedBuild()
-        {
-            var current = new JArray();
-            var root = current;
-            for (var j = 0; j < 100000; j++)
-            {
-                var temp = new JArray();
-                current.Add(temp);
-                current = temp;
-            }
-            current.Add(1);
-
-            return root;
-        }
+        return root;
     }
 }

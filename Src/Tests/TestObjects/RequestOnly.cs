@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class RequestOnly
 {
-    public class RequestOnly
-    {
-        public string Request { get; set; }
-    }
+    public string Request { get; set; }
 }

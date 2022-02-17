@@ -23,19 +23,18 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class JsonPropertyConverterContractResolver : DefaultContractResolver
-    {
-        protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
-        {
-            var property = base.CreateProperty(member, memberSerialization);
-            if (property.PropertyName == "JavaScriptDate")
-            {
-                property.Converter = new JavaScriptDateTimeConverter();
-            }
+namespace Argon.Tests.TestObjects;
 
-            return property;
+public class JsonPropertyConverterContractResolver : DefaultContractResolver
+{
+    protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
+    {
+        var property = base.CreateProperty(member, memberSerialization);
+        if (property.PropertyName == "JavaScriptDate")
+        {
+            property.Converter = new JavaScriptDateTimeConverter();
         }
+
+        return property;
     }
 }

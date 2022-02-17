@@ -23,14 +23,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class ChildDataContractWithHidden : BaseDataContractWithHidden
-    {
-        [DataMember(Name = "NewMember")]
-        public new virtual string NewMember { get; set; }
+namespace Argon.Tests.TestObjects;
 
-        public override string VirtualMember { get; set; }
-        public string AddedMember { get; set; }
-    }
+public class ChildDataContractWithHidden : BaseDataContractWithHidden
+{
+    [DataMember(Name = "NewMember")]
+    public new virtual string NewMember { get; set; }
+
+    public override string VirtualMember { get; set; }
+    public string AddedMember { get; set; }
 }

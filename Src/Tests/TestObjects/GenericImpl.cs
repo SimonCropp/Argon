@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class GenericImpl : AbstractGenericBase<int>
 {
-    public class GenericImpl : AbstractGenericBase<int>
-    {
-        public override int Id { get; set; }
-    }
+    public override int Id { get; set; }
 }

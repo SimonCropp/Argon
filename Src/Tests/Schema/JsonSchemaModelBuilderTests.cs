@@ -29,15 +29,15 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Schema
+namespace Argon.Tests.Schema;
+
+[TestFixture]
+public class JsonSchemaModelBuilderTests : TestFixtureBase
 {
-    [TestFixture]
-    public class JsonSchemaModelBuilderTests : TestFixtureBase
-    {
-        [Fact]
-        public void ExtendedComplex()
-        {
-            var first = @"{
+  [Fact]
+  public void ExtendedComplex()
+  {
+    var first = @"{
   ""id"":""first"",
   ""type"":""object"",
   ""properties"":
@@ -55,7 +55,7 @@ namespace Argon.Tests.Schema
   ""additionalProperties"":{}
 }";
 
-            var second = @"{
+    var second = @"{
   ""id"":""second"",
   ""type"":""object"",
   ""extends"":{""$ref"":""first""},
@@ -82,65 +82,65 @@ namespace Argon.Tests.Schema
   ""additionalProperties"":false
 }";
 
-            var resolver = new JsonSchemaResolver();
-            var firstSchema = JsonSchema.Parse(first, resolver);
-            var secondSchema = JsonSchema.Parse(second, resolver);
+    var resolver = new JsonSchemaResolver();
+    var firstSchema = JsonSchema.Parse(first, resolver);
+    var secondSchema = JsonSchema.Parse(second, resolver);
 
-            var modelBuilder = new JsonSchemaModelBuilder();
+    var modelBuilder = new JsonSchemaModelBuilder();
 
-            var model = modelBuilder.Build(secondSchema);
+    var model = modelBuilder.Build(secondSchema);
 
-            Assert.AreEqual(4, model.Properties.Count);
+    Assert.AreEqual(4, model.Properties.Count);
 
-            Assert.AreEqual(JsonSchemaType.String, model.Properties["firstproperty"].Type);
+    Assert.AreEqual(JsonSchemaType.String, model.Properties["firstproperty"].Type);
 
-            Assert.AreEqual(JsonSchemaType.String, model.Properties["secondproperty"].Type);
-            Assert.AreEqual(10, model.Properties["secondproperty"].MaximumLength);
-            Assert.AreEqual(null, model.Properties["secondproperty"].Enum);
-            Assert.AreEqual(null, model.Properties["secondproperty"].Patterns);
+    Assert.AreEqual(JsonSchemaType.String, model.Properties["secondproperty"].Type);
+    Assert.AreEqual(10, model.Properties["secondproperty"].MaximumLength);
+    Assert.AreEqual(null, model.Properties["secondproperty"].Enum);
+    Assert.AreEqual(null, model.Properties["secondproperty"].Patterns);
 
-            Assert.AreEqual(JsonSchemaType.Object, model.Properties["thirdproperty"].Type);
-            Assert.AreEqual(3, model.Properties["thirdproperty"].AdditionalProperties.Enum.Count);
-            Assert.AreEqual("two", (string)model.Properties["thirdproperty"].AdditionalProperties.Enum[0]);
-            Assert.AreEqual("three", (string)model.Properties["thirdproperty"].AdditionalProperties.Enum[1]);
-            Assert.AreEqual("one", (string)model.Properties["thirdproperty"].AdditionalProperties.Enum[2]);
+    Assert.AreEqual(JsonSchemaType.Object, model.Properties["thirdproperty"].Type);
+    Assert.AreEqual(3, model.Properties["thirdproperty"].AdditionalProperties.Enum.Count);
+    Assert.AreEqual("two", (string)model.Properties["thirdproperty"].AdditionalProperties.Enum[0]);
+    Assert.AreEqual("three", (string)model.Properties["thirdproperty"].AdditionalProperties.Enum[1]);
+    Assert.AreEqual("one", (string)model.Properties["thirdproperty"].AdditionalProperties.Enum[2]);
 
-            Assert.AreEqual(JsonSchemaType.String, model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].Type);
-            Assert.AreEqual(9, model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].MaximumLength);
-            Assert.AreEqual(7, model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].MinimumLength);
-            Assert.AreEqual(2, model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].Patterns.Count);
-            Assert.AreEqual("hi", model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].Patterns[0]);
-            Assert.AreEqual("hi2u", model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].Patterns[1]);
-            Assert.AreEqual(null, model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].Properties);
-            Assert.AreEqual(null, model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].Items);
-            Assert.AreEqual(null, model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].AdditionalProperties);
-        }
+    Assert.AreEqual(JsonSchemaType.String, model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].Type);
+    Assert.AreEqual(9, model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].MaximumLength);
+    Assert.AreEqual(7, model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].MinimumLength);
+    Assert.AreEqual(2, model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].Patterns.Count);
+    Assert.AreEqual("hi", model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].Patterns[0]);
+    Assert.AreEqual("hi2u", model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].Patterns[1]);
+    Assert.AreEqual(null, model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].Properties);
+    Assert.AreEqual(null, model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].Items);
+    Assert.AreEqual(null, model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].AdditionalProperties);
+  }
 
-        [Fact]
-        public void CircularReference()
-        {
-            var json = @"{
+  [Fact]
+  public void CircularReference()
+  {
+    var json = @"{
   ""id"":""CircularReferenceArray"",
   ""description"":""CircularReference"",
   ""type"":[""array""],
   ""items"":{""$ref"":""CircularReferenceArray""}
 }";
 
-            var schema = JsonSchema.Parse(json);
+    var schema = JsonSchema.Parse(json);
 
-            var modelBuilder = new JsonSchemaModelBuilder();
+    var modelBuilder = new JsonSchemaModelBuilder();
 
-            var model = modelBuilder.Build(schema);
+    var model = modelBuilder.Build(schema);
 
-            Assert.AreEqual(JsonSchemaType.Array, model.Type);
+    Assert.AreEqual(JsonSchemaType.Array, model.Type);
 
-            Assert.AreEqual(model, model.Items[0]);
-        }
+    Assert.AreEqual(model, model.Items[0]);
+  }
 
-        [Fact]
-        public void Required()
-        {
-            var schemaJson = @"{
+  [Fact]
+  public void Required()
+  {
+    var schemaJson = @"{
   ""description"":""A person"",
   ""type"":""object"",
   ""properties"":
@@ -151,17 +151,16 @@ namespace Argon.Tests.Schema
   }
 }";
 
-            var schema = JsonSchema.Parse(schemaJson);
-            var modelBuilder = new JsonSchemaModelBuilder();
-            var model = modelBuilder.Build(schema);
+    var schema = JsonSchema.Parse(schemaJson);
+    var modelBuilder = new JsonSchemaModelBuilder();
+    var model = modelBuilder.Build(schema);
 
-            Assert.AreEqual(JsonSchemaType.Object, model.Type);
-            Assert.AreEqual(3, model.Properties.Count);
-            Assert.AreEqual(false, model.Properties["name"].Required);
-            Assert.AreEqual(true, model.Properties["hobbies"].Required);
-            Assert.AreEqual(true, model.Properties["age"].Required);
-        }
-    }
+    Assert.AreEqual(JsonSchemaType.Object, model.Type);
+    Assert.AreEqual(3, model.Properties.Count);
+    Assert.AreEqual(false, model.Properties["name"].Required);
+    Assert.AreEqual(true, model.Properties["hobbies"].Required);
+    Assert.AreEqual(true, model.Properties["age"].Required);
+  }
 }
 
 #pragma warning restore 618

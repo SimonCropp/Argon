@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class ResponseWithNewGenericPropertyVirtual<T> : SimpleResponse
 {
-    public class ResponseWithNewGenericPropertyVirtual<T> : SimpleResponse
-    {
-        public new virtual T Data { get; set; }
-    }
+    public new virtual T Data { get; set; }
 }

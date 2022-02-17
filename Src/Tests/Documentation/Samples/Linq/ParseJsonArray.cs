@@ -28,36 +28,35 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Linq
+namespace Argon.Tests.Documentation.Samples.Linq;
+
+[TestFixture]
+public class ParseJsonArray : TestFixtureBase
 {
-    [TestFixture]
-    public class ParseJsonArray : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var json = @"[
+        #region Usage
+        var json = @"[
               'Small',
               'Medium',
               'Large'
             ]";
 
-            var a = JArray.Parse(json);
+        var a = JArray.Parse(json);
 
-            Console.WriteLine(a.ToString());
-            // [
-            //   "Small",
-            //   "Medium",
-            //   "Large"
-            // ]
-            #endregion
+        Console.WriteLine(a.ToString());
+        // [
+        //   "Small",
+        //   "Medium",
+        //   "Large"
+        // ]
+        #endregion
 
-            StringAssert.AreEqual(@"[
+        StringAssert.AreEqual(@"[
   ""Small"",
   ""Medium"",
   ""Large""
 ]", a.ToString());
-        }
     }
 }

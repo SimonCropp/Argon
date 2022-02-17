@@ -28,46 +28,45 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 using JsonConstructor = Argon.JsonConstructorAttribute;
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class JsonConstructorAttribute : TestFixtureBase
 {
-    [TestFixture]
-    public class JsonConstructorAttribute : TestFixtureBase
+    #region Types
+    public class User
     {
-        #region Types
-        public class User
+        public string UserName { get; private set; }
+        public bool Enabled { get; private set; }
+
+        public User()
         {
-            public string UserName { get; private set; }
-            public bool Enabled { get; private set; }
-
-            public User()
-            {
-            }
-
-            [JsonConstructor]
-            public User(string userName, bool enabled)
-            {
-                UserName = userName;
-                Enabled = enabled;
-            }
         }
-        #endregion
 
-        [Fact]
-        public void Example()
+        [JsonConstructor]
+        public User(string userName, bool enabled)
         {
-            #region Usage
-            var json = @"{
+            UserName = userName;
+            Enabled = enabled;
+        }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var json = @"{
               ""UserName"": ""domain\\username"",
               ""Enabled"": true
             }";
 
-            var user = JsonConvert.DeserializeObject<User>(json);
+        var user = JsonConvert.DeserializeObject<User>(json);
 
-            Console.WriteLine(user.UserName);
-            // domain\username
-            #endregion
+        Console.WriteLine(user.UserName);
+        // domain\username
+        #endregion
 
-            Assert.AreEqual(@"domain\username", user.UserName);
-        }
+        Assert.AreEqual(@"domain\username", user.UserName);
     }
 }

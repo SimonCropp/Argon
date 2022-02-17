@@ -27,38 +27,37 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue2492
 {
-    [TestFixture]
-    public class Issue2492
+    [Fact]
+    public void Test_Object()
     {
-        [Fact]
-        public void Test_Object()
-        {
-            var jsontext = @"{ ""ABC"": //DEF
+        var jsontext = @"{ ""ABC"": //DEF
 {}}";
 
-            using var stringReader = new StringReader(jsontext);
-            using var jsonReader = new JsonTextReader(stringReader);
+        using var stringReader = new StringReader(jsontext);
+        using var jsonReader = new JsonTextReader(stringReader);
 
-            var serializer = JsonSerializer.Create();
-            var x = serializer.Deserialize<JToken>(jsonReader);
+        var serializer = JsonSerializer.Create();
+        var x = serializer.Deserialize<JToken>(jsonReader);
 
-            Assert.AreEqual(JTokenType.Object, x["ABC"].Type);
-        }
+        Assert.AreEqual(JTokenType.Object, x["ABC"].Type);
+    }
 
-        [Fact]
-        public void Test_Integer()
-        {
-            var jsontext = "{ \"ABC\": /*DEF*/ 1}";
+    [Fact]
+    public void Test_Integer()
+    {
+        var jsontext = "{ \"ABC\": /*DEF*/ 1}";
 
-            using var stringReader = new StringReader(jsontext);
-            using var jsonReader = new JsonTextReader(stringReader);
+        using var stringReader = new StringReader(jsontext);
+        using var jsonReader = new JsonTextReader(stringReader);
 
-            var serializer = JsonSerializer.Create();
-            var x = serializer.Deserialize<JToken>(jsonReader);
+        var serializer = JsonSerializer.Create();
+        var x = serializer.Deserialize<JToken>(jsonReader);
 
-            Assert.AreEqual(JTokenType.Integer, x["ABC"].Type);
-        }
+        Assert.AreEqual(JTokenType.Integer, x["ABC"].Type);
     }
 }

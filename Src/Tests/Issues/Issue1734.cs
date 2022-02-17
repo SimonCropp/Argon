@@ -28,17 +28,17 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
-{
-    [TestFixture]
-    public class Issue1734
-    {
-        [Fact]
-        public void Test_XmlNode()
-        {
-            var xmlDoc = JsonConvert.DeserializeXmlNode(JsonWithoutNamespace, "", true);
+namespace Argon.Tests.Issues;
 
-            StringAssert.AreEqual(@"<Test_Service>
+[TestFixture]
+public class Issue1734
+{
+  [Fact]
+  public void Test_XmlNode()
+  {
+    var xmlDoc = JsonConvert.DeserializeXmlNode(JsonWithoutNamespace, "", true);
+
+    StringAssert.AreEqual(@"<Test_Service>
   <fname>mark</fname>
   <lname>joye</lname>
   <CarCompany>saab</CarCompany>
@@ -72,9 +72,9 @@ namespace Argon.Tests.Issues
   </collections>
 </Test_Service>", IndentXml(xmlDoc.OuterXml));
 
-            xmlDoc = JsonConvert.DeserializeXmlNode(JsonWithNamespace, "", true);
+    xmlDoc = JsonConvert.DeserializeXmlNode(JsonWithNamespace, "", true);
 
-            StringAssert.AreEqual(@"<ns3:Test_Service xmlns:ns3=""http://www.CCKS.org/XRT/Form"">
+    StringAssert.AreEqual(@"<ns3:Test_Service xmlns:ns3=""http://www.CCKS.org/XRT/Form"">
   <ns3:fname>mark</ns3:fname>
   <ns3:lname>joye</ns3:lname>
   <ns3:CarCompany>saab</ns3:CarCompany>
@@ -107,32 +107,32 @@ namespace Argon.Tests.Issues
     </ns3:contactdetails>
   </ns3:collections>
 </ns3:Test_Service>", IndentXml(xmlDoc.OuterXml));
-        }
+  }
 
-        private string IndentXml(string xml)
-        {
-            var reader = XmlReader.Create(new StringReader(xml));
+  private string IndentXml(string xml)
+  {
+    var reader = XmlReader.Create(new StringReader(xml));
 
-            var sw = new StringWriter();
-            var writer = XmlWriter.Create(sw, new XmlWriterSettings { Indent = true, OmitXmlDeclaration = true });
+    var sw = new StringWriter();
+    var writer = XmlWriter.Create(sw, new XmlWriterSettings { Indent = true, OmitXmlDeclaration = true });
 
-            while (reader.Read())
-            {
-                writer.WriteNode(reader, false);
-            }
+    while (reader.Read())
+    {
+      writer.WriteNode(reader, false);
+    }
 
-            writer.Flush();
+    writer.Flush();
 
-            return sw.ToString();
-        }
+    return sw.ToString();
+  }
 
-        [Fact]
-        public void Test_XNode()
-        {
-            var xmlDoc = JsonConvert.DeserializeXNode(JsonWithoutNamespace, "", true);
+  [Fact]
+  public void Test_XNode()
+  {
+    var xmlDoc = JsonConvert.DeserializeXNode(JsonWithoutNamespace, "", true);
 
-            var xml = xmlDoc.ToString();
-            StringAssert.AreEqual(@"<Test_Service>
+    var xml = xmlDoc.ToString();
+    StringAssert.AreEqual(@"<Test_Service>
   <fname>mark</fname>
   <lname>joye</lname>
   <CarCompany>saab</CarCompany>
@@ -166,10 +166,10 @@ namespace Argon.Tests.Issues
   </collections>
 </Test_Service>", xml);
 
-            xmlDoc = JsonConvert.DeserializeXNode(JsonWithNamespace, "", true);
+    xmlDoc = JsonConvert.DeserializeXNode(JsonWithNamespace, "", true);
 
-            xml = xmlDoc.ToString();
-            StringAssert.AreEqual(@"<ns3:Test_Service xmlns:ns3=""http://www.CCKS.org/XRT/Form"">
+    xml = xmlDoc.ToString();
+    StringAssert.AreEqual(@"<ns3:Test_Service xmlns:ns3=""http://www.CCKS.org/XRT/Form"">
   <ns3:fname>mark</ns3:fname>
   <ns3:lname>joye</ns3:lname>
   <ns3:CarCompany>saab</ns3:CarCompany>
@@ -202,9 +202,9 @@ namespace Argon.Tests.Issues
     </ns3:contactdetails>
   </ns3:collections>
 </ns3:Test_Service>", xml);
-        }
+  }
 
-        private const string JsonWithoutNamespace = @"{
+  private const string JsonWithoutNamespace = @"{
   ""Test_Service"": {
     ""fname"": ""mark"",
     ""lname"": ""joye"",
@@ -250,7 +250,7 @@ namespace Argon.Tests.Issues
   }
 }";
 
-        private const string JsonWithNamespace = @"{
+  private const string JsonWithNamespace = @"{
   ""ns3:Test_Service"": {
     ""@xmlns:ns3"": ""http://www.CCKS.org/XRT/Form"",
     ""ns3:fname"": ""mark"",
@@ -296,5 +296,4 @@ namespace Argon.Tests.Issues
     ]
   }
 }";
-    }
 }

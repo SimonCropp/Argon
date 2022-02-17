@@ -23,13 +23,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class BadJsonPropertyClass
-    {
-        [JsonProperty("pie")]
-        public string Pie = "Yum";
+namespace Argon.Tests.TestObjects;
 
-        public string pie = "PieChart!";
-    }
+public class BadJsonPropertyClass
+{
+    [JsonProperty("pie")]
+    public string Pie = "Yum";
+
+    public string pie = "PieChart!";
 }

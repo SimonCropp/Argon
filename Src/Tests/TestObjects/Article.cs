@@ -23,19 +23,18 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class Article
 {
-    public class Article
+    public string Name;
+
+    public Article()
     {
-        public string Name;
+    }
 
-        public Article()
-        {
-        }
-
-        public Article(string name)
-        {
-            Name = name;
-        }
+    public Article(string name)
+    {
+        Name = name;
     }
 }

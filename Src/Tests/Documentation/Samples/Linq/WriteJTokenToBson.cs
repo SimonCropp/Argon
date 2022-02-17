@@ -28,36 +28,35 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Linq
+namespace Argon.Tests.Documentation.Samples.Linq;
+
+[TestFixture]
+public class WriteJTokenToBson : TestFixtureBase
 {
-    [TestFixture]
-    public class WriteJTokenToBson : TestFixtureBase
-    {
 #pragma warning disable 618
-        [Fact]
-        public void Example()
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var o = new JObject
         {
-            #region Usage
-            var o = new JObject
-            {
-                { "name1", "value1" },
-                { "name2", "value2" }
-            };
+            { "name1", "value1" },
+            { "name2", "value2" }
+        };
 
-            var ms = new MemoryStream();
-            using (var writer = new BsonWriter(ms))
-            {
-                o.WriteTo(writer);
-            }
-
-            var data = Convert.ToBase64String(ms.ToArray());
-
-            Console.WriteLine(data);
-            // KQAAAAJuYW1lMQAHAAAAdmFsdWUxAAJuYW1lMgAHAAAAdmFsdWUyAAA=
-            #endregion
-
-            Assert.AreEqual("KQAAAAJuYW1lMQAHAAAAdmFsdWUxAAJuYW1lMgAHAAAAdmFsdWUyAAA=", data);
+        var ms = new MemoryStream();
+        using (var writer = new BsonWriter(ms))
+        {
+            o.WriteTo(writer);
         }
-#pragma warning restore 618
+
+        var data = Convert.ToBase64String(ms.ToArray());
+
+        Console.WriteLine(data);
+        // KQAAAAJuYW1lMQAHAAAAdmFsdWUxAAJuYW1lMgAHAAAAdmFsdWUyAAA=
+        #endregion
+
+        Assert.AreEqual("KQAAAAJuYW1lMQAHAAAAdmFsdWUxAAJuYW1lMgAHAAAAdmFsdWUyAAA=", data);
     }
+#pragma warning restore 618
 }

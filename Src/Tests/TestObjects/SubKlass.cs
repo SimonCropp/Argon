@@ -23,15 +23,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class SubKlass : SuperKlass
-    {
-        public string SubProp { get; set; }
+namespace Argon.Tests.TestObjects;
 
-        public SubKlass(string subprop)
-        {
-            SubProp = subprop;
-        }
+public class SubKlass : SuperKlass
+{
+    public string SubProp { get; set; }
+
+    public SubKlass(string subprop)
+    {
+        SubProp = subprop;
     }
 }

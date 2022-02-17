@@ -23,18 +23,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class PublicParameterizedConstructorRequiringConverterWithPropertyAttributeTestClass
 {
-    public class PublicParameterizedConstructorRequiringConverterWithPropertyAttributeTestClass
+    private readonly NameContainer _nameContainer;
+
+    public PublicParameterizedConstructorRequiringConverterWithPropertyAttributeTestClass(NameContainer name)
     {
-        private readonly NameContainer _nameContainer;
-
-        public PublicParameterizedConstructorRequiringConverterWithPropertyAttributeTestClass(NameContainer name)
-        {
-            _nameContainer = name;
-        }
-
-        [JsonConverter(typeof(NameContainerConverter))]
-        public NameContainer Name => _nameContainer;
+        _nameContainer = name;
     }
+
+    [JsonConverter(typeof(NameContainerConverter))]
+    public NameContainer Name => _nameContainer;
 }

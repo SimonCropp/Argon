@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects.GeoCoding
+namespace Argon.Tests.TestObjects.GeoCoding;
+
+public class Point
 {
-    public class Point
-    {
-        public List<decimal> Coordinates;
-    }
+    public List<decimal> Coordinates;
 }

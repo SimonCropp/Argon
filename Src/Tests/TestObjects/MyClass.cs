@@ -23,12 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class MyClass
 {
-    public class MyClass
-    {
-        public int PreProperty { get; set; }
-        //public DateTime DateProperty { get; set; }
-        public int PostProperty { get; set; }
-    }
+    public int PreProperty { get; set; }
+    //public DateTime DateProperty { get; set; }
+    public int PostProperty { get; set; }
 }

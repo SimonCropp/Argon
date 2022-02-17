@@ -23,23 +23,22 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[DataContract]
+public class SubWithContractNewProperties : BaseWithContract
 {
-    [DataContract]
-    public class SubWithContractNewProperties : BaseWithContract
-    {
 #pragma warning disable 108, 114
-        [DataMember(Name = "VirtualWithDataMemberSub")]
-        public string VirtualWithDataMember { get; set; }
+    [DataMember(Name = "VirtualWithDataMemberSub")]
+    public string VirtualWithDataMember { get; set; }
 
-        [DataMember(Name = "Virtual2")]
-        public string Virtual { get; set; }
+    [DataMember(Name = "Virtual2")]
+    public string Virtual { get; set; }
 
-        [DataMember(Name = "WithDataMemberSub")]
-        public string WithDataMember { get; set; }
+    [DataMember(Name = "WithDataMemberSub")]
+    public string WithDataMember { get; set; }
 
-        [DataMember(Name = "JustAProperty2")]
-        public string JustAProperty { get; set; }
+    [DataMember(Name = "JustAProperty2")]
+    public string JustAProperty { get; set; }
 #pragma warning restore 108, 114
-    }
 }

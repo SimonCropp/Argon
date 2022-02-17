@@ -28,40 +28,40 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Linq
+namespace Argon.Tests.Documentation.Samples.Linq;
+
+[TestFixture]
+public class CreateJsonCollectionInitializer : TestFixtureBase
 {
-    [TestFixture]
-    public class CreateJsonCollectionInitializer : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
+        #region Usage
+        var o = new JObject
         {
-            #region Usage
-            var o = new JObject
+            { "Cpu", "Intel" },
+            { "Memory", 32 },
             {
-                { "Cpu", "Intel" },
-                { "Memory", 32 },
+                "Drives", new JArray
                 {
-                    "Drives", new JArray
-                    {
-                        "DVD",
-                        "SSD"
-                    }
+                    "DVD",
+                    "SSD"
                 }
-            };
+            }
+        };
 
-            Console.WriteLine(o.ToString());
-            // {
-            //   "Cpu": "Intel",
-            //   "Memory": 32,
-            //   "Drives": [
-            //     "DVD",
-            //     "SSD"
-            //   ]
-            // }
-            #endregion
+        Console.WriteLine(o.ToString());
+        // {
+        //   "Cpu": "Intel",
+        //   "Memory": 32,
+        //   "Drives": [
+        //     "DVD",
+        //     "SSD"
+        //   ]
+        // }
+        #endregion
 
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""Cpu"": ""Intel"",
   ""Memory"": 32,
   ""Drives"": [
@@ -69,6 +69,5 @@ namespace Argon.Tests.Documentation.Samples.Linq
     ""SSD""
   ]
 }", o.ToString());
-        }
     }
 }

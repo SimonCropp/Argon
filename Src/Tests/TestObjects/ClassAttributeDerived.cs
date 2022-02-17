@@ -23,13 +23,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class ClassAttributeDerived : ClassAttributeBase
-    {
-        [JsonProperty]
-        public string DerivedClassValue { get; set; }
+namespace Argon.Tests.TestObjects;
 
-        public string NonSerialized { get; set; }
-    }
+public class ClassAttributeDerived : ClassAttributeBase
+{
+    [JsonProperty]
+    public string DerivedClassValue { get; set; }
+
+    public string NonSerialized { get; set; }
 }

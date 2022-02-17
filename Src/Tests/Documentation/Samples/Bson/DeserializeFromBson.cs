@@ -28,38 +28,37 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Bson
+namespace Argon.Tests.Documentation.Samples.Bson;
+
+[TestFixture]
+public class DeserializeFromBson : TestFixtureBase
 {
-    [TestFixture]
-    public class DeserializeFromBson : TestFixtureBase
+    #region Types
+    public class Event
     {
-        #region Types
-        public class Event
-        {
-            public string Name { get; set; }
-            public DateTime StartDate { get; set; }
-        }
-        #endregion
+        public string Name { get; set; }
+        public DateTime StartDate { get; set; }
+    }
+    #endregion
 
 #pragma warning disable 618
-        [Fact]
-        public void Example()
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var data = Convert.FromBase64String("MQAAAAJOYW1lAA8AAABNb3ZpZSBQcmVtaWVyZQAJU3RhcnREYXRlAMDgKWE8AQAAAA==");
+
+        var ms = new MemoryStream(data);
+        using (var reader = new BsonReader(ms))
         {
-            #region Usage
-            var data = Convert.FromBase64String("MQAAAAJOYW1lAA8AAABNb3ZpZSBQcmVtaWVyZQAJU3RhcnREYXRlAMDgKWE8AQAAAA==");
+            var serializer = new JsonSerializer();
 
-            var ms = new MemoryStream(data);
-            using (var reader = new BsonReader(ms))
-            {
-                var serializer = new JsonSerializer();
+            var e = serializer.Deserialize<Event>(reader);
 
-                var e = serializer.Deserialize<Event>(reader);
-
-                Console.WriteLine(e.Name);
-                // Movie Premiere
-            }
-            #endregion
-#pragma warning restore 618
+            Console.WriteLine(e.Name);
+            // Movie Premiere
         }
+        #endregion
+#pragma warning restore 618
     }
 }

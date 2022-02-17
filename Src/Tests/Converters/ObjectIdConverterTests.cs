@@ -29,54 +29,53 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Converters
+namespace Argon.Tests.Converters;
+
+[TestFixture]
+public class ObjectIdConverterTests : TestFixtureBase
 {
-    [TestFixture]
-    public class ObjectIdConverterTests : TestFixtureBase
+    public class ObjectIdTestClass
     {
-        public class ObjectIdTestClass
+        [JsonProperty("_id")]
+        public BsonObjectId Id { get; set; }
+
+        [JsonProperty("test")]
+        public string Test { get; set; }
+    }
+
+    [Fact]
+    public void Serialize()
+    {
+        var c = new ObjectIdTestClass
         {
-            [JsonProperty("_id")]
-            public BsonObjectId Id { get; set; }
+            Id = new BsonObjectId(HexToBytes("4ABBED9D1D8B0F0218000001")),
+            Test = "1234£56"
+        };
 
-            [JsonProperty("test")]
-            public string Test { get; set; }
-        }
+        var ms = new MemoryStream();
+        var serializer = new JsonSerializer();
 
-        [Fact]
-        public void Serialize()
-        {
-            var c = new ObjectIdTestClass
-            {
-                Id = new BsonObjectId(HexToBytes("4ABBED9D1D8B0F0218000001")),
-                Test = "1234£56"
-            };
+        // serialize product to BSON
+        var writer = new BsonWriter(ms);
+        serializer.Serialize(writer, c);
 
-            var ms = new MemoryStream();
-            var serializer = new JsonSerializer();
+        var expected = HexToBytes("29000000075F6964004ABBED9D1D8B0F02180000010274657374000900000031323334C2A335360000");
 
-            // serialize product to BSON
-            var writer = new BsonWriter(ms);
-            serializer.Serialize(writer, c);
+        CollectionAssert.AreEquivalent(expected, ms.ToArray());
+    }
 
-            var expected = HexToBytes("29000000075F6964004ABBED9D1D8B0F02180000010274657374000900000031323334C2A335360000");
+    [Fact]
+    public void Deserialize()
+    {
+        var bson = HexToBytes("29000000075F6964004ABBED9D1D8B0F02180000010274657374000900000031323334C2A335360000");
 
-            CollectionAssert.AreEquivalent(expected, ms.ToArray());
-        }
+        var serializer = new JsonSerializer();
 
-        [Fact]
-        public void Deserialize()
-        {
-            var bson = HexToBytes("29000000075F6964004ABBED9D1D8B0F02180000010274657374000900000031323334C2A335360000");
+        var reader = new BsonReader(new MemoryStream(bson));
+        var c = serializer.Deserialize<ObjectIdTestClass>(reader);
 
-            var serializer = new JsonSerializer();
-
-            var reader = new BsonReader(new MemoryStream(bson));
-            var c = serializer.Deserialize<ObjectIdTestClass>(reader);
-
-            CollectionAssert.AreEquivalent(c.Id.Value, HexToBytes("4ABBED9D1D8B0F0218000001"));
-            Assert.AreEqual(c.Test, "1234£56");
-        }
+        CollectionAssert.AreEquivalent(c.Id.Value, HexToBytes("4ABBED9D1D8B0F0218000001"));
+        Assert.AreEqual(c.Test, "1234£56");
     }
 }
 #pragma warning restore 618

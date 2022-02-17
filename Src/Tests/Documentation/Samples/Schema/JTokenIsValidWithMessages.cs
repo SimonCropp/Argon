@@ -24,14 +24,14 @@
 #endregion
 
 #pragma warning disable 618
-namespace Argon.Tests.Documentation.Samples.Schema
+namespace Argon.Tests.Documentation.Samples.Schema;
+
+public class JTokenIsValidWithMessages
 {
-    public class JTokenIsValidWithMessages
+    public void Example()
     {
-        public void Example()
-        {
-            #region Usage
-            var schemaJson = @"{
+        #region Usage
+        var schemaJson = @"{
               'description': 'A person',
               'type': 'object',
               'properties': {
@@ -43,26 +43,25 @@ namespace Argon.Tests.Documentation.Samples.Schema
               }
             }";
 
-            var schema = JsonSchema.Parse(schemaJson);
+        var schema = JsonSchema.Parse(schemaJson);
 
-            var person = JObject.Parse(@"{
+        var person = JObject.Parse(@"{
               'name': null,
               'hobbies': ['Invalid content', 0.123456789]
             }");
 
-            var valid = person.IsValid(schema, out var messages);
+        var valid = person.IsValid(schema, out var messages);
 
-            Console.WriteLine(valid);
-            // false
+        Console.WriteLine(valid);
+        // false
 
-            foreach (var message in messages)
-            {
-                Console.WriteLine(message);
-            }
-            // Invalid type. Expected String but got Null. Line 2, position 21.
-            // Invalid type. Expected String but got Float. Line 3, position 51.
-            #endregion
+        foreach (var message in messages)
+        {
+            Console.WriteLine(message);
         }
+        // Invalid type. Expected String but got Null. Line 2, position 21.
+        // Invalid type. Expected String but got Float. Line 3, position 51.
+        #endregion
     }
 }
 

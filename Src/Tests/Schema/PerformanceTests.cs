@@ -29,15 +29,15 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Schema
+namespace Argon.Tests.Schema;
+
+[TestFixture]
+public class PerformanceTests : TestFixtureBase
 {
-    [TestFixture]
-    public class PerformanceTests : TestFixtureBase
+    [Fact]
+    public void ReaderPerformance()
     {
-        [Fact]
-        public void ReaderPerformance()
-        {
-            var json = @"[
+        var json = @"[
     {
         ""id"": 2,
         ""name"": ""An ice sculpture"",
@@ -69,7 +69,7 @@ namespace Argon.Tests.Schema
     }
 ]";
 
-            var schema = JsonSchema.Parse(@"{
+        var schema = JsonSchema.Parse(@"{
     ""$schema"": ""http://json-schema.org/draft-04/schema#"",
     ""title"": ""Product set"",
     ""type"": ""array"",
@@ -120,54 +120,53 @@ namespace Argon.Tests.Schema
     }
 }");
 
-            using (var tester = new PerformanceTester("Reader"))
+        using (var tester = new PerformanceTester("Reader"))
+        {
+            for (var i = 0; i < 5000; i++)
             {
-                for (var i = 0; i < 5000; i++)
-                {
-                    var reader = new JsonTextReader(new StringReader(json));
-                    var validatingReader = new JsonValidatingReader(reader);
-                    validatingReader.Schema = schema;
+                var reader = new JsonTextReader(new StringReader(json));
+                var validatingReader = new JsonValidatingReader(reader);
+                validatingReader.Schema = schema;
 
-                    while (validatingReader.Read())
-                    {
-                    }
+                while (validatingReader.Read())
+                {
                 }
             }
         }
     }
+}
 
-    public class PerformanceTester : IDisposable
+public class PerformanceTester : IDisposable
+{
+    private readonly Stopwatch _stopwatch = new();
+    private readonly Action<TimeSpan> _callback;
+
+    public PerformanceTester(string description)
+        : this(ts => Console.WriteLine(description + ": " + ts.TotalSeconds))
     {
-        private readonly Stopwatch _stopwatch = new();
-        private readonly Action<TimeSpan> _callback;
-
-        public PerformanceTester(string description)
-            : this(ts => Console.WriteLine(description + ": " + ts.TotalSeconds))
-        {
-        }
-
-        public PerformanceTester(Action<TimeSpan> callback)
-        {
-            _callback = callback;
-            _stopwatch.Start();
-        }
-
-        public static PerformanceTester Start(Action<TimeSpan> callback)
-        {
-            return new PerformanceTester(callback);
-        }
-
-        public void Dispose()
-        {
-            _stopwatch.Stop();
-            if (_callback != null)
-            {
-                _callback(Result);
-            }
-        }
-
-        public TimeSpan Result => _stopwatch.Elapsed;
     }
+
+    public PerformanceTester(Action<TimeSpan> callback)
+    {
+        _callback = callback;
+        _stopwatch.Start();
+    }
+
+    public static PerformanceTester Start(Action<TimeSpan> callback)
+    {
+        return new PerformanceTester(callback);
+    }
+
+    public void Dispose()
+    {
+        _stopwatch.Stop();
+        if (_callback != null)
+        {
+            _callback(Result);
+        }
+    }
+
+    public TimeSpan Result => _stopwatch.Elapsed;
 }
 
 #pragma warning restore 618

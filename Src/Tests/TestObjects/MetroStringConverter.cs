@@ -23,37 +23,36 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class MetroStringConverter : JsonConverter
 {
-    public class MetroStringConverter : JsonConverter
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
 #if !NET5_0_OR_GREATER
             writer.WriteValue(":::" + value.ToString().ToUpper(CultureInfo.InvariantCulture) + ":::");
 #else
-            writer.WriteValue(":::" + value.ToString().ToUpper() + ":::");
+        writer.WriteValue(":::" + value.ToString().ToUpper() + ":::");
 #endif
-        }
+    }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    {
+        var s = (string)reader.Value;
+        if (s == null)
         {
-            var s = (string)reader.Value;
-            if (s == null)
-            {
-                return null;
-            }
+            return null;
+        }
 
 #if !NET5_0_OR_GREATER
             return s.ToLower(CultureInfo.InvariantCulture).Trim(new[] { ':' });
 #else
-            return s.ToLower().Trim(new[] { ':' });
+        return s.ToLower().Trim(new[] { ':' });
 #endif
-        }
+    }
 
-        public override bool CanConvert(Type objectType)
-        {
-            return objectType == typeof(string);
-        }
+    public override bool CanConvert(Type objectType)
+    {
+        return objectType == typeof(string);
     }
 }

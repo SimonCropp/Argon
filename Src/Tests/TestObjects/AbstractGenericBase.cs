@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public abstract class AbstractGenericBase<TKey>
 {
-    public abstract class AbstractGenericBase<TKey>
-    {
-        public abstract TKey Id { get; set; }
-    }
+    public abstract TKey Id { get; set; }
 }

@@ -29,27 +29,27 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Linq
-{
-    [TestFixture]
-    public class DeserializeWithLinq : TestFixtureBase
-    {
-        #region Types
-        public class BlogPost
-        {
-            public string Title { get; set; }
-            public string AuthorName { get; set; }
-            public string AuthorTwitter { get; set; }
-            public string Body { get; set; }
-            public DateTime PostedDate { get; set; }
-        }
-        #endregion
+namespace Argon.Tests.Documentation.Samples.Linq;
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var json = @"[
+[TestFixture]
+public class DeserializeWithLinq : TestFixtureBase
+{
+    #region Types
+    public class BlogPost
+    {
+        public string Title { get; set; }
+        public string AuthorName { get; set; }
+        public string AuthorTwitter { get; set; }
+        public string Body { get; set; }
+        public DateTime PostedDate { get; set; }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var json = @"[
               {
                 'Title': 'Json.NET is awesome!',
                 'Author': {
@@ -62,24 +62,23 @@ namespace Argon.Tests.Documentation.Samples.Linq
               }
             ]";
 
-            var blogPostArray = JArray.Parse(json);
+        var blogPostArray = JArray.Parse(json);
 
-            IList<BlogPost> blogPosts = blogPostArray.Select(p => new BlogPost
-            {
-                Title = (string)p["Title"],
-                AuthorName = (string)p["Author"]["Name"],
-                AuthorTwitter = (string)p["Author"]["Twitter"],
-                PostedDate = (DateTime)p["Date"],
-                Body = HttpUtility.HtmlDecode((string)p["BodyHtml"])
-            }).ToList();
+        IList<BlogPost> blogPosts = blogPostArray.Select(p => new BlogPost
+        {
+            Title = (string)p["Title"],
+            AuthorName = (string)p["Author"]["Name"],
+            AuthorTwitter = (string)p["Author"]["Twitter"],
+            PostedDate = (DateTime)p["Date"],
+            Body = HttpUtility.HtmlDecode((string)p["BodyHtml"])
+        }).ToList();
 
-            Console.WriteLine(blogPosts[0].Body);
-            // <h3>Title!</h3>
-            // <p>Content!</p>
-            #endregion
+        Console.WriteLine(blogPosts[0].Body);
+        // <h3>Title!</h3>
+        // <p>Content!</p>
+        #endregion
 
-            StringAssert.AreEqual(@"<h3>Title!</h3>
+        StringAssert.AreEqual(@"<h3>Title!</h3>
 <p>Content!</p>", blogPosts[0].Body);
-        }
     }
 }

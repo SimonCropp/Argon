@@ -23,15 +23,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
-    public class VirtualOverrideNewBaseObject
-    {
-        [JsonProperty(PropertyName = "virtualMember")]
-        public virtual string VirtualMember { get; set; }
+namespace Argon.Tests.TestObjects;
 
-        [JsonProperty(PropertyName = "nonVirtualMember")]
-        public string NonVirtualMember { get; set; }
-    }
+[JsonObject(MemberSerialization = MemberSerialization.OptIn)]
+public class VirtualOverrideNewBaseObject
+{
+    [JsonProperty(PropertyName = "virtualMember")]
+    public virtual string VirtualMember { get; set; }
+
+    [JsonProperty(PropertyName = "nonVirtualMember")]
+    public string NonVirtualMember { get; set; }
 }

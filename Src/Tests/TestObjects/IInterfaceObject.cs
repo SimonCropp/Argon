@@ -23,13 +23,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[JsonObject(MemberSerialization = MemberSerialization.OptIn)]
+public interface IInterfaceObject
 {
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
-    public interface IInterfaceObject
-    {
-        [JsonProperty(PropertyName = "virtualMember")]
-        [JsonConverter(typeof(IsoDateTimeConverter))]
-        DateTime InterfaceMember { get; set; }
-    }
+    [JsonProperty(PropertyName = "virtualMember")]
+    [JsonConverter(typeof(IsoDateTimeConverter))]
+    DateTime InterfaceMember { get; set; }
 }

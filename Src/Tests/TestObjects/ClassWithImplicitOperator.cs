@@ -23,15 +23,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class ClassWithImplicitOperator
-    {
-        public string Value { get; set; }
+namespace Argon.Tests.TestObjects;
 
-        public static implicit operator ClassWithImplicitOperator(string value)
-        {
-            return new ClassWithImplicitOperator { Value = value };
-        }
+public class ClassWithImplicitOperator
+{
+    public string Value { get; set; }
+
+    public static implicit operator ClassWithImplicitOperator(string value)
+    {
+        return new ClassWithImplicitOperator { Value = value };
     }
 }

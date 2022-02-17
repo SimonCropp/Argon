@@ -29,35 +29,34 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 using System.Collections.Immutable;
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class SerializeImmutableCollections : TestFixtureBase
 {
-    [TestFixture]
-    public class SerializeImmutableCollections : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
+        #region Usage
+        var l = ImmutableList.CreateRange(new List<string>
         {
-            #region Usage
-            var l = ImmutableList.CreateRange(new List<string>
-            {
-                "One",
-                "II",
-                "3"
-            });
+            "One",
+            "II",
+            "3"
+        });
 
-            var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-            // [
-            //   "One",
-            //   "II",
-            //   "3"
-            // ]
-            #endregion
+        var json = JsonConvert.SerializeObject(l, Formatting.Indented);
+        // [
+        //   "One",
+        //   "II",
+        //   "3"
+        // ]
+        #endregion
 
-            StringAssert.AreEqual(@"[
+        StringAssert.AreEqual(@"[
   ""One"",
   ""II"",
   ""3""
 ]", json);
-        }
     }
 }

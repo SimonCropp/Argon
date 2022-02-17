@@ -23,13 +23,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon
+namespace Argon;
+
+/// <summary>
+/// Instructs the <see cref="JsonSerializer"/> not to serialize the public field or public read/write property value.
+/// </summary>
+[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
+public sealed class JsonIgnoreAttribute : Attribute
 {
-    /// <summary>
-    /// Instructs the <see cref="JsonSerializer"/> not to serialize the public field or public read/write property value.
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
-    public sealed class JsonIgnoreAttribute : Attribute
-    {
-    }
 }

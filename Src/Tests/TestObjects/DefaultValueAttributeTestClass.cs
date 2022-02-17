@@ -25,17 +25,15 @@
 
 using System.ComponentModel;
 
-namespace Argon.Tests.TestObjects
-{
+namespace Argon.Tests.TestObjects;
 #if !NET5_0_OR_GREATER
-    [Description("DefaultValueAttributeTestClass description!")]
+[Description("DefaultValueAttributeTestClass description!")]
 #endif
-    public sealed class DefaultValueAttributeTestClass
-    {
-        [DefaultValue("TestProperty1Value")]
-        public string TestProperty1 { get; set; }
+public sealed class DefaultValueAttributeTestClass
+{
+    [DefaultValue("TestProperty1Value")]
+    public string TestProperty1 { get; set; }
 
-        [DefaultValue(21)]
-        public int TestField1;
-    }
+    [DefaultValue(21)]
+    public int TestField1;
 }

@@ -23,111 +23,110 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class ConvertibleId : IConvertible
 {
-    public class ConvertibleId : IConvertible
+    public int Value;
+
+    TypeCode IConvertible.GetTypeCode()
     {
-        public int Value;
+        return TypeCode.Object;
+    }
 
-        TypeCode IConvertible.GetTypeCode()
+    object IConvertible.ToType(Type conversionType, IFormatProvider provider)
+    {
+        if (conversionType == typeof(object))
         {
-            return TypeCode.Object;
+            return this;
         }
-
-        object IConvertible.ToType(Type conversionType, IFormatProvider provider)
+        if (conversionType == typeof(int))
         {
-            if (conversionType == typeof(object))
-            {
-                return this;
-            }
-            if (conversionType == typeof(int))
-            {
-                return (int)Value;
-            }
-            if (conversionType == typeof(long))
-            {
-                return (long)Value;
-            }
-            if (conversionType == typeof(string))
-            {
-                return Value.ToString(CultureInfo.InvariantCulture);
-            }
-            throw new InvalidCastException();
+            return (int)Value;
         }
-
-        bool IConvertible.ToBoolean(IFormatProvider provider)
-        {
-            throw new InvalidCastException();
-        }
-
-        byte IConvertible.ToByte(IFormatProvider provider)
-        {
-            throw new InvalidCastException();
-        }
-
-        char IConvertible.ToChar(IFormatProvider provider)
-        {
-            throw new InvalidCastException();
-        }
-
-        DateTime IConvertible.ToDateTime(IFormatProvider provider)
-        {
-            throw new InvalidCastException();
-        }
-
-        decimal IConvertible.ToDecimal(IFormatProvider provider)
-        {
-            throw new InvalidCastException();
-        }
-
-        double IConvertible.ToDouble(IFormatProvider provider)
-        {
-            throw new InvalidCastException();
-        }
-
-        short IConvertible.ToInt16(IFormatProvider provider)
-        {
-            return (short)Value;
-        }
-
-        int IConvertible.ToInt32(IFormatProvider provider)
-        {
-            return Value;
-        }
-
-        long IConvertible.ToInt64(IFormatProvider provider)
+        if (conversionType == typeof(long))
         {
             return (long)Value;
         }
-
-        sbyte IConvertible.ToSByte(IFormatProvider provider)
+        if (conversionType == typeof(string))
         {
-            throw new InvalidCastException();
+            return Value.ToString(CultureInfo.InvariantCulture);
         }
+        throw new InvalidCastException();
+    }
 
-        float IConvertible.ToSingle(IFormatProvider provider)
-        {
-            throw new InvalidCastException();
-        }
+    bool IConvertible.ToBoolean(IFormatProvider provider)
+    {
+        throw new InvalidCastException();
+    }
 
-        string IConvertible.ToString(IFormatProvider provider)
-        {
-            throw new InvalidCastException();
-        }
+    byte IConvertible.ToByte(IFormatProvider provider)
+    {
+        throw new InvalidCastException();
+    }
 
-        ushort IConvertible.ToUInt16(IFormatProvider provider)
-        {
-            throw new InvalidCastException();
-        }
+    char IConvertible.ToChar(IFormatProvider provider)
+    {
+        throw new InvalidCastException();
+    }
 
-        uint IConvertible.ToUInt32(IFormatProvider provider)
-        {
-            throw new InvalidCastException();
-        }
+    DateTime IConvertible.ToDateTime(IFormatProvider provider)
+    {
+        throw new InvalidCastException();
+    }
 
-        ulong IConvertible.ToUInt64(IFormatProvider provider)
-        {
-            throw new InvalidCastException();
-        }
+    decimal IConvertible.ToDecimal(IFormatProvider provider)
+    {
+        throw new InvalidCastException();
+    }
+
+    double IConvertible.ToDouble(IFormatProvider provider)
+    {
+        throw new InvalidCastException();
+    }
+
+    short IConvertible.ToInt16(IFormatProvider provider)
+    {
+        return (short)Value;
+    }
+
+    int IConvertible.ToInt32(IFormatProvider provider)
+    {
+        return Value;
+    }
+
+    long IConvertible.ToInt64(IFormatProvider provider)
+    {
+        return (long)Value;
+    }
+
+    sbyte IConvertible.ToSByte(IFormatProvider provider)
+    {
+        throw new InvalidCastException();
+    }
+
+    float IConvertible.ToSingle(IFormatProvider provider)
+    {
+        throw new InvalidCastException();
+    }
+
+    string IConvertible.ToString(IFormatProvider provider)
+    {
+        throw new InvalidCastException();
+    }
+
+    ushort IConvertible.ToUInt16(IFormatProvider provider)
+    {
+        throw new InvalidCastException();
+    }
+
+    uint IConvertible.ToUInt32(IFormatProvider provider)
+    {
+        throw new InvalidCastException();
+    }
+
+    ulong IConvertible.ToUInt64(IFormatProvider provider)
+    {
+        throw new InvalidCastException();
     }
 }

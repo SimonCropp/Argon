@@ -23,11 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public abstract class LogEvent
 {
-    public abstract class LogEvent
-    {
-        [JsonProperty("event")]
-        public abstract string EventName { get; }
-    }
+    [JsonProperty("event")]
+    public abstract string EventName { get; }
 }

@@ -25,24 +25,23 @@
 
 using System.ComponentModel;
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class ListSourceTest : IListSource
 {
-    public class ListSourceTest : IListSource
+    private string str;
+
+    public string strprop
     {
-        private string str;
+        get => str;
+        set => str = value;
+    }
 
-        public string strprop
-        {
-            get => str;
-            set => str = value;
-        }
+    [JsonIgnore]
+    public bool ContainsListCollection => false;
 
-        [JsonIgnore]
-        public bool ContainsListCollection => false;
-
-        public IList GetList()
-        {
-            return new List<string>();
-        }
+    public IList GetList()
+    {
+        return new List<string>();
     }
 }

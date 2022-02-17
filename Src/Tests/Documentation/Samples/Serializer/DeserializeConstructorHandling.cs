@@ -28,59 +28,58 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class DeserializeConstructorHandling : TestFixtureBase
 {
-    [TestFixture]
-    public class DeserializeConstructorHandling : TestFixtureBase
+    #region Types
+    public class Website
     {
-        #region Types
-        public class Website
+        public string Url { get; set; }
+
+        private Website()
         {
-            public string Url { get; set; }
-
-            private Website()
-            {
-            }
-
-            public Website(Website website)
-            {
-                if (website == null)
-                {
-                    throw new ArgumentNullException(nameof(website));
-                }
-
-                Url = website.Url;
-            }
         }
+
+        public Website(Website website)
+        {
+            if (website == null)
+            {
+                throw new ArgumentNullException(nameof(website));
+            }
+
+            Url = website.Url;
+        }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var json = @"{'Url':'http://www.google.com'}";
+
+        try
+        {
+            JsonConvert.DeserializeObject<Website>(json);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            // Value cannot be null.
+            // Parameter name: website
+        }
+
+        var website = JsonConvert.DeserializeObject<Website>(json, new JsonSerializerSettings
+        {
+            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
+        });
+
+        Console.WriteLine(website.Url);
+        // http://www.google.com
         #endregion
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var json = @"{'Url':'http://www.google.com'}";
-
-            try
-            {
-                JsonConvert.DeserializeObject<Website>(json);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                // Value cannot be null.
-                // Parameter name: website
-            }
-
-            var website = JsonConvert.DeserializeObject<Website>(json, new JsonSerializerSettings
-            {
-                ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
-            });
-
-            Console.WriteLine(website.Url);
-            // http://www.google.com
-            #endregion
-
-            Assert.AreEqual("http://www.google.com", website.Url);
-        }
+        Assert.AreEqual("http://www.google.com", website.Url);
     }
 }

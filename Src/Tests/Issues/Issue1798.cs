@@ -27,68 +27,67 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue1798
 {
-    [TestFixture]
-    public class Issue1798
+    public class NonSerializableException : Exception
     {
-        public class NonSerializableException : Exception
+    }
+
+    [Fact]
+    public void Test()
+    {
+        string nonSerializableJson = null;
+        string serializableJson = null;
+
+        try
         {
+            throw new NonSerializableException();
+        }
+        catch (Exception ex)
+        {
+            nonSerializableJson = JsonConvert.SerializeObject(ex, new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented
+            });
         }
 
-        [Fact]
-        public void Test()
+        try
         {
-            string nonSerializableJson = null;
-            string serializableJson = null;
-
-            try
+            throw new Exception();
+        }
+        catch (Exception ex)
+        {
+            serializableJson = JsonConvert.SerializeObject(ex, new JsonSerializerSettings
             {
-                throw new NonSerializableException();
-            }
-            catch (Exception ex)
-            {
-                nonSerializableJson = JsonConvert.SerializeObject(ex, new JsonSerializerSettings
-                {
-                    Formatting = Formatting.Indented
-                });
-            }
-
-            try
-            {
-                throw new Exception();
-            }
-            catch (Exception ex)
-            {
-                serializableJson = JsonConvert.SerializeObject(ex, new JsonSerializerSettings
-                {
-                    Formatting = Formatting.Indented
-                });
-            }
-
-            AssertNoTargetSite(nonSerializableJson);
-            AssertNoTargetSite(serializableJson);
+                Formatting = Formatting.Indented
+            });
         }
 
-        [Fact]
-        public void Test_DefaultContractResolver()
+        AssertNoTargetSite(nonSerializableJson);
+        AssertNoTargetSite(serializableJson);
+    }
+
+    [Fact]
+    public void Test_DefaultContractResolver()
+    {
+        var resolver = new DefaultContractResolver();
+
+        var objectContract = (JsonObjectContract) resolver.ResolveContract(typeof(NonSerializableException));
+        Assert.IsFalse(objectContract.Properties.Contains("TargetSite"));
+
+        Assert.IsInstanceOf(typeof(JsonISerializableContract), resolver.ResolveContract(typeof(Exception)));
+    }
+
+    private void AssertNoTargetSite(string json)
+    {
+        var o = JObject.Parse(json);
+
+        if (o.ContainsKey("TargetSite"))
         {
-            var resolver = new DefaultContractResolver();
-
-            var objectContract = (JsonObjectContract) resolver.ResolveContract(typeof(NonSerializableException));
-            Assert.IsFalse(objectContract.Properties.Contains("TargetSite"));
-
-            Assert.IsInstanceOf(typeof(JsonISerializableContract), resolver.ResolveContract(typeof(Exception)));
-        }
-
-        private void AssertNoTargetSite(string json)
-        {
-            var o = JObject.Parse(json);
-
-            if (o.ContainsKey("TargetSite"))
-            {
-                Assert.Fail("JSON has TargetSite property.");
-            }
+            Assert.Fail("JSON has TargetSite property.");
         }
     }
 }

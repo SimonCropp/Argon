@@ -23,34 +23,33 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class PrivateMembersClassWithAttributes
 {
-    public class PrivateMembersClassWithAttributes
+    public PrivateMembersClassWithAttributes(string privateString, string internalString, string readonlyString)
     {
-        public PrivateMembersClassWithAttributes(string privateString, string internalString, string readonlyString)
-        {
-            _privateString = privateString;
-            _readonlyString = readonlyString;
-            _internalString = internalString;
-        }
+        _privateString = privateString;
+        _readonlyString = readonlyString;
+        _internalString = internalString;
+    }
 
-        public PrivateMembersClassWithAttributes()
-        {
-            _readonlyString = "default!";
-        }
+    public PrivateMembersClassWithAttributes()
+    {
+        _readonlyString = "default!";
+    }
 
-        [JsonProperty]
-        private string _privateString;
+    [JsonProperty]
+    private string _privateString;
 
-        [JsonProperty]
-        private readonly string _readonlyString;
+    [JsonProperty]
+    private readonly string _readonlyString;
 
-        [JsonProperty]
-        internal string _internalString;
+    [JsonProperty]
+    internal string _internalString;
 
-        public string UseValue()
-        {
-            return _readonlyString;
-        }
+    public string UseValue()
+    {
+        return _readonlyString;
     }
 }

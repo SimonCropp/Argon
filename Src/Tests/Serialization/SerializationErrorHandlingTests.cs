@@ -29,89 +29,89 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 using ErrorEventArgs = Argon.Serialization.ErrorEventArgs;
 
-namespace Argon.Tests.Serialization
+namespace Argon.Tests.Serialization;
+
+[TestFixture]
+public class SerializationErrorHandlingTests : TestFixtureBase
 {
-    [TestFixture]
-    public class SerializationErrorHandlingTests : TestFixtureBase
+    [Fact]
+    public void ErrorHandlingMetadata()
     {
-        [Fact]
-        public void ErrorHandlingMetadata()
-        {
-            var errors = new List<Exception>();
+        var errors = new List<Exception>();
 
-            var a2 = JsonConvert.DeserializeObject<AAA>(@"{""MyTest"":{""$type"":""<Namespace>.JsonTest+MyTest2, <Assembly>""}}", new JsonSerializerSettings
+        var a2 = JsonConvert.DeserializeObject<AAA>(@"{""MyTest"":{""$type"":""<Namespace>.JsonTest+MyTest2, <Assembly>""}}", new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Auto,
+            Error = (object _, Argon.Serialization.ErrorEventArgs e) =>
             {
-                TypeNameHandling = TypeNameHandling.Auto,
-                Error = (object _, Argon.Serialization.ErrorEventArgs e) =>
-                {
-                    errors.Add(e.ErrorContext.Error);
-                    e.ErrorContext.Handled = true;
-                }
-            });
+                errors.Add(e.ErrorContext.Error);
+                e.ErrorContext.Handled = true;
+            }
+        });
 
-            Assert.IsNotNull(a2);
-            Assert.AreEqual(1, errors.Count);
-            Assert.AreEqual("Error resolving type specified in JSON '<Namespace>.JsonTest+MyTest2, <Assembly>'. Path 'MyTest.$type', line 1, position 61.", errors[0].Message);
-        }
+        Assert.IsNotNull(a2);
+        Assert.AreEqual(1, errors.Count);
+        Assert.AreEqual("Error resolving type specified in JSON '<Namespace>.JsonTest+MyTest2, <Assembly>'. Path 'MyTest.$type', line 1, position 61.", errors[0].Message);
+    }
 
-        [Fact]
-        public void ErrorHandlingMetadata_TopLevel()
+    [Fact]
+    public void ErrorHandlingMetadata_TopLevel()
+    {
+        var errors = new List<Exception>();
+
+        var a2 = (JObject)JsonConvert.DeserializeObject(@"{""$type"":""<Namespace>.JsonTest+MyTest2, <Assembly>""}", new JsonSerializerSettings
         {
-            var errors = new List<Exception>();
-
-            var a2 = (JObject)JsonConvert.DeserializeObject(@"{""$type"":""<Namespace>.JsonTest+MyTest2, <Assembly>""}", new JsonSerializerSettings
+            TypeNameHandling = TypeNameHandling.Auto,
+            Error = (object _, Argon.Serialization.ErrorEventArgs e) =>
             {
-                TypeNameHandling = TypeNameHandling.Auto,
-                Error = (object _, Argon.Serialization.ErrorEventArgs e) =>
-                {
-                    errors.Add(e.ErrorContext.Error);
-                    e.ErrorContext.Handled = true;
-                }
-            });
+                errors.Add(e.ErrorContext.Error);
+                e.ErrorContext.Handled = true;
+            }
+        });
 
-            Assert.IsNull(a2);
-            Assert.AreEqual(1, errors.Count);
-            Assert.AreEqual("Error resolving type specified in JSON '<Namespace>.JsonTest+MyTest2, <Assembly>'. Path '$type', line 1, position 51.", errors[0].Message);
-        }
+        Assert.IsNull(a2);
+        Assert.AreEqual(1, errors.Count);
+        Assert.AreEqual("Error resolving type specified in JSON '<Namespace>.JsonTest+MyTest2, <Assembly>'. Path '$type', line 1, position 51.", errors[0].Message);
+    }
 
-        public class AAA
+    public class AAA
+    {
+        public ITest MyTest { get; set; }
+    }
+
+    public interface ITest { }
+    public class MyTest : ITest { }
+
+    public class MyClass1
+    {
+        [JsonProperty("myint")]
+        public int MyInt { get; set; }
+        [JsonProperty("Mybool")]
+        public bool Mybool { get; set; }
+    }
+
+    [Fact]
+    public void ErrorDeserializingIntegerInObject()
+    {
+        var errors = new List<string>();
+        var json = "{\"myint\":3554860000,\"Mybool\":false}";
+        var i = JsonConvert.DeserializeObject<MyClass1>(json, new JsonSerializerSettings
         {
-            public ITest MyTest { get; set; }
-        }
-
-        public interface ITest { }
-        public class MyTest : ITest { }
-
-        public class MyClass1
-        {
-            [JsonProperty("myint")]
-            public int MyInt { get; set; }
-            [JsonProperty("Mybool")]
-            public bool Mybool { get; set; }
-        }
-
-        [Fact]
-        public void ErrorDeserializingIntegerInObject()
-        {
-            var errors = new List<string>();
-            var json = "{\"myint\":3554860000,\"Mybool\":false}";
-            var i = JsonConvert.DeserializeObject<MyClass1>(json, new JsonSerializerSettings
+            Error = delegate (object _, Argon.Serialization.ErrorEventArgs args)
             {
-                Error = delegate (object _, Argon.Serialization.ErrorEventArgs args)
-                {
-                    errors.Add(args.ErrorContext.Error.Message);
-                    args.ErrorContext.Handled = true;
-                }
-            });
+                errors.Add(args.ErrorContext.Error.Message);
+                args.ErrorContext.Handled = true;
+            }
+        });
 
-            Assert.AreEqual(1, errors.Count);
-            Assert.AreEqual("JSON integer 3554860000 is too large or small for an Int32. Path 'myint', line 1, position 19.", errors[0]);
-        }
+        Assert.AreEqual(1, errors.Count);
+        Assert.AreEqual("JSON integer 3554860000 is too large or small for an Int32. Path 'myint', line 1, position 19.", errors[0]);
+    }
 
-        [Fact]
-        public void ErrorDeserializingListHandled()
-        {
-            var json = @"[
+    [Fact]
+    public void ErrorDeserializingListHandled()
+    {
+        var json = @"[
   {
     ""Name"": ""Jim"",
     ""BirthDate"": ""\/Date(978048000000)\/"",
@@ -124,24 +124,24 @@ namespace Argon.Tests.Serialization
   }
 ]";
 
-            var possibleMsgs = new[]
-            {
-                "[1] - Error message for member 1 = An item with the same key has already been added.",
-                "[1] - Error message for member 1 = An element with the same key already exists in the dictionary.", // mono
-                "[1] - Error message for member 1 = An item with the same key has already been added. Key: Jim" // netcore
-            };
-            var c = JsonConvert.DeserializeObject<VersionKeyedCollection>(json);
-            Assert.AreEqual(1, c.Count);
-            Assert.AreEqual(1, c.Messages.Count);
-
-            Console.WriteLine(c.Messages[0]);
-            Assert.IsTrue(possibleMsgs.Any(m => m == c.Messages[0]), "Expected One of: " + Environment.NewLine + string.Join(Environment.NewLine, possibleMsgs) + Environment.NewLine + "Was: " + Environment.NewLine + c.Messages[0]);
-        }
-
-        [Fact]
-        public void DeserializingErrorInChildObject()
+        var possibleMsgs = new[]
         {
-            var c = JsonConvert.DeserializeObject<ListErrorObjectCollection>(@"[
+            "[1] - Error message for member 1 = An item with the same key has already been added.",
+            "[1] - Error message for member 1 = An element with the same key already exists in the dictionary.", // mono
+            "[1] - Error message for member 1 = An item with the same key has already been added. Key: Jim" // netcore
+        };
+        var c = JsonConvert.DeserializeObject<VersionKeyedCollection>(json);
+        Assert.AreEqual(1, c.Count);
+        Assert.AreEqual(1, c.Messages.Count);
+
+        Console.WriteLine(c.Messages[0]);
+        Assert.IsTrue(possibleMsgs.Any(m => m == c.Messages[0]), "Expected One of: " + Environment.NewLine + string.Join(Environment.NewLine, possibleMsgs) + Environment.NewLine + "Was: " + Environment.NewLine + c.Messages[0]);
+    }
+
+    [Fact]
+    public void DeserializingErrorInChildObject()
+    {
+        var c = JsonConvert.DeserializeObject<ListErrorObjectCollection>(@"[
   {
     ""Member"": ""Value1"",
     ""Member2"": null
@@ -164,73 +164,73 @@ namespace Argon.Tests.Serialization
   }
 ]");
 
-            Assert.AreEqual(3, c.Count);
-            Assert.AreEqual("Value1", c[0].Member);
-            Assert.AreEqual("Value2", c[1].Member);
-            Assert.AreEqual("Value3", c[2].Member);
-            Assert.AreEqual("Handle this!", c[2].ThrowError);
-        }
+        Assert.AreEqual(3, c.Count);
+        Assert.AreEqual("Value1", c[0].Member);
+        Assert.AreEqual("Value2", c[1].Member);
+        Assert.AreEqual("Value3", c[2].Member);
+        Assert.AreEqual("Handle this!", c[2].ThrowError);
+    }
 
-        [Fact]
-        public void SerializingErrorIn3DArray()
+    [Fact]
+    public void SerializingErrorIn3DArray()
+    {
+        var c = new ListErrorObject[,,]
         {
-            var c = new ListErrorObject[,,]
             {
                 {
+                    new()
                     {
-                        new()
-                        {
-                            Member = "Value1",
-                            ThrowError = "Handle this!",
-                            Member2 = "Member1"
-                        },
-                        new()
-                        {
-                            Member = "Value2",
-                            Member2 = "Member2"
-                        },
-                        new()
-                        {
-                            Member = "Value3",
-                            ThrowError = "Handle that!",
-                            Member2 = "Member3"
-                        }
+                        Member = "Value1",
+                        ThrowError = "Handle this!",
+                        Member2 = "Member1"
                     },
+                    new()
                     {
-                        new()
-                        {
-                            Member = "Value1",
-                            ThrowError = "Handle this!",
-                            Member2 = "Member1"
-                        },
-                        new()
-                        {
-                            Member = "Value2",
-                            Member2 = "Member2"
-                        },
-                        new()
-                        {
-                            Member = "Value3",
-                            ThrowError = "Handle that!",
-                            Member2 = "Member3"
-                        }
+                        Member = "Value2",
+                        Member2 = "Member2"
+                    },
+                    new()
+                    {
+                        Member = "Value3",
+                        ThrowError = "Handle that!",
+                        Member2 = "Member3"
                     }
-                }
-            };
-
-            var json = JsonConvert.SerializeObject(c, new JsonSerializerSettings
-            {
-                Formatting = Formatting.Indented,
-                Error = (_, e) =>
+                },
                 {
-                    if (e.CurrentObject.GetType().IsArray)
+                    new()
                     {
-                        e.ErrorContext.Handled = true;
+                        Member = "Value1",
+                        ThrowError = "Handle this!",
+                        Member2 = "Member1"
+                    },
+                    new()
+                    {
+                        Member = "Value2",
+                        Member2 = "Member2"
+                    },
+                    new()
+                    {
+                        Member = "Value3",
+                        ThrowError = "Handle that!",
+                        Member2 = "Member3"
                     }
                 }
-            });
+            }
+        };
 
-            StringAssert.AreEqual(@"[
+        var json = JsonConvert.SerializeObject(c, new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented,
+            Error = (_, e) =>
+            {
+                if (e.CurrentObject.GetType().IsArray)
+                {
+                    e.ErrorContext.Handled = true;
+                }
+            }
+        });
+
+        StringAssert.AreEqual(@"[
   [
     [
       {
@@ -264,35 +264,35 @@ namespace Argon.Tests.Serialization
     ]
   ]
 ]", json);
-        }
+    }
 
-        [Fact]
-        public void SerializingErrorInChildObject()
+    [Fact]
+    public void SerializingErrorInChildObject()
+    {
+        var c = new ListErrorObjectCollection
         {
-            var c = new ListErrorObjectCollection
+            new()
             {
-                new()
-                {
-                    Member = "Value1",
-                    ThrowError = "Handle this!",
-                    Member2 = "Member1"
-                },
-                new()
-                {
-                    Member = "Value2",
-                    Member2 = "Member2"
-                },
-                new()
-                {
-                    Member = "Value3",
-                    ThrowError = "Handle that!",
-                    Member2 = "Member3"
-                }
-            };
+                Member = "Value1",
+                ThrowError = "Handle this!",
+                Member2 = "Member1"
+            },
+            new()
+            {
+                Member = "Value2",
+                Member2 = "Member2"
+            },
+            new()
+            {
+                Member = "Value3",
+                ThrowError = "Handle that!",
+                Member2 = "Member3"
+            }
+        };
 
-            var json = JsonConvert.SerializeObject(c, Formatting.Indented);
+        var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-            StringAssert.AreEqual(@"[
+        StringAssert.AreEqual(@"[
   {
     ""Member"": ""Value1"",
     ""ThrowError"": ""Handle this!"",
@@ -307,12 +307,12 @@ namespace Argon.Tests.Serialization
     ""Member2"": ""Member3""
   }
 ]", json);
-        }
+    }
 
-        [Fact]
-        public void DeserializingErrorInDateTimeCollection()
-        {
-            var c = JsonConvert.DeserializeObject<DateTimeErrorObjectCollection>(@"[
+    [Fact]
+    public void DeserializingErrorInDateTimeCollection()
+    {
+        var c = JsonConvert.DeserializeObject<DateTimeErrorObjectCollection>(@"[
   ""2009-09-09T00:00:00Z"",
   ""kjhkjhkjhkjh"",
   [
@@ -323,27 +323,27 @@ namespace Argon.Tests.Serialization
   ""2000-12-01T00:00:00Z""
 ]", new IsoDateTimeConverter());
 
-            Assert.AreEqual(3, c.Count);
-            Assert.AreEqual(new DateTime(2009, 9, 9, 0, 0, 0, DateTimeKind.Utc), c[0]);
-            Assert.AreEqual(new DateTime(1977, 2, 20, 0, 0, 0, DateTimeKind.Utc), c[1]);
-            Assert.AreEqual(new DateTime(2000, 12, 1, 0, 0, 0, DateTimeKind.Utc), c[2]);
-        }
+        Assert.AreEqual(3, c.Count);
+        Assert.AreEqual(new DateTime(2009, 9, 9, 0, 0, 0, DateTimeKind.Utc), c[0]);
+        Assert.AreEqual(new DateTime(1977, 2, 20, 0, 0, 0, DateTimeKind.Utc), c[1]);
+        Assert.AreEqual(new DateTime(2000, 12, 1, 0, 0, 0, DateTimeKind.Utc), c[2]);
+    }
 
-        [Fact]
-        public void DeserializingErrorHandlingUsingEvent()
+    [Fact]
+    public void DeserializingErrorHandlingUsingEvent()
+    {
+        var errors = new List<string>();
+
+        var serializer = JsonSerializer.Create(new JsonSerializerSettings
         {
-            var errors = new List<string>();
-
-            var serializer = JsonSerializer.Create(new JsonSerializerSettings
+            Error = delegate(object _, ErrorEventArgs args)
             {
-                Error = delegate(object _, ErrorEventArgs args)
-                {
-                    errors.Add(args.ErrorContext.Path + " - " + args.ErrorContext.Member + " - " + args.ErrorContext.Error.Message);
-                    args.ErrorContext.Handled = true;
-                },
-                Converters = { new IsoDateTimeConverter() }
-            });
-            var c = serializer.Deserialize<List<DateTime>>(new JsonTextReader(new StringReader(@"[
+                errors.Add(args.ErrorContext.Path + " - " + args.ErrorContext.Member + " - " + args.ErrorContext.Error.Message);
+                args.ErrorContext.Handled = true;
+            },
+            Converters = { new IsoDateTimeConverter() }
+        });
+        var c = serializer.Deserialize<List<DateTime>>(new JsonTextReader(new StringReader(@"[
         ""2009-09-09T00:00:00Z"",
         ""I am not a date and will error!"",
         [
@@ -354,41 +354,41 @@ namespace Argon.Tests.Serialization
         ""2000-12-01T00:00:00Z""
       ]")));
 
-            // 2009-09-09T00:00:00Z
-            // 1977-02-20T00:00:00Z
-            // 2000-12-01T00:00:00Z
+        // 2009-09-09T00:00:00Z
+        // 1977-02-20T00:00:00Z
+        // 2000-12-01T00:00:00Z
 
-            // The string was not recognized as a valid DateTime. There is a unknown word starting at index 0.
-            // Unexpected token parsing date. Expected String, got StartArray.
-            // Cannot convert null value to System.DateTime.
+        // The string was not recognized as a valid DateTime. There is a unknown word starting at index 0.
+        // Unexpected token parsing date. Expected String, got StartArray.
+        // Cannot convert null value to System.DateTime.
 
-            Assert.AreEqual(3, c.Count);
-            Assert.AreEqual(new DateTime(2009, 9, 9, 0, 0, 0, DateTimeKind.Utc), c[0]);
-            Assert.AreEqual(new DateTime(1977, 2, 20, 0, 0, 0, DateTimeKind.Utc), c[1]);
-            Assert.AreEqual(new DateTime(2000, 12, 1, 0, 0, 0, DateTimeKind.Utc), c[2]);
+        Assert.AreEqual(3, c.Count);
+        Assert.AreEqual(new DateTime(2009, 9, 9, 0, 0, 0, DateTimeKind.Utc), c[0]);
+        Assert.AreEqual(new DateTime(1977, 2, 20, 0, 0, 0, DateTimeKind.Utc), c[1]);
+        Assert.AreEqual(new DateTime(2000, 12, 1, 0, 0, 0, DateTimeKind.Utc), c[2]);
 
-            Assert.AreEqual(3, errors.Count);
-            var possibleErrs = new[]
-            {
-                "[1] - 1 - The string was not recognized as a valid DateTime. There is an unknown word starting at index 0.",
-                "[1] - 1 - String was not recognized as a valid DateTime.",
-                "[1] - 1 - The string 'I am not a date and will error!' was not recognized as a valid DateTime. There is an unknown word starting at index '0'."
-            };
-
-            Assert.IsTrue(possibleErrs.Any(m => m == errors[0]),
-                "Expected One of: " + string.Join(Environment.NewLine, possibleErrs) + Environment.NewLine + "But was: " + errors[0]);
-
-            Assert.AreEqual("[2] - 2 - Unexpected token parsing date. Expected String, got StartArray. Path '[2]', line 4, position 9.", errors[1]);
-            Assert.AreEqual("[4] - 4 - Cannot convert null value to System.DateTime. Path '[4]', line 8, position 12.", errors[2]);
-        }
-
-        [Fact]
-        public void DeserializingErrorInDateTimeCollectionWithAttributeWithEventNotCalled()
+        Assert.AreEqual(3, errors.Count);
+        var possibleErrs = new[]
         {
-            var eventErrorHandlerCalled = false;
+            "[1] - 1 - The string was not recognized as a valid DateTime. There is an unknown word starting at index 0.",
+            "[1] - 1 - String was not recognized as a valid DateTime.",
+            "[1] - 1 - The string 'I am not a date and will error!' was not recognized as a valid DateTime. There is an unknown word starting at index '0'."
+        };
 
-            var c = JsonConvert.DeserializeObject<DateTimeErrorObjectCollection>(
-                @"[
+        Assert.IsTrue(possibleErrs.Any(m => m == errors[0]),
+            "Expected One of: " + string.Join(Environment.NewLine, possibleErrs) + Environment.NewLine + "But was: " + errors[0]);
+
+        Assert.AreEqual("[2] - 2 - Unexpected token parsing date. Expected String, got StartArray. Path '[2]', line 4, position 9.", errors[1]);
+        Assert.AreEqual("[4] - 4 - Cannot convert null value to System.DateTime. Path '[4]', line 8, position 12.", errors[2]);
+    }
+
+    [Fact]
+    public void DeserializingErrorInDateTimeCollectionWithAttributeWithEventNotCalled()
+    {
+        var eventErrorHandlerCalled = false;
+
+        var c = JsonConvert.DeserializeObject<DateTimeErrorObjectCollection>(
+            @"[
   ""2009-09-09T00:00:00Z"",
   ""kjhkjhkjhkjh"",
   [
@@ -398,217 +398,192 @@ namespace Argon.Tests.Serialization
   null,
   ""2000-12-01T00:00:00Z""
 ]",
-                new JsonSerializerSettings
-                {
-                    Error = (_, _) => eventErrorHandlerCalled = true,
-                    Converters =
-                    {
-                        new IsoDateTimeConverter()
-                    }
-                });
-
-            Assert.AreEqual(3, c.Count);
-            Assert.AreEqual(new DateTime(2009, 9, 9, 0, 0, 0, DateTimeKind.Utc), c[0]);
-            Assert.AreEqual(new DateTime(1977, 2, 20, 0, 0, 0, DateTimeKind.Utc), c[1]);
-            Assert.AreEqual(new DateTime(2000, 12, 1, 0, 0, 0, DateTimeKind.Utc), c[2]);
-
-            Assert.AreEqual(false, eventErrorHandlerCalled);
-        }
-
-        [Fact]
-        public void SerializePerson()
-        {
-            var person = new PersonError
+            new JsonSerializerSettings
             {
-                Name = "George Michael Bluth",
-                Age = 16,
-                Roles = null,
-                Title = "Mister Manager"
-            };
+                Error = (_, _) => eventErrorHandlerCalled = true,
+                Converters =
+                {
+                    new IsoDateTimeConverter()
+                }
+            });
 
-            var json = JsonConvert.SerializeObject(person, Formatting.Indented);
+        Assert.AreEqual(3, c.Count);
+        Assert.AreEqual(new DateTime(2009, 9, 9, 0, 0, 0, DateTimeKind.Utc), c[0]);
+        Assert.AreEqual(new DateTime(1977, 2, 20, 0, 0, 0, DateTimeKind.Utc), c[1]);
+        Assert.AreEqual(new DateTime(2000, 12, 1, 0, 0, 0, DateTimeKind.Utc), c[2]);
 
-            StringAssert.AreEqual(@"{
+        Assert.AreEqual(false, eventErrorHandlerCalled);
+    }
+
+    [Fact]
+    public void SerializePerson()
+    {
+        var person = new PersonError
+        {
+            Name = "George Michael Bluth",
+            Age = 16,
+            Roles = null,
+            Title = "Mister Manager"
+        };
+
+        var json = JsonConvert.SerializeObject(person, Formatting.Indented);
+
+        StringAssert.AreEqual(@"{
   ""Name"": ""George Michael Bluth"",
   ""Age"": 16,
   ""Title"": ""Mister Manager""
 }", json);
-        }
+    }
 
-        [Fact]
-        public void DeserializeNestedUnhandled()
+    [Fact]
+    public void DeserializeNestedUnhandled()
+    {
+        var errors = new List<string>();
+
+        var json = @"[[""kjhkjhkjhkjh""]]";
+
+        Exception e = null;
+        try
         {
-            var errors = new List<string>();
-
-            var json = @"[[""kjhkjhkjhkjh""]]";
-
-            Exception e = null;
-            try
+            var serializer = new JsonSerializer();
+            serializer.Error += delegate(object _, ErrorEventArgs args)
             {
-                var serializer = new JsonSerializer();
-                serializer.Error += delegate(object _, ErrorEventArgs args)
+                // only log an error once
+                if (args.CurrentObject == args.ErrorContext.OriginalObject)
                 {
-                    // only log an error once
-                    if (args.CurrentObject == args.ErrorContext.OriginalObject)
-                    {
-                        errors.Add(args.ErrorContext.Path + " - " + args.ErrorContext.Member + " - " + args.ErrorContext.Error.Message);
-                    }
-                };
-
-                serializer.Deserialize(new StringReader(json), typeof(List<List<DateTime>>));
-            }
-            catch (Exception ex)
-            {
-                e = ex;
-            }
-
-            Assert.AreEqual(@"Could not convert string to DateTime: kjhkjhkjhkjh. Path '[0][0]', line 1, position 16.", e.Message);
-
-            Assert.AreEqual(1, errors.Count);
-            Assert.AreEqual(@"[0][0] - 0 - Could not convert string to DateTime: kjhkjhkjhkjh. Path '[0][0]', line 1, position 16.", errors[0]);
-        }
-
-        [Fact]
-        public void MultipleRequiredPropertyErrors()
-        {
-            var json = "{}";
-            var errors = new List<string>();
-            var serializer = new JsonSerializer
-            {
-                MetadataPropertyHandling = MetadataPropertyHandling.Default
-            };
-            serializer.Error += delegate(object _, ErrorEventArgs args)
-            {
-                errors.Add(args.ErrorContext.Path + " - " + args.ErrorContext.Member + " - " + args.ErrorContext.Error.Message);
-                args.ErrorContext.Handled = true;
-            };
-            serializer.Deserialize(new JsonTextReader(new StringReader(json)), typeof(MyTypeWithRequiredMembers));
-
-            Assert.AreEqual(2, errors.Count);
-            Assert.IsTrue(errors[0].StartsWith(" - Required1 - Required property 'Required1' not found in JSON. Path '', line 1, position 2."));
-            Assert.IsTrue(errors[1].StartsWith(" - Required2 - Required property 'Required2' not found in JSON. Path '', line 1, position 2."));
-        }
-
-        [Fact]
-        public void HandlingArrayErrors()
-        {
-            var json = "[\"a\",\"b\",\"45\",34]";
-
-            var errors = new List<string>();
-
-            var serializer = new JsonSerializer();
-            serializer.Error += delegate(object _, ErrorEventArgs args)
-            {
-                errors.Add(args.ErrorContext.Path + " - " + args.ErrorContext.Member + " - " + args.ErrorContext.Error.Message);
-                args.ErrorContext.Handled = true;
+                    errors.Add(args.ErrorContext.Path + " - " + args.ErrorContext.Member + " - " + args.ErrorContext.Error.Message);
+                }
             };
 
-            serializer.Deserialize(new JsonTextReader(new StringReader(json)), typeof(int[]));
-
-            Assert.AreEqual(2, errors.Count);
-            Assert.AreEqual("[0] - 0 - Could not convert string to integer: a. Path '[0]', line 1, position 4.", errors[0]);
-            Assert.AreEqual("[1] - 1 - Could not convert string to integer: b. Path '[1]', line 1, position 8.", errors[1]);
+            serializer.Deserialize(new StringReader(json), typeof(List<List<DateTime>>));
+        }
+        catch (Exception ex)
+        {
+            e = ex;
         }
 
-        [Fact]
-        public void HandlingMultidimensionalArrayErrors()
+        Assert.AreEqual(@"Could not convert string to DateTime: kjhkjhkjhkjh. Path '[0][0]', line 1, position 16.", e.Message);
+
+        Assert.AreEqual(1, errors.Count);
+        Assert.AreEqual(@"[0][0] - 0 - Could not convert string to DateTime: kjhkjhkjhkjh. Path '[0][0]', line 1, position 16.", errors[0]);
+    }
+
+    [Fact]
+    public void MultipleRequiredPropertyErrors()
+    {
+        var json = "{}";
+        var errors = new List<string>();
+        var serializer = new JsonSerializer
         {
-            var json = "[[\"a\",\"45\"],[\"b\",34]]";
-
-            var errors = new List<string>();
-
-            var serializer = new JsonSerializer();
-            serializer.Error += delegate(object _, ErrorEventArgs args)
-            {
-                errors.Add(args.ErrorContext.Path + " - " + args.ErrorContext.Member + " - " + args.ErrorContext.Error.Message);
-                args.ErrorContext.Handled = true;
-            };
-
-            serializer.Deserialize(new JsonTextReader(new StringReader(json)), typeof(int[,]));
-
-            Assert.AreEqual(2, errors.Count);
-            Assert.AreEqual("[0][0] - 0 - Could not convert string to integer: a. Path '[0][0]', line 1, position 5.", errors[0]);
-            Assert.AreEqual("[1][0] - 0 - Could not convert string to integer: b. Path '[1][0]', line 1, position 16.", errors[1]);
-        }
-
-        [Fact]
-        public void ErrorHandlingAndAvoidingRecursiveDepthError()
+            MetadataPropertyHandling = MetadataPropertyHandling.Default
+        };
+        serializer.Error += delegate(object _, ErrorEventArgs args)
         {
-            var json = "{'A':{'A':{'A':{'A':{'A':{}}}}}}";
-            var serializer = new JsonSerializer { };
-            IList<string> errors = new List<string>();
-            serializer.Error += (_, e) =>
-            {
-                e.ErrorContext.Handled = true;
-                errors.Add(e.ErrorContext.Path);
-            };
+            errors.Add(args.ErrorContext.Path + " - " + args.ErrorContext.Member + " - " + args.ErrorContext.Error.Message);
+            args.ErrorContext.Handled = true;
+        };
+        serializer.Deserialize(new JsonTextReader(new StringReader(json)), typeof(MyTypeWithRequiredMembers));
 
-            serializer.Deserialize<Nest>(new JsonTextReader(new StringReader(json)) { MaxDepth = 3 });
+        Assert.AreEqual(2, errors.Count);
+        Assert.IsTrue(errors[0].StartsWith(" - Required1 - Required property 'Required1' not found in JSON. Path '', line 1, position 2."));
+        Assert.IsTrue(errors[1].StartsWith(" - Required2 - Required property 'Required2' not found in JSON. Path '', line 1, position 2."));
+    }
 
-            Assert.AreEqual(1, errors.Count);
-            Assert.AreEqual("A.A.A", errors[0]);
-        }
+    [Fact]
+    public void HandlingArrayErrors()
+    {
+        var json = "[\"a\",\"b\",\"45\",34]";
 
-        public class Nest
+        var errors = new List<string>();
+
+        var serializer = new JsonSerializer();
+        serializer.Error += delegate(object _, ErrorEventArgs args)
         {
-            public Nest A { get; set; }
-        }
+            errors.Add(args.ErrorContext.Path + " - " + args.ErrorContext.Member + " - " + args.ErrorContext.Error.Message);
+            args.ErrorContext.Handled = true;
+        };
 
-        [Fact]
-        public void InfiniteErrorHandlingLoopFromInputError()
+        serializer.Deserialize(new JsonTextReader(new StringReader(json)), typeof(int[]));
+
+        Assert.AreEqual(2, errors.Count);
+        Assert.AreEqual("[0] - 0 - Could not convert string to integer: a. Path '[0]', line 1, position 4.", errors[0]);
+        Assert.AreEqual("[1] - 1 - Could not convert string to integer: b. Path '[1]', line 1, position 8.", errors[1]);
+    }
+
+    [Fact]
+    public void HandlingMultidimensionalArrayErrors()
+    {
+        var json = "[[\"a\",\"45\"],[\"b\",34]]";
+
+        var errors = new List<string>();
+
+        var serializer = new JsonSerializer();
+        serializer.Error += delegate(object _, ErrorEventArgs args)
         {
-            IList<string> errors = new List<string>();
+            errors.Add(args.ErrorContext.Path + " - " + args.ErrorContext.Member + " - " + args.ErrorContext.Error.Message);
+            args.ErrorContext.Handled = true;
+        };
 
-            var serializer = new JsonSerializer();
-            serializer.Error += (_, e) =>
-            {
-                errors.Add(e.ErrorContext.Error.Message);
-                e.ErrorContext.Handled = true;
-            };
+        serializer.Deserialize(new JsonTextReader(new StringReader(json)), typeof(int[,]));
 
-            var result = serializer.Deserialize<ErrorPerson[]>(new JsonTextReader(new ThrowingReader()));
+        Assert.AreEqual(2, errors.Count);
+        Assert.AreEqual("[0][0] - 0 - Could not convert string to integer: a. Path '[0][0]', line 1, position 5.", errors[0]);
+        Assert.AreEqual("[1][0] - 0 - Could not convert string to integer: b. Path '[1][0]', line 1, position 16.", errors[1]);
+    }
 
-            Assert.IsNull(result);
-            Assert.AreEqual(3, errors.Count);
-            Assert.AreEqual("too far", errors[0]);
-            Assert.AreEqual("too far", errors[1]);
-            Assert.AreEqual("Infinite loop detected from error handling. Path '[1023]', line 1, position 65536.", errors[2]);
-        }
-
-        [Fact]
-        public void ArrayHandling()
+    [Fact]
+    public void ErrorHandlingAndAvoidingRecursiveDepthError()
+    {
+        var json = "{'A':{'A':{'A':{'A':{'A':{}}}}}}";
+        var serializer = new JsonSerializer { };
+        IList<string> errors = new List<string>();
+        serializer.Error += (_, e) =>
         {
-            IList<string> errors = new List<string>();
+            e.ErrorContext.Handled = true;
+            errors.Add(e.ErrorContext.Path);
+        };
 
-            var o = JsonConvert.DeserializeObject(
-                "[0,x]",
-                typeof(int[]),
-                new JsonSerializerSettings
-                {
-                    Error = (_, arg) =>
-                    {
-                        errors.Add(arg.ErrorContext.Error.Message);
-                        arg.ErrorContext.Handled = true;
-                    }
-                });
+        serializer.Deserialize<Nest>(new JsonTextReader(new StringReader(json)) { MaxDepth = 3 });
 
-            Assert.IsNotNull(o);
+        Assert.AreEqual(1, errors.Count);
+        Assert.AreEqual("A.A.A", errors[0]);
+    }
 
-            Assert.AreEqual(1, errors.Count);
-            Assert.AreEqual("Unexpected character encountered while parsing value: x. Path '[0]', line 1, position 4.", errors[0]);
+    public class Nest
+    {
+        public Nest A { get; set; }
+    }
 
-            Assert.AreEqual(1, ((int[])o).Length);
-            Assert.AreEqual(0, ((int[])o)[0]);
-        }
+    [Fact]
+    public void InfiniteErrorHandlingLoopFromInputError()
+    {
+        IList<string> errors = new List<string>();
 
-        [Fact]
-        public void ArrayHandling_JTokenReader()
+        var serializer = new JsonSerializer();
+        serializer.Error += (_, e) =>
         {
-            IList<string> errors = new List<string>();
+            errors.Add(e.ErrorContext.Error.Message);
+            e.ErrorContext.Handled = true;
+        };
 
-            var reader = new JTokenReader(new JArray(0, true));
+        var result = serializer.Deserialize<ErrorPerson[]>(new JsonTextReader(new ThrowingReader()));
 
-            var serializer = JsonSerializer.Create(new JsonSerializerSettings
+        Assert.IsNull(result);
+        Assert.AreEqual(3, errors.Count);
+        Assert.AreEqual("too far", errors[0]);
+        Assert.AreEqual("too far", errors[1]);
+        Assert.AreEqual("Infinite loop detected from error handling. Path '[1023]', line 1, position 65536.", errors[2]);
+    }
+
+    [Fact]
+    public void ArrayHandling()
+    {
+        IList<string> errors = new List<string>();
+
+        var o = JsonConvert.DeserializeObject(
+            "[0,x]",
+            typeof(int[]),
+            new JsonSerializerSettings
             {
                 Error = (_, arg) =>
                 {
@@ -616,360 +591,385 @@ namespace Argon.Tests.Serialization
                     arg.ErrorContext.Handled = true;
                 }
             });
-            var o = serializer.Deserialize(reader, typeof(int[]));
 
-            Assert.IsNotNull(o);
+        Assert.IsNotNull(o);
 
-            Assert.AreEqual(1, errors.Count);
-            Assert.AreEqual("Error reading integer. Unexpected token: Boolean. Path '[1]'.", errors[0]);
+        Assert.AreEqual(1, errors.Count);
+        Assert.AreEqual("Unexpected character encountered while parsing value: x. Path '[0]', line 1, position 4.", errors[0]);
 
-            Assert.AreEqual(1, ((int[])o).Length);
-            Assert.AreEqual(0, ((int[])o)[0]);
-        }
+        Assert.AreEqual(1, ((int[])o).Length);
+        Assert.AreEqual(0, ((int[])o)[0]);
+    }
 
-        [Fact]
-        public void ArrayHandlingInObject()
+    [Fact]
+    public void ArrayHandling_JTokenReader()
+    {
+        IList<string> errors = new List<string>();
+
+        var reader = new JTokenReader(new JArray(0, true));
+
+        var serializer = JsonSerializer.Create(new JsonSerializerSettings
         {
-            IList<string> errors = new List<string>();
-
-            var o = JsonConvert.DeserializeObject<Dictionary<string, int[]>>(
-                "{'badarray':[0,x,2],'goodarray':[0,1,2]}",
-                new JsonSerializerSettings
-                {
-                    MetadataPropertyHandling = MetadataPropertyHandling.Default,
-                    Error = (_, arg) =>
-                    {
-                        errors.Add(arg.ErrorContext.Error.Message);
-                        arg.ErrorContext.Handled = true;
-                    }
-                });
-
-            Assert.IsNotNull(o);
-
-            Assert.AreEqual(2, errors.Count);
-            Assert.AreEqual("Unexpected character encountered while parsing value: x. Path 'badarray[0]', line 1, position 16.", errors[0]);
-            Assert.AreEqual("Unexpected character encountered while parsing value: ,. Path 'badarray[1]', line 1, position 17.", errors[1]);
-
-            Assert.AreEqual(2, o.Count);
-            Assert.AreEqual(2, o["badarray"].Length);
-            Assert.AreEqual(0, o["badarray"][0]);
-            Assert.AreEqual(2, o["badarray"][1]);
-        }
-
-        [Fact]
-        public void ErrorHandlingEndOfContent()
-        {
-            IList<string> errors = new List<string>();
-
-            const string input = "{\"events\":[{\"code\":64411},{\"code\":64411,\"prio";
-
-            const int maxDepth = 256;
-            using (var jsonTextReader = new JsonTextReader(new StringReader(input)) { MaxDepth = maxDepth })
+            Error = (_, arg) =>
             {
-                var jsonSerializer = JsonSerializer.Create(new JsonSerializerSettings
-                {
-                    MaxDepth = maxDepth,
-                    MetadataPropertyHandling = MetadataPropertyHandling.Default
-                });
-                jsonSerializer.Error += (_, e) =>
-                {
-                    errors.Add(e.ErrorContext.Error.Message);
-                    e.ErrorContext.Handled = true;
-                };
-
-                var logMessage = jsonSerializer.Deserialize<LogMessage>(jsonTextReader);
-
-                Assert.IsNotNull(logMessage.Events);
-                Assert.AreEqual(1, logMessage.Events.Count);
-                Assert.AreEqual("64411", logMessage.Events[0].Code);
+                errors.Add(arg.ErrorContext.Error.Message);
+                arg.ErrorContext.Handled = true;
             }
+        });
+        var o = serializer.Deserialize(reader, typeof(int[]));
 
-            Assert.AreEqual(3, errors.Count);
-            Assert.AreEqual(@"Unterminated string. Expected delimiter: "". Path 'events[1].code', line 1, position 45.", errors[0]);
-            Assert.AreEqual(@"Unexpected end when deserializing array. Path 'events[1].code', line 1, position 45.", errors[1]);
-            Assert.AreEqual(@"Unexpected end when deserializing object. Path 'events[1].code', line 1, position 45.", errors[2]);
-        }
+        Assert.IsNotNull(o);
 
-        [Fact]
-        public void ErrorHandlingEndOfContentDictionary()
-        {
-            IList<string> errors = new List<string>();
+        Assert.AreEqual(1, errors.Count);
+        Assert.AreEqual("Error reading integer. Unexpected token: Boolean. Path '[1]'.", errors[0]);
 
-            const string input = "{\"events\":{\"code\":64411},\"events2\":{\"code\":64412,";
+        Assert.AreEqual(1, ((int[])o).Length);
+        Assert.AreEqual(0, ((int[])o)[0]);
+    }
 
-            const int maxDepth = 256;
-            using (var jsonTextReader = new JsonTextReader(new StringReader(input)) { MaxDepth = maxDepth })
+    [Fact]
+    public void ArrayHandlingInObject()
+    {
+        IList<string> errors = new List<string>();
+
+        var o = JsonConvert.DeserializeObject<Dictionary<string, int[]>>(
+            "{'badarray':[0,x,2],'goodarray':[0,1,2]}",
+            new JsonSerializerSettings
             {
-                var jsonSerializer = JsonSerializer.Create(new JsonSerializerSettings { MaxDepth = maxDepth, MetadataPropertyHandling = MetadataPropertyHandling.Default });
-                jsonSerializer.Error += (_, e) =>
+                MetadataPropertyHandling = MetadataPropertyHandling.Default,
+                Error = (_, arg) =>
                 {
-                    errors.Add(e.ErrorContext.Error.Message);
-                    e.ErrorContext.Handled = true;
-                };
+                    errors.Add(arg.ErrorContext.Error.Message);
+                    arg.ErrorContext.Handled = true;
+                }
+            });
 
-                var logEvents = jsonSerializer.Deserialize<IDictionary<string, LogEvent>>(jsonTextReader);
+        Assert.IsNotNull(o);
 
-                Assert.IsNotNull(logEvents);
-                Assert.AreEqual(2, logEvents.Count);
-                Assert.AreEqual("64411", logEvents["events"].Code);
-                Assert.AreEqual("64412", logEvents["events2"].Code);
-            }
+        Assert.AreEqual(2, errors.Count);
+        Assert.AreEqual("Unexpected character encountered while parsing value: x. Path 'badarray[0]', line 1, position 16.", errors[0]);
+        Assert.AreEqual("Unexpected character encountered while parsing value: ,. Path 'badarray[1]', line 1, position 17.", errors[1]);
 
-            Assert.AreEqual(2, errors.Count);
-            Assert.AreEqual(@"Unexpected end when deserializing object. Path 'events2.code', line 1, position 49.", errors[0]);
-            Assert.AreEqual(@"Unexpected end when deserializing object. Path 'events2.code', line 1, position 49.", errors[1]);
+        Assert.AreEqual(2, o.Count);
+        Assert.AreEqual(2, o["badarray"].Length);
+        Assert.AreEqual(0, o["badarray"][0]);
+        Assert.AreEqual(2, o["badarray"][1]);
+    }
+
+    [Fact]
+    public void ErrorHandlingEndOfContent()
+    {
+        IList<string> errors = new List<string>();
+
+        const string input = "{\"events\":[{\"code\":64411},{\"code\":64411,\"prio";
+
+        const int maxDepth = 256;
+        using (var jsonTextReader = new JsonTextReader(new StringReader(input)) { MaxDepth = maxDepth })
+        {
+            var jsonSerializer = JsonSerializer.Create(new JsonSerializerSettings
+            {
+                MaxDepth = maxDepth,
+                MetadataPropertyHandling = MetadataPropertyHandling.Default
+            });
+            jsonSerializer.Error += (_, e) =>
+            {
+                errors.Add(e.ErrorContext.Error.Message);
+                e.ErrorContext.Handled = true;
+            };
+
+            var logMessage = jsonSerializer.Deserialize<LogMessage>(jsonTextReader);
+
+            Assert.IsNotNull(logMessage.Events);
+            Assert.AreEqual(1, logMessage.Events.Count);
+            Assert.AreEqual("64411", logMessage.Events[0].Code);
         }
 
-        [Fact]
-        public void ErrorHandlingEndOfContentDynamic()
-        {
-            IList<string> errors = new List<string>();
+        Assert.AreEqual(3, errors.Count);
+        Assert.AreEqual(@"Unterminated string. Expected delimiter: "". Path 'events[1].code', line 1, position 45.", errors[0]);
+        Assert.AreEqual(@"Unexpected end when deserializing array. Path 'events[1].code', line 1, position 45.", errors[1]);
+        Assert.AreEqual(@"Unexpected end when deserializing object. Path 'events[1].code', line 1, position 45.", errors[2]);
+    }
 
-            var json = @"{
+    [Fact]
+    public void ErrorHandlingEndOfContentDictionary()
+    {
+        IList<string> errors = new List<string>();
+
+        const string input = "{\"events\":{\"code\":64411},\"events2\":{\"code\":64412,";
+
+        const int maxDepth = 256;
+        using (var jsonTextReader = new JsonTextReader(new StringReader(input)) { MaxDepth = maxDepth })
+        {
+            var jsonSerializer = JsonSerializer.Create(new JsonSerializerSettings { MaxDepth = maxDepth, MetadataPropertyHandling = MetadataPropertyHandling.Default });
+            jsonSerializer.Error += (_, e) =>
+            {
+                errors.Add(e.ErrorContext.Error.Message);
+                e.ErrorContext.Handled = true;
+            };
+
+            var logEvents = jsonSerializer.Deserialize<IDictionary<string, LogEvent>>(jsonTextReader);
+
+            Assert.IsNotNull(logEvents);
+            Assert.AreEqual(2, logEvents.Count);
+            Assert.AreEqual("64411", logEvents["events"].Code);
+            Assert.AreEqual("64412", logEvents["events2"].Code);
+        }
+
+        Assert.AreEqual(2, errors.Count);
+        Assert.AreEqual(@"Unexpected end when deserializing object. Path 'events2.code', line 1, position 49.", errors[0]);
+        Assert.AreEqual(@"Unexpected end when deserializing object. Path 'events2.code', line 1, position 49.", errors[1]);
+    }
+
+    [Fact]
+    public void ErrorHandlingEndOfContentDynamic()
+    {
+        IList<string> errors = new List<string>();
+
+        var json = @"{
   ""Explicit"": true,
   ""Decimal"": 99.9,
   ""Int"": 1,
   ""ChildObject"": {
     ""Integer"": 123";
 
-            var newDynamicObject = JsonConvert.DeserializeObject<TestDynamicObject>(json, new JsonSerializerSettings
+        var newDynamicObject = JsonConvert.DeserializeObject<TestDynamicObject>(json, new JsonSerializerSettings
+        {
+            Error = (_, e) =>
             {
-                Error = (_, e) =>
+                errors.Add(e.ErrorContext.Error.Message);
+                e.ErrorContext.Handled = true;
+            },
+            MetadataPropertyHandling = MetadataPropertyHandling.Default
+        });
+        Assert.AreEqual(true, newDynamicObject.Explicit);
+
+        dynamic d = newDynamicObject;
+
+        Assert.AreEqual(99.9, d.Decimal);
+        Assert.AreEqual(1, d.Int);
+        Assert.AreEqual(123, d.ChildObject.Integer);
+
+        Assert.AreEqual(2, errors.Count);
+        Assert.AreEqual(@"Unexpected end when deserializing object. Path 'ChildObject.Integer', line 6, position 18.", errors[0]);
+        Assert.AreEqual(@"Unexpected end when deserializing object. Path 'ChildObject.Integer', line 6, position 18.", errors[1]);
+    }
+
+    [Fact]
+    public void WriteEndOnPropertyState()
+    {
+        var settings = new JsonSerializerSettings();
+        settings.Error += (_, args) => { args.ErrorContext.Handled = true; };
+
+        var data = new List<ErrorPerson2>
+        {
+            new() { FirstName = "Scott", LastName = "Hanselman" },
+            new() { FirstName = "Scott", LastName = "Hunter" },
+            new() { FirstName = "Scott", LastName = "Guthrie" },
+        };
+
+        var dictionary = data.GroupBy(person => person.FirstName).ToDictionary(group => @group.Key, group => @group.Cast<IErrorPerson2>());
+        var output = JsonConvert.SerializeObject(dictionary, Formatting.None, settings);
+        Assert.AreEqual(@"{""Scott"":[]}", output);
+    }
+
+    [Fact]
+    public void WriteEndOnPropertyState2()
+    {
+        var settings = new JsonSerializerSettings();
+        settings.Error += (_, args) => { args.ErrorContext.Handled = true; };
+
+        var data = new List<ErrorPerson2>
+        {
+            new() { FirstName = "Scott", LastName = "Hanselman" },
+            new() { FirstName = "Scott", LastName = "Hunter" },
+            new() { FirstName = "Scott", LastName = "Guthrie" },
+            new() { FirstName = "James", LastName = "Newton-King" },
+        };
+
+        var dictionary = data.GroupBy(person => person.FirstName).ToDictionary(group => @group.Key, group => @group.Cast<IErrorPerson2>());
+        var output = JsonConvert.SerializeObject(dictionary, Formatting.None, settings);
+
+        Assert.AreEqual(@"{""Scott"":[],""James"":[]}", output);
+    }
+
+    [Fact]
+    public void NoObjectWithEvent()
+    {
+        var json = "{\"}";
+        var byteArray = Encoding.UTF8.GetBytes(json);
+        var stream = new MemoryStream(byteArray);
+        var jReader = new JsonTextReader(new StreamReader(stream));
+        var s = new JsonSerializer();
+        s.Error += (_, args) => { args.ErrorContext.Handled = true; };
+        var obj = s.Deserialize<ErrorPerson2>(jReader);
+
+        Assert.IsNull(obj);
+    }
+
+    [Fact]
+    public void NoObjectWithAttribute()
+    {
+        var json = "{\"}";
+        var byteArray = Encoding.UTF8.GetBytes(json);
+        var stream = new MemoryStream(byteArray);
+        var jReader = new JsonTextReader(new StreamReader(stream));
+        var s = new JsonSerializer();
+
+        ExceptionAssert.Throws<JsonReaderException>(() => { var obj = s.Deserialize<ErrorTestObject>(jReader); }, @"Unterminated string. Expected delimiter: "". Path '', line 1, position 3.");
+    }
+
+    public class RootThing
+    {
+        public Something Something { get; set; }
+    }
+
+    public class RootSomethingElse
+    {
+        public SomethingElse SomethingElse { get; set; }
+    }
+
+    /// <summary>
+    /// This could be an object we are passing up in an interface.
+    /// </summary>
+    [JsonConverter(typeof(SomethingConverter))]
+    public class Something
+    {
+        public class SomethingConverter : JsonConverter
+        {
+            public override bool CanConvert(Type objectType)
+            {
+                return true;
+            }
+
+            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+            {
+                try
                 {
-                    errors.Add(e.ErrorContext.Error.Message);
-                    e.ErrorContext.Handled = true;
-                },
-                MetadataPropertyHandling = MetadataPropertyHandling.Default
-            });
-            Assert.AreEqual(true, newDynamicObject.Explicit);
+                    // Do own stuff.
+                    // Then call deserialise for inner object.
+                    var innerObject = serializer.Deserialize(reader, typeof(SomethingElse));
 
-            dynamic d = newDynamicObject;
-
-            Assert.AreEqual(99.9, d.Decimal);
-            Assert.AreEqual(1, d.Int);
-            Assert.AreEqual(123, d.ChildObject.Integer);
-
-            Assert.AreEqual(2, errors.Count);
-            Assert.AreEqual(@"Unexpected end when deserializing object. Path 'ChildObject.Integer', line 6, position 18.", errors[0]);
-            Assert.AreEqual(@"Unexpected end when deserializing object. Path 'ChildObject.Integer', line 6, position 18.", errors[1]);
-        }
-
-        [Fact]
-        public void WriteEndOnPropertyState()
-        {
-            var settings = new JsonSerializerSettings();
-            settings.Error += (_, args) => { args.ErrorContext.Handled = true; };
-
-            var data = new List<ErrorPerson2>
-            {
-                new() { FirstName = "Scott", LastName = "Hanselman" },
-                new() { FirstName = "Scott", LastName = "Hunter" },
-                new() { FirstName = "Scott", LastName = "Guthrie" },
-            };
-
-            var dictionary = data.GroupBy(person => person.FirstName).ToDictionary(group => @group.Key, group => @group.Cast<IErrorPerson2>());
-            var output = JsonConvert.SerializeObject(dictionary, Formatting.None, settings);
-            Assert.AreEqual(@"{""Scott"":[]}", output);
-        }
-
-        [Fact]
-        public void WriteEndOnPropertyState2()
-        {
-            var settings = new JsonSerializerSettings();
-            settings.Error += (_, args) => { args.ErrorContext.Handled = true; };
-
-            var data = new List<ErrorPerson2>
-            {
-                new() { FirstName = "Scott", LastName = "Hanselman" },
-                new() { FirstName = "Scott", LastName = "Hunter" },
-                new() { FirstName = "Scott", LastName = "Guthrie" },
-                new() { FirstName = "James", LastName = "Newton-King" },
-            };
-
-            var dictionary = data.GroupBy(person => person.FirstName).ToDictionary(group => @group.Key, group => @group.Cast<IErrorPerson2>());
-            var output = JsonConvert.SerializeObject(dictionary, Formatting.None, settings);
-
-            Assert.AreEqual(@"{""Scott"":[],""James"":[]}", output);
-        }
-
-        [Fact]
-        public void NoObjectWithEvent()
-        {
-            var json = "{\"}";
-            var byteArray = Encoding.UTF8.GetBytes(json);
-            var stream = new MemoryStream(byteArray);
-            var jReader = new JsonTextReader(new StreamReader(stream));
-            var s = new JsonSerializer();
-            s.Error += (_, args) => { args.ErrorContext.Handled = true; };
-            var obj = s.Deserialize<ErrorPerson2>(jReader);
-
-            Assert.IsNull(obj);
-        }
-
-        [Fact]
-        public void NoObjectWithAttribute()
-        {
-            var json = "{\"}";
-            var byteArray = Encoding.UTF8.GetBytes(json);
-            var stream = new MemoryStream(byteArray);
-            var jReader = new JsonTextReader(new StreamReader(stream));
-            var s = new JsonSerializer();
-
-            ExceptionAssert.Throws<JsonReaderException>(() => { var obj = s.Deserialize<ErrorTestObject>(jReader); }, @"Unterminated string. Expected delimiter: "". Path '', line 1, position 3.");
-        }
-
-        public class RootThing
-        {
-            public Something Something { get; set; }
-        }
-
-        public class RootSomethingElse
-        {
-            public SomethingElse SomethingElse { get; set; }
-        }
-
-        /// <summary>
-        /// This could be an object we are passing up in an interface.
-        /// </summary>
-        [JsonConverter(typeof(SomethingConverter))]
-        public class Something
-        {
-            public class SomethingConverter : JsonConverter
-            {
-                public override bool CanConvert(Type objectType)
-                {
-                    return true;
+                    return null;
                 }
-
-                public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+                catch (Exception ex)
                 {
-                    try
-                    {
-                        // Do own stuff.
-                        // Then call deserialise for inner object.
-                        var innerObject = serializer.Deserialize(reader, typeof(SomethingElse));
-
-                        return null;
-                    }
-                    catch (Exception ex)
-                    {
-                        // If we get an error wrap it in something less scary.
-                        throw new Exception("An error occurred.", ex);
-                    }
-                }
-
-                public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-                {
-                    try
-                    {
-                        var s = (Something)value;
-
-                        // Do own stuff.
-                        // Then call serialise for inner object.
-                        serializer.Serialize(writer, s.RootSomethingElse);
-                    }
-                    catch (Exception ex)
-                    {
-                        // If we get an error wrap it in something less scary.
-                        throw new Exception("An error occurred.", ex);
-                    }
+                    // If we get an error wrap it in something less scary.
+                    throw new Exception("An error occurred.", ex);
                 }
             }
 
-            public RootSomethingElse RootSomethingElse { get; set; }
-
-            public Something()
+            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
             {
-                this.RootSomethingElse = new RootSomethingElse();
-            }
-        }
-
-        /// <summary>
-        /// This is an object that is contained in the interface object.
-        /// </summary>
-        [JsonConverter(typeof(SomethingElseConverter))]
-        public class SomethingElse
-        {
-            public class SomethingElseConverter : JsonConverter
-            {
-                public override bool CanConvert(Type objectType)
+                try
                 {
-                    return true;
+                    var s = (Something)value;
+
+                    // Do own stuff.
+                    // Then call serialise for inner object.
+                    serializer.Serialize(writer, s.RootSomethingElse);
                 }
-
-                public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+                catch (Exception ex)
                 {
-                    throw new NotImplementedException();
-                }
-
-                public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-                {
-                    throw new NotImplementedException();
+                    // If we get an error wrap it in something less scary.
+                    throw new Exception("An error occurred.", ex);
                 }
             }
         }
 
-        [Fact]
-        public void DeserializeWrappingErrorsAndErrorHandling()
+        public RootSomethingElse RootSomethingElse { get; set; }
+
+        public Something()
         {
-            var serialiser = JsonSerializer.Create(new JsonSerializerSettings { });
-
-            var foo = "{ something: { rootSomethingElse { somethingElse: 0 } } }";
-            var reader = new System.IO.StringReader(foo);
-
-            ExceptionAssert.Throws<Exception>(() => { serialiser.Deserialize(reader, typeof(Something)); }, "An error occurred.");
+            this.RootSomethingElse = new RootSomethingElse();
         }
+    }
 
-        [Fact]
-        public void SerializeWrappingErrorsAndErrorHandling()
+    /// <summary>
+    /// This is an object that is contained in the interface object.
+    /// </summary>
+    [JsonConverter(typeof(SomethingElseConverter))]
+    public class SomethingElse
+    {
+        public class SomethingElseConverter : JsonConverter
         {
-            var serialiser = JsonSerializer.Create(new JsonSerializerSettings { });
-
-            var s = new Something
+            public override bool CanConvert(Type objectType)
             {
-                RootSomethingElse = new RootSomethingElse
-                {
-                    SomethingElse = new SomethingElse()
-                }
-            };
-            var r = new RootThing
+                return true;
+            }
+
+            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
             {
-                Something = s
-            };
+                throw new NotImplementedException();
+            }
 
-            var writer = new System.IO.StringWriter();
-
-            ExceptionAssert.Throws<Exception>(() => { serialiser.Serialize(writer, r); }, "An error occurred.");
+            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+            {
+                throw new NotImplementedException();
+            }
         }
+    }
 
-        [Fact]
-        public void DeserializeRootConverter()
+    [Fact]
+    public void DeserializeWrappingErrorsAndErrorHandling()
+    {
+        var serialiser = JsonSerializer.Create(new JsonSerializerSettings { });
+
+        var foo = "{ something: { rootSomethingElse { somethingElse: 0 } } }";
+        var reader = new System.IO.StringReader(foo);
+
+        ExceptionAssert.Throws<Exception>(() => { serialiser.Deserialize(reader, typeof(Something)); }, "An error occurred.");
+    }
+
+    [Fact]
+    public void SerializeWrappingErrorsAndErrorHandling()
+    {
+        var serialiser = JsonSerializer.Create(new JsonSerializerSettings { });
+
+        var s = new Something
         {
-            var result = JsonConvert.DeserializeObject<SomethingElse>("{}", new JsonSerializerSettings
+            RootSomethingElse = new RootSomethingElse
             {
-                Error = (_, e) => { e.ErrorContext.Handled = true; }
-            });
-
-            Assert.IsNull(result);
-        }
-
-        [Fact]
-        public void SerializeRootConverter()
+                SomethingElse = new SomethingElse()
+            }
+        };
+        var r = new RootThing
         {
-            var result = JsonConvert.SerializeObject(new SomethingElse(), new JsonSerializerSettings
-            {
-                Error = (_, e) => { e.ErrorContext.Handled = true; }
-            });
+            Something = s
+        };
 
-            Assert.AreEqual(string.Empty, result);
-        }
+        var writer = new System.IO.StringWriter();
 
-        [Fact]
-        public void IntegerToLarge_ReadNextValue()
+        ExceptionAssert.Throws<Exception>(() => { serialiser.Serialize(writer, r); }, "An error occurred.");
+    }
+
+    [Fact]
+    public void DeserializeRootConverter()
+    {
+        var result = JsonConvert.DeserializeObject<SomethingElse>("{}", new JsonSerializerSettings
         {
-            IList<string> errorMessages = new List<string>();
+            Error = (_, e) => { e.ErrorContext.Handled = true; }
+        });
 
-            JsonReader reader = new JsonTextReader(new StringReader(@"{
+        Assert.IsNull(result);
+    }
+
+    [Fact]
+    public void SerializeRootConverter()
+    {
+        var result = JsonConvert.SerializeObject(new SomethingElse(), new JsonSerializerSettings
+        {
+            Error = (_, e) => { e.ErrorContext.Handled = true; }
+        });
+
+        Assert.AreEqual(string.Empty, result);
+    }
+
+    [Fact]
+    public void IntegerToLarge_ReadNextValue()
+    {
+        IList<string> errorMessages = new List<string>();
+
+        JsonReader reader = new JsonTextReader(new StringReader(@"{
   ""string1"": ""blah"",
   ""int1"": 2147483648,
   ""string2"": ""also blah"",
@@ -978,165 +978,164 @@ namespace Argon.Tests.Serialization
   ""dateTime1"": ""200NOTDATE"",
   ""string4"": ""even more blah""
 }"));
-            var settings = new JsonSerializerSettings
-            {
-                Error = (_, args) =>
-                {
-                    errorMessages.Add(args.ErrorContext.Error.Message);
-                    args.ErrorContext.Handled = true;
-                }
-            };
-            var serializer = JsonSerializer.Create(settings);
-
-            var data = new DataModel();
-            serializer.Populate(reader, data);
-
-            Assert.AreEqual("blah", data.String1);
-            Assert.AreEqual(0, data.Int1);
-            Assert.AreEqual("also blah", data.String2);
-            Assert.AreEqual(0, data.Int2);
-            Assert.AreEqual("more blah", data.String3);
-            Assert.AreEqual(default(DateTime), data.DateTime1);
-            Assert.AreEqual("even more blah", data.String4);
-
-            //Assert.AreEqual(2, errorMessages.Count);
-            Assert.AreEqual("JSON integer 2147483648 is too large or small for an Int32. Path 'int1', line 3, position 20.", errorMessages[0]);
-            Assert.AreEqual("JSON integer 2147483648 is too large or small for an Int32. Path 'int2', line 5, position 20.", errorMessages[1]);
-            Assert.AreEqual("Could not convert string to DateTime: 200NOTDATE. Path 'dateTime1', line 7, position 27.", errorMessages[2]);
-        }
-
-        [Fact]
-        public void HandleErrorInDictionaryObject()
+        var settings = new JsonSerializerSettings
         {
-            var json = @"{
+            Error = (_, args) =>
+            {
+                errorMessages.Add(args.ErrorContext.Error.Message);
+                args.ErrorContext.Handled = true;
+            }
+        };
+        var serializer = JsonSerializer.Create(settings);
+
+        var data = new DataModel();
+        serializer.Populate(reader, data);
+
+        Assert.AreEqual("blah", data.String1);
+        Assert.AreEqual(0, data.Int1);
+        Assert.AreEqual("also blah", data.String2);
+        Assert.AreEqual(0, data.Int2);
+        Assert.AreEqual("more blah", data.String3);
+        Assert.AreEqual(default(DateTime), data.DateTime1);
+        Assert.AreEqual("even more blah", data.String4);
+
+        //Assert.AreEqual(2, errorMessages.Count);
+        Assert.AreEqual("JSON integer 2147483648 is too large or small for an Int32. Path 'int1', line 3, position 20.", errorMessages[0]);
+        Assert.AreEqual("JSON integer 2147483648 is too large or small for an Int32. Path 'int2', line 5, position 20.", errorMessages[1]);
+        Assert.AreEqual("Could not convert string to DateTime: 200NOTDATE. Path 'dateTime1', line 7, position 27.", errorMessages[2]);
+    }
+
+    [Fact]
+    public void HandleErrorInDictionaryObject()
+    {
+        var json = @"{
                 model1: { String1: 's1', Int1: 'x' },
                 model2: { String1: 's2', Int1: 2 }
             }";
-            var dictionary = JsonConvert.DeserializeObject<TolerantDictionary<string, DataModel>>(json);
+        var dictionary = JsonConvert.DeserializeObject<TolerantDictionary<string, DataModel>>(json);
 
-            Assert.AreEqual(1, dictionary.Count);
-            Assert.IsTrue(dictionary.ContainsKey("model2"));
-            Assert.AreEqual("s2", dictionary["model2"].String1);
-            Assert.AreEqual(2, dictionary["model2"].Int1);
-        }
-
-        private class DataModel
-        {
-            public string String1 { get; set; }
-            public int Int1 { get; set; }
-            public string String2 { get; set; }
-            public int Int2 { get; set; }
-            public string String3 { get; set; }
-            public DateTime DateTime1 { get; set; }
-            public string String4 { get; set; }
-        }
+        Assert.AreEqual(1, dictionary.Count);
+        Assert.IsTrue(dictionary.ContainsKey("model2"));
+        Assert.AreEqual("s2", dictionary["model2"].String1);
+        Assert.AreEqual(2, dictionary["model2"].Int1);
     }
 
-    internal interface IErrorPerson2
+    private class DataModel
+    {
+        public string String1 { get; set; }
+        public int Int1 { get; set; }
+        public string String2 { get; set; }
+        public int Int2 { get; set; }
+        public string String3 { get; set; }
+        public DateTime DateTime1 { get; set; }
+        public string String4 { get; set; }
+    }
+}
+
+internal interface IErrorPerson2
+{
+}
+
+internal class ErrorPerson2 //:IPerson - oops! Forgot to implement the person interface
+{
+    public string LastName { get; set; }
+    public string FirstName { get; set; }
+}
+
+public class ThrowingReader : TextReader
+{
+    private int _position = 0;
+    private static string element = "{\"FirstName\":\"Din\",\"LastName\":\"Rav\",\"Item\":{\"ItemName\":\"temp\"}}";
+    private bool _firstRead = true;
+    private bool _readComma = false;
+
+    public ThrowingReader()
     {
     }
 
-    internal class ErrorPerson2 //:IPerson - oops! Forgot to implement the person interface
+    public override int Read(char[] buffer, int index, int count)
     {
-        public string LastName { get; set; }
-        public string FirstName { get; set; }
-    }
-
-    public class ThrowingReader : TextReader
-    {
-        private int _position = 0;
-        private static string element = "{\"FirstName\":\"Din\",\"LastName\":\"Rav\",\"Item\":{\"ItemName\":\"temp\"}}";
-        private bool _firstRead = true;
-        private bool _readComma = false;
-
-        public ThrowingReader()
+        var temp = new char[buffer.Length];
+        var charsRead = 0;
+        if (_firstRead)
         {
+            charsRead = new StringReader("[").Read(temp, index, count);
+            _firstRead = false;
         }
-
-        public override int Read(char[] buffer, int index, int count)
+        else
         {
-            var temp = new char[buffer.Length];
-            var charsRead = 0;
-            if (_firstRead)
+            if (_readComma)
             {
-                charsRead = new StringReader("[").Read(temp, index, count);
-                _firstRead = false;
+                charsRead = new StringReader(",").Read(temp, index, count);
+                _readComma = false;
             }
             else
             {
-                if (_readComma)
-                {
-                    charsRead = new StringReader(",").Read(temp, index, count);
-                    _readComma = false;
-                }
-                else
-                {
-                    charsRead = new StringReader(element).Read(temp, index, count);
-                    _readComma = true;
-                }
+                charsRead = new StringReader(element).Read(temp, index, count);
+                _readComma = true;
             }
-
-            _position += charsRead;
-            if (_position > 65536)
-            {
-                throw new Exception("too far");
-            }
-            Array.Copy(temp, index, buffer, index, charsRead);
-            return charsRead;
         }
-    }
 
-    public class ErrorPerson
-    {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public ErrorItem Item { get; set; }
-    }
-
-    public class ErrorItem
-    {
-        public string ItemName { get; set; }
-    }
-
-    [JsonObject]
-    public class MyTypeWithRequiredMembers
-    {
-        [JsonProperty(Required = Required.AllowNull)]
-        public string Required1;
-
-        [JsonProperty(Required = Required.AllowNull)]
-        public string Required2;
-    }
-
-    public class LogMessage
-    {
-        public string DeviceId { get; set; }
-        public IList<LogEvent> Events { get; set; }
-    }
-
-    public class LogEvent
-    {
-        public string Code { get; set; }
-        public int Priority { get; set; }
-    }
-
-    public class ErrorTestObject
-    {
-        [OnError]
-        internal void OnError(StreamingContext context, ErrorContext errorContext)
+        _position += charsRead;
+        if (_position > 65536)
         {
+            throw new Exception("too far");
         }
+        Array.Copy(temp, index, buffer, index, charsRead);
+        return charsRead;
     }
+}
+
+public class ErrorPerson
+{
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public ErrorItem Item { get; set; }
+}
+
+public class ErrorItem
+{
+    public string ItemName { get; set; }
+}
+
+[JsonObject]
+public class MyTypeWithRequiredMembers
+{
+    [JsonProperty(Required = Required.AllowNull)]
+    public string Required1;
+
+    [JsonProperty(Required = Required.AllowNull)]
+    public string Required2;
+}
+
+public class LogMessage
+{
+    public string DeviceId { get; set; }
+    public IList<LogEvent> Events { get; set; }
+}
+
+public class LogEvent
+{
+    public string Code { get; set; }
+    public int Priority { get; set; }
+}
+
+public class ErrorTestObject
+{
+    [OnError]
+    internal void OnError(StreamingContext context, ErrorContext errorContext)
+    {
+    }
+}
     
-    /// <summary>
-    /// A dictionary that ignores deserialization errors and excludes bad items
-    /// </summary>
-    public class TolerantDictionary<TKey, TValue> : Dictionary<TKey, TValue>
+/// <summary>
+/// A dictionary that ignores deserialization errors and excludes bad items
+/// </summary>
+public class TolerantDictionary<TKey, TValue> : Dictionary<TKey, TValue>
+{
+    [OnError]
+    public void OnDeserializationError(StreamingContext streamingContext, ErrorContext errorContext)
     {
-        [OnError]
-        public void OnDeserializationError(StreamingContext streamingContext, ErrorContext errorContext)
-        {
-            errorContext.Handled = true;
-        }
+        errorContext.Handled = true;
     }
 }

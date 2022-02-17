@@ -28,42 +28,41 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class SerializeRawJson : TestFixtureBase
 {
-    [TestFixture]
-    public class SerializeRawJson : TestFixtureBase
+    #region Types
+    public class JavaScriptSettings
     {
-        #region Types
-        public class JavaScriptSettings
+        public JRaw OnLoadFunction { get; set; }
+        public JRaw OnUnloadFunction { get; set; }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var settings = new JavaScriptSettings
         {
-            public JRaw OnLoadFunction { get; set; }
-            public JRaw OnUnloadFunction { get; set; }
-        }
+            OnLoadFunction = new JRaw("OnLoad"),
+            OnUnloadFunction = new JRaw("function(e) { alert(e); }")
+        };
+
+        var json = JsonConvert.SerializeObject(settings, Formatting.Indented);
+
+        Console.WriteLine(json);
+        // {
+        //   "OnLoadFunction": OnLoad,
+        //   "OnUnloadFunction": function(e) { alert(e); }
+        // }
         #endregion
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var settings = new JavaScriptSettings
-            {
-                OnLoadFunction = new JRaw("OnLoad"),
-                OnUnloadFunction = new JRaw("function(e) { alert(e); }")
-            };
-
-            var json = JsonConvert.SerializeObject(settings, Formatting.Indented);
-
-            Console.WriteLine(json);
-            // {
-            //   "OnLoadFunction": OnLoad,
-            //   "OnUnloadFunction": function(e) { alert(e); }
-            // }
-            #endregion
-
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""OnLoadFunction"": OnLoad,
   ""OnUnloadFunction"": function(e) { alert(e); }
 }", json);
-        }
     }
 }

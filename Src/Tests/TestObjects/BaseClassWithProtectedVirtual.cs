@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class BaseClassWithProtectedVirtual
 {
-    public class BaseClassWithProtectedVirtual
-    {
-        protected virtual string MyProperty { get; set; }
-    }
+    protected virtual string MyProperty { get; set; }
 }

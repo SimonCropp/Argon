@@ -30,47 +30,47 @@ using System.Dynamic;
 
 // ReSharper disable UseObjectOrCollectionInitializer
 
-namespace Argon.Tests.Serialization
+namespace Argon.Tests.Serialization;
+
+[TestFixture]
+public class ReferenceLoopHandlingTests : TestFixtureBase
 {
-    [TestFixture]
-    public class ReferenceLoopHandlingTests : TestFixtureBase
+    [Fact]
+    public void ReferenceLoopHandlingTest()
     {
-        [Fact]
-        public void ReferenceLoopHandlingTest()
+        var attribute = new JsonPropertyAttribute();
+        Assert.AreEqual(null, attribute._defaultValueHandling);
+        Assert.AreEqual(ReferenceLoopHandling.Error, attribute.ReferenceLoopHandling);
+
+        attribute.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+        Assert.AreEqual(ReferenceLoopHandling.Ignore, attribute._referenceLoopHandling);
+        Assert.AreEqual(ReferenceLoopHandling.Ignore, attribute.ReferenceLoopHandling);
+    }
+
+    [Fact]
+    public void IgnoreObjectReferenceLoop()
+    {
+        var o = new ReferenceLoopHandlingObjectContainerAttribute();
+        o.Value = o;
+
+        var json = JsonConvert.SerializeObject(o, Formatting.Indented, new JsonSerializerSettings
         {
-            var attribute = new JsonPropertyAttribute();
-            Assert.AreEqual(null, attribute._defaultValueHandling);
-            Assert.AreEqual(ReferenceLoopHandling.Error, attribute.ReferenceLoopHandling);
+            ReferenceLoopHandling = ReferenceLoopHandling.Serialize
+        });
+        Assert.AreEqual("{}", json);
+    }
 
-            attribute.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            Assert.AreEqual(ReferenceLoopHandling.Ignore, attribute._referenceLoopHandling);
-            Assert.AreEqual(ReferenceLoopHandling.Ignore, attribute.ReferenceLoopHandling);
-        }
+    [Fact]
+    public void IgnoreObjectReferenceLoopWithPropertyOverride()
+    {
+        var o = new ReferenceLoopHandlingObjectContainerAttributeWithPropertyOverride();
+        o.Value = o;
 
-        [Fact]
-        public void IgnoreObjectReferenceLoop()
+        var json = JsonConvert.SerializeObject(o, Formatting.Indented, new JsonSerializerSettings
         {
-            var o = new ReferenceLoopHandlingObjectContainerAttribute();
-            o.Value = o;
-
-            var json = JsonConvert.SerializeObject(o, Formatting.Indented, new JsonSerializerSettings
-            {
-                ReferenceLoopHandling = ReferenceLoopHandling.Serialize
-            });
-            Assert.AreEqual("{}", json);
-        }
-
-        [Fact]
-        public void IgnoreObjectReferenceLoopWithPropertyOverride()
-        {
-            var o = new ReferenceLoopHandlingObjectContainerAttributeWithPropertyOverride();
-            o.Value = o;
-
-            var json = JsonConvert.SerializeObject(o, Formatting.Indented, new JsonSerializerSettings
-            {
-                ReferenceLoopHandling = ReferenceLoopHandling.Serialize
-            });
-            StringAssert.AreEqual(@"{
+            ReferenceLoopHandling = ReferenceLoopHandling.Serialize
+        });
+        StringAssert.AreEqual(@"{
   ""Value"": {
     ""Value"": {
       ""Value"": {
@@ -83,46 +83,46 @@ namespace Argon.Tests.Serialization
     }
   }
 }", json);
-        }
+    }
 
-        [Fact]
-        public void IgnoreArrayReferenceLoop()
+    [Fact]
+    public void IgnoreArrayReferenceLoop()
+    {
+        var a = new ReferenceLoopHandlingList();
+        a.Add(a);
+
+        var json = JsonConvert.SerializeObject(a, Formatting.Indented, new JsonSerializerSettings
         {
-            var a = new ReferenceLoopHandlingList();
-            a.Add(a);
+            ReferenceLoopHandling = ReferenceLoopHandling.Serialize
+        });
+        Assert.AreEqual("[]", json);
+    }
 
-            var json = JsonConvert.SerializeObject(a, Formatting.Indented, new JsonSerializerSettings
-            {
-                ReferenceLoopHandling = ReferenceLoopHandling.Serialize
-            });
-            Assert.AreEqual("[]", json);
-        }
+    [Fact]
+    public void IgnoreDictionaryReferenceLoop()
+    {
+        var d = new ReferenceLoopHandlingDictionary();
+        d.Add("First", d);
 
-        [Fact]
-        public void IgnoreDictionaryReferenceLoop()
+        var json = JsonConvert.SerializeObject(d, Formatting.Indented, new JsonSerializerSettings
         {
-            var d = new ReferenceLoopHandlingDictionary();
-            d.Add("First", d);
+            ReferenceLoopHandling = ReferenceLoopHandling.Serialize
+        });
+        Assert.AreEqual("{}", json);
+    }
 
-            var json = JsonConvert.SerializeObject(d, Formatting.Indented, new JsonSerializerSettings
-            {
-                ReferenceLoopHandling = ReferenceLoopHandling.Serialize
-            });
-            Assert.AreEqual("{}", json);
-        }
-
-        [Fact]
-        public void SerializePropertyItemReferenceLoopHandling()
+    [Fact]
+    public void SerializePropertyItemReferenceLoopHandling()
+    {
+        var c = new PropertyItemReferenceLoopHandling
         {
-            var c = new PropertyItemReferenceLoopHandling
-            {
-                Text = "Text!"
-            };
-            c.SetData(new List<PropertyItemReferenceLoopHandling> { c });
+            Text = "Text!"
+        };
+        c.SetData(new List<PropertyItemReferenceLoopHandling> { c });
 
-            var json = JsonConvert.SerializeObject(c, Formatting.Indented);
+        var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""Text"": ""Text!"",
   ""Data"": [
     {
@@ -141,261 +141,260 @@ namespace Argon.Tests.Serialization
     }
   ]
 }", json);
+    }
+
+    [Serializable]
+    public class MainClass : ISerializable
+    {
+        public ChildClass Child { get; set; }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("Child", Child);
+        }
+    }
+
+    [Serializable]
+    public class ChildClass : ISerializable
+    {
+        public string Name { get; set; }
+        public MainClass Parent { get; set; }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("Parent", Parent);
+            info.AddValue("Name", Name);
+        }
+    }
+
+    [Fact]
+    public void ErrorISerializableCyclicReferenceLoop()
+    {
+        var main = new MainClass();
+        var child = new ChildClass
+        {
+            Name = "Child1",
+            Parent = main // Obvious Circular Reference
+        };
+
+        main.Child = child;
+
+        var settings =
+            new JsonSerializerSettings();
+
+        ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.SerializeObject(main, settings), "Self referencing loop detected with type 'Argon.Tests.Serialization.ReferenceLoopHandlingTests+MainClass'. Path 'Child'.");
+    }
+
+    [Fact]
+    public void IgnoreISerializableCyclicReferenceLoop()
+    {
+        var main = new MainClass();
+        var child = new ChildClass
+        {
+            Name = "Child1",
+            Parent = main // Obvious Circular Reference
+        };
+
+        main.Child = child;
+
+        var settings =
+            new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+
+        var c = JsonConvert.SerializeObject(main, settings);
+        Assert.AreEqual(@"{""Child"":{""Name"":""Child1""}}", c);
+    }
+
+    public class DictionaryDynamicObject : DynamicObject
+    {
+        public IDictionary<string, object> Values { get; private set; }
+
+        public DictionaryDynamicObject()
+        {
+            Values = new Dictionary<string, object>();
         }
 
-        [Serializable]
-        public class MainClass : ISerializable
+        public override bool TrySetMember(SetMemberBinder binder, object value)
         {
-            public ChildClass Child { get; set; }
-
-            public void GetObjectData(SerializationInfo info, StreamingContext context)
-            {
-                info.AddValue("Child", Child);
-            }
+            Values[binder.Name] = value;
+            return true;
         }
 
-        [Serializable]
-        public class ChildClass : ISerializable
+        public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
-            public string Name { get; set; }
-            public MainClass Parent { get; set; }
-
-            public void GetObjectData(SerializationInfo info, StreamingContext context)
-            {
-                info.AddValue("Parent", Parent);
-                info.AddValue("Name", Name);
-            }
+            return Values.TryGetValue(binder.Name, out result);
         }
 
-        [Fact]
-        public void ErrorISerializableCyclicReferenceLoop()
+        public override IEnumerable<string> GetDynamicMemberNames()
         {
-            var main = new MainClass();
-            var child = new ChildClass
-            {
-                Name = "Child1",
-                Parent = main // Obvious Circular Reference
-            };
-
-            main.Child = child;
-
-            var settings =
-                new JsonSerializerSettings();
-
-            ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.SerializeObject(main, settings), "Self referencing loop detected with type 'Argon.Tests.Serialization.ReferenceLoopHandlingTests+MainClass'. Path 'Child'.");
+            return Values.Keys;
         }
+    }
 
-        [Fact]
-        public void IgnoreISerializableCyclicReferenceLoop()
+    [Fact]
+    public void ErrorDynamicCyclicReferenceLoop()
+    {
+        dynamic parent = new DictionaryDynamicObject();
+        dynamic child = new DictionaryDynamicObject();
+        parent.child = child;
+        child.parent = parent;
+
+        var settings = new JsonSerializerSettings();
+
+        ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.SerializeObject(parent, settings), "Self referencing loop detected with type 'Argon.Tests.Serialization.ReferenceLoopHandlingTests+DictionaryDynamicObject'. Path 'child'.");
+    }
+
+    [Fact]
+    public void IgnoreDynamicCyclicReferenceLoop()
+    {
+        dynamic parent = new DictionaryDynamicObject();
+        dynamic child = new DictionaryDynamicObject();
+        parent.child = child;
+        parent.name = "parent";
+        child.parent = parent;
+        child.name = "child";
+
+        var settings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+
+        var c = JsonConvert.SerializeObject(parent, settings);
+        Assert.AreEqual(@"{""child"":{""name"":""child""},""name"":""parent""}", c);
+    }
+
+    [Fact]
+    public void EqualityComparer()
+    {
+        var account = new AccountWithEquals
         {
-            var main = new MainClass();
-            var child = new ChildClass
-            {
-                Name = "Child1",
-                Parent = main // Obvious Circular Reference
-            };
-
-            main.Child = child;
-
-            var settings =
-                new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
-
-            var c = JsonConvert.SerializeObject(main, settings);
-            Assert.AreEqual(@"{""Child"":{""Name"":""Child1""}}", c);
-        }
-
-        public class DictionaryDynamicObject : DynamicObject
+            Name = "main"
+        };
+        var manager = new AccountWithEquals
         {
-            public IDictionary<string, object> Values { get; private set; }
+            Name = "main"
+        };
+        account.Manager = manager;
 
-            public DictionaryDynamicObject()
-            {
-                Values = new Dictionary<string, object>();
-            }
+        ExceptionAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.SerializeObject(account),
+            "Self referencing loop detected for property 'Manager' with type 'Argon.Tests.Serialization.AccountWithEquals'. Path ''.");
 
-            public override bool TrySetMember(SetMemberBinder binder, object value)
-            {
-                Values[binder.Name] = value;
-                return true;
-            }
-
-            public override bool TryGetMember(GetMemberBinder binder, out object result)
-            {
-                return Values.TryGetValue(binder.Name, out result);
-            }
-
-            public override IEnumerable<string> GetDynamicMemberNames()
-            {
-                return Values.Keys;
-            }
-        }
-
-        [Fact]
-        public void ErrorDynamicCyclicReferenceLoop()
+        var json = JsonConvert.SerializeObject(account, new JsonSerializerSettings
         {
-            dynamic parent = new DictionaryDynamicObject();
-            dynamic child = new DictionaryDynamicObject();
-            parent.child = child;
-            child.parent = parent;
+            EqualityComparer = new ReferenceEqualsEqualityComparer(),
+            Formatting = Formatting.Indented
+        });
 
-            var settings = new JsonSerializerSettings();
-
-            ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.SerializeObject(parent, settings), "Self referencing loop detected with type 'Argon.Tests.Serialization.ReferenceLoopHandlingTests+DictionaryDynamicObject'. Path 'child'.");
-        }
-
-        [Fact]
-        public void IgnoreDynamicCyclicReferenceLoop()
-        {
-            dynamic parent = new DictionaryDynamicObject();
-            dynamic child = new DictionaryDynamicObject();
-            parent.child = child;
-            parent.name = "parent";
-            child.parent = parent;
-            child.name = "child";
-
-            var settings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
-
-            var c = JsonConvert.SerializeObject(parent, settings);
-            Assert.AreEqual(@"{""child"":{""name"":""child""},""name"":""parent""}", c);
-        }
-
-        [Fact]
-        public void EqualityComparer()
-        {
-            var account = new AccountWithEquals
-            {
-                Name = "main"
-            };
-            var manager = new AccountWithEquals
-            {
-                Name = "main"
-            };
-            account.Manager = manager;
-
-            ExceptionAssert.Throws<JsonSerializationException>(
-                () => JsonConvert.SerializeObject(account),
-                "Self referencing loop detected for property 'Manager' with type 'Argon.Tests.Serialization.AccountWithEquals'. Path ''.");
-
-            var json = JsonConvert.SerializeObject(account, new JsonSerializerSettings
-            {
-                EqualityComparer = new ReferenceEqualsEqualityComparer(),
-                Formatting = Formatting.Indented
-            });
-
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""Name"": ""main"",
   ""Manager"": {
     ""Name"": ""main"",
     ""Manager"": null
   }
 }", json);
-        }
+    }
+}
+
+public class ReferenceEqualsEqualityComparer : IEqualityComparer
+{
+    bool IEqualityComparer.Equals(object x, object y)
+    {
+        return ReferenceEquals(x, y);
     }
 
-    public class ReferenceEqualsEqualityComparer : IEqualityComparer
+    int IEqualityComparer.GetHashCode(object obj)
     {
-        bool IEqualityComparer.Equals(object x, object y)
+        // put objects in a bucket based on their reference
+        return RuntimeHelpers.GetHashCode(obj);
+    }
+}
+
+public class AccountWithEquals
+{
+    public string Name { get; set; }
+    public AccountWithEquals Manager { get; set; }
+
+    public override bool Equals(object obj)
+    {
+        var a = obj as AccountWithEquals;
+        if (a == null)
         {
-            return ReferenceEquals(x, y);
+            return false;
         }
 
-        int IEqualityComparer.GetHashCode(object obj)
-        {
-            // put objects in a bucket based on their reference
-            return RuntimeHelpers.GetHashCode(obj);
-        }
+        return Name == a.Name;
     }
 
-    public class AccountWithEquals
+    public override int GetHashCode()
     {
-        public string Name { get; set; }
-        public AccountWithEquals Manager { get; set; }
-
-        public override bool Equals(object obj)
+        if (Name == null)
         {
-            var a = obj as AccountWithEquals;
-            if (a == null)
+            return 0;
+        }
+
+        return Name.GetHashCode();
+    }
+}
+
+public class PropertyItemReferenceLoopHandling
+{
+    private IList<PropertyItemReferenceLoopHandling> _data;
+    private int _accessCount;
+
+    public string Text { get; set; }
+
+    [JsonProperty(ItemReferenceLoopHandling = ReferenceLoopHandling.Serialize)]
+    public IList<PropertyItemReferenceLoopHandling> Data
+    {
+        get
+        {
+            if (_accessCount >= 3)
             {
-                return false;
-            }
-
-            return Name == a.Name;
-        }
-
-        public override int GetHashCode()
-        {
-            if (Name == null)
-            {
-                return 0;
-            }
-
-            return Name.GetHashCode();
-        }
-    }
-
-    public class PropertyItemReferenceLoopHandling
-    {
-        private IList<PropertyItemReferenceLoopHandling> _data;
-        private int _accessCount;
-
-        public string Text { get; set; }
-
-        [JsonProperty(ItemReferenceLoopHandling = ReferenceLoopHandling.Serialize)]
-        public IList<PropertyItemReferenceLoopHandling> Data
-        {
-            get
-            {
-                if (_accessCount >= 3)
-                {
-                    return null;
-                }
-
-                _accessCount++;
-                return new List<PropertyItemReferenceLoopHandling>(_data);
-            }
-        }
-
-        public void SetData(IList<PropertyItemReferenceLoopHandling> data)
-        {
-            _data = data;
-        }
-    }
-
-    [JsonArray(ItemReferenceLoopHandling = ReferenceLoopHandling.Ignore)]
-    public class ReferenceLoopHandlingList : List<ReferenceLoopHandlingList>
-    {
-    }
-
-    [JsonDictionary(ItemReferenceLoopHandling = ReferenceLoopHandling.Ignore)]
-    public class ReferenceLoopHandlingDictionary : Dictionary<string, ReferenceLoopHandlingDictionary>
-    {
-    }
-
-    [JsonObject(ItemReferenceLoopHandling = ReferenceLoopHandling.Ignore)]
-    public class ReferenceLoopHandlingObjectContainerAttribute
-    {
-        public ReferenceLoopHandlingObjectContainerAttribute Value { get; set; }
-    }
-
-    [JsonObject(ItemReferenceLoopHandling = ReferenceLoopHandling.Ignore)]
-    public class ReferenceLoopHandlingObjectContainerAttributeWithPropertyOverride
-    {
-        private ReferenceLoopHandlingObjectContainerAttributeWithPropertyOverride _value;
-        private int _getCount;
-
-        [JsonProperty(ReferenceLoopHandling = ReferenceLoopHandling.Serialize)]
-        public ReferenceLoopHandlingObjectContainerAttributeWithPropertyOverride Value
-        {
-            get
-            {
-                if (_getCount < 5)
-                {
-                    _getCount++;
-                    return _value;
-                }
                 return null;
             }
-            set => _value = value;
+
+            _accessCount++;
+            return new List<PropertyItemReferenceLoopHandling>(_data);
         }
+    }
+
+    public void SetData(IList<PropertyItemReferenceLoopHandling> data)
+    {
+        _data = data;
+    }
+}
+
+[JsonArray(ItemReferenceLoopHandling = ReferenceLoopHandling.Ignore)]
+public class ReferenceLoopHandlingList : List<ReferenceLoopHandlingList>
+{
+}
+
+[JsonDictionary(ItemReferenceLoopHandling = ReferenceLoopHandling.Ignore)]
+public class ReferenceLoopHandlingDictionary : Dictionary<string, ReferenceLoopHandlingDictionary>
+{
+}
+
+[JsonObject(ItemReferenceLoopHandling = ReferenceLoopHandling.Ignore)]
+public class ReferenceLoopHandlingObjectContainerAttribute
+{
+    public ReferenceLoopHandlingObjectContainerAttribute Value { get; set; }
+}
+
+[JsonObject(ItemReferenceLoopHandling = ReferenceLoopHandling.Ignore)]
+public class ReferenceLoopHandlingObjectContainerAttributeWithPropertyOverride
+{
+    private ReferenceLoopHandlingObjectContainerAttributeWithPropertyOverride _value;
+    private int _getCount;
+
+    [JsonProperty(ReferenceLoopHandling = ReferenceLoopHandling.Serialize)]
+    public ReferenceLoopHandlingObjectContainerAttributeWithPropertyOverride Value
+    {
+        get
+        {
+            if (_getCount < 5)
+            {
+                _getCount++;
+                return _value;
+            }
+            return null;
+        }
+        set => _value = value;
     }
 }

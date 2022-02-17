@@ -28,54 +28,53 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Linq
+namespace Argon.Tests.Documentation.Samples.Linq;
+
+[TestFixture]
+public class CreateReader : TestFixtureBase
 {
-    [TestFixture]
-    public class CreateReader : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
+        #region Usage
+        var o = new JObject
         {
-            #region Usage
-            var o = new JObject
+            { "Cpu", "Intel" },
+            { "Memory", 32 },
             {
-                { "Cpu", "Intel" },
-                { "Memory", 32 },
+                "Drives", new JArray
                 {
-                    "Drives", new JArray
-                    {
-                        "DVD",
-                        "SSD"
-                    }
+                    "DVD",
+                    "SSD"
                 }
-            };
+            }
+        };
 
-            var reader = o.CreateReader();
-            while (reader.Read())
+        var reader = o.CreateReader();
+        while (reader.Read())
+        {
+            Console.Write(reader.TokenType);
+            if (reader.Value != null)
             {
-                Console.Write(reader.TokenType);
-                if (reader.Value != null)
-                {
-                    Console.Write(" - " + reader.Value);
-                }
-
-                Console.WriteLine();
+                Console.Write(" - " + reader.Value);
             }
 
-            // StartObject
-            // PropertyName - Cpu
-            // String - Intel
-            // PropertyName - Memory
-            // Integer - 32
-            // PropertyName - Drives
-            // StartArray
-            // String - DVD
-            // String - SSD
-            // EndArray
-            // EndObject
-            #endregion
-
-            Assert.IsFalse(reader.Read());
+            Console.WriteLine();
         }
+
+        // StartObject
+        // PropertyName - Cpu
+        // String - Intel
+        // PropertyName - Memory
+        // Integer - 32
+        // PropertyName - Drives
+        // StartArray
+        // String - DVD
+        // String - SSD
+        // EndArray
+        // EndObject
+        #endregion
+
+        Assert.IsFalse(reader.Read());
     }
 }

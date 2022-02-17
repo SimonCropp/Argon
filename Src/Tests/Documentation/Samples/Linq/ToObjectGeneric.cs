@@ -28,34 +28,33 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Linq
+namespace Argon.Tests.Documentation.Samples.Linq;
+
+[TestFixture]
+public class ToObjectGeneric : TestFixtureBase
 {
-    [TestFixture]
-    public class ToObjectGeneric : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var v1 = new JValue(true);
+        #region Usage
+        var v1 = new JValue(true);
 
-            var b = v1.ToObject<bool>();
+        var b = v1.ToObject<bool>();
 
-            Console.WriteLine(b);
-            // true
+        Console.WriteLine(b);
+        // true
 
-            var i = v1.ToObject<int>();
+        var i = v1.ToObject<int>();
 
-            Console.WriteLine(i);
-            // 1
+        Console.WriteLine(i);
+        // 1
 
-            var s = v1.ToObject<string>();
+        var s = v1.ToObject<string>();
 
-            Console.WriteLine(s);
-            // "True"
-            #endregion
+        Console.WriteLine(s);
+        // "True"
+        #endregion
 
-            Assert.AreEqual("True", s);
-        }
+        Assert.AreEqual("True", s);
     }
 }

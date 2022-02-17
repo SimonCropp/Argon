@@ -28,95 +28,94 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class SerializeTypeNameHandling : TestFixtureBase
 {
-    [TestFixture]
-    public class SerializeTypeNameHandling : TestFixtureBase
+    #region Types
+    public abstract class Business
     {
-        #region Types
-        public abstract class Business
-        {
-            public string Name { get; set; }
-        }
+        public string Name { get; set; }
+    }
 
-        public class Hotel : Business
-        {
-            public int Stars { get; set; }
-        }
+    public class Hotel : Business
+    {
+        public int Stars { get; set; }
+    }
 
-        public class Stockholder
+    public class Stockholder
+    {
+        public string FullName { get; set; }
+        public IList<Business> Businesses { get; set; }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var stockholder = new Stockholder
         {
-            public string FullName { get; set; }
-            public IList<Business> Businesses { get; set; }
-        }
+            FullName = "Steve Stockholder",
+            Businesses = new List<Business>
+            {
+                new Hotel
+                {
+                    Name = "Hudson Hotel",
+                    Stars = 4
+                }
+            }
+        };
+
+        var jsonTypeNameAll = JsonConvert.SerializeObject(stockholder, Formatting.Indented, new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.All
+        });
+
+        Console.WriteLine(jsonTypeNameAll);
+        // {
+        //   "$type": "Argon.Samples.Stockholder, Tests",
+        //   "FullName": "Steve Stockholder",
+        //   "Businesses": {
+        //     "$type": "System.Collections.Generic.List`1[[Argon.Samples.Business, Tests]], mscorlib",
+        //     "$values": [
+        //       {
+        //         "$type": "Argon.Samples.Hotel, Argon.Tests",
+        //         "Stars": 4,
+        //         "Name": "Hudson Hotel"
+        //       }
+        //     ]
+        //   }
+        // }
+
+        var jsonTypeNameAuto = JsonConvert.SerializeObject(stockholder, Formatting.Indented, new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Auto
+        });
+
+        Console.WriteLine(jsonTypeNameAuto);
+        // {
+        //   "FullName": "Steve Stockholder",
+        //   "Businesses": [
+        //     {
+        //       "$type": "Argon.Samples.Hotel, Tests",
+        //       "Stars": 4,
+        //       "Name": "Hudson Hotel"
+        //     }
+        //   ]
+        // }
+
+        // for security TypeNameHandling is required when deserializing
+        var newStockholder = JsonConvert.DeserializeObject<Stockholder>(jsonTypeNameAuto, new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Auto
+        });
+
+        Console.WriteLine(newStockholder.Businesses[0].GetType().Name);
+        // Hotel
         #endregion
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var stockholder = new Stockholder
-            {
-                FullName = "Steve Stockholder",
-                Businesses = new List<Business>
-                {
-                    new Hotel
-                    {
-                        Name = "Hudson Hotel",
-                        Stars = 4
-                    }
-                }
-            };
-
-            var jsonTypeNameAll = JsonConvert.SerializeObject(stockholder, Formatting.Indented, new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.All
-            });
-
-            Console.WriteLine(jsonTypeNameAll);
-            // {
-            //   "$type": "Argon.Samples.Stockholder, Tests",
-            //   "FullName": "Steve Stockholder",
-            //   "Businesses": {
-            //     "$type": "System.Collections.Generic.List`1[[Argon.Samples.Business, Tests]], mscorlib",
-            //     "$values": [
-            //       {
-            //         "$type": "Argon.Samples.Hotel, Argon.Tests",
-            //         "Stars": 4,
-            //         "Name": "Hudson Hotel"
-            //       }
-            //     ]
-            //   }
-            // }
-
-            var jsonTypeNameAuto = JsonConvert.SerializeObject(stockholder, Formatting.Indented, new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Auto
-            });
-
-            Console.WriteLine(jsonTypeNameAuto);
-            // {
-            //   "FullName": "Steve Stockholder",
-            //   "Businesses": [
-            //     {
-            //       "$type": "Argon.Samples.Hotel, Tests",
-            //       "Stars": 4,
-            //       "Name": "Hudson Hotel"
-            //     }
-            //   ]
-            // }
-
-            // for security TypeNameHandling is required when deserializing
-            var newStockholder = JsonConvert.DeserializeObject<Stockholder>(jsonTypeNameAuto, new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Auto
-            });
-
-            Console.WriteLine(newStockholder.Businesses[0].GetType().Name);
-            // Hotel
-            #endregion
-
-            Assert.AreEqual("Hotel", newStockholder.Businesses[0].GetType().Name);
-        }
+        Assert.AreEqual("Hotel", newStockholder.Businesses[0].GetType().Name);
     }
 }

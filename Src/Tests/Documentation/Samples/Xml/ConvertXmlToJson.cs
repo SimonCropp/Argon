@@ -28,16 +28,16 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Xml
+namespace Argon.Tests.Documentation.Samples.Xml;
+
+[TestFixture]
+public class ConvertXmlToJson : TestFixtureBase
 {
-    [TestFixture]
-    public class ConvertXmlToJson : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var xml = @"<?xml version='1.0' standalone='no'?>
+        #region Usage
+        var xml = @"<?xml version='1.0' standalone='no'?>
             <root>
               <person id='1'>
               <name>Alan</name>
@@ -49,35 +49,34 @@ namespace Argon.Tests.Documentation.Samples.Xml
               </person>
             </root>";
 
-            var doc = new XmlDocument();
-            doc.LoadXml(xml);
+        var doc = new XmlDocument();
+        doc.LoadXml(xml);
 
-            var json = JsonConvert.SerializeXmlNode(doc);
+        var json = JsonConvert.SerializeXmlNode(doc);
 
-            Console.WriteLine(json);
-            // {
-            //   "?xml": {
-            //     "@version": "1.0",
-            //     "@standalone": "no"
-            //   },
-            //   "root": {
-            //     "person": [
-            //       {
-            //         "@id": "1",
-            //         "name": "Alan",
-            //         "url": "http://www.google.com"
-            //       },
-            //       {
-            //         "@id": "2",
-            //         "name": "Louis",
-            //         "url": "http://www.yahoo.com"
-            //       }
-            //     ]
-            //   }
-            // }
-            #endregion
+        Console.WriteLine(json);
+        // {
+        //   "?xml": {
+        //     "@version": "1.0",
+        //     "@standalone": "no"
+        //   },
+        //   "root": {
+        //     "person": [
+        //       {
+        //         "@id": "1",
+        //         "name": "Alan",
+        //         "url": "http://www.google.com"
+        //       },
+        //       {
+        //         "@id": "2",
+        //         "name": "Louis",
+        //         "url": "http://www.yahoo.com"
+        //       }
+        //     ]
+        //   }
+        // }
+        #endregion
 
-            Assert.AreEqual(@"{""?xml"":{""@version"":""1.0"",""@standalone"":""no""},""root"":{""person"":[{""@id"":""1"",""name"":""Alan"",""url"":""http://www.google.com""},{""@id"":""2"",""name"":""Louis"",""url"":""http://www.yahoo.com""}]}}", json);
-        }
+        Assert.AreEqual(@"{""?xml"":{""@version"":""1.0"",""@standalone"":""no""},""root"":{""person"":[{""@id"":""1"",""name"":""Alan"",""url"":""http://www.google.com""},{""@id"":""2"",""name"":""Louis"",""url"":""http://www.yahoo.com""}]}}", json);
     }
 }

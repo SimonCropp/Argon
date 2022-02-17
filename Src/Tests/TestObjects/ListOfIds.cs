@@ -23,49 +23,48 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class ListOfIds<T> : JsonConverter where T : Bar, new()
 {
-    public class ListOfIds<T> : JsonConverter where T : Bar, new()
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            var list = (IList<T>)value;
+        var list = (IList<T>)value;
 
-            writer.WriteStartArray();
-            foreach (var item in list)
-            {
-                writer.WriteValue(item.Id);
-            }
-            writer.WriteEndArray();
+        writer.WriteStartArray();
+        foreach (var item in list)
+        {
+            writer.WriteValue(item.Id);
         }
+        writer.WriteEndArray();
+    }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    {
+        IList<T> list = new List<T>();
+
+        reader.Read();
+        while (reader.TokenType != JsonToken.EndArray)
         {
-            IList<T> list = new List<T>();
+            var id = (long)reader.Value;
+
+            list.Add(new T
+            {
+                Id = Convert.ToInt32(id)
+            });
 
             reader.Read();
-            while (reader.TokenType != JsonToken.EndArray)
-            {
-                var id = (long)reader.Value;
-
-                list.Add(new T
-                {
-                    Id = Convert.ToInt32(id)
-                });
-
-                reader.Read();
-            }
-
-            return list;
         }
 
-        public override bool CanConvert(Type objectType)
-        {
+        return list;
+    }
+
+    public override bool CanConvert(Type objectType)
+    {
 #if NET5_0_OR_GREATER && !NETSTANDARD2_0
             return Argon.Utilities.TypeExtensions.IsAssignableFrom(typeof(IList<T>), objectType);
 #else
-            return typeof(IList<T>).IsAssignableFrom(objectType);
+        return typeof(IList<T>).IsAssignableFrom(objectType);
 #endif
-        }
     }
 }

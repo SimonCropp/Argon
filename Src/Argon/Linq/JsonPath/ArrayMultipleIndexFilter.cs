@@ -1,26 +1,25 @@
-namespace Argon.Linq.JsonPath
+namespace Argon.Linq.JsonPath;
+
+internal class ArrayMultipleIndexFilter : PathFilter
 {
-    internal class ArrayMultipleIndexFilter : PathFilter
+    internal List<int> Indexes;
+
+    public ArrayMultipleIndexFilter(List<int> indexes)
     {
-        internal List<int> Indexes;
+        Indexes = indexes;
+    }
 
-        public ArrayMultipleIndexFilter(List<int> indexes)
+    public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings? settings)
+    {
+        foreach (var t in current)
         {
-            Indexes = indexes;
-        }
-
-        public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings? settings)
-        {
-            foreach (var t in current)
+            foreach (var i in Indexes)
             {
-                foreach (var i in Indexes)
-                {
-                    var v = GetTokenIndex(t, settings, i);
+                var v = GetTokenIndex(t, settings, i);
 
-                    if (v != null)
-                    {
-                        yield return v;
-                    }
+                if (v != null)
+                {
+                    yield return v;
                 }
             }
         }

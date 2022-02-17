@@ -23,28 +23,27 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class WidgetIdJsonConverter : JsonConverter
 {
-    public class WidgetIdJsonConverter : JsonConverter
+    public override bool CanConvert(Type objectType)
     {
-        public override bool CanConvert(Type objectType)
-        {
-            return objectType == typeof(WidgetId1) || objectType == typeof(WidgetId1?);
-        }
+        return objectType == typeof(WidgetId1) || objectType == typeof(WidgetId1?);
+    }
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            var id = (WidgetId1)value;
-            writer.WriteValue(id.Value.ToString());
-        }
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+    {
+        var id = (WidgetId1)value;
+        writer.WriteValue(id.Value.ToString());
+    }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    {
+        if (reader.TokenType == JsonToken.Null)
         {
-            if (reader.TokenType == JsonToken.Null)
-            {
-                return null;
-            }
-            return new WidgetId1 { Value = int.Parse(reader.Value.ToString()) };
+            return null;
         }
+        return new WidgetId1 { Value = int.Parse(reader.Value.ToString()) };
     }
 }

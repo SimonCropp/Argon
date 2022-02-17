@@ -25,13 +25,12 @@
 
 using System.ComponentModel;
 
-namespace Argon.Tests.TestObjects
-{
-    [TypeConverter(typeof(MyInterfaceConverter))]
-    internal interface IMyInterface
-    {
-        string Name { get; }
+namespace Argon.Tests.TestObjects;
 
-        string PrintTest();
-    }
+[TypeConverter(typeof(MyInterfaceConverter))]
+internal interface IMyInterface
+{
+    string Name { get; }
+
+    string PrintTest();
 }

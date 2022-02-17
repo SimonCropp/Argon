@@ -28,116 +28,115 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue0198 : TestFixtureBase
 {
-    [TestFixture]
-    public class Issue0198 : TestFixtureBase
+    [Fact]
+    public void Test_List()
     {
-        [Fact]
-        public void Test_List()
+        IEnumerable<TestClass1> objects = new List<TestClass1>
         {
-            IEnumerable<TestClass1> objects = new List<TestClass1>
+            new()
             {
-                new()
+                Prop1 = new HashSet<TestClass2>
                 {
-                    Prop1 = new HashSet<TestClass2>
+                    new()
                     {
-                        new()
-                        {
-                            MyProperty1 = "Test1",
-                            MyProperty2 = "Test2",
-                        }
-                    },
-                    Prop2 = new List<string>
-                    {
-                        "Test1",
-                        "Test1"
-                    },
-                    Prop3 = new HashSet<TestClass2>
-                    {
-                        new()
-                        {
-                            MyProperty1 = "Test1",
-                            MyProperty2 = "Test2",
-                        }
-                    },
-                }
-            };
-
-            var serializedData = JsonConvert.SerializeObject(objects, new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.All,
-                Formatting = Formatting.Indented
-            });
-
-            var a = JsonConvert.DeserializeObject<IEnumerable<TestClass1>>(serializedData, new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.All
-            });
-
-            var o = a.First();
-
-            Assert.AreEqual(1, o.Prop1.Count);
-            Assert.AreEqual(1, o.Prop2.Count);
-            Assert.AreEqual(1, o.Prop3.Count);
-        }
-
-        [Fact]
-        public void Test_Collection()
-        {
-            var c = new TestClass3
-            {
-                Prop1 = new Dictionary<string, string>
+                        MyProperty1 = "Test1",
+                        MyProperty2 = "Test2",
+                    }
+                },
+                Prop2 = new List<string>
                 {
-                    ["key"] = "value"
-                }
-            };
-
-            var serializedData = JsonConvert.SerializeObject(c, new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.All,
-                Formatting = Formatting.Indented
-            });
-
-            var a = JsonConvert.DeserializeObject<TestClass3>(serializedData, new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.All
-            });
-
-            Assert.AreEqual(1, a.Prop1.Count);
-        }
-
-        class TestClass1 : AbstactClass
-        {
-            public TestClass1()
-            {
-                Prop1 = new HashSet<TestClass2>();
-                Prop2 = new HashSet<string>();
+                    "Test1",
+                    "Test1"
+                },
+                Prop3 = new HashSet<TestClass2>
+                {
+                    new()
+                    {
+                        MyProperty1 = "Test1",
+                        MyProperty2 = "Test2",
+                    }
+                },
             }
+        };
 
-            public ICollection<TestClass2> Prop1 { get; set; }
-            public ICollection<string> Prop2 { get; set; }
-        }
-
-        class TestClass2
+        var serializedData = JsonConvert.SerializeObject(objects, new JsonSerializerSettings
         {
-            public string MyProperty1 { get; set; }
-            public string MyProperty2 { get; set; }
-        }
+            TypeNameHandling = TypeNameHandling.All,
+            Formatting = Formatting.Indented
+        });
 
-        abstract class AbstactClass
+        var a = JsonConvert.DeserializeObject<IEnumerable<TestClass1>>(serializedData, new JsonSerializerSettings
         {
-            public ICollection<TestClass2> Prop3 { get; set; } = new List<TestClass2>();
-        }
+            TypeNameHandling = TypeNameHandling.All
+        });
 
-        class TestClass3
+        var o = a.First();
+
+        Assert.AreEqual(1, o.Prop1.Count);
+        Assert.AreEqual(1, o.Prop2.Count);
+        Assert.AreEqual(1, o.Prop3.Count);
+    }
+
+    [Fact]
+    public void Test_Collection()
+    {
+        var c = new TestClass3
         {
-            public TestClass3()
+            Prop1 = new Dictionary<string, string>
             {
-                Prop1 = new ModelStateDictionary<string>();
+                ["key"] = "value"
             }
+        };
 
-            public IDictionary<string, string> Prop1 { get; set; }
+        var serializedData = JsonConvert.SerializeObject(c, new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.All,
+            Formatting = Formatting.Indented
+        });
+
+        var a = JsonConvert.DeserializeObject<TestClass3>(serializedData, new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.All
+        });
+
+        Assert.AreEqual(1, a.Prop1.Count);
+    }
+
+    class TestClass1 : AbstactClass
+    {
+        public TestClass1()
+        {
+            Prop1 = new HashSet<TestClass2>();
+            Prop2 = new HashSet<string>();
         }
+
+        public ICollection<TestClass2> Prop1 { get; set; }
+        public ICollection<string> Prop2 { get; set; }
+    }
+
+    class TestClass2
+    {
+        public string MyProperty1 { get; set; }
+        public string MyProperty2 { get; set; }
+    }
+
+    abstract class AbstactClass
+    {
+        public ICollection<TestClass2> Prop3 { get; set; } = new List<TestClass2>();
+    }
+
+    class TestClass3
+    {
+        public TestClass3()
+        {
+            Prop1 = new ModelStateDictionary<string>();
+        }
+
+        public IDictionary<string, string> Prop1 { get; set; }
     }
 }

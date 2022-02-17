@@ -23,11 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class TypedSubHashtable
 {
-    public class TypedSubHashtable
-    {
-        public string Name;
-        public Hashtable Hash;
-    }
+    public string Name;
+    public Hashtable Hash;
 }

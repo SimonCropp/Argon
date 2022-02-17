@@ -23,41 +23,40 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class IdReferenceResolver : IReferenceResolver
 {
-    public class IdReferenceResolver : IReferenceResolver
+    private readonly IDictionary<Guid, PersonReference> _people = new Dictionary<Guid, PersonReference>();
+
+    public object ResolveReference(object context, string reference)
     {
-        private readonly IDictionary<Guid, PersonReference> _people = new Dictionary<Guid, PersonReference>();
+        var id = new Guid(reference);
 
-        public object ResolveReference(object context, string reference)
-        {
-            var id = new Guid(reference);
+        _people.TryGetValue(id, out var p);
 
-            _people.TryGetValue(id, out var p);
+        return p;
+    }
 
-            return p;
-        }
+    public string GetReference(object context, object value)
+    {
+        var p = (PersonReference)value;
+        _people[p.Id] = p;
 
-        public string GetReference(object context, object value)
-        {
-            var p = (PersonReference)value;
-            _people[p.Id] = p;
+        return p.Id.ToString();
+    }
 
-            return p.Id.ToString();
-        }
+    public bool IsReferenced(object context, object value)
+    {
+        var p = (PersonReference)value;
 
-        public bool IsReferenced(object context, object value)
-        {
-            var p = (PersonReference)value;
+        return _people.ContainsKey(p.Id);
+    }
 
-            return _people.ContainsKey(p.Id);
-        }
+    public void AddReference(object context, string reference, object value)
+    {
+        var id = new Guid(reference);
 
-        public void AddReference(object context, string reference, object value)
-        {
-            var id = new Guid(reference);
-
-            _people[id] = (PersonReference)value;
-        }
+        _people[id] = (PersonReference)value;
     }
 }

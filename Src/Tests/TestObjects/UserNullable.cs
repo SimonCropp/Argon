@@ -23,16 +23,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class UserNullable
 {
-    public class UserNullable
-    {
-        public Guid Id;
-        public string FName;
-        public string LName;
-        public int RoleId;
-        public int? NullableRoleId;
-        public int? NullRoleId;
-        public bool? Active;
-    }
+    public Guid Id;
+    public string FName;
+    public string LName;
+    public int RoleId;
+    public int? NullableRoleId;
+    public int? NullRoleId;
+    public bool? Active;
 }

@@ -23,9 +23,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class AbstractImplementationDictionaryTestClass<TKey, TValue> : AbstractDictionaryTestClass<TKey, TValue>
 {
-    public class AbstractImplementationDictionaryTestClass<TKey, TValue> : AbstractDictionaryTestClass<TKey, TValue>
-    {
-    }
 }

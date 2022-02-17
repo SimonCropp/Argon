@@ -23,21 +23,20 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class TestObject
 {
-    public class TestObject
+    public TestObject()
     {
-        public TestObject()
-        {
-        }
-
-        public TestObject(string name, byte[] data)
-        {
-            Name = name;
-            Data = data;
-        }
-
-        public string Name { get; set; }
-        public byte[] Data { get; set; }
     }
+
+    public TestObject(string name, byte[] data)
+    {
+        Name = name;
+        Data = data;
+    }
+
+    public string Name { get; set; }
+    public byte[] Data { get; set; }
 }

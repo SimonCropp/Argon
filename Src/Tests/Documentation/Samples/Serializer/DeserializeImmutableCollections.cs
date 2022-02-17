@@ -29,37 +29,35 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 using System.Collections.Immutable;
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class DeserializeImmutableCollections : TestFixtureBase
 {
-    [TestFixture]
-    public class DeserializeImmutableCollections : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var json = @"[
+        #region Usage
+        var json = @"[
               'One',
               'II',
               '3'
             ]";
 
-            var l = JsonConvert.DeserializeObject<ImmutableList<string>>(json);
+        var l = JsonConvert.DeserializeObject<ImmutableList<string>>(json);
 
-            foreach (var s in l)
-            {
-                Console.WriteLine(s);
-            }
-            // One
-            // II
-            // 3
-            #endregion
-
-            Assert.AreEqual(3, l.Count);
-            Assert.AreEqual("One", l[0]);
-            Assert.AreEqual("II", l[1]);
-            Assert.AreEqual("3", l[2]);
+        foreach (var s in l)
+        {
+            Console.WriteLine(s);
         }
+        // One
+        // II
+        // 3
+        #endregion
+
+        Assert.AreEqual(3, l.Count);
+        Assert.AreEqual("One", l[0]);
+        Assert.AreEqual("II", l[1]);
+        Assert.AreEqual("3", l[2]);
     }
 }
-

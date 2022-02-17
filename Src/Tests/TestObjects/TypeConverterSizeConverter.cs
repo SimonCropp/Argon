@@ -25,75 +25,74 @@
 
 using System.ComponentModel;
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class TypeConverterSizeConverter : TypeConverter
 {
-    public class TypeConverterSizeConverter : TypeConverter
+    public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
     {
-        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+        return sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
+    }
+
+    public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
+    {
+        return base.CanConvertTo(context, destinationType);
+    }
+
+    public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+    {
+        var str = value as string;
+        if (str == null)
         {
-            return sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
+            return base.ConvertFrom(context, culture, value);
+        }
+        var str2 = str.Trim();
+        if (str2.Length == 0)
+        {
+            return null;
+        }
+        if (culture == null)
+        {
+            culture = CultureInfo.CurrentCulture;
+        }
+        var strArray = str2.Split(',');
+        var numArray = new int[strArray.Length];
+        var converter = TypeDescriptor.GetConverter(typeof(int));
+        for (var i = 0; i < numArray.Length; i++)
+        {
+            numArray[i] = (int)converter.ConvertFromString(context, culture, strArray[i]);
+        }
+        if (numArray.Length == 2)
+        {
+            return new TypeConverterSize(numArray[0], numArray[1]);
         }
 
-        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
+        throw new ArgumentException("Bad format.");
+    }
+
+    public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+    {
+        if (destinationType == null)
         {
-            return base.CanConvertTo(context, destinationType);
+            throw new ArgumentNullException("destinationType");
         }
-
-        public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+        if (value is TypeConverterSize)
         {
-            var str = value as string;
-            if (str == null)
+            if (destinationType == typeof(string))
             {
-                return base.ConvertFrom(context, culture, value);
-            }
-            var str2 = str.Trim();
-            if (str2.Length == 0)
-            {
-                return null;
-            }
-            if (culture == null)
-            {
-                culture = CultureInfo.CurrentCulture;
-            }
-            var strArray = str2.Split(',');
-            var numArray = new int[strArray.Length];
-            var converter = TypeDescriptor.GetConverter(typeof(int));
-            for (var i = 0; i < numArray.Length; i++)
-            {
-                numArray[i] = (int)converter.ConvertFromString(context, culture, strArray[i]);
-            }
-            if (numArray.Length == 2)
-            {
-                return new TypeConverterSize(numArray[0], numArray[1]);
-            }
-
-            throw new ArgumentException("Bad format.");
-        }
-
-        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
-        {
-            if (destinationType == null)
-            {
-                throw new ArgumentNullException("destinationType");
-            }
-            if (value is TypeConverterSize)
-            {
-                if (destinationType == typeof(string))
+                var size = (TypeConverterSize)value;
+                if (culture == null)
                 {
-                    var size = (TypeConverterSize)value;
-                    if (culture == null)
-                    {
-                        culture = CultureInfo.CurrentCulture;
-                    }
-                    var converter = TypeDescriptor.GetConverter(typeof(int));
-                    var strArray = new string[2];
-                    var num = 0;
-                    strArray[num++] = converter.ConvertToString(context, culture, size.Width);
-                    strArray[num++] = converter.ConvertToString(context, culture, size.Height);
-                    return string.Join(", ", strArray);
+                    culture = CultureInfo.CurrentCulture;
                 }
+                var converter = TypeDescriptor.GetConverter(typeof(int));
+                var strArray = new string[2];
+                var num = 0;
+                strArray[num++] = converter.ConvertToString(context, culture, size.Width);
+                strArray[num++] = converter.ConvertToString(context, culture, size.Height);
+                return string.Join(", ", strArray);
             }
-            return base.ConvertTo(context, culture, value, destinationType);
         }
+        return base.ConvertTo(context, culture, value, destinationType);
     }
 }

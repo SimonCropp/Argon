@@ -23,12 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class KeyValueId : IKeyValueId
 {
-    public class KeyValueId : IKeyValueId
-    {
-        public int Id { get; set; }
-        public string Key { get; set; }
-        public string Value { get; set; }
-    }
+    public int Id { get; set; }
+    public string Key { get; set; }
+    public string Value { get; set; }
 }

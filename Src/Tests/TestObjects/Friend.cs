@@ -23,11 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class Friend
 {
-    public class Friend
-    {
-        public int id { get; set; }
-        public string name { get; set; }
-    }
+    public int id { get; set; }
+    public string name { get; set; }
 }

@@ -27,49 +27,48 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue1877
 {
-    [TestFixture]
-    public class Issue1877
+    [Fact]
+    public void Test()
     {
-        [Fact]
-        public void Test()
+        var f2 = new Fubar2
         {
-            var f2 = new Fubar2
-            {
-                Version = new Version("3.0")
-            };
-            (f2 as Fubar).Version = new Version("4.0");
+            Version = new Version("3.0")
+        };
+        (f2 as Fubar).Version = new Version("4.0");
 
-            var s = JsonConvert.SerializeObject(f2, new JsonSerializerSettings
-            {
-                Converters = { new VersionConverter() }
-            });
-            Assert.AreEqual(@"{""Version"":""4.0""}", s);
-
-            var f3 = JsonConvert.DeserializeObject<Fubar2>(s, new JsonSerializerSettings
-            {
-                ObjectCreationHandling = ObjectCreationHandling.Replace,
-                Converters = { new VersionConverter() }
-            });
-
-            Assert.AreEqual(2, f3.Version.Major);
-            Assert.AreEqual(4, (f3 as Fubar).Version.Major);
-        }
-
-        class Fubar
+        var s = JsonConvert.SerializeObject(f2, new JsonSerializerSettings
         {
-            public Version Version { get; set; } = new("1.0");
+            Converters = { new VersionConverter() }
+        });
+        Assert.AreEqual(@"{""Version"":""4.0""}", s);
 
-            // ...
-        }
-
-        private class Fubar2 : Fubar
+        var f3 = JsonConvert.DeserializeObject<Fubar2>(s, new JsonSerializerSettings
         {
-            [JsonIgnore]
-            public new Version Version { get; set; } = new("2.0");
+            ObjectCreationHandling = ObjectCreationHandling.Replace,
+            Converters = { new VersionConverter() }
+        });
 
-            // ...
-        }
+        Assert.AreEqual(2, f3.Version.Major);
+        Assert.AreEqual(4, (f3 as Fubar).Version.Major);
+    }
+
+    class Fubar
+    {
+        public Version Version { get; set; } = new("1.0");
+
+        // ...
+    }
+
+    private class Fubar2 : Fubar
+    {
+        [JsonIgnore]
+        public new Version Version { get; set; } = new("2.0");
+
+        // ...
     }
 }

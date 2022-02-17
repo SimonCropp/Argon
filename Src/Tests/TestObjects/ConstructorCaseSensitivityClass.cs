@@ -23,19 +23,18 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class ConstructorCaseSensitivityClass
-    {
-        public string param1 { get; set; }
-        public string Param1 { get; set; }
-        public string Param2 { get; set; }
+namespace Argon.Tests.TestObjects;
 
-        public ConstructorCaseSensitivityClass(string param1, string Param1, string param2)
-        {
-            this.param1 = param1;
-            this.Param1 = Param1;
-            Param2 = param2;
-        }
+public class ConstructorCaseSensitivityClass
+{
+    public string param1 { get; set; }
+    public string Param1 { get; set; }
+    public string Param2 { get; set; }
+
+    public ConstructorCaseSensitivityClass(string param1, string Param1, string param2)
+    {
+        this.param1 = param1;
+        this.Param1 = Param1;
+        Param2 = param2;
     }
 }

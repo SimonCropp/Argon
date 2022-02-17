@@ -23,12 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[JsonObject(MemberSerialization.OptIn)]
+public class ClassAttributeBase
 {
-    [JsonObject(MemberSerialization.OptIn)]
-    public class ClassAttributeBase
-    {
-        [JsonProperty]
-        public string BaseClassValue { get; set; }
-    }
+    [JsonProperty]
+    public string BaseClassValue { get; set; }
 }

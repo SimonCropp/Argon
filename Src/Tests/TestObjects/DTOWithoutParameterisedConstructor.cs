@@ -23,16 +23,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class DTOWithoutParameterisedConstructor
-    {
-        public DTOWithoutParameterisedConstructor()
-        {
-            B = 2;
-        }
+namespace Argon.Tests.TestObjects;
 
-        public string A { get; set; }
-        public int? B { get; set; }
+public class DTOWithoutParameterisedConstructor
+{
+    public DTOWithoutParameterisedConstructor()
+    {
+        B = 2;
     }
+
+    public string A { get; set; }
+    public int? B { get; set; }
 }

@@ -23,21 +23,20 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Utilities
-{
-    internal class EnumInfo
-    {
-        public EnumInfo(bool isFlags, ulong[] values, string[] names, string[] resolvedNames)
-        {
-            IsFlags = isFlags;
-            Values = values;
-            Names = names;
-            ResolvedNames = resolvedNames;
-        }
+namespace Argon.Utilities;
 
-        public readonly bool IsFlags;
-        public readonly ulong[] Values;
-        public readonly string[] Names;
-        public readonly string[] ResolvedNames;
+internal class EnumInfo
+{
+    public EnumInfo(bool isFlags, ulong[] values, string[] names, string[] resolvedNames)
+    {
+        IsFlags = isFlags;
+        Values = values;
+        Names = names;
+        ResolvedNames = resolvedNames;
     }
+
+    public readonly bool IsFlags;
+    public readonly ulong[] Values;
+    public readonly string[] Names;
+    public readonly string[] ResolvedNames;
 }

@@ -23,46 +23,45 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class Store
 {
-    public class Store
+    public StoreColor Color = StoreColor.Yellow;
+    public DateTime Establised = new(2010, 1, 22, 1, 1, 1, DateTimeKind.Utc);
+    public double Width = 1.1;
+    public int Employees = 999;
+    public int[] RoomsPerFloor = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    public bool Open = false;
+    public char Symbol = '@';
+
+    [JsonProperty(ObjectCreationHandling = ObjectCreationHandling.Replace)]
+    public List<string> Mottos = new();
+
+    public decimal Cost = 100980.1M;
+    public string Escape = "\r\n\t\f\b?{\\r\\n\"\'";
+
+    [JsonProperty(ObjectCreationHandling = ObjectCreationHandling.Replace)]
+    public List<Product> product = new();
+
+    public Store()
     {
-        public StoreColor Color = StoreColor.Yellow;
-        public DateTime Establised = new(2010, 1, 22, 1, 1, 1, DateTimeKind.Utc);
-        public double Width = 1.1;
-        public int Employees = 999;
-        public int[] RoomsPerFloor = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-        public bool Open = false;
-        public char Symbol = '@';
+        Mottos.Add("Hello World");
+        Mottos.Add("öäüÖÄÜ\\'{new Date(12345);}[222]_µ@²³~");
+        Mottos.Add(null);
+        Mottos.Add(" ");
 
-        [JsonProperty(ObjectCreationHandling = ObjectCreationHandling.Replace)]
-        public List<string> Mottos = new();
-
-        public decimal Cost = 100980.1M;
-        public string Escape = "\r\n\t\f\b?{\\r\\n\"\'";
-
-        [JsonProperty(ObjectCreationHandling = ObjectCreationHandling.Replace)]
-        public List<Product> product = new();
-
-        public Store()
+        var rocket = new Product
         {
-            Mottos.Add("Hello World");
-            Mottos.Add("öäüÖÄÜ\\'{new Date(12345);}[222]_µ@²³~");
-            Mottos.Add(null);
-            Mottos.Add(" ");
+            Name = "Rocket",
+            ExpiryDate = new DateTime(2000, 2, 2, 23, 1, 30, DateTimeKind.Utc)
+        };
+        var alien = new Product
+        {
+            Name = "Alien"
+        };
 
-            var rocket = new Product
-            {
-                Name = "Rocket",
-                ExpiryDate = new DateTime(2000, 2, 2, 23, 1, 30, DateTimeKind.Utc)
-            };
-            var alien = new Product
-            {
-                Name = "Alien"
-            };
-
-            product.Add(rocket);
-            product.Add(alien);
-        }
+        product.Add(rocket);
+        product.Add(alien);
     }
 }

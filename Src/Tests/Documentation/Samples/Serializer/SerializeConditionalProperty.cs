@@ -28,61 +28,61 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
-{
-    [TestFixture]
-    public class SerializeConditionalProperty : TestFixtureBase
-    {
-        #region Types
-        public class Employee
-        {
-            public string Name { get; set; }
-            public Employee Manager { get; set; }
+namespace Argon.Tests.Documentation.Samples.Serializer;
 
-            public bool ShouldSerializeManager()
-            {
-                // don't serialize the Manager property if an employee is their own manager
-                return Manager != this;
-            }
+[TestFixture]
+public class SerializeConditionalProperty : TestFixtureBase
+{
+    #region Types
+    public class Employee
+    {
+        public string Name { get; set; }
+        public Employee Manager { get; set; }
+
+        public bool ShouldSerializeManager()
+        {
+            // don't serialize the Manager property if an employee is their own manager
+            return Manager != this;
         }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var joe = new Employee
+        {
+            Name = "Joe Employee"
+        };
+        var mike = new Employee
+        {
+            Name = "Mike Manager"
+        };
+
+        joe.Manager = mike;
+
+        // mike is his own manager
+        // ShouldSerialize will skip this property
+        mike.Manager = mike;
+
+        var json = JsonConvert.SerializeObject(new[] { joe, mike }, Formatting.Indented);
+
+        Console.WriteLine(json);
+        // [
+        //   {
+        //     "Name": "Joe Employee",
+        //     "Manager": {
+        //       "Name": "Mike Manager"
+        //     }
+        //   },
+        //   {
+        //     "Name": "Mike Manager"
+        //   }
+        // ]
         #endregion
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var joe = new Employee
-            {
-                Name = "Joe Employee"
-            };
-            var mike = new Employee
-            {
-                Name = "Mike Manager"
-            };
-
-            joe.Manager = mike;
-
-            // mike is his own manager
-            // ShouldSerialize will skip this property
-            mike.Manager = mike;
-
-            var json = JsonConvert.SerializeObject(new[] { joe, mike }, Formatting.Indented);
-
-            Console.WriteLine(json);
-            // [
-            //   {
-            //     "Name": "Joe Employee",
-            //     "Manager": {
-            //       "Name": "Mike Manager"
-            //     }
-            //   },
-            //   {
-            //     "Name": "Mike Manager"
-            //   }
-            // ]
-            #endregion
-
-            StringAssert.AreEqual(@"[
+        StringAssert.AreEqual(@"[
   {
     ""Name"": ""Joe Employee"",
     ""Manager"": {
@@ -93,6 +93,5 @@ namespace Argon.Tests.Documentation.Samples.Serializer
     ""Name"": ""Mike Manager""
   }
 ]", json);
-        }
     }
 }

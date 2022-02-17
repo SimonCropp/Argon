@@ -23,28 +23,27 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[DataContract]
+public struct StructISerializable : ISerializable
 {
-    [DataContract]
-    public struct StructISerializable : ISerializable
+    private string _name;
+
+    public StructISerializable(SerializationInfo info, StreamingContext context)
     {
-        private string _name;
+        _name = info.GetString("Name");
+    }
 
-        public StructISerializable(SerializationInfo info, StreamingContext context)
-        {
-            _name = info.GetString("Name");
-        }
+    [DataMember]
+    public string Name
+    {
+        get => _name;
+        set => _name = value;
+    }
 
-        [DataMember]
-        public string Name
-        {
-            get => _name;
-            set => _name = value;
-        }
-
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("Name", _name);
-        }
+    public void GetObjectData(SerializationInfo info, StreamingContext context)
+    {
+        info.AddValue("Name", _name);
     }
 }

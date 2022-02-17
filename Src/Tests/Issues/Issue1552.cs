@@ -27,75 +27,74 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue1552 : TestFixtureBase
 {
-    [TestFixture]
-    public class Issue1552 : TestFixtureBase
+    [Fact]
+    public void Test_Error()
     {
-        [Fact]
-        public void Test_Error()
-        {
-            var c = new RefAndRefReadonlyTestClass(123);
-            c.SetRefField(456);
+        var c = new RefAndRefReadonlyTestClass(123);
+        c.SetRefField(456);
 
-            var ex = ExceptionAssert.Throws<JsonSerializationException>(
-                () => JsonConvert.SerializeObject(c),
-                "Error getting value from 'RefField' on 'Argon.Tests.Issues.RefAndRefReadonlyTestClass'.");
+        var ex = ExceptionAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.SerializeObject(c),
+            "Error getting value from 'RefField' on 'Argon.Tests.Issues.RefAndRefReadonlyTestClass'.");
 
-            Assert.AreEqual("Could not create getter for Int32& RefField. ByRef return values are not supported.", ex.InnerException.Message);
-        }
-
-        [Fact]
-        public void Test_Ignore()
-        {
-            var c = new RefAndRefReadonlyIgnoredTestClass(123);
-            c.SetRefField(456);
-
-            var json = JsonConvert.SerializeObject(c);
-
-            Assert.AreEqual("{}", json);
-        }
+        Assert.AreEqual("Could not create getter for Int32& RefField. ByRef return values are not supported.", ex.InnerException.Message);
     }
 
-    public class RefAndRefReadonlyTestClass
+    [Fact]
+    public void Test_Ignore()
     {
-        private int _refField;
-        private readonly int _refReadonlyField;
+        var c = new RefAndRefReadonlyIgnoredTestClass(123);
+        c.SetRefField(456);
 
-        public RefAndRefReadonlyTestClass(int refReadonlyField)
-        {
-            _refReadonlyField = refReadonlyField;
-        }
+        var json = JsonConvert.SerializeObject(c);
 
-        public ref int RefField => ref _refField;
+        Assert.AreEqual("{}", json);
+    }
+}
 
-        public ref readonly int RefReadonlyField => ref _refReadonlyField;
+public class RefAndRefReadonlyTestClass
+{
+    private int _refField;
+    private readonly int _refReadonlyField;
 
-        public void SetRefField(int value)
-        {
-            _refField = value;
-        }
+    public RefAndRefReadonlyTestClass(int refReadonlyField)
+    {
+        _refReadonlyField = refReadonlyField;
     }
 
-    public class RefAndRefReadonlyIgnoredTestClass
+    public ref int RefField => ref _refField;
+
+    public ref readonly int RefReadonlyField => ref _refReadonlyField;
+
+    public void SetRefField(int value)
     {
-        private int _refField;
-        private readonly int _refReadonlyField;
+        _refField = value;
+    }
+}
 
-        public RefAndRefReadonlyIgnoredTestClass(int refReadonlyField)
-        {
-            _refReadonlyField = refReadonlyField;
-        }
+public class RefAndRefReadonlyIgnoredTestClass
+{
+    private int _refField;
+    private readonly int _refReadonlyField;
 
-        [JsonIgnore]
-        public ref int RefField => ref _refField;
+    public RefAndRefReadonlyIgnoredTestClass(int refReadonlyField)
+    {
+        _refReadonlyField = refReadonlyField;
+    }
 
-        [JsonIgnore]
-        public ref readonly int RefReadonlyField => ref _refReadonlyField;
+    [JsonIgnore]
+    public ref int RefField => ref _refField;
 
-        public void SetRefField(int value)
-        {
-            _refField = value;
-        }
+    [JsonIgnore]
+    public ref readonly int RefReadonlyField => ref _refReadonlyField;
+
+    public void SetRefField(int value)
+    {
+        _refField = value;
     }
 }

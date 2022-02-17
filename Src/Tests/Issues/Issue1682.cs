@@ -27,62 +27,61 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue1682 : TestFixtureBase
 {
-    [TestFixture]
-    public class Issue1682 : TestFixtureBase
+    [Fact]
+    public void Test_Serialize()
     {
-        [Fact]
-        public void Test_Serialize()
-        {
-            var s1 = JsonConvert.SerializeObject(new ConcreteSerializable());
-            Assert.AreEqual("{}", s1);
+        var s1 = JsonConvert.SerializeObject(new ConcreteSerializable());
+        Assert.AreEqual("{}", s1);
 
-            var s2 = JsonConvert.SerializeObject(new ClassWithSerializableProperty());
-            Assert.AreEqual(@"{""Serializable"":null}", s2);
+        var s2 = JsonConvert.SerializeObject(new ClassWithSerializableProperty());
+        Assert.AreEqual(@"{""Serializable"":null}", s2);
+    }
+
+    [Fact]
+    public void Test_Deserialize()
+    {
+        ExceptionAssert.Throws<JsonSerializationException>(
+            () => { JsonConvert.DeserializeObject<BaseSerializable>("{}"); },
+            "Could not create an instance of type Argon.Tests.Issues.Issue1682+BaseSerializable. Type is an interface or abstract class and cannot be instantiated. Path '', line 1, position 2.");
+    }
+
+    public class ClassWithSerializableProperty
+    {
+        public BaseSerializable Serializable { get; }
+    }
+
+    [Serializable]
+    public class ConcreteSerializable : BaseSerializable
+    {
+        public ConcreteSerializable()
+        {
         }
 
-        [Fact]
-        public void Test_Deserialize()
+        protected ConcreteSerializable(SerializationInfo info, StreamingContext context)
+            : base(info, context)
         {
-            ExceptionAssert.Throws<JsonSerializationException>(
-                () => { JsonConvert.DeserializeObject<BaseSerializable>("{}"); },
-                "Could not create an instance of type Argon.Tests.Issues.Issue1682+BaseSerializable. Type is an interface or abstract class and cannot be instantiated. Path '', line 1, position 2.");
+        }
+    }
+
+    [Serializable] // it won't blow up after removing that attribute
+    public abstract class BaseSerializable : ISerializable //or that interface, or when we will remove "abstract" keyword
+    {
+        public BaseSerializable()
+        {
         }
 
-        public class ClassWithSerializableProperty
+        //it won't fail when that constructor is missing
+        protected BaseSerializable(SerializationInfo info, StreamingContext context)
         {
-            public BaseSerializable Serializable { get; }
         }
 
-        [Serializable]
-        public class ConcreteSerializable : BaseSerializable
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            public ConcreteSerializable()
-            {
-            }
-
-            protected ConcreteSerializable(SerializationInfo info, StreamingContext context)
-                : base(info, context)
-            {
-            }
-        }
-
-        [Serializable] // it won't blow up after removing that attribute
-        public abstract class BaseSerializable : ISerializable //or that interface, or when we will remove "abstract" keyword
-        {
-            public BaseSerializable()
-            {
-            }
-
-            //it won't fail when that constructor is missing
-            protected BaseSerializable(SerializationInfo info, StreamingContext context)
-            {
-            }
-
-            public void GetObjectData(SerializationInfo info, StreamingContext context)
-            {
-            }
         }
     }
 }

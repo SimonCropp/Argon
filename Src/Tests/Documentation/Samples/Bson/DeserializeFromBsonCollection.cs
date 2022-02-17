@@ -28,44 +28,43 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Bson
+namespace Argon.Tests.Documentation.Samples.Bson;
+
+[TestFixture]
+public class DeserializeFromBsonCollection : TestFixtureBase
 {
-    [TestFixture]
-    public class DeserializeFromBsonCollection : TestFixtureBase
+    #region Types
+    public class Event
     {
-        #region Types
-        public class Event
-        {
-            public string Name { get; set; }
-            public DateTime StartDate { get; set; }
-        }
-        #endregion
+        public string Name { get; set; }
+        public DateTime StartDate { get; set; }
+    }
+    #endregion
 
 #pragma warning disable 618
-        [Fact]
-        public void Example()
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var s = "MQAAAAMwACkAAAACTmFtZQAHAAAARWFzdGVyAAlTdGFydERhdGUAgDf0uj0BAAAAAA==";
+        var data = Convert.FromBase64String(s);
+
+        var ms = new MemoryStream(data);
+        using (var reader = new BsonReader(ms))
         {
-            #region Usage
-            var s = "MQAAAAMwACkAAAACTmFtZQAHAAAARWFzdGVyAAlTdGFydERhdGUAgDf0uj0BAAAAAA==";
-            var data = Convert.FromBase64String(s);
+            reader.ReadRootValueAsArray = true;
 
-            var ms = new MemoryStream(data);
-            using (var reader = new BsonReader(ms))
-            {
-                reader.ReadRootValueAsArray = true;
+            var serializer = new JsonSerializer();
 
-                var serializer = new JsonSerializer();
+            var events = serializer.Deserialize<IList<Event>>(reader);
 
-                var events = serializer.Deserialize<IList<Event>>(reader);
+            Console.WriteLine(events.Count);
+            // 1
 
-                Console.WriteLine(events.Count);
-                // 1
-
-                Console.WriteLine(events[0].Name);
-                // Easter
-            }
-            #endregion
-#pragma warning restore 618
+            Console.WriteLine(events[0].Name);
+            // Easter
         }
+        #endregion
+#pragma warning restore 618
     }
 }

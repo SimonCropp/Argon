@@ -29,81 +29,80 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Serialization
+namespace Argon.Tests.Serialization;
+
+[TestFixture]
+public class ReflectionAttributeProviderTests : TestFixtureBase
 {
-    [TestFixture]
-    public class ReflectionAttributeProviderTests : TestFixtureBase
+    public class ReflectionTestObject
     {
-        public class ReflectionTestObject
+        [DefaultValue("1")]
+        [JsonProperty]
+        public int TestProperty { get; set; }
+
+        [DefaultValue("1")]
+        [JsonProperty]
+        public int TestField;
+
+        public ReflectionTestObject(
+            [DefaultValue("1")] [JsonProperty] int testParameter)
         {
-            [DefaultValue("1")]
-            [JsonProperty]
-            public int TestProperty { get; set; }
-
-            [DefaultValue("1")]
-            [JsonProperty]
-            public int TestField;
-
-            public ReflectionTestObject(
-                [DefaultValue("1")] [JsonProperty] int testParameter)
-            {
-                TestProperty = testParameter;
-                TestField = testParameter;
-            }
+            TestProperty = testParameter;
+            TestField = testParameter;
         }
+    }
 
-        [Fact]
-        public void GetAttributes_Property()
-        {
-            PropertyInfo property;
+    [Fact]
+    public void GetAttributes_Property()
+    {
+        PropertyInfo property;
 #if NET5_0_OR_GREATER && !NETSTANDARD2_0
             property = Argon.Utilities.TypeExtensions.GetProperty(typeof(ReflectionTestObject), "TestProperty");
 #else
-            property = typeof(ReflectionTestObject).GetProperty("TestProperty");
+        property = typeof(ReflectionTestObject).GetProperty("TestProperty");
 #endif
 
-            var provider = new ReflectionAttributeProvider(property);
+        var provider = new ReflectionAttributeProvider(property);
 
-            var attributes = provider.GetAttributes(typeof(DefaultValueAttribute), false);
-            Assert.AreEqual(1, attributes.Count);
+        var attributes = provider.GetAttributes(typeof(DefaultValueAttribute), false);
+        Assert.AreEqual(1, attributes.Count);
 
-            attributes = provider.GetAttributes(false);
-            Assert.AreEqual(2, attributes.Count);
-        }
+        attributes = provider.GetAttributes(false);
+        Assert.AreEqual(2, attributes.Count);
+    }
 
-        [Fact]
-        public void GetAttributes_Field()
-        {
-            FieldInfo field;
+    [Fact]
+    public void GetAttributes_Field()
+    {
+        FieldInfo field;
 #if NET5_0_OR_GREATER && !NETSTANDARD2_0
             field = (FieldInfo)Argon.Utilities.TypeExtensions.GetField(typeof(ReflectionTestObject), "TestField");
 #else
-            field = typeof(ReflectionTestObject).GetField("TestField");
+        field = typeof(ReflectionTestObject).GetField("TestField");
 #endif
 
-            var provider = new ReflectionAttributeProvider(field);
+        var provider = new ReflectionAttributeProvider(field);
 
-            var attributes = provider.GetAttributes(typeof(DefaultValueAttribute), false);
-            Assert.AreEqual(1, attributes.Count);
+        var attributes = provider.GetAttributes(typeof(DefaultValueAttribute), false);
+        Assert.AreEqual(1, attributes.Count);
 
-            attributes = provider.GetAttributes(false);
-            Assert.AreEqual(2, attributes.Count);
-        }
+        attributes = provider.GetAttributes(false);
+        Assert.AreEqual(2, attributes.Count);
+    }
 
-        [Fact]
-        public void GetAttributes_Parameter()
-        {
-            var parameters = typeof(ReflectionTestObject).GetConstructor(new[] { typeof(int) }).GetParameters();
+    [Fact]
+    public void GetAttributes_Parameter()
+    {
+        var parameters = typeof(ReflectionTestObject).GetConstructor(new[] { typeof(int) }).GetParameters();
 
-            var parameter = parameters[0];
+        var parameter = parameters[0];
 
-            var provider = new ReflectionAttributeProvider(parameter);
+        var provider = new ReflectionAttributeProvider(parameter);
 
-            var attributes = provider.GetAttributes(typeof(DefaultValueAttribute), false);
-            Assert.AreEqual(1, attributes.Count);
+        var attributes = provider.GetAttributes(typeof(DefaultValueAttribute), false);
+        Assert.AreEqual(1, attributes.Count);
 
-            attributes = provider.GetAttributes(false);
-            Assert.AreEqual(2, attributes.Count);
-        }
+        attributes = provider.GetAttributes(false);
+        Assert.AreEqual(2, attributes.Count);
     }
 }

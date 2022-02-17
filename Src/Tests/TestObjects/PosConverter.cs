@@ -23,32 +23,31 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class PosConverter : JsonConverter
 {
-    public class PosConverter : JsonConverter
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            var p = (Pos)value;
+        var p = (Pos)value;
 
-            if (p != null)
-            {
-                writer.WriteRawValue(String.Format("new Pos({0},{1})", p.X, p.Y));
-            }
-            else
-            {
-                writer.WriteNull();
-            }
-        }
-
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        if (p != null)
         {
-            throw new NotImplementedException();
+            writer.WriteRawValue(String.Format("new Pos({0},{1})", p.X, p.Y));
         }
-
-        public override bool CanConvert(Type objectType)
+        else
         {
-            return objectType == typeof(Pos);
+            writer.WriteNull();
         }
+    }
+
+    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override bool CanConvert(Type objectType)
+    {
+        return objectType == typeof(Pos);
     }
 }

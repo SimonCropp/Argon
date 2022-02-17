@@ -25,10 +25,9 @@
 
 using System.Collections.Specialized;
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class StringDictionaryTestClass
 {
-    public class StringDictionaryTestClass
-    {
-        public StringDictionary StringDictionaryProperty { get; set; }
-    }
+    public StringDictionary StringDictionaryProperty { get; set; }
 }

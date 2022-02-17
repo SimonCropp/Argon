@@ -28,51 +28,51 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Json
+namespace Argon.Tests.Documentation.Samples.Json;
+
+[TestFixture]
+public class WriteJsonWithJsonTextWriter : TestFixtureBase
 {
-    [TestFixture]
-    public class WriteJsonWithJsonTextWriter : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
+        #region Usage
+        var sb = new StringBuilder();
+        var sw = new StringWriter(sb);
+
+        using (JsonWriter writer = new JsonTextWriter(sw))
         {
-            #region Usage
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
+            writer.Formatting = Formatting.Indented;
 
-            using (JsonWriter writer = new JsonTextWriter(sw))
-            {
-                writer.Formatting = Formatting.Indented;
+            writer.WriteStartObject();
+            writer.WritePropertyName("CPU");
+            writer.WriteValue("Intel");
+            writer.WritePropertyName("PSU");
+            writer.WriteValue("500W");
+            writer.WritePropertyName("Drives");
+            writer.WriteStartArray();
+            writer.WriteValue("DVD read/writer");
+            writer.WriteComment("(broken)");
+            writer.WriteValue("500 gigabyte hard drive");
+            writer.WriteValue("200 gigabyte hard drive");
+            writer.WriteEnd();
+            writer.WriteEndObject();
+        }
 
-                writer.WriteStartObject();
-                writer.WritePropertyName("CPU");
-                writer.WriteValue("Intel");
-                writer.WritePropertyName("PSU");
-                writer.WriteValue("500W");
-                writer.WritePropertyName("Drives");
-                writer.WriteStartArray();
-                writer.WriteValue("DVD read/writer");
-                writer.WriteComment("(broken)");
-                writer.WriteValue("500 gigabyte hard drive");
-                writer.WriteValue("200 gigabyte hard drive");
-                writer.WriteEnd();
-                writer.WriteEndObject();
-            }
+        Console.WriteLine(sb.ToString());
+        // {
+        //   "CPU": "Intel",
+        //   "PSU": "500W",
+        //   "Drives": [
+        //     "DVD read/writer"
+        //     /*(broken)*/,
+        //     "500 gigabyte hard drive",
+        //     "200 gigabyte hard drive"
+        //   ]
+        // }
+        #endregion
 
-            Console.WriteLine(sb.ToString());
-            // {
-            //   "CPU": "Intel",
-            //   "PSU": "500W",
-            //   "Drives": [
-            //     "DVD read/writer"
-            //     /*(broken)*/,
-            //     "500 gigabyte hard drive",
-            //     "200 gigabyte hard drive"
-            //   ]
-            // }
-            #endregion
-
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""CPU"": ""Intel"",
   ""PSU"": ""500W"",
   ""Drives"": [
@@ -82,6 +82,5 @@ namespace Argon.Tests.Documentation.Samples.Json
     ""200 gigabyte hard drive""
   ]
 }", sb.ToString());
-        }
     }
 }

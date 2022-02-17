@@ -27,51 +27,50 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class NamingStrategyCamelCase : TestFixtureBase
 {
-    [TestFixture]
-    public class NamingStrategyCamelCase : TestFixtureBase
+    #region Types
+    public class User
     {
-        #region Types
-        public class User
+        public string UserName { get; set; }
+        public bool Enabled { get; set; }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var user1 = new User
         {
-            public string UserName { get; set; }
-            public bool Enabled { get; set; }
-        }
+            UserName = "jamesn",
+            Enabled = true
+        };
+
+        var contractResolver = new DefaultContractResolver
+        {
+            NamingStrategy = new CamelCaseNamingStrategy()
+        };
+
+        var json = JsonConvert.SerializeObject(user1, new JsonSerializerSettings
+        {
+            ContractResolver = contractResolver,
+            Formatting = Formatting.Indented
+        });
+
+        Console.WriteLine(json);
+        // {
+        //   "userName": "jamesn",
+        //   "enabled": true
+        // }
         #endregion
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var user1 = new User
-            {
-                UserName = "jamesn",
-                Enabled = true
-            };
-
-            var contractResolver = new DefaultContractResolver
-            {
-                NamingStrategy = new CamelCaseNamingStrategy()
-            };
-
-            var json = JsonConvert.SerializeObject(user1, new JsonSerializerSettings
-            {
-                ContractResolver = contractResolver,
-                Formatting = Formatting.Indented
-            });
-
-            Console.WriteLine(json);
-            // {
-            //   "userName": "jamesn",
-            //   "enabled": true
-            // }
-            #endregion
-
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""userName"": ""jamesn"",
   ""enabled"": true
 }", json);
-        }
     }
 }

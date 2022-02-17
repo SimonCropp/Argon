@@ -23,12 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class MyObservableObject : ObservableObject
-    {
-        public new string PropertyChanged;
+namespace Argon.Tests.TestObjects;
 
-        public string TestString { get; set; }
-    }
+public class MyObservableObject : ObservableObject
+{
+    public new string PropertyChanged;
+
+    public string TestString { get; set; }
 }

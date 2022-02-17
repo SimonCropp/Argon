@@ -23,21 +23,20 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon
+namespace Argon;
+
+/// <summary>
+/// Specifies how dates are formatted when writing JSON text.
+/// </summary>
+public enum DateFormatHandling
 {
     /// <summary>
-    /// Specifies how dates are formatted when writing JSON text.
+    /// Dates are written in the ISO 8601 format, e.g. <c>"2012-03-21T05:40Z"</c>.
     /// </summary>
-    public enum DateFormatHandling
-    {
-        /// <summary>
-        /// Dates are written in the ISO 8601 format, e.g. <c>"2012-03-21T05:40Z"</c>.
-        /// </summary>
-        IsoDateFormat,
+    IsoDateFormat,
 
-        /// <summary>
-        /// Dates are written in the Microsoft JSON format, e.g. <c>"\/Date(1198908717056)\/"</c>.
-        /// </summary>
-        MicrosoftDateFormat
-    }
+    /// <summary>
+    /// Dates are written in the Microsoft JSON format, e.g. <c>"\/Date(1198908717056)\/"</c>.
+    /// </summary>
+    MicrosoftDateFormat
 }

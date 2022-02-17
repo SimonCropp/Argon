@@ -23,20 +23,19 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class SetOnlyPropertyClass2
 {
-    public class SetOnlyPropertyClass2
+    private object _value;
+
+    public object SetOnlyProperty
     {
-        private object _value;
+        set => _value = value;
+    }
 
-        public object SetOnlyProperty
-        {
-            set => _value = value;
-        }
-
-        public object GetValue()
-        {
-            return _value;
-        }
+    public object GetValue()
+    {
+        return _value;
     }
 }

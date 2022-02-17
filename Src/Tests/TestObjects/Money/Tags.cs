@@ -23,15 +23,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects.Money
+namespace Argon.Tests.TestObjects.Money;
+
+public static class Tags
 {
-    public static class Tags
-    {
-        public const int AUD = 1;
-        public const int EUR = 4;
-        public const int JPY = 5;
-        public const int LocalCurrency = 0;
-        public const int NZD = 2;
-        public const int USD = 3;
-    }
+    public const int AUD = 1;
+    public const int EUR = 4;
+    public const int JPY = 5;
+    public const int LocalCurrency = 0;
+    public const int NZD = 2;
+    public const int USD = 3;
 }

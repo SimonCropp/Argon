@@ -23,25 +23,24 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[JsonObject(MemberSerialization = MemberSerialization.OptIn)]
+public class Content : IEnumerable<Content>
 {
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
-    public class Content : IEnumerable<Content>
+    [JsonProperty]
+    public List<Content> Children;
+
+    [JsonProperty]
+    public string Text;
+
+    public IEnumerator GetEnumerator()
     {
-        [JsonProperty]
-        public List<Content> Children;
+        return Children.GetEnumerator();
+    }
 
-        [JsonProperty]
-        public string Text;
-
-        public IEnumerator GetEnumerator()
-        {
-            return Children.GetEnumerator();
-        }
-
-        IEnumerator<Content> IEnumerable<Content>.GetEnumerator()
-        {
-            return Children.GetEnumerator();
-        }
+    IEnumerator<Content> IEnumerable<Content>.GetEnumerator()
+    {
+        return Children.GetEnumerator();
     }
 }

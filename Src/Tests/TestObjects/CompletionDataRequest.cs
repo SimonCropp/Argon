@@ -23,21 +23,20 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class CompletionDataRequest
-    {
-        public CompletionDataRequest(string text, int cursorPosition, string dataSource, string project)
-        {
-            Text = text;
-            CursorPosition = cursorPosition;
-            DataSource = dataSource;
-            Project = project;
-        }
+namespace Argon.Tests.TestObjects;
 
-        public string Text { get; }
-        public int CursorPosition { get; }
-        public string DataSource { get; }
-        public string Project { get; }
+public class CompletionDataRequest
+{
+    public CompletionDataRequest(string text, int cursorPosition, string dataSource, string project)
+    {
+        Text = text;
+        CursorPosition = cursorPosition;
+        DataSource = dataSource;
+        Project = project;
     }
+
+    public string Text { get; }
+    public int CursorPosition { get; }
+    public string DataSource { get; }
+    public string Project { get; }
 }

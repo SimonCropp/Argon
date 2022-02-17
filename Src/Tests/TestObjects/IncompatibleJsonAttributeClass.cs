@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[JsonConverter(typeof(IsoDateTimeConverter))]
+public class IncompatibleJsonAttributeClass
 {
-    [JsonConverter(typeof(IsoDateTimeConverter))]
-    public class IncompatibleJsonAttributeClass
-    {
-    }
 }

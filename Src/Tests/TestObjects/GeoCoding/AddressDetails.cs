@@ -23,11 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects.GeoCoding
+namespace Argon.Tests.TestObjects.GeoCoding;
+
+public class AddressDetails
 {
-    public class AddressDetails
-    {
-        public int Accuracy;
-        public Country Country;
-    }
+    public int Accuracy;
+    public Country Country;
 }

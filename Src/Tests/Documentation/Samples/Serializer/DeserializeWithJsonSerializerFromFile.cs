@@ -27,46 +27,45 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class DeserializeWithJsonSerializerFromFile : TestFixtureBase
 {
-    [TestFixture]
-    public class DeserializeWithJsonSerializerFromFile : TestFixtureBase
+    #region Types
+    public class Movie
     {
-        #region Types
-        public class Movie
+        public string Name { get; set; }
+        public int Year { get; set; }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        // read file into a string and deserialize JSON to a type
+        var movie1 = JsonConvert.DeserializeObject<Movie>(File.ReadAllText(@"c:\movie.json"));
+
+        // deserialize JSON directly from a file
+        using (var file = File.OpenText(@"c:\movie.json"))
         {
-            public string Name { get; set; }
-            public int Year { get; set; }
+            var serializer = new JsonSerializer();
+            var movie2 = (Movie)serializer.Deserialize(file, typeof(Movie));
         }
         #endregion
+    }
 
-        [Fact]
-        public void Example()
+    public static class File
+    {
+        public static string ReadAllText(string s)
         {
-            #region Usage
-            // read file into a string and deserialize JSON to a type
-            var movie1 = JsonConvert.DeserializeObject<Movie>(File.ReadAllText(@"c:\movie.json"));
-
-            // deserialize JSON directly from a file
-            using (var file = File.OpenText(@"c:\movie.json"))
-            {
-                var serializer = new JsonSerializer();
-                var movie2 = (Movie)serializer.Deserialize(file, typeof(Movie));
-            }
-            #endregion
+            return "{}";
         }
 
-        public static class File
+        public static StreamReader OpenText(string s)
         {
-            public static string ReadAllText(string s)
-            {
-                return "{}";
-            }
-
-            public static StreamReader OpenText(string s)
-            {
-                return new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes("{}")));
-            }
+            return new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes("{}")));
         }
     }
 }

@@ -27,78 +27,77 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue1307 : TestFixtureBase
 {
-    [TestFixture]
-    public class Issue1307 : TestFixtureBase
+    public class MyOtherClass
     {
-        public class MyOtherClass
+        [JsonConverter(typeof(MyJsonConverter))]
+        public MyClass2 InstanceOfMyClass { get; set; }
+    }
+
+    public class MyClass2
+    {
+        public int[] Dummy { get; set; }
+    }
+
+    internal class MyJsonConverter : JsonConverter
+    {
+        static private readonly JsonLoadSettings _jsonLoadSettings = new() { CommentHandling = CommentHandling.Ignore };
+
+        public override bool CanConvert(Type objectType)
         {
-            [JsonConverter(typeof(MyJsonConverter))]
-            public MyClass2 InstanceOfMyClass { get; set; }
+            return typeof(MyClass2).Equals(objectType);
         }
 
-        public class MyClass2
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            public int[] Dummy { get; set; }
+            var token = JToken.Load(reader, _jsonLoadSettings);
+
+            if (token.Type == JTokenType.Object)
+            {
+                return token.ToObject<MyClass2>();
+            }
+            else if (token.Type == JTokenType.Array)
+            {
+                var result = new MyClass2
+                {
+                    Dummy = token.Select(t => (int)t).ToArray()
+                };
+                return result;
+            }
+            else if (token.Type == JTokenType.Comment)
+            {
+                throw new InvalidProgramException();
+            }
+            return existingValue;
         }
 
-        internal class MyJsonConverter : JsonConverter
+        #region Do not use this converter for writing.
+
+        public override bool CanWrite => false;
+
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            static private readonly JsonLoadSettings _jsonLoadSettings = new() { CommentHandling = CommentHandling.Ignore };
-
-            public override bool CanConvert(Type objectType)
-            {
-                return typeof(MyClass2).Equals(objectType);
-            }
-
-            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-            {
-                var token = JToken.Load(reader, _jsonLoadSettings);
-
-                if (token.Type == JTokenType.Object)
-                {
-                    return token.ToObject<MyClass2>();
-                }
-                else if (token.Type == JTokenType.Array)
-                {
-                    var result = new MyClass2
-                    {
-                        Dummy = token.Select(t => (int)t).ToArray()
-                    };
-                    return result;
-                }
-                else if (token.Type == JTokenType.Comment)
-                {
-                    throw new InvalidProgramException();
-                }
-                return existingValue;
-            }
-
-            #region Do not use this converter for writing.
-
-            public override bool CanWrite => false;
-
-            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-            {
-                throw new NotSupportedException();
-            }
-
-            #endregion
-
+            throw new NotSupportedException();
         }
 
-        [Fact]
-        public void Test()
-        {
-            var json = @"{
+        #endregion
+
+    }
+
+    [Fact]
+    public void Test()
+    {
+        var json = @"{
   ""instanceOfMyClass"":
     /* Comment explaining that this is a legacy data contract: */
     [ 1, 2, 3 ]
 }";
 
-            var c = JsonConvert.DeserializeObject<MyOtherClass>(json);
-            Assert.AreEqual(3, c.InstanceOfMyClass.Dummy.Length);
-        }
+        var c = JsonConvert.DeserializeObject<MyOtherClass>(json);
+        Assert.AreEqual(3, c.InstanceOfMyClass.Dummy.Length);
     }
 }

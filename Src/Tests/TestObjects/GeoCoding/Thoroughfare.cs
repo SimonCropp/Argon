@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects.GeoCoding
+namespace Argon.Tests.TestObjects.GeoCoding;
+
+public class Thoroughfare
 {
-    public class Thoroughfare
-    {
-        public string ThoroughfareName;
-    }
+    public string ThoroughfareName;
 }

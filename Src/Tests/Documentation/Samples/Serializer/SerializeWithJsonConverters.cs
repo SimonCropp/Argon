@@ -28,40 +28,39 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class SerializeWithJsonConverters : TestFixtureBase
 {
-    [TestFixture]
-    public class SerializeWithJsonConverters : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
+        #region Usage
+        var stringComparisons = new List<StringComparison>
         {
-            #region Usage
-            var stringComparisons = new List<StringComparison>
-            {
-                StringComparison.CurrentCulture,
-                StringComparison.Ordinal
-            };
+            StringComparison.CurrentCulture,
+            StringComparison.Ordinal
+        };
 
-            var jsonWithoutConverter = JsonConvert.SerializeObject(stringComparisons);
+        var jsonWithoutConverter = JsonConvert.SerializeObject(stringComparisons);
 
-            Console.WriteLine(jsonWithoutConverter);
-            // [0,4]
+        Console.WriteLine(jsonWithoutConverter);
+        // [0,4]
 
-            var jsonWithConverter = JsonConvert.SerializeObject(stringComparisons, new StringEnumConverter());
+        var jsonWithConverter = JsonConvert.SerializeObject(stringComparisons, new StringEnumConverter());
 
-            Console.WriteLine(jsonWithConverter);
-            // ["CurrentCulture","Ordinal"]
+        Console.WriteLine(jsonWithConverter);
+        // ["CurrentCulture","Ordinal"]
 
-            var newStringComparsions = JsonConvert.DeserializeObject<List<StringComparison>>(
-                jsonWithConverter,
-                new StringEnumConverter());
+        var newStringComparsions = JsonConvert.DeserializeObject<List<StringComparison>>(
+            jsonWithConverter,
+            new StringEnumConverter());
 
-            Console.WriteLine(string.Join(", ", newStringComparsions.Select(c => c.ToString()).ToArray()));
-            // CurrentCulture, Ordinal
-            #endregion
+        Console.WriteLine(string.Join(", ", newStringComparsions.Select(c => c.ToString()).ToArray()));
+        // CurrentCulture, Ordinal
+        #endregion
 
-            Assert.AreEqual("CurrentCulture, Ordinal", string.Join(", ", newStringComparsions.Select(c => c.ToString()).ToArray()));
-        }
+        Assert.AreEqual("CurrentCulture, Ordinal", string.Join(", ", newStringComparsions.Select(c => c.ToString()).ToArray()));
     }
 }

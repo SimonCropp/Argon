@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public interface IPrivateImplementationB
 {
-    public interface IPrivateImplementationB
-    {
-        string PropertyB { get; set; }
-    }
+    string PropertyB { get; set; }
 }

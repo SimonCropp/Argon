@@ -23,12 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects.GeoCoding
+namespace Argon.Tests.TestObjects.GeoCoding;
+
+public class Placemark
 {
-    public class Placemark
-    {
-        public string Address;
-        public AddressDetails AddressDetails;
-        public Point Point;
-    }
+    public string Address;
+    public AddressDetails AddressDetails;
+    public Point Point;
 }

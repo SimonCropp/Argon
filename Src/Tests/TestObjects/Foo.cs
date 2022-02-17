@@ -23,16 +23,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class Foo
-    {
-        public Foo()
-        {
-            Bars = new List<Bar>();
-        }
+namespace Argon.Tests.TestObjects;
 
-        [JsonConverter(typeof(ListOfIds<Bar>))]
-        public List<Bar> Bars { get; set; }
+public class Foo
+{
+    public Foo()
+    {
+        Bars = new List<Bar>();
     }
+
+    [JsonConverter(typeof(ListOfIds<Bar>))]
+    public List<Bar> Bars { get; set; }
 }

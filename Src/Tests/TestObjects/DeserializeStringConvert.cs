@@ -23,13 +23,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class DeserializeStringConvert
 {
-    public class DeserializeStringConvert
-    {
-        public string Name { get; set; }
-        public int Age { get; set; }
-        public double Height { get; set; }
-        public decimal Price { get; set; }
-    }
+    public string Name { get; set; }
+    public int Age { get; set; }
+    public double Height { get; set; }
+    public decimal Price { get; set; }
 }

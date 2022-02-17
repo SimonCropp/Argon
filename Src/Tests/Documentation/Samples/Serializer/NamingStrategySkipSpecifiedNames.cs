@@ -27,59 +27,58 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class NamingStrategySkipSpecifiedNames : TestFixtureBase
 {
-    [TestFixture]
-    public class NamingStrategySkipSpecifiedNames : TestFixtureBase
+    #region Types
+    public class User
     {
-        #region Types
-        public class User
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        [JsonProperty(PropertyName = "UPN")]
+        public string Upn { get; set; }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var user = new User
         {
-            public string FirstName { get; set; }
-            public string LastName { get; set; }
-            [JsonProperty(PropertyName = "UPN")]
-            public string Upn { get; set; }
-        }
+            FirstName = "John",
+            LastName = "Smith",
+            Upn = "john.smith@acme.com"
+        };
+
+        var contractResolver = new DefaultContractResolver
+        {
+            NamingStrategy = new CamelCaseNamingStrategy
+            {
+                OverrideSpecifiedNames = false
+            }
+        };
+
+        var json = JsonConvert.SerializeObject(user, new JsonSerializerSettings
+        {
+            ContractResolver = contractResolver,
+            Formatting = Formatting.Indented
+        });
+
+        Console.WriteLine(json);
+        // {
+        //   "firstName": "John",
+        //   "lastName": "Smith",
+        //   "UPN": "john.smith@acme.com"
+        // }
         #endregion
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var user = new User
-            {
-                FirstName = "John",
-                LastName = "Smith",
-                Upn = "john.smith@acme.com"
-            };
-
-            var contractResolver = new DefaultContractResolver
-            {
-                NamingStrategy = new CamelCaseNamingStrategy
-                {
-                    OverrideSpecifiedNames = false
-                }
-            };
-
-            var json = JsonConvert.SerializeObject(user, new JsonSerializerSettings
-            {
-                ContractResolver = contractResolver,
-                Formatting = Formatting.Indented
-            });
-
-            Console.WriteLine(json);
-            // {
-            //   "firstName": "John",
-            //   "lastName": "Smith",
-            //   "UPN": "john.smith@acme.com"
-            // }
-            #endregion
-
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""firstName"": ""John"",
   ""lastName"": ""Smith"",
   ""UPN"": ""john.smith@acme.com""
 }", json);
-        }
     }
 }

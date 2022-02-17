@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class EnumerableClass
 {
-    public class EnumerableClass
-    {
-        public IEnumerable<string> Enumerable { get; set; }
-    }
+    public IEnumerable<string> Enumerable { get; set; }
 }

@@ -23,21 +23,20 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon
+namespace Argon;
+
+/// <summary>
+/// Specifies missing member handling options for the <see cref="JsonSerializer"/>.
+/// </summary>
+public enum MissingMemberHandling
 {
     /// <summary>
-    /// Specifies missing member handling options for the <see cref="JsonSerializer"/>.
+    /// Ignore a missing member and do not attempt to deserialize it.
     /// </summary>
-    public enum MissingMemberHandling
-    {
-        /// <summary>
-        /// Ignore a missing member and do not attempt to deserialize it.
-        /// </summary>
-        Ignore = 0,
+    Ignore = 0,
 
-        /// <summary>
-        /// Throw a <see cref="JsonSerializationException"/> when a missing member is encountered during deserialization.
-        /// </summary>
-        Error = 1
-    }
+    /// <summary>
+    /// Throw a <see cref="JsonSerializationException"/> when a missing member is encountered during deserialization.
+    /// </summary>
+    Error = 1
 }

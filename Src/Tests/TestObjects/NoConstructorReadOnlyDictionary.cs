@@ -25,13 +25,12 @@
 
 using System.Collections.ObjectModel;
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class NoConstructorReadOnlyDictionary<TKey, TValue> : ReadOnlyDictionary<TKey, TValue>
 {
-    public class NoConstructorReadOnlyDictionary<TKey, TValue> : ReadOnlyDictionary<TKey, TValue>
+    public NoConstructorReadOnlyDictionary()
+        : base(new Dictionary<TKey, TValue>())
     {
-        public NoConstructorReadOnlyDictionary()
-            : base(new Dictionary<TKey, TValue>())
-        {
-        }
     }
 }

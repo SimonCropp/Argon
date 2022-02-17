@@ -28,40 +28,39 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue1593 : TestFixtureBase
 {
-    [TestFixture]
-    public class Issue1593 : TestFixtureBase
+    [Fact]
+    public void Test()
     {
-        [Fact]
-        public void Test()
-        {
-            var json = JsonConvert.SerializeObject(CreateModel());
-            Assert.AreEqual(@"{""Specific"":2,""A"":1}", json);
-        }
+        var json = JsonConvert.SerializeObject(CreateModel());
+        Assert.AreEqual(@"{""Specific"":2,""A"":1}", json);
+    }
 
-        class BaseModel
+    class BaseModel
+    {
+        public BaseModel()
         {
-            public BaseModel()
-            {
-                Extra = new ExpandoObject();
-            }
-            [JsonExtensionData]
-            public ExpandoObject Extra { get; set; }
+            Extra = new ExpandoObject();
         }
+        [JsonExtensionData]
+        public ExpandoObject Extra { get; set; }
+    }
 
-        class SpecificModel : BaseModel
-        {
-            public int Specific { get; set; }
-        }
+    class SpecificModel : BaseModel
+    {
+        public int Specific { get; set; }
+    }
 
-        BaseModel CreateModel()
-        {
-            var model = new SpecificModel();
-            var extra = model.Extra as IDictionary<string, object>;
-            extra["A"] = 1;
-            model.Specific = 2;
-            return model;
-        }
+    BaseModel CreateModel()
+    {
+        var model = new SpecificModel();
+        var extra = model.Extra as IDictionary<string, object>;
+        extra["A"] = 1;
+        model.Specific = 2;
+        return model;
     }
 }

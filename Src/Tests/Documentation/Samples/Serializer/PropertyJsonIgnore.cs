@@ -28,40 +28,39 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
-{
-    [TestFixture]
-    public class PropertyJsonIgnore : TestFixtureBase
-    {
-        #region Types
-        public class Account
-        {
-            public string FullName { get; set; }
-            public string EmailAddress { get; set; }
+namespace Argon.Tests.Documentation.Samples.Serializer;
 
-            [JsonIgnore]
-            public string PasswordHash { get; set; }
-        }
+[TestFixture]
+public class PropertyJsonIgnore : TestFixtureBase
+{
+    #region Types
+    public class Account
+    {
+        public string FullName { get; set; }
+        public string EmailAddress { get; set; }
+
+        [JsonIgnore]
+        public string PasswordHash { get; set; }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var account = new Account
+        {
+            FullName = "Joe User",
+            EmailAddress = "joe@example.com",
+            PasswordHash = "VHdlZXQgJ1F1aWNrc2lsdmVyJyB0byBASmFtZXNOSw=="
+        };
+
+        var json = JsonConvert.SerializeObject(account);
+
+        Console.WriteLine(json);
+        // {"FullName":"Joe User","EmailAddress":"joe@example.com"}
         #endregion
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var account = new Account
-            {
-                FullName = "Joe User",
-                EmailAddress = "joe@example.com",
-                PasswordHash = "VHdlZXQgJ1F1aWNrc2lsdmVyJyB0byBASmFtZXNOSw=="
-            };
-
-            var json = JsonConvert.SerializeObject(account);
-
-            Console.WriteLine(json);
-            // {"FullName":"Joe User","EmailAddress":"joe@example.com"}
-            #endregion
-
-            Assert.AreEqual(@"{""FullName"":""Joe User"",""EmailAddress"":""joe@example.com""}", json);
-        }
+        Assert.AreEqual(@"{""FullName"":""Joe User"",""EmailAddress"":""joe@example.com""}", json);
     }
 }

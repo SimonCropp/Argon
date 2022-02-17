@@ -28,49 +28,48 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
-{
-    [TestFixture]
-    public class SerializeContractResolver : TestFixtureBase
-    {
-        #region Types
-        public class Person
-        {
-            public string FirstName { get; set; }
-            public string LastName { get; set; }
+namespace Argon.Tests.Documentation.Samples.Serializer;
 
-            public string FullName => FirstName + " " + LastName;
-        }
+[TestFixture]
+public class SerializeContractResolver : TestFixtureBase
+{
+    #region Types
+    public class Person
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+
+        public string FullName => FirstName + " " + LastName;
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var person = new Person
+        {
+            FirstName = "Sarah",
+            LastName = "Security"
+        };
+
+        var json = JsonConvert.SerializeObject(person, Formatting.Indented, new JsonSerializerSettings
+        {
+            ContractResolver = new CamelCasePropertyNamesContractResolver()
+        });
+
+        Console.WriteLine(json);
+        // {
+        //   "firstName": "Sarah",
+        //   "lastName": "Security",
+        //   "fullName": "Sarah Security"
+        // }
         #endregion
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var person = new Person
-            {
-                FirstName = "Sarah",
-                LastName = "Security"
-            };
-
-            var json = JsonConvert.SerializeObject(person, Formatting.Indented, new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            });
-
-            Console.WriteLine(json);
-            // {
-            //   "firstName": "Sarah",
-            //   "lastName": "Security",
-            //   "fullName": "Sarah Security"
-            // }
-            #endregion
-
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""firstName"": ""Sarah"",
   ""lastName"": ""Security"",
   ""fullName"": ""Sarah Security""
 }", json);
-        }
     }
 }

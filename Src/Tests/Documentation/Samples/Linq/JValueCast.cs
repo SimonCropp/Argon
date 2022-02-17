@@ -28,58 +28,57 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Linq
+namespace Argon.Tests.Documentation.Samples.Linq;
+
+[TestFixture]
+public class JValueCast : TestFixtureBase
 {
-    [TestFixture]
-    public class JValueCast : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var v1 = new JValue("1");
-            var i = (int)v1;
+        #region Usage
+        var v1 = new JValue("1");
+        var i = (int)v1;
 
-            Console.WriteLine(i);
-            // 1
+        Console.WriteLine(i);
+        // 1
 
-            var v2 = new JValue(true);
-            var b = (bool)v2;
+        var v2 = new JValue(true);
+        var b = (bool)v2;
 
-            Console.WriteLine(b);
-            // true
+        Console.WriteLine(b);
+        // true
 
-            var v3 = new JValue("19.95");
-            var d = (decimal)v3;
+        var v3 = new JValue("19.95");
+        var d = (decimal)v3;
 
-            Console.WriteLine(d);
-            // 19.95
+        Console.WriteLine(d);
+        // 19.95
 
-            var v4 = new JValue(new DateTime(2013, 1, 21));
-            var s = (string)v4;
+        var v4 = new JValue(new DateTime(2013, 1, 21));
+        var s = (string)v4;
 
-            Console.WriteLine(s);
-            // 01/21/2013 00:00:00
+        Console.WriteLine(s);
+        // 01/21/2013 00:00:00
 
-            var v5 = new JValue("http://www.bing.com");
-            var u = (Uri)v5;
+        var v5 = new JValue("http://www.bing.com");
+        var u = (Uri)v5;
 
-            Console.WriteLine(u);
-            // http://www.bing.com/
+        Console.WriteLine(u);
+        // http://www.bing.com/
 
-            var v6 = JValue.CreateNull();
-            u = (Uri)v6;
+        var v6 = JValue.CreateNull();
+        u = (Uri)v6;
 
-            Console.WriteLine((u != null) ? u.ToString() : "{null}");
-            // {null}
+        Console.WriteLine((u != null) ? u.ToString() : "{null}");
+        // {null}
 
-            var dt = (DateTime?)v6;
+        var dt = (DateTime?)v6;
 
-            Console.WriteLine((dt != null) ? dt.ToString() : "{null}");
-            // {null}
-            #endregion
+        Console.WriteLine((dt != null) ? dt.ToString() : "{null}");
+        // {null}
+        #endregion
 
-            Assert.AreEqual("01/21/2013 00:00:00", s);
-        }
+        Assert.AreEqual("01/21/2013 00:00:00", s);
     }
 }

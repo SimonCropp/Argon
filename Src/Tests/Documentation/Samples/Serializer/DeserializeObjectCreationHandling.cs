@@ -28,34 +28,34 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class DeserializeObjectCreationHandling : TestFixtureBase
 {
-    [TestFixture]
-    public class DeserializeObjectCreationHandling : TestFixtureBase
+    #region Types
+    public class UserViewModel
     {
-        #region Types
-        public class UserViewModel
-        {
-            public string Name { get; set; }
-            public IList<string> Offices { get; private set; }
+        public string Name { get; set; }
+        public IList<string> Offices { get; private set; }
 
-            public UserViewModel()
+        public UserViewModel()
+        {
+            Offices = new List<string>
             {
-                Offices = new List<string>
-                {
-                    "Auckland",
-                    "Wellington",
-                    "Christchurch"
-                };
-            }
+                "Auckland",
+                "Wellington",
+                "Christchurch"
+            };
         }
-        #endregion
+    }
+    #endregion
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var json = @"{
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var json = @"{
               'Name': 'James',
               'Offices': [
                 'Auckland',
@@ -64,34 +64,33 @@ namespace Argon.Tests.Documentation.Samples.Serializer
               ]
             }";
 
-            var model1 = JsonConvert.DeserializeObject<UserViewModel>(json);
+        var model1 = JsonConvert.DeserializeObject<UserViewModel>(json);
 
-            foreach (var office in model1.Offices)
-            {
-                Console.WriteLine(office);
-            }
-            // Auckland
-            // Wellington
-            // Christchurch
-            // Auckland
-            // Wellington
-            // Christchurch
-
-            var model2 = JsonConvert.DeserializeObject<UserViewModel>(json, new JsonSerializerSettings
-            {
-                ObjectCreationHandling = ObjectCreationHandling.Replace
-            });
-
-            foreach (var office in model2.Offices)
-            {
-                Console.WriteLine(office);
-            }
-            // Auckland
-            // Wellington
-            // Christchurch
-            #endregion
-
-            Assert.AreEqual(3, model2.Offices.Count);
+        foreach (var office in model1.Offices)
+        {
+            Console.WriteLine(office);
         }
+        // Auckland
+        // Wellington
+        // Christchurch
+        // Auckland
+        // Wellington
+        // Christchurch
+
+        var model2 = JsonConvert.DeserializeObject<UserViewModel>(json, new JsonSerializerSettings
+        {
+            ObjectCreationHandling = ObjectCreationHandling.Replace
+        });
+
+        foreach (var office in model2.Offices)
+        {
+            Console.WriteLine(office);
+        }
+        // Auckland
+        // Wellington
+        // Christchurch
+        #endregion
+
+        Assert.AreEqual(3, model2.Offices.Count);
     }
 }

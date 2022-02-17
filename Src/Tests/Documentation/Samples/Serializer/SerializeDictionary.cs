@@ -28,37 +28,36 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class SerializeDictionary : TestFixtureBase
 {
-    [TestFixture]
-    public class SerializeDictionary : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
+        #region Usage
+        var points = new Dictionary<string, int>
         {
-            #region Usage
-            var points = new Dictionary<string, int>
-            {
-                { "James", 9001 },
-                { "Jo", 3474 },
-                { "Jess", 11926 }
-            };
+            { "James", 9001 },
+            { "Jo", 3474 },
+            { "Jess", 11926 }
+        };
 
-            var json = JsonConvert.SerializeObject(points, Formatting.Indented);
+        var json = JsonConvert.SerializeObject(points, Formatting.Indented);
 
-            Console.WriteLine(json);
-            // {
-            //   "James": 9001,
-            //   "Jo": 3474,
-            //   "Jess": 11926
-            // }
-            #endregion
+        Console.WriteLine(json);
+        // {
+        //   "James": 9001,
+        //   "Jo": 3474,
+        //   "Jess": 11926
+        // }
+        #endregion
 
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""James"": 9001,
   ""Jo"": 3474,
   ""Jess"": 11926
 }", json);
-        }
     }
 }

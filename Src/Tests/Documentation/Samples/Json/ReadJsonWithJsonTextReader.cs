@@ -28,16 +28,16 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Json
+namespace Argon.Tests.Documentation.Samples.Json;
+
+[TestFixture]
+public class ReadJsonWithJsonTextReader : TestFixtureBase
 {
-    [TestFixture]
-    public class ReadJsonWithJsonTextReader : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var json = @"{
+        #region Usage
+        var json = @"{
                'CPU': 'Intel',
                'PSU': '500W',
                'Drives': [
@@ -48,33 +48,32 @@ namespace Argon.Tests.Documentation.Samples.Json
                ]
             }";
 
-            var reader = new JsonTextReader(new StringReader(json));
-            while (reader.Read())
+        var reader = new JsonTextReader(new StringReader(json));
+        while (reader.Read())
+        {
+            if (reader.Value != null)
             {
-                if (reader.Value != null)
-                {
-                    Console.WriteLine("Token: {0}, Value: {1}", reader.TokenType, reader.Value);
-                }
-                else
-                {
-                    Console.WriteLine("Token: {0}", reader.TokenType);
-                }
+                Console.WriteLine("Token: {0}, Value: {1}", reader.TokenType, reader.Value);
             }
-
-            // Token: StartObject
-            // Token: PropertyName, Value: CPU
-            // Token: String, Value: Intel
-            // Token: PropertyName, Value: PSU
-            // Token: String, Value: 500W
-            // Token: PropertyName, Value: Drives
-            // Token: StartArray
-            // Token: String, Value: DVD read/writer
-            // Token: Comment, Value: (broken)
-            // Token: String, Value: 500 gigabyte hard drive
-            // Token: String, Value: 200 gigabyte hard drive
-            // Token: EndArray
-            // Token: EndObject
-            #endregion
+            else
+            {
+                Console.WriteLine("Token: {0}", reader.TokenType);
+            }
         }
+
+        // Token: StartObject
+        // Token: PropertyName, Value: CPU
+        // Token: String, Value: Intel
+        // Token: PropertyName, Value: PSU
+        // Token: String, Value: 500W
+        // Token: PropertyName, Value: Drives
+        // Token: StartArray
+        // Token: String, Value: DVD read/writer
+        // Token: Comment, Value: (broken)
+        // Token: String, Value: 500 gigabyte hard drive
+        // Token: String, Value: 200 gigabyte hard drive
+        // Token: EndArray
+        // Token: EndObject
+        #endregion
     }
 }

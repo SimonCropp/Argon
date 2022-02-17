@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class TimeZoneOffsetObject
 {
-    public class TimeZoneOffsetObject
-    {
-        public DateTimeOffset Offset { get; set; }
-    }
+    public DateTimeOffset Offset { get; set; }
 }

@@ -26,158 +26,157 @@
 using System.Dynamic;
 using System.Linq.Expressions;
 
-namespace Argon.Utilities
+namespace Argon.Utilities;
+
+internal static class DynamicUtils
 {
-    internal static class DynamicUtils
+    internal static class BinderWrapper
     {
-        internal static class BinderWrapper
+        public const string CSharpAssemblyName = "Microsoft.CSharp, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a";
+
+        private const string BinderTypeName = "Microsoft.CSharp.RuntimeBinder.Binder, " + CSharpAssemblyName;
+        private const string CSharpArgumentInfoTypeName = "Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfo, " + CSharpAssemblyName;
+        private const string CSharpArgumentInfoFlagsTypeName = "Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfoFlags, " + CSharpAssemblyName;
+        private const string CSharpBinderFlagsTypeName = "Microsoft.CSharp.RuntimeBinder.CSharpBinderFlags, " + CSharpAssemblyName;
+
+        private static object? _getCSharpArgumentInfoArray;
+        private static object? _setCSharpArgumentInfoArray;
+        private static MethodCall<object?, object?>? _getMemberCall;
+        private static MethodCall<object?, object?>? _setMemberCall;
+        private static bool _init;
+
+        private static void Init()
         {
-            public const string CSharpAssemblyName = "Microsoft.CSharp, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a";
-
-            private const string BinderTypeName = "Microsoft.CSharp.RuntimeBinder.Binder, " + CSharpAssemblyName;
-            private const string CSharpArgumentInfoTypeName = "Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfo, " + CSharpAssemblyName;
-            private const string CSharpArgumentInfoFlagsTypeName = "Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfoFlags, " + CSharpAssemblyName;
-            private const string CSharpBinderFlagsTypeName = "Microsoft.CSharp.RuntimeBinder.CSharpBinderFlags, " + CSharpAssemblyName;
-
-            private static object? _getCSharpArgumentInfoArray;
-            private static object? _setCSharpArgumentInfoArray;
-            private static MethodCall<object?, object?>? _getMemberCall;
-            private static MethodCall<object?, object?>? _setMemberCall;
-            private static bool _init;
-
-            private static void Init()
+            if (!_init)
             {
-                if (!_init)
+                var binderType = Type.GetType(BinderTypeName, false);
+                if (binderType == null)
                 {
-                    var binderType = Type.GetType(BinderTypeName, false);
-                    if (binderType == null)
-                    {
-                        throw new InvalidOperationException("Could not resolve type '{0}'. You may need to add a reference to Microsoft.CSharp.dll to work with dynamic types.".FormatWith(CultureInfo.InvariantCulture, BinderTypeName));
-                    }
-
-                    // None
-                    _getCSharpArgumentInfoArray = CreateSharpArgumentInfoArray(0);
-                    // None, Constant | UseCompileTimeType
-                    _setCSharpArgumentInfoArray = CreateSharpArgumentInfoArray(0, 3);
-                    CreateMemberCalls();
-
-                    _init = true;
-                }
-            }
-
-            private static object CreateSharpArgumentInfoArray(params int[] values)
-            {
-                var csharpArgumentInfoType = Type.GetType(CSharpArgumentInfoTypeName);
-                var csharpArgumentInfoFlags = Type.GetType(CSharpArgumentInfoFlagsTypeName);
-
-                var a = Array.CreateInstance(csharpArgumentInfoType, values.Length);
-
-                for (var i = 0; i < values.Length; i++)
-                {
-                    var createArgumentInfoMethod = csharpArgumentInfoType.GetMethod("Create", new[] { csharpArgumentInfoFlags, typeof(string) });
-                    var arg = createArgumentInfoMethod.Invoke(null, new object?[] { 0, null });
-                    a.SetValue(arg, i);
+                    throw new InvalidOperationException("Could not resolve type '{0}'. You may need to add a reference to Microsoft.CSharp.dll to work with dynamic types.".FormatWith(CultureInfo.InvariantCulture, BinderTypeName));
                 }
 
-                return a;
-            }
+                // None
+                _getCSharpArgumentInfoArray = CreateSharpArgumentInfoArray(0);
+                // None, Constant | UseCompileTimeType
+                _setCSharpArgumentInfoArray = CreateSharpArgumentInfoArray(0, 3);
+                CreateMemberCalls();
 
-            private static void CreateMemberCalls()
-            {
-                var csharpArgumentInfoType = Type.GetType(CSharpArgumentInfoTypeName, true);
-                var csharpBinderFlagsType = Type.GetType(CSharpBinderFlagsTypeName, true);
-                var binderType = Type.GetType(BinderTypeName, true);
-
-                var csharpArgumentInfoTypeEnumerableType = typeof(IEnumerable<>).MakeGenericType(csharpArgumentInfoType);
-
-                var getMemberMethod = binderType.GetMethod("GetMember", new[] { csharpBinderFlagsType, typeof(string), typeof(Type), csharpArgumentInfoTypeEnumerableType });
-                _getMemberCall = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object?>(getMemberMethod);
-
-                var setMemberMethod = binderType.GetMethod("SetMember", new[] { csharpBinderFlagsType, typeof(string), typeof(Type), csharpArgumentInfoTypeEnumerableType });
-                _setMemberCall = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object?>(setMemberMethod);
-            }
-
-            public static CallSiteBinder GetMember(string name, Type context)
-            {
-                Init();
-                MiscellaneousUtils.Assert(_getMemberCall != null);
-                MiscellaneousUtils.Assert(_getCSharpArgumentInfoArray != null);
-                return (CallSiteBinder)_getMemberCall(null, 0, name, context, _getCSharpArgumentInfoArray)!;
-            }
-
-            public static CallSiteBinder SetMember(string name, Type context)
-            {
-                Init();
-                MiscellaneousUtils.Assert(_setMemberCall != null);
-                MiscellaneousUtils.Assert(_setCSharpArgumentInfoArray != null);
-                return (CallSiteBinder)_setMemberCall(null, 0, name, context, _setCSharpArgumentInfoArray)!;
+                _init = true;
             }
         }
 
-        public static IEnumerable<string> GetDynamicMemberNames(this IDynamicMetaObjectProvider dynamicProvider)
+        private static object CreateSharpArgumentInfoArray(params int[] values)
         {
-            var metaObject = dynamicProvider.GetMetaObject(Expression.Constant(dynamicProvider));
-            return metaObject.GetDynamicMemberNames();
+            var csharpArgumentInfoType = Type.GetType(CSharpArgumentInfoTypeName);
+            var csharpArgumentInfoFlags = Type.GetType(CSharpArgumentInfoFlagsTypeName);
+
+            var a = Array.CreateInstance(csharpArgumentInfoType, values.Length);
+
+            for (var i = 0; i < values.Length; i++)
+            {
+                var createArgumentInfoMethod = csharpArgumentInfoType.GetMethod("Create", new[] { csharpArgumentInfoFlags, typeof(string) });
+                var arg = createArgumentInfoMethod.Invoke(null, new object?[] { 0, null });
+                a.SetValue(arg, i);
+            }
+
+            return a;
+        }
+
+        private static void CreateMemberCalls()
+        {
+            var csharpArgumentInfoType = Type.GetType(CSharpArgumentInfoTypeName, true);
+            var csharpBinderFlagsType = Type.GetType(CSharpBinderFlagsTypeName, true);
+            var binderType = Type.GetType(BinderTypeName, true);
+
+            var csharpArgumentInfoTypeEnumerableType = typeof(IEnumerable<>).MakeGenericType(csharpArgumentInfoType);
+
+            var getMemberMethod = binderType.GetMethod("GetMember", new[] { csharpBinderFlagsType, typeof(string), typeof(Type), csharpArgumentInfoTypeEnumerableType });
+            _getMemberCall = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object?>(getMemberMethod);
+
+            var setMemberMethod = binderType.GetMethod("SetMember", new[] { csharpBinderFlagsType, typeof(string), typeof(Type), csharpArgumentInfoTypeEnumerableType });
+            _setMemberCall = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object?>(setMemberMethod);
+        }
+
+        public static CallSiteBinder GetMember(string name, Type context)
+        {
+            Init();
+            MiscellaneousUtils.Assert(_getMemberCall != null);
+            MiscellaneousUtils.Assert(_getCSharpArgumentInfoArray != null);
+            return (CallSiteBinder)_getMemberCall(null, 0, name, context, _getCSharpArgumentInfoArray)!;
+        }
+
+        public static CallSiteBinder SetMember(string name, Type context)
+        {
+            Init();
+            MiscellaneousUtils.Assert(_setMemberCall != null);
+            MiscellaneousUtils.Assert(_setCSharpArgumentInfoArray != null);
+            return (CallSiteBinder)_setMemberCall(null, 0, name, context, _setCSharpArgumentInfoArray)!;
         }
     }
 
-    internal class NoThrowGetBinderMember : GetMemberBinder
+    public static IEnumerable<string> GetDynamicMemberNames(this IDynamicMetaObjectProvider dynamicProvider)
     {
-        private readonly GetMemberBinder _innerBinder;
+        var metaObject = dynamicProvider.GetMetaObject(Expression.Constant(dynamicProvider));
+        return metaObject.GetDynamicMemberNames();
+    }
+}
 
-        public NoThrowGetBinderMember(GetMemberBinder innerBinder)
-            : base(innerBinder.Name, innerBinder.IgnoreCase)
-        {
-            _innerBinder = innerBinder;
-        }
+internal class NoThrowGetBinderMember : GetMemberBinder
+{
+    private readonly GetMemberBinder _innerBinder;
 
-        public override DynamicMetaObject FallbackGetMember(DynamicMetaObject target, DynamicMetaObject errorSuggestion)
-        {
-            var retMetaObject = _innerBinder.Bind(target, CollectionUtils.ArrayEmpty<DynamicMetaObject>());
-
-            var noThrowVisitor = new NoThrowExpressionVisitor();
-            var resultExpression = noThrowVisitor.Visit(retMetaObject.Expression);
-
-            var finalMetaObject = new DynamicMetaObject(resultExpression, retMetaObject.Restrictions);
-            return finalMetaObject;
-        }
+    public NoThrowGetBinderMember(GetMemberBinder innerBinder)
+        : base(innerBinder.Name, innerBinder.IgnoreCase)
+    {
+        _innerBinder = innerBinder;
     }
 
-    internal class NoThrowSetBinderMember : SetMemberBinder
+    public override DynamicMetaObject FallbackGetMember(DynamicMetaObject target, DynamicMetaObject errorSuggestion)
     {
-        private readonly SetMemberBinder _innerBinder;
+        var retMetaObject = _innerBinder.Bind(target, CollectionUtils.ArrayEmpty<DynamicMetaObject>());
 
-        public NoThrowSetBinderMember(SetMemberBinder innerBinder)
-            : base(innerBinder.Name, innerBinder.IgnoreCase)
-        {
-            _innerBinder = innerBinder;
-        }
+        var noThrowVisitor = new NoThrowExpressionVisitor();
+        var resultExpression = noThrowVisitor.Visit(retMetaObject.Expression);
 
-        public override DynamicMetaObject FallbackSetMember(DynamicMetaObject target, DynamicMetaObject value, DynamicMetaObject errorSuggestion)
-        {
-            var retMetaObject = _innerBinder.Bind(target, new DynamicMetaObject[] { value });
+        var finalMetaObject = new DynamicMetaObject(resultExpression, retMetaObject.Restrictions);
+        return finalMetaObject;
+    }
+}
 
-            var noThrowVisitor = new NoThrowExpressionVisitor();
-            var resultExpression = noThrowVisitor.Visit(retMetaObject.Expression);
+internal class NoThrowSetBinderMember : SetMemberBinder
+{
+    private readonly SetMemberBinder _innerBinder;
 
-            var finalMetaObject = new DynamicMetaObject(resultExpression, retMetaObject.Restrictions);
-            return finalMetaObject;
-        }
+    public NoThrowSetBinderMember(SetMemberBinder innerBinder)
+        : base(innerBinder.Name, innerBinder.IgnoreCase)
+    {
+        _innerBinder = innerBinder;
     }
 
-    internal class NoThrowExpressionVisitor : ExpressionVisitor
+    public override DynamicMetaObject FallbackSetMember(DynamicMetaObject target, DynamicMetaObject value, DynamicMetaObject errorSuggestion)
     {
-        internal static readonly object ErrorResult = new();
+        var retMetaObject = _innerBinder.Bind(target, new DynamicMetaObject[] { value });
 
-        protected override Expression VisitConditional(ConditionalExpression node)
+        var noThrowVisitor = new NoThrowExpressionVisitor();
+        var resultExpression = noThrowVisitor.Visit(retMetaObject.Expression);
+
+        var finalMetaObject = new DynamicMetaObject(resultExpression, retMetaObject.Restrictions);
+        return finalMetaObject;
+    }
+}
+
+internal class NoThrowExpressionVisitor : ExpressionVisitor
+{
+    internal static readonly object ErrorResult = new();
+
+    protected override Expression VisitConditional(ConditionalExpression node)
+    {
+        // if the result of a test is to throw an error, rewrite to result an error result value
+        if (node.IfFalse.NodeType == ExpressionType.Throw)
         {
-            // if the result of a test is to throw an error, rewrite to result an error result value
-            if (node.IfFalse.NodeType == ExpressionType.Throw)
-            {
-                return Expression.Condition(node.Test, node.IfTrue, Expression.Constant(ErrorResult));
-            }
-
-            return base.VisitConditional(node);
+            return Expression.Condition(node.Test, node.IfTrue, Expression.Constant(ErrorResult));
         }
+
+        return base.VisitConditional(node);
     }
 }

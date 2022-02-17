@@ -27,74 +27,73 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class SerializeSerializationBinder : TestFixtureBase
 {
-    [TestFixture]
-    public class SerializeSerializationBinder : TestFixtureBase
+    #region Types
+    public class KnownTypesBinder : ISerializationBinder
     {
-        #region Types
-        public class KnownTypesBinder : ISerializationBinder
+        public IList<Type> KnownTypes { get; set; }
+
+        public Type BindToType(string assemblyName, string typeName)
         {
-            public IList<Type> KnownTypes { get; set; }
-
-            public Type BindToType(string assemblyName, string typeName)
-            {
-                return KnownTypes.SingleOrDefault(t => t.Name == typeName);
-            }
-
-            public void BindToName(Type serializedType, out string assemblyName, out string typeName)
-            {
-                assemblyName = null;
-                typeName = serializedType.Name;
-            }
+            return KnownTypes.SingleOrDefault(t => t.Name == typeName);
         }
 
-        public class Car
+        public void BindToName(Type serializedType, out string assemblyName, out string typeName)
         {
-            public string Maker { get; set; }
-            public string Model { get; set; }
+            assemblyName = null;
+            typeName = serializedType.Name;
         }
+    }
+
+    public class Car
+    {
+        public string Maker { get; set; }
+        public string Model { get; set; }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var knownTypesBinder = new KnownTypesBinder
+        {
+            KnownTypes = new List<Type> { typeof(Car) }
+        };
+
+        var car = new Car
+        {
+            Maker = "Ford",
+            Model = "Explorer"
+        };
+
+        var json = JsonConvert.SerializeObject(car, Formatting.Indented, new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Objects,
+            SerializationBinder = knownTypesBinder
+        });
+
+        Console.WriteLine(json);
+        // {
+        //   "$type": "Car",
+        //   "Maker": "Ford",
+        //   "Model": "Explorer"
+        // }
+
+        var newValue = JsonConvert.DeserializeObject(json, new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Objects,
+            SerializationBinder = knownTypesBinder
+        });
+
+        Console.WriteLine(newValue.GetType().Name);
+        // Car
         #endregion
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var knownTypesBinder = new KnownTypesBinder
-            {
-                KnownTypes = new List<Type> { typeof(Car) }
-            };
-
-            var car = new Car
-            {
-                Maker = "Ford",
-                Model = "Explorer"
-            };
-
-            var json = JsonConvert.SerializeObject(car, Formatting.Indented, new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Objects,
-                SerializationBinder = knownTypesBinder
-            });
-
-            Console.WriteLine(json);
-            // {
-            //   "$type": "Car",
-            //   "Maker": "Ford",
-            //   "Model": "Explorer"
-            // }
-
-            var newValue = JsonConvert.DeserializeObject(json, new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Objects,
-                SerializationBinder = knownTypesBinder
-            });
-
-            Console.WriteLine(newValue.GetType().Name);
-            // Car
-            #endregion
-
-            Assert.AreEqual("Car", newValue.GetType().Name);
-        }
+        Assert.AreEqual("Car", newValue.GetType().Name);
     }
 }

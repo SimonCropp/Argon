@@ -23,18 +23,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public sealed class ConstructorAndRequiredTestClass
 {
-    public sealed class ConstructorAndRequiredTestClass
+    public ConstructorAndRequiredTestClass(string testProperty1)
     {
-        public ConstructorAndRequiredTestClass(string testProperty1)
-        {
-            TestProperty1 = testProperty1;
-        }
-
-        public string TestProperty1 { get; set; }
-
-        [JsonProperty(Required = Required.AllowNull)]
-        public int TestProperty2 { get; set; }
+        TestProperty1 = testProperty1;
     }
+
+    public string TestProperty1 { get; set; }
+
+    [JsonProperty(Required = Required.AllowNull)]
+    public int TestProperty2 { get; set; }
 }

@@ -23,35 +23,34 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class PrivateImplementationBClass : PrivateImplementationAClass, IPrivateImplementationB, IPrivateOverriddenImplementation
 {
-    public class PrivateImplementationBClass : PrivateImplementationAClass, IPrivateImplementationB, IPrivateOverriddenImplementation
+    [JsonIgnore]
+    public string PropertyB { get; set; }
+
+    [JsonProperty("PropertyB")]
+    string IPrivateImplementationB.PropertyB
     {
-        [JsonIgnore]
-        public string PropertyB { get; set; }
+        get => PropertyB;
+        set => PropertyB = value;
+    }
 
-        [JsonProperty("PropertyB")]
-        string IPrivateImplementationB.PropertyB
-        {
-            get => PropertyB;
-            set => PropertyB = value;
-        }
+    [JsonProperty("OverriddenProperty")]
+    private string OverriddenPropertyString
+    {
+        get => OverriddenProperty.ToString();
+        set => OverriddenProperty = value;
+    }
 
-        [JsonProperty("OverriddenProperty")]
-        private string OverriddenPropertyString
-        {
-            get => OverriddenProperty.ToString();
-            set => OverriddenProperty = value;
-        }
+    [JsonIgnore]
+    public object OverriddenProperty { get; set; }
 
-        [JsonIgnore]
-        public object OverriddenProperty { get; set; }
-
-        [JsonIgnore]
-        object IPrivateOverriddenImplementation.OverriddenProperty
-        {
-            get => OverriddenProperty;
-            set => OverriddenProperty = value;
-        }
+    [JsonIgnore]
+    object IPrivateOverriddenImplementation.OverriddenProperty
+    {
+        get => OverriddenProperty;
+        set => OverriddenProperty = value;
     }
 }

@@ -25,35 +25,34 @@
 
 using BenchmarkDotNet.Attributes;
 
-namespace Argon.Tests.Benchmarks
+namespace Argon.Tests.Benchmarks;
+
+public class JsonTextWriterBenchmarks
 {
-    public class JsonTextWriterBenchmarks
+    private static readonly string UnicodeCharsString = new('\0', 30);
+
+    [Benchmark]
+    public string SerializeUnicodeChars()
     {
-        private static readonly string UnicodeCharsString = new('\0', 30);
+        var sw = new StringWriter();
+        var jsonTextWriter = new JsonTextWriter(sw);
+        jsonTextWriter.WriteValue(UnicodeCharsString);
+        jsonTextWriter.Flush();
 
-        [Benchmark]
-        public string SerializeUnicodeChars()
+        return sw.ToString();
+    }
+
+    [Benchmark]
+    public string SerializeIntegers()
+    {
+        var sw = new StringWriter();
+        var jsonTextWriter = new JsonTextWriter(sw);
+        for (var i = 0; i < 10000; i++)
         {
-            var sw = new StringWriter();
-            var jsonTextWriter = new JsonTextWriter(sw);
-            jsonTextWriter.WriteValue(UnicodeCharsString);
-            jsonTextWriter.Flush();
-
-            return sw.ToString();
+            jsonTextWriter.WriteValue(i);
         }
+        jsonTextWriter.Flush();
 
-        [Benchmark]
-        public string SerializeIntegers()
-        {
-            var sw = new StringWriter();
-            var jsonTextWriter = new JsonTextWriter(sw);
-            for (var i = 0; i < 10000; i++)
-            {
-                jsonTextWriter.WriteValue(i);
-            }
-            jsonTextWriter.Flush();
-
-            return sw.ToString();
-        }
+        return sw.ToString();
     }
 }

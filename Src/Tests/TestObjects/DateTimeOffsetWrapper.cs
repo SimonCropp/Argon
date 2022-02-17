@@ -23,12 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class DateTimeOffsetWrapper
-    {
-        public DateTimeOffset DateTimeOffsetValue { get; set; }
+namespace Argon.Tests.TestObjects;
 
-        public DateTime DateTimeValue { get; set; }
-    }
+public class DateTimeOffsetWrapper
+{
+    public DateTimeOffset DateTimeOffsetValue { get; set; }
+
+    public DateTime DateTimeValue { get; set; }
 }

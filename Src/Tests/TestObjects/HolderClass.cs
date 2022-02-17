@@ -23,20 +23,19 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class HolderClass
 {
-    public class HolderClass
+    public HolderClass()
     {
-        public HolderClass()
-        {
-        }
-
-        [Argon.JsonProperty(TypeNameHandling = Argon.TypeNameHandling.All)]
-        public ContentBaseClass TestMember { get; set; }
-
-        [Argon.JsonProperty(TypeNameHandling = Argon.TypeNameHandling.All)]
-        public Dictionary<int, IList<ContentBaseClass>> AnotherTestMember { get; set; }
-
-        public ContentBaseClass AThirdTestMember { get; set; }
     }
+
+    [Argon.JsonProperty(TypeNameHandling = Argon.TypeNameHandling.All)]
+    public ContentBaseClass TestMember { get; set; }
+
+    [Argon.JsonProperty(TypeNameHandling = Argon.TypeNameHandling.All)]
+    public Dictionary<int, IList<ContentBaseClass>> AnotherTestMember { get; set; }
+
+    public ContentBaseClass AThirdTestMember { get; set; }
 }

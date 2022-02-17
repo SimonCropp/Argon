@@ -23,25 +23,23 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
+namespace Argon.Tests.TestObjects;
 #if !NET5_0_OR_GREATER
     [Serializable]
 #endif
-    [DataContract]
-    public struct Pair<TFirst, TSecond>
+[DataContract]
+public struct Pair<TFirst, TSecond>
+{
+    public Pair(TFirst first, TSecond second)
+        : this()
     {
-        public Pair(TFirst first, TSecond second)
-            : this()
-        {
-            this.First = first;
-            this.Second = second;
-        }
-
-        [DataMember]
-        public TFirst First { get; set; }
-
-        [DataMember]
-        public TSecond Second { get; set; }
+        this.First = first;
+        this.Second = second;
     }
+
+    [DataMember]
+    public TFirst First { get; set; }
+
+    [DataMember]
+    public TSecond Second { get; set; }
 }

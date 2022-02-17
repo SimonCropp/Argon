@@ -29,121 +29,121 @@ using Assert = Argon.Tests.XUnitAssert;
 using Argon.Tests.TestObjects;
 using Argon.Tests.TestObjects.Organization;
 
-namespace Argon.Tests.Serialization
+namespace Argon.Tests.Serialization;
+
+[TestFixture]
+public class CamelCaseNamingStrategyTests : TestFixtureBase
 {
-    [TestFixture]
-    public class CamelCaseNamingStrategyTests : TestFixtureBase
+    [Fact]
+    public void JsonConvertSerializerSettings()
     {
-        [Fact]
-        public void JsonConvertSerializerSettings()
+        var person = new Person
         {
-            var person = new Person
-            {
-                BirthDate = new DateTime(2000, 11, 20, 23, 55, 44, DateTimeKind.Utc),
-                LastModified = new DateTime(2000, 11, 20, 23, 55, 44, DateTimeKind.Utc),
-                Name = "Name!"
-            };
+            BirthDate = new DateTime(2000, 11, 20, 23, 55, 44, DateTimeKind.Utc),
+            LastModified = new DateTime(2000, 11, 20, 23, 55, 44, DateTimeKind.Utc),
+            Name = "Name!"
+        };
 
-            var contractResolver = new DefaultContractResolver
-            {
-                NamingStrategy = new CamelCaseNamingStrategy()
-            };
+        var contractResolver = new DefaultContractResolver
+        {
+            NamingStrategy = new CamelCaseNamingStrategy()
+        };
 
-            var json = JsonConvert.SerializeObject(person, Formatting.Indented, new JsonSerializerSettings
-            {
-                ContractResolver = contractResolver
-            });
+        var json = JsonConvert.SerializeObject(person, Formatting.Indented, new JsonSerializerSettings
+        {
+            ContractResolver = contractResolver
+        });
 
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""name"": ""Name!"",
   ""birthDate"": ""2000-11-20T23:55:44Z"",
   ""lastModified"": ""2000-11-20T23:55:44Z""
 }", json);
 
-            var deserializedPerson = JsonConvert.DeserializeObject<Person>(json, new JsonSerializerSettings
-            {
-                ContractResolver = contractResolver
-            });
+        var deserializedPerson = JsonConvert.DeserializeObject<Person>(json, new JsonSerializerSettings
+        {
+            ContractResolver = contractResolver
+        });
 
-            Assert.AreEqual(person.BirthDate, deserializedPerson.BirthDate);
-            Assert.AreEqual(person.LastModified, deserializedPerson.LastModified);
-            Assert.AreEqual(person.Name, deserializedPerson.Name);
+        Assert.AreEqual(person.BirthDate, deserializedPerson.BirthDate);
+        Assert.AreEqual(person.LastModified, deserializedPerson.LastModified);
+        Assert.AreEqual(person.Name, deserializedPerson.Name);
 
-            json = JsonConvert.SerializeObject(person, Formatting.Indented);
-            StringAssert.AreEqual(@"{
+        json = JsonConvert.SerializeObject(person, Formatting.Indented);
+        StringAssert.AreEqual(@"{
   ""Name"": ""Name!"",
   ""BirthDate"": ""2000-11-20T23:55:44Z"",
   ""LastModified"": ""2000-11-20T23:55:44Z""
 }", json);
-        }
+    }
 
-        [Fact]
-        public void JTokenWriter_OverrideSpecifiedName()
+    [Fact]
+    public void JTokenWriter_OverrideSpecifiedName()
+    {
+        var ignoreAttributeOnClassTestClass = new JsonIgnoreAttributeOnClassTestClass
         {
-            var ignoreAttributeOnClassTestClass = new JsonIgnoreAttributeOnClassTestClass
-            {
-                Field = int.MinValue
-            };
+            Field = int.MinValue
+        };
 
-            var contractResolver = new DefaultContractResolver
-            {
-                NamingStrategy = new CamelCaseNamingStrategy
-                {
-                    OverrideSpecifiedNames = true
-                }
-            };
-
-            var serializer = new JsonSerializer
-            {
-                ContractResolver = contractResolver
-            };
-
-            var writer = new JTokenWriter();
-
-            serializer.Serialize(writer, ignoreAttributeOnClassTestClass);
-
-            var o = (JObject)writer.Token;
-            var p = o.Property("theField");
-
-            Assert.IsNotNull(p);
-            Assert.AreEqual(int.MinValue, (int)p.Value);
-        }
-
-        [Fact]
-        public void BlogPostExample()
+        var contractResolver = new DefaultContractResolver
         {
-            var product = new Product
+            NamingStrategy = new CamelCaseNamingStrategy
             {
-                ExpiryDate = new DateTime(2010, 12, 20, 18, 1, 0, DateTimeKind.Utc),
-                Name = "Widget",
-                Price = 9.99m,
-                Sizes = new[] { "Small", "Medium", "Large" }
-            };
+                OverrideSpecifiedNames = true
+            }
+        };
 
-            var contractResolver = new DefaultContractResolver
-            {
-                NamingStrategy = new CamelCaseNamingStrategy()
-            };
+        var serializer = new JsonSerializer
+        {
+            ContractResolver = contractResolver
+        };
 
-            var json =
-                JsonConvert.SerializeObject(
-                    product,
-                    Formatting.Indented,
-                    new JsonSerializerSettings { ContractResolver = contractResolver }
-                    );
+        var writer = new JTokenWriter();
 
-            //{
-            //  "name": "Widget",
-            //  "expiryDate": "\/Date(1292868060000)\/",
-            //  "price": 9.99,
-            //  "sizes": [
-            //    "Small",
-            //    "Medium",
-            //    "Large"
-            //  ]
-            //}
+        serializer.Serialize(writer, ignoreAttributeOnClassTestClass);
 
-            StringAssert.AreEqual(@"{
+        var o = (JObject)writer.Token;
+        var p = o.Property("theField");
+
+        Assert.IsNotNull(p);
+        Assert.AreEqual(int.MinValue, (int)p.Value);
+    }
+
+    [Fact]
+    public void BlogPostExample()
+    {
+        var product = new Product
+        {
+            ExpiryDate = new DateTime(2010, 12, 20, 18, 1, 0, DateTimeKind.Utc),
+            Name = "Widget",
+            Price = 9.99m,
+            Sizes = new[] { "Small", "Medium", "Large" }
+        };
+
+        var contractResolver = new DefaultContractResolver
+        {
+            NamingStrategy = new CamelCaseNamingStrategy()
+        };
+
+        var json =
+            JsonConvert.SerializeObject(
+                product,
+                Formatting.Indented,
+                new JsonSerializerSettings { ContractResolver = contractResolver }
+            );
+
+        //{
+        //  "name": "Widget",
+        //  "expiryDate": "\/Date(1292868060000)\/",
+        //  "price": 9.99,
+        //  "sizes": [
+        //    "Small",
+        //    "Medium",
+        //    "Large"
+        //  ]
+        //}
+
+        StringAssert.AreEqual(@"{
   ""name"": ""Widget"",
   ""expiryDate"": ""2010-12-20T18:01:00Z"",
   ""price"": 9.99,
@@ -153,166 +153,165 @@ namespace Argon.Tests.Serialization
     ""Large""
   ]
 }", json);
-        }
+    }
 
-        [Fact]
-        public void DynamicCamelCasePropertyNames()
+    [Fact]
+    public void DynamicCamelCasePropertyNames()
+    {
+        dynamic o = new TestDynamicObject();
+        o.Text = "Text!";
+        o.Integer = int.MaxValue;
+
+        var contractResolver = new DefaultContractResolver
         {
-            dynamic o = new TestDynamicObject();
-            o.Text = "Text!";
-            o.Integer = int.MaxValue;
-
-            var contractResolver = new DefaultContractResolver
+            NamingStrategy = new CamelCaseNamingStrategy
             {
-                NamingStrategy = new CamelCaseNamingStrategy
-                {
-                    ProcessDictionaryKeys = true
-                }
-            };
+                ProcessDictionaryKeys = true
+            }
+        };
 
-            string json = JsonConvert.SerializeObject(o, Formatting.Indented,
-                new JsonSerializerSettings
-                {
-                    ContractResolver = contractResolver
-                });
+        string json = JsonConvert.SerializeObject(o, Formatting.Indented,
+            new JsonSerializerSettings
+            {
+                ContractResolver = contractResolver
+            });
 
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""explicit"": false,
   ""text"": ""Text!"",
   ""integer"": 2147483647,
   ""int"": 0,
   ""childObject"": null
 }", json);
-        }
+    }
 
-        [Fact]
-        public void DictionaryCamelCasePropertyNames_Disabled()
+    [Fact]
+    public void DictionaryCamelCasePropertyNames_Disabled()
+    {
+        var values = new Dictionary<string, string>
         {
-            var values = new Dictionary<string, string>
+            { "First", "Value1!" },
+            { "Second", "Value2!" }
+        };
+
+        var contractResolver = new DefaultContractResolver
+        {
+            NamingStrategy = new CamelCaseNamingStrategy()
+        };
+
+        var json = JsonConvert.SerializeObject(values, Formatting.Indented,
+            new JsonSerializerSettings
             {
-                { "First", "Value1!" },
-                { "Second", "Value2!" }
-            };
+                ContractResolver = contractResolver
+            });
 
-            var contractResolver = new DefaultContractResolver
-            {
-                NamingStrategy = new CamelCaseNamingStrategy()
-            };
-
-            var json = JsonConvert.SerializeObject(values, Formatting.Indented,
-                new JsonSerializerSettings
-                {
-                    ContractResolver = contractResolver
-                });
-
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""First"": ""Value1!"",
   ""Second"": ""Value2!""
 }", json);
-        }
+    }
 
-        [Fact]
-        public void DictionaryCamelCasePropertyNames_Enabled()
+    [Fact]
+    public void DictionaryCamelCasePropertyNames_Enabled()
+    {
+        var values = new Dictionary<string, string>
         {
-            var values = new Dictionary<string, string>
+            { "First", "Value1!" },
+            { "Second", "Value2!" }
+        };
+
+        var contractResolver = new DefaultContractResolver
+        {
+            NamingStrategy = new CamelCaseNamingStrategy
             {
-                { "First", "Value1!" },
-                { "Second", "Value2!" }
-            };
+                ProcessDictionaryKeys = true
+            }
+        };
 
-            var contractResolver = new DefaultContractResolver
+        var json = JsonConvert.SerializeObject(values, Formatting.Indented,
+            new JsonSerializerSettings
             {
-                NamingStrategy = new CamelCaseNamingStrategy
-                {
-                    ProcessDictionaryKeys = true
-                }
-            };
+                ContractResolver = contractResolver
+            });
 
-            var json = JsonConvert.SerializeObject(values, Formatting.Indented,
-                new JsonSerializerSettings
-                {
-                    ContractResolver = contractResolver
-                });
-
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""first"": ""Value1!"",
   ""second"": ""Value2!""
 }", json);
-        }
+    }
 
-        public class PropertyAttributeNamingStrategyTestClass
+    public class PropertyAttributeNamingStrategyTestClass
+    {
+        [JsonProperty]
+        public string HasNoAttributeNamingStrategy { get; set; }
+
+        [JsonProperty(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
+        public string HasAttributeNamingStrategy { get; set; }
+    }
+
+    [Fact]
+    public void JsonPropertyAttribute_NamingStrategyType()
+    {
+        var c = new PropertyAttributeNamingStrategyTestClass
         {
-            [JsonProperty]
-            public string HasNoAttributeNamingStrategy { get; set; }
+            HasNoAttributeNamingStrategy = "Value1!",
+            HasAttributeNamingStrategy = "Value2!"
+        };
 
-            [JsonProperty(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
-            public string HasAttributeNamingStrategy { get; set; }
-        }
+        var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        [Fact]
-        public void JsonPropertyAttribute_NamingStrategyType()
-        {
-            var c = new PropertyAttributeNamingStrategyTestClass
-            {
-                HasNoAttributeNamingStrategy = "Value1!",
-                HasAttributeNamingStrategy = "Value2!"
-            };
-
-            var json = JsonConvert.SerializeObject(c, Formatting.Indented);
-
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""HasNoAttributeNamingStrategy"": ""Value1!"",
   ""hasAttributeNamingStrategy"": ""Value2!""
 }", json);
-        }
+    }
 
-        [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
-        public class ContainerAttributeNamingStrategyTestClass
+    [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
+    public class ContainerAttributeNamingStrategyTestClass
+    {
+        public string Prop1 { get; set; }
+        public string Prop2 { get; set; }
+        [JsonProperty(NamingStrategyType = typeof(DefaultNamingStrategy))]
+        public string HasAttributeNamingStrategy { get; set; }
+    }
+
+    [Fact]
+    public void JsonObjectAttribute_NamingStrategyType()
+    {
+        var c = new ContainerAttributeNamingStrategyTestClass
         {
-            public string Prop1 { get; set; }
-            public string Prop2 { get; set; }
-            [JsonProperty(NamingStrategyType = typeof(DefaultNamingStrategy))]
-            public string HasAttributeNamingStrategy { get; set; }
-        }
+            Prop1 = "Value1!",
+            Prop2 = "Value2!"
+        };
 
-        [Fact]
-        public void JsonObjectAttribute_NamingStrategyType()
-        {
-            var c = new ContainerAttributeNamingStrategyTestClass
-            {
-                Prop1 = "Value1!",
-                Prop2 = "Value2!"
-            };
+        var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-            var json = JsonConvert.SerializeObject(c, Formatting.Indented);
-
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""prop1"": ""Value1!"",
   ""prop2"": ""Value2!"",
   ""HasAttributeNamingStrategy"": null
 }", json);
-        }
+    }
 
-        [JsonDictionary(NamingStrategyType = typeof(CamelCaseNamingStrategy), NamingStrategyParameters = new object[] { true, true })]
-        public class DictionaryAttributeNamingStrategyTestClass : Dictionary<string, string>
+    [JsonDictionary(NamingStrategyType = typeof(CamelCaseNamingStrategy), NamingStrategyParameters = new object[] { true, true })]
+    public class DictionaryAttributeNamingStrategyTestClass : Dictionary<string, string>
+    {
+    }
+
+    [Fact]
+    public void JsonDictionaryAttribute_NamingStrategyType()
+    {
+        var c = new DictionaryAttributeNamingStrategyTestClass
         {
-        }
+            ["Key1"] = "Value1!",
+            ["Key2"] = "Value2!"
+        };
 
-        [Fact]
-        public void JsonDictionaryAttribute_NamingStrategyType()
-        {
-            var c = new DictionaryAttributeNamingStrategyTestClass
-            {
-                ["Key1"] = "Value1!",
-                ["Key2"] = "Value2!"
-            };
+        var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-            var json = JsonConvert.SerializeObject(c, Formatting.Indented);
-
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""key1"": ""Value1!"",
   ""key2"": ""Value2!""
 }", json);
-        }
     }
 }

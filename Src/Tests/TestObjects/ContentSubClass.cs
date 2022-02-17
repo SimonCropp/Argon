@@ -23,19 +23,18 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class ContentSubClass : ContentBaseClass
 {
-    public class ContentSubClass : ContentBaseClass
+    public ContentSubClass()
     {
-        public ContentSubClass()
-        {
-        }
-
-        public ContentSubClass(string EasyIn)
-        {
-            SomeString = EasyIn;
-        }
-
-        public string SomeString { get; set; }
     }
+
+    public ContentSubClass(string EasyIn)
+    {
+        SomeString = EasyIn;
+    }
+
+    public string SomeString { get; set; }
 }

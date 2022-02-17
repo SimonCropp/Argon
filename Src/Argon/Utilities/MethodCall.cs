@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Utilities
-{
-    internal delegate TResult MethodCall<T, TResult>(T target, params object?[] args);
-}
+namespace Argon.Utilities;
+
+internal delegate TResult MethodCall<T, TResult>(T target, params object?[] args);

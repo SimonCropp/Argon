@@ -23,11 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class DecimalTestClass
 {
-    public class DecimalTestClass
-    {
-        public decimal Quantity { get; set; }
-        public double OptionalQuantity { get; set; }
-    }
+    public decimal Quantity { get; set; }
+    public double OptionalQuantity { get; set; }
 }

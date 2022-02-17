@@ -27,87 +27,86 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
-{
-    [TestFixture]
-    public class Issue1569 : TestFixtureBase
-    {
-        [Fact]
-        public async Task Test()
-        {
-            var json = "[1,2,3,456789999999999999999999999999999999999999999999999999999999999999456789999999999999999999999999999999999999999999999999999999999999456789999999999999999999999999999999999999999999999999999999999999]";
+namespace Argon.Tests.Issues;
 
-            Stream s = new AsyncOnlyStream(new MemoryStream(Encoding.UTF8.GetBytes(json)));
-            var sr = new StreamReader(s, Encoding.UTF8, true, 2);
-            var reader = new JsonTextReader(sr);
+[TestFixture]
+public class Issue1569 : TestFixtureBase
+{
+    [Fact]
+    public async Task Test()
+    {
+        var json = "[1,2,3,456789999999999999999999999999999999999999999999999999999999999999456789999999999999999999999999999999999999999999999999999999999999456789999999999999999999999999999999999999999999999999999999999999]";
+
+        Stream s = new AsyncOnlyStream(new MemoryStream(Encoding.UTF8.GetBytes(json)));
+        var sr = new StreamReader(s, Encoding.UTF8, true, 2);
+        var reader = new JsonTextReader(sr);
 #if DEBUG
-            reader.CharBuffer = new char[2];
+        reader.CharBuffer = new char[2];
 #endif
 
-            while (await reader.ReadAsync())
-            {   
-            }
+        while (await reader.ReadAsync())
+        {   
+        }
+    }
+
+    public class AsyncOnlyStream : Stream
+    {
+        private readonly Stream _innerStream;
+
+        public AsyncOnlyStream(Stream innerStream)
+        {
+            _innerStream = innerStream;
         }
 
-        public class AsyncOnlyStream : Stream
+        public override void Flush()
         {
-            private readonly Stream _innerStream;
+            throw new NotSupportedException();
+        }
 
-            public AsyncOnlyStream(Stream innerStream)
-            {
-                _innerStream = innerStream;
-            }
+        public override Task FlushAsync(CancellationToken cancellationToken)
+        {
+            return _innerStream.FlushAsync(cancellationToken);
+        }
 
-            public override void Flush()
-            {
-                throw new NotSupportedException();
-            }
+        public override long Seek(long offset, SeekOrigin origin)
+        {
+            return _innerStream.Seek(offset, origin);
+        }
 
-            public override Task FlushAsync(CancellationToken cancellationToken)
-            {
-                return _innerStream.FlushAsync(cancellationToken);
-            }
+        public override void SetLength(long value)
+        {
+            _innerStream.SetLength(value);
+        }
 
-            public override long Seek(long offset, SeekOrigin origin)
-            {
-                return _innerStream.Seek(offset, origin);
-            }
+        public override int Read(byte[] buffer, int offset, int count)
+        {
+            throw new NotSupportedException();
+        }
 
-            public override void SetLength(long value)
-            {
-                _innerStream.SetLength(value);
-            }
+        public override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
+        {
+            return _innerStream.ReadAsync(buffer, offset, count, cancellationToken);
+        }
 
-            public override int Read(byte[] buffer, int offset, int count)
-            {
-                throw new NotSupportedException();
-            }
+        public override void Write(byte[] buffer, int offset, int count)
+        {
+            throw new NotSupportedException();
+        }
 
-            public override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
-            {
-                return _innerStream.ReadAsync(buffer, offset, count, cancellationToken);
-            }
+        public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
+        {
+            return _innerStream.WriteAsync(buffer, offset, count, cancellationToken);
+        }
 
-            public override void Write(byte[] buffer, int offset, int count)
-            {
-                throw new NotSupportedException();
-            }
+        public override bool CanRead => _innerStream.CanRead;
+        public override bool CanSeek => _innerStream.CanSeek;
+        public override bool CanWrite => _innerStream.CanWrite;
+        public override long Length => _innerStream.Length;
 
-            public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
-            {
-                return _innerStream.WriteAsync(buffer, offset, count, cancellationToken);
-            }
-
-            public override bool CanRead => _innerStream.CanRead;
-            public override bool CanSeek => _innerStream.CanSeek;
-            public override bool CanWrite => _innerStream.CanWrite;
-            public override long Length => _innerStream.Length;
-
-            public override long Position
-            {
-                get => _innerStream.Position;
-                set => _innerStream.Position = value;
-            }
+        public override long Position
+        {
+            get => _innerStream.Position;
+            set => _innerStream.Position = value;
         }
     }
 }

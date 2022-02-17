@@ -28,61 +28,60 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Xml
+namespace Argon.Tests.Documentation.Samples.Xml;
+
+[TestFixture]
+public class ConvertXmlToJsonForceArray : TestFixtureBase
 {
-    [TestFixture]
-    public class ConvertXmlToJsonForceArray : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var xml = @"<person id='1'>
+        #region Usage
+        var xml = @"<person id='1'>
               <name>Alan</name>
               <url>http://www.google.com</url>
               <role>Admin1</role>
             </person>";
 
-            var doc = new XmlDocument();
-            doc.LoadXml(xml);
+        var doc = new XmlDocument();
+        doc.LoadXml(xml);
 
-            var json = JsonConvert.SerializeXmlNode(doc);
+        var json = JsonConvert.SerializeXmlNode(doc);
 
-            Console.WriteLine(json);
-            // {
-            //   "person": {
-            //     "@id": "1",
-            //     "name": "Alan",
-            //     "url": "http://www.google.com",
-            //     "role": "Admin1"
-            //   }
-            // }
+        Console.WriteLine(json);
+        // {
+        //   "person": {
+        //     "@id": "1",
+        //     "name": "Alan",
+        //     "url": "http://www.google.com",
+        //     "role": "Admin1"
+        //   }
+        // }
 
-            xml = @"<person xmlns:json='http://james.newtonking.com/projects/json' id='1'>
+        xml = @"<person xmlns:json='http://james.newtonking.com/projects/json' id='1'>
               <name>Alan</name>
               <url>http://www.google.com</url>
               <role json:Array='true'>Admin</role>
             </person>";
 
-            doc = new XmlDocument();
-            doc.LoadXml(xml);
+        doc = new XmlDocument();
+        doc.LoadXml(xml);
 
-            json = JsonConvert.SerializeXmlNode(doc);
+        json = JsonConvert.SerializeXmlNode(doc);
 
-            Console.WriteLine(json);
-            // {
-            //   "person": {
-            //     "@id": "1",
-            //     "name": "Alan",
-            //     "url": "http://www.google.com",
-            //     "role": [
-            //       "Admin"
-            //     ]
-            //   }
-            // }
-            #endregion
+        Console.WriteLine(json);
+        // {
+        //   "person": {
+        //     "@id": "1",
+        //     "name": "Alan",
+        //     "url": "http://www.google.com",
+        //     "role": [
+        //       "Admin"
+        //     ]
+        //   }
+        // }
+        #endregion
 
-            Assert.AreEqual(@"{""person"":{""@id"":""1"",""name"":""Alan"",""url"":""http://www.google.com"",""role"":[""Admin""]}}", json);
-        }
+        Assert.AreEqual(@"{""person"":{""@id"":""1"",""name"":""Alan"",""url"":""http://www.google.com"",""role"":[""Admin""]}}", json);
     }
 }

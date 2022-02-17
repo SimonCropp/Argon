@@ -23,11 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects.GeoCoding
+namespace Argon.Tests.TestObjects.GeoCoding;
+
+public class Status
 {
-    public class Status
-    {
-        public string Request;
-        public string Code;
-    }
+    public string Request;
+    public string Code;
 }

@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class ClassConverterPrecedenceClassConverter : ConverterPrecedenceClassConverter
 {
-    public class ClassConverterPrecedenceClassConverter : ConverterPrecedenceClassConverter
-    {
-        public override string ConverterType => "Class";
-    }
+    public override string ConverterType => "Class";
 }

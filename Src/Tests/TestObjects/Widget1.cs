@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class Widget1
 {
-    public class Widget1
-    {
-        public WidgetId1? Id { get; set; }
-    }
+    public WidgetId1? Id { get; set; }
 }

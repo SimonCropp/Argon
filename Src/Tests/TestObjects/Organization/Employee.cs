@@ -23,15 +23,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects.Organization
-{
-    public class Employee : IPerson
-    {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public DateTime BirthDate { get; set; }
+namespace Argon.Tests.TestObjects.Organization;
 
-        public string Department { get; set; }
-        public string JobTitle { get; set; }
-    }
+public class Employee : IPerson
+{
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public DateTime BirthDate { get; set; }
+
+    public string Department { get; set; }
+    public string JobTitle { get; set; }
 }

@@ -28,40 +28,40 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Linq
+namespace Argon.Tests.Documentation.Samples.Linq;
+
+[TestFixture]
+public class CreateWriter : TestFixtureBase
 {
-    [TestFixture]
-    public class CreateWriter : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
+        #region Usage
+        var o = new JObject
         {
-            #region Usage
-            var o = new JObject
-            {
-                { "name1", "value1" },
-                { "name2", "value2" }
-            };
+            { "name1", "value1" },
+            { "name2", "value2" }
+        };
 
-            var writer = o.CreateWriter();
-            writer.WritePropertyName("name3");
-            writer.WriteStartArray();
-            writer.WriteValue(1);
-            writer.WriteValue(2);
-            writer.WriteEndArray();
+        var writer = o.CreateWriter();
+        writer.WritePropertyName("name3");
+        writer.WriteStartArray();
+        writer.WriteValue(1);
+        writer.WriteValue(2);
+        writer.WriteEndArray();
 
-            Console.WriteLine(o.ToString());
-            // {
-            //   "name1": "value1",
-            //   "name2": "value2",
-            //   "name3": [
-            //     1,
-            //     2
-            //   ]
-            // }
-            #endregion
+        Console.WriteLine(o.ToString());
+        // {
+        //   "name1": "value1",
+        //   "name2": "value2",
+        //   "name3": [
+        //     1,
+        //     2
+        //   ]
+        // }
+        #endregion
 
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""name1"": ""value1"",
   ""name2"": ""value2"",
   ""name3"": [
@@ -69,6 +69,5 @@ namespace Argon.Tests.Documentation.Samples.Linq
     2
   ]
 }", o.ToString());
-        }
     }
 }

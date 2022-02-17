@@ -25,12 +25,11 @@
 
 using System.Collections.ObjectModel;
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class NoConstructorReadOnlyCollection<T> : ReadOnlyCollection<T>
 {
-    public class NoConstructorReadOnlyCollection<T> : ReadOnlyCollection<T>
+    public NoConstructorReadOnlyCollection() : base(new List<T>())
     {
-        public NoConstructorReadOnlyCollection() : base(new List<T>())
-        {
-        }
     }
 }

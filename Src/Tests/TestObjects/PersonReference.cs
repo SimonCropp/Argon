@@ -23,12 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class PersonReference
 {
-    public class PersonReference
-    {
-        internal Guid Id { get; set; }
-        public string Name { get; set; }
-        public PersonReference Spouse { get; set; }
-    }
+    internal Guid Id { get; set; }
+    public string Name { get; set; }
+    public PersonReference Spouse { get; set; }
 }

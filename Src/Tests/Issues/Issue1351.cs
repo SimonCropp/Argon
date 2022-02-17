@@ -27,134 +27,133 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue1351 : TestFixtureBase
 {
-    [TestFixture]
-    public class Issue1351 : TestFixtureBase
+    public class Color
     {
-        public class Color
+        public Color()
         {
-            public Color()
-            {
-            }
-
-            public Color(uint colorCode)
-            {
-                A = (byte)((colorCode & 0xff000000) >> 24);
-                R = (byte)((colorCode & 0x00ff0000) >> 16);
-                G = (byte)((colorCode & 0x0000ff00) >> 8);
-                B = (byte)(colorCode & 0x000000ff);
-            }
-
-            public byte A { get; set; }
-            public byte R { get; set; }
-            public byte G { get; set; }
-            public byte B { get; set; }
         }
 
-        public static class Colors
+        public Color(uint colorCode)
         {
-            public static Color White = new(0xFFFFFFFF);
+            A = (byte)((colorCode & 0xff000000) >> 24);
+            R = (byte)((colorCode & 0x00ff0000) >> 16);
+            G = (byte)((colorCode & 0x0000ff00) >> 8);
+            B = (byte)(colorCode & 0x000000ff);
         }
 
-        [DataContract]
-        public class TestClass
-        {
-            public TestClass()
-            {
-                Color = Colors.White;
-            }
+        public byte A { get; set; }
+        public byte R { get; set; }
+        public byte G { get; set; }
+        public byte B { get; set; }
+    }
 
-            [DataMember]
-            public Color Color { get; set; }
+    public static class Colors
+    {
+        public static Color White = new(0xFFFFFFFF);
+    }
+
+    [DataContract]
+    public class TestClass
+    {
+        public TestClass()
+        {
+            Color = Colors.White;
         }
 
-        [Fact]
-        public void Test()
+        [DataMember]
+        public Color Color { get; set; }
+    }
+
+    [Fact]
+    public void Test()
+    {
+        var t = new List<TestClass>
         {
-            var t = new List<TestClass>
+            new()
             {
-                new()
+                Color = new Color
                 {
-                    Color = new Color
-                    {
-                        A = 1,
-                        G = 1,
-                        B = 1,
-                        R = 1
-                    }
-                },
-                new()
-                {
-                    Color = new Color
-                    {
-                        A = 2,
-                        G = 2,
-                        B = 2,
-                        R = 2
-                    }
+                    A = 1,
+                    G = 1,
+                    B = 1,
+                    R = 1
                 }
-            };
-            var settings = new JsonSerializerSettings
+            },
+            new()
             {
-                TypeNameHandling = TypeNameHandling.Auto,
-                PreserveReferencesHandling = PreserveReferencesHandling.Objects,
-                Formatting = Formatting.Indented
-            };
-
-            var json = JsonConvert.SerializeObject(t, settings);
-
-            var exception = ExceptionAssert.Throws<JsonSerializationException>(() =>
+                Color = new Color
                 {
-                    JsonConvert.DeserializeObject<List<TestClass>>(json, settings);
-                },
-                "Error reading object reference '4'. Path '[1].Color.A', line 16, position 10.");
-
-            Assert.AreEqual("A different Id has already been assigned for value 'Argon.Tests.Issues.Issue1351+Color'. This error may be caused by an object being reused multiple times during deserialization and can be fixed with the setting ObjectCreationHandling.Replace.", exception.InnerException.Message);
-        }
-
-        [Fact]
-        public void Test_Replace()
-        {
-            var t = new List<TestClass>
-            {
-                new()
-                {
-                    Color = new Color
-                    {
-                        A = 1,
-                        G = 1,
-                        B = 1,
-                        R = 1
-                    }
-                },
-                new()
-                {
-                    Color = new Color
-                    {
-                        A = 2,
-                        G = 2,
-                        B = 2,
-                        R = 2
-                    }
+                    A = 2,
+                    G = 2,
+                    B = 2,
+                    R = 2
                 }
-            };
-            var settings = new JsonSerializerSettings
+            }
+        };
+        var settings = new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Auto,
+            PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+            Formatting = Formatting.Indented
+        };
+
+        var json = JsonConvert.SerializeObject(t, settings);
+
+        var exception = ExceptionAssert.Throws<JsonSerializationException>(() =>
             {
-                TypeNameHandling = TypeNameHandling.Auto,
-                PreserveReferencesHandling = PreserveReferencesHandling.Objects,
-                Formatting = Formatting.Indented,
-                ObjectCreationHandling = ObjectCreationHandling.Replace
-            };
-            var json = JsonConvert.SerializeObject(t, settings);
+                JsonConvert.DeserializeObject<List<TestClass>>(json, settings);
+            },
+            "Error reading object reference '4'. Path '[1].Color.A', line 16, position 10.");
 
-            var obj = JsonConvert.DeserializeObject<List<TestClass>>(json, settings);
+        Assert.AreEqual("A different Id has already been assigned for value 'Argon.Tests.Issues.Issue1351+Color'. This error may be caused by an object being reused multiple times during deserialization and can be fixed with the setting ObjectCreationHandling.Replace.", exception.InnerException.Message);
+    }
 
-            var o1 = obj[0];
-            Assert.AreEqual(1, o1.Color.A);
+    [Fact]
+    public void Test_Replace()
+    {
+        var t = new List<TestClass>
+        {
+            new()
+            {
+                Color = new Color
+                {
+                    A = 1,
+                    G = 1,
+                    B = 1,
+                    R = 1
+                }
+            },
+            new()
+            {
+                Color = new Color
+                {
+                    A = 2,
+                    G = 2,
+                    B = 2,
+                    R = 2
+                }
+            }
+        };
+        var settings = new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Auto,
+            PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+            Formatting = Formatting.Indented,
+            ObjectCreationHandling = ObjectCreationHandling.Replace
+        };
+        var json = JsonConvert.SerializeObject(t, settings);
 
-            var o2 = obj[1];
-            Assert.AreEqual(2, o2.Color.A);
-        }
+        var obj = JsonConvert.DeserializeObject<List<TestClass>>(json, settings);
+
+        var o1 = obj[0];
+        Assert.AreEqual(1, o1.Color.A);
+
+        var o2 = obj[1];
+        Assert.AreEqual(2, o2.Color.A);
     }
 }

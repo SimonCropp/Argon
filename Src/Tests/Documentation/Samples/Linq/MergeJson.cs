@@ -28,45 +28,45 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Linq
+namespace Argon.Tests.Documentation.Samples.Linq;
+
+[TestFixture]
+public class MergeJson : TestFixtureBase
 {
-    [TestFixture]
-    public class MergeJson : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var o1 = JObject.Parse(@"{
+        #region Usage
+        var o1 = JObject.Parse(@"{
               'FirstName': 'John',
               'LastName': 'Smith',
               'Enabled': false,
               'Roles': [ 'User' ]
             }");
-            var o2 = JObject.Parse(@"{
+        var o2 = JObject.Parse(@"{
               'Enabled': true,
               'Roles': [ 'User', 'Admin' ]
             }");
 
-            o1.Merge(o2, new JsonMergeSettings
-            {
-                // union array values together to avoid duplicates
-                MergeArrayHandling = MergeArrayHandling.Union
-            });
+        o1.Merge(o2, new JsonMergeSettings
+        {
+            // union array values together to avoid duplicates
+            MergeArrayHandling = MergeArrayHandling.Union
+        });
 
-            var json = o1.ToString();
-            // {
-            //   "FirstName": "John",
-            //   "LastName": "Smith",
-            //   "Enabled": true,
-            //   "Roles": [
-            //     "User",
-            //     "Admin"
-            //   ]
-            // }
-            #endregion
+        var json = o1.ToString();
+        // {
+        //   "FirstName": "John",
+        //   "LastName": "Smith",
+        //   "Enabled": true,
+        //   "Roles": [
+        //     "User",
+        //     "Admin"
+        //   ]
+        // }
+        #endregion
 
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""FirstName"": ""John"",
   ""LastName"": ""Smith"",
   ""Enabled"": true,
@@ -75,6 +75,5 @@ namespace Argon.Tests.Documentation.Samples.Linq
     ""Admin""
   ]
 }", json);
-        }
     }
 }

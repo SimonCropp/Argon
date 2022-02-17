@@ -1,24 +1,23 @@
-namespace Argon.Linq.JsonPath
+namespace Argon.Linq.JsonPath;
+
+internal class QueryFilter : PathFilter
 {
-    internal class QueryFilter : PathFilter
+    internal QueryExpression Expression;
+
+    public QueryFilter(QueryExpression expression)
     {
-        internal QueryExpression Expression;
+        Expression = expression;
+    }
 
-        public QueryFilter(QueryExpression expression)
+    public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings? settings)
+    {
+        foreach (var t in current)
         {
-            Expression = expression;
-        }
-
-        public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings? settings)
-        {
-            foreach (var t in current)
+            foreach (var v in t)
             {
-                foreach (var v in t)
+                if (Expression.IsMatch(root, v, settings))
                 {
-                    if (Expression.IsMatch(root, v, settings))
-                    {
-                        yield return v;
-                    }
+                    yield return v;
                 }
             }
         }

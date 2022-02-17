@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class MessageWithIsoDate
 {
-    public class MessageWithIsoDate
-    {
-        public String IsoDate { get; set; }
-    }
+    public String IsoDate { get; set; }
 }

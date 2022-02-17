@@ -23,11 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[JsonObject(ItemRequired = Required.DisallowNull)]
+public class DictionaryWithNoNull
 {
-    [JsonObject(ItemRequired = Required.DisallowNull)]
-    public class DictionaryWithNoNull
-    {
-        public string Name { get; set; }
-    }
+    public string Name { get; set; }
 }

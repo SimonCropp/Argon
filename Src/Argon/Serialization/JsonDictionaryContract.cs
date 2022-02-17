@@ -25,196 +25,195 @@
 
 using System.Collections.ObjectModel;
 
-namespace Argon.Serialization
+namespace Argon.Serialization;
+
+/// <summary>
+/// Contract details for a <see cref="System.Type"/> used by the <see cref="JsonSerializer"/>.
+/// </summary>
+public class JsonDictionaryContract : JsonContainerContract
 {
     /// <summary>
-    /// Contract details for a <see cref="System.Type"/> used by the <see cref="JsonSerializer"/>.
+    /// Gets or sets the dictionary key resolver.
     /// </summary>
-    public class JsonDictionaryContract : JsonContainerContract
+    /// <value>The dictionary key resolver.</value>
+    public Func<string, string>? DictionaryKeyResolver { get; set; }
+
+    /// <summary>
+    /// Gets the <see cref="System.Type"/> of the dictionary keys.
+    /// </summary>
+    /// <value>The <see cref="System.Type"/> of the dictionary keys.</value>
+    public Type? DictionaryKeyType { get; }
+
+    /// <summary>
+    /// Gets the <see cref="System.Type"/> of the dictionary values.
+    /// </summary>
+    /// <value>The <see cref="System.Type"/> of the dictionary values.</value>
+    public Type? DictionaryValueType { get; }
+
+    internal JsonContract? KeyContract { get; set; }
+
+    private readonly Type? _genericCollectionDefinitionType;
+
+    private Type? _genericWrapperType;
+    private ObjectConstructor<object>? _genericWrapperCreator;
+
+    private Func<object>? _genericTemporaryDictionaryCreator;
+
+    internal bool ShouldCreateWrapper { get; }
+
+    private readonly ConstructorInfo? _parameterizedConstructor;
+
+    private ObjectConstructor<object>? _overrideCreator;
+    private ObjectConstructor<object>? _parameterizedCreator;
+
+    internal ObjectConstructor<object>? ParameterizedCreator
     {
-        /// <summary>
-        /// Gets or sets the dictionary key resolver.
-        /// </summary>
-        /// <value>The dictionary key resolver.</value>
-        public Func<string, string>? DictionaryKeyResolver { get; set; }
-
-        /// <summary>
-        /// Gets the <see cref="System.Type"/> of the dictionary keys.
-        /// </summary>
-        /// <value>The <see cref="System.Type"/> of the dictionary keys.</value>
-        public Type? DictionaryKeyType { get; }
-
-        /// <summary>
-        /// Gets the <see cref="System.Type"/> of the dictionary values.
-        /// </summary>
-        /// <value>The <see cref="System.Type"/> of the dictionary values.</value>
-        public Type? DictionaryValueType { get; }
-
-        internal JsonContract? KeyContract { get; set; }
-
-        private readonly Type? _genericCollectionDefinitionType;
-
-        private Type? _genericWrapperType;
-        private ObjectConstructor<object>? _genericWrapperCreator;
-
-        private Func<object>? _genericTemporaryDictionaryCreator;
-
-        internal bool ShouldCreateWrapper { get; }
-
-        private readonly ConstructorInfo? _parameterizedConstructor;
-
-        private ObjectConstructor<object>? _overrideCreator;
-        private ObjectConstructor<object>? _parameterizedCreator;
-
-        internal ObjectConstructor<object>? ParameterizedCreator
+        get
         {
-            get
+            if (_parameterizedCreator == null && _parameterizedConstructor != null)
             {
-                if (_parameterizedCreator == null && _parameterizedConstructor != null)
-                {
-                    _parameterizedCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(_parameterizedConstructor);
-                }
+                _parameterizedCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(_parameterizedConstructor);
+            }
 
-                return _parameterizedCreator;
+            return _parameterizedCreator;
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the function used to create the object. When set this function will override <see cref="JsonContract.DefaultCreator"/>.
+    /// </summary>
+    /// <value>The function used to create the object.</value>
+    public ObjectConstructor<object>? OverrideCreator
+    {
+        get => _overrideCreator;
+        set => _overrideCreator = value;
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether the creator has a parameter with the dictionary values.
+    /// </summary>
+    /// <value><c>true</c> if the creator has a parameter with the dictionary values; otherwise, <c>false</c>.</value>
+    public bool HasParameterizedCreator { get; set; }
+
+    internal bool HasParameterizedCreatorInternal => HasParameterizedCreator || _parameterizedCreator != null || _parameterizedConstructor != null;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="JsonDictionaryContract"/> class.
+    /// </summary>
+    /// <param name="underlyingType">The underlying type for the contract.</param>
+    public JsonDictionaryContract(Type underlyingType)
+        : base(underlyingType)
+    {
+        ContractType = JsonContractType.Dictionary;
+
+        Type? keyType;
+        Type? valueType;
+
+        if (ReflectionUtils.ImplementsGenericDefinition(NonNullableUnderlyingType, typeof(IDictionary<,>), out _genericCollectionDefinitionType))
+        {
+            keyType = _genericCollectionDefinitionType.GetGenericArguments()[0];
+            valueType = _genericCollectionDefinitionType.GetGenericArguments()[1];
+
+            if (ReflectionUtils.IsGenericDefinition(NonNullableUnderlyingType, typeof(IDictionary<,>)))
+            {
+                CreatedType = typeof(Dictionary<,>).MakeGenericType(keyType, valueType);
+            }
+            else if (NonNullableUnderlyingType.IsGenericType())
+            {
+                // ConcurrentDictionary<,> + IDictionary setter + null value = error
+                // wrap to use generic setter
+                // https://github.com/JamesNK/Newtonsoft.Json/issues/1582
+                var typeDefinition = NonNullableUnderlyingType.GetGenericTypeDefinition();
+                if (typeDefinition.FullName == JsonTypeReflector.ConcurrentDictionaryTypeName)
+                {
+                    ShouldCreateWrapper = true;
+                }
+            }
+
+            IsReadOnlyOrFixedSize = ReflectionUtils.InheritsGenericDefinition(NonNullableUnderlyingType, typeof(ReadOnlyDictionary<,>));
+
+        }
+        else if (ReflectionUtils.ImplementsGenericDefinition(NonNullableUnderlyingType, typeof(IReadOnlyDictionary<,>), out _genericCollectionDefinitionType))
+        {
+            keyType = _genericCollectionDefinitionType.GetGenericArguments()[0];
+            valueType = _genericCollectionDefinitionType.GetGenericArguments()[1];
+
+            if (ReflectionUtils.IsGenericDefinition(NonNullableUnderlyingType, typeof(IReadOnlyDictionary<,>)))
+            {
+                CreatedType = typeof(ReadOnlyDictionary<,>).MakeGenericType(keyType, valueType);
+            }
+
+            IsReadOnlyOrFixedSize = true;
+        }
+        else
+        {
+            ReflectionUtils.GetDictionaryKeyValueTypes(NonNullableUnderlyingType, out keyType, out valueType);
+
+            if (NonNullableUnderlyingType == typeof(IDictionary))
+            {
+                CreatedType = typeof(Dictionary<object, object>);
             }
         }
 
-        /// <summary>
-        /// Gets or sets the function used to create the object. When set this function will override <see cref="JsonContract.DefaultCreator"/>.
-        /// </summary>
-        /// <value>The function used to create the object.</value>
-        public ObjectConstructor<object>? OverrideCreator
+        if (keyType != null && valueType != null)
         {
-            get => _overrideCreator;
-            set => _overrideCreator = value;
-        }
+            _parameterizedConstructor = CollectionUtils.ResolveEnumerableCollectionConstructor(
+                CreatedType,
+                typeof(KeyValuePair<,>).MakeGenericType(keyType, valueType),
+                typeof(IDictionary<,>).MakeGenericType(keyType, valueType));
 
-        /// <summary>
-        /// Gets a value indicating whether the creator has a parameter with the dictionary values.
-        /// </summary>
-        /// <value><c>true</c> if the creator has a parameter with the dictionary values; otherwise, <c>false</c>.</value>
-        public bool HasParameterizedCreator { get; set; }
-
-        internal bool HasParameterizedCreatorInternal => HasParameterizedCreator || _parameterizedCreator != null || _parameterizedConstructor != null;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="JsonDictionaryContract"/> class.
-        /// </summary>
-        /// <param name="underlyingType">The underlying type for the contract.</param>
-        public JsonDictionaryContract(Type underlyingType)
-            : base(underlyingType)
-        {
-            ContractType = JsonContractType.Dictionary;
-
-            Type? keyType;
-            Type? valueType;
-
-            if (ReflectionUtils.ImplementsGenericDefinition(NonNullableUnderlyingType, typeof(IDictionary<,>), out _genericCollectionDefinitionType))
+            if (!HasParameterizedCreatorInternal && NonNullableUnderlyingType.Name == FSharpUtils.FSharpMapTypeName)
             {
-                keyType = _genericCollectionDefinitionType.GetGenericArguments()[0];
-                valueType = _genericCollectionDefinitionType.GetGenericArguments()[1];
-
-                if (ReflectionUtils.IsGenericDefinition(NonNullableUnderlyingType, typeof(IDictionary<,>)))
-                {
-                    CreatedType = typeof(Dictionary<,>).MakeGenericType(keyType, valueType);
-                }
-                else if (NonNullableUnderlyingType.IsGenericType())
-                {
-                    // ConcurrentDictionary<,> + IDictionary setter + null value = error
-                    // wrap to use generic setter
-                    // https://github.com/JamesNK/Newtonsoft.Json/issues/1582
-                    var typeDefinition = NonNullableUnderlyingType.GetGenericTypeDefinition();
-                    if (typeDefinition.FullName == JsonTypeReflector.ConcurrentDictionaryTypeName)
-                    {
-                        ShouldCreateWrapper = true;
-                    }
-                }
-
-                IsReadOnlyOrFixedSize = ReflectionUtils.InheritsGenericDefinition(NonNullableUnderlyingType, typeof(ReadOnlyDictionary<,>));
-
-            }
-            else if (ReflectionUtils.ImplementsGenericDefinition(NonNullableUnderlyingType, typeof(IReadOnlyDictionary<,>), out _genericCollectionDefinitionType))
-            {
-                keyType = _genericCollectionDefinitionType.GetGenericArguments()[0];
-                valueType = _genericCollectionDefinitionType.GetGenericArguments()[1];
-
-                if (ReflectionUtils.IsGenericDefinition(NonNullableUnderlyingType, typeof(IReadOnlyDictionary<,>)))
-                {
-                    CreatedType = typeof(ReadOnlyDictionary<,>).MakeGenericType(keyType, valueType);
-                }
-
-                IsReadOnlyOrFixedSize = true;
-            }
-            else
-            {
-                ReflectionUtils.GetDictionaryKeyValueTypes(NonNullableUnderlyingType, out keyType, out valueType);
-
-                if (NonNullableUnderlyingType == typeof(IDictionary))
-                {
-                    CreatedType = typeof(Dictionary<object, object>);
-                }
-            }
-
-            if (keyType != null && valueType != null)
-            {
-                _parameterizedConstructor = CollectionUtils.ResolveEnumerableCollectionConstructor(
-                    CreatedType,
-                    typeof(KeyValuePair<,>).MakeGenericType(keyType, valueType),
-                    typeof(IDictionary<,>).MakeGenericType(keyType, valueType));
-
-                if (!HasParameterizedCreatorInternal && NonNullableUnderlyingType.Name == FSharpUtils.FSharpMapTypeName)
-                {
-                    FSharpUtils.EnsureInitialized(NonNullableUnderlyingType.Assembly());
-                    _parameterizedCreator = FSharpUtils.Instance.CreateMap(keyType, valueType);
-                }
-            }
-
-            if (!typeof(IDictionary).IsAssignableFrom(CreatedType))
-            {
-                ShouldCreateWrapper = true;
-            }
-
-            DictionaryKeyType = keyType;
-            DictionaryValueType = valueType;
-
-            if (DictionaryKeyType != null && 
-                DictionaryValueType != null &&
-                ImmutableCollectionsUtils.TryBuildImmutableForDictionaryContract(
-                    NonNullableUnderlyingType,
-                    DictionaryKeyType,
-                    DictionaryValueType,
-                    out var immutableCreatedType,
-                    out var immutableParameterizedCreator))
-            {
-                CreatedType = immutableCreatedType;
-                _parameterizedCreator = immutableParameterizedCreator;
-                IsReadOnlyOrFixedSize = true;
+                FSharpUtils.EnsureInitialized(NonNullableUnderlyingType.Assembly());
+                _parameterizedCreator = FSharpUtils.Instance.CreateMap(keyType, valueType);
             }
         }
 
-        internal IWrappedDictionary CreateWrapper(object dictionary)
+        if (!typeof(IDictionary).IsAssignableFrom(CreatedType))
         {
-            if (_genericWrapperCreator == null)
-            {
-                _genericWrapperType = typeof(DictionaryWrapper<,>).MakeGenericType(DictionaryKeyType, DictionaryValueType);
-
-                var genericWrapperConstructor = _genericWrapperType.GetConstructor(new[] { _genericCollectionDefinitionType! });
-                _genericWrapperCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(genericWrapperConstructor);
-            }
-
-            return (IWrappedDictionary)_genericWrapperCreator(dictionary);
+            ShouldCreateWrapper = true;
         }
 
-        internal IDictionary CreateTemporaryDictionary()
+        DictionaryKeyType = keyType;
+        DictionaryValueType = valueType;
+
+        if (DictionaryKeyType != null && 
+            DictionaryValueType != null &&
+            ImmutableCollectionsUtils.TryBuildImmutableForDictionaryContract(
+                NonNullableUnderlyingType,
+                DictionaryKeyType,
+                DictionaryValueType,
+                out var immutableCreatedType,
+                out var immutableParameterizedCreator))
         {
-            if (_genericTemporaryDictionaryCreator == null)
-            {
-                var temporaryDictionaryType = typeof(Dictionary<,>).MakeGenericType(DictionaryKeyType ?? typeof(object), DictionaryValueType ?? typeof(object));
-
-                _genericTemporaryDictionaryCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateDefaultConstructor<object>(temporaryDictionaryType);
-            }
-
-            return (IDictionary)_genericTemporaryDictionaryCreator();
+            CreatedType = immutableCreatedType;
+            _parameterizedCreator = immutableParameterizedCreator;
+            IsReadOnlyOrFixedSize = true;
         }
+    }
+
+    internal IWrappedDictionary CreateWrapper(object dictionary)
+    {
+        if (_genericWrapperCreator == null)
+        {
+            _genericWrapperType = typeof(DictionaryWrapper<,>).MakeGenericType(DictionaryKeyType, DictionaryValueType);
+
+            var genericWrapperConstructor = _genericWrapperType.GetConstructor(new[] { _genericCollectionDefinitionType! });
+            _genericWrapperCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(genericWrapperConstructor);
+        }
+
+        return (IWrappedDictionary)_genericWrapperCreator(dictionary);
+    }
+
+    internal IDictionary CreateTemporaryDictionary()
+    {
+        if (_genericTemporaryDictionaryCreator == null)
+        {
+            var temporaryDictionaryType = typeof(Dictionary<,>).MakeGenericType(DictionaryKeyType ?? typeof(object), DictionaryValueType ?? typeof(object));
+
+            _genericTemporaryDictionaryCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateDefaultConstructor<object>(temporaryDictionaryType);
+        }
+
+        return (IDictionary)_genericTemporaryDictionaryCreator();
     }
 }

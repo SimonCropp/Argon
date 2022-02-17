@@ -23,11 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public partial class BusRun
 {
-    public partial class BusRun
-    {
-        public IEnumerable<DateTime?> Departures { get; set; }
-        public Boolean WheelchairAccessible { get; set; }
-    }
+    public IEnumerable<DateTime?> Departures { get; set; }
+    public Boolean WheelchairAccessible { get; set; }
 }

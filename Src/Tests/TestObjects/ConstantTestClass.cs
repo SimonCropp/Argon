@@ -23,12 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[DataContract]
+public class ConstantTestClass
 {
-    [DataContract]
-    public class ConstantTestClass
-    {
-        [DataMember]
-        public const char MY_CONSTANT = '.';
-    }
+    [DataMember]
+    public const char MY_CONSTANT = '.';
 }

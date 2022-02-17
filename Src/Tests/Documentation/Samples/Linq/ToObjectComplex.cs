@@ -28,23 +28,23 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Linq
-{
-    [TestFixture]
-    public class ToObjectComplex : TestFixtureBase
-    {
-        #region Types
-        public class Person
-        {
-            public string Name { get; set; }
-        }
-        #endregion
+namespace Argon.Tests.Documentation.Samples.Linq;
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var json = @"{
+[TestFixture]
+public class ToObjectComplex : TestFixtureBase
+{
+    #region Types
+    public class Person
+    {
+        public string Name { get; set; }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var json = @"{
               'd': [
                 {
                   'Name': 'John Smith'
@@ -55,21 +55,20 @@ namespace Argon.Tests.Documentation.Samples.Linq
               ]
             }";
 
-            var o = JObject.Parse(json);
+        var o = JObject.Parse(json);
 
-            var a = (JArray)o["d"];
+        var a = (JArray)o["d"];
 
-            var person = a.ToObject<IList<Person>>();
+        var person = a.ToObject<IList<Person>>();
 
-            Console.WriteLine(person[0].Name);
-            // John Smith
+        Console.WriteLine(person[0].Name);
+        // John Smith
 
-            Console.WriteLine(person[1].Name);
-            // Mike Smith
-            #endregion
+        Console.WriteLine(person[1].Name);
+        // Mike Smith
+        #endregion
 
-            Assert.AreEqual("John Smith", person[0].Name);
-            Assert.AreEqual("Mike Smith", person[1].Name);
-        }
+        Assert.AreEqual("John Smith", person[0].Name);
+        Assert.AreEqual("Mike Smith", person[1].Name);
     }
 }

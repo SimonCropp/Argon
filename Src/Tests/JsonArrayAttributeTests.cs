@@ -26,49 +26,48 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests
+namespace Argon.Tests;
+
+[TestFixture]
+public class JsonArrayAttributeTests : TestFixtureBase
 {
-    [TestFixture]
-    public class JsonArrayAttributeTests : TestFixtureBase
+    [Fact]
+    public void IsReferenceTest()
     {
-        [Fact]
-        public void IsReferenceTest()
-        {
-            var attribute = new JsonPropertyAttribute();
-            Assert.AreEqual(null, attribute._isReference);
-            Assert.AreEqual(false, attribute.IsReference);
+        var attribute = new JsonPropertyAttribute();
+        Assert.AreEqual(null, attribute._isReference);
+        Assert.AreEqual(false, attribute.IsReference);
 
-            attribute.IsReference = false;
-            Assert.AreEqual(false, attribute._isReference);
-            Assert.AreEqual(false, attribute.IsReference);
+        attribute.IsReference = false;
+        Assert.AreEqual(false, attribute._isReference);
+        Assert.AreEqual(false, attribute.IsReference);
 
-            attribute.IsReference = true;
-            Assert.AreEqual(true, attribute._isReference);
-            Assert.AreEqual(true, attribute.IsReference);
-        }
+        attribute.IsReference = true;
+        Assert.AreEqual(true, attribute._isReference);
+        Assert.AreEqual(true, attribute.IsReference);
+    }
 
-        [Fact]
-        public void NullValueHandlingTest()
-        {
-            var attribute = new JsonPropertyAttribute();
-            Assert.AreEqual(null, attribute._nullValueHandling);
-            Assert.AreEqual(NullValueHandling.Include, attribute.NullValueHandling);
+    [Fact]
+    public void NullValueHandlingTest()
+    {
+        var attribute = new JsonPropertyAttribute();
+        Assert.AreEqual(null, attribute._nullValueHandling);
+        Assert.AreEqual(NullValueHandling.Include, attribute.NullValueHandling);
 
-            attribute.NullValueHandling = NullValueHandling.Ignore;
-            Assert.AreEqual(NullValueHandling.Ignore, attribute._nullValueHandling);
-            Assert.AreEqual(NullValueHandling.Ignore, attribute.NullValueHandling);
-        }
+        attribute.NullValueHandling = NullValueHandling.Ignore;
+        Assert.AreEqual(NullValueHandling.Ignore, attribute._nullValueHandling);
+        Assert.AreEqual(NullValueHandling.Ignore, attribute.NullValueHandling);
+    }
 
-        [Fact]
-        public void DefaultValueHandlingTest()
-        {
-            var attribute = new JsonPropertyAttribute();
-            Assert.AreEqual(null, attribute._defaultValueHandling);
-            Assert.AreEqual(DefaultValueHandling.Include, attribute.DefaultValueHandling);
+    [Fact]
+    public void DefaultValueHandlingTest()
+    {
+        var attribute = new JsonPropertyAttribute();
+        Assert.AreEqual(null, attribute._defaultValueHandling);
+        Assert.AreEqual(DefaultValueHandling.Include, attribute.DefaultValueHandling);
 
-            attribute.DefaultValueHandling = DefaultValueHandling.Ignore;
-            Assert.AreEqual(DefaultValueHandling.Ignore, attribute._defaultValueHandling);
-            Assert.AreEqual(DefaultValueHandling.Ignore, attribute.DefaultValueHandling);
-        }
+        attribute.DefaultValueHandling = DefaultValueHandling.Ignore;
+        Assert.AreEqual(DefaultValueHandling.Ignore, attribute._defaultValueHandling);
+        Assert.AreEqual(DefaultValueHandling.Ignore, attribute.DefaultValueHandling);
     }
 }

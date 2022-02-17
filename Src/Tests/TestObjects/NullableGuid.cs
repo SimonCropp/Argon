@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class NullableGuid
 {
-    public class NullableGuid
-    {
-        public Guid? Id { get; set; }
-    }
+    public Guid? Id { get; set; }
 }

@@ -23,30 +23,29 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[DataContract]
+public class DerivedType : BaseType
 {
-    [DataContract]
-    public class DerivedType : BaseType
-    {
-        [DataMember(Order = 0)]
-        public string bird;
+    [DataMember(Order = 0)]
+    public string bird;
 
-        [DataMember(Order = 1)]
-        public string parrot;
+    [DataMember(Order = 1)]
+    public string parrot;
 
-        [DataMember]
-        public string dog;
+    [DataMember]
+    public string dog;
 
-        [DataMember(Order = 3)]
-        public string antelope;
+    [DataMember(Order = 3)]
+    public string antelope;
 
-        [DataMember]
-        public string cat;
+    [DataMember]
+    public string cat;
 
-        [JsonProperty(Order = 1)]
-        public string albatross;
+    [JsonProperty(Order = 1)]
+    public string albatross;
 
-        [JsonProperty(Order = -2)]
-        public string dinosaur;
-    }
+    [JsonProperty(Order = -2)]
+    public string dinosaur;
 }

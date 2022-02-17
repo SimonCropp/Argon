@@ -28,50 +28,49 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Linq
+namespace Argon.Tests.Documentation.Samples.Linq;
+
+[TestFixture]
+public class Clone : TestFixtureBase
 {
-    [TestFixture]
-    public class Clone : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
+        #region Usage
+        var o1 = new JObject
         {
-            #region Usage
-            var o1 = new JObject
-            {
-                { "String", "A string!" },
-                { "Items", new JArray(1, 2) }
-            };
+            { "String", "A string!" },
+            { "Items", new JArray(1, 2) }
+        };
 
-            Console.WriteLine(o1.ToString());
-            // {
-            //   "String": "A string!",
-            //   "Items": [
-            //     1,
-            //     2
-            //   ]
-            // }
+        Console.WriteLine(o1.ToString());
+        // {
+        //   "String": "A string!",
+        //   "Items": [
+        //     1,
+        //     2
+        //   ]
+        // }
 
-            var o2 = (JObject)o1.DeepClone();
+        var o2 = (JObject)o1.DeepClone();
 
-            Console.WriteLine(o2.ToString());
-            // {
-            //   "String": "A string!",
-            //   "Items": [
-            //     1,
-            //     2
-            //   ]
-            // }
+        Console.WriteLine(o2.ToString());
+        // {
+        //   "String": "A string!",
+        //   "Items": [
+        //     1,
+        //     2
+        //   ]
+        // }
 
-            Console.WriteLine(JToken.DeepEquals(o1, o2));
-            // true
+        Console.WriteLine(JToken.DeepEquals(o1, o2));
+        // true
 
-            Console.WriteLine(Object.ReferenceEquals(o1, o2));
-            // false
-            #endregion
+        Console.WriteLine(Object.ReferenceEquals(o1, o2));
+        // false
+        #endregion
 
-            Assert.IsTrue(JToken.DeepEquals(o1, o2));
-            Assert.IsFalse(Object.ReferenceEquals(o1, o2));
-        }
+        Assert.IsTrue(JToken.DeepEquals(o1, o2));
+        Assert.IsFalse(Object.ReferenceEquals(o1, o2));
     }
 }

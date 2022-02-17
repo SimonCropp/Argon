@@ -23,12 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects.GeoCoding
+namespace Argon.Tests.TestObjects.GeoCoding;
+
+public class Locality
 {
-    public class Locality
-    {
-        public string LocalityName;
-        public Thoroughfare Thoroughfare;
-        public PostalCode PostalCode;
-    }
+    public string LocalityName;
+    public Thoroughfare Thoroughfare;
+    public PostalCode PostalCode;
 }

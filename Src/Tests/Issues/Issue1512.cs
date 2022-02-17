@@ -28,56 +28,55 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue1512 : TestFixtureBase
 {
-    [TestFixture]
-    public class Issue1512 : TestFixtureBase
+    [Fact]
+    public void Test_Constructor()
     {
-        [Fact]
-        public void Test_Constructor()
-        {
-            var json = @"[
+        var json = @"[
                             {
                                 ""Inners"": [""hi"",""bye""]
                             }
                         ]";
-            var result = JsonConvert.DeserializeObject<ImmutableArray<Outer>>(json);
+        var result = JsonConvert.DeserializeObject<ImmutableArray<Outer>>(json);
 
-            Assert.AreEqual(1, result.Length);
-            Assert.AreEqual(2, result[0].Inners.Value.Length);
-            Assert.AreEqual("hi", result[0].Inners.Value[0]);
-            Assert.AreEqual("bye", result[0].Inners.Value[1]);
-        }
+        Assert.AreEqual(1, result.Length);
+        Assert.AreEqual(2, result[0].Inners.Value.Length);
+        Assert.AreEqual("hi", result[0].Inners.Value[0]);
+        Assert.AreEqual("bye", result[0].Inners.Value[1]);
+    }
 
-        [Fact]
-        public void Test_Property()
-        {
-            var json = @"[
+    [Fact]
+    public void Test_Property()
+    {
+        var json = @"[
                             {
                                 ""Inners"": [""hi"",""bye""]
                             }
                         ]";
-            var result = JsonConvert.DeserializeObject<ImmutableArray<OuterProperty>>(json);
+        var result = JsonConvert.DeserializeObject<ImmutableArray<OuterProperty>>(json);
 
-            Assert.AreEqual(1, result.Length);
-            Assert.AreEqual(2, result[0].Inners.Value.Length);
-            Assert.AreEqual("hi", result[0].Inners.Value[0]);
-            Assert.AreEqual("bye", result[0].Inners.Value[1]);
-        }
+        Assert.AreEqual(1, result.Length);
+        Assert.AreEqual(2, result[0].Inners.Value.Length);
+        Assert.AreEqual("hi", result[0].Inners.Value[0]);
+        Assert.AreEqual("bye", result[0].Inners.Value[1]);
     }
+}
 
-    public sealed class Outer
+public sealed class Outer
+{
+    public Outer(ImmutableArray<string>? inners)
     {
-        public Outer(ImmutableArray<string>? inners)
-        {
-            this.Inners = inners;
-        }
-
-        public ImmutableArray<string>? Inners { get; }
+        this.Inners = inners;
     }
 
-    public sealed class OuterProperty
-    {
-        public ImmutableArray<string>? Inners { get; set; }
-    }
+    public ImmutableArray<string>? Inners { get; }
+}
+
+public sealed class OuterProperty
+{
+    public ImmutableArray<string>? Inners { get; set; }
 }

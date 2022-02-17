@@ -27,55 +27,55 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Documentation
+namespace Argon.Tests.Documentation;
+
+[TestFixture]
+public class ReadingAndWritingJsonTests : TestFixtureBase
 {
-    [TestFixture]
-    public class ReadingAndWritingJsonTests : TestFixtureBase
+    [Fact]
+    public void ReadingAndWritingJsonText()
     {
-        [Fact]
-        public void ReadingAndWritingJsonText()
+        #region ReadingAndWritingJsonText
+        var sb = new StringBuilder();
+        var sw = new StringWriter(sb);
+
+        using (JsonWriter writer = new JsonTextWriter(sw))
         {
-            #region ReadingAndWritingJsonText
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
+            writer.Formatting = Formatting.Indented;
 
-            using (JsonWriter writer = new JsonTextWriter(sw))
-            {
-                writer.Formatting = Formatting.Indented;
-
-                writer.WriteStartObject();
-                writer.WritePropertyName("CPU");
-                writer.WriteValue("Intel");
-                writer.WritePropertyName("PSU");
-                writer.WriteValue("500W");
-                writer.WritePropertyName("Drives");
-                writer.WriteStartArray();
-                writer.WriteValue("DVD read/writer");
-                writer.WriteComment("(broken)");
-                writer.WriteValue("500 gigabyte hard drive");
-                writer.WriteValue("200 gigabyte hard drive");
-                writer.WriteEnd();
-                writer.WriteEndObject();
-            }
-
-            // {
-            //   "CPU": "Intel",
-            //   "PSU": "500W",
-            //   "Drives": [
-            //     "DVD read/writer"
-            //     /*(broken)*/,
-            //     "500 gigabyte hard drive",
-            //     "200 gigabyte hard drive"
-            //   ]
-            // }
-            #endregion
+            writer.WriteStartObject();
+            writer.WritePropertyName("CPU");
+            writer.WriteValue("Intel");
+            writer.WritePropertyName("PSU");
+            writer.WriteValue("500W");
+            writer.WritePropertyName("Drives");
+            writer.WriteStartArray();
+            writer.WriteValue("DVD read/writer");
+            writer.WriteComment("(broken)");
+            writer.WriteValue("500 gigabyte hard drive");
+            writer.WriteValue("200 gigabyte hard drive");
+            writer.WriteEnd();
+            writer.WriteEndObject();
         }
 
-        [Fact]
-        public void ReadingJsonText()
-        {
-            #region ReadingJsonText
-            var json = @"{
+        // {
+        //   "CPU": "Intel",
+        //   "PSU": "500W",
+        //   "Drives": [
+        //     "DVD read/writer"
+        //     /*(broken)*/,
+        //     "500 gigabyte hard drive",
+        //     "200 gigabyte hard drive"
+        //   ]
+        // }
+        #endregion
+    }
+
+    [Fact]
+    public void ReadingJsonText()
+    {
+        #region ReadingJsonText
+        var json = @"{
                'CPU': 'Intel',
                'PSU': '500W',
                'Drives': [
@@ -86,52 +86,51 @@ namespace Argon.Tests.Documentation
                ]
             }";
 
-            var reader = new JsonTextReader(new StringReader(json));
-            while (reader.Read())
-            {
-                if (reader.Value != null)
-                {
-                    Console.WriteLine("Token: {0}, Value: {1}", reader.TokenType, reader.Value);
-                }
-                else
-                {
-                    Console.WriteLine("Token: {0}", reader.TokenType);
-                }
-            }
-
-            // Token: StartObject
-            // Token: PropertyName, Value: CPU
-            // Token: String, Value: Intel
-            // Token: PropertyName, Value: PSU
-            // Token: String, Value: 500W
-            // Token: PropertyName, Value: Drives
-            // Token: StartArray
-            // Token: String, Value: DVD read/writer
-            // Token: Comment, Value: (broken)
-            // Token: String, Value: 500 gigabyte hard drive
-            // Token: String, Value: 200 gigabyte hard drive
-            // Token: EndArray
-            // Token: EndObject
-            #endregion
-        }
-
-        [Fact]
-        public void ReadingAndWritingJsonLinq()
+        var reader = new JsonTextReader(new StringReader(json));
+        while (reader.Read())
         {
-            #region ReadingAndWritingJsonLinq
-            var o = new JObject(
-                new JProperty("Name", "John Smith"),
-                new JProperty("BirthDate", new DateTime(1983, 3, 20))
-                );
-
-            var serializer = new JsonSerializer();
-            var p = (Person)serializer.Deserialize(new JTokenReader(o), typeof(Person));
-
-            Console.WriteLine(p.Name);
-            // John Smith
-            #endregion
-
-            Assert.AreEqual("John Smith", p.Name);
+            if (reader.Value != null)
+            {
+                Console.WriteLine("Token: {0}, Value: {1}", reader.TokenType, reader.Value);
+            }
+            else
+            {
+                Console.WriteLine("Token: {0}", reader.TokenType);
+            }
         }
+
+        // Token: StartObject
+        // Token: PropertyName, Value: CPU
+        // Token: String, Value: Intel
+        // Token: PropertyName, Value: PSU
+        // Token: String, Value: 500W
+        // Token: PropertyName, Value: Drives
+        // Token: StartArray
+        // Token: String, Value: DVD read/writer
+        // Token: Comment, Value: (broken)
+        // Token: String, Value: 500 gigabyte hard drive
+        // Token: String, Value: 200 gigabyte hard drive
+        // Token: EndArray
+        // Token: EndObject
+        #endregion
+    }
+
+    [Fact]
+    public void ReadingAndWritingJsonLinq()
+    {
+        #region ReadingAndWritingJsonLinq
+        var o = new JObject(
+            new JProperty("Name", "John Smith"),
+            new JProperty("BirthDate", new DateTime(1983, 3, 20))
+        );
+
+        var serializer = new JsonSerializer();
+        var p = (Person)serializer.Deserialize(new JTokenReader(o), typeof(Person));
+
+        Console.WriteLine(p.Name);
+        // John Smith
+        #endregion
+
+        Assert.AreEqual("John Smith", p.Name);
     }
 }

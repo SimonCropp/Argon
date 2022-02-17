@@ -28,68 +28,67 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class JsonObjectAttributeOverrideIEnumerable : TestFixtureBase
 {
-    [TestFixture]
-    public class JsonObjectAttributeOverrideIEnumerable : TestFixtureBase
+    #region Types
+    [JsonObject]
+    public class Directory : IEnumerable<string>
     {
-        #region Types
-        [JsonObject]
-        public class Directory : IEnumerable<string>
+        public string Name { get; set; }
+        public IList<string> Files { get; set; }
+
+        public Directory()
         {
-            public string Name { get; set; }
-            public IList<string> Files { get; set; }
-
-            public Directory()
-            {
-                Files = new List<string>();
-            }
-
-            public IEnumerator<string> GetEnumerator()
-            {
-                return Files.GetEnumerator();
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return GetEnumerator();
-            }
+            Files = new List<string>();
         }
+
+        public IEnumerator<string> GetEnumerator()
+        {
+            return Files.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var directory = new Directory
+        {
+            Name = "My Documents",
+            Files =
+            {
+                "ImportantLegalDocuments.docx",
+                "WiseFinancalAdvice.xlsx"
+            }
+        };
+
+        var json = JsonConvert.SerializeObject(directory, Formatting.Indented);
+
+        Console.WriteLine(json);
+        // {
+        //   "Name": "My Documents",
+        //   "Files": [
+        //     "ImportantLegalDocuments.docx",
+        //     "WiseFinancalAdvice.xlsx"
+        //   ]
+        // }
         #endregion
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var directory = new Directory
-            {
-                Name = "My Documents",
-                Files =
-                {
-                    "ImportantLegalDocuments.docx",
-                    "WiseFinancalAdvice.xlsx"
-                }
-            };
-
-            var json = JsonConvert.SerializeObject(directory, Formatting.Indented);
-
-            Console.WriteLine(json);
-            // {
-            //   "Name": "My Documents",
-            //   "Files": [
-            //     "ImportantLegalDocuments.docx",
-            //     "WiseFinancalAdvice.xlsx"
-            //   ]
-            // }
-            #endregion
-
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""Name"": ""My Documents"",
   ""Files"": [
     ""ImportantLegalDocuments.docx"",
     ""WiseFinancalAdvice.xlsx""
   ]
 }", json);
-        }
     }
 }

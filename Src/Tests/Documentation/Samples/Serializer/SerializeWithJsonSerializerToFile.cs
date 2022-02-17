@@ -28,51 +28,50 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class SerializeWithJsonSerializerToFile : TestFixtureBase
 {
-    [TestFixture]
-    public class SerializeWithJsonSerializerToFile : TestFixtureBase
+    #region Types
+    public class Movie
     {
-        #region Types
-        public class Movie
+        public string Name { get; set; }
+        public int Year { get; set; }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var movie = new Movie
         {
-            public string Name { get; set; }
-            public int Year { get; set; }
+            Name = "Bad Boys",
+            Year = 1995
+        };
+
+        // serialize JSON to a string and then write string to a file
+        File.WriteAllText(@"c:\movie.json", JsonConvert.SerializeObject(movie));
+
+        // serialize JSON directly to a file
+        using (var file = File.CreateText(@"c:\movie.json"))
+        {
+            var serializer = new JsonSerializer();
+            serializer.Serialize(file, movie);
         }
         #endregion
+    }
 
-        [Fact]
-        public void Example()
+    public static class File
+    {
+        public static StreamWriter CreateText(string path)
         {
-            #region Usage
-            var movie = new Movie
-            {
-                Name = "Bad Boys",
-                Year = 1995
-            };
-
-            // serialize JSON to a string and then write string to a file
-            File.WriteAllText(@"c:\movie.json", JsonConvert.SerializeObject(movie));
-
-            // serialize JSON directly to a file
-            using (var file = File.CreateText(@"c:\movie.json"))
-            {
-                var serializer = new JsonSerializer();
-                serializer.Serialize(file, movie);
-            }
-            #endregion
+            return new StreamWriter(new MemoryStream());
         }
 
-        public static class File
+        public static void WriteAllText(string s1, string s2)
         {
-            public static StreamWriter CreateText(string path)
-            {
-                return new StreamWriter(new MemoryStream());
-            }
-
-            public static void WriteAllText(string s1, string s2)
-            {
-            }
         }
     }
 }

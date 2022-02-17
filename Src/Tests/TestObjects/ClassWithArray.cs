@@ -23,26 +23,25 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class ClassWithArray
 {
-    public class ClassWithArray
+    private readonly IList<long> bar;
+    private string foo;
+
+    public ClassWithArray()
     {
-        private readonly IList<long> bar;
-        private string foo;
-
-        public ClassWithArray()
-        {
-            bar = new List<Int64> { int.MaxValue };
-        }
-
-        [JsonProperty("foo")]
-        public string Foo
-        {
-            get => foo;
-            set => foo = value;
-        }
-
-        [JsonProperty(PropertyName = "bar")]
-        public IList<long> Bar => bar;
+        bar = new List<Int64> { int.MaxValue };
     }
+
+    [JsonProperty("foo")]
+    public string Foo
+    {
+        get => foo;
+        set => foo = value;
+    }
+
+    [JsonProperty(PropertyName = "bar")]
+    public IList<long> Bar => bar;
 }

@@ -23,28 +23,27 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class PrivateMembersClass
 {
-    public class PrivateMembersClass
+    public PrivateMembersClass(string privateString, string internalString)
     {
-        public PrivateMembersClass(string privateString, string internalString)
-        {
-            _privateString = privateString;
-            _internalString = internalString;
-        }
+        _privateString = privateString;
+        _internalString = internalString;
+    }
 
-        public PrivateMembersClass()
-        {
-            i = default(int);
-        }
+    public PrivateMembersClass()
+    {
+        i = default(int);
+    }
 
-        private string _privateString;
-        private readonly int i;
-        internal string _internalString;
+    private string _privateString;
+    private readonly int i;
+    internal string _internalString;
 
-        public int UseValue()
-        {
-            return i;
-        }
+    public int UseValue()
+    {
+        return i;
     }
 }

@@ -25,57 +25,56 @@
 
 #pragma warning disable 618
 #pragma warning disable 1062
-namespace Argon.Tests.Documentation.Samples.Schema
+namespace Argon.Tests.Documentation.Samples.Schema;
+
+public class CreateJsonSchemaManually
 {
-    public class CreateJsonSchemaManually
+    public void Example()
     {
-        public void Example()
+        #region Usage
+        var schema = new JsonSchema
         {
-            #region Usage
-            var schema = new JsonSchema
+            Type = JsonSchemaType.Object,
+            Properties = new Dictionary<string, JsonSchema>
             {
-                Type = JsonSchemaType.Object,
-                Properties = new Dictionary<string, JsonSchema>
+                { "name", new JsonSchema { Type = JsonSchemaType.String } },
                 {
-                    { "name", new JsonSchema { Type = JsonSchemaType.String } },
+                    "hobbies", new JsonSchema
                     {
-                        "hobbies", new JsonSchema
-                        {
-                            Type = JsonSchemaType.Array,
-                            Items = new List<JsonSchema> { new() { Type = JsonSchemaType.String } }
-                        }
-                    },
-                }
-            };
+                        Type = JsonSchemaType.Array,
+                        Items = new List<JsonSchema> { new() { Type = JsonSchemaType.String } }
+                    }
+                },
+            }
+        };
 
-            var schemaJson = schema.ToString();
+        var schemaJson = schema.ToString();
 
-            Console.WriteLine(schemaJson);
-            // {
-            //   "type": "object",
-            //   "properties": {
-            //     "name": {
-            //       "type": "string"
-            //     },
-            //     "hobbies": {
-            //       "type": "array",
-            //       "items": {
-            //         "type": "string"
-            //       }
-            //     }
-            //   }
-            // }
+        Console.WriteLine(schemaJson);
+        // {
+        //   "type": "object",
+        //   "properties": {
+        //     "name": {
+        //       "type": "string"
+        //     },
+        //     "hobbies": {
+        //       "type": "array",
+        //       "items": {
+        //         "type": "string"
+        //       }
+        //     }
+        //   }
+        // }
 
-            var person = JObject.Parse(@"{
+        var person = JObject.Parse(@"{
               'name': 'James',
               'hobbies': ['.NET', 'Blogging', 'Reading', 'Xbox', 'LOLCATS']
             }");
 
-            var valid = person.IsValid(schema);
+        var valid = person.IsValid(schema);
 
-            Console.WriteLine(valid);
-            // true
-            #endregion
-        }
+        Console.WriteLine(valid);
+        // true
+        #endregion
     }
 }

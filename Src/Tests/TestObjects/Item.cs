@@ -23,17 +23,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class Item
-    {
-        public Guid SourceTypeID { get; set; }
-        public Guid BrokerID { get; set; }
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
-        public DateTime TimeStamp { get; set; }
+namespace Argon.Tests.TestObjects;
 
-        [JsonProperty(TypeNameHandling = TypeNameHandling.All)]
-        public object Payload { get; set; }
-    }
+public class Item
+{
+    public Guid SourceTypeID { get; set; }
+    public Guid BrokerID { get; set; }
+    public double Latitude { get; set; }
+    public double Longitude { get; set; }
+    public DateTime TimeStamp { get; set; }
+
+    [JsonProperty(TypeNameHandling = TypeNameHandling.All)]
+    public object Payload { get; set; }
 }

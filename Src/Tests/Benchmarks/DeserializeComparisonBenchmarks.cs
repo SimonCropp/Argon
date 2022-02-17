@@ -32,34 +32,34 @@ using System.Runtime.Serialization.Json;
 using BenchmarkDotNet.Attributes;
 using Argon.Tests.TestObjects;
 
-namespace Argon.Tests.Benchmarks
+namespace Argon.Tests.Benchmarks;
+
+public class DeserializeComparisonBenchmarks
 {
-    public class DeserializeComparisonBenchmarks
+    private static readonly byte[] BinaryFormatterData = TestFixtureBase.HexToBytes(BenchmarkConstants.BinaryFormatterHex);
+    private static readonly byte[] BsonData = TestFixtureBase.HexToBytes(BenchmarkConstants.BsonHex);
+
+    [Benchmark]
+    public TestClass DataContractSerializer()
     {
-        private static readonly byte[] BinaryFormatterData = TestFixtureBase.HexToBytes(BenchmarkConstants.BinaryFormatterHex);
-        private static readonly byte[] BsonData = TestFixtureBase.HexToBytes(BenchmarkConstants.BsonHex);
+        return DeserializeDataContract<TestClass>(BenchmarkConstants.XmlText);
+    }
 
-        [Benchmark]
-        public TestClass DataContractSerializer()
-        {
-            return DeserializeDataContract<TestClass>(BenchmarkConstants.XmlText);
-        }
+    private T DeserializeDataContract<T>(string xml)
+    {
+        var serializer = new DataContractSerializer(typeof(T));
+        var ms = new MemoryStream(Encoding.UTF8.GetBytes(xml));
 
-        private T DeserializeDataContract<T>(string xml)
-        {
-            var serializer = new DataContractSerializer(typeof(T));
-            var ms = new MemoryStream(Encoding.UTF8.GetBytes(xml));
+        return (T)serializer.ReadObject(ms);
+    }
 
-            return (T)serializer.ReadObject(ms);
-        }
+    private T DeserializeDataContractJson<T>(string json)
+    {
+        var dataContractSerializer = new DataContractJsonSerializer(typeof(T));
+        var ms = new MemoryStream(Encoding.UTF8.GetBytes(json));
 
-        private T DeserializeDataContractJson<T>(string json)
-        {
-            var dataContractSerializer = new DataContractJsonSerializer(typeof(T));
-            var ms = new MemoryStream(Encoding.UTF8.GetBytes(json));
-
-            return (T)dataContractSerializer.ReadObject(ms);
-        }
+        return (T)dataContractSerializer.ReadObject(ms);
+    }
 
 #if (!NET5_0_OR_GREATER)
         [Benchmark]
@@ -88,232 +88,231 @@ namespace Argon.Tests.Benchmarks
         }
 #endif
 
-        [Benchmark]
-        public TestClass DataContractJsonSerializer()
-        {
-            return DeserializeDataContractJson<TestClass>(BenchmarkConstants.JsonText);
-        }
+    [Benchmark]
+    public TestClass DataContractJsonSerializer()
+    {
+        return DeserializeDataContractJson<TestClass>(BenchmarkConstants.JsonText);
+    }
 
-        [Benchmark]
-        public TestClass JsonNet()
-        {
-            return JsonConvert.DeserializeObject<TestClass>(BenchmarkConstants.JsonText);
-        }
+    [Benchmark]
+    public TestClass JsonNet()
+    {
+        return JsonConvert.DeserializeObject<TestClass>(BenchmarkConstants.JsonText);
+    }
 
-        [Benchmark]
-        public TestClass JsonNetIso()
-        {
-            return JsonConvert.DeserializeObject<TestClass>(BenchmarkConstants.JsonIsoText);
-        }
+    [Benchmark]
+    public TestClass JsonNetIso()
+    {
+        return JsonConvert.DeserializeObject<TestClass>(BenchmarkConstants.JsonIsoText);
+    }
 
-        [Benchmark]
-        public TestClass JsonNetManual()
-        {
-            return DeserializeJsonNetManual(BenchmarkConstants.JsonText);
-        }
+    [Benchmark]
+    public TestClass JsonNetManual()
+    {
+        return DeserializeJsonNetManual(BenchmarkConstants.JsonText);
+    }
 
-#region DeserializeJsonNetManual
-        private TestClass DeserializeJsonNetManual(string json)
-        {
-            var c = new TestClass();
+    #region DeserializeJsonNetManual
+    private TestClass DeserializeJsonNetManual(string json)
+    {
+        var c = new TestClass();
 
-            var reader = new JsonTextReader(new StringReader(json));
-            reader.Read();
-            while (reader.Read())
+        var reader = new JsonTextReader(new StringReader(json));
+        reader.Read();
+        while (reader.Read())
+        {
+            if (reader.TokenType == JsonToken.PropertyName)
             {
-                if (reader.TokenType == JsonToken.PropertyName)
+                var propertyName = (string)reader.Value;
+                switch (propertyName)
                 {
-                    var propertyName = (string)reader.Value;
-                    switch (propertyName)
-                    {
-                        case "strings":
-                            reader.Read();
-                            while (reader.Read() && reader.TokenType != JsonToken.EndArray)
-                            {
-                                c.strings.Add((string)reader.Value);
-                            }
-                            break;
-                        case "dictionary":
-                            reader.Read();
-                            while (reader.Read() && reader.TokenType != JsonToken.EndObject)
-                            {
-                                var key = (string)reader.Value;
-                                c.dictionary.Add(key, reader.ReadAsInt32().GetValueOrDefault());
-                            }
-                            break;
-                        case "Name":
-                            c.Name = reader.ReadAsString();
-                            break;
-                        case "Now":
-                            c.Now = reader.ReadAsDateTime().GetValueOrDefault();
-                            break;
-                        case "BigNumber":
-                            c.BigNumber = reader.ReadAsDecimal().GetValueOrDefault();
-                            break;
-                        case "Address1":
-                            reader.Read();
-                            c.Address1 = CreateAddress(reader);
-                            break;
-                        case "Addresses":
-                            reader.Read();
-                            while (reader.Read() && reader.TokenType != JsonToken.EndArray)
-                            {
-                                var address = CreateAddress(reader);
-                                c.Addresses.Add(address);
-                            }
-                            break;
-                    }
-                }
-                else
-                {
-                    break;
+                    case "strings":
+                        reader.Read();
+                        while (reader.Read() && reader.TokenType != JsonToken.EndArray)
+                        {
+                            c.strings.Add((string)reader.Value);
+                        }
+                        break;
+                    case "dictionary":
+                        reader.Read();
+                        while (reader.Read() && reader.TokenType != JsonToken.EndObject)
+                        {
+                            var key = (string)reader.Value;
+                            c.dictionary.Add(key, reader.ReadAsInt32().GetValueOrDefault());
+                        }
+                        break;
+                    case "Name":
+                        c.Name = reader.ReadAsString();
+                        break;
+                    case "Now":
+                        c.Now = reader.ReadAsDateTime().GetValueOrDefault();
+                        break;
+                    case "BigNumber":
+                        c.BigNumber = reader.ReadAsDecimal().GetValueOrDefault();
+                        break;
+                    case "Address1":
+                        reader.Read();
+                        c.Address1 = CreateAddress(reader);
+                        break;
+                    case "Addresses":
+                        reader.Read();
+                        while (reader.Read() && reader.TokenType != JsonToken.EndArray)
+                        {
+                            var address = CreateAddress(reader);
+                            c.Addresses.Add(address);
+                        }
+                        break;
                 }
             }
-
-            return c;
+            else
+            {
+                break;
+            }
         }
 
-        private static Address CreateAddress(JsonTextReader reader)
+        return c;
+    }
+
+    private static Address CreateAddress(JsonTextReader reader)
+    {
+        var a = new Address();
+        while (reader.Read())
         {
-            var a = new Address();
-            while (reader.Read())
+            if (reader.TokenType == JsonToken.PropertyName)
             {
-                if (reader.TokenType == JsonToken.PropertyName)
+                switch ((string)reader.Value)
                 {
-                    switch ((string)reader.Value)
-                    {
-                        case "Street":
-                            a.Street = reader.ReadAsString();
-                            break;
-                        case "Phone":
-                            a.Phone = reader.ReadAsString();
-                            break;
-                        case "Entered":
-                            a.Entered = reader.ReadAsDateTime().GetValueOrDefault();
-                            break;
-                    }
-                }
-                else
-                {
-                    break;
+                    case "Street":
+                        a.Street = reader.ReadAsString();
+                        break;
+                    case "Phone":
+                        a.Phone = reader.ReadAsString();
+                        break;
+                    case "Entered":
+                        a.Entered = reader.ReadAsDateTime().GetValueOrDefault();
+                        break;
                 }
             }
-            return a;
-        }
-#endregion
-
-        [Benchmark]
-        public Task<TestClass> JsonNetManualAsync()
-        {
-            return DeserializeJsonNetManualAsync(BenchmarkConstants.JsonText);
-        }
-
-        [Benchmark]
-        public Task<TestClass> JsonNetManualIndentedAsync()
-        {
-            return DeserializeJsonNetManualAsync(BenchmarkConstants.JsonIndentedText);
-        }
-
-        private async Task<TestClass> DeserializeJsonNetManualAsync(string json)
-        {
-            var c = new TestClass();
-
-            var reader = new JsonTextReader(new StringReader(json));
-            await reader.ReadAsync();
-            while (await reader.ReadAsync())
+            else
             {
-                if (reader.TokenType == JsonToken.PropertyName)
+                break;
+            }
+        }
+        return a;
+    }
+    #endregion
+
+    [Benchmark]
+    public Task<TestClass> JsonNetManualAsync()
+    {
+        return DeserializeJsonNetManualAsync(BenchmarkConstants.JsonText);
+    }
+
+    [Benchmark]
+    public Task<TestClass> JsonNetManualIndentedAsync()
+    {
+        return DeserializeJsonNetManualAsync(BenchmarkConstants.JsonIndentedText);
+    }
+
+    private async Task<TestClass> DeserializeJsonNetManualAsync(string json)
+    {
+        var c = new TestClass();
+
+        var reader = new JsonTextReader(new StringReader(json));
+        await reader.ReadAsync();
+        while (await reader.ReadAsync())
+        {
+            if (reader.TokenType == JsonToken.PropertyName)
+            {
+                var propertyName = (string)reader.Value;
+                switch (propertyName)
                 {
-                    var propertyName = (string)reader.Value;
-                    switch (propertyName)
-                    {
-                        case "strings":
-                            await reader.ReadAsync();
-                            while (await reader.ReadAsync() && reader.TokenType != JsonToken.EndArray)
-                            {
-                                c.strings.Add((string)reader.Value);
-                            }
-                            break;
-                        case "dictionary":
-                            await reader.ReadAsync();
-                            while (await reader.ReadAsync() && reader.TokenType != JsonToken.EndObject)
-                            {
-                                var key = (string)reader.Value;
-                                c.dictionary.Add(key, (await reader.ReadAsInt32Async()).GetValueOrDefault());
-                            }
-                            break;
-                        case "Name":
-                            c.Name = await reader.ReadAsStringAsync();
-                            break;
-                        case "Now":
-                            c.Now = (await reader.ReadAsDateTimeAsync()).GetValueOrDefault();
-                            break;
-                        case "BigNumber":
-                            c.BigNumber = (await reader.ReadAsDecimalAsync()).GetValueOrDefault();
-                            break;
-                        case "Address1":
-                            await reader.ReadAsync();
-                            c.Address1 = await CreateAddressAsync(reader);
-                            break;
-                        case "Addresses":
-                            await reader.ReadAsync();
-                            while (await reader.ReadAsync() && reader.TokenType != JsonToken.EndArray)
-                            {
-                                var address = await CreateAddressAsync(reader);
-                                c.Addresses.Add(address);
-                            }
-                            break;
-                    }
-                }
-                else
-                {
-                    break;
+                    case "strings":
+                        await reader.ReadAsync();
+                        while (await reader.ReadAsync() && reader.TokenType != JsonToken.EndArray)
+                        {
+                            c.strings.Add((string)reader.Value);
+                        }
+                        break;
+                    case "dictionary":
+                        await reader.ReadAsync();
+                        while (await reader.ReadAsync() && reader.TokenType != JsonToken.EndObject)
+                        {
+                            var key = (string)reader.Value;
+                            c.dictionary.Add(key, (await reader.ReadAsInt32Async()).GetValueOrDefault());
+                        }
+                        break;
+                    case "Name":
+                        c.Name = await reader.ReadAsStringAsync();
+                        break;
+                    case "Now":
+                        c.Now = (await reader.ReadAsDateTimeAsync()).GetValueOrDefault();
+                        break;
+                    case "BigNumber":
+                        c.BigNumber = (await reader.ReadAsDecimalAsync()).GetValueOrDefault();
+                        break;
+                    case "Address1":
+                        await reader.ReadAsync();
+                        c.Address1 = await CreateAddressAsync(reader);
+                        break;
+                    case "Addresses":
+                        await reader.ReadAsync();
+                        while (await reader.ReadAsync() && reader.TokenType != JsonToken.EndArray)
+                        {
+                            var address = await CreateAddressAsync(reader);
+                            c.Addresses.Add(address);
+                        }
+                        break;
                 }
             }
-
-            return c;
+            else
+            {
+                break;
+            }
         }
 
-        private static async Task<Address> CreateAddressAsync(JsonTextReader reader)
+        return c;
+    }
+
+    private static async Task<Address> CreateAddressAsync(JsonTextReader reader)
+    {
+        var a = new Address();
+        while (await reader.ReadAsync())
         {
-            var a = new Address();
-            while (await reader.ReadAsync())
+            if (reader.TokenType == JsonToken.PropertyName)
             {
-                if (reader.TokenType == JsonToken.PropertyName)
+                switch ((string)reader.Value)
                 {
-                    switch ((string)reader.Value)
-                    {
-                        case "Street":
-                            a.Street = await reader.ReadAsStringAsync();
-                            break;
-                        case "Phone":
-                            a.Phone = await reader.ReadAsStringAsync();
-                            break;
-                        case "Entered":
-                            a.Entered = (await reader.ReadAsDateTimeAsync()).GetValueOrDefault();
-                            break;
-                    }
-                }
-                else
-                {
-                    break;
+                    case "Street":
+                        a.Street = await reader.ReadAsStringAsync();
+                        break;
+                    case "Phone":
+                        a.Phone = await reader.ReadAsStringAsync();
+                        break;
+                    case "Entered":
+                        a.Entered = (await reader.ReadAsDateTimeAsync()).GetValueOrDefault();
+                        break;
                 }
             }
-            return a;
+            else
+            {
+                break;
+            }
         }
+        return a;
+    }
 
 #pragma warning disable 618
-        [Benchmark]
-        public TestClass JsonNetBson()
-        {
-            return DeserializeJsonNetBson<TestClass>(BsonData);
-        }
-
-        private T DeserializeJsonNetBson<T>(byte[] bson)
-        {
-            var serializer = new JsonSerializer();
-            return (T)serializer.Deserialize(new BsonReader(new MemoryStream(bson)), typeof(T));
-        }
-#pragma warning restore 618
+    [Benchmark]
+    public TestClass JsonNetBson()
+    {
+        return DeserializeJsonNetBson<TestClass>(BsonData);
     }
+
+    private T DeserializeJsonNetBson<T>(byte[] bson)
+    {
+        var serializer = new JsonSerializer();
+        return (T)serializer.Deserialize(new BsonReader(new MemoryStream(bson)), typeof(T));
+    }
+#pragma warning restore 618
 }

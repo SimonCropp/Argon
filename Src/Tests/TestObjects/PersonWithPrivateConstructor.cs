@@ -23,21 +23,20 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class PersonWithPrivateConstructor
 {
-    public class PersonWithPrivateConstructor
+    private PersonWithPrivateConstructor()
     {
-        private PersonWithPrivateConstructor()
-        {
-        }
-
-        public static PersonWithPrivateConstructor CreatePerson()
-        {
-            return new PersonWithPrivateConstructor();
-        }
-
-        public string Name { get; set; }
-
-        public int Age { get; set; }
     }
+
+    public static PersonWithPrivateConstructor CreatePerson()
+    {
+        return new PersonWithPrivateConstructor();
+    }
+
+    public string Name { get; set; }
+
+    public int Age { get; set; }
 }

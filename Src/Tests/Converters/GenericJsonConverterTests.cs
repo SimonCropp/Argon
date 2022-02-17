@@ -32,114 +32,113 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Converters
+namespace Argon.Tests.Converters;
+
+[TestFixture]
+public class GenericJsonConverterTests : TestFixtureBase
 {
-    [TestFixture]
-    public class GenericJsonConverterTests : TestFixtureBase
+    public class TestGenericConverter : JsonConverter<string>
     {
-        public class TestGenericConverter : JsonConverter<string>
+        public override void WriteJson(JsonWriter writer, string value, JsonSerializer serializer)
         {
-            public override void WriteJson(JsonWriter writer, string value, JsonSerializer serializer)
-            {
-                writer.WriteValue(value);
-            }
-
-            public override string ReadJson(JsonReader reader, Type objectType, string existingValue, bool hasExistingValue, JsonSerializer serializer)
-            {
-                return (string)reader.Value + existingValue;
-            }
+            writer.WriteValue(value);
         }
 
-        [Fact]
-        public void WriteJsonObject()
+        public override string ReadJson(JsonReader reader, Type objectType, string existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
-            var sw = new StringWriter();
-            var jsonWriter = new JsonTextWriter(sw);
-
-            var converter = new TestGenericConverter();
-            converter.WriteJson(jsonWriter, (object)"String!", null);
-
-            Assert.AreEqual(@"""String!""", sw.ToString());
+            return (string)reader.Value + existingValue;
         }
+    }
 
-        [Fact]
-        public void WriteJsonGeneric()
+    [Fact]
+    public void WriteJsonObject()
+    {
+        var sw = new StringWriter();
+        var jsonWriter = new JsonTextWriter(sw);
+
+        var converter = new TestGenericConverter();
+        converter.WriteJson(jsonWriter, (object)"String!", null);
+
+        Assert.AreEqual(@"""String!""", sw.ToString());
+    }
+
+    [Fact]
+    public void WriteJsonGeneric()
+    {
+        var sw = new StringWriter();
+        var jsonWriter = new JsonTextWriter(sw);
+
+        var converter = new TestGenericConverter();
+        converter.WriteJson(jsonWriter, "String!", null);
+
+        Assert.AreEqual(@"""String!""", sw.ToString());
+    }
+
+    [Fact]
+    public void WriteJsonBadType()
+    {
+        var sw = new StringWriter();
+        var jsonWriter = new JsonTextWriter(sw);
+
+        var converter = new TestGenericConverter();
+
+        ExceptionAssert.Throws<JsonSerializationException>(() =>
         {
-            var sw = new StringWriter();
-            var jsonWriter = new JsonTextWriter(sw);
+            converter.WriteJson(jsonWriter, 123, null);
+        }, "Converter cannot write specified value to JSON. System.String is required.");
+    }
 
-            var converter = new TestGenericConverter();
-            converter.WriteJson(jsonWriter, "String!", null);
+    [Fact]
+    public void ReadJsonGenericExistingValueNull()
+    {
+        var sr = new StringReader("'String!'");
+        var jsonReader = new JsonTextReader(sr);
+        jsonReader.Read();
 
-            Assert.AreEqual(@"""String!""", sw.ToString());
-        }
+        var converter = new TestGenericConverter();
+        var s = converter.ReadJson(jsonReader, typeof(string), null, false, null);
 
-        [Fact]
-        public void WriteJsonBadType()
+        Assert.AreEqual(@"String!", s);
+    }
+
+    [Fact]
+    public void ReadJsonGenericExistingValueString()
+    {
+        var sr = new StringReader("'String!'");
+        var jsonReader = new JsonTextReader(sr);
+        jsonReader.Read();
+
+        var converter = new TestGenericConverter();
+        var s = converter.ReadJson(jsonReader, typeof(string), "Existing!", true, null);
+
+        Assert.AreEqual(@"String!Existing!", s);
+    }
+
+    [Fact]
+    public void ReadJsonObjectExistingValueNull()
+    {
+        var sr = new StringReader("'String!'");
+        var jsonReader = new JsonTextReader(sr);
+        jsonReader.Read();
+
+        var converter = new TestGenericConverter();
+        var s = (string)converter.ReadJson(jsonReader, typeof(string), null, null);
+
+        Assert.AreEqual(@"String!", s);
+    }
+
+    [Fact]
+    public void ReadJsonObjectExistingValueWrongType()
+    {
+        var sr = new StringReader("'String!'");
+        var jsonReader = new JsonTextReader(sr);
+        jsonReader.Read();
+
+        var converter = new TestGenericConverter();
+
+        ExceptionAssert.Throws<JsonSerializationException>(() =>
         {
-            var sw = new StringWriter();
-            var jsonWriter = new JsonTextWriter(sw);
-
-            var converter = new TestGenericConverter();
-
-            ExceptionAssert.Throws<JsonSerializationException>(() =>
-            {
-                converter.WriteJson(jsonWriter, 123, null);
-            }, "Converter cannot write specified value to JSON. System.String is required.");
-        }
-
-        [Fact]
-        public void ReadJsonGenericExistingValueNull()
-        {
-            var sr = new StringReader("'String!'");
-            var jsonReader = new JsonTextReader(sr);
-            jsonReader.Read();
-
-            var converter = new TestGenericConverter();
-            var s = converter.ReadJson(jsonReader, typeof(string), null, false, null);
-
-            Assert.AreEqual(@"String!", s);
-        }
-
-        [Fact]
-        public void ReadJsonGenericExistingValueString()
-        {
-            var sr = new StringReader("'String!'");
-            var jsonReader = new JsonTextReader(sr);
-            jsonReader.Read();
-
-            var converter = new TestGenericConverter();
-            var s = converter.ReadJson(jsonReader, typeof(string), "Existing!", true, null);
-
-            Assert.AreEqual(@"String!Existing!", s);
-        }
-
-        [Fact]
-        public void ReadJsonObjectExistingValueNull()
-        {
-            var sr = new StringReader("'String!'");
-            var jsonReader = new JsonTextReader(sr);
-            jsonReader.Read();
-
-            var converter = new TestGenericConverter();
-            var s = (string)converter.ReadJson(jsonReader, typeof(string), null, null);
-
-            Assert.AreEqual(@"String!", s);
-        }
-
-        [Fact]
-        public void ReadJsonObjectExistingValueWrongType()
-        {
-            var sr = new StringReader("'String!'");
-            var jsonReader = new JsonTextReader(sr);
-            jsonReader.Read();
-
-            var converter = new TestGenericConverter();
-
-            ExceptionAssert.Throws<JsonSerializationException>(() =>
-            {
-                converter.ReadJson(jsonReader, typeof(string), 12345, null);
-            }, "Converter cannot read JSON with the specified existing value. System.String is required.");
-        }
+            converter.ReadJson(jsonReader, typeof(string), 12345, null);
+        }, "Converter cannot read JSON with the specified existing value. System.String is required.");
     }
 }

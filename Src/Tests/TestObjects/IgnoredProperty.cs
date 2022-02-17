@@ -23,15 +23,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class IgnoredProperty
-    {
-        [JsonIgnore]
-        [JsonProperty(Required = Required.Always)]
-        public string StringProp1 { get; set; }
+namespace Argon.Tests.TestObjects;
 
-        [JsonIgnore]
-        public string StringProp2 { get; set; }
-    }
+public class IgnoredProperty
+{
+    [JsonIgnore]
+    [JsonProperty(Required = Required.Always)]
+    public string StringProp1 { get; set; }
+
+    [JsonIgnore]
+    public string StringProp2 { get; set; }
 }

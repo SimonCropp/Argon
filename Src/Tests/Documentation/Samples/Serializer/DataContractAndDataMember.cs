@@ -28,51 +28,50 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class DataContractAndDataMember : TestFixtureBase
 {
-    [TestFixture]
-    public class DataContractAndDataMember : TestFixtureBase
+    #region Types
+    [DataContract]
+    public class File
     {
-        #region Types
-        [DataContract]
-        public class File
+        // excluded from serialization
+        // does not have DataMemberAttribute
+        public Guid Id { get; set; }
+
+        [DataMember]
+        public string Name { get; set; }
+
+        [DataMember]
+        public int Size { get; set; }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var file = new File
         {
-            // excluded from serialization
-            // does not have DataMemberAttribute
-            public Guid Id { get; set; }
+            Id = Guid.NewGuid(),
+            Name = "ImportantLegalDocuments.docx",
+            Size = 50 * 1024
+        };
 
-            [DataMember]
-            public string Name { get; set; }
+        var json = JsonConvert.SerializeObject(file, Formatting.Indented);
 
-            [DataMember]
-            public int Size { get; set; }
-        }
+        Console.WriteLine(json);
+        // {
+        //   "Name": "ImportantLegalDocuments.docx",
+        //   "Size": 51200
+        // }
         #endregion
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var file = new File
-            {
-                Id = Guid.NewGuid(),
-                Name = "ImportantLegalDocuments.docx",
-                Size = 50 * 1024
-            };
-
-            var json = JsonConvert.SerializeObject(file, Formatting.Indented);
-
-            Console.WriteLine(json);
-            // {
-            //   "Name": "ImportantLegalDocuments.docx",
-            //   "Size": 51200
-            // }
-            #endregion
-
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""Name"": ""ImportantLegalDocuments.docx"",
   ""Size"": 51200
 }", json);
-        }
     }
 }

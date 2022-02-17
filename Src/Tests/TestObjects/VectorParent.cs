@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class VectorParent
 {
-    public class VectorParent
-    {
-        public Vector Position;
-    }
+    public Vector Position;
 }

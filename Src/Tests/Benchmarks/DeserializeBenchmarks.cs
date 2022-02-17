@@ -26,47 +26,46 @@
 using BenchmarkDotNet.Attributes;
 using Argon.Tests.TestObjects;
 
-namespace Argon.Tests.Benchmarks
+namespace Argon.Tests.Benchmarks;
+
+public class DeserializeBenchmarks
 {
-    public class DeserializeBenchmarks
+    private static readonly string LargeJsonText;
+    private static readonly string FloatArrayJson;
+
+    static DeserializeBenchmarks()
     {
-        private static readonly string LargeJsonText;
-        private static readonly string FloatArrayJson;
+        LargeJsonText = System.IO.File.ReadAllText("large.json");
 
-        static DeserializeBenchmarks()
+        FloatArrayJson = new JArray(Enumerable.Range(0, 5000).Select(i => i * 1.1m)).ToString(Formatting.None);
+    }
+
+    [Benchmark]
+    public IList<RootObject> DeserializeLargeJsonText()
+    {
+        return JsonConvert.DeserializeObject<IList<RootObject>>(LargeJsonText);
+    }
+
+    [Benchmark]
+    public IList<RootObject> DeserializeLargeJsonFile()
+    {
+        using (var jsonFile = System.IO.File.OpenText("large.json"))
+        using (var jsonTextReader = new JsonTextReader(jsonFile))
         {
-            LargeJsonText = System.IO.File.ReadAllText("large.json");
-
-            FloatArrayJson = new JArray(Enumerable.Range(0, 5000).Select(i => i * 1.1m)).ToString(Formatting.None);
+            var serializer = new JsonSerializer();
+            return serializer.Deserialize<IList<RootObject>>(jsonTextReader);
         }
+    }
 
-        [Benchmark]
-        public IList<RootObject> DeserializeLargeJsonText()
-        {
-            return JsonConvert.DeserializeObject<IList<RootObject>>(LargeJsonText);
-        }
+    [Benchmark]
+    public IList<double> DeserializeDoubleList()
+    {
+        return JsonConvert.DeserializeObject<IList<double>>(FloatArrayJson);
+    }
 
-        [Benchmark]
-        public IList<RootObject> DeserializeLargeJsonFile()
-        {
-            using (var jsonFile = System.IO.File.OpenText("large.json"))
-            using (var jsonTextReader = new JsonTextReader(jsonFile))
-            {
-                var serializer = new JsonSerializer();
-                return serializer.Deserialize<IList<RootObject>>(jsonTextReader);
-            }
-        }
-
-        [Benchmark]
-        public IList<double> DeserializeDoubleList()
-        {
-            return JsonConvert.DeserializeObject<IList<double>>(FloatArrayJson);
-        }
-
-        [Benchmark]
-        public IList<decimal> DeserializeDecimalList()
-        {
-            return JsonConvert.DeserializeObject<IList<decimal>>(FloatArrayJson);
-        }
+    [Benchmark]
+    public IList<decimal> DeserializeDecimalList()
+    {
+        return JsonConvert.DeserializeObject<IList<decimal>>(FloatArrayJson);
     }
 }

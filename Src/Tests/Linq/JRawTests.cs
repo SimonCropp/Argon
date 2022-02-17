@@ -27,38 +27,37 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Linq
+namespace Argon.Tests.Linq;
+
+[TestFixture]
+public class JRawTests : TestFixtureBase
 {
-    [TestFixture]
-    public class JRawTests : TestFixtureBase
+    [Fact]
+    public void RawEquals()
     {
-        [Fact]
-        public void RawEquals()
-        {
-            var r1 = new JRaw("raw1");
-            var r2 = new JRaw("raw1");
-            var r3 = new JRaw("raw2");
+        var r1 = new JRaw("raw1");
+        var r2 = new JRaw("raw1");
+        var r3 = new JRaw("raw2");
 
-            Assert.IsTrue(JToken.DeepEquals(r1, r2));
-            Assert.IsFalse(JToken.DeepEquals(r1, r3));
-        }
+        Assert.IsTrue(JToken.DeepEquals(r1, r2));
+        Assert.IsFalse(JToken.DeepEquals(r1, r3));
+    }
 
-        [Fact]
-        public void RawClone()
-        {
-            var r1 = new JRaw("raw1");
-            var r2 = r1.CloneToken();
+    [Fact]
+    public void RawClone()
+    {
+        var r1 = new JRaw("raw1");
+        var r2 = r1.CloneToken();
 
-            CustomAssert.IsInstanceOfType(typeof(JRaw), r2);
-        }
+        CustomAssert.IsInstanceOfType(typeof(JRaw), r2);
+    }
 
-        [Fact]
-        public void RawToObject()
-        {
-            var r1 = new JRaw("1");
-            var i = r1.ToObject<int>();
+    [Fact]
+    public void RawToObject()
+    {
+        var r1 = new JRaw("1");
+        var i = r1.ToObject<int>();
 
-            Assert.AreEqual(1, i);
-        }
+        Assert.AreEqual(1, i);
     }
 }

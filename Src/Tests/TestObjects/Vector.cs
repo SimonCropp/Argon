@@ -23,17 +23,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public struct Vector
-    {
-        public float X;
-        public float Y;
-        public float Z;
+namespace Argon.Tests.TestObjects;
 
-        public override string ToString()
-        {
-            return string.Format("({0},{1},{2})", X, Y, Z);
-        }
+public struct Vector
+{
+    public float X;
+    public float Y;
+    public float Z;
+
+    public override string ToString()
+    {
+        return string.Format("({0},{1},{2})", X, Y, Z);
     }
 }

@@ -23,15 +23,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class SetOnlyPropertyClass
-    {
-        public string Field = "Field";
+namespace Argon.Tests.TestObjects;
 
-        public string SetOnlyProperty
-        {
-            set { }
-        }
+public class SetOnlyPropertyClass
+{
+    public string Field = "Field";
+
+    public string SetOnlyProperty
+    {
+        set { }
     }
 }

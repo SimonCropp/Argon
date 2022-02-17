@@ -23,26 +23,25 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[DataContract]
+public class NullableStructPropertyClass
 {
-    [DataContract]
-    public class NullableStructPropertyClass
+    private StructISerializable _foo1;
+    private StructISerializable? _foo2;
+
+    [DataMember]
+    public StructISerializable Foo1
     {
-        private StructISerializable _foo1;
-        private StructISerializable? _foo2;
+        get => _foo1;
+        set => _foo1 = value;
+    }
 
-        [DataMember]
-        public StructISerializable Foo1
-        {
-            get => _foo1;
-            set => _foo1 = value;
-        }
-
-        [DataMember]
-        public StructISerializable? Foo2
-        {
-            get => _foo2;
-            set => _foo2 = value;
-        }
+    [DataMember]
+    public StructISerializable? Foo2
+    {
+        get => _foo2;
+        set => _foo2 = value;
     }
 }

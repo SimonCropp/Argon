@@ -23,21 +23,20 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[JsonObject(MemberSerialization.OptIn)]
+public class DecimalTest : Test<decimal>
 {
-    [JsonObject(MemberSerialization.OptIn)]
-    public class DecimalTest : Test<decimal>
+    protected DecimalTest()
     {
-        protected DecimalTest()
-        {
-        }
-
-        public DecimalTest(decimal val)
-        {
-            Value = val;
-        }
-
-        [JsonProperty]
-        public override decimal Value { get; set; }
     }
+
+    public DecimalTest(decimal val)
+    {
+        Value = val;
+    }
+
+    [JsonProperty]
+    public override decimal Value { get; set; }
 }

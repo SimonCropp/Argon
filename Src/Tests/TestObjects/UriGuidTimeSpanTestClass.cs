@@ -23,14 +23,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class UriGuidTimeSpanTestClass
 {
-    public class UriGuidTimeSpanTestClass
-    {
-        public Guid Guid { get; set; }
-        public Guid? NullableGuid { get; set; }
-        public TimeSpan TimeSpan { get; set; }
-        public TimeSpan? NullableTimeSpan { get; set; }
-        public Uri Uri { get; set; }
-    }
+    public Guid Guid { get; set; }
+    public Guid? NullableGuid { get; set; }
+    public TimeSpan TimeSpan { get; set; }
+    public TimeSpan? NullableTimeSpan { get; set; }
+    public Uri Uri { get; set; }
 }

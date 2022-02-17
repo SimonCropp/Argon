@@ -23,17 +23,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class PublicParameterizedConstructorWithPropertyNameConflict
 {
-    public class PublicParameterizedConstructorWithPropertyNameConflict
+    private readonly int _value;
+
+    public PublicParameterizedConstructorWithPropertyNameConflict(string name)
     {
-        private readonly int _value;
-
-        public PublicParameterizedConstructorWithPropertyNameConflict(string name)
-        {
-            _value = Convert.ToInt32(name);
-        }
-
-        public int Name => _value;
+        _value = Convert.ToInt32(name);
     }
+
+    public int Name => _value;
 }

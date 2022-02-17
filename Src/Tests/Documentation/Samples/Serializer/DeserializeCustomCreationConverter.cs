@@ -28,39 +28,39 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class DeserializeCustomCreationConverter : TestFixtureBase
 {
-    [TestFixture]
-    public class DeserializeCustomCreationConverter : TestFixtureBase
+    #region Types
+    public class Person
     {
-        #region Types
-        public class Person
-        {
-            public string FirstName { get; set; }
-            public string LastName { get; set; }
-            public DateTime BirthDate { get; set; }
-        }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public DateTime BirthDate { get; set; }
+    }
 
-        public class Employee : Person
-        {
-            public string Department { get; set; }
-            public string JobTitle { get; set; }
-        }
+    public class Employee : Person
+    {
+        public string Department { get; set; }
+        public string JobTitle { get; set; }
+    }
 
-        public class PersonConverter : CustomCreationConverter<Person>
+    public class PersonConverter : CustomCreationConverter<Person>
+    {
+        public override Person Create(Type objectType)
         {
-            public override Person Create(Type objectType)
-            {
-                return new Employee();
-            }
+            return new Employee();
         }
-        #endregion
+    }
+    #endregion
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var json = @"{
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var json = @"{
               'Department': 'Furniture',
               'JobTitle': 'Carpenter',
               'FirstName': 'John',
@@ -68,18 +68,17 @@ namespace Argon.Tests.Documentation.Samples.Serializer
               'BirthDate': '1983-02-02T00:00:00'
             }";
 
-            var person = JsonConvert.DeserializeObject<Person>(json, new PersonConverter());
+        var person = JsonConvert.DeserializeObject<Person>(json, new PersonConverter());
 
-            Console.WriteLine(person.GetType().Name);
-            // Employee
+        Console.WriteLine(person.GetType().Name);
+        // Employee
 
-            var employee = (Employee)person;
+        var employee = (Employee)person;
 
-            Console.WriteLine(employee.JobTitle);
-            // Carpenter
-            #endregion
+        Console.WriteLine(employee.JobTitle);
+        // Carpenter
+        #endregion
 
-            Assert.AreEqual("Carpenter", employee.JobTitle);
-        }
+        Assert.AreEqual("Carpenter", employee.JobTitle);
     }
 }

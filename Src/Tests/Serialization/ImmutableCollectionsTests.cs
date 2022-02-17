@@ -28,404 +28,403 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Serialization
-{
-    [TestFixture]
-    public class ImmutableCollectionsTests : TestFixtureBase
-    {
-        #region List
-        [Fact]
-        public void SerializeList()
-        {
-            var l = ImmutableList.CreateRange(new List<string>
-            {
-                "One",
-                "II",
-                "3"
-            });
+namespace Argon.Tests.Serialization;
 
-            var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-            StringAssert.AreEqual(@"[
+[TestFixture]
+public class ImmutableCollectionsTests : TestFixtureBase
+{
+    #region List
+    [Fact]
+    public void SerializeList()
+    {
+        var l = ImmutableList.CreateRange(new List<string>
+        {
+            "One",
+            "II",
+            "3"
+        });
+
+        var json = JsonConvert.SerializeObject(l, Formatting.Indented);
+        StringAssert.AreEqual(@"[
   ""One"",
   ""II"",
   ""3""
 ]", json);
-        }
+    }
 
-        [Fact]
-        public void DeserializeList()
-        {
-            var json = @"[
+    [Fact]
+    public void DeserializeList()
+    {
+        var json = @"[
   ""One"",
   ""II"",
   ""3""
 ]";
 
-            var l = JsonConvert.DeserializeObject<ImmutableList<string>>(json);
+        var l = JsonConvert.DeserializeObject<ImmutableList<string>>(json);
 
-            Assert.AreEqual(3, l.Count);
-            Assert.AreEqual("One", l[0]);
-            Assert.AreEqual("II", l[1]);
-            Assert.AreEqual("3", l[2]);
-        }
+        Assert.AreEqual(3, l.Count);
+        Assert.AreEqual("One", l[0]);
+        Assert.AreEqual("II", l[1]);
+        Assert.AreEqual("3", l[2]);
+    }
 
-        [Fact]
-        public void DeserializeListInterface()
-        {
-            var json = @"[
+    [Fact]
+    public void DeserializeListInterface()
+    {
+        var json = @"[
         'Volibear',
         'Teemo',
         'Katarina'
       ]";
 
-            // what sorcery is this?!
-            var champions = JsonConvert.DeserializeObject<IImmutableList<string>>(json);
+        // what sorcery is this?!
+        var champions = JsonConvert.DeserializeObject<IImmutableList<string>>(json);
 
-            Assert.AreEqual(3, champions.Count);
-            Assert.AreEqual("Volibear", champions[0]);
-            Assert.AreEqual("Teemo", champions[1]);
-            Assert.AreEqual("Katarina", champions[2]);
-        }
-        #endregion
+        Assert.AreEqual(3, champions.Count);
+        Assert.AreEqual("Volibear", champions[0]);
+        Assert.AreEqual("Teemo", champions[1]);
+        Assert.AreEqual("Katarina", champions[2]);
+    }
+    #endregion
 
-        #region Array
-        [Fact]
-        public void SerializeArray()
+    #region Array
+    [Fact]
+    public void SerializeArray()
+    {
+        var l = ImmutableArray.CreateRange(new List<string>
         {
-            var l = ImmutableArray.CreateRange(new List<string>
-            {
-                "One",
-                "II",
-                "3"
-            });
+            "One",
+            "II",
+            "3"
+        });
 
-            var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-            StringAssert.AreEqual(@"[
+        var json = JsonConvert.SerializeObject(l, Formatting.Indented);
+        StringAssert.AreEqual(@"[
   ""One"",
   ""II"",
   ""3""
 ]", json);
-        }
+    }
 
-        [Fact]
-        public void DeserializeArray()
-        {
-            var json = @"[
+    [Fact]
+    public void DeserializeArray()
+    {
+        var json = @"[
           ""One"",
           ""II"",
           ""3""
         ]";
 
-            var l = JsonConvert.DeserializeObject<ImmutableArray<string>>(json);
+        var l = JsonConvert.DeserializeObject<ImmutableArray<string>>(json);
 
-            Assert.AreEqual(3, l.Length);
-            Assert.AreEqual("One", l[0]);
-            Assert.AreEqual("II", l[1]);
-            Assert.AreEqual("3", l[2]);
-        }
+        Assert.AreEqual(3, l.Length);
+        Assert.AreEqual("One", l[0]);
+        Assert.AreEqual("II", l[1]);
+        Assert.AreEqual("3", l[2]);
+    }
 
-        [Fact]
-        public void SerializeDefaultArray()
+    [Fact]
+    public void SerializeDefaultArray()
+    {
+        ExceptionAssert.Throws<InvalidOperationException>(
+            () => JsonConvert.SerializeObject(default(ImmutableArray<int>), Formatting.Indented),
+            "This operation cannot be performed on a default instance of ImmutableArray<T>.  Consider initializing the array, or checking the ImmutableArray<T>.IsDefault property.");
+    }
+    #endregion
+
+    #region Queue
+    [Fact]
+    public void SerializeQueue()
+    {
+        var l = ImmutableQueue.CreateRange(new List<string>
         {
-            ExceptionAssert.Throws<InvalidOperationException>(
-                () => JsonConvert.SerializeObject(default(ImmutableArray<int>), Formatting.Indented),
-                "This operation cannot be performed on a default instance of ImmutableArray<T>.  Consider initializing the array, or checking the ImmutableArray<T>.IsDefault property.");
-        }
-        #endregion
+            "One",
+            "II",
+            "3"
+        });
 
-        #region Queue
-        [Fact]
-        public void SerializeQueue()
-        {
-            var l = ImmutableQueue.CreateRange(new List<string>
-            {
-                "One",
-                "II",
-                "3"
-            });
-
-            var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-            StringAssert.AreEqual(@"[
+        var json = JsonConvert.SerializeObject(l, Formatting.Indented);
+        StringAssert.AreEqual(@"[
   ""One"",
   ""II"",
   ""3""
 ]", json);
-        }
+    }
 
-        [Fact]
-        public void DeserializeQueue()
-        {
-            var json = @"[
+    [Fact]
+    public void DeserializeQueue()
+    {
+        var json = @"[
   ""One"",
   ""II"",
   ""3""
 ]";
 
-            var l = JsonConvert.DeserializeObject<ImmutableQueue<string>>(json);
+        var l = JsonConvert.DeserializeObject<ImmutableQueue<string>>(json);
 
-            Assert.AreEqual(3, l.Count());
-            Assert.AreEqual("One", l.ElementAt(0));
-            Assert.AreEqual("II", l.ElementAt(1));
-            Assert.AreEqual("3", l.ElementAt(2));
-        }
+        Assert.AreEqual(3, l.Count());
+        Assert.AreEqual("One", l.ElementAt(0));
+        Assert.AreEqual("II", l.ElementAt(1));
+        Assert.AreEqual("3", l.ElementAt(2));
+    }
 
-        [Fact]
-        public void DeserializeQueueInterface()
-        {
-            var json = @"[
+    [Fact]
+    public void DeserializeQueueInterface()
+    {
+        var json = @"[
   ""One"",
   ""II"",
   ""3""
 ]";
 
-            var l = JsonConvert.DeserializeObject<IImmutableQueue<string>>(json);
+        var l = JsonConvert.DeserializeObject<IImmutableQueue<string>>(json);
 
-            Assert.AreEqual(3, l.Count());
-            Assert.AreEqual("One", l.ElementAt(0));
-            Assert.AreEqual("II", l.ElementAt(1));
-            Assert.AreEqual("3", l.ElementAt(2));
-        }
-        #endregion
+        Assert.AreEqual(3, l.Count());
+        Assert.AreEqual("One", l.ElementAt(0));
+        Assert.AreEqual("II", l.ElementAt(1));
+        Assert.AreEqual("3", l.ElementAt(2));
+    }
+    #endregion
 
-        #region Stack
-        [Fact]
-        public void SerializeStack()
+    #region Stack
+    [Fact]
+    public void SerializeStack()
+    {
+        var l = ImmutableStack.CreateRange(new List<string>
         {
-            var l = ImmutableStack.CreateRange(new List<string>
-            {
-                "One",
-                "II",
-                "3"
-            });
+            "One",
+            "II",
+            "3"
+        });
 
-            var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-            StringAssert.AreEqual(@"[
+        var json = JsonConvert.SerializeObject(l, Formatting.Indented);
+        StringAssert.AreEqual(@"[
   ""3"",
   ""II"",
   ""One""
 ]", json);
-        }
+    }
 
-        [Fact]
-        public void DeserializeStack()
-        {
-            var json = @"[
+    [Fact]
+    public void DeserializeStack()
+    {
+        var json = @"[
   ""One"",
   ""II"",
   ""3""
 ]";
 
-            var l = JsonConvert.DeserializeObject<ImmutableStack<string>>(json);
+        var l = JsonConvert.DeserializeObject<ImmutableStack<string>>(json);
 
-            Assert.AreEqual(3, l.Count());
-            Assert.AreEqual("3", l.ElementAt(0));
-            Assert.AreEqual("II", l.ElementAt(1));
-            Assert.AreEqual("One", l.ElementAt(2));
-        }
+        Assert.AreEqual(3, l.Count());
+        Assert.AreEqual("3", l.ElementAt(0));
+        Assert.AreEqual("II", l.ElementAt(1));
+        Assert.AreEqual("One", l.ElementAt(2));
+    }
 
-        [Fact]
-        public void DeserializeStackInterface()
-        {
-            var json = @"[
+    [Fact]
+    public void DeserializeStackInterface()
+    {
+        var json = @"[
   ""One"",
   ""II"",
   ""3""
 ]";
 
-            var l = JsonConvert.DeserializeObject<IImmutableStack<string>>(json);
+        var l = JsonConvert.DeserializeObject<IImmutableStack<string>>(json);
 
-            Assert.AreEqual(3, l.Count());
-            Assert.AreEqual("3", l.ElementAt(0));
-            Assert.AreEqual("II", l.ElementAt(1));
-            Assert.AreEqual("One", l.ElementAt(2));
-        }
-        #endregion
+        Assert.AreEqual(3, l.Count());
+        Assert.AreEqual("3", l.ElementAt(0));
+        Assert.AreEqual("II", l.ElementAt(1));
+        Assert.AreEqual("One", l.ElementAt(2));
+    }
+    #endregion
 
-        #region HashSet
-        [Fact]
-        public void SerializeHashSet()
+    #region HashSet
+    [Fact]
+    public void SerializeHashSet()
+    {
+        var l = ImmutableHashSet.CreateRange(new List<string>
         {
-            var l = ImmutableHashSet.CreateRange(new List<string>
-            {
-                "One",
-                "II",
-                "3"
-            });
+            "One",
+            "II",
+            "3"
+        });
 
-            var json = JsonConvert.SerializeObject(l, Formatting.Indented);
+        var json = JsonConvert.SerializeObject(l, Formatting.Indented);
 
-            var a = JArray.Parse(json);
-            Assert.AreEqual(3, a.Count);
-            Assert.IsTrue(a.Any(t => t.DeepEquals("One")));
-            Assert.IsTrue(a.Any(t => t.DeepEquals("II")));
-            Assert.IsTrue(a.Any(t => t.DeepEquals("3")));
-        }
+        var a = JArray.Parse(json);
+        Assert.AreEqual(3, a.Count);
+        Assert.IsTrue(a.Any(t => t.DeepEquals("One")));
+        Assert.IsTrue(a.Any(t => t.DeepEquals("II")));
+        Assert.IsTrue(a.Any(t => t.DeepEquals("3")));
+    }
 
-        [Fact]
-        public void DeserializeHashSet()
-        {
-            var json = @"[
+    [Fact]
+    public void DeserializeHashSet()
+    {
+        var json = @"[
   ""One"",
   ""II"",
   ""3""
 ]";
 
-            var l = JsonConvert.DeserializeObject<ImmutableHashSet<string>>(json);
+        var l = JsonConvert.DeserializeObject<ImmutableHashSet<string>>(json);
 
-            Assert.AreEqual(3, l.Count());
-            Assert.IsTrue(l.Contains("3"));
-            Assert.IsTrue(l.Contains("II"));
-            Assert.IsTrue(l.Contains("One"));
-        }
+        Assert.AreEqual(3, l.Count());
+        Assert.IsTrue(l.Contains("3"));
+        Assert.IsTrue(l.Contains("II"));
+        Assert.IsTrue(l.Contains("One"));
+    }
 
-        [Fact]
-        public void DeserializeHashSetInterface()
-        {
-            var json = @"[
+    [Fact]
+    public void DeserializeHashSetInterface()
+    {
+        var json = @"[
   ""One"",
   ""II"",
   ""3""
 ]";
 
-            var l = JsonConvert.DeserializeObject<IImmutableSet<string>>(json);
+        var l = JsonConvert.DeserializeObject<IImmutableSet<string>>(json);
 
-            Assert.AreEqual(3, l.Count());
-            Assert.IsTrue(l.Contains("3"));
-            Assert.IsTrue(l.Contains("II"));
-            Assert.IsTrue(l.Contains("One"));
+        Assert.AreEqual(3, l.Count());
+        Assert.IsTrue(l.Contains("3"));
+        Assert.IsTrue(l.Contains("II"));
+        Assert.IsTrue(l.Contains("One"));
 
-            Assert.IsTrue(l is ImmutableHashSet<string>);
-        }
-        #endregion
+        Assert.IsTrue(l is ImmutableHashSet<string>);
+    }
+    #endregion
 
-        #region SortedSet
-        [Fact]
-        public void SerializeSortedSet()
+    #region SortedSet
+    [Fact]
+    public void SerializeSortedSet()
+    {
+        var l = ImmutableSortedSet.CreateRange(new List<string>
         {
-            var l = ImmutableSortedSet.CreateRange(new List<string>
-            {
-                "One",
-                "II",
-                "3"
-            });
+            "One",
+            "II",
+            "3"
+        });
 
-            var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-            StringAssert.AreEqual(@"[
+        var json = JsonConvert.SerializeObject(l, Formatting.Indented);
+        StringAssert.AreEqual(@"[
   ""3"",
   ""II"",
   ""One""
 ]", json);
-        }
+    }
 
-        [Fact]
-        public void DeserializeSortedSet()
-        {
-            var json = @"[
+    [Fact]
+    public void DeserializeSortedSet()
+    {
+        var json = @"[
   ""One"",
   ""II"",
   ""3""
 ]";
 
-            var l = JsonConvert.DeserializeObject<ImmutableSortedSet<string>>(json);
+        var l = JsonConvert.DeserializeObject<ImmutableSortedSet<string>>(json);
 
-            Assert.AreEqual(3, l.Count());
-            Assert.IsTrue(l.Contains("3"));
-            Assert.IsTrue(l.Contains("II"));
-            Assert.IsTrue(l.Contains("One"));
-        }
-        #endregion
+        Assert.AreEqual(3, l.Count());
+        Assert.IsTrue(l.Contains("3"));
+        Assert.IsTrue(l.Contains("II"));
+        Assert.IsTrue(l.Contains("One"));
+    }
+    #endregion
 
-        #region Dictionary
-        [Fact]
-        public void SerializeDictionary()
+    #region Dictionary
+    [Fact]
+    public void SerializeDictionary()
+    {
+        var l = ImmutableDictionary.CreateRange(new Dictionary<int, string>
         {
-            var l = ImmutableDictionary.CreateRange(new Dictionary<int, string>
-            {
-                { 1, "One" },
-                { 2, "II" },
-                { 3, "3" }
-            });
+            { 1, "One" },
+            { 2, "II" },
+            { 3, "3" }
+        });
 
-            var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-            var a = JObject.Parse(json);
-            Assert.AreEqual(3, a.Count);
-            Assert.AreEqual("One", (string)a["1"]);
-            Assert.AreEqual("II", (string)a["2"]);
-            Assert.AreEqual("3", (string)a["3"]);
-        }
+        var json = JsonConvert.SerializeObject(l, Formatting.Indented);
+        var a = JObject.Parse(json);
+        Assert.AreEqual(3, a.Count);
+        Assert.AreEqual("One", (string)a["1"]);
+        Assert.AreEqual("II", (string)a["2"]);
+        Assert.AreEqual("3", (string)a["3"]);
+    }
 
-        [Fact]
-        public void DeserializeDictionary()
-        {
-            var json = @"{
+    [Fact]
+    public void DeserializeDictionary()
+    {
+        var json = @"{
   ""1"": ""One"",
   ""2"": ""II"",
   ""3"": ""3""
 }";
 
-            var l = JsonConvert.DeserializeObject<ImmutableDictionary<int, string>>(json);
+        var l = JsonConvert.DeserializeObject<ImmutableDictionary<int, string>>(json);
 
-            Assert.AreEqual(3, l.Count);
-            Assert.AreEqual("One", l[1]);
-            Assert.AreEqual("II", l[2]);
-            Assert.AreEqual("3", l[3]);
-        }
+        Assert.AreEqual(3, l.Count);
+        Assert.AreEqual("One", l[1]);
+        Assert.AreEqual("II", l[2]);
+        Assert.AreEqual("3", l[3]);
+    }
 
-        [Fact]
-        public void DeserializeDictionaryInterface()
-        {
-            var json = @"{
+    [Fact]
+    public void DeserializeDictionaryInterface()
+    {
+        var json = @"{
   ""1"": ""One"",
   ""2"": ""II"",
   ""3"": ""3""
 }";
 
-            var l = JsonConvert.DeserializeObject<IImmutableDictionary<int, string>>(json);
+        var l = JsonConvert.DeserializeObject<IImmutableDictionary<int, string>>(json);
 
-            Assert.AreEqual(3, l.Count);
-            Assert.AreEqual("One", l[1]);
-            Assert.AreEqual("II", l[2]);
-            Assert.AreEqual("3", l[3]);
+        Assert.AreEqual(3, l.Count);
+        Assert.AreEqual("One", l[1]);
+        Assert.AreEqual("II", l[2]);
+        Assert.AreEqual("3", l[3]);
 
-            Assert.IsTrue(l is ImmutableDictionary<int, string>);
-        }
-        #endregion
+        Assert.IsTrue(l is ImmutableDictionary<int, string>);
+    }
+    #endregion
 
-        #region SortedDictionary
-        [Fact]
-        public void SerializeSortedDictionary()
+    #region SortedDictionary
+    [Fact]
+    public void SerializeSortedDictionary()
+    {
+        var l = ImmutableSortedDictionary.CreateRange(new SortedDictionary<int, string>
         {
-            var l = ImmutableSortedDictionary.CreateRange(new SortedDictionary<int, string>
-            {
-                { 1, "One" },
-                { 2, "II" },
-                { 3, "3" }
-            });
+            { 1, "One" },
+            { 2, "II" },
+            { 3, "3" }
+        });
 
-            var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-            StringAssert.AreEqual(@"{
+        var json = JsonConvert.SerializeObject(l, Formatting.Indented);
+        StringAssert.AreEqual(@"{
   ""1"": ""One"",
   ""2"": ""II"",
   ""3"": ""3""
 }", json);
-        }
+    }
 
-        [Fact]
-        public void DeserializeSortedDictionary()
-        {
-            var json = @"{
+    [Fact]
+    public void DeserializeSortedDictionary()
+    {
+        var json = @"{
   ""1"": ""One"",
   ""2"": ""II"",
   ""3"": ""3""
 }";
 
-            var l = JsonConvert.DeserializeObject<ImmutableSortedDictionary<int, string>>(json);
+        var l = JsonConvert.DeserializeObject<ImmutableSortedDictionary<int, string>>(json);
 
-            Assert.AreEqual(3, l.Count);
-            Assert.AreEqual("One", l[1]);
-            Assert.AreEqual("II", l[2]);
-            Assert.AreEqual("3", l[3]);
-        }
-        #endregion
+        Assert.AreEqual(3, l.Count);
+        Assert.AreEqual("One", l[1]);
+        Assert.AreEqual("II", l[2]);
+        Assert.AreEqual("3", l[3]);
     }
+    #endregion
 }

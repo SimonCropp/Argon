@@ -23,11 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class VirtualOverrideNewChildObject : VirtualOverrideNewBaseObject
 {
-    public class VirtualOverrideNewChildObject : VirtualOverrideNewBaseObject
-    {
-        public override string VirtualMember { get; set; }
-        public string NewMember { get; set; }
-    }
+    public override string VirtualMember { get; set; }
+    public string NewMember { get; set; }
 }

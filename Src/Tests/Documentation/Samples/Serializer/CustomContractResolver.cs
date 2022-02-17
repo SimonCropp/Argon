@@ -28,73 +28,72 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class CustomContractResolver : TestFixtureBase
 {
-    [TestFixture]
-    public class CustomContractResolver : TestFixtureBase
+    #region Types
+    public class DynamicContractResolver : DefaultContractResolver
     {
-        #region Types
-        public class DynamicContractResolver : DefaultContractResolver
+        private readonly char _startingWithChar;
+
+        public DynamicContractResolver(char startingWithChar)
         {
-            private readonly char _startingWithChar;
-
-            public DynamicContractResolver(char startingWithChar)
-            {
-                _startingWithChar = startingWithChar;
-            }
-
-            protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
-            {
-                var properties = base.CreateProperties(type, memberSerialization);
-
-                // only serializer properties that start with the specified character
-                properties =
-                    properties.Where(p => p.PropertyName.StartsWith(_startingWithChar.ToString())).ToList();
-
-                return properties;
-            }
+            _startingWithChar = startingWithChar;
         }
 
-        public class Person
+        protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
         {
-            public string FirstName { get; set; }
-            public string LastName { get; set; }
+            var properties = base.CreateProperties(type, memberSerialization);
 
-            public string FullName => FirstName + " " + LastName;
+            // only serializer properties that start with the specified character
+            properties =
+                properties.Where(p => p.PropertyName.StartsWith(_startingWithChar.ToString())).ToList();
+
+            return properties;
         }
+    }
+
+    public class Person
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+
+        public string FullName => FirstName + " " + LastName;
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var person = new Person
+        {
+            FirstName = "Dennis",
+            LastName = "Deepwater-Diver"
+        };
+
+        var startingWithF = JsonConvert.SerializeObject(person, Formatting.Indented,
+            new JsonSerializerSettings { ContractResolver = new DynamicContractResolver('F') });
+
+        Console.WriteLine(startingWithF);
+        // {
+        //   "FirstName": "Dennis",
+        //   "FullName": "Dennis Deepwater-Diver"
+        // }
+
+        var startingWithL = JsonConvert.SerializeObject(person, Formatting.Indented,
+            new JsonSerializerSettings { ContractResolver = new DynamicContractResolver('L') });
+
+        Console.WriteLine(startingWithL);
+        // {
+        //   "LastName": "Deepwater-Diver"
+        // }
         #endregion
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var person = new Person
-            {
-                FirstName = "Dennis",
-                LastName = "Deepwater-Diver"
-            };
-
-            var startingWithF = JsonConvert.SerializeObject(person, Formatting.Indented,
-                new JsonSerializerSettings { ContractResolver = new DynamicContractResolver('F') });
-
-            Console.WriteLine(startingWithF);
-            // {
-            //   "FirstName": "Dennis",
-            //   "FullName": "Dennis Deepwater-Diver"
-            // }
-
-            var startingWithL = JsonConvert.SerializeObject(person, Formatting.Indented,
-                new JsonSerializerSettings { ContractResolver = new DynamicContractResolver('L') });
-
-            Console.WriteLine(startingWithL);
-            // {
-            //   "LastName": "Deepwater-Diver"
-            // }
-            #endregion
-
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""LastName"": ""Deepwater-Diver""
 }", startingWithL);
-        }
     }
 }

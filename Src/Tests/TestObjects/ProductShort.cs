@@ -23,13 +23,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class ProductShort
 {
-    public class ProductShort
-    {
-        public string Name;
-        public DateTime ExpiryDate;
-        //public decimal Price;
-        public string[] Sizes;
-    }
+    public string Name;
+    public DateTime ExpiryDate;
+    //public decimal Price;
+    public string[] Sizes;
 }

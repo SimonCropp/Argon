@@ -28,57 +28,56 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class NullValueHandlingIgnore : TestFixtureBase
 {
-    [TestFixture]
-    public class NullValueHandlingIgnore : TestFixtureBase
+    #region Types
+    public class Person
     {
-        #region Types
-        public class Person
+        public string Name { get; set; }
+        public int Age { get; set; }
+        public Person Partner { get; set; }
+        public decimal? Salary { get; set; }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var person = new Person
         {
-            public string Name { get; set; }
-            public int Age { get; set; }
-            public Person Partner { get; set; }
-            public decimal? Salary { get; set; }
-        }
+            Name = "Nigal Newborn",
+            Age = 1
+        };
+
+        var jsonIncludeNullValues = JsonConvert.SerializeObject(person, Formatting.Indented);
+
+        Console.WriteLine(jsonIncludeNullValues);
+        // {
+        //   "Name": "Nigal Newborn",
+        //   "Age": 1,
+        //   "Partner": null,
+        //   "Salary": null
+        // }
+
+        var jsonIgnoreNullValues = JsonConvert.SerializeObject(person, Formatting.Indented, new JsonSerializerSettings
+        {
+            NullValueHandling = NullValueHandling.Ignore
+        });
+
+        Console.WriteLine(jsonIgnoreNullValues);
+        // {
+        //   "Name": "Nigal Newborn",
+        //   "Age": 1
+        // }
         #endregion
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var person = new Person
-            {
-                Name = "Nigal Newborn",
-                Age = 1
-            };
-
-            var jsonIncludeNullValues = JsonConvert.SerializeObject(person, Formatting.Indented);
-
-            Console.WriteLine(jsonIncludeNullValues);
-            // {
-            //   "Name": "Nigal Newborn",
-            //   "Age": 1,
-            //   "Partner": null,
-            //   "Salary": null
-            // }
-
-            var jsonIgnoreNullValues = JsonConvert.SerializeObject(person, Formatting.Indented, new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore
-            });
-
-            Console.WriteLine(jsonIgnoreNullValues);
-            // {
-            //   "Name": "Nigal Newborn",
-            //   "Age": 1
-            // }
-            #endregion
-
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""Name"": ""Nigal Newborn"",
   ""Age"": 1
 }", jsonIgnoreNullValues);
-        }
     }
 }

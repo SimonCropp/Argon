@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class IncompleteTestClass
 {
-    public class IncompleteTestClass
-    {
-        public int Key { get; set; }
-    }
+    public int Key { get; set; }
 }

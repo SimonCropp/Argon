@@ -23,11 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class ClientMap
 {
-    public class ClientMap
-    {
-        public Pos position { get; set; }
-        public PosDouble center { get; set; }
-    }
+    public Pos position { get; set; }
+    public PosDouble center { get; set; }
 }

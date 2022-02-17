@@ -25,13 +25,12 @@
 
 using Argon.Tests.TestObjects.Organization;
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class PersonConverter : CustomCreationConverter<IPerson>
 {
-    public class PersonConverter : CustomCreationConverter<IPerson>
+    public override IPerson Create(Type objectType)
     {
-        public override IPerson Create(Type objectType)
-        {
-            return new Employee();
-        }
+        return new Employee();
     }
 }

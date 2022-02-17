@@ -23,31 +23,30 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+internal class ParticipantEntity
 {
-    internal class ParticipantEntity
+    private Dictionary<string, string> _properties;
+
+    [JsonConstructor]
+    public ParticipantEntity()
     {
-        private Dictionary<string, string> _properties;
+    }
 
-        [JsonConstructor]
-        public ParticipantEntity()
-        {
-        }
+    /// <summary>
+    /// Gets or sets the date and time that the participant was created in the CU.
+    /// </summary>
+    [JsonProperty(PropertyName = "pa_created", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore)]
+    public DateTimeOffset CreationDate { get; internal set; }
 
-        /// <summary>
-        /// Gets or sets the date and time that the participant was created in the CU.
-        /// </summary>
-        [JsonProperty(PropertyName = "pa_created", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore)]
-        public DateTimeOffset CreationDate { get; internal set; }
-
-        /// <summary>
-        /// Gets the properties of the participant.
-        /// </summary>
-        [JsonProperty(PropertyName = "pa_info")]
-        public Dictionary<string, string> Properties
-        {
-            get => _properties ?? (_properties = new Dictionary<string, string>());
-            set => _properties = value;
-        }
+    /// <summary>
+    /// Gets the properties of the participant.
+    /// </summary>
+    [JsonProperty(PropertyName = "pa_info")]
+    public Dictionary<string, string> Properties
+    {
+        get => _properties ?? (_properties = new Dictionary<string, string>());
+        set => _properties = value;
     }
 }

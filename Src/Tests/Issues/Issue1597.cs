@@ -27,15 +27,15 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue1597 : TestFixtureBase
 {
-    [TestFixture]
-    public class Issue1597 : TestFixtureBase
+    [Fact]
+    public void Test()
     {
-        [Fact]
-        public void Test()
-        {
-            var json = @"{
+        var json = @"{
     ""wish"": 264,
     ""collect"": 7498,
     ""doing"": 385,
@@ -43,19 +43,19 @@ namespace Argon.Tests.Issues
     ""dropped"": 221
 }";
 
-            var o = JsonConvert.DeserializeObject<IReadOnlyDictionary<CollectionStatus, int>>(json);
+        var o = JsonConvert.DeserializeObject<IReadOnlyDictionary<CollectionStatus, int>>(json);
 
-            Assert.AreEqual(264, o[CollectionStatus.Wish]);
-            Assert.AreEqual(7498, o[CollectionStatus.Collect]);
-            Assert.AreEqual(385, o[CollectionStatus.Doing]);
-            Assert.AreEqual(285, o[CollectionStatus.OnHold]);
-            Assert.AreEqual(221, o[CollectionStatus.Dropped]);
-        }
+        Assert.AreEqual(264, o[CollectionStatus.Wish]);
+        Assert.AreEqual(7498, o[CollectionStatus.Collect]);
+        Assert.AreEqual(385, o[CollectionStatus.Doing]);
+        Assert.AreEqual(285, o[CollectionStatus.OnHold]);
+        Assert.AreEqual(221, o[CollectionStatus.Dropped]);
+    }
 
-        [Fact]
-        public void Test_WithNumbers()
-        {
-            var json = @"{
+    [Fact]
+    public void Test_WithNumbers()
+    {
+        var json = @"{
     ""0"": 264,
     ""1"": 7498,
     ""2"": 385,
@@ -63,31 +63,31 @@ namespace Argon.Tests.Issues
     ""4"": 221
 }";
 
-            var o = JsonConvert.DeserializeObject<IReadOnlyDictionary<CollectionStatus, int>>(json);
+        var o = JsonConvert.DeserializeObject<IReadOnlyDictionary<CollectionStatus, int>>(json);
 
-            Assert.AreEqual(264, o[CollectionStatus.Wish]);
-            Assert.AreEqual(7498, o[CollectionStatus.Collect]);
-            Assert.AreEqual(385, o[CollectionStatus.Doing]);
-            Assert.AreEqual(285, o[CollectionStatus.OnHold]);
-            Assert.AreEqual(221, o[CollectionStatus.Dropped]);
-        }
+        Assert.AreEqual(264, o[CollectionStatus.Wish]);
+        Assert.AreEqual(7498, o[CollectionStatus.Collect]);
+        Assert.AreEqual(385, o[CollectionStatus.Doing]);
+        Assert.AreEqual(285, o[CollectionStatus.OnHold]);
+        Assert.AreEqual(221, o[CollectionStatus.Dropped]);
+    }
 
-        [Fact]
-        public void Test_Serialize()
+    [Fact]
+    public void Test_Serialize()
+    {
+        var o = new Dictionary<CollectionStatus, int>
         {
-            var o = new Dictionary<CollectionStatus, int>
-            {
-                [CollectionStatus.Wish] = 264,
-                [CollectionStatus.Collect] = 7498,
-                [CollectionStatus.Doing] = 385,
-                [CollectionStatus.OnHold] = 285,
-                [CollectionStatus.Dropped] = 221,
-                [(CollectionStatus) int.MaxValue] = int.MaxValue
-            };
+            [CollectionStatus.Wish] = 264,
+            [CollectionStatus.Collect] = 7498,
+            [CollectionStatus.Doing] = 385,
+            [CollectionStatus.OnHold] = 285,
+            [CollectionStatus.Dropped] = 221,
+            [(CollectionStatus) int.MaxValue] = int.MaxValue
+        };
 
-            var json = JsonConvert.SerializeObject(o, Formatting.Indented);
+        var json = JsonConvert.SerializeObject(o, Formatting.Indented);
 
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""Wish"": 264,
   ""Collect"": 7498,
   ""Doing"": 385,
@@ -95,16 +95,15 @@ namespace Argon.Tests.Issues
   ""Dropped"": 221,
   ""2147483647"": 2147483647
 }", json);
-        }
+    }
 
-        public enum CollectionStatus
-        {
-            Wish,
-            Collect,
-            Doing,
-            [EnumMember(Value = "on_hold")]
-            OnHold,
-            Dropped
-        }
+    public enum CollectionStatus
+    {
+        Wish,
+        Collect,
+        Doing,
+        [EnumMember(Value = "on_hold")]
+        OnHold,
+        Dropped
     }
 }

@@ -25,17 +25,16 @@
 
 using System.ComponentModel;
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class DateTimeTestClass
 {
-    public class DateTimeTestClass
-    {
-        public string PreField { get; set; }
+    public string PreField { get; set; }
 
-        [DefaultValue("")]
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public DateTime DateTimeField { get; set; }
+    [DefaultValue("")]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public DateTime DateTimeField { get; set; }
 
-        public DateTimeOffset DateTimeOffsetField { get; set; }
-        public string PostField { get; set; }
-    }
+    public DateTimeOffset DateTimeOffsetField { get; set; }
+    public string PostField { get; set; }
 }

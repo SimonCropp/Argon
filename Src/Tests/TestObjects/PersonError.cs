@@ -23,35 +23,34 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class PersonError
 {
-    public class PersonError
+    private List<string> _roles;
+
+    public string Name { get; set; }
+    public int Age { get; set; }
+
+    public List<string> Roles
     {
-        private List<string> _roles;
-
-        public string Name { get; set; }
-        public int Age { get; set; }
-
-        public List<string> Roles
+        get
         {
-            get
+            if (_roles == null)
             {
-                if (_roles == null)
-                {
-                    throw new Exception("Roles not loaded!");
-                }
-
-                return _roles;
+                throw new Exception("Roles not loaded!");
             }
-            set => _roles = value;
-        }
 
-        public string Title { get; set; }
-
-        [OnError]
-        internal void HandleError(StreamingContext context, ErrorContext errorContext)
-        {
-            errorContext.Handled = true;
+            return _roles;
         }
+        set => _roles = value;
+    }
+
+    public string Title { get; set; }
+
+    [OnError]
+    internal void HandleError(StreamingContext context, ErrorContext errorContext)
+    {
+        errorContext.Handled = true;
     }
 }

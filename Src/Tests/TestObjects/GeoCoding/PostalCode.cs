@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects.GeoCoding
+namespace Argon.Tests.TestObjects.GeoCoding;
+
+public class PostalCode
 {
-    public class PostalCode
-    {
-        public string PostalCodeNumber;
-    }
+    public string PostalCodeNumber;
 }

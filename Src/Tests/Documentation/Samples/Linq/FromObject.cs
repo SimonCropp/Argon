@@ -28,74 +28,73 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Linq
+namespace Argon.Tests.Documentation.Samples.Linq;
+
+[TestFixture]
+public class FromObject : TestFixtureBase
 {
-    [TestFixture]
-    public class FromObject : TestFixtureBase
+    #region Types
+    public class Computer
     {
-        #region Types
-        public class Computer
+        public string Cpu { get; set; }
+        public int Memory { get; set; }
+        public IList<string> Drives { get; set; }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var i = (JValue)JToken.FromObject(12345);
+
+        Console.WriteLine(i.Type);
+        // Integer
+        Console.WriteLine(i.ToString());
+        // 12345
+
+        var s = (JValue)JToken.FromObject("A string");
+
+        Console.WriteLine(s.Type);
+        // String
+        Console.WriteLine(s.ToString());
+        // A string
+
+        var computer = new Computer
         {
-            public string Cpu { get; set; }
-            public int Memory { get; set; }
-            public IList<string> Drives { get; set; }
-        }
+            Cpu = "Intel",
+            Memory = 32,
+            Drives = new List<string>
+            {
+                "DVD",
+                "SSD"
+            }
+        };
+
+        var o = (JObject)JToken.FromObject(computer);
+
+        Console.WriteLine(o.ToString());
+        // {
+        //   "Cpu": "Intel",
+        //   "Memory": 32,
+        //   "Drives": [
+        //     "DVD",
+        //     "SSD"
+        //   ]
+        // }
+
+        var a = (JArray)JToken.FromObject(computer.Drives);
+
+        Console.WriteLine(a.ToString());
+        // [
+        //   "DVD",
+        //   "SSD"
+        // ]
         #endregion
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var i = (JValue)JToken.FromObject(12345);
-
-            Console.WriteLine(i.Type);
-            // Integer
-            Console.WriteLine(i.ToString());
-            // 12345
-
-            var s = (JValue)JToken.FromObject("A string");
-
-            Console.WriteLine(s.Type);
-            // String
-            Console.WriteLine(s.ToString());
-            // A string
-
-            var computer = new Computer
-            {
-                Cpu = "Intel",
-                Memory = 32,
-                Drives = new List<string>
-                {
-                    "DVD",
-                    "SSD"
-                }
-            };
-
-            var o = (JObject)JToken.FromObject(computer);
-
-            Console.WriteLine(o.ToString());
-            // {
-            //   "Cpu": "Intel",
-            //   "Memory": 32,
-            //   "Drives": [
-            //     "DVD",
-            //     "SSD"
-            //   ]
-            // }
-
-            var a = (JArray)JToken.FromObject(computer.Drives);
-
-            Console.WriteLine(a.ToString());
-            // [
-            //   "DVD",
-            //   "SSD"
-            // ]
-            #endregion
-
-            StringAssert.AreEqual(@"[
+        StringAssert.AreEqual(@"[
   ""DVD"",
   ""SSD""
 ]", a.ToString());
-        }
     }
 }

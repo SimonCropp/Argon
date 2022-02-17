@@ -23,22 +23,21 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[DataContract]
+public class Computer
 {
-    [DataContract]
-    public class Computer
-    {
-        // included in JSON
-        [DataMember]
-        public string Name { get; set; }
+    // included in JSON
+    [DataMember]
+    public string Name { get; set; }
 
-        [DataMember]
-        public decimal SalePrice { get; set; }
+    [DataMember]
+    public decimal SalePrice { get; set; }
 
-        // ignored
-        public string Manufacture { get; set; }
-        public int StockCount { get; set; }
-        public decimal WholeSalePrice { get; set; }
-        public DateTime NextShipmentDate { get; set; }
-    }
+    // ignored
+    public string Manufacture { get; set; }
+    public int StockCount { get; set; }
+    public decimal WholeSalePrice { get; set; }
+    public DateTime NextShipmentDate { get; set; }
 }

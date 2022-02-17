@@ -23,131 +23,130 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Converters
+namespace Argon.Converters;
+
+/// <summary>
+/// Converts a <see cref="KeyValuePair{TKey,TValue}"/> to and from JSON.
+/// </summary>
+public class KeyValuePairConverter : JsonConverter
 {
-    /// <summary>
-    /// Converts a <see cref="KeyValuePair{TKey,TValue}"/> to and from JSON.
-    /// </summary>
-    public class KeyValuePairConverter : JsonConverter
+    private const string KeyName = "Key";
+    private const string ValueName = "Value";
+
+    private static readonly ThreadSafeStore<Type, ReflectionObject> ReflectionObjectPerType = new(InitializeReflectionObject);
+
+    private static ReflectionObject InitializeReflectionObject(Type t)
     {
-        private const string KeyName = "Key";
-        private const string ValueName = "Value";
+        IList<Type> genericArguments = t.GetGenericArguments();
+        var keyType = genericArguments[0];
+        var valueType = genericArguments[1];
 
-        private static readonly ThreadSafeStore<Type, ReflectionObject> ReflectionObjectPerType = new(InitializeReflectionObject);
+        return ReflectionObject.Create(t, t.GetConstructor(new[] { keyType, valueType }), KeyName, ValueName);
+    }
 
-        private static ReflectionObject InitializeReflectionObject(Type t)
+    /// <summary>
+    /// Writes the JSON representation of the object.
+    /// </summary>
+    /// <param name="writer">The <see cref="JsonWriter"/> to write to.</param>
+    /// <param name="value">The value.</param>
+    /// <param name="serializer">The calling serializer.</param>
+    public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+    {
+        if (value == null)
         {
-            IList<Type> genericArguments = t.GetGenericArguments();
-            var keyType = genericArguments[0];
-            var valueType = genericArguments[1];
-
-            return ReflectionObject.Create(t, t.GetConstructor(new[] { keyType, valueType }), KeyName, ValueName);
+            writer.WriteNull();
+            return;
         }
 
-        /// <summary>
-        /// Writes the JSON representation of the object.
-        /// </summary>
-        /// <param name="writer">The <see cref="JsonWriter"/> to write to.</param>
-        /// <param name="value">The value.</param>
-        /// <param name="serializer">The calling serializer.</param>
-        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+        var reflectionObject = ReflectionObjectPerType.Get(value.GetType());
+
+        var resolver = serializer.ContractResolver as DefaultContractResolver;
+
+        writer.WriteStartObject();
+        writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(KeyName) : KeyName);
+        serializer.Serialize(writer, reflectionObject.GetValue(value, KeyName), reflectionObject.GetType(KeyName));
+        writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(ValueName) : ValueName);
+        serializer.Serialize(writer, reflectionObject.GetValue(value, ValueName), reflectionObject.GetType(ValueName));
+        writer.WriteEndObject();
+    }
+
+    /// <summary>
+    /// Reads the JSON representation of the object.
+    /// </summary>
+    /// <param name="reader">The <see cref="JsonReader"/> to read from.</param>
+    /// <param name="objectType">Type of the object.</param>
+    /// <param name="existingValue">The existing value of object being read.</param>
+    /// <param name="serializer">The calling serializer.</param>
+    /// <returns>The object value.</returns>
+    public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+    {
+        if (reader.TokenType == JsonToken.Null)
         {
-            if (value == null)
+            if (!ReflectionUtils.IsNullableType(objectType))
             {
-                writer.WriteNull();
-                return;
+                throw JsonSerializationException.Create(reader, "Cannot convert null value to KeyValuePair.");
             }
 
-            var reflectionObject = ReflectionObjectPerType.Get(value.GetType());
-
-            var resolver = serializer.ContractResolver as DefaultContractResolver;
-
-            writer.WriteStartObject();
-            writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(KeyName) : KeyName);
-            serializer.Serialize(writer, reflectionObject.GetValue(value, KeyName), reflectionObject.GetType(KeyName));
-            writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(ValueName) : ValueName);
-            serializer.Serialize(writer, reflectionObject.GetValue(value, ValueName), reflectionObject.GetType(ValueName));
-            writer.WriteEndObject();
+            return null;
         }
 
-        /// <summary>
-        /// Reads the JSON representation of the object.
-        /// </summary>
-        /// <param name="reader">The <see cref="JsonReader"/> to read from.</param>
-        /// <param name="objectType">Type of the object.</param>
-        /// <param name="existingValue">The existing value of object being read.</param>
-        /// <param name="serializer">The calling serializer.</param>
-        /// <returns>The object value.</returns>
-        public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+        object? key = null;
+        object? value = null;
+
+        reader.ReadAndAssert();
+
+        var t = ReflectionUtils.IsNullableType(objectType)
+            ? Nullable.GetUnderlyingType(objectType)
+            : objectType;
+
+        var reflectionObject = ReflectionObjectPerType.Get(t);
+        var keyContract = serializer.ContractResolver.ResolveContract(reflectionObject.GetType(KeyName));
+        var valueContract = serializer.ContractResolver.ResolveContract(reflectionObject.GetType(ValueName));
+
+        while (reader.TokenType == JsonToken.PropertyName)
         {
-            if (reader.TokenType == JsonToken.Null)
+            var propertyName = reader.Value!.ToString();
+            if (string.Equals(propertyName, KeyName, StringComparison.OrdinalIgnoreCase))
             {
-                if (!ReflectionUtils.IsNullableType(objectType))
-                {
-                    throw JsonSerializationException.Create(reader, "Cannot convert null value to KeyValuePair.");
-                }
+                reader.ReadForTypeAndAssert(keyContract, false);
 
-                return null;
+                key = serializer.Deserialize(reader, keyContract.UnderlyingType);
             }
+            else if (string.Equals(propertyName, ValueName, StringComparison.OrdinalIgnoreCase))
+            {
+                reader.ReadForTypeAndAssert(valueContract, false);
 
-            object? key = null;
-            object? value = null;
+                value = serializer.Deserialize(reader, valueContract.UnderlyingType);
+            }
+            else
+            {
+                reader.Skip();
+            }
 
             reader.ReadAndAssert();
-
-            var t = ReflectionUtils.IsNullableType(objectType)
-                ? Nullable.GetUnderlyingType(objectType)
-                : objectType;
-
-            var reflectionObject = ReflectionObjectPerType.Get(t);
-            var keyContract = serializer.ContractResolver.ResolveContract(reflectionObject.GetType(KeyName));
-            var valueContract = serializer.ContractResolver.ResolveContract(reflectionObject.GetType(ValueName));
-
-            while (reader.TokenType == JsonToken.PropertyName)
-            {
-                var propertyName = reader.Value!.ToString();
-                if (string.Equals(propertyName, KeyName, StringComparison.OrdinalIgnoreCase))
-                {
-                    reader.ReadForTypeAndAssert(keyContract, false);
-
-                    key = serializer.Deserialize(reader, keyContract.UnderlyingType);
-                }
-                else if (string.Equals(propertyName, ValueName, StringComparison.OrdinalIgnoreCase))
-                {
-                    reader.ReadForTypeAndAssert(valueContract, false);
-
-                    value = serializer.Deserialize(reader, valueContract.UnderlyingType);
-                }
-                else
-                {
-                    reader.Skip();
-                }
-
-                reader.ReadAndAssert();
-            }
-
-            return reflectionObject.Creator!(key, value);
         }
 
-        /// <summary>
-        /// Determines whether this instance can convert the specified object type.
-        /// </summary>
-        /// <param name="objectType">Type of the object.</param>
-        /// <returns>
-        /// 	<c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
-        /// </returns>
-        public override bool CanConvert(Type objectType)
+        return reflectionObject.Creator!(key, value);
+    }
+
+    /// <summary>
+    /// Determines whether this instance can convert the specified object type.
+    /// </summary>
+    /// <param name="objectType">Type of the object.</param>
+    /// <returns>
+    /// 	<c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
+    /// </returns>
+    public override bool CanConvert(Type objectType)
+    {
+        var t = ReflectionUtils.IsNullableType(objectType)
+            ? Nullable.GetUnderlyingType(objectType)
+            : objectType;
+
+        if (t.IsValueType() && t.IsGenericType())
         {
-            var t = ReflectionUtils.IsNullableType(objectType)
-                ? Nullable.GetUnderlyingType(objectType)
-                : objectType;
-
-            if (t.IsValueType() && t.IsGenericType())
-            {
-                return t.GetGenericTypeDefinition() == typeof(KeyValuePair<,>);
-            }
-
-            return false;
+            return t.GetGenericTypeDefinition() == typeof(KeyValuePair<,>);
         }
+
+        return false;
     }
 }

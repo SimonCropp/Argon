@@ -27,15 +27,15 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue2156
 {
-    [TestFixture]
-    public class Issue2156
+    [Fact]
+    public void Test()
     {
-        [Fact]
-        public void Test()
-        {
-            var json = @"
+        var json = @"
             {
                 ""root"": {
                     ""a"": {
@@ -47,13 +47,12 @@ namespace Argon.Tests.Issues
                 }
             }";
 
-            var t = JToken.Parse(json);
+        var t = JToken.Parse(json);
 
-            var count1 = t.SelectTokens("$..a.name").Count(); // result: 1, expected: 1
-            var count2 = t.SelectTokens("$..['a']['name']").Count(); // result: 2, expected: 1
+        var count1 = t.SelectTokens("$..a.name").Count(); // result: 1, expected: 1
+        var count2 = t.SelectTokens("$..['a']['name']").Count(); // result: 2, expected: 1
 
-            Assert.AreEqual(1, count1);
-            Assert.AreEqual(1, count2);
-        }
+        Assert.AreEqual(1, count1);
+        Assert.AreEqual(1, count2);
     }
 }

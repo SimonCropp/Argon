@@ -23,14 +23,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects.Events
-{
-    public class Event1
-    {
-        public string EventName { get; set; }
-        public string Venue { get; set; }
+namespace Argon.Tests.TestObjects.Events;
 
-        [JsonProperty(ItemConverterType = typeof(JavaScriptDateTimeConverter))]
-        public IList<DateTime> Performances { get; set; }
-    }
+public class Event1
+{
+    public string EventName { get; set; }
+    public string Venue { get; set; }
+
+    [JsonProperty(ItemConverterType = typeof(JavaScriptDateTimeConverter))]
+    public IList<DateTime> Performances { get; set; }
 }

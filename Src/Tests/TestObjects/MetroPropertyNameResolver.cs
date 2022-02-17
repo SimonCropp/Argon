@@ -23,17 +23,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class MetroPropertyNameResolver : DefaultContractResolver
 {
-    public class MetroPropertyNameResolver : DefaultContractResolver
+    protected override string ResolvePropertyName(string propertyName)
     {
-        protected override string ResolvePropertyName(string propertyName)
-        {
 #if !NET5_0_OR_GREATER
-            return ":::" + propertyName.ToUpper(CultureInfo.InvariantCulture) + ":::";
+        return ":::" + propertyName.ToUpper(CultureInfo.InvariantCulture) + ":::";
 #else
             return ":::" + propertyName.ToUpper() + ":::";
 #endif
-        }
     }
 }

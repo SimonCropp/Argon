@@ -27,32 +27,31 @@ using System.Xml;
 using System.Xml.Linq;
 using BenchmarkDotNet.Attributes;
 
-namespace Argon.Tests.Benchmarks
+namespace Argon.Tests.Benchmarks;
+
+public class XmlNodeConverterBenchmarks
 {
-    public class XmlNodeConverterBenchmarks
+    [Benchmark]
+    public void ConvertXmlNode()
     {
-        [Benchmark]
-        public void ConvertXmlNode()
+        var doc = new XmlDocument();
+        using (var file = System.IO.File.OpenRead("large_sample.xml"))
         {
-            var doc = new XmlDocument();
-            using (var file = System.IO.File.OpenRead("large_sample.xml"))
-            {
-                doc.Load(file);
-            }
-
-            JsonConvert.SerializeXmlNode(doc);
+            doc.Load(file);
         }
 
-        [Benchmark]
-        public void ConvertXNode()
-        {
-            XDocument doc;
-            using (var file = System.IO.File.OpenRead("large_sample.xml"))
-            {
-                doc = XDocument.Load(file);
-            }
+        JsonConvert.SerializeXmlNode(doc);
+    }
 
-            JsonConvert.SerializeXNode(doc);
+    [Benchmark]
+    public void ConvertXNode()
+    {
+        XDocument doc;
+        using (var file = System.IO.File.OpenRead("large_sample.xml"))
+        {
+            doc = XDocument.Load(file);
         }
+
+        JsonConvert.SerializeXNode(doc);
     }
 }

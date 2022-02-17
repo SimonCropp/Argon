@@ -27,66 +27,65 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class DeserializeExtensionData : TestFixtureBase
 {
-    [TestFixture]
-    public class DeserializeExtensionData : TestFixtureBase
+    #region Types
+    public class DirectoryAccount
     {
-        #region Types
-        public class DirectoryAccount
+        // normal deserialization
+        public string DisplayName { get; set; }
+
+        // these properties are set in OnDeserialized
+        public string UserName { get; set; }
+        public string Domain { get; set; }
+
+        [JsonExtensionData]
+        private IDictionary<string, JToken> _additionalData;
+
+        [OnDeserialized]
+        private void OnDeserialized(StreamingContext context)
         {
-            // normal deserialization
-            public string DisplayName { get; set; }
+            // SAMAccountName is not deserialized to any property
+            // and so it is added to the extension data dictionary
+            var samAccountName = (string)_additionalData["SAMAccountName"];
 
-            // these properties are set in OnDeserialized
-            public string UserName { get; set; }
-            public string Domain { get; set; }
-
-            [JsonExtensionData]
-            private IDictionary<string, JToken> _additionalData;
-
-            [OnDeserialized]
-            private void OnDeserialized(StreamingContext context)
-            {
-                // SAMAccountName is not deserialized to any property
-                // and so it is added to the extension data dictionary
-                var samAccountName = (string)_additionalData["SAMAccountName"];
-
-                Domain = samAccountName.Split('\\')[0];
-                UserName = samAccountName.Split('\\')[1];
-            }
-
-            public DirectoryAccount()
-            {
-                _additionalData = new Dictionary<string, JToken>();
-            }
+            Domain = samAccountName.Split('\\')[0];
+            UserName = samAccountName.Split('\\')[1];
         }
-        #endregion
 
-        [Fact]
-        public void Example()
+        public DirectoryAccount()
         {
-            #region Usage
-            var json = @"{
+            _additionalData = new Dictionary<string, JToken>();
+        }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var json = @"{
               'DisplayName': 'John Smith',
               'SAMAccountName': 'contoso\\johns'
             }";
 
-            var account = JsonConvert.DeserializeObject<DirectoryAccount>(json);
+        var account = JsonConvert.DeserializeObject<DirectoryAccount>(json);
 
-            Console.WriteLine(account.DisplayName);
-            // John Smith
+        Console.WriteLine(account.DisplayName);
+        // John Smith
 
-            Console.WriteLine(account.Domain);
-            // contoso
+        Console.WriteLine(account.Domain);
+        // contoso
 
-            Console.WriteLine(account.UserName);
-            // johns
-            #endregion
+        Console.WriteLine(account.UserName);
+        // johns
+        #endregion
 
-            Assert.AreEqual("John Smith", account.DisplayName);
-            Assert.AreEqual("contoso", account.Domain);
-            Assert.AreEqual("johns", account.UserName);
-        }
+        Assert.AreEqual("John Smith", account.DisplayName);
+        Assert.AreEqual("contoso", account.Domain);
+        Assert.AreEqual("johns", account.UserName);
     }
 }

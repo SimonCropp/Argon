@@ -23,23 +23,22 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class Link
 {
-    public class Link
-    {
-        /// <summary>
-        /// The unique identifier.
-        /// </summary>
-        public int Id;
+    /// <summary>
+    /// The unique identifier.
+    /// </summary>
+    public int Id;
 
-        /// <summary>
-        /// The parent information identifier.
-        /// </summary>
-        public int ParentId;
+    /// <summary>
+    /// The parent information identifier.
+    /// </summary>
+    public int ParentId;
 
-        /// <summary>
-        /// The child information identifier.
-        /// </summary>
-        public int ChildId;
-    }
+    /// <summary>
+    /// The child information identifier.
+    /// </summary>
+    public int ChildId;
 }

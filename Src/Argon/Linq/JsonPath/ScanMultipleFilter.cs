@@ -1,38 +1,37 @@
-namespace Argon.Linq.JsonPath
+namespace Argon.Linq.JsonPath;
+
+internal class ScanMultipleFilter : PathFilter
 {
-    internal class ScanMultipleFilter : PathFilter
+    private List<string> _names;
+
+    public ScanMultipleFilter(List<string> names)
     {
-        private List<string> _names;
+        _names = names;
+    }
 
-        public ScanMultipleFilter(List<string> names)
+    public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings? settings)
+    {
+        foreach (var c in current)
         {
-            _names = names;
-        }
+            var value = c;
 
-        public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings? settings)
-        {
-            foreach (var c in current)
+            while (true)
             {
-                var value = c;
+                var container = value as JContainer;
 
-                while (true)
+                value = GetNextScanValue(c, container, value);
+                if (value == null)
                 {
-                    var container = value as JContainer;
+                    break;
+                }
 
-                    value = GetNextScanValue(c, container, value);
-                    if (value == null)
+                if (value is JProperty property)
+                {
+                    foreach (var name in _names)
                     {
-                        break;
-                    }
-
-                    if (value is JProperty property)
-                    {
-                        foreach (var name in _names)
+                        if (property.Name == name)
                         {
-                            if (property.Name == name)
-                            {
-                                yield return property.Value;
-                            }
+                            yield return property.Value;
                         }
                     }
                 }

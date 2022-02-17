@@ -23,59 +23,58 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[Serializable]
+public class PreserveReferencesCallbackTestObject : ISerializable
 {
-    [Serializable]
-    public class PreserveReferencesCallbackTestObject : ISerializable
+    internal string _stringValue;
+    internal int _intValue;
+    internal PersonReference _person1;
+    internal PersonReference _person2;
+    internal PersonReference _person3;
+    internal PreserveReferencesCallbackTestObject _parent;
+    internal SerializationInfo _serializationInfo;
+
+    public PreserveReferencesCallbackTestObject(string stringValue, int intValue, PersonReference p1, PersonReference p2, PersonReference p3)
     {
-        internal string _stringValue;
-        internal int _intValue;
-        internal PersonReference _person1;
-        internal PersonReference _person2;
-        internal PersonReference _person3;
-        internal PreserveReferencesCallbackTestObject _parent;
-        internal SerializationInfo _serializationInfo;
+        _stringValue = stringValue;
+        _intValue = intValue;
+        _person1 = p1;
+        _person2 = p2;
+        _person3 = p3;
+    }
 
-        public PreserveReferencesCallbackTestObject(string stringValue, int intValue, PersonReference p1, PersonReference p2, PersonReference p3)
+    protected PreserveReferencesCallbackTestObject(SerializationInfo info, StreamingContext context)
+    {
+        _serializationInfo = info;
+    }
+
+    public void GetObjectData(SerializationInfo info, StreamingContext context)
+    {
+        info.AddValue("stringValue", _stringValue);
+        info.AddValue("intValue", _intValue);
+        info.AddValue("person1", _person1, typeof(PersonReference));
+        info.AddValue("person2", _person2, typeof(PersonReference));
+        info.AddValue("person3", _person3, typeof(PersonReference));
+        info.AddValue("parent", _parent, typeof(PreserveReferencesCallbackTestObject));
+    }
+
+    [OnDeserialized]
+    private void OnDeserializedMethod(StreamingContext context)
+    {
+        if (_serializationInfo == null)
         {
-            _stringValue = stringValue;
-            _intValue = intValue;
-            _person1 = p1;
-            _person2 = p2;
-            _person3 = p3;
+            return;
         }
 
-        protected PreserveReferencesCallbackTestObject(SerializationInfo info, StreamingContext context)
-        {
-            _serializationInfo = info;
-        }
+        _stringValue = _serializationInfo.GetString("stringValue");
+        _intValue = _serializationInfo.GetInt32("intValue");
+        _person1 = (PersonReference)_serializationInfo.GetValue("person1", typeof(PersonReference));
+        _person2 = (PersonReference)_serializationInfo.GetValue("person2", typeof(PersonReference));
+        _person3 = (PersonReference)_serializationInfo.GetValue("person3", typeof(PersonReference));
+        _parent = (PreserveReferencesCallbackTestObject)_serializationInfo.GetValue("parent", typeof(PreserveReferencesCallbackTestObject));
 
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("stringValue", _stringValue);
-            info.AddValue("intValue", _intValue);
-            info.AddValue("person1", _person1, typeof(PersonReference));
-            info.AddValue("person2", _person2, typeof(PersonReference));
-            info.AddValue("person3", _person3, typeof(PersonReference));
-            info.AddValue("parent", _parent, typeof(PreserveReferencesCallbackTestObject));
-        }
-
-        [OnDeserialized]
-        private void OnDeserializedMethod(StreamingContext context)
-        {
-            if (_serializationInfo == null)
-            {
-                return;
-            }
-
-            _stringValue = _serializationInfo.GetString("stringValue");
-            _intValue = _serializationInfo.GetInt32("intValue");
-            _person1 = (PersonReference)_serializationInfo.GetValue("person1", typeof(PersonReference));
-            _person2 = (PersonReference)_serializationInfo.GetValue("person2", typeof(PersonReference));
-            _person3 = (PersonReference)_serializationInfo.GetValue("person3", typeof(PersonReference));
-            _parent = (PreserveReferencesCallbackTestObject)_serializationInfo.GetValue("parent", typeof(PreserveReferencesCallbackTestObject));
-
-            _serializationInfo = null;
-        }
+        _serializationInfo = null;
     }
 }

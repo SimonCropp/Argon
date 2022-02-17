@@ -23,21 +23,20 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Serialization
+namespace Argon.Serialization;
+
+/// <summary>
+/// Contract details for a <see cref="Type"/> used by the <see cref="JsonSerializer"/>.
+/// </summary>
+public class JsonLinqContract : JsonContract
 {
     /// <summary>
-    /// Contract details for a <see cref="Type"/> used by the <see cref="JsonSerializer"/>.
+    /// Initializes a new instance of the <see cref="JsonLinqContract"/> class.
     /// </summary>
-    public class JsonLinqContract : JsonContract
+    /// <param name="underlyingType">The underlying type for the contract.</param>
+    public JsonLinqContract(Type underlyingType)
+        : base(underlyingType)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="JsonLinqContract"/> class.
-        /// </summary>
-        /// <param name="underlyingType">The underlying type for the contract.</param>
-        public JsonLinqContract(Type underlyingType)
-            : base(underlyingType)
-        {
-            ContractType = JsonContractType.Linq;
-        }
+        ContractType = JsonContractType.Linq;
     }
 }

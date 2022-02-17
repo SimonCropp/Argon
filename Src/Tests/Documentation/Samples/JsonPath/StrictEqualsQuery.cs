@@ -27,16 +27,16 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Documentation.Samples.JsonPath
+namespace Argon.Tests.Documentation.Samples.JsonPath;
+
+[TestFixture]
+public class StrictEqualsQuery : TestFixtureBase
 {
-    [TestFixture]
-    public class StrictEqualsQuery : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var items = JArray.Parse(@"[
+        #region Usage
+        var items = JArray.Parse(@"[
               {
                 'Name': 'Valid JSON',
                 'Valid': true
@@ -47,17 +47,16 @@ namespace Argon.Tests.Documentation.Samples.JsonPath
               }
             ]");
 
-            // Use === operator. Compared types must be the same to be valid
-            var strictResults = items.SelectTokens(@"$.[?(@.Valid === true)]").ToList();
+        // Use === operator. Compared types must be the same to be valid
+        var strictResults = items.SelectTokens(@"$.[?(@.Valid === true)]").ToList();
 
-            foreach (var item in strictResults)
-            {
-                Console.WriteLine((string)item["Name"]);
-            }
-            // Valid JSON
-            #endregion
-
-            Assert.AreEqual(1, strictResults.Count);
+        foreach (var item in strictResults)
+        {
+            Console.WriteLine((string)item["Name"]);
         }
+        // Valid JSON
+        #endregion
+
+        Assert.AreEqual(1, strictResults.Count);
     }
 }

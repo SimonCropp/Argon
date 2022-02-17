@@ -28,45 +28,44 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
-{
-    [TestFixture]
-    public class JsonPropertyPropertyLevelSetting : TestFixtureBase
-    {
-        #region Types
-        public class Vessel
-        {
-            public string Name { get; set; }
-            public string Class { get; set; }
+namespace Argon.Tests.Documentation.Samples.Serializer;
 
-            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-            public DateTime? LaunchDate { get; set; }
-        }
+[TestFixture]
+public class JsonPropertyPropertyLevelSetting : TestFixtureBase
+{
+    #region Types
+    public class Vessel
+    {
+        public string Name { get; set; }
+        public string Class { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public DateTime? LaunchDate { get; set; }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var vessel = new Vessel
+        {
+            Name = "Red October",
+            Class = "Typhoon"
+        };
+
+        var json = JsonConvert.SerializeObject(vessel, Formatting.Indented);
+
+        Console.WriteLine(json);
+        // {
+        //   "Name": "Red October",
+        //   "Class": "Typhoon"
+        // }
         #endregion
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var vessel = new Vessel
-            {
-                Name = "Red October",
-                Class = "Typhoon"
-            };
-
-            var json = JsonConvert.SerializeObject(vessel, Formatting.Indented);
-
-            Console.WriteLine(json);
-            // {
-            //   "Name": "Red October",
-            //   "Class": "Typhoon"
-            // }
-            #endregion
-
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""Name"": ""Red October"",
   ""Class"": ""Typhoon""
 }", json);
-        }
     }
 }

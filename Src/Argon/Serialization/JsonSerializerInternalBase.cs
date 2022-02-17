@@ -23,131 +23,130 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Serialization
+namespace Argon.Serialization;
+
+internal abstract class JsonSerializerInternalBase
 {
-    internal abstract class JsonSerializerInternalBase
+    private class ReferenceEqualsEqualityComparer : IEqualityComparer<object>
     {
-        private class ReferenceEqualsEqualityComparer : IEqualityComparer<object>
+        bool IEqualityComparer<object>.Equals(object x, object y)
         {
-            bool IEqualityComparer<object>.Equals(object x, object y)
-            {
-                return ReferenceEquals(x, y);
-            }
-
-            int IEqualityComparer<object>.GetHashCode(object obj)
-            {
-                // put objects in a bucket based on their reference
-                return RuntimeHelpers.GetHashCode(obj);
-            }
+            return ReferenceEquals(x, y);
         }
 
-        private ErrorContext? _currentErrorContext;
-        private BidirectionalDictionary<string, object>? _mappings;
-
-        internal readonly JsonSerializer Serializer;
-        internal readonly ITraceWriter? TraceWriter;
-        protected JsonSerializerProxy? InternalSerializer;
-
-        protected JsonSerializerInternalBase(JsonSerializer serializer)
+        int IEqualityComparer<object>.GetHashCode(object obj)
         {
-            ValidationUtils.ArgumentNotNull(serializer, nameof(serializer));
+            // put objects in a bucket based on their reference
+            return RuntimeHelpers.GetHashCode(obj);
+        }
+    }
 
-            Serializer = serializer;
-            TraceWriter = serializer.TraceWriter;
+    private ErrorContext? _currentErrorContext;
+    private BidirectionalDictionary<string, object>? _mappings;
+
+    internal readonly JsonSerializer Serializer;
+    internal readonly ITraceWriter? TraceWriter;
+    protected JsonSerializerProxy? InternalSerializer;
+
+    protected JsonSerializerInternalBase(JsonSerializer serializer)
+    {
+        ValidationUtils.ArgumentNotNull(serializer, nameof(serializer));
+
+        Serializer = serializer;
+        TraceWriter = serializer.TraceWriter;
+    }
+
+    internal BidirectionalDictionary<string, object> DefaultReferenceMappings
+    {
+        get
+        {
+            // override equality comparer for object key dictionary
+            // object will be modified as it deserializes and might have mutable hashcode
+            if (_mappings == null)
+            {
+                _mappings = new BidirectionalDictionary<string, object>(
+                    EqualityComparer<string>.Default,
+                    new ReferenceEqualsEqualityComparer(),
+                    "A different value already has the Id '{0}'.",
+                    "A different Id has already been assigned for value '{0}'. This error may be caused by an object being reused multiple times during deserialization and can be fixed with the setting ObjectCreationHandling.Replace.");
+            }
+
+            return _mappings;
+        }
+    }
+
+    protected NullValueHandling ResolvedNullValueHandling(JsonObjectContract? containerContract, JsonProperty property)
+    {
+        var resolvedNullValueHandling =
+            property.NullValueHandling
+            ?? containerContract?.ItemNullValueHandling
+            ?? Serializer._nullValueHandling;
+
+        return resolvedNullValueHandling;
+    }
+
+    private ErrorContext GetErrorContext(object? currentObject, object? member, string path, Exception error)
+    {
+        if (_currentErrorContext == null)
+        {
+            _currentErrorContext = new ErrorContext(currentObject, member, path, error);
         }
 
-        internal BidirectionalDictionary<string, object> DefaultReferenceMappings
+        if (_currentErrorContext.Error != error)
         {
-            get
-            {
-                // override equality comparer for object key dictionary
-                // object will be modified as it deserializes and might have mutable hashcode
-                if (_mappings == null)
-                {
-                    _mappings = new BidirectionalDictionary<string, object>(
-                        EqualityComparer<string>.Default,
-                        new ReferenceEqualsEqualityComparer(),
-                        "A different value already has the Id '{0}'.",
-                        "A different Id has already been assigned for value '{0}'. This error may be caused by an object being reused multiple times during deserialization and can be fixed with the setting ObjectCreationHandling.Replace.");
-                }
-
-                return _mappings;
-            }
+            throw new InvalidOperationException("Current error context error is different to requested error.");
         }
 
-        protected NullValueHandling ResolvedNullValueHandling(JsonObjectContract? containerContract, JsonProperty property)
-        {
-            var resolvedNullValueHandling =
-                property.NullValueHandling
-                ?? containerContract?.ItemNullValueHandling
-                ?? Serializer._nullValueHandling;
+        return _currentErrorContext;
+    }
 
-            return resolvedNullValueHandling;
+    protected void ClearErrorContext()
+    {
+        if (_currentErrorContext == null)
+        {
+            throw new InvalidOperationException("Could not clear error context. Error context is already null.");
         }
 
-        private ErrorContext GetErrorContext(object? currentObject, object? member, string path, Exception error)
+        _currentErrorContext = null;
+    }
+
+    protected bool IsErrorHandled(object? currentObject, JsonContract? contract, object? keyValue, IJsonLineInfo? lineInfo, string path, Exception ex)
+    {
+        var errorContext = GetErrorContext(currentObject, keyValue, path, ex);
+
+        if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Error && !errorContext.Traced)
         {
-            if (_currentErrorContext == null)
+            // only write error once
+            errorContext.Traced = true;
+
+            // kind of a hack but meh. might clean this up later
+            var message = GetType() == typeof(JsonSerializerInternalWriter) ? "Error serializing" : "Error deserializing";
+            if (contract != null)
             {
-                _currentErrorContext = new ErrorContext(currentObject, member, path, error);
+                message += " " + contract.UnderlyingType;
+            }
+            message += ". " + ex.Message;
+
+            // add line information to non-json.net exception message
+            if (!(ex is JsonException))
+            {
+                message = JsonPosition.FormatMessage(lineInfo, path, message);
             }
 
-            if (_currentErrorContext.Error != error)
-            {
-                throw new InvalidOperationException("Current error context error is different to requested error.");
-            }
-
-            return _currentErrorContext;
+            TraceWriter.Trace(TraceLevel.Error, message, ex);
         }
 
-        protected void ClearErrorContext()
+        // attribute method is non-static so don't invoke if no object
+        if (contract != null && currentObject != null)
         {
-            if (_currentErrorContext == null)
-            {
-                throw new InvalidOperationException("Could not clear error context. Error context is already null.");
-            }
-
-            _currentErrorContext = null;
+            contract.InvokeOnError(currentObject, Serializer.Context, errorContext);
         }
 
-        protected bool IsErrorHandled(object? currentObject, JsonContract? contract, object? keyValue, IJsonLineInfo? lineInfo, string path, Exception ex)
+        if (!errorContext.Handled)
         {
-            var errorContext = GetErrorContext(currentObject, keyValue, path, ex);
-
-            if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Error && !errorContext.Traced)
-            {
-                // only write error once
-                errorContext.Traced = true;
-
-                // kind of a hack but meh. might clean this up later
-                var message = GetType() == typeof(JsonSerializerInternalWriter) ? "Error serializing" : "Error deserializing";
-                if (contract != null)
-                {
-                    message += " " + contract.UnderlyingType;
-                }
-                message += ". " + ex.Message;
-
-                // add line information to non-json.net exception message
-                if (!(ex is JsonException))
-                {
-                    message = JsonPosition.FormatMessage(lineInfo, path, message);
-                }
-
-                TraceWriter.Trace(TraceLevel.Error, message, ex);
-            }
-
-            // attribute method is non-static so don't invoke if no object
-            if (contract != null && currentObject != null)
-            {
-                contract.InvokeOnError(currentObject, Serializer.Context, errorContext);
-            }
-
-            if (!errorContext.Handled)
-            {
-                Serializer.OnError(new ErrorEventArgs(currentObject, errorContext));
-            }
-
-            return errorContext.Handled;
+            Serializer.OnError(new ErrorEventArgs(currentObject, errorContext));
         }
+
+        return errorContext.Handled;
     }
 }

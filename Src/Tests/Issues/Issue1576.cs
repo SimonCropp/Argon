@@ -27,100 +27,99 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue1576 : TestFixtureBase
 {
-    [TestFixture]
-    public class Issue1576 : TestFixtureBase
+    [Fact]
+    public void Test()
     {
-        [Fact]
-        public void Test()
+        var settings = new JsonSerializerSettings
         {
-            var settings = new JsonSerializerSettings
-            {
-                ContractResolver = new CustomContractResolver()
-            };
+            ContractResolver = new CustomContractResolver()
+        };
 
-            var result = JsonConvert.DeserializeObject<TestClass>("{ 'Items': '11' }", settings);
+        var result = JsonConvert.DeserializeObject<TestClass>("{ 'Items': '11' }", settings);
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(result.Items.Count, 1);
-            Assert.AreEqual(result.Items[0], 11);
-        }
-
-        [Fact]
-        public void Test_WithJsonConverterAttribute()
-        {
-            var result = JsonConvert.DeserializeObject<TestClassWithJsonConverter>("{ 'Items': '11' }");
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(result.Items.Count, 1);
-            Assert.AreEqual(result.Items[0], 11);
-        }
-
-        public class TestClass
-        {
-            public List<int> Items { get; } = new();
-        }
-
-        public class TestClassWithJsonConverter
-        {
-            [JsonConverter(typeof(OneItemListJsonConverter))]
-            public List<int> Items { get; } = new();
-        }
-
-        public class CustomContractResolver : DefaultContractResolver
-        {
-            protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
-            {
-                var property = base.CreateProperty(member, memberSerialization);
-
-                if (member.Name == "Items")
-                {
-                    property.Converter = new OneItemListJsonConverter();
-                }
-
-                return property;
-            }
-        }
-
-        public class OneItemListJsonConverter : JsonConverter
-        {
-            public override bool CanWrite => false;
-
-            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-            {
-                throw new NotSupportedException();
-            }
-
-            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-            {
-                var token = JToken.Load(reader);
-                if (token.Type == JTokenType.Array)
-                {
-                    return token.ToObject(objectType, serializer);
-                }
-
-                var array = new JArray {token};
-
-                var list = array.ToObject(objectType, serializer) as IEnumerable;
-                var existing = existingValue as IList;
-
-                if (list != null && existing != null)
-                {
-                    foreach (var item in list)
-                    {
-                        existing.Add(item);
-                    }
-                }
-
-                return list;
-            }
-
-            public override bool CanConvert(Type objectType)
-            {
-                return typeof(ICollection).IsAssignableFrom(objectType);
-            }
-        }
-
+        Assert.IsNotNull(result);
+        Assert.AreEqual(result.Items.Count, 1);
+        Assert.AreEqual(result.Items[0], 11);
     }
+
+    [Fact]
+    public void Test_WithJsonConverterAttribute()
+    {
+        var result = JsonConvert.DeserializeObject<TestClassWithJsonConverter>("{ 'Items': '11' }");
+
+        Assert.IsNotNull(result);
+        Assert.AreEqual(result.Items.Count, 1);
+        Assert.AreEqual(result.Items[0], 11);
+    }
+
+    public class TestClass
+    {
+        public List<int> Items { get; } = new();
+    }
+
+    public class TestClassWithJsonConverter
+    {
+        [JsonConverter(typeof(OneItemListJsonConverter))]
+        public List<int> Items { get; } = new();
+    }
+
+    public class CustomContractResolver : DefaultContractResolver
+    {
+        protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
+        {
+            var property = base.CreateProperty(member, memberSerialization);
+
+            if (member.Name == "Items")
+            {
+                property.Converter = new OneItemListJsonConverter();
+            }
+
+            return property;
+        }
+    }
+
+    public class OneItemListJsonConverter : JsonConverter
+    {
+        public override bool CanWrite => false;
+
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            throw new NotSupportedException();
+        }
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            var token = JToken.Load(reader);
+            if (token.Type == JTokenType.Array)
+            {
+                return token.ToObject(objectType, serializer);
+            }
+
+            var array = new JArray {token};
+
+            var list = array.ToObject(objectType, serializer) as IEnumerable;
+            var existing = existingValue as IList;
+
+            if (list != null && existing != null)
+            {
+                foreach (var item in list)
+                {
+                    existing.Add(item);
+                }
+            }
+
+            return list;
+        }
+
+        public override bool CanConvert(Type objectType)
+        {
+            return typeof(ICollection).IsAssignableFrom(objectType);
+        }
+    }
+
 }

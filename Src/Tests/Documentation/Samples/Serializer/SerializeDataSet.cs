@@ -30,53 +30,53 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class SerializeDataSet : TestFixtureBase
 {
-    [TestFixture]
-    public class SerializeDataSet : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
+        #region Usage
+        var dataSet = new DataSet("dataSet");
+        dataSet.Namespace = "NetFrameWork";
+        var table = new DataTable();
+        var idColumn = new DataColumn("id", typeof(int));
+        idColumn.AutoIncrement = true;
+
+        var itemColumn = new DataColumn("item");
+        table.Columns.Add(idColumn);
+        table.Columns.Add(itemColumn);
+        dataSet.Tables.Add(table);
+
+        for (var i = 0; i < 2; i++)
         {
-            #region Usage
-            var dataSet = new DataSet("dataSet");
-            dataSet.Namespace = "NetFrameWork";
-            var table = new DataTable();
-            var idColumn = new DataColumn("id", typeof(int));
-            idColumn.AutoIncrement = true;
+            var newRow = table.NewRow();
+            newRow["item"] = "item " + i;
+            table.Rows.Add(newRow);
+        }
 
-            var itemColumn = new DataColumn("item");
-            table.Columns.Add(idColumn);
-            table.Columns.Add(itemColumn);
-            dataSet.Tables.Add(table);
+        dataSet.AcceptChanges();
 
-            for (var i = 0; i < 2; i++)
-            {
-                var newRow = table.NewRow();
-                newRow["item"] = "item " + i;
-                table.Rows.Add(newRow);
-            }
+        var json = JsonConvert.SerializeObject(dataSet, Formatting.Indented);
 
-            dataSet.AcceptChanges();
+        Console.WriteLine(json);
+        // {
+        //   "Table1": [
+        //     {
+        //       "id": 0,
+        //       "item": "item 0"
+        //     },
+        //     {
+        //       "id": 1,
+        //       "item": "item 1"
+        //     }
+        //   ]
+        // }
+        #endregion
 
-            var json = JsonConvert.SerializeObject(dataSet, Formatting.Indented);
-
-            Console.WriteLine(json);
-            // {
-            //   "Table1": [
-            //     {
-            //       "id": 0,
-            //       "item": "item 0"
-            //     },
-            //     {
-            //       "id": 1,
-            //       "item": "item 1"
-            //     }
-            //   ]
-            // }
-            #endregion
-
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""Table1"": [
     {
       ""id"": 0,
@@ -88,6 +88,5 @@ namespace Argon.Tests.Documentation.Samples.Serializer
     }
   ]
 }", json);
-        }
     }
 }

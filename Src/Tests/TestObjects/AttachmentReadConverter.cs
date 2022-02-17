@@ -23,40 +23,39 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class AttachmentReadConverter : JsonConverter
 {
-    public class AttachmentReadConverter : JsonConverter
+    public override bool CanConvert(Type objectType)
     {
-        public override bool CanConvert(Type objectType)
-        {
-            return objectType == typeof(System.Net.Mail.Attachment);
-        }
+        return objectType == typeof(System.Net.Mail.Attachment);
+    }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            var info = serializer.Deserialize<AttachmentInfo>(reader);
+    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    {
+        var info = serializer.Deserialize<AttachmentInfo>(reader);
 
-            var attachment = info != null
-                ? new System.Net.Mail.Attachment(new MemoryStream(Convert.FromBase64String(info.ContentBase64)), "application/octet-stream")
-                {
-                    ContentDisposition = { FileName = info.FileName }
-                }
-                : null;
-            return attachment;
-        }
+        var attachment = info != null
+            ? new System.Net.Mail.Attachment(new MemoryStream(Convert.FromBase64String(info.ContentBase64)), "application/octet-stream")
+            {
+                ContentDisposition = { FileName = info.FileName }
+            }
+            : null;
+        return attachment;
+    }
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            throw new NotImplementedException();
-        }
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+    {
+        throw new NotImplementedException();
+    }
 
-        private class AttachmentInfo
-        {
-            [JsonProperty(Required = Required.Always)]
-            public string FileName { get; set; }
+    private class AttachmentInfo
+    {
+        [JsonProperty(Required = Required.Always)]
+        public string FileName { get; set; }
 
-            [JsonProperty(Required = Required.Always)]
-            public string ContentBase64 { get; set; }
-        }
+        [JsonProperty(Required = Required.Always)]
+        public string ContentBase64 { get; set; }
     }
 }

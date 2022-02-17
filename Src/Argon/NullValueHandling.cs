@@ -23,25 +23,24 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon
+namespace Argon;
+
+/// <summary>
+/// Specifies null value handling options for the <see cref="JsonSerializer"/>.
+/// </summary>
+/// <example>
+///   <code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeNullValueHandlingObject" title="NullValueHandling Class" />
+///   <code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeNullValueHandlingExample" title="NullValueHandling Ignore Example" />
+/// </example>
+public enum NullValueHandling
 {
     /// <summary>
-    /// Specifies null value handling options for the <see cref="JsonSerializer"/>.
+    /// Include null values when serializing and deserializing objects.
     /// </summary>
-    /// <example>
-    ///   <code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeNullValueHandlingObject" title="NullValueHandling Class" />
-    ///   <code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeNullValueHandlingExample" title="NullValueHandling Ignore Example" />
-    /// </example>
-    public enum NullValueHandling
-    {
-        /// <summary>
-        /// Include null values when serializing and deserializing objects.
-        /// </summary>
-        Include = 0,
+    Include = 0,
 
-        /// <summary>
-        /// Ignore null values when serializing and deserializing objects.
-        /// </summary>
-        Ignore = 1
-    }
+    /// <summary>
+    /// Ignore null values when serializing and deserializing objects.
+    /// </summary>
+    Ignore = 1
 }

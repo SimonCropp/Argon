@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class DoubleClass
 {
-    public class DoubleClass
-    {
-        public double? Height { get; set; }
-    }
+    public double? Height { get; set; }
 }

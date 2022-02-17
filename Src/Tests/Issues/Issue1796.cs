@@ -27,33 +27,32 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue1796 : TestFixtureBase
 {
-    [TestFixture]
-    public class Issue1796 : TestFixtureBase
+    [Fact]
+    public void Test()
     {
-        [Fact]
-        public void Test()
-        {
-            var json = "[{}]";
-            var c = JsonConvert.DeserializeObject<TestStack>(json);
-            Assert.AreEqual(1, c.Count);
-        }
+        var json = "[{}]";
+        var c = JsonConvert.DeserializeObject<TestStack>(json);
+        Assert.AreEqual(1, c.Count);
+    }
 
-        [Fact]
-        public void Test_Generic()
-        {
-            var json = "['hi']";
-            var c = JsonConvert.DeserializeObject<TestStack<string>>(json);
-            Assert.AreEqual(1, c.Count);
-        }
+    [Fact]
+    public void Test_Generic()
+    {
+        var json = "['hi']";
+        var c = JsonConvert.DeserializeObject<TestStack<string>>(json);
+        Assert.AreEqual(1, c.Count);
+    }
 
-        public class TestStack : SortedSet<object>
-        {
-        }
+    public class TestStack : SortedSet<object>
+    {
+    }
 
-        public class TestStack<T> : SortedSet<T>
-        {
-        }
+    public class TestStack<T> : SortedSet<T>
+    {
     }
 }

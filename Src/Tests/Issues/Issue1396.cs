@@ -27,22 +27,21 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue1396 : TestFixtureBase
 {
-    [TestFixture]
-    public class Issue1396 : TestFixtureBase
+    [Fact]
+    public void Test()
     {
-        [Fact]
-        public void Test()
+        using (var stringReader = new StringReader(","))
+        using (var jsonReader = new JsonTextReader(stringReader))
         {
-            using (var stringReader = new StringReader(","))
-            using (var jsonReader = new JsonTextReader(stringReader))
-            {
-                jsonReader.SupportMultipleContent = true;
-                Assert.IsTrue(jsonReader.Read());
-                Assert.AreEqual(JsonToken.Undefined, jsonReader.TokenType);
-                Assert.IsFalse(jsonReader.Read());
-            }
+            jsonReader.SupportMultipleContent = true;
+            Assert.IsTrue(jsonReader.Read());
+            Assert.AreEqual(JsonToken.Undefined, jsonReader.TokenType);
+            Assert.IsFalse(jsonReader.Read());
         }
     }
 }

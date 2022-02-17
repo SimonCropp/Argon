@@ -25,39 +25,38 @@
 
 using BenchmarkDotNet.Attributes;
 
-namespace Argon.Tests.Benchmarks
+namespace Argon.Tests.Benchmarks;
+
+public class JsonTextReaderBenchmarks
 {
-    public class JsonTextReaderBenchmarks
+    private static readonly string FloatArrayJson;
+
+    static JsonTextReaderBenchmarks()
     {
-        private static readonly string FloatArrayJson;
+        FloatArrayJson = new JArray(Enumerable.Range(0, 5000).Select(i => i * 1.1m)).ToString(Formatting.None);
+    }
 
-        static JsonTextReaderBenchmarks()
+    [Benchmark]
+    public void ReadLargeJson()
+    {
+        using (var fs = System.IO.File.OpenText("large.json"))
+        using (var jsonTextReader = new JsonTextReader(fs))
         {
-            FloatArrayJson = new JArray(Enumerable.Range(0, 5000).Select(i => i * 1.1m)).ToString(Formatting.None);
-        }
-
-        [Benchmark]
-        public void ReadLargeJson()
-        {
-            using (var fs = System.IO.File.OpenText("large.json"))
-            using (var jsonTextReader = new JsonTextReader(fs))
+            while (jsonTextReader.Read())
             {
-                while (jsonTextReader.Read())
-                {
-                }
             }
         }
+    }
 
-        [Benchmark]
-        public void ReadAsDecimal()
+    [Benchmark]
+    public void ReadAsDecimal()
+    {
+        using (var jsonTextReader = new JsonTextReader(new StringReader(FloatArrayJson)))
         {
-            using (var jsonTextReader = new JsonTextReader(new StringReader(FloatArrayJson)))
-            {
-                jsonTextReader.Read();
+            jsonTextReader.Read();
 
-                while (jsonTextReader.ReadAsDecimal() != null)
-                {
-                }
+            while (jsonTextReader.ReadAsDecimal() != null)
+            {
             }
         }
     }

@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class DateTimeOffsetTestClass
 {
-    public class DateTimeOffsetTestClass
-    {
-        public DateTimeOffset Foo { get; set; }
-    }
+    public DateTimeOffset Foo { get; set; }
 }

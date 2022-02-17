@@ -28,70 +28,69 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class ErrorHandlingAttribute : TestFixtureBase
 {
-    [TestFixture]
-    public class ErrorHandlingAttribute : TestFixtureBase
+    #region Types
+    public class Employee
     {
-        #region Types
-        public class Employee
+        private List<string> _roles;
+
+        public string Name { get; set; }
+        public int Age { get; set; }
+
+        public List<string> Roles
         {
-            private List<string> _roles;
-
-            public string Name { get; set; }
-            public int Age { get; set; }
-
-            public List<string> Roles
+            get
             {
-                get
+                if (_roles == null)
                 {
-                    if (_roles == null)
-                    {
-                        throw new Exception("Roles not loaded!");
-                    }
-
-                    return _roles;
+                    throw new Exception("Roles not loaded!");
                 }
-                set => _roles = value;
-            }
 
-            public string Title { get; set; }
-
-            [OnError]
-            internal void OnError(StreamingContext context, ErrorContext errorContext)
-            {
-                errorContext.Handled = true;
+                return _roles;
             }
+            set => _roles = value;
         }
+
+        public string Title { get; set; }
+
+        [OnError]
+        internal void OnError(StreamingContext context, ErrorContext errorContext)
+        {
+            errorContext.Handled = true;
+        }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var person = new Employee
+        {
+            Name = "George Michael Bluth",
+            Age = 16,
+            Roles = null,
+            Title = "Mister Manager"
+        };
+
+        var json = JsonConvert.SerializeObject(person, Formatting.Indented);
+
+        Console.WriteLine(json);
+        // {
+        //   "Name": "George Michael Bluth",
+        //   "Age": 16,
+        //   "Title": "Mister Manager"
+        // }
         #endregion
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var person = new Employee
-            {
-                Name = "George Michael Bluth",
-                Age = 16,
-                Roles = null,
-                Title = "Mister Manager"
-            };
-
-            var json = JsonConvert.SerializeObject(person, Formatting.Indented);
-
-            Console.WriteLine(json);
-            // {
-            //   "Name": "George Michael Bluth",
-            //   "Age": 16,
-            //   "Title": "Mister Manager"
-            // }
-            #endregion
-
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""Name"": ""George Michael Bluth"",
   ""Age"": 16,
   ""Title"": ""Mister Manager""
 }", json);
-        }
     }
 }

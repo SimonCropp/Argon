@@ -23,11 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class JsonPropertyConverterTestClass
 {
-    public class JsonPropertyConverterTestClass
-    {
-        public DateTime NormalDate { get; set; }
-        public DateTime JavaScriptDate { get; set; }
-    }
+    public DateTime NormalDate { get; set; }
+    public DateTime JavaScriptDate { get; set; }
 }

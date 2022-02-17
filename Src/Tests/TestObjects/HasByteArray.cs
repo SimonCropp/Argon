@@ -23,16 +23,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    internal class HasByteArray
-    {
-        public byte[] EncryptedPassword { get; set; }
-    }
+namespace Argon.Tests.TestObjects;
 
-    internal class HasMultidimensionalByteArray
-    {
-        public byte[,] Array2D { get; set; }
-        public byte[,,] Array3D { get; set; }
-    }
+internal class HasByteArray
+{
+    public byte[] EncryptedPassword { get; set; }
+}
+
+internal class HasMultidimensionalByteArray
+{
+    public byte[,] Array2D { get; set; }
+    public byte[,,] Array3D { get; set; }
 }

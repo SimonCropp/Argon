@@ -23,12 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class ObjectArrayPropertyTest
 {
-    public class ObjectArrayPropertyTest
-    {
-        public string Action { get; set; }
-        public string Method { get; set; }
-        public object[] Data { get; set; }
-    }
+    public string Action { get; set; }
+    public string Method { get; set; }
+    public object[] Data { get; set; }
 }

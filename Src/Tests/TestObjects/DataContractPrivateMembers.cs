@@ -23,41 +23,40 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[DataContract]
+public class DataContractPrivateMembers
 {
-    [DataContract]
-    public class DataContractPrivateMembers
+    public DataContractPrivateMembers()
     {
-        public DataContractPrivateMembers()
-        {
-        }
+    }
 
-        public DataContractPrivateMembers(string name, int age, int rank, string title)
-        {
-            _name = name;
-            Age = age;
-            Rank = rank;
-            Title = title;
-        }
+    public DataContractPrivateMembers(string name, int age, int rank, string title)
+    {
+        _name = name;
+        Age = age;
+        Rank = rank;
+        Title = title;
+    }
 
-        [DataMember]
-        private string _name;
+    [DataMember]
+    private string _name;
 
-        [DataMember(Name = "_age")]
-        private int Age { get; set; }
+    [DataMember(Name = "_age")]
+    private int Age { get; set; }
 
-        [JsonProperty]
-        private int Rank { get; set; }
+    [JsonProperty]
+    private int Rank { get; set; }
 
-        [JsonProperty(PropertyName = "JsonTitle")]
-        [DataMember(Name = "DataTitle")]
-        private string Title { get; set; }
+    [JsonProperty(PropertyName = "JsonTitle")]
+    [DataMember(Name = "DataTitle")]
+    private string Title { get; set; }
 
-        public string NotIncluded { get; set; }
+    public string NotIncluded { get; set; }
 
-        public override string ToString()
-        {
-            return "_name: " + _name + ", _age: " + Age + ", Rank: " + Rank + ", JsonTitle: " + Title;
-        }
+    public override string ToString()
+    {
+        return "_name: " + _name + ", _age: " + Age + ", Rank: " + Rank + ", JsonTitle: " + Title;
     }
 }

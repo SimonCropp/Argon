@@ -23,11 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects.Organization
+namespace Argon.Tests.TestObjects.Organization;
+
+public class WagePerson : Person
 {
-    public class WagePerson : Person
-    {
-        [JsonProperty]
-        public decimal HourlyWage { get; set; }
-    }
+    [JsonProperty]
+    public decimal HourlyWage { get; set; }
 }

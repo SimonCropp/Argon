@@ -23,20 +23,19 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class RequiredMembersClass
 {
-    public class RequiredMembersClass
-    {
-        [JsonProperty(Required = Required.Always)]
-        public string FirstName { get; set; }
+    [JsonProperty(Required = Required.Always)]
+    public string FirstName { get; set; }
 
-        [JsonProperty]
-        public string MiddleName { get; set; }
+    [JsonProperty]
+    public string MiddleName { get; set; }
 
-        [JsonProperty(Required = Required.AllowNull)]
-        public string LastName { get; set; }
+    [JsonProperty(Required = Required.AllowNull)]
+    public string LastName { get; set; }
 
-        [JsonProperty(Required = Required.Default)]
-        public DateTime BirthDate { get; set; }
-    }
+    [JsonProperty(Required = Required.Default)]
+    public DateTime BirthDate { get; set; }
 }

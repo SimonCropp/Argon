@@ -1,48 +1,47 @@
-namespace Argon.Linq.JsonPath
+namespace Argon.Linq.JsonPath;
+
+internal class ScanFilter : PathFilter
 {
-    internal class ScanFilter : PathFilter
+    internal string? Name;
+
+    public ScanFilter(string? name)
     {
-        internal string? Name;
+        Name = name;
+    }
 
-        public ScanFilter(string? name)
+    public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings? settings)
+    {
+        foreach (var c in current)
         {
-            Name = name;
-        }
-
-        public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings? settings)
-        {
-            foreach (var c in current)
+            if (Name == null)
             {
-                if (Name == null)
+                yield return c;
+            }
+
+            var value = c;
+
+            while (true)
+            {
+                var container = value as JContainer;
+
+                value = GetNextScanValue(c, container, value);
+                if (value == null)
                 {
-                    yield return c;
+                    break;
                 }
 
-                var value = c;
-
-                while (true)
+                if (value is JProperty property)
                 {
-                    var container = value as JContainer;
-
-                    value = GetNextScanValue(c, container, value);
-                    if (value == null)
+                    if (property.Name == Name)
                     {
-                        break;
+                        yield return property.Value;
                     }
-
-                    if (value is JProperty property)
+                }
+                else
+                {
+                    if (Name == null)
                     {
-                        if (property.Name == Name)
-                        {
-                            yield return property.Value;
-                        }
-                    }
-                    else
-                    {
-                        if (Name == null)
-                        {
-                            yield return value;
-                        }
+                        yield return value;
                     }
                 }
             }

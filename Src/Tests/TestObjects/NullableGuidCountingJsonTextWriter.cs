@@ -23,21 +23,20 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class NullableGuidCountingJsonTextWriter : JsonTextWriter
 {
-    public class NullableGuidCountingJsonTextWriter : JsonTextWriter
+    public NullableGuidCountingJsonTextWriter(TextWriter textWriter)
+        : base(textWriter)
     {
-        public NullableGuidCountingJsonTextWriter(TextWriter textWriter)
-            : base(textWriter)
-        {
-        }
+    }
 
-        public int NullableGuidCount { get; private set; }
+    public int NullableGuidCount { get; private set; }
 
-        public override void WriteValue(Guid? value)
-        {
-            base.WriteValue(value);
-            ++NullableGuidCount;
-        }
+    public override void WriteValue(Guid? value)
+    {
+        base.WriteValue(value);
+        ++NullableGuidCount;
     }
 }

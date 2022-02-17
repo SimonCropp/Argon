@@ -23,37 +23,36 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class ListErrorObject
 {
-    public class ListErrorObject
+    public string Member { get; set; }
+
+    private string _throwError;
+
+    public string ThrowError
     {
-        public string Member { get; set; }
-
-        private string _throwError;
-
-        public string ThrowError
+        get
         {
-            get
+            if (_throwError != null)
             {
-                if (_throwError != null)
-                {
-                    return _throwError;
-                }
-
-                throw new Exception("ListErrorObject.ThrowError get error!");
+                return _throwError;
             }
-            set
-            {
-                if (value != null && value.StartsWith("Handle"))
-                {
-                    _throwError = value;
-                    return;
-                }
 
-                throw new Exception("ListErrorObject.ThrowError set error!");
-            }
+            throw new Exception("ListErrorObject.ThrowError get error!");
         }
+        set
+        {
+            if (value != null && value.StartsWith("Handle"))
+            {
+                _throwError = value;
+                return;
+            }
 
-        public string Member2 { get; set; }
+            throw new Exception("ListErrorObject.ThrowError set error!");
+        }
     }
+
+    public string Member2 { get; set; }
 }

@@ -28,84 +28,83 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class CustomTraceWriter : TestFixtureBase
 {
-    [TestFixture]
-    public class CustomTraceWriter : TestFixtureBase
+    #region Types
+    public class NLogTraceWriter : ITraceWriter
     {
-        #region Types
-        public class NLogTraceWriter : ITraceWriter
+        private static readonly Logger Logger = LogManager.GetLogger("NLogTraceWriter");
+
+        public TraceLevel LevelFilter =>
+            // trace all messages. nlog can handle filtering
+            TraceLevel.Verbose;
+
+        public void Trace(TraceLevel level, string message, Exception ex)
         {
-            private static readonly Logger Logger = LogManager.GetLogger("NLogTraceWriter");
-
-            public TraceLevel LevelFilter =>
-                // trace all messages. nlog can handle filtering
-                TraceLevel.Verbose;
-
-            public void Trace(TraceLevel level, string message, Exception ex)
+            var logEvent = new LogEventInfo
             {
-                var logEvent = new LogEventInfo
-                {
-                    Message = message,
-                    Level = GetLogLevel(level),
-                    Exception = ex
-                };
-
-                // log Json.NET message to NLog
-                Logger.Log(logEvent);
-            }
-
-            private LogLevel GetLogLevel(TraceLevel level)
-            {
-                switch (level)
-                {
-                    case TraceLevel.Error:
-                        return LogLevel.Error;
-                    case TraceLevel.Warning:
-                        return LogLevel.Warn;
-                    case TraceLevel.Info:
-                        return LogLevel.Info;
-                    case TraceLevel.Off:
-                        return LogLevel.Off;
-                    default:
-                        return LogLevel.Trace;
-                }
-            }
-        }
-        #endregion
-
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            IList<string> countries = new List<string>
-            {
-                "New Zealand",
-                "Australia",
-                "Denmark",
-                "China"
+                Message = message,
+                Level = GetLogLevel(level),
+                Exception = ex
             };
 
-            var json = JsonConvert.SerializeObject(countries, Formatting.Indented, new JsonSerializerSettings
+            // log Json.NET message to NLog
+            Logger.Log(logEvent);
+        }
+
+        private LogLevel GetLogLevel(TraceLevel level)
+        {
+            switch (level)
             {
-                TraceWriter = new NLogTraceWriter()
-            });
+                case TraceLevel.Error:
+                    return LogLevel.Error;
+                case TraceLevel.Warning:
+                    return LogLevel.Warn;
+                case TraceLevel.Info:
+                    return LogLevel.Info;
+                case TraceLevel.Off:
+                    return LogLevel.Off;
+                default:
+                    return LogLevel.Trace;
+            }
+        }
+    }
+    #endregion
 
-            Console.WriteLine(json);
-            // [
-            //   "New Zealand",
-            //   "Australia",
-            //   "Denmark",
-            //   "China"
-            // ]
-            #endregion
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        IList<string> countries = new List<string>
+        {
+            "New Zealand",
+            "Australia",
+            "Denmark",
+            "China"
+        };
 
-            StringAssert.AreEqual(@"[
+        var json = JsonConvert.SerializeObject(countries, Formatting.Indented, new JsonSerializerSettings
+        {
+            TraceWriter = new NLogTraceWriter()
+        });
+
+        Console.WriteLine(json);
+        // [
+        //   "New Zealand",
+        //   "Australia",
+        //   "Denmark",
+        //   "China"
+        // ]
+        #endregion
+
+        StringAssert.AreEqual(@"[
   ""New Zealand"",
   ""Australia"",
   ""Denmark"",
   ""China""
 ]", json);
-        }
     }
 }

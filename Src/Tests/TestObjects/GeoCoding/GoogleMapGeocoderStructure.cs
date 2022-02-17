@@ -23,12 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects.GeoCoding
+namespace Argon.Tests.TestObjects.GeoCoding;
+
+public class GoogleMapGeocoderStructure
 {
-    public class GoogleMapGeocoderStructure
-    {
-        public string Name;
-        public Status Status;
-        public List<Placemark> Placemark;
-    }
+    public string Name;
+    public Status Status;
+    public List<Placemark> Placemark;
 }

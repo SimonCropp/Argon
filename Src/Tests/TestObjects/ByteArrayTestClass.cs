@@ -23,15 +23,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class ByteArrayTestClass
-    {
-        public byte[] Prop1 { get; set; }
+namespace Argon.Tests.TestObjects;
 
-        public ByteArrayTestClass()
-        {
-            Prop1 = new byte[0];
-        }
+public class ByteArrayTestClass
+{
+    public byte[] Prop1 { get; set; }
+
+    public ByteArrayTestClass()
+    {
+        Prop1 = new byte[0];
     }
 }

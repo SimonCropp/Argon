@@ -23,11 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class LogEntry
 {
-    public class LogEntry
-    {
-        public string Details { get; set; }
-        public DateTime LogDate { get; set; }
-    }
+    public string Details { get; set; }
+    public DateTime LogDate { get; set; }
 }

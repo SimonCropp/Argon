@@ -23,12 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class SelectListItem
 {
-    public class SelectListItem
-    {
-        public string Text { get; set; }
-        public string Value { get; set; }
-        public bool Selected { get; set; }
-    }
+    public string Text { get; set; }
+    public string Value { get; set; }
+    public bool Selected { get; set; }
 }

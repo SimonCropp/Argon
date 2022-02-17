@@ -23,23 +23,22 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class ExistingValueClass
-    {
-        public Dictionary<string, string> Dictionary { get; set; }
-        public List<string> List { get; set; }
+namespace Argon.Tests.TestObjects;
 
-        public ExistingValueClass()
+public class ExistingValueClass
+{
+    public Dictionary<string, string> Dictionary { get; set; }
+    public List<string> List { get; set; }
+
+    public ExistingValueClass()
+    {
+        Dictionary = new Dictionary<string, string>
         {
-            Dictionary = new Dictionary<string, string>
-            {
-                { "existing", "yup" }
-            };
-            List = new List<string>
-            {
-                "existing"
-            };
-        }
+            { "existing", "yup" }
+        };
+        List = new List<string>
+        {
+            "existing"
+        };
     }
 }

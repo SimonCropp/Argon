@@ -27,38 +27,37 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue2082
 {
-    [TestFixture]
-    public class Issue2082
+    [Fact]
+    public void Test()
     {
-        [Fact]
-        public void Test()
-        {
-            var namingStrategy = new CamelCaseNamingStrategy(processDictionaryKeys: true, overrideSpecifiedNames: false);
+        var namingStrategy = new CamelCaseNamingStrategy(processDictionaryKeys: true, overrideSpecifiedNames: false);
 
-            var c = new TestClass { Value = TestEnum.UpperCaseName };
-            var json = JsonConvert.SerializeObject(c, new JsonSerializerSettings
+        var c = new TestClass { Value = TestEnum.UpperCaseName };
+        var json = JsonConvert.SerializeObject(c, new JsonSerializerSettings
+        {
+            ContractResolver = new DefaultContractResolver
             {
-                ContractResolver = new DefaultContractResolver
-                {
-                    NamingStrategy = namingStrategy
-                },
-                Converters = new[] { new StringEnumConverter { NamingStrategy = namingStrategy } }
-            });
+                NamingStrategy = namingStrategy
+            },
+            Converters = new[] { new StringEnumConverter { NamingStrategy = namingStrategy } }
+        });
 
-            Assert.AreEqual(@"{""value"":""UPPER_CASE_NAME""}", json);
-        }
+        Assert.AreEqual(@"{""value"":""UPPER_CASE_NAME""}", json);
+    }
         
-        public class TestClass
-        {
-            public TestEnum Value { get; set; }
-        }
+    public class TestClass
+    {
+        public TestEnum Value { get; set; }
+    }
 
-        public enum TestEnum
-        {
-            [EnumMember(Value = "UPPER_CASE_NAME")]
-            UpperCaseName
-        }
+    public enum TestEnum
+    {
+        [EnumMember(Value = "UPPER_CASE_NAME")]
+        UpperCaseName
     }
 }

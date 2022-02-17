@@ -25,86 +25,85 @@
 
 using System.Dynamic;
 
-namespace Argon.Serialization
+namespace Argon.Serialization;
+
+/// <summary>
+/// Contract details for a <see cref="Type"/> used by the <see cref="JsonSerializer"/>.
+/// </summary>
+public class JsonDynamicContract : JsonContainerContract
 {
     /// <summary>
-    /// Contract details for a <see cref="Type"/> used by the <see cref="JsonSerializer"/>.
+    /// Gets the object's properties.
     /// </summary>
-    public class JsonDynamicContract : JsonContainerContract
+    /// <value>The object's properties.</value>
+    public JsonPropertyCollection Properties { get; }
+
+    /// <summary>
+    /// Gets or sets the property name resolver.
+    /// </summary>
+    /// <value>The property name resolver.</value>
+    public Func<string, string>? PropertyNameResolver { get; set; }
+
+    private readonly ThreadSafeStore<string, CallSite<Func<CallSite, object, object>>> _callSiteGetters =
+        new(CreateCallSiteGetter);
+
+    private readonly ThreadSafeStore<string, CallSite<Func<CallSite, object, object?, object>>> _callSiteSetters =
+        new(CreateCallSiteSetter);
+
+    private static CallSite<Func<CallSite, object, object>> CreateCallSiteGetter(string name)
     {
-        /// <summary>
-        /// Gets the object's properties.
-        /// </summary>
-        /// <value>The object's properties.</value>
-        public JsonPropertyCollection Properties { get; }
+        var getMemberBinder = (GetMemberBinder)DynamicUtils.BinderWrapper.GetMember(name, typeof(DynamicUtils));
 
-        /// <summary>
-        /// Gets or sets the property name resolver.
-        /// </summary>
-        /// <value>The property name resolver.</value>
-        public Func<string, string>? PropertyNameResolver { get; set; }
+        return CallSite<Func<CallSite, object, object>>.Create(new NoThrowGetBinderMember(getMemberBinder));
+    }
 
-        private readonly ThreadSafeStore<string, CallSite<Func<CallSite, object, object>>> _callSiteGetters =
-            new(CreateCallSiteGetter);
+    private static CallSite<Func<CallSite, object, object?, object>> CreateCallSiteSetter(string name)
+    {
+        var binder = (SetMemberBinder)DynamicUtils.BinderWrapper.SetMember(name, typeof(DynamicUtils));
 
-        private readonly ThreadSafeStore<string, CallSite<Func<CallSite, object, object?, object>>> _callSiteSetters =
-            new(CreateCallSiteSetter);
+        return CallSite<Func<CallSite, object, object?, object>>.Create(new NoThrowSetBinderMember(binder));
+    }
 
-        private static CallSite<Func<CallSite, object, object>> CreateCallSiteGetter(string name)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="JsonDynamicContract"/> class.
+    /// </summary>
+    /// <param name="underlyingType">The underlying type for the contract.</param>
+    public JsonDynamicContract(Type underlyingType)
+        : base(underlyingType)
+    {
+        ContractType = JsonContractType.Dynamic;
+
+        Properties = new JsonPropertyCollection(UnderlyingType);
+    }
+
+    internal bool TryGetMember(IDynamicMetaObjectProvider dynamicProvider, string name, out object? value)
+    {
+        ValidationUtils.ArgumentNotNull(dynamicProvider, nameof(dynamicProvider));
+
+        var callSite = _callSiteGetters.Get(name);
+
+        var result = callSite.Target(callSite, dynamicProvider);
+
+        if (!ReferenceEquals(result, NoThrowExpressionVisitor.ErrorResult))
         {
-            var getMemberBinder = (GetMemberBinder)DynamicUtils.BinderWrapper.GetMember(name, typeof(DynamicUtils));
-
-            return CallSite<Func<CallSite, object, object>>.Create(new NoThrowGetBinderMember(getMemberBinder));
+            value = result;
+            return true;
         }
-
-        private static CallSite<Func<CallSite, object, object?, object>> CreateCallSiteSetter(string name)
+        else
         {
-            var binder = (SetMemberBinder)DynamicUtils.BinderWrapper.SetMember(name, typeof(DynamicUtils));
-
-            return CallSite<Func<CallSite, object, object?, object>>.Create(new NoThrowSetBinderMember(binder));
+            value = null;
+            return false;
         }
+    }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="JsonDynamicContract"/> class.
-        /// </summary>
-        /// <param name="underlyingType">The underlying type for the contract.</param>
-        public JsonDynamicContract(Type underlyingType)
-            : base(underlyingType)
-        {
-            ContractType = JsonContractType.Dynamic;
+    internal bool TrySetMember(IDynamicMetaObjectProvider dynamicProvider, string name, object? value)
+    {
+        ValidationUtils.ArgumentNotNull(dynamicProvider, nameof(dynamicProvider));
 
-            Properties = new JsonPropertyCollection(UnderlyingType);
-        }
+        var callSite = _callSiteSetters.Get(name);
 
-        internal bool TryGetMember(IDynamicMetaObjectProvider dynamicProvider, string name, out object? value)
-        {
-            ValidationUtils.ArgumentNotNull(dynamicProvider, nameof(dynamicProvider));
+        var result = callSite.Target(callSite, dynamicProvider, value);
 
-            var callSite = _callSiteGetters.Get(name);
-
-            var result = callSite.Target(callSite, dynamicProvider);
-
-            if (!ReferenceEquals(result, NoThrowExpressionVisitor.ErrorResult))
-            {
-                value = result;
-                return true;
-            }
-            else
-            {
-                value = null;
-                return false;
-            }
-        }
-
-        internal bool TrySetMember(IDynamicMetaObjectProvider dynamicProvider, string name, object? value)
-        {
-            ValidationUtils.ArgumentNotNull(dynamicProvider, nameof(dynamicProvider));
-
-            var callSite = _callSiteSetters.Get(name);
-
-            var result = callSite.Target(callSite, dynamicProvider, value);
-
-            return !ReferenceEquals(result, NoThrowExpressionVisitor.ErrorResult);
-        }
+        return !ReferenceEquals(result, NoThrowExpressionVisitor.ErrorResult);
     }
 }

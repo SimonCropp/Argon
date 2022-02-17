@@ -23,32 +23,31 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class DictionaryInterfaceClass
-    {
-        public string Name { get; set; }
-        public IDictionary<string, int> Dictionary { get; set; }
-        public ICollection<int> Collection { get; set; }
-        public EmployeeReference Employee { get; set; }
-        public object Random { get; set; }
+namespace Argon.Tests.TestObjects;
 
-        public DictionaryInterfaceClass()
+public class DictionaryInterfaceClass
+{
+    public string Name { get; set; }
+    public IDictionary<string, int> Dictionary { get; set; }
+    public ICollection<int> Collection { get; set; }
+    public EmployeeReference Employee { get; set; }
+    public object Random { get; set; }
+
+    public DictionaryInterfaceClass()
+    {
+        Dictionary = new Dictionary<string, int>
         {
-            Dictionary = new Dictionary<string, int>
-            {
-                { "existing", 1 }
-            };
-            Collection = new List<int>
-            {
-                1,
-                2,
-                3
-            };
-            Employee = new EmployeeReference
-            {
-                Name = "EmployeeName!"
-            };
-        }
+            { "existing", 1 }
+        };
+        Collection = new List<int>
+        {
+            1,
+            2,
+            3
+        };
+        Employee = new EmployeeReference
+        {
+            Name = "EmployeeName!"
+        };
     }
 }

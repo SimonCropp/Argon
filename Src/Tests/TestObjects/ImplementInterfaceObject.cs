@@ -23,14 +23,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class ImplementInterfaceObject : IInterfaceObject
-    {
-        public DateTime InterfaceMember { get; set; }
-        public string NewMember { get; set; }
+namespace Argon.Tests.TestObjects;
 
-        [JsonProperty(PropertyName = "newMemberWithProperty")]
-        public string NewMemberWithProperty { get; set; }
-    }
+public class ImplementInterfaceObject : IInterfaceObject
+{
+    public DateTime InterfaceMember { get; set; }
+    public string NewMember { get; set; }
+
+    [JsonProperty(PropertyName = "newMemberWithProperty")]
+    public string NewMemberWithProperty { get; set; }
 }

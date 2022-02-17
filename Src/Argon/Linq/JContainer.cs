@@ -26,1160 +26,1159 @@
 using System.Collections.Specialized;
 using System.ComponentModel;
 
-namespace Argon.Linq
+namespace Argon.Linq;
+
+/// <summary>
+/// Represents a token that can contain other tokens.
+/// </summary>
+public abstract partial class JContainer : JToken, IList<JToken>
+    , ITypedList, IBindingList
+    , IList
+    , INotifyCollectionChanged
 {
+    internal ListChangedEventHandler? _listChanged;
+    internal AddingNewEventHandler? _addingNew;
+
     /// <summary>
-    /// Represents a token that can contain other tokens.
+    /// Occurs when the list changes or an item in the list changes.
     /// </summary>
-    public abstract partial class JContainer : JToken, IList<JToken>
-        , ITypedList, IBindingList
-        , IList
-        , INotifyCollectionChanged
+    public event ListChangedEventHandler ListChanged
     {
-        internal ListChangedEventHandler? _listChanged;
-        internal AddingNewEventHandler? _addingNew;
+        add => _listChanged += value;
+        remove => _listChanged -= value;
+    }
 
-        /// <summary>
-        /// Occurs when the list changes or an item in the list changes.
-        /// </summary>
-        public event ListChangedEventHandler ListChanged
+    /// <summary>
+    /// Occurs before an item is added to the collection.
+    /// </summary>
+    public event AddingNewEventHandler AddingNew
+    {
+        add => _addingNew += value;
+        remove => _addingNew -= value;
+    }
+    internal NotifyCollectionChangedEventHandler? _collectionChanged;
+
+    /// <summary>
+    /// Occurs when the items list of the collection has changed, or the collection is reset.
+    /// </summary>
+    public event NotifyCollectionChangedEventHandler CollectionChanged
+    {
+        add => _collectionChanged += value;
+        remove => _collectionChanged -= value;
+    }
+
+    /// <summary>
+    /// Gets the container's children tokens.
+    /// </summary>
+    /// <value>The container's children tokens.</value>
+    protected abstract IList<JToken> ChildrenTokens { get; }
+
+    private object? _syncRoot;
+    private bool _busy;
+
+    internal JContainer()
+    {
+    }
+
+    internal JContainer(JContainer other)
+        : this()
+    {
+        ValidationUtils.ArgumentNotNull(other, nameof(other));
+
+        var i = 0;
+        foreach (var child in other)
         {
-            add => _listChanged += value;
-            remove => _listChanged -= value;
+            TryAddInternal(i, child, false);
+            i++;
         }
 
-        /// <summary>
-        /// Occurs before an item is added to the collection.
-        /// </summary>
-        public event AddingNewEventHandler AddingNew
+        CopyAnnotations(this, other);
+    }
+
+    internal void CheckReentrancy()
+    {
+        if (_busy)
         {
-            add => _addingNew += value;
-            remove => _addingNew -= value;
+            throw new InvalidOperationException("Cannot change {0} during a collection change event.".FormatWith(CultureInfo.InvariantCulture, GetType()));
         }
-        internal NotifyCollectionChangedEventHandler? _collectionChanged;
+    }
 
-        /// <summary>
-        /// Occurs when the items list of the collection has changed, or the collection is reset.
-        /// </summary>
-        public event NotifyCollectionChangedEventHandler CollectionChanged
+    internal virtual IList<JToken> CreateChildrenCollection()
+    {
+        return new List<JToken>();
+    }
+
+    /// <summary>
+    /// Raises the <see cref="AddingNew"/> event.
+    /// </summary>
+    /// <param name="e">The <see cref="AddingNewEventArgs"/> instance containing the event data.</param>
+    protected virtual void OnAddingNew(AddingNewEventArgs e)
+    {
+        _addingNew?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the <see cref="ListChanged"/> event.
+    /// </summary>
+    /// <param name="e">The <see cref="ListChangedEventArgs"/> instance containing the event data.</param>
+    protected virtual void OnListChanged(ListChangedEventArgs e)
+    {
+        var handler = _listChanged;
+
+        if (handler != null)
         {
-            add => _collectionChanged += value;
-            remove => _collectionChanged -= value;
-        }
-
-        /// <summary>
-        /// Gets the container's children tokens.
-        /// </summary>
-        /// <value>The container's children tokens.</value>
-        protected abstract IList<JToken> ChildrenTokens { get; }
-
-        private object? _syncRoot;
-        private bool _busy;
-
-        internal JContainer()
-        {
-        }
-
-        internal JContainer(JContainer other)
-            : this()
-        {
-            ValidationUtils.ArgumentNotNull(other, nameof(other));
-
-            var i = 0;
-            foreach (var child in other)
+            _busy = true;
+            try
             {
-                TryAddInternal(i, child, false);
-                i++;
+                handler(this, e);
             }
-
-            CopyAnnotations(this, other);
-        }
-
-        internal void CheckReentrancy()
-        {
-            if (_busy)
+            finally
             {
-                throw new InvalidOperationException("Cannot change {0} during a collection change event.".FormatWith(CultureInfo.InvariantCulture, GetType()));
-            }
-        }
-
-        internal virtual IList<JToken> CreateChildrenCollection()
-        {
-            return new List<JToken>();
-        }
-
-        /// <summary>
-        /// Raises the <see cref="AddingNew"/> event.
-        /// </summary>
-        /// <param name="e">The <see cref="AddingNewEventArgs"/> instance containing the event data.</param>
-        protected virtual void OnAddingNew(AddingNewEventArgs e)
-        {
-            _addingNew?.Invoke(this, e);
-        }
-
-        /// <summary>
-        /// Raises the <see cref="ListChanged"/> event.
-        /// </summary>
-        /// <param name="e">The <see cref="ListChangedEventArgs"/> instance containing the event data.</param>
-        protected virtual void OnListChanged(ListChangedEventArgs e)
-        {
-            var handler = _listChanged;
-
-            if (handler != null)
-            {
-                _busy = true;
-                try
-                {
-                    handler(this, e);
-                }
-                finally
-                {
-                    _busy = false;
-                }
+                _busy = false;
             }
         }
+    }
 
-        /// <summary>
-        /// Raises the <see cref="CollectionChanged"/> event.
-        /// </summary>
-        /// <param name="e">The <see cref="NotifyCollectionChangedEventArgs"/> instance containing the event data.</param>
-        protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+    /// <summary>
+    /// Raises the <see cref="CollectionChanged"/> event.
+    /// </summary>
+    /// <param name="e">The <see cref="NotifyCollectionChangedEventArgs"/> instance containing the event data.</param>
+    protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+    {
+        var handler = _collectionChanged;
+
+        if (handler != null)
         {
-            var handler = _collectionChanged;
-
-            if (handler != null)
+            _busy = true;
+            try
             {
-                _busy = true;
-                try
-                {
-                    handler(this, e);
-                }
-                finally
-                {
-                    _busy = false;
-                }
+                handler(this, e);
+            }
+            finally
+            {
+                _busy = false;
             }
         }
+    }
 
-        /// <summary>
-        /// Gets a value indicating whether this token has child tokens.
-        /// </summary>
-        /// <value>
-        /// 	<c>true</c> if this token has child values; otherwise, <c>false</c>.
-        /// </value>
-        public override bool HasValues => ChildrenTokens.Count > 0;
+    /// <summary>
+    /// Gets a value indicating whether this token has child tokens.
+    /// </summary>
+    /// <value>
+    /// 	<c>true</c> if this token has child values; otherwise, <c>false</c>.
+    /// </value>
+    public override bool HasValues => ChildrenTokens.Count > 0;
 
-        internal bool ContentsEqual(JContainer container)
+    internal bool ContentsEqual(JContainer container)
+    {
+        if (container == this)
         {
-            if (container == this)
-            {
-                return true;
-            }
+            return true;
+        }
 
-            var t1 = ChildrenTokens;
-            var t2 = container.ChildrenTokens;
+        var t1 = ChildrenTokens;
+        var t2 = container.ChildrenTokens;
 
-            if (t1.Count != t2.Count)
+        if (t1.Count != t2.Count)
+        {
+            return false;
+        }
+
+        for (var i = 0; i < t1.Count; i++)
+        {
+            if (!t1[i].DeepEquals(t2[i]))
             {
                 return false;
             }
+        }
 
-            for (var i = 0; i < t1.Count; i++)
+        return true;
+    }
+
+    /// <summary>
+    /// Get the first child token of this token.
+    /// </summary>
+    /// <value>
+    /// A <see cref="JToken"/> containing the first child token of the <see cref="JToken"/>.
+    /// </value>
+    public override JToken? First
+    {
+        get
+        {
+            var children = ChildrenTokens;
+            return children.Count > 0 ? children[0] : null;
+        }
+    }
+
+    /// <summary>
+    /// Get the last child token of this token.
+    /// </summary>
+    /// <value>
+    /// A <see cref="JToken"/> containing the last child token of the <see cref="JToken"/>.
+    /// </value>
+    public override JToken? Last
+    {
+        get
+        {
+            var children = ChildrenTokens;
+            var count = children.Count;
+            return count > 0 ? children[count - 1] : null;
+        }
+    }
+
+    /// <summary>
+    /// Returns a collection of the child tokens of this token, in document order.
+    /// </summary>
+    /// <returns>
+    /// An <see cref="IEnumerable{T}"/> of <see cref="JToken"/> containing the child tokens of this <see cref="JToken"/>, in document order.
+    /// </returns>
+    public override JEnumerable<JToken> Children()
+    {
+        return new JEnumerable<JToken>(ChildrenTokens);
+    }
+
+    /// <summary>
+    /// Returns a collection of the child values of this token, in document order.
+    /// </summary>
+    /// <typeparam name="T">The type to convert the values to.</typeparam>
+    /// <returns>
+    /// A <see cref="IEnumerable{T}"/> containing the child values of this <see cref="JToken"/>, in document order.
+    /// </returns>
+    public override IEnumerable<T?> Values<T>() where T : default
+    {
+        return ChildrenTokens.Convert<JToken, T>();
+    }
+
+    /// <summary>
+    /// Returns a collection of the descendant tokens for this token in document order.
+    /// </summary>
+    /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="JToken"/> containing the descendant tokens of the <see cref="JToken"/>.</returns>
+    public IEnumerable<JToken> Descendants()
+    {
+        return GetDescendants(false);
+    }
+
+    /// <summary>
+    /// Returns a collection of the tokens that contain this token, and all descendant tokens of this token, in document order.
+    /// </summary>
+    /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="JToken"/> containing this token, and all the descendant tokens of the <see cref="JToken"/>.</returns>
+    public IEnumerable<JToken> DescendantsAndSelf()
+    {
+        return GetDescendants(true);
+    }
+
+    internal IEnumerable<JToken> GetDescendants(bool self)
+    {
+        if (self)
+        {
+            yield return this;
+        }
+
+        foreach (var o in ChildrenTokens)
+        {
+            yield return o;
+            if (o is JContainer c)
             {
-                if (!t1[i].DeepEquals(t2[i]))
+                foreach (var d in c.Descendants())
                 {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Get the first child token of this token.
-        /// </summary>
-        /// <value>
-        /// A <see cref="JToken"/> containing the first child token of the <see cref="JToken"/>.
-        /// </value>
-        public override JToken? First
-        {
-            get
-            {
-                var children = ChildrenTokens;
-                return children.Count > 0 ? children[0] : null;
-            }
-        }
-
-        /// <summary>
-        /// Get the last child token of this token.
-        /// </summary>
-        /// <value>
-        /// A <see cref="JToken"/> containing the last child token of the <see cref="JToken"/>.
-        /// </value>
-        public override JToken? Last
-        {
-            get
-            {
-                var children = ChildrenTokens;
-                var count = children.Count;
-                return count > 0 ? children[count - 1] : null;
-            }
-        }
-
-        /// <summary>
-        /// Returns a collection of the child tokens of this token, in document order.
-        /// </summary>
-        /// <returns>
-        /// An <see cref="IEnumerable{T}"/> of <see cref="JToken"/> containing the child tokens of this <see cref="JToken"/>, in document order.
-        /// </returns>
-        public override JEnumerable<JToken> Children()
-        {
-            return new JEnumerable<JToken>(ChildrenTokens);
-        }
-
-        /// <summary>
-        /// Returns a collection of the child values of this token, in document order.
-        /// </summary>
-        /// <typeparam name="T">The type to convert the values to.</typeparam>
-        /// <returns>
-        /// A <see cref="IEnumerable{T}"/> containing the child values of this <see cref="JToken"/>, in document order.
-        /// </returns>
-        public override IEnumerable<T?> Values<T>() where T : default
-        {
-            return ChildrenTokens.Convert<JToken, T>();
-        }
-
-        /// <summary>
-        /// Returns a collection of the descendant tokens for this token in document order.
-        /// </summary>
-        /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="JToken"/> containing the descendant tokens of the <see cref="JToken"/>.</returns>
-        public IEnumerable<JToken> Descendants()
-        {
-            return GetDescendants(false);
-        }
-
-        /// <summary>
-        /// Returns a collection of the tokens that contain this token, and all descendant tokens of this token, in document order.
-        /// </summary>
-        /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="JToken"/> containing this token, and all the descendant tokens of the <see cref="JToken"/>.</returns>
-        public IEnumerable<JToken> DescendantsAndSelf()
-        {
-            return GetDescendants(true);
-        }
-
-        internal IEnumerable<JToken> GetDescendants(bool self)
-        {
-            if (self)
-            {
-                yield return this;
-            }
-
-            foreach (var o in ChildrenTokens)
-            {
-                yield return o;
-                if (o is JContainer c)
-                {
-                    foreach (var d in c.Descendants())
-                    {
-                        yield return d;
-                    }
+                    yield return d;
                 }
             }
         }
+    }
 
-        internal bool IsMultiContent([NotNullWhen(true)]object? content)
+    internal bool IsMultiContent([NotNullWhen(true)]object? content)
+    {
+        return content is IEnumerable && !(content is string) && !(content is JToken) && !(content is byte[]);
+    }
+
+    internal JToken EnsureParentToken(JToken? item, bool skipParentCheck)
+    {
+        if (item == null)
         {
-            return content is IEnumerable && !(content is string) && !(content is JToken) && !(content is byte[]);
+            return JValue.CreateNull();
         }
 
-        internal JToken EnsureParentToken(JToken? item, bool skipParentCheck)
+        if (skipParentCheck)
         {
-            if (item == null)
-            {
-                return JValue.CreateNull();
-            }
-
-            if (skipParentCheck)
-            {
-                return item;
-            }
-
-            // to avoid a token having multiple parents or creating a recursive loop, create a copy if...
-            // the item already has a parent
-            // the item is being added to itself
-            // the item is being added to the root parent of itself
-            if (item.Parent != null || item == this || (item.HasValues && Root == item))
-            {
-                item = item.CloneToken();
-            }
-
             return item;
         }
 
-        internal abstract int IndexOfItem(JToken? item);
-
-        internal virtual bool InsertItem(int index, JToken? item, bool skipParentCheck)
+        // to avoid a token having multiple parents or creating a recursive loop, create a copy if...
+        // the item already has a parent
+        // the item is being added to itself
+        // the item is being added to the root parent of itself
+        if (item.Parent != null || item == this || (item.HasValues && Root == item))
         {
-            var children = ChildrenTokens;
+            item = item.CloneToken();
+        }
 
-            if (index > children.Count)
+        return item;
+    }
+
+    internal abstract int IndexOfItem(JToken? item);
+
+    internal virtual bool InsertItem(int index, JToken? item, bool skipParentCheck)
+    {
+        var children = ChildrenTokens;
+
+        if (index > children.Count)
+        {
+            throw new ArgumentOutOfRangeException(nameof(index), "Index must be within the bounds of the List.");
+        }
+
+        CheckReentrancy();
+
+        item = EnsureParentToken(item, skipParentCheck);
+
+        var previous = index == 0 ? null : children[index - 1];
+        // haven't inserted new token yet so next token is still at the inserting index
+        var next = index == children.Count ? null : children[index];
+
+        ValidateToken(item, null);
+
+        item.Parent = this;
+
+        item.Previous = previous;
+        if (previous != null)
+        {
+            previous.Next = item;
+        }
+
+        item.Next = next;
+        if (next != null)
+        {
+            next.Previous = item;
+        }
+
+        children.Insert(index, item);
+
+        if (_listChanged != null)
+        {
+            OnListChanged(new ListChangedEventArgs(ListChangedType.ItemAdded, index));
+        }
+        if (_collectionChanged != null)
+        {
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, index));
+        }
+
+        return true;
+    }
+
+    internal virtual void RemoveItemAt(int index)
+    {
+        var children = ChildrenTokens;
+
+        if (index < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(index), "Index is less than 0.");
+        }
+        if (index >= children.Count)
+        {
+            throw new ArgumentOutOfRangeException(nameof(index), "Index is equal to or greater than Count.");
+        }
+
+        CheckReentrancy();
+
+        var item = children[index];
+        var previous = index == 0 ? null : children[index - 1];
+        var next = index == children.Count - 1 ? null : children[index + 1];
+
+        if (previous != null)
+        {
+            previous.Next = next;
+        }
+        if (next != null)
+        {
+            next.Previous = previous;
+        }
+
+        item.Parent = null;
+        item.Previous = null;
+        item.Next = null;
+
+        children.RemoveAt(index);
+
+        if (_listChanged != null)
+        {
+            OnListChanged(new ListChangedEventArgs(ListChangedType.ItemDeleted, index));
+        }
+        if (_collectionChanged != null)
+        {
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, index));
+        }
+    }
+
+    internal virtual bool RemoveItem(JToken? item)
+    {
+        if (item != null)
+        {
+            var index = IndexOfItem(item);
+            if (index >= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(index), "Index must be within the bounds of the List.");
+                RemoveItemAt(index);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    internal virtual JToken GetItem(int index)
+    {
+        return ChildrenTokens[index];
+    }
+
+    internal virtual void SetItem(int index, JToken? item)
+    {
+        var children = ChildrenTokens;
+
+        if (index < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(index), "Index is less than 0.");
+        }
+        if (index >= children.Count)
+        {
+            throw new ArgumentOutOfRangeException(nameof(index), "Index is equal to or greater than Count.");
+        }
+
+        var existing = children[index];
+
+        if (IsTokenUnchanged(existing, item))
+        {
+            return;
+        }
+
+        CheckReentrancy();
+
+        item = EnsureParentToken(item, false);
+
+        ValidateToken(item, existing);
+
+        var previous = index == 0 ? null : children[index - 1];
+        var next = index == children.Count - 1 ? null : children[index + 1];
+
+        item.Parent = this;
+
+        item.Previous = previous;
+        if (previous != null)
+        {
+            previous.Next = item;
+        }
+
+        item.Next = next;
+        if (next != null)
+        {
+            next.Previous = item;
+        }
+
+        children[index] = item;
+
+        existing.Parent = null;
+        existing.Previous = null;
+        existing.Next = null;
+
+        if (_listChanged != null)
+        {
+            OnListChanged(new ListChangedEventArgs(ListChangedType.ItemChanged, index));
+        }
+        if (_collectionChanged != null)
+        {
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, item, existing, index));
+        }
+    }
+
+    internal virtual void ClearItems()
+    {
+        CheckReentrancy();
+
+        var children = ChildrenTokens;
+
+        foreach (var item in children)
+        {
+            item.Parent = null;
+            item.Previous = null;
+            item.Next = null;
+        }
+
+        children.Clear();
+
+        if (_listChanged != null)
+        {
+            OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
+        }
+        if (_collectionChanged != null)
+        {
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+        }
+    }
+
+    internal virtual void ReplaceItem(JToken existing, JToken replacement)
+    {
+        if (existing == null || existing.Parent != this)
+        {
+            return;
+        }
+
+        var index = IndexOfItem(existing);
+        SetItem(index, replacement);
+    }
+
+    internal virtual bool ContainsItem(JToken? item)
+    {
+        return IndexOfItem(item) != -1;
+    }
+
+    internal virtual void CopyItemsTo(Array array, int arrayIndex)
+    {
+        if (array == null)
+        {
+            throw new ArgumentNullException(nameof(array));
+        }
+        if (arrayIndex < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(arrayIndex), "arrayIndex is less than 0.");
+        }
+        if (arrayIndex >= array.Length && arrayIndex != 0)
+        {
+            throw new ArgumentException("arrayIndex is equal to or greater than the length of array.");
+        }
+        if (Count > array.Length - arrayIndex)
+        {
+            throw new ArgumentException("The number of elements in the source JObject is greater than the available space from arrayIndex to the end of the destination array.");
+        }
+
+        var index = 0;
+        foreach (var token in ChildrenTokens)
+        {
+            array.SetValue(token, arrayIndex + index);
+            index++;
+        }
+    }
+
+    internal static bool IsTokenUnchanged(JToken currentValue, JToken? newValue)
+    {
+        if (currentValue is JValue v1)
+        {
+            if (newValue == null)
+            {
+                // null will get turned into a JValue of type null
+                return v1.Type == JTokenType.Null;
             }
 
-            CheckReentrancy();
+            return v1.Equals(newValue);
+        }
 
-            item = EnsureParentToken(item, skipParentCheck);
+        return false;
+    }
 
-            var previous = index == 0 ? null : children[index - 1];
-            // haven't inserted new token yet so next token is still at the inserting index
-            var next = index == children.Count ? null : children[index];
+    internal virtual void ValidateToken(JToken o, JToken? existing)
+    {
+        ValidationUtils.ArgumentNotNull(o, nameof(o));
 
-            ValidateToken(item, null);
+        if (o.Type == JTokenType.Property)
+        {
+            throw new ArgumentException("Can not add {0} to {1}.".FormatWith(CultureInfo.InvariantCulture, o.GetType(), GetType()));
+        }
+    }
 
-            item.Parent = this;
+    /// <summary>
+    /// Adds the specified content as children of this <see cref="JToken"/>.
+    /// </summary>
+    /// <param name="content">The content to be added.</param>
+    public virtual void Add(object? content)
+    {
+        TryAddInternal(ChildrenTokens.Count, content, false);
+    }
 
-            item.Previous = previous;
-            if (previous != null)
+    internal bool TryAdd(object? content)
+    {
+        return TryAddInternal(ChildrenTokens.Count, content, false);
+    }
+
+    internal void AddAndSkipParentCheck(JToken token)
+    {
+        TryAddInternal(ChildrenTokens.Count, token, true);
+    }
+
+    /// <summary>
+    /// Adds the specified content as the first children of this <see cref="JToken"/>.
+    /// </summary>
+    /// <param name="content">The content to be added.</param>
+    public void AddFirst(object? content)
+    {
+        TryAddInternal(0, content, false);
+    }
+
+    internal bool TryAddInternal(int index, object? content, bool skipParentCheck)
+    {
+        if (IsMultiContent(content))
+        {
+            var enumerable = (IEnumerable)content;
+
+            var multiIndex = index;
+            foreach (var c in enumerable)
             {
-                previous.Next = item;
-            }
-
-            item.Next = next;
-            if (next != null)
-            {
-                next.Previous = item;
-            }
-
-            children.Insert(index, item);
-
-            if (_listChanged != null)
-            {
-                OnListChanged(new ListChangedEventArgs(ListChangedType.ItemAdded, index));
-            }
-            if (_collectionChanged != null)
-            {
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, index));
+                TryAddInternal(multiIndex, c, skipParentCheck);
+                multiIndex++;
             }
 
             return true;
         }
-
-        internal virtual void RemoveItemAt(int index)
+        else
         {
-            var children = ChildrenTokens;
+            var item = CreateFromContent(content);
 
-            if (index < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(index), "Index is less than 0.");
-            }
-            if (index >= children.Count)
-            {
-                throw new ArgumentOutOfRangeException(nameof(index), "Index is equal to or greater than Count.");
-            }
+            return InsertItem(index, item, skipParentCheck);
+        }
+    }
 
-            CheckReentrancy();
-
-            var item = children[index];
-            var previous = index == 0 ? null : children[index - 1];
-            var next = index == children.Count - 1 ? null : children[index + 1];
-
-            if (previous != null)
-            {
-                previous.Next = next;
-            }
-            if (next != null)
-            {
-                next.Previous = previous;
-            }
-
-            item.Parent = null;
-            item.Previous = null;
-            item.Next = null;
-
-            children.RemoveAt(index);
-
-            if (_listChanged != null)
-            {
-                OnListChanged(new ListChangedEventArgs(ListChangedType.ItemDeleted, index));
-            }
-            if (_collectionChanged != null)
-            {
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, index));
-            }
+    internal static JToken CreateFromContent(object? content)
+    {
+        if (content is JToken token)
+        {
+            return token;
         }
 
-        internal virtual bool RemoveItem(JToken? item)
+        return new JValue(content);
+    }
+
+    /// <summary>
+    /// Creates a <see cref="JsonWriter"/> that can be used to add tokens to the <see cref="JToken"/>.
+    /// </summary>
+    /// <returns>A <see cref="JsonWriter"/> that is ready to have content written to it.</returns>
+    public JsonWriter CreateWriter()
+    {
+        return new JTokenWriter(this);
+    }
+
+    /// <summary>
+    /// Replaces the child nodes of this token with the specified content.
+    /// </summary>
+    /// <param name="content">The content.</param>
+    public void ReplaceAll(object content)
+    {
+        ClearItems();
+        Add(content);
+    }
+
+    /// <summary>
+    /// Removes the child nodes from this token.
+    /// </summary>
+    public void RemoveAll()
+    {
+        ClearItems();
+    }
+
+    internal abstract void MergeItem(object content, JsonMergeSettings? settings);
+
+    /// <summary>
+    /// Merge the specified content into this <see cref="JToken"/>.
+    /// </summary>
+    /// <param name="content">The content to be merged.</param>
+    public void Merge(object? content)
+    {
+        if (content == null)
         {
-            if (item != null)
+            return;
+        }
+
+        ValidateContent(content);
+        MergeItem(content, null);
+    }
+
+    /// <summary>
+    /// Merge the specified content into this <see cref="JToken"/> using <see cref="JsonMergeSettings"/>.
+    /// </summary>
+    /// <param name="content">The content to be merged.</param>
+    /// <param name="settings">The <see cref="JsonMergeSettings"/> used to merge the content.</param>
+    public void Merge(object? content, JsonMergeSettings? settings)
+    {
+        if (content == null)
+        {
+            return;
+        }
+
+        ValidateContent(content);
+        MergeItem(content, settings);
+    }
+
+    private void ValidateContent(object content)
+    {
+        if (content.GetType().IsSubclassOf(typeof(JToken)))
+        {
+            return;
+        }
+        if (IsMultiContent(content))
+        {
+            return;
+        }
+
+        throw new ArgumentException("Could not determine JSON object type for type {0}.".FormatWith(CultureInfo.InvariantCulture, content.GetType()), nameof(content));
+    }
+
+    internal void ReadTokenFrom(JsonReader reader, JsonLoadSettings? options)
+    {
+        var startDepth = reader.Depth;
+
+        if (!reader.Read())
+        {
+            throw JsonReaderException.Create(reader, "Error reading {0} from JsonReader.".FormatWith(CultureInfo.InvariantCulture, GetType().Name));
+        }
+
+        ReadContentFrom(reader, options);
+
+        var endDepth = reader.Depth;
+
+        if (endDepth > startDepth)
+        {
+            throw JsonReaderException.Create(reader, "Unexpected end of content while loading {0}.".FormatWith(CultureInfo.InvariantCulture, GetType().Name));
+        }
+    }
+
+    internal void ReadContentFrom(JsonReader r, JsonLoadSettings? settings)
+    {
+        ValidationUtils.ArgumentNotNull(r, nameof(r));
+        var lineInfo = r as IJsonLineInfo;
+
+        var parent = this;
+
+        do
+        {
+            if (parent is JProperty p && p.Value != null)
             {
-                var index = IndexOfItem(item);
-                if (index >= 0)
+                if (parent == this)
                 {
-                    RemoveItemAt(index);
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        internal virtual JToken GetItem(int index)
-        {
-            return ChildrenTokens[index];
-        }
-
-        internal virtual void SetItem(int index, JToken? item)
-        {
-            var children = ChildrenTokens;
-
-            if (index < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(index), "Index is less than 0.");
-            }
-            if (index >= children.Count)
-            {
-                throw new ArgumentOutOfRangeException(nameof(index), "Index is equal to or greater than Count.");
-            }
-
-            var existing = children[index];
-
-            if (IsTokenUnchanged(existing, item))
-            {
-                return;
-            }
-
-            CheckReentrancy();
-
-            item = EnsureParentToken(item, false);
-
-            ValidateToken(item, existing);
-
-            var previous = index == 0 ? null : children[index - 1];
-            var next = index == children.Count - 1 ? null : children[index + 1];
-
-            item.Parent = this;
-
-            item.Previous = previous;
-            if (previous != null)
-            {
-                previous.Next = item;
-            }
-
-            item.Next = next;
-            if (next != null)
-            {
-                next.Previous = item;
-            }
-
-            children[index] = item;
-
-            existing.Parent = null;
-            existing.Previous = null;
-            existing.Next = null;
-
-            if (_listChanged != null)
-            {
-                OnListChanged(new ListChangedEventArgs(ListChangedType.ItemChanged, index));
-            }
-            if (_collectionChanged != null)
-            {
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, item, existing, index));
-            }
-        }
-
-        internal virtual void ClearItems()
-        {
-            CheckReentrancy();
-
-            var children = ChildrenTokens;
-
-            foreach (var item in children)
-            {
-                item.Parent = null;
-                item.Previous = null;
-                item.Next = null;
-            }
-
-            children.Clear();
-
-            if (_listChanged != null)
-            {
-                OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
-            }
-            if (_collectionChanged != null)
-            {
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-            }
-        }
-
-        internal virtual void ReplaceItem(JToken existing, JToken replacement)
-        {
-            if (existing == null || existing.Parent != this)
-            {
-                return;
-            }
-
-            var index = IndexOfItem(existing);
-            SetItem(index, replacement);
-        }
-
-        internal virtual bool ContainsItem(JToken? item)
-        {
-            return IndexOfItem(item) != -1;
-        }
-
-        internal virtual void CopyItemsTo(Array array, int arrayIndex)
-        {
-            if (array == null)
-            {
-                throw new ArgumentNullException(nameof(array));
-            }
-            if (arrayIndex < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(arrayIndex), "arrayIndex is less than 0.");
-            }
-            if (arrayIndex >= array.Length && arrayIndex != 0)
-            {
-                throw new ArgumentException("arrayIndex is equal to or greater than the length of array.");
-            }
-            if (Count > array.Length - arrayIndex)
-            {
-                throw new ArgumentException("The number of elements in the source JObject is greater than the available space from arrayIndex to the end of the destination array.");
-            }
-
-            var index = 0;
-            foreach (var token in ChildrenTokens)
-            {
-                array.SetValue(token, arrayIndex + index);
-                index++;
-            }
-        }
-
-        internal static bool IsTokenUnchanged(JToken currentValue, JToken? newValue)
-        {
-            if (currentValue is JValue v1)
-            {
-                if (newValue == null)
-                {
-                    // null will get turned into a JValue of type null
-                    return v1.Type == JTokenType.Null;
+                    return;
                 }
 
-                return v1.Equals(newValue);
+                parent = parent.Parent;
             }
 
-            return false;
-        }
+            MiscellaneousUtils.Assert(parent != null);
 
-        internal virtual void ValidateToken(JToken o, JToken? existing)
-        {
-            ValidationUtils.ArgumentNotNull(o, nameof(o));
-
-            if (o.Type == JTokenType.Property)
+            switch (r.TokenType)
             {
-                throw new ArgumentException("Can not add {0} to {1}.".FormatWith(CultureInfo.InvariantCulture, o.GetType(), GetType()));
-            }
-        }
+                case JsonToken.None:
+                    // new reader. move to actual content
+                    break;
+                case JsonToken.StartArray:
+                    var a = new JArray();
+                    a.SetLineInfo(lineInfo, settings);
+                    parent.Add(a);
+                    parent = a;
+                    break;
 
-        /// <summary>
-        /// Adds the specified content as children of this <see cref="JToken"/>.
-        /// </summary>
-        /// <param name="content">The content to be added.</param>
-        public virtual void Add(object? content)
-        {
-            TryAddInternal(ChildrenTokens.Count, content, false);
-        }
-
-        internal bool TryAdd(object? content)
-        {
-            return TryAddInternal(ChildrenTokens.Count, content, false);
-        }
-
-        internal void AddAndSkipParentCheck(JToken token)
-        {
-            TryAddInternal(ChildrenTokens.Count, token, true);
-        }
-
-        /// <summary>
-        /// Adds the specified content as the first children of this <see cref="JToken"/>.
-        /// </summary>
-        /// <param name="content">The content to be added.</param>
-        public void AddFirst(object? content)
-        {
-            TryAddInternal(0, content, false);
-        }
-
-        internal bool TryAddInternal(int index, object? content, bool skipParentCheck)
-        {
-            if (IsMultiContent(content))
-            {
-                var enumerable = (IEnumerable)content;
-
-                var multiIndex = index;
-                foreach (var c in enumerable)
-                {
-                    TryAddInternal(multiIndex, c, skipParentCheck);
-                    multiIndex++;
-                }
-
-                return true;
-            }
-            else
-            {
-                var item = CreateFromContent(content);
-
-                return InsertItem(index, item, skipParentCheck);
-            }
-        }
-
-        internal static JToken CreateFromContent(object? content)
-        {
-            if (content is JToken token)
-            {
-                return token;
-            }
-
-            return new JValue(content);
-        }
-
-        /// <summary>
-        /// Creates a <see cref="JsonWriter"/> that can be used to add tokens to the <see cref="JToken"/>.
-        /// </summary>
-        /// <returns>A <see cref="JsonWriter"/> that is ready to have content written to it.</returns>
-        public JsonWriter CreateWriter()
-        {
-            return new JTokenWriter(this);
-        }
-
-        /// <summary>
-        /// Replaces the child nodes of this token with the specified content.
-        /// </summary>
-        /// <param name="content">The content.</param>
-        public void ReplaceAll(object content)
-        {
-            ClearItems();
-            Add(content);
-        }
-
-        /// <summary>
-        /// Removes the child nodes from this token.
-        /// </summary>
-        public void RemoveAll()
-        {
-            ClearItems();
-        }
-
-        internal abstract void MergeItem(object content, JsonMergeSettings? settings);
-
-        /// <summary>
-        /// Merge the specified content into this <see cref="JToken"/>.
-        /// </summary>
-        /// <param name="content">The content to be merged.</param>
-        public void Merge(object? content)
-        {
-            if (content == null)
-            {
-                return;
-            }
-
-            ValidateContent(content);
-            MergeItem(content, null);
-        }
-
-        /// <summary>
-        /// Merge the specified content into this <see cref="JToken"/> using <see cref="JsonMergeSettings"/>.
-        /// </summary>
-        /// <param name="content">The content to be merged.</param>
-        /// <param name="settings">The <see cref="JsonMergeSettings"/> used to merge the content.</param>
-        public void Merge(object? content, JsonMergeSettings? settings)
-        {
-            if (content == null)
-            {
-                return;
-            }
-
-            ValidateContent(content);
-            MergeItem(content, settings);
-        }
-
-        private void ValidateContent(object content)
-        {
-            if (content.GetType().IsSubclassOf(typeof(JToken)))
-            {
-                return;
-            }
-            if (IsMultiContent(content))
-            {
-                return;
-            }
-
-            throw new ArgumentException("Could not determine JSON object type for type {0}.".FormatWith(CultureInfo.InvariantCulture, content.GetType()), nameof(content));
-        }
-
-        internal void ReadTokenFrom(JsonReader reader, JsonLoadSettings? options)
-        {
-            var startDepth = reader.Depth;
-
-            if (!reader.Read())
-            {
-                throw JsonReaderException.Create(reader, "Error reading {0} from JsonReader.".FormatWith(CultureInfo.InvariantCulture, GetType().Name));
-            }
-
-            ReadContentFrom(reader, options);
-
-            var endDepth = reader.Depth;
-
-            if (endDepth > startDepth)
-            {
-                throw JsonReaderException.Create(reader, "Unexpected end of content while loading {0}.".FormatWith(CultureInfo.InvariantCulture, GetType().Name));
-            }
-        }
-
-        internal void ReadContentFrom(JsonReader r, JsonLoadSettings? settings)
-        {
-            ValidationUtils.ArgumentNotNull(r, nameof(r));
-            var lineInfo = r as IJsonLineInfo;
-
-            var parent = this;
-
-            do
-            {
-                if (parent is JProperty p && p.Value != null)
-                {
+                case JsonToken.EndArray:
                     if (parent == this)
                     {
                         return;
                     }
 
                     parent = parent.Parent;
-                }
+                    break;
+                case JsonToken.StartObject:
+                    var o = new JObject();
+                    o.SetLineInfo(lineInfo, settings);
+                    parent.Add(o);
+                    parent = o;
+                    break;
+                case JsonToken.EndObject:
+                    if (parent == this)
+                    {
+                        return;
+                    }
 
-                MiscellaneousUtils.Assert(parent != null);
+                    parent = parent.Parent;
+                    break;
+                case JsonToken.StartConstructor:
+                    var constructor = new JConstructor(r.Value!.ToString());
+                    constructor.SetLineInfo(lineInfo, settings);
+                    parent.Add(constructor);
+                    parent = constructor;
+                    break;
+                case JsonToken.EndConstructor:
+                    if (parent == this)
+                    {
+                        return;
+                    }
 
-                switch (r.TokenType)
-                {
-                    case JsonToken.None:
-                        // new reader. move to actual content
-                        break;
-                    case JsonToken.StartArray:
-                        var a = new JArray();
-                        a.SetLineInfo(lineInfo, settings);
-                        parent.Add(a);
-                        parent = a;
-                        break;
-
-                    case JsonToken.EndArray:
-                        if (parent == this)
-                        {
-                            return;
-                        }
-
-                        parent = parent.Parent;
-                        break;
-                    case JsonToken.StartObject:
-                        var o = new JObject();
-                        o.SetLineInfo(lineInfo, settings);
-                        parent.Add(o);
-                        parent = o;
-                        break;
-                    case JsonToken.EndObject:
-                        if (parent == this)
-                        {
-                            return;
-                        }
-
-                        parent = parent.Parent;
-                        break;
-                    case JsonToken.StartConstructor:
-                        var constructor = new JConstructor(r.Value!.ToString());
-                        constructor.SetLineInfo(lineInfo, settings);
-                        parent.Add(constructor);
-                        parent = constructor;
-                        break;
-                    case JsonToken.EndConstructor:
-                        if (parent == this)
-                        {
-                            return;
-                        }
-
-                        parent = parent.Parent;
-                        break;
-                    case JsonToken.String:
-                    case JsonToken.Integer:
-                    case JsonToken.Float:
-                    case JsonToken.Date:
-                    case JsonToken.Boolean:
-                    case JsonToken.Bytes:
-                        var v = new JValue(r.Value);
+                    parent = parent.Parent;
+                    break;
+                case JsonToken.String:
+                case JsonToken.Integer:
+                case JsonToken.Float:
+                case JsonToken.Date:
+                case JsonToken.Boolean:
+                case JsonToken.Bytes:
+                    var v = new JValue(r.Value);
+                    v.SetLineInfo(lineInfo, settings);
+                    parent.Add(v);
+                    break;
+                case JsonToken.Comment:
+                    if (settings != null && settings.CommentHandling == CommentHandling.Load)
+                    {
+                        v = JValue.CreateComment(r.Value!.ToString());
                         v.SetLineInfo(lineInfo, settings);
                         parent.Add(v);
-                        break;
-                    case JsonToken.Comment:
-                        if (settings != null && settings.CommentHandling == CommentHandling.Load)
-                        {
-                            v = JValue.CreateComment(r.Value!.ToString());
-                            v.SetLineInfo(lineInfo, settings);
-                            parent.Add(v);
-                        }
-                        break;
-                    case JsonToken.Null:
-                        v = JValue.CreateNull();
-                        v.SetLineInfo(lineInfo, settings);
-                        parent.Add(v);
-                        break;
-                    case JsonToken.Undefined:
-                        v = JValue.CreateUndefined();
-                        v.SetLineInfo(lineInfo, settings);
-                        parent.Add(v);
-                        break;
-                    case JsonToken.PropertyName:
-                        var property = ReadProperty(r, settings, lineInfo, parent);
-                        if (property != null)
-                        {
-                            parent = property;
-                        }
-                        else
-                        {
-                            r.Skip();
-                        }
-                        break;
-                    default:
-                        throw new InvalidOperationException("The JsonReader should not be on a token of type {0}.".FormatWith(CultureInfo.InvariantCulture, r.TokenType));
-                }
-            } while (r.Read());
-        }
-
-        private static JProperty? ReadProperty(JsonReader r, JsonLoadSettings? settings, IJsonLineInfo? lineInfo, JContainer parent)
-        {
-            var duplicatePropertyNameHandling = settings?.DuplicatePropertyNameHandling ?? DuplicatePropertyNameHandling.Replace;
-
-            var parentObject = (JObject)parent;
-            var propertyName = r.Value!.ToString();
-            var existingPropertyWithName = parentObject.Property(propertyName, StringComparison.Ordinal);
-            if (existingPropertyWithName != null)
-            {
-                if (duplicatePropertyNameHandling == DuplicatePropertyNameHandling.Ignore)
-                {
-                    return null;
-                }
-                else if (duplicatePropertyNameHandling == DuplicatePropertyNameHandling.Error)
-                {
-                    throw JsonReaderException.Create(r, "Property with the name '{0}' already exists in the current JSON object.".FormatWith(CultureInfo.InvariantCulture, propertyName));
-                }
-            }
-
-            var property = new JProperty(propertyName);
-            property.SetLineInfo(lineInfo, settings);
-            // handle multiple properties with the same name in JSON
-            if (existingPropertyWithName == null)
-            {
-                parent.Add(property);
-            }
-            else
-            {
-                existingPropertyWithName.Replace(property);
-            }
-
-            return property;
-        }
-
-        internal int ContentsHashCode()
-        {
-            var hashCode = 0;
-            foreach (var item in ChildrenTokens)
-            {
-                hashCode ^= item.GetDeepHashCode();
-            }
-            return hashCode;
-        }
-
-        string ITypedList.GetListName(PropertyDescriptor[] listAccessors)
-        {
-            return string.Empty;
-        }
-
-        PropertyDescriptorCollection? ITypedList.GetItemProperties(PropertyDescriptor[] listAccessors)
-        {
-            var d = First as ICustomTypeDescriptor;
-            return d?.GetProperties();
-        }
-
-        #region IList<JToken> Members
-        int IList<JToken>.IndexOf(JToken item)
-        {
-            return IndexOfItem(item);
-        }
-
-        void IList<JToken>.Insert(int index, JToken item)
-        {
-            InsertItem(index, item, false);
-        }
-
-        void IList<JToken>.RemoveAt(int index)
-        {
-            RemoveItemAt(index);
-        }
-
-        JToken IList<JToken>.this[int index]
-        {
-            get => GetItem(index);
-            set => SetItem(index, value);
-        }
-        #endregion
-
-        #region ICollection<JToken> Members
-        void ICollection<JToken>.Add(JToken item)
-        {
-            Add(item);
-        }
-
-        void ICollection<JToken>.Clear()
-        {
-            ClearItems();
-        }
-
-        bool ICollection<JToken>.Contains(JToken item)
-        {
-            return ContainsItem(item);
-        }
-
-        void ICollection<JToken>.CopyTo(JToken[] array, int arrayIndex)
-        {
-            CopyItemsTo(array, arrayIndex);
-        }
-
-        bool ICollection<JToken>.IsReadOnly => false;
-
-        bool ICollection<JToken>.Remove(JToken item)
-        {
-            return RemoveItem(item);
-        }
-        #endregion
-
-        private JToken? EnsureValue(object value)
-        {
-            if (value == null)
-            {
-                return null;
-            }
-
-            if (value is JToken token)
-            {
-                return token;
-            }
-
-            throw new ArgumentException("Argument is not a JToken.");
-        }
-
-        #region IList Members
-        int IList.Add(object value)
-        {
-            Add(EnsureValue(value));
-            return Count - 1;
-        }
-
-        void IList.Clear()
-        {
-            ClearItems();
-        }
-
-        bool IList.Contains(object value)
-        {
-            return ContainsItem(EnsureValue(value));
-        }
-
-        int IList.IndexOf(object value)
-        {
-            return IndexOfItem(EnsureValue(value));
-        }
-
-        void IList.Insert(int index, object value)
-        {
-            InsertItem(index, EnsureValue(value), false);
-        }
-
-        bool IList.IsFixedSize => false;
-
-        bool IList.IsReadOnly => false;
-
-        void IList.Remove(object value)
-        {
-            RemoveItem(EnsureValue(value));
-        }
-
-        void IList.RemoveAt(int index)
-        {
-            RemoveItemAt(index);
-        }
-
-        object IList.this[int index]
-        {
-            get => GetItem(index);
-            set => SetItem(index, EnsureValue(value));
-        }
-        #endregion
-
-        #region ICollection Members
-        void ICollection.CopyTo(Array array, int index)
-        {
-            CopyItemsTo(array, index);
-        }
-
-        /// <summary>
-        /// Gets the count of child JSON tokens.
-        /// </summary>
-        /// <value>The count of child JSON tokens.</value>
-        public int Count => ChildrenTokens.Count;
-
-        bool ICollection.IsSynchronized => false;
-
-        object ICollection.SyncRoot
-        {
-            get
-            {
-                if (_syncRoot == null)
-                {
-                    Interlocked.CompareExchange(ref _syncRoot, new object(), null);
-                }
-
-                return _syncRoot;
-            }
-        }
-        #endregion
-
-        #region IBindingList Members
-        void IBindingList.AddIndex(PropertyDescriptor property)
-        {
-        }
-
-        object IBindingList.AddNew()
-        {
-            var args = new AddingNewEventArgs();
-            OnAddingNew(args);
-
-            if (args.NewObject == null)
-            {
-                throw new JsonException("Could not determine new value to add to '{0}'.".FormatWith(CultureInfo.InvariantCulture, GetType()));
-            }
-
-            if (!(args.NewObject is JToken newItem))
-            {
-                throw new JsonException("New item to be added to collection must be compatible with {0}.".FormatWith(CultureInfo.InvariantCulture, typeof(JToken)));
-            }
-
-            Add(newItem);
-
-            return newItem;
-        }
-
-        bool IBindingList.AllowEdit => true;
-
-        bool IBindingList.AllowNew => true;
-
-        bool IBindingList.AllowRemove => true;
-
-        void IBindingList.ApplySort(PropertyDescriptor property, ListSortDirection direction)
-        {
-            throw new NotSupportedException();
-        }
-
-        int IBindingList.Find(PropertyDescriptor property, object key)
-        {
-            throw new NotSupportedException();
-        }
-
-        bool IBindingList.IsSorted => false;
-
-        void IBindingList.RemoveIndex(PropertyDescriptor property)
-        {
-        }
-
-        void IBindingList.RemoveSort()
-        {
-            throw new NotSupportedException();
-        }
-
-        ListSortDirection IBindingList.SortDirection => ListSortDirection.Ascending;
-
-        PropertyDescriptor? IBindingList.SortProperty => null;
-
-        bool IBindingList.SupportsChangeNotification => true;
-
-        bool IBindingList.SupportsSearching => false;
-
-        bool IBindingList.SupportsSorting => false;
-        #endregion
-
-        internal static void MergeEnumerableContent(JContainer target, IEnumerable content, JsonMergeSettings? settings)
-        {
-            switch (settings?.MergeArrayHandling ?? MergeArrayHandling.Concat)
-            {
-                case MergeArrayHandling.Concat:
-                    foreach (var item in content)
-                    {
-                        target.Add(CreateFromContent(item));
                     }
                     break;
-                case MergeArrayHandling.Union:
-                    var items = new HashSet<JToken>(target, EqualityComparer);
-
-                    foreach (var item in content)
-                    {
-                        var contentItem = CreateFromContent(item);
-
-                        if (items.Add(contentItem))
-                        {
-                            target.Add(contentItem);
-                        }
-                    }
+                case JsonToken.Null:
+                    v = JValue.CreateNull();
+                    v.SetLineInfo(lineInfo, settings);
+                    parent.Add(v);
                     break;
-                case MergeArrayHandling.Replace:
-                    if (target == content)
-                    {
-                        break;
-                    }
-                    target.ClearItems();
-                    foreach (var item in content)
-                    {
-                        target.Add(CreateFromContent(item));
-                    }
+                case JsonToken.Undefined:
+                    v = JValue.CreateUndefined();
+                    v.SetLineInfo(lineInfo, settings);
+                    parent.Add(v);
                     break;
-                case MergeArrayHandling.Merge:
-                    var i = 0;
-                    foreach (var targetItem in content)
+                case JsonToken.PropertyName:
+                    var property = ReadProperty(r, settings, lineInfo, parent);
+                    if (property != null)
                     {
-                        if (i < target.Count)
-                        {
-                            var sourceItem = target[i];
-
-                            if (sourceItem is JContainer existingContainer)
-                            {
-                                existingContainer.Merge(targetItem, settings);
-                            }
-                            else
-                            {
-                                if (targetItem != null)
-                                {
-                                    var contentValue = CreateFromContent(targetItem);
-                                    if (contentValue.Type != JTokenType.Null)
-                                    {
-                                        target[i] = contentValue;
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            target.Add(CreateFromContent(targetItem));
-                        }
-
-                        i++;
+                        parent = property;
+                    }
+                    else
+                    {
+                        r.Skip();
                     }
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(settings), "Unexpected merge array handling when merging JSON.");
+                    throw new InvalidOperationException("The JsonReader should not be on a token of type {0}.".FormatWith(CultureInfo.InvariantCulture, r.TokenType));
             }
+        } while (r.Read());
+    }
+
+    private static JProperty? ReadProperty(JsonReader r, JsonLoadSettings? settings, IJsonLineInfo? lineInfo, JContainer parent)
+    {
+        var duplicatePropertyNameHandling = settings?.DuplicatePropertyNameHandling ?? DuplicatePropertyNameHandling.Replace;
+
+        var parentObject = (JObject)parent;
+        var propertyName = r.Value!.ToString();
+        var existingPropertyWithName = parentObject.Property(propertyName, StringComparison.Ordinal);
+        if (existingPropertyWithName != null)
+        {
+            if (duplicatePropertyNameHandling == DuplicatePropertyNameHandling.Ignore)
+            {
+                return null;
+            }
+            else if (duplicatePropertyNameHandling == DuplicatePropertyNameHandling.Error)
+            {
+                throw JsonReaderException.Create(r, "Property with the name '{0}' already exists in the current JSON object.".FormatWith(CultureInfo.InvariantCulture, propertyName));
+            }
+        }
+
+        var property = new JProperty(propertyName);
+        property.SetLineInfo(lineInfo, settings);
+        // handle multiple properties with the same name in JSON
+        if (existingPropertyWithName == null)
+        {
+            parent.Add(property);
+        }
+        else
+        {
+            existingPropertyWithName.Replace(property);
+        }
+
+        return property;
+    }
+
+    internal int ContentsHashCode()
+    {
+        var hashCode = 0;
+        foreach (var item in ChildrenTokens)
+        {
+            hashCode ^= item.GetDeepHashCode();
+        }
+        return hashCode;
+    }
+
+    string ITypedList.GetListName(PropertyDescriptor[] listAccessors)
+    {
+        return string.Empty;
+    }
+
+    PropertyDescriptorCollection? ITypedList.GetItemProperties(PropertyDescriptor[] listAccessors)
+    {
+        var d = First as ICustomTypeDescriptor;
+        return d?.GetProperties();
+    }
+
+    #region IList<JToken> Members
+    int IList<JToken>.IndexOf(JToken item)
+    {
+        return IndexOfItem(item);
+    }
+
+    void IList<JToken>.Insert(int index, JToken item)
+    {
+        InsertItem(index, item, false);
+    }
+
+    void IList<JToken>.RemoveAt(int index)
+    {
+        RemoveItemAt(index);
+    }
+
+    JToken IList<JToken>.this[int index]
+    {
+        get => GetItem(index);
+        set => SetItem(index, value);
+    }
+    #endregion
+
+    #region ICollection<JToken> Members
+    void ICollection<JToken>.Add(JToken item)
+    {
+        Add(item);
+    }
+
+    void ICollection<JToken>.Clear()
+    {
+        ClearItems();
+    }
+
+    bool ICollection<JToken>.Contains(JToken item)
+    {
+        return ContainsItem(item);
+    }
+
+    void ICollection<JToken>.CopyTo(JToken[] array, int arrayIndex)
+    {
+        CopyItemsTo(array, arrayIndex);
+    }
+
+    bool ICollection<JToken>.IsReadOnly => false;
+
+    bool ICollection<JToken>.Remove(JToken item)
+    {
+        return RemoveItem(item);
+    }
+    #endregion
+
+    private JToken? EnsureValue(object value)
+    {
+        if (value == null)
+        {
+            return null;
+        }
+
+        if (value is JToken token)
+        {
+            return token;
+        }
+
+        throw new ArgumentException("Argument is not a JToken.");
+    }
+
+    #region IList Members
+    int IList.Add(object value)
+    {
+        Add(EnsureValue(value));
+        return Count - 1;
+    }
+
+    void IList.Clear()
+    {
+        ClearItems();
+    }
+
+    bool IList.Contains(object value)
+    {
+        return ContainsItem(EnsureValue(value));
+    }
+
+    int IList.IndexOf(object value)
+    {
+        return IndexOfItem(EnsureValue(value));
+    }
+
+    void IList.Insert(int index, object value)
+    {
+        InsertItem(index, EnsureValue(value), false);
+    }
+
+    bool IList.IsFixedSize => false;
+
+    bool IList.IsReadOnly => false;
+
+    void IList.Remove(object value)
+    {
+        RemoveItem(EnsureValue(value));
+    }
+
+    void IList.RemoveAt(int index)
+    {
+        RemoveItemAt(index);
+    }
+
+    object IList.this[int index]
+    {
+        get => GetItem(index);
+        set => SetItem(index, EnsureValue(value));
+    }
+    #endregion
+
+    #region ICollection Members
+    void ICollection.CopyTo(Array array, int index)
+    {
+        CopyItemsTo(array, index);
+    }
+
+    /// <summary>
+    /// Gets the count of child JSON tokens.
+    /// </summary>
+    /// <value>The count of child JSON tokens.</value>
+    public int Count => ChildrenTokens.Count;
+
+    bool ICollection.IsSynchronized => false;
+
+    object ICollection.SyncRoot
+    {
+        get
+        {
+            if (_syncRoot == null)
+            {
+                Interlocked.CompareExchange(ref _syncRoot, new object(), null);
+            }
+
+            return _syncRoot;
+        }
+    }
+    #endregion
+
+    #region IBindingList Members
+    void IBindingList.AddIndex(PropertyDescriptor property)
+    {
+    }
+
+    object IBindingList.AddNew()
+    {
+        var args = new AddingNewEventArgs();
+        OnAddingNew(args);
+
+        if (args.NewObject == null)
+        {
+            throw new JsonException("Could not determine new value to add to '{0}'.".FormatWith(CultureInfo.InvariantCulture, GetType()));
+        }
+
+        if (!(args.NewObject is JToken newItem))
+        {
+            throw new JsonException("New item to be added to collection must be compatible with {0}.".FormatWith(CultureInfo.InvariantCulture, typeof(JToken)));
+        }
+
+        Add(newItem);
+
+        return newItem;
+    }
+
+    bool IBindingList.AllowEdit => true;
+
+    bool IBindingList.AllowNew => true;
+
+    bool IBindingList.AllowRemove => true;
+
+    void IBindingList.ApplySort(PropertyDescriptor property, ListSortDirection direction)
+    {
+        throw new NotSupportedException();
+    }
+
+    int IBindingList.Find(PropertyDescriptor property, object key)
+    {
+        throw new NotSupportedException();
+    }
+
+    bool IBindingList.IsSorted => false;
+
+    void IBindingList.RemoveIndex(PropertyDescriptor property)
+    {
+    }
+
+    void IBindingList.RemoveSort()
+    {
+        throw new NotSupportedException();
+    }
+
+    ListSortDirection IBindingList.SortDirection => ListSortDirection.Ascending;
+
+    PropertyDescriptor? IBindingList.SortProperty => null;
+
+    bool IBindingList.SupportsChangeNotification => true;
+
+    bool IBindingList.SupportsSearching => false;
+
+    bool IBindingList.SupportsSorting => false;
+    #endregion
+
+    internal static void MergeEnumerableContent(JContainer target, IEnumerable content, JsonMergeSettings? settings)
+    {
+        switch (settings?.MergeArrayHandling ?? MergeArrayHandling.Concat)
+        {
+            case MergeArrayHandling.Concat:
+                foreach (var item in content)
+                {
+                    target.Add(CreateFromContent(item));
+                }
+                break;
+            case MergeArrayHandling.Union:
+                var items = new HashSet<JToken>(target, EqualityComparer);
+
+                foreach (var item in content)
+                {
+                    var contentItem = CreateFromContent(item);
+
+                    if (items.Add(contentItem))
+                    {
+                        target.Add(contentItem);
+                    }
+                }
+                break;
+            case MergeArrayHandling.Replace:
+                if (target == content)
+                {
+                    break;
+                }
+                target.ClearItems();
+                foreach (var item in content)
+                {
+                    target.Add(CreateFromContent(item));
+                }
+                break;
+            case MergeArrayHandling.Merge:
+                var i = 0;
+                foreach (var targetItem in content)
+                {
+                    if (i < target.Count)
+                    {
+                        var sourceItem = target[i];
+
+                        if (sourceItem is JContainer existingContainer)
+                        {
+                            existingContainer.Merge(targetItem, settings);
+                        }
+                        else
+                        {
+                            if (targetItem != null)
+                            {
+                                var contentValue = CreateFromContent(targetItem);
+                                if (contentValue.Type != JTokenType.Null)
+                                {
+                                    target[i] = contentValue;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        target.Add(CreateFromContent(targetItem));
+                    }
+
+                    i++;
+                }
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(settings), "Unexpected merge array handling when merging JSON.");
         }
     }
 }

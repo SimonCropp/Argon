@@ -28,34 +28,33 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Linq
+namespace Argon.Tests.Documentation.Samples.Linq;
+
+[TestFixture]
+public class CreateJsonManually : TestFixtureBase
 {
-    [TestFixture]
-    public class CreateJsonManually : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
+        #region Usage
+        var array = new JArray
         {
-            #region Usage
-            var array = new JArray
-            {
-                "Manual text",
-                new DateTime(2000, 5, 23)
-            };
+            "Manual text",
+            new DateTime(2000, 5, 23)
+        };
 
-            var o = new JObject
-            {
-                ["MyArray"] = array
-            };
+        var o = new JObject
+        {
+            ["MyArray"] = array
+        };
 
-            var json = o.ToString();
-            // {
-            //   "MyArray": [
-            //     "Manual text",
-            //     "2000-05-23T00:00:00"
-            //   ]
-            // }
-            #endregion
-        }
+        var json = o.ToString();
+        // {
+        //   "MyArray": [
+        //     "Manual text",
+        //     "2000-05-23T00:00:00"
+        //   ]
+        // }
+        #endregion
     }
 }

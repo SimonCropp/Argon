@@ -24,24 +24,23 @@
 #endregion
 
 #pragma warning disable 618
-namespace Argon.Tests.Documentation.Samples.Schema
-{
-    public class LoadJsonSchemaFromFile
-    {
-        public void Example()
-        {
-            #region Usage
-            // read file into a string and parse JsonSchema from the string
-            var schema1 = JsonSchema.Parse(File.ReadAllText(@"c:\schema.json"));
+namespace Argon.Tests.Documentation.Samples.Schema;
 
-            // read JsonSchema directly from a file
-            using (var file = File.OpenText(@"c:\schema.json"))
-            using (var reader = new JsonTextReader(file))
-            {
-                var schema2 = JsonSchema.Read(reader);
-            }
-            #endregion
+public class LoadJsonSchemaFromFile
+{
+    public void Example()
+    {
+        #region Usage
+        // read file into a string and parse JsonSchema from the string
+        var schema1 = JsonSchema.Parse(File.ReadAllText(@"c:\schema.json"));
+
+        // read JsonSchema directly from a file
+        using (var file = File.OpenText(@"c:\schema.json"))
+        using (var reader = new JsonTextReader(file))
+        {
+            var schema2 = JsonSchema.Read(reader);
         }
+        #endregion
     }
 }
 

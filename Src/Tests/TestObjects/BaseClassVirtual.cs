@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class BaseClassVirtual
 {
-    public class BaseClassVirtual
-    {
-        internal virtual bool IsTransient { get; set; }
-    }
+    internal virtual bool IsTransient { get; set; }
 }

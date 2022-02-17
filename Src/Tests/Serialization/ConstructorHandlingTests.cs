@@ -29,206 +29,205 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Serialization
+namespace Argon.Tests.Serialization;
+
+[TestFixture]
+public class ConstructorHandlingTests : TestFixtureBase
 {
-    [TestFixture]
-    public class ConstructorHandlingTests : TestFixtureBase
+    [Fact]
+    public void UsePrivateConstructorIfThereAreMultipleConstructorsWithParametersAndNothingToFallbackTo()
     {
-        [Fact]
-        public void UsePrivateConstructorIfThereAreMultipleConstructorsWithParametersAndNothingToFallbackTo()
-        {
-            var json = @"{Name:""Name!""}";
+        var json = @"{Name:""Name!""}";
 
-            var c = JsonConvert.DeserializeObject<PrivateConstructorTestClass>(json);
+        var c = JsonConvert.DeserializeObject<PrivateConstructorTestClass>(json);
 
-            Assert.AreEqual("Name!", c.Name);
-        }
+        Assert.AreEqual("Name!", c.Name);
+    }
 
-        [Fact]
-        public void SuccessWithPrivateConstructorAndAllowNonPublic()
-        {
-            var json = @"{Name:""Name!""}";
+    [Fact]
+    public void SuccessWithPrivateConstructorAndAllowNonPublic()
+    {
+        var json = @"{Name:""Name!""}";
 
-            var c = JsonConvert.DeserializeObject<PrivateConstructorTestClass>(json,
-                new JsonSerializerSettings
-                {
-                    ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
-                });
-            Assert.IsNotNull(c);
-            Assert.AreEqual("Name!", c.Name);
-        }
-
-        [Fact]
-        public void FailWithPrivateConstructorPlusParameterizedAndDefault()
-        {
-            ExceptionAssert.Throws<Exception>(() =>
+        var c = JsonConvert.DeserializeObject<PrivateConstructorTestClass>(json,
+            new JsonSerializerSettings
             {
-                var json = @"{Name:""Name!""}";
-
-                var c = JsonConvert.DeserializeObject<PrivateConstructorWithPublicParameterizedConstructorTestClass>(json);
+                ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
             });
-        }
+        Assert.IsNotNull(c);
+        Assert.AreEqual("Name!", c.Name);
+    }
 
-        [Fact]
-        public void SuccessWithPrivateConstructorPlusParameterizedAndAllowNonPublic()
+    [Fact]
+    public void FailWithPrivateConstructorPlusParameterizedAndDefault()
+    {
+        ExceptionAssert.Throws<Exception>(() =>
         {
             var json = @"{Name:""Name!""}";
 
-            var c = JsonConvert.DeserializeObject<PrivateConstructorWithPublicParameterizedConstructorTestClass>(json,
-                new JsonSerializerSettings
-                {
-                    ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
-                });
-            Assert.IsNotNull(c);
-            Assert.AreEqual("Name!", c.Name);
-            Assert.AreEqual(1, c.Age);
-        }
+            var c = JsonConvert.DeserializeObject<PrivateConstructorWithPublicParameterizedConstructorTestClass>(json);
+        });
+    }
 
-        [Fact]
-        public void SuccessWithPublicParameterizedConstructor()
-        {
-            var json = @"{Name:""Name!""}";
+    [Fact]
+    public void SuccessWithPrivateConstructorPlusParameterizedAndAllowNonPublic()
+    {
+        var json = @"{Name:""Name!""}";
 
-            var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorTestClass>(json);
-            Assert.IsNotNull(c);
-            Assert.AreEqual("Name!", c.Name);
-        }
-
-        [Fact]
-        public void SuccessWithPublicParameterizedConstructorWhenParameterIsNotAProperty()
-        {
-            var json = @"{nameParameter:""Name!""}";
-
-            var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorWithNonPropertyParameterTestClass>(json);
-            Assert.IsNotNull(c);
-            Assert.AreEqual("Name!", c.Name);
-        }
-
-        [Fact]
-        public void SuccessWithPublicParameterizedConstructorWhenParameterRequiresAConverter()
-        {
-            var json = @"{nameParameter:""Name!""}";
-
-            var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorRequiringConverterTestClass>(json, new NameContainerConverter());
-            Assert.IsNotNull(c);
-            Assert.AreEqual("Name!", c.Name.Value);
-        }
-
-        [Fact]
-        public void SuccessWithPublicParameterizedConstructorWhenParameterRequiresAConverterWithParameterAttribute()
-        {
-            var json = @"{nameParameter:""Name!""}";
-
-            var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorRequiringConverterWithParameterAttributeTestClass>(json);
-            Assert.IsNotNull(c);
-            Assert.AreEqual("Name!", c.Name.Value);
-        }
-
-        [Fact]
-        public void SuccessWithPublicParameterizedConstructorWhenParameterRequiresAConverterWithPropertyAttribute()
-        {
-            var json = @"{name:""Name!""}";
-
-            var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorRequiringConverterWithPropertyAttributeTestClass>(json);
-            Assert.IsNotNull(c);
-            Assert.AreEqual("Name!", c.Name.Value);
-        }
-
-        [Fact]
-        public void SuccessWithPublicParameterizedConstructorWhenParameterNameConflictsWithPropertyName()
-        {
-            var json = @"{name:""1""}";
-
-            var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorWithPropertyNameConflict>(json);
-            Assert.IsNotNull(c);
-            Assert.AreEqual(1, c.Name);
-        }
-
-        [Fact]
-        public void PublicParameterizedConstructorWithPropertyNameConflictWithAttribute()
-        {
-            var json = @"{name:""1""}";
-
-            var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorWithPropertyNameConflictWithAttribute>(json);
-            Assert.IsNotNull(c);
-            Assert.AreEqual(1, c.Name);
-        }
-
-        public class ConstructorParametersRespectDefaultValueAttributes
-        {
-            [DefaultValue("parameter1_default")]
-            public string Parameter1 { get; private set; }
-
-            [DefaultValue("parameter2_default")]
-            public string Parameter2 { get; private set; }
-
-            [DefaultValue("parameter3_default")]
-            public string Parameter3 { get; set; }
-
-            [DefaultValue("parameter4_default")]
-            public string Parameter4 { get; set; }
-
-            public ConstructorParametersRespectDefaultValueAttributes(string parameter1, string parameter2, string parameter3)
+        var c = JsonConvert.DeserializeObject<PrivateConstructorWithPublicParameterizedConstructorTestClass>(json,
+            new JsonSerializerSettings
             {
-                Parameter1 = parameter1;
-                Parameter2 = parameter2;
-                Parameter3 = parameter3;
-            }
-        }
-
-        [Fact]
-        public void ConstructorParametersRespectDefaultValueTest_Attrbutes()
-        {
-            var testObject = JsonConvert.DeserializeObject<ConstructorParametersRespectDefaultValueAttributes>("{'Parameter2':'value!'}", new JsonSerializerSettings
-            {
-                DefaultValueHandling = DefaultValueHandling.Populate
+                ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
             });
+        Assert.IsNotNull(c);
+        Assert.AreEqual("Name!", c.Name);
+        Assert.AreEqual(1, c.Age);
+    }
 
-            Assert.AreEqual("parameter1_default", testObject.Parameter1);
-            Assert.AreEqual("value!", testObject.Parameter2);
-            Assert.AreEqual("parameter3_default", testObject.Parameter3);
-            Assert.AreEqual("parameter4_default", testObject.Parameter4);
-        }
+    [Fact]
+    public void SuccessWithPublicParameterizedConstructor()
+    {
+        var json = @"{Name:""Name!""}";
 
-        [Fact]
-        public void ConstructorParametersRespectDefaultValueTest()
+        var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorTestClass>(json);
+        Assert.IsNotNull(c);
+        Assert.AreEqual("Name!", c.Name);
+    }
+
+    [Fact]
+    public void SuccessWithPublicParameterizedConstructorWhenParameterIsNotAProperty()
+    {
+        var json = @"{nameParameter:""Name!""}";
+
+        var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorWithNonPropertyParameterTestClass>(json);
+        Assert.IsNotNull(c);
+        Assert.AreEqual("Name!", c.Name);
+    }
+
+    [Fact]
+    public void SuccessWithPublicParameterizedConstructorWhenParameterRequiresAConverter()
+    {
+        var json = @"{nameParameter:""Name!""}";
+
+        var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorRequiringConverterTestClass>(json, new NameContainerConverter());
+        Assert.IsNotNull(c);
+        Assert.AreEqual("Name!", c.Name.Value);
+    }
+
+    [Fact]
+    public void SuccessWithPublicParameterizedConstructorWhenParameterRequiresAConverterWithParameterAttribute()
+    {
+        var json = @"{nameParameter:""Name!""}";
+
+        var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorRequiringConverterWithParameterAttributeTestClass>(json);
+        Assert.IsNotNull(c);
+        Assert.AreEqual("Name!", c.Name.Value);
+    }
+
+    [Fact]
+    public void SuccessWithPublicParameterizedConstructorWhenParameterRequiresAConverterWithPropertyAttribute()
+    {
+        var json = @"{name:""Name!""}";
+
+        var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorRequiringConverterWithPropertyAttributeTestClass>(json);
+        Assert.IsNotNull(c);
+        Assert.AreEqual("Name!", c.Name.Value);
+    }
+
+    [Fact]
+    public void SuccessWithPublicParameterizedConstructorWhenParameterNameConflictsWithPropertyName()
+    {
+        var json = @"{name:""1""}";
+
+        var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorWithPropertyNameConflict>(json);
+        Assert.IsNotNull(c);
+        Assert.AreEqual(1, c.Name);
+    }
+
+    [Fact]
+    public void PublicParameterizedConstructorWithPropertyNameConflictWithAttribute()
+    {
+        var json = @"{name:""1""}";
+
+        var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorWithPropertyNameConflictWithAttribute>(json);
+        Assert.IsNotNull(c);
+        Assert.AreEqual(1, c.Name);
+    }
+
+    public class ConstructorParametersRespectDefaultValueAttributes
+    {
+        [DefaultValue("parameter1_default")]
+        public string Parameter1 { get; private set; }
+
+        [DefaultValue("parameter2_default")]
+        public string Parameter2 { get; private set; }
+
+        [DefaultValue("parameter3_default")]
+        public string Parameter3 { get; set; }
+
+        [DefaultValue("parameter4_default")]
+        public string Parameter4 { get; set; }
+
+        public ConstructorParametersRespectDefaultValueAttributes(string parameter1, string parameter2, string parameter3)
         {
-            var testObject = JsonConvert.DeserializeObject<ConstructorParametersRespectDefaultValue>("{}", new JsonSerializerSettings { ContractResolver = ConstructorParameterDefaultStringValueContractResolver.Instance });
-
-            Assert.AreEqual("Default Value", testObject.Parameter1);
-            Assert.AreEqual("Default Value", testObject.Parameter2);
+            Parameter1 = parameter1;
+            Parameter2 = parameter2;
+            Parameter3 = parameter3;
         }
+    }
 
-        public class ConstructorParametersRespectDefaultValue
+    [Fact]
+    public void ConstructorParametersRespectDefaultValueTest_Attrbutes()
+    {
+        var testObject = JsonConvert.DeserializeObject<ConstructorParametersRespectDefaultValueAttributes>("{'Parameter2':'value!'}", new JsonSerializerSettings
         {
-            public const string DefaultValue = "Default Value";
+            DefaultValueHandling = DefaultValueHandling.Populate
+        });
 
-            public string Parameter1 { get; private set; }
-            public string Parameter2 { get; private set; }
+        Assert.AreEqual("parameter1_default", testObject.Parameter1);
+        Assert.AreEqual("value!", testObject.Parameter2);
+        Assert.AreEqual("parameter3_default", testObject.Parameter3);
+        Assert.AreEqual("parameter4_default", testObject.Parameter4);
+    }
 
-            public ConstructorParametersRespectDefaultValue(string parameter1, string parameter2)
+    [Fact]
+    public void ConstructorParametersRespectDefaultValueTest()
+    {
+        var testObject = JsonConvert.DeserializeObject<ConstructorParametersRespectDefaultValue>("{}", new JsonSerializerSettings { ContractResolver = ConstructorParameterDefaultStringValueContractResolver.Instance });
+
+        Assert.AreEqual("Default Value", testObject.Parameter1);
+        Assert.AreEqual("Default Value", testObject.Parameter2);
+    }
+
+    public class ConstructorParametersRespectDefaultValue
+    {
+        public const string DefaultValue = "Default Value";
+
+        public string Parameter1 { get; private set; }
+        public string Parameter2 { get; private set; }
+
+        public ConstructorParametersRespectDefaultValue(string parameter1, string parameter2)
+        {
+            Parameter1 = parameter1;
+            Parameter2 = parameter2;
+        }
+    }
+
+    public class ConstructorParameterDefaultStringValueContractResolver : DefaultContractResolver
+    {
+        public static new ConstructorParameterDefaultStringValueContractResolver Instance = new();
+
+        protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
+        {
+            var properties = base.CreateProperties(type, memberSerialization);
+
+            foreach (var property in properties.Where(p => p.PropertyType == typeof(string)))
             {
-                Parameter1 = parameter1;
-                Parameter2 = parameter2;
+                property.DefaultValue = ConstructorParametersRespectDefaultValue.DefaultValue;
+                property.DefaultValueHandling = DefaultValueHandling.Populate;
             }
-        }
 
-        public class ConstructorParameterDefaultStringValueContractResolver : DefaultContractResolver
-        {
-            public static new ConstructorParameterDefaultStringValueContractResolver Instance = new();
-
-            protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
-            {
-                var properties = base.CreateProperties(type, memberSerialization);
-
-                foreach (var property in properties.Where(p => p.PropertyType == typeof(string)))
-                {
-                    property.DefaultValue = ConstructorParametersRespectDefaultValue.DefaultValue;
-                    property.DefaultValueHandling = DefaultValueHandling.Populate;
-                }
-
-                return properties;
-            }
+            return properties;
         }
     }
 }

@@ -27,29 +27,28 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue1460 : TestFixtureBase
 {
-    [TestFixture]
-    public class Issue1460 : TestFixtureBase
+    [Fact]
+    public void Test()
     {
-        [Fact]
-        public void Test()
-        {
-            var sw = new StringWriter();
-            var writer = new JsonTextWriter(sw);
-            JsonWriter.WriteValue(writer, PrimitiveTypeCode.Object, null);
+        var sw = new StringWriter();
+        var writer = new JsonTextWriter(sw);
+        JsonWriter.WriteValue(writer, PrimitiveTypeCode.Object, null);
 
-            Assert.AreEqual("null", sw.ToString());
-        }
+        Assert.AreEqual("null", sw.ToString());
+    }
 
-        [Fact]
-        public async Task TestAsync()
-        {
-            var sw = new StringWriter();
-            var writer = new JsonTextWriter(sw);
-            await JsonWriter.WriteValueAsync(writer, PrimitiveTypeCode.Object, null, CancellationToken.None);
+    [Fact]
+    public async Task TestAsync()
+    {
+        var sw = new StringWriter();
+        var writer = new JsonTextWriter(sw);
+        await JsonWriter.WriteValueAsync(writer, PrimitiveTypeCode.Object, null, CancellationToken.None);
 
-            Assert.AreEqual("null", sw.ToString());
-        }
+        Assert.AreEqual("null", sw.ToString());
     }
 }

@@ -28,45 +28,44 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Bson
+namespace Argon.Tests.Documentation.Samples.Bson;
+
+[TestFixture]
+public class SerializeToBson : TestFixtureBase
 {
-    [TestFixture]
-    public class SerializeToBson : TestFixtureBase
+    #region Types
+    public class Event
     {
-        #region Types
-        public class Event
-        {
-            public string Name { get; set; }
-            public DateTime StartDate { get; set; }
-        }
-        #endregion
+        public string Name { get; set; }
+        public DateTime StartDate { get; set; }
+    }
+    #endregion
 
 #pragma warning disable 618
-        [Fact]
-        public void Example()
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var e = new Event
         {
-            #region Usage
-            var e = new Event
-            {
-                Name = "Movie Premiere",
-                StartDate = new DateTime(2013, 1, 22, 20, 30, 0, DateTimeKind.Utc)
-            };
+            Name = "Movie Premiere",
+            StartDate = new DateTime(2013, 1, 22, 20, 30, 0, DateTimeKind.Utc)
+        };
 
-            var ms = new MemoryStream();
-            using (var writer = new BsonWriter(ms))
-            {
-                var serializer = new JsonSerializer();
-                serializer.Serialize(writer, e);
-            }
-
-            var data = Convert.ToBase64String(ms.ToArray());
-
-            Console.WriteLine(data);
-            // MQAAAAJOYW1lAA8AAABNb3ZpZSBQcmVtaWVyZQAJU3RhcnREYXRlAED982M8AQAAAA==
-            #endregion
-
-            Assert.AreEqual("MQAAAAJOYW1lAA8AAABNb3ZpZSBQcmVtaWVyZQAJU3RhcnREYXRlAED982M8AQAAAA==", data);
+        var ms = new MemoryStream();
+        using (var writer = new BsonWriter(ms))
+        {
+            var serializer = new JsonSerializer();
+            serializer.Serialize(writer, e);
         }
-#pragma warning restore 618
+
+        var data = Convert.ToBase64String(ms.ToArray());
+
+        Console.WriteLine(data);
+        // MQAAAAJOYW1lAA8AAABNb3ZpZSBQcmVtaWVyZQAJU3RhcnREYXRlAED982M8AQAAAA==
+        #endregion
+
+        Assert.AreEqual("MQAAAAJOYW1lAA8AAABNb3ZpZSBQcmVtaWVyZQAJU3RhcnREYXRlAED982M8AQAAAA==", data);
     }
+#pragma warning restore 618
 }

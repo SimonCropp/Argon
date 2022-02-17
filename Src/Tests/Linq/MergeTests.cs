@@ -28,246 +28,246 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Linq
+namespace Argon.Tests.Linq;
+
+[TestFixture]
+public class MergeTests : TestFixtureBase
 {
-    [TestFixture]
-    public class MergeTests : TestFixtureBase
+    [Fact]
+    public void MergeInvalidObject()
     {
-        [Fact]
-        public void MergeInvalidObject()
-        {
-            var a = new JObject();
+        var a = new JObject();
 
-            ExceptionAssert.Throws<ArgumentException>(
-                () => a.Merge(new Version()),
-                @"Could not determine JSON object type for type System.Version.
+        ExceptionAssert.Throws<ArgumentException>(
+            () => a.Merge(new Version()),
+            @"Could not determine JSON object type for type System.Version.
 Parameter name: content",
-                @"Could not determine JSON object type for type System.Version. (Parameter 'content')");
-        }
+            @"Could not determine JSON object type for type System.Version. (Parameter 'content')");
+    }
 
-        [Fact]
-        public void MergeArraySelf()
+    [Fact]
+    public void MergeArraySelf()
+    {
+        var a = new JArray { "1", "2" };
+        a.Merge(a, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Replace });
+        Assert.AreEqual(new JArray { "1", "2" }, a);
+    }
+
+    [Fact]
+    public void MergeObjectSelf()
+    {
+        var a = new JObject
         {
-            var a = new JArray { "1", "2" };
-            a.Merge(a, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Replace });
-            Assert.AreEqual(new JArray { "1", "2" }, a);
-        }
-
-        [Fact]
-        public void MergeObjectSelf()
+            ["1"] = 1,
+            ["2"] = 2
+        };
+        a.Merge(a, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Replace });
+        Assert.AreEqual(new JObject
         {
-            var a = new JObject
-            {
-                ["1"] = 1,
-                ["2"] = 2
-            };
-            a.Merge(a, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Replace });
-            Assert.AreEqual(new JObject
-            {
-                ["1"] = 1,
-                ["2"] = 2
-            }, a);
-        }
+            ["1"] = 1,
+            ["2"] = 2
+        }, a);
+    }
 
-        [Fact]
-        public void MergeArrayIntoArray_Replace()
+    [Fact]
+    public void MergeArrayIntoArray_Replace()
+    {
+        var a = new JArray { "1", "2" };
+        a.Merge(new string[] { "3", "4" }, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Replace });
+        Assert.AreEqual(new JArray { "3", "4" }, a);
+    }
+
+    [Fact]
+    public void MergeArrayIntoArray_Concat()
+    {
+        var a = new JArray { "1", "2" };
+        a.Merge(new string[] { "3", "4" }, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Concat });
+        Assert.AreEqual(new JArray { "1", "2", "3", "4" }, a);
+    }
+
+    [Fact]
+    public void MergeArrayIntoArray_Union()
+    {
+        var a = new JArray { "1", "2" };
+        a.Merge(new string[] { "2", "3", "4" }, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Union });
+        Assert.AreEqual(new JArray { "1", "2", "3", "4" }, a);
+    }
+
+    [Fact]
+    public void MergeArrayIntoArray_Merge()
+    {
+        var a = new JArray { "1", "2" };
+        a.Merge(new string[] { "2" }, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Merge });
+        Assert.AreEqual(new JArray { "2", "2" }, a);
+    }
+
+    [Fact]
+    public void MergeNullString()
+    {
+        var a = new JObject { ["a"] = 1 };
+        var b = new JObject { ["a"] = false ? "2" : null };
+        a.Merge(b);
+
+        Assert.AreEqual(1, (int)a["a"]);
+    }
+
+    [Fact]
+    public void MergeObjectProperty()
+    {
+        var left = (JObject)JToken.FromObject(new
         {
-            var a = new JArray { "1", "2" };
-            a.Merge(new string[] { "3", "4" }, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Replace });
-            Assert.AreEqual(new JArray { "3", "4" }, a);
-        }
-
-        [Fact]
-        public void MergeArrayIntoArray_Concat()
+            Property1 = 1
+        });
+        var right = (JObject)JToken.FromObject(new
         {
-            var a = new JArray { "1", "2" };
-            a.Merge(new string[] { "3", "4" }, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Concat });
-            Assert.AreEqual(new JArray { "1", "2", "3", "4" }, a);
-        }
+            Property2 = 2
+        });
 
-        [Fact]
-        public void MergeArrayIntoArray_Union()
-        {
-            var a = new JArray { "1", "2" };
-            a.Merge(new string[] { "2", "3", "4" }, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Union });
-            Assert.AreEqual(new JArray { "1", "2", "3", "4" }, a);
-        }
+        left.Merge(right);
 
-        [Fact]
-        public void MergeArrayIntoArray_Merge()
-        {
-            var a = new JArray { "1", "2" };
-            a.Merge(new string[] { "2" }, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Merge });
-            Assert.AreEqual(new JArray { "2", "2" }, a);
-        }
+        var json = left.ToString();
 
-        [Fact]
-        public void MergeNullString()
-        {
-            var a = new JObject { ["a"] = 1 };
-            var b = new JObject { ["a"] = false ? "2" : null };
-            a.Merge(b);
-
-            Assert.AreEqual(1, (int)a["a"]);
-        }
-
-        [Fact]
-        public void MergeObjectProperty()
-        {
-            var left = (JObject)JToken.FromObject(new
-            {
-                Property1 = 1
-            });
-            var right = (JObject)JToken.FromObject(new
-            {
-                Property2 = 2
-            });
-
-            left.Merge(right);
-
-            var json = left.ToString();
-
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""Property1"": 1,
   ""Property2"": 2
 }", json);
-        }
+    }
 
-        [Fact]
-        public void MergeChildObject()
+    [Fact]
+    public void MergeChildObject()
+    {
+        var left = (JObject)JToken.FromObject(new
         {
-            var left = (JObject)JToken.FromObject(new
-            {
-                Property1 = new { SubProperty1 = 1 }
-            });
-            var right = (JObject)JToken.FromObject(new
-            {
-                Property1 = new { SubProperty2 = 2 }
-            });
+            Property1 = new { SubProperty1 = 1 }
+        });
+        var right = (JObject)JToken.FromObject(new
+        {
+            Property1 = new { SubProperty2 = 2 }
+        });
 
-            left.Merge(right);
+        left.Merge(right);
 
-            var json = left.ToString();
+        var json = left.ToString();
 
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""Property1"": {
     ""SubProperty1"": 1,
     ""SubProperty2"": 2
   }
 }", json);
-        }
+    }
 
-        [Fact]
-        public void MergeMismatchedTypesRoot()
+    [Fact]
+    public void MergeMismatchedTypesRoot()
+    {
+        var left = (JObject)JToken.FromObject(new
         {
-            var left = (JObject)JToken.FromObject(new
-            {
-                Property1 = new { SubProperty1 = 1 }
-            });
-            var right = (JArray)JToken.FromObject(new object[]
-            {
-                new { Property1 = 1 },
-                new { Property1 = 1 }
-            });
+            Property1 = new { SubProperty1 = 1 }
+        });
+        var right = (JArray)JToken.FromObject(new object[]
+        {
+            new { Property1 = 1 },
+            new { Property1 = 1 }
+        });
 
-            left.Merge(right);
+        left.Merge(right);
 
-            var json = left.ToString();
+        var json = left.ToString();
 
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""Property1"": {
     ""SubProperty1"": 1
   }
 }", json);
-        }
+    }
 
-        [Fact]
-        public void MergeMultipleObjects()
+    [Fact]
+    public void MergeMultipleObjects()
+    {
+        var left = (JObject)JToken.FromObject(new
         {
-            var left = (JObject)JToken.FromObject(new
-            {
-                Property1 = new { SubProperty1 = 1 }
-            });
-            var right = (JObject)JToken.FromObject(new
-            {
-                Property1 = new { SubProperty2 = 2 },
-                Property2 = 2
-            });
+            Property1 = new { SubProperty1 = 1 }
+        });
+        var right = (JObject)JToken.FromObject(new
+        {
+            Property1 = new { SubProperty2 = 2 },
+            Property2 = 2
+        });
 
-            left.Merge(right);
+        left.Merge(right);
 
-            var json = left.ToString();
+        var json = left.ToString();
 
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""Property1"": {
     ""SubProperty1"": 1,
     ""SubProperty2"": 2
   },
   ""Property2"": 2
 }", json);
-        }
+    }
 
-        [Fact]
-        public void MergeArray()
+    [Fact]
+    public void MergeArray()
+    {
+        var left = (JObject)JToken.FromObject(new
         {
-            var left = (JObject)JToken.FromObject(new
+            Array1 = new object[]
             {
-                Array1 = new object[]
+                new
                 {
-                    new
+                    Property1 = new
                     {
-                        Property1 = new
-                        {
-                            Property1 = 1,
-                            Property2 = 2,
-                            Property3 = 3,
-                            Property4 = 4,
-                            Property5 = (object)null
-                        }
-                    },
-                    new { },
-                    3,
-                    null,
-                    5,
-                    null
-                }
-            });
-            var right = (JObject)JToken.FromObject(new
-            {
-                Array1 = new object[]
-                {
-                    new
-                    {
-                        Property1 = new
-                        {
-                            Property1 = (object)null,
-                            Property2 = 3,
-                            Property3 = new
-                            {
-                            },
-                            Property5 = (object)null
-                        }
-                    },
-                    null,
-                    null,
-                    4,
-                    5.1,
-                    null,
-                    new
-                    {
-                        Property1 = 1
+                        Property1 = 1,
+                        Property2 = 2,
+                        Property3 = 3,
+                        Property4 = 4,
+                        Property5 = (object)null
                     }
-                }
-            });
-
-            left.Merge(right, new JsonMergeSettings
+                },
+                new { },
+                3,
+                null,
+                5,
+                null
+            }
+        });
+        var right = (JObject)JToken.FromObject(new
+        {
+            Array1 = new object[]
             {
-                MergeArrayHandling = MergeArrayHandling.Merge
-            });
+                new
+                {
+                    Property1 = new
+                    {
+                        Property1 = (object)null,
+                        Property2 = 3,
+                        Property3 = new
+                        {
+                        },
+                        Property5 = (object)null
+                    }
+                },
+                null,
+                null,
+                4,
+                5.1,
+                null,
+                new
+                {
+                    Property1 = 1
+                }
+            }
+        });
 
-            var json = left.ToString();
+        left.Merge(right, new JsonMergeSettings
+        {
+            MergeArrayHandling = MergeArrayHandling.Merge
+        });
 
-            StringAssert.AreEqual(@"{
+        var json = left.ToString();
+
+        StringAssert.AreEqual(@"{
   ""Array1"": [
     {
       ""Property1"": {
@@ -288,37 +288,37 @@ Parameter name: content",
     }
   ]
 }", json);
-        }
+    }
 
-        [Fact]
-        public void ConcatArray()
+    [Fact]
+    public void ConcatArray()
+    {
+        var left = (JObject)JToken.FromObject(new
         {
-            var left = (JObject)JToken.FromObject(new
+            Array1 = new object[]
             {
-                Array1 = new object[]
-                {
-                    new { Property1 = 1 },
-                    new { Property1 = 1 }
-                }
-            });
-            var right = (JObject)JToken.FromObject(new
+                new { Property1 = 1 },
+                new { Property1 = 1 }
+            }
+        });
+        var right = (JObject)JToken.FromObject(new
+        {
+            Array1 = new object[]
             {
-                Array1 = new object[]
-                {
-                    new { Property1 = 1 },
-                    new { Property2 = 2 },
-                    new { Property3 = 3 }
-                }
-            });
+                new { Property1 = 1 },
+                new { Property2 = 2 },
+                new { Property3 = 3 }
+            }
+        });
 
-            left.Merge(right, new JsonMergeSettings
-            {
-                MergeArrayHandling = MergeArrayHandling.Concat
-            });
+        left.Merge(right, new JsonMergeSettings
+        {
+            MergeArrayHandling = MergeArrayHandling.Concat
+        });
 
-            var json = left.ToString();
+        var json = left.ToString();
 
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""Array1"": [
     {
       ""Property1"": 1
@@ -337,40 +337,40 @@ Parameter name: content",
     }
   ]
 }", json);
-        }
+    }
 
-        [Fact]
-        public void MergeMismatchingTypesInArray()
+    [Fact]
+    public void MergeMismatchingTypesInArray()
+    {
+        var left = (JArray)JToken.FromObject(new object[]
         {
-            var left = (JArray)JToken.FromObject(new object[]
-            {
-                true,
-                null,
-                new { Property1 = 1 },
-                new object[] { 1 },
-                new { Property1 = 1 },
-                1,
-                new object[] { 1 }
-            });
-            var right = (JArray)JToken.FromObject(new object[]
-            {
-                1,
-                5,
-                new object[] { 1 },
-                new { Property1 = 1 },
-                true,
-                new { Property1 = 1 },
-                null
-            });
+            true,
+            null,
+            new { Property1 = 1 },
+            new object[] { 1 },
+            new { Property1 = 1 },
+            1,
+            new object[] { 1 }
+        });
+        var right = (JArray)JToken.FromObject(new object[]
+        {
+            1,
+            5,
+            new object[] { 1 },
+            new { Property1 = 1 },
+            true,
+            new { Property1 = 1 },
+            null
+        });
 
-            left.Merge(right, new JsonMergeSettings
-            {
-                MergeArrayHandling = MergeArrayHandling.Merge
-            });
+        left.Merge(right, new JsonMergeSettings
+        {
+            MergeArrayHandling = MergeArrayHandling.Merge
+        });
 
-            var json = left.ToString();
+        var json = left.ToString();
 
-            StringAssert.AreEqual(@"[
+        StringAssert.AreEqual(@"[
   1,
   5,
   {
@@ -389,40 +389,40 @@ Parameter name: content",
     1
   ]
 ]", json);
-        }
+    }
 
-        [Fact]
-        public void MergeMismatchingTypesInObject()
+    [Fact]
+    public void MergeMismatchingTypesInObject()
+    {
+        var left = (JObject)JToken.FromObject(new
         {
-            var left = (JObject)JToken.FromObject(new
+            Property1 = new object[]
             {
-                Property1 = new object[]
-                {
-                    1
-                },
-                Property2 = new object[]
-                {
-                    1
-                },
-                Property3 = true,
-                Property4 = true
-            });
-            var right = (JObject)JToken.FromObject(new
+                1
+            },
+            Property2 = new object[]
             {
-                Property1 = new { Nested = true },
-                Property2 = true,
-                Property3 = new object[]
-                {
-                    1
-                },
-                Property4 = (object)null
-            });
+                1
+            },
+            Property3 = true,
+            Property4 = true
+        });
+        var right = (JObject)JToken.FromObject(new
+        {
+            Property1 = new { Nested = true },
+            Property2 = true,
+            Property3 = new object[]
+            {
+                1
+            },
+            Property4 = (object)null
+        });
 
-            left.Merge(right);
+        left.Merge(right);
 
-            var json = left.ToString();
+        var json = left.ToString();
 
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""Property1"": {
     ""Nested"": true
   },
@@ -432,101 +432,101 @@ Parameter name: content",
   ],
   ""Property4"": true
 }", json);
-        }
+    }
 
-        [Fact]
-        public void MergeArrayOverwrite_Nested()
+    [Fact]
+    public void MergeArrayOverwrite_Nested()
+    {
+        var left = (JObject)JToken.FromObject(new
         {
-            var left = (JObject)JToken.FromObject(new
+            Array1 = new object[]
             {
-                Array1 = new object[]
-                {
-                    1,
-                    2,
-                    3
-                }
-            });
-            var right = (JObject)JToken.FromObject(new
+                1,
+                2,
+                3
+            }
+        });
+        var right = (JObject)JToken.FromObject(new
+        {
+            Array1 = new object[]
             {
-                Array1 = new object[]
-                {
-                    4,
-                    5
-                }
-            });
+                4,
+                5
+            }
+        });
 
-            left.Merge(right, new JsonMergeSettings
-            {
-                MergeArrayHandling = MergeArrayHandling.Replace
-            });
+        left.Merge(right, new JsonMergeSettings
+        {
+            MergeArrayHandling = MergeArrayHandling.Replace
+        });
 
-            var json = left.ToString();
+        var json = left.ToString();
 
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""Array1"": [
     4,
     5
   ]
 }", json);
-        }
+    }
 
-        [Fact]
-        public void MergeArrayOverwrite_Root()
+    [Fact]
+    public void MergeArrayOverwrite_Root()
+    {
+        var left = (JArray)JToken.FromObject(new object[]
         {
-            var left = (JArray)JToken.FromObject(new object[]
-            {
-                1,
-                2,
-                3
-            });
-            var right = (JArray)JToken.FromObject(new object[]
-            {
-                4,
-                5
-            });
+            1,
+            2,
+            3
+        });
+        var right = (JArray)JToken.FromObject(new object[]
+        {
+            4,
+            5
+        });
 
-            left.Merge(right, new JsonMergeSettings
-            {
-                MergeArrayHandling = MergeArrayHandling.Replace
-            });
+        left.Merge(right, new JsonMergeSettings
+        {
+            MergeArrayHandling = MergeArrayHandling.Replace
+        });
 
-            var json = left.ToString();
+        var json = left.ToString();
 
-            StringAssert.AreEqual(@"[
+        StringAssert.AreEqual(@"[
   4,
   5
 ]", json);
-        }
+    }
 
-        [Fact]
-        public void UnionArrays()
+    [Fact]
+    public void UnionArrays()
+    {
+        var left = (JObject)JToken.FromObject(new
         {
-            var left = (JObject)JToken.FromObject(new
+            Array1 = new object[]
             {
-                Array1 = new object[]
-                {
-                    new { Property1 = 1 },
-                    new { Property1 = 1 }
-                }
-            });
-            var right = (JObject)JToken.FromObject(new
+                new { Property1 = 1 },
+                new { Property1 = 1 }
+            }
+        });
+        var right = (JObject)JToken.FromObject(new
+        {
+            Array1 = new object[]
             {
-                Array1 = new object[]
-                {
-                    new { Property1 = 1 },
-                    new { Property2 = 2 },
-                    new { Property3 = 3 }
-                }
-            });
+                new { Property1 = 1 },
+                new { Property2 = 2 },
+                new { Property3 = 3 }
+            }
+        });
 
-            left.Merge(right, new JsonMergeSettings
-            {
-                MergeArrayHandling = MergeArrayHandling.Union
-            });
+        left.Merge(right, new JsonMergeSettings
+        {
+            MergeArrayHandling = MergeArrayHandling.Union
+        });
 
-            var json = left.ToString();
+        var json = left.ToString();
 
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""Array1"": [
     {
       ""Property1"": 1
@@ -542,219 +542,218 @@ Parameter name: content",
     }
   ]
 }", json);
-        }
+    }
 
-        [Fact]
-        public void MergeJProperty()
+    [Fact]
+    public void MergeJProperty()
+    {
+        var p1 = new JProperty("p1", 1);
+        var p2 = new JProperty("p2", 2);
+
+        p1.Merge(p2);
+        Assert.AreEqual(2, (int)p1.Value);
+
+        var p3 = new JProperty("p3");
+
+        p1.Merge(p3);
+        Assert.AreEqual(2, (int)p1.Value);
+
+        var p4 = new JProperty("p4", null);
+
+        p1.Merge(p4);
+        Assert.AreEqual(2, (int)p1.Value);
+    }
+
+    [Fact]
+    public void MergeJConstructor()
+    {
+        var c1 = new JConstructor("c1", new[] { 1, 2 });
+        var c2 = new JConstructor("c2", new[] { 3, 4 });
+
+        c1.Merge(c2);
+        Assert.AreEqual("c2", c1.Name);
+        CollectionAssert.AreEquivalent(new[] { 1, 2, 3, 4 }, c1.Select(i => (int)i));
+
+        var c3 = new JConstructor();
+        c1.Merge(c3);
+        Assert.AreEqual("c2", c1.Name);
+
+        var c4 = new JConstructor("c4", new[] { 5, 6 });
+        c1.Merge(c4, new JsonMergeSettings
         {
-            var p1 = new JProperty("p1", 1);
-            var p2 = new JProperty("p2", 2);
+            MergeArrayHandling = MergeArrayHandling.Replace
+        });
+        Assert.AreEqual("c4", c1.Name);
+        CollectionAssert.AreEquivalent(new[] { 5, 6 }, c1.Select(i => (int)i));
+    }
 
-            p1.Merge(p2);
-            Assert.AreEqual(2, (int)p1.Value);
+    [Fact]
+    public void MergeDefaultContainers()
+    {
+        var c = new JConstructor();
+        c.Merge(new JConstructor());
+        Assert.AreEqual(null, c.Name);
+        Assert.AreEqual(0, c.Count);
 
-            var p3 = new JProperty("p3");
+        var o = new JObject();
+        o.Merge(new JObject());
+        Assert.AreEqual(0, o.Count);
 
-            p1.Merge(p3);
-            Assert.AreEqual(2, (int)p1.Value);
+        var a = new JArray();
+        a.Merge(new JArray());
+        Assert.AreEqual(0, a.Count);
 
-            var p4 = new JProperty("p4", null);
+        var p = new JProperty("name1");
+        p.Merge(new JProperty("name2"));
+        Assert.AreEqual("name1", p.Name);
+        Assert.AreEqual(0, p.Count);
+    }
 
-            p1.Merge(p4);
-            Assert.AreEqual(2, (int)p1.Value);
-        }
+    [Fact]
+    public void MergeNull()
+    {
+        var c = new JConstructor();
+        c.Merge(null);
+        Assert.AreEqual(null, c.Name);
+        Assert.AreEqual(0, c.Count);
 
-        [Fact]
-        public void MergeJConstructor()
+        var o = new JObject();
+        o.Merge(null);
+        Assert.AreEqual(0, o.Count);
+
+        var a = new JArray();
+        a.Merge(null);
+        Assert.AreEqual(0, a.Count);
+
+        var p = new JProperty("name1");
+        p.Merge(null);
+        Assert.AreEqual("name1", p.Name);
+        Assert.AreEqual(0, p.Count);
+    }
+
+    [Fact]
+    public void MergeNullValue()
+    {
+        var source = new JObject
         {
-            var c1 = new JConstructor("c1", new[] { 1, 2 });
-            var c2 = new JConstructor("c2", new[] { 3, 4 });
+            {"Property1", "value"},
+            {"Property2", new JObject()},
+            {"Property3", JValue.CreateNull()},
+            {"Property4", JValue.CreateUndefined()},
+            {"Property5", new JArray()}
+        };
 
-            c1.Merge(c2);
-            Assert.AreEqual("c2", c1.Name);
-            CollectionAssert.AreEquivalent(new[] { 1, 2, 3, 4 }, c1.Select(i => (int)i));
+        var patch = JObject.Parse("{Property1: null, Property2: null, Property3: null, Property4: null, Property5: null}");
 
-            var c3 = new JConstructor();
-            c1.Merge(c3);
-            Assert.AreEqual("c2", c1.Name);
-
-            var c4 = new JConstructor("c4", new[] { 5, 6 });
-            c1.Merge(c4, new JsonMergeSettings
-            {
-                MergeArrayHandling = MergeArrayHandling.Replace
-            });
-            Assert.AreEqual("c4", c1.Name);
-            CollectionAssert.AreEquivalent(new[] { 5, 6 }, c1.Select(i => (int)i));
-        }
-
-        [Fact]
-        public void MergeDefaultContainers()
+        source.Merge(patch, new JsonMergeSettings
         {
-            var c = new JConstructor();
-            c.Merge(new JConstructor());
-            Assert.AreEqual(null, c.Name);
-            Assert.AreEqual(0, c.Count);
+            MergeNullValueHandling = MergeNullValueHandling.Merge
+        });
 
-            var o = new JObject();
-            o.Merge(new JObject());
-            Assert.AreEqual(0, o.Count);
+        Assert.IsNotNull(source["Property1"]);
+        Assert.AreEqual(JTokenType.Null, source["Property1"].Type);
+        Assert.IsNotNull(source["Property2"]);
+        Assert.AreEqual(JTokenType.Null, source["Property2"].Type);
+        Assert.IsNotNull(source["Property3"]);
+        Assert.AreEqual(JTokenType.Null, source["Property3"].Type);
+        Assert.IsNotNull(source["Property4"]);
+        Assert.AreEqual(JTokenType.Null, source["Property4"].Type);
+        Assert.IsNotNull(source["Property5"]);
+        Assert.AreEqual(JTokenType.Null, source["Property5"].Type);
+    }
 
-            var a = new JArray();
-            a.Merge(new JArray());
-            Assert.AreEqual(0, a.Count);
-
-            var p = new JProperty("name1");
-            p.Merge(new JProperty("name2"));
-            Assert.AreEqual("name1", p.Name);
-            Assert.AreEqual(0, p.Count);
-        }
-
-        [Fact]
-        public void MergeNull()
-        {
-            var c = new JConstructor();
-            c.Merge(null);
-            Assert.AreEqual(null, c.Name);
-            Assert.AreEqual(0, c.Count);
-
-            var o = new JObject();
-            o.Merge(null);
-            Assert.AreEqual(0, o.Count);
-
-            var a = new JArray();
-            a.Merge(null);
-            Assert.AreEqual(0, a.Count);
-
-            var p = new JProperty("name1");
-            p.Merge(null);
-            Assert.AreEqual("name1", p.Name);
-            Assert.AreEqual(0, p.Count);
-        }
-
-        [Fact]
-        public void MergeNullValue()
-        {
-            var source = new JObject
-            {
-                {"Property1", "value"},
-                {"Property2", new JObject()},
-                {"Property3", JValue.CreateNull()},
-                {"Property4", JValue.CreateUndefined()},
-                {"Property5", new JArray()}
-            };
-
-            var patch = JObject.Parse("{Property1: null, Property2: null, Property3: null, Property4: null, Property5: null}");
-
-            source.Merge(patch, new JsonMergeSettings
-            {
-                MergeNullValueHandling = MergeNullValueHandling.Merge
-            });
-
-            Assert.IsNotNull(source["Property1"]);
-            Assert.AreEqual(JTokenType.Null, source["Property1"].Type);
-            Assert.IsNotNull(source["Property2"]);
-            Assert.AreEqual(JTokenType.Null, source["Property2"].Type);
-            Assert.IsNotNull(source["Property3"]);
-            Assert.AreEqual(JTokenType.Null, source["Property3"].Type);
-            Assert.IsNotNull(source["Property4"]);
-            Assert.AreEqual(JTokenType.Null, source["Property4"].Type);
-            Assert.IsNotNull(source["Property5"]);
-            Assert.AreEqual(JTokenType.Null, source["Property5"].Type);
-        }
-
-        [Fact]
-        public void MergeNullValueHandling_Array()
-        {
-            var originalJson = @"{
+    [Fact]
+    public void MergeNullValueHandling_Array()
+    {
+        var originalJson = @"{
   ""Bar"": [
     ""a"",
     ""b"",
     ""c""
   ]
 }";
-            var newJson = @"{
+        var newJson = @"{
   ""Bar"": null
 }";
 
-            var oldFoo = JObject.Parse(originalJson);
-            var newFoo = JObject.Parse(newJson);
+        var oldFoo = JObject.Parse(originalJson);
+        var newFoo = JObject.Parse(newJson);
 
-            oldFoo.Merge(newFoo, new JsonMergeSettings
-            {
-                MergeNullValueHandling = MergeNullValueHandling.Ignore
-            });
-
-            StringAssert.AreEqual(originalJson, oldFoo.ToString());
-
-            oldFoo.Merge(newFoo, new JsonMergeSettings
-            {
-                MergeNullValueHandling = MergeNullValueHandling.Merge
-            });
-
-            StringAssert.AreEqual(newJson, newFoo.ToString());
-        }
-
-        [Fact]
-        public void MergeNullValueHandling_Object()
+        oldFoo.Merge(newFoo, new JsonMergeSettings
         {
-            var originalJson = @"{
+            MergeNullValueHandling = MergeNullValueHandling.Ignore
+        });
+
+        StringAssert.AreEqual(originalJson, oldFoo.ToString());
+
+        oldFoo.Merge(newFoo, new JsonMergeSettings
+        {
+            MergeNullValueHandling = MergeNullValueHandling.Merge
+        });
+
+        StringAssert.AreEqual(newJson, newFoo.ToString());
+    }
+
+    [Fact]
+    public void MergeNullValueHandling_Object()
+    {
+        var originalJson = @"{
   ""Bar"": {}
 }";
-            var newJson = @"{
+        var newJson = @"{
   ""Bar"": null
 }";
 
-            var oldFoo = JObject.Parse(originalJson);
-            var newFoo = JObject.Parse(newJson);
+        var oldFoo = JObject.Parse(originalJson);
+        var newFoo = JObject.Parse(newJson);
 
-            oldFoo.Merge(newFoo, new JsonMergeSettings
-            {
-                MergeNullValueHandling = MergeNullValueHandling.Ignore
-            });
-
-            StringAssert.AreEqual(originalJson, oldFoo.ToString());
-
-            oldFoo.Merge(newFoo, new JsonMergeSettings
-            {
-                MergeNullValueHandling = MergeNullValueHandling.Merge
-            });
-
-            StringAssert.AreEqual(newJson, newFoo.ToString());
-        }
-
-        [Fact]
-        public void Merge_IgnorePropertyCase()
+        oldFoo.Merge(newFoo, new JsonMergeSettings
         {
-            var o1 = JObject.Parse(@"{
+            MergeNullValueHandling = MergeNullValueHandling.Ignore
+        });
+
+        StringAssert.AreEqual(originalJson, oldFoo.ToString());
+
+        oldFoo.Merge(newFoo, new JsonMergeSettings
+        {
+            MergeNullValueHandling = MergeNullValueHandling.Merge
+        });
+
+        StringAssert.AreEqual(newJson, newFoo.ToString());
+    }
+
+    [Fact]
+    public void Merge_IgnorePropertyCase()
+    {
+        var o1 = JObject.Parse(@"{
                                           'Id': '1',
                                           'Words': [ 'User' ]
                                         }");
-            var o2 = JObject.Parse(@"{
+        var o2 = JObject.Parse(@"{
                                             'Id': '1',
                                             'words': [ 'Name' ]
                                         }");
 
-            o1.Merge(o2, new JsonMergeSettings
-            {
-                MergeArrayHandling = MergeArrayHandling.Concat,
-                MergeNullValueHandling = MergeNullValueHandling.Merge,
-                PropertyNameComparison = StringComparison.OrdinalIgnoreCase
-            });
-
-            Assert.IsNull(o1["words"]);
-            Assert.IsNotNull(o1["Words"]);
-
-            var words = (JArray)o1["Words"];
-            Assert.AreEqual("User", (string)words[0]);
-            Assert.AreEqual("Name", (string)words[1]);
-        }
-
-        [Fact]
-        public void MergeSettingsComparisonDefault()
+        o1.Merge(o2, new JsonMergeSettings
         {
-            var settings = new JsonMergeSettings();
+            MergeArrayHandling = MergeArrayHandling.Concat,
+            MergeNullValueHandling = MergeNullValueHandling.Merge,
+            PropertyNameComparison = StringComparison.OrdinalIgnoreCase
+        });
 
-            Assert.AreEqual(StringComparison.Ordinal, settings.PropertyNameComparison);
-        }
+        Assert.IsNull(o1["words"]);
+        Assert.IsNotNull(o1["Words"]);
+
+        var words = (JArray)o1["Words"];
+        Assert.AreEqual("User", (string)words[0]);
+        Assert.AreEqual("Name", (string)words[1]);
+    }
+
+    [Fact]
+    public void MergeSettingsComparisonDefault()
+    {
+        var settings = new JsonMergeSettings();
+
+        Assert.AreEqual(StringComparison.Ordinal, settings.PropertyNameComparison);
     }
 }

@@ -23,30 +23,29 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class Product
 {
-    public class Product
+    public string Name;
+    public DateTime ExpiryDate = new(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+    public decimal Price;
+    public string[] Sizes;
+
+    public override bool Equals(object obj)
     {
-        public string Name;
-        public DateTime ExpiryDate = new(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-        public decimal Price;
-        public string[] Sizes;
-
-        public override bool Equals(object obj)
+        if (obj is Product)
         {
-            if (obj is Product)
-            {
-                var p = (Product)obj;
+            var p = (Product)obj;
 
-                return p.Name == Name && p.ExpiryDate == ExpiryDate && p.Price == Price;
-            }
-
-            return base.Equals(obj);
+            return p.Name == Name && p.ExpiryDate == ExpiryDate && p.Price == Price;
         }
 
-        public override int GetHashCode()
-        {
-            return (Name ?? string.Empty).GetHashCode();
-        }
+        return base.Equals(obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return (Name ?? string.Empty).GetHashCode();
     }
 }

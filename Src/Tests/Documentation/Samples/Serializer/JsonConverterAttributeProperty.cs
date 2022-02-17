@@ -28,51 +28,50 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class JsonConverterAttributeProperty : TestFixtureBase
 {
-    [TestFixture]
-    public class JsonConverterAttributeProperty : TestFixtureBase
+    #region Types
+    public enum UserStatus
     {
-        #region Types
-        public enum UserStatus
-        {
-            NotConfirmed,
-            Active,
-            Deleted
-        }
+        NotConfirmed,
+        Active,
+        Deleted
+    }
 
-        public class User
-        {
-            public string UserName { get; set; }
+    public class User
+    {
+        public string UserName { get; set; }
 
-            [JsonConverter(typeof(StringEnumConverter))]
-            public UserStatus Status { get; set; }
-        }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public UserStatus Status { get; set; }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var user = new User
+        {
+            UserName = @"domain\username",
+            Status = UserStatus.Deleted
+        };
+
+        var json = JsonConvert.SerializeObject(user, Formatting.Indented);
+
+        Console.WriteLine(json);
+        // {
+        //   "UserName": "domain\\username",
+        //   "Status": "Deleted"
+        // }
         #endregion
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var user = new User
-            {
-                UserName = @"domain\username",
-                Status = UserStatus.Deleted
-            };
-
-            var json = JsonConvert.SerializeObject(user, Formatting.Indented);
-
-            Console.WriteLine(json);
-            // {
-            //   "UserName": "domain\\username",
-            //   "Status": "Deleted"
-            // }
-            #endregion
-
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""UserName"": ""domain\\username"",
   ""Status"": ""Deleted""
 }", json);
-        }
     }
 }

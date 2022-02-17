@@ -28,48 +28,47 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class ReferenceLoopHandlingIgnore : TestFixtureBase
 {
-    [TestFixture]
-    public class ReferenceLoopHandlingIgnore : TestFixtureBase
+    #region Types
+    public class Employee
     {
-        #region Types
-        public class Employee
+        public string Name { get; set; }
+        public Employee Manager { get; set; }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var joe = new Employee { Name = "Joe User" };
+        var mike = new Employee { Name = "Mike Manager" };
+        joe.Manager = mike;
+        mike.Manager = mike;
+
+        var json = JsonConvert.SerializeObject(joe, Formatting.Indented, new JsonSerializerSettings
         {
-            public string Name { get; set; }
-            public Employee Manager { get; set; }
-        }
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        });
+
+        Console.WriteLine(json);
+        // {
+        //   "Name": "Joe User",
+        //   "Manager": {
+        //     "Name": "Mike Manager"
+        //   }
+        // }
         #endregion
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var joe = new Employee { Name = "Joe User" };
-            var mike = new Employee { Name = "Mike Manager" };
-            joe.Manager = mike;
-            mike.Manager = mike;
-
-            var json = JsonConvert.SerializeObject(joe, Formatting.Indented, new JsonSerializerSettings
-            {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            });
-
-            Console.WriteLine(json);
-            // {
-            //   "Name": "Joe User",
-            //   "Manager": {
-            //     "Name": "Mike Manager"
-            //   }
-            // }
-            #endregion
-
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""Name"": ""Joe User"",
   ""Manager"": {
     ""Name"": ""Mike Manager""
   }
 }", json);
-        }
     }
 }

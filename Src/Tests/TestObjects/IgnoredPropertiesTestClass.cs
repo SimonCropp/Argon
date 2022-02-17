@@ -23,20 +23,19 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class IgnoredPropertiesTestClass
 {
-    public class IgnoredPropertiesTestClass
-    {
-        [JsonIgnore]
-        public Version IgnoredProperty { get; set; }
+    [JsonIgnore]
+    public Version IgnoredProperty { get; set; }
 
-        [JsonIgnore]
-        public List<Version> IgnoredList { get; set; }
+    [JsonIgnore]
+    public List<Version> IgnoredList { get; set; }
 
-        [JsonIgnore]
-        public Dictionary<string, Version> IgnoredDictionary { get; set; }
+    [JsonIgnore]
+    public Dictionary<string, Version> IgnoredDictionary { get; set; }
 
-        [JsonProperty(Required = Required.Always)]
-        public string Name { get; set; }
-    }
+    [JsonProperty(Required = Required.Always)]
+    public string Name { get; set; }
 }

@@ -23,15 +23,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class ClassWithException
-    {
-        public IList<Exception> Exceptions { get; set; }
+namespace Argon.Tests.TestObjects;
 
-        public ClassWithException()
-        {
-            Exceptions = new List<Exception>();
-        }
+public class ClassWithException
+{
+    public IList<Exception> Exceptions { get; set; }
+
+    public ClassWithException()
+    {
+        Exceptions = new List<Exception>();
     }
 }

@@ -28,83 +28,83 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Linq
+namespace Argon.Tests.Linq;
+
+[TestFixture]
+public class JObjectAsyncTests : TestFixtureBase
 {
-    [TestFixture]
-    public class JObjectAsyncTests : TestFixtureBase
+    [Fact]
+    public async Task ReadWithSupportMultipleContentAsync()
     {
-        [Fact]
-        public async Task ReadWithSupportMultipleContentAsync()
+        var json = @"{ 'name': 'Admin' }{ 'name': 'Publisher' }";
+
+        IList<JObject> roles = new List<JObject>();
+
+        var reader = new JsonTextReader(new StringReader(json));
+        reader.SupportMultipleContent = true;
+
+        while (true)
         {
-            var json = @"{ 'name': 'Admin' }{ 'name': 'Publisher' }";
+            var role = (JObject)await JToken.ReadFromAsync(reader);
 
-            IList<JObject> roles = new List<JObject>();
+            roles.Add(role);
 
-            var reader = new JsonTextReader(new StringReader(json));
-            reader.SupportMultipleContent = true;
-
-            while (true)
+            if (!await reader.ReadAsync())
             {
-                var role = (JObject)await JToken.ReadFromAsync(reader);
-
-                roles.Add(role);
-
-                if (!await reader.ReadAsync())
-                {
-                    break;
-                }
+                break;
             }
-
-            Assert.AreEqual(2, roles.Count);
-            Assert.AreEqual("Admin", (string)roles[0]["name"]);
-            Assert.AreEqual("Publisher", (string)roles[1]["name"]);
         }
 
-        [Fact]
-        public async Task JTokenReaderAsync()
+        Assert.AreEqual(2, roles.Count);
+        Assert.AreEqual("Admin", (string)roles[0]["name"]);
+        Assert.AreEqual("Publisher", (string)roles[1]["name"]);
+    }
+
+    [Fact]
+    public async Task JTokenReaderAsync()
+    {
+        var raw = new PersonRaw
         {
-            var raw = new PersonRaw
-            {
-                FirstName = "FirstNameValue",
-                RawContent = new JRaw("[1,2,3,4,5]"),
-                LastName = "LastNameValue"
-            };
+            FirstName = "FirstNameValue",
+            RawContent = new JRaw("[1,2,3,4,5]"),
+            LastName = "LastNameValue"
+        };
 
-            var o = JObject.FromObject(raw);
+        var o = JObject.FromObject(raw);
 
-            JsonReader reader = new JTokenReader(o);
+        JsonReader reader = new JTokenReader(o);
 
-            Assert.IsTrue(await reader.ReadAsync());
-            Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Assert.IsTrue(await reader.ReadAsync());
+        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
 
-            Assert.IsTrue(await reader.ReadAsync());
-            Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
+        Assert.IsTrue(await reader.ReadAsync());
+        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
 
-            Assert.IsTrue(await reader.ReadAsync());
-            Assert.AreEqual(JsonToken.String, reader.TokenType);
+        Assert.IsTrue(await reader.ReadAsync());
+        Assert.AreEqual(JsonToken.String, reader.TokenType);
 
-            Assert.IsTrue(await reader.ReadAsync());
-            Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
+        Assert.IsTrue(await reader.ReadAsync());
+        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
 
-            Assert.IsTrue(await reader.ReadAsync());
-            Assert.AreEqual(JsonToken.Raw, reader.TokenType);
+        Assert.IsTrue(await reader.ReadAsync());
+        Assert.AreEqual(JsonToken.Raw, reader.TokenType);
 
-            Assert.IsTrue(await reader.ReadAsync());
-            Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
+        Assert.IsTrue(await reader.ReadAsync());
+        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
 
-            Assert.IsTrue(await reader.ReadAsync());
-            Assert.AreEqual(JsonToken.String, reader.TokenType);
+        Assert.IsTrue(await reader.ReadAsync());
+        Assert.AreEqual(JsonToken.String, reader.TokenType);
 
-            Assert.IsTrue(await reader.ReadAsync());
-            Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
+        Assert.IsTrue(await reader.ReadAsync());
+        Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
 
-            Assert.IsFalse(await reader.ReadAsync());
-        }
+        Assert.IsFalse(await reader.ReadAsync());
+    }
 
-        [Fact]
-        public async Task LoadFromNestedObjectAsync()
-        {
-            var jsonText = @"{
+    [Fact]
+    public async Task LoadFromNestedObjectAsync()
+    {
+        var jsonText = @"{
   ""short"":
   {
     ""error"":
@@ -115,6 +115,33 @@ namespace Argon.Tests.Linq
   }
 }";
 
+        JsonReader reader = new JsonTextReader(new StringReader(jsonText));
+        await reader.ReadAsync();
+        await reader.ReadAsync();
+        await reader.ReadAsync();
+        await reader.ReadAsync();
+        await reader.ReadAsync();
+
+        var o = (JObject)await JToken.ReadFromAsync(reader);
+        Assert.IsNotNull(o);
+        StringAssert.AreEqual(@"{
+  ""code"": 0,
+  ""msg"": ""No action taken""
+}", o.ToString(Formatting.Indented));
+    }
+
+    [Fact]
+    public async Task LoadFromNestedObjectIncompleteAsync()
+    {
+        await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () =>
+        {
+            var jsonText = @"{
+  ""short"":
+  {
+    ""error"":
+    {
+      ""code"":0";
+
             JsonReader reader = new JsonTextReader(new StringReader(jsonText));
             await reader.ReadAsync();
             await reader.ReadAsync();
@@ -122,68 +149,40 @@ namespace Argon.Tests.Linq
             await reader.ReadAsync();
             await reader.ReadAsync();
 
-            var o = (JObject)await JToken.ReadFromAsync(reader);
-            Assert.IsNotNull(o);
-            StringAssert.AreEqual(@"{
-  ""code"": 0,
-  ""msg"": ""No action taken""
-}", o.ToString(Formatting.Indented));
-        }
+            await JToken.ReadFromAsync(reader);
+        }, "Unexpected end of content while loading JObject. Path 'short.error.code', line 6, position 14.");
+    }
 
-        [Fact]
-        public async Task LoadFromNestedObjectIncompleteAsync()
-        {
-            await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () =>
-            {
-                var jsonText = @"{
-  ""short"":
-  {
-    ""error"":
+    [Fact]
+    public async Task ParseMultipleProperties_EmptySettingsAsync()
     {
-      ""code"":0";
-
-                JsonReader reader = new JsonTextReader(new StringReader(jsonText));
-                await reader.ReadAsync();
-                await reader.ReadAsync();
-                await reader.ReadAsync();
-                await reader.ReadAsync();
-                await reader.ReadAsync();
-
-                await JToken.ReadFromAsync(reader);
-            }, "Unexpected end of content while loading JObject. Path 'short.error.code', line 6, position 14.");
-        }
-
-        [Fact]
-        public async Task ParseMultipleProperties_EmptySettingsAsync()
-        {
-            var json = @"{
+        var json = @"{
         ""Name"": ""Name1"",
         ""Name"": ""Name2""
       }";
 
-            var reader = new JsonTextReader(new StringReader(json));
-            var o = (JObject)await JToken.ReadFromAsync(reader, new JsonLoadSettings());
-            var value = (string)o["Name"];
+        var reader = new JsonTextReader(new StringReader(json));
+        var o = (JObject)await JToken.ReadFromAsync(reader, new JsonLoadSettings());
+        var value = (string)o["Name"];
 
-            Assert.AreEqual("Name2", value);
-        }
+        Assert.AreEqual("Name2", value);
+    }
 
-        [Fact]
-        public async Task ParseMultipleProperties_IgnoreDuplicateSettingAsync()
-        {
-            var json = @"{
+    [Fact]
+    public async Task ParseMultipleProperties_IgnoreDuplicateSettingAsync()
+    {
+        var json = @"{
         ""Name"": ""Name1"",
         ""Name"": ""Name2""
       }";
 
-            var reader = new JsonTextReader(new StringReader(json));
-            var o = (JObject)await JToken.ReadFromAsync(reader, new JsonLoadSettings
-            {
-                DuplicatePropertyNameHandling = DuplicatePropertyNameHandling.Ignore
-            });
-            var value = (string)o["Name"];
+        var reader = new JsonTextReader(new StringReader(json));
+        var o = (JObject)await JToken.ReadFromAsync(reader, new JsonLoadSettings
+        {
+            DuplicatePropertyNameHandling = DuplicatePropertyNameHandling.Ignore
+        });
+        var value = (string)o["Name"];
 
-            Assert.AreEqual("Name1", value);
-        }
+        Assert.AreEqual("Name1", value);
     }
 }

@@ -27,33 +27,32 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue1778 : TestFixtureBase
 {
-    [TestFixture]
-    public class Issue1778 : TestFixtureBase
+    [Fact]
+    public void Test()
     {
-        [Fact]
-        public void Test()
-        {
-            var reader = new JsonTextReader(new StringReader(@"{""enddate"":-1}"));
-            reader.Read();
-            reader.Read();
+        var reader = new JsonTextReader(new StringReader(@"{""enddate"":-1}"));
+        reader.Read();
+        reader.Read();
 
-            ExceptionAssert.Throws<JsonReaderException>(
-                () => reader.ReadAsDateTime(),
-                "Cannot read number value as type. Path 'enddate', line 1, position 13.");
-        }
+        ExceptionAssert.Throws<JsonReaderException>(
+            () => reader.ReadAsDateTime(),
+            "Cannot read number value as type. Path 'enddate', line 1, position 13.");
+    }
 
-        [Fact]
-        public async Task Test_Async()
-        {
-            var reader = new JsonTextReader(new StringReader(@"{""enddate"":-1}"));
-            reader.Read();
-            reader.Read();
+    [Fact]
+    public async Task Test_Async()
+    {
+        var reader = new JsonTextReader(new StringReader(@"{""enddate"":-1}"));
+        reader.Read();
+        reader.Read();
 
-            await ExceptionAssert.ThrowsAsync<JsonReaderException>(
-                () => reader.ReadAsDateTimeAsync(),
-                "Cannot read number value as type. Path 'enddate', line 1, position 13.");
-        }
+        await ExceptionAssert.ThrowsAsync<JsonReaderException>(
+            () => reader.ReadAsDateTimeAsync(),
+            "Cannot read number value as type. Path 'enddate', line 1, position 13.");
     }
 }

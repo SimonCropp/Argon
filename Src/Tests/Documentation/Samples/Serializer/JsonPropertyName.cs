@@ -28,45 +28,44 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
-{
-    [TestFixture]
-    public class JsonPropertyName : TestFixtureBase
-    {
-        #region Types
-        public class Videogame
-        {
-            [JsonProperty("name")]
-            public string Name { get; set; }
+namespace Argon.Tests.Documentation.Samples.Serializer;
 
-            [JsonProperty("release_date")]
-            public DateTime ReleaseDate { get; set; }
-        }
+[TestFixture]
+public class JsonPropertyName : TestFixtureBase
+{
+    #region Types
+    public class Videogame
+    {
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("release_date")]
+        public DateTime ReleaseDate { get; set; }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var starcraft = new Videogame
+        {
+            Name = "Starcraft",
+            ReleaseDate = new DateTime(1998, 1, 1)
+        };
+
+        var json = JsonConvert.SerializeObject(starcraft, Formatting.Indented);
+
+        Console.WriteLine(json);
+        // {
+        //   "name": "Starcraft",
+        //   "release_date": "1998-01-01T00:00:00"
+        // }
         #endregion
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var starcraft = new Videogame
-            {
-                Name = "Starcraft",
-                ReleaseDate = new DateTime(1998, 1, 1)
-            };
-
-            var json = JsonConvert.SerializeObject(starcraft, Formatting.Indented);
-
-            Console.WriteLine(json);
-            // {
-            //   "name": "Starcraft",
-            //   "release_date": "1998-01-01T00:00:00"
-            // }
-            #endregion
-
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""name"": ""Starcraft"",
   ""release_date"": ""1998-01-01T00:00:00""
 }", json);
-        }
     }
 }

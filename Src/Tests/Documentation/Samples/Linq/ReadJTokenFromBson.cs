@@ -28,33 +28,32 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Linq
+namespace Argon.Tests.Documentation.Samples.Linq;
+
+[TestFixture]
+public class ReadJTokenFromBson : TestFixtureBase
 {
-    [TestFixture]
-    public class ReadJTokenFromBson : TestFixtureBase
-    {
 #pragma warning disable 618
-        [Fact]
-        public void Example()
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var data = Convert.FromBase64String("KQAAAAJuYW1lMQAHAAAAdmFsdWUxAAJuYW1lMgAHAAAAdmFsdWUyAAA=");
+        var ms = new MemoryStream(data);
+
+        JObject o;
+        using (var reader = new BsonReader(ms))
         {
-            #region Usage
-            var data = Convert.FromBase64String("KQAAAAJuYW1lMQAHAAAAdmFsdWUxAAJuYW1lMgAHAAAAdmFsdWUyAAA=");
-            var ms = new MemoryStream(data);
-
-            JObject o;
-            using (var reader = new BsonReader(ms))
-            {
-                o = (JObject)JToken.ReadFrom(reader);
-            }
-
-            var value = (string)o["name1"];
-
-            Console.WriteLine(value);
-            // value1
-            #endregion
-
-            Assert.AreEqual("value1", value);
+            o = (JObject)JToken.ReadFrom(reader);
         }
-#pragma warning restore 618
+
+        var value = (string)o["name1"];
+
+        Console.WriteLine(value);
+        // value1
+        #endregion
+
+        Assert.AreEqual("value1", value);
     }
+#pragma warning restore 618
 }

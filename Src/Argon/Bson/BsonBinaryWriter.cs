@@ -25,294 +25,293 @@
 
 #nullable disable
 
-namespace Argon.Bson
+namespace Argon.Bson;
+
+internal class BsonBinaryWriter
 {
-    internal class BsonBinaryWriter
+    private static readonly Encoding Encoding = new UTF8Encoding(false);
+
+    private readonly BinaryWriter _writer;
+
+    private byte[] _largeByteBuffer;
+
+    public DateTimeKind DateTimeKindHandling { get; set; }
+
+    public BsonBinaryWriter(BinaryWriter writer)
     {
-        private static readonly Encoding Encoding = new UTF8Encoding(false);
+        DateTimeKindHandling = DateTimeKind.Utc;
+        _writer = writer;
+    }
 
-        private readonly BinaryWriter _writer;
+    public void Flush()
+    {
+        _writer.Flush();
+    }
 
-        private byte[] _largeByteBuffer;
+    public void Close()
+    {
+        _writer.Close();
+    }
 
-        public DateTimeKind DateTimeKindHandling { get; set; }
+    public void WriteToken(BsonToken t)
+    {
+        CalculateSize(t);
+        WriteTokenInternal(t);
+    }
 
-        public BsonBinaryWriter(BinaryWriter writer)
+    private void WriteTokenInternal(BsonToken t)
+    {
+        switch (t.Type)
         {
-            DateTimeKindHandling = DateTimeKind.Utc;
-            _writer = writer;
-        }
-
-        public void Flush()
-        {
-            _writer.Flush();
-        }
-
-        public void Close()
-        {
-            _writer.Close();
-        }
-
-        public void WriteToken(BsonToken t)
-        {
-            CalculateSize(t);
-            WriteTokenInternal(t);
-        }
-
-        private void WriteTokenInternal(BsonToken t)
-        {
-            switch (t.Type)
+            case BsonType.Object:
             {
-                case BsonType.Object:
+                var value = (BsonObject)t;
+                _writer.Write(value.CalculatedSize);
+                foreach (var property in value)
                 {
-                    var value = (BsonObject)t;
-                    _writer.Write(value.CalculatedSize);
-                    foreach (var property in value)
-                    {
-                        _writer.Write((sbyte)property.Value.Type);
-                        WriteString((string)property.Name.Value, property.Name.ByteCount, null);
-                        WriteTokenInternal(property.Value);
-                    }
-                    _writer.Write((byte)0);
+                    _writer.Write((sbyte)property.Value.Type);
+                    WriteString((string)property.Name.Value, property.Name.ByteCount, null);
+                    WriteTokenInternal(property.Value);
                 }
-                    break;
-                case BsonType.Array:
-                {
-                    var value = (BsonArray)t;
-                    _writer.Write(value.CalculatedSize);
-                    ulong index = 0;
-                    foreach (var c in value)
-                    {
-                        _writer.Write((sbyte)c.Type);
-                        WriteString(index.ToString(CultureInfo.InvariantCulture), MathUtils.IntLength(index), null);
-                        WriteTokenInternal(c);
-                        index++;
-                    }
-                    _writer.Write((byte)0);
-                }
-                    break;
-                case BsonType.Integer:
-                {
-                    var value = (BsonValue)t;
-                    _writer.Write(Convert.ToInt32(value.Value, CultureInfo.InvariantCulture));
-                }
-                    break;
-                case BsonType.Long:
-                {
-                    var value = (BsonValue)t;
-                    _writer.Write(Convert.ToInt64(value.Value, CultureInfo.InvariantCulture));
-                }
-                    break;
-                case BsonType.Number:
-                {
-                    var value = (BsonValue)t;
-                    _writer.Write(Convert.ToDouble(value.Value, CultureInfo.InvariantCulture));
-                }
-                    break;
-                case BsonType.String:
-                {
-                    var value = (BsonString)t;
-                    WriteString((string)value.Value, value.ByteCount, value.CalculatedSize - 4);
-                }
-                    break;
-                case BsonType.Boolean:
-                    _writer.Write(t == BsonBoolean.True);
-                    break;
-                case BsonType.Null:
-                case BsonType.Undefined:
-                    break;
-                case BsonType.Date:
-                {
-                    var value = (BsonValue)t;
-
-                    long ticks = 0;
-
-                    if (value.Value is DateTime dateTime)
-                    {
-                        if (DateTimeKindHandling == DateTimeKind.Utc)
-                        {
-                            dateTime = dateTime.ToUniversalTime();
-                        }
-                        else if (DateTimeKindHandling == DateTimeKind.Local)
-                        {
-                            dateTime = dateTime.ToLocalTime();
-                        }
-
-                        ticks = DateTimeUtils.ConvertDateTimeToJavaScriptTicks(dateTime, false);
-                    }
-                    else
-                    {
-                        var dateTimeOffset = (DateTimeOffset)value.Value;
-                        ticks = DateTimeUtils.ConvertDateTimeToJavaScriptTicks(dateTimeOffset.UtcDateTime, dateTimeOffset.Offset);
-                    }
-
-                    _writer.Write(ticks);
-                }
-                    break;
-                case BsonType.Binary:
-                {
-                    var value = (BsonBinary)t;
-
-                    var data = (byte[])value.Value;
-                    _writer.Write(data.Length);
-                    _writer.Write((byte)value.BinaryType);
-                    _writer.Write(data);
-                }
-                    break;
-                case BsonType.Oid:
-                {
-                    var value = (BsonValue)t;
-
-                    var data = (byte[])value.Value;
-                    _writer.Write(data);
-                }
-                    break;
-                case BsonType.Regex:
-                {
-                    var value = (BsonRegex)t;
-
-                    WriteString((string)value.Pattern.Value, value.Pattern.ByteCount, null);
-                    WriteString((string)value.Options.Value, value.Options.ByteCount, null);
-                }
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(t), "Unexpected token when writing BSON: {0}".FormatWith(CultureInfo.InvariantCulture, t.Type));
+                _writer.Write((byte)0);
             }
-        }
-
-        private void WriteString(string s, int byteCount, int? calculatedlengthPrefix)
-        {
-            if (calculatedlengthPrefix != null)
+                break;
+            case BsonType.Array:
             {
-                _writer.Write(calculatedlengthPrefix.GetValueOrDefault());
-            }
-
-            WriteUtf8Bytes(s, byteCount);
-
-            _writer.Write((byte)0);
-        }
-
-        public void WriteUtf8Bytes(string s, int byteCount)
-        {
-            if (s != null)
-            {
-                if (byteCount <= 256)
+                var value = (BsonArray)t;
+                _writer.Write(value.CalculatedSize);
+                ulong index = 0;
+                foreach (var c in value)
                 {
-                    if (_largeByteBuffer == null)
+                    _writer.Write((sbyte)c.Type);
+                    WriteString(index.ToString(CultureInfo.InvariantCulture), MathUtils.IntLength(index), null);
+                    WriteTokenInternal(c);
+                    index++;
+                }
+                _writer.Write((byte)0);
+            }
+                break;
+            case BsonType.Integer:
+            {
+                var value = (BsonValue)t;
+                _writer.Write(Convert.ToInt32(value.Value, CultureInfo.InvariantCulture));
+            }
+                break;
+            case BsonType.Long:
+            {
+                var value = (BsonValue)t;
+                _writer.Write(Convert.ToInt64(value.Value, CultureInfo.InvariantCulture));
+            }
+                break;
+            case BsonType.Number:
+            {
+                var value = (BsonValue)t;
+                _writer.Write(Convert.ToDouble(value.Value, CultureInfo.InvariantCulture));
+            }
+                break;
+            case BsonType.String:
+            {
+                var value = (BsonString)t;
+                WriteString((string)value.Value, value.ByteCount, value.CalculatedSize - 4);
+            }
+                break;
+            case BsonType.Boolean:
+                _writer.Write(t == BsonBoolean.True);
+                break;
+            case BsonType.Null:
+            case BsonType.Undefined:
+                break;
+            case BsonType.Date:
+            {
+                var value = (BsonValue)t;
+
+                long ticks = 0;
+
+                if (value.Value is DateTime dateTime)
+                {
+                    if (DateTimeKindHandling == DateTimeKind.Utc)
                     {
-                        _largeByteBuffer = new byte[256];
+                        dateTime = dateTime.ToUniversalTime();
+                    }
+                    else if (DateTimeKindHandling == DateTimeKind.Local)
+                    {
+                        dateTime = dateTime.ToLocalTime();
                     }
 
-                    Encoding.GetBytes(s, 0, s.Length, _largeByteBuffer, 0);
-                    _writer.Write(_largeByteBuffer, 0, byteCount);
+                    ticks = DateTimeUtils.ConvertDateTimeToJavaScriptTicks(dateTime, false);
                 }
                 else
                 {
-                    var bytes = Encoding.GetBytes(s);
-                    _writer.Write(bytes);
+                    var dateTimeOffset = (DateTimeOffset)value.Value;
+                    ticks = DateTimeUtils.ConvertDateTimeToJavaScriptTicks(dateTimeOffset.UtcDateTime, dateTimeOffset.Offset);
                 }
+
+                _writer.Write(ticks);
             }
-        }
-
-        private int CalculateSize(int stringByteCount)
-        {
-            return stringByteCount + 1;
-        }
-
-        private int CalculateSizeWithLength(int stringByteCount, bool includeSize)
-        {
-            var baseSize = includeSize
-                ? 5 // size bytes + terminator
-                : 1; // terminator
-
-            return baseSize + stringByteCount;
-        }
-
-        private int CalculateSize(BsonToken t)
-        {
-            switch (t.Type)
+                break;
+            case BsonType.Binary:
             {
-                case BsonType.Object:
-                {
-                    var value = (BsonObject)t;
+                var value = (BsonBinary)t;
 
-                    var bases = 4;
-                    foreach (var p in value)
-                    {
-                        var size = 1;
-                        size += CalculateSize(p.Name);
-                        size += CalculateSize(p.Value);
-
-                        bases += size;
-                    }
-                    bases += 1;
-                    value.CalculatedSize = bases;
-                    return bases;
-                }
-                case BsonType.Array:
-                {
-                    var value = (BsonArray)t;
-
-                    var size = 4;
-                    ulong index = 0;
-                    foreach (var c in value)
-                    {
-                        size += 1;
-                        size += CalculateSize(MathUtils.IntLength(index));
-                        size += CalculateSize(c);
-                        index++;
-                    }
-                    size += 1;
-                    value.CalculatedSize = size;
-
-                    return value.CalculatedSize;
-                }
-                case BsonType.Integer:
-                    return 4;
-                case BsonType.Long:
-                    return 8;
-                case BsonType.Number:
-                    return 8;
-                case BsonType.String:
-                {
-                    var value = (BsonString)t;
-                    var s = (string)value.Value;
-                    value.ByteCount = s != null ? Encoding.GetByteCount(s) : 0;
-                    value.CalculatedSize = CalculateSizeWithLength(value.ByteCount, value.IncludeLength);
-
-                    return value.CalculatedSize;
-                }
-                case BsonType.Boolean:
-                    return 1;
-                case BsonType.Null:
-                case BsonType.Undefined:
-                    return 0;
-                case BsonType.Date:
-                    return 8;
-                case BsonType.Binary:
-                {
-                    var value = (BsonBinary)t;
-
-                    var data = (byte[])value.Value;
-                    value.CalculatedSize = 4 + 1 + data.Length;
-
-                    return value.CalculatedSize;
-                }
-                case BsonType.Oid:
-                    return 12;
-                case BsonType.Regex:
-                {
-                    var value = (BsonRegex)t;
-                    var size = 0;
-                    size += CalculateSize(value.Pattern);
-                    size += CalculateSize(value.Options);
-                    value.CalculatedSize = size;
-
-                    return value.CalculatedSize;
-                }
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(t), "Unexpected token when writing BSON: {0}".FormatWith(CultureInfo.InvariantCulture, t.Type));
+                var data = (byte[])value.Value;
+                _writer.Write(data.Length);
+                _writer.Write((byte)value.BinaryType);
+                _writer.Write(data);
             }
+                break;
+            case BsonType.Oid:
+            {
+                var value = (BsonValue)t;
+
+                var data = (byte[])value.Value;
+                _writer.Write(data);
+            }
+                break;
+            case BsonType.Regex:
+            {
+                var value = (BsonRegex)t;
+
+                WriteString((string)value.Pattern.Value, value.Pattern.ByteCount, null);
+                WriteString((string)value.Options.Value, value.Options.ByteCount, null);
+            }
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(t), "Unexpected token when writing BSON: {0}".FormatWith(CultureInfo.InvariantCulture, t.Type));
+        }
+    }
+
+    private void WriteString(string s, int byteCount, int? calculatedlengthPrefix)
+    {
+        if (calculatedlengthPrefix != null)
+        {
+            _writer.Write(calculatedlengthPrefix.GetValueOrDefault());
+        }
+
+        WriteUtf8Bytes(s, byteCount);
+
+        _writer.Write((byte)0);
+    }
+
+    public void WriteUtf8Bytes(string s, int byteCount)
+    {
+        if (s != null)
+        {
+            if (byteCount <= 256)
+            {
+                if (_largeByteBuffer == null)
+                {
+                    _largeByteBuffer = new byte[256];
+                }
+
+                Encoding.GetBytes(s, 0, s.Length, _largeByteBuffer, 0);
+                _writer.Write(_largeByteBuffer, 0, byteCount);
+            }
+            else
+            {
+                var bytes = Encoding.GetBytes(s);
+                _writer.Write(bytes);
+            }
+        }
+    }
+
+    private int CalculateSize(int stringByteCount)
+    {
+        return stringByteCount + 1;
+    }
+
+    private int CalculateSizeWithLength(int stringByteCount, bool includeSize)
+    {
+        var baseSize = includeSize
+            ? 5 // size bytes + terminator
+            : 1; // terminator
+
+        return baseSize + stringByteCount;
+    }
+
+    private int CalculateSize(BsonToken t)
+    {
+        switch (t.Type)
+        {
+            case BsonType.Object:
+            {
+                var value = (BsonObject)t;
+
+                var bases = 4;
+                foreach (var p in value)
+                {
+                    var size = 1;
+                    size += CalculateSize(p.Name);
+                    size += CalculateSize(p.Value);
+
+                    bases += size;
+                }
+                bases += 1;
+                value.CalculatedSize = bases;
+                return bases;
+            }
+            case BsonType.Array:
+            {
+                var value = (BsonArray)t;
+
+                var size = 4;
+                ulong index = 0;
+                foreach (var c in value)
+                {
+                    size += 1;
+                    size += CalculateSize(MathUtils.IntLength(index));
+                    size += CalculateSize(c);
+                    index++;
+                }
+                size += 1;
+                value.CalculatedSize = size;
+
+                return value.CalculatedSize;
+            }
+            case BsonType.Integer:
+                return 4;
+            case BsonType.Long:
+                return 8;
+            case BsonType.Number:
+                return 8;
+            case BsonType.String:
+            {
+                var value = (BsonString)t;
+                var s = (string)value.Value;
+                value.ByteCount = s != null ? Encoding.GetByteCount(s) : 0;
+                value.CalculatedSize = CalculateSizeWithLength(value.ByteCount, value.IncludeLength);
+
+                return value.CalculatedSize;
+            }
+            case BsonType.Boolean:
+                return 1;
+            case BsonType.Null:
+            case BsonType.Undefined:
+                return 0;
+            case BsonType.Date:
+                return 8;
+            case BsonType.Binary:
+            {
+                var value = (BsonBinary)t;
+
+                var data = (byte[])value.Value;
+                value.CalculatedSize = 4 + 1 + data.Length;
+
+                return value.CalculatedSize;
+            }
+            case BsonType.Oid:
+                return 12;
+            case BsonType.Regex:
+            {
+                var value = (BsonRegex)t;
+                var size = 0;
+                size += CalculateSize(value.Pattern);
+                size += CalculateSize(value.Options);
+                value.CalculatedSize = size;
+
+                return value.CalculatedSize;
+            }
+            default:
+                throw new ArgumentOutOfRangeException(nameof(t), "Unexpected token when writing BSON: {0}".FormatWith(CultureInfo.InvariantCulture, t.Type));
         }
     }
 }

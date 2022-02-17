@@ -23,11 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class WithEnums
 {
-    public class WithEnums
-    {
-        public int Id { get; set; }
-        public MyEnum? NullableEnum { get; set; }
-    }
+    public int Id { get; set; }
+    public MyEnum? NullableEnum { get; set; }
 }

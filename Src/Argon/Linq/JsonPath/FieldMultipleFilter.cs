@@ -1,41 +1,40 @@
-namespace Argon.Linq.JsonPath
+namespace Argon.Linq.JsonPath;
+
+internal class FieldMultipleFilter : PathFilter
 {
-    internal class FieldMultipleFilter : PathFilter
+    internal List<string> Names;
+
+    public FieldMultipleFilter(List<string> names)
     {
-        internal List<string> Names;
+        Names = names;
+    }
 
-        public FieldMultipleFilter(List<string> names)
+    public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings? settings)
+    {
+        foreach (var t in current)
         {
-            Names = names;
-        }
-
-        public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings? settings)
-        {
-            foreach (var t in current)
+            if (t is JObject o)
             {
-                if (t is JObject o)
+                foreach (var name in Names)
                 {
-                    foreach (var name in Names)
+                    var v = o[name];
+
+                    if (v != null)
                     {
-                        var v = o[name];
-
-                        if (v != null)
-                        {
-                            yield return v;
-                        }
-
-                        if (settings?.ErrorWhenNoMatch ?? false)
-                        {
-                            throw new JsonException("Property '{0}' does not exist on JObject.".FormatWith(CultureInfo.InvariantCulture, name));
-                        }
+                        yield return v;
                     }
-                }
-                else
-                {
+
                     if (settings?.ErrorWhenNoMatch ?? false)
                     {
-                        throw new JsonException("Properties {0} not valid on {1}.".FormatWith(CultureInfo.InvariantCulture, string.Join(", ", Names.Select(n => "'" + n + "'")), t.GetType().Name));
+                        throw new JsonException("Property '{0}' does not exist on JObject.".FormatWith(CultureInfo.InvariantCulture, name));
                     }
+                }
+            }
+            else
+            {
+                if (settings?.ErrorWhenNoMatch ?? false)
+                {
+                    throw new JsonException("Properties {0} not valid on {1}.".FormatWith(CultureInfo.InvariantCulture, string.Join(", ", Names.Select(n => "'" + n + "'")), t.GetType().Name));
                 }
             }
         }

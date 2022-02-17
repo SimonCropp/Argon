@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public struct WidgetId
 {
-    public struct WidgetId
-    {
-        public string Value { get; set; }
-    }
+    public string Value { get; set; }
 }

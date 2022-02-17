@@ -23,12 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class JaggedArray
 {
-    public class JaggedArray
-    {
-        public string Before { get; set; }
-        public int[][] Coordinates { get; set; }
-        public string After { get; set; }
-    }
+    public string Before { get; set; }
+    public int[][] Coordinates { get; set; }
+    public string After { get; set; }
 }

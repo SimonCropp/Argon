@@ -23,12 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class RoleTransfer
 {
-    public class RoleTransfer
-    {
-        public RoleTransferOperation Operation { get; set; } //This is enum type
-        public string RoleName { get; set; }
-        public RoleTransferDirection Direction { get; set; } //This is enum type
-    }
+    public RoleTransferOperation Operation { get; set; } //This is enum type
+    public string RoleName { get; set; }
+    public RoleTransferDirection Direction { get; set; } //This is enum type
 }

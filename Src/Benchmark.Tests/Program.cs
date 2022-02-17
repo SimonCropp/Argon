@@ -26,16 +26,15 @@
 using BenchmarkDotNet.Running;
 using Argon.Tests.Benchmarks;
 
-namespace Argon.TestConsole
-{
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            var attribute = (AssemblyFileVersionAttribute)typeof(JsonConvert).GetTypeInfo().Assembly.GetCustomAttribute(typeof(AssemblyFileVersionAttribute))!;
-            Console.WriteLine("Json.NET Version: " + attribute.Version);
+namespace Argon.TestConsole;
 
-            new BenchmarkSwitcher(new [] { typeof(LowLevelBenchmarks) }).Run(new[] { "*" });
-        }
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        var attribute = (AssemblyFileVersionAttribute)typeof(JsonConvert).GetTypeInfo().Assembly.GetCustomAttribute(typeof(AssemblyFileVersionAttribute))!;
+        Console.WriteLine("Json.NET Version: " + attribute.Version);
+
+        new BenchmarkSwitcher(new [] { typeof(LowLevelBenchmarks) }).Run(new[] { "*" });
     }
 }

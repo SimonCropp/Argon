@@ -28,31 +28,30 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Linq
+namespace Argon.Tests.Documentation.Samples.Linq;
+
+[TestFixture]
+public class JValueValue : TestFixtureBase
 {
-    [TestFixture]
-    public class JValueValue : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var s = new JValue("A string value");
+        #region Usage
+        var s = new JValue("A string value");
 
-            Console.WriteLine(s.Value.GetType().Name);
-            // String
-            Console.WriteLine(s.Value);
-            // A string value
+        Console.WriteLine(s.Value.GetType().Name);
+        // String
+        Console.WriteLine(s.Value);
+        // A string value
 
-            var u = new JValue(new Uri("http://www.google.com/"));
+        var u = new JValue(new Uri("http://www.google.com/"));
 
-            Console.WriteLine(u.Value.GetType().Name);
-            // Uri
-            Console.WriteLine(u.Value);
-            // http://www.google.com/
-            #endregion
+        Console.WriteLine(u.Value.GetType().Name);
+        // Uri
+        Console.WriteLine(u.Value);
+        // http://www.google.com/
+        #endregion
 
-            Assert.AreEqual(new Uri("http://www.google.com/"), u.Value);
-        }
+        Assert.AreEqual(new Uri("http://www.google.com/"), u.Value);
     }
 }

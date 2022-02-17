@@ -24,14 +24,14 @@
 #endregion
 
 #pragma warning disable 618
-namespace Argon.Tests.Documentation.Samples.Schema
+namespace Argon.Tests.Documentation.Samples.Schema;
+
+public class JsonSchemaParse
 {
-    public class JsonSchemaParse
+    public void Example()
     {
-        public void Example()
-        {
-            #region Usage
-            var schemaJson = @"{
+        #region Usage
+        var schemaJson = @"{
               'description': 'A person',
               'type': 'object',
               'properties': {
@@ -43,19 +43,18 @@ namespace Argon.Tests.Documentation.Samples.Schema
               }
             }";
 
-            var schema = JsonSchema.Parse(schemaJson);
+        var schema = JsonSchema.Parse(schemaJson);
 
-            Console.WriteLine(schema.Type);
-            // Object
+        Console.WriteLine(schema.Type);
+        // Object
 
-            foreach (var property in schema.Properties)
-            {
-                Console.WriteLine(property.Key + " - " + property.Value.Type);
-            }
-            // name - String
-            // hobbies - Array
-            #endregion
+        foreach (var property in schema.Properties)
+        {
+            Console.WriteLine(property.Key + " - " + property.Value.Type);
         }
+        // name - String
+        // hobbies - Array
+        #endregion
     }
 }
 

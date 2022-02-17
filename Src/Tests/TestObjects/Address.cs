@@ -23,37 +23,36 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[Serializable]
+[DataContract]
+public class Address
 {
-    [Serializable]
-    [DataContract]
-    public class Address
+    [DataMember]
+    public string Street
     {
-        [DataMember]
-        public string Street
-        {
-            get => _street;
-            set => _street = value;
-        }
-
-        private string _street = "32 Kaiea";
-
-        [DataMember]
-        public string Phone
-        {
-            get => _Phone;
-            set => _Phone = value;
-        }
-
-        private string _Phone = "(503) 814-6335";
-
-        [DataMember]
-        public DateTime Entered
-        {
-            get => _Entered;
-            set => _Entered = value;
-        }
-
-        private DateTime _Entered = DateTime.Parse("01/01/2007", CultureInfo.CurrentCulture.DateTimeFormat);
+        get => _street;
+        set => _street = value;
     }
+
+    private string _street = "32 Kaiea";
+
+    [DataMember]
+    public string Phone
+    {
+        get => _Phone;
+        set => _Phone = value;
+    }
+
+    private string _Phone = "(503) 814-6335";
+
+    [DataMember]
+    public DateTime Entered
+    {
+        get => _Entered;
+        set => _Entered = value;
+    }
+
+    private DateTime _Entered = DateTime.Parse("01/01/2007", CultureInfo.CurrentCulture.DateTimeFormat);
 }

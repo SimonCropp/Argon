@@ -28,76 +28,76 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class JsonPropertyItemLevelSetting : TestFixtureBase
 {
-    [TestFixture]
-    public class JsonPropertyItemLevelSetting : TestFixtureBase
+    #region Types
+    public class Business
     {
-        #region Types
-        public class Business
+        public string Name { get; set; }
+
+        [JsonProperty(ItemIsReference = true)]
+        public IList<Employee> Employees { get; set; }
+    }
+
+    public class Employee
+    {
+        public string Name { get; set; }
+
+        [JsonProperty(IsReference = true)]
+        public Employee Manager { get; set; }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var manager = new Employee
         {
-            public string Name { get; set; }
-
-            [JsonProperty(ItemIsReference = true)]
-            public IList<Employee> Employees { get; set; }
-        }
-
-        public class Employee
+            Name = "George-Michael"
+        };
+        var worker = new Employee
         {
-            public string Name { get; set; }
+            Name = "Maeby",
+            Manager = manager
+        };
 
-            [JsonProperty(IsReference = true)]
-            public Employee Manager { get; set; }
-        }
+        var business = new Business
+        {
+            Name = "Acme Ltd.",
+            Employees = new List<Employee>
+            {
+                manager,
+                worker
+            }
+        };
+
+        var json = JsonConvert.SerializeObject(business, Formatting.Indented);
+
+        Console.WriteLine(json);
+        // {
+        //   "Name": "Acme Ltd.",
+        //   "Employees": [
+        //     {
+        //       "$id": "1",
+        //       "Name": "George-Michael",
+        //       "Manager": null
+        //     },
+        //     {
+        //       "$id": "2",
+        //       "Name": "Maeby",
+        //       "Manager": {
+        //         "$ref": "1"
+        //       }
+        //     }
+        //   ]
+        // }
         #endregion
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var manager = new Employee
-            {
-                Name = "George-Michael"
-            };
-            var worker = new Employee
-            {
-                Name = "Maeby",
-                Manager = manager
-            };
-
-            var business = new Business
-            {
-                Name = "Acme Ltd.",
-                Employees = new List<Employee>
-                {
-                    manager,
-                    worker
-                }
-            };
-
-            var json = JsonConvert.SerializeObject(business, Formatting.Indented);
-
-            Console.WriteLine(json);
-            // {
-            //   "Name": "Acme Ltd.",
-            //   "Employees": [
-            //     {
-            //       "$id": "1",
-            //       "Name": "George-Michael",
-            //       "Manager": null
-            //     },
-            //     {
-            //       "$id": "2",
-            //       "Name": "Maeby",
-            //       "Manager": {
-            //         "$ref": "1"
-            //       }
-            //     }
-            //   ]
-            // }
-            #endregion
-
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""Name"": ""Acme Ltd."",
   ""Employees"": [
     {
@@ -114,6 +114,5 @@ namespace Argon.Tests.Documentation.Samples.Serializer
     }
   ]
 }", json);
-        }
     }
 }

@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+internal class Bb : Aa
 {
-    internal class Bb : Aa
-    {
-        public new bool no;
-    }
+    public new bool no;
 }

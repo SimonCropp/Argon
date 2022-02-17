@@ -23,20 +23,19 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class DictionaryKey
 {
-    public class DictionaryKey
+    public string Value { get; set; }
+
+    public override string ToString()
     {
-        public string Value { get; set; }
+        return Value;
+    }
 
-        public override string ToString()
-        {
-            return Value;
-        }
-
-        public static implicit operator DictionaryKey(string value)
-        {
-            return new DictionaryKey { Value = value };
-        }
+    public static implicit operator DictionaryKey(string value)
+    {
+        return new DictionaryKey { Value = value };
     }
 }

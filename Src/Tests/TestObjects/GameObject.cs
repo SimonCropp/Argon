@@ -23,23 +23,22 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[JsonObject(MemberSerialization.OptIn)]
+public class GameObject
 {
-    [JsonObject(MemberSerialization.OptIn)]
-    public class GameObject
+    [JsonProperty]
+    public string Id { get; set; }
+
+    [JsonProperty]
+    public string Name { get; set; }
+
+    [JsonProperty]
+    public ConcurrentDictionary<string, Component> Components;
+
+    public GameObject()
     {
-        [JsonProperty]
-        public string Id { get; set; }
-
-        [JsonProperty]
-        public string Name { get; set; }
-
-        [JsonProperty]
-        public ConcurrentDictionary<string, Component> Components;
-
-        public GameObject()
-        {
-            Components = new ConcurrentDictionary<string, Component>();
-        }
+        Components = new ConcurrentDictionary<string, Component>();
     }
 }

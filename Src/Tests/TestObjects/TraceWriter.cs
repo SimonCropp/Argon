@@ -23,20 +23,19 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+internal class TraceWriter : IMyInterface
 {
-    internal class TraceWriter : IMyInterface
+    public string Name => "Trace Writer";
+
+    public override string ToString()
     {
-        public string Name => "Trace Writer";
+        return Name;
+    }
 
-        public override string ToString()
-        {
-            return Name;
-        }
-
-        public string PrintTest()
-        {
-            return "TraceWriter";
-        }
+    public string PrintTest()
+    {
+        return "TraceWriter";
     }
 }

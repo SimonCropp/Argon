@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public abstract class Test<T>
 {
-    public abstract class Test<T>
-    {
-        public abstract T Value { get; set; }
-    }
+    public abstract T Value { get; set; }
 }

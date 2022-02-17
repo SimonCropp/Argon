@@ -23,17 +23,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class ConstructorReadonlyFields
-    {
-        public readonly string A;
-        public readonly int B;
+namespace Argon.Tests.TestObjects;
 
-        public ConstructorReadonlyFields(string a, int b)
-        {
-            A = a;
-            B = b;
-        }
+public class ConstructorReadonlyFields
+{
+    public readonly string A;
+    public readonly int B;
+
+    public ConstructorReadonlyFields(string a, int b)
+    {
+        A = a;
+        B = b;
     }
 }

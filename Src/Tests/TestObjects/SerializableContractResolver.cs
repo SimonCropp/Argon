@@ -23,13 +23,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class SerializableContractResolver : DefaultContractResolver
 {
-    public class SerializableContractResolver : DefaultContractResolver
+    public SerializableContractResolver()
     {
-        public SerializableContractResolver()
-        {
-            IgnoreSerializableAttribute = false;
-        }
+        IgnoreSerializableAttribute = false;
     }
 }

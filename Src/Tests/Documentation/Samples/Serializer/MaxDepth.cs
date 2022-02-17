@@ -28,16 +28,16 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class MaxDepth : TestFixtureBase
 {
-    [TestFixture]
-    public class MaxDepth : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var json = @"[
+        #region Usage
+        var json = @"[
               [
                 [
                   '1',
@@ -47,19 +47,18 @@ namespace Argon.Tests.Documentation.Samples.Serializer
               ]
             ]";
 
-            try
+        try
+        {
+            JsonConvert.DeserializeObject<List<IList<IList<string>>>>(json, new JsonSerializerSettings
             {
-                JsonConvert.DeserializeObject<List<IList<IList<string>>>>(json, new JsonSerializerSettings
-                {
-                    MaxDepth = 2
-                });
-            }
-            catch (JsonReaderException ex)
-            {
-                Console.WriteLine(ex.Message);
-                // The reader's MaxDepth of 2 has been exceeded. Path '[0][0]', line 3, position 12.
-            }
-            #endregion
+                MaxDepth = 2
+            });
         }
+        catch (JsonReaderException ex)
+        {
+            Console.WriteLine(ex.Message);
+            // The reader's MaxDepth of 2 has been exceeded. Path '[0][0]', line 3, position 12.
+        }
+        #endregion
     }
 }

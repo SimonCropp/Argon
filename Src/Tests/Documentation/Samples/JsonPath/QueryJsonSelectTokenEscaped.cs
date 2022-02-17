@@ -27,39 +27,38 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Documentation.Samples.JsonPath
+namespace Argon.Tests.Documentation.Samples.JsonPath;
+
+[TestFixture]
+public class QueryJsonSelectTokenEscaped : TestFixtureBase
 {
-    [TestFixture]
-    public class QueryJsonSelectTokenEscaped : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var o = JObject.Parse(@"{
+        #region Usage
+        var o = JObject.Parse(@"{
               'Space Invaders': 'Taito',
               'Doom ]|[': 'id',
               ""Yar's Revenge"": 'Atari',
               'Government ""Intelligence""': 'Make-Believe'
             }");
 
-            var spaceInvaders = (string)o.SelectToken("['Space Invaders']");
-            // Taito
+        var spaceInvaders = (string)o.SelectToken("['Space Invaders']");
+        // Taito
 
-            var doom3 = (string)o.SelectToken("['Doom ]|[']");
-            // id
+        var doom3 = (string)o.SelectToken("['Doom ]|[']");
+        // id
 
-            var yarsRevenge = (string)o.SelectToken("['Yar\\'s Revenge']");
-            // Atari
+        var yarsRevenge = (string)o.SelectToken("['Yar\\'s Revenge']");
+        // Atari
 
-            var governmentIntelligence = (string)o.SelectToken("['Government \"Intelligence\"']");
-            // Make-Believe
-            #endregion
+        var governmentIntelligence = (string)o.SelectToken("['Government \"Intelligence\"']");
+        // Make-Believe
+        #endregion
 
-            Assert.AreEqual("Taito", spaceInvaders);
-            Assert.AreEqual("id", doom3);
-            Assert.AreEqual("Atari", yarsRevenge);
-            Assert.AreEqual("Make-Believe", governmentIntelligence);
-        }
+        Assert.AreEqual("Taito", spaceInvaders);
+        Assert.AreEqual("id", doom3);
+        Assert.AreEqual("Atari", yarsRevenge);
+        Assert.AreEqual("Make-Believe", governmentIntelligence);
     }
 }

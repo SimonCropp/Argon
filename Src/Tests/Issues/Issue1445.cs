@@ -28,25 +28,25 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue1445 : TestFixtureBase
 {
-    [TestFixture]
-    public class Issue1445 : TestFixtureBase
+    [Fact]
+    public void Test()
     {
-        [Fact]
-        public void Test()
-        {
-            var dt = new DataTable();
-            dt.Columns.Add("First", typeof(string));
-            dt.Columns.Add("Second", typeof(string));
+        var dt = new DataTable();
+        dt.Columns.Add("First", typeof(string));
+        dt.Columns.Add("Second", typeof(string));
 
-            dt.Rows.Add("string1", "string2");
-            dt.Rows.Add("string1", (object)null);
+        dt.Rows.Add("string1", "string2");
+        dt.Rows.Add("string1", (object)null);
 
-            var data = dt.Select().Select(r => r.ItemArray).ToArray();
+        var data = dt.Select().Select(r => r.ItemArray).ToArray();
 
-            var json = JsonConvert.SerializeObject(data, Formatting.Indented);
-            StringAssert.AreEqual(@"[
+        var json = JsonConvert.SerializeObject(data, Formatting.Indented);
+        StringAssert.AreEqual(@"[
   [
     ""string1"",
     ""string2""
@@ -56,6 +56,5 @@ namespace Argon.Tests.Issues
     null
   ]
 ]", json);
-        }
     }
 }

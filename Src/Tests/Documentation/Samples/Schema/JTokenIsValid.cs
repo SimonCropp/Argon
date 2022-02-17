@@ -24,14 +24,14 @@
 #endregion
 
 #pragma warning disable 618
-namespace Argon.Tests.Documentation.Samples.Schema
+namespace Argon.Tests.Documentation.Samples.Schema;
+
+public class JTokenIsValid
 {
-    public class JTokenIsValid
+    public void Example()
     {
-        public void Example()
-        {
-            #region Usage
-            var schema = JsonSchema.Parse(@"{
+        #region Usage
+        var schema = JsonSchema.Parse(@"{
               'type': 'object',
               'properties': {
                 'name': {'type':'string'},
@@ -42,18 +42,17 @@ namespace Argon.Tests.Documentation.Samples.Schema
               }
             }");
 
-            var person = JObject.Parse(@"{
+        var person = JObject.Parse(@"{
               'name': 'James',
               'hobbies': ['.NET', 'Blogging', 'Reading', 'Xbox', 'LOLCATS']
             }");
 
-            IList<string> errorMessages;
-            var valid = person.IsValid(schema, out errorMessages);
+        IList<string> errorMessages;
+        var valid = person.IsValid(schema, out errorMessages);
 
-            Console.WriteLine(valid);
-            // true
-            #endregion
-        }
+        Console.WriteLine(valid);
+        // true
+        #endregion
     }
 }
 

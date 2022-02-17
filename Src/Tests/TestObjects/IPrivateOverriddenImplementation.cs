@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public interface IPrivateOverriddenImplementation
 {
-    public interface IPrivateOverriddenImplementation
-    {
-        object OverriddenProperty { get; set; }
-    }
+    object OverriddenProperty { get; set; }
 }

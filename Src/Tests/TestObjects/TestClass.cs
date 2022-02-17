@@ -23,61 +23,60 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[Serializable]
+[DataContract]
+public class TestClass
 {
-    [Serializable]
-    [DataContract]
-    public class TestClass
+    [DataMember]
+    public string Name
     {
-        [DataMember]
-        public string Name
-        {
-            get => _Name;
-            set => _Name = value;
-        }
-
-        private string _Name = "Rick";
-
-        [DataMember]
-        public DateTime Now
-        {
-            get => _Now;
-            set => _Now = value;
-        }
-
-        private DateTime _Now = DateTime.Now;
-
-        [DataMember]
-        public decimal BigNumber
-        {
-            get => _BigNumber;
-            set => _BigNumber = value;
-        }
-
-        private decimal _BigNumber = 1212121.22M;
-
-        [DataMember]
-        public Address Address1
-        {
-            get => _Address1;
-            set => _Address1 = value;
-        }
-
-        private Address _Address1 = new();
-
-        [DataMember]
-        public List<Address> Addresses
-        {
-            get => _Addresses;
-            set => _Addresses = value;
-        }
-
-        private List<Address> _Addresses = new();
-
-        [DataMember]
-        public List<string> strings = new();
-
-        [DataMember]
-        public Dictionary<string, int> dictionary = new();
+        get => _Name;
+        set => _Name = value;
     }
+
+    private string _Name = "Rick";
+
+    [DataMember]
+    public DateTime Now
+    {
+        get => _Now;
+        set => _Now = value;
+    }
+
+    private DateTime _Now = DateTime.Now;
+
+    [DataMember]
+    public decimal BigNumber
+    {
+        get => _BigNumber;
+        set => _BigNumber = value;
+    }
+
+    private decimal _BigNumber = 1212121.22M;
+
+    [DataMember]
+    public Address Address1
+    {
+        get => _Address1;
+        set => _Address1 = value;
+    }
+
+    private Address _Address1 = new();
+
+    [DataMember]
+    public List<Address> Addresses
+    {
+        get => _Addresses;
+        set => _Addresses = value;
+    }
+
+    private List<Address> _Addresses = new();
+
+    [DataMember]
+    public List<string> strings = new();
+
+    [DataMember]
+    public Dictionary<string, int> dictionary = new();
 }

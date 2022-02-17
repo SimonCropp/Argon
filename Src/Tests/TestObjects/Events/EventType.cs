@@ -23,17 +23,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects.Events
+namespace Argon.Tests.TestObjects.Events;
+
+/// <summary>
+/// What types of events are there? Just sticking to a basic set of four for now.
+/// </summary>
+/// <remarks></remarks>
+public enum EventType
 {
-    /// <summary>
-    /// What types of events are there? Just sticking to a basic set of four for now.
-    /// </summary>
-    /// <remarks></remarks>
-    public enum EventType
-    {
-        Debug = 0,
-        Info = 1,
-        Warning = 2,
-        Error = 3
-    }
+    Debug = 0,
+    Info = 1,
+    Warning = 2,
+    Error = 3
 }

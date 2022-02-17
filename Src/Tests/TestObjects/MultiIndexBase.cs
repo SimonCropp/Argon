@@ -23,20 +23,19 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public abstract class MultiIndexBase
-    {
-        protected internal object this[string propertyName]
-        {
-            get => null;
-            set { }
-        }
+namespace Argon.Tests.TestObjects;
 
-        protected internal object this[object property]
-        {
-            get => null;
-            set { }
-        }
+public abstract class MultiIndexBase
+{
+    protected internal object this[string propertyName]
+    {
+        get => null;
+        set { }
+    }
+
+    protected internal object this[object property]
+    {
+        get => null;
+        set { }
     }
 }

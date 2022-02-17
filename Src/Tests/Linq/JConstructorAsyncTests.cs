@@ -27,20 +27,19 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Linq
-{
-    [TestFixture]
-    public class JConstructorAsyncTests : TestFixtureBase
-    {
-        [Fact]
-        public async Task LoadAsync()
-        {
-            JsonReader reader = new JsonTextReader(new StringReader("new Date(123)"));
-            await reader.ReadAsync();
+namespace Argon.Tests.Linq;
 
-            var constructor = await JConstructor.LoadAsync(reader);
-            Assert.AreEqual("Date", constructor.Name);
-            Assert.IsTrue(JToken.DeepEquals(new JValue(123), constructor.Values().ElementAt(0)));
-        }
+[TestFixture]
+public class JConstructorAsyncTests : TestFixtureBase
+{
+    [Fact]
+    public async Task LoadAsync()
+    {
+        JsonReader reader = new JsonTextReader(new StringReader("new Date(123)"));
+        await reader.ReadAsync();
+
+        var constructor = await JConstructor.LoadAsync(reader);
+        Assert.AreEqual("Date", constructor.Name);
+        Assert.IsTrue(JToken.DeepEquals(new JValue(123), constructor.Values().ElementAt(0)));
     }
 }

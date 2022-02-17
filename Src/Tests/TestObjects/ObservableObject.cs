@@ -25,12 +25,11 @@
 
 using System.ComponentModel;
 
-namespace Argon.Tests.TestObjects
-{
-    public class ObservableObject : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler PropertyChanged;
+namespace Argon.Tests.TestObjects;
 
-        protected PropertyChangedEventHandler PropertyChangedHandler => PropertyChanged;
-    }
+public class ObservableObject : INotifyPropertyChanged
+{
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    protected PropertyChangedEventHandler PropertyChangedHandler => PropertyChanged;
 }

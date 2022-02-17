@@ -23,28 +23,27 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+internal class DictionaryKeyCast
 {
-    internal class DictionaryKeyCast
+    private String _name;
+    private int _number;
+
+    public DictionaryKeyCast(String name, int number)
     {
-        private String _name;
-        private int _number;
+        _name = name;
+        _number = number;
+    }
 
-        public DictionaryKeyCast(String name, int number)
-        {
-            _name = name;
-            _number = number;
-        }
+    public override string ToString()
+    {
+        return _name + " " + _number;
+    }
 
-        public override string ToString()
-        {
-            return _name + " " + _number;
-        }
-
-        public static implicit operator DictionaryKeyCast(string dictionaryKey)
-        {
-            var strings = dictionaryKey.Split(' ');
-            return new DictionaryKeyCast(strings[0], Convert.ToInt32(strings[1]));
-        }
+    public static implicit operator DictionaryKeyCast(string dictionaryKey)
+    {
+        var strings = dictionaryKey.Split(' ');
+        return new DictionaryKeyCast(strings[0], Convert.ToInt32(strings[1]));
     }
 }

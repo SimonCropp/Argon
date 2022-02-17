@@ -23,26 +23,25 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon
+namespace Argon;
+
+/// <summary>
+/// Specifies metadata property handling options for the <see cref="JsonSerializer"/>.
+/// </summary>
+public enum MetadataPropertyHandling
 {
     /// <summary>
-    /// Specifies metadata property handling options for the <see cref="JsonSerializer"/>.
+    /// Read metadata properties located at the start of a JSON object.
     /// </summary>
-    public enum MetadataPropertyHandling
-    {
-        /// <summary>
-        /// Read metadata properties located at the start of a JSON object.
-        /// </summary>
-        Default = 0,
+    Default = 0,
 
-        /// <summary>
-        /// Read metadata properties located anywhere in a JSON object. Note that this setting will impact performance.
-        /// </summary>
-        ReadAhead = 1,
+    /// <summary>
+    /// Read metadata properties located anywhere in a JSON object. Note that this setting will impact performance.
+    /// </summary>
+    ReadAhead = 1,
 
-        /// <summary>
-        /// Do not try to read metadata properties.
-        /// </summary>
-        Ignore = 2
-    }
+    /// <summary>
+    /// Do not try to read metadata properties.
+    /// </summary>
+    Ignore = 2
 }

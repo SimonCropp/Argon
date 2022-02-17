@@ -29,73 +29,72 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Serialization
+namespace Argon.Tests.Serialization;
+
+[TestFixture]
+public class DateTimeZoneHandlingTests : TestFixtureBase
 {
-    [TestFixture]
-    public class DateTimeZoneHandlingTests : TestFixtureBase
+    [Fact]
+    public void DeserializeObject()
     {
-        [Fact]
-        public void DeserializeObject()
-        {
-            var json = @"
+        var json = @"
   {
     ""Value"": ""2017-12-05T21:59:00""
   }";
 
-            var c1 = JsonConvert.DeserializeObject<DateTimeWrapper>(json, new JsonSerializerSettings
-            {
-                DateTimeZoneHandling = DateTimeZoneHandling.Utc
-            });
-
-            var c2 = JsonConvert.DeserializeObject<DateTimeWrapper>(json, new JsonSerializerSettings
-            {
-                DateTimeZoneHandling = DateTimeZoneHandling.Local
-            });
-
-            var c3 = JsonConvert.DeserializeObject<DateTimeWrapper>(json, new JsonSerializerSettings
-            {
-                DateTimeZoneHandling = DateTimeZoneHandling.Unspecified
-            });
-
-            var c4 = JsonConvert.DeserializeObject<DateTimeWrapper>(json);
-
-            Assert.AreEqual(DateTimeKind.Utc, c1.Value.Kind);
-            Assert.AreEqual(DateTimeKind.Local, c2.Value.Kind);
-            Assert.AreEqual(DateTimeKind.Unspecified, c3.Value.Kind);
-            Assert.AreEqual(DateTimeKind.Unspecified, c4.Value.Kind);
-        }
-
-        [Fact]
-        public void DeserializeFromJObject()
+        var c1 = JsonConvert.DeserializeObject<DateTimeWrapper>(json, new JsonSerializerSettings
         {
-            var json = @"
+            DateTimeZoneHandling = DateTimeZoneHandling.Utc
+        });
+
+        var c2 = JsonConvert.DeserializeObject<DateTimeWrapper>(json, new JsonSerializerSettings
+        {
+            DateTimeZoneHandling = DateTimeZoneHandling.Local
+        });
+
+        var c3 = JsonConvert.DeserializeObject<DateTimeWrapper>(json, new JsonSerializerSettings
+        {
+            DateTimeZoneHandling = DateTimeZoneHandling.Unspecified
+        });
+
+        var c4 = JsonConvert.DeserializeObject<DateTimeWrapper>(json);
+
+        Assert.AreEqual(DateTimeKind.Utc, c1.Value.Kind);
+        Assert.AreEqual(DateTimeKind.Local, c2.Value.Kind);
+        Assert.AreEqual(DateTimeKind.Unspecified, c3.Value.Kind);
+        Assert.AreEqual(DateTimeKind.Unspecified, c4.Value.Kind);
+    }
+
+    [Fact]
+    public void DeserializeFromJObject()
+    {
+        var json = @"
   {
     ""Value"": ""2017-12-05T21:59:00""
   }";
 
-            var jo = JObject.Parse(json);
+        var jo = JObject.Parse(json);
 
-            var c1 = jo.ToObject<DateTimeWrapper>(JsonSerializer.Create(new JsonSerializerSettings
-            {
-                DateTimeZoneHandling = DateTimeZoneHandling.Utc
-            }));
+        var c1 = jo.ToObject<DateTimeWrapper>(JsonSerializer.Create(new JsonSerializerSettings
+        {
+            DateTimeZoneHandling = DateTimeZoneHandling.Utc
+        }));
 
-            var c2 = jo.ToObject<DateTimeWrapper>(JsonSerializer.Create(new JsonSerializerSettings
-            {
-                DateTimeZoneHandling = DateTimeZoneHandling.Local
-            }));
+        var c2 = jo.ToObject<DateTimeWrapper>(JsonSerializer.Create(new JsonSerializerSettings
+        {
+            DateTimeZoneHandling = DateTimeZoneHandling.Local
+        }));
 
-            var c3 = jo.ToObject<DateTimeWrapper>(JsonSerializer.Create(new JsonSerializerSettings
-            {
-                DateTimeZoneHandling = DateTimeZoneHandling.Unspecified
-            }));
+        var c3 = jo.ToObject<DateTimeWrapper>(JsonSerializer.Create(new JsonSerializerSettings
+        {
+            DateTimeZoneHandling = DateTimeZoneHandling.Unspecified
+        }));
 
-            var c4 = jo.ToObject<DateTimeWrapper>();
+        var c4 = jo.ToObject<DateTimeWrapper>();
 
-            Assert.AreEqual(DateTimeKind.Utc, c1.Value.Kind);
-            Assert.AreEqual(DateTimeKind.Local, c2.Value.Kind);
-            Assert.AreEqual(DateTimeKind.Unspecified, c3.Value.Kind);
-            Assert.AreEqual(DateTimeKind.Unspecified, c4.Value.Kind);
-        }
+        Assert.AreEqual(DateTimeKind.Utc, c1.Value.Kind);
+        Assert.AreEqual(DateTimeKind.Local, c2.Value.Kind);
+        Assert.AreEqual(DateTimeKind.Unspecified, c3.Value.Kind);
+        Assert.AreEqual(DateTimeKind.Unspecified, c4.Value.Kind);
     }
 }

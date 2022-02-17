@@ -27,16 +27,16 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Documentation.Samples.JsonPath
+namespace Argon.Tests.Documentation.Samples.JsonPath;
+
+[TestFixture]
+public class ErrorWhenNoMatchQuery : TestFixtureBase
 {
-    [TestFixture]
-    public class ErrorWhenNoMatchQuery : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var items = JArray.Parse(@"[
+        #region Usage
+        var items = JArray.Parse(@"[
               {
                 'Name': 'John Doe',
               },
@@ -45,19 +45,18 @@ namespace Argon.Tests.Documentation.Samples.JsonPath
               }
             ]");
 
-            // A true value for errorWhenNoMatch will result in an error if the queried value is missing 
-            string result;
-            try
-            {
-                result = (string)items.SelectToken(@"$.[3]['Name']", errorWhenNoMatch: true);
-            }
-            catch (JsonException)
-            {
-                result = "Unable to find result in JSON.";
-            }
-            #endregion
-
-            Assert.AreEqual("Unable to find result in JSON.", result);
+        // A true value for errorWhenNoMatch will result in an error if the queried value is missing 
+        string result;
+        try
+        {
+            result = (string)items.SelectToken(@"$.[3]['Name']", errorWhenNoMatch: true);
         }
+        catch (JsonException)
+        {
+            result = "Unable to find result in JSON.";
+        }
+        #endregion
+
+        Assert.AreEqual("Unable to find result in JSON.", result);
     }
 }

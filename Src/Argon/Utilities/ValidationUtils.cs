@@ -23,16 +23,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Utilities
+namespace Argon.Utilities;
+
+internal static class ValidationUtils
 {
-    internal static class ValidationUtils
+    public static void ArgumentNotNull([NotNull]object? value, string parameterName)
     {
-        public static void ArgumentNotNull([NotNull]object? value, string parameterName)
+        if (value == null)
         {
-            if (value == null)
-            {
-                throw new ArgumentNullException(parameterName);
-            }
+            throw new ArgumentNullException(parameterName);
         }
     }
 }

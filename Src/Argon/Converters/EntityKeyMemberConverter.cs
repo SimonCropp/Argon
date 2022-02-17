@@ -23,134 +23,133 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Converters
+namespace Argon.Converters;
+
+/// <summary>
+/// Converts an Entity Framework <see cref="T:System.Data.EntityKeyMember"/> to and from JSON.
+/// </summary>
+public class EntityKeyMemberConverter : JsonConverter
 {
+    private const string EntityKeyMemberFullTypeName = "System.Data.EntityKeyMember";
+
+    private const string KeyPropertyName = "Key";
+    private const string TypePropertyName = "Type";
+    private const string ValuePropertyName = "Value";
+
+    private static ReflectionObject? _reflectionObject;
+
     /// <summary>
-    /// Converts an Entity Framework <see cref="T:System.Data.EntityKeyMember"/> to and from JSON.
+    /// Writes the JSON representation of the object.
     /// </summary>
-    public class EntityKeyMemberConverter : JsonConverter
+    /// <param name="writer">The <see cref="JsonWriter"/> to write to.</param>
+    /// <param name="value">The value.</param>
+    /// <param name="serializer">The calling serializer.</param>
+    public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
     {
-        private const string EntityKeyMemberFullTypeName = "System.Data.EntityKeyMember";
-
-        private const string KeyPropertyName = "Key";
-        private const string TypePropertyName = "Type";
-        private const string ValuePropertyName = "Value";
-
-        private static ReflectionObject? _reflectionObject;
-
-        /// <summary>
-        /// Writes the JSON representation of the object.
-        /// </summary>
-        /// <param name="writer">The <see cref="JsonWriter"/> to write to.</param>
-        /// <param name="value">The value.</param>
-        /// <param name="serializer">The calling serializer.</param>
-        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+        if (value == null)
         {
-            if (value == null)
+            writer.WriteNull();
+            return;
+        }
+
+        EnsureReflectionObject(value.GetType());
+        MiscellaneousUtils.Assert(_reflectionObject != null);
+
+        var resolver = serializer.ContractResolver as DefaultContractResolver;
+
+        var keyName = (string)_reflectionObject.GetValue(value, KeyPropertyName)!;
+        var keyValue = _reflectionObject.GetValue(value, ValuePropertyName);
+
+        var keyValueType = keyValue?.GetType();
+
+        writer.WriteStartObject();
+        writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(KeyPropertyName) : KeyPropertyName);
+        writer.WriteValue(keyName);
+        writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(TypePropertyName) : TypePropertyName);
+        writer.WriteValue(keyValueType?.FullName);
+
+        writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(ValuePropertyName) : ValuePropertyName);
+
+        if (keyValueType != null)
+        {
+            if (JsonSerializerInternalWriter.TryConvertToString(keyValue!, keyValueType, out var valueJson))
             {
-                writer.WriteNull();
-                return;
-            }
-
-            EnsureReflectionObject(value.GetType());
-            MiscellaneousUtils.Assert(_reflectionObject != null);
-
-            var resolver = serializer.ContractResolver as DefaultContractResolver;
-
-            var keyName = (string)_reflectionObject.GetValue(value, KeyPropertyName)!;
-            var keyValue = _reflectionObject.GetValue(value, ValuePropertyName);
-
-            var keyValueType = keyValue?.GetType();
-
-            writer.WriteStartObject();
-            writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(KeyPropertyName) : KeyPropertyName);
-            writer.WriteValue(keyName);
-            writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(TypePropertyName) : TypePropertyName);
-            writer.WriteValue(keyValueType?.FullName);
-
-            writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(ValuePropertyName) : ValuePropertyName);
-
-            if (keyValueType != null)
-            {
-                if (JsonSerializerInternalWriter.TryConvertToString(keyValue!, keyValueType, out var valueJson))
-                {
-                    writer.WriteValue(valueJson);
-                }
-                else
-                {
-                    writer.WriteValue(keyValue);
-                }
+                writer.WriteValue(valueJson);
             }
             else
             {
-                writer.WriteNull();
-            }
-
-            writer.WriteEndObject();
-        }
-
-        private static void ReadAndAssertProperty(JsonReader reader, string propertyName)
-        {
-            reader.ReadAndAssert();
-
-            if (reader.TokenType != JsonToken.PropertyName || !string.Equals(reader.Value?.ToString(), propertyName, StringComparison.OrdinalIgnoreCase))
-            {
-                throw new JsonSerializationException("Expected JSON property '{0}'.".FormatWith(CultureInfo.InvariantCulture, propertyName));
+                writer.WriteValue(keyValue);
             }
         }
-
-        /// <summary>
-        /// Reads the JSON representation of the object.
-        /// </summary>
-        /// <param name="reader">The <see cref="JsonReader"/> to read from.</param>
-        /// <param name="objectType">Type of the object.</param>
-        /// <param name="existingValue">The existing value of object being read.</param>
-        /// <param name="serializer">The calling serializer.</param>
-        /// <returns>The object value.</returns>
-        public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+        else
         {
-            EnsureReflectionObject(objectType);
-            MiscellaneousUtils.Assert(_reflectionObject != null);
-
-            var entityKeyMember = _reflectionObject.Creator!();
-
-            ReadAndAssertProperty(reader, KeyPropertyName);
-            reader.ReadAndAssert();
-            _reflectionObject.SetValue(entityKeyMember, KeyPropertyName, reader.Value?.ToString());
-
-            ReadAndAssertProperty(reader, TypePropertyName);
-            reader.ReadAndAssert();
-            var type = reader.Value?.ToString();
-
-            var t = Type.GetType(type);
-
-            ReadAndAssertProperty(reader, ValuePropertyName);
-            reader.ReadAndAssert();
-            _reflectionObject.SetValue(entityKeyMember, ValuePropertyName, serializer.Deserialize(reader, t));
-
-            reader.ReadAndAssert();
-
-            return entityKeyMember;
+            writer.WriteNull();
         }
 
-        private static void EnsureReflectionObject(Type objectType)
-        {
-            if (_reflectionObject == null)
-            {
-                _reflectionObject = ReflectionObject.Create(objectType, KeyPropertyName, ValuePropertyName);
-            }
-        }
+        writer.WriteEndObject();
+    }
 
-        /// <summary>
-        /// Determines whether this instance can convert the specified object type.
-        /// </summary>
-        /// <param name="objectType">Type of the object.</param>
-        /// <returns>
-        /// 	<c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
-        /// </returns>
-        public override bool CanConvert(Type objectType)
+    private static void ReadAndAssertProperty(JsonReader reader, string propertyName)
+    {
+        reader.ReadAndAssert();
+
+        if (reader.TokenType != JsonToken.PropertyName || !string.Equals(reader.Value?.ToString(), propertyName, StringComparison.OrdinalIgnoreCase))
         {
-            return objectType.AssignableToTypeName(EntityKeyMemberFullTypeName, false);
+            throw new JsonSerializationException("Expected JSON property '{0}'.".FormatWith(CultureInfo.InvariantCulture, propertyName));
         }
+    }
+
+    /// <summary>
+    /// Reads the JSON representation of the object.
+    /// </summary>
+    /// <param name="reader">The <see cref="JsonReader"/> to read from.</param>
+    /// <param name="objectType">Type of the object.</param>
+    /// <param name="existingValue">The existing value of object being read.</param>
+    /// <param name="serializer">The calling serializer.</param>
+    /// <returns>The object value.</returns>
+    public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+    {
+        EnsureReflectionObject(objectType);
+        MiscellaneousUtils.Assert(_reflectionObject != null);
+
+        var entityKeyMember = _reflectionObject.Creator!();
+
+        ReadAndAssertProperty(reader, KeyPropertyName);
+        reader.ReadAndAssert();
+        _reflectionObject.SetValue(entityKeyMember, KeyPropertyName, reader.Value?.ToString());
+
+        ReadAndAssertProperty(reader, TypePropertyName);
+        reader.ReadAndAssert();
+        var type = reader.Value?.ToString();
+
+        var t = Type.GetType(type);
+
+        ReadAndAssertProperty(reader, ValuePropertyName);
+        reader.ReadAndAssert();
+        _reflectionObject.SetValue(entityKeyMember, ValuePropertyName, serializer.Deserialize(reader, t));
+
+        reader.ReadAndAssert();
+
+        return entityKeyMember;
+    }
+
+    private static void EnsureReflectionObject(Type objectType)
+    {
+        if (_reflectionObject == null)
+        {
+            _reflectionObject = ReflectionObject.Create(objectType, KeyPropertyName, ValuePropertyName);
+        }
+    }
+
+    /// <summary>
+    /// Determines whether this instance can convert the specified object type.
+    /// </summary>
+    /// <param name="objectType">Type of the object.</param>
+    /// <returns>
+    /// 	<c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
+    /// </returns>
+    public override bool CanConvert(Type objectType)
+    {
+        return objectType.AssignableToTypeName(EntityKeyMemberFullTypeName, false);
     }
 }

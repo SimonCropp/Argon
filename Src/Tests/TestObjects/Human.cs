@@ -23,12 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class Human : Animal
-    {
-        public override string Name => typeof(Human).Name;
+namespace Argon.Tests.TestObjects;
 
-        public string Ethnicity { get; set; }
-    }
+public class Human : Animal
+{
+    public override string Name => typeof(Human).Name;
+
+    public string Ethnicity { get; set; }
 }

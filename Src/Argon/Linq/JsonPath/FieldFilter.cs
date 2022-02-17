@@ -1,47 +1,46 @@
-namespace Argon.Linq.JsonPath
+namespace Argon.Linq.JsonPath;
+
+internal class FieldFilter : PathFilter
 {
-    internal class FieldFilter : PathFilter
+    internal string? Name;
+
+    public FieldFilter(string? name)
     {
-        internal string? Name;
+        Name = name;
+    }
 
-        public FieldFilter(string? name)
+    public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings? settings)
+    {
+        foreach (var t in current)
         {
-            Name = name;
-        }
-
-        public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings? settings)
-        {
-            foreach (var t in current)
+            if (t is JObject o)
             {
-                if (t is JObject o)
+                if (Name != null)
                 {
-                    if (Name != null)
-                    {
-                        var v = o[Name];
+                    var v = o[Name];
 
-                        if (v != null)
-                        {
-                            yield return v;
-                        }
-                        else if (settings?.ErrorWhenNoMatch ?? false)
-                        {
-                            throw new JsonException("Property '{0}' does not exist on JObject.".FormatWith(CultureInfo.InvariantCulture, Name));
-                        }
-                    }
-                    else
+                    if (v != null)
                     {
-                        foreach (var p in o)
-                        {
-                            yield return p.Value!;
-                        }
+                        yield return v;
+                    }
+                    else if (settings?.ErrorWhenNoMatch ?? false)
+                    {
+                        throw new JsonException("Property '{0}' does not exist on JObject.".FormatWith(CultureInfo.InvariantCulture, Name));
                     }
                 }
                 else
                 {
-                    if (settings?.ErrorWhenNoMatch ?? false)
+                    foreach (var p in o)
                     {
-                        throw new JsonException("Property '{0}' not valid on {1}.".FormatWith(CultureInfo.InvariantCulture, Name ?? "*", t.GetType().Name));
+                        yield return p.Value!;
                     }
+                }
+            }
+            else
+            {
+                if (settings?.ErrorWhenNoMatch ?? false)
+                {
+                    throw new JsonException("Property '{0}' not valid on {1}.".FormatWith(CultureInfo.InvariantCulture, Name ?? "*", t.GetType().Name));
                 }
             }
         }

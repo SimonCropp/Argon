@@ -28,22 +28,22 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 using System.Runtime.Serialization.Json;
 
-namespace Argon.Tests.Serialization
+namespace Argon.Tests.Serialization;
+
+[TestFixture]
+public class WebApiIntegrationTests : TestFixtureBase
 {
-    [TestFixture]
-    public class WebApiIntegrationTests : TestFixtureBase
+    [Fact]
+    public void SerializeSerializableType()
     {
-        [Fact]
-        public void SerializeSerializableType()
+        var serializableType = new SerializableType("protected")
         {
-            var serializableType = new SerializableType("protected")
-            {
-                publicField = "public",
-                protectedInternalField = "protected internal",
-                internalField = "internal",
-                PublicProperty = "private",
-                nonSerializedField = "Error"
-            };
+            publicField = "public",
+            protectedInternalField = "protected internal",
+            internalField = "internal",
+            PublicProperty = "private",
+            nonSerializedField = "Error"
+        };
 
 #if !NET5_0_OR_GREATER
             var ms = new MemoryStream();
@@ -56,80 +56,79 @@ namespace Argon.Tests.Serialization
             Assert.AreEqual(dtExpected, dtJson);
 #endif
 
-            var expected = "{\"publicField\":\"public\",\"internalField\":\"internal\",\"protectedInternalField\":\"protected internal\",\"protectedField\":\"protected\",\"privateField\":\"private\"}";
-            var json = JsonConvert.SerializeObject(serializableType, new JsonSerializerSettings
-            {
-                ContractResolver = new DefaultContractResolver
-                {
-                    IgnoreSerializableAttribute = false
-                }
-            });
-
-            Assert.AreEqual(expected, json);
-        }
-
-        [Fact]
-        public void SerializeInheritedType()
+        var expected = "{\"publicField\":\"public\",\"internalField\":\"internal\",\"protectedInternalField\":\"protected internal\",\"protectedField\":\"protected\",\"privateField\":\"private\"}";
+        var json = JsonConvert.SerializeObject(serializableType, new JsonSerializerSettings
         {
-            var serializableType = new InheritedType("protected")
+            ContractResolver = new DefaultContractResolver
             {
-                publicField = "public",
-                protectedInternalField = "protected internal",
-                internalField = "internal",
-                PublicProperty = "private",
-                nonSerializedField = "Error",
-                inheritedTypeField = "inherited"
-            };
+                IgnoreSerializableAttribute = false
+            }
+        });
 
-            var json = JsonConvert.SerializeObject(serializableType);
-
-            Assert.AreEqual(@"{""inheritedTypeField"":""inherited"",""publicField"":""public"",""PublicProperty"":""private""}", json);
-        }
+        Assert.AreEqual(expected, json);
     }
 
-    public class InheritedType : SerializableType
+    [Fact]
+    public void SerializeInheritedType()
     {
-        public string inheritedTypeField;
-
-        public InheritedType(string protectedFieldValue) : base(protectedFieldValue)
+        var serializableType = new InheritedType("protected")
         {
-        }
+            publicField = "public",
+            protectedInternalField = "protected internal",
+            internalField = "internal",
+            PublicProperty = "private",
+            nonSerializedField = "Error",
+            inheritedTypeField = "inherited"
+        };
+
+        var json = JsonConvert.SerializeObject(serializableType);
+
+        Assert.AreEqual(@"{""inheritedTypeField"":""inherited"",""publicField"":""public"",""PublicProperty"":""private""}", json);
+    }
+}
+
+public class InheritedType : SerializableType
+{
+    public string inheritedTypeField;
+
+    public InheritedType(string protectedFieldValue) : base(protectedFieldValue)
+    {
+    }
+}
+
+[Serializable]
+public class SerializableType : IEquatable<SerializableType>
+{
+    public SerializableType(string protectedFieldValue)
+    {
+        protectedField = protectedFieldValue;
     }
 
-    [Serializable]
-    public class SerializableType : IEquatable<SerializableType>
+    public string publicField;
+    internal string internalField;
+    protected internal string protectedInternalField;
+    protected string protectedField;
+    private string privateField;
+
+    public string PublicProperty
     {
-        public SerializableType(string protectedFieldValue)
-        {
-            protectedField = protectedFieldValue;
-        }
-
-        public string publicField;
-        internal string internalField;
-        protected internal string protectedInternalField;
-        protected string protectedField;
-        private string privateField;
-
-        public string PublicProperty
-        {
-            get => privateField;
-            set => privateField = value;
-        }
+        get => privateField;
+        set => privateField = value;
+    }
 
 #if !NET5_0_OR_GREATER
         [NonSerialized]
 #else
-        [JsonIgnore]
+    [JsonIgnore]
 #endif
-        public string nonSerializedField;
+    public string nonSerializedField;
 
-        public bool Equals(SerializableType other)
-        {
-            return publicField == other.publicField &&
-                   internalField == other.internalField &&
-                   protectedInternalField == other.protectedInternalField &&
-                   protectedField == other.protectedField &&
-                   privateField == other.privateField;
-        }
+    public bool Equals(SerializableType other)
+    {
+        return publicField == other.publicField &&
+               internalField == other.internalField &&
+               protectedInternalField == other.protectedInternalField &&
+               protectedField == other.protectedField &&
+               privateField == other.privateField;
     }
 }

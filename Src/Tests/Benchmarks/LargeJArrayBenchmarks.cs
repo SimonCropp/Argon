@@ -25,43 +25,42 @@
 
 using BenchmarkDotNet.Attributes;
 
-namespace Argon.Tests.Benchmarks
+namespace Argon.Tests.Benchmarks;
+
+public class LargeJArrayBenchmarks
 {
-    public class LargeJArrayBenchmarks
+    private JArray _largeJArraySample;
+
+    [GlobalSetup]
+    public void SetupData()
     {
-        private JArray _largeJArraySample;
-
-        [GlobalSetup]
-        public void SetupData()
+        _largeJArraySample = new JArray();
+        for (var i = 0; i < 100000; i++)
         {
-            _largeJArraySample = new JArray();
-            for (var i = 0; i < 100000; i++)
-            {
-                _largeJArraySample.Add(i);
-            }
+            _largeJArraySample.Add(i);
         }
+    }
 
-        [Benchmark]
-        public string JTokenPathFirstItem()
-        {
-            var first = _largeJArraySample.First;
+    [Benchmark]
+    public string JTokenPathFirstItem()
+    {
+        var first = _largeJArraySample.First;
 
-            return first.Path;
-        }
+        return first.Path;
+    }
 
-        [Benchmark]
-        public string JTokenPathLastItem()
-        {
-            var last = _largeJArraySample.Last;
+    [Benchmark]
+    public string JTokenPathLastItem()
+    {
+        var last = _largeJArraySample.Last;
 
-            return last.Path;
-        }
+        return last.Path;
+    }
 
-        [Benchmark]
-        public void AddPerformance()
-        {
-            _largeJArraySample.Add(1);
-            _largeJArraySample.RemoveAt(_largeJArraySample.Count - 1);
-        }
+    [Benchmark]
+    public void AddPerformance()
+    {
+        _largeJArraySample.Add(1);
+        _largeJArraySample.RemoveAt(_largeJArraySample.Count - 1);
     }
 }

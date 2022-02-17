@@ -23,34 +23,33 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class DirectoryAccount
 {
-    public class DirectoryAccount
+    // normal deserialization
+    public string DisplayName { get; set; }
+
+    // these properties are set in OnDeserialized
+    public string UserName { get; set; }
+    public string Domain { get; set; }
+
+    [JsonExtensionData]
+    private IDictionary<string, JToken> _additionalData;
+
+    [OnDeserialized]
+    private void OnDeserialized(StreamingContext context)
     {
-        // normal deserialization
-        public string DisplayName { get; set; }
+        // SAMAccountName is not deserialized to any property
+        // and so it is added to the extension data dictionary
+        var samAccountName = (string)_additionalData["SAMAccountName"];
 
-        // these properties are set in OnDeserialized
-        public string UserName { get; set; }
-        public string Domain { get; set; }
+        Domain = samAccountName.Split('\\')[0];
+        UserName = samAccountName.Split('\\')[1];
+    }
 
-        [JsonExtensionData]
-        private IDictionary<string, JToken> _additionalData;
-
-        [OnDeserialized]
-        private void OnDeserialized(StreamingContext context)
-        {
-            // SAMAccountName is not deserialized to any property
-            // and so it is added to the extension data dictionary
-            var samAccountName = (string)_additionalData["SAMAccountName"];
-
-            Domain = samAccountName.Split('\\')[0];
-            UserName = samAccountName.Split('\\')[1];
-        }
-
-        public DirectoryAccount()
-        {
-            _additionalData = new Dictionary<string, JToken>();
-        }
+    public DirectoryAccount()
+    {
+        _additionalData = new Dictionary<string, JToken>();
     }
 }

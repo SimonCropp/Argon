@@ -23,16 +23,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    [JsonConverter(typeof(ClassConverterPrecedenceClassConverter))]
-    public class ConverterPrecedenceClass
-    {
-        public string TestValue { get; set; }
+namespace Argon.Tests.TestObjects;
 
-        public ConverterPrecedenceClass(string testValue)
-        {
-            TestValue = testValue;
-        }
+[JsonConverter(typeof(ClassConverterPrecedenceClassConverter))]
+public class ConverterPrecedenceClass
+{
+    public string TestValue { get; set; }
+
+    public ConverterPrecedenceClass(string testValue)
+    {
+        TestValue = testValue;
     }
 }

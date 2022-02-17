@@ -27,26 +27,25 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue1574 : TestFixtureBase
 {
-    [TestFixture]
-    public class Issue1574 : TestFixtureBase
+    [Fact]
+    public void Test()
     {
-        [Fact]
-        public void Test()
-        {
-            var c = new TestClass();
-            var json = JsonConvert.SerializeObject(c, Formatting.Indented);
+        var c = new TestClass();
+        var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-            Assert.AreEqual("{}", json);
-        }
+        Assert.AreEqual("{}", json);
+    }
 
-        public enum ServerType { STUN, TURN };
+    public enum ServerType { STUN, TURN };
 
-        public class TestClass
-        {
-            [JsonIgnore]
-            public IEnumerable<ServerType> ServerTypes => Enum.GetValues(typeof(ServerType)).Cast<ServerType>();
-        }
+    public class TestClass
+    {
+        [JsonIgnore]
+        public IEnumerable<ServerType> ServerTypes => Enum.GetValues(typeof(ServerType)).Cast<ServerType>();
     }
 }

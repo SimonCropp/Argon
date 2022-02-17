@@ -29,84 +29,83 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests
+namespace Argon.Tests;
+
+[TestFixture]
+public class ExceptionTests : TestFixtureBase
 {
-    [TestFixture]
-    public class ExceptionTests : TestFixtureBase
+    [Fact]
+    public void JsonSerializationException()
     {
-        [Fact]
-        public void JsonSerializationException()
-        {
-            var exception = new JsonSerializationException();
-            Assert.AreEqual("Exception of type 'Argon.JsonSerializationException' was thrown.", exception.Message);
+        var exception = new JsonSerializationException();
+        Assert.AreEqual("Exception of type 'Argon.JsonSerializationException' was thrown.", exception.Message);
 
-            exception = new JsonSerializationException("Message!");
-            Assert.AreEqual("Message!", exception.Message);
-            Assert.AreEqual(null, exception.InnerException);
+        exception = new JsonSerializationException("Message!");
+        Assert.AreEqual("Message!", exception.Message);
+        Assert.AreEqual(null, exception.InnerException);
 
-            exception = new JsonSerializationException("Message!", new Exception("Inner!"));
-            Assert.AreEqual("Message!", exception.Message);
-            Assert.AreEqual("Inner!", exception.InnerException.Message);
-        }
+        exception = new JsonSerializationException("Message!", new Exception("Inner!"));
+        Assert.AreEqual("Message!", exception.Message);
+        Assert.AreEqual("Inner!", exception.InnerException.Message);
+    }
 
-        [Fact]
-        public void JsonWriterException()
-        {
-            var exception = new JsonWriterException();
-            Assert.AreEqual("Exception of type 'Argon.JsonWriterException' was thrown.", exception.Message);
+    [Fact]
+    public void JsonWriterException()
+    {
+        var exception = new JsonWriterException();
+        Assert.AreEqual("Exception of type 'Argon.JsonWriterException' was thrown.", exception.Message);
 
-            exception = new JsonWriterException("Message!");
-            Assert.AreEqual("Message!", exception.Message);
-            Assert.AreEqual(null, exception.InnerException);
+        exception = new JsonWriterException("Message!");
+        Assert.AreEqual("Message!", exception.Message);
+        Assert.AreEqual(null, exception.InnerException);
 
-            exception = new JsonWriterException("Message!", new Exception("Inner!"));
-            Assert.AreEqual("Message!", exception.Message);
-            Assert.AreEqual("Inner!", exception.InnerException.Message);
-        }
+        exception = new JsonWriterException("Message!", new Exception("Inner!"));
+        Assert.AreEqual("Message!", exception.Message);
+        Assert.AreEqual("Inner!", exception.InnerException.Message);
+    }
 
-        [Fact]
-        public void JsonReaderException()
-        {
-            var exception = new JsonReaderException();
-            Assert.AreEqual("Exception of type 'Argon.JsonReaderException' was thrown.", exception.Message);
+    [Fact]
+    public void JsonReaderException()
+    {
+        var exception = new JsonReaderException();
+        Assert.AreEqual("Exception of type 'Argon.JsonReaderException' was thrown.", exception.Message);
 
-            exception = new JsonReaderException("Message!");
-            Assert.AreEqual("Message!", exception.Message);
-            Assert.AreEqual(null, exception.InnerException);
+        exception = new JsonReaderException("Message!");
+        Assert.AreEqual("Message!", exception.Message);
+        Assert.AreEqual(null, exception.InnerException);
 
-            exception = new JsonReaderException("Message!", new Exception("Inner!"));
-            Assert.AreEqual("Message!", exception.Message);
-            Assert.AreEqual("Inner!", exception.InnerException.Message);
-        }
+        exception = new JsonReaderException("Message!", new Exception("Inner!"));
+        Assert.AreEqual("Message!", exception.Message);
+        Assert.AreEqual("Inner!", exception.InnerException.Message);
+    }
 
 #pragma warning disable 618
-        [Fact]
-        public void JsonSchemaException()
-        {
-            var exception = new JsonSchemaException();
-            Assert.AreEqual("Exception of type 'Argon.Schema.JsonSchemaException' was thrown.", exception.Message);
+    [Fact]
+    public void JsonSchemaException()
+    {
+        var exception = new JsonSchemaException();
+        Assert.AreEqual("Exception of type 'Argon.Schema.JsonSchemaException' was thrown.", exception.Message);
 
-            exception = new JsonSchemaException("Message!");
-            Assert.AreEqual("Message!", exception.Message);
-            Assert.AreEqual(null, exception.InnerException);
+        exception = new JsonSchemaException("Message!");
+        Assert.AreEqual("Message!", exception.Message);
+        Assert.AreEqual(null, exception.InnerException);
 
-            exception = new JsonSchemaException("Message!", new Exception("Inner!"));
-            Assert.AreEqual("Message!", exception.Message);
-            Assert.AreEqual("Inner!", exception.InnerException.Message);
-        }
+        exception = new JsonSchemaException("Message!", new Exception("Inner!"));
+        Assert.AreEqual("Message!", exception.Message);
+        Assert.AreEqual("Inner!", exception.InnerException.Message);
+    }
 #pragma warning restore 618
 
-        [Fact]
-        public void BinarySerializeException()
+    [Fact]
+    public void BinarySerializeException()
+    {
+        var exception = new JsonReaderException("message!");
+        using (var memoryStream = new MemoryStream())
         {
-            var exception = new JsonReaderException("message!");
-            using (var memoryStream = new MemoryStream())
-            {
-                var binaryFormatter = new BinaryFormatter();
+            var binaryFormatter = new BinaryFormatter();
 #pragma warning disable SYSLIB0011 // Type or member is obsolete
-                binaryFormatter.Serialize(memoryStream, exception);
+            binaryFormatter.Serialize(memoryStream, exception);
 #pragma warning restore SYSLIB0011 // Type or member is obsolete
-            }
         }
     }
 }

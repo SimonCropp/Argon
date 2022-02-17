@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class ComplexItem : ItemBase
 {
-    public class ComplexItem : ItemBase
-    {
-        public Stream Source { get; set; }
-    }
+    public Stream Source { get; set; }
 }

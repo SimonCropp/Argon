@@ -23,17 +23,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class KVPair<TKey, TValue>
-    {
-        public TKey Key { get; set; }
-        public TValue Value { get; set; }
+namespace Argon.Tests.TestObjects;
 
-        public KVPair(TKey k, TValue v)
-        {
-            Key = k;
-            Value = v;
-        }
+public class KVPair<TKey, TValue>
+{
+    public TKey Key { get; set; }
+    public TValue Value { get; set; }
+
+    public KVPair(TKey k, TValue v)
+    {
+        Key = k;
+        Value = v;
     }
 }

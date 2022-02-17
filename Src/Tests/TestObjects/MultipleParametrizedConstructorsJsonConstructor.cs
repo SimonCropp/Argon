@@ -23,26 +23,25 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class MultipleParametrizedConstructorsJsonConstructor
 {
-    public class MultipleParametrizedConstructorsJsonConstructor
+    public string Value { get; private set; }
+    public int Age { get; private set; }
+    public string Constructor { get; private set; }
+
+    public MultipleParametrizedConstructorsJsonConstructor(string value)
     {
-        public string Value { get; private set; }
-        public int Age { get; private set; }
-        public string Constructor { get; private set; }
+        Value = value;
+        Constructor = "Public Parameterized 1";
+    }
 
-        public MultipleParametrizedConstructorsJsonConstructor(string value)
-        {
-            Value = value;
-            Constructor = "Public Parameterized 1";
-        }
-
-        [JsonConstructor]
-        public MultipleParametrizedConstructorsJsonConstructor(string value, int age)
-        {
-            Value = value;
-            Age = age;
-            Constructor = "Public Parameterized 2";
-        }
+    [JsonConstructor]
+    public MultipleParametrizedConstructorsJsonConstructor(string value, int age)
+    {
+        Value = value;
+        Age = age;
+        Constructor = "Public Parameterized 2";
     }
 }

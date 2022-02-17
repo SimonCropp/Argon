@@ -25,23 +25,22 @@
 
 using System.ComponentModel;
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class Invoice
 {
-    public class Invoice
-    {
-        public string Company { get; set; }
-        public decimal Amount { get; set; }
+    public string Company { get; set; }
+    public decimal Amount { get; set; }
 
-        // false is default value of bool
-        public bool Paid { get; set; }
-        // null is default value of nullable
-        public DateTime? PaidDate { get; set; }
+    // false is default value of bool
+    public bool Paid { get; set; }
+    // null is default value of nullable
+    public DateTime? PaidDate { get; set; }
 
-        // customize default values
-        [DefaultValue(30)]
-        public int FollowUpDays { get; set; }
+    // customize default values
+    [DefaultValue(30)]
+    public int FollowUpDays { get; set; }
 
-        [DefaultValue("")]
-        public string FollowUpEmailAddress { get; set; }
-    }
+    [DefaultValue("")]
+    public string FollowUpEmailAddress { get; set; }
 }

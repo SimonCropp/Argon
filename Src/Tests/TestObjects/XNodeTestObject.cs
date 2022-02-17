@@ -25,11 +25,10 @@
 
 using System.Xml.Linq;
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class XNodeTestObject
 {
-    public class XNodeTestObject
-    {
-        public XDocument Document { get; set; }
-        public XElement Element { get; set; }
-    }
+    public XDocument Document { get; set; }
+    public XElement Element { get; set; }
 }

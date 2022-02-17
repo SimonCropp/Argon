@@ -28,14 +28,14 @@
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Documentation
+namespace Argon.Tests.Documentation;
+
+public class JsonSchemaTests
 {
-    public class JsonSchemaTests
+    public void IsValidBasic()
     {
-        public void IsValidBasic()
-        {
-            #region IsValidBasic
-            var schemaJson = @"{
+        #region IsValidBasic
+        var schemaJson = @"{
               'description': 'A person',
               'type': 'object',
               'properties':
@@ -48,21 +48,21 @@ namespace Argon.Tests.Documentation
               }
             }";
 
-            var schema = JsonSchema.Parse(schemaJson);
+        var schema = JsonSchema.Parse(schemaJson);
 
-            var person = JObject.Parse(@"{
+        var person = JObject.Parse(@"{
               'name': 'James',
               'hobbies': ['.NET', 'Blogging', 'Reading', 'Xbox', 'LOLCATS']
             }");
 
-            var valid = person.IsValid(schema);
-            // true
-            #endregion
-        }
+        var valid = person.IsValid(schema);
+        // true
+        #endregion
+    }
 
-        public void IsValidMessages()
-        {
-            var schemaJson = @"{
+    public void IsValidMessages()
+    {
+        var schemaJson = @"{
                'description': 'A person',
                'type': 'object',
                'properties':
@@ -75,90 +75,89 @@ namespace Argon.Tests.Documentation
                }
              }";
 
-            #region IsValidMessages
-            var schema = JsonSchema.Parse(schemaJson);
+        #region IsValidMessages
+        var schema = JsonSchema.Parse(schemaJson);
 
-            var person = JObject.Parse(@"{
+        var person = JObject.Parse(@"{
               'name': null,
               'hobbies': ['Invalid content', 0.123456789]
             }");
 
-            IList<string> messages;
-            var valid = person.IsValid(schema, out messages);
-            // false
-            // Invalid type. Expected String but got Null. Line 2, position 21.
-            // Invalid type. Expected String but got Float. Line 3, position 51.
-            #endregion
-        }
+        IList<string> messages;
+        var valid = person.IsValid(schema, out messages);
+        // false
+        // Invalid type. Expected String but got Null. Line 2, position 21.
+        // Invalid type. Expected String but got Float. Line 3, position 51.
+        #endregion
+    }
 
-        public void JsonValidatingReader()
-        {
-            var schemaJson = "{}";
+    public void JsonValidatingReader()
+    {
+        var schemaJson = "{}";
 
-            #region JsonValidatingReader
-            var json = @"{
+        #region JsonValidatingReader
+        var json = @"{
               'name': 'James',
               'hobbies': ['.NET', 'Blogging', 'Reading', 'Xbox', 'LOLCATS']
             }";
 
-            var reader = new JsonTextReader(new StringReader(json));
+        var reader = new JsonTextReader(new StringReader(json));
 
-            var validatingReader = new JsonValidatingReader(reader);
-            validatingReader.Schema = JsonSchema.Parse(schemaJson);
+        var validatingReader = new JsonValidatingReader(reader);
+        validatingReader.Schema = JsonSchema.Parse(schemaJson);
 
-            IList<string> messages = new List<string>();
-            validatingReader.ValidationEventHandler += (_, a) => messages.Add(a.Message);
+        IList<string> messages = new List<string>();
+        validatingReader.ValidationEventHandler += (_, a) => messages.Add(a.Message);
 
-            var serializer = new JsonSerializer();
-            var p = serializer.Deserialize<Person>(validatingReader);
-            #endregion
-        }
+        var serializer = new JsonSerializer();
+        var p = serializer.Deserialize<Person>(validatingReader);
+        #endregion
+    }
 
-        public void LoadJsonSchema()
+    public void LoadJsonSchema()
+    {
+        #region LoadJsonSchema
+        // load from a string
+        var schema1 = JsonSchema.Parse(@"{'type':'object'}");
+
+        // load from a file
+        using (TextReader reader = File.OpenText(@"c:\schema\Person.json"))
         {
-            #region LoadJsonSchema
-            // load from a string
-            var schema1 = JsonSchema.Parse(@"{'type':'object'}");
+            var schema2 = JsonSchema.Read(new JsonTextReader(reader));
 
-            // load from a file
-            using (TextReader reader = File.OpenText(@"c:\schema\Person.json"))
-            {
-                var schema2 = JsonSchema.Read(new JsonTextReader(reader));
-
-                // do stuff
-            }
-            #endregion
+            // do stuff
         }
+        #endregion
+    }
 
-        public void ManuallyCreateJsonSchema()
+    public void ManuallyCreateJsonSchema()
+    {
+        #region ManuallyCreateJsonSchema
+        var schema = new JsonSchema
         {
-            #region ManuallyCreateJsonSchema
-            var schema = new JsonSchema
+            Type = JsonSchemaType.Object,
+            Properties = new Dictionary<string, JsonSchema>
             {
-                Type = JsonSchemaType.Object,
-                Properties = new Dictionary<string, JsonSchema>
+                { "name", new JsonSchema { Type = JsonSchemaType.String } },
                 {
-                    { "name", new JsonSchema { Type = JsonSchemaType.String } },
+                    "hobbies", new JsonSchema
                     {
-                        "hobbies", new JsonSchema
-                        {
-                            Type = JsonSchemaType.Array,
-                            Items = new List<JsonSchema> { new() { Type = JsonSchemaType.String } }
-                        }
-                    },
-                }
-            };
+                        Type = JsonSchemaType.Array,
+                        Items = new List<JsonSchema> { new() { Type = JsonSchemaType.String } }
+                    }
+                },
+            }
+        };
 
-            var person = JObject.Parse(@"{
+        var person = JObject.Parse(@"{
               'name': 'James',
               'hobbies': ['.NET', 'Blogging', 'Reading', 'Xbox', 'LOLCATS']
             }");
 
-            var valid = person.IsValid(schema);
-            // true
-            #endregion
+        var valid = person.IsValid(schema);
+        // true
+        #endregion
 
-            Assert.IsTrue(valid);
-        }
+        Assert.IsTrue(valid);
     }
 }

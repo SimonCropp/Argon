@@ -28,29 +28,28 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class SerializeCollection : TestFixtureBase
 {
-    [TestFixture]
-    public class SerializeCollection : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
+        #region Usage
+        var videogames = new List<string>
         {
-            #region Usage
-            var videogames = new List<string>
-            {
-                "Starcraft",
-                "Halo",
-                "Legend of Zelda"
-            };
+            "Starcraft",
+            "Halo",
+            "Legend of Zelda"
+        };
 
-            var json = JsonConvert.SerializeObject(videogames);
+        var json = JsonConvert.SerializeObject(videogames);
 
-            Console.WriteLine(json);
-            // ["Starcraft","Halo","Legend of Zelda"]
-            #endregion
+        Console.WriteLine(json);
+        // ["Starcraft","Halo","Legend of Zelda"]
+        #endregion
 
-            Assert.AreEqual(@"[""Starcraft"",""Halo"",""Legend of Zelda""]", json);
-        }
+        Assert.AreEqual(@"[""Starcraft"",""Halo"",""Legend of Zelda""]", json);
     }
 }

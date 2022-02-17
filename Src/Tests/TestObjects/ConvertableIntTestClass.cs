@@ -23,12 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class ConvertableIntTestClass
 {
-    public class ConvertableIntTestClass
-    {
-        public ConvertibleInt Integer { get; set; }
-        public ConvertibleInt? NullableInteger1 { get; set; }
-        public ConvertibleInt? NullableInteger2 { get; set; }
-    }
+    public ConvertibleInt Integer { get; set; }
+    public ConvertibleInt? NullableInteger1 { get; set; }
+    public ConvertibleInt? NullableInteger2 { get; set; }
 }

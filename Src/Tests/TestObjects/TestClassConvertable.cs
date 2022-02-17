@@ -23,11 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class TestClassConvertable
 {
-    public class TestClassConvertable
-    {
-        public ConvertibleId Id;
-        public int X;
-    }
+    public ConvertibleId Id;
+    public int X;
 }

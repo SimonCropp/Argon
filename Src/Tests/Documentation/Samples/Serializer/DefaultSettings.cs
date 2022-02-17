@@ -28,57 +28,56 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 using Staff = Argon.Tests.TestObjects.Organization.Employee;
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class DefaultSettings : TestFixtureBase
 {
-    [TestFixture]
-    public class DefaultSettings : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
+        string json;
+
+        try
         {
-            string json;
-
-            try
+            #region Usage
+            // settings will automatically be used by JsonConvert.SerializeObject/DeserializeObject
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
             {
-                #region Usage
-                // settings will automatically be used by JsonConvert.SerializeObject/DeserializeObject
-                JsonConvert.DefaultSettings = () => new JsonSerializerSettings
-                {
-                    Formatting = Formatting.Indented,
-                    ContractResolver = new CamelCasePropertyNamesContractResolver()
-                };
+                Formatting = Formatting.Indented,
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
 
-                var s = new Staff
-                {
-                    FirstName = "Eric",
-                    LastName = "Example",
-                    BirthDate = new DateTime(1980, 4, 20, 0, 0, 0, DateTimeKind.Utc),
-                    Department = "IT",
-                    JobTitle = "Web Dude"
-                };
-
-                json = JsonConvert.SerializeObject(s);
-                // {
-                //   "firstName": "Eric",
-                //   "lastName": "Example",
-                //   "birthDate": "1980-04-20T00:00:00Z",
-                //   "department": "IT",
-                //   "jobTitle": "Web Dude"
-                // }
-                #endregion
-            }
-            finally
+            var s = new Staff
             {
-                JsonConvert.DefaultSettings = null;
-            }
+                FirstName = "Eric",
+                LastName = "Example",
+                BirthDate = new DateTime(1980, 4, 20, 0, 0, 0, DateTimeKind.Utc),
+                Department = "IT",
+                JobTitle = "Web Dude"
+            };
 
-            StringAssert.AreEqual(@"{
+            json = JsonConvert.SerializeObject(s);
+            // {
+            //   "firstName": "Eric",
+            //   "lastName": "Example",
+            //   "birthDate": "1980-04-20T00:00:00Z",
+            //   "department": "IT",
+            //   "jobTitle": "Web Dude"
+            // }
+            #endregion
+        }
+        finally
+        {
+            JsonConvert.DefaultSettings = null;
+        }
+
+        StringAssert.AreEqual(@"{
   ""firstName"": ""Eric"",
   ""lastName"": ""Example"",
   ""birthDate"": ""1980-04-20T00:00:00Z"",
   ""department"": ""IT"",
   ""jobTitle"": ""Web Dude""
 }", json);
-        }
     }
 }

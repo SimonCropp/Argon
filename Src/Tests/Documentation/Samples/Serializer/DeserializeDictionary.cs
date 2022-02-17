@@ -28,30 +28,29 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class DeserializeDictionary : TestFixtureBase
 {
-    [TestFixture]
-    public class DeserializeDictionary : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var json = @"{
+        #region Usage
+        var json = @"{
               'href': '/account/login.aspx',
               'target': '_blank'
             }";
 
-            var htmlAttributes = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+        var htmlAttributes = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
 
-            Console.WriteLine(htmlAttributes["href"]);
-            // /account/login.aspx
+        Console.WriteLine(htmlAttributes["href"]);
+        // /account/login.aspx
 
-            Console.WriteLine(htmlAttributes["target"]);
-            // _blank
-            #endregion
+        Console.WriteLine(htmlAttributes["target"]);
+        // _blank
+        #endregion
 
-            Assert.AreEqual("_blank", htmlAttributes["target"]);
-        }
+        Assert.AreEqual("_blank", htmlAttributes["target"]);
     }
 }

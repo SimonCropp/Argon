@@ -28,60 +28,60 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class JsonPropertyOrder : TestFixtureBase
 {
-    [TestFixture]
-    public class JsonPropertyOrder : TestFixtureBase
+    #region Types
+    public class Account
     {
-        #region Types
-        public class Account
+        public string EmailAddress { get; set; }
+
+        // appear last
+        [JsonProperty(Order = 1)]
+        public bool Deleted { get; set; }
+
+        [JsonProperty(Order = 2)]
+        public DateTime DeletedDate { get; set; }
+
+        public DateTime CreatedDate { get; set; }
+        public DateTime UpdatedDate { get; set; }
+
+        // appear first
+        [JsonProperty(Order = -2)]
+        public string FullName { get; set; }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var account = new Account
         {
-            public string EmailAddress { get; set; }
+            FullName = "Aaron Account",
+            EmailAddress = "aaron@example.com",
+            Deleted = true,
+            DeletedDate = new DateTime(2013, 1, 25),
+            UpdatedDate = new DateTime(2013, 1, 25),
+            CreatedDate = new DateTime(2010, 10, 1)
+        };
 
-            // appear last
-            [JsonProperty(Order = 1)]
-            public bool Deleted { get; set; }
+        var json = JsonConvert.SerializeObject(account, Formatting.Indented);
 
-            [JsonProperty(Order = 2)]
-            public DateTime DeletedDate { get; set; }
-
-            public DateTime CreatedDate { get; set; }
-            public DateTime UpdatedDate { get; set; }
-
-            // appear first
-            [JsonProperty(Order = -2)]
-            public string FullName { get; set; }
-        }
+        Console.WriteLine(json);
+        // {
+        //   "FullName": "Aaron Account",
+        //   "EmailAddress": "aaron@example.com",
+        //   "CreatedDate": "2010-10-01T00:00:00",
+        //   "UpdatedDate": "2013-01-25T00:00:00",
+        //   "Deleted": true,
+        //   "DeletedDate": "2013-01-25T00:00:00"
+        // }
         #endregion
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var account = new Account
-            {
-                FullName = "Aaron Account",
-                EmailAddress = "aaron@example.com",
-                Deleted = true,
-                DeletedDate = new DateTime(2013, 1, 25),
-                UpdatedDate = new DateTime(2013, 1, 25),
-                CreatedDate = new DateTime(2010, 10, 1)
-            };
-
-            var json = JsonConvert.SerializeObject(account, Formatting.Indented);
-
-            Console.WriteLine(json);
-            // {
-            //   "FullName": "Aaron Account",
-            //   "EmailAddress": "aaron@example.com",
-            //   "CreatedDate": "2010-10-01T00:00:00",
-            //   "UpdatedDate": "2013-01-25T00:00:00",
-            //   "Deleted": true,
-            //   "DeletedDate": "2013-01-25T00:00:00"
-            // }
-            #endregion
-
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""FullName"": ""Aaron Account"",
   ""EmailAddress"": ""aaron@example.com"",
   ""CreatedDate"": ""2010-10-01T00:00:00"",
@@ -89,6 +89,5 @@ namespace Argon.Tests.Documentation.Samples.Serializer
   ""Deleted"": true,
   ""DeletedDate"": ""2013-01-25T00:00:00""
 }", json);
-        }
     }
 }

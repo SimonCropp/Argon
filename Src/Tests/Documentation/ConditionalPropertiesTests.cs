@@ -27,89 +27,89 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Documentation
+namespace Argon.Tests.Documentation;
+
+public class Employee
 {
+    public string Name { get; set; }
+    public Employee Manager { get; set; }
+}
+
+#region ShouldSerializeContractResolver
+public class ShouldSerializeContractResolver : DefaultContractResolver
+{
+    public new static readonly ShouldSerializeContractResolver Instance = new();
+
+    protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
+    {
+        var property = base.CreateProperty(member, memberSerialization);
+
+        if (property.DeclaringType == typeof(Employee) && property.PropertyName == "Manager")
+        {
+            property.ShouldSerialize =
+                instance =>
+                {
+                    var e = (Employee)instance;
+                    return e.Manager != e;
+                };
+        }
+
+        return property;
+    }
+}
+#endregion
+
+[TestFixture]
+public class ConditionalPropertiesTests : TestFixtureBase
+{
+    #region EmployeeShouldSerializeExample
     public class Employee
     {
         public string Name { get; set; }
         public Employee Manager { get; set; }
-    }
 
-    #region ShouldSerializeContractResolver
-    public class ShouldSerializeContractResolver : DefaultContractResolver
-    {
-        public new static readonly ShouldSerializeContractResolver Instance = new();
-
-        protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
+        public bool ShouldSerializeManager()
         {
-            var property = base.CreateProperty(member, memberSerialization);
-
-            if (property.DeclaringType == typeof(Employee) && property.PropertyName == "Manager")
-            {
-                property.ShouldSerialize =
-                    instance =>
-                    {
-                        var e = (Employee)instance;
-                        return e.Manager != e;
-                    };
-            }
-
-            return property;
+            // don't serialize the Manager property if an employee is their own manager
+            return Manager != this;
         }
     }
     #endregion
 
-    [TestFixture]
-    public class ConditionalPropertiesTests : TestFixtureBase
+    [Fact]
+    public void ShouldSerializeClassTest()
     {
-        #region EmployeeShouldSerializeExample
-        public class Employee
+        #region ShouldSerializeClassTest
+        var joe = new Employee
         {
-            public string Name { get; set; }
-            public Employee Manager { get; set; }
+            Name = "Joe Employee"
+        };
+        var mike = new Employee
+        {
+            Name = "Mike Manager"
+        };
 
-            public bool ShouldSerializeManager()
-            {
-                // don't serialize the Manager property if an employee is their own manager
-                return Manager != this;
-            }
-        }
+        joe.Manager = mike;
+
+        // mike is his own manager
+        // ShouldSerialize will skip this property
+        mike.Manager = mike;
+
+        var json = JsonConvert.SerializeObject(new[] { joe, mike }, Formatting.Indented);
+        // [
+        //   {
+        //     "Name": "Joe Employee",
+        //     "Manager": {
+        //       "Name": "Mike Manager"
+        //     }
+        //   },
+        //   {
+        //     "Name": "Mike Manager"
+        //   }
+        // ]
         #endregion
 
-        [Fact]
-        public void ShouldSerializeClassTest()
-        {
-            #region ShouldSerializeClassTest
-            var joe = new Employee
-            {
-                Name = "Joe Employee"
-            };
-            var mike = new Employee
-            {
-                Name = "Mike Manager"
-            };
-
-            joe.Manager = mike;
-
-            // mike is his own manager
-            // ShouldSerialize will skip this property
-            mike.Manager = mike;
-
-            var json = JsonConvert.SerializeObject(new[] { joe, mike }, Formatting.Indented);
-            // [
-            //   {
-            //     "Name": "Joe Employee",
-            //     "Manager": {
-            //       "Name": "Mike Manager"
-            //     }
-            //   },
-            //   {
-            //     "Name": "Mike Manager"
-            //   }
-            // ]
-            #endregion
-
-            StringAssert.AreEqual(@"[
+        StringAssert.AreEqual(@"[
   {
     ""Name"": ""Joe Employee"",
     ""Manager"": {
@@ -120,32 +120,32 @@ namespace Argon.Tests.Documentation
     ""Name"": ""Mike Manager""
   }
 ]", json);
-        }
+    }
 
-        [Fact]
-        public void ShouldSerializeContractResolverTest()
+    [Fact]
+    public void ShouldSerializeContractResolverTest()
+    {
+        var joe = new Argon.Tests.Documentation.Employee
         {
-            var joe = new Argon.Tests.Documentation.Employee
+            Name = "Joe Employee"
+        };
+        var mike = new Argon.Tests.Documentation.Employee
+        {
+            Name = "Mike Manager"
+        };
+
+        joe.Manager = mike;
+        mike.Manager = mike;
+
+        var json = JsonConvert.SerializeObject(
+            new[] { joe, mike },
+            Formatting.Indented,
+            new JsonSerializerSettings
             {
-                Name = "Joe Employee"
-            };
-            var mike = new Argon.Tests.Documentation.Employee
-            {
-                Name = "Mike Manager"
-            };
+                ContractResolver = ShouldSerializeContractResolver.Instance
+            });
 
-            joe.Manager = mike;
-            mike.Manager = mike;
-
-            var json = JsonConvert.SerializeObject(
-                new[] { joe, mike },
-                Formatting.Indented,
-                new JsonSerializerSettings
-                {
-                    ContractResolver = ShouldSerializeContractResolver.Instance
-                });
-
-            StringAssert.AreEqual(@"[
+        StringAssert.AreEqual(@"[
   {
     ""Name"": ""Joe Employee"",
     ""Manager"": {
@@ -156,6 +156,5 @@ namespace Argon.Tests.Documentation
     ""Name"": ""Mike Manager""
   }
 ]", json);
-        }
     }
 }

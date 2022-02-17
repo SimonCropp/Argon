@@ -23,11 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public enum RoleTransferOperation
 {
-    public enum RoleTransferOperation
-    {
-        First,
-        Second
-    }
+    First,
+    Second
 }

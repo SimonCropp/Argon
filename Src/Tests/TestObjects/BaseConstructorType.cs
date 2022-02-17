@@ -23,16 +23,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class BaseConstructorType
-    {
-        [JsonProperty]
-        public string BaseProperty { get; private set; }
+namespace Argon.Tests.TestObjects;
 
-        public BaseConstructorType(string baseProperty)
-        {
-            BaseProperty = baseProperty;
-        }
+public class BaseConstructorType
+{
+    [JsonProperty]
+    public string BaseProperty { get; private set; }
+
+    public BaseConstructorType(string baseProperty)
+    {
+        BaseProperty = baseProperty;
     }
 }

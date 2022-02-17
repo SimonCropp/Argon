@@ -23,23 +23,22 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class PublicConstructorOverridenByJsonConstructor
 {
-    public class PublicConstructorOverridenByJsonConstructor
+    public string Value { get; private set; }
+    public string Constructor { get; private set; }
+
+    public PublicConstructorOverridenByJsonConstructor()
     {
-        public string Value { get; private set; }
-        public string Constructor { get; private set; }
+        Constructor = "NonPublic";
+    }
 
-        public PublicConstructorOverridenByJsonConstructor()
-        {
-            Constructor = "NonPublic";
-        }
-
-        [JsonConstructor]
-        public PublicConstructorOverridenByJsonConstructor(string value)
-        {
-            Value = value;
-            Constructor = "Public Parameterized";
-        }
+    [JsonConstructor]
+    public PublicConstructorOverridenByJsonConstructor(string value)
+    {
+        Value = value;
+        Constructor = "Public Parameterized";
     }
 }

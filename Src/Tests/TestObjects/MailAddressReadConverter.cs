@@ -23,38 +23,37 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class MailAddressReadConverter : JsonConverter
 {
-    public class MailAddressReadConverter : JsonConverter
+    public override bool CanConvert(Type objectType)
     {
-        public override bool CanConvert(Type objectType)
+        return objectType == typeof(System.Net.Mail.MailAddress);
+    }
+
+    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    {
+        var messageJObject = serializer.Deserialize<JObject>(reader);
+        if (messageJObject == null)
         {
-            return objectType == typeof(System.Net.Mail.MailAddress);
+            return null;
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        var address = messageJObject.GetValue("Address", StringComparison.OrdinalIgnoreCase).ToObject<string>();
+
+        string displayName;
+        if (messageJObject.TryGetValue("DisplayName", StringComparison.OrdinalIgnoreCase, out var displayNameToken)
+            && !string.IsNullOrEmpty(displayName = displayNameToken.ToObject<string>()))
         {
-            var messageJObject = serializer.Deserialize<JObject>(reader);
-            if (messageJObject == null)
-            {
-                return null;
-            }
-
-            var address = messageJObject.GetValue("Address", StringComparison.OrdinalIgnoreCase).ToObject<string>();
-
-            string displayName;
-            if (messageJObject.TryGetValue("DisplayName", StringComparison.OrdinalIgnoreCase, out var displayNameToken)
-                && !string.IsNullOrEmpty(displayName = displayNameToken.ToObject<string>()))
-            {
-                return new System.Net.Mail.MailAddress(address, displayName);
-            }
-
-            return new System.Net.Mail.MailAddress(address);
+            return new System.Net.Mail.MailAddress(address, displayName);
         }
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            throw new NotImplementedException();
-        }
+        return new System.Net.Mail.MailAddress(address);
+    }
+
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+    {
+        throw new NotImplementedException();
     }
 }

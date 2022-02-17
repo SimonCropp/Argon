@@ -30,282 +30,282 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests
+namespace Argon.Tests;
+
+[TestFixture]
+public class DemoTests : TestFixtureBase
 {
-    [TestFixture]
-    public class DemoTests : TestFixtureBase
+    public class HtmlColor
     {
-        public class HtmlColor
+        public int Red { get; set; }
+        public int Green { get; set; }
+        public int Blue { get; set; }
+    }
+
+    [Fact]
+    public void JsonConverter()
+    {
+        var red = new HtmlColor
         {
-            public int Red { get; set; }
-            public int Green { get; set; }
-            public int Blue { get; set; }
+            Red = 255,
+            Green = 0,
+            Blue = 0
+        };
+
+        var json = JsonConvert.SerializeObject(red, new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented
+        });
+        // {
+        //   "Red": 255,
+        //   "Green": 0,
+        //   "Blue": 0
+        // }
+
+        json = JsonConvert.SerializeObject(red, new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented,
+            Converters = { new HtmlColorConverter() }
+        });
+        // "#FF0000"
+
+        var r2 = JsonConvert.DeserializeObject<HtmlColor>(json, new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented,
+            Converters = { new HtmlColorConverter() }
+        });
+        Assert.AreEqual(255, r2.Red);
+        Assert.AreEqual(0, r2.Green);
+        Assert.AreEqual(0, r2.Blue);
+
+        Assert.AreEqual(@"""#FF0000""", json);
+    }
+
+    public class PersonDemo
+    {
+        public string Name { get; set; }
+        public int Age { get; set; }
+        public string Job { get; set; }
+    }
+
+    public class Session
+    {
+        public string Name { get; set; }
+        public DateTime Date { get; set; }
+    }
+
+    public class HtmlColorConverter : JsonConverter
+    {
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            // create hex string from value
+            var color = (HtmlColor)value;
+            var hexString = color.Red.ToString("X2")
+                            + color.Green.ToString("X2")
+                            + color.Blue.ToString("X2");
+
+            // write value to json
+            writer.WriteValue("#" + hexString);
         }
 
-        [Fact]
-        public void JsonConverter()
+        //public override object ReadJson(JsonReader reader, Type objectType,
+        //    object existingValue, JsonSerializer serializer)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        public override object ReadJson(JsonReader reader, Type objectType,
+            object existingValue, JsonSerializer serializer)
         {
-            var red = new HtmlColor
+            // get hex string
+            var hexString = (string)reader.Value;
+            hexString = hexString.TrimStart('#');
+
+            // build html color from hex
+            return new HtmlColor
             {
-                Red = 255,
-                Green = 0,
-                Blue = 0
+                Red = Convert.ToInt32(hexString.Substring(0, 2), 16),
+                Green = Convert.ToInt32(hexString.Substring(2, 2), 16),
+                Blue = Convert.ToInt32(hexString.Substring(4, 2), 16)
             };
-
-            var json = JsonConvert.SerializeObject(red, new JsonSerializerSettings
-            {
-                Formatting = Formatting.Indented
-            });
-            // {
-            //   "Red": 255,
-            //   "Green": 0,
-            //   "Blue": 0
-            // }
-
-            json = JsonConvert.SerializeObject(red, new JsonSerializerSettings
-            {
-                Formatting = Formatting.Indented,
-                Converters = { new HtmlColorConverter() }
-            });
-            // "#FF0000"
-
-            var r2 = JsonConvert.DeserializeObject<HtmlColor>(json, new JsonSerializerSettings
-            {
-                Formatting = Formatting.Indented,
-                Converters = { new HtmlColorConverter() }
-            });
-            Assert.AreEqual(255, r2.Red);
-            Assert.AreEqual(0, r2.Green);
-            Assert.AreEqual(0, r2.Blue);
-
-            Assert.AreEqual(@"""#FF0000""", json);
         }
 
-        public class PersonDemo
+        public override bool CanConvert(Type objectType)
         {
-            public string Name { get; set; }
-            public int Age { get; set; }
-            public string Job { get; set; }
+            return objectType == typeof(HtmlColor);
         }
+    }
 
-        public class Session
+    [Fact]
+    public void SerializationGuide()
+    {
+        IList<string> roles = new List<string>
         {
-            public string Name { get; set; }
-            public DateTime Date { get; set; }
-        }
+            "User",
+            "Admin"
+        };
 
-        public class HtmlColorConverter : JsonConverter
+        var roleJson = JsonConvert.SerializeObject(roles, Formatting.Indented);
+        // [
+        //   "User",
+        //   "Admin"
+        // ]
+
+        IDictionary<DateTime, int> dailyRegistrations = new Dictionary<DateTime, int>
         {
-            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-            {
-                // create hex string from value
-                var color = (HtmlColor)value;
-                var hexString = color.Red.ToString("X2")
-                                + color.Green.ToString("X2")
-                                + color.Blue.ToString("X2");
+            { new DateTime(2014, 6, 1), 23 },
+            { new DateTime(2014, 6, 2), 50 }
+        };
 
-                // write value to json
-                writer.WriteValue("#" + hexString);
-            }
+        var regJson = JsonConvert.SerializeObject(dailyRegistrations, Formatting.Indented);
+        // {
+        //   "2014-06-01T00:00:00": 23,
+        //   "2014-06-02T00:00:00": 50
+        // }
 
-            //public override object ReadJson(JsonReader reader, Type objectType,
-            //    object existingValue, JsonSerializer serializer)
-            //{
-            //    throw new NotImplementedException();
-            //}
+        var c = new City { Name = "Oslo", Population = 650000 };
 
-            public override object ReadJson(JsonReader reader, Type objectType,
-                object existingValue, JsonSerializer serializer)
-            {
-                // get hex string
-                var hexString = (string)reader.Value;
-                hexString = hexString.TrimStart('#');
+        var cityJson = JsonConvert.SerializeObject(c, Formatting.Indented);
+        // {
+        //   "Name": "Oslo",
+        //   "Population": 650000
+        // }
+    }
 
-                // build html color from hex
-                return new HtmlColor
-                {
-                    Red = Convert.ToInt32(hexString.Substring(0, 2), 16),
-                    Green = Convert.ToInt32(hexString.Substring(2, 2), 16),
-                    Blue = Convert.ToInt32(hexString.Substring(4, 2), 16)
-                };
-            }
-
-            public override bool CanConvert(Type objectType)
-            {
-                return objectType == typeof(HtmlColor);
-            }
-        }
-
-        [Fact]
-        public void SerializationGuide()
+    [Fact]
+    public void SerializationBasics()
+    {
+        IList<string> roles = new List<string>
         {
-            IList<string> roles = new List<string>
-            {
-                "User",
-                "Admin"
-            };
+            "User",
+            "Admin"
+        };
 
-            var roleJson = JsonConvert.SerializeObject(roles, Formatting.Indented);
-            // [
-            //   "User",
-            //   "Admin"
-            // ]
+        var traceWriter = new MemoryTraceWriter();
 
-            IDictionary<DateTime, int> dailyRegistrations = new Dictionary<DateTime, int>
-            {
-                { new DateTime(2014, 6, 1), 23 },
-                { new DateTime(2014, 6, 2), 50 }
-            };
-
-            var regJson = JsonConvert.SerializeObject(dailyRegistrations, Formatting.Indented);
-            // {
-            //   "2014-06-01T00:00:00": 23,
-            //   "2014-06-02T00:00:00": 50
-            // }
-
-            var c = new City { Name = "Oslo", Population = 650000 };
-
-            var cityJson = JsonConvert.SerializeObject(c, Formatting.Indented);
-            // {
-            //   "Name": "Oslo",
-            //   "Population": 650000
-            // }
-        }
-
-        [Fact]
-        public void SerializationBasics()
+        var j = JsonConvert.SerializeObject(roles, new JsonSerializerSettings
         {
-            IList<string> roles = new List<string>
-            {
-                "User",
-                "Admin"
-            };
+            Formatting = Formatting.Indented,
+            TraceWriter = traceWriter
+        });
 
-            var traceWriter = new MemoryTraceWriter();
+        var trace = traceWriter.ToString();
+        // Started serializing System.Collections.Generic.List`1[System.String].
+        // Finished serializing System.Collections.Generic.List`1[System.String].
+        // Verbose Serialized JSON: 
+        // [
+        //   "User",
+        //   "Admin"
+        // ]
+    }
 
-            var j = JsonConvert.SerializeObject(roles, new JsonSerializerSettings
-            {
-                Formatting = Formatting.Indented,
-                TraceWriter = traceWriter
-            });
-
-            var trace = traceWriter.ToString();
-            // Started serializing System.Collections.Generic.List`1[System.String].
-            // Finished serializing System.Collections.Generic.List`1[System.String].
-            // Verbose Serialized JSON: 
-            // [
-            //   "User",
-            //   "Admin"
-            // ]
-        }
-
-        [Fact]
-        public void SerializationBasics2()
+    [Fact]
+    public void SerializationBasics2()
+    {
+        var s = new Session
         {
-            var s = new Session
-            {
-                Name = "Serialize All The Things",
-                Date = new DateTime(2014, 6, 4, 0, 0, 0, DateTimeKind.Utc)
-            };
+            Name = "Serialize All The Things",
+            Date = new DateTime(2014, 6, 4, 0, 0, 0, DateTimeKind.Utc)
+        };
 
-            var j = JsonConvert.SerializeObject(s, new JsonSerializerSettings
-            {
-                Formatting = Formatting.Indented,
-                Converters = { new JavaScriptDateTimeConverter() }
-            });
-            // {
-            //   "Name": "Serialize All The Things",
-            //   "Date": new Date(1401796800000)
-            // }
+        var j = JsonConvert.SerializeObject(s, new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented,
+            Converters = { new JavaScriptDateTimeConverter() }
+        });
+        // {
+        //   "Name": "Serialize All The Things",
+        //   "Date": new Date(1401796800000)
+        // }
 
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""Name"": ""Serialize All The Things"",
   ""Date"": new Date(
     1401840000000
   )
 }", j);
-        }
+    }
 
-        [Fact]
-        public void DeserializationBasics1()
-        {
-            var j = @"{
+    [Fact]
+    public void DeserializationBasics1()
+    {
+        var j = @"{
               'Name': 'Serialize All The Things',
               'Date': new Date(1401796800000)
             }";
 
-            var s = JsonConvert.DeserializeObject<Session>(j, new JsonSerializerSettings
-            {
-                Converters = { new JavaScriptDateTimeConverter() }
-            });
-            // Name = Serialize All The Things
-            // Date = Tuesday, 3 June 2014
-
-            Assert.AreEqual("Serialize All The Things", s.Name);
-        }
-
-        [Fact]
-        public void DeserializationBasics2()
+        var s = JsonConvert.DeserializeObject<Session>(j, new JsonSerializerSettings
         {
-            var s = new Session
-            {
-                Date = new DateTime(2014, 6, 4)
-            };
+            Converters = { new JavaScriptDateTimeConverter() }
+        });
+        // Name = Serialize All The Things
+        // Date = Tuesday, 3 June 2014
 
-            var j = @"{
+        Assert.AreEqual("Serialize All The Things", s.Name);
+    }
+
+    [Fact]
+    public void DeserializationBasics2()
+    {
+        var s = new Session
+        {
+            Date = new DateTime(2014, 6, 4)
+        };
+
+        var j = @"{
               'Name': 'Serialize All The Things'
             }";
 
-            JsonConvert.PopulateObject(j, s);
-            // Name = Serialize All The Things
-            // Date = Tuesday, 3 June 2014
-        }
+        JsonConvert.PopulateObject(j, s);
+        // Name = Serialize All The Things
+        // Date = Tuesday, 3 June 2014
+    }
 
-        public class City
-        {
-            public string Name { get; set; }
-            public int Population { get; set; }
-        }
+    public class City
+    {
+        public string Name { get; set; }
+        public int Population { get; set; }
+    }
 
-        public class Employee
-        {
-            public string Name { get; set; }
-        }
+    public class Employee
+    {
+        public string Name { get; set; }
+    }
 
-        public class Manager : Employee
-        {
-            public IList<Employee> Reportees { get; set; }
-        }
+    public class Manager : Employee
+    {
+        public IList<Employee> Reportees { get; set; }
+    }
 
-        [Fact]
-        public void SerializeReferencesByValue()
-        {
-            var arnie = new Employee { Name = "Arnie Admin" };
-            var mike = new Manager { Name = "Mike Manager" };
-            var susan = new Manager { Name = "Susan Supervisor" };
+    [Fact]
+    public void SerializeReferencesByValue()
+    {
+        var arnie = new Employee { Name = "Arnie Admin" };
+        var mike = new Manager { Name = "Mike Manager" };
+        var susan = new Manager { Name = "Susan Supervisor" };
 
-            mike.Reportees = new[] { arnie, susan };
-            susan.Reportees = new[] { arnie };
+        mike.Reportees = new[] { arnie, susan };
+        susan.Reportees = new[] { arnie };
 
-            var json = JsonConvert.SerializeObject(mike, Formatting.Indented);
-            // {
-            //   "Reportees": [
-            //     { 
-            //       "Name": "Arnie Admin"
-            //     },
-            //     {
-            //       "Reportees": [
-            //         {
-            //           "Name": "Arnie Admin"
-            //         }
-            //       ],
-            //       "Name": "Susan Supervisor"
-            //     }
-            //   ],
-            //   "Name": "Mike Manager"
-            // }
+        var json = JsonConvert.SerializeObject(mike, Formatting.Indented);
+        // {
+        //   "Reportees": [
+        //     { 
+        //       "Name": "Arnie Admin"
+        //     },
+        //     {
+        //       "Reportees": [
+        //         {
+        //           "Name": "Arnie Admin"
+        //         }
+        //       ],
+        //       "Name": "Susan Supervisor"
+        //     }
+        //   ],
+        //   "Name": "Mike Manager"
+        // }
 
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""Reportees"": [
     {
       ""Name"": ""Arnie Admin""
@@ -321,48 +321,48 @@ namespace Argon.Tests
   ],
   ""Name"": ""Mike Manager""
 }", json);
-        }
+    }
 
-        [Fact]
-        public void SerializeReferencesWithMetadata()
+    [Fact]
+    public void SerializeReferencesWithMetadata()
+    {
+        var arnie = new Employee { Name = "Arnie Admin" };
+        var mike = new Manager { Name = "Mike Manager" };
+        var susan = new Manager { Name = "Susan Supervisor" };
+
+        mike.Reportees = new[] { arnie, susan };
+        susan.Reportees = new[] { arnie };
+
+        var json = JsonConvert.SerializeObject(mike, new JsonSerializerSettings
         {
-            var arnie = new Employee { Name = "Arnie Admin" };
-            var mike = new Manager { Name = "Mike Manager" };
-            var susan = new Manager { Name = "Susan Supervisor" };
+            Formatting = Formatting.Indented,
+            TypeNameHandling = TypeNameHandling.Objects,
+            PreserveReferencesHandling = PreserveReferencesHandling.Objects
+        });
+        // {
+        //   "$id": "1",
+        //   "$type": "YourNamespace.Manager, YourAssembly",
+        //   "Name": "Mike Manager",
+        //   "Reportees": [
+        //     {
+        //       "$id": "2",
+        //       "$type": "YourNamespace.Employee, YourAssembly",
+        //       "Name": "Arnie Admin"
+        //     },
+        //     {
+        //       "$id": "3",
+        //       "$type": "YourNamespace.Manager, YourAssembly",
+        //       "Name": "Susan Supervisor",
+        //       "Reportees": [
+        //         {
+        //           "$ref": "2"
+        //         }
+        //       ]
+        //     }
+        //   ]
+        // }
 
-            mike.Reportees = new[] { arnie, susan };
-            susan.Reportees = new[] { arnie };
-
-            var json = JsonConvert.SerializeObject(mike, new JsonSerializerSettings
-            {
-                Formatting = Formatting.Indented,
-                TypeNameHandling = TypeNameHandling.Objects,
-                PreserveReferencesHandling = PreserveReferencesHandling.Objects
-            });
-            // {
-            //   "$id": "1",
-            //   "$type": "YourNamespace.Manager, YourAssembly",
-            //   "Name": "Mike Manager",
-            //   "Reportees": [
-            //     {
-            //       "$id": "2",
-            //       "$type": "YourNamespace.Employee, YourAssembly",
-            //       "Name": "Arnie Admin"
-            //     },
-            //     {
-            //       "$id": "3",
-            //       "$type": "YourNamespace.Manager, YourAssembly",
-            //       "Name": "Susan Supervisor",
-            //       "Reportees": [
-            //         {
-            //           "$ref": "2"
-            //         }
-            //       ]
-            //     }
-            //   ]
-            // }
-
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""$id"": ""1"",
   ""$type"": ""Argon.Tests.DemoTests+Manager, Tests"",
   ""Reportees"": [
@@ -384,12 +384,12 @@ namespace Argon.Tests
   ],
   ""Name"": ""Mike Manager""
 }", json);
-        }
+    }
 
-        [Fact]
-        public void RoundtripTypesAndReferences()
-        {
-            var json = @"{
+    [Fact]
+    public void RoundtripTypesAndReferences()
+    {
+        var json = @"{
   '$id': '1',
   '$type': 'Argon.Tests.DemoTests+Manager, Tests',
   'Reportees': [
@@ -412,164 +412,164 @@ namespace Argon.Tests
   'Name': 'Mike Manager'
 }";
 
-            var e = JsonConvert.DeserializeObject<Employee>(json, new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Objects,
-                PreserveReferencesHandling = PreserveReferencesHandling.Objects
-            });
-            // Name = Mike Manager
-            // Reportees = Arnie Admin, Susan Supervisor
-
-            var mike = (Manager)e;
-            var susan = (Manager)mike.Reportees[1];
-
-            Object.ReferenceEquals(mike.Reportees[0], susan.Reportees[0]);
-            // true
-
-            Assert.IsTrue(ReferenceEquals(mike.Reportees[0], susan.Reportees[0]));
-        }
-
-        public class House
+        var e = JsonConvert.DeserializeObject<Employee>(json, new JsonSerializerSettings
         {
-            public string StreetAddress { get; set; }
-            public DateTime BuildDate { get; set; }
-            public int Bedrooms { get; set; }
-            public decimal FloorArea { get; set; }
-        }
+            TypeNameHandling = TypeNameHandling.Objects,
+            PreserveReferencesHandling = PreserveReferencesHandling.Objects
+        });
+        // Name = Mike Manager
+        // Reportees = Arnie Admin, Susan Supervisor
 
-        public class House1
+        var mike = (Manager)e;
+        var susan = (Manager)mike.Reportees[1];
+
+        Object.ReferenceEquals(mike.Reportees[0], susan.Reportees[0]);
+        // true
+
+        Assert.IsTrue(ReferenceEquals(mike.Reportees[0], susan.Reportees[0]));
+    }
+
+    public class House
+    {
+        public string StreetAddress { get; set; }
+        public DateTime BuildDate { get; set; }
+        public int Bedrooms { get; set; }
+        public decimal FloorArea { get; set; }
+    }
+
+    public class House1
+    {
+        public string StreetAddress { get; set; }
+
+        [JsonIgnore]
+        public int Bedrooms { get; set; }
+
+        [JsonIgnore]
+        public decimal FloorArea { get; set; }
+
+        [JsonIgnore]
+        public DateTime BuildDate { get; set; }
+    }
+
+    [JsonObject(MemberSerialization.OptIn)]
+    public class House3
+    {
+        [JsonProperty]
+        public string StreetAddress { get; set; }
+
+        public int Bedrooms { get; set; }
+        public decimal FloorArea { get; set; }
+        public DateTime BuildDate { get; set; }
+    }
+
+    [JsonObject(MemberSerialization.OptIn)]
+    public class House2
+    {
+        [JsonProperty("address")]
+        public string StreetAddress { get; set; }
+
+        public int Bedrooms { get; set; }
+        public decimal FloorArea { get; set; }
+        public DateTime BuildDate { get; set; }
+    }
+
+    [JsonObject(MemberSerialization.OptIn)]
+    public class House4
+    {
+        [JsonProperty("address", Order = 2)]
+        public string StreetAddress { get; set; }
+
+        public int Bedrooms { get; set; }
+        public decimal FloorArea { get; set; }
+
+        [JsonProperty("buildDate", Order = 1)]
+        public DateTime BuildDate { get; set; }
+    }
+
+    [JsonObject(MemberSerialization.OptIn)]
+    public class House5
+    {
+        [JsonProperty("address", Order = 2)]
+        public string StreetAddress { get; set; }
+
+        public int Bedrooms { get; set; }
+        public decimal FloorArea { get; set; }
+
+        [JsonProperty("buildDate", Order = 1)]
+        [JsonConverter(typeof(JavaScriptDateTimeConverter))]
+        public DateTime BuildDate { get; set; }
+    }
+
+    [Fact]
+    public void SerializeAttributes()
+    {
+        var house = new House3
         {
-            public string StreetAddress { get; set; }
+            StreetAddress = "221B Baker Street",
+            Bedrooms = 2,
+            FloorArea = 100m,
+            BuildDate = new DateTime(1890, 1, 1)
+        };
 
-            [JsonIgnore]
-            public int Bedrooms { get; set; }
+        var json = JsonConvert.SerializeObject(house, Formatting.Indented);
+        // {
+        //   "StreetAddress": "221B Baker Street",
+        //   "Bedrooms": 2,
+        //   "FloorArea": 100.0,
+        //   "BuildDate": "1890-01-01T00:00:00"
+        // }
 
-            [JsonIgnore]
-            public decimal FloorArea { get; set; }
+        // {
+        //   "StreetAddress": "221B Baker Street"
+        // }
 
-            [JsonIgnore]
-            public DateTime BuildDate { get; set; }
-        }
+        // {
+        //   "address": "221B Baker Street"
+        // }
 
-        [JsonObject(MemberSerialization.OptIn)]
-        public class House3
-        {
-            [JsonProperty]
-            public string StreetAddress { get; set; }
+        // {
+        //   "buildDate": "1890-01-01T00:00:00",
+        //   "address": "221B Baker Street"
+        // }
 
-            public int Bedrooms { get; set; }
-            public decimal FloorArea { get; set; }
-            public DateTime BuildDate { get; set; }
-        }
+        // {
+        //   "buildDate": new Date(-2524568400000),
+        //   "address": "221B Baker Street"
+        // }
+    }
 
-        [JsonObject(MemberSerialization.OptIn)]
-        public class House2
-        {
-            [JsonProperty("address")]
-            public string StreetAddress { get; set; }
-
-            public int Bedrooms { get; set; }
-            public decimal FloorArea { get; set; }
-            public DateTime BuildDate { get; set; }
-        }
-
-        [JsonObject(MemberSerialization.OptIn)]
-        public class House4
-        {
-            [JsonProperty("address", Order = 2)]
-            public string StreetAddress { get; set; }
-
-            public int Bedrooms { get; set; }
-            public decimal FloorArea { get; set; }
-
-            [JsonProperty("buildDate", Order = 1)]
-            public DateTime BuildDate { get; set; }
-        }
-
-        [JsonObject(MemberSerialization.OptIn)]
-        public class House5
-        {
-            [JsonProperty("address", Order = 2)]
-            public string StreetAddress { get; set; }
-
-            public int Bedrooms { get; set; }
-            public decimal FloorArea { get; set; }
-
-            [JsonProperty("buildDate", Order = 1)]
-            [JsonConverter(typeof(JavaScriptDateTimeConverter))]
-            public DateTime BuildDate { get; set; }
-        }
-
-        [Fact]
-        public void SerializeAttributes()
-        {
-            var house = new House3
-            {
-                StreetAddress = "221B Baker Street",
-                Bedrooms = 2,
-                FloorArea = 100m,
-                BuildDate = new DateTime(1890, 1, 1)
-            };
-
-            var json = JsonConvert.SerializeObject(house, Formatting.Indented);
-            // {
-            //   "StreetAddress": "221B Baker Street",
-            //   "Bedrooms": 2,
-            //   "FloorArea": 100.0,
-            //   "BuildDate": "1890-01-01T00:00:00"
-            // }
-
-            // {
-            //   "StreetAddress": "221B Baker Street"
-            // }
-
-            // {
-            //   "address": "221B Baker Street"
-            // }
-
-            // {
-            //   "buildDate": "1890-01-01T00:00:00",
-            //   "address": "221B Baker Street"
-            // }
-
-            // {
-            //   "buildDate": new Date(-2524568400000),
-            //   "address": "221B Baker Street"
-            // }
-        }
-
-        [Fact]
-        public void MergeJson()
-        {
-            var o1 = JObject.Parse(@"{
+    [Fact]
+    public void MergeJson()
+    {
+        var o1 = JObject.Parse(@"{
               'FirstName': 'John',
               'LastName': 'Smith',
               'Enabled': false,
               'Roles': [ 'User' ]
             }");
-            var o2 = JObject.Parse(@"{
+        var o2 = JObject.Parse(@"{
               'Enabled': true,
               'Roles': [ 'User', 'Admin' ]
             }");
 
-            o1.Merge(o2, new JsonMergeSettings
-            {
-                // union arrays together to avoid duplicates
-                MergeArrayHandling = MergeArrayHandling.Union
-            });
+        o1.Merge(o2, new JsonMergeSettings
+        {
+            // union arrays together to avoid duplicates
+            MergeArrayHandling = MergeArrayHandling.Union
+        });
 
-            var json = o1.ToString();
-            // {
-            //   "FirstName": "John",
-            //   "LastName": "Smith",
-            //   "Enabled": true,
-            //   "Roles": [
-            //     "User",
-            //     "Admin"
-            //   ]
-            // }
+        var json = o1.ToString();
+        // {
+        //   "FirstName": "John",
+        //   "LastName": "Smith",
+        //   "Enabled": true,
+        //   "Roles": [
+        //     "User",
+        //     "Admin"
+        //   ]
+        // }
 
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""FirstName"": ""John"",
   ""LastName"": ""Smith"",
   ""Enabled"": true,
@@ -578,52 +578,52 @@ namespace Argon.Tests
     ""Admin""
   ]
 }", json);
+    }
+
+    [Fact]
+    public void ArrayPooling()
+    {
+        IList<int> value;
+
+        var serializer = new JsonSerializer();
+        using (var reader = new JsonTextReader(new StringReader(@"[1,2,3,4]")))
+        {
+            reader.ArrayPool = JsonArrayPool.Instance;
+
+            value = serializer.Deserialize<IList<int>>(reader);
         }
 
-        [Fact]
-        public void ArrayPooling()
-        {
-            IList<int> value;
+        Assert.AreEqual(4, value.Count);
+    }
 
-            var serializer = new JsonSerializer();
-            using (var reader = new JsonTextReader(new StringReader(@"[1,2,3,4]")))
-            {
-                reader.ArrayPool = JsonArrayPool.Instance;
+    [Fact]
+    public void SerializeDataTable()
+    {
+        var dt = new DataTable();
+        dt.Columns.Add("PackageId", typeof(string));
+        dt.Columns.Add("Version", typeof(string));
+        dt.Columns.Add("ReleaseDate", typeof(DateTime));
 
-                value = serializer.Deserialize<IList<int>>(reader);
-            }
+        dt.Rows.Add("Argon", "11.0.1", new DateTime(2018, 2, 17));
+        dt.Rows.Add("Argon", "10.0.3", new DateTime(2017, 6, 18));
 
-            Assert.AreEqual(4, value.Count);
-        }
+        var json = JsonConvert.SerializeObject(dt, Formatting.Indented);
 
-        [Fact]
-        public void SerializeDataTable()
-        {
-            var dt = new DataTable();
-            dt.Columns.Add("PackageId", typeof(string));
-            dt.Columns.Add("Version", typeof(string));
-            dt.Columns.Add("ReleaseDate", typeof(DateTime));
+        Console.WriteLine(json);
+        // [
+        //   {
+        //     "PackageId": "Argon",
+        //     "Version": "11.0.1",
+        //     "ReleaseDate": "2018-02-17T00:00:00"
+        //   },
+        //   {
+        //     "PackageId": "Argon",
+        //     "Version": "10.0.3",
+        //     "ReleaseDate": "2017-06-18T00:00:00"
+        //   }
+        // ]
 
-            dt.Rows.Add("Argon", "11.0.1", new DateTime(2018, 2, 17));
-            dt.Rows.Add("Argon", "10.0.3", new DateTime(2017, 6, 18));
-
-            var json = JsonConvert.SerializeObject(dt, Formatting.Indented);
-
-            Console.WriteLine(json);
-            // [
-            //   {
-            //     "PackageId": "Argon",
-            //     "Version": "11.0.1",
-            //     "ReleaseDate": "2018-02-17T00:00:00"
-            //   },
-            //   {
-            //     "PackageId": "Argon",
-            //     "Version": "10.0.3",
-            //     "ReleaseDate": "2017-06-18T00:00:00"
-            //   }
-            // ]
-
-            StringAssert.AreEqual(@"[
+        StringAssert.AreEqual(@"[
   {
     ""PackageId"": ""Argon"",
     ""Version"": ""11.0.1"",
@@ -635,12 +635,12 @@ namespace Argon.Tests
     ""ReleaseDate"": ""2017-06-18T00:00:00""
   }
 ]", json);
-        }
+    }
 
-        [Fact]
-        public void JsonPathRegex()
-        {
-            var array = JArray.Parse(@"[
+    [Fact]
+    public void JsonPathRegex()
+    {
+        var array = JArray.Parse(@"[
               {
                 ""PackageId"": ""Argon"",
                 ""Version"": ""11.0.1"",
@@ -653,50 +653,49 @@ namespace Argon.Tests
               }
             ]");
 
-            var packages = array.SelectTokens(@"$.[?(@.PackageId =~ /^Argon/)]").ToList();
+        var packages = array.SelectTokens(@"$.[?(@.PackageId =~ /^Argon/)]").ToList();
 
-            Console.WriteLine(packages.Count);
-            // 1
+        Console.WriteLine(packages.Count);
+        // 1
 
-            Assert.AreEqual(1, packages.Count);
-        }
-
-        [Fact]
-        public async Task AsyncDemo()
-        {
-            JArray largeJson;
-
-            // read asynchronously from a file
-            using (TextReader textReader = new StreamReader(new FileStream("large.json", FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true)))
-            {
-                largeJson = await JArray.LoadAsync(new JsonTextReader(textReader));
-            }
-
-            var user = largeJson.SelectToken("$[?(@.name == 'Woodard Caldwell')]");
-            user["isActive"] = false;
-
-            // write asynchronously to a file
-            using (TextWriter textWriter = new StreamWriter(new FileStream("large.json", FileMode.Open, FileAccess.Write, FileShare.Write, 4096, true)))
-            {
-                await largeJson.WriteToAsync(new JsonTextWriter(textWriter));
-            }
-        }
+        Assert.AreEqual(1, packages.Count);
     }
 
-    public class JsonArrayPool : IArrayPool<char>
+    [Fact]
+    public async Task AsyncDemo()
     {
-        public static readonly JsonArrayPool Instance = new();
+        JArray largeJson;
 
-        public char[] Rent(int minimumLength)
+        // read asynchronously from a file
+        using (TextReader textReader = new StreamReader(new FileStream("large.json", FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true)))
         {
-            // use System.Buffers shared pool
-            return ArrayPool<char>.Shared.Rent(minimumLength);
+            largeJson = await JArray.LoadAsync(new JsonTextReader(textReader));
         }
 
-        public void Return(char[] array)
+        var user = largeJson.SelectToken("$[?(@.name == 'Woodard Caldwell')]");
+        user["isActive"] = false;
+
+        // write asynchronously to a file
+        using (TextWriter textWriter = new StreamWriter(new FileStream("large.json", FileMode.Open, FileAccess.Write, FileShare.Write, 4096, true)))
         {
-            // use System.Buffers shared pool
-            ArrayPool<char>.Shared.Return(array);
+            await largeJson.WriteToAsync(new JsonTextWriter(textWriter));
         }
+    }
+}
+
+public class JsonArrayPool : IArrayPool<char>
+{
+    public static readonly JsonArrayPool Instance = new();
+
+    public char[] Rent(int minimumLength)
+    {
+        // use System.Buffers shared pool
+        return ArrayPool<char>.Shared.Rent(minimumLength);
+    }
+
+    public void Return(char[] array)
+    {
+        // use System.Buffers shared pool
+        ArrayPool<char>.Shared.Return(array);
     }
 }

@@ -28,16 +28,16 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Linq
+namespace Argon.Tests.Documentation.Samples.Linq;
+
+[TestFixture]
+public class QueryJsonLinq : TestFixtureBase
 {
-    [TestFixture]
-    public class QueryJsonLinq : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var json = @"{
+        #region Usage
+        var json = @"{
               'channel': {
                 'title': 'James Newton-King',
                 'link': 'http://james.newtonking.com',
@@ -65,36 +65,35 @@ namespace Argon.Tests.Documentation.Samples.Linq
               }
             }";
 
-            var rss = JObject.Parse(json);
+        var rss = JObject.Parse(json);
 
-            var postTitles =
-                from p in rss["channel"]["item"]
-                select (string)p["title"];
+        var postTitles =
+            from p in rss["channel"]["item"]
+            select (string)p["title"];
 
-            foreach (var item in postTitles)
-            {
-                Console.WriteLine(item);
-            }
-            //LINQ to JSON beta
-            //Json.NET 1.3 + New license + Now on CodePlex
-
-            var categories =
-                from c in rss["channel"]["item"].Children()["category"].Values<string>()
-                group c by c
-                into g
-                orderby g.Count() descending
-                select new { Category = g.Key, Count = g.Count() };
-
-            foreach (var c in categories)
-            {
-                Console.WriteLine(c.Category + " - Count: " + c.Count);
-            }
-            //Json.NET - Count: 2
-            //LINQ - Count: 1
-            //CodePlex - Count: 1
-            #endregion
-
-            Assert.AreEqual(3, categories.Count());
+        foreach (var item in postTitles)
+        {
+            Console.WriteLine(item);
         }
+        //LINQ to JSON beta
+        //Json.NET 1.3 + New license + Now on CodePlex
+
+        var categories =
+            from c in rss["channel"]["item"].Children()["category"].Values<string>()
+            group c by c
+            into g
+            orderby g.Count() descending
+            select new { Category = g.Key, Count = g.Count() };
+
+        foreach (var c in categories)
+        {
+            Console.WriteLine(c.Category + " - Count: " + c.Count);
+        }
+        //Json.NET - Count: 2
+        //LINQ - Count: 1
+        //CodePlex - Count: 1
+        #endregion
+
+        Assert.AreEqual(3, categories.Count());
     }
 }

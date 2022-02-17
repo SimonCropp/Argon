@@ -26,45 +26,44 @@
 using System.Collections.ObjectModel;
 using Argon.Tests.TestObjects.Organization;
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class VersionKeyedCollection : KeyedCollection<string, Person>, IEnumerable<Person>
 {
-    public class VersionKeyedCollection : KeyedCollection<string, Person>, IEnumerable<Person>
+    public List<string> Messages { get; set; }
+
+    public VersionKeyedCollection()
     {
-        public List<string> Messages { get; set; }
+        Messages = new List<string>();
+    }
 
-        public VersionKeyedCollection()
-        {
-            Messages = new List<string>();
-        }
+    protected override string GetKeyForItem(Person item)
+    {
+        return item.Name;
+    }
 
-        protected override string GetKeyForItem(Person item)
-        {
-            return item.Name;
-        }
+    [OnError]
+    internal void OnErrorMethod(StreamingContext context, ErrorContext errorContext)
+    {
+        Messages.Add(errorContext.Path + " - Error message for member " + errorContext.Member + " = " + errorContext.Error.Message);
+        errorContext.Handled = true;
+    }
 
-        [OnError]
-        internal void OnErrorMethod(StreamingContext context, ErrorContext errorContext)
+    IEnumerator<Person> IEnumerable<Person>.GetEnumerator()
+    {
+        for (var i = 0; i < Count; i++)
         {
-            Messages.Add(errorContext.Path + " - Error message for member " + errorContext.Member + " = " + errorContext.Error.Message);
-            errorContext.Handled = true;
-        }
-
-        IEnumerator<Person> IEnumerable<Person>.GetEnumerator()
-        {
-            for (var i = 0; i < Count; i++)
+            if (i % 2 == 0)
             {
-                if (i % 2 == 0)
-                {
-                    throw new Exception("Index even: " + i);
-                }
-
-                yield return this[i];
+                throw new Exception("Index even: " + i);
             }
-        }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return ((IEnumerable<Person>)this).GetEnumerator();
+            yield return this[i];
         }
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return ((IEnumerable<Person>)this).GetEnumerator();
     }
 }

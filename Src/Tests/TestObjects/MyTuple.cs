@@ -23,18 +23,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[JsonObject(MemberSerialization.Fields)]
+public class MyTuple<T1>
 {
-    [JsonObject(MemberSerialization.Fields)]
-    public class MyTuple<T1>
+    private readonly T1 m_Item1;
+
+    public MyTuple(T1 item1)
     {
-        private readonly T1 m_Item1;
-
-        public MyTuple(T1 item1)
-        {
-            m_Item1 = item1;
-        }
-
-        public T1 Item1 => m_Item1;
+        m_Item1 = item1;
     }
+
+    public T1 Item1 => m_Item1;
 }

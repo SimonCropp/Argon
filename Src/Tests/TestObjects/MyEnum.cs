@@ -23,12 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public enum MyEnum
 {
-    public enum MyEnum
-    {
-        Value1,
-        Value2,
-        Value3
-    }
+    Value1,
+    Value2,
+    Value3
 }

@@ -27,81 +27,80 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue1598 : TestFixtureBase
 {
-    [TestFixture]
-    public class Issue1598 : TestFixtureBase
+    [Fact]
+    public void Test()
     {
-        [Fact]
-        public void Test()
+        var activities = new Activities
         {
-            var activities = new Activities
+            List = new List<Activity>
             {
-                List = new List<Activity>
+                new()
                 {
-                    new()
-                    {
-                        Name = "An activity"
-                    }
+                    Name = "An activity"
                 }
-            };
+            }
+        };
 
-            var json = JsonConvert.SerializeObject(activities, Formatting.Indented);
-            // note that this has been reverted back in 11.0.2 because it is causing compat issues
-            // https://github.com/JamesNK/Newtonsoft.Json/issues/1627
-            StringAssert.AreEqual(@"[
+        var json = JsonConvert.SerializeObject(activities, Formatting.Indented);
+        // note that this has been reverted back in 11.0.2 because it is causing compat issues
+        // https://github.com/JamesNK/Newtonsoft.Json/issues/1627
+        StringAssert.AreEqual(@"[
   {
     ""Name"": ""An activity""
   }
 ]", json);
-        }
+    }
 
-        [Fact]
-        public void Test_SubClass()
+    [Fact]
+    public void Test_SubClass()
+    {
+        var activities = new ActivitiesSubClass
         {
-            var activities = new ActivitiesSubClass
+            List = new List<Activity>
             {
-                List = new List<Activity>
+                new()
                 {
-                    new()
-                    {
-                        Name = "An activity"
-                    }
+                    Name = "An activity"
                 }
-            };
+            }
+        };
 
-            var json = JsonConvert.SerializeObject(activities, Formatting.Indented);
-            StringAssert.AreEqual(@"[
+        var json = JsonConvert.SerializeObject(activities, Formatting.Indented);
+        StringAssert.AreEqual(@"[
   {
     ""Name"": ""An activity""
   }
 ]", json);
+    }
+
+    public class Activity
+    {
+        public string Name { get; set; }
+    }
+
+    public class ActivitiesSubClass : Activities
+    {
+    }
+
+    [DataContract]
+    public class Activities : IEnumerable<Activity>
+    {
+        [DataMember]
+        public List<Activity> List { get; set; }
+
+        public IEnumerator<Activity> GetEnumerator()
+        {
+            return List.GetEnumerator();
         }
 
-        public class Activity
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            public string Name { get; set; }
-        }
-
-        public class ActivitiesSubClass : Activities
-        {
-        }
-
-        [DataContract]
-        public class Activities : IEnumerable<Activity>
-        {
-            [DataMember]
-            public List<Activity> List { get; set; }
-
-            public IEnumerator<Activity> GetEnumerator()
-            {
-                return List.GetEnumerator();
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return GetEnumerator();
-            }
+            return GetEnumerator();
         }
     }
 }

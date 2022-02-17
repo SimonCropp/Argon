@@ -23,16 +23,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class RequiredPropertyConstructorTestClass
-    {
-        public RequiredPropertyConstructorTestClass(string name)
-        {
-            Name = name;
-        }
+namespace Argon.Tests.TestObjects;
 
-        [JsonRequired]
-        internal string Name { get; set; }
+public class RequiredPropertyConstructorTestClass
+{
+    public RequiredPropertyConstructorTestClass(string name)
+    {
+        Name = name;
     }
+
+    [JsonRequired]
+    internal string Name { get; set; }
 }

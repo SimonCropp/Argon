@@ -28,42 +28,41 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
-{
-    [TestFixture]
-    public class DeserializeMissingMemberHandling : TestFixtureBase
-    {
-        #region Types
-        public class Account
-        {
-            public string FullName { get; set; }
-            public bool Deleted { get; set; }
-        }
-        #endregion
+namespace Argon.Tests.Documentation.Samples.Serializer;
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var json = @"{
+[TestFixture]
+public class DeserializeMissingMemberHandling : TestFixtureBase
+{
+    #region Types
+    public class Account
+    {
+        public string FullName { get; set; }
+        public bool Deleted { get; set; }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var json = @"{
               'FullName': 'Dan Deleted',
               'Deleted': true,
               'DeletedDate': '2013-01-20T00:00:00'
             }";
 
-            try
+        try
+        {
+            JsonConvert.DeserializeObject<Account>(json, new JsonSerializerSettings
             {
-                JsonConvert.DeserializeObject<Account>(json, new JsonSerializerSettings
-                {
-                    MissingMemberHandling = MissingMemberHandling.Error
-                });
-            }
-            catch (JsonSerializationException ex)
-            {
-                Console.WriteLine(ex.Message);
-                // Could not find member 'DeletedDate' on object of type 'Account'. Path 'DeletedDate', line 4, position 23.
-            }
-            #endregion
+                MissingMemberHandling = MissingMemberHandling.Error
+            });
         }
+        catch (JsonSerializationException ex)
+        {
+            Console.WriteLine(ex.Message);
+            // Could not find member 'DeletedDate' on object of type 'Account'. Path 'DeletedDate', line 4, position 23.
+        }
+        #endregion
     }
 }

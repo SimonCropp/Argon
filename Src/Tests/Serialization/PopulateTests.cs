@@ -29,57 +29,57 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Serialization
+namespace Argon.Tests.Serialization;
+
+[TestFixture]
+public class PopulateTests : TestFixtureBase
 {
-    [TestFixture]
-    public class PopulateTests : TestFixtureBase
+    [Fact]
+    public void PopulatePerson()
     {
-        [Fact]
-        public void PopulatePerson()
+        var p = new Person();
+
+        JsonConvert.PopulateObject(@"{""Name"":""James""}", p);
+
+        Assert.AreEqual("James", p.Name);
+    }
+
+    [Fact]
+    public void PopulateArray()
+    {
+        IList<Person> people = new List<Person>
         {
-            var p = new Person();
+            new() { Name = "Initial" }
+        };
 
-            JsonConvert.PopulateObject(@"{""Name"":""James""}", p);
+        JsonConvert.PopulateObject(@"[{""Name"":""James""}, null]", people);
 
-            Assert.AreEqual("James", p.Name);
-        }
+        Assert.AreEqual(3, people.Count);
+        Assert.AreEqual("Initial", people[0].Name);
+        Assert.AreEqual("James", people[1].Name);
+        Assert.AreEqual(null, people[2]);
+    }
 
-        [Fact]
-        public void PopulateArray()
+    [Fact]
+    public void PopulateStore()
+    {
+        var s = new Store
         {
-            IList<Person> people = new List<Person>
+            Color = StoreColor.Red,
+            product = new List<Product>
             {
-                new() { Name = "Initial" }
-            };
-
-            JsonConvert.PopulateObject(@"[{""Name"":""James""}, null]", people);
-
-            Assert.AreEqual(3, people.Count);
-            Assert.AreEqual("Initial", people[0].Name);
-            Assert.AreEqual("James", people[1].Name);
-            Assert.AreEqual(null, people[2]);
-        }
-
-        [Fact]
-        public void PopulateStore()
-        {
-            var s = new Store
-            {
-                Color = StoreColor.Red,
-                product = new List<Product>
+                new()
                 {
-                    new()
-                    {
-                        ExpiryDate = new DateTime(2000, 12, 3, 0, 0, 0, DateTimeKind.Utc),
-                        Name = "ProductName!",
-                        Price = 9.9m
-                    }
-                },
-                Width = 99.99d,
-                Mottos = new List<string> { "Can do!", "We deliver!" }
-            };
+                    ExpiryDate = new DateTime(2000, 12, 3, 0, 0, 0, DateTimeKind.Utc),
+                    Name = "ProductName!",
+                    Price = 9.9m
+                }
+            },
+            Width = 99.99d,
+            Mottos = new List<string> { "Can do!", "We deliver!" }
+        };
 
-            var json = @"{
+        var json = @"{
   ""Color"": 2,
   ""Establised"": ""\/Date(1264122061000+0000)\/"",
   ""Width"": 99.99,
@@ -112,47 +112,46 @@ namespace Argon.Tests.Serialization
   ]
 }";
 
-            JsonConvert.PopulateObject(json, s, new JsonSerializerSettings
-            {
-                ObjectCreationHandling = ObjectCreationHandling.Replace
-            });
-
-            Assert.AreEqual(1, s.Mottos.Count);
-            Assert.AreEqual("Fail whale", s.Mottos[0]);
-            Assert.AreEqual(1, s.product.Count);
-
-            //Assert.AreEqual("James", p.Name);
-        }
-
-        [Fact]
-        public void PopulateListOfPeople()
+        JsonConvert.PopulateObject(json, s, new JsonSerializerSettings
         {
-            var p = new List<Person>();
+            ObjectCreationHandling = ObjectCreationHandling.Replace
+        });
 
-            var serializer = new JsonSerializer();
-            serializer.Populate(new StringReader(@"[{""Name"":""James""},{""Name"":""Jim""}]"), p);
+        Assert.AreEqual(1, s.Mottos.Count);
+        Assert.AreEqual("Fail whale", s.Mottos[0]);
+        Assert.AreEqual(1, s.product.Count);
 
-            Assert.AreEqual(2, p.Count);
-            Assert.AreEqual("James", p[0].Name);
-            Assert.AreEqual("Jim", p[1].Name);
-        }
+        //Assert.AreEqual("James", p.Name);
+    }
 
-        [Fact]
-        public void PopulateDictionary()
-        {
-            var p = new Dictionary<string, string>();
+    [Fact]
+    public void PopulateListOfPeople()
+    {
+        var p = new List<Person>();
 
-            var serializer = new JsonSerializer();
-            serializer.Populate(new StringReader(@"{""Name"":""James""}"), p);
+        var serializer = new JsonSerializer();
+        serializer.Populate(new StringReader(@"[{""Name"":""James""},{""Name"":""Jim""}]"), p);
 
-            Assert.AreEqual(1, p.Count);
-            Assert.AreEqual("James", p["Name"]);
-        }
+        Assert.AreEqual(2, p.Count);
+        Assert.AreEqual("James", p[0].Name);
+        Assert.AreEqual("Jim", p[1].Name);
+    }
 
-        [Fact]
-        public void PopulateWithBadJson()
-        {
-            ExceptionAssert.Throws<JsonSerializationException>(() => { JsonConvert.PopulateObject("1", new Person()); }, "Unexpected initial token 'Integer' when populating object. Expected JSON object or array. Path '', line 1, position 1.");
-        }
+    [Fact]
+    public void PopulateDictionary()
+    {
+        var p = new Dictionary<string, string>();
+
+        var serializer = new JsonSerializer();
+        serializer.Populate(new StringReader(@"{""Name"":""James""}"), p);
+
+        Assert.AreEqual(1, p.Count);
+        Assert.AreEqual("James", p["Name"]);
+    }
+
+    [Fact]
+    public void PopulateWithBadJson()
+    {
+        ExceptionAssert.Throws<JsonSerializationException>(() => { JsonConvert.PopulateObject("1", new Person()); }, "Unexpected initial token 'Integer' when populating object. Expected JSON object or array. Path '', line 1, position 1.");
     }
 }

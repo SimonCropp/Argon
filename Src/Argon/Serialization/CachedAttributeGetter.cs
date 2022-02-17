@@ -23,15 +23,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Serialization
-{
-    internal static class CachedAttributeGetter<T> where T : Attribute
-    {
-        private static readonly ThreadSafeStore<object, T?> TypeAttributeCache = new(JsonTypeReflector.GetAttribute<T>);
+namespace Argon.Serialization;
 
-        public static T? GetAttribute(object type)
-        {
-            return TypeAttributeCache.Get(type);
-        }
+internal static class CachedAttributeGetter<T> where T : Attribute
+{
+    private static readonly ThreadSafeStore<object, T?> TypeAttributeCache = new(JsonTypeReflector.GetAttribute<T>);
+
+    public static T? GetAttribute(object type)
+    {
+        return TypeAttributeCache.Get(type);
     }
 }

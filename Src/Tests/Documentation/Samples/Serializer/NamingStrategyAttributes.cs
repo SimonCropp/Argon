@@ -27,48 +27,47 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class NamingStrategyAttributes : TestFixtureBase
 {
-    [TestFixture]
-    public class NamingStrategyAttributes : TestFixtureBase
+    #region Types
+    [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
+    public class User
     {
-        #region Types
-        [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
-        public class User
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        [JsonProperty(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+        public int SnakeRating { get; set; }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var user = new User
         {
-            public string FirstName { get; set; }
-            public string LastName { get; set; }
-            [JsonProperty(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-            public int SnakeRating { get; set; }
-        }
+            FirstName = "Tom",
+            LastName = "Riddle",
+            SnakeRating = 10
+        };
+
+        var json = JsonConvert.SerializeObject(user, Formatting.Indented);
+
+        Console.WriteLine(json);
+        // {
+        //   "firstName": "Tom",
+        //   "lastName": "Riddle",
+        //   "snake_rating": 10
+        // }
         #endregion
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var user = new User
-            {
-                FirstName = "Tom",
-                LastName = "Riddle",
-                SnakeRating = 10
-            };
-
-            var json = JsonConvert.SerializeObject(user, Formatting.Indented);
-
-            Console.WriteLine(json);
-            // {
-            //   "firstName": "Tom",
-            //   "lastName": "Riddle",
-            //   "snake_rating": 10
-            // }
-            #endregion
-
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""firstName"": ""Tom"",
   ""lastName"": ""Riddle"",
   ""snake_rating"": 10
 }", json);
-        }
     }
 }

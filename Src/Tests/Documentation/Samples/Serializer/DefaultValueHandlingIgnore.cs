@@ -28,47 +28,46 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class DefaultValueHandlingIgnore : TestFixtureBase
 {
-    [TestFixture]
-    public class DefaultValueHandlingIgnore : TestFixtureBase
+    #region Types
+    public class Person
     {
-        #region Types
-        public class Person
+        public string Name { get; set; }
+        public int Age { get; set; }
+        public Person Partner { get; set; }
+        public decimal? Salary { get; set; }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var person = new Person();
+
+        var jsonIncludeDefaultValues = JsonConvert.SerializeObject(person, Formatting.Indented);
+
+        Console.WriteLine(jsonIncludeDefaultValues);
+        // {
+        //   "Name": null,
+        //   "Age": 0,
+        //   "Partner": null,
+        //   "Salary": null
+        // }
+
+        var jsonIgnoreDefaultValues = JsonConvert.SerializeObject(person, Formatting.Indented, new JsonSerializerSettings
         {
-            public string Name { get; set; }
-            public int Age { get; set; }
-            public Person Partner { get; set; }
-            public decimal? Salary { get; set; }
-        }
+            DefaultValueHandling = DefaultValueHandling.Ignore
+        });
+
+        Console.WriteLine(jsonIgnoreDefaultValues);
+        // {}
         #endregion
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var person = new Person();
-
-            var jsonIncludeDefaultValues = JsonConvert.SerializeObject(person, Formatting.Indented);
-
-            Console.WriteLine(jsonIncludeDefaultValues);
-            // {
-            //   "Name": null,
-            //   "Age": 0,
-            //   "Partner": null,
-            //   "Salary": null
-            // }
-
-            var jsonIgnoreDefaultValues = JsonConvert.SerializeObject(person, Formatting.Indented, new JsonSerializerSettings
-            {
-                DefaultValueHandling = DefaultValueHandling.Ignore
-            });
-
-            Console.WriteLine(jsonIgnoreDefaultValues);
-            // {}
-            #endregion
-
-            Assert.AreEqual("{}", jsonIgnoreDefaultValues);
-        }
+        Assert.AreEqual("{}", jsonIgnoreDefaultValues);
     }
 }

@@ -23,20 +23,19 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class FooRequired
-    {
-        [JsonProperty(Required = Required.Always)]
-        public List<string> Bars { get; private set; }
+namespace Argon.Tests.TestObjects;
 
-        public FooRequired(IEnumerable<string> bars)
+public class FooRequired
+{
+    [JsonProperty(Required = Required.Always)]
+    public List<string> Bars { get; private set; }
+
+    public FooRequired(IEnumerable<string> bars)
+    {
+        Bars = new List<string>();
+        if (bars != null)
         {
-            Bars = new List<string>();
-            if (bars != null)
-            {
-                Bars.AddRange(bars);
-            }
+            Bars.AddRange(bars);
         }
     }
 }

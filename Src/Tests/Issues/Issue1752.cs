@@ -27,40 +27,39 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue1752 : TestFixtureBase
 {
-    [TestFixture]
-    public class Issue1752 : TestFixtureBase
+    [Fact]
+    public void Test_EmptyString()
     {
-        [Fact]
-        public void Test_EmptyString()
-        {
-            var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
+        var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
 
-            var s1 = JsonConvert.SerializeObject(new TestObject { Obj = new byte[] { } }, settings);
+        var s1 = JsonConvert.SerializeObject(new TestObject { Obj = new byte[] { } }, settings);
 
-            var t1 = JsonConvert.DeserializeObject<TestObject>(s1, settings);
-            Assert.IsNotNull(t1.Obj);
+        var t1 = JsonConvert.DeserializeObject<TestObject>(s1, settings);
+        Assert.IsNotNull(t1.Obj);
 
-            var data = (byte[])t1.Obj;
-            Assert.AreEqual(0, data.Length);
-        }
+        var data = (byte[])t1.Obj;
+        Assert.AreEqual(0, data.Length);
+    }
 
-        [Fact]
-        public void Test_Null()
-        {
-            var t1 = JsonConvert.DeserializeObject<TestObject1>("{'Obj':null}");
-            Assert.IsNull(t1.Obj);
-        }
+    [Fact]
+    public void Test_Null()
+    {
+        var t1 = JsonConvert.DeserializeObject<TestObject1>("{'Obj':null}");
+        Assert.IsNull(t1.Obj);
+    }
 
-        class TestObject
-        {
-            public object Obj { get; set; }
-        }
+    class TestObject
+    {
+        public object Obj { get; set; }
+    }
 
-        class TestObject1
-        {
-            public byte[] Obj { get; set; }
-        }
+    class TestObject1
+    {
+        public byte[] Obj { get; set; }
     }
 }

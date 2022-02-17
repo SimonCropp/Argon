@@ -27,25 +27,24 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue1322 : TestFixtureBase
 {
-    [TestFixture]
-    public class Issue1322 : TestFixtureBase
+    [Fact]
+    public void Test()
     {
-        [Fact]
-        public void Test()
+        IList<KeyValuePair<string, string>> values = new List<KeyValuePair<string, string>>
         {
-            IList<KeyValuePair<string, string>> values = new List<KeyValuePair<string, string>>
-            {
-                new("123", "2017-05-19T11:00:59")
-            };
+            new("123", "2017-05-19T11:00:59")
+        };
 
-            var json = JsonConvert.SerializeObject(values, Formatting.Indented);
+        var json = JsonConvert.SerializeObject(values, Formatting.Indented);
 
-            var v1 = JsonConvert.DeserializeObject<IList<KeyValuePair<string, string>>>(json);
+        var v1 = JsonConvert.DeserializeObject<IList<KeyValuePair<string, string>>>(json);
 
-            Assert.AreEqual("123", v1[0].Key);
-            Assert.AreEqual("2017-05-19T11:00:59", v1[0].Value);
-        }
+        Assert.AreEqual("123", v1[0].Key);
+        Assert.AreEqual("2017-05-19T11:00:59", v1[0].Value);
     }
 }

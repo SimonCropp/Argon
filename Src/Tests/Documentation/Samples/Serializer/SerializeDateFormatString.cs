@@ -28,41 +28,40 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class SerializeDateFormatString : TestFixtureBase
 {
-    [TestFixture]
-    public class SerializeDateFormatString : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
+        #region Usage
+        IList<DateTime> dateList = new List<DateTime>
         {
-            #region Usage
-            IList<DateTime> dateList = new List<DateTime>
-            {
-                new(2009, 12, 7, 23, 10, 0, DateTimeKind.Utc),
-                new(2010, 1, 1, 9, 0, 0, DateTimeKind.Utc),
-                new(2010, 2, 10, 10, 0, 0, DateTimeKind.Utc)
-            };
+            new(2009, 12, 7, 23, 10, 0, DateTimeKind.Utc),
+            new(2010, 1, 1, 9, 0, 0, DateTimeKind.Utc),
+            new(2010, 2, 10, 10, 0, 0, DateTimeKind.Utc)
+        };
 
-            var json = JsonConvert.SerializeObject(dateList, new JsonSerializerSettings
-            {
-                DateFormatString = "d MMMM, yyyy",
-                Formatting = Formatting.Indented
-            });
+        var json = JsonConvert.SerializeObject(dateList, new JsonSerializerSettings
+        {
+            DateFormatString = "d MMMM, yyyy",
+            Formatting = Formatting.Indented
+        });
 
-            Console.WriteLine(json);
-            // [
-            //   "7 December, 2009",
-            //   "1 January, 2010",
-            //   "10 February, 2010"
-            // ]            
-            #endregion
+        Console.WriteLine(json);
+        // [
+        //   "7 December, 2009",
+        //   "1 January, 2010",
+        //   "10 February, 2010"
+        // ]            
+        #endregion
 
-            StringAssert.AreEqual(@"[
+        StringAssert.AreEqual(@"[
   ""7 December, 2009"",
   ""1 January, 2010"",
   ""10 February, 2010""
 ]", json);
-        }
     }
 }

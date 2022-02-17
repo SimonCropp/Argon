@@ -27,54 +27,53 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue1619 : TestFixtureBase
 {
-    [TestFixture]
-    public class Issue1619 : TestFixtureBase
+    [Fact]
+    public void Test()
     {
-        [Fact]
-        public void Test()
+        var value = new Foo
         {
-            var value = new Foo
-            {
-                Bar = new DirectoryInfo(@"c:\temp")
-            };
+            Bar = new DirectoryInfo(@"c:\temp")
+        };
 
-            var json = JsonConvert.SerializeObject(value, new DirectoryInfoJsonConverter());
-            Assert.AreEqual(@"{""Bar"":""c:\\temp""}", json);
+        var json = JsonConvert.SerializeObject(value, new DirectoryInfoJsonConverter());
+        Assert.AreEqual(@"{""Bar"":""c:\\temp""}", json);
+    }
+
+    public class Foo
+    {
+        public DirectoryInfo Bar { get; set; }
+    }
+
+    public class DirectoryInfoJsonConverter : JsonConverter
+    {
+        public override bool CanConvert(Type objectType)
+        {
+            return objectType == typeof(DirectoryInfo);
         }
 
-        public class Foo
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            public DirectoryInfo Bar { get; set; }
+            if (reader.Value is string s)
+            {
+                return new DirectoryInfo(s);
+            }
+
+            throw new ArgumentOutOfRangeException(nameof(reader));
         }
 
-        public class DirectoryInfoJsonConverter : JsonConverter
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            public override bool CanConvert(Type objectType)
+            if (!(value is DirectoryInfo directoryInfo))
             {
-                return objectType == typeof(DirectoryInfo);
+                throw new ArgumentOutOfRangeException(nameof(value));
             }
 
-            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-            {
-                if (reader.Value is string s)
-                {
-                    return new DirectoryInfo(s);
-                }
-
-                throw new ArgumentOutOfRangeException(nameof(reader));
-            }
-
-            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-            {
-                if (!(value is DirectoryInfo directoryInfo))
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value));
-                }
-
-                writer.WriteValue(directoryInfo.FullName);
-            }
+            writer.WriteValue(directoryInfo.FullName);
         }
     }
 }

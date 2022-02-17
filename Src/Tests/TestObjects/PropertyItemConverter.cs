@@ -23,11 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class PropertyItemConverter
 {
-    public class PropertyItemConverter
-    {
-        [JsonProperty(ItemConverterType = typeof(MetroStringConverter))]
-        public IList<string> Data { get; set; }
-    }
+    [JsonProperty(ItemConverterType = typeof(MetroStringConverter))]
+    public IList<string> Data { get; set; }
 }

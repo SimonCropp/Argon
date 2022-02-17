@@ -28,35 +28,34 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Linq
+namespace Argon.Tests.Documentation.Samples.Linq;
+
+[TestFixture]
+public class JTokenAnnotation : TestFixtureBase
 {
-    [TestFixture]
-    public class JTokenAnnotation : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var o = JObject.Parse(@"{
+        #region Usage
+        var o = JObject.Parse(@"{
               'name': 'Bill G',
               'age': 58,
               'country': 'United States',
               'employer': 'Microsoft'
             }");
 
-            o.AddAnnotation(new HashSet<string>());
-            o.PropertyChanged += (_, args) => o.Annotation<HashSet<string>>().Add(args.PropertyName);
+        o.AddAnnotation(new HashSet<string>());
+        o.PropertyChanged += (_, args) => o.Annotation<HashSet<string>>().Add(args.PropertyName);
 
-            o["age"] = 59;
-            o["employer"] = "Bill & Melinda Gates Foundation";
+        o["age"] = 59;
+        o["employer"] = "Bill & Melinda Gates Foundation";
 
-            var changedProperties = o.Annotation<HashSet<string>>();
-            // age
-            // employer
-            #endregion
+        var changedProperties = o.Annotation<HashSet<string>>();
+        // age
+        // employer
+        #endregion
 
-            Assert.AreEqual(true, changedProperties.Contains("age"));
-            Assert.AreEqual(true, changedProperties.Contains("employer"));
-        }
+        Assert.AreEqual(true, changedProperties.Contains("age"));
+        Assert.AreEqual(true, changedProperties.Contains("employer"));
     }
 }

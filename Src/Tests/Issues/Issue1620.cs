@@ -29,56 +29,55 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue1620 : TestFixtureBase
 {
-    [TestFixture]
-    public class Issue1620 : TestFixtureBase
+    [Fact]
+    public void Test_SerializeMock()
     {
-        [Fact]
-        public void Test_SerializeMock()
-        {
-            var mock = new Mock<IFoo>();
-            var foo = mock.Object;
+        var mock = new Mock<IFoo>();
+        var foo = mock.Object;
 
-            var json = JsonConvert.SerializeObject(foo, new JsonSerializerSettings { Converters = { new FooConverter() } });
-            Assert.AreEqual(@"""foo""", json);
+        var json = JsonConvert.SerializeObject(foo, new JsonSerializerSettings { Converters = { new FooConverter() } });
+        Assert.AreEqual(@"""foo""", json);
+    }
+
+    [Fact]
+    public void Test_GetFieldsAndProperties()
+    {
+        var mock = new Mock<IFoo>();
+        var foo = mock.Object;
+
+        var properties = ReflectionUtils.GetFieldsAndProperties(foo.GetType(), BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).ToList();
+
+        Assert.AreEqual(1, properties.Count(p => p.Name == "Mock"));
+    }
+
+    public interface IFoo
+    {
+    }
+
+    public class Foo : IFoo
+    {
+    }
+
+    public class FooConverter : JsonConverter
+    {
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            writer.WriteValue("foo");
         }
 
-        [Fact]
-        public void Test_GetFieldsAndProperties()
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            var mock = new Mock<IFoo>();
-            var foo = mock.Object;
-
-            var properties = ReflectionUtils.GetFieldsAndProperties(foo.GetType(), BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).ToList();
-
-            Assert.AreEqual(1, properties.Count(p => p.Name == "Mock"));
+            return new Foo();
         }
 
-        public interface IFoo
+        public override bool CanConvert(Type objectType)
         {
-        }
-
-        public class Foo : IFoo
-        {
-        }
-
-        public class FooConverter : JsonConverter
-        {
-            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-            {
-                writer.WriteValue("foo");
-            }
-
-            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-            {
-                return new Foo();
-            }
-
-            public override bool CanConvert(Type objectType)
-            {
-                return typeof(IFoo).GetTypeInfo().IsAssignableFrom(objectType);
-            }
+            return typeof(IFoo).GetTypeInfo().IsAssignableFrom(objectType);
         }
     }
 }

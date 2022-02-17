@@ -27,60 +27,59 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue2450
 {
-    [TestFixture]
-    public class Issue2450
+    [Fact]
+    public void Test()
     {
-        [Fact]
-        public void Test()
+        var resolver = new DefaultContractResolver();
+        JsonContract contract;
+
+        contract = resolver.ResolveContract(typeof(Dict));
+        Assert.IsTrue(contract is JsonDictionaryContract);
+
+        contract = resolver.ResolveContract(typeof(Dict?));
+        Assert.IsTrue(contract is JsonDictionaryContract);
+    }
+
+    [Fact]
+    public void Test_Serialize()
+    {
+        var d = new Dict(new Dictionary<string, object>
         {
-            var resolver = new DefaultContractResolver();
-            JsonContract contract;
+            ["prop1"] = 1,
+            ["prop2"] = 2
+        });
 
-            contract = resolver.ResolveContract(typeof(Dict));
-            Assert.IsTrue(contract is JsonDictionaryContract);
+        var json = JsonConvert.SerializeObject(d);
+        Assert.AreEqual(@"{""prop1"":1,""prop2"":2}", json);
+    }
 
-            contract = resolver.ResolveContract(typeof(Dict?));
-            Assert.IsTrue(contract is JsonDictionaryContract);
-        }
+    [Fact]
+    public void Test_Deserialize()
+    {
+        var json = @"{""prop1"":1,""prop2"":2}";
 
-        [Fact]
-        public void Test_Serialize()
-        {
-            var d = new Dict(new Dictionary<string, object>
-            {
-                ["prop1"] = 1,
-                ["prop2"] = 2
-            });
+        var d = JsonConvert.DeserializeObject<Dict?>(json);
+        Assert.AreEqual((Int64)1, d.Value["prop1"]);
+        Assert.AreEqual((Int64)2, d.Value["prop2"]);
+    }
 
-            var json = JsonConvert.SerializeObject(d);
-            Assert.AreEqual(@"{""prop1"":1,""prop2"":2}", json);
-        }
+    public struct Dict : IReadOnlyDictionary<string, object>
+    {
+        private readonly IDictionary<string, object> _dict;
+        public Dict(IDictionary<string, object> dict) => _dict = dict;
 
-        [Fact]
-        public void Test_Deserialize()
-        {
-            var json = @"{""prop1"":1,""prop2"":2}";
-
-            var d = JsonConvert.DeserializeObject<Dict?>(json);
-            Assert.AreEqual((Int64)1, d.Value["prop1"]);
-            Assert.AreEqual((Int64)2, d.Value["prop2"]);
-        }
-
-        public struct Dict : IReadOnlyDictionary<string, object>
-        {
-            private readonly IDictionary<string, object> _dict;
-            public Dict(IDictionary<string, object> dict) => _dict = dict;
-
-            public object this[string key] => _dict[key];
-            public IEnumerable<string> Keys => _dict.Keys;
-            public IEnumerable<object> Values => _dict.Values;
-            public int Count => _dict.Count;
-            public bool ContainsKey(string key) => _dict.ContainsKey(key);
-            public IEnumerator<KeyValuePair<string, object>> GetEnumerator() => _dict.GetEnumerator();
-            public bool TryGetValue(string key, out object value) => _dict.TryGetValue(key, out value);
-            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-        }
+        public object this[string key] => _dict[key];
+        public IEnumerable<string> Keys => _dict.Keys;
+        public IEnumerable<object> Values => _dict.Values;
+        public int Count => _dict.Count;
+        public bool ContainsKey(string key) => _dict.ContainsKey(key);
+        public IEnumerator<KeyValuePair<string, object>> GetEnumerator() => _dict.GetEnumerator();
+        public bool TryGetValue(string key, out object value) => _dict.TryGetValue(key, out value);
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

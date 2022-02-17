@@ -25,21 +25,20 @@
 
 using System.ComponentModel;
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[TypeConverter(typeof(MyInterfaceConverter))]
+internal class ConsoleWriter : IMyInterface
 {
-    [TypeConverter(typeof(MyInterfaceConverter))]
-    internal class ConsoleWriter : IMyInterface
+    public string Name => "Console Writer";
+
+    public string PrintTest()
     {
-        public string Name => "Console Writer";
+        return "ConsoleWriter";
+    }
 
-        public string PrintTest()
-        {
-            return "ConsoleWriter";
-        }
-
-        public override string ToString()
-        {
-            return Name;
-        }
+    public override string ToString()
+    {
+        return Name;
     }
 }

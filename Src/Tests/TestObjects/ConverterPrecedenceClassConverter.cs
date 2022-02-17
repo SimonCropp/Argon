@@ -23,38 +23,37 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public abstract class ConverterPrecedenceClassConverter : JsonConverter
 {
-    public abstract class ConverterPrecedenceClassConverter : JsonConverter
+    public abstract string ConverterType { get; }
+
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
-        public abstract string ConverterType { get; }
+        var c = (ConverterPrecedenceClass)value;
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        JToken j = new JArray(ConverterType, c.TestValue);
+
+        j.WriteTo(writer);
+    }
+
+    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    {
+        JToken j = JArray.Load(reader);
+
+        var converter = (string)j[0];
+        if (converter != ConverterType)
         {
-            var c = (ConverterPrecedenceClass)value;
-
-            JToken j = new JArray(ConverterType, c.TestValue);
-
-            j.WriteTo(writer);
+            throw new Exception("Serialize converter {0} and deserialize converter {1} do not match.".FormatWith(CultureInfo.InvariantCulture, converter, ConverterType));
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            JToken j = JArray.Load(reader);
+        var testValue = (string)j[1];
+        return new ConverterPrecedenceClass(testValue);
+    }
 
-            var converter = (string)j[0];
-            if (converter != ConverterType)
-            {
-                throw new Exception("Serialize converter {0} and deserialize converter {1} do not match.".FormatWith(CultureInfo.InvariantCulture, converter, ConverterType));
-            }
-
-            var testValue = (string)j[1];
-            return new ConverterPrecedenceClass(testValue);
-        }
-
-        public override bool CanConvert(Type objectType)
-        {
-            return objectType == typeof(ConverterPrecedenceClass);
-        }
+    public override bool CanConvert(Type objectType)
+    {
+        return objectType == typeof(ConverterPrecedenceClass);
     }
 }

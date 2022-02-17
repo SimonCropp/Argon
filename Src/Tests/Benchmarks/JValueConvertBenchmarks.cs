@@ -25,34 +25,33 @@
 
 using BenchmarkDotNet.Attributes;
 
-namespace Argon.Tests.Benchmarks
+namespace Argon.Tests.Benchmarks;
+
+public class JValueConvertBenchmarks
 {
-    public class JValueConvertBenchmarks
+    private static readonly JValue StringJValue = new("String!");
+
+    [Benchmark]
+    public string JTokenToObjectFast()
     {
-        private static readonly JValue StringJValue = new("String!");
+        return (string)StringJValue.ToObject(typeof(string));
+    }
 
-        [Benchmark]
-        public string JTokenToObjectFast()
-        {
-            return (string)StringJValue.ToObject(typeof(string));
-        }
+    [Benchmark]
+    public string JTokenToObjectWithSerializer()
+    {
+        return (string)StringJValue.ToObject(typeof(string), new JsonSerializer());
+    }
 
-        [Benchmark]
-        public string JTokenToObjectWithSerializer()
-        {
-            return (string)StringJValue.ToObject(typeof(string), new JsonSerializer());
-        }
+    [Benchmark]
+    public string JTokenToObjectConvert()
+    {
+        return StringJValue.Value<string>();
+    }
 
-        [Benchmark]
-        public string JTokenToObjectConvert()
-        {
-            return StringJValue.Value<string>();
-        }
-
-        [Benchmark]
-        public string JTokenToObjectCast()
-        {
-            return (string)StringJValue;
-        }
+    [Benchmark]
+    public string JTokenToObjectCast()
+    {
+        return (string)StringJValue;
     }
 }

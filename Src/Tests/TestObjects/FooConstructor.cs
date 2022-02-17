@@ -23,21 +23,20 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class FooConstructor
 {
-    public class FooConstructor
+    [JsonProperty(PropertyName = "something_else")]
+    public readonly string Bar;
+
+    public FooConstructor(string bar)
     {
-        [JsonProperty(PropertyName = "something_else")]
-        public readonly string Bar;
-
-        public FooConstructor(string bar)
+        if (bar == null)
         {
-            if (bar == null)
-            {
-                throw new ArgumentNullException(nameof(bar));
-            }
-
-            Bar = bar;
+            throw new ArgumentNullException(nameof(bar));
         }
+
+        Bar = bar;
     }
 }

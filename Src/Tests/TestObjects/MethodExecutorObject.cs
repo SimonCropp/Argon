@@ -23,12 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class MethodExecutorObject
 {
-    public class MethodExecutorObject
-    {
-        public string serverClassName;
-        public object[] serverMethodParams;
-        public string clientGetResultFunction;
-    }
+    public string serverClassName;
+    public object[] serverMethodParams;
+    public string clientGetResultFunction;
 }

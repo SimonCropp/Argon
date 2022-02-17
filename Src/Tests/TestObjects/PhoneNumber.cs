@@ -23,15 +23,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class PhoneNumber
-    {
-        public string phoneNumber;
+namespace Argon.Tests.TestObjects;
 
-        public PhoneNumber(string phoneNumber)
-        {
-            this.phoneNumber = phoneNumber;
-        }
+public class PhoneNumber
+{
+    public string phoneNumber;
+
+    public PhoneNumber(string phoneNumber)
+    {
+        this.phoneNumber = phoneNumber;
     }
 }

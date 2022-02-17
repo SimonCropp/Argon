@@ -23,15 +23,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class SuperKlass
-    {
-        public string SuperProp { get; set; }
+namespace Argon.Tests.TestObjects;
 
-        public SuperKlass()
-        {
-            SuperProp = "default superprop";
-        }
+public class SuperKlass
+{
+    public string SuperProp { get; set; }
+
+    public SuperKlass()
+    {
+        SuperProp = "default superprop";
     }
 }

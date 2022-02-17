@@ -23,12 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects.Organization
+namespace Argon.Tests.TestObjects.Organization;
+
+public interface IPerson
 {
-    public interface IPerson
-    {
-        string FirstName { get; set; }
-        string LastName { get; set; }
-        DateTime BirthDate { get; set; }
-    }
+    string FirstName { get; set; }
+    string LastName { get; set; }
+    DateTime BirthDate { get; set; }
 }

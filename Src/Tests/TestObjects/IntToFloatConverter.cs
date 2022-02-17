@@ -23,23 +23,22 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class IntToFloatConverter : JsonConverter
 {
-    public class IntToFloatConverter : JsonConverter
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            writer.WriteValue(Convert.ToDouble(value));
-        }
+        writer.WriteValue(Convert.ToDouble(value));
+    }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            return Convert.ToInt32(reader.Value);
-        }
+    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    {
+        return Convert.ToInt32(reader.Value);
+    }
 
-        public override bool CanConvert(Type objectType)
-        {
-            return objectType == typeof(int);
-        }
+    public override bool CanConvert(Type objectType)
+    {
+        return objectType == typeof(int);
     }
 }

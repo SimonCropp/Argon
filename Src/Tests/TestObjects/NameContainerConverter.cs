@@ -23,37 +23,36 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class NameContainerConverter : JsonConverter
 {
-    public class NameContainerConverter : JsonConverter
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        var nameContainer = value as NameContainer;
+
+        if (nameContainer != null)
         {
-            var nameContainer = value as NameContainer;
-
-            if (nameContainer != null)
-            {
-                writer.WriteValue(nameContainer.Value);
-            }
-            else
-            {
-                writer.WriteNull();
-            }
+            writer.WriteValue(nameContainer.Value);
         }
-
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        else
         {
-            var nameContainer = new NameContainer
-            {
-                Value = (string)reader.Value
-            };
-
-            return nameContainer;
+            writer.WriteNull();
         }
+    }
 
-        public override bool CanConvert(Type objectType)
+    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    {
+        var nameContainer = new NameContainer
         {
-            return objectType == typeof(NameContainer);
-        }
+            Value = (string)reader.Value
+        };
+
+        return nameContainer;
+    }
+
+    public override bool CanConvert(Type objectType)
+    {
+        return objectType == typeof(NameContainer);
     }
 }

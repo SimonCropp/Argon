@@ -23,70 +23,69 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects.JsonTextReaderTests
+namespace Argon.Tests.TestObjects.JsonTextReaderTests;
+
+public class SlowStream : Stream
 {
-    public class SlowStream : Stream
+    private byte[] bytes;
+    private int totalBytesRead;
+    private int bytesPerRead;
+
+    public SlowStream(byte[] content, int bytesPerRead)
     {
-        private byte[] bytes;
-        private int totalBytesRead;
-        private int bytesPerRead;
+        bytes = content;
+        totalBytesRead = 0;
+        this.bytesPerRead = bytesPerRead;
+    }
 
-        public SlowStream(byte[] content, int bytesPerRead)
+    public SlowStream(string content, Encoding encoding, int bytesPerRead)
+        : this(encoding.GetBytes(content), bytesPerRead)
+    {
+    }
+
+    public override bool CanRead => true;
+
+    public override bool CanSeek => false;
+
+    public override bool CanWrite => false;
+
+    public override void Flush()
+    {
+    }
+
+    public override long Length => throw new NotSupportedException();
+
+    public override long Position
+    {
+        get => throw new NotSupportedException();
+        set => throw new NotSupportedException();
+    }
+
+    public override int Read(byte[] buffer, int offset, int count)
+    {
+        var toReturn = Math.Min(count, bytesPerRead);
+        toReturn = Math.Min(toReturn, bytes.Length - totalBytesRead);
+        if (toReturn > 0)
         {
-            bytes = content;
-            totalBytesRead = 0;
-            this.bytesPerRead = bytesPerRead;
+            Array.Copy(bytes, totalBytesRead, buffer, offset, toReturn);
         }
 
-        public SlowStream(string content, Encoding encoding, int bytesPerRead)
-            : this(encoding.GetBytes(content), bytesPerRead)
-        {
-        }
+        totalBytesRead += toReturn;
+        return toReturn;
+    }
 
-        public override bool CanRead => true;
+    public override long Seek(long offset, SeekOrigin origin)
+    {
+        throw new NotSupportedException();
+    }
 
-        public override bool CanSeek => false;
+    public override void SetLength(long value)
+    {
+        throw new NotSupportedException();
+    }
 
-        public override bool CanWrite => false;
-
-        public override void Flush()
-        {
-        }
-
-        public override long Length => throw new NotSupportedException();
-
-        public override long Position
-        {
-            get => throw new NotSupportedException();
-            set => throw new NotSupportedException();
-        }
-
-        public override int Read(byte[] buffer, int offset, int count)
-        {
-            var toReturn = Math.Min(count, bytesPerRead);
-            toReturn = Math.Min(toReturn, bytes.Length - totalBytesRead);
-            if (toReturn > 0)
-            {
-                Array.Copy(bytes, totalBytesRead, buffer, offset, toReturn);
-            }
-
-            totalBytesRead += toReturn;
-            return toReturn;
-        }
-
-        public override long Seek(long offset, SeekOrigin origin)
-        {
-            throw new NotSupportedException();
-        }
-
-        public override void SetLength(long value)
-        {
-            throw new NotSupportedException();
-        }
-
-        public override void Write(byte[] buffer, int offset, int count)
-        {
-            throw new NotSupportedException();
-        }
+    public override void Write(byte[] buffer, int offset, int count)
+    {
+        throw new NotSupportedException();
     }
 }

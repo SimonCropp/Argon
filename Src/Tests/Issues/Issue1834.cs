@@ -27,61 +27,60 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue1834 : TestFixtureBase
 {
-    [TestFixture]
-    public class Issue1834 : TestFixtureBase
+    [Fact]
+    public void Test()
     {
-        [Fact]
-        public void Test()
-        {
-            var json = "{'foo':'test!'}";
-            var c = JsonConvert.DeserializeObject<ItemWithJsonConstructor>(json);
+        var json = "{'foo':'test!'}";
+        var c = JsonConvert.DeserializeObject<ItemWithJsonConstructor>(json);
 
-            Assert.IsNull(c.ExtensionData);
+        Assert.IsNull(c.ExtensionData);
+    }
+
+    [Fact]
+    public void Test_UnsetRequired()
+    {
+        var json = "{'foo':'test!'}";
+        var c = JsonConvert.DeserializeObject<ItemWithJsonConstructorAndDefaultValue>(json);
+
+        Assert.IsNull(c.ExtensionData);
+    }
+
+    public class ItemWithJsonConstructor
+    {
+        [JsonExtensionData]
+        public IDictionary<string, JToken> ExtensionData;
+
+        [JsonConstructor]
+        private ItemWithJsonConstructor(string foo)
+        {
+            Foo = foo;
         }
 
-        [Fact]
-        public void Test_UnsetRequired()
-        {
-            var json = "{'foo':'test!'}";
-            var c = JsonConvert.DeserializeObject<ItemWithJsonConstructorAndDefaultValue>(json);
+        [JsonProperty(PropertyName = "foo", Required = Required.Always)]
+        public string Foo { get; set; }
+    }
 
-            Assert.IsNull(c.ExtensionData);
+    public class ItemWithJsonConstructorAndDefaultValue
+    {
+        [JsonExtensionData]
+        public IDictionary<string, JToken> ExtensionData;
+
+        [JsonConstructor]
+        private ItemWithJsonConstructorAndDefaultValue(string foo)
+        {
+            Foo = foo;
         }
 
-        public class ItemWithJsonConstructor
-        {
-            [JsonExtensionData]
-            public IDictionary<string, JToken> ExtensionData;
+        [JsonProperty("foo")]
+        public string Foo { get; set; }
 
-            [JsonConstructor]
-            private ItemWithJsonConstructor(string foo)
-            {
-                Foo = foo;
-            }
-
-            [JsonProperty(PropertyName = "foo", Required = Required.Always)]
-            public string Foo { get; set; }
-        }
-
-        public class ItemWithJsonConstructorAndDefaultValue
-        {
-            [JsonExtensionData]
-            public IDictionary<string, JToken> ExtensionData;
-
-            [JsonConstructor]
-            private ItemWithJsonConstructorAndDefaultValue(string foo)
-            {
-                Foo = foo;
-            }
-
-            [JsonProperty("foo")]
-            public string Foo { get; set; }
-
-            [JsonProperty(PropertyName = "bar", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-            [System.ComponentModel.DefaultValue("default")]
-            public string Bar { get; set; }
-        }
+        [JsonProperty(PropertyName = "bar", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [System.ComponentModel.DefaultValue("default")]
+        public string Bar { get; set; }
     }
 }

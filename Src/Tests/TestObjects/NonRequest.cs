@@ -23,12 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class NonRequest
 {
-    public class NonRequest
-    {
-        public Guid Sid { get; set; }
-        public Guid Uid { get; set; }
-        public IList<string> FidOrder { get; set; }
-    }
+    public Guid Sid { get; set; }
+    public Guid Uid { get; set; }
+    public IList<string> FidOrder { get; set; }
 }

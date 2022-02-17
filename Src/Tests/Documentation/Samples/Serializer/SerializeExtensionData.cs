@@ -27,51 +27,50 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class SerializeExtensionData : TestFixtureBase
 {
-    [TestFixture]
-    public class SerializeExtensionData : TestFixtureBase
-    {
 #pragma warning disable 169
 
-        #region Types
-        public class CustomerInvoice
-        {
-            // we're only modifing the tax rate
-            public decimal TaxRate { get; set; }
+    #region Types
+    public class CustomerInvoice
+    {
+        // we're only modifing the tax rate
+        public decimal TaxRate { get; set; }
 
-            // everything else gets stored here
-            [JsonExtensionData]
-            private IDictionary<string, JToken> _additionalData;
-        }
-        #endregion
+        // everything else gets stored here
+        [JsonExtensionData]
+        private IDictionary<string, JToken> _additionalData;
+    }
+    #endregion
 
 #pragma warning restore 169
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var json = @"{
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var json = @"{
               'HourlyRate': 150,
               'Hours': 40,
               'TaxRate': 0.125
             }";
 
-            var invoice = JsonConvert.DeserializeObject<CustomerInvoice>(json);
+        var invoice = JsonConvert.DeserializeObject<CustomerInvoice>(json);
 
-            // increase tax to 15%
-            invoice.TaxRate = 0.15m;
+        // increase tax to 15%
+        invoice.TaxRate = 0.15m;
 
-            var result = JsonConvert.SerializeObject(invoice);
-            // {
-            //   "TaxRate": 0.15,
-            //   "HourlyRate": 150,
-            //   "Hours": 40
-            // }
-            #endregion
+        var result = JsonConvert.SerializeObject(invoice);
+        // {
+        //   "TaxRate": 0.15,
+        //   "HourlyRate": 150,
+        //   "Hours": 40
+        // }
+        #endregion
 
-            Assert.AreEqual(@"{""TaxRate"":0.15,""HourlyRate"":150,""Hours"":40}", result);
-        }
+        Assert.AreEqual(@"{""TaxRate"":0.15,""HourlyRate"":150,""Hours"":40}", result);
     }
 }

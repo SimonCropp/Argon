@@ -23,18 +23,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class PrivateImplementationAClass : IPrivateImplementationA
-    {
-        [JsonIgnore]
-        public string PropertyA { get; set; }
+namespace Argon.Tests.TestObjects;
 
-        [JsonProperty("PropertyA")]
-        string IPrivateImplementationA.PropertyA
-        {
-            get => PropertyA;
-            set => PropertyA = value;
-        }
+public class PrivateImplementationAClass : IPrivateImplementationA
+{
+    [JsonIgnore]
+    public string PropertyA { get; set; }
+
+    [JsonProperty("PropertyA")]
+    string IPrivateImplementationA.PropertyA
+    {
+        get => PropertyA;
+        set => PropertyA = value;
     }
 }

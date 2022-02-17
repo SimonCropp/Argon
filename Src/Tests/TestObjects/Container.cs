@@ -23,11 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class Container
 {
-    public class Container
-    {
-        public IList<Product> In { get; set; }
-        public IList<Product> Out { get; set; }
-    }
+    public IList<Product> In { get; set; }
+    public IList<Product> Out { get; set; }
 }

@@ -27,22 +27,21 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue1708 : TestFixtureBase
 {
-    [TestFixture]
-    public class Issue1708 : TestFixtureBase
+    [Fact]
+    public void Test_DateTime()
     {
-        [Fact]
-        public void Test_DateTime()
-        {
-            var jsonTextReader = new JsonTextReader(new StringReader("'2018-05-27T23:25:08Z'"));
-            jsonTextReader.DateParseHandling = DateParseHandling.None;
-            jsonTextReader.Read();
+        var jsonTextReader = new JsonTextReader(new StringReader("'2018-05-27T23:25:08Z'"));
+        jsonTextReader.DateParseHandling = DateParseHandling.None;
+        jsonTextReader.Read();
 
-            var serializer = new JsonSerializer();
-            var dt = serializer.Deserialize<DateTime>(jsonTextReader);
+        var serializer = new JsonSerializer();
+        var dt = serializer.Deserialize<DateTime>(jsonTextReader);
 
-            Assert.AreEqual(DateTimeKind.Utc, dt.Kind);
-        }
+        Assert.AreEqual(DateTimeKind.Utc, dt.Kind);
     }
 }

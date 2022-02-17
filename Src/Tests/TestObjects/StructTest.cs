@@ -23,13 +23,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public struct StructTest
 {
-    public struct StructTest
-    {
-        public string StringProperty { get; set; }
-        public string StringField;
-        public int IntProperty { get; set; }
-        public int IntField;
-    }
+    public string StringProperty { get; set; }
+    public string StringField;
+    public int IntProperty { get; set; }
+    public int IntField;
 }

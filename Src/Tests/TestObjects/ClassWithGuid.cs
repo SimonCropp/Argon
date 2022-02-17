@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class ClassWithGuid
 {
-    public class ClassWithGuid
-    {
-        public Guid GuidField;
-    }
+    public Guid GuidField;
 }

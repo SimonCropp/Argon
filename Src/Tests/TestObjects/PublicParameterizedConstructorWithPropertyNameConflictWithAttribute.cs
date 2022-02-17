@@ -23,17 +23,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class PublicParameterizedConstructorWithPropertyNameConflictWithAttribute
 {
-    public class PublicParameterizedConstructorWithPropertyNameConflictWithAttribute
+    private readonly int _value;
+
+    public PublicParameterizedConstructorWithPropertyNameConflictWithAttribute([JsonProperty("name")] string nameParameter)
     {
-        private readonly int _value;
-
-        public PublicParameterizedConstructorWithPropertyNameConflictWithAttribute([JsonProperty("name")] string nameParameter)
-        {
-            _value = Convert.ToInt32(nameParameter);
-        }
-
-        public int Name => _value;
+        _value = Convert.ToInt32(nameParameter);
     }
+
+    public int Name => _value;
 }

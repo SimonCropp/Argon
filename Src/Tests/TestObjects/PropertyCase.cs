@@ -23,13 +23,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class PropertyCase
 {
-    public class PropertyCase
-    {
-        public string firstName { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string lastName { get; set; }
-    }
+    public string firstName { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string lastName { get; set; }
 }

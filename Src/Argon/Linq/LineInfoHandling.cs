@@ -23,21 +23,20 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Linq
+namespace Argon.Linq;
+
+/// <summary>
+/// Specifies how line information is handled when loading JSON.
+/// </summary>
+public enum LineInfoHandling
 {
     /// <summary>
-    /// Specifies how line information is handled when loading JSON.
+    /// Ignore line information.
     /// </summary>
-    public enum LineInfoHandling
-    {
-        /// <summary>
-        /// Ignore line information.
-        /// </summary>
-        Ignore = 0,
+    Ignore = 0,
 
-        /// <summary>
-        /// Load line information.
-        /// </summary>
-        Load = 1
-    }
+    /// <summary>
+    /// Load line information.
+    /// </summary>
+    Load = 1
 }

@@ -28,39 +28,38 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class JsonPropertyRequired : TestFixtureBase
 {
-    [TestFixture]
-    public class JsonPropertyRequired : TestFixtureBase
+    #region Types
+    public class Videogame
     {
-        #region Types
-        public class Videogame
-        {
-            [JsonProperty(Required = Required.Always)]
-            public string Name { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public string Name { get; set; }
 
-            [JsonProperty(Required = Required.AllowNull)]
-            public DateTime? ReleaseDate { get; set; }
-        }
-        #endregion
+        [JsonProperty(Required = Required.AllowNull)]
+        public DateTime? ReleaseDate { get; set; }
+    }
+    #endregion
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var json = @"{
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var json = @"{
               'Name': 'Starcraft III',
               'ReleaseDate': null
             }";
 
-            var starcraft = JsonConvert.DeserializeObject<Videogame>(json);
+        var starcraft = JsonConvert.DeserializeObject<Videogame>(json);
 
-            Console.WriteLine(starcraft.Name);
-            // Starcraft III
+        Console.WriteLine(starcraft.Name);
+        // Starcraft III
 
-            Console.WriteLine(starcraft.ReleaseDate);
-            // null
-            #endregion
-        }
+        Console.WriteLine(starcraft.ReleaseDate);
+        // null
+        #endregion
     }
 }

@@ -23,11 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class Binding
 {
-    public class Binding
-    {
-        [JsonProperty(Required = Required.Always)]
-        public Binding RequiredProperty { get; set; }
-    }
+    [JsonProperty(Required = Required.Always)]
+    public Binding RequiredProperty { get; set; }
 }

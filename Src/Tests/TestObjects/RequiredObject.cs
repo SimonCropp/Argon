@@ -23,23 +23,22 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[JsonObject(ItemRequired = Required.Always)]
+public class RequiredObject
 {
-    [JsonObject(ItemRequired = Required.Always)]
-    public class RequiredObject
-    {
-        public int? NonAttributeProperty { get; set; }
+    public int? NonAttributeProperty { get; set; }
 
-        [JsonProperty]
-        public int? UnsetProperty { get; set; }
+    [JsonProperty]
+    public int? UnsetProperty { get; set; }
 
-        [JsonProperty(Required = Required.Default)]
-        public int? DefaultProperty { get; set; }
+    [JsonProperty(Required = Required.Default)]
+    public int? DefaultProperty { get; set; }
 
-        [JsonProperty(Required = Required.AllowNull)]
-        public int? AllowNullProperty { get; set; }
+    [JsonProperty(Required = Required.AllowNull)]
+    public int? AllowNullProperty { get; set; }
 
-        [JsonProperty(Required = Required.Always)]
-        public int? AlwaysProperty { get; set; }
-    }
+    [JsonProperty(Required = Required.Always)]
+    public int? AlwaysProperty { get; set; }
 }

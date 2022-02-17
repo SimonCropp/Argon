@@ -27,16 +27,16 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Documentation.Samples.JsonPath
+namespace Argon.Tests.Documentation.Samples.JsonPath;
+
+[TestFixture]
+public class RegexQuery : TestFixtureBase
 {
-    [TestFixture]
-    public class RegexQuery : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var array = JArray.Parse(@"[
+        #region Usage
+        var array = JArray.Parse(@"[
               {
                 'PackageId': 'Argon',
                 'Version': '11.0.1',
@@ -49,18 +49,17 @@ namespace Argon.Tests.Documentation.Samples.JsonPath
               }
             ]");
 
-            // Find packages
-            var packages = array.SelectTokens(@"$.[?(@.PackageId =~ /^Argon/)]").ToList();
+        // Find packages
+        var packages = array.SelectTokens(@"$.[?(@.PackageId =~ /^Argon/)]").ToList();
 
-            foreach (var item in packages)
-            {
-                Console.WriteLine((string) item["PackageId"]);
-            }
-            // Argon
-            #endregion
-
-            Assert.AreEqual(1, packages.Count);
-            Assert.AreEqual("Argon", (string)packages[0]["PackageId"]);
+        foreach (var item in packages)
+        {
+            Console.WriteLine((string) item["PackageId"]);
         }
+        // Argon
+        #endregion
+
+        Assert.AreEqual(1, packages.Count);
+        Assert.AreEqual("Argon", (string)packages[0]["PackageId"]);
     }
 }

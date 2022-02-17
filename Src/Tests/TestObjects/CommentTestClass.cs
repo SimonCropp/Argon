@@ -23,12 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class CommentTestClass
 {
-    public class CommentTestClass
-    {
-        public bool Indexed { get; set; }
-        public int StartYear { get; set; }
-        public IList<decimal> Values { get; set; }
-    }
+    public bool Indexed { get; set; }
+    public int StartYear { get; set; }
+    public IList<decimal> Values { get; set; }
 }

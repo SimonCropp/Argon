@@ -23,24 +23,23 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[JsonObject(MemberSerialization.OptIn)]
+public class JsonIgnoreAttributeOnClassTestClass
 {
-    [JsonObject(MemberSerialization.OptIn)]
-    public class JsonIgnoreAttributeOnClassTestClass
-    {
-        private int _property = 21;
-        private int _ignoredProperty = 12;
+    private int _property = 21;
+    private int _ignoredProperty = 12;
 
-        [JsonProperty("TheField")]
-        public int Field;
+    [JsonProperty("TheField")]
+    public int Field;
 
-        [JsonProperty]
-        public int Property => _property;
+    [JsonProperty]
+    public int Property => _property;
 
-        public int IgnoredField;
+    public int IgnoredField;
 
-        [JsonProperty]
-        [JsonIgnore] // JsonIgnore should take priority
-        public int IgnoredProperty => _ignoredProperty;
-    }
+    [JsonProperty]
+    [JsonIgnore] // JsonIgnore should take priority
+    public int IgnoredProperty => _ignoredProperty;
 }

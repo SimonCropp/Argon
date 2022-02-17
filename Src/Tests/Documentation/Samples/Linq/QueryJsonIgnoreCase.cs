@@ -27,27 +27,26 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Documentation.Samples.Linq
+namespace Argon.Tests.Documentation.Samples.Linq;
+
+[TestFixture]
+public class QueryJsonIgnoreCase : TestFixtureBase
 {
-    [TestFixture]
-    public class QueryJsonIgnoreCase : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var json = @"{
+        #region Usage
+        var json = @"{
               'name': 'James Newton-King',
               'blog': 'http://james.newtonking.com'
             }";
 
-            var profile = JObject.Parse(json);
+        var profile = JObject.Parse(json);
 
-            var name = (string)profile.GetValue("Name", StringComparison.OrdinalIgnoreCase);
-            Console.WriteLine(name);
-            #endregion
+        var name = (string)profile.GetValue("Name", StringComparison.OrdinalIgnoreCase);
+        Console.WriteLine(name);
+        #endregion
 
-            Assert.AreEqual("James Newton-King", name);
-        }
+        Assert.AreEqual("James Newton-King", name);
     }
 }

@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class NameContainer
 {
-    public class NameContainer
-    {
-        public string Value { get; set; }
-    }
+    public string Value { get; set; }
 }

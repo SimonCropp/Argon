@@ -28,62 +28,61 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 using Microsoft.FSharp.Collections;
 
-namespace Argon.Tests.Serialization
+namespace Argon.Tests.Serialization;
+
+[TestFixture]
+public class FSharpTests : TestFixtureBase
 {
-    [TestFixture]
-    public class FSharpTests : TestFixtureBase
+    [Fact]
+    public void List()
     {
-        [Fact]
-        public void List()
-        {
-            var l = ListModule.OfSeq(new List<int> { 1, 2, 3 });
+        var l = ListModule.OfSeq(new List<int> { 1, 2, 3 });
 
-            var json = JsonConvert.SerializeObject(l, Formatting.Indented);
+        var json = JsonConvert.SerializeObject(l, Formatting.Indented);
 
-            StringAssert.AreEqual(@"[
+        StringAssert.AreEqual(@"[
   1,
   2,
   3
 ]", json);
 
-            var l2 = JsonConvert.DeserializeObject<FSharpList<int>>(json);
+        var l2 = JsonConvert.DeserializeObject<FSharpList<int>>(json);
 
-            Assert.AreEqual(l.Length, l2.Length);
-            CollectionAssert.AreEquivalent(l, l2);
-        }
+        Assert.AreEqual(l.Length, l2.Length);
+        CollectionAssert.AreEquivalent(l, l2);
+    }
 
-        [Fact]
-        public void Set()
-        {
-            var l = SetModule.OfSeq(new List<int> { 1, 2, 3 });
+    [Fact]
+    public void Set()
+    {
+        var l = SetModule.OfSeq(new List<int> { 1, 2, 3 });
 
-            var json = JsonConvert.SerializeObject(l, Formatting.Indented);
+        var json = JsonConvert.SerializeObject(l, Formatting.Indented);
 
-            StringAssert.AreEqual(@"[
+        StringAssert.AreEqual(@"[
   1,
   2,
   3
 ]", json);
 
-            var l2 = JsonConvert.DeserializeObject<FSharpSet<int>>(json);
+        var l2 = JsonConvert.DeserializeObject<FSharpSet<int>>(json);
 
-            Assert.AreEqual(l.Count, l2.Count);
-            CollectionAssert.AreEquivalent(l, l2);
-        }
+        Assert.AreEqual(l.Count, l2.Count);
+        CollectionAssert.AreEquivalent(l, l2);
+    }
 
-        [Fact]
-        public void Map()
-        {
-            var m1 = MapModule.OfSeq(new List<Tuple<string, int>> { Tuple.Create("one", 1), Tuple.Create("II", 2), Tuple.Create("3", 3) });
+    [Fact]
+    public void Map()
+    {
+        var m1 = MapModule.OfSeq(new List<Tuple<string, int>> { Tuple.Create("one", 1), Tuple.Create("II", 2), Tuple.Create("3", 3) });
 
-            var json = JsonConvert.SerializeObject(m1, Formatting.Indented);
+        var json = JsonConvert.SerializeObject(m1, Formatting.Indented);
 
-            var m2 = JsonConvert.DeserializeObject<FSharpMap<string, int>>(json);
+        var m2 = JsonConvert.DeserializeObject<FSharpMap<string, int>>(json);
 
-            Assert.AreEqual(m1.Count, m2.Count);
-            Assert.AreEqual(1, m2["one"]);
-            Assert.AreEqual(2, m2["II"]);
-            Assert.AreEqual(3, m2["3"]);
-        }
+        Assert.AreEqual(m1.Count, m2.Count);
+        Assert.AreEqual(1, m2["one"]);
+        Assert.AreEqual(2, m2["II"]);
+        Assert.AreEqual(3, m2["3"]);
     }
 }

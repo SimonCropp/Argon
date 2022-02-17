@@ -23,17 +23,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class DerivedConstructorType : BaseConstructorType
-    {
-        public DerivedConstructorType(string baseProperty, string derivedProperty)
-            : base(baseProperty)
-        {
-            DerivedProperty = derivedProperty;
-        }
+namespace Argon.Tests.TestObjects;
 
-        [JsonProperty]
-        public string DerivedProperty { get; private set; }
+public class DerivedConstructorType : BaseConstructorType
+{
+    public DerivedConstructorType(string baseProperty, string derivedProperty)
+        : base(baseProperty)
+    {
+        DerivedProperty = derivedProperty;
     }
+
+    [JsonProperty]
+    public string DerivedProperty { get; private set; }
 }

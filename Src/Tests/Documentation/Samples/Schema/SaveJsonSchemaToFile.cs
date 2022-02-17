@@ -24,29 +24,28 @@
 #endregion
 
 #pragma warning disable 618
-namespace Argon.Tests.Documentation.Samples.Schema
+namespace Argon.Tests.Documentation.Samples.Schema;
+
+public class SaveJsonSchemaToFile
 {
-    public class SaveJsonSchemaToFile
+    public void Example()
     {
-        public void Example()
+        #region Usage
+        var schema = new JsonSchema
         {
-            #region Usage
-            var schema = new JsonSchema
-            {
-                Type = JsonSchemaType.Object
-            };
+            Type = JsonSchemaType.Object
+        };
 
-            // serialize JsonSchema to a string and then write string to a file
-            File.WriteAllText(@"c:\schema.json", schema.ToString());
+        // serialize JsonSchema to a string and then write string to a file
+        File.WriteAllText(@"c:\schema.json", schema.ToString());
 
-            // serialize JsonSchema directly to a file
-            using (var file = File.CreateText(@"c:\schema.json"))
-            using (var writer = new JsonTextWriter(file))
-            {
-                schema.WriteTo(writer);
-            }
-            #endregion
+        // serialize JsonSchema directly to a file
+        using (var file = File.CreateText(@"c:\schema.json"))
+        using (var writer = new JsonTextWriter(file))
+        {
+            schema.WriteTo(writer);
         }
+        #endregion
     }
 }
 

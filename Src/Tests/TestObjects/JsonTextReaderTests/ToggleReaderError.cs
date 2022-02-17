@@ -23,27 +23,26 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects.JsonTextReaderTests
+namespace Argon.Tests.TestObjects.JsonTextReaderTests;
+
+public class ToggleReaderError : TextReader
 {
-    public class ToggleReaderError : TextReader
+    private readonly TextReader _inner;
+
+    public bool Error { get; set; }
+
+    public ToggleReaderError(TextReader inner)
     {
-        private readonly TextReader _inner;
+        _inner = inner;
+    }
 
-        public bool Error { get; set; }
-
-        public ToggleReaderError(TextReader inner)
+    public override int Read(char[] buffer, int index, int count)
+    {
+        if (Error)
         {
-            _inner = inner;
+            throw new Exception("Read error");
         }
 
-        public override int Read(char[] buffer, int index, int count)
-        {
-            if (Error)
-            {
-                throw new Exception("Read error");
-            }
-
-            return _inner.Read(buffer, index, 1);
-        }
+        return _inner.Read(buffer, index, 1);
     }
 }

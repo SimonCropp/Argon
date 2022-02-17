@@ -23,12 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class SearchResult
 {
-    public class SearchResult
-    {
-        public string Title { get; set; }
-        public string Content { get; set; }
-        public string Url { get; set; }
-    }
+    public string Title { get; set; }
+    public string Content { get; set; }
+    public string Url { get; set; }
 }

@@ -28,37 +28,36 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Linq
+namespace Argon.Tests.Documentation.Samples.Linq;
+
+[TestFixture]
+public class ParseJsonAny : TestFixtureBase
 {
-    [TestFixture]
-    public class ParseJsonAny : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var t1 = JToken.Parse("{}");
+        #region Usage
+        var t1 = JToken.Parse("{}");
 
-            Console.WriteLine(t1.Type);
-            // Object
+        Console.WriteLine(t1.Type);
+        // Object
 
-            var t2 = JToken.Parse("[]");
+        var t2 = JToken.Parse("[]");
 
-            Console.WriteLine(t2.Type);
-            // Array
+        Console.WriteLine(t2.Type);
+        // Array
 
-            var t3 = JToken.Parse("null");
+        var t3 = JToken.Parse("null");
 
-            Console.WriteLine(t3.Type);
-            // Null
+        Console.WriteLine(t3.Type);
+        // Null
 
-            var t4 = JToken.Parse(@"'A string!'");
+        var t4 = JToken.Parse(@"'A string!'");
 
-            Console.WriteLine(t4.Type);
-            // String
-            #endregion
+        Console.WriteLine(t4.Type);
+        // String
+        #endregion
 
-            Assert.AreEqual(JTokenType.String, t4.Type);
-        }
+        Assert.AreEqual(JTokenType.String, t4.Type);
     }
 }

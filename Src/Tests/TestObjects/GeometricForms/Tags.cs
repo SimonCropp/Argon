@@ -23,14 +23,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects.GeometricForms
+namespace Argon.Tests.TestObjects.GeometricForms;
+
+public static class Tags
 {
-    public static class Tags
-    {
-        // Fields
-        public const int Circle = 1;
-        public const int Empty = 3;
-        public const int Prism = 2;
-        public const int Rectangle = 0;
-    }
+    // Fields
+    public const int Circle = 1;
+    public const int Empty = 3;
+    public const int Prism = 2;
+    public const int Rectangle = 0;
 }

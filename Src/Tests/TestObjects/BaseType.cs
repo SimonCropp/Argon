@@ -23,12 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[DataContract]
+public class BaseType
 {
-    [DataContract]
-    public class BaseType
-    {
-        [DataMember]
-        public string zebra;
-    }
+    [DataMember]
+    public string zebra;
 }

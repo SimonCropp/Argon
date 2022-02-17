@@ -27,59 +27,58 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class CustomJsonConverterGeneric : TestFixtureBase
 {
-    [TestFixture]
-    public class CustomJsonConverterGeneric : TestFixtureBase
+    #region Types
+    public class VersionConverter : JsonConverter<Version>
     {
-        #region Types
-        public class VersionConverter : JsonConverter<Version>
+        public override void WriteJson(JsonWriter writer, Version value, JsonSerializer serializer)
         {
-            public override void WriteJson(JsonWriter writer, Version value, JsonSerializer serializer)
-            {
-                writer.WriteValue(value.ToString());
-            }
-
-            public override Version ReadJson(JsonReader reader, Type objectType, Version existingValue, bool hasExistingValue, JsonSerializer serializer)
-            {
-                var s = (string)reader.Value;
-
-                return new Version(s);
-            }
+            writer.WriteValue(value.ToString());
         }
 
-        public class NuGetPackage
+        public override Version ReadJson(JsonReader reader, Type objectType, Version existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
-            public string PackageId { get; set; }
-            public Version Version { get; set; }
+            var s = (string)reader.Value;
+
+            return new Version(s);
         }
+    }
+
+    public class NuGetPackage
+    {
+        public string PackageId { get; set; }
+        public Version Version { get; set; }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var p1 = new NuGetPackage
+        {
+            PackageId = "Argon",
+            Version = new Version(10, 0, 4)
+        };
+
+        var json = JsonConvert.SerializeObject(p1, Formatting.Indented, new VersionConverter());
+
+        Console.WriteLine(json);
+        // {
+        //   "PackageId": "Argon",
+        //   "Version": "10.0.4"
+        // }
+
+        var p2 = JsonConvert.DeserializeObject<NuGetPackage>(json, new VersionConverter());
+
+        Console.WriteLine(p2.Version.ToString());
+        // 10.0.4
         #endregion
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var p1 = new NuGetPackage
-            {
-                PackageId = "Argon",
-                Version = new Version(10, 0, 4)
-            };
-
-            var json = JsonConvert.SerializeObject(p1, Formatting.Indented, new VersionConverter());
-
-            Console.WriteLine(json);
-            // {
-            //   "PackageId": "Argon",
-            //   "Version": "10.0.4"
-            // }
-
-            var p2 = JsonConvert.DeserializeObject<NuGetPackage>(json, new VersionConverter());
-
-            Console.WriteLine(p2.Version.ToString());
-            // 10.0.4
-            #endregion
-
-            Assert.AreEqual("10.0.4", p2.Version.ToString());
-        }
+        Assert.AreEqual("10.0.4", p2.Version.ToString());
     }
 }

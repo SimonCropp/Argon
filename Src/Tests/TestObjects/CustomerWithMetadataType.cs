@@ -25,8 +25,7 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace Argon.Tests.TestObjects
-{
+namespace Argon.Tests.TestObjects;
 #if !NET5_0_OR_GREATER
     [MetadataType(typeof(CustomerValidation))]
     public partial class CustomerWithMetadataType
@@ -40,4 +39,3 @@ namespace Argon.Tests.TestObjects
         }
     }
 #endif
-}

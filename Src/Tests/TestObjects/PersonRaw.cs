@@ -23,40 +23,39 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class PersonRaw
 {
-    public class PersonRaw
+    private Guid _internalId;
+    private string _firstName;
+    private string _lastName;
+    private JRaw _rawContent;
+
+    [JsonIgnore]
+    public Guid InternalId
     {
-        private Guid _internalId;
-        private string _firstName;
-        private string _lastName;
-        private JRaw _rawContent;
+        get => _internalId;
+        set => _internalId = value;
+    }
 
-        [JsonIgnore]
-        public Guid InternalId
-        {
-            get => _internalId;
-            set => _internalId = value;
-        }
+    [JsonProperty("first_name")]
+    public string FirstName
+    {
+        get => _firstName;
+        set => _firstName = value;
+    }
 
-        [JsonProperty("first_name")]
-        public string FirstName
-        {
-            get => _firstName;
-            set => _firstName = value;
-        }
+    public JRaw RawContent
+    {
+        get => _rawContent;
+        set => _rawContent = value;
+    }
 
-        public JRaw RawContent
-        {
-            get => _rawContent;
-            set => _rawContent = value;
-        }
-
-        [JsonProperty("last_name")]
-        public string LastName
-        {
-            get => _lastName;
-            set => _lastName = value;
-        }
+    [JsonProperty("last_name")]
+    public string LastName
+    {
+        get => _lastName;
+        set => _lastName = value;
     }
 }

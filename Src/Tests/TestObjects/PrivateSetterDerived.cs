@@ -23,22 +23,21 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[JsonObject(MemberSerialization.OptIn)]
+public class PrivateSetterDerived : PrivateSetterBase
 {
-    [JsonObject(MemberSerialization.OptIn)]
-    public class PrivateSetterDerived : PrivateSetterBase
+    [JsonProperty]
+    public string IDoWork { get; private set; }
+
+    private PrivateSetterDerived()
     {
-        [JsonProperty]
-        public string IDoWork { get; private set; }
+    }
 
-        private PrivateSetterDerived()
-        {
-        }
-
-        internal PrivateSetterDerived(string dontWork, string doWork)
-            : base(dontWork)
-        {
-            IDoWork = doWork;
-        }
+    internal PrivateSetterDerived(string dontWork, string doWork)
+        : base(dontWork)
+    {
+        IDoWork = doWork;
     }
 }

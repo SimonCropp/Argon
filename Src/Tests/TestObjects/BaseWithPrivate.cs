@@ -23,11 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class BaseWithPrivate
 {
-    public class BaseWithPrivate
-    {
-        [JsonProperty]
-        public string BaseProperty { get; private set; }
-    }
+    [JsonProperty]
+    public string BaseProperty { get; private set; }
 }

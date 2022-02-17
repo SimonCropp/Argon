@@ -23,14 +23,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class CircularReferenceClass
-    {
-        [JsonProperty(Required = Required.Always)]
-        public string Name { get; set; }
+namespace Argon.Tests.TestObjects;
 
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public CircularReferenceClass Child { get; set; }
-    }
+public class CircularReferenceClass
+{
+    [JsonProperty(Required = Required.Always)]
+    public string Name { get; set; }
+
+    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+    public CircularReferenceClass Child { get; set; }
 }

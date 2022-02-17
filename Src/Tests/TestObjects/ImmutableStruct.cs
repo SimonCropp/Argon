@@ -23,17 +23,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public struct ImmutableStruct
-    {
-        public ImmutableStruct(string value)
-        {
-            Value = value;
-            Value2 = 0;
-        }
+namespace Argon.Tests.TestObjects;
 
-        public string Value { get; }
-        public int Value2 { get; set; }
+public struct ImmutableStruct
+{
+    public ImmutableStruct(string value)
+    {
+        Value = value;
+        Value2 = 0;
     }
+
+    public string Value { get; }
+    public int Value2 { get; set; }
 }

@@ -23,20 +23,19 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public sealed class JsonReaderStubWithIsClosed : JsonReader
 {
-    public sealed class JsonReaderStubWithIsClosed : JsonReader
+    public bool IsClosed { get; private set; }
+
+    public override void Close()
     {
-        public bool IsClosed { get; private set; }
+        IsClosed = true;
+    }
 
-        public override void Close()
-        {
-            IsClosed = true;
-        }
-
-        public override bool Read()
-        {
-            throw new NotSupportedException();
-        }
+    public override bool Read()
+    {
+        throw new NotSupportedException();
     }
 }

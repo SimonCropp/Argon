@@ -23,23 +23,22 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[JsonObject(MemberSerialization.OptIn)]
+public class StaticTestClass
 {
-    [JsonObject(MemberSerialization.OptIn)]
-    public class StaticTestClass
+    [JsonProperty]
+    public int x = 1;
+
+    [JsonProperty]
+    public static int y = 2;
+
+    [JsonProperty]
+    public static int z { get; set; }
+
+    static StaticTestClass()
     {
-        [JsonProperty]
-        public int x = 1;
-
-        [JsonProperty]
-        public static int y = 2;
-
-        [JsonProperty]
-        public static int z { get; set; }
-
-        static StaticTestClass()
-        {
-            z = 3;
-        }
+        z = 3;
     }
 }

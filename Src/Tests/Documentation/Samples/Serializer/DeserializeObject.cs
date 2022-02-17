@@ -28,26 +28,26 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
-{
-    [TestFixture]
-    public class DeserializeObject : TestFixtureBase
-    {
-        #region Types
-        public class Account
-        {
-            public string Email { get; set; }
-            public bool Active { get; set; }
-            public DateTime CreatedDate { get; set; }
-            public IList<string> Roles { get; set; }
-        }
-        #endregion
+namespace Argon.Tests.Documentation.Samples.Serializer;
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var json = @"{
+[TestFixture]
+public class DeserializeObject : TestFixtureBase
+{
+    #region Types
+    public class Account
+    {
+        public string Email { get; set; }
+        public bool Active { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public IList<string> Roles { get; set; }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var json = @"{
               'Email': 'james@example.com',
               'Active': true,
               'CreatedDate': '2013-01-20T00:00:00Z',
@@ -57,13 +57,12 @@ namespace Argon.Tests.Documentation.Samples.Serializer
               ]
             }";
 
-            var account = JsonConvert.DeserializeObject<Account>(json);
+        var account = JsonConvert.DeserializeObject<Account>(json);
 
-            Console.WriteLine(account.Email);
-            // james@example.com
-            #endregion
+        Console.WriteLine(account.Email);
+        // james@example.com
+        #endregion
 
-            Assert.AreEqual("james@example.com", account.Email);
-        }
+        Assert.AreEqual("james@example.com", account.Email);
     }
 }

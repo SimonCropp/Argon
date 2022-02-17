@@ -23,18 +23,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class IgnoredPropertiesContractResolver : DefaultContractResolver
-    {
-        public override JsonContract ResolveContract(Type type)
-        {
-            if (type == typeof(Version))
-            {
-                throw new Exception("Error!");
-            }
+namespace Argon.Tests.TestObjects;
 
-            return base.ResolveContract(type);
+public class IgnoredPropertiesContractResolver : DefaultContractResolver
+{
+    public override JsonContract ResolveContract(Type type)
+    {
+        if (type == typeof(Version))
+        {
+            throw new Exception("Error!");
         }
+
+        return base.ResolveContract(type);
     }
 }

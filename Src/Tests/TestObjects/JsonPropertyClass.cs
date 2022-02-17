@@ -23,25 +23,24 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class JsonPropertyClass
 {
-    public class JsonPropertyClass
+    [JsonProperty("pie")]
+    public string Pie = "Yum";
+
+    [JsonIgnore]
+    public string pie = "No pie for you!";
+
+    public string pie1 = "PieChart!";
+
+    private int _sweetCakesCount;
+
+    [JsonProperty("sweet_cakes_count")]
+    public int SweetCakesCount
     {
-        [JsonProperty("pie")]
-        public string Pie = "Yum";
-
-        [JsonIgnore]
-        public string pie = "No pie for you!";
-
-        public string pie1 = "PieChart!";
-
-        private int _sweetCakesCount;
-
-        [JsonProperty("sweet_cakes_count")]
-        public int SweetCakesCount
-        {
-            get => _sweetCakesCount;
-            set => _sweetCakesCount = value;
-        }
+        get => _sweetCakesCount;
+        set => _sweetCakesCount = value;
     }
 }

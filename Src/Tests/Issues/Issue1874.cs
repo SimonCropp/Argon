@@ -27,33 +27,32 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue1874
 {
-    [TestFixture]
-    public class Issue1874
+    [Fact]
+    public void Test()
     {
-        [Fact]
-        public void Test()
-        {
-            var something = new Something();
+        var something = new Something();
 
-            JsonConvert.PopulateObject(@"{""Foo"": 1, ""Bar"": 2}", something);
+        JsonConvert.PopulateObject(@"{""Foo"": 1, ""Bar"": 2}", something);
 
-            Assert.AreEqual(1, something.Extra.Count);
-            Assert.AreEqual(2, (int)something.Extra["Bar"]);
+        Assert.AreEqual(1, something.Extra.Count);
+        Assert.AreEqual(2, (int)something.Extra["Bar"]);
 
-            JsonConvert.PopulateObject(@"{""Foo"": 2, ""Bar"": 3}", something);
+        JsonConvert.PopulateObject(@"{""Foo"": 2, ""Bar"": 3}", something);
 
-            Assert.AreEqual(1, something.Extra.Count);
-            Assert.AreEqual(3, (int)something.Extra["Bar"]);
-        }
+        Assert.AreEqual(1, something.Extra.Count);
+        Assert.AreEqual(3, (int)something.Extra["Bar"]);
+    }
 
-        public class Something
-        {
-            public int Foo { get; set; }
+    public class Something
+    {
+        public int Foo { get; set; }
 
-            [JsonExtensionData]
-            public IDictionary<string, JToken> Extra { get; set; }
-        }
+        [JsonExtensionData]
+        public IDictionary<string, JToken> Extra { get; set; }
     }
 }

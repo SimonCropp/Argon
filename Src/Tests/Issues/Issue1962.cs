@@ -27,54 +27,53 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue1962
 {
-    [TestFixture]
-    public class Issue1962
+    [Fact]
+    public void Test_Default()
     {
-        [Fact]
-        public void Test_Default()
-        {
-            var json = @"// comment
+        var json = @"// comment
 [ 1, 2, 42 ]";
-            var token = JToken.Parse(json);
+        var token = JToken.Parse(json);
 
-            Assert.AreEqual(JTokenType.Comment, token.Type);
-            Assert.AreEqual(" comment", ((JValue)token).Value);
-        }
+        Assert.AreEqual(JTokenType.Comment, token.Type);
+        Assert.AreEqual(" comment", ((JValue)token).Value);
+    }
 
-        [Fact]
-        public void Test_LoadComments()
-        {
-            var json = @"// comment
+    [Fact]
+    public void Test_LoadComments()
+    {
+        var json = @"// comment
 [ 1, 2, 42 ]";
-            var token = JToken.Parse(json, new JsonLoadSettings
-            {
-                CommentHandling = CommentHandling.Load
-            });
-
-            Assert.AreEqual(JTokenType.Comment, token.Type);
-            Assert.AreEqual(" comment", ((JValue)token).Value);
-
-            var obj = token.ToObject<int[]>();
-            Assert.IsNull(obj);
-        }
-
-        [Fact]
-        public void Test_IgnoreComments()
+        var token = JToken.Parse(json, new JsonLoadSettings
         {
-            var json = @"// comment
-[ 1, 2, 42 ]";
-            var token = JToken.Parse(json, new JsonLoadSettings
-            {
-                CommentHandling = CommentHandling.Ignore
-            });
+            CommentHandling = CommentHandling.Load
+        });
 
-            Assert.AreEqual(JTokenType.Array, token.Type);
-            Assert.AreEqual(3, token.Count());
-            Assert.AreEqual(1, (int)token[0]);
-            Assert.AreEqual(2, (int)token[1]);
-            Assert.AreEqual(42, (int)token[2]);
-        }
+        Assert.AreEqual(JTokenType.Comment, token.Type);
+        Assert.AreEqual(" comment", ((JValue)token).Value);
+
+        var obj = token.ToObject<int[]>();
+        Assert.IsNull(obj);
+    }
+
+    [Fact]
+    public void Test_IgnoreComments()
+    {
+        var json = @"// comment
+[ 1, 2, 42 ]";
+        var token = JToken.Parse(json, new JsonLoadSettings
+        {
+            CommentHandling = CommentHandling.Ignore
+        });
+
+        Assert.AreEqual(JTokenType.Array, token.Type);
+        Assert.AreEqual(3, token.Count());
+        Assert.AreEqual(1, (int)token[0]);
+        Assert.AreEqual(2, (int)token[1]);
+        Assert.AreEqual(42, (int)token[2]);
     }
 }

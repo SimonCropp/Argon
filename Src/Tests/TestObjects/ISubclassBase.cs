@@ -23,12 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public interface ISubclassBase
 {
-    public interface ISubclassBase
-    {
-        int ID { get; set; }
-        string Name { get; set; }
-        bool P1 { get; }
-    }
+    int ID { get; set; }
+    string Name { get; set; }
+    bool P1 { get; }
 }

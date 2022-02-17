@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class JRawValueTestObject
 {
-    public class JRawValueTestObject
-    {
-        public JRaw Value { get; set; }
-    }
+    public JRaw Value { get; set; }
 }

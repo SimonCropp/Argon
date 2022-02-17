@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects.Organization
+namespace Argon.Tests.TestObjects.Organization;
+
+public class Manager : Employee
 {
-    public class Manager : Employee
-    {
-        public IList<Employee> Employees { get; set; }
-    }
+    public IList<Employee> Employees { get; set; }
 }

@@ -23,24 +23,23 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class JsonIgnoreAttributeTestClass
 {
-    public class JsonIgnoreAttributeTestClass
-    {
-        private int _property = 21;
-        private int _ignoredProperty = 12;
+    private int _property = 21;
+    private int _ignoredProperty = 12;
 
-        public int Field;
+    public int Field;
 
-        public int Property => _property;
+    public int Property => _property;
 
-        [JsonIgnore]
-        public int IgnoredField;
+    [JsonIgnore]
+    public int IgnoredField;
 
-        [JsonIgnore]
-        public int IgnoredProperty => _ignoredProperty;
+    [JsonIgnore]
+    public int IgnoredProperty => _ignoredProperty;
 
-        [JsonIgnore]
-        public Product IgnoredObject = new();
-    }
+    [JsonIgnore]
+    public Product IgnoredObject = new();
 }

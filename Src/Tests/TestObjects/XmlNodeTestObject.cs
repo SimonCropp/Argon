@@ -25,10 +25,9 @@
 
 using System.Xml;
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class XmlNodeTestObject
 {
-    public class XmlNodeTestObject
-    {
-        public XmlDocument Document { get; set; }
-    }
+    public XmlDocument Document { get; set; }
 }

@@ -23,11 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class IgnoreDataMemberTestClass
 {
-    public class IgnoreDataMemberTestClass
-    {
-        [IgnoreDataMember]
-        public int Ignored { get; set; }
-    }
+    [IgnoreDataMember]
+    public int Ignored { get; set; }
 }

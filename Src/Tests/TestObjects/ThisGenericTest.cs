@@ -23,57 +23,56 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class ThisGenericTest<T> where T : IKeyValueId
 {
-    public class ThisGenericTest<T> where T : IKeyValueId
+    private Dictionary<string, T> _dict1 = new();
+
+    public string MyProperty { get; set; }
+
+    public void Add(T item)
     {
-        private Dictionary<string, T> _dict1 = new();
+        _dict1.Add(item.Key, item);
+    }
 
-        public string MyProperty { get; set; }
+    public T this[string key]
+    {
+        get => _dict1[key];
+        set => _dict1[key] = value;
+    }
 
-        public void Add(T item)
+    public T this[int id]
+    {
+        get { return _dict1.Values.FirstOrDefault(x => x.Id == id); }
+        set
         {
-            _dict1.Add(item.Key, item);
-        }
+            var item = this[id];
 
-        public T this[string key]
-        {
-            get => _dict1[key];
-            set => _dict1[key] = value;
-        }
-
-        public T this[int id]
-        {
-            get { return _dict1.Values.FirstOrDefault(x => x.Id == id); }
-            set
+            if (item == null)
             {
-                var item = this[id];
-
-                if (item == null)
-                {
-                    Add(value);
-                }
-                else
-                {
-                    _dict1[item.Key] = value;
-                }
+                Add(value);
+            }
+            else
+            {
+                _dict1[item.Key] = value;
             }
         }
+    }
 
-        public string ToJson()
-        {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
-        }
+    public string ToJson()
+    {
+        return JsonConvert.SerializeObject(this, Formatting.Indented);
+    }
 
-        public T[] TheItems
+    public T[] TheItems
+    {
+        get => _dict1.Values.ToArray<T>();
+        set
         {
-            get => _dict1.Values.ToArray<T>();
-            set
+            foreach (var item in value)
             {
-                foreach (var item in value)
-                {
-                    Add(item);
-                }
+                Add(item);
             }
         }
     }

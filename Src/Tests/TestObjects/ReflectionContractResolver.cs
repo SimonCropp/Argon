@@ -23,13 +23,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class ReflectionContractResolver : DefaultContractResolver
 {
-    public class ReflectionContractResolver : DefaultContractResolver
+    protected override IValueProvider CreateMemberValueProvider(MemberInfo member)
     {
-        protected override IValueProvider CreateMemberValueProvider(MemberInfo member)
-        {
-            return new ReflectionValueProvider(member);
-        }
+        return new ReflectionValueProvider(member);
     }
 }

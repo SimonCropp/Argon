@@ -23,30 +23,29 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class Movie
 {
-    public class Movie
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public string Classification { get; set; }
+    public string Studio { get; set; }
+    public DateTime? ReleaseDate { get; set; }
+    public List<string> ReleaseCountries { get; set; }
+
+    public override string ToString()
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string Classification { get; set; }
-        public string Studio { get; set; }
-        public DateTime? ReleaseDate { get; set; }
-        public List<string> ReleaseCountries { get; set; }
+        return base.ToString();
+    }
 
-        public override string ToString()
-        {
-            return base.ToString();
-        }
+    public override bool Equals(object obj)
+    {
+        return base.Equals(obj);
+    }
 
-        public override bool Equals(object obj)
-        {
-            return base.Equals(obj);
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
     }
 }

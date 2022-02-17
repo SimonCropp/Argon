@@ -23,17 +23,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class PublicParameterizedConstructorWithNonPropertyParameterTestClass
 {
-    public class PublicParameterizedConstructorWithNonPropertyParameterTestClass
+    private readonly string _name;
+
+    public PublicParameterizedConstructorWithNonPropertyParameterTestClass(string nameParameter)
     {
-        private readonly string _name;
-
-        public PublicParameterizedConstructorWithNonPropertyParameterTestClass(string nameParameter)
-        {
-            _name = nameParameter;
-        }
-
-        public string Name => _name;
+        _name = nameParameter;
     }
+
+    public string Name => _name;
 }

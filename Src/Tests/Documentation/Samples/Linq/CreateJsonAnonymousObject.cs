@@ -28,82 +28,82 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Linq
+namespace Argon.Tests.Documentation.Samples.Linq;
+
+[TestFixture]
+public class CreateJsonAnonymousObject : TestFixtureBase
 {
-    [TestFixture]
-    public class CreateJsonAnonymousObject : TestFixtureBase
+    #region Types
+    public class Post
     {
-        #region Types
-        public class Post
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string Link { get; set; }
+        public IList<string> Categories { get; set; }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var posts = new List<Post>
         {
-            public string Title { get; set; }
-            public string Description { get; set; }
-            public string Link { get; set; }
-            public IList<string> Categories { get; set; }
-        }
+            new()
+            {
+                Title = "Episode VII",
+                Description = "Episode VII production",
+                Categories = new List<string>
+                {
+                    "episode-vii",
+                    "movie"
+                },
+                Link = "episode-vii-production.aspx"
+            }
+        };
+
+        var o = JObject.FromObject(new
+        {
+            channel = new
+            {
+                title = "Star Wars",
+                link = "http://www.starwars.com",
+                description = "Star Wars blog.",
+                item =
+                    from p in posts
+                    orderby p.Title
+                    select new
+                    {
+                        title = p.Title,
+                        description = p.Description,
+                        link = p.Link,
+                        category = p.Categories
+                    }
+            }
+        });
+
+        Console.WriteLine(o.ToString());
+        // {
+        //   "channel": {
+        //     "title": "Star Wars",
+        //     "link": "http://www.starwars.com",
+        //     "description": "Star Wars blog.",
+        //     "item": [
+        //       {
+        //         "title": "Episode VII",
+        //         "description": "Episode VII production",
+        //         "link": "episode-vii-production.aspx",
+        //         "category": [
+        //           "episode-vii",
+        //           "movie"
+        //         ]
+        //       }
+        //     ]
+        //   }
+        // }
         #endregion
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var posts = new List<Post>
-            {
-                new()
-                {
-                    Title = "Episode VII",
-                    Description = "Episode VII production",
-                    Categories = new List<string>
-                    {
-                        "episode-vii",
-                        "movie"
-                    },
-                    Link = "episode-vii-production.aspx"
-                }
-            };
-
-            var o = JObject.FromObject(new
-            {
-                channel = new
-                {
-                    title = "Star Wars",
-                    link = "http://www.starwars.com",
-                    description = "Star Wars blog.",
-                    item =
-                        from p in posts
-                        orderby p.Title
-                        select new
-                        {
-                            title = p.Title,
-                            description = p.Description,
-                            link = p.Link,
-                            category = p.Categories
-                        }
-                }
-            });
-
-            Console.WriteLine(o.ToString());
-            // {
-            //   "channel": {
-            //     "title": "Star Wars",
-            //     "link": "http://www.starwars.com",
-            //     "description": "Star Wars blog.",
-            //     "item": [
-            //       {
-            //         "title": "Episode VII",
-            //         "description": "Episode VII production",
-            //         "link": "episode-vii-production.aspx",
-            //         "category": [
-            //           "episode-vii",
-            //           "movie"
-            //         ]
-            //       }
-            //     ]
-            //   }
-            // }
-            #endregion
-
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""channel"": {
     ""title"": ""Star Wars"",
     ""link"": ""http://www.starwars.com"",
@@ -121,6 +121,5 @@ namespace Argon.Tests.Documentation.Samples.Linq
     ]
   }
 }", o.ToString());
-        }
     }
 }

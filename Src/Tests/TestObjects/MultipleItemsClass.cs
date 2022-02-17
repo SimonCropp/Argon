@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class MultipleItemsClass
 {
-    public class MultipleItemsClass
-    {
-        public string Name { get; set; }
-    }
+    public string Name { get; set; }
 }

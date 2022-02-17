@@ -23,21 +23,20 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[DataContract]
+public class BaseWithoutContract
 {
-    [DataContract]
-    public class BaseWithoutContract
-    {
-        [DataMember(Name = "VirtualWithDataMemberBase")]
-        public virtual string VirtualWithDataMember { get; set; }
+    [DataMember(Name = "VirtualWithDataMemberBase")]
+    public virtual string VirtualWithDataMember { get; set; }
 
-        [DataMember]
-        public virtual string Virtual { get; set; }
+    [DataMember]
+    public virtual string Virtual { get; set; }
 
-        [DataMember(Name = "WithDataMemberBase")]
-        public string WithDataMember { get; set; }
+    [DataMember(Name = "WithDataMemberBase")]
+    public string WithDataMember { get; set; }
 
-        [DataMember]
-        public string JustAProperty { get; set; }
-    }
+    [DataMember]
+    public string JustAProperty { get; set; }
 }

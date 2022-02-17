@@ -27,29 +27,28 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue0573
 {
-    [TestFixture]
-    public class Issue0573
+    [Fact]
+    public void Test()
     {
-        [Fact]
-        public void Test()
+        var json = "{'Value':'hi'}";
+        var traceWriter = new MemoryTraceWriter { LevelFilter = TraceLevel.Info };
+        var o = JsonConvert.DeserializeObject<PrivateSetterTestClass>(json, new JsonSerializerSettings
         {
-            var json = "{'Value':'hi'}";
-            var traceWriter = new MemoryTraceWriter { LevelFilter = TraceLevel.Info };
-            var o = JsonConvert.DeserializeObject<PrivateSetterTestClass>(json, new JsonSerializerSettings
-            {
-                TraceWriter = traceWriter
-            });
-            var messages = traceWriter.GetTraceMessages().ToList();
+            TraceWriter = traceWriter
+        });
+        var messages = traceWriter.GetTraceMessages().ToList();
 
-            var hasMessage = messages.Any(message => message.Contains("Info Unable to deserialize value to non-writable property 'Value' on Argon.Tests.Issues.Issue0573+PrivateSetterTestClass. Path 'Value', line 1, position 13."));
-            Assert.IsTrue(hasMessage);
-        }
+        var hasMessage = messages.Any(message => message.Contains("Info Unable to deserialize value to non-writable property 'Value' on Argon.Tests.Issues.Issue0573+PrivateSetterTestClass. Path 'Value', line 1, position 13."));
+        Assert.IsTrue(hasMessage);
+    }
 
-        public class PrivateSetterTestClass
-        {
-            public string Value { get; private set; }
-        }
+    public class PrivateSetterTestClass
+    {
+        public string Value { get; private set; }
     }
 }

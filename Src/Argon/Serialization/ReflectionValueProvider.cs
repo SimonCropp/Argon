@@ -23,63 +23,62 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Serialization
+namespace Argon.Serialization;
+
+/// <summary>
+/// Get and set values for a <see cref="MemberInfo"/> using reflection.
+/// </summary>
+public class ReflectionValueProvider : IValueProvider
 {
+    private readonly MemberInfo _memberInfo;
+
     /// <summary>
-    /// Get and set values for a <see cref="MemberInfo"/> using reflection.
+    /// Initializes a new instance of the <see cref="ReflectionValueProvider"/> class.
     /// </summary>
-    public class ReflectionValueProvider : IValueProvider
+    /// <param name="memberInfo">The member info.</param>
+    public ReflectionValueProvider(MemberInfo memberInfo)
     {
-        private readonly MemberInfo _memberInfo;
+        ValidationUtils.ArgumentNotNull(memberInfo, nameof(memberInfo));
+        _memberInfo = memberInfo;
+    }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ReflectionValueProvider"/> class.
-        /// </summary>
-        /// <param name="memberInfo">The member info.</param>
-        public ReflectionValueProvider(MemberInfo memberInfo)
+    /// <summary>
+    /// Sets the value.
+    /// </summary>
+    /// <param name="target">The target to set the value on.</param>
+    /// <param name="value">The value to set on the target.</param>
+    public void SetValue(object target, object? value)
+    {
+        try
         {
-            ValidationUtils.ArgumentNotNull(memberInfo, nameof(memberInfo));
-            _memberInfo = memberInfo;
+            ReflectionUtils.SetMemberValue(_memberInfo, target, value);
         }
-
-        /// <summary>
-        /// Sets the value.
-        /// </summary>
-        /// <param name="target">The target to set the value on.</param>
-        /// <param name="value">The value to set on the target.</param>
-        public void SetValue(object target, object? value)
+        catch (Exception ex)
         {
-            try
-            {
-                ReflectionUtils.SetMemberValue(_memberInfo, target, value);
-            }
-            catch (Exception ex)
-            {
-                throw new JsonSerializationException("Error setting value to '{0}' on '{1}'.".FormatWith(CultureInfo.InvariantCulture, _memberInfo.Name, target.GetType()), ex);
-            }
+            throw new JsonSerializationException("Error setting value to '{0}' on '{1}'.".FormatWith(CultureInfo.InvariantCulture, _memberInfo.Name, target.GetType()), ex);
         }
+    }
 
-        /// <summary>
-        /// Gets the value.
-        /// </summary>
-        /// <param name="target">The target to get the value from.</param>
-        /// <returns>The value.</returns>
-        public object? GetValue(object target)
+    /// <summary>
+    /// Gets the value.
+    /// </summary>
+    /// <param name="target">The target to get the value from.</param>
+    /// <returns>The value.</returns>
+    public object? GetValue(object target)
+    {
+        try
         {
-            try
+            // https://github.com/dotnet/corefx/issues/26053
+            if (_memberInfo is PropertyInfo propertyInfo && propertyInfo.PropertyType.IsByRef)
             {
-                // https://github.com/dotnet/corefx/issues/26053
-                if (_memberInfo is PropertyInfo propertyInfo && propertyInfo.PropertyType.IsByRef)
-                {
-                    throw new InvalidOperationException("Could not create getter for {0}. ByRef return values are not supported.".FormatWith(CultureInfo.InvariantCulture, propertyInfo));
-                }
+                throw new InvalidOperationException("Could not create getter for {0}. ByRef return values are not supported.".FormatWith(CultureInfo.InvariantCulture, propertyInfo));
+            }
 
-                return ReflectionUtils.GetMemberValue(_memberInfo, target);
-            }
-            catch (Exception ex)
-            {
-                throw new JsonSerializationException("Error getting value from '{0}' on '{1}'.".FormatWith(CultureInfo.InvariantCulture, _memberInfo.Name, target.GetType()), ex);
-            }
+            return ReflectionUtils.GetMemberValue(_memberInfo, target);
+        }
+        catch (Exception ex)
+        {
+            throw new JsonSerializationException("Error getting value from '{0}' on '{1}'.".FormatWith(CultureInfo.InvariantCulture, _memberInfo.Name, target.GetType()), ex);
         }
     }
 }

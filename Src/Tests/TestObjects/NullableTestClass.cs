@@ -23,14 +23,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class NullableTestClass
 {
-    public class NullableTestClass
-    {
-        public bool? MyNullableBool { get; set; }
-        public int? MyNullableInteger { get; set; }
-        public DateTime? MyNullableDateTime { get; set; }
-        public DateTimeOffset? MyNullableDateTimeOffset { get; set; }
-        public Decimal? MyNullableDecimal { get; set; }
-    }
+    public bool? MyNullableBool { get; set; }
+    public int? MyNullableInteger { get; set; }
+    public DateTime? MyNullableDateTime { get; set; }
+    public DateTimeOffset? MyNullableDateTimeOffset { get; set; }
+    public Decimal? MyNullableDecimal { get; set; }
 }

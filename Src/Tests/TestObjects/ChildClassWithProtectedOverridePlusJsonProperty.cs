@@ -23,16 +23,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class ChildClassWithProtectedOverridePlusJsonProperty : BaseClassWithProtectedVirtual
-    {
-        [JsonProperty]
-        protected override string MyProperty { get; set; }
+namespace Argon.Tests.TestObjects;
 
-        public string GetPropertyValue()
-        {
-            return MyProperty;
-        }
+public class ChildClassWithProtectedOverridePlusJsonProperty : BaseClassWithProtectedVirtual
+{
+    [JsonProperty]
+    protected override string MyProperty { get; set; }
+
+    public string GetPropertyValue()
+    {
+        return MyProperty;
     }
 }

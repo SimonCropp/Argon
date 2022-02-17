@@ -25,44 +25,43 @@
 
 using System.ComponentModel;
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+internal class MyInterfaceConverter : TypeConverter
 {
-    internal class MyInterfaceConverter : TypeConverter
+    private readonly List<IMyInterface> _writers = new()
     {
-        private readonly List<IMyInterface> _writers = new()
-        {
-            new ConsoleWriter(),
-            new TraceWriter()
-        };
+        new ConsoleWriter(),
+        new TraceWriter()
+    };
 
-        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
+    public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
+    {
+        return destinationType == typeof(string);
+    }
+
+    public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+    {
+        return sourceType == typeof(string);
+    }
+
+    public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+    {
+        if (value == null)
         {
-            return destinationType == typeof(string);
+            return null;
         }
 
-        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
-        {
-            return sourceType == typeof(string);
-        }
+        return (from w in _writers where w.Name == value.ToString() select w).FirstOrDefault();
+    }
 
-        public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+    public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value,
+        Type destinationType)
+    {
+        if (value == null)
         {
-            if (value == null)
-            {
-                return null;
-            }
-
-            return (from w in _writers where w.Name == value.ToString() select w).FirstOrDefault();
+            return null;
         }
-
-        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value,
-            Type destinationType)
-        {
-            if (value == null)
-            {
-                return null;
-            }
-            return ((IMyInterface)value).Name;
-        }
+        return ((IMyInterface)value).Name;
     }
 }

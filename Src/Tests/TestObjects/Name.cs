@@ -23,17 +23,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class Name
 {
-    public class Name
+    public string personsName;
+
+    public List<PhoneNumber> pNumbers = new();
+
+    public Name(string personsName)
     {
-        public string personsName;
-
-        public List<PhoneNumber> pNumbers = new();
-
-        public Name(string personsName)
-        {
-            this.personsName = personsName;
-        }
+        this.personsName = personsName;
     }
 }

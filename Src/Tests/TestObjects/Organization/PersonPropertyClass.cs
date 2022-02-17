@@ -23,15 +23,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects.Organization
-{
-    public class PersonPropertyClass
-    {
-        public Person Person { get; set; }
+namespace Argon.Tests.TestObjects.Organization;
 
-        public PersonPropertyClass()
-        {
-            Person = new WagePerson();
-        }
+public class PersonPropertyClass
+{
+    public Person Person { get; set; }
+
+    public PersonPropertyClass()
+    {
+        Person = new WagePerson();
     }
 }

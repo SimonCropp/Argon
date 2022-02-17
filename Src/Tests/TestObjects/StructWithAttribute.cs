@@ -23,14 +23,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    [JsonObject(MemberSerialization.OptIn)]
-    public struct StructWithAttribute
-    {
-        public string MyString { get; set; }
+namespace Argon.Tests.TestObjects;
 
-        [JsonProperty]
-        public int MyInt { get; set; }
-    }
+[JsonObject(MemberSerialization.OptIn)]
+public struct StructWithAttribute
+{
+    public string MyString { get; set; }
+
+    [JsonProperty]
+    public int MyInt { get; set; }
 }

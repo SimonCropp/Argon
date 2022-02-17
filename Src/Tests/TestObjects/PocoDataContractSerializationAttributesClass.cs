@@ -23,20 +23,19 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class PocoDataContractSerializationAttributesClass
 {
-    public class PocoDataContractSerializationAttributesClass
-    {
-        public string NoAttribute { get; set; }
+    public string NoAttribute { get; set; }
 
-        [IgnoreDataMember]
-        public string IgnoreDataMemberAttribute { get; set; }
+    [IgnoreDataMember]
+    public string IgnoreDataMemberAttribute { get; set; }
 
-        [DataMember]
-        public string DataMemberAttribute { get; set; }
+    [DataMember]
+    public string DataMemberAttribute { get; set; }
 
-        [IgnoreDataMember]
-        [DataMember]
-        public string IgnoreDataMemberAndDataMemberAttribute { get; set; }
-    }
+    [IgnoreDataMember]
+    [DataMember]
+    public string IgnoreDataMemberAndDataMemberAttribute { get; set; }
 }

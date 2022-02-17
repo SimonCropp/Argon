@@ -23,32 +23,31 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Converters
+namespace Argon.Converters;
+
+/// <summary>
+/// Provides a base class for converting a <see cref="DateTime"/> to and from JSON.
+/// </summary>
+public abstract class DateTimeConverterBase : JsonConverter
 {
     /// <summary>
-    /// Provides a base class for converting a <see cref="DateTime"/> to and from JSON.
+    /// Determines whether this instance can convert the specified object type.
     /// </summary>
-    public abstract class DateTimeConverterBase : JsonConverter
+    /// <param name="objectType">Type of the object.</param>
+    /// <returns>
+    /// 	<c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
+    /// </returns>
+    public override bool CanConvert(Type objectType)
     {
-        /// <summary>
-        /// Determines whether this instance can convert the specified object type.
-        /// </summary>
-        /// <param name="objectType">Type of the object.</param>
-        /// <returns>
-        /// 	<c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
-        /// </returns>
-        public override bool CanConvert(Type objectType)
+        if (objectType == typeof(DateTime) || objectType == typeof(DateTime?))
         {
-            if (objectType == typeof(DateTime) || objectType == typeof(DateTime?))
-            {
-                return true;
-            }
-            if (objectType == typeof(DateTimeOffset) || objectType == typeof(DateTimeOffset?))
-            {
-                return true;
-            }
-
-            return false;
+            return true;
         }
+        if (objectType == typeof(DateTimeOffset) || objectType == typeof(DateTimeOffset?))
+        {
+            return true;
+        }
+
+        return false;
     }
 }

@@ -23,29 +23,28 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class Co : ICo
 {
-    public class Co : ICo
-    {
-        public string Name { get; set; }
-    }
+    public string Name { get; set; }
+}
 
-    public interface ICo
-    {
-        string Name { get; set; }
-    }
+public interface ICo
+{
+    string Name { get; set; }
+}
 
-    public interface IInterfacePropertyTestClass
-    {
-        ICo co { get; set; }
-    }
+public interface IInterfacePropertyTestClass
+{
+    ICo co { get; set; }
+}
 
-    public class InterfacePropertyTestClass : IInterfacePropertyTestClass
-    {
-        public ICo co { get; set; }
+public class InterfacePropertyTestClass : IInterfacePropertyTestClass
+{
+    public ICo co { get; set; }
 
-        public InterfacePropertyTestClass()
-        {
-        }
+    public InterfacePropertyTestClass()
+    {
     }
 }

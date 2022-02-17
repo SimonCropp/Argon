@@ -30,16 +30,16 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class DeserializeDataSet : TestFixtureBase
 {
-    [TestFixture]
-    public class DeserializeDataSet : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var json = @"{
+        #region Usage
+        var json = @"{
               'Table1': [
                 {
                   'id': 0,
@@ -52,22 +52,21 @@ namespace Argon.Tests.Documentation.Samples.Serializer
               ]
             }";
 
-            var dataSet = JsonConvert.DeserializeObject<DataSet>(json);
+        var dataSet = JsonConvert.DeserializeObject<DataSet>(json);
 
-            var dataTable = dataSet.Tables["Table1"];
+        var dataTable = dataSet.Tables["Table1"];
 
-            Console.WriteLine(dataTable.Rows.Count);
-            // 2
+        Console.WriteLine(dataTable.Rows.Count);
+        // 2
 
-            foreach (DataRow row in dataTable.Rows)
-            {
-                Console.WriteLine(row["id"] + " - " + row["item"]);
-            }
-            // 0 - item 0
-            // 1 - item 1
-            #endregion
-
-            Assert.AreEqual(2, dataTable.Rows.Count);
+        foreach (DataRow row in dataTable.Rows)
+        {
+            Console.WriteLine(row["id"] + " - " + row["item"]);
         }
+        // 0 - item 0
+        // 1 - item 1
+        #endregion
+
+        Assert.AreEqual(2, dataTable.Rows.Count);
     }
 }

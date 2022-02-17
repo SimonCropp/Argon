@@ -24,17 +24,17 @@
 #endregion
 
 #pragma warning disable 618
-namespace Argon.Tests.Documentation.Samples.Schema
-{
-    public class RefJsonSchemaResolver
-    {
-        public void Example()
-        {
-            #region Usage
-            string schemaJson;
-            var resolver = new JsonSchemaResolver();
+namespace Argon.Tests.Documentation.Samples.Schema;
 
-            schemaJson = @"{
+public class RefJsonSchemaResolver
+{
+  public void Example()
+  {
+    #region Usage
+    string schemaJson;
+    var resolver = new JsonSchemaResolver();
+
+    schemaJson = @"{
               'id': 'person',
               'type': 'object',
               'properties': {
@@ -43,9 +43,9 @@ namespace Argon.Tests.Documentation.Samples.Schema
               }
             }";
 
-            var personSchema = JsonSchema.Parse(schemaJson, resolver);
+    var personSchema = JsonSchema.Parse(schemaJson, resolver);
 
-            schemaJson = @"{
+    schemaJson = @"{
               'id': 'employee',
               'type': 'object',
               'extends': {'$ref':'person'},
@@ -55,24 +55,23 @@ namespace Argon.Tests.Documentation.Samples.Schema
               }
             }";
 
-            var employeeSchema = JsonSchema.Parse(schemaJson, resolver);
+    var employeeSchema = JsonSchema.Parse(schemaJson, resolver);
 
-            var json = @"{
+    var json = @"{
               'name': 'James',
               'age': 29,
               'salary': 9000.01,
               'jobTitle': 'Junior Vice President'
             }";
 
-            var employee = JObject.Parse(json);
+    var employee = JObject.Parse(json);
 
-            var valid = employee.IsValid(employeeSchema);
+    var valid = employee.IsValid(employeeSchema);
 
-            Console.WriteLine(valid);
-            // true
-            #endregion
-        }
-    }
+    Console.WriteLine(valid);
+    // true
+    #endregion
+  }
 }
 
 #pragma warning restore 618

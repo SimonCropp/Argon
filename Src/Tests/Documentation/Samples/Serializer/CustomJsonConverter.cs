@@ -27,98 +27,97 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class CustomJsonConverter : TestFixtureBase
 {
-    [TestFixture]
-    public class CustomJsonConverter : TestFixtureBase
+    #region Types
+    public class KeysJsonConverter : JsonConverter
     {
-        #region Types
-        public class KeysJsonConverter : JsonConverter
+        private readonly Type[] _types;
+
+        public KeysJsonConverter(params Type[] types)
         {
-            private readonly Type[] _types;
+            _types = types;
+        }
 
-            public KeysJsonConverter(params Type[] types)
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            var t = JToken.FromObject(value);
+
+            if (t.Type != JTokenType.Object)
             {
-                _types = types;
+                t.WriteTo(writer);
             }
-
-            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+            else
             {
-                var t = JToken.FromObject(value);
+                var o = (JObject)t;
+                IList<string> propertyNames = o.Properties().Select(p => p.Name).ToList();
 
-                if (t.Type != JTokenType.Object)
-                {
-                    t.WriteTo(writer);
-                }
-                else
-                {
-                    var o = (JObject)t;
-                    IList<string> propertyNames = o.Properties().Select(p => p.Name).ToList();
+                o.AddFirst(new JProperty("Keys", new JArray(propertyNames)));
 
-                    o.AddFirst(new JProperty("Keys", new JArray(propertyNames)));
-
-                    o.WriteTo(writer);
-                }
-            }
-
-            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-            {
-                throw new NotImplementedException("Unnecessary because CanRead is false. The type will skip the converter.");
-            }
-
-            public override bool CanRead => false;
-
-            public override bool CanConvert(Type objectType)
-            {
-                return _types.Any(t => t == objectType);
+                o.WriteTo(writer);
             }
         }
 
-        public class Employee
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            public string FirstName { get; set; }
-            public string LastName { get; set; }
-            public IList<string> Roles { get; set; }
+            throw new NotImplementedException("Unnecessary because CanRead is false. The type will skip the converter.");
         }
+
+        public override bool CanRead => false;
+
+        public override bool CanConvert(Type objectType)
+        {
+            return _types.Any(t => t == objectType);
+        }
+    }
+
+    public class Employee
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public IList<string> Roles { get; set; }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var employee = new Employee
+        {
+            FirstName = "James",
+            LastName = "Newton-King",
+            Roles = new List<string>
+            {
+                "Admin"
+            }
+        };
+
+        var json = JsonConvert.SerializeObject(employee, Formatting.Indented, new KeysJsonConverter(typeof(Employee)));
+
+        Console.WriteLine(json);
+        // {
+        //   "Keys": [
+        //     "FirstName",
+        //     "LastName",
+        //     "Roles"
+        //   ],
+        //   "FirstName": "James",
+        //   "LastName": "Newton-King",
+        //   "Roles": [
+        //     "Admin"
+        //   ]
+        // }
+
+        var newEmployee = JsonConvert.DeserializeObject<Employee>(json, new KeysJsonConverter(typeof(Employee)));
+
+        Console.WriteLine(newEmployee.FirstName);
+        // James
         #endregion
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var employee = new Employee
-            {
-                FirstName = "James",
-                LastName = "Newton-King",
-                Roles = new List<string>
-                {
-                    "Admin"
-                }
-            };
-
-            var json = JsonConvert.SerializeObject(employee, Formatting.Indented, new KeysJsonConverter(typeof(Employee)));
-
-            Console.WriteLine(json);
-            // {
-            //   "Keys": [
-            //     "FirstName",
-            //     "LastName",
-            //     "Roles"
-            //   ],
-            //   "FirstName": "James",
-            //   "LastName": "Newton-King",
-            //   "Roles": [
-            //     "Admin"
-            //   ]
-            // }
-
-            var newEmployee = JsonConvert.DeserializeObject<Employee>(json, new KeysJsonConverter(typeof(Employee)));
-
-            Console.WriteLine(newEmployee.FirstName);
-            // James
-            #endregion
-
-            Assert.AreEqual("James", newEmployee.FirstName);
-        }
+        Assert.AreEqual("James", newEmployee.FirstName);
     }
 }

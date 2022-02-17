@@ -25,14 +25,13 @@
 
 using System.Collections.ObjectModel;
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class ListErrorObjectCollection : Collection<ListErrorObject>
 {
-    public class ListErrorObjectCollection : Collection<ListErrorObject>
+    [OnError]
+    internal void OnErrorMethod(StreamingContext context, ErrorContext errorContext)
     {
-        [OnError]
-        internal void OnErrorMethod(StreamingContext context, ErrorContext errorContext)
-        {
-            errorContext.Handled = true;
-        }
+        errorContext.Handled = true;
     }
 }

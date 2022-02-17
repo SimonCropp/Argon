@@ -23,21 +23,20 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public abstract class SimpleResponse
 {
-    public abstract class SimpleResponse
+    public string Result { get; set; }
+    public string Message { get; set; }
+    public object Data { get; set; }
+
+    protected SimpleResponse()
     {
-        public string Result { get; set; }
-        public string Message { get; set; }
-        public object Data { get; set; }
+    }
 
-        protected SimpleResponse()
-        {
-        }
-
-        protected SimpleResponse(string message)
-        {
-            Message = message;
-        }
+    protected SimpleResponse(string message)
+    {
+        Message = message;
     }
 }

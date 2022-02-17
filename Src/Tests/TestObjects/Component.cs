@@ -23,16 +23,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    [JsonObject(MemberSerialization.OptIn)]
-    public class Component
-    {
-        [JsonIgnore] // Ignore circular reference 
-        public GameObject GameObject { get; set; }
+namespace Argon.Tests.TestObjects;
 
-        public Component()
-        {
-        }
+[JsonObject(MemberSerialization.OptIn)]
+public class Component
+{
+    [JsonIgnore] // Ignore circular reference 
+    public GameObject GameObject { get; set; }
+
+    public Component()
+    {
     }
 }

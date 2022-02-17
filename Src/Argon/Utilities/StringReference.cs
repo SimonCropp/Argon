@@ -23,87 +23,86 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Utilities
+namespace Argon.Utilities;
+
+internal readonly struct StringReference
 {
-    internal readonly struct StringReference
+    private readonly char[] _chars;
+    private readonly int _startIndex;
+    private readonly int _length;
+
+    public char this[int i] => _chars[i];
+
+    public char[] Chars => _chars;
+
+    public int StartIndex => _startIndex;
+
+    public int Length => _length;
+
+    public StringReference(char[] chars, int startIndex, int length)
     {
-        private readonly char[] _chars;
-        private readonly int _startIndex;
-        private readonly int _length;
-
-        public char this[int i] => _chars[i];
-
-        public char[] Chars => _chars;
-
-        public int StartIndex => _startIndex;
-
-        public int Length => _length;
-
-        public StringReference(char[] chars, int startIndex, int length)
-        {
-            _chars = chars;
-            _startIndex = startIndex;
-            _length = length;
-        }
-
-        public override string ToString()
-        {
-            return new string(_chars, _startIndex, _length);
-        }
+        _chars = chars;
+        _startIndex = startIndex;
+        _length = length;
     }
 
-    internal static class StringReferenceExtensions
+    public override string ToString()
     {
-        public static int IndexOf(this StringReference s, char c, int startIndex, int length)
-        {
-            var index = Array.IndexOf(s.Chars, c, s.StartIndex + startIndex, length);
-            if (index == -1)
-            {
-                return -1;
-            }
+        return new string(_chars, _startIndex, _length);
+    }
+}
 
-            return index - s.StartIndex;
+internal static class StringReferenceExtensions
+{
+    public static int IndexOf(this StringReference s, char c, int startIndex, int length)
+    {
+        var index = Array.IndexOf(s.Chars, c, s.StartIndex + startIndex, length);
+        if (index == -1)
+        {
+            return -1;
         }
 
-        public static bool StartsWith(this StringReference s, string text)
+        return index - s.StartIndex;
+    }
+
+    public static bool StartsWith(this StringReference s, string text)
+    {
+        if (text.Length > s.Length)
         {
-            if (text.Length > s.Length)
+            return false;
+        }
+
+        var chars = s.Chars;
+
+        for (var i = 0; i < text.Length; i++)
+        {
+            if (text[i] != chars[i + s.StartIndex])
             {
                 return false;
             }
-
-            var chars = s.Chars;
-
-            for (var i = 0; i < text.Length; i++)
-            {
-                if (text[i] != chars[i + s.StartIndex])
-                {
-                    return false;
-                }
-            }
-
-            return true;
         }
 
-        public static bool EndsWith(this StringReference s, string text)
+        return true;
+    }
+
+    public static bool EndsWith(this StringReference s, string text)
+    {
+        if (text.Length > s.Length)
         {
-            if (text.Length > s.Length)
+            return false;
+        }
+
+        var chars = s.Chars;
+
+        var start = s.StartIndex + s.Length - text.Length;
+        for (var i = 0; i < text.Length; i++)
+        {
+            if (text[i] != chars[i + start])
             {
                 return false;
             }
-
-            var chars = s.Chars;
-
-            var start = s.StartIndex + s.Length - text.Length;
-            for (var i = 0; i < text.Length; i++)
-            {
-                if (text[i] != chars[i + start])
-                {
-                    return false;
-                }
-            }
-
-            return true;
         }
+
+        return true;
     }
 }

@@ -23,21 +23,20 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class PrivateConstructorWithPublicParameterizedConstructorTestClass
 {
-    public class PrivateConstructorWithPublicParameterizedConstructorTestClass
+    public string Name { get; set; }
+    public int Age { get; set; }
+
+    private PrivateConstructorWithPublicParameterizedConstructorTestClass()
     {
-        public string Name { get; set; }
-        public int Age { get; set; }
+        Age = 1;
+    }
 
-        private PrivateConstructorWithPublicParameterizedConstructorTestClass()
-        {
-            Age = 1;
-        }
-
-        public PrivateConstructorWithPublicParameterizedConstructorTestClass(string dummy)
-        {
-            throw new Exception("Should never get here.");
-        }
+    public PrivateConstructorWithPublicParameterizedConstructorTestClass(string dummy)
+    {
+        throw new Exception("Should never get here.");
     }
 }

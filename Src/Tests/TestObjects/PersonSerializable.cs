@@ -23,30 +23,29 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[Serializable]
+public class PersonSerializable
 {
-    [Serializable]
-    public class PersonSerializable
+    public PersonSerializable()
     {
-        public PersonSerializable()
-        {
-        }
+    }
 
-        private string _name = "";
+    private string _name = "";
 
-        public string Name
-        {
-            get => _name;
-            set => _name = value;
-        }
+    public string Name
+    {
+        get => _name;
+        set => _name = value;
+    }
 
-        [NonSerialized]
-        private int _age = 0;
+    [NonSerialized]
+    private int _age = 0;
 
-        public int Age
-        {
-            get => _age;
-            set => _age = value;
-        }
+    public int Age
+    {
+        get => _age;
+        set => _age = value;
     }
 }

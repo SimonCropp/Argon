@@ -23,22 +23,21 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class DictionaryKeyContractResolver : DefaultContractResolver
-    {
-        protected override string ResolveDictionaryKey(string dictionaryKey)
-        {
-            return dictionaryKey;
-        }
+namespace Argon.Tests.TestObjects;
 
-        protected override string ResolvePropertyName(string propertyName)
-        {
+public class DictionaryKeyContractResolver : DefaultContractResolver
+{
+    protected override string ResolveDictionaryKey(string dictionaryKey)
+    {
+        return dictionaryKey;
+    }
+
+    protected override string ResolvePropertyName(string propertyName)
+    {
 #if NET5_0_OR_GREATER
             return propertyName.ToUpperInvariant();
 #else
-            return propertyName.ToUpper(CultureInfo.InvariantCulture);
+        return propertyName.ToUpper(CultureInfo.InvariantCulture);
 #endif
-        }
     }
 }

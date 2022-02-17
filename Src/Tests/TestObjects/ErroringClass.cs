@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class ErroringClass
 {
-    public class ErroringClass
-    {
-        public DateTime Tags { get; set; }
-    }
+    public DateTime Tags { get; set; }
 }

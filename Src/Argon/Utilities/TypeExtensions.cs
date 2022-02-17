@@ -23,136 +23,135 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Utilities
+namespace Argon.Utilities;
+
+internal static class TypeExtensions
 {
-    internal static class TypeExtensions
+    public static MethodInfo Method(this Delegate d)
     {
-        public static MethodInfo Method(this Delegate d)
-        {
-            return d.Method;
-        }
+        return d.Method;
+    }
 
-        public static MemberTypes MemberType(this MemberInfo memberInfo)
-        {
-            return memberInfo.MemberType;
-        }
+    public static MemberTypes MemberType(this MemberInfo memberInfo)
+    {
+        return memberInfo.MemberType;
+    }
 
-        public static bool ContainsGenericParameters(this Type type)
-        {
-            return type.ContainsGenericParameters;
-        }
+    public static bool ContainsGenericParameters(this Type type)
+    {
+        return type.ContainsGenericParameters;
+    }
 
-        public static bool IsInterface(this Type type)
-        {
-            return type.IsInterface;
-        }
+    public static bool IsInterface(this Type type)
+    {
+        return type.IsInterface;
+    }
 
-        public static bool IsGenericType(this Type type)
-        {
-            return type.IsGenericType;
-        }
+    public static bool IsGenericType(this Type type)
+    {
+        return type.IsGenericType;
+    }
 
-        public static bool IsGenericTypeDefinition(this Type type)
-        {
-            return type.IsGenericTypeDefinition;
-        }
+    public static bool IsGenericTypeDefinition(this Type type)
+    {
+        return type.IsGenericTypeDefinition;
+    }
 
-        public static Type BaseType(this Type type)
-        {
-            return type.BaseType;
-        }
+    public static Type BaseType(this Type type)
+    {
+        return type.BaseType;
+    }
 
-        public static Assembly Assembly(this Type type)
-        {
-            return type.Assembly;
-        }
+    public static Assembly Assembly(this Type type)
+    {
+        return type.Assembly;
+    }
 
-        public static bool IsEnum(this Type type)
-        {
-            return type.IsEnum;
-        }
+    public static bool IsEnum(this Type type)
+    {
+        return type.IsEnum;
+    }
 
-        public static bool IsClass(this Type type)
-        {
-            return type.IsClass;
-        }
+    public static bool IsClass(this Type type)
+    {
+        return type.IsClass;
+    }
 
-        public static bool IsSealed(this Type type)
-        {
-            return type.IsSealed;
-        }
+    public static bool IsSealed(this Type type)
+    {
+        return type.IsSealed;
+    }
 
-        public static bool IsAbstract(this Type type)
-        {
-            return type.IsAbstract;
-        }
+    public static bool IsAbstract(this Type type)
+    {
+        return type.IsAbstract;
+    }
 
-        public static bool IsVisible(this Type type)
-        {
-            return type.IsVisible;
-        }
+    public static bool IsVisible(this Type type)
+    {
+        return type.IsVisible;
+    }
 
-        public static bool IsValueType(this Type type)
-        {
-            return type.IsValueType;
-        }
+    public static bool IsValueType(this Type type)
+    {
+        return type.IsValueType;
+    }
         
-        public static bool IsPrimitive(this Type type)
+    public static bool IsPrimitive(this Type type)
+    {
+        return type.IsPrimitive;
+    }
+
+    public static bool AssignableToTypeName(this Type type, string fullTypeName, bool searchInterfaces, [NotNullWhen(true)]out Type? match)
+    {
+        var current = type;
+
+        while (current != null)
         {
-            return type.IsPrimitive;
+            if (string.Equals(current.FullName, fullTypeName, StringComparison.Ordinal))
+            {
+                match = current;
+                return true;
+            }
+
+            current = current.BaseType();
         }
 
-        public static bool AssignableToTypeName(this Type type, string fullTypeName, bool searchInterfaces, [NotNullWhen(true)]out Type? match)
+        if (searchInterfaces)
         {
-            var current = type;
-
-            while (current != null)
+            foreach (var i in type.GetInterfaces())
             {
-                if (string.Equals(current.FullName, fullTypeName, StringComparison.Ordinal))
+                if (string.Equals(i.Name, fullTypeName, StringComparison.Ordinal))
                 {
-                    match = current;
+                    match = type;
                     return true;
                 }
-
-                current = current.BaseType();
             }
+        }
 
-            if (searchInterfaces)
+        match = null;
+        return false;
+    }
+
+    public static bool AssignableToTypeName(this Type type, string fullTypeName, bool searchInterfaces)
+    {
+        return type.AssignableToTypeName(fullTypeName, searchInterfaces, out _);
+    }
+
+    public static bool ImplementInterface(this Type type, Type interfaceType)
+    {
+        for (var currentType = type; currentType != null; currentType = currentType.BaseType())
+        {
+            IEnumerable<Type> interfaces = currentType.GetInterfaces();
+            foreach (var i in interfaces)
             {
-                foreach (var i in type.GetInterfaces())
+                if (i == interfaceType || (i != null && i.ImplementInterface(interfaceType)))
                 {
-                    if (string.Equals(i.Name, fullTypeName, StringComparison.Ordinal))
-                    {
-                        match = type;
-                        return true;
-                    }
+                    return true;
                 }
             }
-
-            match = null;
-            return false;
         }
 
-        public static bool AssignableToTypeName(this Type type, string fullTypeName, bool searchInterfaces)
-        {
-            return type.AssignableToTypeName(fullTypeName, searchInterfaces, out _);
-        }
-
-        public static bool ImplementInterface(this Type type, Type interfaceType)
-        {
-            for (var currentType = type; currentType != null; currentType = currentType.BaseType())
-            {
-                IEnumerable<Type> interfaces = currentType.GetInterfaces();
-                foreach (var i in interfaces)
-                {
-                    if (i == interfaceType || (i != null && i.ImplementInterface(interfaceType)))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
+        return false;
     }
 }

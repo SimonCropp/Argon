@@ -23,183 +23,182 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Utilities
+namespace Argon.Utilities;
+
+internal class Base64Encoder
 {
-    internal class Base64Encoder
+    private const int Base64LineSize = 76;
+    private const int LineSizeInBytes = 57;
+
+    private readonly char[] _charsLine = new char[Base64LineSize];
+    private readonly TextWriter _writer;
+
+    private byte[]? _leftOverBytes;
+    private int _leftOverBytesCount;
+
+    public Base64Encoder(TextWriter writer)
     {
-        private const int Base64LineSize = 76;
-        private const int LineSizeInBytes = 57;
+        ValidationUtils.ArgumentNotNull(writer, nameof(writer));
+        _writer = writer;
+    }
 
-        private readonly char[] _charsLine = new char[Base64LineSize];
-        private readonly TextWriter _writer;
-
-        private byte[]? _leftOverBytes;
-        private int _leftOverBytesCount;
-
-        public Base64Encoder(TextWriter writer)
+    private void ValidateEncode(byte[] buffer, int index, int count)
+    {
+        if (buffer == null)
         {
-            ValidationUtils.ArgumentNotNull(writer, nameof(writer));
-            _writer = writer;
+            throw new ArgumentNullException(nameof(buffer));
         }
 
-        private void ValidateEncode(byte[] buffer, int index, int count)
+        if (index < 0)
         {
-            if (buffer == null)
+            throw new ArgumentOutOfRangeException(nameof(index));
+        }
+
+        if (count < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(count));
+        }
+
+        if (count > buffer.Length - index)
+        {
+            throw new ArgumentOutOfRangeException(nameof(count));
+        }
+    }
+
+    public void Encode(byte[] buffer, int index, int count)
+    {
+        ValidateEncode(buffer, index, count);
+
+        if (_leftOverBytesCount > 0)
+        {
+            if(FulfillFromLeftover(buffer, index, ref count))
             {
-                throw new ArgumentNullException(nameof(buffer));
+                return;
             }
 
-            if (index < 0)
+            var num2 = Convert.ToBase64CharArray(_leftOverBytes, 0, 3, _charsLine, 0);
+            WriteChars(_charsLine, 0, num2);
+        }
+
+        StoreLeftOverBytes(buffer, index, ref count);
+
+        var num4 = index + count;
+        var length = LineSizeInBytes;
+        while (index < num4)
+        {
+            if (index + length > num4)
             {
-                throw new ArgumentOutOfRangeException(nameof(index));
+                length = num4 - index;
+            }
+            var num6 = Convert.ToBase64CharArray(buffer, index, length, _charsLine, 0);
+            WriteChars(_charsLine, 0, num6);
+            index += length;
+        }
+    }
+
+    private void StoreLeftOverBytes(byte[] buffer, int index, ref int count)
+    {
+        var leftOverBytesCount = count % 3;
+        if (leftOverBytesCount > 0)
+        {
+            count -= leftOverBytesCount;
+            if (_leftOverBytes == null)
+            {
+                _leftOverBytes = new byte[3];
             }
 
-            if (count < 0)
+            for (var i = 0; i < leftOverBytesCount; i++)
             {
-                throw new ArgumentOutOfRangeException(nameof(count));
-            }
-
-            if (count > buffer.Length - index)
-            {
-                throw new ArgumentOutOfRangeException(nameof(count));
+                _leftOverBytes[i] = buffer[index + count + i];
             }
         }
 
-        public void Encode(byte[] buffer, int index, int count)
+        _leftOverBytesCount = leftOverBytesCount;
+    }
+
+    private bool FulfillFromLeftover(byte[] buffer, int index, ref int count)
+    {
+        var leftOverBytesCount = _leftOverBytesCount;
+        while (leftOverBytesCount < 3 && count > 0)
         {
-            ValidateEncode(buffer, index, count);
-
-            if (_leftOverBytesCount > 0)
-            {
-                if(FulfillFromLeftover(buffer, index, ref count))
-                {
-                    return;
-                }
-
-                var num2 = Convert.ToBase64CharArray(_leftOverBytes, 0, 3, _charsLine, 0);
-                WriteChars(_charsLine, 0, num2);
-            }
-
-            StoreLeftOverBytes(buffer, index, ref count);
-
-            var num4 = index + count;
-            var length = LineSizeInBytes;
-            while (index < num4)
-            {
-                if (index + length > num4)
-                {
-                    length = num4 - index;
-                }
-                var num6 = Convert.ToBase64CharArray(buffer, index, length, _charsLine, 0);
-                WriteChars(_charsLine, 0, num6);
-                index += length;
-            }
+            _leftOverBytes![leftOverBytesCount++] = buffer[index++];
+            count--;
         }
 
-        private void StoreLeftOverBytes(byte[] buffer, int index, ref int count)
+        if (count == 0 && leftOverBytesCount < 3)
         {
-            var leftOverBytesCount = count % 3;
-            if (leftOverBytesCount > 0)
-            {
-                count -= leftOverBytesCount;
-                if (_leftOverBytes == null)
-                {
-                    _leftOverBytes = new byte[3];
-                }
-
-                for (var i = 0; i < leftOverBytesCount; i++)
-                {
-                    _leftOverBytes[i] = buffer[index + count + i];
-                }
-            }
-
             _leftOverBytesCount = leftOverBytesCount;
+            return true;
         }
 
-        private bool FulfillFromLeftover(byte[] buffer, int index, ref int count)
+        return false;
+    }
+
+    public void Flush()
+    {
+        if (_leftOverBytesCount > 0)
         {
-            var leftOverBytesCount = _leftOverBytesCount;
-            while (leftOverBytesCount < 3 && count > 0)
-            {
-                _leftOverBytes![leftOverBytesCount++] = buffer[index++];
-                count--;
-            }
-
-            if (count == 0 && leftOverBytesCount < 3)
-            {
-                _leftOverBytesCount = leftOverBytesCount;
-                return true;
-            }
-
-            return false;
+            var count = Convert.ToBase64CharArray(_leftOverBytes, 0, _leftOverBytesCount, _charsLine, 0);
+            WriteChars(_charsLine, 0, count);
+            _leftOverBytesCount = 0;
         }
+    }
 
-        public void Flush()
+    private void WriteChars(char[] chars, int index, int count)
+    {
+        _writer.Write(chars, index, count);
+    }
+
+    public async Task EncodeAsync(byte[] buffer, int index, int count, CancellationToken cancellationToken)
+    {
+        ValidateEncode(buffer, index, count);
+
+        if (_leftOverBytesCount > 0)
         {
-            if (_leftOverBytesCount > 0)
+            if (FulfillFromLeftover(buffer, index, ref count))
             {
-                var count = Convert.ToBase64CharArray(_leftOverBytes, 0, _leftOverBytesCount, _charsLine, 0);
-                WriteChars(_charsLine, 0, count);
-                _leftOverBytesCount = 0;
+                return;
             }
+
+            var num2 = Convert.ToBase64CharArray(_leftOverBytes, 0, 3, _charsLine, 0);
+            await WriteCharsAsync(_charsLine, 0, num2, cancellationToken).ConfigureAwait(false);
         }
 
-        private void WriteChars(char[] chars, int index, int count)
+        StoreLeftOverBytes(buffer, index, ref count);
+
+        var num4 = index + count;
+        var length = LineSizeInBytes;
+        while (index < num4)
         {
-            _writer.Write(chars, index, count);
+            if (index + length > num4)
+            {
+                length = num4 - index;
+            }
+            var num6 = Convert.ToBase64CharArray(buffer, index, length, _charsLine, 0);
+            await WriteCharsAsync(_charsLine, 0, num6, cancellationToken).ConfigureAwait(false);
+            index += length;
         }
+    }
 
-        public async Task EncodeAsync(byte[] buffer, int index, int count, CancellationToken cancellationToken)
+    private Task WriteCharsAsync(char[] chars, int index, int count, CancellationToken cancellationToken)
+    {
+        return _writer.WriteAsync(chars, index, count, cancellationToken);
+    }
+
+    public Task FlushAsync(CancellationToken cancellationToken)
+    {
+        if (cancellationToken.IsCancellationRequested)
         {
-            ValidateEncode(buffer, index, count);
-
-            if (_leftOverBytesCount > 0)
-            {
-                if (FulfillFromLeftover(buffer, index, ref count))
-                {
-                    return;
-                }
-
-                var num2 = Convert.ToBase64CharArray(_leftOverBytes, 0, 3, _charsLine, 0);
-                await WriteCharsAsync(_charsLine, 0, num2, cancellationToken).ConfigureAwait(false);
-            }
-
-            StoreLeftOverBytes(buffer, index, ref count);
-
-            var num4 = index + count;
-            var length = LineSizeInBytes;
-            while (index < num4)
-            {
-                if (index + length > num4)
-                {
-                    length = num4 - index;
-                }
-                var num6 = Convert.ToBase64CharArray(buffer, index, length, _charsLine, 0);
-                await WriteCharsAsync(_charsLine, 0, num6, cancellationToken).ConfigureAwait(false);
-                index += length;
-            }
+            return cancellationToken.FromCanceled();
         }
 
-        private Task WriteCharsAsync(char[] chars, int index, int count, CancellationToken cancellationToken)
+        if (_leftOverBytesCount > 0)
         {
-            return _writer.WriteAsync(chars, index, count, cancellationToken);
+            var count = Convert.ToBase64CharArray(_leftOverBytes, 0, _leftOverBytesCount, _charsLine, 0);
+            _leftOverBytesCount = 0;
+            return WriteCharsAsync(_charsLine, 0, count, cancellationToken);
         }
 
-        public Task FlushAsync(CancellationToken cancellationToken)
-        {
-            if (cancellationToken.IsCancellationRequested)
-            {
-                return cancellationToken.FromCanceled();
-            }
-
-            if (_leftOverBytesCount > 0)
-            {
-                var count = Convert.ToBase64CharArray(_leftOverBytes, 0, _leftOverBytesCount, _charsLine, 0);
-                _leftOverBytesCount = 0;
-                return WriteCharsAsync(_charsLine, 0, count, cancellationToken);
-            }
-
-            return AsyncUtils.CompletedTask;
-        }
+        return AsyncUtils.CompletedTask;
     }
 }

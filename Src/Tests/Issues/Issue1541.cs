@@ -27,41 +27,40 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue1541 : TestFixtureBase
 {
-    [TestFixture]
-    public class Issue1541 : TestFixtureBase
-    {
 #if NET5_0_OR_GREATER
-        [Fact]
-        public void Test_DirectoryInfo()
-        {
-            var fileInfo = new FileInfo("large.json");
+    [Fact]
+    public void Test_DirectoryInfo()
+    {
+        var fileInfo = new FileInfo("large.json");
 
-            ExceptionAssert.Throws<JsonSerializationException>(
-                () => JsonConvert.SerializeObject(fileInfo.Directory),
-                "Unable to serialize instance of 'System.IO.DirectoryInfo'.");
-        }
-
-        [Fact]
-        public void Test_FileInfo()
-        {
-            var fileInfo = new FileInfo("large.json");
-
-            ExceptionAssert.Throws<JsonSerializationException>(
-                () => JsonConvert.SerializeObject(fileInfo),
-                "Unable to serialize instance of 'System.IO.FileInfo'.");
-        }
-
-        [Fact]
-        public void Test_DriveInfo()
-        {
-            var drive = DriveInfo.GetDrives()[0];
-
-            ExceptionAssert.Throws<JsonSerializationException>(
-                () => JsonConvert.SerializeObject(drive),
-                "Unable to serialize instance of 'System.IO.DriveInfo'.");
-        }
-#endif
+        ExceptionAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.SerializeObject(fileInfo.Directory),
+            "Unable to serialize instance of 'System.IO.DirectoryInfo'.");
     }
+
+    [Fact]
+    public void Test_FileInfo()
+    {
+        var fileInfo = new FileInfo("large.json");
+
+        ExceptionAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.SerializeObject(fileInfo),
+            "Unable to serialize instance of 'System.IO.FileInfo'.");
+    }
+
+    [Fact]
+    public void Test_DriveInfo()
+    {
+        var drive = DriveInfo.GetDrives()[0];
+
+        ExceptionAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.SerializeObject(drive),
+            "Unable to serialize instance of 'System.IO.DriveInfo'.");
+    }
+#endif
 }

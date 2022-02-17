@@ -28,16 +28,16 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.JsonPath
+namespace Argon.Tests.Documentation.Samples.JsonPath;
+
+[TestFixture]
+public class QueryJsonSelectToken : TestFixtureBase
 {
-    [TestFixture]
-    public class QueryJsonSelectToken : TestFixtureBase
-    {
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var o = JObject.Parse(@"{
+  [Fact]
+  public void Example()
+  {
+    #region Usage
+    var o = JObject.Parse(@"{
               'Stores': [
                 'Lambton Quay',
                 'Willis Street'
@@ -68,23 +68,22 @@ namespace Argon.Tests.Documentation.Samples.JsonPath
               ]
             }");
 
-            var name = (string)o.SelectToken("Manufacturers[0].Name");
+    var name = (string)o.SelectToken("Manufacturers[0].Name");
 
-            Console.WriteLine(name);
-            // Acme Co
+    Console.WriteLine(name);
+    // Acme Co
 
-            var productPrice = (decimal)o.SelectToken("Manufacturers[0].Products[0].Price");
+    var productPrice = (decimal)o.SelectToken("Manufacturers[0].Products[0].Price");
 
-            Console.WriteLine(productPrice);
-            // 50
+    Console.WriteLine(productPrice);
+    // 50
 
-            var productName = (string)o.SelectToken("Manufacturers[1].Products[0].Name");
+    var productName = (string)o.SelectToken("Manufacturers[1].Products[0].Name");
 
-            Console.WriteLine(productName);
-            // Elbow Grease
-            #endregion
+    Console.WriteLine(productName);
+    // Elbow Grease
+    #endregion
 
-            Assert.AreEqual("Elbow Grease", productName);
-        }
-    }
+    Assert.AreEqual("Elbow Grease", productName);
+  }
 }

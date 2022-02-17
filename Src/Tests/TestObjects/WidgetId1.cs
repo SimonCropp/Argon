@@ -23,11 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[JsonConverter(typeof(WidgetIdJsonConverter))]
+public struct WidgetId1
 {
-    [JsonConverter(typeof(WidgetIdJsonConverter))]
-    public struct WidgetId1
-    {
-        public long Value { get; set; }
-    }
+    public long Value { get; set; }
 }

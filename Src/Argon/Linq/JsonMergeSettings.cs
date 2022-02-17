@@ -23,79 +23,78 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Linq
+namespace Argon.Linq;
+
+/// <summary>
+/// Specifies the settings used when merging JSON.
+/// </summary>
+public class JsonMergeSettings
 {
+    private MergeArrayHandling _mergeArrayHandling;
+    private MergeNullValueHandling _mergeNullValueHandling;
+    private StringComparison _propertyNameComparison;
+
     /// <summary>
-    /// Specifies the settings used when merging JSON.
+    /// Initializes a new instance of the <see cref="JsonMergeSettings"/> class.
     /// </summary>
-    public class JsonMergeSettings
+    public JsonMergeSettings()
     {
-        private MergeArrayHandling _mergeArrayHandling;
-        private MergeNullValueHandling _mergeNullValueHandling;
-        private StringComparison _propertyNameComparison;
+        _propertyNameComparison = StringComparison.Ordinal;
+    }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="JsonMergeSettings"/> class.
-        /// </summary>
-        public JsonMergeSettings()
+    /// <summary>
+    /// Gets or sets the method used when merging JSON arrays.
+    /// </summary>
+    /// <value>The method used when merging JSON arrays.</value>
+    public MergeArrayHandling MergeArrayHandling
+    {
+        get => _mergeArrayHandling;
+        set
         {
-            _propertyNameComparison = StringComparison.Ordinal;
-        }
-
-        /// <summary>
-        /// Gets or sets the method used when merging JSON arrays.
-        /// </summary>
-        /// <value>The method used when merging JSON arrays.</value>
-        public MergeArrayHandling MergeArrayHandling
-        {
-            get => _mergeArrayHandling;
-            set
+            if (value < MergeArrayHandling.Concat || value > MergeArrayHandling.Merge)
             {
-                if (value < MergeArrayHandling.Concat || value > MergeArrayHandling.Merge)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value));
-                }
-
-                _mergeArrayHandling = value;
+                throw new ArgumentOutOfRangeException(nameof(value));
             }
+
+            _mergeArrayHandling = value;
         }
+    }
 
-        /// <summary>
-        /// Gets or sets how null value properties are merged.
-        /// </summary>
-        /// <value>How null value properties are merged.</value>
-        public MergeNullValueHandling MergeNullValueHandling
+    /// <summary>
+    /// Gets or sets how null value properties are merged.
+    /// </summary>
+    /// <value>How null value properties are merged.</value>
+    public MergeNullValueHandling MergeNullValueHandling
+    {
+        get => _mergeNullValueHandling;
+        set
         {
-            get => _mergeNullValueHandling;
-            set
+            if (value < MergeNullValueHandling.Ignore || value > MergeNullValueHandling.Merge)
             {
-                if (value < MergeNullValueHandling.Ignore || value > MergeNullValueHandling.Merge)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value));
-                }
-
-                _mergeNullValueHandling = value;
+                throw new ArgumentOutOfRangeException(nameof(value));
             }
+
+            _mergeNullValueHandling = value;
         }
+    }
 
-        /// <summary>
-        /// Gets or sets the comparison used to match property names while merging.
-        /// The exact property name will be searched for first and if no matching property is found then
-        /// the <see cref="StringComparison"/> will be used to match a property.
-        /// </summary>
-        /// <value>The comparison used to match property names while merging.</value>
-        public StringComparison PropertyNameComparison
+    /// <summary>
+    /// Gets or sets the comparison used to match property names while merging.
+    /// The exact property name will be searched for first and if no matching property is found then
+    /// the <see cref="StringComparison"/> will be used to match a property.
+    /// </summary>
+    /// <value>The comparison used to match property names while merging.</value>
+    public StringComparison PropertyNameComparison
+    {
+        get => _propertyNameComparison;
+        set
         {
-            get => _propertyNameComparison;
-            set
+            if (value < StringComparison.CurrentCulture || value > StringComparison.OrdinalIgnoreCase)
             {
-                if (value < StringComparison.CurrentCulture || value > StringComparison.OrdinalIgnoreCase)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value));
-                }
-
-                _propertyNameComparison = value;
+                throw new ArgumentOutOfRangeException(nameof(value));
             }
+
+            _propertyNameComparison = value;
         }
     }
 }

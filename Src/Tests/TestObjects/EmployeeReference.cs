@@ -23,12 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[JsonObject(IsReference = true)]
+public class EmployeeReference
 {
-    [JsonObject(IsReference = true)]
-    public class EmployeeReference
-    {
-        public string Name { get; set; }
-        public EmployeeReference Manager { get; set; }
-    }
+    public string Name { get; set; }
+    public EmployeeReference Manager { get; set; }
 }

@@ -26,30 +26,29 @@
 using BenchmarkDotNet.Attributes;
 using Argon.Tests.TestObjects;
 
-namespace Argon.Tests.Benchmarks
+namespace Argon.Tests.Benchmarks;
+
+public class SerializeBenchmarks
 {
-    public class SerializeBenchmarks
+    private static readonly IList<RootObject> LargeCollection;
+
+    static SerializeBenchmarks()
     {
-        private static readonly IList<RootObject> LargeCollection;
+        var json = System.IO.File.ReadAllText("large.json");
 
-        static SerializeBenchmarks()
+        LargeCollection = JsonConvert.DeserializeObject<IList<RootObject>>(json);
+    }
+
+    [Benchmark]
+    public void SerializeLargeJsonFile()
+    {
+        using (var file = System.IO.File.CreateText("largewrite.json"))
         {
-            var json = System.IO.File.ReadAllText("large.json");
-
-            LargeCollection = JsonConvert.DeserializeObject<IList<RootObject>>(json);
-        }
-
-        [Benchmark]
-        public void SerializeLargeJsonFile()
-        {
-            using (var file = System.IO.File.CreateText("largewrite.json"))
+            var serializer = new JsonSerializer
             {
-                var serializer = new JsonSerializer
-                {
-                    Formatting = Formatting.Indented
-                };
-                serializer.Serialize(file, LargeCollection);
-            }
+                Formatting = Formatting.Indented
+            };
+            serializer.Serialize(file, LargeCollection);
         }
     }
 }

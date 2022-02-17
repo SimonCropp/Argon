@@ -23,15 +23,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class EmptyJsonValueTestClass
 {
-    public class EmptyJsonValueTestClass
-    {
-        public string A { get; set; }
-        public int? B { get; set; }
-        public long? C { get; set; }
-        public decimal? D { get; set; }
-        public double? E { get; set; }
-        public string F { get; set; }
-    }
+    public string A { get; set; }
+    public int? B { get; set; }
+    public long? C { get; set; }
+    public decimal? D { get; set; }
+    public double? E { get; set; }
+    public string F { get; set; }
 }

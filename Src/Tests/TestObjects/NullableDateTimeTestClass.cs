@@ -23,13 +23,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class NullableDateTimeTestClass
 {
-    public class NullableDateTimeTestClass
-    {
-        public string PreField { get; set; }
-        public DateTime? DateTimeField { get; set; }
-        public DateTimeOffset? DateTimeOffsetField { get; set; }
-        public string PostField { get; set; }
-    }
+    public string PreField { get; set; }
+    public DateTime? DateTimeField { get; set; }
+    public DateTimeOffset? DateTimeOffsetField { get; set; }
+    public string PostField { get; set; }
 }

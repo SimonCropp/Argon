@@ -23,16 +23,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[JsonObject(ItemNullValueHandling = NullValueHandling.Include)]
+public class MovieWithJsonObjectNullValueHandlingInclude
 {
-    [JsonObject(ItemNullValueHandling = NullValueHandling.Include)]
-    public class MovieWithJsonObjectNullValueHandlingInclude
-    {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string Classification { get; set; }
-        public string Studio { get; set; }
-        public DateTime? ReleaseDate { get; set; }
-        public List<string> ReleaseCountries { get; set; }
-    }
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public string Classification { get; set; }
+    public string Studio { get; set; }
+    public DateTime? ReleaseDate { get; set; }
+    public List<string> ReleaseCountries { get; set; }
 }

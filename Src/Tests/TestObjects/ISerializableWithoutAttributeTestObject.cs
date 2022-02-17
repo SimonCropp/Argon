@@ -23,13 +23,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class ISerializableWithoutAttributeTestObject : ISerializable
 {
-    public class ISerializableWithoutAttributeTestObject : ISerializable
+    public void GetObjectData(SerializationInfo info, StreamingContext context)
     {
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            throw new NotImplementedException();
-        }
+        throw new NotImplementedException();
     }
 }

@@ -23,16 +23,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class DictionaryWithNoDefaultConstructor : Dictionary<string, string>
 {
-    public class DictionaryWithNoDefaultConstructor : Dictionary<string, string>
+    public DictionaryWithNoDefaultConstructor(IEnumerable<KeyValuePair<string, string>> initial)
     {
-        public DictionaryWithNoDefaultConstructor(IEnumerable<KeyValuePair<string, string>> initial)
+        foreach (var pair in initial)
         {
-            foreach (var pair in initial)
-            {
-                Add(pair.Key, pair.Value);
-            }
+            Add(pair.Key, pair.Value);
         }
     }
 }

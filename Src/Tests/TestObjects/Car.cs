@@ -23,17 +23,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class Car
-    {
-        // included in JSON
-        public string Model { get; set; }
-        public DateTime Year { get; set; }
-        public List<string> Features { get; set; }
+namespace Argon.Tests.TestObjects;
 
-        // ignored
-        [JsonIgnore]
-        public DateTime LastModified { get; set; }
-    }
+public class Car
+{
+    // included in JSON
+    public string Model { get; set; }
+    public DateTime Year { get; set; }
+    public List<string> Features { get; set; }
+
+    // ignored
+    [JsonIgnore]
+    public DateTime LastModified { get; set; }
 }

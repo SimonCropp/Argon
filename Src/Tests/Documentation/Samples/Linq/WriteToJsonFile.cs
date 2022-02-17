@@ -28,41 +28,40 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Linq
+namespace Argon.Tests.Documentation.Samples.Linq;
+
+[TestFixture]
+public class WriteToJsonFile : TestFixtureBase
 {
-    [TestFixture]
-    public class WriteToJsonFile : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
+        #region Usage
+        var videogameRatings = new JObject(
+            new JProperty("Halo", 9),
+            new JProperty("Starcraft", 9),
+            new JProperty("Call of Duty", 7.5));
+
+        File.WriteAllText(@"c:\videogames.json", videogameRatings.ToString());
+
+        // write JSON directly to a file
+        using (var file = File.CreateText(@"c:\videogames.json"))
+        using (var writer = new JsonTextWriter(file))
         {
-            #region Usage
-            var videogameRatings = new JObject(
-                new JProperty("Halo", 9),
-                new JProperty("Starcraft", 9),
-                new JProperty("Call of Duty", 7.5));
+            videogameRatings.WriteTo(writer);
+        }
+        #endregion
+    }
 
-            File.WriteAllText(@"c:\videogames.json", videogameRatings.ToString());
-
-            // write JSON directly to a file
-            using (var file = File.CreateText(@"c:\videogames.json"))
-            using (var writer = new JsonTextWriter(file))
-            {
-                videogameRatings.WriteTo(writer);
-            }
-            #endregion
+    public static class File
+    {
+        public static StreamWriter CreateText(string path)
+        {
+            return new StreamWriter(new MemoryStream());
         }
 
-        public static class File
+        public static void WriteAllText(string s1, string s2)
         {
-            public static StreamWriter CreateText(string path)
-            {
-                return new StreamWriter(new MemoryStream());
-            }
-
-            public static void WriteAllText(string s1, string s2)
-            {
-            }
         }
     }
 }

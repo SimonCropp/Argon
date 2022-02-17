@@ -23,20 +23,19 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class ConstructorCompexIgnoredProperty
 {
-    public class ConstructorCompexIgnoredProperty
+    [JsonIgnore]
+    public Product Ignored { get; set; }
+
+    public string First { get; set; }
+    public int Second { get; set; }
+
+    public ConstructorCompexIgnoredProperty(string first, int second)
     {
-        [JsonIgnore]
-        public Product Ignored { get; set; }
-
-        public string First { get; set; }
-        public int Second { get; set; }
-
-        public ConstructorCompexIgnoredProperty(string first, int second)
-        {
-            First = first;
-            Second = second;
-        }
+        First = first;
+        Second = second;
     }
 }

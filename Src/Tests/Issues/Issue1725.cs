@@ -27,91 +27,90 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue1725 : TestFixtureBase
 {
-    [TestFixture]
-    public class Issue1725 : TestFixtureBase
+    [Fact]
+    public void Test_In()
     {
-        [Fact]
-        public void Test_In()
-        {
-            var p1 = new InPerson("some name");
-            var json = JsonConvert.SerializeObject(p1);
+        var p1 = new InPerson("some name");
+        var json = JsonConvert.SerializeObject(p1);
 
-            var p2 = JsonConvert.DeserializeObject<InPerson>(json);
-            Assert.AreEqual("some name", p2.Name);
+        var p2 = JsonConvert.DeserializeObject<InPerson>(json);
+        Assert.AreEqual("some name", p2.Name);
+    }
+
+    [Fact]
+    public void Test_Ref()
+    {
+        var value = "some name";
+        var p1 = new RefPerson(ref value);
+        var json = JsonConvert.SerializeObject(p1);
+
+        var p2 = JsonConvert.DeserializeObject<RefPerson>(json);
+        Assert.AreEqual("some name", p2.Name);
+    }
+
+    [Fact]
+    public void Test_InNullable()
+    {
+        var p1 = new InNullablePerson(1);
+        var json = JsonConvert.SerializeObject(p1);
+
+        var p2 = JsonConvert.DeserializeObject<InNullablePerson>(json);
+        Assert.AreEqual(1, p2.Age);
+    }
+
+    [Fact]
+    public void Test_RefNullable()
+    {
+        int? value = 1;
+        var p1 = new RefNullablePerson(ref value);
+        var json = JsonConvert.SerializeObject(p1);
+
+        var p2 = JsonConvert.DeserializeObject<RefNullablePerson>(json);
+        Assert.AreEqual(1, p2.Age);
+    }
+
+    public class InPerson
+    {
+        public InPerson(in string name)
+        {
+            Name = name;
         }
 
-        [Fact]
-        public void Test_Ref()
-        {
-            var value = "some name";
-            var p1 = new RefPerson(ref value);
-            var json = JsonConvert.SerializeObject(p1);
+        public string Name { get; }
+    }
 
-            var p2 = JsonConvert.DeserializeObject<RefPerson>(json);
-            Assert.AreEqual("some name", p2.Name);
+    public class RefPerson
+    {
+        public RefPerson(ref string name)
+        {
+            Name = name;
         }
 
-        [Fact]
-        public void Test_InNullable()
-        {
-            var p1 = new InNullablePerson(1);
-            var json = JsonConvert.SerializeObject(p1);
+        public string Name { get; }
+    }
 
-            var p2 = JsonConvert.DeserializeObject<InNullablePerson>(json);
-            Assert.AreEqual(1, p2.Age);
+    public class InNullablePerson
+    {
+        public InNullablePerson(in int? age)
+        {
+            Age = age;
         }
 
-        [Fact]
-        public void Test_RefNullable()
-        {
-            int? value = 1;
-            var p1 = new RefNullablePerson(ref value);
-            var json = JsonConvert.SerializeObject(p1);
+        public int? Age { get; }
+    }
 
-            var p2 = JsonConvert.DeserializeObject<RefNullablePerson>(json);
-            Assert.AreEqual(1, p2.Age);
+    public class RefNullablePerson
+    {
+        public RefNullablePerson(ref int? age)
+        {
+            Age = age;
         }
 
-        public class InPerson
-        {
-            public InPerson(in string name)
-            {
-                Name = name;
-            }
-
-            public string Name { get; }
-        }
-
-        public class RefPerson
-        {
-            public RefPerson(ref string name)
-            {
-                Name = name;
-            }
-
-            public string Name { get; }
-        }
-
-        public class InNullablePerson
-        {
-            public InNullablePerson(in int? age)
-            {
-                Age = age;
-            }
-
-            public int? Age { get; }
-        }
-
-        public class RefNullablePerson
-        {
-            public RefNullablePerson(ref int? age)
-            {
-                Age = age;
-            }
-
-            public int? Age { get; }
-        }
+        public int? Age { get; }
     }
 }

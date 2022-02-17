@@ -25,44 +25,43 @@
 
 using System.ComponentModel;
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+internal class TypeConverterJsonConverter : JsonConverter
 {
-    internal class TypeConverterJsonConverter : JsonConverter
+    private TypeConverter GetConverter(Type type)
     {
-        private TypeConverter GetConverter(Type type)
-        {
-            var converters = ReflectionUtils.GetAttributes(type, typeof(TypeConverterAttribute), true).Union(
-                from t in type.GetInterfaces()
-                from c in ReflectionUtils.GetAttributes(t, typeof(TypeConverterAttribute), true)
-                select c).Distinct();
+        var converters = ReflectionUtils.GetAttributes(type, typeof(TypeConverterAttribute), true).Union(
+            from t in type.GetInterfaces()
+            from c in ReflectionUtils.GetAttributes(t, typeof(TypeConverterAttribute), true)
+            select c).Distinct();
 
-            return
-                (from c in converters
-                 let converter =
-                     (TypeConverter)Activator.CreateInstance(Type.GetType(((TypeConverterAttribute)c).ConverterTypeName))
-                 where converter.CanConvertFrom(typeof(string))
-                       && converter.CanConvertTo(typeof(string))
-                 select converter)
-                    .FirstOrDefault();
-        }
+        return
+            (from c in converters
+                let converter =
+                    (TypeConverter)Activator.CreateInstance(Type.GetType(((TypeConverterAttribute)c).ConverterTypeName))
+                where converter.CanConvertFrom(typeof(string))
+                      && converter.CanConvertTo(typeof(string))
+                select converter)
+            .FirstOrDefault();
+    }
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            var converter = GetConverter(value.GetType());
-            var text = converter.ConvertToInvariantString(value);
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+    {
+        var converter = GetConverter(value.GetType());
+        var text = converter.ConvertToInvariantString(value);
 
-            writer.WriteValue(text);
-        }
+        writer.WriteValue(text);
+    }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            var converter = GetConverter(objectType);
-            return converter.ConvertFromInvariantString(reader.Value.ToString());
-        }
+    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    {
+        var converter = GetConverter(objectType);
+        return converter.ConvertFromInvariantString(reader.Value.ToString());
+    }
 
-        public override bool CanConvert(Type objectType)
-        {
-            return GetConverter(objectType) != null;
-        }
+    public override bool CanConvert(Type objectType)
+    {
+        return GetConverter(objectType) != null;
     }
 }

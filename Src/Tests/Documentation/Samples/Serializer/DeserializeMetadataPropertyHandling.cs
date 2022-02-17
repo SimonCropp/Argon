@@ -28,39 +28,38 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 using User = Argon.Tests.Serialization.MetadataPropertyHandlingTests.User;
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class DeserializeMetadataPropertyHandling : TestFixtureBase
 {
-    [TestFixture]
-    public class DeserializeMetadataPropertyHandling : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
+        try
         {
-            try
-            {
-                #region Usage
-                var json = @"{
+            #region Usage
+            var json = @"{
                   'Name': 'James',
                   'Password': 'Password1',
                   '$type': 'MyNamespace.User, MyAssembly'
                 }";
 
-                var o = JsonConvert.DeserializeObject(json, new JsonSerializerSettings
-                {
-                    TypeNameHandling = TypeNameHandling.All,
-                    // $type no longer needs to be first
-                    MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
-                });
-
-                var u = (User)o;
-
-                Console.WriteLine(u.Name);
-                // James
-                #endregion
-            }
-            catch
+            var o = JsonConvert.DeserializeObject(json, new JsonSerializerSettings
             {
-            }
+                TypeNameHandling = TypeNameHandling.All,
+                // $type no longer needs to be first
+                MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
+            });
+
+            var u = (User)o;
+
+            Console.WriteLine(u.Name);
+            // James
+            #endregion
+        }
+        catch
+        {
         }
     }
 }

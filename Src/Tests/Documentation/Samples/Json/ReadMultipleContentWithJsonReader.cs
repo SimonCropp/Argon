@@ -28,54 +28,53 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Json
+namespace Argon.Tests.Documentation.Samples.Json;
+
+[TestFixture]
+public class ReadMultipleContentWithJsonReader : TestFixtureBase
 {
-    [TestFixture]
-    public class ReadMultipleContentWithJsonReader : TestFixtureBase
+    #region Types
+    public class Role
     {
-        #region Types
-        public class Role
+        public string Name { get; set; }
+    }
+    #endregion
+
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var json = @"{ 'name': 'Admin' }{ 'name': 'Publisher' }";
+
+        IList<Role> roles = new List<Role>();
+
+        var reader = new JsonTextReader(new StringReader(json));
+        reader.SupportMultipleContent = true;
+
+        while (true)
         {
-            public string Name { get; set; }
+            if (!reader.Read())
+            {
+                break;
+            }
+
+            var serializer = new JsonSerializer();
+            var role = serializer.Deserialize<Role>(reader);
+
+            roles.Add(role);
         }
+
+        foreach (var role in roles)
+        {
+            Console.WriteLine(role.Name);
+        }
+
+        // Admin
+        // Publisher
         #endregion
 
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var json = @"{ 'name': 'Admin' }{ 'name': 'Publisher' }";
-
-            IList<Role> roles = new List<Role>();
-
-            var reader = new JsonTextReader(new StringReader(json));
-            reader.SupportMultipleContent = true;
-
-            while (true)
-            {
-                if (!reader.Read())
-                {
-                    break;
-                }
-
-                var serializer = new JsonSerializer();
-                var role = serializer.Deserialize<Role>(reader);
-
-                roles.Add(role);
-            }
-
-            foreach (var role in roles)
-            {
-                Console.WriteLine(role.Name);
-            }
-
-            // Admin
-            // Publisher
-            #endregion
-
-            Assert.AreEqual(2, roles.Count);
-            Assert.AreEqual("Admin", roles[0].Name);
-            Assert.AreEqual("Publisher", roles[1].Name);
-        }
+        Assert.AreEqual(2, roles.Count);
+        Assert.AreEqual("Admin", roles[0].Name);
+        Assert.AreEqual("Publisher", roles[1].Name);
     }
 }

@@ -28,57 +28,56 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer;
+
+[TestFixture]
+public class PopulateObject : TestFixtureBase
 {
-    [TestFixture]
-    public class PopulateObject : TestFixtureBase
+    #region Types
+    public class Account
     {
-        #region Types
-        public class Account
-        {
-            public string Email { get; set; }
-            public bool Active { get; set; }
-            public DateTime CreatedDate { get; set; }
-            public List<string> Roles { get; set; }
-        }
-        #endregion
+        public string Email { get; set; }
+        public bool Active { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public List<string> Roles { get; set; }
+    }
+    #endregion
 
-        [Fact]
-        public void Example()
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+        var account = new Account
         {
-            #region Usage
-            var account = new Account
+            Email = "james@example.com",
+            Active = true,
+            CreatedDate = new DateTime(2013, 1, 20, 0, 0, 0, DateTimeKind.Utc),
+            Roles = new List<string>
             {
-                Email = "james@example.com",
-                Active = true,
-                CreatedDate = new DateTime(2013, 1, 20, 0, 0, 0, DateTimeKind.Utc),
-                Roles = new List<string>
-                {
-                    "User",
-                    "Admin"
-                }
-            };
+                "User",
+                "Admin"
+            }
+        };
 
-            var json = @"{
+        var json = @"{
               'Active': false,
               'Roles': [
                 'Expired'
               ]
             }";
 
-            JsonConvert.PopulateObject(json, account);
+        JsonConvert.PopulateObject(json, account);
 
-            Console.WriteLine(account.Email);
-            // james@example.com
+        Console.WriteLine(account.Email);
+        // james@example.com
 
-            Console.WriteLine(account.Active);
-            // false
+        Console.WriteLine(account.Active);
+        // false
 
-            Console.WriteLine(string.Join(", ", account.Roles.ToArray()));
-            // User, Admin, Expired
-            #endregion
+        Console.WriteLine(string.Join(", ", account.Roles.ToArray()));
+        // User, Admin, Expired
+        #endregion
 
-            Assert.AreEqual("User, Admin, Expired", string.Join(", ", account.Roles.ToArray()));
-        }
+        Assert.AreEqual("User, Admin, Expired", string.Join(", ", account.Roles.ToArray()));
     }
 }

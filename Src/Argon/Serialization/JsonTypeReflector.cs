@@ -27,384 +27,384 @@ using System.ComponentModel;
 using System.Security;
 using System.Security.Permissions;
 
-namespace Argon.Serialization
+namespace Argon.Serialization;
+
+internal static class JsonTypeReflector
 {
-    internal static class JsonTypeReflector
+    private static bool? _dynamicCodeGeneration;
+    private static bool? _fullyTrusted;
+
+    public const string IdPropertyName = "$id";
+    public const string RefPropertyName = "$ref";
+    public const string TypePropertyName = "$type";
+    public const string ValuePropertyName = "$value";
+    public const string ArrayValuesPropertyName = "$values";
+
+    public const string ShouldSerializePrefix = "ShouldSerialize";
+    public const string SpecifiedPostfix = "Specified";
+
+    public const string ConcurrentDictionaryTypeName = "System.Collections.Concurrent.ConcurrentDictionary`2";
+
+    private static readonly ThreadSafeStore<Type, Func<object[]?, object>> CreatorCache = new(GetCreator);
+
+    private static readonly ThreadSafeStore<Type, Type?> AssociatedMetadataTypesCache = new(GetAssociateMetadataTypeFromAttribute);
+    private static ReflectionObject? _metadataTypeAttributeReflectionObject;
+
+    public static T? GetCachedAttribute<T>(object attributeProvider) where T : Attribute
     {
-        private static bool? _dynamicCodeGeneration;
-        private static bool? _fullyTrusted;
+        return CachedAttributeGetter<T>.GetAttribute(attributeProvider);
+    }
 
-        public const string IdPropertyName = "$id";
-        public const string RefPropertyName = "$ref";
-        public const string TypePropertyName = "$type";
-        public const string ValuePropertyName = "$value";
-        public const string ArrayValuesPropertyName = "$values";
+    public static bool CanTypeDescriptorConvertString(Type type, out TypeConverter typeConverter)
+    {
+        typeConverter = TypeDescriptor.GetConverter(type);
 
-        public const string ShouldSerializePrefix = "ShouldSerialize";
-        public const string SpecifiedPostfix = "Specified";
-
-        public const string ConcurrentDictionaryTypeName = "System.Collections.Concurrent.ConcurrentDictionary`2";
-
-        private static readonly ThreadSafeStore<Type, Func<object[]?, object>> CreatorCache = new(GetCreator);
-
-        private static readonly ThreadSafeStore<Type, Type?> AssociatedMetadataTypesCache = new(GetAssociateMetadataTypeFromAttribute);
-        private static ReflectionObject? _metadataTypeAttributeReflectionObject;
-
-        public static T? GetCachedAttribute<T>(object attributeProvider) where T : Attribute
+        // use the objectType's TypeConverter if it has one and can convert to a string
+        if (typeConverter != null)
         {
-            return CachedAttributeGetter<T>.GetAttribute(attributeProvider);
-        }
+            var converterType = typeConverter.GetType();
 
-        public static bool CanTypeDescriptorConvertString(Type type, out TypeConverter typeConverter)
-        {
-            typeConverter = TypeDescriptor.GetConverter(type);
-
-            // use the objectType's TypeConverter if it has one and can convert to a string
-            if (typeConverter != null)
+            if (!string.Equals(converterType.FullName, "System.ComponentModel.ComponentConverter", StringComparison.Ordinal)
+                && !string.Equals(converterType.FullName, "System.ComponentModel.ReferenceConverter", StringComparison.Ordinal)
+                && !string.Equals(converterType.FullName, "System.Windows.Forms.Design.DataSourceConverter", StringComparison.Ordinal)
+                && converterType != typeof(TypeConverter))
             {
-                var converterType = typeConverter.GetType();
-
-                if (!string.Equals(converterType.FullName, "System.ComponentModel.ComponentConverter", StringComparison.Ordinal)
-                    && !string.Equals(converterType.FullName, "System.ComponentModel.ReferenceConverter", StringComparison.Ordinal)
-                    && !string.Equals(converterType.FullName, "System.Windows.Forms.Design.DataSourceConverter", StringComparison.Ordinal)
-                    && converterType != typeof(TypeConverter))
-                {
-                    return typeConverter.CanConvertTo(typeof(string));
-                }
-
+                return typeConverter.CanConvertTo(typeof(string));
             }
 
-            return false;
         }
 
-        public static DataContractAttribute? GetDataContractAttribute(Type type)
+        return false;
+    }
+
+    public static DataContractAttribute? GetDataContractAttribute(Type type)
+    {
+        // DataContractAttribute does not have inheritance
+        var currentType = type;
+
+        while (currentType != null)
         {
-            // DataContractAttribute does not have inheritance
-            var currentType = type;
-
-            while (currentType != null)
+            var result = CachedAttributeGetter<DataContractAttribute>.GetAttribute(currentType);
+            if (result != null)
             {
-                var result = CachedAttributeGetter<DataContractAttribute>.GetAttribute(currentType);
-                if (result != null)
-                {
-                    return result;
-                }
-
-                currentType = currentType.BaseType();
+                return result;
             }
 
-            return null;
+            currentType = currentType.BaseType();
         }
 
-        public static DataMemberAttribute? GetDataMemberAttribute(MemberInfo memberInfo)
+        return null;
+    }
+
+    public static DataMemberAttribute? GetDataMemberAttribute(MemberInfo memberInfo)
+    {
+        // DataMemberAttribute does not have inheritance
+
+        // can't override a field
+        if (memberInfo.MemberType() == MemberTypes.Field)
         {
-            // DataMemberAttribute does not have inheritance
+            return CachedAttributeGetter<DataMemberAttribute>.GetAttribute(memberInfo);
+        }
 
-            // can't override a field
-            if (memberInfo.MemberType() == MemberTypes.Field)
+        // search property and then search base properties if nothing is returned and the property is virtual
+        var propertyInfo = (PropertyInfo)memberInfo;
+        var result = CachedAttributeGetter<DataMemberAttribute>.GetAttribute(propertyInfo);
+        if (result == null)
+        {
+            if (propertyInfo.IsVirtual())
             {
-                return CachedAttributeGetter<DataMemberAttribute>.GetAttribute(memberInfo);
-            }
+                var currentType = propertyInfo.DeclaringType;
 
-            // search property and then search base properties if nothing is returned and the property is virtual
-            var propertyInfo = (PropertyInfo)memberInfo;
-            var result = CachedAttributeGetter<DataMemberAttribute>.GetAttribute(propertyInfo);
-            if (result == null)
-            {
-                if (propertyInfo.IsVirtual())
+                while (result == null && currentType != null)
                 {
-                    var currentType = propertyInfo.DeclaringType;
-
-                    while (result == null && currentType != null)
+                    var baseProperty = (PropertyInfo)ReflectionUtils.GetMemberInfoFromType(currentType, propertyInfo);
+                    if (baseProperty != null && baseProperty.IsVirtual())
                     {
-                        var baseProperty = (PropertyInfo)ReflectionUtils.GetMemberInfoFromType(currentType, propertyInfo);
-                        if (baseProperty != null && baseProperty.IsVirtual())
+                        result = CachedAttributeGetter<DataMemberAttribute>.GetAttribute(baseProperty);
+                    }
+
+                    currentType = currentType.BaseType();
+                }
+            }
+        }
+
+        return result;
+    }
+
+    public static MemberSerialization GetObjectMemberSerialization(Type objectType, bool ignoreSerializableAttribute)
+    {
+        var objectAttribute = GetCachedAttribute<JsonObjectAttribute>(objectType);
+        if (objectAttribute != null)
+        {
+            return objectAttribute.MemberSerialization;
+        }
+
+        var dataContractAttribute = GetDataContractAttribute(objectType);
+        if (dataContractAttribute != null)
+        {
+            return MemberSerialization.OptIn;
+        }
+
+        if (!ignoreSerializableAttribute && IsSerializable(objectType))
+        {
+            return MemberSerialization.Fields;
+        }
+
+        // the default
+        return MemberSerialization.OptOut;
+    }
+
+    public static JsonConverter? GetJsonConverter(object attributeProvider)
+    {
+        var converterAttribute = GetCachedAttribute<JsonConverterAttribute>(attributeProvider);
+
+        if (converterAttribute != null)
+        {
+            var creator = CreatorCache.Get(converterAttribute.ConverterType);
+            if (creator != null)
+            {
+                return (JsonConverter)creator(converterAttribute.ConverterParameters);
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Lookup and create an instance of the <see cref="JsonConverter"/> type described by the argument.
+    /// </summary>
+    /// <param name="converterType">The <see cref="JsonConverter"/> type to create.</param>
+    /// <param name="args">Optional arguments to pass to an initializing constructor of the JsonConverter.
+    /// If <c>null</c>, the default constructor is used.</param>
+    public static JsonConverter CreateJsonConverterInstance(Type converterType, object[]? args)
+    {
+        var converterCreator = CreatorCache.Get(converterType);
+        return (JsonConverter)converterCreator(args);
+    }
+
+    public static NamingStrategy CreateNamingStrategyInstance(Type namingStrategyType, object[]? args)
+    {
+        var converterCreator = CreatorCache.Get(namingStrategyType);
+        return (NamingStrategy)converterCreator(args);
+    }
+
+    public static NamingStrategy? GetContainerNamingStrategy(JsonContainerAttribute containerAttribute)
+    {
+        if (containerAttribute.NamingStrategyInstance == null)
+        {
+            if (containerAttribute.NamingStrategyType == null)
+            {
+                return null;
+            }
+
+            containerAttribute.NamingStrategyInstance = CreateNamingStrategyInstance(containerAttribute.NamingStrategyType, containerAttribute.NamingStrategyParameters);
+        }
+
+        return containerAttribute.NamingStrategyInstance;
+    }
+
+    private static Func<object[]?, object> GetCreator(Type type)
+    {
+        var defaultConstructor = ReflectionUtils.HasDefaultConstructor(type, false)
+            ? ReflectionDelegateFactory.CreateDefaultConstructor<object>(type)
+            : null;
+
+        return parameters =>
+        {
+            try
+            {
+                if (parameters != null)
+                {
+                    Type[] paramTypes = parameters.Select(param =>
+                    {
+                        if (param == null)
                         {
-                            result = CachedAttributeGetter<DataMemberAttribute>.GetAttribute(baseProperty);
+                            throw new InvalidOperationException("Cannot pass a null parameter to the constructor.");
                         }
 
-                        currentType = currentType.BaseType();
-                    }
-                }
-            }
+                        return param.GetType();
+                    }).ToArray();
+                    var parameterizedConstructorInfo = type.GetConstructor(paramTypes);
 
-            return result;
-        }
-
-        public static MemberSerialization GetObjectMemberSerialization(Type objectType, bool ignoreSerializableAttribute)
-        {
-            var objectAttribute = GetCachedAttribute<JsonObjectAttribute>(objectType);
-            if (objectAttribute != null)
-            {
-                return objectAttribute.MemberSerialization;
-            }
-
-            var dataContractAttribute = GetDataContractAttribute(objectType);
-            if (dataContractAttribute != null)
-            {
-                return MemberSerialization.OptIn;
-            }
-
-            if (!ignoreSerializableAttribute && IsSerializable(objectType))
-            {
-                return MemberSerialization.Fields;
-            }
-
-            // the default
-            return MemberSerialization.OptOut;
-        }
-
-        public static JsonConverter? GetJsonConverter(object attributeProvider)
-        {
-            var converterAttribute = GetCachedAttribute<JsonConverterAttribute>(attributeProvider);
-
-            if (converterAttribute != null)
-            {
-                var creator = CreatorCache.Get(converterAttribute.ConverterType);
-                if (creator != null)
-                {
-                    return (JsonConverter)creator(converterAttribute.ConverterParameters);
-                }
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// Lookup and create an instance of the <see cref="JsonConverter"/> type described by the argument.
-        /// </summary>
-        /// <param name="converterType">The <see cref="JsonConverter"/> type to create.</param>
-        /// <param name="args">Optional arguments to pass to an initializing constructor of the JsonConverter.
-        /// If <c>null</c>, the default constructor is used.</param>
-        public static JsonConverter CreateJsonConverterInstance(Type converterType, object[]? args)
-        {
-            var converterCreator = CreatorCache.Get(converterType);
-            return (JsonConverter)converterCreator(args);
-        }
-
-        public static NamingStrategy CreateNamingStrategyInstance(Type namingStrategyType, object[]? args)
-        {
-            var converterCreator = CreatorCache.Get(namingStrategyType);
-            return (NamingStrategy)converterCreator(args);
-        }
-
-        public static NamingStrategy? GetContainerNamingStrategy(JsonContainerAttribute containerAttribute)
-        {
-            if (containerAttribute.NamingStrategyInstance == null)
-            {
-                if (containerAttribute.NamingStrategyType == null)
-                {
-                    return null;
-                }
-
-                containerAttribute.NamingStrategyInstance = CreateNamingStrategyInstance(containerAttribute.NamingStrategyType, containerAttribute.NamingStrategyParameters);
-            }
-
-            return containerAttribute.NamingStrategyInstance;
-        }
-
-        private static Func<object[]?, object> GetCreator(Type type)
-        {
-            var defaultConstructor = ReflectionUtils.HasDefaultConstructor(type, false)
-                ? ReflectionDelegateFactory.CreateDefaultConstructor<object>(type)
-                : null;
-
-            return parameters =>
-            {
-                try
-                {
-                    if (parameters != null)
+                    if (parameterizedConstructorInfo != null)
                     {
-                        Type[] paramTypes = parameters.Select(param =>
-                        {
-                            if (param == null)
-                            {
-                                throw new InvalidOperationException("Cannot pass a null parameter to the constructor.");
-                            }
-
-                            return param.GetType();
-                        }).ToArray();
-                        var parameterizedConstructorInfo = type.GetConstructor(paramTypes);
-
-                        if (parameterizedConstructorInfo != null)
-                        {
-                            var parameterizedConstructor = ReflectionDelegateFactory.CreateParameterizedConstructor(parameterizedConstructorInfo);
-                            return parameterizedConstructor(parameters);
-                        }
-                        else
-                        {
-                            throw new JsonException("No matching parameterized constructor found for '{0}'.".FormatWith(CultureInfo.InvariantCulture, type));
-                        }
+                        var parameterizedConstructor = ReflectionDelegateFactory.CreateParameterizedConstructor(parameterizedConstructorInfo);
+                        return parameterizedConstructor(parameters);
                     }
-
-                    if (defaultConstructor == null)
+                    else
                     {
-                        throw new JsonException("No parameterless constructor defined for '{0}'.".FormatWith(CultureInfo.InvariantCulture, type));
+                        throw new JsonException("No matching parameterized constructor found for '{0}'.".FormatWith(CultureInfo.InvariantCulture, type));
                     }
-
-                    return defaultConstructor();
                 }
-                catch (Exception ex)
+
+                if (defaultConstructor == null)
                 {
-                    throw new JsonException("Error creating '{0}'.".FormatWith(CultureInfo.InvariantCulture, type), ex);
+                    throw new JsonException("No parameterless constructor defined for '{0}'.".FormatWith(CultureInfo.InvariantCulture, type));
                 }
-            };
-        }
 
-        private static Type? GetAssociatedMetadataType(Type type)
-        {
-            return AssociatedMetadataTypesCache.Get(type);
-        }
-
-        private static Type? GetAssociateMetadataTypeFromAttribute(Type type)
-        {
-            var customAttributes = ReflectionUtils.GetAttributes(type, null, true);
-
-            foreach (var attribute in customAttributes)
-            {
-                var attributeType = attribute.GetType();
-
-                // only test on attribute type name
-                // attribute assembly could change because of type forwarding, etc
-                if (string.Equals(attributeType.FullName, "System.ComponentModel.DataAnnotations.MetadataTypeAttribute", StringComparison.Ordinal))
-                {
-                    const string metadataClassTypeName = "MetadataClassType";
-
-                    if (_metadataTypeAttributeReflectionObject == null)
-                    {
-                        _metadataTypeAttributeReflectionObject = ReflectionObject.Create(attributeType, metadataClassTypeName);
-                    }
-
-                    return (Type?)_metadataTypeAttributeReflectionObject.GetValue(attribute, metadataClassTypeName);
-                }
+                return defaultConstructor();
             }
+            catch (Exception ex)
+            {
+                throw new JsonException("Error creating '{0}'.".FormatWith(CultureInfo.InvariantCulture, type), ex);
+            }
+        };
+    }
 
-            return null;
+    private static Type? GetAssociatedMetadataType(Type type)
+    {
+        return AssociatedMetadataTypesCache.Get(type);
+    }
+
+    private static Type? GetAssociateMetadataTypeFromAttribute(Type type)
+    {
+        var customAttributes = ReflectionUtils.GetAttributes(type, null, true);
+
+        foreach (var attribute in customAttributes)
+        {
+            var attributeType = attribute.GetType();
+
+            // only test on attribute type name
+            // attribute assembly could change because of type forwarding, etc
+            if (string.Equals(attributeType.FullName, "System.ComponentModel.DataAnnotations.MetadataTypeAttribute", StringComparison.Ordinal))
+            {
+                const string metadataClassTypeName = "MetadataClassType";
+
+                if (_metadataTypeAttributeReflectionObject == null)
+                {
+                    _metadataTypeAttributeReflectionObject = ReflectionObject.Create(attributeType, metadataClassTypeName);
+                }
+
+                return (Type?)_metadataTypeAttributeReflectionObject.GetValue(attribute, metadataClassTypeName);
+            }
         }
 
-        private static T? GetAttribute<T>(Type type) where T : Attribute
+        return null;
+    }
+
+    private static T? GetAttribute<T>(Type type) where T : Attribute
+    {
+        T? attribute;
+
+        var metadataType = GetAssociatedMetadataType(type);
+        if (metadataType != null)
         {
-            T? attribute;
-
-            var metadataType = GetAssociatedMetadataType(type);
-            if (metadataType != null)
-            {
-                attribute = ReflectionUtils.GetAttribute<T>(metadataType, true);
-                if (attribute != null)
-                {
-                    return attribute;
-                }
-            }
-
-            attribute = ReflectionUtils.GetAttribute<T>(type, true);
+            attribute = ReflectionUtils.GetAttribute<T>(metadataType, true);
             if (attribute != null)
             {
                 return attribute;
             }
+        }
 
-            foreach (var typeInterface in type.GetInterfaces())
+        attribute = ReflectionUtils.GetAttribute<T>(type, true);
+        if (attribute != null)
+        {
+            return attribute;
+        }
+
+        foreach (var typeInterface in type.GetInterfaces())
+        {
+            attribute = ReflectionUtils.GetAttribute<T>(typeInterface, true);
+            if (attribute != null)
             {
-                attribute = ReflectionUtils.GetAttribute<T>(typeInterface, true);
+                return attribute;
+            }
+        }
+
+        return null;
+    }
+
+    private static T? GetAttribute<T>(MemberInfo memberInfo) where T : Attribute
+    {
+        T? attribute;
+
+        var metadataType = GetAssociatedMetadataType(memberInfo.DeclaringType);
+        if (metadataType != null)
+        {
+            var metadataTypeMemberInfo = ReflectionUtils.GetMemberInfoFromType(metadataType, memberInfo);
+
+            if (metadataTypeMemberInfo != null)
+            {
+                attribute = ReflectionUtils.GetAttribute<T>(metadataTypeMemberInfo, true);
                 if (attribute != null)
                 {
                     return attribute;
                 }
             }
-
-            return null;
         }
 
-        private static T? GetAttribute<T>(MemberInfo memberInfo) where T : Attribute
+        attribute = ReflectionUtils.GetAttribute<T>(memberInfo, true);
+        if (attribute != null)
         {
-            T? attribute;
+            return attribute;
+        }
 
-            var metadataType = GetAssociatedMetadataType(memberInfo.DeclaringType);
-            if (metadataType != null)
+        if (memberInfo.DeclaringType != null)
+        {
+            foreach (var typeInterface in memberInfo.DeclaringType.GetInterfaces())
             {
-                var metadataTypeMemberInfo = ReflectionUtils.GetMemberInfoFromType(metadataType, memberInfo);
+                var interfaceTypeMemberInfo = ReflectionUtils.GetMemberInfoFromType(typeInterface, memberInfo);
 
-                if (metadataTypeMemberInfo != null)
+                if (interfaceTypeMemberInfo != null)
                 {
-                    attribute = ReflectionUtils.GetAttribute<T>(metadataTypeMemberInfo, true);
+                    attribute = ReflectionUtils.GetAttribute<T>(interfaceTypeMemberInfo, true);
                     if (attribute != null)
                     {
                         return attribute;
                     }
                 }
             }
-
-            attribute = ReflectionUtils.GetAttribute<T>(memberInfo, true);
-            if (attribute != null)
-            {
-                return attribute;
-            }
-
-            if (memberInfo.DeclaringType != null)
-            {
-                foreach (var typeInterface in memberInfo.DeclaringType.GetInterfaces())
-                {
-                    var interfaceTypeMemberInfo = ReflectionUtils.GetMemberInfoFromType(typeInterface, memberInfo);
-
-                    if (interfaceTypeMemberInfo != null)
-                    {
-                        attribute = ReflectionUtils.GetAttribute<T>(interfaceTypeMemberInfo, true);
-                        if (attribute != null)
-                        {
-                            return attribute;
-                        }
-                    }
-                }
-            }
-
-            return null;
         }
 
-        public static bool IsNonSerializable(object provider)
+        return null;
+    }
+
+    public static bool IsNonSerializable(object provider)
+    {
+        // no inheritance
+        return ReflectionUtils.GetAttribute<NonSerializedAttribute>(provider, false) != null;
+    }
+
+    public static bool IsSerializable(object provider)
+    {
+        // no inheritance
+        return ReflectionUtils.GetAttribute<SerializableAttribute>(provider, false) != null;
+    }
+
+    public static T? GetAttribute<T>(object provider) where T : Attribute
+    {
+        if (provider is Type type)
         {
-            // no inheritance
-            return ReflectionUtils.GetAttribute<NonSerializedAttribute>(provider, false) != null;
+            return GetAttribute<T>(type);
         }
 
-        public static bool IsSerializable(object provider)
+        if (provider is MemberInfo memberInfo)
         {
-            // no inheritance
-            return ReflectionUtils.GetAttribute<SerializableAttribute>(provider, false) != null;
+            return GetAttribute<T>(memberInfo);
         }
 
-        public static T? GetAttribute<T>(object provider) where T : Attribute
-        {
-            if (provider is Type type)
-            {
-                return GetAttribute<T>(type);
-            }
-
-            if (provider is MemberInfo memberInfo)
-            {
-                return GetAttribute<T>(memberInfo);
-            }
-
-            return ReflectionUtils.GetAttribute<T>(provider, true);
-        }
+        return ReflectionUtils.GetAttribute<T>(provider, true);
+    }
 
 #if DEBUG
-        internal static void SetFullyTrusted(bool? fullyTrusted)
-        {
-            _fullyTrusted = fullyTrusted;
-        }
+    internal static void SetFullyTrusted(bool? fullyTrusted)
+    {
+        _fullyTrusted = fullyTrusted;
+    }
 
-        internal static void SetDynamicCodeGeneration(bool dynamicCodeGeneration)
-        {
-            _dynamicCodeGeneration = dynamicCodeGeneration;
-        }
+    internal static void SetDynamicCodeGeneration(bool dynamicCodeGeneration)
+    {
+        _dynamicCodeGeneration = dynamicCodeGeneration;
+    }
 #endif
 
-        public static bool DynamicCodeGeneration
+    public static bool DynamicCodeGeneration
+    {
+        [SecuritySafeCritical]
+        get
         {
-            [SecuritySafeCritical]
-            get
+            if (_dynamicCodeGeneration == null)
             {
-                if (_dynamicCodeGeneration == null)
-                {
 #if !NETSTANDARD2_0
                     try
                     {
@@ -420,33 +420,33 @@ namespace Argon.Serialization
                         _dynamicCodeGeneration = false;
                     }
 #else
-                    _dynamicCodeGeneration = false;
+                _dynamicCodeGeneration = false;
 #endif
-                }
-
-                return _dynamicCodeGeneration.GetValueOrDefault();
             }
+
+            return _dynamicCodeGeneration.GetValueOrDefault();
         }
+    }
 
-        public static bool FullyTrusted
+    public static bool FullyTrusted
+    {
+        get
         {
-            get
+            if (_fullyTrusted == null)
             {
-                if (_fullyTrusted == null)
-                {
-                    var appDomain = AppDomain.CurrentDomain;
+                var appDomain = AppDomain.CurrentDomain;
 
-                    _fullyTrusted = appDomain.IsHomogenous && appDomain.IsFullyTrusted;
-                }
-
-                return _fullyTrusted.GetValueOrDefault();
+                _fullyTrusted = appDomain.IsHomogenous && appDomain.IsFullyTrusted;
             }
-        }
 
-        public static ReflectionDelegateFactory ReflectionDelegateFactory
+            return _fullyTrusted.GetValueOrDefault();
+        }
+    }
+
+    public static ReflectionDelegateFactory ReflectionDelegateFactory
+    {
+        get
         {
-            get
-            {
 #if !NETSTANDARD2_0
                 if (DynamicCodeGeneration)
                 {
@@ -455,9 +455,8 @@ namespace Argon.Serialization
 
                 return LateBoundReflectionDelegateFactory.Instance;
 #else
-                return ExpressionReflectionDelegateFactory.Instance;
+            return ExpressionReflectionDelegateFactory.Instance;
 #endif
-            }
         }
     }
 }

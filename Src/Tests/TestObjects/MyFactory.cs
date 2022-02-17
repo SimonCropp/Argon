@@ -23,29 +23,28 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
-{
-    public class MyFactory
-    {
-        public static ISubclass InstantiateSubclass()
-        {
-            return new Subclass
-            {
-                ID = 123,
-                Name = "ABC",
-                P1 = true,
-                P2 = 44
-            };
-        }
+namespace Argon.Tests.TestObjects;
 
-        public static IMainClass InstantiateManiClass()
+public class MyFactory
+{
+    public static ISubclass InstantiateSubclass()
+    {
+        return new Subclass
         {
-            return new MainClass
-            {
-                ID = 567,
-                Name = "XYZ",
-                Subclass = InstantiateSubclass()
-            };
-        }
+            ID = 123,
+            Name = "ABC",
+            P1 = true,
+            P2 = 44
+        };
+    }
+
+    public static IMainClass InstantiateManiClass()
+    {
+        return new MainClass
+        {
+            ID = 567,
+            Name = "XYZ",
+            Subclass = InstantiateSubclass()
+        };
     }
 }

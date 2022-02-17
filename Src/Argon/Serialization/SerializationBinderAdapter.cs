@@ -23,29 +23,28 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Serialization
+namespace Argon.Serialization;
+
+internal class SerializationBinderAdapter : ISerializationBinder
 {
-    internal class SerializationBinderAdapter : ISerializationBinder
+#pragma warning disable 618
+    public readonly SerializationBinder SerializationBinder;
+#pragma warning restore 618
+
+#pragma warning disable 618
+    public SerializationBinderAdapter(SerializationBinder serializationBinder)
     {
-#pragma warning disable 618
-        public readonly SerializationBinder SerializationBinder;
+        SerializationBinder = serializationBinder;
+    }
 #pragma warning restore 618
 
-#pragma warning disable 618
-        public SerializationBinderAdapter(SerializationBinder serializationBinder)
-        {
-            SerializationBinder = serializationBinder;
-        }
-#pragma warning restore 618
+    public Type BindToType(string? assemblyName, string typeName)
+    {
+        return SerializationBinder.BindToType(assemblyName, typeName);
+    }
 
-        public Type BindToType(string? assemblyName, string typeName)
-        {
-            return SerializationBinder.BindToType(assemblyName, typeName);
-        }
-
-        public void BindToName(Type serializedType, out string? assemblyName, out string? typeName)
-        {
-            SerializationBinder.BindToName(serializedType, out assemblyName, out typeName);
-        }
+    public void BindToName(Type serializedType, out string? assemblyName, out string? typeName)
+    {
+        SerializationBinder.BindToName(serializedType, out assemblyName, out typeName);
     }
 }

@@ -23,25 +23,24 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class PrivateConstructorTestClass
 {
-    public class PrivateConstructorTestClass
+    public string Name { get; set; }
+    public int Age { get; set; }
+
+    private PrivateConstructorTestClass()
     {
-        public string Name { get; set; }
-        public int Age { get; set; }
+    }
 
-        private PrivateConstructorTestClass()
-        {
-        }
+    // multiple constructors with arguments so the serializer doesn't know what to fall back to
+    private PrivateConstructorTestClass(object a)
+    {
+    }
 
-        // multiple constructors with arguments so the serializer doesn't know what to fall back to
-        private PrivateConstructorTestClass(object a)
-        {
-        }
-
-        // multiple constructors with arguments so the serializer doesn't know what to fall back to
-        private PrivateConstructorTestClass(object a, object b)
-        {
-        }
+    // multiple constructors with arguments so the serializer doesn't know what to fall back to
+    private PrivateConstructorTestClass(object a, object b)
+    {
     }
 }

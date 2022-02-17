@@ -28,37 +28,36 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Documentation.Samples.Linq
+namespace Argon.Tests.Documentation.Samples.Linq;
+
+[TestFixture]
+public class JObjectProperties : TestFixtureBase
 {
-    [TestFixture]
-    public class JObjectProperties : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
+        #region Usage
+        var o = new JObject
         {
-            #region Usage
-            var o = new JObject
-            {
-                { "name1", "value1" },
-                { "name2", "value2" }
-            };
+            { "name1", "value1" },
+            { "name2", "value2" }
+        };
 
-            foreach (var property in o.Properties())
-            {
-                Console.WriteLine(property.Name + " - " + property.Value);
-            }
-            // name1 - value1
-            // name2 - value2
-
-            foreach (var property in o)
-            {
-                Console.WriteLine(property.Key + " - " + property.Value);
-            }
-            // name1 - value1
-            // name2 - value2
-            #endregion
-
-            Assert.AreEqual(2, o.Count);
+        foreach (var property in o.Properties())
+        {
+            Console.WriteLine(property.Name + " - " + property.Value);
         }
+        // name1 - value1
+        // name2 - value2
+
+        foreach (var property in o)
+        {
+            Console.WriteLine(property.Key + " - " + property.Value);
+        }
+        // name1 - value1
+        // name2 - value2
+        #endregion
+
+        Assert.AreEqual(2, o.Count);
     }
 }

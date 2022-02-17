@@ -48,17 +48,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class Foo1
 {
-    public class Foo1
-    {
-        public object foo { get; set; }
-    }
+    public object foo { get; set; }
+}
 
-    public class Foo1<T> : Foo1
-    {
-        public new T foo { get; set; }
+public class Foo1<T> : Foo1
+{
+    public new T foo { get; set; }
 
-        public T foo2 { get; set; }
-    }
+    public T foo2 { get; set; }
 }

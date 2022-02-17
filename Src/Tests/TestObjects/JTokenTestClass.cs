@@ -23,11 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class JTokenTestClass
 {
-    public class JTokenTestClass
-    {
-        public string Name { get; set; }
-        public JToken Data { get; set; }
-    }
+    public string Name { get; set; }
+    public JToken Data { get; set; }
 }

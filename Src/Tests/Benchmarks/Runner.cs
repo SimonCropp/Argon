@@ -27,11 +27,11 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Argon.Tests.Benchmarks
+namespace Argon.Tests.Benchmarks;
+
+[TestFixture]
+public class Runner : TestFixtureBase
 {
-    [TestFixture]
-    public class Runner : TestFixtureBase
-    {
 #if false
         [Fact]
         public void RunBenchmarks()
@@ -39,5 +39,4 @@ namespace Argon.Tests.Benchmarks
             new BenchmarkSwitcher(typeof(Runner).GetTypeInfo().Assembly).Run(new []{ "*" });
         }
 #endif
-    }
 }

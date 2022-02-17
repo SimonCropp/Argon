@@ -23,9 +23,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public abstract class AbstractListTestClass<T> : List<T>
 {
-    public abstract class AbstractListTestClass<T> : List<T>
-    {
-    }
 }

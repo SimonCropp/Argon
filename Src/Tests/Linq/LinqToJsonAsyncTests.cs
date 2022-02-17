@@ -27,54 +27,54 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Linq
+namespace Argon.Tests.Linq;
+
+[TestFixture]
+public class LinqToJsonAsyncTests : TestFixtureBase
 {
-    [TestFixture]
-    public class LinqToJsonAsyncTests : TestFixtureBase
+    [Fact]
+    public async Task CommentsAndReadFromAsync()
     {
-        [Fact]
-        public async Task CommentsAndReadFromAsync()
-        {
-            var textReader = new StringReader(@"[
+        var textReader = new StringReader(@"[
     // hi
     1,
     2,
     3
 ]");
 
-            var jsonReader = new JsonTextReader(textReader);
-            var a = (JArray)await JToken.ReadFromAsync(jsonReader, new JsonLoadSettings
-            {
-                CommentHandling = CommentHandling.Load
-            });
-
-            Assert.AreEqual(4, a.Count);
-            Assert.AreEqual(JTokenType.Comment, a[0].Type);
-            Assert.AreEqual(" hi", ((JValue)a[0]).Value);
-        }
-
-        [Fact]
-        public async Task CommentsAndReadFrom_IgnoreCommentsAsync()
+        var jsonReader = new JsonTextReader(textReader);
+        var a = (JArray)await JToken.ReadFromAsync(jsonReader, new JsonLoadSettings
         {
-            var textReader = new StringReader(@"[
+            CommentHandling = CommentHandling.Load
+        });
+
+        Assert.AreEqual(4, a.Count);
+        Assert.AreEqual(JTokenType.Comment, a[0].Type);
+        Assert.AreEqual(" hi", ((JValue)a[0]).Value);
+    }
+
+    [Fact]
+    public async Task CommentsAndReadFrom_IgnoreCommentsAsync()
+    {
+        var textReader = new StringReader(@"[
     // hi
     1,
     2,
     3
 ]");
 
-            var jsonReader = new JsonTextReader(textReader);
-            var a = (JArray)await JToken.ReadFromAsync(jsonReader);
+        var jsonReader = new JsonTextReader(textReader);
+        var a = (JArray)await JToken.ReadFromAsync(jsonReader);
 
-            Assert.AreEqual(3, a.Count);
-            Assert.AreEqual(JTokenType.Integer, a[0].Type);
-            Assert.AreEqual(1L, ((JValue)a[0]).Value);
-        }
+        Assert.AreEqual(3, a.Count);
+        Assert.AreEqual(JTokenType.Integer, a[0].Type);
+        Assert.AreEqual(1L, ((JValue)a[0]).Value);
+    }
 
-        [Fact]
-        public async Task StartingCommentAndReadFromAsync()
-        {
-            var textReader = new StringReader(@"
+    [Fact]
+    public async Task StartingCommentAndReadFromAsync()
+    {
+        var textReader = new StringReader(@"
 // hi
 [
     1,
@@ -82,24 +82,24 @@ namespace Argon.Tests.Linq
     3
 ]");
 
-            var jsonReader = new JsonTextReader(textReader);
-            var v = (JValue)await JToken.ReadFromAsync(jsonReader, new JsonLoadSettings
-            {
-                CommentHandling = CommentHandling.Load
-            });
-
-            Assert.AreEqual(JTokenType.Comment, v.Type);
-
-            IJsonLineInfo lineInfo = v;
-            Assert.AreEqual(true, lineInfo.HasLineInfo());
-            Assert.AreEqual(2, lineInfo.LineNumber);
-            Assert.AreEqual(5, lineInfo.LinePosition);
-        }
-
-        [Fact]
-        public async Task StartingCommentAndReadFrom_IgnoreCommentsAsync()
+        var jsonReader = new JsonTextReader(textReader);
+        var v = (JValue)await JToken.ReadFromAsync(jsonReader, new JsonLoadSettings
         {
-            var textReader = new StringReader(@"
+            CommentHandling = CommentHandling.Load
+        });
+
+        Assert.AreEqual(JTokenType.Comment, v.Type);
+
+        IJsonLineInfo lineInfo = v;
+        Assert.AreEqual(true, lineInfo.HasLineInfo());
+        Assert.AreEqual(2, lineInfo.LineNumber);
+        Assert.AreEqual(5, lineInfo.LinePosition);
+    }
+
+    [Fact]
+    public async Task StartingCommentAndReadFrom_IgnoreCommentsAsync()
+    {
+        var textReader = new StringReader(@"
 // hi
 [
     1,
@@ -107,24 +107,24 @@ namespace Argon.Tests.Linq
     3
 ]");
 
-            var jsonReader = new JsonTextReader(textReader);
-            var a = (JArray)await JToken.ReadFromAsync(jsonReader, new JsonLoadSettings
-            {
-                CommentHandling = CommentHandling.Ignore
-            });
-
-            Assert.AreEqual(JTokenType.Array, a.Type);
-
-            IJsonLineInfo lineInfo = a;
-            Assert.AreEqual(true, lineInfo.HasLineInfo());
-            Assert.AreEqual(3, lineInfo.LineNumber);
-            Assert.AreEqual(1, lineInfo.LinePosition);
-        }
-
-        [Fact]
-        public async Task StartingUndefinedAndReadFromAsync()
+        var jsonReader = new JsonTextReader(textReader);
+        var a = (JArray)await JToken.ReadFromAsync(jsonReader, new JsonLoadSettings
         {
-            var textReader = new StringReader(@"
+            CommentHandling = CommentHandling.Ignore
+        });
+
+        Assert.AreEqual(JTokenType.Array, a.Type);
+
+        IJsonLineInfo lineInfo = a;
+        Assert.AreEqual(true, lineInfo.HasLineInfo());
+        Assert.AreEqual(3, lineInfo.LineNumber);
+        Assert.AreEqual(1, lineInfo.LinePosition);
+    }
+
+    [Fact]
+    public async Task StartingUndefinedAndReadFromAsync()
+    {
+        var textReader = new StringReader(@"
 undefined
 [
     1,
@@ -132,27 +132,26 @@ undefined
     3
 ]");
 
-            var jsonReader = new JsonTextReader(textReader);
-            var v = (JValue)await JToken.ReadFromAsync(jsonReader);
+        var jsonReader = new JsonTextReader(textReader);
+        var v = (JValue)await JToken.ReadFromAsync(jsonReader);
 
-            Assert.AreEqual(JTokenType.Undefined, v.Type);
+        Assert.AreEqual(JTokenType.Undefined, v.Type);
 
-            IJsonLineInfo lineInfo = v;
-            Assert.AreEqual(true, lineInfo.HasLineInfo());
-            Assert.AreEqual(2, lineInfo.LineNumber);
-            Assert.AreEqual(9, lineInfo.LinePosition);
-        }
+        IJsonLineInfo lineInfo = v;
+        Assert.AreEqual(true, lineInfo.HasLineInfo());
+        Assert.AreEqual(2, lineInfo.LineNumber);
+        Assert.AreEqual(9, lineInfo.LinePosition);
+    }
 
-        [Fact]
-        public async Task StartingEndArrayAndReadFromAsync()
-        {
-            var textReader = new StringReader(@"[]");
+    [Fact]
+    public async Task StartingEndArrayAndReadFromAsync()
+    {
+        var textReader = new StringReader(@"[]");
 
-            var jsonReader = new JsonTextReader(textReader);
-            await jsonReader.ReadAsync();
-            await jsonReader.ReadAsync();
+        var jsonReader = new JsonTextReader(textReader);
+        await jsonReader.ReadAsync();
+        await jsonReader.ReadAsync();
 
-            await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => await JToken.ReadFromAsync(jsonReader), @"Error reading JToken from JsonReader. Unexpected token: EndArray. Path '', line 1, position 2.");
-        }
+        await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => await JToken.ReadFromAsync(jsonReader), @"Error reading JToken from JsonReader. Unexpected token: EndArray. Path '', line 1, position 2.");
     }
 }

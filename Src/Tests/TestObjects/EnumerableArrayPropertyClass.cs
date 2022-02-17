@@ -23,17 +23,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+public class EnumerableArrayPropertyClass
 {
-    public class EnumerableArrayPropertyClass
+    public IEnumerable<int> Numbers
     {
-        public IEnumerable<int> Numbers
+        get
         {
-            get
-            {
-                return new[] { 1, 2, 3 }; //fails
-                //return new List<int>(new[] { 1, 2, 3 }); //works
-            }
+            return new[] { 1, 2, 3 }; //fails
+            //return new List<int>(new[] { 1, 2, 3 }); //works
         }
     }
 }
