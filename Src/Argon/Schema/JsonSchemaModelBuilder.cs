@@ -71,7 +71,7 @@ namespace Argon.Schema
                 return _nodes[newId];
             }
 
-            var currentNode = (existingNode != null)
+            var currentNode = existingNode != null
                 ? existingNode.Combine(schema)
                 : new JsonSchemaNode(schema);
 
@@ -130,7 +130,7 @@ namespace Argon.Schema
 
         public void AddItem(JsonSchemaNode parentNode, int index, JsonSchema schema)
         {
-            var existingItemNode = (parentNode.Items.Count > index)
+            var existingItemNode = parentNode.Items.Count > index
                 ? parentNode.Items[index]
                 : null;
 

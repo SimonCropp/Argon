@@ -140,7 +140,7 @@ namespace Argon.Linq
         /// <returns><c>true</c> if the tokens are equal; otherwise <c>false</c>.</returns>
         public static bool DeepEquals(JToken? t1, JToken? t2)
         {
-            return (t1 == t2 || (t1 != null && t2 != null && t1.DeepEquals(t2)));
+            return t1 == t2 || (t1 != null && t2 != null && t1.DeepEquals(t2));
         }
 
         /// <summary>
@@ -320,7 +320,7 @@ namespace Argon.Linq
             var token = this[key];
 
             // null check to fix MonoTouch issue - https://github.com/dolbz/Newtonsoft.Json/commit/a24e3062846b30ee505f3271ac08862bb471b822
-            return token == null ? default : Extensions.Convert<JToken, T>(token);
+            return token == null ? default : token.Convert<JToken, T>();
         }
 
         /// <summary>
@@ -463,7 +463,7 @@ namespace Argon.Linq
 
         private static bool ValidateToken(JToken o, JTokenType[] validTypes, bool nullable)
         {
-            return (Array.IndexOf(validTypes, o.Type) != -1) || (nullable && (o.Type == JTokenType.Null || o.Type == JTokenType.Undefined));
+            return Array.IndexOf(validTypes, o.Type) != -1 || (nullable && (o.Type == JTokenType.Null || o.Type == JTokenType.Undefined));
         }
 
         #region Cast from operators
@@ -537,7 +537,7 @@ namespace Argon.Linq
                 return Convert.ToBoolean((int)integer);
             }
 
-            return (v.Value != null) ? (bool?)Convert.ToBoolean(v.Value, CultureInfo.InvariantCulture) : null;
+            return v.Value != null ? (bool?)Convert.ToBoolean(v.Value, CultureInfo.InvariantCulture) : null;
         }
 
         /// <summary>
@@ -584,7 +584,7 @@ namespace Argon.Linq
                 return offset.DateTime;
             }
 
-            return (v.Value != null) ? (DateTime?)Convert.ToDateTime(v.Value, CultureInfo.InvariantCulture) : null;
+            return v.Value != null ? (DateTime?)Convert.ToDateTime(v.Value, CultureInfo.InvariantCulture) : null;
         }
 
         /// <summary>
@@ -645,7 +645,7 @@ namespace Argon.Linq
                 return (decimal?)integer;
             }
 
-            return (v.Value != null) ? (decimal?)Convert.ToDecimal(v.Value, CultureInfo.InvariantCulture) : null;
+            return v.Value != null ? (decimal?)Convert.ToDecimal(v.Value, CultureInfo.InvariantCulture) : null;
         }
 
         /// <summary>
@@ -671,7 +671,7 @@ namespace Argon.Linq
                 return (double?)integer;
             }
 
-            return (v.Value != null) ? (double?)Convert.ToDouble(v.Value, CultureInfo.InvariantCulture) : null;
+            return v.Value != null ? (double?)Convert.ToDouble(v.Value, CultureInfo.InvariantCulture) : null;
         }
 
         /// <summary>
@@ -697,7 +697,7 @@ namespace Argon.Linq
                 return (char?)integer;
             }
 
-            return (v.Value != null) ? (char?)Convert.ToChar(v.Value, CultureInfo.InvariantCulture) : null;
+            return v.Value != null ? (char?)Convert.ToChar(v.Value, CultureInfo.InvariantCulture) : null;
         }
 
         /// <summary>
@@ -852,7 +852,7 @@ namespace Argon.Linq
                 return (int?)integer;
             }
 
-            return (v.Value != null) ? (int?)Convert.ToInt32(v.Value, CultureInfo.InvariantCulture) : null;
+            return v.Value != null ? (int?)Convert.ToInt32(v.Value, CultureInfo.InvariantCulture) : null;
         }
 
         /// <summary>
@@ -878,7 +878,7 @@ namespace Argon.Linq
                 return (short?)integer;
             }
 
-            return (v.Value != null) ? (short?)Convert.ToInt16(v.Value, CultureInfo.InvariantCulture) : null;
+            return v.Value != null ? (short?)Convert.ToInt16(v.Value, CultureInfo.InvariantCulture) : null;
         }
 
         /// <summary>
@@ -905,7 +905,7 @@ namespace Argon.Linq
                 return (ushort?)integer;
             }
 
-            return (v.Value != null) ? (ushort?)Convert.ToUInt16(v.Value, CultureInfo.InvariantCulture) : null;
+            return v.Value != null ? (ushort?)Convert.ToUInt16(v.Value, CultureInfo.InvariantCulture) : null;
         }
 
         /// <summary>
@@ -931,7 +931,7 @@ namespace Argon.Linq
                 return (byte?)integer;
             }
 
-            return (v.Value != null) ? (byte?)Convert.ToByte(v.Value, CultureInfo.InvariantCulture) : null;
+            return v.Value != null ? (byte?)Convert.ToByte(v.Value, CultureInfo.InvariantCulture) : null;
         }
 
         /// <summary>
@@ -958,7 +958,7 @@ namespace Argon.Linq
                 return (sbyte?)integer;
             }
 
-            return (v.Value != null) ? (sbyte?)Convert.ToSByte(v.Value, CultureInfo.InvariantCulture) : null;
+            return v.Value != null ? (sbyte?)Convert.ToSByte(v.Value, CultureInfo.InvariantCulture) : null;
         }
 
         /// <summary>
@@ -1005,7 +1005,7 @@ namespace Argon.Linq
                 return (long?)integer;
             }
 
-            return (v.Value != null) ? (long?)Convert.ToInt64(v.Value, CultureInfo.InvariantCulture) : null;
+            return v.Value != null ? (long?)Convert.ToInt64(v.Value, CultureInfo.InvariantCulture) : null;
         }
 
         /// <summary>
@@ -1031,7 +1031,7 @@ namespace Argon.Linq
                 return (float?)integer;
             }
 
-            return (v.Value != null) ? (float?)Convert.ToSingle(v.Value, CultureInfo.InvariantCulture) : null;
+            return v.Value != null ? (float?)Convert.ToSingle(v.Value, CultureInfo.InvariantCulture) : null;
         }
 
         /// <summary>
@@ -1079,7 +1079,7 @@ namespace Argon.Linq
                 return (uint?)integer;
             }
 
-            return (v.Value != null) ? (uint?)Convert.ToUInt32(v.Value, CultureInfo.InvariantCulture) : null;
+            return v.Value != null ? (uint?)Convert.ToUInt32(v.Value, CultureInfo.InvariantCulture) : null;
         }
 
         /// <summary>
@@ -1106,7 +1106,7 @@ namespace Argon.Linq
                 return (ulong?)integer;
             }
 
-            return (v.Value != null) ? (ulong?)Convert.ToUInt64(v.Value, CultureInfo.InvariantCulture) : null;
+            return v.Value != null ? (ulong?)Convert.ToUInt64(v.Value, CultureInfo.InvariantCulture) : null;
         }
 
         /// <summary>
@@ -1284,7 +1284,7 @@ namespace Argon.Linq
                 return new Guid(bytes);
             }
 
-            return (v.Value is Guid guid) ? guid : new Guid(Convert.ToString(v.Value, CultureInfo.InvariantCulture));
+            return v.Value is Guid guid ? guid : new Guid(Convert.ToString(v.Value, CultureInfo.InvariantCulture));
         }
 
         /// <summary>
@@ -1315,7 +1315,7 @@ namespace Argon.Linq
                 return new Guid(bytes);
             }
 
-            return (v.Value is Guid guid) ? guid : new Guid(Convert.ToString(v.Value, CultureInfo.InvariantCulture));
+            return v.Value is Guid guid ? guid : new Guid(Convert.ToString(v.Value, CultureInfo.InvariantCulture));
         }
 
         /// <summary>
@@ -1331,7 +1331,7 @@ namespace Argon.Linq
                 throw new ArgumentException("Can not convert {0} to TimeSpan.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
             }
 
-            return (v.Value is TimeSpan span) ? span : ConvertUtils.ParseTimeSpan(Convert.ToString(v.Value, CultureInfo.InvariantCulture));
+            return v.Value is TimeSpan span ? span : ConvertUtils.ParseTimeSpan(Convert.ToString(v.Value, CultureInfo.InvariantCulture));
         }
 
         /// <summary>
@@ -1357,7 +1357,7 @@ namespace Argon.Linq
                 return null;
             }
 
-            return (v.Value is TimeSpan span) ? span : ConvertUtils.ParseTimeSpan(Convert.ToString(v.Value, CultureInfo.InvariantCulture));
+            return v.Value is TimeSpan span ? span : ConvertUtils.ParseTimeSpan(Convert.ToString(v.Value, CultureInfo.InvariantCulture));
         }
 
         /// <summary>
@@ -1383,7 +1383,7 @@ namespace Argon.Linq
                 return null;
             }
 
-            return (v.Value is Uri uri) ? uri : new Uri(Convert.ToString(v.Value, CultureInfo.InvariantCulture));
+            return v.Value is Uri uri ? uri : new Uri(Convert.ToString(v.Value, CultureInfo.InvariantCulture));
         }
 
         private static BigInteger ToBigInteger(JToken value)
@@ -2029,7 +2029,7 @@ namespace Argon.Linq
             bool hasContent;
             if (reader.TokenType == JsonToken.None)
             {
-                hasContent = (settings != null && settings.CommentHandling == CommentHandling.Ignore)
+                hasContent = settings != null && settings.CommentHandling == CommentHandling.Ignore
                     ? reader.ReadAndMoveToContent()
                     : reader.Read();
             }
@@ -2181,7 +2181,7 @@ namespace Argon.Linq
 
         bool IJsonLineInfo.HasLineInfo()
         {
-            return (Annotation<LineInfoAnnotation>() != null);
+            return Annotation<LineInfoAnnotation>() != null;
         }
 
         int IJsonLineInfo.LineNumber
@@ -2361,7 +2361,7 @@ namespace Argon.Linq
 
             if (_annotations == null)
             {
-                _annotations = (annotation is object[]) ? new[] { annotation } : annotation;
+                _annotations = annotation is object[] ? new[] { annotation } : annotation;
             }
             else
             {
@@ -2397,7 +2397,7 @@ namespace Argon.Linq
             {
                 if (!(_annotations is object[] annotations))
                 {
-                    return (_annotations as T);
+                    return _annotations as T;
                 }
                 for (var i = 0; i < annotations.Length; i++)
                 {

@@ -150,7 +150,7 @@ namespace Argon
         private SchemaScope Pop()
         {
             var poppedScope = _stack.Pop();
-            _currentScope = (_stack.Count != 0)
+            _currentScope = _stack.Count != 0
                 ? _stack.Peek()
                 : null;
 
@@ -230,7 +230,7 @@ namespace Argon
                                 {
                                     if (schema.Items != null && schema.Items.Count > 0)
                                     {
-                                        if (schema.Items.Count > (_currentScope.ArrayItemCount - 1))
+                                        if (schema.Items.Count > _currentScope.ArrayItemCount - 1)
                                         {
                                             schemas.Add(schema.Items[_currentScope.ArrayItemCount - 1]);
                                         }
@@ -257,7 +257,7 @@ namespace Argon
         {
             IJsonLineInfo lineInfo = this;
 
-            var exceptionMessage = (lineInfo.HasLineInfo())
+            var exceptionMessage = lineInfo.HasLineInfo()
                 ? message + " Line {0}, position {1}.".FormatWith(CultureInfo.InvariantCulture, lineInfo.LineNumber, lineInfo.LinePosition)
                 : message;
 
@@ -608,7 +608,7 @@ namespace Argon
         {
             foreach (var schemaScope in _stack)
             {
-                var isInUniqueArray = (schemaScope.TokenType == JTokenType.Array && schemaScope.IsUniqueArray && schemaScope.ArrayItemCount > 0);
+                var isInUniqueArray = schemaScope.TokenType == JTokenType.Array && schemaScope.IsUniqueArray && schemaScope.ArrayItemCount > 0;
 
                 if (isInUniqueArray || schemas.Any(s => s.Enum != null))
                 {
@@ -973,7 +973,7 @@ namespace Argon
                 return true;
             }
 
-            return (TestType(schema, JsonSchemaType.Array));
+            return TestType(schema, JsonSchemaType.Array);
         }
 
         private bool ValidateObject(JsonSchemaModel schema)
@@ -983,7 +983,7 @@ namespace Argon
                 return true;
             }
 
-            return (TestType(schema, JsonSchemaType.Object));
+            return TestType(schema, JsonSchemaType.Object);
         }
 
         private bool TestType(JsonSchemaModel currentSchema, JsonSchemaType currentType)
@@ -1002,8 +1002,8 @@ namespace Argon
             return _reader is IJsonLineInfo lineInfo && lineInfo.HasLineInfo();
         }
 
-        int IJsonLineInfo.LineNumber => (_reader is IJsonLineInfo lineInfo) ? lineInfo.LineNumber : 0;
+        int IJsonLineInfo.LineNumber => _reader is IJsonLineInfo lineInfo ? lineInfo.LineNumber : 0;
 
-        int IJsonLineInfo.LinePosition => (_reader is IJsonLineInfo lineInfo) ? lineInfo.LinePosition : 0;
+        int IJsonLineInfo.LinePosition => _reader is IJsonLineInfo lineInfo ? lineInfo.LinePosition : 0;
     }
 }

@@ -2690,7 +2690,7 @@ namespace Argon.Tests.Serialization
 
         public override bool CanConvert(Type objectType)
         {
-            return (objectType == typeof(List<string>));
+            return objectType == typeof(List<string>);
         }
     }
 
@@ -2711,7 +2711,7 @@ namespace Argon.Tests.Serialization
 
         public override bool CanConvert(Type objectType)
         {
-            return (objectType == typeof(string));
+            return objectType == typeof(string);
         }
     }
 }

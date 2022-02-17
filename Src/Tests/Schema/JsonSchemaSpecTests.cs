@@ -63,7 +63,7 @@ namespace Argon.Tests.Schema
             var s = JsonSchema.Read(jsonSchemaSpecTest.Schema.CreateReader());
 
             var v = jsonSchemaSpecTest.Data.IsValid(s, out var e);
-            var errorMessages = ((e != null) ? e.ToArray() : null) ?? new string[0];
+            var errorMessages = (e != null ? e.ToArray() : null) ?? new string[0];
 
             Assert.AreEqual(jsonSchemaSpecTest.IsValid, v, jsonSchemaSpecTest.TestCaseDescription + " - " + jsonSchemaSpecTest.TestDescription + " - errors: " + string.Join(", ", errorMessages));
         }

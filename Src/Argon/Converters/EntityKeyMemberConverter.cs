@@ -68,12 +68,12 @@ namespace Argon.Converters
             var keyValueType = keyValue?.GetType();
 
             writer.WriteStartObject();
-            writer.WritePropertyName((resolver != null) ? resolver.GetResolvedPropertyName(KeyPropertyName) : KeyPropertyName);
+            writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(KeyPropertyName) : KeyPropertyName);
             writer.WriteValue(keyName);
-            writer.WritePropertyName((resolver != null) ? resolver.GetResolvedPropertyName(TypePropertyName) : TypePropertyName);
+            writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(TypePropertyName) : TypePropertyName);
             writer.WriteValue(keyValueType?.FullName);
 
-            writer.WritePropertyName((resolver != null) ? resolver.GetResolvedPropertyName(ValuePropertyName) : ValuePropertyName);
+            writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(ValuePropertyName) : ValuePropertyName);
 
             if (keyValueType != null)
             {

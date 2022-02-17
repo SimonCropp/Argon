@@ -121,7 +121,7 @@ namespace Argon.Serialization
             set
             {
                 _extensionDataValueType = value;
-                ExtensionDataIsJToken = (value != null && typeof(JToken).IsAssignableFrom(value));
+                ExtensionDataIsJToken = value != null && typeof(JToken).IsAssignableFrom(value);
             }
         }
 

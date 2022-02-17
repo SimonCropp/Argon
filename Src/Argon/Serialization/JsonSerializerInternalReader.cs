@@ -70,7 +70,7 @@ namespace Argon.Serialization
                 {
                     var arrayContract = (JsonArrayContract)contract;
 
-                    PopulateList((arrayContract.ShouldCreateWrapper) ? arrayContract.CreateWrapper(target) : (IList)target, reader, arrayContract, null, null);
+                    PopulateList(arrayContract.ShouldCreateWrapper ? arrayContract.CreateWrapper(target) : (IList)target, reader, arrayContract, null, null);
                 }
                 else
                 {
@@ -94,7 +94,7 @@ namespace Argon.Serialization
                 if (contract.ContractType == JsonContractType.Dictionary)
                 {
                     var dictionaryContract = (JsonDictionaryContract)contract;
-                    PopulateDictionary((dictionaryContract.ShouldCreateWrapper) ? dictionaryContract.CreateWrapper(target) : (IDictionary)target, reader, dictionaryContract, null, id);
+                    PopulateDictionary(dictionaryContract.ShouldCreateWrapper ? dictionaryContract.CreateWrapper(target) : (IDictionary)target, reader, dictionaryContract, null, id);
                 }
                 else if (contract.ContractType == JsonContractType.Object)
                 {
@@ -898,7 +898,7 @@ namespace Argon.Serialization
                     throw JsonSerializationException.Create(reader, "Cannot populate list type {0}.".FormatWith(CultureInfo.InvariantCulture, contract.CreatedType));
                 }
 
-                value = PopulateList((arrayContract.ShouldCreateWrapper || !(existingValue is IList list)) ? arrayContract.CreateWrapper(existingValue) : list, reader, arrayContract, member, id);
+                value = PopulateList(arrayContract.ShouldCreateWrapper || !(existingValue is IList list) ? arrayContract.CreateWrapper(existingValue) : list, reader, arrayContract, member, id);
             }
 
             return value;
@@ -906,9 +906,8 @@ namespace Argon.Serialization
 
         private bool HasNoDefinedType(JsonContract? contract)
         {
-            return (contract == null || contract.UnderlyingType == typeof(object) || contract.ContractType == JsonContractType.Linq
-                    || contract.UnderlyingType == typeof(IDynamicMetaObjectProvider)
-                );
+            return contract == null || contract.UnderlyingType == typeof(object) || contract.ContractType == JsonContractType.Linq
+                   || contract.UnderlyingType == typeof(IDynamicMetaObjectProvider);
         }
 
         private object? EnsureType(JsonReader reader, object? value, CultureInfo culture, JsonContract? contract, Type? targetType)
@@ -1020,7 +1019,7 @@ namespace Argon.Serialization
             }
             else
             {
-                value = CreateValueInternal(reader, property.PropertyType, propertyContract, property, containerContract, containerProperty, (useExistingValue) ? currentValue : null);
+                value = CreateValueInternal(reader, property.PropertyType, propertyContract, property, containerContract, containerProperty, useExistingValue ? currentValue : null);
             }
 
             // always set the value if useExistingValue is false,
@@ -1082,7 +1081,7 @@ namespace Argon.Serialization
             var objectCreationHandling =
                 property.ObjectCreationHandling.GetValueOrDefault(Serializer._objectCreationHandling);
 
-            if ((objectCreationHandling != ObjectCreationHandling.Replace)
+            if (objectCreationHandling != ObjectCreationHandling.Replace
                 && (tokenType == JsonToken.StartArray || tokenType == JsonToken.StartObject || propertyConverter != null)
                 && property.Readable
                 && property.PropertyContract?.ContractType != JsonContractType.Linq)
@@ -1094,7 +1093,7 @@ namespace Argon.Serialization
                 {
                     propertyContract = GetContract(currentValue.GetType());
 
-                    useExistingValue = (!propertyContract.IsReadOnlyOrFixedSize && !propertyContract.UnderlyingType.IsValueType());
+                    useExistingValue = !propertyContract.IsReadOnlyOrFixedSize && !propertyContract.UnderlyingType.IsValueType();
                 }
             }
 
@@ -1161,7 +1160,7 @@ namespace Argon.Serialization
 
         private bool HasFlag(DefaultValueHandling value, DefaultValueHandling flag)
         {
-            return ((value & flag) == flag);
+            return (value & flag) == flag;
         }
 
         private bool ShouldSetPropertyValue(JsonProperty property, JsonObjectContract? contract, object? value)
@@ -1346,7 +1345,7 @@ namespace Argon.Serialization
             }
 
             var dictionaryValueConverter = contract.ItemConverter ?? GetConverter(contract.ItemContract, null, contract, containerProperty);
-            var keyTypeCode = (contract.KeyContract is JsonPrimitiveContract keyContract) ? keyContract.TypeCode : PrimitiveTypeCode.Empty;
+            var keyTypeCode = contract.KeyContract is JsonPrimitiveContract keyContract ? keyContract.TypeCode : PrimitiveTypeCode.Empty;
 
             var finished = false;
             do
@@ -1849,7 +1848,7 @@ namespace Argon.Serialization
                             }
                             else
                             {
-                                var t = (JsonTokenUtils.IsPrimitiveToken(reader.TokenType)) ? reader.ValueType! : typeof(IDynamicMetaObjectProvider);
+                                var t = JsonTokenUtils.IsPrimitiveToken(reader.TokenType) ? reader.ValueType! : typeof(IDynamicMetaObjectProvider);
 
                                 var dynamicMemberContract = GetContractSafe(t);
                                 var dynamicMemberConverter = GetConverter(dynamicMemberContract, null, null, member);
@@ -1917,7 +1916,7 @@ namespace Argon.Serialization
             ValidationUtils.ArgumentNotNull(creator, nameof(creator));
 
             // only need to keep a track of properties' presence if they are required or a value should be defaulted if missing
-            var trackPresence = (contract.HasRequiredOrDefaultValueProperties || HasFlag(Serializer._defaultValueHandling, DefaultValueHandling.Populate));
+            var trackPresence = contract.HasRequiredOrDefaultValueProperties || HasFlag(Serializer._defaultValueHandling, DefaultValueHandling.Populate);
 
             var objectType = contract.UnderlyingType;
 
@@ -2058,12 +2057,12 @@ namespace Argon.Serialization
                             {
                                 propertyArrayContract = (JsonArrayContract)GetContract(createdObjectCollection.GetType());
 
-                                var createdObjectCollectionWrapper = (propertyArrayContract.ShouldCreateWrapper) ? propertyArrayContract.CreateWrapper(createdObjectCollection) : (IList)createdObjectCollection;
+                                var createdObjectCollectionWrapper = propertyArrayContract.ShouldCreateWrapper ? propertyArrayContract.CreateWrapper(createdObjectCollection) : (IList)createdObjectCollection;
 
                                 // Don't attempt to populate array/read-only list
                                 if (!createdObjectCollectionWrapper.IsFixedSize)
                                 {
-                                    var newValues = (propertyArrayContract.ShouldCreateWrapper) ? propertyArrayContract.CreateWrapper(value) : (IList)value;
+                                    var newValues = propertyArrayContract.ShouldCreateWrapper ? propertyArrayContract.CreateWrapper(value) : (IList)value;
 
                                     foreach (var newValue in newValues)
                                     {
@@ -2082,8 +2081,8 @@ namespace Argon.Serialization
                             var createdObjectDictionary = property.ValueProvider!.GetValue(createdObject);
                             if (createdObjectDictionary != null)
                             {
-                                var targetDictionary = (dictionaryContract.ShouldCreateWrapper) ? dictionaryContract.CreateWrapper(createdObjectDictionary) : (IDictionary)createdObjectDictionary;
-                                var newValues = (dictionaryContract.ShouldCreateWrapper) ? dictionaryContract.CreateWrapper(value) : (IDictionary)value;
+                                var targetDictionary = dictionaryContract.ShouldCreateWrapper ? dictionaryContract.CreateWrapper(createdObjectDictionary) : (IDictionary)createdObjectDictionary;
+                                var newValues = dictionaryContract.ShouldCreateWrapper ? dictionaryContract.CreateWrapper(value) : (IDictionary)value;
 
                                 // Manual use of IDictionaryEnumerator instead of foreach to avoid DictionaryEntry box allocations.
                                 var e = newValues.GetEnumerator();
@@ -2299,7 +2298,7 @@ namespace Argon.Serialization
             OnDeserializing(reader, contract, newObject);
 
             // only need to keep a track of properties' presence if they are required or a value should be defaulted if missing
-            var propertiesPresence = (contract.HasRequiredOrDefaultValueProperties || HasFlag(Serializer._defaultValueHandling, DefaultValueHandling.Populate))
+            var propertiesPresence = contract.HasRequiredOrDefaultValueProperties || HasFlag(Serializer._defaultValueHandling, DefaultValueHandling.Populate)
                 ? contract.Properties.ToDictionary(m => m, _ => PropertyPresence.None)
                 : null;
 
@@ -2560,7 +2559,7 @@ namespace Argon.Serialization
                 switch (reader.TokenType)
                 {
                     case JsonToken.String:
-                        propertyPresence = (CoerceEmptyStringToNull(property.PropertyType, property.PropertyContract, (string)reader.Value!))
+                        propertyPresence = CoerceEmptyStringToNull(property.PropertyType, property.PropertyContract, (string)reader.Value!)
                             ? PropertyPresence.Null
                             : PropertyPresence.Value;
                         break;

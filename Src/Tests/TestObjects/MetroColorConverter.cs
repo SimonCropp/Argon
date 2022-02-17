@@ -36,7 +36,7 @@ namespace Argon.Tests.TestObjects
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             var color = (Color)value;
-            var fixedColor = (color == Color.White || color == Color.Black) ? color : Color.Gray;
+            var fixedColor = color == Color.White || color == Color.Black ? color : Color.Gray;
 
             writer.WriteValue(":::" + fixedColor.ToKnownColor().ToString().ToUpper() + ":::");
         }

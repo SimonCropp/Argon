@@ -467,7 +467,7 @@ namespace Argon.Serialization
 
             if (extensionDataAttribute.ReadData)
             {
-                var setExtensionDataDictionary = (ReflectionUtils.CanSetMemberValue(member, true, false))
+                var setExtensionDataDictionary = ReflectionUtils.CanSetMemberValue(member, true, false)
                  ? JsonTypeReflector.ReflectionDelegateFactory.CreateSet<object>(member)
                  : null;
                 var createExtensionDataDictionary = JsonTypeReflector.ReflectionDelegateFactory.CreateDefaultConstructor<object>(createdType);
@@ -691,7 +691,7 @@ namespace Argon.Serialization
             // "inherit" values from matching member property if unset on parameter
             if (matchingMemberProperty != null)
             {
-                property.PropertyName = (property.PropertyName != parameterInfo.Name) ? property.PropertyName : matchingMemberProperty.PropertyName;
+                property.PropertyName = property.PropertyName != parameterInfo.Name ? property.PropertyName : matchingMemberProperty.PropertyName;
                 property.Converter = property.Converter ?? matchingMemberProperty.Converter;
 
                 if (!property._hasExplicitDefaultValue && matchingMemberProperty._hasExplicitDefaultValue)
@@ -753,8 +753,8 @@ namespace Argon.Serialization
             {
                 contract.DefaultCreator = GetDefaultCreator(contract.CreatedType);
 
-                contract.DefaultCreatorNonPublic = (!contract.CreatedType.IsValueType() &&
-                                                    ReflectionUtils.GetDefaultConstructor(contract.CreatedType) == null);
+                contract.DefaultCreatorNonPublic = !contract.CreatedType.IsValueType() &&
+                                                   ReflectionUtils.GetDefaultConstructor(contract.CreatedType) == null;
             }
 
             ResolveCallbackMethods(contract, contract.NonNullableUnderlyingType);
@@ -955,7 +955,7 @@ namespace Argon.Serialization
             if (overrideConstructor != null)
             {
                 ParameterInfo[] parameters = overrideConstructor.GetParameters();
-                var expectedParameterType = (contract.DictionaryKeyType != null && contract.DictionaryValueType != null)
+                var expectedParameterType = contract.DictionaryKeyType != null && contract.DictionaryValueType != null
                     ? typeof(IEnumerable<>).MakeGenericType(typeof(KeyValuePair<,>).MakeGenericType(contract.DictionaryKeyType, contract.DictionaryValueType))
                     : typeof(IDictionary);
 
@@ -993,7 +993,7 @@ namespace Argon.Serialization
             if (overrideConstructor != null)
             {
                 ParameterInfo[] parameters = overrideConstructor.GetParameters();
-                var expectedParameterType = (contract.CollectionItemType != null)
+                var expectedParameterType = contract.CollectionItemType != null
                     ? typeof(IEnumerable<>).MakeGenericType(contract.CollectionItemType)
                     : typeof(IEnumerable);
 
@@ -1179,7 +1179,7 @@ namespace Argon.Serialization
         {
             var typeCode = ConvertUtils.GetTypeCode(t);
 
-            return (typeCode != PrimitiveTypeCode.Empty && typeCode != PrimitiveTypeCode.Object);
+            return typeCode != PrimitiveTypeCode.Empty && typeCode != PrimitiveTypeCode.Object;
         }
 
         internal static bool IsIConvertible(Type t)
@@ -1472,9 +1472,9 @@ namespace Argon.Serialization
                 property.ItemTypeNameHandling = null;
                 if (dataMemberAttribute != null)
                 {
-                    property._required = (dataMemberAttribute.IsRequired) ? Required.AllowNull : Required.Default;
-                    property.Order = (dataMemberAttribute.Order != -1) ? (int?)dataMemberAttribute.Order : null;
-                    property.DefaultValueHandling = (!dataMemberAttribute.EmitDefaultValue) ? (DefaultValueHandling?)DefaultValueHandling.Ignore : null;
+                    property._required = dataMemberAttribute.IsRequired ? Required.AllowNull : Required.Default;
+                    property.Order = dataMemberAttribute.Order != -1 ? (int?)dataMemberAttribute.Order : null;
+                    property.DefaultValueHandling = !dataMemberAttribute.EmitDefaultValue ? (DefaultValueHandling?)DefaultValueHandling.Ignore : null;
                     hasMemberAttribute = true;
                 }
             }
@@ -1498,15 +1498,15 @@ namespace Argon.Serialization
             {
                 var hasIgnoreDataMemberAttribute = false;
 
-                hasIgnoreDataMemberAttribute = (JsonTypeReflector.GetAttribute<IgnoreDataMemberAttribute>(attributeProvider) != null);
+                hasIgnoreDataMemberAttribute = JsonTypeReflector.GetAttribute<IgnoreDataMemberAttribute>(attributeProvider) != null;
 
                 // ignored if it has JsonIgnore or NonSerialized or IgnoreDataMember attributes
-                property.Ignored = (hasJsonIgnoreAttribute || hasIgnoreDataMemberAttribute);
+                property.Ignored = hasJsonIgnoreAttribute || hasIgnoreDataMemberAttribute;
             }
             else
             {
                 // ignored if it has JsonIgnore/NonSerialized or does not have DataMember or JsonProperty attributes
-                property.Ignored = (hasJsonIgnoreAttribute || !hasMemberAttribute);
+                property.Ignored = hasJsonIgnoreAttribute || !hasMemberAttribute;
             }
 
             // resolve converter for property

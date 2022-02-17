@@ -87,7 +87,7 @@ namespace Argon.Utilities
                 return "{null}";
             }
 
-            return (value is string s) ? @"""" + s + @"""" : value!.ToString();
+            return value is string s ? @"""" + s + @"""" : value!.ToString();
         }
 
         public static int ByteArrayCompare(byte[] a1, byte[] a2)
@@ -128,7 +128,7 @@ namespace Argon.Utilities
         {
             var colonPosition = qualifiedName.IndexOf(':');
 
-            if ((colonPosition == -1 || colonPosition == 0) || (qualifiedName.Length - 1) == colonPosition)
+            if (colonPosition == -1 || colonPosition == 0 || qualifiedName.Length - 1 == colonPosition)
             {
                 prefix = null;
                 localName = qualifiedName;

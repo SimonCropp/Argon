@@ -109,7 +109,7 @@ namespace Argon.Linq
             }
 
             var next = t.Next;
-            if ((next == null || next == t) || t == t.Parent!.Last)
+            if (next == null || next == t || t == t.Parent!.Last)
             {
                 if (t.Parent == null)
                 {
@@ -266,7 +266,7 @@ namespace Argon.Linq
             }
 
             IJsonLineInfo? info = _current;
-            return (info != null && info.HasLineInfo());
+            return info != null && info.HasLineInfo();
         }
 
         int IJsonLineInfo.LineNumber

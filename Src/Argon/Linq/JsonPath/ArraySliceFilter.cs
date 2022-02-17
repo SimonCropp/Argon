@@ -24,8 +24,8 @@ namespace Argon.Linq.JsonPath
                 {
                     // set defaults for null arguments
                     var stepCount = Step ?? 1;
-                    var startIndex = Start ?? ((stepCount > 0) ? 0 : a.Count - 1);
-                    var stopIndex = End ?? ((stepCount > 0) ? a.Count : -1);
+                    var startIndex = Start ?? (stepCount > 0 ? 0 : a.Count - 1);
+                    var stopIndex = End ?? (stepCount > 0 ? a.Count : -1);
 
                     // start from the end of the list if start is negative
                     if (Start < 0)
@@ -40,12 +40,12 @@ namespace Argon.Linq.JsonPath
                     }
 
                     // ensure indexes keep within collection bounds
-                    startIndex = Math.Max(startIndex, (stepCount > 0) ? 0 : int.MinValue);
-                    startIndex = Math.Min(startIndex, (stepCount > 0) ? a.Count : a.Count - 1);
+                    startIndex = Math.Max(startIndex, stepCount > 0 ? 0 : int.MinValue);
+                    startIndex = Math.Min(startIndex, stepCount > 0 ? a.Count : a.Count - 1);
                     stopIndex = Math.Max(stopIndex, -1);
                     stopIndex = Math.Min(stopIndex, a.Count);
 
-                    var positiveStep = (stepCount > 0);
+                    var positiveStep = stepCount > 0;
 
                     if (IsValid(startIndex, stopIndex, positiveStep))
                     {
@@ -78,10 +78,10 @@ namespace Argon.Linq.JsonPath
         {
             if (positiveStep)
             {
-                return (index < stopIndex);
+                return index < stopIndex;
             }
 
-            return (index > stopIndex);
+            return index > stopIndex;
         }
     }
 }

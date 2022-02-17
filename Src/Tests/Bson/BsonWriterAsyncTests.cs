@@ -197,7 +197,7 @@ namespace Argon.Tests.Bson
             await writer.WriteStartArrayAsync();
             for (var i = 1; i <= 8; i++)
             {
-                var value = (i != 5)
+                var value = i != 5
                     ? Convert.ToDouble(i)
                     : 5.78960446186581E+77d;
 
@@ -489,7 +489,7 @@ namespace Argon.Tests.Bson
             await writer.WriteValueAsync(new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Unspecified));
             await writer.WriteEndArrayAsync();
 
-            Assert.AreEqual("10-00-00-00-09-30-00-C8-88-07-6B-DC-00-00-00-00", (BitConverter.ToString(ms.ToArray())));
+            Assert.AreEqual("10-00-00-00-09-30-00-C8-88-07-6B-DC-00-00-00-00", BitConverter.ToString(ms.ToArray()));
         }
 
         [Fact]

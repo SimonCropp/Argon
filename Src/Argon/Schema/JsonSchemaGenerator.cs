@@ -163,7 +163,7 @@ namespace Argon.Schema
 
             _resolver = resolver;
 
-            return GenerateInternal(type, (!rootSchemaNullable) ? Required.Always : Required.Default, false);
+            return GenerateInternal(type, !rootSchemaNullable ? Required.Always : Required.Default, false);
         }
 
         private string GetTitle(Type type)
@@ -286,13 +286,13 @@ namespace Argon.Schema
                         CurrentSchema.Id = GetTypeId(type, false);
 
                         var arrayAttribute = JsonTypeReflector.GetCachedAttribute<JsonArrayAttribute>(type);
-                        var allowNullItem = (arrayAttribute == null || arrayAttribute.AllowNullItems);
+                        var allowNullItem = arrayAttribute == null || arrayAttribute.AllowNullItems;
 
                         var collectionItemType = ReflectionUtils.GetCollectionItemType(type);
                         if (collectionItemType != null)
                         {
                             CurrentSchema.Items = new List<JsonSchema>();
-                            CurrentSchema.Items.Add(GenerateInternal(collectionItemType, (!allowNullItem) ? Required.Always : Required.Default, false));
+                            CurrentSchema.Items.Add(GenerateInternal(collectionItemType, !allowNullItem ? Required.Always : Required.Default, false));
                         }
                         break;
                     case JsonContractType.Primitive:
@@ -313,7 +313,7 @@ namespace Argon.Schema
                         }
                         break;
                     case JsonContractType.String:
-                        var schemaType = (!ReflectionUtils.IsNullable(contract.UnderlyingType))
+                        var schemaType = !ReflectionUtils.IsNullable(contract.UnderlyingType)
                             ? JsonSchemaType.String
                             : AddNullType(JsonSchemaType.String, valueRequired);
 
@@ -364,7 +364,7 @@ namespace Argon.Schema
 
         private bool HasFlag(DefaultValueHandling value, DefaultValueHandling flag)
         {
-            return ((value & flag) == flag);
+            return (value & flag) == flag;
         }
 
         private void GenerateObjectSchema(Type type, JsonObjectContract contract)
@@ -409,7 +409,7 @@ namespace Argon.Schema
                 return true;
             }
 
-            var match = ((value & flag) == flag);
+            var match = (value & flag) == flag;
             if (match)
             {
                 return true;

@@ -213,7 +213,7 @@ namespace Argon.Linq
             get
             {
                 var children = ChildrenTokens;
-                return (children.Count > 0) ? children[0] : null;
+                return children.Count > 0 ? children[0] : null;
             }
         }
 
@@ -229,7 +229,7 @@ namespace Argon.Linq
             {
                 var children = ChildrenTokens;
                 var count = children.Count;
-                return (count > 0) ? children[count - 1] : null;
+                return count > 0 ? children[count - 1] : null;
             }
         }
 
@@ -296,7 +296,7 @@ namespace Argon.Linq
 
         internal bool IsMultiContent([NotNullWhen(true)]object? content)
         {
-            return (content is IEnumerable && !(content is string) && !(content is JToken) && !(content is byte[]));
+            return content is IEnumerable && !(content is string) && !(content is JToken) && !(content is byte[]);
         }
 
         internal JToken EnsureParentToken(JToken? item, bool skipParentCheck)
@@ -338,9 +338,9 @@ namespace Argon.Linq
 
             item = EnsureParentToken(item, skipParentCheck);
 
-            var previous = (index == 0) ? null : children[index - 1];
+            var previous = index == 0 ? null : children[index - 1];
             // haven't inserted new token yet so next token is still at the inserting index
-            var next = (index == children.Count) ? null : children[index];
+            var next = index == children.Count ? null : children[index];
 
             ValidateToken(item, null);
 
@@ -388,8 +388,8 @@ namespace Argon.Linq
             CheckReentrancy();
 
             var item = children[index];
-            var previous = (index == 0) ? null : children[index - 1];
-            var next = (index == children.Count - 1) ? null : children[index + 1];
+            var previous = index == 0 ? null : children[index - 1];
+            var next = index == children.Count - 1 ? null : children[index + 1];
 
             if (previous != null)
             {
@@ -462,8 +462,8 @@ namespace Argon.Linq
 
             ValidateToken(item, existing);
 
-            var previous = (index == 0) ? null : children[index - 1];
-            var next = (index == children.Count - 1) ? null : children[index + 1];
+            var previous = index == 0 ? null : children[index - 1];
+            var next = index == children.Count - 1 ? null : children[index + 1];
 
             item.Parent = this;
 
@@ -533,7 +533,7 @@ namespace Argon.Linq
 
         internal virtual bool ContainsItem(JToken? item)
         {
-            return (IndexOfItem(item) != -1);
+            return IndexOfItem(item) != -1;
         }
 
         internal virtual void CopyItemsTo(Array array, int arrayIndex)

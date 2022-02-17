@@ -84,42 +84,42 @@ namespace Argon.Tests.TestObjects.Money
         public bool IsAUD
         {
             [CompilerGenerated, DebuggerNonUserCode]
-            get { return (this.Tag == 1); }
+            get { return this.Tag == 1; }
         }
 
         [CompilerGenerated, DebuggerNonUserCode, DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool IsEUR
         {
             [CompilerGenerated, DebuggerNonUserCode]
-            get { return (this.Tag == 4); }
+            get { return this.Tag == 4; }
         }
 
         [CompilerGenerated, DebuggerNonUserCode, DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool IsJPY
         {
             [CompilerGenerated, DebuggerNonUserCode]
-            get { return (this.Tag == 5); }
+            get { return this.Tag == 5; }
         }
 
         [CompilerGenerated, DebuggerNonUserCode, DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool IsLocalCurrency
         {
             [CompilerGenerated, DebuggerNonUserCode]
-            get { return (this.Tag == 0); }
+            get { return this.Tag == 0; }
         }
 
         [CompilerGenerated, DebuggerNonUserCode, DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool IsNZD
         {
             [CompilerGenerated, DebuggerNonUserCode]
-            get { return (this.Tag == 2); }
+            get { return this.Tag == 2; }
         }
 
         [CompilerGenerated, DebuggerNonUserCode, DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool IsUSD
         {
             [CompilerGenerated, DebuggerNonUserCode]
-            get { return (this.Tag == 3); }
+            get { return this.Tag == 3; }
         }
 
         [CompilerGenerated, DebuggerNonUserCode, DebuggerBrowsable(DebuggerBrowsableState.Never)]

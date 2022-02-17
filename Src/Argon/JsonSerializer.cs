@@ -543,7 +543,7 @@ namespace Argon
 
         internal bool IsCheckAdditionalContentSet()
         {
-            return (_checkAdditionalContent != null);
+            return _checkAdditionalContent != null;
         }
 
         /// <summary>
@@ -815,7 +815,7 @@ namespace Argon
                 out var previousMaxDepth,
                 out var previousDateFormatString);
 
-            var traceJsonReader = (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Verbose)
+            var traceJsonReader = TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Verbose
                 ? CreateTraceJsonReader(reader)
                 : null;
 
@@ -893,7 +893,7 @@ namespace Argon
                 out var previousMaxDepth,
                 out var previousDateFormatString);
 
-            var traceJsonReader = (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Verbose)
+            var traceJsonReader = TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Verbose
                 ? CreateTraceJsonReader(reader)
                 : null;
 
@@ -1135,7 +1135,7 @@ namespace Argon
                 jsonWriter.DateFormatString = _dateFormatString;
             }
 
-            var traceJsonWriter = (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Verbose)
+            var traceJsonWriter = TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Verbose
                 ? new TraceJsonWriter(jsonWriter)
                 : null;
 

@@ -64,7 +64,7 @@ namespace Argon.Utilities
                 throw new ArgumentOutOfRangeException(nameof(count));
             }
 
-            if (count > (buffer.Length - index))
+            if (count > buffer.Length - index)
             {
                 throw new ArgumentOutOfRangeException(nameof(count));
             }
@@ -91,7 +91,7 @@ namespace Argon.Utilities
             var length = LineSizeInBytes;
             while (index < num4)
             {
-                if ((index + length) > num4)
+                if (index + length > num4)
                 {
                     length = num4 - index;
                 }

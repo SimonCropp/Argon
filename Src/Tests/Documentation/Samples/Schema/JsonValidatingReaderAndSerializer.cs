@@ -75,7 +75,7 @@ namespace Argon.Tests.Documentation.Samples.Schema
             Console.WriteLine(p.Name);
             // James
 
-            var isValid = (messages.Count == 0);
+            var isValid = messages.Count == 0;
 
             Console.WriteLine(isValid);
             // true

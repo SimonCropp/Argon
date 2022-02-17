@@ -57,7 +57,7 @@ namespace Argon.Converters
 
             foreach (DataTable table in dataSet.Tables)
             {
-                writer.WritePropertyName((resolver != null) ? resolver.GetResolvedPropertyName(table.TableName) : table.TableName);
+                writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(table.TableName) : table.TableName);
 
                 converter.WriteJson(writer, table, serializer);
             }
@@ -81,7 +81,7 @@ namespace Argon.Converters
             }
 
             // handle typed datasets
-            var ds = (objectType == typeof(DataSet))
+            var ds = objectType == typeof(DataSet)
                 ? new DataSet()
                 : (DataSet)Activator.CreateInstance(objectType);
 
@@ -92,7 +92,7 @@ namespace Argon.Converters
             while (reader.TokenType == JsonToken.PropertyName)
             {
                 var dt = ds.Tables[(string)reader.Value!];
-                var exists = (dt != null);
+                var exists = dt != null;
 
                 dt = (DataTable)converter.ReadJson(reader, typeof(DataTable), dt, serializer)!;
 

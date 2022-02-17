@@ -694,7 +694,7 @@ namespace Argon
 
             var pos = 0;
             _writeBuffer[pos++] = _quoteChar;
-            pos = DateTimeUtils.WriteDateTimeString(_writeBuffer, pos, (DateFormatHandling == DateFormatHandling.IsoDateFormat) ? value.DateTime : value.UtcDateTime, value.Offset, DateTimeKind.Local, DateFormatHandling);
+            pos = DateTimeUtils.WriteDateTimeString(_writeBuffer, pos, DateFormatHandling == DateFormatHandling.IsoDateFormat ? value.DateTime : value.UtcDateTime, value.Offset, DateTimeKind.Local, DateFormatHandling);
             _writeBuffer[pos++] = _quoteChar;
             return pos;
         }
@@ -833,7 +833,7 @@ namespace Argon
             do
             {
                 var quotient = value / 10;
-                var digit = value - (quotient * 10);
+                var digit = value - quotient * 10;
                 _writeBuffer[--index] = (char)('0' + digit);
                 value = quotient;
             } while (value != 0);
@@ -885,7 +885,7 @@ namespace Argon
             do
             {
                 var quotient = value / 10;
-                var digit = value - (quotient * 10);
+                var digit = value - quotient * 10;
                 _writeBuffer[--index] = (char)('0' + digit);
                 value = quotient;
             } while (value != 0);

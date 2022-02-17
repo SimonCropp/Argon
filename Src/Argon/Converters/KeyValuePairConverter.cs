@@ -68,9 +68,9 @@ namespace Argon.Converters
             var resolver = serializer.ContractResolver as DefaultContractResolver;
 
             writer.WriteStartObject();
-            writer.WritePropertyName((resolver != null) ? resolver.GetResolvedPropertyName(KeyName) : KeyName);
+            writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(KeyName) : KeyName);
             serializer.Serialize(writer, reflectionObject.GetValue(value, KeyName), reflectionObject.GetType(KeyName));
-            writer.WritePropertyName((resolver != null) ? resolver.GetResolvedPropertyName(ValueName) : ValueName);
+            writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(ValueName) : ValueName);
             serializer.Serialize(writer, reflectionObject.GetValue(value, ValueName), reflectionObject.GetType(ValueName));
             writer.WriteEndObject();
         }
@@ -143,13 +143,13 @@ namespace Argon.Converters
         /// </returns>
         public override bool CanConvert(Type objectType)
         {
-            var t = (ReflectionUtils.IsNullableType(objectType))
+            var t = ReflectionUtils.IsNullableType(objectType)
                 ? Nullable.GetUnderlyingType(objectType)
                 : objectType;
 
             if (t.IsValueType() && t.IsGenericType())
             {
-                return (t.GetGenericTypeDefinition() == typeof(KeyValuePair<,>));
+                return t.GetGenericTypeDefinition() == typeof(KeyValuePair<,>);
             }
 
             return false;

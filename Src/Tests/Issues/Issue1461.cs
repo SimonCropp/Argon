@@ -145,7 +145,7 @@ namespace Argon.Tests.Issues
             {
                 unchecked
                 {
-                    return ((Value?.GetHashCode() ?? 0) * 397);
+                    return (Value?.GetHashCode() ?? 0) * 397;
                 }
             }
 

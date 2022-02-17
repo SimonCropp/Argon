@@ -73,7 +73,7 @@ namespace Argon.Serialization
                 lock (TypeContractCacheLock)
                 {
                     cache = _contractCache;
-                    var updatedCache = (cache != null)
+                    var updatedCache = cache != null
                         ? new Dictionary<StructMultiKey<Type, Type>, JsonContract>(cache)
                         : new Dictionary<StructMultiKey<Type, Type>, JsonContract>();
                     updatedCache[key] = contract;

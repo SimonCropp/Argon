@@ -94,7 +94,7 @@ namespace Argon.Schema
             {
                 var reference = schema.DeferredReference;
 
-                var locationReference = (reference.StartsWith("#", StringComparison.Ordinal));
+                var locationReference = reference.StartsWith("#", StringComparison.Ordinal);
                 if (locationReference)
                 {
                     reference = UnescapeReference(reference);

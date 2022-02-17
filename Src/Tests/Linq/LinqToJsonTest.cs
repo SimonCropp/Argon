@@ -1148,15 +1148,15 @@ keyword such as type of business.""
                     { "description", "James Newton-King's blog." },
                     {
                         "item",
-                        (from p in posts
-                            orderby p.Title
-                            select new
-                            {
-                                title = p.Title,
-                                description = p.Description,
-                                link = p.Link,
-                                category = p.Categories
-                            })
+                        from p in posts
+                        orderby p.Title
+                        select new
+                        {
+                            title = p.Title,
+                            description = p.Description,
+                            link = p.Link,
+                            category = p.Categories
+                        }
                     }
                 }
             });

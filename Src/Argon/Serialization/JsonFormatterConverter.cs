@@ -71,7 +71,7 @@ namespace Argon.Serialization
         {
             ValidationUtils.ArgumentNotNull(value, nameof(value));
 
-            var resolvedValue = (value is JValue v) ? v.Value : value;
+            var resolvedValue = value is JValue v ? v.Value : value;
 
             return System.Convert.ChangeType(resolvedValue, typeCode, CultureInfo.InvariantCulture);
         }

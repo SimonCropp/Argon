@@ -153,7 +153,7 @@ namespace Argon
         /// <returns>A JSON string representation of the <see cref="Boolean"/>.</returns>
         public static string ToString(bool value)
         {
-            return (value) ? True : False;
+            return value ? True : False;
         }
 
         /// <summary>
@@ -268,7 +268,7 @@ namespace Argon
 
             if (floatFormatHandling == FloatFormatHandling.DefaultValue)
             {
-                return (!nullable) ? "0.0" : Null;
+                return !nullable ? "0.0" : Null;
             }
 
             return quoteChar + text + quoteChar;
@@ -531,7 +531,7 @@ namespace Argon
         [DebuggerStepThrough]
         public static string SerializeObject(object? value, params JsonConverter[] converters)
         {
-            var settings = (converters != null && converters.Length > 0)
+            var settings = converters != null && converters.Length > 0
                 ? new JsonSerializerSettings { Converters = converters }
                 : null;
 
@@ -548,7 +548,7 @@ namespace Argon
         [DebuggerStepThrough]
         public static string SerializeObject(object? value, Formatting formatting, params JsonConverter[] converters)
         {
-            var settings = (converters != null && converters.Length > 0)
+            var settings = converters != null && converters.Length > 0
                 ? new JsonSerializerSettings { Converters = converters }
                 : null;
 
@@ -775,7 +775,7 @@ namespace Argon
         [DebuggerStepThrough]
         public static object? DeserializeObject(string value, Type type, params JsonConverter[] converters)
         {
-            var settings = (converters != null && converters.Length > 0)
+            var settings = converters != null && converters.Length > 0
                 ? new JsonSerializerSettings { Converters = converters }
                 : null;
 

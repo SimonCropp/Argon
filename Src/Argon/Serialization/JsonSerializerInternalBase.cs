@@ -126,7 +126,7 @@ namespace Argon.Serialization
                 errorContext.Traced = true;
 
                 // kind of a hack but meh. might clean this up later
-                var message = (GetType() == typeof(JsonSerializerInternalWriter)) ? "Error serializing" : "Error deserializing";
+                var message = GetType() == typeof(JsonSerializerInternalWriter) ? "Error serializing" : "Error deserializing";
                 if (contract != null)
                 {
                     message += " " + contract.UnderlyingType;

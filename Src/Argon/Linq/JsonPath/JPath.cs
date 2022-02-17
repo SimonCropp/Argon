@@ -175,7 +175,7 @@ namespace Argon.Linq.JsonPath
                 }
             }
 
-            var atPathEnd = (_currentIndex == _expression.Length);
+            var atPathEnd = _currentIndex == _expression.Length;
 
             if (_currentIndex > currentPartStartIndex)
             {
@@ -200,7 +200,7 @@ namespace Argon.Linq.JsonPath
 
         private static PathFilter CreatePathFilter(string? member, bool scan)
         {
-            var filter = (scan) ? (PathFilter)new ScanFilter(member) : new FieldFilter(member);
+            var filter = scan ? (PathFilter)new ScanFilter(member) : new FieldFilter(member);
             return filter;
         }
 
@@ -208,7 +208,7 @@ namespace Argon.Linq.JsonPath
         {
             _currentIndex++;
 
-            var indexerCloseChar = (indexerOpenChar == '[') ? ']' : ')';
+            var indexerCloseChar = indexerOpenChar == '[' ? ']' : ')';
 
             EnsureLength("Path ended with open indexer.");
 
@@ -836,7 +836,7 @@ namespace Argon.Linq.JsonPath
                     if (fields != null)
                     {
                         fields.Add(field);
-                        return (scan)
+                        return scan
                             ? (PathFilter)new ScanMultipleFilter(fields)
                             : (PathFilter)new FieldMultipleFilter(fields);
                     }

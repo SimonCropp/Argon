@@ -163,7 +163,7 @@ namespace Argon.Linq
         /// </summary>
         /// <param name="value">The value.</param>
         public JValue(Uri? value)
-            : this(value, (value != null) ? JTokenType.Uri : JTokenType.Null)
+            : this(value, value != null ? JTokenType.Uri : JTokenType.Null)
         {
         }
 
@@ -220,12 +220,12 @@ namespace Argon.Linq
             // check for fraction if result is two numbers are equal
             if (i2 is decimal d1)
             {
-                return (0m).CompareTo(Math.Abs(d1 - Math.Truncate(d1)));
+                return 0m.CompareTo(Math.Abs(d1 - Math.Truncate(d1)));
             }
             else if (i2 is double || i2 is float)
             {
                 var d = Convert.ToDouble(i2, CultureInfo.InvariantCulture);
-                return (0d).CompareTo(Math.Abs(d - Math.Truncate(d)));
+                return 0d.CompareTo(Math.Abs(d - Math.Truncate(d)));
             }
 
             return result;
@@ -770,10 +770,10 @@ namespace Argon.Linq
                     writer.WriteValue((byte[]?)_value);
                     return;
                 case JTokenType.Guid:
-                    writer.WriteValue((_value != null) ? (Guid?)_value : null);
+                    writer.WriteValue(_value != null ? (Guid?)_value : null);
                     return;
                 case JTokenType.TimeSpan:
-                    writer.WriteValue((_value != null) ? (TimeSpan?)_value : null);
+                    writer.WriteValue(_value != null ? (TimeSpan?)_value : null);
                     return;
                 case JTokenType.Uri:
                     writer.WriteValue((Uri?)_value);
@@ -785,7 +785,7 @@ namespace Argon.Linq
 
         internal override int GetDeepHashCode()
         {
-            var valueHashCode = (_value != null) ? _value.GetHashCode() : 0;
+            var valueHashCode = _value != null ? _value.GetHashCode() : 0;
 
             // GetHashCode on an enum boxes so cast to int
             return ((int)_valueType).GetHashCode() ^ valueHashCode;
@@ -793,7 +793,7 @@ namespace Argon.Linq
 
         private static bool ValuesEquals(JValue v1, JValue v2)
         {
-            return (v1 == v2 || (v1._valueType == v2._valueType && Compare(v1._valueType, v1._value, v2._value) == 0));
+            return v1 == v2 || (v1._valueType == v2._valueType && Compare(v1._valueType, v1._value, v2._value) == 0);
         }
 
         /// <summary>
@@ -956,22 +956,22 @@ namespace Argon.Linq
                 switch (binder.Operation)
                 {
                     case ExpressionType.Equal:
-                        result = (Compare(instance.Type, instance.Value, compareValue) == 0);
+                        result = Compare(instance.Type, instance.Value, compareValue) == 0;
                         return true;
                     case ExpressionType.NotEqual:
-                        result = (Compare(instance.Type, instance.Value, compareValue) != 0);
+                        result = Compare(instance.Type, instance.Value, compareValue) != 0;
                         return true;
                     case ExpressionType.GreaterThan:
-                        result = (Compare(instance.Type, instance.Value, compareValue) > 0);
+                        result = Compare(instance.Type, instance.Value, compareValue) > 0;
                         return true;
                     case ExpressionType.GreaterThanOrEqual:
-                        result = (Compare(instance.Type, instance.Value, compareValue) >= 0);
+                        result = Compare(instance.Type, instance.Value, compareValue) >= 0;
                         return true;
                     case ExpressionType.LessThan:
-                        result = (Compare(instance.Type, instance.Value, compareValue) < 0);
+                        result = Compare(instance.Type, instance.Value, compareValue) < 0;
                         return true;
                     case ExpressionType.LessThanOrEqual:
-                        result = (Compare(instance.Type, instance.Value, compareValue) <= 0);
+                        result = Compare(instance.Type, instance.Value, compareValue) <= 0;
                         return true;
                     case ExpressionType.Add:
                     case ExpressionType.AddAssign:
@@ -1006,7 +1006,7 @@ namespace Argon.Linq
             if (obj is JValue value)
             {
                 otherValue = value.Value;
-                comparisonType = (_valueType == JTokenType.String && _valueType != value._valueType)
+                comparisonType = _valueType == JTokenType.String && _valueType != value._valueType
                     ? value._valueType
                     : _valueType;
             }
@@ -1044,7 +1044,7 @@ namespace Argon.Linq
                 return 1;
             }
 
-            var comparisonType = (_valueType == JTokenType.String && _valueType != obj._valueType)
+            var comparisonType = _valueType == JTokenType.String && _valueType != obj._valueType
                 ? obj._valueType
                 : _valueType;
 

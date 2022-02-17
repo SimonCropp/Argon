@@ -57,7 +57,7 @@ namespace Argon.Tests.TestObjects
         protected CustomerDataSet(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) :
             base(info, context, false)
         {
-            if ((IsBinarySerialized(info, context) == true))
+            if (IsBinarySerialized(info, context) == true)
             {
                 InitVars(false);
                 var schemaChangedHandler1 = new global::System.ComponentModel.CollectionChangeEventHandler(SchemaChanged);
@@ -65,12 +65,12 @@ namespace Argon.Tests.TestObjects
                 Relations.CollectionChanged += schemaChangedHandler1;
                 return;
             }
-            var strSchema = ((string)(info.GetValue("XmlSchema", typeof(string))));
-            if ((DetermineSchemaSerializationMode(info, context) == global::System.Data.SchemaSerializationMode.IncludeSchema))
+            var strSchema = (string)info.GetValue("XmlSchema", typeof(string));
+            if (DetermineSchemaSerializationMode(info, context) == global::System.Data.SchemaSerializationMode.IncludeSchema)
             {
                 var ds = new global::System.Data.DataSet();
                 ds.ReadXmlSchema(new global::System.Xml.XmlTextReader(new global::System.IO.StringReader(strSchema)));
-                if ((ds.Tables["Customers"] != null))
+                if (ds.Tables["Customers"] != null)
                 {
                     base.Tables.Add(new CustomersDataTable(ds.Tables["Customers"]));
                 }
@@ -141,7 +141,7 @@ namespace Argon.Tests.TestObjects
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public override global::System.Data.DataSet Clone()
         {
-            var cln = ((CustomerDataSet)(base.Clone()));
+            var cln = (CustomerDataSet)base.Clone();
             cln.InitVars();
             cln.SchemaSerializationMode = SchemaSerializationMode;
             return cln;
@@ -165,12 +165,12 @@ namespace Argon.Tests.TestObjects
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         protected override void ReadXmlSerializable(global::System.Xml.XmlReader reader)
         {
-            if ((DetermineSchemaSerializationMode(reader) == global::System.Data.SchemaSerializationMode.IncludeSchema))
+            if (DetermineSchemaSerializationMode(reader) == global::System.Data.SchemaSerializationMode.IncludeSchema)
             {
                 Reset();
                 var ds = new global::System.Data.DataSet();
                 ds.ReadXml(reader);
-                if ((ds.Tables["Customers"] != null))
+                if (ds.Tables["Customers"] != null)
                 {
                     base.Tables.Add(new CustomersDataTable(ds.Tables["Customers"]));
                 }
@@ -211,10 +211,10 @@ namespace Argon.Tests.TestObjects
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         internal void InitVars(bool initTable)
         {
-            tableCustomers = ((CustomersDataTable)(base.Tables["Customers"]));
-            if ((initTable == true))
+            tableCustomers = (CustomersDataTable)base.Tables["Customers"];
+            if (initTable == true)
             {
-                if ((tableCustomers != null))
+                if (tableCustomers != null)
                 {
                     tableCustomers.InitVars();
                 }
@@ -244,7 +244,7 @@ namespace Argon.Tests.TestObjects
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void SchemaChanged(object sender, global::System.ComponentModel.CollectionChangeEventArgs e)
         {
-            if ((e.Action == global::System.ComponentModel.CollectionChangeAction.Remove))
+            if (e.Action == global::System.ComponentModel.CollectionChangeAction.Remove)
             {
                 InitVars();
             }
@@ -274,19 +274,19 @@ namespace Argon.Tests.TestObjects
                     dsSchema.Write(s1);
                     for (var schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext();)
                     {
-                        schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                        schema = (global::System.Xml.Schema.XmlSchema)schemas.Current;
                         s2.SetLength(0);
                         schema.Write(s2);
-                        if ((s1.Length == s2.Length))
+                        if (s1.Length == s2.Length)
                         {
                             s1.Position = 0;
                             s2.Position = 0;
-                            for (; ((s1.Position != s1.Length)
-                                    && (s1.ReadByte() == s2.ReadByte()));)
+                            for (; s1.Position != s1.Length
+                                   && s1.ReadByte() == s2.ReadByte();)
                             {
                                 ;
                             }
-                            if ((s1.Position == s1.Length))
+                            if (s1.Position == s1.Length)
                             {
                                 return type;
                             }
@@ -295,11 +295,11 @@ namespace Argon.Tests.TestObjects
                 }
                 finally
                 {
-                    if ((s1 != null))
+                    if (s1 != null)
                     {
                         s1.Close();
                     }
-                    if ((s2 != null))
+                    if (s2 != null)
                     {
                         s2.Close();
                     }
@@ -336,15 +336,15 @@ namespace Argon.Tests.TestObjects
             internal CustomersDataTable(global::System.Data.DataTable table)
             {
                 TableName = table.TableName;
-                if ((table.CaseSensitive != table.DataSet.CaseSensitive))
+                if (table.CaseSensitive != table.DataSet.CaseSensitive)
                 {
                     CaseSensitive = table.CaseSensitive;
                 }
-                if ((table.Locale.ToString() != table.DataSet.Locale.ToString()))
+                if (table.Locale.ToString() != table.DataSet.Locale.ToString())
                 {
                     Locale = table.Locale;
                 }
-                if ((table.Namespace != table.DataSet.Namespace))
+                if (table.Namespace != table.DataSet.Namespace)
                 {
                     Namespace = table.Namespace;
                 }
@@ -379,7 +379,7 @@ namespace Argon.Tests.TestObjects
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public CustomersRow this[int index]
             {
-                get { return ((CustomersRow)(Rows[index])); }
+                get { return (CustomersRow)Rows[index]; }
             }
 
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -405,7 +405,7 @@ namespace Argon.Tests.TestObjects
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public CustomersRow AddCustomersRow(string CustomerID)
             {
-                var rowCustomersRow = ((CustomersRow)(NewRow()));
+                var rowCustomersRow = (CustomersRow)NewRow();
                 var columnValuesArray = new object[]
                 {
                     CustomerID
@@ -426,7 +426,7 @@ namespace Argon.Tests.TestObjects
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public override global::System.Data.DataTable Clone()
             {
-                var cln = ((CustomersDataTable)(base.Clone()));
+                var cln = (CustomersDataTable)base.Clone();
                 cln.InitVars();
                 return cln;
             }
@@ -457,7 +457,7 @@ namespace Argon.Tests.TestObjects
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public CustomersRow NewCustomersRow()
             {
-                return ((CustomersRow)(NewRow()));
+                return (CustomersRow)NewRow();
             }
 
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -479,9 +479,9 @@ namespace Argon.Tests.TestObjects
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e)
             {
                 base.OnRowChanged(e);
-                if ((CustomersRowChanged != null))
+                if (CustomersRowChanged != null)
                 {
-                    CustomersRowChanged(this, new CustomersRowChangeEvent(((CustomersRow)(e.Row)), e.Action));
+                    CustomersRowChanged(this, new CustomersRowChangeEvent((CustomersRow)e.Row, e.Action));
                 }
             }
 
@@ -490,9 +490,9 @@ namespace Argon.Tests.TestObjects
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e)
             {
                 base.OnRowChanging(e);
-                if ((CustomersRowChanging != null))
+                if (CustomersRowChanging != null)
                 {
-                    CustomersRowChanging(this, new CustomersRowChangeEvent(((CustomersRow)(e.Row)), e.Action));
+                    CustomersRowChanging(this, new CustomersRowChangeEvent((CustomersRow)e.Row, e.Action));
                 }
             }
 
@@ -501,9 +501,9 @@ namespace Argon.Tests.TestObjects
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e)
             {
                 base.OnRowDeleted(e);
-                if ((CustomersRowDeleted != null))
+                if (CustomersRowDeleted != null)
                 {
-                    CustomersRowDeleted(this, new CustomersRowChangeEvent(((CustomersRow)(e.Row)), e.Action));
+                    CustomersRowDeleted(this, new CustomersRowChangeEvent((CustomersRow)e.Row, e.Action));
                 }
             }
 
@@ -512,9 +512,9 @@ namespace Argon.Tests.TestObjects
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e)
             {
                 base.OnRowDeleting(e);
-                if ((CustomersRowDeleting != null))
+                if (CustomersRowDeleting != null)
                 {
-                    CustomersRowDeleting(this, new CustomersRowChangeEvent(((CustomersRow)(e.Row)), e.Action));
+                    CustomersRowDeleting(this, new CustomersRowChangeEvent((CustomersRow)e.Row, e.Action));
                 }
             }
 
@@ -571,19 +571,19 @@ namespace Argon.Tests.TestObjects
                         dsSchema.Write(s1);
                         for (var schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext();)
                         {
-                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            schema = (global::System.Xml.Schema.XmlSchema)schemas.Current;
                             s2.SetLength(0);
                             schema.Write(s2);
-                            if ((s1.Length == s2.Length))
+                            if (s1.Length == s2.Length)
                             {
                                 s1.Position = 0;
                                 s2.Position = 0;
-                                for (; ((s1.Position != s1.Length)
-                                        && (s1.ReadByte() == s2.ReadByte()));)
+                                for (; s1.Position != s1.Length
+                                       && s1.ReadByte() == s2.ReadByte();)
                                 {
                                     ;
                                 }
-                                if ((s1.Position == s1.Length))
+                                if (s1.Position == s1.Length)
                                 {
                                     return type;
                                 }
@@ -592,11 +592,11 @@ namespace Argon.Tests.TestObjects
                     }
                     finally
                     {
-                        if ((s1 != null))
+                        if (s1 != null)
                         {
                             s1.Close();
                         }
-                        if ((s2 != null))
+                        if (s2 != null)
                         {
                             s2.Close();
                         }
@@ -619,7 +619,7 @@ namespace Argon.Tests.TestObjects
             internal CustomersRow(global::System.Data.DataRowBuilder rb) :
                 base(rb)
             {
-                tableCustomers = ((CustomersDataTable)(Table));
+                tableCustomers = (CustomersDataTable)Table;
             }
 
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -630,7 +630,7 @@ namespace Argon.Tests.TestObjects
                 {
                     try
                     {
-                        return ((string)(this[tableCustomers.CustomerIDColumn]));
+                        return (string)this[tableCustomers.CustomerIDColumn];
                     }
                     catch (global::System.InvalidCastException e)
                     {

@@ -98,7 +98,7 @@ namespace Argon.Serialization
         /// <value><c>true</c> if the creator has a parameter with the collection values; otherwise, <c>false</c>.</value>
         public bool HasParameterizedCreator { get; set; }
 
-        internal bool HasParameterizedCreatorInternal => (HasParameterizedCreator || _parameterizedCreator != null || _parameterizedConstructor != null);
+        internal bool HasParameterizedCreatorInternal => HasParameterizedCreator || _parameterizedCreator != null || _parameterizedConstructor != null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JsonArrayContract"/> class.
@@ -122,7 +122,7 @@ namespace Argon.Serialization
                 _genericCollectionDefinitionType = typeof(List<>).MakeGenericType(CollectionItemType);
 
                 canDeserialize = true;
-                IsMultidimensionalArray = (CreatedType.IsArray && UnderlyingType.GetArrayRank() > 1);
+                IsMultidimensionalArray = CreatedType.IsArray && UnderlyingType.GetArrayRank() > 1;
             }
             else if (typeof(IList).IsAssignableFrom(NonNullableUnderlyingType))
             {
@@ -270,7 +270,7 @@ namespace Argon.Serialization
             if (_genericTemporaryCollectionCreator == null)
             {
                 // multidimensional array will also have array instances in it
-                var collectionItemType = (IsMultidimensionalArray || CollectionItemType == null)
+                var collectionItemType = IsMultidimensionalArray || CollectionItemType == null
                     ? typeof(object)
                     : CollectionItemType;
 

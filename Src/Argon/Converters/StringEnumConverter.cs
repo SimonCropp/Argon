@@ -257,7 +257,7 @@ namespace Argon.Converters
         /// </returns>
         public override bool CanConvert(Type objectType)
         {
-            var t = (ReflectionUtils.IsNullableType(objectType))
+            var t = ReflectionUtils.IsNullableType(objectType)
                 ? Nullable.GetUnderlyingType(objectType)
                 : objectType;
 

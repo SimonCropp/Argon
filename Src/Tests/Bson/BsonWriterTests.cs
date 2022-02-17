@@ -202,7 +202,7 @@ namespace Argon.Tests.Bson
             writer.WriteStartArray();
             for (var i = 1; i <= 8; i++)
             {
-                var value = (i != 5)
+                var value = i != 5
                     ? Convert.ToDouble(i)
                     : 5.78960446186581E+77d;
 
@@ -694,7 +694,7 @@ namespace Argon.Tests.Bson
             writer.WriteValue(new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Unspecified));
             writer.WriteEndArray();
 
-            Assert.AreEqual("10-00-00-00-09-30-00-C8-88-07-6B-DC-00-00-00-00", (BitConverter.ToString(ms.ToArray())));
+            Assert.AreEqual("10-00-00-00-09-30-00-C8-88-07-6B-DC-00-00-00-00", BitConverter.ToString(ms.ToArray()));
         }
 
         public class RegexTestClass
@@ -889,7 +889,7 @@ namespace Argon.Tests.Bson
             writer.WritePropertyName("Blah");
             writer.WriteEnd();
 
-            Assert.AreEqual("0B-00-00-00-0A-42-6C-61-68-00-00", (BitConverter.ToString(ms.ToArray())));
+            Assert.AreEqual("0B-00-00-00-0A-42-6C-61-68-00-00", BitConverter.ToString(ms.ToArray()));
         }
 
         [Fact]
@@ -902,7 +902,7 @@ namespace Argon.Tests.Bson
             writer.WritePropertyName("Blah");
             writer.Close();
 
-            Assert.AreEqual("0B-00-00-00-0A-42-6C-61-68-00-00", (BitConverter.ToString(ms.ToArray())));
+            Assert.AreEqual("0B-00-00-00-0A-42-6C-61-68-00-00", BitConverter.ToString(ms.ToArray()));
         }
 
         [Fact]
@@ -915,7 +915,7 @@ namespace Argon.Tests.Bson
                 writer.WritePropertyName("Blah");
             }
 
-            Assert.AreEqual("0B-00-00-00-0A-42-6C-61-68-00-00", (BitConverter.ToString(ms.ToArray())));
+            Assert.AreEqual("0B-00-00-00-0A-42-6C-61-68-00-00", BitConverter.ToString(ms.ToArray()));
         }
 
         [Fact]
@@ -933,7 +933,7 @@ namespace Argon.Tests.Bson
             }
 
             // nothing is written because a BSON document needs to be completed before it can be written
-            Assert.AreEqual(string.Empty, (BitConverter.ToString(ms.ToArray())));
+            Assert.AreEqual(string.Empty, BitConverter.ToString(ms.ToArray()));
         }
     }
 }

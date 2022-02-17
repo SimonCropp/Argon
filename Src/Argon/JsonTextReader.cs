@@ -1615,7 +1615,7 @@ namespace Argon
 
         private bool ValidIdentifierChar(char value)
         {
-            return (char.IsLetterOrDigit(value) || value == '_' || value == '$');
+            return char.IsLetterOrDigit(value) || value == '_' || value == '$';
         }
 
         private void ParseUnquotedProperty()
@@ -1965,8 +1965,8 @@ namespace Argon
             object numberValue;
             JsonToken numberType;
 
-            var singleDigit = (char.IsDigit(firstChar) && _stringReference.Length == 1);
-            var nonBase10 = (firstChar == '0' && _stringReference.Length > 1 && _stringReference.Chars[_stringReference.StartIndex + 1] != '.' && _stringReference.Chars[_stringReference.StartIndex + 1] != 'e' && _stringReference.Chars[_stringReference.StartIndex + 1] != 'E');
+            var singleDigit = char.IsDigit(firstChar) && _stringReference.Length == 1;
+            var nonBase10 = firstChar == '0' && _stringReference.Length > 1 && _stringReference.Chars[_stringReference.StartIndex + 1] != '.' && _stringReference.Chars[_stringReference.StartIndex + 1] != 'e' && _stringReference.Chars[_stringReference.StartIndex + 1] != 'E';
 
             switch (readType)
             {
@@ -2399,7 +2399,7 @@ namespace Argon
 
                     var nextChart = _chars[_charPos + 1];
 
-                    return (nextChart == '*' || nextChart == '/');
+                    return nextChart == '*' || nextChart == '/';
                 case ')':
                     if (CurrentState == State.Constructor || CurrentState == State.ConstructorStart)
                     {

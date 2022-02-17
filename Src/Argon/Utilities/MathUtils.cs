@@ -122,7 +122,7 @@ namespace Argon.Utilities
                 return (char)(n + 48);
             }
 
-            return (char)((n - 10) + 97);
+            return (char)(n - 10 + 97);
         }
 
         public static int? Min(int? val1, int? val2)
@@ -176,10 +176,10 @@ namespace Argon.Utilities
                 return true;
             }
 
-            var tolerance = ((Math.Abs(d1) + Math.Abs(d2)) + 10.0) * epsilon;
+            var tolerance = (Math.Abs(d1) + Math.Abs(d2) + 10.0) * epsilon;
             var difference = d1 - d2;
 
-            return (-tolerance < difference && tolerance > difference);
+            return -tolerance < difference && tolerance > difference;
         }
     }
 }

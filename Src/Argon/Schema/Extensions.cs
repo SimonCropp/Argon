@@ -86,7 +86,7 @@ namespace Argon.Schema
             source.Validate(schema, (_, args) => errors.Add(args.Message));
 
             errorMessages = errors;
-            return (errorMessages.Count == 0);
+            return errorMessages.Count == 0;
         }
 
         /// <summary>

@@ -143,7 +143,7 @@ namespace Argon.Linq
 
         internal override bool DeepEquals(JToken node)
         {
-            return (node is JConstructor c && _name == c.Name && ContentsEqual(c));
+            return node is JConstructor c && _name == c.Name && ContentsEqual(c);
         }
 
         internal override JToken CloneToken()

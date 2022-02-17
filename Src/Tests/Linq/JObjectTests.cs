@@ -753,13 +753,13 @@ Parameter name: arrayIndex",
             o.PropertyChanging += (sender, args) =>
             {
                 var s = (JObject)sender;
-                changing = (s[args.PropertyName] != null) ? ((JValue)s[args.PropertyName]).Value : null;
+                changing = s[args.PropertyName] != null ? ((JValue)s[args.PropertyName]).Value : null;
                 changingCount++;
             };
             o.PropertyChanged += (sender, args) =>
             {
                 var s = (JObject)sender;
-                changed = (s[args.PropertyName] != null) ? ((JValue)s[args.PropertyName]).Value : null;
+                changed = s[args.PropertyName] != null ? ((JValue)s[args.PropertyName]).Value : null;
                 changedCount++;
             };
 
@@ -810,7 +810,7 @@ Parameter name: arrayIndex",
             o.PropertyChanged += (sender, args) =>
             {
                 var s = (JObject)sender;
-                changed = (s[args.PropertyName] != null) ? ((JValue)s[args.PropertyName]).Value : null;
+                changed = s[args.PropertyName] != null ? ((JValue)s[args.PropertyName]).Value : null;
                 changedCount++;
             };
 

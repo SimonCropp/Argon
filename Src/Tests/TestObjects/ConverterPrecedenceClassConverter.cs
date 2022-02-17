@@ -59,7 +59,7 @@ namespace Argon.Tests.TestObjects
 
         public override bool CanConvert(Type objectType)
         {
-            return (objectType == typeof(ConverterPrecedenceClass));
+            return objectType == typeof(ConverterPrecedenceClass);
         }
     }
 }

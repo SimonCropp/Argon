@@ -80,28 +80,28 @@ namespace Argon.Tests.TestObjects.GeometricForms
         public bool IsCircle
         {
             [CompilerGenerated]
-            get { return (this.Tag == 1); }
+            get { return this.Tag == 1; }
         }
 
         [CompilerGenerated, DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool IsEmpty
         {
             [CompilerGenerated]
-            get { return (this.Tag == 3); }
+            get { return this.Tag == 3; }
         }
 
         [CompilerGenerated, DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool IsPrism
         {
             [CompilerGenerated]
-            get { return (this.Tag == 2); }
+            get { return this.Tag == 2; }
         }
 
         [CompilerGenerated, DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool IsRectangle
         {
             [CompilerGenerated]
-            get { return (this.Tag == 0); }
+            get { return this.Tag == 0; }
         }
 
         [CompilerGenerated, DebuggerBrowsable(DebuggerBrowsableState.Never)]

@@ -244,7 +244,7 @@ namespace Argon
             get => ReferenceResolverProvider?.Invoke();
             set
             {
-                ReferenceResolverProvider = (value != null)
+                ReferenceResolverProvider = value != null
                     ? () => value
                     : (Func<IReferenceResolver?>?)null;
             }

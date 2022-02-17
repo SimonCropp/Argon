@@ -587,7 +587,7 @@ namespace Argon.Tests.Bson
                 Assert.IsTrue(reader.Read());
                 Assert.AreEqual(JsonToken.Float, reader.TokenType);
 
-                var value = (i != 5)
+                var value = i != 5
                     ? Convert.ToDouble(i)
                     : 5.78960446186581E+77d;
 

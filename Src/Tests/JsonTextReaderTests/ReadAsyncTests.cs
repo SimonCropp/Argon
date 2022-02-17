@@ -317,7 +317,7 @@ namespace Argon.Tests.JsonTextReaderTests
 
                     for (var j = 0; j <= length; j++)
                     {
-                        var current = Convert.ToByte((j % 10) + 48);
+                        var current = Convert.ToByte(j % 10 + 48);
                         ms.WriteByte(current);
                     }
 

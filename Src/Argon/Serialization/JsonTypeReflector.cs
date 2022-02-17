@@ -211,7 +211,7 @@ namespace Argon.Serialization
 
         private static Func<object[]?, object> GetCreator(Type type)
         {
-            var defaultConstructor = (ReflectionUtils.HasDefaultConstructor(type, false))
+            var defaultConstructor = ReflectionUtils.HasDefaultConstructor(type, false)
                 ? ReflectionDelegateFactory.CreateDefaultConstructor<object>(type)
                 : null;
 
@@ -368,13 +368,13 @@ namespace Argon.Serialization
         public static bool IsNonSerializable(object provider)
         {
             // no inheritance
-            return (ReflectionUtils.GetAttribute<NonSerializedAttribute>(provider, false) != null);
+            return ReflectionUtils.GetAttribute<NonSerializedAttribute>(provider, false) != null;
         }
 
         public static bool IsSerializable(object provider)
         {
             // no inheritance
-            return (ReflectionUtils.GetAttribute<SerializableAttribute>(provider, false) != null);
+            return ReflectionUtils.GetAttribute<SerializableAttribute>(provider, false) != null;
         }
 
         public static T? GetAttribute<T>(object provider) where T : Attribute

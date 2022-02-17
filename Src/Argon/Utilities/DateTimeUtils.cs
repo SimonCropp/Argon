@@ -185,7 +185,7 @@ namespace Argon.Utilities
 
         internal static long ConvertDateTimeToJavaScriptTicks(DateTime dateTime, bool convertToUtc)
         {
-            var ticks = (convertToUtc) ? ToUniversalTicks(dateTime) : dateTime.Ticks;
+            var ticks = convertToUtc ? ToUniversalTicks(dateTime) : dateTime.Ticks;
 
             return UniversalTicksToJavaScriptTicks(ticks);
         }
@@ -199,7 +199,7 @@ namespace Argon.Utilities
 
         internal static DateTime ConvertJavaScriptTicksToDateTime(long javaScriptTicks)
         {
-            var dateTime = new DateTime((javaScriptTicks * 10000) + InitialJavaScriptDateTicks, DateTimeKind.Utc);
+            var dateTime = new DateTime(javaScriptTicks * 10000 + InitialJavaScriptDateTicks, DateTimeKind.Utc);
 
             return dateTime;
         }
@@ -506,7 +506,7 @@ namespace Argon.Utilities
                 index = text.Length - 2;
             }
 
-            return (ConvertUtils.Int64TryParse(text.Chars, 6 + text.StartIndex, index - 6, out ticks) == ParseResult.Success);
+            return ConvertUtils.Int64TryParse(text.Chars, 6 + text.StartIndex, index - 6, out ticks) == ParseResult.Success;
         }
 
         private static bool TryParseDateTimeMicrosoft(StringReference text, DateTimeZoneHandling dateTimeZoneHandling, out DateTime dt)
@@ -577,7 +577,7 @@ namespace Argon.Utilities
 
         private static bool TryReadOffset(StringReference offsetText, int startIndex, out TimeSpan offset)
         {
-            var negative = (offsetText[startIndex] == '-');
+            var negative = offsetText[startIndex] == '-';
 
             if (ConvertUtils.Int32TryParse(offsetText.Chars, startIndex + 1, 2, out var hours) != ParseResult.Success)
             {
@@ -694,7 +694,7 @@ namespace Argon.Utilities
             if (fraction != 0)
             {
                 var digits = 7;
-                while ((fraction % 10) == 0)
+                while (fraction % 10 == 0)
                 {
                     digits--;
                     fraction /= 10;
@@ -713,14 +713,14 @@ namespace Argon.Utilities
         {
             while (digits-- != 0)
             {
-                chars[start + digits] = (char)((value % 10) + 48);
+                chars[start + digits] = (char)(value % 10 + 48);
                 value /= 10;
             }
         }
 
         internal static int WriteDateTimeOffset(char[] chars, int start, TimeSpan offset, DateFormatHandling format)
         {
-            chars[start++] = (offset.Ticks >= 0L) ? '+' : '-';
+            chars[start++] = offset.Ticks >= 0L ? '+' : '-';
 
             var absHours = Math.Abs(offset.Hours);
             CopyIntToCharArray(chars, start, absHours, 2);
@@ -743,7 +743,7 @@ namespace Argon.Utilities
             if (StringUtils.IsNullOrEmpty(formatString))
             {
                 var chars = new char[64];
-                var pos = WriteDateTimeString(chars, 0, (format == DateFormatHandling.IsoDateFormat) ? value.DateTime : value.UtcDateTime, value.Offset, DateTimeKind.Local, format);
+                var pos = WriteDateTimeString(chars, 0, format == DateFormatHandling.IsoDateFormat ? value.DateTime : value.UtcDateTime, value.Offset, DateTimeKind.Local, format);
 
                 writer.Write(chars, 0, pos);
             }

@@ -222,7 +222,7 @@ namespace Argon.Tests.Documentation.Samples.Json
 
         public override void WriteStartArray()
         {
-            var isStart = (WriteState == WriteState.Start);
+            var isStart = WriteState == WriteState.Start;
 
             base.WriteStartArray();
 
@@ -238,7 +238,7 @@ namespace Argon.Tests.Documentation.Samples.Json
 
         public override void WriteStartObject()
         {
-            var isStart = (WriteState == WriteState.Start);
+            var isStart = WriteState == WriteState.Start;
 
             base.WriteStartObject();
 
@@ -254,7 +254,7 @@ namespace Argon.Tests.Documentation.Samples.Json
 
         public override void WriteStartConstructor(string name)
         {
-            var isStart = (WriteState == WriteState.Start);
+            var isStart = WriteState == WriteState.Start;
 
             base.WriteStartConstructor(name);
 

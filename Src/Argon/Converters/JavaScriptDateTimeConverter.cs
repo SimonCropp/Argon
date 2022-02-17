@@ -94,7 +94,7 @@ namespace Argon.Converters
                 throw JsonSerializationException.Create(reader, errorMessage);
             }
 
-            var t = (ReflectionUtils.IsNullableType(objectType))
+            var t = ReflectionUtils.IsNullableType(objectType)
                 ? Nullable.GetUnderlyingType(objectType)
                 : objectType;
             if (t == typeof(DateTimeOffset))

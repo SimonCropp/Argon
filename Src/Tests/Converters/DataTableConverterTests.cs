@@ -376,7 +376,7 @@ namespace Argon.Tests.Converters
 
             public override bool CanConvert(Type objectType)
             {
-                return (objectType == typeof(DataTable));
+                return objectType == typeof(DataTable);
             }
         }
 

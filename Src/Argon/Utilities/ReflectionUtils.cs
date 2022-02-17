@@ -179,7 +179,7 @@ namespace Argon.Utilities
                 return true;
             }
 
-            return (GetDefaultConstructor(t, nonPublic) != null);
+            return GetDefaultConstructor(t, nonPublic) != null;
         }
 
         public static ConstructorInfo GetDefaultConstructor(Type t)
@@ -214,19 +214,19 @@ namespace Argon.Utilities
         {
             ValidationUtils.ArgumentNotNull(t, nameof(t));
 
-            return (t.IsGenericType() && t.GetGenericTypeDefinition() == typeof(Nullable<>));
+            return t.IsGenericType() && t.GetGenericTypeDefinition() == typeof(Nullable<>);
         }
 
         public static Type EnsureNotNullableType(Type t)
         {
-            return (IsNullableType(t))
+            return IsNullableType(t)
                 ? Nullable.GetUnderlyingType(t)
                 : t;
         }
 
         public static Type EnsureNotByRefType(Type t)
         {
-            return (t.IsByRef && t.HasElementType)
+            return t.IsByRef && t.HasElementType
                 ? t.GetElementType()
                 : t;
         }
@@ -239,7 +239,7 @@ namespace Argon.Utilities
             }
 
             var t = type.GetGenericTypeDefinition();
-            return (t == genericInterfaceDefinition);
+            return t == genericInterfaceDefinition;
         }
 
         public static bool ImplementsGenericDefinition(Type type, Type genericInterfaceDefinition)
@@ -437,7 +437,7 @@ namespace Argon.Utilities
         {
             ValidationUtils.ArgumentNotNull(property, nameof(property));
 
-            return (property.GetIndexParameters().Length > 0);
+            return property.GetIndexParameters().Length > 0;
         }
 
         /// <summary>
@@ -528,7 +528,7 @@ namespace Argon.Utilities
                     {
                         return true;
                     }
-                    return (propertyInfo.GetGetMethod(nonPublic) != null);
+                    return propertyInfo.GetGetMethod(nonPublic) != null;
                 default:
                     return false;
             }
@@ -578,7 +578,7 @@ namespace Argon.Utilities
                     {
                         return true;
                     }
-                    return (propertyInfo.GetSetMethod(nonPublic) != null);
+                    return propertyInfo.GetSetMethod(nonPublic) != null;
                 default:
                     return false;
             }
@@ -714,16 +714,16 @@ namespace Argon.Utilities
                     var attributes = array.Cast<Attribute>().ToArray();
                     return attributes;
                 case Assembly a:
-                    return (attributeType != null) ? Attribute.GetCustomAttributes(a, attributeType) : Attribute.GetCustomAttributes(a);
+                    return attributeType != null ? Attribute.GetCustomAttributes(a, attributeType) : Attribute.GetCustomAttributes(a);
                 case MemberInfo mi:
-                    return (attributeType != null) ? Attribute.GetCustomAttributes(mi, attributeType, inherit) : Attribute.GetCustomAttributes(mi, inherit);
+                    return attributeType != null ? Attribute.GetCustomAttributes(mi, attributeType, inherit) : Attribute.GetCustomAttributes(mi, inherit);
                 case Module m:
-                    return (attributeType != null) ? Attribute.GetCustomAttributes(m, attributeType, inherit) : Attribute.GetCustomAttributes(m, inherit);
+                    return attributeType != null ? Attribute.GetCustomAttributes(m, attributeType, inherit) : Attribute.GetCustomAttributes(m, inherit);
                 case ParameterInfo p:
-                    return (attributeType != null) ? Attribute.GetCustomAttributes(p, attributeType, inherit) : Attribute.GetCustomAttributes(p, inherit);
+                    return attributeType != null ? Attribute.GetCustomAttributes(p, attributeType, inherit) : Attribute.GetCustomAttributes(p, inherit);
                 default:
                     var customAttributeProvider = (ICustomAttributeProvider)attributeProvider;
-                    object[] result = (attributeType != null) ? customAttributeProvider.GetCustomAttributes(attributeType, inherit) : customAttributeProvider.GetCustomAttributes(inherit);
+                    object[] result = attributeType != null ? customAttributeProvider.GetCustomAttributes(attributeType, inherit) : customAttributeProvider.GetCustomAttributes(inherit);
 
                     return (Attribute[])result;
             }
@@ -860,7 +860,7 @@ namespace Argon.Utilities
 
         public static BindingFlags RemoveFlag(this BindingFlags bindingAttr, BindingFlags flag)
         {
-            return ((bindingAttr & flag) == flag)
+            return (bindingAttr & flag) == flag
                 ? bindingAttr ^ flag
                 : bindingAttr;
         }

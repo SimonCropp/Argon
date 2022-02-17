@@ -163,7 +163,7 @@ namespace Argon.Utilities
                     break;
                 }
 
-                var hasNext = (i + 1 < chars.Length);
+                var hasNext = i + 1 < chars.Length;
                 if (i > 0 && hasNext && !char.IsUpper(chars[i + 1]))
                 {
                     // if the next character is a space, which is not considered uppercase 
@@ -230,7 +230,7 @@ namespace Argon.Utilities
                     switch (state)
                     {
                         case SeparatedCaseState.Upper:
-                            var hasNext = (i + 1 < s.Length);
+                            var hasNext = i + 1 < s.Length;
                             if (i > 0 && hasNext)
                             {
                                 var nextChar = s[i + 1];
@@ -284,12 +284,12 @@ namespace Argon.Utilities
 
         public static bool StartsWith(this string source, char value)
         {
-            return (source.Length > 0 && source[0] == value);
+            return source.Length > 0 && source[0] == value;
         }
 
         public static bool EndsWith(this string source, char value)
         {
-            return (source.Length > 0 && source[source.Length - 1] == value);
+            return source.Length > 0 && source[source.Length - 1] == value;
         }
 
         public static string Trim(this string s, int start, int length)

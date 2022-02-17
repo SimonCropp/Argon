@@ -67,7 +67,7 @@ namespace Argon.Linq
 
             public bool Contains(JToken item)
             {
-                return (_token == item);
+                return _token == item;
             }
 
             public void CopyTo(JToken[] array, int arrayIndex)
@@ -88,13 +88,13 @@ namespace Argon.Linq
                 return false;
             }
 
-            public int Count => (_token != null) ? 1 : 0;
+            public int Count => _token != null ? 1 : 0;
 
             public bool IsReadOnly => false;
 
             public int IndexOf(JToken item)
             {
-                return (_token == item) ? 0 : -1;
+                return _token == item ? 0 : -1;
             }
 
             public void Insert(int index, JToken item)
@@ -259,7 +259,7 @@ namespace Argon.Linq
 
         internal override bool ContainsItem(JToken? item)
         {
-            return (Value == item);
+            return Value == item;
         }
 
         internal override void MergeItem(object content, JsonMergeSettings? settings)
@@ -279,7 +279,7 @@ namespace Argon.Linq
 
         internal override bool DeepEquals(JToken node)
         {
-            return (node is JProperty t && _name == t.Name && ContentsEqual(t));
+            return node is JProperty t && _name == t.Name && ContentsEqual(t);
         }
 
         internal override JToken CloneToken()

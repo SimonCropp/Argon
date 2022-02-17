@@ -334,7 +334,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void HasValues()
         {
-            Assert.IsFalse((new JValue(5L)).HasValues);
+            Assert.IsFalse(new JValue(5L).HasValues);
         }
 
         [Fact]
@@ -360,14 +360,14 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ConvertValueToCompatibleType()
         {
-            var c = (new JValue(1).Value<IComparable>());
+            var c = new JValue(1).Value<IComparable>();
             Assert.AreEqual(1L, c);
         }
 
         [Fact]
         public void ConvertValueToFormattableType()
         {
-            var f = (new JValue(1).Value<IFormattable>());
+            var f = new JValue(1).Value<IFormattable>();
             Assert.AreEqual(1L, f);
 
             Assert.AreEqual("01", f.ToString("00", CultureInfo.InvariantCulture));

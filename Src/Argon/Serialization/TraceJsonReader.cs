@@ -146,8 +146,8 @@ namespace Argon.Serialization
             return _innerReader is IJsonLineInfo lineInfo && lineInfo.HasLineInfo();
         }
 
-        int IJsonLineInfo.LineNumber => (_innerReader is IJsonLineInfo lineInfo) ? lineInfo.LineNumber : 0;
+        int IJsonLineInfo.LineNumber => _innerReader is IJsonLineInfo lineInfo ? lineInfo.LineNumber : 0;
 
-        int IJsonLineInfo.LinePosition => (_innerReader is IJsonLineInfo lineInfo) ? lineInfo.LinePosition : 0;
+        int IJsonLineInfo.LinePosition => _innerReader is IJsonLineInfo lineInfo ? lineInfo.LinePosition : 0;
     }
 }

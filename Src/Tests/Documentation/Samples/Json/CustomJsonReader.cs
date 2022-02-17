@@ -53,7 +53,7 @@ namespace Argon.Tests.Documentation.Samples.Json
 
         private JTokenType PeekState()
         {
-            var current = (_stateStack.Count > 0) ? _stateStack.Peek() : JTokenType.None;
+            var current = _stateStack.Count > 0 ? _stateStack.Peek() : JTokenType.None;
             return current;
         }
 
@@ -211,7 +211,7 @@ namespace Argon.Tests.Documentation.Samples.Json
                 return null;
             }
 
-            return (Value != null) ? (int?)Convert.ToInt32(Value) : null;
+            return Value != null ? (int?)Convert.ToInt32(Value) : null;
         }
 
         public override string ReadAsString()
@@ -241,7 +241,7 @@ namespace Argon.Tests.Documentation.Samples.Json
                 return null;
             }
 
-            return (Value != null) ? (decimal?)Convert.ToDecimal(Value) : null;
+            return Value != null ? (decimal?)Convert.ToDecimal(Value) : null;
         }
 
         public override DateTime? ReadAsDateTime()
@@ -251,7 +251,7 @@ namespace Argon.Tests.Documentation.Samples.Json
                 return null;
             }
 
-            return (Value != null) ? (DateTime?)Convert.ToDateTime(Value) : null;
+            return Value != null ? (DateTime?)Convert.ToDateTime(Value) : null;
         }
 
         public override DateTimeOffset? ReadAsDateTimeOffset()
@@ -261,7 +261,7 @@ namespace Argon.Tests.Documentation.Samples.Json
                 return null;
             }
 
-            return (Value != null) ? (DateTimeOffset?)Convert.ToDateTime(Value) : null;
+            return Value != null ? (DateTimeOffset?)Convert.ToDateTime(Value) : null;
         }
     }
     #endregion

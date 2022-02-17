@@ -122,7 +122,7 @@ namespace Argon.Converters
                 throw JsonSerializationException.Create(reader, "Unexpected token parsing binary. Expected String or StartArray, got {0}.".FormatWith(CultureInfo.InvariantCulture, reader.TokenType));
             }
 
-            var t = (ReflectionUtils.IsNullableType(objectType))
+            var t = ReflectionUtils.IsNullableType(objectType)
                 ? Nullable.GetUnderlyingType(objectType)
                 : objectType;
 

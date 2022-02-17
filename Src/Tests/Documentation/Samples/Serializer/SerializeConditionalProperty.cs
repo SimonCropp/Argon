@@ -43,7 +43,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
             public bool ShouldSerializeManager()
             {
                 // don't serialize the Manager property if an employee is their own manager
-                return (Manager != this);
+                return Manager != this;
             }
         }
         #endregion

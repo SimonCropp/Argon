@@ -204,9 +204,9 @@ namespace Argon
                     return string.Empty;
                 }
 
-                var insideContainer = (_currentState != State.ArrayStart
-                                       && _currentState != State.ConstructorStart
-                                       && _currentState != State.ObjectStart);
+                var insideContainer = _currentState != State.ArrayStart
+                                      && _currentState != State.ConstructorStart
+                                      && _currentState != State.ObjectStart;
 
                 var current = insideContainer ? (JsonPosition?)_currentPosition : null;
 
@@ -874,7 +874,7 @@ namespace Argon
                 }
 
                 // don't indent a property when it is the first token to be written (i.e. at the start)
-                if ((_currentState == State.Array || _currentState == State.ArrayStart || _currentState == State.Constructor || _currentState == State.ConstructorStart)
+                if (_currentState == State.Array || _currentState == State.ArrayStart || _currentState == State.Constructor || _currentState == State.ConstructorStart
                     || (tokenBeingWritten == JsonToken.PropertyName && _currentState != State.Start))
                 {
                     WriteIndent();
@@ -1468,7 +1468,7 @@ namespace Argon
                         return;
 
                     case PrimitiveTypeCode.CharNullable:
-                        writer.WriteValue((value == null) ? (char?)null : (char)value);
+                        writer.WriteValue(value == null ? (char?)null : (char)value);
                         return;
 
                     case PrimitiveTypeCode.Boolean:
@@ -1476,7 +1476,7 @@ namespace Argon
                         return;
 
                     case PrimitiveTypeCode.BooleanNullable:
-                        writer.WriteValue((value == null) ? (bool?)null : (bool)value);
+                        writer.WriteValue(value == null ? (bool?)null : (bool)value);
                         return;
 
                     case PrimitiveTypeCode.SByte:
@@ -1484,7 +1484,7 @@ namespace Argon
                         return;
 
                     case PrimitiveTypeCode.SByteNullable:
-                        writer.WriteValue((value == null) ? (sbyte?)null : (sbyte)value);
+                        writer.WriteValue(value == null ? (sbyte?)null : (sbyte)value);
                         return;
 
                     case PrimitiveTypeCode.Int16:
@@ -1492,7 +1492,7 @@ namespace Argon
                         return;
 
                     case PrimitiveTypeCode.Int16Nullable:
-                        writer.WriteValue((value == null) ? (short?)null : (short)value);
+                        writer.WriteValue(value == null ? (short?)null : (short)value);
                         return;
 
                     case PrimitiveTypeCode.UInt16:
@@ -1500,7 +1500,7 @@ namespace Argon
                         return;
 
                     case PrimitiveTypeCode.UInt16Nullable:
-                        writer.WriteValue((value == null) ? (ushort?)null : (ushort)value);
+                        writer.WriteValue(value == null ? (ushort?)null : (ushort)value);
                         return;
 
                     case PrimitiveTypeCode.Int32:
@@ -1508,7 +1508,7 @@ namespace Argon
                         return;
 
                     case PrimitiveTypeCode.Int32Nullable:
-                        writer.WriteValue((value == null) ? (int?)null : (int)value);
+                        writer.WriteValue(value == null ? (int?)null : (int)value);
                         return;
 
                     case PrimitiveTypeCode.Byte:
@@ -1516,7 +1516,7 @@ namespace Argon
                         return;
 
                     case PrimitiveTypeCode.ByteNullable:
-                        writer.WriteValue((value == null) ? (byte?)null : (byte)value);
+                        writer.WriteValue(value == null ? (byte?)null : (byte)value);
                         return;
 
                     case PrimitiveTypeCode.UInt32:
@@ -1524,7 +1524,7 @@ namespace Argon
                         return;
 
                     case PrimitiveTypeCode.UInt32Nullable:
-                        writer.WriteValue((value == null) ? (uint?)null : (uint)value);
+                        writer.WriteValue(value == null ? (uint?)null : (uint)value);
                         return;
 
                     case PrimitiveTypeCode.Int64:
@@ -1532,7 +1532,7 @@ namespace Argon
                         return;
 
                     case PrimitiveTypeCode.Int64Nullable:
-                        writer.WriteValue((value == null) ? (long?)null : (long)value);
+                        writer.WriteValue(value == null ? (long?)null : (long)value);
                         return;
 
                     case PrimitiveTypeCode.UInt64:
@@ -1540,7 +1540,7 @@ namespace Argon
                         return;
 
                     case PrimitiveTypeCode.UInt64Nullable:
-                        writer.WriteValue((value == null) ? (ulong?)null : (ulong)value);
+                        writer.WriteValue(value == null ? (ulong?)null : (ulong)value);
                         return;
 
                     case PrimitiveTypeCode.Single:
@@ -1548,7 +1548,7 @@ namespace Argon
                         return;
 
                     case PrimitiveTypeCode.SingleNullable:
-                        writer.WriteValue((value == null) ? (float?)null : (float)value);
+                        writer.WriteValue(value == null ? (float?)null : (float)value);
                         return;
 
                     case PrimitiveTypeCode.Double:
@@ -1556,7 +1556,7 @@ namespace Argon
                         return;
 
                     case PrimitiveTypeCode.DoubleNullable:
-                        writer.WriteValue((value == null) ? (double?)null : (double)value);
+                        writer.WriteValue(value == null ? (double?)null : (double)value);
                         return;
 
                     case PrimitiveTypeCode.DateTime:
@@ -1564,7 +1564,7 @@ namespace Argon
                         return;
 
                     case PrimitiveTypeCode.DateTimeNullable:
-                        writer.WriteValue((value == null) ? (DateTime?)null : (DateTime)value);
+                        writer.WriteValue(value == null ? (DateTime?)null : (DateTime)value);
                         return;
 
                     case PrimitiveTypeCode.DateTimeOffset:
@@ -1572,14 +1572,14 @@ namespace Argon
                         return;
 
                     case PrimitiveTypeCode.DateTimeOffsetNullable:
-                        writer.WriteValue((value == null) ? (DateTimeOffset?)null : (DateTimeOffset)value);
+                        writer.WriteValue(value == null ? (DateTimeOffset?)null : (DateTimeOffset)value);
                         return;
                     case PrimitiveTypeCode.Decimal:
                         writer.WriteValue((decimal)value);
                         return;
 
                     case PrimitiveTypeCode.DecimalNullable:
-                        writer.WriteValue((value == null) ? (decimal?)null : (decimal)value);
+                        writer.WriteValue(value == null ? (decimal?)null : (decimal)value);
                         return;
 
                     case PrimitiveTypeCode.Guid:
@@ -1587,7 +1587,7 @@ namespace Argon
                         return;
 
                     case PrimitiveTypeCode.GuidNullable:
-                        writer.WriteValue((value == null) ? (Guid?)null : (Guid)value);
+                        writer.WriteValue(value == null ? (Guid?)null : (Guid)value);
                         return;
 
                     case PrimitiveTypeCode.TimeSpan:
@@ -1595,7 +1595,7 @@ namespace Argon
                         return;
 
                     case PrimitiveTypeCode.TimeSpanNullable:
-                        writer.WriteValue((value == null) ? (TimeSpan?)null : (TimeSpan)value);
+                        writer.WriteValue(value == null ? (TimeSpan?)null : (TimeSpan)value);
                         return;
 
                     case PrimitiveTypeCode.BigInteger:
@@ -1605,7 +1605,7 @@ namespace Argon
 
                     case PrimitiveTypeCode.BigIntegerNullable:
                         // this will call to WriteValue(object)
-                        writer.WriteValue((value == null) ? (BigInteger?)null : (BigInteger)value);
+                        writer.WriteValue(value == null ? (BigInteger?)null : (BigInteger)value);
                         return;
                     case PrimitiveTypeCode.Uri:
                         writer.WriteValue((Uri)value);

@@ -585,7 +585,7 @@ namespace Argon
         /// execute synchronously, returning an already-completed task.</remarks>
         public override Task WriteValueAsync(byte[]? value, CancellationToken cancellationToken = default)
         {
-            return _safeAsync ? (value == null ? WriteNullAsync(cancellationToken) : WriteValueNonNullAsync(value, cancellationToken)) : base.WriteValueAsync(value, cancellationToken);
+            return _safeAsync ? value == null ? WriteNullAsync(cancellationToken) : WriteValueNonNullAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
         }
 
         internal async Task WriteValueNonNullAsync(byte[] value, CancellationToken cancellationToken)
@@ -796,7 +796,7 @@ namespace Argon
         /// execute synchronously, returning an already-completed task.</remarks>
         public override Task WriteValueAsync(double? value, CancellationToken cancellationToken = default)
         {
-            return _safeAsync ? (value.HasValue ? WriteValueAsync(value.GetValueOrDefault(), true, cancellationToken) : WriteNullAsync(cancellationToken)) : base.WriteValueAsync(value, cancellationToken);
+            return _safeAsync ? value.HasValue ? WriteValueAsync(value.GetValueOrDefault(), true, cancellationToken) : WriteNullAsync(cancellationToken) : base.WriteValueAsync(value, cancellationToken);
         }
 
         /// <summary>
@@ -827,7 +827,7 @@ namespace Argon
         /// execute synchronously, returning an already-completed task.</remarks>
         public override Task WriteValueAsync(float? value, CancellationToken cancellationToken = default)
         {
-            return _safeAsync ? (value.HasValue ? WriteValueAsync(value.GetValueOrDefault(), true, cancellationToken) : WriteNullAsync(cancellationToken)) : base.WriteValueAsync(value, cancellationToken);
+            return _safeAsync ? value.HasValue ? WriteValueAsync(value.GetValueOrDefault(), true, cancellationToken) : WriteNullAsync(cancellationToken) : base.WriteValueAsync(value, cancellationToken);
         }
 
         /// <summary>
@@ -1173,7 +1173,7 @@ namespace Argon
         /// execute synchronously, returning an already-completed task.</remarks>
         public override Task WriteValueAsync(Uri? value, CancellationToken cancellationToken = default)
         {
-            return _safeAsync ? (value == null ? WriteNullAsync(cancellationToken) : WriteValueNotNullAsync(value, cancellationToken)) : base.WriteValueAsync(value, cancellationToken);
+            return _safeAsync ? value == null ? WriteNullAsync(cancellationToken) : WriteValueNotNullAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
         }
 
         internal Task WriteValueNotNullAsync(Uri value, CancellationToken cancellationToken)

@@ -284,9 +284,9 @@ namespace Argon
                     return string.Empty;
                 }
 
-                var insideContainer = (_currentState != State.ArrayStart
-                                       && _currentState != State.ConstructorStart
-                                       && _currentState != State.ObjectStart);
+                var insideContainer = _currentState != State.ArrayStart
+                                      && _currentState != State.ConstructorStart
+                                      && _currentState != State.ObjectStart;
 
                 var current = insideContainer ? (JsonPosition?)_currentPosition : null;
 
@@ -948,7 +948,7 @@ namespace Argon
             {
                 var depth = Depth;
 
-                while (Read() && (depth < Depth))
+                while (Read() && depth < Depth)
                 {
                 }
             }
@@ -1211,7 +1211,7 @@ namespace Argon
                     throw new ArgumentOutOfRangeException();
             }
 
-            return (TokenType != JsonToken.None);
+            return TokenType != JsonToken.None;
         }
 
         internal bool ReadAndMoveToContent()

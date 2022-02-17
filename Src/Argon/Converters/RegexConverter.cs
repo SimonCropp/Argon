@@ -70,7 +70,7 @@ namespace Argon.Converters
 
         private bool HasFlag(RegexOptions options, RegexOptions flag)
         {
-            return ((options & flag) == flag);
+            return (options & flag) == flag;
         }
 
 #pragma warning disable 618
@@ -116,9 +116,9 @@ namespace Argon.Converters
             var resolver = serializer.ContractResolver as DefaultContractResolver;
 
             writer.WriteStartObject();
-            writer.WritePropertyName((resolver != null) ? resolver.GetResolvedPropertyName(PatternName) : PatternName);
+            writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(PatternName) : PatternName);
             writer.WriteValue(regex.ToString());
-            writer.WritePropertyName((resolver != null) ? resolver.GetResolvedPropertyName(OptionsName) : OptionsName);
+            writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(OptionsName) : OptionsName);
             serializer.Serialize(writer, regex.Options);
             writer.WriteEndObject();
         }
@@ -228,7 +228,7 @@ namespace Argon.Converters
         [MethodImpl(MethodImplOptions.NoInlining)]
         private bool IsRegex(Type objectType)
         {
-            return (objectType == typeof(Regex));
+            return objectType == typeof(Regex);
         }
     }
 }

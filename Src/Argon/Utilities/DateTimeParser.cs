@@ -103,21 +103,21 @@ namespace Argon.Utilities
 
         private bool ParseDate(int start)
         {
-            return (Parse4Digit(start, out Year)
-                    && 1 <= Year
-                    && ParseChar(start + Lzyyyy, '-')
-                    && Parse2Digit(start + Lzyyyy_, out Month)
-                    && 1 <= Month
-                    && Month <= 12
-                    && ParseChar(start + Lzyyyy_MM, '-')
-                    && Parse2Digit(start + Lzyyyy_MM_, out Day)
-                    && 1 <= Day
-                    && Day <= DateTime.DaysInMonth(Year, Month));
+            return Parse4Digit(start, out Year)
+                   && 1 <= Year
+                   && ParseChar(start + Lzyyyy, '-')
+                   && Parse2Digit(start + Lzyyyy_, out Month)
+                   && 1 <= Month
+                   && Month <= 12
+                   && ParseChar(start + Lzyyyy_MM, '-')
+                   && Parse2Digit(start + Lzyyyy_MM_, out Day)
+                   && 1 <= Day
+                   && Day <= DateTime.DaysInMonth(Year, Month);
         }
 
         private bool ParseTimeAndZoneAndWhitespace(int start)
         {
-            return (ParseTime(ref start) && ParseZone(start));
+            return ParseTime(ref start) && ParseZone(start);
         }
 
         private bool ParseTime(ref int start)
@@ -149,7 +149,7 @@ namespace Argon.Utilities
                         break;
                     }
 
-                    Fraction = (Fraction * 10) + digit;
+                    Fraction = Fraction * 10 + digit;
 
                     numberOfDigits++;
                 }
@@ -228,7 +228,7 @@ namespace Argon.Utilities
                 }
             }
 
-            return (start == _end);
+            return start == _end;
         }
 
         private bool Parse4Digit(int start, out int num)
@@ -244,7 +244,7 @@ namespace Argon.Utilities
                     && 0 <= digit3 && digit3 < 10
                     && 0 <= digit4 && digit4 < 10)
                 {
-                    num = (((((digit1 * 10) + digit2) * 10) + digit3) * 10) + digit4;
+                    num = ((digit1 * 10 + digit2) * 10 + digit3) * 10 + digit4;
                     return true;
                 }
             }
@@ -261,7 +261,7 @@ namespace Argon.Utilities
                 if (0 <= digit1 && digit1 < 10
                     && 0 <= digit2 && digit2 < 10)
                 {
-                    num = (digit1 * 10) + digit2;
+                    num = digit1 * 10 + digit2;
                     return true;
                 }
             }
@@ -271,7 +271,7 @@ namespace Argon.Utilities
 
         private bool ParseChar(int start, char ch)
         {
-            return (start < _end && _text[start] == ch);
+            return start < _end && _text[start] == ch;
         }
     }
 }

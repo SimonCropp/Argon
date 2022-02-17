@@ -110,7 +110,7 @@ namespace Argon.Converters
             {
                 var d = UnixEpoch.AddSeconds(seconds);
 
-                var t = (nullable)
+                var t = nullable
                     ? Nullable.GetUnderlyingType(objectType)
                     : objectType;
                 if (t == typeof(DateTimeOffset))

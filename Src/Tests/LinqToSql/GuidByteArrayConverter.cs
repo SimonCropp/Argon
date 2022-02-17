@@ -49,7 +49,7 @@ namespace Argon.Tests.LinqToSql
 
         public override bool CanConvert(Type objectType)
         {
-            return (objectType == typeof(Guid));
+            return objectType == typeof(Guid);
         }
     }
 }

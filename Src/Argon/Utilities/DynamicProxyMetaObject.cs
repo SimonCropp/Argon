@@ -358,7 +358,7 @@ namespace Argon.Utilities
         /// </summary>
         private BindingRestrictions GetRestrictions()
         {
-            return (Value == null && HasValue)
+            return Value == null && HasValue
                 ? BindingRestrictions.GetInstanceRestriction(Expression, null)
                 : BindingRestrictions.GetTypeRestriction(Expression, LimitType);
         }

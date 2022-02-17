@@ -97,10 +97,10 @@ namespace Argon.Tests.TestObjects
             return
                 object.ReferenceEquals(value, this) ? 0 :
                 value is null ? 1 :
-                _Major != value._Major ? (_Major > value._Major ? 1 : -1) :
-                _Minor != value._Minor ? (_Minor > value._Minor ? 1 : -1) :
-                _Build != value._Build ? (_Build > value._Build ? 1 : -1) :
-                _Revision != value._Revision ? (_Revision > value._Revision ? 1 : -1) :
+                _Major != value._Major ? _Major > value._Major ? 1 : -1 :
+                _Minor != value._Minor ? _Minor > value._Minor ? 1 : -1 :
+                _Build != value._Build ? _Build > value._Build ? 1 : -1 :
+                _Revision != value._Revision ? _Revision > value._Revision ? 1 : -1 :
                 0;
         }
 

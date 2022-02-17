@@ -1050,7 +1050,7 @@ namespace Argon.Converters
 
         private string ResolveFullName(IXmlNode node, XmlNamespaceManager manager)
         {
-            var prefix = (node.NamespaceUri == null || (node.LocalName == "xmlns" && node.NamespaceUri == "http://www.w3.org/2000/xmlns/"))
+            var prefix = node.NamespaceUri == null || (node.LocalName == "xmlns" && node.NamespaceUri == "http://www.w3.org/2000/xmlns/")
                 ? null
                 : manager.LookupPrefix(node.NamespaceUri);
 
@@ -1295,7 +1295,7 @@ namespace Argon.Converters
                         {
                             if (attribute.NamespaceUri == "http://www.w3.org/2000/xmlns/")
                             {
-                                var namespacePrefix = (attribute.LocalName != "xmlns")
+                                var namespacePrefix = attribute.LocalName != "xmlns"
                                     ? XmlConvert.DecodeName(attribute.LocalName)
                                     : string.Empty;
                                 var namespaceUri = attribute.Value;
@@ -1657,7 +1657,7 @@ namespace Argon.Converters
                     var encodedName = XmlConvert.EncodeName(nameValue.Key);
                     var attributePrefix = MiscellaneousUtils.GetPrefix(nameValue.Key);
 
-                    var attribute = (!StringUtils.IsNullOrEmpty(attributePrefix)) ? document.CreateAttribute(encodedName, manager.LookupNamespace(attributePrefix) ?? string.Empty, nameValue.Value) : document.CreateAttribute(encodedName, nameValue.Value);
+                    var attribute = !StringUtils.IsNullOrEmpty(attributePrefix) ? document.CreateAttribute(encodedName, manager.LookupNamespace(attributePrefix) ?? string.Empty, nameValue.Value) : document.CreateAttribute(encodedName, nameValue.Value);
 
                     element.SetAttributeNode(attribute);
                 }
@@ -1705,7 +1705,7 @@ namespace Argon.Converters
             var encodedName = XmlConvert.EncodeName(attributeName);
             var attributeValue = ConvertTokenToXmlValue(reader);
 
-            var attribute = (!StringUtils.IsNullOrEmpty(attributePrefix))
+            var attribute = !StringUtils.IsNullOrEmpty(attributePrefix)
                 ? document.CreateAttribute(encodedName, manager.LookupNamespace(attributePrefix), attributeValue)
                 : document.CreateAttribute(encodedName, attributeValue);
 
@@ -2020,7 +2020,7 @@ namespace Argon.Converters
             var encodeName = EncodeSpecialCharacters ? XmlConvert.EncodeLocalName(elementName) : XmlConvert.EncodeName(elementName);
             var ns = StringUtils.IsNullOrEmpty(elementPrefix) ? manager.DefaultNamespace : manager.LookupNamespace(elementPrefix);
 
-            var element = (!StringUtils.IsNullOrEmpty(ns)) ? document.CreateElement(encodeName, ns) : document.CreateElement(encodeName);
+            var element = !StringUtils.IsNullOrEmpty(ns) ? document.CreateElement(encodeName, ns) : document.CreateElement(encodeName);
 
             return element;
         }

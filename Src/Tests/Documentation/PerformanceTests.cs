@@ -90,7 +90,7 @@ namespace Argon.Tests.Documentation
 
         public override bool CanConvert(Type objectType)
         {
-            return (objectType == typeof(Person));
+            return objectType == typeof(Person);
         }
     }
 

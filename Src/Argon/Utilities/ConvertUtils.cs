@@ -609,7 +609,7 @@ namespace Argon.Utilities
                 return ParseResult.Invalid;
             }
 
-            var isNegative = (chars[start] == '-');
+            var isNegative = chars[start] == '-';
 
             if (isNegative)
             {
@@ -653,7 +653,7 @@ namespace Argon.Utilities
                     return ParseResult.Invalid;
                 }
 
-                var newValue = (10 * value) - c;
+                var newValue = 10 * value - c;
 
                 // overflow has caused the number to loop around
                 if (newValue > value)
@@ -703,7 +703,7 @@ namespace Argon.Utilities
                 return ParseResult.Invalid;
             }
 
-            var isNegative = (chars[start] == '-');
+            var isNegative = chars[start] == '-';
 
             if (isNegative)
             {
@@ -745,7 +745,7 @@ namespace Argon.Utilities
                     return ParseResult.Invalid;
                 }
 
-                var newValue = (10 * value) - c;
+                var newValue = 10 * value - c;
 
                 // overflow has caused the number to loop around
                 if (newValue > value)
@@ -799,7 +799,7 @@ namespace Argon.Utilities
                 return ParseResult.Invalid;
             }
 
-            var isNegative = (chars[start] == '-');
+            var isNegative = chars[start] == '-';
             if (isNegative)
             {
                 // text just a negative sign
@@ -890,7 +890,7 @@ namespace Argon.Utilities
                                 return ParseResult.Invalid;
                             }
 
-                            var newExponent = (10 * exponent) + (c - '0');
+                            var newExponent = 10 * exponent + (c - '0');
                             // stops updating exponent when overflowing
                             if (exponent < newExponent)
                             {
@@ -928,15 +928,15 @@ namespace Argon.Utilities
                             }
                         }
 
-                        if (mantissaDigits < 29 && (mantissaDigits != 28 || !(storeOnly28Digits ?? (storeOnly28Digits = (hi19 > decimalMaxValueHi19 || (hi19 == decimalMaxValueHi19 && (lo10 > decimalMaxValueLo9 || (lo10 == decimalMaxValueLo9 && c > decimalMaxValueLo1))))).GetValueOrDefault())))
+                        if (mantissaDigits < 29 && (mantissaDigits != 28 || !(storeOnly28Digits ?? (storeOnly28Digits = hi19 > decimalMaxValueHi19 || (hi19 == decimalMaxValueHi19 && (lo10 > decimalMaxValueLo9 || (lo10 == decimalMaxValueLo9 && c > decimalMaxValueLo1)))).GetValueOrDefault())))
                         {
                             if (mantissaDigits < 19)
                             {
-                                hi19 = (hi19 * 10UL) + (ulong)(c - '0');
+                                hi19 = hi19 * 10UL + (ulong)(c - '0');
                             }
                             else
                             {
-                                lo10 = (lo10 * 10UL) + (ulong)(c - '0');
+                                lo10 = lo10 * 10UL + (ulong)(c - '0');
                             }
                             ++mantissaDigits;
                         }
@@ -955,7 +955,7 @@ namespace Argon.Utilities
             exponent += exponentFromMantissa;
 
             // correct the decimal point
-            exponent -= (numDecimalEnd - numDecimalStart);
+            exponent -= numDecimalEnd - numDecimalStart;
 
             if (mantissaDigits <= 19)
             {
@@ -963,7 +963,7 @@ namespace Argon.Utilities
             }
             else
             {
-                value = (hi19 / new decimal(1, 0, 0, false, (byte)(mantissaDigits - 19))) + lo10;
+                value = hi19 / new decimal(1, 0, 0, false, (byte)(mantissaDigits - 19)) + lo10;
             }
 
             if (exponent > 0)
@@ -1009,7 +1009,7 @@ namespace Argon.Utilities
                     }
                     if (exponent >= -28)
                     {
-                        value *= new decimal(1, 0, 0, false, (byte)(-exponent));
+                        value *= new decimal(1, 0, 0, false, (byte)-exponent);
                     }
                     else
                     {

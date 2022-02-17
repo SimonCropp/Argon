@@ -451,7 +451,7 @@ namespace Argon.Tests.Serialization
 
             public bool ShouldSerializeManager()
             {
-                return (Manager != this);
+                return Manager != this;
             }
         }
 
@@ -540,12 +540,12 @@ namespace Argon.Tests.Serialization
 
         public virtual bool ShouldSerializemyBar()
         {
-            return (myBar != null);
+            return myBar != null;
         }
 
         public virtual bool ShouldSerializename()
         {
-            return (name != null);
+            return name != null;
         }
     }
 
@@ -573,12 +573,12 @@ namespace Argon.Tests.Serialization
         public virtual bool ShouldSerializemyBaz()
         {
             ShouldSerializemyBazCalled = true;
-            return (myBaz != null);
+            return myBaz != null;
         }
 
         public virtual bool ShouldSerializename()
         {
-            return (name != null);
+            return name != null;
         }
     }
 
@@ -602,12 +602,12 @@ namespace Argon.Tests.Serialization
 
         public virtual bool ShouldSerializename()
         {
-            return (name != null);
+            return name != null;
         }
 
         public virtual bool ShouldSerializemyFrob()
         {
-            return (myFrob != null);
+            return myFrob != null;
         }
     }
 
@@ -623,7 +623,7 @@ namespace Argon.Tests.Serialization
 
         public virtual bool ShouldSerializename()
         {
-            return (name != null);
+            return name != null;
         }
     }
 

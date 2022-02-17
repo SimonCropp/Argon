@@ -539,7 +539,7 @@ namespace Argon.Linq
         public bool TryGetValue(string propertyName, StringComparison comparison, [NotNullWhen(true)]out JToken? value)
         {
             value = GetValue(propertyName, comparison);
-            return (value != null);
+            return value != null;
         }
 
         #region IDictionary<string,JToken> Members
@@ -626,7 +626,7 @@ namespace Argon.Linq
                 return false;
             }
 
-            return (property.Value == item.Value);
+            return property.Value == item.Value;
         }
 
         void ICollection<KeyValuePair<string, JToken?>>.CopyTo(KeyValuePair<string, JToken?>[] array, int arrayIndex)

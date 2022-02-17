@@ -961,7 +961,7 @@ namespace Argon.Tests
                     var valueTicks = GetTicks(value);
                     var parsedTicks = GetTicks(parsed);
 
-                    valueTicks = (valueTicks / 10000) * 10000;
+                    valueTicks = valueTicks / 10000 * 10000;
 
                     Assert.AreEqual(valueTicks, parsedTicks);
                 }
@@ -988,7 +988,7 @@ namespace Argon.Tests
                 var valueTicks = GetTicks(value);
                 var parsedTicks = GetTicks(parsed);
 
-                valueTicks = (valueTicks / 10000) * 10000;
+                valueTicks = valueTicks / 10000 * 10000;
 
                 Assert.AreEqual(valueTicks, parsedTicks);
             }
@@ -996,7 +996,7 @@ namespace Argon.Tests
 
         public static long GetTicks(object value)
         {
-            return (value is DateTime) ? ((DateTime)value).Ticks : ((DateTimeOffset)value).Ticks;
+            return value is DateTime ? ((DateTime)value).Ticks : ((DateTimeOffset)value).Ticks;
         }
 
         public static string Write(object value, JsonConverter converter)
@@ -1787,7 +1787,7 @@ namespace Argon.Tests
             {
                 get
                 {
-                    return (int)((Expiration - s_unixEpoch).TotalSeconds);
+                    return (int)(Expiration - s_unixEpoch).TotalSeconds;
                 }
                 set
                 {

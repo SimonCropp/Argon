@@ -57,7 +57,7 @@ namespace Argon.Converters
         public string? DateTimeFormat
         {
             get => _dateTimeFormat ?? string.Empty;
-            set => _dateTimeFormat = (StringUtils.IsNullOrEmpty(value)) ? null : value;
+            set => _dateTimeFormat = StringUtils.IsNullOrEmpty(value) ? null : value;
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace Argon.Converters
                 return null;
             }
 
-            var t = (nullable)
+            var t = nullable
                 ? Nullable.GetUnderlyingType(objectType)
                 : objectType;
 
@@ -137,7 +137,7 @@ namespace Argon.Converters
             {
                 if (t == typeof(DateTimeOffset))
                 {
-                    return (reader.Value is DateTimeOffset) ? reader.Value : new DateTimeOffset((DateTime)reader.Value!);
+                    return reader.Value is DateTimeOffset ? reader.Value : new DateTimeOffset((DateTime)reader.Value!);
                 }
 
                 // converter is expected to return a DateTime

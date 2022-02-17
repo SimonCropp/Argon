@@ -227,7 +227,7 @@ namespace Argon.Bson
 
         private int CalculateSizeWithLength(int stringByteCount, bool includeSize)
         {
-            var baseSize = (includeSize)
+            var baseSize = includeSize
                 ? 5 // size bytes + terminator
                 : 1; // terminator
 
@@ -283,7 +283,7 @@ namespace Argon.Bson
                 {
                     var value = (BsonString)t;
                     var s = (string)value.Value;
-                    value.ByteCount = (s != null) ? Encoding.GetByteCount(s) : 0;
+                    value.ByteCount = s != null ? Encoding.GetByteCount(s) : 0;
                     value.CalculatedSize = CalculateSizeWithLength(value.ByteCount, value.IncludeLength);
 
                     return value.CalculatedSize;

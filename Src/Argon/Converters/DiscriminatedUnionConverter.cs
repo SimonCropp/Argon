@@ -136,13 +136,13 @@ namespace Argon.Converters
             var caseInfo = union.Cases.Single(c => c.Tag == tag);
 
             writer.WriteStartObject();
-            writer.WritePropertyName((resolver != null) ? resolver.GetResolvedPropertyName(CasePropertyName) : CasePropertyName);
+            writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(CasePropertyName) : CasePropertyName);
             writer.WriteValue(caseInfo.Name);
             if (caseInfo.Fields != null && caseInfo.Fields.Length > 0)
             {
                 var fields = (object[])caseInfo.FieldReader.Invoke(value)!;
 
-                writer.WritePropertyName((resolver != null) ? resolver.GetResolvedPropertyName(FieldsPropertyName) : FieldsPropertyName);
+                writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(FieldsPropertyName) : FieldsPropertyName);
                 writer.WriteStartArray();
                 foreach (var field in fields)
                 {

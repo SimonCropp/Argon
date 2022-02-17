@@ -344,8 +344,8 @@ namespace Argon.Bson
             {
                 case State.Start:
                 {
-                    var token = (!_readRootValueAsArray) ? JsonToken.StartObject : JsonToken.StartArray;
-                    var type = (!_readRootValueAsArray) ? BsonType.Object : BsonType.Array;
+                    var token = !_readRootValueAsArray ? JsonToken.StartObject : JsonToken.StartArray;
+                    var type = !_readRootValueAsArray ? BsonType.Object : BsonType.Array;
 
                     SetToken(token);
                     var newContext = new ContainerContext(type);
@@ -404,7 +404,7 @@ namespace Argon.Bson
                             MovePosition(context.Length);
                         }
 
-                        var endToken = (context.Type == BsonType.Object) ? JsonToken.EndObject : JsonToken.EndArray;
+                        var endToken = context.Type == BsonType.Object ? JsonToken.EndObject : JsonToken.EndArray;
                         SetToken(endToken);
                         return true;
                     }
@@ -493,7 +493,7 @@ namespace Argon.Bson
                 case BsonType.Binary:
                     var data = ReadBinary(out var binaryType);
 
-                    var value = (binaryType != BsonBinaryType.Uuid)
+                    var value = binaryType != BsonBinaryType.Uuid
                         ? data
                         : (object)new Guid(data);
 
@@ -673,7 +673,7 @@ namespace Argon.Bson
             var offset = 0;
             do
             {
-                var count = ((length - totalBytesRead) > MaxCharBytesSize - offset)
+                var count = length - totalBytesRead > MaxCharBytesSize - offset
                     ? MaxCharBytesSize - offset
                     : length - totalBytesRead;
 

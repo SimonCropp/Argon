@@ -525,7 +525,7 @@ namespace Argon.Tests.Serialization
 
             public override bool CanConvert(Type objectType)
             {
-                return (objectType == typeof(CircularReferenceClass));
+                return objectType == typeof(CircularReferenceClass);
             }
         }
 

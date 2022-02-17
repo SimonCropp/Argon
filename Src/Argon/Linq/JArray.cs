@@ -90,7 +90,7 @@ namespace Argon.Linq
 
         internal override bool DeepEquals(JToken node)
         {
-            return (node is JArray t && ContentsEqual(t));
+            return node is JArray t && ContentsEqual(t);
         }
 
         internal override JToken CloneToken()
@@ -275,7 +275,7 @@ namespace Argon.Linq
 
         internal override void MergeItem(object content, JsonMergeSettings? settings)
         {
-            var a = (IsMultiContent(content) || content is JArray)
+            var a = IsMultiContent(content) || content is JArray
                 ? (IEnumerable)content
                 : null;
             if (a == null)

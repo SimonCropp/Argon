@@ -69,7 +69,7 @@ namespace Argon.Converters
                         continue;
                     }
 
-                    writer.WritePropertyName((resolver != null) ? resolver.GetResolvedPropertyName(column.ColumnName) : column.ColumnName);
+                    writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(column.ColumnName) : column.ColumnName);
                     serializer.Serialize(writer, columnValue);
                 }
                 writer.WriteEndObject();
@@ -96,7 +96,7 @@ namespace Argon.Converters
             if (!(existingValue is DataTable dt))
             {
                 // handle typed datasets
-                dt = (objectType == typeof(DataTable))
+                dt = objectType == typeof(DataTable)
                     ? new DataTable()
                     : (DataTable)Activator.CreateInstance(objectType);
             }
@@ -191,7 +191,7 @@ namespace Argon.Converters
                 }
                 else
                 {
-                    var columnValue = (reader.Value != null)
+                    var columnValue = reader.Value != null
                         ? serializer.Deserialize(reader, column.DataType) ?? DBNull.Value
                         : DBNull.Value;
 

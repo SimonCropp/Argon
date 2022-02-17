@@ -87,7 +87,7 @@ namespace Argon.Converters
         /// </returns>
         public override bool CanConvert(Type objectType)
         {
-            return (objectType == typeof(BsonObjectId));
+            return objectType == typeof(BsonObjectId);
         }
     }
 }

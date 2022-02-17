@@ -247,8 +247,8 @@ namespace Argon.Utilities
 
                         if (i > lastWritePosition)
                         {
-                            length = i - lastWritePosition + ((isEscapedUnicodeText) ? UnicodeTextLength : 0);
-                            var start = (isEscapedUnicodeText) ? UnicodeTextLength : 0;
+                            length = i - lastWritePosition + (isEscapedUnicodeText ? UnicodeTextLength : 0);
+                            var start = isEscapedUnicodeText ? UnicodeTextLength : 0;
 
                             if (writeBuffer == null || writeBuffer.Length < length)
                             {

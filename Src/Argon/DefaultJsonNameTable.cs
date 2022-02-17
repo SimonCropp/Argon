@@ -145,7 +145,7 @@ namespace Argon
         private void Grow()
         {
             var entries = _entries;
-            var newMask = (_mask * 2) + 1;
+            var newMask = _mask * 2 + 1;
             var newEntries = new Entry[newMask + 1];
 
             for (var i = 0; i < entries.Length; i++)

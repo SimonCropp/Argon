@@ -5735,7 +5735,7 @@ Path '', line 1, position 1.");
             Assert.AreEqual(new Guid("d8220a4b-75b1-4b7a-8112-b7bdae956a45"), actual.SourceTypeID);
             Assert.AreEqual(new Guid("951663c4-924e-4c86-a57a-7ed737501dbd"), actual.BrokerID);
             var bytes = (byte[])actual.Payload;
-            CollectionAssert.AreEquivalent((new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }).ToList(), bytes.ToList());
+            CollectionAssert.AreEquivalent(new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }.ToList(), bytes.ToList());
         }
 
         [Fact]
