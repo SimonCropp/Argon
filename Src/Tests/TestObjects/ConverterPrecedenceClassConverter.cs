@@ -50,7 +50,7 @@ namespace Argon.Tests.TestObjects
             var converter = (string)j[0];
             if (converter != ConverterType)
             {
-                throw new Exception(StringUtils.FormatWith("Serialize converter {0} and deserialize converter {1} do not match.", CultureInfo.InvariantCulture, converter, ConverterType));
+                throw new Exception("Serialize converter {0} and deserialize converter {1} do not match.".FormatWith(CultureInfo.InvariantCulture, converter, ConverterType));
             }
 
             var testValue = (string)j[1];
