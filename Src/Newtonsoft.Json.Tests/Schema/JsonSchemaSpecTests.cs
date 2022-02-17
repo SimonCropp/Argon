@@ -77,7 +77,7 @@ namespace Newtonsoft.Json.Tests.Schema
             IList<JsonSchemaSpecTest> specTests = new List<JsonSchemaSpecTest>();
 
             // get test files location relative to the test project dll
-            string baseTestPath = ResolvePath(Path.Combine("Schema", "Specs"));
+            string baseTestPath = Path.Combine("Schema", "Specs");
 
             string[] testFiles = Directory.GetFiles(baseTestPath, "*.json", SearchOption.AllDirectories);
 

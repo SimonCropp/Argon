@@ -289,7 +289,7 @@ namespace Newtonsoft.Json.Tests.Serialization
   }
 ]";
 
-            List<EmployeeReference> employees = JsonConvert.DeserializeObject<List<EmployeeReference>>(json, new JsonSerializerSettings
+            var employees = JsonConvert.DeserializeObject<List<EmployeeReference>>(json, new JsonSerializerSettings
             {
                 MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
             });
@@ -321,10 +321,11 @@ namespace Newtonsoft.Json.Tests.Serialization
             JToken t1 = JToken.Parse(json);
             JToken t2 = t1.CloneToken();
 
-            List<EmployeeReference> employees = t1.ToObject<List<EmployeeReference>>(JsonSerializer.Create(new JsonSerializerSettings
+            var serializer = JsonSerializer.Create(new JsonSerializerSettings
             {
                 MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
-            }));
+            });
+            List<EmployeeReference> employees = t1.ToObject<List<EmployeeReference>>(serializer);
 
             Assert.AreEqual(2, employees.Count);
             Assert.AreEqual("Mike Manager", employees[0].Name);
