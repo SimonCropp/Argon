@@ -61,7 +61,6 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(p, p.Value.Parent);
         }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
         [Test]
         public void ListChanged()
         {
@@ -82,7 +81,6 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(ListChangedType.ItemChanged, listChangedType.Value);
             Assert.AreEqual(0, index.Value);
         }
-#endif
 
         [Test]
         public void IListCount()

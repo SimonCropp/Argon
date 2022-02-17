@@ -62,7 +62,6 @@ namespace Newtonsoft.Json.Tests.Linq
             Assert.AreEqual(@"['We\'re offline!']", v.Path);
         }
 
-#if !(NET20 || NET35 || PORTABLE40 || PORTABLE) || NETSTANDARD2_0
         public class DemoClass
         {
             public decimal maxValue;
@@ -76,7 +75,6 @@ namespace Newtonsoft.Json.Tests.Linq
 
             Assert.AreEqual(10000000000000000000m, list[0].maxValue);
         }
-#endif
 
         [Test]
         public void ToObjectFromGuidToString()
@@ -1235,7 +1233,6 @@ keyword such as type of business.""
             Assert.AreEqual(new DateTime(2000, 10, 15, 5, 5, 5, DateTimeKind.Utc), d);
         }
 
-#if !(NET20 || NET35 || PORTABLE40)
         [Test]
         public void CovariantIJEnumerable()
         {
@@ -1248,9 +1245,7 @@ keyword such as type of business.""
             IJEnumerable<JToken> values = o.Properties();
             Assert.AreEqual(4, values.Count());
         }
-#endif
 
-#if !NET20
         [Test]
         public void LinqCast()
         {
@@ -1261,7 +1256,6 @@ keyword such as type of business.""
             Assert.AreEqual(12, list1[0]);
             Assert.AreEqual(55, list1[1]);
         }
-#endif
 
         [Test]
         public void ChildrenExtension()

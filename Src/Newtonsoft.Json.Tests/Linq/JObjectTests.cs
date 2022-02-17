@@ -1648,7 +1648,6 @@ Parameter name: arrayIndex",
             Assert.AreEqual("Name2", value);
         }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
         [Test]
         public void WriteObjectNullDBNullValue()
         {
@@ -1666,7 +1665,6 @@ Parameter name: arrayIndex",
   ""title"": null
 }", output);
         }
-#endif
 
         [Test]
         public void InvalidValueCastExceptionMessage()
@@ -1760,7 +1758,6 @@ Parameter name: arrayIndex",
             }, "Unexpected end of content while loading JObject. Path 'short.error.code', line 6, position 14.");
         }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
         [Test]
         public void GetProperties()
         {
@@ -1799,7 +1796,6 @@ Parameter name: arrayIndex",
             Assert.AreEqual(false, prop4.CanResetValue(o));
             Assert.AreEqual(false, prop4.ShouldSerializeValue(o));
         }
-#endif
 
         [Test]
         public void ParseEmptyObjectWithComment()
@@ -2085,7 +2081,6 @@ Parameter name: arrayIndex",
                 "Additional text encountered after finished reading JSON content: [. Path '', line 3, position 0.");
         }
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
         [Test]
         public void GetPropertyOwner_ReturnsJObject()
         {
@@ -2106,7 +2101,6 @@ Parameter name: arrayIndex",
             object value = pd.GetValue(owner);
             Assert.AreEqual(1, (int)(JToken)value);
         }
-#endif
 
         [Test]
         public void Property()

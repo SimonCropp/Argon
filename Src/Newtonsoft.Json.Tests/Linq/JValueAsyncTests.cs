@@ -84,10 +84,6 @@ namespace Newtonsoft.Json.Tests.Linq
             }
         }
 
-#if !PORTABLE
-
-#endif
-
         [Test]
         public async Task ParseIsoTimeZonesAsync()
         {
