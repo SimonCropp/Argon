@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
-
 using System;
 using System.Text;
 using System.Threading.Tasks;
@@ -877,5 +875,3 @@ namespace Newtonsoft.Json.Tests.Linq
         }
     }
 }
-
-#endif

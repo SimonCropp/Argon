@@ -30,9 +30,7 @@ using System.IO;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.Serialization;
-#if !(NET40)
 using System.Threading.Tasks;
-#endif
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;

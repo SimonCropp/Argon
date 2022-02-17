@@ -30,9 +30,7 @@ using System.IO;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.Serialization;
-#if !(NET40)
 using System.Threading.Tasks;
-#endif
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
@@ -62,7 +60,6 @@ namespace Newtonsoft.Json.Tests.Issues
                 "Cannot read number value as type. Path 'enddate', line 1, position 13.");
         }
 
-#if !(NET40)
         [Test]
         public async Task Test_Async()
         {
@@ -74,6 +71,5 @@ namespace Newtonsoft.Json.Tests.Issues
                 () => reader.ReadAsDateTimeAsync(),
                 "Cannot read number value as type. Path 'enddate', line 1, position 13.");
         }
-#endif
     }
 }

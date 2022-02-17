@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET40)
 using Moq;
 using System;
 using System.Collections;
@@ -102,4 +101,3 @@ namespace Newtonsoft.Json.Tests.Issues
         }
     }
 }
-#endif

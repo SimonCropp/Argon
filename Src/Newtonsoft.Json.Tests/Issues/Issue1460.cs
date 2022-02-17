@@ -31,9 +31,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
-#if !(NET40)
 using System.Threading.Tasks;
-#endif
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Xml;
@@ -63,7 +61,6 @@ namespace Newtonsoft.Json.Tests.Issues
             Assert.AreEqual("null", sw.ToString());
         }
 
-#if !(NET40)
         [Test]
         public async Task TestAsync()
         {
@@ -73,6 +70,5 @@ namespace Newtonsoft.Json.Tests.Issues
 
             Assert.AreEqual("null", sw.ToString());
         }
-#endif
     }
 }

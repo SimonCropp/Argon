@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !NET40
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -440,5 +439,3 @@ namespace Newtonsoft.Json.Tests.Serialization
         #endregion
     }
 }
-
-#endif

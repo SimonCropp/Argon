@@ -24,7 +24,6 @@
 #endregion
 
 #pragma warning disable 618
-#if !NET40
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -1339,5 +1338,4 @@ namespace Newtonsoft.Json.Tests.Bson
     }
 }
 
-#endif
 #pragma warning restore 618

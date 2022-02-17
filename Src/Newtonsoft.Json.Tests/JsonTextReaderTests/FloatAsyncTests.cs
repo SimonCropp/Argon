@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
-
 using System;
 #if DNXCORE50
 using Xunit;
@@ -348,5 +346,3 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
         }
     }
 }
-
-#endif

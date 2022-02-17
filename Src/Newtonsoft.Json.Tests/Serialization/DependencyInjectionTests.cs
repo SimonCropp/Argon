@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET40 || NET35 || NET20 || DNXCORE50 || PORTABLE || PORTABLE40) || NETSTANDARD2_0
 using Autofac;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Tests.TestObjects;
@@ -310,5 +309,3 @@ namespace Newtonsoft.Json.Tests.Serialization
         }
     }
 }
-
-#endif

@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET40)
-
 using System;
 using System.Globalization;
 #if !PORTABLE || NETSTANDARD2_0
@@ -1100,5 +1098,3 @@ new Date()"));
         }
     }
 }
-
-#endif

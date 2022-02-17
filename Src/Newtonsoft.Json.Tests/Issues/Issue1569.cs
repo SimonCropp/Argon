@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET40) || NETSTANDARD2_0
 using System;
 using System.IO;
 using System.Text;
@@ -122,4 +121,3 @@ namespace Newtonsoft.Json.Tests.Issues
         }
     }
 }
-#endif

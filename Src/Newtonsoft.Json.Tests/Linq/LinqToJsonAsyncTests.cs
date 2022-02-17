@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
-
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -170,5 +168,3 @@ undefined
         }
     }
 }
-
-#endif

@@ -6747,8 +6747,6 @@ This is just junk, though.";
             Assert.AreEqual("[1.1,0.0,0.0]", json);
         }
 
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
-#if !PORTABLE || NETSTANDARD2_0
         [Test]
         public void DeserializeReadOnlyListWithBigInteger()
         {
@@ -6763,7 +6761,6 @@ This is just junk, though.";
 
             Assert.AreEqual(BigInteger.Parse("9000000000000000000000000000000000000000000000000"), nineQuindecillion);
         }
-#endif
 
         [Test]
         public void DeserializeReadOnlyListWithInt()
@@ -6793,7 +6790,6 @@ This is just junk, though.";
             Assert.AreEqual(1, l[0]);
             Assert.AreEqual(null, l[1]);
         }
-#endif
 
         [Test]
         public void SerializeCustomTupleWithSerializableAttribute()
@@ -6806,14 +6802,8 @@ This is just junk, though.";
 
             Action doStuff = () => { obj = JsonConvert.DeserializeObject<MyTuple<int>>(json); };
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
             doStuff();
             Assert.AreEqual(500, obj.Item1);
-#else
-            ExceptionAssert.Throws<JsonSerializationException>(
-                doStuff,
-                "Unable to find a constructor to use for type Newtonsoft.Json.Tests.TestObjects.MyTuple`1[System.Int32]. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'm_Item1', line 1, position 11.");
-#endif
         }
 
 #if DEBUG

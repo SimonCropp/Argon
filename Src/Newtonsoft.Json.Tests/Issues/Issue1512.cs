@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET40)
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -90,4 +89,3 @@ namespace Newtonsoft.Json.Tests.Issues
         public ImmutableArray<string>? Inners { get; set; }
     }
 }
-#endif

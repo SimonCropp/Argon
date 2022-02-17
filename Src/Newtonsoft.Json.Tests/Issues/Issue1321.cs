@@ -72,7 +72,6 @@ namespace Newtonsoft.Json.Tests.Issues
             }, "Unexpected end when reading token. Path ''.");
         }
 
-#if !(NET40)
         [Test]
         public async Task Test2_Async()
         {
@@ -87,7 +86,6 @@ namespace Newtonsoft.Json.Tests.Issues
                 await writer.WriteTokenAsync(reader);
             }, "Unexpected end when reading token. Path ''.");
         }
-#endif
 
         [Test]
         public void Test3()
@@ -105,7 +103,6 @@ namespace Newtonsoft.Json.Tests.Issues
             }, "Unexpected end when reading token. Path ''.");
         }
 
-#if !(NET40)
         [Test]
         public async Task Test3_Async()
         {
@@ -121,7 +118,6 @@ namespace Newtonsoft.Json.Tests.Issues
                 await writer.WriteTokenAsync(reader);
             }, "Unexpected end when reading token. Path ''.");
         }
-#endif
 
         [Test]
         public void Test4()
@@ -140,7 +136,6 @@ namespace Newtonsoft.Json.Tests.Issues
             }, "Unexpected end when reading token. Path ''.");
         }
 
-#if !(NET40)
         [Test]
         public async Task Test4_Async()
         {
@@ -157,7 +152,6 @@ namespace Newtonsoft.Json.Tests.Issues
                 await writer.WriteTokenAsync(reader);
             }, "Unexpected end when reading token. Path ''.");
         }
-#endif
 
         [Test]
         public void Test5()
@@ -176,7 +170,6 @@ namespace Newtonsoft.Json.Tests.Issues
             }, "Unexpected end when reading token. Path '[0]'.");
         }
 
-#if !(NET40)
         [Test]
         public async Task Test5_Async()
         {
@@ -193,6 +186,5 @@ namespace Newtonsoft.Json.Tests.Issues
                 await writer.WriteTokenAsync(reader);
             }, "Unexpected end when reading token. Path '[0]'.");
         }
-#endif
     }
 }

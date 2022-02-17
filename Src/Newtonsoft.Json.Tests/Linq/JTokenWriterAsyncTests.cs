@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET20 || NET35 || NET40 || PORTABLE40)
-
 using System;
 #if !PORTABLE || NETSTANDARD2_0
 using System.Numerics;
@@ -387,5 +385,3 @@ namespace Newtonsoft.Json.Tests.Linq
         }
     }
 }
-
-#endif

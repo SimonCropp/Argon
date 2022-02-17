@@ -741,7 +741,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("string!", l[0]);
         }
 
-#if !(NET40 || NET35 || NET20 || PORTABLE40)
         [Test]
         public void DeserializeReadOnlyListInterface()
         {
@@ -913,7 +912,6 @@ namespace Newtonsoft.Json.Tests.Serialization
   3
 ]", json);
         }
-#endif
 
         [Test]
         public void TestEscapeDictionaryStrings()
@@ -1174,7 +1172,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             ExceptionAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<IList<KeyValuePair<string, IList<string>>>>(json); }, "Cannot convert null value to KeyValuePair. Path '[0]', line 1, position 6.");
         }
 
-#if !(NET40 || NET35 || NET20 || PORTABLE40)
         public class PopulateReadOnlyTestClass
         {
             public IList<int> NonReadOnlyList { get; set; }
@@ -1300,7 +1297,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(1, c2.Array.Count);
             Assert.AreEqual(13, c2.Array[0]);
         }
-#endif
 
         [Test]
         public void SerializeArray2D()
@@ -2589,7 +2585,6 @@ namespace Newtonsoft.Json.Tests.Serialization
         }
     }
 
-#if !(NET40 || NET35 || NET20 || PORTABLE40)
     public class ReadOnlyIntegerList : IReadOnlyCollection<int>
     {
         private readonly List<int> _list;
@@ -2614,7 +2609,6 @@ namespace Newtonsoft.Json.Tests.Serialization
             return GetEnumerator();
         }
     }
-#endif
 
     public class Array2D
     {

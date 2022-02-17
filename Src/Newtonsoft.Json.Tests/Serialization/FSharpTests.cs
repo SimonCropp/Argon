@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET40 || DNXCORE50) || NETSTANDARD2_0
 #if DNXCORE50
 using Xunit;
 using Test = Xunit.FactAttribute;
@@ -97,5 +96,3 @@ namespace Newtonsoft.Json.Tests.Serialization
         }
     }
 }
-
-#endif
