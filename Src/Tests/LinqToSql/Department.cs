@@ -31,7 +31,7 @@ using System.Data.Linq;
 using System.Linq;
 using System.Text;
 
-namespace Newtonsoft.Json.Tests.LinqToSql
+namespace Argon.Tests.LinqToSql
 {
     [MetadataType(typeof(DepartmentMetadata))]
     public partial class Department

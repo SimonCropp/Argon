@@ -25,15 +25,15 @@
 
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 using System.Collections.Generic;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Converters;
+using Argon.Serialization;
+using Argon.Converters;
 using System.Collections;
 using System;
-using Newtonsoft.Json.Linq;
+using Argon.Linq;
 
-namespace Newtonsoft.Json.Tests.Issues
+namespace Argon.Tests.Issues
 {
     [TestFixture]
     public class Issue2484
@@ -43,7 +43,7 @@ namespace Newtonsoft.Json.Tests.Issues
         {
             var json = "[]";
             var ex = ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject(json, typeof(JObject)));
-            Assert.AreEqual("Deserialized JSON type 'Newtonsoft.Json.Linq.JArray' is not compatible with expected type 'Newtonsoft.Json.Linq.JObject'. Path '', line 1, position 2.", ex.Message);
+            Assert.AreEqual("Deserialized JSON type 'Argon.Linq.JArray' is not compatible with expected type 'Argon.Linq.JObject'. Path '', line 1, position 2.", ex.Message);
         }
     }
 }

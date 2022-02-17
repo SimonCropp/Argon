@@ -26,7 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Newtonsoft.Json.Utilities;
+using Argon.Utilities;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Diagnostics.CodeAnalysis;
@@ -34,7 +34,7 @@ using System.Dynamic;
 using System.Linq.Expressions;
 using System.Numerics;
 
-namespace Newtonsoft.Json.Linq
+namespace Argon.Linq
 {
     /// <summary>
     /// Represents a value in JSON (string, integer, date, etc).

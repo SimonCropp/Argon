@@ -27,23 +27,23 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using Newtonsoft.Json.Linq;
+using Argon.Linq;
 using System.Numerics;
 using System.Text;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Linq;
 using System.Xml;
-using Newtonsoft.Json.Tests.TestObjects.JsonTextReaderTests;
-using Newtonsoft.Json.Utilities;
+using Argon.Tests.TestObjects.JsonTextReaderTests;
+using Argon.Utilities;
 
-namespace Newtonsoft.Json.Tests.JsonTextReaderTests
+namespace Argon.Tests.JsonTextReaderTests
 {
     [TestFixture]
     public class ParseTests : TestFixtureBase
@@ -144,7 +144,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             ExceptionAssert.Throws<JsonReaderException>(() => reader.ReadAsDecimal(), "Unexpected character encountered while parsing number: s. Path '', line 1, position 77.");
 
             reader = new JsonTextReader(new StringReader("9999999999999999999999999999999999999999999999999999999999999999999999999999asdasdasd"));
-            reader.FloatParseHandling = Json.FloatParseHandling.Decimal;
+            reader.FloatParseHandling = Argon.FloatParseHandling.Decimal;
             ExceptionAssert.Throws<JsonReaderException>(() => reader.Read(), "Unexpected character encountered while parsing number: s. Path '', line 1, position 77.");
 
             reader = new JsonTextReader(new StringReader("1E-06"));
@@ -446,7 +446,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             string json = @"[""1970-01-01T00:00:00Z"",""\/Date(0)\/""]";
 
             JsonTextReader reader = new JsonTextReader(new StringReader(json));
-            reader.DateParseHandling = Json.DateParseHandling.DateTime;
+            reader.DateParseHandling = Argon.DateParseHandling.DateTime;
 
             Assert.IsTrue(reader.Read());
             Assert.IsTrue(reader.Read());
@@ -458,7 +458,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.IsTrue(reader.Read());
 
             reader = new JsonTextReader(new StringReader(json));
-            reader.DateParseHandling = Json.DateParseHandling.DateTimeOffset;
+            reader.DateParseHandling = Argon.DateParseHandling.DateTimeOffset;
 
             Assert.IsTrue(reader.Read());
             Assert.IsTrue(reader.Read());
@@ -470,7 +470,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.IsTrue(reader.Read());
 
             reader = new JsonTextReader(new StringReader(json));
-            reader.DateParseHandling = Json.DateParseHandling.None;
+            reader.DateParseHandling = Argon.DateParseHandling.None;
 
             Assert.IsTrue(reader.Read());
             Assert.IsTrue(reader.Read());
@@ -482,7 +482,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.IsTrue(reader.Read());
 
             reader = new JsonTextReader(new StringReader(json));
-            reader.DateParseHandling = Json.DateParseHandling.DateTime;
+            reader.DateParseHandling = Argon.DateParseHandling.DateTime;
 
             Assert.IsTrue(reader.Read());
             reader.ReadAsDateTimeOffset();
@@ -494,7 +494,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             Assert.IsTrue(reader.Read());
 
             reader = new JsonTextReader(new StringReader(json));
-            reader.DateParseHandling = Json.DateParseHandling.DateTimeOffset;
+            reader.DateParseHandling = Argon.DateParseHandling.DateTimeOffset;
 
             Assert.IsTrue(reader.Read());
             reader.ReadAsDateTime();

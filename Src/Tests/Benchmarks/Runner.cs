@@ -31,10 +31,10 @@ using System.Text;
 using System.Threading.Tasks;
 using BenchmarkDotNet.Running;using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Newtonsoft.Json.Tests.Benchmarks
+namespace Argon.Tests.Benchmarks
 {
     [TestFixture]
     public class Runner : TestFixtureBase

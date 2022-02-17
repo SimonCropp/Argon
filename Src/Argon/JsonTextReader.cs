@@ -29,9 +29,9 @@ using System.IO;
 using System.Globalization;
 using System.Diagnostics;
 using System.Numerics;
-using Newtonsoft.Json.Utilities;
+using Argon.Utilities;
 
-namespace Newtonsoft.Json
+namespace Argon
 {
     internal enum ReadType
     {

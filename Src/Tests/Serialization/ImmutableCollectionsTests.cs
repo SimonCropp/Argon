@@ -31,10 +31,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json.Linq;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon.Linq;
 
-namespace Newtonsoft.Json.Tests.Serialization
+namespace Argon.Tests.Serialization
 {
     [TestFixture]
     public class ImmutableCollectionsTests : TestFixtureBase

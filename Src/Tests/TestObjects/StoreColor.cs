@@ -25,7 +25,7 @@
 
 using System;
 
-namespace Newtonsoft.Json.Tests.TestObjects
+namespace Argon.Tests.TestObjects
 {
     [Flags]
     public enum StoreColor

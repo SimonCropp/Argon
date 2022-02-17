@@ -31,11 +31,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using BenchmarkDotNet.Attributes;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Tests.TestObjects;
+using Argon.Linq;
+using Argon;
+using Argon.Tests.TestObjects;
 
-namespace Newtonsoft.Json.Tests.Benchmarks
+namespace Argon.Tests.Benchmarks
 {
     public class SerializeBenchmarks
     {

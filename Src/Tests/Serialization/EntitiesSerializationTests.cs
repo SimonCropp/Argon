@@ -24,18 +24,18 @@
 #endregion
 
 #if !NET5_0_OR_GREATER
-using Newtonsoft.Json.Serialization;
+using Argon.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
-using Newtonsoft.Json.Converters;using Xunit;
+using Argon.Converters;using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Newtonsoft.Json.Tests.Serialization
+namespace Argon.Tests.Serialization
 {
     [TestFixture]
     public class EntitiesSerializationTests : TestFixtureBase

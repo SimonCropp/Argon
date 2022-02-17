@@ -30,16 +30,16 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Schema;
-using Newtonsoft.Json.Serialization;
+using Argon.Converters;
+using Argon.Linq;
+using Argon.Schema;
+using Argon.Serialization;
 using System.Threading.Tasks;using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Newtonsoft.Json.Tests
+namespace Argon.Tests
 {
     [TestFixture]
     public class DemoTests : TestFixtureBase
@@ -371,16 +371,16 @@ namespace Newtonsoft.Json.Tests
 
             StringAssert.AreEqual(@"{
   ""$id"": ""1"",
-  ""$type"": ""Newtonsoft.Json.Tests.DemoTests+Manager, Newtonsoft.Json.Tests"",
+  ""$type"": ""Argon.Tests.DemoTests+Manager, Tests"",
   ""Reportees"": [
     {
       ""$id"": ""2"",
-      ""$type"": ""Newtonsoft.Json.Tests.DemoTests+Employee, Newtonsoft.Json.Tests"",
+      ""$type"": ""Argon.Tests.DemoTests+Employee, Tests"",
       ""Name"": ""Arnie Admin""
     },
     {
       ""$id"": ""3"",
-      ""$type"": ""Newtonsoft.Json.Tests.DemoTests+Manager, Newtonsoft.Json.Tests"",
+      ""$type"": ""Argon.Tests.DemoTests+Manager, Tests"",
       ""Reportees"": [
         {
           ""$ref"": ""2""
@@ -398,16 +398,16 @@ namespace Newtonsoft.Json.Tests
         {
             string json = @"{
   '$id': '1',
-  '$type': 'Newtonsoft.Json.Tests.DemoTests+Manager, Newtonsoft.Json.Tests',
+  '$type': 'Argon.Tests.DemoTests+Manager, Tests',
   'Reportees': [
     {
       '$id': '2',
-      '$type': 'Newtonsoft.Json.Tests.DemoTests+Employee, Newtonsoft.Json.Tests',
+      '$type': 'Argon.Tests.DemoTests+Employee, Tests',
       'Name': 'Arnie Admin'
     },
     {
       '$id': '3',
-      '$type': 'Newtonsoft.Json.Tests.DemoTests+Manager, Newtonsoft.Json.Tests',
+      '$type': 'Argon.Tests.DemoTests+Manager, Tests',
       'Reportees': [
         {
           '$ref': '2'

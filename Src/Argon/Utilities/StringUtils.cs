@@ -30,9 +30,9 @@ using System.Text;
 using System.Globalization;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using Newtonsoft.Json.Serialization;
+using Argon.Serialization;
 
-namespace Newtonsoft.Json.Utilities
+namespace Argon.Utilities
 {
     internal static class StringUtils
     {

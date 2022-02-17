@@ -28,18 +28,18 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Tests.TestObjects;
+using Argon.Converters;
+using Argon.Serialization;
+using Argon.Tests.TestObjects;
 using System.Linq;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 using System.IO;
-using Newtonsoft.Json.Linq;
-using ErrorEventArgs = Newtonsoft.Json.Serialization.ErrorEventArgs;
+using Argon.Linq;
+using ErrorEventArgs = Argon.Serialization.ErrorEventArgs;
 
-namespace Newtonsoft.Json.Tests.Serialization
+namespace Argon.Tests.Serialization
 {
     [TestFixture]
     public class SerializationErrorHandlingTests : TestFixtureBase
@@ -52,7 +52,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             AAA a2 = JsonConvert.DeserializeObject<AAA>(@"{""MyTest"":{""$type"":""<Namespace>.JsonTest+MyTest2, <Assembly>""}}", new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto,
-                Error = (object sender, Json.Serialization.ErrorEventArgs e) =>
+                Error = (object sender, Argon.Serialization.ErrorEventArgs e) =>
                 {
                     errors.Add(e.ErrorContext.Error);
                     e.ErrorContext.Handled = true;
@@ -72,7 +72,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             JObject a2 = (JObject)JsonConvert.DeserializeObject(@"{""$type"":""<Namespace>.JsonTest+MyTest2, <Assembly>""}", new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto,
-                Error = (object sender, Json.Serialization.ErrorEventArgs e) =>
+                Error = (object sender, Argon.Serialization.ErrorEventArgs e) =>
                 {
                     errors.Add(e.ErrorContext.Error);
                     e.ErrorContext.Handled = true;
@@ -107,7 +107,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             var json = "{\"myint\":3554860000,\"Mybool\":false}";
             var i = JsonConvert.DeserializeObject<MyClass1>(json, new JsonSerializerSettings
             {
-                Error = delegate (object sender, Newtonsoft.Json.Serialization.ErrorEventArgs args)
+                Error = delegate (object sender, Argon.Serialization.ErrorEventArgs args)
                 {
                     errors.Add(args.ErrorContext.Error.Message);
                     args.ErrorContext.Handled = true;

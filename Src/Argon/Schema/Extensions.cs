@@ -25,12 +25,12 @@
 
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Utilities;
+using Argon.Linq;
+using Argon.Utilities;
 
 #nullable disable
 
-namespace Newtonsoft.Json.Schema
+namespace Argon.Schema
 {
     /// <summary>
     /// <para>

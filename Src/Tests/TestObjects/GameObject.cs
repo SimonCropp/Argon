@@ -25,7 +25,7 @@
 
 using System.Collections.Concurrent;
 
-namespace Newtonsoft.Json.Tests.TestObjects
+namespace Argon.Tests.TestObjects
 {
     [JsonObject(MemberSerialization.OptIn)]
     public class GameObject

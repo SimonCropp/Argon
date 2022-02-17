@@ -25,15 +25,15 @@
 
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json.Serialization;
+using Argon.Serialization;
 using System.Linq;
 using System.Globalization;
-using Newtonsoft.Json.Utilities;
-using Newtonsoft.Json.Linq;
+using Argon.Utilities;
+using Argon.Linq;
 
 #nullable disable
 
-namespace Newtonsoft.Json.Schema
+namespace Argon.Schema
 {
     [Obsolete("JSON Schema validation has been moved to its own package. See https://www.newtonsoft.com/jsonschema for more details.")]
     internal class JsonSchemaBuilder

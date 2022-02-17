@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Newtonsoft.Json.Tests.TestObjects.GeometricForms
+namespace Argon.Tests.TestObjects.GeometricForms
 {
     public static class Tags
     {

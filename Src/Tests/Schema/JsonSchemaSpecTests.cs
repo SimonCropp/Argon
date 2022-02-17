@@ -30,15 +30,15 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Schema;
+using Argon.Linq;
+using Argon.Schema;
 
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 using TestCaseSource = Xunit.MemberDataAttribute;
 
-namespace Newtonsoft.Json.Tests.Schema
+namespace Argon.Tests.Schema
 {
     public class JsonSchemaSpecTest
     {

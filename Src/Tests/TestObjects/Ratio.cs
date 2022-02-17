@@ -27,7 +27,7 @@ using System;
 using System.Globalization;
 using System.Runtime.Serialization;
 
-namespace Newtonsoft.Json.Tests.TestObjects
+namespace Argon.Tests.TestObjects
 {
     [Serializable]
     public struct Ratio : IConvertible, IFormattable, ISerializable

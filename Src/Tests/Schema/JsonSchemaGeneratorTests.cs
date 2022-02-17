@@ -28,23 +28,23 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Tests.TestObjects;
-using Newtonsoft.Json.Tests.TestObjects.Organization;
-using Newtonsoft.Json.Utilities;
+using Argon.Converters;
+using Argon.Serialization;
+using Argon.Tests.TestObjects;
+using Argon.Tests.TestObjects.Organization;
+using Argon.Utilities;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json.Schema;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon.Schema;
 using System.IO;
-using Newtonsoft.Json.Linq;
+using Argon.Linq;
 using System.Text;
-using Extensions = Newtonsoft.Json.Schema.Extensions;
+using Extensions = Argon.Schema.Extensions;
 using System.Linq;
-using Newtonsoft.Json.Tests.Serialization;
+using Argon.Tests.Serialization;
 
-namespace Newtonsoft.Json.Tests.Schema
+namespace Argon.Tests.Schema
 {
     [TestFixture]
     public class JsonSchemaGeneratorTests : TestFixtureBase
@@ -258,7 +258,7 @@ namespace Newtonsoft.Json.Tests.Schema
             {
                 JsonSchemaGenerator generator = new JsonSchemaGenerator();
                 generator.Generate(typeof(CircularReferenceClass));
-            }, @"Unresolved circular reference for type 'Newtonsoft.Json.Tests.TestObjects.CircularReferenceClass'. Explicitly define an Id for the type using a JsonObject/JsonArray attribute or automatically generate a type Id using the UndefinedSchemaIdHandling property.");
+            }, @"Unresolved circular reference for type 'Argon.Tests.TestObjects.CircularReferenceClass'. Explicitly define an Id for the type using a JsonObject/JsonArray attribute or automatically generate a type Id using the UndefinedSchemaIdHandling property.");
         }
 
         [Fact]
@@ -370,7 +370,7 @@ namespace Newtonsoft.Json.Tests.Schema
             string json = schema.ToString();
 
             StringAssert.AreEqual(@"{
-  ""id"": ""Newtonsoft.Json.Tests.TestObjects.VersionOld"",
+  ""id"": ""Argon.Tests.TestObjects.VersionOld"",
   ""type"": [
     ""object"",
     ""null""
@@ -423,7 +423,7 @@ namespace Newtonsoft.Json.Tests.Schema
             string json = schema.ToString();
 
             StringAssert.AreEqual(@"{
-  ""id"": ""Newtonsoft.Json.Tests.Schema.SerializableTestObject"",
+  ""id"": ""Argon.Tests.Schema.SerializableTestObject"",
   ""type"": [
     ""object"",
     ""null""
@@ -521,7 +521,7 @@ namespace Newtonsoft.Json.Tests.Schema
             string json = jsonSchema.ToString();
 
             StringAssert.AreEqual(@"{
-  ""id"": ""Newtonsoft.Json.Tests.TestObjects.CircularReferenceClass"",
+  ""id"": ""Argon.Tests.TestObjects.CircularReferenceClass"",
   ""type"": [
     ""object"",
     ""null""
@@ -532,7 +532,7 @@ namespace Newtonsoft.Json.Tests.Schema
       ""type"": ""string""
     },
     ""Child"": {
-      ""$ref"": ""Newtonsoft.Json.Tests.TestObjects.CircularReferenceClass""
+      ""$ref"": ""Argon.Tests.TestObjects.CircularReferenceClass""
     }
   }
 }", json);
@@ -548,7 +548,7 @@ namespace Newtonsoft.Json.Tests.Schema
             string json = jsonSchema.ToString();
 
             StringAssert.AreEqual(@"{
-  ""id"": ""Newtonsoft.Json.Tests.TestObjects.JsonPropertyWithHandlingValues"",
+  ""id"": ""Argon.Tests.TestObjects.JsonPropertyWithHandlingValues"",
   ""required"": true,
   ""type"": [
     ""object"",
@@ -599,13 +599,13 @@ namespace Newtonsoft.Json.Tests.Schema
       ]
     },
     ""ReferenceLoopHandlingErrorProperty"": {
-      ""$ref"": ""Newtonsoft.Json.Tests.TestObjects.JsonPropertyWithHandlingValues""
+      ""$ref"": ""Argon.Tests.TestObjects.JsonPropertyWithHandlingValues""
     },
     ""ReferenceLoopHandlingIgnoreProperty"": {
-      ""$ref"": ""Newtonsoft.Json.Tests.TestObjects.JsonPropertyWithHandlingValues""
+      ""$ref"": ""Argon.Tests.TestObjects.JsonPropertyWithHandlingValues""
     },
     ""ReferenceLoopHandlingSerializeProperty"": {
-      ""$ref"": ""Newtonsoft.Json.Tests.TestObjects.JsonPropertyWithHandlingValues""
+      ""$ref"": ""Argon.Tests.TestObjects.JsonPropertyWithHandlingValues""
     }
   }
 }", json);

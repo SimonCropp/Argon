@@ -29,14 +29,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
-using Newtonsoft.Json.Tests.LinqToSql;
+using Argon.Tests.LinqToSql;
 using Xunit;
 using System.Reflection;
 using System.ComponentModel;
-using Newtonsoft.Json.Serialization;
+using Argon.Serialization;
 using System.Data.Linq.Mapping;
 
-namespace Newtonsoft.Json.Tests.LinqToSql
+namespace Argon.Tests.LinqToSql
 {
     public class LinqToSqlClassesSerializationTests : TestFixtureBase
     {

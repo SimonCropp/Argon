@@ -27,18 +27,18 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
-using Newtonsoft.Json.Converters;
+using Argon.Converters;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 using TestCase = Xunit.InlineDataAttribute;
 
-using Newtonsoft.Json.Linq;
+using Argon.Linq;
 using System.IO;
 using System.Linq;
-using Newtonsoft.Json.Utilities;
+using Argon.Utilities;
 
-namespace Newtonsoft.Json.Tests.Linq
+namespace Argon.Tests.Linq
 {
     [TestFixture]
     public class JTokenTests : TestFixtureBase
@@ -956,7 +956,7 @@ namespace Newtonsoft.Json.Tests.Linq
             {
                 JArray a = new JArray();
                 a.Add(new JProperty("PropertyName"));
-            }, "Can not add Newtonsoft.Json.Linq.JProperty to Newtonsoft.Json.Linq.JArray.");
+            }, "Can not add Argon.Linq.JProperty to Argon.Linq.JArray.");
         }
 
         [Fact]
@@ -966,7 +966,7 @@ namespace Newtonsoft.Json.Tests.Linq
             {
                 JObject o = new JObject();
                 o.Add(5);
-            }, "Can not add Newtonsoft.Json.Linq.JValue to Newtonsoft.Json.Linq.JObject.");
+            }, "Can not add Argon.Linq.JValue to ArgonJson.Linq.JObject.");
         }
 
         [Fact]

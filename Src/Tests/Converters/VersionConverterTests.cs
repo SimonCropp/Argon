@@ -25,12 +25,12 @@
 
 using System;
 using System.IO;
-using Newtonsoft.Json.Converters;using Xunit;
+using Argon.Converters;using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Newtonsoft.Json.Tests.Converters
+namespace Argon.Tests.Converters
 {
     public class VersionClass
     {

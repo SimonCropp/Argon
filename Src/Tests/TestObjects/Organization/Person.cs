@@ -26,7 +26,7 @@
 using System;
 using System.ComponentModel;
 
-namespace Newtonsoft.Json.Tests.TestObjects.Organization
+namespace Argon.Tests.TestObjects.Organization
 {
     [JsonObject(Id = "Person", Title = "Title!", Description = "JsonObjectAttribute description!", MemberSerialization = MemberSerialization.OptIn)]
 #if !NET5_0_OR_GREATER

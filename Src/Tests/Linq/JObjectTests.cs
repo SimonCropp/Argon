@@ -28,22 +28,22 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Numerics;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Tests.TestObjects;
-using Newtonsoft.Json.Tests.TestObjects.Organization;
+using Argon.Serialization;
+using Argon.Tests.TestObjects;
+using Argon.Tests.TestObjects.Organization;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json.Linq;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon.Linq;
 using System.IO;
 using System.Collections;
 #if !NET5_0_OR_GREATER
 using System.Web.UI;
 #endif
 using System.Linq;
-using Newtonsoft.Json.Utilities;
+using Argon.Utilities;
 
-namespace Newtonsoft.Json.Tests.Linq
+namespace Argon.Tests.Linq
 {
     [TestFixture]
     public class JObjectTests : TestFixtureBase
@@ -215,7 +215,7 @@ namespace Newtonsoft.Json.Tests.Linq
                 JObject o = new JObject();
                 o.Add("PropertyNameValue", null);
                 o.Add("PropertyNameValue", null);
-            }, "Can not add property PropertyNameValue to Newtonsoft.Json.Linq.JObject. Property with the same name already exists on object.");
+            }, "Can not add property PropertyNameValue to Argon.Linq.JObject. Property with the same name already exists on object.");
         }
 
         [Fact]
@@ -904,7 +904,7 @@ Parameter name: arrayIndex",
                 IList l = new JObject(p1, p2);
 
                 l.Add(new JValue("Bad!"));
-            }, "Can not add Newtonsoft.Json.Linq.JValue to Newtonsoft.Json.Linq.JObject.");
+            }, "Can not add Argon.Linq.JValue to Argon.Linq.JObject.");
         }
 
         [Fact]
@@ -932,7 +932,7 @@ Parameter name: arrayIndex",
                 JProperty p3 = new JProperty("Test2", "II");
 
                 l.Add(p3);
-            }, "Can not add property Test2 to Newtonsoft.Json.Linq.JObject. Property with the same name already exists on object.");
+            }, "Can not add property Test2 to Argon.Linq.JObject. Property with the same name already exists on object.");
         }
 
         [Fact]
@@ -1035,7 +1035,7 @@ Parameter name: arrayIndex",
 
                 l[0] = p3;
                 l[1] = p3;
-            }, "Can not add property Test3 to Newtonsoft.Json.Linq.JObject. Property with the same name already exists on object.");
+            }, "Can not add property Test3 to Argon.Linq.JObject. Property with the same name already exists on object.");
         }
 
         [Fact]
@@ -1048,7 +1048,7 @@ Parameter name: arrayIndex",
                 IList l = new JObject(p1, p2);
 
                 l[0] = new JValue(true);
-            }, @"Can not add Newtonsoft.Json.Linq.JValue to Newtonsoft.Json.Linq.JObject.");
+            }, @"Can not add Argon.Linq.JValue to Argon.Linq.JObject.");
         }
 
         [Fact]
@@ -1144,7 +1144,7 @@ Parameter name: arrayIndex",
                 IList<JToken> l = new JObject(p1, p2);
 
                 l.Add(new JValue("Bad!"));
-            }, "Can not add Newtonsoft.Json.Linq.JValue to Newtonsoft.Json.Linq.JObject.");
+            }, "Can not add Argon.Linq.JValue to Argon.Linq.JObject.");
         }
 
         [Fact]
@@ -1158,7 +1158,7 @@ Parameter name: arrayIndex",
 
                 // string is implicitly converted to JValue
                 l.Add("Bad!");
-            }, "Can not add Newtonsoft.Json.Linq.JValue to Newtonsoft.Json.Linq.JObject.");
+            }, "Can not add Argon.Linq.JValue to Argon.Linq.JObject.");
         }
 
         [Fact]
@@ -1173,7 +1173,7 @@ Parameter name: arrayIndex",
                 JProperty p3 = new JProperty("Test2", "II");
 
                 l.Add(p3);
-            }, "Can not add property Test2 to Newtonsoft.Json.Linq.JObject. Property with the same name already exists on object.");
+            }, "Can not add property Test2 to Argon.Linq.JObject. Property with the same name already exists on object.");
         }
 
         [Fact]
@@ -1269,7 +1269,7 @@ Parameter name: arrayIndex",
 
                 l[0] = p3;
                 l[1] = p3;
-            }, "Can not add property Test3 to Newtonsoft.Json.Linq.JObject. Property with the same name already exists on object.");
+            }, "Can not add property Test3 to Argon.Linq.JObject. Property with the same name already exists on object.");
         }
 
         [Fact]
@@ -1388,7 +1388,7 @@ Parameter name: arrayIndex",
             {
                 IBindingList l = new JObject();
                 l.AddNew();
-            }, "Could not determine new value to add to 'Newtonsoft.Json.Linq.JObject'.");
+            }, "Could not determine new value to add to 'Argon.Linq.JObject'.");
         }
 
         [Fact]

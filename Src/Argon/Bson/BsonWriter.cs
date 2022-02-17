@@ -29,13 +29,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
 using System.Text;
-using Newtonsoft.Json.Utilities;
-using Newtonsoft.Json.Linq;
+using Argon.Utilities;
+using Argon.Linq;
 using System.Globalization;
 
 #nullable disable
 
-namespace Newtonsoft.Json.Bson
+namespace Argon.Bson
 {
     /// <summary>
     /// Represents a writer that provides a fast, non-cached, forward-only way of generating BSON data.

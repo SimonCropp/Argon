@@ -25,7 +25,7 @@
 
 using System.ComponentModel;
 
-namespace Newtonsoft.Json.Tests.TestObjects
+namespace Argon.Tests.TestObjects
 {
     [TypeConverter(typeof(MyInterfaceConverter))]
     internal class ConsoleWriter : IMyInterface

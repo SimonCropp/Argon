@@ -28,10 +28,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Globalization;
 using System.Numerics;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Utilities;
+using Argon.Serialization;
+using Argon.Utilities;
 
-namespace Newtonsoft.Json
+namespace Argon
 {
     /// <summary>
     /// Represents a reader that provides fast, non-cached, forward-only access to serialized JSON data.

@@ -29,7 +29,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 
-namespace Newtonsoft.Json.Tests.TestObjects
+namespace Argon.Tests.TestObjects
 {
     internal class MyInterfaceConverter : TypeConverter
     {

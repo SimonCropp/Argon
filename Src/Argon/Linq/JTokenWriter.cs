@@ -27,9 +27,9 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Numerics;
-using Newtonsoft.Json.Utilities;
+using Argon.Utilities;
 
-namespace Newtonsoft.Json.Linq
+namespace Argon.Linq
 {
     /// <summary>
     /// Represents a writer that provides a fast, non-cached, forward-only way of generating JSON data.

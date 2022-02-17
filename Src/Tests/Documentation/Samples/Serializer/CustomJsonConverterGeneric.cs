@@ -23,15 +23,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Newtonsoft.Json.Linq;
+using Argon.Linq;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 
-namespace Newtonsoft.Json.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer
 {
     [TestFixture]
     public class CustomJsonConverterGeneric : TestFixtureBase
@@ -65,7 +65,7 @@ namespace Newtonsoft.Json.Tests.Documentation.Samples.Serializer
             #region Usage
             NuGetPackage p1 = new NuGetPackage
             {
-                PackageId = "Newtonsoft.Json",
+                PackageId = "Argon",
                 Version = new Version(10, 0, 4)
             };
 
@@ -73,7 +73,7 @@ namespace Newtonsoft.Json.Tests.Documentation.Samples.Serializer
 
             Console.WriteLine(json);
             // {
-            //   "PackageId": "Newtonsoft.Json",
+            //   "PackageId": "Argon",
             //   "Version": "10.0.4"
             // }
 

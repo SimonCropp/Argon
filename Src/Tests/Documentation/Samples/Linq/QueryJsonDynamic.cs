@@ -27,15 +27,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Newtonsoft.Json.Linq;
+using Argon.Linq;
 #if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 #else
 using Xunit;
 
-namespace Newtonsoft.Json.Tests.Documentation.Samples.Linq
+namespace Argon.Tests.Documentation.Samples.Linq
 {
     [TestFixture]
     public class QueryJsonDynamic : TestFixtureBase

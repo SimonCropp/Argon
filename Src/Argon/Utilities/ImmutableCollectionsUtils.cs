@@ -30,9 +30,9 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
-using Newtonsoft.Json.Serialization;
+using Argon.Serialization;
 
-namespace Newtonsoft.Json.Utilities
+namespace Argon.Utilities
 {
     /// <summary>
     /// Helper class for serializing immutable collections.

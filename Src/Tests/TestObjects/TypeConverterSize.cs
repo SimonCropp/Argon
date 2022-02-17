@@ -25,7 +25,7 @@
 
 using System.ComponentModel;
 
-namespace Newtonsoft.Json.Tests.TestObjects
+namespace Argon.Tests.TestObjects
 {
     [TypeConverter(typeof(TypeConverterSizeConverter))]
     public struct TypeConverterSize

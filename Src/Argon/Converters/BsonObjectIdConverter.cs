@@ -24,13 +24,13 @@
 #endregion
 
 using System;
-using Newtonsoft.Json.Bson;
+using Argon.Bson;
 using System.Globalization;
-using Newtonsoft.Json.Utilities;
+using Argon.Utilities;
 
 #nullable disable
 
-namespace Newtonsoft.Json.Converters
+namespace Argon.Converters
 {
     /// <summary>
     /// Converts a <see cref="BsonObjectId"/> to and from JSON and BSON.

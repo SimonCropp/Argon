@@ -25,14 +25,14 @@
 
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json.Linq.JsonPath;
+using Argon.Linq.JsonPath;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json.Linq;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon.Linq;
 using System.Linq;
 
-namespace Newtonsoft.Json.Tests.Linq.JsonPath
+namespace Argon.Tests.Linq.JsonPath
 {
     [TestFixture]
     public class JPathParseTests : TestFixtureBase

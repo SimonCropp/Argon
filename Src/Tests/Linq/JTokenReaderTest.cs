@@ -28,15 +28,15 @@ using System.Collections.Generic;
 using System.Text;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon;
 using System.IO;
 using System.Numerics;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Tests.Serialization;
-using Newtonsoft.Json.Tests.TestObjects;
+using Argon.Linq;
+using Argon.Tests.Serialization;
+using Argon.Tests.TestObjects;
 
-namespace Newtonsoft.Json.Tests.Linq
+namespace Argon.Tests.Linq
 {
     [TestFixture]
     public class JTokenReaderTest : TestFixtureBase

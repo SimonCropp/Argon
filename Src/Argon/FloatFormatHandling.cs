@@ -25,7 +25,7 @@
 
 using System;
 
-namespace Newtonsoft.Json
+namespace Argon
 {
     /// <summary>
     /// Specifies float format handling options when writing special floating point numbers, e.g. <see cref="Double.NaN"/>,

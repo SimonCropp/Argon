@@ -29,12 +29,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-using Newtonsoft.Json.Schema;using Xunit;
+using Argon.Schema;using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Newtonsoft.Json.Tests.Schema
+namespace Argon.Tests.Schema
 {
     [TestFixture]
     public class PerformanceTests : TestFixtureBase

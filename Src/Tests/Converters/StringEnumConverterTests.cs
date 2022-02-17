@@ -28,14 +28,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
+using Argon.Converters;
+using Argon.Serialization;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json.Tests.TestObjects;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon.Tests.TestObjects;
 
-namespace Newtonsoft.Json.Tests.Converters
+namespace Argon.Tests.Converters
 {
     [TestFixture]
     public class StringEnumConverterTests : TestFixtureBase
@@ -658,7 +658,7 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
                 var serializer = new JsonSerializer();
                 serializer.Converters.Add(new StringEnumConverter());
                 serializer.Deserialize<Bucket>(new JsonTextReader(new StringReader(json)));
-            }, @"Error converting value ""Three"" to type 'Newtonsoft.Json.Tests.Converters.StringEnumConverterTests+MyEnum'. Path 'Value', line 1, position 19.");
+            }, @"Error converting value ""Three"" to type 'Argon.Tests.Converters.StringEnumConverterTests+MyEnum'. Path 'Value', line 1, position 19.");
         }
 
         public class Bucket
@@ -685,7 +685,7 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
             }
             catch (JsonSerializationException ex)
             {
-                Assert.AreEqual("Error converting value 123 to type 'Newtonsoft.Json.Tests.Converters.StringEnumConverterTests+MyEnum'. Path 'Value', line 1, position 15.", ex.Message);
+                Assert.AreEqual("Error converting value 123 to type 'Argon.Tests.Converters.StringEnumConverterTests+MyEnum'. Path 'Value', line 1, position 15.", ex.Message);
                 Assert.AreEqual(@"Integer value 123 is not allowed. Path 'Value', line 1, position 15.", ex.InnerException.Message);
 
                 return;
@@ -756,7 +756,7 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
         {
             ExceptionAssert.Throws<JsonSerializationException>(
                 () => JsonConvert.DeserializeObject<DuplicateNameEnum>("'foo_bar'", new StringEnumConverter()),
-                @"Error converting value ""foo_bar"" to type 'Newtonsoft.Json.Tests.Converters.DuplicateNameEnum'. Path '', line 1, position 9.");
+                @"Error converting value ""foo_bar"" to type 'Argon.Tests.Converters.DuplicateNameEnum'. Path '', line 1, position 9.");
         }
 
         // Define other methods and classes here
@@ -806,7 +806,7 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
 
                 Assert.AreEqual(DuplicateNameEnum.foo_bar, o.Value);
                 Assert.AreEqual(DuplicateNameEnum2.FooBar, o.Value2);
-            }, "Type 'Newtonsoft.Json.Tests.Converters.DuplicateNameEnum' contains two members 'foo_bar' 'and 'FooBar' with the same name 'foo_bar'. Multiple members with the same name in one type are not supported. Consider changing one of the member names using EnumMemberAttribute attribute.");
+            }, "Type 'Argon.Tests.Converters.DuplicateNameEnum' contains two members 'foo_bar' 'and 'FooBar' with the same name 'foo_bar'. Multiple members with the same name in one type are not supported. Consider changing one of the member names using EnumMemberAttribute attribute.");
         }
 
         [Fact]

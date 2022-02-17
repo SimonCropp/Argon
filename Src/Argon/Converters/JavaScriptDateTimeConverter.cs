@@ -25,9 +25,9 @@
 
 using System;
 using System.Globalization;
-using Newtonsoft.Json.Utilities;
+using Argon.Utilities;
 
-namespace Newtonsoft.Json.Converters
+namespace Argon.Converters
 {
     /// <summary>
     /// Converts a <see cref="DateTime"/> to and from a JavaScript <c>Date</c> constructor (e.g. <c>new Date(52231943)</c>).

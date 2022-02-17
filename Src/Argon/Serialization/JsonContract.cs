@@ -28,10 +28,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Serialization;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Utilities;
+using Argon.Linq;
+using Argon.Utilities;
 
-namespace Newtonsoft.Json.Serialization
+namespace Argon.Serialization
 {
     internal enum JsonContractType
     {

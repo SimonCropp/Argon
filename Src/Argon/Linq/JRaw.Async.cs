@@ -28,7 +28,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Newtonsoft.Json.Linq
+namespace Argon.Linq
 {
     public partial class JRaw
     {

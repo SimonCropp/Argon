@@ -32,20 +32,20 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Utilities;
+using Argon.Converters;
+using Argon.Linq;
+using Argon.Serialization;
+using Argon.Utilities;
 #if NET5_0_OR_GREATER
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 using System.Text;
 #else
 using Xunit;
 #endif
 
-namespace Newtonsoft.Json.Tests.Issues
+namespace Argon.Tests.Issues
 {
     [TestFixture]
     public class Issue1757 : TestFixtureBase

@@ -27,7 +27,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Newtonsoft.Json.Tests.TestObjects
+namespace Argon.Tests.TestObjects
 {
     public class ModelStateDictionary<T> : IDictionary<string, T>
     {

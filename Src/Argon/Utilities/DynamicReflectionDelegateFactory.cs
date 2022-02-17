@@ -28,10 +28,10 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using Newtonsoft.Json.Serialization;
+using Argon.Serialization;
 using System.Globalization;
 
-namespace Newtonsoft.Json.Utilities
+namespace Argon.Utilities
 {
     internal class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
     {

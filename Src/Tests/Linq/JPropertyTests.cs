@@ -28,13 +28,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using Newtonsoft.Json.Linq;
+using Argon.Linq;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 using System.IO;
 
-namespace Newtonsoft.Json.Tests.Linq
+namespace Argon.Tests.Linq
 {
     [TestFixture]
     public class JPropertyTests : TestFixtureBase
@@ -89,7 +89,7 @@ namespace Newtonsoft.Json.Tests.Linq
             JProperty p = new JProperty("TestProperty", null);
             IList l = p;
 
-            ExceptionAssert.Throws<JsonException>(() => { l.Clear(); }, "Cannot add or remove items from Newtonsoft.Json.Linq.JProperty.");
+            ExceptionAssert.Throws<JsonException>(() => { l.Clear(); }, "Cannot add or remove items from Argon.Linq.JProperty.");
         }
 
         [Fact]
@@ -98,7 +98,7 @@ namespace Newtonsoft.Json.Tests.Linq
             JProperty p = new JProperty("TestProperty", null);
             IList l = p;
 
-            ExceptionAssert.Throws<JsonException>(() => { l.Add(null); }, "Newtonsoft.Json.Linq.JProperty cannot have multiple values.");
+            ExceptionAssert.Throws<JsonException>(() => { l.Add(null); }, "Argon.Linq.JProperty cannot have multiple values.");
         }
 
         [Fact]
@@ -107,7 +107,7 @@ namespace Newtonsoft.Json.Tests.Linq
             JProperty p = new JProperty("TestProperty", null);
             IList l = p;
 
-            ExceptionAssert.Throws<JsonException>(() => { l.Remove(p.Value); }, "Cannot add or remove items from Newtonsoft.Json.Linq.JProperty.");
+            ExceptionAssert.Throws<JsonException>(() => { l.Remove(p.Value); }, "Cannot add or remove items from Argon.Linq.JProperty.");
         }
 
         [Fact]
@@ -116,7 +116,7 @@ namespace Newtonsoft.Json.Tests.Linq
             JProperty p = new JProperty("TestProperty", null);
             IList l = p;
 
-            ExceptionAssert.Throws<JsonException>(() => { l.RemoveAt(0); }, "Cannot add or remove items from Newtonsoft.Json.Linq.JProperty.");
+            ExceptionAssert.Throws<JsonException>(() => { l.RemoveAt(0); }, "Cannot add or remove items from Argon.Linq.JProperty.");
         }
 
         [Fact]
@@ -205,7 +205,7 @@ namespace Newtonsoft.Json.Tests.Linq
         {
             IList<JToken> t = new JProperty("error", new List<string> { "one", "two" });
 
-            ExceptionAssert.Throws<JsonException>(() => { t.Add(1); }, "Newtonsoft.Json.Linq.JProperty cannot have multiple values.");
+            ExceptionAssert.Throws<JsonException>(() => { t.Add(1); }, "Argon.Linq.JProperty cannot have multiple values.");
         }
 
         [Fact]

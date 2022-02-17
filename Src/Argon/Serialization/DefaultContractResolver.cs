@@ -26,7 +26,7 @@
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
-using Newtonsoft.Json.Schema;
+using Argon.Schema;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Dynamic;
@@ -35,14 +35,14 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Utilities;
-using Newtonsoft.Json.Linq;
+using Argon.Converters;
+using Argon.Utilities;
+using Argon.Linq;
 using System.Runtime.CompilerServices;
 using System.Linq;
-using Newtonsoft.Json.Serialization;
+using Argon.Serialization;
 
-namespace Newtonsoft.Json.Serialization
+namespace Argon.Serialization
 {
     /// <summary>
     /// Used by <see cref="JsonSerializer"/> to resolve a <see cref="JsonContract"/> for a given <see cref="System.Type"/>.

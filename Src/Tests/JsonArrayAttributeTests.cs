@@ -24,9 +24,9 @@
 #endregion
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 
-namespace Newtonsoft.Json.Tests
+namespace Argon.Tests
 {
     [TestFixture]
     public class JsonArrayAttributeTests : TestFixtureBase

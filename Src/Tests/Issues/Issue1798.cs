@@ -23,19 +23,19 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Linq.JsonPath;
+using Argon.Linq;
+using Argon.Linq.JsonPath;
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json.Converters;
+using Argon.Converters;
 using System.Reflection;
 using System.Runtime.Versioning;
-using Newtonsoft.Json.Serialization;
+using Argon.Serialization;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 
-namespace Newtonsoft.Json.Tests.Issues
+namespace Argon.Tests.Issues
 {
     [TestFixture]
     public class Issue1798

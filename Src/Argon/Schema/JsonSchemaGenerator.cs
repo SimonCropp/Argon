@@ -27,14 +27,14 @@ using System;
 using System.Globalization;
 using System.ComponentModel;
 using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Utilities;
-using Newtonsoft.Json.Serialization;
+using Argon.Linq;
+using Argon.Utilities;
+using Argon.Serialization;
 using System.Linq;
 
 #nullable disable
 
-namespace Newtonsoft.Json.Schema
+namespace Argon.Schema
 {
     /// <summary>
     /// <para>

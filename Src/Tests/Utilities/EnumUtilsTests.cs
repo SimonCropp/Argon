@@ -28,14 +28,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Newtonsoft.Json.Utilities;
+using Argon.Utilities;
 
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 using TestCaseSource = Xunit.MemberDataAttribute;
 
-namespace Newtonsoft.Json.Tests.Utilities
+namespace Argon.Tests.Utilities
 {
     public class EnumUtilsTests : TestFixtureBase
     {

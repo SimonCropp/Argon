@@ -29,10 +29,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Newtonsoft.Json.Serialization;
+using Argon.Serialization;
 using System.Diagnostics;
 
-namespace Newtonsoft.Json.Utilities
+namespace Argon.Utilities
 {
     internal class FSharpFunction
     {

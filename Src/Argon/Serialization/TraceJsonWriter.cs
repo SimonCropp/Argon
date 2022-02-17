@@ -28,7 +28,7 @@ using System.Globalization;
 using System.IO;
 using System.Numerics;
 
-namespace Newtonsoft.Json.Serialization
+namespace Argon.Serialization
 {
     internal class TraceJsonWriter : JsonWriter
     {

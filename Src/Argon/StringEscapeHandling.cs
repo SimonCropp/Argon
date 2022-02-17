@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Newtonsoft.Json
+namespace Argon
 {
     /// <summary>
     /// Specifies how strings are escaped when writing JSON text.

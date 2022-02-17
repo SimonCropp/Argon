@@ -28,9 +28,9 @@ using System;
 using System.Reflection;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 
-namespace Newtonsoft.Json.Tests.Issues
+namespace Argon.Tests.Issues
 {
     [TestFixture]
     public class Issue1552 : TestFixtureBase
@@ -43,7 +43,7 @@ namespace Newtonsoft.Json.Tests.Issues
 
             JsonSerializationException ex = ExceptionAssert.Throws<JsonSerializationException>(
                 () => JsonConvert.SerializeObject(c),
-                "Error getting value from 'RefField' on 'Newtonsoft.Json.Tests.Issues.RefAndRefReadonlyTestClass'.");
+                "Error getting value from 'RefField' on 'Argon.Tests.Issues.RefAndRefReadonlyTestClass'.");
 
             Assert.AreEqual("Could not create getter for Int32& RefField. ByRef return values are not supported.", ex.InnerException.Message);
         }

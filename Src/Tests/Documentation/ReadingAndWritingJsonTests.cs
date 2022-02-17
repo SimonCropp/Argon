@@ -31,18 +31,18 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
+using Argon.Converters;
+using Argon.Linq;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Tests.TestObjects;
-using Newtonsoft.Json.Utilities;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon.Serialization;
+using Argon.Tests.TestObjects;
+using Argon.Utilities;
 using System.Globalization;
-using ErrorEventArgs = Newtonsoft.Json.Serialization.ErrorEventArgs;
+using ErrorEventArgs = Argon.Serialization.ErrorEventArgs;
 
-namespace Newtonsoft.Json.Tests.Documentation
+namespace Argon.Tests.Documentation
 {
     [TestFixture]
     public class ReadingAndWritingJsonTests : TestFixtureBase

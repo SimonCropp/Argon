@@ -25,9 +25,9 @@
 
 using System;
 using System.Data;
-using Newtonsoft.Json.Serialization;
+using Argon.Serialization;
 
-namespace Newtonsoft.Json.Converters
+namespace Argon.Converters
 {
     /// <summary>
     /// Converts a <see cref="DataSet"/> to and from JSON.

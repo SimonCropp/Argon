@@ -32,17 +32,17 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using Argon;
+using Argon.Linq;
 using System.Xml;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Utilities;
+using Argon.Serialization;
+using Argon.Utilities;
 using System.Xml.Linq;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 
-namespace Newtonsoft.Json.Tests.Issues
+namespace Argon.Tests.Issues
 {
     [TestFixture]
     public class Issue1460 : TestFixtureBase

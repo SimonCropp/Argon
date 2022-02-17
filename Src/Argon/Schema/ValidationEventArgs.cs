@@ -24,11 +24,11 @@
 #endregion
 
 using System;
-using Newtonsoft.Json.Utilities;
+using Argon.Utilities;
 
 #nullable disable
 
-namespace Newtonsoft.Json.Schema
+namespace Argon.Schema
 {
     /// <summary>
     /// <para>

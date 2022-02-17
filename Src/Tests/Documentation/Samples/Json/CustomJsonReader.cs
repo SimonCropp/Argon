@@ -29,12 +29,12 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Xml;
-using Newtonsoft.Json.Linq;using Xunit;
+using Argon.Linq;using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Newtonsoft.Json.Tests.Documentation.Samples.Json
+namespace Argon.Tests.Documentation.Samples.Json
 {
 
     #region Types

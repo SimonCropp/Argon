@@ -24,9 +24,9 @@
 #endregion
 
 using System.Reflection;
-using Newtonsoft.Json.Serialization;
+using Argon.Serialization;
 
-namespace Newtonsoft.Json.Tests.TestObjects
+namespace Argon.Tests.TestObjects
 {
     public class ReflectionContractResolver : DefaultContractResolver
     {

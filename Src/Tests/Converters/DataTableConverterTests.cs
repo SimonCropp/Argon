@@ -25,21 +25,21 @@
 
 using System.IO;
 using System.Text;
-using Newtonsoft.Json.Bson;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
+using Argon.Bson;
+using Argon.Converters;
+using Argon.Linq;
 using System;
 using System.Collections.Generic;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 using System.Data;
 using System.Data.SqlTypes;
 using System.Linq;
-using Newtonsoft.Json.Tests.TestObjects;
+using Argon.Tests.TestObjects;
 using System.Numerics;
 
-namespace Newtonsoft.Json.Tests.Converters
+namespace Argon.Tests.Converters
 {
     public class DataTableConverterTests : TestFixtureBase
     {
@@ -702,7 +702,7 @@ namespace Newtonsoft.Json.Tests.Converters
                 }
             }
 
-            private void OnError(object sender, Json.Serialization.ErrorEventArgs e)
+            private void OnError(object sender, Argon.Serialization.ErrorEventArgs e)
             {
                 e.ErrorContext.Handled = true;
             }

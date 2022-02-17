@@ -29,14 +29,14 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Tests.TestObjects;
-using Newtonsoft.Json.Utilities;using Xunit;
+using Argon.Serialization;
+using Argon.Tests.TestObjects;
+using Argon.Utilities;using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Newtonsoft.Json.Tests.Serialization
+namespace Argon.Tests.Serialization
 {
     [TestFixture]
     public class ReflectionAttributeProviderTests : TestFixtureBase
@@ -64,7 +64,7 @@ namespace Newtonsoft.Json.Tests.Serialization
         {
             PropertyInfo property;
 #if NET5_0_OR_GREATER && !NETSTANDARD2_0
-            property = Newtonsoft.Json.Utilities.TypeExtensions.GetProperty(typeof(ReflectionTestObject), "TestProperty");
+            property = Argon.Utilities.TypeExtensions.GetProperty(typeof(ReflectionTestObject), "TestProperty");
 #else
             property = typeof(ReflectionTestObject).GetProperty("TestProperty");
 #endif

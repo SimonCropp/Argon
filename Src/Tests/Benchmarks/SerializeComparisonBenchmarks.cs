@@ -36,11 +36,11 @@ using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
-using Newtonsoft.Json.Bson;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Tests.TestObjects;
+using Argon.Bson;
+using Argon.Linq;
+using Argon.Tests.TestObjects;
 
-namespace Newtonsoft.Json.Tests.Benchmarks
+namespace Argon.Tests.Benchmarks
 {
     public class SerializeComparisonBenchmarks
     {

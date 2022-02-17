@@ -32,10 +32,10 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Globalization;
-using Newtonsoft.Json.Serialization;
+using Argon.Serialization;
 using System.Diagnostics;
 
-namespace Newtonsoft.Json.Utilities
+namespace Argon.Utilities
 {
     internal static class DynamicUtils
     {

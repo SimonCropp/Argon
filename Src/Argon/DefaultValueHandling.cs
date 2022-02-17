@@ -26,7 +26,7 @@
 using System;
 using System.ComponentModel;
 
-namespace Newtonsoft.Json
+namespace Argon
 {
     /// <summary>
     /// Specifies default value handling options for the <see cref="JsonSerializer"/>.

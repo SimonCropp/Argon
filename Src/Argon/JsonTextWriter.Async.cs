@@ -29,10 +29,10 @@ using System.Globalization;
 using System.Threading;
 using System.Numerics;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Utilities;
+using Argon.Utilities;
 using System.Diagnostics;
 
-namespace Newtonsoft.Json
+namespace Argon
 {
     public partial class JsonTextWriter
     {

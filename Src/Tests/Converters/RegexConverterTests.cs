@@ -27,16 +27,16 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json.Bson;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Utilities;
+using Argon.Bson;
+using Argon.Converters;
+using Argon.Serialization;
+using Argon.Utilities;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json.Tests.TestObjects;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon.Tests.TestObjects;
 
-namespace Newtonsoft.Json.Tests.Converters
+namespace Argon.Tests.Converters
 {
     [TestFixture]
     public class RegexConverterTests : TestFixtureBase

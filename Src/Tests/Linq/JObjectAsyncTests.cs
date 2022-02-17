@@ -24,15 +24,15 @@
 #endregion
 
 using System.Collections.Generic;
-using Newtonsoft.Json.Tests.TestObjects;
+using Argon.Tests.TestObjects;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json.Linq;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon.Linq;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Newtonsoft.Json.Tests.Linq
+namespace Argon.Tests.Linq
 {
     [TestFixture]
     public class JObjectAsyncTests : TestFixtureBase

@@ -35,18 +35,18 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
+using Argon.Converters;
+using Argon.Linq;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Tests.Serialization;
-using Newtonsoft.Json.Tests.TestObjects;
-using Newtonsoft.Json.Utilities;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon.Serialization;
+using Argon.Tests.Serialization;
+using Argon.Tests.TestObjects;
+using Argon.Utilities;
 using System.Globalization;
 
-namespace Newtonsoft.Json.Tests.Documentation
+namespace Argon.Tests.Documentation
 {
     public class LogEventInfo
     {
@@ -141,12 +141,12 @@ namespace Newtonsoft.Json.Tests.Documentation
                 new JsonSerializerSettings { TraceWriter = traceWriter, Converters = { new JavaScriptDateTimeConverter() } });
 
             Console.WriteLine(traceWriter);
-            // 2012-11-11T12:08:42.761 Info Started serializing Newtonsoft.Json.Tests.Serialization.Staff. Path ''.
-            // 2012-11-11T12:08:42.785 Info Started serializing System.DateTime with converter Newtonsoft.Json.Converters.JavaScriptDateTimeConverter. Path 'StartDate'.
-            // 2012-11-11T12:08:42.791 Info Finished serializing System.DateTime with converter Newtonsoft.Json.Converters.JavaScriptDateTimeConverter. Path 'StartDate'.
+            // 2012-11-11T12:08:42.761 Info Started serializing Argon.Tests.Serialization.Staff. Path ''.
+            // 2012-11-11T12:08:42.785 Info Started serializing System.DateTime with converter Argon.Converters.JavaScriptDateTimeConverter. Path 'StartDate'.
+            // 2012-11-11T12:08:42.791 Info Finished serializing System.DateTime with converter Argon.Converters.JavaScriptDateTimeConverter. Path 'StartDate'.
             // 2012-11-11T12:08:42.797 Info Started serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
             // 2012-11-11T12:08:42.798 Info Finished serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
-            // 2012-11-11T12:08:42.799 Info Finished serializing Newtonsoft.Json.Tests.Serialization.Staff. Path ''.
+            // 2012-11-11T12:08:42.799 Info Finished serializing Argon.Tests.Serialization.Staff. Path ''.
             // 2013-05-18T21:38:11.255 Verbose Serialized JSON: 
             // {
             //   "Name": "Arnie Admin",

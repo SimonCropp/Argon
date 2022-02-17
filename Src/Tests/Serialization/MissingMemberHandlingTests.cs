@@ -26,14 +26,14 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Tests.TestObjects;using Xunit;
+using Argon.Converters;
+using Argon.Linq;
+using Argon.Tests.TestObjects;using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Newtonsoft.Json.Tests.Serialization
+namespace Argon.Tests.Serialization
 {
     [TestFixture]
     public class MissingMemberHandlingTests : TestFixtureBase

@@ -32,11 +32,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
-using Newtonsoft.Json.Utilities;
+using Argon.Utilities;
 using MemberTypes = System.Reflection.MemberTypes;
 using BindingFlags = System.Reflection.BindingFlags;
 
-namespace Newtonsoft.Json.Tests.Benchmarks
+namespace Argon.Tests.Benchmarks
 {
     public class LowLevelBenchmarks
     {

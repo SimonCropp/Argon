@@ -25,14 +25,14 @@
 
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
+using Argon.Linq;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 using System.IO;
 using System.Linq;
 
-namespace Newtonsoft.Json.Tests.Linq
+namespace Argon.Tests.Linq
 {
     [TestFixture]
     public class JConstructorTests : TestFixtureBase

@@ -29,12 +29,12 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
-using Newtonsoft.Json.Utilities;
+using Argon.Utilities;
 using System.Collections;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Newtonsoft.Json.Serialization
+namespace Argon.Serialization
 {
     /// <summary>
     /// Contract details for a <see cref="System.Type"/> used by the <see cref="JsonSerializer"/>.

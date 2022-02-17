@@ -25,7 +25,7 @@
 
 using System;
 
-namespace Newtonsoft.Json.Utilities
+namespace Argon.Utilities
 {
     internal enum ParserTimeZone
     {

@@ -28,17 +28,17 @@ using System.Collections.Generic;
 using System.Text;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 using System.Runtime.Serialization;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
+using Argon.Linq;
+using Argon.Serialization;
 using Autofac;
 using Autofac.Core;
 using Autofac.Core.Activators.Reflection;
-using Newtonsoft.Json.Tests.Serialization;
-using LogService = Newtonsoft.Json.Tests.Serialization.LogManager;
+using Argon.Tests.Serialization;
+using LogService = Argon.Tests.Serialization.LogManager;
 
-namespace Newtonsoft.Json.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer
 {
     [TestFixture]
     public class DeserializeWithDependencyInjection : TestFixtureBase

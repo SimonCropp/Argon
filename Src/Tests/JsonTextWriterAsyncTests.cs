@@ -32,14 +32,14 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Tests.TestObjects.JsonTextReaderTests;
-using Newtonsoft.Json.Utilities;
+using Argon.Tests.TestObjects.JsonTextReaderTests;
+using Argon.Utilities;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json.Tests.TestObjects;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon.Tests.TestObjects;
 
-namespace Newtonsoft.Json.Tests
+namespace Argon.Tests
 {
     [TestFixture]
     public class JsonTextWriterAsyncTests : TestFixtureBase

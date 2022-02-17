@@ -28,7 +28,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Newtonsoft.Json.Utilities
+namespace Argon.Utilities
 {
     internal static class AsyncUtils
     {

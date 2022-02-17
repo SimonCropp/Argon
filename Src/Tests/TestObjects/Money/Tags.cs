@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Newtonsoft.Json.Tests.TestObjects.Money
+namespace Argon.Tests.TestObjects.Money
 {
     public static class Tags
     {

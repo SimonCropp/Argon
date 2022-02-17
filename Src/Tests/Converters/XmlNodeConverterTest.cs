@@ -28,20 +28,20 @@ using System.Linq;
 using System.Text;
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json.Tests.Serialization;
-using Newtonsoft.Json.Tests.TestObjects;
+using Argon.Tests.Serialization;
+using Argon.Tests.TestObjects;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon;
 using System.IO;
 using System.Xml;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Utilities;
-using Newtonsoft.Json.Linq;
+using Argon.Converters;
+using Argon.Utilities;
+using Argon.Linq;
 using System.Xml.Linq;
 
-namespace Newtonsoft.Json.Tests.Converters
+namespace Argon.Tests.Converters
 {
     [TestFixture]
     public class XmlNodeConverterTest : TestFixtureBase
@@ -2480,10 +2480,10 @@ namespace Newtonsoft.Json.Tests.Converters
 
         private static void JsonBodyToSoapXml(Stream json, Stream xml)
         {
-            Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings();
-            settings.Converters.Add(new Newtonsoft.Json.Converters.XmlNodeConverter());
-            Newtonsoft.Json.JsonSerializer serializer = Newtonsoft.Json.JsonSerializer.Create(settings);
-            using (Newtonsoft.Json.JsonTextReader reader = new Newtonsoft.Json.JsonTextReader(new System.IO.StreamReader(json)))
+            Argon.JsonSerializerSettings settings = new Argon.JsonSerializerSettings();
+            settings.Converters.Add(new Argon.Converters.XmlNodeConverter());
+            Argon.JsonSerializer serializer = Argon.JsonSerializer.Create(settings);
+            using (Argon.JsonTextReader reader = new Argon.JsonTextReader(new System.IO.StreamReader(json)))
             {
                 XmlDocument doc = (XmlDocument)serializer.Deserialize(reader, typeof(XmlDocument));
                 if (reader.Read() && reader.TokenType != JsonToken.Comment)

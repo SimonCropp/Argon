@@ -32,14 +32,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Tests.TestObjects;
-using Newtonsoft.Json.Tests.TestObjects.GeometricForms;
-using Newtonsoft.Json.Tests.TestObjects.Money;
+using Argon.Tests.TestObjects;
+using Argon.Tests.TestObjects.GeometricForms;
+using Argon.Tests.TestObjects.Money;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 
-namespace Newtonsoft.Json.Tests.Converters
+namespace Argon.Tests.Converters
 {
     [TestFixture]
     public class DiscriminatedUnionConverterTests : TestFixtureBase
@@ -241,7 +241,7 @@ namespace Newtonsoft.Json.Tests.Converters
                 10.0, 5.0
             });
 
-            Assert.AreEqual("Newtonsoft.Json.Tests.TestObjects.GeometricForms.Shape+Rectangle", value.ToString());
+            Assert.AreEqual("Argon.Tests.TestObjects.GeometricForms.Shape+Rectangle", value.ToString());
             Assert.AreEqual(10, value.width);
             Assert.AreEqual(5, value.length);
         }

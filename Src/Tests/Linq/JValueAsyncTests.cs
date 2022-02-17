@@ -29,10 +29,10 @@ using System.Threading.Tasks;
 using System.Text;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json.Linq;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon.Linq;
 
-namespace Newtonsoft.Json.Tests.Linq
+namespace Argon.Tests.Linq
 {
     [TestFixture]
     public class JValueAsyncTests : TestFixtureBase

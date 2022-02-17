@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Newtonsoft.Json.Tests.TestObjects.GeoCoding
+namespace Argon.Tests.TestObjects.GeoCoding
 {
     public class Status
     {

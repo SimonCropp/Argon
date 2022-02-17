@@ -28,10 +28,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml.Linq;using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Newtonsoft.Json.Tests.Documentation.Samples.Xml
+namespace Argon.Tests.Documentation.Samples.Xml
 {
     [TestFixture]
     public class ConvertJsonToXml : TestFixtureBase

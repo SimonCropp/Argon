@@ -30,7 +30,7 @@ using System.Threading;
 using System.Globalization;
 using System.Linq;
 
-namespace Newtonsoft.Json.Utilities
+namespace Argon.Utilities
 {
     internal interface IWrappedCollection : IList
     {

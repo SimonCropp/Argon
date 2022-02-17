@@ -30,7 +30,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Newtonsoft.Json.Tests.LinqToSql
+namespace Argon.Tests.LinqToSql
 {
     [MetadataType(typeof(PersonMetadata))]
     public partial class Person

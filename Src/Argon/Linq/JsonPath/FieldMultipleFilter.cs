@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Newtonsoft.Json.Utilities;
+using Argon.Utilities;
 
-namespace Newtonsoft.Json.Linq.JsonPath
+namespace Argon.Linq.JsonPath
 {
     internal class FieldMultipleFilter : PathFilter
     {

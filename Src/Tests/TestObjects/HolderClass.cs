@@ -25,7 +25,7 @@
 
 using System.Collections.Generic;
 
-namespace Newtonsoft.Json.Tests.TestObjects
+namespace Argon.Tests.TestObjects
 {
     public class HolderClass
     {
@@ -33,10 +33,10 @@ namespace Newtonsoft.Json.Tests.TestObjects
         {
         }
 
-        [Newtonsoft.Json.JsonProperty(TypeNameHandling = Newtonsoft.Json.TypeNameHandling.All)]
+        [Argon.JsonProperty(TypeNameHandling = Argon.TypeNameHandling.All)]
         public ContentBaseClass TestMember { get; set; }
 
-        [Newtonsoft.Json.JsonProperty(TypeNameHandling = Newtonsoft.Json.TypeNameHandling.All)]
+        [Argon.JsonProperty(TypeNameHandling = Argon.TypeNameHandling.All)]
         public Dictionary<int, IList<ContentBaseClass>> AnotherTestMember { get; set; }
 
         public ContentBaseClass AThirdTestMember { get; set; }

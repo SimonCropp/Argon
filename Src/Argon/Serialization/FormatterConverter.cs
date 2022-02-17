@@ -2,9 +2,9 @@
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
-using Newtonsoft.Json.Utilities;
+using Argon.Utilities;
 
-namespace Newtonsoft.Json.Serialization
+namespace Argon.Serialization
 {
     internal class FormatterConverter : IFormatterConverter
     {

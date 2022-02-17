@@ -31,13 +31,13 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 #endif
 using System.Text;
-using Newtonsoft.Json.Tests.TestObjects;
+using Argon.Tests.TestObjects;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json.Utilities;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon.Utilities;
 
-namespace Newtonsoft.Json.Tests.Serialization
+namespace Argon.Tests.Serialization
 {
     [TestFixture]
     public class DefaultValueHandlingTests : TestFixtureBase

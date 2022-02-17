@@ -28,16 +28,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters;
 using System.Text;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Tests.TestObjects;
-using Newtonsoft.Json.Tests.TestObjects.Organization;
-using Newtonsoft.Json.Utilities;using Xunit;
+using Argon.Linq;
+using Argon.Serialization;
+using Argon.Tests.TestObjects;
+using Argon.Tests.TestObjects.Organization;
+using Argon.Utilities;using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Newtonsoft.Json.Tests.Serialization
+namespace Argon.Tests.Serialization
 {
     [TestFixture]
     public class PreserveReferencesHandlingTests : TestFixtureBase
@@ -107,14 +107,14 @@ namespace Newtonsoft.Json.Tests.Serialization
 
             StringAssert.AreEqual(@"{
   ""$id"": ""1"",
-  ""$type"": ""Newtonsoft.Json.Tests.Serialization.PreserveReferencesHandlingTests+Container, Newtonsoft.Json.Tests"",
+  ""$type"": ""Argon.Tests.Serialization.PreserveReferencesHandlingTests+Container, Tests"",
   ""ListA"": {
     ""$id"": ""2"",
     ""$type"": """ + ReflectionUtils.GetTypeName(typeof(List<ContentA>), 0, DefaultSerializationBinder.Instance) + @""",
     ""$values"": [
       {
         ""$id"": ""3"",
-        ""$type"": ""Newtonsoft.Json.Tests.Serialization.PreserveReferencesHandlingTests+ContentB, Newtonsoft.Json.Tests"",
+        ""$type"": ""Argon.Tests.Serialization.PreserveReferencesHandlingTests+ContentB, Tests"",
         ""SomeValue"": true
       }
     ]

@@ -27,9 +27,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Threading;
-using Newtonsoft.Json.Serialization;
+using Argon.Serialization;
 
-namespace Newtonsoft.Json.Utilities
+namespace Argon.Utilities
 {
     internal class ThreadSafeStore<TKey, TValue>
     {

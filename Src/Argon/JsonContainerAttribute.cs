@@ -24,9 +24,9 @@
 #endregion
 
 using System;
-using Newtonsoft.Json.Serialization;
+using Argon.Serialization;
 
-namespace Newtonsoft.Json
+namespace Argon
 {
     /// <summary>
     /// Instructs the <see cref="JsonSerializer"/> how to serialize the object.

@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Globalization;
-using Newtonsoft.Json.Utilities;
+using Argon.Utilities;
 
-namespace Newtonsoft.Json.Linq.JsonPath
+namespace Argon.Linq.JsonPath
 {
     internal abstract class PathFilter
     {

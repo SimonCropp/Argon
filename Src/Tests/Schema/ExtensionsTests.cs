@@ -28,18 +28,18 @@ using System;
 using System.Collections.Generic;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json.Schema;
-using Newtonsoft.Json.Linq;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon.Schema;
+using Argon.Linq;
 using System.IO;
-using Newtonsoft.Json.Tests.TestObjects;
-using Newtonsoft.Json.Tests.TestObjects.Organization;
+using Argon.Tests.TestObjects;
+using Argon.Tests.TestObjects.Organization;
 #if !NET5_0_OR_GREATER
 using System.Data;
 
 #endif
 
-namespace Newtonsoft.Json.Tests.Schema
+namespace Argon.Tests.Schema
 {
     [TestFixture]
     public class ExtensionsTests : TestFixtureBase

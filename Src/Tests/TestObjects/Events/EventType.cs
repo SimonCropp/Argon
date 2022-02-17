@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Newtonsoft.Json.Tests.TestObjects.Events
+namespace Argon.Tests.TestObjects.Events
 {
     /// <summary>
     /// What types of events are there? Just sticking to a basic set of four for now.

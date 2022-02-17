@@ -23,17 +23,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Newtonsoft.Json.Linq;
+using Argon.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Newtonsoft.Json.Serialization;
+using Argon.Serialization;
 using System.Globalization;
-using Newtonsoft.Json.Utilities;
+using Argon.Utilities;
 
-namespace Newtonsoft.Json.Converters
+namespace Argon.Converters
 {
     /// <summary>
     /// Converts a F# discriminated union type to and from JSON.

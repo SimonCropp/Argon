@@ -24,9 +24,9 @@
 #endregion
 
 using System;
-using Newtonsoft.Json.Converters;
+using Argon.Converters;
 
-namespace Newtonsoft.Json.Tests.TestObjects
+namespace Argon.Tests.TestObjects
 {
     public class MemberConverterClass
     {

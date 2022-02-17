@@ -28,9 +28,9 @@ using System.Globalization;
 using System.Threading;
 using System.Numerics;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Utilities;
+using Argon.Utilities;
 
-namespace Newtonsoft.Json
+namespace Argon
 {
     public abstract partial class JsonWriter
     {

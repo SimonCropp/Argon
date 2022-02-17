@@ -32,9 +32,9 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using BenchmarkDotNet.Attributes;
-using Newtonsoft.Json.Linq;
+using Argon.Linq;
 
-namespace Newtonsoft.Json.Tests.Benchmarks
+namespace Argon.Tests.Benchmarks
 {
     public class XmlNodeConverterBenchmarks
     {

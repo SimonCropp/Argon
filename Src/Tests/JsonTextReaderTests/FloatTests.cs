@@ -27,25 +27,25 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using Newtonsoft.Json.Linq;
+using Argon.Linq;
 using System.Numerics;
 using System.Text;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Linq;
 using System.Xml;
-using Newtonsoft.Json.Tests.JsonTextReaderTests;
-using Newtonsoft.Json.Tests.TestObjects.JsonTextReaderTests;
-using Newtonsoft.Json.Utilities;
+using Argon.Tests.JsonTextReaderTests;
+using Argon.Tests.TestObjects.JsonTextReaderTests;
+using Argon.Utilities;
 
 
-namespace Newtonsoft.Json.Tests.JsonTextReaderTests
+namespace Argon.Tests.JsonTextReaderTests
 {
     [TestFixture]
     public class FloatTests : TestFixtureBase
@@ -158,7 +158,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             string json = "[9223372036854775807, 1.7976931348623157E+308, 792281625142643375935439503.35, 792281625142643375935555555555555555555555555555555555555555555555555439503.35]";
 
             JsonTextReader reader = new JsonTextReader(new StringReader(json));
-            reader.FloatParseHandling = Json.FloatParseHandling.Decimal;
+            reader.FloatParseHandling = Argon.FloatParseHandling.Decimal;
 
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
@@ -189,7 +189,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             string json = "[1.0,1,9.9,1E-06]";
 
             JsonTextReader reader = new JsonTextReader(new StringReader(json));
-            reader.FloatParseHandling = Json.FloatParseHandling.Decimal;
+            reader.FloatParseHandling = Argon.FloatParseHandling.Decimal;
 
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
@@ -224,7 +224,7 @@ namespace Newtonsoft.Json.Tests.JsonTextReaderTests
             string json = "[NaN]";
 
             JsonTextReader reader = new JsonTextReader(new StringReader(json));
-            reader.FloatParseHandling = Json.FloatParseHandling.Decimal;
+            reader.FloatParseHandling = Argon.FloatParseHandling.Decimal;
 
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.StartArray, reader.TokenType);

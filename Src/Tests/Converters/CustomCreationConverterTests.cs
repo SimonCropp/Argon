@@ -25,14 +25,14 @@
 
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Tests.TestObjects;
-using Newtonsoft.Json.Tests.TestObjects.Organization;using Xunit;
+using Argon.Converters;
+using Argon.Tests.TestObjects;
+using Argon.Tests.TestObjects.Organization;using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Newtonsoft.Json.Tests.Converters
+namespace Argon.Tests.Converters
 {
     [TestFixture]
     public class CustomCreationConverterTests : TestFixtureBase

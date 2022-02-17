@@ -25,12 +25,12 @@
 
 using System;
 using System.Globalization;
-using Newtonsoft.Json.Utilities;
+using Argon.Utilities;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Data.SqlTypes;
 
-namespace Newtonsoft.Json.Converters
+namespace Argon.Converters
 {
     /// <summary>
     /// Converts a binary value to and from a base 64 string value.

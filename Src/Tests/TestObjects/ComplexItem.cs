@@ -25,7 +25,7 @@
 
 using System.IO;
 
-namespace Newtonsoft.Json.Tests.TestObjects
+namespace Argon.Tests.TestObjects
 {
     public class ComplexItem : ItemBase
     {

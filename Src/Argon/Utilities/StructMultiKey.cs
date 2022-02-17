@@ -25,7 +25,7 @@
 
 using System;
 
-namespace Newtonsoft.Json.Utilities
+namespace Argon.Utilities
 {
     internal readonly struct StructMultiKey<T1, T2> : IEquatable<StructMultiKey<T1, T2>>
     {

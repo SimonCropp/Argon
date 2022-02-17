@@ -25,9 +25,9 @@
 
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json.Converters;
+using Argon.Converters;
 
-namespace Newtonsoft.Json.Tests.TestObjects.Events
+namespace Argon.Tests.TestObjects.Events
 {
     public class Event1
     {

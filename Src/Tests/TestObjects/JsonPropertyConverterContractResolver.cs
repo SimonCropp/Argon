@@ -24,10 +24,10 @@
 #endregion
 
 using System.Reflection;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
+using Argon.Converters;
+using Argon.Serialization;
 
-namespace Newtonsoft.Json.Tests.TestObjects
+namespace Argon.Tests.TestObjects
 {
     public class JsonPropertyConverterContractResolver : DefaultContractResolver
     {

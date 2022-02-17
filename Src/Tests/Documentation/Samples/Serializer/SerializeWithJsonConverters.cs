@@ -27,12 +27,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Newtonsoft.Json.Converters;using Xunit;
+using Argon.Converters;using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Newtonsoft.Json.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer
 {
     [TestFixture]
     public class SerializeWithJsonConverters : TestFixtureBase

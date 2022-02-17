@@ -28,13 +28,13 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Xml;
-using Newtonsoft.Json.Serialization;
+using Argon.Serialization;
 using System.Xml.Linq;
-using Newtonsoft.Json.Utilities;
+using Argon.Utilities;
 using System.Runtime.CompilerServices;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Newtonsoft.Json.Converters
+namespace Argon.Converters
 {
     #region XmlNodeWrappers
     internal class XmlDocumentWrapper : XmlNodeWrapper, IXmlDocument

@@ -23,9 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Newtonsoft.Json.Utilities;
+using Argon.Utilities;
 
-namespace Newtonsoft.Json.Serialization
+namespace Argon.Serialization
 {
     /// <summary>
     /// A kebab case naming strategy.

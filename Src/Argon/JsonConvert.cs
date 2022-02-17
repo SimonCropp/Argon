@@ -27,18 +27,18 @@ using System;
 using System.IO;
 using System.Globalization;
 using System.Numerics;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Utilities;
+using Argon.Linq;
+using Argon.Utilities;
 using System.Xml;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
+using Argon.Converters;
+using Argon.Serialization;
 using System.Text;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Diagnostics.CodeAnalysis;
 using System.Xml.Linq;
 
-namespace Newtonsoft.Json
+namespace Argon
 {
     /// <summary>
     /// Provides methods for converting between .NET types and JSON types.

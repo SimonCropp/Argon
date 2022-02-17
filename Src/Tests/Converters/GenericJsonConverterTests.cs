@@ -31,12 +31,12 @@ using System.Data.Linq;
 using System.Data.SqlTypes;
 #endif
 using System.Text;
-using Newtonsoft.Json.Converters;using Xunit;
+using Argon.Converters;using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Newtonsoft.Json.Tests.Converters
+namespace Argon.Tests.Converters
 {
     [TestFixture]
     public class GenericJsonConverterTests : TestFixtureBase

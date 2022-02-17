@@ -24,16 +24,16 @@
 #endregion
 
 using System;
-using Newtonsoft.Json.Converters;
+using Argon.Converters;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Tests.TestObjects;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon.Serialization;
+using Argon.Tests.TestObjects;
 using System.Data;
 using System.IO;
 
-namespace Newtonsoft.Json.Tests.Converters
+namespace Argon.Tests.Converters
 {
     public class DataSetConverterTests : TestFixtureBase
     {

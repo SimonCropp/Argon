@@ -29,15 +29,15 @@ using System.Diagnostics;
 using System.Reflection;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Utilities;
-using Newtonsoft.Json.Tests.TestObjects;
-using Newtonsoft.Json.Tests.TestObjects.Organization;
-using Newtonsoft.Json.Tests.Serialization;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon.Serialization;
+using Argon.Utilities;
+using Argon.Tests.TestObjects;
+using Argon.Tests.TestObjects.Organization;
+using Argon.Tests.Serialization;
 using System.Linq;
 
-namespace Newtonsoft.Json.Tests.Utilities
+namespace Argon.Tests.Utilities
 {
     [TestFixture]
     public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
@@ -122,7 +122,7 @@ namespace Newtonsoft.Json.Tests.Utilities
                 var setter = DynamicReflectionDelegateFactory.Instance.CreateGet<object>(typeof(Movie).GetProperty("Name"));
 
                 setter(p);
-            }, "Unable to cast object of type 'Newtonsoft.Json.Tests.TestObjects.Organization.Person' to type 'Newtonsoft.Json.Tests.TestObjects.Movie'.");
+            }, "Unable to cast object of type 'Argon.Tests.TestObjects.Organization.Person' to type 'Argon.Tests.TestObjects.Movie'.");
         }
 
         [Fact]
@@ -142,7 +142,7 @@ namespace Newtonsoft.Json.Tests.Utilities
                 setter(p, "Hi");
 
                 Assert.AreEqual(p.Name, "Hi");
-            }, "Unable to cast object of type 'Newtonsoft.Json.Tests.TestObjects.Organization.Person' to type 'Newtonsoft.Json.Tests.TestObjects.Movie'.");
+            }, "Unable to cast object of type 'Argon.Tests.TestObjects.Organization.Person' to type 'Argon.Tests.TestObjects.Movie'.");
         }
 
         [Fact]

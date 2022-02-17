@@ -25,13 +25,13 @@
 
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json.Utilities;
+using Argon.Utilities;
 using System.Globalization;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Linq;
 
-namespace Newtonsoft.Json.Linq
+namespace Argon.Linq
 {
     /// <summary>
     /// Contains the LINQ to JSON extension methods.

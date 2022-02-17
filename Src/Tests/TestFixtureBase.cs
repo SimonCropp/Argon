@@ -32,16 +32,16 @@ using System.Text.RegularExpressions;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading;
-using Newtonsoft.Json.Linq;
+using Argon.Linq;
 using Xunit;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 using XAssert = Xunit.Assert;
-using Newtonsoft.Json.Utilities;
+using Argon.Utilities;
 using System.Collections;
 using System.Threading.Tasks;
 using System.Linq;
 
-namespace Newtonsoft.Json.Tests
+namespace Argon.Tests
 {
     public class TestReflectionUtils
     {

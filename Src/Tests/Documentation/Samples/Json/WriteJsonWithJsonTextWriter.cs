@@ -28,10 +28,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Newtonsoft.Json.Tests.Documentation.Samples.Json
+namespace Argon.Tests.Documentation.Samples.Json
 {
     [TestFixture]
     public class WriteJsonWithJsonTextWriter : TestFixtureBase

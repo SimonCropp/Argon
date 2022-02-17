@@ -34,7 +34,7 @@ using System.Text.RegularExpressions;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Newtonsoft.Json.Utilities
+namespace Argon.Utilities
 {
     internal delegate T Creator<T>();
 

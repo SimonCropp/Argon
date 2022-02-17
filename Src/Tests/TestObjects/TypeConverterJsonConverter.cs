@@ -26,9 +26,9 @@
 using System;
 using System.ComponentModel;
 using System.Linq;
-using Newtonsoft.Json.Utilities;
+using Argon.Utilities;
 
-namespace Newtonsoft.Json.Tests.TestObjects
+namespace Argon.Tests.TestObjects
 {
     internal class TypeConverterJsonConverter : JsonConverter
     {

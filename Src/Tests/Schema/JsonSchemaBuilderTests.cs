@@ -27,12 +27,12 @@
 using System;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json.Schema;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon.Schema;
 using System.IO;
-using Newtonsoft.Json.Linq;
+using Argon.Linq;
 
-namespace Newtonsoft.Json.Tests.Schema
+namespace Argon.Tests.Schema
 {
     [TestFixture]
     public class JsonSchemaBuilderTests : TestFixtureBase

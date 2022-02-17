@@ -27,18 +27,18 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Numerics;
-using Newtonsoft.Json.Linq.JsonPath;
-using Newtonsoft.Json.Tests.Bson;
+using Argon.Linq.JsonPath;
+using Argon.Tests.Bson;
 using System.Text.RegularExpressions;
 
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 using TestCaseSource = Xunit.MemberDataAttribute;
-using Newtonsoft.Json.Linq;
+using Argon.Linq;
 using System.Linq;
 
-namespace Newtonsoft.Json.Tests.Linq.JsonPath
+namespace Argon.Tests.Linq.JsonPath
 {
     [TestFixture]
     public class JPathExecuteTests : TestFixtureBase

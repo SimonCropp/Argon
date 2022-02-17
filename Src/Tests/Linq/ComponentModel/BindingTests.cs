@@ -26,9 +26,9 @@
 #if !NET5_0_OR_GREATER
 using Xunit;
 using System.Web.UI;
-using Newtonsoft.Json.Linq;
+using Argon.Linq;
 
-namespace Newtonsoft.Json.Tests.Linq.ComponentModel
+namespace Argon.Tests.Linq.ComponentModel
 {
     [TestFixture]
     public class BindingTests : TestFixtureBase

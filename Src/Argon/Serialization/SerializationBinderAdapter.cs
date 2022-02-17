@@ -26,7 +26,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Newtonsoft.Json.Serialization
+namespace Argon.Serialization
 {
     internal class SerializationBinderAdapter : ISerializationBinder
     {

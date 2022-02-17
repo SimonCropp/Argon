@@ -33,9 +33,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Globalization;
 using System.Runtime.CompilerServices;
-using Newtonsoft.Json.Serialization;
+using Argon.Serialization;
 
-namespace Newtonsoft.Json.Utilities
+namespace Argon.Utilities
 {
     internal static class CollectionUtils
     {

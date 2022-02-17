@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Newtonsoft.Json
+namespace Argon
 {
     /// <summary>
     /// Specifies how object creation is handled by the <see cref="JsonSerializer"/>.

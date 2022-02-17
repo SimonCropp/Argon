@@ -24,12 +24,12 @@
 #endregion
 
 using System;
-using Newtonsoft.Json.Utilities;
+using Argon.Utilities;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Newtonsoft.Json
+namespace Argon
 {
     /// <summary>
     /// Converts an object to and from JSON.

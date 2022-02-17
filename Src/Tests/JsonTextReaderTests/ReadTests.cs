@@ -27,23 +27,23 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using Newtonsoft.Json.Linq;
+using Argon.Linq;
 using System.Numerics;
 using System.Text;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Linq;
 using System.Xml;
-using Newtonsoft.Json.Tests.TestObjects.JsonTextReaderTests;
-using Newtonsoft.Json.Utilities;
+using Argon.Tests.TestObjects.JsonTextReaderTests;
+using Argon.Utilities;
 
-namespace Newtonsoft.Json.Tests.JsonTextReaderTests
+namespace Argon.Tests.JsonTextReaderTests
 {
     [TestFixture]
     public class ReadTests : TestFixtureBase

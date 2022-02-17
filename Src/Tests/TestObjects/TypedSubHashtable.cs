@@ -25,7 +25,7 @@
 
 using System.Collections;
 
-namespace Newtonsoft.Json.Tests.TestObjects
+namespace Argon.Tests.TestObjects
 {
     public class TypedSubHashtable
     {

@@ -27,13 +27,13 @@ using System;
 using System.Text;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 using System.IO;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Tests.TestObjects.JsonTextReaderTests;
-using Newtonsoft.Json.Utilities;
+using Argon.Tests.TestObjects.JsonTextReaderTests;
+using Argon.Utilities;
 
-namespace Newtonsoft.Json.Tests.JsonTextReaderTests
+namespace Argon.Tests.JsonTextReaderTests
 {
     [TestFixture]
     public class ParseAsyncTests : TestFixtureBase

@@ -27,7 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading;
-using Newtonsoft.Json.Utilities;
+using Argon.Utilities;
 using System.Collections;
 using System.Globalization;
 using System.ComponentModel;
@@ -36,7 +36,7 @@ using System.Runtime.CompilerServices;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-namespace Newtonsoft.Json.Linq
+namespace Argon.Linq
 {
     /// <summary>
     /// Represents a token that can contain other tokens.

@@ -25,7 +25,7 @@
 
 using System;
 
-namespace Newtonsoft.Json
+namespace Argon
 {
     /// <summary>
     /// Specifies the state of the <see cref="JsonWriter"/>.

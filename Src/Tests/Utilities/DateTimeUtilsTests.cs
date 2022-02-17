@@ -30,10 +30,10 @@ using System.IO;
 using System.Text;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json.Utilities;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon.Utilities;
 
-namespace Newtonsoft.Json.Tests.Utilities
+namespace Argon.Tests.Utilities
 {
     [TestFixture]
     public class DateTimeUtilsTests : TestFixtureBase

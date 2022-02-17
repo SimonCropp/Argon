@@ -27,7 +27,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
-namespace Newtonsoft.Json.Utilities
+namespace Argon.Utilities
 {
     internal static class ValidationUtils
     {

@@ -24,10 +24,10 @@
 #endregion
 
 using System;
-using Newtonsoft.Json.Serialization;
+using Argon.Serialization;
 using System.Reflection;
 
-namespace Newtonsoft.Json.Utilities
+namespace Argon.Utilities
 {
     internal class LateBoundReflectionDelegateFactory : ReflectionDelegateFactory
     {

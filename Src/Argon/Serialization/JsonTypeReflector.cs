@@ -30,11 +30,11 @@ using System.Globalization;
 using System.Reflection;
 using System.Security;
 using System.Security.Permissions;
-using Newtonsoft.Json.Utilities;
+using Argon.Utilities;
 using System.Linq;
 using System.Runtime.Serialization;
 
-namespace Newtonsoft.Json.Serialization
+namespace Argon.Serialization
 {
     internal static class JsonTypeReflector
     {

@@ -32,7 +32,7 @@ using System.Text;
 using System.ComponentModel.DataAnnotations;
 #endif
 
-namespace Newtonsoft.Json.Tests.TestObjects
+namespace Argon.Tests.TestObjects
 {
 #if !NET5_0_OR_GREATER
     [MetadataType(typeof(OptInClassMetadata))]

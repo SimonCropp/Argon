@@ -28,7 +28,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Microsoft.FSharp.Core;
 
-namespace Newtonsoft.Json.Tests.TestObjects.GeometricForms
+namespace Argon.Tests.TestObjects.GeometricForms
 {
     [Serializable, DebuggerDisplay("{__DebugDisplay(),nq}"), CompilationMapping(SourceConstructFlags.SumType)]
     public class Shape

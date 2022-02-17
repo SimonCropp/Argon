@@ -29,13 +29,13 @@ using System.Numerics;
 using System.Text;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon;
 using System.IO;
-using Newtonsoft.Json.Linq;
+using Argon.Linq;
 using System.Linq;
 
-namespace Newtonsoft.Json.Tests.Linq
+namespace Argon.Tests.Linq
 {
     [TestFixture]
     public class JTokenWriterTest : TestFixtureBase
@@ -365,7 +365,7 @@ namespace Newtonsoft.Json.Tests.Linq
         {
             JTokenWriter writer = new JTokenWriter
             {
-                DateTimeZoneHandling = Json.DateTimeZoneHandling.Utc
+                DateTimeZoneHandling = Argon.DateTimeZoneHandling.Utc
             };
 
             writer.WriteValue(new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Unspecified));

@@ -29,12 +29,12 @@ using System.Numerics;
 using System.Text;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 using System.IO;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Tests.TestObjects.JsonTextReaderTests;
+using Argon.Tests.TestObjects.JsonTextReaderTests;
 
-namespace Newtonsoft.Json.Tests.JsonTextReaderTests
+namespace Argon.Tests.JsonTextReaderTests
 {
     [TestFixture]
     public class ExceptionHandlingAsyncTests : TestFixtureBase

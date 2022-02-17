@@ -26,7 +26,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace Newtonsoft.Json.Tests.TestObjects
+namespace Argon.Tests.TestObjects
 {
     public class NoConstructorReadOnlyCollection<T> : ReadOnlyCollection<T>
     {

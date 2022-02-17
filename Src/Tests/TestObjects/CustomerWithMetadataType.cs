@@ -29,7 +29,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 
-namespace Newtonsoft.Json.Tests.TestObjects
+namespace Argon.Tests.TestObjects
 {
 #if !NET5_0_OR_GREATER
     [MetadataType(typeof(CustomerValidation))]

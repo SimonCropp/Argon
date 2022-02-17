@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Newtonsoft.Json.Serialization
+namespace Argon.Serialization
 {
     /// <summary>
     /// Provides methods to get and set values.

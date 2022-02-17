@@ -29,9 +29,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Newtonsoft.Json.Linq;
+using Argon.Linq;
 
-namespace Newtonsoft.Json.Tests.LinqToSql
+namespace Argon.Tests.LinqToSql
 {
     public class DepartmentConverter : JsonConverter
     {

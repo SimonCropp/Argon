@@ -26,10 +26,10 @@
 using System;
 using System.Globalization;
 using System.Runtime.Serialization;
-using Newtonsoft.Json.Utilities;
-using Newtonsoft.Json.Linq;
+using Argon.Utilities;
+using Argon.Linq;
 
-namespace Newtonsoft.Json.Serialization
+namespace Argon.Serialization
 {
     internal class JsonFormatterConverter : IFormatterConverter
     {

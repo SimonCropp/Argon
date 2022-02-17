@@ -28,7 +28,7 @@ using System;
 using System.Reflection.Emit;
 using System.Reflection;
 
-namespace Newtonsoft.Json.Utilities
+namespace Argon.Utilities
 {
     internal static class ILGeneratorExtensions
     {

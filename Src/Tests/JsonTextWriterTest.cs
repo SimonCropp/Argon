@@ -33,17 +33,17 @@ using System.Text;
 using System.Xml;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon;
 using System.IO;
 using System.Reflection;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Tests.TestObjects;
-using Newtonsoft.Json.Tests.TestObjects.JsonTextReaderTests;
-using Newtonsoft.Json.Utilities;
+using Argon.Converters;
+using Argon.Linq;
+using Argon.Tests.TestObjects;
+using Argon.Tests.TestObjects.JsonTextReaderTests;
+using Argon.Utilities;
 
-namespace Newtonsoft.Json.Tests
+namespace Argon.Tests
 {
     [TestFixture]
     public class JsonTextWriterTest : TestFixtureBase
@@ -1245,7 +1245,7 @@ _____'propertyName': NaN,
             StringWriter sw = new StringWriter();
             JsonTextWriter writer = new JsonTextWriter(sw)
             {
-                DateTimeZoneHandling = Json.DateTimeZoneHandling.Utc
+                DateTimeZoneHandling = Argon.DateTimeZoneHandling.Utc
             };
 
             writer.WriteValue(new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Unspecified));

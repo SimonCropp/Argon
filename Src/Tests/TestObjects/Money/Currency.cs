@@ -28,7 +28,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Microsoft.FSharp.Core;
 
-namespace Newtonsoft.Json.Tests.TestObjects.Money
+namespace Argon.Tests.TestObjects.Money
 {
     [Serializable, DebuggerDisplay("{__DebugDisplay(),nq}"), CompilationMapping(SourceConstructFlags.SumType)]
     public class Currency

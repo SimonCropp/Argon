@@ -26,15 +26,15 @@
 #if !NET5_0_OR_GREATER
 using System.Reflection;
 using System.Reflection.Emit;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Tests.TestObjects;
+using Argon.Serialization;
+using Argon.Tests.TestObjects;
 using System;
 using System.Linq;using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Newtonsoft.Json.Tests.Serialization
+namespace Argon.Tests.Serialization
 {
     [TestFixture]
     public class DynamicConcreteTests : TestFixtureBase

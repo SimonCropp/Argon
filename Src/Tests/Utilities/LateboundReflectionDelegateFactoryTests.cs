@@ -1,12 +1,12 @@
 using System;
 using System.Reflection;
-using Newtonsoft.Json.Utilities;
+using Argon.Utilities;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 using System.Linq;
 
-namespace Newtonsoft.Json.Tests.Utilities
+namespace Argon.Tests.Utilities
 {
     public class OutAndRefTestClass
     {

@@ -23,16 +23,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Newtonsoft.Json.Linq;
+using Argon.Linq;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 using System.Linq;
 
-namespace Newtonsoft.Json.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer
 {
     [TestFixture]
     public class CustomJsonConverter : TestFixtureBase

@@ -31,17 +31,17 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json.Bson;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon.Bson;
 using System.IO;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Utilities;
-using Newtonsoft.Json.Tests.TestObjects;
+using Argon.Linq;
+using Argon.Utilities;
+using Argon.Tests.TestObjects;
 using System.Globalization;
-using Newtonsoft.Json.Tests.TestObjects.GeoCoding;
+using Argon.Tests.TestObjects.GeoCoding;
 using System.Linq;
 
-namespace Newtonsoft.Json.Tests.Bson
+namespace Argon.Tests.Bson
 {
     [TestFixture]
     public class BsonWriterTests : TestFixtureBase
@@ -682,7 +682,7 @@ namespace Newtonsoft.Json.Tests.Bson
             MemoryStream ms = new MemoryStream();
             JsonWriter writer = new BsonWriter(ms)
             {
-                DateTimeZoneHandling = Json.DateTimeZoneHandling.Utc
+                DateTimeZoneHandling = Argon.DateTimeZoneHandling.Utc
             };
 
             writer.WriteStartArray();

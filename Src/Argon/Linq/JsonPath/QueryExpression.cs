@@ -5,9 +5,9 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
 using System.Linq;
-using Newtonsoft.Json.Utilities;
+using Argon.Utilities;
 
-namespace Newtonsoft.Json.Linq.JsonPath
+namespace Argon.Linq.JsonPath
 {
     internal enum QueryOperator
     {

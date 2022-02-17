@@ -27,7 +27,7 @@ using System;
 using System.Collections;
 using System.Linq;
 
-namespace Newtonsoft.Json.Tests.TestObjects
+namespace Argon.Tests.TestObjects
 {
     [Serializable]
     public class AnswerFilterModel

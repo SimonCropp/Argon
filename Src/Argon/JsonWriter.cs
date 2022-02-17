@@ -27,11 +27,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
-using Newtonsoft.Json.Utilities;
+using Argon.Utilities;
 using System.Globalization;
 using System.Linq;
 
-namespace Newtonsoft.Json
+namespace Argon
 {
     /// <summary>
     /// Represents a writer that provides a fast, non-cached, forward-only way of generating JSON data.

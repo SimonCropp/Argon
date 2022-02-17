@@ -25,10 +25,10 @@
 
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json.Utilities;
+using Argon.Utilities;
 using System.Reflection;
 
-namespace Newtonsoft.Json.Tests.TestObjects
+namespace Argon.Tests.TestObjects
 {
     public class ListOfIds<T> : JsonConverter where T : Bar, new()
     {
@@ -67,7 +67,7 @@ namespace Newtonsoft.Json.Tests.TestObjects
         public override bool CanConvert(Type objectType)
         {
 #if NET5_0_OR_GREATER && !NETSTANDARD2_0
-            return Newtonsoft.Json.Utilities.TypeExtensions.IsAssignableFrom(typeof(IList<T>), objectType);
+            return Argon.Utilities.TypeExtensions.IsAssignableFrom(typeof(IList<T>), objectType);
 #else
             return typeof(IList<T>).IsAssignableFrom(objectType);
 #endif

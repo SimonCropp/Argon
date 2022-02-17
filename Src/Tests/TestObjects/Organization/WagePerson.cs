@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Newtonsoft.Json.Tests.TestObjects.Organization
+namespace Argon.Tests.TestObjects.Organization
 {
     public class WagePerson : Person
     {

@@ -29,21 +29,21 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using System.Runtime.Serialization;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Tests.TestObjects;
+using Argon.Serialization;
+using Argon.Tests.TestObjects;
 using System.Numerics;
 using System.Text;
 using System.Text.RegularExpressions;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json.Bson;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon.Bson;
 using System.IO;
-using Newtonsoft.Json.Tests.Serialization;
-using Newtonsoft.Json.Utilities;
-using Newtonsoft.Json.Linq;
+using Argon.Tests.Serialization;
+using Argon.Utilities;
+using Argon.Linq;
 
-namespace Newtonsoft.Json.Tests.Bson
+namespace Argon.Tests.Bson
 {
     [TestFixture]
     public class BsonReaderTests : TestFixtureBase

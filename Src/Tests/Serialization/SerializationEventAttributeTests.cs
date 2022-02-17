@@ -31,15 +31,15 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Tests.TestObjects;
+using Argon.Serialization;
+using Argon.Tests.TestObjects;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Utilities;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon.Linq;
+using Argon.Utilities;
 
-namespace Newtonsoft.Json.Tests.Serialization
+namespace Argon.Tests.Serialization
 {
     [TestFixture]
     public class SerializationEventAttributeTests : TestFixtureBase
@@ -227,7 +227,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("This value was reset after serialization.", obj.Member2);
             Assert.AreEqual("This is a nonserialized value", obj.Member3);
             Assert.AreEqual(null, obj.Member4);
-            Assert.AreEqual("Error message for member Member6 = Error getting value from 'Member6' on 'Newtonsoft.Json.Tests.TestObjects.SerializationEventTestObject'.", obj.Member5);
+            Assert.AreEqual("Error message for member Member6 = Error getting value from 'Member6' on 'Argon.Tests.TestObjects.SerializationEventTestObject'.", obj.Member5);
 
             obj = JsonConvert.DeserializeObject<SerializationEventTestObject>(json);
 
@@ -376,7 +376,7 @@ OnSerialized_Derived_Derived", string.Join(Environment.NewLine, e.ToArray()));
         [Fact]
         public void DerivedDerivedSerializationEvents_DataContractSerializer()
         {
-            string xml = @"<DerivedDerivedSerializationEventOrderTestObject xmlns=""http://schemas.datacontract.org/2004/07/Newtonsoft.Json.Tests.Serialization"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""/>";
+            string xml = @"<DerivedDerivedSerializationEventOrderTestObject xmlns=""http://schemas.datacontract.org/2004/07/Argon.Tests.Serialization"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""/>";
 
             DataContractSerializer ss = new DataContractSerializer(typeof(DerivedDerivedSerializationEventOrderTestObject));
 
@@ -413,7 +413,7 @@ OnSerialized_Derived_Derived", string.Join(Environment.NewLine, e.ToArray()));
                 }
             };
 
-            ExceptionAssert.Throws<JsonException>(() => JsonConvert.SerializeObject(d, Formatting.Indented), "Serialization Callback 'Void Deserialized()' in type 'Newtonsoft.Json.Tests.Serialization.Contract' must have a single parameter of type 'System.Runtime.Serialization.StreamingContext'.");
+            ExceptionAssert.Throws<JsonException>(() => JsonConvert.SerializeObject(d, Formatting.Indented), "Serialization Callback 'Void Deserialized()' in type 'Argon.Tests.Serialization.Contract' must have a single parameter of type 'System.Runtime.Serialization.StreamingContext'.");
         }
     }
 

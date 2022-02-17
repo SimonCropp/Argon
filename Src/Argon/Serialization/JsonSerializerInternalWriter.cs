@@ -32,14 +32,14 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Security;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Utilities;
+using Argon.Linq;
+using Argon.Utilities;
 using System.Runtime.Serialization;
 using System.Runtime.CompilerServices;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-namespace Newtonsoft.Json.Serialization
+namespace Argon.Serialization
 {
     internal class JsonSerializerInternalWriter : JsonSerializerInternalBase
     {

@@ -27,18 +27,18 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
-using Newtonsoft.Json.Tests.TestObjects;
+using Argon.Tests.TestObjects;
 using System.Numerics;
 using System.Text;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json.Linq;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon.Linq;
 using System.Globalization;
 using System.Linq;
-using Newtonsoft.Json.Tests.Serialization;
+using Argon.Tests.Serialization;
 
-namespace Newtonsoft.Json.Tests.Linq
+namespace Argon.Tests.Linq
 {
     [TestFixture]
     public class JValueTests : TestFixtureBase
@@ -86,7 +86,7 @@ namespace Newtonsoft.Json.Tests.Linq
             JValue v = (JValue)JToken.ReadFrom(
                 new JsonTextReader(new StringReader("9.9"))
                 {
-                    FloatParseHandling = Json.FloatParseHandling.Decimal
+                    FloatParseHandling = Argon.FloatParseHandling.Decimal
                 });
 
             Assert.AreEqual(9.9m, v.Value);
@@ -251,7 +251,7 @@ namespace Newtonsoft.Json.Tests.Linq
             {
                 JValue v = new JValue(true);
                 JToken last = v.Last;
-            }, "Cannot access child value on Newtonsoft.Json.Linq.JValue.");
+            }, "Cannot access child value on Argon.Linq.JValue.");
         }
 
         [Fact]
@@ -269,7 +269,7 @@ namespace Newtonsoft.Json.Tests.Linq
             {
                 JValue v = new JValue(true);
                 JToken first = v.First;
-            }, "Cannot access child value on Newtonsoft.Json.Linq.JValue.");
+            }, "Cannot access child value on Argon.Linq.JValue.");
         }
 
         [Fact]
@@ -279,7 +279,7 @@ namespace Newtonsoft.Json.Tests.Linq
             {
                 JValue v = new JValue(true);
                 JToken first = v[0];
-            }, "Cannot access child value on Newtonsoft.Json.Linq.JValue.");
+            }, "Cannot access child value on Argon.Linq.JValue.");
         }
 
         [Fact]
@@ -289,7 +289,7 @@ namespace Newtonsoft.Json.Tests.Linq
             {
                 JValue v = new JValue(true);
                 v.Values<int>();
-            }, "Cannot access child value on Newtonsoft.Json.Linq.JValue.");
+            }, "Cannot access child value on Argon.Linq.JValue.");
         }
 
         [Fact]
@@ -345,7 +345,7 @@ namespace Newtonsoft.Json.Tests.Linq
             {
                 JToken t = new JValue(5L);
                 t[0] = new JValue(3);
-            }, "Cannot set child value on Newtonsoft.Json.Linq.JValue.");
+            }, "Cannot set child value on Argon.Linq.JValue.");
         }
 
         [Fact]

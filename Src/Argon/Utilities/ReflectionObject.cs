@@ -23,14 +23,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Newtonsoft.Json.Serialization;
+using Argon.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Globalization;
 using System.Linq;
 
-namespace Newtonsoft.Json.Utilities
+namespace Argon.Utilities
 {
     internal class ReflectionMember
     {

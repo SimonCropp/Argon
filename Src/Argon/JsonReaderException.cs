@@ -26,9 +26,9 @@
 using System;
 using System.Globalization;
 using System.Runtime.Serialization;
-using Newtonsoft.Json.Utilities;
+using Argon.Utilities;
 
-namespace Newtonsoft.Json
+namespace Argon
 {
     /// <summary>
     /// The exception thrown when an error occurs while reading JSON text.

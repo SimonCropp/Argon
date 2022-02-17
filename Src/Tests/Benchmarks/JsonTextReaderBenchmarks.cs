@@ -27,9 +27,9 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using BenchmarkDotNet.Attributes;
-using Newtonsoft.Json.Linq;
+using Argon.Linq;
 
-namespace Newtonsoft.Json.Tests.Benchmarks
+namespace Argon.Tests.Benchmarks
 {
     public class JsonTextReaderBenchmarks
     {

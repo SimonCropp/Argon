@@ -30,12 +30,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json.Bson;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon.Bson;
 using System.IO;
 using System.Globalization;
 
-namespace Newtonsoft.Json.Tests.Bson
+namespace Argon.Tests.Bson
 {
     [TestFixture]
     public class BsonWriterAsyncTests : TestFixtureBase

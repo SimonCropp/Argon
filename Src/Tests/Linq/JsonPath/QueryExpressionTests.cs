@@ -26,13 +26,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Linq.JsonPath;using Xunit;
+using Argon.Linq;
+using Argon.Linq.JsonPath;using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Newtonsoft.Json.Tests.Linq.JsonPath
+namespace Argon.Tests.Linq.JsonPath
 {
     [TestFixture]
     public class QueryExpressionTests : TestFixtureBase

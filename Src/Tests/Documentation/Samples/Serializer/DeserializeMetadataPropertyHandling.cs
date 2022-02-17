@@ -23,17 +23,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Newtonsoft.Json.Serialization;
+using Argon.Serialization;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using User = Newtonsoft.Json.Tests.Serialization.MetadataPropertyHandlingTests.User;
+using User = Argon.Tests.Serialization.MetadataPropertyHandlingTests.User;
 
-namespace Newtonsoft.Json.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer
 {
     [TestFixture]
     public class DeserializeMetadataPropertyHandling : TestFixtureBase

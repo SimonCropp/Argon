@@ -24,16 +24,16 @@
 #endregion
 
 using System;
-using Newtonsoft.Json.Tests.TestObjects;
-using Newtonsoft.Json.Tests.TestObjects.Organization;
+using Argon.Tests.TestObjects;
+using Argon.Tests.TestObjects.Organization;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Utilities;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon.Converters;
+using Argon.Utilities;
 using System.Globalization;
 
-namespace Newtonsoft.Json.Tests.Converters
+namespace Argon.Tests.Converters
 {
     [TestFixture]
     public class IsoDateTimeConverterTests : TestFixtureBase

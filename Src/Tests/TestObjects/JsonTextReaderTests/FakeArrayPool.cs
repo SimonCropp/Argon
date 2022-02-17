@@ -26,7 +26,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Newtonsoft.Json.Tests.TestObjects.JsonTextReaderTests
+namespace Argon.Tests.TestObjects.JsonTextReaderTests
 {
     public class FakeArrayPool : IArrayPool<char>
     {

@@ -23,17 +23,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Newtonsoft.Json.Bson;
-using Newtonsoft.Json.Linq;
+using Argon.Bson;
+using Argon.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Newtonsoft.Json.Tests.Documentation.Samples.Linq
+namespace Argon.Tests.Documentation.Samples.Linq
 {
     [TestFixture]
     public class ReadJTokenFromBson : TestFixtureBase

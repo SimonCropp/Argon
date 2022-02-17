@@ -25,10 +25,10 @@
 
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json.Linq;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon.Linq;
 
-namespace Newtonsoft.Json.Tests.Linq.ComponentModel
+namespace Argon.Tests.Linq.ComponentModel
 {
     [TestFixture]
     public class JPropertyDescriptorTests : TestFixtureBase

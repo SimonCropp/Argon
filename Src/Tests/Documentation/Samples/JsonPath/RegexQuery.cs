@@ -23,16 +23,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Newtonsoft.Json.Linq;
+using Argon.Linq;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Newtonsoft.Json.Tests.Documentation.Samples.JsonPath
+namespace Argon.Tests.Documentation.Samples.JsonPath
 {
     [TestFixture]
     public class RegexQuery : TestFixtureBase
@@ -43,7 +43,7 @@ namespace Newtonsoft.Json.Tests.Documentation.Samples.JsonPath
             #region Usage
             JArray packages = JArray.Parse(@"[
               {
-                'PackageId': 'Newtonsoft.Json',
+                'PackageId': 'Argon',
                 'Version': '11.0.1',
                 'ReleaseDate': '2018-02-17T00:00:00'
               },
@@ -55,17 +55,17 @@ namespace Newtonsoft.Json.Tests.Documentation.Samples.JsonPath
             ]");
 
             // Find Newtonsoft packages
-            List<JToken> newtonsoftPackages = packages.SelectTokens(@"$.[?(@.PackageId =~ /^Newtonsoft\.(.*)$/)]").ToList();
+            List<JToken> newtonsoftPackages = packages.SelectTokens(@"$.[?(@.PackageId =~ /^Argon\.(.*)$/)]").ToList();
 
             foreach (JToken item in newtonsoftPackages)
             {
                 Console.WriteLine((string) item["PackageId"]);
             }
-            // Newtonsoft.Json
+            // Argon
             #endregion
 
             Assert.AreEqual(1, newtonsoftPackages.Count);
-            Assert.AreEqual("Newtonsoft.Json", (string)newtonsoftPackages[0]["PackageId"]);
+            Assert.AreEqual("Argon", (string)newtonsoftPackages[0]["PackageId"]);
         }
     }
 }

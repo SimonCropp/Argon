@@ -25,11 +25,11 @@
 
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Tests.TestObjects;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon.Serialization;
+using Argon.Tests.TestObjects;
 
-namespace Newtonsoft.Json.Tests.Serialization
+namespace Argon.Tests.Serialization
 {
     [TestFixture]
     public class JsonPropertyCollectionTests : TestFixtureBase

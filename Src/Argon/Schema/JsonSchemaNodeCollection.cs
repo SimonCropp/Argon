@@ -28,7 +28,7 @@ using System.Collections.ObjectModel;
 
 #nullable disable
 
-namespace Newtonsoft.Json.Schema
+namespace Argon.Schema
 {
     [Obsolete("JSON Schema validation has been moved to its own package. See https://www.newtonsoft.com/jsonschema for more details.")]
     internal class JsonSchemaNodeCollection : KeyedCollection<string, JsonSchemaNode>

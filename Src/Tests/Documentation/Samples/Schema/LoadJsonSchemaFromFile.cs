@@ -24,13 +24,13 @@
 #endregion
 
 #pragma warning disable 618
-using Newtonsoft.Json.Schema;
+using Argon.Schema;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace Newtonsoft.Json.Tests.Documentation.Samples.Schema
+namespace Argon.Tests.Documentation.Samples.Schema
 {
     public class LoadJsonSchemaFromFile
     {

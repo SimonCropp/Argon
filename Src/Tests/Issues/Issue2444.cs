@@ -25,12 +25,12 @@
 
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 using System.Collections.Generic;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Converters;
+using Argon.Serialization;
+using Argon.Converters;
 
-namespace Newtonsoft.Json.Tests.Issues
+namespace Argon.Tests.Issues
 {
     [TestFixture]
     public class Issue2444
@@ -65,7 +65,7 @@ namespace Newtonsoft.Json.Tests.Issues
             ExceptionAssert.Throws<JsonSerializationException>(() =>
             {
                 JsonConvert.DeserializeObject<List<MyEnum>>(@"[""text_value""]", settings);
-            }, @"Error converting value ""text_value"" to type 'Newtonsoft.Json.Tests.Issues.Issue2444+MyEnum'. Path '[0]', line 1, position 13.");
+            }, @"Error converting value ""text_value"" to type 'Argon.Tests.Issues.Issue2444+MyEnum'. Path '[0]', line 1, position 13.");
         }
 
         public enum MyEnum

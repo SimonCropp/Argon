@@ -29,17 +29,17 @@ using System.Collections.Generic;
 using System.Globalization;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Tests.Serialization;
-using Newtonsoft.Json.Tests.TestObjects;
-using Newtonsoft.Json.Tests.TestObjects.Organization;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon.Converters;
+using Argon.Linq;
+using Argon.Tests.Serialization;
+using Argon.Tests.TestObjects;
+using Argon.Tests.TestObjects.Organization;
 using System.Linq;
 using System.IO;
 using System.Runtime.Serialization;
 
-namespace Newtonsoft.Json.Tests.Linq
+namespace Argon.Tests.Linq
 {
     [TestFixture]
     public class LinqToJsonTest : TestFixtureBase

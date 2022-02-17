@@ -33,17 +33,17 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
+using Argon.Converters;
+using Argon.Linq;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Tests.TestObjects;
-using Newtonsoft.Json.Utilities;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon.Serialization;
+using Argon.Tests.TestObjects;
+using Argon.Utilities;
 using System.Globalization;
 
-namespace Newtonsoft.Json.Tests.Documentation
+namespace Argon.Tests.Documentation
 {
     #region JsonConverterAttribute
     [JsonConverter(typeof(PersonConverter))]

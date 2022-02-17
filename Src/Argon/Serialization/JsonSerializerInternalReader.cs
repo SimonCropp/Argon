@@ -34,13 +34,13 @@ using System.Globalization;
 using System.Numerics;
 using System.Reflection;
 using System.Runtime.Serialization;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Utilities;
+using Argon.Linq;
+using Argon.Utilities;
 using System.Runtime.CompilerServices;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-namespace Newtonsoft.Json.Serialization
+namespace Argon.Serialization
 {
     internal class JsonSerializerInternalReader : JsonSerializerInternalBase
     {

@@ -1,4 +1,4 @@
-﻿namespace Newtonsoft.Json
+﻿namespace Argon
 {
     /// <summary>
     /// Base class for a table of atomized string objects.

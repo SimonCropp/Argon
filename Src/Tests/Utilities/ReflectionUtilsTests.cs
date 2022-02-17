@@ -29,10 +29,10 @@ using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters;
 using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-using Newtonsoft.Json.Utilities;
+using Assert = Argon.Tests.XUnitAssert;
+using Argon.Utilities;
 
-namespace Newtonsoft.Json.Tests.Utilities
+namespace Argon.Tests.Utilities
 {
     [TestFixture]
     public class ReflectionUtilsTests : TestFixtureBase

@@ -24,8 +24,8 @@
 #endregion
 
 using Autofac;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Tests.TestObjects;
+using Argon.Serialization;
+using Argon.Tests.TestObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,12 +35,12 @@ using System.Threading.Tasks;
 using Autofac.Core;
 using Autofac.Core.Activators.Reflection;
 using Microsoft.FSharp.Collections;
-using Newtonsoft.Json.Tests.TestObjects.Organization;using Xunit;
+using Argon.Tests.TestObjects.Organization;using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Newtonsoft.Json.Tests.Serialization
+namespace Argon.Tests.Serialization
 {
     public interface IBase
     {

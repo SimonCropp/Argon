@@ -28,7 +28,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Collections.ObjectModel;
 
-namespace Newtonsoft.Json
+namespace Argon
 {
     /// <summary>
     /// Represents a collection of <see cref="JsonConverter"/>.

@@ -26,16 +26,16 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Schema;
-using Newtonsoft.Json.Utilities;
+using Argon.Linq;
+using Argon.Schema;
+using Argon.Utilities;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Linq;
 #nullable disable
 
-namespace Newtonsoft.Json
+namespace Argon
 {
     /// <summary>
     /// <para>

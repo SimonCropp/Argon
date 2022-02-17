@@ -25,9 +25,9 @@
 
 using System;
 using System.Runtime.Serialization;
-using Newtonsoft.Json.Serialization;
+using Argon.Serialization;
 
-namespace Newtonsoft.Json
+namespace Argon
 {
     /// <summary>
     /// Specifies the member serialization options for the <see cref="JsonSerializer"/>.

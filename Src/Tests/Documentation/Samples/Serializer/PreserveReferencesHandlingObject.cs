@@ -27,10 +27,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;using Xunit;
 using Test = Xunit.FactAttribute;
-using Assert = Newtonsoft.Json.Tests.XUnitAssert;
+using Assert = Argon.Tests.XUnitAssert;
 
 
-namespace Newtonsoft.Json.Tests.Documentation.Samples.Serializer
+namespace Argon.Tests.Documentation.Samples.Serializer
 {
     [TestFixture]
     public class PreserveReferencesHandlingObject : TestFixtureBase
@@ -68,7 +68,7 @@ namespace Newtonsoft.Json.Tests.Documentation.Samples.Serializer
             catch (JsonSerializationException)
             {
                 // Self referencing loop detected for property 'Parent' with type
-                // 'Newtonsoft.Json.Tests.Documentation.Examples.ReferenceLoopHandlingObject+Directory'. Path 'Files[0]'.
+                // 'Argon.Tests.Documentation.Examples.ReferenceLoopHandlingObject+Directory'. Path 'Files[0]'.
             }
 
             string preserveReferenacesAll = JsonConvert.SerializeObject(documents, Formatting.Indented, new JsonSerializerSettings

@@ -25,7 +25,7 @@
 
 using System;
 
-namespace Newtonsoft.Json.Linq
+namespace Argon.Linq
 {
     /// <summary>
     /// Specifies the settings used when merging JSON.
