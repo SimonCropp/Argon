@@ -1474,7 +1474,7 @@ namespace Newtonsoft.Json.Tests.Bson
         [Fact]
         public void Utf8Text()
         {
-            string badText = System.IO.File.ReadAllText(TestFixtureBase.ResolvePath(@"PoisonText.txt"));
+            string badText = System.IO.File.ReadAllText("PoisonText.txt");
             var j = new JObject();
             j["test"] = badText;
 

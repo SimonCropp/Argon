@@ -28,10 +28,10 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Text;
-using Newtonsoft.Json.Converters;using Xunit;
+using Newtonsoft.Json.Converters;
+using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Newtonsoft.Json.Tests.XUnitAssert;
-
 
 namespace Newtonsoft.Json.Tests.Converters
 {
