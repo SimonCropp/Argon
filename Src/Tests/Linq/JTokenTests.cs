@@ -966,7 +966,7 @@ namespace Argon.Tests.Linq
             {
                 JObject o = new JObject();
                 o.Add(5);
-            }, "Can not add Argon.Linq.JValue to ArgonJson.Linq.JObject.");
+            }, "Can not add Argon.Linq.JValue to Argon.Linq.JObject.");
         }
 
         [Fact]

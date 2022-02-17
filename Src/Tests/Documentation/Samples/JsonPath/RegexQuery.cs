@@ -55,7 +55,7 @@ namespace Argon.Tests.Documentation.Samples.JsonPath
             ]");
 
             // Find Newtonsoft packages
-            List<JToken> newtonsoftPackages = packages.SelectTokens(@"$.[?(@.PackageId =~ /^Argon\.(.*)$/)]").ToList();
+            List<JToken> newtonsoftPackages = packages.SelectTokens(@"$.[?(@.PackageId =~ /^Argon/)]").ToList();
 
             foreach (JToken item in newtonsoftPackages)
             {

@@ -55,7 +55,7 @@ namespace Argon.Tests
         public void JsonWriterException()
         {
             JsonWriterException exception = new JsonWriterException();
-            Assert.AreEqual("Exception of type 'Newtonsoft.Json.JsonWriterException' was thrown.", exception.Message);
+            Assert.AreEqual("Exception of type 'Argon.JsonWriterException' was thrown.", exception.Message);
 
             exception = new JsonWriterException("Message!");
             Assert.AreEqual("Message!", exception.Message);
@@ -70,7 +70,7 @@ namespace Argon.Tests
         public void JsonReaderException()
         {
             JsonReaderException exception = new JsonReaderException();
-            Assert.AreEqual("Exception of type 'Newtonsoft.Json.JsonReaderException' was thrown.", exception.Message);
+            Assert.AreEqual("Exception of type 'Argon.JsonReaderException' was thrown.", exception.Message);
 
             exception = new JsonReaderException("Message!");
             Assert.AreEqual("Message!", exception.Message);

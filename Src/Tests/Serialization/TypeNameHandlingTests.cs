@@ -2020,7 +2020,7 @@ namespace Argon.Tests.Serialization
 
             StringAssert.AreEqual(@"{
   ""c"": {
-    ""$type"": ""Argon.Tests.Serialization.MyChild,Tests"",
+    ""$type"": ""Argon.Tests.Serialization.MyChild, Tests"",
     ""p"": ""string!""
   }
 }", json);
