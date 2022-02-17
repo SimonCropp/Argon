@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 using System.IO;
 using System.Threading.Tasks;
 using Argon.Linq;

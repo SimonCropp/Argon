@@ -27,7 +27,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Numerics;
 using Argon.Serialization;
 using Argon.Tests.TestObjects;
 using Argon.Tests.TestObjects.Organization;

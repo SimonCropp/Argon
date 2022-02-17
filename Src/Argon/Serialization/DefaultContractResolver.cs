@@ -25,22 +25,17 @@
 
 using System;
 using System.Collections;
-using System.Collections.Concurrent;
-using Argon.Schema;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Dynamic;
 using System.Globalization;
-using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization;
-using System.Security.Permissions;
 using Argon.Converters;
 using Argon.Utilities;
 using Argon.Linq;
 using System.Runtime.CompilerServices;
 using System.Linq;
-using Argon.Serialization;
 
 namespace Argon.Serialization
 {

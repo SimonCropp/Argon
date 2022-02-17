@@ -25,9 +25,7 @@
 
 #pragma warning disable 618
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using Argon.Converters;
 using Argon.Serialization;
 using Argon.Tests.TestObjects;
@@ -39,10 +37,7 @@ using Assert = Argon.Tests.XUnitAssert;
 using Argon.Schema;
 using System.IO;
 using Argon.Linq;
-using System.Text;
-using Extensions = Argon.Schema.Extensions;
 using System.Linq;
-using Argon.Tests.Serialization;
 
 namespace Argon.Tests.Schema
 {

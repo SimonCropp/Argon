@@ -27,8 +27,6 @@ using System;
 using System.Collections.Generic;
 using Argon.Utilities;
 using System.Globalization;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 using System.Linq;
 
 namespace Argon.Linq

@@ -32,7 +32,6 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 using System.Dynamic;
 using System.Runtime.Serialization;
-using Argon.Tests.Linq;
 
 namespace Argon.Tests.Serialization
 {

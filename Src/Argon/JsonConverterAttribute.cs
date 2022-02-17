@@ -24,8 +24,6 @@
 #endregion
 
 using System;
-using Argon.Utilities;
-using System.Globalization;
 
 namespace Argon
 {

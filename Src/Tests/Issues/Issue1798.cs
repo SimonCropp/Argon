@@ -24,12 +24,7 @@
 #endregion
 
 using Argon.Linq;
-using Argon.Linq.JsonPath;
 using System;
-using System.Collections.Generic;
-using Argon.Converters;
-using System.Reflection;
-using System.Runtime.Versioning;
 using Argon.Serialization;
 using Xunit;
 using Test = Xunit.FactAttribute;

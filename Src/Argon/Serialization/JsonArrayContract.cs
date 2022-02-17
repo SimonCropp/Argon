@@ -26,13 +26,9 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Globalization;
 using System.Reflection;
 using Argon.Utilities;
 using System.Collections;
-using System.Diagnostics;
-using System.Linq;
 
 namespace Argon.Serialization
 {

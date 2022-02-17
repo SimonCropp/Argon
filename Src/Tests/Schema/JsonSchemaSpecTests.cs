@@ -24,12 +24,9 @@
 #endregion
 
 #pragma warning disable 618
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using Argon.Linq;
 using Argon.Schema;
 

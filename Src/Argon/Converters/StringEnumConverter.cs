@@ -26,13 +26,9 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Reflection;
-using System.Runtime.Serialization;
 using Argon.Utilities;
 using Argon.Serialization;
-using System.Linq;
 
 namespace Argon.Converters
 {

@@ -30,13 +30,10 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization.Formatters;
-using Argon.Converters;
 using Argon.Serialization;
 using Argon.Utilities;
 using System.Runtime.Serialization;
 using ErrorEventArgs = Argon.Serialization.ErrorEventArgs;
-using System.Runtime.CompilerServices;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Argon
 {

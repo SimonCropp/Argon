@@ -31,11 +31,8 @@ using Argon.Linq;
 using Argon.Utilities;
 using System.Xml;
 using Argon.Converters;
-using Argon.Serialization;
 using System.Text;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using System.Diagnostics.CodeAnalysis;
 using System.Xml.Linq;
 
 namespace Argon

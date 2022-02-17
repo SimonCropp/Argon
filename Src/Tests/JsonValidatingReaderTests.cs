@@ -32,11 +32,8 @@ using System.Text;
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
-using System.Xml;
-using System.Xml.Schema;
 using Argon.Linq;
 using Argon.Schema;
-using Argon.Utilities;
 using ValidationEventArgs = Argon.Schema.ValidationEventArgs;
 
 namespace Argon.Tests

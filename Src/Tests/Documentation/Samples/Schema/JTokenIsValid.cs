@@ -28,7 +28,6 @@ using Argon.Linq;
 using Argon.Schema;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Argon.Tests.Documentation.Samples.Schema
 {

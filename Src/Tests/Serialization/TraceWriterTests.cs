@@ -6,7 +6,6 @@ using System.IO;
 using Argon.Linq;
 using System.Numerics;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters;
 using System.Text;
 using Xunit;
 using Test = Xunit.FactAttribute;

@@ -26,7 +26,6 @@
 using System;
 using System.Text.RegularExpressions;
 using Argon.Bson;
-using System.Globalization;
 using System.Runtime.CompilerServices;
 using Argon.Serialization;
 using Argon.Utilities;

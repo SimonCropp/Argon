@@ -29,7 +29,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Argon.Serialization;
-using Argon.Tests.TestObjects;
 using Argon.Tests.TestObjects.Organization;
 
 namespace Argon.Tests.TestObjects

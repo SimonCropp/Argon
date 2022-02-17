@@ -26,7 +26,6 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters;
-using System.Text;
 using Argon.Linq;
 using Argon.Serialization;
 using Argon.Tests.TestObjects;

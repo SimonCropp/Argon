@@ -27,12 +27,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Numerics;
 using Argon.Serialization;
-using System.Reflection;
 using System.Diagnostics.CodeAnalysis;
-using System.Data.SqlTypes;
 
 namespace Argon.Utilities
 {

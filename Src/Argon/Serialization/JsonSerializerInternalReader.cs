@@ -26,18 +26,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Dynamic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Numerics;
-using System.Reflection;
 using System.Runtime.Serialization;
 using Argon.Linq;
 using Argon.Utilities;
-using System.Runtime.CompilerServices;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Argon.Serialization

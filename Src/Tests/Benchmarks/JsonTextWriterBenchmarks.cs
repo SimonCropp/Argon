@@ -25,7 +25,6 @@
 
 using System.IO;
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Running;
 
 namespace Argon.Tests.Benchmarks
 {

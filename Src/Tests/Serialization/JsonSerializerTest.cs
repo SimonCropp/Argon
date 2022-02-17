@@ -24,13 +24,9 @@
 #endregion
 
 using System;
-using System.ComponentModel;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Numerics;
 using System.ComponentModel.DataAnnotations;
-using System.Configuration;
-using System.Runtime.CompilerServices;
 using System.Runtime.Serialization.Formatters;
 using System.Threading;
 #if !NET5_0_OR_GREATER
@@ -41,11 +37,9 @@ using System.Text.RegularExpressions;
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
-using Argon;
 using System.IO;
 using System.Collections;
 using System.Xml;
-using System.Xml.Serialization;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Argon.Bson;
@@ -64,7 +58,6 @@ using Argon.Utilities;
 using System.Reflection;
 using System.Xml.Linq;
 using System.Collections.Specialized;
-using System.Linq.Expressions;
 using System.Dynamic;
 using System.Linq;
 #if !NET5_0_OR_GREATER

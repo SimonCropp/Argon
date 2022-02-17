@@ -24,8 +24,6 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Argon.Converters;
 using Argon.Linq;using Xunit;
 using Test = Xunit.FactAttribute;

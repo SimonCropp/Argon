@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.Collections;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using Xunit;
 using Test = Xunit.FactAttribute;

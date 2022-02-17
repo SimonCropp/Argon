@@ -24,9 +24,7 @@
 #endregion
 
 using System;
-using System.Diagnostics;
 using BenchmarkDotNet.Running;
-using Argon;
 using Argon.Tests.Benchmarks;
 using System.Reflection;
 

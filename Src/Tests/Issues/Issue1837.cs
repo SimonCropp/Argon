@@ -25,7 +25,6 @@
 
 using Argon.Linq;
 using Argon.Linq.JsonPath;
-using System;
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;

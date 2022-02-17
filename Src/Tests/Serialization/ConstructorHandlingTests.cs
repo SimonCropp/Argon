@@ -26,7 +26,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Reflection;
 using Argon.Serialization;
 using Argon.Tests.TestObjects;
 using Xunit;

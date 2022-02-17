@@ -25,19 +25,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Text;
-using System.Xml;
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
-using Argon;
 using System.IO;
-using System.Reflection;
-using Argon.Converters;
 using Argon.Linq;
 using Argon.Tests.TestObjects;
 using Argon.Tests.TestObjects.JsonTextReaderTests;

@@ -24,12 +24,7 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Runtime.Serialization;
 using Argon.Converters;
-using Argon.Serialization;
 using Argon.Tests.TestObjects.Organization;
 
 namespace Argon.Tests.TestObjects

@@ -23,18 +23,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using Argon.Bson;
 using Argon.Converters;
 using Argon.Serialization;
-using Argon.Utilities;
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
-using Argon.Tests.TestObjects;
 
 namespace Argon.Tests.Converters
 {

@@ -27,7 +27,6 @@ using System;
 using System.Collections.Generic;
 using Argon.Serialization;
 using Argon.Utilities;
-using System.Reflection;
 
 namespace Argon.Converters
 {

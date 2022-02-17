@@ -25,7 +25,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Argon.Serialization;
 using System.Linq;using Xunit;
 using Test = Xunit.FactAttribute;

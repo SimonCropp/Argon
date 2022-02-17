@@ -24,22 +24,11 @@
 #endregion
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
-using Argon.Linq;
-using System.Numerics;
 using System.Text;
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
-using Argon;
 using System.IO;
-using System.Net;
-using System.Net.Sockets;
-using System.Threading;
-using System.Linq;
-using System.Xml;
 using Argon.Tests.TestObjects.JsonTextReaderTests;
 using Argon.Utilities;
 

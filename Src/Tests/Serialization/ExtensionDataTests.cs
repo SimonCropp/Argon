@@ -26,7 +26,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using Argon.Linq;
 using Argon.Tests.TestObjects;
 using Argon.Tests.TestObjects.Organization;

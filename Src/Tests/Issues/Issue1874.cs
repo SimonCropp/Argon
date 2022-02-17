@@ -24,8 +24,6 @@
 #endregion
 
 using Argon.Linq;
-using Argon.Linq.JsonPath;
-using System;
 using System.Collections.Generic;
 using Xunit;
 using Test = Xunit.FactAttribute;

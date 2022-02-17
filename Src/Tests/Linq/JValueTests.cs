@@ -36,7 +36,6 @@ using Assert = Argon.Tests.XUnitAssert;
 using Argon.Linq;
 using System.Globalization;
 using System.Linq;
-using Argon.Tests.Serialization;
 
 namespace Argon.Tests.Linq
 {

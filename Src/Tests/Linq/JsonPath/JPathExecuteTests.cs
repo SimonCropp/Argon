@@ -27,8 +27,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Numerics;
-using Argon.Linq.JsonPath;
-using Argon.Tests.Bson;
 using System.Text.RegularExpressions;
 
 using Xunit;

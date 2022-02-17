@@ -34,7 +34,6 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 using System.Data;
-using System.Data.SqlTypes;
 using System.Linq;
 using Argon.Tests.TestObjects;
 using System.Numerics;

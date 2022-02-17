@@ -27,8 +27,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Reflection;
-using System.Runtime.Serialization;
 using Argon.Serialization;
 using Argon.Tests.TestObjects;
 using System.Numerics;
@@ -39,8 +37,6 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 using Argon.Bson;
 using System.IO;
-using Argon.Tests.Serialization;
-using Argon.Utilities;
 using Argon.Linq;
 
 namespace Argon.Tests.Bson

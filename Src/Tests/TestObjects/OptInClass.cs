@@ -23,11 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
 #if !NET5_0_OR_GREATER
 using System.ComponentModel.DataAnnotations;
 #endif

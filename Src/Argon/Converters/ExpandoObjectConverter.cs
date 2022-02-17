@@ -28,8 +28,6 @@ using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using Argon.Utilities;
 
 namespace Argon.Converters

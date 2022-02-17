@@ -25,14 +25,10 @@
 
 using System.Diagnostics;
 using System.Reflection;
-using Microsoft.FSharp.Core;
 using Microsoft.FSharp.Reflection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Argon.Tests.TestObjects;
 using Argon.Tests.TestObjects.GeometricForms;
 using Argon.Tests.TestObjects.Money;
 using Xunit;

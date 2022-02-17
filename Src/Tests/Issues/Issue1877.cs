@@ -23,10 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Argon.Linq;
-using Argon.Linq.JsonPath;
 using System;
-using System.Collections.Generic;
 using Argon.Converters;
 using Xunit;
 using Test = Xunit.FactAttribute;

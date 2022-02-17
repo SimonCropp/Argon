@@ -30,7 +30,6 @@ using System.Threading;
 using System.Numerics;
 using System.Threading.Tasks;
 using Argon.Utilities;
-using System.Diagnostics;
 
 namespace Argon
 {

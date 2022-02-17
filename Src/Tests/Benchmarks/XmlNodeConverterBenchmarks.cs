@@ -23,16 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using BenchmarkDotNet.Attributes;
-using Argon.Linq;
 
 namespace Argon.Tests.Benchmarks
 {

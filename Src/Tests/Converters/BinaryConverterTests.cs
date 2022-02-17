@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Collections.Generic;
 #if !NET5_0_OR_GREATER
 using System.Data.Linq;
 #endif

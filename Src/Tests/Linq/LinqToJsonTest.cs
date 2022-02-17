@@ -32,7 +32,6 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 using Argon.Converters;
 using Argon.Linq;
-using Argon.Tests.Serialization;
 using Argon.Tests.TestObjects;
 using Argon.Tests.TestObjects.Organization;
 using System.Linq;

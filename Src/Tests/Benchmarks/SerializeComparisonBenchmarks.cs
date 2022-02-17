@@ -33,7 +33,6 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Web.Script.Serialization;
 #endif
 using System.Runtime.Serialization.Json;
-using System.Text;
 using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 using Argon.Bson;

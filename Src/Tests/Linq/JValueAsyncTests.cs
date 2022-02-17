@@ -26,7 +26,6 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using System.Text;
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;

@@ -35,7 +35,6 @@ using Assert = Argon.Tests.XUnitAssert;
 using Argon.Bson;
 using System.IO;
 using Argon.Linq;
-using Argon.Utilities;
 using Argon.Tests.TestObjects;
 using System.Globalization;
 using Argon.Tests.TestObjects.GeoCoding;

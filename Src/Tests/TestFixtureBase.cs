@@ -33,7 +33,6 @@ using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading;
 using Argon.Linq;
-using Xunit;
 using Assert = Argon.Tests.XUnitAssert;
 using XAssert = Xunit.Assert;
 using Argon.Utilities;

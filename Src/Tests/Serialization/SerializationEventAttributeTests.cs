@@ -25,10 +25,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 using Argon.Serialization;
@@ -37,7 +35,6 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 using Argon.Linq;
-using Argon.Utilities;
 
 namespace Argon.Tests.Serialization
 {
