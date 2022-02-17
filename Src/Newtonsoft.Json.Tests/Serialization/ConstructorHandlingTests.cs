@@ -220,7 +220,7 @@ namespace Newtonsoft.Json.Tests.Serialization
 
         public class ConstructorParameterDefaultStringValueContractResolver : DefaultContractResolver
         {
-            public static new ConstructorParameterDefaultStringValueContractResolver Instance = new ConstructorParameterDefaultStringValueContractResolver();
+            public new static ConstructorParameterDefaultStringValueContractResolver Instance = new ConstructorParameterDefaultStringValueContractResolver();
 
             protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
             {
