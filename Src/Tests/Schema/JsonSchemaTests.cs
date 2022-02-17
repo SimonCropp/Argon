@@ -24,6 +24,7 @@
 #endregion
 
 #pragma warning disable 618
+#pragma warning disable 1062
 using System.Collections.Generic;
 using System.IO;
 using Argon.Linq;
@@ -516,7 +517,7 @@ namespace Argon.Tests.Schema
             var schema = new JsonSchema
             {
               PositionalItemsValidation = true,
-              Items = new List<JsonSchema> { new JsonSchema { Type = JsonSchemaType.String } }
+              Items = new List<JsonSchema> { new() { Type = JsonSchemaType.String } }
             };
 
             var writer = new StringWriter();
@@ -541,7 +542,7 @@ namespace Argon.Tests.Schema
         {
             var schema = new JsonSchema
             {
-              Items = new List<JsonSchema> { new JsonSchema { Type = JsonSchemaType.String } }
+              Items = new List<JsonSchema> { new() { Type = JsonSchemaType.String } }
             };
 
             var writer = new StringWriter();
@@ -585,5 +586,3 @@ namespace Argon.Tests.Schema
         }
     }
 }
-
-#pragma warning restore 618

@@ -24,6 +24,7 @@
 #endregion
 
 #pragma warning disable 618
+#pragma warning disable 1062
 using System;
 using System.Collections.Generic;
 using Xunit;
@@ -375,7 +376,7 @@ namespace Argon.Tests.Schema
                 UniqueItems = true,
                 Items = new List<JsonSchema>
                 {
-                    new JsonSchema
+                    new()
                     {
                         UniqueItems = true
                     }
@@ -463,8 +464,8 @@ namespace Argon.Tests.Schema
             {
                 Items = new List<JsonSchema>
                 {
-                    new JsonSchema { Type = JsonSchemaType.Object },
-                    new JsonSchema { Type = JsonSchemaType.Integer }
+                    new() { Type = JsonSchemaType.Object },
+                    new() { Type = JsonSchemaType.Integer }
                 },
                 PositionalItemsValidation = true
             };
@@ -475,5 +476,3 @@ namespace Argon.Tests.Schema
         }
     }
 }
-
-#pragma warning restore 618

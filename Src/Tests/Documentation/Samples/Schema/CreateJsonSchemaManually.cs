@@ -24,6 +24,7 @@
 #endregion
 
 #pragma warning disable 618
+#pragma warning disable 1062
 using Argon.Linq;
 using Argon.Schema;
 using System;
@@ -46,7 +47,7 @@ namespace Argon.Tests.Documentation.Samples.Schema
                         "hobbies", new JsonSchema
                         {
                             Type = JsonSchemaType.Array,
-                            Items = new List<JsonSchema> { new JsonSchema { Type = JsonSchemaType.String } }
+                            Items = new List<JsonSchema> { new() { Type = JsonSchemaType.String } }
                         }
                     },
                 }
@@ -83,5 +84,3 @@ namespace Argon.Tests.Documentation.Samples.Schema
         }
     }
 }
-
-#pragma warning restore 618
