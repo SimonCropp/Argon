@@ -23,9 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Argon.Utilities;
-using System.Globalization;
-
 namespace Argon.Serialization
 {
     internal class DefaultReferenceResolver : IReferenceResolver

@@ -23,10 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using Argon.Serialization;
-using System.Reflection;
-
 namespace Argon.Utilities
 {
     internal class LateBoundReflectionDelegateFactory : ReflectionDelegateFactory

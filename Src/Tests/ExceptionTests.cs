@@ -23,10 +23,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using Argon.Schema;using Xunit;
+using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 

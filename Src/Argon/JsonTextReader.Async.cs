@@ -23,14 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Globalization;
-using System.Threading;
-using System.Numerics;
-using System.Threading.Tasks;
-using Argon.Serialization;
-using Argon.Utilities;
-
 namespace Argon
 {
     public partial class JsonTextReader

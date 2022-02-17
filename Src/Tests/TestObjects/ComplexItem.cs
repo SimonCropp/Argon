@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.IO;
-
 namespace Argon.Tests.TestObjects
 {
     public class ComplexItem : ItemBase

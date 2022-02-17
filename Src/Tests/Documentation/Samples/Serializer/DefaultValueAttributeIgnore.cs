@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 using System.ComponentModel;
 using Xunit;
 using Test = Xunit.FactAttribute;

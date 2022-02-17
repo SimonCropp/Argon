@@ -23,12 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Runtime.Serialization;
-using Argon.Utilities;
-
 namespace Argon.Serialization
 {
     internal enum JsonContractType

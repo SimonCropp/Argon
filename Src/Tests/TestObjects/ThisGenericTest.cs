@@ -23,9 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.Collections.Generic;
-using System.Linq;
-
 namespace Argon.Tests.TestObjects
 {
     public class ThisGenericTest<T> where T : IKeyValueId

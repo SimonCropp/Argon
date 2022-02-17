@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Argon.Converters;
-
 namespace Argon.Tests.TestObjects
 {
     [JsonConverter(typeof(IsoDateTimeConverter))]

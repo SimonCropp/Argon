@@ -23,10 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.Reflection;
-using Argon.Converters;
-using Argon.Serialization;
-
 namespace Argon.Tests.TestObjects
 {
     public class JsonPropertyConverterContractResolver : DefaultContractResolver

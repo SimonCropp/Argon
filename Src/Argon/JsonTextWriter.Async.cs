@@ -24,13 +24,6 @@
 #endregion
 
 
-using System;
-using System.Globalization;
-using System.Threading;
-using System.Numerics;
-using System.Threading.Tasks;
-using Argon.Utilities;
-
 namespace Argon
 {
     public partial class JsonTextWriter

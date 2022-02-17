@@ -23,12 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
-using Argon.Utilities;
-
 namespace Argon.Linq.JsonPath
 {
     internal class JPath

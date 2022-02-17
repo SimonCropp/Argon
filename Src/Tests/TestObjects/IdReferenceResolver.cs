@@ -23,10 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using Argon.Serialization;
-
 namespace Argon.Tests.TestObjects
 {
     public class IdReferenceResolver : IReferenceResolver

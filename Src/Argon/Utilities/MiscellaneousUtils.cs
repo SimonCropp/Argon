@@ -23,11 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Globalization;
 using System.Text.RegularExpressions;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Argon.Utilities
 {

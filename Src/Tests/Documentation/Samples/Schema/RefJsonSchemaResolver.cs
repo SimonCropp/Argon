@@ -24,10 +24,6 @@
 #endregion
 
 #pragma warning disable 618
-using Argon.Linq;
-using Argon.Schema;
-using System;
-
 namespace Argon.Tests.Documentation.Samples.Schema
 {
     public class RefJsonSchemaResolver

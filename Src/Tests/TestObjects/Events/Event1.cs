@@ -23,10 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using Argon.Converters;
-
 namespace Argon.Tests.TestObjects.Events
 {
     public class Event1

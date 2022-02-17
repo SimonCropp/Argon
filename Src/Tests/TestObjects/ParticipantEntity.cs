@@ -23,9 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Collections.Generic;
-
 namespace Argon.Tests.TestObjects
 {
     internal class ParticipantEntity

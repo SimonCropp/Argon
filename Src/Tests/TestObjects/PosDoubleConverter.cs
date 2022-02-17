@@ -23,9 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Globalization;
-
 namespace Argon.Tests.TestObjects
 {
     public class PosDoubleConverter : JsonConverter

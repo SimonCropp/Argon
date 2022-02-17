@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.Runtime.Serialization;
 #if !NET5_0_OR_GREATER
 using System.ComponentModel.DataAnnotations;
 #endif

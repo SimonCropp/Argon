@@ -23,12 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Globalization;
-using System.Runtime.Serialization;
-using Argon.Utilities;
-using Argon.Linq;
-
 namespace Argon.Serialization
 {
     internal class JsonFormatterConverter : IFormatterConverter

@@ -23,16 +23,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.Numerics;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Xml;
-using Argon.Serialization;
 using System.Xml.Linq;
-using Argon.Utilities;
-using System.Runtime.CompilerServices;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Argon.Converters
 {

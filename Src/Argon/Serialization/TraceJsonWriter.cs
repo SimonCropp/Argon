@@ -23,11 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Globalization;
-using System.IO;
-using System.Numerics;
-
 namespace Argon.Serialization
 {
     internal class TraceJsonWriter : JsonWriter

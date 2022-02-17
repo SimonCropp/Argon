@@ -23,13 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Argon.Serialization;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Globalization;
-using System.Linq;
-
 namespace Argon.Utilities
 {
     internal class ReflectionMember

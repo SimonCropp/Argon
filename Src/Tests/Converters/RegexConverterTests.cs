@@ -23,11 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.IO;
 using System.Text.RegularExpressions;
-using Argon.Bson;
-using Argon.Converters;
-using Argon.Serialization;
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;

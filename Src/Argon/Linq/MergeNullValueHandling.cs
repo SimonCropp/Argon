@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Argon.Linq
+﻿namespace Argon.Linq
 {
     /// <summary>
     /// Specifies how null value properties are merged.

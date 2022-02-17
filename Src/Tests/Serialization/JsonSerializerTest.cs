@@ -23,43 +23,26 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Numerics;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization.Formatters;
-using System.Threading;
 #if !NET5_0_OR_GREATER
 using System.Web.Script.Serialization;
 #endif
-using System.Text;
 using System.Text.RegularExpressions;
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
-using System.IO;
-using System.Collections;
 using System.Xml;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using Argon.Bson;
-using Argon.Linq;
-using Argon.Converters;
 using System.Runtime.Serialization.Json;
-using Argon.Serialization;
 using Argon.Tests.Linq;
 using Argon.Tests.TestObjects;
 using Argon.Tests.TestObjects.Events;
 using Argon.Tests.TestObjects.GeoCoding;
 using Argon.Tests.TestObjects.Organization;
-using System.Runtime.Serialization;
-using System.Globalization;
-using Argon.Utilities;
-using System.Reflection;
 using System.Xml.Linq;
 using System.Collections.Specialized;
 using System.Dynamic;
-using System.Linq;
 #if !NET5_0_OR_GREATER
 using System.Drawing;
 

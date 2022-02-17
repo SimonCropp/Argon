@@ -23,14 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.IO;
-using System.Text;
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 using System.Runtime.Serialization.Json;
-using Argon.Serialization;
 
 namespace Argon.Tests.Serialization
 {

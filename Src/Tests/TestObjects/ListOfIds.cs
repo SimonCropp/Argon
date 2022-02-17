@@ -23,9 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Collections.Generic;
-
 namespace Argon.Tests.TestObjects
 {
     public class ListOfIds<T> : JsonConverter where T : Bar, new()

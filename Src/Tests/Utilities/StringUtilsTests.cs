@@ -26,7 +26,6 @@
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
-using Argon.Utilities;
 
 namespace Argon.Tests.Utilities
 {

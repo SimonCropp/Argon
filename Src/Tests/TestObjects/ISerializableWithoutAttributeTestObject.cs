@@ -23,9 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Runtime.Serialization;
-
 namespace Argon.Tests.TestObjects
 {
     public class ISerializableWithoutAttributeTestObject : ISerializable

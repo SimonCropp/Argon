@@ -24,8 +24,6 @@
 #endregion
 
 using System.Collections.ObjectModel;
-using System.Runtime.Serialization;
-using Argon.Serialization;
 
 namespace Argon.Tests.TestObjects
 {

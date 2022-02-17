@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-
 namespace Argon.Utilities
 {
     internal readonly struct StructMultiKey<T1, T2> : IEquatable<StructMultiKey<T1, T2>>

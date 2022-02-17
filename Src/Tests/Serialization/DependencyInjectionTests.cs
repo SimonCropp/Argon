@@ -24,10 +24,6 @@
 #endregion
 
 using Autofac;
-using Argon.Serialization;
-using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
 using Autofac.Core;
 using Autofac.Core.Activators.Reflection;
 using Argon.Tests.TestObjects.Organization;using Xunit;

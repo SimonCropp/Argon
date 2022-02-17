@@ -24,9 +24,6 @@
 #endregion
 
 #pragma warning disable 618
-using Argon.Schema;
-using System;
-
 namespace Argon.Tests.Documentation.Samples.Schema
 {
     public class JsonSchemaParse

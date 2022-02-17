@@ -24,10 +24,6 @@
 #endregion
 
 
-using System.Threading;
-using System.Threading.Tasks;
-using Argon.Utilities;
-
 namespace Argon.Linq
 {
     public partial class JTokenWriter

@@ -24,11 +24,6 @@
 #endregion
 
 #pragma warning disable 618
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Argon.Linq;
-using Argon.Schema;
 
 using Xunit;
 using Test = Xunit.FactAttribute;

@@ -23,14 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
-using System.IO;
-using Argon.Serialization;
-using Argon.Utilities;
-
 #nullable disable
 
 namespace Argon.Bson

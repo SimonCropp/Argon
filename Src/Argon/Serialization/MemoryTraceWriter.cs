@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.Text;
-
-namespace Argon.Serialization
+﻿namespace Argon.Serialization
 {
     /// <summary>
     /// Represents a trace writer that writes to memory. When the trace message limit is

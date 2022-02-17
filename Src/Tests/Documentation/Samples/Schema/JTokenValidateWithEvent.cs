@@ -24,11 +24,6 @@
 #endregion
 
 #pragma warning disable 618
-using Argon.Linq;
-using Argon.Schema;
-using System;
-using System.Collections.Generic;
-
 namespace Argon.Tests.Documentation.Samples.Schema
 {
     public class JTokenValidateWithEvent

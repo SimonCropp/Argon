@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace Argon.Linq.JsonPath
 {
     internal class QueryScanFilter : PathFilter

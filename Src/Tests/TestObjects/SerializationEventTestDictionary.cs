@@ -23,9 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-
 namespace Argon.Tests.TestObjects
 {
     public class SerializationEventTestDictionary : Dictionary<decimal, string>

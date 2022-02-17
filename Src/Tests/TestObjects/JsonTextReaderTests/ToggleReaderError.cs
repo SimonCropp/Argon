@@ -23,9 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.IO;
-
 namespace Argon.Tests.TestObjects.JsonTextReaderTests
 {
     public class ToggleReaderError : TextReader

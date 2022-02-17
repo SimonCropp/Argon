@@ -23,10 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-
 namespace Argon.Utilities
 {
     internal class BidirectionalDictionary<TFirst, TSecond>

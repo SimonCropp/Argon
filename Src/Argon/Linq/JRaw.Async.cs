@@ -23,11 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.Globalization;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-
 namespace Argon.Linq
 {
     public partial class JRaw

@@ -23,9 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using Microsoft.FSharp.Core;
 
 namespace Argon.Tests.TestObjects.GeometricForms

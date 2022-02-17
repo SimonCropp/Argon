@@ -23,18 +23,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Numerics;
 using System.Text.RegularExpressions;
 
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 using TestCaseSource = Xunit.MemberDataAttribute;
-using Argon.Linq;
-using System.Linq;
 
 namespace Argon.Tests.Linq.JsonPath
 {

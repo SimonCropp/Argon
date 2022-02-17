@@ -1,9 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.Runtime.Serialization;
-using Argon.Utilities;
-
-namespace Argon.Serialization
+﻿namespace Argon.Serialization
 {
     internal class FormatterConverter : IFormatterConverter
     {

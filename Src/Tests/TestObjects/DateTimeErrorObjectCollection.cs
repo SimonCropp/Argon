@@ -23,10 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 using System.Collections.ObjectModel;
-using System.Runtime.Serialization;
-using Argon.Serialization;
 
 namespace Argon.Tests.TestObjects
 {

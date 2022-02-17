@@ -23,16 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
 using System.Runtime.Serialization.Formatters;
-using Argon.Serialization;
-using Argon.Utilities;
-using System.Runtime.Serialization;
 using ErrorEventArgs = Argon.Serialization.ErrorEventArgs;
 
 namespace Argon

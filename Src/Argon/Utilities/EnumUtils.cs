@@ -23,16 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Runtime.Serialization;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using Argon.Serialization;
-using System.Diagnostics.CodeAnalysis;
-
 namespace Argon.Utilities
 {
     internal static class EnumUtils

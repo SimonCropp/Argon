@@ -23,13 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Globalization;
-using System.Threading;
-using System.Numerics;
-using System.Threading.Tasks;
-using Argon.Utilities;
-
 namespace Argon
 {
     public abstract partial class JsonWriter

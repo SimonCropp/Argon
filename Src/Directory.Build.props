@@ -6,4 +6,16 @@
     <PackageTags>Json</PackageTags>
     <Description>Json serialization library. Hard fork of Json.net.</Description>
   </PropertyGroup>
+  <ItemGroup>
+    <Using Include="System.Globalization" />
+    <Using Include="Argon.Serialization" />
+    <Using Include="Argon.Converters" />
+    <Using Include="Argon.Utilities" />
+    <Using Include="System.Runtime.Serialization" />
+    <Using Include="Argon.Bson" />
+    <Using Include="Argon.Schema" />
+    <Using Include="Argon.Linq" />
+    <Using Include="System.Numerics" />
+    <Using Include="System.Diagnostics.CodeAnalysis" />
+  </ItemGroup>
 </Project>

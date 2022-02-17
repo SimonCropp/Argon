@@ -24,7 +24,6 @@
 #endregion
 
 using BenchmarkDotNet.Attributes;
-using Argon.Linq;
 
 namespace Argon.Tests.Benchmarks
 {

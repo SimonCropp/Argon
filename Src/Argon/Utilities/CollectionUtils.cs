@@ -23,12 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Collections;
-using System.Linq;
-
 namespace Argon.Utilities
 {
     internal static class CollectionUtils

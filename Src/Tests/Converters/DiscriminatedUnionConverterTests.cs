@@ -23,12 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.Diagnostics;
-using System.Reflection;
 using Microsoft.FSharp.Reflection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Argon.Tests.TestObjects.GeometricForms;
 using Argon.Tests.TestObjects.Money;
 using Xunit;

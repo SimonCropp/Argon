@@ -23,10 +23,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 using BenchmarkDotNet.Running;
 using Argon.Tests.Benchmarks;
-using System.Reflection;
 
 namespace Argon.TestConsole
 {

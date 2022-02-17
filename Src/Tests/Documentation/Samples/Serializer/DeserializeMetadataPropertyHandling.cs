@@ -26,7 +26,6 @@
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
-using System;
 using User = Argon.Tests.Serialization.MetadataPropertyHandlingTests.User;
 
 namespace Argon.Tests.Documentation.Samples.Serializer

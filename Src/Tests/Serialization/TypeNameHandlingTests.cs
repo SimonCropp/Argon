@@ -23,27 +23,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.Linq;
 using System.Collections.ObjectModel;
-using System.Text;
 using Argon.Tests.Linq;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Runtime.Serialization.Formatters;
-using Argon.Linq;
-using Argon.Serialization;
 using Argon.Tests.TestObjects;
 using Argon.Tests.TestObjects.Organization;
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
-using Argon.Utilities;
 using System.Net;
-using System.Runtime.Serialization;
-using System.IO;
-using System.Reflection;
 
 namespace Argon.Tests.Serialization
 {

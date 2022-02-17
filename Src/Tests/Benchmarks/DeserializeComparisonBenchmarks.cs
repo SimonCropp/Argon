@@ -24,17 +24,12 @@
 #endregion
 
 
-using System.IO;
-using System.Runtime.Serialization;
 #if (!NET5_0_OR_GREATER)
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Web.Script.Serialization;
 #endif
 using System.Runtime.Serialization.Json;
-using System.Text;
-using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
-using Argon.Bson;
 using Argon.Tests.TestObjects;
 
 namespace Argon.Tests.Benchmarks

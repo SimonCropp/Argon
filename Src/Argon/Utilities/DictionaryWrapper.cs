@@ -23,12 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Collections;
-using System.Threading;
-using System.Linq;
-
 namespace Argon.Utilities
 {
     internal interface IWrappedDictionary

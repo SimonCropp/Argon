@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.Runtime.Serialization;
-
 namespace Argon.Tests.TestObjects
 {
     public class SerializationEventTestObjectWithConstructor

@@ -26,8 +26,6 @@
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
-using System;
-using System.Collections.Generic;
 using Microsoft.FSharp.Collections;
 
 namespace Argon.Tests.Serialization

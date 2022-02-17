@@ -23,20 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Globalization;
-using Argon.Linq;
-using System.Numerics;
-using System.Text;
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Linq;
 using Argon.Tests.TestObjects.JsonTextReaderTests;
-using Argon.Utilities;
 
 namespace Argon.Tests.JsonTextReaderTests
 {

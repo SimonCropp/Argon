@@ -23,14 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.Collections.Generic;
 using Argon.Tests.TestObjects;
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
-using Argon.Linq;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace Argon.Tests.Linq
 {

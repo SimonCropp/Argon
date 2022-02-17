@@ -24,8 +24,6 @@
 #endregion
 
 #pragma warning disable 618
-using Argon.Schema;
-
 namespace Argon.Tests.Documentation.Samples.Schema
 {
     public class SaveJsonSchemaToFile

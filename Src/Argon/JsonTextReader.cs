@@ -23,13 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Runtime.CompilerServices;
-using System.IO;
-using System.Globalization;
-using System.Numerics;
-using Argon.Utilities;
-
 namespace Argon
 {
     internal enum ReadType

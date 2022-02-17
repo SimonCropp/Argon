@@ -23,11 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Globalization;
-using Argon.Linq;
-using Argon.Utilities;
-
 namespace Argon.Tests.TestObjects
 {
     public abstract class ConverterPrecedenceClassConverter : JsonConverter

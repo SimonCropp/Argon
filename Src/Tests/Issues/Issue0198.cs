@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.Collections.Generic;
-using System.Linq;
 using Argon.Tests.TestObjects;
 using Xunit;
 using Test = Xunit.FactAttribute;

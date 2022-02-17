@@ -1,22 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using Argon.Linq;
-using System.Numerics;
-using System.Runtime.Serialization;
-using System.Text;
-using Xunit;
+﻿using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
-using Argon.Converters;
-using Argon.Serialization;
 using Argon.Tests.TestObjects;
 using Argon.Tests.TestObjects.Organization;
-using Argon.Utilities;
-using System.Linq;
-using System.Threading.Tasks;
+
 // ReSharper disable UseObjectOrCollectionInitializer
 
 namespace Argon.Tests.Serialization

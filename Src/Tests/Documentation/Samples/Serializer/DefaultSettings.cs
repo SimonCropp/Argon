@@ -23,11 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
-using Argon.Serialization;
 using Staff = Argon.Tests.TestObjects.Organization.Employee;
 
 namespace Argon.Tests.Documentation.Samples.Serializer

@@ -23,12 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using Argon.Utilities;
-
 namespace Argon.Serialization
 {
     internal abstract class JsonSerializerInternalBase

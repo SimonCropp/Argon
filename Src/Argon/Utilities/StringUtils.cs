@@ -23,14 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Globalization;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-
 namespace Argon.Utilities
 {
     internal static class StringUtils

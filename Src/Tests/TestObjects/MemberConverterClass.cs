@@ -23,9 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using Argon.Converters;
-
 namespace Argon.Tests.TestObjects
 {
     public class MemberConverterClass

@@ -23,10 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.IO;
-using System.Text;
-
 namespace Argon.Tests.TestObjects.JsonTextReaderTests
 {
     public class SlowStream : Stream

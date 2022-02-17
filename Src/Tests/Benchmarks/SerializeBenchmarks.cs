@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.Collections.Generic;
 using BenchmarkDotNet.Attributes;
 using Argon.Tests.TestObjects;
 

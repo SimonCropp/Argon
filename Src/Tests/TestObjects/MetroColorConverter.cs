@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 #if !NET5_0_OR_GREATER
 using System.Drawing;
 #endif

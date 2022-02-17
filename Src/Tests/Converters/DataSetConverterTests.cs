@@ -23,15 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using Argon.Converters;
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
-using Argon.Serialization;
 using Argon.Tests.TestObjects;
 using System.Data;
-using System.IO;
 
 namespace Argon.Tests.Converters
 {

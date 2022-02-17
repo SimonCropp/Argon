@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using DiagnosticsTrace = System.Diagnostics.Trace;
+﻿using DiagnosticsTrace = System.Diagnostics.Trace;
 
 namespace Argon.Serialization
 {

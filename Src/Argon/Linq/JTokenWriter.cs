@@ -23,11 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Globalization;
-using System.Numerics;
-using Argon.Utilities;
-
 namespace Argon.Linq
 {
     /// <summary>

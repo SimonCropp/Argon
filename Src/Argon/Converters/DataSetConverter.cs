@@ -23,9 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 using System.Data;
-using Argon.Serialization;
 
 namespace Argon.Converters
 {

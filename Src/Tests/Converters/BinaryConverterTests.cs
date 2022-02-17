@@ -27,8 +27,7 @@
 using System.Data.Linq;
 #endif
 using System.Data.SqlTypes;
-using System.Text;
-using Argon.Converters;using Xunit;
+using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 

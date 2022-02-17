@@ -1,7 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-
-namespace Argon.Serialization
+﻿namespace Argon.Serialization
 {
     /// <summary>
     /// Represents a trace writer.

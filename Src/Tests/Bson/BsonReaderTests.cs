@@ -24,20 +24,11 @@
 #endregion
 
 #pragma warning disable 618
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using Argon.Serialization;
 using Argon.Tests.TestObjects;
-using System.Numerics;
-using System.Text;
 using System.Text.RegularExpressions;
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
-using Argon.Bson;
-using System.IO;
-using Argon.Linq;
 
 namespace Argon.Tests.Bson
 {

@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.Collections.Concurrent;
-
 namespace Argon.Tests.TestObjects
 {
     [JsonObject(MemberSerialization.OptIn)]

@@ -23,20 +23,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System;
-using System.Collections.Generic;
 using Argon.Tests.Serialization;
 using Argon.Tests.TestObjects;
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
-using System.IO;
 using System.Xml;
-using Argon.Converters;
-using Argon.Linq;
 using System.Xml.Linq;
 // ReSharper disable UseObjectOrCollectionInitializer
 

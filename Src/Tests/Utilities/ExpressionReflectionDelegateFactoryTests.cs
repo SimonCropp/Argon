@@ -23,12 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.Linq;
-using System;
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
-using Argon.Utilities;
 using Argon.Tests.TestObjects;
 using Argon.Tests.TestObjects.Organization;
 

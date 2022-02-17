@@ -24,13 +24,9 @@
 #endregion
 
 #pragma warning disable 618
-using System;
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
-using Argon.Schema;
-using System.IO;
-using Argon.Linq;
 
 namespace Argon.Tests.Schema
 {

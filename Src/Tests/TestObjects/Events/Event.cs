@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-
 namespace Argon.Tests.TestObjects.Events
 {
     public sealed class Event

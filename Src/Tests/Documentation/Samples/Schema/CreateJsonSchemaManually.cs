@@ -25,11 +25,6 @@
 
 #pragma warning disable 618
 #pragma warning disable 1062
-using Argon.Linq;
-using Argon.Schema;
-using System;
-using System.Collections.Generic;
-
 namespace Argon.Tests.Documentation.Samples.Schema
 {
     public class CreateJsonSchemaManually

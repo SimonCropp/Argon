@@ -24,7 +24,6 @@
 #endregion
 
 
-using System;
 using System.Data;
 using Xunit;
 using Test = Xunit.FactAttribute;

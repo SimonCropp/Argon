@@ -23,9 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using Argon.Utilities;
-
 namespace Argon.Serialization
 {
     internal static class CachedAttributeGetter<T> where T : Attribute

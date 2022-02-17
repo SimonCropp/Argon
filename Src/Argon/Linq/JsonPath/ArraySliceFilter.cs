@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using Argon.Utilities;
-
 namespace Argon.Linq.JsonPath
 {
     internal class ArraySliceFilter : PathFilter

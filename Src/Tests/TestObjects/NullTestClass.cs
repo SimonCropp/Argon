@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Argon.Linq;
-
 namespace Argon.Tests.TestObjects
 {
     public class NullTestClass

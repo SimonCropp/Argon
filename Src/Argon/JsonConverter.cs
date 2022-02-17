@@ -23,10 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using Argon.Utilities;
-using System.Globalization;
-
 namespace Argon
 {
     /// <summary>

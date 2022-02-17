@@ -23,10 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.IO;
-using System.Linq;
 using BenchmarkDotNet.Attributes;
-using Argon.Linq;
 
 namespace Argon.Tests.Benchmarks
 {

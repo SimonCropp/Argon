@@ -23,19 +23,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Dynamic;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
 using System.Security;
-using Argon.Linq;
-using Argon.Utilities;
-using System.Runtime.Serialization;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 
 namespace Argon.Serialization
 {
