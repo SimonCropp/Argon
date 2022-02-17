@@ -39,21 +39,21 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializedJsonWithAlreadyReadReader()
         {
-            string json = @"{ 'name': 'Admin' }{ 'name': 'Publisher' }";
+            var json = @"{ 'name': 'Admin' }{ 'name': 'Publisher' }";
             IList<RoleTrace> roles = new List<RoleTrace>();
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
             reader.SupportMultipleContent = true;
-            InMemoryTraceWriter traceWriter = new InMemoryTraceWriter();
+            var traceWriter = new InMemoryTraceWriter();
             while (true)
             {
                 if (!reader.Read())
                 {
                     break;
                 }
-                JsonSerializer serializer = new JsonSerializer();
+                var serializer = new JsonSerializer();
                 //the next line raise an exception
                 serializer.TraceWriter = traceWriter;
-                RoleTrace role = serializer.Deserialize<RoleTrace>(reader);
+                var role = serializer.Deserialize<RoleTrace>(reader);
                 roles.Add(role);
             }
 
@@ -74,21 +74,21 @@ namespace Argon.Tests.Serialization
         [Fact]
         public async Task DeserializedJsonWithAlreadyReadReader_Async()
         {
-            string json = @"{ 'name': 'Admin' }{ 'name': 'Publisher' }";
+            var json = @"{ 'name': 'Admin' }{ 'name': 'Publisher' }";
             IList<RoleTrace> roles = new List<RoleTrace>();
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
             reader.SupportMultipleContent = true;
-            InMemoryTraceWriter traceWriter = new InMemoryTraceWriter();
+            var traceWriter = new InMemoryTraceWriter();
             while (true)
             {
                 if (!await reader.ReadAsync())
                 {
                     break;
                 }
-                JsonSerializer serializer = new JsonSerializer();
+                var serializer = new JsonSerializer();
                 //the next line raise an exception
                 serializer.TraceWriter = traceWriter;
-                RoleTrace role = serializer.Deserialize<RoleTrace>(reader);
+                var role = serializer.Deserialize<RoleTrace>(reader);
                 roles.Add(role);
             }
 
@@ -109,15 +109,15 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DiagnosticsTraceWriterTest()
         {
-            StringWriter sw = new StringWriter();
-            TextWriterTraceListener listener = new TextWriterTraceListener(sw);
+            var sw = new StringWriter();
+            var listener = new TextWriterTraceListener(sw);
 
             try
             {
                 Trace.AutoFlush = true;
                 Trace.Listeners.Add(listener);
 
-                DiagnosticsTraceWriter traceWriter = new DiagnosticsTraceWriter();
+                var traceWriter = new DiagnosticsTraceWriter();
                 traceWriter.Trace(TraceLevel.Verbose, "Verbose!", null);
                 traceWriter.Trace(TraceLevel.Info, "Info!", null);
                 traceWriter.Trace(TraceLevel.Warning, "Warning!", null);
@@ -140,8 +140,8 @@ Argon Error: 0 : Error!
         [Fact]
         public void WriteNullableByte()
         {
-            StringWriter sw = new StringWriter();
-            TraceJsonWriter traceJsonWriter = new TraceJsonWriter(new JsonTextWriter(sw));
+            var sw = new StringWriter();
+            var traceJsonWriter = new TraceJsonWriter(new JsonTextWriter(sw));
             traceJsonWriter.WriteStartArray();
             traceJsonWriter.WriteValue((byte?)null);
             traceJsonWriter.WriteEndArray();
@@ -155,8 +155,8 @@ Argon Error: 0 : Error!
         [Fact]
         public void WriteNullObject()
         {
-            StringWriter sw = new StringWriter();
-            TraceJsonWriter traceJsonWriter = new TraceJsonWriter(new JsonTextWriter(sw));
+            var sw = new StringWriter();
+            var traceJsonWriter = new TraceJsonWriter(new JsonTextWriter(sw));
             traceJsonWriter.WriteStartArray();
             traceJsonWriter.WriteValue((object)null);
             traceJsonWriter.WriteEndArray();
@@ -170,8 +170,8 @@ Argon Error: 0 : Error!
         [Fact]
         public void WriteNullString()
         {
-            StringWriter sw = new StringWriter();
-            TraceJsonWriter traceJsonWriter = new TraceJsonWriter(new JsonTextWriter(sw));
+            var sw = new StringWriter();
+            var traceJsonWriter = new TraceJsonWriter(new JsonTextWriter(sw));
             traceJsonWriter.WriteStartArray();
             traceJsonWriter.WriteValue((string)null);
             traceJsonWriter.WriteEndArray();
@@ -185,8 +185,8 @@ Argon Error: 0 : Error!
         [Fact]
         public void WriteNullUri()
         {
-            StringWriter sw = new StringWriter();
-            TraceJsonWriter traceJsonWriter = new TraceJsonWriter(new JsonTextWriter(sw));
+            var sw = new StringWriter();
+            var traceJsonWriter = new TraceJsonWriter(new JsonTextWriter(sw));
             traceJsonWriter.WriteStartArray();
             traceJsonWriter.WriteValue((Uri)null);
             traceJsonWriter.WriteEndArray();
@@ -200,8 +200,8 @@ Argon Error: 0 : Error!
         [Fact]
         public void WriteNullByteArray()
         {
-            StringWriter sw = new StringWriter();
-            TraceJsonWriter traceJsonWriter = new TraceJsonWriter(new JsonTextWriter(sw));
+            var sw = new StringWriter();
+            var traceJsonWriter = new TraceJsonWriter(new JsonTextWriter(sw));
             traceJsonWriter.WriteStartArray();
             traceJsonWriter.WriteValue((byte[])null);
             traceJsonWriter.WriteEndArray();
@@ -217,8 +217,8 @@ Argon Error: 0 : Error!
         {
             ITraceWriter traceWriter = new MemoryTraceWriter();
 
-            JRaw settings = new JRaw("$('#element')");
-            string json = JsonConvert.SerializeObject(settings, new JsonSerializerSettings
+            var settings = new JRaw("$('#element')");
+            var json = JsonConvert.SerializeObject(settings, new JsonSerializerSettings
             {
                 TraceWriter = traceWriter
             });
@@ -233,14 +233,14 @@ Argon Error: 0 : Error!
         {
             ITraceWriter traceWriter = new MemoryTraceWriter();
 
-            List<JRaw> raws = new List<JRaw>
+            var raws = new List<JRaw>
             {
                 new JRaw("$('#element')"),
                 new JRaw("$('#element')"),
                 new JRaw("$('#element')")
             };
 
-            string json = JsonConvert.SerializeObject(raws, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(raws, new JsonSerializerSettings
             {
                 TraceWriter = traceWriter,
                 Formatting = Formatting.Indented
@@ -263,7 +263,7 @@ Argon Error: 0 : Error!
         [Fact]
         public void MemoryTraceWriterSerializeTest()
         {
-            Staff staff = new Staff();
+            var staff = new Staff();
             staff.Name = "Arnie Admin";
             staff.Roles = new List<string> { "Administrator" };
             staff.StartDate = new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc);
@@ -281,13 +281,13 @@ Argon Error: 0 : Error!
             // 2012-11-11T12:08:42.798 Info Finished serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
             // 2012-11-11T12:08:42.799 Info Finished serializing Argon.Tests.Serialization.Staff. Path ''.
 
-            MemoryTraceWriter memoryTraceWriter = (MemoryTraceWriter)traceWriter;
-            string output = memoryTraceWriter.ToString();
+            var memoryTraceWriter = (MemoryTraceWriter)traceWriter;
+            var output = memoryTraceWriter.ToString();
 
             Assert.AreEqual(876, output.Length);
             Assert.AreEqual(7, memoryTraceWriter.GetTraceMessages().Count());
 
-            string json = @"Serialized JSON: 
+            var json = @"Serialized JSON: 
 {
   ""Name"": ""Arnie Admin"",
   ""StartDate"": new Date(
@@ -307,7 +307,7 @@ Argon Error: 0 : Error!
         [Fact]
         public void MemoryTraceWriterDeserializeTest()
         {
-            string json = @"{
+            var json = @"{
   ""Name"": ""Arnie Admin"",
   ""StartDate"": new Date(
     976623132000
@@ -317,7 +317,7 @@ Argon Error: 0 : Error!
   ]
 }";
 
-            Staff staff = new Staff();
+            var staff = new Staff();
             staff.Name = "Arnie Admin";
             staff.Roles = new List<string> { "Administrator" };
             staff.StartDate = new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc);
@@ -350,8 +350,8 @@ Argon Error: 0 : Error!
             //   ]
             // }
 
-            MemoryTraceWriter memoryTraceWriter = (MemoryTraceWriter)traceWriter;
-            string output = memoryTraceWriter.ToString();
+            var memoryTraceWriter = (MemoryTraceWriter)traceWriter;
+            var output = memoryTraceWriter.ToString();
 
             Assert.AreEqual(1018, output.Length);
             Assert.AreEqual(7, memoryTraceWriter.GetTraceMessages().Count());
@@ -365,9 +365,9 @@ Argon Error: 0 : Error!
         [Fact]
         public void MemoryTraceWriterLimitTest()
         {
-            MemoryTraceWriter traceWriter = new MemoryTraceWriter();
+            var traceWriter = new MemoryTraceWriter();
 
-            for (int i = 0; i < 1005; i++)
+            for (var i = 0; i < 1005; i++)
             {
                 traceWriter.Trace(TraceLevel.Verbose, (i + 1).ToString(CultureInfo.InvariantCulture), null);
             }
@@ -383,15 +383,15 @@ Argon Error: 0 : Error!
         [Fact]
         public async Task MemoryTraceWriterThreadSafety_Trace()
         {
-            List<Task> tasks = new List<Task>();
+            var tasks = new List<Task>();
 
-            MemoryTraceWriter traceWriter = new MemoryTraceWriter();
+            var traceWriter = new MemoryTraceWriter();
 
-            for (int i = 0; i < 20; i++)
+            for (var i = 0; i < 20; i++)
             {
                 tasks.Add(Task.Run(() =>
                 {
-                    for (int j = 0; j < 1005; j++)
+                    for (var j = 0; j < 1005; j++)
                     {
                         traceWriter.Trace(TraceLevel.Verbose, (j + 1).ToString(CultureInfo.InvariantCulture), null);
                     }
@@ -408,13 +408,13 @@ Argon Error: 0 : Error!
         [Fact]
         public async Task MemoryTraceWriterThreadSafety_ToString()
         {
-            List<Task> tasks = new List<Task>();
+            var tasks = new List<Task>();
 
-            MemoryTraceWriter traceWriter = new MemoryTraceWriter();
+            var traceWriter = new MemoryTraceWriter();
 
             tasks.Add(Task.Run(() =>
             {
-                for (int j = 0; j < 10005; j++)
+                for (var j = 0; j < 10005; j++)
                 {
                     traceWriter.Trace(TraceLevel.Verbose, (j + 1).ToString(CultureInfo.InvariantCulture), null);
                 }
@@ -424,7 +424,7 @@ Argon Error: 0 : Error!
 
             tasks.Add(Task.Run(() =>
             {
-                for (int j = 0; j < 10005; j++)
+                for (var j = 0; j < 10005; j++)
                 {
                     s = traceWriter.ToString();
                 }
@@ -443,7 +443,7 @@ Argon Error: 0 : Error!
                 LevelFilter = TraceLevel.Info
             };
 
-            string json =
+            var json =
                 JsonConvert.SerializeObject(
                     new TraceTestObject
                     {
@@ -482,12 +482,12 @@ Argon Error: 0 : Error!
         [Fact]
         public void Deserialize()
         {
-            InMemoryTraceWriter traceWriter = new InMemoryTraceWriter
+            var traceWriter = new InMemoryTraceWriter
             {
                 LevelFilter = TraceLevel.Info
             };
 
-            TraceTestObject o2 = JsonConvert.DeserializeObject<TraceTestObject>(
+            var o2 = JsonConvert.DeserializeObject<TraceTestObject>(
                 @"{
   ""IntList"": [
     1,
@@ -542,12 +542,12 @@ Argon Error: 0 : Error!
         [Fact]
         public void Populate()
         {
-            InMemoryTraceWriter traceWriter = new InMemoryTraceWriter
+            var traceWriter = new InMemoryTraceWriter
             {
                 LevelFilter = TraceLevel.Info
             };
 
-            TraceTestObject o2 = new TraceTestObject();
+            var o2 = new TraceTestObject();
 
             JsonConvert.PopulateObject(@"{
   ""IntList"": [
@@ -605,7 +605,7 @@ Argon Error: 0 : Error!
         [Fact]
         public void ErrorDeserializing()
         {
-            string json = @"{""Integer"":""hi""}";
+            var json = @"{""Integer"":""hi""}";
 
             var traceWriter = new InMemoryTraceWriter
             {
@@ -634,7 +634,7 @@ Argon Error: 0 : Error!
         [Fact]
         public void ErrorDeserializingNested()
         {
-            string json = @"{""IntList"":[1, ""two""]}";
+            var json = @"{""IntList"":[1, ""two""]}";
 
             var traceWriter = new InMemoryTraceWriter
             {
@@ -666,11 +666,11 @@ Argon Error: 0 : Error!
         [Fact]
         public void SerializeDictionarysWithPreserveObjectReferences()
         {
-            PreserveReferencesHandlingTests.CircularDictionary circularDictionary = new PreserveReferencesHandlingTests.CircularDictionary();
+            var circularDictionary = new PreserveReferencesHandlingTests.CircularDictionary();
             circularDictionary.Add("other", new PreserveReferencesHandlingTests.CircularDictionary { { "blah", null } });
             circularDictionary.Add("self", circularDictionary);
 
-            InMemoryTraceWriter traceWriter = new InMemoryTraceWriter
+            var traceWriter = new InMemoryTraceWriter
             {
                 LevelFilter = TraceLevel.Verbose
             };
@@ -692,7 +692,7 @@ Argon Error: 0 : Error!
         [Fact]
         public void DeserializeDictionarysWithPreserveObjectReferences()
         {
-            string json = @"{
+            var json = @"{
   ""$id"": ""1"",
   ""other"": {
     ""$id"": ""2"",
@@ -703,7 +703,7 @@ Argon Error: 0 : Error!
   }
 }";
 
-            InMemoryTraceWriter traceWriter = new InMemoryTraceWriter
+            var traceWriter = new InMemoryTraceWriter
             {
                 LevelFilter = TraceLevel.Verbose
             };
@@ -724,7 +724,7 @@ Argon Error: 0 : Error!
         [Fact]
         public void WriteTypeNameForObjects()
         {
-            InMemoryTraceWriter traceWriter = new InMemoryTraceWriter
+            var traceWriter = new InMemoryTraceWriter
             {
                 LevelFilter = TraceLevel.Verbose
             };
@@ -755,7 +755,7 @@ Argon Error: 0 : Error!
         [Fact]
         public void SerializeConverter()
         {
-            InMemoryTraceWriter traceWriter = new InMemoryTraceWriter
+            var traceWriter = new InMemoryTraceWriter
             {
                 LevelFilter = TraceLevel.Verbose
             };
@@ -765,7 +765,7 @@ Argon Error: 0 : Error!
                 new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc)
             };
 
-            string json = JsonConvert.SerializeObject(d, Formatting.Indented, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(d, Formatting.Indented, new JsonSerializerSettings
             {
                 Converters = { new JavaScriptDateTimeConverter() },
                 TraceWriter = traceWriter
@@ -780,9 +780,9 @@ Argon Error: 0 : Error!
         [Fact]
         public void DeserializeConverter()
         {
-            string json = @"[new Date(976623132000)]";
+            var json = @"[new Date(976623132000)]";
 
-            InMemoryTraceWriter traceWriter =
+            var traceWriter =
                 new InMemoryTraceWriter
                 {
                     LevelFilter = TraceLevel.Verbose
@@ -805,12 +805,12 @@ Argon Error: 0 : Error!
         [Fact]
         public void DeserializeTypeName()
         {
-            InMemoryTraceWriter traceWriter = new InMemoryTraceWriter
+            var traceWriter = new InMemoryTraceWriter
             {
                 LevelFilter = TraceLevel.Verbose
             };
 
-            string json = @"{
+            var json = @"{
   ""$type"": ""System.Collections.Generic.List`1[[System.Object, mscorlib]], mscorlib"",
   ""$values"": [
     {
@@ -851,7 +851,7 @@ Argon Error: 0 : Error!
         [Fact]
         public void DeserializeISerializable()
         {
-            InMemoryTraceWriter traceWriter = new InMemoryTraceWriter
+            var traceWriter = new InMemoryTraceWriter
             {
                 LevelFilter = TraceLevel.Verbose
             };
@@ -883,7 +883,7 @@ Argon Error: 0 : Error!
         [Fact]
         public void DeserializeMissingMember()
         {
-            InMemoryTraceWriter traceWriter = new InMemoryTraceWriter
+            var traceWriter = new InMemoryTraceWriter
             {
                 LevelFilter = TraceLevel.Verbose
             };
@@ -903,12 +903,12 @@ Argon Error: 0 : Error!
         [Fact]
         public void DeserializeMissingMemberConstructor()
         {
-            InMemoryTraceWriter traceWriter = new InMemoryTraceWriter
+            var traceWriter = new InMemoryTraceWriter
             {
                 LevelFilter = TraceLevel.Verbose
             };
 
-            string json = @"{
+            var json = @"{
   ""Major"": 1,
   ""Minor"": 2,
   ""Build"": 3,
@@ -932,14 +932,14 @@ Argon Error: 0 : Error!
         [Fact]
         public void PublicParameterizedConstructorWithPropertyNameConflictWithAttribute()
         {
-            InMemoryTraceWriter traceWriter = new InMemoryTraceWriter
+            var traceWriter = new InMemoryTraceWriter
             {
                 LevelFilter = TraceLevel.Verbose
             };
 
-            string json = @"{name:""1""}";
+            var json = @"{name:""1""}";
 
-            PublicParameterizedConstructorWithPropertyNameConflictWithAttribute c = JsonConvert.DeserializeObject<PublicParameterizedConstructorWithPropertyNameConflictWithAttribute>(json, new JsonSerializerSettings
+            var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorWithPropertyNameConflictWithAttribute>(json, new JsonSerializerSettings
             {
                 TraceWriter = traceWriter
             });
@@ -953,12 +953,12 @@ Argon Error: 0 : Error!
         [Fact]
         public void ShouldSerializeTestClass()
         {
-            ShouldSerializeTestClass c = new ShouldSerializeTestClass();
+            var c = new ShouldSerializeTestClass();
             c.Age = 29;
             c.Name = "Jim";
             c._shouldSerializeName = true;
 
-            InMemoryTraceWriter traceWriter = new InMemoryTraceWriter
+            var traceWriter = new InMemoryTraceWriter
             {
                 LevelFilter = TraceLevel.Verbose
             };
@@ -984,17 +984,17 @@ Argon Error: 0 : Error!
         [Fact]
         public void SpecifiedTest()
         {
-            SpecifiedTestClass c = new SpecifiedTestClass();
+            var c = new SpecifiedTestClass();
             c.Name = "James";
             c.Age = 27;
             c.NameSpecified = false;
 
-            InMemoryTraceWriter traceWriter = new InMemoryTraceWriter
+            var traceWriter = new InMemoryTraceWriter
             {
                 LevelFilter = TraceLevel.Verbose
             };
 
-            string json = JsonConvert.SerializeObject(c, Formatting.Indented, new JsonSerializerSettings { TraceWriter = traceWriter });
+            var json = JsonConvert.SerializeObject(c, Formatting.Indented, new JsonSerializerSettings { TraceWriter = traceWriter });
 
             Assert.AreEqual("Started serializing Argon.Tests.Serialization.SpecifiedTestClass. Path ''.", traceWriter.TraceRecords[0].Message);
             Assert.AreEqual("IsSpecified result for property 'Name' on Argon.Tests.Serialization.SpecifiedTestClass: False. Path ''.", traceWriter.TraceRecords[1].Message);
@@ -1012,7 +1012,7 @@ Argon Error: 0 : Error!
                 LevelFilter = TraceLevel.Verbose
             };
 
-            SpecifiedTestClass deserialized = JsonConvert.DeserializeObject<SpecifiedTestClass>(json, new JsonSerializerSettings { TraceWriter = traceWriter });
+            var deserialized = JsonConvert.DeserializeObject<SpecifiedTestClass>(json, new JsonSerializerSettings { TraceWriter = traceWriter });
 
             Assert.AreEqual("Started deserializing Argon.Tests.Serialization.SpecifiedTestClass. Path 'Age', line 2, position 8.", traceWriter.TraceRecords[0].Message);
             Assert.IsTrue(traceWriter.TraceRecords[1].Message.StartsWith("Finished deserializing Argon.Tests.Serialization.SpecifiedTestClass. Path ''"));
@@ -1063,9 +1063,9 @@ Argon Error: 0 : Error!
         [Fact]
         public void TraceJsonWriterTest_WriteObjectInObject()
         {
-            StringWriter sw = new StringWriter(CultureInfo.InvariantCulture);
-            JsonTextWriter w = new JsonTextWriter(sw);
-            TraceJsonWriter traceWriter = new TraceJsonWriter(w);
+            var sw = new StringWriter(CultureInfo.InvariantCulture);
+            var w = new JsonTextWriter(sw);
+            var traceWriter = new TraceJsonWriter(w);
 
             traceWriter.WriteStartObject();
             traceWriter.WritePropertyName("Prop1");
@@ -1074,7 +1074,7 @@ Argon Error: 0 : Error!
             traceWriter.Flush();
             traceWriter.Close();
 
-            string json = @"{
+            var json = @"{
   ""Prop1"": 1
 }";
 
@@ -1084,9 +1084,9 @@ Argon Error: 0 : Error!
         [Fact]
         public async Task TraceJsonWriterTest_WriteObjectInObjectAsync()
         {
-            StringWriter sw = new StringWriter(CultureInfo.InvariantCulture);
-            JsonTextWriter w = new JsonTextWriter(sw);
-            TraceJsonWriter traceWriter = new TraceJsonWriter(w);
+            var sw = new StringWriter(CultureInfo.InvariantCulture);
+            var w = new JsonTextWriter(sw);
+            var traceWriter = new TraceJsonWriter(w);
 
             await traceWriter.WriteStartObjectAsync();
             await traceWriter.WritePropertyNameAsync("Prop1");
@@ -1095,7 +1095,7 @@ Argon Error: 0 : Error!
             await traceWriter.FlushAsync();
             traceWriter.Close();
 
-            string json = @"{
+            var json = @"{
   ""Prop1"": 1
 }";
 
@@ -1105,9 +1105,9 @@ Argon Error: 0 : Error!
         [Fact]
         public void TraceJsonWriterTest()
         {
-            StringWriter sw = new StringWriter(CultureInfo.InvariantCulture);
-            JsonTextWriter w = new JsonTextWriter(sw);
-            TraceJsonWriter traceWriter = new TraceJsonWriter(w);
+            var sw = new StringWriter(CultureInfo.InvariantCulture);
+            var w = new JsonTextWriter(sw);
+            var traceWriter = new TraceJsonWriter(w);
 
             traceWriter.WriteStartObject();
             traceWriter.WritePropertyName("Array");
@@ -1167,7 +1167,7 @@ Argon Error: 0 : Error!
             traceWriter.Flush();
             traceWriter.Close();
 
-            string json = @"{
+            var json = @"{
   ""Array"": [
     ""String!"",
     ""2000-12-12T12:12:12Z"",
@@ -1224,7 +1224,7 @@ Argon Error: 0 : Error!
         [Fact]
         public void TraceJsonReaderTest()
         {
-            string json = @"{
+            var json = @"{
   ""Array"": [
     ""String!"",
     ""2000-12-12T12:12:12Z"",
@@ -1244,9 +1244,9 @@ Argon Error: 0 : Error!
   ]
 }";
 
-            StringReader sw = new StringReader(json);
-            JsonTextReader w = new JsonTextReader(sw);
-            TraceJsonReader traceReader = new TraceJsonReader(w);
+            var sw = new StringReader(json);
+            var w = new JsonTextReader(sw);
+            var traceReader = new TraceJsonReader(w);
 
             traceReader.Read();
             Assert.AreEqual(JsonToken.StartObject, traceReader.TokenType);
@@ -1371,7 +1371,7 @@ Argon Error: 0 : Error!
 
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             foreach (var traceRecord in TraceRecords)
             {
                 sb.AppendLine(traceRecord.Message);

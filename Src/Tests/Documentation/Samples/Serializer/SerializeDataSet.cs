@@ -41,27 +41,27 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            DataSet dataSet = new DataSet("dataSet");
+            var dataSet = new DataSet("dataSet");
             dataSet.Namespace = "NetFrameWork";
-            DataTable table = new DataTable();
-            DataColumn idColumn = new DataColumn("id", typeof(int));
+            var table = new DataTable();
+            var idColumn = new DataColumn("id", typeof(int));
             idColumn.AutoIncrement = true;
 
-            DataColumn itemColumn = new DataColumn("item");
+            var itemColumn = new DataColumn("item");
             table.Columns.Add(idColumn);
             table.Columns.Add(itemColumn);
             dataSet.Tables.Add(table);
 
-            for (int i = 0; i < 2; i++)
+            for (var i = 0; i < 2; i++)
             {
-                DataRow newRow = table.NewRow();
+                var newRow = table.NewRow();
                 newRow["item"] = "item " + i;
                 table.Rows.Add(newRow);
             }
 
             dataSet.AcceptChanges();
 
-            string json = JsonConvert.SerializeObject(dataSet, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(dataSet, Formatting.Indented);
 
             Console.WriteLine(json);
             // {

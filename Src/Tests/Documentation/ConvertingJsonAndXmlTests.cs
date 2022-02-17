@@ -52,7 +52,7 @@ namespace Argon.Tests.Documentation
         public void SerializeXmlNode()
         {
             #region SerializeXmlNode
-            string xml = @"<?xml version='1.0' standalone='no'?>
+            var xml = @"<?xml version='1.0' standalone='no'?>
             <root>
               <person id='1'>
                 <name>Alan</name>
@@ -64,10 +64,10 @@ namespace Argon.Tests.Documentation
               </person>
             </root>";
 
-            XmlDocument doc = new XmlDocument();
+            var doc = new XmlDocument();
             doc.LoadXml(xml);
 
-            string jsonText = JsonConvert.SerializeXmlNode(doc);
+            var jsonText = JsonConvert.SerializeXmlNode(doc);
             //{
             //  "?xml": {
             //    "@version": "1.0",
@@ -95,7 +95,7 @@ namespace Argon.Tests.Documentation
         public void DeserializeXmlNode()
         {
             #region DeserializeXmlNode
-            string json = @"{
+            var json = @"{
               '?xml': {
                 '@version': '1.0',
                 '@standalone': 'no'
@@ -116,7 +116,7 @@ namespace Argon.Tests.Documentation
               }
             }";
 
-            XmlDocument doc = (XmlDocument)JsonConvert.DeserializeXmlNode(json);
+            var doc = (XmlDocument)JsonConvert.DeserializeXmlNode(json);
             // <?xml version="1.0" standalone="no"?>
             // <root>
             //   <person id="1">
@@ -135,16 +135,16 @@ namespace Argon.Tests.Documentation
         public void ForceJsonArray()
         {
             #region ForceJsonArray
-            string xml = @"<person id='1'>
+            var xml = @"<person id='1'>
 			  <name>Alan</name>
 			  <url>http://www.google.com</url>
 			  <role>Admin1</role>
 			</person>";
 
-            XmlDocument doc = new XmlDocument();
+            var doc = new XmlDocument();
             doc.LoadXml(xml);
 
-            string json = JsonConvert.SerializeXmlNode(doc);
+            var json = JsonConvert.SerializeXmlNode(doc);
             //{
             //  "person": {
             //    "@id": "1",

@@ -51,7 +51,7 @@ namespace Argon.Tests.Documentation.Samples.Linq
         public void Example()
         {
             #region Usage
-            List<Post> posts = new List<Post>
+            var posts = new List<Post>
             {
                 new Post
                 {
@@ -66,7 +66,7 @@ namespace Argon.Tests.Documentation.Samples.Linq
                 }
             };
 
-            JObject o = JObject.FromObject(new
+            var o = JObject.FromObject(new
             {
                 channel = new
                 {

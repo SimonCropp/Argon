@@ -43,8 +43,8 @@ namespace Argon.Tests.Benchmarks
         [Benchmark]
         public void ReadLargeJson()
         {
-            using (StreamReader fs = System.IO.File.OpenText("large.json"))
-            using (JsonTextReader jsonTextReader = new JsonTextReader(fs))
+            using (var fs = System.IO.File.OpenText("large.json"))
+            using (var jsonTextReader = new JsonTextReader(fs))
             {
                 while (jsonTextReader.Read())
                 {
@@ -55,7 +55,7 @@ namespace Argon.Tests.Benchmarks
         [Benchmark]
         public void ReadAsDecimal()
         {
-            using (JsonTextReader jsonTextReader = new JsonTextReader(new StringReader(FloatArrayJson)))
+            using (var jsonTextReader = new JsonTextReader(new StringReader(FloatArrayJson)))
             {
                 jsonTextReader.Read();
 

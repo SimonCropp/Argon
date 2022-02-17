@@ -52,8 +52,8 @@ namespace Argon.Converters
                 return;
             }
 
-            DataTable table = (DataTable)value;
-            DefaultContractResolver? resolver = serializer.ContractResolver as DefaultContractResolver;
+            var table = (DataTable)value;
+            var resolver = serializer.ContractResolver as DefaultContractResolver;
 
             writer.WriteStartArray();
 
@@ -62,7 +62,7 @@ namespace Argon.Converters
                 writer.WriteStartObject();
                 foreach (DataColumn column in row.Table.Columns)
                 {
-                    object columnValue = row[column];
+                    var columnValue = row[column];
 
                     if (serializer.NullValueHandling == NullValueHandling.Ignore && (columnValue == null || columnValue == DBNull.Value))
                     {
@@ -134,19 +134,19 @@ namespace Argon.Converters
 
         private static void CreateRow(JsonReader reader, DataTable dt, JsonSerializer serializer)
         {
-            DataRow dr = dt.NewRow();
+            var dr = dt.NewRow();
             reader.ReadAndAssert();
 
             while (reader.TokenType == JsonToken.PropertyName)
             {
-                string columnName = (string)reader.Value!;
+                var columnName = (string)reader.Value!;
 
                 reader.ReadAndAssert();
 
-                DataColumn column = dt.Columns[columnName];
+                var column = dt.Columns[columnName];
                 if (column == null)
                 {
-                    Type columnType = GetColumnDataType(reader);
+                    var columnType = GetColumnDataType(reader);
                     column = new DataColumn(columnName, columnType);
                     dt.Columns.Add(column);
                 }
@@ -158,7 +158,7 @@ namespace Argon.Converters
                         reader.ReadAndAssert();
                     }
 
-                    DataTable nestedDt = new DataTable();
+                    var nestedDt = new DataTable();
 
                     while (reader.TokenType != JsonToken.EndArray)
                     {
@@ -176,7 +176,7 @@ namespace Argon.Converters
                         reader.ReadAndAssert();
                     }
 
-                    List<object?> o = new List<object?>();
+                    var o = new List<object?>();
 
                     while (reader.TokenType != JsonToken.EndArray)
                     {
@@ -184,14 +184,14 @@ namespace Argon.Converters
                         reader.ReadAndAssert();
                     }
 
-                    Array destinationArray = Array.CreateInstance(column.DataType.GetElementType(), o.Count);
+                    var destinationArray = Array.CreateInstance(column.DataType.GetElementType(), o.Count);
                     ((IList)o).CopyTo(destinationArray, 0);
 
                     dr[columnName] = destinationArray;
                 }
                 else
                 {
-                    object columnValue = (reader.Value != null)
+                    var columnValue = (reader.Value != null)
                         ? serializer.Deserialize(reader, column.DataType) ?? DBNull.Value
                         : DBNull.Value;
 
@@ -207,7 +207,7 @@ namespace Argon.Converters
 
         private static Type GetColumnDataType(JsonReader reader)
         {
-            JsonToken tokenType = reader.TokenType;
+            var tokenType = reader.TokenType;
 
             switch (tokenType)
             {
@@ -229,7 +229,7 @@ namespace Argon.Converters
                         return typeof(DataTable); // nested datatable
                     }
 
-                    Type arrayType = GetColumnDataType(reader);
+                    var arrayType = GetColumnDataType(reader);
                     return arrayType.MakeArrayType();
                 default:
                     throw JsonSerializationException.Create(reader, "Unexpected JSON token when reading DataTable: {0}".FormatWith(CultureInfo.InvariantCulture, tokenType));

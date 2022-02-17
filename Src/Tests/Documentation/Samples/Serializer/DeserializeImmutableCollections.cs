@@ -45,15 +45,15 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            string json = @"[
+            var json = @"[
               'One',
               'II',
               '3'
             ]";
 
-            ImmutableList<string> l = JsonConvert.DeserializeObject<ImmutableList<string>>(json);
+            var l = JsonConvert.DeserializeObject<ImmutableList<string>>(json);
 
-            foreach (string s in l)
+            foreach (var s in l)
             {
                 Console.WriteLine(s);
             }

@@ -129,7 +129,7 @@ Parameter name: content",
 
             left.Merge(right);
 
-            string json = left.ToString();
+            var json = left.ToString();
 
             StringAssert.AreEqual(@"{
   ""Property1"": 1,
@@ -151,7 +151,7 @@ Parameter name: content",
 
             left.Merge(right);
 
-            string json = left.ToString();
+            var json = left.ToString();
 
             StringAssert.AreEqual(@"{
   ""Property1"": {
@@ -176,7 +176,7 @@ Parameter name: content",
 
             left.Merge(right);
 
-            string json = left.ToString();
+            var json = left.ToString();
 
             StringAssert.AreEqual(@"{
   ""Property1"": {
@@ -200,7 +200,7 @@ Parameter name: content",
 
             left.Merge(right);
 
-            string json = left.ToString();
+            var json = left.ToString();
 
             StringAssert.AreEqual(@"{
   ""Property1"": {
@@ -269,7 +269,7 @@ Parameter name: content",
                 MergeArrayHandling = MergeArrayHandling.Merge
             });
 
-            string json = left.ToString();
+            var json = left.ToString();
 
             StringAssert.AreEqual(@"{
   ""Array1"": [
@@ -320,7 +320,7 @@ Parameter name: content",
                 MergeArrayHandling = MergeArrayHandling.Concat
             });
 
-            string json = left.ToString();
+            var json = left.ToString();
 
             StringAssert.AreEqual(@"{
   ""Array1"": [
@@ -372,7 +372,7 @@ Parameter name: content",
                 MergeArrayHandling = MergeArrayHandling.Merge
             });
 
-            string json = left.ToString();
+            var json = left.ToString();
 
             StringAssert.AreEqual(@"[
   1,
@@ -424,7 +424,7 @@ Parameter name: content",
 
             left.Merge(right);
 
-            string json = left.ToString();
+            var json = left.ToString();
 
             StringAssert.AreEqual(@"{
   ""Property1"": {
@@ -464,7 +464,7 @@ Parameter name: content",
                 MergeArrayHandling = MergeArrayHandling.Replace
             });
 
-            string json = left.ToString();
+            var json = left.ToString();
 
             StringAssert.AreEqual(@"{
   ""Array1"": [
@@ -494,7 +494,7 @@ Parameter name: content",
                 MergeArrayHandling = MergeArrayHandling.Replace
             });
 
-            string json = left.ToString();
+            var json = left.ToString();
 
             StringAssert.AreEqual(@"[
   4,
@@ -528,7 +528,7 @@ Parameter name: content",
                 MergeArrayHandling = MergeArrayHandling.Union
             });
 
-            string json = left.ToString();
+            var json = left.ToString();
 
             StringAssert.AreEqual(@"{
   ""Array1"": [
@@ -551,18 +551,18 @@ Parameter name: content",
         [Fact]
         public void MergeJProperty()
         {
-            JProperty p1 = new JProperty("p1", 1);
-            JProperty p2 = new JProperty("p2", 2);
+            var p1 = new JProperty("p1", 1);
+            var p2 = new JProperty("p2", 2);
 
             p1.Merge(p2);
             Assert.AreEqual(2, (int)p1.Value);
 
-            JProperty p3 = new JProperty("p3");
+            var p3 = new JProperty("p3");
 
             p1.Merge(p3);
             Assert.AreEqual(2, (int)p1.Value);
 
-            JProperty p4 = new JProperty("p4", null);
+            var p4 = new JProperty("p4", null);
 
             p1.Merge(p4);
             Assert.AreEqual(2, (int)p1.Value);
@@ -571,18 +571,18 @@ Parameter name: content",
         [Fact]
         public void MergeJConstructor()
         {
-            JConstructor c1 = new JConstructor("c1", new[] { 1, 2 });
-            JConstructor c2 = new JConstructor("c2", new[] { 3, 4 });
+            var c1 = new JConstructor("c1", new[] { 1, 2 });
+            var c2 = new JConstructor("c2", new[] { 3, 4 });
 
             c1.Merge(c2);
             Assert.AreEqual("c2", c1.Name);
             CollectionAssert.AreEquivalent(new[] { 1, 2, 3, 4 }, c1.Select(i => (int)i));
 
-            JConstructor c3 = new JConstructor();
+            var c3 = new JConstructor();
             c1.Merge(c3);
             Assert.AreEqual("c2", c1.Name);
 
-            JConstructor c4 = new JConstructor("c4", new[] { 5, 6 });
+            var c4 = new JConstructor("c4", new[] { 5, 6 });
             c1.Merge(c4, new JsonMergeSettings
             {
                 MergeArrayHandling = MergeArrayHandling.Replace
@@ -594,20 +594,20 @@ Parameter name: content",
         [Fact]
         public void MergeDefaultContainers()
         {
-            JConstructor c = new JConstructor();
+            var c = new JConstructor();
             c.Merge(new JConstructor());
             Assert.AreEqual(null, c.Name);
             Assert.AreEqual(0, c.Count);
 
-            JObject o = new JObject();
+            var o = new JObject();
             o.Merge(new JObject());
             Assert.AreEqual(0, o.Count);
 
-            JArray a = new JArray();
+            var a = new JArray();
             a.Merge(new JArray());
             Assert.AreEqual(0, a.Count);
 
-            JProperty p = new JProperty("name1");
+            var p = new JProperty("name1");
             p.Merge(new JProperty("name2"));
             Assert.AreEqual("name1", p.Name);
             Assert.AreEqual(0, p.Count);
@@ -616,20 +616,20 @@ Parameter name: content",
         [Fact]
         public void MergeNull()
         {
-            JConstructor c = new JConstructor();
+            var c = new JConstructor();
             c.Merge(null);
             Assert.AreEqual(null, c.Name);
             Assert.AreEqual(0, c.Count);
 
-            JObject o = new JObject();
+            var o = new JObject();
             o.Merge(null);
             Assert.AreEqual(0, o.Count);
 
-            JArray a = new JArray();
+            var a = new JArray();
             a.Merge(null);
             Assert.AreEqual(0, a.Count);
 
-            JProperty p = new JProperty("name1");
+            var p = new JProperty("name1");
             p.Merge(null);
             Assert.AreEqual("name1", p.Name);
             Assert.AreEqual(0, p.Count);
@@ -669,19 +669,19 @@ Parameter name: content",
         [Fact]
         public void MergeNullValueHandling_Array()
         {
-            string originalJson = @"{
+            var originalJson = @"{
   ""Bar"": [
     ""a"",
     ""b"",
     ""c""
   ]
 }";
-            string newJson = @"{
+            var newJson = @"{
   ""Bar"": null
 }";
 
-            JObject oldFoo = JObject.Parse(originalJson);
-            JObject newFoo = JObject.Parse(newJson);
+            var oldFoo = JObject.Parse(originalJson);
+            var newFoo = JObject.Parse(newJson);
 
             oldFoo.Merge(newFoo, new JsonMergeSettings
             {
@@ -701,15 +701,15 @@ Parameter name: content",
         [Fact]
         public void MergeNullValueHandling_Object()
         {
-            string originalJson = @"{
+            var originalJson = @"{
   ""Bar"": {}
 }";
-            string newJson = @"{
+            var newJson = @"{
   ""Bar"": null
 }";
 
-            JObject oldFoo = JObject.Parse(originalJson);
-            JObject newFoo = JObject.Parse(newJson);
+            var oldFoo = JObject.Parse(originalJson);
+            var newFoo = JObject.Parse(newJson);
 
             oldFoo.Merge(newFoo, new JsonMergeSettings
             {
@@ -729,11 +729,11 @@ Parameter name: content",
         [Fact]
         public void Merge_IgnorePropertyCase()
         {
-            JObject o1 = JObject.Parse(@"{
+            var o1 = JObject.Parse(@"{
                                           'Id': '1',
                                           'Words': [ 'User' ]
                                         }");
-            JObject o2 = JObject.Parse(@"{
+            var o2 = JObject.Parse(@"{
                                             'Id': '1',
                                             'words': [ 'Name' ]
                                         }");
@@ -748,7 +748,7 @@ Parameter name: content",
             Assert.IsNull(o1["words"]);
             Assert.IsNotNull(o1["Words"]);
 
-            JArray words = (JArray)o1["Words"];
+            var words = (JArray)o1["Words"];
             Assert.AreEqual("User", (string)words[0]);
             Assert.AreEqual("Name", (string)words[1]);
         }
@@ -756,7 +756,7 @@ Parameter name: content",
         [Fact]
         public void MergeSettingsComparisonDefault()
         {
-            JsonMergeSettings settings = new JsonMergeSettings();
+            var settings = new JsonMergeSettings();
 
             Assert.AreEqual(StringComparison.Ordinal, settings.PropertyNameComparison);
         }

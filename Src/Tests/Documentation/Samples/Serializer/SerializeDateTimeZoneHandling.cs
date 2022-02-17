@@ -50,7 +50,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            Flight flight = new Flight
+            var flight = new Flight
             {
                 Destination = "Dubai",
                 DepartureDate = new DateTime(2013, 1, 21, 0, 0, 0, DateTimeKind.Unspecified),
@@ -59,7 +59,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
                 Duration = TimeSpan.FromHours(5.5)
             };
 
-            string jsonWithRoundtripTimeZone = JsonConvert.SerializeObject(flight, Formatting.Indented, new JsonSerializerSettings
+            var jsonWithRoundtripTimeZone = JsonConvert.SerializeObject(flight, Formatting.Indented, new JsonSerializerSettings
             {
                 DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind
             });
@@ -73,7 +73,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
             //   "Duration": "05:30:00"
             // }
 
-            string jsonWithLocalTimeZone = JsonConvert.SerializeObject(flight, Formatting.Indented, new JsonSerializerSettings
+            var jsonWithLocalTimeZone = JsonConvert.SerializeObject(flight, Formatting.Indented, new JsonSerializerSettings
             {
                 DateTimeZoneHandling = DateTimeZoneHandling.Local
             });
@@ -87,7 +87,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
             //   "Duration": "05:30:00"
             // }
 
-            string jsonWithUtcTimeZone = JsonConvert.SerializeObject(flight, Formatting.Indented, new JsonSerializerSettings
+            var jsonWithUtcTimeZone = JsonConvert.SerializeObject(flight, Formatting.Indented, new JsonSerializerSettings
             {
                 DateTimeZoneHandling = DateTimeZoneHandling.Utc
             });
@@ -101,7 +101,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
             //   "Duration": "05:30:00"
             // }
 
-            string jsonWithUnspecifiedTimeZone = JsonConvert.SerializeObject(flight, Formatting.Indented, new JsonSerializerSettings
+            var jsonWithUnspecifiedTimeZone = JsonConvert.SerializeObject(flight, Formatting.Indented, new JsonSerializerSettings
             {
                 DateTimeZoneHandling = DateTimeZoneHandling.Unspecified
             });

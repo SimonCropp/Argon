@@ -61,7 +61,7 @@ namespace Argon.Converters
                 return null;
             }
 
-            T value = Create(objectType);
+            var value = Create(objectType);
             if (value == null)
             {
                 throw new JsonSerializationException("No object created.");

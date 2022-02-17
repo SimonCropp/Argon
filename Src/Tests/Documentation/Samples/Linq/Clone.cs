@@ -40,7 +40,7 @@ namespace Argon.Tests.Documentation.Samples.Linq
         public void Example()
         {
             #region Usage
-            JObject o1 = new JObject
+            var o1 = new JObject
             {
                 { "String", "A string!" },
                 { "Items", new JArray(1, 2) }
@@ -55,7 +55,7 @@ namespace Argon.Tests.Documentation.Samples.Linq
             //   ]
             // }
 
-            JObject o2 = (JObject)o1.DeepClone();
+            var o2 = (JObject)o1.DeepClone();
 
             Console.WriteLine(o2.ToString());
             // {

@@ -40,7 +40,7 @@ namespace Argon.Tests.Documentation.Samples.Xml
         public void Example()
         {
             #region Usage
-            string xml = @"<?xml version='1.0' standalone='no'?>
+            var xml = @"<?xml version='1.0' standalone='no'?>
             <root>
               <person id='1'>
               <name>Alan</name>
@@ -52,10 +52,10 @@ namespace Argon.Tests.Documentation.Samples.Xml
               </person>
             </root>";
 
-            XmlDocument doc = new XmlDocument();
+            var doc = new XmlDocument();
             doc.LoadXml(xml);
 
-            string json = JsonConvert.SerializeXmlNode(doc);
+            var json = JsonConvert.SerializeXmlNode(doc);
 
             Console.WriteLine(json);
             // {

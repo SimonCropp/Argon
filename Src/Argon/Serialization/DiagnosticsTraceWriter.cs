@@ -49,8 +49,8 @@ namespace Argon.Serialization
                 return;
             }
 
-            TraceEventCache eventCache = new TraceEventCache();
-            TraceEventType traceEventType = GetTraceEventType(level);
+            var eventCache = new TraceEventCache();
+            var traceEventType = GetTraceEventType(level);
 
             foreach (TraceListener listener in DiagnosticsTrace.Listeners)
             {

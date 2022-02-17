@@ -233,8 +233,8 @@ namespace Argon.Serialization
                 ImmutableCollectionsUtils.TryBuildImmutableForArrayContract(
                 NonNullableUnderlyingType,
                 CollectionItemType,
-                out Type? immutableCreatedType,
-                out ObjectConstructor<object>? immutableParameterizedCreator))
+                out var immutableCreatedType,
+                out var immutableParameterizedCreator))
             {
                 CreatedType = immutableCreatedType;
                 _parameterizedCreator = immutableParameterizedCreator;
@@ -263,7 +263,7 @@ namespace Argon.Serialization
                     constructorArgument = _genericCollectionDefinitionType;
                 }
 
-                ConstructorInfo genericWrapperConstructor = _genericWrapperType.GetConstructor(new[] { constructorArgument });
+                var genericWrapperConstructor = _genericWrapperType.GetConstructor(new[] { constructorArgument });
                 _genericWrapperCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(genericWrapperConstructor);
             }
 
@@ -275,11 +275,11 @@ namespace Argon.Serialization
             if (_genericTemporaryCollectionCreator == null)
             {
                 // multidimensional array will also have array instances in it
-                Type collectionItemType = (IsMultidimensionalArray || CollectionItemType == null)
+                var collectionItemType = (IsMultidimensionalArray || CollectionItemType == null)
                     ? typeof(object)
                     : CollectionItemType;
 
-                Type temporaryListType = typeof(List<>).MakeGenericType(collectionItemType);
+                var temporaryListType = typeof(List<>).MakeGenericType(collectionItemType);
                 _genericTemporaryCollectionCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateDefaultConstructor<object>(temporaryListType);
             }
 

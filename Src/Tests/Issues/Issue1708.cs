@@ -46,12 +46,12 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test_DateTime()
         {
-            JsonTextReader jsonTextReader = new JsonTextReader(new StringReader("'2018-05-27T23:25:08Z'"));
+            var jsonTextReader = new JsonTextReader(new StringReader("'2018-05-27T23:25:08Z'"));
             jsonTextReader.DateParseHandling = DateParseHandling.None;
             jsonTextReader.Read();
 
-            JsonSerializer serializer = new JsonSerializer();
-            DateTime dt = serializer.Deserialize<DateTime>(jsonTextReader);
+            var serializer = new JsonSerializer();
+            var dt = serializer.Deserialize<DateTime>(jsonTextReader);
 
             Assert.AreEqual(DateTimeKind.Utc, dt.Kind);
         }

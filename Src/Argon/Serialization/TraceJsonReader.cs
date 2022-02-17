@@ -56,63 +56,63 @@ namespace Argon.Serialization
 
         public override bool Read()
         {
-            bool value = _innerReader.Read();
+            var value = _innerReader.Read();
             WriteCurrentToken();
             return value;
         }
 
         public override int? ReadAsInt32()
         {
-            int? value = _innerReader.ReadAsInt32();
+            var value = _innerReader.ReadAsInt32();
             WriteCurrentToken();
             return value;
         }
 
         public override string? ReadAsString()
         {
-            string? value = _innerReader.ReadAsString();
+            var value = _innerReader.ReadAsString();
             WriteCurrentToken();
             return value;
         }
 
         public override byte[]? ReadAsBytes()
         {
-            byte[]? value = _innerReader.ReadAsBytes();
+            var value = _innerReader.ReadAsBytes();
             WriteCurrentToken();
             return value;
         }
 
         public override decimal? ReadAsDecimal()
         {
-            decimal? value = _innerReader.ReadAsDecimal();
+            var value = _innerReader.ReadAsDecimal();
             WriteCurrentToken();
             return value;
         }
 
         public override double? ReadAsDouble()
         {
-            double? value = _innerReader.ReadAsDouble();
+            var value = _innerReader.ReadAsDouble();
             WriteCurrentToken();
             return value;
         }
 
         public override bool? ReadAsBoolean()
         {
-            bool? value = _innerReader.ReadAsBoolean();
+            var value = _innerReader.ReadAsBoolean();
             WriteCurrentToken();
             return value;
         }
 
         public override DateTime? ReadAsDateTime()
         {
-            DateTime? value = _innerReader.ReadAsDateTime();
+            var value = _innerReader.ReadAsDateTime();
             WriteCurrentToken();
             return value;
         }
 
         public override DateTimeOffset? ReadAsDateTimeOffset()
         {
-            DateTimeOffset? value = _innerReader.ReadAsDateTimeOffset();
+            var value = _innerReader.ReadAsDateTimeOffset();
             WriteCurrentToken();
             return value;
         }

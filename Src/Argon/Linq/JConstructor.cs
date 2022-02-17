@@ -161,8 +161,8 @@ namespace Argon.Linq
         {
             writer.WriteStartConstructor(_name!);
 
-            int count = _values.Count;
-            for (int i = 0; i < count; i++)
+            var count = _values.Count;
+            for (var i = 0; i < count; i++)
             {
                 _values[i].WriteTo(writer, converters);
             }
@@ -239,7 +239,7 @@ namespace Argon.Linq
                 throw JsonReaderException.Create(reader, "Error reading JConstructor from JsonReader. Current JsonReader item is not a constructor: {0}".FormatWith(CultureInfo.InvariantCulture, reader.TokenType));
             }
 
-            JConstructor c = new JConstructor((string)reader.Value!);
+            var c = new JConstructor((string)reader.Value!);
             c.SetLineInfo(reader as IJsonLineInfo, settings);
 
             c.ReadTokenFrom(reader, settings);

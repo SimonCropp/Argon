@@ -70,7 +70,7 @@ namespace Argon.Serialization
             // use the objectType's TypeConverter if it has one and can convert to a string
             if (typeConverter != null)
             {
-                Type converterType = typeConverter.GetType();
+                var converterType = typeConverter.GetType();
 
                 if (!string.Equals(converterType.FullName, "System.ComponentModel.ComponentConverter", StringComparison.Ordinal)
                     && !string.Equals(converterType.FullName, "System.ComponentModel.ReferenceConverter", StringComparison.Ordinal)
@@ -88,11 +88,11 @@ namespace Argon.Serialization
         public static DataContractAttribute? GetDataContractAttribute(Type type)
         {
             // DataContractAttribute does not have inheritance
-            Type currentType = type;
+            var currentType = type;
 
             while (currentType != null)
             {
-                DataContractAttribute? result = CachedAttributeGetter<DataContractAttribute>.GetAttribute(currentType);
+                var result = CachedAttributeGetter<DataContractAttribute>.GetAttribute(currentType);
                 if (result != null)
                 {
                     return result;
@@ -115,17 +115,17 @@ namespace Argon.Serialization
             }
 
             // search property and then search base properties if nothing is returned and the property is virtual
-            PropertyInfo propertyInfo = (PropertyInfo)memberInfo;
-            DataMemberAttribute? result = CachedAttributeGetter<DataMemberAttribute>.GetAttribute(propertyInfo);
+            var propertyInfo = (PropertyInfo)memberInfo;
+            var result = CachedAttributeGetter<DataMemberAttribute>.GetAttribute(propertyInfo);
             if (result == null)
             {
                 if (propertyInfo.IsVirtual())
                 {
-                    Type currentType = propertyInfo.DeclaringType;
+                    var currentType = propertyInfo.DeclaringType;
 
                     while (result == null && currentType != null)
                     {
-                        PropertyInfo baseProperty = (PropertyInfo)ReflectionUtils.GetMemberInfoFromType(currentType, propertyInfo);
+                        var baseProperty = (PropertyInfo)ReflectionUtils.GetMemberInfoFromType(currentType, propertyInfo);
                         if (baseProperty != null && baseProperty.IsVirtual())
                         {
                             result = CachedAttributeGetter<DataMemberAttribute>.GetAttribute(baseProperty);
@@ -141,13 +141,13 @@ namespace Argon.Serialization
 
         public static MemberSerialization GetObjectMemberSerialization(Type objectType, bool ignoreSerializableAttribute)
         {
-            JsonObjectAttribute? objectAttribute = GetCachedAttribute<JsonObjectAttribute>(objectType);
+            var objectAttribute = GetCachedAttribute<JsonObjectAttribute>(objectType);
             if (objectAttribute != null)
             {
                 return objectAttribute.MemberSerialization;
             }
 
-            DataContractAttribute? dataContractAttribute = GetDataContractAttribute(objectType);
+            var dataContractAttribute = GetDataContractAttribute(objectType);
             if (dataContractAttribute != null)
             {
                 return MemberSerialization.OptIn;
@@ -164,11 +164,11 @@ namespace Argon.Serialization
 
         public static JsonConverter? GetJsonConverter(object attributeProvider)
         {
-            JsonConverterAttribute? converterAttribute = GetCachedAttribute<JsonConverterAttribute>(attributeProvider);
+            var converterAttribute = GetCachedAttribute<JsonConverterAttribute>(attributeProvider);
 
             if (converterAttribute != null)
             {
-                Func<object[]?, object> creator = CreatorCache.Get(converterAttribute.ConverterType);
+                var creator = CreatorCache.Get(converterAttribute.ConverterType);
                 if (creator != null)
                 {
                     return (JsonConverter)creator(converterAttribute.ConverterParameters);
@@ -186,13 +186,13 @@ namespace Argon.Serialization
         /// If <c>null</c>, the default constructor is used.</param>
         public static JsonConverter CreateJsonConverterInstance(Type converterType, object[]? args)
         {
-            Func<object[]?, object> converterCreator = CreatorCache.Get(converterType);
+            var converterCreator = CreatorCache.Get(converterType);
             return (JsonConverter)converterCreator(args);
         }
 
         public static NamingStrategy CreateNamingStrategyInstance(Type namingStrategyType, object[]? args)
         {
-            Func<object[]?, object> converterCreator = CreatorCache.Get(namingStrategyType);
+            var converterCreator = CreatorCache.Get(namingStrategyType);
             return (NamingStrategy)converterCreator(args);
         }
 
@@ -213,7 +213,7 @@ namespace Argon.Serialization
 
         private static Func<object[]?, object> GetCreator(Type type)
         {
-            Func<object>? defaultConstructor = (ReflectionUtils.HasDefaultConstructor(type, false))
+            var defaultConstructor = (ReflectionUtils.HasDefaultConstructor(type, false))
                 ? ReflectionDelegateFactory.CreateDefaultConstructor<object>(type)
                 : null;
 
@@ -232,11 +232,11 @@ namespace Argon.Serialization
 
                             return param.GetType();
                         }).ToArray();
-                        ConstructorInfo parameterizedConstructorInfo = type.GetConstructor(paramTypes);
+                        var parameterizedConstructorInfo = type.GetConstructor(paramTypes);
 
                         if (parameterizedConstructorInfo != null)
                         {
-                            ObjectConstructor<object> parameterizedConstructor = ReflectionDelegateFactory.CreateParameterizedConstructor(parameterizedConstructorInfo);
+                            var parameterizedConstructor = ReflectionDelegateFactory.CreateParameterizedConstructor(parameterizedConstructorInfo);
                             return parameterizedConstructor(parameters);
                         }
                         else
@@ -266,11 +266,11 @@ namespace Argon.Serialization
 
         private static Type? GetAssociateMetadataTypeFromAttribute(Type type)
         {
-            Attribute[] customAttributes = ReflectionUtils.GetAttributes(type, null, true);
+            var customAttributes = ReflectionUtils.GetAttributes(type, null, true);
 
-            foreach (Attribute attribute in customAttributes)
+            foreach (var attribute in customAttributes)
             {
-                Type attributeType = attribute.GetType();
+                var attributeType = attribute.GetType();
 
                 // only test on attribute type name
                 // attribute assembly could change because of type forwarding, etc
@@ -294,7 +294,7 @@ namespace Argon.Serialization
         {
             T? attribute;
 
-            Type? metadataType = GetAssociatedMetadataType(type);
+            var metadataType = GetAssociatedMetadataType(type);
             if (metadataType != null)
             {
                 attribute = ReflectionUtils.GetAttribute<T>(metadataType, true);
@@ -310,7 +310,7 @@ namespace Argon.Serialization
                 return attribute;
             }
 
-            foreach (Type typeInterface in type.GetInterfaces())
+            foreach (var typeInterface in type.GetInterfaces())
             {
                 attribute = ReflectionUtils.GetAttribute<T>(typeInterface, true);
                 if (attribute != null)
@@ -326,10 +326,10 @@ namespace Argon.Serialization
         {
             T? attribute;
 
-            Type? metadataType = GetAssociatedMetadataType(memberInfo.DeclaringType);
+            var metadataType = GetAssociatedMetadataType(memberInfo.DeclaringType);
             if (metadataType != null)
             {
-                MemberInfo metadataTypeMemberInfo = ReflectionUtils.GetMemberInfoFromType(metadataType, memberInfo);
+                var metadataTypeMemberInfo = ReflectionUtils.GetMemberInfoFromType(metadataType, memberInfo);
 
                 if (metadataTypeMemberInfo != null)
                 {
@@ -349,9 +349,9 @@ namespace Argon.Serialization
 
             if (memberInfo.DeclaringType != null)
             {
-                foreach (Type typeInterface in memberInfo.DeclaringType.GetInterfaces())
+                foreach (var typeInterface in memberInfo.DeclaringType.GetInterfaces())
                 {
-                    MemberInfo interfaceTypeMemberInfo = ReflectionUtils.GetMemberInfoFromType(typeInterface, memberInfo);
+                    var interfaceTypeMemberInfo = ReflectionUtils.GetMemberInfoFromType(typeInterface, memberInfo);
 
                     if (interfaceTypeMemberInfo != null)
                     {
@@ -442,7 +442,7 @@ namespace Argon.Serialization
             {
                 if (_fullyTrusted == null)
                 {
-                    AppDomain appDomain = AppDomain.CurrentDomain;
+                    var appDomain = AppDomain.CurrentDomain;
 
                     _fullyTrusted = appDomain.IsHomogenous && appDomain.IsFullyTrusted;
                 }

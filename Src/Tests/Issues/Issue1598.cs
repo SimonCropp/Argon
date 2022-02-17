@@ -45,7 +45,7 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test()
         {
-            Activities activities = new Activities();
+            var activities = new Activities();
             activities.List = new List<Activity>
             {
                 new Activity
@@ -54,7 +54,7 @@ namespace Argon.Tests.Issues
                 }
             };
 
-            string json = JsonConvert.SerializeObject(activities, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(activities, Formatting.Indented);
             // note that this has been reverted back in 11.0.2 because it is causing compat issues
             // https://github.com/JamesNK/Newtonsoft.Json/issues/1627
             StringAssert.AreEqual(@"[
@@ -67,7 +67,7 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test_SubClass()
         {
-            ActivitiesSubClass activities = new ActivitiesSubClass();
+            var activities = new ActivitiesSubClass();
             activities.List = new List<Activity>
             {
                 new Activity
@@ -76,7 +76,7 @@ namespace Argon.Tests.Issues
                 }
             };
 
-            string json = JsonConvert.SerializeObject(activities, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(activities, Formatting.Indented);
             StringAssert.AreEqual(@"[
   {
     ""Name"": ""An activity""

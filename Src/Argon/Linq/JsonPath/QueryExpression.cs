@@ -58,7 +58,7 @@ namespace Argon.Linq.JsonPath
             switch (Operator)
             {
                 case QueryOperator.And:
-                    foreach (QueryExpression e in Expressions)
+                    foreach (var e in Expressions)
                     {
                         if (!e.IsMatch(root, t, settings))
                         {
@@ -67,7 +67,7 @@ namespace Argon.Linq.JsonPath
                     }
                     return true;
                 case QueryOperator.Or:
-                    foreach (QueryExpression e in Expressions)
+                    foreach (var e in Expressions)
                     {
                         if (e.IsMatch(root, t, settings))
                         {
@@ -114,17 +114,17 @@ namespace Argon.Linq.JsonPath
                 return GetResult(root, t, Left).Any();
             }
 
-            using (IEnumerator<JToken> leftResults = GetResult(root, t, Left).GetEnumerator())
+            using (var leftResults = GetResult(root, t, Left).GetEnumerator())
             {
                 if (leftResults.MoveNext())
                 {
-                    IEnumerable<JToken> rightResultsEn = GetResult(root, t, Right);
-                    ICollection<JToken> rightResults = rightResultsEn as ICollection<JToken> ?? rightResultsEn.ToList();
+                    var rightResultsEn = GetResult(root, t, Right);
+                    var rightResults = rightResultsEn as ICollection<JToken> ?? rightResultsEn.ToList();
 
                     do
                     {
-                        JToken leftResult = leftResults.Current;
-                        foreach (JToken rightResult in rightResults)
+                        var leftResult = leftResults.Current;
+                        foreach (var rightResult in rightResults)
                         {
                             if (MatchTokens(leftResult, rightResult, settings))
                             {
@@ -224,13 +224,13 @@ namespace Argon.Linq.JsonPath
                 return false;
             }
 
-            string regexText = (string)pattern.Value!;
-            int patternOptionDelimiterIndex = regexText.LastIndexOf('/');
+            var regexText = (string)pattern.Value!;
+            var patternOptionDelimiterIndex = regexText.LastIndexOf('/');
 
-            string patternText = regexText.Substring(1, patternOptionDelimiterIndex - 1);
-            string optionsText = regexText.Substring(patternOptionDelimiterIndex + 1);
+            var patternText = regexText.Substring(1, patternOptionDelimiterIndex - 1);
+            var optionsText = regexText.Substring(patternOptionDelimiterIndex + 1);
 
-            TimeSpan timeout = settings?.RegexMatchTimeout ?? Regex.InfiniteMatchTimeout;
+            var timeout = settings?.RegexMatchTimeout ?? Regex.InfiniteMatchTimeout;
             return Regex.IsMatch((string)input.Value!, patternText, MiscellaneousUtils.GetRegexOptions(optionsText), timeout);
         }
 
@@ -254,7 +254,7 @@ namespace Argon.Linq.JsonPath
                 return false;
             }
 
-            string queryValueString = (string)queryValue.Value!;
+            var queryValueString = (string)queryValue.Value!;
 
             string currentValueString;
 
@@ -262,7 +262,7 @@ namespace Argon.Linq.JsonPath
             switch (value.Type)
             {
                 case JTokenType.Date:
-                    using (StringWriter writer = StringUtils.CreateStringWriter(64))
+                    using (var writer = StringUtils.CreateStringWriter(64))
                     {
                         if (value.Value is DateTimeOffset offset)
                         {

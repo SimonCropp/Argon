@@ -13,11 +13,11 @@ namespace Argon.Linq.JsonPath
 
         public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings? settings)
         {
-            foreach (JToken t in current)
+            foreach (var t in current)
             {
-                foreach (int i in Indexes)
+                foreach (var i in Indexes)
                 {
-                    JToken? v = GetTokenIndex(t, settings, i);
+                    var v = GetTokenIndex(t, settings, i);
 
                     if (v != null)
                     {

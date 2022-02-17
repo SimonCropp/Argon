@@ -68,16 +68,16 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadWithSupportMultipleContent()
         {
-            string json = @"{ 'name': 'Admin' }{ 'name': 'Publisher' }";
+            var json = @"{ 'name': 'Admin' }{ 'name': 'Publisher' }";
 
             IList<JObject> roles = new List<JObject>();
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
             reader.SupportMultipleContent = true;
 
             while (true)
             {
-                JObject role = (JObject)JToken.ReadFrom(reader);
+                var role = (JObject)JToken.ReadFrom(reader);
 
                 roles.Add(role);
 
@@ -95,7 +95,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void JObjectWithComments()
         {
-            string json = @"{ /*comment2*/
+            var json = @"{ /*comment2*/
         ""Name"": /*comment3*/ ""Apple"" /*comment4*/, /*comment5*/
         ""ExpiryDate"": ""\/Date(1230422400000)\/"",
         ""Price"": 3.99,
@@ -106,7 +106,7 @@ namespace Argon.Tests.Linq
         /*comment11*/ ] /*comment12*/
       } /*comment13*/";
 
-            JToken o = JToken.Parse(json);
+            var o = JToken.Parse(json);
 
             Assert.AreEqual("Apple", (string)o["Name"]);
         }
@@ -138,7 +138,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void TryGetValue()
         {
-            JObject o = new JObject();
+            var o = new JObject();
             o.Add("PropertyNameValue", new JValue(1));
             Assert.AreEqual(1, o.Children().Count());
 
@@ -156,7 +156,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void DictionaryItemShouldSet()
         {
-            JObject o = new JObject();
+            var o = new JObject();
             o["PropertyNameValue"] = new JValue(1);
             Assert.AreEqual(1, o.Children().Count());
 
@@ -180,7 +180,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void Remove()
         {
-            JObject o = new JObject();
+            var o = new JObject();
             o.Add("PropertyNameValue", new JValue(1));
             Assert.AreEqual(1, o.Children().Count());
 
@@ -194,8 +194,8 @@ namespace Argon.Tests.Linq
         [Fact]
         public void GenericCollectionRemove()
         {
-            JValue v = new JValue(1);
-            JObject o = new JObject();
+            var v = new JValue(1);
+            var o = new JObject();
             o.Add("PropertyNameValue", v);
             Assert.AreEqual(1, o.Children().Count());
 
@@ -212,7 +212,7 @@ namespace Argon.Tests.Linq
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                JObject o = new JObject();
+                var o = new JObject();
                 o.Add("PropertyNameValue", null);
                 o.Add("PropertyNameValue", null);
             }, "Can not add property PropertyNameValue to Argon.Linq.JObject. Property with the same name already exists on object.");
@@ -221,7 +221,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void GenericDictionaryAdd()
         {
-            JObject o = new JObject();
+            var o = new JObject();
 
             o.Add("PropertyNameValue", new JValue(1));
             Assert.AreEqual(1, (int)o["PropertyNameValue"]);
@@ -235,7 +235,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void GenericCollectionAdd()
         {
-            JObject o = new JObject();
+            var o = new JObject();
             ((ICollection<KeyValuePair<string, JToken>>)o).Add(new KeyValuePair<string, JToken>("PropertyNameValue", new JValue(1)));
 
             Assert.AreEqual(1, (int)o["PropertyNameValue"]);
@@ -245,11 +245,11 @@ namespace Argon.Tests.Linq
         [Fact]
         public void GenericCollectionClear()
         {
-            JObject o = new JObject();
+            var o = new JObject();
             o.Add("PropertyNameValue", new JValue(1));
             Assert.AreEqual(1, o.Children().Count());
 
-            JProperty p = (JProperty)o.Children().ElementAt(0);
+            var p = (JProperty)o.Children().ElementAt(0);
 
             ((ICollection<KeyValuePair<string, JToken>>)o).Clear();
             Assert.AreEqual(0, o.Children().Count());
@@ -260,12 +260,12 @@ namespace Argon.Tests.Linq
         [Fact]
         public void GenericCollectionContains()
         {
-            JValue v = new JValue(1);
-            JObject o = new JObject();
+            var v = new JValue(1);
+            var o = new JObject();
             o.Add("PropertyNameValue", v);
             Assert.AreEqual(1, o.Children().Count());
 
-            bool contains = ((ICollection<KeyValuePair<string, JToken>>)o).Contains(new KeyValuePair<string, JToken>("PropertyNameValue", new JValue(1)));
+            var contains = ((ICollection<KeyValuePair<string, JToken>>)o).Contains(new KeyValuePair<string, JToken>("PropertyNameValue", new JValue(1)));
             Assert.AreEqual(false, contains);
 
             contains = ((ICollection<KeyValuePair<string, JToken>>)o).Contains(new KeyValuePair<string, JToken>("PropertyNameValue", v));
@@ -284,11 +284,11 @@ namespace Argon.Tests.Linq
         [Fact]
         public void Contains()
         {
-            JObject o = new JObject();
+            var o = new JObject();
             o.Add("PropertyNameValue", new JValue(1));
             Assert.AreEqual(1, o.Children().Count());
 
-            bool contains = o.ContainsKey("PropertyNameValue");
+            var contains = o.ContainsKey("PropertyNameValue");
             Assert.AreEqual(true, contains);
 
             contains = o.ContainsKey("does not exist");
@@ -307,24 +307,24 @@ Parameter name: propertyName",
         [Fact]
         public void GenericDictionaryContains()
         {
-            JObject o = new JObject();
+            var o = new JObject();
             o.Add("PropertyNameValue", new JValue(1));
             Assert.AreEqual(1, o.Children().Count());
 
-            bool contains = ((IDictionary<string, JToken>)o).ContainsKey("PropertyNameValue");
+            var contains = ((IDictionary<string, JToken>)o).ContainsKey("PropertyNameValue");
             Assert.AreEqual(true, contains);
         }
 
         [Fact]
         public void GenericCollectionCopyTo()
         {
-            JObject o = new JObject();
+            var o = new JObject();
             o.Add("PropertyNameValue", new JValue(1));
             o.Add("PropertyNameValue2", new JValue(2));
             o.Add("PropertyNameValue3", new JValue(3));
             Assert.AreEqual(3, o.Children().Count());
 
-            KeyValuePair<string, JToken>[] a = new KeyValuePair<string, JToken>[5];
+            var a = new KeyValuePair<string, JToken>[5];
 
             ((ICollection<KeyValuePair<string, JToken>>)o).CopyTo(a, 1);
 
@@ -347,7 +347,7 @@ Parameter name: propertyName",
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                JObject o = new JObject();
+                var o = new JObject();
                 ((ICollection<KeyValuePair<string, JToken>>)o).CopyTo(null, 0);
             },
             @"Value cannot be null.
@@ -360,7 +360,7 @@ Parameter name: array",
         {
             ExceptionAssert.Throws<ArgumentOutOfRangeException>(() =>
             {
-                JObject o = new JObject();
+                var o = new JObject();
                 ((ICollection<KeyValuePair<string, JToken>>)o).CopyTo(new KeyValuePair<string, JToken>[1], -1);
             },
             @"arrayIndex is less than 0.
@@ -373,7 +373,7 @@ Parameter name: arrayIndex",
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                JObject o = new JObject();
+                var o = new JObject();
                 ((ICollection<KeyValuePair<string, JToken>>)o).CopyTo(new KeyValuePair<string, JToken>[1], 1);
             }, @"arrayIndex is equal to or greater than the length of array.");
         }
@@ -383,7 +383,7 @@ Parameter name: arrayIndex",
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                JObject o = new JObject();
+                var o = new JObject();
                 o.Add("PropertyNameValue", new JValue(1));
                 o.Add("PropertyNameValue2", new JValue(2));
                 o.Add("PropertyNameValue3", new JValue(3));
@@ -395,14 +395,14 @@ Parameter name: arrayIndex",
         [Fact]
         public void FromObjectRaw()
         {
-            PersonRaw raw = new PersonRaw
+            var raw = new PersonRaw
             {
                 FirstName = "FirstNameValue",
                 RawContent = new JRaw("[1,2,3,4,5]"),
                 LastName = "LastNameValue"
             };
 
-            JObject o = JObject.FromObject(raw);
+            var o = JObject.FromObject(raw);
 
             Assert.AreEqual("FirstNameValue", (string)o["first_name"]);
             Assert.AreEqual(JTokenType.Raw, ((JValue)o["RawContent"]).Type);
@@ -413,14 +413,14 @@ Parameter name: arrayIndex",
         [Fact]
         public void JTokenReader()
         {
-            PersonRaw raw = new PersonRaw
+            var raw = new PersonRaw
             {
                 FirstName = "FirstNameValue",
                 RawContent = new JRaw("[1,2,3,4,5]"),
                 LastName = "LastNameValue"
             };
 
-            JObject o = JObject.FromObject(raw);
+            var o = JObject.FromObject(raw);
 
             JsonReader reader = new JTokenReader(o);
 
@@ -454,17 +454,17 @@ Parameter name: arrayIndex",
         [Fact]
         public void DeserializeFromRaw()
         {
-            PersonRaw raw = new PersonRaw
+            var raw = new PersonRaw
             {
                 FirstName = "FirstNameValue",
                 RawContent = new JRaw("[1,2,3,4,5]"),
                 LastName = "LastNameValue"
             };
 
-            JObject o = JObject.FromObject(raw);
+            var o = JObject.FromObject(raw);
 
             JsonReader reader = new JTokenReader(o);
-            JsonSerializer serializer = new JsonSerializer();
+            var serializer = new JsonSerializer();
             raw = (PersonRaw)serializer.Deserialize(reader, typeof(PersonRaw));
 
             Assert.AreEqual("FirstNameValue", raw.FirstName);
@@ -477,7 +477,7 @@ Parameter name: arrayIndex",
         {
             ExceptionAssert.Throws<JsonReaderException>(() =>
             {
-                string json = @"[""prop""]";
+                var json = @"[""prop""]";
                 JObject.Parse(json);
             }, "Error reading JObject from JsonReader. Current JsonReader item is not an object: StartArray. Path '', line 1, position 1.");
         }
@@ -485,10 +485,10 @@ Parameter name: arrayIndex",
         [Fact]
         public void ParseJavaScriptDate()
         {
-            string json = @"[new Date(1207285200000)]";
+            var json = @"[new Date(1207285200000)]";
 
-            JArray a = (JArray)JsonConvert.DeserializeObject(json);
-            JValue v = (JValue)a[0];
+            var a = (JArray)JsonConvert.DeserializeObject(json);
+            var v = (JValue)a[0];
 
             Assert.AreEqual(DateTimeUtils.ConvertJavaScriptTicksToDateTime(1207285200000), (DateTime)v);
         }
@@ -496,9 +496,9 @@ Parameter name: arrayIndex",
         [Fact]
         public void GenericValueCast()
         {
-            string json = @"{""foo"":true}";
-            JObject o = (JObject)JsonConvert.DeserializeObject(json);
-            bool? value = o.Value<bool?>("foo");
+            var json = @"{""foo"":true}";
+            var o = (JObject)JsonConvert.DeserializeObject(json);
+            var value = o.Value<bool?>("foo");
             Assert.AreEqual(true, value);
 
             json = @"{""foo"":null}";
@@ -519,11 +519,11 @@ Parameter name: arrayIndex",
         [Fact]
         public void RawChildValues()
         {
-            JObject o = new JObject();
+            var o = new JObject();
             o["val1"] = new JRaw("1");
             o["val2"] = new JRaw("1");
 
-            string json = o.ToString();
+            var json = o.ToString();
 
             StringAssert.AreEqual(@"{
   ""val1"": 1,
@@ -534,13 +534,13 @@ Parameter name: arrayIndex",
         [Fact]
         public void Iterate()
         {
-            JObject o = new JObject();
+            var o = new JObject();
             o.Add("PropertyNameValue1", new JValue(1));
             o.Add("PropertyNameValue2", new JValue(2));
 
             JToken t = o;
 
-            int i = 1;
+            var i = 1;
             foreach (JProperty property in t)
             {
                 Assert.AreEqual("PropertyNameValue" + i, property.Name);
@@ -553,12 +553,12 @@ Parameter name: arrayIndex",
         [Fact]
         public void KeyValuePairIterate()
         {
-            JObject o = new JObject();
+            var o = new JObject();
             o.Add("PropertyNameValue1", new JValue(1));
             o.Add("PropertyNameValue2", new JValue(2));
 
-            int i = 1;
-            foreach (KeyValuePair<string, JToken> pair in o)
+            var i = 1;
+            foreach (var pair in o)
             {
                 Assert.AreEqual("PropertyNameValue" + i, pair.Key);
                 Assert.AreEqual(i, (int)pair.Value);
@@ -571,14 +571,14 @@ Parameter name: arrayIndex",
         public void WriteObjectNullStringValue()
         {
             string s = null;
-            JValue v = new JValue(s);
+            var v = new JValue(s);
             Assert.AreEqual(null, v.Value);
             Assert.AreEqual(JTokenType.String, v.Type);
 
-            JObject o = new JObject();
+            var o = new JObject();
             o["title"] = v;
 
-            string output = o.ToString();
+            var output = o.ToString();
 
             StringAssert.AreEqual(@"{
   ""title"": null
@@ -588,7 +588,7 @@ Parameter name: arrayIndex",
         [Fact]
         public void Example()
         {
-            string json = @"{
+            var json = @"{
         ""Name"": ""Apple"",
         ""Expiry"": new Date(1230422400000),
         ""Price"": 3.99,
@@ -599,14 +599,14 @@ Parameter name: arrayIndex",
         ]
       }";
 
-            JObject o = JObject.Parse(json);
+            var o = JObject.Parse(json);
 
-            string name = (string)o["Name"];
+            var name = (string)o["Name"];
             // Apple
 
-            JArray sizes = (JArray)o["Sizes"];
+            var sizes = (JArray)o["Sizes"];
 
-            string smallest = (string)sizes[0];
+            var smallest = (string)sizes[0];
             // Small
 
             Assert.AreEqual("Apple", name);
@@ -616,7 +616,7 @@ Parameter name: arrayIndex",
         [Fact]
         public void DeserializeClassManually()
         {
-            string jsonText = @"{
+            var jsonText = @"{
   ""short"":
   {
     ""original"":""http://www.foo.com/"",
@@ -629,9 +629,9 @@ Parameter name: arrayIndex",
   }
 }";
 
-            JObject json = JObject.Parse(jsonText);
+            var json = JObject.Parse(jsonText);
 
-            Shortie shortie = new Shortie
+            var shortie = new Shortie
             {
                 Original = (string)json["short"]["original"],
                 Short = (string)json["short"]["short"],
@@ -652,7 +652,7 @@ Parameter name: arrayIndex",
         [Fact]
         public void JObjectContainingHtml()
         {
-            JObject o = new JObject();
+            var o = new JObject();
             o["rc"] = new JValue(200);
             o["m"] = new JValue("");
             o["o"] = new JValue(@"<div class='s1'>" + StringUtils.CarriageReturnLineFeed + @"</div>");
@@ -667,7 +667,7 @@ Parameter name: arrayIndex",
         [Fact]
         public void ImplicitValueConversions()
         {
-            JObject moss = new JObject();
+            var moss = new JObject();
             moss["FirstName"] = new JValue("Maurice");
             moss["LastName"] = new JValue("Moss");
             moss["BirthDate"] = new JValue(new DateTime(1977, 12, 30));
@@ -682,7 +682,7 @@ Parameter name: arrayIndex",
   ""JobTitle"": ""Support""
 }", moss.ToString());
 
-            JObject jen = new JObject();
+            var jen = new JObject();
             jen["FirstName"] = "Jen";
             jen["LastName"] = "Barber";
             jen["BirthDate"] = new DateTime(1978, 3, 15);
@@ -701,15 +701,15 @@ Parameter name: arrayIndex",
         [Fact]
         public void ReplaceJPropertyWithJPropertyWithSameName()
         {
-            JProperty p1 = new JProperty("Test1", 1);
-            JProperty p2 = new JProperty("Test2", "Two");
+            var p1 = new JProperty("Test1", 1);
+            var p2 = new JProperty("Test2", "Two");
 
-            JObject o = new JObject(p1, p2);
+            var o = new JObject(p1, p2);
             IList l = o;
             Assert.AreEqual(p1, l[0]);
             Assert.AreEqual(p2, l[1]);
 
-            JProperty p3 = new JProperty("Test1", "III");
+            var p3 = new JProperty("Test1", "III");
 
             p1.Replace(p3);
             Assert.AreEqual(null, p1.Parent);
@@ -721,7 +721,7 @@ Parameter name: arrayIndex",
             Assert.AreEqual(2, l.Count);
             Assert.AreEqual(2, o.Properties().Count());
 
-            JProperty p4 = new JProperty("Test4", "IV");
+            var p4 = new JProperty("Test4", "IV");
 
             p2.Replace(p4);
             Assert.AreEqual(null, p2.Parent);
@@ -736,19 +736,19 @@ Parameter name: arrayIndex",
         {
             object changing = null;
             object changed = null;
-            int changingCount = 0;
-            int changedCount = 0;
+            var changingCount = 0;
+            var changedCount = 0;
 
-            JObject o = new JObject();
+            var o = new JObject();
             o.PropertyChanging += (sender, args) =>
             {
-                JObject s = (JObject)sender;
+                var s = (JObject)sender;
                 changing = (s[args.PropertyName] != null) ? ((JValue)s[args.PropertyName]).Value : null;
                 changingCount++;
             };
             o.PropertyChanged += (sender, args) =>
             {
-                JObject s = (JObject)sender;
+                var s = (JObject)sender;
                 changed = (s[args.PropertyName] != null) ? ((JValue)s[args.PropertyName]).Value : null;
                 changedCount++;
             };
@@ -794,12 +794,12 @@ Parameter name: arrayIndex",
         public void PropertyChanged()
         {
             object changed = null;
-            int changedCount = 0;
+            var changedCount = 0;
 
-            JObject o = new JObject();
+            var o = new JObject();
             o.PropertyChanged += (sender, args) =>
             {
-                JObject s = (JObject)sender;
+                var s = (JObject)sender;
                 changed = (s[args.PropertyName] != null) ? ((JValue)s[args.PropertyName]).Value : null;
                 changedCount++;
             };
@@ -834,7 +834,7 @@ Parameter name: arrayIndex",
         [Fact]
         public void IListContains()
         {
-            JProperty p = new JProperty("Test", 1);
+            var p = new JProperty("Test", 1);
             IList l = new JObject(p);
 
             Assert.IsTrue(l.Contains(p));
@@ -844,7 +844,7 @@ Parameter name: arrayIndex",
         [Fact]
         public void IListIndexOf()
         {
-            JProperty p = new JProperty("Test", 1);
+            var p = new JProperty("Test", 1);
             IList l = new JObject(p);
 
             Assert.AreEqual(0, l.IndexOf(p));
@@ -854,7 +854,7 @@ Parameter name: arrayIndex",
         [Fact]
         public void IListClear()
         {
-            JProperty p = new JProperty("Test", 1);
+            var p = new JProperty("Test", 1);
             IList l = new JObject(p);
 
             Assert.AreEqual(1, l.Count);
@@ -867,11 +867,11 @@ Parameter name: arrayIndex",
         [Fact]
         public void IListCopyTo()
         {
-            JProperty p1 = new JProperty("Test1", 1);
-            JProperty p2 = new JProperty("Test2", "Two");
+            var p1 = new JProperty("Test1", 1);
+            var p2 = new JProperty("Test2", "Two");
             IList l = new JObject(p1, p2);
 
-            object[] a = new object[l.Count];
+            var a = new object[l.Count];
 
             l.CopyTo(a, 0);
 
@@ -882,11 +882,11 @@ Parameter name: arrayIndex",
         [Fact]
         public void IListAdd()
         {
-            JProperty p1 = new JProperty("Test1", 1);
-            JProperty p2 = new JProperty("Test2", "Two");
+            var p1 = new JProperty("Test1", 1);
+            var p2 = new JProperty("Test2", "Two");
             IList l = new JObject(p1, p2);
 
-            JProperty p3 = new JProperty("Test3", "III");
+            var p3 = new JProperty("Test3", "III");
 
             l.Add(p3);
 
@@ -899,8 +899,8 @@ Parameter name: arrayIndex",
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                JProperty p1 = new JProperty("Test1", 1);
-                JProperty p2 = new JProperty("Test2", "Two");
+                var p1 = new JProperty("Test1", 1);
+                var p2 = new JProperty("Test2", "Two");
                 IList l = new JObject(p1, p2);
 
                 l.Add(new JValue("Bad!"));
@@ -912,8 +912,8 @@ Parameter name: arrayIndex",
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                JProperty p1 = new JProperty("Test1", 1);
-                JProperty p2 = new JProperty("Test2", "Two");
+                var p1 = new JProperty("Test1", 1);
+                var p2 = new JProperty("Test2", "Two");
                 IList l = new JObject(p1, p2);
 
                 l.Add("Bad!");
@@ -925,11 +925,11 @@ Parameter name: arrayIndex",
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                JProperty p1 = new JProperty("Test1", 1);
-                JProperty p2 = new JProperty("Test2", "Two");
+                var p1 = new JProperty("Test1", 1);
+                var p2 = new JProperty("Test2", "Two");
                 IList l = new JObject(p1, p2);
 
-                JProperty p3 = new JProperty("Test2", "II");
+                var p3 = new JProperty("Test2", "II");
 
                 l.Add(p3);
             }, "Can not add property Test2 to Argon.Linq.JObject. Property with the same name already exists on object.");
@@ -938,11 +938,11 @@ Parameter name: arrayIndex",
         [Fact]
         public void IListRemove()
         {
-            JProperty p1 = new JProperty("Test1", 1);
-            JProperty p2 = new JProperty("Test2", "Two");
+            var p1 = new JProperty("Test1", 1);
+            var p2 = new JProperty("Test2", "Two");
             IList l = new JObject(p1, p2);
 
-            JProperty p3 = new JProperty("Test3", "III");
+            var p3 = new JProperty("Test3", "III");
 
             // won't do anything
             l.Remove(p3);
@@ -962,8 +962,8 @@ Parameter name: arrayIndex",
         [Fact]
         public void IListRemoveAt()
         {
-            JProperty p1 = new JProperty("Test1", 1);
-            JProperty p2 = new JProperty("Test2", "Two");
+            var p1 = new JProperty("Test1", 1);
+            var p2 = new JProperty("Test2", "Two");
             IList l = new JObject(p1, p2);
 
             // won't do anything
@@ -979,11 +979,11 @@ Parameter name: arrayIndex",
         [Fact]
         public void IListInsert()
         {
-            JProperty p1 = new JProperty("Test1", 1);
-            JProperty p2 = new JProperty("Test2", "Two");
+            var p1 = new JProperty("Test1", 1);
+            var p2 = new JProperty("Test2", "Two");
             IList l = new JObject(p1, p2);
 
-            JProperty p3 = new JProperty("Test3", "III");
+            var p3 = new JProperty("Test3", "III");
 
             l.Insert(1, p3);
             Assert.AreEqual(l, p3.Parent);
@@ -1010,11 +1010,11 @@ Parameter name: arrayIndex",
         [Fact]
         public void IListSetItem()
         {
-            JProperty p1 = new JProperty("Test1", 1);
-            JProperty p2 = new JProperty("Test2", "Two");
+            var p1 = new JProperty("Test1", 1);
+            var p2 = new JProperty("Test2", "Two");
             IList l = new JObject(p1, p2);
 
-            JProperty p3 = new JProperty("Test3", "III");
+            var p3 = new JProperty("Test3", "III");
 
             l[0] = p3;
 
@@ -1027,11 +1027,11 @@ Parameter name: arrayIndex",
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                JProperty p1 = new JProperty("Test1", 1);
-                JProperty p2 = new JProperty("Test2", "Two");
+                var p1 = new JProperty("Test1", 1);
+                var p2 = new JProperty("Test2", "Two");
                 IList l = new JObject(p1, p2);
 
-                JProperty p3 = new JProperty("Test3", "III");
+                var p3 = new JProperty("Test3", "III");
 
                 l[0] = p3;
                 l[1] = p3;
@@ -1043,8 +1043,8 @@ Parameter name: arrayIndex",
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                JProperty p1 = new JProperty("Test1", 1);
-                JProperty p2 = new JProperty("Test2", "Two");
+                var p1 = new JProperty("Test1", 1);
+                var p2 = new JProperty("Test2", "Two");
                 IList l = new JObject(p1, p2);
 
                 l[0] = new JValue(true);
@@ -1054,8 +1054,8 @@ Parameter name: arrayIndex",
         [Fact]
         public void IListSyncRoot()
         {
-            JProperty p1 = new JProperty("Test1", 1);
-            JProperty p2 = new JProperty("Test2", "Two");
+            var p1 = new JProperty("Test1", 1);
+            var p2 = new JProperty("Test2", "Two");
             IList l = new JObject(p1, p2);
 
             Assert.IsNotNull(l.SyncRoot);
@@ -1064,8 +1064,8 @@ Parameter name: arrayIndex",
         [Fact]
         public void IListIsSynchronized()
         {
-            JProperty p1 = new JProperty("Test1", 1);
-            JProperty p2 = new JProperty("Test2", "Two");
+            var p1 = new JProperty("Test1", 1);
+            var p2 = new JProperty("Test2", "Two");
             IList l = new JObject(p1, p2);
 
             Assert.IsFalse(l.IsSynchronized);
@@ -1074,7 +1074,7 @@ Parameter name: arrayIndex",
         [Fact]
         public void GenericListJTokenContains()
         {
-            JProperty p = new JProperty("Test", 1);
+            var p = new JProperty("Test", 1);
             IList<JToken> l = new JObject(p);
 
             Assert.IsTrue(l.Contains(p));
@@ -1084,7 +1084,7 @@ Parameter name: arrayIndex",
         [Fact]
         public void GenericListJTokenIndexOf()
         {
-            JProperty p = new JProperty("Test", 1);
+            var p = new JProperty("Test", 1);
             IList<JToken> l = new JObject(p);
 
             Assert.AreEqual(0, l.IndexOf(p));
@@ -1094,7 +1094,7 @@ Parameter name: arrayIndex",
         [Fact]
         public void GenericListJTokenClear()
         {
-            JProperty p = new JProperty("Test", 1);
+            var p = new JProperty("Test", 1);
             IList<JToken> l = new JObject(p);
 
             Assert.AreEqual(1, l.Count);
@@ -1107,11 +1107,11 @@ Parameter name: arrayIndex",
         [Fact]
         public void GenericListJTokenCopyTo()
         {
-            JProperty p1 = new JProperty("Test1", 1);
-            JProperty p2 = new JProperty("Test2", "Two");
+            var p1 = new JProperty("Test1", 1);
+            var p2 = new JProperty("Test2", "Two");
             IList<JToken> l = new JObject(p1, p2);
 
-            JToken[] a = new JToken[l.Count];
+            var a = new JToken[l.Count];
 
             l.CopyTo(a, 0);
 
@@ -1122,11 +1122,11 @@ Parameter name: arrayIndex",
         [Fact]
         public void GenericListJTokenAdd()
         {
-            JProperty p1 = new JProperty("Test1", 1);
-            JProperty p2 = new JProperty("Test2", "Two");
+            var p1 = new JProperty("Test1", 1);
+            var p2 = new JProperty("Test2", "Two");
             IList<JToken> l = new JObject(p1, p2);
 
-            JProperty p3 = new JProperty("Test3", "III");
+            var p3 = new JProperty("Test3", "III");
 
             l.Add(p3);
 
@@ -1139,8 +1139,8 @@ Parameter name: arrayIndex",
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                JProperty p1 = new JProperty("Test1", 1);
-                JProperty p2 = new JProperty("Test2", "Two");
+                var p1 = new JProperty("Test1", 1);
+                var p2 = new JProperty("Test2", "Two");
                 IList<JToken> l = new JObject(p1, p2);
 
                 l.Add(new JValue("Bad!"));
@@ -1152,8 +1152,8 @@ Parameter name: arrayIndex",
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                JProperty p1 = new JProperty("Test1", 1);
-                JProperty p2 = new JProperty("Test2", "Two");
+                var p1 = new JProperty("Test1", 1);
+                var p2 = new JProperty("Test2", "Two");
                 IList<JToken> l = new JObject(p1, p2);
 
                 // string is implicitly converted to JValue
@@ -1166,11 +1166,11 @@ Parameter name: arrayIndex",
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                JProperty p1 = new JProperty("Test1", 1);
-                JProperty p2 = new JProperty("Test2", "Two");
+                var p1 = new JProperty("Test1", 1);
+                var p2 = new JProperty("Test2", "Two");
                 IList<JToken> l = new JObject(p1, p2);
 
-                JProperty p3 = new JProperty("Test2", "II");
+                var p3 = new JProperty("Test2", "II");
 
                 l.Add(p3);
             }, "Can not add property Test2 to Argon.Linq.JObject. Property with the same name already exists on object.");
@@ -1179,11 +1179,11 @@ Parameter name: arrayIndex",
         [Fact]
         public void GenericListJTokenRemove()
         {
-            JProperty p1 = new JProperty("Test1", 1);
-            JProperty p2 = new JProperty("Test2", "Two");
+            var p1 = new JProperty("Test1", 1);
+            var p2 = new JProperty("Test2", "Two");
             IList<JToken> l = new JObject(p1, p2);
 
-            JProperty p3 = new JProperty("Test3", "III");
+            var p3 = new JProperty("Test3", "III");
 
             // won't do anything
             Assert.IsFalse(l.Remove(p3));
@@ -1203,8 +1203,8 @@ Parameter name: arrayIndex",
         [Fact]
         public void GenericListJTokenRemoveAt()
         {
-            JProperty p1 = new JProperty("Test1", 1);
-            JProperty p2 = new JProperty("Test2", "Two");
+            var p1 = new JProperty("Test1", 1);
+            var p2 = new JProperty("Test2", "Two");
             IList<JToken> l = new JObject(p1, p2);
 
             // won't do anything
@@ -1220,11 +1220,11 @@ Parameter name: arrayIndex",
         [Fact]
         public void GenericListJTokenInsert()
         {
-            JProperty p1 = new JProperty("Test1", 1);
-            JProperty p2 = new JProperty("Test2", "Two");
+            var p1 = new JProperty("Test1", 1);
+            var p2 = new JProperty("Test2", "Two");
             IList<JToken> l = new JObject(p1, p2);
 
-            JProperty p3 = new JProperty("Test3", "III");
+            var p3 = new JProperty("Test3", "III");
 
             l.Insert(1, p3);
             Assert.AreEqual(l, p3.Parent);
@@ -1244,11 +1244,11 @@ Parameter name: arrayIndex",
         [Fact]
         public void GenericListJTokenSetItem()
         {
-            JProperty p1 = new JProperty("Test1", 1);
-            JProperty p2 = new JProperty("Test2", "Two");
+            var p1 = new JProperty("Test1", 1);
+            var p2 = new JProperty("Test2", "Two");
             IList<JToken> l = new JObject(p1, p2);
 
-            JProperty p3 = new JProperty("Test3", "III");
+            var p3 = new JProperty("Test3", "III");
 
             l[0] = p3;
 
@@ -1261,11 +1261,11 @@ Parameter name: arrayIndex",
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                JProperty p1 = new JProperty("Test1", 1);
-                JProperty p2 = new JProperty("Test2", "Two");
+                var p1 = new JProperty("Test1", 1);
+                var p2 = new JProperty("Test2", "Two");
                 IList<JToken> l = new JObject(p1, p2);
 
-                JProperty p3 = new JProperty("Test3", "III");
+                var p3 = new JProperty("Test3", "III");
 
                 l[0] = p3;
                 l[1] = p3;
@@ -1394,14 +1394,14 @@ Parameter name: arrayIndex",
         [Fact]
         public void IBindingListAddNewWithEvent()
         {
-            JObject o = new JObject();
+            var o = new JObject();
             o._addingNew += (s, e) => e.NewObject = new JProperty("Property!");
 
             IBindingList l = o;
-            object newObject = l.AddNew();
+            var newObject = l.AddNew();
             Assert.IsNotNull(newObject);
 
-            JProperty p = (JProperty)newObject;
+            var p = (JProperty)newObject;
             Assert.AreEqual("Property!", p.Name);
             Assert.AreEqual(o, p.Parent);
         }
@@ -1409,8 +1409,8 @@ Parameter name: arrayIndex",
         [Fact]
         public void ITypedListGetListName()
         {
-            JProperty p1 = new JProperty("Test1", 1);
-            JProperty p2 = new JProperty("Test2", "Two");
+            var p1 = new JProperty("Test1", 1);
+            var p2 = new JProperty("Test2", "Two");
             ITypedList l = new JObject(p1, p2);
 
             Assert.AreEqual(string.Empty, l.GetListName(null));
@@ -1419,20 +1419,20 @@ Parameter name: arrayIndex",
         [Fact]
         public void ITypedListGetItemProperties()
         {
-            JProperty p1 = new JProperty("Test1", 1);
-            JProperty p2 = new JProperty("Test2", "Two");
+            var p1 = new JProperty("Test1", 1);
+            var p2 = new JProperty("Test2", "Two");
             ITypedList l = new JObject(p1, p2);
 
-            PropertyDescriptorCollection propertyDescriptors = l.GetItemProperties(null);
+            var propertyDescriptors = l.GetItemProperties(null);
             Assert.IsNull(propertyDescriptors);
         }
 
         [Fact]
         public void ListChanged()
         {
-            JProperty p1 = new JProperty("Test1", 1);
-            JProperty p2 = new JProperty("Test2", "Two");
-            JObject o = new JObject(p1, p2);
+            var p1 = new JProperty("Test1", 1);
+            var p2 = new JProperty("Test2", "Two");
+            var o = new JObject(p1, p2);
 
             ListChangedType? changedType = null;
             int? index = null;
@@ -1443,14 +1443,14 @@ Parameter name: arrayIndex",
                 index = a.NewIndex;
             };
 
-            JProperty p3 = new JProperty("Test3", "III");
+            var p3 = new JProperty("Test3", "III");
 
             o.Add(p3);
             Assert.AreEqual(changedType, ListChangedType.ItemAdded);
             Assert.AreEqual(index, 2);
             Assert.AreEqual(p3, ((IList<JToken>)o)[index.Value]);
 
-            JProperty p4 = new JProperty("Test4", "IV");
+            var p4 = new JProperty("Test4", "IV");
 
             ((IList<JToken>)o)[index.Value] = p4;
             Assert.AreEqual(changedType, ListChangedType.ItemChanged);
@@ -1468,9 +1468,9 @@ Parameter name: arrayIndex",
         [Fact]
         public void CollectionChanged()
         {
-            JProperty p1 = new JProperty("Test1", 1);
-            JProperty p2 = new JProperty("Test2", "Two");
-            JObject o = new JObject(p1, p2);
+            var p1 = new JProperty("Test1", 1);
+            var p2 = new JProperty("Test2", "Two");
+            var o = new JObject(p1, p2);
 
             NotifyCollectionChangedAction? changedType = null;
             int? index = null;
@@ -1481,14 +1481,14 @@ Parameter name: arrayIndex",
                 index = a.NewStartingIndex;
             };
 
-            JProperty p3 = new JProperty("Test3", "III");
+            var p3 = new JProperty("Test3", "III");
 
             o.Add(p3);
             Assert.AreEqual(changedType, NotifyCollectionChangedAction.Add);
             Assert.AreEqual(index, 2);
             Assert.AreEqual(p3, ((IList<JToken>)o)[index.Value]);
 
-            JProperty p4 = new JProperty("Test4", "IV");
+            var p4 = new JProperty("Test4", "IV");
 
             ((IList<JToken>)o)[index.Value] = p4;
             Assert.AreEqual(changedType, NotifyCollectionChangedAction.Replace);
@@ -1506,7 +1506,7 @@ Parameter name: arrayIndex",
         [Fact]
         public void GetGeocodeAddress()
         {
-            string json = @"{
+            var json = @"{
   ""name"": ""Address: 435 North Mulford Road Rockford, IL 61107"",
   ""Status"": {
     ""code"": 200,
@@ -1551,9 +1551,9 @@ Parameter name: arrayIndex",
   } ]
 }";
 
-            JObject o = JObject.Parse(json);
+            var o = JObject.Parse(json);
 
-            string searchAddress = (string)o["Placemark"][0]["AddressDetails"]["Country"]["AdministrativeArea"]["SubAdministrativeArea"]["Locality"]["Thoroughfare"]["ThoroughfareName"];
+            var searchAddress = (string)o["Placemark"][0]["AddressDetails"]["Country"]["AdministrativeArea"]["SubAdministrativeArea"]["Locality"]["Thoroughfare"]["ThoroughfareName"];
             Assert.AreEqual("435 N Mulford Rd", searchAddress);
         }
 
@@ -1562,7 +1562,7 @@ Parameter name: arrayIndex",
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                JObject o = new JObject();
+                var o = new JObject();
                 o[0] = new JValue(3);
             }, "Set JObject values with invalid key value: 0. Object property name expected.");
         }
@@ -1572,7 +1572,7 @@ Parameter name: arrayIndex",
         {
             object key = "TestKey";
 
-            JObject o = new JObject();
+            var o = new JObject();
             o[key] = new JValue(3);
 
             Assert.AreEqual(3, (int)o[key]);
@@ -1581,13 +1581,13 @@ Parameter name: arrayIndex",
         [Fact]
         public void ParseMultipleProperties()
         {
-            string json = @"{
+            var json = @"{
         ""Name"": ""Name1"",
         ""Name"": ""Name2""
       }";
 
-            JObject o = JObject.Parse(json);
-            string value = (string)o["Name"];
+            var o = JObject.Parse(json);
+            var value = (string)o["Name"];
 
             Assert.AreEqual("Name2", value);
         }
@@ -1595,13 +1595,13 @@ Parameter name: arrayIndex",
         [Fact]
         public void ParseMultipleProperties_EmptySettings()
         {
-            string json = @"{
+            var json = @"{
         ""Name"": ""Name1"",
         ""Name"": ""Name2""
       }";
 
-            JObject o = JObject.Parse(json, new JsonLoadSettings());
-            string value = (string)o["Name"];
+            var o = JObject.Parse(json, new JsonLoadSettings());
+            var value = (string)o["Name"];
 
             Assert.AreEqual("Name2", value);
         }
@@ -1609,16 +1609,16 @@ Parameter name: arrayIndex",
         [Fact]
         public void ParseMultipleProperties_IgnoreDuplicateSetting()
         {
-            string json = @"{
+            var json = @"{
         ""Name"": ""Name1"",
         ""Name"": ""Name2""
       }";
 
-            JObject o = JObject.Parse(json, new JsonLoadSettings
+            var o = JObject.Parse(json, new JsonLoadSettings
             {
                 DuplicatePropertyNameHandling = DuplicatePropertyNameHandling.Ignore
             });
-            string value = (string)o["Name"];
+            var value = (string)o["Name"];
 
             Assert.AreEqual("Name1", value);
         }
@@ -1626,16 +1626,16 @@ Parameter name: arrayIndex",
         [Fact]
         public void ParseMultipleProperties_ReplaceDuplicateSetting()
         {
-            string json = @"{
+            var json = @"{
         ""Name"": ""Name1"",
         ""Name"": ""Name2""
       }";
 
-            JObject o = JObject.Parse(json, new JsonLoadSettings
+            var o = JObject.Parse(json, new JsonLoadSettings
             {
                 DuplicatePropertyNameHandling = DuplicatePropertyNameHandling.Replace
             });
-            string value = (string)o["Name"];
+            var value = (string)o["Name"];
 
             Assert.AreEqual("Name2", value);
         }
@@ -1643,15 +1643,15 @@ Parameter name: arrayIndex",
         [Fact]
         public void WriteObjectNullDBNullValue()
         {
-            DBNull dbNull = DBNull.Value;
-            JValue v = new JValue(dbNull);
+            var dbNull = DBNull.Value;
+            var v = new JValue(dbNull);
             Assert.AreEqual(DBNull.Value, v.Value);
             Assert.AreEqual(JTokenType.Null, v.Type);
 
-            JObject o = new JObject();
+            var o = new JObject();
             o["title"] = v;
 
-            string output = o.ToString();
+            var output = o.ToString();
 
             StringAssert.AreEqual(@"{
   ""title"": null
@@ -1663,15 +1663,15 @@ Parameter name: arrayIndex",
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                string json = @"{
+                var json = @"{
   ""responseData"": {}, 
   ""responseDetails"": null, 
   ""responseStatus"": 200
 }";
 
-                JObject o = JObject.Parse(json);
+                var o = JObject.Parse(json);
 
-                string name = (string)o["responseData"];
+                var name = (string)o["responseData"];
             }, "Can not convert Object to String.");
         }
 
@@ -1680,15 +1680,15 @@ Parameter name: arrayIndex",
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                string json = @"{
+                var json = @"{
   ""responseData"": {}, 
   ""responseDetails"": null, 
   ""responseStatus"": 200
 }";
 
-                JObject o = JObject.Parse(json);
+                var o = JObject.Parse(json);
 
-                string name = (string)o.Property("responseData");
+                var name = (string)o.Property("responseData");
             }, "Can not convert Object to String.");
         }
 
@@ -1701,7 +1701,7 @@ Parameter name: arrayIndex",
         [Fact]
         public void LoadFromNestedObject()
         {
-            string jsonText = @"{
+            var jsonText = @"{
   ""short"":
   {
     ""error"":
@@ -1719,7 +1719,7 @@ Parameter name: arrayIndex",
             reader.Read();
             reader.Read();
 
-            JObject o = (JObject)JToken.ReadFrom(reader);
+            var o = (JObject)JToken.ReadFrom(reader);
             Assert.IsNotNull(o);
             StringAssert.AreEqual(@"{
   ""code"": 0,
@@ -1732,7 +1732,7 @@ Parameter name: arrayIndex",
         {
             ExceptionAssert.Throws<JsonReaderException>(() =>
             {
-                string jsonText = @"{
+                var jsonText = @"{
   ""short"":
   {
     ""error"":
@@ -1753,35 +1753,35 @@ Parameter name: arrayIndex",
         [Fact]
         public void GetProperties()
         {
-            JObject o = JObject.Parse("{'prop1':12,'prop2':'hi!','prop3':null,'prop4':[1,2,3]}");
+            var o = JObject.Parse("{'prop1':12,'prop2':'hi!','prop3':null,'prop4':[1,2,3]}");
 
             ICustomTypeDescriptor descriptor = o;
 
-            PropertyDescriptorCollection properties = descriptor.GetProperties();
+            var properties = descriptor.GetProperties();
             Assert.AreEqual(4, properties.Count);
 
-            PropertyDescriptor prop1 = properties[0];
+            var prop1 = properties[0];
             Assert.AreEqual("prop1", prop1.Name);
             Assert.AreEqual(typeof(object), prop1.PropertyType);
             Assert.AreEqual(typeof(JObject), prop1.ComponentType);
             Assert.AreEqual(false, prop1.CanResetValue(o));
             Assert.AreEqual(false, prop1.ShouldSerializeValue(o));
 
-            PropertyDescriptor prop2 = properties[1];
+            var prop2 = properties[1];
             Assert.AreEqual("prop2", prop2.Name);
             Assert.AreEqual(typeof(object), prop2.PropertyType);
             Assert.AreEqual(typeof(JObject), prop2.ComponentType);
             Assert.AreEqual(false, prop2.CanResetValue(o));
             Assert.AreEqual(false, prop2.ShouldSerializeValue(o));
 
-            PropertyDescriptor prop3 = properties[2];
+            var prop3 = properties[2];
             Assert.AreEqual("prop3", prop3.Name);
             Assert.AreEqual(typeof(object), prop3.PropertyType);
             Assert.AreEqual(typeof(JObject), prop3.ComponentType);
             Assert.AreEqual(false, prop3.CanResetValue(o));
             Assert.AreEqual(false, prop3.ShouldSerializeValue(o));
 
-            PropertyDescriptor prop4 = properties[3];
+            var prop4 = properties[3];
             Assert.AreEqual("prop4", prop4.Name);
             Assert.AreEqual(typeof(object), prop4.PropertyType);
             Assert.AreEqual(typeof(JObject), prop4.ComponentType);
@@ -1792,14 +1792,14 @@ Parameter name: arrayIndex",
         [Fact]
         public void ParseEmptyObjectWithComment()
         {
-            JObject o = JObject.Parse("{ /* A Comment */ }");
+            var o = JObject.Parse("{ /* A Comment */ }");
             Assert.AreEqual(0, o.Count);
         }
 
         [Fact]
         public void FromObjectTimeSpan()
         {
-            JValue v = (JValue)JToken.FromObject(TimeSpan.FromDays(1));
+            var v = (JValue)JToken.FromObject(TimeSpan.FromDays(1));
             Assert.AreEqual(v.Value, TimeSpan.FromDays(1));
 
             Assert.AreEqual("1.00:00:00", v.ToString());
@@ -1808,7 +1808,7 @@ Parameter name: arrayIndex",
         [Fact]
         public void FromObjectUri()
         {
-            JValue v = (JValue)JToken.FromObject(new Uri("http://www.stuff.co.nz"));
+            var v = (JValue)JToken.FromObject(new Uri("http://www.stuff.co.nz"));
             Assert.AreEqual(v.Value, new Uri("http://www.stuff.co.nz"));
 
             Assert.AreEqual("http://www.stuff.co.nz/", v.ToString());
@@ -1817,7 +1817,7 @@ Parameter name: arrayIndex",
         [Fact]
         public void FromObjectGuid()
         {
-            JValue v = (JValue)JToken.FromObject(new Guid("9065ACF3-C820-467D-BE50-8D4664BEAF35"));
+            var v = (JValue)JToken.FromObject(new Guid("9065ACF3-C820-467D-BE50-8D4664BEAF35"));
             Assert.AreEqual(v.Value, new Guid("9065ACF3-C820-467D-BE50-8D4664BEAF35"));
 
             Assert.AreEqual("9065acf3-c820-467d-be50-8d4664beaf35", v.ToString());
@@ -1828,7 +1828,7 @@ Parameter name: arrayIndex",
         {
             ExceptionAssert.Throws<JsonReaderException>(() =>
             {
-                string json = @"{
+                var json = @"{
 ""Name"": ""Apple"",
 ""Expiry"": new Date(1230422400000),
 ""Price"": 3.99,
@@ -1839,14 +1839,14 @@ Parameter name: arrayIndex",
 ]
 }, 987987";
 
-                JObject o = JObject.Parse(json);
+                var o = JObject.Parse(json);
             }, "Additional text encountered after finished reading JSON content: ,. Path '', line 10, position 1.");
         }
 
         [Fact]
         public void DeepEqualsIgnoreOrder()
         {
-            JObject o1 = new JObject(
+            var o1 = new JObject(
                 new JProperty("null", null),
                 new JProperty("integer", 1),
                 new JProperty("string", "string!"),
@@ -1855,7 +1855,7 @@ Parameter name: arrayIndex",
 
             Assert.IsTrue(o1.DeepEquals(o1));
 
-            JObject o2 = new JObject(
+            var o2 = new JObject(
                 new JProperty("null", null),
                 new JProperty("string", "string!"),
                 new JProperty("decimal", 0.5m),
@@ -1864,7 +1864,7 @@ Parameter name: arrayIndex",
 
             Assert.IsTrue(o1.DeepEquals(o2));
 
-            JObject o3 = new JObject(
+            var o3 = new JObject(
                 new JProperty("null", null),
                 new JProperty("string", "string!"),
                 new JProperty("decimal", 0.5m),
@@ -1873,7 +1873,7 @@ Parameter name: arrayIndex",
 
             Assert.IsFalse(o1.DeepEquals(o3));
 
-            JObject o4 = new JObject(
+            var o4 = new JObject(
                 new JProperty("null", null),
                 new JProperty("string", "string!"),
                 new JProperty("decimal", 0.5m),
@@ -1882,7 +1882,7 @@ Parameter name: arrayIndex",
 
             Assert.IsFalse(o1.DeepEquals(o4));
 
-            JObject o5 = new JObject(
+            var o5 = new JObject(
                 new JProperty("null", null),
                 new JProperty("string", "string!"),
                 new JProperty("decimal", 0.5m),
@@ -1896,7 +1896,7 @@ Parameter name: arrayIndex",
         [Fact]
         public void ToListOnEmptyObject()
         {
-            JObject o = JObject.Parse(@"{}");
+            var o = JObject.Parse(@"{}");
             IList<JToken> l1 = o.ToList<JToken>();
             Assert.AreEqual(0, l1.Count);
 
@@ -1917,8 +1917,8 @@ Parameter name: arrayIndex",
         {
             Assert.IsTrue(JToken.DeepEquals(new JObject(), new JObject()));
 
-            JObject a = new JObject();
-            JObject b = new JObject();
+            var a = new JObject();
+            var b = new JObject();
 
             b.Add("hi", "bye");
             b.Remove("hi");
@@ -1930,15 +1930,15 @@ Parameter name: arrayIndex",
         [Fact]
         public void GetValueBlogExample()
         {
-            JObject o = JObject.Parse(@"{
+            var o = JObject.Parse(@"{
         'name': 'Lower',
         'NAME': 'Upper'
       }");
 
-            string exactMatch = (string)o.GetValue("NAME", StringComparison.OrdinalIgnoreCase);
+            var exactMatch = (string)o.GetValue("NAME", StringComparison.OrdinalIgnoreCase);
             // Upper
 
-            string ignoreCase = (string)o.GetValue("Name", StringComparison.OrdinalIgnoreCase);
+            var ignoreCase = (string)o.GetValue("Name", StringComparison.OrdinalIgnoreCase);
             // Lower
 
             Assert.AreEqual("Upper", exactMatch);
@@ -1948,7 +1948,7 @@ Parameter name: arrayIndex",
         [Fact]
         public void GetValue()
         {
-            JObject a = new JObject();
+            var a = new JObject();
             a["Name"] = "Name!";
             a["name"] = "name!";
             a["title"] = "Title!";
@@ -2035,9 +2035,9 @@ Parameter name: arrayIndex",
         [Fact]
         public void Parse_NoComments()
         {
-            string json = "{'prop':[1,2/*comment*/,3]}";
+            var json = "{'prop':[1,2/*comment*/,3]}";
 
-            JObject o = JObject.Parse(json, new JsonLoadSettings
+            var o = JObject.Parse(json, new JsonLoadSettings
             {
                 CommentHandling = CommentHandling.Ignore
             });
@@ -2051,10 +2051,10 @@ Parameter name: arrayIndex",
         [Fact]
         public void Parse_ExcessiveContentJustComments()
         {
-            string json = @"{'prop':[1,2,3]}/*comment*/
+            var json = @"{'prop':[1,2,3]}/*comment*/
 //Another comment.";
 
-            JObject o = JObject.Parse(json);
+            var o = JObject.Parse(json);
 
             Assert.AreEqual(3, o["prop"].Count());
             Assert.AreEqual(1, (int)o["prop"][0]);
@@ -2065,7 +2065,7 @@ Parameter name: arrayIndex",
         [Fact]
         public void Parse_ExcessiveContent()
         {
-            string json = @"{'prop':[1,2,3]}/*comment*/
+            var json = @"{'prop':[1,2,3]}/*comment*/
 //Another comment.
 []";
 
@@ -2081,23 +2081,23 @@ Parameter name: arrayIndex",
                 ["prop1"] = 1
             };
 
-            PropertyDescriptorCollection properties = o.GetProperties();
+            var properties = o.GetProperties();
             Assert.AreEqual(1, properties.Count);
 
-            PropertyDescriptor pd = properties[0];      
+            var pd = properties[0];      
             Assert.AreEqual("prop1", pd.Name);
 
-            object owner = o.GetPropertyOwner(pd);
+            var owner = o.GetPropertyOwner(pd);
             Assert.AreEqual(o, owner);
 
-            object value = pd.GetValue(owner);
+            var value = pd.GetValue(owner);
             Assert.AreEqual(1, (int)(JToken)value);
         }
 
         [Fact]
         public void Property()
         {
-            JObject a = new JObject();
+            var a = new JObject();
             a["Name"] = "Name!";
             a["name"] = "name!";
             a["title"] = "Title!";

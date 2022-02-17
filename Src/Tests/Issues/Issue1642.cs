@@ -46,25 +46,25 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test()
         {
-            AppDomain currentDomain = AppDomain.CurrentDomain;
+            var currentDomain = AppDomain.CurrentDomain;
 
-            AssemblyName aName = new AssemblyName("TempAssembly");
-            AssemblyBuilder ab = currentDomain.DefineDynamicAssembly(
+            var aName = new AssemblyName("TempAssembly");
+            var ab = currentDomain.DefineDynamicAssembly(
                 aName, AssemblyBuilderAccess.RunAndSave);
 
-            ModuleBuilder mb = ab.DefineDynamicModule(aName.Name, aName.Name + ".dll");
+            var mb = ab.DefineDynamicModule(aName.Name, aName.Name + ".dll");
 
-            TypeBuilder typeBuilder = mb.DefineType("TestEnum", TypeAttributes.NotPublic | TypeAttributes.Sealed, typeof(Enum));
+            var typeBuilder = mb.DefineType("TestEnum", TypeAttributes.NotPublic | TypeAttributes.Sealed, typeof(Enum));
             typeBuilder.DefineField("value__", typeof(int), FieldAttributes.FamANDAssem | FieldAttributes.Family | FieldAttributes.SpecialName | FieldAttributes.RTSpecialName);
 
-            FieldBuilder fieldBuilder = typeBuilder.DefineField("TestValue", typeBuilder, FieldAttributes.Family | FieldAttributes.Static | FieldAttributes.Literal);
+            var fieldBuilder = typeBuilder.DefineField("TestValue", typeBuilder, FieldAttributes.Family | FieldAttributes.Static | FieldAttributes.Literal);
             fieldBuilder.SetConstant(0);
 
-            Type enumType = typeBuilder.CreateType();
+            var enumType = typeBuilder.CreateType();
 
-            object o = Activator.CreateInstance(enumType);
+            var o = Activator.CreateInstance(enumType);
 
-            string json = JsonConvert.SerializeObject(o, new JsonSerializerSettings { Converters = { new StringEnumConverter() } });
+            var json = JsonConvert.SerializeObject(o, new JsonSerializerSettings { Converters = { new StringEnumConverter() } });
             Assert.AreEqual(@"""TestValue""", json);
         }
     }

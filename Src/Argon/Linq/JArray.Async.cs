@@ -43,7 +43,7 @@ namespace Argon.Linq
         {
             await writer.WriteStartArrayAsync(cancellationToken).ConfigureAwait(false);
 
-            for (int i = 0; i < _values.Count; i++)
+            for (var i = 0; i < _values.Count; i++)
             {
                 await _values[i].WriteToAsync(writer, cancellationToken, converters).ConfigureAwait(false);
             }
@@ -88,7 +88,7 @@ namespace Argon.Linq
                 throw JsonReaderException.Create(reader, "Error reading JArray from JsonReader. Current JsonReader item is not an array: {0}".FormatWith(CultureInfo.InvariantCulture, reader.TokenType));
             }
 
-            JArray a = new JArray();
+            var a = new JArray();
             a.SetLineInfo(reader as IJsonLineInfo, settings);
 
             await a.ReadTokenFromAsync(reader, settings, cancellationToken).ConfigureAwait(false);

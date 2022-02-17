@@ -261,7 +261,7 @@ namespace Argon
         {
             get
             {
-                int depth = _stack?.Count ?? 0;
+                var depth = _stack?.Count ?? 0;
                 if (JsonTokenUtils.IsStartToken(TokenType) || _currentPosition.Type == JsonContainerType.None)
                 {
                     return depth;
@@ -285,11 +285,11 @@ namespace Argon
                     return string.Empty;
                 }
 
-                bool insideContainer = (_currentState != State.ArrayStart
-                                        && _currentState != State.ConstructorStart
-                                        && _currentState != State.ObjectStart);
+                var insideContainer = (_currentState != State.ArrayStart
+                                       && _currentState != State.ConstructorStart
+                                       && _currentState != State.ObjectStart);
 
-                JsonPosition? current = insideContainer ? (JsonPosition?)_currentPosition : null;
+                var current = insideContainer ? (JsonPosition?)_currentPosition : null;
 
                 return JsonPosition.BuildPath(_stack!, current);
             }
@@ -395,7 +395,7 @@ namespace Argon
         /// <returns>A <see cref="Nullable{T}"/> of <see cref="Int32"/>. This method will return <c>null</c> at the end of an array.</returns>
         public virtual int? ReadAsInt32()
         {
-            JsonToken t = GetContentToken();
+            var t = GetContentToken();
 
             switch (t)
             {
@@ -405,7 +405,7 @@ namespace Argon
                     return null;
                 case JsonToken.Integer:
                 case JsonToken.Float:
-                    object v = Value!;
+                    var v = Value!;
                     if (v is int i)
                     {
                         return i;
@@ -431,7 +431,7 @@ namespace Argon
                     SetToken(JsonToken.Integer, i, false);
                     return i;
                 case JsonToken.String:
-                    string? s = (string?)Value;
+                    var s = (string?)Value;
                     return ReadInt32String(s);
             }
 
@@ -446,7 +446,7 @@ namespace Argon
                 return null;
             }
 
-            if (int.TryParse(s, NumberStyles.Integer, Culture, out int i))
+            if (int.TryParse(s, NumberStyles.Integer, Culture, out var i))
             {
                 SetToken(JsonToken.Integer, i, false);
                 return i;
@@ -464,7 +464,7 @@ namespace Argon
         /// <returns>A <see cref="String"/>. This method will return <c>null</c> at the end of an array.</returns>
         public virtual string? ReadAsString()
         {
-            JsonToken t = GetContentToken();
+            var t = GetContentToken();
 
             switch (t)
             {
@@ -478,7 +478,7 @@ namespace Argon
 
             if (JsonTokenUtils.IsPrimitiveToken(t))
             {
-                object? v = Value;
+                var v = Value;
                 if (v != null)
                 {
                     string s;
@@ -505,7 +505,7 @@ namespace Argon
         /// <returns>A <see cref="Byte"/>[] or <c>null</c> if the next JSON token is null. This method will return <c>null</c> at the end of an array.</returns>
         public virtual byte[]? ReadAsBytes()
         {
-            JsonToken t = GetContentToken();
+            var t = GetContentToken();
 
             switch (t)
             {
@@ -513,7 +513,7 @@ namespace Argon
                 {
                     ReadIntoWrappedTypeObject();
 
-                    byte[]? data = ReadAsBytes();
+                    var data = ReadAsBytes();
                     ReaderReadAndAssert();
 
                     if (TokenType != JsonToken.EndObject)
@@ -528,7 +528,7 @@ namespace Argon
                 {
                     // attempt to convert possible base 64 or GUID string to bytes
                     // GUID has to have format 00000000-0000-0000-0000-000000000000
-                    string s = (string)Value!;
+                    var s = (string)Value!;
 
                     byte[] data;
 
@@ -536,7 +536,7 @@ namespace Argon
                     {
                         data = CollectionUtils.ArrayEmpty<byte>();
                     }
-                    else if (ConvertUtils.TryConvertGuid(s, out Guid g1))
+                    else if (ConvertUtils.TryConvertGuid(s, out var g1))
                     {
                         data = g1.ToByteArray();
                     }
@@ -555,7 +555,7 @@ namespace Argon
                 case JsonToken.Bytes:
                     if (Value is Guid g2)
                     {
-                        byte[] data = g2.ToByteArray();
+                        var data = g2.ToByteArray();
                         SetToken(JsonToken.Bytes, data, false);
                         return data;
                     }
@@ -570,7 +570,7 @@ namespace Argon
 
         internal byte[] ReadArrayIntoByteArray()
         {
-            List<byte> buffer = new List<byte>();
+            var buffer = new List<byte>();
 
             while (true)
             {
@@ -581,7 +581,7 @@ namespace Argon
 
                 if (ReadArrayElementIntoByteArrayReportDone(buffer))
                 {
-                    byte[] d = buffer.ToArray();
+                    var d = buffer.ToArray();
                     SetToken(JsonToken.Bytes, d, false);
                     return d;
                 }
@@ -612,7 +612,7 @@ namespace Argon
         /// <returns>A <see cref="Nullable{T}"/> of <see cref="Double"/>. This method will return <c>null</c> at the end of an array.</returns>
         public virtual double? ReadAsDouble()
         {
-            JsonToken t = GetContentToken();
+            var t = GetContentToken();
 
             switch (t)
             {
@@ -622,7 +622,7 @@ namespace Argon
                     return null;
                 case JsonToken.Integer:
                 case JsonToken.Float:
-                    object v = Value!;
+                    var v = Value!;
                     if (v is double d)
                     {
                         return d;
@@ -655,7 +655,7 @@ namespace Argon
                 return null;
             }
 
-            if (double.TryParse(s, NumberStyles.Float | NumberStyles.AllowThousands, Culture, out double d))
+            if (double.TryParse(s, NumberStyles.Float | NumberStyles.AllowThousands, Culture, out var d))
             {
                 SetToken(JsonToken.Float, d, false);
                 return d;
@@ -673,7 +673,7 @@ namespace Argon
         /// <returns>A <see cref="Nullable{T}"/> of <see cref="Boolean"/>. This method will return <c>null</c> at the end of an array.</returns>
         public virtual bool? ReadAsBoolean()
         {
-            JsonToken t = GetContentToken();
+            var t = GetContentToken();
 
             switch (t)
             {
@@ -712,7 +712,7 @@ namespace Argon
                 return null;
             }
 
-            if (bool.TryParse(s, out bool b))
+            if (bool.TryParse(s, out var b))
             {
                 SetToken(JsonToken.Boolean, b, false);
                 return b;
@@ -730,7 +730,7 @@ namespace Argon
         /// <returns>A <see cref="Nullable{T}"/> of <see cref="Decimal"/>. This method will return <c>null</c> at the end of an array.</returns>
         public virtual decimal? ReadAsDecimal()
         {
-            JsonToken t = GetContentToken();
+            var t = GetContentToken();
 
             switch (t)
             {
@@ -740,7 +740,7 @@ namespace Argon
                     return null;
                 case JsonToken.Integer:
                 case JsonToken.Float:
-                    object v = Value!;
+                    var v = Value!;
                     
                     if (v is decimal d)
                     {
@@ -781,7 +781,7 @@ namespace Argon
                 return null;
             }
 
-            if (decimal.TryParse(s, NumberStyles.Number, Culture, out decimal d))
+            if (decimal.TryParse(s, NumberStyles.Number, Culture, out var d))
             {
                 SetToken(JsonToken.Float, d, false);
                 return d;
@@ -833,7 +833,7 @@ namespace Argon
                 return null;
             }
 
-            if (DateTimeUtils.TryParseDateTime(s, DateTimeZoneHandling, _dateFormatString, Culture, out DateTime dt))
+            if (DateTimeUtils.TryParseDateTime(s, DateTimeZoneHandling, _dateFormatString, Culture, out var dt))
             {
                 dt = DateTimeUtils.EnsureDateTime(dt, DateTimeZoneHandling);
                 SetToken(JsonToken.Date, dt, false);
@@ -856,7 +856,7 @@ namespace Argon
         /// <returns>A <see cref="Nullable{T}"/> of <see cref="DateTimeOffset"/>. This method will return <c>null</c> at the end of an array.</returns>
         public virtual DateTimeOffset? ReadAsDateTimeOffset()
         {
-            JsonToken t = GetContentToken();
+            var t = GetContentToken();
 
             switch (t)
             {
@@ -872,7 +872,7 @@ namespace Argon
 
                     return (DateTimeOffset)Value!;
                 case JsonToken.String:
-                    string? s = (string?)Value;
+                    var s = (string?)Value;
                     return ReadDateTimeOffsetString(s);
                 default:
                     throw JsonReaderException.Create(this, "Error reading date. Unexpected token: {0}.".FormatWith(CultureInfo.InvariantCulture, t));
@@ -887,7 +887,7 @@ namespace Argon
                 return null;
             }
 
-            if (DateTimeUtils.TryParseDateTimeOffset(s, _dateFormatString, Culture, out DateTimeOffset dt))
+            if (DateTimeUtils.TryParseDateTimeOffset(s, _dateFormatString, Culture, out var dt))
             {
                 SetToken(JsonToken.Date, dt, false);
                 return dt;
@@ -947,7 +947,7 @@ namespace Argon
 
             if (JsonTokenUtils.IsStartToken(TokenType))
             {
-                int depth = Depth;
+                var depth = Depth;
 
                 while (Read() && (depth < Depth))
                 {
@@ -1054,7 +1054,7 @@ namespace Argon
 
         private void ValidateEnd(JsonToken endToken)
         {
-            JsonContainerType currentObject = Pop();
+            var currentObject = Pop();
 
             if (GetTypeForCloseToken(endToken) != currentObject)
             {
@@ -1076,7 +1076,7 @@ namespace Argon
         /// </summary>
         protected void SetStateBasedOnCurrent()
         {
-            JsonContainerType currentObject = Peek();
+            var currentObject = Peek();
 
             switch (currentObject)
             {
@@ -1171,7 +1171,7 @@ namespace Argon
                 return Read();
             }
 
-            ReadType t = contract?.InternalReadType ?? ReadType.Read;
+            var t = contract?.InternalReadType ?? ReadType.Read;
 
             switch (t)
             {
@@ -1181,7 +1181,7 @@ namespace Argon
                     ReadAsInt32();
                     break;
                 case ReadType.ReadAsInt64:
-                    bool result = ReadAndMoveToContent();
+                    var result = ReadAndMoveToContent();
                     if (TokenType == JsonToken.Undefined)
                     {
                         throw JsonReaderException.Create(this, "An undefined token is not a valid {0}.".FormatWith(CultureInfo.InvariantCulture, contract?.UnderlyingType ?? typeof(long)));
@@ -1222,7 +1222,7 @@ namespace Argon
 
         internal bool MoveToContent()
         {
-            JsonToken t = TokenType;
+            var t = TokenType;
             while (t == JsonToken.None || t == JsonToken.Comment)
             {
                 if (!Read())

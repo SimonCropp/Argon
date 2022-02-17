@@ -111,9 +111,9 @@ namespace Argon
         /// <returns>A JSON string representation of the <see cref="DateTime"/>.</returns>
         public static string ToString(DateTime value, DateFormatHandling format, DateTimeZoneHandling timeZoneHandling)
         {
-            DateTime updatedDateTime = DateTimeUtils.EnsureDateTime(value, timeZoneHandling);
+            var updatedDateTime = DateTimeUtils.EnsureDateTime(value, timeZoneHandling);
 
-            using (StringWriter writer = StringUtils.CreateStringWriter(64))
+            using (var writer = StringUtils.CreateStringWriter(64))
             {
                 writer.Write('"');
                 DateTimeUtils.WriteDateTimeString(writer, updatedDateTime, format, null, CultureInfo.InvariantCulture);
@@ -140,7 +140,7 @@ namespace Argon
         /// <returns>A JSON string representation of the <see cref="DateTimeOffset"/>.</returns>
         public static string ToString(DateTimeOffset value, DateFormatHandling format)
         {
-            using (StringWriter writer = StringUtils.CreateStringWriter(64))
+            using (var writer = StringUtils.CreateStringWriter(64))
             {
                 writer.Write('"');
                 DateTimeUtils.WriteDateTimeOffsetString(writer, value, format, null, CultureInfo.InvariantCulture);
@@ -448,7 +448,7 @@ namespace Argon
                 return Null;
             }
 
-            PrimitiveTypeCode typeCode = ConvertUtils.GetTypeCode(value.GetType());
+            var typeCode = ConvertUtils.GetTypeCode(value.GetType());
 
             switch (typeCode)
             {
@@ -534,7 +534,7 @@ namespace Argon
         [DebuggerStepThrough]
         public static string SerializeObject(object? value, params JsonConverter[] converters)
         {
-            JsonSerializerSettings? settings = (converters != null && converters.Length > 0)
+            var settings = (converters != null && converters.Length > 0)
                 ? new JsonSerializerSettings { Converters = converters }
                 : null;
 
@@ -551,7 +551,7 @@ namespace Argon
         [DebuggerStepThrough]
         public static string SerializeObject(object? value, Formatting formatting, params JsonConverter[] converters)
         {
-            JsonSerializerSettings? settings = (converters != null && converters.Length > 0)
+            var settings = (converters != null && converters.Length > 0)
                 ? new JsonSerializerSettings { Converters = converters }
                 : null;
 
@@ -590,7 +590,7 @@ namespace Argon
         [DebuggerStepThrough]
         public static string SerializeObject(object? value, Type? type, JsonSerializerSettings? settings)
         {
-            JsonSerializer jsonSerializer = JsonSerializer.CreateDefault(settings);
+            var jsonSerializer = JsonSerializer.CreateDefault(settings);
 
             return SerializeObjectInternal(value, type, jsonSerializer);
         }
@@ -629,7 +629,7 @@ namespace Argon
         [DebuggerStepThrough]
         public static string SerializeObject(object? value, Type? type, Formatting formatting, JsonSerializerSettings? settings)
         {
-            JsonSerializer jsonSerializer = JsonSerializer.CreateDefault(settings);
+            var jsonSerializer = JsonSerializer.CreateDefault(settings);
             jsonSerializer.Formatting = formatting;
 
             return SerializeObjectInternal(value, type, jsonSerializer);
@@ -637,9 +637,9 @@ namespace Argon
 
         private static string SerializeObjectInternal(object? value, Type? type, JsonSerializer jsonSerializer)
         {
-            StringBuilder sb = new StringBuilder(256);
-            StringWriter sw = new StringWriter(sb, CultureInfo.InvariantCulture);
-            using (JsonTextWriter jsonWriter = new JsonTextWriter(sw))
+            var sb = new StringBuilder(256);
+            var sw = new StringWriter(sb, CultureInfo.InvariantCulture);
+            using (var jsonWriter = new JsonTextWriter(sw))
             {
                 jsonWriter.Formatting = jsonSerializer.Formatting;
 
@@ -778,7 +778,7 @@ namespace Argon
         [DebuggerStepThrough]
         public static object? DeserializeObject(string value, Type type, params JsonConverter[] converters)
         {
-            JsonSerializerSettings? settings = (converters != null && converters.Length > 0)
+            var settings = (converters != null && converters.Length > 0)
                 ? new JsonSerializerSettings { Converters = converters }
                 : null;
 
@@ -799,7 +799,7 @@ namespace Argon
         {
             ValidationUtils.ArgumentNotNull(value, nameof(value));
 
-            JsonSerializer jsonSerializer = JsonSerializer.CreateDefault(settings);
+            var jsonSerializer = JsonSerializer.CreateDefault(settings);
 
             // by default DeserializeObject should check for additional content
             if (!jsonSerializer.IsCheckAdditionalContentSet())
@@ -807,7 +807,7 @@ namespace Argon
                 jsonSerializer.CheckAdditionalContent = true;
             }
 
-            using (JsonTextReader reader = new JsonTextReader(new StringReader(value)))
+            using (var reader = new JsonTextReader(new StringReader(value)))
             {
                 return jsonSerializer.Deserialize(reader, type);
             }
@@ -837,7 +837,7 @@ namespace Argon
         /// </param>
         public static void PopulateObject(string value, object target, JsonSerializerSettings? settings)
         {
-            JsonSerializer jsonSerializer = JsonSerializer.CreateDefault(settings);
+            var jsonSerializer = JsonSerializer.CreateDefault(settings);
 
             using (JsonReader jsonReader = new JsonTextReader(new StringReader(value)))
             {
@@ -876,7 +876,7 @@ namespace Argon
         /// <returns>A JSON string of the <see cref="XmlNode"/>.</returns>
         public static string SerializeXmlNode(XmlNode? node, Formatting formatting)
         {
-            XmlNodeConverter converter = new XmlNodeConverter();
+            var converter = new XmlNodeConverter();
 
             return SerializeObject(node, formatting, converter);
         }
@@ -890,7 +890,7 @@ namespace Argon
         /// <returns>A JSON string of the <see cref="XmlNode"/>.</returns>
         public static string SerializeXmlNode(XmlNode? node, Formatting formatting, bool omitRootObject)
         {
-            XmlNodeConverter converter = new XmlNodeConverter { OmitRootObject = omitRootObject };
+            var converter = new XmlNodeConverter { OmitRootObject = omitRootObject };
 
             return SerializeObject(node, formatting, converter);
         }
@@ -951,7 +951,7 @@ namespace Argon
         /// <returns>The deserialized <see cref="XmlNode"/>.</returns>
         public static XmlDocument? DeserializeXmlNode(string value, string? deserializeRootElementName, bool writeArrayAttribute, bool encodeSpecialCharacters)
         {
-            XmlNodeConverter converter = new XmlNodeConverter();
+            var converter = new XmlNodeConverter();
             converter.DeserializeRootElementName = deserializeRootElementName;
             converter.WriteArrayAttribute = writeArrayAttribute;
             converter.EncodeSpecialCharacters = encodeSpecialCharacters;
@@ -989,7 +989,7 @@ namespace Argon
         /// <returns>A JSON string of the <see cref="XNode"/>.</returns>
         public static string SerializeXNode(XObject? node, Formatting formatting, bool omitRootObject)
         {
-            XmlNodeConverter converter = new XmlNodeConverter { OmitRootObject = omitRootObject };
+            var converter = new XmlNodeConverter { OmitRootObject = omitRootObject };
 
             return SerializeObject(node, formatting, converter);
         }
@@ -1050,7 +1050,7 @@ namespace Argon
         /// <returns>The deserialized <see cref="XNode"/>.</returns>
         public static XDocument? DeserializeXNode(string value, string? deserializeRootElementName, bool writeArrayAttribute, bool encodeSpecialCharacters)
         {
-            XmlNodeConverter converter = new XmlNodeConverter();
+            var converter = new XmlNodeConverter();
             converter.DeserializeRootElementName = deserializeRootElementName;
             converter.WriteArrayAttribute = writeArrayAttribute;
             converter.EncodeSpecialCharacters = encodeSpecialCharacters;

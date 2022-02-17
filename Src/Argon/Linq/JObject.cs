@@ -141,11 +141,11 @@ namespace Argon.Linq
                 throw new ArgumentException("Can not add {0} to {1}.".FormatWith(CultureInfo.InvariantCulture, o.GetType(), GetType()));
             }
 
-            JProperty newProperty = (JProperty)o;
+            var newProperty = (JProperty)o;
 
             if (existing != null)
             {
-                JProperty existingProperty = (JProperty)existing;
+                var existingProperty = (JProperty)existing;
 
                 if (newProperty.Name == existingProperty.Name)
                 {
@@ -166,9 +166,9 @@ namespace Argon.Linq
                 return;
             }
 
-            foreach (KeyValuePair<string, JToken?> contentItem in o)
+            foreach (var contentItem in o)
             {
-                JProperty? existingProperty = Property(contentItem.Key, settings?.PropertyNameComparison ?? StringComparison.Ordinal);
+                var existingProperty = Property(contentItem.Key, settings?.PropertyNameComparison ?? StringComparison.Ordinal);
 
                 if (existingProperty == null)
                 {
@@ -269,7 +269,7 @@ namespace Argon.Linq
                 return null;
             }
 
-            if (_properties.TryGetValue(name, out JToken? property))
+            if (_properties.TryGetValue(name, out var property))
             {
                 return (JProperty)property;
             }
@@ -277,9 +277,9 @@ namespace Argon.Linq
             // test above already uses this comparison so no need to repeat
             if (comparison != StringComparison.Ordinal)
             {
-                for (int i = 0; i < _properties.Count; i++)
+                for (var i = 0; i < _properties.Count; i++)
                 {
-                    JProperty p = (JProperty)_properties[i];
+                    var p = (JProperty)_properties[i];
                     if (string.Equals(p.Name, name, comparison))
                     {
                         return p;
@@ -339,13 +339,13 @@ namespace Argon.Linq
             {
                 ValidationUtils.ArgumentNotNull(propertyName, nameof(propertyName));
 
-                JProperty? property = Property(propertyName, StringComparison.Ordinal);
+                var property = Property(propertyName, StringComparison.Ordinal);
 
                 return property?.Value;
             }
             set
             {
-                JProperty? property = Property(propertyName, StringComparison.Ordinal);
+                var property = Property(propertyName, StringComparison.Ordinal);
                 if (property != null)
                 {
                     property.Value = value!;
@@ -401,7 +401,7 @@ namespace Argon.Linq
                 throw JsonReaderException.Create(reader, "Error reading JObject from JsonReader. Current JsonReader item is not an object: {0}".FormatWith(CultureInfo.InvariantCulture, reader.TokenType));
             }
 
-            JObject o = new JObject();
+            var o = new JObject();
             o.SetLineInfo(reader as IJsonLineInfo, settings);
 
             o.ReadTokenFrom(reader, settings);
@@ -442,7 +442,7 @@ namespace Argon.Linq
         {
             using (JsonReader reader = new JsonTextReader(new StringReader(json)))
             {
-                JObject o = Load(reader, settings);
+                var o = Load(reader, settings);
 
                 while (reader.Read())
                 {
@@ -471,7 +471,7 @@ namespace Argon.Linq
         /// <returns>A <see cref="JObject"/> with the values of the specified object.</returns>
         public new static JObject FromObject(object o, JsonSerializer jsonSerializer)
         {
-            JToken token = FromObjectInternal(o, jsonSerializer);
+            var token = FromObjectInternal(o, jsonSerializer);
 
             if (token.Type != JTokenType.Object)
             {
@@ -490,7 +490,7 @@ namespace Argon.Linq
         {
             writer.WriteStartObject();
 
-            for (int i = 0; i < _properties.Count; i++)
+            for (var i = 0; i < _properties.Count; i++)
             {
                 _properties[i].WriteTo(writer, converters);
             }
@@ -576,7 +576,7 @@ namespace Argon.Linq
         /// <returns><c>true</c> if item was successfully removed; otherwise, <c>false</c>.</returns>
         public bool Remove(string propertyName)
         {
-            JProperty? property = Property(propertyName, StringComparison.Ordinal);
+            var property = Property(propertyName, StringComparison.Ordinal);
             if (property == null)
             {
                 return false;
@@ -594,7 +594,7 @@ namespace Argon.Linq
         /// <returns><c>true</c> if a value was successfully retrieved; otherwise, <c>false</c>.</returns>
         public bool TryGetValue(string propertyName, [NotNullWhen(true)]out JToken? value)
         {
-            JProperty? property = Property(propertyName, StringComparison.Ordinal);
+            var property = Property(propertyName, StringComparison.Ordinal);
             if (property == null)
             {
                 value = null;
@@ -622,7 +622,7 @@ namespace Argon.Linq
 
         bool ICollection<KeyValuePair<string, JToken?>>.Contains(KeyValuePair<string, JToken?> item)
         {
-            JProperty? property = Property(item.Key, StringComparison.Ordinal);
+            var property = Property(item.Key, StringComparison.Ordinal);
             if (property == null)
             {
                 return false;
@@ -650,7 +650,7 @@ namespace Argon.Linq
                 throw new ArgumentException("The number of elements in the source JObject is greater than the available space from arrayIndex to the end of the destination array.");
             }
 
-            int index = 0;
+            var index = 0;
             foreach (JProperty property in _properties)
             {
                 array[arrayIndex + index] = new KeyValuePair<string, JToken?>(property.Name, property.Value);
@@ -719,9 +719,9 @@ namespace Argon.Linq
 
         PropertyDescriptorCollection ICustomTypeDescriptor.GetProperties(Attribute[] attributes)
         {
-            PropertyDescriptor[] propertiesArray = new PropertyDescriptor[Count];
-            int i = 0;
-            foreach (KeyValuePair<string, JToken?> propertyValue in this)
+            var propertiesArray = new PropertyDescriptor[Count];
+            var i = 0;
+            foreach (var propertyValue in this)
             {
                 propertiesArray[i] = new JPropertyDescriptor(propertyValue.Key);
                 i++;

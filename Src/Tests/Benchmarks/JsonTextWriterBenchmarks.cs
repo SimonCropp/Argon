@@ -36,8 +36,8 @@ namespace Argon.Tests.Benchmarks
         [Benchmark]
         public string SerializeUnicodeChars()
         {
-            StringWriter sw = new StringWriter();
-            JsonTextWriter jsonTextWriter = new JsonTextWriter(sw);
+            var sw = new StringWriter();
+            var jsonTextWriter = new JsonTextWriter(sw);
             jsonTextWriter.WriteValue(UnicodeCharsString);
             jsonTextWriter.Flush();
 
@@ -47,9 +47,9 @@ namespace Argon.Tests.Benchmarks
         [Benchmark]
         public string SerializeIntegers()
         {
-            StringWriter sw = new StringWriter();
-            JsonTextWriter jsonTextWriter = new JsonTextWriter(sw);
-            for (int i = 0; i < 10000; i++)
+            var sw = new StringWriter();
+            var jsonTextWriter = new JsonTextWriter(sw);
+            for (var i = 0; i < 10000; i++)
             {
                 jsonTextWriter.WriteValue(i);
             }

@@ -74,18 +74,18 @@ namespace Argon.Tests.Issues
                 }
             };
 
-            string serializedData = JsonConvert.SerializeObject(objects, new JsonSerializerSettings
+            var serializedData = JsonConvert.SerializeObject(objects, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.All,
                 Formatting = Formatting.Indented
             });
 
-            IEnumerable<TestClass1> a = JsonConvert.DeserializeObject<IEnumerable<TestClass1>>(serializedData, new JsonSerializerSettings
+            var a = JsonConvert.DeserializeObject<IEnumerable<TestClass1>>(serializedData, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.All
             });
 
-            TestClass1 o = a.First();
+            var o = a.First();
 
             Assert.AreEqual(1, o.Prop1.Count);
             Assert.AreEqual(1, o.Prop2.Count);
@@ -95,19 +95,19 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test_Collection()
         {
-            TestClass3 c = new TestClass3();
+            var c = new TestClass3();
             c.Prop1 = new Dictionary<string, string>
             {
                 ["key"] = "value"
             };
 
-            string serializedData = JsonConvert.SerializeObject(c, new JsonSerializerSettings
+            var serializedData = JsonConvert.SerializeObject(c, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.All,
                 Formatting = Formatting.Indented
             });
 
-            TestClass3 a = JsonConvert.DeserializeObject<TestClass3>(serializedData, new JsonSerializerSettings
+            var a = JsonConvert.DeserializeObject<TestClass3>(serializedData, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.All
             });

@@ -132,7 +132,7 @@ namespace Argon.Linq
                 throw JsonReaderException.Create(reader, "Error reading JArray from JsonReader. Current JsonReader item is not an array: {0}".FormatWith(CultureInfo.InvariantCulture, reader.TokenType));
             }
 
-            JArray a = new JArray();
+            var a = new JArray();
             a.SetLineInfo(reader as IJsonLineInfo, settings);
 
             a.ReadTokenFrom(reader, settings);
@@ -167,7 +167,7 @@ namespace Argon.Linq
         {
             using (JsonReader reader = new JsonTextReader(new StringReader(json)))
             {
-                JArray a = Load(reader, settings);
+                var a = Load(reader, settings);
 
                 while (reader.Read())
                 {
@@ -196,7 +196,7 @@ namespace Argon.Linq
         /// <returns>A <see cref="JArray"/> with the values of the specified object.</returns>
         public new static JArray FromObject(object o, JsonSerializer jsonSerializer)
         {
-            JToken token = FromObjectInternal(o, jsonSerializer);
+            var token = FromObjectInternal(o, jsonSerializer);
 
             if (token.Type != JTokenType.Array)
             {
@@ -215,7 +215,7 @@ namespace Argon.Linq
         {
             writer.WriteStartArray();
 
-            for (int i = 0; i < _values.Count; i++)
+            for (var i = 0; i < _values.Count; i++)
             {
                 _values[i].WriteTo(writer, converters);
             }
@@ -275,7 +275,7 @@ namespace Argon.Linq
 
         internal override void MergeItem(object content, JsonMergeSettings? settings)
         {
-            IEnumerable? a = (IsMultiContent(content) || content is JArray)
+            var a = (IsMultiContent(content) || content is JArray)
                 ? (IEnumerable)content
                 : null;
             if (a == null)

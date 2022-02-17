@@ -150,7 +150,7 @@ namespace Argon.Utilities
             }
             else
             {
-                bool contains = _list!.Contains(item);
+                var contains = _list!.Contains(item);
 
                 if (contains)
                 {

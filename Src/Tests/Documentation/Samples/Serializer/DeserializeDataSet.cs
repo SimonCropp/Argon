@@ -41,7 +41,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            string json = @"{
+            var json = @"{
               'Table1': [
                 {
                   'id': 0,
@@ -54,9 +54,9 @@ namespace Argon.Tests.Documentation.Samples.Serializer
               ]
             }";
 
-            DataSet dataSet = JsonConvert.DeserializeObject<DataSet>(json);
+            var dataSet = JsonConvert.DeserializeObject<DataSet>(json);
 
-            DataTable dataTable = dataSet.Tables["Table1"];
+            var dataTable = dataSet.Tables["Table1"];
 
             Console.WriteLine(dataTable.Rows.Count);
             // 2

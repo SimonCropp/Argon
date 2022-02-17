@@ -55,7 +55,7 @@ namespace Argon.Converters
                 return;
             }
 
-            byte[] data = GetByteArray(value);
+            var data = GetByteArray(value);
 
             writer.WriteValue(data);
         }
@@ -115,7 +115,7 @@ namespace Argon.Converters
             {
                 // current token is already at base64 string
                 // unable to call ReadAsBytes so do it the old fashion way
-                string encodedData = reader.Value!.ToString();
+                var encodedData = reader.Value!.ToString();
                 data = Convert.FromBase64String(encodedData);
             }
             else
@@ -123,7 +123,7 @@ namespace Argon.Converters
                 throw JsonSerializationException.Create(reader, "Unexpected token parsing binary. Expected String or StartArray, got {0}.".FormatWith(CultureInfo.InvariantCulture, reader.TokenType));
             }
 
-            Type t = (ReflectionUtils.IsNullableType(objectType))
+            var t = (ReflectionUtils.IsNullableType(objectType))
                 ? Nullable.GetUnderlyingType(objectType)
                 : objectType;
 
@@ -145,7 +145,7 @@ namespace Argon.Converters
 
         private byte[] ReadByteArray(JsonReader reader)
         {
-            List<byte> byteList = new List<byte>();
+            var byteList = new List<byte>();
 
             while (reader.Read())
             {

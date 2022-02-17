@@ -39,7 +39,7 @@ namespace Argon.Tests
         [Fact]
         public void JsonSerializationException()
         {
-            JsonSerializationException exception = new JsonSerializationException();
+            var exception = new JsonSerializationException();
             Assert.AreEqual("Exception of type 'Argon.JsonSerializationException' was thrown.", exception.Message);
 
             exception = new JsonSerializationException("Message!");
@@ -54,7 +54,7 @@ namespace Argon.Tests
         [Fact]
         public void JsonWriterException()
         {
-            JsonWriterException exception = new JsonWriterException();
+            var exception = new JsonWriterException();
             Assert.AreEqual("Exception of type 'Argon.JsonWriterException' was thrown.", exception.Message);
 
             exception = new JsonWriterException("Message!");
@@ -69,7 +69,7 @@ namespace Argon.Tests
         [Fact]
         public void JsonReaderException()
         {
-            JsonReaderException exception = new JsonReaderException();
+            var exception = new JsonReaderException();
             Assert.AreEqual("Exception of type 'Argon.JsonReaderException' was thrown.", exception.Message);
 
             exception = new JsonReaderException("Message!");
@@ -85,7 +85,7 @@ namespace Argon.Tests
         [Fact]
         public void JsonSchemaException()
         {
-            JsonSchemaException exception = new JsonSchemaException();
+            var exception = new JsonSchemaException();
             Assert.AreEqual("Exception of type 'Argon.Schema.JsonSchemaException' was thrown.", exception.Message);
 
             exception = new JsonSchemaException("Message!");
@@ -101,7 +101,7 @@ namespace Argon.Tests
         [Fact]
         public void BinarySerializeException()
         {
-            JsonReaderException exception = new JsonReaderException("message!");
+            var exception = new JsonReaderException("message!");
             using (var memoryStream = new MemoryStream())
             {
                 var binaryFormatter = new BinaryFormatter();

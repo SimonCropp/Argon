@@ -45,12 +45,12 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void ConstructorWithInString()
         {
-            ConstructorInfo constructor = TestReflectionUtils.GetConstructors(typeof(InTestClass)).Single(c => c.GetParameters().Count() == 1);
+            var constructor = TestReflectionUtils.GetConstructors(typeof(InTestClass)).Single(c => c.GetParameters().Count() == 1);
 
             var creator = DynamicReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-            object[] args = new object[] { "Value" };
-            InTestClass o = (InTestClass)creator(args);
+            var args = new object[] { "Value" };
+            var o = (InTestClass)creator(args);
             Assert.IsNotNull(o);
             Assert.AreEqual("Value", o.Value);
         }
@@ -58,12 +58,12 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void ConstructorWithInStringAndBool()
         {
-            ConstructorInfo constructor = TestReflectionUtils.GetConstructors(typeof(InTestClass)).Single(c => c.GetParameters().Count() == 2);
+            var constructor = TestReflectionUtils.GetConstructors(typeof(InTestClass)).Single(c => c.GetParameters().Count() == 2);
 
             var creator = DynamicReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-            object[] args = new object[] { "Value", true };
-            InTestClass o = (InTestClass)creator(args);
+            var args = new object[] { "Value", true };
+            var o = (InTestClass)creator(args);
             Assert.IsNotNull(o);
             Assert.AreEqual("Value", o.Value);
             Assert.AreEqual(true, o.B1);
@@ -72,12 +72,12 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void ConstructorWithRefString()
         {
-            ConstructorInfo constructor = typeof(OutAndRefTestClass).GetConstructors().Single(c => c.GetParameters().Count() == 1);
+            var constructor = typeof(OutAndRefTestClass).GetConstructors().Single(c => c.GetParameters().Count() == 1);
 
             var creator = DynamicReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-            object[] args = new object[] { "Input" };
-            OutAndRefTestClass o = (OutAndRefTestClass)creator(args);
+            var args = new object[] { "Input" };
+            var o = (OutAndRefTestClass)creator(args);
             Assert.IsNotNull(o);
             Assert.AreEqual("Input", o.Input);
         }
@@ -85,12 +85,12 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void ConstructorWithRefStringAndOutBool()
         {
-            ConstructorInfo constructor = typeof(OutAndRefTestClass).GetConstructors().Single(c => c.GetParameters().Count() == 2);
+            var constructor = typeof(OutAndRefTestClass).GetConstructors().Single(c => c.GetParameters().Count() == 2);
 
             var creator = DynamicReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-            object[] args = new object[] { "Input", false };
-            OutAndRefTestClass o = (OutAndRefTestClass)creator(args);
+            var args = new object[] { "Input", false };
+            var o = (OutAndRefTestClass)creator(args);
             Assert.IsNotNull(o);
             Assert.AreEqual("Input", o.Input);
             Assert.AreEqual(true, o.B1);
@@ -99,12 +99,12 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void ConstructorWithRefStringAndRefBoolAndRefBool()
         {
-            ConstructorInfo constructor = typeof(OutAndRefTestClass).GetConstructors().Single(c => c.GetParameters().Count() == 3);
+            var constructor = typeof(OutAndRefTestClass).GetConstructors().Single(c => c.GetParameters().Count() == 3);
 
             var creator = DynamicReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-            object[] args = new object[] { "Input", true, null };
-            OutAndRefTestClass o = (OutAndRefTestClass)creator(args);
+            var args = new object[] { "Input", true, null };
+            var o = (OutAndRefTestClass)creator(args);
             Assert.IsNotNull(o);
             Assert.AreEqual("Input", o.Input);
             Assert.AreEqual(true, o.B1);
@@ -116,7 +116,7 @@ namespace Argon.Tests.Utilities
         {
             ExceptionAssert.Throws<InvalidCastException>(() =>
             {
-                Person p = new Person();
+                var p = new Person();
                 p.Name = "Hi";
 
                 var setter = DynamicReflectionDelegateFactory.Instance.CreateGet<object>(typeof(Movie).GetProperty("Name"));
@@ -130,8 +130,8 @@ namespace Argon.Tests.Utilities
         {
             ExceptionAssert.Throws<InvalidCastException>(() =>
             {
-                Person p = new Person();
-                Movie m = new Movie();
+                var p = new Person();
+                var m = new Movie();
 
                 var setter = DynamicReflectionDelegateFactory.Instance.CreateSet<object>(typeof(Movie).GetProperty("Name"));
 
@@ -167,7 +167,7 @@ namespace Argon.Tests.Utilities
         {
             ExceptionAssert.Throws<InvalidCastException>(() =>
             {
-                Movie m = new Movie();
+                var m = new Movie();
 
                 var setter = DynamicReflectionDelegateFactory.Instance.CreateSet<object>(typeof(Movie).GetProperty("Name"));
 
@@ -178,32 +178,32 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void CreateStaticMethodCall()
         {
-            MethodInfo castMethodInfo = typeof(DictionaryKey).GetMethod("op_Implicit", new[] { typeof(string) });
+            var castMethodInfo = typeof(DictionaryKey).GetMethod("op_Implicit", new[] { typeof(string) });
 
             Assert.IsNotNull(castMethodInfo);
 
-            MethodCall<object, object> call = DynamicReflectionDelegateFactory.Instance.CreateMethodCall<object>(castMethodInfo);
+            var call = DynamicReflectionDelegateFactory.Instance.CreateMethodCall<object>(castMethodInfo);
 
-            object result = call(null, "First!");
+            var result = call(null, "First!");
             Assert.IsNotNull(result);
 
-            DictionaryKey key = (DictionaryKey)result;
+            var key = (DictionaryKey)result;
             Assert.AreEqual("First!", key.Value);
         }
 
         [Fact]
         public void CreatePropertyGetter()
         {
-            PropertyInfo namePropertyInfo = typeof(Person).GetProperty(nameof(Person.Name));
+            var namePropertyInfo = typeof(Person).GetProperty(nameof(Person.Name));
 
             Assert.IsNotNull(namePropertyInfo);
 
             var call = DynamicReflectionDelegateFactory.Instance.CreateGet<Person>(namePropertyInfo);
 
-            Person p = new Person();
+            var p = new Person();
             p.Name = "Name!";
 
-            object result = call(p);
+            var result = call(p);
             Assert.IsNotNull(result);
 
             Assert.AreEqual("Name!", (string)result);
@@ -213,11 +213,11 @@ namespace Argon.Tests.Utilities
         public void ConstructorStruct()
         {
             var creator1 = DynamicReflectionDelegateFactory.Instance.CreateDefaultConstructor<object>(typeof(MyStruct));
-            MyStruct myStruct1 = (MyStruct)creator1.Invoke();
+            var myStruct1 = (MyStruct)creator1.Invoke();
             Assert.AreEqual(0, myStruct1.IntProperty);
 
             var creator2 = DynamicReflectionDelegateFactory.Instance.CreateDefaultConstructor<MyStruct>(typeof(MyStruct));
-            MyStruct myStruct2 = creator2.Invoke();
+            var myStruct2 = creator2.Invoke();
             Assert.AreEqual(0, myStruct2.IntProperty);
         }
 
@@ -239,16 +239,16 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void CreateStructMethodCall()
         {
-            MethodInfo methodInfo = typeof(DynamicReflectionDelegateFactoryTests).GetMethod(nameof(StructMethod), new[] { typeof(TestStruct) });
+            var methodInfo = typeof(DynamicReflectionDelegateFactoryTests).GetMethod(nameof(StructMethod), new[] { typeof(TestStruct) });
 
             Assert.IsNotNull(methodInfo);
 
-            MethodCall<object, object> call = DynamicReflectionDelegateFactory.Instance.CreateMethodCall<object>(methodInfo);
+            var call = DynamicReflectionDelegateFactory.Instance.CreateMethodCall<object>(methodInfo);
 
-            object result = call(null, new TestStruct(123));
+            var result = call(null, new TestStruct(123));
             Assert.IsNotNull(result);
 
-            TestStruct s = (TestStruct)result;
+            var s = (TestStruct)result;
             Assert.AreEqual(246, s.Value);
         }
     }

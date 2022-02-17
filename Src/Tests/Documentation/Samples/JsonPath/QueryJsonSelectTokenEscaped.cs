@@ -41,23 +41,23 @@ namespace Argon.Tests.Documentation.Samples.JsonPath
         public void Example()
         {
             #region Usage
-            JObject o = JObject.Parse(@"{
+            var o = JObject.Parse(@"{
               'Space Invaders': 'Taito',
               'Doom ]|[': 'id',
               ""Yar's Revenge"": 'Atari',
               'Government ""Intelligence""': 'Make-Believe'
             }");
 
-            string spaceInvaders = (string)o.SelectToken("['Space Invaders']");
+            var spaceInvaders = (string)o.SelectToken("['Space Invaders']");
             // Taito
 
-            string doom3 = (string)o.SelectToken("['Doom ]|[']");
+            var doom3 = (string)o.SelectToken("['Doom ]|[']");
             // id
 
-            string yarsRevenge = (string)o.SelectToken("['Yar\\'s Revenge']");
+            var yarsRevenge = (string)o.SelectToken("['Yar\\'s Revenge']");
             // Atari
 
-            string governmentIntelligence = (string)o.SelectToken("['Government \"Intelligence\"']");
+            var governmentIntelligence = (string)o.SelectToken("['Government \"Intelligence\"']");
             // Make-Believe
             #endregion
 

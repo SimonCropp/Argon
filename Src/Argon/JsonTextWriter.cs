@@ -313,9 +313,9 @@ namespace Argon
         protected override void WriteIndent()
         {
             // levels of indentation multiplied by the indent count
-            int currentIndentCount = Top * _indentation;
+            var currentIndentCount = Top * _indentation;
 
-            int newLineLen = SetIndentChars();
+            var newLineLen = SetIndentChars();
 
             _writer.Write(_indentChars, 0, newLineLen + Math.Min(currentIndentCount, IndentCharBufferSize));
 
@@ -328,12 +328,12 @@ namespace Argon
         private int SetIndentChars()
         {
             // Set _indentChars to be a newline followed by IndentCharBufferSize indent characters.
-            string writerNewLine = _writer.NewLine;
-            int newLineLen = writerNewLine.Length;
-            bool match = _indentChars != null && _indentChars.Length == IndentCharBufferSize + newLineLen;
+            var writerNewLine = _writer.NewLine;
+            var newLineLen = writerNewLine.Length;
+            var match = _indentChars != null && _indentChars.Length == IndentCharBufferSize + newLineLen;
             if (match)
             {
-                for (int i = 0; i != newLineLen; ++i)
+                for (var i = 0; i != newLineLen; ++i)
                 {
                     if (writerNewLine[i] != _indentChars![i])
                     {
@@ -625,7 +625,7 @@ namespace Argon
 
             if (StringUtils.IsNullOrEmpty(DateFormatString))
             {
-                int length = WriteValueToBuffer(value);
+                var length = WriteValueToBuffer(value);
 
                 _writer.Write(_writeBuffer, 0, length);
             }
@@ -642,7 +642,7 @@ namespace Argon
             EnsureWriteBuffer();
             MiscellaneousUtils.Assert(_writeBuffer != null);
 
-            int pos = 0;
+            var pos = 0;
             _writeBuffer[pos++] = _quoteChar;
             pos = DateTimeUtils.WriteDateTimeString(_writeBuffer, pos, value, null, value.Kind, DateFormatHandling);
             _writeBuffer[pos++] = _quoteChar;
@@ -679,7 +679,7 @@ namespace Argon
 
             if (StringUtils.IsNullOrEmpty(DateFormatString))
             {
-                int length = WriteValueToBuffer(value);
+                var length = WriteValueToBuffer(value);
 
                 _writer.Write(_writeBuffer, 0, length);
             }
@@ -696,7 +696,7 @@ namespace Argon
             EnsureWriteBuffer();
             MiscellaneousUtils.Assert(_writeBuffer != null);
 
-            int pos = 0;
+            var pos = 0;
             _writeBuffer[pos++] = _quoteChar;
             pos = DateTimeUtils.WriteDateTimeString(_writeBuffer, pos, (DateFormatHandling == DateFormatHandling.IsoDateFormat) ? value.DateTime : value.UtcDateTime, value.Offset, DateTimeKind.Local, DateFormatHandling);
             _writeBuffer[pos++] = _quoteChar;
@@ -795,7 +795,7 @@ namespace Argon
             }
             else
             {
-                bool negative = value < 0;
+                var negative = value < 0;
                 WriteIntegerValue(negative ? (ulong)-value : (ulong)value, negative);
             }
         }
@@ -808,7 +808,7 @@ namespace Argon
             }
             else
             {
-                int length = WriteNumberToBuffer(value, negative);
+                var length = WriteNumberToBuffer(value, negative);
                 _writer.Write(_writeBuffer, 0, length);
             }
         }
@@ -824,7 +824,7 @@ namespace Argon
             EnsureWriteBuffer();
             MiscellaneousUtils.Assert(_writeBuffer != null);
 
-            int totalLength = MathUtils.IntLength(value);
+            var totalLength = MathUtils.IntLength(value);
 
             if (negative)
             {
@@ -832,12 +832,12 @@ namespace Argon
                 _writeBuffer[0] = '-';
             }
 
-            int index = totalLength;
+            var index = totalLength;
 
             do
             {
-                ulong quotient = value / 10;
-                ulong digit = value - (quotient * 10);
+                var quotient = value / 10;
+                var digit = value - (quotient * 10);
                 _writeBuffer[--index] = (char)('0' + digit);
                 value = quotient;
             } while (value != 0);
@@ -853,7 +853,7 @@ namespace Argon
             }
             else
             {
-                bool negative = value < 0;
+                var negative = value < 0;
                 WriteIntegerValue(negative ? (uint)-value : (uint)value, negative);
             }
         }
@@ -866,7 +866,7 @@ namespace Argon
             }
             else
             {
-                int length = WriteNumberToBuffer(value, negative);
+                var length = WriteNumberToBuffer(value, negative);
                 _writer.Write(_writeBuffer, 0, length);
             }
         }
@@ -876,7 +876,7 @@ namespace Argon
             EnsureWriteBuffer();
             MiscellaneousUtils.Assert(_writeBuffer != null);
 
-            int totalLength = MathUtils.IntLength(value);
+            var totalLength = MathUtils.IntLength(value);
 
             if (negative)
             {
@@ -884,12 +884,12 @@ namespace Argon
                 _writeBuffer[0] = '-';
             }
 
-            int index = totalLength;
+            var index = totalLength;
 
             do
             {
-                uint quotient = value / 10;
-                uint digit = value - (quotient * 10);
+                var quotient = value / 10;
+                var digit = value - (quotient * 10);
                 _writeBuffer[--index] = (char)('0' + digit);
                 value = quotient;
             } while (value != 0);

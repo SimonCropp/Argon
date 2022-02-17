@@ -45,12 +45,12 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void ConstructorWithInString()
         {
-            ConstructorInfo constructor = TestReflectionUtils.GetConstructors(typeof(InTestClass)).Single(c => c.GetParameters().Count() == 1);
+            var constructor = TestReflectionUtils.GetConstructors(typeof(InTestClass)).Single(c => c.GetParameters().Count() == 1);
 
             var creator = ExpressionReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-            object[] args = new object[] { "Value" };
-            InTestClass o = (InTestClass)creator(args);
+            var args = new object[] { "Value" };
+            var o = (InTestClass)creator(args);
             Assert.IsNotNull(o);
             Assert.AreEqual("Value", o.Value);
         }
@@ -58,12 +58,12 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void ConstructorWithInStringAndBool()
         {
-            ConstructorInfo constructor = TestReflectionUtils.GetConstructors(typeof(InTestClass)).Single(c => c.GetParameters().Count() == 2);
+            var constructor = TestReflectionUtils.GetConstructors(typeof(InTestClass)).Single(c => c.GetParameters().Count() == 2);
 
             var creator = ExpressionReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-            object[] args = new object[] { "Value", true };
-            InTestClass o = (InTestClass)creator(args);
+            var args = new object[] { "Value", true };
+            var o = (InTestClass)creator(args);
             Assert.IsNotNull(o);
             Assert.AreEqual("Value", o.Value);
             Assert.AreEqual(true, o.B1);
@@ -72,12 +72,12 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void ConstructorWithRefString()
         {
-            ConstructorInfo constructor = TestReflectionUtils.GetConstructors(typeof(OutAndRefTestClass)).Single(c => c.GetParameters().Count() == 1);
+            var constructor = TestReflectionUtils.GetConstructors(typeof(OutAndRefTestClass)).Single(c => c.GetParameters().Count() == 1);
 
             var creator = ExpressionReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-            object[] args = new object[] { "Input" };
-            OutAndRefTestClass o = (OutAndRefTestClass)creator(args);
+            var args = new object[] { "Input" };
+            var o = (OutAndRefTestClass)creator(args);
             Assert.IsNotNull(o);
             Assert.AreEqual("Input", o.Input);
         }
@@ -85,12 +85,12 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void ConstructorWithRefStringAndOutBool()
         {
-            ConstructorInfo constructor = TestReflectionUtils.GetConstructors(typeof(OutAndRefTestClass)).Single(c => c.GetParameters().Count() == 2);
+            var constructor = TestReflectionUtils.GetConstructors(typeof(OutAndRefTestClass)).Single(c => c.GetParameters().Count() == 2);
 
             var creator = ExpressionReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-            object[] args = new object[] { "Input", null };
-            OutAndRefTestClass o = (OutAndRefTestClass)creator(args);
+            var args = new object[] { "Input", null };
+            var o = (OutAndRefTestClass)creator(args);
             Assert.IsNotNull(o);
             Assert.AreEqual("Input", o.Input);
         }
@@ -98,12 +98,12 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void ConstructorWithRefStringAndRefBoolAndRefBool()
         {
-            ConstructorInfo constructor = TestReflectionUtils.GetConstructors(typeof(OutAndRefTestClass)).Single(c => c.GetParameters().Count() == 3);
+            var constructor = TestReflectionUtils.GetConstructors(typeof(OutAndRefTestClass)).Single(c => c.GetParameters().Count() == 3);
 
             var creator = ExpressionReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-            object[] args = new object[] { "Input", true, null };
-            OutAndRefTestClass o = (OutAndRefTestClass)creator(args);
+            var args = new object[] { "Input", true, null };
+            var o = (OutAndRefTestClass)creator(args);
             Assert.IsNotNull(o);
             Assert.AreEqual("Input", o.Input);
             Assert.AreEqual(true, o.B1);
@@ -113,18 +113,18 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void DefaultConstructor()
         {
-            Func<object> create = ExpressionReflectionDelegateFactory.Instance.CreateDefaultConstructor<object>(typeof(Movie));
+            var create = ExpressionReflectionDelegateFactory.Instance.CreateDefaultConstructor<object>(typeof(Movie));
 
-            Movie m = (Movie)create();
+            var m = (Movie)create();
             Assert.IsNotNull(m);
         }
 
         [Fact]
         public void DefaultConstructor_Struct()
         {
-            Func<object> create = ExpressionReflectionDelegateFactory.Instance.CreateDefaultConstructor<object>(typeof(StructTest));
+            var create = ExpressionReflectionDelegateFactory.Instance.CreateDefaultConstructor<object>(typeof(StructTest));
 
-            StructTest m = (StructTest)create();
+            var m = (StructTest)create();
             Assert.IsNotNull(m);
         }
 
@@ -134,7 +134,7 @@ namespace Argon.Tests.Utilities
             ExceptionAssert.Throws<Exception>(
                 () =>
                 {
-                    Func<object> create = ExpressionReflectionDelegateFactory.Instance.CreateDefaultConstructor<object>(typeof(Type));
+                    var create = ExpressionReflectionDelegateFactory.Instance.CreateDefaultConstructor<object>(typeof(Type));
 
                     create();
                 }, new[]
@@ -147,9 +147,9 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void CreatePropertySetter()
         {
-            Action<object, object> setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(TestReflectionUtils.GetProperty(typeof(Movie), "Name"));
+            var setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(TestReflectionUtils.GetProperty(typeof(Movie), "Name"));
 
-            Movie m = new Movie();
+            var m = new Movie();
 
             setter(m, "OH HAI!");
 
@@ -159,12 +159,12 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void CreatePropertyGetter()
         {
-            Func<object, object> getter = ExpressionReflectionDelegateFactory.Instance.CreateGet<object>(TestReflectionUtils.GetProperty(typeof(Movie), "Name"));
+            var getter = ExpressionReflectionDelegateFactory.Instance.CreateGet<object>(TestReflectionUtils.GetProperty(typeof(Movie), "Name"));
 
-            Movie m = new Movie();
+            var m = new Movie();
             m.Name = "OH HAI!";
 
-            object value = getter(m);
+            var value = getter(m);
 
             Assert.AreEqual("OH HAI!", value);
         }
@@ -172,10 +172,10 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void CreateMethodCall()
         {
-            MethodCall<object, object> method = ExpressionReflectionDelegateFactory.Instance.CreateMethodCall<object>(TestReflectionUtils.GetMethod(typeof(Movie), "ToString"));
+            var method = ExpressionReflectionDelegateFactory.Instance.CreateMethodCall<object>(TestReflectionUtils.GetMethod(typeof(Movie), "ToString"));
 
-            Movie m = new Movie();
-            object result = method(m);
+            var m = new Movie();
+            var result = method(m);
             Assert.AreEqual("Argon.Tests.TestObjects.Movie", result);
 
             method = ExpressionReflectionDelegateFactory.Instance.CreateMethodCall<object>(TestReflectionUtils.GetMethod(typeof(Movie), "Equals"));
@@ -187,9 +187,9 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void CreateMethodCall_Constructor()
         {
-            MethodCall<object, object> method = ExpressionReflectionDelegateFactory.Instance.CreateMethodCall<object>(typeof(Movie).GetConstructor(new Type[0]));
+            var method = ExpressionReflectionDelegateFactory.Instance.CreateMethodCall<object>(typeof(Movie).GetConstructor(new Type[0]));
 
-            object result = method(null);
+            var result = method(null);
 
             Assert.IsTrue(result is Movie);
         }
@@ -206,9 +206,9 @@ namespace Argon.Tests.Utilities
             StaticTestClass.StringField = "Field!";
             StaticTestClass.StringProperty = "Property!";
 
-            Func<object, object> getter = ExpressionReflectionDelegateFactory.Instance.CreateGet<object>(TestReflectionUtils.GetProperty(typeof(StaticTestClass), "StringProperty"));
+            var getter = ExpressionReflectionDelegateFactory.Instance.CreateGet<object>(TestReflectionUtils.GetProperty(typeof(StaticTestClass), "StringProperty"));
 
-            object v = getter(null);
+            var v = getter(null);
             Assert.AreEqual(StaticTestClass.StringProperty, v);
 
             getter = ExpressionReflectionDelegateFactory.Instance.CreateGet<object>(TestReflectionUtils.GetField(typeof(StaticTestClass), "StringField"));
@@ -220,7 +220,7 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void SetStatic()
         {
-            Action<object, object> setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(TestReflectionUtils.GetProperty(typeof(StaticTestClass), "StringProperty"));
+            var setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(TestReflectionUtils.GetProperty(typeof(StaticTestClass), "StringProperty"));
 
             setter(null, "New property!");
             Assert.AreEqual("New property!", StaticTestClass.StringProperty);
@@ -242,15 +242,15 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void CreateGetField()
         {
-            FieldsTestClass c = new FieldsTestClass
+            var c = new FieldsTestClass
             {
                 BoolField = true,
                 StringField = "String!"
             };
 
-            Func<object, object> getter = ExpressionReflectionDelegateFactory.Instance.CreateGet<object>(TestReflectionUtils.GetField(typeof(FieldsTestClass), "StringField"));
+            var getter = ExpressionReflectionDelegateFactory.Instance.CreateGet<object>(TestReflectionUtils.GetField(typeof(FieldsTestClass), "StringField"));
 
-            object value = getter(c);
+            var value = getter(c);
             Assert.AreEqual("String!", value);
 
             getter = ExpressionReflectionDelegateFactory.Instance.CreateGet<object>(TestReflectionUtils.GetField(typeof(FieldsTestClass), "BoolField"));
@@ -262,9 +262,9 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void CreateSetField_ReadOnly()
         {
-            FieldsTestClass c = new FieldsTestClass();
+            var c = new FieldsTestClass();
 
-            Action<object, object> setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(TestReflectionUtils.GetField(typeof(FieldsTestClass), "IntReadOnlyField"));
+            var setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(TestReflectionUtils.GetField(typeof(FieldsTestClass), "IntReadOnlyField"));
 
             setter(c, int.MinValue);
             Assert.AreEqual(int.MinValue, c.IntReadOnlyField);
@@ -273,9 +273,9 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void CreateSetField()
         {
-            FieldsTestClass c = new FieldsTestClass();
+            var c = new FieldsTestClass();
 
-            Action<object, object> setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(TestReflectionUtils.GetField(typeof(FieldsTestClass), "StringField"));
+            var setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(TestReflectionUtils.GetField(typeof(FieldsTestClass), "StringField"));
 
             setter(c, "String!");
             Assert.AreEqual("String!", c.StringField);
@@ -291,7 +291,7 @@ namespace Argon.Tests.Utilities
         {
             object structTest = new StructTest();
 
-            Action<object, object> setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(TestReflectionUtils.GetProperty(typeof(StructTest), "StringProperty"));
+            var setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(TestReflectionUtils.GetProperty(typeof(StructTest), "StringProperty"));
 
             setter(structTest, "Hi1");
             Assert.AreEqual("Hi1", ((StructTest)structTest).StringProperty);
@@ -308,10 +308,10 @@ namespace Argon.Tests.Utilities
             ExceptionAssert.Throws<InvalidCastException>(
                 () =>
                 {
-                    Person p = new Person();
+                    var p = new Person();
                     p.Name = "Hi";
 
-                    Func<object, object> setter = ExpressionReflectionDelegateFactory.Instance.CreateGet<object>(TestReflectionUtils.GetProperty(typeof(Movie), "Name"));
+                    var setter = ExpressionReflectionDelegateFactory.Instance.CreateGet<object>(TestReflectionUtils.GetProperty(typeof(Movie), "Name"));
 
                     setter(p);
                 },
@@ -328,10 +328,10 @@ namespace Argon.Tests.Utilities
             ExceptionAssert.Throws<InvalidCastException>(
                 () =>
                 {
-                    Person p = new Person();
-                    Movie m = new Movie();
+                    var p = new Person();
+                    var m = new Movie();
 
-                    Action<object, object> setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(TestReflectionUtils.GetProperty(typeof(Movie), "Name"));
+                    var setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(TestReflectionUtils.GetProperty(typeof(Movie), "Name"));
 
                     setter(m, "Hi");
 
@@ -354,9 +354,9 @@ namespace Argon.Tests.Utilities
             ExceptionAssert.Throws<InvalidCastException>(
                 () =>
                 {
-                    Movie m = new Movie();
+                    var m = new Movie();
 
-                    Action<object, object> setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(TestReflectionUtils.GetProperty(typeof(Movie), "Name"));
+                    var setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(TestReflectionUtils.GetProperty(typeof(Movie), "Name"));
 
                     setter(m, new Version("1.1.1.1"));
                 }, new[]
@@ -369,28 +369,28 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void CreateStaticMethodCall()
         {
-            MethodInfo castMethodInfo = typeof(DictionaryKey).GetMethod("op_Implicit", new[] { typeof(string) });
+            var castMethodInfo = typeof(DictionaryKey).GetMethod("op_Implicit", new[] { typeof(string) });
 
             Assert.IsNotNull(castMethodInfo);
 
-            MethodCall<object, object> call = ExpressionReflectionDelegateFactory.Instance.CreateMethodCall<object>(castMethodInfo);
+            var call = ExpressionReflectionDelegateFactory.Instance.CreateMethodCall<object>(castMethodInfo);
 
-            object result = call(null, "First!");
+            var result = call(null, "First!");
             Assert.IsNotNull(result);
 
-            DictionaryKey key = (DictionaryKey)result;
+            var key = (DictionaryKey)result;
             Assert.AreEqual("First!", key.Value);
         }
 
         [Fact]
         public void ConstructorStruct()
         {
-            Func<object> creator1 = ExpressionReflectionDelegateFactory.Instance.CreateDefaultConstructor<object>(typeof(MyStruct));
-            MyStruct myStruct1 = (MyStruct)creator1.Invoke();
+            var creator1 = ExpressionReflectionDelegateFactory.Instance.CreateDefaultConstructor<object>(typeof(MyStruct));
+            var myStruct1 = (MyStruct)creator1.Invoke();
             Assert.AreEqual(0, myStruct1.IntProperty);
 
-            Func<MyStruct> creator2 = ExpressionReflectionDelegateFactory.Instance.CreateDefaultConstructor<MyStruct>(typeof(MyStruct));
-            MyStruct myStruct2 = creator2.Invoke();
+            var creator2 = ExpressionReflectionDelegateFactory.Instance.CreateDefaultConstructor<MyStruct>(typeof(MyStruct));
+            var myStruct2 = creator2.Invoke();
             Assert.AreEqual(0, myStruct2.IntProperty);
         }
 
@@ -412,16 +412,16 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void CreateStructMethodCall()
         {
-            MethodInfo methodInfo = typeof(ExpressionReflectionDelegateFactoryTests).GetMethod(nameof(StructMethod), new[] { typeof(TestStruct) });
+            var methodInfo = typeof(ExpressionReflectionDelegateFactoryTests).GetMethod(nameof(StructMethod), new[] { typeof(TestStruct) });
 
             Assert.IsNotNull(methodInfo);
 
-            MethodCall<object, object> call = ExpressionReflectionDelegateFactory.Instance.CreateMethodCall<object>(methodInfo);
+            var call = ExpressionReflectionDelegateFactory.Instance.CreateMethodCall<object>(methodInfo);
 
-            object result = call(null, new TestStruct(123));
+            var result = call(null, new TestStruct(123));
             Assert.IsNotNull(result);
 
-            TestStruct s = (TestStruct)result;
+            var s = (TestStruct)result;
             Assert.AreEqual(246, s.Value);
         }
     }

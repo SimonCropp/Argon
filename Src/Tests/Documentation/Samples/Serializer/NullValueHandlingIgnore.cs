@@ -49,13 +49,13 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            Person person = new Person
+            var person = new Person
             {
                 Name = "Nigal Newborn",
                 Age = 1
             };
 
-            string jsonIncludeNullValues = JsonConvert.SerializeObject(person, Formatting.Indented);
+            var jsonIncludeNullValues = JsonConvert.SerializeObject(person, Formatting.Indented);
 
             Console.WriteLine(jsonIncludeNullValues);
             // {
@@ -65,7 +65,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
             //   "Salary": null
             // }
 
-            string jsonIgnoreNullValues = JsonConvert.SerializeObject(person, Formatting.Indented, new JsonSerializerSettings
+            var jsonIgnoreNullValues = JsonConvert.SerializeObject(person, Formatting.Indented, new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Ignore
             });

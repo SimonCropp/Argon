@@ -38,16 +38,16 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test()
         {
-            DataTable dt = new DataTable();
+            var dt = new DataTable();
             dt.Columns.Add("First", typeof(string));
             dt.Columns.Add("Second", typeof(string));
 
             dt.Rows.Add("string1", "string2");
             dt.Rows.Add("string1", (object)null);
 
-            object[][] data = dt.Select().Select(r => r.ItemArray).ToArray();
+            var data = dt.Select().Select(r => r.ItemArray).ToArray();
 
-            string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(data, Formatting.Indented);
             StringAssert.AreEqual(@"[
   [
     ""string1"",

@@ -37,12 +37,12 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test()
         {
-            Foo value = new Foo
+            var value = new Foo
             {
                 Bar = new DirectoryInfo(@"c:\temp")
             };
 
-            string json = JsonConvert.SerializeObject(value, new DirectoryInfoJsonConverter());
+            var json = JsonConvert.SerializeObject(value, new DirectoryInfoJsonConverter());
             Assert.AreEqual(@"{""Bar"":""c:\\temp""}", json);
         }
 

@@ -46,14 +46,14 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            ImmutableList<string> l = ImmutableList.CreateRange(new List<string>
+            var l = ImmutableList.CreateRange(new List<string>
             {
                 "One",
                 "II",
                 "3"
             });
 
-            string json = JsonConvert.SerializeObject(l, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(l, Formatting.Indented);
             // [
             //   "One",
             //   "II",

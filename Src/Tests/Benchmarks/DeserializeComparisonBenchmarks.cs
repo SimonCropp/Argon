@@ -56,16 +56,16 @@ namespace Argon.Tests.Benchmarks
 
         private T DeserializeDataContract<T>(string xml)
         {
-            DataContractSerializer serializer = new DataContractSerializer(typeof(T));
-            MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(xml));
+            var serializer = new DataContractSerializer(typeof(T));
+            var ms = new MemoryStream(Encoding.UTF8.GetBytes(xml));
 
             return (T)serializer.ReadObject(ms);
         }
 
         private T DeserializeDataContractJson<T>(string json)
         {
-            DataContractJsonSerializer dataContractSerializer = new DataContractJsonSerializer(typeof(T));
-            MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(json));
+            var dataContractSerializer = new DataContractJsonSerializer(typeof(T));
+            var ms = new MemoryStream(Encoding.UTF8.GetBytes(json));
 
             return (T)dataContractSerializer.ReadObject(ms);
         }
@@ -79,7 +79,7 @@ namespace Argon.Tests.Benchmarks
 
         private T DeserializeBinaryFormatter<T>(byte[] bytes)
         {
-            BinaryFormatter formatter = new BinaryFormatter();
+            var formatter = new BinaryFormatter();
             return (T)formatter.Deserialize(new MemoryStream(bytes));
         }
 
@@ -91,7 +91,7 @@ namespace Argon.Tests.Benchmarks
 
         public T DeserializeWebExtensions<T>(string json)
         {
-            JavaScriptSerializer ser = new JavaScriptSerializer { MaxJsonLength = int.MaxValue };
+            var ser = new JavaScriptSerializer { MaxJsonLength = int.MaxValue };
 
             return ser.Deserialize<T>(json);
         }
@@ -124,15 +124,15 @@ namespace Argon.Tests.Benchmarks
 #region DeserializeJsonNetManual
         private TestClass DeserializeJsonNetManual(string json)
         {
-            TestClass c = new TestClass();
+            var c = new TestClass();
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
             reader.Read();
             while (reader.Read())
             {
                 if (reader.TokenType == JsonToken.PropertyName)
                 {
-                    string propertyName = (string)reader.Value;
+                    var propertyName = (string)reader.Value;
                     switch (propertyName)
                     {
                         case "strings":
@@ -146,7 +146,7 @@ namespace Argon.Tests.Benchmarks
                             reader.Read();
                             while (reader.Read() && reader.TokenType != JsonToken.EndObject)
                             {
-                                string key = (string)reader.Value;
+                                var key = (string)reader.Value;
                                 c.dictionary.Add(key, reader.ReadAsInt32().GetValueOrDefault());
                             }
                             break;
@@ -184,7 +184,7 @@ namespace Argon.Tests.Benchmarks
 
         private static Address CreateAddress(JsonTextReader reader)
         {
-            Address a = new Address();
+            var a = new Address();
             while (reader.Read())
             {
                 if (reader.TokenType == JsonToken.PropertyName)
@@ -225,15 +225,15 @@ namespace Argon.Tests.Benchmarks
 
         private async Task<TestClass> DeserializeJsonNetManualAsync(string json)
         {
-            TestClass c = new TestClass();
+            var c = new TestClass();
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
             await reader.ReadAsync();
             while (await reader.ReadAsync())
             {
                 if (reader.TokenType == JsonToken.PropertyName)
                 {
-                    string propertyName = (string)reader.Value;
+                    var propertyName = (string)reader.Value;
                     switch (propertyName)
                     {
                         case "strings":
@@ -247,7 +247,7 @@ namespace Argon.Tests.Benchmarks
                             await reader.ReadAsync();
                             while (await reader.ReadAsync() && reader.TokenType != JsonToken.EndObject)
                             {
-                                string key = (string)reader.Value;
+                                var key = (string)reader.Value;
                                 c.dictionary.Add(key, (await reader.ReadAsInt32Async()).GetValueOrDefault());
                             }
                             break;
@@ -285,7 +285,7 @@ namespace Argon.Tests.Benchmarks
 
         private static async Task<Address> CreateAddressAsync(JsonTextReader reader)
         {
-            Address a = new Address();
+            var a = new Address();
             while (await reader.ReadAsync())
             {
                 if (reader.TokenType == JsonToken.PropertyName)
@@ -320,7 +320,7 @@ namespace Argon.Tests.Benchmarks
 
         private T DeserializeJsonNetBson<T>(byte[] bson)
         {
-            JsonSerializer serializer = new JsonSerializer();
+            var serializer = new JsonSerializer();
             return (T)serializer.Deserialize(new BsonReader(new MemoryStream(bson)), typeof(T));
         }
 #pragma warning restore 618

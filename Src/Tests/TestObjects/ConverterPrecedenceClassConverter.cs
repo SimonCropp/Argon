@@ -36,7 +36,7 @@ namespace Argon.Tests.TestObjects
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            ConverterPrecedenceClass c = (ConverterPrecedenceClass)value;
+            var c = (ConverterPrecedenceClass)value;
 
             JToken j = new JArray(ConverterType, c.TestValue);
 
@@ -47,13 +47,13 @@ namespace Argon.Tests.TestObjects
         {
             JToken j = JArray.Load(reader);
 
-            string converter = (string)j[0];
+            var converter = (string)j[0];
             if (converter != ConverterType)
             {
                 throw new Exception(StringUtils.FormatWith("Serialize converter {0} and deserialize converter {1} do not match.", CultureInfo.InvariantCulture, converter, ConverterType));
             }
 
-            string testValue = (string)j[1];
+            var testValue = (string)j[1];
             return new ConverterPrecedenceClass(testValue);
         }
 

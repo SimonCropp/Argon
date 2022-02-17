@@ -47,20 +47,20 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test()
         {
-            JsonSerializerSettings settings = new JsonSerializerSettings
+            var settings = new JsonSerializerSettings
             {
                 Converters = new JsonConverter[] { new IdJsonConverter() },
                 TraceWriter = new TraceWriter(),
             };
 
-            TestObject test = new TestObject { Id = "test" };
+            var test = new TestObject { Id = "test" };
 
-            JsonSerializer serializer = JsonSerializer.Create(settings);
+            var serializer = JsonSerializer.Create(settings);
 
-            MemoryStream stream = new MemoryStream();
+            var stream = new MemoryStream();
 
-            StreamWriter streamWriter = new StreamWriter(stream, Encoding.UTF8);
-            using (JsonTextWriter writer = new JsonTextWriter(streamWriter))
+            var streamWriter = new StreamWriter(stream, Encoding.UTF8);
+            using (var writer = new JsonTextWriter(streamWriter))
             {
                 writer.CloseOutput = false;
                 serializer.Serialize(writer, test);
@@ -68,7 +68,7 @@ namespace Argon.Tests.Issues
             }
             stream.Position = 0;
 
-            StreamReader reader = new StreamReader(stream);
+            var reader = new StreamReader(stream);
             Assert.AreEqual(@"{""Id"":""test""}", reader.ReadToEnd());
         }
 
@@ -96,7 +96,7 @@ namespace Argon.Tests.Issues
                 if (reader.TokenType == JsonToken.Integer)
                     return new Id((long)reader.Value);
 
-                string str = reader.Value as string;
+                var str = reader.Value as string;
                 Guid guid;
                 return Guid.TryParse(str, out guid) ? new Id(guid) : new Id(str);
             }
@@ -109,7 +109,7 @@ namespace Argon.Tests.Issues
                     return;
                 }
 
-                Id id = (Id)value;
+                var id = (Id)value;
                 writer.WriteValue(id.Value);
             }
         }

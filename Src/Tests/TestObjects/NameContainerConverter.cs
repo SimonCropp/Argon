@@ -31,7 +31,7 @@ namespace Argon.Tests.TestObjects
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            NameContainer nameContainer = value as NameContainer;
+            var nameContainer = value as NameContainer;
 
             if (nameContainer != null)
             {
@@ -45,7 +45,7 @@ namespace Argon.Tests.TestObjects
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            NameContainer nameContainer = new NameContainer();
+            var nameContainer = new NameContainer();
             nameContainer.Value = (string)reader.Value;
 
             return nameContainer;

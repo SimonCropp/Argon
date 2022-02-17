@@ -81,7 +81,7 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test_DefaultContractResolver()
         {
-            DefaultContractResolver resolver = new DefaultContractResolver();
+            var resolver = new DefaultContractResolver();
 
             var objectContract = (JsonObjectContract) resolver.ResolveContract(typeof(NonSerializableException));
             Assert.IsFalse(objectContract.Properties.Contains("TargetSite"));
@@ -91,7 +91,7 @@ namespace Argon.Tests.Issues
 
         private void AssertNoTargetSite(string json)
         {
-            JObject o = JObject.Parse(json);
+            var o = JObject.Parse(json);
 
             if (o.ContainsKey("TargetSite"))
             {

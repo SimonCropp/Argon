@@ -95,7 +95,7 @@ namespace Argon.Utilities
                 return false;
             }
 
-            for (int i = 0; i < s.Length; i++)
+            for (var i = 0; i < s.Length; i++)
             {
                 if (!char.IsWhiteSpace(s[i]))
                 {
@@ -108,8 +108,8 @@ namespace Argon.Utilities
 
         public static StringWriter CreateStringWriter(int capacity)
         {
-            StringBuilder sb = new StringBuilder(capacity);
-            StringWriter sw = new StringWriter(sb, CultureInfo.InvariantCulture);
+            var sb = new StringBuilder(capacity);
+            var sw = new StringWriter(sb, CultureInfo.InvariantCulture);
 
             return sw;
         }
@@ -135,7 +135,7 @@ namespace Argon.Utilities
                 throw new ArgumentNullException(nameof(valueSelector));
             }
 
-            IEnumerable<TSource> caseInsensitiveResults = source.Where(s => string.Equals(valueSelector(s), testValue, StringComparison.OrdinalIgnoreCase));
+            var caseInsensitiveResults = source.Where(s => string.Equals(valueSelector(s), testValue, StringComparison.OrdinalIgnoreCase));
             if (caseInsensitiveResults.Count() <= 1)
             {
                 return caseInsensitiveResults.SingleOrDefault();
@@ -143,7 +143,7 @@ namespace Argon.Utilities
             else
             {
                 // multiple results returned. now filter using case sensitivity
-                IEnumerable<TSource> caseSensitiveResults = source.Where(s => string.Equals(valueSelector(s), testValue, StringComparison.Ordinal));
+                var caseSensitiveResults = source.Where(s => string.Equals(valueSelector(s), testValue, StringComparison.Ordinal));
                 return caseSensitiveResults.SingleOrDefault();
             }
         }
@@ -155,16 +155,16 @@ namespace Argon.Utilities
                 return s;
             }
 
-            char[] chars = s.ToCharArray();
+            var chars = s.ToCharArray();
 
-            for (int i = 0; i < chars.Length; i++)
+            for (var i = 0; i < chars.Length; i++)
             {
                 if (i == 1 && !char.IsUpper(chars[i]))
                 {
                     break;
                 }
 
-                bool hasNext = (i + 1 < chars.Length);
+                var hasNext = (i + 1 < chars.Length);
                 if (i > 0 && hasNext && !char.IsUpper(chars[i + 1]))
                 {
                     // if the next character is a space, which is not considered uppercase 
@@ -214,10 +214,10 @@ namespace Argon.Utilities
                 return s;
             }
 
-            StringBuilder sb = new StringBuilder();
-            SeparatedCaseState state = SeparatedCaseState.Start;
+            var sb = new StringBuilder();
+            var state = SeparatedCaseState.Start;
 
-            for (int i = 0; i < s.Length; i++)
+            for (var i = 0; i < s.Length; i++)
             {
                 if (s[i] == ' ')
                 {
@@ -231,10 +231,10 @@ namespace Argon.Utilities
                     switch (state)
                     {
                         case SeparatedCaseState.Upper:
-                            bool hasNext = (i + 1 < s.Length);
+                            var hasNext = (i + 1 < s.Length);
                             if (i > 0 && hasNext)
                             {
-                                char nextChar = s[i + 1];
+                                var nextChar = s[i + 1];
                                 if (!char.IsUpper(nextChar) && nextChar != separator)
                                 {
                                     sb.Append(separator);
@@ -309,7 +309,7 @@ namespace Argon.Utilities
             {
                 throw new ArgumentOutOfRangeException(nameof(length));
             }
-            int end = start + length - 1;
+            var end = start + length - 1;
             if (end >= s.Length)
             {
                 throw new ArgumentOutOfRangeException(nameof(length));

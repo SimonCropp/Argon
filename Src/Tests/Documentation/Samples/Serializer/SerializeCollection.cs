@@ -39,14 +39,14 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            List<string> videogames = new List<string>
+            var videogames = new List<string>
             {
                 "Starcraft",
                 "Halo",
                 "Legend of Zelda"
             };
 
-            string json = JsonConvert.SerializeObject(videogames);
+            var json = JsonConvert.SerializeObject(videogames);
 
             Console.WriteLine(json);
             // ["Starcraft","Halo","Legend of Zelda"]

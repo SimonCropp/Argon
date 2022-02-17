@@ -59,11 +59,11 @@ namespace Argon.Tests.Converters
         {
             internal static void SerializeVersionClass(string version1, string version2)
             {
-                VersionClass versionClass = new VersionClass(version1, version2);
+                var versionClass = new VersionClass(version1, version2);
 
-                string json = JsonConvert.SerializeObject(versionClass, Formatting.Indented, new VersionConverter());
+                var json = JsonConvert.SerializeObject(versionClass, Formatting.Indented, new VersionConverter());
 
-                string expectedJson = string.Format(@"{{
+                var expectedJson = string.Format(@"{{
   ""StringProperty1"": ""StringProperty1"",
   ""Version1"": ""{0}"",
   ""Version2"": ""{1}"",
@@ -75,11 +75,11 @@ namespace Argon.Tests.Converters
 
             internal static void DeserializeVersionClass(string version1, string version2)
             {
-                string json = string.Format(@"{{""StringProperty1"": ""StringProperty1"", ""Version1"": ""{0}"", ""Version2"": ""{1}"", ""StringProperty2"": ""StringProperty2""}}", version1, version2);
-                Version expectedVersion1 = new Version(version1);
-                Version expectedVersion2 = new Version(version2);
+                var json = string.Format(@"{{""StringProperty1"": ""StringProperty1"", ""Version1"": ""{0}"", ""Version2"": ""{1}"", ""StringProperty2"": ""StringProperty2""}}", version1, version2);
+                var expectedVersion1 = new Version(version1);
+                var expectedVersion2 = new Version(version2);
 
-                VersionClass versionClass = JsonConvert.DeserializeObject<VersionClass>(json, new VersionConverter());
+                var versionClass = JsonConvert.DeserializeObject<VersionClass>(json, new VersionConverter());
 
                 Assert.AreEqual("StringProperty1", versionClass.StringProperty1);
                 Assert.AreEqual(expectedVersion1, versionClass.Version1);
@@ -91,10 +91,10 @@ namespace Argon.Tests.Converters
         [Fact]
         public void WriteJsonNull()
         {
-            StringWriter sw = new StringWriter();
-            JsonTextWriter jsonWriter = new JsonTextWriter(sw);
+            var sw = new StringWriter();
+            var jsonWriter = new JsonTextWriter(sw);
 
-            VersionConverter converter = new VersionConverter();
+            var converter = new VersionConverter();
             converter.WriteJson(jsonWriter, null, null);
 
             StringAssert.AreEqual(@"null", sw.ToString());
@@ -130,11 +130,11 @@ namespace Argon.Tests.Converters
         public void RoundtripImplicitConverter()
         {
             var version = new Version(1, 0, 0, 0);
-            string reportJSON = JsonConvert.SerializeObject(version);
+            var reportJSON = JsonConvert.SerializeObject(version);
 
             //Test
-            Version report2 = JsonConvert.DeserializeObject<Version>(reportJSON);
-            string reportJSON2 = JsonConvert.SerializeObject(report2);
+            var report2 = JsonConvert.DeserializeObject<Version>(reportJSON);
+            var reportJSON2 = JsonConvert.SerializeObject(report2);
 
             Assert.AreEqual(reportJSON, reportJSON2);
         }

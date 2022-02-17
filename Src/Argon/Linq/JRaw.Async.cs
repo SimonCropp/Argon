@@ -41,8 +41,8 @@ namespace Argon.Linq
         /// property returns an instance of <see cref="JRaw"/> with the content of the reader's current token.</returns>
         public static async Task<JRaw> CreateAsync(JsonReader reader, CancellationToken cancellationToken = default)
         {
-            using (StringWriter sw = new StringWriter(CultureInfo.InvariantCulture))
-            using (JsonTextWriter jsonWriter = new JsonTextWriter(sw))
+            using (var sw = new StringWriter(CultureInfo.InvariantCulture))
+            using (var jsonWriter = new JsonTextWriter(sw))
             {
                 await jsonWriter.WriteTokenSyncReadingAsync(reader, cancellationToken).ConfigureAwait(false);
 

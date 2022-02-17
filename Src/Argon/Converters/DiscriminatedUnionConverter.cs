@@ -84,23 +84,23 @@ namespace Argon.Converters
             // need to get declaring type to avoid duplicate Unions in cache
 
             // hacky but I can't find an API to get the declaring type without GetUnionCases
-            object[] cases = (object[])FSharpUtils.Instance.GetUnionCases(null, t, null)!;
+            var cases = (object[])FSharpUtils.Instance.GetUnionCases(null, t, null)!;
 
-            object caseInfo = cases.First();
+            var caseInfo = cases.First();
 
-            Type unionType = (Type)FSharpUtils.Instance.GetUnionCaseInfoDeclaringType(caseInfo)!;
+            var unionType = (Type)FSharpUtils.Instance.GetUnionCaseInfoDeclaringType(caseInfo)!;
             return unionType;
         }
 
         private static Union CreateUnion(Type t)
         {
-            Union u = new Union((FSharpFunction)FSharpUtils.Instance.PreComputeUnionTagReader(null, t, null), new List<UnionCase>());
+            var u = new Union((FSharpFunction)FSharpUtils.Instance.PreComputeUnionTagReader(null, t, null), new List<UnionCase>());
 
-            object[] cases = (object[])FSharpUtils.Instance.GetUnionCases(null, t, null)!;
+            var cases = (object[])FSharpUtils.Instance.GetUnionCases(null, t, null)!;
 
-            foreach (object unionCaseInfo in cases)
+            foreach (var unionCaseInfo in cases)
             {
-                UnionCase unionCase = new UnionCase(
+                var unionCase = new UnionCase(
                     (int)FSharpUtils.Instance.GetUnionCaseInfoTag(unionCaseInfo),
                     (string)FSharpUtils.Instance.GetUnionCaseInfoName(unionCaseInfo),
                     (PropertyInfo[])FSharpUtils.Instance.GetUnionCaseInfoFields(unionCaseInfo)!,
@@ -127,24 +127,24 @@ namespace Argon.Converters
                 return;
             }
 
-            DefaultContractResolver? resolver = serializer.ContractResolver as DefaultContractResolver;
+            var resolver = serializer.ContractResolver as DefaultContractResolver;
 
-            Type unionType = UnionTypeLookupCache.Get(value.GetType());
-            Union union = UnionCache.Get(unionType);
+            var unionType = UnionTypeLookupCache.Get(value.GetType());
+            var union = UnionCache.Get(unionType);
 
-            int tag = (int)union.TagReader.Invoke(value);
-            UnionCase caseInfo = union.Cases.Single(c => c.Tag == tag);
+            var tag = (int)union.TagReader.Invoke(value);
+            var caseInfo = union.Cases.Single(c => c.Tag == tag);
 
             writer.WriteStartObject();
             writer.WritePropertyName((resolver != null) ? resolver.GetResolvedPropertyName(CasePropertyName) : CasePropertyName);
             writer.WriteValue(caseInfo.Name);
             if (caseInfo.Fields != null && caseInfo.Fields.Length > 0)
             {
-                object[] fields = (object[])caseInfo.FieldReader.Invoke(value)!;
+                var fields = (object[])caseInfo.FieldReader.Invoke(value)!;
 
                 writer.WritePropertyName((resolver != null) ? resolver.GetResolvedPropertyName(FieldsPropertyName) : FieldsPropertyName);
                 writer.WriteStartArray();
-                foreach (object field in fields)
+                foreach (var field in fields)
                 {
                     serializer.Serialize(writer, field);
                 }
@@ -177,12 +177,12 @@ namespace Argon.Converters
 
             while (reader.TokenType == JsonToken.PropertyName)
             {
-                string propertyName = reader.Value!.ToString();
+                var propertyName = reader.Value!.ToString();
                 if (string.Equals(propertyName, CasePropertyName, StringComparison.OrdinalIgnoreCase))
                 {
                     reader.ReadAndAssert();
 
-                    Union union = UnionCache.Get(objectType);
+                    var union = UnionCache.Get(objectType);
 
                     caseName = reader.Value!.ToString();
 
@@ -216,7 +216,7 @@ namespace Argon.Converters
                 throw JsonSerializationException.Create(reader, "No '{0}' property with union name found.".FormatWith(CultureInfo.InvariantCulture, CasePropertyName));
             }
 
-            object?[] typedFieldValues = new object?[caseInfo.Fields.Length];
+            var typedFieldValues = new object?[caseInfo.Fields.Length];
 
             if (caseInfo.Fields.Length > 0 && fields == null)
             {
@@ -230,10 +230,10 @@ namespace Argon.Converters
                     throw JsonSerializationException.Create(reader, "The number of field values does not match the number of properties defined by union '{0}'.".FormatWith(CultureInfo.InvariantCulture, caseName));
                 }
 
-                for (int i = 0; i < fields.Count; i++)
+                for (var i = 0; i < fields.Count; i++)
                 {
-                    JToken t = fields[i];
-                    PropertyInfo fieldProperty = caseInfo.Fields[i];
+                    var t = fields[i];
+                    var fieldProperty = caseInfo.Fields[i];
 
                     typedFieldValues[i] = t.ToObject(fieldProperty.PropertyType, serializer);
                 }
@@ -263,10 +263,10 @@ namespace Argon.Converters
             object[] attributes;
             attributes = objectType.GetCustomAttributes(true);
 
-            bool isFSharpType = false;
-            foreach (object attribute in attributes)
+            var isFSharpType = false;
+            foreach (var attribute in attributes)
             {
-                Type attributeType = attribute.GetType();
+                var attributeType = attribute.GetType();
                 if (attributeType.FullName == "Microsoft.FSharp.Core.CompilationMappingAttribute")
                 {
                     FSharpUtils.EnsureInitialized(attributeType.Assembly());

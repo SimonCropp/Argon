@@ -49,15 +49,15 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            string json = @"{
+            var json = @"{
               'FullName': 'Dan Deleted',
               'Deleted': true,
               'DeletedDate': '2013-01-20T00:00:00'
             }";
 
-            MemoryTraceWriter traceWriter = new MemoryTraceWriter();
+            var traceWriter = new MemoryTraceWriter();
 
-            Account account = JsonConvert.DeserializeObject<Account>(json, new JsonSerializerSettings
+            var account = JsonConvert.DeserializeObject<Account>(json, new JsonSerializerSettings
             {
                 TraceWriter = traceWriter
             });

@@ -40,7 +40,7 @@ namespace Argon.Tests.Documentation.Samples.Linq
         public void Example()
         {
             #region Usage
-            string json = @"{
+            var json = @"{
               'channel': {
                 'title': 'Star Wars',
                 'link': 'http://www.starwars.com',
@@ -50,9 +50,9 @@ namespace Argon.Tests.Documentation.Samples.Linq
               }
             }";
 
-            JObject rss = JObject.Parse(json);
+            var rss = JObject.Parse(json);
 
-            JObject channel = (JObject)rss["channel"];
+            var channel = (JObject)rss["channel"];
 
             channel["title"] = ((string)channel["title"]).ToUpper();
             channel["description"] = ((string)channel["description"]).ToUpper();
@@ -61,7 +61,7 @@ namespace Argon.Tests.Documentation.Samples.Linq
 
             channel.Property("description").AddAfterSelf(new JProperty("new", "New value"));
 
-            JArray item = (JArray)channel["item"];
+            var item = (JArray)channel["item"];
             item.Add("Item 1");
             item.Add("Item 2");
 

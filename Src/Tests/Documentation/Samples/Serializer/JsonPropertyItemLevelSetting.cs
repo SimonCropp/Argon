@@ -57,17 +57,17 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            Employee manager = new Employee
+            var manager = new Employee
             {
                 Name = "George-Michael"
             };
-            Employee worker = new Employee
+            var worker = new Employee
             {
                 Name = "Maeby",
                 Manager = manager
             };
 
-            Business business = new Business
+            var business = new Business
             {
                 Name = "Acme Ltd.",
                 Employees = new List<Employee>
@@ -77,7 +77,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
                 }
             };
 
-            string json = JsonConvert.SerializeObject(business, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(business, Formatting.Indented);
 
             Console.WriteLine(json);
             // {

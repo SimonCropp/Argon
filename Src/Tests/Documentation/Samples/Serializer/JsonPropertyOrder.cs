@@ -60,7 +60,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            Account account = new Account
+            var account = new Account
             {
                 FullName = "Aaron Account",
                 EmailAddress = "aaron@example.com",
@@ -70,7 +70,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
                 CreatedDate = new DateTime(2010, 10, 1)
             };
 
-            string json = JsonConvert.SerializeObject(account, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(account, Formatting.Indented);
 
             Console.WriteLine(json);
             // {

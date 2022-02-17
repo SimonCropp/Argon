@@ -65,7 +65,7 @@ namespace Argon.Tests.Documentation.Samples.Linq
                 }
             };
 
-            JArray blogPostsArray = new JArray(
+            var blogPostsArray = new JArray(
                 blogPosts.Select(p => new JObject
                 {
                     { "Title", p.Title },

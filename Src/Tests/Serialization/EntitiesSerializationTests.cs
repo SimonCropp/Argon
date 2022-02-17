@@ -43,11 +43,11 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeEntity()
         {
-            Folder rootFolder = CreateEntitiesTestData();
+            var rootFolder = CreateEntitiesTestData();
 
-            string json = JsonConvert.SerializeObject(rootFolder, Formatting.Indented, new IsoDateTimeConverter());
+            var json = JsonConvert.SerializeObject(rootFolder, Formatting.Indented, new IsoDateTimeConverter());
 
-            string expected = @"{
+            var expected = @"{
   ""$id"": ""1"",
   ""FolderId"": ""a4e8ba80-eb24-4591-bb1c-62d3ad83701e"",
   ""Name"": ""Root folder"",
@@ -124,20 +124,20 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeEntityCamelCase()
         {
-            Folder rootFolder = CreateEntitiesTestData();
+            var rootFolder = CreateEntitiesTestData();
 
-            JsonSerializerSettings settings = new JsonSerializerSettings
+            var settings = new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
                 Converters = { new IsoDateTimeConverter() }
             };
 
-            string json = JsonConvert.SerializeObject(rootFolder, settings);
+            var json = JsonConvert.SerializeObject(rootFolder, settings);
 
             Console.WriteLine(json);
 
-            string expected = @"{
+            var expected = @"{
   ""$id"": ""1"",
   ""folderId"": ""a4e8ba80-eb24-4591-bb1c-62d3ad83701e"",
   ""name"": ""Root folder"",
@@ -214,7 +214,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeEntity()
         {
-            string json = @"{
+            var json = @"{
   ""$id"": ""1"",
   ""FolderId"": ""a4e8ba80-eb24-4591-bb1c-62d3ad83701e"",
   ""Name"": ""Root folder"",
@@ -285,7 +285,7 @@ namespace Argon.Tests.Serialization
   }
 }";
 
-            Folder f = JsonConvert.DeserializeObject<Folder>(json, new IsoDateTimeConverter());
+            var f = JsonConvert.DeserializeObject<Folder>(json, new IsoDateTimeConverter());
 
             Assert.IsNotNull(f);
             Assert.AreEqual(new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E"), f.FolderId);
@@ -301,7 +301,7 @@ namespace Argon.Tests.Serialization
             Assert.AreEqual(null, f.ParentFolder);
             Assert.AreEqual(1, f.ChildFolders.Count);
 
-            Folder childFolder = f.ChildFolders.ElementAt(0);
+            var childFolder = f.ChildFolders.ElementAt(0);
 
             Assert.AreEqual("Child folder", childFolder.Name);
             Assert.AreEqual("Description!", childFolder.Description);
@@ -314,7 +314,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeMultiValueEntityKey()
         {
-            EntityKey e = new EntityKey("DataServicesTestDatabaseEntities.Folder",
+            var e = new EntityKey("DataServicesTestDatabaseEntities.Folder",
                 new List<EntityKeyMember>
                 {
                     new EntityKeyMember("GuidId", new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E")),
@@ -324,13 +324,13 @@ namespace Argon.Tests.Serialization
                     new EntityKeyMember("DateTimeId", new DateTime(2000, 12, 10, 10, 50, 0, DateTimeKind.Utc))
                 });
 
-            JsonSerializerSettings settings = new JsonSerializerSettings
+            var settings = new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
 
-            string json = JsonConvert.SerializeObject(e, settings);
+            var json = JsonConvert.SerializeObject(e, settings);
 
             StringAssert.AreEqual(@"{
   ""$id"": ""1"",
@@ -365,7 +365,7 @@ namespace Argon.Tests.Serialization
   ]
 }", json);
 
-            EntityKey newKey = JsonConvert.DeserializeObject<EntityKey>(json);
+            var newKey = JsonConvert.DeserializeObject<EntityKey>(json);
             Assert.IsFalse(ReferenceEquals(e, newKey));
 
             Assert.AreEqual(5, newKey.EntityKeyValues.Length);
@@ -384,7 +384,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeMultiValueEntityKeyCameCase()
         {
-            EntityKey e = new EntityKey("DataServicesTestDatabaseEntities.Folder",
+            var e = new EntityKey("DataServicesTestDatabaseEntities.Folder",
                 new List<EntityKeyMember>
                 {
                     new EntityKeyMember("GuidId", new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E")),
@@ -394,7 +394,7 @@ namespace Argon.Tests.Serialization
                     new EntityKeyMember("DateTimeId", new DateTime(2000, 12, 10, 10, 50, 0, DateTimeKind.Utc))
                 });
 
-            string json = JsonConvert.SerializeObject(e, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(e, Formatting.Indented);
 
             StringAssert.AreEqual(@"{
   ""$id"": ""1"",
@@ -429,7 +429,7 @@ namespace Argon.Tests.Serialization
   ]
 }", json);
 
-            EntityKey newKey = JsonConvert.DeserializeObject<EntityKey>(json);
+            var newKey = JsonConvert.DeserializeObject<EntityKey>(json);
             Assert.IsFalse(ReferenceEquals(e, newKey));
 
             Assert.AreEqual(5, newKey.EntityKeyValues.Length);
@@ -447,14 +447,14 @@ namespace Argon.Tests.Serialization
 
         private Folder CreateEntitiesTestData()
         {
-            Folder folder = new Folder();
+            var folder = new Folder();
             folder.FolderId = new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E");
             folder.EntityKey = new EntityKey("DataServicesTestDatabaseEntities.Folder", "FolderId", folder.FolderId);
             folder.Name = "Root folder";
             folder.Description = "Description!";
             folder.CreatedDate = new DateTime(2000, 12, 10, 10, 50, 0, DateTimeKind.Utc);
 
-            Folder childFolder = new Folder();
+            var childFolder = new Folder();
             childFolder.FolderId = new Guid("484936E2-7CBB-4592-93FF-B2103E5705E4");
             childFolder.EntityKey = new EntityKey("DataServicesTestDatabaseEntities.Folder", "FolderId", childFolder.FolderId);
             childFolder.Name = "Child folder";
@@ -463,7 +463,7 @@ namespace Argon.Tests.Serialization
 
             folder.ChildFolders.Add(childFolder);
 
-            File file1 = new File();
+            var file1 = new File();
             file1.FileId = new Guid("CC76D734-49F1-4616-BB38-41514228AC6C");
             file1.EntityKey = new EntityKey("DataServicesTestDatabaseEntities.File", "FileId", file1.FileId);
             file1.Name = "File 1";

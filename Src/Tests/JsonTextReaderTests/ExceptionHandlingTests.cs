@@ -51,10 +51,10 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadAsBytes_MissingComma()
         {
-            byte[] data = Encoding.UTF8.GetBytes("Hello world");
+            var data = Encoding.UTF8.GetBytes("Hello world");
 
-            string json = @"['" + Convert.ToBase64String(data) + "' '" + Convert.ToBase64String(data) + @"']";
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var json = @"['" + Convert.ToBase64String(data) + "' '" + Convert.ToBase64String(data) + @"']";
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(reader.Read());
             CollectionAssert.AreEquivalent(data, reader.ReadAsBytes());
@@ -67,8 +67,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadAsInt32_MissingComma()
         {
-            string json = "[0 1 2]";
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var json = "[0 1 2]";
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(0, (int)reader.ReadAsInt32());
@@ -81,8 +81,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadAsBoolean_MissingComma()
         {
-            string json = "[true false true]";
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var json = "[true false true]";
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(true, (bool)reader.ReadAsBoolean());
@@ -95,8 +95,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadAsDateTime_MissingComma()
         {
-            string json = "['2017-02-04T00:00:00Z' '2018-02-04T00:00:00Z' '2019-02-04T00:00:00Z']";
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var json = "['2017-02-04T00:00:00Z' '2018-02-04T00:00:00Z' '2019-02-04T00:00:00Z']";
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(new DateTime(2017, 2, 4, 0, 0, 0, DateTimeKind.Utc), (DateTime)reader.ReadAsDateTime());
@@ -109,8 +109,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadAsDateTimeOffset_MissingComma()
         {
-            string json = "['2017-02-04T00:00:00Z' '2018-02-04T00:00:00Z' '2019-02-04T00:00:00Z']";
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var json = "['2017-02-04T00:00:00Z' '2018-02-04T00:00:00Z' '2019-02-04T00:00:00Z']";
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(new DateTimeOffset(2017, 2, 4, 0, 0, 0, TimeSpan.Zero), (DateTimeOffset)reader.ReadAsDateTimeOffset());
@@ -123,8 +123,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadAsString_MissingComma()
         {
-            string json = "['2017-02-04T00:00:00Z' '2018-02-04T00:00:00Z' '2019-02-04T00:00:00Z']";
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var json = "['2017-02-04T00:00:00Z' '2018-02-04T00:00:00Z' '2019-02-04T00:00:00Z']";
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(reader.Read());
             Assert.AreEqual("2017-02-04T00:00:00Z", reader.ReadAsString());
@@ -137,8 +137,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void Read_MissingComma()
         {
-            string json = "[0 1 2]";
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var json = "[0 1 2]";
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(reader.Read());
             Assert.IsTrue(reader.Read());
@@ -151,21 +151,21 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void UnexpectedEndAfterReadingN()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("n"));
+            var reader = new JsonTextReader(new StringReader("n"));
             ExceptionAssert.Throws<JsonReaderException>(() => reader.Read(), "Unexpected end when reading JSON. Path '', line 1, position 1.");
         }
 
         [Fact]
         public void UnexpectedEndAfterReadingNu()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("nu"));
+            var reader = new JsonTextReader(new StringReader("nu"));
             ExceptionAssert.Throws<JsonReaderException>(() => reader.Read(), "Unexpected end when reading JSON. Path '', line 1, position 2.");
         }
 
         [Fact]
         public void UnexpectedEndAfterReadingNe()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("ne"));
+            var reader = new JsonTextReader(new StringReader("ne"));
             ExceptionAssert.Throws<JsonReaderException>(() => reader.Read(), "Unexpected end when reading JSON. Path '', line 1, position 2.");
         }
 
@@ -188,9 +188,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadInvalidNonBase10Number()
         {
-            string json = "0aq2dun13.hod";
+            var json = "0aq2dun13.hod";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.Read(); }, "Unexpected character encountered while parsing number: q. Path '', line 1, position 2.");
 
@@ -208,7 +208,7 @@ namespace Argon.Tests.JsonTextReaderTests
         {
             const string json = @"{ ""ItemName"": ""value"", ""u"":netanelsalinger,""r"":9 }";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
@@ -246,8 +246,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ResetJsonTextReaderErrorCount()
         {
-            ToggleReaderError toggleReaderError = new ToggleReaderError(new StringReader("{'first':1,'second':2,'third':3}"));
-            JsonTextReader jsonTextReader = new JsonTextReader(toggleReaderError);
+            var toggleReaderError = new ToggleReaderError(new StringReader("{'first':1,'second':2,'third':3}"));
+            var jsonTextReader = new JsonTextReader(toggleReaderError);
 
             Assert.IsTrue(jsonTextReader.Read());
 
@@ -282,7 +282,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void MatchWithInsufficentCharacters()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"nul"));
+            var reader = new JsonTextReader(new StringReader(@"nul"));
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.Read(); }, "Unexpected end when reading JSON. Path '', line 1, position 3.");
         }
@@ -290,7 +290,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void MatchWithWrongCharacters()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"nulz"));
+            var reader = new JsonTextReader(new StringReader(@"nulz"));
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.Read(); }, "Error parsing null value. Path '', line 1, position 3.");
         }
@@ -298,7 +298,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void MatchWithNoTrailingSeparator()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"nullz"));
+            var reader = new JsonTextReader(new StringReader(@"nullz"));
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.Read(); }, "Error parsing null value. Path '', line 1, position 4.");
         }
@@ -306,7 +306,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void UnclosedComment()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"/* sdf"));
+            var reader = new JsonTextReader(new StringReader(@"/* sdf"));
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.Read(); }, "Unexpected end while parsing comment. Path '', line 1, position 6.");
         }
@@ -314,7 +314,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void BadCommentStart()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"/sdf"));
+            var reader = new JsonTextReader(new StringReader(@"/sdf"));
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.Read(); }, "Error parsing comment. Expected: *, got s. Path '', line 1, position 1.");
         }
@@ -322,11 +322,11 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void MissingColon()
         {
-            string json = @"{
+            var json = @"{
     ""A"" : true,
     ""B"" """;
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             reader.Read();
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
@@ -356,8 +356,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ParseConstructorWithBadCharacter()
         {
-            string json = "new Date,()";
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var json = "new Date,()";
+            var reader = new JsonTextReader(new StringReader(json));
 
             ExceptionAssert.Throws<JsonReaderException>(() => { Assert.IsTrue(reader.Read()); }, "Unexpected character while parsing constructor: ,. Path '', line 1, position 8.");
         }
@@ -365,8 +365,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ParseConstructorWithUnexpectedEnd()
         {
-            string json = "new Dat";
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var json = "new Dat";
+            var reader = new JsonTextReader(new StringReader(json));
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.Read(); }, "Unexpected end while parsing constructor. Path '', line 1, position 7.");
         }
@@ -374,8 +374,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ParseConstructorWithUnexpectedCharacter()
         {
-            string json = "new Date !";
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var json = "new Date !";
+            var reader = new JsonTextReader(new StringReader(json));
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.Read(); }, "Unexpected character while parsing constructor: !. Path '', line 1, position 9.");
         }
@@ -383,13 +383,13 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ParseAdditionalContent_Comma()
         {
-            string json = @"[
+            var json = @"[
 ""Small"",
 ""Medium"",
 ""Large""
 ],";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             ExceptionAssert.Throws<JsonReaderException>(() =>
             {
@@ -402,13 +402,13 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ParseAdditionalContent_Text()
         {
-            string json = @"[
+            var json = @"[
 ""Small"",
 ""Medium"",
 ""Large""
 ]content";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 #if DEBUG
             reader.CharBuffer = new char[2];
 #endif
@@ -434,9 +434,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ParseAdditionalContent_WhitespaceThenText()
         {
-            string json = @"'hi' a";
+            var json = @"'hi' a";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             ExceptionAssert.Throws<JsonReaderException>(() =>
             {
@@ -449,7 +449,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ParseIncompleteCommentSeparator()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("true/"));
+            var reader = new JsonTextReader(new StringReader("true/"));
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.Read(); }, "Error parsing boolean value. Path '', line 1, position 4.");
         }
@@ -457,7 +457,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadBadCharInArray()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"[}"));
+            var reader = new JsonTextReader(new StringReader(@"[}"));
 
             reader.Read();
 
@@ -467,7 +467,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadAsBytesNoContentWrappedObject()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"{"));
+            var reader = new JsonTextReader(new StringReader(@"{"));
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsBytes(); }, "Unexpected end when reading JSON. Path '', line 1, position 1.");
         }
@@ -475,7 +475,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadBytesEmptyWrappedObject()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"{}"));
+            var reader = new JsonTextReader(new StringReader(@"{}"));
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsBytes(); }, "Error reading bytes. Unexpected token: StartObject. Path '', line 1, position 2." );
         }
@@ -483,11 +483,11 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadIntegerWithError()
         {
-            string json = @"{
+            var json = @"{
     ChildId: 333333333333333333333333333333333333333
 }";
 
-            JsonTextReader jsonTextReader = new JsonTextReader(new StringReader(json));
+            var jsonTextReader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(jsonTextReader.Read());
             Assert.AreEqual(JsonToken.StartObject, jsonTextReader.TokenType);
@@ -506,14 +506,14 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadIntegerWithErrorInArray()
         {
-            string json = @"[
+            var json = @"[
   333333333333333333333333333333333333333,
   3.3,
   ,
   0f
 ]";
 
-            JsonTextReader jsonTextReader = new JsonTextReader(new StringReader(json));
+            var jsonTextReader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(jsonTextReader.Read());
             Assert.AreEqual(JsonToken.StartArray, jsonTextReader.TokenType);
@@ -535,11 +535,11 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadBytesWithError()
         {
-            string json = @"{
+            var json = @"{
     ChildId: '123'
 }";
 
-            JsonTextReader jsonTextReader = new JsonTextReader(new StringReader(json));
+            var jsonTextReader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(jsonTextReader.Read());
             Assert.AreEqual(JsonToken.StartObject, jsonTextReader.TokenType);
@@ -566,13 +566,13 @@ namespace Argon.Tests.JsonTextReaderTests
         {
             long i = int.MaxValue;
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(i.ToString(CultureInfo.InvariantCulture)));
+            var reader = new JsonTextReader(new StringReader(i.ToString(CultureInfo.InvariantCulture)));
             reader.Read();
             Assert.AreEqual(typeof(long), reader.ValueType);
 
-            for (int j = 1; j < 1000; j++)
+            for (var j = 1; j < 1000; j++)
             {
-                long total = j + i;
+                var total = j + i;
                 ExceptionAssert.Throws<JsonReaderException>(() =>
                 {
                     reader = new JsonTextReader(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
@@ -586,14 +586,14 @@ namespace Argon.Tests.JsonTextReaderTests
         {
             long i = int.MinValue;
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(i.ToString(CultureInfo.InvariantCulture)));
+            var reader = new JsonTextReader(new StringReader(i.ToString(CultureInfo.InvariantCulture)));
             reader.Read();
             Assert.AreEqual(typeof(long), reader.ValueType);
             Assert.AreEqual(i, reader.Value);
 
-            for (int j = 1; j < 1000; j++)
+            for (var j = 1; j < 1000; j++)
             {
-                long total = -j + i;
+                var total = -j + i;
                 ExceptionAssert.Throws<JsonReaderException>(() =>
                 {
                     reader = new JsonTextReader(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
@@ -605,15 +605,15 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadInt64Overflow()
         {
-            BigInteger i = new BigInteger(long.MaxValue);
+            var i = new BigInteger(long.MaxValue);
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(i.ToString(CultureInfo.InvariantCulture)));
+            var reader = new JsonTextReader(new StringReader(i.ToString(CultureInfo.InvariantCulture)));
             reader.Read();
             Assert.AreEqual(typeof(long), reader.ValueType);
 
-            for (int j = 1; j < 1000; j++)
+            for (var j = 1; j < 1000; j++)
             {
-                BigInteger total = i + j;
+                var total = i + j;
 
                 reader = new JsonTextReader(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
                 reader.Read();
@@ -625,15 +625,15 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadInt64Overflow_Negative()
         {
-            BigInteger i = new BigInteger(long.MinValue);
+            var i = new BigInteger(long.MinValue);
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(i.ToString(CultureInfo.InvariantCulture)));
+            var reader = new JsonTextReader(new StringReader(i.ToString(CultureInfo.InvariantCulture)));
             reader.Read();
             Assert.AreEqual(typeof(long), reader.ValueType);
 
-            for (int j = 1; j < 1000; j++)
+            for (var j = 1; j < 1000; j++)
             {
-                BigInteger total = i + -j;
+                var total = i + -j;
 
                 reader = new JsonTextReader(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
                 reader.Read();
@@ -645,9 +645,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadAsString_Null_AdditionalBadData()
         {
-            string json = @"nullllll";
+            var json = @"nullllll";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsString(); }, "Error parsing null value. Path '', line 1, position 4.");
         }
@@ -655,9 +655,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadAsBoolean_AdditionalBadData()
         {
-            string json = @"falseeeee";
+            var json = @"falseeeee";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsBoolean(); }, "Unexpected character encountered while parsing value: e. Path '', line 1, position 5.");
         }
@@ -665,9 +665,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadAsString_AdditionalBadData()
         {
-            string json = @"falseeeee";
+            var json = @"falseeeee";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsString(); }, "Unexpected character encountered while parsing value: e. Path '', line 1, position 5.");
         }
@@ -675,9 +675,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadAsBoolean_UnexpectedEnd()
         {
-            string json = @"tru";
+            var json = @"tru";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsBoolean(); }, "Unexpected end when reading JSON. Path '', line 1, position 3.");
         }
@@ -685,9 +685,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadAsBoolean_BadData()
         {
-            string json = @"pie";
+            var json = @"pie";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsBoolean(); }, "Unexpected character encountered while parsing value: p. Path '', line 1, position 1.");
         }
@@ -695,9 +695,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadAsString_BadData()
         {
-            string json = @"pie";
+            var json = @"pie";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsString(); }, "Unexpected character encountered while parsing value: p. Path '', line 1, position 1.");
         }
@@ -705,9 +705,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadAsDouble_BadData()
         {
-            string json = @"pie";
+            var json = @"pie";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsDouble(); }, "Unexpected character encountered while parsing value: p. Path '', line 1, position 1.");
         }
@@ -715,9 +715,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadAsDouble_Boolean()
         {
-            string json = @"true";
+            var json = @"true";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsDouble(); }, "Unexpected character encountered while parsing value: t. Path '', line 1, position 1.");
         }
@@ -725,9 +725,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadAsBytes_BadData()
         {
-            string json = @"pie";
+            var json = @"pie";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsBytes(); }, "Unexpected character encountered while parsing value: p. Path '', line 1, position 1.");
         }
@@ -735,7 +735,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadAsBytesIntegerArrayWithNoEnd()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"[1"));
+            var reader = new JsonTextReader(new StringReader(@"[1"));
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsBytes(); }, "Unexpected end when reading bytes. Path '[0]', line 1, position 2.");
         }
@@ -743,7 +743,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadAsBytesArrayWithBadContent()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"[1.0]"));
+            var reader = new JsonTextReader(new StringReader(@"[1.0]"));
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsBytes(); }, "Unexpected token when reading bytes: Float. Path '[0]', line 1, position 4.");
         }
@@ -751,7 +751,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadAsBytesBadContent()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"new Date()"));
+            var reader = new JsonTextReader(new StringReader(@"new Date()"));
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsBytes(); }, "Unexpected character encountered while parsing value: e. Path '', line 1, position 2.");
         }
@@ -759,7 +759,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadAsBytes_CommaErrors()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("[,'']"));
+            var reader = new JsonTextReader(new StringReader("[,'']"));
             reader.Read();
 
             ExceptionAssert.Throws<JsonReaderException>(() =>
@@ -774,7 +774,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadAsBytes_InvalidEndArray()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("]"));
+            var reader = new JsonTextReader(new StringReader("]"));
 
             ExceptionAssert.Throws<JsonReaderException>(() =>
             {
@@ -785,7 +785,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadAsBytes_CommaErrors_Multiple()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("['',,'']"));
+            var reader = new JsonTextReader(new StringReader("['',,'']"));
             reader.Read();
             CollectionAssert.AreEquivalent(new byte[0], reader.ReadAsBytes());
 
@@ -809,8 +809,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadBytesWithUnexpectedEnd()
         {
-            string helloWorld = "Hello world!";
-            byte[] helloWorldData = Encoding.UTF8.GetBytes(helloWorld);
+            var helloWorld = "Hello world!";
+            var helloWorldData = Encoding.UTF8.GetBytes(helloWorld);
 
             JsonReader reader = new JsonTextReader(new StringReader(@"'" + Convert.ToBase64String(helloWorldData)));
 
@@ -820,9 +820,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadAsDateTime_BadData()
         {
-            string json = @"pie";
+            var json = @"pie";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsDateTime(); }, "Unexpected character encountered while parsing value: p. Path '', line 1, position 1.");
         }
@@ -830,9 +830,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadAsDateTime_Boolean()
         {
-            string json = @"true";
+            var json = @"true";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsDateTime(); }, "Unexpected character encountered while parsing value: t. Path '', line 1, position 1.");
         }
@@ -840,7 +840,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadAsDateTimeOffsetBadContent()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"new Date()"));
+            var reader = new JsonTextReader(new StringReader(@"new Date()"));
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsDateTimeOffset(); }, "Unexpected character encountered while parsing value: e. Path '', line 1, position 2.");
         }
@@ -848,7 +848,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadAsDecimalBadContent()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"new Date()"));
+            var reader = new JsonTextReader(new StringReader(@"new Date()"));
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsDecimal(); }, "Unexpected character encountered while parsing value: e. Path '', line 1, position 2.");
         }
@@ -856,7 +856,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadAsDecimalBadContent_SecondLine()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"
+            var reader = new JsonTextReader(new StringReader(@"
 new Date()"));
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsDecimal(); }, "Unexpected character encountered while parsing value: e. Path '', line 2, position 2.");
@@ -873,7 +873,7 @@ new Date()"));
         [Fact]
         public void ReadNumberValue_CommaErrors()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("[,1]"));
+            var reader = new JsonTextReader(new StringReader("[,1]"));
             reader.Read();
 
             ExceptionAssert.Throws<JsonReaderException>(() =>
@@ -888,7 +888,7 @@ new Date()"));
         [Fact]
         public void ReadNumberValue_InvalidEndArray()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("]"));
+            var reader = new JsonTextReader(new StringReader("]"));
 
             ExceptionAssert.Throws<JsonReaderException>(() =>
             {
@@ -899,7 +899,7 @@ new Date()"));
         [Fact]
         public void ReadNumberValue_CommaErrors_Multiple()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("[1,,1]"));
+            var reader = new JsonTextReader(new StringReader("[1,,1]"));
             reader.Read();
             reader.ReadAsInt32();
 
@@ -915,9 +915,9 @@ new Date()"));
         [Fact]
         public void ReadAsString_UnexpectedEnd()
         {
-            string json = @"tru";
+            var json = @"tru";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsString(); }, "Unexpected end when reading JSON. Path '', line 1, position 3.");
         }
@@ -925,9 +925,9 @@ new Date()"));
         [Fact]
         public void ReadAsString_Null_UnexpectedEnd()
         {
-            string json = @"nul";
+            var json = @"nul";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsString(); }, "Unexpected end when reading JSON. Path '', line 1, position 3.");
         }
@@ -935,7 +935,7 @@ new Date()"));
         [Fact]
         public void ReadStringValue_InvalidEndArray()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("]"));
+            var reader = new JsonTextReader(new StringReader("]"));
 
             ExceptionAssert.Throws<JsonReaderException>(() =>
             {
@@ -946,7 +946,7 @@ new Date()"));
         [Fact]
         public void ReadStringValue_CommaErrors()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("[,'']"));
+            var reader = new JsonTextReader(new StringReader("[,'']"));
             reader.Read();
 
             ExceptionAssert.Throws<JsonReaderException>(() =>
@@ -961,7 +961,7 @@ new Date()"));
         [Fact]
         public void ReadStringValue_CommaErrors_Multiple()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("['',,'']"));
+            var reader = new JsonTextReader(new StringReader("['',,'']"));
             reader.Read();
             reader.ReadAsInt32();
 
@@ -977,7 +977,7 @@ new Date()"));
         [Fact]
         public void ReadStringValue_Numbers_NotString()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("[56,56]"));
+            var reader = new JsonTextReader(new StringReader("[56,56]"));
             reader.Read();
 
             ExceptionAssert.Throws<JsonReaderException>(() =>
@@ -1002,9 +1002,9 @@ new Date()"));
         [Fact]
         public void ErrorReadingComment()
         {
-            string json = @"/";
+            var json = @"/";
 
-            JsonTextReader reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
+            var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
 
             ExceptionAssert.Throws<JsonReaderException>(() => { reader.Read(); }, "Unexpected end while parsing comment. Path '', line 1, position 1.");
         }
@@ -1012,7 +1012,7 @@ new Date()"));
         [Fact]
         public void EscapedPathInExceptionMessage()
         {
-            string json = @"{
+            var json = @"{
   ""frameworks"": {
     ""NET5_0_OR_GREATER"": {
       ""dependencies"": {
@@ -1027,7 +1027,7 @@ new Date()"));
             ExceptionAssert.Throws<JsonReaderException>(
                 () =>
                 {
-                    JsonTextReader reader = new JsonTextReader(new StringReader(json));
+                    var reader = new JsonTextReader(new StringReader(json));
                     while (reader.Read())
                     {
                     }
@@ -1038,9 +1038,9 @@ new Date()"));
         [Fact]
         public void MaxDepth()
         {
-            string json = "[[]]";
+            var json = "[[]]";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json))
+            var reader = new JsonTextReader(new StringReader(json))
             {
                 MaxDepth = 1
             };
@@ -1053,9 +1053,9 @@ new Date()"));
         [Fact]
         public void MaxDepthDoesNotRecursivelyError()
         {
-            string json = "[[[[]]],[[]]]";
+            var json = "[[[[]]],[[]]]";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json))
+            var reader = new JsonTextReader(new StringReader(json))
             {
                 MaxDepth = 1
             };

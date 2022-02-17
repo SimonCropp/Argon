@@ -62,7 +62,7 @@ namespace Argon
 
             if (JsonTokenUtils.IsStartToken(TokenType))
             {
-                int depth = Depth;
+                var depth = Depth;
 
                 while (await ReadAsync(cancellationToken).ConfigureAwait(false) && depth < Depth)
                 {
@@ -106,7 +106,7 @@ namespace Argon
 
         internal async Task<byte[]?> ReadArrayIntoByteArrayAsync(CancellationToken cancellationToken)
         {
-            List<byte> buffer = new List<byte>();
+            var buffer = new List<byte>();
 
             while (true)
             {
@@ -117,7 +117,7 @@ namespace Argon
 
                 if (ReadArrayElementIntoByteArrayReportDone(buffer))
                 {
-                    byte[] d = buffer.ToArray();
+                    var d = buffer.ToArray();
                     SetToken(JsonToken.Bytes, d, false);
                     return d;
                 }

@@ -53,7 +53,7 @@ namespace Argon.Tests.Documentation.Samples.Linq
         public void Example()
         {
             #region Usage
-            string json = @"[
+            var json = @"[
               {
                 'Title': 'Json.NET is awesome!',
                 'Author': {
@@ -66,7 +66,7 @@ namespace Argon.Tests.Documentation.Samples.Linq
               }
             ]";
 
-            JArray blogPostArray = JArray.Parse(json);
+            var blogPostArray = JArray.Parse(json);
 
             IList<BlogPost> blogPosts = blogPostArray.Select(p => new BlogPost
             {

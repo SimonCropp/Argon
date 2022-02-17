@@ -40,9 +40,9 @@ namespace Argon.Tests.Converters
         [Fact]
         public void SerializeDateTime()
         {
-            DateTime unixEpoch = UnixDateTimeConverter.UnixEpoch;
+            var unixEpoch = UnixDateTimeConverter.UnixEpoch;
 
-            string result = JsonConvert.SerializeObject(unixEpoch, new UnixDateTimeConverter());
+            var result = JsonConvert.SerializeObject(unixEpoch, new UnixDateTimeConverter());
 
             Assert.AreEqual("0", result);
         }
@@ -50,10 +50,10 @@ namespace Argon.Tests.Converters
         [Fact]
         public void SerializeDateTimeNow()
         {
-            DateTime now = DateTime.Now;
-            long nowSeconds = (long)(now.ToUniversalTime() - new DateTime(1970, 1, 1)).TotalSeconds;
+            var now = DateTime.Now;
+            var nowSeconds = (long)(now.ToUniversalTime() - new DateTime(1970, 1, 1)).TotalSeconds;
 
-            string result = JsonConvert.SerializeObject(now, new UnixDateTimeConverter());
+            var result = JsonConvert.SerializeObject(now, new UnixDateTimeConverter());
 
             Assert.AreEqual(nowSeconds + "", result);
         }
@@ -70,7 +70,7 @@ namespace Argon.Tests.Converters
         [Fact]
         public void WriteJsonInvalidType()
         {
-            UnixDateTimeConverter converter = new UnixDateTimeConverter();
+            var converter = new UnixDateTimeConverter();
 
             ExceptionAssert.Throws<JsonSerializationException>(
                 () => converter.WriteJson(new JTokenWriter(), new object(), new JsonSerializer()),
@@ -81,9 +81,9 @@ namespace Argon.Tests.Converters
         [Fact]
         public void SerializeDateTimeOffset()
         {
-            DateTimeOffset now = new DateTimeOffset(2018, 1, 1, 16, 1, 16, TimeSpan.FromHours(-5));
+            var now = new DateTimeOffset(2018, 1, 1, 16, 1, 16, TimeSpan.FromHours(-5));
 
-            string result = JsonConvert.SerializeObject(now, new UnixDateTimeConverter());
+            var result = JsonConvert.SerializeObject(now, new UnixDateTimeConverter());
 
             Assert.AreEqual("1514840476", result);
         }
@@ -91,15 +91,15 @@ namespace Argon.Tests.Converters
         [Fact]
         public void SerializeNullableDateTimeClass()
         {
-            NullableDateTimeTestClass t = new NullableDateTimeTestClass
+            var t = new NullableDateTimeTestClass
             {
                 DateTimeField = null,
                 DateTimeOffsetField = null
             };
 
-            UnixDateTimeConverter converter = new UnixDateTimeConverter();
+            var converter = new UnixDateTimeConverter();
 
-            string result = JsonConvert.SerializeObject(t, converter);
+            var result = JsonConvert.SerializeObject(t, converter);
 
             Assert.AreEqual(@"{""PreField"":null,""DateTimeField"":null,""DateTimeOffsetField"":null,""PostField"":null}", result);
 
@@ -128,12 +128,12 @@ namespace Argon.Tests.Converters
         [Fact]
         public void DeserializeDateTimeOffset()
         {
-            UnixDateTimeConverter converter = new UnixDateTimeConverter();
-            DateTimeOffset d = new DateTimeOffset(1970, 2, 1, 20, 6, 18, TimeSpan.Zero);
+            var converter = new UnixDateTimeConverter();
+            var d = new DateTimeOffset(1970, 2, 1, 20, 6, 18, TimeSpan.Zero);
 
-            string json = JsonConvert.SerializeObject(d, converter);
+            var json = JsonConvert.SerializeObject(d, converter);
 
-            DateTimeOffset result = JsonConvert.DeserializeObject<DateTimeOffset>(json, converter);
+            var result = JsonConvert.DeserializeObject<DateTimeOffset>(json, converter);
 
             Assert.AreEqual(new DateTimeOffset(1970, 2, 1, 20, 6, 18, TimeSpan.Zero), result);
         }
@@ -141,7 +141,7 @@ namespace Argon.Tests.Converters
         [Fact]
         public void DeserializeStringToDateTimeOffset()
         {
-            DateTimeOffset result = JsonConvert.DeserializeObject<DateTimeOffset>(@"""1514840476""", new UnixDateTimeConverter());
+            var result = JsonConvert.DeserializeObject<DateTimeOffset>(@"""1514840476""", new UnixDateTimeConverter());
 
             Assert.AreEqual(new DateTimeOffset(2018, 1, 1, 21, 1, 16, TimeSpan.Zero), result);
         }
@@ -158,7 +158,7 @@ namespace Argon.Tests.Converters
         [Fact]
         public void DeserializeIntegerToDateTime()
         {
-            DateTime result = JsonConvert.DeserializeObject<DateTime>("1514840476", new UnixDateTimeConverter());
+            var result = JsonConvert.DeserializeObject<DateTime>("1514840476", new UnixDateTimeConverter());
 
             Assert.AreEqual(new DateTime(2018, 1, 1, 21, 1, 16, DateTimeKind.Utc), result);
         }
@@ -166,7 +166,7 @@ namespace Argon.Tests.Converters
         [Fact]
         public void DeserializeNullToNullable()
         {
-            DateTime? result = JsonConvert.DeserializeObject<DateTime?>("null", new UnixDateTimeConverter());
+            var result = JsonConvert.DeserializeObject<DateTime?>("null", new UnixDateTimeConverter());
 
             Assert.IsNull(result);
         }
@@ -192,19 +192,19 @@ namespace Argon.Tests.Converters
         [Fact]
         public void ConverterList()
         {
-            UnixConverterList<object> l1 = new UnixConverterList<object>
+            var l1 = new UnixConverterList<object>
             {
                 new DateTime(2018, 1, 1, 21, 1, 16, DateTimeKind.Utc),
                 new DateTime(1970, 1, 1, 0, 0, 3, DateTimeKind.Utc),
             };
 
-            string json = JsonConvert.SerializeObject(l1, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(l1, Formatting.Indented);
             StringAssert.AreEqual(@"[
   1514840476,
   3
 ]", json);
 
-            UnixConverterList<object> l2 = JsonConvert.DeserializeObject<UnixConverterList<object>>(json);
+            var l2 = JsonConvert.DeserializeObject<UnixConverterList<object>>(json);
             Assert.IsNotNull(l2);
 
             Assert.AreEqual(new DateTime(2018, 1, 1, 21, 1, 16, DateTimeKind.Utc), l2[0]);
@@ -214,19 +214,19 @@ namespace Argon.Tests.Converters
         [Fact]
         public void ConverterDictionary()
         {
-            UnixConverterDictionary<object> l1 = new UnixConverterDictionary<object>
+            var l1 = new UnixConverterDictionary<object>
             {
                 {"First", new DateTime(1970, 1, 1, 0, 0, 3, DateTimeKind.Utc)},
                 {"Second", new DateTime(2018, 1, 1, 21, 1, 16, DateTimeKind.Utc)},
             };
 
-            string json = JsonConvert.SerializeObject(l1, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(l1, Formatting.Indented);
             StringAssert.AreEqual(@"{
   ""First"": 3,
   ""Second"": 1514840476
 }", json);
 
-            UnixConverterDictionary<object> l2 = JsonConvert.DeserializeObject<UnixConverterDictionary<object>>(json);
+            var l2 = JsonConvert.DeserializeObject<UnixConverterDictionary<object>>(json);
             Assert.IsNotNull(l2);
 
             Assert.AreEqual(new DateTime(1970, 1, 1, 0, 0, 3, DateTimeKind.Utc), l2["First"]);
@@ -236,21 +236,21 @@ namespace Argon.Tests.Converters
         [Fact]
         public void ConverterObject()
         {
-            UnixConverterObject obj1 = new UnixConverterObject
+            var obj1 = new UnixConverterObject
             {
                 Object1 = new DateTime(1970, 1, 1, 0, 0, 3, DateTimeKind.Utc),
                 Object2 = null,
                 ObjectNotHandled = new DateTime(2018, 1, 1, 21, 1, 16, DateTimeKind.Utc)
             };
 
-            string json = JsonConvert.SerializeObject(obj1, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(obj1, Formatting.Indented);
             StringAssert.AreEqual(@"{
   ""Object1"": 3,
   ""Object2"": null,
   ""ObjectNotHandled"": 1514840476
 }", json);
 
-            UnixConverterObject obj2 = JsonConvert.DeserializeObject<UnixConverterObject>(json);
+            var obj2 = JsonConvert.DeserializeObject<UnixConverterObject>(json);
             Assert.IsNotNull(obj2);
 
             Assert.AreEqual(new DateTime(1970, 1, 1, 0, 0, 3, DateTimeKind.Utc), obj2.Object1);

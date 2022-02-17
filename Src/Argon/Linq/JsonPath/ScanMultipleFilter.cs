@@ -13,13 +13,13 @@ namespace Argon.Linq.JsonPath
 
         public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings? settings)
         {
-            foreach (JToken c in current)
+            foreach (var c in current)
             {
-                JToken? value = c;
+                var value = c;
 
                 while (true)
                 {
-                    JContainer? container = value as JContainer;
+                    var container = value as JContainer;
 
                     value = GetNextScanValue(c, container, value);
                     if (value == null)
@@ -29,7 +29,7 @@ namespace Argon.Linq.JsonPath
 
                     if (value is JProperty property)
                     {
-                        foreach (string name in _names)
+                        foreach (var name in _names)
                         {
                             if (property.Name == name)
                             {

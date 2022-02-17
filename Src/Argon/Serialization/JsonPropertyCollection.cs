@@ -83,8 +83,8 @@ namespace Argon.Serialization
                     return;
                 }
 
-                JsonProperty existingProperty = this[property.PropertyName];
-                bool duplicateProperty = true;
+                var existingProperty = this[property.PropertyName];
+                var duplicateProperty = true;
 
                 if (existingProperty.Ignored)
                 {
@@ -136,7 +136,7 @@ namespace Argon.Serialization
         /// <returns>A matching property if found.</returns>
         public JsonProperty? GetClosestMatchProperty(string propertyName)
         {
-            JsonProperty? property = GetProperty(propertyName, StringComparison.Ordinal);
+            var property = GetProperty(propertyName, StringComparison.Ordinal);
             if (property == null)
             {
                 property = GetProperty(propertyName, StringComparison.OrdinalIgnoreCase);
@@ -167,7 +167,7 @@ namespace Argon.Serialization
             // KeyedCollection has an ordinal comparer
             if (comparisonType == StringComparison.Ordinal)
             {
-                if (TryGetValue(propertyName, out JsonProperty? property))
+                if (TryGetValue(propertyName, out var property))
                 {
                     return property;
                 }
@@ -175,9 +175,9 @@ namespace Argon.Serialization
                 return null;
             }
 
-            for (int i = 0; i < _list.Count; i++)
+            for (var i = 0; i < _list.Count; i++)
             {
-                JsonProperty property = _list[i];
+                var property = _list[i];
                 if (string.Equals(propertyName, property.PropertyName, comparisonType))
                 {
                     return property;

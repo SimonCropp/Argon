@@ -41,7 +41,7 @@ namespace Argon.Tests.TestObjects
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            string s = (string)reader.Value;
+            var s = (string)reader.Value;
             if (s == null)
             {
                 return null;

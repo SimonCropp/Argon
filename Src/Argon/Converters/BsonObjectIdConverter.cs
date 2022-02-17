@@ -46,7 +46,7 @@ namespace Argon.Converters
         /// <param name="serializer">The calling serializer.</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            BsonObjectId objectId = (BsonObjectId)value;
+            var objectId = (BsonObjectId)value;
 
             if (writer is BsonWriter bsonWriter)
             {
@@ -73,7 +73,7 @@ namespace Argon.Converters
                 throw new JsonSerializationException("Expected Bytes but got {0}.".FormatWith(CultureInfo.InvariantCulture, reader.TokenType));
             }
 
-            byte[] value = (byte[])reader.Value;
+            var value = (byte[])reader.Value;
 
             return new BsonObjectId(value);
         }

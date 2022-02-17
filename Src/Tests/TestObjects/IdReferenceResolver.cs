@@ -35,7 +35,7 @@ namespace Argon.Tests.TestObjects
 
         public object ResolveReference(object context, string reference)
         {
-            Guid id = new Guid(reference);
+            var id = new Guid(reference);
 
             PersonReference p;
             _people.TryGetValue(id, out p);
@@ -45,7 +45,7 @@ namespace Argon.Tests.TestObjects
 
         public string GetReference(object context, object value)
         {
-            PersonReference p = (PersonReference)value;
+            var p = (PersonReference)value;
             _people[p.Id] = p;
 
             return p.Id.ToString();
@@ -53,14 +53,14 @@ namespace Argon.Tests.TestObjects
 
         public bool IsReferenced(object context, object value)
         {
-            PersonReference p = (PersonReference)value;
+            var p = (PersonReference)value;
 
             return _people.ContainsKey(p.Id);
         }
 
         public void AddReference(object context, string reference, object value)
         {
-            Guid id = new Guid(reference);
+            var id = new Guid(reference);
 
             _people[id] = (PersonReference)value;
         }

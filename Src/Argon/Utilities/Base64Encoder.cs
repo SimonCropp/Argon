@@ -81,21 +81,21 @@ namespace Argon.Utilities
                     return;
                 }
 
-                int num2 = Convert.ToBase64CharArray(_leftOverBytes, 0, 3, _charsLine, 0);
+                var num2 = Convert.ToBase64CharArray(_leftOverBytes, 0, 3, _charsLine, 0);
                 WriteChars(_charsLine, 0, num2);
             }
 
             StoreLeftOverBytes(buffer, index, ref count);
 
-            int num4 = index + count;
-            int length = LineSizeInBytes;
+            var num4 = index + count;
+            var length = LineSizeInBytes;
             while (index < num4)
             {
                 if ((index + length) > num4)
                 {
                     length = num4 - index;
                 }
-                int num6 = Convert.ToBase64CharArray(buffer, index, length, _charsLine, 0);
+                var num6 = Convert.ToBase64CharArray(buffer, index, length, _charsLine, 0);
                 WriteChars(_charsLine, 0, num6);
                 index += length;
             }
@@ -103,7 +103,7 @@ namespace Argon.Utilities
 
         private void StoreLeftOverBytes(byte[] buffer, int index, ref int count)
         {
-            int leftOverBytesCount = count % 3;
+            var leftOverBytesCount = count % 3;
             if (leftOverBytesCount > 0)
             {
                 count -= leftOverBytesCount;
@@ -112,7 +112,7 @@ namespace Argon.Utilities
                     _leftOverBytes = new byte[3];
                 }
 
-                for (int i = 0; i < leftOverBytesCount; i++)
+                for (var i = 0; i < leftOverBytesCount; i++)
                 {
                     _leftOverBytes[i] = buffer[index + count + i];
                 }
@@ -123,7 +123,7 @@ namespace Argon.Utilities
 
         private bool FulfillFromLeftover(byte[] buffer, int index, ref int count)
         {
-            int leftOverBytesCount = _leftOverBytesCount;
+            var leftOverBytesCount = _leftOverBytesCount;
             while (leftOverBytesCount < 3 && count > 0)
             {
                 _leftOverBytes![leftOverBytesCount++] = buffer[index++];
@@ -143,7 +143,7 @@ namespace Argon.Utilities
         {
             if (_leftOverBytesCount > 0)
             {
-                int count = Convert.ToBase64CharArray(_leftOverBytes, 0, _leftOverBytesCount, _charsLine, 0);
+                var count = Convert.ToBase64CharArray(_leftOverBytes, 0, _leftOverBytesCount, _charsLine, 0);
                 WriteChars(_charsLine, 0, count);
                 _leftOverBytesCount = 0;
             }
@@ -165,21 +165,21 @@ namespace Argon.Utilities
                     return;
                 }
 
-                int num2 = Convert.ToBase64CharArray(_leftOverBytes, 0, 3, _charsLine, 0);
+                var num2 = Convert.ToBase64CharArray(_leftOverBytes, 0, 3, _charsLine, 0);
                 await WriteCharsAsync(_charsLine, 0, num2, cancellationToken).ConfigureAwait(false);
             }
 
             StoreLeftOverBytes(buffer, index, ref count);
 
-            int num4 = index + count;
-            int length = LineSizeInBytes;
+            var num4 = index + count;
+            var length = LineSizeInBytes;
             while (index < num4)
             {
                 if (index + length > num4)
                 {
                     length = num4 - index;
                 }
-                int num6 = Convert.ToBase64CharArray(buffer, index, length, _charsLine, 0);
+                var num6 = Convert.ToBase64CharArray(buffer, index, length, _charsLine, 0);
                 await WriteCharsAsync(_charsLine, 0, num6, cancellationToken).ConfigureAwait(false);
                 index += length;
             }
@@ -199,7 +199,7 @@ namespace Argon.Utilities
 
             if (_leftOverBytesCount > 0)
             {
-                int count = Convert.ToBase64CharArray(_leftOverBytes, 0, _leftOverBytesCount, _charsLine, 0);
+                var count = Convert.ToBase64CharArray(_leftOverBytes, 0, _leftOverBytesCount, _charsLine, 0);
                 _leftOverBytesCount = 0;
                 return WriteCharsAsync(_charsLine, 0, count, cancellationToken);
             }

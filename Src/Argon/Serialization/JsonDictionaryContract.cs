@@ -128,7 +128,7 @@ namespace Argon.Serialization
                     // ConcurrentDictionary<,> + IDictionary setter + null value = error
                     // wrap to use generic setter
                     // https://github.com/JamesNK/Newtonsoft.Json/issues/1582
-                    Type typeDefinition = NonNullableUnderlyingType.GetGenericTypeDefinition();
+                    var typeDefinition = NonNullableUnderlyingType.GetGenericTypeDefinition();
                     if (typeDefinition.FullName == JsonTypeReflector.ConcurrentDictionaryTypeName)
                     {
                         ShouldCreateWrapper = true;
@@ -188,8 +188,8 @@ namespace Argon.Serialization
                     NonNullableUnderlyingType,
                     DictionaryKeyType,
                     DictionaryValueType,
-                    out Type? immutableCreatedType,
-                    out ObjectConstructor<object>? immutableParameterizedCreator))
+                    out var immutableCreatedType,
+                    out var immutableParameterizedCreator))
             {
                 CreatedType = immutableCreatedType;
                 _parameterizedCreator = immutableParameterizedCreator;
@@ -203,7 +203,7 @@ namespace Argon.Serialization
             {
                 _genericWrapperType = typeof(DictionaryWrapper<,>).MakeGenericType(DictionaryKeyType, DictionaryValueType);
 
-                ConstructorInfo genericWrapperConstructor = _genericWrapperType.GetConstructor(new[] { _genericCollectionDefinitionType! });
+                var genericWrapperConstructor = _genericWrapperType.GetConstructor(new[] { _genericCollectionDefinitionType! });
                 _genericWrapperCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(genericWrapperConstructor);
             }
 
@@ -214,7 +214,7 @@ namespace Argon.Serialization
         {
             if (_genericTemporaryDictionaryCreator == null)
             {
-                Type temporaryDictionaryType = typeof(Dictionary<,>).MakeGenericType(DictionaryKeyType ?? typeof(object), DictionaryValueType ?? typeof(object));
+                var temporaryDictionaryType = typeof(Dictionary<,>).MakeGenericType(DictionaryKeyType ?? typeof(object), DictionaryValueType ?? typeof(object));
 
                 _genericTemporaryDictionaryCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateDefaultConstructor<object>(temporaryDictionaryType);
             }

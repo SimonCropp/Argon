@@ -41,8 +41,8 @@ namespace Argon.Tests.Benchmarks
         [Benchmark]
         public void ConvertXmlNode()
         {
-            XmlDocument doc = new XmlDocument();
-            using (FileStream file = System.IO.File.OpenRead("large_sample.xml"))
+            var doc = new XmlDocument();
+            using (var file = System.IO.File.OpenRead("large_sample.xml"))
             {
                 doc.Load(file);
             }
@@ -54,7 +54,7 @@ namespace Argon.Tests.Benchmarks
         public void ConvertXNode()
         {
             XDocument doc;
-            using (FileStream file = System.IO.File.OpenRead("large_sample.xml"))
+            using (var file = System.IO.File.OpenRead("large_sample.xml"))
             {
                 doc = XDocument.Load(file);
             }

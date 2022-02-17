@@ -44,7 +44,7 @@ namespace Argon.Utilities
                 return new char[minSize];
             }
 
-            char[] buffer = bufferPool.Rent(minSize);
+            var buffer = bufferPool.Rent(minSize);
             return buffer;
         }
 
@@ -83,20 +83,20 @@ namespace Argon.Utilities
             {
                 '\n', '\r', '\t', '\\', '\f', '\b',
             };
-            for (int i = 0; i < ' '; i++)
+            for (var i = 0; i < ' '; i++)
             {
                 escapeChars.Add((char)i);
             }
 
-            foreach (char escapeChar in escapeChars.Union(new[] { '\'' }))
+            foreach (var escapeChar in escapeChars.Union(new[] { '\'' }))
             {
                 SingleQuoteCharEscapeFlags[escapeChar] = true;
             }
-            foreach (char escapeChar in escapeChars.Union(new[] { '"' }))
+            foreach (var escapeChar in escapeChars.Union(new[] { '"' }))
             {
                 DoubleQuoteCharEscapeFlags[escapeChar] = true;
             }
-            foreach (char escapeChar in escapeChars.Union(new[] { '"', '\'', '<', '>', '&' }))
+            foreach (var escapeChar in escapeChars.Union(new[] { '"', '\'', '<', '>', '&' }))
             {
                 HtmlCharEscapeFlags[escapeChar] = true;
             }
@@ -126,9 +126,9 @@ namespace Argon.Utilities
                 return false;
             }
 
-            for (int i = 0; i < s.Length; i++)
+            for (var i = 0; i < s.Length; i++)
             {
-                char c = s[i];
+                var c = s[i];
                 if (c >= charEscapeFlags.Length || charEscapeFlags[c])
                 {
                     return true;
@@ -149,7 +149,7 @@ namespace Argon.Utilities
 
             if (!StringUtils.IsNullOrEmpty(s))
             {
-                int lastWritePosition = FirstCharToEscape(s, charEscapeFlags, stringEscapeHandling);
+                var lastWritePosition = FirstCharToEscape(s, charEscapeFlags, stringEscapeHandling);
                 if (lastWritePosition == -1)
                 {
                     writer.Write(s);
@@ -169,9 +169,9 @@ namespace Argon.Utilities
                     }
 
                     int length;
-                    for (int i = lastWritePosition; i < s.Length; i++)
+                    for (var i = lastWritePosition; i < s.Length; i++)
                     {
-                        char c = s[i];
+                        var c = s[i];
 
                         if (c < charEscapeFlags.Length && !charEscapeFlags[c])
                         {
@@ -245,16 +245,16 @@ namespace Argon.Utilities
                             continue;
                         }
 
-                        bool isEscapedUnicodeText = string.Equals(escapedValue, EscapedUnicodeText, StringComparison.Ordinal);
+                        var isEscapedUnicodeText = string.Equals(escapedValue, EscapedUnicodeText, StringComparison.Ordinal);
 
                         if (i > lastWritePosition)
                         {
                             length = i - lastWritePosition + ((isEscapedUnicodeText) ? UnicodeTextLength : 0);
-                            int start = (isEscapedUnicodeText) ? UnicodeTextLength : 0;
+                            var start = (isEscapedUnicodeText) ? UnicodeTextLength : 0;
 
                             if (writeBuffer == null || writeBuffer.Length < length)
                             {
-                                char[] newBuffer = BufferUtils.RentBuffer(bufferPool, length);
+                                var newBuffer = BufferUtils.RentBuffer(bufferPool, length);
 
                                 // the unicode text is already in the buffer
                                 // copy it over when creating new buffer
@@ -313,9 +313,9 @@ namespace Argon.Utilities
 
         public static string ToEscapedJavaScriptString(string? value, char delimiter, bool appendDelimiters, StringEscapeHandling stringEscapeHandling)
         {
-            bool[] charEscapeFlags = GetCharEscapeFlags(stringEscapeHandling, delimiter);
+            var charEscapeFlags = GetCharEscapeFlags(stringEscapeHandling, delimiter);
 
-            using (StringWriter w = StringUtils.CreateStringWriter(value?.Length ?? 16))
+            using (var w = StringUtils.CreateStringWriter(value?.Length ?? 16))
             {
                 char[]? buffer = null;
                 WriteEscapedJavaScriptString(w, value, delimiter, appendDelimiters, charEscapeFlags, stringEscapeHandling, null, ref buffer);
@@ -325,9 +325,9 @@ namespace Argon.Utilities
         
         private static int FirstCharToEscape(string s, bool[] charEscapeFlags, StringEscapeHandling stringEscapeHandling)
         {
-            for (int i = 0; i != s.Length; i++)
+            for (var i = 0; i != s.Length; i++)
             {
-                char c = s[i];
+                var c = s[i];
 
                 if (c < charEscapeFlags.Length)
                 {
@@ -378,7 +378,7 @@ namespace Argon.Utilities
         private static Task WriteEscapedJavaScriptStringWithDelimitersAsync(TextWriter writer, string s, char delimiter,
             bool[] charEscapeFlags, StringEscapeHandling stringEscapeHandling, JsonTextWriter client, char[] writeBuffer, CancellationToken cancellationToken)
         {
-            Task task = writer.WriteAsync(delimiter, cancellationToken);
+            var task = writer.WriteAsync(delimiter, cancellationToken);
             if (!task.IsCompletedSucessfully())
             {
                 return WriteEscapedJavaScriptStringWithDelimitersAsync(task, writer, s, delimiter, charEscapeFlags, stringEscapeHandling, client, writeBuffer, cancellationToken);
@@ -420,7 +420,7 @@ namespace Argon.Utilities
             TextWriter writer, string s, bool[] charEscapeFlags, StringEscapeHandling stringEscapeHandling,
             JsonTextWriter client, char[] writeBuffer, CancellationToken cancellationToken)
         {
-            int i = FirstCharToEscape(s, charEscapeFlags, stringEscapeHandling);
+            var i = FirstCharToEscape(s, charEscapeFlags, stringEscapeHandling);
             return i == -1
                 ? writer.WriteAsync(s, cancellationToken)
                 : WriteDefinitelyEscapedJavaScriptStringWithoutDelimitersAsync(writer, s, i, charEscapeFlags, stringEscapeHandling, client, writeBuffer, cancellationToken);
@@ -445,12 +445,12 @@ namespace Argon.Utilities
             }
 
             int length;
-            bool isEscapedUnicodeText = false;
+            var isEscapedUnicodeText = false;
             string? escapedValue = null;
 
-            for (int i = lastWritePosition; i < s.Length; i++)
+            for (var i = lastWritePosition; i < s.Length; i++)
             {
-                char c = s[i];
+                var c = s[i];
 
                 if (c < charEscapeFlags.Length && !charEscapeFlags[c])
                 {
@@ -519,7 +519,7 @@ namespace Argon.Utilities
                 if (i > lastWritePosition)
                 {
                     length = i - lastWritePosition + (isEscapedUnicodeText ? UnicodeTextLength : 0);
-                    int start = isEscapedUnicodeText ? UnicodeTextLength : 0;
+                    var start = isEscapedUnicodeText ? UnicodeTextLength : 0;
 
                     if (writeBuffer.Length < length)
                     {
@@ -565,26 +565,26 @@ namespace Argon.Utilities
             dateTime = default;
             errorMessage = null;
 
-            if (!TryGetDateConstructorValue(reader, out long? t1, out errorMessage) || t1 == null)
+            if (!TryGetDateConstructorValue(reader, out var t1, out errorMessage) || t1 == null)
             {
                 errorMessage = errorMessage ?? "Date constructor has no arguments.";
                 return false;
             }
-            if (!TryGetDateConstructorValue(reader, out long? t2, out errorMessage))
+            if (!TryGetDateConstructorValue(reader, out var t2, out errorMessage))
             {
                 return false;
             }
             else if (t2 != null)
             {
                 // Only create a list when there is more than one argument
-                List<long> dateArgs = new List<long>
+                var dateArgs = new List<long>
                 {
                     t1.Value,
                     t2.Value
                 };
                 while (true)
                 {
-                    if (!TryGetDateConstructorValue(reader, out long? integer, out errorMessage))
+                    if (!TryGetDateConstructorValue(reader, out var integer, out errorMessage))
                     {
                         return false;
                     }

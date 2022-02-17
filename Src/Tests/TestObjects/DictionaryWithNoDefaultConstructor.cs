@@ -31,7 +31,7 @@ namespace Argon.Tests.TestObjects
     {
         public DictionaryWithNoDefaultConstructor(IEnumerable<KeyValuePair<string, string>> initial)
         {
-            foreach (KeyValuePair<string, string> pair in initial)
+            foreach (var pair in initial)
             {
                 Add(pair.Key, pair.Value);
             }

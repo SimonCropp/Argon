@@ -52,9 +52,9 @@ namespace Argon.Tests.Utilities
 
         private static void RoundtripDateIso(DateTime value)
         {
-            StringWriter sw = new StringWriter();
+            var sw = new StringWriter();
             DateTimeUtils.WriteDateTimeString(sw, value, DateFormatHandling.IsoDateFormat, null, CultureInfo.InvariantCulture);
-            string minDateText = sw.ToString();
+            var minDateText = sw.ToString();
 
             DateTime parsedDt;
             DateTimeUtils.TryParseDateTimeIso(CreateStringReference(minDateText), DateTimeZoneHandling.RoundtripKind, out parsedDt);
@@ -169,13 +169,13 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void ReadOffsetMSDateTimeOffset()
         {
-            char[] c = @"12345/Date(1418924498000+0800)/12345".ToCharArray();
-            StringReference reference = new StringReference(c, 5, c.Length - 10);
+            var c = @"12345/Date(1418924498000+0800)/12345".ToCharArray();
+            var reference = new StringReference(c, 5, c.Length - 10);
 
             DateTimeOffset d;
             DateTimeUtils.TryParseDateTimeOffset(reference, null, CultureInfo.InvariantCulture, out d);
 
-            long initialTicks = DateTimeUtils.ConvertDateTimeToJavaScriptTicks(d.DateTime, d.Offset);
+            var initialTicks = DateTimeUtils.ConvertDateTimeToJavaScriptTicks(d.DateTime, d.Offset);
 
             Assert.AreEqual(1418924498000, initialTicks);
             Assert.AreEqual(8, d.Offset.Hours);
@@ -225,8 +225,8 @@ namespace Argon.Tests.Utilities
 
             if (!Equals(oldDt, newDt))
             {
-                long? oldTicks = oldDt != null ? (long?)((DateTime)oldDt).Ticks : null;
-                long? newTicks = newDt != null ? (long?)((DateTime)newDt).Ticks : null;
+                var oldTicks = oldDt != null ? (long?)((DateTime)oldDt).Ticks : null;
+                var newTicks = newDt != null ? (long?)((DateTime)newDt).Ticks : null;
 
                 Assert.AreEqual(oldDt, newDt, "DateTimeOffset parse not equal. Text: '{0}' Old ticks: {1} New ticks: {2}".FormatWith(
                     CultureInfo.InvariantCulture,

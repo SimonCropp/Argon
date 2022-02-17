@@ -157,7 +157,7 @@ namespace Argon.Utilities
                 return dateTime.Ticks;
             }
 
-            long ticks = dateTime.Ticks - offset.Ticks;
+            var ticks = dateTime.Ticks - offset.Ticks;
             if (ticks > 3155378975999999999L)
             {
                 return 3155378975999999999L;
@@ -173,7 +173,7 @@ namespace Argon.Utilities
 
         internal static long ConvertDateTimeToJavaScriptTicks(DateTime dateTime, TimeSpan offset)
         {
-            long universalTicks = ToUniversalTicks(dateTime, offset);
+            var universalTicks = ToUniversalTicks(dateTime, offset);
 
             return UniversalTicksToJavaScriptTicks(universalTicks);
         }
@@ -185,21 +185,21 @@ namespace Argon.Utilities
 
         internal static long ConvertDateTimeToJavaScriptTicks(DateTime dateTime, bool convertToUtc)
         {
-            long ticks = (convertToUtc) ? ToUniversalTicks(dateTime) : dateTime.Ticks;
+            var ticks = (convertToUtc) ? ToUniversalTicks(dateTime) : dateTime.Ticks;
 
             return UniversalTicksToJavaScriptTicks(ticks);
         }
 
         private static long UniversalTicksToJavaScriptTicks(long universalTicks)
         {
-            long javaScriptTicks = (universalTicks - InitialJavaScriptDateTicks) / 10000;
+            var javaScriptTicks = (universalTicks - InitialJavaScriptDateTicks) / 10000;
 
             return javaScriptTicks;
         }
 
         internal static DateTime ConvertJavaScriptTicksToDateTime(long javaScriptTicks)
         {
-            DateTime dateTime = new DateTime((javaScriptTicks * 10000) + InitialJavaScriptDateTicks, DateTimeKind.Utc);
+            var dateTime = new DateTime((javaScriptTicks * 10000) + InitialJavaScriptDateTicks, DateTimeKind.Utc);
 
             return dateTime;
         }
@@ -207,14 +207,14 @@ namespace Argon.Utilities
         #region Parse
         internal static bool TryParseDateTimeIso(StringReference text, DateTimeZoneHandling dateTimeZoneHandling, out DateTime dt)
         {
-            DateTimeParser dateTimeParser = new DateTimeParser();
+            var dateTimeParser = new DateTimeParser();
             if (!dateTimeParser.Parse(text.Chars, text.StartIndex, text.Length))
             {
                 dt = default;
                 return false;
             }
 
-            DateTime d = CreateDateTime(dateTimeParser);
+            var d = CreateDateTime(dateTimeParser);
 
             long ticks;
 
@@ -226,7 +226,7 @@ namespace Argon.Utilities
 
                 case ParserTimeZone.LocalWestOfUtc:
                 {
-                    TimeSpan offset = new TimeSpan(dateTimeParser.ZoneHour, dateTimeParser.ZoneMinute, 0);
+                    var offset = new TimeSpan(dateTimeParser.ZoneHour, dateTimeParser.ZoneMinute, 0);
                     ticks = d.Ticks + offset.Ticks;
                     if (ticks <= DateTime.MaxValue.Ticks)
                     {
@@ -246,7 +246,7 @@ namespace Argon.Utilities
                 }
                 case ParserTimeZone.LocalEastOfUtc:
                 {
-                    TimeSpan offset = new TimeSpan(dateTimeParser.ZoneHour, dateTimeParser.ZoneMinute, 0);
+                    var offset = new TimeSpan(dateTimeParser.ZoneHour, dateTimeParser.ZoneMinute, 0);
                     ticks = d.Ticks - offset.Ticks;
                     if (ticks >= DateTime.MinValue.Ticks)
                     {
@@ -272,14 +272,14 @@ namespace Argon.Utilities
 
         internal static bool TryParseDateTimeOffsetIso(StringReference text, out DateTimeOffset dt)
         {
-            DateTimeParser dateTimeParser = new DateTimeParser();
+            var dateTimeParser = new DateTimeParser();
             if (!dateTimeParser.Parse(text.Chars, text.StartIndex, text.Length))
             {
                 dt = default;
                 return false;
             }
 
-            DateTime d = CreateDateTime(dateTimeParser);
+            var d = CreateDateTime(dateTimeParser);
 
             TimeSpan offset;
 
@@ -299,7 +299,7 @@ namespace Argon.Utilities
                     break;
             }
 
-            long ticks = d.Ticks - offset.Ticks;
+            var ticks = d.Ticks - offset.Ticks;
             if (ticks < 0 || ticks > 3155378975999999999)
             {
                 dt = default;
@@ -323,7 +323,7 @@ namespace Argon.Utilities
                 is24Hour = false;
             }
 
-            DateTime d = new DateTime(dateTimeParser.Year, dateTimeParser.Month, dateTimeParser.Day, dateTimeParser.Hour, dateTimeParser.Minute, dateTimeParser.Second);
+            var d = new DateTime(dateTimeParser.Year, dateTimeParser.Month, dateTimeParser.Day, dateTimeParser.Hour, dateTimeParser.Minute, dateTimeParser.Second);
             d = d.AddTicks(dateTimeParser.Fraction);
 
             if (is24Hour)
@@ -337,7 +337,7 @@ namespace Argon.Utilities
         {
             if (s.Length > 0)
             {
-                int i = s.StartIndex;
+                var i = s.StartIndex;
                 if (s[i] == '/')
                 {
                     if (s.Length >= 9 && s.StartsWith("/Date(") && s.EndsWith(")/"))
@@ -409,7 +409,7 @@ namespace Argon.Utilities
         {
             if (s.Length > 0)
             {
-                int i = s.StartIndex;
+                var i = s.StartIndex;
                 if (s[i] == '/')
                 {
                     if (s.Length >= 9 && s.StartsWith("/Date(") && s.EndsWith(")/"))
@@ -483,7 +483,7 @@ namespace Argon.Utilities
         {
             kind = DateTimeKind.Utc;
 
-            int index = text.IndexOf('+', 7, text.Length - 8);
+            var index = text.IndexOf('+', 7, text.Length - 8);
 
             if (index == -1)
             {
@@ -511,13 +511,13 @@ namespace Argon.Utilities
 
         private static bool TryParseDateTimeMicrosoft(StringReference text, DateTimeZoneHandling dateTimeZoneHandling, out DateTime dt)
         {
-            if (!TryParseMicrosoftDate(text, out long ticks, out _, out DateTimeKind kind))
+            if (!TryParseMicrosoftDate(text, out var ticks, out _, out var kind))
             {
                 dt = default;
                 return false;
             }
 
-            DateTime utcDateTime = ConvertJavaScriptTicksToDateTime(ticks);
+            var utcDateTime = ConvertJavaScriptTicksToDateTime(ticks);
 
             switch (kind)
             {
@@ -538,7 +538,7 @@ namespace Argon.Utilities
 
         private static bool TryParseDateTimeExact(string text, DateTimeZoneHandling dateTimeZoneHandling, string dateFormatString, CultureInfo culture, out DateTime dt)
         {
-            if (DateTime.TryParseExact(text, dateFormatString, culture, DateTimeStyles.RoundtripKind, out DateTime temp))
+            if (DateTime.TryParseExact(text, dateFormatString, culture, DateTimeStyles.RoundtripKind, out var temp))
             {
                 temp = EnsureDateTime(temp, dateTimeZoneHandling);
                 dt = temp;
@@ -551,13 +551,13 @@ namespace Argon.Utilities
 
         private static bool TryParseDateTimeOffsetMicrosoft(StringReference text, out DateTimeOffset dt)
         {
-            if (!TryParseMicrosoftDate(text, out long ticks, out TimeSpan offset, out _))
+            if (!TryParseMicrosoftDate(text, out var ticks, out var offset, out _))
             {
                 dt = default(DateTime);
                 return false;
             }
 
-            DateTime utcDateTime = ConvertJavaScriptTicksToDateTime(ticks);
+            var utcDateTime = ConvertJavaScriptTicksToDateTime(ticks);
 
             dt = new DateTimeOffset(utcDateTime.Add(offset).Ticks, offset);
             return true;
@@ -565,7 +565,7 @@ namespace Argon.Utilities
 
         private static bool TryParseDateTimeOffsetExact(string text, string dateFormatString, CultureInfo culture, out DateTimeOffset dt)
         {
-            if (DateTimeOffset.TryParseExact(text, dateFormatString, culture, DateTimeStyles.RoundtripKind, out DateTimeOffset temp))
+            if (DateTimeOffset.TryParseExact(text, dateFormatString, culture, DateTimeStyles.RoundtripKind, out var temp))
             {
                 dt = temp;
                 return true;
@@ -577,15 +577,15 @@ namespace Argon.Utilities
 
         private static bool TryReadOffset(StringReference offsetText, int startIndex, out TimeSpan offset)
         {
-            bool negative = (offsetText[startIndex] == '-');
+            var negative = (offsetText[startIndex] == '-');
 
-            if (ConvertUtils.Int32TryParse(offsetText.Chars, startIndex + 1, 2, out int hours) != ParseResult.Success)
+            if (ConvertUtils.Int32TryParse(offsetText.Chars, startIndex + 1, 2, out var hours) != ParseResult.Success)
             {
                 offset = default;
                 return false;
             }
 
-            int minutes = 0;
+            var minutes = 0;
             if (offsetText.Length - startIndex > 5)
             {
                 if (ConvertUtils.Int32TryParse(offsetText.Chars, startIndex + 3, 2, out minutes) != ParseResult.Success)
@@ -610,8 +610,8 @@ namespace Argon.Utilities
         {
             if (StringUtils.IsNullOrEmpty(formatString))
             {
-                char[] chars = new char[64];
-                int pos = WriteDateTimeString(chars, 0, value, null, value.Kind, format);
+                var chars = new char[64];
+                var pos = WriteDateTimeString(chars, 0, value, null, value.Kind, format);
                 writer.Write(chars, 0, pos);
             }
             else
@@ -622,18 +622,18 @@ namespace Argon.Utilities
 
         internal static int WriteDateTimeString(char[] chars, int start, DateTime value, TimeSpan? offset, DateTimeKind kind, DateFormatHandling format)
         {
-            int pos = start;
+            var pos = start;
 
             if (format == DateFormatHandling.MicrosoftDateFormat)
             {
-                TimeSpan o = offset ?? value.GetUtcOffset();
+                var o = offset ?? value.GetUtcOffset();
 
-                long javaScriptTicks = ConvertDateTimeToJavaScriptTicks(value, o);
+                var javaScriptTicks = ConvertDateTimeToJavaScriptTicks(value, o);
 
                 @"\/Date(".CopyTo(0, chars, pos, 7);
                 pos += 7;
 
-                string ticksText = javaScriptTicks.ToString(CultureInfo.InvariantCulture);
+                var ticksText = javaScriptTicks.ToString(CultureInfo.InvariantCulture);
                 ticksText.CopyTo(0, chars, pos, ticksText.Length);
                 pos += ticksText.Length;
 
@@ -673,9 +673,9 @@ namespace Argon.Utilities
 
         internal static int WriteDefaultIsoDate(char[] chars, int start, DateTime dt)
         {
-            int length = 19;
+            var length = 19;
 
-            GetDateValues(dt, out int year, out int month, out int day);
+            GetDateValues(dt, out var year, out var month, out var day);
 
             CopyIntToCharArray(chars, start, year, 4);
             chars[start + 4] = '-';
@@ -689,11 +689,11 @@ namespace Argon.Utilities
             chars[start + 16] = ':';
             CopyIntToCharArray(chars, start + 17, dt.Second, 2);
 
-            int fraction = (int)(dt.Ticks % 10000000L);
+            var fraction = (int)(dt.Ticks % 10000000L);
 
             if (fraction != 0)
             {
-                int digits = 7;
+                var digits = 7;
                 while ((fraction % 10) == 0)
                 {
                     digits--;
@@ -722,7 +722,7 @@ namespace Argon.Utilities
         {
             chars[start++] = (offset.Ticks >= 0L) ? '+' : '-';
 
-            int absHours = Math.Abs(offset.Hours);
+            var absHours = Math.Abs(offset.Hours);
             CopyIntToCharArray(chars, start, absHours, 2);
             start += 2;
 
@@ -731,7 +731,7 @@ namespace Argon.Utilities
                 chars[start++] = ':';
             }
 
-            int absMinutes = Math.Abs(offset.Minutes);
+            var absMinutes = Math.Abs(offset.Minutes);
             CopyIntToCharArray(chars, start, absMinutes, 2);
             start += 2;
 
@@ -742,8 +742,8 @@ namespace Argon.Utilities
         {
             if (StringUtils.IsNullOrEmpty(formatString))
             {
-                char[] chars = new char[64];
-                int pos = WriteDateTimeString(chars, 0, (format == DateFormatHandling.IsoDateFormat) ? value.DateTime : value.UtcDateTime, value.Offset, DateTimeKind.Local, format);
+                var chars = new char[64];
+                var pos = WriteDateTimeString(chars, 0, (format == DateFormatHandling.IsoDateFormat) ? value.DateTime : value.UtcDateTime, value.Offset, DateTimeKind.Local, format);
 
                 writer.Write(chars, 0, pos);
             }
@@ -756,15 +756,15 @@ namespace Argon.Utilities
 
         private static void GetDateValues(DateTime td, out int year, out int month, out int day)
         {
-            long ticks = td.Ticks;
+            var ticks = td.Ticks;
             // n = number of days since 1/1/0001
-            int n = (int)(ticks / TicksPerDay);
+            var n = (int)(ticks / TicksPerDay);
             // y400 = number of whole 400-year periods since 1/1/0001
-            int y400 = n / DaysPer400Years;
+            var y400 = n / DaysPer400Years;
             // n = day number within 400-year period
             n -= y400 * DaysPer400Years;
             // y100 = number of whole 100-year periods within 400-year period
-            int y100 = n / DaysPer100Years;
+            var y100 = n / DaysPer100Years;
             // Last 100-year period has an extra day, so decrement result if 4
             if (y100 == 4)
             {
@@ -773,11 +773,11 @@ namespace Argon.Utilities
             // n = day number within 100-year period
             n -= y100 * DaysPer100Years;
             // y4 = number of whole 4-year periods within 100-year period
-            int y4 = n / DaysPer4Years;
+            var y4 = n / DaysPer4Years;
             // n = day number within 4-year period
             n -= y4 * DaysPer4Years;
             // y1 = number of whole years within 4-year period
-            int y1 = n / DaysPerYear;
+            var y1 = n / DaysPerYear;
             // Last year has an extra day, so decrement result if 4
             if (y1 == 4)
             {
@@ -791,11 +791,11 @@ namespace Argon.Utilities
 
             // Leap year calculation looks different from IsLeapYear since y1, y4,
             // and y100 are relative to year 1, not year 0
-            bool leapYear = y1 == 3 && (y4 != 24 || y100 == 3);
-            int[] days = leapYear ? DaysToMonth366 : DaysToMonth365;
+            var leapYear = y1 == 3 && (y4 != 24 || y100 == 3);
+            var days = leapYear ? DaysToMonth366 : DaysToMonth365;
             // All months have less than 32 days, so n >> 5 is a good conservative
             // estimate for the month
-            int m = n >> 5 + 1;
+            var m = n >> 5 + 1;
             // m = 1-based month number
             while (n >= days[m])
             {

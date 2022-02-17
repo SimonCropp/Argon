@@ -36,9 +36,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public void RawEquals()
         {
-            JRaw r1 = new JRaw("raw1");
-            JRaw r2 = new JRaw("raw1");
-            JRaw r3 = new JRaw("raw2");
+            var r1 = new JRaw("raw1");
+            var r2 = new JRaw("raw1");
+            var r3 = new JRaw("raw2");
 
             Assert.IsTrue(JToken.DeepEquals(r1, r2));
             Assert.IsFalse(JToken.DeepEquals(r1, r3));
@@ -47,8 +47,8 @@ namespace Argon.Tests.Linq
         [Fact]
         public void RawClone()
         {
-            JRaw r1 = new JRaw("raw1");
-            JToken r2 = r1.CloneToken();
+            var r1 = new JRaw("raw1");
+            var r2 = r1.CloneToken();
 
             CustomAssert.IsInstanceOfType(typeof(JRaw), r2);
         }
@@ -56,8 +56,8 @@ namespace Argon.Tests.Linq
         [Fact]
         public void RawToObject()
         {
-            JRaw r1 = new JRaw("1");
-            int i = r1.ToObject<int>();
+            var r1 = new JRaw("1");
+            var i = r1.ToObject<int>();
 
             Assert.AreEqual(1, i);
         }

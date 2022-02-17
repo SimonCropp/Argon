@@ -41,10 +41,10 @@ namespace Argon.Tests.Linq
         [Fact]
         public async Task ValueFormattingAsync()
         {
-            byte[] data = Encoding.UTF8.GetBytes("Hello world.");
+            var data = Encoding.UTF8.GetBytes("Hello world.");
 
             JToken root;
-            using (JTokenWriter jsonWriter = new JTokenWriter())
+            using (var jsonWriter = new JTokenWriter())
             {
                 await jsonWriter.WriteStartArrayAsync();
                 await jsonWriter.WriteValueAsync('@');
@@ -124,7 +124,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public async Task CurrentTokenAsync()
         {
-            using (JTokenWriter jsonWriter = new JTokenWriter())
+            using (var jsonWriter = new JTokenWriter())
             {
                 Assert.AreEqual(WriteState.Start, jsonWriter.WriteState);
                 Assert.AreEqual(null, jsonWriter.CurrentToken);
@@ -133,7 +133,7 @@ namespace Argon.Tests.Linq
                 Assert.AreEqual(WriteState.Object, jsonWriter.WriteState);
                 Assert.AreEqual(jsonWriter.Token, jsonWriter.CurrentToken);
 
-                JObject o = (JObject)jsonWriter.Token;
+                var o = (JObject)jsonWriter.Token;
 
                 await jsonWriter.WritePropertyNameAsync("CPU");
                 Assert.AreEqual(WriteState.Property, jsonWriter.WriteState);
@@ -151,7 +151,7 @@ namespace Argon.Tests.Linq
                 Assert.AreEqual(WriteState.Array, jsonWriter.WriteState);
                 Assert.AreEqual(o["Drives"], jsonWriter.CurrentToken);
 
-                JArray a = (JArray)jsonWriter.CurrentToken;
+                var a = (JArray)jsonWriter.CurrentToken;
 
                 await jsonWriter.WriteValueAsync("DVD read/writer");
                 Assert.AreEqual(WriteState.Array, jsonWriter.WriteState);
@@ -178,7 +178,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public async Task WriteCommentAsync()
         {
-            JTokenWriter writer = new JTokenWriter();
+            var writer = new JTokenWriter();
 
             await writer.WriteStartArrayAsync();
             await writer.WriteCommentAsync("fail");
@@ -191,13 +191,13 @@ namespace Argon.Tests.Linq
         [Fact]
         public async Task WriteBigIntegerAsync()
         {
-            JTokenWriter writer = new JTokenWriter();
+            var writer = new JTokenWriter();
 
             await writer.WriteStartArrayAsync();
             await writer.WriteValueAsync(new BigInteger(123));
             await writer.WriteEndArrayAsync();
 
-            JValue i = (JValue)writer.Token[0];
+            var i = (JValue)writer.Token[0];
 
             Assert.AreEqual(new BigInteger(123), i.Value);
             Assert.AreEqual(JTokenType.Integer, i.Type);
@@ -210,7 +210,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public async Task WriteRawAsync()
         {
-            JTokenWriter writer = new JTokenWriter();
+            var writer = new JTokenWriter();
 
             await writer.WriteStartArrayAsync();
             await writer.WriteRawAsync("fail");
@@ -227,13 +227,13 @@ namespace Argon.Tests.Linq
         [Fact]
         public async Task WriteTokenWithParentAsync()
         {
-            JObject o = new JObject
+            var o = new JObject
             {
                 ["prop1"] = new JArray(1),
                 ["prop2"] = 1
             };
 
-            JTokenWriter writer = new JTokenWriter();
+            var writer = new JTokenWriter();
 
             await writer.WriteStartArrayAsync();
 
@@ -258,9 +258,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public async Task WriteTokenWithPropertyParentAsync()
         {
-            JValue v = new JValue(1);
+            var v = new JValue(1);
 
-            JTokenWriter writer = new JTokenWriter();
+            var writer = new JTokenWriter();
 
             await writer.WriteStartObjectAsync();
             await writer.WritePropertyNameAsync("Prop1");
@@ -279,9 +279,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public async Task WriteValueTokenWithParentAsync()
         {
-            JValue v = new JValue(1);
+            var v = new JValue(1);
 
-            JTokenWriter writer = new JTokenWriter();
+            var writer = new JTokenWriter();
 
             await writer.WriteStartArrayAsync();
 
@@ -299,13 +299,13 @@ namespace Argon.Tests.Linq
         [Fact]
         public async Task WriteEmptyTokenAsync()
         {
-            JObject o = new JObject();
-            JsonReader reader = o.CreateReader();
+            var o = new JObject();
+            var reader = o.CreateReader();
             while (reader.Read())
             {   
             }
 
-            JTokenWriter writer = new JTokenWriter();
+            var writer = new JTokenWriter();
 
             await writer.WriteStartArrayAsync();
 
@@ -321,7 +321,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public async Task WriteRawValueAsync()
         {
-            JTokenWriter writer = new JTokenWriter();
+            var writer = new JTokenWriter();
 
             await writer.WriteStartArrayAsync();
             await writer.WriteRawValueAsync("fail");
@@ -337,7 +337,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public async Task WriteDuplicatePropertyNameAsync()
         {
-            JTokenWriter writer = new JTokenWriter();
+            var writer = new JTokenWriter();
 
             await writer.WriteStartObjectAsync();
 
@@ -359,15 +359,15 @@ namespace Argon.Tests.Linq
         [Fact]
         public async Task DateTimeZoneHandlingAsync()
         {
-            JTokenWriter writer = new JTokenWriter
+            var writer = new JTokenWriter
             {
                 DateTimeZoneHandling = DateTimeZoneHandling.Utc
             };
 
             await writer.WriteValueAsync(new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Unspecified));
 
-            JValue value = (JValue)writer.Token;
-            DateTime dt = (DateTime)value.Value;
+            var value = (JValue)writer.Token;
+            var dt = (DateTime)value.Value;
 
             Assert.AreEqual(new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc), dt);
         }

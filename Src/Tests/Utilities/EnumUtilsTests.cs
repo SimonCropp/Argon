@@ -43,9 +43,9 @@ namespace Argon.Tests.Utilities
         [TestCaseSource(nameof(Parse_TestData))]
         public void Parse(string value, object expected)
         {
-            Type enumType = expected.GetType();
+            var enumType = expected.GetType();
 
-            Enum result = (Enum)EnumUtils.ParseEnum(enumType, null, value, false);
+            var result = (Enum)EnumUtils.ParseEnum(enumType, null, value, false);
             Assert.AreEqual(expected, result);
         }
 
@@ -70,7 +70,7 @@ namespace Argon.Tests.Utilities
         [TestCaseSource(nameof(ToString_Format_TestData))]
         public static void ToString_Format(Enum e, string expected)
         {
-            EnumUtils.TryToString(e.GetType(), e, null, out string result);
+            EnumUtils.TryToString(e.GetType(), e, null, out var result);
 
             Assert.AreEqual(expected, result);
         }

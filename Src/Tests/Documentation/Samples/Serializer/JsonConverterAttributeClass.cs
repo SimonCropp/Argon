@@ -41,14 +41,14 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         {
             public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
             {
-                User user = (User)value;
+                var user = (User)value;
 
                 writer.WriteValue(user.UserName);
             }
 
             public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
             {
-                User user = new User();
+                var user = new User();
                 user.UserName = (string)reader.Value;
 
                 return user;
@@ -71,12 +71,12 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            User user = new User
+            var user = new User
             {
                 UserName = @"domain\username"
             };
 
-            string json = JsonConvert.SerializeObject(user, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(user, Formatting.Indented);
 
             Console.WriteLine(json);
             // "domain\\username"

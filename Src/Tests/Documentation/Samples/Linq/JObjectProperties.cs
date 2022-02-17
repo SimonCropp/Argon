@@ -40,20 +40,20 @@ namespace Argon.Tests.Documentation.Samples.Linq
         public void Example()
         {
             #region Usage
-            JObject o = new JObject
+            var o = new JObject
             {
                 { "name1", "value1" },
                 { "name2", "value2" }
             };
 
-            foreach (JProperty property in o.Properties())
+            foreach (var property in o.Properties())
             {
                 Console.WriteLine(property.Name + " - " + property.Value);
             }
             // name1 - value1
             // name2 - value2
 
-            foreach (KeyValuePair<string, JToken> property in o)
+            foreach (var property in o)
             {
                 Console.WriteLine(property.Key + " - " + property.Value);
             }

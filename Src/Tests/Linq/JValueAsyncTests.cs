@@ -40,7 +40,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public async Task FloatParseHandlingAsync()
         {
-            JValue v = (JValue)await JToken.ReadFromAsync(
+            var v = (JValue)await JToken.ReadFromAsync(
                 new JsonTextReader(new StringReader("9.9"))
                 {
                     FloatParseHandling = FloatParseHandling.Decimal
@@ -72,10 +72,10 @@ namespace Argon.Tests.Linq
                 var d = (JValue)obj["d"];
 
                 CustomAssert.IsInstanceOfType(typeof(DateTimeOffset), d.Value);
-                TimeSpan offset = ((DateTimeOffset)d.Value).Offset;
+                var offset = ((DateTimeOffset)d.Value).Offset;
                 Assert.AreEqual(TimeSpan.FromHours(1), offset);
 
-                DateTimeOffset dateTimeOffset = (DateTimeOffset)d;
+                var dateTimeOffset = (DateTimeOffset)d;
                 Assert.AreEqual(TimeSpan.FromHours(1), dateTimeOffset.Offset);
             }
         }
@@ -83,16 +83,16 @@ namespace Argon.Tests.Linq
         [Fact]
         public async Task ParseIsoTimeZonesAsync()
         {
-            DateTimeOffset expectedDate = new DateTimeOffset(2013, 08, 14, 4, 38, 31, TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(30)));
-            JsonTextReader reader = new JsonTextReader(new StringReader("'2013-08-14T04:38:31.000+1230'"));
+            var expectedDate = new DateTimeOffset(2013, 08, 14, 4, 38, 31, TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(30)));
+            var reader = new JsonTextReader(new StringReader("'2013-08-14T04:38:31.000+1230'"));
             reader.DateParseHandling = DateParseHandling.DateTimeOffset;
-            JValue date = (JValue)await JToken.ReadFromAsync(reader);
+            var date = (JValue)await JToken.ReadFromAsync(reader);
             Assert.AreEqual(expectedDate, date.Value);
 
-            DateTimeOffset expectedDate2 = new DateTimeOffset(2013, 08, 14, 4, 38, 31, TimeSpan.FromHours(12));
-            JsonTextReader reader2 = new JsonTextReader(new StringReader("'2013-08-14T04:38:31.000+12'"));
+            var expectedDate2 = new DateTimeOffset(2013, 08, 14, 4, 38, 31, TimeSpan.FromHours(12));
+            var reader2 = new JsonTextReader(new StringReader("'2013-08-14T04:38:31.000+12'"));
             reader2.DateParseHandling = DateParseHandling.DateTimeOffset;
-            JValue date2 = (JValue)await JToken.ReadFromAsync(reader2);
+            var date2 = (JValue)await JToken.ReadFromAsync(reader2);
             Assert.AreEqual(expectedDate2, date2.Value);
         }
     }

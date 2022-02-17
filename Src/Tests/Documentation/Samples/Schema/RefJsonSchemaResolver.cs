@@ -38,7 +38,7 @@ namespace Argon.Tests.Documentation.Samples.Schema
         {
             #region Usage
             string schemaJson;
-            JsonSchemaResolver resolver = new JsonSchemaResolver();
+            var resolver = new JsonSchemaResolver();
 
             schemaJson = @"{
               'id': 'person',
@@ -49,7 +49,7 @@ namespace Argon.Tests.Documentation.Samples.Schema
               }
             }";
 
-            JsonSchema personSchema = JsonSchema.Parse(schemaJson, resolver);
+            var personSchema = JsonSchema.Parse(schemaJson, resolver);
 
             schemaJson = @"{
               'id': 'employee',
@@ -61,18 +61,18 @@ namespace Argon.Tests.Documentation.Samples.Schema
               }
             }";
 
-            JsonSchema employeeSchema = JsonSchema.Parse(schemaJson, resolver);
+            var employeeSchema = JsonSchema.Parse(schemaJson, resolver);
 
-            string json = @"{
+            var json = @"{
               'name': 'James',
               'age': 29,
               'salary': 9000.01,
               'jobTitle': 'Junior Vice President'
             }";
 
-            JObject employee = JObject.Parse(json);
+            var employee = JObject.Parse(json);
 
-            bool valid = employee.IsValid(employeeSchema);
+            var valid = employee.IsValid(employeeSchema);
 
             Console.WriteLine(valid);
             // true

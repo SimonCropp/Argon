@@ -54,14 +54,14 @@ namespace Argon.Tests
         [Fact]
         public void JsonConverter()
         {
-            HtmlColor red = new HtmlColor
+            var red = new HtmlColor
             {
                 Red = 255,
                 Green = 0,
                 Blue = 0
             };
 
-            string json = JsonConvert.SerializeObject(red, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(red, new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented
             });
@@ -78,7 +78,7 @@ namespace Argon.Tests
             });
             // "#FF0000"
 
-            HtmlColor r2 = JsonConvert.DeserializeObject<HtmlColor>(json, new JsonSerializerSettings
+            var r2 = JsonConvert.DeserializeObject<HtmlColor>(json, new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
                 Converters = { new HtmlColorConverter() }
@@ -108,10 +108,10 @@ namespace Argon.Tests
             public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
             {
                 // create hex string from value
-                HtmlColor color = (HtmlColor)value;
-                string hexString = color.Red.ToString("X2")
-                                   + color.Green.ToString("X2")
-                                   + color.Blue.ToString("X2");
+                var color = (HtmlColor)value;
+                var hexString = color.Red.ToString("X2")
+                                + color.Green.ToString("X2")
+                                + color.Blue.ToString("X2");
 
                 // write value to json
                 writer.WriteValue("#" + hexString);
@@ -127,7 +127,7 @@ namespace Argon.Tests
                 object existingValue, JsonSerializer serializer)
             {
                 // get hex string
-                string hexString = (string)reader.Value;
+                var hexString = (string)reader.Value;
                 hexString = hexString.TrimStart('#');
 
                 // build html color from hex
@@ -154,7 +154,7 @@ namespace Argon.Tests
                 "Admin"
             };
 
-            string roleJson = JsonConvert.SerializeObject(roles, Formatting.Indented);
+            var roleJson = JsonConvert.SerializeObject(roles, Formatting.Indented);
             // [
             //   "User",
             //   "Admin"
@@ -166,15 +166,15 @@ namespace Argon.Tests
                 { new DateTime(2014, 6, 2), 50 }
             };
 
-            string regJson = JsonConvert.SerializeObject(dailyRegistrations, Formatting.Indented);
+            var regJson = JsonConvert.SerializeObject(dailyRegistrations, Formatting.Indented);
             // {
             //   "2014-06-01T00:00:00": 23,
             //   "2014-06-02T00:00:00": 50
             // }
 
-            City c = new City { Name = "Oslo", Population = 650000 };
+            var c = new City { Name = "Oslo", Population = 650000 };
 
-            string cityJson = JsonConvert.SerializeObject(c, Formatting.Indented);
+            var cityJson = JsonConvert.SerializeObject(c, Formatting.Indented);
             // {
             //   "Name": "Oslo",
             //   "Population": 650000
@@ -190,15 +190,15 @@ namespace Argon.Tests
                 "Admin"
             };
 
-            MemoryTraceWriter traceWriter = new MemoryTraceWriter();
+            var traceWriter = new MemoryTraceWriter();
 
-            string j = JsonConvert.SerializeObject(roles, new JsonSerializerSettings
+            var j = JsonConvert.SerializeObject(roles, new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
                 TraceWriter = traceWriter
             });
 
-            string trace = traceWriter.ToString();
+            var trace = traceWriter.ToString();
             // Started serializing System.Collections.Generic.List`1[System.String].
             // Finished serializing System.Collections.Generic.List`1[System.String].
             // Verbose Serialized JSON: 
@@ -217,7 +217,7 @@ namespace Argon.Tests
                 Date = new DateTime(2014, 6, 4, 0, 0, 0, DateTimeKind.Utc)
             };
 
-            string j = JsonConvert.SerializeObject(s, new JsonSerializerSettings
+            var j = JsonConvert.SerializeObject(s, new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
                 Converters = { new JavaScriptDateTimeConverter() }
@@ -238,7 +238,7 @@ namespace Argon.Tests
         [Fact]
         public void DeserializationBasics1()
         {
-            string j = @"{
+            var j = @"{
               'Name': 'Serialize All The Things',
               'Date': new Date(1401796800000)
             }";
@@ -256,10 +256,10 @@ namespace Argon.Tests
         [Fact]
         public void DeserializationBasics2()
         {
-            Session s = new Session();
+            var s = new Session();
             s.Date = new DateTime(2014, 6, 4);
 
-            string j = @"{
+            var j = @"{
               'Name': 'Serialize All The Things'
             }";
 
@@ -287,14 +287,14 @@ namespace Argon.Tests
         [Fact]
         public void SerializeReferencesByValue()
         {
-            Employee arnie = new Employee { Name = "Arnie Admin" };
-            Manager mike = new Manager { Name = "Mike Manager" };
-            Manager susan = new Manager { Name = "Susan Supervisor" };
+            var arnie = new Employee { Name = "Arnie Admin" };
+            var mike = new Manager { Name = "Mike Manager" };
+            var susan = new Manager { Name = "Susan Supervisor" };
 
             mike.Reportees = new[] { arnie, susan };
             susan.Reportees = new[] { arnie };
 
-            string json = JsonConvert.SerializeObject(mike, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(mike, Formatting.Indented);
             // {
             //   "Reportees": [
             //     { 
@@ -333,14 +333,14 @@ namespace Argon.Tests
         [Fact]
         public void SerializeReferencesWithMetadata()
         {
-            Employee arnie = new Employee { Name = "Arnie Admin" };
-            Manager mike = new Manager { Name = "Mike Manager" };
-            Manager susan = new Manager { Name = "Susan Supervisor" };
+            var arnie = new Employee { Name = "Arnie Admin" };
+            var mike = new Manager { Name = "Mike Manager" };
+            var susan = new Manager { Name = "Susan Supervisor" };
 
             mike.Reportees = new[] { arnie, susan };
             susan.Reportees = new[] { arnie };
 
-            string json = JsonConvert.SerializeObject(mike, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(mike, new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
                 TypeNameHandling = TypeNameHandling.Objects,
@@ -396,7 +396,7 @@ namespace Argon.Tests
         [Fact]
         public void RoundtripTypesAndReferences()
         {
-            string json = @"{
+            var json = @"{
   '$id': '1',
   '$type': 'Argon.Tests.DemoTests+Manager, Tests',
   'Reportees': [
@@ -427,8 +427,8 @@ namespace Argon.Tests
             // Name = Mike Manager
             // Reportees = Arnie Admin, Susan Supervisor
 
-            Manager mike = (Manager)e;
-            Manager susan = (Manager)mike.Reportees[1];
+            var mike = (Manager)e;
+            var susan = (Manager)mike.Reportees[1];
 
             Object.ReferenceEquals(mike.Reportees[0], susan.Reportees[0]);
             // true
@@ -516,7 +516,7 @@ namespace Argon.Tests
             house.FloorArea = 100m;
             house.BuildDate = new DateTime(1890, 1, 1);
 
-            string json = JsonConvert.SerializeObject(house, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(house, Formatting.Indented);
             // {
             //   "StreetAddress": "221B Baker Street",
             //   "Bedrooms": 2,
@@ -546,13 +546,13 @@ namespace Argon.Tests
         [Fact]
         public void MergeJson()
         {
-            JObject o1 = JObject.Parse(@"{
+            var o1 = JObject.Parse(@"{
               'FirstName': 'John',
               'LastName': 'Smith',
               'Enabled': false,
               'Roles': [ 'User' ]
             }");
-            JObject o2 = JObject.Parse(@"{
+            var o2 = JObject.Parse(@"{
               'Enabled': true,
               'Roles': [ 'User', 'Admin' ]
             }");
@@ -563,7 +563,7 @@ namespace Argon.Tests
                 MergeArrayHandling = MergeArrayHandling.Union
             });
 
-            string json = o1.ToString();
+            var json = o1.ToString();
             // {
             //   "FirstName": "John",
             //   "LastName": "Smith",
@@ -590,8 +590,8 @@ namespace Argon.Tests
         {
             IList<int> value;
 
-            JsonSerializer serializer = new JsonSerializer();
-            using (JsonTextReader reader = new JsonTextReader(new StringReader(@"[1,2,3,4]")))
+            var serializer = new JsonSerializer();
+            using (var reader = new JsonTextReader(new StringReader(@"[1,2,3,4]")))
             {
                 reader.ArrayPool = JsonArrayPool.Instance;
 
@@ -604,7 +604,7 @@ namespace Argon.Tests
         [Fact]
         public void SerializeDataTable()
         {
-            DataTable dt = new DataTable();
+            var dt = new DataTable();
             dt.Columns.Add("PackageId", typeof(string));
             dt.Columns.Add("Version", typeof(string));
             dt.Columns.Add("ReleaseDate", typeof(DateTime));
@@ -612,7 +612,7 @@ namespace Argon.Tests
             dt.Rows.Add("Argon", "11.0.1", new DateTime(2018, 2, 17));
             dt.Rows.Add("Argon", "10.0.3", new DateTime(2017, 6, 18));
 
-            string json = JsonConvert.SerializeObject(dt, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(dt, Formatting.Indented);
 
             Console.WriteLine(json);
             // [
@@ -645,7 +645,7 @@ namespace Argon.Tests
         [Fact]
         public void JsonPathRegex()
         {
-            JArray array = JArray.Parse(@"[
+            var array = JArray.Parse(@"[
               {
                 ""PackageId"": ""Argon"",
                 ""Version"": ""11.0.1"",
@@ -658,7 +658,7 @@ namespace Argon.Tests
               }
             ]");
 
-            List<JToken> packages = array.SelectTokens(@"$.[?(@.PackageId =~ /^Argon/)]").ToList();
+            var packages = array.SelectTokens(@"$.[?(@.PackageId =~ /^Argon/)]").ToList();
 
             Console.WriteLine(packages.Count);
             // 1
@@ -677,7 +677,7 @@ namespace Argon.Tests
                 largeJson = await JArray.LoadAsync(new JsonTextReader(textReader));
             }
 
-            JToken user = largeJson.SelectToken("$[?(@.name == 'Woodard Caldwell')]");
+            var user = largeJson.SelectToken("$[?(@.name == 'Woodard Caldwell')]");
             user["isActive"] = false;
 
             // write asynchronously to a file

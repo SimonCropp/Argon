@@ -14,9 +14,9 @@ namespace Argon.Linq.JsonPath
 
         public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings? settings)
         {
-            foreach (JToken t in current)
+            foreach (var t in current)
             {
-                foreach (JToken v in t)
+                foreach (var v in t)
                 {
                     if (Expression.IsMatch(root, v, settings))
                     {

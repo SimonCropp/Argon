@@ -37,7 +37,7 @@ namespace Argon.Tests.Documentation.Samples.Schema
         public void Example()
         {
             #region Usage
-            string schemaJson = @"{
+            var schemaJson = @"{
               'description': 'A person',
               'type': 'object',
               'properties': {
@@ -49,7 +49,7 @@ namespace Argon.Tests.Documentation.Samples.Schema
               }
             }";
 
-            JsonSchema schema = JsonSchema.Parse(schemaJson);
+            var schema = JsonSchema.Parse(schemaJson);
 
             Console.WriteLine(schema.Type);
             // Object

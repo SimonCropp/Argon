@@ -211,7 +211,7 @@ namespace Argon.Linq
 
         private static int CompareBigInteger(BigInteger i1, object i2)
         {
-            int result = i1.CompareTo(ConvertUtils.ToBigInteger(i2));
+            var result = i1.CompareTo(ConvertUtils.ToBigInteger(i2));
 
             if (result != 0)
             {
@@ -226,7 +226,7 @@ namespace Argon.Linq
             }
             else if (i2 is double || i2 is float)
             {
-                double d = Convert.ToDouble(i2, CultureInfo.InvariantCulture);
+                var d = Convert.ToDouble(i2, CultureInfo.InvariantCulture);
                 return (0d).CompareTo(Math.Abs(d - Math.Truncate(d)));
             }
 
@@ -292,13 +292,13 @@ namespace Argon.Linq
                 case JTokenType.Comment:
                 case JTokenType.String:
                 case JTokenType.Raw:
-                    string s1 = Convert.ToString(objA, CultureInfo.InvariantCulture);
-                    string s2 = Convert.ToString(objB, CultureInfo.InvariantCulture);
+                    var s1 = Convert.ToString(objA, CultureInfo.InvariantCulture);
+                    var s2 = Convert.ToString(objB, CultureInfo.InvariantCulture);
 
                     return string.CompareOrdinal(s1, s2);
                 case JTokenType.Boolean:
-                    bool b1 = Convert.ToBoolean(objA, CultureInfo.InvariantCulture);
-                    bool b2 = Convert.ToBoolean(objB, CultureInfo.InvariantCulture);
+                    var b1 = Convert.ToBoolean(objA, CultureInfo.InvariantCulture);
+                    var b2 = Convert.ToBoolean(objB, CultureInfo.InvariantCulture);
 
                     return b1.CompareTo(b2);
                 case JTokenType.Date:
@@ -319,7 +319,7 @@ namespace Argon.Linq
                     }
                     else
                     {
-                        DateTimeOffset offsetA = (DateTimeOffset)objA;
+                        var offsetA = (DateTimeOffset)objA;
                         if (!(objB is DateTimeOffset offsetB))
                         {
                             offsetB = new DateTimeOffset(Convert.ToDateTime(objB, CultureInfo.InvariantCulture));
@@ -333,7 +333,7 @@ namespace Argon.Linq
                         throw new ArgumentException("Object must be of type byte[].");
                     }
 
-                    byte[]? bytesA = objA as byte[];
+                    var bytesA = objA as byte[];
                     MiscellaneousUtils.Assert(bytesA != null);
 
                     return MiscellaneousUtils.ByteArrayCompare(bytesA!, bytesB);
@@ -343,18 +343,18 @@ namespace Argon.Linq
                         throw new ArgumentException("Object must be of type Guid.");
                     }
 
-                    Guid guid1 = (Guid)objA;
-                    Guid guid2 = (Guid)objB;
+                    var guid1 = (Guid)objA;
+                    var guid2 = (Guid)objB;
 
                     return guid1.CompareTo(guid2);
                 case JTokenType.Uri:
-                    Uri? uri2 = objB as Uri;
+                    var uri2 = objB as Uri;
                     if (uri2 == null)
                     {
                         throw new ArgumentException("Object must be of type Uri.");
                     }
 
-                    Uri uri1 = (Uri)objA;
+                    var uri1 = (Uri)objA;
 
                     return Comparer<string>.Default.Compare(uri1.ToString(), uri2.ToString());
                 case JTokenType.TimeSpan:
@@ -363,8 +363,8 @@ namespace Argon.Linq
                         throw new ArgumentException("Object must be of type TimeSpan.");
                     }
 
-                    TimeSpan ts1 = (TimeSpan)objA;
-                    TimeSpan ts2 = (TimeSpan)objB;
+                    var ts1 = (TimeSpan)objA;
+                    var ts2 = (TimeSpan)objB;
 
                     return ts1.CompareTo(ts2);
                 default:
@@ -374,8 +374,8 @@ namespace Argon.Linq
 
         private static int CompareFloat(object objA, object objB)
         {
-            double d1 = Convert.ToDouble(objA, CultureInfo.InvariantCulture);
-            double d2 = Convert.ToDouble(objB, CultureInfo.InvariantCulture);
+            var d1 = Convert.ToDouble(objA, CultureInfo.InvariantCulture);
+            var d2 = Convert.ToDouble(objB, CultureInfo.InvariantCulture);
 
             // take into account possible floating point errors
             if (MathUtils.ApproxEquals(d1, d2))
@@ -407,8 +407,8 @@ namespace Argon.Linq
 
                 // not that this will lose the fraction
                 // BigInteger doesn't have operators with non-integer types
-                BigInteger i1 = ConvertUtils.ToBigInteger(objA);
-                BigInteger i2 = ConvertUtils.ToBigInteger(objB);
+                var i1 = ConvertUtils.ToBigInteger(objA);
+                var i2 = ConvertUtils.ToBigInteger(objB);
 
                 switch (operation)
                 {
@@ -439,8 +439,8 @@ namespace Argon.Linq
                         return true;
                     }
 
-                    decimal d1 = Convert.ToDecimal(objA, CultureInfo.InvariantCulture);
-                    decimal d2 = Convert.ToDecimal(objB, CultureInfo.InvariantCulture);
+                    var d1 = Convert.ToDecimal(objA, CultureInfo.InvariantCulture);
+                    var d2 = Convert.ToDecimal(objB, CultureInfo.InvariantCulture);
 
                     switch (operation)
                     {
@@ -470,8 +470,8 @@ namespace Argon.Linq
                         return true;
                     }
 
-                    double d1 = Convert.ToDouble(objA, CultureInfo.InvariantCulture);
-                    double d2 = Convert.ToDouble(objB, CultureInfo.InvariantCulture);
+                    var d1 = Convert.ToDouble(objA, CultureInfo.InvariantCulture);
+                    var d2 = Convert.ToDouble(objB, CultureInfo.InvariantCulture);
 
                     switch (operation)
                     {
@@ -502,8 +502,8 @@ namespace Argon.Linq
                         return true;
                     }
 
-                    long l1 = Convert.ToInt64(objA, CultureInfo.InvariantCulture);
-                    long l2 = Convert.ToInt64(objB, CultureInfo.InvariantCulture);
+                    var l1 = Convert.ToInt64(objA, CultureInfo.InvariantCulture);
+                    var l2 = Convert.ToInt64(objB, CultureInfo.InvariantCulture);
 
                     switch (operation)
                     {
@@ -669,8 +669,8 @@ namespace Argon.Linq
             get => _value;
             set
             {
-                Type? currentType = _value?.GetType();
-                Type? newType = value?.GetType();
+                var currentType = _value?.GetType();
+                var newType = value?.GetType();
 
                 if (currentType != newType)
                 {
@@ -690,7 +690,7 @@ namespace Argon.Linq
         {
             if (converters != null && converters.Length > 0 && _value != null)
             {
-                JsonConverter? matchingConverter = JsonSerializer.GetMatchingConverter(converters, _value.GetType());
+                var matchingConverter = JsonSerializer.GetMatchingConverter(converters, _value.GetType());
                 if (matchingConverter != null && matchingConverter.CanWrite)
                 {
                     matchingConverter.WriteJson(writer, _value, JsonSerializer.CreateDefault());
@@ -787,7 +787,7 @@ namespace Argon.Linq
 
         internal override int GetDeepHashCode()
         {
-            int valueHashCode = (_value != null) ? _value.GetHashCode() : 0;
+            var valueHashCode = (_value != null) ? _value.GetHashCode() : 0;
 
             // GetHashCode on an enum boxes so cast to int
             return ((int)_valueType).GetHashCode() ^ valueHashCode;
@@ -939,7 +939,7 @@ namespace Argon.Linq
                     return true;
                 }
 
-                object? value = instance.Value;
+                var value = instance.Value;
 
                 if (value == null)
                 {
@@ -953,7 +953,7 @@ namespace Argon.Linq
 
             public override bool TryBinaryOperation(JValue instance, BinaryOperationBinder binder, object arg, [NotNullWhen(true)]out object? result)
             {
-                object? compareValue = arg is JValue value ? value.Value : arg;
+                var compareValue = arg is JValue value ? value.Value : arg;
 
                 switch (binder.Operation)
                 {
@@ -1046,7 +1046,7 @@ namespace Argon.Linq
                 return 1;
             }
 
-            JTokenType comparisonType = (_valueType == JTokenType.String && _valueType != obj._valueType)
+            var comparisonType = (_valueType == JTokenType.String && _valueType != obj._valueType)
                 ? obj._valueType
                 : _valueType;
 

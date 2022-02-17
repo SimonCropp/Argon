@@ -40,7 +40,7 @@ namespace Argon.Tests.Documentation.Samples.Linq
         public void Example()
         {
             #region Usage
-            string json = @"{
+            var json = @"{
               CPU: 'Intel',
               Drives: [
                 'DVD read/writer',
@@ -48,7 +48,7 @@ namespace Argon.Tests.Documentation.Samples.Linq
               ]
             }";
 
-            JObject o = JObject.Parse(json);
+            var o = JObject.Parse(json);
 
             Console.WriteLine(o.ToString());
             // {

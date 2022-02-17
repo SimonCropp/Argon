@@ -47,11 +47,11 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ObjectEvents()
         {
-            SerializationEventTestObject[] objs = new[] { new SerializationEventTestObject(), new DerivedSerializationEventTestObject() };
+            var objs = new[] { new SerializationEventTestObject(), new DerivedSerializationEventTestObject() };
 
-            foreach (SerializationEventTestObject current in objs)
+            foreach (var current in objs)
             {
-                SerializationEventTestObject obj = current;
+                var obj = current;
 
                 Assert.AreEqual(11, obj.Member1);
                 Assert.AreEqual("Hello World!", obj.Member2);
@@ -59,7 +59,7 @@ namespace Argon.Tests.Serialization
                 Assert.AreEqual(null, obj.Member4);
                 Assert.AreEqual(null, obj.Member5);
 
-                string json = JsonConvert.SerializeObject(obj, Formatting.Indented);
+                var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
                 StringAssert.AreEqual(@"{
   ""Member1"": 11,
   ""Member2"": ""This value went into the data file during serialization."",
@@ -71,10 +71,10 @@ namespace Argon.Tests.Serialization
                 Assert.AreEqual("This is a nonserialized value", obj.Member3);
                 Assert.AreEqual(null, obj.Member4);
 
-                string expectedError = String.Format("Error message for member Member6 = Error getting value from 'Member6' on '{0}'.", obj.GetType().FullName);
+                var expectedError = String.Format("Error message for member Member6 = Error getting value from 'Member6' on '{0}'.", obj.GetType().FullName);
                 Assert.AreEqual(expectedError, obj.Member5);
 
-                JObject o = JObject.Parse(@"{
+                var o = JObject.Parse(@"{
   ""Member1"": 11,
   ""Member2"": ""This value went into the data file during serialization."",
   ""Member4"": null
@@ -91,7 +91,7 @@ namespace Argon.Tests.Serialization
                 expectedError = String.Format("Error message for member Member6 = Error setting value to 'Member6' on '{0}'.", obj.GetType());
                 Assert.AreEqual(expectedError, obj.Member5);
 
-                DerivedSerializationEventTestObject derivedObj = obj as DerivedSerializationEventTestObject;
+                var derivedObj = obj as DerivedSerializationEventTestObject;
                 if (derivedObj != null)
                 {
                     Assert.AreEqual("This value was set after deserialization.", derivedObj.Member7);
@@ -102,14 +102,14 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ObjectWithConstructorEvents()
         {
-            SerializationEventTestObjectWithConstructor obj = new SerializationEventTestObjectWithConstructor(11, "Hello World!", null);
+            var obj = new SerializationEventTestObjectWithConstructor(11, "Hello World!", null);
 
             Assert.AreEqual(11, obj.Member1);
             Assert.AreEqual("Hello World!", obj.Member2);
             Assert.AreEqual("This is a nonserialized value", obj.Member3);
             Assert.AreEqual(null, obj.Member4);
 
-            string json = JsonConvert.SerializeObject(obj, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
             StringAssert.AreEqual(@"{
   ""Member1"": 11,
   ""Member2"": ""This value went into the data file during serialization."",
@@ -132,7 +132,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ListEvents()
         {
-            SerializationEventTestList obj = new SerializationEventTestList
+            var obj = new SerializationEventTestList
             {
                 1.1m,
                 2.222222222m,
@@ -145,7 +145,7 @@ namespace Argon.Tests.Serialization
             Assert.AreEqual("This is a nonserialized value", obj.Member3);
             Assert.AreEqual(null, obj.Member4);
 
-            string json = JsonConvert.SerializeObject(obj, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
             StringAssert.AreEqual(@"[
   -1.0,
   1.1,
@@ -170,7 +170,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DictionaryEvents()
         {
-            SerializationEventTestDictionary obj = new SerializationEventTestDictionary
+            var obj = new SerializationEventTestDictionary
             {
                 { 1.1m, "first" },
                 { 2.222222222m, "second" },
@@ -183,7 +183,7 @@ namespace Argon.Tests.Serialization
             Assert.AreEqual("This is a nonserialized value", obj.Member3);
             Assert.AreEqual(null, obj.Member4);
 
-            string json = JsonConvert.SerializeObject(obj, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
             StringAssert.AreEqual(@"{
   ""1.1"": ""first"",
   ""2.222222222"": ""second"",
@@ -208,7 +208,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ObjectEventsDocumentationExample()
         {
-            SerializationEventTestObject obj = new SerializationEventTestObject();
+            var obj = new SerializationEventTestObject();
 
             Assert.AreEqual(11, obj.Member1);
             Assert.AreEqual("Hello World!", obj.Member2);
@@ -216,7 +216,7 @@ namespace Argon.Tests.Serialization
             Assert.AreEqual(null, obj.Member4);
             Assert.AreEqual(null, obj.Member5);
 
-            string json = JsonConvert.SerializeObject(obj, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
             StringAssert.AreEqual(@"{
   ""Member1"": 11,
   ""Member2"": ""This value went into the data file during serialization."",
@@ -256,9 +256,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializationEventContextTestObjectSubClassTest()
         {
-            SerializationEventContextSubClassTestObject obj = new SerializationEventContextSubClassTestObject();
+            var obj = new SerializationEventContextSubClassTestObject();
 
-            string json = JsonConvert.SerializeObject(obj, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
             StringAssert.AreEqual(@"{
   ""TestMember"": ""Set!""
 }", json);
@@ -278,9 +278,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializationEventContextTest()
         {
-            SerializationEventContextTestObject value = new SerializationEventContextTestObject();
+            var value = new SerializationEventContextTestObject();
 
-            string json = JsonConvert.SerializeObject(value, Formatting.Indented, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(value, Formatting.Indented, new JsonSerializerSettings
             {
                 Context =
                     new StreamingContext(
@@ -338,7 +338,7 @@ namespace Argon.Tests.Serialization
 
             JsonConvert.SerializeObject(c, Formatting.Indented);
 
-            IList<string> e = c.GetEvents();
+            var e = c.GetEvents();
 
             StringAssert.AreEqual(@"OnDeserializing
 OnDeserializing_Derived
@@ -357,7 +357,7 @@ OnSerialized_Derived", string.Join(Environment.NewLine, e.ToArray()));
 
             JsonConvert.SerializeObject(c, Formatting.Indented);
 
-            IList<string> e = c.GetEvents();
+            var e = c.GetEvents();
 
             StringAssert.AreEqual(@"OnDeserializing
 OnDeserializing_Derived
@@ -376,16 +376,16 @@ OnSerialized_Derived_Derived", string.Join(Environment.NewLine, e.ToArray()));
         [Fact]
         public void DerivedDerivedSerializationEvents_DataContractSerializer()
         {
-            string xml = @"<DerivedDerivedSerializationEventOrderTestObject xmlns=""http://schemas.datacontract.org/2004/07/Argon.Tests.Serialization"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""/>";
+            var xml = @"<DerivedDerivedSerializationEventOrderTestObject xmlns=""http://schemas.datacontract.org/2004/07/Argon.Tests.Serialization"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""/>";
 
-            DataContractSerializer ss = new DataContractSerializer(typeof(DerivedDerivedSerializationEventOrderTestObject));
+            var ss = new DataContractSerializer(typeof(DerivedDerivedSerializationEventOrderTestObject));
 
-            DerivedDerivedSerializationEventOrderTestObject c = (DerivedDerivedSerializationEventOrderTestObject)ss.ReadObject(new MemoryStream(Encoding.UTF8.GetBytes(xml)));
+            var c = (DerivedDerivedSerializationEventOrderTestObject)ss.ReadObject(new MemoryStream(Encoding.UTF8.GetBytes(xml)));
 
-            MemoryStream ms = new MemoryStream();
+            var ms = new MemoryStream();
             ss.WriteObject(ms, c);
 
-            IList<string> e = c.GetEvents();
+            var e = c.GetEvents();
 
             StringAssert.AreEqual(@"OnDeserializing
 OnDeserializing_Derived
@@ -404,7 +404,7 @@ OnSerialized_Derived_Derived", string.Join(Environment.NewLine, e.ToArray()));
         [Fact]
         public void NoStreamingContextParameter()
         {
-            ExportPostData d = new ExportPostData
+            var d = new ExportPostData
             {
                 user = "user!",
                 contract = new Contract

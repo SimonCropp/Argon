@@ -76,7 +76,7 @@ namespace Argon.Converters
                 {
                     try
                     {
-                        Version v = new Version((string)reader.Value!);
+                        var v = new Version((string)reader.Value!);
                         return v;
                     }
                     catch (Exception ex)

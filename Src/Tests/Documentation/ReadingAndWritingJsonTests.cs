@@ -51,8 +51,8 @@ namespace Argon.Tests.Documentation
         public void ReadingAndWritingJsonText()
         {
             #region ReadingAndWritingJsonText
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
 
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
@@ -90,7 +90,7 @@ namespace Argon.Tests.Documentation
         public void ReadingJsonText()
         {
             #region ReadingJsonText
-            string json = @"{
+            var json = @"{
                'CPU': 'Intel',
                'PSU': '500W',
                'Drives': [
@@ -101,7 +101,7 @@ namespace Argon.Tests.Documentation
                ]
             }";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
             while (reader.Read())
             {
                 if (reader.Value != null)
@@ -134,13 +134,13 @@ namespace Argon.Tests.Documentation
         public void ReadingAndWritingJsonLinq()
         {
             #region ReadingAndWritingJsonLinq
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("Name", "John Smith"),
                 new JProperty("BirthDate", new DateTime(1983, 3, 20))
                 );
 
-            JsonSerializer serializer = new JsonSerializer();
-            Person p = (Person)serializer.Deserialize(new JTokenReader(o), typeof(Person));
+            var serializer = new JsonSerializer();
+            var p = (Person)serializer.Deserialize(new JTokenReader(o), typeof(Person));
 
             Console.WriteLine(p.Name);
             // John Smith

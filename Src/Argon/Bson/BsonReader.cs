@@ -173,7 +173,7 @@ namespace Argon.Bson
         private string ReadElement()
         {
             _currentElementType = ReadType();
-            string elementName = ReadString();
+            var elementName = ReadString();
             return elementName;
         }
 
@@ -265,14 +265,14 @@ namespace Argon.Bson
                         SetToken(JsonToken.StartObject);
                         _bsonReaderState = BsonReaderState.CodeWScopeScopeObject;
 
-                        ContainerContext newContext = new ContainerContext(BsonType.Object);
+                        var newContext = new ContainerContext(BsonType.Object);
                         PushContext(newContext);
                         newContext.Length = ReadInt32();
 
                         return true;
                     }
                 case BsonReaderState.CodeWScopeScopeObject:
-                    bool result = ReadNormal();
+                    var result = ReadNormal();
                     if (result && TokenType == JsonToken.EndObject)
                     {
                         _bsonReaderState = BsonReaderState.CodeWScopeScopeEnd;
@@ -345,11 +345,11 @@ namespace Argon.Bson
             {
                 case State.Start:
                 {
-                    JsonToken token = (!_readRootValueAsArray) ? JsonToken.StartObject : JsonToken.StartArray;
-                    BsonType type = (!_readRootValueAsArray) ? BsonType.Object : BsonType.Array;
+                    var token = (!_readRootValueAsArray) ? JsonToken.StartObject : JsonToken.StartArray;
+                    var type = (!_readRootValueAsArray) ? BsonType.Object : BsonType.Array;
 
                     SetToken(token);
-                    ContainerContext newContext = new ContainerContext(type);
+                    var newContext = new ContainerContext(type);
                     PushContext(newContext);
                     newContext.Length = ReadInt32();
                     return true;
@@ -365,7 +365,7 @@ namespace Argon.Bson
                 case State.ObjectStart:
                 case State.ArrayStart:
                 case State.PostValue:
-                    ContainerContext context = _currentContext;
+                    var context = _currentContext;
                     if (context == null)
                     {
                         if (SupportMultipleContent)
@@ -376,7 +376,7 @@ namespace Argon.Bson
                         return false;
                     }
 
-                    int lengthMinusEnd = context.Length - 1;
+                    var lengthMinusEnd = context.Length - 1;
 
                     if (context.Position < lengthMinusEnd)
                     {
@@ -405,7 +405,7 @@ namespace Argon.Bson
                             MovePosition(context.Length);
                         }
 
-                        JsonToken endToken = (context.Type == BsonType.Object) ? JsonToken.EndObject : JsonToken.EndArray;
+                        var endToken = (context.Type == BsonType.Object) ? JsonToken.EndObject : JsonToken.EndArray;
                         SetToken(endToken);
                         return true;
                     }
@@ -458,7 +458,7 @@ namespace Argon.Bson
             switch (type)
             {
                 case BsonType.Number:
-                    double d = ReadDouble();
+                    var d = ReadDouble();
 
                     if (_floatParseHandling == FloatParseHandling.Decimal)
                     {
@@ -477,7 +477,7 @@ namespace Argon.Bson
                 {
                     SetToken(JsonToken.StartObject);
 
-                    ContainerContext newContext = new ContainerContext(BsonType.Object);
+                    var newContext = new ContainerContext(BsonType.Object);
                     PushContext(newContext);
                     newContext.Length = ReadInt32();
                     break;
@@ -486,16 +486,16 @@ namespace Argon.Bson
                 {
                     SetToken(JsonToken.StartArray);
 
-                    ContainerContext newContext = new ContainerContext(BsonType.Array);
+                    var newContext = new ContainerContext(BsonType.Array);
                     PushContext(newContext);
                     newContext.Length = ReadInt32();
                     break;
                 }
                 case BsonType.Binary:
                     BsonBinaryType binaryType;
-                    byte[] data = ReadBinary(out binaryType);
+                    var data = ReadBinary(out binaryType);
 
-                    object value = (binaryType != BsonBinaryType.Uuid)
+                    var value = (binaryType != BsonBinaryType.Uuid)
                         ? data
                         : (object)new Guid(data);
 
@@ -505,16 +505,16 @@ namespace Argon.Bson
                     SetToken(JsonToken.Undefined);
                     break;
                 case BsonType.Oid:
-                    byte[] oid = ReadBytes(12);
+                    var oid = ReadBytes(12);
                     SetToken(JsonToken.Bytes, oid);
                     break;
                 case BsonType.Boolean:
-                    bool b = Convert.ToBoolean(ReadByte());
+                    var b = Convert.ToBoolean(ReadByte());
                     SetToken(JsonToken.Boolean, b);
                     break;
                 case BsonType.Date:
-                    long ticks = ReadInt64();
-                    DateTime utcDateTime = DateTimeUtils.ConvertJavaScriptTicksToDateTime(ticks);
+                    var ticks = ReadInt64();
+                    var utcDateTime = DateTimeUtils.ConvertJavaScriptTicksToDateTime(ticks);
 
                     DateTime dateTime;
                     switch (DateTimeKindHandling)
@@ -536,10 +536,10 @@ namespace Argon.Bson
                     SetToken(JsonToken.Null);
                     break;
                 case BsonType.Regex:
-                    string expression = ReadString();
-                    string modifiers = ReadString();
+                    var expression = ReadString();
+                    var modifiers = ReadString();
 
-                    string regex = @"/" + expression + @"/" + modifiers;
+                    var regex = @"/" + expression + @"/" + modifiers;
                     SetToken(JsonToken.String, regex);
                     break;
                 case BsonType.Reference:
@@ -567,7 +567,7 @@ namespace Argon.Bson
 
         private byte[] ReadBinary(out BsonBinaryType binaryType)
         {
-            int dataLength = ReadInt32();
+            var dataLength = ReadInt32();
 
             binaryType = (BsonBinaryType)ReadByte();
 
@@ -588,25 +588,25 @@ namespace Argon.Bson
 
             StringBuilder builder = null;
 
-            int totalBytesRead = 0;
+            var totalBytesRead = 0;
             // used in case of left over multibyte characters in the buffer
-            int offset = 0;
+            var offset = 0;
             while (true)
             {
-                int count = offset;
+                var count = offset;
                 byte b;
                 while (count < MaxCharBytesSize && (b = _reader.ReadByte()) > 0)
                 {
                     _byteBuffer[count++] = b;
                 }
-                int byteCount = count - offset;
+                var byteCount = count - offset;
                 totalBytesRead += byteCount;
 
                 if (count < MaxCharBytesSize && builder == null)
                 {
                     // pref optimization to avoid reading into a string builder
                     // if string is smaller than the buffer then return it directly
-                    int length = Encoding.UTF8.GetChars(_byteBuffer, 0, byteCount, _charBuffer, 0);
+                    var length = Encoding.UTF8.GetChars(_byteBuffer, 0, byteCount, _charBuffer, 0);
 
                     MovePosition(totalBytesRead + 1);
                     return new string(_charBuffer, 0, length);
@@ -614,9 +614,9 @@ namespace Argon.Bson
                 else
                 {
                     // calculate the index of the end of the last full character in the buffer
-                    int lastFullCharStop = GetLastFullCharStop(count - 1);
+                    var lastFullCharStop = GetLastFullCharStop(count - 1);
 
-                    int charCount = Encoding.UTF8.GetChars(_byteBuffer, 0, lastFullCharStop + 1, _charBuffer, 0);
+                    var charCount = Encoding.UTF8.GetChars(_byteBuffer, 0, lastFullCharStop + 1, _charBuffer, 0);
 
                     if (builder == null)
                     {
@@ -648,11 +648,11 @@ namespace Argon.Bson
 
         private string ReadLengthString()
         {
-            int length = ReadInt32();
+            var length = ReadInt32();
 
             MovePosition(length);
 
-            string s = GetString(length - 1);
+            var s = GetString(length - 1);
             _reader.ReadByte();
 
             return s;
@@ -669,17 +669,17 @@ namespace Argon.Bson
 
             StringBuilder builder = null;
 
-            int totalBytesRead = 0;
+            var totalBytesRead = 0;
 
             // used in case of left over multibyte characters in the buffer
-            int offset = 0;
+            var offset = 0;
             do
             {
-                int count = ((length - totalBytesRead) > MaxCharBytesSize - offset)
+                var count = ((length - totalBytesRead) > MaxCharBytesSize - offset)
                     ? MaxCharBytesSize - offset
                     : length - totalBytesRead;
 
-                int byteCount = _reader.Read(_byteBuffer, offset, count);
+                var byteCount = _reader.Read(_byteBuffer, offset, count);
 
                 if (byteCount == 0)
                 {
@@ -696,19 +696,19 @@ namespace Argon.Bson
                 {
                     // pref optimization to avoid reading into a string builder
                     // first iteration and all bytes read then return string directly
-                    int charCount = Encoding.UTF8.GetChars(_byteBuffer, 0, byteCount, _charBuffer, 0);
+                    var charCount = Encoding.UTF8.GetChars(_byteBuffer, 0, byteCount, _charBuffer, 0);
                     return new string(_charBuffer, 0, charCount);
                 }
                 else
                 {
-                    int lastFullCharStop = GetLastFullCharStop(byteCount - 1);
+                    var lastFullCharStop = GetLastFullCharStop(byteCount - 1);
 
                     if (builder == null)
                     {
                         builder = new StringBuilder(length);
                     }
 
-                    int charCount = Encoding.UTF8.GetChars(_byteBuffer, 0, lastFullCharStop + 1, _charBuffer, 0);
+                    var charCount = Encoding.UTF8.GetChars(_byteBuffer, 0, lastFullCharStop + 1, _charBuffer, 0);
                     builder.Append(_charBuffer, 0, charCount);
 
                     if (lastFullCharStop < byteCount - 1)
@@ -729,8 +729,8 @@ namespace Argon.Bson
 
         private int GetLastFullCharStop(int start)
         {
-            int lookbackPos = start;
-            int bis = 0;
+            var lookbackPos = start;
+            var bis = 0;
             while (lookbackPos >= 0)
             {
                 bis = BytesInSequence(_byteBuffer[lookbackPos]);
@@ -789,7 +789,7 @@ namespace Argon.Bson
             }
             if (_charBuffer == null)
             {
-                int charBufferSize = Encoding.UTF8.GetMaxCharCount(MaxCharBytesSize);
+                var charBufferSize = Encoding.UTF8.GetMaxCharCount(MaxCharBytesSize);
                 _charBuffer = new char[charBufferSize];
             }
         }

@@ -52,7 +52,7 @@ namespace Argon.Tests.Documentation
         public void IsValidBasic()
         {
             #region IsValidBasic
-            string schemaJson = @"{
+            var schemaJson = @"{
               'description': 'A person',
               'type': 'object',
               'properties':
@@ -65,21 +65,21 @@ namespace Argon.Tests.Documentation
               }
             }";
 
-            JsonSchema schema = JsonSchema.Parse(schemaJson);
+            var schema = JsonSchema.Parse(schemaJson);
 
-            JObject person = JObject.Parse(@"{
+            var person = JObject.Parse(@"{
               'name': 'James',
               'hobbies': ['.NET', 'Blogging', 'Reading', 'Xbox', 'LOLCATS']
             }");
 
-            bool valid = person.IsValid(schema);
+            var valid = person.IsValid(schema);
             // true
             #endregion
         }
 
         public void IsValidMessages()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
                'description': 'A person',
                'type': 'object',
                'properties':
@@ -93,15 +93,15 @@ namespace Argon.Tests.Documentation
              }";
 
             #region IsValidMessages
-            JsonSchema schema = JsonSchema.Parse(schemaJson);
+            var schema = JsonSchema.Parse(schemaJson);
 
-            JObject person = JObject.Parse(@"{
+            var person = JObject.Parse(@"{
               'name': null,
               'hobbies': ['Invalid content', 0.123456789]
             }");
 
             IList<string> messages;
-            bool valid = person.IsValid(schema, out messages);
+            var valid = person.IsValid(schema, out messages);
             // false
             // Invalid type. Expected String but got Null. Line 2, position 21.
             // Invalid type. Expected String but got Float. Line 3, position 51.
@@ -110,24 +110,24 @@ namespace Argon.Tests.Documentation
 
         public void JsonValidatingReader()
         {
-            string schemaJson = "{}";
+            var schemaJson = "{}";
 
             #region JsonValidatingReader
-            string json = @"{
+            var json = @"{
               'name': 'James',
               'hobbies': ['.NET', 'Blogging', 'Reading', 'Xbox', 'LOLCATS']
             }";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
-            JsonValidatingReader validatingReader = new JsonValidatingReader(reader);
+            var validatingReader = new JsonValidatingReader(reader);
             validatingReader.Schema = JsonSchema.Parse(schemaJson);
 
             IList<string> messages = new List<string>();
             validatingReader.ValidationEventHandler += (o, a) => messages.Add(a.Message);
 
-            JsonSerializer serializer = new JsonSerializer();
-            Person p = serializer.Deserialize<Person>(validatingReader);
+            var serializer = new JsonSerializer();
+            var p = serializer.Deserialize<Person>(validatingReader);
             #endregion
         }
 
@@ -135,12 +135,12 @@ namespace Argon.Tests.Documentation
         {
             #region LoadJsonSchema
             // load from a string
-            JsonSchema schema1 = JsonSchema.Parse(@"{'type':'object'}");
+            var schema1 = JsonSchema.Parse(@"{'type':'object'}");
 
             // load from a file
             using (TextReader reader = File.OpenText(@"c:\schema\Person.json"))
             {
-                JsonSchema schema2 = JsonSchema.Read(new JsonTextReader(reader));
+                var schema2 = JsonSchema.Read(new JsonTextReader(reader));
 
                 // do stuff
             }
@@ -150,7 +150,7 @@ namespace Argon.Tests.Documentation
         public void ManuallyCreateJsonSchema()
         {
             #region ManuallyCreateJsonSchema
-            JsonSchema schema = new JsonSchema();
+            var schema = new JsonSchema();
             schema.Type = JsonSchemaType.Object;
             schema.Properties = new Dictionary<string, JsonSchema>
             {
@@ -164,12 +164,12 @@ namespace Argon.Tests.Documentation
                 },
             };
 
-            JObject person = JObject.Parse(@"{
+            var person = JObject.Parse(@"{
               'name': 'James',
               'hobbies': ['.NET', 'Blogging', 'Reading', 'Xbox', 'LOLCATS']
             }");
 
-            bool valid = person.IsValid(schema);
+            var valid = person.IsValid(schema);
             // true
             #endregion
 

@@ -44,7 +44,7 @@ namespace Argon.Tests.Linq
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
             await reader.ReadAsync();
 
-            JProperty property = await JProperty.LoadAsync(reader);
+            var property = await JProperty.LoadAsync(reader);
             Assert.AreEqual("propertyname", property.Name);
             Assert.IsTrue(JToken.DeepEquals(JArray.Parse("['value1']"), property.Value));
 

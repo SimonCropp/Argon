@@ -42,7 +42,7 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test()
         {
-            Something something = JsonConvert.DeserializeObject<Something>("{ \"foo\": [] }");
+            var something = JsonConvert.DeserializeObject<Something>("{ \"foo\": [] }");
 
             Assert.AreEqual(JTokenType.Array, something.Foo.Type);
         }

@@ -153,7 +153,7 @@ namespace Argon.Serialization
                     }
                     else
                     {
-                        foreach (JsonProperty property in Properties)
+                        foreach (var property in Properties)
                         {
                             if (property.Required != Required.Default || (property.DefaultValueHandling & DefaultValueHandling.Populate) == DefaultValueHandling.Populate)
                             {

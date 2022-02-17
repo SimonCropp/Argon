@@ -50,14 +50,14 @@ namespace Argon.Tests.Documentation.Samples.Bson
         public void Example()
         {
             #region Usage
-            byte[] data = Convert.FromBase64String("MQAAAAJOYW1lAA8AAABNb3ZpZSBQcmVtaWVyZQAJU3RhcnREYXRlAMDgKWE8AQAAAA==");
+            var data = Convert.FromBase64String("MQAAAAJOYW1lAA8AAABNb3ZpZSBQcmVtaWVyZQAJU3RhcnREYXRlAMDgKWE8AQAAAA==");
 
-            MemoryStream ms = new MemoryStream(data);
-            using (BsonReader reader = new BsonReader(ms))
+            var ms = new MemoryStream(data);
+            using (var reader = new BsonReader(ms))
             {
-                JsonSerializer serializer = new JsonSerializer();
+                var serializer = new JsonSerializer();
 
-                Event e = serializer.Deserialize<Event>(reader);
+                var e = serializer.Deserialize<Event>(reader);
 
                 Console.WriteLine(e.Name);
                 // Movie Premiere

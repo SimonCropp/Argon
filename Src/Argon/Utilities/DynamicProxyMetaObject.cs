@@ -171,7 +171,7 @@ namespace Argon.Utilities
         {
             return args.Select(arg =>
             {
-                Expression exp = arg.Expression;
+                var exp = arg.Expression;
                 return exp.Type.IsValueType() ? Expression.Convert(exp, typeof(object)) : exp;
             });
         }
@@ -183,7 +183,7 @@ namespace Argon.Utilities
 
         private static Expression[] GetArgArray(DynamicMetaObject[] args, DynamicMetaObject value)
         {
-            Expression exp = value.Expression;
+            var exp = value.Expression;
             return new[]
             {
                 Expression.NewArrayInit(typeof(object), GetArgs(args)),
@@ -193,7 +193,7 @@ namespace Argon.Utilities
 
         private static ConstantExpression Constant(DynamicMetaObjectBinder binder)
         {
-            Type t = binder.GetType();
+            var t = binder.GetType();
             while (!t.IsVisible())
             {
                 t = t.BaseType();
@@ -211,7 +211,7 @@ namespace Argon.Utilities
             // First, call fallback to do default binding
             // This produces either an error or a call to a .NET member
             //
-            DynamicMetaObject fallbackResult = fallback(null);
+            var fallbackResult = fallback(null);
 
             return BuildCallMethodWithResult(methodName, binder, args, fallbackResult, fallbackInvoke);
         }
@@ -225,7 +225,7 @@ namespace Argon.Utilities
             //   TryGetMember(payload, out result) ? fallbackInvoke(result) : fallbackResult
             // }
             //
-            ParameterExpression result = Expression.Parameter(typeof(object), null);
+            var result = Expression.Parameter(typeof(object), null);
 
             IList<Expression> callArgs = new List<Expression>();
             callArgs.Add(Expression.Convert(Expression, typeof(T)));
@@ -233,12 +233,12 @@ namespace Argon.Utilities
             callArgs.AddRange(args);
             callArgs.Add(result);
 
-            DynamicMetaObject resultMetaObject = new DynamicMetaObject(result, BindingRestrictions.Empty);
+            var resultMetaObject = new DynamicMetaObject(result, BindingRestrictions.Empty);
 
             // Need to add a conversion if calling TryConvert
             if (binder.ReturnType != typeof(object))
             {
-                UnaryExpression convert = Expression.Convert(resultMetaObject.Expression, binder.ReturnType);
+                var convert = Expression.Convert(resultMetaObject.Expression, binder.ReturnType);
                 // will always be a cast or unbox
 
                 resultMetaObject = new DynamicMetaObject(convert, resultMetaObject.Restrictions);
@@ -249,7 +249,7 @@ namespace Argon.Utilities
                 resultMetaObject = fallbackInvoke(resultMetaObject);
             }
 
-            DynamicMetaObject callDynamic = new DynamicMetaObject(
+            var callDynamic = new DynamicMetaObject(
                 Expression.Block(
                     new[] { result },
                     Expression.Condition(
@@ -280,7 +280,7 @@ namespace Argon.Utilities
             // First, call fallback to do default binding
             // This produces either an error or a call to a .NET member
             //
-            DynamicMetaObject fallbackResult = fallback(null);
+            var fallbackResult = fallback(null);
 
             //
             // Build a new expression like:
@@ -289,7 +289,7 @@ namespace Argon.Utilities
             //   TrySetMember(payload, result = value) ? result : fallbackResult
             // }
             //
-            ParameterExpression result = Expression.Parameter(typeof(object), null);
+            var result = Expression.Parameter(typeof(object), null);
 
             IList<Expression> callArgs = new List<Expression>();
             callArgs.Add(Expression.Convert(Expression, typeof(T)));
@@ -326,7 +326,7 @@ namespace Argon.Utilities
             // First, call fallback to do default binding
             // This produces either an error or a call to a .NET member
             //
-            DynamicMetaObject fallbackResult = fallback(null);
+            var fallbackResult = fallback(null);
 
             IList<Expression> callArgs = new List<Expression>();
             callArgs.Add(Expression.Convert(Expression, typeof(T)));

@@ -41,7 +41,7 @@ namespace Argon.Tests.Documentation.Samples.JsonPath
         public void Example()
         {
             #region Usage
-            JObject o = JObject.Parse(@"{
+            var o = JObject.Parse(@"{
               'Stores': [
                 'Lambton Quay',
                 'Willis Street'
@@ -73,15 +73,15 @@ namespace Argon.Tests.Documentation.Samples.JsonPath
             }");
 
             // manufacturer with the name 'Acme Co'
-            JToken acme = o.SelectToken("$.Manufacturers[?(@.Name == 'Acme Co')]");
+            var acme = o.SelectToken("$.Manufacturers[?(@.Name == 'Acme Co')]");
 
             Console.WriteLine(acme);
             // { "Name": "Acme Co", Products: [{ "Name": "Anvil", "Price": 50 }] }
 
             // name of all products priced 50 and above
-            IEnumerable<JToken> pricyProducts = o.SelectTokens("$..Products[?(@.Price >= 50)].Name");
+            var pricyProducts = o.SelectTokens("$..Products[?(@.Price >= 50)].Name");
 
-            foreach (JToken item in pricyProducts)
+            foreach (var item in pricyProducts)
             {
                 Console.WriteLine(item);
             }

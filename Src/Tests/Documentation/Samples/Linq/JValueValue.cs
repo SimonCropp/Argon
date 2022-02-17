@@ -40,14 +40,14 @@ namespace Argon.Tests.Documentation.Samples.Linq
         public void Example()
         {
             #region Usage
-            JValue s = new JValue("A string value");
+            var s = new JValue("A string value");
 
             Console.WriteLine(s.Value.GetType().Name);
             // String
             Console.WriteLine(s.Value);
             // A string value
 
-            JValue u = new JValue(new Uri("http://www.google.com/"));
+            var u = new JValue(new Uri("http://www.google.com/"));
 
             Console.WriteLine(u.Value.GetType().Name);
             // Uri

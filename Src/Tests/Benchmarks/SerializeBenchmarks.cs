@@ -43,7 +43,7 @@ namespace Argon.Tests.Benchmarks
 
         static SerializeBenchmarks()
         {
-            string json = System.IO.File.ReadAllText("large.json");
+            var json = System.IO.File.ReadAllText("large.json");
 
             LargeCollection = JsonConvert.DeserializeObject<IList<RootObject>>(json);
         }
@@ -51,9 +51,9 @@ namespace Argon.Tests.Benchmarks
         [Benchmark]
         public void SerializeLargeJsonFile()
         {
-            using (StreamWriter file = System.IO.File.CreateText("largewrite.json"))
+            using (var file = System.IO.File.CreateText("largewrite.json"))
             {
-                JsonSerializer serializer = new JsonSerializer();
+                var serializer = new JsonSerializer();
                 serializer.Formatting = Formatting.Indented;
                 serializer.Serialize(file, LargeCollection);
             }

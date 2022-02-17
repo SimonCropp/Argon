@@ -56,7 +56,7 @@ namespace Argon.Tests.Serialization
 
         protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
         {
-            IList<JsonProperty> properties = base.CreateProperties(type, memberSerialization);
+            var properties = base.CreateProperties(type, memberSerialization);
 
             // only serializer properties that start with the specified character
             properties =
@@ -111,8 +111,8 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ResolveSerializableContract()
         {
-            DefaultContractResolver contractResolver = new DefaultContractResolver();
-            JsonContract contract = contractResolver.ResolveContract(typeof(ISerializableTestObject));
+            var contractResolver = new DefaultContractResolver();
+            var contract = contractResolver.ResolveContract(typeof(ISerializableTestObject));
 
             Assert.AreEqual(JsonContractType.Serializable, contract.ContractType);
         }
@@ -120,8 +120,8 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ResolveSerializableWithoutAttributeContract()
         {
-            DefaultContractResolver contractResolver = new DefaultContractResolver();
-            JsonContract contract = contractResolver.ResolveContract(typeof(ISerializableWithoutAttributeTestObject));
+            var contractResolver = new DefaultContractResolver();
+            var contract = contractResolver.ResolveContract(typeof(ISerializableWithoutAttributeTestObject));
 
             Assert.AreEqual(JsonContractType.Object, contract.ContractType);
         }
@@ -129,11 +129,11 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ResolveObjectContractWithFieldsSerialization()
         {
-            DefaultContractResolver contractResolver = new DefaultContractResolver
+            var contractResolver = new DefaultContractResolver
             {
                 IgnoreSerializableAttribute = false
             };
-            JsonObjectContract contract = (JsonObjectContract)contractResolver.ResolveContract(typeof(AnswerFilterModel));
+            var contract = (JsonObjectContract)contractResolver.ResolveContract(typeof(AnswerFilterModel));
 
             Assert.AreEqual(MemberSerialization.Fields, contract.MemberSerialization);
         }
@@ -141,7 +141,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void JsonPropertyDefaultValue()
         {
-            JsonProperty p = new JsonProperty();
+            var p = new JsonProperty();
 
             Assert.AreEqual(null, p.GetResolvedDefaultValue());
             Assert.AreEqual(null, p.DefaultValue);
@@ -184,7 +184,7 @@ namespace Argon.Tests.Serialization
             var resolver = new DefaultContractResolver();
             var contract = (JsonObjectContract)resolver.ResolveContract(typeof(Invoice));
 
-            JsonProperty property = contract.Properties["FollowUpDays"];
+            var property = contract.Properties["FollowUpDays"];
             Assert.AreEqual(1, property.AttributeProvider.GetAttributes(false).Count);
             Assert.AreEqual(typeof(DefaultValueAttribute), property.AttributeProvider.GetAttributes(false)[0].GetType());
         }
@@ -324,7 +324,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeWithEscapedPropertyName()
         {
-            string json = JsonConvert.SerializeObject(
+            var json = JsonConvert.SerializeObject(
                 new AddressWithDataMember
                 {
                     AddressLine1 = "value!"
@@ -339,7 +339,7 @@ namespace Argon.Tests.Serialization
 
             Assert.AreEqual(@"{""AddressLine1-'-\""-"":""value!""}", json);
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
             reader.Read();
             reader.Read();
 
@@ -349,7 +349,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeWithHtmlEscapedPropertyName()
         {
-            string json = JsonConvert.SerializeObject(
+            var json = JsonConvert.SerializeObject(
                 new AddressWithDataMember
                 {
                     AddressLine1 = "value!"
@@ -366,7 +366,7 @@ namespace Argon.Tests.Serialization
 
             Assert.AreEqual(@"{""\u003cb\u003eAddressLine1\u003c/b\u003e"":""value!""}", json);
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
             reader.Read();
             reader.Read();
 
@@ -376,7 +376,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void CalculatingPropertyNameEscapedSkipping()
         {
-            JsonProperty p = new JsonProperty { PropertyName = "abc" };
+            var p = new JsonProperty { PropertyName = "abc" };
             Assert.IsTrue(p._skipPropertyNameEscape);
 
             p = new JsonProperty { PropertyName = "123" };
@@ -489,7 +489,7 @@ namespace Argon.Tests.Serialization
             var resolver = new DefaultContractResolver();
             var contract = (JsonObjectContract)resolver.ResolveContract(typeof(MultipleParametrizedConstructorsJsonConstructor));
 
-            bool ensureCustomCreatorCalled = false;
+            var ensureCustomCreatorCalled = false;
 
             contract.OverrideCreator = args =>
             {
@@ -511,7 +511,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeInterface()
         {
-            Employee employee = new Employee
+            var employee = new Employee
             {
                 BirthDate = new DateTime(1977, 12, 30, 1, 1, 1, DateTimeKind.Utc),
                 FirstName = "Maurice",
@@ -520,10 +520,10 @@ namespace Argon.Tests.Serialization
                 JobTitle = "Support"
             };
 
-            string iPersonJson = JsonConvert.SerializeObject(employee, Formatting.Indented,
+            var iPersonJson = JsonConvert.SerializeObject(employee, Formatting.Indented,
                 new JsonSerializerSettings { ContractResolver = new IPersonContractResolver() });
 
-            JObject o = JObject.Parse(iPersonJson);
+            var o = JObject.Parse(iPersonJson);
 
             Assert.AreEqual("Maurice", (string)o["FirstName"]);
             Assert.AreEqual("Moss", (string)o["LastName"]);
@@ -533,7 +533,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SingleTypeWithMultipleContractResolvers()
         {
-            Book book = new Book
+            var book = new Book
             {
                 BookName = "The Gathering Storm",
                 BookPrice = 16.19m,
@@ -542,7 +542,7 @@ namespace Argon.Tests.Serialization
                 AuthorCountry = "United States of America"
             };
 
-            string startingWithA = JsonConvert.SerializeObject(book, Formatting.Indented,
+            var startingWithA = JsonConvert.SerializeObject(book, Formatting.Indented,
                 new JsonSerializerSettings { ContractResolver = new DynamicContractResolver('A') });
 
             // {
@@ -551,7 +551,7 @@ namespace Argon.Tests.Serialization
             //   "AuthorCountry": "United States of America"
             // }
 
-            string startingWithB = JsonConvert.SerializeObject(book, Formatting.Indented,
+            var startingWithB = JsonConvert.SerializeObject(book, Formatting.Indented,
                 new JsonSerializerSettings { ContractResolver = new DynamicContractResolver('B') });
 
             // {
@@ -575,7 +575,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeCompilerGeneratedMembers()
         {
-            StructTest structTest = new StructTest
+            var structTest = new StructTest
             {
                 IntField = 1,
                 IntProperty = 2,
@@ -583,12 +583,12 @@ namespace Argon.Tests.Serialization
                 StringProperty = "Property"
             };
 
-            DefaultContractResolver skipCompilerGeneratedResolver = new DefaultContractResolver
+            var skipCompilerGeneratedResolver = new DefaultContractResolver
             {
                 DefaultMembersSearchFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public
             };
 
-            string skipCompilerGeneratedJson = JsonConvert.SerializeObject(structTest, Formatting.Indented,
+            var skipCompilerGeneratedJson = JsonConvert.SerializeObject(structTest, Formatting.Indented,
                 new JsonSerializerSettings { ContractResolver = skipCompilerGeneratedResolver });
 
             StringAssert.AreEqual(@"{
@@ -598,16 +598,16 @@ namespace Argon.Tests.Serialization
   ""IntProperty"": 2
 }", skipCompilerGeneratedJson);
 
-            DefaultContractResolver includeCompilerGeneratedResolver = new DefaultContractResolver
+            var includeCompilerGeneratedResolver = new DefaultContractResolver
             {
                 DefaultMembersSearchFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public,
                 SerializeCompilerGeneratedMembers = true
             };
 
-            string includeCompilerGeneratedJson = JsonConvert.SerializeObject(structTest, Formatting.Indented,
+            var includeCompilerGeneratedJson = JsonConvert.SerializeObject(structTest, Formatting.Indented,
                 new JsonSerializerSettings { ContractResolver = includeCompilerGeneratedResolver });
 
-            JObject o = JObject.Parse(includeCompilerGeneratedJson);
+            var o = JObject.Parse(includeCompilerGeneratedJson);
 
             Console.WriteLine(includeCompilerGeneratedJson);
 
@@ -625,10 +625,10 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ExtensionDataGetterCanBeIteratedMultipleTimes()
         {
-            DefaultContractResolver resolver = new DefaultContractResolver();
-            JsonObjectContract contract = (JsonObjectContract)resolver.ResolveContract(typeof(ClassWithExtensionData));
+            var resolver = new DefaultContractResolver();
+            var contract = (JsonObjectContract)resolver.ResolveContract(typeof(ClassWithExtensionData));
 
-            ClassWithExtensionData myClass = new ClassWithExtensionData
+            var myClass = new ClassWithExtensionData
             {
                 Data = new Dictionary<string, object>
                 {
@@ -636,13 +636,13 @@ namespace Argon.Tests.Serialization
                 }
             };
 
-            ExtensionDataGetter getter = contract.ExtensionDataGetter;
+            var getter = contract.ExtensionDataGetter;
 
             IEnumerable<KeyValuePair<object, object>> dictionaryData = getter(myClass).ToDictionary(kv => kv.Key, kv => kv.Value);
             Assert.IsTrue(dictionaryData.Any());
             Assert.IsTrue(dictionaryData.Any());
 
-            IEnumerable<KeyValuePair<object, object>> extensionData = getter(myClass);
+            var extensionData = getter(myClass);
             Assert.IsTrue(extensionData.Any());
             Assert.IsTrue(extensionData.Any()); // second test fails if the enumerator returned isn't reset
         }
@@ -661,10 +661,10 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DefaultContractResolverIgnoreShouldSerializeTrue()
         {
-            DefaultContractResolver resolver = new DefaultContractResolver();
+            var resolver = new DefaultContractResolver();
             resolver.IgnoreShouldSerializeMembers = true;
 
-            JsonObjectContract contract = (JsonObjectContract)resolver.ResolveContract(typeof(ClassWithShouldSerialize));
+            var contract = (JsonObjectContract)resolver.ResolveContract(typeof(ClassWithShouldSerialize));
 
             var property1 = contract.Properties["Prop1"];
             Assert.AreEqual(null, property1.ShouldSerialize);
@@ -676,9 +676,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DefaultContractResolverIgnoreShouldSerializeUnset()
         {
-            DefaultContractResolver resolver = new DefaultContractResolver();
+            var resolver = new DefaultContractResolver();
 
-            JsonObjectContract contract = (JsonObjectContract)resolver.ResolveContract(typeof(ClassWithShouldSerialize));
+            var contract = (JsonObjectContract)resolver.ResolveContract(typeof(ClassWithShouldSerialize));
 
             var property1 = contract.Properties["Prop1"];
             Assert.AreNotEqual(null, property1.ShouldSerialize);
@@ -715,9 +715,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void NonGenericDictionary_KeyValueTypes()
         {
-            DefaultContractResolver resolver = new DefaultContractResolver();
+            var resolver = new DefaultContractResolver();
 
-            JsonDictionaryContract c = (JsonDictionaryContract)resolver.ResolveContract(typeof(IDictionary));
+            var c = (JsonDictionaryContract)resolver.ResolveContract(typeof(IDictionary));
 
             Assert.IsNull(c.DictionaryKeyType);
             Assert.IsNull(c.DictionaryValueType);
@@ -726,10 +726,10 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DefaultContractResolverIgnoreIsSpecifiedTrue()
         {
-            DefaultContractResolver resolver = new DefaultContractResolver();
+            var resolver = new DefaultContractResolver();
             resolver.IgnoreIsSpecifiedMembers = true;
 
-            JsonObjectContract contract = (JsonObjectContract)resolver.ResolveContract(typeof(ClassWithIsSpecified));
+            var contract = (JsonObjectContract)resolver.ResolveContract(typeof(ClassWithIsSpecified));
 
             var property1 = contract.Properties["Prop1"];
             Assert.AreEqual(null, property1.GetIsSpecified);
@@ -755,9 +755,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DefaultContractResolverIgnoreIsSpecifiedUnset()
         {
-            DefaultContractResolver resolver = new DefaultContractResolver();
+            var resolver = new DefaultContractResolver();
 
-            JsonObjectContract contract = (JsonObjectContract)resolver.ResolveContract(typeof(ClassWithIsSpecified));
+            var contract = (JsonObjectContract)resolver.ResolveContract(typeof(ClassWithIsSpecified));
 
             var property1 = contract.Properties["Prop1"];
             Assert.AreNotEqual(null, property1.GetIsSpecified);
@@ -783,9 +783,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void JsonRequiredAttribute()
         {
-            DefaultContractResolver resolver = new DefaultContractResolver();
+            var resolver = new DefaultContractResolver();
 
-            JsonObjectContract contract = (JsonObjectContract)resolver.ResolveContract(typeof(RequiredPropertyTestClass));
+            var contract = (JsonObjectContract)resolver.ResolveContract(typeof(RequiredPropertyTestClass));
 
             var property1 = contract.Properties["Name"];
 
@@ -796,9 +796,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void JsonPropertyAttribute_Required()
         {
-            DefaultContractResolver resolver = new DefaultContractResolver();
+            var resolver = new DefaultContractResolver();
 
-            JsonObjectContract contract = (JsonObjectContract)resolver.ResolveContract(typeof(RequiredObject));
+            var contract = (JsonObjectContract)resolver.ResolveContract(typeof(RequiredObject));
 
             var unset = contract.Properties["UnsetProperty"];
 
@@ -814,9 +814,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void InternalConverter_Object_NotSet()
         {
-            DefaultContractResolver resolver = new DefaultContractResolver();
+            var resolver = new DefaultContractResolver();
 
-            JsonObjectContract contract = (JsonObjectContract)resolver.ResolveContract(typeof(object));
+            var contract = (JsonObjectContract)resolver.ResolveContract(typeof(object));
 
             Assert.IsNull(contract.InternalConverter);
         }
@@ -824,9 +824,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void InternalConverter_Regex_Set()
         {
-            DefaultContractResolver resolver = new DefaultContractResolver();
+            var resolver = new DefaultContractResolver();
 
-            JsonContract contract = resolver.ResolveContract(typeof(Regex));
+            var contract = resolver.ResolveContract(typeof(Regex));
 
             Assert.IsInstanceOf(typeof(RegexConverter), contract.InternalConverter);
         }

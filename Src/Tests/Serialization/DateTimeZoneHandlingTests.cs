@@ -44,27 +44,27 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeObject()
         {
-            string json = @"
+            var json = @"
   {
     ""Value"": ""2017-12-05T21:59:00""
   }";
 
-            DateTimeWrapper c1 = JsonConvert.DeserializeObject<DateTimeWrapper>(json, new JsonSerializerSettings()
+            var c1 = JsonConvert.DeserializeObject<DateTimeWrapper>(json, new JsonSerializerSettings()
             {
                 DateTimeZoneHandling = DateTimeZoneHandling.Utc
             });
 
-            DateTimeWrapper c2 = JsonConvert.DeserializeObject<DateTimeWrapper>(json, new JsonSerializerSettings()
+            var c2 = JsonConvert.DeserializeObject<DateTimeWrapper>(json, new JsonSerializerSettings()
             {
                 DateTimeZoneHandling = DateTimeZoneHandling.Local
             });
 
-            DateTimeWrapper c3 = JsonConvert.DeserializeObject<DateTimeWrapper>(json, new JsonSerializerSettings()
+            var c3 = JsonConvert.DeserializeObject<DateTimeWrapper>(json, new JsonSerializerSettings()
             {
                 DateTimeZoneHandling = DateTimeZoneHandling.Unspecified
             });
 
-            DateTimeWrapper c4 = JsonConvert.DeserializeObject<DateTimeWrapper>(json);
+            var c4 = JsonConvert.DeserializeObject<DateTimeWrapper>(json);
 
             Assert.AreEqual(DateTimeKind.Utc, c1.Value.Kind);
             Assert.AreEqual(DateTimeKind.Local, c2.Value.Kind);
@@ -75,29 +75,29 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeFromJObject()
         {
-            string json = @"
+            var json = @"
   {
     ""Value"": ""2017-12-05T21:59:00""
   }";
 
-            JObject jo = JObject.Parse(json);
+            var jo = JObject.Parse(json);
 
-            DateTimeWrapper c1 = jo.ToObject<DateTimeWrapper>(JsonSerializer.Create(new JsonSerializerSettings
+            var c1 = jo.ToObject<DateTimeWrapper>(JsonSerializer.Create(new JsonSerializerSettings
             {
                 DateTimeZoneHandling = DateTimeZoneHandling.Utc
             }));
 
-            DateTimeWrapper c2 = jo.ToObject<DateTimeWrapper>(JsonSerializer.Create(new JsonSerializerSettings
+            var c2 = jo.ToObject<DateTimeWrapper>(JsonSerializer.Create(new JsonSerializerSettings
             {
                 DateTimeZoneHandling = DateTimeZoneHandling.Local
             }));
 
-            DateTimeWrapper c3 = jo.ToObject<DateTimeWrapper>(JsonSerializer.Create(new JsonSerializerSettings
+            var c3 = jo.ToObject<DateTimeWrapper>(JsonSerializer.Create(new JsonSerializerSettings
             {
                 DateTimeZoneHandling = DateTimeZoneHandling.Unspecified
             }));
 
-            DateTimeWrapper c4 = jo.ToObject<DateTimeWrapper>();
+            var c4 = jo.ToObject<DateTimeWrapper>();
 
             Assert.AreEqual(DateTimeKind.Utc, c1.Value.Kind);
             Assert.AreEqual(DateTimeKind.Local, c2.Value.Kind);

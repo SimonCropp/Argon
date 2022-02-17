@@ -43,15 +43,15 @@ namespace Argon.Tests.Linq
         [Fact]
         public async Task CommentsAndReadFromAsync()
         {
-            StringReader textReader = new StringReader(@"[
+            var textReader = new StringReader(@"[
     // hi
     1,
     2,
     3
 ]");
 
-            JsonTextReader jsonReader = new JsonTextReader(textReader);
-            JArray a = (JArray)await JToken.ReadFromAsync(jsonReader, new JsonLoadSettings
+            var jsonReader = new JsonTextReader(textReader);
+            var a = (JArray)await JToken.ReadFromAsync(jsonReader, new JsonLoadSettings
             {
                 CommentHandling = CommentHandling.Load
             });
@@ -64,15 +64,15 @@ namespace Argon.Tests.Linq
         [Fact]
         public async Task CommentsAndReadFrom_IgnoreCommentsAsync()
         {
-            StringReader textReader = new StringReader(@"[
+            var textReader = new StringReader(@"[
     // hi
     1,
     2,
     3
 ]");
 
-            JsonTextReader jsonReader = new JsonTextReader(textReader);
-            JArray a = (JArray)await JToken.ReadFromAsync(jsonReader);
+            var jsonReader = new JsonTextReader(textReader);
+            var a = (JArray)await JToken.ReadFromAsync(jsonReader);
 
             Assert.AreEqual(3, a.Count);
             Assert.AreEqual(JTokenType.Integer, a[0].Type);
@@ -82,7 +82,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public async Task StartingCommentAndReadFromAsync()
         {
-            StringReader textReader = new StringReader(@"
+            var textReader = new StringReader(@"
 // hi
 [
     1,
@@ -90,8 +90,8 @@ namespace Argon.Tests.Linq
     3
 ]");
 
-            JsonTextReader jsonReader = new JsonTextReader(textReader);
-            JValue v = (JValue)await JToken.ReadFromAsync(jsonReader, new JsonLoadSettings
+            var jsonReader = new JsonTextReader(textReader);
+            var v = (JValue)await JToken.ReadFromAsync(jsonReader, new JsonLoadSettings
             {
                 CommentHandling = CommentHandling.Load
             });
@@ -107,7 +107,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public async Task StartingCommentAndReadFrom_IgnoreCommentsAsync()
         {
-            StringReader textReader = new StringReader(@"
+            var textReader = new StringReader(@"
 // hi
 [
     1,
@@ -115,8 +115,8 @@ namespace Argon.Tests.Linq
     3
 ]");
 
-            JsonTextReader jsonReader = new JsonTextReader(textReader);
-            JArray a = (JArray)await JToken.ReadFromAsync(jsonReader, new JsonLoadSettings
+            var jsonReader = new JsonTextReader(textReader);
+            var a = (JArray)await JToken.ReadFromAsync(jsonReader, new JsonLoadSettings
             {
                 CommentHandling = CommentHandling.Ignore
             });
@@ -132,7 +132,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public async Task StartingUndefinedAndReadFromAsync()
         {
-            StringReader textReader = new StringReader(@"
+            var textReader = new StringReader(@"
 undefined
 [
     1,
@@ -140,8 +140,8 @@ undefined
     3
 ]");
 
-            JsonTextReader jsonReader = new JsonTextReader(textReader);
-            JValue v = (JValue)await JToken.ReadFromAsync(jsonReader);
+            var jsonReader = new JsonTextReader(textReader);
+            var v = (JValue)await JToken.ReadFromAsync(jsonReader);
 
             Assert.AreEqual(JTokenType.Undefined, v.Type);
 
@@ -154,9 +154,9 @@ undefined
         [Fact]
         public async Task StartingEndArrayAndReadFromAsync()
         {
-            StringReader textReader = new StringReader(@"[]");
+            var textReader = new StringReader(@"[]");
 
-            JsonTextReader jsonReader = new JsonTextReader(textReader);
+            var jsonReader = new JsonTextReader(textReader);
             await jsonReader.ReadAsync();
             await jsonReader.ReadAsync();
 

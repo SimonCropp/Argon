@@ -43,12 +43,12 @@ namespace Argon.Tests.TestObjects
 
         public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
         {
-            string str = value as string;
+            var str = value as string;
             if (str == null)
             {
                 return base.ConvertFrom(context, culture, value);
             }
-            string str2 = str.Trim();
+            var str2 = str.Trim();
             if (str2.Length == 0)
             {
                 return null;
@@ -57,10 +57,10 @@ namespace Argon.Tests.TestObjects
             {
                 culture = CultureInfo.CurrentCulture;
             }
-            string[] strArray = str2.Split(',');
-            int[] numArray = new int[strArray.Length];
-            TypeConverter converter = TypeDescriptor.GetConverter(typeof(int));
-            for (int i = 0; i < numArray.Length; i++)
+            var strArray = str2.Split(',');
+            var numArray = new int[strArray.Length];
+            var converter = TypeDescriptor.GetConverter(typeof(int));
+            for (var i = 0; i < numArray.Length; i++)
             {
                 numArray[i] = (int)converter.ConvertFromString(context, culture, strArray[i]);
             }
@@ -82,14 +82,14 @@ namespace Argon.Tests.TestObjects
             {
                 if (destinationType == typeof(string))
                 {
-                    TypeConverterSize size = (TypeConverterSize)value;
+                    var size = (TypeConverterSize)value;
                     if (culture == null)
                     {
                         culture = CultureInfo.CurrentCulture;
                     }
-                    TypeConverter converter = TypeDescriptor.GetConverter(typeof(int));
-                    string[] strArray = new string[2];
-                    int num = 0;
+                    var converter = TypeDescriptor.GetConverter(typeof(int));
+                    var strArray = new string[2];
+                    var num = 0;
                     strArray[num++] = converter.ConvertToString(context, culture, size.Width);
                     strArray[num++] = converter.ConvertToString(context, culture, size.Height);
                     return string.Join(", ", strArray);

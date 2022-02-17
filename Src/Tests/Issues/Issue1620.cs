@@ -48,20 +48,20 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test_SerializeMock()
         {
-            Mock<IFoo> mock = new Mock<IFoo>();
-            IFoo foo = mock.Object;
+            var mock = new Mock<IFoo>();
+            var foo = mock.Object;
 
-            string json = JsonConvert.SerializeObject(foo, new JsonSerializerSettings() { Converters = { new FooConverter() } });
+            var json = JsonConvert.SerializeObject(foo, new JsonSerializerSettings() { Converters = { new FooConverter() } });
             Assert.AreEqual(@"""foo""", json);
         }
 
         [Fact]
         public void Test_GetFieldsAndProperties()
         {
-            Mock<IFoo> mock = new Mock<IFoo>();
-            IFoo foo = mock.Object;
+            var mock = new Mock<IFoo>();
+            var foo = mock.Object;
 
-            List<MemberInfo> properties = ReflectionUtils.GetFieldsAndProperties(foo.GetType(), BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).ToList();
+            var properties = ReflectionUtils.GetFieldsAndProperties(foo.GetType(), BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).ToList();
 
             Assert.AreEqual(1, properties.Count(p => p.Name == "Mock"));
         }

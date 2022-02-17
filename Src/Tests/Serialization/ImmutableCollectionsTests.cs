@@ -43,14 +43,14 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeList()
         {
-            ImmutableList<string> l = ImmutableList.CreateRange(new List<string>
+            var l = ImmutableList.CreateRange(new List<string>
             {
                 "One",
                 "II",
                 "3"
             });
 
-            string json = JsonConvert.SerializeObject(l, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(l, Formatting.Indented);
             StringAssert.AreEqual(@"[
   ""One"",
   ""II"",
@@ -61,13 +61,13 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeList()
         {
-            string json = @"[
+            var json = @"[
   ""One"",
   ""II"",
   ""3""
 ]";
 
-            ImmutableList<string> l = JsonConvert.DeserializeObject<ImmutableList<string>>(json);
+            var l = JsonConvert.DeserializeObject<ImmutableList<string>>(json);
 
             Assert.AreEqual(3, l.Count);
             Assert.AreEqual("One", l[0]);
@@ -78,14 +78,14 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeListInterface()
         {
-            string json = @"[
+            var json = @"[
         'Volibear',
         'Teemo',
         'Katarina'
       ]";
 
             // what sorcery is this?!
-            IImmutableList<string> champions = JsonConvert.DeserializeObject<IImmutableList<string>>(json);
+            var champions = JsonConvert.DeserializeObject<IImmutableList<string>>(json);
 
             Assert.AreEqual(3, champions.Count);
             Assert.AreEqual("Volibear", champions[0]);
@@ -98,14 +98,14 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeArray()
         {
-            ImmutableArray<string> l = ImmutableArray.CreateRange(new List<string>
+            var l = ImmutableArray.CreateRange(new List<string>
             {
                 "One",
                 "II",
                 "3"
             });
 
-            string json = JsonConvert.SerializeObject(l, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(l, Formatting.Indented);
             StringAssert.AreEqual(@"[
   ""One"",
   ""II"",
@@ -116,13 +116,13 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeArray()
         {
-            string json = @"[
+            var json = @"[
           ""One"",
           ""II"",
           ""3""
         ]";
 
-            ImmutableArray<string> l = JsonConvert.DeserializeObject<ImmutableArray<string>>(json);
+            var l = JsonConvert.DeserializeObject<ImmutableArray<string>>(json);
 
             Assert.AreEqual(3, l.Length);
             Assert.AreEqual("One", l[0]);
@@ -143,14 +143,14 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeQueue()
         {
-            ImmutableQueue<string> l = ImmutableQueue.CreateRange(new List<string>
+            var l = ImmutableQueue.CreateRange(new List<string>
             {
                 "One",
                 "II",
                 "3"
             });
 
-            string json = JsonConvert.SerializeObject(l, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(l, Formatting.Indented);
             StringAssert.AreEqual(@"[
   ""One"",
   ""II"",
@@ -161,13 +161,13 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeQueue()
         {
-            string json = @"[
+            var json = @"[
   ""One"",
   ""II"",
   ""3""
 ]";
 
-            ImmutableQueue<string> l = JsonConvert.DeserializeObject<ImmutableQueue<string>>(json);
+            var l = JsonConvert.DeserializeObject<ImmutableQueue<string>>(json);
 
             Assert.AreEqual(3, l.Count());
             Assert.AreEqual("One", l.ElementAt(0));
@@ -178,13 +178,13 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeQueueInterface()
         {
-            string json = @"[
+            var json = @"[
   ""One"",
   ""II"",
   ""3""
 ]";
 
-            IImmutableQueue<string> l = JsonConvert.DeserializeObject<IImmutableQueue<string>>(json);
+            var l = JsonConvert.DeserializeObject<IImmutableQueue<string>>(json);
 
             Assert.AreEqual(3, l.Count());
             Assert.AreEqual("One", l.ElementAt(0));
@@ -197,14 +197,14 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeStack()
         {
-            ImmutableStack<string> l = ImmutableStack.CreateRange(new List<string>
+            var l = ImmutableStack.CreateRange(new List<string>
             {
                 "One",
                 "II",
                 "3"
             });
 
-            string json = JsonConvert.SerializeObject(l, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(l, Formatting.Indented);
             StringAssert.AreEqual(@"[
   ""3"",
   ""II"",
@@ -215,13 +215,13 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeStack()
         {
-            string json = @"[
+            var json = @"[
   ""One"",
   ""II"",
   ""3""
 ]";
 
-            ImmutableStack<string> l = JsonConvert.DeserializeObject<ImmutableStack<string>>(json);
+            var l = JsonConvert.DeserializeObject<ImmutableStack<string>>(json);
 
             Assert.AreEqual(3, l.Count());
             Assert.AreEqual("3", l.ElementAt(0));
@@ -232,13 +232,13 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeStackInterface()
         {
-            string json = @"[
+            var json = @"[
   ""One"",
   ""II"",
   ""3""
 ]";
 
-            IImmutableStack<string> l = JsonConvert.DeserializeObject<IImmutableStack<string>>(json);
+            var l = JsonConvert.DeserializeObject<IImmutableStack<string>>(json);
 
             Assert.AreEqual(3, l.Count());
             Assert.AreEqual("3", l.ElementAt(0));
@@ -251,16 +251,16 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeHashSet()
         {
-            ImmutableHashSet<string> l = ImmutableHashSet.CreateRange(new List<string>
+            var l = ImmutableHashSet.CreateRange(new List<string>
             {
                 "One",
                 "II",
                 "3"
             });
 
-            string json = JsonConvert.SerializeObject(l, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(l, Formatting.Indented);
 
-            JArray a = JArray.Parse(json);
+            var a = JArray.Parse(json);
             Assert.AreEqual(3, a.Count);
             Assert.IsTrue(a.Any(t => t.DeepEquals("One")));
             Assert.IsTrue(a.Any(t => t.DeepEquals("II")));
@@ -270,13 +270,13 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeHashSet()
         {
-            string json = @"[
+            var json = @"[
   ""One"",
   ""II"",
   ""3""
 ]";
 
-            ImmutableHashSet<string> l = JsonConvert.DeserializeObject<ImmutableHashSet<string>>(json);
+            var l = JsonConvert.DeserializeObject<ImmutableHashSet<string>>(json);
 
             Assert.AreEqual(3, l.Count());
             Assert.IsTrue(l.Contains("3"));
@@ -287,13 +287,13 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeHashSetInterface()
         {
-            string json = @"[
+            var json = @"[
   ""One"",
   ""II"",
   ""3""
 ]";
 
-            IImmutableSet<string> l = JsonConvert.DeserializeObject<IImmutableSet<string>>(json);
+            var l = JsonConvert.DeserializeObject<IImmutableSet<string>>(json);
 
             Assert.AreEqual(3, l.Count());
             Assert.IsTrue(l.Contains("3"));
@@ -308,14 +308,14 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeSortedSet()
         {
-            ImmutableSortedSet<string> l = ImmutableSortedSet.CreateRange(new List<string>
+            var l = ImmutableSortedSet.CreateRange(new List<string>
             {
                 "One",
                 "II",
                 "3"
             });
 
-            string json = JsonConvert.SerializeObject(l, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(l, Formatting.Indented);
             StringAssert.AreEqual(@"[
   ""3"",
   ""II"",
@@ -326,13 +326,13 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeSortedSet()
         {
-            string json = @"[
+            var json = @"[
   ""One"",
   ""II"",
   ""3""
 ]";
 
-            ImmutableSortedSet<string> l = JsonConvert.DeserializeObject<ImmutableSortedSet<string>>(json);
+            var l = JsonConvert.DeserializeObject<ImmutableSortedSet<string>>(json);
 
             Assert.AreEqual(3, l.Count());
             Assert.IsTrue(l.Contains("3"));
@@ -345,15 +345,15 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeDictionary()
         {
-            ImmutableDictionary<int, string> l = ImmutableDictionary.CreateRange(new Dictionary<int, string>
+            var l = ImmutableDictionary.CreateRange(new Dictionary<int, string>
             {
                 { 1, "One" },
                 { 2, "II" },
                 { 3, "3" }
             });
 
-            string json = JsonConvert.SerializeObject(l, Formatting.Indented);
-            JObject a = JObject.Parse(json);
+            var json = JsonConvert.SerializeObject(l, Formatting.Indented);
+            var a = JObject.Parse(json);
             Assert.AreEqual(3, a.Count);
             Assert.AreEqual("One", (string)a["1"]);
             Assert.AreEqual("II", (string)a["2"]);
@@ -363,13 +363,13 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeDictionary()
         {
-            string json = @"{
+            var json = @"{
   ""1"": ""One"",
   ""2"": ""II"",
   ""3"": ""3""
 }";
 
-            ImmutableDictionary<int, string> l = JsonConvert.DeserializeObject<ImmutableDictionary<int, string>>(json);
+            var l = JsonConvert.DeserializeObject<ImmutableDictionary<int, string>>(json);
 
             Assert.AreEqual(3, l.Count);
             Assert.AreEqual("One", l[1]);
@@ -380,13 +380,13 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeDictionaryInterface()
         {
-            string json = @"{
+            var json = @"{
   ""1"": ""One"",
   ""2"": ""II"",
   ""3"": ""3""
 }";
 
-            IImmutableDictionary<int, string> l = JsonConvert.DeserializeObject<IImmutableDictionary<int, string>>(json);
+            var l = JsonConvert.DeserializeObject<IImmutableDictionary<int, string>>(json);
 
             Assert.AreEqual(3, l.Count);
             Assert.AreEqual("One", l[1]);
@@ -401,14 +401,14 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeSortedDictionary()
         {
-            ImmutableSortedDictionary<int, string> l = ImmutableSortedDictionary.CreateRange(new SortedDictionary<int, string>
+            var l = ImmutableSortedDictionary.CreateRange(new SortedDictionary<int, string>
             {
                 { 1, "One" },
                 { 2, "II" },
                 { 3, "3" }
             });
 
-            string json = JsonConvert.SerializeObject(l, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(l, Formatting.Indented);
             StringAssert.AreEqual(@"{
   ""1"": ""One"",
   ""2"": ""II"",
@@ -419,13 +419,13 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeSortedDictionary()
         {
-            string json = @"{
+            var json = @"{
   ""1"": ""One"",
   ""2"": ""II"",
   ""3"": ""3""
 }";
 
-            ImmutableSortedDictionary<int, string> l = JsonConvert.DeserializeObject<ImmutableSortedDictionary<int, string>>(json);
+            var l = JsonConvert.DeserializeObject<ImmutableSortedDictionary<int, string>>(json);
 
             Assert.AreEqual(3, l.Count);
             Assert.AreEqual("One", l[1]);

@@ -44,7 +44,7 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test()
         {
-            string json = JsonConvert.SerializeObject(CreateModel());
+            var json = JsonConvert.SerializeObject(CreateModel());
             Assert.AreEqual(@"{""Specific"":2,""A"":1}", json);
         }
 

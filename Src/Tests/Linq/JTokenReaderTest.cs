@@ -46,7 +46,7 @@ namespace Argon.Tests.Linq
         {
             var jObject = JObject.Parse("{ maxValue:10000000000000000000}");
 
-            JsonReader reader = jObject.CreateReader();
+            var reader = jObject.CreateReader();
             Assert.IsTrue(reader.Read());
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(10000000000000000000d, reader.ReadAsDouble());
@@ -58,7 +58,7 @@ namespace Argon.Tests.Linq
         {
             var jObject = JObject.Parse("{ maxValue:10000000000000000000}");
 
-            JsonReader reader = jObject.CreateReader();
+            var reader = jObject.CreateReader();
             Assert.IsTrue(reader.Read());
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(10000000000000000000m, reader.ReadAsDecimal());
@@ -68,11 +68,11 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ErrorTokenIndex()
         {
-            JObject json = JObject.Parse(@"{""IntList"":[1, ""two""]}");
+            var json = JObject.Parse(@"{""IntList"":[1, ""two""]}");
 
             ExceptionAssert.Throws<Exception>(() =>
             {
-                JsonSerializer serializer = new JsonSerializer();
+                var serializer = new JsonSerializer();
 
                 serializer.Deserialize<TraceTestObject>(json.CreateReader());
             }, "Could not convert string to integer: two. Path 'IntList[1]', line 1, position 20.");
@@ -81,7 +81,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void YahooFinance()
         {
-            JObject o =
+            var o =
                 new JObject(
                     new JProperty("Test1", new DateTime(2000, 10, 15, 5, 5, 5, DateTimeKind.Utc)),
                     new JProperty("Test2", new DateTimeOffset(2000, 10, 15, 5, 5, 5, new TimeSpan(11, 11, 0))),
@@ -89,7 +89,7 @@ namespace Argon.Tests.Linq
                     new JProperty("Test4", null)
                     );
 
-            using (JTokenReader jsonReader = new JTokenReader(o))
+            using (var jsonReader = new JTokenReader(o))
             {
                 IJsonLineInfo lineInfo = jsonReader;
 
@@ -158,11 +158,11 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsDateTimeOffsetBadString()
         {
-            string json = @"{""Offset"":""blablahbla""}";
+            var json = @"{""Offset"":""blablahbla""}";
 
-            JObject o = JObject.Parse(json);
+            var o = JObject.Parse(json);
 
-            JsonReader reader = o.CreateReader();
+            var reader = o.CreateReader();
 
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
@@ -176,11 +176,11 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsDateTimeOffsetBoolean()
         {
-            string json = @"{""Offset"":true}";
+            var json = @"{""Offset"":true}";
 
-            JObject o = JObject.Parse(json);
+            var o = JObject.Parse(json);
 
-            JsonReader reader = o.CreateReader();
+            var reader = o.CreateReader();
 
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
@@ -194,11 +194,11 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsDateTimeOffsetString()
         {
-            string json = @"{""Offset"":""2012-01-24T03:50Z""}";
+            var json = @"{""Offset"":""2012-01-24T03:50Z""}";
 
-            JObject o = JObject.Parse(json);
+            var o = JObject.Parse(json);
 
-            JsonReader reader = o.CreateReader();
+            var reader = o.CreateReader();
 
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
@@ -215,7 +215,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadLineInfo()
         {
-            string input = @"{
+            var input = @"{
   CPU: 'Intel',
   Drives: [
     'DVD read/writer',
@@ -223,9 +223,9 @@ namespace Argon.Tests.Linq
   ]
 }";
 
-            JObject o = JObject.Parse(input);
+            var o = JObject.Parse(input);
 
-            using (JTokenReader jsonReader = new JTokenReader(o))
+            using (var jsonReader = new JTokenReader(o))
             {
                 IJsonLineInfo lineInfo = jsonReader;
 
@@ -316,14 +316,14 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadBytes()
         {
-            byte[] data = Encoding.UTF8.GetBytes("Hello world!");
+            var data = Encoding.UTF8.GetBytes("Hello world!");
 
-            JObject o =
+            var o =
                 new JObject(
                     new JProperty("Test1", data)
                     );
 
-            using (JTokenReader jsonReader = new JTokenReader(o))
+            using (var jsonReader = new JTokenReader(o))
             {
                 jsonReader.Read();
                 Assert.AreEqual(JsonToken.StartObject, jsonReader.TokenType);
@@ -332,7 +332,7 @@ namespace Argon.Tests.Linq
                 Assert.AreEqual(JsonToken.PropertyName, jsonReader.TokenType);
                 Assert.AreEqual("Test1", jsonReader.Value);
 
-                byte[] readBytes = jsonReader.ReadAsBytes();
+                var readBytes = jsonReader.ReadAsBytes();
                 Assert.AreEqual(data, readBytes);
 
                 Assert.IsTrue(jsonReader.Read());
@@ -348,12 +348,12 @@ namespace Argon.Tests.Linq
         {
             ExceptionAssert.Throws<JsonReaderException>(() =>
             {
-                JObject o =
+                var o =
                     new JObject(
                         new JProperty("Test1", 1)
                         );
 
-                using (JTokenReader jsonReader = new JTokenReader(o))
+                using (var jsonReader = new JTokenReader(o))
                 {
                     jsonReader.Read();
                     Assert.AreEqual(JsonToken.StartObject, jsonReader.TokenType);
@@ -418,32 +418,32 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsBytesNull()
         {
-            JsonSerializer s = new JsonSerializer();
+            var s = new JsonSerializer();
 
-            JToken nullToken = JToken.ReadFrom(new JsonTextReader(new StringReader("{ Data: null }")));
-            ReadAsBytesTestObject x = s.Deserialize<ReadAsBytesTestObject>(new JTokenReader(nullToken));
+            var nullToken = JToken.ReadFrom(new JsonTextReader(new StringReader("{ Data: null }")));
+            var x = s.Deserialize<ReadAsBytesTestObject>(new JTokenReader(nullToken));
             Assert.IsNull(x.Data);
         }
 
         [Fact]
         public void DeserializeByteArrayWithTypeNameHandling()
         {
-            TestObject test = new TestObject("Test", new byte[] { 72, 63, 62, 71, 92, 55 });
+            var test = new TestObject("Test", new byte[] { 72, 63, 62, 71, 92, 55 });
 
-            string json = JsonConvert.SerializeObject(test, Formatting.Indented, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(test, Formatting.Indented, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.All
             });
 
-            JObject o = JObject.Parse(json);
+            var o = JObject.Parse(json);
 
-            JsonSerializer serializer = new JsonSerializer();
+            var serializer = new JsonSerializer();
             serializer.TypeNameHandling = TypeNameHandling.All;
 
-            using (JsonReader nodeReader = o.CreateReader())
+            using (var nodeReader = o.CreateReader())
             {
                 // Get exception here
-                TestObject newObject = (TestObject)serializer.Deserialize(nodeReader);
+                var newObject = (TestObject)serializer.Deserialize(nodeReader);
 
                 Assert.AreEqual("Test", newObject.Name);
                 CollectionAssert.AreEquivalent(new byte[] { 72, 63, 62, 71, 92, 55 }, newObject.Data);
@@ -453,18 +453,18 @@ namespace Argon.Tests.Linq
         [Fact]
         public void DeserializeStringInt()
         {
-            string json = @"{
+            var json = @"{
   ""PreProperty"": ""99"",
   ""PostProperty"": ""-1""
 }";
 
-            JObject o = JObject.Parse(json);
+            var o = JObject.Parse(json);
 
-            JsonSerializer serializer = new JsonSerializer();
+            var serializer = new JsonSerializer();
 
-            using (JsonReader nodeReader = o.CreateReader())
+            using (var nodeReader = o.CreateReader())
             {
-                MyClass c = serializer.Deserialize<MyClass>(nodeReader);
+                var c = serializer.Deserialize<MyClass>(nodeReader);
 
                 Assert.AreEqual(99, c.PreProperty);
                 Assert.AreEqual(-1, c.PostProperty);
@@ -474,11 +474,11 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsDecimalInt()
         {
-            string json = @"{""Name"":1}";
+            var json = @"{""Name"":1}";
 
-            JObject o = JObject.Parse(json);
+            var o = JObject.Parse(json);
 
-            JsonReader reader = o.CreateReader();
+            var reader = o.CreateReader();
 
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
@@ -495,11 +495,11 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsInt32Int()
         {
-            string json = @"{""Name"":1}";
+            var json = @"{""Name"":1}";
 
-            JObject o = JObject.Parse(json);
+            var o = JObject.Parse(json);
 
-            JTokenReader reader = (JTokenReader)o.CreateReader();
+            var reader = (JTokenReader)o.CreateReader();
 
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
@@ -519,11 +519,11 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsInt32BadString()
         {
-            string json = @"{""Name"":""hi""}";
+            var json = @"{""Name"":""hi""}";
 
-            JObject o = JObject.Parse(json);
+            var o = JObject.Parse(json);
 
-            JsonReader reader = o.CreateReader();
+            var reader = o.CreateReader();
 
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
@@ -537,11 +537,11 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsInt32Boolean()
         {
-            string json = @"{""Name"":true}";
+            var json = @"{""Name"":true}";
 
-            JObject o = JObject.Parse(json);
+            var o = JObject.Parse(json);
 
-            JsonReader reader = o.CreateReader();
+            var reader = o.CreateReader();
 
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
@@ -555,11 +555,11 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsDecimalString()
         {
-            string json = @"{""Name"":""1.1""}";
+            var json = @"{""Name"":""1.1""}";
 
-            JObject o = JObject.Parse(json);
+            var o = JObject.Parse(json);
 
-            JsonReader reader = o.CreateReader();
+            var reader = o.CreateReader();
 
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
@@ -576,11 +576,11 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsDecimalBadString()
         {
-            string json = @"{""Name"":""blah""}";
+            var json = @"{""Name"":""blah""}";
 
-            JObject o = JObject.Parse(json);
+            var o = JObject.Parse(json);
 
-            JsonReader reader = o.CreateReader();
+            var reader = o.CreateReader();
 
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
@@ -594,11 +594,11 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsDecimalBoolean()
         {
-            string json = @"{""Name"":true}";
+            var json = @"{""Name"":true}";
 
-            JObject o = JObject.Parse(json);
+            var o = JObject.Parse(json);
 
-            JsonReader reader = o.CreateReader();
+            var reader = o.CreateReader();
 
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
@@ -612,11 +612,11 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsDecimalNull()
         {
-            string json = @"{""Name"":null}";
+            var json = @"{""Name"":null}";
 
-            JObject o = JObject.Parse(json);
+            var o = JObject.Parse(json);
 
-            JsonReader reader = o.CreateReader();
+            var reader = o.CreateReader();
 
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
@@ -633,12 +633,12 @@ namespace Argon.Tests.Linq
         [Fact]
         public void InitialPath_PropertyBase_PropertyToken()
         {
-            JObject o = new JObject
+            var o = new JObject
             {
                 { "prop1", true }
             };
 
-            JTokenReader reader = new JTokenReader(o, "baseprop");
+            var reader = new JTokenReader(o, "baseprop");
 
             Assert.AreEqual("baseprop", reader.Path);
 
@@ -661,12 +661,12 @@ namespace Argon.Tests.Linq
         [Fact]
         public void InitialPath_ArrayBase_PropertyToken()
         {
-            JObject o = new JObject
+            var o = new JObject
             {
                 { "prop1", true }
             };
 
-            JTokenReader reader = new JTokenReader(o, "[0]");
+            var reader = new JTokenReader(o, "[0]");
 
             Assert.AreEqual("[0]", reader.Path);
 
@@ -689,12 +689,12 @@ namespace Argon.Tests.Linq
         [Fact]
         public void InitialPath_PropertyBase_ArrayToken()
         {
-            JArray a = new JArray
+            var a = new JArray
             {
                 1, 2
             };
 
-            JTokenReader reader = new JTokenReader(a, "baseprop");
+            var reader = new JTokenReader(a, "baseprop");
 
             Assert.AreEqual("baseprop", reader.Path);
 
@@ -717,12 +717,12 @@ namespace Argon.Tests.Linq
         [Fact]
         public void InitialPath_ArrayBase_ArrayToken()
         {
-            JArray a = new JArray
+            var a = new JArray
             {
                 1, 2
             };
 
-            JTokenReader reader = new JTokenReader(a, "[0]");
+            var reader = new JTokenReader(a, "[0]");
 
             Assert.AreEqual("[0]", reader.Path);
 
@@ -745,12 +745,12 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsDouble_InvalidToken()
         {
-            JArray a = new JArray
+            var a = new JArray
             {
                 1, 2
             };
 
-            JTokenReader reader = new JTokenReader(a);
+            var reader = new JTokenReader(a);
 
             ExceptionAssert.Throws<JsonReaderException>(
                 () => { reader.ReadAsDouble(); },
@@ -760,12 +760,12 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsBoolean_InvalidToken()
         {
-            JArray a = new JArray
+            var a = new JArray
             {
                 1, 2
             };
 
-            JTokenReader reader = new JTokenReader(a);
+            var reader = new JTokenReader(a);
 
             ExceptionAssert.Throws<JsonReaderException>(
                 () => { reader.ReadAsBoolean(); },
@@ -775,12 +775,12 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsDateTime_InvalidToken()
         {
-            JArray a = new JArray
+            var a = new JArray
             {
                 1, 2
             };
 
-            JTokenReader reader = new JTokenReader(a);
+            var reader = new JTokenReader(a);
 
             ExceptionAssert.Throws<JsonReaderException>(
                 () => { reader.ReadAsDateTime(); },
@@ -790,12 +790,12 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsDateTimeOffset_InvalidToken()
         {
-            JArray a = new JArray
+            var a = new JArray
             {
                 1, 2
             };
 
-            JTokenReader reader = new JTokenReader(a);
+            var reader = new JTokenReader(a);
 
             ExceptionAssert.Throws<JsonReaderException>(
                 () => { reader.ReadAsDateTimeOffset(); },
@@ -805,9 +805,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsDateTimeOffset_DateTime()
         {
-            JValue v = new JValue(new DateTime(2001, 12, 12, 12, 12, 12, DateTimeKind.Utc));
+            var v = new JValue(new DateTime(2001, 12, 12, 12, 12, 12, DateTimeKind.Utc));
 
-            JTokenReader reader = new JTokenReader(v);
+            var reader = new JTokenReader(v);
 
             Assert.AreEqual(new DateTimeOffset(2001, 12, 12, 12, 12, 12, TimeSpan.Zero), reader.ReadAsDateTimeOffset());
         }
@@ -815,9 +815,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsDateTimeOffset_String()
         {
-            JValue v = new JValue("2012-01-24T03:50Z");
+            var v = new JValue("2012-01-24T03:50Z");
 
-            JTokenReader reader = new JTokenReader(v);
+            var reader = new JTokenReader(v);
 
             Assert.AreEqual(new DateTimeOffset(2012, 1, 24, 3, 50, 0, TimeSpan.Zero), reader.ReadAsDateTimeOffset());
         }
@@ -825,9 +825,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsDateTime_DateTimeOffset()
         {
-            JValue v = new JValue(new DateTimeOffset(2012, 1, 24, 3, 50, 0, TimeSpan.Zero));
+            var v = new JValue(new DateTimeOffset(2012, 1, 24, 3, 50, 0, TimeSpan.Zero));
 
-            JTokenReader reader = new JTokenReader(v);
+            var reader = new JTokenReader(v);
 
             Assert.AreEqual(new DateTime(2012, 1, 24, 3, 50, 0, DateTimeKind.Utc), reader.ReadAsDateTime());
         }
@@ -835,9 +835,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsDateTime_String()
         {
-            JValue v = new JValue("2012-01-24T03:50Z");
+            var v = new JValue("2012-01-24T03:50Z");
 
-            JTokenReader reader = new JTokenReader(v);
+            var reader = new JTokenReader(v);
 
             Assert.AreEqual(new DateTime(2012, 1, 24, 3, 50, 0, DateTimeKind.Utc), reader.ReadAsDateTime());
         }
@@ -845,9 +845,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsDouble_String_Success()
         {
-            JValue s = JValue.CreateString("123.4");
+            var s = JValue.CreateString("123.4");
 
-            JTokenReader reader = new JTokenReader(s);
+            var reader = new JTokenReader(s);
 
             Assert.AreEqual(123.4d, reader.ReadAsDouble());
         }
@@ -855,9 +855,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsDouble_Null_Success()
         {
-            JValue n = JValue.CreateNull();
+            var n = JValue.CreateNull();
 
-            JTokenReader reader = new JTokenReader(n);
+            var reader = new JTokenReader(n);
 
             Assert.AreEqual(null, reader.ReadAsDouble());
         }
@@ -865,9 +865,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsDouble_Integer_Success()
         {
-            JValue n = new JValue(1);
+            var n = new JValue(1);
 
-            JTokenReader reader = new JTokenReader(n);
+            var reader = new JTokenReader(n);
 
             Assert.AreEqual(1d, reader.ReadAsDouble());
         }
@@ -875,9 +875,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsBoolean_BigInteger_Success()
         {
-            JValue s = new JValue(BigInteger.Parse("99999999999999999999999999999999999999999999999999999999999999999999999999"));
+            var s = new JValue(BigInteger.Parse("99999999999999999999999999999999999999999999999999999999999999999999999999"));
 
-            JTokenReader reader = new JTokenReader(s);
+            var reader = new JTokenReader(s);
 
             Assert.AreEqual(true, reader.ReadAsBoolean());
         }
@@ -885,9 +885,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsBoolean_String_Success()
         {
-            JValue s = JValue.CreateString("true");
+            var s = JValue.CreateString("true");
 
-            JTokenReader reader = new JTokenReader(s);
+            var reader = new JTokenReader(s);
 
             Assert.AreEqual(true, reader.ReadAsBoolean());
         }
@@ -895,9 +895,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsBoolean_Null_Success()
         {
-            JValue n = JValue.CreateNull();
+            var n = JValue.CreateNull();
 
-            JTokenReader reader = new JTokenReader(n);
+            var reader = new JTokenReader(n);
 
             Assert.AreEqual(null, reader.ReadAsBoolean());
         }
@@ -905,9 +905,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsBoolean_Integer_Success()
         {
-            JValue n = new JValue(1);
+            var n = new JValue(1);
 
-            JTokenReader reader = new JTokenReader(n);
+            var reader = new JTokenReader(n);
 
             Assert.AreEqual(true, reader.ReadAsBoolean());
         }
@@ -915,9 +915,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsDateTime_Null_Success()
         {
-            JValue n = JValue.CreateNull();
+            var n = JValue.CreateNull();
 
-            JTokenReader reader = new JTokenReader(n);
+            var reader = new JTokenReader(n);
 
             Assert.AreEqual(null, reader.ReadAsDateTime());
         }
@@ -925,9 +925,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsDateTimeOffset_Null_Success()
         {
-            JValue n = JValue.CreateNull();
+            var n = JValue.CreateNull();
 
-            JTokenReader reader = new JTokenReader(n);
+            var reader = new JTokenReader(n);
 
             Assert.AreEqual(null, reader.ReadAsDateTimeOffset());
         }
@@ -935,9 +935,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsString_Integer_Success()
         {
-            JValue n = new JValue(1);
+            var n = new JValue(1);
 
-            JTokenReader reader = new JTokenReader(n);
+            var reader = new JTokenReader(n);
 
             Assert.AreEqual("1", reader.ReadAsString());
         }
@@ -945,9 +945,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsString_Guid_Success()
         {
-            JValue n = new JValue(new Uri("http://www.test.com"));
+            var n = new JValue(new Uri("http://www.test.com"));
 
-            JTokenReader reader = new JTokenReader(n);
+            var reader = new JTokenReader(n);
 
             Assert.AreEqual("http://www.test.com", reader.ReadAsString());
         }
@@ -955,9 +955,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsBytes_Integer_Success()
         {
-            JValue n = JValue.CreateNull();
+            var n = JValue.CreateNull();
 
-            JTokenReader reader = new JTokenReader(n);
+            var reader = new JTokenReader(n);
 
             Assert.AreEqual(null, reader.ReadAsBytes());
         }
@@ -965,14 +965,14 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsBytes_Array()
         {
-            JArray a = new JArray
+            var a = new JArray
             {
                 1, 2
             };
 
-            JTokenReader reader = new JTokenReader(a);
+            var reader = new JTokenReader(a);
 
-            byte[] bytes = reader.ReadAsBytes();
+            var bytes = reader.ReadAsBytes();
 
             Assert.AreEqual(2, bytes.Length);
             Assert.AreEqual(1, bytes[0]);
@@ -982,9 +982,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadAsBytes_Null()
         {
-            JValue n = JValue.CreateNull();
+            var n = JValue.CreateNull();
 
-            JTokenReader reader = new JTokenReader(n);
+            var reader = new JTokenReader(n);
 
             Assert.AreEqual(null, reader.ReadAsBytes());
         }

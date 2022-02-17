@@ -37,9 +37,9 @@ namespace Argon.Tests.LinqToSql
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            Department department = (Department)value;
+            var department = (Department)value;
 
-            JObject o = new JObject();
+            var o = new JObject();
             o["DepartmentId"] = new JValue(department.DepartmentId.ToString());
             o["Name"] = new JValue(new string(department.Name.Reverse().ToArray()));
 
@@ -48,9 +48,9 @@ namespace Argon.Tests.LinqToSql
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            JObject o = JObject.Load(reader);
+            var o = JObject.Load(reader);
 
-            Department department = new Department();
+            var department = new Department();
             department.DepartmentId = new Guid((string)o["DepartmentId"]);
             department.Name = new string(((string)o["Name"]).Reverse().ToArray());
 

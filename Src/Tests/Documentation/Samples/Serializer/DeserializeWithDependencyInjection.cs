@@ -58,7 +58,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
                 // use Autofac to create types that have been registered with it
                 if (_container.IsRegistered(objectType))
                 {
-                    JsonObjectContract contract = ResolveContact(objectType);
+                    var contract = ResolveContact(objectType);
                     contract.DefaultCreator = () => _container.Resolve(objectType);
 
                     return contract;
@@ -73,7 +73,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
                 IComponentRegistration registration;
                 if (_container.ComponentRegistry.TryGetRegistration(new TypedService(objectType), out registration))
                 {
-                    Type viewType = (registration.Activator as ReflectionActivator)?.LimitType;
+                    var viewType = (registration.Activator as ReflectionActivator)?.LimitType;
                     if (viewType != null)
                     {
                         return base.CreateObjectContract(viewType);
@@ -112,23 +112,23 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            ContainerBuilder builder = new ContainerBuilder();
+            var builder = new ContainerBuilder();
             builder.RegisterType<TaskRepository>().As<ITaskRepository>();
             builder.RegisterType<TaskController>();
             builder.Register(c => new LogService(new DateTime(2000, 12, 12))).As<ILogger>();
 
-            IContainer container = builder.Build();
+            var container = builder.Build();
 
-            AutofacContractResolver contractResolver = new AutofacContractResolver(container);
+            var contractResolver = new AutofacContractResolver(container);
 
-            string json = @"{
+            var json = @"{
               'Logger': {
                 'Level':'Debug'
               }
             }";
 
             // ITaskRespository and ILogger constructor parameters are injected by Autofac 
-            TaskController controller = JsonConvert.DeserializeObject<TaskController>(json, new JsonSerializerSettings
+            var controller = JsonConvert.DeserializeObject<TaskController>(json, new JsonSerializerSettings
             {
                 ContractResolver = contractResolver
             });

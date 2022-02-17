@@ -52,14 +52,14 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            User user = new User
+            var user = new User
             {
                 FirstName = "Tom",
                 LastName = "Riddle",
                 SnakeRating = 10
             };
 
-            string json = JsonConvert.SerializeObject(user, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(user, Formatting.Indented);
 
             Console.WriteLine(json);
             // {

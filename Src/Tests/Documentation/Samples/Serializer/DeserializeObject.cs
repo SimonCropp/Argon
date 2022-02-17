@@ -49,7 +49,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            string json = @"{
+            var json = @"{
               'Email': 'james@example.com',
               'Active': true,
               'CreatedDate': '2013-01-20T00:00:00Z',
@@ -59,7 +59,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
               ]
             }";
 
-            Account account = JsonConvert.DeserializeObject<Account>(json);
+            var account = JsonConvert.DeserializeObject<Account>(json);
 
             Console.WriteLine(account.Email);
             // james@example.com

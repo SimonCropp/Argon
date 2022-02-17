@@ -156,7 +156,7 @@ namespace Argon.Tests.Serialization
             // use Autofac to create types that have been registered with it
             if (_container.IsRegistered(objectType))
             {
-                JsonObjectContract contract = ResolveContact(objectType);
+                var contract = ResolveContact(objectType);
                 contract.DefaultCreator = () => _container.Resolve(objectType);
 
                 return contract;
@@ -171,7 +171,7 @@ namespace Argon.Tests.Serialization
             IComponentRegistration registration;
             if (_container.ComponentRegistry.TryGetRegistration(new TypedService(objectType), out registration))
             {
-                Type viewType = (registration.Activator as ReflectionActivator)?.LimitType;
+                var viewType = (registration.Activator as ReflectionActivator)?.LimitType;
                 if (viewType != null)
                 {
                     return base.CreateObjectContract(viewType);
@@ -189,13 +189,13 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ResolveContractFromAutofac()
         {
-            ContainerBuilder builder = new ContainerBuilder();
+            var builder = new ContainerBuilder();
             builder.RegisterType<Company>().As<ICompany>();
-            IContainer container = builder.Build();
+            var container = builder.Build();
 
-            AutofacContractResolver resolver = new AutofacContractResolver(container);
+            var resolver = new AutofacContractResolver(container);
 
-            User user = JsonConvert.DeserializeObject<User>("{'company':{'company_name':'Company name!'}}", new JsonSerializerSettings
+            var user = JsonConvert.DeserializeObject<User>("{'company':{'company_name':'Company name!'}}", new JsonSerializerSettings
             {
                 ContractResolver = resolver
             });
@@ -206,9 +206,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void CreateObjectWithParameters()
         {
-            int count = 0;
+            var count = 0;
 
-            ContainerBuilder builder = new ContainerBuilder();
+            var builder = new ContainerBuilder();
             builder.RegisterType<TaskRepository>().As<ITaskRepository>();
             builder.RegisterType<TaskController>();
             builder.Register(c =>
@@ -217,11 +217,11 @@ namespace Argon.Tests.Serialization
                 return new LogManager(new DateTime(2000, 12, 12));
             }).As<ILogger>();
 
-            IContainer container = builder.Build();
+            var container = builder.Build();
 
-            AutofacContractResolver contractResolver = new AutofacContractResolver(container);
+            var contractResolver = new AutofacContractResolver(container);
 
-            TaskController controller = JsonConvert.DeserializeObject<TaskController>(@"{
+            var controller = JsonConvert.DeserializeObject<TaskController>(@"{
                 'Logger': {
                     'Level':'Debug'
                 }
@@ -242,9 +242,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void CreateObjectWithSettableParameter()
         {
-            int count = 0;
+            var count = 0;
 
-            ContainerBuilder builder = new ContainerBuilder();
+            var builder = new ContainerBuilder();
             builder.Register(c =>
             {
                 count++;
@@ -257,11 +257,11 @@ namespace Argon.Tests.Serialization
                 return new LogManager(new DateTime(2000, 12, 12));
             }).As<ILogger>();
 
-            IContainer container = builder.Build();
+            var container = builder.Build();
 
-            AutofacContractResolver contractResolver = new AutofacContractResolver(container);
+            var contractResolver = new AutofacContractResolver(container);
 
-            HasSettableProperty o = JsonConvert.DeserializeObject<HasSettableProperty>(@"{
+            var o = JsonConvert.DeserializeObject<HasSettableProperty>(@"{
                 'Logger': {
                     'Level': 'Debug'
                 },

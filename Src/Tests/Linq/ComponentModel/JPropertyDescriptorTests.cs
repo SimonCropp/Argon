@@ -36,10 +36,10 @@ namespace Argon.Tests.Linq.ComponentModel
         [Fact]
         public void GetValue()
         {
-            JObject o = JObject.Parse("{prop1:'12345!',prop2:[1,'two','III']}");
+            var o = JObject.Parse("{prop1:'12345!',prop2:[1,'two','III']}");
 
-            JPropertyDescriptor prop1 = new JPropertyDescriptor("prop1");
-            JPropertyDescriptor prop2 = new JPropertyDescriptor("prop2");
+            var prop1 = new JPropertyDescriptor("prop1");
+            var prop2 = new JPropertyDescriptor("prop2");
 
             Assert.AreEqual("12345!", ((JValue)prop1.GetValue(o)).Value);
             Assert.AreEqual(o["prop2"], prop2.GetValue(o));
@@ -48,7 +48,7 @@ namespace Argon.Tests.Linq.ComponentModel
         [Fact]
         public void GetValue_NullOwner_ReturnsNull()
         {
-            JPropertyDescriptor prop1 = new JPropertyDescriptor("prop1");
+            var prop1 = new JPropertyDescriptor("prop1");
 
             Assert.AreEqual(null, prop1.GetValue(null));
         }
@@ -56,9 +56,9 @@ namespace Argon.Tests.Linq.ComponentModel
         [Fact]
         public void SetValue()
         {
-            JObject o = JObject.Parse("{prop1:'12345!'}");
+            var o = JObject.Parse("{prop1:'12345!'}");
 
-            JPropertyDescriptor propertyDescriptor1 = new JPropertyDescriptor("prop1");
+            var propertyDescriptor1 = new JPropertyDescriptor("prop1");
 
             propertyDescriptor1.SetValue(o, "54321!");
 
@@ -68,7 +68,7 @@ namespace Argon.Tests.Linq.ComponentModel
         [Fact]
         public void SetValue_NullOwner_NoError()
         {
-            JPropertyDescriptor prop1 = new JPropertyDescriptor("prop1");
+            var prop1 = new JPropertyDescriptor("prop1");
 
             prop1.SetValue(null, "value!");
         }
@@ -76,9 +76,9 @@ namespace Argon.Tests.Linq.ComponentModel
         [Fact]
         public void ResetValue()
         {
-            JObject o = JObject.Parse("{prop1:'12345!'}");
+            var o = JObject.Parse("{prop1:'12345!'}");
 
-            JPropertyDescriptor propertyDescriptor1 = new JPropertyDescriptor("prop1");
+            var propertyDescriptor1 = new JPropertyDescriptor("prop1");
             propertyDescriptor1.ResetValue(o);
 
             Assert.AreEqual("12345!", (string)o["prop1"]);
@@ -87,7 +87,7 @@ namespace Argon.Tests.Linq.ComponentModel
         [Fact]
         public void IsReadOnly()
         {
-            JPropertyDescriptor propertyDescriptor1 = new JPropertyDescriptor("prop1");
+            var propertyDescriptor1 = new JPropertyDescriptor("prop1");
 
             Assert.AreEqual(false, propertyDescriptor1.IsReadOnly);
         }
@@ -95,7 +95,7 @@ namespace Argon.Tests.Linq.ComponentModel
         [Fact]
         public void PropertyType()
         {
-            JPropertyDescriptor propertyDescriptor1 = new JPropertyDescriptor("prop1");
+            var propertyDescriptor1 = new JPropertyDescriptor("prop1");
 
             Assert.AreEqual(typeof(object), propertyDescriptor1.PropertyType);
         }

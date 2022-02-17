@@ -39,12 +39,12 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            string json = @"{
+            var json = @"{
               'href': '/account/login.aspx',
               'target': '_blank'
             }";
 
-            Dictionary<string, string> htmlAttributes = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+            var htmlAttributes = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
 
             Console.WriteLine(htmlAttributes["href"]);
             // /account/login.aspx

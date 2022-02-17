@@ -157,9 +157,9 @@ namespace Argon
         internal Task DoWriteIndentAsync(CancellationToken cancellationToken)
         {
             // levels of indentation multiplied by the indent count
-            int currentIndentCount = Top * _indentation;
+            var currentIndentCount = Top * _indentation;
 
-            int newLineLen = SetIndentChars();
+            var newLineLen = SetIndentChars();
             MiscellaneousUtils.Assert(_indentChars != null);
 
             if (currentIndentCount <= IndentCharBufferSize)
@@ -184,7 +184,7 @@ namespace Argon
 
         private Task WriteValueInternalAsync(JsonToken token, string value, CancellationToken cancellationToken)
         {
-            Task task = InternalWriteValueAsync(token, cancellationToken);
+            var task = InternalWriteValueAsync(token, cancellationToken);
             if (task.IsCompletedSucessfully())
             {
                 return _writer.WriteAsync(value, cancellationToken);
@@ -258,13 +258,13 @@ namespace Argon
                 return _writer.WriteAsync((char)('0' + uvalue), cancellationToken);
             }
 
-            int length = WriteNumberToBuffer(uvalue, negative);
+            var length = WriteNumberToBuffer(uvalue, negative);
             return _writer.WriteAsync(_writeBuffer!, 0, length, cancellationToken);
         }
 
         private Task WriteIntegerValueAsync(ulong uvalue, bool negative, CancellationToken cancellationToken)
         {
-            Task task = InternalWriteValueAsync(JsonToken.Integer, cancellationToken);
+            var task = InternalWriteValueAsync(JsonToken.Integer, cancellationToken);
             if (task.IsCompletedSucessfully())
             {
                 return WriteDigitsAsync(uvalue, negative, cancellationToken);
@@ -281,7 +281,7 @@ namespace Argon
 
         internal Task WriteIntegerValueAsync(long value, CancellationToken cancellationToken)
         {
-            bool negative = value < 0;
+            var negative = value < 0;
             if (negative)
             {
                 value = -value;
@@ -315,7 +315,7 @@ namespace Argon
 
         internal Task DoWritePropertyNameAsync(string name, CancellationToken cancellationToken)
         {
-            Task task = InternalWritePropertyNameAsync(name, cancellationToken);
+            var task = InternalWritePropertyNameAsync(name, cancellationToken);
             if (!task.IsCompletedSucessfully())
             {
                 return DoWritePropertyNameAsync(task, name, cancellationToken);
@@ -393,7 +393,7 @@ namespace Argon
 
         internal Task DoWriteStartArrayAsync(CancellationToken cancellationToken)
         {
-            Task task = InternalWriteStartAsync(JsonToken.StartArray, JsonContainerType.Array, cancellationToken);
+            var task = InternalWriteStartAsync(JsonToken.StartArray, JsonContainerType.Array, cancellationToken);
             if (task.IsCompletedSucessfully())
             {
                 return _writer.WriteAsync('[', cancellationToken);
@@ -423,7 +423,7 @@ namespace Argon
 
         internal Task DoWriteStartObjectAsync(CancellationToken cancellationToken)
         {
-            Task task = InternalWriteStartAsync(JsonToken.StartObject, JsonContainerType.Object, cancellationToken);
+            var task = InternalWriteStartAsync(JsonToken.StartObject, JsonContainerType.Object, cancellationToken);
             if (task.IsCompletedSucessfully())
             {
                 return _writer.WriteAsync('{', cancellationToken);
@@ -475,7 +475,7 @@ namespace Argon
 
         internal Task DoWriteUndefinedAsync(CancellationToken cancellationToken)
         {
-            Task task = InternalWriteValueAsync(JsonToken.Undefined, cancellationToken);
+            var task = InternalWriteValueAsync(JsonToken.Undefined, cancellationToken);
             if (task.IsCompletedSucessfully())
             {
                 return _writer.WriteAsync(JsonConvert.Undefined, cancellationToken);
@@ -654,7 +654,7 @@ namespace Argon
 
             if (StringUtils.IsNullOrEmpty(DateFormatString))
             {
-                int length = WriteValueToBuffer(value);
+                var length = WriteValueToBuffer(value);
 
                 await _writer.WriteAsync(_writeBuffer!, 0, length, cancellationToken).ConfigureAwait(false);
             }
@@ -703,7 +703,7 @@ namespace Argon
 
             if (StringUtils.IsNullOrEmpty(DateFormatString))
             {
-                int length = WriteValueToBuffer(value);
+                var length = WriteValueToBuffer(value);
 
                 await _writer.WriteAsync(_writeBuffer!, 0, length, cancellationToken).ConfigureAwait(false);
             }
@@ -1044,7 +1044,7 @@ namespace Argon
 
         internal Task DoWriteValueAsync(string? value, CancellationToken cancellationToken)
         {
-            Task task = InternalWriteValueAsync(JsonToken.String, cancellationToken);
+            var task = InternalWriteValueAsync(JsonToken.String, cancellationToken);
             if (task.IsCompletedSucessfully())
             {
                 return value == null ? _writer.WriteAsync(JsonConvert.Null, cancellationToken) : WriteEscapedStringAsync(value, true, cancellationToken);
@@ -1179,7 +1179,7 @@ namespace Argon
 
         internal Task WriteValueNotNullAsync(Uri value, CancellationToken cancellationToken)
         {
-            Task task = InternalWriteValueAsync(JsonToken.String, cancellationToken);
+            var task = InternalWriteValueAsync(JsonToken.String, cancellationToken);
             if (task.IsCompletedSucessfully())
             {
                 return WriteEscapedStringAsync(value.OriginalString, true, cancellationToken);
@@ -1300,7 +1300,7 @@ namespace Argon
         internal Task DoWriteRawValueAsync(string? json, CancellationToken cancellationToken)
         {
             UpdateScopeWithFinishedValue();
-            Task task = AutoCompleteAsync(JsonToken.Undefined, cancellationToken);
+            var task = AutoCompleteAsync(JsonToken.Undefined, cancellationToken);
             if (task.IsCompletedSucessfully())
             {
                 return WriteRawAsync(json, cancellationToken);
@@ -1322,7 +1322,7 @@ namespace Argon
                 length = 35;
             }
 
-            char[]? buffer = _writeBuffer;
+            var buffer = _writeBuffer;
             if (buffer == null)
             {
                 return _writeBuffer = BufferUtils.RentBuffer(_arrayPool, length);
@@ -1333,7 +1333,7 @@ namespace Argon
                 return buffer;
             }
 
-            char[] newBuffer = BufferUtils.RentBuffer(_arrayPool, length);
+            var newBuffer = BufferUtils.RentBuffer(_arrayPool, length);
             if (copyTo != 0)
             {
                 Array.Copy(buffer, newBuffer, copyTo);

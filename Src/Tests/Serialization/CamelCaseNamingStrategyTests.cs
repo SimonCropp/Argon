@@ -43,17 +43,17 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void JsonConvertSerializerSettings()
         {
-            Person person = new Person();
+            var person = new Person();
             person.BirthDate = new DateTime(2000, 11, 20, 23, 55, 44, DateTimeKind.Utc);
             person.LastModified = new DateTime(2000, 11, 20, 23, 55, 44, DateTimeKind.Utc);
             person.Name = "Name!";
 
-            DefaultContractResolver contractResolver = new DefaultContractResolver
+            var contractResolver = new DefaultContractResolver
             {
                 NamingStrategy = new CamelCaseNamingStrategy()
             };
 
-            string json = JsonConvert.SerializeObject(person, Formatting.Indented, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(person, Formatting.Indented, new JsonSerializerSettings
             {
                 ContractResolver = contractResolver
             });
@@ -64,7 +64,7 @@ namespace Argon.Tests.Serialization
   ""lastModified"": ""2000-11-20T23:55:44Z""
 }", json);
 
-            Person deserializedPerson = JsonConvert.DeserializeObject<Person>(json, new JsonSerializerSettings
+            var deserializedPerson = JsonConvert.DeserializeObject<Person>(json, new JsonSerializerSettings
             {
                 ContractResolver = contractResolver
             });
@@ -84,10 +84,10 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void JTokenWriter_OverrideSpecifiedName()
         {
-            JsonIgnoreAttributeOnClassTestClass ignoreAttributeOnClassTestClass = new JsonIgnoreAttributeOnClassTestClass();
+            var ignoreAttributeOnClassTestClass = new JsonIgnoreAttributeOnClassTestClass();
             ignoreAttributeOnClassTestClass.Field = int.MinValue;
 
-            DefaultContractResolver contractResolver = new DefaultContractResolver
+            var contractResolver = new DefaultContractResolver
             {
                 NamingStrategy = new CamelCaseNamingStrategy
                 {
@@ -95,15 +95,15 @@ namespace Argon.Tests.Serialization
                 }
             };
 
-            JsonSerializer serializer = new JsonSerializer();
+            var serializer = new JsonSerializer();
             serializer.ContractResolver = contractResolver;
 
-            JTokenWriter writer = new JTokenWriter();
+            var writer = new JTokenWriter();
 
             serializer.Serialize(writer, ignoreAttributeOnClassTestClass);
 
-            JObject o = (JObject)writer.Token;
-            JProperty p = o.Property("theField");
+            var o = (JObject)writer.Token;
+            var p = o.Property("theField");
 
             Assert.IsNotNull(p);
             Assert.AreEqual(int.MinValue, (int)p.Value);
@@ -112,7 +112,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void BlogPostExample()
         {
-            Product product = new Product
+            var product = new Product
             {
                 ExpiryDate = new DateTime(2010, 12, 20, 18, 1, 0, DateTimeKind.Utc),
                 Name = "Widget",
@@ -120,12 +120,12 @@ namespace Argon.Tests.Serialization
                 Sizes = new[] { "Small", "Medium", "Large" }
             };
 
-            DefaultContractResolver contractResolver = new DefaultContractResolver
+            var contractResolver = new DefaultContractResolver
             {
                 NamingStrategy = new CamelCaseNamingStrategy()
             };
 
-            string json =
+            var json =
                 JsonConvert.SerializeObject(
                     product,
                     Formatting.Indented,
@@ -162,7 +162,7 @@ namespace Argon.Tests.Serialization
             o.Text = "Text!";
             o.Integer = int.MaxValue;
 
-            DefaultContractResolver contractResolver = new DefaultContractResolver
+            var contractResolver = new DefaultContractResolver
             {
                 NamingStrategy = new CamelCaseNamingStrategy
                 {
@@ -188,18 +188,18 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DictionaryCamelCasePropertyNames_Disabled()
         {
-            Dictionary<string, string> values = new Dictionary<string, string>
+            var values = new Dictionary<string, string>
             {
                 { "First", "Value1!" },
                 { "Second", "Value2!" }
             };
 
-            DefaultContractResolver contractResolver = new DefaultContractResolver
+            var contractResolver = new DefaultContractResolver
             {
                 NamingStrategy = new CamelCaseNamingStrategy()
             };
 
-            string json = JsonConvert.SerializeObject(values, Formatting.Indented,
+            var json = JsonConvert.SerializeObject(values, Formatting.Indented,
                 new JsonSerializerSettings
                 {
                     ContractResolver = contractResolver
@@ -214,13 +214,13 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DictionaryCamelCasePropertyNames_Enabled()
         {
-            Dictionary<string, string> values = new Dictionary<string, string>
+            var values = new Dictionary<string, string>
             {
                 { "First", "Value1!" },
                 { "Second", "Value2!" }
             };
 
-            DefaultContractResolver contractResolver = new DefaultContractResolver
+            var contractResolver = new DefaultContractResolver
             {
                 NamingStrategy = new CamelCaseNamingStrategy
                 {
@@ -228,7 +228,7 @@ namespace Argon.Tests.Serialization
                 }
             };
 
-            string json = JsonConvert.SerializeObject(values, Formatting.Indented,
+            var json = JsonConvert.SerializeObject(values, Formatting.Indented,
                 new JsonSerializerSettings
                 {
                     ContractResolver = contractResolver
@@ -252,13 +252,13 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void JsonPropertyAttribute_NamingStrategyType()
         {
-            PropertyAttributeNamingStrategyTestClass c = new PropertyAttributeNamingStrategyTestClass
+            var c = new PropertyAttributeNamingStrategyTestClass
             {
                 HasNoAttributeNamingStrategy = "Value1!",
                 HasAttributeNamingStrategy = "Value2!"
             };
 
-            string json = JsonConvert.SerializeObject(c, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
             StringAssert.AreEqual(@"{
   ""HasNoAttributeNamingStrategy"": ""Value1!"",
@@ -278,13 +278,13 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void JsonObjectAttribute_NamingStrategyType()
         {
-            ContainerAttributeNamingStrategyTestClass c = new ContainerAttributeNamingStrategyTestClass
+            var c = new ContainerAttributeNamingStrategyTestClass
             {
                 Prop1 = "Value1!",
                 Prop2 = "Value2!"
             };
 
-            string json = JsonConvert.SerializeObject(c, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
             StringAssert.AreEqual(@"{
   ""prop1"": ""Value1!"",
@@ -301,13 +301,13 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void JsonDictionaryAttribute_NamingStrategyType()
         {
-            DictionaryAttributeNamingStrategyTestClass c = new DictionaryAttributeNamingStrategyTestClass
+            var c = new DictionaryAttributeNamingStrategyTestClass
             {
                 ["Key1"] = "Value1!",
                 ["Key2"] = "Value2!"
             };
 
-            string json = JsonConvert.SerializeObject(c, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
             StringAssert.AreEqual(@"{
   ""key1"": ""Value1!"",

@@ -140,10 +140,10 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DataBagDoesNotInheritFromDictionaryClass()
         {
-            Example e = new Example();
+            var e = new Example();
             e.Data.Add("extensionData1", new int[] { 1, 2, 3 });
 
-            string json = JsonConvert.SerializeObject(e, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(e, Formatting.Indented);
 
             StringAssert.AreEqual(@"{
   ""extensionData1"": [
@@ -153,9 +153,9 @@ namespace Argon.Tests.Serialization
   ]
 }", json);
 
-            Example e2 = JsonConvert.DeserializeObject<Example>(json);
+            var e2 = JsonConvert.DeserializeObject<Example>(json);
 
-            JArray o1 = (JArray)e2.Data["extensionData1"];
+            var o1 = (JArray)e2.Data["extensionData1"];
 
             Assert.AreEqual(JTokenType.Array, o1.Type);
             Assert.AreEqual(3, o1.Count);
@@ -180,13 +180,13 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ExtensionDataDeserializeWithNonDefaultConstructorTest()
         {
-            ExtensionDataDeserializeWithNonDefaultConstructor c = new ExtensionDataDeserializeWithNonDefaultConstructor("Name!");
+            var c = new ExtensionDataDeserializeWithNonDefaultConstructor("Name!");
             c._extensionData = new Dictionary<string, JToken>
             {
                 { "Key!", "Value!" }
             };
 
-            string json = JsonConvert.SerializeObject(c, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
             StringAssert.AreEqual(@"{
   ""Name"": ""Name!"",
@@ -204,7 +204,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ExtensionDataWithNull()
         {
-            string json = @"{
+            var json = @"{
               'TaxRate': 0.125,
               'a':null
             }";
@@ -214,7 +214,7 @@ namespace Argon.Tests.Serialization
             Assert.AreEqual(JTokenType.Null, invoice._additionalData["a"].Type);
             Assert.AreEqual(typeof(double), ((JValue)invoice._additionalData["TaxRate"]).Value.GetType());
 
-            string result = JsonConvert.SerializeObject(invoice);
+            var result = JsonConvert.SerializeObject(invoice);
 
             Assert.AreEqual(@"{""TaxRate"":0.125,""a"":null}", result);
         }
@@ -222,7 +222,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ExtensionDataFloatParseHandling()
         {
-            string json = @"{
+            var json = @"{
               'TaxRate': 0.125,
               'a':null
             }";
@@ -258,7 +258,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ExtensionDataExample()
         {
-            string json = @"{
+            var json = @"{
               'HourlyRate': 150,
               'Hours': 40,
               'TaxRate': 0.125
@@ -269,7 +269,7 @@ namespace Argon.Tests.Serialization
             // increase tax to 15%
             invoice.TaxRate = 0.15m;
 
-            string result = JsonConvert.SerializeObject(invoice);
+            var result = JsonConvert.SerializeObject(invoice);
             // {
             //   'TaxRate': 0.15,
             //   'HourlyRate': 150,
@@ -328,7 +328,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void RoundTripJObjectExtensionData()
         {
-            JObjectExtensionDataTestClass c = new JObjectExtensionDataTestClass();
+            var c = new JObjectExtensionDataTestClass();
             c.Name = "Name!";
             c.ExtensionData = new JObject
             {
@@ -337,9 +337,9 @@ namespace Argon.Tests.Serialization
                 { "three", new JArray(1, 1, 1) }
             };
 
-            string json = JsonConvert.SerializeObject(c, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-            JObjectExtensionDataTestClass c2 = JsonConvert.DeserializeObject<JObjectExtensionDataTestClass>(json);
+            var c2 = JsonConvert.DeserializeObject<JObjectExtensionDataTestClass>(json);
 
             Assert.AreEqual("Name!", c2.Name);
             Assert.IsTrue(JToken.DeepEquals(c.ExtensionData, c2.ExtensionData));
@@ -348,7 +348,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ExtensionDataTest()
         {
-            string json = @"{
+            var json = @"{
   ""Ints"": [1,2,3],
   ""Ignored"": [1,2,3],
   ""Readonly"": ""Readonly"",
@@ -360,7 +360,7 @@ namespace Argon.Tests.Serialization
   ""NewValueComplex"": [1,2,3]
 }";
 
-            ExtensionDataTestClass c = JsonConvert.DeserializeObject<ExtensionDataTestClass>(json);
+            var c = JsonConvert.DeserializeObject<ExtensionDataTestClass>(json);
 
             Assert.AreEqual("Actually set!", c.Name);
             Assert.AreEqual(4, c.Ints.Count);
@@ -379,7 +379,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ExtensionDataTest_DeserializeWithNamingStrategy()
         {
-            string json = @"{
+            var json = @"{
   ""Ints"": [1,2,3],
   ""Ignored"": [1,2,3],
   ""Readonly"": ""Readonly"",
@@ -391,7 +391,7 @@ namespace Argon.Tests.Serialization
   ""NewValueComplex"": [1,2,3]
 }";
 
-            ExtensionDataTestClass c = JsonConvert.DeserializeObject<ExtensionDataTestClass>(json, new JsonSerializerSettings
+            var c = JsonConvert.DeserializeObject<ExtensionDataTestClass>(json, new JsonSerializerSettings
             {
                 ContractResolver = new DefaultContractResolver
                 {
@@ -419,7 +419,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ExtensionDataTest_SerializeWithNamingStrategy_Enabled()
         {
-            ExtensionDataTestClass c = new ExtensionDataTestClass()
+            var c = new ExtensionDataTestClass()
             {
                 ExtensionData = new Dictionary<string, JToken>
                 {
@@ -431,7 +431,7 @@ namespace Argon.Tests.Serialization
                 }
             };
 
-            string json = JsonConvert.SerializeObject(c, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(c, new JsonSerializerSettings
             {
                 ContractResolver = new DefaultContractResolver
                 {
@@ -462,7 +462,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ExtensionDataTest_SerializeWithNamingStrategy_Disabled()
         {
-            ExtensionDataTestClass c = new ExtensionDataTestClass()
+            var c = new ExtensionDataTestClass()
             {
                 ExtensionData = new Dictionary<string, JToken>
                 {
@@ -474,7 +474,7 @@ namespace Argon.Tests.Serialization
                 }
             };
 
-            string json = JsonConvert.SerializeObject(c, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(c, new JsonSerializerSettings
             {
                 ContractResolver = new Argon.Serialization.DefaultContractResolver
                 {
@@ -502,7 +502,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ExtensionDataTest_SerializeWithNamingStrategyAttribute()
         {
-            ExtensionDataWithNamingStrategyTestClass c = new ExtensionDataWithNamingStrategyTestClass()
+            var c = new ExtensionDataWithNamingStrategyTestClass()
             {
                 ExtensionData = new Dictionary<string, JToken>
                 {
@@ -514,7 +514,7 @@ namespace Argon.Tests.Serialization
                 }
             };
 
-            string json = JsonConvert.SerializeObject(c, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(c, new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented
             });
@@ -551,9 +551,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void PopulateWithExtensionData()
         {
-            string jsonStirng = @"{ ""ForJson"" : 33 , ""extra1"" : 11, ""extra2"" : 22 }";
+            var jsonStirng = @"{ ""ForJson"" : 33 , ""extra1"" : 11, ""extra2"" : 22 }";
 
-            MyClass c = new MyClass();
+            var c = new MyClass();
 
             JsonConvert.PopulateObject(jsonStirng, c);
 
@@ -633,9 +633,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeDirectoryAccount()
         {
-            string json = @"{'DisplayName':'John Smith', 'SAMAccountName':'contoso\\johns'}";
+            var json = @"{'DisplayName':'John Smith', 'SAMAccountName':'contoso\\johns'}";
 
-            DirectoryAccount account = JsonConvert.DeserializeObject<DirectoryAccount>(json);
+            var account = JsonConvert.DeserializeObject<DirectoryAccount>(json);
 
             Assert.AreEqual("John Smith", account.DisplayName);
             Assert.AreEqual("contoso", account.Domain);
@@ -645,7 +645,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializePublicExtensionData()
         {
-            string json = JsonConvert.SerializeObject(new PublicExtensionDataAttributeTestClass
+            var json = JsonConvert.SerializeObject(new PublicExtensionDataAttributeTestClass
             {
                 Name = "Name!",
                 ExtensionData = new Dictionary<object, object>
@@ -660,7 +660,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializePublicExtensionDataNull()
         {
-            string json = JsonConvert.SerializeObject(new PublicExtensionDataAttributeTestClass
+            var json = JsonConvert.SerializeObject(new PublicExtensionDataAttributeTestClass
             {
                 Name = "Name!"
             });
@@ -671,7 +671,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializePublicNoWriteExtensionData()
         {
-            string json = JsonConvert.SerializeObject(new PublicNoWriteExtensionDataAttributeTestClass
+            var json = JsonConvert.SerializeObject(new PublicNoWriteExtensionDataAttributeTestClass
             {
                 Name = "Name!",
                 ExtensionData = new Dictionary<object, object>
@@ -686,7 +686,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeNoReadPublicExtensionData()
         {
-            PublicNoReadExtensionDataAttributeTestClass c = JsonConvert.DeserializeObject<PublicNoReadExtensionDataAttributeTestClass>(@"{""Name"":""Name!"",""Test"":1}");
+            var c = JsonConvert.DeserializeObject<PublicNoReadExtensionDataAttributeTestClass>(@"{""Name"":""Name!"",""Test"":1}");
 
             Assert.AreEqual(null, c.ExtensionData);
         }
@@ -704,7 +704,7 @@ namespace Argon.Tests.Serialization
             };
             c.ExtensionData["Self"] = c;
 
-            string json = JsonConvert.SerializeObject(c, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(c, new JsonSerializerSettings
             {
                 PreserveReferencesHandling = PreserveReferencesHandling.All,
                 Formatting = Formatting.Indented
@@ -726,7 +726,7 @@ namespace Argon.Tests.Serialization
 
             Assert.AreEqual("Name!", c2.Name);
 
-            PublicExtensionDataAttributeTestClass bizzaroC2 = (PublicExtensionDataAttributeTestClass)c2.ExtensionData["Self"];
+            var bizzaroC2 = (PublicExtensionDataAttributeTestClass)c2.ExtensionData["Self"];
 
             Assert.AreEqual(c2, bizzaroC2);
             Assert.AreEqual(1, (long)bizzaroC2.ExtensionData["Test"]);
@@ -735,7 +735,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializePublicJTokenExtensionDataCircularReference()
         {
-            string json = @"{
+            var json = @"{
   ""$id"": ""1"",
   ""Name"": ""Name!"",
   ""Test"": 1,
@@ -751,7 +751,7 @@ namespace Argon.Tests.Serialization
 
             Assert.AreEqual("Name!", c2.Name);
 
-            JObject bizzaroC2 = (JObject)c2.ExtensionData["Self"];
+            var bizzaroC2 = (JObject)c2.ExtensionData["Self"];
 
             Assert.AreEqual("1", (string)bizzaroC2["$ref"]);
         }
@@ -759,7 +759,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializePublicExtensionDataTypeNamdHandling()
         {
-            string json = @"{
+            var json = @"{
   ""$id"": ""1"",
   ""Name"": ""Name!"",
   ""Test"": 1,
@@ -772,14 +772,14 @@ namespace Argon.Tests.Serialization
   }
 }";
 
-            PublicExtensionDataAttributeTestClass c2 = JsonConvert.DeserializeObject<PublicExtensionDataAttributeTestClass>(json, new JsonSerializerSettings
+            var c2 = JsonConvert.DeserializeObject<PublicExtensionDataAttributeTestClass>(json, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Objects
             });
 
             Assert.AreEqual("Name!", c2.Name);
 
-            WagePerson bizzaroC2 = (WagePerson)c2.ExtensionData["Self"];
+            var bizzaroC2 = (WagePerson)c2.ExtensionData["Self"];
 
             Assert.AreEqual(2m, bizzaroC2.HourlyWage);
         }
@@ -787,7 +787,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializePublicExtensionDataTypeNamdHandlingNonDefaultConstructor()
         {
-            string json = @"{
+            var json = @"{
   ""$id"": ""1"",
   ""Name"": ""Name!"",
   ""Test"": 1,
@@ -800,14 +800,14 @@ namespace Argon.Tests.Serialization
   }
 }";
 
-            PublicExtensionDataAttributeTestClassWithNonDefaultConstructor c2 = JsonConvert.DeserializeObject<PublicExtensionDataAttributeTestClassWithNonDefaultConstructor>(json, new JsonSerializerSettings
+            var c2 = JsonConvert.DeserializeObject<PublicExtensionDataAttributeTestClassWithNonDefaultConstructor>(json, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Objects
             });
 
             Assert.AreEqual("Name!", c2.Name);
 
-            WagePerson bizzaroC2 = (WagePerson)c2.ExtensionData["Self"];
+            var bizzaroC2 = (WagePerson)c2.ExtensionData["Self"];
 
             Assert.AreEqual(2m, bizzaroC2.HourlyWage);
         }
@@ -815,7 +815,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializePublicExtensionDataTypeNamdHandling()
         {
-            PublicExtensionDataAttributeTestClass c = new PublicExtensionDataAttributeTestClass
+            var c = new PublicExtensionDataAttributeTestClass
             {
                 Name = "Name!",
                 ExtensionData = new Dictionary<object, object>
@@ -829,7 +829,7 @@ namespace Argon.Tests.Serialization
                 }
             };
 
-            string json = JsonConvert.SerializeObject(c, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(c, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Objects,
                 Formatting = Formatting.Indented
@@ -851,7 +851,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializePublicExtensionData()
         {
-            string json = @"{
+            var json = @"{
   'Name':'Name!',
   'NoMatch':'NoMatch!',
   'ExtensionData':{'HAI':true}
@@ -874,12 +874,12 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void FieldExtensionDataAttributeTest_Serialize()
         {
-            FieldExtensionDataAttributeTestClass c = new FieldExtensionDataAttributeTestClass
+            var c = new FieldExtensionDataAttributeTestClass
             {
                 ExtensionData = new Dictionary<object, object>()
             };
 
-            string json = JsonConvert.SerializeObject(c);
+            var json = JsonConvert.SerializeObject(c);
 
             Assert.AreEqual("{}", json);
         }
@@ -929,7 +929,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeNullableProperty()
         {
-            string json = @"{ ""LastActivityDate"":null, ""CustomField1"":""Testing"" }";
+            var json = @"{ ""LastActivityDate"":null, ""CustomField1"":""Testing"" }";
 
             var c = JsonConvert.DeserializeObject<TestClass>(json);
 
@@ -964,7 +964,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeExtensionData_NoSetter()
         {
-            string json = JsonConvert.SerializeObject(new DocNoSetter(new JObject(new JProperty("Property1", 123)))
+            var json = JsonConvert.SerializeObject(new DocNoSetter(new JObject(new JProperty("Property1", 123)))
             {
                 Name = "documentName"
             });
@@ -974,7 +974,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeExtensionData_NoSetterAndNoValue()
         {
-            string json = JsonConvert.SerializeObject(new DocNoSetter(null)
+            var json = JsonConvert.SerializeObject(new DocNoSetter(null)
             {
                 Name = "documentName"
             });
@@ -984,7 +984,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeExtensionData_NoSetterAndNoExtensionData()
         {
-            DocNoSetter doc = JsonConvert.DeserializeObject<DocNoSetter>(@"{""_name"":""documentName""}");
+            var doc = JsonConvert.DeserializeObject<DocNoSetter>(@"{""_name"":""documentName""}");
 
             Assert.AreEqual("documentName", doc.Name);
         }
@@ -1034,16 +1034,16 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void Deserialize_WriteJsonDirectlyToJToken()
         {
-            JsonSerializer jsonSerializer = new JsonSerializer
+            var jsonSerializer = new JsonSerializer
             {
                 TypeNameHandling = TypeNameHandling.Auto
             };
-            StringWriter stringWriter = new StringWriter();
+            var stringWriter = new StringWriter();
             jsonSerializer.Serialize(stringWriter, new Item());
-            string str = stringWriter.GetStringBuilder().ToString();
-            Item deserialize = jsonSerializer.Deserialize<Item>(new JsonTextReader(new StringReader(str)));
+            var str = stringWriter.GetStringBuilder().ToString();
+            var deserialize = jsonSerializer.Deserialize<Item>(new JsonTextReader(new StringReader(str)));
 
-            JToken value = deserialize.ExtensionData["Foo"]["$type"];
+            var value = deserialize.ExtensionData["Foo"]["$type"];
             Assert.AreEqual(JTokenType.String, value.Type);
             Assert.AreEqual("foo", (string)deserialize.ExtensionData["Foo"]["$values"][0]);
             Assert.AreEqual("bar", (string)deserialize.ExtensionData["Foo"]["$values"][1]);
@@ -1067,16 +1067,16 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeWithConstructor_WriteJsonDirectlyToJToken()
         {
-            JsonSerializer jsonSerializer = new JsonSerializer
+            var jsonSerializer = new JsonSerializer
             {
                 TypeNameHandling = TypeNameHandling.Auto
             };
-            StringWriter stringWriter = new StringWriter();
+            var stringWriter = new StringWriter();
             jsonSerializer.Serialize(stringWriter, new ItemWithConstructor(null));
-            string str = stringWriter.GetStringBuilder().ToString();
-            Item deserialize = jsonSerializer.Deserialize<Item>(new JsonTextReader(new StringReader(str)));
+            var str = stringWriter.GetStringBuilder().ToString();
+            var deserialize = jsonSerializer.Deserialize<Item>(new JsonTextReader(new StringReader(str)));
 
-            JToken value = deserialize.ExtensionData["Foo"]["$type"];
+            var value = deserialize.ExtensionData["Foo"]["$type"];
             Assert.AreEqual(JTokenType.String, value.Type);
             Assert.AreEqual("foo", (string)deserialize.ExtensionData["Foo"]["$values"][0]);
             Assert.AreEqual("bar", (string)deserialize.ExtensionData["Foo"]["$values"][1]);

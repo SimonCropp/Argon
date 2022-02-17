@@ -47,9 +47,9 @@ namespace Argon.Tests.Schema
         [Fact]
         public void IsValid()
         {
-            JsonSchema schema = JsonSchema.Parse("{'type':'integer'}");
-            JToken stringToken = JToken.FromObject("pie");
-            JToken integerToken = JToken.FromObject(1);
+            var schema = JsonSchema.Parse("{'type':'integer'}");
+            var stringToken = JToken.FromObject("pie");
+            var integerToken = JToken.FromObject(1);
 
             IList<string> errorMessages;
             Assert.AreEqual(true, integerToken.IsValid(schema));
@@ -65,10 +65,10 @@ namespace Argon.Tests.Schema
         [Fact]
         public void ValidateWithEventHandler()
         {
-            JsonSchema schema = JsonSchema.Parse("{'pattern':'lol'}");
-            JToken stringToken = JToken.FromObject("pie lol");
+            var schema = JsonSchema.Parse("{'pattern':'lol'}");
+            var stringToken = JToken.FromObject("pie lol");
 
-            List<string> errors = new List<string>();
+            var errors = new List<string>();
             stringToken.Validate(schema, (sender, args) => errors.Add(args.Message));
             Assert.AreEqual(0, errors.Count);
 
@@ -85,8 +85,8 @@ namespace Argon.Tests.Schema
         {
             ExceptionAssert.Throws<JsonSchemaException>(() =>
             {
-                JsonSchema schema = JsonSchema.Parse("{'pattern':'lol'}");
-                JToken stringToken = JToken.FromObject("pie");
+                var schema = JsonSchema.Parse("{'pattern':'lol'}");
+                var stringToken = JToken.FromObject("pie");
                 stringToken.Validate(schema);
             }, @"String 'pie' does not match regex pattern 'lol'.");
         }
@@ -94,8 +94,8 @@ namespace Argon.Tests.Schema
         [Fact]
         public void ValidateWithOutEventHandlerSuccess()
         {
-            JsonSchema schema = JsonSchema.Parse("{'pattern':'lol'}");
-            JToken stringToken = JToken.FromObject("pie lol");
+            var schema = JsonSchema.Parse("{'pattern':'lol'}");
+            var stringToken = JToken.FromObject("pie lol");
             stringToken.Validate(schema);
         }
 
@@ -103,10 +103,10 @@ namespace Argon.Tests.Schema
         public void ValidateFailureWithOutLineInfoBecauseOfEndToken()
         {
             // changed in 6.0.6 to now include line info!
-            JsonSchema schema = JsonSchema.Parse("{'properties':{'lol':{'required':true}}}");
-            JObject o = JObject.Parse("{}");
+            var schema = JsonSchema.Parse("{'properties':{'lol':{'required':true}}}");
+            var o = JObject.Parse("{}");
 
-            List<string> errors = new List<string>();
+            var errors = new List<string>();
             o.Validate(schema, (sender, args) => errors.Add(args.Message));
 
             Assert.AreEqual("Required properties are missing from object: lol. Line 1, position 1.", errors[0]);
@@ -116,10 +116,10 @@ namespace Argon.Tests.Schema
         [Fact]
         public void ValidateRequiredFieldsWithLineInfo()
         {
-            JsonSchema schema = JsonSchema.Parse("{'properties':{'lol':{'type':'string'}}}");
-            JObject o = JObject.Parse("{'lol':1}");
+            var schema = JsonSchema.Parse("{'properties':{'lol':{'type':'string'}}}");
+            var o = JObject.Parse("{'lol':1}");
 
-            List<string> errors = new List<string>();
+            var errors = new List<string>();
             o.Validate(schema, (sender, args) => errors.Add(args.Path + " - " + args.Message));
 
             Assert.AreEqual("lol - Invalid type. Expected String but got Integer. Line 1, position 8.", errors[0]);
@@ -130,7 +130,7 @@ namespace Argon.Tests.Schema
         [Fact]
         public void Blog()
         {
-            string schemaJson = @"
+            var schemaJson = @"
 {
   ""description"": ""A person schema"",
   ""type"": ""object"",
@@ -153,28 +153,28 @@ namespace Argon.Tests.Schema
             //  schema = builder.Parse(reader);
             //}
 
-            JsonSchema schema = JsonSchema.Parse(schemaJson);
+            var schema = JsonSchema.Parse(schemaJson);
 
-            JObject person = JObject.Parse(@"{
+            var person = JObject.Parse(@"{
         ""name"": ""James"",
         ""hobbies"": ["".NET"", ""Blogging"", ""Reading"", ""Xbox"", ""LOLCATS""]
       }");
 
-            bool valid = person.IsValid(schema);
+            var valid = person.IsValid(schema);
             // true
         }
 
         private void GenerateSchemaAndSerializeFromType<T>(T value)
         {
-            JsonSchemaGenerator generator = new JsonSchemaGenerator();
+            var generator = new JsonSchemaGenerator();
             generator.UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseAssemblyQualifiedName;
-            JsonSchema typeSchema = generator.Generate(typeof(T));
-            string schema = typeSchema.ToString();
+            var typeSchema = generator.Generate(typeof(T));
+            var schema = typeSchema.ToString();
 
-            string json = JsonConvert.SerializeObject(value, Formatting.Indented);
-            JToken token = JToken.ReadFrom(new JsonTextReader(new StringReader(json)));
+            var json = JsonConvert.SerializeObject(value, Formatting.Indented);
+            var token = JToken.ReadFrom(new JsonTextReader(new StringReader(json)));
 
-            List<string> errors = new List<string>();
+            var errors = new List<string>();
 
             token.Validate(typeSchema, (sender, args) => { errors.Add(args.Message); });
 
@@ -215,7 +215,7 @@ namespace Argon.Tests.Schema
         [Fact]
         public void UndefinedPropertyOnNoPropertySchema()
         {
-            JsonSchema schema = JsonSchema.Parse(@"{
+            var schema = JsonSchema.Parse(@"{
   ""description"": ""test"",
   ""type"": ""object"",
   ""additionalProperties"": false,
@@ -223,9 +223,9 @@ namespace Argon.Tests.Schema
   }
 }");
 
-            JObject o = JObject.Parse("{'g':1}");
+            var o = JObject.Parse("{'g':1}");
 
-            List<string> errors = new List<string>();
+            var errors = new List<string>();
             o.Validate(schema, (sender, args) => errors.Add(args.Message));
 
             Assert.AreEqual(1, errors.Count);
@@ -237,11 +237,11 @@ namespace Argon.Tests.Schema
         {
             ExceptionAssert.Throws<JsonSchemaException>(() =>
             {
-                JsonSchema schema = new JsonSchema();
+                var schema = new JsonSchema();
                 schema.Maximum = 10;
                 schema.ExclusiveMaximum = true;
 
-                JValue v = new JValue(10);
+                var v = new JValue(10);
                 v.Validate(schema);
             }, "Integer 10 equals maximum value of 10 and exclusive maximum is true.");
         }
@@ -251,11 +251,11 @@ namespace Argon.Tests.Schema
         {
             ExceptionAssert.Throws<JsonSchemaException>(() =>
             {
-                JsonSchema schema = new JsonSchema();
+                var schema = new JsonSchema();
                 schema.Maximum = 10.1;
                 schema.ExclusiveMaximum = true;
 
-                JValue v = new JValue(10.1);
+                var v = new JValue(10.1);
                 v.Validate(schema);
             }, "Float 10.1 equals maximum value of 10.1 and exclusive maximum is true.");
         }
@@ -265,11 +265,11 @@ namespace Argon.Tests.Schema
         {
             ExceptionAssert.Throws<JsonSchemaException>(() =>
             {
-                JsonSchema schema = new JsonSchema();
+                var schema = new JsonSchema();
                 schema.Minimum = 10;
                 schema.ExclusiveMinimum = true;
 
-                JValue v = new JValue(10);
+                var v = new JValue(10);
                 v.Validate(schema);
             }, "Integer 10 equals minimum value of 10 and exclusive minimum is true.");
         }
@@ -279,11 +279,11 @@ namespace Argon.Tests.Schema
         {
             ExceptionAssert.Throws<JsonSchemaException>(() =>
             {
-                JsonSchema schema = new JsonSchema();
+                var schema = new JsonSchema();
                 schema.Minimum = 10.1;
                 schema.ExclusiveMinimum = true;
 
-                JValue v = new JValue(10.1);
+                var v = new JValue(10.1);
                 v.Validate(schema);
             }, "Float 10.1 equals minimum value of 10.1 and exclusive minimum is true.");
         }
@@ -293,10 +293,10 @@ namespace Argon.Tests.Schema
         {
             ExceptionAssert.Throws<JsonSchemaException>(() =>
             {
-                JsonSchema schema = new JsonSchema();
+                var schema = new JsonSchema();
                 schema.DivisibleBy = 3;
 
-                JValue v = new JValue(10);
+                var v = new JValue(10);
                 v.Validate(schema);
             }, "Integer 10 is not evenly divisible by 3.");
         }
@@ -304,30 +304,30 @@ namespace Argon.Tests.Schema
         [Fact]
         public void DivisibleBy_Approx()
         {
-            JsonSchema schema = new JsonSchema();
+            var schema = new JsonSchema();
             schema.DivisibleBy = 0.01;
 
-            JValue v = new JValue(20.49);
+            var v = new JValue(20.49);
             v.Validate(schema);
         }
 
         [Fact]
         public void UniqueItems_SimpleUnique()
         {
-            JsonSchema schema = new JsonSchema();
+            var schema = new JsonSchema();
             schema.UniqueItems = true;
 
-            JArray a = new JArray(1, 2, 3);
+            var a = new JArray(1, 2, 3);
             Assert.IsTrue(a.IsValid(schema));
         }
 
         [Fact]
         public void UniqueItems_SimpleDuplicate()
         {
-            JsonSchema schema = new JsonSchema();
+            var schema = new JsonSchema();
             schema.UniqueItems = true;
 
-            JArray a = new JArray(1, 2, 3, 2, 2);
+            var a = new JArray(1, 2, 3, 2, 2);
             IList<string> errorMessages;
             Assert.IsFalse(a.IsValid(schema, out errorMessages));
             Assert.AreEqual(2, errorMessages.Count);
@@ -338,10 +338,10 @@ namespace Argon.Tests.Schema
         [Fact]
         public void UniqueItems_ComplexDuplicate()
         {
-            JsonSchema schema = new JsonSchema();
+            var schema = new JsonSchema();
             schema.UniqueItems = true;
 
-            JArray a = new JArray(1, new JObject(new JProperty("value", "value!")), 3, 2, new JObject(new JProperty("value", "value!")), 4, 2, new JObject(new JProperty("value", "value!")));
+            var a = new JArray(1, new JObject(new JProperty("value", "value!")), 3, 2, new JObject(new JProperty("value", "value!")), 4, 2, new JObject(new JProperty("value", "value!")));
             IList<string> errorMessages;
             Assert.IsFalse(a.IsValid(schema, out errorMessages));
             Assert.AreEqual(3, errorMessages.Count);
@@ -353,7 +353,7 @@ namespace Argon.Tests.Schema
         [Fact]
         public void UniqueItems_NestedDuplicate()
         {
-            JsonSchema schema = new JsonSchema();
+            var schema = new JsonSchema();
             schema.UniqueItems = true;
             schema.Items = new List<JsonSchema>
             {
@@ -364,7 +364,7 @@ namespace Argon.Tests.Schema
             };
             schema.PositionalItemsValidation = false;
 
-            JArray a = new JArray(
+            var a = new JArray(
                 new JArray(1, 2),
                 new JArray(1, 1),
                 new JArray(3, 4),
@@ -383,7 +383,7 @@ namespace Argon.Tests.Schema
         [Fact]
         public void Enum_Properties()
         {
-            JsonSchema schema = new JsonSchema();
+            var schema = new JsonSchema();
             schema.Properties = new Dictionary<string, JsonSchema>
             {
                 {
@@ -399,7 +399,7 @@ namespace Argon.Tests.Schema
                 }
             };
 
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("bar", 1)
                 );
             IList<string> errorMessages;
@@ -416,7 +416,7 @@ namespace Argon.Tests.Schema
         [Fact]
         public void UniqueItems_Property()
         {
-            JsonSchema schema = new JsonSchema();
+            var schema = new JsonSchema();
             schema.Properties = new Dictionary<string, JsonSchema>
             {
                 {
@@ -428,7 +428,7 @@ namespace Argon.Tests.Schema
                 }
             };
 
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("bar", new JArray(1, 2, 3, 3))
                 );
             IList<string> errorMessages;
@@ -439,7 +439,7 @@ namespace Argon.Tests.Schema
         [Fact]
         public void Items_Positional()
         {
-            JsonSchema schema = new JsonSchema();
+            var schema = new JsonSchema();
             schema.Items = new List<JsonSchema>
             {
                 new JsonSchema { Type = JsonSchemaType.Object },
@@ -447,7 +447,7 @@ namespace Argon.Tests.Schema
             };
             schema.PositionalItemsValidation = true;
 
-            JArray a = new JArray(new JObject(), 1);
+            var a = new JArray(new JObject(), 1);
             IList<string> errorMessages;
             Assert.IsTrue(a.IsValid(schema, out errorMessages));
             Assert.AreEqual(0, errorMessages.Count);

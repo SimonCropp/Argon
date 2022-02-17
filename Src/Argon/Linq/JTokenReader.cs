@@ -108,7 +108,7 @@ namespace Argon.Linq
                 return ReadToEnd();
             }
 
-            JToken? next = t.Next;
+            var next = t.Next;
             if ((next == null || next == t) || t == t.Parent!.Last)
             {
                 if (t.Parent == null)
@@ -152,7 +152,7 @@ namespace Argon.Linq
 
         private bool ReadInto(JContainer c)
         {
-            JToken? firstChild = c.First;
+            var firstChild = c.First;
             if (firstChild == null)
             {
                 return SetEnd(c);
@@ -168,7 +168,7 @@ namespace Argon.Linq
 
         private bool SetEnd(JContainer c)
         {
-            JsonToken? endToken = GetEndToken(c);
+            var endToken = GetEndToken(c);
             if (endToken != null)
             {
                 SetToken(endToken.GetValueOrDefault());
@@ -221,7 +221,7 @@ namespace Argon.Linq
                     break;
                 case JTokenType.Date:
                     {
-                        object? v = ((JValue)token).Value;
+                        var v = ((JValue)token).Value;
                         if (v is DateTime dt)
                         {
                             v = DateTimeUtils.EnsureDateTime(dt, DateTimeZoneHandling);
@@ -241,7 +241,7 @@ namespace Argon.Linq
                     break;
                 case JTokenType.Uri:
                     {
-                        object? v = ((JValue)token).Value;
+                        var v = ((JValue)token).Value;
                         SetToken(JsonToken.String, v is Uri uri ? uri.OriginalString : SafeToString(v));
                         break;
                     }
@@ -314,7 +314,7 @@ namespace Argon.Linq
         {
             get
             {
-                string path = base.Path;
+                var path = base.Path;
 
                 if (_initialPath == null)
                 {

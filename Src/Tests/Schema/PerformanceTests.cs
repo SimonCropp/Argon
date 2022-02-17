@@ -42,7 +42,7 @@ namespace Argon.Tests.Schema
         [Fact]
         public void ReaderPerformance()
         {
-            string json = @"[
+            var json = @"[
     {
         ""id"": 2,
         ""name"": ""An ice sculpture"",
@@ -74,7 +74,7 @@ namespace Argon.Tests.Schema
     }
 ]";
 
-            JsonSchema schema = JsonSchema.Parse(@"{
+            var schema = JsonSchema.Parse(@"{
     ""$schema"": ""http://json-schema.org/draft-04/schema#"",
     ""title"": ""Product set"",
     ""type"": ""array"",
@@ -127,10 +127,10 @@ namespace Argon.Tests.Schema
 
             using (var tester = new PerformanceTester("Reader"))
             {
-                for (int i = 0; i < 5000; i++)
+                for (var i = 0; i < 5000; i++)
                 {
-                    JsonTextReader reader = new JsonTextReader(new StringReader(json));
-                    JsonValidatingReader validatingReader = new JsonValidatingReader(reader);
+                    var reader = new JsonTextReader(new StringReader(json));
+                    var validatingReader = new JsonValidatingReader(reader);
                     validatingReader.Schema = schema;
 
                     while (validatingReader.Read())

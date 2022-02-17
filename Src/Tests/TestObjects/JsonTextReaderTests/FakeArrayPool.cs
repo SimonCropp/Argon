@@ -35,7 +35,7 @@ namespace Argon.Tests.TestObjects.JsonTextReaderTests
 
         public char[] Rent(int minimumLength)
         {
-            char[] a = FreeArrays.FirstOrDefault(b => b.Length >= minimumLength);
+            var a = FreeArrays.FirstOrDefault(b => b.Length >= minimumLength);
             if (a != null)
             {
                 FreeArrays.Remove(a);

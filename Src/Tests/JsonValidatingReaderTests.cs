@@ -47,17 +47,17 @@ namespace Argon.Tests
         [Fact]
         public void CheckInnerReader()
         {
-            string json = "{'name':'James','hobbies':['pie','cake']}";
+            var json = "{'name':'James','hobbies':['pie','cake']}";
             JsonReader reader = new JsonTextReader(new StringReader(json));
 
-            JsonValidatingReader validatingReader = new JsonValidatingReader(reader);
+            var validatingReader = new JsonValidatingReader(reader);
             Assert.AreEqual(reader, validatingReader.Reader);
         }
 
         [Fact]
         public void ValidateTypes()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""description"":""A person"",
   ""type"":""object"",
   ""properties"":
@@ -71,13 +71,13 @@ namespace Argon.Tests
   }
 }";
 
-            string json = @"{'name':""James"",'hobbies':[""pie"",'cake']}";
+            var json = @"{'name':""James"",'hobbies':[""pie"",'cake']}";
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
-            JsonSchema schema = JsonSchema.Parse(schemaJson);
+            var schema = JsonSchema.Parse(schemaJson);
             reader.Schema = schema;
             Assert.AreEqual(schema, reader.Schema);
             Assert.AreEqual(0, reader.Depth);
@@ -137,15 +137,15 @@ namespace Argon.Tests
         [Fact]
         public void ValidateUnrestrictedArray()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""type"":""array""
 }";
 
-            string json = "['pie','cake',['nested1','nested2'],{'nestedproperty1':1.1,'nestedproperty2':[null]}]";
+            var json = "['pie','cake',['nested1','nested2'],{'nestedproperty1':1.1,'nestedproperty2':[null]}]";
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
@@ -210,17 +210,17 @@ namespace Argon.Tests
         [Fact]
         public void StringLessThanMinimumLength()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""type"":""string"",
   ""minLength"":5,
   ""maxLength"":50,
 }";
 
-            string json = "'pie'";
+            var json = "'pie'";
 
             ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
@@ -234,17 +234,17 @@ namespace Argon.Tests
         [Fact]
         public void StringGreaterThanMaximumLength()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""type"":""string"",
   ""minLength"":5,
   ""maxLength"":10
 }";
 
-            string json = "'The quick brown fox jumps over the lazy dog.'";
+            var json = "'The quick brown fox jumps over the lazy dog.'";
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
@@ -258,7 +258,7 @@ namespace Argon.Tests
         [Fact]
         public void StringIsNotInEnum()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""type"":""array"",
   ""items"":{
     ""type"":""string"",
@@ -267,11 +267,11 @@ namespace Argon.Tests
   ""maxItems"":3
 }";
 
-            string json = "['one','two','THREE']";
+            var json = "['one','two','THREE']";
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
@@ -299,16 +299,16 @@ namespace Argon.Tests
         [Fact]
         public void StringDoesNotMatchPattern()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""type"":""string"",
   ""pattern"":""foo""
 }";
 
-            string json = "'The quick brown fox jumps over the lazy dog.'";
+            var json = "'The quick brown fox jumps over the lazy dog.'";
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
@@ -323,16 +323,16 @@ namespace Argon.Tests
         [Fact]
         public void IntegerGreaterThanMaximumValue()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""type"":""integer"",
   ""maximum"":5
 }";
 
-            string json = "10";
+            var json = "10";
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
@@ -347,16 +347,16 @@ namespace Argon.Tests
         [Fact]
         public void IntegerGreaterThanMaximumValue_BigInteger()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""type"":""integer"",
   ""maximum"":5
 }";
 
-            string json = "99999999999999999999999999999999999999999999999999999999999999999999";
+            var json = "99999999999999999999999999999999999999999999999999999999999999999999";
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
@@ -371,12 +371,12 @@ namespace Argon.Tests
         [Fact]
         public void IntegerLessThanMaximumValue_BigInteger()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""type"":""integer"",
   ""minimum"":5
 }";
 
-            JValue v = new JValue(new BigInteger(1));
+            var v = new JValue(new BigInteger(1));
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
@@ -392,12 +392,12 @@ namespace Argon.Tests
         {
             ExceptionAssert.Throws<JsonSchemaException>(() =>
             {
-                string schemaJson = @"{
+                var schemaJson = @"{
   ""type"":""integer"",
   ""maximum"":5
 }";
 
-                JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader("10")));
+                var reader = new JsonValidatingReader(new JsonTextReader(new StringReader("10")));
                 reader.Schema = JsonSchema.Parse(schemaJson);
 
                 Assert.IsTrue(reader.Read());
@@ -407,16 +407,16 @@ namespace Argon.Tests
         [Fact]
         public void IntegerLessThanMinimumValue()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""type"":""integer"",
   ""minimum"":5
 }";
 
-            string json = "1";
+            var json = "1";
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
@@ -430,7 +430,7 @@ namespace Argon.Tests
         [Fact]
         public void IntegerIsNotInEnum()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""type"":""array"",
   ""items"":{
     ""type"":""integer"",
@@ -439,11 +439,11 @@ namespace Argon.Tests
   ""maxItems"":3
 }";
 
-            string json = "[1,2,3]";
+            var json = "[1,2,3]";
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
@@ -471,16 +471,16 @@ namespace Argon.Tests
         [Fact]
         public void FloatGreaterThanMaximumValue()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""type"":""number"",
   ""maximum"":5
 }";
 
-            string json = "10.0";
+            var json = "10.0";
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
@@ -494,16 +494,16 @@ namespace Argon.Tests
         [Fact]
         public void FloatLessThanMinimumValue()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""type"":""number"",
   ""minimum"":5
 }";
 
-            string json = "1.1";
+            var json = "1.1";
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
@@ -517,7 +517,7 @@ namespace Argon.Tests
         [Fact]
         public void FloatIsNotInEnum()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""type"":""array"",
   ""items"":{
     ""type"":""number"",
@@ -526,11 +526,11 @@ namespace Argon.Tests
   ""maxItems"":3
 }";
 
-            string json = "[1.1,2.2,3.0]";
+            var json = "[1.1,2.2,3.0]";
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
@@ -558,7 +558,7 @@ namespace Argon.Tests
         [Fact]
         public void FloatDivisibleBy()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""type"":""array"",
   ""items"":{
     ""type"":""number"",
@@ -566,11 +566,11 @@ namespace Argon.Tests
   }
 }";
 
-            string json = "[1.1,2.2,4.001]";
+            var json = "[1.1,2.2,4.001]";
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
@@ -598,7 +598,7 @@ namespace Argon.Tests
         [Fact]
         public void BigIntegerDivisibleBy_Success()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""type"":""array"",
   ""items"":{
     ""type"":""number"",
@@ -606,11 +606,11 @@ namespace Argon.Tests
   }
 }";
 
-            string json = "[999999999999999999999999999999999999999999999999999999998]";
+            var json = "[999999999999999999999999999999999999999999999999999999998]";
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
@@ -628,7 +628,7 @@ namespace Argon.Tests
         [Fact]
         public void BigIntegerDivisibleBy_Failure()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""type"":""array"",
   ""items"":{
     ""type"":""number"",
@@ -636,11 +636,11 @@ namespace Argon.Tests
   }
 }";
 
-            string json = "[999999999999999999999999999999999999999999999999999999999]";
+            var json = "[999999999999999999999999999999999999999999999999999999999]";
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
@@ -661,7 +661,7 @@ namespace Argon.Tests
         [Fact]
         public void BigIntegerDivisibleBy_Fraction()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""type"":""array"",
   ""items"":{
     ""type"":""number"",
@@ -669,11 +669,11 @@ namespace Argon.Tests
   }
 }";
 
-            string json = "[999999999999999999999999999999999999999999999999999999999]";
+            var json = "[999999999999999999999999999999999999999999999999999999999]";
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
@@ -693,7 +693,7 @@ namespace Argon.Tests
         [Fact]
         public void BigIntegerDivisibleBy_FractionWithZeroValue()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""type"":""array"",
   ""items"":{
     ""type"":""number"",
@@ -701,7 +701,7 @@ namespace Argon.Tests
   }
 }";
 
-            JArray a = new JArray(new JValue(new BigInteger(0)));
+            var a = new JArray(new JValue(new BigInteger(0)));
 
             ValidationEventArgs validationEventArgs = null;
 
@@ -713,18 +713,18 @@ namespace Argon.Tests
         [Fact]
         public void IntValidForNumber()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""type"":""array"",
   ""items"":{
     ""type"":""number""
   }
 }";
 
-            string json = "[1]";
+            var json = "[1]";
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
@@ -743,7 +743,7 @@ namespace Argon.Tests
         [Fact]
         public void NullNotInEnum()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""type"":""array"",
   ""items"":{
     ""type"":""null"",
@@ -752,11 +752,11 @@ namespace Argon.Tests
   ""maxItems"":3
 }";
 
-            string json = "[null]";
+            var json = "[null]";
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
@@ -777,7 +777,7 @@ namespace Argon.Tests
         [Fact]
         public void BooleanNotInEnum()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""type"":""array"",
   ""items"":{
     ""type"":""boolean"",
@@ -786,11 +786,11 @@ namespace Argon.Tests
   ""maxItems"":3
 }";
 
-            string json = "[true,false]";
+            var json = "[true,false]";
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
@@ -815,17 +815,17 @@ namespace Argon.Tests
         [Fact]
         public void ArrayCountGreaterThanMaximumItems()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""type"":""array"",
   ""minItems"":2,
   ""maxItems"":3
 }";
 
-            string json = "[null,null,null,null]";
+            var json = "[null,null,null,null]";
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
@@ -851,17 +851,17 @@ namespace Argon.Tests
         [Fact]
         public void ArrayCountLessThanMinimumItems()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""type"":""array"",
   ""minItems"":2,
   ""maxItems"":3
 }";
 
-            string json = "[null]";
+            var json = "[null]";
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
@@ -881,18 +881,18 @@ namespace Argon.Tests
         [Fact]
         public void InvalidDataType()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""type"":""string"",
   ""minItems"":2,
   ""maxItems"":3,
   ""items"":{}
 }";
 
-            string json = "[null,null,null,null]";
+            var json = "[null,null,null,null]";
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
@@ -906,7 +906,7 @@ namespace Argon.Tests
         [Fact]
         public void StringDisallowed()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""type"":""array"",
   ""items"":{
     ""disallow"":[""number""]
@@ -914,11 +914,11 @@ namespace Argon.Tests
   ""maxItems"":3
 }";
 
-            string json = "['pie',1.1]";
+            var json = "['pie',1.1]";
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
@@ -942,7 +942,7 @@ namespace Argon.Tests
         [Fact]
         public void MissingRequiredProperties()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""description"":""A person"",
   ""type"":""object"",
   ""properties"":
@@ -953,11 +953,11 @@ namespace Argon.Tests
   }
 }";
 
-            string json = "{'name':'James'}";
+            var json = "{'name':'James'}";
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
@@ -984,7 +984,7 @@ namespace Argon.Tests
         [Fact]
         public void MissingNonRequiredProperties()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""description"":""A person"",
   ""type"":""object"",
   ""properties"":
@@ -995,11 +995,11 @@ namespace Argon.Tests
   }
 }";
 
-            string json = "{'name':'James'}";
+            var json = "{'name':'James'}";
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
@@ -1024,7 +1024,7 @@ namespace Argon.Tests
         [Fact]
         public void DisableAdditionalProperties()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""description"":""A person"",
   ""type"":""object"",
   ""properties"":
@@ -1034,11 +1034,11 @@ namespace Argon.Tests
   ""additionalProperties"":false
 }";
 
-            string json = "{'name':'James','additionalProperty1':null,'additionalProperty2':null}";
+            var json = "{'name':'James','additionalProperty1':null,'additionalProperty2':null}";
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
@@ -1081,7 +1081,7 @@ namespace Argon.Tests
         [Fact]
         public void ExtendsStringGreaterThanMaximumLength()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""extends"":{
     ""type"":""string"",
     ""minLength"":5,
@@ -1090,12 +1090,12 @@ namespace Argon.Tests
   ""maxLength"":9
 }";
 
-            List<string> errors = new List<string>();
-            string json = "'The quick brown fox jumps over the lazy dog.'";
+            var errors = new List<string>();
+            var json = "'The quick brown fox jumps over the lazy dog.'";
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) =>
             {
                 validationEventArgs = args;
@@ -1113,7 +1113,7 @@ namespace Argon.Tests
 
         private JsonSchema GetExtendedSchema()
         {
-            string first = @"{
+            var first = @"{
   ""id"":""first"",
   ""type"":""object"",
   ""properties"":
@@ -1123,7 +1123,7 @@ namespace Argon.Tests
   ""additionalProperties"":{}
 }";
 
-            string second = @"{
+            var second = @"{
   ""id"":""second"",
   ""type"":""object"",
   ""extends"":{""$ref"":""first""},
@@ -1134,9 +1134,9 @@ namespace Argon.Tests
   ""additionalProperties"":false
 }";
 
-            JsonSchemaResolver resolver = new JsonSchemaResolver();
-            JsonSchema firstSchema = JsonSchema.Parse(first, resolver);
-            JsonSchema secondSchema = JsonSchema.Parse(second, resolver);
+            var resolver = new JsonSchemaResolver();
+            var firstSchema = JsonSchema.Parse(first, resolver);
+            var secondSchema = JsonSchema.Parse(second, resolver);
 
             return secondSchema;
         }
@@ -1144,11 +1144,11 @@ namespace Argon.Tests
         [Fact]
         public void ExtendsDisallowAdditionProperties()
         {
-            string json = "{'firstproperty':'blah','secondproperty':'blah2','additional':'blah3','additional2':'blah4'}";
+            var json = "{'firstproperty':'blah','secondproperty':'blah2','additional':'blah3','additional2':'blah4'}";
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
             reader.Schema = GetExtendedSchema();
 
@@ -1202,11 +1202,11 @@ namespace Argon.Tests
         [Fact]
         public void ExtendsMissingRequiredProperties()
         {
-            string json = "{}";
+            var json = "{}";
 
-            List<string> errors = new List<string>();
+            var errors = new List<string>();
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { errors.Add(args.Message); };
             reader.Schema = GetExtendedSchema();
 
@@ -1223,17 +1223,17 @@ namespace Argon.Tests
         [Fact]
         public void NoAdditionalItems()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""type"":""array"",
   ""items"": [{""type"":""string""},{""type"":""integer""}],
   ""additionalItems"": false
 }";
 
-            string json = @"[1, 'a', null]";
+            var json = @"[1, 'a', null]";
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
@@ -1261,7 +1261,7 @@ namespace Argon.Tests
         [Fact]
         public void PatternPropertiesNoAdditionalProperties()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""type"":""object"",
   ""patternProperties"": {
      ""hi"": {""type"":""string""},
@@ -1270,7 +1270,7 @@ namespace Argon.Tests
   ""additionalProperties"": false
 }";
 
-            string json = @"{
+            var json = @"{
   ""hi"": ""A string!"",
   ""hide"": ""A string!"",
   ""ho"": 1,
@@ -1279,7 +1279,7 @@ namespace Argon.Tests
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
@@ -1324,7 +1324,7 @@ namespace Argon.Tests
         [Fact]
         public void ExtendedComplex()
         {
-            string first = @"{
+            var first = @"{
   ""id"":""first"",
   ""type"":""object"",
   ""properties"":
@@ -1342,7 +1342,7 @@ namespace Argon.Tests
   ""additionalProperties"":{}
 }";
 
-            string second = @"{
+            var second = @"{
   ""id"":""second"",
   ""type"":""object"",
   ""extends"":{""$ref"":""first""},
@@ -1369,13 +1369,13 @@ namespace Argon.Tests
   ""additionalProperties"":false
 }";
 
-            JsonSchemaResolver resolver = new JsonSchemaResolver();
-            JsonSchema firstSchema = JsonSchema.Parse(first, resolver);
-            JsonSchema secondSchema = JsonSchema.Parse(second, resolver);
+            var resolver = new JsonSchemaResolver();
+            var firstSchema = JsonSchema.Parse(first, resolver);
+            var secondSchema = JsonSchema.Parse(second, resolver);
 
-            JsonSchemaModelBuilder modelBuilder = new JsonSchemaModelBuilder();
+            var modelBuilder = new JsonSchemaModelBuilder();
 
-            string json = @"{
+            var json = @"{
   'firstproperty':'blahblahblahblahblahblah',
   'secondproperty':'secasecasecasecaseca',
   'thirdproperty':{
@@ -1385,9 +1385,9 @@ namespace Argon.Tests
 }";
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
-            List<string> errors = new List<string>();
+            var errors = new List<string>();
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) =>
             {
                 validationEventArgs = args;
@@ -1462,7 +1462,7 @@ namespace Argon.Tests
         [Fact]
         public void DuplicateErrorsTest()
         {
-            string schema = @"{
+            var schema = @"{
   ""id"":""ErrorDemo.Database"",
   ""properties"":{
     ""ErrorDemoDatabase"":{
@@ -1520,7 +1520,7 @@ namespace Argon.Tests
   }
 }";
 
-            string json = @"{
+            var json = @"{
   ""ErrorDemoDatabase"":{
     ""URL"":""localhost:3164"",
     ""Version"":""1.0"",
@@ -1564,7 +1564,7 @@ namespace Argon.Tests
 
             IList<ValidationEventArgs> validationEventArgs = new List<ValidationEventArgs>();
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs.Add(args); };
             reader.Schema = JsonSchema.Parse(schema);
 
@@ -1578,15 +1578,15 @@ namespace Argon.Tests
         [Fact]
         public void ReadAsBytes()
         {
-            JsonSchema s = new JsonSchemaGenerator().Generate(typeof(byte[]));
+            var s = new JsonSchemaGenerator().Generate(typeof(byte[]));
 
-            byte[] data = Encoding.UTF8.GetBytes("Hello world");
+            var data = Encoding.UTF8.GetBytes("Hello world");
 
             JsonReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(@"""" + Convert.ToBase64String(data) + @"""")))
             {
                 Schema = s
             };
-            byte[] bytes = reader.ReadAsBytes();
+            var bytes = reader.ReadAsBytes();
 
             CollectionAssert.AreEquivalent(data, bytes);
         }
@@ -1594,13 +1594,13 @@ namespace Argon.Tests
         [Fact]
         public void ReadAsInt32()
         {
-            JsonSchema s = new JsonSchemaGenerator().Generate(typeof(int));
+            var s = new JsonSchemaGenerator().Generate(typeof(int));
 
             JsonReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(@"1")))
             {
                 Schema = s
             };
-            int? i = reader.ReadAsInt32();
+            var i = reader.ReadAsInt32();
 
             Assert.AreEqual(1, i);
         }
@@ -1610,7 +1610,7 @@ namespace Argon.Tests
         {
             ExceptionAssert.Throws<JsonSchemaException>(() =>
             {
-                JsonSchema s = new JsonSchemaGenerator().Generate(typeof(int));
+                var s = new JsonSchemaGenerator().Generate(typeof(int));
                 s.Maximum = 2;
 
                 JsonReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(@"5")))
@@ -1624,13 +1624,13 @@ namespace Argon.Tests
         [Fact]
         public void ReadAsDecimal()
         {
-            JsonSchema s = new JsonSchemaGenerator().Generate(typeof(decimal));
+            var s = new JsonSchemaGenerator().Generate(typeof(decimal));
 
             JsonReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(@"1.5")))
             {
                 Schema = s
             };
-            decimal? d = reader.ReadAsDecimal();
+            var d = reader.ReadAsDecimal();
 
             Assert.AreEqual(1.5m, d);
         }
@@ -1640,7 +1640,7 @@ namespace Argon.Tests
         {
             ExceptionAssert.Throws<JsonSchemaException>(() =>
             {
-                JsonSchema s = new JsonSchemaGenerator().Generate(typeof(decimal));
+                var s = new JsonSchemaGenerator().Generate(typeof(decimal));
                 s.DivisibleBy = 1;
 
                 JsonReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(@"5.5")))
@@ -1654,9 +1654,9 @@ namespace Argon.Tests
         [Fact]
         public void ReadAsInt32FromSerializer()
         {
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader("[1,2,3]")));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader("[1,2,3]")));
             reader.Schema = new JsonSchemaGenerator().Generate(typeof(int[]));
-            int[] values = new JsonSerializer().Deserialize<int[]>(reader);
+            var values = new JsonSerializer().Deserialize<int[]>(reader);
 
             Assert.AreEqual(3, values.Length);
             Assert.AreEqual(1, values[0]);
@@ -1667,7 +1667,7 @@ namespace Argon.Tests
         [Fact]
         public void ReadAsInt32InArray()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""type"":""array"",
   ""items"":{
     ""type"":""integer""
@@ -1675,11 +1675,11 @@ namespace Argon.Tests
   ""maxItems"":1
 }";
 
-            string json = "[1,2]";
+            var json = "[1,2]";
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 
@@ -1703,7 +1703,7 @@ namespace Argon.Tests
         [Fact]
         public void ReadAsInt32InArrayIncomplete()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""type"":""array"",
   ""items"":{
     ""type"":""integer""
@@ -1711,11 +1711,11 @@ namespace Argon.Tests
   ""maxItems"":1
 }";
 
-            string json = "[1,2";
+            var json = "[1,2";
 
             Argon.Schema.ValidationEventArgs validationEventArgs = null;
 
-            JsonValidatingReader reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
+            var reader = new JsonValidatingReader(new JsonTextReader(new StringReader(json)));
             reader.ValidationEventHandler += (sender, args) => { validationEventArgs = args; };
             reader.Schema = JsonSchema.Parse(schemaJson);
 

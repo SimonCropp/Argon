@@ -41,7 +41,7 @@ namespace Argon.Tests.Documentation.Samples.JsonPath
         public void Example()
         {
             #region Usage
-            JObject o = JObject.Parse(@"{
+            var o = JObject.Parse(@"{
               'Stores': [
                 'Lambton Quay',
                 'Willis Street'
@@ -72,18 +72,18 @@ namespace Argon.Tests.Documentation.Samples.JsonPath
               ]
             }");
 
-            string[] storeNames = o.SelectToken("Stores").Select(s => (string)s).ToArray();
+            var storeNames = o.SelectToken("Stores").Select(s => (string)s).ToArray();
 
             Console.WriteLine(string.Join(", ", storeNames));
             // Lambton Quay, Willis Street
 
-            string[] firstProductNames = o["Manufacturers"].Select(m => (string)m.SelectToken("Products[1].Name"))
+            var firstProductNames = o["Manufacturers"].Select(m => (string)m.SelectToken("Products[1].Name"))
                 .Where(n => n != null).ToArray();
 
             Console.WriteLine(string.Join(", ", firstProductNames));
             // Headlight Fluid
 
-            decimal totalPrice = o["Manufacturers"].Sum(m => (decimal)m.SelectToken("Products[0].Price"));
+            var totalPrice = o["Manufacturers"].Sum(m => (decimal)m.SelectToken("Products[0].Price"));
 
             Console.WriteLine(totalPrice);
             // 149.95

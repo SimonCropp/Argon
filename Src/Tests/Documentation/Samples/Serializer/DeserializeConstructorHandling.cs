@@ -61,7 +61,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            string json = @"{'Url':'http://www.google.com'}";
+            var json = @"{'Url':'http://www.google.com'}";
 
             try
             {
@@ -74,7 +74,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
                 // Parameter name: website
             }
 
-            Website website = JsonConvert.DeserializeObject<Website>(json, new JsonSerializerSettings
+            var website = JsonConvert.DeserializeObject<Website>(json, new JsonSerializerSettings
             {
                 ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
             });

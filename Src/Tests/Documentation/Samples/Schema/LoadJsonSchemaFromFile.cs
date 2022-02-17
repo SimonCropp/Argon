@@ -38,13 +38,13 @@ namespace Argon.Tests.Documentation.Samples.Schema
         {
             #region Usage
             // read file into a string and parse JsonSchema from the string
-            JsonSchema schema1 = JsonSchema.Parse(File.ReadAllText(@"c:\schema.json"));
+            var schema1 = JsonSchema.Parse(File.ReadAllText(@"c:\schema.json"));
 
             // read JsonSchema directly from a file
-            using (StreamReader file = File.OpenText(@"c:\schema.json"))
-            using (JsonTextReader reader = new JsonTextReader(file))
+            using (var file = File.OpenText(@"c:\schema.json"))
+            using (var reader = new JsonTextReader(file))
             {
-                JsonSchema schema2 = JsonSchema.Read(reader);
+                var schema2 = JsonSchema.Read(reader);
             }
             #endregion
         }

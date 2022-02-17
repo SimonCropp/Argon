@@ -52,10 +52,10 @@ namespace Argon.Tests.Schema
         [Fact]
         public void Generate_GenericDictionary()
         {
-            JsonSchemaGenerator generator = new JsonSchemaGenerator();
-            JsonSchema schema = generator.Generate(typeof(Dictionary<string, List<string>>));
+            var generator = new JsonSchemaGenerator();
+            var schema = generator.Generate(typeof(Dictionary<string, List<string>>));
 
-            string json = schema.ToString();
+            var json = schema.ToString();
 
             StringAssert.AreEqual(@"{
   ""type"": ""object"",
@@ -73,14 +73,14 @@ namespace Argon.Tests.Schema
   }
 }", json);
 
-            Dictionary<string, List<string>> value = new Dictionary<string, List<string>>
+            var value = new Dictionary<string, List<string>>
             {
                 { "HasValue", new List<string>() { "first", "second", null } },
                 { "NoValue", null }
             };
 
-            string valueJson = JsonConvert.SerializeObject(value, Formatting.Indented);
-            JObject o = JObject.Parse(valueJson);
+            var valueJson = JsonConvert.SerializeObject(value, Formatting.Indented);
+            var o = JObject.Parse(valueJson);
 
             Assert.IsTrue(o.IsValid(schema));
         }
@@ -89,10 +89,10 @@ namespace Argon.Tests.Schema
         [Fact]
         public void Generate_DefaultValueAttributeTestClass()
         {
-            JsonSchemaGenerator generator = new JsonSchemaGenerator();
-            JsonSchema schema = generator.Generate(typeof(DefaultValueAttributeTestClass));
+            var generator = new JsonSchemaGenerator();
+            var schema = generator.Generate(typeof(DefaultValueAttributeTestClass));
 
-            string json = schema.ToString();
+            var json = schema.ToString();
 
             StringAssert.AreEqual(@"{
   ""description"": ""DefaultValueAttributeTestClass description!"",
@@ -120,10 +120,10 @@ namespace Argon.Tests.Schema
         [Fact]
         public void Generate_Person()
         {
-            JsonSchemaGenerator generator = new JsonSchemaGenerator();
-            JsonSchema schema = generator.Generate(typeof(Person));
+            var generator = new JsonSchemaGenerator();
+            var schema = generator.Generate(typeof(Person));
 
-            string json = schema.ToString();
+            var json = schema.ToString();
 
             StringAssert.AreEqual(@"{
   ""id"": ""Person"",
@@ -153,10 +153,10 @@ namespace Argon.Tests.Schema
         [Fact]
         public void Generate_UserNullable()
         {
-            JsonSchemaGenerator generator = new JsonSchemaGenerator();
-            JsonSchema schema = generator.Generate(typeof(UserNullable));
+            var generator = new JsonSchemaGenerator();
+            var schema = generator.Generate(typeof(UserNullable));
 
-            string json = schema.ToString();
+            var json = schema.ToString();
 
             StringAssert.AreEqual(@"{
   ""type"": ""object"",
@@ -211,8 +211,8 @@ namespace Argon.Tests.Schema
         [Fact]
         public void Generate_RequiredMembersClass()
         {
-            JsonSchemaGenerator generator = new JsonSchemaGenerator();
-            JsonSchema schema = generator.Generate(typeof(RequiredMembersClass));
+            var generator = new JsonSchemaGenerator();
+            var schema = generator.Generate(typeof(RequiredMembersClass));
 
             Assert.AreEqual(JsonSchemaType.String, schema.Properties["FirstName"].Type);
             Assert.AreEqual(JsonSchemaType.String | JsonSchemaType.Null, schema.Properties["MiddleName"].Type);
@@ -223,13 +223,13 @@ namespace Argon.Tests.Schema
         [Fact]
         public void Generate_Store()
         {
-            JsonSchemaGenerator generator = new JsonSchemaGenerator();
-            JsonSchema schema = generator.Generate(typeof(Store));
+            var generator = new JsonSchemaGenerator();
+            var schema = generator.Generate(typeof(Store));
 
             Assert.AreEqual(11, schema.Properties.Count);
 
-            JsonSchema productArraySchema = schema.Properties["product"];
-            JsonSchema productSchema = productArraySchema.Items[0];
+            var productArraySchema = schema.Properties["product"];
+            var productSchema = productArraySchema.Items[0];
 
             Assert.AreEqual(4, productSchema.Properties.Count);
         }
@@ -237,9 +237,9 @@ namespace Argon.Tests.Schema
         [Fact]
         public void MissingSchemaIdHandlingTest()
         {
-            JsonSchemaGenerator generator = new JsonSchemaGenerator();
+            var generator = new JsonSchemaGenerator();
 
-            JsonSchema schema = generator.Generate(typeof(Store));
+            var schema = generator.Generate(typeof(Store));
             Assert.AreEqual(null, schema.Id);
 
             generator.UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseTypeName;
@@ -256,7 +256,7 @@ namespace Argon.Tests.Schema
         {
             ExceptionAssert.Throws<Exception>(() =>
             {
-                JsonSchemaGenerator generator = new JsonSchemaGenerator();
+                var generator = new JsonSchemaGenerator();
                 generator.Generate(typeof(CircularReferenceClass));
             }, @"Unresolved circular reference for type 'Argon.Tests.TestObjects.CircularReferenceClass'. Explicitly define an Id for the type using a JsonObject/JsonArray attribute or automatically generate a type Id using the UndefinedSchemaIdHandling property.");
         }
@@ -264,10 +264,10 @@ namespace Argon.Tests.Schema
         [Fact]
         public void CircularReferenceWithTypeNameId()
         {
-            JsonSchemaGenerator generator = new JsonSchemaGenerator();
+            var generator = new JsonSchemaGenerator();
             generator.UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseTypeName;
 
-            JsonSchema schema = generator.Generate(typeof(CircularReferenceClass), true);
+            var schema = generator.Generate(typeof(CircularReferenceClass), true);
 
             Assert.AreEqual(JsonSchemaType.String, schema.Properties["Name"].Type);
             Assert.AreEqual(typeof(CircularReferenceClass).FullName, schema.Id);
@@ -278,9 +278,9 @@ namespace Argon.Tests.Schema
         [Fact]
         public void CircularReferenceWithExplicitId()
         {
-            JsonSchemaGenerator generator = new JsonSchemaGenerator();
+            var generator = new JsonSchemaGenerator();
 
-            JsonSchema schema = generator.Generate(typeof(CircularReferenceWithIdClass));
+            var schema = generator.Generate(typeof(CircularReferenceWithIdClass));
 
             Assert.AreEqual(JsonSchemaType.String | JsonSchemaType.Null, schema.Properties["Name"].Type);
             Assert.AreEqual("MyExplicitId", schema.Id);
@@ -291,26 +291,26 @@ namespace Argon.Tests.Schema
         [Fact]
         public void GenerateSchemaForType()
         {
-            JsonSchemaGenerator generator = new JsonSchemaGenerator();
+            var generator = new JsonSchemaGenerator();
             generator.UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseTypeName;
 
-            JsonSchema schema = generator.Generate(typeof(Type));
+            var schema = generator.Generate(typeof(Type));
 
             Assert.AreEqual(JsonSchemaType.String, schema.Type);
 
-            string json = JsonConvert.SerializeObject(typeof(Version), Formatting.Indented);
+            var json = JsonConvert.SerializeObject(typeof(Version), Formatting.Indented);
 
-            JValue v = new JValue(json);
+            var v = new JValue(json);
             Assert.IsTrue(v.IsValid(schema));
         }
 
         [Fact]
         public void GenerateSchemaForISerializable()
         {
-            JsonSchemaGenerator generator = new JsonSchemaGenerator();
+            var generator = new JsonSchemaGenerator();
             generator.UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseTypeName;
 
-            JsonSchema schema = generator.Generate(typeof(ISerializableTestObject));
+            var schema = generator.Generate(typeof(ISerializableTestObject));
 
             Assert.AreEqual(JsonSchemaType.Object, schema.Type);
             Assert.AreEqual(true, schema.AllowAdditionalProperties);
@@ -320,10 +320,10 @@ namespace Argon.Tests.Schema
         [Fact]
         public void GenerateSchemaForDBNull()
         {
-            JsonSchemaGenerator generator = new JsonSchemaGenerator();
+            var generator = new JsonSchemaGenerator();
             generator.UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseTypeName;
 
-            JsonSchema schema = generator.Generate(typeof(DBNull));
+            var schema = generator.Generate(typeof(DBNull));
 
             Assert.AreEqual(JsonSchemaType.Null, schema.Type);
         }
@@ -346,9 +346,9 @@ namespace Argon.Tests.Schema
 
             protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
             {
-                IList<JsonProperty> properties = base.CreateProperties(type, memberSerialization);
+                var properties = base.CreateProperties(type, memberSerialization);
 
-                JsonPropertyCollection c = new JsonPropertyCollection(type);
+                var c = new JsonPropertyCollection(type);
                 c.AddRange(properties.Where(m => m.PropertyName != "Root"));
 
                 return c;
@@ -358,16 +358,16 @@ namespace Argon.Tests.Schema
         [Fact]
         public void GenerateSchemaCamelCase()
         {
-            JsonSchemaGenerator generator = new JsonSchemaGenerator();
+            var generator = new JsonSchemaGenerator();
             generator.UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseTypeName;
             generator.ContractResolver = new CamelCasePropertyNamesContractResolver()
             {
                 IgnoreSerializableAttribute = true
             };
 
-            JsonSchema schema = generator.Generate(typeof(VersionOld), true);
+            var schema = generator.Generate(typeof(VersionOld), true);
 
-            string json = schema.ToString();
+            var json = schema.ToString();
 
             StringAssert.AreEqual(@"{
   ""id"": ""Argon.Tests.TestObjects.VersionOld"",
@@ -408,9 +408,9 @@ namespace Argon.Tests.Schema
         [Fact]
         public void GenerateSchemaSerializable()
         {
-            JsonSchemaGenerator generator = new JsonSchemaGenerator();
+            var generator = new JsonSchemaGenerator();
 
-            DefaultContractResolver contractResolver = new DefaultContractResolver
+            var contractResolver = new DefaultContractResolver
             {
                 IgnoreSerializableAttribute = false
             };
@@ -418,9 +418,9 @@ namespace Argon.Tests.Schema
             generator.ContractResolver = contractResolver;
             generator.UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseTypeName;
 
-            JsonSchema schema = generator.Generate(typeof(SerializableTestObject), true);
+            var schema = generator.Generate(typeof(SerializableTestObject), true);
 
-            string json = schema.ToString();
+            var json = schema.ToString();
 
             StringAssert.AreEqual(@"{
   ""id"": ""Argon.Tests.Schema.SerializableTestObject"",
@@ -440,8 +440,8 @@ namespace Argon.Tests.Schema
   }
 }", json);
 
-            JTokenWriter jsonWriter = new JTokenWriter();
-            JsonSerializer serializer = new JsonSerializer();
+            var jsonWriter = new JTokenWriter();
+            var serializer = new JsonSerializer();
             serializer.ContractResolver = contractResolver;
             serializer.Serialize(jsonWriter, new SerializableTestObject
             {
@@ -449,7 +449,7 @@ namespace Argon.Tests.Schema
             });
 
 
-            List<string> errors = new List<string>();
+            var errors = new List<string>();
             jsonWriter.Token.Validate(schema, (sender, args) => errors.Add(args.Message));
 
             Assert.AreEqual(0, errors.Count);
@@ -458,7 +458,7 @@ namespace Argon.Tests.Schema
   ""_name"": ""Name!""
 }", jsonWriter.Token.ToString());
 
-            SerializableTestObject c = jsonWriter.Token.ToObject<SerializableTestObject>(serializer);
+            var c = jsonWriter.Token.ToObject<SerializableTestObject>(serializer);
             Assert.AreEqual("Name!", c.Name);
         }
 
@@ -477,10 +477,10 @@ namespace Argon.Tests.Schema
         [Fact]
         public void GenerateSchemaWithNegativeEnum()
         {
-            JsonSchemaGenerator jsonSchemaGenerator = new JsonSchemaGenerator();
-            JsonSchema schema = jsonSchemaGenerator.Generate(typeof(X));
+            var jsonSchemaGenerator = new JsonSchemaGenerator();
+            var schema = jsonSchemaGenerator.Generate(typeof(X));
 
-            string json = schema.ToString();
+            var json = schema.ToString();
 
             StringAssert.AreEqual(@"{
   ""type"": ""object"",
@@ -501,11 +501,11 @@ namespace Argon.Tests.Schema
         [Fact]
         public void CircularCollectionReferences()
         {
-            Type type = typeof(Workspace);
-            JsonSchemaGenerator jsonSchemaGenerator = new JsonSchemaGenerator();
+            var type = typeof(Workspace);
+            var jsonSchemaGenerator = new JsonSchemaGenerator();
 
             jsonSchemaGenerator.UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseTypeName;
-            JsonSchema jsonSchema = jsonSchemaGenerator.Generate(type);
+            var jsonSchema = jsonSchemaGenerator.Generate(type);
 
             // should succeed
             Assert.IsNotNull(jsonSchema);
@@ -514,11 +514,11 @@ namespace Argon.Tests.Schema
         [Fact]
         public void CircularReferenceWithMixedRequires()
         {
-            JsonSchemaGenerator jsonSchemaGenerator = new JsonSchemaGenerator();
+            var jsonSchemaGenerator = new JsonSchemaGenerator();
 
             jsonSchemaGenerator.UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseTypeName;
-            JsonSchema jsonSchema = jsonSchemaGenerator.Generate(typeof(CircularReferenceClass));
-            string json = jsonSchema.ToString();
+            var jsonSchema = jsonSchemaGenerator.Generate(typeof(CircularReferenceClass));
+            var json = jsonSchema.ToString();
 
             StringAssert.AreEqual(@"{
   ""id"": ""Argon.Tests.TestObjects.CircularReferenceClass"",
@@ -541,11 +541,11 @@ namespace Argon.Tests.Schema
         [Fact]
         public void JsonPropertyWithHandlingValues()
         {
-            JsonSchemaGenerator jsonSchemaGenerator = new JsonSchemaGenerator();
+            var jsonSchemaGenerator = new JsonSchemaGenerator();
 
             jsonSchemaGenerator.UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseTypeName;
-            JsonSchema jsonSchema = jsonSchemaGenerator.Generate(typeof(JsonPropertyWithHandlingValues));
-            string json = jsonSchema.ToString();
+            var jsonSchema = jsonSchemaGenerator.Generate(typeof(JsonPropertyWithHandlingValues));
+            var json = jsonSchema.ToString();
 
             StringAssert.AreEqual(@"{
   ""id"": ""Argon.Tests.TestObjects.JsonPropertyWithHandlingValues"",
@@ -614,10 +614,10 @@ namespace Argon.Tests.Schema
         [Fact]
         public void GenerateForNullableInt32()
         {
-            JsonSchemaGenerator jsonSchemaGenerator = new JsonSchemaGenerator();
+            var jsonSchemaGenerator = new JsonSchemaGenerator();
 
-            JsonSchema jsonSchema = jsonSchemaGenerator.Generate(typeof(NullableInt32TestClass));
-            string json = jsonSchema.ToString();
+            var jsonSchema = jsonSchemaGenerator.Generate(typeof(NullableInt32TestClass));
+            var json = jsonSchema.ToString();
 
             StringAssert.AreEqual(@"{
   ""type"": ""object"",

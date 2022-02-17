@@ -16,13 +16,13 @@ namespace Argon.Linq.JsonPath
 
         public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings? settings)
         {
-            foreach (JToken t in current)
+            foreach (var t in current)
             {
                 if (t is JObject o)
                 {
-                    foreach (string name in Names)
+                    foreach (var name in Names)
                     {
-                        JToken? v = o[name];
+                        var v = o[name];
 
                         if (v != null)
                         {

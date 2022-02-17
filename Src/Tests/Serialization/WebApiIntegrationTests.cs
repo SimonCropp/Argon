@@ -42,7 +42,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeSerializableType()
         {
-            SerializableType serializableType = new SerializableType("protected")
+            var serializableType = new SerializableType("protected")
             {
                 publicField = "public",
                 protectedInternalField = "protected internal",
@@ -52,18 +52,18 @@ namespace Argon.Tests.Serialization
             };
 
 #if !NET5_0_OR_GREATER
-            MemoryStream ms = new MemoryStream();
-            DataContractJsonSerializer dataContractJsonSerializer = new DataContractJsonSerializer(typeof(SerializableType));
+            var ms = new MemoryStream();
+            var dataContractJsonSerializer = new DataContractJsonSerializer(typeof(SerializableType));
             dataContractJsonSerializer.WriteObject(ms, serializableType);
 
-            string dtJson = Encoding.UTF8.GetString(ms.ToArray());
-            string dtExpected = @"{""internalField"":""internal"",""privateField"":""private"",""protectedField"":""protected"",""protectedInternalField"":""protected internal"",""publicField"":""public""}";
+            var dtJson = Encoding.UTF8.GetString(ms.ToArray());
+            var dtExpected = @"{""internalField"":""internal"",""privateField"":""private"",""protectedField"":""protected"",""protectedInternalField"":""protected internal"",""publicField"":""public""}";
 
             Assert.AreEqual(dtExpected, dtJson);
 #endif
 
-            string expected = "{\"publicField\":\"public\",\"internalField\":\"internal\",\"protectedInternalField\":\"protected internal\",\"protectedField\":\"protected\",\"privateField\":\"private\"}";
-            string json = JsonConvert.SerializeObject(serializableType, new JsonSerializerSettings
+            var expected = "{\"publicField\":\"public\",\"internalField\":\"internal\",\"protectedInternalField\":\"protected internal\",\"protectedField\":\"protected\",\"privateField\":\"private\"}";
+            var json = JsonConvert.SerializeObject(serializableType, new JsonSerializerSettings
             {
                 ContractResolver = new DefaultContractResolver
                 {
@@ -77,7 +77,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeInheritedType()
         {
-            InheritedType serializableType = new InheritedType("protected")
+            var serializableType = new InheritedType("protected")
             {
                 publicField = "public",
                 protectedInternalField = "protected internal",
@@ -87,7 +87,7 @@ namespace Argon.Tests.Serialization
                 inheritedTypeField = "inherited"
             };
 
-            string json = JsonConvert.SerializeObject(serializableType);
+            var json = JsonConvert.SerializeObject(serializableType);
 
             Assert.AreEqual(@"{""inheritedTypeField"":""inherited"",""publicField"":""public"",""PublicProperty"":""private""}", json);
         }

@@ -58,12 +58,12 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void ConstructorWithInString()
         {
-            ConstructorInfo constructor = TestReflectionUtils.GetConstructors(typeof(InTestClass)).Single(c => c.GetParameters().Count() == 1);
+            var constructor = TestReflectionUtils.GetConstructors(typeof(InTestClass)).Single(c => c.GetParameters().Count() == 1);
 
             var creator = LateBoundReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-            object[] args = new object[] { "Value" };
-            InTestClass o = (InTestClass)creator(args);
+            var args = new object[] { "Value" };
+            var o = (InTestClass)creator(args);
             Assert.IsNotNull(o);
             Assert.AreEqual("Value", o.Value);
         }
@@ -71,12 +71,12 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void ConstructorWithInStringAndBool()
         {
-            ConstructorInfo constructor = TestReflectionUtils.GetConstructors(typeof(InTestClass)).Single(c => c.GetParameters().Count() == 2);
+            var constructor = TestReflectionUtils.GetConstructors(typeof(InTestClass)).Single(c => c.GetParameters().Count() == 2);
 
             var creator = LateBoundReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-            object[] args = new object[] { "Value", true };
-            InTestClass o = (InTestClass)creator(args);
+            var args = new object[] { "Value", true };
+            var o = (InTestClass)creator(args);
             Assert.IsNotNull(o);
             Assert.AreEqual("Value", o.Value);
             Assert.AreEqual(true, o.B1);
@@ -85,12 +85,12 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void ConstructorWithRefString()
         {
-            ConstructorInfo constructor = TestReflectionUtils.GetConstructors(typeof(OutAndRefTestClass)).Single(c => c.GetParameters().Count() == 1);
+            var constructor = TestReflectionUtils.GetConstructors(typeof(OutAndRefTestClass)).Single(c => c.GetParameters().Count() == 1);
 
             var creator = LateBoundReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-            object[] args = new object[] { "Input" };
-            OutAndRefTestClass o = (OutAndRefTestClass)creator(args);
+            var args = new object[] { "Input" };
+            var o = (OutAndRefTestClass)creator(args);
             Assert.IsNotNull(o);
             Assert.AreEqual("Input", o.Input);
         }
@@ -98,12 +98,12 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void ConstructorWithRefStringAndOutBool()
         {
-            ConstructorInfo constructor = TestReflectionUtils.GetConstructors(typeof(OutAndRefTestClass)).Single(c => c.GetParameters().Count() == 2);
+            var constructor = TestReflectionUtils.GetConstructors(typeof(OutAndRefTestClass)).Single(c => c.GetParameters().Count() == 2);
 
             var creator = LateBoundReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-            object[] args = new object[] { "Input", null };
-            OutAndRefTestClass o = (OutAndRefTestClass)creator(args);
+            var args = new object[] { "Input", null };
+            var o = (OutAndRefTestClass)creator(args);
             Assert.IsNotNull(o);
             Assert.AreEqual("Input", o.Input);
         }
@@ -111,12 +111,12 @@ namespace Argon.Tests.Utilities
         [Fact]
         public void ConstructorWithRefStringAndRefBoolAndRefBool()
         {
-            ConstructorInfo constructor = TestReflectionUtils.GetConstructors(typeof(OutAndRefTestClass)).Single(c => c.GetParameters().Count() == 3);
+            var constructor = TestReflectionUtils.GetConstructors(typeof(OutAndRefTestClass)).Single(c => c.GetParameters().Count() == 3);
 
             var creator = LateBoundReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-            object[] args = new object[] { "Input", true, null };
-            OutAndRefTestClass o = (OutAndRefTestClass)creator(args);
+            var args = new object[] { "Input", true, null };
+            var o = (OutAndRefTestClass)creator(args);
             Assert.IsNotNull(o);
             Assert.AreEqual("Input", o.Input);
             Assert.AreEqual(true, o.B1);

@@ -53,9 +53,9 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            Employee joe = new Employee();
+            var joe = new Employee();
             joe.Name = "Joe Employee";
-            Employee mike = new Employee();
+            var mike = new Employee();
             mike.Name = "Mike Manager";
 
             joe.Manager = mike;
@@ -64,7 +64,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
             // ShouldSerialize will skip this property
             mike.Manager = mike;
 
-            string json = JsonConvert.SerializeObject(new[] { joe, mike }, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(new[] { joe, mike }, Formatting.Indented);
 
             Console.WriteLine(json);
             // [

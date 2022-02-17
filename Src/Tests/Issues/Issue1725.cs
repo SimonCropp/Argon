@@ -46,7 +46,7 @@ namespace Argon.Tests.Issues
         public void Test_In()
         {
             var p1 = new InPerson("some name");
-            string json = JsonConvert.SerializeObject(p1);
+            var json = JsonConvert.SerializeObject(p1);
 
             var p2 = JsonConvert.DeserializeObject<InPerson>(json);
             Assert.AreEqual("some name", p2.Name);
@@ -55,9 +55,9 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test_Ref()
         {
-            string value = "some name";
+            var value = "some name";
             var p1 = new RefPerson(ref value);
-            string json = JsonConvert.SerializeObject(p1);
+            var json = JsonConvert.SerializeObject(p1);
 
             var p2 = JsonConvert.DeserializeObject<RefPerson>(json);
             Assert.AreEqual("some name", p2.Name);
@@ -67,7 +67,7 @@ namespace Argon.Tests.Issues
         public void Test_InNullable()
         {
             var p1 = new InNullablePerson(1);
-            string json = JsonConvert.SerializeObject(p1);
+            var json = JsonConvert.SerializeObject(p1);
 
             var p2 = JsonConvert.DeserializeObject<InNullablePerson>(json);
             Assert.AreEqual(1, p2.Age);
@@ -78,7 +78,7 @@ namespace Argon.Tests.Issues
         {
             int? value = 1;
             var p1 = new RefNullablePerson(ref value);
-            string json = JsonConvert.SerializeObject(p1);
+            var json = JsonConvert.SerializeObject(p1);
 
             var p2 = JsonConvert.DeserializeObject<RefNullablePerson>(json);
             Assert.AreEqual(1, p2.Age);

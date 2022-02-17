@@ -47,16 +47,16 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test()
         {
-            string json = "[{}]";
-            TestStack c = JsonConvert.DeserializeObject<TestStack>(json);
+            var json = "[{}]";
+            var c = JsonConvert.DeserializeObject<TestStack>(json);
             Assert.AreEqual(1, c.Count);
         }
 
         [Fact]
         public void Test_Generic()
         {
-            string json = "['hi']";
-            TestStack<string> c = JsonConvert.DeserializeObject<TestStack<string>>(json);
+            var json = "['hi']";
+            var c = JsonConvert.DeserializeObject<TestStack<string>>(json);
             Assert.AreEqual(1, c.Count);
         }
 

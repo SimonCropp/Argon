@@ -46,7 +46,7 @@ namespace Argon.Tests.TestObjects
         {
             // SAMAccountName is not deserialized to any property
             // and so it is added to the extension data dictionary
-            string samAccountName = (string)_additionalData["SAMAccountName"];
+            var samAccountName = (string)_additionalData["SAMAccountName"];
 
             Domain = samAccountName.Split('\\')[0];
             UserName = samAccountName.Split('\\')[1];

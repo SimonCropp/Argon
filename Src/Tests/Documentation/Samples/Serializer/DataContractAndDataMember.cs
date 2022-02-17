@@ -56,14 +56,14 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            File file = new File
+            var file = new File
             {
                 Id = Guid.NewGuid(),
                 Name = "ImportantLegalDocuments.docx",
                 Size = 50 * 1024
             };
 
-            string json = JsonConvert.SerializeObject(file, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(file, Formatting.Indented);
 
             Console.WriteLine(json);
             // {

@@ -42,7 +42,7 @@ namespace Argon.Tests.Linq
             JsonReader reader = new JsonTextReader(new StringReader("new Date(123)"));
             await reader.ReadAsync();
 
-            JConstructor constructor = await JConstructor.LoadAsync(reader);
+            var constructor = await JConstructor.LoadAsync(reader);
             Assert.AreEqual("Date", constructor.Name);
             Assert.IsTrue(JToken.DeepEquals(new JValue(123), constructor.Values().ElementAt(0)));
         }

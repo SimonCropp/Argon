@@ -48,17 +48,17 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task Read_EmptyStream_ReturnsFalse()
         {
-            MemoryStream ms = new MemoryStream();
-            StreamReader sr = new StreamReader(ms);
+            var ms = new MemoryStream();
+            var sr = new StreamReader(ms);
 
-            JsonTextReader reader = new JsonTextReader(sr);
+            var reader = new JsonTextReader(sr);
             Assert.IsFalse(await reader.ReadAsync());
         }
 
         [Fact]
         public async Task ReadAsInt32Async_IntegerTooLarge_ThrowsJsonReaderException()
         {
-            JValue token = new JValue(long.MaxValue);
+            var token = new JValue(long.MaxValue);
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(
                 () => token.CreateReader().ReadAsInt32Async(),
@@ -69,7 +69,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsDecimalAsync_IntegerTooLarge_ThrowsJsonReaderException()
         {
-            JValue token = new JValue(double.MaxValue);
+            var token = new JValue(double.MaxValue);
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(
                 () => token.CreateReader().ReadAsDecimalAsync(),
@@ -81,18 +81,18 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsInt32Async_BigIntegerValue_Success()
         {
-            JValue token = new JValue(BigInteger.Parse("1"));
+            var token = new JValue(BigInteger.Parse("1"));
 
-            int? i = await token.CreateReader().ReadAsInt32Async();
+            var i = await token.CreateReader().ReadAsInt32Async();
             Assert.AreEqual(1, i);
         }
 
         [Fact]
         public async Task ReadMissingInt64()
         {
-            string json = "{ A: \"\", B: 1, C: , D: 1.23, E: 3.45, F: null }";
+            var json = "{ A: \"\", B: 1, C: , D: 1.23, E: 3.45, F: null }";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             await reader.ReadAsync();
             await reader.ReadAsync();
@@ -113,7 +113,7 @@ namespace Argon.Tests.JsonTextReaderTests
         {
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () =>
                 {
-                    JsonTextReader reader = new JsonTextReader(new StringReader("undefined"));
+                    var reader = new JsonTextReader(new StringReader("undefined"));
                     await reader.ReadAsInt32Async();
                 },
                 "Unexpected character encountered while parsing value: u. Path '', line 1, position 1.");
@@ -122,7 +122,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsBooleanAsync()
         {
-            string json = @"[
+            var json = @"[
   1,
   0,
   1.1,
@@ -142,7 +142,7 @@ namespace Argon.Tests.JsonTextReaderTests
   null
 ]";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 #if DEBUG
             reader.CharBuffer = new char[10];
 #endif
@@ -207,9 +207,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsBoolean_NullCharAsync()
         {
-            string json = '\0' + @"true" + '\0' + '\0';
+            var json = '\0' + @"true" + '\0' + '\0';
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.AreEqual(true, await reader.ReadAsBooleanAsync());
             Assert.AreEqual(null, await reader.ReadAsBooleanAsync());
@@ -218,13 +218,13 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsBytesAsync()
         {
-            byte[] data = Encoding.UTF8.GetBytes("Hello world");
+            var data = Encoding.UTF8.GetBytes("Hello world");
 
-            string json = @"""" + Convert.ToBase64String(data) + @"""";
+            var json = @"""" + Convert.ToBase64String(data) + @"""";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
-            byte[] result = await reader.ReadAsBytesAsync();
+            var result = await reader.ReadAsBytesAsync();
 
             CollectionAssert.AreEquivalent(data, result);
         }
@@ -232,7 +232,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsBooleanNoContentAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@""));
+            var reader = new JsonTextReader(new StringReader(@""));
 
             Assert.IsNull(await reader.ReadAsBooleanAsync());
             Assert.AreEqual(JsonToken.None, reader.TokenType);
@@ -241,9 +241,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsBytesIntegerArrayWithCommentsAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"[/*hi*/1/*hi*/,2/*hi*/]"));
+            var reader = new JsonTextReader(new StringReader(@"[/*hi*/1/*hi*/,2/*hi*/]"));
 
-            byte[] data = await reader.ReadAsBytesAsync();
+            var data = await reader.ReadAsBytesAsync();
             Assert.AreEqual(2, data.Length);
             Assert.AreEqual(1, data[0]);
             Assert.AreEqual(2, data[1]);
@@ -252,9 +252,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadUnicodeAsync()
         {
-            string json = @"{""Message"":""Hi,I\u0092ve send you smth""}";
+            var json = @"{""Message"":""Hi,I\u0092ve send you smth""}";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 #if DEBUG
             reader.CharBuffer = new char[5];
 #endif
@@ -279,9 +279,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadHexidecimalWithAllLettersAsync()
         {
-            string json = @"{""text"":0xabcdef12345}";
+            var json = @"{""text"":0xabcdef12345}";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(await reader.ReadAsync());
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
@@ -305,21 +305,21 @@ namespace Argon.Tests.JsonTextReaderTests
             const int length = 1200;
             const int largeBufferLength = 2048;
 
-            byte apostrophe = Encoding.ASCII.GetBytes(@"""").First();
-            byte openingBracket = Encoding.ASCII.GetBytes(@"[").First();
-            byte comma = Encoding.ASCII.GetBytes(@",").First();
-            byte closingBracket = Encoding.ASCII.GetBytes(@"]").First();
+            var apostrophe = Encoding.ASCII.GetBytes(@"""").First();
+            var openingBracket = Encoding.ASCII.GetBytes(@"[").First();
+            var comma = Encoding.ASCII.GetBytes(@",").First();
+            var closingBracket = Encoding.ASCII.GetBytes(@"]").First();
 
-            using (MemoryStream ms = new MemoryStream())
+            using (var ms = new MemoryStream())
             {
                 ms.WriteByte(openingBracket);
-                for (int i = 0; i < nrItems; i++)
+                for (var i = 0; i < nrItems; i++)
                 {
                     ms.WriteByte(apostrophe);
 
-                    for (int j = 0; j <= length; j++)
+                    for (var j = 0; j <= length; j++)
                     {
-                        byte current = Convert.ToByte((j % 10) + 48);
+                        var current = Convert.ToByte((j % 10) + 48);
                         ms.WriteByte(current);
                     }
 
@@ -333,7 +333,7 @@ namespace Argon.Tests.JsonTextReaderTests
                 ms.WriteByte(closingBracket);
                 ms.Seek(0, SeekOrigin.Begin);
 
-                JsonTextReader reader = new JsonTextReader(new StreamReader(ms));
+                var reader = new JsonTextReader(new StreamReader(ms));
                 reader.LargeBufferLength = largeBufferLength;
 
                 Assert.IsTrue(await reader.ReadAsync());
@@ -359,21 +359,21 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadSingleBytesAsync()
         {
-            StringReader s = new StringReader(@"""SGVsbG8gd29ybGQu""");
-            JsonTextReader reader = new JsonTextReader(s);
+            var s = new StringReader(@"""SGVsbG8gd29ybGQu""");
+            var reader = new JsonTextReader(s);
 
-            byte[] data = await reader.ReadAsBytesAsync();
+            var data = await reader.ReadAsBytesAsync();
             Assert.IsNotNull(data);
 
-            string text = Encoding.UTF8.GetString(data, 0, data.Length);
+            var text = Encoding.UTF8.GetString(data, 0, data.Length);
             Assert.AreEqual("Hello world.", text);
         }
 
         [Fact]
         public async Task ReadOctalNumberAsync()
         {
-            StringReader s = new StringReader(@"[0372, 0xFA, 0XFA]");
-            JsonTextReader jsonReader = new JsonTextReader(s);
+            var s = new StringReader(@"[0372, 0xFA, 0XFA]");
+            var jsonReader = new JsonTextReader(s);
 
             Assert.IsTrue(await jsonReader.ReadAsync());
             Assert.AreEqual(JsonToken.StartArray, jsonReader.TokenType);
@@ -399,8 +399,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadOctalNumberAsInt64Async()
         {
-            StringReader s = new StringReader(@"[0372, 0xFA, 0XFA]");
-            JsonTextReader jsonReader = new JsonTextReader(s);
+            var s = new StringReader(@"[0372, 0xFA, 0XFA]");
+            var jsonReader = new JsonTextReader(s);
 
             Assert.IsTrue(await jsonReader.ReadAsync());
             Assert.AreEqual(JsonToken.StartArray, jsonReader.TokenType);
@@ -429,8 +429,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadOctalNumberAsInt32Async()
         {
-            StringReader s = new StringReader(@"[0372, 0xFA, 0XFA]");
-            JsonTextReader jsonReader = new JsonTextReader(s);
+            var s = new StringReader(@"[0372, 0xFA, 0XFA]");
+            var jsonReader = new JsonTextReader(s);
 
             Assert.IsTrue(await jsonReader.ReadAsync());
             Assert.AreEqual(JsonToken.StartArray, jsonReader.TokenType);
@@ -459,7 +459,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsDecimalNoContentAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@""));
+            var reader = new JsonTextReader(new StringReader(@""));
 
             Assert.IsNull(await reader.ReadAsDecimalAsync());
             Assert.AreEqual(JsonToken.None, reader.TokenType);
@@ -468,7 +468,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsBytesNoContentAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@""));
+            var reader = new JsonTextReader(new StringReader(@""));
 
             Assert.IsNull(await reader.ReadAsBytesAsync());
             Assert.AreEqual(JsonToken.None, reader.TokenType);
@@ -477,7 +477,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsDateTimeOffsetNoContentAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@""));
+            var reader = new JsonTextReader(new StringReader(@""));
 
             Assert.IsNull(await reader.ReadAsDateTimeOffsetAsync());
             Assert.AreEqual(JsonToken.None, reader.TokenType);
@@ -486,9 +486,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsDateTimeOffsetAsync()
         {
-            string json = "{\"Offset\":\"\\/Date(946663200000+0600)\\/\"}";
+            var json = "{\"Offset\":\"\\/Date(946663200000+0600)\\/\"}";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(await reader.ReadAsync());
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
@@ -508,9 +508,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsDateTimeOffsetNegativeAsync()
         {
-            string json = @"{""Offset"":""\/Date(946706400000-0600)\/""}";
+            var json = @"{""Offset"":""\/Date(946706400000-0600)\/""}";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(await reader.ReadAsync());
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
@@ -530,9 +530,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsDateTimeOffsetBadStringAsync()
         {
-            string json = @"{""Offset"":""blablahbla""}";
+            var json = @"{""Offset"":""blablahbla""}";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(await reader.ReadAsync());
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
@@ -549,9 +549,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsDateTimeOffsetHoursOnlyAsync()
         {
-            string json = "{\"Offset\":\"\\/Date(946663200000+06)\\/\"}";
+            var json = "{\"Offset\":\"\\/Date(946663200000+06)\\/\"}";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(await reader.ReadAsync());
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
@@ -571,9 +571,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsDateTimeOffsetWithMinutesAsync()
         {
-            string json = @"{""Offset"":""\/Date(946708260000-0631)\/""}";
+            var json = @"{""Offset"":""\/Date(946708260000-0631)\/""}";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(await reader.ReadAsync());
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
@@ -593,9 +593,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsDateTimeOffsetIsoDateAsync()
         {
-            string json = @"{""Offset"":""2011-08-01T21:25Z""}";
+            var json = @"{""Offset"":""2011-08-01T21:25Z""}";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(await reader.ReadAsync());
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
@@ -615,9 +615,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsDateTimeOffsetUnitedStatesDateAsync()
         {
-            string json = @"{""Offset"":""1/30/2011""}";
+            var json = @"{""Offset"":""1/30/2011""}";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
             reader.Culture = new CultureInfo("en-US");
 
             Assert.IsTrue(await reader.ReadAsync());
@@ -630,7 +630,7 @@ namespace Argon.Tests.JsonTextReaderTests
             Assert.AreEqual(JsonToken.Date, reader.TokenType);
             Assert.AreEqual(typeof(DateTimeOffset), reader.ValueType);
 
-            DateTimeOffset dt = (DateTimeOffset)reader.Value;
+            var dt = (DateTimeOffset)reader.Value;
             Assert.AreEqual(new DateTime(2011, 1, 30, 0, 0, 0, DateTimeKind.Unspecified), dt.DateTime);
 
             Assert.IsTrue(await reader.ReadAsync());
@@ -640,9 +640,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsDateTimeOffsetNewZealandDateAsync()
         {
-            string json = @"{""Offset"":""30/1/2011""}";
+            var json = @"{""Offset"":""30/1/2011""}";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
             reader.Culture = new CultureInfo("en-NZ");
 
             Assert.IsTrue(await reader.ReadAsync());
@@ -655,7 +655,7 @@ namespace Argon.Tests.JsonTextReaderTests
             Assert.AreEqual(JsonToken.Date, reader.TokenType);
             Assert.AreEqual(typeof(DateTimeOffset), reader.ValueType);
 
-            DateTimeOffset dt = (DateTimeOffset)reader.Value;
+            var dt = (DateTimeOffset)reader.Value;
             Assert.AreEqual(new DateTime(2011, 1, 30, 0, 0, 0, DateTimeKind.Unspecified), dt.DateTime);
 
             Assert.IsTrue(await reader.ReadAsync());
@@ -665,9 +665,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsDecimalIntAsync()
         {
-            string json = @"{""Name"":1}";
+            var json = @"{""Name"":1}";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(await reader.ReadAsync());
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
@@ -684,9 +684,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsIntDecimalAsync()
         {
-            string json = @"{""Name"": 1.1}";
+            var json = @"{""Name"": 1.1}";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(await reader.ReadAsync());
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
@@ -703,9 +703,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsDecimalAsync()
         {
-            string json = @"{""decimal"":-7.92281625142643E+28}";
+            var json = @"{""decimal"":-7.92281625142643E+28}";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(await reader.ReadAsync());
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
@@ -713,7 +713,7 @@ namespace Argon.Tests.JsonTextReaderTests
             Assert.IsTrue(await reader.ReadAsync());
             Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
 
-            decimal? d = await reader.ReadAsDecimalAsync();
+            var d = await reader.ReadAsDecimalAsync();
             Assert.AreEqual(JsonToken.Float, reader.TokenType);
             Assert.AreEqual(typeof(decimal), reader.ValueType);
             Assert.AreEqual(-79228162514264300000000000000m, d);
@@ -725,9 +725,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsDecimalFrenchAsync()
         {
-            string json = @"{""decimal"":""9,99""}";
+            var json = @"{""decimal"":""9,99""}";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
             reader.Culture = new CultureInfo("fr-FR");
 
             Assert.IsTrue(await reader.ReadAsync());
@@ -736,7 +736,7 @@ namespace Argon.Tests.JsonTextReaderTests
             Assert.IsTrue(await reader.ReadAsync());
             Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
 
-            decimal? d = await reader.ReadAsDecimalAsync();
+            var d = await reader.ReadAsDecimalAsync();
             Assert.AreEqual(JsonToken.Float, reader.TokenType);
             Assert.AreEqual(typeof(decimal), reader.ValueType);
             Assert.AreEqual(9.99m, d);
@@ -748,7 +748,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadBufferOnControlCharAsync()
         {
-            string json = @"[
+            var json = @"[
   {
     ""Name"": ""Jim"",
     ""BirthDate"": ""\/Date(978048000000)\/"",
@@ -761,12 +761,12 @@ namespace Argon.Tests.JsonTextReaderTests
   }
 ]";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 #if DEBUG
             reader.CharBuffer = new char[5];
 #endif
 
-            for (int i = 0; i < 13; i++)
+            for (var i = 0; i < 13; i++)
             {
                 await reader.ReadAsync();
             }
@@ -778,7 +778,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadBufferOnEndCommentAsync()
         {
-            string json = @"/*comment*/ { /*comment*/
+            var json = @"/*comment*/ { /*comment*/
         ""Name"": /*comment*/ ""Apple"" /*comment*/, /*comment*/
         ""ExpiryDate"": ""\/Date(1230422400000)\/"",
         ""Price"": 3.99,
@@ -789,12 +789,12 @@ namespace Argon.Tests.JsonTextReaderTests
         /*comment*/ ] /*comment*/
       } /*comment*/";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 #if DEBUG
             reader.CharBuffer = new char[5];
 #endif
 
-            for (int i = 0; i < 26; i++)
+            for (var i = 0; i < 26; i++)
             {
                 Assert.IsTrue(await reader.ReadAsync());
             }
@@ -808,35 +808,35 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsDouble_NullAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("null"));
+            var reader = new JsonTextReader(new StringReader("null"));
             Assert.AreEqual(null, await reader.ReadAsDoubleAsync());
         }
 
         [Fact]
         public async Task ReadAsDouble_SuccessAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("'12.34'"));
+            var reader = new JsonTextReader(new StringReader("'12.34'"));
             Assert.AreEqual(12.34d, await reader.ReadAsDoubleAsync());
         }
 
         [Fact]
         public async Task ReadAsDouble_HexAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("0XCAFEBABE"));
+            var reader = new JsonTextReader(new StringReader("0XCAFEBABE"));
             Assert.AreEqual(3405691582d, await reader.ReadAsDoubleAsync());
         }
 
         [Fact]
         public async Task ReadAsDouble_AllowThousandsAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("'1,112.34'"));
+            var reader = new JsonTextReader(new StringReader("'1,112.34'"));
             Assert.AreEqual(1112.34d, await reader.ReadAsDoubleAsync());
         }
 
         [Fact]
         public async Task ReadAsDouble_FailureAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("['Trump',1]"));
+            var reader = new JsonTextReader(new StringReader("['Trump',1]"));
 
             Assert.IsTrue(await reader.ReadAsync());
 
@@ -852,12 +852,12 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsString_BooleanAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("{\"Test1\":false}"));
+            var reader = new JsonTextReader(new StringReader("{\"Test1\":false}"));
 
             Assert.IsTrue(await reader.ReadAsync());
             Assert.IsTrue(await reader.ReadAsync());
 
-            string s = await reader.ReadAsStringAsync();
+            var s = await reader.ReadAsStringAsync();
             Assert.AreEqual("false", s);
 
             Assert.IsTrue(await reader.ReadAsync());
@@ -867,7 +867,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task Read_Boolean_FailureAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("{\"Test1\":false1}"));
+            var reader = new JsonTextReader(new StringReader("{\"Test1\":false1}"));
 
             Assert.IsTrue(await reader.ReadAsync());
             Assert.IsTrue(await reader.ReadAsync());
@@ -885,7 +885,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsString_Boolean_FailureAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("{\"Test1\":false1}"));
+            var reader = new JsonTextReader(new StringReader("{\"Test1\":false1}"));
 
             Assert.IsTrue(await reader.ReadAsync());
             Assert.IsTrue(await reader.ReadAsync());
@@ -903,9 +903,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadValue_EmptyString_PositionAsync()
         {
-            string json = @"['','','','','','','']";
+            var json = @"['','','','','','','']";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             await reader.ReadAsync();
             await reader.ReadAsInt32Async();
@@ -936,9 +936,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadValueCommentsAsync()
         {
-            string json = @"/*comment*/[/*comment*/1/*comment*/,2,/*comment*//*comment*/""three""/*comment*/,""four""/*comment*/,null,/*comment*/null,3.99,1.1/*comment*/,''/*comment*/]/*comment*/";
+            var json = @"/*comment*/[/*comment*/1/*comment*/,2,/*comment*//*comment*/""three""/*comment*/,""four""/*comment*/,null,/*comment*/null,3.99,1.1/*comment*/,''/*comment*/]/*comment*/";
 
-            JsonTextReader reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
+            var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
 
             Assert.IsTrue(await reader.ReadAsync());
             Assert.AreEqual(JsonToken.Comment, reader.TokenType);
@@ -986,7 +986,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadContentDelimitedByCommentsAsync()
         {
-            string json = @"/*comment*/{/*comment*/Name:/*comment*/true/*comment*/,/*comment*/
+            var json = @"/*comment*/{/*comment*/Name:/*comment*/true/*comment*/,/*comment*/
         ""ExpiryDate"":/*comment*/new
 " + StringUtils.LineFeed + @"Date
 (/*comment*/null/*comment*/),
@@ -994,7 +994,7 @@ namespace Argon.Tests.JsonTextReaderTests
         ""Sizes"":/*comment*/[/*comment*/
           ""Small""/*comment*/]/*comment*/}/*comment*/";
 
-            JsonTextReader reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
+            var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
 
             Assert.IsTrue(await reader.ReadAsync());
             Assert.AreEqual(JsonToken.Comment, reader.TokenType);
@@ -1050,14 +1050,14 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadNullIntLineNumberAndPositionAsync()
         {
-            string json = @"[
+            var json = @"[
   1,
   2,
   3,
   null
 ]";
 
-            JsonTextReader reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
+            var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
 
             await reader.ReadAsync();
             Assert.AreEqual(1, reader.LineNumber);
@@ -1088,9 +1088,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadingFromSlowStreamAsync()
         {
-            string json = "[false, true, true, false, 'test!', 1.11, 0e-10, 0E-10, 0.25e-5, 0.3e10, 6.0221418e23, 'Purple\\r \\n monkey\\'s:\\tdishwasher']";
+            var json = "[false, true, true, false, 'test!', 1.11, 0e-10, 0E-10, 0.25e-5, 0.3e10, 6.0221418e23, 'Purple\\r \\n monkey\\'s:\\tdishwasher']";
 
-            JsonTextReader reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
+            var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
 
             Assert.IsTrue(await reader.ReadAsync());
 
@@ -1147,7 +1147,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadCommentInsideArrayAsync()
         {
-            string json = @"{
+            var json = @"{
     ""projects"": [
         ""src"",
         //""
@@ -1155,7 +1155,7 @@ namespace Argon.Tests.JsonTextReaderTests
     ]
 }";
 
-            JsonTextReader jsonTextReader = new JsonTextReader(new StringReader(json));
+            var jsonTextReader = new JsonTextReader(new StringReader(json));
             Assert.IsTrue(await jsonTextReader.ReadAsync());
             Assert.AreEqual(JsonToken.StartObject, jsonTextReader.TokenType);
 
@@ -1187,9 +1187,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsBytes_Base64AndGuidAsync()
         {
-            JsonTextReader jsonTextReader = new JsonTextReader(new StringReader("'AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAA'"));
-            byte[] data = await jsonTextReader.ReadAsBytesAsync();
-            byte[] expected = Convert.FromBase64String("AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAA");
+            var jsonTextReader = new JsonTextReader(new StringReader("'AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAA'"));
+            var data = await jsonTextReader.ReadAsBytesAsync();
+            var expected = Convert.FromBase64String("AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAA");
 
             CollectionAssert.AreEqual(expected, data);
 
@@ -1203,9 +1203,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadSingleQuoteInsideDoubleQuoteStringAsync()
         {
-            string json = @"{""NameOfStore"":""Forest's Bakery And Cafe""}";
+            var json = @"{""NameOfStore"":""Forest's Bakery And Cafe""}";
 
-            JsonTextReader jsonTextReader = new JsonTextReader(new StringReader(json));
+            var jsonTextReader = new JsonTextReader(new StringReader(json));
             await jsonTextReader.ReadAsync();
             await jsonTextReader.ReadAsync();
             await jsonTextReader.ReadAsync();
@@ -1216,11 +1216,11 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadMultilineStringAsync()
         {
-            string json = @"""first line
+            var json = @"""first line
 second line
 third line""";
 
-            JsonTextReader jsonTextReader = new JsonTextReader(new StringReader(json));
+            var jsonTextReader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(await jsonTextReader.ReadAsync());
             Assert.AreEqual(JsonToken.String, jsonTextReader.TokenType);
@@ -1233,12 +1233,12 @@ third line", jsonTextReader.Value);
         [Fact]
         public async Task ReadBigIntegerAsync()
         {
-            string json = @"{
+            var json = @"{
     ParentId: 1,
     ChildId: 333333333333333333333333333333333333333,
 }";
 
-            JsonTextReader jsonTextReader = new JsonTextReader(new StringReader(json));
+            var jsonTextReader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(await jsonTextReader.ReadAsync());
             Assert.AreEqual(JsonToken.StartObject, jsonTextReader.TokenType);
@@ -1262,7 +1262,7 @@ third line", jsonTextReader.Value);
 
             Assert.IsFalse(await jsonTextReader.ReadAsync());
 
-            JObject o = JObject.Parse(json);
+            var o = JObject.Parse(json);
             var i = (BigInteger)((JValue)o["ChildId"]).Value;
             Assert.AreEqual(BigInteger.Parse("333333333333333333333333333333333333333"), i);
         }
@@ -1270,11 +1270,11 @@ third line", jsonTextReader.Value);
         [Fact]
         public async Task ReadBadMSDateAsStringAsync()
         {
-            string json = @"{
+            var json = @"{
     ChildId: '\/Date(9467082_PIE_340000-0631)\/'
 }";
 
-            JsonTextReader jsonTextReader = new JsonTextReader(new StringReader(json));
+            var jsonTextReader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(await jsonTextReader.ReadAsync());
             Assert.AreEqual(JsonToken.StartObject, jsonTextReader.TokenType);
@@ -1295,7 +1295,7 @@ third line", jsonTextReader.Value);
         [Fact]
         public async Task ReadConstructorAsync()
         {
-            string json = @"{""DefaultConverter"":new Date(0, ""hi""),""MemberConverter"":""1970-01-01T00:00:00Z""}";
+            var json = @"{""DefaultConverter"":new Date(0, ""hi""),""MemberConverter"":""1970-01-01T00:00:00Z""}";
 
             JsonReader reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
 
@@ -1321,7 +1321,7 @@ third line", jsonTextReader.Value);
         [Fact]
         public async Task ReadingIndentedAsync()
         {
-            string input = @"{
+            var input = @"{
   CPU: 'Intel',
   Drives: [
     'DVD read/writer',
@@ -1329,9 +1329,9 @@ third line", jsonTextReader.Value);
   ]
 }";
 
-            StringReader sr = new StringReader(input);
+            var sr = new StringReader(input);
 
-            using (JsonTextReader jsonReader = new JsonTextReader(sr))
+            using (var jsonReader = new JsonTextReader(sr))
             {
 #if DEBUG
                 jsonReader.CharBuffer = new char[5];
@@ -1400,7 +1400,7 @@ third line", jsonTextReader.Value);
         [Fact]
         public async Task ReadLongStringAsync()
         {
-            string s = new string('a', 10000);
+            var s = new string('a', 10000);
             JsonReader reader = new JsonTextReader(new StringReader("'" + s + "'"));
             await reader.ReadAsync();
 
@@ -1410,22 +1410,22 @@ third line", jsonTextReader.Value);
         [Fact]
         public async Task ReadLongJsonArrayAsync()
         {
-            int valueCount = 10000;
-            StringWriter sw = new StringWriter();
-            JsonTextWriter writer = new JsonTextWriter(sw);
+            var valueCount = 10000;
+            var sw = new StringWriter();
+            var writer = new JsonTextWriter(sw);
             writer.WriteStartArray();
-            for (int i = 0; i < valueCount; i++)
+            for (var i = 0; i < valueCount; i++)
             {
                 writer.WriteValue(i);
             }
 
             writer.WriteEndArray();
 
-            string json = sw.ToString();
+            var json = sw.ToString();
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
             Assert.IsTrue(await reader.ReadAsync());
-            for (int i = 0; i < valueCount; i++)
+            for (var i = 0; i < valueCount; i++)
             {
                 Assert.IsTrue(await reader.ReadAsync());
                 Assert.AreEqual((long)i, reader.Value);
@@ -1438,8 +1438,8 @@ third line", jsonTextReader.Value);
         [Fact]
         public async Task NullCharReadingAsync()
         {
-            string json = "\0{\0'\0h\0i\0'\0:\0[\01\0,\0'\0'\0\0,\0null\0]\0,\0do\0:true\0}\0\0/*\0sd\0f\0*/\0/*\0sd\0f\0*/ \0";
-            JsonTextReader reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
+            var json = "\0{\0'\0h\0i\0'\0:\0[\01\0,\0'\0'\0\0,\0null\0]\0,\0do\0:true\0}\0\0/*\0sd\0f\0*/\0/*\0sd\0f\0*/ \0";
+            var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
 
             Assert.IsTrue(await reader.ReadAsync());
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
@@ -1504,18 +1504,18 @@ third line", jsonTextReader.Value);
         [Fact]
         public async Task ReadNewLinesAsync()
         {
-            string newLinesText = StringUtils.CarriageReturn + StringUtils.CarriageReturnLineFeed + StringUtils.LineFeed + StringUtils.CarriageReturnLineFeed + " " + StringUtils.CarriageReturn + StringUtils.CarriageReturnLineFeed;
+            var newLinesText = StringUtils.CarriageReturn + StringUtils.CarriageReturnLineFeed + StringUtils.LineFeed + StringUtils.CarriageReturnLineFeed + " " + StringUtils.CarriageReturn + StringUtils.CarriageReturnLineFeed;
 
-            string json = newLinesText + "{" + newLinesText + "'" + newLinesText + "name1" + newLinesText + "'" + newLinesText + ":" + newLinesText + "[" + newLinesText + "new" + newLinesText + "Date" + newLinesText + "(" + newLinesText + "1" + newLinesText + "," + newLinesText + "null" + newLinesText + "/*" + newLinesText + "blah comment" + newLinesText + "*/" + newLinesText + ")" + newLinesText + "," + newLinesText + "1.1111" + newLinesText + "]" + newLinesText + "," + newLinesText + "name2" + newLinesText + ":" + newLinesText + "{" + newLinesText + "}" + newLinesText + "}" + newLinesText;
+            var json = newLinesText + "{" + newLinesText + "'" + newLinesText + "name1" + newLinesText + "'" + newLinesText + ":" + newLinesText + "[" + newLinesText + "new" + newLinesText + "Date" + newLinesText + "(" + newLinesText + "1" + newLinesText + "," + newLinesText + "null" + newLinesText + "/*" + newLinesText + "blah comment" + newLinesText + "*/" + newLinesText + ")" + newLinesText + "," + newLinesText + "1.1111" + newLinesText + "]" + newLinesText + "," + newLinesText + "name2" + newLinesText + ":" + newLinesText + "{" + newLinesText + "}" + newLinesText + "}" + newLinesText;
 
-            int count = 0;
-            StringReader sr = new StringReader(newLinesText);
+            var count = 0;
+            var sr = new StringReader(newLinesText);
             while (sr.ReadLine() != null)
             {
                 count++;
             }
 
-            JsonTextReader reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
+            var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
             Assert.IsTrue(await reader.ReadAsync());
             Assert.AreEqual(7, reader.LineNumber);
 
@@ -1569,15 +1569,15 @@ third line", jsonTextReader.Value);
         [Fact]
         public async Task ReadBytesFollowingNumberInArrayAsync()
         {
-            string helloWorld = "Hello world!";
-            byte[] helloWorldData = Encoding.UTF8.GetBytes(helloWorld);
+            var helloWorld = "Hello world!";
+            var helloWorldData = Encoding.UTF8.GetBytes(helloWorld);
 
             JsonReader reader = new JsonTextReader(new StringReader(@"[1,'" + Convert.ToBase64String(helloWorldData) + @"']"));
             Assert.IsTrue(await reader.ReadAsync());
             Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
             Assert.IsTrue(await reader.ReadAsync());
             Assert.AreEqual(JsonToken.Integer, reader.TokenType);
-            byte[] data = await reader.ReadAsBytesAsync();
+            var data = await reader.ReadAsBytesAsync();
             CollectionAssert.AreEquivalent(helloWorldData, data);
             Assert.AreEqual(JsonToken.Bytes, reader.TokenType);
             Assert.IsTrue(await reader.ReadAsync());
@@ -1589,8 +1589,8 @@ third line", jsonTextReader.Value);
         [Fact]
         public async Task ReadBytesFollowingNumberInObjectAsync()
         {
-            string helloWorld = "Hello world!";
-            byte[] helloWorldData = Encoding.UTF8.GetBytes(helloWorld);
+            var helloWorld = "Hello world!";
+            var helloWorldData = Encoding.UTF8.GetBytes(helloWorld);
 
             JsonReader reader = new JsonTextReader(new StringReader(@"{num:1,data:'" + Convert.ToBase64String(helloWorldData) + @"'}"));
             Assert.IsTrue(await reader.ReadAsync());
@@ -1599,7 +1599,7 @@ third line", jsonTextReader.Value);
             Assert.IsTrue(await reader.ReadAsync());
             Assert.AreEqual(JsonToken.Integer, reader.TokenType);
             Assert.IsTrue(await reader.ReadAsync());
-            byte[] data = await reader.ReadAsBytesAsync();
+            var data = await reader.ReadAsBytesAsync();
             CollectionAssert.AreEquivalent(helloWorldData, data);
             Assert.AreEqual(JsonToken.Bytes, reader.TokenType);
             Assert.IsTrue(await reader.ReadAsync());
@@ -1611,9 +1611,9 @@ third line", jsonTextReader.Value);
         [Fact]
         public async Task ReadingEscapedStringsAsync()
         {
-            string input = "{value:'Purple\\r \\n monkey\\'s:\\tdishwasher'}";
+            var input = "{value:'Purple\\r \\n monkey\\'s:\\tdishwasher'}";
 
-            StringReader sr = new StringReader(input);
+            var sr = new StringReader(input);
 
             using (JsonReader jsonReader = new JsonTextReader(sr))
             {
@@ -1642,7 +1642,7 @@ third line", jsonTextReader.Value);
         [Fact]
         public async Task ReadRandomJsonAsync()
         {
-            string json = @"[
+            var json = @"[
   true,
   {
     ""integer"": 99,
@@ -1664,7 +1664,7 @@ third line", jsonTextReader.Value);
   null
 ]";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
             while (await reader.ReadAsync())
             {
             }
@@ -1673,11 +1673,11 @@ third line", jsonTextReader.Value);
         [Fact]
         public void AsyncMethodsAlreadyCancelled()
         {
-            CancellationTokenSource source = new CancellationTokenSource();
-            CancellationToken token = source.Token;
+            var source = new CancellationTokenSource();
+            var token = source.Token;
             source.Cancel();
 
-            JsonTextReader reader = new JsonTextReader(new StreamReader(Stream.Null));
+            var reader = new JsonTextReader(new StreamReader(Stream.Null));
             Assert.IsTrue(reader.ReadAsync(token).IsCanceled);
             Assert.IsTrue(reader.ReadAsBooleanAsync(token).IsCanceled);
             Assert.IsTrue(reader.ReadAsBytesAsync(token).IsCanceled);
@@ -1704,8 +1704,8 @@ third line", jsonTextReader.Value);
         [Fact]
         public void AsyncMethodsAlreadyCancelledOnTextReaderSubclass()
         {
-            CancellationTokenSource source = new CancellationTokenSource();
-            CancellationToken token = source.Token;
+            var source = new CancellationTokenSource();
+            var token = source.Token;
             source.Cancel();
 
             JsonTextReader reader = new NoOverridesDerivedJsonTextAsync();
@@ -1722,8 +1722,8 @@ third line", jsonTextReader.Value);
         [Fact]
         public void AsyncMethodsAlreadyCancelledOnReaderSubclass()
         {
-            CancellationTokenSource source = new CancellationTokenSource();
-            CancellationToken token = source.Token;
+            var source = new CancellationTokenSource();
+            var token = source.Token;
             source.Cancel();
 
             JsonReader reader = new MinimalOverridesDerivedJsonReader();
@@ -1740,7 +1740,7 @@ third line", jsonTextReader.Value);
         [Fact]
         public async Task ThrowOnDuplicateKeysDeserializingAsync()
         {
-            string json = @"
+            var json = @"
                 {
                     ""a"": 1,
                     ""b"": [
@@ -1754,18 +1754,18 @@ third line", jsonTextReader.Value);
                 }
             ";
 
-            JsonLoadSettings settings = new JsonLoadSettings { DuplicatePropertyNameHandling = DuplicatePropertyNameHandling.Error };
+            var settings = new JsonLoadSettings { DuplicatePropertyNameHandling = DuplicatePropertyNameHandling.Error };
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => await JToken.ReadFromAsync(reader, settings));
         }
 
         [Fact]
         public async Task MaxDepth_GreaterThanDefaultAsync()
         {
-            string json = GetNestedJson(150);
+            var json = GetNestedJson(150);
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
             reader.MaxDepth = 150;
 
             while (await reader.ReadAsync())
@@ -1776,9 +1776,9 @@ third line", jsonTextReader.Value);
         [Fact]
         public async Task MaxDepth_NullAsync()
         {
-            string json = GetNestedJson(150);
+            var json = GetNestedJson(150);
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
             reader.MaxDepth = null;
 
             while (await reader.ReadAsync())
@@ -1789,9 +1789,9 @@ third line", jsonTextReader.Value);
         [Fact]
         public async Task MaxDepth_MaxValueAsync()
         {
-            string json = GetNestedJson(150);
+            var json = GetNestedJson(150);
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
             reader.MaxDepth = int.MaxValue;
 
             while (await reader.ReadAsync())

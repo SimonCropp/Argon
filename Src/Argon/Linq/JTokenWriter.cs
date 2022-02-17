@@ -492,7 +492,7 @@ namespace Argon.Linq
                     }
                 }
 
-                JToken value = tokenReader.CurrentToken!.CloneToken();
+                var value = tokenReader.CurrentToken!.CloneToken();
 
                 if (_parent != null)
                 {

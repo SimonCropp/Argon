@@ -71,17 +71,17 @@ namespace Argon
 
         internal static State[][] BuildStateArray()
         {
-            List<State[]> allStates = StateArrayTemplate.ToList();
-            State[] errorStates = StateArrayTemplate[0];
-            State[] valueStates = StateArrayTemplate[7];
+            var allStates = StateArrayTemplate.ToList();
+            var errorStates = StateArrayTemplate[0];
+            var valueStates = StateArrayTemplate[7];
 
-            EnumInfo enumValuesAndNames = EnumUtils.GetEnumValuesAndNames(typeof(JsonToken));
+            var enumValuesAndNames = EnumUtils.GetEnumValuesAndNames(typeof(JsonToken));
 
-            foreach (ulong valueToken in enumValuesAndNames.Values)
+            foreach (var valueToken in enumValuesAndNames.Values)
             {
                 if (allStates.Count <= (int)valueToken)
                 {
-                    JsonToken token = (JsonToken)valueToken;
+                    var token = (JsonToken)valueToken;
                     switch (token)
                     {
                         case JsonToken.Integer:
@@ -138,7 +138,7 @@ namespace Argon
         {
             get
             {
-                int depth = _stack?.Count ?? 0;
+                var depth = _stack?.Count ?? 0;
                 if (Peek() != JsonContainerType.None)
                 {
                     depth++;
@@ -205,11 +205,11 @@ namespace Argon
                     return string.Empty;
                 }
 
-                bool insideContainer = (_currentState != State.ArrayStart
-                                        && _currentState != State.ConstructorStart
-                                        && _currentState != State.ObjectStart);
+                var insideContainer = (_currentState != State.ArrayStart
+                                       && _currentState != State.ConstructorStart
+                                       && _currentState != State.ObjectStart);
 
-                JsonPosition? current = insideContainer ? (JsonPosition?)_currentPosition : null;
+                var current = insideContainer ? (JsonPosition?)_currentPosition : null;
 
                 return JsonPosition.BuildPath(_stack!, current);
             }
@@ -371,7 +371,7 @@ namespace Argon
 
         private JsonContainerType Pop()
         {
-            JsonPosition oldPosition = _currentPosition;
+            var oldPosition = _currentPosition;
 
             if (_stack != null && _stack.Count > 0)
             {
@@ -634,7 +634,7 @@ namespace Argon
 
         internal virtual void WriteToken(JsonReader reader, bool writeChildren, bool writeDateConstructorAsDate, bool writeComments)
         {
-            int initialDepth = CalculateWriteTokenInitialDepth(reader);
+            var initialDepth = CalculateWriteTokenInitialDepth(reader);
 
             do
             {
@@ -664,14 +664,14 @@ namespace Argon
 
         private bool IsWriteTokenIncomplete(JsonReader reader, bool writeChildren, int initialDepth)
         {
-            int finalDepth = CalculateWriteTokenFinalDepth(reader);
+            var finalDepth = CalculateWriteTokenFinalDepth(reader);
             return initialDepth < finalDepth ||
                 (writeChildren && initialDepth == finalDepth && JsonTokenUtils.IsStartToken(reader.TokenType));
         }
 
         private int CalculateWriteTokenInitialDepth(JsonReader reader)
         {
-            JsonToken type = reader.TokenType;
+            var type = reader.TokenType;
             if (type == JsonToken.None)
             {
                 return -1;
@@ -682,7 +682,7 @@ namespace Argon
 
         private int CalculateWriteTokenFinalDepth(JsonReader reader)
         {
-            JsonToken type = reader.TokenType;
+            var type = reader.TokenType;
             if (type == JsonToken.None)
             {
                 return -1;
@@ -693,7 +693,7 @@ namespace Argon
 
         private void WriteConstructorDate(JsonReader reader)
         {
-            if (!JavaScriptUtils.TryGetDateFromConstructorJson(reader, out DateTime dateTime, out string? errorMessage))
+            if (!JavaScriptUtils.TryGetDateFromConstructorJson(reader, out var dateTime, out var errorMessage))
             {
                 throw JsonWriterException.Create(this, errorMessage, null);
             }
@@ -744,11 +744,11 @@ namespace Argon
 
         private void AutoCompleteClose(JsonContainerType type)
         {
-            int levelsToComplete = CalculateLevelsToComplete(type);
+            var levelsToComplete = CalculateLevelsToComplete(type);
 
-            for (int i = 0; i < levelsToComplete; i++)
+            for (var i = 0; i < levelsToComplete; i++)
             {
-                JsonToken token = GetCloseTokenForType(Pop());
+                var token = GetCloseTokenForType(Pop());
 
                 if (_currentState == State.Property)
                 {
@@ -771,7 +771,7 @@ namespace Argon
 
         private int CalculateLevelsToComplete(JsonContainerType type)
         {
-            int levelsToComplete = 0;
+            var levelsToComplete = 0;
 
             if (_currentPosition.Type == type)
             {
@@ -779,10 +779,10 @@ namespace Argon
             }
             else
             {
-                int top = Top - 2;
-                for (int i = top; i >= 0; i--)
+                var top = Top - 2;
+                for (var i = top; i >= 0; i--)
                 {
-                    int currentLevel = top - i;
+                    var currentLevel = top - i;
 
                     if (_stack![currentLevel].Type == type)
                     {
@@ -802,7 +802,7 @@ namespace Argon
 
         private void UpdateCurrentState()
         {
-            JsonContainerType currentLevelType = Peek();
+            var currentLevelType = Peek();
 
             switch (currentLevelType)
             {
@@ -855,7 +855,7 @@ namespace Argon
         internal void AutoComplete(JsonToken tokenBeingWritten)
         {
             // gets new state based on the current state and what is being written
-            State newState = StateArray[(int)tokenBeingWritten][(int)_currentState];
+            var newState = StateArray[(int)tokenBeingWritten][(int)_currentState];
 
             if (newState == State.Error)
             {
@@ -1646,11 +1646,11 @@ namespace Argon
         {
             // the value is a non-standard IConvertible
             // convert to the underlying value and retry
-            TypeInformation typeInformation = ConvertUtils.GetTypeInformation(convertible);
+            var typeInformation = ConvertUtils.GetTypeInformation(convertible);
 
             // if convertible has an underlying typecode of Object then attempt to convert it to a string
             typeCode = typeInformation.TypeCode == PrimitiveTypeCode.Object ? PrimitiveTypeCode.String : typeInformation.TypeCode;
-            Type resolvedType = typeInformation.TypeCode == PrimitiveTypeCode.Object ? typeof(string) : typeInformation.Type;
+            var resolvedType = typeInformation.TypeCode == PrimitiveTypeCode.Object ? typeof(string) : typeInformation.Type;
             value = convertible.ToType(resolvedType, CultureInfo.InvariantCulture);
         }
 

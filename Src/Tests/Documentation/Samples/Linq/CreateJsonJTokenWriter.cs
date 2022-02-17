@@ -40,7 +40,7 @@ namespace Argon.Tests.Documentation.Samples.Linq
         public void Example()
         {
             #region Usage
-            JTokenWriter writer = new JTokenWriter();
+            var writer = new JTokenWriter();
             writer.WriteStartObject();
             writer.WritePropertyName("name1");
             writer.WriteValue("value1");
@@ -51,7 +51,7 @@ namespace Argon.Tests.Documentation.Samples.Linq
             writer.WriteEndArray();
             writer.WriteEndObject();
 
-            JObject o = (JObject)writer.Token;
+            var o = (JObject)writer.Token;
 
             Console.WriteLine(o.ToString());
             // {

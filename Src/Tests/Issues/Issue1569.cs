@@ -42,11 +42,11 @@ namespace Argon.Tests.Issues
         [Fact]
         public async Task Test()
         {
-            string json = "[1,2,3,456789999999999999999999999999999999999999999999999999999999999999456789999999999999999999999999999999999999999999999999999999999999456789999999999999999999999999999999999999999999999999999999999999]";
+            var json = "[1,2,3,456789999999999999999999999999999999999999999999999999999999999999456789999999999999999999999999999999999999999999999999999999999999456789999999999999999999999999999999999999999999999999999999999999]";
 
             Stream s = new AsyncOnlyStream(new MemoryStream(Encoding.UTF8.GetBytes(json)));
-            StreamReader sr = new StreamReader(s, Encoding.UTF8, true, 2);
-            JsonTextReader reader = new JsonTextReader(sr);
+            var sr = new StreamReader(s, Encoding.UTF8, true, 2);
+            var reader = new JsonTextReader(sr);
 #if DEBUG
             reader.CharBuffer = new char[2];
 #endif

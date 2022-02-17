@@ -49,10 +49,10 @@ namespace Argon.Tests.Benchmarks
 
         static LowLevelBenchmarks()
         {
-            for (int i = 0; i < 10; i++)
+            for (var i = 0; i < 10; i++)
             {
-                string key = i.ToString();
-                object value = new object();
+                var key = i.ToString();
+                var value = new object();
 
                 NormalDictionary.Add(key, value);
                 ConcurrentDictionary.TryAdd(key, value);
@@ -62,13 +62,13 @@ namespace Argon.Tests.Benchmarks
         [Benchmark]
         public void DictionaryGet()
         {
-            NormalDictionary.TryGetValue("1", out object _);
+            NormalDictionary.TryGetValue("1", out var _);
         }
 
         [Benchmark]
         public void ConcurrentDictionaryGet()
         {
-            ConcurrentDictionary.TryGetValue("1", out object _);
+            ConcurrentDictionary.TryGetValue("1", out var _);
         }
 
         [Benchmark]
@@ -112,7 +112,7 @@ namespace Argon.Tests.Benchmarks
         [Benchmark]
         public void WriteEscapedJavaScriptString()
         {
-            string text = @"The general form of an HTML element is therefore: <tag attribute1=""value1"" attribute2=""value2"">content</tag>.
+            var text = @"The general form of an HTML element is therefore: <tag attribute1=""value1"" attribute2=""value2"">content</tag>.
 Some HTML elements are defined as empty elements and take the form <tag attribute1=""value1"" attribute2=""value2"" >.
 Empty elements may enclose no content, for instance, the BR tag or the inline IMG tag.
 The name of an HTML element is the name used in the tags.
@@ -134,7 +134,7 @@ Note that the end tag's name is preceded by a slash character, ""/"", and that i
 If attributes are not mentioned, default values are used in each case.
 ";
 
-            using (StringWriter w = StringUtils.CreateStringWriter(text.Length))
+            using (var w = StringUtils.CreateStringWriter(text.Length))
             {
                 char[] buffer = null;
                 JavaScriptUtils.WriteEscapedJavaScriptString(w, text, '"', true, JavaScriptUtils.DoubleQuoteCharEscapeFlags, StringEscapeHandling.Default, null, ref buffer);

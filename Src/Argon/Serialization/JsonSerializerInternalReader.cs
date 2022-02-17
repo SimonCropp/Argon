@@ -60,9 +60,9 @@ namespace Argon.Serialization
         {
             ValidationUtils.ArgumentNotNull(target, nameof(target));
 
-            Type objectType = target.GetType();
+            var objectType = target.GetType();
 
-            JsonContract contract = Serializer._contractResolver.ResolveContract(objectType);
+            var contract = Serializer._contractResolver.ResolveContract(objectType);
 
             if (!reader.MoveToContent())
             {
@@ -73,7 +73,7 @@ namespace Argon.Serialization
             {
                 if (contract.ContractType == JsonContractType.Array)
                 {
-                    JsonArrayContract arrayContract = (JsonArrayContract)contract;
+                    var arrayContract = (JsonArrayContract)contract;
 
                     PopulateList((arrayContract.ShouldCreateWrapper) ? arrayContract.CreateWrapper(target) : (IList)target, reader, arrayContract, null, null);
                 }
@@ -98,7 +98,7 @@ namespace Argon.Serialization
 
                 if (contract.ContractType == JsonContractType.Dictionary)
                 {
-                    JsonDictionaryContract dictionaryContract = (JsonDictionaryContract)contract;
+                    var dictionaryContract = (JsonDictionaryContract)contract;
                     PopulateDictionary((dictionaryContract.ShouldCreateWrapper) ? dictionaryContract.CreateWrapper(target) : (IDictionary)target, reader, dictionaryContract, null, id);
                 }
                 else if (contract.ContractType == JsonContractType.Object)
@@ -138,11 +138,11 @@ namespace Argon.Serialization
                 throw new ArgumentNullException(nameof(reader));
             }
 
-            JsonContract? contract = GetContractSafe(objectType);
+            var contract = GetContractSafe(objectType);
 
             try
             {
-                JsonConverter? converter = GetConverter(contract, null, null, null);
+                var converter = GetConverter(contract, null, null, null);
 
                 if (reader.TokenType == JsonToken.None && !reader.ReadForType(contract, converter != null))
                 {
@@ -224,7 +224,7 @@ namespace Argon.Serialization
             }
 
             JToken? token;
-            using (JTokenWriter writer = new JTokenWriter())
+            using (var writer = new JTokenWriter())
             {
                 writer.WriteToken(reader);
                 token = writer.Token;
@@ -247,7 +247,7 @@ namespace Argon.Serialization
             ValidationUtils.ArgumentNotNull(reader, nameof(reader));
 
             // this is needed because we've already read inside the object, looking for metadata properties
-            using (JTokenWriter writer = new JTokenWriter())
+            using (var writer = new JTokenWriter())
             {
                 writer.WriteStartObject();
 
@@ -255,7 +255,7 @@ namespace Argon.Serialization
                 {
                     if (reader.TokenType == JsonToken.PropertyName)
                     {
-                        string propertyName = (string)reader.Value!;
+                        var propertyName = (string)reader.Value!;
                         if (!reader.ReadAndMoveToContent())
                         {
                             break;
@@ -308,7 +308,7 @@ namespace Argon.Serialization
                     case JsonToken.Bytes:
                         return EnsureType(reader, reader.Value, CultureInfo.InvariantCulture, contract, objectType);
                     case JsonToken.String:
-                        string s = (string)reader.Value!;
+                        var s = (string)reader.Value!;
 
                         // string that needs to be returned as a byte array should be base 64 decoded
                         if (objectType == typeof(byte[]))
@@ -324,7 +324,7 @@ namespace Argon.Serialization
 
                         return EnsureType(reader, s, CultureInfo.InvariantCulture, contract, objectType);
                     case JsonToken.StartConstructor:
-                        string constructorName = reader.Value!.ToString();
+                        var constructorName = reader.Value!.ToString();
 
                         return EnsureType(reader, constructorName, CultureInfo.InvariantCulture, contract, objectType);
                     case JsonToken.Null:
@@ -413,7 +413,7 @@ namespace Argon.Serialization
         private object? CreateObject(JsonReader reader, Type? objectType, JsonContract? contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerMember, object? existingValue)
         {
             string? id;
-            Type? resolvedObjectType = objectType;
+            var resolvedObjectType = objectType;
 
             if (Serializer.MetadataPropertyHandling == MetadataPropertyHandling.Ignore)
             {
@@ -425,7 +425,7 @@ namespace Argon.Serialization
             {
                 if (!(reader is JTokenReader tokenReader))
                 {
-                    JToken t = JToken.ReadFrom(reader);
+                    var t = JToken.ReadFrom(reader);
                     tokenReader = (JTokenReader)t.CreateReader();
                     tokenReader.Culture = reader.Culture;
                     tokenReader.DateFormatString = reader.DateFormatString;
@@ -440,7 +440,7 @@ namespace Argon.Serialization
                     reader = tokenReader;
                 }
 
-                if (ReadMetadataPropertiesToken(tokenReader, ref resolvedObjectType, ref contract, member, containerContract, containerMember, existingValue, out object? newValue, out id))
+                if (ReadMetadataPropertiesToken(tokenReader, ref resolvedObjectType, ref contract, member, containerContract, containerMember, existingValue, out var newValue, out id))
                 {
                     return newValue;
                 }
@@ -448,7 +448,7 @@ namespace Argon.Serialization
             else
             {
                 reader.ReadAndAssert();
-                if (ReadMetadataProperties(reader, ref resolvedObjectType, ref contract, member, containerContract, containerMember, existingValue, out object? newValue, out id))
+                if (ReadMetadataProperties(reader, ref resolvedObjectType, ref contract, member, containerContract, containerMember, existingValue, out var newValue, out id))
                 {
                     return newValue;
                 }
@@ -466,8 +466,8 @@ namespace Argon.Serialization
             {
                 case JsonContractType.Object:
                 {
-                    bool createdFromNonDefaultCreator = false;
-                    JsonObjectContract objectContract = (JsonObjectContract)contract;
+                    var createdFromNonDefaultCreator = false;
+                    var objectContract = (JsonObjectContract)contract;
                     object targetObject;
                     // check that if type name handling is being used that the existing value is compatible with the specified type
                     if (existingValue != null && (resolvedObjectType == objectType || resolvedObjectType.IsAssignableFrom(existingValue.GetType())))
@@ -489,7 +489,7 @@ namespace Argon.Serialization
                 }
                 case JsonContractType.Primitive:
                 {
-                    JsonPrimitiveContract primitiveContract = (JsonPrimitiveContract)contract;
+                    var primitiveContract = (JsonPrimitiveContract)contract;
                     // if the content is inside $value then read past it
                     if (Serializer.MetadataPropertyHandling != MetadataPropertyHandling.Ignore
                         && reader.TokenType == JsonToken.PropertyName
@@ -504,7 +504,7 @@ namespace Argon.Serialization
                             throw JsonSerializationException.Create(reader, "Unexpected token when deserializing primitive value: " + reader.TokenType);
                         }
 
-                        object? value = CreateValueInternal(reader, resolvedObjectType, primitiveContract, member, null, null, existingValue);
+                        var value = CreateValueInternal(reader, resolvedObjectType, primitiveContract, member, null, null, existingValue);
 
                         reader.ReadAndAssert();
                         return value;
@@ -513,12 +513,12 @@ namespace Argon.Serialization
                 }
                 case JsonContractType.Dictionary:
                 {
-                    JsonDictionaryContract dictionaryContract = (JsonDictionaryContract)contract;
+                    var dictionaryContract = (JsonDictionaryContract)contract;
                     object targetDictionary;
 
                     if (existingValue == null)
                     {
-                        IDictionary dictionary = CreateNewDictionary(reader, dictionaryContract, out bool createdFromNonDefaultCreator);
+                        var dictionary = CreateNewDictionary(reader, dictionaryContract, out var createdFromNonDefaultCreator);
 
                         if (createdFromNonDefaultCreator)
                         {
@@ -547,7 +547,7 @@ namespace Argon.Serialization
 
                         if (createdFromNonDefaultCreator)
                         {
-                            ObjectConstructor<object> creator = (dictionaryContract.OverrideCreator ?? dictionaryContract.ParameterizedCreator)!;
+                            var creator = (dictionaryContract.OverrideCreator ?? dictionaryContract.ParameterizedCreator)!;
 
                             return creator(dictionary);
                         }
@@ -566,15 +566,15 @@ namespace Argon.Serialization
                     return targetDictionary;
                 }
                 case JsonContractType.Dynamic:
-                    JsonDynamicContract dynamicContract = (JsonDynamicContract)contract;
+                    var dynamicContract = (JsonDynamicContract)contract;
                     return CreateDynamic(reader, dynamicContract, member, id);
                 case JsonContractType.Serializable:
-                    JsonISerializableContract serializableContract = (JsonISerializableContract)contract;
+                    var serializableContract = (JsonISerializableContract)contract;
                     return CreateISerializable(reader, serializableContract, member, id);
             }
 
-            string message = @"Cannot deserialize the current JSON object (e.g. {{""name"":""value""}}) into type '{0}' because the type requires a {1} to deserialize correctly." + Environment.NewLine +
-                             @"To fix this error either change the JSON to a {1} or change the deserialized type so that it is a normal .NET type (e.g. not a primitive type like integer, not a collection type like an array or List<T>) that can be deserialized from a JSON object. JsonObjectAttribute can also be added to the type to force it to deserialize from a JSON object." + Environment.NewLine;
+            var message = @"Cannot deserialize the current JSON object (e.g. {{""name"":""value""}}) into type '{0}' because the type requires a {1} to deserialize correctly." + Environment.NewLine +
+                          @"To fix this error either change the JSON to a {1} or change the deserialized type so that it is a normal .NET type (e.g. not a primitive type like integer, not a collection type like an array or List<T>) that can be deserialized from a JSON object. JsonObjectAttribute can also be added to the type to force it to deserialize from a JSON object." + Environment.NewLine;
             message = message.FormatWith(CultureInfo.InvariantCulture, resolvedObjectType, GetExpectedDescription(contract));
 
             throw JsonSerializationException.Create(reader, message);
@@ -587,22 +587,22 @@ namespace Argon.Serialization
 
             if (reader.TokenType == JsonToken.StartObject)
             {
-                JObject current = (JObject)reader.CurrentToken!;
+                var current = (JObject)reader.CurrentToken!;
 
-                JProperty? refProperty = current.Property(JsonTypeReflector.RefPropertyName, StringComparison.Ordinal);
+                var refProperty = current.Property(JsonTypeReflector.RefPropertyName, StringComparison.Ordinal);
                 if (refProperty != null)
                 {
-                    JToken refToken = refProperty.Value;
+                    var refToken = refProperty.Value;
                     if (refToken.Type != JTokenType.String && refToken.Type != JTokenType.Null)
                     {
                         throw JsonSerializationException.Create(refToken, refToken.Path, "JSON reference {0} property must have a string or null value.".FormatWith(CultureInfo.InvariantCulture, JsonTypeReflector.RefPropertyName), null);
                     }
 
-                    string? reference = (string?)refProperty;
+                    var reference = (string?)refProperty;
 
                     if (reference != null)
                     {
-                        JToken? additionalContent = refProperty.Next ?? refProperty.Previous;
+                        var additionalContent = refProperty.Next ?? refProperty.Previous;
                         if (additionalContent != null)
                         {
                             throw JsonSerializationException.Create(additionalContent, additionalContent.Path, "Additional content found in JSON reference object. A JSON reference object should only have a {0} property.".FormatWith(CultureInfo.InvariantCulture, JsonTypeReflector.RefPropertyName), null);
@@ -619,15 +619,15 @@ namespace Argon.Serialization
                         return true;
                     }
                 }
-                JToken? typeToken = current[JsonTypeReflector.TypePropertyName];
+                var typeToken = current[JsonTypeReflector.TypePropertyName];
                 if (typeToken != null)
                 {
-                    string? qualifiedTypeName = (string?)typeToken;
-                    JsonReader typeTokenReader = typeToken.CreateReader();
+                    var qualifiedTypeName = (string?)typeToken;
+                    var typeTokenReader = typeToken.CreateReader();
                     typeTokenReader.ReadAndAssert();
                     ResolveTypeName(typeTokenReader, ref objectType, ref contract, member, containerContract, containerMember, qualifiedTypeName!);
 
-                    JToken? valueToken = current[JsonTypeReflector.ValuePropertyName];
+                    var valueToken = current[JsonTypeReflector.ValuePropertyName];
                     if (valueToken != null)
                     {
                         while (true)
@@ -646,15 +646,15 @@ namespace Argon.Serialization
                         }
                     }
                 }
-                JToken? idToken = current[JsonTypeReflector.IdPropertyName];
+                var idToken = current[JsonTypeReflector.IdPropertyName];
                 if (idToken != null)
                 {
                     id = (string?)idToken;
                 }
-                JToken? valuesToken = current[JsonTypeReflector.ArrayValuesPropertyName];
+                var valuesToken = current[JsonTypeReflector.ArrayValuesPropertyName];
                 if (valuesToken != null)
                 {
-                    JsonReader listReader = valuesToken.CreateReader();
+                    var listReader = valuesToken.CreateReader();
                     listReader.ReadAndAssert();
                     newValue = CreateList(listReader, objectType, contract, member, existingValue, id);
 
@@ -674,7 +674,7 @@ namespace Argon.Serialization
 
             if (reader.TokenType == JsonToken.PropertyName)
             {
-                string propertyName = reader.Value!.ToString();
+                var propertyName = reader.Value!.ToString();
 
                 if (propertyName.Length > 0 && propertyName[0] == '$')
                 {
@@ -694,7 +694,7 @@ namespace Argon.Serialization
                                 throw JsonSerializationException.Create(reader, "JSON reference {0} property must have a string or null value.".FormatWith(CultureInfo.InvariantCulture, JsonTypeReflector.RefPropertyName));
                             }
 
-                            string? reference = reader.Value?.ToString();
+                            var reference = reader.Value?.ToString();
 
                             reader.ReadAndAssert();
 
@@ -722,7 +722,7 @@ namespace Argon.Serialization
                         else if (string.Equals(propertyName, JsonTypeReflector.TypePropertyName, StringComparison.Ordinal))
                         {
                             reader.ReadAndAssert();
-                            string qualifiedTypeName = reader.Value!.ToString();
+                            var qualifiedTypeName = reader.Value!.ToString();
 
                             ResolveTypeName(reader, ref objectType, ref contract, member, containerContract, containerMember, qualifiedTypeName);
 
@@ -742,7 +742,7 @@ namespace Argon.Serialization
                         else if (string.Equals(propertyName, JsonTypeReflector.ArrayValuesPropertyName, StringComparison.Ordinal))
                         {
                             reader.ReadAndAssert();
-                            object? list = CreateList(reader, objectType, contract, member, existingValue, id);
+                            var list = CreateList(reader, objectType, contract, member, existingValue, id);
                             reader.ReadAndAssert();
                             newValue = list;
                             return true;
@@ -759,7 +759,7 @@ namespace Argon.Serialization
 
         private void ResolveTypeName(JsonReader reader, ref Type? objectType, ref JsonContract? contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerMember, string qualifiedTypeName)
         {
-            TypeNameHandling resolvedTypeNameHandling =
+            var resolvedTypeNameHandling =
                 member?.TypeNameHandling
                 ?? containerContract?.ItemTypeNameHandling
                 ?? containerMember?.ItemTypeNameHandling
@@ -767,7 +767,7 @@ namespace Argon.Serialization
 
             if (resolvedTypeNameHandling != TypeNameHandling.None)
             {
-                StructMultiKey<string?, string> typeNameKey = ReflectionUtils.SplitFullyQualifiedTypeName(qualifiedTypeName);
+                var typeNameKey = ReflectionUtils.SplitFullyQualifiedTypeName(qualifiedTypeName);
 
                 Type specifiedType;
                 try
@@ -810,8 +810,8 @@ namespace Argon.Serialization
 
             if (!(contract is JsonArrayContract arrayContract))
             {
-                string message = @"Cannot deserialize the current JSON array (e.g. [1,2,3]) into type '{0}' because the type requires a {1} to deserialize correctly." + Environment.NewLine +
-                                 @"To fix this error either change the JSON to a {1} or change the deserialized type to an array or a type that implements a collection interface (e.g. ICollection, IList) like List<T> that can be deserialized from a JSON array. JsonArrayAttribute can also be added to the type to force it to deserialize from a JSON array." + Environment.NewLine;
+                var message = @"Cannot deserialize the current JSON array (e.g. [1,2,3]) into type '{0}' because the type requires a {1} to deserialize correctly." + Environment.NewLine +
+                              @"To fix this error either change the JSON to a {1} or change the deserialized type to an array or a type that implements a collection interface (e.g. ICollection, IList) like List<T> that can be deserialized from a JSON array. JsonArrayAttribute can also be added to the type to force it to deserialize from a JSON array." + Environment.NewLine;
                 message = message.FormatWith(CultureInfo.InvariantCulture, objectType, GetExpectedDescription(contract));
 
                 throw JsonSerializationException.Create(reader, message);
@@ -832,11 +832,11 @@ namespace Argon.Serialization
             MiscellaneousUtils.Assert(objectType != null);
             MiscellaneousUtils.Assert(contract != null);
 
-            JsonArrayContract arrayContract = EnsureArrayContract(reader, objectType, contract);
+            var arrayContract = EnsureArrayContract(reader, objectType, contract);
 
             if (existingValue == null)
             {
-                IList list = CreateNewList(reader, arrayContract, out bool createdFromNonDefaultCreator);
+                var list = CreateNewList(reader, arrayContract, out var createdFromNonDefaultCreator);
 
                 if (createdFromNonDefaultCreator)
                 {
@@ -878,13 +878,13 @@ namespace Argon.Serialization
                     }
                     else if (arrayContract.IsArray)
                     {
-                        Array a = Array.CreateInstance(arrayContract.CollectionItemType, list.Count);
+                        var a = Array.CreateInstance(arrayContract.CollectionItemType, list.Count);
                         list.CopyTo(a, 0);
                         list = a;
                     }
                     else
                     {
-                        ObjectConstructor<object> creator = (arrayContract.OverrideCreator ?? arrayContract.ParameterizedCreator)!;
+                        var creator = (arrayContract.OverrideCreator ?? arrayContract.ParameterizedCreator)!;
 
                         return creator(list);
                     }
@@ -924,7 +924,7 @@ namespace Argon.Serialization
             }
 
             MiscellaneousUtils.Assert(contract != null);
-            Type? valueType = ReflectionUtils.GetObjectType(value);
+            var valueType = ReflectionUtils.GetObjectType(value);
 
             // type of value and type of target don't match
             // attempt to convert value's type to target's type
@@ -939,7 +939,7 @@ namespace Argon.Serialization
                 {
                     if (contract.IsConvertable)
                     {
-                        JsonPrimitiveContract primitiveContract = (JsonPrimitiveContract)contract;
+                        var primitiveContract = (JsonPrimitiveContract)contract;
 
                         if (contract.IsEnum)
                         {
@@ -959,7 +959,7 @@ namespace Argon.Serialization
                         else if (contract.NonNullableUnderlyingType == typeof(DateTime))
                         {
                             // use DateTimeUtils because Convert.ChangeType does not set DateTime.Kind correctly
-                            if (value is string s && DateTimeUtils.TryParseDateTime(s, reader.DateTimeZoneHandling, reader.DateFormatString, reader.Culture, out DateTime dt))
+                            if (value is string s && DateTimeUtils.TryParseDateTime(s, reader.DateTimeZoneHandling, reader.DateFormatString, reader.Culture, out var dt))
                             {
                                 return DateTimeUtils.EnsureDateTime(dt, reader.DateTimeZoneHandling);
                             }
@@ -987,18 +987,18 @@ namespace Argon.Serialization
 
         private bool SetPropertyValue(JsonProperty property, JsonConverter? propertyConverter, JsonContainerContract? containerContract, JsonProperty? containerProperty, JsonReader reader, object target)
         {
-            bool skipSettingProperty = CalculatePropertyDetails(
+            var skipSettingProperty = CalculatePropertyDetails(
                 property,
                 ref propertyConverter,
                 containerContract,
                 containerProperty,
                 reader,
                 target,
-                out bool useExistingValue,
-                out object? currentValue,
-                out JsonContract? propertyContract,
-                out bool gottenCurrentValue,
-                out bool ignoredValue);
+                out var useExistingValue,
+                out var currentValue,
+                out var propertyContract,
+                out var gottenCurrentValue,
+                out var ignoredValue);
 
             if (skipSettingProperty)
             {
@@ -1077,14 +1077,14 @@ namespace Argon.Serialization
                 return true;
             }
 
-            JsonToken tokenType = reader.TokenType;
+            var tokenType = reader.TokenType;
 
             if (property.PropertyContract == null)
             {
                 property.PropertyContract = GetContractSafe(property.PropertyType);
             }
 
-            ObjectCreationHandling objectCreationHandling =
+            var objectCreationHandling =
                 property.ObjectCreationHandling.GetValueOrDefault(Serializer._objectCreationHandling);
 
             if ((objectCreationHandling != ObjectCreationHandling.Replace)
@@ -1208,7 +1208,7 @@ namespace Argon.Serialization
                 }
                 else
                 {
-                    object list = contract.OverrideCreator();
+                    var list = contract.OverrideCreator();
 
                     if (contract.ShouldCreateWrapper)
                     {
@@ -1222,7 +1222,7 @@ namespace Argon.Serialization
             else if (contract.IsReadOnlyOrFixedSize)
             {
                 createdFromNonDefaultCreator = true;
-                IList list = contract.CreateTemporaryCollection();
+                var list = contract.CreateTemporaryCollection();
 
                 if (contract.ShouldCreateWrapper)
                 {
@@ -1233,7 +1233,7 @@ namespace Argon.Serialization
             }
             else if (contract.DefaultCreator != null && (!contract.DefaultCreatorNonPublic || Serializer._constructorHandling == ConstructorHandling.AllowNonPublicDefaultConstructor))
             {
-                object list = contract.DefaultCreator();
+                var list = contract.DefaultCreator();
 
                 if (contract.ShouldCreateWrapper)
                 {
@@ -1281,7 +1281,7 @@ namespace Argon.Serialization
             }
             else if (contract.DefaultCreator != null && (!contract.DefaultCreatorNonPublic || Serializer._constructorHandling == ConstructorHandling.AllowNonPublicDefaultConstructor))
             {
-                object dictionary = contract.DefaultCreator();
+                var dictionary = contract.DefaultCreator();
 
                 if (contract.ShouldCreateWrapper)
                 {
@@ -1329,7 +1329,7 @@ namespace Argon.Serialization
 
         private object PopulateDictionary(IDictionary dictionary, JsonReader reader, JsonDictionaryContract contract, JsonProperty? containerProperty, string? id)
         {
-            object underlyingDictionary = dictionary is IWrappedDictionary wrappedDictionary ? wrappedDictionary.UnderlyingDictionary : dictionary;
+            var underlyingDictionary = dictionary is IWrappedDictionary wrappedDictionary ? wrappedDictionary.UnderlyingDictionary : dictionary;
 
             if (id != null)
             {
@@ -1338,7 +1338,7 @@ namespace Argon.Serialization
 
             OnDeserializing(reader, contract, underlyingDictionary);
 
-            int initialDepth = reader.Depth;
+            var initialDepth = reader.Depth;
 
             if (contract.KeyContract == null)
             {
@@ -1350,16 +1350,16 @@ namespace Argon.Serialization
                 contract.ItemContract = GetContractSafe(contract.DictionaryValueType);
             }
 
-            JsonConverter? dictionaryValueConverter = contract.ItemConverter ?? GetConverter(contract.ItemContract, null, contract, containerProperty);
-            PrimitiveTypeCode keyTypeCode = (contract.KeyContract is JsonPrimitiveContract keyContract) ? keyContract.TypeCode : PrimitiveTypeCode.Empty;
+            var dictionaryValueConverter = contract.ItemConverter ?? GetConverter(contract.ItemContract, null, contract, containerProperty);
+            var keyTypeCode = (contract.KeyContract is JsonPrimitiveContract keyContract) ? keyContract.TypeCode : PrimitiveTypeCode.Empty;
 
-            bool finished = false;
+            var finished = false;
             do
             {
                 switch (reader.TokenType)
                 {
                     case JsonToken.PropertyName:
-                        object keyValue = reader.Value!;
+                        var keyValue = reader.Value!;
                         if (CheckPropertyName(reader, keyValue.ToString()))
                         {
                             continue;
@@ -1375,7 +1375,7 @@ namespace Argon.Serialization
                                     case PrimitiveTypeCode.DateTime:
                                     case PrimitiveTypeCode.DateTimeNullable:
                                     {
-                                        keyValue = DateTimeUtils.TryParseDateTime(keyValue.ToString(), reader.DateTimeZoneHandling, reader.DateFormatString, reader.Culture, out DateTime dt)
+                                        keyValue = DateTimeUtils.TryParseDateTime(keyValue.ToString(), reader.DateTimeZoneHandling, reader.DateFormatString, reader.Culture, out var dt)
                                             ? dt
                                             : EnsureType(reader, keyValue, CultureInfo.InvariantCulture, contract.KeyContract, contract.DictionaryKeyType)!;
                                         break;
@@ -1383,7 +1383,7 @@ namespace Argon.Serialization
                                     case PrimitiveTypeCode.DateTimeOffset:
                                     case PrimitiveTypeCode.DateTimeOffsetNullable:
                                     {
-                                        keyValue = DateTimeUtils.TryParseDateTimeOffset(keyValue.ToString(), reader.DateFormatString, reader.Culture, out DateTimeOffset dt)
+                                        keyValue = DateTimeUtils.TryParseDateTimeOffset(keyValue.ToString(), reader.DateFormatString, reader.Culture, out var dt)
                                             ? dt
                                             : EnsureType(reader, keyValue, CultureInfo.InvariantCulture, contract.KeyContract, contract.DictionaryKeyType)!;
                                         break;
@@ -1450,7 +1450,7 @@ namespace Argon.Serialization
 
         private object PopulateMultidimensionalArray(IList list, JsonReader reader, JsonArrayContract contract, JsonProperty? containerProperty, string? id)
         {
-            int rank = contract.UnderlyingType.GetArrayRank();
+            var rank = contract.UnderlyingType.GetArrayRank();
 
             if (id != null)
             {
@@ -1459,18 +1459,18 @@ namespace Argon.Serialization
 
             OnDeserializing(reader, contract, list);
 
-            JsonContract? collectionItemContract = GetContractSafe(contract.CollectionItemType);
-            JsonConverter? collectionItemConverter = GetConverter(collectionItemContract, null, contract, containerProperty);
+            var collectionItemContract = GetContractSafe(contract.CollectionItemType);
+            var collectionItemConverter = GetConverter(collectionItemContract, null, contract, containerProperty);
 
             int? previousErrorIndex = null;
-            Stack<IList> listStack = new Stack<IList>();
+            var listStack = new Stack<IList>();
             listStack.Push(list);
-            IList currentList = list;
+            var currentList = list;
 
-            bool finished = false;
+            var finished = false;
             do
             {
-                int initialDepth = reader.Depth;
+                var initialDepth = reader.Depth;
 
                 if (listStack.Count == rank)
                 {
@@ -1510,7 +1510,7 @@ namespace Argon.Serialization
                     }
                     catch (Exception ex)
                     {
-                        JsonPosition errorPosition = reader.GetPosition(initialDepth);
+                        var errorPosition = reader.GetPosition(initialDepth);
 
                         if (IsErrorHandled(list, contract, errorPosition.Position, reader as IJsonLineInfo, reader.Path, ex))
                         {
@@ -1601,7 +1601,7 @@ namespace Argon.Serialization
         private object PopulateList(IList list, JsonReader reader, JsonArrayContract contract, JsonProperty? containerProperty, string? id)
         {
 #pragma warning disable CS8600, CS8602, CS8603, CS8604
-            object underlyingList = list is IWrappedCollection wrappedCollection ? wrappedCollection.UnderlyingCollection : list;
+            var underlyingList = list is IWrappedCollection wrappedCollection ? wrappedCollection.UnderlyingCollection : list;
 
             if (id != null)
             {
@@ -1617,18 +1617,18 @@ namespace Argon.Serialization
 
             OnDeserializing(reader, contract, underlyingList);
 
-            int initialDepth = reader.Depth;
+            var initialDepth = reader.Depth;
 
             if (contract.ItemContract == null)
             {
                 contract.ItemContract = GetContractSafe(contract.CollectionItemType);
             }
 
-            JsonConverter? collectionItemConverter = GetConverter(contract.ItemContract, null, contract, containerProperty);
+            var collectionItemConverter = GetConverter(contract.ItemContract, null, contract, containerProperty);
 
             int? previousErrorIndex = null;
 
-            bool finished = false;
+            var finished = false;
             do
             {
                 try
@@ -1665,7 +1665,7 @@ namespace Argon.Serialization
                 }
                 catch (Exception ex)
                 {
-                    JsonPosition errorPosition = reader.GetPosition(initialDepth);
+                    var errorPosition = reader.GetPosition(initialDepth);
 
                     if (IsErrorHandled(underlyingList, contract, errorPosition.Position, reader as IJsonLineInfo, reader.Path, ex))
                     {
@@ -1701,12 +1701,12 @@ namespace Argon.Serialization
 
         private object CreateISerializable(JsonReader reader, JsonISerializableContract contract, JsonProperty? member, string? id)
         {
-            Type objectType = contract.UnderlyingType;
+            var objectType = contract.UnderlyingType;
 
             if (!JsonTypeReflector.FullyTrusted)
             {
-                string message = @"Type '{0}' implements ISerializable but cannot be deserialized using the ISerializable interface because the current application is not fully trusted and ISerializable can expose secure data." + Environment.NewLine +
-                                 @"To fix this error either change the environment to be fully trusted, change the application to not deserialize the type, add JsonObjectAttribute to the type or change the JsonSerializer setting ContractResolver to use a new DefaultContractResolver with IgnoreSerializableInterface set to true." + Environment.NewLine;
+                var message = @"Type '{0}' implements ISerializable but cannot be deserialized using the ISerializable interface because the current application is not fully trusted and ISerializable can expose secure data." + Environment.NewLine +
+                              @"To fix this error either change the environment to be fully trusted, change the application to not deserialize the type, add JsonObjectAttribute to the type or change the JsonSerializer setting ContractResolver to use a new DefaultContractResolver with IgnoreSerializableInterface set to true." + Environment.NewLine;
                 message = message.FormatWith(CultureInfo.InvariantCulture, objectType);
 
                 throw JsonSerializationException.Create(reader, message);
@@ -1717,15 +1717,15 @@ namespace Argon.Serialization
                 TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, "Deserializing {0} using ISerializable constructor.".FormatWith(CultureInfo.InvariantCulture, contract.UnderlyingType)), null);
             }
 
-            SerializationInfo serializationInfo = new SerializationInfo(contract.UnderlyingType, new JsonFormatterConverter(this, contract, member));
+            var serializationInfo = new SerializationInfo(contract.UnderlyingType, new JsonFormatterConverter(this, contract, member));
 
-            bool finished = false;
+            var finished = false;
             do
             {
                 switch (reader.TokenType)
                 {
                     case JsonToken.PropertyName:
-                        string memberName = reader.Value!.ToString();
+                        var memberName = reader.Value!.ToString();
                         if (!reader.Read())
                         {
                             throw JsonSerializationException.Create(reader, "Unexpected end when setting {0}'s value.".FormatWith(CultureInfo.InvariantCulture, memberName));
@@ -1757,7 +1757,7 @@ namespace Argon.Serialization
                 throw JsonSerializationException.Create(reader, "ISerializable type '{0}' does not have a valid constructor. To correctly implement ISerializable a constructor that takes SerializationInfo and StreamingContext parameters should be present.".FormatWith(CultureInfo.InvariantCulture, objectType));
             }
 
-            object createdObject = contract.ISerializableCreator(serializationInfo, Serializer._context);
+            var createdObject = contract.ISerializableCreator(serializationInfo, Serializer._context);
 
             if (id != null)
             {
@@ -1773,10 +1773,10 @@ namespace Argon.Serialization
 
         internal object? CreateISerializableItem(JToken token, Type type, JsonISerializableContract contract, JsonProperty? member)
         {
-            JsonContract? itemContract = GetContractSafe(type);
-            JsonConverter? itemConverter = GetConverter(itemContract, null, contract, member);
+            var itemContract = GetContractSafe(type);
+            var itemConverter = GetConverter(itemContract, null, contract, member);
 
-            JsonReader tokenReader = token.CreateReader();
+            var tokenReader = token.CreateReader();
             tokenReader.ReadAndAssert(); // Move to first token
 
             object? result;
@@ -1818,15 +1818,15 @@ namespace Argon.Serialization
 
             OnDeserializing(reader, contract, newObject);
 
-            int initialDepth = reader.Depth;
+            var initialDepth = reader.Depth;
 
-            bool finished = false;
+            var finished = false;
             do
             {
                 switch (reader.TokenType)
                 {
                     case JsonToken.PropertyName:
-                        string memberName = reader.Value!.ToString();
+                        var memberName = reader.Value!.ToString();
 
                         try
                         {
@@ -1836,7 +1836,7 @@ namespace Argon.Serialization
                             }
 
                             // first attempt to find a settable property, otherwise fall back to a dynamic set without type
-                            JsonProperty? property = contract.Properties.GetClosestMatchProperty(memberName);
+                            var property = contract.Properties.GetClosestMatchProperty(memberName);
 
                             if (property != null && property.Writable && !property.Ignored)
                             {
@@ -1845,7 +1845,7 @@ namespace Argon.Serialization
                                     property.PropertyContract = GetContractSafe(property.PropertyType);
                                 }
 
-                                JsonConverter? propertyConverter = GetConverter(property.PropertyContract, property.Converter, null, null);
+                                var propertyConverter = GetConverter(property.PropertyContract, property.Converter, null, null);
 
                                 if (!SetPropertyValue(property, propertyConverter, null, member, reader, newObject))
                                 {
@@ -1854,10 +1854,10 @@ namespace Argon.Serialization
                             }
                             else
                             {
-                                Type t = (JsonTokenUtils.IsPrimitiveToken(reader.TokenType)) ? reader.ValueType! : typeof(IDynamicMetaObjectProvider);
+                                var t = (JsonTokenUtils.IsPrimitiveToken(reader.TokenType)) ? reader.ValueType! : typeof(IDynamicMetaObjectProvider);
 
-                                JsonContract? dynamicMemberContract = GetContractSafe(t);
-                                JsonConverter? dynamicMemberConverter = GetConverter(dynamicMemberContract, null, null, member);
+                                var dynamicMemberContract = GetContractSafe(t);
+                                var dynamicMemberConverter = GetConverter(dynamicMemberContract, null, null, member);
 
                                 object? value;
                                 if (dynamicMemberConverter != null && dynamicMemberConverter.CanRead)
@@ -1922,20 +1922,20 @@ namespace Argon.Serialization
             ValidationUtils.ArgumentNotNull(creator, nameof(creator));
 
             // only need to keep a track of properties' presence if they are required or a value should be defaulted if missing
-            bool trackPresence = (contract.HasRequiredOrDefaultValueProperties || HasFlag(Serializer._defaultValueHandling, DefaultValueHandling.Populate));
+            var trackPresence = (contract.HasRequiredOrDefaultValueProperties || HasFlag(Serializer._defaultValueHandling, DefaultValueHandling.Populate));
 
-            Type objectType = contract.UnderlyingType;
+            var objectType = contract.UnderlyingType;
 
             if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Info)
             {
-                string parameters = string.Join(", ", contract.CreatorParameters.Select(p => p.PropertyName));
+                var parameters = string.Join(", ", contract.CreatorParameters.Select(p => p.PropertyName));
                 TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, "Deserializing {0} using creator with parameters: {1}.".FormatWith(CultureInfo.InvariantCulture, contract.UnderlyingType, parameters)), null);
             }
 
-            List<CreatorPropertyContext> propertyContexts = ResolvePropertyAndCreatorValues(contract, containerProperty, reader, objectType);
+            var propertyContexts = ResolvePropertyAndCreatorValues(contract, containerProperty, reader, objectType);
             if (trackPresence)
             {
-                foreach (JsonProperty property in contract.Properties)
+                foreach (var property in contract.Properties)
                 {
                     if (!property.Ignored)
                     {
@@ -1951,16 +1951,16 @@ namespace Argon.Serialization
                 }
             }
 
-            object?[] creatorParameterValues = new object?[contract.CreatorParameters.Count];
+            var creatorParameterValues = new object?[contract.CreatorParameters.Count];
 
-            foreach (CreatorPropertyContext context in propertyContexts)
+            foreach (var context in propertyContexts)
             {
                 // set presence of read values
                 if (trackPresence)
                 {
                     if (context.Property != null && context.Presence == null)
                     {
-                        object? v = context.Value;
+                        var v = context.Value;
                         PropertyPresence propertyPresence;
                         if (v == null)
                         {
@@ -1981,7 +1981,7 @@ namespace Argon.Serialization
                     }
                 }
 
-                JsonProperty? constructorProperty = context.ConstructorProperty;
+                var constructorProperty = context.ConstructorProperty;
                 if (constructorProperty == null && context.Property != null)
                 {
                     constructorProperty = contract.CreatorParameters.ForgivingCaseSensitiveFind(p => p.PropertyName!, context.Property.UnderlyingName!);
@@ -2012,14 +2012,14 @@ namespace Argon.Serialization
                         }
                     }
 
-                    int i = contract.CreatorParameters.IndexOf(constructorProperty);
+                    var i = contract.CreatorParameters.IndexOf(constructorProperty);
                     creatorParameterValues[i] = context.Value;
 
                     context.Used = true;
                 }
             }
 
-            object createdObject = creator(creatorParameterValues);
+            var createdObject = creator(creatorParameterValues);
 
             if (id != null)
             {
@@ -2029,7 +2029,7 @@ namespace Argon.Serialization
             OnDeserializing(reader, contract, createdObject);
 
             // go through unused values and set the newly created object's properties
-            foreach (CreatorPropertyContext context in propertyContexts)
+            foreach (var context in propertyContexts)
             {
                 if (context.Used ||
                     context.Property == null ||
@@ -2039,8 +2039,8 @@ namespace Argon.Serialization
                     continue;
                 }
 
-                JsonProperty property = context.Property;
-                object? value = context.Value;
+                var property = context.Property;
+                var value = context.Value;
 
                 if (ShouldSetPropertyValue(property, contract, value))
                 {
@@ -2050,27 +2050,27 @@ namespace Argon.Serialization
                 else if (!property.Writable && value != null)
                 {
                     // handle readonly collection/dictionary properties
-                    JsonContract propertyContract = Serializer._contractResolver.ResolveContract(property.PropertyType!);
+                    var propertyContract = Serializer._contractResolver.ResolveContract(property.PropertyType!);
 
                     if (propertyContract.ContractType == JsonContractType.Array)
                     {
-                        JsonArrayContract propertyArrayContract = (JsonArrayContract)propertyContract;
+                        var propertyArrayContract = (JsonArrayContract)propertyContract;
 
                         if (propertyArrayContract.CanDeserialize && !propertyArrayContract.IsReadOnlyOrFixedSize)
                         {
-                            object? createdObjectCollection = property.ValueProvider!.GetValue(createdObject);
+                            var createdObjectCollection = property.ValueProvider!.GetValue(createdObject);
                             if (createdObjectCollection != null)
                             {
                                 propertyArrayContract = (JsonArrayContract)GetContract(createdObjectCollection.GetType());
 
-                                IList createdObjectCollectionWrapper = (propertyArrayContract.ShouldCreateWrapper) ? propertyArrayContract.CreateWrapper(createdObjectCollection) : (IList)createdObjectCollection;
+                                var createdObjectCollectionWrapper = (propertyArrayContract.ShouldCreateWrapper) ? propertyArrayContract.CreateWrapper(createdObjectCollection) : (IList)createdObjectCollection;
 
                                 // Don't attempt to populate array/read-only list
                                 if (!createdObjectCollectionWrapper.IsFixedSize)
                                 {
-                                    IList newValues = (propertyArrayContract.ShouldCreateWrapper) ? propertyArrayContract.CreateWrapper(value) : (IList)value;
+                                    var newValues = (propertyArrayContract.ShouldCreateWrapper) ? propertyArrayContract.CreateWrapper(value) : (IList)value;
 
-                                    foreach (object newValue in newValues)
+                                    foreach (var newValue in newValues)
                                     {
                                         createdObjectCollectionWrapper.Add(newValue);
                                     }
@@ -2080,23 +2080,23 @@ namespace Argon.Serialization
                     }
                     else if (propertyContract.ContractType == JsonContractType.Dictionary)
                     {
-                        JsonDictionaryContract dictionaryContract = (JsonDictionaryContract)propertyContract;
+                        var dictionaryContract = (JsonDictionaryContract)propertyContract;
 
                         if (!dictionaryContract.IsReadOnlyOrFixedSize)
                         {
-                            object? createdObjectDictionary = property.ValueProvider!.GetValue(createdObject);
+                            var createdObjectDictionary = property.ValueProvider!.GetValue(createdObject);
                             if (createdObjectDictionary != null)
                             {
-                                IDictionary targetDictionary = (dictionaryContract.ShouldCreateWrapper) ? dictionaryContract.CreateWrapper(createdObjectDictionary) : (IDictionary)createdObjectDictionary;
-                                IDictionary newValues = (dictionaryContract.ShouldCreateWrapper) ? dictionaryContract.CreateWrapper(value) : (IDictionary)value;
+                                var targetDictionary = (dictionaryContract.ShouldCreateWrapper) ? dictionaryContract.CreateWrapper(createdObjectDictionary) : (IDictionary)createdObjectDictionary;
+                                var newValues = (dictionaryContract.ShouldCreateWrapper) ? dictionaryContract.CreateWrapper(value) : (IDictionary)value;
 
                                 // Manual use of IDictionaryEnumerator instead of foreach to avoid DictionaryEntry box allocations.
-                                IDictionaryEnumerator e = newValues.GetEnumerator();
+                                var e = newValues.GetEnumerator();
                                 try
                                 {
                                     while (e.MoveNext())
                                     {
-                                        DictionaryEntry entry = e.Entry;
+                                        var entry = e.Entry;
                                         targetDictionary[entry.Key] = entry.Value;
                                     }
                                 }
@@ -2114,7 +2114,7 @@ namespace Argon.Serialization
 
             if (contract.ExtensionDataSetter != null)
             {
-                foreach (CreatorPropertyContext propertyValue in propertyContexts)
+                foreach (var propertyValue in propertyContexts)
                 {
                     if (!propertyValue.Used && propertyValue.Presence != PropertyPresence.None)
                     {
@@ -2125,7 +2125,7 @@ namespace Argon.Serialization
 
             if (trackPresence)
             {
-                foreach (CreatorPropertyContext context in propertyContexts)
+                foreach (var context in propertyContexts)
                 {
                     if (context.Property == null)
                     {
@@ -2154,7 +2154,7 @@ namespace Argon.Serialization
                 TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, "Started deserializing {0} with converter {1}.".FormatWith(CultureInfo.InvariantCulture, objectType, converter.GetType())), null);
             }
 
-            object? value = converter.ReadJson(reader, objectType, existingValue, GetInternalSerializer());
+            var value = converter.ReadJson(reader, objectType, existingValue, GetInternalSerializer());
 
             if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Info)
             {
@@ -2166,23 +2166,23 @@ namespace Argon.Serialization
 
         private List<CreatorPropertyContext> ResolvePropertyAndCreatorValues(JsonObjectContract contract, JsonProperty? containerProperty, JsonReader reader, Type objectType)
         {
-            List<CreatorPropertyContext> propertyValues = new List<CreatorPropertyContext>();
-            bool exit = false;
+            var propertyValues = new List<CreatorPropertyContext>();
+            var exit = false;
             do
             {
                 switch (reader.TokenType)
                 {
                     case JsonToken.PropertyName:
-                        string memberName = reader.Value!.ToString();
+                        var memberName = reader.Value!.ToString();
 
-                        CreatorPropertyContext creatorPropertyContext = new CreatorPropertyContext(memberName)
+                        var creatorPropertyContext = new CreatorPropertyContext(memberName)
                         {
                             ConstructorProperty = contract.CreatorParameters.GetClosestMatchProperty(memberName),
                             Property = contract.Properties.GetClosestMatchProperty(memberName)
                         };
                         propertyValues.Add(creatorPropertyContext);
 
-                        JsonProperty? property = creatorPropertyContext.ConstructorProperty ?? creatorPropertyContext.Property;
+                        var property = creatorPropertyContext.ConstructorProperty ?? creatorPropertyContext.Property;
                         if (property != null)
                         {
                             if (!property.Ignored)
@@ -2192,7 +2192,7 @@ namespace Argon.Serialization
                                     property.PropertyContract = GetContractSafe(property.PropertyType);
                                 }
 
-                                JsonConverter? propertyConverter = GetConverter(property.PropertyContract, property.Converter, contract, containerProperty);
+                                var propertyConverter = GetConverter(property.PropertyContract, property.Converter, contract, containerProperty);
 
                                 if (!reader.ReadForType(property.PropertyContract, propertyConverter != null))
                                 {
@@ -2304,7 +2304,7 @@ namespace Argon.Serialization
             OnDeserializing(reader, contract, newObject);
 
             // only need to keep a track of properties' presence if they are required or a value should be defaulted if missing
-            Dictionary<JsonProperty, PropertyPresence>? propertiesPresence = (contract.HasRequiredOrDefaultValueProperties || HasFlag(Serializer._defaultValueHandling, DefaultValueHandling.Populate))
+            var propertiesPresence = (contract.HasRequiredOrDefaultValueProperties || HasFlag(Serializer._defaultValueHandling, DefaultValueHandling.Populate))
                 ? contract.Properties.ToDictionary(m => m, m => PropertyPresence.None)
                 : null;
 
@@ -2313,16 +2313,16 @@ namespace Argon.Serialization
                 AddReference(reader, id, newObject);
             }
 
-            int initialDepth = reader.Depth;
+            var initialDepth = reader.Depth;
 
-            bool finished = false;
+            var finished = false;
             do
             {
                 switch (reader.TokenType)
                 {
                     case JsonToken.PropertyName:
                     {
-                        string propertyName = reader.Value!.ToString();
+                        var propertyName = reader.Value!.ToString();
 
                         if (CheckPropertyName(reader, propertyName))
                         {
@@ -2333,7 +2333,7 @@ namespace Argon.Serialization
                         {
                             // attempt exact case match first
                             // then try match ignoring case
-                            JsonProperty? property = contract.Properties.GetClosestMatchProperty(propertyName);
+                            var property = contract.Properties.GetClosestMatchProperty(propertyName);
 
                             if (property == null)
                             {
@@ -2373,7 +2373,7 @@ namespace Argon.Serialization
                                     property.PropertyContract = GetContractSafe(property.PropertyType);
                                 }
 
-                                JsonConverter? propertyConverter = GetConverter(property.PropertyContract, property.Converter, contract, member);
+                                var propertyConverter = GetConverter(property.PropertyContract, property.Converter, contract, member);
 
                                 if (!reader.ReadForType(property.PropertyContract, propertyConverter != null))
                                 {
@@ -2420,10 +2420,10 @@ namespace Argon.Serialization
 
             if (propertiesPresence != null)
             {
-                foreach (KeyValuePair<JsonProperty, PropertyPresence> propertyPresence in propertiesPresence)
+                foreach (var propertyPresence in propertiesPresence)
                 {
-                    JsonProperty property = propertyPresence.Key;
-                    PropertyPresence presence = propertyPresence.Value;
+                    var property = propertyPresence.Key;
+                    var presence = propertyPresence.Value;
 
                     EndProcessProperty(newObject, reader, contract, initialDepth, property, presence, true);
                 }
@@ -2440,7 +2440,7 @@ namespace Argon.Serialization
                 return true;
             }
 
-            bool shouldDeserialize = property.ShouldDeserialize(target);
+            var shouldDeserialize = property.ShouldDeserialize(target);
 
             if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Verbose)
             {
@@ -2473,7 +2473,7 @@ namespace Argon.Serialization
             {
                 try
                 {
-                    object? value = ReadExtensionDataValue(contract, member, reader);
+                    var value = ReadExtensionDataValue(contract, member, reader);
 
                     contract.ExtensionDataSetter(o, memberName, value);
                 }
@@ -2508,7 +2508,7 @@ namespace Argon.Serialization
             {
                 try
                 {
-                    Required resolvedRequired = property.Ignored ? Required.Default : property._required ?? contract.ItemRequired ?? Required.Default;
+                    var resolvedRequired = property.Ignored ? Required.Default : property._required ?? contract.ItemRequired ?? Required.Default;
 
                     switch (presence)
                     {

@@ -97,7 +97,7 @@ namespace Argon.Converters
                     case JsonToken.Comment:
                         break;
                     default:
-                        object? v = ReadValue(reader);
+                        var v = ReadValue(reader);
 
                         list.Add(v);
                         break;
@@ -118,14 +118,14 @@ namespace Argon.Converters
                 switch (reader.TokenType)
                 {
                     case JsonToken.PropertyName:
-                        string propertyName = reader.Value!.ToString();
+                        var propertyName = reader.Value!.ToString();
 
                         if (!reader.Read())
                         {
                             throw JsonSerializationException.Create(reader, "Unexpected end when reading ExpandoObject.");
                         }
 
-                        object? v = ReadValue(reader);
+                        var v = ReadValue(reader);
 
                         expandoObject[propertyName] = v;
                         break;

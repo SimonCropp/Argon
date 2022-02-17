@@ -39,7 +39,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            string json = @"[
+            var json = @"[
               [
                 [
                   '1',

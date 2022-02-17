@@ -224,7 +224,7 @@ namespace Argon.Tests.Documentation.Samples.Json
 
         public override void WriteStartArray()
         {
-            bool isStart = (WriteState == WriteState.Start);
+            var isStart = (WriteState == WriteState.Start);
 
             base.WriteStartArray();
 
@@ -240,7 +240,7 @@ namespace Argon.Tests.Documentation.Samples.Json
 
         public override void WriteStartObject()
         {
-            bool isStart = (WriteState == WriteState.Start);
+            var isStart = (WriteState == WriteState.Start);
 
             base.WriteStartObject();
 
@@ -256,7 +256,7 @@ namespace Argon.Tests.Documentation.Samples.Json
 
         public override void WriteStartConstructor(string name)
         {
-            bool isStart = (WriteState == WriteState.Start);
+            var isStart = (WriteState == WriteState.Start);
 
             base.WriteStartConstructor(name);
 
@@ -300,12 +300,12 @@ namespace Argon.Tests.Documentation.Samples.Json
             _writer.WriteWhitespace(Environment.NewLine);
 
             // levels of indentation multiplied by the indent count
-            int currentIndentCount = Top * 2;
+            var currentIndentCount = Top * 2;
 
             while (currentIndentCount > 0)
             {
                 // write up to a max of 10 characters at once to avoid creating too many new strings
-                int writeCount = Math.Min(currentIndentCount, 10);
+                var writeCount = Math.Min(currentIndentCount, 10);
 
                 _writer.WriteWhitespace(new string(' ', writeCount));
 
@@ -334,14 +334,14 @@ namespace Argon.Tests.Documentation.Samples.Json
                 }
             };
 
-            StringWriter sw = new StringWriter();
+            var sw = new StringWriter();
 
-            using (XmlWriter xmlWriter = XmlWriter.Create(sw, new XmlWriterSettings { OmitXmlDeclaration = true }))
-            using (XmlJsonWriter writer = new XmlJsonWriter(xmlWriter))
+            using (var xmlWriter = XmlWriter.Create(sw, new XmlWriterSettings { OmitXmlDeclaration = true }))
+            using (var writer = new XmlJsonWriter(xmlWriter))
             {
                 writer.Formatting = Formatting.Indented;
 
-                JsonSerializer serializer = new JsonSerializer();
+                var serializer = new JsonSerializer();
                 serializer.Serialize(writer, user);
             }
 
@@ -359,8 +359,8 @@ namespace Argon.Tests.Documentation.Samples.Json
 
             sw = new StringWriter();
 
-            using (XmlWriter xmlWriter = XmlWriter.Create(sw, new XmlWriterSettings { OmitXmlDeclaration = true }))
-            using (XmlJsonWriter writer = new XmlJsonWriter(xmlWriter))
+            using (var xmlWriter = XmlWriter.Create(sw, new XmlWriterSettings { OmitXmlDeclaration = true }))
+            using (var writer = new XmlJsonWriter(xmlWriter))
             {
                 writer.Formatting = Formatting.Indented;
 

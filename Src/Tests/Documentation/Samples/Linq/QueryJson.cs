@@ -41,7 +41,7 @@ namespace Argon.Tests.Documentation.Samples.Linq
         public void Example()
         {
             #region Usage
-            string json = @"{
+            var json = @"{
               'channel': {
                 'title': 'James Newton-King',
                 'link': 'http://james.newtonking.com',
@@ -69,19 +69,19 @@ namespace Argon.Tests.Documentation.Samples.Linq
               }
             }";
 
-            JObject rss = JObject.Parse(json);
+            var rss = JObject.Parse(json);
 
-            string rssTitle = (string)rss["channel"]["title"];
+            var rssTitle = (string)rss["channel"]["title"];
 
             Console.WriteLine(rssTitle);
             // James Newton-King
 
-            string itemTitle = (string)rss["channel"]["item"][0]["title"];
+            var itemTitle = (string)rss["channel"]["item"][0]["title"];
 
             Console.WriteLine(itemTitle);
             // Json.NET 1.3 + New license + Now on CodePlex
 
-            JArray categories = (JArray)rss["channel"]["item"][0]["category"];
+            var categories = (JArray)rss["channel"]["item"][0]["category"];
 
             Console.WriteLine(categories);
             // [
@@ -89,7 +89,7 @@ namespace Argon.Tests.Documentation.Samples.Linq
             //   "CodePlex"
             // ]
 
-            string[] categoriesText = categories.Select(c => (string)c).ToArray();
+            var categoriesText = categories.Select(c => (string)c).ToArray();
 
             Console.WriteLine(string.Join(", ", categoriesText));
             // Json.NET, CodePlex

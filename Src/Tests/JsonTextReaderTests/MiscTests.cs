@@ -52,9 +52,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadWithSupportMultipleContentCommaDelimited()
         {
-            string json = @"{ 'name': 'Admin' },{ 'name': 'Publisher' },1,null,[],,'string'";
+            var json = @"{ 'name': 'Admin' },{ 'name': 'Publisher' },1,null,[],,'string'";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
             reader.SupportMultipleContent = true;
 
             Assert.IsTrue(reader.Read());
@@ -105,9 +105,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void LineInfoAndNewLines()
         {
-            string json = "{}";
+            var json = "{}";
 
-            JsonTextReader jsonTextReader = new JsonTextReader(new StringReader(json));
+            var jsonTextReader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(jsonTextReader.Read());
             Assert.AreEqual(JsonToken.StartObject, jsonTextReader.TokenType);
@@ -182,9 +182,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void UnescapeDoubleQuotes()
         {
-            string json = @"{""recipe_id"":""12"",""recipe_name"":""Apocalypse Leather Armors"",""recipe_text"":""#C16------------------------------\r\n#C12Ingredients #C20\r\n#C16------------------------------\r\n\r\na piece of Leather Armor\r\n( ie #L \""Enhanced Leather Armor Boots\"" \""85644\"" )\r\n<img src=rdb:\/\/13264>\r\n\r\n#L \""Hacker Tool\"" \""87814\""\r\n<img src=rdb:\/\/99282>\r\n\r\n#L \""Clanalizer\"" \""208313\""\r\n<img src=rdb:\/\/156479>\r\n\r\n#C16------------------------------\r\n#C12Recipe #C16\r\n#C16------------------------------#C20\r\n\r\nHacker Tool\r\n#C15+#C20\r\na piece of Leather Armor\r\n#C15=#C20\r\n<img src=rdb:\/\/13264>\r\na piece of Hacked Leather Armor\r\n( ie : #L \""Hacked Leather Armor Boots\"" \""245979\"" )\r\n#C16Skills: |  BE  |#C20\r\n\r\n#C14------------------------------#C20\r\n\r\nClanalizer\r\n#C15+#C20\r\na piece of Hacked Leather Armor\r\n#C15=#C20\r\n<img src=rdb:\/\/13264>\r\na piece of Apocalypse Leather Armor\r\n( ie : #L \""Apocalypse Leather Armor Boots\"" \""245966\"" )\r\n#C16Skills: |  ??  |#C20\r\n\r\n#C16------------------------------\r\n#C12Details#C16\r\n#C16------------------------------#C20\r\n\r\n#L \""Apocalypse Leather Armor Boots\"" \""245967\""\r\n#L \""Apocalypse Leather Armor Gloves\"" \""245969\""\r\n#L \""Apocalypse Leather Armor Helmet\"" \""245975\""\r\n#L \""Apocalypse Leather Armor Pants\"" \""245971\""\r\n#L \""Apocalypse Leather Armor Sleeves\"" \""245973\""\r\n#L \""Apocalypse Leather Body Armor\"" \""245965\""\r\n\r\n#C16------------------------------\r\n#C12Comments#C16\r\n#C16------------------------------#C20\r\n\r\nNice froob armor.. but ugleh!\r\n\r\n"",""recipe_author"":null}";
+            var json = @"{""recipe_id"":""12"",""recipe_name"":""Apocalypse Leather Armors"",""recipe_text"":""#C16------------------------------\r\n#C12Ingredients #C20\r\n#C16------------------------------\r\n\r\na piece of Leather Armor\r\n( ie #L \""Enhanced Leather Armor Boots\"" \""85644\"" )\r\n<img src=rdb:\/\/13264>\r\n\r\n#L \""Hacker Tool\"" \""87814\""\r\n<img src=rdb:\/\/99282>\r\n\r\n#L \""Clanalizer\"" \""208313\""\r\n<img src=rdb:\/\/156479>\r\n\r\n#C16------------------------------\r\n#C12Recipe #C16\r\n#C16------------------------------#C20\r\n\r\nHacker Tool\r\n#C15+#C20\r\na piece of Leather Armor\r\n#C15=#C20\r\n<img src=rdb:\/\/13264>\r\na piece of Hacked Leather Armor\r\n( ie : #L \""Hacked Leather Armor Boots\"" \""245979\"" )\r\n#C16Skills: |  BE  |#C20\r\n\r\n#C14------------------------------#C20\r\n\r\nClanalizer\r\n#C15+#C20\r\na piece of Hacked Leather Armor\r\n#C15=#C20\r\n<img src=rdb:\/\/13264>\r\na piece of Apocalypse Leather Armor\r\n( ie : #L \""Apocalypse Leather Armor Boots\"" \""245966\"" )\r\n#C16Skills: |  ??  |#C20\r\n\r\n#C16------------------------------\r\n#C12Details#C16\r\n#C16------------------------------#C20\r\n\r\n#L \""Apocalypse Leather Armor Boots\"" \""245967\""\r\n#L \""Apocalypse Leather Armor Gloves\"" \""245969\""\r\n#L \""Apocalypse Leather Armor Helmet\"" \""245975\""\r\n#L \""Apocalypse Leather Armor Pants\"" \""245971\""\r\n#L \""Apocalypse Leather Armor Sleeves\"" \""245973\""\r\n#L \""Apocalypse Leather Body Armor\"" \""245965\""\r\n\r\n#C16------------------------------\r\n#C12Comments#C16\r\n#C16------------------------------#C20\r\n\r\nNice froob armor.. but ugleh!\r\n\r\n"",""recipe_author"":null}";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
@@ -214,9 +214,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void SurrogatePairValid()
         {
-            string json = @"{ ""MATHEMATICAL ITALIC CAPITAL ALPHA"": ""\uD835\uDEE2"" }";
+            var json = @"{ ""MATHEMATICAL ITALIC CAPITAL ALPHA"": ""\uD835\uDEE2"" }";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(reader.Read());
             Assert.IsTrue(reader.Read());
@@ -224,10 +224,10 @@ namespace Argon.Tests.JsonTextReaderTests
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.String, reader.TokenType);
 
-            string s = reader.Value.ToString();
+            var s = reader.Value.ToString();
             Assert.AreEqual(2, s.Length);
 
-            StringInfo stringInfo = new StringInfo(s);
+            var stringInfo = new StringInfo(s);
             Assert.AreEqual(1, stringInfo.LengthInTextElements);
         }
 
@@ -268,12 +268,12 @@ namespace Argon.Tests.JsonTextReaderTests
 
         private string ReadString(string input)
         {
-            MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(@"""" + input + @""""));
+            var ms = new MemoryStream(Encoding.UTF8.GetBytes(@"""" + input + @""""));
 
-            JsonTextReader reader = new JsonTextReader(new StreamReader(ms));
+            var reader = new JsonTextReader(new StreamReader(ms));
             reader.Read();
 
-            string s = (string)reader.Value;
+            var s = (string)reader.Value;
 
             return s;
         }
@@ -281,8 +281,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void CloseInput()
         {
-            MemoryStream ms = new MemoryStream();
-            JsonTextReader reader = new JsonTextReader(new StreamReader(ms));
+            var ms = new MemoryStream();
+            var reader = new JsonTextReader(new StreamReader(ms));
 
             Assert.IsTrue(ms.CanRead);
             reader.Close();
@@ -299,7 +299,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void YahooFinance()
         {
-            string input = @"{
+            var input = @"{
 ""matches"" : [
 {""t"":""C"", ""n"":""Citigroup Inc."", ""e"":""NYSE"", ""id"":""662713""}
 ,{""t"":""CHL"", ""n"":""China Mobile Ltd. (ADR)"", ""e"":""NYSE"", ""id"":""660998""}
@@ -331,13 +331,13 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void Depth()
         {
-            string input = @"{
+            var input = @"{
   value:'Purple',
   array:[1,2,new Date(1)],
   subobject:{prop:1,proparray:[1]}
 }";
 
-            StringReader sr = new StringReader(input);
+            var sr = new StringReader(input);
 
             using (JsonReader reader = new JsonTextReader(sr))
             {
@@ -460,7 +460,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void AppendCharsWhileReadingNull()
         {
-            string json = @"[
+            var json = @"[
   {
     ""$id"": ""1"",
     ""Name"": ""e1"",
@@ -479,12 +479,12 @@ namespace Argon.Tests.JsonTextReaderTests
   }
 ]";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 #if DEBUG
             reader.CharBuffer = new char[129];
 #endif
 
-            for (int i = 0; i < 15; i++)
+            for (var i = 0; i < 15; i++)
             {
                 reader.Read();
             }
@@ -496,7 +496,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void AppendCharsWhileReadingNewLine()
         {
-            string json = @"
+            var json = @"
 {
   ""description"": ""A person"",
   ""type"": ""object"",
@@ -511,12 +511,12 @@ namespace Argon.Tests.JsonTextReaderTests
 }
 ";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 #if DEBUG
             reader.CharBuffer = new char[129];
 #endif
 
-            for (int i = 0; i < 14; i++)
+            for (var i = 0; i < 14; i++)
             {
                 Assert.IsTrue(reader.Read());
             }
@@ -529,7 +529,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void BufferTest()
         {
-            string json = @"{
+            var json = @"{
               ""CPU"": ""Intel"",
               ""Description"": ""Amazing!\nBuy now!"",
               ""Drives"": [
@@ -539,11 +539,11 @@ namespace Argon.Tests.JsonTextReaderTests
               ]
             }";
 
-            FakeArrayPool arrayPool = new FakeArrayPool();
+            var arrayPool = new FakeArrayPool();
 
-            for (int i = 0; i < 1000; i++)
+            for (var i = 0; i < 1000; i++)
             {
-                using (JsonTextReader reader = new JsonTextReader(new StringReader(json)))
+                using (var reader = new JsonTextReader(new StringReader(json)))
                 {
                     reader.ArrayPool = arrayPool;
 
@@ -565,16 +565,16 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void BufferTest_WithError()
         {
-            string json = @"{
+            var json = @"{
               ""CPU"": ""Intel?\nYes"",
               ""Description"": ""Amazin";
 
-            FakeArrayPool arrayPool = new FakeArrayPool();
+            var arrayPool = new FakeArrayPool();
 
             try
             {
                 // dispose will free used buffers
-                using (JsonTextReader reader = new JsonTextReader(new StringReader(json)))
+                using (var reader = new JsonTextReader(new StringReader(json)))
                 {
                     reader.ArrayPool = arrayPool;
 
@@ -596,8 +596,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void WriteReadWrite()
         {
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
 
             using (JsonWriter jsonWriter = new JsonTextWriter(sw)
             {
@@ -615,7 +615,7 @@ namespace Argon.Tests.JsonTextReaderTests
                 jsonWriter.WritePropertyName("array");
 
                 jsonWriter.WriteStartArray();
-                for (int i = 0; i < 5; i++)
+                for (var i = 0; i < 5; i++)
                 {
                     jsonWriter.WriteValue(i);
                 }
@@ -636,11 +636,11 @@ namespace Argon.Tests.JsonTextReaderTests
                 jsonWriter.WriteEndArray();
             }
 
-            string json = sb.ToString();
+            var json = sb.ToString();
 
-            JsonSerializer serializer = new JsonSerializer();
+            var serializer = new JsonSerializer();
 
-            object jsonObject = serializer.Deserialize(new JsonTextReader(new StringReader(json)));
+            var jsonObject = serializer.Deserialize(new JsonTextReader(new StringReader(json)));
 
             sb = new StringBuilder();
             sw = new StringWriter(sb);
@@ -659,10 +659,10 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void LongStringTest()
         {
-            int length = 20000;
-            string json = @"[""" + new string(' ', length) + @"""]";
+            var length = 20000;
+            var json = @"[""" + new string(' ', length) + @"""]";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             reader.Read();
             Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
@@ -682,9 +682,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void EscapedUnicodeText()
         {
-            string json = @"[""\u003c"",""\u5f20""]";
+            var json = @"[""\u003c"",""\u5f20""]";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 #if DEBUG
             reader.CharBuffer = new char[2];
 #endif
@@ -705,7 +705,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void SupportMultipleContent()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"{'prop1':[1]} 1 2 ""name"" [][]null {}{} 1.1"));
+            var reader = new JsonTextReader(new StringReader(@"{'prop1':[1]} 1 2 ""name"" [][]null {}{} 1.1"));
             reader.SupportMultipleContent = true;
 
             Assert.IsTrue(reader.Read());
@@ -771,14 +771,14 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void SingleLineComments()
         {
-            string json = @"//comment*//*hi*/
+            var json = @"//comment*//*hi*/
 {//comment
 Name://comment
 true//comment after true" + StringUtils.CarriageReturn +
-                          @",//comment after comma" + StringUtils.CarriageReturnLineFeed +
-                          @"""ExpiryDate""://comment" + StringUtils.LineFeed +
-                          @"new " + StringUtils.LineFeed +
-                          @"Date
+                       @",//comment after comma" + StringUtils.CarriageReturnLineFeed +
+                       @"""ExpiryDate""://comment" + StringUtils.LineFeed +
+                       @"new " + StringUtils.LineFeed +
+                       @"Date
 (//comment
 null//comment
 ),
@@ -791,7 +791,7 @@ null//comment
 }//comment 
 //comment 1 ";
 
-            JsonTextReader reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
+            var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
 
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.Comment, reader.TokenType);
@@ -908,9 +908,9 @@ null//comment
         [Fact]
         public void JustSinglelineComment()
         {
-            string json = @"//comment";
+            var json = @"//comment";
 
-            JsonTextReader reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
+            var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
 
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.Comment, reader.TokenType);
@@ -929,9 +929,9 @@ null//comment
             Assert.AreEqual("6,0221418E+23", d.ToString(new CultureInfo("fr-FR")));
             Assert.AreEqual("602214180000000000000000", d.ToString("0.#############################################################################"));
 
-            string json = @"[0e-10,0E-10,0.25e-5,0.3e10,6.0221418e23]";
+            var json = @"[0e-10,0E-10,0.25e-5,0.3e10,6.0221418e23]";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             reader.Read();
 
@@ -987,25 +987,25 @@ null//comment
         [Fact]
         public void WriteReadBoundaryDecimals()
         {
-            StringWriter sw = new StringWriter();
-            JsonTextWriter writer = new JsonTextWriter(sw);
+            var sw = new StringWriter();
+            var writer = new JsonTextWriter(sw);
 
             writer.WriteStartArray();
             writer.WriteValue(decimal.MaxValue);
             writer.WriteValue(decimal.MinValue);
             writer.WriteEndArray();
 
-            string json = sw.ToString();
+            var json = sw.ToString();
 
-            StringReader sr = new StringReader(json);
-            JsonTextReader reader = new JsonTextReader(sr);
+            var sr = new StringReader(json);
+            var reader = new JsonTextReader(sr);
 
             Assert.IsTrue(reader.Read());
 
-            decimal? max = reader.ReadAsDecimal();
+            var max = reader.ReadAsDecimal();
             Assert.AreEqual(decimal.MaxValue, max);
 
-            decimal? min = reader.ReadAsDecimal();
+            var min = reader.ReadAsDecimal();
             Assert.AreEqual(decimal.MinValue, min);
 
             Assert.IsTrue(reader.Read());
@@ -1015,9 +1015,9 @@ null//comment
         [Fact]
         public void LinePositionOnNewLine()
         {
-            string json1 = "{'a':'bc'}";
+            var json1 = "{'a':'bc'}";
 
-            JsonTextReader r = new JsonTextReader(new StringReader(json1));
+            var r = new JsonTextReader(new StringReader(json1));
 
             Assert.IsTrue(r.Read());
             Assert.AreEqual(1, r.LineNumber);
@@ -1037,7 +1037,7 @@ null//comment
 
             Assert.IsFalse(r.Read());
 
-            string json2 = "\n{'a':'bc'}";
+            var json2 = "\n{'a':'bc'}";
 
             r = new JsonTextReader(new StringReader(json2));
 
@@ -1073,9 +1073,9 @@ null//comment
         [Fact]
         public void InvalidUnicodeSequence()
         {
-            string json1 = @"{'prop':'\u123!'}";
+            var json1 = @"{'prop':'\u123!'}";
 
-            JsonTextReader r = new JsonTextReader(new StringReader(json1));
+            var r = new JsonTextReader(new StringReader(json1));
 
             Assert.IsTrue(r.Read());
             Assert.IsTrue(r.Read());

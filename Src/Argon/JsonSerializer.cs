@@ -598,7 +598,7 @@ namespace Argon
         /// </returns>
         public static JsonSerializer Create(JsonSerializerSettings? settings)
         {
-            JsonSerializer serializer = Create();
+            var serializer = Create();
 
             if (settings != null)
             {
@@ -621,7 +621,7 @@ namespace Argon
         public static JsonSerializer CreateDefault()
         {
             // copy static to local variable to avoid concurrency issues
-            JsonSerializerSettings? defaultSettings = JsonConvert.DefaultSettings?.Invoke();
+            var defaultSettings = JsonConvert.DefaultSettings?.Invoke();
 
             return Create(defaultSettings);
         }
@@ -639,7 +639,7 @@ namespace Argon
         /// </returns>
         public static JsonSerializer CreateDefault(JsonSerializerSettings? settings)
         {
-            JsonSerializer serializer = CreateDefault();
+            var serializer = CreateDefault();
             if (settings != null)
             {
                 ApplySerializerSettings(serializer, settings);
@@ -654,7 +654,7 @@ namespace Argon
             {
                 // insert settings converters at the beginning so they take precedence
                 // if user wants to remove one of the default converters they will have to do it manually
-                for (int i = 0; i < settings.Converters.Count; i++)
+                for (var i = 0; i < settings.Converters.Count; i++)
                 {
                     serializer.Converters.Insert(i, settings.Converters[i]);
                 }
@@ -811,18 +811,18 @@ namespace Argon
 
             SetupReader(
                 reader,
-                out CultureInfo? previousCulture,
-                out DateTimeZoneHandling? previousDateTimeZoneHandling,
-                out DateParseHandling? previousDateParseHandling,
-                out FloatParseHandling? previousFloatParseHandling,
-                out int? previousMaxDepth,
-                out string? previousDateFormatString);
+                out var previousCulture,
+                out var previousDateTimeZoneHandling,
+                out var previousDateParseHandling,
+                out var previousFloatParseHandling,
+                out var previousMaxDepth,
+                out var previousDateFormatString);
 
-            TraceJsonReader? traceJsonReader = (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Verbose)
+            var traceJsonReader = (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Verbose)
                 ? CreateTraceJsonReader(reader)
                 : null;
 
-            JsonSerializerInternalReader serializerReader = new JsonSerializerInternalReader(this);
+            var serializerReader = new JsonSerializerInternalReader(this);
             serializerReader.Populate(traceJsonReader ?? reader, target);
 
             if (traceJsonReader != null)
@@ -889,19 +889,19 @@ namespace Argon
 
             SetupReader(
                 reader,
-                out CultureInfo? previousCulture,
-                out DateTimeZoneHandling? previousDateTimeZoneHandling,
-                out DateParseHandling? previousDateParseHandling,
-                out FloatParseHandling? previousFloatParseHandling,
-                out int? previousMaxDepth,
-                out string? previousDateFormatString);
+                out var previousCulture,
+                out var previousDateTimeZoneHandling,
+                out var previousDateParseHandling,
+                out var previousFloatParseHandling,
+                out var previousMaxDepth,
+                out var previousDateFormatString);
 
-            TraceJsonReader? traceJsonReader = (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Verbose)
+            var traceJsonReader = (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Verbose)
                 ? CreateTraceJsonReader(reader)
                 : null;
 
-            JsonSerializerInternalReader serializerReader = new JsonSerializerInternalReader(this);
-            object? value = serializerReader.Deserialize(traceJsonReader ?? reader, objectType, CheckAdditionalContent);
+            var serializerReader = new JsonSerializerInternalReader(this);
+            var value = serializerReader.Deserialize(traceJsonReader ?? reader, objectType, CheckAdditionalContent);
 
             if (traceJsonReader != null)
             {
@@ -1075,7 +1075,7 @@ namespace Argon
 
         private TraceJsonReader CreateTraceJsonReader(JsonReader reader)
         {
-            TraceJsonReader traceReader = new TraceJsonReader(reader);
+            var traceReader = new TraceJsonReader(reader);
             if (reader.TokenType != JsonToken.None)
             {
                 traceReader.WriteCurrentToken();
@@ -1138,11 +1138,11 @@ namespace Argon
                 jsonWriter.DateFormatString = _dateFormatString;
             }
 
-            TraceJsonWriter? traceJsonWriter = (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Verbose)
+            var traceJsonWriter = (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Verbose)
                 ? new TraceJsonWriter(jsonWriter)
                 : null;
 
-            JsonSerializerInternalWriter serializerWriter = new JsonSerializerInternalWriter(this);
+            var serializerWriter = new JsonSerializerInternalWriter(this);
             serializerWriter.Serialize(traceJsonWriter ?? jsonWriter, value, objectType);
 
             if (traceJsonWriter != null)
@@ -1204,9 +1204,9 @@ namespace Argon
 
             if (converters != null)
             {
-                for (int i = 0; i < converters.Count; i++)
+                for (var i = 0; i < converters.Count; i++)
                 {
-                    JsonConverter converter = converters[i];
+                    var converter = converters[i];
 
                     if (converter.CanConvert(objectType))
                     {

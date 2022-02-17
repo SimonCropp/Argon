@@ -49,7 +49,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
 
             public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
             {
-                JToken t = JToken.FromObject(value);
+                var t = JToken.FromObject(value);
 
                 if (t.Type != JTokenType.Object)
                 {
@@ -57,7 +57,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
                 }
                 else
                 {
-                    JObject o = (JObject)t;
+                    var o = (JObject)t;
                     IList<string> propertyNames = o.Properties().Select(p => p.Name).ToList();
 
                     o.AddFirst(new JProperty("Keys", new JArray(propertyNames)));
@@ -94,7 +94,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            Employee employee = new Employee
+            var employee = new Employee
             {
                 FirstName = "James",
                 LastName = "Newton-King",
@@ -104,7 +104,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
                 }
             };
 
-            string json = JsonConvert.SerializeObject(employee, Formatting.Indented, new KeysJsonConverter(typeof(Employee)));
+            var json = JsonConvert.SerializeObject(employee, Formatting.Indented, new KeysJsonConverter(typeof(Employee)));
 
             Console.WriteLine(json);
             // {
@@ -120,7 +120,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
             //   ]
             // }
 
-            Employee newEmployee = JsonConvert.DeserializeObject<Employee>(json, new KeysJsonConverter(typeof(Employee)));
+            var newEmployee = JsonConvert.DeserializeObject<Employee>(json, new KeysJsonConverter(typeof(Employee)));
 
             Console.WriteLine(newEmployee.FirstName);
             // James

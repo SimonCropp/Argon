@@ -37,7 +37,7 @@ namespace Argon.Linq
         internal async Task ReadTokenFromAsync(JsonReader reader, JsonLoadSettings? options, CancellationToken cancellationToken = default)
         {
             ValidationUtils.ArgumentNotNull(reader, nameof(reader));
-            int startDepth = reader.Depth;
+            var startDepth = reader.Depth;
 
             if (!await reader.ReadAsync(cancellationToken).ConfigureAwait(false))
             {
@@ -54,9 +54,9 @@ namespace Argon.Linq
 
         private async Task ReadContentFromAsync(JsonReader reader, JsonLoadSettings? settings, CancellationToken cancellationToken = default)
         {
-            IJsonLineInfo? lineInfo = reader as IJsonLineInfo;
+            var lineInfo = reader as IJsonLineInfo;
 
-            JContainer? parent = this;
+            var parent = this;
 
             do
             {
@@ -78,7 +78,7 @@ namespace Argon.Linq
                         // new reader. move to actual content
                         break;
                     case JsonToken.StartArray:
-                        JArray a = new JArray();
+                        var a = new JArray();
                         a.SetLineInfo(lineInfo, settings);
                         parent.Add(a);
                         parent = a;
@@ -93,7 +93,7 @@ namespace Argon.Linq
                         parent = parent.Parent;
                         break;
                     case JsonToken.StartObject:
-                        JObject o = new JObject();
+                        var o = new JObject();
                         o.SetLineInfo(lineInfo, settings);
                         parent.Add(o);
                         parent = o;
@@ -107,7 +107,7 @@ namespace Argon.Linq
                         parent = parent.Parent;
                         break;
                     case JsonToken.StartConstructor:
-                        JConstructor constructor = new JConstructor(reader.Value!.ToString());
+                        var constructor = new JConstructor(reader.Value!.ToString());
                         constructor.SetLineInfo(lineInfo, settings);
                         parent.Add(constructor);
                         parent = constructor;
@@ -126,7 +126,7 @@ namespace Argon.Linq
                     case JsonToken.Date:
                     case JsonToken.Boolean:
                     case JsonToken.Bytes:
-                        JValue v = new JValue(reader.Value);
+                        var v = new JValue(reader.Value);
                         v.SetLineInfo(lineInfo, settings);
                         parent.Add(v);
                         break;
@@ -149,7 +149,7 @@ namespace Argon.Linq
                         parent.Add(v);
                         break;
                     case JsonToken.PropertyName:
-                        JProperty? property = ReadProperty(reader, settings, lineInfo, parent);
+                        var property = ReadProperty(reader, settings, lineInfo, parent);
                         if (property != null)
                         {
                             parent = property;

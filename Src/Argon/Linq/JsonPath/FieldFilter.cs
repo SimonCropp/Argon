@@ -15,13 +15,13 @@ namespace Argon.Linq.JsonPath
 
         public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings? settings)
         {
-            foreach (JToken t in current)
+            foreach (var t in current)
             {
                 if (t is JObject o)
                 {
                     if (Name != null)
                     {
-                        JToken? v = o[Name];
+                        var v = o[Name];
 
                         if (v != null)
                         {
@@ -34,7 +34,7 @@ namespace Argon.Linq.JsonPath
                     }
                     else
                     {
-                        foreach (KeyValuePair<string, JToken?> p in o)
+                        foreach (var p in o)
                         {
                             yield return p.Value!;
                         }

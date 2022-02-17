@@ -45,10 +45,10 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test_Serialize()
         {
-            string s1 = JsonConvert.SerializeObject(new ConcreteSerializable());
+            var s1 = JsonConvert.SerializeObject(new ConcreteSerializable());
             Assert.AreEqual("{}", s1);
 
-            string s2 = JsonConvert.SerializeObject(new ClassWithSerializableProperty());
+            var s2 = JsonConvert.SerializeObject(new ClassWithSerializableProperty());
             Assert.AreEqual(@"{""Serializable"":null}", s2);
         }
 

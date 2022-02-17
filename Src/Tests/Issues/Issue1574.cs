@@ -42,8 +42,8 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test()
         {
-            TestClass c = new TestClass();
-            string json = JsonConvert.SerializeObject(c, Formatting.Indented);
+            var c = new TestClass();
+            var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
             Assert.AreEqual("{}", json);
         }

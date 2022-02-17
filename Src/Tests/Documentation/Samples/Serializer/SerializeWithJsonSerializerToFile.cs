@@ -48,7 +48,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            Movie movie = new Movie
+            var movie = new Movie
             {
                 Name = "Bad Boys",
                 Year = 1995
@@ -58,9 +58,9 @@ namespace Argon.Tests.Documentation.Samples.Serializer
             File.WriteAllText(@"c:\movie.json", JsonConvert.SerializeObject(movie));
 
             // serialize JSON directly to a file
-            using (StreamWriter file = File.CreateText(@"c:\movie.json"))
+            using (var file = File.CreateText(@"c:\movie.json"))
             {
-                JsonSerializer serializer = new JsonSerializer();
+                var serializer = new JsonSerializer();
                 serializer.Serialize(file, movie);
             }
             #endregion

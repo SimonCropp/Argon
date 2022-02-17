@@ -60,14 +60,14 @@ namespace Argon.Tests.Documentation
         public void SerializeObject()
         {
             #region SerializeObject
-            Product product = new Product();
+            var product = new Product();
 
             product.Name = "Apple";
             product.ExpiryDate = new DateTime(2008, 12, 28);
             product.Price = 3.99M;
             product.Sizes = new string[] { "Small", "Medium", "Large" };
 
-            string output = JsonConvert.SerializeObject(product);
+            var output = JsonConvert.SerializeObject(product);
             //{
             //  "Name": "Apple",
             //  "ExpiryDate": "2008-12-28T00:00:00",
@@ -79,7 +79,7 @@ namespace Argon.Tests.Documentation
             //  ]
             //}
 
-            Product deserializedProduct = JsonConvert.DeserializeObject<Product>(output);
+            var deserializedProduct = JsonConvert.DeserializeObject<Product>(output);
             #endregion
 
             Assert.AreEqual("Apple", deserializedProduct.Name);
@@ -89,14 +89,14 @@ namespace Argon.Tests.Documentation
         public void JsonSerializerToStream()
         {
             #region JsonSerializerToStream
-            Product product = new Product();
+            var product = new Product();
             product.ExpiryDate = new DateTime(2008, 12, 28);
 
-            JsonSerializer serializer = new JsonSerializer();
+            var serializer = new JsonSerializer();
             serializer.Converters.Add(new JavaScriptDateTimeConverter());
             serializer.NullValueHandling = NullValueHandling.Ignore;
 
-            using (StreamWriter sw = new StreamWriter(@"c:\json.txt"))
+            using (var sw = new StreamWriter(@"c:\json.txt"))
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
                 serializer.Serialize(writer, product);
@@ -183,7 +183,7 @@ namespace Argon.Tests.Documentation
         public void SerializationCallbacksExample()
         {
             #region SerializationCallbacksExample
-            SerializationEventTestObject obj = new SerializationEventTestObject();
+            var obj = new SerializationEventTestObject();
 
             Console.WriteLine(obj.Member1);
             // 11
@@ -194,7 +194,7 @@ namespace Argon.Tests.Documentation
             Console.WriteLine(obj.Member4);
             // null
 
-            string json = JsonConvert.SerializeObject(obj, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
             // {
             //   "Member1": 11,
             //   "Member2": "This value went into the data file during serialization.",
@@ -229,9 +229,9 @@ namespace Argon.Tests.Documentation
         public void SerializationErrorHandling()
         {
             #region SerializationErrorHandling
-            List<string> errors = new List<string>();
+            var errors = new List<string>();
 
-            List<DateTime> c = JsonConvert.DeserializeObject<List<DateTime>>(@"[
+            var c = JsonConvert.DeserializeObject<List<DateTime>>(@"[
                   '2009-09-09T00:00:00Z',
                   'I am not a date and will error!',
                   [
@@ -267,9 +267,9 @@ namespace Argon.Tests.Documentation
         public void SerializationErrorHandlingWithParent()
         {
             #region SerializationErrorHandlingWithParent
-            List<string> errors = new List<string>();
+            var errors = new List<string>();
 
-            JsonSerializer serializer = new JsonSerializer();
+            var serializer = new JsonSerializer();
             serializer.Error += delegate(object sender, ErrorEventArgs args)
             {
                 // only log an error once
@@ -317,7 +317,7 @@ namespace Argon.Tests.Documentation
         public void SerializationErrorHandlingAttributeExample()
         {
             #region SerializationErrorHandlingAttributeExample
-            PersonError person = new PersonError
+            var person = new PersonError
             {
                 Name = "George Michael Bluth",
                 Age = 16,
@@ -325,7 +325,7 @@ namespace Argon.Tests.Documentation
                 Title = "Mister Manager"
             };
 
-            string json = JsonConvert.SerializeObject(person, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(person, Formatting.Indented);
 
             Console.WriteLine(json);
             //{
@@ -346,18 +346,18 @@ namespace Argon.Tests.Documentation
         public void PreservingObjectReferencesOff()
         {
             #region PreservingObjectReferencesOff
-            Person p = new Person
+            var p = new Person
             {
                 BirthDate = new DateTime(1980, 12, 23, 0, 0, 0, DateTimeKind.Utc),
                 LastModified = new DateTime(2009, 2, 20, 12, 59, 21, DateTimeKind.Utc),
                 Name = "James"
             };
 
-            List<Person> people = new List<Person>();
+            var people = new List<Person>();
             people.Add(p);
             people.Add(p);
 
-            string json = JsonConvert.SerializeObject(people, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(people, Formatting.Indented);
             //[
             //  {
             //    "Name": "James",
@@ -389,18 +389,18 @@ namespace Argon.Tests.Documentation
         [Fact]
         public void PreservingObjectReferencesOn()
         {
-            Person p = new Person
+            var p = new Person
             {
                 Name = "James"
             };
-            List<Person> people = new List<Person>
+            var people = new List<Person>
             {
                 p,
                 p
             };
 
             #region PreservingObjectReferencesOn
-            string json = JsonConvert.SerializeObject(people, Formatting.Indented,
+            var json = JsonConvert.SerializeObject(people, Formatting.Indented,
                 new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects });
 
             //[
@@ -415,21 +415,21 @@ namespace Argon.Tests.Documentation
             //  }
             //]
 
-            List<Person> deserializedPeople = JsonConvert.DeserializeObject<List<Person>>(json,
+            var deserializedPeople = JsonConvert.DeserializeObject<List<Person>>(json,
                 new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects });
 
             Console.WriteLine(deserializedPeople.Count);
             // 2
 
-            Person p1 = deserializedPeople[0];
-            Person p2 = deserializedPeople[1];
+            var p1 = deserializedPeople[0];
+            var p2 = deserializedPeople[1];
 
             Console.WriteLine(p1.Name);
             // James
             Console.WriteLine(p2.Name);
             // James
 
-            bool equal = Object.ReferenceEquals(p1, p2);
+            var equal = Object.ReferenceEquals(p1, p2);
             // true
             #endregion
 
@@ -475,7 +475,7 @@ namespace Argon.Tests.Documentation
         [Fact]
         public void CustomCreationConverterExample()
         {
-            string json = @"[
+            var json = @"[
   {
     ""FirstName"": ""Maurice"",
     ""LastName"": ""Moss"",
@@ -510,9 +510,9 @@ namespace Argon.Tests.Documentation
             //  }
             //]
 
-            List<IPerson> people = JsonConvert.DeserializeObject<List<IPerson>>(json, new PersonConverter());
+            var people = JsonConvert.DeserializeObject<List<IPerson>>(json, new PersonConverter());
 
-            IPerson person = people[0];
+            var person = people[0];
 
             Console.WriteLine(person.GetType());
             // Argon.Tests.Employee
@@ -520,7 +520,7 @@ namespace Argon.Tests.Documentation
             Console.WriteLine(person.FirstName);
             // Maurice
 
-            Employee employee = (Employee)person;
+            var employee = (Employee)person;
 
             Console.WriteLine(employee.JobTitle);
             // Support
@@ -533,7 +533,7 @@ namespace Argon.Tests.Documentation
         public void ContractResolver()
         {
             #region ContractResolver
-            Product product = new Product
+            var product = new Product
             {
                 ExpiryDate = new DateTime(2010, 12, 20, 18, 1, 0, DateTimeKind.Utc),
                 Name = "Widget",
@@ -541,7 +541,7 @@ namespace Argon.Tests.Documentation
                 Sizes = new[] { "Small", "Medium", "Large" }
             };
 
-            string json =
+            var json =
                 JsonConvert.SerializeObject(
                     product,
                     Formatting.Indented,
@@ -576,24 +576,24 @@ namespace Argon.Tests.Documentation
         public void SerializingCollectionsSerializing()
         {
             #region SerializingCollectionsSerializing
-            Product p1 = new Product
+            var p1 = new Product
             {
                 Name = "Product 1",
                 Price = 99.95m,
                 ExpiryDate = new DateTime(2000, 12, 29, 0, 0, 0, DateTimeKind.Utc),
             };
-            Product p2 = new Product
+            var p2 = new Product
             {
                 Name = "Product 2",
                 Price = 12.50m,
                 ExpiryDate = new DateTime(2009, 7, 31, 0, 0, 0, DateTimeKind.Utc),
             };
 
-            List<Product> products = new List<Product>();
+            var products = new List<Product>();
             products.Add(p1);
             products.Add(p2);
 
-            string json = JsonConvert.SerializeObject(products, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(products, Formatting.Indented);
             //[
             //  {
             //    "Name": "Product 1",
@@ -630,7 +630,7 @@ namespace Argon.Tests.Documentation
         public void SerializingCollectionsDeserializing()
         {
             #region SerializingCollectionsDeserializing
-            string json = @"[
+            var json = @"[
               {
                 'Name': 'Product 1',
                 'ExpiryDate': '2000-12-29T00:00Z',
@@ -645,12 +645,12 @@ namespace Argon.Tests.Documentation
               }
             ]";
 
-            List<Product> products = JsonConvert.DeserializeObject<List<Product>>(json);
+            var products = JsonConvert.DeserializeObject<List<Product>>(json);
 
             Console.WriteLine(products.Count);
             // 2
 
-            Product p1 = products[0];
+            var p1 = products[0];
 
             Console.WriteLine(p1.Name);
             // Product 1
@@ -663,9 +663,9 @@ namespace Argon.Tests.Documentation
         public void SerializingCollectionsDeserializingDictionaries()
         {
             #region SerializingCollectionsDeserializingDictionaries
-            string json = @"{""key1"":""value1"",""key2"":""value2""}";
+            var json = @"{""key1"":""value1"",""key2"":""value2""}";
 
-            Dictionary<string, string> values = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+            var values = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
 
             Console.WriteLine(values.Count);
             // 2
@@ -687,24 +687,24 @@ namespace Argon.Tests.Documentation
         [Fact]
         public void WriteJsonDates()
         {
-            LogEntry entry = new LogEntry
+            var entry = new LogEntry
             {
                 LogDate = new DateTime(2009, 2, 15, 0, 0, 0, DateTimeKind.Utc),
                 Details = "Application started."
             };
 
             // default as of Json.NET 4.5
-            string isoJson = JsonConvert.SerializeObject(entry);
+            var isoJson = JsonConvert.SerializeObject(entry);
             // {"Details":"Application started.","LogDate":"2009-02-15T00:00:00Z"}
 
-            JsonSerializerSettings microsoftDateFormatSettings = new JsonSerializerSettings
+            var microsoftDateFormatSettings = new JsonSerializerSettings
             {
                 DateFormatHandling = DateFormatHandling.MicrosoftDateFormat
             };
-            string microsoftJson = JsonConvert.SerializeObject(entry, microsoftDateFormatSettings);
+            var microsoftJson = JsonConvert.SerializeObject(entry, microsoftDateFormatSettings);
             // {"Details":"Application started.","LogDate":"\/Date(1234656000000)\/"}
 
-            string javascriptJson = JsonConvert.SerializeObject(entry, new JavaScriptDateTimeConverter());
+            var javascriptJson = JsonConvert.SerializeObject(entry, new JavaScriptDateTimeConverter());
             // {"Details":"Application started.","LogDate":new Date(1234656000000)}
         }
         #endregion
@@ -758,11 +758,11 @@ namespace Argon.Tests.Documentation
         public void ReducingSerializedJsonSizeNullValueHandlingExample()
         {
             #region ReducingSerializedJsonSizeNullValueHandlingExample
-            Movie movie = new Movie();
+            var movie = new Movie();
             movie.Name = "Bad Boys III";
             movie.Description = "It's no Bad Boys";
 
-            string included = JsonConvert.SerializeObject(movie,
+            var included = JsonConvert.SerializeObject(movie,
                 Formatting.Indented,
                 new JsonSerializerSettings { });
 
@@ -775,7 +775,7 @@ namespace Argon.Tests.Documentation
             //   "ReleaseCountries": null
             // }
 
-            string ignored = JsonConvert.SerializeObject(movie,
+            var ignored = JsonConvert.SerializeObject(movie,
                 Formatting.Indented,
                 new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
 
@@ -824,7 +824,7 @@ namespace Argon.Tests.Documentation
         public void ReducingSerializedJsonSizeDefaultValueHandlingExample()
         {
             #region ReducingSerializedJsonSizeDefaultValueHandlingExample
-            Invoice invoice = new Invoice
+            var invoice = new Invoice
             {
                 Company = "Acme Ltd.",
                 Amount = 50.0m,
@@ -834,7 +834,7 @@ namespace Argon.Tests.Documentation
                 PaidDate = null
             };
 
-            string included = JsonConvert.SerializeObject(invoice,
+            var included = JsonConvert.SerializeObject(invoice,
                 Formatting.Indented,
                 new JsonSerializerSettings { });
 
@@ -847,7 +847,7 @@ namespace Argon.Tests.Documentation
             //   "FollowUpEmailAddress": ""
             // }
 
-            string ignored = JsonConvert.SerializeObject(invoice,
+            var ignored = JsonConvert.SerializeObject(invoice,
                 Formatting.Indented,
                 new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
 
@@ -884,7 +884,7 @@ namespace Argon.Tests.Documentation
 
             protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
             {
-                IList<JsonProperty> properties = base.CreateProperties(type, memberSerialization);
+                var properties = base.CreateProperties(type, memberSerialization);
 
                 // only serializer properties that start with the specified character
                 properties =
@@ -908,7 +908,7 @@ namespace Argon.Tests.Documentation
         public void ReducingSerializedJsonSizeContractResolverExample()
         {
             #region ReducingSerializedJsonSizeContractResolverExample
-            Book book = new Book
+            var book = new Book
             {
                 BookName = "The Gathering Storm",
                 BookPrice = 16.19m,
@@ -917,7 +917,7 @@ namespace Argon.Tests.Documentation
                 AuthorCountry = "United States of America"
             };
 
-            string startingWithA = JsonConvert.SerializeObject(book, Formatting.Indented,
+            var startingWithA = JsonConvert.SerializeObject(book, Formatting.Indented,
                 new JsonSerializerSettings { ContractResolver = new DynamicContractResolver('A') });
 
             // {
@@ -926,7 +926,7 @@ namespace Argon.Tests.Documentation
             //   "AuthorCountry": "United States of America"
             // }
 
-            string startingWithB = JsonConvert.SerializeObject(book, Formatting.Indented,
+            var startingWithB = JsonConvert.SerializeObject(book, Formatting.Indented,
                 new JsonSerializerSettings { ContractResolver = new DynamicContractResolver('B') });
 
             // {
@@ -960,7 +960,7 @@ namespace Argon.Tests.Documentation
         public void SerializingPartialJsonFragmentsExample()
         {
             #region SerializingPartialJsonFragmentsExample
-            string googleSearchText = @"{
+            var googleSearchText = @"{
               'responseData': {
                 'results': [
                   {
@@ -1012,17 +1012,17 @@ namespace Argon.Tests.Documentation
               'responseStatus': 200
             }";
 
-            JObject googleSearch = JObject.Parse(googleSearchText);
+            var googleSearch = JObject.Parse(googleSearchText);
 
             // get JSON result objects into a list
             IList<JToken> results = googleSearch["responseData"]["results"].Children().ToList();
 
             // serialize JSON results into .NET objects
             IList<SearchResult> searchResults = new List<SearchResult>();
-            foreach (JToken result in results)
+            foreach (var result in results)
             {
                 // JToken.ToObject is a helper method that uses JsonSerializer internally
-                SearchResult searchResult = result.ToObject<SearchResult>();
+                var searchResult = result.ToObject<SearchResult>();
                 searchResults.Add(searchResult);
             }
 
@@ -1041,7 +1041,7 @@ namespace Argon.Tests.Documentation
         [Fact]
         public void SerializeMultidimensionalArrayExample()
         {
-            string[,] famousCouples = new string[,]
+            var famousCouples = new string[,]
             {
                 { "Adam", "Eve" },
                 { "Bonnie", "Clyde" },
@@ -1049,7 +1049,7 @@ namespace Argon.Tests.Documentation
                 { "Han", "Leia" }
             };
 
-            string json = JsonConvert.SerializeObject(famousCouples, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(famousCouples, Formatting.Indented);
             // [
             //   ["Adam", "Eve"],
             //   ["Bonnie", "Clyde"],
@@ -1057,7 +1057,7 @@ namespace Argon.Tests.Documentation
             //   ["Han", "Leia"]
             // ]
 
-            string[,] deserialized = JsonConvert.DeserializeObject<string[,]>(json);
+            var deserialized = JsonConvert.DeserializeObject<string[,]>(json);
 
             Console.WriteLine(deserialized[3, 0] + ", " + deserialized[3, 1]);
             // Han, Leia

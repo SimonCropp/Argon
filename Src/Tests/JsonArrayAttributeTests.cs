@@ -34,7 +34,7 @@ namespace Argon.Tests
         [Fact]
         public void IsReferenceTest()
         {
-            JsonPropertyAttribute attribute = new JsonPropertyAttribute();
+            var attribute = new JsonPropertyAttribute();
             Assert.AreEqual(null, attribute._isReference);
             Assert.AreEqual(false, attribute.IsReference);
 
@@ -50,7 +50,7 @@ namespace Argon.Tests
         [Fact]
         public void NullValueHandlingTest()
         {
-            JsonPropertyAttribute attribute = new JsonPropertyAttribute();
+            var attribute = new JsonPropertyAttribute();
             Assert.AreEqual(null, attribute._nullValueHandling);
             Assert.AreEqual(NullValueHandling.Include, attribute.NullValueHandling);
 
@@ -62,7 +62,7 @@ namespace Argon.Tests
         [Fact]
         public void DefaultValueHandlingTest()
         {
-            JsonPropertyAttribute attribute = new JsonPropertyAttribute();
+            var attribute = new JsonPropertyAttribute();
             Assert.AreEqual(null, attribute._defaultValueHandling);
             Assert.AreEqual(DefaultValueHandling.Include, attribute.DefaultValueHandling);
 

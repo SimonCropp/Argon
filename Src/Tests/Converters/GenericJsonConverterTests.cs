@@ -57,10 +57,10 @@ namespace Argon.Tests.Converters
         [Fact]
         public void WriteJsonObject()
         {
-            StringWriter sw = new StringWriter();
-            JsonTextWriter jsonWriter = new JsonTextWriter(sw);
+            var sw = new StringWriter();
+            var jsonWriter = new JsonTextWriter(sw);
 
-            TestGenericConverter converter = new TestGenericConverter();
+            var converter = new TestGenericConverter();
             converter.WriteJson(jsonWriter, (object)"String!", null);
 
             Assert.AreEqual(@"""String!""", sw.ToString());
@@ -69,10 +69,10 @@ namespace Argon.Tests.Converters
         [Fact]
         public void WriteJsonGeneric()
         {
-            StringWriter sw = new StringWriter();
-            JsonTextWriter jsonWriter = new JsonTextWriter(sw);
+            var sw = new StringWriter();
+            var jsonWriter = new JsonTextWriter(sw);
 
-            TestGenericConverter converter = new TestGenericConverter();
+            var converter = new TestGenericConverter();
             converter.WriteJson(jsonWriter, "String!", null);
 
             Assert.AreEqual(@"""String!""", sw.ToString());
@@ -81,10 +81,10 @@ namespace Argon.Tests.Converters
         [Fact]
         public void WriteJsonBadType()
         {
-            StringWriter sw = new StringWriter();
-            JsonTextWriter jsonWriter = new JsonTextWriter(sw);
+            var sw = new StringWriter();
+            var jsonWriter = new JsonTextWriter(sw);
 
-            TestGenericConverter converter = new TestGenericConverter();
+            var converter = new TestGenericConverter();
 
             ExceptionAssert.Throws<JsonSerializationException>(() =>
             {
@@ -95,12 +95,12 @@ namespace Argon.Tests.Converters
         [Fact]
         public void ReadJsonGenericExistingValueNull()
         {
-            StringReader sr = new StringReader("'String!'");
-            JsonTextReader jsonReader = new JsonTextReader(sr);
+            var sr = new StringReader("'String!'");
+            var jsonReader = new JsonTextReader(sr);
             jsonReader.Read();
 
-            TestGenericConverter converter = new TestGenericConverter();
-            string s = converter.ReadJson(jsonReader, typeof(string), null, false, null);
+            var converter = new TestGenericConverter();
+            var s = converter.ReadJson(jsonReader, typeof(string), null, false, null);
 
             Assert.AreEqual(@"String!", s);
         }
@@ -108,12 +108,12 @@ namespace Argon.Tests.Converters
         [Fact]
         public void ReadJsonGenericExistingValueString()
         {
-            StringReader sr = new StringReader("'String!'");
-            JsonTextReader jsonReader = new JsonTextReader(sr);
+            var sr = new StringReader("'String!'");
+            var jsonReader = new JsonTextReader(sr);
             jsonReader.Read();
 
-            TestGenericConverter converter = new TestGenericConverter();
-            string s = converter.ReadJson(jsonReader, typeof(string), "Existing!", true, null);
+            var converter = new TestGenericConverter();
+            var s = converter.ReadJson(jsonReader, typeof(string), "Existing!", true, null);
 
             Assert.AreEqual(@"String!Existing!", s);
         }
@@ -121,12 +121,12 @@ namespace Argon.Tests.Converters
         [Fact]
         public void ReadJsonObjectExistingValueNull()
         {
-            StringReader sr = new StringReader("'String!'");
-            JsonTextReader jsonReader = new JsonTextReader(sr);
+            var sr = new StringReader("'String!'");
+            var jsonReader = new JsonTextReader(sr);
             jsonReader.Read();
 
-            TestGenericConverter converter = new TestGenericConverter();
-            string s = (string)converter.ReadJson(jsonReader, typeof(string), null, null);
+            var converter = new TestGenericConverter();
+            var s = (string)converter.ReadJson(jsonReader, typeof(string), null, null);
 
             Assert.AreEqual(@"String!", s);
         }
@@ -134,11 +134,11 @@ namespace Argon.Tests.Converters
         [Fact]
         public void ReadJsonObjectExistingValueWrongType()
         {
-            StringReader sr = new StringReader("'String!'");
-            JsonTextReader jsonReader = new JsonTextReader(sr);
+            var sr = new StringReader("'String!'");
+            var jsonReader = new JsonTextReader(sr);
             jsonReader.Read();
 
-            TestGenericConverter converter = new TestGenericConverter();
+            var converter = new TestGenericConverter();
 
             ExceptionAssert.Throws<JsonSerializationException>(() =>
             {

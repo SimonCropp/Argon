@@ -51,20 +51,20 @@ namespace Argon.Tests.Documentation.Samples.Bson
         public void Example()
         {
             #region Usage
-            Event e = new Event
+            var e = new Event
             {
                 Name = "Movie Premiere",
                 StartDate = new DateTime(2013, 1, 22, 20, 30, 0, DateTimeKind.Utc)
             };
 
-            MemoryStream ms = new MemoryStream();
-            using (BsonWriter writer = new BsonWriter(ms))
+            var ms = new MemoryStream();
+            using (var writer = new BsonWriter(ms))
             {
-                JsonSerializer serializer = new JsonSerializer();
+                var serializer = new JsonSerializer();
                 serializer.Serialize(writer, e);
             }
 
-            string data = Convert.ToBase64String(ms.ToArray());
+            var data = Convert.ToBase64String(ms.ToArray());
 
             Console.WriteLine(data);
             // MQAAAAJOYW1lAA8AAABNb3ZpZSBQcmVtaWVyZQAJU3RhcnREYXRlAED982M8AQAAAA==

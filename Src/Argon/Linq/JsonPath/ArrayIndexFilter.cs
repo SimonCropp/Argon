@@ -10,11 +10,11 @@ namespace Argon.Linq.JsonPath
 
         public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings? settings)
         {
-            foreach (JToken t in current)
+            foreach (var t in current)
             {
                 if (Index != null)
                 {
-                    JToken? v = GetTokenIndex(t, settings, Index.GetValueOrDefault());
+                    var v = GetTokenIndex(t, settings, Index.GetValueOrDefault());
 
                     if (v != null)
                     {
@@ -25,7 +25,7 @@ namespace Argon.Linq.JsonPath
                 {
                     if (t is JArray || t is JConstructor)
                     {
-                        foreach (JToken v in t)
+                        foreach (var v in t)
                         {
                             yield return v;
                         }

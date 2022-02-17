@@ -40,7 +40,7 @@ namespace Argon.Tests.Documentation.Samples.Linq
         public void Example()
         {
             #region Usage
-            JObject o = new JObject
+            var o = new JObject
             {
                 { "Cpu", "Intel" },
                 { "Memory", 32 },

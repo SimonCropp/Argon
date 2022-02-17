@@ -47,8 +47,8 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test()
         {
-            string json = "{'foo':'test!'}";
-            ItemWithJsonConstructor c = JsonConvert.DeserializeObject<ItemWithJsonConstructor>(json);
+            var json = "{'foo':'test!'}";
+            var c = JsonConvert.DeserializeObject<ItemWithJsonConstructor>(json);
 
             Assert.IsNull(c.ExtensionData);
         }
@@ -56,8 +56,8 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test_UnsetRequired()
         {
-            string json = "{'foo':'test!'}";
-            ItemWithJsonConstructorAndDefaultValue c = JsonConvert.DeserializeObject<ItemWithJsonConstructorAndDefaultValue>(json);
+            var json = "{'foo':'test!'}";
+            var c = JsonConvert.DeserializeObject<ItemWithJsonConstructorAndDefaultValue>(json);
 
             Assert.IsNull(c.ExtensionData);
         }

@@ -47,9 +47,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ErrorHandlingMetadata()
         {
-            List<Exception> errors = new List<Exception>();
+            var errors = new List<Exception>();
 
-            AAA a2 = JsonConvert.DeserializeObject<AAA>(@"{""MyTest"":{""$type"":""<Namespace>.JsonTest+MyTest2, <Assembly>""}}", new JsonSerializerSettings
+            var a2 = JsonConvert.DeserializeObject<AAA>(@"{""MyTest"":{""$type"":""<Namespace>.JsonTest+MyTest2, <Assembly>""}}", new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto,
                 Error = (object sender, Argon.Serialization.ErrorEventArgs e) =>
@@ -67,9 +67,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ErrorHandlingMetadata_TopLevel()
         {
-            List<Exception> errors = new List<Exception>();
+            var errors = new List<Exception>();
 
-            JObject a2 = (JObject)JsonConvert.DeserializeObject(@"{""$type"":""<Namespace>.JsonTest+MyTest2, <Assembly>""}", new JsonSerializerSettings
+            var a2 = (JObject)JsonConvert.DeserializeObject(@"{""$type"":""<Namespace>.JsonTest+MyTest2, <Assembly>""}", new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto,
                 Error = (object sender, Argon.Serialization.ErrorEventArgs e) =>
@@ -121,7 +121,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ErrorDeserializingListHandled()
         {
-            string json = @"[
+            var json = @"[
   {
     ""Name"": ""Jim"",
     ""BirthDate"": ""\/Date(978048000000)\/"",
@@ -140,7 +140,7 @@ namespace Argon.Tests.Serialization
                 "[1] - Error message for member 1 = An element with the same key already exists in the dictionary.", // mono
                 "[1] - Error message for member 1 = An item with the same key has already been added. Key: Jim" // netcore
             };
-            VersionKeyedCollection c = JsonConvert.DeserializeObject<VersionKeyedCollection>(json);
+            var c = JsonConvert.DeserializeObject<VersionKeyedCollection>(json);
             Assert.AreEqual(1, c.Count);
             Assert.AreEqual(1, c.Messages.Count);
 
@@ -151,7 +151,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializingErrorInChildObject()
         {
-            ListErrorObjectCollection c = JsonConvert.DeserializeObject<ListErrorObjectCollection>(@"[
+            var c = JsonConvert.DeserializeObject<ListErrorObjectCollection>(@"[
   {
     ""Member"": ""Value1"",
     ""Member2"": null
@@ -184,7 +184,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializingErrorIn3DArray()
         {
-            ListErrorObject[,,] c = new ListErrorObject[,,]
+            var c = new ListErrorObject[,,]
             {
                 {
                     {
@@ -228,7 +228,7 @@ namespace Argon.Tests.Serialization
                 }
             };
 
-            string json = JsonConvert.SerializeObject(c, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(c, new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
                 Error = (s, e) =>
@@ -279,7 +279,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializingErrorInChildObject()
         {
-            ListErrorObjectCollection c = new ListErrorObjectCollection
+            var c = new ListErrorObjectCollection
             {
                 new ListErrorObject
                 {
@@ -300,7 +300,7 @@ namespace Argon.Tests.Serialization
                 }
             };
 
-            string json = JsonConvert.SerializeObject(c, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
             StringAssert.AreEqual(@"[
   {
@@ -322,7 +322,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializingErrorInDateTimeCollection()
         {
-            DateTimeErrorObjectCollection c = JsonConvert.DeserializeObject<DateTimeErrorObjectCollection>(@"[
+            var c = JsonConvert.DeserializeObject<DateTimeErrorObjectCollection>(@"[
   ""2009-09-09T00:00:00Z"",
   ""kjhkjhkjhkjh"",
   [
@@ -342,9 +342,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializingErrorHandlingUsingEvent()
         {
-            List<string> errors = new List<string>();
+            var errors = new List<string>();
 
-            JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings
+            var serializer = JsonSerializer.Create(new JsonSerializerSettings
             {
                 Error = delegate(object sender, ErrorEventArgs args)
                 {
@@ -395,9 +395,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializingErrorInDateTimeCollectionWithAttributeWithEventNotCalled()
         {
-            bool eventErrorHandlerCalled = false;
+            var eventErrorHandlerCalled = false;
 
-            DateTimeErrorObjectCollection c = JsonConvert.DeserializeObject<DateTimeErrorObjectCollection>(
+            var c = JsonConvert.DeserializeObject<DateTimeErrorObjectCollection>(
                 @"[
   ""2009-09-09T00:00:00Z"",
   ""kjhkjhkjhkjh"",
@@ -428,7 +428,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializePerson()
         {
-            PersonError person = new PersonError
+            var person = new PersonError
             {
                 Name = "George Michael Bluth",
                 Age = 16,
@@ -436,7 +436,7 @@ namespace Argon.Tests.Serialization
                 Title = "Mister Manager"
             };
 
-            string json = JsonConvert.SerializeObject(person, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(person, Formatting.Indented);
 
             StringAssert.AreEqual(@"{
   ""Name"": ""George Michael Bluth"",
@@ -448,14 +448,14 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeNestedUnhandled()
         {
-            List<string> errors = new List<string>();
+            var errors = new List<string>();
 
-            string json = @"[[""kjhkjhkjhkjh""]]";
+            var json = @"[[""kjhkjhkjhkjh""]]";
 
             Exception e = null;
             try
             {
-                JsonSerializer serializer = new JsonSerializer();
+                var serializer = new JsonSerializer();
                 serializer.Error += delegate(object sender, ErrorEventArgs args)
                 {
                     // only log an error once
@@ -481,9 +481,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void MultipleRequiredPropertyErrors()
         {
-            string json = "{}";
-            List<string> errors = new List<string>();
-            JsonSerializer serializer = new JsonSerializer();
+            var json = "{}";
+            var errors = new List<string>();
+            var serializer = new JsonSerializer();
             serializer.MetadataPropertyHandling = MetadataPropertyHandling.Default;
             serializer.Error += delegate(object sender, ErrorEventArgs args)
             {
@@ -500,11 +500,11 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void HandlingArrayErrors()
         {
-            string json = "[\"a\",\"b\",\"45\",34]";
+            var json = "[\"a\",\"b\",\"45\",34]";
 
-            List<string> errors = new List<string>();
+            var errors = new List<string>();
 
-            JsonSerializer serializer = new JsonSerializer();
+            var serializer = new JsonSerializer();
             serializer.Error += delegate(object sender, ErrorEventArgs args)
             {
                 errors.Add(args.ErrorContext.Path + " - " + args.ErrorContext.Member + " - " + args.ErrorContext.Error.Message);
@@ -521,11 +521,11 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void HandlingMultidimensionalArrayErrors()
         {
-            string json = "[[\"a\",\"45\"],[\"b\",34]]";
+            var json = "[[\"a\",\"45\"],[\"b\",34]]";
 
-            List<string> errors = new List<string>();
+            var errors = new List<string>();
 
-            JsonSerializer serializer = new JsonSerializer();
+            var serializer = new JsonSerializer();
             serializer.Error += delegate(object sender, ErrorEventArgs args)
             {
                 errors.Add(args.ErrorContext.Path + " - " + args.ErrorContext.Member + " - " + args.ErrorContext.Error.Message);
@@ -542,8 +542,8 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ErrorHandlingAndAvoidingRecursiveDepthError()
         {
-            string json = "{'A':{'A':{'A':{'A':{'A':{}}}}}}";
-            JsonSerializer serializer = new JsonSerializer() { };
+            var json = "{'A':{'A':{'A':{'A':{'A':{}}}}}}";
+            var serializer = new JsonSerializer() { };
             IList<string> errors = new List<string>();
             serializer.Error += (sender, e) =>
             {
@@ -567,14 +567,14 @@ namespace Argon.Tests.Serialization
         {
             IList<string> errors = new List<string>();
 
-            JsonSerializer serializer = new JsonSerializer();
+            var serializer = new JsonSerializer();
             serializer.Error += (sender, e) =>
             {
                 errors.Add(e.ErrorContext.Error.Message);
                 e.ErrorContext.Handled = true;
             };
 
-            ErrorPerson[] result = serializer.Deserialize<ErrorPerson[]>(new JsonTextReader(new ThrowingReader()));
+            var result = serializer.Deserialize<ErrorPerson[]>(new JsonTextReader(new ThrowingReader()));
 
             Assert.IsNull(result);
             Assert.AreEqual(3, errors.Count);
@@ -588,7 +588,7 @@ namespace Argon.Tests.Serialization
         {
             IList<string> errors = new List<string>();
 
-            object o = JsonConvert.DeserializeObject(
+            var o = JsonConvert.DeserializeObject(
                 "[0,x]",
                 typeof(int[]),
                 new JsonSerializerSettings
@@ -614,9 +614,9 @@ namespace Argon.Tests.Serialization
         {
             IList<string> errors = new List<string>();
 
-            JTokenReader reader = new JTokenReader(new JArray(0, true));
+            var reader = new JTokenReader(new JArray(0, true));
 
-            JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings
+            var serializer = JsonSerializer.Create(new JsonSerializerSettings
             {
                 Error = (sender, arg) =>
                 {
@@ -624,7 +624,7 @@ namespace Argon.Tests.Serialization
                     arg.ErrorContext.Handled = true;
                 }
             });
-            object o = serializer.Deserialize(reader, typeof(int[]));
+            var o = serializer.Deserialize(reader, typeof(int[]));
 
             Assert.IsNotNull(o);
 
@@ -640,7 +640,7 @@ namespace Argon.Tests.Serialization
         {
             IList<string> errors = new List<string>();
 
-            Dictionary<string, int[]> o = JsonConvert.DeserializeObject<Dictionary<string, int[]>>(
+            var o = JsonConvert.DeserializeObject<Dictionary<string, int[]>>(
                 "{'badarray':[0,x,2],'goodarray':[0,1,2]}",
                 new JsonSerializerSettings
                 {
@@ -674,7 +674,7 @@ namespace Argon.Tests.Serialization
             const int maxDepth = 256;
             using (var jsonTextReader = new JsonTextReader(new StringReader(input)) { MaxDepth = maxDepth })
             {
-                JsonSerializer jsonSerializer = JsonSerializer.Create(new JsonSerializerSettings
+                var jsonSerializer = JsonSerializer.Create(new JsonSerializerSettings
                 {
                     MaxDepth = maxDepth,
                     MetadataPropertyHandling = MetadataPropertyHandling.Default
@@ -685,7 +685,7 @@ namespace Argon.Tests.Serialization
                     e.ErrorContext.Handled = true;
                 };
 
-                LogMessage logMessage = jsonSerializer.Deserialize<LogMessage>(jsonTextReader);
+                var logMessage = jsonSerializer.Deserialize<LogMessage>(jsonTextReader);
 
                 Assert.IsNotNull(logMessage.Events);
                 Assert.AreEqual(1, logMessage.Events.Count);
@@ -708,14 +708,14 @@ namespace Argon.Tests.Serialization
             const int maxDepth = 256;
             using (var jsonTextReader = new JsonTextReader(new StringReader(input)) { MaxDepth = maxDepth })
             {
-                JsonSerializer jsonSerializer = JsonSerializer.Create(new JsonSerializerSettings { MaxDepth = maxDepth, MetadataPropertyHandling = MetadataPropertyHandling.Default });
+                var jsonSerializer = JsonSerializer.Create(new JsonSerializerSettings { MaxDepth = maxDepth, MetadataPropertyHandling = MetadataPropertyHandling.Default });
                 jsonSerializer.Error += (sender, e) =>
                 {
                     errors.Add(e.ErrorContext.Error.Message);
                     e.ErrorContext.Handled = true;
                 };
 
-                IDictionary<string, LogEvent> logEvents = jsonSerializer.Deserialize<IDictionary<string, LogEvent>>(jsonTextReader);
+                var logEvents = jsonSerializer.Deserialize<IDictionary<string, LogEvent>>(jsonTextReader);
 
                 Assert.IsNotNull(logEvents);
                 Assert.AreEqual(2, logEvents.Count);
@@ -733,14 +733,14 @@ namespace Argon.Tests.Serialization
         {
             IList<string> errors = new List<string>();
 
-            string json = @"{
+            var json = @"{
   ""Explicit"": true,
   ""Decimal"": 99.9,
   ""Int"": 1,
   ""ChildObject"": {
     ""Integer"": 123";
 
-            TestDynamicObject newDynamicObject = JsonConvert.DeserializeObject<TestDynamicObject>(json, new JsonSerializerSettings
+            var newDynamicObject = JsonConvert.DeserializeObject<TestDynamicObject>(json, new JsonSerializerSettings
             {
                 Error = (sender, e) =>
                 {
@@ -765,7 +765,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void WriteEndOnPropertyState()
         {
-            JsonSerializerSettings settings = new JsonSerializerSettings();
+            var settings = new JsonSerializerSettings();
             settings.Error += (obj, args) => { args.ErrorContext.Handled = true; };
 
             var data = new List<ErrorPerson2>()
@@ -775,15 +775,15 @@ namespace Argon.Tests.Serialization
                 new ErrorPerson2 { FirstName = "Scott", LastName = "Guthrie" },
             };
 
-            Dictionary<string, IEnumerable<IErrorPerson2>> dictionary = data.GroupBy(person => person.FirstName).ToDictionary(group => @group.Key, group => @group.Cast<IErrorPerson2>());
-            string output = JsonConvert.SerializeObject(dictionary, Formatting.None, settings);
+            var dictionary = data.GroupBy(person => person.FirstName).ToDictionary(group => @group.Key, group => @group.Cast<IErrorPerson2>());
+            var output = JsonConvert.SerializeObject(dictionary, Formatting.None, settings);
             Assert.AreEqual(@"{""Scott"":[]}", output);
         }
 
         [Fact]
         public void WriteEndOnPropertyState2()
         {
-            JsonSerializerSettings settings = new JsonSerializerSettings();
+            var settings = new JsonSerializerSettings();
             settings.Error += (obj, args) => { args.ErrorContext.Handled = true; };
 
             var data = new List<ErrorPerson2>
@@ -794,8 +794,8 @@ namespace Argon.Tests.Serialization
                 new ErrorPerson2 { FirstName = "James", LastName = "Newton-King" },
             };
 
-            Dictionary<string, IEnumerable<IErrorPerson2>> dictionary = data.GroupBy(person => person.FirstName).ToDictionary(group => @group.Key, group => @group.Cast<IErrorPerson2>());
-            string output = JsonConvert.SerializeObject(dictionary, Formatting.None, settings);
+            var dictionary = data.GroupBy(person => person.FirstName).ToDictionary(group => @group.Key, group => @group.Cast<IErrorPerson2>());
+            var output = JsonConvert.SerializeObject(dictionary, Formatting.None, settings);
 
             Assert.AreEqual(@"{""Scott"":[],""James"":[]}", output);
         }
@@ -803,13 +803,13 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void NoObjectWithEvent()
         {
-            string json = "{\"}";
-            byte[] byteArray = Encoding.UTF8.GetBytes(json);
-            MemoryStream stream = new MemoryStream(byteArray);
-            JsonTextReader jReader = new JsonTextReader(new StreamReader(stream));
-            JsonSerializer s = new JsonSerializer();
+            var json = "{\"}";
+            var byteArray = Encoding.UTF8.GetBytes(json);
+            var stream = new MemoryStream(byteArray);
+            var jReader = new JsonTextReader(new StreamReader(stream));
+            var s = new JsonSerializer();
             s.Error += (sender, args) => { args.ErrorContext.Handled = true; };
-            ErrorPerson2 obj = s.Deserialize<ErrorPerson2>(jReader);
+            var obj = s.Deserialize<ErrorPerson2>(jReader);
 
             Assert.IsNull(obj);
         }
@@ -817,13 +817,13 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void NoObjectWithAttribute()
         {
-            string json = "{\"}";
-            byte[] byteArray = Encoding.UTF8.GetBytes(json);
-            MemoryStream stream = new MemoryStream(byteArray);
-            JsonTextReader jReader = new JsonTextReader(new StreamReader(stream));
-            JsonSerializer s = new JsonSerializer();
+            var json = "{\"}";
+            var byteArray = Encoding.UTF8.GetBytes(json);
+            var stream = new MemoryStream(byteArray);
+            var jReader = new JsonTextReader(new StreamReader(stream));
+            var s = new JsonSerializer();
 
-            ExceptionAssert.Throws<JsonReaderException>(() => { ErrorTestObject obj = s.Deserialize<ErrorTestObject>(jReader); }, @"Unterminated string. Expected delimiter: "". Path '', line 1, position 3.");
+            ExceptionAssert.Throws<JsonReaderException>(() => { var obj = s.Deserialize<ErrorTestObject>(jReader); }, @"Unterminated string. Expected delimiter: "". Path '', line 1, position 3.");
         }
 
         public class RootThing
@@ -870,7 +870,7 @@ namespace Argon.Tests.Serialization
                 {
                     try
                     {
-                        Something s = (Something)value;
+                        var s = (Something)value;
 
                         // Do own stuff.
                         // Then call serialise for inner object.
@@ -922,7 +922,7 @@ namespace Argon.Tests.Serialization
         {
             var serialiser = JsonSerializer.Create(new JsonSerializerSettings() { });
 
-            string foo = "{ something: { rootSomethingElse { somethingElse: 0 } } }";
+            var foo = "{ something: { rootSomethingElse { somethingElse: 0 } } }";
             var reader = new System.IO.StringReader(foo);
 
             ExceptionAssert.Throws<Exception>(() => { serialiser.Deserialize(reader, typeof(Something)); }, "An error occurred.");
@@ -933,14 +933,14 @@ namespace Argon.Tests.Serialization
         {
             var serialiser = JsonSerializer.Create(new JsonSerializerSettings() { });
 
-            Something s = new Something
+            var s = new Something
             {
                 RootSomethingElse = new RootSomethingElse
                 {
                     SomethingElse = new SomethingElse()
                 }
             };
-            RootThing r = new RootThing
+            var r = new RootThing
             {
                 Something = s
             };
@@ -953,7 +953,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeRootConverter()
         {
-            SomethingElse result = JsonConvert.DeserializeObject<SomethingElse>("{}", new JsonSerializerSettings
+            var result = JsonConvert.DeserializeObject<SomethingElse>("{}", new JsonSerializerSettings
             {
                 Error = (o, e) => { e.ErrorContext.Handled = true; }
             });
@@ -964,7 +964,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeRootConverter()
         {
-            string result = JsonConvert.SerializeObject(new SomethingElse(), new JsonSerializerSettings
+            var result = JsonConvert.SerializeObject(new SomethingElse(), new JsonSerializerSettings
             {
                 Error = (o, e) => { e.ErrorContext.Handled = true; }
             });
@@ -986,15 +986,15 @@ namespace Argon.Tests.Serialization
   ""dateTime1"": ""200NOTDATE"",
   ""string4"": ""even more blah""
 }"));
-            JsonSerializerSettings settings = new JsonSerializerSettings();
+            var settings = new JsonSerializerSettings();
             settings.Error = (sender, args) =>
             {
                 errorMessages.Add(args.ErrorContext.Error.Message);
                 args.ErrorContext.Handled = true;
             };
-            JsonSerializer serializer = JsonSerializer.Create(settings);
+            var serializer = JsonSerializer.Create(settings);
 
-            DataModel data = new DataModel();
+            var data = new DataModel();
             serializer.Populate(reader, data);
 
             Assert.AreEqual("blah", data.String1);
@@ -1061,8 +1061,8 @@ namespace Argon.Tests.Serialization
 
         public override int Read(char[] buffer, int index, int count)
         {
-            char[] temp = new char[buffer.Length];
-            int charsRead = 0;
+            var temp = new char[buffer.Length];
+            var charsRead = 0;
             if (_firstRead)
             {
                 charsRead = new StringReader("[").Read(temp, index, count);

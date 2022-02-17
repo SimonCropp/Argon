@@ -95,7 +95,7 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test()
         {
-            string json = @"{
+            var json = @"{
   ""instanceOfMyClass"":
     /* Comment explaining that this is a legacy data contract: */
     [ 1, 2, 3 ]

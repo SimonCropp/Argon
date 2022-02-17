@@ -169,7 +169,7 @@ namespace Argon.Linq
             {
                 CheckReentrancy();
 
-                JToken newValue = value ?? JValue.CreateNull();
+                var newValue = value ?? JValue.CreateNull();
 
                 if (_content._token == null)
                 {
@@ -264,7 +264,7 @@ namespace Argon.Linq
 
         internal override void MergeItem(object content, JsonMergeSettings? settings)
         {
-            JToken? value = (content as JProperty)?.Value;
+            var value = (content as JProperty)?.Value;
 
             if (value != null && value.Type != JTokenType.Null)
             {
@@ -340,7 +340,7 @@ namespace Argon.Linq
         {
             writer.WritePropertyName(_name);
 
-            JToken value = Value;
+            var value = Value;
             if (value != null)
             {
                 value.WriteTo(writer, converters);
@@ -390,7 +390,7 @@ namespace Argon.Linq
                 throw JsonReaderException.Create(reader, "Error reading JProperty from JsonReader. Current JsonReader item is not a property: {0}".FormatWith(CultureInfo.InvariantCulture, reader.TokenType));
             }
 
-            JProperty p = new JProperty((string)reader.Value!);
+            var p = new JProperty((string)reader.Value!);
             p.SetLineInfo(reader as IJsonLineInfo, settings);
 
             p.ReadTokenFrom(reader, settings);

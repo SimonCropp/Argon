@@ -52,15 +52,15 @@ namespace Argon.Serialization
 
         public object ResolveReference(object context, string reference)
         {
-            GetMappings(context).TryGetByFirst(reference, out object value);
+            GetMappings(context).TryGetByFirst(reference, out var value);
             return value;
         }
 
         public string GetReference(object context, object value)
         {
-            BidirectionalDictionary<string, object> mappings = GetMappings(context);
+            var mappings = GetMappings(context);
 
-            if (!mappings.TryGetBySecond(value, out string reference))
+            if (!mappings.TryGetBySecond(value, out var reference))
             {
                 _referenceCount++;
                 reference = _referenceCount.ToString(CultureInfo.InvariantCulture);

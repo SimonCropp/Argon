@@ -63,7 +63,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            string json = @"{
+            var json = @"{
               'Department': 'Furniture',
               'JobTitle': 'Carpenter',
               'FirstName': 'John',
@@ -71,12 +71,12 @@ namespace Argon.Tests.Documentation.Samples.Serializer
               'BirthDate': '1983-02-02T00:00:00'
             }";
 
-            Person person = JsonConvert.DeserializeObject<Person>(json, new PersonConverter());
+            var person = JsonConvert.DeserializeObject<Person>(json, new PersonConverter());
 
             Console.WriteLine(person.GetType().Name);
             // Employee
 
-            Employee employee = (Employee)person;
+            var employee = (Employee)person;
 
             Console.WriteLine(employee.JobTitle);
             // Carpenter

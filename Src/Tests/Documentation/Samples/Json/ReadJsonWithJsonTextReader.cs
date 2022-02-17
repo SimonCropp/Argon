@@ -40,7 +40,7 @@ namespace Argon.Tests.Documentation.Samples.Json
         public void Example()
         {
             #region Usage
-            string json = @"{
+            var json = @"{
                'CPU': 'Intel',
                'PSU': '500W',
                'Drives': [
@@ -51,7 +51,7 @@ namespace Argon.Tests.Documentation.Samples.Json
                ]
             }";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
             while (reader.Read())
             {
                 if (reader.Value != null)

@@ -99,7 +99,7 @@ namespace Argon.Converters
 
         public IXmlNode CreateAttribute(string name, string? value)
         {
-            XmlNodeWrapper attribute = new XmlNodeWrapper(_document.CreateAttribute(name));
+            var attribute = new XmlNodeWrapper(_document.CreateAttribute(name));
             attribute.Value = value;
 
             return attribute;
@@ -107,7 +107,7 @@ namespace Argon.Converters
 
         public IXmlNode CreateAttribute(string qualifiedName, string namespaceUri, string? value)
         {
-            XmlNodeWrapper attribute = new XmlNodeWrapper(_document.CreateAttribute(qualifiedName, namespaceUri));
+            var attribute = new XmlNodeWrapper(_document.CreateAttribute(qualifiedName, namespaceUri));
             attribute.Value = value;
 
             return attribute;
@@ -139,7 +139,7 @@ namespace Argon.Converters
 
         public void SetAttributeNode(IXmlNode attribute)
         {
-            XmlNodeWrapper xmlAttributeWrapper = (XmlNodeWrapper)attribute;
+            var xmlAttributeWrapper = (XmlNodeWrapper)attribute;
 
             _element.SetAttributeNode((XmlAttribute)xmlAttributeWrapper.WrappedNode!);
         }
@@ -301,7 +301,7 @@ namespace Argon.Converters
         {
             get
             {
-                XmlNode node = _node is XmlAttribute attribute ? attribute.OwnerElement : _node.ParentNode;
+                var node = _node is XmlAttribute attribute ? attribute.OwnerElement : _node.ParentNode;
 
                 if (node == null)
                 {
@@ -320,7 +320,7 @@ namespace Argon.Converters
 
         public IXmlNode AppendChild(IXmlNode newChild)
         {
-            XmlNodeWrapper xmlNodeWrapper = (XmlNodeWrapper)newChild;
+            var xmlNodeWrapper = (XmlNodeWrapper)newChild;
             _node.AppendChild(xmlNodeWrapper._node);
             _childNodes = null;
             _attributes = null;
@@ -449,7 +449,7 @@ namespace Argon.Converters
         {
             get
             {
-                List<IXmlNode> childNodes = base.ChildNodes;
+                var childNodes = base.ChildNodes;
                 if (Document.Declaration != null && (childNodes.Count == 0 || childNodes[0].NodeType != XmlNodeType.XmlDeclaration))
                 {
                     childNodes.Insert(0, new XDeclarationWrapper(Document.Declaration));
@@ -519,7 +519,7 @@ namespace Argon.Converters
 
         public IXmlElement CreateElement(string qualifiedName, string namespaceUri)
         {
-            string localName = MiscellaneousUtils.GetLocalName(qualifiedName);
+            var localName = MiscellaneousUtils.GetLocalName(qualifiedName);
             return new XElementWrapper(new XElement(XName.Get(localName, namespaceUri)));
         }
 
@@ -530,7 +530,7 @@ namespace Argon.Converters
 
         public IXmlNode CreateAttribute(string qualifiedName, string namespaceUri, string? value)
         {
-            string localName = MiscellaneousUtils.GetLocalName(qualifiedName);
+            var localName = MiscellaneousUtils.GetLocalName(qualifiedName);
             return new XAttributeWrapper(new XAttribute(XName.Get(localName, namespaceUri), value));
         }
 
@@ -663,7 +663,7 @@ namespace Argon.Converters
                     else
                     {
                         _childNodes = new List<IXmlNode>();
-                        foreach (XNode node in Container.Nodes())
+                        foreach (var node in Container.Nodes())
                         {
                             _childNodes.Add(WrapNode(node));
                         }
@@ -824,7 +824,7 @@ namespace Argon.Converters
 
         public void SetAttributeNode(IXmlNode attribute)
         {
-            XObjectWrapper wrapper = (XObjectWrapper)attribute;
+            var wrapper = (XObjectWrapper)attribute;
             Element.Add(wrapper.WrappedNode);
             _attributes = null;
         }
@@ -844,14 +844,14 @@ namespace Argon.Converters
                     else
                     {
                         _attributes = new List<IXmlNode>();
-                        foreach (XAttribute attribute in Element.Attributes())
+                        foreach (var attribute in Element.Attributes())
                         {
                             _attributes.Add(new XAttributeWrapper(attribute));
                         }
 
                         // ensure elements created with a namespace but no namespace attribute are converted correctly
                         // e.g. new XElement("{http://example.com}MyElement");
-                        string namespaceUri = NamespaceUri!;
+                        var namespaceUri = NamespaceUri!;
                         if (HasImplicitNamespaceAttribute(namespaceUri))
                         {
                             _attributes.Insert(0, new XAttributeWrapper(new XAttribute("xmlns", namespaceUri)));
@@ -869,11 +869,11 @@ namespace Argon.Converters
             {
                 if (StringUtils.IsNullOrEmpty(GetPrefixOfNamespace(namespaceUri)))
                 {
-                    bool namespaceDeclared = false;
+                    var namespaceDeclared = false;
 
                     if (Element.HasAttributes)
                     {
-                        foreach (XAttribute attribute in Element.Attributes())
+                        foreach (var attribute in Element.Attributes())
                         {
                             if (attribute.Name.LocalName == "xmlns" && StringUtils.IsNullOrEmpty(attribute.Name.NamespaceName) && attribute.Value == namespaceUri)
                             {
@@ -894,7 +894,7 @@ namespace Argon.Converters
 
         public override IXmlNode AppendChild(IXmlNode newChild)
         {
-            IXmlNode result = base.AppendChild(newChild);
+            var result = base.AppendChild(newChild);
             _attributes = null;
             return result;
         }
@@ -976,9 +976,9 @@ namespace Argon.Converters
                 return;
             }
 
-            IXmlNode node = WrapXml(value);
+            var node = WrapXml(value);
 
-            XmlNamespaceManager manager = new XmlNamespaceManager(new NameTable());
+            var manager = new XmlNamespaceManager(new NameTable());
             PushParentNamespaces(node, manager);
 
             if (!OmitRootObject)
@@ -1012,7 +1012,7 @@ namespace Argon.Converters
         {
             List<IXmlNode>? parentElements = null;
 
-            IXmlNode? parent = node;
+            var parent = node;
             while ((parent = parent.ParentNode) != null)
             {
                 if (parent.NodeType == XmlNodeType.Element)
@@ -1030,10 +1030,10 @@ namespace Argon.Converters
             {
                 parentElements.Reverse();
 
-                foreach (IXmlNode parentElement in parentElements)
+                foreach (var parentElement in parentElements)
                 {
                     manager.PushScope();
-                    foreach (IXmlNode attribute in parentElement.Attributes)
+                    foreach (var attribute in parentElement.Attributes)
                     {
                         if (attribute.NamespaceUri == "http://www.w3.org/2000/xmlns/" && attribute.LocalName != "xmlns")
                         {
@@ -1046,7 +1046,7 @@ namespace Argon.Converters
 
         private string ResolveFullName(IXmlNode node, XmlNamespaceManager manager)
         {
-            string? prefix = (node.NamespaceUri == null || (node.LocalName == "xmlns" && node.NamespaceUri == "http://www.w3.org/2000/xmlns/"))
+            var prefix = (node.NamespaceUri == null || (node.LocalName == "xmlns" && node.NamespaceUri == "http://www.w3.org/2000/xmlns/"))
                 ? null
                 : manager.LookupPrefix(node.NamespaceUri);
 
@@ -1105,7 +1105,7 @@ namespace Argon.Converters
 
         private bool IsArray(IXmlNode node)
         {
-            foreach (IXmlNode attribute in node.Attributes)
+            foreach (var attribute in node.Attributes)
             {
                 if (attribute.LocalName == "Array" && attribute.NamespaceUri == JsonNamespaceUri)
                 {
@@ -1128,7 +1128,7 @@ namespace Argon.Converters
                 case 1:
                 {
                     // avoid grouping when there is only one node
-                    string nodeName = GetPropertyName(node.ChildNodes[0], manager);
+                    var nodeName = GetPropertyName(node.ChildNodes[0], manager);
                     WriteGroupedNodes(writer, manager, writePropertyName, node.ChildNodes, nodeName);
                     break;
                 }
@@ -1143,10 +1143,10 @@ namespace Argon.Converters
 
                     string? nodeName = null;
 
-                    for (int i = 0; i < node.ChildNodes.Count; i++)
+                    for (var i = 0; i < node.ChildNodes.Count; i++)
                     {
-                        IXmlNode childNode = node.ChildNodes[i];
-                        string currentNodeName = GetPropertyName(childNode, manager);
+                        var childNode = node.ChildNodes[i];
+                        var currentNodeName = GetPropertyName(childNode, manager);
 
                         if (nodesGroupedByName == null)
                         {
@@ -1163,8 +1163,8 @@ namespace Argon.Converters
                                 nodesGroupedByName = new Dictionary<string, object>();
                                 if (i > 1)
                                 {
-                                    List<IXmlNode> nodes = new List<IXmlNode>(i);
-                                    for (int j = 0; j < i; j++)
+                                    var nodes = new List<IXmlNode>(i);
+                                    for (var j = 0; j < i; j++)
                                     {
                                         nodes.Add(node.ChildNodes[j]);
                                     }
@@ -1179,7 +1179,7 @@ namespace Argon.Converters
                         }
                         else
                         {
-                            if (!nodesGroupedByName.TryGetValue(currentNodeName, out object value))
+                            if (!nodesGroupedByName.TryGetValue(currentNodeName, out var value))
                             {
                                 nodesGroupedByName.Add(currentNodeName, childNode);
                             }
@@ -1204,7 +1204,7 @@ namespace Argon.Converters
                     {
                         // loop through grouped nodes. write single name instances as normal,
                         // write multiple names together in an array
-                        foreach (KeyValuePair<string, object> nodeNameGroup in nodesGroupedByName)
+                        foreach (var nodeNameGroup in nodesGroupedByName)
                         {
                             if (nodeNameGroup.Value is List<IXmlNode> nodes)
                             {
@@ -1223,7 +1223,7 @@ namespace Argon.Converters
 
         private void WriteGroupedNodes(JsonWriter writer, XmlNamespaceManager manager, bool writePropertyName, List<IXmlNode> groupedNodes, string elementNames)
         {
-            bool writeArray = groupedNodes.Count != 1 || IsArray(groupedNodes[0]);
+            var writeArray = groupedNodes.Count != 1 || IsArray(groupedNodes[0]);
 
             if (!writeArray)
             {
@@ -1238,7 +1238,7 @@ namespace Argon.Converters
 
                 writer.WriteStartArray();
 
-                for (int i = 0; i < groupedNodes.Count; i++)
+                for (var i = 0; i < groupedNodes.Count; i++)
                 {
                     SerializeNode(writer, groupedNodes[i], manager, false);
                 }
@@ -1249,7 +1249,7 @@ namespace Argon.Converters
 
         private void WriteGroupedNodes(JsonWriter writer, XmlNamespaceManager manager, bool writePropertyName, IXmlNode node, string elementNames)
         {
-            bool writeArray = IsArray(node);
+            var writeArray = IsArray(node);
 
             if (!writeArray)
             {
@@ -1287,14 +1287,14 @@ namespace Argon.Converters
                     {
                         manager.PushScope();
 
-                        foreach (IXmlNode attribute in node.Attributes)
+                        foreach (var attribute in node.Attributes)
                         {
                             if (attribute.NamespaceUri == "http://www.w3.org/2000/xmlns/")
                             {
-                                string namespacePrefix = (attribute.LocalName != "xmlns")
+                                var namespacePrefix = (attribute.LocalName != "xmlns")
                                     ? XmlConvert.DecodeName(attribute.LocalName)
                                     : string.Empty;
-                                string? namespaceUri = attribute.Value;
+                                var namespaceUri = attribute.Value;
                                 if (namespaceUri == null)
                                 {
                                     throw new JsonSerializationException("Namespace attribute must have a value.");
@@ -1317,7 +1317,7 @@ namespace Argon.Converters
                         }
                         else if (node.ChildNodes.Count == 0 && node.Attributes.Count == 0)
                         {
-                            IXmlElement element = (IXmlElement)node;
+                            var element = (IXmlElement)node;
 
                             // empty element
                             if (element.IsEmpty)
@@ -1333,7 +1333,7 @@ namespace Argon.Converters
                         {
                             writer.WriteStartObject();
 
-                            for (int i = 0; i < node.Attributes.Count; i++)
+                            for (var i = 0; i < node.Attributes.Count; i++)
                             {
                                 SerializeNode(writer, node.Attributes[i], manager, true);
                             }
@@ -1379,7 +1379,7 @@ namespace Argon.Converters
                     writer.WriteValue(node.Value);
                     break;
                 case XmlNodeType.XmlDeclaration:
-                    IXmlDeclaration declaration = (IXmlDeclaration)node;
+                    var declaration = (IXmlDeclaration)node;
                     writer.WritePropertyName(GetPropertyName(node, manager));
                     writer.WriteStartObject();
 
@@ -1402,7 +1402,7 @@ namespace Argon.Converters
                     writer.WriteEndObject();
                     break;
                 case XmlNodeType.DocumentType:
-                    IXmlDocumentType documentType = (IXmlDocumentType)node;
+                    var documentType = (IXmlDocumentType)node;
                     writer.WritePropertyName(GetPropertyName(node, manager));
                     writer.WriteStartObject();
 
@@ -1436,7 +1436,7 @@ namespace Argon.Converters
 
         private static bool AllSameName(IXmlNode node)
         {
-            foreach (IXmlNode childNode in node.ChildNodes)
+            foreach (var childNode in node.ChildNodes)
             {
                 if (childNode.LocalName != node.LocalName)
                 {
@@ -1468,7 +1468,7 @@ namespace Argon.Converters
                     throw JsonSerializationException.Create(reader, "XmlNodeConverter can only convert JSON that begins with an object.");
             }
 
-            XmlNamespaceManager manager = new XmlNamespaceManager(new NameTable());
+            var manager = new XmlNamespaceManager(new NameTable());
             IXmlDocument? document = null;
             IXmlNode? rootNode = null;
 
@@ -1483,7 +1483,7 @@ namespace Argon.Converters
                     throw JsonSerializationException.Create(reader, "XmlNodeConverter only supports deserializing XDocument, XElement, XContainer, XNode or XObject.");
                 }
 
-                XDocument d = new XDocument();
+                var d = new XDocument();
                 document = new XDocumentWrapper(d);
                 rootNode = document;
             }
@@ -1496,7 +1496,7 @@ namespace Argon.Converters
                     throw JsonSerializationException.Create(reader, "XmlNodeConverter only supports deserializing XmlDocument, XmlElement or XmlNode.");
                 }
 
-                XmlDocument d = new XmlDocument();
+                var d = new XmlDocument();
                 // prevent http request when resolving any DTD references
                 d.XmlResolver = null;
 
@@ -1521,7 +1521,7 @@ namespace Argon.Converters
 
             if (objectType == typeof(XElement))
             {
-                XElement element = (XElement)document.DocumentElement!.WrappedNode!;
+                var element = (XElement)document.DocumentElement!.WrappedNode!;
                 element.Remove();
 
                 return element;
@@ -1599,8 +1599,8 @@ namespace Argon.Converters
 
                 if (propertyName.StartsWith('@'))
                 {
-                    string attributeName = propertyName.Substring(1);
-                    string? attributePrefix = MiscellaneousUtils.GetPrefix(attributeName);
+                    var attributeName = propertyName.Substring(1);
+                    var attributePrefix = MiscellaneousUtils.GetPrefix(attributeName);
 
                     AddAttribute(reader, document, currentNode, propertyName, attributeName, manager, attributePrefix);
                     return;
@@ -1619,8 +1619,8 @@ namespace Argon.Converters
                         case JsonTypeReflector.RefPropertyName:
                         case JsonTypeReflector.TypePropertyName:
                         case JsonTypeReflector.ValuePropertyName:
-                            string attributeName = propertyName.Substring(1);
-                            string attributePrefix = manager.LookupPrefix(JsonNamespaceUri);
+                            var attributeName = propertyName.Substring(1);
+                            var attributePrefix = manager.LookupPrefix(JsonNamespaceUri);
                             AddAttribute(reader, document, currentNode, propertyName, attributeName, manager, attributePrefix);
                             return;
                     }
@@ -1639,19 +1639,19 @@ namespace Argon.Converters
 
         private void CreateElement(JsonReader reader, IXmlDocument document, IXmlNode currentNode, string elementName, XmlNamespaceManager manager, string? elementPrefix, Dictionary<string, string?>? attributeNameValues)
         {
-            IXmlElement element = CreateElement(elementName, document, elementPrefix, manager);
+            var element = CreateElement(elementName, document, elementPrefix, manager);
 
             currentNode.AppendChild(element);
 
             if (attributeNameValues != null)
             {
                 // add attributes to newly created element
-                foreach (KeyValuePair<string, string?> nameValue in attributeNameValues)
+                foreach (var nameValue in attributeNameValues)
                 {
-                    string encodedName = XmlConvert.EncodeName(nameValue.Key);
-                    string? attributePrefix = MiscellaneousUtils.GetPrefix(nameValue.Key);
+                    var encodedName = XmlConvert.EncodeName(nameValue.Key);
+                    var attributePrefix = MiscellaneousUtils.GetPrefix(nameValue.Key);
 
-                    IXmlNode attribute = (!StringUtils.IsNullOrEmpty(attributePrefix)) ? document.CreateAttribute(encodedName, manager.LookupNamespace(attributePrefix) ?? string.Empty, nameValue.Value) : document.CreateAttribute(encodedName, nameValue.Value);
+                    var attribute = (!StringUtils.IsNullOrEmpty(attributePrefix)) ? document.CreateAttribute(encodedName, manager.LookupNamespace(attributePrefix) ?? string.Empty, nameValue.Value) : document.CreateAttribute(encodedName, nameValue.Value);
 
                     element.SetAttributeNode(attribute);
                 }
@@ -1665,7 +1665,7 @@ namespace Argon.Converters
                 case JsonToken.Boolean:
                 case JsonToken.Date:
                 case JsonToken.Bytes:
-                    string? text = ConvertTokenToXmlValue(reader);
+                    var text = ConvertTokenToXmlValue(reader);
                     if (text != null)
                     {
                         element.AppendChild(document.CreateTextNode(text));
@@ -1696,10 +1696,10 @@ namespace Argon.Converters
                 throw JsonSerializationException.Create(reader, "JSON root object has property '{0}' that will be converted to an attribute. A root object cannot have any attribute properties. Consider specifying a DeserializeRootElementName.".FormatWith(CultureInfo.InvariantCulture, propertyName));
             }
 
-            string encodedName = XmlConvert.EncodeName(attributeName);
-            string? attributeValue = ConvertTokenToXmlValue(reader);
+            var encodedName = XmlConvert.EncodeName(attributeName);
+            var attributeValue = ConvertTokenToXmlValue(reader);
 
-            IXmlNode attribute = (!StringUtils.IsNullOrEmpty(attributePrefix))
+            var attribute = (!StringUtils.IsNullOrEmpty(attributePrefix))
                 ? document.CreateAttribute(encodedName, manager.LookupNamespace(attributePrefix), attributeValue)
                 : document.CreateAttribute(encodedName, attributeValue);
 
@@ -1741,7 +1741,7 @@ namespace Argon.Converters
                         return XmlConvert.ToString(offset);
                     }
 
-                    DateTime d = Convert.ToDateTime(reader.Value, CultureInfo.InvariantCulture);
+                    var d = Convert.ToDateTime(reader.Value, CultureInfo.InvariantCulture);
                     return XmlConvert.ToString(d, DateTimeUtils.ToSerializationMode(d.Kind));
                 }
                 case JsonToken.Bytes:
@@ -1755,13 +1755,13 @@ namespace Argon.Converters
 
         private void ReadArrayElements(JsonReader reader, IXmlDocument document, string propertyName, IXmlNode currentNode, XmlNamespaceManager manager)
         {
-            string? elementPrefix = MiscellaneousUtils.GetPrefix(propertyName);
+            var elementPrefix = MiscellaneousUtils.GetPrefix(propertyName);
 
-            IXmlElement nestedArrayElement = CreateElement(propertyName, document, elementPrefix, manager);
+            var nestedArrayElement = CreateElement(propertyName, document, elementPrefix, manager);
 
             currentNode.AppendChild(nestedArrayElement);
 
-            int count = 0;
+            var count = 0;
             while (reader.Read() && reader.TokenType != JsonToken.EndArray)
             {
                 DeserializeValue(reader, document, manager, propertyName, nestedArrayElement);
@@ -1775,7 +1775,7 @@ namespace Argon.Converters
 
             if (count == 1 && WriteArrayAttribute)
             {
-                foreach (IXmlNode childNode in nestedArrayElement.ChildNodes)
+                foreach (var childNode in nestedArrayElement.ChildNodes)
                 {
                     if (childNode is IXmlElement element && element.LocalName == propertyName)
                     {
@@ -1822,7 +1822,7 @@ namespace Argon.Converters
         private Dictionary<string, string?>? ReadAttributeElements(JsonReader reader, XmlNamespaceManager manager)
         {
             Dictionary<string, string?>? attributeNameValues = null;
-            bool finished = false;
+            var finished = false;
 
             // read properties until first non-attribute is encountered
             while (!finished && reader.Read())
@@ -1830,11 +1830,11 @@ namespace Argon.Converters
                 switch (reader.TokenType)
                 {
                     case JsonToken.PropertyName:
-                        string attributeName = reader.Value!.ToString();
+                        var attributeName = reader.Value!.ToString();
 
                         if (!StringUtils.IsNullOrEmpty(attributeName))
                         {
-                            char firstChar = attributeName[0];
+                            var firstChar = attributeName[0];
                             string? attributeValue;
 
                             switch (firstChar)
@@ -1850,7 +1850,7 @@ namespace Argon.Converters
                                     attributeValue = ConvertTokenToXmlValue(reader);
                                     attributeNameValues.Add(attributeName, attributeValue);
 
-                                    if (IsNamespaceAttribute(attributeName, out string? namespacePrefix))
+                                    if (IsNamespaceAttribute(attributeName, out var namespacePrefix))
                                     {
                                         manager.AddNamespace(namespacePrefix, attributeValue);
                                     }
@@ -1865,7 +1865,7 @@ namespace Argon.Converters
                                         case JsonTypeReflector.ValuePropertyName:
                                             // check that JsonNamespaceUri is in scope
                                             // if it isn't then add it to document and namespace manager
-                                            string jsonPrefix = manager.LookupPrefix(JsonNamespaceUri);
+                                            var jsonPrefix = manager.LookupPrefix(JsonNamespaceUri);
                                             if (jsonPrefix == null)
                                             {
                                                 if (attributeNameValues == null)
@@ -1964,12 +1964,12 @@ namespace Argon.Converters
                     }
                 }
 
-                IXmlNode declaration = document.CreateXmlDeclaration(version, encoding, standalone);
+                var declaration = document.CreateXmlDeclaration(version, encoding, standalone);
                 currentNode.AppendChild(declaration);
             }
             else
             {
-                IXmlNode instruction = document.CreateProcessingInstruction(propertyName.Substring(1), ConvertTokenToXmlValue(reader));
+                var instruction = document.CreateProcessingInstruction(propertyName.Substring(1), ConvertTokenToXmlValue(reader));
                 currentNode.AppendChild(instruction);
             }
         }
@@ -2005,16 +2005,16 @@ namespace Argon.Converters
                 }
             }
 
-            IXmlNode documentType = document.CreateXmlDocumentType(name, publicId, systemId, internalSubset);
+            var documentType = document.CreateXmlDocumentType(name, publicId, systemId, internalSubset);
             currentNode.AppendChild(documentType);
         }
 
         private IXmlElement CreateElement(string elementName, IXmlDocument document, string? elementPrefix, XmlNamespaceManager manager)
         {
-            string encodeName = EncodeSpecialCharacters ? XmlConvert.EncodeLocalName(elementName) : XmlConvert.EncodeName(elementName);
-            string ns = StringUtils.IsNullOrEmpty(elementPrefix) ? manager.DefaultNamespace : manager.LookupNamespace(elementPrefix);
+            var encodeName = EncodeSpecialCharacters ? XmlConvert.EncodeLocalName(elementName) : XmlConvert.EncodeName(elementName);
+            var ns = StringUtils.IsNullOrEmpty(elementPrefix) ? manager.DefaultNamespace : manager.LookupNamespace(elementPrefix);
 
-            IXmlElement element = (!StringUtils.IsNullOrEmpty(ns)) ? document.CreateElement(encodeName, ns) : document.CreateElement(encodeName);
+            var element = (!StringUtils.IsNullOrEmpty(ns)) ? document.CreateElement(encodeName, ns) : document.CreateElement(encodeName);
 
             return element;
         }
@@ -2031,12 +2031,12 @@ namespace Argon.Converters
                             throw JsonSerializationException.Create(reader, "JSON root object has multiple properties. The root object must have a single property in order to create a valid XML document. Consider specifying a DeserializeRootElementName.");
                         }
 
-                        string propertyName = reader.Value!.ToString();
+                        var propertyName = reader.Value!.ToString();
                         reader.ReadAndAssert();
 
                         if (reader.TokenType == JsonToken.StartArray)
                         {
-                            int count = 0;
+                            var count = 0;
                             while (reader.Read() && reader.TokenType != JsonToken.EndArray)
                             {
                                 DeserializeValue(reader, document, manager, propertyName, currentNode);
@@ -2045,10 +2045,10 @@ namespace Argon.Converters
 
                             if (count == 1 && WriteArrayAttribute)
                             {
-                                MiscellaneousUtils.GetQualifiedNameParts(propertyName, out string? elementPrefix, out string localName);
-                                string ns = StringUtils.IsNullOrEmpty(elementPrefix) ? manager.DefaultNamespace : manager.LookupNamespace(elementPrefix);
+                                MiscellaneousUtils.GetQualifiedNameParts(propertyName, out var elementPrefix, out var localName);
+                                var ns = StringUtils.IsNullOrEmpty(elementPrefix) ? manager.DefaultNamespace : manager.LookupNamespace(elementPrefix);
 
-                                foreach (IXmlNode childNode in currentNode.ChildNodes)
+                                foreach (var childNode in currentNode.ChildNodes)
                                 {
                                     if (childNode is IXmlElement element && element.LocalName == localName && element.NamespaceUri == ns)
                                     {
@@ -2064,7 +2064,7 @@ namespace Argon.Converters
                         }
                         continue;
                     case JsonToken.StartConstructor:
-                        string constructorName = reader.Value!.ToString();
+                        var constructorName = reader.Value!.ToString();
 
                         while (reader.Read() && reader.TokenType != JsonToken.EndConstructor)
                         {
@@ -2111,7 +2111,7 @@ namespace Argon.Converters
 
         private bool ValueAttributes(List<IXmlNode> c)
         {
-            foreach (IXmlNode xmlNode in c)
+            foreach (var xmlNode in c)
             {
                 if (xmlNode.NamespaceUri == JsonNamespaceUri)
                 {

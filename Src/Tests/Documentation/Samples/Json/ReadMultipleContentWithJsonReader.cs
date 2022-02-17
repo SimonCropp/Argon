@@ -47,11 +47,11 @@ namespace Argon.Tests.Documentation.Samples.Json
         public void Example()
         {
             #region Usage
-            string json = @"{ 'name': 'Admin' }{ 'name': 'Publisher' }";
+            var json = @"{ 'name': 'Admin' }{ 'name': 'Publisher' }";
 
             IList<Role> roles = new List<Role>();
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
             reader.SupportMultipleContent = true;
 
             while (true)
@@ -61,13 +61,13 @@ namespace Argon.Tests.Documentation.Samples.Json
                     break;
                 }
 
-                JsonSerializer serializer = new JsonSerializer();
-                Role role = serializer.Deserialize<Role>(reader);
+                var serializer = new JsonSerializer();
+                var role = serializer.Deserialize<Role>(reader);
 
                 roles.Add(role);
             }
 
-            foreach (Role role in roles)
+            foreach (var role in roles)
             {
                 Console.WriteLine(role.Name);
             }

@@ -41,23 +41,23 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            List<StringComparison> stringComparisons = new List<StringComparison>
+            var stringComparisons = new List<StringComparison>
             {
                 StringComparison.CurrentCulture,
                 StringComparison.Ordinal
             };
 
-            string jsonWithoutConverter = JsonConvert.SerializeObject(stringComparisons);
+            var jsonWithoutConverter = JsonConvert.SerializeObject(stringComparisons);
 
             Console.WriteLine(jsonWithoutConverter);
             // [0,4]
 
-            string jsonWithConverter = JsonConvert.SerializeObject(stringComparisons, new StringEnumConverter());
+            var jsonWithConverter = JsonConvert.SerializeObject(stringComparisons, new StringEnumConverter());
 
             Console.WriteLine(jsonWithConverter);
             // ["CurrentCulture","Ordinal"]
 
-            List<StringComparison> newStringComparsions = JsonConvert.DeserializeObject<List<StringComparison>>(
+            var newStringComparsions = JsonConvert.DeserializeObject<List<StringComparison>>(
                 jsonWithConverter,
                 new StringEnumConverter());
 

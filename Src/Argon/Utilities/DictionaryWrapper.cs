@@ -287,12 +287,12 @@ namespace Argon.Utilities
             if (_dictionary != null)
             {
                 // Manual use of IDictionaryEnumerator instead of foreach to avoid DictionaryEntry box allocations.
-                IDictionaryEnumerator e = _dictionary.GetEnumerator();
+                var e = _dictionary.GetEnumerator();
                 try
                 {
                     while (e.MoveNext())
                     {
-                        DictionaryEntry entry = e.Entry;
+                        var entry = e.Entry;
                         array[arrayIndex++] = new KeyValuePair<TKey, TValue>((TKey)entry.Key, (TValue)entry.Value);
                     }
                 }
@@ -355,7 +355,7 @@ namespace Argon.Utilities
             {
                 if (_dictionary.Contains(item.Key))
                 {
-                    object value = _dictionary[item.Key];
+                    var value = _dictionary[item.Key];
 
                     if (Equals(value, item.Value))
                     {

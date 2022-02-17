@@ -54,9 +54,9 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            Customer customer = new Customer();
+            var customer = new Customer();
 
-            string jsonIncludeDefaultValues = JsonConvert.SerializeObject(customer, Formatting.Indented);
+            var jsonIncludeDefaultValues = JsonConvert.SerializeObject(customer, Formatting.Indented);
 
             Console.WriteLine(jsonIncludeDefaultValues);
             // {
@@ -65,7 +65,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
             //   "FullName": " "
             // }
 
-            string jsonIgnoreDefaultValues = JsonConvert.SerializeObject(customer, Formatting.Indented, new JsonSerializerSettings
+            var jsonIgnoreDefaultValues = JsonConvert.SerializeObject(customer, Formatting.Indented, new JsonSerializerSettings
             {
                 DefaultValueHandling = DefaultValueHandling.Ignore
             });

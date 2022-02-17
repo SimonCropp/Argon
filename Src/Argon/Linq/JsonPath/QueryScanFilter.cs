@@ -14,11 +14,11 @@ namespace Argon.Linq.JsonPath
 
         public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings? settings)
         {
-            foreach (JToken t in current)
+            foreach (var t in current)
             {
                 if (t is JContainer c)
                 {
-                    foreach (JToken d in c.DescendantsAndSelf())
+                    foreach (var d in c.DescendantsAndSelf())
                     {
                         if (Expression.IsMatch(root, d, settings))
                         {

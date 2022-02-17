@@ -48,13 +48,13 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            JavaScriptSettings settings = new JavaScriptSettings
+            var settings = new JavaScriptSettings
             {
                 OnLoadFunction = new JRaw("OnLoad"),
                 OnUnloadFunction = new JRaw("function(e) { alert(e); }")
             };
 
-            string json = JsonConvert.SerializeObject(settings, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(settings, Formatting.Indented);
 
             Console.WriteLine(json);
             // {

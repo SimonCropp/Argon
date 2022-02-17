@@ -178,8 +178,8 @@ namespace Argon.Utilities
                 return true;
             }
 
-            double tolerance = ((Math.Abs(d1) + Math.Abs(d2)) + 10.0) * epsilon;
-            double difference = d1 - d2;
+            var tolerance = ((Math.Abs(d1) + Math.Abs(d2)) + 10.0) * epsilon;
+            var difference = d1 - d2;
 
             return (-tolerance < difference && tolerance > difference);
         }

@@ -68,9 +68,9 @@ namespace Argon.Tests.Documentation.Samples.Linq
         public void Example()
         {
             #region Usage
-            List<Post> posts = GetPosts();
+            var posts = GetPosts();
 
-            JObject rss =
+            var rss =
                 new JObject(
                     new JProperty("channel",
                         new JObject(

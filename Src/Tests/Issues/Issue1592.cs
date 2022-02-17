@@ -43,12 +43,12 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test()
         {
-            string json = @"{
+            var json = @"{
 ""test customer's"": ""testing""
 }";
 
-            StringReader stringReader = new StringReader(json);
-            JsonTextReader reader = new JsonTextReader(stringReader);
+            var stringReader = new StringReader(json);
+            var reader = new JsonTextReader(stringReader);
 
             reader.Read();
             reader.Read();

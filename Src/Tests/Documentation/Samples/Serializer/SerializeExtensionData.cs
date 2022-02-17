@@ -57,18 +57,18 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            string json = @"{
+            var json = @"{
               'HourlyRate': 150,
               'Hours': 40,
               'TaxRate': 0.125
             }";
 
-            CustomerInvoice invoice = JsonConvert.DeserializeObject<CustomerInvoice>(json);
+            var invoice = JsonConvert.DeserializeObject<CustomerInvoice>(json);
 
             // increase tax to 15%
             invoice.TaxRate = 0.15m;
 
-            string result = JsonConvert.SerializeObject(invoice);
+            var result = JsonConvert.SerializeObject(invoice);
             // {
             //   "TaxRate": 0.15,
             //   "HourlyRate": 150,

@@ -72,7 +72,7 @@ namespace Argon.Tests.Serialization
 
             public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
             {
-                ContentB b = ((ContentA)value).B;
+                var b = ((ContentA)value).B;
                 serializer.Serialize(writer, b); // My Content.B contains all useful data.
             }
         }
@@ -92,18 +92,18 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeReferenceInConvert()
         {
-            JsonSerializerSettings settings = new JsonSerializerSettings();
+            var settings = new JsonSerializerSettings();
             settings.PreserveReferencesHandling = PreserveReferencesHandling.All;
             settings.TypeNameHandling = TypeNameHandling.All;
             settings.Formatting = Formatting.Indented;
 
-            Container c1 = new Container();
-            ContentA content = new ContentA();
+            var c1 = new Container();
+            var content = new ContentA();
             content.B.SomeValue = true;
             c1.ListA.Add(content);
             c1.ListB.Add(content);
 
-            string s = JsonConvert.SerializeObject(c1, settings);
+            var s = JsonConvert.SerializeObject(c1, settings);
 
             StringAssert.AreEqual(@"{
   ""$id"": ""1"",
@@ -130,7 +130,7 @@ namespace Argon.Tests.Serialization
   }
 }", s);
 
-            Container c2 = JsonConvert.DeserializeObject<Container>(s, settings);
+            var c2 = JsonConvert.DeserializeObject<Container>(s, settings);
 
             Assert.AreEqual(c2.ListA[0], c2.ListB[0]);
             Assert.AreEqual(true, c2.ListA[0].B.SomeValue);
@@ -163,7 +163,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeReadOnlyProperty()
         {
-            Child c = new Child
+            var c = new Child
             {
                 PropertyName = "value?"
             };
@@ -171,7 +171,7 @@ namespace Argon.Tests.Serialization
             {
                 "value!"
             };
-            Parent p = new Parent
+            var p = new Parent
             {
                 Child1 = c,
                 Child2 = c,
@@ -179,7 +179,7 @@ namespace Argon.Tests.Serialization
                 List2 = l
             };
 
-            string json = JsonConvert.SerializeObject(p, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(p, new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
                 PreserveReferencesHandling = PreserveReferencesHandling.All
@@ -211,7 +211,7 @@ namespace Argon.Tests.Serialization
   }
 }", json);
 
-            Parent newP = JsonConvert.DeserializeObject<Parent>(json, new JsonSerializerSettings
+            var newP = JsonConvert.DeserializeObject<Parent>(json, new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
                 PreserveReferencesHandling = PreserveReferencesHandling.All
@@ -229,11 +229,11 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeDictionarysWithPreserveObjectReferences()
         {
-            CircularDictionary circularDictionary = new CircularDictionary();
+            var circularDictionary = new CircularDictionary();
             circularDictionary.Add("other", new CircularDictionary { { "blah", null } });
             circularDictionary.Add("self", circularDictionary);
 
-            string json = JsonConvert.SerializeObject(circularDictionary, Formatting.Indented,
+            var json = JsonConvert.SerializeObject(circularDictionary, Formatting.Indented,
                 new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.All });
 
             StringAssert.AreEqual(@"{
@@ -251,7 +251,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeDictionarysWithPreserveObjectReferences()
         {
-            string json = @"{
+            var json = @"{
   ""$id"": ""1"",
   ""other"": {
     ""$id"": ""2"",
@@ -262,7 +262,7 @@ namespace Argon.Tests.Serialization
   }
 }";
 
-            CircularDictionary circularDictionary = JsonConvert.DeserializeObject<CircularDictionary>(json,
+            var circularDictionary = JsonConvert.DeserializeObject<CircularDictionary>(json,
                 new JsonSerializerSettings
                 {
                     PreserveReferencesHandling = PreserveReferencesHandling.All
@@ -280,9 +280,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeCircularListsError()
         {
-            string classRef = typeof(CircularList).FullName;
+            var classRef = typeof(CircularList).FullName;
 
-            CircularList circularList = new CircularList();
+            var circularList = new CircularList();
             circularList.Add(null);
             circularList.Add(new CircularList { null });
             circularList.Add(new CircularList { new CircularList { circularList } });
@@ -293,12 +293,12 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeCircularListsIgnore()
         {
-            CircularList circularList = new CircularList();
+            var circularList = new CircularList();
             circularList.Add(null);
             circularList.Add(new CircularList { null });
             circularList.Add(new CircularList { new CircularList { circularList } });
 
-            string json = JsonConvert.SerializeObject(circularList,
+            var json = JsonConvert.SerializeObject(circularList,
                 Formatting.Indented,
                 new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
 
@@ -316,12 +316,12 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeListsWithPreserveObjectReferences()
         {
-            CircularList circularList = new CircularList();
+            var circularList = new CircularList();
             circularList.Add(null);
             circularList.Add(new CircularList { null });
             circularList.Add(new CircularList { new CircularList { circularList } });
 
-            string json = JsonConvert.SerializeObject(circularList, Formatting.Indented,
+            var json = JsonConvert.SerializeObject(circularList, Formatting.Indented,
                 new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.All });
 
             StringAssert.AreEqual(@"{
@@ -354,7 +354,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeListsWithPreserveObjectReferences()
         {
-            string json = @"{
+            var json = @"{
   ""$id"": ""1"",
   ""$values"": [
     null,
@@ -380,7 +380,7 @@ namespace Argon.Tests.Serialization
   ]
 }";
 
-            CircularList circularList = JsonConvert.DeserializeObject<CircularList>(json,
+            var circularList = JsonConvert.DeserializeObject<CircularList>(json,
                 new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.All });
 
             Assert.AreEqual(3, circularList.Count);
@@ -394,7 +394,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeArraysWithPreserveObjectReferences()
         {
-            string json = @"{
+            var json = @"{
   ""$id"": ""1"",
   ""$values"": [
     null,
@@ -434,9 +434,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeCircularDictionarysError()
         {
-            string classRef = typeof(CircularDictionary).FullName;
+            var classRef = typeof(CircularDictionary).FullName;
 
-            CircularDictionary circularDictionary = new CircularDictionary();
+            var circularDictionary = new CircularDictionary();
             circularDictionary.Add("other", new CircularDictionary { { "blah", null } });
             circularDictionary.Add("self", circularDictionary);
 
@@ -446,11 +446,11 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeCircularDictionarysIgnore()
         {
-            CircularDictionary circularDictionary = new CircularDictionary();
+            var circularDictionary = new CircularDictionary();
             circularDictionary.Add("other", new CircularDictionary { { "blah", null } });
             circularDictionary.Add("self", circularDictionary);
 
-            string json = JsonConvert.SerializeObject(circularDictionary, Formatting.Indented,
+            var json = JsonConvert.SerializeObject(circularDictionary, Formatting.Indented,
                 new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
 
             StringAssert.AreEqual(@"{
@@ -463,7 +463,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void UnexpectedEnd()
         {
-            string json = @"{
+            var json = @"{
   ""$id"":";
 
             ExceptionAssert.Throws<JsonSerializationException>(() =>
@@ -481,16 +481,16 @@ namespace Argon.Tests.Serialization
         {
             public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
             {
-                CircularReferenceClass circularReferenceClass = (CircularReferenceClass)value;
+                var circularReferenceClass = (CircularReferenceClass)value;
 
-                string reference = serializer.ReferenceResolver.GetReference(serializer, circularReferenceClass);
+                var reference = serializer.ReferenceResolver.GetReference(serializer, circularReferenceClass);
 
-                JObject me = new JObject();
+                var me = new JObject();
                 me["$id"] = new JValue(reference);
                 me["$type"] = new JValue(value.GetType().Name);
                 me["Name"] = new JValue(circularReferenceClass.Name);
 
-                JObject o = JObject.FromObject(circularReferenceClass.Child, serializer);
+                var o = JObject.FromObject(circularReferenceClass.Child, serializer);
                 me["Child"] = o;
 
                 me.WriteTo(writer);
@@ -498,17 +498,17 @@ namespace Argon.Tests.Serialization
 
             public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
             {
-                JObject o = JObject.Load(reader);
-                string id = (string)o["$id"];
+                var o = JObject.Load(reader);
+                var id = (string)o["$id"];
                 if (id != null)
                 {
-                    CircularReferenceClass circularReferenceClass = new CircularReferenceClass();
+                    var circularReferenceClass = new CircularReferenceClass();
                     serializer.Populate(o.CreateReader(), circularReferenceClass);
                     return circularReferenceClass;
                 }
                 else
                 {
-                    string reference = (string)o["$ref"];
+                    var reference = (string)o["$ref"];
                     return serializer.ReferenceResolver.ResolveReference(serializer, reference);
                 }
             }
@@ -522,15 +522,15 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeCircularReferencesWithConverter()
         {
-            CircularReferenceClass c1 = new CircularReferenceClass { Name = "c1" };
-            CircularReferenceClass c2 = new CircularReferenceClass { Name = "c2" };
-            CircularReferenceClass c3 = new CircularReferenceClass { Name = "c3" };
+            var c1 = new CircularReferenceClass { Name = "c1" };
+            var c2 = new CircularReferenceClass { Name = "c2" };
+            var c3 = new CircularReferenceClass { Name = "c3" };
 
             c1.Child = c2;
             c2.Child = c3;
             c3.Child = c1;
 
-            string json = JsonConvert.SerializeObject(c1, Formatting.Indented, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(c1, Formatting.Indented, new JsonSerializerSettings
             {
                 PreserveReferencesHandling = PreserveReferencesHandling.Objects,
                 Converters = new List<JsonConverter> { new CircularReferenceClassConverter() }
@@ -559,7 +559,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeCircularReferencesWithConverter()
         {
-            string json = @"{
+            var json = @"{
   ""$id"": ""1"",
   ""$type"": ""CircularReferenceClass"",
   ""Name"": ""c1"",
@@ -578,7 +578,7 @@ namespace Argon.Tests.Serialization
   }
 }";
 
-            CircularReferenceClass c1 = JsonConvert.DeserializeObject<CircularReferenceClass>(json, new JsonSerializerSettings
+            var c1 = JsonConvert.DeserializeObject<CircularReferenceClass>(json, new JsonSerializerSettings
             {
                 PreserveReferencesHandling = PreserveReferencesHandling.Objects,
                 Converters = new List<JsonConverter> { new CircularReferenceClassConverter() }
@@ -593,23 +593,23 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeEmployeeReference()
         {
-            EmployeeReference mikeManager = new EmployeeReference
+            var mikeManager = new EmployeeReference
             {
                 Name = "Mike Manager"
             };
-            EmployeeReference joeUser = new EmployeeReference
+            var joeUser = new EmployeeReference
             {
                 Name = "Joe User",
                 Manager = mikeManager
             };
 
-            List<EmployeeReference> employees = new List<EmployeeReference>
+            var employees = new List<EmployeeReference>
             {
                 mikeManager,
                 joeUser
             };
 
-            string json = JsonConvert.SerializeObject(employees, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(employees, Formatting.Indented);
             StringAssert.AreEqual(@"[
   {
     ""$id"": ""1"",
@@ -629,7 +629,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeEmployeeReference()
         {
-            string json = @"[
+            var json = @"[
   {
     ""$id"": ""1"",
     ""Name"": ""Mike Manager"",
@@ -644,7 +644,7 @@ namespace Argon.Tests.Serialization
   }
 ]";
 
-            List<EmployeeReference> employees = JsonConvert.DeserializeObject<List<EmployeeReference>>(json);
+            var employees = JsonConvert.DeserializeObject<List<EmployeeReference>>(json);
 
             Assert.AreEqual(2, employees.Count);
             Assert.AreEqual("Mike Manager", employees[0].Name);
@@ -679,10 +679,10 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeIsReferenceReadonlyProperty()
         {
-            Condition condition = new Condition(1);
-            ClassWithConditions value = new ClassWithConditions(condition, condition);
+            var condition = new Condition(1);
+            var value = new ClassWithConditions(condition, condition);
 
-            string json = JsonConvert.SerializeObject(value, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(value, Formatting.Indented);
             StringAssert.AreEqual(@"{
   ""Condition1"": {
     ""$id"": ""1"",
@@ -697,7 +697,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeIsReferenceReadonlyProperty()
         {
-            string json = @"{
+            var json = @"{
   ""Condition1"": {
     ""$id"": ""1"",
     ""Value"": 1
@@ -707,7 +707,7 @@ namespace Argon.Tests.Serialization
   }
 }";
 
-            ClassWithConditions value = JsonConvert.DeserializeObject<ClassWithConditions>(json);
+            var value = JsonConvert.DeserializeObject<ClassWithConditions>(json);
             Assert.AreEqual(value.Condition1.Value, 1);
             Assert.AreEqual(value.Condition1, value.Condition2);
         }
@@ -715,15 +715,15 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeCircularReference()
         {
-            CircularReferenceClass c1 = new CircularReferenceClass { Name = "c1" };
-            CircularReferenceClass c2 = new CircularReferenceClass { Name = "c2" };
-            CircularReferenceClass c3 = new CircularReferenceClass { Name = "c3" };
+            var c1 = new CircularReferenceClass { Name = "c1" };
+            var c2 = new CircularReferenceClass { Name = "c2" };
+            var c3 = new CircularReferenceClass { Name = "c3" };
 
             c1.Child = c2;
             c2.Child = c3;
             c3.Child = c1;
 
-            string json = JsonConvert.SerializeObject(c1, Formatting.Indented, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(c1, Formatting.Indented, new JsonSerializerSettings
             {
                 PreserveReferencesHandling = PreserveReferencesHandling.Objects
             });
@@ -748,7 +748,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeCircularReference()
         {
-            string json = @"{
+            var json = @"{
   ""$id"": ""1"",
   ""Name"": ""c1"",
   ""Child"": {
@@ -764,7 +764,7 @@ namespace Argon.Tests.Serialization
   }
 }";
 
-            CircularReferenceClass c1 =
+            var c1 =
                 JsonConvert.DeserializeObject<CircularReferenceClass>(json, new JsonSerializerSettings
                 {
                     PreserveReferencesHandling = PreserveReferencesHandling.Objects
@@ -779,12 +779,12 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeReferenceInList()
         {
-            EmployeeReference e1 = new EmployeeReference { Name = "e1" };
-            EmployeeReference e2 = new EmployeeReference { Name = "e2" };
+            var e1 = new EmployeeReference { Name = "e1" };
+            var e2 = new EmployeeReference { Name = "e2" };
 
-            List<EmployeeReference> employees = new List<EmployeeReference> { e1, e2, e1, e2 };
+            var employees = new List<EmployeeReference> { e1, e2, e1, e2 };
 
-            string json = JsonConvert.SerializeObject(employees, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(employees, Formatting.Indented);
 
             StringAssert.AreEqual(@"[
   {
@@ -809,7 +809,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeReferenceInList()
         {
-            string json = @"[
+            var json = @"[
   {
     ""$id"": ""1"",
     ""Name"": ""e1"",
@@ -828,7 +828,7 @@ namespace Argon.Tests.Serialization
   }
 ]";
 
-            List<EmployeeReference> employees = JsonConvert.DeserializeObject<List<EmployeeReference>>(json);
+            var employees = JsonConvert.DeserializeObject<List<EmployeeReference>>(json);
             Assert.AreEqual(4, employees.Count);
 
             Assert.AreEqual("e1", employees[0].Name);
@@ -843,10 +843,10 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeReferenceInDictionary()
         {
-            EmployeeReference e1 = new EmployeeReference { Name = "e1" };
-            EmployeeReference e2 = new EmployeeReference { Name = "e2" };
+            var e1 = new EmployeeReference { Name = "e1" };
+            var e2 = new EmployeeReference { Name = "e2" };
 
-            Dictionary<string, EmployeeReference> employees = new Dictionary<string, EmployeeReference>
+            var employees = new Dictionary<string, EmployeeReference>
             {
                 { "One", e1 },
                 { "Two", e2 },
@@ -854,7 +854,7 @@ namespace Argon.Tests.Serialization
                 { "Four", e2 }
             };
 
-            string json = JsonConvert.SerializeObject(employees, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(employees, Formatting.Indented);
 
             StringAssert.AreEqual(@"{
   ""One"": {
@@ -879,7 +879,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeReferenceInDictionary()
         {
-            string json = @"{
+            var json = @"{
   ""One"": {
     ""$id"": ""1"",
     ""Name"": ""e1"",
@@ -898,11 +898,11 @@ namespace Argon.Tests.Serialization
   }
 }";
 
-            Dictionary<string, EmployeeReference> employees = JsonConvert.DeserializeObject<Dictionary<string, EmployeeReference>>(json);
+            var employees = JsonConvert.DeserializeObject<Dictionary<string, EmployeeReference>>(json);
             Assert.AreEqual(4, employees.Count);
 
-            EmployeeReference e1 = employees["One"];
-            EmployeeReference e2 = employees["Two"];
+            var e1 = employees["One"];
+            var e2 = employees["Two"];
 
             Assert.AreEqual("e1", e1.Name);
             Assert.AreEqual("e2", e2.Name);
@@ -914,7 +914,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ExampleWithout()
         {
-            Person p = new Person
+            var p = new Person
             {
                 BirthDate = new DateTime(1980, 12, 23, 0, 0, 0, DateTimeKind.Utc),
                 LastModified = new DateTime(2009, 2, 20, 12, 59, 21, DateTimeKind.Utc),
@@ -922,11 +922,11 @@ namespace Argon.Tests.Serialization
                 Name = "James"
             };
 
-            List<Person> people = new List<Person>();
+            var people = new List<Person>();
             people.Add(p);
             people.Add(p);
 
-            string json = JsonConvert.SerializeObject(people, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(people, Formatting.Indented);
             //[
             //  {
             //    "Name": "James",
@@ -944,7 +944,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ExampleWith()
         {
-            Person p = new Person
+            var p = new Person
             {
                 BirthDate = new DateTime(1980, 12, 23, 0, 0, 0, DateTimeKind.Utc),
                 LastModified = new DateTime(2009, 2, 20, 12, 59, 21, DateTimeKind.Utc),
@@ -952,11 +952,11 @@ namespace Argon.Tests.Serialization
                 Name = "James"
             };
 
-            List<Person> people = new List<Person>();
+            var people = new List<Person>();
             people.Add(p);
             people.Add(p);
 
-            string json = JsonConvert.SerializeObject(people, Formatting.Indented,
+            var json = JsonConvert.SerializeObject(people, Formatting.Indented,
                 new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects });
             //[
             //  {
@@ -970,18 +970,18 @@ namespace Argon.Tests.Serialization
             //  }
             //]
 
-            List<Person> deserializedPeople = JsonConvert.DeserializeObject<List<Person>>(json,
+            var deserializedPeople = JsonConvert.DeserializeObject<List<Person>>(json,
                 new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects });
 
             Assert.AreEqual(2, deserializedPeople.Count);
 
-            Person p1 = deserializedPeople[0];
-            Person p2 = deserializedPeople[1];
+            var p1 = deserializedPeople[0];
+            var p2 = deserializedPeople[1];
 
             Assert.AreEqual("James", p1.Name);
             Assert.AreEqual("James", p2.Name);
 
-            bool equal = Object.ReferenceEquals(p1, p2);
+            var equal = Object.ReferenceEquals(p1, p2);
             Assert.AreEqual(true, equal);
         }
 
@@ -1034,12 +1034,12 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeTypeWithDubiousGetHashcode()
         {
-            User user1 = new User("Peter", typeof(Version));
-            User user2 = new User("Michael", typeof(Version));
+            var user1 = new User("Peter", typeof(Version));
+            var user2 = new User("Michael", typeof(Version));
 
             user1.Friend = user2;
 
-            JsonSerializerSettings serializerSettings = new JsonSerializerSettings
+            var serializerSettings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.All,
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
@@ -1047,16 +1047,16 @@ namespace Argon.Tests.Serialization
                 PreserveReferencesHandling = PreserveReferencesHandling.Objects
             };
 
-            string json = JsonConvert.SerializeObject(user1, Formatting.Indented, serializerSettings);
+            var json = JsonConvert.SerializeObject(user1, Formatting.Indented, serializerSettings);
 
-            User deserializedUser = JsonConvert.DeserializeObject<User>(json, serializerSettings);
+            var deserializedUser = JsonConvert.DeserializeObject<User>(json, serializerSettings);
             Assert.IsNotNull(deserializedUser);
         }
 
         [Fact]
         public void PreserveReferencesHandlingWithReusedJsonSerializer()
         {
-            MyClass c = new MyClass();
+            var c = new MyClass();
 
             IList<MyClass> myClasses1 = new List<MyClass>
             {
@@ -1069,7 +1069,7 @@ namespace Argon.Tests.Serialization
                 PreserveReferencesHandling = PreserveReferencesHandling.All
             };
 
-            MemoryStream ms = new MemoryStream();
+            var ms = new MemoryStream();
 
             using (var sw = new StreamWriter(ms))
             using (var writer = new JsonTextWriter(sw) { Formatting = Formatting.Indented })
@@ -1077,8 +1077,8 @@ namespace Argon.Tests.Serialization
                 ser.Serialize(writer, myClasses1);
             }
 
-            byte[] data = ms.ToArray();
-            string json = Encoding.UTF8.GetString(data, 0, data.Length);
+            var data = ms.ToArray();
+            var json = Encoding.UTF8.GetString(data, 0, data.Length);
 
             StringAssert.AreEqual(@"{
   ""$id"": ""1"",
@@ -1112,12 +1112,12 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ReferencedIntList()
         {
-            ReferencedList<int> l = new ReferencedList<int>();
+            var l = new ReferencedList<int>();
             l.Add(1);
             l.Add(2);
             l.Add(3);
 
-            string json = JsonConvert.SerializeObject(l, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(l, Formatting.Indented);
             StringAssert.AreEqual(@"[
   1,
   2,
@@ -1130,12 +1130,12 @@ namespace Argon.Tests.Serialization
         {
             var c1 = new TestComponentSimple();
 
-            ReferencedList<TestComponentSimple> l = new ReferencedList<TestComponentSimple>();
+            var l = new ReferencedList<TestComponentSimple>();
             l.Add(c1);
             l.Add(new TestComponentSimple());
             l.Add(c1);
 
-            string json = JsonConvert.SerializeObject(l, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(l, Formatting.Indented);
             StringAssert.AreEqual(@"[
   {
     ""$id"": ""1"",
@@ -1154,12 +1154,12 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ReferencedIntDictionary()
         {
-            ReferencedDictionary<int> l = new ReferencedDictionary<int>();
+            var l = new ReferencedDictionary<int>();
             l.Add("First", 1);
             l.Add("Second", 2);
             l.Add("Third", 3);
 
-            string json = JsonConvert.SerializeObject(l, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(l, Formatting.Indented);
             StringAssert.AreEqual(@"{
   ""First"": 1,
   ""Second"": 2,
@@ -1172,12 +1172,12 @@ namespace Argon.Tests.Serialization
         {
             var c1 = new TestComponentSimple();
 
-            ReferencedDictionary<TestComponentSimple> l = new ReferencedDictionary<TestComponentSimple>();
+            var l = new ReferencedDictionary<TestComponentSimple>();
             l.Add("First", c1);
             l.Add("Second", new TestComponentSimple());
             l.Add("Third", c1);
 
-            string json = JsonConvert.SerializeObject(l, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(l, Formatting.Indented);
             StringAssert.AreEqual(@"{
   ""First"": {
     ""$id"": ""1"",
@@ -1192,7 +1192,7 @@ namespace Argon.Tests.Serialization
   }
 }", json);
 
-            ReferencedDictionary<TestComponentSimple> d = JsonConvert.DeserializeObject<ReferencedDictionary<TestComponentSimple>>(json);
+            var d = JsonConvert.DeserializeObject<ReferencedDictionary<TestComponentSimple>>(json);
             Assert.AreEqual(3, d.Count);
             Assert.IsTrue(ReferenceEquals(d["First"], d["Third"]));
         }
@@ -1200,7 +1200,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ReferencedObjectItems()
         {
-            ReferenceObject o1 = new ReferenceObject();
+            var o1 = new ReferenceObject();
 
             o1.Component1 = new TestComponentSimple { MyProperty = 1 };
             o1.Component2 = o1.Component1;
@@ -1208,8 +1208,8 @@ namespace Argon.Tests.Serialization
             o1.String = "String!";
             o1.Integer = int.MaxValue;
 
-            string json = JsonConvert.SerializeObject(o1, Formatting.Indented);
-            string expected = @"{
+            var json = JsonConvert.SerializeObject(o1, Formatting.Indented);
+            var expected = @"{
   ""Component1"": {
     ""$id"": ""1"",
     ""MyProperty"": 1
@@ -1225,7 +1225,7 @@ namespace Argon.Tests.Serialization
 }";
             StringAssert.AreEqual(expected, json);
 
-            ReferenceObject referenceObject = JsonConvert.DeserializeObject<ReferenceObject>(json);
+            var referenceObject = JsonConvert.DeserializeObject<ReferenceObject>(json);
             Assert.IsNotNull(referenceObject);
 
             Assert.IsTrue(ReferenceEquals(referenceObject.Component1, referenceObject.Component2));
@@ -1234,9 +1234,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void PropertyItemIsReferenceObject()
         {
-            TestComponentSimple c1 = new TestComponentSimple();
+            var c1 = new TestComponentSimple();
 
-            PropertyItemIsReferenceObject o1 = new PropertyItemIsReferenceObject
+            var o1 = new PropertyItemIsReferenceObject
             {
                 Data = new PropertyItemIsReferenceBody
                 {
@@ -1249,7 +1249,7 @@ namespace Argon.Tests.Serialization
                 }
             };
 
-            string json = JsonConvert.SerializeObject(o1, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(o1, Formatting.Indented);
             StringAssert.AreEqual(@"{
   ""Data"": {
     ""Prop1"": {
@@ -1270,11 +1270,11 @@ namespace Argon.Tests.Serialization
   }
 }", json);
 
-            PropertyItemIsReferenceObject o2 = JsonConvert.DeserializeObject<PropertyItemIsReferenceObject>(json);
+            var o2 = JsonConvert.DeserializeObject<PropertyItemIsReferenceObject>(json);
 
-            TestComponentSimple c2 = o2.Data.Prop1;
-            TestComponentSimple c3 = o2.Data.Prop2;
-            TestComponentSimple c4 = o2.Data.Data[0];
+            var c2 = o2.Data.Prop1;
+            var c3 = o2.Data.Prop2;
+            var c4 = o2.Data.Data[0];
 
             Assert.IsTrue(ReferenceEquals(c2, c3));
             Assert.IsFalse(ReferenceEquals(c2, c4));
@@ -1283,7 +1283,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DuplicateId()
         {
-            string json = @"{
+            var json = @"{
   ""Data"": {
     ""Prop1"": {
       ""$id"": ""1"",

@@ -51,14 +51,14 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            User user = new User
+            var user = new User
             {
                 FirstName = "John",
                 LastName = "Smith",
                 Upn = "john.smith@acme.com"
             };
 
-            DefaultContractResolver contractResolver = new DefaultContractResolver
+            var contractResolver = new DefaultContractResolver
             {
                 NamingStrategy = new CamelCaseNamingStrategy
                 {
@@ -66,7 +66,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
                 }
             };
 
-            string json = JsonConvert.SerializeObject(user, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(user, new JsonSerializerSettings
             {
                 ContractResolver = contractResolver,
                 Formatting = Formatting.Indented

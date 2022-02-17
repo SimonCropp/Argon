@@ -58,7 +58,7 @@ namespace Argon.Utilities
             {
                 if (!_init)
                 {
-                    Type binderType = Type.GetType(BinderTypeName, false);
+                    var binderType = Type.GetType(BinderTypeName, false);
                     if (binderType == null)
                     {
                         throw new InvalidOperationException("Could not resolve type '{0}'. You may need to add a reference to Microsoft.CSharp.dll to work with dynamic types.".FormatWith(CultureInfo.InvariantCulture, BinderTypeName));
@@ -76,15 +76,15 @@ namespace Argon.Utilities
 
             private static object CreateSharpArgumentInfoArray(params int[] values)
             {
-                Type csharpArgumentInfoType = Type.GetType(CSharpArgumentInfoTypeName);
-                Type csharpArgumentInfoFlags = Type.GetType(CSharpArgumentInfoFlagsTypeName);
+                var csharpArgumentInfoType = Type.GetType(CSharpArgumentInfoTypeName);
+                var csharpArgumentInfoFlags = Type.GetType(CSharpArgumentInfoFlagsTypeName);
 
-                Array a = Array.CreateInstance(csharpArgumentInfoType, values.Length);
+                var a = Array.CreateInstance(csharpArgumentInfoType, values.Length);
 
-                for (int i = 0; i < values.Length; i++)
+                for (var i = 0; i < values.Length; i++)
                 {
-                    MethodInfo createArgumentInfoMethod = csharpArgumentInfoType.GetMethod("Create", new[] { csharpArgumentInfoFlags, typeof(string) });
-                    object arg = createArgumentInfoMethod.Invoke(null, new object?[] { 0, null });
+                    var createArgumentInfoMethod = csharpArgumentInfoType.GetMethod("Create", new[] { csharpArgumentInfoFlags, typeof(string) });
+                    var arg = createArgumentInfoMethod.Invoke(null, new object?[] { 0, null });
                     a.SetValue(arg, i);
                 }
 
@@ -93,16 +93,16 @@ namespace Argon.Utilities
 
             private static void CreateMemberCalls()
             {
-                Type csharpArgumentInfoType = Type.GetType(CSharpArgumentInfoTypeName, true);
-                Type csharpBinderFlagsType = Type.GetType(CSharpBinderFlagsTypeName, true);
-                Type binderType = Type.GetType(BinderTypeName, true);
+                var csharpArgumentInfoType = Type.GetType(CSharpArgumentInfoTypeName, true);
+                var csharpBinderFlagsType = Type.GetType(CSharpBinderFlagsTypeName, true);
+                var binderType = Type.GetType(BinderTypeName, true);
 
-                Type csharpArgumentInfoTypeEnumerableType = typeof(IEnumerable<>).MakeGenericType(csharpArgumentInfoType);
+                var csharpArgumentInfoTypeEnumerableType = typeof(IEnumerable<>).MakeGenericType(csharpArgumentInfoType);
 
-                MethodInfo getMemberMethod = binderType.GetMethod("GetMember", new[] { csharpBinderFlagsType, typeof(string), typeof(Type), csharpArgumentInfoTypeEnumerableType });
+                var getMemberMethod = binderType.GetMethod("GetMember", new[] { csharpBinderFlagsType, typeof(string), typeof(Type), csharpArgumentInfoTypeEnumerableType });
                 _getMemberCall = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object?>(getMemberMethod);
 
-                MethodInfo setMemberMethod = binderType.GetMethod("SetMember", new[] { csharpBinderFlagsType, typeof(string), typeof(Type), csharpArgumentInfoTypeEnumerableType });
+                var setMemberMethod = binderType.GetMethod("SetMember", new[] { csharpBinderFlagsType, typeof(string), typeof(Type), csharpArgumentInfoTypeEnumerableType });
                 _setMemberCall = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object?>(setMemberMethod);
             }
 
@@ -125,7 +125,7 @@ namespace Argon.Utilities
 
         public static IEnumerable<string> GetDynamicMemberNames(this IDynamicMetaObjectProvider dynamicProvider)
         {
-            DynamicMetaObject metaObject = dynamicProvider.GetMetaObject(Expression.Constant(dynamicProvider));
+            var metaObject = dynamicProvider.GetMetaObject(Expression.Constant(dynamicProvider));
             return metaObject.GetDynamicMemberNames();
         }
     }
@@ -142,12 +142,12 @@ namespace Argon.Utilities
 
         public override DynamicMetaObject FallbackGetMember(DynamicMetaObject target, DynamicMetaObject errorSuggestion)
         {
-            DynamicMetaObject retMetaObject = _innerBinder.Bind(target, CollectionUtils.ArrayEmpty<DynamicMetaObject>());
+            var retMetaObject = _innerBinder.Bind(target, CollectionUtils.ArrayEmpty<DynamicMetaObject>());
 
-            NoThrowExpressionVisitor noThrowVisitor = new NoThrowExpressionVisitor();
-            Expression resultExpression = noThrowVisitor.Visit(retMetaObject.Expression);
+            var noThrowVisitor = new NoThrowExpressionVisitor();
+            var resultExpression = noThrowVisitor.Visit(retMetaObject.Expression);
 
-            DynamicMetaObject finalMetaObject = new DynamicMetaObject(resultExpression, retMetaObject.Restrictions);
+            var finalMetaObject = new DynamicMetaObject(resultExpression, retMetaObject.Restrictions);
             return finalMetaObject;
         }
     }
@@ -164,12 +164,12 @@ namespace Argon.Utilities
 
         public override DynamicMetaObject FallbackSetMember(DynamicMetaObject target, DynamicMetaObject value, DynamicMetaObject errorSuggestion)
         {
-            DynamicMetaObject retMetaObject = _innerBinder.Bind(target, new DynamicMetaObject[] { value });
+            var retMetaObject = _innerBinder.Bind(target, new DynamicMetaObject[] { value });
 
-            NoThrowExpressionVisitor noThrowVisitor = new NoThrowExpressionVisitor();
-            Expression resultExpression = noThrowVisitor.Visit(retMetaObject.Expression);
+            var noThrowVisitor = new NoThrowExpressionVisitor();
+            var resultExpression = noThrowVisitor.Visit(retMetaObject.Expression);
 
-            DynamicMetaObject finalMetaObject = new DynamicMetaObject(resultExpression, retMetaObject.Restrictions);
+            var finalMetaObject = new DynamicMetaObject(resultExpression, retMetaObject.Restrictions);
             return finalMetaObject;
         }
     }

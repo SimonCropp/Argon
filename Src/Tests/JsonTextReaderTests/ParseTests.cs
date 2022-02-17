@@ -51,7 +51,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ParseAdditionalContent_Whitespace()
         {
-            string json = @"[
+            var json = @"[
 ""Small"",
 ""Medium"",
 ""Large""
@@ -59,7 +59,7 @@ namespace Argon.Tests.JsonTextReaderTests
 
 ";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
             while (reader.Read())
             {
             }
@@ -236,8 +236,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ParseArrayWithMissingValues()
         {
-            string json = "[,,, \n\r\n \0   \r  , ,    ]";
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var json = "[,,, \n\r\n \0   \r  , ,    ]";
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
@@ -264,8 +264,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ParseBooleanWithNoExtraContent()
         {
-            string json = "[true ";
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var json = "[true ";
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(reader.Read());
             Assert.IsTrue(reader.Read());
@@ -275,8 +275,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ParseContentDelimitedByNonStandardWhitespace()
         {
-            string json = "\x00a0{\x00a0'h\x00a0i\x00a0'\x00a0:\x00a0[\x00a0true\x00a0,\x00a0new\x00a0Date\x00a0(\x00a0)\x00a0]\x00a0/*\x00a0comment\x00a0*/\x00a0}\x00a0";
-            JsonTextReader reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
+            var json = "\x00a0{\x00a0'h\x00a0i\x00a0'\x00a0:\x00a0[\x00a0true\x00a0,\x00a0new\x00a0Date\x00a0(\x00a0)\x00a0]\x00a0/*\x00a0comment\x00a0*/\x00a0}\x00a0";
+            var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
 
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
@@ -311,8 +311,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ParseObjectWithNoEnd()
         {
-            string json = "{hi:1, ";
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var json = "{hi:1, ";
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(reader.Read());
             Assert.IsTrue(reader.Read());
@@ -323,8 +323,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ParseEmptyArray()
         {
-            string json = "[]";
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var json = "[]";
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
@@ -336,8 +336,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ParseEmptyObject()
         {
-            string json = "{}";
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var json = "{}";
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
@@ -349,8 +349,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ParseEmptyConstructor()
         {
-            string json = "new Date()";
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var json = "new Date()";
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.StartConstructor, reader.TokenType);
@@ -362,9 +362,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ParseHexNumber()
         {
-            string json = @"0x20";
+            var json = @"0x20";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             reader.ReadAsDecimal();
             Assert.AreEqual(JsonToken.Float, reader.TokenType);
@@ -374,9 +374,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ParseNumbers()
         {
-            string json = @"[0,1,2 , 3]";
+            var json = @"[0,1,2 , 3]";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             reader.Read();
             Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
@@ -400,8 +400,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ParseLineFeedDelimitedConstructor()
         {
-            string json = "new Date\n()";
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var json = "new Date\n()";
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(reader.Read());
             Assert.AreEqual("Date", reader.Value);
@@ -414,8 +414,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ParseNullStringConstructor()
         {
-            string json = "new Date\0()";
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var json = "new Date\0()";
+            var reader = new JsonTextReader(new StringReader(json));
 #if DEBUG
             reader.CharBuffer = new char[7];
 #endif
@@ -431,9 +431,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ParseOctalNumber()
         {
-            string json = @"010";
+            var json = @"010";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             reader.ReadAsDecimal();
             Assert.AreEqual(JsonToken.Float, reader.TokenType);
@@ -443,9 +443,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void DateParseHandling()
         {
-            string json = @"[""1970-01-01T00:00:00Z"",""\/Date(0)\/""]";
+            var json = @"[""1970-01-01T00:00:00Z"",""\/Date(0)\/""]";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
             reader.DateParseHandling = Argon.DateParseHandling.DateTime;
 
             Assert.IsTrue(reader.Read());

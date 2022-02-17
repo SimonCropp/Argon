@@ -46,7 +46,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void UndefinedTests()
         {
-            JValue v = JValue.CreateUndefined();
+            var v = JValue.CreateUndefined();
 
             Assert.AreEqual(JTokenType.Undefined, v.Type);
             Assert.AreEqual(null, v.Value);
@@ -58,7 +58,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ToObjectEnum()
         {
-            StringComparison? v = new JValue("OrdinalIgnoreCase").ToObject<StringComparison?>();
+            var v = new JValue("OrdinalIgnoreCase").ToObject<StringComparison?>();
             Assert.AreEqual(StringComparison.OrdinalIgnoreCase, v.Value);
 
             v = JValue.CreateNull().ToObject<StringComparison?>();
@@ -83,7 +83,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void FloatParseHandling()
         {
-            JValue v = (JValue)JToken.ReadFrom(
+            var v = (JValue)JToken.ReadFrom(
                 new JsonTextReader(new StringReader("9.9"))
                 {
                     FloatParseHandling = Argon.FloatParseHandling.Decimal
@@ -106,8 +106,8 @@ namespace Argon.Tests.Linq
                     };
                 };
 
-                JValue v = new JValue(":::STRING:::");
-                string s = v.ToObject<string>();
+                var v = new JValue(":::STRING:::");
+                var s = v.ToObject<string>();
 
                 Assert.AreEqual("string", s);
             }
@@ -120,7 +120,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ChangeValue()
         {
-            JValue v = new JValue(true);
+            var v = new JValue(true);
             Assert.AreEqual(true, v.Value);
             Assert.AreEqual(JTokenType.Boolean, v.Type);
 
@@ -144,7 +144,7 @@ namespace Argon.Tests.Linq
             Assert.AreEqual(DBNull.Value, v.Value);
             Assert.AreEqual(JTokenType.Null, v.Type);
 
-            byte[] data = new byte[0];
+            var data = new byte[0];
             v.Value = data;
 
             Assert.AreEqual(data, v.Value);
@@ -162,12 +162,12 @@ namespace Argon.Tests.Linq
             Assert.AreEqual(TimeSpan.FromDays(1), v.Value);
             Assert.AreEqual(JTokenType.TimeSpan, v.Type);
 
-            Guid g = Guid.NewGuid();
+            var g = Guid.NewGuid();
             v.Value = g;
             Assert.AreEqual(g, v.Value);
             Assert.AreEqual(JTokenType.Guid, v.Type);
 
-            BigInteger i = BigInteger.Parse("123456789999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999990");
+            var i = BigInteger.Parse("123456789999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999990");
             v.Value = i;
             Assert.AreEqual(i, v.Value);
             Assert.AreEqual(JTokenType.Integer, v.Type);
@@ -176,7 +176,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void CreateComment()
         {
-            JValue commentValue = JValue.CreateComment(null);
+            var commentValue = JValue.CreateComment(null);
             Assert.AreEqual(null, commentValue.Value);
             Assert.AreEqual(JTokenType.Comment, commentValue.Type);
 
@@ -188,7 +188,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void CreateString()
         {
-            JValue stringValue = JValue.CreateString(null);
+            var stringValue = JValue.CreateString(null);
             Assert.AreEqual(null, stringValue.Value);
             Assert.AreEqual(JTokenType.String, stringValue.Type);
         }
@@ -232,7 +232,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void JValueParse()
         {
-            JValue v = (JValue)JToken.Parse("123456789999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999990");
+            var v = (JValue)JToken.Parse("123456789999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999990");
 
             Assert.AreEqual(JTokenType.Integer, v.Type);
             Assert.AreEqual(BigInteger.Parse("123456789999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999990"), v.Value);
@@ -249,15 +249,15 @@ namespace Argon.Tests.Linq
         {
             ExceptionAssert.Throws<InvalidOperationException>(() =>
             {
-                JValue v = new JValue(true);
-                JToken last = v.Last;
+                var v = new JValue(true);
+                var last = v.Last;
             }, "Cannot access child value on Argon.Linq.JValue.");
         }
 
         [Fact]
         public void Children()
         {
-            JValue v = new JValue(true);
+            var v = new JValue(true);
             var c = v.Children();
             Assert.AreEqual(JEnumerable<JToken>.Empty, c);
         }
@@ -267,8 +267,8 @@ namespace Argon.Tests.Linq
         {
             ExceptionAssert.Throws<InvalidOperationException>(() =>
             {
-                JValue v = new JValue(true);
-                JToken first = v.First;
+                var v = new JValue(true);
+                var first = v.First;
             }, "Cannot access child value on Argon.Linq.JValue.");
         }
 
@@ -277,8 +277,8 @@ namespace Argon.Tests.Linq
         {
             ExceptionAssert.Throws<InvalidOperationException>(() =>
             {
-                JValue v = new JValue(true);
-                JToken first = v[0];
+                var v = new JValue(true);
+                var first = v[0];
             }, "Cannot access child value on Argon.Linq.JValue.");
         }
 
@@ -287,7 +287,7 @@ namespace Argon.Tests.Linq
         {
             ExceptionAssert.Throws<InvalidOperationException>(() =>
             {
-                JValue v = new JValue(true);
+                var v = new JValue(true);
                 v.Values<int>();
             }, "Cannot access child value on Argon.Linq.JValue.");
         }
@@ -297,7 +297,7 @@ namespace Argon.Tests.Linq
         {
             ExceptionAssert.Throws<InvalidOperationException>(() =>
             {
-                JValue v = new JValue(true);
+                var v = new JValue(true);
                 v.Remove();
             }, "The parent is missing.");
         }
@@ -305,21 +305,21 @@ namespace Argon.Tests.Linq
         [Fact]
         public void Root()
         {
-            JValue v = new JValue(true);
+            var v = new JValue(true);
             Assert.AreEqual(v, v.Root);
         }
 
         [Fact]
         public void Previous()
         {
-            JValue v = new JValue(true);
+            var v = new JValue(true);
             Assert.IsNull(v.Previous);
         }
 
         [Fact]
         public void Next()
         {
-            JValue v = new JValue(true);
+            var v = new JValue(true);
             Assert.IsNull(v.Next);
         }
 
@@ -353,22 +353,22 @@ namespace Argon.Tests.Linq
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                JValue v = JValue.CreateNull();
-                int i = (int)v;
+                var v = JValue.CreateNull();
+                var i = (int)v;
             }, "Can not convert Null to Int32.");
         }
 
         [Fact]
         public void ConvertValueToCompatibleType()
         {
-            IComparable c = (new JValue(1).Value<IComparable>());
+            var c = (new JValue(1).Value<IComparable>());
             Assert.AreEqual(1L, c);
         }
 
         [Fact]
         public void ConvertValueToFormattableType()
         {
-            IFormattable f = (new JValue(1).Value<IFormattable>());
+            var f = (new JValue(1).Value<IFormattable>());
             Assert.AreEqual(1L, f);
 
             Assert.AreEqual("01", f.ToString("00", CultureInfo.InvariantCulture));
@@ -377,7 +377,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void Ordering()
         {
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("Integer", new JValue(1)),
                 new JProperty("Float", new JValue(1.2d)),
                 new JProperty("Decimal", new JValue(1.1m))
@@ -393,10 +393,10 @@ namespace Argon.Tests.Linq
         [Fact]
         public void WriteSingle()
         {
-            float f = 5.2f;
-            JValue value = new JValue(f);
+            var f = 5.2f;
+            var value = new JValue(f);
 
-            string json = value.ToString(Formatting.None);
+            var json = value.ToString(Formatting.None);
 
             Assert.AreEqual("5.2", json);
         }
@@ -413,7 +413,7 @@ namespace Argon.Tests.Linq
         {
             var jTokenWriter = new JTokenWriter();
             new JsonSerializer().Serialize(jTokenWriter, rate);
-            string json = jTokenWriter.Token.ToString();
+            var json = jTokenWriter.Token.ToString();
             StringAssert.AreEqual(@"{
   ""Compoundings"": 12.166666666666666666666666667
 }", json);
@@ -462,10 +462,10 @@ namespace Argon.Tests.Linq
                 var d = (JValue)obj["d"];
 
                 CustomAssert.IsInstanceOfType(typeof(DateTimeOffset), d.Value);
-                TimeSpan offset = ((DateTimeOffset)d.Value).Offset;
+                var offset = ((DateTimeOffset)d.Value).Offset;
                 Assert.AreEqual(TimeSpan.FromHours(1), offset);
 
-                DateTimeOffset dateTimeOffset = (DateTimeOffset)d;
+                var dateTimeOffset = (DateTimeOffset)d;
                 Assert.AreEqual(TimeSpan.FromHours(1), dateTimeOffset.Offset);
             }
         }
@@ -476,7 +476,7 @@ namespace Argon.Tests.Linq
             var content = @"{""startDateTime"":""2012-07-19T14:30:00+09:30""}";
 
             var jsonSerializerSettings = new JsonSerializerSettings() { DateFormatHandling = DateFormatHandling.IsoDateFormat, DateParseHandling = DateParseHandling.DateTimeOffset, DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind };
-            JObject obj = (JObject)JsonConvert.DeserializeObject(content, jsonSerializerSettings);
+            var obj = (JObject)JsonConvert.DeserializeObject(content, jsonSerializerSettings);
 
             object startDateTime = obj["startDateTime"];
 
@@ -600,7 +600,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ConvertsToString_Guid()
         {
-            Guid g = new Guid("0B5D4F85-E94C-4143-94C8-35F2AAEBB100");
+            var g = new Guid("0B5D4F85-E94C-4143-94C8-35F2AAEBB100");
 
             Assert.AreEqual("0b5d4f85-e94c-4143-94c8-35f2aaebb100", Convert.ToString(new JValue(g)));
         }
@@ -644,7 +644,7 @@ namespace Argon.Tests.Linq
                 }
             }
             dynamic o = JObject.Parse(Encoding.UTF8.GetString(bytes));
-            byte[] dataBytes = (byte[])o.data;
+            var dataBytes = (byte[])o.data;
             Assert.AreEqual(example, Encoding.UTF8.GetString(dataBytes));
         }
 
@@ -669,17 +669,17 @@ namespace Argon.Tests.Linq
         {
             IConvertible v = new JValue(9.0m);
 
-            int i = (int)v.ToType(typeof(int), CultureInfo.InvariantCulture);
+            var i = (int)v.ToType(typeof(int), CultureInfo.InvariantCulture);
             Assert.AreEqual(9, i);
 
-            BigInteger bi = (BigInteger)v.ToType(typeof(BigInteger), CultureInfo.InvariantCulture);
+            var bi = (BigInteger)v.ToType(typeof(BigInteger), CultureInfo.InvariantCulture);
             Assert.AreEqual(new BigInteger(9), bi);
         }
 
         [Fact]
         public void ToStringFormat()
         {
-            JValue v = new JValue(new DateTime(2013, 02, 01, 01, 02, 03, 04));
+            var v = new JValue(new DateTime(2013, 02, 01, 01, 02, 03, 04));
 
             Assert.AreEqual("2013", v.ToString("yyyy"));
         }
@@ -687,7 +687,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ToStringNewTypes()
         {
-            JArray a = new JArray(
+            var a = new JArray(
                 new JValue(new DateTimeOffset(2013, 02, 01, 01, 02, 03, 04, TimeSpan.FromHours(1))),
                 new JValue(new BigInteger(5)),
                 new JValue(1.1f)
@@ -703,7 +703,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ToStringUri()
         {
-            JArray a = new JArray(
+            var a = new JArray(
                 new JValue(new Uri("http://james.newtonking.com")),
                 new JValue(new Uri("http://james.newtonking.com/install?v=7.0.1"))
                 );
@@ -717,16 +717,16 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ParseIsoTimeZones()
         {
-            DateTimeOffset expectedDate = new DateTimeOffset(2013, 08, 14, 4, 38, 31, TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(30)));
-            JsonTextReader reader = new JsonTextReader(new StringReader("'2013-08-14T04:38:31.000+1230'"));
+            var expectedDate = new DateTimeOffset(2013, 08, 14, 4, 38, 31, TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(30)));
+            var reader = new JsonTextReader(new StringReader("'2013-08-14T04:38:31.000+1230'"));
             reader.DateParseHandling = DateParseHandling.DateTimeOffset;
-            JValue date = (JValue)JToken.ReadFrom(reader);
+            var date = (JValue)JToken.ReadFrom(reader);
             Assert.AreEqual(expectedDate, date.Value);
 
-            DateTimeOffset expectedDate2 = new DateTimeOffset(2013, 08, 14, 4, 38, 31, TimeSpan.FromHours(12));
-            JsonTextReader reader2 = new JsonTextReader(new StringReader("'2013-08-14T04:38:31.000+12'"));
+            var expectedDate2 = new DateTimeOffset(2013, 08, 14, 4, 38, 31, TimeSpan.FromHours(12));
+            var reader2 = new JsonTextReader(new StringReader("'2013-08-14T04:38:31.000+12'"));
             reader2.DateParseHandling = DateParseHandling.DateTimeOffset;
-            JValue date2 = (JValue)JToken.ReadFrom(reader2);
+            var date2 = (JValue)JToken.ReadFrom(reader2);
             Assert.AreEqual(expectedDate2, date2.Value);
         }
 
@@ -756,9 +756,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ReadOnlyConverterTest()
         {
-            JObject o = new JObject(new JProperty("name", "Hello World"));
+            var o = new JObject(new JProperty("name", "Hello World"));
 
-            string json = o.ToString(Formatting.Indented, new ReadOnlyStringConverter());
+            var json = o.ToString(Formatting.Indented, new ReadOnlyStringConverter());
 
             StringAssert.AreEqual(@"{
   ""name"": ""Hello World""
@@ -768,47 +768,47 @@ namespace Argon.Tests.Linq
         [Fact]
         public void EnumTests()
         {
-            JValue v = new JValue(StringComparison.Ordinal);
+            var v = new JValue(StringComparison.Ordinal);
             Assert.AreEqual(JTokenType.Integer, v.Type);
 
-            string s = v.ToString();
+            var s = v.ToString();
             Assert.AreEqual("Ordinal", s);
 
-            StringComparison e = v.ToObject<StringComparison>();
+            var e = v.ToObject<StringComparison>();
             Assert.AreEqual(StringComparison.Ordinal, e);
 
             dynamic d = new JValue(StringComparison.CurrentCultureIgnoreCase);
-            StringComparison e2 = (StringComparison)d;
+            var e2 = (StringComparison)d;
             Assert.AreEqual(StringComparison.CurrentCultureIgnoreCase, e2);
 
             string s1 = d.ToString();
             Assert.AreEqual("CurrentCultureIgnoreCase", s1);
 
-            string s2 = (string)d;
+            var s2 = (string)d;
             Assert.AreEqual("CurrentCultureIgnoreCase", s2);
 
             d = new JValue("OrdinalIgnoreCase");
-            StringComparison e3 = (StringComparison)d;
+            var e3 = (StringComparison)d;
             Assert.AreEqual(StringComparison.OrdinalIgnoreCase, e3);
 
             v = new JValue("ORDINAL");
             d = v;
-            StringComparison e4 = (StringComparison)d;
+            var e4 = (StringComparison)d;
             Assert.AreEqual(StringComparison.Ordinal, e4);
 
-            StringComparison e5 = v.ToObject<StringComparison>();
+            var e5 = v.ToObject<StringComparison>();
             Assert.AreEqual(StringComparison.Ordinal, e5);
 
             v = new JValue((int)StringComparison.OrdinalIgnoreCase);
             Assert.AreEqual(JTokenType.Integer, v.Type);
-            StringComparison e6 = v.ToObject<StringComparison>();
+            var e6 = v.ToObject<StringComparison>();
             Assert.AreEqual(StringComparison.OrdinalIgnoreCase, e6);
 
             // does not support EnumMember. breaking change to add
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
                 d = new JValue("value_a");
-                EnumA e7 = (EnumA)d;
+                var e7 = (EnumA)d;
                 Assert.AreEqual(EnumA.ValueA, e7);
             }, "Requested value 'value_a' was not found.");
         }
@@ -822,8 +822,8 @@ namespace Argon.Tests.Linq
         [Fact]
         public void CompareTo_MismatchedTypes()
         {
-            JValue v1 = new JValue(1);
-            JValue v2 = new JValue("2");
+            var v1 = new JValue(1);
+            var v2 = new JValue("2");
 
             Assert.AreEqual(-1, v1.CompareTo(v2));
             Assert.AreEqual(-1, ((IComparable)v1).CompareTo(v2));

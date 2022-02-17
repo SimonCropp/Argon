@@ -14,10 +14,10 @@ namespace Argon.Tests.Linq
         [Fact]
         public void AddAnnotation()
         {
-            JObject o = new JObject();
+            var o = new JObject();
             o.AddAnnotation("A string!");
 
-            string s = o.Annotation<string>();
+            var s = o.Annotation<string>();
             Assert.AreEqual("A string!", s);
 
             s = (string)o.Annotation(typeof(string));
@@ -27,11 +27,11 @@ namespace Argon.Tests.Linq
         [Fact]
         public void AddAnnotation_MultipleOfTheSameType()
         {
-            JObject o = new JObject();
+            var o = new JObject();
             o.AddAnnotation("A string!");
             o.AddAnnotation("Another string!");
 
-            string s = o.Annotation<string>();
+            var s = o.Annotation<string>();
             Assert.AreEqual("A string!", s);
 
             s = (string)o.Annotation(typeof(string));
@@ -41,17 +41,17 @@ namespace Argon.Tests.Linq
         [Fact]
         public void AddAnnotation_MultipleOfDifferentTypes()
         {
-            JObject o = new JObject();
+            var o = new JObject();
             o.AddAnnotation("A string!");
             o.AddAnnotation(new Uri("http://www.google.com/"));
 
-            string s = o.Annotation<string>();
+            var s = o.Annotation<string>();
             Assert.AreEqual("A string!", s);
 
             s = (string)o.Annotation(typeof(string));
             Assert.AreEqual("A string!", s);
 
-            Uri i = o.Annotation<Uri>();
+            var i = o.Annotation<Uri>();
             Assert.AreEqual(new Uri("http://www.google.com/"), i);
 
             i = (Uri)o.Annotation(typeof(Uri));
@@ -61,9 +61,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public void GetAnnotation_NeverSet()
         {
-            JObject o = new JObject();
+            var o = new JObject();
 
-            string s = o.Annotation<string>();
+            var s = o.Annotation<string>();
             Assert.AreEqual(null, s);
 
             s = (string)o.Annotation(typeof(string));
@@ -73,7 +73,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void GetAnnotations()
         {
-            JObject o = new JObject();
+            var o = new JObject();
             o.AddAnnotation("A string!");
             o.AddAnnotation("A string 2!");
             o.AddAnnotation("A string 3!");
@@ -96,7 +96,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void GetAnnotations_MultipleTypes()
         {
-            JObject o = new JObject();
+            var o = new JObject();
             o.AddAnnotation("A string!");
             o.AddAnnotation("A string 2!");
             o.AddAnnotation("A string 3!");
@@ -122,24 +122,24 @@ namespace Argon.Tests.Linq
         [Fact]
         public void RemoveAnnotation()
         {
-            JObject o = new JObject();
+            var o = new JObject();
             o.AddAnnotation("A string!");
 
             o.RemoveAnnotations<string>();
 
-            string s = o.Annotation<string>();
+            var s = o.Annotation<string>();
             Assert.AreEqual(null, s);
         }
 
         [Fact]
         public void RemoveAnnotation_NonGeneric()
         {
-            JObject o = new JObject();
+            var o = new JObject();
             o.AddAnnotation("A string!");
 
             o.RemoveAnnotations(typeof(string));
 
-            string s = o.Annotation<string>();
+            var s = o.Annotation<string>();
             Assert.AreEqual(null, s);
 
             s = (string)o.Annotation(typeof(string));
@@ -149,14 +149,14 @@ namespace Argon.Tests.Linq
         [Fact]
         public void RemoveAnnotation_Multiple()
         {
-            JObject o = new JObject();
+            var o = new JObject();
             o.AddAnnotation("A string!");
             o.AddAnnotation("A string 2!");
             o.AddAnnotation("A string 3!");
 
             o.RemoveAnnotations<string>();
 
-            string s = o.Annotation<string>();
+            var s = o.Annotation<string>();
             Assert.AreEqual(null, s);
 
             o.AddAnnotation("A string 4!");
@@ -164,113 +164,113 @@ namespace Argon.Tests.Linq
             s = o.Annotation<string>();
             Assert.AreEqual("A string 4!", s);
 
-            Uri i = (Uri)o.Annotation(typeof(Uri));
+            var i = (Uri)o.Annotation(typeof(Uri));
             Assert.AreEqual(null, i);
         }
 
         [Fact]
         public void RemoveAnnotation_MultipleCalls()
         {
-            JObject o = new JObject();
+            var o = new JObject();
             o.AddAnnotation("A string!");
             o.AddAnnotation(new Uri("http://www.google.com/"));
 
             o.RemoveAnnotations<string>();
             o.RemoveAnnotations<Uri>();
 
-            string s = o.Annotation<string>();
+            var s = o.Annotation<string>();
             Assert.AreEqual(null, s);
 
-            Uri i = o.Annotation<Uri>();
+            var i = o.Annotation<Uri>();
             Assert.AreEqual(null, i);
         }
 
         [Fact]
         public void RemoveAnnotation_Multiple_NonGeneric()
         {
-            JObject o = new JObject();
+            var o = new JObject();
             o.AddAnnotation("A string!");
             o.AddAnnotation("A string 2!");
 
             o.RemoveAnnotations(typeof(string));
 
-            string s = o.Annotation<string>();
+            var s = o.Annotation<string>();
             Assert.AreEqual(null, s);
         }
 
         [Fact]
         public void RemoveAnnotation_MultipleCalls_NonGeneric()
         {
-            JObject o = new JObject();
+            var o = new JObject();
             o.AddAnnotation("A string!");
             o.AddAnnotation(new Uri("http://www.google.com/"));
 
             o.RemoveAnnotations(typeof(string));
             o.RemoveAnnotations(typeof(Uri));
 
-            string s = o.Annotation<string>();
+            var s = o.Annotation<string>();
             Assert.AreEqual(null, s);
 
-            Uri i = o.Annotation<Uri>();
+            var i = o.Annotation<Uri>();
             Assert.AreEqual(null, i);
         }
 
         [Fact]
         public void RemoveAnnotation_MultipleWithDifferentTypes()
         {
-            JObject o = new JObject();
+            var o = new JObject();
             o.AddAnnotation("A string!");
             o.AddAnnotation(new Uri("http://www.google.com/"));
 
             o.RemoveAnnotations<string>();
 
-            string s = o.Annotation<string>();
+            var s = o.Annotation<string>();
             Assert.AreEqual(null, s);
 
-            Uri i = o.Annotation<Uri>();
+            var i = o.Annotation<Uri>();
             Assert.AreEqual(new Uri("http://www.google.com/"), i);
         }
 
         [Fact]
         public void RemoveAnnotation_MultipleWithDifferentTypes_NonGeneric()
         {
-            JObject o = new JObject();
+            var o = new JObject();
             o.AddAnnotation("A string!");
             o.AddAnnotation(new Uri("http://www.google.com/"));
 
             o.RemoveAnnotations(typeof(string));
 
-            string s = o.Annotation<string>();
+            var s = o.Annotation<string>();
             Assert.AreEqual(null, s);
 
-            Uri i = o.Annotation<Uri>();
+            var i = o.Annotation<Uri>();
             Assert.AreEqual(new Uri("http://www.google.com/"), i);
         }
 
         [Fact]
         public void AnnotationsAreCopied()
         {
-            JObject o = new JObject();
+            var o = new JObject();
             o.AddAnnotation("string!");
             AssertCloneCopy(o, "string!");
 
-            JProperty p = new JProperty("Name", "Content");
+            var p = new JProperty("Name", "Content");
             p.AddAnnotation("string!");
             AssertCloneCopy(p, "string!");
 
-            JArray a = new JArray();
+            var a = new JArray();
             a.AddAnnotation("string!");
             AssertCloneCopy(a, "string!");
 
-            JConstructor c = new JConstructor("Test");
+            var c = new JConstructor("Test");
             c.AddAnnotation("string!");
             AssertCloneCopy(c, "string!");
 
-            JValue v = new JValue(true);
+            var v = new JValue(true);
             v.AddAnnotation("string!");
             AssertCloneCopy(v, "string!");
 
-            JRaw r = new JRaw("raw");
+            var r = new JRaw("raw");
             r.AddAnnotation("string!");
             AssertCloneCopy(r, "string!");
         }
@@ -278,13 +278,13 @@ namespace Argon.Tests.Linq
         [Fact]
         public void MultipleAnnotationsAreCopied()
         {
-            Version version = new Version(1, 2, 3, 4);
+            var version = new Version(1, 2, 3, 4);
 
-            JObject o = new JObject();
+            var o = new JObject();
             o.AddAnnotation("string!");
             o.AddAnnotation(version);
 
-            JObject o2 = (JObject)o.DeepClone();
+            var o2 = (JObject)o.DeepClone();
             Assert.AreEqual("string!", o2.Annotation<string>());
             Assert.AreEqual(version, o2.Annotation<Version>());
 
@@ -301,7 +301,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void Example()
         {
-            JObject o = JObject.Parse(@"{
+            var o = JObject.Parse(@"{
                 'name': 'Bill G',
                 'age': 58,
                 'country': 'United States',
@@ -314,7 +314,7 @@ namespace Argon.Tests.Linq
             o["age"] = 59;
             o["employer"] = "Bill & Melinda Gates Foundation";
 
-            HashSet<string> changedProperties = o.Annotation<HashSet<string>>();
+            var changedProperties = o.Annotation<HashSet<string>>();
             // age
             // employer
 

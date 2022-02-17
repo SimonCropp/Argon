@@ -139,11 +139,11 @@ namespace Argon.Utilities
             if (ParseChar(start, '.'))
             {
                 Fraction = 0;
-                int numberOfDigits = 0;
+                var numberOfDigits = 0;
 
                 while (++start < _end && numberOfDigits < MaxFractionDigits)
                 {
-                    int digit = _text[start] - '0';
+                    var digit = _text[start] - '0';
                     if (digit < 0 || digit > 9)
                     {
                         break;
@@ -176,7 +176,7 @@ namespace Argon.Utilities
         {
             if (start < _end)
             {
-                char ch = _text[start];
+                var ch = _text[start];
                 if (ch == 'Z' || ch == 'z')
                 {
                     Zone = ParserTimeZone.Utc;
@@ -235,10 +235,10 @@ namespace Argon.Utilities
         {
             if (start + 3 < _end)
             {
-                int digit1 = _text[start] - '0';
-                int digit2 = _text[start + 1] - '0';
-                int digit3 = _text[start + 2] - '0';
-                int digit4 = _text[start + 3] - '0';
+                var digit1 = _text[start] - '0';
+                var digit2 = _text[start + 1] - '0';
+                var digit3 = _text[start + 2] - '0';
+                var digit4 = _text[start + 3] - '0';
                 if (0 <= digit1 && digit1 < 10
                     && 0 <= digit2 && digit2 < 10
                     && 0 <= digit3 && digit3 < 10
@@ -256,8 +256,8 @@ namespace Argon.Utilities
         {
             if (start + 1 < _end)
             {
-                int digit1 = _text[start] - '0';
-                int digit2 = _text[start + 1] - '0';
+                var digit1 = _text[start] - '0';
+                var digit2 = _text[start + 1] - '0';
                 if (0 <= digit1 && digit1 < 10
                     && 0 <= digit2 && digit2 < 10)
                 {

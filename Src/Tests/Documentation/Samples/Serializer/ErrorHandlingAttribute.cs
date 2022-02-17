@@ -73,7 +73,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            Employee person = new Employee
+            var person = new Employee
             {
                 Name = "George Michael Bluth",
                 Age = 16,
@@ -81,7 +81,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
                 Title = "Mister Manager"
             };
 
-            string json = JsonConvert.SerializeObject(person, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(person, Formatting.Indented);
 
             Console.WriteLine(json);
             // {

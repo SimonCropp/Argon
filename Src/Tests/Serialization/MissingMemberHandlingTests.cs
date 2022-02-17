@@ -41,14 +41,14 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void MissingMemberDeserialize()
         {
-            Product product = new Product();
+            var product = new Product();
 
             product.Name = "Apple";
             product.ExpiryDate = new DateTime(2008, 12, 28);
             product.Price = 3.99M;
             product.Sizes = new string[] { "Small", "Medium", "Large" };
 
-            string output = JsonConvert.SerializeObject(product, Formatting.Indented);
+            var output = JsonConvert.SerializeObject(product, Formatting.Indented);
             //{
             //  "Name": "Apple",
             //  "ExpiryDate": new Date(1230422400000),
@@ -62,21 +62,21 @@ namespace Argon.Tests.Serialization
 
             ExceptionAssert.Throws<JsonSerializationException>(() =>
             {
-                ProductShort deserializedProductShort = (ProductShort)JsonConvert.DeserializeObject(output, typeof(ProductShort), new JsonSerializerSettings { MissingMemberHandling = MissingMemberHandling.Error });
+                var deserializedProductShort = (ProductShort)JsonConvert.DeserializeObject(output, typeof(ProductShort), new JsonSerializerSettings { MissingMemberHandling = MissingMemberHandling.Error });
             }, @"Could not find member 'Price' on object of type 'ProductShort'. Path 'Price', line 4, position 10.");
         }
 
         [Fact]
         public void MissingMemberDeserializeOkay()
         {
-            Product product = new Product();
+            var product = new Product();
 
             product.Name = "Apple";
             product.ExpiryDate = new DateTime(2008, 12, 28);
             product.Price = 3.99M;
             product.Sizes = new string[] { "Small", "Medium", "Large" };
 
-            string output = JsonConvert.SerializeObject(product);
+            var output = JsonConvert.SerializeObject(product);
             //{
             //  "Name": "Apple",
             //  "ExpiryDate": new Date(1230422400000),
@@ -88,7 +88,7 @@ namespace Argon.Tests.Serialization
             //  ]
             //}
 
-            JsonSerializer jsonSerializer = new JsonSerializer();
+            var jsonSerializer = new JsonSerializer();
             jsonSerializer.MissingMemberHandling = MissingMemberHandling.Ignore;
 
             object deserializedValue;
@@ -98,7 +98,7 @@ namespace Argon.Tests.Serialization
                 deserializedValue = jsonSerializer.Deserialize(jsonReader, typeof(ProductShort));
             }
 
-            ProductShort deserializedProductShort = (ProductShort)deserializedValue;
+            var deserializedProductShort = (ProductShort)deserializedValue;
 
             Assert.AreEqual("Apple", deserializedProductShort.Name);
             Assert.AreEqual(new DateTime(2008, 12, 28), deserializedProductShort.ExpiryDate);
@@ -110,12 +110,12 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void MissingMemberIgnoreComplexValue()
         {
-            JsonSerializer serializer = new JsonSerializer { MissingMemberHandling = MissingMemberHandling.Ignore };
+            var serializer = new JsonSerializer { MissingMemberHandling = MissingMemberHandling.Ignore };
             serializer.Converters.Add(new JavaScriptDateTimeConverter());
 
-            string response = @"{""PreProperty"":1,""DateProperty"":new Date(1225962698973),""PostProperty"":2}";
+            var response = @"{""PreProperty"":1,""DateProperty"":new Date(1225962698973),""PostProperty"":2}";
 
-            MyClass myClass = (MyClass)serializer.Deserialize(new StringReader(response), typeof(MyClass));
+            var myClass = (MyClass)serializer.Deserialize(new StringReader(response), typeof(MyClass));
 
             Assert.AreEqual(1, myClass.PreProperty);
             Assert.AreEqual(2, myClass.PostProperty);
@@ -124,9 +124,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void CaseInsensitive()
         {
-            string json = @"{""height"":1}";
+            var json = @"{""height"":1}";
 
-            DoubleClass c = JsonConvert.DeserializeObject<DoubleClass>(json, new JsonSerializerSettings { MissingMemberHandling = MissingMemberHandling.Error });
+            var c = JsonConvert.DeserializeObject<DoubleClass>(json, new JsonSerializerSettings { MissingMemberHandling = MissingMemberHandling.Error });
 
             Assert.AreEqual(1d, c.Height);
         }
@@ -134,7 +134,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void MissingMemeber()
         {
-            string json = @"{""Missing"":1}";
+            var json = @"{""Missing"":1}";
 
             ExceptionAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<DoubleClass>(json, new JsonSerializerSettings { MissingMemberHandling = MissingMemberHandling.Error }); }, "Could not find member 'Missing' on object of type 'DoubleClass'. Path 'Missing', line 1, position 11.");
         }
@@ -142,7 +142,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void MissingJson()
         {
-            string json = @"{}";
+            var json = @"{}";
 
             JsonConvert.DeserializeObject<DoubleClass>(json, new JsonSerializerSettings
             {
@@ -153,7 +153,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void MissingErrorAttribute()
         {
-            string json = @"{""Missing"":1}";
+            var json = @"{""Missing"":1}";
 
             ExceptionAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<NameWithMissingError>(json); }, "Could not find member 'Missing' on object of type 'NameWithMissingError'. Path 'Missing', line 1, position 11.");
         }
@@ -179,7 +179,7 @@ namespace Argon.Tests.Serialization
         {
             IList<string> errors = new List<string>();
 
-            JsonSerializerSettings settings = new JsonSerializerSettings
+            var settings = new JsonSerializerSettings
             {
                 //This works on properties but not on a objects property.
                 /* So nameERROR:{"first":"ni"} would throw. The payload name:{"firstERROR":"hi"} would not */
@@ -192,7 +192,7 @@ namespace Argon.Tests.Serialization
                 }
             };
 
-            Person p = new Person();
+            var p = new Person();
 
             JsonConvert.PopulateObject(@"{nameERROR:{""first"":""hi""}}", p, settings);
 
@@ -205,7 +205,7 @@ namespace Argon.Tests.Serialization
         {
             IList<string> errors = new List<string>();
 
-            JsonSerializerSettings settings = new JsonSerializerSettings
+            var settings = new JsonSerializerSettings
             {
                 //This works on properties but not on a objects property.
                 /* So nameERROR:{"first":"ni"} would throw. The payload name:{"firstERROR":"hi"} would not */
@@ -218,7 +218,7 @@ namespace Argon.Tests.Serialization
                 }
             };
 
-            Person p = new Person();
+            var p = new Person();
 
             JsonConvert.PopulateObject(@"{name:{""firstERROR"":""hi""}}", p, settings);
 
@@ -241,25 +241,25 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void TestMissingMemberHandlingForDirectObjects()
         {
-            string json = @"{""extensionData1"": [1,2,3]}";
-            SimpleExtendableObject e2 = JsonConvert.DeserializeObject<SimpleExtendableObject>(json, new JsonSerializerSettings { MissingMemberHandling = MissingMemberHandling.Error });
-            JArray o1 = (JArray)e2.Data["extensionData1"];
+            var json = @"{""extensionData1"": [1,2,3]}";
+            var e2 = JsonConvert.DeserializeObject<SimpleExtendableObject>(json, new JsonSerializerSettings { MissingMemberHandling = MissingMemberHandling.Error });
+            var o1 = (JArray)e2.Data["extensionData1"];
             Assert.AreEqual(JTokenType.Array, o1.Type);
         }
 
         [Fact]
         public void TestMissingMemberHandlingForChildObjects()
         {
-            string json = @"{""Data"":{""extensionData1"": [1,2,3]}}";
-            ObjectWithExtendableChild e3 = JsonConvert.DeserializeObject<ObjectWithExtendableChild>(json, new JsonSerializerSettings { MissingMemberHandling = MissingMemberHandling.Error });
-            JArray o1 = (JArray)e3.Data.Data["extensionData1"];
+            var json = @"{""Data"":{""extensionData1"": [1,2,3]}}";
+            var e3 = JsonConvert.DeserializeObject<ObjectWithExtendableChild>(json, new JsonSerializerSettings { MissingMemberHandling = MissingMemberHandling.Error });
+            var o1 = (JArray)e3.Data.Data["extensionData1"];
             Assert.AreEqual(JTokenType.Array, o1.Type);
         }
 
         [Fact]
         public void TestMissingMemberHandlingForChildObjectsWithInvalidData()
         {
-            string json = @"{""InvalidData"":{""extensionData1"": [1,2,3]}}";
+            var json = @"{""InvalidData"":{""extensionData1"": [1,2,3]}}";
 
             ExceptionAssert.Throws<JsonSerializationException>(() =>
             {

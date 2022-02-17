@@ -36,7 +36,7 @@ namespace Argon.Tests.TestObjects
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            WidgetId1 id = (WidgetId1)value;
+            var id = (WidgetId1)value;
             writer.WriteValue(id.Value.ToString());
         }
 

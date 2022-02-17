@@ -50,7 +50,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
 
             public void Trace(TraceLevel level, string message, Exception ex)
             {
-                LogEventInfo logEvent = new LogEventInfo
+                var logEvent = new LogEventInfo
                 {
                     Message = message,
                     Level = GetLogLevel(level),
@@ -92,7 +92,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
                 "China"
             };
 
-            string json = JsonConvert.SerializeObject(countries, Formatting.Indented, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(countries, Formatting.Indented, new JsonSerializerSettings
             {
                 TraceWriter = new NLogTraceWriter()
             });

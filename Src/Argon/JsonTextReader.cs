@@ -180,7 +180,7 @@ namespace Argon
                     SetToken(JsonToken.Bytes, data, false);
                     break;
                 case ReadType.ReadAsString:
-                    string text = _stringReference.ToString();
+                    var text = _stringReference.ToString();
 
                     SetToken(JsonToken.String, text, false);
                     _quoteChar = quote;
@@ -209,7 +209,7 @@ namespace Argon
 
                         if (dateParseHandling == DateParseHandling.DateTime)
                         {
-                            if (DateTimeUtils.TryParseDateTime(_stringReference, DateTimeZoneHandling, DateFormatString, Culture, out DateTime dt))
+                            if (DateTimeUtils.TryParseDateTime(_stringReference, DateTimeZoneHandling, DateFormatString, Culture, out var dt))
                             {
                                 SetToken(JsonToken.Date, dt, false);
                                 return;
@@ -217,7 +217,7 @@ namespace Argon
                         }
                         else
                         {
-                            if (DateTimeUtils.TryParseDateTimeOffset(_stringReference, DateFormatString, Culture, out DateTimeOffset dt))
+                            if (DateTimeUtils.TryParseDateTimeOffset(_stringReference, DateFormatString, Culture, out var dt))
                             {
                                 SetToken(JsonToken.Date, dt, false);
                                 return;
@@ -245,10 +245,10 @@ namespace Argon
             // once in the last 10% of the buffer, or buffer is already very large then
             // shift the remaining content to the start to avoid unnecessarily increasing
             // the buffer size when reading numbers/strings
-            int length = _chars.Length;
+            var length = _chars.Length;
             if (length - _charPos <= length * 0.1 || length >= LargeBufferLength)
             {
-                int count = _charsUsed - _charPos;
+                var count = _charsUsed - _charPos;
                 if (count > 0)
                 {
                     BlockCopyChars(_chars, _charPos, _chars, 0, count);
@@ -275,15 +275,15 @@ namespace Argon
             {
                 if (append)
                 {
-                    int doubledArrayLength = _chars.Length * 2;
+                    var doubledArrayLength = _chars.Length * 2;
 
                     // copy to new array either double the size of the current or big enough to fit required content
-                    int newArrayLength = Math.Max(
+                    var newArrayLength = Math.Max(
                         doubledArrayLength < 0 ? int.MaxValue : doubledArrayLength, // handle overflow
                         _charsUsed + charsRequired + 1);
 
                     // increase the size of the buffer
-                    char[] dst = BufferUtils.RentBuffer(_arrayPool, newArrayLength);
+                    var dst = BufferUtils.RentBuffer(_arrayPool, newArrayLength);
 
                     BlockCopyChars(_chars, 0, dst, 0, _chars.Length);
 
@@ -293,12 +293,12 @@ namespace Argon
                 }
                 else
                 {
-                    int remainingCharCount = _charsUsed - _charPos;
+                    var remainingCharCount = _charsUsed - _charPos;
 
                     if (remainingCharCount + charsRequired + 1 >= _chars.Length)
                     {
                         // the remaining count plus the required is bigger than the current buffer size
-                        char[] dst = BufferUtils.RentBuffer(_arrayPool, remainingCharCount + charsRequired + 1);
+                        var dst = BufferUtils.RentBuffer(_arrayPool, remainingCharCount + charsRequired + 1);
 
                         if (remainingCharCount > 0)
                         {
@@ -335,9 +335,9 @@ namespace Argon
             PrepareBufferForReadData(append, charsRequired);
             MiscellaneousUtils.Assert(_chars != null);
 
-            int attemptCharReadCount = _chars.Length - _charsUsed - 1;
+            var attemptCharReadCount = _chars.Length - _charsUsed - 1;
 
-            int charsRead = _reader.Read(_chars, _charsUsed, attemptCharReadCount);
+            var charsRead = _reader.Read(_chars, _charsUsed, attemptCharReadCount);
 
             _charsUsed += charsRead;
 
@@ -367,15 +367,15 @@ namespace Argon
                 return false;
             }
 
-            int charsRequired = _charPos + relativePosition - _charsUsed + 1;
+            var charsRequired = _charPos + relativePosition - _charsUsed + 1;
 
-            int totalCharsRead = 0;
+            var totalCharsRead = 0;
 
             // it is possible that the TextReader doesn't return all data at once
             // repeat read until the required text is returned or the reader is out of content
             do
             {
-                int charsRead = ReadData(append, charsRequired - totalCharsRead);
+                var charsRead = ReadData(append, charsRequired - totalCharsRead);
 
                 // no more content
                 if (charsRead == 0)
@@ -487,7 +487,7 @@ namespace Argon
             EnsureBuffer();
             MiscellaneousUtils.Assert(_chars != null);
 
-            bool isWrapped = false;
+            var isWrapped = false;
 
             switch (_currentState)
             {
@@ -505,7 +505,7 @@ namespace Argon
                 case State.ConstructorStart:
                     while (true)
                     {
-                        char currentChar = _chars[_charPos];
+                        var currentChar = _chars[_charPos];
 
                         switch (currentChar)
                         {
@@ -519,7 +519,7 @@ namespace Argon
                             case '"':
                             case '\'':
                                 ParseString(currentChar, ReadType.ReadAsBytes);
-                                byte[]? data = (byte[]?)Value;
+                                var data = (byte[]?)Value;
                                 if (isWrapped)
                                 {
                                     ReaderReadAndAssert();
@@ -609,7 +609,7 @@ namespace Argon
                 case State.ConstructorStart:
                     while (true)
                     {
-                        char currentChar = _chars[_charPos];
+                        var currentChar = _chars[_charPos];
 
                         switch (currentChar)
                         {
@@ -659,7 +659,7 @@ namespace Argon
                                     _charPos++;
                                     throw CreateUnexpectedCharacterException(currentChar);
                                 }
-                                string expected = currentChar == 't' ? JsonConvert.True : JsonConvert.False;
+                                var expected = currentChar == 't' ? JsonConvert.True : JsonConvert.False;
                                 if (!MatchValueWithTrailingSeparator(expected))
                                 {
                                     throw CreateUnexpectedCharacterException(_chars[_charPos]);
@@ -774,7 +774,7 @@ namespace Argon
                 case State.ConstructorStart:
                     while (true)
                     {
-                        char currentChar = _chars[_charPos];
+                        var currentChar = _chars[_charPos];
 
                         switch (currentChar)
                         {
@@ -818,8 +818,8 @@ namespace Argon
                                 return b;
                             case 't':
                             case 'f':
-                                bool isTrue = currentChar == 't';
-                                string expected = isTrue ? JsonConvert.True : JsonConvert.False;
+                                var isTrue = currentChar == 't';
+                                var expected = isTrue ? JsonConvert.True : JsonConvert.False;
 
                                 if (!MatchValueWithTrailingSeparator(expected))
                                 {
@@ -879,7 +879,7 @@ namespace Argon
             if (_currentState != State.PostValue)
             {
                 SetToken(JsonToken.Undefined);
-                JsonReaderException ex = CreateUnexpectedCharacterException(',');
+                var ex = CreateUnexpectedCharacterException(',');
                 // so the comma will be parsed again
                 _charPos--;
 
@@ -910,7 +910,7 @@ namespace Argon
                 case State.ConstructorStart:
                     while (true)
                     {
-                        char currentChar = _chars[_charPos];
+                        var currentChar = _chars[_charPos];
 
                         switch (currentChar)
                         {
@@ -1048,7 +1048,7 @@ namespace Argon
 
             if (EnsureChars(1, true))
             {
-                char next = _chars[_charPos + 1];
+                var next = _chars[_charPos + 1];
 
                 if (next == 'u')
                 {
@@ -1119,9 +1119,9 @@ namespace Argon
         {
             MiscellaneousUtils.Assert(_chars != null);
 
-            int charPos = _charPos;
-            int initialPosition = _charPos;
-            int lastWritePosition = _charPos;
+            var charPos = _charPos;
+            var initialPosition = _charPos;
+            var lastWritePosition = _charPos;
             _stringBuffer.Position = 0;
 
             while (true)
@@ -1148,9 +1148,9 @@ namespace Argon
                         }
 
                         // start of escape sequence
-                        int escapeStartPos = charPos - 1;
+                        var escapeStartPos = charPos - 1;
 
-                        char currentChar = _chars[charPos];
+                        var currentChar = _chars[charPos];
                         charPos++;
 
                         char writeChar;
@@ -1201,7 +1201,7 @@ namespace Argon
                                         // potential start of a surrogate pair
                                         if (EnsureChars(2, true) && _chars[_charPos] == '\\' && _chars[_charPos + 1] == 'u')
                                         {
-                                            char highSurrogate = writeChar;
+                                            var highSurrogate = writeChar;
 
                                             _charPos += 2;
                                             writeChar = ParseUnicode();
@@ -1311,9 +1311,9 @@ namespace Argon
 
             if (enoughChars)
             {
-                if (ConvertUtils.TryHexTextToInt(_chars, _charPos, _charPos + 4, out int value))
+                if (ConvertUtils.TryHexTextToInt(_chars, _charPos, _charPos + 4, out var value))
                 {
-                    char hexChar = Convert.ToChar(value);
+                    var hexChar = Convert.ToChar(value);
                     _charPos += 4;
                     return hexChar;
                 }
@@ -1337,11 +1337,11 @@ namespace Argon
         {
             MiscellaneousUtils.Assert(_chars != null);
 
-            int charPos = _charPos;
+            var charPos = _charPos;
 
             while (true)
             {
-                char currentChar = _chars[charPos];
+                var currentChar = _chars[charPos];
                 if (currentChar == '\0')
                 {
                     _charPos = charPos;
@@ -1425,7 +1425,7 @@ namespace Argon
 
             while (true)
             {
-                char currentChar = _chars[_charPos];
+                var currentChar = _chars[_charPos];
 
                 switch (currentChar)
                 {
@@ -1507,7 +1507,7 @@ namespace Argon
 
             while (true)
             {
-                char currentChar = _chars[_charPos];
+                var currentChar = _chars[_charPos];
 
                 switch (currentChar)
                 {
@@ -1561,7 +1561,7 @@ namespace Argon
         {
             MiscellaneousUtils.Assert(_chars != null);
 
-            char firstChar = _chars[_charPos];
+            var firstChar = _chars[_charPos];
             char quoteChar;
 
             if (firstChar == '"' || firstChar == '\'')
@@ -1624,12 +1624,12 @@ namespace Argon
         {
             MiscellaneousUtils.Assert(_chars != null);
 
-            int initialPosition = _charPos;
+            var initialPosition = _charPos;
 
             // parse unquoted property name until whitespace or colon
             while (true)
             {
-                char currentChar = _chars[_charPos];
+                var currentChar = _chars[_charPos];
                 if (currentChar == '\0')
                 {
                     if (_charsUsed == _charPos)
@@ -1678,7 +1678,7 @@ namespace Argon
 
             while (true)
             {
-                char currentChar = _chars[_charPos];
+                var currentChar = _chars[_charPos];
 
                 switch (currentChar)
                 {
@@ -1708,7 +1708,7 @@ namespace Argon
                     case 'n':
                         if (EnsureChars(1, true))
                         {
-                            char next = _chars[_charPos + 1];
+                            var next = _chars[_charPos + 1];
 
                             if (next == 'u')
                             {
@@ -1820,7 +1820,7 @@ namespace Argon
 
             while (true)
             {
-                char currentChar = _chars[_charPos];
+                var currentChar = _chars[_charPos];
 
                 switch (currentChar)
                 {
@@ -1865,12 +1865,12 @@ namespace Argon
             {
                 EatWhitespace();
 
-                int initialPosition = _charPos;
+                var initialPosition = _charPos;
                 int endPosition;
 
                 while (true)
                 {
-                    char currentChar = _chars[_charPos];
+                    var currentChar = _chars[_charPos];
                     if (currentChar == '\0')
                     {
                         if (_charsUsed == _charPos)
@@ -1921,7 +1921,7 @@ namespace Argon
                 }
 
                 _stringReference = new StringReference(_chars, initialPosition, endPosition - initialPosition);
-                string constructorName = _stringReference.ToString();
+                var constructorName = _stringReference.ToString();
 
                 EatWhitespace();
 
@@ -1947,8 +1947,8 @@ namespace Argon
             ShiftBufferIfNeeded();
             MiscellaneousUtils.Assert(_chars != null);
 
-            char firstChar = _chars[_charPos];
-            int initialPosition = _charPos;
+            var firstChar = _chars[_charPos];
+            var initialPosition = _charPos;
 
             ReadNumberIntoBuffer();
 
@@ -1967,14 +1967,14 @@ namespace Argon
             object numberValue;
             JsonToken numberType;
 
-            bool singleDigit = (char.IsDigit(firstChar) && _stringReference.Length == 1);
-            bool nonBase10 = (firstChar == '0' && _stringReference.Length > 1 && _stringReference.Chars[_stringReference.StartIndex + 1] != '.' && _stringReference.Chars[_stringReference.StartIndex + 1] != 'e' && _stringReference.Chars[_stringReference.StartIndex + 1] != 'E');
+            var singleDigit = (char.IsDigit(firstChar) && _stringReference.Length == 1);
+            var nonBase10 = (firstChar == '0' && _stringReference.Length > 1 && _stringReference.Chars[_stringReference.StartIndex + 1] != '.' && _stringReference.Chars[_stringReference.StartIndex + 1] != 'e' && _stringReference.Chars[_stringReference.StartIndex + 1] != 'E');
 
             switch (readType)
             {
                 case ReadType.ReadAsString:
                     {
-                        string number = _stringReference.ToString();
+                        var number = _stringReference.ToString();
 
                         // validate that the string is a valid number
                         if (nonBase10)
@@ -2016,11 +2016,11 @@ namespace Argon
                         }
                         else if (nonBase10)
                         {
-                            string number = _stringReference.ToString();
+                            var number = _stringReference.ToString();
 
                             try
                             {
-                                int integer = number.StartsWith("0x", StringComparison.OrdinalIgnoreCase) ? Convert.ToInt32(number, 16) : Convert.ToInt32(number, 8);
+                                var integer = number.StartsWith("0x", StringComparison.OrdinalIgnoreCase) ? Convert.ToInt32(number, 16) : Convert.ToInt32(number, 8);
 
                                 numberValue = integer;
                             }
@@ -2031,7 +2031,7 @@ namespace Argon
                         }
                         else
                         {
-                            ParseResult parseResult = ConvertUtils.Int32TryParse(_stringReference.Chars, _stringReference.StartIndex, _stringReference.Length, out int value);
+                            var parseResult = ConvertUtils.Int32TryParse(_stringReference.Chars, _stringReference.StartIndex, _stringReference.Length, out var value);
                             if (parseResult == ParseResult.Success)
                             {
                                 numberValue = value;
@@ -2058,12 +2058,12 @@ namespace Argon
                         }
                         else if (nonBase10)
                         {
-                            string number = _stringReference.ToString();
+                            var number = _stringReference.ToString();
 
                             try
                             {
                                 // decimal.Parse doesn't support parsing hexadecimal values
-                                long integer = number.StartsWith("0x", StringComparison.OrdinalIgnoreCase) ? Convert.ToInt64(number, 16) : Convert.ToInt64(number, 8);
+                                var integer = number.StartsWith("0x", StringComparison.OrdinalIgnoreCase) ? Convert.ToInt64(number, 16) : Convert.ToInt64(number, 8);
 
                                 numberValue = Convert.ToDecimal(integer);
                             }
@@ -2074,7 +2074,7 @@ namespace Argon
                         }
                         else
                         {
-                            ParseResult parseResult = ConvertUtils.DecimalTryParse(_stringReference.Chars, _stringReference.StartIndex, _stringReference.Length, out decimal value);
+                            var parseResult = ConvertUtils.DecimalTryParse(_stringReference.Chars, _stringReference.StartIndex, _stringReference.Length, out var value);
                             if (parseResult == ParseResult.Success)
                             {
                                 numberValue = value;
@@ -2097,12 +2097,12 @@ namespace Argon
                         }
                         else if (nonBase10)
                         {
-                            string number = _stringReference.ToString();
+                            var number = _stringReference.ToString();
 
                             try
                             {
                                 // double.Parse doesn't support parsing hexadecimal values
-                                long integer = number.StartsWith("0x", StringComparison.OrdinalIgnoreCase) ? Convert.ToInt64(number, 16) : Convert.ToInt64(number, 8);
+                                var integer = number.StartsWith("0x", StringComparison.OrdinalIgnoreCase) ? Convert.ToInt64(number, 16) : Convert.ToInt64(number, 8);
 
                                 numberValue = Convert.ToDouble(integer);
                             }
@@ -2113,9 +2113,9 @@ namespace Argon
                         }
                         else
                         {
-                            string number = _stringReference.ToString();
+                            var number = _stringReference.ToString();
 
-                            if (double.TryParse(number, NumberStyles.Float, CultureInfo.InvariantCulture, out double value))
+                            if (double.TryParse(number, NumberStyles.Float, CultureInfo.InvariantCulture, out var value))
                             {
                                 numberValue = value;
                             }
@@ -2139,7 +2139,7 @@ namespace Argon
                         }
                         else if (nonBase10)
                         {
-                            string number = _stringReference.ToString();
+                            var number = _stringReference.ToString();
 
                             try
                             {
@@ -2154,7 +2154,7 @@ namespace Argon
                         }
                         else
                         {
-                            ParseResult parseResult = ConvertUtils.Int64TryParse(_stringReference.Chars, _stringReference.StartIndex, _stringReference.Length, out long value);
+                            var parseResult = ConvertUtils.Int64TryParse(_stringReference.Chars, _stringReference.StartIndex, _stringReference.Length, out var value);
                             if (parseResult == ParseResult.Success)
                             {
                                 numberValue = value;
@@ -2162,7 +2162,7 @@ namespace Argon
                             }
                             else if (parseResult == ParseResult.Overflow)
                             {
-                                string number = _stringReference.ToString();
+                                var number = _stringReference.ToString();
 
                                 if (number.Length > MaximumJavascriptIntegerCharacterLength)
                                 {
@@ -2176,7 +2176,7 @@ namespace Argon
                             {
                                 if (_floatParseHandling == FloatParseHandling.Decimal)
                                 {
-                                    parseResult = ConvertUtils.DecimalTryParse(_stringReference.Chars, _stringReference.StartIndex, _stringReference.Length, out decimal d);
+                                    parseResult = ConvertUtils.DecimalTryParse(_stringReference.Chars, _stringReference.StartIndex, _stringReference.Length, out var d);
                                     if (parseResult == ParseResult.Success)
                                     {
                                         numberValue = d;
@@ -2188,9 +2188,9 @@ namespace Argon
                                 }
                                 else
                                 {
-                                    string number = _stringReference.ToString();
+                                    var number = _stringReference.ToString();
 
-                                    if (double.TryParse(number, NumberStyles.Float, CultureInfo.InvariantCulture, out double d))
+                                    if (double.TryParse(number, NumberStyles.Float, CultureInfo.InvariantCulture, out var d))
                                     {
                                         numberValue = d;
                                     }
@@ -2260,7 +2260,7 @@ namespace Argon
 
             _charPos++;
 
-            int initialPosition = _charPos;
+            var initialPosition = _charPos;
 
             while (true)
             {
@@ -2348,7 +2348,7 @@ namespace Argon
                 throw CreateUnexpectedEndException();
             }
 
-            for (int i = 0; i < value.Length; i++)
+            for (var i = 0; i < value.Length; i++)
             {
                 if (_chars[_charPos + i] != value[i])
                 {
@@ -2367,7 +2367,7 @@ namespace Argon
             MiscellaneousUtils.Assert(_chars != null);
 
             // will match value and then move to the next character, checking that it is a separator character
-            bool match = MatchValue(value);
+            var match = MatchValue(value);
 
             if (!match)
             {
@@ -2399,7 +2399,7 @@ namespace Argon
                         return false;
                     }
 
-                    char nextChart = _chars[_charPos + 1];
+                    var nextChart = _chars[_charPos + 1];
 
                     return (nextChart == '*' || nextChart == '/');
                 case ')':

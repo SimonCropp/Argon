@@ -45,13 +45,13 @@ namespace Argon.Tests.Linq
         [Fact]
         public void AccessPropertyValue()
         {
-            string rawJson = @"{
+            var rawJson = @"{
   ""task"": {
     ""dueDate"": ""2012-12-03T00:00:00""
   }
 }";
 
-            dynamic dyn = JsonConvert.DeserializeObject<dynamic>(rawJson);
+            var dyn = JsonConvert.DeserializeObject<dynamic>(rawJson);
             DateTime dueDate = dyn.task.dueDate.Value;
 
             Assert.AreEqual(new DateTime(2012, 12, 3, 0, 0, 0, DateTimeKind.Unspecified), dueDate);
@@ -60,7 +60,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void PropertyDoesNotEqualNull()
         {
-            dynamic session = JsonConvert.DeserializeObject<dynamic>("{}");
+            var session = JsonConvert.DeserializeObject<dynamic>("{}");
             if (session.sessionInfo != null)
             {
                 Assert.Fail();
@@ -91,26 +91,26 @@ namespace Argon.Tests.Linq
             dynamic d;
 
             using (var jsonFile = System.IO.File.OpenText("large.json"))
-            using (JsonTextReader jsonTextReader = new JsonTextReader(jsonFile))
+            using (var jsonTextReader = new JsonTextReader(jsonFile))
             {
-                JsonSerializer serializer = new JsonSerializer();
+                var serializer = new JsonSerializer();
                 d = serializer.Deserialize(jsonTextReader);
             }
 
             IDictionary<string, int> counts = new Dictionary<string, int>();
 
-            Stopwatch sw = new Stopwatch();
+            var sw = new Stopwatch();
             sw.Start();
 
-            int count = 0;
-            foreach (dynamic o in d)
+            var count = 0;
+            foreach (var o in d)
             {
                 if (count > 10)
                 {
                     break;
                 }
 
-                foreach (dynamic friend in o.friends)
+                foreach (var friend in o.friends)
                 {
                     UpdateValueCount(counts, friend.id);
                     UpdateValueCount(counts, ((string)friend.name).Split(' ')[0]);
@@ -125,7 +125,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void JObjectPropertyNames()
         {
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("ChildValue", "blah blah"));
 
             dynamic d = o;
@@ -145,7 +145,7 @@ namespace Argon.Tests.Linq
             JValue v2 = d["ChildValue"];
             Assert.AreEqual(v1, v2);
 
-            JValue newValue1 = new JValue("Blah blah");
+            var newValue1 = new JValue("Blah blah");
             d.NewValue = newValue1;
             JValue newValue2 = d.NewValue;
 
@@ -155,7 +155,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void JObjectCount()
         {
-            JObject o = new JObject();
+            var o = new JObject();
 
             dynamic d = o;
 
@@ -172,7 +172,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void JObjectEnumerator()
         {
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("ChildValue", "blah blah"));
 
             dynamic d = o;
@@ -183,7 +183,7 @@ namespace Argon.Tests.Linq
                 Assert.AreEqual("blah blah", (string)value.Value);
             }
 
-            foreach (dynamic value in d)
+            foreach (var value in d)
             {
                 Assert.AreEqual("ChildValue", value.Name);
                 Assert.AreEqual("blah blah", (string)value.Value);
@@ -193,7 +193,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void JObjectPropertyNameWithJArray()
         {
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("ChildValue", "blah blah"));
 
             dynamic d = o;
@@ -218,7 +218,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void JObjectMethods()
         {
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("ChildValue", "blah blah"));
 
             dynamic d = o;
@@ -238,7 +238,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void JValueEquals()
         {
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("Null", JValue.CreateNull()),
                 new JProperty("Integer", new JValue(1)),
                 new JProperty("Float", new JValue(1.1d)),
@@ -339,7 +339,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void JValueAddition()
         {
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("Null", JValue.CreateNull()),
                 new JProperty("Integer", new JValue(1)),
                 new JProperty("Float", new JValue(1.1d)),
@@ -664,7 +664,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void JValueToString()
         {
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("Null", JValue.CreateNull()),
                 new JProperty("Integer", new JValue(1)),
                 new JProperty("Float", new JValue(1.1)),
@@ -696,13 +696,13 @@ namespace Argon.Tests.Linq
         [Fact]
         public void JObjectGetDynamicPropertyNames()
         {
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("ChildValue", "blah blah"),
                 new JProperty("Hello Joe", null));
 
             dynamic d = o;
 
-            List<string> memberNames = o.GetDynamicMemberNames().ToList();
+            var memberNames = o.GetDynamicMemberNames().ToList();
 
             Assert.AreEqual(2, memberNames.Count);
             Assert.AreEqual("ChildValue", memberNames[0]);
@@ -783,7 +783,7 @@ namespace Argon.Tests.Linq
 
         private static void AssertValueConverted<T>(object value, object expected)
         {
-            JValue v = new JValue(value);
+            var v = new JValue(value);
             dynamic d = v;
 
             T t = d;
@@ -818,12 +818,12 @@ namespace Argon.Tests.Linq
         [Fact]
         public void DynamicLinqExample()
         {
-            JObject oldAndBusted = new JObject();
+            var oldAndBusted = new JObject();
             oldAndBusted["Name"] = "Arnie Admin";
             oldAndBusted["Enabled"] = true;
             oldAndBusted["Roles"] = new JArray(new[] { "Admin", "User" });
 
-            string oldRole = (string)oldAndBusted["Roles"][0];
+            var oldRole = (string)oldAndBusted["Roles"][0];
             // Admin
 
             dynamic newHotness = new JObject();
@@ -876,7 +876,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void DynamicAccess_ToJToken_ShouldNotFail()
         {
-            Guid g = Guid.NewGuid();
+            var g = Guid.NewGuid();
             dynamic json = JObject.FromObject(new { uid = g });
             JToken token = json.uid;
 
@@ -886,9 +886,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public void DynamicAccess_ToJTokenExplicit_ShouldNotFail()
         {
-            Guid g = Guid.NewGuid();
+            var g = Guid.NewGuid();
             dynamic json = JObject.FromObject(new { uid = g });
-            JToken token = (JToken)json.uid;
+            var token = (JToken)json.uid;
 
             Assert.AreEqual(g, ((JValue)token).Value);
         }
@@ -896,9 +896,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public void DynamicAccess_ToJTokenSafeCast_ShouldNotFail()
         {
-            Guid g = Guid.NewGuid();
+            var g = Guid.NewGuid();
             dynamic json = JObject.FromObject(new { uid = g });
-            JToken token = json.uid as JToken;
+            var token = json.uid as JToken;
 
             Assert.AreEqual(g, ((JValue)token).Value);
         }
@@ -906,9 +906,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public void IndexAccess_ToJToken_ShouldNotFail()
         {
-            Guid g = Guid.NewGuid();
-            JObject json = JObject.FromObject(new { uid = g });
-            JToken token = json["uid"];
+            var g = Guid.NewGuid();
+            var json = JObject.FromObject(new { uid = g });
+            var token = json["uid"];
 
             Assert.AreEqual(g, ((JValue)token).Value);
         }
@@ -916,7 +916,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void DynamicAccess_ToJToken_ShouldFail()
         {
-            Guid g = Guid.NewGuid();
+            var g = Guid.NewGuid();
             dynamic json = JObject.FromObject(new { uid = g });
 
             ExceptionAssert.Throws<InvalidOperationException>(

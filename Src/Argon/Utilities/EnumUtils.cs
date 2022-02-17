@@ -46,20 +46,20 @@ namespace Argon.Utilities
 
         private static EnumInfo InitializeValuesAndNames(StructMultiKey<Type, NamingStrategy?> key)
         {
-            Type enumType = key.Value1;
+            var enumType = key.Value1;
             string[] names = Enum.GetNames(enumType);
-            string[] resolvedNames = new string[names.Length];
-            ulong[] values = new ulong[names.Length];
+            var resolvedNames = new string[names.Length];
+            var values = new ulong[names.Length];
             bool hasSpecifiedName;
 
-            for (int i = 0; i < names.Length; i++)
+            for (var i = 0; i < names.Length; i++)
             {
-                string name = names[i];
-                FieldInfo f = enumType.GetField(name, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static)!;
+                var name = names[i];
+                var f = enumType.GetField(name, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static)!;
                 values[i] = ToUInt64(f.GetValue(null));
 
                 string resolvedName;
-                string specifiedName = f.GetCustomAttributes(typeof(EnumMemberAttribute), true)
+                var specifiedName = f.GetCustomAttributes(typeof(EnumMemberAttribute), true)
                          .Cast<EnumMemberAttribute>()
                          .Select(a => a.Value)
                          .SingleOrDefault();
@@ -76,29 +76,29 @@ namespace Argon.Utilities
                     : resolvedName;
             }
 
-            bool isFlags = enumType.IsDefined(typeof(FlagsAttribute), false);
+            var isFlags = enumType.IsDefined(typeof(FlagsAttribute), false);
 
             return new EnumInfo(isFlags, values, names, resolvedNames);
         }
 
         public static IList<T> GetFlagsValues<T>(T value) where T : struct
         {
-            Type enumType = typeof(T);
+            var enumType = typeof(T);
 
             if (!enumType.IsDefined(typeof(FlagsAttribute), false))
             {
                 throw new ArgumentException("Enum type {0} is not a set of flags.".FormatWith(CultureInfo.InvariantCulture, enumType));
             }
 
-            Type underlyingType = Enum.GetUnderlyingType(value.GetType());
+            var underlyingType = Enum.GetUnderlyingType(value.GetType());
 
-            ulong num = ToUInt64(value);
-            EnumInfo enumNameValues = GetEnumValuesAndNames(enumType);
+            var num = ToUInt64(value);
+            var enumNameValues = GetEnumValuesAndNames(enumType);
             IList<T> selectedFlagsValues = new List<T>();
 
-            for (int i = 0; i < enumNameValues.Values.Length; i++)
+            for (var i = 0; i < enumNameValues.Values.Length; i++)
             {
-                ulong v = enumNameValues.Values[i];
+                var v = enumNameValues.Values[i];
 
                 if ((num & v) == v && v != 0)
                 {
@@ -123,12 +123,12 @@ namespace Argon.Utilities
 
         public static bool TryToString(Type enumType, object value, NamingStrategy? namingStrategy, [NotNullWhen(true)]out string? name)
         {
-            EnumInfo enumInfo = ValuesAndNamesPerEnum.Get(new StructMultiKey<Type, NamingStrategy?>(enumType, namingStrategy));
-            ulong v = ToUInt64(value);
+            var enumInfo = ValuesAndNamesPerEnum.Get(new StructMultiKey<Type, NamingStrategy?>(enumType, namingStrategy));
+            var v = ToUInt64(value);
 
             if (!enumInfo.IsFlags)
             {
-                int index = Array.BinarySearch(enumInfo.Values, v);
+                var index = Array.BinarySearch(enumInfo.Values, v);
                 if (index >= 0)
                 {
                     name = enumInfo.ResolvedNames[index];
@@ -148,13 +148,13 @@ namespace Argon.Utilities
 
         private static string? InternalFlagsFormat(EnumInfo entry, ulong result)
         {
-            string[] resolvedNames = entry.ResolvedNames;
-            ulong[] values = entry.Values;
+            var resolvedNames = entry.ResolvedNames;
+            var values = entry.Values;
 
-            int index = values.Length - 1;
-            StringBuilder sb = new StringBuilder();
-            bool firstTime = true;
-            ulong saveResult = result;
+            var index = values.Length - 1;
+            var sb = new StringBuilder();
+            var firstTime = true;
+            var saveResult = result;
 
             // We will not optimize this code further to keep it maintainable. There are some boundary checks that can be applied
             // to minimize the comparsions required. This code works the same for the best/worst case. In general the number of
@@ -174,7 +174,7 @@ namespace Argon.Utilities
                         sb.Insert(0, EnumSeparatorString);
                     }
 
-                    string resolvedName = resolvedNames[index];
+                    var resolvedName = resolvedNames[index];
                     sb.Insert(0, resolvedName);
                     firstTime = false;
                 }
@@ -215,7 +215,7 @@ namespace Argon.Utilities
 
         private static ulong ToUInt64(object value)
         {
-            PrimitiveTypeCode typeCode = ConvertUtils.GetTypeCode(value.GetType(), out bool _);
+            var typeCode = ConvertUtils.GetTypeCode(value.GetType(), out var _);
 
             switch (typeCode)
             {
@@ -256,20 +256,20 @@ namespace Argon.Utilities
                 throw new ArgumentException("Type provided must be an Enum.", nameof(enumType));
             }
 
-            EnumInfo entry = ValuesAndNamesPerEnum.Get(new StructMultiKey<Type, NamingStrategy?>(enumType, namingStrategy));
-            string[] enumNames = entry.Names;
-            string[] resolvedNames = entry.ResolvedNames;
-            ulong[] enumValues = entry.Values;
+            var entry = ValuesAndNamesPerEnum.Get(new StructMultiKey<Type, NamingStrategy?>(enumType, namingStrategy));
+            var enumNames = entry.Names;
+            var resolvedNames = entry.ResolvedNames;
+            var enumValues = entry.Values;
 
             // first check if the entire text (including commas) matches a resolved name
-            int? matchingIndex = FindIndexByName(resolvedNames, value, 0, value.Length, StringComparison.Ordinal);
+            var matchingIndex = FindIndexByName(resolvedNames, value, 0, value.Length, StringComparison.Ordinal);
             if (matchingIndex != null)
             {
                 return Enum.ToObject(enumType, enumValues[matchingIndex.Value]);
             }
 
-            int firstNonWhitespaceIndex = -1;
-            for (int i = 0; i < value.Length; i++)
+            var firstNonWhitespaceIndex = -1;
+            for (var i = 0; i < value.Length; i++)
             {
                 if (!char.IsWhiteSpace(value[i]))
                 {
@@ -283,10 +283,10 @@ namespace Argon.Utilities
             }
 
             // check whether string is a number and parse as a number value
-            char firstNonWhitespaceChar = value[firstNonWhitespaceIndex];
+            var firstNonWhitespaceChar = value[firstNonWhitespaceIndex];
             if (char.IsDigit(firstNonWhitespaceChar) || firstNonWhitespaceChar == '-' || firstNonWhitespaceChar == '+')
             {
-                Type underlyingType = Enum.GetUnderlyingType(enumType);
+                var underlyingType = Enum.GetUnderlyingType(enumType);
 
                 value = value.Trim();
                 object? temp = null;
@@ -315,18 +315,18 @@ namespace Argon.Utilities
 
             ulong result = 0;
 
-            int valueIndex = firstNonWhitespaceIndex;
+            var valueIndex = firstNonWhitespaceIndex;
             while (valueIndex <= value.Length) // '=' is to handle invalid case of an ending comma
             {
                 // Find the next separator, if there is one, otherwise the end of the string.
-                int endIndex = value.IndexOf(EnumSeparatorChar, valueIndex);
+                var endIndex = value.IndexOf(EnumSeparatorChar, valueIndex);
                 if (endIndex == -1)
                 {
                     endIndex = value.Length;
                 }
 
                 // Shift the starting and ending indices to eliminate whitespace
-                int endIndexNoWhitespace = endIndex;
+                var endIndexNoWhitespace = endIndex;
                 while (valueIndex < endIndex && char.IsWhiteSpace(value[valueIndex]))
                 {
                     valueIndex++;
@@ -336,7 +336,7 @@ namespace Argon.Utilities
                 {
                     endIndexNoWhitespace--;
                 }
-                int valueSubstringLength = endIndexNoWhitespace - valueIndex;
+                var valueSubstringLength = endIndexNoWhitespace - valueIndex;
 
                 // match with case sensitivity
                 matchingIndex = MatchName(value, enumNames, resolvedNames, valueIndex, valueSubstringLength, StringComparison.Ordinal);
@@ -372,7 +372,7 @@ namespace Argon.Utilities
 
         private static int? MatchName(string value, string[] enumNames, string[] resolvedNames, int valueIndex, int valueSubstringLength, StringComparison comparison)
         {
-            int? matchingIndex = FindIndexByName(resolvedNames, value, valueIndex, valueSubstringLength, comparison);
+            var matchingIndex = FindIndexByName(resolvedNames, value, valueIndex, valueSubstringLength, comparison);
             if (matchingIndex == null)
             {
                 matchingIndex = FindIndexByName(enumNames, value, valueIndex, valueSubstringLength, comparison);
@@ -383,7 +383,7 @@ namespace Argon.Utilities
 
         private static int? FindIndexByName(string[] enumNames, string value, int valueIndex, int valueSubstringLength, StringComparison comparison)
         {
-            for (int i = 0; i < enumNames.Length; i++)
+            for (var i = 0; i < enumNames.Length; i++)
             {
                 if (enumNames[i].Length == valueSubstringLength &&
                     string.Compare(enumNames[i], 0, value, valueIndex, valueSubstringLength, comparison) == 0)

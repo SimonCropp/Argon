@@ -74,7 +74,7 @@ namespace Argon.Tests.Documentation
         public void LinqToJsonBasic()
         {
             #region LinqToJsonBasic
-            JObject o = JObject.Parse(@"{
+            var o = JObject.Parse(@"{
               'CPU': 'Intel',
               'Drives': [
                 'DVD read/writer',
@@ -82,10 +82,10 @@ namespace Argon.Tests.Documentation
               ]
             }");
 
-            string cpu = (string)o["CPU"];
+            var cpu = (string)o["CPU"];
             // Intel
 
-            string firstDrive = (string)o["Drives"][0];
+            var firstDrive = (string)o["Drives"][0];
             // DVD read/writer
 
             IList<string> allDrives = o["Drives"].Select(t => (string)t).ToList();
@@ -98,14 +98,14 @@ namespace Argon.Tests.Documentation
         public void LinqToJsonCreateNormal()
         {
             #region LinqToJsonCreateNormal
-            JArray array = new JArray();
-            JValue text = new JValue("Manual text");
-            JValue date = new JValue(new DateTime(2000, 5, 23));
+            var array = new JArray();
+            var text = new JValue("Manual text");
+            var date = new JValue(new DateTime(2000, 5, 23));
 
             array.Add(text);
             array.Add(date);
 
-            string json = array.ToString();
+            var json = array.ToString();
             // [
             //   "Manual text",
             //   "2000-05-23T00:00:00"
@@ -130,9 +130,9 @@ namespace Argon.Tests.Documentation
         public void LinqToJsonCreateDeclaratively()
         {
             #region LinqToJsonCreateDeclaratively
-            List<Post> posts = GetPosts();
+            var posts = GetPosts();
 
-            JObject rss =
+            var rss =
                 new JObject(
                     new JProperty("channel",
                         new JObject(
@@ -187,10 +187,10 @@ namespace Argon.Tests.Documentation
         [Fact]
         public void LinqToJsonCreateFromObject()
         {
-            List<Post> posts = GetPosts();
+            var posts = GetPosts();
 
             #region LinqToJsonCreateFromObject
-            JObject o = JObject.FromObject(new
+            var o = JObject.FromObject(new
             {
                 channel = new
                 {
@@ -216,7 +216,7 @@ namespace Argon.Tests.Documentation
         public void LinqToJsonCreateParse()
         {
             #region LinqToJsonCreateParse
-            string json = @"{
+            var json = @"{
               CPU: 'Intel',
               Drives: [
                 'DVD read/writer',
@@ -224,7 +224,7 @@ namespace Argon.Tests.Documentation
               ]
             }";
 
-            JObject o = JObject.Parse(json);
+            var o = JObject.Parse(json);
             #endregion
         }
 
@@ -232,13 +232,13 @@ namespace Argon.Tests.Documentation
         public void LinqToJsonCreateParseArray()
         {
             #region LinqToJsonCreateParseArray
-            string json = @"[
+            var json = @"[
               'Small',
               'Medium',
               'Large'
             ]";
 
-            JArray a = JArray.Parse(json);
+            var a = JArray.Parse(json);
             #endregion
         }
 
@@ -246,9 +246,9 @@ namespace Argon.Tests.Documentation
         public void LinqToJsonReadObject()
         {
             #region LinqToJsonReadObject
-            using (StreamReader reader = File.OpenText(@"c:\person.json"))
+            using (var reader = File.OpenText(@"c:\person.json"))
             {
-                JObject o = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
+                var o = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
                 // do stuff
             }
             #endregion
@@ -258,7 +258,7 @@ namespace Argon.Tests.Documentation
         public void LinqToJsonSimpleQuerying()
         {
             #region LinqToJsonSimpleQuerying
-            string json = @"{
+            var json = @"{
               'channel': {
                 'title': 'James Newton-King',
                 'link': 'http://james.newtonking.com',
@@ -286,15 +286,15 @@ namespace Argon.Tests.Documentation
               }
             }";
 
-            JObject rss = JObject.Parse(json);
+            var rss = JObject.Parse(json);
 
-            string rssTitle = (string)rss["channel"]["title"];
+            var rssTitle = (string)rss["channel"]["title"];
             // James Newton-King
 
-            string itemTitle = (string)rss["channel"]["item"][0]["title"];
+            var itemTitle = (string)rss["channel"]["item"][0]["title"];
             // Json.NET 1.3 + New license + Now on CodePlex
 
-            JArray categories = (JArray)rss["channel"]["item"][0]["categories"];
+            var categories = (JArray)rss["channel"]["item"][0]["categories"];
             // ["Json.NET", "CodePlex"]
 
             IList<string> categoriesText = categories.Select(c => (string)c).ToList();
@@ -306,7 +306,7 @@ namespace Argon.Tests.Documentation
         [Fact]
         public void LinqToJsonQuerying()
         {
-            JObject rss = JObject.Parse(@"{
+            var rss = JObject.Parse(@"{
               'channel': {
                 'title': 'James Newton-King',
                 'link': 'http://james.newtonking.com',
@@ -388,7 +388,7 @@ namespace Argon.Tests.Documentation
         public void LinqToJsonDeserializeExample()
         {
             #region LinqToJsonDeserializeExample
-            string jsonText = @"{
+            var jsonText = @"{
               'short': {
                 'original': 'http://www.foo.com/',
                 'short': 'krehqk',
@@ -399,9 +399,9 @@ namespace Argon.Tests.Documentation
               }
             }";
 
-            JObject json = JObject.Parse(jsonText);
+            var json = JObject.Parse(jsonText);
 
-            Shortie shortie = new Shortie
+            var shortie = new Shortie
             {
                 Original = (string)json["short"]["original"],
                 Short = (string)json["short"]["short"],
@@ -426,7 +426,7 @@ namespace Argon.Tests.Documentation
         [Fact]
         public void SelectTokenSimple()
         {
-            JObject o = JObject.Parse(@"{
+            var o = JObject.Parse(@"{
               'Stores': [
                 'Lambton Quay',
                 'Willis Street'
@@ -458,7 +458,7 @@ namespace Argon.Tests.Documentation
             }");
 
             #region SelectTokenSimple
-            string name = (string)o.SelectToken("Manufacturers[0].Name");
+            var name = (string)o.SelectToken("Manufacturers[0].Name");
             #endregion
 
             Assert.AreEqual("Acme Co", name);
@@ -468,7 +468,7 @@ namespace Argon.Tests.Documentation
         public void SelectTokenComplex()
         {
             #region SelectTokenComplex
-            JObject o = JObject.Parse(@"{
+            var o = JObject.Parse(@"{
               'Stores': [
                 'Lambton Quay',
                 'Willis Street'
@@ -499,13 +499,13 @@ namespace Argon.Tests.Documentation
               ]
             }");
 
-            string name = (string)o.SelectToken("Manufacturers[0].Name");
+            var name = (string)o.SelectToken("Manufacturers[0].Name");
             // Acme Co
 
-            decimal productPrice = (decimal)o.SelectToken("Manufacturers[0].Products[0].Price");
+            var productPrice = (decimal)o.SelectToken("Manufacturers[0].Products[0].Price");
             // 50
 
-            string productName = (string)o.SelectToken("Manufacturers[1].Products[0].Name");
+            var productName = (string)o.SelectToken("Manufacturers[1].Products[0].Name");
             // Elbow Grease
             #endregion
 
@@ -517,7 +517,7 @@ namespace Argon.Tests.Documentation
         [Fact]
         public void SelectTokenLinq()
         {
-            JObject o = JObject.Parse(@"{
+            var o = JObject.Parse(@"{
               'Stores': [
                 'Lambton Quay',
                 'Willis Street'
@@ -557,7 +557,7 @@ namespace Argon.Tests.Documentation
             // null
             // Headlight Fluid
 
-            decimal totalPrice = o["Manufacturers"].Sum(m => (decimal)m.SelectToken("Products[0].Price"));
+            var totalPrice = o["Manufacturers"].Sum(m => (decimal)m.SelectToken("Products[0].Price"));
             // 149.95
             #endregion
 

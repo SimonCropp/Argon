@@ -57,7 +57,7 @@ namespace Argon.Tests.TestObjects
 
         IEnumerator<Person> IEnumerable<Person>.GetEnumerator()
         {
-            for (int i = 0; i < Count; i++)
+            for (var i = 0; i < Count; i++)
             {
                 if (i % 2 == 0)
                 {

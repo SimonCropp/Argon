@@ -42,7 +42,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void UsePrivateConstructorIfThereAreMultipleConstructorsWithParametersAndNothingToFallbackTo()
         {
-            string json = @"{Name:""Name!""}";
+            var json = @"{Name:""Name!""}";
 
             var c = JsonConvert.DeserializeObject<PrivateConstructorTestClass>(json);
 
@@ -52,9 +52,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SuccessWithPrivateConstructorAndAllowNonPublic()
         {
-            string json = @"{Name:""Name!""}";
+            var json = @"{Name:""Name!""}";
 
-            PrivateConstructorTestClass c = JsonConvert.DeserializeObject<PrivateConstructorTestClass>(json,
+            var c = JsonConvert.DeserializeObject<PrivateConstructorTestClass>(json,
                 new JsonSerializerSettings
                 {
                     ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
@@ -68,18 +68,18 @@ namespace Argon.Tests.Serialization
         {
             ExceptionAssert.Throws<Exception>(() =>
             {
-                string json = @"{Name:""Name!""}";
+                var json = @"{Name:""Name!""}";
 
-                PrivateConstructorWithPublicParameterizedConstructorTestClass c = JsonConvert.DeserializeObject<PrivateConstructorWithPublicParameterizedConstructorTestClass>(json);
+                var c = JsonConvert.DeserializeObject<PrivateConstructorWithPublicParameterizedConstructorTestClass>(json);
             });
         }
 
         [Fact]
         public void SuccessWithPrivateConstructorPlusParameterizedAndAllowNonPublic()
         {
-            string json = @"{Name:""Name!""}";
+            var json = @"{Name:""Name!""}";
 
-            PrivateConstructorWithPublicParameterizedConstructorTestClass c = JsonConvert.DeserializeObject<PrivateConstructorWithPublicParameterizedConstructorTestClass>(json,
+            var c = JsonConvert.DeserializeObject<PrivateConstructorWithPublicParameterizedConstructorTestClass>(json,
                 new JsonSerializerSettings
                 {
                     ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
@@ -92,7 +92,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SuccessWithPublicParameterizedConstructor()
         {
-            string json = @"{Name:""Name!""}";
+            var json = @"{Name:""Name!""}";
 
             var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorTestClass>(json);
             Assert.IsNotNull(c);
@@ -102,9 +102,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SuccessWithPublicParameterizedConstructorWhenParameterIsNotAProperty()
         {
-            string json = @"{nameParameter:""Name!""}";
+            var json = @"{nameParameter:""Name!""}";
 
-            PublicParameterizedConstructorWithNonPropertyParameterTestClass c = JsonConvert.DeserializeObject<PublicParameterizedConstructorWithNonPropertyParameterTestClass>(json);
+            var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorWithNonPropertyParameterTestClass>(json);
             Assert.IsNotNull(c);
             Assert.AreEqual("Name!", c.Name);
         }
@@ -112,9 +112,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SuccessWithPublicParameterizedConstructorWhenParameterRequiresAConverter()
         {
-            string json = @"{nameParameter:""Name!""}";
+            var json = @"{nameParameter:""Name!""}";
 
-            PublicParameterizedConstructorRequiringConverterTestClass c = JsonConvert.DeserializeObject<PublicParameterizedConstructorRequiringConverterTestClass>(json, new NameContainerConverter());
+            var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorRequiringConverterTestClass>(json, new NameContainerConverter());
             Assert.IsNotNull(c);
             Assert.AreEqual("Name!", c.Name.Value);
         }
@@ -122,9 +122,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SuccessWithPublicParameterizedConstructorWhenParameterRequiresAConverterWithParameterAttribute()
         {
-            string json = @"{nameParameter:""Name!""}";
+            var json = @"{nameParameter:""Name!""}";
 
-            PublicParameterizedConstructorRequiringConverterWithParameterAttributeTestClass c = JsonConvert.DeserializeObject<PublicParameterizedConstructorRequiringConverterWithParameterAttributeTestClass>(json);
+            var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorRequiringConverterWithParameterAttributeTestClass>(json);
             Assert.IsNotNull(c);
             Assert.AreEqual("Name!", c.Name.Value);
         }
@@ -132,9 +132,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SuccessWithPublicParameterizedConstructorWhenParameterRequiresAConverterWithPropertyAttribute()
         {
-            string json = @"{name:""Name!""}";
+            var json = @"{name:""Name!""}";
 
-            PublicParameterizedConstructorRequiringConverterWithPropertyAttributeTestClass c = JsonConvert.DeserializeObject<PublicParameterizedConstructorRequiringConverterWithPropertyAttributeTestClass>(json);
+            var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorRequiringConverterWithPropertyAttributeTestClass>(json);
             Assert.IsNotNull(c);
             Assert.AreEqual("Name!", c.Name.Value);
         }
@@ -142,9 +142,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SuccessWithPublicParameterizedConstructorWhenParameterNameConflictsWithPropertyName()
         {
-            string json = @"{name:""1""}";
+            var json = @"{name:""1""}";
 
-            PublicParameterizedConstructorWithPropertyNameConflict c = JsonConvert.DeserializeObject<PublicParameterizedConstructorWithPropertyNameConflict>(json);
+            var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorWithPropertyNameConflict>(json);
             Assert.IsNotNull(c);
             Assert.AreEqual(1, c.Name);
         }
@@ -152,9 +152,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void PublicParameterizedConstructorWithPropertyNameConflictWithAttribute()
         {
-            string json = @"{name:""1""}";
+            var json = @"{name:""1""}";
 
-            PublicParameterizedConstructorWithPropertyNameConflictWithAttribute c = JsonConvert.DeserializeObject<PublicParameterizedConstructorWithPropertyNameConflictWithAttribute>(json);
+            var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorWithPropertyNameConflictWithAttribute>(json);
             Assert.IsNotNull(c);
             Assert.AreEqual(1, c.Name);
         }

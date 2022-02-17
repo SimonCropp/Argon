@@ -42,13 +42,13 @@ namespace Argon.Linq
         /// <returns>A <see cref="Task"/> that represents the asynchronous write operation.</returns>
         public override Task WriteToAsync(JsonWriter writer, CancellationToken cancellationToken, params JsonConverter[] converters)
         {
-            Task t = writer.WriteStartObjectAsync(cancellationToken);
+            var t = writer.WriteStartObjectAsync(cancellationToken);
             if (!t.IsCompletedSucessfully())
             {
                 return AwaitProperties(t, 0, writer, cancellationToken, converters);
             }
 
-            for (int i = 0; i < _properties.Count; i++)
+            for (var i = 0; i < _properties.Count; i++)
             {
                 t = _properties[i].WriteToAsync(writer, cancellationToken, converters);
                 if (!t.IsCompletedSucessfully())
@@ -114,7 +114,7 @@ namespace Argon.Linq
                 throw JsonReaderException.Create(reader, "Error reading JObject from JsonReader. Current JsonReader item is not an object: {0}".FormatWith(CultureInfo.InvariantCulture, reader.TokenType));
             }
 
-            JObject o = new JObject();
+            var o = new JObject();
             o.SetLineInfo(reader as IJsonLineInfo, settings);
 
             await o.ReadTokenFromAsync(reader, settings, cancellationToken).ConfigureAwait(false);

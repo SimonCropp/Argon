@@ -46,12 +46,12 @@ namespace Argon.Converters
 
             if (value is DateTime dateTime)
             {
-                DateTime utcDateTime = dateTime.ToUniversalTime();
+                var utcDateTime = dateTime.ToUniversalTime();
                 ticks = DateTimeUtils.ConvertDateTimeToJavaScriptTicks(utcDateTime);
             }
             else if (value is DateTimeOffset dateTimeOffset)
             {
-                DateTimeOffset utcDateTimeOffset = dateTimeOffset.ToUniversalTime();
+                var utcDateTimeOffset = dateTimeOffset.ToUniversalTime();
                 ticks = DateTimeUtils.ConvertDateTimeToJavaScriptTicks(utcDateTimeOffset.UtcDateTime);
             }
             else
@@ -89,12 +89,12 @@ namespace Argon.Converters
                 throw JsonSerializationException.Create(reader, "Unexpected token or value when parsing date. Token: {0}, Value: {1}".FormatWith(CultureInfo.InvariantCulture, reader.TokenType, reader.Value));
             }
 
-            if (!JavaScriptUtils.TryGetDateFromConstructorJson(reader, out DateTime d, out string? errorMessage))
+            if (!JavaScriptUtils.TryGetDateFromConstructorJson(reader, out var d, out var errorMessage))
             {
                 throw JsonSerializationException.Create(reader, errorMessage);
             }
 
-            Type t = (ReflectionUtils.IsNullableType(objectType))
+            var t = (ReflectionUtils.IsNullableType(objectType))
                 ? Nullable.GetUnderlyingType(objectType)
                 : objectType;
             if (t == typeof(DateTimeOffset))

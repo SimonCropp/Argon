@@ -48,7 +48,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeDynamicObject()
         {
-            TestDynamicObject dynamicObject = new TestDynamicObject();
+            var dynamicObject = new TestDynamicObject();
             dynamicObject.Explicit = true;
 
             dynamic d = dynamicObject;
@@ -56,12 +56,12 @@ namespace Argon.Tests.Serialization
             d.Decimal = 99.9d;
             d.ChildObject = new DynamicChildObject();
 
-            Dictionary<string, object> values = new Dictionary<string, object>();
+            var values = new Dictionary<string, object>();
 
-            IContractResolver c = DefaultContractResolver.Instance;
-            JsonDynamicContract dynamicContract = (JsonDynamicContract)c.ResolveContract(dynamicObject.GetType());
+            var c = DefaultContractResolver.Instance;
+            var dynamicContract = (JsonDynamicContract)c.ResolveContract(dynamicObject.GetType());
 
-            foreach (string memberName in dynamicObject.GetDynamicMemberNames())
+            foreach (var memberName in dynamicObject.GetDynamicMemberNames())
             {
                 object value;
                 dynamicContract.TryGetMember(dynamicObject, memberName, out value);
@@ -73,7 +73,7 @@ namespace Argon.Tests.Serialization
             Assert.AreEqual(d.Decimal, values["Decimal"]);
             Assert.AreEqual(d.ChildObject, values["ChildObject"]);
 
-            string json = JsonConvert.SerializeObject(dynamicObject, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(dynamicObject, Formatting.Indented);
             StringAssert.AreEqual(@"{
   ""Explicit"": true,
   ""Decimal"": 99.9,
@@ -84,7 +84,7 @@ namespace Argon.Tests.Serialization
   }
 }", json);
 
-            TestDynamicObject newDynamicObject = JsonConvert.DeserializeObject<TestDynamicObject>(json);
+            var newDynamicObject = JsonConvert.DeserializeObject<TestDynamicObject>(json);
             Assert.AreEqual(true, newDynamicObject.Explicit);
 
             d = newDynamicObject;
@@ -115,8 +115,8 @@ namespace Argon.Tests.Serialization
 #pragma warning restore 618
             });
 
-            string dynamicChildObjectTypeName = ReflectionUtils.GetTypeName(typeof(DynamicChildObject), TypeNameAssemblyFormatHandling.Full, null);
-            string expandoObjectTypeName = ReflectionUtils.GetTypeName(typeof(ExpandoObject), TypeNameAssemblyFormatHandling.Full, null);
+            var dynamicChildObjectTypeName = ReflectionUtils.GetTypeName(typeof(DynamicChildObject), TypeNameAssemblyFormatHandling.Full, null);
+            var expandoObjectTypeName = ReflectionUtils.GetTypeName(typeof(ExpandoObject), TypeNameAssemblyFormatHandling.Full, null);
 
             StringAssert.AreEqual(@"{
   ""$type"": """ + expandoObjectTypeName + @""",
@@ -240,7 +240,7 @@ namespace Argon.Tests.Serialization
   ""in_reply_to_user_id"": null
 }";
 
-            DictionaryDynamicObject foo = JsonConvert.DeserializeObject<DictionaryDynamicObject>(json, settings);
+            var foo = JsonConvert.DeserializeObject<DictionaryDynamicObject>(json, settings);
 
             Assert.AreEqual(false, foo.Values["retweeted"]);
         }
@@ -346,7 +346,7 @@ namespace Argon.Tests.Serialization
 
         public override bool TryConvert(ConvertBinder binder, out object result)
         {
-            Type targetType = binder.Type;
+            var targetType = binder.Type;
 
             if (targetType == typeof(IDictionary<string, object>) ||
                 targetType == typeof(IDictionary))

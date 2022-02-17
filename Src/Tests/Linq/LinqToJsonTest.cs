@@ -47,8 +47,8 @@ namespace Argon.Tests.Linq
         [Fact]
         public void EscapedQuotePath()
         {
-            JValue v = new JValue(1);
-            JObject o = new JObject();
+            var v = new JValue(1);
+            var o = new JObject();
             o["We're offline!"] = v;
 
             Assert.AreEqual(@"['We\'re offline!']", v.Path);
@@ -71,24 +71,24 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ToObjectFromGuidToString()
         {
-            JValue token = new JValue(new Guid("91274484-3b20-48b4-9d18-7d936b2cb88f"));
-            string value = token.ToObject<string>();
+            var token = new JValue(new Guid("91274484-3b20-48b4-9d18-7d936b2cb88f"));
+            var value = token.ToObject<string>();
             Assert.AreEqual("91274484-3b20-48b4-9d18-7d936b2cb88f", value);
         }
 
         [Fact]
         public void ToObjectFromIntegerToString()
         {
-            JValue token = new JValue(1234);
-            string value = token.ToObject<string>();
+            var token = new JValue(1234);
+            var value = token.ToObject<string>();
             Assert.AreEqual("1234", value);
         }
 
         [Fact]
         public void ToObjectFromStringToInteger()
         {
-            JValue token = new JValue("1234");
-            int value = token.ToObject<int>();
+            var token = new JValue("1234");
+            var value = token.ToObject<int>();
             Assert.AreEqual(1234, value);
         }
 
@@ -122,13 +122,13 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ToObject_Guid()
         {
-            JObject anon = new JObject
+            var anon = new JObject
             {
                 ["id"] = Guid.NewGuid()
             };
             Assert.AreEqual(JTokenType.Guid, anon["id"].Type);
 
-            Dictionary<string, JToken> dict = anon.ToObject<Dictionary<string, JToken>>();
+            var dict = anon.ToObject<Dictionary<string, JToken>>();
             Assert.AreEqual(JTokenType.Guid, dict["id"].Type);
         }
 
@@ -140,8 +140,8 @@ namespace Argon.Tests.Linq
         [Fact]
         public void FromObject_ULongMaxValue()
         {
-            TestClass_ULong instance = new TestClass_ULong { Value = ulong.MaxValue };
-            JObject output = JObject.FromObject(instance);
+            var instance = new TestClass_ULong { Value = ulong.MaxValue };
+            var output = JObject.FromObject(instance);
 
             StringAssert.AreEqual(@"{
   ""Value"": 18446744073709551615
@@ -156,8 +156,8 @@ namespace Argon.Tests.Linq
         [Fact]
         public void FromObject_ByteMaxValue()
         {
-            TestClass_Byte instance = new TestClass_Byte { Value = byte.MaxValue };
-            JObject output = JObject.FromObject(instance);
+            var instance = new TestClass_Byte { Value = byte.MaxValue };
+            var output = JObject.FromObject(instance);
 
             StringAssert.AreEqual(@"{
   ""Value"": 255
@@ -167,9 +167,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ToObject_Base64AndGuid()
         {
-            JObject o = JObject.Parse("{'responseArray':'AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAA'}");
-            byte[] data = o["responseArray"].ToObject<byte[]>();
-            byte[] expected = Convert.FromBase64String("AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAA");
+            var o = JObject.Parse("{'responseArray':'AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAA'}");
+            var data = o["responseArray"].ToObject<byte[]>();
+            var expected = Convert.FromBase64String("AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAA");
 
             CollectionAssert.AreEqual(expected, data);
 
@@ -203,7 +203,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void EmptyJEnumerableCount()
         {
-            JEnumerable<JToken> tokens = new JEnumerable<JToken>();
+            var tokens = new JEnumerable<JToken>();
 
             Assert.AreEqual(0, tokens.Count());
         }
@@ -219,8 +219,8 @@ namespace Argon.Tests.Linq
         [Fact]
         public void EmptyJEnumerableEquals()
         {
-            JEnumerable<JToken> tokens1 = new JEnumerable<JToken>();
-            JEnumerable<JToken> tokens2 = new JEnumerable<JToken>();
+            var tokens1 = new JEnumerable<JToken>();
+            var tokens2 = new JEnumerable<JToken>();
 
             Assert.IsTrue(tokens1.Equals(tokens2));
 
@@ -233,7 +233,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void EmptyJEnumerableGetHashCode()
         {
-            JEnumerable<JToken> tokens = new JEnumerable<JToken>();
+            var tokens = new JEnumerable<JToken>();
 
             Assert.AreEqual(0, tokens.GetHashCode());
         }
@@ -241,15 +241,15 @@ namespace Argon.Tests.Linq
         [Fact]
         public void CommentsAndReadFrom()
         {
-            StringReader textReader = new StringReader(@"[
+            var textReader = new StringReader(@"[
     // hi
     1,
     2,
     3
 ]");
 
-            JsonTextReader jsonReader = new JsonTextReader(textReader);
-            JArray a = (JArray)JToken.ReadFrom(jsonReader, new JsonLoadSettings
+            var jsonReader = new JsonTextReader(textReader);
+            var a = (JArray)JToken.ReadFrom(jsonReader, new JsonLoadSettings
             {
                 CommentHandling = CommentHandling.Load
             });
@@ -262,15 +262,15 @@ namespace Argon.Tests.Linq
         [Fact]
         public void CommentsAndReadFrom_IgnoreComments()
         {
-            StringReader textReader = new StringReader(@"[
+            var textReader = new StringReader(@"[
     // hi
     1,
     2,
     3
 ]");
 
-            JsonTextReader jsonReader = new JsonTextReader(textReader);
-            JArray a = (JArray)JToken.ReadFrom(jsonReader);
+            var jsonReader = new JsonTextReader(textReader);
+            var a = (JArray)JToken.ReadFrom(jsonReader);
 
             Assert.AreEqual(3, a.Count);
             Assert.AreEqual(JTokenType.Integer, a[0].Type);
@@ -280,7 +280,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void StartingCommentAndReadFrom()
         {
-            StringReader textReader = new StringReader(@"
+            var textReader = new StringReader(@"
 // hi
 [
     1,
@@ -288,8 +288,8 @@ namespace Argon.Tests.Linq
     3
 ]");
 
-            JsonTextReader jsonReader = new JsonTextReader(textReader);
-            JValue v = (JValue)JToken.ReadFrom(jsonReader, new JsonLoadSettings
+            var jsonReader = new JsonTextReader(textReader);
+            var v = (JValue)JToken.ReadFrom(jsonReader, new JsonLoadSettings
             {
                 CommentHandling = CommentHandling.Load
             });
@@ -305,7 +305,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void StartingCommentAndReadFrom_IgnoreComments()
         {
-            StringReader textReader = new StringReader(@"
+            var textReader = new StringReader(@"
 // hi
 [
     1,
@@ -313,8 +313,8 @@ namespace Argon.Tests.Linq
     3
 ]");
 
-            JsonTextReader jsonReader = new JsonTextReader(textReader);
-            JArray a = (JArray)JToken.ReadFrom(jsonReader, new JsonLoadSettings
+            var jsonReader = new JsonTextReader(textReader);
+            var a = (JArray)JToken.ReadFrom(jsonReader, new JsonLoadSettings
             {
                 CommentHandling = CommentHandling.Ignore
             });
@@ -330,7 +330,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void StartingUndefinedAndReadFrom()
         {
-            StringReader textReader = new StringReader(@"
+            var textReader = new StringReader(@"
 undefined
 [
     1,
@@ -338,8 +338,8 @@ undefined
     3
 ]");
 
-            JsonTextReader jsonReader = new JsonTextReader(textReader);
-            JValue v = (JValue)JToken.ReadFrom(jsonReader);
+            var jsonReader = new JsonTextReader(textReader);
+            var v = (JValue)JToken.ReadFrom(jsonReader);
 
             Assert.AreEqual(JTokenType.Undefined, v.Type);
 
@@ -352,9 +352,9 @@ undefined
         [Fact]
         public void StartingEndArrayAndReadFrom()
         {
-            StringReader textReader = new StringReader(@"[]");
+            var textReader = new StringReader(@"[]");
 
-            JsonTextReader jsonReader = new JsonTextReader(textReader);
+            var jsonReader = new JsonTextReader(textReader);
             jsonReader.Read();
             jsonReader.Read();
 
@@ -364,7 +364,7 @@ undefined
         [Fact]
         public void JPropertyPath()
         {
-            JObject o = new JObject
+            var o = new JObject
             {
                 {
                     "person",
@@ -375,14 +375,14 @@ undefined
                 }
             };
 
-            JContainer idProperty = o["person"]["$id"].Parent;
+            var idProperty = o["person"]["$id"].Parent;
             Assert.AreEqual("person.$id", idProperty.Path);
         }
 
         [Fact]
         public void EscapedPath()
         {
-            string json = @"{
+            var json = @"{
   ""frameworks"": {
     ""NET5_0_OR_GREATER"": {
       ""dependencies"": {
@@ -394,13 +394,13 @@ undefined
   }
 }";
 
-            JObject o = JObject.Parse(json);
+            var o = JObject.Parse(json);
 
-            JToken v1 = o["frameworks"]["NET5_0_OR_GREATER"]["dependencies"]["System.Xml.ReaderWriter"]["source"];
+            var v1 = o["frameworks"]["NET5_0_OR_GREATER"]["dependencies"]["System.Xml.ReaderWriter"]["source"];
 
             Assert.AreEqual("frameworks.NET5_0_OR_GREATER.dependencies['System.Xml.ReaderWriter'].source", v1.Path);
 
-            JToken v2 = o.SelectToken(v1.Path);
+            var v2 = o.SelectToken(v1.Path);
 
             Assert.AreEqual(v1, v2);
         }
@@ -416,14 +416,14 @@ undefined
 
         private void EscapedPathAssert(string propertyName, string expectedPath)
         {
-            int v1 = int.MaxValue;
-            JValue value = new JValue(v1);
+            var v1 = int.MaxValue;
+            var value = new JValue(v1);
 
-            JObject o = new JObject(new JProperty(propertyName, value));
+            var o = new JObject(new JProperty(propertyName, value));
 
             Assert.AreEqual(expectedPath, value.Path);
 
-            JValue selectedValue = (JValue)o.SelectToken(value.Path);
+            var selectedValue = (JValue)o.SelectToken(value.Path);
 
             Assert.AreEqual(value, selectedValue);
         }
@@ -431,7 +431,7 @@ undefined
         [Fact]
         public void ForEach()
         {
-            JArray items = new JArray(new JObject(new JProperty("name", "value!")));
+            var items = new JArray(new JObject(new JProperty("name", "value!")));
 
             foreach (JObject friend in items)
             {
@@ -444,9 +444,9 @@ undefined
         [Fact]
         public void DoubleValue()
         {
-            JArray j = JArray.Parse("[-1E+4,100.0e-2]");
+            var j = JArray.Parse("[-1E+4,100.0e-2]");
 
-            double value = (double)j[0];
+            var value = (double)j[0];
             Assert.AreEqual(-10000d, value);
 
             value = (double)j[1];
@@ -456,14 +456,14 @@ undefined
         [Fact]
         public void Manual()
         {
-            JArray array = new JArray();
-            JValue text = new JValue("Manual text");
-            JValue date = new JValue(new DateTime(2000, 5, 23));
+            var array = new JArray();
+            var text = new JValue("Manual text");
+            var date = new JValue(new DateTime(2000, 5, 23));
 
             array.Add(text);
             array.Add(date);
 
-            string json = array.ToString();
+            var json = array.ToString();
             // [
             //   "Manual text",
             //   "\/Date(958996800000+1200)\/"
@@ -473,13 +473,13 @@ undefined
         [Fact]
         public void LinqToJsonDeserialize()
         {
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("Name", "John Smith"),
                 new JProperty("BirthDate", new DateTime(1983, 3, 20))
                 );
 
-            JsonSerializer serializer = new JsonSerializer();
-            Person p = (Person)serializer.Deserialize(new JTokenReader(o), typeof(Person));
+            var serializer = new JsonSerializer();
+            var p = (Person)serializer.Deserialize(new JTokenReader(o), typeof(Person));
 
             Assert.AreEqual("John Smith", p.Name);
         }
@@ -487,7 +487,7 @@ undefined
         [Fact]
         public void ObjectParse()
         {
-            string json = @"{
+            var json = @"{
         CPU: 'Intel',
         Drives: [
           'DVD read/writer',
@@ -495,19 +495,19 @@ undefined
         ]
       }";
 
-            JObject o = JObject.Parse(json);
+            var o = JObject.Parse(json);
             IList<JProperty> properties = o.Properties().ToList();
 
             Assert.AreEqual("CPU", properties[0].Name);
             Assert.AreEqual("Intel", (string)properties[0].Value);
             Assert.AreEqual("Drives", properties[1].Name);
 
-            JArray list = (JArray)properties[1].Value;
+            var list = (JArray)properties[1].Value;
             Assert.AreEqual(2, list.Children().Count());
             Assert.AreEqual("DVD read/writer", (string)list.Children().ElementAt(0));
             Assert.AreEqual("500 gigabyte hard drive", (string)list.Children().ElementAt(1));
 
-            List<object> parameterValues =
+            var parameterValues =
                 (from p in o.Properties()
                     where p.Value is JValue
                     select ((JValue)p.Value).Value).ToList();
@@ -519,12 +519,12 @@ undefined
         [Fact]
         public void CreateLongArray()
         {
-            string json = @"[0,1,2,3,4,5,6,7,8,9]";
+            var json = @"[0,1,2,3,4,5,6,7,8,9]";
 
-            JArray a = JArray.Parse(json);
-            List<int> list = a.Values<int>().ToList();
+            var a = JArray.Parse(json);
+            var list = a.Values<int>().ToList();
 
-            List<int> expected = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            var expected = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
             CollectionAssert.AreEqual(expected, list);
         }
@@ -533,7 +533,7 @@ undefined
         public void GoogleSearchAPI()
         {
             #region GoogleJson
-            string json = @"{
+            var json = @"{
     results:
         [
             {
@@ -613,9 +613,9 @@ keyword such as type of business.""
 ";
             #endregion
 
-            JObject o = JObject.Parse(json);
+            var o = JObject.Parse(json);
 
-            List<JObject> resultObjects = o["results"].Children<JObject>().ToList();
+            var resultObjects = o["results"].Children<JObject>().ToList();
 
             Assert.AreEqual(32, resultObjects.Properties().Count());
 
@@ -625,20 +625,20 @@ keyword such as type of business.""
 
             Assert.AreEqual(5, o.PropertyValues().Cast<JArray>().Children().Count());
 
-            List<string> resultUrls = o["results"].Children().Values<string>("url").ToList();
+            var resultUrls = o["results"].Children().Values<string>("url").ToList();
 
-            List<string> expectedUrls = new List<string>() { "http://www.google.com/", "http://news.google.com/", "http://groups.google.com/", "http://maps.google.com/" };
+            var expectedUrls = new List<string>() { "http://www.google.com/", "http://news.google.com/", "http://groups.google.com/", "http://maps.google.com/" };
 
             CollectionAssert.AreEqual(expectedUrls, resultUrls);
 
-            List<JToken> descendants = o.Descendants().ToList();
+            var descendants = o.Descendants().ToList();
             Assert.AreEqual(89, descendants.Count);
         }
 
         [Fact]
         public void JTokenToString()
         {
-            string json = @"{
+            var json = @"{
   CPU: 'Intel',
   Drives: [
     'DVD read/writer',
@@ -646,7 +646,7 @@ keyword such as type of business.""
   ]
 }";
 
-            JObject o = JObject.Parse(json);
+            var o = JObject.Parse(json);
 
             StringAssert.AreEqual(@"{
   ""CPU"": ""Intel"",
@@ -656,17 +656,17 @@ keyword such as type of business.""
   ]
 }", o.ToString());
 
-            JArray list = o.Value<JArray>("Drives");
+            var list = o.Value<JArray>("Drives");
 
             StringAssert.AreEqual(@"[
   ""DVD read/writer"",
   ""500 gigabyte hard drive""
 ]", list.ToString());
 
-            JProperty cpuProperty = o.Property("CPU");
+            var cpuProperty = o.Property("CPU");
             Assert.AreEqual(@"""CPU"": ""Intel""", cpuProperty.ToString());
 
-            JProperty drivesProperty = o.Property("Drives");
+            var drivesProperty = o.Property("Drives");
             StringAssert.AreEqual(@"""Drives"": [
   ""DVD read/writer"",
   ""500 gigabyte hard drive""
@@ -676,9 +676,9 @@ keyword such as type of business.""
         [Fact]
         public void JTokenToStringTypes()
         {
-            string json = @"{""Color"":2,""Establised"":new Date(1264118400000),""Width"":1.1,""Employees"":999,""RoomsPerFloor"":[1,2,3,4,5,6,7,8,9],""Open"":false,""Symbol"":""@"",""Mottos"":[""Hello World"",""öäüÖÄÜ\\'{new Date(12345);}[222]_µ@²³~"",null,"" ""],""Cost"":100980.1,""Escape"":""\r\n\t\f\b?{\\r\\n\""'"",""product"":[{""Name"":""Rocket"",""ExpiryDate"":new Date(949532490000),""Price"":0},{""Name"":""Alien"",""ExpiryDate"":new Date(-62135596800000),""Price"":0}]}";
+            var json = @"{""Color"":2,""Establised"":new Date(1264118400000),""Width"":1.1,""Employees"":999,""RoomsPerFloor"":[1,2,3,4,5,6,7,8,9],""Open"":false,""Symbol"":""@"",""Mottos"":[""Hello World"",""öäüÖÄÜ\\'{new Date(12345);}[222]_µ@²³~"",null,"" ""],""Cost"":100980.1,""Escape"":""\r\n\t\f\b?{\\r\\n\""'"",""product"":[{""Name"":""Rocket"",""ExpiryDate"":new Date(949532490000),""Price"":0},{""Name"":""Alien"",""ExpiryDate"":new Date(-62135596800000),""Price"":0}]}";
 
-            JObject o = JObject.Parse(json);
+            var o = JObject.Parse(json);
 
             StringAssert.AreEqual(@"""Establised"": new Date(
   1264118400000
@@ -693,7 +693,7 @@ keyword such as type of business.""
 
             json = @"[null,undefined]";
 
-            JArray a = JArray.Parse(json);
+            var a = JArray.Parse(json);
             StringAssert.AreEqual(@"[
   null,
   undefined
@@ -705,7 +705,7 @@ keyword such as type of business.""
         [Fact]
         public void CreateJTokenTree()
         {
-            JObject o =
+            var o =
                 new JObject(
                     new JProperty("Test1", "Test1Value"),
                     new JProperty("Test2", "Test2Value"),
@@ -722,7 +722,7 @@ keyword such as type of business.""
   ""Test4"": null
 }", o.ToString());
 
-            JArray a =
+            var a =
                 new JArray(
                     o,
                     new DateTime(2000, 10, 10, 0, 0, 0, DateTimeKind.Utc),
@@ -797,7 +797,7 @@ keyword such as type of business.""
         [Fact]
         public void FromObjectExample()
         {
-            Post p = new Post
+            var p = new Post
             {
                 Title = "How to use FromObject",
                 Categories = new[] { "LINQ to JSON" }
@@ -807,11 +807,11 @@ keyword such as type of business.""
             //JObject o = JObject.Parse(JsonConvert.SerializeObject(p));
 
             // create JObject directly from the Post
-            JObject o = JObject.FromObject(p);
+            var o = JObject.FromObject(p);
 
             o["Title"] = o["Title"] + " - Super effective!";
 
-            string json = o.ToString();
+            var json = o.ToString();
             // {
             //   "Title": "How to use FromObject - It's super effective!",
             //   "Categories": [
@@ -832,7 +832,7 @@ keyword such as type of business.""
         [Fact]
         public void QueryingExample()
         {
-            JArray posts = JArray.Parse(@"[
+            var posts = JArray.Parse(@"[
               {
                 'Title': 'JSON Serializer Basics',
                 'Date': '2013-12-21T00:00:00',
@@ -847,7 +847,7 @@ keyword such as type of business.""
               }
             ]");
 
-            JToken serializerBasics = posts
+            var serializerBasics = posts
                 .Single(p => (string)p["Title"] == "JSON Serializer Basics");
             // JSON Serializer Basics
 
@@ -868,9 +868,9 @@ keyword such as type of business.""
         [Fact]
         public void CreateJTokenTreeNested()
         {
-            List<Post> posts = GetPosts();
+            var posts = GetPosts();
 
-            JObject rss =
+            var rss =
                 new JObject(
                     new JProperty("channel",
                         new JObject(
@@ -943,7 +943,7 @@ keyword such as type of business.""
         [Fact]
         public void BasicQuerying()
         {
-            string json = @"{
+            var json = @"{
                         ""channel"": {
                           ""title"": ""James Newton-King"",
                           ""link"": ""http://james.newtonking.com"",
@@ -971,7 +971,7 @@ keyword such as type of business.""
                         }
                       }";
 
-            JObject o = JObject.Parse(json);
+            var o = JObject.Parse(json);
 
             Assert.AreEqual(null, o["purple"]);
             Assert.AreEqual(null, o.Value<string>("purple"));
@@ -991,7 +991,7 @@ keyword such as type of business.""
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                JObject o = new JObject();
+                var o = new JObject();
                 Assert.AreEqual(null, o[0]);
             }, "Accessed JObject values with invalid key value: 0. Object property name expected.");
         }
@@ -1001,7 +1001,7 @@ keyword such as type of business.""
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                JArray a = new JArray();
+                var a = new JArray();
                 Assert.AreEqual(null, a["purple"]);
             }, @"Accessed JArray values with invalid key value: ""purple"". Int32 array index expected.");
         }
@@ -1011,7 +1011,7 @@ keyword such as type of business.""
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                JConstructor c = new JConstructor("ConstructorValue");
+                var c = new JConstructor("ConstructorValue");
                 Assert.AreEqual(null, c["purple"]);
             }, @"Accessed JConstructor values with invalid key value: ""purple"". Argument position index expected.");
         }
@@ -1019,7 +1019,7 @@ keyword such as type of business.""
         [Fact]
         public void ToStringJsonConverter()
         {
-            JObject o =
+            var o =
                 new JObject(
                     new JProperty("Test1", new DateTime(2000, 10, 15, 5, 5, 5, DateTimeKind.Utc)),
                     new JProperty("Test2", new DateTimeOffset(2000, 10, 15, 5, 5, 5, new TimeSpan(11, 11, 0))),
@@ -1027,14 +1027,14 @@ keyword such as type of business.""
                     new JProperty("Test4", null)
                     );
 
-            JsonSerializer serializer = new JsonSerializer();
+            var serializer = new JsonSerializer();
             serializer.Converters.Add(new JavaScriptDateTimeConverter());
-            StringWriter sw = new StringWriter();
+            var sw = new StringWriter();
             JsonWriter writer = new JsonTextWriter(sw);
             writer.Formatting = Formatting.Indented;
             serializer.Serialize(writer, o);
 
-            string json = sw.ToString();
+            var json = sw.ToString();
 
             StringAssert.AreEqual(@"{
   ""Test1"": new Date(
@@ -1051,7 +1051,7 @@ keyword such as type of business.""
         [Fact]
         public void DateTimeOffset()
         {
-            List<DateTimeOffset> testDates = new List<DateTimeOffset>
+            var testDates = new List<DateTimeOffset>
             {
                 new DateTimeOffset(new DateTime(100, 1, 1, 1, 1, 1, DateTimeKind.Utc)),
                 new DateTimeOffset(2000, 1, 1, 1, 1, 1, TimeSpan.Zero),
@@ -1059,7 +1059,7 @@ keyword such as type of business.""
                 new DateTimeOffset(2000, 1, 1, 1, 1, 1, TimeSpan.FromHours(-3.5)),
             };
 
-            JsonSerializer jsonSerializer = new JsonSerializer();
+            var jsonSerializer = new JsonSerializer();
 
             JTokenWriter jsonWriter;
             using (jsonWriter = new JTokenWriter())
@@ -1073,9 +1073,9 @@ keyword such as type of business.""
         [Fact]
         public void FromObject()
         {
-            List<Post> posts = GetPosts();
+            var posts = GetPosts();
 
-            JObject o = JObject.FromObject(new
+            var o = JObject.FromObject(new
             {
                 channel = new
                 {
@@ -1128,7 +1128,7 @@ keyword such as type of business.""
             Assert.AreEqual("James Newton-King", (string)o["channel"]["title"]);
             Assert.AreEqual(2, o["channel"]["item"].Children().Count());
 
-            JArray a = JArray.FromObject(new List<int>() { 0, 1, 2, 3, 4 });
+            var a = JArray.FromObject(new List<int>() { 0, 1, 2, 3, 4 });
             CustomAssert.IsInstanceOfType(typeof(JArray), a);
             Assert.AreEqual(5, a.Count());
         }
@@ -1136,9 +1136,9 @@ keyword such as type of business.""
         [Fact]
         public void FromAnonDictionary()
         {
-            List<Post> posts = GetPosts();
+            var posts = GetPosts();
 
-            JObject o = JObject.FromObject(new
+            var o = JObject.FromObject(new
             {
                 channel = new Dictionary<string, object>
                 {
@@ -1193,7 +1193,7 @@ keyword such as type of business.""
             Assert.AreEqual("James Newton-King", (string)o["channel"]["title"]);
             Assert.AreEqual(2, o["channel"]["item"].Children().Count());
 
-            JArray a = JArray.FromObject(new List<int>() { 0, 1, 2, 3, 4 });
+            var a = JArray.FromObject(new List<int>() { 0, 1, 2, 3, 4 });
             CustomAssert.IsInstanceOfType(typeof(JArray), a);
             Assert.AreEqual(5, a.Count());
         }
@@ -1218,7 +1218,7 @@ keyword such as type of business.""
             Assert.IsNotNull(enumerable);
             Assert.AreEqual(o, enumerable);
 
-            DateTime d = enumerable["Test1"].Value<DateTime>();
+            var d = enumerable["Test1"].Value<DateTime>();
 
             Assert.AreEqual(new DateTime(2000, 10, 15, 5, 5, 5, DateTimeKind.Utc), d);
         }
@@ -1241,7 +1241,7 @@ keyword such as type of business.""
         {
             JToken olist = JArray.Parse("[12,55]");
 
-            List<int> list1 = olist.AsEnumerable().Values<int>().ToList();
+            var list1 = olist.AsEnumerable().Values<int>().ToList();
 
             Assert.AreEqual(12, list1[0]);
             Assert.AreEqual(55, list1[1]);
@@ -1250,7 +1250,7 @@ keyword such as type of business.""
         [Fact]
         public void ChildrenExtension()
         {
-            string json = @"[
+            var json = @"[
                         {
                           ""title"": ""James Newton-King"",
                           ""link"": ""http://james.newtonking.com"",
@@ -1303,7 +1303,7 @@ keyword such as type of business.""
                         }
                       ]";
 
-            JArray o = JArray.Parse(json);
+            var o = JArray.Parse(json);
 
             Assert.AreEqual(4, o.Children()["item"].Children()["title"].Count());
             CollectionAssert.AreEqual(new string[]
@@ -1319,8 +1319,8 @@ keyword such as type of business.""
         [Fact]
         public void UriGuidTimeSpanTestClassEmptyTest()
         {
-            UriGuidTimeSpanTestClass c1 = new UriGuidTimeSpanTestClass();
-            JObject o = JObject.FromObject(c1);
+            var c1 = new UriGuidTimeSpanTestClass();
+            var o = JObject.FromObject(c1);
 
             StringAssert.AreEqual(@"{
   ""Guid"": ""00000000-0000-0000-0000-000000000000"",
@@ -1330,7 +1330,7 @@ keyword such as type of business.""
   ""Uri"": null
 }", o.ToString());
 
-            UriGuidTimeSpanTestClass c2 = o.ToObject<UriGuidTimeSpanTestClass>();
+            var c2 = o.ToObject<UriGuidTimeSpanTestClass>();
             Assert.AreEqual(c1.Guid, c2.Guid);
             Assert.AreEqual(c1.NullableGuid, c2.NullableGuid);
             Assert.AreEqual(c1.TimeSpan, c2.TimeSpan);
@@ -1341,7 +1341,7 @@ keyword such as type of business.""
         [Fact]
         public void UriGuidTimeSpanTestClassValuesTest()
         {
-            UriGuidTimeSpanTestClass c1 = new UriGuidTimeSpanTestClass
+            var c1 = new UriGuidTimeSpanTestClass
             {
                 Guid = new Guid("1924129C-F7E0-40F3-9607-9939C531395A"),
                 NullableGuid = new Guid("9E9F3ADF-E017-4F72-91E0-617EBE85967D"),
@@ -1349,7 +1349,7 @@ keyword such as type of business.""
                 NullableTimeSpan = TimeSpan.FromHours(1),
                 Uri = new Uri("http://testuri.com")
             };
-            JObject o = JObject.FromObject(c1);
+            var o = JObject.FromObject(c1);
 
             StringAssert.AreEqual(@"{
   ""Guid"": ""1924129c-f7e0-40f3-9607-9939c531395a"",
@@ -1359,14 +1359,14 @@ keyword such as type of business.""
   ""Uri"": ""http://testuri.com""
 }", o.ToString());
 
-            UriGuidTimeSpanTestClass c2 = o.ToObject<UriGuidTimeSpanTestClass>();
+            var c2 = o.ToObject<UriGuidTimeSpanTestClass>();
             Assert.AreEqual(c1.Guid, c2.Guid);
             Assert.AreEqual(c1.NullableGuid, c2.NullableGuid);
             Assert.AreEqual(c1.TimeSpan, c2.TimeSpan);
             Assert.AreEqual(c1.NullableTimeSpan, c2.NullableTimeSpan);
             Assert.AreEqual(c1.Uri, c2.Uri);
 
-            string j = JsonConvert.SerializeObject(c1, Formatting.Indented);
+            var j = JsonConvert.SerializeObject(c1, Formatting.Indented);
 
             StringAssert.AreEqual(j, o.ToString());
         }
@@ -1374,12 +1374,12 @@ keyword such as type of business.""
         [Fact]
         public void ParseWithPrecendingComments()
         {
-            string json = @"/* blah */ {'hi':'hi!'}";
-            JObject o = JObject.Parse(json);
+            var json = @"/* blah */ {'hi':'hi!'}";
+            var o = JObject.Parse(json);
             Assert.AreEqual("hi!", (string)o["hi"]);
 
             json = @"/* blah */ ['hi!']";
-            JArray a = JArray.Parse(json);
+            var a = JArray.Parse(json);
             Assert.AreEqual("hi!", (string)a[0]);
         }
 
@@ -1417,9 +1417,9 @@ keyword such as type of business.""
         [Fact]
         public void ToObject_Enum_Converter()
         {
-            JObject o = JObject.Parse("{'FooBar':'SOME_OTHER_VALUE'}");
+            var o = JObject.Parse("{'FooBar':'SOME_OTHER_VALUE'}");
 
-            FooBar e = o["FooBar"].ToObject<FooBar>();
+            var e = o["FooBar"].ToObject<FooBar>();
             Assert.AreEqual(FooBar.SomeOtherValue, e);
         }
 
@@ -1440,20 +1440,20 @@ keyword such as type of business.""
         [Fact]
         public void ToObject_Enum_NoConverter()
         {
-            JObject o = JObject.Parse("{'FooBarNoEnum':'SOME_OTHER_VALUE'}");
+            var o = JObject.Parse("{'FooBarNoEnum':'SOME_OTHER_VALUE'}");
 
-            FooBarNoEnum e = o["FooBarNoEnum"].ToObject<FooBarNoEnum>();
+            var e = o["FooBarNoEnum"].ToObject<FooBarNoEnum>();
             Assert.AreEqual(FooBarNoEnum.SomeOtherValue, e);
         }
 
         [Fact]
         public void SerializeWithNoRedundentIdPropertiesTest()
         {
-            Dictionary<string, object> dic1 = new Dictionary<string, object>();
-            Dictionary<string, object> dic2 = new Dictionary<string, object>();
-            Dictionary<string, object> dic3 = new Dictionary<string, object>();
-            List<object> list1 = new List<object>();
-            List<object> list2 = new List<object>();
+            var dic1 = new Dictionary<string, object>();
+            var dic2 = new Dictionary<string, object>();
+            var dic3 = new Dictionary<string, object>();
+            var list1 = new List<object>();
+            var list2 = new List<object>();
 
             dic1.Add("list1", list1);
             dic1.Add("list2", list2);
@@ -1496,19 +1496,19 @@ keyword such as type of business.""
 
         private static string SerializeWithNoRedundentIdProperties(object o)
         {
-            JTokenWriter writer = new JTokenWriter();
-            JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings
+            var writer = new JTokenWriter();
+            var serializer = JsonSerializer.Create(new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
                 PreserveReferencesHandling = PreserveReferencesHandling.Objects
             });
             serializer.Serialize(writer, o);
 
-            JToken t = writer.Token;
+            var t = writer.Token;
 
             if (t is JContainer)
             {
-                JContainer c = t as JContainer;
+                var c = t as JContainer;
 
                 // find all the $id properties in the JSON
                 IList<JProperty> ids = c.Descendants().OfType<JProperty>().Where(d => d.Name == "$id").ToList();
@@ -1518,10 +1518,10 @@ keyword such as type of business.""
                     // find all the $ref properties in the JSON
                     IList<JProperty> refs = c.Descendants().OfType<JProperty>().Where(d => d.Name == "$ref").ToList();
 
-                    foreach (JProperty idProperty in ids)
+                    foreach (var idProperty in ids)
                     {
                         // check whether the $id property is used by a $ref
-                        bool idUsed = refs.Any(r => idProperty.Value.ToString() == r.Value.ToString());
+                        var idUsed = refs.Any(r => idProperty.Value.ToString() == r.Value.ToString());
 
                         if (!idUsed)
                         {
@@ -1532,18 +1532,18 @@ keyword such as type of business.""
                 }
             }
 
-            string json = t.ToString();
+            var json = t.ToString();
             return json;
         }
 
         [Fact]
         public void HashCodeTests()
         {
-            JObject o1 = new JObject
+            var o1 = new JObject
             {
                 ["prop"] = 1
             };
-            JObject o2 = new JObject
+            var o2 = new JObject
             {
                 ["prop"] = 1
             };
@@ -1554,11 +1554,11 @@ keyword such as type of business.""
             Assert.IsTrue(o1.GetDeepHashCode() == o2.GetDeepHashCode());
             Assert.IsTrue(JToken.DeepEquals(o1, o2));
 
-            JArray a1 = new JArray
+            var a1 = new JArray
             {
                 1
             };
-            JArray a2 = new JArray
+            var a2 = new JArray
             {
                 1
             };

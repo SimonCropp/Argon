@@ -40,12 +40,12 @@ namespace Argon.Tests.Linq
         [Fact]
         public void RemoveSpecificAndRemoveSelf()
         {
-            JObject o = new JObject
+            var o = new JObject
             {
                 { "results", new JArray(1, 2, 3, 4) }
             };
 
-            JArray a = (JArray)o["results"];
+            var a = (JArray)o["results"];
 
             var last = a.Last();
 
@@ -60,7 +60,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void Clear()
         {
-            JArray a = new JArray { 1 };
+            var a = new JArray { 1 };
             Assert.AreEqual(1, a.Count);
 
             a.Clear();
@@ -70,7 +70,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void AddToSelf()
         {
-            JArray a = new JArray();
+            var a = new JArray();
             a.Add(a);
 
             Assert.IsFalse(ReferenceEquals(a[0], a));
@@ -79,9 +79,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public void Contains()
         {
-            JValue v = new JValue(1);
+            var v = new JValue(1);
 
-            JArray a = new JArray { v };
+            var a = new JArray { v };
 
             Assert.AreEqual(false, a.Contains(new JValue(2)));
             Assert.AreEqual(false, a.Contains(new JValue(1)));
@@ -92,13 +92,13 @@ namespace Argon.Tests.Linq
         [Fact]
         public void GenericCollectionCopyTo()
         {
-            JArray j = new JArray();
+            var j = new JArray();
             j.Add(new JValue(1));
             j.Add(new JValue(2));
             j.Add(new JValue(3));
             Assert.AreEqual(3, j.Count);
 
-            JToken[] a = new JToken[5];
+            var a = new JToken[5];
 
             ((ICollection<JToken>)j).CopyTo(a, 1);
 
@@ -116,7 +116,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void GenericCollectionCopyToNullArrayShouldThrow()
         {
-            JArray j = new JArray();
+            var j = new JArray();
 
             ExceptionAssert.Throws<ArgumentNullException>(() => { ((ICollection<JToken>)j).CopyTo(null, 0); },
                 @"Value cannot be null.
@@ -127,7 +127,7 @@ Parameter name: array",
         [Fact]
         public void GenericCollectionCopyToNegativeArrayIndexShouldThrow()
         {
-            JArray j = new JArray();
+            var j = new JArray();
 
             ExceptionAssert.Throws<ArgumentOutOfRangeException>(() => { ((ICollection<JToken>)j).CopyTo(new JToken[1], -1); },
                 @"arrayIndex is less than 0.
@@ -138,7 +138,7 @@ Parameter name: arrayIndex",
         [Fact]
         public void GenericCollectionCopyToArrayIndexEqualGreaterToArrayLengthShouldThrow()
         {
-            JArray j = new JArray();
+            var j = new JArray();
 
             ExceptionAssert.Throws<ArgumentException>(() => { ((ICollection<JToken>)j).CopyTo(new JToken[1], 1); }, @"arrayIndex is equal to or greater than the length of array.");
         }
@@ -146,7 +146,7 @@ Parameter name: arrayIndex",
         [Fact]
         public void GenericCollectionCopyToInsufficientArrayCapacity()
         {
-            JArray j = new JArray();
+            var j = new JArray();
             j.Add(new JValue(1));
             j.Add(new JValue(2));
             j.Add(new JValue(3));
@@ -157,8 +157,8 @@ Parameter name: arrayIndex",
         [Fact]
         public void Remove()
         {
-            JValue v = new JValue(1);
-            JArray j = new JArray();
+            var v = new JValue(1);
+            var j = new JArray();
             j.Add(v);
 
             Assert.AreEqual(1, j.Count);
@@ -174,11 +174,11 @@ Parameter name: arrayIndex",
         [Fact]
         public void IndexOf()
         {
-            JValue v1 = new JValue(1);
-            JValue v2 = new JValue(1);
-            JValue v3 = new JValue(1);
+            var v1 = new JValue(1);
+            var v2 = new JValue(1);
+            var v3 = new JValue(1);
 
-            JArray j = new JArray();
+            var j = new JArray();
 
             j.Add(v1);
             Assert.AreEqual(0, j.IndexOf(v1));
@@ -201,11 +201,11 @@ Parameter name: arrayIndex",
         [Fact]
         public void RemoveAt()
         {
-            JValue v1 = new JValue(1);
-            JValue v2 = new JValue(1);
-            JValue v3 = new JValue(1);
+            var v1 = new JValue(1);
+            var v2 = new JValue(1);
+            var v3 = new JValue(1);
 
-            JArray j = new JArray();
+            var j = new JArray();
 
             j.Add(v1);
             j.Add(v2);
@@ -225,7 +225,7 @@ Parameter name: arrayIndex",
         [Fact]
         public void RemoveAtOutOfRangeIndexShouldError()
         {
-            JArray j = new JArray();
+            var j = new JArray();
 
             ExceptionAssert.Throws<ArgumentOutOfRangeException>(
                 () => { j.RemoveAt(0); },
@@ -237,7 +237,7 @@ Parameter name: index",
         [Fact]
         public void RemoveAtNegativeIndexShouldError()
         {
-            JArray j = new JArray();
+            var j = new JArray();
 
             ExceptionAssert.Throws<ArgumentOutOfRangeException>(
                 () => { j.RemoveAt(-1); },
@@ -249,12 +249,12 @@ Parameter name: index",
         [Fact]
         public void Insert()
         {
-            JValue v1 = new JValue(1);
-            JValue v2 = new JValue(2);
-            JValue v3 = new JValue(3);
-            JValue v4 = new JValue(4);
+            var v1 = new JValue(1);
+            var v2 = new JValue(2);
+            var v3 = new JValue(3);
+            var v4 = new JValue(4);
 
-            JArray j = new JArray();
+            var j = new JArray();
 
             j.Add(v1);
             j.Add(v2);
@@ -270,11 +270,11 @@ Parameter name: index",
         [Fact]
         public void AddFirstAddedTokenShouldBeFirst()
         {
-            JValue v1 = new JValue(1);
-            JValue v2 = new JValue(2);
-            JValue v3 = new JValue(3);
+            var v1 = new JValue(1);
+            var v2 = new JValue(2);
+            var v3 = new JValue(3);
 
-            JArray j = new JArray();
+            var j = new JArray();
             Assert.AreEqual(null, j.First);
             Assert.AreEqual(null, j.Last);
 
@@ -294,10 +294,10 @@ Parameter name: index",
         [Fact]
         public void InsertShouldInsertAtZeroIndex()
         {
-            JValue v1 = new JValue(1);
-            JValue v2 = new JValue(2);
+            var v1 = new JValue(1);
+            var v2 = new JValue(2);
 
-            JArray j = new JArray();
+            var j = new JArray();
 
             j.Insert(0, v1);
             Assert.AreEqual(0, j.IndexOf(v1));
@@ -310,7 +310,7 @@ Parameter name: index",
         [Fact]
         public void InsertNull()
         {
-            JArray j = new JArray();
+            var j = new JArray();
             j.Insert(0, null);
 
             Assert.AreEqual(null, ((JValue)j[0]).Value);
@@ -319,7 +319,7 @@ Parameter name: index",
         [Fact]
         public void InsertNegativeIndexShouldThrow()
         {
-            JArray j = new JArray();
+            var j = new JArray();
 
             ExceptionAssert.Throws<ArgumentOutOfRangeException>(
                 () => { j.Insert(-1, new JValue(1)); },
@@ -331,7 +331,7 @@ Parameter name: index",
         [Fact]
         public void InsertOutOfRangeIndexShouldThrow()
         {
-            JArray j = new JArray();
+            var j = new JArray();
 
             ExceptionAssert.Throws<ArgumentOutOfRangeException>(
                 () => { j.Insert(2, new JValue(1)); },
@@ -343,12 +343,12 @@ Parameter name: index",
         [Fact]
         public void Item()
         {
-            JValue v1 = new JValue(1);
-            JValue v2 = new JValue(2);
-            JValue v3 = new JValue(3);
-            JValue v4 = new JValue(4);
+            var v1 = new JValue(1);
+            var v2 = new JValue(2);
+            var v3 = new JValue(3);
+            var v4 = new JValue(4);
 
-            JArray j = new JArray();
+            var j = new JArray();
 
             j.Add(v1);
             j.Add(v2);
@@ -365,7 +365,7 @@ Parameter name: index",
         [Fact]
         public void Parse_ShouldThrowOnUnexpectedToken()
         {
-            string json = @"{""prop"":""value""}";
+            var json = @"{""prop"":""value""}";
 
             ExceptionAssert.Throws<JsonReaderException>(() => { JArray.Parse(json); }, "Error reading JArray from JsonReader. Current JsonReader item is not an array: StartObject. Path '', line 1, position 1.");
         }
@@ -379,7 +379,7 @@ Parameter name: index",
         [Fact]
         public void ArrayOrder()
         {
-            string itemZeroText = "Zero text";
+            var itemZeroText = "Zero text";
 
             IEnumerable<ListItemFields> t = new List<ListItemFields>
             {
@@ -388,7 +388,7 @@ Parameter name: index",
                 new ListItemFields { ListItemText = "Third", ListItemValue = 3 }
             };
 
-            JObject optionValues =
+            var optionValues =
                 new JObject(
                     new JProperty("options",
                         new JArray(
@@ -401,7 +401,7 @@ Parameter name: index",
                                 new JProperty("text", r.ListItemText),
                                 new JProperty("value", r.ListItemValue.ToString())))));
 
-            string result = "myOptions = " + optionValues.ToString();
+            var result = "myOptions = " + optionValues.ToString();
 
             StringAssert.AreEqual(@"myOptions = {
   ""options"": [
@@ -428,10 +428,10 @@ Parameter name: index",
         [Fact]
         public void Iterate()
         {
-            JArray a = new JArray(1, 2, 3, 4, 5);
+            var a = new JArray(1, 2, 3, 4, 5);
 
-            int i = 1;
-            foreach (JToken token in a)
+            var i = 1;
+            foreach (var token in a)
             {
                 Assert.AreEqual(i, (int)token);
                 i++;
@@ -441,11 +441,11 @@ Parameter name: index",
         [Fact]
         public void ITypedListGetItemProperties()
         {
-            JProperty p1 = new JProperty("Test1", 1);
-            JProperty p2 = new JProperty("Test2", "Two");
+            var p1 = new JProperty("Test1", 1);
+            var p2 = new JProperty("Test2", "Two");
             ITypedList a = new JArray(new JObject(p1, p2));
 
-            PropertyDescriptorCollection propertyDescriptors = a.GetItemProperties(null);
+            var propertyDescriptors = a.GetItemProperties(null);
             Assert.IsNotNull(propertyDescriptors);
             Assert.AreEqual(2, propertyDescriptors.Count);
             Assert.AreEqual("Test1", propertyDescriptors[0].Name);
@@ -455,7 +455,7 @@ Parameter name: index",
         [Fact]
         public void AddArrayToSelf()
         {
-            JArray a = new JArray(1, 2);
+            var a = new JArray(1, 2);
             a.Add(a);
 
             Assert.AreEqual(3, a.Count);
@@ -469,7 +469,7 @@ Parameter name: index",
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                JArray a = new JArray();
+                var a = new JArray();
                 a["badvalue"] = new JValue(3);
             }, @"Set JArray values with invalid key value: ""badvalue"". Int32 array index expected.");
         }
@@ -479,7 +479,7 @@ Parameter name: index",
         {
             object key = 0;
 
-            JArray a = new JArray((object)null);
+            var a = new JArray((object)null);
             a[key] = new JValue(3);
 
             Assert.AreEqual(3, (int)a[key]);
@@ -488,7 +488,7 @@ Parameter name: index",
         [Fact]
         public void ReplaceAll()
         {
-            JArray a = new JArray(new[] { 1, 2, 3 });
+            var a = new JArray(new[] { 1, 2, 3 });
             Assert.AreEqual(3, a.Count);
             Assert.AreEqual(1, (int)a[0]);
             Assert.AreEqual(2, (int)a[1]);
@@ -508,7 +508,7 @@ Parameter name: index",
         [Fact]
         public void InsertAddEnd()
         {
-            JArray array = new JArray();
+            var array = new JArray();
             array.Insert(0, 123);
             array.Insert(1, 456);
 
@@ -520,7 +520,7 @@ Parameter name: index",
         [Fact]
         public void ParseAdditionalContent()
         {
-            string json = @"[
+            var json = @"[
 ""Small"",
 ""Medium"",
 ""Large""
@@ -532,9 +532,9 @@ Parameter name: index",
         [Fact]
         public void ToListOnEmptyArray()
         {
-            string json = @"{""decks"":[]}";
+            var json = @"{""decks"":[]}";
 
-            JArray decks = (JArray)JObject.Parse(json)["decks"];
+            var decks = (JArray)JObject.Parse(json)["decks"];
             IList<JToken> l = decks.ToList();
             Assert.AreEqual(0, l.Count);
 
@@ -548,9 +548,9 @@ Parameter name: index",
         [Fact]
         public void Parse_NoComments()
         {
-            string json = "[1,2/*comment*/,3]";
+            var json = "[1,2/*comment*/,3]";
 
-            JArray a = JArray.Parse(json, new JsonLoadSettings());
+            var a = JArray.Parse(json, new JsonLoadSettings());
 
             Assert.AreEqual(3, a.Count);
             Assert.AreEqual(1, (int)a[0]);
@@ -582,10 +582,10 @@ Parameter name: index",
         [Fact]
         public void Parse_ExcessiveContentJustComments()
         {
-            string json = @"[1,2,3]/*comment*/
+            var json = @"[1,2,3]/*comment*/
 //Another comment.";
 
-            JArray a = JArray.Parse(json);
+            var a = JArray.Parse(json);
 
             Assert.AreEqual(3, a.Count);
             Assert.AreEqual(1, (int)a[0]);
@@ -596,7 +596,7 @@ Parameter name: index",
         [Fact]
         public void Parse_ExcessiveContent()
         {
-            string json = @"[1,2,3]/*comment*/
+            var json = @"[1,2,3]/*comment*/
 //Another comment.
 []";
 
@@ -607,9 +607,9 @@ Parameter name: index",
         [Fact]
         public void Parse_LineInfo()
         {
-            string json = "[1,2,3]";
+            var json = "[1,2,3]";
 
-            JArray a = JArray.Parse(json, new JsonLoadSettings());
+            var a = JArray.Parse(json, new JsonLoadSettings());
 
             Assert.AreEqual(true, ((IJsonLineInfo)a).HasLineInfo());
             Assert.AreEqual(true, ((IJsonLineInfo)a[0]).HasLineInfo());

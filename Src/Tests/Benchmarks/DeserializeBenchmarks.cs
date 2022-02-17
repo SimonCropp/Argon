@@ -58,9 +58,9 @@ namespace Argon.Tests.Benchmarks
         public IList<RootObject> DeserializeLargeJsonFile()
         {
             using (var jsonFile = System.IO.File.OpenText("large.json"))
-            using (JsonTextReader jsonTextReader = new JsonTextReader(jsonFile))
+            using (var jsonTextReader = new JsonTextReader(jsonFile))
             {
-                JsonSerializer serializer = new JsonSerializer();
+                var serializer = new JsonSerializer();
                 return serializer.Deserialize<IList<RootObject>>(jsonTextReader);
             }
         }

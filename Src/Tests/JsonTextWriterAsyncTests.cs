@@ -100,9 +100,9 @@ namespace Argon.Tests
         [Fact]
         public async Task WriteLazy()
         {
-            LazyStringWriter sw = new LazyStringWriter(CultureInfo.InvariantCulture);
+            var sw = new LazyStringWriter(CultureInfo.InvariantCulture);
 
-            using (JsonTextWriter writer = new JsonTextWriter(sw))
+            using (var writer = new JsonTextWriter(sw))
             {
                 writer.Indentation = 4;
                 writer.Formatting = Formatting.Indented;
@@ -199,9 +199,9 @@ namespace Argon.Tests
         [Fact]
         public async Task WriteLazy_Property()
         {
-            LazyStringWriter sw = new LazyStringWriter(CultureInfo.InvariantCulture);
+            var sw = new LazyStringWriter(CultureInfo.InvariantCulture);
 
-            using (JsonTextWriter writer = new JsonTextWriter(sw))
+            using (var writer = new JsonTextWriter(sw))
             {
                 writer.Indentation = 4;
                 writer.Formatting = Formatting.Indented;
@@ -225,17 +225,17 @@ namespace Argon.Tests
         [Fact]
         public async Task BufferTestAsync()
         {
-            FakeArrayPool arrayPool = new FakeArrayPool();
+            var arrayPool = new FakeArrayPool();
 
-            string longString = new string('A', 2000);
-            string longEscapedString = "Hello!" + new string('!', 50) + new string('\n', 1000) + "Good bye!";
-            string longerEscapedString = "Hello!" + new string('!', 2000) + new string('\n', 1000) + "Good bye!";
+            var longString = new string('A', 2000);
+            var longEscapedString = "Hello!" + new string('!', 50) + new string('\n', 1000) + "Good bye!";
+            var longerEscapedString = "Hello!" + new string('!', 2000) + new string('\n', 1000) + "Good bye!";
 
-            for (int i = 0; i < 1000; i++)
+            for (var i = 0; i < 1000; i++)
             {
-                StringWriter sw = new StringWriter(CultureInfo.InvariantCulture);
+                var sw = new StringWriter(CultureInfo.InvariantCulture);
 
-                using (JsonTextWriter writer = new JsonTextWriter(sw))
+                using (var writer = new JsonTextWriter(sw))
                 {
                     writer.ArrayPool = arrayPool;
 
@@ -269,14 +269,14 @@ namespace Argon.Tests
         [Fact]
         public async Task BufferTest_WithErrorAsync()
         {
-            FakeArrayPool arrayPool = new FakeArrayPool();
+            var arrayPool = new FakeArrayPool();
 
-            StringWriter sw = new StringWriter(CultureInfo.InvariantCulture);
+            var sw = new StringWriter(CultureInfo.InvariantCulture);
 
             try
             {
                 // dispose will free used buffers
-                using (JsonTextWriter writer = new JsonTextWriter(sw))
+                using (var writer = new JsonTextWriter(sw))
                 {
                     writer.ArrayPool = arrayPool;
 
@@ -304,7 +304,7 @@ namespace Argon.Tests
         [Fact]
         public async Task NewLineAsync()
         {
-            MemoryStream ms = new MemoryStream();
+            var ms = new MemoryStream();
 
             using (var streamWriter = new StreamWriter(ms, new UTF8Encoding(false)) { NewLine = "\n" })
             using (var jsonWriter = new JsonTextWriter(streamWriter)
@@ -320,9 +320,9 @@ namespace Argon.Tests
                 await jsonWriter.WriteEndObjectAsync();
             }
 
-            byte[] data = ms.ToArray();
+            var data = ms.ToArray();
 
-            string json = Encoding.UTF8.GetString(data, 0, data.Length);
+            var json = Encoding.UTF8.GetString(data, 0, data.Length);
 
             Assert.AreEqual(@"{" + '\n' + @"  ""prop"": true" + '\n' + "}", json);
         }
@@ -330,9 +330,9 @@ namespace Argon.Tests
         [Fact]
         public async Task QuoteNameAndStringsAsync()
         {
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
-            JsonTextWriter writer = new JsonTextWriter(sw) { QuoteName = false };
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
+            var writer = new JsonTextWriter(sw) { QuoteName = false };
 
             await writer.WriteStartObjectAsync();
 
@@ -348,8 +348,8 @@ namespace Argon.Tests
         [Fact]
         public async Task CloseOutputAsync()
         {
-            MemoryStream ms = new MemoryStream();
-            JsonTextWriter writer = new JsonTextWriter(new StreamWriter(ms));
+            var ms = new MemoryStream();
+            var writer = new JsonTextWriter(new StreamWriter(ms));
 
             Assert.IsTrue(ms.CanRead);
             await writer.CloseAsync();
@@ -367,7 +367,7 @@ namespace Argon.Tests
         public async Task WriteIConvertableAsync()
         {
             var sw = new StringWriter();
-            JsonTextWriter writer = new JsonTextWriter(sw);
+            var writer = new JsonTextWriter(sw);
             await writer.WriteValueAsync(new ConvertibleInt(1));
 
             Assert.AreEqual("1", sw.ToString());
@@ -376,8 +376,8 @@ namespace Argon.Tests
         [Fact]
         public async Task ValueFormattingAsync()
         {
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
 
             using (JsonWriter jsonWriter = new JsonTextWriter(sw))
             {
@@ -398,8 +398,8 @@ namespace Argon.Tests
                 await jsonWriter.WriteEndArrayAsync();
             }
 
-            string expected = @"[""@"",""\r\n\t\f\b?{\\r\\n\""'"",true,10,10.99,0.99,1E-18,0.000000000000000001,null,null,""This is a string."",null,undefined]";
-            string result = sb.ToString();
+            var expected = @"[""@"",""\r\n\t\f\b?{\\r\\n\""'"",true,10,10.99,0.99,1E-18,0.000000000000000001,null,null,""This is a string."",null,undefined]";
+            var result = sb.ToString();
 
             Assert.AreEqual(expected, result);
         }
@@ -407,8 +407,8 @@ namespace Argon.Tests
         [Fact]
         public async Task NullableValueFormattingAsync()
         {
-            StringWriter sw = new StringWriter();
-            using (JsonTextWriter jsonWriter = new JsonTextWriter(sw))
+            var sw = new StringWriter();
+            using (var jsonWriter = new JsonTextWriter(sw))
             {
                 await jsonWriter.WriteStartArrayAsync();
                 await jsonWriter.WriteValueAsync((char?)null);
@@ -444,8 +444,8 @@ namespace Argon.Tests
                 await jsonWriter.WriteEndArrayAsync();
             }
 
-            string json = sw.ToString();
-            string expected = @"[null,""c"",null,true,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1.1,null,1.1,null,1.1,null,""1970-01-01T00:00:00Z"",null,""1970-01-01T00:00:00+00:00""]";
+            var json = sw.ToString();
+            var expected = @"[null,""c"",null,true,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1.1,null,1.1,null,1.1,null,""1970-01-01T00:00:00Z"",null,""1970-01-01T00:00:00+00:00""]";
 
             Assert.AreEqual(expected, json);
         }
@@ -453,8 +453,8 @@ namespace Argon.Tests
         [Fact]
         public async Task WriteValueObjectWithNullableAsync()
         {
-            StringWriter sw = new StringWriter();
-            using (JsonTextWriter jsonWriter = new JsonTextWriter(sw))
+            var sw = new StringWriter();
+            using (var jsonWriter = new JsonTextWriter(sw))
             {
                 char? value = 'c';
 
@@ -463,8 +463,8 @@ namespace Argon.Tests
                 await jsonWriter.WriteEndArrayAsync();
             }
 
-            string json = sw.ToString();
-            string expected = @"[""c""]";
+            var json = sw.ToString();
+            var expected = @"[""c""]";
 
             Assert.AreEqual(expected, json);
         }
@@ -474,8 +474,8 @@ namespace Argon.Tests
         {
             await ExceptionAssert.ThrowsAsync<JsonWriterException>(async () =>
             {
-                StringWriter sw = new StringWriter();
-                using (JsonTextWriter jsonWriter = new JsonTextWriter(sw))
+                var sw = new StringWriter();
+                using (var jsonWriter = new JsonTextWriter(sw))
                 {
                     await jsonWriter.WriteStartArrayAsync();
                     await jsonWriter.WriteValueAsync(new Version(1, 1, 1, 1));
@@ -487,8 +487,8 @@ namespace Argon.Tests
         [Fact]
         public async Task StringEscapingAsync()
         {
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
 
             using (JsonWriter jsonWriter = new JsonTextWriter(sw))
             {
@@ -500,8 +500,8 @@ namespace Argon.Tests
                 await jsonWriter.WriteEndArrayAsync();
             }
 
-            string expected = @"[""\""These pretzels are making me thirsty!\"""",""Jeff's house was burninated."",""1. You don't talk about fight club.\r\n2. You don't talk about fight club."",""35% of\t statistics\n are made\r up.""]";
-            string result = sb.ToString();
+            var expected = @"[""\""These pretzels are making me thirsty!\"""",""Jeff's house was burninated."",""1. You don't talk about fight club.\r\n2. You don't talk about fight club."",""35% of\t statistics\n are made\r up.""]";
+            var result = sb.ToString();
 
             Assert.AreEqual(expected, result);
         }
@@ -509,8 +509,8 @@ namespace Argon.Tests
         [Fact]
         public async Task WriteEndAsync()
         {
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
 
             using (JsonWriter jsonWriter = new JsonTextWriter(sw))
             {
@@ -531,7 +531,7 @@ namespace Argon.Tests
                 Assert.AreEqual(WriteState.Start, jsonWriter.WriteState);
             }
 
-            string expected = @"{
+            var expected = @"{
   ""CPU"": ""Intel"",
   ""PSU"": ""500W"",
   ""Drives"": [
@@ -541,7 +541,7 @@ namespace Argon.Tests
     ""200 gigabyte hard drive""
   ]
 }";
-            string result = sb.ToString();
+            var result = sb.ToString();
 
             StringAssert.AreEqual(expected, result);
         }
@@ -549,8 +549,8 @@ namespace Argon.Tests
         [Fact]
         public async Task CloseWithRemainingContentAsync()
         {
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
 
             using (JsonWriter jsonWriter = new JsonTextWriter(sw))
             {
@@ -570,7 +570,7 @@ namespace Argon.Tests
                 await jsonWriter.CloseAsync();
             }
 
-            string expected = @"{
+            var expected = @"{
   ""CPU"": ""Intel"",
   ""PSU"": ""500W"",
   ""Drives"": [
@@ -580,7 +580,7 @@ namespace Argon.Tests
     ""200 gigabyte hard drive""
   ]
 }";
-            string result = sb.ToString();
+            var result = sb.ToString();
 
             StringAssert.AreEqual(expected, result);
         }
@@ -588,8 +588,8 @@ namespace Argon.Tests
         [Fact]
         public async Task IndentingAsync()
         {
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
 
             using (JsonWriter jsonWriter = new JsonTextWriter(sw))
             {
@@ -622,7 +622,7 @@ namespace Argon.Tests
             //   ]
             // }
 
-            string expected = @"{
+            var expected = @"{
   ""CPU"": ""Intel"",
   ""PSU"": ""500W"",
   ""Drives"": [
@@ -632,7 +632,7 @@ namespace Argon.Tests
     ""200 gigabyte hard drive""
   ]
 }";
-            string result = sb.ToString();
+            var result = sb.ToString();
 
             StringAssert.AreEqual(expected, result);
         }
@@ -640,8 +640,8 @@ namespace Argon.Tests
         [Fact]
         public async Task StateAsync()
         {
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
 
             using (JsonWriter jsonWriter = new JsonTextWriter(sw))
             {
@@ -683,8 +683,8 @@ namespace Argon.Tests
         [Fact]
         public async Task FloatingPointNonFiniteNumbers_SymbolAsync()
         {
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
 
             using (JsonWriter jsonWriter = new JsonTextWriter(sw))
             {
@@ -703,7 +703,7 @@ namespace Argon.Tests
                 await jsonWriter.FlushAsync();
             }
 
-            string expected = @"[
+            var expected = @"[
   NaN,
   Infinity,
   -Infinity,
@@ -711,7 +711,7 @@ namespace Argon.Tests
   Infinity,
   -Infinity
 ]";
-            string result = sb.ToString();
+            var result = sb.ToString();
 
             StringAssert.AreEqual(expected, result);
         }
@@ -719,8 +719,8 @@ namespace Argon.Tests
         [Fact]
         public async Task FloatingPointNonFiniteNumbers_ZeroAsync()
         {
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
 
             using (JsonWriter jsonWriter = new JsonTextWriter(sw))
             {
@@ -745,7 +745,7 @@ namespace Argon.Tests
                 await jsonWriter.FlushAsync();
             }
 
-            string expected = @"[
+            var expected = @"[
   0.0,
   0.0,
   0.0,
@@ -759,7 +759,7 @@ namespace Argon.Tests
   null,
   null
 ]";
-            string result = sb.ToString();
+            var result = sb.ToString();
 
             StringAssert.AreEqual(expected, result);
         }
@@ -767,8 +767,8 @@ namespace Argon.Tests
         [Fact]
         public async Task FloatingPointNonFiniteNumbers_StringAsync()
         {
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
 
             using (JsonWriter jsonWriter = new JsonTextWriter(sw))
             {
@@ -787,7 +787,7 @@ namespace Argon.Tests
                 await jsonWriter.FlushAsync();
             }
 
-            string expected = @"[
+            var expected = @"[
   ""NaN"",
   ""Infinity"",
   ""-Infinity"",
@@ -795,7 +795,7 @@ namespace Argon.Tests
   ""Infinity"",
   ""-Infinity""
 ]";
-            string result = sb.ToString();
+            var result = sb.ToString();
 
             StringAssert.AreEqual(expected, result);
         }
@@ -803,10 +803,10 @@ namespace Argon.Tests
         [Fact]
         public async Task FloatingPointNonFiniteNumbers_QuoteCharAsync()
         {
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
 
-            using (JsonTextWriter jsonWriter = new JsonTextWriter(sw))
+            using (var jsonWriter = new JsonTextWriter(sw))
             {
                 jsonWriter.Formatting = Formatting.Indented;
                 jsonWriter.FloatFormatHandling = FloatFormatHandling.String;
@@ -824,7 +824,7 @@ namespace Argon.Tests
                 await jsonWriter.FlushAsync();
             }
 
-            string expected = @"[
+            var expected = @"[
   'NaN',
   'Infinity',
   '-Infinity',
@@ -832,7 +832,7 @@ namespace Argon.Tests
   'Infinity',
   '-Infinity'
 ]";
-            string result = sb.ToString();
+            var result = sb.ToString();
 
             StringAssert.AreEqual(expected, result);
         }
@@ -840,8 +840,8 @@ namespace Argon.Tests
         [Fact]
         public async Task WriteRawInStartAsync()
         {
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
 
             using (JsonWriter jsonWriter = new JsonTextWriter(sw))
             {
@@ -855,10 +855,10 @@ namespace Argon.Tests
                 await jsonWriter.WriteEndArrayAsync();
             }
 
-            string expected = @"[1,2,3,4,5]  [
+            var expected = @"[1,2,3,4,5]  [
   NaN
 ]";
-            string result = sb.ToString();
+            var result = sb.ToString();
 
             StringAssert.AreEqual(expected, result);
         }
@@ -866,8 +866,8 @@ namespace Argon.Tests
         [Fact]
         public async Task WriteRawInArrayAsync()
         {
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
 
             using (JsonWriter jsonWriter = new JsonTextWriter(sw))
             {
@@ -882,11 +882,11 @@ namespace Argon.Tests
                 await jsonWriter.WriteEndArrayAsync();
             }
 
-            string expected = @"[
+            var expected = @"[
   NaN,[1,2,3,4,5],[1,2,3,4,5],
   NaN
 ]";
-            string result = sb.ToString();
+            var result = sb.ToString();
 
             StringAssert.AreEqual(expected, result);
         }
@@ -894,8 +894,8 @@ namespace Argon.Tests
         [Fact]
         public async Task WriteRawInObjectAsync()
         {
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
 
             using (JsonWriter jsonWriter = new JsonTextWriter(sw))
             {
@@ -906,8 +906,8 @@ namespace Argon.Tests
                 await jsonWriter.WriteEndAsync();
             }
 
-            string expected = @"{""PropertyName"":[1,2,3,4,5]}";
-            string result = sb.ToString();
+            var expected = @"{""PropertyName"":[1,2,3,4,5]}";
+            var result = sb.ToString();
 
             Assert.AreEqual(expected, result);
         }
@@ -915,13 +915,13 @@ namespace Argon.Tests
         [Fact]
         public async Task WriteTokenAsync()
         {
-            CancellationToken cancel = CancellationToken.None;
-            JsonTextReader reader = new JsonTextReader(new StringReader("[1,2,3,4,5]"));
+            var cancel = CancellationToken.None;
+            var reader = new JsonTextReader(new StringReader("[1,2,3,4,5]"));
             reader.Read();
             reader.Read();
 
-            StringWriter sw = new StringWriter();
-            JsonTextWriter writer = new JsonTextWriter(sw);
+            var sw = new StringWriter();
+            var writer = new JsonTextWriter(sw);
             await writer.WriteTokenAsync(reader, cancel);
 
             Assert.AreEqual("1", sw.ToString());
@@ -930,13 +930,13 @@ namespace Argon.Tests
         [Fact]
         public async Task WriteRawValueAsync()
         {
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
 
             using (JsonWriter jsonWriter = new JsonTextWriter(sw))
             {
-                int i = 0;
-                string rawJson = "[1,2]";
+                var i = 0;
+                var rawJson = "[1,2]";
 
                 await jsonWriter.WriteStartObjectAsync();
 
@@ -957,8 +957,8 @@ namespace Argon.Tests
         [Fact]
         public async Task WriteObjectNestedInConstructorAsync()
         {
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
 
             using (JsonWriter jsonWriter = new JsonTextWriter(sw))
             {
@@ -981,8 +981,8 @@ namespace Argon.Tests
         [Fact]
         public async Task WriteFloatingPointNumberAsync()
         {
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
 
             using (JsonWriter jsonWriter = new JsonTextWriter(sw))
             {
@@ -1019,8 +1019,8 @@ namespace Argon.Tests
         [Fact]
         public async Task WriteIntegerNumberAsync()
         {
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
 
             using (JsonWriter jsonWriter = new JsonTextWriter(sw) { Formatting = Formatting.Indented })
             {
@@ -1059,8 +1059,8 @@ namespace Argon.Tests
         [Fact]
         public async Task WriteTokenDirectAsync()
         {
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
 
             using (JsonWriter jsonWriter = new JsonTextWriter(sw))
             {
@@ -1079,8 +1079,8 @@ namespace Argon.Tests
         [Fact]
         public async Task WriteTokenDirect_BadValueAsync()
         {
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
 
             using (JsonWriter jsonWriter = new JsonTextWriter(sw))
             {
@@ -1108,7 +1108,7 @@ Parameter name: value", "Value cannot be null. (Parameter 'value')");
         {
             using (JsonWriter jsonWriter = new JsonTextWriter(new StringWriter()))
             {
-                ArgumentOutOfRangeException ex = await ExceptionAssert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await jsonWriter.WriteTokenAsync((JsonToken)int.MinValue));
+                var ex = await ExceptionAssert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await jsonWriter.WriteTokenAsync((JsonToken)int.MinValue));
                 Assert.AreEqual("token", ex.ParamName);
 
                 ex = await ExceptionAssert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await jsonWriter.WriteTokenAsync((JsonToken)int.MinValue, "test"));
@@ -1121,8 +1121,8 @@ Parameter name: value", "Value cannot be null. (Parameter 'value')");
         {
             await ExceptionAssert.ThrowsAsync<JsonWriterException>(async () =>
             {
-                StringBuilder sb = new StringBuilder();
-                StringWriter sw = new StringWriter(sb);
+                var sb = new StringBuilder();
+                var sw = new StringWriter(sb);
 
                 using (JsonWriter jsonWriter = new JsonTextWriter(sw))
                 {
@@ -1139,10 +1139,10 @@ Parameter name: value", "Value cannot be null. (Parameter 'value')");
         [Fact]
         public async Task IndentationAsync()
         {
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
 
-            using (JsonTextWriter jsonWriter = new JsonTextWriter(sw))
+            using (var jsonWriter = new JsonTextWriter(sw))
             {
                 jsonWriter.Formatting = Formatting.Indented;
                 jsonWriter.FloatFormatHandling = FloatFormatHandling.Symbol;
@@ -1174,11 +1174,11 @@ Parameter name: value", "Value cannot be null. (Parameter 'value')");
                 await jsonWriter.WriteEndObjectAsync();
             }
 
-            string expected = @"{
+            var expected = @"{
 _____'propertyName': NaN,
 ??????'prop2': 123
 }";
-            string result = sb.ToString();
+            var result = sb.ToString();
 
             StringAssert.AreEqual(expected, result);
         }
@@ -1186,13 +1186,13 @@ _____'propertyName': NaN,
         [Fact]
         public async Task WriteSingleBytesAsync()
         {
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
 
-            string text = "Hello world.";
-            byte[] data = Encoding.UTF8.GetBytes(text);
+            var text = "Hello world.";
+            var data = Encoding.UTF8.GetBytes(text);
 
-            using (JsonTextWriter jsonWriter = new JsonTextWriter(sw))
+            using (var jsonWriter = new JsonTextWriter(sw))
             {
                 jsonWriter.Formatting = Formatting.Indented;
                 Assert.AreEqual(Formatting.Indented, jsonWriter.Formatting);
@@ -1200,12 +1200,12 @@ _____'propertyName': NaN,
                 await jsonWriter.WriteValueAsync(data);
             }
 
-            string expected = @"""SGVsbG8gd29ybGQu""";
-            string result = sb.ToString();
+            var expected = @"""SGVsbG8gd29ybGQu""";
+            var result = sb.ToString();
 
             Assert.AreEqual(expected, result);
 
-            byte[] d2 = Convert.FromBase64String(result.Trim('"'));
+            var d2 = Convert.FromBase64String(result.Trim('"'));
 
             Assert.AreEqual(text, Encoding.UTF8.GetString(d2, 0, d2.Length));
         }
@@ -1213,13 +1213,13 @@ _____'propertyName': NaN,
         [Fact]
         public async Task WriteBytesInArrayAsync()
         {
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
 
-            string text = "Hello world.";
-            byte[] data = Encoding.UTF8.GetBytes(text);
+            var text = "Hello world.";
+            var data = Encoding.UTF8.GetBytes(text);
 
-            using (JsonTextWriter jsonWriter = new JsonTextWriter(sw))
+            using (var jsonWriter = new JsonTextWriter(sw))
             {
                 jsonWriter.Formatting = Formatting.Indented;
                 Assert.AreEqual(Formatting.Indented, jsonWriter.Formatting);
@@ -1233,14 +1233,14 @@ _____'propertyName': NaN,
                 await jsonWriter.WriteEndArrayAsync();
             }
 
-            string expected = @"[
+            var expected = @"[
   ""SGVsbG8gd29ybGQu"",
   ""SGVsbG8gd29ybGQu"",
   ""SGVsbG8gd29ybGQu"",
   null,
   null
 ]";
-            string result = sb.ToString();
+            var result = sb.ToString();
 
             StringAssert.AreEqual(expected, result);
         }
@@ -1248,10 +1248,10 @@ _____'propertyName': NaN,
         [Fact]
         public async Task PathAsync()
         {
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
 
-            using (JsonTextWriter writer = new JsonTextWriter(sw))
+            using (var writer = new JsonTextWriter(sw))
             {
                 writer.Formatting = Formatting.Indented;
 
@@ -1318,8 +1318,8 @@ _____'propertyName': NaN,
         [Fact]
         public async Task DateTimeZoneHandlingAsync()
         {
-            StringWriter sw = new StringWriter();
-            JsonTextWriter writer = new JsonTextWriter(sw)
+            var sw = new StringWriter();
+            var writer = new JsonTextWriter(sw)
             {
                 DateTimeZoneHandling = DateTimeZoneHandling.Utc
             };
@@ -1332,21 +1332,21 @@ _____'propertyName': NaN,
         [Fact]
         public async Task HtmlStringEscapeHandlingAsync()
         {
-            StringWriter sw = new StringWriter();
-            JsonTextWriter writer = new JsonTextWriter(sw)
+            var sw = new StringWriter();
+            var writer = new JsonTextWriter(sw)
             {
                 StringEscapeHandling = StringEscapeHandling.EscapeHtml
             };
 
-            string script = @"<script type=""text/javascript"">alert('hi');</script>";
+            var script = @"<script type=""text/javascript"">alert('hi');</script>";
 
             await writer.WriteValueAsync(script);
 
-            string json = sw.ToString();
+            var json = sw.ToString();
 
             Assert.AreEqual(@"""\u003cscript type=\u0022text/javascript\u0022\u003ealert(\u0027hi\u0027);\u003c/script\u003e""", json);
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.AreEqual(script, reader.ReadAsString());
         }
@@ -1354,22 +1354,22 @@ _____'propertyName': NaN,
         [Fact]
         public async Task NonAsciiStringEscapeHandlingAsync()
         {
-            StringWriter sw = new StringWriter();
-            JsonTextWriter writer = new JsonTextWriter(sw)
+            var sw = new StringWriter();
+            var writer = new JsonTextWriter(sw)
             {
                 StringEscapeHandling = StringEscapeHandling.EscapeNonAscii
             };
 
-            string unicode = "\u5f20";
+            var unicode = "\u5f20";
 
             await writer.WriteValueAsync(unicode);
 
-            string json = sw.ToString();
+            var json = sw.ToString();
 
             Assert.AreEqual(8, json.Length);
             Assert.AreEqual(@"""\u5f20""", json);
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.AreEqual(unicode, reader.ReadAsString());
 
@@ -1390,8 +1390,8 @@ _____'propertyName': NaN,
         [Fact]
         public async Task WriteEndOnPropertyAsync()
         {
-            StringWriter sw = new StringWriter();
-            JsonTextWriter writer = new JsonTextWriter(sw);
+            var sw = new StringWriter();
+            var writer = new JsonTextWriter(sw);
             writer.QuoteChar = '\'';
 
             await writer.WriteStartObjectAsync();
@@ -1404,8 +1404,8 @@ _____'propertyName': NaN,
         [Fact]
         public async Task QuoteCharAsync()
         {
-            StringWriter sw = new StringWriter();
-            JsonTextWriter writer = new JsonTextWriter(sw);
+            var sw = new StringWriter();
+            var writer = new JsonTextWriter(sw);
             writer.Formatting = Formatting.Indented;
             writer.QuoteChar = '\'';
 
@@ -1446,12 +1446,12 @@ _____'propertyName': NaN,
         [Fact]
         public async Task CultureAsync()
         {
-            CultureInfo culture = new CultureInfo("en-NZ");
+            var culture = new CultureInfo("en-NZ");
             culture.DateTimeFormat.AMDesignator = "a.m.";
             culture.DateTimeFormat.PMDesignator = "p.m.";
 
-            StringWriter sw = new StringWriter();
-            JsonTextWriter writer = new JsonTextWriter(sw);
+            var sw = new StringWriter();
+            var writer = new JsonTextWriter(sw);
             writer.Formatting = Formatting.Indented;
             writer.DateFormatString = "yyyy tt";
             writer.Culture = culture;
@@ -1473,19 +1473,19 @@ _____'propertyName': NaN,
         [Fact]
         public async Task CompareNewStringEscapingWithOldAsync()
         {
-            char c = (char)0;
+            var c = (char)0;
 
             do
             {
-                StringWriter swNew = new StringWriter();
-                JsonTextWriter jsonWriter = new JsonTextWriter(new StreamWriter(Stream.Null));
+                var swNew = new StringWriter();
+                var jsonWriter = new JsonTextWriter(new StreamWriter(Stream.Null));
                 await JavaScriptUtils.WriteEscapedJavaScriptStringAsync(swNew, c.ToString(), '"', true, JavaScriptUtils.DoubleQuoteCharEscapeFlags, StringEscapeHandling.Default, jsonWriter, null);
 
-                StringWriter swOld = new StringWriter();
+                var swOld = new StringWriter();
                 WriteEscapedJavaScriptStringOld(swOld, c.ToString(), '"', true);
 
-                string newText = swNew.ToString();
-                string oldText = swOld.ToString();
+                var newText = swNew.ToString();
+                var oldText = swOld.ToString();
 
                 if (newText != oldText)
                 {
@@ -1510,9 +1510,9 @@ _____'propertyName': NaN,
             {
                 char[] chars = null;
                 char[] unicodeBuffer = null;
-                int lastWritePosition = 0;
+                var lastWritePosition = 0;
 
-                for (int i = 0; i < s.Length; i++)
+                for (var i = 0; i < s.Length; i++)
                 {
                     var c = s[i];
 
@@ -1635,7 +1635,7 @@ _____'propertyName': NaN,
         [Fact]
         public async Task CustomJsonTextWriterTestsAsync()
         {
-            StringWriter sw = new StringWriter();
+            var sw = new StringWriter();
             CustomJsonTextWriter writer = new CustomAsyncJsonTextWriter(sw) { Formatting = Formatting.Indented };
             await writer.WriteStartObjectAsync();
             Assert.AreEqual(WriteState.Object, writer.WriteState);
@@ -1681,7 +1681,7 @@ _____'propertyName': NaN,
         [Fact]
         public async Task WriteCommentsAsync()
         {
-            string json = @"//comment*//*hi*/
+            var json = @"//comment*//*hi*/
 {//comment
 Name://comment
 true//comment after true" + StringUtils.CarriageReturn + @"
@@ -1689,7 +1689,7 @@ true//comment after true" + StringUtils.CarriageReturn + @"
 ""ExpiryDate""://comment" + StringUtils.LineFeed + @"
 new
 " + StringUtils.LineFeed +
-                          @"Constructor
+                       @"Constructor
 (//comment
 null//comment
 ),
@@ -1702,10 +1702,10 @@ null//comment
 }//comment 
 //comment 1 ";
 
-            JsonTextReader r = new JsonTextReader(new StringReader(json));
+            var r = new JsonTextReader(new StringReader(json));
 
-            StringWriter sw = new StringWriter();
-            JsonTextWriter w = new JsonTextWriter(sw);
+            var sw = new StringWriter();
+            var w = new JsonTextWriter(sw);
             w.Formatting = Formatting.Indented;
 
             await w.WriteTokenAsync(r, true);
@@ -1729,8 +1729,8 @@ null//comment
         [Fact]
         public void AsyncMethodsAlreadyCancelled()
         {
-            CancellationTokenSource source = new CancellationTokenSource();
-            CancellationToken token = source.Token;
+            var source = new CancellationTokenSource();
+            var token = source.Token;
             source.Cancel();
 
             var writer = new JsonTextWriter(new StreamWriter(Stream.Null));
@@ -1752,7 +1752,7 @@ null//comment
             Assert.IsTrue(writer.WriteStartObjectAsync(token).IsCanceled);
             Assert.IsTrue(writer.WriteTokenAsync(JsonToken.Comment, token).IsCanceled);
             Assert.IsTrue(writer.WriteTokenAsync(JsonToken.Boolean, true, token).IsCanceled);
-            JsonTextReader reader = new JsonTextReader(new StringReader("[1,2,3,4,5]"));
+            var reader = new JsonTextReader(new StringReader("[1,2,3,4,5]"));
             Assert.IsTrue(writer.WriteTokenAsync(reader, token).IsCanceled);
             Assert.IsTrue(writer.WriteUndefinedAsync(token).IsCanceled);
             Assert.IsTrue(writer.WriteValueAsync(default(bool), token).IsCanceled);
@@ -1812,8 +1812,8 @@ null//comment
         [Fact]
         public void AsyncMethodsAlreadyCancelledOnTextWriterSubclass()
         {
-            CancellationTokenSource source = new CancellationTokenSource();
-            CancellationToken token = source.Token;
+            var source = new CancellationTokenSource();
+            var token = source.Token;
             source.Cancel();
 
             var writer = new NoOverridesDerivedJsonTextWriter(new StreamWriter(Stream.Null));
@@ -1835,7 +1835,7 @@ null//comment
             Assert.IsTrue(writer.WriteStartObjectAsync(token).IsCanceled);
             Assert.IsTrue(writer.WriteTokenAsync(JsonToken.Comment, token).IsCanceled);
             Assert.IsTrue(writer.WriteTokenAsync(JsonToken.Boolean, true, token).IsCanceled);
-            JsonTextReader reader = new JsonTextReader(new StringReader("[1,2,3,4,5]"));
+            var reader = new JsonTextReader(new StringReader("[1,2,3,4,5]"));
             Assert.IsTrue(writer.WriteTokenAsync(reader, token).IsCanceled);
             Assert.IsTrue(writer.WriteUndefinedAsync(token).IsCanceled);
             Assert.IsTrue(writer.WriteValueAsync(default(bool), token).IsCanceled);
@@ -1881,8 +1881,8 @@ null//comment
         [Fact]
         public void AsyncMethodsAlreadyCancelledOnWriterSubclass()
         {
-            CancellationTokenSource source = new CancellationTokenSource();
-            CancellationToken token = source.Token;
+            var source = new CancellationTokenSource();
+            var token = source.Token;
             source.Cancel();
 
             var writer = new MinimalOverridesDerivedJsonWriter();
@@ -1904,7 +1904,7 @@ null//comment
             Assert.IsTrue(writer.WriteStartObjectAsync(token).IsCanceled);
             Assert.IsTrue(writer.WriteTokenAsync(JsonToken.Comment, token).IsCanceled);
             Assert.IsTrue(writer.WriteTokenAsync(JsonToken.Boolean, true, token).IsCanceled);
-            JsonTextReader reader = new JsonTextReader(new StringReader("[1,2,3,4,5]"));
+            var reader = new JsonTextReader(new StringReader("[1,2,3,4,5]"));
             Assert.IsTrue(writer.WriteTokenAsync(reader, token).IsCanceled);
             Assert.IsTrue(writer.WriteUndefinedAsync(token).IsCanceled);
             Assert.IsTrue(writer.WriteValueAsync(default(bool), token).IsCanceled);
@@ -1950,7 +1950,7 @@ null//comment
         [Fact]
         public async Task FailureOnStartWriteProperty()
         {
-            JsonTextWriter writer = new JsonTextWriter(new ThrowingWriter(' '));
+            var writer = new JsonTextWriter(new ThrowingWriter(' '));
             writer.Formatting = Formatting.Indented;
             await writer.WriteStartObjectAsync();
             await ExceptionAssert.ThrowsAsync<InvalidOperationException>(async () => await writer.WritePropertyNameAsync("aa"));
@@ -1960,7 +1960,7 @@ null//comment
         [Fact]
         public async Task FailureOnStartWriteObject()
         {
-            JsonTextWriter writer = new JsonTextWriter(new ThrowingWriter('{'));
+            var writer = new JsonTextWriter(new ThrowingWriter('{'));
             await ExceptionAssert.ThrowsAsync<InvalidOperationException>(async () => await writer.WriteStartObjectAsync());
         }
 
@@ -1990,7 +1990,7 @@ null//comment
                 if (buffer.Skip(index).Take(count).Any(c => ThrowChars.Contains(c)))
                 {
                     // Pre-4.6 equivalent to .FromException()
-                    TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
+                    var tcs = new TaskCompletionSource<bool>();
                     tcs.SetException(new InvalidOperationException());
                     return tcs.Task;
                 }

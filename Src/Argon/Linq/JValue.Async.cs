@@ -46,7 +46,7 @@ namespace Argon.Linq
         {
             if (converters != null && converters.Length > 0 && _value != null)
             {
-                JsonConverter? matchingConverter = JsonSerializer.GetMatchingConverter(converters, _value.GetType());
+                var matchingConverter = JsonSerializer.GetMatchingConverter(converters, _value.GetType());
                 if (matchingConverter != null && matchingConverter.CanWrite)
                 {
                     // TODO: Call WriteJsonAsync when it exists.

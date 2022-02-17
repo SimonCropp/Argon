@@ -55,8 +55,8 @@ namespace Argon.Serialization
 
         private Type GetTypeFromTypeNameKey(StructMultiKey<string?, string> typeNameKey)
         {
-            string? assemblyName = typeNameKey.Value1;
-            string typeName = typeNameKey.Value2;
+            var assemblyName = typeNameKey.Value1;
+            var typeName = typeNameKey.Value2;
 
             if (assemblyName != null)
             {
@@ -72,7 +72,7 @@ namespace Argon.Serialization
                 {
                     // will find assemblies loaded with Assembly.LoadFile outside of the main directory
                     Assembly[] loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies();
-                    foreach (Assembly a in loadedAssemblies)
+                    foreach (var a in loadedAssemblies)
                     {
                         // check for both full name or partial name match
                         if (a.FullName == assemblyName || a.GetName().Name == assemblyName)
@@ -88,7 +88,7 @@ namespace Argon.Serialization
                     throw new JsonSerializationException("Could not load assembly '{0}'.".FormatWith(CultureInfo.InvariantCulture, assemblyName));
                 }
 
-                Type? type = assembly.GetType(typeName);
+                var type = assembly.GetType(typeName);
                 if (type == null)
                 {
                     // if generic type, try manually parsing the type arguments for the case of dynamically loaded assemblies
@@ -122,20 +122,20 @@ namespace Argon.Serialization
         private Type? GetGenericTypeFromTypeName(string typeName, Assembly assembly)
         {
             Type? type = null;
-            int openBracketIndex = typeName.IndexOf('[');
+            var openBracketIndex = typeName.IndexOf('[');
             if (openBracketIndex >= 0)
             {
-                string genericTypeDefName = typeName.Substring(0, openBracketIndex);
-                Type genericTypeDef = assembly.GetType(genericTypeDefName);
+                var genericTypeDefName = typeName.Substring(0, openBracketIndex);
+                var genericTypeDef = assembly.GetType(genericTypeDefName);
                 if (genericTypeDef != null)
                 {
-                    List<Type> genericTypeArguments = new List<Type>();
-                    int scope = 0;
-                    int typeArgStartIndex = 0;
-                    int endIndex = typeName.Length - 1;
-                    for (int i = openBracketIndex + 1; i < endIndex; ++i)
+                    var genericTypeArguments = new List<Type>();
+                    var scope = 0;
+                    var typeArgStartIndex = 0;
+                    var endIndex = typeName.Length - 1;
+                    for (var i = openBracketIndex + 1; i < endIndex; ++i)
                     {
-                        char current = typeName[i];
+                        var current = typeName[i];
                         switch (current)
                         {
                             case '[':
@@ -149,9 +149,9 @@ namespace Argon.Serialization
                                 --scope;
                                 if (scope == 0)
                                 {
-                                    string typeArgAssemblyQualifiedName = typeName.Substring(typeArgStartIndex, i - typeArgStartIndex);
+                                    var typeArgAssemblyQualifiedName = typeName.Substring(typeArgStartIndex, i - typeArgStartIndex);
 
-                                    StructMultiKey<string?, string> typeNameKey = ReflectionUtils.SplitFullyQualifiedTypeName(typeArgAssemblyQualifiedName);
+                                    var typeNameKey = ReflectionUtils.SplitFullyQualifiedTypeName(typeArgAssemblyQualifiedName);
                                     genericTypeArguments.Add(GetTypeByName(typeNameKey));
                                 }
                                 break;

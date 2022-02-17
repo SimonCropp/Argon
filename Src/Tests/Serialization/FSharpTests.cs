@@ -41,9 +41,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void List()
         {
-            FSharpList<int> l = ListModule.OfSeq(new List<int> { 1, 2, 3 });
+            var l = ListModule.OfSeq(new List<int> { 1, 2, 3 });
 
-            string json = JsonConvert.SerializeObject(l, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(l, Formatting.Indented);
 
             StringAssert.AreEqual(@"[
   1,
@@ -51,7 +51,7 @@ namespace Argon.Tests.Serialization
   3
 ]", json);
 
-            FSharpList<int> l2 = JsonConvert.DeserializeObject<FSharpList<int>>(json);
+            var l2 = JsonConvert.DeserializeObject<FSharpList<int>>(json);
 
             Assert.AreEqual(l.Length, l2.Length);
             CollectionAssert.AreEquivalent(l, l2);
@@ -60,9 +60,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void Set()
         {
-            FSharpSet<int> l = SetModule.OfSeq(new List<int> { 1, 2, 3 });
+            var l = SetModule.OfSeq(new List<int> { 1, 2, 3 });
 
-            string json = JsonConvert.SerializeObject(l, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(l, Formatting.Indented);
 
             StringAssert.AreEqual(@"[
   1,
@@ -70,7 +70,7 @@ namespace Argon.Tests.Serialization
   3
 ]", json);
 
-            FSharpSet<int> l2 = JsonConvert.DeserializeObject<FSharpSet<int>>(json);
+            var l2 = JsonConvert.DeserializeObject<FSharpSet<int>>(json);
 
             Assert.AreEqual(l.Count, l2.Count);
             CollectionAssert.AreEquivalent(l, l2);
@@ -79,11 +79,11 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void Map()
         {
-            FSharpMap<string, int> m1 = MapModule.OfSeq(new List<Tuple<string, int>> { Tuple.Create("one", 1), Tuple.Create("II", 2), Tuple.Create("3", 3) });
+            var m1 = MapModule.OfSeq(new List<Tuple<string, int>> { Tuple.Create("one", 1), Tuple.Create("II", 2), Tuple.Create("3", 3) });
 
-            string json = JsonConvert.SerializeObject(m1, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(m1, Formatting.Indented);
 
-            FSharpMap<string, int> m2 = JsonConvert.DeserializeObject<FSharpMap<string, int>>(json);
+            var m2 = JsonConvert.DeserializeObject<FSharpMap<string, int>>(json);
 
             Assert.AreEqual(m1.Count, m2.Count);
             Assert.AreEqual(1, m2["one"]);

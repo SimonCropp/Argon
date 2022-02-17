@@ -41,7 +41,7 @@ namespace Argon.Tests.Documentation.Samples.Linq
         public void Example()
         {
             #region Usage
-            string json = @"{
+            var json = @"{
               'channel': {
                 'title': 'James Newton-King',
                 'link': 'http://james.newtonking.com',
@@ -69,7 +69,7 @@ namespace Argon.Tests.Documentation.Samples.Linq
               }
             }";
 
-            JObject rss = JObject.Parse(json);
+            var rss = JObject.Parse(json);
 
             var postTitles =
                 from p in rss["channel"]["item"]

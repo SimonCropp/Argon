@@ -55,11 +55,11 @@ namespace Argon.Tests.JsonTextReaderTests
         {
             const string testJson = "{float: 0.0620}";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(testJson));
+            var reader = new JsonTextReader(new StringReader(testJson));
             Assert.IsTrue(reader.Read());
             Assert.IsTrue(reader.Read());
 
-            string s = reader.ReadAsString();
+            var s = reader.ReadAsString();
             Assert.AreEqual("0.0620", s);
         }
 
@@ -68,7 +68,7 @@ namespace Argon.Tests.JsonTextReaderTests
         {
             const string testJson = "{float: NaN}";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(testJson));
+            var reader = new JsonTextReader(new StringReader(testJson));
 
             Assert.IsTrue(reader.Read());
             Assert.IsTrue(reader.Read());
@@ -86,7 +86,7 @@ namespace Argon.Tests.JsonTextReaderTests
         {
             const string testJson = "{float: NaN}";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(testJson));
+            var reader = new JsonTextReader(new StringReader(testJson));
 
             Assert.IsTrue(reader.Read());
             Assert.IsTrue(reader.Read());
@@ -103,7 +103,7 @@ namespace Argon.Tests.JsonTextReaderTests
   -Infinity
 ]"; ;
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(testJson));
+            var reader = new JsonTextReader(new StringReader(testJson));
 
             Assert.IsTrue(reader.Read());
 
@@ -132,7 +132,7 @@ namespace Argon.Tests.JsonTextReaderTests
   -Infinity
 ]"; ;
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(testJson));
+            var reader = new JsonTextReader(new StringReader(testJson));
 
             Assert.IsTrue(reader.Read());
 
@@ -155,9 +155,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void FloatParseHandling_ReadAsString()
         {
-            string json = "[9223372036854775807, 1.7976931348623157E+308, 792281625142643375935439503.35, 792281625142643375935555555555555555555555555555555555555555555555555439503.35]";
+            var json = "[9223372036854775807, 1.7976931348623157E+308, 792281625142643375935439503.35, 792281625142643375935555555555555555555555555555555555555555555555555439503.35]";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
             reader.FloatParseHandling = Argon.FloatParseHandling.Decimal;
 
             Assert.IsTrue(reader.Read());
@@ -186,9 +186,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void FloatParseHandling()
         {
-            string json = "[1.0,1,9.9,1E-06]";
+            var json = "[1.0,1,9.9,1E-06]";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
             reader.FloatParseHandling = Argon.FloatParseHandling.Decimal;
 
             Assert.IsTrue(reader.Read());
@@ -221,9 +221,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void FloatParseHandling_NaN()
         {
-            string json = "[NaN]";
+            var json = "[NaN]";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
             reader.FloatParseHandling = Argon.FloatParseHandling.Decimal;
 
             Assert.IsTrue(reader.Read());
@@ -235,13 +235,13 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void FloatingPointNonFiniteNumbers()
         {
-            string input = @"[
+            var input = @"[
   NaN,
   Infinity,
   -Infinity
 ]";
 
-            StringReader sr = new StringReader(input);
+            var sr = new StringReader(input);
 
             using (JsonReader jsonReader = new JsonTextReader(sr))
             {
@@ -268,7 +268,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public void ReadFloatingPointNumber()
         {
-            string json =
+            var json =
                 @"[0.0,0.0,0.1,1.0,1.000001,1E-06,4.94065645841247E-324,Infinity,-Infinity,NaN,1.7976931348623157E+308,-1.7976931348623157E+308,Infinity,-Infinity,NaN,0e-10,0.25e-5,0.3e10]";
 
             using (JsonReader jsonReader = new JsonTextReader(new StringReader(json)))

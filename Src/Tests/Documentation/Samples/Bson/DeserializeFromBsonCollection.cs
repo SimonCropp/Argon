@@ -50,17 +50,17 @@ namespace Argon.Tests.Documentation.Samples.Bson
         public void Example()
         {
             #region Usage
-            string s = "MQAAAAMwACkAAAACTmFtZQAHAAAARWFzdGVyAAlTdGFydERhdGUAgDf0uj0BAAAAAA==";
-            byte[] data = Convert.FromBase64String(s);
+            var s = "MQAAAAMwACkAAAACTmFtZQAHAAAARWFzdGVyAAlTdGFydERhdGUAgDf0uj0BAAAAAA==";
+            var data = Convert.FromBase64String(s);
 
-            MemoryStream ms = new MemoryStream(data);
-            using (BsonReader reader = new BsonReader(ms))
+            var ms = new MemoryStream(data);
+            using (var reader = new BsonReader(ms))
             {
                 reader.ReadRootValueAsArray = true;
 
-                JsonSerializer serializer = new JsonSerializer();
+                var serializer = new JsonSerializer();
 
-                IList<Event> events = serializer.Deserialize<IList<Event>>(reader);
+                var events = serializer.Deserialize<IList<Event>>(reader);
 
                 Console.WriteLine(events.Count);
                 // 1

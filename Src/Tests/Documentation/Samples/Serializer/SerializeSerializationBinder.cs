@@ -66,18 +66,18 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            KnownTypesBinder knownTypesBinder = new KnownTypesBinder
+            var knownTypesBinder = new KnownTypesBinder
             {
                 KnownTypes = new List<Type> { typeof(Car) }
             };
 
-            Car car = new Car
+            var car = new Car
             {
                 Maker = "Ford",
                 Model = "Explorer"
             };
 
-            string json = JsonConvert.SerializeObject(car, Formatting.Indented, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(car, Formatting.Indented, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Objects,
                 SerializationBinder = knownTypesBinder
@@ -90,7 +90,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
             //   "Model": "Explorer"
             // }
 
-            object newValue = JsonConvert.DeserializeObject(json, new JsonSerializerSettings
+            var newValue = JsonConvert.DeserializeObject(json, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Objects,
                 SerializationBinder = knownTypesBinder

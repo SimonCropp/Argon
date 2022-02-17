@@ -57,9 +57,9 @@ namespace Argon.Tests
             const char nonAsciiChar = (char)257;
             const char escapableNonQuoteAsciiChar = '\0';
 
-            string value = nonAsciiChar + @"\" + escapableNonQuoteAsciiChar;
+            var value = nonAsciiChar + @"\" + escapableNonQuoteAsciiChar;
 
-            string convertedValue = JsonConvert.ToString((object)value);
+            var convertedValue = JsonConvert.ToString((object)value);
             Assert.AreEqual(@"""" + nonAsciiChar + @"\\\u0000""", convertedValue);
         }
 
@@ -71,12 +71,12 @@ namespace Argon.Tests
         [Fact]
         public void PopulateObjectWithHeaderComment()
         {
-            string json = @"// file header
+            var json = @"// file header
 {
   ""prop"": 1.0
 }";
 
-            PopulateTestObject o = new PopulateTestObject();
+            var o = new PopulateTestObject();
             JsonConvert.PopulateObject(json, o);
 
             Assert.AreEqual(1m, o.Prop);
@@ -85,13 +85,13 @@ namespace Argon.Tests
         [Fact]
         public void PopulateObjectWithMultipleHeaderComment()
         {
-            string json = @"// file header
+            var json = @"// file header
 // another file header?
 {
   ""prop"": 1.0
 }";
 
-            PopulateTestObject o = new PopulateTestObject();
+            var o = new PopulateTestObject();
             JsonConvert.PopulateObject(json, o);
 
             Assert.AreEqual(1m, o.Prop);
@@ -102,9 +102,9 @@ namespace Argon.Tests
         {
             ExceptionAssert.Throws<JsonSerializationException>(() =>
             {
-                string json = @"";
+                var json = @"";
 
-                PopulateTestObject o = new PopulateTestObject();
+                var o = new PopulateTestObject();
                 JsonConvert.PopulateObject(json, o);
             }, "No JSON content found. Path '', line 0, position 0.");
         }
@@ -114,9 +114,9 @@ namespace Argon.Tests
         {
             var ex = ExceptionAssert.Throws<JsonSerializationException>(() =>
             {
-                string json = @"// file header";
+                var json = @"// file header";
 
-                PopulateTestObject o = new PopulateTestObject();
+                var o = new PopulateTestObject();
                 JsonConvert.PopulateObject(json, o);
             }, "No JSON content found. Path '', line 1, position 14.");
 
@@ -135,7 +135,7 @@ namespace Argon.Tests
                     Formatting = Formatting.Indented
                 };
 
-                string json = JsonConvert.SerializeObject(new { test = new[] { 1, 2, 3 } });
+                var json = JsonConvert.SerializeObject(new { test = new[] { 1, 2, 3 } });
 
                 StringAssert.AreEqual(@"{
   ""test"": [
@@ -168,14 +168,14 @@ namespace Argon.Tests
                 reader.Read();
                 reader.Read();
 
-                JsonTextReader jsonTextReader = (JsonTextReader)reader;
+                var jsonTextReader = (JsonTextReader)reader;
                 Assert.IsNotNull(jsonTextReader.PropertyNameTable);
 
-                string s = serializer.Deserialize<string>(reader);
+                var s = serializer.Deserialize<string>(reader);
                 Assert.AreEqual("hi", s);
                 Assert.IsNotNull(jsonTextReader.PropertyNameTable);
 
-                NameTableTestClass o = new NameTableTestClass
+                var o = new NameTableTestClass
                 {
                     Value = s
                 };
@@ -192,14 +192,14 @@ namespace Argon.Tests
         [Fact]
         public void NameTableTest()
         {
-            StringReader sr = new StringReader("{'property':'hi'}");
-            JsonTextReader jsonTextReader = new JsonTextReader(sr);
+            var sr = new StringReader("{'property':'hi'}");
+            var jsonTextReader = new JsonTextReader(sr);
 
             Assert.IsNull(jsonTextReader.PropertyNameTable);
 
-            JsonSerializer serializer = new JsonSerializer();
+            var serializer = new JsonSerializer();
             serializer.Converters.Add(new NameTableTestClassConverter());
-            NameTableTestClass o = serializer.Deserialize<NameTableTestClass>(jsonTextReader);
+            var o = serializer.Deserialize<NameTableTestClass>(jsonTextReader);
 
             Assert.IsNull(jsonTextReader.PropertyNameTable);
             Assert.AreEqual("hi", o.Value);
@@ -216,14 +216,14 @@ namespace Argon.Tests
         [Fact]
         public void CustonNameTableTest()
         {
-            StringReader sr = new StringReader("{'property':'hi'}");
-            JsonTextReader jsonTextReader = new JsonTextReader(sr);
+            var sr = new StringReader("{'property':'hi'}");
+            var jsonTextReader = new JsonTextReader(sr);
 
             Assert.IsNull(jsonTextReader.PropertyNameTable);
             var nameTable = jsonTextReader.PropertyNameTable = new CustonNameTable();
 
-            JsonSerializer serializer = new JsonSerializer();
-            Dictionary<string, string> o = serializer.Deserialize<Dictionary<string, string>>(jsonTextReader);
+            var serializer = new JsonSerializer();
+            var o = serializer.Deserialize<Dictionary<string, string>>(jsonTextReader);
             Assert.AreEqual("hi", o["_property"]);
 
             Assert.AreEqual(nameTable, jsonTextReader.PropertyNameTable);
@@ -240,7 +240,7 @@ namespace Argon.Tests
                     ContractResolver = new CamelCasePropertyNamesContractResolver()
                 };
 
-                Employee e = new Employee
+                var e = new Employee
                 {
                     FirstName = "Eric",
                     LastName = "Example",
@@ -249,7 +249,7 @@ namespace Argon.Tests
                     JobTitle = "Web Dude"
                 };
 
-                string json = JsonConvert.SerializeObject(e);
+                var json = JsonConvert.SerializeObject(e);
                 // {
                 //   "firstName": "Eric",
                 //   "lastName": "Example",
@@ -282,7 +282,7 @@ namespace Argon.Tests
                     Formatting = Formatting.Indented
                 };
 
-                string json = JsonConvert.SerializeObject(new { test = new[] { 1, 2, 3 } }, new JsonSerializerSettings
+                var json = JsonConvert.SerializeObject(new { test = new[] { 1, 2, 3 } }, new JsonSerializerSettings
                 {
                     Formatting = Formatting.None
                 });
@@ -306,7 +306,7 @@ namespace Argon.Tests
                     Converters = { new IsoDateTimeConverter { DateTimeFormat = "yyyy" } }
                 };
 
-                string json = JsonConvert.SerializeObject(new[] { new DateTime(2000, 12, 12, 4, 2, 4, DateTimeKind.Utc) }, new JsonSerializerSettings
+                var json = JsonConvert.SerializeObject(new[] { new DateTime(2000, 12, 12, 4, 2, 4, DateTimeKind.Utc) }, new JsonSerializerSettings
                 {
                     Formatting = Formatting.None,
                     Converters =
@@ -337,8 +337,8 @@ namespace Argon.Tests
 
                 IList<int> l = new List<int> { 1, 2, 3 };
 
-                StringWriter sw = new StringWriter();
-                JsonSerializer serializer = JsonSerializer.CreateDefault();
+                var sw = new StringWriter();
+                var serializer = JsonSerializer.CreateDefault();
                 serializer.Serialize(sw, l);
 
                 StringAssert.AreEqual(@"[
@@ -383,8 +383,8 @@ namespace Argon.Tests
 
                 IList<int> l = new List<int> { 1, 2, 3 };
 
-                StringWriter sw = new StringWriter();
-                JsonSerializer serializer = JsonSerializer.CreateDefault(new JsonSerializerSettings
+                var sw = new StringWriter();
+                var serializer = JsonSerializer.CreateDefault(new JsonSerializerSettings
                 {
                     Converters = { new IntConverter() }
                 });
@@ -426,7 +426,7 @@ namespace Argon.Tests
         {
             public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
             {
-                int i = (int)value;
+                var i = (int)value;
                 writer.WriteValue(i * 2);
             }
 
@@ -444,35 +444,35 @@ namespace Argon.Tests
         [Fact]
         public void DeserializeObject_EmptyString()
         {
-            object result = JsonConvert.DeserializeObject(string.Empty);
+            var result = JsonConvert.DeserializeObject(string.Empty);
             Assert.IsNull(result);
         }
 
         [Fact]
         public void DeserializeObject_Integer()
         {
-            object result = JsonConvert.DeserializeObject("1");
+            var result = JsonConvert.DeserializeObject("1");
             Assert.AreEqual(1L, result);
         }
 
         [Fact]
         public void DeserializeObject_Integer_EmptyString()
         {
-            int? value = JsonConvert.DeserializeObject<int?>("");
+            var value = JsonConvert.DeserializeObject<int?>("");
             Assert.IsNull(value);
         }
 
         [Fact]
         public void DeserializeObject_Decimal_EmptyString()
         {
-            decimal? value = JsonConvert.DeserializeObject<decimal?>("");
+            var value = JsonConvert.DeserializeObject<decimal?>("");
             Assert.IsNull(value);
         }
 
         [Fact]
         public void DeserializeObject_DateTime_EmptyString()
         {
-            DateTime? value = JsonConvert.DeserializeObject<DateTime?>("");
+            var value = JsonConvert.DeserializeObject<DateTime?>("");
             Assert.IsNull(value);
         }
 
@@ -513,9 +513,9 @@ namespace Argon.Tests
             result = JavaScriptUtils.ToEscapedJavaScriptString("^_`abcdefghijklmnopqrstuvwxyz{|}~", '"', true, StringEscapeHandling.Default);
             Assert.AreEqual(@"""^_`abcdefghijklmnopqrstuvwxyz{|}~""", result);
 
-            string data =
+            var data =
                 "\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007\b\t\n\u000b\f\r\u000e\u000f\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f !\"#$%&\u0027()*+,-./0123456789:;\u003c=\u003e?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
-            string expected =
+            var expected =
                 @"""\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007\b\t\n\u000b\f\r\u000e\u000f\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f !\""#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~""";
 
             result = JavaScriptUtils.ToEscapedJavaScriptString(data, '"', true, StringEscapeHandling.Default);
@@ -561,15 +561,15 @@ namespace Argon.Tests
         [Fact]
         public void GuidToString()
         {
-            Guid guid = new Guid("BED7F4EA-1A96-11d2-8F08-00A0C9A6186D");
-            string json = JsonConvert.ToString(guid);
+            var guid = new Guid("BED7F4EA-1A96-11d2-8F08-00A0C9A6186D");
+            var json = JsonConvert.ToString(guid);
             Assert.AreEqual(@"""bed7f4ea-1a96-11d2-8f08-00a0c9a6186d""", json);
         }
 
         [Fact]
         public void EnumToString()
         {
-            string json = JsonConvert.ToString(StringComparison.CurrentCultureIgnoreCase);
+            var json = JsonConvert.ToString(StringComparison.CurrentCultureIgnoreCase);
             Assert.AreEqual("1", json);
         }
 
@@ -646,9 +646,9 @@ namespace Argon.Tests
         {
             ExceptionAssert.Throws<JsonReaderException>(() =>
             {
-                string orig = @"this is a string ""that has quotes"" ";
+                var orig = @"this is a string ""that has quotes"" ";
 
-                string serialized = JsonConvert.SerializeObject(orig);
+                var serialized = JsonConvert.SerializeObject(orig);
 
                 // *** Make string invalid by stripping \" \"
                 serialized = serialized.Replace(@"\""", "\"");
@@ -660,19 +660,19 @@ namespace Argon.Tests
         [Fact]
         public void DeserializeValueObjects()
         {
-            int i = JsonConvert.DeserializeObject<int>("1");
+            var i = JsonConvert.DeserializeObject<int>("1");
             Assert.AreEqual(1, i);
 
-            DateTimeOffset d = JsonConvert.DeserializeObject<DateTimeOffset>(@"""\/Date(-59011455539000+0000)\/""");
+            var d = JsonConvert.DeserializeObject<DateTimeOffset>(@"""\/Date(-59011455539000+0000)\/""");
             Assert.AreEqual(new DateTimeOffset(new DateTime(100, 1, 1, 1, 1, 1, DateTimeKind.Utc)), d);
 
-            bool b = JsonConvert.DeserializeObject<bool>("true");
+            var b = JsonConvert.DeserializeObject<bool>("true");
             Assert.AreEqual(true, b);
 
-            object n = JsonConvert.DeserializeObject<object>("null");
+            var n = JsonConvert.DeserializeObject<object>("null");
             Assert.AreEqual(null, n);
 
-            object u = JsonConvert.DeserializeObject<object>("undefined");
+            var u = JsonConvert.DeserializeObject<object>("undefined");
             Assert.AreEqual(null, u);
         }
 
@@ -717,18 +717,18 @@ namespace Argon.Tests
         [Fact]
         public void StringEscaping()
         {
-            string v = "It's a good day\r\n\"sunshine\"";
+            var v = "It's a good day\r\n\"sunshine\"";
 
-            string json = JsonConvert.ToString(v);
+            var json = JsonConvert.ToString(v);
             Assert.AreEqual(@"""It's a good day\r\n\""sunshine\""""", json);
         }
 
         [Fact]
         public void ToStringStringEscapeHandling()
         {
-            string v = "<b>hi " + '\u20AC' + "</b>";
+            var v = "<b>hi " + '\u20AC' + "</b>";
 
-            string json = JsonConvert.ToString(v, '"');
+            var json = JsonConvert.ToString(v, '"');
             Assert.AreEqual(@"""<b>hi " + '\u20AC' + @"</b>""", json);
 
             json = JsonConvert.ToString(v, '"', StringEscapeHandling.EscapeHtml);
@@ -753,8 +753,8 @@ namespace Argon.Tests
             Assert.AreEqual(@"\/Date(253402300799999)\/", result.MsDateUnspecified);
             Assert.AreEqual(@"\/Date(253402300799999)\/", result.MsDateUtc);
 
-            DateTime year2000local = new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Local);
-            string localToUtcDate = year2000local.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.FFFFFFFK");
+            var year2000local = new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Local);
+            var localToUtcDate = year2000local.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.FFFFFFFK");
 
             result = TestDateTime("DateTime Local", year2000local);
             Assert.AreEqual("2000-01-01T01:01:01" + GetOffset(year2000local, DateFormatHandling.IsoDateFormat), result.IsoDateRoundtrip);
@@ -766,7 +766,7 @@ namespace Argon.Tests
             Assert.AreEqual(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000local) + GetOffset(year2000local, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateUnspecified);
             Assert.AreEqual(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000local) + @")\/", result.MsDateUtc);
 
-            DateTime millisecondsLocal = new DateTime(2000, 1, 1, 1, 1, 1, 999, DateTimeKind.Local);
+            var millisecondsLocal = new DateTime(2000, 1, 1, 1, 1, 1, 999, DateTimeKind.Local);
             localToUtcDate = millisecondsLocal.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.FFFFFFFK");
 
             result = TestDateTime("DateTime Local with milliseconds", millisecondsLocal);
@@ -779,7 +779,7 @@ namespace Argon.Tests
             Assert.AreEqual(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(millisecondsLocal) + GetOffset(millisecondsLocal, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateUnspecified);
             Assert.AreEqual(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(millisecondsLocal) + @")\/", result.MsDateUtc);
 
-            DateTime ticksLocal = new DateTime(636556897826822481, DateTimeKind.Local);
+            var ticksLocal = new DateTime(636556897826822481, DateTimeKind.Local);
             localToUtcDate = ticksLocal.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.FFFFFFFK");
 
             result = TestDateTime("DateTime Local with ticks", ticksLocal);
@@ -792,7 +792,7 @@ namespace Argon.Tests
             Assert.AreEqual(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(ticksLocal) + GetOffset(ticksLocal, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateUnspecified);
             Assert.AreEqual(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(ticksLocal) + @")\/", result.MsDateUtc);
 
-            DateTime year2000Unspecified = new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Unspecified);
+            var year2000Unspecified = new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Unspecified);
 
             result = TestDateTime("DateTime Unspecified", year2000Unspecified);
             Assert.AreEqual("2000-01-01T01:01:01", result.IsoDateRoundtrip);
@@ -804,8 +804,8 @@ namespace Argon.Tests
             Assert.AreEqual(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000Unspecified) + GetOffset(year2000Unspecified, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateUnspecified);
             Assert.AreEqual(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000Unspecified.ToLocalTime()) + @")\/", result.MsDateUtc);
 
-            DateTime year2000Utc = new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc);
-            string utcTolocalDate = year2000Utc.ToLocalTime().ToString("yyyy-MM-ddTHH:mm:ss");
+            var year2000Utc = new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc);
+            var utcTolocalDate = year2000Utc.ToLocalTime().ToString("yyyy-MM-ddTHH:mm:ss");
 
             result = TestDateTime("DateTime Utc", year2000Utc);
             Assert.AreEqual("2000-01-01T01:01:01Z", result.IsoDateRoundtrip);
@@ -817,7 +817,7 @@ namespace Argon.Tests
             Assert.AreEqual(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(DateTime.SpecifyKind(year2000Utc, DateTimeKind.Unspecified)) + GetOffset(year2000Utc, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateUnspecified);
             Assert.AreEqual(@"\/Date(946688461000)\/", result.MsDateUtc);
 
-            DateTime unixEpoc = new DateTime(621355968000000000, DateTimeKind.Utc);
+            var unixEpoc = new DateTime(621355968000000000, DateTimeKind.Utc);
             utcTolocalDate = unixEpoc.ToLocalTime().ToString("yyyy-MM-ddTHH:mm:ss");
 
             result = TestDateTime("DateTime Unix Epoc", unixEpoc);
@@ -900,7 +900,7 @@ namespace Argon.Tests
         {
             Console.WriteLine(name);
 
-            DateTimeResult result = new DateTimeResult()
+            var result = new DateTimeResult()
             {
                 IsoDateRoundtrip = TestDateTimeFormat(value, DateFormatHandling.IsoDateFormat, DateTimeZoneHandling.RoundtripKind)
             };
@@ -931,10 +931,10 @@ namespace Argon.Tests
                 Console.WriteLine(XmlConvert.ToString((DateTimeOffset)(object)value));
             }
 
-            MemoryStream ms = new MemoryStream();
-            DataContractSerializer s = new DataContractSerializer(typeof(T));
+            var ms = new MemoryStream();
+            var s = new DataContractSerializer(typeof(T));
             s.WriteObject(ms, value);
-            string json = Encoding.UTF8.GetString(ms.ToArray(), 0, Convert.ToInt32(ms.Length));
+            var json = Encoding.UTF8.GetString(ms.ToArray(), 0, Convert.ToInt32(ms.Length));
             Console.WriteLine(json);
 
             Console.WriteLine();
@@ -959,11 +959,11 @@ namespace Argon.Tests
 
             if (timeZoneHandling == DateTimeZoneHandling.RoundtripKind)
             {
-                T parsed = JsonConvert.DeserializeObject<T>(date);
+                var parsed = JsonConvert.DeserializeObject<T>(date);
                 if (!value.Equals(parsed))
                 {
-                    long valueTicks = GetTicks(value);
-                    long parsedTicks = GetTicks(parsed);
+                    var valueTicks = GetTicks(value);
+                    var parsedTicks = GetTicks(parsed);
 
                     valueTicks = (valueTicks / 10000) * 10000;
 
@@ -976,11 +976,11 @@ namespace Argon.Tests
 
         private static void TestDateTimeFormat<T>(T value, JsonConverter converter)
         {
-            string date = Write(value, converter);
+            var date = Write(value, converter);
 
             Console.WriteLine(converter.GetType().Name + ": " + date);
 
-            T parsed = Read<T>(date, converter);
+            var parsed = Read<T>(date, converter);
 
             try
             {
@@ -989,8 +989,8 @@ namespace Argon.Tests
             catch (Exception)
             {
                 // JavaScript ticks aren't as precise, recheck after rounding
-                long valueTicks = GetTicks(value);
-                long parsedTicks = GetTicks(parsed);
+                var valueTicks = GetTicks(value);
+                var parsedTicks = GetTicks(parsed);
 
                 valueTicks = (valueTicks / 10000) * 10000;
 
@@ -1005,8 +1005,8 @@ namespace Argon.Tests
 
         public static string Write(object value, JsonConverter converter)
         {
-            StringWriter sw = new StringWriter();
-            JsonTextWriter writer = new JsonTextWriter(sw);
+            var sw = new StringWriter();
+            var writer = new JsonTextWriter(sw);
             converter.WriteJson(writer, value, null);
 
             writer.Flush();
@@ -1015,7 +1015,7 @@ namespace Argon.Tests
 
         public static T Read<T>(string text, JsonConverter converter)
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(text));
+            var reader = new JsonTextReader(new StringReader(text));
             reader.ReadAsString();
 
             return (T)converter.ReadJson(reader, typeof(T), null, null);
@@ -1024,7 +1024,7 @@ namespace Argon.Tests
         [Fact]
         public void SerializeObjectDateTimeZoneHandling()
         {
-            string json = JsonConvert.SerializeObject(
+            var json = JsonConvert.SerializeObject(
                 new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Unspecified),
                 new JsonSerializerSettings
                 {
@@ -1037,7 +1037,7 @@ namespace Argon.Tests
         [Fact]
         public void DeserializeObject()
         {
-            string json = @"{
+            var json = @"{
         'Name': 'Bad Boys',
         'ReleaseDate': '1995-4-7T00:00:00',
         'Genres': [
@@ -1046,9 +1046,9 @@ namespace Argon.Tests
         ]
       }";
 
-            Movie m = JsonConvert.DeserializeObject<Movie>(json);
+            var m = JsonConvert.DeserializeObject<Movie>(json);
 
-            string name = m.Name;
+            var name = m.Name;
             // Bad Boys
 
             Assert.AreEqual("Bad Boys", m.Name);
@@ -1079,11 +1079,11 @@ namespace Argon.Tests
         [Fact]
         public void MaximumDateTimeOffsetLength()
         {
-            DateTimeOffset dt = new DateTimeOffset(2000, 12, 31, 20, 59, 59, new TimeSpan(0, 11, 33, 0, 0));
+            var dt = new DateTimeOffset(2000, 12, 31, 20, 59, 59, new TimeSpan(0, 11, 33, 0, 0));
             dt = dt.AddTicks(9999999);
 
-            StringWriter sw = new StringWriter();
-            JsonTextWriter writer = new JsonTextWriter(sw);
+            var sw = new StringWriter();
+            var writer = new JsonTextWriter(sw);
 
             writer.WriteValue(dt);
             writer.Flush();
@@ -1094,11 +1094,11 @@ namespace Argon.Tests
         [Fact]
         public void MaximumDateTimeLength()
         {
-            DateTime dt = new DateTime(2000, 12, 31, 20, 59, 59, DateTimeKind.Local);
+            var dt = new DateTime(2000, 12, 31, 20, 59, 59, DateTimeKind.Local);
             dt = dt.AddTicks(9999999);
 
-            StringWriter sw = new StringWriter();
-            JsonTextWriter writer = new JsonTextWriter(sw);
+            var sw = new StringWriter();
+            var writer = new JsonTextWriter(sw);
 
             writer.WriteValue(dt);
             writer.Flush();
@@ -1107,10 +1107,10 @@ namespace Argon.Tests
         [Fact]
         public void MaximumDateTimeMicrosoftDateFormatLength()
         {
-            DateTime dt = DateTime.MaxValue;
+            var dt = DateTime.MaxValue;
 
-            StringWriter sw = new StringWriter();
-            JsonTextWriter writer = new JsonTextWriter(sw)
+            var sw = new StringWriter();
+            var writer = new JsonTextWriter(sw)
             {
                 DateFormatHandling = DateFormatHandling.MicrosoftDateFormat
             };
@@ -1122,8 +1122,8 @@ namespace Argon.Tests
         public void IntegerLengthOverflows()
         {
             // Maximum javascript number length (in characters) is 380
-            JObject o = JObject.Parse(@"{""biginteger"":" + new String('9', 380) + "}");
-            JValue v = (JValue)o["biginteger"];
+            var o = JObject.Parse(@"{""biginteger"":" + new String('9', 380) + "}");
+            var v = (JValue)o["biginteger"];
             Assert.AreEqual(JTokenType.Integer, v.Type);
             Assert.AreEqual(typeof(BigInteger), v.Value.GetType());
             Assert.AreEqual(BigInteger.Parse(new String('9', 380)), (BigInteger)v.Value);
@@ -1134,7 +1134,7 @@ namespace Argon.Tests
         [Fact]
         public void ParseIsoDate()
         {
-            StringReader sr = new StringReader(@"""2014-02-14T14:25:02-13:00""");
+            var sr = new StringReader(@"""2014-02-14T14:25:02-13:00""");
 
             JsonReader jsonReader = new JsonTextReader(sr);
 
@@ -1175,8 +1175,8 @@ namespace Argon.Tests
         [Fact]
         public void ParametersPassedToJsonConverterConstructor()
         {
-            ClobberMyProperties clobber = new ClobberMyProperties { One = "Red", Two = "Green", Three = "Yellow", Four = "Black" };
-            string json = JsonConvert.SerializeObject(clobber);
+            var clobber = new ClobberMyProperties { One = "Red", Two = "Green", Three = "Yellow", Four = "Black" };
+            var json = JsonConvert.SerializeObject(clobber);
 
             Assert.AreEqual("{\"One\":\"Uno-1-Red\",\"Two\":\"Dos-2-Green\",\"Three\":\"Tres-1337-Yellow\",\"Four\":\"Black\"}", json);
         }
@@ -1231,7 +1231,7 @@ namespace Argon.Tests
         [Fact]
         public void WrongParametersPassedToJsonConvertConstructorShouldThrow()
         {
-            IncorrectJsonConvertParameters value = new IncorrectJsonConvertParameters { One = "Boom" };
+            var value = new IncorrectJsonConvertParameters { One = "Boom" };
 
             ExceptionAssert.Throws<JsonException>(() => { JsonConvert.SerializeObject(value); });
         }
@@ -1340,8 +1340,8 @@ namespace Argon.Tests
         [Fact]
         public void JsonConverterConstructor_OverloadWithTypeParam()
         {
-            OverloadWithTypeParameter value = new OverloadWithTypeParameter();
-            string json = JsonConvert.SerializeObject(value);
+            var value = new OverloadWithTypeParameter();
+            var json = JsonConvert.SerializeObject(value);
 
             Assert.AreEqual("{\"Overload\":\"Type\"}", json);
         }
@@ -1355,8 +1355,8 @@ namespace Argon.Tests
         [Fact]
         public void JsonConverterConstructor_OverloadWithUnhandledParam_FallbackToObject()
         {
-            OverloadWithUnhandledParameter value = new OverloadWithUnhandledParameter();
-            string json = JsonConvert.SerializeObject(value);
+            var value = new OverloadWithUnhandledParameter();
+            var json = JsonConvert.SerializeObject(value);
 
             Assert.AreEqual("{\"Overload\":\"object(System.String)\"}", json);
         }
@@ -1437,80 +1437,80 @@ namespace Argon.Tests
         public void JsonConverterConstructor_OverloadsWithPrimitiveParams()
         {
             {
-                OverloadWithIntParameter value = new OverloadWithIntParameter();
-                string json = JsonConvert.SerializeObject(value);
+                var value = new OverloadWithIntParameter();
+                var json = JsonConvert.SerializeObject(value);
                 Assert.AreEqual("{\"Overload\":\"int\"}", json);
             }
 
             {
                 // uint -> long
-                OverloadWithUIntParameter value = new OverloadWithUIntParameter();
-                string json = JsonConvert.SerializeObject(value);
+                var value = new OverloadWithUIntParameter();
+                var json = JsonConvert.SerializeObject(value);
                 Assert.AreEqual("{\"Overload\":\"long\"}", json);
             }
 
             {
-                OverloadWithLongParameter value = new OverloadWithLongParameter();
-                string json = JsonConvert.SerializeObject(value);
+                var value = new OverloadWithLongParameter();
+                var json = JsonConvert.SerializeObject(value);
                 Assert.AreEqual("{\"Overload\":\"long\"}", json);
             }
 
             {
                 // ulong -> double
-                OverloadWithULongParameter value = new OverloadWithULongParameter();
-                string json = JsonConvert.SerializeObject(value);
+                var value = new OverloadWithULongParameter();
+                var json = JsonConvert.SerializeObject(value);
                 Assert.AreEqual("{\"Overload\":\"double\"}", json);
             }
 
             {
-                OverloadWithShortParameter value = new OverloadWithShortParameter();
-                string json = JsonConvert.SerializeObject(value);
+                var value = new OverloadWithShortParameter();
+                var json = JsonConvert.SerializeObject(value);
                 Assert.AreEqual("{\"Overload\":\"short\"}", json);
             }
 
             {
                 // ushort -> int
-                OverloadWithUShortParameter value = new OverloadWithUShortParameter();
-                string json = JsonConvert.SerializeObject(value);
+                var value = new OverloadWithUShortParameter();
+                var json = JsonConvert.SerializeObject(value);
                 Assert.AreEqual("{\"Overload\":\"int\"}", json);
             }
 
             {
                 // sbyte -> short
-                OverloadWithSByteParameter value = new OverloadWithSByteParameter();
-                string json = JsonConvert.SerializeObject(value);
+                var value = new OverloadWithSByteParameter();
+                var json = JsonConvert.SerializeObject(value);
                 Assert.AreEqual("{\"Overload\":\"short\"}", json);
             }
 
             {
-                OverloadWithByteParameter value = new OverloadWithByteParameter();
-                string json = JsonConvert.SerializeObject(value);
+                var value = new OverloadWithByteParameter();
+                var json = JsonConvert.SerializeObject(value);
                 Assert.AreEqual("{\"Overload\":\"byte\"}", json);
             }
 
             {
                 // char -> int
-                OverloadWithCharParameter value = new OverloadWithCharParameter();
-                string json = JsonConvert.SerializeObject(value);
+                var value = new OverloadWithCharParameter();
+                var json = JsonConvert.SerializeObject(value);
                 Assert.AreEqual("{\"Overload\":\"int\"}", json);
             }
 
             {
                 // bool -> (object)bool
-                OverloadWithBoolParameter value = new OverloadWithBoolParameter();
+                var value = new OverloadWithBoolParameter();
                 var json = JsonConvert.SerializeObject(value);
                 Assert.AreEqual("{\"Overload\":\"object(System.Boolean)\"}", json);
             }
 
             {
                 // float -> double
-                OverloadWithFloatParameter value = new OverloadWithFloatParameter();
-                string json = JsonConvert.SerializeObject(value);
+                var value = new OverloadWithFloatParameter();
+                var json = JsonConvert.SerializeObject(value);
                 Assert.AreEqual("{\"Overload\":\"double\"}", json);
             }
 
             {
-                OverloadWithDoubleParameter value = new OverloadWithDoubleParameter();
+                var value = new OverloadWithDoubleParameter();
                 var json = JsonConvert.SerializeObject(value);
                 Assert.AreEqual("{\"Overload\":\"double\"}", json);
             }
@@ -1528,8 +1528,8 @@ namespace Argon.Tests
         [Fact]
         public void JsonConverterConstructor_OverloadsWithArrayParams()
         {
-            OverloadWithArrayParameters value = new OverloadWithArrayParameters();
-            string json = JsonConvert.SerializeObject(value);
+            var value = new OverloadWithArrayParameters();
+            var json = JsonConvert.SerializeObject(value);
 
             Assert.AreEqual("{\"WithParams\":\"int[]\",\"WithoutParams\":\"bool[]\"}", json);
         }
@@ -1561,7 +1561,7 @@ namespace Argon.Tests
                 Gain = 12345.67895111213
             };
 
-            string json = JsonConvert.SerializeObject(measurements);
+            var json = JsonConvert.SerializeObject(measurements);
 
             Assert.AreEqual("{\"Positions\":[57.72,60.44,63.44,66.81,70.45],\"Loads\":[23284.0,23225.0,23062.0,22846.0,22594.0],\"Gain\":12345.679}", json);
         }
@@ -1623,7 +1623,7 @@ namespace Argon.Tests
         [Fact]
         public void GenericBaseClassSerialization()
         {
-            string json = JsonConvert.SerializeObject(new NonGenericChildClass());
+            var json = JsonConvert.SerializeObject(new NonGenericChildClass());
             Assert.AreEqual("{\"Data\":null}", json);
         }
 
@@ -1771,11 +1771,11 @@ namespace Argon.Tests
         [Fact]
         public void ShouldNotRequireIgnoredPropertiesWithItemsRequired()
         {
-            string json = @"{
+            var json = @"{
   ""exp"": 1483228800,
   ""active"": true
 }";
-            ItemsRequiredObjectWithIgnoredProperty value = JsonConvert.DeserializeObject<ItemsRequiredObjectWithIgnoredProperty>(json);
+            var value = JsonConvert.DeserializeObject<ItemsRequiredObjectWithIgnoredProperty>(json);
             Assert.IsNotNull(value);
             Assert.AreEqual(value.Expiration, new DateTime(2017, 1, 1, 0, 0, 0, DateTimeKind.Utc));
             Assert.AreEqual(value.Active, true);

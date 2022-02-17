@@ -51,7 +51,7 @@ namespace Argon.Linq.JsonPath
 
         private void ParseMain()
         {
-            int currentPartStartIndex = _currentIndex;
+            var currentPartStartIndex = _currentIndex;
 
             EatWhitespace();
 
@@ -69,7 +69,7 @@ namespace Argon.Linq.JsonPath
 
                 // only increment position for "$." or "$["
                 // otherwise assume property that starts with $
-                char c = _expression[_currentIndex + 1];
+                var c = _expression[_currentIndex + 1];
                 if (c == '.' || c == '[')
                 {
                     _currentIndex++;
@@ -79,7 +79,7 @@ namespace Argon.Linq.JsonPath
 
             if (!ParsePath(Filters, currentPartStartIndex, false))
             {
-                int lastCharacterIndex = _currentIndex;
+                var lastCharacterIndex = _currentIndex;
 
                 EatWhitespace();
 
@@ -92,14 +92,14 @@ namespace Argon.Linq.JsonPath
 
         private bool ParsePath(List<PathFilter> filters, int currentPartStartIndex, bool query)
         {
-            bool scan = false;
-            bool followingIndexer = false;
-            bool followingDot = false;
+            var scan = false;
+            var followingIndexer = false;
+            var followingDot = false;
 
-            bool ended = false;
+            var ended = false;
             while (_currentIndex < _expression.Length && !ended)
             {
-                char currentChar = _expression[_currentIndex];
+                var currentChar = _expression[_currentIndex];
 
                 switch (currentChar)
                 {
@@ -107,7 +107,7 @@ namespace Argon.Linq.JsonPath
                     case '(':
                         if (_currentIndex > currentPartStartIndex)
                         {
-                            string? member = _expression.Substring(currentPartStartIndex, _currentIndex - currentPartStartIndex);
+                            var member = _expression.Substring(currentPartStartIndex, _currentIndex - currentPartStartIndex);
                             if (member == "*")
                             {
                                 member = null;
@@ -138,7 +138,7 @@ namespace Argon.Linq.JsonPath
                     case '.':
                         if (_currentIndex > currentPartStartIndex)
                         {
-                            string? member = _expression.Substring(currentPartStartIndex, _currentIndex - currentPartStartIndex);
+                            var member = _expression.Substring(currentPartStartIndex, _currentIndex - currentPartStartIndex);
                             if (member == "*")
                             {
                                 member = null;
@@ -175,11 +175,11 @@ namespace Argon.Linq.JsonPath
                 }
             }
 
-            bool atPathEnd = (_currentIndex == _expression.Length);
+            var atPathEnd = (_currentIndex == _expression.Length);
 
             if (_currentIndex > currentPartStartIndex)
             {
-                string? member = _expression.Substring(currentPartStartIndex, _currentIndex - currentPartStartIndex).TrimEnd();
+                var member = _expression.Substring(currentPartStartIndex, _currentIndex - currentPartStartIndex).TrimEnd();
                 if (member == "*")
                 {
                     member = null;
@@ -200,7 +200,7 @@ namespace Argon.Linq.JsonPath
 
         private static PathFilter CreatePathFilter(string? member, bool scan)
         {
-            PathFilter filter = (scan) ? (PathFilter)new ScanFilter(member) : new FieldFilter(member);
+            var filter = (scan) ? (PathFilter)new ScanFilter(member) : new FieldFilter(member);
             return filter;
         }
 
@@ -208,7 +208,7 @@ namespace Argon.Linq.JsonPath
         {
             _currentIndex++;
 
-            char indexerCloseChar = (indexerOpenChar == '[') ? ']' : ')';
+            var indexerCloseChar = (indexerOpenChar == '[') ? ']' : ')';
 
             EnsureLength("Path ended with open indexer.");
 
@@ -230,17 +230,17 @@ namespace Argon.Linq.JsonPath
 
         private PathFilter ParseArrayIndexer(char indexerCloseChar)
         {
-            int start = _currentIndex;
+            var start = _currentIndex;
             int? end = null;
             List<int>? indexes = null;
-            int colonCount = 0;
+            var colonCount = 0;
             int? startIndex = null;
             int? endIndex = null;
             int? step = null;
 
             while (_currentIndex < _expression.Length)
             {
-                char currentCharacter = _expression[_currentIndex];
+                var currentCharacter = _expression[_currentIndex];
 
                 if (currentCharacter == ' ')
                 {
@@ -251,7 +251,7 @@ namespace Argon.Linq.JsonPath
 
                 if (currentCharacter == indexerCloseChar)
                 {
-                    int length = (end ?? _currentIndex) - start;
+                    var length = (end ?? _currentIndex) - start;
 
                     if (indexes != null)
                     {
@@ -260,8 +260,8 @@ namespace Argon.Linq.JsonPath
                             throw new JsonException("Array index expected.");
                         }
 
-                        string indexer = _expression.Substring(start, length);
-                        int index = Convert.ToInt32(indexer, CultureInfo.InvariantCulture);
+                        var indexer = _expression.Substring(start, length);
+                        var index = Convert.ToInt32(indexer, CultureInfo.InvariantCulture);
 
                         indexes.Add(index);
                         return new ArrayMultipleIndexFilter(indexes);
@@ -270,8 +270,8 @@ namespace Argon.Linq.JsonPath
                     {
                         if (length > 0)
                         {
-                            string indexer = _expression.Substring(start, length);
-                            int index = Convert.ToInt32(indexer, CultureInfo.InvariantCulture);
+                            var indexer = _expression.Substring(start, length);
+                            var index = Convert.ToInt32(indexer, CultureInfo.InvariantCulture);
 
                             if (colonCount == 1)
                             {
@@ -292,15 +292,15 @@ namespace Argon.Linq.JsonPath
                             throw new JsonException("Array index expected.");
                         }
 
-                        string indexer = _expression.Substring(start, length);
-                        int index = Convert.ToInt32(indexer, CultureInfo.InvariantCulture);
+                        var indexer = _expression.Substring(start, length);
+                        var index = Convert.ToInt32(indexer, CultureInfo.InvariantCulture);
 
                         return new ArrayIndexFilter { Index = index };
                     }
                 }
                 else if (currentCharacter == ',')
                 {
-                    int length = (end ?? _currentIndex) - start;
+                    var length = (end ?? _currentIndex) - start;
 
                     if (length == 0)
                     {
@@ -312,7 +312,7 @@ namespace Argon.Linq.JsonPath
                         indexes = new List<int>();
                     }
 
-                    string indexer = _expression.Substring(start, length);
+                    var indexer = _expression.Substring(start, length);
                     indexes.Add(Convert.ToInt32(indexer, CultureInfo.InvariantCulture));
 
                     _currentIndex++;
@@ -337,12 +337,12 @@ namespace Argon.Linq.JsonPath
                 }
                 else if (currentCharacter == ':')
                 {
-                    int length = (end ?? _currentIndex) - start;
+                    var length = (end ?? _currentIndex) - start;
 
                     if (length > 0)
                     {
-                        string indexer = _expression.Substring(start, length);
-                        int index = Convert.ToInt32(indexer, CultureInfo.InvariantCulture);
+                        var indexer = _expression.Substring(start, length);
+                        var index = Convert.ToInt32(indexer, CultureInfo.InvariantCulture);
 
                         if (colonCount == 0)
                         {
@@ -410,7 +410,7 @@ namespace Argon.Linq.JsonPath
 
             _currentIndex++;
 
-            QueryExpression expression = ParseExpression();
+            var expression = ParseExpression();
 
             _currentIndex++;
             EnsureLength("Path ended with open indexer.");
@@ -466,7 +466,7 @@ namespace Argon.Linq.JsonPath
         {
             EatWhitespace();
 
-            if (TryParseExpression(out List<PathFilter>? expressionPath))
+            if (TryParseExpression(out var expressionPath))
             {
                 EatWhitespace();
                 EnsureLength("Path ended with open query.");
@@ -492,7 +492,7 @@ namespace Argon.Linq.JsonPath
 
             while (_currentIndex < _expression.Length)
             {
-                object left = ParseSide();
+                var left = ParseSide();
                 object? right = null;
 
                 QueryOperator op;
@@ -509,7 +509,7 @@ namespace Argon.Linq.JsonPath
                     right = ParseSide();
                 }
 
-                BooleanQueryExpression booleanExpression = new BooleanQueryExpression(op, left, right);
+                var booleanExpression = new BooleanQueryExpression(op, left, right);
 
                 if (_expression[_currentIndex] == ')')
                 {
@@ -530,7 +530,7 @@ namespace Argon.Linq.JsonPath
 
                     if (parentExpression == null || parentExpression.Operator != QueryOperator.And)
                     {
-                        CompositeExpression andExpression = new CompositeExpression(QueryOperator.And);
+                        var andExpression = new CompositeExpression(QueryOperator.And);
 
                         parentExpression?.Expressions.Add(andExpression);
 
@@ -553,7 +553,7 @@ namespace Argon.Linq.JsonPath
 
                     if (parentExpression == null || parentExpression.Operator != QueryOperator.Or)
                     {
-                        CompositeExpression orExpression = new CompositeExpression(QueryOperator.Or);
+                        var orExpression = new CompositeExpression(QueryOperator.Or);
 
                         parentExpression?.Expressions.Add(orExpression);
 
@@ -574,7 +574,7 @@ namespace Argon.Linq.JsonPath
 
         private bool TryParseValue(out object? value)
         {
-            char currentChar = _expression[_currentIndex];
+            var currentChar = _expression[_currentIndex];
             if (currentChar == '\'')
             {
                 value = ReadQuotedString();
@@ -582,7 +582,7 @@ namespace Argon.Linq.JsonPath
             }
             else if (char.IsDigit(currentChar) || currentChar == '-')
             {
-                StringBuilder sb = new StringBuilder();
+                var sb = new StringBuilder();
                 sb.Append(currentChar);
 
                 _currentIndex++;
@@ -591,17 +591,17 @@ namespace Argon.Linq.JsonPath
                     currentChar = _expression[_currentIndex];
                     if (currentChar == ' ' || currentChar == ')')
                     {
-                        string numberText = sb.ToString();
+                        var numberText = sb.ToString();
 
                         if (numberText.IndexOfAny(FloatCharacters) != -1)
                         {
-                            bool result = double.TryParse(numberText, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out var d);
+                            var result = double.TryParse(numberText, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out var d);
                             value = d;
                             return result;
                         }
                         else
                         {
-                            bool result = long.TryParse(numberText, NumberStyles.Integer, CultureInfo.InvariantCulture, out var l);
+                            var result = long.TryParse(numberText, NumberStyles.Integer, CultureInfo.InvariantCulture, out var l);
                             value = l;
                             return result;
                         }
@@ -649,12 +649,12 @@ namespace Argon.Linq.JsonPath
 
         private string ReadQuotedString()
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
 
             _currentIndex++;
             while (_currentIndex < _expression.Length)
             {
-                char currentChar = _expression[_currentIndex];
+                var currentChar = _expression[_currentIndex];
                 if (currentChar == '\\' && _currentIndex + 1 < _expression.Length)
                 {
                     _currentIndex++;
@@ -709,12 +709,12 @@ namespace Argon.Linq.JsonPath
 
         private string ReadRegexString()
         {
-            int startIndex = _currentIndex;
+            var startIndex = _currentIndex;
 
             _currentIndex++;
             while (_currentIndex < _expression.Length)
             {
-                char currentChar = _expression[_currentIndex];
+                var currentChar = _expression[_currentIndex];
 
                 // handle escaped / character
                 if (currentChar == '\\' && _currentIndex + 1 < _expression.Length)
@@ -752,8 +752,8 @@ namespace Argon.Linq.JsonPath
 
         private bool Match(string s)
         {
-            int currentPosition = _currentIndex;
-            for (int i = 0; i < s.Length; i++)
+            var currentPosition = _currentIndex;
+            for (var i = 0; i < s.Length; i++)
             {
                 if (currentPosition < _expression.Length && _expression[currentPosition] == s[i])
                 {
@@ -826,7 +826,7 @@ namespace Argon.Linq.JsonPath
 
             while (_currentIndex < _expression.Length)
             {
-                string field = ReadQuotedString();
+                var field = ReadQuotedString();
 
                 EatWhitespace();
                 EnsureLength("Path ended with open indexer.");
@@ -882,7 +882,7 @@ namespace Argon.Linq.JsonPath
         internal static IEnumerable<JToken> Evaluate(List<PathFilter> filters, JToken root, JToken t, JsonSelectSettings? settings)
         {
             IEnumerable<JToken> current = new[] { t };
-            foreach (PathFilter filter in filters)
+            foreach (var filter in filters)
             {
                 current = filter.ExecuteFilter(root, current, settings);
             }

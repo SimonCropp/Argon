@@ -46,9 +46,9 @@ namespace Argon.Tests.Issues
                 new KeyValuePair<string, string>("123", "2017-05-19T11:00:59")
             };
 
-            string json = JsonConvert.SerializeObject(values, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(values, Formatting.Indented);
 
-            IList<KeyValuePair<string, string>> v1 = JsonConvert.DeserializeObject<IList<KeyValuePair<string, string>>>(json);
+            var v1 = JsonConvert.DeserializeObject<IList<KeyValuePair<string, string>>>(json);
 
             Assert.AreEqual("123", v1[0].Key);
             Assert.AreEqual("2017-05-19T11:00:59", v1[0].Value);

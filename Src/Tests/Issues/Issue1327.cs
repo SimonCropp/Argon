@@ -63,7 +63,7 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test_XmlNode()
         {
-            string json = @"{
+            var json = @"{
   ""TestXml"": {
     ""orders"": {
       ""order"": {
@@ -85,7 +85,7 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test_XObject()
         {
-            string json = @"{
+            var json = @"{
   ""TestXml1"": {
     ""orders"": {
       ""order"": {

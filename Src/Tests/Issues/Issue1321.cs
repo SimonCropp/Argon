@@ -56,11 +56,11 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test2()
         {
-            JArray a = new JArray();
+            var a = new JArray();
 
             var writer = a.CreateWriter();
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"[""1"","));
+            var reader = new JsonTextReader(new StringReader(@"[""1"","));
 
             ExceptionAssert.Throws<JsonWriterException>(() =>
             {
@@ -71,11 +71,11 @@ namespace Argon.Tests.Issues
         [Fact]
         public async Task Test2_Async()
         {
-            JArray a = new JArray();
+            var a = new JArray();
 
             var writer = a.CreateWriter();
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"[""1"","));
+            var reader = new JsonTextReader(new StringReader(@"[""1"","));
 
             await ExceptionAssert.ThrowsAsync<JsonWriterException>(async () =>
             {
@@ -86,11 +86,11 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test3()
         {
-            JArray a = new JArray();
+            var a = new JArray();
 
             var writer = a.CreateWriter();
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"[""1"","));
+            var reader = new JsonTextReader(new StringReader(@"[""1"","));
             reader.Read();
 
             ExceptionAssert.Throws<JsonWriterException>(() =>
@@ -102,11 +102,11 @@ namespace Argon.Tests.Issues
         [Fact]
         public async Task Test3_Async()
         {
-            JArray a = new JArray();
+            var a = new JArray();
 
             var writer = a.CreateWriter();
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"[""1"","));
+            var reader = new JsonTextReader(new StringReader(@"[""1"","));
             await reader.ReadAsync();
 
             await ExceptionAssert.ThrowsAsync<JsonWriterException>(async () =>
@@ -118,11 +118,11 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test4()
         {
-            JArray a = new JArray();
+            var a = new JArray();
 
             var writer = a.CreateWriter();
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"[[""1"","));
+            var reader = new JsonTextReader(new StringReader(@"[[""1"","));
             reader.Read();
             reader.Read();
 
@@ -135,11 +135,11 @@ namespace Argon.Tests.Issues
         [Fact]
         public async Task Test4_Async()
         {
-            JArray a = new JArray();
+            var a = new JArray();
 
             var writer = a.CreateWriter();
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"[[""1"","));
+            var reader = new JsonTextReader(new StringReader(@"[[""1"","));
             await reader.ReadAsync();
             await reader.ReadAsync();
 
@@ -152,11 +152,11 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test5()
         {
-            StringWriter sw = new StringWriter();
-            JsonTextWriter writer = new JsonTextWriter(sw);
+            var sw = new StringWriter();
+            var writer = new JsonTextWriter(sw);
             writer.WriteStartArray();
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"[[""1"","));
+            var reader = new JsonTextReader(new StringReader(@"[[""1"","));
             reader.Read();
             reader.Read();
 
@@ -169,11 +169,11 @@ namespace Argon.Tests.Issues
         [Fact]
         public async Task Test5_Async()
         {
-            StringWriter sw = new StringWriter();
-            JsonTextWriter writer = new JsonTextWriter(sw);
+            var sw = new StringWriter();
+            var writer = new JsonTextWriter(sw);
             writer.WriteStartArray();
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"[[""1"","));
+            var reader = new JsonTextReader(new StringReader(@"[[""1"","));
             await reader.ReadAsync();
             await reader.ReadAsync();
 

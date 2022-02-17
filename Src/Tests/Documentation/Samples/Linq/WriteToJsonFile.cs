@@ -41,7 +41,7 @@ namespace Argon.Tests.Documentation.Samples.Linq
         public void Example()
         {
             #region Usage
-            JObject videogameRatings = new JObject(
+            var videogameRatings = new JObject(
                 new JProperty("Halo", 9),
                 new JProperty("Starcraft", 9),
                 new JProperty("Call of Duty", 7.5));
@@ -49,8 +49,8 @@ namespace Argon.Tests.Documentation.Samples.Linq
             File.WriteAllText(@"c:\videogames.json", videogameRatings.ToString());
 
             // write JSON directly to a file
-            using (StreamWriter file = File.CreateText(@"c:\videogames.json"))
-            using (JsonTextWriter writer = new JsonTextWriter(file))
+            using (var file = File.CreateText(@"c:\videogames.json"))
+            using (var writer = new JsonTextWriter(file))
             {
                 videogameRatings.WriteTo(writer);
             }

@@ -43,16 +43,16 @@ namespace Argon.Tests.Documentation.Samples.Linq
         public void Example()
         {
             #region Usage
-            byte[] data = Convert.FromBase64String("KQAAAAJuYW1lMQAHAAAAdmFsdWUxAAJuYW1lMgAHAAAAdmFsdWUyAAA=");
-            MemoryStream ms = new MemoryStream(data);
+            var data = Convert.FromBase64String("KQAAAAJuYW1lMQAHAAAAdmFsdWUxAAJuYW1lMgAHAAAAdmFsdWUyAAA=");
+            var ms = new MemoryStream(data);
 
             JObject o;
-            using (BsonReader reader = new BsonReader(ms))
+            using (var reader = new BsonReader(ms))
             {
                 o = (JObject)JToken.ReadFrom(reader);
             }
 
-            string value = (string)o["name1"];
+            var value = (string)o["name1"];
 
             Console.WriteLine(value);
             // value1

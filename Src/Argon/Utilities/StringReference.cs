@@ -58,7 +58,7 @@ namespace Argon.Utilities
     {
         public static int IndexOf(this StringReference s, char c, int startIndex, int length)
         {
-            int index = Array.IndexOf(s.Chars, c, s.StartIndex + startIndex, length);
+            var index = Array.IndexOf(s.Chars, c, s.StartIndex + startIndex, length);
             if (index == -1)
             {
                 return -1;
@@ -74,9 +74,9 @@ namespace Argon.Utilities
                 return false;
             }
 
-            char[] chars = s.Chars;
+            var chars = s.Chars;
 
-            for (int i = 0; i < text.Length; i++)
+            for (var i = 0; i < text.Length; i++)
             {
                 if (text[i] != chars[i + s.StartIndex])
                 {
@@ -94,10 +94,10 @@ namespace Argon.Utilities
                 return false;
             }
 
-            char[] chars = s.Chars;
+            var chars = s.Chars;
 
-            int start = s.StartIndex + s.Length - text.Length;
-            for (int i = 0; i < text.Length; i++)
+            var start = s.StartIndex + s.Length - text.Length;
+            for (var i = 0; i < text.Length; i++)
             {
                 if (text[i] != chars[i + start])
                 {

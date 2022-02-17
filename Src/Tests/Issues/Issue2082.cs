@@ -41,10 +41,10 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test()
         {
-            CamelCaseNamingStrategy namingStrategy = new CamelCaseNamingStrategy(processDictionaryKeys: true, overrideSpecifiedNames: false);
+            var namingStrategy = new CamelCaseNamingStrategy(processDictionaryKeys: true, overrideSpecifiedNames: false);
 
-            TestClass c = new TestClass { Value = TestEnum.UpperCaseName };
-            string json = JsonConvert.SerializeObject(c, new JsonSerializerSettings
+            var c = new TestClass { Value = TestEnum.UpperCaseName };
+            var json = JsonConvert.SerializeObject(c, new JsonSerializerSettings
             {
                 ContractResolver = new DefaultContractResolver
                 {

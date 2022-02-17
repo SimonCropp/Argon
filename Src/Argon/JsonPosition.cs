@@ -76,7 +76,7 @@ namespace Argon
             switch (Type)
             {
                 case JsonContainerType.Object:
-                    string propertyName = PropertyName!;
+                    var propertyName = PropertyName!;
                     if (propertyName.IndexOfAny(SpecialCharacters) != -1)
                     {
                         sb.Append(@"['");
@@ -116,10 +116,10 @@ namespace Argon
 
         internal static string BuildPath(List<JsonPosition> positions, JsonPosition? currentPosition)
         {
-            int capacity = 0;
+            var capacity = 0;
             if (positions != null)
             {
-                for (int i = 0; i < positions.Count; i++)
+                for (var i = 0; i < positions.Count; i++)
                 {
                     capacity += positions[i].CalculateLength();
                 }
@@ -129,12 +129,12 @@ namespace Argon
                 capacity += currentPosition.GetValueOrDefault().CalculateLength();
             }
 
-            StringBuilder sb = new StringBuilder(capacity);
+            var sb = new StringBuilder(capacity);
             StringWriter? writer = null;
             char[]? buffer = null;
             if (positions != null)
             {
-                foreach (JsonPosition state in positions)
+                foreach (var state in positions)
                 {
                     state.WriteTo(sb, ref writer, ref buffer);
                 }

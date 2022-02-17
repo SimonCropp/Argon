@@ -36,7 +36,7 @@ namespace Argon.Tests.Linq.ComponentModel
         [Fact]
         public void DataBinderEval()
         {
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("First", "String!"),
                 new JProperty("Second", 12345.6789m),
                 new JProperty("Third", new JArray(

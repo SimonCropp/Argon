@@ -37,13 +37,13 @@ namespace Argon.Tests.Linq
         [Fact]
         public void CompareEmptyProperties()
         {
-            JObject o1 = JObject.Parse("{}");
+            var o1 = JObject.Parse("{}");
             o1.Add(new JProperty("hi"));
 
-            JObject o2 = JObject.Parse("{}");
+            var o2 = JObject.Parse("{}");
             o2.Add(new JProperty("hi"));
 
-            JTokenEqualityComparer c = new JTokenEqualityComparer();
+            var c = new JTokenEqualityComparer();
             Assert.IsTrue(c.Equals(o1, o2));
 
             o1["hi"] = 10;
@@ -53,9 +53,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public void JValueDictionary()
         {
-            Dictionary<JToken, int> dic = new Dictionary<JToken, int>(JToken.EqualityComparer);
-            JValue v11 = new JValue(1);
-            JValue v12 = new JValue(1);
+            var dic = new Dictionary<JToken, int>(JToken.EqualityComparer);
+            var v11 = new JValue(1);
+            var v12 = new JValue(1);
 
             dic[v11] = 1;
             dic[v12] += 1;
@@ -65,9 +65,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public void JArrayDictionary()
         {
-            Dictionary<JToken, int> dic = new Dictionary<JToken, int>(JToken.EqualityComparer);
-            JArray v11 = new JArray();
-            JArray v12 = new JArray();
+            var dic = new Dictionary<JToken, int>(JToken.EqualityComparer);
+            var v11 = new JArray();
+            var v12 = new JArray();
 
             dic[v11] = 1;
             dic[v12] += 1;
@@ -77,9 +77,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public void JObjectDictionary()
         {
-            Dictionary<JToken, int> dic = new Dictionary<JToken, int>(JToken.EqualityComparer);
-            JObject v11 = new JObject() { { "Test", new JValue(1) }, { "Test1", new JValue(1) } };
-            JObject v12 = new JObject() { { "Test", new JValue(1) }, { "Test1", new JValue(1) } };
+            var dic = new Dictionary<JToken, int>(JToken.EqualityComparer);
+            var v11 = new JObject() { { "Test", new JValue(1) }, { "Test1", new JValue(1) } };
+            var v12 = new JObject() { { "Test", new JValue(1) }, { "Test1", new JValue(1) } };
 
             dic[v11] = 1;
             dic[v12] += 1;
@@ -89,9 +89,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public void JConstructorDictionary()
         {
-            Dictionary<JToken, int> dic = new Dictionary<JToken, int>(JToken.EqualityComparer);
-            JConstructor v11 = new JConstructor("ConstructorValue");
-            JConstructor v12 = new JConstructor("ConstructorValue");
+            var dic = new Dictionary<JToken, int>(JToken.EqualityComparer);
+            var v11 = new JConstructor("ConstructorValue");
+            var v12 = new JConstructor("ConstructorValue");
 
             dic[v11] = 1;
             dic[v12] += 1;

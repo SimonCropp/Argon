@@ -35,7 +35,7 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test()
         {
-            Dummy o = JsonConvert.DeserializeObject<Dummy>(Json);
+            var o = JsonConvert.DeserializeObject<Dummy>(Json);
             Assert.AreEqual(0, o.P0);
             Assert.AreEqual(256, o.P256);
         }

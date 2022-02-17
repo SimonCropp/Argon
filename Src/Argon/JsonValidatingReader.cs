@@ -149,7 +149,7 @@ namespace Argon
 
         private SchemaScope Pop()
         {
-            SchemaScope poppedScope = _stack.Pop();
+            var poppedScope = _stack.Pop();
             _currentScope = (_stack.Count != 0)
                 ? _stack.Peek()
                 : null;
@@ -188,15 +188,15 @@ namespace Argon
 
                             IList<JsonSchemaModel> schemas = new List<JsonSchemaModel>();
 
-                            foreach (JsonSchemaModel schema in CurrentSchemas)
+                            foreach (var schema in CurrentSchemas)
                             {
-                                if (schema.Properties != null && schema.Properties.TryGetValue(_currentScope.CurrentPropertyName, out JsonSchemaModel propertySchema))
+                                if (schema.Properties != null && schema.Properties.TryGetValue(_currentScope.CurrentPropertyName, out var propertySchema))
                                 {
                                     schemas.Add(propertySchema);
                                 }
                                 if (schema.PatternProperties != null)
                                 {
-                                    foreach (KeyValuePair<string, JsonSchemaModel> patternProperty in schema.PatternProperties)
+                                    foreach (var patternProperty in schema.PatternProperties)
                                     {
                                         if (Regex.IsMatch(_currentScope.CurrentPropertyName, patternProperty.Key))
                                         {
@@ -217,7 +217,7 @@ namespace Argon
                         {
                             IList<JsonSchemaModel> schemas = new List<JsonSchemaModel>();
 
-                            foreach (JsonSchemaModel schema in CurrentSchemas)
+                            foreach (var schema in CurrentSchemas)
                             {
                                 if (!schema.PositionalItemsValidation)
                                 {
@@ -257,7 +257,7 @@ namespace Argon
         {
             IJsonLineInfo lineInfo = this;
 
-            string exceptionMessage = (lineInfo.HasLineInfo())
+            var exceptionMessage = (lineInfo.HasLineInfo())
                 ? message + " Line {0}, position {1}.".FormatWith(CultureInfo.InvariantCulture, lineInfo.LineNumber, lineInfo.LinePosition)
                 : message;
 
@@ -266,7 +266,7 @@ namespace Argon
 
         private void OnValidationEvent(JsonSchemaException exception)
         {
-            ValidationEventHandler handler = ValidationEventHandler;
+            var handler = ValidationEventHandler;
             if (handler != null)
             {
                 handler(this, new ValidationEventArgs(exception));
@@ -334,7 +334,7 @@ namespace Argon
                 return;
             }
 
-            JsonSchemaType? currentNodeType = GetCurrentNodeSchemaType();
+            var currentNodeType = GetCurrentNodeSchemaType();
             if (currentNodeType != null)
             {
                 if (JsonSchemaGenerator.HasFlag(schema.Disallow, currentNodeType.GetValueOrDefault()))
@@ -373,7 +373,7 @@ namespace Argon
         /// <returns>A <see cref="Nullable{T}"/> of <see cref="Int32"/>.</returns>
         public override int? ReadAsInt32()
         {
-            int? i = _reader.ReadAsInt32();
+            var i = _reader.ReadAsInt32();
 
             ValidateCurrentToken();
             return i;
@@ -387,7 +387,7 @@ namespace Argon
         /// </returns>
         public override byte[] ReadAsBytes()
         {
-            byte[] data = _reader.ReadAsBytes();
+            var data = _reader.ReadAsBytes();
 
             ValidateCurrentToken();
             return data;
@@ -399,7 +399,7 @@ namespace Argon
         /// <returns>A <see cref="Nullable{T}"/> of <see cref="Decimal"/>.</returns>
         public override decimal? ReadAsDecimal()
         {
-            decimal? d = _reader.ReadAsDecimal();
+            var d = _reader.ReadAsDecimal();
 
             ValidateCurrentToken();
             return d;
@@ -411,7 +411,7 @@ namespace Argon
         /// <returns>A <see cref="Nullable{T}"/> of <see cref="Double"/>.</returns>
         public override double? ReadAsDouble()
         {
-            double? d = _reader.ReadAsDouble();
+            var d = _reader.ReadAsDouble();
 
             ValidateCurrentToken();
             return d;
@@ -423,7 +423,7 @@ namespace Argon
         /// <returns>A <see cref="Nullable{T}"/> of <see cref="Boolean"/>.</returns>
         public override bool? ReadAsBoolean()
         {
-            bool? b = _reader.ReadAsBoolean();
+            var b = _reader.ReadAsBoolean();
 
             ValidateCurrentToken();
             return b;
@@ -435,7 +435,7 @@ namespace Argon
         /// <returns>A <see cref="String"/>. This method will return <c>null</c> at the end of an array.</returns>
         public override string ReadAsString()
         {
-            string s = _reader.ReadAsString();
+            var s = _reader.ReadAsString();
 
             ValidateCurrentToken();
             return s;
@@ -447,7 +447,7 @@ namespace Argon
         /// <returns>A <see cref="Nullable{T}"/> of <see cref="DateTime"/>. This method will return <c>null</c> at the end of an array.</returns>
         public override DateTime? ReadAsDateTime()
         {
-            DateTime? dateTime = _reader.ReadAsDateTime();
+            var dateTime = _reader.ReadAsDateTime();
 
             ValidateCurrentToken();
             return dateTime;
@@ -459,7 +459,7 @@ namespace Argon
         /// <returns>A <see cref="Nullable{T}"/> of <see cref="DateTimeOffset"/>.</returns>
         public override DateTimeOffset? ReadAsDateTimeOffset()
         {
-            DateTimeOffset? dateTimeOffset = _reader.ReadAsDateTimeOffset();
+            var dateTimeOffset = _reader.ReadAsDateTimeOffset();
 
             ValidateCurrentToken();
             return dateTimeOffset;
@@ -492,7 +492,7 @@ namespace Argon
             // first time validate has been called. build model
             if (_model == null)
             {
-                JsonSchemaModelBuilder builder = new JsonSchemaModelBuilder();
+                var builder = new JsonSchemaModelBuilder();
                 _model = builder.Build(_schema);
 
                 if (!JsonTokenUtils.IsStartToken(_reader.TokenType))
@@ -522,7 +522,7 @@ namespace Argon
                     break;
                 case JsonToken.PropertyName:
                     WriteToken(CurrentSchemas);
-                    foreach (JsonSchemaModel schema in CurrentSchemas)
+                    foreach (var schema in CurrentSchemas)
                     {
                         ValidatePropertyName(schema);
                     }
@@ -533,7 +533,7 @@ namespace Argon
                 case JsonToken.Integer:
                     ProcessValue();
                     WriteToken(CurrentMemberSchemas);
-                    foreach (JsonSchemaModel schema in CurrentMemberSchemas)
+                    foreach (var schema in CurrentMemberSchemas)
                     {
                         ValidateInteger(schema);
                     }
@@ -541,7 +541,7 @@ namespace Argon
                 case JsonToken.Float:
                     ProcessValue();
                     WriteToken(CurrentMemberSchemas);
-                    foreach (JsonSchemaModel schema in CurrentMemberSchemas)
+                    foreach (var schema in CurrentMemberSchemas)
                     {
                         ValidateFloat(schema);
                     }
@@ -549,7 +549,7 @@ namespace Argon
                 case JsonToken.String:
                     ProcessValue();
                     WriteToken(CurrentMemberSchemas);
-                    foreach (JsonSchemaModel schema in CurrentMemberSchemas)
+                    foreach (var schema in CurrentMemberSchemas)
                     {
                         ValidateString(schema);
                     }
@@ -557,7 +557,7 @@ namespace Argon
                 case JsonToken.Boolean:
                     ProcessValue();
                     WriteToken(CurrentMemberSchemas);
-                    foreach (JsonSchemaModel schema in CurrentMemberSchemas)
+                    foreach (var schema in CurrentMemberSchemas)
                     {
                         ValidateBoolean(schema);
                     }
@@ -565,14 +565,14 @@ namespace Argon
                 case JsonToken.Null:
                     ProcessValue();
                     WriteToken(CurrentMemberSchemas);
-                    foreach (JsonSchemaModel schema in CurrentMemberSchemas)
+                    foreach (var schema in CurrentMemberSchemas)
                     {
                         ValidateNull(schema);
                     }
                     break;
                 case JsonToken.EndObject:
                     WriteToken(CurrentSchemas);
-                    foreach (JsonSchemaModel schema in CurrentSchemas)
+                    foreach (var schema in CurrentSchemas)
                     {
                         ValidateEndObject(schema);
                     }
@@ -580,7 +580,7 @@ namespace Argon
                     break;
                 case JsonToken.EndArray:
                     WriteToken(CurrentSchemas);
-                    foreach (JsonSchemaModel schema in CurrentSchemas)
+                    foreach (var schema in CurrentSchemas)
                     {
                         ValidateEndArray(schema);
                     }
@@ -606,9 +606,9 @@ namespace Argon
 
         private void WriteToken(IList<JsonSchemaModel> schemas)
         {
-            foreach (SchemaScope schemaScope in _stack)
+            foreach (var schemaScope in _stack)
             {
-                bool isInUniqueArray = (schemaScope.TokenType == JTokenType.Array && schemaScope.IsUniqueArray && schemaScope.ArrayItemCount > 0);
+                var isInUniqueArray = (schemaScope.TokenType == JTokenType.Array && schemaScope.IsUniqueArray && schemaScope.ArrayItemCount > 0);
 
                 if (isInUniqueArray || schemas.Any(s => s.Enum != null))
                 {
@@ -627,7 +627,7 @@ namespace Argon
                     // finished writing current item
                     if (schemaScope.CurrentItemWriter.Top == 0 && _reader.TokenType != JsonToken.PropertyName)
                     {
-                        JToken finishedItem = schemaScope.CurrentItemWriter.Token;
+                        var finishedItem = schemaScope.CurrentItemWriter.Token;
 
                         // start next item with new writer
                         schemaScope.CurrentItemWriter = null;
@@ -643,13 +643,13 @@ namespace Argon
                         }
                         else if (schemas.Any(s => s.Enum != null))
                         {
-                            foreach (JsonSchemaModel schema in schemas)
+                            foreach (var schema in schemas)
                             {
                                 if (schema.Enum != null)
                                 {
                                     if (!schema.Enum.ContainsValue(finishedItem, JToken.EqualityComparer))
                                     {
-                                        StringWriter sw = new StringWriter(CultureInfo.InvariantCulture);
+                                        var sw = new StringWriter(CultureInfo.InvariantCulture);
                                         finishedItem.WriteTo(new JsonTextWriter(sw));
 
                                         RaiseError("Value {0} is not defined in enum.".FormatWith(CultureInfo.InvariantCulture, sw.ToString()), schema);
@@ -669,11 +669,11 @@ namespace Argon
                 return;
             }
 
-            Dictionary<string, bool> requiredProperties = _currentScope.RequiredProperties;
+            var requiredProperties = _currentScope.RequiredProperties;
 
             if (requiredProperties != null && requiredProperties.Values.Any(v => !v))
             {
-                IEnumerable<string> unmatchedRequiredProperties = requiredProperties.Where(kv => !kv.Value).Select(kv => kv.Key);
+                var unmatchedRequiredProperties = requiredProperties.Where(kv => !kv.Value).Select(kv => kv.Key);
                 RaiseError("Required properties are missing from object: {0}.".FormatWith(CultureInfo.InvariantCulture, string.Join(", ", unmatchedRequiredProperties)), schema);
             }
         }
@@ -685,7 +685,7 @@ namespace Argon
                 return;
             }
 
-            int arrayItemCount = _currentScope.ArrayItemCount;
+            var arrayItemCount = _currentScope.ArrayItemCount;
 
             if (schema.MaximumItems != null && arrayItemCount > schema.MaximumItems)
             {
@@ -742,7 +742,7 @@ namespace Argon
 
             ValidateNotDisallowed(schema);
 
-            string value = _reader.Value.ToString();
+            var value = _reader.Value.ToString();
 
             if (schema.MaximumLength != null && value.Length > schema.MaximumLength)
             {
@@ -756,7 +756,7 @@ namespace Argon
 
             if (schema.Patterns != null)
             {
-                foreach (string pattern in schema.Patterns)
+                foreach (var pattern in schema.Patterns)
                 {
                     if (!Regex.IsMatch(value, pattern))
                     {
@@ -780,7 +780,7 @@ namespace Argon
 
             ValidateNotDisallowed(schema);
 
-            object value = _reader.Value;
+            var value = _reader.Value;
 
             if (schema.Maximum != null)
             {
@@ -813,7 +813,7 @@ namespace Argon
                 {
                     // not that this will lose any decimal point on DivisibleBy
                     // so manually raise an error if DivisibleBy is not an integer and value is not zero
-                    bool divisibleNonInteger = !Math.Abs(schema.DivisibleBy.Value - Math.Truncate(schema.DivisibleBy.Value)).Equals(0);
+                    var divisibleNonInteger = !Math.Abs(schema.DivisibleBy.Value - Math.Truncate(schema.DivisibleBy.Value)).Equals(0);
                     if (divisibleNonInteger)
                     {
                         notDivisible = i != 0;
@@ -841,7 +841,7 @@ namespace Argon
             {
                 _currentScope.ArrayItemCount++;
 
-                foreach (JsonSchemaModel currentSchema in CurrentSchemas)
+                foreach (var currentSchema in CurrentSchemas)
                 {
                     // if there is positional validation and the array index is past the number of item validation schemas and there are no additional items then error
                     if (currentSchema != null
@@ -869,7 +869,7 @@ namespace Argon
 
             ValidateNotDisallowed(schema);
 
-            double value = Convert.ToDouble(_reader.Value, CultureInfo.InvariantCulture);
+            var value = Convert.ToDouble(_reader.Value, CultureInfo.InvariantCulture);
 
             if (schema.Maximum != null)
             {
@@ -897,7 +897,7 @@ namespace Argon
 
             if (schema.DivisibleBy != null)
             {
-                double remainder = FloatingPointRemainder(value, schema.DivisibleBy.GetValueOrDefault());
+                var remainder = FloatingPointRemainder(value, schema.DivisibleBy.GetValueOrDefault());
 
                 if (!IsZero(remainder))
                 {
@@ -925,7 +925,7 @@ namespace Argon
                 return;
             }
 
-            string propertyName = Convert.ToString(_reader.Value, CultureInfo.InvariantCulture);
+            var propertyName = Convert.ToString(_reader.Value, CultureInfo.InvariantCulture);
 
             if (_currentScope.RequiredProperties.ContainsKey(propertyName))
             {
@@ -934,7 +934,7 @@ namespace Argon
 
             if (!schema.AllowAdditionalProperties)
             {
-                bool propertyDefinied = IsPropertyDefinied(schema, propertyName);
+                var propertyDefinied = IsPropertyDefinied(schema, propertyName);
 
                 if (!propertyDefinied)
                 {
@@ -954,7 +954,7 @@ namespace Argon
 
             if (schema.PatternProperties != null)
             {
-                foreach (string pattern in schema.PatternProperties.Keys)
+                foreach (var pattern in schema.PatternProperties.Keys)
                 {
                     if (Regex.IsMatch(propertyName, pattern))
                     {

@@ -49,18 +49,18 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            User user1 = new User
+            var user1 = new User
             {
                 UserName = "jamesn",
                 Enabled = true
             };
 
-            DefaultContractResolver contractResolver = new DefaultContractResolver
+            var contractResolver = new DefaultContractResolver
             {
                 NamingStrategy = new KebabCaseNamingStrategy()
             };
 
-            string json = JsonConvert.SerializeObject(user1, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(user1, new JsonSerializerSettings
             {
                 ContractResolver = contractResolver,
                 Formatting = Formatting.Indented

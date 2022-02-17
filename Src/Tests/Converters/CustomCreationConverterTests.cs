@@ -40,7 +40,7 @@ namespace Argon.Tests.Converters
         [Fact]
         public void DeserializeObject()
         {
-            string json = JsonConvert.SerializeObject(new List<Employee>
+            var json = JsonConvert.SerializeObject(new List<Employee>
             {
                 new Employee
                 {
@@ -77,15 +77,15 @@ namespace Argon.Tests.Converters
             //  }
             //]
 
-            List<IPerson> people = JsonConvert.DeserializeObject<List<IPerson>>(json, new PersonConverter());
+            var people = JsonConvert.DeserializeObject<List<IPerson>>(json, new PersonConverter());
 
-            IPerson person = people[0];
+            var person = people[0];
 
             Assert.AreEqual("Employee", person.GetType().Name);
 
             Assert.AreEqual("Maurice", person.FirstName);
 
-            Employee employee = (Employee)person;
+            var employee = (Employee)person;
 
             Assert.AreEqual("Support", employee.JobTitle);
         }
@@ -126,7 +126,7 @@ namespace Argon.Tests.Converters
 }
 }
 ";
-            MyClass myClass = JsonConvert.DeserializeObject<MyClass>(json);
+            var myClass = JsonConvert.DeserializeObject<MyClass>(json);
             Assert.IsNotNull(myClass);
             Assert.AreEqual("A value", myClass.Value);
             Assert.IsNotNull(myClass.Thing);
@@ -136,12 +136,12 @@ namespace Argon.Tests.Converters
         [Fact]
         public void AssertShouldSerializeTest()
         {
-            MyClass myClass = new MyClass
+            var myClass = new MyClass
             {
                 Value = "Foo",
                 Thing = new MyThing { Number = 456, }
             };
-            string json = JsonConvert.SerializeObject(myClass); // <-- Exception here
+            var json = JsonConvert.SerializeObject(myClass); // <-- Exception here
 
             const string expected = @"{""Value"":""Foo"",""Thing"":{""Number"":456}}";
             Assert.AreEqual(expected, json);
@@ -188,7 +188,7 @@ namespace Argon.Tests.Converters
         [Fact]
         public void DeserializeAndConvertNullValue()
         {
-            NullInterfaceTestClass initial = new NullInterfaceTestClass
+            var initial = new NullInterfaceTestClass
             {
                 Company = "Company!",
                 DecimalRange = new Range<decimal> { First = 0, Last = 1 },
@@ -198,7 +198,7 @@ namespace Argon.Tests.Converters
                 NullDecimalRange = null
             };
 
-            string json = JsonConvert.SerializeObject(initial, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(initial, Formatting.Indented);
 
             StringAssert.AreEqual(@"{
   ""Id"": ""00000001-0002-0003-0405-060708090a0b"",
@@ -215,7 +215,7 @@ namespace Argon.Tests.Converters
   ""NullDecimalRange"": null
 }", json);
 
-            NullInterfaceTestClass deserialized = JsonConvert.DeserializeObject<NullInterfaceTestClass>(
+            var deserialized = JsonConvert.DeserializeObject<NullInterfaceTestClass>(
                 json, new IntRangeConverter(), new DecimalRangeConverter());
 
             Assert.AreEqual("Company!", deserialized.Company);

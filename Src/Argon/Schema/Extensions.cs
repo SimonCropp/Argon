@@ -59,7 +59,7 @@ namespace Argon.Schema
         [Obsolete("JSON Schema validation has been moved to its own package. See https://www.newtonsoft.com/jsonschema for more details.")]
         public static bool IsValid(this JToken source, JsonSchema schema)
         {
-            bool valid = true;
+            var valid = true;
             source.Validate(schema, (sender, args) => { valid = false; });
             return valid;
         }
@@ -122,7 +122,7 @@ namespace Argon.Schema
             ValidationUtils.ArgumentNotNull(source, nameof(source));
             ValidationUtils.ArgumentNotNull(schema, nameof(schema));
 
-            using (JsonValidatingReader reader = new JsonValidatingReader(source.CreateReader()))
+            using (var reader = new JsonValidatingReader(source.CreateReader()))
             {
                 reader.Schema = schema;
                 if (validationEventHandler != null)

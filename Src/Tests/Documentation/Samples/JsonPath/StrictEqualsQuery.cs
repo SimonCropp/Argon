@@ -41,7 +41,7 @@ namespace Argon.Tests.Documentation.Samples.JsonPath
         public void Example()
         {
             #region Usage
-            JArray items = JArray.Parse(@"[
+            var items = JArray.Parse(@"[
               {
                 'Name': 'Valid JSON',
                 'Valid': true
@@ -53,9 +53,9 @@ namespace Argon.Tests.Documentation.Samples.JsonPath
             ]");
 
             // Use === operator. Compared types must be the same to be valid
-            List<JToken> strictResults = items.SelectTokens(@"$.[?(@.Valid === true)]").ToList();
+            var strictResults = items.SelectTokens(@"$.[?(@.Valid === true)]").ToList();
 
-            foreach (JToken item in strictResults)
+            foreach (var item in strictResults)
             {
                 Console.WriteLine((string)item["Name"]);
             }

@@ -43,10 +43,10 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void EnsureContractsShared()
         {
-            CamelCasePropertyNamesContractResolver resolver1 = new CamelCasePropertyNamesContractResolver();
+            var resolver1 = new CamelCasePropertyNamesContractResolver();
             var contract1 = (JsonObjectContract)resolver1.ResolveContract(typeof(CamelCasePropertyNamesContractResolverTests));
 
-            CamelCasePropertyNamesContractResolver resolver2 = new CamelCasePropertyNamesContractResolver();
+            var resolver2 = new CamelCasePropertyNamesContractResolver();
             var contract2 = (JsonObjectContract)resolver2.ResolveContract(typeof(CamelCasePropertyNamesContractResolverTests));
 
             Assert.IsTrue(ReferenceEquals(contract1, contract2));
@@ -60,12 +60,12 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void JsonConvertSerializerSettings()
         {
-            Person person = new Person();
+            var person = new Person();
             person.BirthDate = new DateTime(2000, 11, 20, 23, 55, 44, DateTimeKind.Utc);
             person.LastModified = new DateTime(2000, 11, 20, 23, 55, 44, DateTimeKind.Utc);
             person.Name = "Name!";
 
-            string json = JsonConvert.SerializeObject(person, Formatting.Indented, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(person, Formatting.Indented, new JsonSerializerSettings
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             });
@@ -76,7 +76,7 @@ namespace Argon.Tests.Serialization
   ""lastModified"": ""2000-11-20T23:55:44Z""
 }", json);
 
-            Person deserializedPerson = JsonConvert.DeserializeObject<Person>(json, new JsonSerializerSettings
+            var deserializedPerson = JsonConvert.DeserializeObject<Person>(json, new JsonSerializerSettings
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             });
@@ -96,32 +96,32 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void JTokenWriter()
         {
-            JsonIgnoreAttributeOnClassTestClass ignoreAttributeOnClassTestClass = new JsonIgnoreAttributeOnClassTestClass();
+            var ignoreAttributeOnClassTestClass = new JsonIgnoreAttributeOnClassTestClass();
             ignoreAttributeOnClassTestClass.Field = int.MinValue;
 
-            JsonSerializer serializer = new JsonSerializer();
+            var serializer = new JsonSerializer();
             serializer.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
-            JTokenWriter writer = new JTokenWriter();
+            var writer = new JTokenWriter();
 
             serializer.Serialize(writer, ignoreAttributeOnClassTestClass);
 
-            JObject o = (JObject)writer.Token;
-            JProperty p = o.Property("theField");
+            var o = (JObject)writer.Token;
+            var p = o.Property("theField");
 
             Assert.IsNotNull(p);
             Assert.AreEqual(int.MinValue, (int)p.Value);
 
-            string json = o.ToString();
+            var json = o.ToString();
         }
 
 #pragma warning disable 618
         [Fact]
         public void MemberSearchFlags()
         {
-            PrivateMembersClass privateMembersClass = new PrivateMembersClass("PrivateString!", "InternalString!");
+            var privateMembersClass = new PrivateMembersClass("PrivateString!", "InternalString!");
 
-            string json = JsonConvert.SerializeObject(privateMembersClass, Formatting.Indented, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(privateMembersClass, Formatting.Indented, new JsonSerializerSettings
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver { DefaultMembersSearchFlags = BindingFlags.NonPublic | BindingFlags.Instance }
             });
@@ -132,7 +132,7 @@ namespace Argon.Tests.Serialization
   ""_internalString"": ""InternalString!""
 }", json);
 
-            PrivateMembersClass deserializedPrivateMembersClass = JsonConvert.DeserializeObject<PrivateMembersClass>(@"{
+            var deserializedPrivateMembersClass = JsonConvert.DeserializeObject<PrivateMembersClass>(@"{
   ""_privateString"": ""Private!"",
   ""i"": -2,
   ""_internalString"": ""Internal!""
@@ -152,7 +152,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void BlogPostExample()
         {
-            Product product = new Product
+            var product = new Product
             {
                 ExpiryDate = new DateTime(2010, 12, 20, 18, 1, 0, DateTimeKind.Utc),
                 Name = "Widget",
@@ -160,7 +160,7 @@ namespace Argon.Tests.Serialization
                 Sizes = new[] { "Small", "Medium", "Large" }
             };
 
-            string json =
+            var json =
                 JsonConvert.SerializeObject(
                     product,
                     Formatting.Indented,
@@ -215,13 +215,13 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DictionaryCamelCasePropertyNames()
         {
-            Dictionary<string, string> values = new Dictionary<string, string>
+            var values = new Dictionary<string, string>
             {
                 { "First", "Value1!" },
                 { "Second", "Value2!" }
             };
 
-            string json = JsonConvert.SerializeObject(values, Formatting.Indented,
+            var json = JsonConvert.SerializeObject(values, Formatting.Indented,
                 new JsonSerializerSettings
                 {
                     ContractResolver = new CamelCasePropertyNamesContractResolver()

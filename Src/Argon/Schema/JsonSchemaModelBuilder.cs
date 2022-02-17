@@ -44,7 +44,7 @@ namespace Argon.Schema
             _node = AddSchema(null, schema);
 
             _nodeModels = new Dictionary<JsonSchemaNode, JsonSchemaModel>();
-            JsonSchemaModel model = BuildNodeModel(_node);
+            var model = BuildNodeModel(_node);
 
             return model;
         }
@@ -71,7 +71,7 @@ namespace Argon.Schema
                 return _nodes[newId];
             }
 
-            JsonSchemaNode currentNode = (existingNode != null)
+            var currentNode = (existingNode != null)
                 ? existingNode.Combine(schema)
                 : new JsonSchemaNode(schema);
 
@@ -83,7 +83,7 @@ namespace Argon.Schema
 
             if (schema.Items != null)
             {
-                for (int i = 0; i < schema.Items.Count; i++)
+                for (var i = 0; i < schema.Items.Count; i++)
                 {
                     AddItem(currentNode, i, schema.Items[i]);
                 }
@@ -101,7 +101,7 @@ namespace Argon.Schema
 
             if (schema.Extends != null)
             {
-                foreach (JsonSchema jsonSchema in schema.Extends)
+                foreach (var jsonSchema in schema.Extends)
                 {
                     currentNode = AddSchema(currentNode, jsonSchema);
                 }
@@ -114,7 +114,7 @@ namespace Argon.Schema
         {
             if (source != null)
             {
-                foreach (KeyValuePair<string, JsonSchema> property in source)
+                foreach (var property in source)
                 {
                     AddProperty(target, property.Key, property.Value);
                 }
@@ -123,18 +123,18 @@ namespace Argon.Schema
 
         public void AddProperty(IDictionary<string, JsonSchemaNode> target, string propertyName, JsonSchema schema)
         {
-            target.TryGetValue(propertyName, out JsonSchemaNode propertyNode);
+            target.TryGetValue(propertyName, out var propertyNode);
 
             target[propertyName] = AddSchema(propertyNode, schema);
         }
 
         public void AddItem(JsonSchemaNode parentNode, int index, JsonSchema schema)
         {
-            JsonSchemaNode existingItemNode = (parentNode.Items.Count > index)
+            var existingItemNode = (parentNode.Items.Count > index)
                 ? parentNode.Items[index]
                 : null;
 
-            JsonSchemaNode newItemNode = AddSchema(existingItemNode, schema);
+            var newItemNode = AddSchema(existingItemNode, schema);
 
             if (!(parentNode.Items.Count > index))
             {
@@ -158,7 +158,7 @@ namespace Argon.Schema
 
         private JsonSchemaModel BuildNodeModel(JsonSchemaNode node)
         {
-            if (_nodeModels.TryGetValue(node, out JsonSchemaModel model))
+            if (_nodeModels.TryGetValue(node, out var model))
             {
                 return model;
             }
@@ -166,7 +166,7 @@ namespace Argon.Schema
             model = JsonSchemaModel.Create(node.Schemas);
             _nodeModels[node] = model;
 
-            foreach (KeyValuePair<string, JsonSchemaNode> property in node.Properties)
+            foreach (var property in node.Properties)
             {
                 if (model.Properties == null)
                 {
@@ -175,7 +175,7 @@ namespace Argon.Schema
 
                 model.Properties[property.Key] = BuildNodeModel(property.Value);
             }
-            foreach (KeyValuePair<string, JsonSchemaNode> property in node.PatternProperties)
+            foreach (var property in node.PatternProperties)
             {
                 if (model.PatternProperties == null)
                 {
@@ -184,7 +184,7 @@ namespace Argon.Schema
 
                 model.PatternProperties[property.Key] = BuildNodeModel(property.Value);
             }
-            foreach (JsonSchemaNode t in node.Items)
+            foreach (var t in node.Items)
             {
                 if (model.Items == null)
                 {

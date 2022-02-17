@@ -41,7 +41,7 @@ namespace Argon.Tests.Documentation.Samples.Linq
         public void Example()
         {
             #region Usage
-            JObject o = JObject.Parse(@"{
+            var o = JObject.Parse(@"{
               'name': 'Bill G',
               'age': 58,
               'country': 'United States',
@@ -54,7 +54,7 @@ namespace Argon.Tests.Documentation.Samples.Linq
             o["age"] = 59;
             o["employer"] = "Bill & Melinda Gates Foundation";
 
-            HashSet<string> changedProperties = o.Annotation<HashSet<string>>();
+            var changedProperties = o.Annotation<HashSet<string>>();
             // age
             // employer
             #endregion

@@ -95,7 +95,7 @@ namespace Argon.Tests.Documentation
 
             public void Trace(TraceLevel level, string message, Exception ex)
             {
-                LogEventInfo logEvent = new LogEventInfo
+                var logEvent = new LogEventInfo
                 {
                     Message = message,
                     Level = GetLogLevel(level),
@@ -129,7 +129,7 @@ namespace Argon.Tests.Documentation
         public void MemoryTraceWriterTest()
         {
             #region MemoryTraceWriterExample
-            Staff staff = new Staff();
+            var staff = new Staff();
             staff.Name = "Arnie Admin";
             staff.Roles = new List<string> { "Administrator" };
             staff.StartDate = new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc);
@@ -159,7 +159,7 @@ namespace Argon.Tests.Documentation
             // }
             #endregion
 
-            MemoryTraceWriter memoryTraceWriter = (MemoryTraceWriter)traceWriter;
+            var memoryTraceWriter = (MemoryTraceWriter)traceWriter;
 
             Assert.AreEqual(876, memoryTraceWriter.ToString().Length);
             Assert.AreEqual(7, memoryTraceWriter.GetTraceMessages().Count());

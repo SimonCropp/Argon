@@ -48,7 +48,7 @@ namespace Argon.Tests.Benchmarks
 
         private static TestClass CreateSerializationObject()
         {
-            TestClass test = new TestClass();
+            var test = new TestClass();
 
             test.dictionary = new Dictionary<string, int> { { "Val & asd1", 1 }, { "Val2 & asd1", 3 }, { "Val3 & asd1", 4 } };
 
@@ -59,7 +59,7 @@ namespace Argon.Tests.Benchmarks
             test.Now = DateTime.Now.AddHours(1);
             test.strings = new List<string>() { null, "Markus egger ]><[, (2nd)", null };
 
-            Address address = new Address();
+            var address = new Address();
             address.Entered = DateTime.Now.AddDays(-1);
             address.Street = "\u001farray\u003caddress";
 
@@ -80,14 +80,14 @@ namespace Argon.Tests.Benchmarks
 
         private string SerializeDataContract(object value)
         {
-            DataContractSerializer dataContractSerializer = new DataContractSerializer(value.GetType());
+            var dataContractSerializer = new DataContractSerializer(value.GetType());
 
-            MemoryStream ms = new MemoryStream();
+            var ms = new MemoryStream();
             dataContractSerializer.WriteObject(ms, value);
 
             ms.Seek(0, SeekOrigin.Begin);
 
-            using (StreamReader sr = new StreamReader(ms))
+            using (var sr = new StreamReader(ms))
             {
                 return sr.ReadToEnd();
             }
@@ -102,8 +102,8 @@ namespace Argon.Tests.Benchmarks
 
         private byte[] SerializeBinaryFormatter(object value)
         {
-            MemoryStream ms = new MemoryStream(Buffer);
-            BinaryFormatter formatter = new BinaryFormatter();
+            var ms = new MemoryStream(Buffer);
+            var formatter = new BinaryFormatter();
             formatter.Serialize(ms, value);
 
             return ms.ToArray();
@@ -117,7 +117,7 @@ namespace Argon.Tests.Benchmarks
 
         private string SerializeWebExtensions(object value)
         {
-            JavaScriptSerializer ser = new JavaScriptSerializer();
+            var ser = new JavaScriptSerializer();
 
             return ser.Serialize(value);
         }
@@ -131,14 +131,14 @@ namespace Argon.Tests.Benchmarks
 
         public string SerializeDataContractJson(object value)
         {
-            DataContractJsonSerializer dataContractSerializer = new DataContractJsonSerializer(value.GetType());
+            var dataContractSerializer = new DataContractJsonSerializer(value.GetType());
 
-            MemoryStream ms = new MemoryStream();
+            var ms = new MemoryStream();
             dataContractSerializer.WriteObject(ms, value);
 
             ms.Seek(0, SeekOrigin.Begin);
 
-            using (StreamReader sr = new StreamReader(ms))
+            using (var sr = new StreamReader(ms))
             {
                 return sr.ReadToEnd();
             }
@@ -159,7 +159,7 @@ namespace Argon.Tests.Benchmarks
 #region SerializeJsonNetManual
         private string SerializeJsonNetLinq(TestClass c)
         {
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("strings", new JArray(c.strings)),
                 new JProperty("dictionary", new JObject(c.dictionary.Select(d => new JProperty(d.Key, d.Value)))),
                 new JProperty("Name", c.Name),
@@ -189,19 +189,19 @@ namespace Argon.Tests.Benchmarks
 #region SerializeJsonNetManual
         private string SerializeJsonNetManual(TestClass c)
         {
-            StringWriter sw = new StringWriter();
-            JsonTextWriter writer = new JsonTextWriter(sw);
+            var sw = new StringWriter();
+            var writer = new JsonTextWriter(sw);
             writer.WriteStartObject();
             writer.WritePropertyName("strings");
             writer.WriteStartArray();
-            foreach (string s in c.strings)
+            foreach (var s in c.strings)
             {
                 writer.WriteValue(s);
             }
             writer.WriteEndArray();
             writer.WritePropertyName("dictionary");
             writer.WriteStartObject();
-            foreach (KeyValuePair<string, int> keyValuePair in c.dictionary)
+            foreach (var keyValuePair in c.dictionary)
             {
                 writer.WritePropertyName(keyValuePair.Key);
                 writer.WriteValue(keyValuePair.Value);
@@ -224,7 +224,7 @@ namespace Argon.Tests.Benchmarks
             writer.WriteEndObject();
             writer.WritePropertyName("Addresses");
             writer.WriteStartArray();
-            foreach (Address address in c.Addresses)
+            foreach (var address in c.Addresses)
             {
                 writer.WriteStartObject();
                 writer.WritePropertyName("Street");
@@ -257,21 +257,21 @@ namespace Argon.Tests.Benchmarks
 
         private async Task<string> SerializeJsonNetManualAsync(TestClass c, Formatting formatting)
         {
-            StringWriter sw = new StringWriter();
-            JsonTextWriter writer = new JsonTextWriter(sw);
+            var sw = new StringWriter();
+            var writer = new JsonTextWriter(sw);
             writer.Formatting = formatting;
 
             await writer.WriteStartObjectAsync();
             await writer.WritePropertyNameAsync("strings");
             await writer.WriteStartArrayAsync();
-            foreach (string s in c.strings)
+            foreach (var s in c.strings)
             {
                 await writer.WriteValueAsync(s);
             }
             await writer.WriteEndArrayAsync();
             await writer.WritePropertyNameAsync("dictionary");
             await writer.WriteStartObjectAsync();
-            foreach (KeyValuePair<string, int> keyValuePair in c.dictionary)
+            foreach (var keyValuePair in c.dictionary)
             {
                 await writer.WritePropertyNameAsync(keyValuePair.Key);
                 await writer.WriteValueAsync(keyValuePair.Value);
@@ -294,7 +294,7 @@ namespace Argon.Tests.Benchmarks
             await writer.WriteEndObjectAsync();
             await writer.WritePropertyNameAsync("Addresses");
             await writer.WriteStartArrayAsync();
-            foreach (Address address in c.Addresses)
+            foreach (var address in c.Addresses)
             {
                 await writer.WriteStartObjectAsync();
                 await writer.WritePropertyNameAsync("Street");
@@ -323,9 +323,9 @@ namespace Argon.Tests.Benchmarks
 
         private byte[] SerializeJsonNetBson(TestClass c)
         {
-            MemoryStream ms = new MemoryStream(Buffer);
-            JsonSerializer serializer = new JsonSerializer();
-            BsonWriter writer = new BsonWriter(ms);
+            var ms = new MemoryStream(Buffer);
+            var serializer = new JsonSerializer();
+            var writer = new BsonWriter(ms);
             serializer.Serialize(writer, c);
 
             return ms.ToArray();

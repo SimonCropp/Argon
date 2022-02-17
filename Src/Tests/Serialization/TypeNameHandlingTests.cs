@@ -54,22 +54,22 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeMultidimensionalByteArrayWithTypeName()
         {
-            string array2dRef = ReflectionUtils.GetTypeName(typeof(byte[,]), TypeNameAssemblyFormatHandling.Simple, null);
-            string array3dRef = ReflectionUtils.GetTypeName(typeof(byte[,,]), TypeNameAssemblyFormatHandling.Simple, null);
+            var array2dRef = ReflectionUtils.GetTypeName(typeof(byte[,]), TypeNameAssemblyFormatHandling.Simple, null);
+            var array3dRef = ReflectionUtils.GetTypeName(typeof(byte[,,]), TypeNameAssemblyFormatHandling.Simple, null);
 
-            HasMultidimensionalByteArray o = new HasMultidimensionalByteArray
+            var o = new HasMultidimensionalByteArray
             {
                 Array2D = new byte[,] { { 1, 2 }, { 2, 4 }, { 3, 6 } },
                 Array3D = new byte[,,] { { { 1, 2, 3}, { 4, 5, 6 } } }
             };
 
-            string json = JsonConvert.SerializeObject(o, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(o, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.All,
                 Formatting = Formatting.Indented
             });
 
-            string expectedJson = @"{
+            var expectedJson = @"{
   ""$type"": ""Argon.Tests.TestObjects.HasMultidimensionalByteArray, Tests"",
   ""Array2D"": {
     ""$type"": """ + array2dRef + @""",
@@ -114,7 +114,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeMultidimensionalByteArrayWithTypeName()
         {
-            string json = @"{
+            var json = @"{
   ""$type"": ""Argon.Tests.TestObjects.HasMultidimensionalByteArray, Tests"",
   ""Array2D"": {
     ""$type"": ""System.Byte[,], mscorlib"",
@@ -151,7 +151,7 @@ namespace Argon.Tests.Serialization
     ]
   }
 }";
-            HasMultidimensionalByteArray value = JsonConvert.DeserializeObject<HasMultidimensionalByteArray>(json, new JsonSerializerSettings
+            var value = JsonConvert.DeserializeObject<HasMultidimensionalByteArray>(json, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Objects
             });
@@ -174,14 +174,14 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeByteArrayWithTypeName()
         {
-            string json = @"{
+            var json = @"{
   ""$type"": ""Argon.Tests.TestObjects.HasByteArray, Tests"",
   ""EncryptedPassword"": {
     ""$type"": ""System.Byte[], mscorlib"",
     ""$value"": ""cGFzc3dvcmQ=""
   }
 }";
-            HasByteArray value = JsonConvert.DeserializeObject<HasByteArray>(json, new JsonSerializerSettings
+            var value = JsonConvert.DeserializeObject<HasByteArray>(json, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Objects
             });
@@ -192,7 +192,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeByteArrayWithTypeName_BadAdditionalContent()
         {
-            string json = @"{
+            var json = @"{
   ""$type"": ""Argon.Tests.TestObjects.HasByteArray, Tests"",
   ""EncryptedPassword"": {
     ""$type"": ""System.Byte[], mscorlib"",
@@ -213,7 +213,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeByteArrayWithTypeName_ExtraProperty()
         {
-            string json = @"{
+            var json = @"{
   ""$type"": ""Argon.Tests.TestObjects.HasByteArray, Tests"",
   ""EncryptedPassword"": {
     ""$type"": ""System.Byte[], mscorlib"",
@@ -221,7 +221,7 @@ namespace Argon.Tests.Serialization
   },
   ""Pie"": null
 }";
-            HasByteArray value = JsonConvert.DeserializeObject<HasByteArray>(json, new JsonSerializerSettings
+            var value = JsonConvert.DeserializeObject<HasByteArray>(json, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Objects
             });
@@ -233,11 +233,11 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeValueTupleWithTypeName()
         {
-            string tupleRef = ReflectionUtils.GetTypeName(typeof(ValueTuple<int, int, string>), TypeNameAssemblyFormatHandling.Simple, null);
+            var tupleRef = ReflectionUtils.GetTypeName(typeof(ValueTuple<int, int, string>), TypeNameAssemblyFormatHandling.Simple, null);
 
-            ValueTuple<int, int, string> t = ValueTuple.Create(1, 2, "string");
+            var t = ValueTuple.Create(1, 2, "string");
 
-            string json = JsonConvert.SerializeObject(t, Formatting.Indented, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(t, Formatting.Indented, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.All
             });
@@ -249,7 +249,7 @@ namespace Argon.Tests.Serialization
   ""Item3"": ""string""
 }", json);
 
-            ValueTuple<int, int, string> t2 = (ValueTuple<int, int, string>)JsonConvert.DeserializeObject(json, new JsonSerializerSettings
+            var t2 = (ValueTuple<int, int, string>)JsonConvert.DeserializeObject(json, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.All
             });
@@ -273,7 +273,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void KnownAutoTypesTest()
         {
-            KnownAutoTypes c = new KnownAutoTypes
+            var c = new KnownAutoTypes
             {
                 Collection = new List<string> { "Collection value!" },
                 List = new List<string> { "List value!" },
@@ -290,7 +290,7 @@ namespace Argon.Tests.Serialization
                 })
             };
 
-            string json = JsonConvert.SerializeObject(c, Formatting.Indented, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(c, Formatting.Indented, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto
             });
@@ -323,12 +323,12 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DictionaryAuto()
         {
-            Dictionary<string, object> dic = new Dictionary<string, object>
+            var dic = new Dictionary<string, object>
             {
                 { "movie", new Movie { Name = "Die Hard" } }
             };
 
-            string json = JsonConvert.SerializeObject(dic, Formatting.Indented, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(dic, Formatting.Indented, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto
             });
@@ -349,12 +349,12 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void KeyValuePairAuto()
         {
-            IList<KeyValuePair<string, object>> dic = new List<KeyValuePair<string, object>>
+            var dic = new List<KeyValuePair<string, object>>
             {
                 new KeyValuePair<string, object>("movie", new Movie { Name = "Die Hard" })
             };
 
-            string json = JsonConvert.SerializeObject(dic, Formatting.Indented, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(dic, Formatting.Indented, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto
             });
@@ -378,8 +378,8 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void NestedValueObjects()
         {
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < 3; i++)
+            var sb = new StringBuilder();
+            for (var i = 0; i < 3; i++)
             {
                 sb.Append(@"{""$value"":");
             }
@@ -424,7 +424,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeRootTypeNameAutoWithJsonConvert()
         {
-            string json = JsonConvert.SerializeObject(new WagePerson(), typeof(object), Formatting.Indented, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(new WagePerson(), typeof(object), Formatting.Indented, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto
             });
@@ -441,7 +441,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeRootTypeNameAutoWithJsonConvert_Generic()
         {
-            string json = JsonConvert.SerializeObject(new WagePerson(), typeof(object), Formatting.Indented, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(new WagePerson(), typeof(object), Formatting.Indented, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto
             });
@@ -458,7 +458,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeRootTypeNameAutoWithJsonConvert_Generic2()
         {
-            string json = JsonConvert.SerializeObject(new WagePerson(), typeof(object), new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(new WagePerson(), typeof(object), new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto
             });
@@ -475,7 +475,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeWrapper()
         {
-            Wrapper wrapper = new Wrapper();
+            var wrapper = new Wrapper();
             wrapper.Array = new List<EmployeeReference>
             {
                 new EmployeeReference()
@@ -485,7 +485,7 @@ namespace Argon.Tests.Serialization
                 { "First", new EmployeeReference() }
             };
 
-            string json = JsonConvert.SerializeObject(wrapper, Formatting.Indented, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(wrapper, Formatting.Indented, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto
             });
@@ -507,7 +507,7 @@ namespace Argon.Tests.Serialization
   }
 }", json);
 
-            Wrapper w2 = JsonConvert.DeserializeObject<Wrapper>(json);
+            var w2 = JsonConvert.DeserializeObject<Wrapper>(json);
             CustomAssert.IsInstanceOfType(typeof(List<EmployeeReference>), w2.Array);
             CustomAssert.IsInstanceOfType(typeof(Dictionary<string, EmployeeReference>), w2.Dictionary);
         }
@@ -515,11 +515,11 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void WriteTypeNameForObjects()
         {
-            string employeeRef = ReflectionUtils.GetTypeName(typeof(EmployeeReference), TypeNameAssemblyFormatHandling.Simple, null);
+            var employeeRef = ReflectionUtils.GetTypeName(typeof(EmployeeReference), TypeNameAssemblyFormatHandling.Simple, null);
 
-            EmployeeReference employee = new EmployeeReference();
+            var employee = new EmployeeReference();
 
-            string json = JsonConvert.SerializeObject(employee, Formatting.Indented, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(employee, Formatting.Indented, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Objects
             });
@@ -535,16 +535,16 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeTypeName()
         {
-            string employeeRef = ReflectionUtils.GetTypeName(typeof(EmployeeReference), TypeNameAssemblyFormatHandling.Simple, null);
+            var employeeRef = ReflectionUtils.GetTypeName(typeof(EmployeeReference), TypeNameAssemblyFormatHandling.Simple, null);
 
-            string json = @"{
+            var json = @"{
   ""$id"": ""1"",
   ""$type"": """ + employeeRef + @""",
   ""Name"": ""Name!"",
   ""Manager"": null
 }";
 
-            object employee = JsonConvert.DeserializeObject(json, null, new JsonSerializerSettings
+            var employee = JsonConvert.DeserializeObject(json, null, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Objects
             });
@@ -556,14 +556,14 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeTypeNameFromGacAssembly()
         {
-            string cookieRef = ReflectionUtils.GetTypeName(typeof(Cookie), TypeNameAssemblyFormatHandling.Simple, null);
+            var cookieRef = ReflectionUtils.GetTypeName(typeof(Cookie), TypeNameAssemblyFormatHandling.Simple, null);
 
-            string json = @"{
+            var json = @"{
   ""$id"": ""1"",
   ""$type"": """ + cookieRef + @"""
 }";
 
-            object cookie = JsonConvert.DeserializeObject(json, null, new JsonSerializerSettings
+            var cookie = JsonConvert.DeserializeObject(json, null, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Objects
             });
@@ -574,10 +574,10 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeGenericObjectListWithTypeName()
         {
-            string employeeRef = typeof(EmployeeReference).AssemblyQualifiedName;
-            string personRef = typeof(Person).AssemblyQualifiedName;
+            var employeeRef = typeof(EmployeeReference).AssemblyQualifiedName;
+            var personRef = typeof(Person).AssemblyQualifiedName;
 
-            List<object> values = new List<object>
+            var values = new List<object>
             {
                 new EmployeeReference
                 {
@@ -594,7 +594,7 @@ namespace Argon.Tests.Serialization
                 int.MinValue
             };
 
-            string json = JsonConvert.SerializeObject(values, Formatting.Indented, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(values, Formatting.Indented, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Objects,
 #pragma warning disable 618
@@ -628,10 +628,10 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeGenericObjectListWithTypeName()
         {
-            string employeeRef = typeof(EmployeeReference).AssemblyQualifiedName;
-            string personRef = typeof(Person).AssemblyQualifiedName;
+            var employeeRef = typeof(EmployeeReference).AssemblyQualifiedName;
+            var personRef = typeof(Person).AssemblyQualifiedName;
 
-            string json = @"[
+            var json = @"[
   {
     ""$id"": ""1"",
     ""$type"": """ + employeeRef + @""",
@@ -653,7 +653,7 @@ namespace Argon.Tests.Serialization
   -2147483648
 ]";
 
-            List<object> values = (List<object>)JsonConvert.DeserializeObject(json, typeof(List<object>), new JsonSerializerSettings
+            var values = (List<object>)JsonConvert.DeserializeObject(json, typeof(List<object>), new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Objects,
 #pragma warning disable 618
@@ -663,8 +663,8 @@ namespace Argon.Tests.Serialization
 
             Assert.AreEqual(4, values.Count);
 
-            EmployeeReference e = (EmployeeReference)values[0];
-            Person p = (Person)values[1];
+            var e = (EmployeeReference)values[0];
+            var p = (Person)values[1];
 
             Assert.AreEqual("Bob", e.Name);
             Assert.AreEqual("Frank", e.Manager.Name);
@@ -680,10 +680,10 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeWithBadTypeName()
         {
-            string employeeRef = typeof(EmployeeReference).AssemblyQualifiedName;
-            string personRef = typeof(Person).AssemblyQualifiedName;
+            var employeeRef = typeof(EmployeeReference).AssemblyQualifiedName;
+            var personRef = typeof(Person).AssemblyQualifiedName;
 
-            string json = @"{
+            var json = @"{
   ""$id"": ""1"",
   ""$type"": """ + employeeRef + @""",
   ""Name"": ""Name!"",
@@ -709,16 +709,16 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeTypeNameWithNoTypeNameHandling()
         {
-            string employeeRef = typeof(EmployeeReference).AssemblyQualifiedName;
+            var employeeRef = typeof(EmployeeReference).AssemblyQualifiedName;
 
-            string json = @"{
+            var json = @"{
   ""$id"": ""1"",
   ""$type"": """ + employeeRef + @""",
   ""Name"": ""Name!"",
   ""Manager"": null
 }";
 
-            JObject o = (JObject)JsonConvert.DeserializeObject(json);
+            var o = (JObject)JsonConvert.DeserializeObject(json);
 
             StringAssert.AreEqual(@"{
   ""Name"": ""Name!"",
@@ -729,7 +729,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeTypeNameOnly()
         {
-            string json = @"{
+            var json = @"{
   ""$id"": ""1"",
   ""$type"": ""Argon.Tests.TestObjects.Employee"",
   ""Name"": ""Name!"",
@@ -772,9 +772,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeGenericTypeName()
         {
-            string typeName = typeof(SendHttpRequest).AssemblyQualifiedName;
+            var typeName = typeof(SendHttpRequest).AssemblyQualifiedName;
 
-            string json = @"{
+            var json = @"{
 ""$type"": """ + typeName + @""",
 ""RequestData"": {
 ""$type"": ""System.Collections.Generic.Dictionary`2[[System.String, mscorlib,Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"",
@@ -787,7 +787,7 @@ namespace Argon.Tests.Serialization
 ""CorrelationId"": ""xyz""
 }";
 
-            ICorrelatedMessage message = JsonConvert.DeserializeObject<ICorrelatedMessage>(json, new JsonSerializerSettings
+            var message = JsonConvert.DeserializeObject<ICorrelatedMessage>(json, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Objects,
 #pragma warning disable 618
@@ -797,7 +797,7 @@ namespace Argon.Tests.Serialization
 
             CustomAssert.IsInstanceOfType(typeof(SendHttpRequest), message);
 
-            SendHttpRequest request = (SendHttpRequest)message;
+            var request = (SendHttpRequest)message;
             Assert.AreEqual("xyz", request.CorrelationId);
             Assert.AreEqual(2, request.RequestData.Count);
             Assert.AreEqual("siedemnaście", request.RequestData["Id"]);
@@ -806,16 +806,16 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeObjectWithMultipleGenericLists()
         {
-            string containerTypeName = typeof(Container).AssemblyQualifiedName;
-            string productListTypeName = typeof(List<Product>).AssemblyQualifiedName;
+            var containerTypeName = typeof(Container).AssemblyQualifiedName;
+            var productListTypeName = typeof(List<Product>).AssemblyQualifiedName;
 
-            Container container = new Container
+            var container = new Container
             {
                 In = new List<Product>(),
                 Out = new List<Product>()
             };
 
-            string json = JsonConvert.SerializeObject(container, Formatting.Indented,
+            var json = JsonConvert.SerializeObject(container, Formatting.Indented,
                 new JsonSerializerSettings
                 {
                     NullValueHandling = NullValueHandling.Ignore,
@@ -849,9 +849,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void WriteObjectTypeNameForProperty()
         {
-            string typeNamePropertyRef = ReflectionUtils.GetTypeName(typeof(TypeNameProperty), TypeNameAssemblyFormatHandling.Simple, null);
+            var typeNamePropertyRef = ReflectionUtils.GetTypeName(typeof(TypeNameProperty), TypeNameAssemblyFormatHandling.Simple, null);
 
-            TypeNameProperty typeNameProperty = new TypeNameProperty
+            var typeNameProperty = new TypeNameProperty
             {
                 Name = "Name!",
                 Value = new TypeNameProperty
@@ -860,7 +860,7 @@ namespace Argon.Tests.Serialization
                 }
             };
 
-            string json = JsonConvert.SerializeObject(typeNameProperty, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(typeNameProperty, Formatting.Indented);
 
             StringAssert.AreEqual(@"{
   ""Name"": ""Name!"",
@@ -871,11 +871,11 @@ namespace Argon.Tests.Serialization
   }
 }", json);
 
-            TypeNameProperty deserialized = JsonConvert.DeserializeObject<TypeNameProperty>(json);
+            var deserialized = JsonConvert.DeserializeObject<TypeNameProperty>(json);
             Assert.AreEqual("Name!", deserialized.Name);
             CustomAssert.IsInstanceOfType(typeof(TypeNameProperty), deserialized.Value);
 
-            TypeNameProperty nested = (TypeNameProperty)deserialized.Value;
+            var nested = (TypeNameProperty)deserialized.Value;
             Assert.AreEqual("Nested!", nested.Name);
             Assert.AreEqual(null, nested.Value);
         }
@@ -883,15 +883,15 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void WriteListTypeNameForProperty()
         {
-            string listRef = ReflectionUtils.GetTypeName(typeof(List<int>), TypeNameAssemblyFormatHandling.Simple, null);
+            var listRef = ReflectionUtils.GetTypeName(typeof(List<int>), TypeNameAssemblyFormatHandling.Simple, null);
 
-            TypeNameProperty typeNameProperty = new TypeNameProperty
+            var typeNameProperty = new TypeNameProperty
             {
                 Name = "Name!",
                 Value = new List<int> { 1, 2, 3, 4, 5 }
             };
 
-            string json = JsonConvert.SerializeObject(typeNameProperty, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(typeNameProperty, Formatting.Indented);
 
             StringAssert.AreEqual(@"{
   ""Name"": ""Name!"",
@@ -907,11 +907,11 @@ namespace Argon.Tests.Serialization
   }
 }", json);
 
-            TypeNameProperty deserialized = JsonConvert.DeserializeObject<TypeNameProperty>(json);
+            var deserialized = JsonConvert.DeserializeObject<TypeNameProperty>(json);
             Assert.AreEqual("Name!", deserialized.Name);
             CustomAssert.IsInstanceOfType(typeof(List<int>), deserialized.Value);
 
-            List<int> nested = (List<int>)deserialized.Value;
+            var nested = (List<int>)deserialized.Value;
             Assert.AreEqual(5, nested.Count);
             Assert.AreEqual(1, nested[0]);
             Assert.AreEqual(2, nested[1]);
@@ -923,13 +923,13 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeUsingCustomBinder()
         {
-            string json = @"{
+            var json = @"{
   ""$id"": ""1"",
   ""$type"": ""Argon.Tests.TestObjects.Employee"",
   ""Name"": ""Name!""
 }";
 
-            object p = JsonConvert.DeserializeObject(json, null, new JsonSerializerSettings
+            var p = JsonConvert.DeserializeObject(json, null, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Objects,
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -939,7 +939,7 @@ namespace Argon.Tests.Serialization
 
             CustomAssert.IsInstanceOfType(typeof(Person), p);
 
-            Person person = (Person)p;
+            var person = (Person)p;
 
             Assert.AreEqual("Name!", person.Name);
         }
@@ -955,7 +955,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeUsingCustomBinder()
         {
-            TypeNameSerializationBinder binder = new TypeNameSerializationBinder("Argon.Tests.Serialization.{0}, Tests");
+            var binder = new TypeNameSerializationBinder("Argon.Tests.Serialization.{0}, Tests");
 
             IList<object> values = new List<object>
             {
@@ -971,7 +971,7 @@ namespace Argon.Tests.Serialization
                 }
             };
 
-            string json = JsonConvert.SerializeObject(values, Formatting.Indented, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(values, Formatting.Indented, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto,
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -1005,7 +1005,7 @@ namespace Argon.Tests.Serialization
   }
 ]", json);
 
-            IList<object> newValues = JsonConvert.DeserializeObject<IList<object>>(json, new JsonSerializerSettings
+            var newValues = JsonConvert.DeserializeObject<IList<object>>(json, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto,
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -1014,11 +1014,11 @@ namespace Argon.Tests.Serialization
             });
 
             CustomAssert.IsInstanceOfType(typeof(Customer), newValues[0]);
-            Customer customer = (Customer)newValues[0];
+            var customer = (Customer)newValues[0];
             Assert.AreEqual("Caroline Customer", customer.Name);
 
             CustomAssert.IsInstanceOfType(typeof(Purchase), newValues[1]);
-            Purchase purchase = (Purchase)newValues[1];
+            var purchase = (Purchase)newValues[1];
             Assert.AreEqual("Elbow Grease", purchase.ProductName);
         }
 
@@ -1039,7 +1039,7 @@ namespace Argon.Tests.Serialization
 
             public override Type BindToType(string assemblyName, string typeName)
             {
-                string resolvedTypeName = string.Format(TypeFormat, typeName);
+                var resolvedTypeName = string.Format(TypeFormat, typeName);
 
                 return Type.GetType(resolvedTypeName, true);
             }
@@ -1048,7 +1048,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void NewSerializeUsingCustomBinder()
         {
-            NewTypeNameSerializationBinder binder = new NewTypeNameSerializationBinder("Argon.Tests.Serialization.{0}, Tests");
+            var binder = new NewTypeNameSerializationBinder("Argon.Tests.Serialization.{0}, Tests");
 
             IList<object> values = new List<object>
             {
@@ -1064,7 +1064,7 @@ namespace Argon.Tests.Serialization
                 }
             };
 
-            string json = JsonConvert.SerializeObject(values, Formatting.Indented, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(values, Formatting.Indented, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto,
                 SerializationBinder = binder
@@ -1096,18 +1096,18 @@ namespace Argon.Tests.Serialization
   }
 ]", json);
 
-            IList<object> newValues = JsonConvert.DeserializeObject<IList<object>>(json, new JsonSerializerSettings
+            var newValues = JsonConvert.DeserializeObject<IList<object>>(json, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto,
                 SerializationBinder = new NewTypeNameSerializationBinder("Argon.Tests.Serialization.{0}, Tests")
             });
 
             CustomAssert.IsInstanceOfType(typeof(Customer), newValues[0]);
-            Customer customer = (Customer)newValues[0];
+            var customer = (Customer)newValues[0];
             Assert.AreEqual("Caroline Customer", customer.Name);
 
             CustomAssert.IsInstanceOfType(typeof(Purchase), newValues[1]);
-            Purchase purchase = (Purchase)newValues[1];
+            var purchase = (Purchase)newValues[1];
             Assert.AreEqual("Elbow Grease", purchase.ProductName);
         }
 
@@ -1128,7 +1128,7 @@ namespace Argon.Tests.Serialization
 
             public Type BindToType(string assemblyName, string typeName)
             {
-                string resolvedTypeName = string.Format(TypeFormat, typeName);
+                var resolvedTypeName = string.Format(TypeFormat, typeName);
 
                 return Type.GetType(resolvedTypeName, true);
             }
@@ -1137,31 +1137,31 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void CollectionWithAbstractItems()
         {
-            HolderClass testObject = new HolderClass();
+            var testObject = new HolderClass();
             testObject.TestMember = new ContentSubClass("First One");
             testObject.AnotherTestMember = new Dictionary<int, IList<ContentBaseClass>>();
             testObject.AnotherTestMember.Add(1, new List<ContentBaseClass>());
             testObject.AnotherTestMember[1].Add(new ContentSubClass("Second One"));
             testObject.AThirdTestMember = new ContentSubClass("Third One");
 
-            JsonSerializer serializingTester = new JsonSerializer();
+            var serializingTester = new JsonSerializer();
             serializingTester.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 
-            StringWriter sw = new StringWriter();
-            using (JsonTextWriter jsonWriter = new JsonTextWriter(sw))
+            var sw = new StringWriter();
+            using (var jsonWriter = new JsonTextWriter(sw))
             {
                 jsonWriter.Formatting = Formatting.Indented;
                 serializingTester.TypeNameHandling = TypeNameHandling.Auto;
                 serializingTester.Serialize(jsonWriter, testObject);
             }
 
-            string json = sw.ToString();
+            var json = sw.ToString();
 
-            string contentSubClassRef = ReflectionUtils.GetTypeName(typeof(ContentSubClass), TypeNameAssemblyFormatHandling.Simple, null);
-            string dictionaryRef = ReflectionUtils.GetTypeName(typeof(Dictionary<int, IList<ContentBaseClass>>), TypeNameAssemblyFormatHandling.Simple, null);
-            string listRef = ReflectionUtils.GetTypeName(typeof(List<ContentBaseClass>), TypeNameAssemblyFormatHandling.Simple, null);
+            var contentSubClassRef = ReflectionUtils.GetTypeName(typeof(ContentSubClass), TypeNameAssemblyFormatHandling.Simple, null);
+            var dictionaryRef = ReflectionUtils.GetTypeName(typeof(Dictionary<int, IList<ContentBaseClass>>), TypeNameAssemblyFormatHandling.Simple, null);
+            var listRef = ReflectionUtils.GetTypeName(typeof(List<ContentBaseClass>), TypeNameAssemblyFormatHandling.Simple, null);
 
-            string expected = @"{
+            var expected = @"{
   ""TestMember"": {
     ""$type"": """ + contentSubClassRef + @""",
     ""SomeString"": ""First One""
@@ -1183,13 +1183,13 @@ namespace Argon.Tests.Serialization
 
             StringAssert.AreEqual(expected, json);
 
-            StringReader sr = new StringReader(json);
+            var sr = new StringReader(json);
 
-            JsonSerializer deserializingTester = new JsonSerializer();
+            var deserializingTester = new JsonSerializer();
 
             HolderClass anotherTestObject;
 
-            using (JsonTextReader jsonReader = new JsonTextReader(sr))
+            using (var jsonReader = new JsonTextReader(sr))
             {
                 deserializingTester.TypeNameHandling = TypeNameHandling.Auto;
 
@@ -1201,7 +1201,7 @@ namespace Argon.Tests.Serialization
             CustomAssert.IsInstanceOfType(typeof(Dictionary<int, IList<ContentBaseClass>>), anotherTestObject.AnotherTestMember);
             Assert.AreEqual(1, anotherTestObject.AnotherTestMember.Count);
 
-            IList<ContentBaseClass> list = anotherTestObject.AnotherTestMember[1];
+            var list = anotherTestObject.AnotherTestMember[1];
 
             CustomAssert.IsInstanceOfType(typeof(List<ContentBaseClass>), list);
             Assert.AreEqual(1, list.Count);
@@ -1211,7 +1211,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void WriteObjectTypeNameForPropertyDemo()
         {
-            Message message = new Message();
+            var message = new Message();
             message.Address = "http://www.google.com";
             message.Body = new SearchDetails
             {
@@ -1219,7 +1219,7 @@ namespace Argon.Tests.Serialization
                 Language = "en-us"
             };
 
-            string json = JsonConvert.SerializeObject(message, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(message, Formatting.Indented);
             // {
             //   "Address": "http://www.google.com",
             //   "Body": {
@@ -1229,9 +1229,9 @@ namespace Argon.Tests.Serialization
             //   }
             // }
 
-            Message deserialized = JsonConvert.DeserializeObject<Message>(json);
+            var deserialized = JsonConvert.DeserializeObject<Message>(json);
 
-            SearchDetails searchDetails = (SearchDetails)deserialized.Body;
+            var searchDetails = (SearchDetails)deserialized.Body;
             // Json.NET
         }
 
@@ -1244,7 +1244,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void GenericDictionaryObject()
         {
-            Dictionary<string, object> collection = new Dictionary<string, object>()
+            var collection = new Dictionary<string, object>()
             {
                 { "First", new UrlStatus { Status = 404, Url = @"http://www.bing.com" } },
                 { "Second", new UrlStatus { Status = 400, Url = @"http://www.google.com" } },
@@ -1257,7 +1257,7 @@ namespace Argon.Tests.Serialization
                 }
             };
 
-            string json = JsonConvert.SerializeObject(collection, Formatting.Indented, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(collection, Formatting.Indented, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.All,
 #pragma warning disable 618
@@ -1265,9 +1265,9 @@ namespace Argon.Tests.Serialization
 #pragma warning restore 618
             });
 
-            string dictionaryTypeName = ReflectionUtils.GetTypeName(typeof(Dictionary<string, object>), TypeNameAssemblyFormatHandling.Simple, null);
-            string urlStatusTypeName = ReflectionUtils.GetTypeName(typeof(UrlStatus), TypeNameAssemblyFormatHandling.Simple, null);
-            string listTypeName = ReflectionUtils.GetTypeName(typeof(List<UrlStatus>), TypeNameAssemblyFormatHandling.Simple, null);
+            var dictionaryTypeName = ReflectionUtils.GetTypeName(typeof(Dictionary<string, object>), TypeNameAssemblyFormatHandling.Simple, null);
+            var urlStatusTypeName = ReflectionUtils.GetTypeName(typeof(UrlStatus), TypeNameAssemblyFormatHandling.Simple, null);
+            var listTypeName = ReflectionUtils.GetTypeName(typeof(List<UrlStatus>), TypeNameAssemblyFormatHandling.Simple, null);
 
             StringAssert.AreEqual(@"{
   ""$type"": """ + dictionaryTypeName + @""",
@@ -1298,7 +1298,7 @@ namespace Argon.Tests.Serialization
   }
 }", json);
 
-            object c = JsonConvert.DeserializeObject(json, new JsonSerializerSettings
+            var c = JsonConvert.DeserializeObject(json, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.All,
 #pragma warning disable 618
@@ -1308,22 +1308,22 @@ namespace Argon.Tests.Serialization
 
             CustomAssert.IsInstanceOfType(typeof(Dictionary<string, object>), c);
 
-            Dictionary<string, object> newCollection = (Dictionary<string, object>)c;
+            var newCollection = (Dictionary<string, object>)c;
             Assert.AreEqual(3, newCollection.Count);
             Assert.AreEqual(@"http://www.bing.com", ((UrlStatus)newCollection["First"]).Url);
 
-            List<UrlStatus> statues = (List<UrlStatus>)newCollection["List"];
+            var statues = (List<UrlStatus>)newCollection["List"];
             Assert.AreEqual(2, statues.Count);
         }
 
         [Fact]
         public void SerializingIEnumerableOfTShouldRetainGenericTypeInfo()
         {
-            string productClassRef = ReflectionUtils.GetTypeName(typeof(CustomEnumerable<Product>), TypeNameAssemblyFormatHandling.Simple, null);
+            var productClassRef = ReflectionUtils.GetTypeName(typeof(CustomEnumerable<Product>), TypeNameAssemblyFormatHandling.Simple, null);
 
-            CustomEnumerable<Product> products = new CustomEnumerable<Product>();
+            var products = new CustomEnumerable<Product>();
 
-            string json = JsonConvert.SerializeObject(products, Formatting.Indented, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All });
+            var json = JsonConvert.SerializeObject(products, Formatting.Indented, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All });
 
             StringAssert.AreEqual(@"{
   ""$type"": """ + productClassRef + @""",
@@ -1396,20 +1396,20 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ByteArrays()
         {
-            Car testerObject = new Car();
+            var testerObject = new Car();
             testerObject.Year = new DateTime(2000, 10, 5, 1, 1, 1, DateTimeKind.Utc);
-            byte[] data = new byte[] { 75, 65, 82, 73, 82, 65 };
+            var data = new byte[] { 75, 65, 82, 73, 82, 65 };
             testerObject.Objects = new object[] { data, "prueba" };
 
-            JsonSerializerSettings jsonSettings = new JsonSerializerSettings();
+            var jsonSettings = new JsonSerializerSettings();
             jsonSettings.NullValueHandling = NullValueHandling.Ignore;
             jsonSettings.TypeNameHandling = TypeNameHandling.All;
 
-            string output = JsonConvert.SerializeObject(testerObject, Formatting.Indented, jsonSettings);
+            var output = JsonConvert.SerializeObject(testerObject, Formatting.Indented, jsonSettings);
 
-            string carClassRef = ReflectionUtils.GetTypeName(typeof(Car), TypeNameAssemblyFormatHandling.Simple, null);
-            string objectArrayRef = ReflectionUtils.GetTypeName(typeof(object[]), TypeNameAssemblyFormatHandling.Simple, null);
-            string byteArrayRef = ReflectionUtils.GetTypeName(typeof(byte[]), TypeNameAssemblyFormatHandling.Simple, null);
+            var carClassRef = ReflectionUtils.GetTypeName(typeof(Car), TypeNameAssemblyFormatHandling.Simple, null);
+            var objectArrayRef = ReflectionUtils.GetTypeName(typeof(object[]), TypeNameAssemblyFormatHandling.Simple, null);
+            var byteArrayRef = ReflectionUtils.GetTypeName(typeof(byte[]), TypeNameAssemblyFormatHandling.Simple, null);
 
             StringAssert.AreEqual(output, @"{
   ""$type"": """ + carClassRef + @""",
@@ -1425,13 +1425,13 @@ namespace Argon.Tests.Serialization
     ]
   }
 }");
-            Car obj = JsonConvert.DeserializeObject<Car>(output, jsonSettings);
+            var obj = JsonConvert.DeserializeObject<Car>(output, jsonSettings);
 
             Assert.IsNotNull(obj);
 
             Assert.IsTrue(obj.Objects[0] is byte[]);
 
-            byte[] d = (byte[])obj.Objects[0];
+            var d = (byte[])obj.Objects[0];
             CollectionAssert.AreEquivalent(data, d);
         }
 
@@ -1441,7 +1441,7 @@ namespace Argon.Tests.Serialization
             //Create an instance of our example type
             IExample e = new Example("Rob");
 
-            SerializableWrapper w = new SerializableWrapper
+            var w = new SerializableWrapper
             {
                 Content = e
             };
@@ -1460,10 +1460,10 @@ namespace Argon.Tests.Serialization
 
         private void TestJsonSerializationRoundTrip(SerializableWrapper e, TypeNameHandling flag)
         {
-            StringWriter writer = new StringWriter();
+            var writer = new StringWriter();
 
             //Create our serializer and set Type Name Handling appropriately
-            JsonSerializer serializer = new JsonSerializer();
+            var serializer = new JsonSerializer();
             serializer.TypeNameHandling = flag;
 
             //Do the actual serialization and dump to Console for inspection
@@ -1473,7 +1473,7 @@ namespace Argon.Tests.Serialization
             //Json.Net will cause an error here as it will try and instantiate
             //the interface directly because it failed to respect the
             //TypeNameHandling property on serialization
-            SerializableWrapper f = serializer.Deserialize<SerializableWrapper>(new JsonTextReader(new StringReader(writer.ToString())));
+            var f = serializer.Deserialize<SerializableWrapper>(new JsonTextReader(new StringReader(writer.ToString())));
 
             //Check Round Trip
             Assert.AreEqual(e, f, "Objects should be equal after round trip json serialization");
@@ -1482,13 +1482,13 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializationBinderWithFullName()
         {
-            Message message = new Message
+            var message = new Message
             {
                 Address = "jamesnk@testtown.com",
                 Body = new Version(1, 2, 3, 4)
             };
 
-            string json = JsonConvert.SerializeObject(message, Formatting.Indented, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(message, Formatting.Indented, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.All,
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -1501,7 +1501,7 @@ namespace Argon.Tests.Serialization
                 }
             });
 
-            JObject o = JObject.Parse(json);
+            var o = JObject.Parse(json);
 
             Assert.AreEqual(":::MESSAGE:::, AssemblyName", (string)o["$type"]);
         }
@@ -1527,12 +1527,12 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void TypeNameIntList()
         {
-            TypeNameList<int> l = new TypeNameList<int>();
+            var l = new TypeNameList<int>();
             l.Add(1);
             l.Add(2);
             l.Add(3);
 
-            string json = JsonConvert.SerializeObject(l, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(l, Formatting.Indented);
             StringAssert.AreEqual(@"[
   1,
   2,
@@ -1545,7 +1545,7 @@ namespace Argon.Tests.Serialization
         {
             var c1 = new TestComponentSimple();
 
-            TypeNameList<object> l = new TypeNameList<object>();
+            var l = new TypeNameList<object>();
             l.Add(c1);
             l.Add(new Employee
             {
@@ -1555,7 +1555,7 @@ namespace Argon.Tests.Serialization
             l.Add("String!");
             l.Add(long.MaxValue);
 
-            string json = JsonConvert.SerializeObject(l, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(l, Formatting.Indented);
             StringAssert.AreEqual(@"[
   {
     ""$type"": ""Argon.Tests.TestObjects.TestComponentSimple, Tests"",
@@ -1573,7 +1573,7 @@ namespace Argon.Tests.Serialization
   9223372036854775807
 ]", json);
 
-            TypeNameList<object> l2 = JsonConvert.DeserializeObject<TypeNameList<object>>(json);
+            var l2 = JsonConvert.DeserializeObject<TypeNameList<object>>(json);
             Assert.AreEqual(4, l2.Count);
 
             CustomAssert.IsInstanceOfType(typeof(TestComponentSimple), l2[0]);
@@ -1585,12 +1585,12 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void TypeNameDictionary()
         {
-            TypeNameDictionary<object> l = new TypeNameDictionary<object>();
+            var l = new TypeNameDictionary<object>();
             l.Add("First", new TestComponentSimple { MyProperty = 1 });
             l.Add("Second", "String!");
             l.Add("Third", long.MaxValue);
 
-            string json = JsonConvert.SerializeObject(l, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(l, Formatting.Indented);
             StringAssert.AreEqual(@"{
   ""First"": {
     ""$type"": ""Argon.Tests.TestObjects.TestComponentSimple, Tests"",
@@ -1600,7 +1600,7 @@ namespace Argon.Tests.Serialization
   ""Third"": 9223372036854775807
 }", json);
 
-            TypeNameDictionary<object> l2 = JsonConvert.DeserializeObject<TypeNameDictionary<object>>(json);
+            var l2 = JsonConvert.DeserializeObject<TypeNameDictionary<object>>(json);
             Assert.AreEqual(3, l2.Count);
 
             CustomAssert.IsInstanceOfType(typeof(TestComponentSimple), l2["First"]);
@@ -1612,7 +1612,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void TypeNameObjectItems()
         {
-            TypeNameObject o1 = new TypeNameObject();
+            var o1 = new TypeNameObject();
 
             o1.Object1 = new TestComponentSimple { MyProperty = 1 };
             o1.Object2 = 123;
@@ -1620,8 +1620,8 @@ namespace Argon.Tests.Serialization
             o1.String = "String!";
             o1.Integer = int.MaxValue;
 
-            string json = JsonConvert.SerializeObject(o1, Formatting.Indented);
-            string expected = @"{
+            var json = JsonConvert.SerializeObject(o1, Formatting.Indented);
+            var expected = @"{
   ""Object1"": {
     ""$type"": ""Argon.Tests.TestObjects.TestComponentSimple, Tests"",
     ""MyProperty"": 1
@@ -1635,7 +1635,7 @@ namespace Argon.Tests.Serialization
 }";
             StringAssert.AreEqual(expected, json);
 
-            TypeNameObject o2 = JsonConvert.DeserializeObject<TypeNameObject>(json);
+            var o2 = JsonConvert.DeserializeObject<TypeNameObject>(json);
             Assert.IsNotNull(o2);
 
             CustomAssert.IsInstanceOfType(typeof(TestComponentSimple), o2.Object1);
@@ -1650,7 +1650,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void PropertyItemTypeNameHandling()
         {
-            PropertyItemTypeNameHandling c1 = new PropertyItemTypeNameHandling();
+            var c1 = new PropertyItemTypeNameHandling();
             c1.Data = new List<object>
             {
                 1,
@@ -1658,7 +1658,7 @@ namespace Argon.Tests.Serialization
                 new TestComponentSimple { MyProperty = 1 }
             };
 
-            string json = JsonConvert.SerializeObject(c1, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(c1, Formatting.Indented);
             StringAssert.AreEqual(@"{
   ""Data"": [
     1,
@@ -1670,20 +1670,20 @@ namespace Argon.Tests.Serialization
   ]
 }", json);
 
-            PropertyItemTypeNameHandling c2 = JsonConvert.DeserializeObject<PropertyItemTypeNameHandling>(json);
+            var c2 = JsonConvert.DeserializeObject<PropertyItemTypeNameHandling>(json);
             Assert.AreEqual(3, c2.Data.Count);
 
             CustomAssert.IsInstanceOfType(typeof(long), c2.Data[0]);
             CustomAssert.IsInstanceOfType(typeof(string), c2.Data[1]);
             CustomAssert.IsInstanceOfType(typeof(TestComponentSimple), c2.Data[2]);
-            TestComponentSimple c = (TestComponentSimple)c2.Data[2];
+            var c = (TestComponentSimple)c2.Data[2];
             Assert.AreEqual(1, c.MyProperty);
         }
 
         [Fact]
         public void PropertyItemTypeNameHandlingNestedCollections()
         {
-            PropertyItemTypeNameHandling c1 = new PropertyItemTypeNameHandling
+            var c1 = new PropertyItemTypeNameHandling
             {
                 Data = new List<object>
                 {
@@ -1698,9 +1698,9 @@ namespace Argon.Tests.Serialization
                 }
             };
 
-            string json = JsonConvert.SerializeObject(c1, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(c1, Formatting.Indented);
 
-            string listTypeName = ReflectionUtils.GetTypeName(typeof(List<object>), TypeNameAssemblyFormatHandling.Simple, null);
+            var listTypeName = ReflectionUtils.GetTypeName(typeof(List<object>), TypeNameAssemblyFormatHandling.Simple, null);
 
             StringAssert.AreEqual(@"{
   ""Data"": [
@@ -1719,12 +1719,12 @@ namespace Argon.Tests.Serialization
   ]
 }", json);
 
-            PropertyItemTypeNameHandling c2 = JsonConvert.DeserializeObject<PropertyItemTypeNameHandling>(json);
+            var c2 = JsonConvert.DeserializeObject<PropertyItemTypeNameHandling>(json);
             Assert.AreEqual(2, c2.Data.Count);
 
             CustomAssert.IsInstanceOfType(typeof(TestComponentSimple), c2.Data[0]);
             CustomAssert.IsInstanceOfType(typeof(List<object>), c2.Data[1]);
-            List<object> c = (List<object>)c2.Data[1];
+            var c = (List<object>)c2.Data[1];
             CustomAssert.IsInstanceOfType(typeof(JArray), c[0]);
 
             json = @"{
@@ -1752,14 +1752,14 @@ namespace Argon.Tests.Serialization
             CustomAssert.IsInstanceOfType(typeof(List<object>), c2.Data[1]);
             c = (List<object>)c2.Data[1];
             CustomAssert.IsInstanceOfType(typeof(JObject), c[0]);
-            JObject o = (JObject)c[0];
+            var o = (JObject)c[0];
             Assert.AreEqual(1, (int)o["MyProperty"]);
         }
 
         [Fact]
         public void PropertyItemTypeNameHandlingNestedDictionaries()
         {
-            PropertyItemTypeNameHandlingDictionary c1 = new PropertyItemTypeNameHandlingDictionary()
+            var c1 = new PropertyItemTypeNameHandlingDictionary()
             {
                 Data = new Dictionary<string, object>
                 {
@@ -1780,9 +1780,9 @@ namespace Argon.Tests.Serialization
                 }
             };
 
-            string json = JsonConvert.SerializeObject(c1, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(c1, Formatting.Indented);
 
-            string dictionaryTypeName = ReflectionUtils.GetTypeName(typeof(Dictionary<string, object>), TypeNameAssemblyFormatHandling.Simple, null);
+            var dictionaryTypeName = ReflectionUtils.GetTypeName(typeof(Dictionary<string, object>), TypeNameAssemblyFormatHandling.Simple, null);
 
             StringAssert.AreEqual(@"{
   ""Data"": {
@@ -1799,12 +1799,12 @@ namespace Argon.Tests.Serialization
   }
 }", json);
 
-            PropertyItemTypeNameHandlingDictionary c2 = JsonConvert.DeserializeObject<PropertyItemTypeNameHandlingDictionary>(json);
+            var c2 = JsonConvert.DeserializeObject<PropertyItemTypeNameHandlingDictionary>(json);
             Assert.AreEqual(2, c2.Data.Count);
 
             CustomAssert.IsInstanceOfType(typeof(TestComponentSimple), c2.Data["one"]);
             CustomAssert.IsInstanceOfType(typeof(Dictionary<string, object>), c2.Data["two"]);
-            Dictionary<string, object> c = (Dictionary<string, object>)c2.Data["two"];
+            var c = (Dictionary<string, object>)c2.Data["two"];
             CustomAssert.IsInstanceOfType(typeof(JObject), c["one"]);
 
             json = @"{
@@ -1831,14 +1831,14 @@ namespace Argon.Tests.Serialization
             c = (Dictionary<string, object>)c2.Data["two"];
             CustomAssert.IsInstanceOfType(typeof(JObject), c["one"]);
 
-            JObject o = (JObject)c["one"];
+            var o = (JObject)c["one"];
             Assert.AreEqual(1, (int)o["MyProperty"]);
         }
 
         [Fact]
         public void PropertyItemTypeNameHandlingObject()
         {
-            PropertyItemTypeNameHandlingObject o1 = new PropertyItemTypeNameHandlingObject
+            var o1 = new PropertyItemTypeNameHandlingObject
             {
                 Data = new TypeNameHandlingTestObject
                 {
@@ -1858,9 +1858,9 @@ namespace Argon.Tests.Serialization
                 }
             };
 
-            string json = JsonConvert.SerializeObject(o1, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(o1, Formatting.Indented);
 
-            string listTypeName = ReflectionUtils.GetTypeName(typeof(List<object>), TypeNameAssemblyFormatHandling.Simple, null);
+            var listTypeName = ReflectionUtils.GetTypeName(typeof(List<object>), TypeNameAssemblyFormatHandling.Simple, null);
 
             StringAssert.AreEqual(@"{
   ""Data"": {
@@ -1881,7 +1881,7 @@ namespace Argon.Tests.Serialization
   }
 }", json);
 
-            PropertyItemTypeNameHandlingObject o2 = JsonConvert.DeserializeObject<PropertyItemTypeNameHandlingObject>(json);
+            var o2 = JsonConvert.DeserializeObject<PropertyItemTypeNameHandlingObject>(json);
             Assert.IsNotNull(o2);
             Assert.IsNotNull(o2.Data);
 
@@ -1890,15 +1890,15 @@ namespace Argon.Tests.Serialization
             CustomAssert.IsInstanceOfType(typeof(long), o2.Data.Prop3);
             CustomAssert.IsInstanceOfType(typeof(JObject), o2.Data.Prop4);
 
-            List<object> o = (List<object>)o2.Data.Prop1;
-            JObject j = (JObject)o[0];
+            var o = (List<object>)o2.Data.Prop1;
+            var j = (JObject)o[0];
             Assert.AreEqual(1, (int)j["MyProperty"]);
         }
 
         [Fact]
         public void PropertyItemTypeNameHandlingDynamic()
         {
-            PropertyItemTypeNameHandlingDynamic d1 = new PropertyItemTypeNameHandlingDynamic();
+            var d1 = new PropertyItemTypeNameHandlingDynamic();
 
             dynamic data = new DynamicDictionary();
             data.one = new TestComponentSimple
@@ -1916,7 +1916,7 @@ namespace Argon.Tests.Serialization
 
             d1.Data = (DynamicDictionary)data;
 
-            string json = JsonConvert.SerializeObject(d1, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(d1, Formatting.Indented);
             StringAssert.AreEqual(@"{
   ""Data"": {
     ""one"": {
@@ -1932,16 +1932,16 @@ namespace Argon.Tests.Serialization
   }
 }", json);
 
-            PropertyItemTypeNameHandlingDynamic d2 = JsonConvert.DeserializeObject<PropertyItemTypeNameHandlingDynamic>(json);
+            var d2 = JsonConvert.DeserializeObject<PropertyItemTypeNameHandlingDynamic>(json);
             Assert.IsNotNull(d2);
             Assert.IsNotNull(d2.Data);
 
             dynamic data3 = d2.Data;
-            TestComponentSimple c = (TestComponentSimple)data3.one;
+            var c = (TestComponentSimple)data3.one;
             Assert.AreEqual(1, c.MyProperty);
 
-            dynamic data4 = data3.two;
-            JObject o = (JObject)data4.one;
+            var data4 = data3.two;
+            var o = (JObject)data4.one;
             Assert.AreEqual(2, (int)o["MyProperty"]);
 
             json = @"{
@@ -1973,17 +1973,17 @@ namespace Argon.Tests.Serialization
             const string contextKey = "k1";
             var someValue = new Guid("a6e986df-fc2c-4906-a1ef-9492388f7833");
 
-            Dictionary<string, Guid> inputContext = new Dictionary<string, Guid>();
+            var inputContext = new Dictionary<string, Guid>();
             inputContext.Add(contextKey, someValue);
 
-            JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings()
+            var jsonSerializerSettings = new JsonSerializerSettings()
             {
                 Formatting = Formatting.Indented,
                 TypeNameHandling = TypeNameHandling.All
             };
-            string serializedString = JsonConvert.SerializeObject(inputContext, jsonSerializerSettings);
+            var serializedString = JsonConvert.SerializeObject(inputContext, jsonSerializerSettings);
 
-            string dictionaryTypeName = ReflectionUtils.GetTypeName(typeof(Dictionary<string, Guid>), TypeNameAssemblyFormatHandling.Simple, null);
+            var dictionaryTypeName = ReflectionUtils.GetTypeName(typeof(Dictionary<string, Guid>), TypeNameAssemblyFormatHandling.Simple, null);
 
             StringAssert.AreEqual(@"{
   ""$type"": """ + dictionaryTypeName + @""",
@@ -1998,7 +1998,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void TypeNameHandlingWithISerializableValues()
         {
-            MyParent p = new MyParent
+            var p = new MyParent
             {
                 Child = new MyChild
                 {
@@ -2006,7 +2006,7 @@ namespace Argon.Tests.Serialization
                 }
             };
 
-            JsonSerializerSettings settings = new JsonSerializerSettings
+            var settings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto,
                 DateFormatHandling = DateFormatHandling.IsoDateFormat,
@@ -2016,7 +2016,7 @@ namespace Argon.Tests.Serialization
                 Formatting = Formatting.Indented
             };
 
-            string json = JsonConvert.SerializeObject(p, settings);
+            var json = JsonConvert.SerializeObject(p, settings);
 
             StringAssert.AreEqual(@"{
   ""c"": {
@@ -2025,7 +2025,7 @@ namespace Argon.Tests.Serialization
   }
 }", json);
 
-            MyParent p2 = JsonConvert.DeserializeObject<MyParent>(json, settings);
+            var p2 = JsonConvert.DeserializeObject<MyParent>(json, settings);
             CustomAssert.IsInstanceOfType(typeof(MyChild), p2.Child);
             Assert.AreEqual("string!", ((MyChild)p2.Child).MyProperty);
         }
@@ -2033,7 +2033,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void TypeNameHandlingWithISerializableValuesAndArray()
         {
-            MyParent p = new MyParent
+            var p = new MyParent
             {
                 Child = new MyChildList
                 {
@@ -2041,7 +2041,7 @@ namespace Argon.Tests.Serialization
                 }
             };
 
-            JsonSerializerSettings settings = new JsonSerializerSettings
+            var settings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto,
                 DateFormatHandling = DateFormatHandling.IsoDateFormat,
@@ -2051,7 +2051,7 @@ namespace Argon.Tests.Serialization
                 Formatting = Formatting.Indented
             };
 
-            string json = JsonConvert.SerializeObject(p, settings);
+            var json = JsonConvert.SerializeObject(p, settings);
 
             StringAssert.AreEqual(@"{
   ""c"": {
@@ -2062,7 +2062,7 @@ namespace Argon.Tests.Serialization
   }
 }", json);
 
-            MyParent p2 = JsonConvert.DeserializeObject<MyParent>(json, settings);
+            var p2 = JsonConvert.DeserializeObject<MyParent>(json, settings);
             CustomAssert.IsInstanceOfType(typeof(MyChildList), p2.Child);
             Assert.AreEqual(1, ((MyChildList)p2.Child).Count);
             Assert.AreEqual("string!", ((MyChildList)p2.Child)[0]);
@@ -2071,7 +2071,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ParentTypeNameHandlingWithISerializableValues()
         {
-            ParentParent pp = new ParentParent();
+            var pp = new ParentParent();
 
             pp.ParentProp = new MyParent
             {
@@ -2081,7 +2081,7 @@ namespace Argon.Tests.Serialization
                 }
             };
 
-            JsonSerializerSettings settings = new JsonSerializerSettings
+            var settings = new JsonSerializerSettings
             {
                 DateFormatHandling = DateFormatHandling.IsoDateFormat,
                 MissingMemberHandling = MissingMemberHandling.Ignore,
@@ -2090,7 +2090,7 @@ namespace Argon.Tests.Serialization
                 Formatting = Formatting.Indented
             };
 
-            string json = JsonConvert.SerializeObject(pp, settings);
+            var json = JsonConvert.SerializeObject(pp, settings);
 
             StringAssert.AreEqual(@"{
   ""ParentProp"": {
@@ -2101,8 +2101,8 @@ namespace Argon.Tests.Serialization
   }
 }", json);
 
-            ParentParent pp2 = JsonConvert.DeserializeObject<ParentParent>(json, settings);
-            MyParent p2 = pp2.ParentProp;
+            var pp2 = JsonConvert.DeserializeObject<ParentParent>(json, settings);
+            var p2 = pp2.ParentProp;
             CustomAssert.IsInstanceOfType(typeof(MyChild), p2.Child);
             Assert.AreEqual("string!", ((MyChild)p2.Child).MyProperty);
         }
@@ -2116,7 +2116,7 @@ namespace Argon.Tests.Serialization
             input.Add(new Stack<string>(new List<string> { "Four", "Five", "Six" }));
             input.Add(new Stack<string>(new List<string> { "Seven", "Eight", "Nine" }));
 
-            string serialized = JsonConvert.SerializeObject(input,
+            var serialized = JsonConvert.SerializeObject(input,
                 Argon.Formatting.Indented,
                 new JsonSerializerSettings
                 {
@@ -2130,7 +2130,7 @@ namespace Argon.Tests.Serialization
                 new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All }
                 );
 
-            List<string> strings = output.SelectMany(s => s).ToList();
+            var strings = output.SelectMany(s => s).ToList();
 
             Assert.AreEqual(9, strings.Count);
             Assert.AreEqual("One", strings[0]);
@@ -2140,7 +2140,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ExistingBaseValue()
         {
-            string json = @"{
+            var json = @"{
     ""itemIdentifier"": {
         ""$type"": ""Argon.Tests.Serialization.ReportItemKeys, Tests"",
         ""dataType"": 0,
@@ -2154,23 +2154,23 @@ namespace Argon.Tests.Serialization
     ""summarizeOnThisItem"": false
 }";
 
-            GroupingInfo g = JsonConvert.DeserializeObject<GroupingInfo>(json, new JsonSerializerSettings
+            var g = JsonConvert.DeserializeObject<GroupingInfo>(json, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Objects
             });
 
-            ReportItemKeys item = (ReportItemKeys)g.ItemIdentifier;
+            var item = (ReportItemKeys)g.ItemIdentifier;
             Assert.AreEqual(1UL, item.WantedUnitID);
         }
 
         [Fact]
         public void GenericItemTypeCollection()
         {
-            DataType data = new DataType();
+            var data = new DataType();
             data.Rows.Add("key", new List<MyInterfaceImplementationType> { new MyInterfaceImplementationType() { SomeProperty = "property" } });
-            string serialized = JsonConvert.SerializeObject(data, Formatting.Indented);
+            var serialized = JsonConvert.SerializeObject(data, Formatting.Indented);
 
-            string listTypeName = ReflectionUtils.GetTypeName(typeof(List<MyInterfaceImplementationType>), TypeNameAssemblyFormatHandling.Simple, null);
+            var listTypeName = ReflectionUtils.GetTypeName(typeof(List<MyInterfaceImplementationType>), TypeNameAssemblyFormatHandling.Simple, null);
 
             StringAssert.AreEqual(@"{
   ""Rows"": {
@@ -2185,7 +2185,7 @@ namespace Argon.Tests.Serialization
   }
 }", serialized);
 
-            DataType deserialized = JsonConvert.DeserializeObject<DataType>(serialized);
+            var deserialized = JsonConvert.DeserializeObject<DataType>(serialized);
 
             Assert.AreEqual("property", deserialized.Rows["key"].First().SomeProperty);
         }
@@ -2194,7 +2194,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeComplexGenericDictionary_Simple()
         {
-            JsonSerializerSettings serializerSettings = new JsonSerializerSettings
+            var serializerSettings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.All,
 #pragma warning disable 618
@@ -2202,14 +2202,14 @@ namespace Argon.Tests.Serialization
 #pragma warning restore 618
             };
 
-            Dictionary<int, HashSet<string>> dictionary = new Dictionary<int, HashSet<string>>
+            var dictionary = new Dictionary<int, HashSet<string>>
             {
                 { 1, new HashSet<string>(new[] { "test" }) },
             };
 
-            string obtainedJson = JsonConvert.SerializeObject(dictionary, serializerSettings);
+            var obtainedJson = JsonConvert.SerializeObject(dictionary, serializerSettings);
 
-            Dictionary<int, HashSet<string>> obtainedDictionary = (Dictionary<int, HashSet<string>>)JsonConvert.DeserializeObject(obtainedJson, serializerSettings);
+            var obtainedDictionary = (Dictionary<int, HashSet<string>>)JsonConvert.DeserializeObject(obtainedJson, serializerSettings);
 
             Assert.IsNotNull(obtainedDictionary);
         }
@@ -2217,7 +2217,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeComplexGenericDictionary_Full()
         {
-            JsonSerializerSettings serializerSettings = new JsonSerializerSettings
+            var serializerSettings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.All,
 #pragma warning disable 618
@@ -2225,14 +2225,14 @@ namespace Argon.Tests.Serialization
 #pragma warning restore 618
             };
 
-            Dictionary<int, HashSet<string>> dictionary = new Dictionary<int, HashSet<string>>
+            var dictionary = new Dictionary<int, HashSet<string>>
             {
                 { 1, new HashSet<string>(new[] { "test" }) },
             };
 
-            string obtainedJson = JsonConvert.SerializeObject(dictionary, serializerSettings);
+            var obtainedJson = JsonConvert.SerializeObject(dictionary, serializerSettings);
 
-            Dictionary<int, HashSet<string>> obtainedDictionary = (Dictionary<int, HashSet<string>>)JsonConvert.DeserializeObject(obtainedJson, serializerSettings);
+            var obtainedDictionary = (Dictionary<int, HashSet<string>>)JsonConvert.DeserializeObject(obtainedJson, serializerSettings);
 
             Assert.IsNotNull(obtainedDictionary);
         }
@@ -2240,15 +2240,15 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeNullableStructProperty_Auto()
         {
-            JsonSerializerSettings serializerSettings = new JsonSerializerSettings
+            var serializerSettings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto,
                 Formatting = Formatting.Indented
             };
 
-            ObjectWithOptionalMessage objWithMessage = new ObjectWithOptionalMessage(new Message2("Hello!"));
+            var objWithMessage = new ObjectWithOptionalMessage(new Message2("Hello!"));
 
-            string json = JsonConvert.SerializeObject(objWithMessage, serializerSettings);
+            var json = JsonConvert.SerializeObject(objWithMessage, serializerSettings);
 
             StringAssert.AreEqual(@"{
   ""Message"": {
@@ -2260,18 +2260,18 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeNullableStructProperty_Auto()
         {
-            JsonSerializerSettings serializerSettings = new JsonSerializerSettings
+            var serializerSettings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto,
                 Formatting = Formatting.Indented
             };
 
-            string json = @"{
+            var json = @"{
   ""Message"": {
     ""Value"": ""Hello!""
   }
 }";
-            ObjectWithOptionalMessage objWithMessage = JsonConvert.DeserializeObject<ObjectWithOptionalMessage>(json, serializerSettings);
+            var objWithMessage = JsonConvert.DeserializeObject<ObjectWithOptionalMessage>(json, serializerSettings);
 
             StringAssert.AreEqual("Hello!", objWithMessage.Message.Value.Value);
         }
@@ -2460,7 +2460,7 @@ namespace Argon.Tests.Serialization
 
         public override bool Equals(object obj)
         {
-            SerializableWrapper w = obj as SerializableWrapper;
+            var w = obj as SerializableWrapper;
 
             if (w == null)
             {

@@ -43,13 +43,13 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test()
         {
-            Type t = typeof(FileSystemInfo);
+            var t = typeof(FileSystemInfo);
 
             Assert.IsTrue(t.ImplementInterface(typeof(ISerializable)));
 
-            DefaultContractResolver resolver = new DefaultContractResolver();
+            var resolver = new DefaultContractResolver();
 
-            JsonContract contract = resolver.ResolveContract(t);
+            var contract = resolver.ResolveContract(t);
 
             Assert.AreEqual(JsonContractType.Object, contract.ContractType);
         }

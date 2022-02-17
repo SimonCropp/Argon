@@ -46,7 +46,7 @@ namespace Argon.Tests.Issues
                                 ""Inners"": [""hi"",""bye""]
                             }
                         ]";
-            ImmutableArray<Outer> result = JsonConvert.DeserializeObject<ImmutableArray<Outer>>(json);
+            var result = JsonConvert.DeserializeObject<ImmutableArray<Outer>>(json);
 
             Assert.AreEqual(1, result.Length);
             Assert.AreEqual(2, result[0].Inners.Value.Length);
@@ -62,7 +62,7 @@ namespace Argon.Tests.Issues
                                 ""Inners"": [""hi"",""bye""]
                             }
                         ]";
-            ImmutableArray<OuterProperty> result = JsonConvert.DeserializeObject<ImmutableArray<OuterProperty>>(json);
+            var result = JsonConvert.DeserializeObject<ImmutableArray<OuterProperty>>(json);
 
             Assert.AreEqual(1, result.Length);
             Assert.AreEqual(2, result[0].Inners.Value.Length);

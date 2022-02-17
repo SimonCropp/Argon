@@ -302,7 +302,7 @@ namespace Argon.Serialization
 
         internal void WritePropertyName(JsonWriter writer)
         {
-            string? propertyName = PropertyName;
+            var propertyName = PropertyName;
             MiscellaneousUtils.Assert(propertyName != null);
 
             if (_skipPropertyNameEscape)

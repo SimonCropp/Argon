@@ -48,10 +48,10 @@ namespace Argon.Converters
                 return;
             }
 
-            DataSet dataSet = (DataSet)value;
-            DefaultContractResolver? resolver = serializer.ContractResolver as DefaultContractResolver;
+            var dataSet = (DataSet)value;
+            var resolver = serializer.ContractResolver as DefaultContractResolver;
 
-            DataTableConverter converter = new DataTableConverter();
+            var converter = new DataTableConverter();
 
             writer.WriteStartObject();
 
@@ -81,18 +81,18 @@ namespace Argon.Converters
             }
 
             // handle typed datasets
-            DataSet ds = (objectType == typeof(DataSet))
+            var ds = (objectType == typeof(DataSet))
                 ? new DataSet()
                 : (DataSet)Activator.CreateInstance(objectType);
 
-            DataTableConverter converter = new DataTableConverter();
+            var converter = new DataTableConverter();
 
             reader.ReadAndAssert();
 
             while (reader.TokenType == JsonToken.PropertyName)
             {
-                DataTable dt = ds.Tables[(string)reader.Value!];
-                bool exists = (dt != null);
+                var dt = ds.Tables[(string)reader.Value!];
+                var exists = (dt != null);
 
                 dt = (DataTable)converter.ReadJson(reader, typeof(DataTable), dt, serializer)!;
 

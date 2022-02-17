@@ -50,13 +50,13 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            Videogame starcraft = new Videogame
+            var starcraft = new Videogame
             {
                 Name = "Starcraft",
                 ReleaseDate = new DateTime(1998, 1, 1)
             };
 
-            string json = JsonConvert.SerializeObject(starcraft, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(starcraft, Formatting.Indented);
 
             Console.WriteLine(json);
             // {

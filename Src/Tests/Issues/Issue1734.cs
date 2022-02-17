@@ -42,7 +42,7 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test_XmlNode()
         {
-            XmlDocument xmlDoc = JsonConvert.DeserializeXmlNode(JsonWithoutNamespace, "", true);
+            var xmlDoc = JsonConvert.DeserializeXmlNode(JsonWithoutNamespace, "", true);
 
             StringAssert.AreEqual(@"<Test_Service>
   <fname>mark</fname>
@@ -117,10 +117,10 @@ namespace Argon.Tests.Issues
 
         private string IndentXml(string xml)
         {
-            XmlReader reader = XmlReader.Create(new StringReader(xml));
+            var reader = XmlReader.Create(new StringReader(xml));
 
-            StringWriter sw = new StringWriter();
-            XmlWriter writer = XmlWriter.Create(sw, new XmlWriterSettings { Indent = true, OmitXmlDeclaration = true });
+            var sw = new StringWriter();
+            var writer = XmlWriter.Create(sw, new XmlWriterSettings { Indent = true, OmitXmlDeclaration = true });
 
             while (reader.Read())
             {
@@ -135,9 +135,9 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test_XNode()
         {
-            XDocument xmlDoc = JsonConvert.DeserializeXNode(JsonWithoutNamespace, "", true);
+            var xmlDoc = JsonConvert.DeserializeXNode(JsonWithoutNamespace, "", true);
 
-            string xml = xmlDoc.ToString();
+            var xml = xmlDoc.ToString();
             StringAssert.AreEqual(@"<Test_Service>
   <fname>mark</fname>
   <lname>joye</lname>

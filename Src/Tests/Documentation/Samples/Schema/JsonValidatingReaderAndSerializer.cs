@@ -45,7 +45,7 @@ namespace Argon.Tests.Documentation.Samples.Schema
         public void Example()
         {
             #region Usage
-            string schemaJson = @"{
+            var schemaJson = @"{
               'description': 'A person',
               'type': 'object',
               'properties': {
@@ -57,26 +57,26 @@ namespace Argon.Tests.Documentation.Samples.Schema
               }
             }";
 
-            string json = @"{
+            var json = @"{
               'name': 'James',
               'hobbies': ['.NET', 'Blogging', 'Reading', 'Xbox', 'LOLCATS']
             }";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
-            JsonValidatingReader validatingReader = new JsonValidatingReader(reader);
+            var validatingReader = new JsonValidatingReader(reader);
             validatingReader.Schema = JsonSchema.Parse(schemaJson);
 
             IList<string> messages = new List<string>();
             validatingReader.ValidationEventHandler += (o, a) => messages.Add(a.Message);
 
-            JsonSerializer serializer = new JsonSerializer();
-            Person p = serializer.Deserialize<Person>(validatingReader);
+            var serializer = new JsonSerializer();
+            var p = serializer.Deserialize<Person>(validatingReader);
 
             Console.WriteLine(p.Name);
             // James
 
-            bool isValid = (messages.Count == 0);
+            var isValid = (messages.Count == 0);
 
             Console.WriteLine(isValid);
             // true

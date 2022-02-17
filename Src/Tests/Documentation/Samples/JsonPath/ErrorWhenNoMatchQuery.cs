@@ -41,7 +41,7 @@ namespace Argon.Tests.Documentation.Samples.JsonPath
         public void Example()
         {
             #region Usage
-            JArray items = JArray.Parse(@"[
+            var items = JArray.Parse(@"[
               {
                 'Name': 'John Doe',
               },

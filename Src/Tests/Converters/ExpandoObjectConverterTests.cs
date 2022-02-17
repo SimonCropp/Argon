@@ -48,7 +48,7 @@ namespace Argon.Tests.Converters
         [Fact]
         public void SerializeExpandoObject()
         {
-            ExpandoContainer d = new ExpandoContainer
+            var d = new ExpandoContainer
             {
                 Before = "Before!",
                 Expando = new ExpandoObject(),
@@ -66,7 +66,7 @@ namespace Argon.Tests.Converters
                 { "First", 1 }
             };
 
-            string json = JsonConvert.SerializeObject(d, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(d, Formatting.Indented);
 
             StringAssert.AreEqual(@"{
   ""Before"": ""Before!"",
@@ -90,9 +90,9 @@ namespace Argon.Tests.Converters
         [Fact]
         public void SerializeNullExpandoObject()
         {
-            ExpandoContainer d = new ExpandoContainer();
+            var d = new ExpandoContainer();
 
-            string json = JsonConvert.SerializeObject(d, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(d, Formatting.Indented);
 
             StringAssert.AreEqual(@"{
   ""Before"": null,
@@ -104,7 +104,7 @@ namespace Argon.Tests.Converters
         [Fact]
         public void DeserializeExpandoObject()
         {
-            string json = @"{
+            var json = @"{
   ""Before"": ""Before!"",
   ""Expando"": {
     ""String"": ""String!"",
@@ -122,7 +122,7 @@ namespace Argon.Tests.Converters
   ""After"": ""After!""
 }";
 
-            ExpandoContainer o = JsonConvert.DeserializeObject<ExpandoContainer>(json);
+            var o = JsonConvert.DeserializeObject<ExpandoContainer>(json);
 
             Assert.AreEqual(o.Before, "Before!");
             Assert.AreEqual(o.After, "After!");
@@ -160,13 +160,13 @@ namespace Argon.Tests.Converters
         [Fact]
         public void DeserializeNullExpandoObject()
         {
-            string json = @"{
+            var json = @"{
   ""Before"": null,
   ""Expando"": null,
   ""After"": null
 }";
 
-            ExpandoContainer c = JsonConvert.DeserializeObject<ExpandoContainer>(json);
+            var c = JsonConvert.DeserializeObject<ExpandoContainer>(json);
 
             Assert.AreEqual(null, c.Expando);
         }

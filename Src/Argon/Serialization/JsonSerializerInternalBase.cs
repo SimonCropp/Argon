@@ -83,7 +83,7 @@ namespace Argon.Serialization
 
         protected NullValueHandling ResolvedNullValueHandling(JsonObjectContract? containerContract, JsonProperty property)
         {
-            NullValueHandling resolvedNullValueHandling =
+            var resolvedNullValueHandling =
                 property.NullValueHandling
                 ?? containerContract?.ItemNullValueHandling
                 ?? Serializer._nullValueHandling;
@@ -118,7 +118,7 @@ namespace Argon.Serialization
 
         protected bool IsErrorHandled(object? currentObject, JsonContract? contract, object? keyValue, IJsonLineInfo? lineInfo, string path, Exception ex)
         {
-            ErrorContext errorContext = GetErrorContext(currentObject, keyValue, path, ex);
+            var errorContext = GetErrorContext(currentObject, keyValue, path, ex);
 
             if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Error && !errorContext.Traced)
             {
@@ -126,7 +126,7 @@ namespace Argon.Serialization
                 errorContext.Traced = true;
 
                 // kind of a hack but meh. might clean this up later
-                string message = (GetType() == typeof(JsonSerializerInternalWriter)) ? "Error serializing" : "Error deserializing";
+                var message = (GetType() == typeof(JsonSerializerInternalWriter)) ? "Error serializing" : "Error deserializing";
                 if (contract != null)
                 {
                     message += " " + contract.UnderlyingType;

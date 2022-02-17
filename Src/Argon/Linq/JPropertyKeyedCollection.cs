@@ -55,7 +55,7 @@ namespace Argon.Linq
                 throw new ArgumentException("The specified item does not exist in this KeyedCollection.");
             }
 
-            string keyForItem = GetKeyForItem(item);
+            var keyForItem = GetKeyForItem(item);
             if (!Comparer.Equals(keyForItem, newKey))
             {
                 if (newKey != null)
@@ -99,7 +99,7 @@ namespace Argon.Linq
                 return false;
             }
 
-            string key = GetKeyForItem(item);
+            var key = GetKeyForItem(item);
             return _dictionary.TryGetValue(key, out _);
         }
 
@@ -131,7 +131,7 @@ namespace Argon.Linq
 
             if (_dictionary != null)
             {
-                return _dictionary.TryGetValue(key, out JToken value) && Remove(value);
+                return _dictionary.TryGetValue(key, out var value) && Remove(value);
             }
 
             return false;
@@ -139,7 +139,7 @@ namespace Argon.Linq
 
         protected override void RemoveItem(int index)
         {
-            string keyForItem = GetKeyForItem(Items[index]);
+            var keyForItem = GetKeyForItem(Items[index]);
             RemoveKey(keyForItem);
             base.RemoveItem(index);
         }
@@ -151,8 +151,8 @@ namespace Argon.Linq
 
         protected override void SetItem(int index, JToken item)
         {
-            string keyForItem = GetKeyForItem(item);
-            string keyAtIndex = GetKeyForItem(Items[index]);
+            var keyForItem = GetKeyForItem(item);
+            var keyAtIndex = GetKeyForItem(Items[index]);
 
             if (Comparer.Equals(keyAtIndex, keyForItem))
             {
@@ -234,8 +234,8 @@ namespace Argon.Linq
 
             // dictionaries in JavaScript aren't ordered
             // ignore order when comparing properties
-            Dictionary<string, JToken>? d1 = _dictionary;
-            Dictionary<string, JToken>? d2 = other._dictionary;
+            var d1 = _dictionary;
+            var d2 = other._dictionary;
 
             if (d1 == null && d2 == null)
             {
@@ -257,15 +257,15 @@ namespace Argon.Linq
                 return false;
             }
 
-            foreach (KeyValuePair<string, JToken> keyAndProperty in d1)
+            foreach (var keyAndProperty in d1)
             {
-                if (!d2.TryGetValue(keyAndProperty.Key, out JToken secondValue))
+                if (!d2.TryGetValue(keyAndProperty.Key, out var secondValue))
                 {
                     return false;
                 }
 
-                JProperty p1 = (JProperty)keyAndProperty.Value;
-                JProperty p2 = (JProperty)secondValue;
+                var p1 = (JProperty)keyAndProperty.Value;
+                var p2 = (JProperty)secondValue;
 
                 if (p1.Value == null)
                 {

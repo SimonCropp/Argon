@@ -36,10 +36,10 @@ namespace Argon
     {
         internal Task AutoCompleteAsync(JsonToken tokenBeingWritten, CancellationToken cancellationToken)
         {
-            State oldState = _currentState;
+            var oldState = _currentState;
 
             // gets new state based on the current state and what is being written
-            State newState = StateArray[(int)tokenBeingWritten][(int)oldState];
+            var newState = StateArray[(int)tokenBeingWritten][(int)oldState];
 
             if (newState == State.Error)
             {
@@ -252,7 +252,7 @@ namespace Argon
 
         internal Task WriteEndInternalAsync(CancellationToken cancellationToken)
         {
-            JsonContainerType type = Peek();
+            var type = Peek();
             switch (type)
             {
                 case JsonContainerType.Object:
@@ -278,10 +278,10 @@ namespace Argon
                 return cancellationToken.FromCanceled();
             }
 
-            int levelsToComplete = CalculateLevelsToComplete(type);
+            var levelsToComplete = CalculateLevelsToComplete(type);
             while (levelsToComplete-- > 0)
             {
-                JsonToken token = GetCloseTokenForType(Pop());
+                var token = GetCloseTokenForType(Pop());
 
                 Task t;
                 if (_currentState == State.Property)
@@ -365,7 +365,7 @@ namespace Argon
             {
                 while (LevelsToComplete-- > 0)
                 {
-                    JsonToken token = GetCloseTokenForType(Pop());
+                    var token = GetCloseTokenForType(Pop());
 
                     if (_currentState == State.Property)
                     {
@@ -757,7 +757,7 @@ namespace Argon
 
         internal virtual async Task WriteTokenAsync(JsonReader reader, bool writeChildren, bool writeDateConstructorAsDate, bool writeComments, CancellationToken cancellationToken)
         {
-            int initialDepth = CalculateWriteTokenInitialDepth(reader);
+            var initialDepth = CalculateWriteTokenInitialDepth(reader);
 
             do
             {
@@ -790,7 +790,7 @@ namespace Argon
         // path through the sync version.
         internal async Task WriteTokenSyncReadingAsync(JsonReader reader, CancellationToken cancellationToken)
         {
-            int initialDepth = CalculateWriteTokenInitialDepth(reader);
+            var initialDepth = CalculateWriteTokenInitialDepth(reader);
 
             do
             {
@@ -825,7 +825,7 @@ namespace Argon
                 throw JsonWriterException.Create(this, "Unexpected token when reading date constructor. Expected Integer, got " + reader.TokenType, null);
             }
 
-            DateTime date = DateTimeUtils.ConvertJavaScriptTicksToDateTime((long)reader.Value!);
+            var date = DateTimeUtils.ConvertJavaScriptTicksToDateTime((long)reader.Value!);
 
             if (!await reader.ReadAsync(cancellationToken).ConfigureAwait(false))
             {

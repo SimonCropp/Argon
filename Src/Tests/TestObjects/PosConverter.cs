@@ -31,7 +31,7 @@ namespace Argon.Tests.TestObjects
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            Pos p = (Pos)value;
+            var p = (Pos)value;
 
             if (p != null)
             {

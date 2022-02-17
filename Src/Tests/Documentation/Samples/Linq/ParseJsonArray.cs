@@ -40,13 +40,13 @@ namespace Argon.Tests.Documentation.Samples.Linq
         public void Example()
         {
             #region Usage
-            string json = @"[
+            var json = @"[
               'Small',
               'Medium',
               'Large'
             ]";
 
-            JArray a = JArray.Parse(json);
+            var a = JArray.Parse(json);
 
             Console.WriteLine(a.ToString());
             // [

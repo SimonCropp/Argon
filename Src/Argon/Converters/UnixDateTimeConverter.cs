@@ -77,7 +77,7 @@ namespace Argon.Converters
         /// <returns>The object value.</returns>
         public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
         {
-            bool nullable = ReflectionUtils.IsNullable(objectType);
+            var nullable = ReflectionUtils.IsNullable(objectType);
             if (reader.TokenType == JsonToken.Null)
             {
                 if (!nullable)
@@ -108,9 +108,9 @@ namespace Argon.Converters
 
             if (seconds >= 0)
             {
-                DateTime d = UnixEpoch.AddSeconds(seconds);
+                var d = UnixEpoch.AddSeconds(seconds);
 
-                Type t = (nullable)
+                var t = (nullable)
                     ? Nullable.GetUnderlyingType(objectType)
                     : objectType;
                 if (t == typeof(DateTimeOffset))

@@ -45,14 +45,14 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test_Raw()
         {
-            FooClass c = JsonConvert.DeserializeObject<FooClass>(@"{ ""Value"" : 96.014e-05 }");
+            var c = JsonConvert.DeserializeObject<FooClass>(@"{ ""Value"" : 96.014e-05 }");
             Assert.AreEqual(0.00096014m, c.Value);
         }
 
         [Fact]
         public void Test_String()
         {
-            FooClass c = JsonConvert.DeserializeObject<FooClass>(@"{ ""Value"" : ""96.014e-05"" }");
+            var c = JsonConvert.DeserializeObject<FooClass>(@"{ ""Value"" : ""96.014e-05"" }");
             Assert.AreEqual(0.00096014m, c.Value);
         }
 

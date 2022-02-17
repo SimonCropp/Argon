@@ -115,7 +115,7 @@ namespace Argon
         /// <returns>The object value.</returns>
         public sealed override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
         {
-            bool existingIsNull = existingValue == null;
+            var existingIsNull = existingValue == null;
             if (!(existingIsNull || existingValue is T))
             {
                 throw new JsonSerializationException("Converter cannot read JSON with the specified existing value. {0} is required.".FormatWith(CultureInfo.InvariantCulture, typeof(T)));

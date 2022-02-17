@@ -93,7 +93,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            SerializationEventTestObject obj = new SerializationEventTestObject();
+            var obj = new SerializationEventTestObject();
 
             Console.WriteLine(obj.Member1);
             // 11
@@ -104,7 +104,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
             Console.WriteLine(obj.Member4);
             // null
 
-            string json = JsonConvert.SerializeObject(obj, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
             // {
             //   "Member1": 11,
             //   "Member2": "This value went into the data file during serialization.",

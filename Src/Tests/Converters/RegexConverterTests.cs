@@ -49,10 +49,10 @@ namespace Argon.Tests.Converters
         [Fact]
         public void WriteJsonNull()
         {
-            StringWriter sw = new StringWriter();
-            JsonTextWriter jsonWriter = new JsonTextWriter(sw);
+            var sw = new StringWriter();
+            var jsonWriter = new JsonTextWriter(sw);
 
-            RegexConverter converter = new RegexConverter();
+            var converter = new RegexConverter();
             converter.WriteJson(jsonWriter, null, null);
 
             StringAssert.AreEqual(@"null", sw.ToString());
@@ -61,9 +61,9 @@ namespace Argon.Tests.Converters
         [Fact]
         public void SerializeToText()
         {
-            Regex regex = new Regex("abc", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+            var regex = new Regex("abc", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
 
-            string json = JsonConvert.SerializeObject(regex, Formatting.Indented, new RegexConverter());
+            var json = JsonConvert.SerializeObject(regex, Formatting.Indented, new RegexConverter());
 
             StringAssert.AreEqual(@"{
   ""Pattern"": ""abc"",
@@ -74,9 +74,9 @@ namespace Argon.Tests.Converters
         [Fact]
         public void SerializeCamelCaseAndStringEnums()
         {
-            Regex regex = new Regex("abc", RegexOptions.IgnoreCase);
+            var regex = new Regex("abc", RegexOptions.IgnoreCase);
 
-            string json = JsonConvert.SerializeObject(regex, Formatting.Indented, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(regex, Formatting.Indented, new JsonSerializerSettings
             {
 #pragma warning disable CS0618 // Type or member is obsolete
                 Converters = { new RegexConverter(), new StringEnumConverter() { CamelCaseText = true } },
@@ -93,12 +93,12 @@ namespace Argon.Tests.Converters
         [Fact]
         public void DeserializeCamelCaseAndStringEnums()
         {
-            string json = @"{
+            var json = @"{
   ""pattern"": ""abc"",
   ""options"": ""ignoreCase""
 }";
 
-            Regex regex = JsonConvert.DeserializeObject<Regex>(json, new JsonSerializerSettings
+            var regex = JsonConvert.DeserializeObject<Regex>(json, new JsonSerializerSettings
             {
                 Converters = { new RegexConverter() }
             });
@@ -110,7 +110,7 @@ namespace Argon.Tests.Converters
         [Fact]
         public void DeserializeISerializeRegexJson()
         {
-            string json = @"{
+            var json = @"{
                         ""Regex"": {
                           ""pattern"": ""(hi)"",
                           ""options"": 5,
@@ -118,7 +118,7 @@ namespace Argon.Tests.Converters
                         }
                       }";
 
-            RegexTestClass r = JsonConvert.DeserializeObject<RegexTestClass>(json);
+            var r = JsonConvert.DeserializeObject<RegexTestClass>(json);
 
             Assert.AreEqual("(hi)", r.Regex.ToString());
             Assert.AreEqual(RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture, r.Regex.Options);
@@ -127,11 +127,11 @@ namespace Argon.Tests.Converters
         [Fact]
         public void DeserializeStringRegex()
         {
-            string json = @"{
+            var json = @"{
   ""Regex"": ""\/abc\/""
 }";
 
-            RegexTestClass c = JsonConvert.DeserializeObject<RegexTestClass>(json, new JsonSerializerSettings
+            var c = JsonConvert.DeserializeObject<RegexTestClass>(json, new JsonSerializerSettings
             {
                 Converters = { new RegexConverter() }
             });
@@ -143,7 +143,7 @@ namespace Argon.Tests.Converters
         [Fact]
         public void DeserializeStringRegex_NoStartSlash_Error()
         {
-            string json = @"{
+            var json = @"{
   ""Regex"": ""abc\/""
 }";
 
@@ -158,7 +158,7 @@ namespace Argon.Tests.Converters
         [Fact]
         public void DeserializeStringRegex_NoEndSlash_Error()
         {
-            string json = @"{
+            var json = @"{
   ""Regex"": ""\/abc""
 }";
 
@@ -173,7 +173,7 @@ namespace Argon.Tests.Converters
         [Fact]
         public void DeserializeStringRegex_NoStartAndEndSlashes_Error()
         {
-            string json = @"{
+            var json = @"{
   ""Regex"": ""abc""
 }";
 
@@ -189,17 +189,17 @@ namespace Argon.Tests.Converters
         [Fact]
         public void SerializeToBson()
         {
-            Regex regex = new Regex("abc", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+            var regex = new Regex("abc", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
 
-            MemoryStream ms = new MemoryStream();
-            BsonWriter writer = new BsonWriter(ms);
-            JsonSerializer serializer = new JsonSerializer();
+            var ms = new MemoryStream();
+            var writer = new BsonWriter(ms);
+            var serializer = new JsonSerializer();
             serializer.Converters.Add(new RegexConverter());
 
             serializer.Serialize(writer, new RegexTestClass { Regex = regex });
 
-            string expected = "13-00-00-00-0B-52-65-67-65-78-00-61-62-63-00-69-75-00-00";
-            string bson = BytesToHex(ms.ToArray());
+            var expected = "13-00-00-00-0B-52-65-67-65-78-00-61-62-63-00-69-75-00-00";
+            var bson = BytesToHex(ms.ToArray());
 
             Assert.AreEqual(expected, bson);
         }
@@ -207,12 +207,12 @@ namespace Argon.Tests.Converters
         [Fact]
         public void DeserializeFromBson()
         {
-            MemoryStream ms = new MemoryStream(HexToBytes("13-00-00-00-0B-52-65-67-65-78-00-61-62-63-00-69-75-00-00"));
-            BsonReader reader = new BsonReader(ms);
-            JsonSerializer serializer = new JsonSerializer();
+            var ms = new MemoryStream(HexToBytes("13-00-00-00-0B-52-65-67-65-78-00-61-62-63-00-69-75-00-00"));
+            var reader = new BsonReader(ms);
+            var serializer = new JsonSerializer();
             serializer.Converters.Add(new RegexConverter());
 
-            RegexTestClass c = serializer.Deserialize<RegexTestClass>(reader);
+            var c = serializer.Deserialize<RegexTestClass>(reader);
 
             Assert.AreEqual("abc", c.Regex.ToString());
             Assert.AreEqual(RegexOptions.IgnoreCase, c.Regex.Options);
@@ -221,20 +221,20 @@ namespace Argon.Tests.Converters
         [Fact]
         public void ConvertEmptyRegexBson()
         {
-            Regex regex = new Regex(string.Empty);
+            var regex = new Regex(string.Empty);
 
-            MemoryStream ms = new MemoryStream();
-            BsonWriter writer = new BsonWriter(ms);
-            JsonSerializer serializer = new JsonSerializer();
+            var ms = new MemoryStream();
+            var writer = new BsonWriter(ms);
+            var serializer = new JsonSerializer();
             serializer.Converters.Add(new RegexConverter());
 
             serializer.Serialize(writer, new RegexTestClass { Regex = regex });
 
             ms.Seek(0, SeekOrigin.Begin);
-            BsonReader reader = new BsonReader(ms);
+            var reader = new BsonReader(ms);
             serializer.Converters.Add(new RegexConverter());
 
-            RegexTestClass c = serializer.Deserialize<RegexTestClass>(reader);
+            var c = serializer.Deserialize<RegexTestClass>(reader);
 
             Assert.AreEqual("", c.Regex.ToString());
             Assert.AreEqual(RegexOptions.None, c.Regex.Options);
@@ -243,27 +243,27 @@ namespace Argon.Tests.Converters
         [Fact]
         public void ConvertRegexWithAllOptionsBson()
         {
-            Regex regex = new Regex(
+            var regex = new Regex(
                 "/",
                 RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Multiline | RegexOptions.ExplicitCapture);
 
-            MemoryStream ms = new MemoryStream();
-            BsonWriter writer = new BsonWriter(ms);
-            JsonSerializer serializer = new JsonSerializer();
+            var ms = new MemoryStream();
+            var writer = new BsonWriter(ms);
+            var serializer = new JsonSerializer();
             serializer.Converters.Add(new RegexConverter());
 
             serializer.Serialize(writer, new RegexTestClass { Regex = regex });
 
-            string expected = "14-00-00-00-0B-52-65-67-65-78-00-2F-00-69-6D-73-75-78-00-00";
-            string bson = BytesToHex(ms.ToArray());
+            var expected = "14-00-00-00-0B-52-65-67-65-78-00-2F-00-69-6D-73-75-78-00-00";
+            var bson = BytesToHex(ms.ToArray());
 
             Assert.AreEqual(expected, bson);
 
             ms.Seek(0, SeekOrigin.Begin);
-            BsonReader reader = new BsonReader(ms);
+            var reader = new BsonReader(ms);
             serializer.Converters.Add(new RegexConverter());
 
-            RegexTestClass c = serializer.Deserialize<RegexTestClass>(reader);
+            var c = serializer.Deserialize<RegexTestClass>(reader);
 
             Assert.AreEqual("/", c.Regex.ToString());
             Assert.AreEqual(RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Multiline | RegexOptions.ExplicitCapture, c.Regex.Options);
@@ -273,12 +273,12 @@ namespace Argon.Tests.Converters
         [Fact]
         public void DeserializeFromText()
         {
-            string json = @"{
+            var json = @"{
   ""Pattern"": ""abc"",
   ""Options"": 513
 }";
 
-            Regex newRegex = JsonConvert.DeserializeObject<Regex>(json, new RegexConverter());
+            var newRegex = JsonConvert.DeserializeObject<Regex>(json, new RegexConverter());
             Assert.AreEqual("abc", newRegex.ToString());
             Assert.AreEqual(RegexOptions.IgnoreCase | RegexOptions.CultureInvariant, newRegex.Options);
         }
@@ -286,9 +286,9 @@ namespace Argon.Tests.Converters
         [Fact]
         public void ConvertEmptyRegexJson()
         {
-            Regex regex = new Regex("");
+            var regex = new Regex("");
 
-            string json = JsonConvert.SerializeObject(new RegexTestClass { Regex = regex }, Formatting.Indented, new RegexConverter());
+            var json = JsonConvert.SerializeObject(new RegexTestClass { Regex = regex }, Formatting.Indented, new RegexConverter());
 
             StringAssert.AreEqual(@"{
   ""Regex"": {
@@ -297,7 +297,7 @@ namespace Argon.Tests.Converters
   }
 }", json);
 
-            RegexTestClass newRegex = JsonConvert.DeserializeObject<RegexTestClass>(json, new RegexConverter());
+            var newRegex = JsonConvert.DeserializeObject<RegexTestClass>(json, new RegexConverter());
             Assert.AreEqual("", newRegex.Regex.ToString());
             Assert.AreEqual(RegexOptions.None, newRegex.Regex.Options);
         }
@@ -310,10 +310,10 @@ namespace Argon.Tests.Converters
         [Fact]
         public void DeserializeNullRegex()
         {
-            string json = JsonConvert.SerializeObject(new SimpleClassWithRegex { RegProp = null });
+            var json = JsonConvert.SerializeObject(new SimpleClassWithRegex { RegProp = null });
             Assert.AreEqual(@"{""RegProp"":null}", json);
 
-            SimpleClassWithRegex obj = JsonConvert.DeserializeObject<SimpleClassWithRegex>(json);
+            var obj = JsonConvert.DeserializeObject<SimpleClassWithRegex>(json);
             Assert.AreEqual(null, obj.RegProp);
         }
     }

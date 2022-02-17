@@ -47,7 +47,7 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"{""enddate"":-1}"));
+            var reader = new JsonTextReader(new StringReader(@"{""enddate"":-1}"));
             reader.Read();
             reader.Read();
 
@@ -59,7 +59,7 @@ namespace Argon.Tests.Issues
         [Fact]
         public async Task Test_Async()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"{""enddate"":-1}"));
+            var reader = new JsonTextReader(new StringReader(@"{""enddate"":-1}"));
             reader.Read();
             reader.Read();
 

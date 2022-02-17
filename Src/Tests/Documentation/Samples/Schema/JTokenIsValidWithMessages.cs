@@ -37,7 +37,7 @@ namespace Argon.Tests.Documentation.Samples.Schema
         public void Example()
         {
             #region Usage
-            string schemaJson = @"{
+            var schemaJson = @"{
               'description': 'A person',
               'type': 'object',
               'properties': {
@@ -49,20 +49,20 @@ namespace Argon.Tests.Documentation.Samples.Schema
               }
             }";
 
-            JsonSchema schema = JsonSchema.Parse(schemaJson);
+            var schema = JsonSchema.Parse(schemaJson);
 
-            JObject person = JObject.Parse(@"{
+            var person = JObject.Parse(@"{
               'name': null,
               'hobbies': ['Invalid content', 0.123456789]
             }");
 
             IList<string> messages;
-            bool valid = person.IsValid(schema, out messages);
+            var valid = person.IsValid(schema, out messages);
 
             Console.WriteLine(valid);
             // false
 
-            foreach (string message in messages)
+            foreach (var message in messages)
             {
                 Console.WriteLine(message);
             }

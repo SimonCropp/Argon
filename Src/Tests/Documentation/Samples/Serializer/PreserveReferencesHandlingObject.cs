@@ -54,10 +54,10 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            Directory root = new Directory { Name = "Root" };
-            Directory documents = new Directory { Name = "My Documents", Parent = root };
+            var root = new Directory { Name = "Root" };
+            var documents = new Directory { Name = "My Documents", Parent = root };
 
-            File file = new File { Name = "ImportantLegalDocument.docx", Parent = documents };
+            var file = new File { Name = "ImportantLegalDocument.docx", Parent = documents };
 
             documents.Files = new List<File> { file };
 
@@ -71,7 +71,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
                 // 'Argon.Tests.Documentation.Examples.ReferenceLoopHandlingObject+Directory'. Path 'Files[0]'.
             }
 
-            string preserveReferenacesAll = JsonConvert.SerializeObject(documents, Formatting.Indented, new JsonSerializerSettings
+            var preserveReferenacesAll = JsonConvert.SerializeObject(documents, Formatting.Indented, new JsonSerializerSettings
             {
                 PreserveReferencesHandling = PreserveReferencesHandling.All
             });
@@ -100,7 +100,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
             //   }
             // }
 
-            string preserveReferenacesObjects = JsonConvert.SerializeObject(documents, Formatting.Indented, new JsonSerializerSettings
+            var preserveReferenacesObjects = JsonConvert.SerializeObject(documents, Formatting.Indented, new JsonSerializerSettings
             {
                 PreserveReferencesHandling = PreserveReferencesHandling.Objects
             });

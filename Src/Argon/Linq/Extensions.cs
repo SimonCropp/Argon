@@ -182,7 +182,7 @@ namespace Argon.Linq
 
             if (key == null)
             {
-                foreach (T token in source)
+                foreach (var token in source)
                 {
                     if (token is JValue value)
                     {
@@ -190,7 +190,7 @@ namespace Argon.Linq
                     }
                     else
                     {
-                        foreach (JToken t in token.Children())
+                        foreach (var t in token.Children())
                         {
                             yield return t.Convert<JToken, U>();
                         }
@@ -199,9 +199,9 @@ namespace Argon.Linq
             }
             else
             {
-                foreach (T token in source)
+                foreach (var token in source)
                 {
-                    JToken? value = token[key];
+                    var value = token[key];
                     if (value != null)
                     {
                         yield return value.Convert<JToken, U>();
@@ -242,7 +242,7 @@ namespace Argon.Linq
         {
             ValidationUtils.ArgumentNotNull(source, nameof(source));
 
-            foreach (T token in source)
+            foreach (var token in source)
             {
                 yield return Convert<JToken, U>(token);
             }
@@ -275,7 +275,7 @@ namespace Argon.Linq
                     return u;
                 }
 
-                Type targetType = typeof(U);
+                var targetType = typeof(U);
 
                 if (ReflectionUtils.IsNullableType(targetType))
                 {

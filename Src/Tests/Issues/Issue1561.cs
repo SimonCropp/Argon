@@ -38,12 +38,12 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test()
         {
-            Data data = new Data
+            var data = new Data
             {
                 Value = 1.1m
             };
 
-            string serialized = JsonConvert.SerializeObject(data);
+            var serialized = JsonConvert.SerializeObject(data);
 
             Assert.AreEqual(@"{""Value"":1.1}", serialized);
         }

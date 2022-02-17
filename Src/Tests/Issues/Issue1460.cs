@@ -50,8 +50,8 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test()
         {
-            StringWriter sw = new StringWriter();
-            JsonTextWriter writer = new JsonTextWriter(sw);
+            var sw = new StringWriter();
+            var writer = new JsonTextWriter(sw);
             JsonWriter.WriteValue(writer, PrimitiveTypeCode.Object, null);
 
             Assert.AreEqual("null", sw.ToString());
@@ -60,8 +60,8 @@ namespace Argon.Tests.Issues
         [Fact]
         public async Task TestAsync()
         {
-            StringWriter sw = new StringWriter();
-            JsonTextWriter writer = new JsonTextWriter(sw);
+            var sw = new StringWriter();
+            var writer = new JsonTextWriter(sw);
             await JsonWriter.WriteValueAsync(writer, PrimitiveTypeCode.Object, null, CancellationToken.None);
 
             Assert.AreEqual("null", sw.ToString());

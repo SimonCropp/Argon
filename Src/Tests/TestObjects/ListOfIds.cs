@@ -34,10 +34,10 @@ namespace Argon.Tests.TestObjects
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            IList<T> list = (IList<T>)value;
+            var list = (IList<T>)value;
 
             writer.WriteStartArray();
-            foreach (T item in list)
+            foreach (var item in list)
             {
                 writer.WriteValue(item.Id);
             }
@@ -51,7 +51,7 @@ namespace Argon.Tests.TestObjects
             reader.Read();
             while (reader.TokenType != JsonToken.EndArray)
             {
-                long id = (long)reader.Value;
+                var id = (long)reader.Value;
 
                 list.Add(new T
                 {

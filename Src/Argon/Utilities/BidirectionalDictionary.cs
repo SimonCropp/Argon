@@ -61,7 +61,7 @@ namespace Argon.Utilities
 
         public void Set(TFirst first, TSecond second)
         {
-            if (_firstToSecond.TryGetValue(first, out TSecond existingSecond))
+            if (_firstToSecond.TryGetValue(first, out var existingSecond))
             {
                 if (!existingSecond!.Equals(second))
                 {
@@ -69,7 +69,7 @@ namespace Argon.Utilities
                 }
             }
 
-            if (_secondToFirst.TryGetValue(second, out TFirst existingFirst))
+            if (_secondToFirst.TryGetValue(second, out var existingFirst))
             {
                 if (!existingFirst!.Equals(first))
                 {

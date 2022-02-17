@@ -46,7 +46,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
                 new DateTime(2010, 2, 10, 10, 0, 0, DateTimeKind.Utc)
             };
 
-            string json = JsonConvert.SerializeObject(dateList, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(dateList, new JsonSerializerSettings
             {
                 DateFormatString = "d MMMM, yyyy",
                 Formatting = Formatting.Indented

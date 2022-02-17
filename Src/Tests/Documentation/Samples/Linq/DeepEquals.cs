@@ -40,9 +40,9 @@ namespace Argon.Tests.Documentation.Samples.Linq
         public void Example()
         {
             #region Usage
-            JValue s1 = new JValue("A string");
-            JValue s2 = new JValue("A string");
-            JValue s3 = new JValue("A STRING");
+            var s1 = new JValue("A string");
+            var s2 = new JValue("A string");
+            var s3 = new JValue("A STRING");
 
             Console.WriteLine(JToken.DeepEquals(s1, s2));
             // true
@@ -50,14 +50,14 @@ namespace Argon.Tests.Documentation.Samples.Linq
             Console.WriteLine(JToken.DeepEquals(s2, s3));
             // false
 
-            JObject o1 = new JObject
+            var o1 = new JObject
             {
                 { "Integer", 12345 },
                 { "String", "A string" },
                 { "Items", new JArray(1, 2) }
             };
 
-            JObject o2 = new JObject
+            var o2 = new JObject
             {
                 { "Integer", 12345 },
                 { "String", "A string" },

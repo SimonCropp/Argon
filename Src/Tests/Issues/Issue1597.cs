@@ -45,7 +45,7 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test()
         {
-            string json = @"{
+            var json = @"{
     ""wish"": 264,
     ""collect"": 7498,
     ""doing"": 385,
@@ -53,7 +53,7 @@ namespace Argon.Tests.Issues
     ""dropped"": 221
 }";
 
-            IReadOnlyDictionary<CollectionStatus, int> o = JsonConvert.DeserializeObject<IReadOnlyDictionary<CollectionStatus, int>>(json);
+            var o = JsonConvert.DeserializeObject<IReadOnlyDictionary<CollectionStatus, int>>(json);
 
             Assert.AreEqual(264, o[CollectionStatus.Wish]);
             Assert.AreEqual(7498, o[CollectionStatus.Collect]);
@@ -65,7 +65,7 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test_WithNumbers()
         {
-            string json = @"{
+            var json = @"{
     ""0"": 264,
     ""1"": 7498,
     ""2"": 385,
@@ -73,7 +73,7 @@ namespace Argon.Tests.Issues
     ""4"": 221
 }";
 
-            IReadOnlyDictionary<CollectionStatus, int> o = JsonConvert.DeserializeObject<IReadOnlyDictionary<CollectionStatus, int>>(json);
+            var o = JsonConvert.DeserializeObject<IReadOnlyDictionary<CollectionStatus, int>>(json);
 
             Assert.AreEqual(264, o[CollectionStatus.Wish]);
             Assert.AreEqual(7498, o[CollectionStatus.Collect]);
@@ -85,7 +85,7 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test_Serialize()
         {
-            Dictionary<CollectionStatus, int> o = new Dictionary<CollectionStatus, int>();
+            var o = new Dictionary<CollectionStatus, int>();
             o[CollectionStatus.Wish] = 264;
             o[CollectionStatus.Collect] = 7498;
             o[CollectionStatus.Doing] = 385;
@@ -93,7 +93,7 @@ namespace Argon.Tests.Issues
             o[CollectionStatus.Dropped] = 221;
             o[(CollectionStatus)int.MaxValue] = int.MaxValue;
 
-            string json = JsonConvert.SerializeObject(o, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(o, Formatting.Indented);
 
             StringAssert.AreEqual(@"{
   ""Wish"": 264,

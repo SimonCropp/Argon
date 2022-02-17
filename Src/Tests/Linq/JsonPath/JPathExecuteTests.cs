@@ -46,8 +46,8 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void GreaterThanIssue1518()
         {
-            string statusJson = @"{""usingmem"": ""214376""}";//214,376
-            JObject jObj = JObject.Parse(statusJson);
+            var statusJson = @"{""usingmem"": ""214376""}";//214,376
+            var jObj = JObject.Parse(statusJson);
 
             var aa = jObj.SelectToken("$..[?(@.usingmem>10)]");//found,10
             Assert.AreEqual(jObj, aa);
@@ -84,7 +84,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void GreaterThanWithIntegerParameterAndStringValue()
         {
-            string json = @"{
+            var json = @"{
   ""persons"": [
     {
       ""name""  : ""John"",
@@ -97,7 +97,7 @@ namespace Argon.Tests.Linq.JsonPath
   ]
 }";
 
-            JObject models = JObject.Parse(json);
+            var models = JObject.Parse(json);
 
             var results = models.SelectTokens("$.persons[?(@.age > 3)]").ToList();
 
@@ -107,7 +107,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void GreaterThanWithStringParameterAndIntegerValue()
         {
-            string json = @"{
+            var json = @"{
   ""persons"": [
     {
       ""name""  : ""John"",
@@ -120,7 +120,7 @@ namespace Argon.Tests.Linq.JsonPath
   ]
 }";
 
-            JObject models = JObject.Parse(json);
+            var models = JObject.Parse(json);
 
             var results = models.SelectTokens("$.persons[?(@.age > '3')]").ToList();
 
@@ -130,7 +130,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void RecursiveWildcard()
         {
-            string json = @"{
+            var json = @"{
     ""a"": [
         {
             ""id"": 1
@@ -154,7 +154,7 @@ namespace Argon.Tests.Linq.JsonPath
     ]
 }";
 
-            JObject models = JObject.Parse(json);
+            var models = JObject.Parse(json);
 
             var results = models.SelectTokens("$.b..*.id").ToList();
 
@@ -167,7 +167,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void ScanFilter()
         {
-            string json = @"{
+            var json = @"{
   ""elements"": [
     {
       ""id"": ""A"",
@@ -195,7 +195,7 @@ namespace Argon.Tests.Linq.JsonPath
   ]
 }";
 
-            JObject models = JObject.Parse(json);
+            var models = JObject.Parse(json);
 
             var results = models.SelectTokens("$.elements..[?(@.id=='AAA')]").ToList();
 
@@ -206,7 +206,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void FilterTrue()
         {
-            string json = @"{
+            var json = @"{
   ""elements"": [
     {
       ""id"": ""A"",
@@ -234,7 +234,7 @@ namespace Argon.Tests.Linq.JsonPath
   ]
 }";
 
-            JObject models = JObject.Parse(json);
+            var models = JObject.Parse(json);
 
             var results = models.SelectTokens("$.elements[?(true)]").ToList();
 
@@ -246,7 +246,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void ScanFilterTrue()
         {
-            string json = @"{
+            var json = @"{
   ""elements"": [
     {
       ""id"": ""A"",
@@ -274,7 +274,7 @@ namespace Argon.Tests.Linq.JsonPath
   ]
 }";
 
-            JObject models = JObject.Parse(json);
+            var models = JObject.Parse(json);
 
             var results = models.SelectTokens("$.elements..[?(true)]").ToList();
 
@@ -284,7 +284,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void ScanQuoted()
         {
-            string json = @"{
+            var json = @"{
     ""Node1"": {
         ""Child1"": {
             ""Name"": ""IsMe"",
@@ -308,9 +308,9 @@ namespace Argon.Tests.Linq.JsonPath
     }
 }";
 
-            JObject models = JObject.Parse(json);
+            var models = JObject.Parse(json);
 
-            int result = models.SelectTokens("$..['My.Child.Node']").Count();
+            var result = models.SelectTokens("$..['My.Child.Node']").Count();
             Assert.AreEqual(1, result);
 
             result = models.SelectTokens("..['My.Child.Node']").Count();
@@ -320,7 +320,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void ScanMultipleQuoted()
         {
-            string json = @"{
+            var json = @"{
     ""Node1"": {
         ""Child1"": {
             ""Name"": ""IsMe"",
@@ -344,7 +344,7 @@ namespace Argon.Tests.Linq.JsonPath
     }
 }";
 
-            JObject models = JObject.Parse(json);
+            var models = JObject.Parse(json);
 
             var results = models.SelectTokens("$..['My.Child.Node','Prop1','Prop2']").ToList();
             Assert.AreEqual("Val1", (string)results[0]);
@@ -393,7 +393,7 @@ namespace Argon.Tests.Linq.JsonPath
         }
     ]
 }";
-            JObject jToken = JObject.Parse(json);
+            var jToken = JObject.Parse(json);
             IList<JToken> tokens = jToken.SelectTokens("$..en-US").ToList();
 
             Assert.AreEqual(3, tokens.Count);
@@ -405,12 +405,12 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void SelectTokenAfterEmptyContainer()
         {
-            string json = @"{
+            var json = @"{
     'cont': [],
     'test': 'no one will find me'
 }";
 
-            JObject o = JObject.Parse(json);
+            var o = JObject.Parse(json);
 
             IList<JToken> results = o.SelectTokens("$..test").ToList();
 
@@ -421,10 +421,10 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void EvaluatePropertyWithRequired()
         {
-            string json = "{\"bookId\":\"1000\"}";
-            JObject o = JObject.Parse(json);
+            var json = "{\"bookId\":\"1000\"}";
+            var o = JObject.Parse(json);
 
-            string bookId = (string)o.SelectToken("bookId", true);
+            var bookId = (string)o.SelectToken("bookId", true);
 
             Assert.AreEqual("1000", bookId);
         }
@@ -432,20 +432,20 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void EvaluateEmptyPropertyIndexer()
         {
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("", 1));
 
-            JToken t = o.SelectToken("['']");
+            var t = o.SelectToken("['']");
             Assert.AreEqual(1, (int)t);
         }
 
         [Fact]
         public void EvaluateEmptyString()
         {
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("Blah", 1));
 
-            JToken t = o.SelectToken("");
+            var t = o.SelectToken("");
             Assert.AreEqual(o, t);
 
             t = o.SelectToken("['']");
@@ -455,50 +455,50 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void EvaluateEmptyStringWithMatchingEmptyProperty()
         {
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty(" ", 1));
 
-            JToken t = o.SelectToken("[' ']");
+            var t = o.SelectToken("[' ']");
             Assert.AreEqual(1, (int)t);
         }
 
         [Fact]
         public void EvaluateWhitespaceString()
         {
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("Blah", 1));
 
-            JToken t = o.SelectToken(" ");
+            var t = o.SelectToken(" ");
             Assert.AreEqual(o, t);
         }
 
         [Fact]
         public void EvaluateDollarString()
         {
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("Blah", 1));
 
-            JToken t = o.SelectToken("$");
+            var t = o.SelectToken("$");
             Assert.AreEqual(o, t);
         }
 
         [Fact]
         public void EvaluateDollarTypeString()
         {
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("$values", new JArray(1, 2, 3)));
 
-            JToken t = o.SelectToken("$values[1]");
+            var t = o.SelectToken("$values[1]");
             Assert.AreEqual(2, (int)t);
         }
 
         [Fact]
         public void EvaluateSingleProperty()
         {
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("Blah", 1));
 
-            JToken t = o.SelectToken("Blah");
+            var t = o.SelectToken("Blah");
             Assert.IsNotNull(t);
             Assert.AreEqual(JTokenType.Integer, t.Type);
             Assert.AreEqual(1, (int)t);
@@ -507,7 +507,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void EvaluateWildcardProperty()
         {
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("Blah", 1),
                 new JProperty("Blah2", 2));
 
@@ -521,10 +521,10 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void QuoteName()
         {
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("Blah", 1));
 
-            JToken t = o.SelectToken("['Blah']");
+            var t = o.SelectToken("['Blah']");
             Assert.IsNotNull(t);
             Assert.AreEqual(JTokenType.Integer, t.Type);
             Assert.AreEqual(1, (int)t);
@@ -533,27 +533,27 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void EvaluateMissingProperty()
         {
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("Blah", 1));
 
-            JToken t = o.SelectToken("Missing[1]");
+            var t = o.SelectToken("Missing[1]");
             Assert.IsNull(t);
         }
 
         [Fact]
         public void EvaluateIndexerOnObject()
         {
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("Blah", 1));
 
-            JToken t = o.SelectToken("[1]");
+            var t = o.SelectToken("[1]");
             Assert.IsNull(t);
         }
 
         [Fact]
         public void EvaluateIndexerOnObjectWithError()
         {
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("Blah", 1));
 
             ExceptionAssert.Throws<JsonException>(() => { o.SelectToken("[1]", true); }, @"Index 1 not valid on JObject.");
@@ -562,7 +562,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void EvaluateWildcardIndexOnObjectWithError()
         {
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("Blah", 1));
 
             ExceptionAssert.Throws<JsonException>(() => { o.SelectToken("[*]", true); }, @"Index * not valid on JObject.");
@@ -571,7 +571,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void EvaluateSliceOnObjectWithError()
         {
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("Blah", 1));
 
             ExceptionAssert.Throws<JsonException>(() => { o.SelectToken("[:]", true); }, @"Array slice is not valid on JObject.");
@@ -580,16 +580,16 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void EvaluatePropertyOnArray()
         {
-            JArray a = new JArray(1, 2, 3, 4, 5);
+            var a = new JArray(1, 2, 3, 4, 5);
 
-            JToken t = a.SelectToken("BlahBlah");
+            var t = a.SelectToken("BlahBlah");
             Assert.IsNull(t);
         }
 
         [Fact]
         public void EvaluateMultipleResultsError()
         {
-            JArray a = new JArray(1, 2, 3, 4, 5);
+            var a = new JArray(1, 2, 3, 4, 5);
 
             ExceptionAssert.Throws<JsonException>(() => { a.SelectToken("[0, 1]"); }, @"Path returned multiple tokens.");
         }
@@ -597,7 +597,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void EvaluatePropertyOnArrayWithError()
         {
-            JArray a = new JArray(1, 2, 3, 4, 5);
+            var a = new JArray(1, 2, 3, 4, 5);
 
             ExceptionAssert.Throws<JsonException>(() => { a.SelectToken("BlahBlah", true); }, @"Property 'BlahBlah' not valid on JArray.");
         }
@@ -605,7 +605,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void EvaluateNoResultsWithMultipleArrayIndexes()
         {
-            JArray a = new JArray(1, 2, 3, 4, 5);
+            var a = new JArray(1, 2, 3, 4, 5);
 
             ExceptionAssert.Throws<JsonException>(() => { a.SelectToken("[9,10]", true); }, @"Index 9 outside the bounds of JArray.");
         }
@@ -613,7 +613,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void EvaluateConstructorOutOfBoundsIndxerWithError()
         {
-            JConstructor c = new JConstructor("Blah");
+            var c = new JConstructor("Blah");
 
             ExceptionAssert.Throws<JsonException>(() => { c.SelectToken("[1]", true); }, @"Index 1 outside the bounds of JConstructor.");
         }
@@ -621,7 +621,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void EvaluateConstructorOutOfBoundsIndxer()
         {
-            JConstructor c = new JConstructor("Blah");
+            var c = new JConstructor("Blah");
 
             Assert.IsNull(c.SelectToken("[1]"));
         }
@@ -629,7 +629,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void EvaluateMissingPropertyWithError()
         {
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("Blah", 1));
 
             ExceptionAssert.Throws<JsonException>(() => { o.SelectToken("Missing", true); }, "Property 'Missing' does not exist on JObject.");
@@ -638,17 +638,17 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void EvaluatePropertyWithoutError()
         {
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("Blah", 1));
 
-            JValue v = (JValue)o.SelectToken("Blah", true);
+            var v = (JValue)o.SelectToken("Blah", true);
             Assert.AreEqual(1, v.Value);
         }
 
         [Fact]
         public void EvaluateMissingPropertyIndexWithError()
         {
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("Blah", 1));
 
             ExceptionAssert.Throws<JsonException>(() => { o.SelectToken("['Missing','Missing2']", true); }, "Property 'Missing' does not exist on JObject.");
@@ -657,7 +657,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void EvaluateMultiPropertyIndexOnArrayWithError()
         {
-            JArray a = new JArray(1, 2, 3, 4, 5);
+            var a = new JArray(1, 2, 3, 4, 5);
 
             ExceptionAssert.Throws<JsonException>(() => { a.SelectToken("['Missing','Missing2']", true); }, "Properties 'Missing', 'Missing2' not valid on JArray.");
         }
@@ -665,7 +665,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void EvaluateArraySliceWithError()
         {
-            JArray a = new JArray(1, 2, 3, 4, 5);
+            var a = new JArray(1, 2, 3, 4, 5);
 
             ExceptionAssert.Throws<JsonException>(() => { a.SelectToken("[99:]", true); }, "Array slice of 99 to * returned no results.");
 
@@ -681,16 +681,16 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void EvaluateOutOfBoundsIndxer()
         {
-            JArray a = new JArray(1, 2, 3, 4, 5);
+            var a = new JArray(1, 2, 3, 4, 5);
 
-            JToken t = a.SelectToken("[1000].Ha");
+            var t = a.SelectToken("[1000].Ha");
             Assert.IsNull(t);
         }
 
         [Fact]
         public void EvaluateArrayOutOfBoundsIndxerWithError()
         {
-            JArray a = new JArray(1, 2, 3, 4, 5);
+            var a = new JArray(1, 2, 3, 4, 5);
 
             ExceptionAssert.Throws<JsonException>(() => { a.SelectToken("[1000].Ha", true); }, "Index 1000 outside the bounds of JArray.");
         }
@@ -698,9 +698,9 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void EvaluateArray()
         {
-            JArray a = new JArray(1, 2, 3, 4);
+            var a = new JArray(1, 2, 3, 4);
 
-            JToken t = a.SelectToken("[1]");
+            var t = a.SelectToken("[1]");
             Assert.IsNotNull(t);
             Assert.AreEqual(JTokenType.Integer, t.Type);
             Assert.AreEqual(2, (int)t);
@@ -709,7 +709,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void EvaluateArraySlice()
         {
-            JArray a = new JArray(1, 2, 3, 4, 5, 6, 7, 8, 9);
+            var a = new JArray(1, 2, 3, 4, 5, 6, 7, 8, 9);
             IList<JToken> t = null;
 
             t = a.SelectTokens("[-3:]").ToList();
@@ -757,9 +757,9 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void EvaluateWildcardArray()
         {
-            JArray a = new JArray(1, 2, 3, 4);
+            var a = new JArray(1, 2, 3, 4);
 
-            List<JToken> t = a.SelectTokens("[*]").ToList();
+            var t = a.SelectTokens("[*]").ToList();
             Assert.IsNotNull(t);
             Assert.AreEqual(4, t.Count);
             Assert.AreEqual(1, (int)t[0]);
@@ -771,9 +771,9 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void EvaluateArrayMultipleIndexes()
         {
-            JArray a = new JArray(1, 2, 3, 4);
+            var a = new JArray(1, 2, 3, 4);
 
-            IEnumerable<JToken> t = a.SelectTokens("[1,2,0]");
+            var t = a.SelectTokens("[1,2,0]");
             Assert.IsNotNull(t);
             Assert.AreEqual(3, t.Count());
             Assert.AreEqual(2, (int)t.ElementAt(0));
@@ -784,9 +784,9 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void EvaluateScan()
         {
-            JObject o1 = new JObject { { "Name", 1 } };
-            JObject o2 = new JObject { { "Name", 2 } };
-            JArray a = new JArray(o1, o2);
+            var o1 = new JObject { { "Name", 1 } };
+            var o2 = new JObject { { "Name", 2 } };
+            var a = new JArray(o1, o2);
 
             IList<JToken> t = a.SelectTokens("$..Name").ToList();
             Assert.IsNotNull(t);
@@ -798,9 +798,9 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void EvaluateWildcardScan()
         {
-            JObject o1 = new JObject { { "Name", 1 } };
-            JObject o2 = new JObject { { "Name", 2 } };
-            JArray a = new JArray(o1, o2);
+            var o1 = new JObject { { "Name", 1 } };
+            var o2 = new JObject { { "Name", 2 } };
+            var a = new JArray(o1, o2);
 
             IList<JToken> t = a.SelectTokens("$..*").ToList();
             Assert.IsNotNull(t);
@@ -815,10 +815,10 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void EvaluateScanNestResults()
         {
-            JObject o1 = new JObject { { "Name", 1 } };
-            JObject o2 = new JObject { { "Name", 2 } };
-            JObject o3 = new JObject { { "Name", new JObject { { "Name", new JArray(3) } } } };
-            JArray a = new JArray(o1, o2, o3);
+            var o1 = new JObject { { "Name", 1 } };
+            var o2 = new JObject { { "Name", 2 } };
+            var o3 = new JObject { { "Name", new JObject { { "Name", new JArray(3) } } } };
+            var a = new JArray(o1, o2, o3);
 
             IList<JToken> t = a.SelectTokens("$..Name").ToList();
             Assert.IsNotNull(t);
@@ -832,10 +832,10 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void EvaluateWildcardScanNestResults()
         {
-            JObject o1 = new JObject { { "Name", 1 } };
-            JObject o2 = new JObject { { "Name", 2 } };
-            JObject o3 = new JObject { { "Name", new JObject { { "Name", new JArray(3) } } } };
-            JArray a = new JArray(o1, o2, o3);
+            var o1 = new JObject { { "Name", 1 } };
+            var o2 = new JObject { { "Name", 2 } };
+            var o3 = new JObject { { "Name", new JObject { { "Name", new JArray(3) } } } };
+            var a = new JArray(o1, o2, o3);
 
             IList<JToken> t = a.SelectTokens("$..*").ToList();
             Assert.IsNotNull(t);
@@ -855,10 +855,10 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void EvaluateSinglePropertyReturningArray()
         {
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("Blah", new[] { 1, 2, 3 }));
 
-            JToken t = o.SelectToken("Blah");
+            var t = o.SelectToken("Blah");
             Assert.IsNotNull(t);
             Assert.AreEqual(JTokenType.Array, t.Type);
 
@@ -870,8 +870,8 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void EvaluateLastSingleCharacterProperty()
         {
-            JObject o2 = JObject.Parse("{'People':[{'N':'Jeff'}]}");
-            string a2 = (string)o2.SelectToken("People[0].N");
+            var o2 = JObject.Parse("{'People':[{'N':'Jeff'}]}");
+            var a2 = (string)o2.SelectToken("People[0].N");
 
             Assert.AreEqual("Jeff", a2);
         }
@@ -879,7 +879,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void ExistsQuery()
         {
-            JArray a = new JArray(new JObject(new JProperty("hi", "ho")), new JObject(new JProperty("hi2", "ha")));
+            var a = new JArray(new JObject(new JProperty("hi", "ho")), new JObject(new JProperty("hi2", "ha")));
 
             IList<JToken> t = a.SelectTokens("[ ?( @.hi ) ]").ToList();
             Assert.IsNotNull(t);
@@ -890,7 +890,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void EqualsQuery()
         {
-            JArray a = new JArray(
+            var a = new JArray(
                 new JObject(new JProperty("hi", "ho")),
                 new JObject(new JProperty("hi", "ha")));
 
@@ -903,7 +903,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void NotEqualsQuery()
         {
-            JArray a = new JArray(
+            var a = new JArray(
                 new JArray(new JObject(new JProperty("hi", "ho"))),
                 new JArray(new JObject(new JProperty("hi", "ha"))));
 
@@ -916,7 +916,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void NoPathQuery()
         {
-            JArray a = new JArray(1, 2, 3);
+            var a = new JArray(1, 2, 3);
 
             IList<JToken> t = a.SelectTokens("[ ?( @ > 1 ) ]").ToList();
             Assert.IsNotNull(t);
@@ -928,7 +928,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void MultipleQueries()
         {
-            JArray a = new JArray(1, 2, 3, 4, 5, 6, 7, 8, 9);
+            var a = new JArray(1, 2, 3, 4, 5, 6, 7, 8, 9);
 
             // json path does item based evaluation - http://www.sitepen.com/blog/2008/03/17/jsonpath-support/
             // first query resolves array to ints
@@ -941,7 +941,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void GreaterQuery()
         {
-            JArray a = new JArray(
+            var a = new JArray(
                 new JObject(new JProperty("hi", 1)),
                 new JObject(new JProperty("hi", 2)),
                 new JObject(new JProperty("hi", 3)));
@@ -956,7 +956,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void LesserQuery_ValueFirst()
         {
-            JArray a = new JArray(
+            var a = new JArray(
                 new JObject(new JProperty("hi", 1)),
                 new JObject(new JProperty("hi", 2)),
                 new JObject(new JProperty("hi", 3)));
@@ -971,7 +971,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void GreaterQueryBigInteger()
         {
-            JArray a = new JArray(
+            var a = new JArray(
                 new JObject(new JProperty("hi", new BigInteger(1))),
                 new JObject(new JProperty("hi", new BigInteger(2))),
                 new JObject(new JProperty("hi", new BigInteger(3))));
@@ -986,7 +986,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void GreaterOrEqualQuery()
         {
-            JArray a = new JArray(
+            var a = new JArray(
                 new JObject(new JProperty("hi", 1)),
                 new JObject(new JProperty("hi", 2)),
                 new JObject(new JProperty("hi", 2.0)),
@@ -1004,7 +1004,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void NestedQuery()
         {
-            JArray a = new JArray(
+            var a = new JArray(
                 new JObject(
                     new JProperty("name", "Bad Boys"),
                     new JProperty("cast", new JArray(
@@ -1029,7 +1029,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void PathWithConstructor()
         {
-            JArray a = JArray.Parse(@"[
+            var a = JArray.Parse(@"[
   {
     ""Property1"": [
       1,
@@ -1050,14 +1050,14 @@ namespace Argon.Tests.Linq.JsonPath
   }
 ]");
 
-            JValue v = (JValue)a.SelectToken("[1].Property2[1][0]");
+            var v = (JValue)a.SelectToken("[1].Property2[1][0]");
             Assert.AreEqual(1L, v.Value);
         }
 
         [Fact]
         public void MultiplePaths()
         {
-            JArray a = JArray.Parse(@"[
+            var a = JArray.Parse(@"[
   {
     ""price"": 199,
     ""max_price"": 200
@@ -1080,7 +1080,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void Exists_True()
         {
-            JArray a = JArray.Parse(@"[
+            var a = JArray.Parse(@"[
   {
     ""price"": 199,
     ""max_price"": 200
@@ -1105,7 +1105,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void Exists_Null()
         {
-            JArray a = JArray.Parse(@"[
+            var a = JArray.Parse(@"[
   {
     ""price"": 199,
     ""max_price"": 200
@@ -1130,7 +1130,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void WildcardWithProperty()
         {
-            JObject o = JObject.Parse(@"{
+            var o = JObject.Parse(@"{
     ""station"": 92000041000001, 
     ""containers"": [
         {
@@ -1163,7 +1163,7 @@ namespace Argon.Tests.Linq.JsonPath
 }");
 
             IList<JToken> tokens = o.SelectTokens("$..*[?(@.text)]").ToList();
-            int i = 0;
+            var i = 0;
             Assert.AreEqual("Sort system", (string)tokens[i++]["text"]);
             Assert.AreEqual("TSP-1", (string)tokens[i++]["text"]);
             Assert.AreEqual("Passenger 15", (string)tokens[i++]["text"]);
@@ -1192,7 +1192,7 @@ namespace Argon.Tests.Linq.JsonPath
                 new TimeSpan(365, 23, 59, 59)
             };
 
-            JObject o = new JObject(
+            var o = new JObject(
                 new JProperty("prop",
                     new JArray(
                         values.Select(v => new JObject(new JProperty("childProp", v)))
@@ -1222,7 +1222,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void Example()
         {
-            JObject o = JObject.Parse(@"{
+            var o = JObject.Parse(@"{
         ""Stores"": [
           ""Lambton Quay"",
           ""Willis Street""
@@ -1253,13 +1253,13 @@ namespace Argon.Tests.Linq.JsonPath
         ]
       }");
 
-            string name = (string)o.SelectToken("Manufacturers[0].Name");
+            var name = (string)o.SelectToken("Manufacturers[0].Name");
             // Acme Co
 
-            decimal productPrice = (decimal)o.SelectToken("Manufacturers[0].Products[0].Price");
+            var productPrice = (decimal)o.SelectToken("Manufacturers[0].Products[0].Price");
             // 50
 
-            string productName = (string)o.SelectToken("Manufacturers[1].Products[0].Name");
+            var productName = (string)o.SelectToken("Manufacturers[1].Products[0].Name");
             // Elbow Grease
 
             Assert.AreEqual("Acme Co", name);
@@ -1274,7 +1274,7 @@ namespace Argon.Tests.Linq.JsonPath
             // null
             // Headlight Fluid
 
-            decimal totalPrice = o["Manufacturers"].Sum(m => (decimal)m.SelectToken("Products[0].Price"));
+            var totalPrice = o["Manufacturers"].Sum(m => (decimal)m.SelectToken("Products[0].Price"));
             // 149.95
 
             Assert.AreEqual(2, storeNames.Count);
@@ -1289,7 +1289,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void NotEqualsAndNonPrimativeValues()
         {
-            string json = @"[
+            var json = @"[
   {
     ""name"": ""string"",
     ""value"": ""aString""
@@ -1315,9 +1315,9 @@ namespace Argon.Tests.Linq.JsonPath
   }
 ]";
 
-            JArray a = JArray.Parse(json);
+            var a = JArray.Parse(json);
 
-            List<JToken> result = a.SelectTokens("$.[?(@.value!=1)]").ToList();
+            var result = a.SelectTokens("$.[?(@.value!=1)]").ToList();
             Assert.AreEqual(4, result.Count);
 
             result = a.SelectTokens("$.[?(@.value!='2000-12-05T05:07:59-10:00')]").ToList();
@@ -1336,7 +1336,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void RootInFilter()
         {
-            string json = @"[
+            var json = @"[
    {
       ""store"" : {
          ""book"" : [
@@ -1376,9 +1376,9 @@ namespace Argon.Tests.Linq.JsonPath
    }
 ]";
 
-            JArray a = JArray.Parse(json);
+            var a = JArray.Parse(json);
 
-            List<JToken> result = a.SelectTokens("$.[?($.[0].store.bicycle.price < 20)]").ToList();
+            var result = a.SelectTokens("$.[?($.[0].store.bicycle.price < 20)]").ToList();
             Assert.AreEqual(1, result.Count);
 
             result = a.SelectTokens("$.[?($.[0].store.bicycle.price < 10)]").ToList();
@@ -1388,7 +1388,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void RootInFilterWithRootObject()
         {
-            string json = @"{
+            var json = @"{
                 ""store"" : {
                     ""book"" : [
                         {
@@ -1428,9 +1428,9 @@ namespace Argon.Tests.Linq.JsonPath
                 ""expensive"" : 10
             }";
 
-            JObject a = JObject.Parse(json);
+            var a = JObject.Parse(json);
 
-            List<JToken> result = a.SelectTokens("$..book[?(@.price <= $['expensive'])]").ToList();
+            var result = a.SelectTokens("$..book[?(@.price <= $['expensive'])]").ToList();
             Assert.AreEqual(2, result.Count);
 
             result = a.SelectTokens("$.store..[?(@.price > $.expensive)]").ToList();
@@ -1440,7 +1440,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void RootInFilterWithInitializers()
         {
-            JObject rootObject = new JObject
+            var rootObject = new JObject
             {
                 { "referenceDate", new JValue(DateTime.MinValue) },
                 {
@@ -1455,14 +1455,14 @@ namespace Argon.Tests.Linq.JsonPath
                 }
             };
 
-            List<JToken> result = rootObject.SelectTokens("$.dateObjectsArray[?(@.date == $.referenceDate)]").ToList();
+            var result = rootObject.SelectTokens("$.dateObjectsArray[?(@.date == $.referenceDate)]").ToList();
             Assert.AreEqual(2, result.Count);
         }
 
         [Fact]
         public void IdentityOperator()
         {
-            JObject o = JObject.Parse(@"{
+            var o = JObject.Parse(@"{
 	            'Values': [{
 
                     'Coercible': 1,
@@ -1475,13 +1475,13 @@ namespace Argon.Tests.Linq.JsonPath
             }");
 
             // just to verify expected behavior hasn't changed
-            IEnumerable<string> sanity1 = o.SelectTokens("Values[?(@.Coercible == '1')].Name").Select(x => (string)x);
-            IEnumerable<string> sanity2 = o.SelectTokens("Values[?(@.Coercible != '1')].Name").Select(x => (string)x);
+            var sanity1 = o.SelectTokens("Values[?(@.Coercible == '1')].Name").Select(x => (string)x);
+            var sanity2 = o.SelectTokens("Values[?(@.Coercible != '1')].Name").Select(x => (string)x);
             // new behavior
-            IEnumerable<string> mustBeNumber1 = o.SelectTokens("Values[?(@.Coercible === 1)].Name").Select(x => (string)x);
-            IEnumerable<string> mustBeString1 = o.SelectTokens("Values[?(@.Coercible !== 1)].Name").Select(x => (string)x);
-            IEnumerable<string> mustBeString2 = o.SelectTokens("Values[?(@.Coercible === '1')].Name").Select(x => (string)x);
-            IEnumerable<string> mustBeNumber2 = o.SelectTokens("Values[?(@.Coercible !== '1')].Name").Select(x => (string)x);
+            var mustBeNumber1 = o.SelectTokens("Values[?(@.Coercible === 1)].Name").Select(x => (string)x);
+            var mustBeString1 = o.SelectTokens("Values[?(@.Coercible !== 1)].Name").Select(x => (string)x);
+            var mustBeString2 = o.SelectTokens("Values[?(@.Coercible === '1')].Name").Select(x => (string)x);
+            var mustBeNumber2 = o.SelectTokens("Values[?(@.Coercible !== '1')].Name").Select(x => (string)x);
 
             // FAILS-- JPath returns { "String" }
             //CollectionAssert.AreEquivalent(new[] { "Number", "String" }, sanity1);
@@ -1496,7 +1496,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void QueryWithEscapedPath()
         {
-            JToken t = JToken.Parse(@"{
+            var t = JToken.Parse(@"{
 ""Property"": [
           {
             ""@Name"": ""x"",
@@ -1513,7 +1513,7 @@ namespace Argon.Tests.Linq.JsonPath
         [Fact]
         public void Equals_FloatWithInt()
         {
-            JToken t = JToken.Parse(@"{
+            var t = JToken.Parse(@"{
   ""Values"": [
     {
       ""Property"": 1
@@ -1528,26 +1528,26 @@ namespace Argon.Tests.Linq.JsonPath
         [TestCaseSource(nameof(StrictMatchWithInverseTestData))]
         public static void EqualsStrict(string value1, string value2, bool matchStrict)
         {
-            string completeJson = @"{
+            var completeJson = @"{
   ""Values"": [
     {
       ""Property"": " + value1 + @"
     }
   ]
 }";
-            string completeEqualsStrictPath = "$.Values[?(@.Property === " + value2 + ")]";
-            string completeNotEqualsStrictPath = "$.Values[?(@.Property !== " + value2 + ")]";
+            var completeEqualsStrictPath = "$.Values[?(@.Property === " + value2 + ")]";
+            var completeNotEqualsStrictPath = "$.Values[?(@.Property !== " + value2 + ")]";
 
-            JToken t = JToken.Parse(completeJson);
+            var t = JToken.Parse(completeJson);
 
-            bool hasEqualsStrict = t.SelectTokens(completeEqualsStrictPath).Any();
+            var hasEqualsStrict = t.SelectTokens(completeEqualsStrictPath).Any();
             Assert.AreEqual(
                 matchStrict,
                 hasEqualsStrict,
                 $"Expected {value1} and {value2} to match: {matchStrict}"
                 + Environment.NewLine + completeJson + Environment.NewLine + completeEqualsStrictPath);
 
-            bool hasNotEqualsStrict = t.SelectTokens(completeNotEqualsStrictPath).Any();
+            var hasNotEqualsStrict = t.SelectTokens(completeNotEqualsStrictPath).Any();
             Assert.AreNotEqual(
                 matchStrict,
                 hasNotEqualsStrict,

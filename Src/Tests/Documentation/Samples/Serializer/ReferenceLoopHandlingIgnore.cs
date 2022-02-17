@@ -47,12 +47,12 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            Employee joe = new Employee { Name = "Joe User" };
-            Employee mike = new Employee { Name = "Mike Manager" };
+            var joe = new Employee { Name = "Joe User" };
+            var mike = new Employee { Name = "Mike Manager" };
             joe.Manager = mike;
             mike.Manager = mike;
 
-            string json = JsonConvert.SerializeObject(joe, Formatting.Indented, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(joe, Formatting.Indented, new JsonSerializerSettings
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             });

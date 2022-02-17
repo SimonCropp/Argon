@@ -99,7 +99,7 @@ namespace Argon.Linq
                 }
             }
 
-            IJsonLineInfo? lineInfo = reader as IJsonLineInfo;
+            var lineInfo = reader as IJsonLineInfo;
 
             switch (reader.TokenType)
             {
@@ -117,7 +117,7 @@ namespace Argon.Linq
                 case JsonToken.Date:
                 case JsonToken.Boolean:
                 case JsonToken.Bytes:
-                    JValue v = new JValue(reader.Value);
+                    var v = new JValue(reader.Value);
                     v.SetLineInfo(lineInfo, settings);
                     return v;
                 case JsonToken.Comment:

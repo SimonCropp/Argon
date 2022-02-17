@@ -40,7 +40,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void PopulatePerson()
         {
-            Person p = new Person();
+            var p = new Person();
 
             JsonConvert.PopulateObject(@"{""Name"":""James""}", p);
 
@@ -66,7 +66,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void PopulateStore()
         {
-            Store s = new Store();
+            var s = new Store();
             s.Color = StoreColor.Red;
             s.product = new List<Product>
             {
@@ -80,7 +80,7 @@ namespace Argon.Tests.Serialization
             s.Width = 99.99d;
             s.Mottos = new List<string> { "Can do!", "We deliver!" };
 
-            string json = @"{
+            var json = @"{
   ""Color"": 2,
   ""Establised"": ""\/Date(1264122061000+0000)\/"",
   ""Width"": 99.99,
@@ -128,9 +128,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void PopulateListOfPeople()
         {
-            List<Person> p = new List<Person>();
+            var p = new List<Person>();
 
-            JsonSerializer serializer = new JsonSerializer();
+            var serializer = new JsonSerializer();
             serializer.Populate(new StringReader(@"[{""Name"":""James""},{""Name"":""Jim""}]"), p);
 
             Assert.AreEqual(2, p.Count);
@@ -141,9 +141,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void PopulateDictionary()
         {
-            Dictionary<string, string> p = new Dictionary<string, string>();
+            var p = new Dictionary<string, string>();
 
-            JsonSerializer serializer = new JsonSerializer();
+            var serializer = new JsonSerializer();
             serializer.Populate(new StringReader(@"{""Name"":""James""}"), p);
 
             Assert.AreEqual(1, p.Count);

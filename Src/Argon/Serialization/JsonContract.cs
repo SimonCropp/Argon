@@ -262,7 +262,7 @@ namespace Argon.Serialization
         {
             if (_onSerializingCallbacks != null)
             {
-                foreach (SerializationCallback callback in _onSerializingCallbacks)
+                foreach (var callback in _onSerializingCallbacks)
                 {
                     callback(o, context);
                 }
@@ -273,7 +273,7 @@ namespace Argon.Serialization
         {
             if (_onSerializedCallbacks != null)
             {
-                foreach (SerializationCallback callback in _onSerializedCallbacks)
+                foreach (var callback in _onSerializedCallbacks)
                 {
                     callback(o, context);
                 }
@@ -284,7 +284,7 @@ namespace Argon.Serialization
         {
             if (_onDeserializingCallbacks != null)
             {
-                foreach (SerializationCallback callback in _onDeserializingCallbacks)
+                foreach (var callback in _onDeserializingCallbacks)
                 {
                     callback(o, context);
                 }
@@ -295,7 +295,7 @@ namespace Argon.Serialization
         {
             if (_onDeserializedCallbacks != null)
             {
-                foreach (SerializationCallback callback in _onDeserializedCallbacks)
+                foreach (var callback in _onDeserializedCallbacks)
                 {
                     callback(o, context);
                 }
@@ -306,7 +306,7 @@ namespace Argon.Serialization
         {
             if (_onErrorCallbacks != null)
             {
-                foreach (SerializationErrorCallback callback in _onErrorCallbacks)
+                foreach (var callback in _onErrorCallbacks)
                 {
                     callback(o, context, errorContext);
                 }

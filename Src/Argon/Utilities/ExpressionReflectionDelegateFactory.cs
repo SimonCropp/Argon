@@ -43,15 +43,15 @@ namespace Argon.Utilities
         {
             ValidationUtils.ArgumentNotNull(method, nameof(method));
 
-            Type type = typeof(object);
+            var type = typeof(object);
 
-            ParameterExpression argsParameterExpression = Expression.Parameter(typeof(object[]), "args");
+            var argsParameterExpression = Expression.Parameter(typeof(object[]), "args");
 
-            Expression callExpression = BuildMethodCall(method, type, null, argsParameterExpression);
+            var callExpression = BuildMethodCall(method, type, null, argsParameterExpression);
 
-            LambdaExpression lambdaExpression = Expression.Lambda(typeof(ObjectConstructor<object>), callExpression, argsParameterExpression);
+            var lambdaExpression = Expression.Lambda(typeof(ObjectConstructor<object>), callExpression, argsParameterExpression);
 
-            ObjectConstructor<object> compiled = (ObjectConstructor<object>)lambdaExpression.Compile();
+            var compiled = (ObjectConstructor<object>)lambdaExpression.Compile();
             return compiled;
         }
 
@@ -59,16 +59,16 @@ namespace Argon.Utilities
         {
             ValidationUtils.ArgumentNotNull(method, nameof(method));
 
-            Type type = typeof(object);
+            var type = typeof(object);
 
-            ParameterExpression targetParameterExpression = Expression.Parameter(type, "target");
-            ParameterExpression argsParameterExpression = Expression.Parameter(typeof(object[]), "args");
+            var targetParameterExpression = Expression.Parameter(type, "target");
+            var argsParameterExpression = Expression.Parameter(typeof(object[]), "args");
 
-            Expression callExpression = BuildMethodCall(method, type, targetParameterExpression, argsParameterExpression);
+            var callExpression = BuildMethodCall(method, type, targetParameterExpression, argsParameterExpression);
 
-            LambdaExpression lambdaExpression = Expression.Lambda(typeof(MethodCall<T, object>), callExpression, targetParameterExpression, argsParameterExpression);
+            var lambdaExpression = Expression.Lambda(typeof(MethodCall<T, object>), callExpression, targetParameterExpression, argsParameterExpression);
 
-            MethodCall<T, object?> compiled = (MethodCall<T, object?>)lambdaExpression.Compile();
+            var compiled = (MethodCall<T, object?>)lambdaExpression.Compile();
             return compiled;
         }
 
@@ -102,11 +102,11 @@ namespace Argon.Utilities
                 argsExpression = new Expression[parametersInfo.Length];
                 refParameterMap = new List<ByRefParameter>();
 
-                for (int i = 0; i < parametersInfo.Length; i++)
+                for (var i = 0; i < parametersInfo.Length; i++)
                 {
-                    ParameterInfo parameter = parametersInfo[i];
-                    Type parameterType = parameter.ParameterType;
-                    bool isByRef = false;
+                    var parameter = parametersInfo[i];
+                    var parameterType = parameter.ParameterType;
+                    var isByRef = false;
                     if (parameterType.IsByRef)
                     {
                         parameterType = parameterType.GetElementType();
@@ -117,11 +117,11 @@ namespace Argon.Utilities
 
                     Expression paramAccessorExpression = Expression.ArrayIndex(argsParameterExpression, indexExpression);
 
-                    Expression argExpression = EnsureCastExpression(paramAccessorExpression, parameterType, !isByRef);
+                    var argExpression = EnsureCastExpression(paramAccessorExpression, parameterType, !isByRef);
 
                     if (isByRef)
                     {
-                        ParameterExpression variable = Expression.Variable(parameterType);
+                        var variable = Expression.Variable(parameterType);
                         refParameterMap.Add(new ByRefParameter(argExpression, variable, parameter.IsOut));
 
                         argExpression = variable;
@@ -142,7 +142,7 @@ namespace Argon.Utilities
             }
             else
             {
-                Expression readParameter = EnsureCastExpression(targetParameterExpression!, method.DeclaringType);
+                var readParameter = EnsureCastExpression(targetParameterExpression!, method.DeclaringType);
 
                 callExpression = Expression.Call(readParameter, (MethodInfo)method, argsExpression);
             }
@@ -167,7 +167,7 @@ namespace Argon.Utilities
             {
                 IList<ParameterExpression> variableExpressions = new List<ParameterExpression>();
                 IList<Expression> bodyExpressions = new List<Expression>();
-                foreach (ByRefParameter p in refParameterMap)
+                foreach (var p in refParameterMap)
                 {
                     if (!p.IsOut)
                     {
@@ -197,15 +197,15 @@ namespace Argon.Utilities
 
             try
             {
-                Type resultType = typeof(T);
+                var resultType = typeof(T);
 
                 Expression expression = Expression.New(type);
 
                 expression = EnsureCastExpression(expression, resultType);
 
-                LambdaExpression lambdaExpression = Expression.Lambda(typeof(Func<T>), expression);
+                var lambdaExpression = Expression.Lambda(typeof(Func<T>), expression);
 
-                Func<T> compiled = (Func<T>)lambdaExpression.Compile();
+                var compiled = (Func<T>)lambdaExpression.Compile();
                 return compiled;
             }
             catch
@@ -220,13 +220,13 @@ namespace Argon.Utilities
         {
             ValidationUtils.ArgumentNotNull(propertyInfo, nameof(propertyInfo));
 
-            Type instanceType = typeof(T);
-            Type resultType = typeof(object);
+            var instanceType = typeof(T);
+            var resultType = typeof(object);
 
-            ParameterExpression parameterExpression = Expression.Parameter(instanceType, "instance");
+            var parameterExpression = Expression.Parameter(instanceType, "instance");
             Expression resultExpression;
 
-            MethodInfo? getMethod = propertyInfo.GetGetMethod(true);
+            var getMethod = propertyInfo.GetGetMethod(true);
             if (getMethod == null)
             {
                 throw new ArgumentException("Property does not have a getter.");
@@ -238,16 +238,16 @@ namespace Argon.Utilities
             }
             else
             {
-                Expression readParameter = EnsureCastExpression(parameterExpression, propertyInfo.DeclaringType);
+                var readParameter = EnsureCastExpression(parameterExpression, propertyInfo.DeclaringType);
 
                 resultExpression = Expression.MakeMemberAccess(readParameter, propertyInfo);
             }
 
             resultExpression = EnsureCastExpression(resultExpression, resultType);
 
-            LambdaExpression lambdaExpression = Expression.Lambda(typeof(Func<T, object>), resultExpression, parameterExpression);
+            var lambdaExpression = Expression.Lambda(typeof(Func<T, object>), resultExpression, parameterExpression);
 
-            Func<T, object?> compiled = (Func<T, object?>)lambdaExpression.Compile();
+            var compiled = (Func<T, object?>)lambdaExpression.Compile();
             return compiled;
         }
 
@@ -255,7 +255,7 @@ namespace Argon.Utilities
         {
             ValidationUtils.ArgumentNotNull(fieldInfo, nameof(fieldInfo));
 
-            ParameterExpression sourceParameter = Expression.Parameter(typeof(T), "source");
+            var sourceParameter = Expression.Parameter(typeof(T), "source");
 
             Expression fieldExpression;
             if (fieldInfo.IsStatic)
@@ -264,14 +264,14 @@ namespace Argon.Utilities
             }
             else
             {
-                Expression sourceExpression = EnsureCastExpression(sourceParameter, fieldInfo.DeclaringType);
+                var sourceExpression = EnsureCastExpression(sourceParameter, fieldInfo.DeclaringType);
 
                 fieldExpression = Expression.Field(sourceExpression, fieldInfo);
             }
 
             fieldExpression = EnsureCastExpression(fieldExpression, typeof(object));
 
-            Func<T, object?> compiled = Expression.Lambda<Func<T, object?>>(fieldExpression, sourceParameter).Compile();
+            var compiled = Expression.Lambda<Func<T, object?>>(fieldExpression, sourceParameter).Compile();
             return compiled;
         }
 
@@ -286,8 +286,8 @@ namespace Argon.Utilities
                 return LateBoundReflectionDelegateFactory.Instance.CreateSet<T>(fieldInfo);
             }
 
-            ParameterExpression sourceParameterExpression = Expression.Parameter(typeof(T), "source");
-            ParameterExpression valueParameterExpression = Expression.Parameter(typeof(object), "value");
+            var sourceParameterExpression = Expression.Parameter(typeof(T), "source");
+            var valueParameterExpression = Expression.Parameter(typeof(object), "value");
 
             Expression fieldExpression;
             if (fieldInfo.IsStatic)
@@ -296,18 +296,18 @@ namespace Argon.Utilities
             }
             else
             {
-                Expression sourceExpression = EnsureCastExpression(sourceParameterExpression, fieldInfo.DeclaringType);
+                var sourceExpression = EnsureCastExpression(sourceParameterExpression, fieldInfo.DeclaringType);
 
                 fieldExpression = Expression.Field(sourceExpression, fieldInfo);
             }
 
-            Expression valueExpression = EnsureCastExpression(valueParameterExpression, fieldExpression.Type);
+            var valueExpression = EnsureCastExpression(valueParameterExpression, fieldExpression.Type);
 
-            BinaryExpression assignExpression = Expression.Assign(fieldExpression, valueExpression);
+            var assignExpression = Expression.Assign(fieldExpression, valueExpression);
 
-            LambdaExpression lambdaExpression = Expression.Lambda(typeof(Action<T, object>), assignExpression, sourceParameterExpression, valueParameterExpression);
+            var lambdaExpression = Expression.Lambda(typeof(Action<T, object>), assignExpression, sourceParameterExpression, valueParameterExpression);
 
-            Action<T, object?> compiled = (Action<T, object?>)lambdaExpression.Compile();
+            var compiled = (Action<T, object?>)lambdaExpression.Compile();
             return compiled;
         }
 
@@ -322,15 +322,15 @@ namespace Argon.Utilities
                 return LateBoundReflectionDelegateFactory.Instance.CreateSet<T>(propertyInfo);
             }
 
-            Type instanceType = typeof(T);
-            Type valueType = typeof(object);
+            var instanceType = typeof(T);
+            var valueType = typeof(object);
 
-            ParameterExpression instanceParameter = Expression.Parameter(instanceType, "instance");
+            var instanceParameter = Expression.Parameter(instanceType, "instance");
 
-            ParameterExpression valueParameter = Expression.Parameter(valueType, "value");
-            Expression readValueParameter = EnsureCastExpression(valueParameter, propertyInfo.PropertyType);
+            var valueParameter = Expression.Parameter(valueType, "value");
+            var readValueParameter = EnsureCastExpression(valueParameter, propertyInfo.PropertyType);
 
-            MethodInfo? setMethod = propertyInfo.GetSetMethod(true);
+            var setMethod = propertyInfo.GetSetMethod(true);
             if (setMethod == null)
             {
                 throw new ArgumentException("Property does not have a setter.");
@@ -343,20 +343,20 @@ namespace Argon.Utilities
             }
             else
             {
-                Expression readInstanceParameter = EnsureCastExpression(instanceParameter, propertyInfo.DeclaringType);
+                var readInstanceParameter = EnsureCastExpression(instanceParameter, propertyInfo.DeclaringType);
 
                 setExpression = Expression.Call(readInstanceParameter, setMethod, readValueParameter);
             }
 
-            LambdaExpression lambdaExpression = Expression.Lambda(typeof(Action<T, object?>), setExpression, instanceParameter, valueParameter);
+            var lambdaExpression = Expression.Lambda(typeof(Action<T, object?>), setExpression, instanceParameter, valueParameter);
 
-            Action<T, object?> compiled = (Action<T, object?>)lambdaExpression.Compile();
+            var compiled = (Action<T, object?>)lambdaExpression.Compile();
             return compiled;
         }
         
         private Expression EnsureCastExpression(Expression expression, Type targetType, bool allowWidening = false)
         {
-            Type expressionType = expression.Type;
+            var expressionType = expression.Type;
             
             // check if a cast or conversion is required
             if (expressionType == targetType || (!expressionType.IsValueType() && targetType.IsAssignableFrom(expressionType)))
@@ -370,7 +370,7 @@ namespace Argon.Utilities
 
                 if (allowWidening && targetType.IsPrimitive())
                 {
-                    MethodInfo toTargetTypeMethod = typeof(Convert)
+                    var toTargetTypeMethod = typeof(Convert)
                         .GetMethod("To" + targetType.Name, new[] { typeof(object) });
 
                     if (toTargetTypeMethod != null)

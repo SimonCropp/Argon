@@ -69,9 +69,9 @@ namespace Argon.Tests.Serialization
             property = typeof(ReflectionTestObject).GetProperty("TestProperty");
 #endif
 
-            ReflectionAttributeProvider provider = new ReflectionAttributeProvider(property);
+            var provider = new ReflectionAttributeProvider(property);
 
-            IList<Attribute> attributes = provider.GetAttributes(typeof(DefaultValueAttribute), false);
+            var attributes = provider.GetAttributes(typeof(DefaultValueAttribute), false);
             Assert.AreEqual(1, attributes.Count);
 
             attributes = provider.GetAttributes(false);
@@ -88,9 +88,9 @@ namespace Argon.Tests.Serialization
             field = typeof(ReflectionTestObject).GetField("TestField");
 #endif
 
-            ReflectionAttributeProvider provider = new ReflectionAttributeProvider(field);
+            var provider = new ReflectionAttributeProvider(field);
 
-            IList<Attribute> attributes = provider.GetAttributes(typeof(DefaultValueAttribute), false);
+            var attributes = provider.GetAttributes(typeof(DefaultValueAttribute), false);
             Assert.AreEqual(1, attributes.Count);
 
             attributes = provider.GetAttributes(false);
@@ -100,13 +100,13 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void GetAttributes_Parameter()
         {
-            ParameterInfo[] parameters = typeof(ReflectionTestObject).GetConstructor(new[] { typeof(int) }).GetParameters();
+            var parameters = typeof(ReflectionTestObject).GetConstructor(new[] { typeof(int) }).GetParameters();
 
-            ParameterInfo parameter = parameters[0];
+            var parameter = parameters[0];
 
-            ReflectionAttributeProvider provider = new ReflectionAttributeProvider(parameter);
+            var provider = new ReflectionAttributeProvider(parameter);
 
-            IList<Attribute> attributes = provider.GetAttributes(typeof(DefaultValueAttribute), false);
+            var attributes = provider.GetAttributes(typeof(DefaultValueAttribute), false);
             Assert.AreEqual(1, attributes.Count);
 
             attributes = provider.GetAttributes(false);

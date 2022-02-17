@@ -44,7 +44,7 @@ namespace Argon.Tests.Documentation.Samples.Linq
         public void Example()
         {
             #region Usage
-            string json = @"[
+            var json = @"[
               {
                 'Title': 'Json.NET is awesome!',
                 'Author': {
@@ -59,7 +59,7 @@ namespace Argon.Tests.Documentation.Samples.Linq
 
             dynamic blogPosts = JArray.Parse(json);
 
-            dynamic blogPost = blogPosts[0];
+            var blogPost = blogPosts[0];
 
             string title = blogPost.Title;
 

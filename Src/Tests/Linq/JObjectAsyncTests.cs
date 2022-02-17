@@ -40,16 +40,16 @@ namespace Argon.Tests.Linq
         [Fact]
         public async Task ReadWithSupportMultipleContentAsync()
         {
-            string json = @"{ 'name': 'Admin' }{ 'name': 'Publisher' }";
+            var json = @"{ 'name': 'Admin' }{ 'name': 'Publisher' }";
 
             IList<JObject> roles = new List<JObject>();
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
             reader.SupportMultipleContent = true;
 
             while (true)
             {
-                JObject role = (JObject)await JToken.ReadFromAsync(reader);
+                var role = (JObject)await JToken.ReadFromAsync(reader);
 
                 roles.Add(role);
 
@@ -67,14 +67,14 @@ namespace Argon.Tests.Linq
         [Fact]
         public async Task JTokenReaderAsync()
         {
-            PersonRaw raw = new PersonRaw
+            var raw = new PersonRaw
             {
                 FirstName = "FirstNameValue",
                 RawContent = new JRaw("[1,2,3,4,5]"),
                 LastName = "LastNameValue"
             };
 
-            JObject o = JObject.FromObject(raw);
+            var o = JObject.FromObject(raw);
 
             JsonReader reader = new JTokenReader(o);
 
@@ -108,7 +108,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public async Task LoadFromNestedObjectAsync()
         {
-            string jsonText = @"{
+            var jsonText = @"{
   ""short"":
   {
     ""error"":
@@ -126,7 +126,7 @@ namespace Argon.Tests.Linq
             await reader.ReadAsync();
             await reader.ReadAsync();
 
-            JObject o = (JObject)await JToken.ReadFromAsync(reader);
+            var o = (JObject)await JToken.ReadFromAsync(reader);
             Assert.IsNotNull(o);
             StringAssert.AreEqual(@"{
   ""code"": 0,
@@ -139,7 +139,7 @@ namespace Argon.Tests.Linq
         {
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () =>
             {
-                string jsonText = @"{
+                var jsonText = @"{
   ""short"":
   {
     ""error"":
@@ -160,14 +160,14 @@ namespace Argon.Tests.Linq
         [Fact]
         public async Task ParseMultipleProperties_EmptySettingsAsync()
         {
-            string json = @"{
+            var json = @"{
         ""Name"": ""Name1"",
         ""Name"": ""Name2""
       }";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
-            JObject o = (JObject)await JToken.ReadFromAsync(reader, new JsonLoadSettings());
-            string value = (string)o["Name"];
+            var reader = new JsonTextReader(new StringReader(json));
+            var o = (JObject)await JToken.ReadFromAsync(reader, new JsonLoadSettings());
+            var value = (string)o["Name"];
 
             Assert.AreEqual("Name2", value);
         }
@@ -175,17 +175,17 @@ namespace Argon.Tests.Linq
         [Fact]
         public async Task ParseMultipleProperties_IgnoreDuplicateSettingAsync()
         {
-            string json = @"{
+            var json = @"{
         ""Name"": ""Name1"",
         ""Name"": ""Name2""
       }";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
-            JObject o = (JObject)await JToken.ReadFromAsync(reader, new JsonLoadSettings
+            var reader = new JsonTextReader(new StringReader(json));
+            var o = (JObject)await JToken.ReadFromAsync(reader, new JsonLoadSettings
             {
                 DuplicatePropertyNameHandling = DuplicatePropertyNameHandling.Ignore
             });
-            string value = (string)o["Name"];
+            var value = (string)o["Name"];
 
             Assert.AreEqual("Name1", value);
         }

@@ -42,10 +42,10 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsBytes_MissingCommaAsync()
         {
-            byte[] data = Encoding.UTF8.GetBytes("Hello world");
+            var data = Encoding.UTF8.GetBytes("Hello world");
 
-            string json = @"['" + Convert.ToBase64String(data) + "' '" + Convert.ToBase64String(data) + @"']";
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var json = @"['" + Convert.ToBase64String(data) + "' '" + Convert.ToBase64String(data) + @"']";
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(await reader.ReadAsync());
             CollectionAssert.AreEquivalent(data, await reader.ReadAsBytesAsync());
@@ -58,8 +58,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsInt32_MissingCommaAsync()
         {
-            string json = "[0 1 2]";
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var json = "[0 1 2]";
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(await reader.ReadAsync());
             Assert.AreEqual(0, (int)await reader.ReadAsInt32Async());
@@ -72,8 +72,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsBoolean_MissingCommaAsync()
         {
-            string json = "[true false true]";
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var json = "[true false true]";
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(await reader.ReadAsync());
             Assert.AreEqual(true, (bool)await reader.ReadAsBooleanAsync());
@@ -86,8 +86,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsDateTime_MissingCommaAsync()
         {
-            string json = "['2017-02-04T00:00:00Z' '2018-02-04T00:00:00Z' '2019-02-04T00:00:00Z']";
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var json = "['2017-02-04T00:00:00Z' '2018-02-04T00:00:00Z' '2019-02-04T00:00:00Z']";
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(await reader.ReadAsync());
             Assert.AreEqual(new DateTime(2017, 2, 4, 0, 0, 0, DateTimeKind.Utc), (DateTime)await reader.ReadAsDateTimeAsync());
@@ -100,8 +100,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsDateTimeOffset_MissingCommaAsync()
         {
-            string json = "['2017-02-04T00:00:00Z' '2018-02-04T00:00:00Z' '2019-02-04T00:00:00Z']";
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var json = "['2017-02-04T00:00:00Z' '2018-02-04T00:00:00Z' '2019-02-04T00:00:00Z']";
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(await reader.ReadAsync());
             Assert.AreEqual(new DateTimeOffset(2017, 2, 4, 0, 0, 0, TimeSpan.Zero), (DateTimeOffset)await reader.ReadAsDateTimeOffsetAsync());
@@ -114,8 +114,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsString_MissingCommaAsync()
         {
-            string json = "['2017-02-04T00:00:00Z' '2018-02-04T00:00:00Z' '2019-02-04T00:00:00Z']";
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var json = "['2017-02-04T00:00:00Z' '2018-02-04T00:00:00Z' '2019-02-04T00:00:00Z']";
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(await reader.ReadAsync());
             Assert.AreEqual("2017-02-04T00:00:00Z", await reader.ReadAsStringAsync());
@@ -128,8 +128,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task Read_MissingCommaAsync()
         {
-            string json = "[0 1 2]";
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var json = "[0 1 2]";
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(await reader.ReadAsync());
             Assert.IsTrue(await reader.ReadAsync());
@@ -142,21 +142,21 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task UnexpectedEndAfterReadingNAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("n"));
+            var reader = new JsonTextReader(new StringReader("n"));
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => await reader.ReadAsync(), "Unexpected end when reading JSON. Path '', line 1, position 1.");
         }
 
         [Fact]
         public async Task UnexpectedEndAfterReadingNuAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("nu"));
+            var reader = new JsonTextReader(new StringReader("nu"));
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => await reader.ReadAsync(), "Unexpected end when reading JSON. Path '', line 1, position 2.");
         }
 
         [Fact]
         public async Task UnexpectedEndAfterReadingNeAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("ne"));
+            var reader = new JsonTextReader(new StringReader("ne"));
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => await reader.ReadAsync(), "Unexpected end when reading JSON. Path '', line 1, position 2.");
         }
 
@@ -179,9 +179,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadInvalidNonBase10NumberAsync()
         {
-            string json = "0aq2dun13.hod";
+            var json = "0aq2dun13.hod";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsync(); }, "Unexpected character encountered while parsing number: q. Path '', line 1, position 2.");
 
@@ -199,7 +199,7 @@ namespace Argon.Tests.JsonTextReaderTests
         {
             const string json = @"{ ""ItemName"": ""value"", ""u"":netanelsalinger,""r"":9 }";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(await reader.ReadAsync());
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
@@ -237,8 +237,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ResetJsonTextReaderErrorCountAsync()
         {
-            ToggleReaderError toggleReaderError = new ToggleReaderError(new StringReader("{'first':1,'second':2,'third':3}"));
-            JsonTextReader jsonTextReader = new JsonTextReader(toggleReaderError);
+            var toggleReaderError = new ToggleReaderError(new StringReader("{'first':1,'second':2,'third':3}"));
+            var jsonTextReader = new JsonTextReader(toggleReaderError);
 
             Assert.IsTrue(await jsonTextReader.ReadAsync());
 
@@ -273,7 +273,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task MatchWithInsufficentCharactersAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"nul"));
+            var reader = new JsonTextReader(new StringReader(@"nul"));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsync(); }, "Unexpected end when reading JSON. Path '', line 1, position 3.");
         }
@@ -281,7 +281,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task MatchWithWrongCharactersAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"nulz"));
+            var reader = new JsonTextReader(new StringReader(@"nulz"));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsync(); }, "Error parsing null value. Path '', line 1, position 3.");
         }
@@ -289,7 +289,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task MatchWithNoTrailingSeparatorAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"nullz"));
+            var reader = new JsonTextReader(new StringReader(@"nullz"));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsync(); }, "Error parsing null value. Path '', line 1, position 4.");
         }
@@ -297,7 +297,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task UnclosedCommentAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"/* sdf"));
+            var reader = new JsonTextReader(new StringReader(@"/* sdf"));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsync(); }, "Unexpected end while parsing comment. Path '', line 1, position 6.");
         }
@@ -305,7 +305,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task BadCommentStartAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"/sdf"));
+            var reader = new JsonTextReader(new StringReader(@"/sdf"));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsync(); }, "Error parsing comment. Expected: *, got s. Path '', line 1, position 1.");
         }
@@ -313,11 +313,11 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task MissingColonAsync()
         {
-            string json = @"{
+            var json = @"{
     ""A"" : true,
     ""B"" """;
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             await reader.ReadAsync();
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
@@ -334,8 +334,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ParseConstructorWithBadCharacterAsync()
         {
-            string json = "new Date,()";
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var json = "new Date,()";
+            var reader = new JsonTextReader(new StringReader(json));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { Assert.IsTrue(await reader.ReadAsync()); }, "Unexpected character while parsing constructor: ,. Path '', line 1, position 8.");
         }
@@ -343,8 +343,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ParseConstructorWithUnexpectedEndAsync()
         {
-            string json = "new Dat";
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var json = "new Dat";
+            var reader = new JsonTextReader(new StringReader(json));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsync(); }, "Unexpected end while parsing constructor. Path '', line 1, position 7.");
         }
@@ -352,8 +352,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ParseConstructorWithUnexpectedCharacterAsync()
         {
-            string json = "new Date !";
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var json = "new Date !";
+            var reader = new JsonTextReader(new StringReader(json));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsync(); }, "Unexpected character while parsing constructor: !. Path '', line 1, position 9.");
         }
@@ -361,13 +361,13 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ParseAdditionalContent_CommaAsync()
         {
-            string json = @"[
+            var json = @"[
 ""Small"",
 ""Medium"",
 ""Large""
 ],";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () =>
             {
@@ -380,13 +380,13 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ParseAdditionalContent_TextAsync()
         {
-            string json = @"[
+            var json = @"[
 ""Small"",
 ""Medium"",
 ""Large""
 ]content";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 #if DEBUG
             reader.CharBuffer = new char[2];
 #endif
@@ -412,9 +412,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ParseAdditionalContent_WhitespaceThenTextAsync()
         {
-            string json = @"'hi' a";
+            var json = @"'hi' a";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () =>
             {
@@ -427,7 +427,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ParseIncompleteCommentSeparatorAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("true/"));
+            var reader = new JsonTextReader(new StringReader("true/"));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsync(); }, "Error parsing boolean value. Path '', line 1, position 4.");
         }
@@ -435,7 +435,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadBadCharInArrayAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"[}"));
+            var reader = new JsonTextReader(new StringReader(@"[}"));
 
             await reader.ReadAsync();
 
@@ -445,7 +445,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsBytesNoContentWrappedObjectAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"{"));
+            var reader = new JsonTextReader(new StringReader(@"{"));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsBytesAsync(); }, "Unexpected end when reading JSON. Path '', line 1, position 1.");
         }
@@ -453,7 +453,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadBytesEmptyWrappedObjectAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"{}"));
+            var reader = new JsonTextReader(new StringReader(@"{}"));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsBytesAsync(); }, "Error reading bytes. Unexpected token: StartObject. Path '', line 1, position 2." );
         }
@@ -461,11 +461,11 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadIntegerWithErrorAsync()
         {
-            string json = @"{
+            var json = @"{
     ChildId: 333333333333333333333333333333333333333
 }";
 
-            JsonTextReader jsonTextReader = new JsonTextReader(new StringReader(json));
+            var jsonTextReader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(await jsonTextReader.ReadAsync());
             Assert.AreEqual(JsonToken.StartObject, jsonTextReader.TokenType);
@@ -484,14 +484,14 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadIntegerWithErrorInArrayAsync()
         {
-            string json = @"[
+            var json = @"[
   333333333333333333333333333333333333333,
   3.3,
   ,
   0f
 ]";
 
-            JsonTextReader jsonTextReader = new JsonTextReader(new StringReader(json));
+            var jsonTextReader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(await jsonTextReader.ReadAsync());
             Assert.AreEqual(JsonToken.StartArray, jsonTextReader.TokenType);
@@ -513,11 +513,11 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadBytesWithErrorAsync()
         {
-            string json = @"{
+            var json = @"{
     ChildId: '123'
 }";
 
-            JsonTextReader jsonTextReader = new JsonTextReader(new StringReader(json));
+            var jsonTextReader = new JsonTextReader(new StringReader(json));
 
             Assert.IsTrue(await jsonTextReader.ReadAsync());
             Assert.AreEqual(JsonToken.StartObject, jsonTextReader.TokenType);
@@ -544,13 +544,13 @@ namespace Argon.Tests.JsonTextReaderTests
         {
             long i = int.MaxValue;
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(i.ToString(CultureInfo.InvariantCulture)));
+            var reader = new JsonTextReader(new StringReader(i.ToString(CultureInfo.InvariantCulture)));
             await reader.ReadAsync();
             Assert.AreEqual(typeof(long), reader.ValueType);
 
-            for (int j = 1; j < 1000; j++)
+            for (var j = 1; j < 1000; j++)
             {
-                long total = j + i;
+                var total = j + i;
                 await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () =>
                 {
                     reader = new JsonTextReader(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
@@ -564,14 +564,14 @@ namespace Argon.Tests.JsonTextReaderTests
         {
             long i = int.MinValue;
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(i.ToString(CultureInfo.InvariantCulture)));
+            var reader = new JsonTextReader(new StringReader(i.ToString(CultureInfo.InvariantCulture)));
             await reader.ReadAsync();
             Assert.AreEqual(typeof(long), reader.ValueType);
             Assert.AreEqual(i, reader.Value);
 
-            for (int j = 1; j < 1000; j++)
+            for (var j = 1; j < 1000; j++)
             {
-                long total = -j + i;
+                var total = -j + i;
                 await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () =>
                 {
                     reader = new JsonTextReader(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
@@ -583,15 +583,15 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadInt64OverflowAsync()
         {
-            BigInteger i = new BigInteger(long.MaxValue);
+            var i = new BigInteger(long.MaxValue);
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(i.ToString(CultureInfo.InvariantCulture)));
+            var reader = new JsonTextReader(new StringReader(i.ToString(CultureInfo.InvariantCulture)));
             await reader.ReadAsync();
             Assert.AreEqual(typeof(long), reader.ValueType);
 
-            for (int j = 1; j < 1000; j++)
+            for (var j = 1; j < 1000; j++)
             {
-                BigInteger total = i + j;
+                var total = i + j;
 
                 reader = new JsonTextReader(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
                 await reader.ReadAsync();
@@ -603,15 +603,15 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadInt64Overflow_NegativeAsync()
         {
-            BigInteger i = new BigInteger(long.MinValue);
+            var i = new BigInteger(long.MinValue);
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(i.ToString(CultureInfo.InvariantCulture)));
+            var reader = new JsonTextReader(new StringReader(i.ToString(CultureInfo.InvariantCulture)));
             await reader.ReadAsync();
             Assert.AreEqual(typeof(long), reader.ValueType);
 
-            for (int j = 1; j < 1000; j++)
+            for (var j = 1; j < 1000; j++)
             {
-                BigInteger total = i + -j;
+                var total = i + -j;
 
                 reader = new JsonTextReader(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
                 await reader.ReadAsync();
@@ -623,9 +623,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsString_Null_AdditionalBadDataAsync()
         {
-            string json = @"nullllll";
+            var json = @"nullllll";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsStringAsync(); }, "Error parsing null value. Path '', line 1, position 4.");
         }
@@ -633,9 +633,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsBoolean_AdditionalBadDataAsync()
         {
-            string json = @"falseeeee";
+            var json = @"falseeeee";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsBooleanAsync(); }, "Unexpected character encountered while parsing value: e. Path '', line 1, position 5.");
         }
@@ -643,9 +643,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsString_AdditionalBadDataAsync()
         {
-            string json = @"falseeeee";
+            var json = @"falseeeee";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsStringAsync(); }, "Unexpected character encountered while parsing value: e. Path '', line 1, position 5.");
         }
@@ -653,9 +653,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsBoolean_UnexpectedEndAsync()
         {
-            string json = @"tru";
+            var json = @"tru";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsBooleanAsync(); }, "Unexpected end when reading JSON. Path '', line 1, position 3.");
         }
@@ -663,9 +663,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsBoolean_BadDataAsync()
         {
-            string json = @"pie";
+            var json = @"pie";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsBooleanAsync(); }, "Unexpected character encountered while parsing value: p. Path '', line 1, position 1.");
         }
@@ -673,9 +673,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsString_BadDataAsync()
         {
-            string json = @"pie";
+            var json = @"pie";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsStringAsync(); }, "Unexpected character encountered while parsing value: p. Path '', line 1, position 1.");
         }
@@ -683,9 +683,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsDouble_BadDataAsync()
         {
-            string json = @"pie";
+            var json = @"pie";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsDoubleAsync(); }, "Unexpected character encountered while parsing value: p. Path '', line 1, position 1.");
         }
@@ -693,9 +693,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsDouble_BooleanAsync()
         {
-            string json = @"true";
+            var json = @"true";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsDoubleAsync(); }, "Unexpected character encountered while parsing value: t. Path '', line 1, position 1.");
         }
@@ -703,9 +703,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsBytes_BadDataAsync()
         {
-            string json = @"pie";
+            var json = @"pie";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsBytesAsync(); }, "Unexpected character encountered while parsing value: p. Path '', line 1, position 1.");
         }
@@ -713,7 +713,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsBytesIntegerArrayWithNoEndAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"[1"));
+            var reader = new JsonTextReader(new StringReader(@"[1"));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsBytesAsync(); }, "Unexpected end when reading bytes. Path '[0]', line 1, position 2.");
         }
@@ -721,7 +721,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsBytesArrayWithBadContentAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"[1.0]"));
+            var reader = new JsonTextReader(new StringReader(@"[1.0]"));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsBytesAsync(); }, "Unexpected token when reading bytes: Float. Path '[0]', line 1, position 4.");
         }
@@ -729,7 +729,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsBytesBadContentAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"new Date()"));
+            var reader = new JsonTextReader(new StringReader(@"new Date()"));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsBytesAsync(); }, "Unexpected character encountered while parsing value: e. Path '', line 1, position 2.");
         }
@@ -737,7 +737,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsBytes_CommaErrorsAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("[,'']"));
+            var reader = new JsonTextReader(new StringReader("[,'']"));
             await reader.ReadAsync();
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () =>
@@ -752,7 +752,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsBytes_InvalidEndArrayAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("]"));
+            var reader = new JsonTextReader(new StringReader("]"));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () =>
             {
@@ -763,7 +763,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsBytes_CommaErrors_MultipleAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("['',,'']"));
+            var reader = new JsonTextReader(new StringReader("['',,'']"));
             await reader.ReadAsync();
             CollectionAssert.AreEquivalent(new byte[0], await reader.ReadAsBytesAsync());
 
@@ -787,8 +787,8 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadBytesWithUnexpectedEndAsync()
         {
-            string helloWorld = "Hello world!";
-            byte[] helloWorldData = Encoding.UTF8.GetBytes(helloWorld);
+            var helloWorld = "Hello world!";
+            var helloWorldData = Encoding.UTF8.GetBytes(helloWorld);
 
             JsonReader reader = new JsonTextReader(new StringReader(@"'" + Convert.ToBase64String(helloWorldData)));
 
@@ -798,9 +798,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsDateTime_BadDataAsync()
         {
-            string json = @"pie";
+            var json = @"pie";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsDateTimeAsync(); }, "Unexpected character encountered while parsing value: p. Path '', line 1, position 1.");
         }
@@ -808,9 +808,9 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsDateTime_BooleanAsync()
         {
-            string json = @"true";
+            var json = @"true";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsDateTimeAsync(); }, "Unexpected character encountered while parsing value: t. Path '', line 1, position 1.");
         }
@@ -818,7 +818,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsDateTimeOffsetBadContentAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"new Date()"));
+            var reader = new JsonTextReader(new StringReader(@"new Date()"));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsDateTimeOffsetAsync(); }, "Unexpected character encountered while parsing value: e. Path '', line 1, position 2.");
         }
@@ -826,7 +826,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsDecimalBadContentAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"new Date()"));
+            var reader = new JsonTextReader(new StringReader(@"new Date()"));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsDecimalAsync(); }, "Unexpected character encountered while parsing value: e. Path '', line 1, position 2.");
         }
@@ -834,7 +834,7 @@ namespace Argon.Tests.JsonTextReaderTests
         [Fact]
         public async Task ReadAsDecimalBadContent_SecondLineAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader(@"
+            var reader = new JsonTextReader(new StringReader(@"
 new Date()"));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsDecimalAsync(); }, "Unexpected character encountered while parsing value: e. Path '', line 2, position 2.");
@@ -851,7 +851,7 @@ new Date()"));
         [Fact]
         public async Task ReadNumberValue_CommaErrorsAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("[,1]"));
+            var reader = new JsonTextReader(new StringReader("[,1]"));
             await reader.ReadAsync();
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () =>
@@ -866,7 +866,7 @@ new Date()"));
         [Fact]
         public async Task ReadNumberValue_InvalidEndArrayAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("]"));
+            var reader = new JsonTextReader(new StringReader("]"));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () =>
             {
@@ -877,7 +877,7 @@ new Date()"));
         [Fact]
         public async Task ReadNumberValue_CommaErrors_MultipleAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("[1,,1]"));
+            var reader = new JsonTextReader(new StringReader("[1,,1]"));
             await reader.ReadAsync();
             await reader.ReadAsInt32Async();
 
@@ -893,9 +893,9 @@ new Date()"));
         [Fact]
         public async Task ReadAsString_UnexpectedEndAsync()
         {
-            string json = @"tru";
+            var json = @"tru";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsStringAsync(); }, "Unexpected end when reading JSON. Path '', line 1, position 3.");
         }
@@ -903,9 +903,9 @@ new Date()"));
         [Fact]
         public async Task ReadAsString_Null_UnexpectedEndAsync()
         {
-            string json = @"nul";
+            var json = @"nul";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            var reader = new JsonTextReader(new StringReader(json));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsStringAsync(); }, "Unexpected end when reading JSON. Path '', line 1, position 3.");
         }
@@ -913,7 +913,7 @@ new Date()"));
         [Fact]
         public async Task ReadStringValue_InvalidEndArrayAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("]"));
+            var reader = new JsonTextReader(new StringReader("]"));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () =>
             {
@@ -924,7 +924,7 @@ new Date()"));
         [Fact]
         public async Task ReadStringValue_CommaErrorsAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("[,'']"));
+            var reader = new JsonTextReader(new StringReader("[,'']"));
             await reader.ReadAsync();
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () =>
@@ -939,7 +939,7 @@ new Date()"));
         [Fact]
         public async Task ReadStringValue_CommaErrors_MultipleAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("['',,'']"));
+            var reader = new JsonTextReader(new StringReader("['',,'']"));
             await reader.ReadAsync();
             await reader.ReadAsInt32Async();
 
@@ -955,7 +955,7 @@ new Date()"));
         [Fact]
         public async Task ReadStringValue_Numbers_NotStringAsync()
         {
-            JsonTextReader reader = new JsonTextReader(new StringReader("[56,56]"));
+            var reader = new JsonTextReader(new StringReader("[56,56]"));
             await reader.ReadAsync();
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () =>
@@ -980,9 +980,9 @@ new Date()"));
         [Fact]
         public async Task ErrorReadingCommentAsync()
         {
-            string json = @"/";
+            var json = @"/";
 
-            JsonTextReader reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
+            var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
 
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsync(); }, "Unexpected end while parsing comment. Path '', line 1, position 1.");
         }
@@ -990,7 +990,7 @@ new Date()"));
         [Fact]
         public async Task EscapedPathInExceptionMessageAsync()
         {
-            string json = @"{
+            var json = @"{
   ""frameworks"": {
     ""NET5_0_OR_GREATER"": {
       ""dependencies"": {
@@ -1005,7 +1005,7 @@ new Date()"));
             await ExceptionAssert.ThrowsAsync<JsonReaderException>(
                 async () =>
                 {
-                    JsonTextReader reader = new JsonTextReader(new StringReader(json));
+                    var reader = new JsonTextReader(new StringReader(json));
                     while (await reader.ReadAsync())
                     {
                     }
@@ -1016,9 +1016,9 @@ new Date()"));
         [Fact]
         public async Task MaxDepthAsync()
         {
-            string json = "[[]]";
+            var json = "[[]]";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json))
+            var reader = new JsonTextReader(new StringReader(json))
             {
                 MaxDepth = 1
             };
@@ -1031,9 +1031,9 @@ new Date()"));
         [Fact]
         public async Task MaxDepthDoesNotRecursivelyErrorAsync()
         {
-            string json = "[[[[]]],[[]]]";
+            var json = "[[[[]]],[[]]]";
 
-            JsonTextReader reader = new JsonTextReader(new StringReader(json))
+            var reader = new JsonTextReader(new StringReader(json))
             {
                 MaxDepth = 1
             };

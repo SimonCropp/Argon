@@ -70,7 +70,7 @@ namespace Argon.Utilities
                 return () => (T)Activator.CreateInstance(type);
             }
 
-            ConstructorInfo constructorInfo = ReflectionUtils.GetDefaultConstructor(type, true);
+            var constructorInfo = ReflectionUtils.GetDefaultConstructor(type, true);
 
             return () => (T)constructorInfo.Invoke(null);
         }

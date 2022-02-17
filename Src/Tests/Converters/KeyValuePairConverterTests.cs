@@ -15,8 +15,8 @@ namespace Argon.Tests.Converters
         [Fact]
         public void SerializeUsingInternalConverter()
         {
-            DefaultContractResolver contractResolver = new DefaultContractResolver();
-            JsonObjectContract contract = (JsonObjectContract)contractResolver.ResolveContract(typeof(KeyValuePair<string, int>));
+            var contractResolver = new DefaultContractResolver();
+            var contract = (JsonObjectContract)contractResolver.ResolveContract(typeof(KeyValuePair<string, int>));
 
             Assert.AreEqual(typeof(KeyValuePairConverter), contract.InternalConverter.GetType());
 
@@ -26,7 +26,7 @@ namespace Argon.Tests.Converters
                 new KeyValuePair<string, int>("456", 456)
             };
 
-            string json = JsonConvert.SerializeObject(values, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(values, Formatting.Indented);
 
             StringAssert.AreEqual(@"[
   {
@@ -39,7 +39,7 @@ namespace Argon.Tests.Converters
   }
 ]", json);
 
-            IList<KeyValuePair<string, int>> v2 = JsonConvert.DeserializeObject<IList<KeyValuePair<string, int>>>(json);
+            var v2 = JsonConvert.DeserializeObject<IList<KeyValuePair<string, int>>>(json);
 
             Assert.AreEqual(2, v2.Count);
             Assert.AreEqual("123", v2[0].Key);

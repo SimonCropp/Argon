@@ -57,7 +57,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            Stockholder stockholder = new Stockholder
+            var stockholder = new Stockholder
             {
                 FullName = "Steve Stockholder",
                 Businesses = new List<Business>
@@ -70,7 +70,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
                 }
             };
 
-            string jsonTypeNameAll = JsonConvert.SerializeObject(stockholder, Formatting.Indented, new JsonSerializerSettings
+            var jsonTypeNameAll = JsonConvert.SerializeObject(stockholder, Formatting.Indented, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.All
             });
@@ -91,7 +91,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
             //   }
             // }
 
-            string jsonTypeNameAuto = JsonConvert.SerializeObject(stockholder, Formatting.Indented, new JsonSerializerSettings
+            var jsonTypeNameAuto = JsonConvert.SerializeObject(stockholder, Formatting.Indented, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto
             });
@@ -109,7 +109,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
             // }
 
             // for security TypeNameHandling is required when deserializing
-            Stockholder newStockholder = JsonConvert.DeserializeObject<Stockholder>(jsonTypeNameAuto, new JsonSerializerSettings
+            var newStockholder = JsonConvert.DeserializeObject<Stockholder>(jsonTypeNameAuto, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto
             });

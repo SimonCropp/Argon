@@ -40,16 +40,16 @@ namespace Argon.Tests.Documentation.Samples.Xml
         public void Example()
         {
             #region Usage
-            string xml = @"<person id='1'>
+            var xml = @"<person id='1'>
               <name>Alan</name>
               <url>http://www.google.com</url>
               <role>Admin1</role>
             </person>";
 
-            XmlDocument doc = new XmlDocument();
+            var doc = new XmlDocument();
             doc.LoadXml(xml);
 
-            string json = JsonConvert.SerializeXmlNode(doc);
+            var json = JsonConvert.SerializeXmlNode(doc);
 
             Console.WriteLine(json);
             // {

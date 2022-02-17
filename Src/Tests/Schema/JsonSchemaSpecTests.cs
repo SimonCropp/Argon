@@ -63,11 +63,11 @@ namespace Argon.Tests.Schema
         [TestCaseSource(nameof(GetSpecTestDetails))]
         public void SpecTest(JsonSchemaSpecTest jsonSchemaSpecTest)
         {
-            JsonSchema s = JsonSchema.Read(jsonSchemaSpecTest.Schema.CreateReader());
+            var s = JsonSchema.Read(jsonSchemaSpecTest.Schema.CreateReader());
 
             IList<string> e;
-            bool v = jsonSchemaSpecTest.Data.IsValid(s, out e);
-            string[] errorMessages = ((e != null) ? e.ToArray() : null) ?? new string[0];
+            var v = jsonSchemaSpecTest.Data.IsValid(s, out e);
+            var errorMessages = ((e != null) ? e.ToArray() : null) ?? new string[0];
 
             Assert.AreEqual(jsonSchemaSpecTest.IsValid, v, jsonSchemaSpecTest.TestCaseDescription + " - " + jsonSchemaSpecTest.TestDescription + " - errors: " + string.Join(", ", errorMessages));
         }
@@ -77,22 +77,22 @@ namespace Argon.Tests.Schema
             IList<JsonSchemaSpecTest> specTests = new List<JsonSchemaSpecTest>();
 
             // get test files location relative to the test project dll
-            string baseTestPath = Path.Combine("Schema", "Specs");
+            var baseTestPath = Path.Combine("Schema", "Specs");
 
-            string[] testFiles = Directory.GetFiles(baseTestPath, "*.json", SearchOption.AllDirectories);
+            var testFiles = Directory.GetFiles(baseTestPath, "*.json", SearchOption.AllDirectories);
 
             // read through each of the *.json test files and extract the test details
-            foreach (string testFile in testFiles)
+            foreach (var testFile in testFiles)
             {
-                string testJson = System.IO.File.ReadAllText(testFile);
+                var testJson = System.IO.File.ReadAllText(testFile);
 
-                JArray a = JArray.Parse(testJson);
+                var a = JArray.Parse(testJson);
 
                 foreach (JObject testCase in a)
                 {
                     foreach (JObject test in testCase["tests"])
                     {
-                        JsonSchemaSpecTest jsonSchemaSpecTest = new JsonSchemaSpecTest();
+                        var jsonSchemaSpecTest = new JsonSchemaSpecTest();
 
                         jsonSchemaSpecTest.FileName = Path.GetFileName(testFile);
                         jsonSchemaSpecTest.TestCaseDescription = (string)testCase["description"];

@@ -42,7 +42,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ReferenceLoopHandlingTest()
         {
-            JsonPropertyAttribute attribute = new JsonPropertyAttribute();
+            var attribute = new JsonPropertyAttribute();
             Assert.AreEqual(null, attribute._defaultValueHandling);
             Assert.AreEqual(ReferenceLoopHandling.Error, attribute.ReferenceLoopHandling);
 
@@ -54,10 +54,10 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void IgnoreObjectReferenceLoop()
         {
-            ReferenceLoopHandlingObjectContainerAttribute o = new ReferenceLoopHandlingObjectContainerAttribute();
+            var o = new ReferenceLoopHandlingObjectContainerAttribute();
             o.Value = o;
 
-            string json = JsonConvert.SerializeObject(o, Formatting.Indented, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(o, Formatting.Indented, new JsonSerializerSettings
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Serialize
             });
@@ -67,10 +67,10 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void IgnoreObjectReferenceLoopWithPropertyOverride()
         {
-            ReferenceLoopHandlingObjectContainerAttributeWithPropertyOverride o = new ReferenceLoopHandlingObjectContainerAttributeWithPropertyOverride();
+            var o = new ReferenceLoopHandlingObjectContainerAttributeWithPropertyOverride();
             o.Value = o;
 
-            string json = JsonConvert.SerializeObject(o, Formatting.Indented, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(o, Formatting.Indented, new JsonSerializerSettings
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Serialize
             });
@@ -92,10 +92,10 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void IgnoreArrayReferenceLoop()
         {
-            ReferenceLoopHandlingList a = new ReferenceLoopHandlingList();
+            var a = new ReferenceLoopHandlingList();
             a.Add(a);
 
-            string json = JsonConvert.SerializeObject(a, Formatting.Indented, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(a, Formatting.Indented, new JsonSerializerSettings
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Serialize
             });
@@ -105,10 +105,10 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void IgnoreDictionaryReferenceLoop()
         {
-            ReferenceLoopHandlingDictionary d = new ReferenceLoopHandlingDictionary();
+            var d = new ReferenceLoopHandlingDictionary();
             d.Add("First", d);
 
-            string json = JsonConvert.SerializeObject(d, Formatting.Indented, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(d, Formatting.Indented, new JsonSerializerSettings
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Serialize
             });
@@ -118,11 +118,11 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializePropertyItemReferenceLoopHandling()
         {
-            PropertyItemReferenceLoopHandling c = new PropertyItemReferenceLoopHandling();
+            var c = new PropertyItemReferenceLoopHandling();
             c.Text = "Text!";
             c.SetData(new List<PropertyItemReferenceLoopHandling> { c });
 
-            string json = JsonConvert.SerializeObject(c, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
             StringAssert.AreEqual(@"{
   ""Text"": ""Text!"",
@@ -262,11 +262,11 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void EqualityComparer()
         {
-            AccountWithEquals account = new AccountWithEquals
+            var account = new AccountWithEquals
             {
                 Name = "main"
             };
-            AccountWithEquals manager = new AccountWithEquals
+            var manager = new AccountWithEquals
             {
                 Name = "main"
             };
@@ -276,7 +276,7 @@ namespace Argon.Tests.Serialization
                 () => JsonConvert.SerializeObject(account),
                 "Self referencing loop detected for property 'Manager' with type 'Argon.Tests.Serialization.AccountWithEquals'. Path ''.");
 
-            string json = JsonConvert.SerializeObject(account, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(account, new JsonSerializerSettings
             {
                 EqualityComparer = new ReferenceEqualsEqualityComparer(),
                 Formatting = Formatting.Indented
@@ -313,7 +313,7 @@ namespace Argon.Tests.Serialization
 
         public override bool Equals(object obj)
         {
-            AccountWithEquals a = obj as AccountWithEquals;
+            var a = obj as AccountWithEquals;
             if (a == null)
             {
                 return false;

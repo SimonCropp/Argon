@@ -53,7 +53,7 @@ namespace Argon.Tests.Documentation.Samples.Json
 
         private JTokenType PeekState()
         {
-            JTokenType current = (_stateStack.Count > 0) ? _stateStack.Peek() : JTokenType.None;
+            var current = (_stateStack.Count > 0) ? _stateStack.Peek() : JTokenType.None;
             return current;
         }
 
@@ -69,7 +69,7 @@ namespace Argon.Tests.Documentation.Samples.Json
                 switch (_reader.NodeType)
                 {
                     case XmlNodeType.Element:
-                        string typeName = _reader.GetAttribute("type");
+                        var typeName = _reader.GetAttribute("type");
                         if (typeName == null)
                         {
                             throw new Exception("No type specified.");
@@ -190,7 +190,7 @@ namespace Argon.Tests.Documentation.Samples.Json
                     _valueType = null;
                     return true;
                 case JTokenType.Constructor:
-                    string constructorName = _reader.GetAttribute("name");
+                    var constructorName = _reader.GetAttribute("name");
                     if (constructorName == null)
                     {
                         throw new Exception("No constructor name specified.");
@@ -273,7 +273,7 @@ namespace Argon.Tests.Documentation.Samples.Json
         public void Example()
         {
             #region Usage
-            string xml = @"<Root type=""Object"">
+            var xml = @"<Root type=""Object"">
               <Null type=""Null"" />
               <String type=""String"">This is a string!</String>
               <Char type=""String"">!</Char>
@@ -301,12 +301,12 @@ namespace Argon.Tests.Documentation.Samples.Json
               </Constructor>
             </Root>";
 
-            StringReader sr = new StringReader(xml);
+            var sr = new StringReader(xml);
 
-            using (XmlReader xmlReader = XmlReader.Create(sr, new XmlReaderSettings { IgnoreWhitespace = true }))
-            using (XmlJsonReader reader = new XmlJsonReader(xmlReader))
+            using (var xmlReader = XmlReader.Create(sr, new XmlReaderSettings { IgnoreWhitespace = true }))
+            using (var reader = new XmlJsonReader(xmlReader))
             {
-                JObject o = JObject.Load(reader);
+                var o = JObject.Load(reader);
                 //{
                 //  "Null": null,
                 //  "String": "This is a string!",
@@ -333,8 +333,8 @@ namespace Argon.Tests.Documentation.Samples.Json
             }
             #endregion
 
-            using (XmlReader xmlReader = XmlReader.Create(new StringReader(xml), new XmlReaderSettings { IgnoreWhitespace = true }))
-            using (XmlJsonReader reader = new XmlJsonReader(xmlReader))
+            using (var xmlReader = XmlReader.Create(new StringReader(xml), new XmlReaderSettings { IgnoreWhitespace = true }))
+            using (var reader = new XmlJsonReader(xmlReader))
             {
                 Assert.IsTrue(reader.Read());
                 Assert.AreEqual(JsonToken.StartObject, reader.TokenType);

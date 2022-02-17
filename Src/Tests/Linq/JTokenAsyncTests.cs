@@ -41,10 +41,10 @@ namespace Argon.Tests.Linq
         [Fact]
         public async Task ReadFromAsync()
         {
-            JObject o = (JObject)await JToken.ReadFromAsync(new JsonTextReader(new StringReader("{'pie':true}")));
+            var o = (JObject)await JToken.ReadFromAsync(new JsonTextReader(new StringReader("{'pie':true}")));
             Assert.AreEqual(true, (bool)o["pie"]);
 
-            JArray a = (JArray)await JToken.ReadFromAsync(new JsonTextReader(new StringReader("[1,2,3]")));
+            var a = (JArray)await JToken.ReadFromAsync(new JsonTextReader(new StringReader("[1,2,3]")));
             Assert.AreEqual(1, (int)a[0]);
             Assert.AreEqual(2, (int)a[1]);
             Assert.AreEqual(3, (int)a[2]);
@@ -53,15 +53,15 @@ namespace Argon.Tests.Linq
             await reader.ReadAsync();
             await reader.ReadAsync();
 
-            JProperty p = (JProperty)await JToken.ReadFromAsync(reader);
+            var p = (JProperty)await JToken.ReadFromAsync(reader);
             Assert.AreEqual("pie", p.Name);
             Assert.AreEqual(true, (bool)p.Value);
 
-            JConstructor c = (JConstructor)await JToken.ReadFromAsync(new JsonTextReader(new StringReader("new Date(1)")));
+            var c = (JConstructor)await JToken.ReadFromAsync(new JsonTextReader(new StringReader("new Date(1)")));
             Assert.AreEqual("Date", c.Name);
             Assert.IsTrue(JToken.DeepEquals(new JValue(1), c.Values().ElementAt(0)));
 
-            JValue v = (JValue)await JToken.ReadFromAsync(new JsonTextReader(new StringReader(@"""stringvalue""")));
+            var v = (JValue)await JToken.ReadFromAsync(new JsonTextReader(new StringReader(@"""stringvalue""")));
             Assert.AreEqual("stringvalue", (string)v);
 
             v = (JValue)await JToken.ReadFromAsync(new JsonTextReader(new StringReader(@"1")));
@@ -81,14 +81,14 @@ namespace Argon.Tests.Linq
         [Fact]
         public async Task LoadAsync()
         {
-            JObject o = (JObject)await JToken.LoadAsync(new JsonTextReader(new StringReader("{'pie':true}")));
+            var o = (JObject)await JToken.LoadAsync(new JsonTextReader(new StringReader("{'pie':true}")));
             Assert.AreEqual(true, (bool)o["pie"]);
         }
 
         [Fact]
         public async Task CreateWriterAsync()
         {
-            JArray a =
+            var a =
                 new JArray(
                     5,
                     new JArray(1),
@@ -96,7 +96,7 @@ namespace Argon.Tests.Linq
                     new JArray(1, 2, 3)
                     );
 
-            JsonWriter writer = a.CreateWriter();
+            var writer = a.CreateWriter();
             Assert.IsNotNull(writer);
             Assert.AreEqual(4, a.Count);
 

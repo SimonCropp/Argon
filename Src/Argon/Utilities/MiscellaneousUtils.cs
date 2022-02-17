@@ -80,7 +80,7 @@ namespace Argon.Utilities
 
         public static ArgumentOutOfRangeException CreateArgumentOutOfRangeException(string paramName, object actualValue, string message)
         {
-            string newMessage = message + Environment.NewLine + @"Actual value was {0}.".FormatWith(CultureInfo.InvariantCulture, actualValue);
+            var newMessage = message + Environment.NewLine + @"Actual value was {0}.".FormatWith(CultureInfo.InvariantCulture, actualValue);
 
             return new ArgumentOutOfRangeException(paramName, newMessage);
         }
@@ -97,15 +97,15 @@ namespace Argon.Utilities
 
         public static int ByteArrayCompare(byte[] a1, byte[] a2)
         {
-            int lengthCompare = a1.Length.CompareTo(a2.Length);
+            var lengthCompare = a1.Length.CompareTo(a2.Length);
             if (lengthCompare != 0)
             {
                 return lengthCompare;
             }
 
-            for (int i = 0; i < a1.Length; i++)
+            for (var i = 0; i < a1.Length; i++)
             {
-                int valueCompare = a1[i].CompareTo(a2[i]);
+                var valueCompare = a1[i].CompareTo(a2[i]);
                 if (valueCompare != 0)
                 {
                     return valueCompare;
@@ -117,21 +117,21 @@ namespace Argon.Utilities
 
         public static string? GetPrefix(string qualifiedName)
         {
-            GetQualifiedNameParts(qualifiedName, out string? prefix, out _);
+            GetQualifiedNameParts(qualifiedName, out var prefix, out _);
 
             return prefix;
         }
 
         public static string GetLocalName(string qualifiedName)
         {
-            GetQualifiedNameParts(qualifiedName, out _, out string localName);
+            GetQualifiedNameParts(qualifiedName, out _, out var localName);
 
             return localName;
         }
 
         public static void GetQualifiedNameParts(string qualifiedName, out string? prefix, out string localName)
         {
-            int colonPosition = qualifiedName.IndexOf(':');
+            var colonPosition = qualifiedName.IndexOf(':');
 
             if ((colonPosition == -1 || colonPosition == 0) || (qualifiedName.Length - 1) == colonPosition)
             {
@@ -147,9 +147,9 @@ namespace Argon.Utilities
 
         internal static RegexOptions GetRegexOptions(string optionsText)
         {
-            RegexOptions options = RegexOptions.None;
+            var options = RegexOptions.None;
 
-            for (int i = 0; i < optionsText.Length; i++)
+            for (var i = 0; i < optionsText.Length; i++)
             {
                 switch (optionsText[i])
                 {

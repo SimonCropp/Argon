@@ -118,7 +118,7 @@ namespace Argon.Converters
         /// <returns>The object value.</returns>
         public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
         {
-            bool nullable = ReflectionUtils.IsNullableType(objectType);
+            var nullable = ReflectionUtils.IsNullableType(objectType);
             if (reader.TokenType == JsonToken.Null)
             {
                 if (!nullable)
@@ -129,7 +129,7 @@ namespace Argon.Converters
                 return null;
             }
 
-            Type t = (nullable)
+            var t = (nullable)
                 ? Nullable.GetUnderlyingType(objectType)
                 : objectType;
 
@@ -154,7 +154,7 @@ namespace Argon.Converters
                 throw JsonSerializationException.Create(reader, "Unexpected token parsing date. Expected String, got {0}.".FormatWith(CultureInfo.InvariantCulture, reader.TokenType));
             }
 
-            string? dateText = reader.Value?.ToString();
+            var dateText = reader.Value?.ToString();
 
             if (StringUtils.IsNullOrEmpty(dateText) && nullable)
             {

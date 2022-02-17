@@ -41,9 +41,9 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            List<string> errors = new List<string>();
+            var errors = new List<string>();
 
-            List<DateTime> c = JsonConvert.DeserializeObject<List<DateTime>>(@"[
+            var c = JsonConvert.DeserializeObject<List<DateTime>>(@"[
               '2009-09-09T00:00:00Z',
               'I am not a date and will error!',
               [

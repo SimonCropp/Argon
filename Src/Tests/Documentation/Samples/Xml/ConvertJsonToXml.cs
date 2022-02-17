@@ -40,7 +40,7 @@ namespace Argon.Tests.Documentation.Samples.Xml
         public void Example()
         {
             #region Usage
-            string json = @"{
+            var json = @"{
               '@Id': 1,
               'Email': 'james@example.com',
               'Active': true,

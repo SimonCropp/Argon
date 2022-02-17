@@ -127,7 +127,7 @@ namespace Argon.Schema
             {
                 _writer.WritePropertyName(JsonSchemaConstants.EnumPropertyName);
                 _writer.WriteStartArray();
-                foreach (JToken token in schema.Enum)
+                foreach (var token in schema.Enum)
                 {
                     token.WriteTo(_writer);
                 }
@@ -152,7 +152,7 @@ namespace Argon.Schema
                 else
                 {
                     _writer.WriteStartArray();
-                    foreach (JsonSchema jsonSchema in schema.Extends)
+                    foreach (var jsonSchema in schema.Extends)
                     {
                         ReferenceOrWriteSchema(jsonSchema);
                     }
@@ -168,7 +168,7 @@ namespace Argon.Schema
             {
                 writer.WritePropertyName(propertyName);
                 writer.WriteStartObject();
-                foreach (KeyValuePair<string, JsonSchema> property in properties)
+                foreach (var property in properties)
                 {
                     writer.WritePropertyName(property.Key);
                     ReferenceOrWriteSchema(property.Value);
@@ -203,7 +203,7 @@ namespace Argon.Schema
             _writer.WriteStartArray();
             if (schema.Items != null)
             {
-                foreach (JsonSchema itemSchema in schema.Items)
+                foreach (var itemSchema in schema.Items)
                 {
                     ReferenceOrWriteSchema(itemSchema);
                 }
@@ -220,11 +220,11 @@ namespace Argon.Schema
             }
             else
             {
-                IEnumerator<JsonSchemaType> en = EnumUtils.GetFlagsValues(type).Where(v => v != JsonSchemaType.None).GetEnumerator();
+                var en = EnumUtils.GetFlagsValues(type).Where(v => v != JsonSchemaType.None).GetEnumerator();
                 if (en.MoveNext())
                 {
                     writer.WritePropertyName(propertyName);
-                    JsonSchemaType first = en.Current;
+                    var first = en.Current;
                     if (en.MoveNext())
                     {
                         writer.WriteStartArray();

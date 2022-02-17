@@ -178,9 +178,9 @@ namespace Argon.Converters
                 return;
             }
 
-            Enum e = (Enum)value;
+            var e = (Enum)value;
 
-            if (!EnumUtils.TryToString(e.GetType(), value, NamingStrategy, out string? enumName))
+            if (!EnumUtils.TryToString(e.GetType(), value, NamingStrategy, out var enumName))
             {
                 if (!AllowIntegerValues)
                 {
@@ -216,14 +216,14 @@ namespace Argon.Converters
                 return null;
             }
 
-            bool isNullable = ReflectionUtils.IsNullableType(objectType);
-            Type t = isNullable ? Nullable.GetUnderlyingType(objectType) : objectType;
+            var isNullable = ReflectionUtils.IsNullableType(objectType);
+            var t = isNullable ? Nullable.GetUnderlyingType(objectType) : objectType;
 
             try
             {
                 if (reader.TokenType == JsonToken.String)
                 {
-                    string? enumText = reader.Value?.ToString();
+                    var enumText = reader.Value?.ToString();
 
                     if (StringUtils.IsNullOrEmpty(enumText) && isNullable)
                     {
@@ -261,7 +261,7 @@ namespace Argon.Converters
         /// </returns>
         public override bool CanConvert(Type objectType)
         {
-            Type t = (ReflectionUtils.IsNullableType(objectType))
+            var t = (ReflectionUtils.IsNullableType(objectType))
                 ? Nullable.GetUnderlyingType(objectType)
                 : objectType;
 

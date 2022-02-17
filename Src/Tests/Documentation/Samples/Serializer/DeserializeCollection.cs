@@ -40,9 +40,9 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            string json = @"['Starcraft','Halo','Legend of Zelda']";
+            var json = @"['Starcraft','Halo','Legend of Zelda']";
 
-            List<string> videogames = JsonConvert.DeserializeObject<List<string>>(json);
+            var videogames = JsonConvert.DeserializeObject<List<string>>(json);
 
             Console.WriteLine(string.Join(", ", videogames.ToArray()));
             // Starcraft, Halo, Legend of Zelda

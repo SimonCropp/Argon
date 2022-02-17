@@ -52,12 +52,12 @@ namespace Argon.Tests.Converters
         [Fact]
         public void DeserializeBinaryClass()
         {
-            string json = @"{
+            var json = @"{
   ""Binary"": ""VGhpcyBpcyBzb21lIHRlc3QgZGF0YSEhIQ=="",
   ""NullBinary"": null
 }";
 
-            BinaryClass binaryClass = JsonConvert.DeserializeObject<BinaryClass>(json, new BinaryConverter());
+            var binaryClass = JsonConvert.DeserializeObject<BinaryClass>(json, new BinaryConverter());
 
             Assert.AreEqual(new Binary(TestData), binaryClass.Binary);
             Assert.AreEqual(null, binaryClass.NullBinary);
@@ -66,12 +66,12 @@ namespace Argon.Tests.Converters
         [Fact]
         public void DeserializeBinaryClassFromJsonArray()
         {
-            string json = @"{
+            var json = @"{
   ""Binary"": [0, 1, 2, 3],
   ""NullBinary"": null
 }";
 
-            BinaryClass binaryClass = JsonConvert.DeserializeObject<BinaryClass>(json, new BinaryConverter());
+            var binaryClass = JsonConvert.DeserializeObject<BinaryClass>(json, new BinaryConverter());
 
             Assert.AreEqual(new byte[] { 0, 1, 2, 3 }, binaryClass.Binary.ToArray());
             Assert.AreEqual(null, binaryClass.NullBinary);
@@ -86,11 +86,11 @@ namespace Argon.Tests.Converters
         [Fact]
         public void SerializeBinaryClass()
         {
-            BinaryClass binaryClass = new BinaryClass();
+            var binaryClass = new BinaryClass();
             binaryClass.Binary = new Binary(TestData);
             binaryClass.NullBinary = null;
 
-            string json = JsonConvert.SerializeObject(binaryClass, Formatting.Indented, new BinaryConverter());
+            var json = JsonConvert.SerializeObject(binaryClass, Formatting.Indented, new BinaryConverter());
 
             StringAssert.AreEqual(@"{
   ""Binary"": ""VGhpcyBpcyBzb21lIHRlc3QgZGF0YSEhIQ=="",
@@ -102,11 +102,11 @@ namespace Argon.Tests.Converters
         [Fact]
         public void SerializeByteArrayClass()
         {
-            ByteArrayClass byteArrayClass = new ByteArrayClass();
+            var byteArrayClass = new ByteArrayClass();
             byteArrayClass.ByteArray = TestData;
             byteArrayClass.NullByteArray = null;
 
-            string json = JsonConvert.SerializeObject(byteArrayClass, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(byteArrayClass, Formatting.Indented);
 
             StringAssert.AreEqual(@"{
   ""ByteArray"": ""VGhpcyBpcyBzb21lIHRlc3QgZGF0YSEhIQ=="",
@@ -124,12 +124,12 @@ namespace Argon.Tests.Converters
         [Fact]
         public void SerializeSqlBinaryClass()
         {
-            SqlBinaryClass sqlBinaryClass = new SqlBinaryClass();
+            var sqlBinaryClass = new SqlBinaryClass();
             sqlBinaryClass.SqlBinary = new SqlBinary(TestData);
             sqlBinaryClass.NullableSqlBinary1 = new SqlBinary(TestData);
             sqlBinaryClass.NullableSqlBinary2 = null;
 
-            string json = JsonConvert.SerializeObject(sqlBinaryClass, Formatting.Indented, new BinaryConverter());
+            var json = JsonConvert.SerializeObject(sqlBinaryClass, Formatting.Indented, new BinaryConverter());
 
             StringAssert.AreEqual(@"{
   ""SqlBinary"": ""VGhpcyBpcyBzb21lIHRlc3QgZGF0YSEhIQ=="",
@@ -141,13 +141,13 @@ namespace Argon.Tests.Converters
         [Fact]
         public void DeserializeSqlBinaryClass()
         {
-            string json = @"{
+            var json = @"{
   ""SqlBinary"": ""VGhpcyBpcyBzb21lIHRlc3QgZGF0YSEhIQ=="",
   ""NullableSqlBinary1"": ""VGhpcyBpcyBzb21lIHRlc3QgZGF0YSEhIQ=="",
   ""NullableSqlBinary2"": null
 }";
 
-            SqlBinaryClass sqlBinaryClass = JsonConvert.DeserializeObject<SqlBinaryClass>(json, new BinaryConverter());
+            var sqlBinaryClass = JsonConvert.DeserializeObject<SqlBinaryClass>(json, new BinaryConverter());
 
             Assert.AreEqual(new SqlBinary(TestData), sqlBinaryClass.SqlBinary);
             Assert.AreEqual(new SqlBinary(TestData), sqlBinaryClass.NullableSqlBinary1);
@@ -157,12 +157,12 @@ namespace Argon.Tests.Converters
         [Fact]
         public void DeserializeByteArrayClass()
         {
-            string json = @"{
+            var json = @"{
   ""ByteArray"": ""VGhpcyBpcyBzb21lIHRlc3QgZGF0YSEhIQ=="",
   ""NullByteArray"": null
 }";
 
-            ByteArrayClass byteArrayClass = JsonConvert.DeserializeObject<ByteArrayClass>(json);
+            var byteArrayClass = JsonConvert.DeserializeObject<ByteArrayClass>(json);
 
             CollectionAssert.AreEquivalent(TestData, byteArrayClass.ByteArray);
             Assert.AreEqual(null, byteArrayClass.NullByteArray);
@@ -171,12 +171,12 @@ namespace Argon.Tests.Converters
         [Fact]
         public void DeserializeByteArrayFromJsonArray()
         {
-            string json = @"{
+            var json = @"{
   ""ByteArray"": [0, 1, 2, 3],
   ""NullByteArray"": null
 }";
 
-            ByteArrayClass c = JsonConvert.DeserializeObject<ByteArrayClass>(json);
+            var c = JsonConvert.DeserializeObject<ByteArrayClass>(json);
             Assert.IsNotNull(c.ByteArray);
             Assert.AreEqual(4, c.ByteArray.Length);
             CollectionAssert.AreEquivalent(new byte[] { 0, 1, 2, 3 }, c.ByteArray);

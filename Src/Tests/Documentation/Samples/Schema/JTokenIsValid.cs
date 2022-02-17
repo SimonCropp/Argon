@@ -37,7 +37,7 @@ namespace Argon.Tests.Documentation.Samples.Schema
         public void Example()
         {
             #region Usage
-            JsonSchema schema = JsonSchema.Parse(@"{
+            var schema = JsonSchema.Parse(@"{
               'type': 'object',
               'properties': {
                 'name': {'type':'string'},
@@ -48,13 +48,13 @@ namespace Argon.Tests.Documentation.Samples.Schema
               }
             }");
 
-            JObject person = JObject.Parse(@"{
+            var person = JObject.Parse(@"{
               'name': 'James',
               'hobbies': ['.NET', 'Blogging', 'Reading', 'Xbox', 'LOLCATS']
             }");
 
             IList<string> errorMessages;
-            bool valid = person.IsValid(schema, out errorMessages);
+            var valid = person.IsValid(schema, out errorMessages);
 
             Console.WriteLine(valid);
             // true

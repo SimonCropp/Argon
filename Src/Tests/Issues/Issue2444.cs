@@ -47,15 +47,15 @@ namespace Argon.Tests.Issues
                 }
             };
 
-            string json = @"{""dict"":{""value1"":""a"",""text_value"":""b""}}";
-            DataClass c = JsonConvert.DeserializeObject<DataClass>(json, settings);
+            var json = @"{""dict"":{""value1"":""a"",""text_value"":""b""}}";
+            var c = JsonConvert.DeserializeObject<DataClass>(json, settings);
 
             Assert.AreEqual(2, c.Dict.Count);
             Assert.AreEqual("a", c.Dict[MyEnum.Value1]);
             Assert.AreEqual("b", c.Dict[MyEnum.TextValue]);
 
-            string json1 = @"{""dict"":{""Value1"":""a"",""TextValue"":""b""}}";
-            DataClass c1 = JsonConvert.DeserializeObject<DataClass>(json1, settings);
+            var json1 = @"{""dict"":{""Value1"":""a"",""TextValue"":""b""}}";
+            var c1 = JsonConvert.DeserializeObject<DataClass>(json1, settings);
 
             Assert.AreEqual(2, c1.Dict.Count);
             Assert.AreEqual("a", c1.Dict[MyEnum.Value1]);

@@ -71,9 +71,9 @@ namespace Argon.Bson
             {
                 case BsonType.Object:
                 {
-                    BsonObject value = (BsonObject)t;
+                    var value = (BsonObject)t;
                     _writer.Write(value.CalculatedSize);
-                    foreach (BsonProperty property in value)
+                    foreach (var property in value)
                     {
                         _writer.Write((sbyte)property.Value.Type);
                         WriteString((string)property.Name.Value, property.Name.ByteCount, null);
@@ -84,10 +84,10 @@ namespace Argon.Bson
                     break;
                 case BsonType.Array:
                 {
-                    BsonArray value = (BsonArray)t;
+                    var value = (BsonArray)t;
                     _writer.Write(value.CalculatedSize);
                     ulong index = 0;
-                    foreach (BsonToken c in value)
+                    foreach (var c in value)
                     {
                         _writer.Write((sbyte)c.Type);
                         WriteString(index.ToString(CultureInfo.InvariantCulture), MathUtils.IntLength(index), null);
@@ -99,25 +99,25 @@ namespace Argon.Bson
                     break;
                 case BsonType.Integer:
                 {
-                    BsonValue value = (BsonValue)t;
+                    var value = (BsonValue)t;
                     _writer.Write(Convert.ToInt32(value.Value, CultureInfo.InvariantCulture));
                 }
                     break;
                 case BsonType.Long:
                 {
-                    BsonValue value = (BsonValue)t;
+                    var value = (BsonValue)t;
                     _writer.Write(Convert.ToInt64(value.Value, CultureInfo.InvariantCulture));
                 }
                     break;
                 case BsonType.Number:
                 {
-                    BsonValue value = (BsonValue)t;
+                    var value = (BsonValue)t;
                     _writer.Write(Convert.ToDouble(value.Value, CultureInfo.InvariantCulture));
                 }
                     break;
                 case BsonType.String:
                 {
-                    BsonString value = (BsonString)t;
+                    var value = (BsonString)t;
                     WriteString((string)value.Value, value.ByteCount, value.CalculatedSize - 4);
                 }
                     break;
@@ -129,7 +129,7 @@ namespace Argon.Bson
                     break;
                 case BsonType.Date:
                 {
-                    BsonValue value = (BsonValue)t;
+                    var value = (BsonValue)t;
 
                     long ticks = 0;
 
@@ -148,7 +148,7 @@ namespace Argon.Bson
                     }
                     else
                     {
-                        DateTimeOffset dateTimeOffset = (DateTimeOffset)value.Value;
+                        var dateTimeOffset = (DateTimeOffset)value.Value;
                         ticks = DateTimeUtils.ConvertDateTimeToJavaScriptTicks(dateTimeOffset.UtcDateTime, dateTimeOffset.Offset);
                     }
 
@@ -157,9 +157,9 @@ namespace Argon.Bson
                     break;
                 case BsonType.Binary:
                 {
-                    BsonBinary value = (BsonBinary)t;
+                    var value = (BsonBinary)t;
 
-                    byte[] data = (byte[])value.Value;
+                    var data = (byte[])value.Value;
                     _writer.Write(data.Length);
                     _writer.Write((byte)value.BinaryType);
                     _writer.Write(data);
@@ -167,15 +167,15 @@ namespace Argon.Bson
                     break;
                 case BsonType.Oid:
                 {
-                    BsonValue value = (BsonValue)t;
+                    var value = (BsonValue)t;
 
-                    byte[] data = (byte[])value.Value;
+                    var data = (byte[])value.Value;
                     _writer.Write(data);
                 }
                     break;
                 case BsonType.Regex:
                 {
-                    BsonRegex value = (BsonRegex)t;
+                    var value = (BsonRegex)t;
 
                     WriteString((string)value.Pattern.Value, value.Pattern.ByteCount, null);
                     WriteString((string)value.Options.Value, value.Options.ByteCount, null);
@@ -214,7 +214,7 @@ namespace Argon.Bson
                 }
                 else
                 {
-                    byte[] bytes = Encoding.GetBytes(s);
+                    var bytes = Encoding.GetBytes(s);
                     _writer.Write(bytes);
                 }
             }
@@ -227,7 +227,7 @@ namespace Argon.Bson
 
         private int CalculateSizeWithLength(int stringByteCount, bool includeSize)
         {
-            int baseSize = (includeSize)
+            var baseSize = (includeSize)
                 ? 5 // size bytes + terminator
                 : 1; // terminator
 
@@ -240,12 +240,12 @@ namespace Argon.Bson
             {
                 case BsonType.Object:
                 {
-                    BsonObject value = (BsonObject)t;
+                    var value = (BsonObject)t;
 
-                    int bases = 4;
-                    foreach (BsonProperty p in value)
+                    var bases = 4;
+                    foreach (var p in value)
                     {
-                        int size = 1;
+                        var size = 1;
                         size += CalculateSize(p.Name);
                         size += CalculateSize(p.Value);
 
@@ -257,11 +257,11 @@ namespace Argon.Bson
                 }
                 case BsonType.Array:
                 {
-                    BsonArray value = (BsonArray)t;
+                    var value = (BsonArray)t;
 
-                    int size = 4;
+                    var size = 4;
                     ulong index = 0;
-                    foreach (BsonToken c in value)
+                    foreach (var c in value)
                     {
                         size += 1;
                         size += CalculateSize(MathUtils.IntLength(index));
@@ -281,8 +281,8 @@ namespace Argon.Bson
                     return 8;
                 case BsonType.String:
                 {
-                    BsonString value = (BsonString)t;
-                    string s = (string)value.Value;
+                    var value = (BsonString)t;
+                    var s = (string)value.Value;
                     value.ByteCount = (s != null) ? Encoding.GetByteCount(s) : 0;
                     value.CalculatedSize = CalculateSizeWithLength(value.ByteCount, value.IncludeLength);
 
@@ -297,9 +297,9 @@ namespace Argon.Bson
                     return 8;
                 case BsonType.Binary:
                 {
-                    BsonBinary value = (BsonBinary)t;
+                    var value = (BsonBinary)t;
 
-                    byte[] data = (byte[])value.Value;
+                    var data = (byte[])value.Value;
                     value.CalculatedSize = 4 + 1 + data.Length;
 
                     return value.CalculatedSize;
@@ -308,8 +308,8 @@ namespace Argon.Bson
                     return 12;
                 case BsonType.Regex:
                 {
-                    BsonRegex value = (BsonRegex)t;
-                    int size = 0;
+                    var value = (BsonRegex)t;
+                    var size = 0;
                     size += CalculateSize(value.Pattern);
                     size += CalculateSize(value.Options);
                     value.CalculatedSize = size;

@@ -48,7 +48,7 @@ namespace Argon.Tests.Converters
         {
             var jsonString2 = @"[{""col1"": []}]";
 
-            DataTable dt = JsonConvert.DeserializeObject<DataTable>(jsonString2);
+            var dt = JsonConvert.DeserializeObject<DataTable>(jsonString2);
 
             Assert.AreEqual(1, dt.Columns.Count);
             Assert.AreEqual(typeof(string[]), dt.Columns["col1"].DataType);
@@ -56,15 +56,15 @@ namespace Argon.Tests.Converters
             Assert.AreEqual(1, dt.Rows.Count);
             Assert.IsNotNull(dt.Rows[0]["col1"]);
 
-            object[] value = (object[])dt.Rows[0]["col1"];
+            var value = (object[])dt.Rows[0]["col1"];
             Assert.AreEqual(0, value.Length);
         }
 
         [Fact]
         public void SerializeNullValues()
         {
-            DataTable dt = new DataTable();
-            List<Type> types = new List<Type>
+            var dt = new DataTable();
+            var types = new List<Type>
             {
                 typeof(TimeSpan),
                 typeof(char[]),
@@ -83,11 +83,11 @@ namespace Argon.Tests.Converters
 
             dt.Rows.Add(types.Select(t => (object)null).ToArray());
 
-            StringWriter sw = new StringWriter();
-            JsonTextWriter jsonWriter = new JsonTextWriter(sw);
+            var sw = new StringWriter();
+            var jsonWriter = new JsonTextWriter(sw);
             jsonWriter.Formatting = Formatting.Indented;
 
-            DataTableConverter converter = new DataTableConverter();
+            var converter = new DataTableConverter();
             converter.WriteJson(jsonWriter, dt, new JsonSerializer());
 
             StringAssert.AreEqual(@"[
@@ -107,8 +107,8 @@ namespace Argon.Tests.Converters
         [Fact]
         public void SerializeValues()
         {
-            DataTable dt = new DataTable();
-            Dictionary<Type, object> types = new Dictionary<Type, object>
+            var dt = new DataTable();
+            var types = new Dictionary<Type, object>
             {
                 [typeof(TimeSpan)] = TimeSpan.Zero,
                 [typeof(char[])] = new char[] {'a', 'b', 'c' },
@@ -127,14 +127,14 @@ namespace Argon.Tests.Converters
 
             dt.Rows.Add(types.Select(t => t.Value).ToArray());
 
-            StringWriter sw = new StringWriter();
-            JsonTextWriter jsonWriter = new JsonTextWriter(sw);
+            var sw = new StringWriter();
+            var jsonWriter = new JsonTextWriter(sw);
             jsonWriter.Formatting = Formatting.Indented;
 
-            DataTableConverter converter = new DataTableConverter();
+            var converter = new DataTableConverter();
             converter.WriteJson(jsonWriter, dt, new JsonSerializer());
 
-            string stringName = typeof(string).AssemblyQualifiedName;
+            var stringName = typeof(string).AssemblyQualifiedName;
 
             StringAssert.AreEqual(@"[
   {
@@ -157,10 +157,10 @@ namespace Argon.Tests.Converters
         [Fact]
         public void WriteJsonNull()
         {
-            StringWriter sw = new StringWriter();
-            JsonTextWriter jsonWriter = new JsonTextWriter(sw);
+            var sw = new StringWriter();
+            var jsonWriter = new JsonTextWriter(sw);
 
-            DataTableConverter converter = new DataTableConverter();
+            var converter = new DataTableConverter();
             converter.WriteJson(jsonWriter, null, null);
 
             StringAssert.AreEqual(@"null", sw.ToString());
@@ -169,7 +169,7 @@ namespace Argon.Tests.Converters
         [Fact]
         public void Deserialize()
         {
-            string json = @"[
+            var json = @"[
   {
     ""id"": 0,
     ""item"": ""item 0"",
@@ -198,7 +198,7 @@ namespace Argon.Tests.Converters
   }
 ]";
 
-            DataTable deserializedDataTable = JsonConvert.DeserializeObject<DataTable>(json);
+            var deserializedDataTable = JsonConvert.DeserializeObject<DataTable>(json);
             Assert.IsNotNull(deserializedDataTable);
 
             Assert.AreEqual(string.Empty, deserializedDataTable.TableName);
@@ -216,14 +216,14 @@ namespace Argon.Tests.Converters
 
             Assert.AreEqual(2, deserializedDataTable.Rows.Count);
 
-            DataRow dr1 = deserializedDataTable.Rows[0];
+            var dr1 = deserializedDataTable.Rows[0];
             Assert.AreEqual(0L, dr1["id"]);
             Assert.AreEqual("item 0", dr1["item"]);
             Assert.AreEqual("0!", ((DataTable)dr1["DataTableCol"]).Rows[0]["NestedStringCol"]);
             Assert.AreEqual(0L, ((long[])dr1["ArrayCol"])[0]);
             Assert.AreEqual(new DateTime(2000, 12, 29, 0, 0, 0, DateTimeKind.Utc), dr1["DateCol"]);
 
-            DataRow dr2 = deserializedDataTable.Rows[1];
+            var dr2 = deserializedDataTable.Rows[1];
             Assert.AreEqual(1L, dr2["id"]);
             Assert.AreEqual("item 1", dr2["item"]);
             Assert.AreEqual("1!", ((DataTable)dr2["DataTableCol"]).Rows[0]["NestedStringCol"]);
@@ -234,7 +234,7 @@ namespace Argon.Tests.Converters
         [Fact]
         public void DeserializeParseHandling()
         {
-            string json = @"[
+            var json = @"[
   {
     ""DateCol"": ""2000-12-29T00:00:00Z"",
     ""FloatCol"": 99.9999999999999999999
@@ -245,7 +245,7 @@ namespace Argon.Tests.Converters
   }
 ]";
 
-            DataTable deserializedDataTable = JsonConvert.DeserializeObject<DataTable>(json, new JsonSerializerSettings
+            var deserializedDataTable = JsonConvert.DeserializeObject<DataTable>(json, new JsonSerializerSettings
             {
                 DateParseHandling = DateParseHandling.DateTimeOffset,
                 FloatParseHandling = FloatParseHandling.Decimal
@@ -261,11 +261,11 @@ namespace Argon.Tests.Converters
 
             Assert.AreEqual(2, deserializedDataTable.Rows.Count);
 
-            DataRow dr1 = deserializedDataTable.Rows[0];
+            var dr1 = deserializedDataTable.Rows[0];
             Assert.AreEqual(new DateTimeOffset(2000, 12, 29, 0, 0, 0, TimeSpan.Zero), dr1["DateCol"]);
             Assert.AreEqual(99.9999999999999999999m, dr1["FloatCol"]);
 
-            DataRow dr2 = deserializedDataTable.Rows[1];
+            var dr2 = deserializedDataTable.Rows[1];
             Assert.AreEqual(new DateTimeOffset(2000, 12, 29, 0, 0, 0, TimeSpan.Zero), dr2["DateCol"]);
             Assert.AreEqual(99.9999999999999999999m, dr2["FloatCol"]);
         }
@@ -274,48 +274,48 @@ namespace Argon.Tests.Converters
         public void Serialize()
         {
             // create a new DataTable.
-            DataTable myTable = new DataTable("blah");
+            var myTable = new DataTable("blah");
 
             // create DataColumn objects of data types.
-            DataColumn colString = new DataColumn("StringCol");
+            var colString = new DataColumn("StringCol");
             colString.DataType = typeof(string);
             myTable.Columns.Add(colString);
 
-            DataColumn colInt32 = new DataColumn("Int32Col");
+            var colInt32 = new DataColumn("Int32Col");
             colInt32.DataType = typeof(int);
             myTable.Columns.Add(colInt32);
 
-            DataColumn colBoolean = new DataColumn("BooleanCol");
+            var colBoolean = new DataColumn("BooleanCol");
             colBoolean.DataType = typeof(bool);
             myTable.Columns.Add(colBoolean);
 
-            DataColumn colTimeSpan = new DataColumn("TimeSpanCol");
+            var colTimeSpan = new DataColumn("TimeSpanCol");
             colTimeSpan.DataType = typeof(TimeSpan);
             myTable.Columns.Add(colTimeSpan);
 
-            DataColumn colDateTime = new DataColumn("DateTimeCol");
+            var colDateTime = new DataColumn("DateTimeCol");
             colDateTime.DataType = typeof(DateTime);
             colDateTime.DateTimeMode = DataSetDateTime.Utc;
             myTable.Columns.Add(colDateTime);
 
-            DataColumn colDecimal = new DataColumn("DecimalCol");
+            var colDecimal = new DataColumn("DecimalCol");
             colDecimal.DataType = typeof(decimal);
             myTable.Columns.Add(colDecimal);
 
-            DataColumn colDataTable = new DataColumn("DataTableCol");
+            var colDataTable = new DataColumn("DataTableCol");
             colDataTable.DataType = typeof(DataTable);
             myTable.Columns.Add(colDataTable);
 
-            DataColumn colArray = new DataColumn("ArrayCol");
+            var colArray = new DataColumn("ArrayCol");
             colArray.DataType = typeof(int[]);
             myTable.Columns.Add(colArray);
 
-            DataColumn colBytes = new DataColumn("BytesCol");
+            var colBytes = new DataColumn("BytesCol");
             colBytes.DataType = typeof(byte[]);
             myTable.Columns.Add(colBytes);
 
             // populate one row with values.
-            DataRow myNewRow = myTable.NewRow();
+            var myNewRow = myTable.NewRow();
 
             myNewRow["StringCol"] = "Item Name";
             myNewRow["Int32Col"] = 2147483647;
@@ -326,18 +326,18 @@ namespace Argon.Tests.Converters
             myNewRow["ArrayCol"] = new[] { 1 };
             myNewRow["BytesCol"] = Encoding.UTF8.GetBytes("Hello world");
 
-            DataTable nestedTable = new DataTable("Nested");
-            DataColumn nestedColString = new DataColumn("NestedStringCol");
+            var nestedTable = new DataTable("Nested");
+            var nestedColString = new DataColumn("NestedStringCol");
             nestedColString.DataType = typeof(string);
             nestedTable.Columns.Add(nestedColString);
-            DataRow myNewNestedRow = nestedTable.NewRow();
+            var myNewNestedRow = nestedTable.NewRow();
             myNewNestedRow["NestedStringCol"] = "Nested!";
             nestedTable.Rows.Add(myNewNestedRow);
 
             myNewRow["DataTableCol"] = nestedTable;
             myTable.Rows.Add(myNewRow);
 
-            string json = JsonConvert.SerializeObject(myTable, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(myTable, Formatting.Indented);
             StringAssert.AreEqual(@"[
   {
     ""StringCol"": ""Item Name"",
@@ -363,14 +363,14 @@ namespace Argon.Tests.Converters
         {
             public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
             {
-                DataTable d = (DataTable)value;
+                var d = (DataTable)value;
                 writer.WriteValue(d.TableName);
             }
 
             public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
             {
                 //reader.Read();
-                DataTable d = new DataTable((string)reader.Value);
+                var d = new DataTable((string)reader.Value);
 
                 return d;
             }
@@ -384,12 +384,12 @@ namespace Argon.Tests.Converters
         [Fact]
         public void PassedInJsonConverterOverridesInternalConverter()
         {
-            DataTable t1 = new DataTable("Custom");
+            var t1 = new DataTable("Custom");
 
-            string json = JsonConvert.SerializeObject(t1, Formatting.Indented, new TestDataTableConverter());
+            var json = JsonConvert.SerializeObject(t1, Formatting.Indented, new TestDataTableConverter());
             Assert.AreEqual(@"""Custom""", json);
 
-            DataTable t2 = JsonConvert.DeserializeObject<DataTable>(json, new TestDataTableConverter());
+            var t2 = JsonConvert.DeserializeObject<DataTable>(json, new TestDataTableConverter());
             Assert.AreEqual(t1.TableName, t2.TableName);
         }
 
@@ -397,21 +397,21 @@ namespace Argon.Tests.Converters
         [Fact]
         public void RoundtripBsonBytes()
         {
-            Guid g = new Guid("EDE9A599-A7D9-44A9-9243-7C287049DD20");
+            var g = new Guid("EDE9A599-A7D9-44A9-9243-7C287049DD20");
 
             var table = new DataTable();
             table.Columns.Add("data", typeof(byte[]));
             table.Columns.Add("id", typeof(Guid));
             table.Rows.Add(Encoding.UTF8.GetBytes("Hello world!"), g);
 
-            JsonSerializer serializer = new JsonSerializer();
+            var serializer = new JsonSerializer();
 
-            MemoryStream ms = new MemoryStream();
-            BsonWriter bw = new BsonWriter(ms);
+            var ms = new MemoryStream();
+            var bw = new BsonWriter(ms);
 
             serializer.Serialize(bw, table);
 
-            JToken o = JToken.ReadFrom(new BsonReader(new MemoryStream(ms.ToArray())) { ReadRootValueAsArray = true });
+            var o = JToken.ReadFrom(new BsonReader(new MemoryStream(ms.ToArray())) { ReadRootValueAsArray = true });
             StringAssert.AreEqual(@"[
   {
     ""data"": ""SGVsbG8gd29ybGQh"",
@@ -419,7 +419,7 @@ namespace Argon.Tests.Converters
   }
 ]", o.ToString());
 
-            DataTable deserializedDataTable = serializer.Deserialize<DataTable>(new BsonReader(new MemoryStream(ms.ToArray())) { ReadRootValueAsArray = true });
+            var deserializedDataTable = serializer.Deserialize<DataTable>(new BsonReader(new MemoryStream(ms.ToArray())) { ReadRootValueAsArray = true });
 
             Assert.AreEqual(string.Empty, deserializedDataTable.TableName);
             Assert.AreEqual(2, deserializedDataTable.Columns.Count);
@@ -430,7 +430,7 @@ namespace Argon.Tests.Converters
 
             Assert.AreEqual(1, deserializedDataTable.Rows.Count);
 
-            DataRow dr1 = deserializedDataTable.Rows[0];
+            var dr1 = deserializedDataTable.Rows[0];
             CollectionAssert.AreEquivalent(Encoding.UTF8.GetBytes("Hello world!"), (byte[])dr1["data"]);
             Assert.AreEqual(g, (Guid)dr1["id"]);
         }
@@ -508,21 +508,21 @@ namespace Argon.Tests.Converters
         [Fact]
         public void SerializeKeyValuePairWithDataTableKey()
         {
-            DataTable table = new DataTable();
-            DataColumn idColumn = new DataColumn("id", typeof(int));
+            var table = new DataTable();
+            var idColumn = new DataColumn("id", typeof(int));
             idColumn.AutoIncrement = true;
 
-            DataColumn itemColumn = new DataColumn("item");
+            var itemColumn = new DataColumn("item");
             table.Columns.Add(idColumn);
             table.Columns.Add(itemColumn);
 
-            DataRow r = table.NewRow();
+            var r = table.NewRow();
             r["item"] = "item!";
             r.EndEdit();
             table.Rows.Add(r);
 
-            KeyValuePair<DataTable, int> pair = new KeyValuePair<DataTable, int>(table, 1);
-            string serializedpair = JsonConvert.SerializeObject(pair, Formatting.Indented);
+            var pair = new KeyValuePair<DataTable, int>(table, 1);
+            var serializedpair = JsonConvert.SerializeObject(pair, Formatting.Indented);
 
             StringAssert.AreEqual(@"{
   ""Key"": [
@@ -544,10 +544,10 @@ namespace Argon.Tests.Converters
         [Fact]
         public void SerializedTypedDataTable()
         {
-            CustomerDataSet.CustomersDataTable dt = new CustomerDataSet.CustomersDataTable();
+            var dt = new CustomerDataSet.CustomersDataTable();
             dt.AddCustomersRow("432");
 
-            string json = JsonConvert.SerializeObject(dt, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(dt, Formatting.Indented);
 
             StringAssert.AreEqual(@"[
   {
@@ -559,7 +559,7 @@ namespace Argon.Tests.Converters
         [Fact]
         public void DeserializedTypedDataTable()
         {
-            string json = @"[
+            var json = @"[
   {
     ""CustomerID"": ""432""
   }
@@ -578,18 +578,18 @@ namespace Argon.Tests.Converters
         [Fact]
         public void SerializeNull()
         {
-            DataTableTestClass c1 = new DataTableTestClass
+            var c1 = new DataTableTestClass
             {
                 Table = null
             };
 
-            string json = JsonConvert.SerializeObject(c1, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(c1, Formatting.Indented);
 
             StringAssert.AreEqual(@"{
   ""Table"": null
 }", json);
 
-            DataTableTestClass c2 = JsonConvert.DeserializeObject<DataTableTestClass>(json);
+            var c2 = JsonConvert.DeserializeObject<DataTableTestClass>(json);
 
             Assert.AreEqual(null, c2.Table);
         }
@@ -597,7 +597,7 @@ namespace Argon.Tests.Converters
         [Fact]
         public void SerializeNullRoot()
         {
-            string json = JsonConvert.SerializeObject(null, typeof(DataTable), new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(null, typeof(DataTable), new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented
             });
@@ -608,7 +608,7 @@ namespace Argon.Tests.Converters
         [Fact]
         public void DeserializedTypedDataTableWithConverter()
         {
-            string json = @"{
+            var json = @"{
   ""TestTable"": [
     {
       ""DateTimeValue"": ""2015-11-28T00:00:00""
@@ -619,12 +619,12 @@ namespace Argon.Tests.Converters
   ]
 }";
 
-            SqlTypesDataSet ds = JsonConvert.DeserializeObject<SqlTypesDataSet>(json, new SqlDateTimeConverter());
+            var ds = JsonConvert.DeserializeObject<SqlTypesDataSet>(json, new SqlDateTimeConverter());
 
             Assert.AreEqual(new System.Data.SqlTypes.SqlDateTime(2015, 11, 28), ds.TestTable[0].DateTimeValue);
             Assert.AreEqual(System.Data.SqlTypes.SqlDateTime.Null, ds.TestTable[1].DateTimeValue);
 
-            string json2 = JsonConvert.SerializeObject(ds, Formatting.Indented, new SqlDateTimeConverter());
+            var json2 = JsonConvert.SerializeObject(ds, Formatting.Indented, new SqlDateTimeConverter());
 
             StringAssert.AreEqual(json, json2);
         }
@@ -664,7 +664,7 @@ namespace Argon.Tests.Converters
         [Fact]
         public void HandleColumnOnError()
         {
-            string json = "[{\"timeCol\":\"\"}]";
+            var json = "[{\"timeCol\":\"\"}]";
             DataTable table = JsonConvert.DeserializeObject<CustomDataTable>(json);
 
             Assert.AreEqual(DBNull.Value, table.Rows[0]["timeCol"]);
@@ -679,7 +679,7 @@ namespace Argon.Tests.Converters
         {
             protected DataTable CreateTable()
             {
-                CustomDataTable table = new CustomDataTable();
+                var table = new CustomDataTable();
                 table.Columns.Add("timeCol", typeof(DateTime));
                 return table;
             }

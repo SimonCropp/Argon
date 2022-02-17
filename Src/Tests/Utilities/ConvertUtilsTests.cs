@@ -159,16 +159,16 @@ namespace Argon.Tests.Utilities
         private void AssertDecimalTryParse(string s, ParseResult expectedResult, decimal? expectedValue)
         {
             decimal d;
-            char[] c = s.ToCharArray();
-            ParseResult result = ConvertUtils.DecimalTryParse(c, 0, c.Length, out d);
+            var c = s.ToCharArray();
+            var result = ConvertUtils.DecimalTryParse(c, 0, c.Length, out d);
 
             decimal d2;
-            bool result2 = decimal.TryParse(s, NumberStyles.Float, CultureInfo.InvariantCulture, out d2)
-                && !s.StartsWith(".")
-                && !s.EndsWith(".")
-                && !(s.StartsWith("0") && s.Length > 1 && !s.StartsWith("0.") && !s.StartsWith("0e", StringComparison.OrdinalIgnoreCase))
-                && !(s.StartsWith("-0") && s.Length > 2 && !s.StartsWith("-0.") && !s.StartsWith("-0e", StringComparison.OrdinalIgnoreCase))
-                && s.IndexOf(".e", StringComparison.OrdinalIgnoreCase) == -1;
+            var result2 = decimal.TryParse(s, NumberStyles.Float, CultureInfo.InvariantCulture, out d2)
+                          && !s.StartsWith(".")
+                          && !s.EndsWith(".")
+                          && !(s.StartsWith("0") && s.Length > 1 && !s.StartsWith("0.") && !s.StartsWith("0e", StringComparison.OrdinalIgnoreCase))
+                          && !(s.StartsWith("-0") && s.Length > 2 && !s.StartsWith("-0.") && !s.StartsWith("-0e", StringComparison.OrdinalIgnoreCase))
+                          && s.IndexOf(".e", StringComparison.OrdinalIgnoreCase) == -1;
 
             Assert.AreEqual(expectedResult, result);
             Assert.AreEqual(expectedResult == ParseResult.Success, result2);
@@ -260,8 +260,8 @@ namespace Argon.Tests.Utilities
         public void Int64TryParse()
         {
             long l;
-            char[] c = "43443333222211111117".ToCharArray();
-            ParseResult result = ConvertUtils.Int64TryParse(c, 0, c.Length, out l);
+            var c = "43443333222211111117".ToCharArray();
+            var result = ConvertUtils.Int64TryParse(c, 0, c.Length, out l);
             Assert.AreEqual(ParseResult.Overflow, result);
 
             c = "9223372036854775807".ToCharArray();
@@ -273,7 +273,7 @@ namespace Argon.Tests.Utilities
             result = ConvertUtils.Int64TryParse(c, 0, c.Length, out l);
             Assert.AreEqual(ParseResult.Overflow, result);
 
-            for (int i = 3; i < 10; i++)
+            for (var i = 3; i < 10; i++)
             {
                 c = ("9" + i + "23372036854775807").ToCharArray();
                 result = ConvertUtils.Int64TryParse(c, 0, c.Length, out l);
@@ -289,7 +289,7 @@ namespace Argon.Tests.Utilities
             result = ConvertUtils.Int64TryParse(c, 0, c.Length, out l);
             Assert.AreEqual(ParseResult.Overflow, result);
 
-            for (int i = 3; i < 10; i++)
+            for (var i = 3; i < 10; i++)
             {
                 c = ("-9" + i + "23372036854775808").ToCharArray();
                 result = ConvertUtils.Int64TryParse(c, 0, c.Length, out l);
@@ -301,8 +301,8 @@ namespace Argon.Tests.Utilities
         public void Int32TryParse()
         {
             int i;
-            char[] c = "43443333227".ToCharArray();
-            ParseResult result = ConvertUtils.Int32TryParse(c, 0, c.Length, out i);
+            var c = "43443333227".ToCharArray();
+            var result = ConvertUtils.Int32TryParse(c, 0, c.Length, out i);
             Assert.AreEqual(ParseResult.Overflow, result);
 
             c = "2147483647".ToCharArray();
@@ -323,11 +323,11 @@ namespace Argon.Tests.Utilities
             result = ConvertUtils.Int32TryParse(c, 0, c.Length, out i);
             Assert.AreEqual(ParseResult.Overflow, result);
 
-            for (int j = 2; j < 10; j++)
+            for (var j = 2; j < 10; j++)
             {
-                for (int k = 2; k < 10; k++)
+                for (var k = 2; k < 10; k++)
                 {
-                    string t = j.ToString(CultureInfo.InvariantCulture) + k.ToString(CultureInfo.InvariantCulture) + "47483647";
+                    var t = j.ToString(CultureInfo.InvariantCulture) + k.ToString(CultureInfo.InvariantCulture) + "47483647";
 
                     c = t.ToCharArray();
                     result = ConvertUtils.Int32TryParse(c, 0, c.Length, out i);
@@ -336,11 +336,11 @@ namespace Argon.Tests.Utilities
                 }
             }
 
-            for (int j = 2; j < 10; j++)
+            for (var j = 2; j < 10; j++)
             {
-                for (int k = 2; k < 10; k++)
+                for (var k = 2; k < 10; k++)
                 {
-                    string t = "-" + j.ToString(CultureInfo.InvariantCulture) + k.ToString(CultureInfo.InvariantCulture) + "47483648";
+                    var t = "-" + j.ToString(CultureInfo.InvariantCulture) + k.ToString(CultureInfo.InvariantCulture) + "47483648";
 
                     c = t.ToCharArray();
                     result = ConvertUtils.Int32TryParse(c, 0, c.Length, out i);
@@ -385,7 +385,7 @@ namespace Argon.Tests.Utilities
 
         private void HexParseSame(string text)
         {
-            int v1 = int.Parse(text, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+            var v1 = int.Parse(text, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
 
             int v2;
             Assert.IsTrue(ConvertUtils.TryHexTextToInt(text.ToCharArray(), 0, 4, out v2));

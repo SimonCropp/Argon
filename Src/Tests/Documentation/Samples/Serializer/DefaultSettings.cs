@@ -55,7 +55,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
                     ContractResolver = new CamelCasePropertyNamesContractResolver()
                 };
 
-                Staff s = new Staff
+                var s = new Staff
                 {
                     FirstName = "Eric",
                     LastName = "Example",

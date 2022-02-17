@@ -18,14 +18,14 @@ namespace Argon.Linq.JsonPath
                 throw new JsonException("Step cannot be zero.");
             }
 
-            foreach (JToken t in current)
+            foreach (var t in current)
             {
                 if (t is JArray a)
                 {
                     // set defaults for null arguments
-                    int stepCount = Step ?? 1;
-                    int startIndex = Start ?? ((stepCount > 0) ? 0 : a.Count - 1);
-                    int stopIndex = End ?? ((stepCount > 0) ? a.Count : -1);
+                    var stepCount = Step ?? 1;
+                    var startIndex = Start ?? ((stepCount > 0) ? 0 : a.Count - 1);
+                    var stopIndex = End ?? ((stepCount > 0) ? a.Count : -1);
 
                     // start from the end of the list if start is negative
                     if (Start < 0)
@@ -45,11 +45,11 @@ namespace Argon.Linq.JsonPath
                     stopIndex = Math.Max(stopIndex, -1);
                     stopIndex = Math.Min(stopIndex, a.Count);
 
-                    bool positiveStep = (stepCount > 0);
+                    var positiveStep = (stepCount > 0);
 
                     if (IsValid(startIndex, stopIndex, positiveStep))
                     {
-                        for (int i = startIndex; IsValid(i, stopIndex, positiveStep); i += stepCount)
+                        for (var i = startIndex; IsValid(i, stopIndex, positiveStep); i += stepCount)
                         {
                             yield return a[i];
                         }

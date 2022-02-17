@@ -102,9 +102,9 @@ namespace Argon.Schema
 
         private TypeSchema Pop()
         {
-            TypeSchema popped = _stack[_stack.Count - 1];
+            var popped = _stack[_stack.Count - 1];
             _stack.RemoveAt(_stack.Count - 1);
-            TypeSchema newValue = _stack.LastOrDefault();
+            var newValue = _stack.LastOrDefault();
             if (newValue != null)
             {
                 _currentSchema = newValue.Schema;
@@ -168,7 +168,7 @@ namespace Argon.Schema
 
         private string GetTitle(Type type)
         {
-            JsonContainerAttribute containerAttribute = JsonTypeReflector.GetCachedAttribute<JsonContainerAttribute>(type);
+            var containerAttribute = JsonTypeReflector.GetCachedAttribute<JsonContainerAttribute>(type);
 
             if (!StringUtils.IsNullOrEmpty(containerAttribute?.Title))
             {
@@ -180,20 +180,20 @@ namespace Argon.Schema
 
         private string GetDescription(Type type)
         {
-            JsonContainerAttribute containerAttribute = JsonTypeReflector.GetCachedAttribute<JsonContainerAttribute>(type);
+            var containerAttribute = JsonTypeReflector.GetCachedAttribute<JsonContainerAttribute>(type);
 
             if (!StringUtils.IsNullOrEmpty(containerAttribute?.Description))
             {
                 return containerAttribute.Description;
             }
 
-            DescriptionAttribute descriptionAttribute = ReflectionUtils.GetAttribute<DescriptionAttribute>(type);
+            var descriptionAttribute = ReflectionUtils.GetAttribute<DescriptionAttribute>(type);
             return descriptionAttribute?.Description;
         }
 
         private string GetTypeId(Type type, bool explicitOnly)
         {
-            JsonContainerAttribute containerAttribute = JsonTypeReflector.GetCachedAttribute<JsonContainerAttribute>(type);
+            var containerAttribute = JsonTypeReflector.GetCachedAttribute<JsonContainerAttribute>(type);
 
             if (!StringUtils.IsNullOrEmpty(containerAttribute?.Id))
             {
@@ -220,12 +220,12 @@ namespace Argon.Schema
         {
             ValidationUtils.ArgumentNotNull(type, nameof(type));
 
-            string resolvedId = GetTypeId(type, false);
-            string explicitId = GetTypeId(type, true);
+            var resolvedId = GetTypeId(type, false);
+            var explicitId = GetTypeId(type, true);
 
             if (!StringUtils.IsNullOrEmpty(resolvedId))
             {
-                JsonSchema resolvedSchema = _resolver.GetSchema(resolvedId);
+                var resolvedSchema = _resolver.GetSchema(resolvedId);
                 if (resolvedSchema != null)
                 {
                     // resolved schema is not null but referencing member allows nulls
@@ -249,8 +249,8 @@ namespace Argon.Schema
                 throw new JsonException("Unresolved circular reference for type '{0}'. Explicitly define an Id for the type using a JsonObject/JsonArray attribute or automatically generate a type Id using the UndefinedSchemaIdHandling property.".FormatWith(CultureInfo.InvariantCulture, type));
             }
 
-            JsonContract contract = ContractResolver.ResolveContract(type);
-            JsonConverter converter = contract.Converter ?? contract.InternalConverter;
+            var contract = ContractResolver.ResolveContract(type);
+            var converter = contract.Converter ?? contract.InternalConverter;
 
             Push(new TypeSchema(type, new JsonSchema()));
 
@@ -285,10 +285,10 @@ namespace Argon.Schema
 
                         CurrentSchema.Id = GetTypeId(type, false);
 
-                        JsonArrayAttribute arrayAttribute = JsonTypeReflector.GetCachedAttribute<JsonArrayAttribute>(type);
-                        bool allowNullItem = (arrayAttribute == null || arrayAttribute.AllowNullItems);
+                        var arrayAttribute = JsonTypeReflector.GetCachedAttribute<JsonArrayAttribute>(type);
+                        var allowNullItem = (arrayAttribute == null || arrayAttribute.AllowNullItems);
 
-                        Type collectionItemType = ReflectionUtils.GetCollectionItemType(type);
+                        var collectionItemType = ReflectionUtils.GetCollectionItemType(type);
                         if (collectionItemType != null)
                         {
                             CurrentSchema.Items = new List<JsonSchema>();
@@ -302,18 +302,18 @@ namespace Argon.Schema
                         {
                             CurrentSchema.Enum = new List<JToken>();
 
-                            EnumInfo enumValues = EnumUtils.GetEnumValuesAndNames(type);
-                            for (int i = 0; i < enumValues.Names.Length; i++)
+                            var enumValues = EnumUtils.GetEnumValuesAndNames(type);
+                            for (var i = 0; i < enumValues.Names.Length; i++)
                             {
-                                ulong v = enumValues.Values[i];
-                                JToken value = JToken.FromObject(Enum.ToObject(type, v));
+                                var v = enumValues.Values[i];
+                                var value = JToken.FromObject(Enum.ToObject(type, v));
 
                                 CurrentSchema.Enum.Add(value);
                             }
                         }
                         break;
                     case JsonContractType.String:
-                        JsonSchemaType schemaType = (!ReflectionUtils.IsNullable(contract.UnderlyingType))
+                        var schemaType = (!ReflectionUtils.IsNullable(contract.UnderlyingType))
                             ? JsonSchemaType.String
                             : AddNullType(JsonSchemaType.String, valueRequired);
 
@@ -328,7 +328,7 @@ namespace Argon.Schema
 
                         if (keyType != null)
                         {
-                            JsonContract keyContract = ContractResolver.ResolveContract(keyType);
+                            var keyContract = ContractResolver.ResolveContract(keyType);
 
                             // can be converted to a string
                             if (keyContract.ContractType == JsonContractType.Primitive)
@@ -372,16 +372,16 @@ namespace Argon.Schema
         private void GenerateObjectSchema(Type type, JsonObjectContract contract)
         {
             CurrentSchema.Properties = new Dictionary<string, JsonSchema>();
-            foreach (JsonProperty property in contract.Properties)
+            foreach (var property in contract.Properties)
             {
                 if (!property.Ignored)
                 {
-                    bool optional = property.NullValueHandling == NullValueHandling.Ignore ||
-                                    HasFlag(property.DefaultValueHandling.GetValueOrDefault(), DefaultValueHandling.Ignore) ||
-                                    property.ShouldSerialize != null ||
-                                    property.GetIsSpecified != null;
+                    var optional = property.NullValueHandling == NullValueHandling.Ignore ||
+                                   HasFlag(property.DefaultValueHandling.GetValueOrDefault(), DefaultValueHandling.Ignore) ||
+                                   property.ShouldSerialize != null ||
+                                   property.GetIsSpecified != null;
 
-                    JsonSchema propertySchema = GenerateInternal(property.PropertyType, property.Required, !optional);
+                    var propertySchema = GenerateInternal(property.PropertyType, property.Required, !optional);
 
                     if (property.DefaultValue != null)
                     {
@@ -411,7 +411,7 @@ namespace Argon.Schema
                 return true;
             }
 
-            bool match = ((value & flag) == flag);
+            var match = ((value & flag) == flag);
             if (match)
             {
                 return true;
@@ -428,7 +428,7 @@ namespace Argon.Schema
 
         private JsonSchemaType GetJsonSchemaType(Type type, Required valueRequired)
         {
-            JsonSchemaType schemaType = JsonSchemaType.None;
+            var schemaType = JsonSchemaType.None;
             if (valueRequired != Required.Always && ReflectionUtils.IsNullable(type))
             {
                 schemaType = JsonSchemaType.Null;
@@ -438,7 +438,7 @@ namespace Argon.Schema
                 }
             }
 
-            PrimitiveTypeCode typeCode = ConvertUtils.GetTypeCode(type);
+            var typeCode = ConvertUtils.GetTypeCode(type);
 
             switch (typeCode)
             {

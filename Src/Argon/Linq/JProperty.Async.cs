@@ -41,7 +41,7 @@ namespace Argon.Linq
         /// <returns>A <see cref="Task"/> that represents the asynchronous write operation.</returns>
         public override Task WriteToAsync(JsonWriter writer, CancellationToken cancellationToken, params JsonConverter[] converters)
         {
-            Task task = writer.WritePropertyNameAsync(_name, cancellationToken);
+            var task = writer.WritePropertyNameAsync(_name, cancellationToken);
             if (task.IsCompletedSucessfully())
             {
                 return WriteValueAsync(writer, cancellationToken, converters);
@@ -59,7 +59,7 @@ namespace Argon.Linq
 
         private Task WriteValueAsync(JsonWriter writer, CancellationToken cancellationToken, JsonConverter[] converters)
         {
-            JToken value = Value;
+            var value = Value;
             return value != null
                 ? value.WriteToAsync(writer, cancellationToken, converters)
                 : writer.WriteNullAsync(cancellationToken);
@@ -103,7 +103,7 @@ namespace Argon.Linq
                 throw JsonReaderException.Create(reader, "Error reading JProperty from JsonReader. Current JsonReader item is not a property: {0}".FormatWith(CultureInfo.InvariantCulture, reader.TokenType));
             }
 
-            JProperty p = new JProperty((string)reader.Value!);
+            var p = new JProperty((string)reader.Value!);
             p.SetLineInfo(reader as IJsonLineInfo, settings);
 
             await p.ReadTokenFromAsync(reader, settings, cancellationToken).ConfigureAwait(false);

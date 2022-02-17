@@ -43,11 +43,11 @@ namespace Argon.Tests.LinqToSql
         [Fact]
         public void Serialize()
         {
-            Role role = new Role();
+            var role = new Role();
             role.Name = "Role1";
             role.RoleId = new Guid("67EA92B7-4BD3-4718-BD75-3C7EDF800B34");
 
-            Person person = new Person();
+            var person = new Person();
             person.FirstName = "FirstName!";
             person.LastName = "LastName!";
             person.PersonId = new Guid("7AA027AA-C995-4986-908D-999D8063599F");
@@ -63,7 +63,7 @@ namespace Argon.Tests.LinqToSql
                 Name = "Name!"
             };
 
-            string json = JsonConvert.SerializeObject(person, Formatting.Indented, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+            var json = JsonConvert.SerializeObject(person, Formatting.Indented, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
 
             StringAssert.AreEqual(@"{
   ""first_name"": ""FirstName!"",
@@ -91,7 +91,7 @@ namespace Argon.Tests.LinqToSql
         [Fact]
         public void Deserialize()
         {
-            string json = @"{
+            var json = @"{
   ""first_name"": ""FirstName!"",
   ""LastName"": ""LastName!"",
   ""PersonId"": ""7aa027aa-c995-4986-908d-999d8063599f"",
@@ -112,7 +112,7 @@ namespace Argon.Tests.LinqToSql
   }
 }";
 
-            Person person = JsonConvert.DeserializeObject<Person>(json);
+            var person = JsonConvert.DeserializeObject<Person>(json);
             Assert.NotNull(person);
 
             Assert.Equal(new Guid("7AA027AA-C995-4986-908D-999D8063599F"), person.PersonId);
@@ -126,10 +126,10 @@ namespace Argon.Tests.LinqToSql
 
             Assert.Equal("Name!", person.Department.Name);
 
-            TableAttribute tableAttribute = JsonTypeReflector.GetAttribute<TableAttribute>(typeof(Person));
+            var tableAttribute = JsonTypeReflector.GetAttribute<TableAttribute>(typeof(Person));
             Assert.Equal("", tableAttribute.Name);
 
-            ColumnAttribute columnAttribute = JsonTypeReflector.GetAttribute<ColumnAttribute>(typeof(Person).GetProperty("FirstName"));
+            var columnAttribute = JsonTypeReflector.GetAttribute<ColumnAttribute>(typeof(Person).GetProperty("FirstName"));
             Assert.Equal("_FirstName", columnAttribute.Storage);
         }
     }

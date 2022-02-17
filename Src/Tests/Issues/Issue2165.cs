@@ -47,8 +47,8 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test()
         {
-            StringWriter w = new StringWriter();
-            JsonTextWriter writer = new JsonTextWriter(w);
+            var w = new StringWriter();
+            var writer = new JsonTextWriter(w);
 
             var jsonReader = new JsonTextReader(new StringReader("{"));
             jsonReader.Read();
@@ -61,8 +61,8 @@ namespace Argon.Tests.Issues
         [Fact]
         public async Task TestAsync()
         {
-            StringWriter w = new StringWriter();
-            JsonTextWriter writer = new JsonTextWriter(w);
+            var w = new StringWriter();
+            var writer = new JsonTextWriter(w);
 
             var jsonReader = new JsonTextReader(new StringReader("{"));
             await jsonReader.ReadAsync();

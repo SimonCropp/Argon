@@ -50,7 +50,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            DailyHighScores dailyHighScores = new DailyHighScores
+            var dailyHighScores = new DailyHighScores
             {
                 Date = new DateTime(2016, 6, 27, 0, 0, 0, DateTimeKind.Utc),
                 Game = "Donkey Kong",
@@ -62,7 +62,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
                 }
             };
 
-            DefaultContractResolver contractResolver = new DefaultContractResolver
+            var contractResolver = new DefaultContractResolver
             {
                 NamingStrategy = new CamelCaseNamingStrategy
                 {
@@ -70,7 +70,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
                 }
             };
 
-            string json = JsonConvert.SerializeObject(dailyHighScores, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(dailyHighScores, new JsonSerializerSettings
             {
                 ContractResolver = contractResolver,
                 Formatting = Formatting.Indented

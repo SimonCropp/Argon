@@ -58,7 +58,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void VirtualShouldSerializeSimple()
         {
-            string json = JsonConvert.SerializeObject(new B());
+            var json = JsonConvert.SerializeObject(new B());
 
             Assert.AreEqual("{}", json);
         }
@@ -126,13 +126,13 @@ namespace Argon.Tests.Serialization
         private string Serialize(Foo2 f)
         {
             //Code copied from JsonConvert.SerializeObject(), with addition of trace writing
-            JsonSerializer jsonSerializer = JsonSerializer.CreateDefault();
+            var jsonSerializer = JsonSerializer.CreateDefault();
             var traceWriter = new MemoryTraceWriter();
             jsonSerializer.TraceWriter = traceWriter;
 
-            StringBuilder sb = new StringBuilder(256);
-            StringWriter sw = new StringWriter(sb, CultureInfo.InvariantCulture);
-            using (JsonTextWriter jsonWriter = new JsonTextWriter(sw))
+            var sb = new StringBuilder(256);
+            var sw = new StringWriter(sb, CultureInfo.InvariantCulture);
+            using (var jsonWriter = new JsonTextWriter(sw))
             {
                 jsonWriter.Formatting = Formatting.None;
                 jsonSerializer.Serialize(jsonWriter, f, typeof(Foo2));
@@ -144,11 +144,11 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ShouldSerializeTest()
         {
-            ShouldSerializeTestClass c = new ShouldSerializeTestClass();
+            var c = new ShouldSerializeTestClass();
             c.Name = "James";
             c.Age = 27;
 
-            string json = JsonConvert.SerializeObject(c, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
             StringAssert.AreEqual(@"{
   ""Age"": 27
@@ -162,7 +162,7 @@ namespace Argon.Tests.Serialization
   ""Age"": 27
 }", json);
 
-            ShouldSerializeTestClass deserialized = JsonConvert.DeserializeObject<ShouldSerializeTestClass>(json);
+            var deserialized = JsonConvert.DeserializeObject<ShouldSerializeTestClass>(json);
             Assert.AreEqual("James", deserialized.Name);
             Assert.AreEqual(27, deserialized.Age);
         }
@@ -170,15 +170,15 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ShouldSerializeExample()
         {
-            Employee joe = new Employee();
+            var joe = new Employee();
             joe.Name = "Joe Employee";
-            Employee mike = new Employee();
+            var mike = new Employee();
             mike.Name = "Mike Manager";
 
             joe.Manager = mike;
             mike.Manager = mike;
 
-            string json = JsonConvert.SerializeObject(new[] { joe, mike }, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(new[] { joe, mike }, Formatting.Indented);
             // [
             //   {
             //     "Name": "Joe Employee",
@@ -207,18 +207,18 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SpecifiedTest()
         {
-            SpecifiedTestClass c = new SpecifiedTestClass();
+            var c = new SpecifiedTestClass();
             c.Name = "James";
             c.Age = 27;
             c.NameSpecified = false;
 
-            string json = JsonConvert.SerializeObject(c, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
             StringAssert.AreEqual(@"{
   ""Age"": 27
 }", json);
 
-            SpecifiedTestClass deserialized = JsonConvert.DeserializeObject<SpecifiedTestClass>(json);
+            var deserialized = JsonConvert.DeserializeObject<SpecifiedTestClass>(json);
             Assert.IsNull(deserialized.Name);
             Assert.IsFalse(deserialized.NameSpecified);
             Assert.IsFalse(deserialized.WeightSpecified);
@@ -313,17 +313,17 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SpecifiedExample()
         {
-            FamilyDetails joe = new FamilyDetails();
+            var joe = new FamilyDetails();
             joe.Name = "Joe Family Details";
             joe.NumberOfChildren = 4;
             joe.NumberOfChildrenSpecified = true;
 
-            FamilyDetails martha = new FamilyDetails();
+            var martha = new FamilyDetails();
             martha.Name = "Martha Family Details";
             martha.NumberOfChildren = 3;
             martha.NumberOfChildrenSpecified = false;
 
-            string json = JsonConvert.SerializeObject(new[] { joe, martha }, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(new[] { joe, martha }, Formatting.Indented);
             //[
             //  {
             //    "Name": "Joe Family Details",
@@ -344,12 +344,12 @@ namespace Argon.Tests.Serialization
   }
 ]", json);
 
-            string mikeString = "{\"Name\": \"Mike Person\"}";
-            FamilyDetails mike = JsonConvert.DeserializeObject<FamilyDetails>(mikeString);
+            var mikeString = "{\"Name\": \"Mike Person\"}";
+            var mike = JsonConvert.DeserializeObject<FamilyDetails>(mikeString);
 
             Assert.AreEqual(false, mike.NumberOfChildrenSpecified);
 
-            string mikeFullDisclosureString = "{\"Name\": \"Mike Person\", \"NumberOfChildren\": \"0\"}";
+            var mikeFullDisclosureString = "{\"Name\": \"Mike Person\", \"NumberOfChildren\": \"0\"}";
             mike = JsonConvert.DeserializeObject<FamilyDetails>(mikeFullDisclosureString);
 
             Assert.AreEqual(true, mike.NumberOfChildrenSpecified);
@@ -358,11 +358,11 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ShouldSerializeInheritedClassTest()
         {
-            NewEmployee joe = new NewEmployee();
+            var joe = new NewEmployee();
             joe.Name = "Joe Employee";
             joe.Age = 100;
 
-            Employee mike = new Employee();
+            var mike = new Employee();
             mike.Name = "Mike Manager";
             mike.Manager = mike;
 
@@ -378,7 +378,7 @@ namespace Argon.Tests.Serialization
             //JavaScriptSerializer s = new JavaScriptSerializer();
             //Console.WriteLine(s.Serialize(new {html = @"<script>hi</script>; & ! ^ * ( ) ! @ # $ % ^ ' "" - , . / ; : [ { } ] ; ' - _ = + ? ` ~ \ |"}));
 
-            string json = JsonConvert.SerializeObject(joe, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(joe, Formatting.Indented);
 
             StringAssert.AreEqual(@"{
   ""Age"": 100,
@@ -392,10 +392,10 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ShouldDeserialize_True()
         {
-            string json = @"{'HasName':true,'Name':'Name!'}";
+            var json = @"{'HasName':true,'Name':'Name!'}";
 
-            MemoryTraceWriter traceWriter = new MemoryTraceWriter();
-            ShouldDeserializeTestClass c = JsonConvert.DeserializeObject<ShouldDeserializeTestClass>(json, new JsonSerializerSettings
+            var traceWriter = new MemoryTraceWriter();
+            var c = JsonConvert.DeserializeObject<ShouldDeserializeTestClass>(json, new JsonSerializerSettings
             {
                 ContractResolver = ShouldDeserializeContractResolver.Instance,
                 TraceWriter = traceWriter
@@ -411,10 +411,10 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ShouldDeserialize_False()
         {
-            string json = @"{'HasName':false,'Name':'Name!'}";
+            var json = @"{'HasName':false,'Name':'Name!'}";
 
-            MemoryTraceWriter traceWriter = new MemoryTraceWriter();
-            ShouldDeserializeTestClass c = JsonConvert.DeserializeObject<ShouldDeserializeTestClass>(json, new JsonSerializerSettings
+            var traceWriter = new MemoryTraceWriter();
+            var c = JsonConvert.DeserializeObject<ShouldDeserializeTestClass>(json, new JsonSerializerSettings
             {
                 ContractResolver = ShouldDeserializeContractResolver.Instance,
                 TraceWriter = traceWriter
@@ -617,9 +617,9 @@ namespace Argon.Tests.Serialization
 
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
-            JsonProperty property = base.CreateProperty(member, memberSerialization);
+            var property = base.CreateProperty(member, memberSerialization);
 
-            MethodInfo shouldDeserializeMethodInfo = member.DeclaringType.GetMethod("ShouldDeserialize" + member.Name);
+            var shouldDeserializeMethodInfo = member.DeclaringType.GetMethod("ShouldDeserialize" + member.Name);
 
             if (shouldDeserializeMethodInfo != null)
             {

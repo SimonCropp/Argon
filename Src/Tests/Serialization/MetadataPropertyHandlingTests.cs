@@ -49,20 +49,20 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void Demo()
         {
-            string json = @"{
+            var json = @"{
 	            'Name': 'James',
 	            'Password': 'Password1',
 	            '$type': 'Argon.Tests.Serialization.MetadataPropertyHandlingTests+User, Tests'
             }";
 
-            object o = JsonConvert.DeserializeObject(json, new JsonSerializerSettings
+            var o = JsonConvert.DeserializeObject(json, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.All,
                 // no longer needs to be first
                 MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
             });
 
-            User u = (User)o;
+            var u = (User)o;
 
             Assert.AreEqual(u.Name, "James");
         }
@@ -70,7 +70,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeArraysWithPreserveObjectReferences()
         {
-            string json = @"{
+            var json = @"{
   ""$id"": ""1"",
   ""$values"": [
     null,
@@ -113,16 +113,16 @@ namespace Argon.Tests.Serialization
             const string contextKey = "k1";
             var someValue = new Guid("5dd2dba0-20c0-49f8-a054-1fa3b0a8d774");
 
-            Dictionary<string, Guid> inputContext = new Dictionary<string, Guid>();
+            var inputContext = new Dictionary<string, Guid>();
             inputContext.Add(contextKey, someValue);
 
-            JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings()
+            var jsonSerializerSettings = new JsonSerializerSettings()
             {
                 Formatting = Formatting.Indented,
                 TypeNameHandling = TypeNameHandling.All,
                 MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
             };
-            string serializedString = JsonConvert.SerializeObject(inputContext, jsonSerializerSettings);
+            var serializedString = JsonConvert.SerializeObject(inputContext, jsonSerializerSettings);
 
             StringAssert.AreEqual(@"{
   ""$type"": """ + ReflectionUtils.GetTypeName(typeof(Dictionary<string, Guid>), 0, DefaultSerializationBinder.Instance) + @""",
@@ -137,7 +137,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeGuid()
         {
-            Item expected = new Item()
+            var expected = new Item()
             {
                 SourceTypeID = new Guid("d8220a4b-75b1-4b7a-8112-b7bdae956a45"),
                 BrokerID = new Guid("951663c4-924e-4c86-a57a-7ed737501dbd"),
@@ -147,7 +147,7 @@ namespace Argon.Tests.Serialization
                 Payload = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }
             };
 
-            string jsonString = JsonConvert.SerializeObject(expected, Formatting.Indented);
+            var jsonString = JsonConvert.SerializeObject(expected, Formatting.Indented);
 
             StringAssert.AreEqual(@"{
   ""SourceTypeID"": ""d8220a4b-75b1-4b7a-8112-b7bdae956a45"",
@@ -161,21 +161,21 @@ namespace Argon.Tests.Serialization
   }
 }", jsonString);
 
-            Item actual = JsonConvert.DeserializeObject<Item>(jsonString, new JsonSerializerSettings
+            var actual = JsonConvert.DeserializeObject<Item>(jsonString, new JsonSerializerSettings
             {
                 MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
             });
 
             Assert.AreEqual(new Guid("d8220a4b-75b1-4b7a-8112-b7bdae956a45"), actual.SourceTypeID);
             Assert.AreEqual(new Guid("951663c4-924e-4c86-a57a-7ed737501dbd"), actual.BrokerID);
-            byte[] bytes = (byte[])actual.Payload;
+            var bytes = (byte[])actual.Payload;
             CollectionAssert.AreEquivalent(new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, bytes);
         }
 
         [Fact]
         public void DeserializeListsWithPreserveObjectReferences()
         {
-            string json = @"{
+            var json = @"{
   ""$id"": ""1"",
   ""$values"": [
     null,
@@ -201,7 +201,7 @@ namespace Argon.Tests.Serialization
   ]
 }";
 
-            PreserveReferencesHandlingTests.CircularList circularList = JsonConvert.DeserializeObject<PreserveReferencesHandlingTests.CircularList>(json,
+            var circularList = JsonConvert.DeserializeObject<PreserveReferencesHandlingTests.CircularList>(json,
                 new JsonSerializerSettings
                 {
                     PreserveReferencesHandling = PreserveReferencesHandling.All,
@@ -219,7 +219,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeTypeNameOnly()
         {
-            string json = @"{
+            var json = @"{
   ""$id"": ""1"",
   ""$type"": ""Argon.Tests.TestObjects.Employee"",
   ""Name"": ""Name!"",
@@ -249,7 +249,7 @@ namespace Argon.Tests.Serialization
             child.Add("Name", "Isabell");
             child.Add("Father", reference);
 
-            string json = JsonConvert.SerializeObject(child, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(child, Formatting.Indented);
 
             StringAssert.AreEqual(@"{
   ""_id"": 2,
@@ -261,7 +261,7 @@ namespace Argon.Tests.Serialization
   }
 }", json);
 
-            Dictionary<string, object> result = JsonConvert.DeserializeObject<Dictionary<string, object>>(json, new JsonSerializerSettings
+            var result = JsonConvert.DeserializeObject<Dictionary<string, object>>(json, new JsonSerializerSettings
             {
                 MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
             });
@@ -274,7 +274,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeEmployeeReference()
         {
-            string json = @"[
+            var json = @"[
   {
     ""Name"": ""Mike Manager"",
     ""$id"": ""1"",
@@ -303,7 +303,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeFromJToken()
         {
-            string json = @"[
+            var json = @"[
   {
     ""Name"": ""Mike Manager"",
     ""$id"": ""1"",
@@ -318,14 +318,14 @@ namespace Argon.Tests.Serialization
   }
 ]";
 
-            JToken t1 = JToken.Parse(json);
-            JToken t2 = t1.CloneToken();
+            var t1 = JToken.Parse(json);
+            var t2 = t1.CloneToken();
 
             var serializer = JsonSerializer.Create(new JsonSerializerSettings
             {
                 MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
             });
-            List<EmployeeReference> employees = t1.ToObject<List<EmployeeReference>>(serializer);
+            var employees = t1.ToObject<List<EmployeeReference>>(serializer);
 
             Assert.AreEqual(2, employees.Count);
             Assert.AreEqual("Mike Manager", employees[0].Name);
@@ -338,10 +338,10 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeGenericObjectListWithTypeName()
         {
-            string employeeRef = typeof(EmployeeReference).AssemblyQualifiedName;
-            string personRef = typeof(Person).AssemblyQualifiedName;
+            var employeeRef = typeof(EmployeeReference).AssemblyQualifiedName;
+            var personRef = typeof(Person).AssemblyQualifiedName;
 
-            string json = @"[
+            var json = @"[
   {
     ""Name"": ""Bob"",
     ""$id"": ""1"",
@@ -363,7 +363,7 @@ namespace Argon.Tests.Serialization
   -2147483648
 ]";
 
-            List<object> values = (List<object>)JsonConvert.DeserializeObject(json, typeof(List<object>), new JsonSerializerSettings
+            var values = (List<object>)JsonConvert.DeserializeObject(json, typeof(List<object>), new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Objects,
 #pragma warning disable 618
@@ -374,8 +374,8 @@ namespace Argon.Tests.Serialization
 
             Assert.AreEqual(4, values.Count);
 
-            EmployeeReference e = (EmployeeReference)values[0];
-            Person p = (Person)values[1];
+            var e = (EmployeeReference)values[0];
+            var p = (Person)values[1];
 
             Assert.AreEqual("Bob", e.Name);
             Assert.AreEqual("Frank", e.Manager.Name);
@@ -391,15 +391,15 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void WriteListTypeNameForProperty()
         {
-            string listRef = ReflectionUtils.GetTypeName(typeof(List<int>), TypeNameAssemblyFormatHandling.Simple, null);
+            var listRef = ReflectionUtils.GetTypeName(typeof(List<int>), TypeNameAssemblyFormatHandling.Simple, null);
 
-            TypeNameHandlingTests.TypeNameProperty typeNameProperty = new TypeNameHandlingTests.TypeNameProperty
+            var typeNameProperty = new TypeNameHandlingTests.TypeNameProperty
             {
                 Name = "Name!",
                 Value = new List<int> { 1, 2, 3, 4, 5 }
             };
 
-            string json = JsonConvert.SerializeObject(typeNameProperty, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(typeNameProperty, Formatting.Indented);
 
             StringAssert.AreEqual(@"{
   ""Name"": ""Name!"",
@@ -415,14 +415,14 @@ namespace Argon.Tests.Serialization
   }
 }", json);
 
-            TypeNameHandlingTests.TypeNameProperty deserialized = JsonConvert.DeserializeObject<TypeNameHandlingTests.TypeNameProperty>(json, new JsonSerializerSettings
+            var deserialized = JsonConvert.DeserializeObject<TypeNameHandlingTests.TypeNameProperty>(json, new JsonSerializerSettings
             {
                 MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
             });
             Assert.AreEqual("Name!", deserialized.Name);
             CustomAssert.IsInstanceOfType(typeof(List<int>), deserialized.Value);
 
-            List<int> nested = (List<int>)deserialized.Value;
+            var nested = (List<int>)deserialized.Value;
             Assert.AreEqual(5, nested.Count);
             Assert.AreEqual(1, nested[0]);
             Assert.AreEqual(2, nested[1]);
@@ -452,7 +452,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void MetadataPropertyHandlingIgnore()
         {
-            MetadataPropertyDisabledTestClass c1 = new MetadataPropertyDisabledTestClass
+            var c1 = new MetadataPropertyDisabledTestClass
             {
                 Id = "Id!",
                 Ref = "Ref!",
@@ -461,7 +461,7 @@ namespace Argon.Tests.Serialization
                 Values = "Values!"
             };
 
-            string json = JsonConvert.SerializeObject(c1, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(c1, Formatting.Indented);
 
             StringAssert.AreEqual(@"{
   ""$id"": ""Id!"",
@@ -471,7 +471,7 @@ namespace Argon.Tests.Serialization
   ""$type"": ""Type!""
 }", json);
 
-            MetadataPropertyDisabledTestClass c2 = JsonConvert.DeserializeObject<MetadataPropertyDisabledTestClass>(json, new JsonSerializerSettings
+            var c2 = JsonConvert.DeserializeObject<MetadataPropertyDisabledTestClass>(json, new JsonSerializerSettings
             {
                 MetadataPropertyHandling = MetadataPropertyHandling.Ignore
             });
@@ -486,9 +486,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void MetadataPropertyHandlingIgnore_EmptyObject()
         {
-            string json = @"{}";
+            var json = @"{}";
 
-            MetadataPropertyDisabledTestClass c = JsonConvert.DeserializeObject<MetadataPropertyDisabledTestClass>(json, new JsonSerializerSettings
+            var c = JsonConvert.DeserializeObject<MetadataPropertyDisabledTestClass>(json, new JsonSerializerSettings
             {
                 MetadataPropertyHandling = MetadataPropertyHandling.Ignore
             });
@@ -499,7 +499,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void PrimitiveType_MetadataPropertyIgnore()
         {
-            Item actual = JsonConvert.DeserializeObject<Item>(@"{
+            var actual = JsonConvert.DeserializeObject<Item>(@"{
   ""SourceTypeID"": ""d8220a4b-75b1-4b7a-8112-b7bdae956a45"",
   ""BrokerID"": ""951663c4-924e-4c86-a57a-7ed737501dbd"",
   ""Latitude"": 33.657145,
@@ -517,7 +517,7 @@ namespace Argon.Tests.Serialization
 
             Assert.AreEqual(new Guid("d8220a4b-75b1-4b7a-8112-b7bdae956a45"), actual.SourceTypeID);
             Assert.AreEqual(new Guid("951663c4-924e-4c86-a57a-7ed737501dbd"), actual.BrokerID);
-            JObject o = (JObject)actual.Payload;
+            var o = (JObject)actual.Payload;
             Assert.AreEqual("System.Byte[], mscorlib", (string)o["$type"]);
             Assert.AreEqual("AAECAwQFBgcICQ==", (string)o["$value"]);
             Assert.AreEqual(null, o.Parent);
@@ -526,7 +526,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ReadAhead_JObject_NoParent()
         {
-            ItemWithUntypedPayload actual = JsonConvert.DeserializeObject<ItemWithUntypedPayload>(@"{
+            var actual = JsonConvert.DeserializeObject<ItemWithUntypedPayload>(@"{
   ""Payload"": {}
 }",
                 new JsonSerializerSettings
@@ -534,7 +534,7 @@ namespace Argon.Tests.Serialization
                     MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
                 });
 
-            JObject o = (JObject)actual.Payload;
+            var o = (JObject)actual.Payload;
             Assert.AreEqual(null, o.Parent);
         }
 
@@ -548,7 +548,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ReadAhead_TypedJValue_NoParent()
         {
-            ItemWithJTokens actual = (ItemWithJTokens)JsonConvert.DeserializeObject(@"{
+            var actual = (ItemWithJTokens)JsonConvert.DeserializeObject(@"{
   ""Payload1"": 1,
   ""Payload2"": {'prop1':1,'prop2':[2]},
   ""Payload3"": [1],
@@ -576,7 +576,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void ReadAhead_JArray_NoParent()
         {
-            ItemWithUntypedPayload actual = JsonConvert.DeserializeObject<ItemWithUntypedPayload>(@"{
+            var actual = JsonConvert.DeserializeObject<ItemWithUntypedPayload>(@"{
   ""Payload"": [1]
 }",
                 new JsonSerializerSettings
@@ -584,7 +584,7 @@ namespace Argon.Tests.Serialization
                     MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
                 });
 
-            JArray o = (JArray)actual.Payload;
+            var o = (JArray)actual.Payload;
             Assert.AreEqual(null, o.Parent);
         }
 
@@ -596,7 +596,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void PrimitiveType_MetadataPropertyIgnore_WithNoType()
         {
-            ItemWithUntypedPayload actual = JsonConvert.DeserializeObject<ItemWithUntypedPayload>(@"{
+            var actual = JsonConvert.DeserializeObject<ItemWithUntypedPayload>(@"{
   ""Payload"": {
     ""$type"": ""System.Single, mscorlib"",
     ""$value"": ""5""
@@ -627,12 +627,12 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeCircularReferencesWithConverter()
         {
-            string json = @"{
+            var json = @"{
   ""$id"": ""1"",
   ""$type"": ""CircularReferenceClass""
 }";
 
-            MetadataPropertyDisabledTestClass c = new MetadataPropertyDisabledTestClass();
+            var c = new MetadataPropertyDisabledTestClass();
 
             JsonConvert.PopulateObject(json, c, new JsonSerializerSettings
             {

@@ -61,12 +61,12 @@ namespace Argon.Converters
             EnsureReflectionObject(value.GetType());
             MiscellaneousUtils.Assert(_reflectionObject != null);
 
-            DefaultContractResolver? resolver = serializer.ContractResolver as DefaultContractResolver;
+            var resolver = serializer.ContractResolver as DefaultContractResolver;
 
-            string keyName = (string)_reflectionObject.GetValue(value, KeyPropertyName)!;
-            object? keyValue = _reflectionObject.GetValue(value, ValuePropertyName);
+            var keyName = (string)_reflectionObject.GetValue(value, KeyPropertyName)!;
+            var keyValue = _reflectionObject.GetValue(value, ValuePropertyName);
 
-            Type? keyValueType = keyValue?.GetType();
+            var keyValueType = keyValue?.GetType();
 
             writer.WriteStartObject();
             writer.WritePropertyName((resolver != null) ? resolver.GetResolvedPropertyName(KeyPropertyName) : KeyPropertyName);
@@ -78,7 +78,7 @@ namespace Argon.Converters
 
             if (keyValueType != null)
             {
-                if (JsonSerializerInternalWriter.TryConvertToString(keyValue!, keyValueType, out string? valueJson))
+                if (JsonSerializerInternalWriter.TryConvertToString(keyValue!, keyValueType, out var valueJson))
                 {
                     writer.WriteValue(valueJson);
                 }
@@ -118,7 +118,7 @@ namespace Argon.Converters
             EnsureReflectionObject(objectType);
             MiscellaneousUtils.Assert(_reflectionObject != null);
 
-            object entityKeyMember = _reflectionObject.Creator!();
+            var entityKeyMember = _reflectionObject.Creator!();
 
             ReadAndAssertProperty(reader, KeyPropertyName);
             reader.ReadAndAssert();
@@ -126,9 +126,9 @@ namespace Argon.Converters
 
             ReadAndAssertProperty(reader, TypePropertyName);
             reader.ReadAndAssert();
-            string? type = reader.Value?.ToString();
+            var type = reader.Value?.ToString();
 
-            Type t = Type.GetType(type);
+            var t = Type.GetType(type);
 
             ReadAndAssertProperty(reader, ValuePropertyName);
             reader.ReadAndAssert();

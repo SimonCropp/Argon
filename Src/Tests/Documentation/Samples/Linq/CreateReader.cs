@@ -40,7 +40,7 @@ namespace Argon.Tests.Documentation.Samples.Linq
         public void Example()
         {
             #region Usage
-            JObject o = new JObject
+            var o = new JObject
             {
                 { "Cpu", "Intel" },
                 { "Memory", 32 },
@@ -53,7 +53,7 @@ namespace Argon.Tests.Documentation.Samples.Linq
                 }
             };
 
-            JsonReader reader = o.CreateReader();
+            var reader = o.CreateReader();
             while (reader.Read())
             {
                 Console.Write(reader.TokenType);

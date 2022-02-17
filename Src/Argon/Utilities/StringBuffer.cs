@@ -89,7 +89,7 @@ namespace Argon.Utilities
 
         private void EnsureSize(IArrayPool<char>? bufferPool, int appendLength)
         {
-            char[] newBuffer = BufferUtils.RentBuffer(bufferPool, (_position + appendLength) * 2);
+            var newBuffer = BufferUtils.RentBuffer(bufferPool, (_position + appendLength) * 2);
 
             if (_buffer != null)
             {

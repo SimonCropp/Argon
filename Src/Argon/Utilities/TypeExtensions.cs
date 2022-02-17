@@ -111,7 +111,7 @@ namespace Argon.Utilities
 
         public static bool AssignableToTypeName(this Type type, string fullTypeName, bool searchInterfaces, [NotNullWhen(true)]out Type? match)
         {
-            Type current = type;
+            var current = type;
 
             while (current != null)
             {
@@ -126,7 +126,7 @@ namespace Argon.Utilities
 
             if (searchInterfaces)
             {
-                foreach (Type i in type.GetInterfaces())
+                foreach (var i in type.GetInterfaces())
                 {
                     if (string.Equals(i.Name, fullTypeName, StringComparison.Ordinal))
                     {
@@ -147,10 +147,10 @@ namespace Argon.Utilities
 
         public static bool ImplementInterface(this Type type, Type interfaceType)
         {
-            for (Type currentType = type; currentType != null; currentType = currentType.BaseType())
+            for (var currentType = type; currentType != null; currentType = currentType.BaseType())
             {
                 IEnumerable<Type> interfaces = currentType.GetInterfaces();
-                foreach (Type i in interfaces)
+                foreach (var i in interfaces)
                 {
                     if (i == interfaceType || (i != null && i.ImplementInterface(interfaceType)))
                     {

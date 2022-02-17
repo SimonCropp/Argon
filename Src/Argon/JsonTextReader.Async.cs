@@ -72,7 +72,7 @@ namespace Argon
                     case State.ObjectStart:
                         return ParseObjectAsync(cancellationToken);
                     case State.PostValue:
-                        Task<bool> task = ParsePostValueAsync(false, cancellationToken);
+                        var task = ParsePostValueAsync(false, cancellationToken);
                         if (task.IsCompletedSucessfully())
                         {
                             if (task.Result)
@@ -95,7 +95,7 @@ namespace Argon
 
         private async Task<bool> DoReadAsync(Task<bool> task, CancellationToken cancellationToken)
         {
-            bool result = await task.ConfigureAwait(false);
+            var result = await task.ConfigureAwait(false);
             if (result)
             {
                 return true;
@@ -109,7 +109,7 @@ namespace Argon
 
             while (true)
             {
-                char currentChar = _chars[_charPos];
+                var currentChar = _chars[_charPos];
 
                 switch (currentChar)
                 {
@@ -230,7 +230,7 @@ namespace Argon
 
             PrepareBufferForReadData(append, charsRequired);
 
-            int charsRead = await _reader.ReadAsync(_chars, _charsUsed, _chars.Length - _charsUsed - 1, cancellationToken).ConfigureAwait(false);
+            var charsRead = await _reader.ReadAsync(_chars, _charsUsed, _chars.Length - _charsUsed - 1, cancellationToken).ConfigureAwait(false);
 
             _charsUsed += charsRead;
 
@@ -249,7 +249,7 @@ namespace Argon
 
             while (true)
             {
-                char currentChar = _chars[_charPos];
+                var currentChar = _chars[_charPos];
 
                 switch (currentChar)
                 {
@@ -378,9 +378,9 @@ namespace Argon
         {
             MiscellaneousUtils.Assert(_chars != null);
 
-            int charPos = _charPos;
-            int initialPosition = _charPos;
-            int lastWritePosition = _charPos;
+            var charPos = _charPos;
+            var initialPosition = _charPos;
+            var lastWritePosition = _charPos;
             _stringBuffer.Position = 0;
 
             while (true)
@@ -408,9 +408,9 @@ namespace Argon
                         }
 
                         // start of escape sequence
-                        int escapeStartPos = charPos - 1;
+                        var escapeStartPos = charPos - 1;
 
-                        char currentChar = _chars[charPos];
+                        var currentChar = _chars[charPos];
                         charPos++;
 
                         char writeChar;
@@ -461,7 +461,7 @@ namespace Argon
                                         // potential start of a surrogate pair
                                         if (await EnsureCharsAsync(2, true, cancellationToken).ConfigureAwait(false) && _chars[_charPos] == '\\' && _chars[_charPos + 1] == 'u')
                                         {
-                                            char highSurrogate = writeChar;
+                                            var highSurrogate = writeChar;
 
                                             _charPos += 2;
                                             writeChar = await ParseUnicodeAsync(cancellationToken).ConfigureAwait(false);
@@ -535,7 +535,7 @@ namespace Argon
         {
             _charPos++;
 
-            Task<bool> task = EnsureCharsAsync(1, append, cancellationToken);
+            var task = EnsureCharsAsync(1, append, cancellationToken);
             if (task.IsCompletedSucessfully())
             {
                 SetNewLine(task.Result);
@@ -572,13 +572,13 @@ namespace Argon
 
         private async Task<bool> ReadCharsAsync(int relativePosition, bool append, CancellationToken cancellationToken)
         {
-            int charsRequired = _charPos + relativePosition - _charsUsed + 1;
+            var charsRequired = _charPos + relativePosition - _charsUsed + 1;
 
             // it is possible that the TextReader doesn't return all data at once
             // repeat read until the required text is returned or the reader is out of content
             do
             {
-                int charsRead = await ReadDataAsync(append, charsRequired, cancellationToken).ConfigureAwait(false);
+                var charsRead = await ReadDataAsync(append, charsRequired, cancellationToken).ConfigureAwait(false);
 
                 // no more content
                 if (charsRead == 0)
@@ -598,7 +598,7 @@ namespace Argon
 
             while (true)
             {
-                char currentChar = _chars[_charPos];
+                var currentChar = _chars[_charPos];
 
                 switch (currentChar)
                 {
@@ -680,7 +680,7 @@ namespace Argon
 
             _charPos++;
 
-            int initialPosition = _charPos;
+            var initialPosition = _charPos;
 
             while (true)
             {
@@ -755,7 +755,7 @@ namespace Argon
 
             while (true)
             {
-                char currentChar = _chars[_charPos];
+                var currentChar = _chars[_charPos];
 
                 switch (currentChar)
                 {
@@ -860,12 +860,12 @@ namespace Argon
             {
                 await EatWhitespaceAsync(cancellationToken).ConfigureAwait(false);
 
-                int initialPosition = _charPos;
+                var initialPosition = _charPos;
                 int endPosition;
 
                 while (true)
                 {
-                    char currentChar = _chars[_charPos];
+                    var currentChar = _chars[_charPos];
                     if (currentChar == '\0')
                     {
                         if (_charsUsed == _charPos)
@@ -916,7 +916,7 @@ namespace Argon
                 }
 
                 _stringReference = new StringReference(_chars, initialPosition, endPosition - initialPosition);
-                string constructorName = _stringReference.ToString();
+                var constructorName = _stringReference.ToString();
 
                 await EatWhitespaceAsync(cancellationToken).ConfigureAwait(false);
 
@@ -958,8 +958,8 @@ namespace Argon
 
             ShiftBufferIfNeeded();
 
-            char firstChar = _chars[_charPos];
-            int initialPosition = _charPos;
+            var firstChar = _chars[_charPos];
+            var initialPosition = _charPos;
 
             await ReadNumberIntoBufferAsync(cancellationToken).ConfigureAwait(false);
 
@@ -975,7 +975,7 @@ namespace Argon
         {
             MiscellaneousUtils.Assert(_chars != null);
 
-            char firstChar = _chars[_charPos];
+            var firstChar = _chars[_charPos];
             char quoteChar;
 
             if (firstChar == '"' || firstChar == '\'')
@@ -1029,11 +1029,11 @@ namespace Argon
         {
             MiscellaneousUtils.Assert(_chars != null);
 
-            int charPos = _charPos;
+            var charPos = _charPos;
 
             while (true)
             {
-                char currentChar = _chars[charPos];
+                var currentChar = _chars[charPos];
                 if (currentChar == '\0')
                 {
                     _charPos = charPos;
@@ -1065,12 +1065,12 @@ namespace Argon
         {
             MiscellaneousUtils.Assert(_chars != null);
 
-            int initialPosition = _charPos;
+            var initialPosition = _charPos;
 
             // parse unquoted property name until whitespace or colon
             while (true)
             {
-                char currentChar = _chars[_charPos];
+                var currentChar = _chars[_charPos];
                 if (currentChar == '\0')
                 {
                     if (_charsUsed == _charPos)
@@ -1179,7 +1179,7 @@ namespace Argon
                 case State.ConstructorStart:
                     while (true)
                     {
-                        char currentChar = _chars[_charPos];
+                        var currentChar = _chars[_charPos];
 
                         switch (currentChar)
                         {
@@ -1232,7 +1232,7 @@ namespace Argon
                                     throw CreateUnexpectedCharacterException(currentChar);
                                 }
 
-                                string expected = currentChar == 't' ? JsonConvert.True : JsonConvert.False;
+                                var expected = currentChar == 't' ? JsonConvert.True : JsonConvert.False;
                                 if (!await MatchValueWithTrailingSeparatorAsync(expected, cancellationToken).ConfigureAwait(false))
                                 {
                                     throw CreateUnexpectedCharacterException(_chars[_charPos]);
@@ -1315,7 +1315,7 @@ namespace Argon
                 case State.ConstructorStart:
                     while (true)
                     {
-                        char currentChar = _chars[_charPos];
+                        var currentChar = _chars[_charPos];
 
                         switch (currentChar)
                         {
@@ -1442,7 +1442,7 @@ namespace Argon
                 case State.ConstructorStart:
                     while (true)
                     {
-                        char currentChar = _chars[_charPos];
+                        var currentChar = _chars[_charPos];
 
                         switch (currentChar)
                         {
@@ -1487,7 +1487,7 @@ namespace Argon
                                 return b;
                             case 't':
                             case 'f':
-                                bool isTrue = currentChar == 't';
+                                var isTrue = currentChar == 't';
                                 if (!await MatchValueWithTrailingSeparatorAsync(isTrue ? JsonConvert.True : JsonConvert.False, cancellationToken).ConfigureAwait(false))
                                 {
                                     throw CreateUnexpectedCharacterException(_chars[_charPos]);
@@ -1560,7 +1560,7 @@ namespace Argon
             EnsureBuffer();
             MiscellaneousUtils.Assert(_chars != null);
 
-            bool isWrapped = false;
+            var isWrapped = false;
 
             switch (_currentState)
             {
@@ -1578,7 +1578,7 @@ namespace Argon
                 case State.ConstructorStart:
                     while (true)
                     {
-                        char currentChar = _chars[_charPos];
+                        var currentChar = _chars[_charPos];
 
                         switch (currentChar)
                         {
@@ -1593,7 +1593,7 @@ namespace Argon
                             case '"':
                             case '\'':
                                 await ParseStringAsync(currentChar, ReadType.ReadAsBytes, cancellationToken).ConfigureAwait(false);
-                                byte[]? data = (byte[]?)Value;
+                                var data = (byte[]?)Value;
                                 if (isWrapped)
                                 {
                                     await ReaderReadAndAssertAsync(cancellationToken).ConfigureAwait(false);

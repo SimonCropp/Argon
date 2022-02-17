@@ -39,7 +39,7 @@ namespace Argon.Utilities
 
         private static DynamicMethod CreateDynamicMethod(string name, Type? returnType, Type[] parameterTypes, Type owner)
         {
-            DynamicMethod dynamicMethod = !owner.IsInterface()
+            var dynamicMethod = !owner.IsInterface()
                 ? new DynamicMethod(name, returnType, parameterTypes, owner, true)
                 : new DynamicMethod(name, returnType, parameterTypes, owner.Module, true);
 
@@ -48,8 +48,8 @@ namespace Argon.Utilities
 
         public override ObjectConstructor<object> CreateParameterizedConstructor(MethodBase method)
         {
-            DynamicMethod dynamicMethod = CreateDynamicMethod(method.ToString(), typeof(object), new[] { typeof(object[]) }, method.DeclaringType);
-            ILGenerator generator = dynamicMethod.GetILGenerator();
+            var dynamicMethod = CreateDynamicMethod(method.ToString(), typeof(object), new[] { typeof(object[]) }, method.DeclaringType);
+            var generator = dynamicMethod.GetILGenerator();
 
             GenerateCreateMethodCallIL(method, generator, 0);
             
@@ -58,8 +58,8 @@ namespace Argon.Utilities
 
         public override MethodCall<T, object?> CreateMethodCall<T>(MethodBase method)
         {
-            DynamicMethod dynamicMethod = CreateDynamicMethod(method.ToString(), typeof(object), new[] { typeof(object), typeof(object[]) }, method.DeclaringType);
-            ILGenerator generator = dynamicMethod.GetILGenerator();
+            var dynamicMethod = CreateDynamicMethod(method.ToString(), typeof(object), new[] { typeof(object), typeof(object[]) }, method.DeclaringType);
+            var generator = dynamicMethod.GetILGenerator();
 
             GenerateCreateMethodCallIL(method, generator, 1);
 
@@ -70,7 +70,7 @@ namespace Argon.Utilities
         {
             ParameterInfo[] args = method.GetParameters();
 
-            Label argsOk = generator.DefineLabel();
+            var argsOk = generator.DefineLabel();
 
             // throw an error if the number of argument values doesn't match method parameters
             generator.Emit(OpCodes.Ldarg, argsIndex);
@@ -87,22 +87,22 @@ namespace Argon.Utilities
                 generator.PushInstance(method.DeclaringType);
             }
 
-            LocalBuilder localConvertible = generator.DeclareLocal(typeof(IConvertible));
-            LocalBuilder localObject = generator.DeclareLocal(typeof(object));
+            var localConvertible = generator.DeclareLocal(typeof(IConvertible));
+            var localObject = generator.DeclareLocal(typeof(object));
 
-            OpCode variableAddressOpCode = args.Length < 256 ? OpCodes.Ldloca_S : OpCodes.Ldloca;
-            OpCode variableLoadOpCode = args.Length < 256 ? OpCodes.Ldloc_S : OpCodes.Ldloc;
+            var variableAddressOpCode = args.Length < 256 ? OpCodes.Ldloca_S : OpCodes.Ldloca;
+            var variableLoadOpCode = args.Length < 256 ? OpCodes.Ldloc_S : OpCodes.Ldloc;
 
-            for (int i = 0; i < args.Length; i++)
+            for (var i = 0; i < args.Length; i++)
             {
-                ParameterInfo parameter = args[i];
-                Type parameterType = parameter.ParameterType;
+                var parameter = args[i];
+                var parameterType = parameter.ParameterType;
 
                 if (parameterType.IsByRef)
                 {
                     parameterType = parameterType.GetElementType();
 
-                    LocalBuilder localVariable = generator.DeclareLocal(parameterType);
+                    var localVariable = generator.DeclareLocal(parameterType);
 
                     // don't need to set variable for 'out' parameter
                     if (!parameter.IsOut)
@@ -111,8 +111,8 @@ namespace Argon.Utilities
 
                         if (parameterType.IsValueType())
                         {
-                            Label skipSettingDefault = generator.DefineLabel();
-                            Label finishedProcessingParameter = generator.DefineLabel();
+                            var skipSettingDefault = generator.DefineLabel();
+                            var finishedProcessingParameter = generator.DefineLabel();
 
                             // check if parameter is not null
                             generator.Emit(OpCodes.Brtrue_S, skipSettingDefault);
@@ -147,15 +147,15 @@ namespace Argon.Utilities
 
                     // have to check that value type parameters aren't null
                     // otherwise they will error when unboxed
-                    Label skipSettingDefault = generator.DefineLabel();
-                    Label finishedProcessingParameter = generator.DefineLabel();
+                    var skipSettingDefault = generator.DefineLabel();
+                    var finishedProcessingParameter = generator.DefineLabel();
 
                     // check if parameter is not null
                     generator.Emit(OpCodes.Ldloc_S, localObject);
                     generator.Emit(OpCodes.Brtrue_S, skipSettingDefault);
 
                     // parameter has no value, initialize to default
-                    LocalBuilder localVariable = generator.DeclareLocal(parameterType);
+                    var localVariable = generator.DeclareLocal(parameterType);
                     generator.Emit(variableAddressOpCode, localVariable);
                     generator.Emit(OpCodes.Initobj, parameterType);
                     generator.Emit(variableLoadOpCode, localVariable);
@@ -167,12 +167,12 @@ namespace Argon.Utilities
                     if (parameterType.IsPrimitive())
                     {
                         // for primitive types we need to handle type widening (e.g. short -> int)
-                        MethodInfo toParameterTypeMethod = typeof(IConvertible)
+                        var toParameterTypeMethod = typeof(IConvertible)
                             .GetMethod("To" + parameterType.Name, new[] { typeof(IFormatProvider) });
                         
                         if (toParameterTypeMethod != null)
                         {
-                            Label skipConvertible = generator.DefineLabel();
+                            var skipConvertible = generator.DefineLabel();
 
                             // check if argument type is an exact match for parameter type
                             // in this case we may use cheap unboxing instead
@@ -223,7 +223,7 @@ namespace Argon.Utilities
                 generator.CallMethod((MethodInfo)method);
             }
 
-            Type returnType = method.IsConstructor
+            var returnType = method.IsConstructor
                 ? method.DeclaringType
                 : ((MethodInfo)method).ReturnType;
 
@@ -241,9 +241,9 @@ namespace Argon.Utilities
 
         public override Func<T> CreateDefaultConstructor<T>(Type type)
         {
-            DynamicMethod dynamicMethod = CreateDynamicMethod("Create" + type.FullName, typeof(T), Type.EmptyTypes, type);
+            var dynamicMethod = CreateDynamicMethod("Create" + type.FullName, typeof(T), Type.EmptyTypes, type);
             dynamicMethod.InitLocals = true;
-            ILGenerator generator = dynamicMethod.GetILGenerator();
+            var generator = dynamicMethod.GetILGenerator();
 
             GenerateCreateDefaultConstructorIL(type, generator, typeof(T));
 
@@ -265,7 +265,7 @@ namespace Argon.Utilities
             }
             else
             {
-                ConstructorInfo constructorInfo =
+                var constructorInfo =
                     type.GetConstructor(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, null, Type.EmptyTypes, null);
 
                 if (constructorInfo == null)
@@ -281,8 +281,8 @@ namespace Argon.Utilities
 
         public override Func<T, object?> CreateGet<T>(PropertyInfo propertyInfo)
         {
-            DynamicMethod dynamicMethod = CreateDynamicMethod("Get" + propertyInfo.Name, typeof(object), new[] { typeof(T) }, propertyInfo.DeclaringType);
-            ILGenerator generator = dynamicMethod.GetILGenerator();
+            var dynamicMethod = CreateDynamicMethod("Get" + propertyInfo.Name, typeof(object), new[] { typeof(T) }, propertyInfo.DeclaringType);
+            var generator = dynamicMethod.GetILGenerator();
 
             GenerateCreateGetPropertyIL(propertyInfo, generator);
 
@@ -291,7 +291,7 @@ namespace Argon.Utilities
 
         private void GenerateCreateGetPropertyIL(PropertyInfo propertyInfo, ILGenerator generator)
         {
-            MethodInfo getMethod = propertyInfo.GetGetMethod(true);
+            var getMethod = propertyInfo.GetGetMethod(true);
             if (getMethod == null)
             {
                 throw new ArgumentException("Property '{0}' does not have a getter.".FormatWith(CultureInfo.InvariantCulture, propertyInfo.Name));
@@ -311,13 +311,13 @@ namespace Argon.Utilities
         {
             if (fieldInfo.IsLiteral)
             {
-                object constantValue = fieldInfo.GetValue(null);
+                var constantValue = fieldInfo.GetValue(null);
                 Func<T, object?> getter = o => constantValue;
                 return getter;
             }
 
-            DynamicMethod dynamicMethod = CreateDynamicMethod("Get" + fieldInfo.Name, typeof(T), new[] { typeof(object) }, fieldInfo.DeclaringType);
-            ILGenerator generator = dynamicMethod.GetILGenerator();
+            var dynamicMethod = CreateDynamicMethod("Get" + fieldInfo.Name, typeof(T), new[] { typeof(object) }, fieldInfo.DeclaringType);
+            var generator = dynamicMethod.GetILGenerator();
 
             GenerateCreateGetFieldIL(fieldInfo, generator);
 
@@ -342,8 +342,8 @@ namespace Argon.Utilities
 
         public override Action<T, object?> CreateSet<T>(FieldInfo fieldInfo)
         {
-            DynamicMethod dynamicMethod = CreateDynamicMethod("Set" + fieldInfo.Name, null, new[] { typeof(T), typeof(object) }, fieldInfo.DeclaringType);
-            ILGenerator generator = dynamicMethod.GetILGenerator();
+            var dynamicMethod = CreateDynamicMethod("Set" + fieldInfo.Name, null, new[] { typeof(T), typeof(object) }, fieldInfo.DeclaringType);
+            var generator = dynamicMethod.GetILGenerator();
 
             GenerateCreateSetFieldIL(fieldInfo, generator);
 
@@ -374,8 +374,8 @@ namespace Argon.Utilities
 
         public override Action<T, object?> CreateSet<T>(PropertyInfo propertyInfo)
         {
-            DynamicMethod dynamicMethod = CreateDynamicMethod("Set" + propertyInfo.Name, null, new[] { typeof(T), typeof(object) }, propertyInfo.DeclaringType);
-            ILGenerator generator = dynamicMethod.GetILGenerator();
+            var dynamicMethod = CreateDynamicMethod("Set" + propertyInfo.Name, null, new[] { typeof(T), typeof(object) }, propertyInfo.DeclaringType);
+            var generator = dynamicMethod.GetILGenerator();
 
             GenerateCreateSetPropertyIL(propertyInfo, generator);
 
@@ -384,7 +384,7 @@ namespace Argon.Utilities
 
         internal static void GenerateCreateSetPropertyIL(PropertyInfo propertyInfo, ILGenerator generator)
         {
-            MethodInfo setMethod = propertyInfo.GetSetMethod(true);
+            var setMethod = propertyInfo.GetSetMethod(true);
             if (!setMethod.IsStatic)
             {
                 generator.PushInstance(propertyInfo.DeclaringType);

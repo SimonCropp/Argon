@@ -38,7 +38,7 @@ namespace Argon.Tests.TestObjects
         {
             if (obj is Product)
             {
-                Product p = (Product)obj;
+                var p = (Product)obj;
 
                 return (p.Name == Name && p.ExpiryDate == ExpiryDate && p.Price == Price);
             }

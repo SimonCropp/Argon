@@ -38,10 +38,10 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test_Error()
         {
-            RefAndRefReadonlyTestClass c = new RefAndRefReadonlyTestClass(123);
+            var c = new RefAndRefReadonlyTestClass(123);
             c.SetRefField(456);
 
-            JsonSerializationException ex = ExceptionAssert.Throws<JsonSerializationException>(
+            var ex = ExceptionAssert.Throws<JsonSerializationException>(
                 () => JsonConvert.SerializeObject(c),
                 "Error getting value from 'RefField' on 'Argon.Tests.Issues.RefAndRefReadonlyTestClass'.");
 
@@ -51,10 +51,10 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test_Ignore()
         {
-            RefAndRefReadonlyIgnoredTestClass c = new RefAndRefReadonlyIgnoredTestClass(123);
+            var c = new RefAndRefReadonlyIgnoredTestClass(123);
             c.SetRefField(456);
 
-            string json = JsonConvert.SerializeObject(c);
+            var json = JsonConvert.SerializeObject(c);
 
             Assert.AreEqual("{}", json);
         }

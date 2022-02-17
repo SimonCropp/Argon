@@ -42,8 +42,8 @@ namespace Argon.Tests.Benchmarks
 
         static JTokenBenchmarks()
         {
-            JObject o = new JObject();
-            for (int i = 0; i < 50; i++)
+            var o = new JObject();
+            for (var i = 0; i < 50; i++)
             {
                 o[i.ToString()] = i;
             }
@@ -55,14 +55,14 @@ namespace Argon.Tests.Benchmarks
         [Benchmark]
         public void TokenWriteTo()
         {
-            StringWriter sw = new StringWriter();
+            var sw = new StringWriter();
             JObjectSample.WriteTo(new JsonTextWriter(sw));
         }
 
         [Benchmark]
         public Task TokenWriteToAsync()
         {
-            StringWriter sw = new StringWriter();
+            var sw = new StringWriter();
             return JObjectSample.WriteToAsync(new JsonTextWriter(sw));
         }
 
@@ -81,11 +81,11 @@ namespace Argon.Tests.Benchmarks
         [Benchmark]
         public JArray JArrayNestedBuild()
         {
-            JArray current = new JArray();
-            JArray root = current;
-            for (int j = 0; j < 100000; j++)
+            var current = new JArray();
+            var root = current;
+            for (var j = 0; j < 100000; j++)
             {
-                JArray temp = new JArray();
+                var temp = new JArray();
                 current.Add(temp);
                 current = temp;
             }

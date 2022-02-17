@@ -49,9 +49,9 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            Person person = new Person();
+            var person = new Person();
 
-            string jsonIncludeDefaultValues = JsonConvert.SerializeObject(person, Formatting.Indented);
+            var jsonIncludeDefaultValues = JsonConvert.SerializeObject(person, Formatting.Indented);
 
             Console.WriteLine(jsonIncludeDefaultValues);
             // {
@@ -61,7 +61,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
             //   "Salary": null
             // }
 
-            string jsonIgnoreDefaultValues = JsonConvert.SerializeObject(person, Formatting.Indented, new JsonSerializerSettings
+            var jsonIgnoreDefaultValues = JsonConvert.SerializeObject(person, Formatting.Indented, new JsonSerializerSettings
             {
                 DefaultValueHandling = DefaultValueHandling.Ignore
             });

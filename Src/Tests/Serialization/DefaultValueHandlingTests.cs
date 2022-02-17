@@ -59,7 +59,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DefaultValueWithConstructorAndRenameTest()
         {
-            DefaultValueWithConstructorAndRename myObject = JsonConvert.DeserializeObject<DefaultValueWithConstructorAndRename>("{}");
+            var myObject = JsonConvert.DeserializeObject<DefaultValueWithConstructorAndRename>("{}");
             Assert.AreEqual(DefaultValueWithConstructorAndRename.DefaultText, myObject.Text);
         }
 
@@ -80,7 +80,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DefaultValueWithConstructorTest()
         {
-            DefaultValueWithConstructor myObject = JsonConvert.DeserializeObject<DefaultValueWithConstructor>("{}");
+            var myObject = JsonConvert.DeserializeObject<DefaultValueWithConstructor>("{}");
             Assert.AreEqual(DefaultValueWithConstructor.DefaultText, myObject.Text);
         }
 
@@ -114,9 +114,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void PopulateWithJsonIgnoreAttribute()
         {
-            string json = "{\"Data\":\"Other with some more text\"}";
+            var json = "{\"Data\":\"Other with some more text\"}";
 
-            MyClass result = JsonConvert.DeserializeObject<MyClass>(json, new JsonSerializerSettings() { DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate });
+            var result = JsonConvert.DeserializeObject<MyClass>(json, new JsonSerializerSettings() { DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate });
 
             Assert.AreEqual(MyEnum.Other, result.Status);
         }
@@ -124,7 +124,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void Include()
         {
-            Invoice invoice = new Invoice
+            var invoice = new Invoice
             {
                 Company = "Acme Ltd.",
                 Amount = 50.0m,
@@ -134,7 +134,7 @@ namespace Argon.Tests.Serialization
                 PaidDate = null
             };
 
-            string included = JsonConvert.SerializeObject(invoice,
+            var included = JsonConvert.SerializeObject(invoice,
                 Formatting.Indented,
                 new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Include });
 
@@ -151,7 +151,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeInvoice()
         {
-            Invoice invoice = new Invoice
+            var invoice = new Invoice
             {
                 Company = "Acme Ltd.",
                 Amount = 50.0m,
@@ -161,7 +161,7 @@ namespace Argon.Tests.Serialization
                 PaidDate = null
             };
 
-            string included = JsonConvert.SerializeObject(invoice,
+            var included = JsonConvert.SerializeObject(invoice,
                 Formatting.Indented,
                 new JsonSerializerSettings { });
 
@@ -174,7 +174,7 @@ namespace Argon.Tests.Serialization
   ""FollowUpEmailAddress"": """"
 }", included);
 
-            string ignored = JsonConvert.SerializeObject(invoice,
+            var ignored = JsonConvert.SerializeObject(invoice,
                 Formatting.Indented,
                 new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
 
@@ -187,7 +187,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void SerializeDefaultValueAttributeTest()
         {
-            string json = JsonConvert.SerializeObject(new DefaultValueAttributeTestClass(),
+            var json = JsonConvert.SerializeObject(new DefaultValueAttributeTestClass(),
                 Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
             Assert.AreEqual(@"{""TestField1"":0,""TestProperty1"":null}", json);
 
@@ -207,9 +207,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeDefaultValueAttributeTest()
         {
-            string json = "{}";
+            var json = "{}";
 
-            DefaultValueAttributeTestClass c = JsonConvert.DeserializeObject<DefaultValueAttributeTestClass>(json, new JsonSerializerSettings
+            var c = JsonConvert.DeserializeObject<DefaultValueAttributeTestClass>(json, new JsonSerializerSettings
             {
                 DefaultValueHandling = DefaultValueHandling.Populate
             });
@@ -234,14 +234,14 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeIgnoreAndPopulate()
         {
-            DefaultHandler c1 = JsonConvert.DeserializeObject<DefaultHandler>("{}", new JsonSerializerSettings
+            var c1 = JsonConvert.DeserializeObject<DefaultHandler>("{}", new JsonSerializerSettings
             {
                 DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
             });
             Assert.AreEqual(-1, c1.field1);
             Assert.AreEqual("default", c1.field2);
 
-            DefaultHandler c2 = JsonConvert.DeserializeObject<DefaultHandler>("{'field1':-1,'field2':'default'}", new JsonSerializerSettings
+            var c2 = JsonConvert.DeserializeObject<DefaultHandler>("{'field1':-1,'field2':'default'}", new JsonSerializerSettings
             {
                 DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
             });
@@ -286,12 +286,12 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void IgnoreNumberTypeDifferencesWithDefaultValue()
         {
-            NetworkUser user = new NetworkUser
+            var user = new NetworkUser
             {
                 Firstname = "blub"
             };
 
-            string json = JsonConvert.SerializeObject(user, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore });
+            var json = JsonConvert.SerializeObject(user, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore });
 
             Assert.AreEqual(@"{""firstName"":""blub""}", json);
         }
@@ -309,18 +309,18 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void EmitDefaultValueTest()
         {
-            EmitDefaultValueClass c = new EmitDefaultValueClass();
+            var c = new EmitDefaultValueClass();
 
 #if !NET5_0_OR_GREATER
-            DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(typeof(EmitDefaultValueClass));
+            var jsonSerializer = new DataContractJsonSerializer(typeof(EmitDefaultValueClass));
 
-            MemoryStream ms = new MemoryStream();
+            var ms = new MemoryStream();
             jsonSerializer.WriteObject(ms, c);
 
             Assert.AreEqual("{}", Encoding.UTF8.GetString(ms.ToArray()));
 #endif
 
-            string json = JsonConvert.SerializeObject(c);
+            var json = JsonConvert.SerializeObject(c);
 
             Assert.AreEqual("{}", json);
         }
@@ -328,9 +328,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DefaultValueHandlingPropertyTest()
         {
-            DefaultValueHandlingPropertyClass c = new DefaultValueHandlingPropertyClass();
+            var c = new DefaultValueHandlingPropertyClass();
 
-            string json = JsonConvert.SerializeObject(c, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
             StringAssert.AreEqual(@"{
   ""IntInclude"": 0,
@@ -360,7 +360,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeWithIgnore()
         {
-            string json = @"{'Value':null,'IntValue1':1,'IntValue2':0,'IntValue3':null}";
+            var json = @"{'Value':null,'IntValue1':1,'IntValue2':0,'IntValue3':null}";
 
             var o = JsonConvert.DeserializeObject<DefaultValueHandlingDeserializeHolder>(json, new JsonSerializerSettings
             {
@@ -376,7 +376,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DeserializeWithPopulate()
         {
-            string json = @"{}";
+            var json = @"{}";
 
             var o = JsonConvert.DeserializeObject<DefaultValueHandlingDeserializePopulate>(json, new JsonSerializerSettings
             {
@@ -391,8 +391,8 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void EmitDefaultValueIgnoreAndPopulate()
         {
-            string str = "{}";
-            TestClass obj = JsonConvert.DeserializeObject<TestClass>(str, new JsonSerializerSettings
+            var str = "{}";
+            var obj = JsonConvert.DeserializeObject<TestClass>(str, new JsonSerializerSettings
             {
                 DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
             });
@@ -476,9 +476,9 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void DontSetPropertiesDefaultValueUsedInConstructor()
         {
-            string json = @"{""ExportFormat"":0}";
+            var json = @"{""ExportFormat"":0}";
 
-            FieldExportFormat o = JsonConvert.DeserializeObject<FieldExportFormat>(json, new JsonSerializerSettings
+            var o = JsonConvert.DeserializeObject<FieldExportFormat>(json, new JsonSerializerSettings
             {
                 DefaultValueHandling = DefaultValueHandling.Populate
             });

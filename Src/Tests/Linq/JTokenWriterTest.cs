@@ -43,10 +43,10 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ValueFormatting()
         {
-            byte[] data = Encoding.UTF8.GetBytes("Hello world.");
+            var data = Encoding.UTF8.GetBytes("Hello world.");
 
             JToken root;
-            using (JTokenWriter jsonWriter = new JTokenWriter())
+            using (var jsonWriter = new JTokenWriter())
             {
                 jsonWriter.WriteStartArray();
                 jsonWriter.WriteValue('@');
@@ -126,7 +126,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void CurrentToken()
         {
-            using (JTokenWriter jsonWriter = new JTokenWriter())
+            using (var jsonWriter = new JTokenWriter())
             {
                 Assert.AreEqual(WriteState.Start, jsonWriter.WriteState);
                 Assert.AreEqual(null, jsonWriter.CurrentToken);
@@ -135,7 +135,7 @@ namespace Argon.Tests.Linq
                 Assert.AreEqual(WriteState.Object, jsonWriter.WriteState);
                 Assert.AreEqual(jsonWriter.Token, jsonWriter.CurrentToken);
 
-                JObject o = (JObject)jsonWriter.Token;
+                var o = (JObject)jsonWriter.Token;
 
                 jsonWriter.WritePropertyName("CPU");
                 Assert.AreEqual(WriteState.Property, jsonWriter.WriteState);
@@ -153,7 +153,7 @@ namespace Argon.Tests.Linq
                 Assert.AreEqual(WriteState.Array, jsonWriter.WriteState);
                 Assert.AreEqual(o["Drives"], jsonWriter.CurrentToken);
 
-                JArray a = (JArray)jsonWriter.CurrentToken;
+                var a = (JArray)jsonWriter.CurrentToken;
 
                 jsonWriter.WriteValue("DVD read/writer");
                 Assert.AreEqual(WriteState.Array, jsonWriter.WriteState);
@@ -180,7 +180,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void WriteComment()
         {
-            JTokenWriter writer = new JTokenWriter();
+            var writer = new JTokenWriter();
 
             writer.WriteStartArray();
             writer.WriteComment("fail");
@@ -193,13 +193,13 @@ namespace Argon.Tests.Linq
         [Fact]
         public void WriteBigInteger()
         {
-            JTokenWriter writer = new JTokenWriter();
+            var writer = new JTokenWriter();
 
             writer.WriteStartArray();
             writer.WriteValue(new BigInteger(123));
             writer.WriteEndArray();
 
-            JValue i = (JValue)writer.Token[0];
+            var i = (JValue)writer.Token[0];
 
             Assert.AreEqual(new BigInteger(123), i.Value);
             Assert.AreEqual(JTokenType.Integer, i.Type);
@@ -212,7 +212,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void WriteRaw()
         {
-            JTokenWriter writer = new JTokenWriter();
+            var writer = new JTokenWriter();
 
             writer.WriteStartArray();
             writer.WriteRaw("fail");
@@ -231,13 +231,13 @@ namespace Argon.Tests.Linq
         [Fact]
         public void WriteTokenWithParent()
         {
-            JObject o = new JObject
+            var o = new JObject
             {
                 ["prop1"] = new JArray(1),
                 ["prop2"] = 1
             };
 
-            JTokenWriter writer = new JTokenWriter();
+            var writer = new JTokenWriter();
 
             writer.WriteStartArray();
 
@@ -262,9 +262,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public void WriteTokenWithPropertyParent()
         {
-            JValue v = new JValue(1);
+            var v = new JValue(1);
 
-            JTokenWriter writer = new JTokenWriter();
+            var writer = new JTokenWriter();
 
             writer.WriteStartObject();
             writer.WritePropertyName("Prop1");
@@ -283,9 +283,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public void WriteValueTokenWithParent()
         {
-            JValue v = new JValue(1);
+            var v = new JValue(1);
 
-            JTokenWriter writer = new JTokenWriter();
+            var writer = new JTokenWriter();
 
             writer.WriteStartArray();
 
@@ -303,13 +303,13 @@ namespace Argon.Tests.Linq
         [Fact]
         public void WriteEmptyToken()
         {
-            JObject o = new JObject();
-            JsonReader reader = o.CreateReader();
+            var o = new JObject();
+            var reader = o.CreateReader();
             while (reader.Read())
             {   
             }
 
-            JTokenWriter writer = new JTokenWriter();
+            var writer = new JTokenWriter();
 
             writer.WriteStartArray();
 
@@ -325,7 +325,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void WriteRawValue()
         {
-            JTokenWriter writer = new JTokenWriter();
+            var writer = new JTokenWriter();
 
             writer.WriteStartArray();
             writer.WriteRawValue("fail");
@@ -341,7 +341,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void WriteDuplicatePropertyName()
         {
-            JTokenWriter writer = new JTokenWriter();
+            var writer = new JTokenWriter();
 
             writer.WriteStartObject();
 
@@ -363,15 +363,15 @@ namespace Argon.Tests.Linq
         [Fact]
         public void DateTimeZoneHandling()
         {
-            JTokenWriter writer = new JTokenWriter
+            var writer = new JTokenWriter
             {
                 DateTimeZoneHandling = Argon.DateTimeZoneHandling.Utc
             };
 
             writer.WriteValue(new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Unspecified));
 
-            JValue value = (JValue)writer.Token;
-            DateTime dt = (DateTime)value.Value;
+            var value = (JValue)writer.Token;
+            var dt = (DateTime)value.Value;
 
             Assert.AreEqual(new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc), dt);
         }
@@ -381,7 +381,7 @@ namespace Argon.Tests.Linq
         {
             JToken token;
 
-            using (JTokenWriter jsonWriter = new JTokenWriter())
+            using (var jsonWriter = new JTokenWriter())
             {
                 jsonWriter.WriteToken(JsonToken.StartArray);
                 jsonWriter.WriteToken(JsonToken.Integer, 1);

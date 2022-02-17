@@ -44,20 +44,20 @@ namespace Argon.Tests.Documentation.Samples.Serializer
             try
             {
                 #region Usage
-                string json = @"{
+                var json = @"{
                   'Name': 'James',
                   'Password': 'Password1',
                   '$type': 'MyNamespace.User, MyAssembly'
                 }";
 
-                object o = JsonConvert.DeserializeObject(json, new JsonSerializerSettings
+                var o = JsonConvert.DeserializeObject(json, new JsonSerializerSettings
                 {
                     TypeNameHandling = TypeNameHandling.All,
                     // $type no longer needs to be first
                     MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
                 });
 
-                User u = (User)o;
+                var u = (User)o;
 
                 Console.WriteLine(u.Name);
                 // James

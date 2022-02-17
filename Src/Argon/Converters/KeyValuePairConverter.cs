@@ -44,8 +44,8 @@ namespace Argon.Converters
         private static ReflectionObject InitializeReflectionObject(Type t)
         {
             IList<Type> genericArguments = t.GetGenericArguments();
-            Type keyType = genericArguments[0];
-            Type valueType = genericArguments[1];
+            var keyType = genericArguments[0];
+            var valueType = genericArguments[1];
 
             return ReflectionObject.Create(t, t.GetConstructor(new[] { keyType, valueType }), KeyName, ValueName);
         }
@@ -64,9 +64,9 @@ namespace Argon.Converters
                 return;
             }
 
-            ReflectionObject reflectionObject = ReflectionObjectPerType.Get(value.GetType());
+            var reflectionObject = ReflectionObjectPerType.Get(value.GetType());
 
-            DefaultContractResolver? resolver = serializer.ContractResolver as DefaultContractResolver;
+            var resolver = serializer.ContractResolver as DefaultContractResolver;
 
             writer.WriteStartObject();
             writer.WritePropertyName((resolver != null) ? resolver.GetResolvedPropertyName(KeyName) : KeyName);
@@ -101,17 +101,17 @@ namespace Argon.Converters
 
             reader.ReadAndAssert();
 
-            Type t = ReflectionUtils.IsNullableType(objectType)
+            var t = ReflectionUtils.IsNullableType(objectType)
                 ? Nullable.GetUnderlyingType(objectType)
                 : objectType;
 
-            ReflectionObject reflectionObject = ReflectionObjectPerType.Get(t);
-            JsonContract keyContract = serializer.ContractResolver.ResolveContract(reflectionObject.GetType(KeyName));
-            JsonContract valueContract = serializer.ContractResolver.ResolveContract(reflectionObject.GetType(ValueName));
+            var reflectionObject = ReflectionObjectPerType.Get(t);
+            var keyContract = serializer.ContractResolver.ResolveContract(reflectionObject.GetType(KeyName));
+            var valueContract = serializer.ContractResolver.ResolveContract(reflectionObject.GetType(ValueName));
 
             while (reader.TokenType == JsonToken.PropertyName)
             {
-                string propertyName = reader.Value!.ToString();
+                var propertyName = reader.Value!.ToString();
                 if (string.Equals(propertyName, KeyName, StringComparison.OrdinalIgnoreCase))
                 {
                     reader.ReadForTypeAndAssert(keyContract, false);
@@ -144,7 +144,7 @@ namespace Argon.Converters
         /// </returns>
         public override bool CanConvert(Type objectType)
         {
-            Type t = (ReflectionUtils.IsNullableType(objectType))
+            var t = (ReflectionUtils.IsNullableType(objectType))
                 ? Nullable.GetUnderlyingType(objectType)
                 : objectType;
 

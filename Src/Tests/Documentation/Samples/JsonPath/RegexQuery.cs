@@ -41,7 +41,7 @@ namespace Argon.Tests.Documentation.Samples.JsonPath
         public void Example()
         {
             #region Usage
-            JArray array = JArray.Parse(@"[
+            var array = JArray.Parse(@"[
               {
                 'PackageId': 'Argon',
                 'Version': '11.0.1',
@@ -55,9 +55,9 @@ namespace Argon.Tests.Documentation.Samples.JsonPath
             ]");
 
             // Find packages
-            List<JToken> packages = array.SelectTokens(@"$.[?(@.PackageId =~ /^Argon/)]").ToList();
+            var packages = array.SelectTokens(@"$.[?(@.PackageId =~ /^Argon/)]").ToList();
 
-            foreach (JToken item in packages)
+            foreach (var item in packages)
             {
                 Console.WriteLine((string) item["PackageId"]);
             }

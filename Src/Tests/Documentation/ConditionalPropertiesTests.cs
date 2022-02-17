@@ -59,14 +59,14 @@ namespace Argon.Tests.Documentation
 
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
-            JsonProperty property = base.CreateProperty(member, memberSerialization);
+            var property = base.CreateProperty(member, memberSerialization);
 
             if (property.DeclaringType == typeof(Employee) && property.PropertyName == "Manager")
             {
                 property.ShouldSerialize =
                     instance =>
                     {
-                        Employee e = (Employee)instance;
+                        var e = (Employee)instance;
                         return e.Manager != e;
                     };
             }
@@ -97,9 +97,9 @@ namespace Argon.Tests.Documentation
         public void ShouldSerializeClassTest()
         {
             #region ShouldSerializeClassTest
-            Employee joe = new Employee();
+            var joe = new Employee();
             joe.Name = "Joe Employee";
-            Employee mike = new Employee();
+            var mike = new Employee();
             mike.Name = "Mike Manager";
 
             joe.Manager = mike;
@@ -108,7 +108,7 @@ namespace Argon.Tests.Documentation
             // ShouldSerialize will skip this property
             mike.Manager = mike;
 
-            string json = JsonConvert.SerializeObject(new[] { joe, mike }, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(new[] { joe, mike }, Formatting.Indented);
             // [
             //   {
             //     "Name": "Joe Employee",
@@ -138,15 +138,15 @@ namespace Argon.Tests.Documentation
         [Fact]
         public void ShouldSerializeContractResolverTest()
         {
-            Argon.Tests.Documentation.Employee joe = new Argon.Tests.Documentation.Employee();
+            var joe = new Argon.Tests.Documentation.Employee();
             joe.Name = "Joe Employee";
-            Argon.Tests.Documentation.Employee mike = new Argon.Tests.Documentation.Employee();
+            var mike = new Argon.Tests.Documentation.Employee();
             mike.Name = "Mike Manager";
 
             joe.Manager = mike;
             mike.Manager = mike;
 
-            string json = JsonConvert.SerializeObject(
+            var json = JsonConvert.SerializeObject(
                 new[] { joe, mike },
                 Formatting.Indented,
                 new JsonSerializerSettings

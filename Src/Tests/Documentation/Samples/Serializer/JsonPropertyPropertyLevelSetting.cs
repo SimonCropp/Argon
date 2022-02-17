@@ -50,13 +50,13 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            Vessel vessel = new Vessel
+            var vessel = new Vessel
             {
                 Name = "Red October",
                 Class = "Typhoon"
             };
 
-            string json = JsonConvert.SerializeObject(vessel, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(vessel, Formatting.Indented);
 
             Console.WriteLine(json);
             // {

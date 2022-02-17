@@ -49,21 +49,21 @@ namespace Argon.Tests.Documentation.Samples.Linq
         public void Example()
         {
             #region Usage
-            JValue i = (JValue)JToken.FromObject(12345);
+            var i = (JValue)JToken.FromObject(12345);
 
             Console.WriteLine(i.Type);
             // Integer
             Console.WriteLine(i.ToString());
             // 12345
 
-            JValue s = (JValue)JToken.FromObject("A string");
+            var s = (JValue)JToken.FromObject("A string");
 
             Console.WriteLine(s.Type);
             // String
             Console.WriteLine(s.ToString());
             // A string
 
-            Computer computer = new Computer
+            var computer = new Computer
             {
                 Cpu = "Intel",
                 Memory = 32,
@@ -74,7 +74,7 @@ namespace Argon.Tests.Documentation.Samples.Linq
                 }
             };
 
-            JObject o = (JObject)JToken.FromObject(computer);
+            var o = (JObject)JToken.FromObject(computer);
 
             Console.WriteLine(o.ToString());
             // {
@@ -86,7 +86,7 @@ namespace Argon.Tests.Documentation.Samples.Linq
             //   ]
             // }
 
-            JArray a = (JArray)JToken.FromObject(computer.Drives);
+            var a = (JArray)JToken.FromObject(computer.Drives);
 
             Console.WriteLine(a.ToString());
             // [

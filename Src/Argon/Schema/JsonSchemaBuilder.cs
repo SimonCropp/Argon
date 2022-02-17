@@ -61,7 +61,7 @@ namespace Argon.Schema
 
         private JsonSchema Pop()
         {
-            JsonSchema poppedSchema = _currentSchema;
+            var poppedSchema = _currentSchema;
             _stack.RemoveAt(_stack.Count - 1);
             _currentSchema = _stack.LastOrDefault();
 
@@ -72,11 +72,11 @@ namespace Argon.Schema
 
         internal JsonSchema Read(JsonReader reader)
         {
-            JToken schemaToken = JToken.ReadFrom(reader);
+            var schemaToken = JToken.ReadFrom(reader);
 
             _rootSchema = schemaToken as JObject;
 
-            JsonSchema schema = BuildSchema(schemaToken);
+            var schema = BuildSchema(schemaToken);
 
             ResolveReferences(schema);
 
@@ -92,25 +92,25 @@ namespace Argon.Schema
         {
             if (schema.DeferredReference != null)
             {
-                string reference = schema.DeferredReference;
+                var reference = schema.DeferredReference;
 
-                bool locationReference = (reference.StartsWith("#", StringComparison.Ordinal));
+                var locationReference = (reference.StartsWith("#", StringComparison.Ordinal));
                 if (locationReference)
                 {
                     reference = UnescapeReference(reference);
                 }
 
-                JsonSchema resolvedSchema = _resolver.GetSchema(reference);
+                var resolvedSchema = _resolver.GetSchema(reference);
 
                 if (resolvedSchema == null)
                 {
                     if (locationReference)
                     {
-                        string[] escapedParts = schema.DeferredReference.TrimStart('#').Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+                        var escapedParts = schema.DeferredReference.TrimStart('#').Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
                         JToken currentToken = _rootSchema;
-                        foreach (string escapedPart in escapedParts)
+                        foreach (var escapedPart in escapedParts)
                         {
-                            string part = UnescapeReference(escapedPart);
+                            var part = UnescapeReference(escapedPart);
 
                             if (currentToken.Type == JTokenType.Object)
                             {
@@ -118,7 +118,7 @@ namespace Argon.Schema
                             }
                             else if (currentToken.Type == JTokenType.Array || currentToken.Type == JTokenType.Constructor)
                             {
-                                if (int.TryParse(part, out int index) && index >= 0 && index < currentToken.Count())
+                                if (int.TryParse(part, out var index) && index >= 0 && index < currentToken.Count())
                                 {
                                     currentToken = currentToken[index];
                                 }
@@ -158,7 +158,7 @@ namespace Argon.Schema
 
             if (schema.Extends != null)
             {
-                for (int i = 0; i < schema.Extends.Count; i++)
+                for (var i = 0; i < schema.Extends.Count; i++)
                 {
                     schema.Extends[i] = ResolveReferences(schema.Extends[i]);
                 }
@@ -166,7 +166,7 @@ namespace Argon.Schema
 
             if (schema.Items != null)
             {
-                for (int i = 0; i < schema.Items.Count; i++)
+                for (var i = 0; i < schema.Items.Count; i++)
                 {
                     schema.Items[i] = ResolveReferences(schema.Items[i]);
                 }
@@ -179,7 +179,7 @@ namespace Argon.Schema
 
             if (schema.PatternProperties != null)
             {
-                foreach (KeyValuePair<string, JsonSchema> patternProperty in schema.PatternProperties.ToList())
+                foreach (var patternProperty in schema.PatternProperties.ToList())
                 {
                     schema.PatternProperties[patternProperty.Key] = ResolveReferences(patternProperty.Value);
                 }
@@ -187,7 +187,7 @@ namespace Argon.Schema
 
             if (schema.Properties != null)
             {
-                foreach (KeyValuePair<string, JsonSchema> property in schema.Properties.ToList())
+                foreach (var property in schema.Properties.ToList())
                 {
                     schema.Properties[property.Key] = ResolveReferences(property.Value);
                 }
@@ -208,22 +208,22 @@ namespace Argon.Schema
                 throw JsonException.Create(token, token.Path, "Expected object while parsing schema object, got {0}.".FormatWith(CultureInfo.InvariantCulture, token.Type));
             }
 
-            if (schemaObject.TryGetValue(JsonTypeReflector.RefPropertyName, out JToken referenceToken))
+            if (schemaObject.TryGetValue(JsonTypeReflector.RefPropertyName, out var referenceToken))
             {
-                JsonSchema deferredSchema = new JsonSchema();
+                var deferredSchema = new JsonSchema();
                 deferredSchema.DeferredReference = (string)referenceToken;
 
                 return deferredSchema;
             }
 
-            string location = token.Path.Replace(".", "/").Replace("[", "/").Replace("]", string.Empty);
+            var location = token.Path.Replace(".", "/").Replace("[", "/").Replace("]", string.Empty);
             if (!StringUtils.IsNullOrEmpty(location))
             {
                 location = "/" + location;
             }
             location = "#" + location;
 
-            if (_documentSchemas.TryGetValue(location, out JsonSchema existingSchema))
+            if (_documentSchemas.TryGetValue(location, out var existingSchema))
             {
                 return existingSchema;
             }
@@ -237,7 +237,7 @@ namespace Argon.Schema
 
         private void ProcessSchemaProperties(JObject schemaObject)
         {
-            foreach (KeyValuePair<string, JToken> property in schemaObject)
+            foreach (var property in schemaObject)
             {
                 switch (property.Key)
                 {
@@ -338,14 +338,14 @@ namespace Argon.Schema
 
             if (token.Type == JTokenType.Array)
             {
-                foreach (JToken schemaObject in token)
+                foreach (var schemaObject in token)
                 {
                     schemas.Add(BuildSchema(schemaObject));
                 }
             }
             else
             {
-                JsonSchema schema = BuildSchema(token);
+                var schema = BuildSchema(token);
                 if (schema != null)
                 {
                     schemas.Add(schema);
@@ -367,7 +367,7 @@ namespace Argon.Schema
 
             CurrentSchema.Enum = new List<JToken>();
 
-            foreach (JToken enumValue in token)
+            foreach (var enumValue in token)
             {
                 CurrentSchema.Enum.Add(enumValue.DeepClone());
             }
@@ -431,7 +431,7 @@ namespace Argon.Schema
                     break;
                 case JTokenType.Array:
                     CurrentSchema.PositionalItemsValidation = true;
-                    foreach (JToken schemaToken in token)
+                    foreach (var schemaToken in token)
                     {
                         CurrentSchema.Items.Add(BuildSchema(schemaToken));
                     }
@@ -449,7 +449,7 @@ namespace Argon.Schema
                     // ensure type is in blank state before ORing values
                     JsonSchemaType? type = JsonSchemaType.None;
 
-                    foreach (JToken typeToken in token)
+                    foreach (var typeToken in token)
                     {
                         if (typeToken.Type != JTokenType.String)
                         {
@@ -469,7 +469,7 @@ namespace Argon.Schema
 
         internal static JsonSchemaType MapType(string type)
         {
-            if (!JsonSchemaConstants.JsonSchemaTypeMapping.TryGetValue(type, out JsonSchemaType mappedType))
+            if (!JsonSchemaConstants.JsonSchemaTypeMapping.TryGetValue(type, out var mappedType))
             {
                 throw new JsonException("Invalid JSON schema type: {0}".FormatWith(CultureInfo.InvariantCulture, type));
             }

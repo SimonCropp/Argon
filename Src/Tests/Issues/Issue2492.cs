@@ -42,13 +42,13 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test_Object()
         {
-            string jsontext = @"{ ""ABC"": //DEF
+            var jsontext = @"{ ""ABC"": //DEF
 {}}";
 
             using var stringReader = new StringReader(jsontext);
             using var jsonReader = new JsonTextReader(stringReader);
 
-            JsonSerializer serializer = JsonSerializer.Create();
+            var serializer = JsonSerializer.Create();
             var x = serializer.Deserialize<JToken>(jsonReader);
 
             Assert.AreEqual(JTokenType.Object, x["ABC"].Type);
@@ -57,12 +57,12 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test_Integer()
         {
-            string jsontext = "{ \"ABC\": /*DEF*/ 1}";
+            var jsontext = "{ \"ABC\": /*DEF*/ 1}";
 
             using var stringReader = new StringReader(jsontext);
             using var jsonReader = new JsonTextReader(stringReader);
 
-            JsonSerializer serializer = JsonSerializer.Create();
+            var serializer = JsonSerializer.Create();
             var x = serializer.Deserialize<JToken>(jsonReader);
 
             Assert.AreEqual(JTokenType.Integer, x["ABC"].Type);

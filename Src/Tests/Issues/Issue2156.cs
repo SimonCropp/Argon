@@ -37,7 +37,7 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test()
         {
-            string json = @"
+            var json = @"
             {
                 ""root"": {
                     ""a"": {
@@ -49,10 +49,10 @@ namespace Argon.Tests.Issues
                 }
             }";
 
-            JToken t = JToken.Parse(json);
+            var t = JToken.Parse(json);
 
-            int count1 = t.SelectTokens("$..a.name").Count(); // result: 1, expected: 1
-            int count2 = t.SelectTokens("$..['a']['name']").Count(); // result: 2, expected: 1
+            var count1 = t.SelectTokens("$..a.name").Count(); // result: 1, expected: 1
+            var count2 = t.SelectTokens("$..['a']['name']").Count(); // result: 2, expected: 1
 
             Assert.AreEqual(1, count1);
             Assert.AreEqual(1, count2);

@@ -46,7 +46,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
 
             public override Version ReadJson(JsonReader reader, Type objectType, Version existingValue, bool hasExistingValue, JsonSerializer serializer)
             {
-                string s = (string)reader.Value;
+                var s = (string)reader.Value;
 
                 return new Version(s);
             }
@@ -63,13 +63,13 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            NuGetPackage p1 = new NuGetPackage
+            var p1 = new NuGetPackage
             {
                 PackageId = "Argon",
                 Version = new Version(10, 0, 4)
             };
 
-            string json = JsonConvert.SerializeObject(p1, Formatting.Indented, new VersionConverter());
+            var json = JsonConvert.SerializeObject(p1, Formatting.Indented, new VersionConverter());
 
             Console.WriteLine(json);
             // {
@@ -77,7 +77,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
             //   "Version": "10.0.4"
             // }
 
-            NuGetPackage p2 = JsonConvert.DeserializeObject<NuGetPackage>(json, new VersionConverter());
+            var p2 = JsonConvert.DeserializeObject<NuGetPackage>(json, new VersionConverter());
 
             Console.WriteLine(p2.Version.ToString());
             // 10.0.4

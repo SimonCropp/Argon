@@ -55,14 +55,14 @@ namespace Argon.Serialization
 
         private static CallSite<Func<CallSite, object, object>> CreateCallSiteGetter(string name)
         {
-            GetMemberBinder getMemberBinder = (GetMemberBinder)DynamicUtils.BinderWrapper.GetMember(name, typeof(DynamicUtils));
+            var getMemberBinder = (GetMemberBinder)DynamicUtils.BinderWrapper.GetMember(name, typeof(DynamicUtils));
 
             return CallSite<Func<CallSite, object, object>>.Create(new NoThrowGetBinderMember(getMemberBinder));
         }
 
         private static CallSite<Func<CallSite, object, object?, object>> CreateCallSiteSetter(string name)
         {
-            SetMemberBinder binder = (SetMemberBinder)DynamicUtils.BinderWrapper.SetMember(name, typeof(DynamicUtils));
+            var binder = (SetMemberBinder)DynamicUtils.BinderWrapper.SetMember(name, typeof(DynamicUtils));
 
             return CallSite<Func<CallSite, object, object?, object>>.Create(new NoThrowSetBinderMember(binder));
         }
@@ -83,9 +83,9 @@ namespace Argon.Serialization
         {
             ValidationUtils.ArgumentNotNull(dynamicProvider, nameof(dynamicProvider));
 
-            CallSite<Func<CallSite, object, object>> callSite = _callSiteGetters.Get(name);
+            var callSite = _callSiteGetters.Get(name);
 
-            object result = callSite.Target(callSite, dynamicProvider);
+            var result = callSite.Target(callSite, dynamicProvider);
 
             if (!ReferenceEquals(result, NoThrowExpressionVisitor.ErrorResult))
             {
@@ -103,9 +103,9 @@ namespace Argon.Serialization
         {
             ValidationUtils.ArgumentNotNull(dynamicProvider, nameof(dynamicProvider));
 
-            CallSite<Func<CallSite, object, object?, object>> callSite = _callSiteSetters.Get(name);
+            var callSite = _callSiteSetters.Get(name);
 
-            object result = callSite.Target(callSite, dynamicProvider, value);
+            var result = callSite.Target(callSite, dynamicProvider, value);
 
             return !ReferenceEquals(result, NoThrowExpressionVisitor.ErrorResult);
         }

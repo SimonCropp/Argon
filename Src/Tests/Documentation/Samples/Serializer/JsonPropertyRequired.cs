@@ -50,12 +50,12 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            string json = @"{
+            var json = @"{
               'Name': 'Starcraft III',
               'ReleaseDate': null
             }";
 
-            Videogame starcraft = JsonConvert.DeserializeObject<Videogame>(json);
+            var starcraft = JsonConvert.DeserializeObject<Videogame>(json);
 
             Console.WriteLine(starcraft.Name);
             // Starcraft III

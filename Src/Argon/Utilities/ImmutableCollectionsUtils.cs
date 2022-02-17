@@ -111,22 +111,22 @@ namespace Argon.Utilities
         {
             if (underlyingType.IsGenericType())
             {
-                Type underlyingTypeDefinition = underlyingType.GetGenericTypeDefinition();
-                string name = underlyingTypeDefinition.FullName;
+                var underlyingTypeDefinition = underlyingType.GetGenericTypeDefinition();
+                var name = underlyingTypeDefinition.FullName;
 
-                ImmutableCollectionTypeInfo definition = ArrayContractImmutableCollectionDefinitions.FirstOrDefault(d => d.ContractTypeName == name);
+                var definition = ArrayContractImmutableCollectionDefinitions.FirstOrDefault(d => d.ContractTypeName == name);
                 if (definition != null)
                 {
-                    Type createdTypeDefinition = underlyingTypeDefinition.Assembly().GetType(definition.CreatedTypeName);
-                    Type builderTypeDefinition = underlyingTypeDefinition.Assembly().GetType(definition.BuilderTypeName);
+                    var createdTypeDefinition = underlyingTypeDefinition.Assembly().GetType(definition.CreatedTypeName);
+                    var builderTypeDefinition = underlyingTypeDefinition.Assembly().GetType(definition.BuilderTypeName);
 
                     if (createdTypeDefinition != null && builderTypeDefinition != null)
                     {
-                        MethodInfo mb = builderTypeDefinition.GetMethods().FirstOrDefault(m => m.Name == "CreateRange" && m.GetParameters().Length == 1);
+                        var mb = builderTypeDefinition.GetMethods().FirstOrDefault(m => m.Name == "CreateRange" && m.GetParameters().Length == 1);
                         if (mb != null)
                         {
                             createdType = createdTypeDefinition.MakeGenericType(collectionItemType);
-                            MethodInfo method = mb.MakeGenericMethod(collectionItemType);
+                            var method = mb.MakeGenericMethod(collectionItemType);
                             parameterizedCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(method);
                             return true;
                         }
@@ -143,18 +143,18 @@ namespace Argon.Utilities
         {
             if (underlyingType.IsGenericType())
             {
-                Type underlyingTypeDefinition = underlyingType.GetGenericTypeDefinition();
-                string name = underlyingTypeDefinition.FullName;
+                var underlyingTypeDefinition = underlyingType.GetGenericTypeDefinition();
+                var name = underlyingTypeDefinition.FullName;
 
-                ImmutableCollectionTypeInfo definition = DictionaryContractImmutableCollectionDefinitions.FirstOrDefault(d => d.ContractTypeName == name);
+                var definition = DictionaryContractImmutableCollectionDefinitions.FirstOrDefault(d => d.ContractTypeName == name);
                 if (definition != null)
                 {
-                    Type createdTypeDefinition = underlyingTypeDefinition.Assembly().GetType(definition.CreatedTypeName);
-                    Type builderTypeDefinition = underlyingTypeDefinition.Assembly().GetType(definition.BuilderTypeName);
+                    var createdTypeDefinition = underlyingTypeDefinition.Assembly().GetType(definition.CreatedTypeName);
+                    var builderTypeDefinition = underlyingTypeDefinition.Assembly().GetType(definition.BuilderTypeName);
 
                     if (createdTypeDefinition != null && builderTypeDefinition != null)
                     {
-                        MethodInfo mb = builderTypeDefinition.GetMethods().FirstOrDefault(m =>
+                        var mb = builderTypeDefinition.GetMethods().FirstOrDefault(m =>
                         {
                             ParameterInfo[] parameters = m.GetParameters();
 
@@ -163,7 +163,7 @@ namespace Argon.Utilities
                         if (mb != null)
                         {
                             createdType = createdTypeDefinition.MakeGenericType(keyItemType, valueItemType);
-                            MethodInfo method = mb.MakeGenericMethod(keyItemType, valueItemType);
+                            var method = mb.MakeGenericMethod(keyItemType, valueItemType);
                             parameterizedCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(method);
                             return true;
                         }

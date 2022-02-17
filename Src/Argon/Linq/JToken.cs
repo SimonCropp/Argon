@@ -102,7 +102,7 @@ namespace Argon.Linq
         {
             get
             {
-                JContainer? parent = Parent;
+                var parent = Parent;
                 if (parent == null)
                 {
                     return this;
@@ -177,21 +177,21 @@ namespace Argon.Linq
                     return string.Empty;
                 }
 
-                List<JsonPosition> positions = new List<JsonPosition>();
+                var positions = new List<JsonPosition>();
                 JToken? previous = null;
-                for (JToken? current = this; current != null; current = current.Parent)
+                for (var current = this; current != null; current = current.Parent)
                 {
                     switch (current.Type)
                     {
                         case JTokenType.Property:
-                            JProperty property = (JProperty)current;
+                            var property = (JProperty)current;
                             positions.Add(new JsonPosition(JsonContainerType.Object) { PropertyName = property.Name });
                             break;
                         case JTokenType.Array:
                         case JTokenType.Constructor:
                             if (previous != null)
                             {
-                                int index = ((IList<JToken>)current).IndexOf(previous);
+                                var index = ((IList<JToken>)current).IndexOf(previous);
 
                                 positions.Add(new JsonPosition(JsonContainerType.Array) { Position = index });
                             }
@@ -222,7 +222,7 @@ namespace Argon.Linq
                 throw new InvalidOperationException("The parent is missing.");
             }
 
-            int index = _parent.IndexOfItem(this);
+            var index = _parent.IndexOfItem(this);
             _parent.TryAddInternal(index + 1, content, false);
         }
 
@@ -237,7 +237,7 @@ namespace Argon.Linq
                 throw new InvalidOperationException("The parent is missing.");
             }
 
-            int index = _parent.IndexOfItem(this);
+            var index = _parent.IndexOfItem(this);
             _parent.TryAddInternal(index, content, false);
         }
 
@@ -261,7 +261,7 @@ namespace Argon.Linq
 
         internal IEnumerable<JToken> GetAncestors(bool self)
         {
-            for (JToken? current = self ? this : Parent; current != null; current = current.Parent)
+            for (var current = self ? this : Parent; current != null; current = current.Parent)
             {
                 yield return current;
             }
@@ -278,7 +278,7 @@ namespace Argon.Linq
                 yield break;
             }
 
-            for (JToken? o = Next; o != null; o = o.Next)
+            for (var o = Next; o != null; o = o.Next)
             {
                 yield return o;
             }
@@ -295,7 +295,7 @@ namespace Argon.Linq
                 yield break;
             }
 
-            for (JToken? o = Parent.First; o != this && o != null; o = o.Next)
+            for (var o = Parent.First; o != this && o != null; o = o.Next)
             {
                 yield return o;
             }
@@ -319,7 +319,7 @@ namespace Argon.Linq
         /// <returns>The converted token value.</returns>
         public virtual T? Value<T>(object key)
         {
-            JToken? token = this[key];
+            var token = this[key];
 
             // null check to fix MonoTouch issue - https://github.com/dolbz/Newtonsoft.Json/commit/a24e3062846b30ee505f3271ac08862bb471b822
             return token == null ? default : Extensions.Convert<JToken, T>(token);
@@ -423,9 +423,9 @@ namespace Argon.Linq
         /// <returns>The JSON for this token using the given formatting and converters.</returns>
         public string ToString(Formatting formatting, params JsonConverter[] converters)
         {
-            using (StringWriter sw = new StringWriter(CultureInfo.InvariantCulture))
+            using (var sw = new StringWriter(CultureInfo.InvariantCulture))
             {
-                JsonTextWriter jw = new JsonTextWriter(sw);
+                var jw = new JsonTextWriter(sw);
                 jw.Formatting = formatting;
 
                 WriteTo(jw, converters);
@@ -446,7 +446,7 @@ namespace Argon.Linq
                 value = property.Value;
             }
 
-            JValue? v = value as JValue;
+            var v = value as JValue;
 
             return v;
         }
@@ -476,7 +476,7 @@ namespace Argon.Linq
         /// <returns>The result of the conversion.</returns>
         public static explicit operator bool(JToken value)
         {
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, BooleanTypes, false))
             {
                 throw new ArgumentException("Can not convert {0} to Boolean.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -497,7 +497,7 @@ namespace Argon.Linq
         /// <returns>The result of the conversion.</returns>
         public static explicit operator DateTimeOffset(JToken value)
         {
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, DateTimeTypes, false))
             {
                 throw new ArgumentException("Can not convert {0} to DateTimeOffset.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -528,7 +528,7 @@ namespace Argon.Linq
                 return null;
             }
 
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, BooleanTypes, true))
             {
                 throw new ArgumentException("Can not convert {0} to Boolean.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -549,7 +549,7 @@ namespace Argon.Linq
         /// <returns>The result of the conversion.</returns>
         public static explicit operator long(JToken value)
         {
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, NumberTypes, false))
             {
                 throw new ArgumentException("Can not convert {0} to Int64.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -575,7 +575,7 @@ namespace Argon.Linq
                 return null;
             }
 
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, DateTimeTypes, true))
             {
                 throw new ArgumentException("Can not convert {0} to DateTime.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -601,7 +601,7 @@ namespace Argon.Linq
                 return null;
             }
 
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, DateTimeTypes, true))
             {
                 throw new ArgumentException("Can not convert {0} to DateTimeOffset.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -636,7 +636,7 @@ namespace Argon.Linq
                 return null;
             }
 
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, NumberTypes, true))
             {
                 throw new ArgumentException("Can not convert {0} to Decimal.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -662,7 +662,7 @@ namespace Argon.Linq
                 return null;
             }
 
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, NumberTypes, true))
             {
                 throw new ArgumentException("Can not convert {0} to Double.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -688,7 +688,7 @@ namespace Argon.Linq
                 return null;
             }
 
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, CharTypes, true))
             {
                 throw new ArgumentException("Can not convert {0} to Char.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -709,7 +709,7 @@ namespace Argon.Linq
         /// <returns>The result of the conversion.</returns>
         public static explicit operator int(JToken value)
         {
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, NumberTypes, false))
             {
                 throw new ArgumentException("Can not convert {0} to Int32.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -730,7 +730,7 @@ namespace Argon.Linq
         /// <returns>The result of the conversion.</returns>
         public static explicit operator short(JToken value)
         {
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, NumberTypes, false))
             {
                 throw new ArgumentException("Can not convert {0} to Int16.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -752,7 +752,7 @@ namespace Argon.Linq
         [CLSCompliant(false)]
         public static explicit operator ushort(JToken value)
         {
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, NumberTypes, false))
             {
                 throw new ArgumentException("Can not convert {0} to UInt16.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -774,7 +774,7 @@ namespace Argon.Linq
         [CLSCompliant(false)]
         public static explicit operator char(JToken value)
         {
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, CharTypes, false))
             {
                 throw new ArgumentException("Can not convert {0} to Char.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -795,7 +795,7 @@ namespace Argon.Linq
         /// <returns>The result of the conversion.</returns>
         public static explicit operator byte(JToken value)
         {
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, NumberTypes, false))
             {
                 throw new ArgumentException("Can not convert {0} to Byte.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -817,7 +817,7 @@ namespace Argon.Linq
         [CLSCompliant(false)]
         public static explicit operator sbyte(JToken value)
         {
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, NumberTypes, false))
             {
                 throw new ArgumentException("Can not convert {0} to SByte.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -843,7 +843,7 @@ namespace Argon.Linq
                 return null;
             }
 
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, NumberTypes, true))
             {
                 throw new ArgumentException("Can not convert {0} to Int32.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -869,7 +869,7 @@ namespace Argon.Linq
                 return null;
             }
 
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, NumberTypes, true))
             {
                 throw new ArgumentException("Can not convert {0} to Int16.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -896,7 +896,7 @@ namespace Argon.Linq
                 return null;
             }
 
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, NumberTypes, true))
             {
                 throw new ArgumentException("Can not convert {0} to UInt16.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -922,7 +922,7 @@ namespace Argon.Linq
                 return null;
             }
 
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, NumberTypes, true))
             {
                 throw new ArgumentException("Can not convert {0} to Byte.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -949,7 +949,7 @@ namespace Argon.Linq
                 return null;
             }
 
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, NumberTypes, true))
             {
                 throw new ArgumentException("Can not convert {0} to SByte.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -970,7 +970,7 @@ namespace Argon.Linq
         /// <returns>The result of the conversion.</returns>
         public static explicit operator DateTime(JToken value)
         {
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, DateTimeTypes, false))
             {
                 throw new ArgumentException("Can not convert {0} to DateTime.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -996,7 +996,7 @@ namespace Argon.Linq
                 return null;
             }
 
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, NumberTypes, true))
             {
                 throw new ArgumentException("Can not convert {0} to Int64.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -1022,7 +1022,7 @@ namespace Argon.Linq
                 return null;
             }
 
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, NumberTypes, true))
             {
                 throw new ArgumentException("Can not convert {0} to Single.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -1043,7 +1043,7 @@ namespace Argon.Linq
         /// <returns>The result of the conversion.</returns>
         public static explicit operator decimal(JToken value)
         {
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, NumberTypes, false))
             {
                 throw new ArgumentException("Can not convert {0} to Decimal.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -1070,7 +1070,7 @@ namespace Argon.Linq
                 return null;
             }
 
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, NumberTypes, true))
             {
                 throw new ArgumentException("Can not convert {0} to UInt32.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -1097,7 +1097,7 @@ namespace Argon.Linq
                 return null;
             }
 
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, NumberTypes, true))
             {
                 throw new ArgumentException("Can not convert {0} to UInt64.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -1118,7 +1118,7 @@ namespace Argon.Linq
         /// <returns>The result of the conversion.</returns>
         public static explicit operator double(JToken value)
         {
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, NumberTypes, false))
             {
                 throw new ArgumentException("Can not convert {0} to Double.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -1139,7 +1139,7 @@ namespace Argon.Linq
         /// <returns>The result of the conversion.</returns>
         public static explicit operator float(JToken value)
         {
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, NumberTypes, false))
             {
                 throw new ArgumentException("Can not convert {0} to Single.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -1165,7 +1165,7 @@ namespace Argon.Linq
                 return null;
             }
 
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, StringTypes, true))
             {
                 throw new ArgumentException("Can not convert {0} to String.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -1197,7 +1197,7 @@ namespace Argon.Linq
         [CLSCompliant(false)]
         public static explicit operator uint(JToken value)
         {
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, NumberTypes, false))
             {
                 throw new ArgumentException("Can not convert {0} to UInt32.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -1219,7 +1219,7 @@ namespace Argon.Linq
         [CLSCompliant(false)]
         public static explicit operator ulong(JToken value)
         {
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, NumberTypes, false))
             {
                 throw new ArgumentException("Can not convert {0} to UInt64.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -1245,7 +1245,7 @@ namespace Argon.Linq
                 return null;
             }
 
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, BytesTypes, false))
             {
                 throw new ArgumentException("Can not convert {0} to byte array.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -1275,7 +1275,7 @@ namespace Argon.Linq
         /// <returns>The result of the conversion.</returns>
         public static explicit operator Guid(JToken value)
         {
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, GuidTypes, false))
             {
                 throw new ArgumentException("Can not convert {0} to Guid.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -1301,7 +1301,7 @@ namespace Argon.Linq
                 return null;
             }
 
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, GuidTypes, true))
             {
                 throw new ArgumentException("Can not convert {0} to Guid.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -1327,7 +1327,7 @@ namespace Argon.Linq
         /// <returns>The result of the conversion.</returns>
         public static explicit operator TimeSpan(JToken value)
         {
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, TimeSpanTypes, false))
             {
                 throw new ArgumentException("Can not convert {0} to TimeSpan.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -1348,7 +1348,7 @@ namespace Argon.Linq
                 return null;
             }
 
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, TimeSpanTypes, true))
             {
                 throw new ArgumentException("Can not convert {0} to TimeSpan.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -1374,7 +1374,7 @@ namespace Argon.Linq
                 return null;
             }
 
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, UriTypes, true))
             {
                 throw new ArgumentException("Can not convert {0} to Uri.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -1390,7 +1390,7 @@ namespace Argon.Linq
 
         private static BigInteger ToBigInteger(JToken value)
         {
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, BigIntegerTypes, false))
             {
                 throw new ArgumentException("Can not convert {0} to BigInteger.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -1401,7 +1401,7 @@ namespace Argon.Linq
 
         private static BigInteger? ToBigIntegerNullable(JToken value)
         {
-            JValue? v = EnsureValue(value);
+            var v = EnsureValue(value);
             if (v == null || !ValidateToken(v, BigIntegerTypes, true))
             {
                 throw new ArgumentException("Can not convert {0} to BigInteger.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
@@ -1807,7 +1807,7 @@ namespace Argon.Linq
             ValidationUtils.ArgumentNotNull(jsonSerializer, nameof(jsonSerializer));
 
             JToken token;
-            using (JTokenWriter jsonWriter = new JTokenWriter())
+            using (var jsonWriter = new JTokenWriter())
             {
                 jsonSerializer.Serialize(jsonWriter, o);
                 token = jsonWriter.Token!;
@@ -1856,7 +1856,7 @@ namespace Argon.Linq
         {
             if (JsonConvert.DefaultSettings == null)
             {
-                PrimitiveTypeCode typeCode = ConvertUtils.GetTypeCode(objectType, out bool isEnum);
+                var typeCode = ConvertUtils.GetTypeCode(objectType, out var isEnum);
 
                 if (isEnum)
                 {
@@ -1869,14 +1869,14 @@ namespace Argon.Linq
                         }
                         catch (Exception ex)
                         {
-                            Type enumType = objectType.IsEnum() ? objectType : Nullable.GetUnderlyingType(objectType);
+                            var enumType = objectType.IsEnum() ? objectType : Nullable.GetUnderlyingType(objectType);
                             throw new ArgumentException("Could not convert '{0}' to {1}.".FormatWith(CultureInfo.InvariantCulture, (string?)this, enumType.Name), ex);
                         }
                     }
 
                     if (Type == JTokenType.Integer)
                     {
-                        Type enumType = objectType.IsEnum() ? objectType : Nullable.GetUnderlyingType(objectType);
+                        var enumType = objectType.IsEnum() ? objectType : Nullable.GetUnderlyingType(objectType);
                         return Enum.ToObject(enumType, ((JValue)this).Value);
                     }
                 }
@@ -1986,7 +1986,7 @@ namespace Argon.Linq
         {
             ValidationUtils.ArgumentNotNull(jsonSerializer, nameof(jsonSerializer));
 
-            using (JTokenReader jsonReader = new JTokenReader(this))
+            using (var jsonReader = new JTokenReader(this))
             {
                 // Hacky fix to ensure the serializer settings are set onto the new reader.
                 // This is required because the serializer won't update settings when used inside of a converter.
@@ -2049,7 +2049,7 @@ namespace Argon.Linq
                 throw JsonReaderException.Create(reader, "Error reading JToken from JsonReader.");
             }
 
-            IJsonLineInfo? lineInfo = reader as IJsonLineInfo;
+            var lineInfo = reader as IJsonLineInfo;
 
             switch (reader.TokenType)
             {
@@ -2067,7 +2067,7 @@ namespace Argon.Linq
                 case JsonToken.Date:
                 case JsonToken.Boolean:
                 case JsonToken.Bytes:
-                    JValue v = new JValue(reader.Value);
+                    var v = new JValue(reader.Value);
                     v.SetLineInfo(lineInfo, settings);
                     return v;
                 case JsonToken.Comment:
@@ -2108,7 +2108,7 @@ namespace Argon.Linq
         {
             using (JsonReader reader = new JsonTextReader(new StringReader(json)))
             {
-                JToken t = Load(reader, settings);
+                var t = Load(reader, settings);
 
                 while (reader.Read())
                 {
@@ -2190,7 +2190,7 @@ namespace Argon.Linq
         {
             get
             {
-                LineInfoAnnotation? annotation = Annotation<LineInfoAnnotation>();
+                var annotation = Annotation<LineInfoAnnotation>();
                 if (annotation != null)
                 {
                     return annotation.LineNumber;
@@ -2204,7 +2204,7 @@ namespace Argon.Linq
         {
             get
             {
-                LineInfoAnnotation? annotation = Annotation<LineInfoAnnotation>();
+                var annotation = Annotation<LineInfoAnnotation>();
                 if (annotation != null)
                 {
                     return annotation.LinePosition;
@@ -2236,7 +2236,7 @@ namespace Argon.Linq
         /// <returns>A <see cref="JToken"/>.</returns>
         public JToken? SelectToken(string path, bool errorWhenNoMatch)
         {
-            JsonSelectSettings? settings = errorWhenNoMatch
+            var settings = errorWhenNoMatch
                 ? new JsonSelectSettings { ErrorWhenNoMatch = true }
                 : null;
 
@@ -2253,10 +2253,10 @@ namespace Argon.Linq
         /// <returns>A <see cref="JToken"/>.</returns>
         public JToken? SelectToken(string path, JsonSelectSettings? settings)
         {
-            JPath p = new JPath(path);
+            var p = new JPath(path);
 
             JToken? token = null;
-            foreach (JToken t in p.Evaluate(this, this, settings))
+            foreach (var t in p.Evaluate(this, this, settings))
             {
                 if (token != null)
                 {
@@ -2291,7 +2291,7 @@ namespace Argon.Linq
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="JToken"/> that contains the selected elements.</returns>
         public IEnumerable<JToken> SelectTokens(string path, bool errorWhenNoMatch)
         {
-            JsonSelectSettings? settings = errorWhenNoMatch
+            var settings = errorWhenNoMatch
                 ? new JsonSelectSettings { ErrorWhenNoMatch = true }
                 : null;
 
@@ -2373,7 +2373,7 @@ namespace Argon.Linq
                 }
                 else
                 {
-                    int index = 0;
+                    var index = 0;
                     while (index < annotations.Length && annotations[index] != null)
                     {
                         index++;
@@ -2401,9 +2401,9 @@ namespace Argon.Linq
                 {
                     return (_annotations as T);
                 }
-                for (int i = 0; i < annotations.Length; i++)
+                for (var i = 0; i < annotations.Length; i++)
                 {
-                    object annotation = annotations[i];
+                    var annotation = annotations[i];
                     if (annotation == null)
                     {
                         break;
@@ -2442,9 +2442,9 @@ namespace Argon.Linq
                 }
                 else
                 {
-                    for (int i = 0; i < annotations.Length; i++)
+                    for (var i = 0; i < annotations.Length; i++)
                     {
-                        object o = annotations[i];
+                        var o = annotations[i];
                         if (o == null)
                         {
                             break;
@@ -2475,9 +2475,9 @@ namespace Argon.Linq
 
             if (_annotations is object[] annotations)
             {
-                for (int i = 0; i < annotations.Length; i++)
+                for (var i = 0; i < annotations.Length; i++)
                 {
-                    object o = annotations[i];
+                    var o = annotations[i];
                     if (o == null)
                     {
                         break;
@@ -2518,9 +2518,9 @@ namespace Argon.Linq
 
             if (_annotations is object[] annotations)
             {
-                for (int i = 0; i < annotations.Length; i++)
+                for (var i = 0; i < annotations.Length; i++)
                 {
-                    object o = annotations[i];
+                    var o = annotations[i];
                     if (o == null)
                     {
                         break;
@@ -2559,11 +2559,11 @@ namespace Argon.Linq
                 }
                 else
                 {
-                    int index = 0;
-                    int keepCount = 0;
+                    var index = 0;
+                    var keepCount = 0;
                     while (index < annotations.Length)
                     {
-                        object? obj2 = annotations[index];
+                        var obj2 = annotations[index];
                         if (obj2 == null)
                         {
                             break;
@@ -2614,11 +2614,11 @@ namespace Argon.Linq
                 }
                 else
                 {
-                    int index = 0;
-                    int keepCount = 0;
+                    var index = 0;
+                    var keepCount = 0;
                     while (index < annotations.Length)
                     {
-                        object? o = annotations[index];
+                        var o = annotations[index];
                         if (o == null)
                         {
                             break;

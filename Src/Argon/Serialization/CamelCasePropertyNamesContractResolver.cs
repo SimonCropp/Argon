@@ -64,9 +64,9 @@ namespace Argon.Serialization
             }
 
             // for backwards compadibility the CamelCasePropertyNamesContractResolver shares contracts between instances
-            StructMultiKey<Type, Type> key = new StructMultiKey<Type, Type>(GetType(), type);
-            Dictionary<StructMultiKey<Type, Type>, JsonContract>? cache = _contractCache;
-            if (cache == null || !cache.TryGetValue(key, out JsonContract contract))
+            var key = new StructMultiKey<Type, Type>(GetType(), type);
+            var cache = _contractCache;
+            if (cache == null || !cache.TryGetValue(key, out var contract))
             {
                 contract = CreateContract(type);
 
@@ -74,7 +74,7 @@ namespace Argon.Serialization
                 lock (TypeContractCacheLock)
                 {
                     cache = _contractCache;
-                    Dictionary<StructMultiKey<Type, Type>, JsonContract> updatedCache = (cache != null)
+                    var updatedCache = (cache != null)
                         ? new Dictionary<StructMultiKey<Type, Type>, JsonContract>(cache)
                         : new Dictionary<StructMultiKey<Type, Type>, JsonContract>();
                     updatedCache[key] = contract;

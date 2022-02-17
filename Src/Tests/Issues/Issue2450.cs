@@ -53,20 +53,20 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test_Serialize()
         {
-            Dict d = new Dict(new Dictionary<string, object>
+            var d = new Dict(new Dictionary<string, object>
             {
                 ["prop1"] = 1,
                 ["prop2"] = 2
             });
 
-            string json = JsonConvert.SerializeObject(d);
+            var json = JsonConvert.SerializeObject(d);
             Assert.AreEqual(@"{""prop1"":1,""prop2"":2}", json);
         }
 
         [Fact]
         public void Test_Deserialize()
         {
-            string json = @"{""prop1"":1,""prop2"":2}";
+            var json = @"{""prop1"":1,""prop2"":2}";
 
             var d = JsonConvert.DeserializeObject<Dict?>(json);
             Assert.AreEqual((Int64)1, d.Value["prop1"]);

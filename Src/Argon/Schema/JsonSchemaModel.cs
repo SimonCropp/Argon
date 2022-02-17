@@ -69,9 +69,9 @@ namespace Argon.Schema
 
         public static JsonSchemaModel Create(IList<JsonSchema> schemata)
         {
-            JsonSchemaModel model = new JsonSchemaModel();
+            var model = new JsonSchemaModel();
 
-            foreach (JsonSchema schema in schemata)
+            foreach (var schema in schemata)
             {
                 Combine(model, schema);
             }

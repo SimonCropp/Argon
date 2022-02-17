@@ -43,14 +43,14 @@ namespace Argon.Serialization
         /// <param name="ex">The trace exception. This parameter is optional.</param>
         public void Trace(TraceLevel level, string message, Exception? ex)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             sb.Append(DateTime.Now.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff", CultureInfo.InvariantCulture));
             sb.Append(" ");
             sb.Append(level.ToString("g"));
             sb.Append(" ");
             sb.Append(message);
 
-            string s = sb.ToString();
+            var s = sb.ToString();
 
             lock (_lock)
             {
@@ -82,8 +82,8 @@ namespace Argon.Serialization
         {
             lock (_lock)
             {
-                StringBuilder sb = new StringBuilder();
-                foreach (string traceMessage in _traceMessages)
+                var sb = new StringBuilder();
+                foreach (var traceMessage in _traceMessages)
                 {
                     if (sb.Length > 0)
                     {

@@ -284,7 +284,7 @@ namespace Argon.Schema
             ValidationUtils.ArgumentNotNull(reader, nameof(reader));
             ValidationUtils.ArgumentNotNull(resolver, nameof(resolver));
 
-            JsonSchemaBuilder builder = new JsonSchemaBuilder(resolver);
+            var builder = new JsonSchemaBuilder(resolver);
             return builder.Read(reader);
         }
 
@@ -333,7 +333,7 @@ namespace Argon.Schema
             ValidationUtils.ArgumentNotNull(writer, nameof(writer));
             ValidationUtils.ArgumentNotNull(resolver, nameof(resolver));
 
-            JsonSchemaWriter schemaWriter = new JsonSchemaWriter(writer, resolver);
+            var schemaWriter = new JsonSchemaWriter(writer, resolver);
             schemaWriter.WriteSchema(this);
         }
 
@@ -345,8 +345,8 @@ namespace Argon.Schema
         /// </returns>
         public override string ToString()
         {
-            StringWriter writer = new StringWriter(CultureInfo.InvariantCulture);
-            JsonTextWriter jsonWriter = new JsonTextWriter(writer);
+            var writer = new StringWriter(CultureInfo.InvariantCulture);
+            var jsonWriter = new JsonTextWriter(writer);
             jsonWriter.Formatting = Formatting.Indented;
 
             WriteTo(jsonWriter);

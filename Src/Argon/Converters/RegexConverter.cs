@@ -55,7 +55,7 @@ namespace Argon.Converters
                 return;
             }
 
-            Regex regex = (Regex)value;
+            var regex = (Regex)value;
 
 #pragma warning disable 618
             if (writer is BsonWriter bsonWriter)
@@ -114,7 +114,7 @@ namespace Argon.Converters
 
         private void WriteJson(JsonWriter writer, Regex regex, JsonSerializer serializer)
         {
-            DefaultContractResolver? resolver = serializer.ContractResolver as DefaultContractResolver;
+            var resolver = serializer.ContractResolver as DefaultContractResolver;
 
             writer.WriteStartObject();
             writer.WritePropertyName((resolver != null) ? resolver.GetResolvedPropertyName(PatternName) : PatternName);
@@ -149,18 +149,18 @@ namespace Argon.Converters
 
         private object ReadRegexString(JsonReader reader)
         {
-            string regexText = (string)reader.Value!;
+            var regexText = (string)reader.Value!;
 
             if (regexText.Length > 0 && regexText[0] == '/')
             {
-                int patternOptionDelimiterIndex = regexText.LastIndexOf('/');
+                var patternOptionDelimiterIndex = regexText.LastIndexOf('/');
 
                 if (patternOptionDelimiterIndex > 0)
                 {
-                    string patternText = regexText.Substring(1, patternOptionDelimiterIndex - 1);
-                    string optionsText = regexText.Substring(patternOptionDelimiterIndex + 1);
+                    var patternText = regexText.Substring(1, patternOptionDelimiterIndex - 1);
+                    var optionsText = regexText.Substring(patternOptionDelimiterIndex + 1);
 
-                    RegexOptions options = MiscellaneousUtils.GetRegexOptions(optionsText);
+                    var options = MiscellaneousUtils.GetRegexOptions(optionsText);
 
                     return new Regex(patternText, options);
                 }
@@ -179,7 +179,7 @@ namespace Argon.Converters
                 switch (reader.TokenType)
                 {
                     case JsonToken.PropertyName:
-                        string propertyName = reader.Value!.ToString();
+                        var propertyName = reader.Value!.ToString();
 
                         if (!reader.Read())
                         {

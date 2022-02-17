@@ -48,7 +48,7 @@ namespace Argon.Serialization
             TypeCode = ConvertUtils.GetTypeCode(underlyingType);
             IsReadOnlyOrFixedSize = true;
 
-            if (ReadTypeMap.TryGetValue(NonNullableUnderlyingType, out ReadType readType))
+            if (ReadTypeMap.TryGetValue(NonNullableUnderlyingType, out var readType))
             {
                 InternalReadType = readType;
             }

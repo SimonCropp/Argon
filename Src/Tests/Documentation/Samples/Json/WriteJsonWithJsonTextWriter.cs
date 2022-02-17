@@ -40,8 +40,8 @@ namespace Argon.Tests.Documentation.Samples.Json
         public void Example()
         {
             #region Usage
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
 
             using (JsonWriter writer = new JsonTextWriter(sw))
             {

@@ -37,9 +37,9 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test_Default()
         {
-            string json = @"// comment
+            var json = @"// comment
 [ 1, 2, 42 ]";
-            JToken token = JToken.Parse(json);
+            var token = JToken.Parse(json);
 
             Assert.AreEqual(JTokenType.Comment, token.Type);
             Assert.AreEqual(" comment", ((JValue)token).Value);
@@ -48,9 +48,9 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test_LoadComments()
         {
-            string json = @"// comment
+            var json = @"// comment
 [ 1, 2, 42 ]";
-            JToken token = JToken.Parse(json, new JsonLoadSettings
+            var token = JToken.Parse(json, new JsonLoadSettings
             {
                 CommentHandling = CommentHandling.Load
             });
@@ -58,16 +58,16 @@ namespace Argon.Tests.Issues
             Assert.AreEqual(JTokenType.Comment, token.Type);
             Assert.AreEqual(" comment", ((JValue)token).Value);
 
-            int[] obj = token.ToObject<int[]>();
+            var obj = token.ToObject<int[]>();
             Assert.IsNull(obj);
         }
 
         [Fact]
         public void Test_IgnoreComments()
         {
-            string json = @"// comment
+            var json = @"// comment
 [ 1, 2, 42 ]";
-            JToken token = JToken.Parse(json, new JsonLoadSettings
+            var token = JToken.Parse(json, new JsonLoadSettings
             {
                 CommentHandling = CommentHandling.Ignore
             });

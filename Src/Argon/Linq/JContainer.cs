@@ -95,8 +95,8 @@ namespace Argon.Linq
         {
             ValidationUtils.ArgumentNotNull(other, nameof(other));
 
-            int i = 0;
-            foreach (JToken child in other)
+            var i = 0;
+            foreach (var child in other)
             {
                 TryAddInternal(i, child, false);
                 i++;
@@ -133,7 +133,7 @@ namespace Argon.Linq
         /// <param name="e">The <see cref="ListChangedEventArgs"/> instance containing the event data.</param>
         protected virtual void OnListChanged(ListChangedEventArgs e)
         {
-            ListChangedEventHandler? handler = _listChanged;
+            var handler = _listChanged;
 
             if (handler != null)
             {
@@ -155,7 +155,7 @@ namespace Argon.Linq
         /// <param name="e">The <see cref="NotifyCollectionChangedEventArgs"/> instance containing the event data.</param>
         protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
-            NotifyCollectionChangedEventHandler? handler = _collectionChanged;
+            var handler = _collectionChanged;
 
             if (handler != null)
             {
@@ -186,15 +186,15 @@ namespace Argon.Linq
                 return true;
             }
 
-            IList<JToken> t1 = ChildrenTokens;
-            IList<JToken> t2 = container.ChildrenTokens;
+            var t1 = ChildrenTokens;
+            var t2 = container.ChildrenTokens;
 
             if (t1.Count != t2.Count)
             {
                 return false;
             }
 
-            for (int i = 0; i < t1.Count; i++)
+            for (var i = 0; i < t1.Count; i++)
             {
                 if (!t1[i].DeepEquals(t2[i]))
                 {
@@ -215,7 +215,7 @@ namespace Argon.Linq
         {
             get
             {
-                IList<JToken> children = ChildrenTokens;
+                var children = ChildrenTokens;
                 return (children.Count > 0) ? children[0] : null;
             }
         }
@@ -230,8 +230,8 @@ namespace Argon.Linq
         {
             get
             {
-                IList<JToken> children = ChildrenTokens;
-                int count = children.Count;
+                var children = ChildrenTokens;
+                var count = children.Count;
                 return (count > 0) ? children[count - 1] : null;
             }
         }
@@ -284,12 +284,12 @@ namespace Argon.Linq
                 yield return this;
             }
 
-            foreach (JToken o in ChildrenTokens)
+            foreach (var o in ChildrenTokens)
             {
                 yield return o;
                 if (o is JContainer c)
                 {
-                    foreach (JToken d in c.Descendants())
+                    foreach (var d in c.Descendants())
                     {
                         yield return d;
                     }
@@ -330,7 +330,7 @@ namespace Argon.Linq
 
         internal virtual bool InsertItem(int index, JToken? item, bool skipParentCheck)
         {
-            IList<JToken> children = ChildrenTokens;
+            var children = ChildrenTokens;
 
             if (index > children.Count)
             {
@@ -341,9 +341,9 @@ namespace Argon.Linq
 
             item = EnsureParentToken(item, skipParentCheck);
 
-            JToken? previous = (index == 0) ? null : children[index - 1];
+            var previous = (index == 0) ? null : children[index - 1];
             // haven't inserted new token yet so next token is still at the inserting index
-            JToken? next = (index == children.Count) ? null : children[index];
+            var next = (index == children.Count) ? null : children[index];
 
             ValidateToken(item, null);
 
@@ -377,7 +377,7 @@ namespace Argon.Linq
 
         internal virtual void RemoveItemAt(int index)
         {
-            IList<JToken> children = ChildrenTokens;
+            var children = ChildrenTokens;
 
             if (index < 0)
             {
@@ -390,9 +390,9 @@ namespace Argon.Linq
 
             CheckReentrancy();
 
-            JToken item = children[index];
-            JToken? previous = (index == 0) ? null : children[index - 1];
-            JToken? next = (index == children.Count - 1) ? null : children[index + 1];
+            var item = children[index];
+            var previous = (index == 0) ? null : children[index - 1];
+            var next = (index == children.Count - 1) ? null : children[index + 1];
 
             if (previous != null)
             {
@@ -423,7 +423,7 @@ namespace Argon.Linq
         {
             if (item != null)
             {
-                int index = IndexOfItem(item);
+                var index = IndexOfItem(item);
                 if (index >= 0)
                 {
                     RemoveItemAt(index);
@@ -441,7 +441,7 @@ namespace Argon.Linq
 
         internal virtual void SetItem(int index, JToken? item)
         {
-            IList<JToken> children = ChildrenTokens;
+            var children = ChildrenTokens;
 
             if (index < 0)
             {
@@ -452,7 +452,7 @@ namespace Argon.Linq
                 throw new ArgumentOutOfRangeException(nameof(index), "Index is equal to or greater than Count.");
             }
 
-            JToken existing = children[index];
+            var existing = children[index];
 
             if (IsTokenUnchanged(existing, item))
             {
@@ -465,8 +465,8 @@ namespace Argon.Linq
 
             ValidateToken(item, existing);
 
-            JToken? previous = (index == 0) ? null : children[index - 1];
-            JToken? next = (index == children.Count - 1) ? null : children[index + 1];
+            var previous = (index == 0) ? null : children[index - 1];
+            var next = (index == children.Count - 1) ? null : children[index + 1];
 
             item.Parent = this;
 
@@ -502,9 +502,9 @@ namespace Argon.Linq
         {
             CheckReentrancy();
 
-            IList<JToken> children = ChildrenTokens;
+            var children = ChildrenTokens;
 
-            foreach (JToken item in children)
+            foreach (var item in children)
             {
                 item.Parent = null;
                 item.Previous = null;
@@ -530,7 +530,7 @@ namespace Argon.Linq
                 return;
             }
 
-            int index = IndexOfItem(existing);
+            var index = IndexOfItem(existing);
             SetItem(index, replacement);
         }
 
@@ -558,8 +558,8 @@ namespace Argon.Linq
                 throw new ArgumentException("The number of elements in the source JObject is greater than the available space from arrayIndex to the end of the destination array.");
             }
 
-            int index = 0;
-            foreach (JToken token in ChildrenTokens)
+            var index = 0;
+            foreach (var token in ChildrenTokens)
             {
                 array.SetValue(token, arrayIndex + index);
                 index++;
@@ -624,10 +624,10 @@ namespace Argon.Linq
         {
             if (IsMultiContent(content))
             {
-                IEnumerable enumerable = (IEnumerable)content;
+                var enumerable = (IEnumerable)content;
 
-                int multiIndex = index;
-                foreach (object c in enumerable)
+                var multiIndex = index;
+                foreach (var c in enumerable)
                 {
                     TryAddInternal(multiIndex, c, skipParentCheck);
                     multiIndex++;
@@ -637,7 +637,7 @@ namespace Argon.Linq
             }
             else
             {
-                JToken item = CreateFromContent(content);
+                var item = CreateFromContent(content);
 
                 return InsertItem(index, item, skipParentCheck);
             }
@@ -729,7 +729,7 @@ namespace Argon.Linq
 
         internal void ReadTokenFrom(JsonReader reader, JsonLoadSettings? options)
         {
-            int startDepth = reader.Depth;
+            var startDepth = reader.Depth;
 
             if (!reader.Read())
             {
@@ -738,7 +738,7 @@ namespace Argon.Linq
 
             ReadContentFrom(reader, options);
 
-            int endDepth = reader.Depth;
+            var endDepth = reader.Depth;
 
             if (endDepth > startDepth)
             {
@@ -749,9 +749,9 @@ namespace Argon.Linq
         internal void ReadContentFrom(JsonReader r, JsonLoadSettings? settings)
         {
             ValidationUtils.ArgumentNotNull(r, nameof(r));
-            IJsonLineInfo? lineInfo = r as IJsonLineInfo;
+            var lineInfo = r as IJsonLineInfo;
 
-            JContainer? parent = this;
+            var parent = this;
 
             do
             {
@@ -773,7 +773,7 @@ namespace Argon.Linq
                         // new reader. move to actual content
                         break;
                     case JsonToken.StartArray:
-                        JArray a = new JArray();
+                        var a = new JArray();
                         a.SetLineInfo(lineInfo, settings);
                         parent.Add(a);
                         parent = a;
@@ -788,7 +788,7 @@ namespace Argon.Linq
                         parent = parent.Parent;
                         break;
                     case JsonToken.StartObject:
-                        JObject o = new JObject();
+                        var o = new JObject();
                         o.SetLineInfo(lineInfo, settings);
                         parent.Add(o);
                         parent = o;
@@ -802,7 +802,7 @@ namespace Argon.Linq
                         parent = parent.Parent;
                         break;
                     case JsonToken.StartConstructor:
-                        JConstructor constructor = new JConstructor(r.Value!.ToString());
+                        var constructor = new JConstructor(r.Value!.ToString());
                         constructor.SetLineInfo(lineInfo, settings);
                         parent.Add(constructor);
                         parent = constructor;
@@ -821,7 +821,7 @@ namespace Argon.Linq
                     case JsonToken.Date:
                     case JsonToken.Boolean:
                     case JsonToken.Bytes:
-                        JValue v = new JValue(r.Value);
+                        var v = new JValue(r.Value);
                         v.SetLineInfo(lineInfo, settings);
                         parent.Add(v);
                         break;
@@ -844,7 +844,7 @@ namespace Argon.Linq
                         parent.Add(v);
                         break;
                     case JsonToken.PropertyName:
-                        JProperty? property = ReadProperty(r, settings, lineInfo, parent);
+                        var property = ReadProperty(r, settings, lineInfo, parent);
                         if (property != null)
                         {
                             parent = property;
@@ -862,11 +862,11 @@ namespace Argon.Linq
 
         private static JProperty? ReadProperty(JsonReader r, JsonLoadSettings? settings, IJsonLineInfo? lineInfo, JContainer parent)
         {
-            DuplicatePropertyNameHandling duplicatePropertyNameHandling = settings?.DuplicatePropertyNameHandling ?? DuplicatePropertyNameHandling.Replace;
+            var duplicatePropertyNameHandling = settings?.DuplicatePropertyNameHandling ?? DuplicatePropertyNameHandling.Replace;
 
-            JObject parentObject = (JObject)parent;
-            string propertyName = r.Value!.ToString();
-            JProperty? existingPropertyWithName = parentObject.Property(propertyName, StringComparison.Ordinal);
+            var parentObject = (JObject)parent;
+            var propertyName = r.Value!.ToString();
+            var existingPropertyWithName = parentObject.Property(propertyName, StringComparison.Ordinal);
             if (existingPropertyWithName != null)
             {
                 if (duplicatePropertyNameHandling == DuplicatePropertyNameHandling.Ignore)
@@ -879,7 +879,7 @@ namespace Argon.Linq
                 }
             }
 
-            JProperty property = new JProperty(propertyName);
+            var property = new JProperty(propertyName);
             property.SetLineInfo(lineInfo, settings);
             // handle multiple properties with the same name in JSON
             if (existingPropertyWithName == null)
@@ -896,8 +896,8 @@ namespace Argon.Linq
 
         internal int ContentsHashCode()
         {
-            int hashCode = 0;
-            foreach (JToken item in ChildrenTokens)
+            var hashCode = 0;
+            foreach (var item in ChildrenTokens)
             {
                 hashCode ^= item.GetDeepHashCode();
             }
@@ -911,7 +911,7 @@ namespace Argon.Linq
 
         PropertyDescriptorCollection? ITypedList.GetItemProperties(PropertyDescriptor[] listAccessors)
         {
-            ICustomTypeDescriptor? d = First as ICustomTypeDescriptor;
+            var d = First as ICustomTypeDescriptor;
             return d?.GetProperties();
         }
 
@@ -1065,7 +1065,7 @@ namespace Argon.Linq
 
         object IBindingList.AddNew()
         {
-            AddingNewEventArgs args = new AddingNewEventArgs();
+            var args = new AddingNewEventArgs();
             OnAddingNew(args);
 
             if (args.NewObject == null)
@@ -1126,17 +1126,17 @@ namespace Argon.Linq
             switch (settings?.MergeArrayHandling ?? MergeArrayHandling.Concat)
             {
                 case MergeArrayHandling.Concat:
-                    foreach (object item in content)
+                    foreach (var item in content)
                     {
                         target.Add(CreateFromContent(item));
                     }
                     break;
                 case MergeArrayHandling.Union:
-                    HashSet<JToken> items = new HashSet<JToken>(target, EqualityComparer);
+                    var items = new HashSet<JToken>(target, EqualityComparer);
 
-                    foreach (object item in content)
+                    foreach (var item in content)
                     {
-                        JToken contentItem = CreateFromContent(item);
+                        var contentItem = CreateFromContent(item);
 
                         if (items.Add(contentItem))
                         {
@@ -1150,18 +1150,18 @@ namespace Argon.Linq
                         break;
                     }
                     target.ClearItems();
-                    foreach (object item in content)
+                    foreach (var item in content)
                     {
                         target.Add(CreateFromContent(item));
                     }
                     break;
                 case MergeArrayHandling.Merge:
-                    int i = 0;
-                    foreach (object targetItem in content)
+                    var i = 0;
+                    foreach (var targetItem in content)
                     {
                         if (i < target.Count)
                         {
-                            JToken? sourceItem = target[i];
+                            var sourceItem = target[i];
 
                             if (sourceItem is JContainer existingContainer)
                             {
@@ -1171,7 +1171,7 @@ namespace Argon.Linq
                             {
                                 if (targetItem != null)
                                 {
-                                    JToken contentValue = CreateFromContent(targetItem);
+                                    var contentValue = CreateFromContent(targetItem);
                                     if (contentValue.Type != JTokenType.Null)
                                     {
                                         target[i] = contentValue;

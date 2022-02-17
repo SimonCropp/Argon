@@ -37,7 +37,7 @@ namespace Argon.Tests.Documentation.Samples.Schema
         public void Example()
         {
             #region Usage
-            JsonSchema schema = new JsonSchema
+            var schema = new JsonSchema
             {
                 Type = JsonSchemaType.Object
             };
@@ -46,8 +46,8 @@ namespace Argon.Tests.Documentation.Samples.Schema
             File.WriteAllText(@"c:\schema.json", schema.ToString());
 
             // serialize JsonSchema directly to a file
-            using (StreamWriter file = File.CreateText(@"c:\schema.json"))
-            using (JsonTextWriter writer = new JsonTextWriter(file))
+            using (var file = File.CreateText(@"c:\schema.json"))
+            using (var writer = new JsonTextWriter(file))
             {
                 schema.WriteTo(writer);
             }

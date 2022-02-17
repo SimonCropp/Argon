@@ -43,19 +43,19 @@ namespace Argon.Tests.Documentation.Samples.Linq
         public void Example()
         {
             #region Usage
-            JObject o = new JObject
+            var o = new JObject
             {
                 { "name1", "value1" },
                 { "name2", "value2" }
             };
 
-            MemoryStream ms = new MemoryStream();
-            using (BsonWriter writer = new BsonWriter(ms))
+            var ms = new MemoryStream();
+            using (var writer = new BsonWriter(ms))
             {
                 o.WriteTo(writer);
             }
 
-            string data = Convert.ToBase64String(ms.ToArray());
+            var data = Convert.ToBase64String(ms.ToArray());
 
             Console.WriteLine(data);
             // KQAAAAJuYW1lMQAHAAAAdmFsdWUxAAJuYW1lMgAHAAAAdmFsdWUyAAA=

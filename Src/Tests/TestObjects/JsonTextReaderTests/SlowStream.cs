@@ -79,7 +79,7 @@ namespace Argon.Tests.TestObjects.JsonTextReaderTests
 
         public override int Read(byte[] buffer, int offset, int count)
         {
-            int toReturn = Math.Min(count, bytesPerRead);
+            var toReturn = Math.Min(count, bytesPerRead);
             toReturn = Math.Min(toReturn, bytes.Length - totalBytesRead);
             if (toReturn > 0)
             {

@@ -43,7 +43,7 @@ namespace Argon.Utilities
         {
             ValidationUtils.ArgumentNotNull(propertyInfo, nameof(propertyInfo));
 
-            MethodInfo? m = propertyInfo.GetGetMethod(true);
+            var m = propertyInfo.GetGetMethod(true);
             if (m != null && m.IsVirtual)
             {
                 return true;
@@ -62,7 +62,7 @@ namespace Argon.Utilities
         {
             ValidationUtils.ArgumentNotNull(propertyInfo, nameof(propertyInfo));
 
-            MethodInfo? m = propertyInfo.GetGetMethod(true);
+            var m = propertyInfo.GetGetMethod(true);
             if (m != null)
             {
                 return m.GetBaseDefinition();
@@ -94,7 +94,7 @@ namespace Argon.Utilities
 
         public static string GetTypeName(Type t, TypeNameAssemblyFormatHandling assemblyFormat, ISerializationBinder? binder)
         {
-            string fullyQualifiedTypeName = GetFullyQualifiedTypeName(t, binder);
+            var fullyQualifiedTypeName = GetFullyQualifiedTypeName(t, binder);
 
             switch (assemblyFormat)
             {
@@ -111,7 +111,7 @@ namespace Argon.Utilities
         {
             if (binder != null)
             {
-                binder.BindToName(t, out string? assemblyName, out string? typeName);
+                binder.BindToName(t, out var assemblyName, out var typeName);
                 return typeName + (assemblyName == null ? "" : ", " + assemblyName);
             }
 
@@ -120,15 +120,15 @@ namespace Argon.Utilities
 
         private static string RemoveAssemblyDetails(string fullyQualifiedTypeName)
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
 
             // loop through the type name and filter out qualified assembly details from nested type names
-            bool writingAssemblyName = false;
-            bool skippingAssemblyDetails = false;
-            bool followBrackets = false;
-            for (int i = 0; i < fullyQualifiedTypeName.Length; i++)
+            var writingAssemblyName = false;
+            var skippingAssemblyDetails = false;
+            var followBrackets = false;
+            for (var i = 0; i < fullyQualifiedTypeName.Length; i++)
             {
-                char current = fullyQualifiedTypeName[i];
+                var current = fullyQualifiedTypeName[i];
                 switch (current)
                 {
                     case '[':
@@ -190,7 +190,7 @@ namespace Argon.Utilities
 
         public static ConstructorInfo GetDefaultConstructor(Type t, bool nonPublic)
         {
-            BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.Public;
+            var bindingFlags = BindingFlags.Instance | BindingFlags.Public;
             if (nonPublic)
             {
                 bindingFlags = bindingFlags | BindingFlags.NonPublic;
@@ -239,7 +239,7 @@ namespace Argon.Utilities
                 return false;
             }
 
-            Type t = type.GetGenericTypeDefinition();
+            var t = type.GetGenericTypeDefinition();
             return (t == genericInterfaceDefinition);
         }
 
@@ -262,7 +262,7 @@ namespace Argon.Utilities
             {
                 if (type.IsGenericType())
                 {
-                    Type interfaceDefinition = type.GetGenericTypeDefinition();
+                    var interfaceDefinition = type.GetGenericTypeDefinition();
 
                     if (genericInterfaceDefinition == interfaceDefinition)
                     {
@@ -272,11 +272,11 @@ namespace Argon.Utilities
                 }
             }
 
-            foreach (Type i in type.GetInterfaces())
+            foreach (var i in type.GetInterfaces())
             {
                 if (i.IsGenericType())
                 {
-                    Type interfaceDefinition = i.GetGenericTypeDefinition();
+                    var interfaceDefinition = i.GetGenericTypeDefinition();
 
                     if (genericInterfaceDefinition == interfaceDefinition)
                     {
@@ -339,7 +339,7 @@ namespace Argon.Utilities
             {
                 return type.GetElementType();
             }
-            if (ImplementsGenericDefinition(type, typeof(IEnumerable<>), out Type? genericListType))
+            if (ImplementsGenericDefinition(type, typeof(IEnumerable<>), out var genericListType))
             {
                 if (genericListType!.IsGenericTypeDefinition())
                 {
@@ -360,7 +360,7 @@ namespace Argon.Utilities
         {
             ValidationUtils.ArgumentNotNull(dictionaryType, nameof(dictionaryType));
 
-            if (ImplementsGenericDefinition(dictionaryType, typeof(IDictionary<,>), out Type? genericDictionaryType))
+            if (ImplementsGenericDefinition(dictionaryType, typeof(IDictionary<,>), out var genericDictionaryType))
             {
                 if (genericDictionaryType!.IsGenericTypeDefinition())
                 {
@@ -415,8 +415,8 @@ namespace Argon.Utilities
             }
 
             // IsByRefLike flag on type is not available in netstandard2.0
-            Attribute[] attributes = GetAttributes(type, null, false);
-            for (int i = 0; i < attributes.Length; i++)
+            var attributes = GetAttributes(type, null, false);
+            for (var i = 0; i < attributes.Length; i++)
             {
                 if (string.Equals(attributes[i].GetType().FullName, "System.Runtime.CompilerServices.IsByRefLikeAttribute", StringComparison.Ordinal))
                 {
@@ -507,7 +507,7 @@ namespace Argon.Utilities
             switch (member.MemberType())
             {
                 case MemberTypes.Field:
-                    FieldInfo fieldInfo = (FieldInfo)member;
+                    var fieldInfo = (FieldInfo)member;
 
                     if (nonPublic)
                     {
@@ -519,7 +519,7 @@ namespace Argon.Utilities
                     }
                     return false;
                 case MemberTypes.Property:
-                    PropertyInfo propertyInfo = (PropertyInfo)member;
+                    var propertyInfo = (PropertyInfo)member;
 
                     if (!propertyInfo.CanRead)
                     {
@@ -549,7 +549,7 @@ namespace Argon.Utilities
             switch (member.MemberType())
             {
                 case MemberTypes.Field:
-                    FieldInfo fieldInfo = (FieldInfo)member;
+                    var fieldInfo = (FieldInfo)member;
 
                     if (fieldInfo.IsLiteral)
                     {
@@ -569,7 +569,7 @@ namespace Argon.Utilities
                     }
                     return false;
                 case MemberTypes.Property:
-                    PropertyInfo propertyInfo = (PropertyInfo)member;
+                    var propertyInfo = (PropertyInfo)member;
 
                     if (!propertyInfo.CanWrite)
                     {
@@ -587,7 +587,7 @@ namespace Argon.Utilities
 
         public static List<MemberInfo> GetFieldsAndProperties(Type type, BindingFlags bindingAttr)
         {
-            List<MemberInfo> targetMembers = new List<MemberInfo>();
+            var targetMembers = new List<MemberInfo>();
 
             targetMembers.AddRange(GetFields(type, bindingAttr));
             targetMembers.AddRange(GetProperties(type, bindingAttr));
@@ -596,11 +596,11 @@ namespace Argon.Utilities
             // http://social.msdn.microsoft.com/Forums/en-US/b5abbfee-e292-4a64-8907-4e3f0fb90cd9/reflection-overriden-abstract-generic-properties?forum=netfxbcl
             // filter members to only return the override on the topmost class
             // update: I think this is fixed in .NET 3.5 SP1 - leave this in for now...
-            List<MemberInfo> distinctMembers = new List<MemberInfo>(targetMembers.Count);
+            var distinctMembers = new List<MemberInfo>(targetMembers.Count);
 
             foreach (IGrouping<string, MemberInfo> groupedMember in targetMembers.GroupBy(m => m.Name))
             {
-                int count = groupedMember.Count();
+                var count = groupedMember.Count();
 
                 if (count == 1)
                 {
@@ -608,8 +608,8 @@ namespace Argon.Utilities
                 }
                 else
                 {
-                    List<MemberInfo> resolvedMembers = new List<MemberInfo>();
-                    foreach (MemberInfo memberInfo in groupedMember)
+                    var resolvedMembers = new List<MemberInfo>();
+                    foreach (var memberInfo in groupedMember)
                     {
                         // this is a bit hacky
                         // if the hiding property is hiding a base property and it is virtual
@@ -645,18 +645,18 @@ namespace Argon.Utilities
                 return false;
             }
 
-            PropertyInfo propertyInfo = (PropertyInfo)memberInfo;
+            var propertyInfo = (PropertyInfo)memberInfo;
             if (!IsVirtual(propertyInfo))
             {
                 return false;
             }
 
-            Type declaringType = propertyInfo.DeclaringType;
+            var declaringType = propertyInfo.DeclaringType;
             if (!declaringType.IsGenericType())
             {
                 return false;
             }
-            Type genericTypeDefinition = declaringType.GetGenericTypeDefinition();
+            var genericTypeDefinition = declaringType.GetGenericTypeDefinition();
             if (genericTypeDefinition == null)
             {
                 return false;
@@ -666,7 +666,7 @@ namespace Argon.Utilities
             {
                 return false;
             }
-            Type memberUnderlyingType = GetMemberUnderlyingType(members[0]);
+            var memberUnderlyingType = GetMemberUnderlyingType(members[0]);
             if (!memberUnderlyingType.IsGenericParameter)
             {
                 return false;
@@ -682,14 +682,14 @@ namespace Argon.Utilities
 
         public static T? GetAttribute<T>(object attributeProvider, bool inherit) where T : Attribute
         {
-            T[] attributes = GetAttributes<T>(attributeProvider, inherit);
+            var attributes = GetAttributes<T>(attributeProvider, inherit);
 
             return attributes?.FirstOrDefault();
         }
 
         public static T[] GetAttributes<T>(object attributeProvider, bool inherit) where T : Attribute
         {
-            Attribute[] a = GetAttributes(attributeProvider, typeof(T), inherit);
+            var a = GetAttributes(attributeProvider, typeof(T), inherit);
 
             if (a is T[] attributes)
             {
@@ -703,7 +703,7 @@ namespace Argon.Utilities
         {
             ValidationUtils.ArgumentNotNull(attributeProvider, nameof(attributeProvider));
 
-            object provider = attributeProvider;
+            var provider = attributeProvider;
 
             // http://hyperthink.net/blog/getcustomattributes-gotcha/
             // ICustomAttributeProvider doesn't do inheritance
@@ -712,7 +712,7 @@ namespace Argon.Utilities
             {
                 case Type t:
                     object[] array = attributeType != null ? t.GetCustomAttributes(attributeType, inherit) : t.GetCustomAttributes(inherit);
-                    Attribute[] attributes = array.Cast<Attribute>().ToArray();
+                    var attributes = array.Cast<Attribute>().ToArray();
                     return attributes;
                 case Assembly a:
                     return (attributeType != null) ? Attribute.GetCustomAttributes(a, attributeType) : Attribute.GetCustomAttributes(a);
@@ -723,7 +723,7 @@ namespace Argon.Utilities
                 case ParameterInfo p:
                     return (attributeType != null) ? Attribute.GetCustomAttributes(p, attributeType, inherit) : Attribute.GetCustomAttributes(p, inherit);
                 default:
-                    ICustomAttributeProvider customAttributeProvider = (ICustomAttributeProvider)attributeProvider;
+                    var customAttributeProvider = (ICustomAttributeProvider)attributeProvider;
                     object[] result = (attributeType != null) ? customAttributeProvider.GetCustomAttributes(attributeType, inherit) : customAttributeProvider.GetCustomAttributes(inherit);
 
                     return (Attribute[])result;
@@ -732,7 +732,7 @@ namespace Argon.Utilities
 
         public static StructMultiKey<string?, string> SplitFullyQualifiedTypeName(string fullyQualifiedTypeName)
         {
-            int? assemblyDelimiterIndex = GetAssemblyDelimiterIndex(fullyQualifiedTypeName);
+            var assemblyDelimiterIndex = GetAssemblyDelimiterIndex(fullyQualifiedTypeName);
 
             string typeName;
             string? assemblyName;
@@ -755,10 +755,10 @@ namespace Argon.Utilities
         {
             // we need to get the first comma following all surrounded in brackets because of generic types
             // e.g. System.Collections.Generic.Dictionary`2[[System.String, mscorlib,Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
-            int scope = 0;
-            for (int i = 0; i < fullyQualifiedTypeName.Length; i++)
+            var scope = 0;
+            for (var i = 0; i < fullyQualifiedTypeName.Length; i++)
             {
-                char current = fullyQualifiedTypeName[i];
+                var current = fullyQualifiedTypeName[i];
                 switch (current)
                 {
                     case '[':
@@ -786,7 +786,7 @@ namespace Argon.Utilities
             switch (memberInfo.MemberType())
             {
                 case MemberTypes.Property:
-                    PropertyInfo propertyInfo = (PropertyInfo)memberInfo;
+                    var propertyInfo = (PropertyInfo)memberInfo;
 
                     Type[] types = propertyInfo.GetIndexParameters().Select(p => p.ParameterType).ToArray();
 
@@ -800,7 +800,7 @@ namespace Argon.Utilities
         {
             ValidationUtils.ArgumentNotNull(targetType, nameof(targetType));
 
-            List<MemberInfo> fieldInfos = new List<MemberInfo>(targetType.GetFields(bindingAttr));
+            var fieldInfos = new List<MemberInfo>(targetType.GetFields(bindingAttr));
             // Type.GetFields doesn't return inherited private fields
             // manually find private fields from base class
             GetChildPrivateFields(fieldInfos, targetType, bindingAttr);
@@ -815,7 +815,7 @@ namespace Argon.Utilities
             if ((bindingAttr & BindingFlags.NonPublic) != 0)
             {
                 // modify flags to not search for public fields
-                BindingFlags nonPublicBindingAttr = bindingAttr.RemoveFlag(BindingFlags.Public);
+                var nonPublicBindingAttr = bindingAttr.RemoveFlag(BindingFlags.Public);
 
                 while ((targetType = targetType.BaseType()) != null)
                 {
@@ -832,12 +832,12 @@ namespace Argon.Utilities
         {
             ValidationUtils.ArgumentNotNull(targetType, nameof(targetType));
 
-            List<PropertyInfo> propertyInfos = new List<PropertyInfo>(targetType.GetProperties(bindingAttr));
+            var propertyInfos = new List<PropertyInfo>(targetType.GetProperties(bindingAttr));
 
             // GetProperties on an interface doesn't return properties from its interfaces
             if (targetType.IsInterface())
             {
-                foreach (Type i in targetType.GetInterfaces())
+                foreach (var i in targetType.GetInterfaces())
                 {
                     propertyInfos.AddRange(i.GetProperties(bindingAttr));
                 }
@@ -846,12 +846,12 @@ namespace Argon.Utilities
             GetChildPrivateProperties(propertyInfos, targetType, bindingAttr);
 
             // a base class private getter/setter will be inaccessible unless the property was gotten from the base class
-            for (int i = 0; i < propertyInfos.Count; i++)
+            for (var i = 0; i < propertyInfos.Count; i++)
             {
-                PropertyInfo member = propertyInfos[i];
+                var member = propertyInfos[i];
                 if (member.DeclaringType != targetType)
                 {
-                    PropertyInfo declaredMember = (PropertyInfo)GetMemberInfoFromType(member.DeclaringType, member);
+                    var declaredMember = (PropertyInfo)GetMemberInfoFromType(member.DeclaringType, member);
                     propertyInfos[i] = declaredMember;
                 }
             }
@@ -875,9 +875,9 @@ namespace Argon.Utilities
 
             while ((targetType = targetType.BaseType()) != null)
             {
-                foreach (PropertyInfo propertyInfo in targetType.GetProperties(bindingAttr))
+                foreach (var propertyInfo in targetType.GetProperties(bindingAttr))
                 {
-                    PropertyInfo subTypeProperty = propertyInfo;
+                    var subTypeProperty = propertyInfo;
 
                     if (!subTypeProperty.IsVirtual())
                     {
@@ -885,14 +885,14 @@ namespace Argon.Utilities
                         {
                             // have to test on name rather than reference because instances are different
                             // depending on the type that GetProperties was called on
-                            int index = initialProperties.IndexOf(p => p.Name == subTypeProperty.Name);
+                            var index = initialProperties.IndexOf(p => p.Name == subTypeProperty.Name);
                             if (index == -1)
                             {
                                 initialProperties.Add(subTypeProperty);
                             }
                             else
                             {
-                                PropertyInfo childProperty = initialProperties[index];
+                                var childProperty = initialProperties[index];
                                 // don't replace public child with private base
                                 if (!IsPublic(childProperty))
                                 {
@@ -905,7 +905,7 @@ namespace Argon.Utilities
                         }
                         else
                         {
-                            int index = initialProperties.IndexOf(p => p.Name == subTypeProperty.Name
+                            var index = initialProperties.IndexOf(p => p.Name == subTypeProperty.Name
                                                                        && p.DeclaringType == subTypeProperty.DeclaringType);
 
                             if (index == -1)
@@ -916,9 +916,9 @@ namespace Argon.Utilities
                     }
                     else
                     {
-                        Type subTypePropertyDeclaringType = subTypeProperty.GetBaseDefinition()?.DeclaringType ?? subTypeProperty.DeclaringType;
+                        var subTypePropertyDeclaringType = subTypeProperty.GetBaseDefinition()?.DeclaringType ?? subTypeProperty.DeclaringType;
 
-                        int index = initialProperties.IndexOf(p => p.Name == subTypeProperty.Name
+                        var index = initialProperties.IndexOf(p => p.Name == subTypeProperty.Name
                                                                    && p.IsVirtual()
                                                                    && (p.GetBaseDefinition()?.DeclaringType ?? p.DeclaringType).IsAssignableFrom(subTypePropertyDeclaringType));
 
@@ -934,7 +934,7 @@ namespace Argon.Utilities
 
         public static bool IsMethodOverridden(Type currentType, Type methodDeclaringType, string method)
         {
-            bool isMethodOverriden = currentType.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+            var isMethodOverriden = currentType.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
                 .Any(info =>
                     info.Name == method &&
                     // check that the method overrides the original on DynamicObjectProxy

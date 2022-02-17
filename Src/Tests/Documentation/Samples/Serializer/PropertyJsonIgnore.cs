@@ -50,14 +50,14 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            Account account = new Account
+            var account = new Account
             {
                 FullName = "Joe User",
                 EmailAddress = "joe@example.com",
                 PasswordHash = "VHdlZXQgJ1F1aWNrc2lsdmVyJyB0byBASmFtZXNOSw=="
             };
 
-            string json = JsonConvert.SerializeObject(account);
+            var json = JsonConvert.SerializeObject(account);
 
             Console.WriteLine(json);
             // {"FullName":"Joe User","EmailAddress":"joe@example.com"}

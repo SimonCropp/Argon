@@ -40,14 +40,14 @@ namespace Argon.Tests.Documentation.Samples.Linq
         public void Example()
         {
             #region Usage
-            JArray array = new JArray();
+            var array = new JArray();
             array.Add("Manual text");
             array.Add(new DateTime(2000, 5, 23));
 
-            JObject o = new JObject();
+            var o = new JObject();
             o["MyArray"] = array;
 
-            string json = o.ToString();
+            var json = o.ToString();
             // {
             //   "MyArray": [
             //     "Manual text",

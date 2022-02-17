@@ -180,7 +180,7 @@ namespace Argon.Utilities
 
         public static PrimitiveTypeCode GetTypeCode(Type t, out bool isEnum)
         {
-            if (TypeCodeMap.TryGetValue(t, out PrimitiveTypeCode typeCode))
+            if (TypeCodeMap.TryGetValue(t, out var typeCode))
             {
                 isEnum = false;
                 return typeCode;
@@ -195,10 +195,10 @@ namespace Argon.Utilities
             // performance?
             if (ReflectionUtils.IsNullableType(t))
             {
-                Type nonNullable = Nullable.GetUnderlyingType(t);
+                var nonNullable = Nullable.GetUnderlyingType(t);
                 if (nonNullable.IsEnum())
                 {
-                    Type nullableUnderlyingType = typeof(Nullable<>).MakeGenericType(Enum.GetUnderlyingType(nonNullable));
+                    var nullableUnderlyingType = typeof(Nullable<>).MakeGenericType(Enum.GetUnderlyingType(nonNullable));
                     isEnum = true;
                     return GetTypeCode(nullableUnderlyingType);
                 }
@@ -210,7 +210,7 @@ namespace Argon.Utilities
 
         public static TypeInformation GetTypeInformation(IConvertible convertable)
         {
-            TypeInformation typeInformation = PrimitiveTypeCodes[(int)convertable.GetTypeCode()];
+            var typeInformation = PrimitiveTypeCodes[(int)convertable.GetTypeCode()];
             return typeInformation;
         }
 
@@ -229,17 +229,17 @@ namespace Argon.Utilities
 
         private static Func<object?, object?>? CreateCastConverter(StructMultiKey<Type, Type> t)
         {
-            Type initialType = t.Value1;
-            Type targetType = t.Value2;
-            MethodInfo castMethodInfo = targetType.GetMethod("op_Implicit", new[] { initialType })
-                ?? targetType.GetMethod("op_Explicit", new[] { initialType });
+            var initialType = t.Value1;
+            var targetType = t.Value2;
+            var castMethodInfo = targetType.GetMethod("op_Implicit", new[] { initialType })
+                                 ?? targetType.GetMethod("op_Explicit", new[] { initialType });
 
             if (castMethodInfo == null)
             {
                 return null;
             }
 
-            MethodCall<object?, object?> call = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object?>(castMethodInfo);
+            var call = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object?>(castMethodInfo);
 
             return o => call(null, o);
         }
@@ -336,7 +336,7 @@ namespace Argon.Utilities
 
         public static object Convert(object initialValue, CultureInfo culture, Type targetType)
         {
-            switch (TryConvertInternal(initialValue, culture, targetType, out object? value))
+            switch (TryConvertInternal(initialValue, culture, targetType, out var value))
             {
                 case ConvertResult.Success:
                     return value!;
@@ -382,7 +382,7 @@ namespace Argon.Utilities
                 targetType = Nullable.GetUnderlyingType(targetType);
             }
 
-            Type initialType = initialValue.GetType();
+            var initialType = initialValue.GetType();
 
             if (targetType == initialType)
             {
@@ -453,7 +453,7 @@ namespace Argon.Utilities
                 }
                 if (targetType == typeof(Version))
                 {
-                    if (VersionTryParse(s, out Version? result))
+                    if (VersionTryParse(s, out var result))
                     {
                         value = result;
                         return ConvertResult.Success;
@@ -480,7 +480,7 @@ namespace Argon.Utilities
             }
 
             // see if source or target types have a TypeConverter that converts between the two
-            TypeConverter toConverter = TypeDescriptor.GetConverter(initialType);
+            var toConverter = TypeDescriptor.GetConverter(initialType);
 
             if (toConverter != null && toConverter.CanConvertTo(targetType))
             {
@@ -488,7 +488,7 @@ namespace Argon.Utilities
                 return ConvertResult.Success;
             }
 
-            TypeConverter fromConverter = TypeDescriptor.GetConverter(targetType);
+            var fromConverter = TypeDescriptor.GetConverter(targetType);
 
             if (fromConverter != null && fromConverter.CanConvertFrom(initialType))
             {
@@ -543,7 +543,7 @@ namespace Argon.Utilities
                 return null;
             }
 
-            if (TryConvert(initialValue, culture, targetType, out object? convertedValue))
+            if (TryConvert(initialValue, culture, targetType, out var convertedValue))
             {
                 return convertedValue;
             }
@@ -556,14 +556,14 @@ namespace Argon.Utilities
         {
             if (value != null)
             {
-                Type valueType = value.GetType();
+                var valueType = value.GetType();
 
                 if (targetType.IsAssignableFrom(valueType))
                 {
                     return value;
                 }
 
-                Func<object?, object?>? castConverter = CastConverters.Get(new StructMultiKey<Type, Type>(valueType, targetType));
+                var castConverter = CastConverters.Get(new StructMultiKey<Type, Type>(valueType, targetType));
                 if (castConverter != null)
                 {
                     return castConverter(value);
@@ -612,7 +612,7 @@ namespace Argon.Utilities
                 return ParseResult.Invalid;
             }
 
-            bool isNegative = (chars[start] == '-');
+            var isNegative = (chars[start] == '-');
 
             if (isNegative)
             {
@@ -626,7 +626,7 @@ namespace Argon.Utilities
                 length--;
             }
 
-            int end = start + length;
+            var end = start + length;
 
             // Int32.MaxValue and MinValue are 10 chars
             // Or is 10 chars and start is greater than two
@@ -634,9 +634,9 @@ namespace Argon.Utilities
             if (length > 10 || (length == 10 && chars[start] - '0' > 2))
             {
                 // invalid result takes precedence over overflow
-                for (int i = start; i < end; i++)
+                for (var i = start; i < end; i++)
                 {
-                    int c = chars[i] - '0';
+                    var c = chars[i] - '0';
 
                     if (c < 0 || c > 9)
                     {
@@ -647,16 +647,16 @@ namespace Argon.Utilities
                 return ParseResult.Overflow;
             }
 
-            for (int i = start; i < end; i++)
+            for (var i = start; i < end; i++)
             {
-                int c = chars[i] - '0';
+                var c = chars[i] - '0';
 
                 if (c < 0 || c > 9)
                 {
                     return ParseResult.Invalid;
                 }
 
-                int newValue = (10 * value) - c;
+                var newValue = (10 * value) - c;
 
                 // overflow has caused the number to loop around
                 if (newValue > value)
@@ -706,7 +706,7 @@ namespace Argon.Utilities
                 return ParseResult.Invalid;
             }
 
-            bool isNegative = (chars[start] == '-');
+            var isNegative = (chars[start] == '-');
 
             if (isNegative)
             {
@@ -720,15 +720,15 @@ namespace Argon.Utilities
                 length--;
             }
 
-            int end = start + length;
+            var end = start + length;
 
             // Int64.MaxValue and MinValue are 19 chars
             if (length > 19)
             {
                 // invalid result takes precedence over overflow
-                for (int i = start; i < end; i++)
+                for (var i = start; i < end; i++)
                 {
-                    int c = chars[i] - '0';
+                    var c = chars[i] - '0';
 
                     if (c < 0 || c > 9)
                     {
@@ -739,16 +739,16 @@ namespace Argon.Utilities
                 return ParseResult.Overflow;
             }
 
-            for (int i = start; i < end; i++)
+            for (var i = start; i < end; i++)
             {
-                int c = chars[i] - '0';
+                var c = chars[i] - '0';
 
                 if (c < 0 || c > 9)
                 {
                     return ParseResult.Invalid;
                 }
 
-                long newValue = (10 * value) - c;
+                var newValue = (10 * value) - c;
 
                 // overflow has caused the number to loop around
                 if (newValue > value)
@@ -802,7 +802,7 @@ namespace Argon.Utilities
                 return ParseResult.Invalid;
             }
 
-            bool isNegative = (chars[start] == '-');
+            var isNegative = (chars[start] == '-');
             if (isNegative)
             {
                 // text just a negative sign
@@ -815,20 +815,20 @@ namespace Argon.Utilities
                 length--;
             }
 
-            int i = start;
-            int end = start + length;
-            int numDecimalStart = end;
-            int numDecimalEnd = end;
-            int exponent = 0;
-            ulong hi19 = 0UL;
-            ulong lo10 = 0UL;
-            int mantissaDigits = 0;
-            int exponentFromMantissa = 0;
+            var i = start;
+            var end = start + length;
+            var numDecimalStart = end;
+            var numDecimalEnd = end;
+            var exponent = 0;
+            var hi19 = 0UL;
+            var lo10 = 0UL;
+            var mantissaDigits = 0;
+            var exponentFromMantissa = 0;
             char? digit29 = null;
             bool? storeOnly28Digits = null;
             for (; i < end; i++)
             {
-                char c = chars[i];
+                var c = chars[i];
                 switch (c)
                 {
                     case '.':
@@ -872,7 +872,7 @@ namespace Argon.Utilities
                         }
 
                         c = chars[i];
-                        bool exponentNegative = false;
+                        var exponentNegative = false;
                         switch (c)
                         {
                             case '-':
@@ -893,7 +893,7 @@ namespace Argon.Utilities
                                 return ParseResult.Invalid;
                             }
 
-                            int newExponent = (10 * exponent) + (c - '0');
+                            var newExponent = (10 * exponent) + (c - '0');
                             // stops updating exponent when overflowing
                             if (exponent < newExponent)
                             {
@@ -1040,9 +1040,9 @@ namespace Argon.Utilities
         {
             value = 0;
 
-            for (int i = start; i < end; i++)
+            for (var i = start; i < end; i++)
             {
-                char ch = text[i];
+                var ch = text[i];
                 int chValue;
 
                 if (ch <= 57 && ch >= 48)

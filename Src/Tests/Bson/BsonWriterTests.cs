@@ -49,8 +49,8 @@ namespace Argon.Tests.Bson
         [Fact]
         public void CloseOutput()
         {
-            MemoryStream ms = new MemoryStream();
-            BsonWriter writer = new BsonWriter(ms);
+            var ms = new MemoryStream();
+            var writer = new BsonWriter(ms);
 
             Assert.IsTrue(ms.CanRead);
             writer.Close();
@@ -67,23 +67,23 @@ namespace Argon.Tests.Bson
         [Fact]
         public void WriteSingleObject()
         {
-            MemoryStream ms = new MemoryStream();
-            BsonWriter writer = new BsonWriter(ms);
+            var ms = new MemoryStream();
+            var writer = new BsonWriter(ms);
 
             writer.WriteStartObject();
             writer.WritePropertyName("Blah");
             writer.WriteValue(1);
             writer.WriteEndObject();
 
-            string bson = BytesToHex(ms.ToArray());
+            var bson = BytesToHex(ms.ToArray());
             Assert.AreEqual("0F-00-00-00-10-42-6C-61-68-00-01-00-00-00-00", bson);
         }
 
         [Fact]
         public void WriteValues()
         {
-            MemoryStream ms = new MemoryStream();
-            BsonWriter writer = new BsonWriter(ms);
+            var ms = new MemoryStream();
+            var writer = new BsonWriter(ms);
 
             writer.WriteStartArray();
             writer.WriteValue(long.MaxValue);
@@ -102,45 +102,45 @@ namespace Argon.Tests.Bson
             writer.WriteValue(new DateTime(2000, 12, 29, 12, 30, 0, DateTimeKind.Utc));
             writer.WriteEnd();
 
-            string bson = BytesToHex(ms.ToArray());
+            var bson = BytesToHex(ms.ToArray());
             Assert.AreEqual("8C-00-00-00-12-30-00-FF-FF-FF-FF-FF-FF-FF-7F-12-31-00-FF-FF-FF-FF-FF-FF-FF-7F-10-32-00-FF-FF-FF-7F-10-33-00-FF-FF-FF-7F-10-34-00-FF-00-00-00-10-35-00-7F-00-00-00-02-36-00-02-00-00-00-61-00-01-37-00-00-00-00-00-00-00-F0-45-01-38-00-FF-FF-FF-FF-FF-FF-EF-7F-01-39-00-00-00-00-E0-FF-FF-EF-47-08-31-30-00-01-05-31-31-00-05-00-00-00-00-00-01-02-03-04-09-31-32-00-40-C5-E2-BA-E3-00-00-00-09-31-33-00-40-C5-E2-BA-E3-00-00-00-00", bson);
         }
 
         [Fact]
         public void WriteDouble()
         {
-            MemoryStream ms = new MemoryStream();
-            BsonWriter writer = new BsonWriter(ms);
+            var ms = new MemoryStream();
+            var writer = new BsonWriter(ms);
 
             writer.WriteStartArray();
             writer.WriteValue(99.99d);
             writer.WriteEnd();
 
-            string bson = BytesToHex(ms.ToArray());
+            var bson = BytesToHex(ms.ToArray());
             Assert.AreEqual("10-00-00-00-01-30-00-8F-C2-F5-28-5C-FF-58-40-00", bson);
         }
 
         [Fact]
         public void WriteGuid()
         {
-            Guid g = new Guid("D821EED7-4B5C-43C9-8AC2-6928E579B705");
+            var g = new Guid("D821EED7-4B5C-43C9-8AC2-6928E579B705");
 
-            MemoryStream ms = new MemoryStream();
-            BsonWriter writer = new BsonWriter(ms);
+            var ms = new MemoryStream();
+            var writer = new BsonWriter(ms);
 
             writer.WriteStartArray();
             writer.WriteValue(g);
             writer.WriteEnd();
 
-            string bson = BytesToHex(ms.ToArray());
+            var bson = BytesToHex(ms.ToArray());
             Assert.AreEqual("1D-00-00-00-05-30-00-10-00-00-00-04-D7-EE-21-D8-5C-4B-C9-43-8A-C2-69-28-E5-79-B7-05-00", bson);
         }
 
         [Fact]
         public void WriteArrayBsonFromSite()
         {
-            MemoryStream ms = new MemoryStream();
-            BsonWriter writer = new BsonWriter(ms);
+            var ms = new MemoryStream();
+            var writer = new BsonWriter(ms);
             writer.WriteStartArray();
             writer.WriteValue("a");
             writer.WriteValue("b");
@@ -151,8 +151,8 @@ namespace Argon.Tests.Bson
 
             ms.Seek(0, SeekOrigin.Begin);
 
-            string expected = "20-00-00-00-02-30-00-02-00-00-00-61-00-02-31-00-02-00-00-00-62-00-02-32-00-02-00-00-00-63-00-00";
-            string bson = BytesToHex(ms.ToArray());
+            var expected = "20-00-00-00-02-30-00-02-00-00-00-61-00-02-31-00-02-00-00-00-62-00-02-32-00-02-00-00-00-63-00-00";
+            var bson = BytesToHex(ms.ToArray());
 
             Assert.AreEqual(expected, bson);
         }
@@ -160,10 +160,10 @@ namespace Argon.Tests.Bson
         [Fact]
         public void WriteBytes()
         {
-            byte[] data = Encoding.UTF8.GetBytes("Hello world!");
+            var data = Encoding.UTF8.GetBytes("Hello world!");
 
-            MemoryStream ms = new MemoryStream();
-            BsonWriter writer = new BsonWriter(ms);
+            var ms = new MemoryStream();
+            var writer = new BsonWriter(ms);
             writer.WriteStartArray();
             writer.WriteValue("a");
             writer.WriteValue("b");
@@ -174,12 +174,12 @@ namespace Argon.Tests.Bson
 
             ms.Seek(0, SeekOrigin.Begin);
 
-            string expected = "2B-00-00-00-02-30-00-02-00-00-00-61-00-02-31-00-02-00-00-00-62-00-05-32-00-0C-00-00-00-00-48-65-6C-6C-6F-20-77-6F-72-6C-64-21-00";
-            string bson = BytesToHex(ms.ToArray());
+            var expected = "2B-00-00-00-02-30-00-02-00-00-00-61-00-02-31-00-02-00-00-00-62-00-05-32-00-0C-00-00-00-00-48-65-6C-6C-6F-20-77-6F-72-6C-64-21-00";
+            var bson = BytesToHex(ms.ToArray());
 
             Assert.AreEqual(expected, bson);
 
-            BsonReader reader = new BsonReader(new MemoryStream(ms.ToArray()));
+            var reader = new BsonReader(new MemoryStream(ms.ToArray()));
             reader.ReadRootValueAsArray = true;
             reader.Read();
             reader.Read();
@@ -192,8 +192,8 @@ namespace Argon.Tests.Bson
         [Fact]
         public void WriteNestedArray()
         {
-            MemoryStream ms = new MemoryStream();
-            BsonWriter writer = new BsonWriter(ms);
+            var ms = new MemoryStream();
+            var writer = new BsonWriter(ms);
             writer.WriteStartObject();
 
             writer.WritePropertyName("_id");
@@ -201,9 +201,9 @@ namespace Argon.Tests.Bson
 
             writer.WritePropertyName("a");
             writer.WriteStartArray();
-            for (int i = 1; i <= 8; i++)
+            for (var i = 1; i <= 8; i++)
             {
-                double value = (i != 5)
+                var value = (i != 5)
                     ? Convert.ToDouble(i)
                     : 5.78960446186581E+77d;
 
@@ -220,8 +220,8 @@ namespace Argon.Tests.Bson
 
             ms.Seek(0, SeekOrigin.Begin);
 
-            string expected = "87-00-00-00-05-5F-69-64-00-0C-00-00-00-00-4A-78-93-79-17-22-00-00-00-00-61-CF-04-61-00-5D-00-00-00-01-30-00-00-00-00-00-00-00-F0-3F-01-31-00-00-00-00-00-00-00-00-40-01-32-00-00-00-00-00-00-00-08-40-01-33-00-00-00-00-00-00-00-10-40-01-34-00-00-00-00-00-00-00-14-50-01-35-00-00-00-00-00-00-00-18-40-01-36-00-00-00-00-00-00-00-1C-40-01-37-00-00-00-00-00-00-00-20-40-00-02-62-00-05-00-00-00-74-65-73-74-00-00";
-            string bson = BytesToHex(ms.ToArray());
+            var expected = "87-00-00-00-05-5F-69-64-00-0C-00-00-00-00-4A-78-93-79-17-22-00-00-00-00-61-CF-04-61-00-5D-00-00-00-01-30-00-00-00-00-00-00-00-F0-3F-01-31-00-00-00-00-00-00-00-00-40-01-32-00-00-00-00-00-00-00-08-40-01-33-00-00-00-00-00-00-00-10-40-01-34-00-00-00-00-00-00-00-14-50-01-35-00-00-00-00-00-00-00-18-40-01-36-00-00-00-00-00-00-00-1C-40-01-37-00-00-00-00-00-00-00-20-40-00-02-62-00-05-00-00-00-74-65-73-74-00-00";
+            var bson = BytesToHex(ms.ToArray());
 
             Assert.AreEqual(expected, bson);
         }
@@ -229,10 +229,10 @@ namespace Argon.Tests.Bson
         [Fact]
         public void WriteSerializedStore()
         {
-            MemoryStream ms = new MemoryStream();
-            BsonWriter writer = new BsonWriter(ms);
+            var ms = new MemoryStream();
+            var writer = new BsonWriter(ms);
 
-            Store s1 = new Store();
+            var s1 = new Store();
             s1.Color = StoreColor.White;
             s1.Cost = 999.59m;
             s1.Employees = int.MaxValue - 1;
@@ -246,12 +246,12 @@ namespace Argon.Tests.Bson
             });
             s1.Establised = new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Local);
 
-            JsonSerializer serializer = new JsonSerializer();
+            var serializer = new JsonSerializer();
             serializer.Serialize(writer, s1);
 
             ms.Seek(0, SeekOrigin.Begin);
-            BsonReader reader = new BsonReader(ms);
-            Store s2 = (Store)serializer.Deserialize(reader, typeof(Store));
+            var reader = new BsonReader(ms);
+            var s2 = (Store)serializer.Deserialize(reader, typeof(Store));
 
             Assert.AreNotEqual(s1, s2);
             Assert.AreEqual(s1.Color, s2.Color);
@@ -268,8 +268,8 @@ namespace Argon.Tests.Bson
             Assert.AreEqual(s1.Symbol, s2.Symbol);
             Assert.AreEqual(s1.Width, s2.Width);
 
-            MemoryStream ms1 = new MemoryStream();
-            BsonWriter writer1 = new BsonWriter(ms1);
+            var ms1 = new MemoryStream();
+            var writer1 = new BsonWriter(ms1);
 
             serializer.Serialize(writer1, s1);
 
@@ -279,11 +279,11 @@ namespace Argon.Tests.Bson
         [Fact]
         public void WriteLargeStrings()
         {
-            MemoryStream ms = new MemoryStream();
-            BsonWriter writer = new BsonWriter(ms);
+            var ms = new MemoryStream();
+            var writer = new BsonWriter(ms);
 
-            StringBuilder largeStringBuilder = new StringBuilder();
-            for (int i = 0; i < 100; i++)
+            var largeStringBuilder = new StringBuilder();
+            for (var i = 0; i < 100; i++)
             {
                 if (i > 0)
                 {
@@ -292,21 +292,21 @@ namespace Argon.Tests.Bson
 
                 largeStringBuilder.Append(i.ToString(CultureInfo.InvariantCulture));
             }
-            string largeString = largeStringBuilder.ToString();
+            var largeString = largeStringBuilder.ToString();
 
             writer.WriteStartObject();
             writer.WritePropertyName(largeString);
             writer.WriteValue(largeString);
             writer.WriteEndObject();
 
-            string bson = BytesToHex(ms.ToArray());
+            var bson = BytesToHex(ms.ToArray());
             Assert.AreEqual("4E-02-00-00-02-30-2D-31-2D-32-2D-33-2D-34-2D-35-2D-36-2D-37-2D-38-2D-39-2D-31-30-2D-31-31-2D-31-32-2D-31-33-2D-31-34-2D-31-35-2D-31-36-2D-31-37-2D-31-38-2D-31-39-2D-32-30-2D-32-31-2D-32-32-2D-32-33-2D-32-34-2D-32-35-2D-32-36-2D-32-37-2D-32-38-2D-32-39-2D-33-30-2D-33-31-2D-33-32-2D-33-33-2D-33-34-2D-33-35-2D-33-36-2D-33-37-2D-33-38-2D-33-39-2D-34-30-2D-34-31-2D-34-32-2D-34-33-2D-34-34-2D-34-35-2D-34-36-2D-34-37-2D-34-38-2D-34-39-2D-35-30-2D-35-31-2D-35-32-2D-35-33-2D-35-34-2D-35-35-2D-35-36-2D-35-37-2D-35-38-2D-35-39-2D-36-30-2D-36-31-2D-36-32-2D-36-33-2D-36-34-2D-36-35-2D-36-36-2D-36-37-2D-36-38-2D-36-39-2D-37-30-2D-37-31-2D-37-32-2D-37-33-2D-37-34-2D-37-35-2D-37-36-2D-37-37-2D-37-38-2D-37-39-2D-38-30-2D-38-31-2D-38-32-2D-38-33-2D-38-34-2D-38-35-2D-38-36-2D-38-37-2D-38-38-2D-38-39-2D-39-30-2D-39-31-2D-39-32-2D-39-33-2D-39-34-2D-39-35-2D-39-36-2D-39-37-2D-39-38-2D-39-39-00-22-01-00-00-30-2D-31-2D-32-2D-33-2D-34-2D-35-2D-36-2D-37-2D-38-2D-39-2D-31-30-2D-31-31-2D-31-32-2D-31-33-2D-31-34-2D-31-35-2D-31-36-2D-31-37-2D-31-38-2D-31-39-2D-32-30-2D-32-31-2D-32-32-2D-32-33-2D-32-34-2D-32-35-2D-32-36-2D-32-37-2D-32-38-2D-32-39-2D-33-30-2D-33-31-2D-33-32-2D-33-33-2D-33-34-2D-33-35-2D-33-36-2D-33-37-2D-33-38-2D-33-39-2D-34-30-2D-34-31-2D-34-32-2D-34-33-2D-34-34-2D-34-35-2D-34-36-2D-34-37-2D-34-38-2D-34-39-2D-35-30-2D-35-31-2D-35-32-2D-35-33-2D-35-34-2D-35-35-2D-35-36-2D-35-37-2D-35-38-2D-35-39-2D-36-30-2D-36-31-2D-36-32-2D-36-33-2D-36-34-2D-36-35-2D-36-36-2D-36-37-2D-36-38-2D-36-39-2D-37-30-2D-37-31-2D-37-32-2D-37-33-2D-37-34-2D-37-35-2D-37-36-2D-37-37-2D-37-38-2D-37-39-2D-38-30-2D-38-31-2D-38-32-2D-38-33-2D-38-34-2D-38-35-2D-38-36-2D-38-37-2D-38-38-2D-38-39-2D-39-30-2D-39-31-2D-39-32-2D-39-33-2D-39-34-2D-39-35-2D-39-36-2D-39-37-2D-39-38-2D-39-39-00-00", bson);
         }
 
         [Fact]
         public void SerializeGoogleGeoCode()
         {
-            string json = @"{
+            var json = @"{
   ""name"": ""1600 Amphitheatre Parkway, Mountain View, CA, USA"",
   ""Status"": {
     ""code"": 200,
@@ -343,17 +343,17 @@ namespace Argon.Tests.Bson
   ]
 }";
 
-            GoogleMapGeocoderStructure jsonGoogleMapGeocoder = JsonConvert.DeserializeObject<GoogleMapGeocoderStructure>(json);
+            var jsonGoogleMapGeocoder = JsonConvert.DeserializeObject<GoogleMapGeocoderStructure>(json);
 
-            MemoryStream ms = new MemoryStream();
-            BsonWriter writer = new BsonWriter(ms);
+            var ms = new MemoryStream();
+            var writer = new BsonWriter(ms);
 
-            JsonSerializer serializer = new JsonSerializer();
+            var serializer = new JsonSerializer();
             serializer.Serialize(writer, jsonGoogleMapGeocoder);
 
             ms.Seek(0, SeekOrigin.Begin);
-            BsonReader reader = new BsonReader(ms);
-            GoogleMapGeocoderStructure bsonGoogleMapGeocoder = (GoogleMapGeocoderStructure)serializer.Deserialize(reader, typeof(GoogleMapGeocoderStructure));
+            var reader = new BsonReader(ms);
+            var bsonGoogleMapGeocoder = (GoogleMapGeocoderStructure)serializer.Deserialize(reader, typeof(GoogleMapGeocoderStructure));
 
             Assert.IsNotNull(bsonGoogleMapGeocoder);
             Assert.AreEqual("1600 Amphitheatre Parkway, Mountain View, CA, USA", bsonGoogleMapGeocoder.Name);
@@ -364,7 +364,7 @@ namespace Argon.Tests.Bson
             Assert.IsNotNull(placemarks);
             Assert.AreEqual(1, placemarks.Count);
 
-            Placemark placemark = placemarks[0];
+            var placemark = placemarks[0];
             Assert.AreEqual("1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA", placemark.Address);
             Assert.AreEqual(8, placemark.AddressDetails.Accuracy);
             Assert.AreEqual("US", placemark.AddressDetails.Country.CountryNameCode);
@@ -381,15 +381,15 @@ namespace Argon.Tests.Bson
         [Fact]
         public void WriteEmptyStrings()
         {
-            MemoryStream ms = new MemoryStream();
-            BsonWriter writer = new BsonWriter(ms);
+            var ms = new MemoryStream();
+            var writer = new BsonWriter(ms);
 
             writer.WriteStartObject();
             writer.WritePropertyName("");
             writer.WriteValue("");
             writer.WriteEndObject();
 
-            string bson = BytesToHex(ms.ToArray());
+            var bson = BytesToHex(ms.ToArray());
             Assert.AreEqual("0C-00-00-00-02-00-01-00-00-00-00-00", bson);
         }
 
@@ -398,8 +398,8 @@ namespace Argon.Tests.Bson
         {
             ExceptionAssert.Throws<JsonWriterException>(() =>
             {
-                MemoryStream ms = new MemoryStream();
-                BsonWriter writer = new BsonWriter(ms);
+                var ms = new MemoryStream();
+                var writer = new BsonWriter(ms);
 
                 writer.WriteStartArray();
                 writer.WriteComment("fail");
@@ -411,8 +411,8 @@ namespace Argon.Tests.Bson
         {
             ExceptionAssert.Throws<JsonWriterException>(() =>
             {
-                MemoryStream ms = new MemoryStream();
-                BsonWriter writer = new BsonWriter(ms);
+                var ms = new MemoryStream();
+                var writer = new BsonWriter(ms);
 
                 writer.WriteStartArray();
                 writer.WriteStartConstructor("fail");
@@ -424,8 +424,8 @@ namespace Argon.Tests.Bson
         {
             ExceptionAssert.Throws<JsonWriterException>(() =>
             {
-                MemoryStream ms = new MemoryStream();
-                BsonWriter writer = new BsonWriter(ms);
+                var ms = new MemoryStream();
+                var writer = new BsonWriter(ms);
 
                 writer.WriteStartArray();
                 writer.WriteRaw("fail");
@@ -437,8 +437,8 @@ namespace Argon.Tests.Bson
         {
             ExceptionAssert.Throws<JsonWriterException>(() =>
             {
-                MemoryStream ms = new MemoryStream();
-                BsonWriter writer = new BsonWriter(ms);
+                var ms = new MemoryStream();
+                var writer = new BsonWriter(ms);
 
                 writer.WriteStartArray();
                 writer.WriteRawValue("fail");
@@ -448,17 +448,17 @@ namespace Argon.Tests.Bson
         [Fact]
         public void Example()
         {
-            Product p = new Product();
+            var p = new Product();
             p.ExpiryDate = DateTime.Parse("2009-04-05T14:45:00Z");
             p.Name = "Carlos' Spicy Wieners";
             p.Price = 9.95m;
             p.Sizes = new[] { "Small", "Medium", "Large" };
 
-            MemoryStream ms = new MemoryStream();
-            JsonSerializer serializer = new JsonSerializer();
+            var ms = new MemoryStream();
+            var serializer = new JsonSerializer();
 
             // serialize product to BSON
-            BsonWriter writer = new BsonWriter(ms);
+            var writer = new BsonWriter(ms);
             serializer.Serialize(writer, p);
 
             Console.WriteLine(BitConverter.ToString(ms.ToArray()));
@@ -473,8 +473,8 @@ namespace Argon.Tests.Bson
             ms.Seek(0, SeekOrigin.Begin);
 
             // deserialize product from BSON
-            BsonReader reader = new BsonReader(ms);
-            Product deserializedProduct = serializer.Deserialize<Product>(reader);
+            var reader = new BsonReader(ms);
+            var deserializedProduct = serializer.Deserialize<Product>(reader);
 
             Console.WriteLine(deserializedProduct.Name);
             // Carlos' Spicy Wieners
@@ -487,21 +487,21 @@ namespace Argon.Tests.Bson
         [Fact]
         public void WriteOid()
         {
-            MemoryStream ms = new MemoryStream();
-            BsonWriter writer = new BsonWriter(ms);
+            var ms = new MemoryStream();
+            var writer = new BsonWriter(ms);
 
-            byte[] oid = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+            var oid = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
 
             writer.WriteStartObject();
             writer.WritePropertyName("_oid");
             writer.WriteObjectId(oid);
             writer.WriteEndObject();
 
-            string bson = BytesToHex(ms.ToArray());
+            var bson = BytesToHex(ms.ToArray());
             Assert.AreEqual("17-00-00-00-07-5F-6F-69-64-00-01-02-03-04-05-06-07-08-09-0A-0B-0C-00", bson);
 
             ms.Seek(0, SeekOrigin.Begin);
-            BsonReader reader = new BsonReader(ms);
+            var reader = new BsonReader(ms);
 
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
@@ -520,8 +520,8 @@ namespace Argon.Tests.Bson
         [Fact]
         public void WriteOidPlusContent()
         {
-            MemoryStream ms = new MemoryStream();
-            BsonWriter writer = new BsonWriter(ms);
+            var ms = new MemoryStream();
+            var writer = new BsonWriter(ms);
 
             writer.WriteStartObject();
             writer.WritePropertyName("_id");
@@ -530,7 +530,7 @@ namespace Argon.Tests.Bson
             writer.WriteValue("1234£56");
             writer.WriteEndObject();
 
-            byte[] expected = HexToBytes("29000000075F6964004ABBED9D1D8B0F02180000010274657374000900000031323334C2A335360000");
+            var expected = HexToBytes("29000000075F6964004ABBED9D1D8B0F02180000010274657374000900000031323334C2A335360000");
 
             CollectionAssert.AreEquivalent(expected, ms.ToArray());
         }
@@ -538,8 +538,8 @@ namespace Argon.Tests.Bson
         [Fact]
         public void WriteRegexPlusContent()
         {
-            MemoryStream ms = new MemoryStream();
-            BsonWriter writer = new BsonWriter(ms);
+            var ms = new MemoryStream();
+            var writer = new BsonWriter(ms);
 
             writer.WriteStartObject();
             writer.WritePropertyName("regex");
@@ -548,7 +548,7 @@ namespace Argon.Tests.Bson
             writer.WriteRegex(string.Empty, null);
             writer.WriteEndObject();
 
-            byte[] expected = HexToBytes("1A-00-00-00-0B-72-65-67-65-78-00-61-62-63-00-69-00-0B-74-65-73-74-00-00-00-00");
+            var expected = HexToBytes("1A-00-00-00-0B-72-65-67-65-78-00-61-62-63-00-69-00-0B-74-65-73-74-00-00-00-00");
 
             CollectionAssert.AreEquivalent(expected, ms.ToArray());
         }
@@ -556,22 +556,22 @@ namespace Argon.Tests.Bson
         [Fact]
         public void SerializeEmptyAndNullStrings()
         {
-            Product p = new Product();
+            var p = new Product();
             p.ExpiryDate = DateTime.Parse("2009-04-05T14:45:00Z");
             p.Name = null;
             p.Price = 9.95m;
             p.Sizes = new[] { "Small", "", null };
 
-            MemoryStream ms = new MemoryStream();
-            JsonSerializer serializer = new JsonSerializer();
+            var ms = new MemoryStream();
+            var serializer = new JsonSerializer();
 
-            BsonWriter writer = new BsonWriter(ms);
+            var writer = new BsonWriter(ms);
             serializer.Serialize(writer, p);
 
             ms.Seek(0, SeekOrigin.Begin);
 
-            BsonReader reader = new BsonReader(ms);
-            Product deserializedProduct = serializer.Deserialize<Product>(reader);
+            var reader = new BsonReader(ms);
+            var deserializedProduct = serializer.Deserialize<Product>(reader);
 
             Console.WriteLine(deserializedProduct.Name);
 
@@ -586,8 +586,8 @@ namespace Argon.Tests.Bson
         [Fact]
         public void WriteReadEmptyAndNullStrings()
         {
-            MemoryStream ms = new MemoryStream();
-            BsonWriter writer = new BsonWriter(ms);
+            var ms = new MemoryStream();
+            var writer = new BsonWriter(ms);
 
             writer.WriteStartArray();
             writer.WriteValue("Content!");
@@ -597,7 +597,7 @@ namespace Argon.Tests.Bson
 
             ms.Seek(0, SeekOrigin.Begin);
 
-            BsonReader reader = new BsonReader(ms);
+            var reader = new BsonReader(ms);
             reader.ReadRootValueAsArray = true;
 
             Assert.IsTrue(reader.Read());
@@ -624,8 +624,8 @@ namespace Argon.Tests.Bson
         [Fact]
         public void WriteDateTimes()
         {
-            MemoryStream ms = new MemoryStream();
-            BsonWriter writer = new BsonWriter(ms);
+            var ms = new MemoryStream();
+            var writer = new BsonWriter(ms);
             writer.DateTimeKindHandling = DateTimeKind.Unspecified;
 
             writer.WriteStartArray();
@@ -636,7 +636,7 @@ namespace Argon.Tests.Bson
 
             ms.Seek(0, SeekOrigin.Begin);
 
-            BsonReader reader = new BsonReader(ms);
+            var reader = new BsonReader(ms);
             reader.ReadRootValueAsArray = true;
             reader.DateTimeKindHandling = DateTimeKind.Utc;
 
@@ -666,9 +666,9 @@ namespace Argon.Tests.Bson
         {
             ExceptionAssert.Throws<JsonWriterException>(() =>
             {
-                MemoryStream stream = new MemoryStream();
+                var stream = new MemoryStream();
 
-                using (BsonWriter writer = new BsonWriter(stream))
+                using (var writer = new BsonWriter(stream))
                 {
                     writer.WriteValue("test");
                     writer.Flush();
@@ -679,7 +679,7 @@ namespace Argon.Tests.Bson
         [Fact]
         public void DateTimeZoneHandling()
         {
-            MemoryStream ms = new MemoryStream();
+            var ms = new MemoryStream();
             JsonWriter writer = new BsonWriter(ms)
             {
                 DateTimeZoneHandling = Argon.DateTimeZoneHandling.Utc
@@ -700,20 +700,20 @@ namespace Argon.Tests.Bson
         [Fact]
         public void SerializeDeserializeRegex()
         {
-            Regex r1 = new Regex("(hi)", RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
-            RegexTestClass c = new RegexTestClass { Regex = r1 };
+            var r1 = new Regex("(hi)", RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
+            var c = new RegexTestClass { Regex = r1 };
 
-            MemoryStream ms = new MemoryStream();
-            JsonSerializer serializer = new JsonSerializer();
+            var ms = new MemoryStream();
+            var serializer = new JsonSerializer();
 
-            BsonWriter writer = new BsonWriter(ms);
+            var writer = new BsonWriter(ms);
             serializer.Serialize(writer, c);
 
-            string hex = BitConverter.ToString(ms.ToArray());
+            var hex = BitConverter.ToString(ms.ToArray());
 
             Assert.AreEqual("15-00-00-00-0B-52-65-67-65-78-00-28-68-69-29-00-69-75-78-00-00", hex);
 
-            JObject o = (JObject)JObject.ReadFrom(new BsonReader(new MemoryStream(ms.ToArray())));
+            var o = (JObject)JObject.ReadFrom(new BsonReader(new MemoryStream(ms.ToArray())));
 
             StringAssert.AreEqual(@"{
   ""Regex"": ""/(hi)/iux""
@@ -723,12 +723,12 @@ namespace Argon.Tests.Bson
         [Fact]
         public void SerializeByteArray_ErrorWhenTopLevel()
         {
-            byte[] b = Encoding.UTF8.GetBytes("Hello world");
+            var b = Encoding.UTF8.GetBytes("Hello world");
 
-            MemoryStream ms = new MemoryStream();
-            JsonSerializer serializer = new JsonSerializer();
+            var ms = new MemoryStream();
+            var serializer = new JsonSerializer();
 
-            BsonWriter writer = new BsonWriter(ms);
+            var writer = new BsonWriter(ms);
 
             ExceptionAssert.Throws<JsonWriterException>(() => { serializer.Serialize(writer, b); }, "Error writing Binary value. BSON must start with an Object or Array. Path ''.");
         }
@@ -746,20 +746,20 @@ namespace Argon.Tests.Bson
         [Fact]
         public void WriteReadGuid()
         {
-            GuidTestClass c = new GuidTestClass();
+            var c = new GuidTestClass();
             c.AGuid = new Guid("af45dccf-df13-44fe-82be-6212c09eda84");
 
-            MemoryStream ms = new MemoryStream();
-            JsonSerializer serializer = new JsonSerializer();
+            var ms = new MemoryStream();
+            var serializer = new JsonSerializer();
 
-            BsonWriter writer = new BsonWriter(ms);
+            var writer = new BsonWriter(ms);
 
             serializer.Serialize(writer, c);
 
             ms.Seek(0, SeekOrigin.Begin);
-            BsonReader reader = new BsonReader(ms);
+            var reader = new BsonReader(ms);
 
-            GuidTestClass c2 = serializer.Deserialize<GuidTestClass>(reader);
+            var c2 = serializer.Deserialize<GuidTestClass>(reader);
 
             Assert.AreEqual(c.AGuid, c2.AGuid);
         }
@@ -767,20 +767,20 @@ namespace Argon.Tests.Bson
         [Fact]
         public void WriteStringReadGuid()
         {
-            StringTestClass c = new StringTestClass();
+            var c = new StringTestClass();
             c.AGuid = new Guid("af45dccf-df13-44fe-82be-6212c09eda84").ToString();
 
-            MemoryStream ms = new MemoryStream();
-            JsonSerializer serializer = new JsonSerializer();
+            var ms = new MemoryStream();
+            var serializer = new JsonSerializer();
 
-            BsonWriter writer = new BsonWriter(ms);
+            var writer = new BsonWriter(ms);
 
             serializer.Serialize(writer, c);
 
             ms.Seek(0, SeekOrigin.Begin);
-            BsonReader reader = new BsonReader(ms);
+            var reader = new BsonReader(ms);
 
-            GuidTestClass c2 = serializer.Deserialize<GuidTestClass>(reader);
+            var c2 = serializer.Deserialize<GuidTestClass>(reader);
 
             Assert.AreEqual(c.AGuid, c2.AGuid.ToString());
         }
@@ -788,21 +788,21 @@ namespace Argon.Tests.Bson
         [Fact]
         public void WriteBigInteger()
         {
-            BigInteger i = BigInteger.Parse("1999999999999999999999999999999999999999999999999999999999990");
+            var i = BigInteger.Parse("1999999999999999999999999999999999999999999999999999999999990");
 
-            MemoryStream ms = new MemoryStream();
-            BsonWriter writer = new BsonWriter(ms);
+            var ms = new MemoryStream();
+            var writer = new BsonWriter(ms);
 
             writer.WriteStartObject();
             writer.WritePropertyName("Blah");
             writer.WriteValue(i);
             writer.WriteEndObject();
 
-            string bson = BytesToHex(ms.ToArray());
+            var bson = BytesToHex(ms.ToArray());
             Assert.AreEqual("2A-00-00-00-05-42-6C-61-68-00-1A-00-00-00-00-F6-FF-FF-FF-FF-FF-FF-1F-B2-21-CB-28-59-84-C4-AE-03-8A-44-34-2F-4C-4E-9E-3E-01-00", bson);
 
             ms.Seek(0, SeekOrigin.Begin);
-            BsonReader reader = new BsonReader(ms);
+            var reader = new BsonReader(ms);
 
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
@@ -823,8 +823,8 @@ namespace Argon.Tests.Bson
         [Fact]
         public void WriteUri()
         {
-            MemoryStream ms = new MemoryStream();
-            BsonWriter writer = new BsonWriter(ms);
+            var ms = new MemoryStream();
+            var writer = new BsonWriter(ms);
 
             writer.WriteStartObject();
             writer.WritePropertyName("uri0");
@@ -834,7 +834,7 @@ namespace Argon.Tests.Bson
             writer.WriteEndObject();
             ms.Seek(0, SeekOrigin.Begin);
 
-            BsonReader reader = new BsonReader(ms);
+            var reader = new BsonReader(ms);
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
             Assert.IsTrue(reader.Read());
@@ -848,8 +848,8 @@ namespace Argon.Tests.Bson
         [Fact]
         public void WriteByteArray()
         {
-            MemoryStream ms = new MemoryStream();
-            BsonWriter writer = new BsonWriter(ms);
+            var ms = new MemoryStream();
+            var writer = new BsonWriter(ms);
 
             writer.WriteStartObject();
             writer.WritePropertyName("array0");
@@ -859,7 +859,7 @@ namespace Argon.Tests.Bson
             writer.WriteEndObject();
             ms.Seek(0, SeekOrigin.Begin);
 
-            BsonReader reader = new BsonReader(ms);
+            var reader = new BsonReader(ms);
             Assert.IsTrue(reader.Read());
             Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
             Assert.IsTrue(reader.Read());
@@ -873,8 +873,8 @@ namespace Argon.Tests.Bson
         [Fact]
         public void WriteEndOnProperty()
         {
-            MemoryStream ms = new MemoryStream();
-            BsonWriter writer = new BsonWriter(ms);
+            var ms = new MemoryStream();
+            var writer = new BsonWriter(ms);
 
             writer.WriteStartObject();
             writer.WritePropertyName("Blah");
@@ -886,8 +886,8 @@ namespace Argon.Tests.Bson
         [Fact]
         public void WriteEndOnProperty_Close()
         {
-            MemoryStream ms = new MemoryStream();
-            BsonWriter writer = new BsonWriter(ms);
+            var ms = new MemoryStream();
+            var writer = new BsonWriter(ms);
 
             writer.WriteStartObject();
             writer.WritePropertyName("Blah");
@@ -899,8 +899,8 @@ namespace Argon.Tests.Bson
         [Fact]
         public void WriteEndOnProperty_Dispose()
         {
-            MemoryStream ms = new MemoryStream();
-            using (BsonWriter writer = new BsonWriter(ms))
+            var ms = new MemoryStream();
+            using (var writer = new BsonWriter(ms))
             {
                 writer.WriteStartObject();
                 writer.WritePropertyName("Blah");
@@ -912,8 +912,8 @@ namespace Argon.Tests.Bson
         [Fact]
         public void AutoCompleteOnClose_False()
         {
-            MemoryStream ms = new MemoryStream();
-            using (BsonWriter writer = new BsonWriter(ms))
+            var ms = new MemoryStream();
+            using (var writer = new BsonWriter(ms))
             {
                 writer.AutoCompleteOnClose = false;
 

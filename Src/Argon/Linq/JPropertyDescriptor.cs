@@ -88,7 +88,7 @@ namespace Argon.Linq
         {
             if (component is JObject o)
             {
-                JToken token = value as JToken ?? new JValue(value);
+                var token = value as JToken ?? new JValue(value);
 
                 o[Name] = token;
             }
@@ -145,7 +145,7 @@ namespace Argon.Linq
             get
             {
                 // override property to fix up an error in its documentation
-                int nameHashCode = base.NameHashCode;
+                var nameHashCode = base.NameHashCode;
                 return nameHashCode;
             }
         }

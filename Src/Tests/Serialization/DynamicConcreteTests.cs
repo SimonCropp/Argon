@@ -43,7 +43,7 @@ namespace Argon.Tests.Serialization
         {
             protected override JsonContract CreateContract(Type objectType)
             {
-                JsonContract contract = base.CreateContract(objectType);
+                var contract = base.CreateContract(objectType);
 
                 // create a dynamic mock object for interfaces or abstract classes
                 if (contract.CreatedType.IsInterface || contract.CreatedType.IsAbstract)
@@ -58,7 +58,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void UseDynamicConcreteIfTargetObjectTypeIsAnInterfaceWithNoBackingClass()
         {
-            string json = @"{Name:""Name!""}";
+            var json = @"{Name:""Name!""}";
 
             var c = JsonConvert.DeserializeObject<IInterfaceWithNoConcrete>(json, new JsonSerializerSettings
             {
@@ -71,7 +71,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void UseDynamicConcreteIfTargetObjectTypeIsAnAbstractClassWithNoConcrete()
         {
-            string json = @"{Name:""Name!"", Game:""Same""}";
+            var json = @"{Name:""Name!"", Game:""Same""}";
 
             var c = JsonConvert.DeserializeObject<AbstractWithNoConcrete>(json, new JsonSerializerSettings
             {
@@ -85,7 +85,7 @@ namespace Argon.Tests.Serialization
         [Fact]
         public void AnyMethodsExposedByDynamicConcreteAreHarmless()
         {
-            string json = @"{Name:""Name!""}";
+            var json = @"{Name:""Name!""}";
 
             var c = JsonConvert.DeserializeObject<IInterfaceWithNoConcrete>(json, new JsonSerializerSettings
             {

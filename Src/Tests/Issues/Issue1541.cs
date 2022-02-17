@@ -40,7 +40,7 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test_DirectoryInfo()
         {
-            FileInfo fileInfo = new FileInfo("large.json");
+            var fileInfo = new FileInfo("large.json");
 
             ExceptionAssert.Throws<JsonSerializationException>(
                 () => JsonConvert.SerializeObject(fileInfo.Directory),
@@ -50,7 +50,7 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test_FileInfo()
         {
-            FileInfo fileInfo = new FileInfo("large.json");
+            var fileInfo = new FileInfo("large.json");
 
             ExceptionAssert.Throws<JsonSerializationException>(
                 () => JsonConvert.SerializeObject(fileInfo),
@@ -60,7 +60,7 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test_DriveInfo()
         {
-            DriveInfo drive = DriveInfo.GetDrives()[0];
+            var drive = DriveInfo.GetDrives()[0];
 
             ExceptionAssert.Throws<JsonSerializationException>(
                 () => JsonConvert.SerializeObject(drive),

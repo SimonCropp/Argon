@@ -48,14 +48,14 @@ namespace Argon.Tests.Converters
         {
             public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
             {
-                double d = (double)value;
+                var d = (double)value;
 
                 writer.WriteValue(d * 2);
             }
 
             public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
             {
-                double d = (double)reader.Value;
+                var d = (double)reader.Value;
 
                 return d / 2;
             }
@@ -69,14 +69,14 @@ namespace Argon.Tests.Converters
         [Fact]
         public void SerializeUnionWithConverter()
         {
-            string json = JsonConvert.SerializeObject(Shape.NewRectangle(10.0, 5.0), new DoubleDoubleConverter());
+            var json = JsonConvert.SerializeObject(Shape.NewRectangle(10.0, 5.0), new DoubleDoubleConverter());
 
             Assert.AreEqual(@"{""Case"":""Rectangle"",""Fields"":[20.0,10.0]}", json);
 
-            Shape c = JsonConvert.DeserializeObject<Shape>(json, new DoubleDoubleConverter());
+            var c = JsonConvert.DeserializeObject<Shape>(json, new DoubleDoubleConverter());
             Assert.AreEqual(true, c.IsRectangle);
 
-            Shape.Rectangle r = (Shape.Rectangle)c;
+            var r = (Shape.Rectangle)c;
 
             Assert.AreEqual(5.0, r.length);
             Assert.AreEqual(10.0, r.width);
@@ -85,7 +85,7 @@ namespace Argon.Tests.Converters
         [Fact]
         public void SerializeBasicUnion()
         {
-            string json = JsonConvert.SerializeObject(Currency.AUD);
+            var json = JsonConvert.SerializeObject(Currency.AUD);
 
             Assert.AreEqual(@"{""Case"":""AUD""}", json);
         }
@@ -93,18 +93,18 @@ namespace Argon.Tests.Converters
         [Fact]
         public void SerializePerformance()
         {
-            List<Shape> values = new List<Shape>
+            var values = new List<Shape>
             {
                 Shape.NewRectangle(10.0, 5.0),
                 Shape.NewCircle(7.5)
             };
 
-            string json = JsonConvert.SerializeObject(values, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(values, Formatting.Indented);
 
-            Stopwatch ts = new Stopwatch();
+            var ts = new Stopwatch();
             ts.Start();
 
-            for (int i = 0; i < 100; i++)
+            for (var i = 0; i < 100; i++)
             {
                 JsonConvert.SerializeObject(values);
             }
@@ -117,7 +117,7 @@ namespace Argon.Tests.Converters
         [Fact]
         public void DeserializePerformance()
         {
-            string json = @"[
+            var json = @"[
   {""Case"":""Rectangle"",""Fields"":[10.0,5.0]},
   {""Case"":""Rectangle"",""Fields"":[10.0,5.0]},
   {""Case"":""Rectangle"",""Fields"":[10.0,5.0]},
@@ -127,10 +127,10 @@ namespace Argon.Tests.Converters
 
             JsonConvert.DeserializeObject<List<Shape>>(json);
 
-            Stopwatch ts = new Stopwatch();
+            var ts = new Stopwatch();
             ts.Start();
 
-            for (int i = 0; i < 100; i++)
+            for (var i = 0; i < 100; i++)
             {
                 JsonConvert.DeserializeObject<List<Shape>>(json);
             }
@@ -143,7 +143,7 @@ namespace Argon.Tests.Converters
         [Fact]
         public void SerializeUnionWithFields()
         {
-            string json = JsonConvert.SerializeObject(Shape.NewRectangle(10.0, 5.0));
+            var json = JsonConvert.SerializeObject(Shape.NewRectangle(10.0, 5.0));
 
             Assert.AreEqual(@"{""Case"":""Rectangle"",""Fields"":[10.0,5.0]}", json);
         }
@@ -151,7 +151,7 @@ namespace Argon.Tests.Converters
         [Fact]
         public void DeserializeBasicUnion()
         {
-            Currency c = JsonConvert.DeserializeObject<Currency>(@"{""Case"":""AUD""}");
+            var c = JsonConvert.DeserializeObject<Currency>(@"{""Case"":""AUD""}");
             Assert.AreEqual(Currency.AUD, c);
 
             c = JsonConvert.DeserializeObject<Currency>(@"{""Case"":""EUR""}");
@@ -164,10 +164,10 @@ namespace Argon.Tests.Converters
         [Fact]
         public void DeserializeUnionWithFields()
         {
-            Shape c = JsonConvert.DeserializeObject<Shape>(@"{""Case"":""Rectangle"",""Fields"":[10.0,5.0]}");
+            var c = JsonConvert.DeserializeObject<Shape>(@"{""Case"":""Rectangle"",""Fields"":[10.0,5.0]}");
             Assert.AreEqual(true, c.IsRectangle);
 
-            Shape.Rectangle r = (Shape.Rectangle)c;
+            var r = (Shape.Rectangle)c;
 
             Assert.AreEqual(5.0, r.length);
             Assert.AreEqual(10.0, r.width);
@@ -190,16 +190,16 @@ namespace Argon.Tests.Converters
 
         private Union CreateUnion(Type t)
         {
-            Union u = new Union();
+            var u = new Union();
 
             u.TagReader = (s) => FSharpValue.PreComputeUnionTagReader(t, null).Invoke(s);
             u.Cases = new List<UnionCase>();
 
-            UnionCaseInfo[] cases = FSharpType.GetUnionCases(t, null);
+            var cases = FSharpType.GetUnionCases(t, null);
 
-            foreach (UnionCaseInfo unionCaseInfo in cases)
+            foreach (var unionCaseInfo in cases)
             {
-                UnionCase unionCase = new UnionCase();
+                var unionCase = new UnionCase();
                 unionCase.Tag = unionCaseInfo.Tag;
                 unionCase.Name = unionCaseInfo.Name;
                 unionCase.Fields = unionCaseInfo.GetFields();
@@ -215,15 +215,15 @@ namespace Argon.Tests.Converters
         [Fact]
         public void Serialize()
         {
-            Shape value = Shape.NewRectangle(10.0, 5.0);
+            var value = Shape.NewRectangle(10.0, 5.0);
 
-            Union union = CreateUnion(value.GetType());
+            var union = CreateUnion(value.GetType());
 
-            int tag = union.TagReader.Invoke(value);
+            var tag = union.TagReader.Invoke(value);
 
-            UnionCase caseInfo = union.Cases.Single(c => c.Tag == tag);
+            var caseInfo = union.Cases.Single(c => c.Tag == tag);
 
-            object[] fields = caseInfo.FieldReader.Invoke(value);
+            var fields = caseInfo.FieldReader.Invoke(value);
 
             Assert.AreEqual(10d, fields[0]);
             Assert.AreEqual(5d, fields[1]);
@@ -232,11 +232,11 @@ namespace Argon.Tests.Converters
         [Fact]
         public void Deserialize()
         {
-            Union union = CreateUnion(typeof(Shape.Rectangle));
+            var union = CreateUnion(typeof(Shape.Rectangle));
 
-            UnionCase caseInfo = union.Cases.Single(c => c.Name == "Rectangle");
+            var caseInfo = union.Cases.Single(c => c.Name == "Rectangle");
 
-            Shape.Rectangle value = (Shape.Rectangle)caseInfo.Constructor.Invoke(new object[]
+            var value = (Shape.Rectangle)caseInfo.Constructor.Invoke(new object[]
             {
                 10.0, 5.0
             });
@@ -285,7 +285,7 @@ namespace Argon.Tests.Converters
         [Fact]
         public void SerializeUnionWithTypeNameHandlingAndReferenceTracking()
         {
-            string json = JsonConvert.SerializeObject(Shape.NewRectangle(10.0, 5.0), new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(Shape.NewRectangle(10.0, 5.0), new JsonSerializerSettings
             {
                 PreserveReferencesHandling = PreserveReferencesHandling.All,
                 TypeNameHandling = TypeNameHandling.All
@@ -293,10 +293,10 @@ namespace Argon.Tests.Converters
 
             Assert.AreEqual(@"{""Case"":""Rectangle"",""Fields"":[10.0,5.0]}", json);
 
-            Shape c = JsonConvert.DeserializeObject<Shape>(json);
+            var c = JsonConvert.DeserializeObject<Shape>(json);
             Assert.AreEqual(true, c.IsRectangle);
 
-            Shape.Rectangle r = (Shape.Rectangle)c;
+            var r = (Shape.Rectangle)c;
 
             Assert.AreEqual(5.0, r.length);
             Assert.AreEqual(10.0, r.width);

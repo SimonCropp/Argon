@@ -46,21 +46,21 @@ namespace Argon.Tests.Linq
         [Fact]
         public void DeepEqualsObjectOrder()
         {
-            string ob1 = @"{""key1"":""1"",""key2"":""2""}";
-            string ob2 = @"{""key2"":""2"",""key1"":""1""}";
+            var ob1 = @"{""key1"":""1"",""key2"":""2""}";
+            var ob2 = @"{""key2"":""2"",""key1"":""1""}";
 
-            JObject j1 = JObject.Parse(ob1);
-            JObject j2 = JObject.Parse(ob2);
+            var j1 = JObject.Parse(ob1);
+            var j2 = JObject.Parse(ob2);
             Assert.IsTrue(j1.DeepEquals(j2));
         }
 
         [Fact]
         public void ReadFrom()
         {
-            JObject o = (JObject)JToken.ReadFrom(new JsonTextReader(new StringReader("{'pie':true}")));
+            var o = (JObject)JToken.ReadFrom(new JsonTextReader(new StringReader("{'pie':true}")));
             Assert.AreEqual(true, (bool)o["pie"]);
 
-            JArray a = (JArray)JToken.ReadFrom(new JsonTextReader(new StringReader("[1,2,3]")));
+            var a = (JArray)JToken.ReadFrom(new JsonTextReader(new StringReader("[1,2,3]")));
             Assert.AreEqual(1, (int)a[0]);
             Assert.AreEqual(2, (int)a[1]);
             Assert.AreEqual(3, (int)a[2]);
@@ -69,11 +69,11 @@ namespace Argon.Tests.Linq
             reader.Read();
             reader.Read();
 
-            JProperty p = (JProperty)JToken.ReadFrom(reader);
+            var p = (JProperty)JToken.ReadFrom(reader);
             Assert.AreEqual("pie", p.Name);
             Assert.AreEqual(true, (bool)p.Value);
 
-            JConstructor c = (JConstructor)JToken.ReadFrom(new JsonTextReader(new StringReader("new Date(1)")));
+            var c = (JConstructor)JToken.ReadFrom(new JsonTextReader(new StringReader("new Date(1)")));
             Assert.AreEqual("Date", c.Name);
             Assert.IsTrue(JToken.DeepEquals(new JValue(1), c.Values().ElementAt(0)));
 
@@ -99,25 +99,25 @@ namespace Argon.Tests.Linq
         [Fact]
         public void Load()
         {
-            JObject o = (JObject)JToken.Load(new JsonTextReader(new StringReader("{'pie':true}")));
+            var o = (JObject)JToken.Load(new JsonTextReader(new StringReader("{'pie':true}")));
             Assert.AreEqual(true, (bool)o["pie"]);
         }
 
         [Fact]
         public void Parse()
         {
-            JObject o = (JObject)JToken.Parse("{'pie':true}");
+            var o = (JObject)JToken.Parse("{'pie':true}");
             Assert.AreEqual(true, (bool)o["pie"]);
         }
 
         [Fact]
         public void Parent()
         {
-            JArray v = new JArray(new JConstructor("TestConstructor"), new JValue(new DateTime(2000, 12, 20)));
+            var v = new JArray(new JConstructor("TestConstructor"), new JValue(new DateTime(2000, 12, 20)));
 
             Assert.AreEqual(null, v.Parent);
 
-            JObject o =
+            var o =
                 new JObject(
                     new JProperty("Test1", v),
                     new JProperty("Test2", "Test2Value"),
@@ -127,7 +127,7 @@ namespace Argon.Tests.Linq
 
             Assert.AreEqual(o.Property("Test1"), v.Parent);
 
-            JProperty p = new JProperty("NewProperty", v);
+            var p = new JProperty("NewProperty", v);
 
             // existing value should still have same parent
             Assert.AreEqual(o.Property("Test1"), v.Parent);
@@ -140,11 +140,11 @@ namespace Argon.Tests.Linq
             Assert.AreEqual(v, o["Test1"]);
 
             Assert.AreEqual(null, o.Parent);
-            JProperty o1 = new JProperty("O1", o);
+            var o1 = new JProperty("O1", o);
             Assert.AreEqual(o, o1.Value);
 
             Assert.AreNotEqual(null, o.Parent);
-            JProperty o2 = new JProperty("O2", o);
+            var o2 = new JProperty("O2", o);
 
             Assert.AreNotSame(o1.Value, o2.Value);
             Assert.AreEqual(o1.Value.Children().Count(), o2.Value.Children().Count());
@@ -155,7 +155,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void Next()
         {
-            JArray a =
+            var a =
                 new JArray(
                     5,
                     6,
@@ -163,7 +163,7 @@ namespace Argon.Tests.Linq
                     new JArray(9, 10)
                     );
 
-            JToken next = a[0].Next;
+            var next = a[0].Next;
             Assert.AreEqual(6, (int)next);
 
             next = next.Next;
@@ -179,7 +179,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void Previous()
         {
-            JArray a =
+            var a =
                 new JArray(
                     5,
                     6,
@@ -187,7 +187,7 @@ namespace Argon.Tests.Linq
                     new JArray(9, 10)
                     );
 
-            JToken previous = a[3].Previous;
+            var previous = a[3].Previous;
             Assert.IsTrue(JToken.DeepEquals(new JArray(7, 8), previous));
 
             previous = previous.Previous;
@@ -203,7 +203,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void Children()
         {
-            JArray a =
+            var a =
                 new JArray(
                     5,
                     new JArray(1),
@@ -218,7 +218,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void BeforeAfter()
         {
-            JArray a =
+            var a =
                 new JArray(
                     5,
                     new JArray(1, 2, 3),
@@ -233,20 +233,20 @@ namespace Argon.Tests.Linq
         [Fact]
         public void BeforeSelf_NoParent_ReturnEmpty()
         {
-            JObject o = new JObject();
+            var o = new JObject();
 
-            List<JToken> result = o.BeforeSelf().ToList();
+            var result = o.BeforeSelf().ToList();
             Assert.AreEqual(0, result.Count);
         }
 
         [Fact]
         public void BeforeSelf_OnlyChild_ReturnEmpty()
         {
-            JArray a = new JArray();
-            JObject o = new JObject();
+            var a = new JArray();
+            var o = new JObject();
             a.Add(o);
 
-            List<JToken> result = o.BeforeSelf().ToList();
+            var result = o.BeforeSelf().ToList();
             Assert.AreEqual(0, result.Count);
         }
 
@@ -368,12 +368,12 @@ namespace Argon.Tests.Linq
             Assert.AreEqual(null, (double?)(JValue?)null);
             Assert.AreEqual(null, (float?)(JValue?)null);
 
-            byte[] data = new byte[0];
+            var data = new byte[0];
             Assert.AreEqual(data, (byte[]?)(new JValue(data)));
 
             Assert.AreEqual(5, (int)(new JValue(StringComparison.OrdinalIgnoreCase)));
 
-            string bigIntegerText = "1234567899999999999999999999999999999999999999999999999999999999999990";
+            var bigIntegerText = "1234567899999999999999999999999999999999999999999999999999999999999990";
 
             Assert.AreEqual(BigInteger.Parse(bigIntegerText), (new JValue(BigInteger.Parse(bigIntegerText))).Value);
 
@@ -386,7 +386,7 @@ namespace Argon.Tests.Linq
             Assert.AreEqual(new BigInteger(123), (new JValue(123)).ToObject<BigInteger?>());
             Assert.AreEqual(null, (JValue.CreateNull()).ToObject<BigInteger?>());
 
-            byte[]? intData = BigInteger.Parse(bigIntegerText).ToByteArray();
+            var intData = BigInteger.Parse(bigIntegerText).ToByteArray();
             Assert.AreEqual(BigInteger.Parse(bigIntegerText), (new JValue(intData)).ToObject<BigInteger>());
 
             Assert.AreEqual(4.0d, (double)(new JValue(new BigInteger(4.5d))));
@@ -554,7 +554,7 @@ namespace Argon.Tests.Linq
             Assert.IsFalse(JToken.DeepEquals(new JValue(true), (JValue)(bool?)null));
             Assert.IsFalse(JToken.DeepEquals(JValue.CreateNull(), (JValue?)(object?)null));
 
-            byte[] emptyData = new byte[0];
+            var emptyData = new byte[0];
             Assert.IsTrue(JToken.DeepEquals(new JValue(emptyData), (JValue)emptyData));
             Assert.IsFalse(JToken.DeepEquals(new JValue(emptyData), (JValue)new byte[1]));
             Assert.IsTrue(JToken.DeepEquals(new JValue(Encoding.UTF8.GetBytes("Hi")), (JValue)Encoding.UTF8.GetBytes("Hi")));
@@ -572,7 +572,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void Root()
         {
-            JArray a =
+            var a =
                 new JArray(
                     5,
                     6,
@@ -589,7 +589,7 @@ namespace Argon.Tests.Linq
         public void Remove()
         {
             JToken t;
-            JArray a =
+            var a =
                 new JArray(
                     5,
                     6,
@@ -626,7 +626,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void AfterSelf()
         {
-            JArray a =
+            var a =
                 new JArray(
                     5,
                     new JArray(1),
@@ -634,8 +634,8 @@ namespace Argon.Tests.Linq
                     new JArray(1, 2, 3)
                     );
 
-            JToken t = a[1];
-            List<JToken> afterTokens = t.AfterSelf().ToList();
+            var t = a[1];
+            var afterTokens = t.AfterSelf().ToList();
 
             Assert.AreEqual(2, afterTokens.Count);
             Assert.IsTrue(JToken.DeepEquals(new JArray(1, 2), afterTokens[0]));
@@ -645,7 +645,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void BeforeSelf()
         {
-            JArray a =
+            var a =
                 new JArray(
                     5,
                     new JArray(1),
@@ -653,8 +653,8 @@ namespace Argon.Tests.Linq
                     new JArray(1, 2, 3)
                     );
 
-            JToken t = a[2];
-            List<JToken> beforeTokens = t.BeforeSelf().ToList();
+            var t = a[2];
+            var beforeTokens = t.BeforeSelf().ToList();
 
             Assert.AreEqual(2, beforeTokens.Count);
             Assert.IsTrue(JToken.DeepEquals(new JValue(5), beforeTokens[0]));
@@ -664,7 +664,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void HasValues()
         {
-            JArray a =
+            var a =
                 new JArray(
                     5,
                     new JArray(1),
@@ -678,7 +678,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void Ancestors()
         {
-            JArray a =
+            var a =
                 new JArray(
                     5,
                     new JArray(1),
@@ -686,8 +686,8 @@ namespace Argon.Tests.Linq
                     new JArray(1, 2, 3)
                     );
 
-            JToken t = a[1][0];
-            List<JToken> ancestors = t.Ancestors().ToList();
+            var t = a[1][0];
+            var ancestors = t.Ancestors().ToList();
             Assert.AreEqual(2, ancestors.Count());
             Assert.AreEqual(a[1], ancestors[0]);
             Assert.AreEqual(a, ancestors[1]);
@@ -696,7 +696,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void AncestorsAndSelf()
         {
-            JArray a =
+            var a =
                 new JArray(
                     5,
                     new JArray(1),
@@ -704,8 +704,8 @@ namespace Argon.Tests.Linq
                     new JArray(1, 2, 3)
                     );
 
-            JToken t = a[1][0];
-            List<JToken> ancestors = t.AncestorsAndSelf().ToList();
+            var t = a[1][0];
+            var ancestors = t.AncestorsAndSelf().ToList();
             Assert.AreEqual(3, ancestors.Count());
             Assert.AreEqual(t, ancestors[0]);
             Assert.AreEqual(a[1], ancestors[1]);
@@ -715,7 +715,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void AncestorsAndSelf_Many()
         {
-            JArray a =
+            var a =
                 new JArray(
                     5,
                     new JArray(1),
@@ -723,17 +723,17 @@ namespace Argon.Tests.Linq
                     new JArray(1, 2, 3)
                     );
 
-            JObject o = new JObject
+            var o = new JObject
             {
                 { "prop1", "value1" }
             };
 
-            JToken t1 = a[1][0];
-            JToken t2 = o["prop1"];
+            var t1 = a[1][0];
+            var t2 = o["prop1"];
 
-            List<JToken> source = new List<JToken> { t1, t2 };
+            var source = new List<JToken> { t1, t2 };
 
-            List<JToken> ancestors = source.AncestorsAndSelf().ToList();
+            var ancestors = source.AncestorsAndSelf().ToList();
             Assert.AreEqual(6, ancestors.Count());
             Assert.AreEqual(t1, ancestors[0]);
             Assert.AreEqual(a[1], ancestors[1]);
@@ -746,7 +746,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void Ancestors_Many()
         {
-            JArray a =
+            var a =
                 new JArray(
                     5,
                     new JArray(1),
@@ -754,17 +754,17 @@ namespace Argon.Tests.Linq
                     new JArray(1, 2, 3)
                     );
 
-            JObject o = new JObject
+            var o = new JObject
             {
                 { "prop1", "value1" }
             };
 
-            JToken t1 = a[1][0];
-            JToken t2 = o["prop1"];
+            var t1 = a[1][0];
+            var t2 = o["prop1"];
 
-            List<JToken> source = new List<JToken> { t1, t2 };
+            var source = new List<JToken> { t1, t2 };
 
-            List<JToken> ancestors = source.Ancestors().ToList();
+            var ancestors = source.Ancestors().ToList();
             Assert.AreEqual(4, ancestors.Count());
             Assert.AreEqual(a[1], ancestors[0]);
             Assert.AreEqual(a, ancestors[1]);
@@ -775,7 +775,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void Descendants()
         {
-            JArray a =
+            var a =
                 new JArray(
                     5,
                     new JArray(1),
@@ -783,7 +783,7 @@ namespace Argon.Tests.Linq
                     new JArray(1, 2, 3)
                     );
 
-            List<JToken> descendants = a.Descendants().ToList();
+            var descendants = a.Descendants().ToList();
             Assert.AreEqual(10, descendants.Count());
             Assert.AreEqual(5, (int)descendants[0]);
             Assert.IsTrue(JToken.DeepEquals(new JArray(1, 2, 3), descendants[descendants.Count - 4]));
@@ -795,7 +795,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void Descendants_Many()
         {
-            JArray a =
+            var a =
                 new JArray(
                     5,
                     new JArray(1),
@@ -803,14 +803,14 @@ namespace Argon.Tests.Linq
                     new JArray(1, 2, 3)
                     );
 
-            JObject o = new JObject
+            var o = new JObject
             {
                 { "prop1", "value1" }
             };
 
-            List<JContainer> source = new List<JContainer> { a, o };
+            var source = new List<JContainer> { a, o };
 
-            List<JToken> descendants = source.Descendants().ToList();
+            var descendants = source.Descendants().ToList();
             Assert.AreEqual(12, descendants.Count());
             Assert.AreEqual(5, (int)descendants[0]);
             Assert.IsTrue(JToken.DeepEquals(new JArray(1, 2, 3), descendants[descendants.Count - 6]));
@@ -824,7 +824,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void DescendantsAndSelf()
         {
-            JArray a =
+            var a =
                 new JArray(
                     5,
                     new JArray(1),
@@ -832,7 +832,7 @@ namespace Argon.Tests.Linq
                     new JArray(1, 2, 3)
                     );
 
-            List<JToken> descendantsAndSelf = a.DescendantsAndSelf().ToList();
+            var descendantsAndSelf = a.DescendantsAndSelf().ToList();
             Assert.AreEqual(11, descendantsAndSelf.Count());
             Assert.AreEqual(a, descendantsAndSelf[0]);
             Assert.AreEqual(5, (int)descendantsAndSelf[1]);
@@ -845,7 +845,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void DescendantsAndSelf_Many()
         {
-            JArray a =
+            var a =
                 new JArray(
                     5,
                     new JArray(1),
@@ -853,14 +853,14 @@ namespace Argon.Tests.Linq
                     new JArray(1, 2, 3)
                     );
 
-            JObject o = new JObject
+            var o = new JObject
             {
                 { "prop1", "value1" }
             };
 
-            List<JContainer> source = new List<JContainer> { a, o };
+            var source = new List<JContainer> { a, o };
 
-            List<JToken> descendantsAndSelf = source.DescendantsAndSelf().ToList();
+            var descendantsAndSelf = source.DescendantsAndSelf().ToList();
             Assert.AreEqual(14, descendantsAndSelf.Count());
             Assert.AreEqual(a, descendantsAndSelf[0]);
             Assert.AreEqual(5, (int)descendantsAndSelf[1]);
@@ -876,7 +876,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void CreateWriter()
         {
-            JArray a =
+            var a =
                 new JArray(
                     5,
                     new JArray(1),
@@ -884,7 +884,7 @@ namespace Argon.Tests.Linq
                     new JArray(1, 2, 3)
                     );
 
-            JsonWriter writer = a.CreateWriter();
+            var writer = a.CreateWriter();
             Assert.IsNotNull(writer);
             Assert.AreEqual(4, a.Count());
 
@@ -904,7 +904,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void AddFirst()
         {
-            JArray a =
+            var a =
                 new JArray(
                     5,
                     new JArray(1),
@@ -931,7 +931,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void RemoveAll()
         {
-            JArray a =
+            var a =
                 new JArray(
                     5,
                     new JArray(1),
@@ -939,7 +939,7 @@ namespace Argon.Tests.Linq
                     new JArray(1, 2, 3)
                     );
 
-            JToken first = a.First;
+            var first = a.First;
             Assert.AreEqual(5, (int)first);
 
             a.RemoveAll();
@@ -954,7 +954,7 @@ namespace Argon.Tests.Linq
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                JArray a = new JArray();
+                var a = new JArray();
                 a.Add(new JProperty("PropertyName"));
             }, "Can not add Argon.Linq.JProperty to Argon.Linq.JArray.");
         }
@@ -964,7 +964,7 @@ namespace Argon.Tests.Linq
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                JObject o = new JObject();
+                var o = new JObject();
                 o.Add(5);
             }, "Can not add Argon.Linq.JValue to Argon.Linq.JObject.");
         }
@@ -972,7 +972,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void Replace()
         {
-            JArray a =
+            var a =
                 new JArray(
                     5,
                     new JArray(1),
@@ -997,12 +997,12 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ToStringWithConverters()
         {
-            JArray a =
+            var a =
                 new JArray(
                     new JValue(new DateTime(2009, 2, 15, 0, 0, 0, DateTimeKind.Utc))
                     );
 
-            string json = a.ToString(Formatting.Indented, new IsoDateTimeConverter());
+            var json = a.ToString(Formatting.Indented, new IsoDateTimeConverter());
 
             StringAssert.AreEqual(@"[
   ""2009-02-15T00:00:00Z""
@@ -1016,12 +1016,12 @@ namespace Argon.Tests.Linq
         [Fact]
         public void ToStringWithNoIndenting()
         {
-            JArray a =
+            var a =
                 new JArray(
                     new JValue(new DateTime(2009, 2, 15, 0, 0, 0, DateTimeKind.Utc))
                     );
 
-            string json = a.ToString(Formatting.None, new IsoDateTimeConverter());
+            var json = a.ToString(Formatting.None, new IsoDateTimeConverter());
 
             Assert.AreEqual(@"[""2009-02-15T00:00:00Z""]", json);
         }
@@ -1029,7 +1029,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void AddAfterSelf()
         {
-            JArray a =
+            var a =
                 new JArray(
                     5,
                     new JArray(1),
@@ -1053,7 +1053,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void AddBeforeSelf()
         {
-            JArray a =
+            var a =
                 new JArray(
                     5,
                     new JArray(1),
@@ -1087,7 +1087,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void DeepClone()
         {
-            JArray a =
+            var a =
                 new JArray(
                     5,
                     new JArray(1),
@@ -1103,7 +1103,7 @@ namespace Argon.Tests.Linq
                         )
                     );
 
-            JArray a2 = (JArray)a.DeepClone();
+            var a2 = (JArray)a.DeepClone();
 
             StringAssert.AreEqual(@"[
   5,
@@ -1137,7 +1137,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void Clone()
         {
-            JArray a =
+            var a =
                 new JArray(
                     5,
                     new JArray(1),
@@ -1155,7 +1155,7 @@ namespace Argon.Tests.Linq
 
             ICloneable c = a;
 
-            JArray a2 = (JArray)c.Clone();
+            var a2 = (JArray)c.Clone();
 
             Assert.IsTrue(a.DeepEquals(a2));
         }
@@ -1163,21 +1163,21 @@ namespace Argon.Tests.Linq
         [Fact]
         public void DoubleDeepEquals()
         {
-            JArray a =
+            var a =
                 new JArray(
                     double.NaN,
                     double.PositiveInfinity,
                     double.NegativeInfinity
                     );
 
-            JArray a2 = (JArray)a.DeepClone();
+            var a2 = (JArray)a.DeepClone();
 
             Assert.IsTrue(a.DeepEquals(a2));
 
-            double d = 1 + 0.1 + 0.1 + 0.1;
+            var d = 1 + 0.1 + 0.1 + 0.1;
 
-            JValue v1 = new JValue(d);
-            JValue v2 = new JValue(1.3);
+            var v1 = new JValue(d);
+            var v2 = new JValue(1.3);
 
             Assert.IsTrue(v1.DeepEquals(v2));
         }
@@ -1187,7 +1187,7 @@ namespace Argon.Tests.Linq
         {
             ExceptionAssert.Throws<JsonReaderException>(() =>
             {
-                string json = @"[
+                var json = @"[
 ""Small"",
 ""Medium"",
 ""Large""
@@ -1200,7 +1200,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void Path()
         {
-            JObject o =
+            var o =
                 new JObject(
                     new JProperty("Test1", new JArray(1, 2, 3)),
                     new JProperty("Test2", "Test2Value"),
@@ -1208,7 +1208,7 @@ namespace Argon.Tests.Linq
                     new JProperty("Test4", new JConstructor("Date", new JArray(1, 2, 3)))
                     );
 
-            JToken t = o.SelectToken("Test1[0]");
+            var t = o.SelectToken("Test1[0]");
             Assert.AreEqual("Test1[0]", t.Path);
 
             t = o.SelectToken("Test2");
@@ -1229,7 +1229,7 @@ namespace Argon.Tests.Linq
             t = o.SelectToken("Test3.Test1[1].Test1");
             Assert.AreEqual("Test3.Test1[1].Test1", t.Path);
 
-            JArray a = new JArray(1);
+            var a = new JArray(1);
             Assert.AreEqual("", a.Path);
 
             Assert.AreEqual("[0]", a[0].Path);
@@ -1238,9 +1238,9 @@ namespace Argon.Tests.Linq
         [Fact]
         public void Parse_NoComments()
         {
-            string json = "{'prop':[1,2/*comment*/,3]}";
+            var json = "{'prop':[1,2/*comment*/,3]}";
 
-            JToken o = JToken.Parse(json, new JsonLoadSettings
+            var o = JToken.Parse(json, new JsonLoadSettings
             {
                 CommentHandling = CommentHandling.Ignore
             });
@@ -1254,10 +1254,10 @@ namespace Argon.Tests.Linq
         [Fact]
         public void Parse_ExcessiveContentJustComments()
         {
-            string json = @"{'prop':[1,2,3]}/*comment*/
+            var json = @"{'prop':[1,2,3]}/*comment*/
 //Another comment.";
 
-            JToken o = JToken.Parse(json);
+            var o = JToken.Parse(json);
 
             Assert.AreEqual(3, o["prop"].Count());
             Assert.AreEqual(1, (int)o["prop"][0]);
@@ -1268,7 +1268,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void Parse_ExcessiveContent()
         {
-            string json = @"{'prop':[1,2,3]}/*comment*/
+            var json = @"{'prop':[1,2,3]}/*comment*/
 //Another comment.
 {}";
 
@@ -1292,17 +1292,17 @@ namespace Argon.Tests.Linq
         [TestCase("\"test\"customer", "['\"test\"customer']")]
         public void PathEscapingTest(string name, string expectedPath)
         {
-            JValue v = new JValue("12345");
-            JObject o = new JObject
+            var v = new JValue("12345");
+            var o = new JObject
             {
                 [name] = v
             };
 
-            string path = v.Path;
+            var path = v.Path;
 
             Assert.AreEqual(expectedPath, path);
 
-            JToken token = o.SelectToken(path);
+            var token = o.SelectToken(path);
             Assert.AreEqual(v, token);
         }
     }

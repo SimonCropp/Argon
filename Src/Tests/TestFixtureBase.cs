@@ -183,8 +183,8 @@ namespace Argon.Tests
     {
         protected string GetDataContractJsonSerializeResult(object o)
         {
-            MemoryStream ms = new MemoryStream();
-            DataContractJsonSerializer s = new DataContractJsonSerializer(o.GetType());
+            var ms = new MemoryStream();
+            var s = new DataContractJsonSerializer(o.GetType());
             s.WriteObject(ms, o);
 
             var data = ms.ToArray();
@@ -193,8 +193,8 @@ namespace Argon.Tests
 
         protected string GetOffset(DateTime d, DateFormatHandling dateFormatHandling)
         {
-            char[] chars = new char[8];
-            int pos = DateTimeUtils.WriteDateTimeOffset(chars, 0, DateTime.SpecifyKind(d, DateTimeKind.Local).GetUtcOffset(), dateFormatHandling);
+            var chars = new char[8];
+            var pos = DateTimeUtils.WriteDateTimeOffset(chars, 0, DateTime.SpecifyKind(d, DateTimeKind.Local).GetUtcOffset(), dateFormatHandling);
 
             return new string(chars, 0, pos);
         }
@@ -206,7 +206,7 @@ namespace Argon.Tests
 
         protected string BytesToHex(byte[] bytes, bool removeDashes)
         {
-            string hex = BitConverter.ToString(bytes);
+            var hex = BitConverter.ToString(bytes);
             if (removeDashes)
             {
                 hex = hex.Replace("-", "");
@@ -217,20 +217,20 @@ namespace Argon.Tests
 
         public static byte[] HexToBytes(string hex)
         {
-            string fixedHex = hex.Replace("-", string.Empty);
+            var fixedHex = hex.Replace("-", string.Empty);
 
             // array to put the result in
-            byte[] bytes = new byte[fixedHex.Length / 2];
+            var bytes = new byte[fixedHex.Length / 2];
             // variable to determine shift of high/low nibble
-            int shift = 4;
+            var shift = 4;
             // offset of the current byte in the array
-            int offset = 0;
+            var offset = 0;
             // loop the characters in the string
-            foreach (char c in fixedHex)
+            foreach (var c in fixedHex)
             {
                 // get character code in range 0-9, 17-22
                 // the % 32 handles lower case characters
-                int b = (c - '0') % 32;
+                var b = (c - '0') % 32;
                 // correction for a-f
                 if (b > 9)
                 {
@@ -278,11 +278,11 @@ namespace Argon.Tests
 
         protected string GetNestedJson(int depth)
         {
-            JObject root = new JObject();
-            JObject current = root;
-            for (int i = 0; i < depth - 1; i++)
+            var root = new JObject();
+            var current = root;
+            for (var i = 0; i < depth - 1; i++)
             {
-                JObject nested = new JObject();
+                var nested = new JObject();
                 current[i.ToString()] = nested;
 
                 current = nested;
@@ -362,7 +362,7 @@ namespace Argon.Tests
                 {
                     return ex;
                 }
-                foreach (string possibleMessage in possibleMessages)
+                foreach (var possibleMessage in possibleMessages)
                 {
                     if (StringAssert.Equals(possibleMessage, ex.Message))
                     {
@@ -394,7 +394,7 @@ namespace Argon.Tests
                 {
                     return ex;
                 }
-                foreach (string possibleMessage in possibleMessages)
+                foreach (var possibleMessage in possibleMessages)
                 {
                     if (StringAssert.Equals(possibleMessage, ex.Message))
                     {

@@ -66,7 +66,7 @@ namespace Argon.Tests.Documentation
 
         protected override JsonContract CreateContract(Type objectType)
         {
-            JsonContract contract = base.CreateContract(objectType);
+            var contract = base.CreateContract(objectType);
 
             // this will only be called once and then cached
             if (objectType == typeof(DateTime) || objectType == typeof(DateTimeOffset))
@@ -87,9 +87,9 @@ namespace Argon.Tests.Documentation
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            JObject o = (JObject)JToken.ReadFrom(reader);
+            var o = (JObject)JToken.ReadFrom(reader);
 
-            Person p = new Person
+            var p = new Person
             {
                 Name = (string)o["Name"]
             };
@@ -114,11 +114,11 @@ namespace Argon.Tests.Documentation
         [Fact]
         public void ReuseContractResolverTest()
         {
-            Person person = new Person();
+            var person = new Person();
 
             #region ReuseContractResolver
             // BAD - a new contract resolver is created each time, forcing slow reflection to be used
-            string json1 = JsonConvert.SerializeObject(person, new JsonSerializerSettings
+            var json1 = JsonConvert.SerializeObject(person, new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
                 ContractResolver = new DefaultContractResolver
@@ -128,14 +128,14 @@ namespace Argon.Tests.Documentation
             });
 
             // GOOD - reuse the contract resolver from a shared location
-            string json2 = JsonConvert.SerializeObject(person, new JsonSerializerSettings
+            var json2 = JsonConvert.SerializeObject(person, new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
                 ContractResolver = AppSettings.SnakeCaseContractResolver
             });
 
             // GOOD - an internal contract resolver is used
-            string json3 = JsonConvert.SerializeObject(person, new JsonSerializerSettings
+            var json3 = JsonConvert.SerializeObject(person, new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented
             });
@@ -145,7 +145,7 @@ namespace Argon.Tests.Documentation
         [Fact]
         public void ConverterContractResolverTest()
         {
-            string json = JsonConvert.SerializeObject(new DateTime(2000, 10, 10, 10, 10, 10, DateTimeKind.Utc), new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(new DateTime(2000, 10, 10, 10, 10, 10, DateTimeKind.Utc), new JsonSerializerSettings
             {
                 ContractResolver = ConverterContractResolver.Instance
             });
@@ -170,13 +170,13 @@ namespace Argon.Tests.Documentation
         public void DeserializeString()
         {
             #region DeserializeString
-            HttpClient client = new HttpClient();
+            var client = new HttpClient();
 
             // read the json into a string
             // string could potentially be very large and cause memory problems
-            string json = client.GetStringAsync("http://www.test.com/large.json").Result;
+            var json = client.GetStringAsync("http://www.test.com/large.json").Result;
 
-            Person p = JsonConvert.DeserializeObject<Person>(json);
+            var p = JsonConvert.DeserializeObject<Person>(json);
             #endregion
         }
 
@@ -184,17 +184,17 @@ namespace Argon.Tests.Documentation
         public void DeserializeStream()
         {
             #region DeserializeStream
-            HttpClient client = new HttpClient();
+            var client = new HttpClient();
 
-            using (Stream s = client.GetStreamAsync("http://www.test.com/large.json").Result)
-            using (StreamReader sr = new StreamReader(s))
+            using (var s = client.GetStreamAsync("http://www.test.com/large.json").Result)
+            using (var sr = new StreamReader(s))
             using (JsonReader reader = new JsonTextReader(sr))
             {
-                JsonSerializer serializer = new JsonSerializer();
+                var serializer = new JsonSerializer();
 
                 // read the json from a stream
                 // json size doesn't matter because only a small piece is read at a time from the HTTP request
-                Person p = serializer.Deserialize<Person>(reader);
+                var p = serializer.Deserialize<Person>(reader);
             }
             #endregion
         }
@@ -205,8 +205,8 @@ namespace Argon.Tests.Documentation
         #region ReaderWriter
         public static string ToJson(this Person p)
         {
-            StringWriter sw = new StringWriter();
-            JsonTextWriter writer = new JsonTextWriter(sw);
+            var sw = new StringWriter();
+            var writer = new JsonTextWriter(sw);
 
             // {
             writer.WriteStartObject();
@@ -218,7 +218,7 @@ namespace Argon.Tests.Documentation
             // "likes": ["Comedy", "Superman"]
             writer.WritePropertyName("likes");
             writer.WriteStartArray();
-            foreach (string like in p.Likes)
+            foreach (var like in p.Likes)
             {
                 writer.WriteValue(like);
             }
@@ -233,10 +233,10 @@ namespace Argon.Tests.Documentation
 
         public static Person ToPerson(this string s)
         {
-            StringReader sr = new StringReader(s);
-            JsonTextReader reader = new JsonTextReader(sr);
+            var sr = new StringReader(s);
+            var reader = new JsonTextReader(sr);
 
-            Person p = new Person();
+            var p = new Person();
 
             // {
             reader.Read();

@@ -198,26 +198,26 @@ namespace Argon.Serialization
             bool ignoreSerializableAttribute;
             ignoreSerializableAttribute = IgnoreSerializableAttribute;
 
-            MemberSerialization memberSerialization = JsonTypeReflector.GetObjectMemberSerialization(objectType, ignoreSerializableAttribute);
+            var memberSerialization = JsonTypeReflector.GetObjectMemberSerialization(objectType, ignoreSerializableAttribute);
 
             // Exclude index properties
             // Do not filter ByRef types here because accessing FieldType/PropertyType can trigger additonal assembly loads
-            IEnumerable<MemberInfo> allMembers = ReflectionUtils.GetFieldsAndProperties(objectType, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
+            var allMembers = ReflectionUtils.GetFieldsAndProperties(objectType, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
                 .Where(m => m is PropertyInfo p ? !ReflectionUtils.IsIndexedProperty(p) : true);
 
-            List<MemberInfo> serializableMembers = new List<MemberInfo>();
+            var serializableMembers = new List<MemberInfo>();
 
             if (memberSerialization != MemberSerialization.Fields)
             {
-                DataContractAttribute? dataContractAttribute = JsonTypeReflector.GetDataContractAttribute(objectType);
+                var dataContractAttribute = JsonTypeReflector.GetDataContractAttribute(objectType);
 
 #pragma warning disable 618
                 // Exclude index properties and ByRef types
-                List<MemberInfo> defaultMembers = ReflectionUtils.GetFieldsAndProperties(objectType, DefaultMembersSearchFlags)
+                var defaultMembers = ReflectionUtils.GetFieldsAndProperties(objectType, DefaultMembersSearchFlags)
                     .Where(FilterMembers).ToList();
 #pragma warning restore 618
 
-                foreach (MemberInfo member in allMembers)
+                foreach (var member in allMembers)
                 {
                     // exclude members that are compiler generated if set
                     if (SerializeCompilerGeneratedMembers || !member.IsDefined(typeof(CompilerGeneratedAttribute), true))
@@ -266,7 +266,7 @@ namespace Argon.Serialization
             else
             {
                 // serialize all fields
-                foreach (MemberInfo member in allMembers)
+                foreach (var member in allMembers)
                 {
                     if (member is FieldInfo field && !field.IsStatic)
                     {
@@ -298,7 +298,7 @@ namespace Argon.Serialization
         /// <returns>A <see cref="JsonObjectContract"/> for the given type.</returns>
         protected virtual JsonObjectContract CreateObjectContract(Type objectType)
         {
-            JsonObjectContract contract = new JsonObjectContract(objectType);
+            var contract = new JsonObjectContract(objectType);
             InitializeContract(contract);
 
             bool ignoreSerializableAttribute;
@@ -309,7 +309,7 @@ namespace Argon.Serialization
 
             Func<string, string>? extensionDataNameResolver = null;
 
-            JsonObjectAttribute? attribute = JsonTypeReflector.GetCachedAttribute<JsonObjectAttribute>(contract.NonNullableUnderlyingType);
+            var attribute = JsonTypeReflector.GetCachedAttribute<JsonObjectAttribute>(contract.NonNullableUnderlyingType);
             if (attribute != null)
             {
                 contract.ItemRequired = attribute._itemRequired;
@@ -318,7 +318,7 @@ namespace Argon.Serialization
 
                 if (attribute.NamingStrategyType != null)
                 {
-                    NamingStrategy namingStrategy = JsonTypeReflector.GetContainerNamingStrategy(attribute)!;
+                    var namingStrategy = JsonTypeReflector.GetContainerNamingStrategy(attribute)!;
                     extensionDataNameResolver = s => namingStrategy.GetDictionaryKey(s);
                 }
             }
@@ -332,7 +332,7 @@ namespace Argon.Serialization
 
             if (contract.IsInstantiable)
             {
-                ConstructorInfo? overrideConstructor = GetAttributeConstructor(contract.NonNullableUnderlyingType);
+                var overrideConstructor = GetAttributeConstructor(contract.NonNullableUnderlyingType);
 
                 // check if a JsonConstructorAttribute has been defined and use that
                 if (overrideConstructor != null)
@@ -351,7 +351,7 @@ namespace Argon.Serialization
                 }
                 else if (contract.DefaultCreator == null || contract.DefaultCreatorNonPublic)
                 {
-                    ConstructorInfo? constructor = GetParameterizedConstructor(contract.NonNullableUnderlyingType);
+                    var constructor = GetParameterizedConstructor(contract.NonNullableUnderlyingType);
                     if (constructor != null)
                     {
                         contract.ParameterizedCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(constructor);
@@ -362,7 +362,7 @@ namespace Argon.Serialization
                 {
                     // value types always have default constructor
                     // check whether there is a constructor that matches with non-writable properties on value type
-                    ConstructorInfo? constructor = GetImmutableConstructor(contract.NonNullableUnderlyingType, contract.Properties);
+                    var constructor = GetImmutableConstructor(contract.NonNullableUnderlyingType, contract.Properties);
                     if (constructor != null)
                     {
                         contract.OverrideCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(constructor);
@@ -371,7 +371,7 @@ namespace Argon.Serialization
                 }
             }
 
-            MemberInfo extensionDataMember = GetExtensionDataMemberForType(contract.NonNullableUnderlyingType);
+            var extensionDataMember = GetExtensionDataMemberForType(contract.NonNullableUnderlyingType);
             if (extensionDataMember != null)
             {
                 SetExtensionDataDelegates(contract, extensionDataMember);
@@ -394,7 +394,7 @@ namespace Argon.Serialization
 
         private MemberInfo GetExtensionDataMemberForType(Type type)
         {
-            IEnumerable<MemberInfo> members = GetClassHierarchyForType(type).SelectMany(baseType =>
+            var members = GetClassHierarchyForType(type).SelectMany(baseType =>
             {
                 IList<MemberInfo> m = new List<MemberInfo>();
                 m.AddRange(baseType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly));
@@ -403,9 +403,9 @@ namespace Argon.Serialization
                 return m;
             });
 
-            MemberInfo extensionDataMember = members.LastOrDefault(m =>
+            var extensionDataMember = members.LastOrDefault(m =>
             {
-                MemberTypes memberType = m.MemberType();
+                var memberType = m.MemberType();
                 if (memberType != MemberTypes.Property && memberType != MemberTypes.Field)
                 {
                     return false;
@@ -422,12 +422,12 @@ namespace Argon.Serialization
                     throw new JsonException("Invalid extension data attribute on '{0}'. Member '{1}' must have a getter.".FormatWith(CultureInfo.InvariantCulture, GetClrTypeFullName(m.DeclaringType), m.Name));
                 }
 
-                Type t = ReflectionUtils.GetMemberUnderlyingType(m);
+                var t = ReflectionUtils.GetMemberUnderlyingType(m);
 
-                if (ReflectionUtils.ImplementsGenericDefinition(t, typeof(IDictionary<,>), out Type? dictionaryType))
+                if (ReflectionUtils.ImplementsGenericDefinition(t, typeof(IDictionary<,>), out var dictionaryType))
                 {
-                    Type keyType = dictionaryType.GetGenericArguments()[0];
-                    Type valueType = dictionaryType.GetGenericArguments()[1];
+                    var keyType = dictionaryType.GetGenericArguments()[0];
+                    var valueType = dictionaryType.GetGenericArguments()[1];
 
                     if (keyType.IsAssignableFrom(typeof(string)) && valueType.IsAssignableFrom(typeof(JToken)))
                     {
@@ -443,18 +443,18 @@ namespace Argon.Serialization
 
         private static void SetExtensionDataDelegates(JsonObjectContract contract, MemberInfo member)
         {
-            JsonExtensionDataAttribute? extensionDataAttribute = ReflectionUtils.GetAttribute<JsonExtensionDataAttribute>(member);
+            var extensionDataAttribute = ReflectionUtils.GetAttribute<JsonExtensionDataAttribute>(member);
             if (extensionDataAttribute == null)
             {
                 return;
             }
 
-            Type t = ReflectionUtils.GetMemberUnderlyingType(member);
+            var t = ReflectionUtils.GetMemberUnderlyingType(member);
 
-            ReflectionUtils.ImplementsGenericDefinition(t, typeof(IDictionary<,>), out Type? dictionaryType);
+            ReflectionUtils.ImplementsGenericDefinition(t, typeof(IDictionary<,>), out var dictionaryType);
 
-            Type keyType = dictionaryType!.GetGenericArguments()[0];
-            Type valueType = dictionaryType!.GetGenericArguments()[1];
+            var keyType = dictionaryType!.GetGenericArguments()[0];
+            var valueType = dictionaryType!.GetGenericArguments()[1];
 
             Type createdType;
 
@@ -468,15 +468,15 @@ namespace Argon.Serialization
                 createdType = t;
             }
 
-            Func<object, object?> getExtensionDataDictionary = JsonTypeReflector.ReflectionDelegateFactory.CreateGet<object>(member);
+            var getExtensionDataDictionary = JsonTypeReflector.ReflectionDelegateFactory.CreateGet<object>(member);
 
             if (extensionDataAttribute.ReadData)
             {
-                Action<object, object?>? setExtensionDataDictionary = (ReflectionUtils.CanSetMemberValue(member, true, false))
+                var setExtensionDataDictionary = (ReflectionUtils.CanSetMemberValue(member, true, false))
                  ? JsonTypeReflector.ReflectionDelegateFactory.CreateSet<object>(member)
                  : null;
-                Func<object> createExtensionDataDictionary = JsonTypeReflector.ReflectionDelegateFactory.CreateDefaultConstructor<object>(createdType);
-                MethodInfo? setMethod = t.GetProperty("Item", BindingFlags.Public | BindingFlags.Instance, null, valueType, new[] { keyType }, null)?.GetSetMethod();
+                var createExtensionDataDictionary = JsonTypeReflector.ReflectionDelegateFactory.CreateDefaultConstructor<object>(createdType);
+                var setMethod = t.GetProperty("Item", BindingFlags.Public | BindingFlags.Instance, null, valueType, new[] { keyType }, null)?.GetSetMethod();
                 if (setMethod == null)
                 {
                     // Item is explicitly implemented and non-public
@@ -484,11 +484,11 @@ namespace Argon.Serialization
                     setMethod = dictionaryType!.GetProperty("Item", BindingFlags.Public | BindingFlags.Instance, null, valueType, new[] { keyType }, null)?.GetSetMethod();
                 }
 
-                MethodCall<object, object?> setExtensionDataDictionaryValue = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object>(setMethod!);
+                var setExtensionDataDictionaryValue = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object>(setMethod!);
 
                 ExtensionDataSetter extensionDataSetter = (o, key, value) =>
                 {
-                    object? dictionary = getExtensionDataDictionary(o);
+                    var dictionary = getExtensionDataDictionary(o);
                     if (dictionary == null)
                     {
                         if (setExtensionDataDictionary == null)
@@ -508,13 +508,13 @@ namespace Argon.Serialization
 
             if (extensionDataAttribute.WriteData)
             {
-                Type enumerableWrapper = typeof(EnumerableDictionaryWrapper<,>).MakeGenericType(keyType, valueType);
-                ConstructorInfo constructors = enumerableWrapper.GetConstructors().First();
-                ObjectConstructor<object> createEnumerableWrapper = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(constructors);
+                var enumerableWrapper = typeof(EnumerableDictionaryWrapper<,>).MakeGenericType(keyType, valueType);
+                var constructors = enumerableWrapper.GetConstructors().First();
+                var createEnumerableWrapper = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(constructors);
 
                 ExtensionDataGetter extensionDataGetter = o =>
                 {
-                    object? dictionary = getExtensionDataDictionary(o);
+                    var dictionary = getExtensionDataDictionary(o);
                     if (dictionary == null)
                     {
                         return null;
@@ -543,7 +543,7 @@ namespace Argon.Serialization
 
             public IEnumerator<KeyValuePair<object, object>> GetEnumerator()
             {
-                foreach (KeyValuePair<TEnumeratorKey, TEnumeratorValue> item in _e)
+                foreach (var item in _e)
                 {
                     yield return new KeyValuePair<object, object>(item.Key!, item.Value!);
                 }
@@ -561,7 +561,7 @@ namespace Argon.Serialization
 
             if (en.MoveNext())
             {
-                ConstructorInfo conInfo = en.Current;
+                var conInfo = en.Current;
                 if (en.MoveNext())
                 {
                     throw new JsonException("Multiple constructors with the JsonConstructorAttribute.");
@@ -582,18 +582,18 @@ namespace Argon.Serialization
         private ConstructorInfo? GetImmutableConstructor(Type objectType, JsonPropertyCollection memberProperties)
         {
             IEnumerable<ConstructorInfo> constructors = objectType.GetConstructors();
-            IEnumerator<ConstructorInfo> en = constructors.GetEnumerator();
+            var en = constructors.GetEnumerator();
             if (en.MoveNext())
             {
-                ConstructorInfo constructor = en.Current;
+                var constructor = en.Current;
                 if (!en.MoveNext())
                 {
                     ParameterInfo[] parameters = constructor.GetParameters();
                     if (parameters.Length > 0)
                     {
-                        foreach (ParameterInfo parameterInfo in parameters)
+                        foreach (var parameterInfo in parameters)
                         {
-                            JsonProperty? memberProperty = MatchProperty(memberProperties, parameterInfo.Name, parameterInfo.ParameterType);
+                            var memberProperty = MatchProperty(memberProperties, parameterInfo.Name, parameterInfo.ParameterType);
                             if (memberProperty == null || memberProperty.Writable)
                             {
                                 return null;
@@ -628,22 +628,22 @@ namespace Argon.Serialization
         {
             ParameterInfo[] constructorParameters = constructor.GetParameters();
 
-            JsonPropertyCollection parameterCollection = new JsonPropertyCollection(constructor.DeclaringType);
+            var parameterCollection = new JsonPropertyCollection(constructor.DeclaringType);
 
-            foreach (ParameterInfo parameterInfo in constructorParameters)
+            foreach (var parameterInfo in constructorParameters)
             {
                 if (parameterInfo.Name == null)
                 {
                     continue;
                 }
 
-                JsonProperty? matchingMemberProperty = MatchProperty(memberProperties, parameterInfo.Name, parameterInfo.ParameterType);
+                var matchingMemberProperty = MatchProperty(memberProperties, parameterInfo.Name, parameterInfo.ParameterType);
 
                 // ensure that property will have a name from matching property or from parameterinfo
                 // parameterinfo could have no name if generated by a proxy (I'm looking at you Castle)
                 if (matchingMemberProperty != null || parameterInfo.Name != null)
                 {
-                    JsonProperty property = CreatePropertyFromConstructorParameter(matchingMemberProperty, parameterInfo);
+                    var property = CreatePropertyFromConstructorParameter(matchingMemberProperty, parameterInfo);
 
                     if (property != null)
                     {
@@ -664,7 +664,7 @@ namespace Argon.Serialization
                 return null;
             }
 
-            JsonProperty? property = properties.GetClosestMatchProperty(name);
+            var property = properties.GetClosestMatchProperty(name);
             // must match type as well as name
             if (property == null || property.PropertyType != type)
             {
@@ -682,7 +682,7 @@ namespace Argon.Serialization
         /// <returns>A created <see cref="JsonProperty"/> for the given <see cref="ParameterInfo"/>.</returns>
         protected virtual JsonProperty CreatePropertyFromConstructorParameter(JsonProperty? matchingMemberProperty, ParameterInfo parameterInfo)
         {
-            JsonProperty property = new JsonProperty();
+            var property = new JsonProperty();
             property.PropertyType = parameterInfo.ParameterType;
             property.AttributeProvider = new ReflectionAttributeProvider(parameterInfo);
 
@@ -731,14 +731,14 @@ namespace Argon.Serialization
 
         private void InitializeContract(JsonContract contract)
         {
-            JsonContainerAttribute? containerAttribute = JsonTypeReflector.GetCachedAttribute<JsonContainerAttribute>(contract.NonNullableUnderlyingType);
+            var containerAttribute = JsonTypeReflector.GetCachedAttribute<JsonContainerAttribute>(contract.NonNullableUnderlyingType);
             if (containerAttribute != null)
             {
                 contract.IsReference = containerAttribute._isReference;
             }
             else
             {
-                DataContractAttribute? dataContractAttribute = JsonTypeReflector.GetDataContractAttribute(contract.NonNullableUnderlyingType);
+                var dataContractAttribute = JsonTypeReflector.GetDataContractAttribute(contract.NonNullableUnderlyingType);
                 // doesn't have a null value
                 if (dataContractAttribute != null && dataContractAttribute.IsReference)
                 {
@@ -767,11 +767,11 @@ namespace Argon.Serialization
         {
             GetCallbackMethodsForType(
                 t,
-                out List<SerializationCallback>? onSerializing,
-                out List<SerializationCallback>? onSerialized,
-                out List<SerializationCallback>? onDeserializing,
-                out List<SerializationCallback>? onDeserialized,
-                out List<SerializationErrorCallback>? onError);
+                out var onSerializing,
+                out var onSerialized,
+                out var onDeserializing,
+                out var onDeserialized,
+                out var onError);
 
             if (onSerializing != null)
             {
@@ -807,7 +807,7 @@ namespace Argon.Serialization
             onDeserialized = null;
             onError = null;
 
-            foreach (Type baseType in GetClassHierarchyForType(type))
+            foreach (var baseType in GetClassHierarchyForType(type))
             {
                 // while we allow more than one OnSerialized total, only one can be defined per class
                 MethodInfo? currentOnSerializing = null;
@@ -816,10 +816,10 @@ namespace Argon.Serialization
                 MethodInfo? currentOnDeserialized = null;
                 MethodInfo? currentOnError = null;
 
-                bool skipSerializing = ShouldSkipSerializing(baseType);
-                bool skipDeserialized = ShouldSkipDeserialized(baseType);
+                var skipSerializing = ShouldSkipSerializing(baseType);
+                var skipDeserialized = ShouldSkipDeserialized(baseType);
 
-                foreach (MethodInfo method in baseType.GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly))
+                foreach (var method in baseType.GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly))
                 {
                     // compact framework errors when getting parameters for a generic method
                     // lame, but generic methods should not be callbacks anyway
@@ -869,7 +869,7 @@ namespace Argon.Serialization
         {
             if (t.IsGenericType())
             {
-                Type definition = t.GetGenericTypeDefinition();
+                var definition = t.GetGenericTypeDefinition();
 
                 switch (definition.FullName)
                 {
@@ -918,9 +918,9 @@ namespace Argon.Serialization
 
         private List<Type> GetClassHierarchyForType(Type type)
         {
-            List<Type> ret = new List<Type>();
+            var ret = new List<Type>();
 
-            Type current = type;
+            var current = type;
             while (current != null && current != typeof(object))
             {
                 ret.Add(current);
@@ -939,13 +939,13 @@ namespace Argon.Serialization
         /// <returns>A <see cref="JsonDictionaryContract"/> for the given type.</returns>
         protected virtual JsonDictionaryContract CreateDictionaryContract(Type objectType)
         {
-            JsonDictionaryContract contract = new JsonDictionaryContract(objectType);
+            var contract = new JsonDictionaryContract(objectType);
             InitializeContract(contract);
 
-            JsonContainerAttribute? containerAttribute = JsonTypeReflector.GetAttribute<JsonContainerAttribute>(objectType);
+            var containerAttribute = JsonTypeReflector.GetAttribute<JsonContainerAttribute>(objectType);
             if (containerAttribute?.NamingStrategyType != null)
             {
-                NamingStrategy namingStrategy = JsonTypeReflector.GetContainerNamingStrategy(containerAttribute)!;
+                var namingStrategy = JsonTypeReflector.GetContainerNamingStrategy(containerAttribute)!;
                 contract.DictionaryKeyResolver = s => namingStrategy.GetDictionaryKey(s);
             }
             else
@@ -953,12 +953,12 @@ namespace Argon.Serialization
                 contract.DictionaryKeyResolver = ResolveDictionaryKey;
             }
 
-            ConstructorInfo? overrideConstructor = GetAttributeConstructor(contract.NonNullableUnderlyingType);
+            var overrideConstructor = GetAttributeConstructor(contract.NonNullableUnderlyingType);
 
             if (overrideConstructor != null)
             {
                 ParameterInfo[] parameters = overrideConstructor.GetParameters();
-                Type expectedParameterType = (contract.DictionaryKeyType != null && contract.DictionaryValueType != null)
+                var expectedParameterType = (contract.DictionaryKeyType != null && contract.DictionaryValueType != null)
                     ? typeof(IEnumerable<>).MakeGenericType(typeof(KeyValuePair<,>).MakeGenericType(contract.DictionaryKeyType, contract.DictionaryValueType))
                     : typeof(IDictionary);
 
@@ -988,15 +988,15 @@ namespace Argon.Serialization
         /// <returns>A <see cref="JsonArrayContract"/> for the given type.</returns>
         protected virtual JsonArrayContract CreateArrayContract(Type objectType)
         {
-            JsonArrayContract contract = new JsonArrayContract(objectType);
+            var contract = new JsonArrayContract(objectType);
             InitializeContract(contract);
 
-            ConstructorInfo? overrideConstructor = GetAttributeConstructor(contract.NonNullableUnderlyingType);
+            var overrideConstructor = GetAttributeConstructor(contract.NonNullableUnderlyingType);
 
             if (overrideConstructor != null)
             {
                 ParameterInfo[] parameters = overrideConstructor.GetParameters();
-                Type expectedParameterType = (contract.CollectionItemType != null)
+                var expectedParameterType = (contract.CollectionItemType != null)
                     ? typeof(IEnumerable<>).MakeGenericType(contract.CollectionItemType)
                     : typeof(IEnumerable);
 
@@ -1026,7 +1026,7 @@ namespace Argon.Serialization
         /// <returns>A <see cref="JsonPrimitiveContract"/> for the given type.</returns>
         protected virtual JsonPrimitiveContract CreatePrimitiveContract(Type objectType)
         {
-            JsonPrimitiveContract contract = new JsonPrimitiveContract(objectType);
+            var contract = new JsonPrimitiveContract(objectType);
             InitializeContract(contract);
 
             return contract;
@@ -1039,7 +1039,7 @@ namespace Argon.Serialization
         /// <returns>A <see cref="JsonLinqContract"/> for the given type.</returns>
         protected virtual JsonLinqContract CreateLinqContract(Type objectType)
         {
-            JsonLinqContract contract = new JsonLinqContract(objectType);
+            var contract = new JsonLinqContract(objectType);
             InitializeContract(contract);
 
             return contract;
@@ -1052,15 +1052,15 @@ namespace Argon.Serialization
         /// <returns>A <see cref="JsonISerializableContract"/> for the given type.</returns>
         protected virtual JsonISerializableContract CreateISerializableContract(Type objectType)
         {
-            JsonISerializableContract contract = new JsonISerializableContract(objectType);
+            var contract = new JsonISerializableContract(objectType);
             InitializeContract(contract);
 
             if (contract.IsInstantiable)
             {
-                ConstructorInfo constructorInfo = contract.NonNullableUnderlyingType.GetConstructor(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, null, new[] {typeof(SerializationInfo), typeof(StreamingContext)}, null);
+                var constructorInfo = contract.NonNullableUnderlyingType.GetConstructor(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, null, new[] {typeof(SerializationInfo), typeof(StreamingContext)}, null);
                 if (constructorInfo != null)
                 {
-                    ObjectConstructor<object> creator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(constructorInfo);
+                    var creator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(constructorInfo);
 
                     contract.ISerializableCreator = creator;
                 }
@@ -1076,13 +1076,13 @@ namespace Argon.Serialization
         /// <returns>A <see cref="JsonDynamicContract"/> for the given type.</returns>
         protected virtual JsonDynamicContract CreateDynamicContract(Type objectType)
         {
-            JsonDynamicContract contract = new JsonDynamicContract(objectType);
+            var contract = new JsonDynamicContract(objectType);
             InitializeContract(contract);
 
-            JsonContainerAttribute? containerAttribute = JsonTypeReflector.GetAttribute<JsonContainerAttribute>(objectType);
+            var containerAttribute = JsonTypeReflector.GetAttribute<JsonContainerAttribute>(objectType);
             if (containerAttribute?.NamingStrategyType != null)
             {
-                NamingStrategy namingStrategy = JsonTypeReflector.GetContainerNamingStrategy(containerAttribute)!;
+                var namingStrategy = JsonTypeReflector.GetContainerNamingStrategy(containerAttribute)!;
                 contract.PropertyNameResolver = s => namingStrategy.GetDictionaryKey(s);
             }
             else
@@ -1102,7 +1102,7 @@ namespace Argon.Serialization
         /// <returns>A <see cref="JsonStringContract"/> for the given type.</returns>
         protected virtual JsonStringContract CreateStringContract(Type objectType)
         {
-            JsonStringContract contract = new JsonStringContract(objectType);
+            var contract = new JsonStringContract(objectType);
             InitializeContract(contract);
 
             return contract;
@@ -1115,7 +1115,7 @@ namespace Argon.Serialization
         /// <returns>A <see cref="JsonContract"/> for the given type.</returns>
         protected virtual JsonContract CreateContract(Type objectType)
         {
-            Type t = ReflectionUtils.EnsureNotByRefType(objectType);
+            var t = ReflectionUtils.EnsureNotByRefType(objectType);
 
             if (IsJsonPrimitiveType(t))
             {
@@ -1123,7 +1123,7 @@ namespace Argon.Serialization
             }
 
             t = ReflectionUtils.EnsureNotNullableType(t);
-            JsonContainerAttribute? containerAttribute = JsonTypeReflector.GetCachedAttribute<JsonContainerAttribute>(t);
+            var containerAttribute = JsonTypeReflector.GetCachedAttribute<JsonContainerAttribute>(t);
 
             if (containerAttribute is JsonObjectAttribute)
             {
@@ -1180,7 +1180,7 @@ namespace Argon.Serialization
 
         internal static bool IsJsonPrimitiveType(Type t)
         {
-            PrimitiveTypeCode typeCode = ConvertUtils.GetTypeCode(t);
+            var typeCode = ConvertUtils.GetTypeCode(t);
 
             return (typeCode != PrimitiveTypeCode.Empty && typeCode != PrimitiveTypeCode.Object);
         }
@@ -1276,19 +1276,19 @@ namespace Argon.Serialization
         /// <returns>Properties for the given <see cref="JsonContract"/>.</returns>
         protected virtual IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
         {
-            List<MemberInfo> members = GetSerializableMembers(type);
+            var members = GetSerializableMembers(type);
             if (members == null)
             {
                 throw new JsonSerializationException("Null collection of serializable members returned.");
             }
 
-            DefaultJsonNameTable nameTable = GetNameTable();
+            var nameTable = GetNameTable();
 
-            JsonPropertyCollection properties = new JsonPropertyCollection(type);
+            var properties = new JsonPropertyCollection(type);
 
-            foreach (MemberInfo member in members)
+            foreach (var member in members)
             {
-                JsonProperty property = CreateProperty(member, memberSerialization);
+                var property = CreateProperty(member, memberSerialization);
 
                 if (property != null)
                 {
@@ -1345,13 +1345,13 @@ namespace Argon.Serialization
         /// <returns>A created <see cref="JsonProperty"/> for the given <see cref="MemberInfo"/>.</returns>
         protected virtual JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
-            JsonProperty property = new JsonProperty();
+            var property = new JsonProperty();
             property.PropertyType = ReflectionUtils.GetMemberUnderlyingType(member);
             property.DeclaringType = member.DeclaringType;
             property.ValueProvider = CreateMemberValueProvider(member);
             property.AttributeProvider = new ReflectionAttributeProvider(member);
 
-            SetPropertySettingsFromAttributes(property, member, member.Name, member.DeclaringType, memberSerialization, out bool allowNonPublicAccess);
+            SetPropertySettingsFromAttributes(property, member, member.Name, member.DeclaringType, memberSerialization, out var allowNonPublicAccess);
 
             if (memberSerialization != MemberSerialization.Fields)
             {
@@ -1380,9 +1380,9 @@ namespace Argon.Serialization
 
         private void SetPropertySettingsFromAttributes(JsonProperty property, object attributeProvider, string name, Type declaringType, MemberSerialization memberSerialization, out bool allowNonPublicAccess)
         {
-            DataContractAttribute? dataContractAttribute = JsonTypeReflector.GetDataContractAttribute(declaringType);
+            var dataContractAttribute = JsonTypeReflector.GetDataContractAttribute(declaringType);
 
-            MemberInfo? memberInfo = attributeProvider as MemberInfo;
+            var memberInfo = attributeProvider as MemberInfo;
 
             DataMemberAttribute? dataMemberAttribute;
             if (dataContractAttribute != null && memberInfo != null)
@@ -1394,8 +1394,8 @@ namespace Argon.Serialization
                 dataMemberAttribute = null;
             }
 
-            JsonPropertyAttribute? propertyAttribute = JsonTypeReflector.GetAttribute<JsonPropertyAttribute>(attributeProvider);
-            JsonRequiredAttribute? requiredAttribute = JsonTypeReflector.GetAttribute<JsonRequiredAttribute>(attributeProvider);
+            var propertyAttribute = JsonTypeReflector.GetAttribute<JsonPropertyAttribute>(attributeProvider);
+            var requiredAttribute = JsonTypeReflector.GetAttribute<JsonRequiredAttribute>(attributeProvider);
 
             string mappedName;
             bool hasSpecifiedName;
@@ -1415,7 +1415,7 @@ namespace Argon.Serialization
                 hasSpecifiedName = false;
             }
 
-            JsonContainerAttribute? containerAttribute = JsonTypeReflector.GetAttribute<JsonContainerAttribute>(declaringType);
+            var containerAttribute = JsonTypeReflector.GetAttribute<JsonContainerAttribute>(declaringType);
 
             NamingStrategy? namingStrategy;
             if (propertyAttribute?.NamingStrategyType != null)
@@ -1442,7 +1442,7 @@ namespace Argon.Serialization
             
             property.UnderlyingName = name;
 
-            bool hasMemberAttribute = false;
+            var hasMemberAttribute = false;
             if (propertyAttribute != null)
             {
                 property._required = propertyAttribute._required;
@@ -1488,7 +1488,7 @@ namespace Argon.Serialization
 
             property.HasMemberAttribute = hasMemberAttribute;
 
-            bool hasJsonIgnoreAttribute =
+            var hasJsonIgnoreAttribute =
                 JsonTypeReflector.GetAttribute<JsonIgnoreAttribute>(attributeProvider) != null
                     // automatically ignore extension data dictionary property if it is public
                 || JsonTypeReflector.GetAttribute<JsonExtensionDataAttribute>(attributeProvider) != null
@@ -1497,7 +1497,7 @@ namespace Argon.Serialization
 
             if (memberSerialization != MemberSerialization.OptIn)
             {
-                bool hasIgnoreDataMemberAttribute = false;
+                var hasIgnoreDataMemberAttribute = false;
 
                 hasIgnoreDataMemberAttribute = (JsonTypeReflector.GetAttribute<IgnoreDataMemberAttribute>(attributeProvider) != null);
 
@@ -1514,7 +1514,7 @@ namespace Argon.Serialization
             // the class type might have a converter but the property converter takes precedence
             property.Converter = JsonTypeReflector.GetJsonConverter(attributeProvider);
 
-            DefaultValueAttribute? defaultValueAttribute = JsonTypeReflector.GetAttribute<DefaultValueAttribute>(attributeProvider);
+            var defaultValueAttribute = JsonTypeReflector.GetAttribute<DefaultValueAttribute>(attributeProvider);
             if (defaultValueAttribute != null)
             {
                 property.DefaultValue = defaultValueAttribute.Value;
@@ -1539,14 +1539,14 @@ namespace Argon.Serialization
 
         private Predicate<object>? CreateShouldSerializeTest(MemberInfo member)
         {
-            MethodInfo shouldSerializeMethod = member.DeclaringType.GetMethod(JsonTypeReflector.ShouldSerializePrefix + member.Name, Type.EmptyTypes);
+            var shouldSerializeMethod = member.DeclaringType.GetMethod(JsonTypeReflector.ShouldSerializePrefix + member.Name, Type.EmptyTypes);
 
             if (shouldSerializeMethod == null || shouldSerializeMethod.ReturnType != typeof(bool))
             {
                 return null;
             }
 
-            MethodCall<object, object?> shouldSerializeCall =
+            var shouldSerializeCall =
                 JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object>(shouldSerializeMethod);
 
             return o => (bool)shouldSerializeCall(o)!;

@@ -60,12 +60,12 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            string json = @"{
+            var json = @"{
               ""UserName"": ""domain\\username"",
               ""Enabled"": true
             }";
 
-            User user = JsonConvert.DeserializeObject<User>(json);
+            var user = JsonConvert.DeserializeObject<User>(json);
 
             Console.WriteLine(user.UserName);
             // domain\username

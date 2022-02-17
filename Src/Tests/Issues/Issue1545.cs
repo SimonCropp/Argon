@@ -38,7 +38,7 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test_Populate()
         {
-            string json = @"{
+            var json = @"{
                 ""array"": [
                     /* comment0 */
                     {
@@ -52,7 +52,7 @@ namespace Argon.Tests.Issues
                 ]
             }";
 
-            Simple s = JsonConvert.DeserializeObject<Simple>(json);
+            var s = JsonConvert.DeserializeObject<Simple>(json);
             Assert.AreEqual(2, s.Array.Length);
             Assert.AreEqual("item1", s.Array[0].Value);
             Assert.AreEqual("item2", s.Array[1].Value);
@@ -61,7 +61,7 @@ namespace Argon.Tests.Issues
         [Fact]
         public void Test_Multidimensional()
         {
-            string json = @"[
+            var json = @"[
                 /* comment0 */
                 [1,2,3],
                 /* comment1 */
@@ -76,7 +76,7 @@ namespace Argon.Tests.Issues
                 /* comment5 */
             ]";
 
-            int[,] s = JsonConvert.DeserializeObject<int[,]>(json);
+            var s = JsonConvert.DeserializeObject<int[,]>(json);
             Assert.AreEqual(6, s.Length);
             Assert.AreEqual(1, s[0, 0]);
             Assert.AreEqual(2, s[0, 1]);
@@ -136,10 +136,10 @@ namespace Argon.Tests.Issues
                 return null;
             }
 
-            JsonLineInfo lineInfoObject = Activator.CreateInstance(objectType) as JsonLineInfo;
+            var lineInfoObject = Activator.CreateInstance(objectType) as JsonLineInfo;
             serializer.Populate(reader, lineInfoObject);
 
-            IJsonLineInfo jsonLineInfo = reader as IJsonLineInfo;
+            var jsonLineInfo = reader as IJsonLineInfo;
             if (jsonLineInfo != null && jsonLineInfo.HasLineInfo())
             {
                 lineInfoObject.LineNumber = jsonLineInfo.LineNumber;

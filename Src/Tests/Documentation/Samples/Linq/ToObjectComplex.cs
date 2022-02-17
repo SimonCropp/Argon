@@ -47,7 +47,7 @@ namespace Argon.Tests.Documentation.Samples.Linq
         public void Example()
         {
             #region Usage
-            string json = @"{
+            var json = @"{
               'd': [
                 {
                   'Name': 'John Smith'
@@ -58,11 +58,11 @@ namespace Argon.Tests.Documentation.Samples.Linq
               ]
             }";
 
-            JObject o = JObject.Parse(json);
+            var o = JObject.Parse(json);
 
-            JArray a = (JArray)o["d"];
+            var a = (JArray)o["d"];
 
-            IList<Person> person = a.ToObject<IList<Person>>();
+            var person = a.ToObject<IList<Person>>();
 
             Console.WriteLine(person[0].Name);
             // John Smith

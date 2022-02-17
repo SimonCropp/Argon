@@ -42,7 +42,7 @@ namespace Argon.Tests.Benchmarks
         public void SetupData()
         {
             _largeJArraySample = new JArray();
-            for (int i = 0; i < 100000; i++)
+            for (var i = 0; i < 100000; i++)
             {
                 _largeJArraySample.Add(i);
             }
@@ -51,7 +51,7 @@ namespace Argon.Tests.Benchmarks
         [Benchmark]
         public string JTokenPathFirstItem()
         {
-            JToken first = _largeJArraySample.First;
+            var first = _largeJArraySample.First;
 
             return first.Path;
         }
@@ -59,7 +59,7 @@ namespace Argon.Tests.Benchmarks
         [Benchmark]
         public string JTokenPathLastItem()
         {
-            JToken last = _largeJArraySample.Last;
+            var last = _largeJArraySample.Last;
 
             return last.Path;
         }

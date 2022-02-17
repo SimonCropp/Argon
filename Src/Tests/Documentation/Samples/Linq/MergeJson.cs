@@ -37,13 +37,13 @@ namespace Argon.Tests.Documentation.Samples.Linq
         public void Example()
         {
             #region Usage
-            JObject o1 = JObject.Parse(@"{
+            var o1 = JObject.Parse(@"{
               'FirstName': 'John',
               'LastName': 'Smith',
               'Enabled': false,
               'Roles': [ 'User' ]
             }");
-            JObject o2 = JObject.Parse(@"{
+            var o2 = JObject.Parse(@"{
               'Enabled': true,
               'Roles': [ 'User', 'Admin' ]
             }");
@@ -54,7 +54,7 @@ namespace Argon.Tests.Documentation.Samples.Linq
                 MergeArrayHandling = MergeArrayHandling.Union
             });
 
-            string json = o1.ToString();
+            var json = o1.ToString();
             // {
             //   "FirstName": "John",
             //   "LastName": "Smith",

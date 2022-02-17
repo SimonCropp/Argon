@@ -43,7 +43,7 @@ namespace Argon.Tests.Linq
             JsonReader reader = new JsonTextReader(new StringReader("new Date(123)"));
             reader.Read();
 
-            JConstructor constructor = JConstructor.Load(reader);
+            var constructor = JConstructor.Load(reader);
             Assert.AreEqual("Date", constructor.Name);
             Assert.IsTrue(JToken.DeepEquals(new JValue(123), constructor.Values().ElementAt(0)));
         }
@@ -51,7 +51,7 @@ namespace Argon.Tests.Linq
         [Fact]
         public void CreateWithMultiValue()
         {
-            JConstructor constructor = new JConstructor("Test", new List<int> { 1, 2, 3 });
+            var constructor = new JConstructor("Test", new List<int> { 1, 2, 3 });
             Assert.AreEqual("Test", constructor.Name);
             Assert.AreEqual(3, constructor.Children().Count());
             Assert.AreEqual(1, (int)constructor.Children().ElementAt(0));
@@ -62,10 +62,10 @@ namespace Argon.Tests.Linq
         [Fact]
         public void Iterate()
         {
-            JConstructor c = new JConstructor("MrConstructor", 1, 2, 3, 4, 5);
+            var c = new JConstructor("MrConstructor", 1, 2, 3, 4, 5);
 
-            int i = 1;
-            foreach (JToken token in c)
+            var i = 1;
+            foreach (var token in c)
             {
                 Assert.AreEqual(i, (int)token);
                 i++;
@@ -77,7 +77,7 @@ namespace Argon.Tests.Linq
         {
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                JConstructor c = new JConstructor();
+                var c = new JConstructor();
                 c["badvalue"] = new JValue(3);
             }, @"Set JConstructor values with invalid key value: ""badvalue"". Argument position index expected.");
         }
@@ -87,7 +87,7 @@ namespace Argon.Tests.Linq
         {
             object key = 0;
 
-            JConstructor c = new JConstructor();
+            var c = new JConstructor();
             c.Name = "con";
             c.Add(null);
             c[key] = new JValue(3);

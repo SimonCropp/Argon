@@ -37,7 +37,7 @@ namespace Argon.Tests.Schema
         [Fact]
         public void ExtendedComplex()
         {
-            string first = @"{
+            var first = @"{
   ""id"":""first"",
   ""type"":""object"",
   ""properties"":
@@ -55,7 +55,7 @@ namespace Argon.Tests.Schema
   ""additionalProperties"":{}
 }";
 
-            string second = @"{
+            var second = @"{
   ""id"":""second"",
   ""type"":""object"",
   ""extends"":{""$ref"":""first""},
@@ -82,13 +82,13 @@ namespace Argon.Tests.Schema
   ""additionalProperties"":false
 }";
 
-            JsonSchemaResolver resolver = new JsonSchemaResolver();
-            JsonSchema firstSchema = JsonSchema.Parse(first, resolver);
-            JsonSchema secondSchema = JsonSchema.Parse(second, resolver);
+            var resolver = new JsonSchemaResolver();
+            var firstSchema = JsonSchema.Parse(first, resolver);
+            var secondSchema = JsonSchema.Parse(second, resolver);
 
-            JsonSchemaModelBuilder modelBuilder = new JsonSchemaModelBuilder();
+            var modelBuilder = new JsonSchemaModelBuilder();
 
-            JsonSchemaModel model = modelBuilder.Build(secondSchema);
+            var model = modelBuilder.Build(secondSchema);
 
             Assert.AreEqual(4, model.Properties.Count);
 
@@ -119,18 +119,18 @@ namespace Argon.Tests.Schema
         [Fact]
         public void CircularReference()
         {
-            string json = @"{
+            var json = @"{
   ""id"":""CircularReferenceArray"",
   ""description"":""CircularReference"",
   ""type"":[""array""],
   ""items"":{""$ref"":""CircularReferenceArray""}
 }";
 
-            JsonSchema schema = JsonSchema.Parse(json);
+            var schema = JsonSchema.Parse(json);
 
-            JsonSchemaModelBuilder modelBuilder = new JsonSchemaModelBuilder();
+            var modelBuilder = new JsonSchemaModelBuilder();
 
-            JsonSchemaModel model = modelBuilder.Build(schema);
+            var model = modelBuilder.Build(schema);
 
             Assert.AreEqual(JsonSchemaType.Array, model.Type);
 
@@ -140,7 +140,7 @@ namespace Argon.Tests.Schema
         [Fact]
         public void Required()
         {
-            string schemaJson = @"{
+            var schemaJson = @"{
   ""description"":""A person"",
   ""type"":""object"",
   ""properties"":
@@ -151,9 +151,9 @@ namespace Argon.Tests.Schema
   }
 }";
 
-            JsonSchema schema = JsonSchema.Parse(schemaJson);
-            JsonSchemaModelBuilder modelBuilder = new JsonSchemaModelBuilder();
-            JsonSchemaModel model = modelBuilder.Build(schema);
+            var schema = JsonSchema.Parse(schemaJson);
+            var modelBuilder = new JsonSchemaModelBuilder();
+            var model = modelBuilder.Build(schema);
 
             Assert.AreEqual(JsonSchemaType.Object, model.Type);
             Assert.AreEqual(3, model.Properties.Count);

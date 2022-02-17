@@ -64,7 +64,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
         public void Example()
         {
             #region Usage
-            Directory directory = new Directory
+            var directory = new Directory
             {
                 Name = "My Documents",
                 Files =
@@ -74,7 +74,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer
                 }
             };
 
-            string json = JsonConvert.SerializeObject(directory, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(directory, Formatting.Indented);
 
             Console.WriteLine(json);
             // {
