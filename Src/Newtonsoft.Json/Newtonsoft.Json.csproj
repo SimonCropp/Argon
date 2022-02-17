@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks Condition="'$(LibraryFrameworks)'==''">net461;netstandard2.0</TargetFrameworks>
-    <TargetFrameworks Condition="'$(LibraryFrameworks)'!=''">$(LibraryFrameworks)</TargetFrameworks>
+    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
     <LangVersion>9.0</LangVersion>
     <!-- version numbers will be updated by build -->
     <AssemblyVersion>11.0.0.0</AssemblyVersion>
@@ -24,8 +23,6 @@
     <PackageProjectUrl>https://www.newtonsoft.com/json</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PublishRepositoryUrl>true</PublishRepositoryUrl> 
-    <RootNamespace>Newtonsoft.Json</RootNamespace>
-    <AssemblyName>Newtonsoft.Json</AssemblyName>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Nullable>enable</Nullable>
     <MinClientVersion>2.12</MinClientVersion>
@@ -46,9 +43,6 @@
     <None Include="..\..\LICENSE.md" Pack="true" PackagePath="LICENSE.md" />
     <None Include="packageIcon.png" Pack="true" PackagePath="\" />
     <None Include="README.md" Pack="true" PackagePath="\" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="$(MicrosoftCodeAnalysisNetAnalyzersPackageVersion)" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="$(MicrosoftSourceLinkGitHubPackageVersion)" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
 </Project>
