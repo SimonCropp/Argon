@@ -27,7 +27,6 @@ using Newtonsoft.Json.Serialization;
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !DNXCORE50|| NETSTANDARD2_0
     public class SerializableContractResolver : DefaultContractResolver
     {
         public SerializableContractResolver()
@@ -35,5 +34,4 @@ namespace Newtonsoft.Json.Tests.TestObjects
             IgnoreSerializableAttribute = false;
         }
     }
-#endif
 }

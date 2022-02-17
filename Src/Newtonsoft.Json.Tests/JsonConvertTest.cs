@@ -1123,7 +1123,6 @@ namespace Newtonsoft.Json.Tests
             writer.Flush();
         }
 
-#if !DNXCORE50|| NETSTANDARD2_0
         [Test]
         public void IntegerLengthOverflows()
         {
@@ -1136,7 +1135,6 @@ namespace Newtonsoft.Json.Tests
 
             ExceptionAssert.Throws<JsonReaderException>(() => JObject.Parse(@"{""biginteger"":" + new String('9', 381) + "}"), "JSON integer " + new String('9', 381) + " is too large to parse. Path 'biginteger', line 1, position 395.");
         }
-#endif
 
         [Test]
         public void ParseIsoDate()

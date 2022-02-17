@@ -2220,7 +2220,7 @@ keyword such as type of business.""
   ""Bool"": true,
   ""Char"": ""\u0000""
 }";
-#elif !(PORTABLE || DNXCORE50)
+#elif !DNXCORE50
             expected = @"{
   ""String"": ""string"",
   ""Int32"": 2147483647,
@@ -3399,7 +3399,6 @@ To fix this error either change the JSON to a JSON object (e.g. {""name"":""valu
 Path '', line 1, position 1.");
         }
 
-#if !DNXCORE50 || NETSTANDARD2_0
         [Test]
         public void CannotDeserializeArrayIntoSerializable()
         {
@@ -3409,7 +3408,6 @@ Path '', line 1, position 1.");
 To fix this error either change the JSON to a JSON object (e.g. {""name"":""value""}) or change the deserialized type to an array or a type that implements a collection interface (e.g. ICollection, IList) like List<T> that can be deserialized from a JSON array. JsonArrayAttribute can also be added to the type to force it to deserialize from a JSON array.
 Path '', line 1, position 1.");
         }
-#endif
 
         [Test]
         public void CannotDeserializeArrayIntoDouble()
@@ -5210,9 +5208,7 @@ Path '', line 1, position 1.");
 
         public class CustomClass
         {
-#if !PORTABLE
             [Required]
-#endif
             public System.Guid? clientId { get; set; }
         }
 
@@ -7654,7 +7650,6 @@ This is just junk, though.";
             Assert.AreEqual("derived", d.DerivedProperty);
         }
 
-#if !DNXCORE50|| NETSTANDARD2_0
         [Test]
         public void DeserializeNullableUnsignedLong()
         {
@@ -7667,7 +7662,6 @@ This is just junk, though.";
 
             Assert.AreEqual(ulong.MaxValue, result.Value);
         }
-#endif
 
         [Test]
         public void MailMessageConverterTest()

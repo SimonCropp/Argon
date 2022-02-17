@@ -90,16 +90,12 @@ namespace Newtonsoft.Json.Serialization
         /// </value>
         public bool DynamicCodeGeneration => JsonTypeReflector.DynamicCodeGeneration;
 
-#if !PORTABLE
         /// <summary>
         /// Gets or sets the default members search flags.
         /// </summary>
         /// <value>The default members search flags.</value>
         [Obsolete("DefaultMembersSearchFlags is obsolete. To modify the members serialized inherit from DefaultContractResolver and override the GetSerializableMembers method instead.")]
         public BindingFlags DefaultMembersSearchFlags { get; set; }
-#else
-        private readonly BindingFlags DefaultMembersSearchFlags;
-#endif
 
         /// <summary>
         /// Gets or sets a value indicating whether compiler generated members should be serialized.
@@ -614,24 +610,11 @@ namespace Newtonsoft.Json.Serialization
 
         private ConstructorInfo? GetParameterizedConstructor(Type objectType)
         {
-#if PORTABLE
-            IEnumerable<ConstructorInfo> constructors = objectType.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
-            IEnumerator<ConstructorInfo> en = constructors.GetEnumerator();
-            if (en.MoveNext())
-            {
-                ConstructorInfo conInfo = en.Current;
-                if (!en.MoveNext())
-                {
-                    return conInfo;
-                }
-            }
-#else
             ConstructorInfo[] constructors = objectType.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
             if (constructors.Length == 1)
             {
                 return constructors[0];
             }
-#endif
             return null;
         }
 

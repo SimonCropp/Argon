@@ -687,7 +687,6 @@ namespace Newtonsoft.Json.Utilities
             return attributes?.FirstOrDefault();
         }
 
-#if !(DOTNET || PORTABLE) || NETSTANDARD2_0
         public static T[] GetAttributes<T>(object attributeProvider, bool inherit) where T : Attribute
         {
             Attribute[] a = GetAttributes(attributeProvider, typeof(T), inherit);
@@ -730,33 +729,6 @@ namespace Newtonsoft.Json.Utilities
                     return (Attribute[])result;
             }
         }
-#else
-        public static T[] GetAttributes<T>(object attributeProvider, bool inherit) where T : Attribute
-        {
-            return GetAttributes(attributeProvider, typeof(T), inherit).Cast<T>().ToArray();
-        }
-
-        public static Attribute[] GetAttributes(object provider, Type? attributeType, bool inherit)
-        {
-            switch (provider)
-            {
-                case Type t:
-                    return (attributeType != null)
-                        ? t.GetTypeInfo().GetCustomAttributes(attributeType, inherit).ToArray()
-                        : t.GetTypeInfo().GetCustomAttributes(inherit).ToArray();
-                case Assembly a:
-                    return (attributeType != null) ? a.GetCustomAttributes(attributeType).ToArray() : a.GetCustomAttributes().ToArray();
-                case MemberInfo memberInfo:
-                    return (attributeType != null) ? memberInfo.GetCustomAttributes(attributeType, inherit).ToArray() : memberInfo.GetCustomAttributes(inherit).ToArray();
-                case Module module:
-                    return (attributeType != null) ? module.GetCustomAttributes(attributeType).ToArray() : module.GetCustomAttributes().ToArray();
-                case ParameterInfo parameterInfo:
-                    return (attributeType != null) ? parameterInfo.GetCustomAttributes(attributeType, inherit).ToArray() : parameterInfo.GetCustomAttributes(inherit).ToArray();
-            }
-
-            throw new Exception("Cannot get attributes from '{0}'.".FormatWith(CultureInfo.InvariantCulture, provider));
-        }
-#endif
 
         public static StructMultiKey<string?, string> SplitFullyQualifiedTypeName(string fullyQualifiedTypeName)
         {
@@ -829,16 +801,13 @@ namespace Newtonsoft.Json.Utilities
             ValidationUtils.ArgumentNotNull(targetType, nameof(targetType));
 
             List<MemberInfo> fieldInfos = new List<MemberInfo>(targetType.GetFields(bindingAttr));
-#if !PORTABLE
             // Type.GetFields doesn't return inherited private fields
             // manually find private fields from base class
             GetChildPrivateFields(fieldInfos, targetType, bindingAttr);
-#endif
 
             return fieldInfos.Cast<FieldInfo>();
         }
 
-#if !PORTABLE
         private static void GetChildPrivateFields(IList<MemberInfo> initialFields, Type targetType, BindingFlags bindingAttr)
         {
             // fix weirdness with private FieldInfos only being returned for the current Type
@@ -858,7 +827,6 @@ namespace Newtonsoft.Json.Utilities
                 }
             }
         }
-#endif
 
         public static IEnumerable<PropertyInfo> GetProperties(Type targetType, BindingFlags bindingAttr)
         {
