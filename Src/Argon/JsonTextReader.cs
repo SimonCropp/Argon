@@ -78,11 +78,9 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         _safeAsync = GetType() == typeof(JsonTextReader);
     }
 
-#if DEBUG
     internal char[]? CharBuffer { get; set; }
 
     internal int CharPos { get; private set; }
-#endif
 
     /// <summary>
     /// Gets or sets the reader's property name table.

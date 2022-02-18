@@ -1303,19 +1303,15 @@ public class DefaultContractResolver : IContractResolver
         // warning - this method use to cause errors with Intellitrace. Retest in VS Ultimate after changes
 
 #if !(NETSTANDARD2_0)
-            if (DynamicCodeGeneration)
-            {
-                valueProvider = new DynamicValueProvider(member);
-            }
-            else
-            {
-                valueProvider = new ReflectionValueProvider(member);
-            }
-#else
-        IValueProvider valueProvider = new ExpressionValueProvider(member);
-#endif
+        if (DynamicCodeGeneration)
+        {
+            return new DynamicValueProvider(member);
+        }
 
-        return valueProvider;
+        return new ReflectionValueProvider(member);
+#else
+        return new ExpressionValueProvider(member);
+#endif
     }
 
     /// <summary>

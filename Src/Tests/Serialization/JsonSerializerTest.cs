@@ -2213,7 +2213,7 @@ keyword such as type of business.""
   ""Char"": ""\u0000""
 }";
 #elif !NET5_0_OR_GREATER
-            expected = @"{
+            var expected = @"{
   ""String"": ""string"",
   ""Int32"": 2147483647,
   ""UInt32"": 4294967295,
