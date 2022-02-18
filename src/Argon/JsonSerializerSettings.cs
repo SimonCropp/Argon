@@ -240,7 +240,7 @@ public class JsonSerializerSettings
         {
             ReferenceResolverProvider = value != null
                 ? () => value
-                : (Func<IReferenceResolver?>?)null;
+                : null;
         }
     }
 

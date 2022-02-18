@@ -1363,7 +1363,7 @@ public class DefaultContractResolver : IContractResolver
         DataMemberAttribute? dataMemberAttribute;
         if (dataContractAttribute != null && memberInfo != null)
         {
-            dataMemberAttribute = JsonTypeReflector.GetDataMemberAttribute((MemberInfo)memberInfo);
+            dataMemberAttribute = JsonTypeReflector.GetDataMemberAttribute(memberInfo);
         }
         else
         {
@@ -1450,8 +1450,8 @@ public class DefaultContractResolver : IContractResolver
             if (dataMemberAttribute != null)
             {
                 property._required = dataMemberAttribute.IsRequired ? Required.AllowNull : Required.Default;
-                property.Order = dataMemberAttribute.Order != -1 ? (int?)dataMemberAttribute.Order : null;
-                property.DefaultValueHandling = !dataMemberAttribute.EmitDefaultValue ? (DefaultValueHandling?)DefaultValueHandling.Ignore : null;
+                property.Order = dataMemberAttribute.Order != -1 ? dataMemberAttribute.Order : null;
+                property.DefaultValueHandling = !dataMemberAttribute.EmitDefaultValue ? DefaultValueHandling.Ignore : null;
                 hasMemberAttribute = true;
             }
         }

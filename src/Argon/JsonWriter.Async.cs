@@ -1674,71 +1674,71 @@ public abstract partial class JsonWriter
                 case PrimitiveTypeCode.Char:
                     return writer.WriteValueAsync((char)value, cancellationToken);
                 case PrimitiveTypeCode.CharNullable:
-                    return writer.WriteValueAsync(value == null ? (char?)null : (char)value, cancellationToken);
+                    return writer.WriteValueAsync(value == null ? null : (char)value, cancellationToken);
                 case PrimitiveTypeCode.Boolean:
                     return writer.WriteValueAsync((bool)value, cancellationToken);
                 case PrimitiveTypeCode.BooleanNullable:
-                    return writer.WriteValueAsync(value == null ? (bool?)null : (bool)value, cancellationToken);
+                    return writer.WriteValueAsync(value == null ? null : (bool)value, cancellationToken);
                 case PrimitiveTypeCode.SByte:
                     return writer.WriteValueAsync((sbyte)value, cancellationToken);
                 case PrimitiveTypeCode.SByteNullable:
-                    return writer.WriteValueAsync(value == null ? (sbyte?)null : (sbyte)value, cancellationToken);
+                    return writer.WriteValueAsync(value == null ? null : (sbyte)value, cancellationToken);
                 case PrimitiveTypeCode.Int16:
                     return writer.WriteValueAsync((short)value, cancellationToken);
                 case PrimitiveTypeCode.Int16Nullable:
-                    return writer.WriteValueAsync(value == null ? (short?)null : (short)value, cancellationToken);
+                    return writer.WriteValueAsync(value == null ? null : (short)value, cancellationToken);
                 case PrimitiveTypeCode.UInt16:
                     return writer.WriteValueAsync((ushort)value, cancellationToken);
                 case PrimitiveTypeCode.UInt16Nullable:
-                    return writer.WriteValueAsync(value == null ? (ushort?)null : (ushort)value, cancellationToken);
+                    return writer.WriteValueAsync(value == null ? null : (ushort)value, cancellationToken);
                 case PrimitiveTypeCode.Int32:
                     return writer.WriteValueAsync((int)value, cancellationToken);
                 case PrimitiveTypeCode.Int32Nullable:
-                    return writer.WriteValueAsync(value == null ? (int?)null : (int)value, cancellationToken);
+                    return writer.WriteValueAsync(value == null ? null : (int)value, cancellationToken);
                 case PrimitiveTypeCode.Byte:
                     return writer.WriteValueAsync((byte)value, cancellationToken);
                 case PrimitiveTypeCode.ByteNullable:
-                    return writer.WriteValueAsync(value == null ? (byte?)null : (byte)value, cancellationToken);
+                    return writer.WriteValueAsync(value == null ? null : (byte)value, cancellationToken);
                 case PrimitiveTypeCode.UInt32:
                     return writer.WriteValueAsync((uint)value, cancellationToken);
                 case PrimitiveTypeCode.UInt32Nullable:
-                    return writer.WriteValueAsync(value == null ? (uint?)null : (uint)value, cancellationToken);
+                    return writer.WriteValueAsync(value == null ? null : (uint)value, cancellationToken);
                 case PrimitiveTypeCode.Int64:
                     return writer.WriteValueAsync((long)value, cancellationToken);
                 case PrimitiveTypeCode.Int64Nullable:
-                    return writer.WriteValueAsync(value == null ? (long?)null : (long)value, cancellationToken);
+                    return writer.WriteValueAsync(value == null ? null : (long)value, cancellationToken);
                 case PrimitiveTypeCode.UInt64:
                     return writer.WriteValueAsync((ulong)value, cancellationToken);
                 case PrimitiveTypeCode.UInt64Nullable:
-                    return writer.WriteValueAsync(value == null ? (ulong?)null : (ulong)value, cancellationToken);
+                    return writer.WriteValueAsync(value == null ? null : (ulong)value, cancellationToken);
                 case PrimitiveTypeCode.Single:
                     return writer.WriteValueAsync((float)value, cancellationToken);
                 case PrimitiveTypeCode.SingleNullable:
-                    return writer.WriteValueAsync(value == null ? (float?)null : (float)value, cancellationToken);
+                    return writer.WriteValueAsync(value == null ? null : (float)value, cancellationToken);
                 case PrimitiveTypeCode.Double:
                     return writer.WriteValueAsync((double)value, cancellationToken);
                 case PrimitiveTypeCode.DoubleNullable:
-                    return writer.WriteValueAsync(value == null ? (double?)null : (double)value, cancellationToken);
+                    return writer.WriteValueAsync(value == null ? null : (double)value, cancellationToken);
                 case PrimitiveTypeCode.DateTime:
                     return writer.WriteValueAsync((DateTime)value, cancellationToken);
                 case PrimitiveTypeCode.DateTimeNullable:
-                    return writer.WriteValueAsync(value == null ? (DateTime?)null : (DateTime)value, cancellationToken);
+                    return writer.WriteValueAsync(value == null ? null : (DateTime)value, cancellationToken);
                 case PrimitiveTypeCode.DateTimeOffset:
                     return writer.WriteValueAsync((DateTimeOffset)value, cancellationToken);
                 case PrimitiveTypeCode.DateTimeOffsetNullable:
-                    return writer.WriteValueAsync(value == null ? (DateTimeOffset?)null : (DateTimeOffset)value, cancellationToken);
+                    return writer.WriteValueAsync(value == null ? null : (DateTimeOffset)value, cancellationToken);
                 case PrimitiveTypeCode.Decimal:
                     return writer.WriteValueAsync((decimal)value, cancellationToken);
                 case PrimitiveTypeCode.DecimalNullable:
-                    return writer.WriteValueAsync(value == null ? (decimal?)null : (decimal)value, cancellationToken);
+                    return writer.WriteValueAsync(value == null ? null : (decimal)value, cancellationToken);
                 case PrimitiveTypeCode.Guid:
                     return writer.WriteValueAsync((Guid)value, cancellationToken);
                 case PrimitiveTypeCode.GuidNullable:
-                    return writer.WriteValueAsync(value == null ? (Guid?)null : (Guid)value, cancellationToken);
+                    return writer.WriteValueAsync(value == null ? null : (Guid)value, cancellationToken);
                 case PrimitiveTypeCode.TimeSpan:
                     return writer.WriteValueAsync((TimeSpan)value, cancellationToken);
                 case PrimitiveTypeCode.TimeSpanNullable:
-                    return writer.WriteValueAsync(value == null ? (TimeSpan?)null : (TimeSpan)value, cancellationToken);
+                    return writer.WriteValueAsync(value == null ? null : (TimeSpan)value, cancellationToken);
                 case PrimitiveTypeCode.BigInteger:
 
                     // this will call to WriteValueAsync(object)
@@ -1746,7 +1746,7 @@ public abstract partial class JsonWriter
                 case PrimitiveTypeCode.BigIntegerNullable:
 
                     // this will call to WriteValueAsync(object)
-                    return writer.WriteValueAsync(value == null ? (BigInteger?)null : (BigInteger)value, cancellationToken);
+                    return writer.WriteValueAsync(value == null ? null : (BigInteger)value, cancellationToken);
                 case PrimitiveTypeCode.Uri:
                     return writer.WriteValueAsync((Uri)value, cancellationToken);
                 case PrimitiveTypeCode.String:

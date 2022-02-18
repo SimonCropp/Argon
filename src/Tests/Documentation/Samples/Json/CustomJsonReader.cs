@@ -202,7 +202,7 @@ public class XmlJsonReader : JsonReader
             return null;
         }
 
-        return Value != null ? (int?)Convert.ToInt32(Value) : null;
+        return Value != null ? Convert.ToInt32(Value) : null;
     }
 
     public override string ReadAsString()
@@ -232,7 +232,7 @@ public class XmlJsonReader : JsonReader
             return null;
         }
 
-        return Value != null ? (decimal?)Convert.ToDecimal(Value) : null;
+        return Value != null ? Convert.ToDecimal(Value) : null;
     }
 
     public override DateTime? ReadAsDateTime()
@@ -242,7 +242,7 @@ public class XmlJsonReader : JsonReader
             return null;
         }
 
-        return Value != null ? (DateTime?)Convert.ToDateTime(Value) : null;
+        return Value != null ? Convert.ToDateTime(Value) : null;
     }
 
     public override DateTimeOffset? ReadAsDateTimeOffset()
@@ -252,7 +252,7 @@ public class XmlJsonReader : JsonReader
             return null;
         }
 
-        return Value != null ? (DateTimeOffset?)Convert.ToDateTime(Value) : null;
+        return Value != null ? Convert.ToDateTime(Value) : null;
     }
 }
 #endregion

@@ -393,17 +393,17 @@ public class ReadTests : TestFixtureBase
         jsonReader.Read();
         Assert.Equal(JsonToken.Integer, jsonReader.TokenType);
         Assert.Equal(typeof(long), jsonReader.ValueType);
-        Assert.Equal((long)250, (long)jsonReader.Value);
+        Assert.Equal(250, (long)jsonReader.Value);
 
         jsonReader.Read();
         Assert.Equal(JsonToken.Integer, jsonReader.TokenType);
         Assert.Equal(typeof(long), jsonReader.ValueType);
-        Assert.Equal((long)250, (long)jsonReader.Value);
+        Assert.Equal(250, (long)jsonReader.Value);
 
         jsonReader.Read();
         Assert.Equal(JsonToken.Integer, jsonReader.TokenType);
         Assert.Equal(typeof(long), jsonReader.ValueType);
-        Assert.Equal((long)250, (long)jsonReader.Value);
+        Assert.Equal(250, (long)jsonReader.Value);
 
         Assert.True(jsonReader.Read());
         Assert.Equal(JsonToken.EndArray, jsonReader.TokenType);

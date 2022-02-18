@@ -38,7 +38,7 @@ public class Issue1445 : TestFixtureBase
         dt.Columns.Add("Second", typeof(string));
 
         dt.Rows.Add("string1", "string2");
-        dt.Rows.Add("string1", (object)null);
+        dt.Rows.Add("string1", null);
 
         var data = dt.Select().Select(r => r.ItemArray).ToArray();
 

@@ -625,7 +625,7 @@ public abstract partial class JsonReader : IDisposable
 
                 SetToken(JsonToken.Float, d, false);
 
-                return (double)d;
+                return d;
             case JsonToken.String:
                 return ReadDoubleString((string?)Value);
         }

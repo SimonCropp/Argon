@@ -1349,7 +1349,7 @@ public class XmlNodeConverterTest : TestFixtureBase
     {
         XUnitAssert.Throws<JsonSerializationException>(() =>
         {
-            var newDoc = (XmlDocument) JsonConvert.DeserializeXmlNode(@"[1]");
+            var newDoc = JsonConvert.DeserializeXmlNode(@"[1]");
         }, "XmlNodeConverter can only convert JSON that begins with an object. Path '', line 1, position 1.");
     }
 
@@ -1359,7 +1359,7 @@ public class XmlNodeConverterTest : TestFixtureBase
         XUnitAssert.Throws<JsonSerializationException>(
             () =>
             {
-                var newDoc = (XmlDocument) JsonConvert.DeserializeXmlNode(@"{Prop1:1,Prop2:2}");
+                var newDoc = JsonConvert.DeserializeXmlNode(@"{Prop1:1,Prop2:2}");
             },
             "JSON root object has multiple properties. The root object must have a single property in order to create a valid XML document. Consider specifying a DeserializeRootElementName. Path 'Prop2', line 1, position 15.");
     }

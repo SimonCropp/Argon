@@ -98,7 +98,7 @@ public class ConvertingJsonAndXmlTests : TestFixtureBase
               }
             }";
 
-    var doc = (XmlDocument)JsonConvert.DeserializeXmlNode(json);
+    var doc = JsonConvert.DeserializeXmlNode(json);
     // <?xml version="1.0" standalone="no"?>
     // <root>
     //   <person id="1">

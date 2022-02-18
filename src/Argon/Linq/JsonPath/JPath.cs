@@ -831,15 +831,14 @@ class JPath
                 {
                     fields.Add(field);
                     return scan
-                        ? (PathFilter)new ScanMultipleFilter(fields)
-                        : (PathFilter)new FieldMultipleFilter(fields);
+                        ? new ScanMultipleFilter(fields)
+                        : new FieldMultipleFilter(fields);
                 }
-                else
-                {
-                    return CreatePathFilter(field, scan);
-                }
+
+                return CreatePathFilter(field, scan);
             }
-            else if (_expression[_currentIndex] == ',')
+
+            if (_expression[_currentIndex] == ',')
             {
                 _currentIndex++;
                 EatWhitespace();
