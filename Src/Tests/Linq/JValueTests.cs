@@ -448,7 +448,7 @@ public class JValueTests : TestFixtureBase
             var obj = JObject.Load(jsonReader);
             var d = (JValue)obj["d"];
 
-            CustomAssert.IsInstanceOfType(typeof(DateTimeOffset), d.Value);
+            Xunit.Assert.IsType(typeof(DateTimeOffset), d.Value);
             var offset = ((DateTimeOffset)d.Value).Offset;
             Assert.AreEqual(TimeSpan.FromHours(1), offset);
 
@@ -467,7 +467,7 @@ public class JValueTests : TestFixtureBase
 
         object startDateTime = obj["startDateTime"];
 
-        CustomAssert.IsInstanceOfType(typeof(DateTimeOffset), ((JValue)startDateTime).Value);
+        Xunit.Assert.IsType(typeof(DateTimeOffset), ((JValue)startDateTime).Value);
     }
 
     [Fact]

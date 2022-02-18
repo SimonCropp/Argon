@@ -65,7 +65,7 @@ public class JValueAsyncTests : TestFixtureBase
             var obj = await JObject.LoadAsync(jsonReader);
             var d = (JValue)obj["d"];
 
-            CustomAssert.IsInstanceOfType(typeof(DateTimeOffset), d.Value);
+            Xunit.Assert.IsType(typeof(DateTimeOffset), d.Value);
             var offset = ((DateTimeOffset)d.Value).Offset;
             Assert.AreEqual(TimeSpan.FromHours(1), offset);
 

@@ -405,7 +405,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         {
             var person = serializer.Deserialize<Person>(rd);
 
-            CustomAssert.IsInstanceOfType(typeof(WagePerson), person);
+            Xunit.Assert.IsType(typeof(WagePerson), person);
         }
     }
 
@@ -498,8 +498,8 @@ public class TypeNameHandlingTests : TestFixtureBase
 }", json);
 
         var w2 = JsonConvert.DeserializeObject<Wrapper>(json);
-        CustomAssert.IsInstanceOfType(typeof(List<EmployeeReference>), w2.Array);
-        CustomAssert.IsInstanceOfType(typeof(Dictionary<string, EmployeeReference>), w2.Dictionary);
+        Xunit.Assert.IsType(typeof(List<EmployeeReference>), w2.Array);
+        Xunit.Assert.IsType(typeof(Dictionary<string, EmployeeReference>), w2.Dictionary);
     }
 
     [Fact]
@@ -785,7 +785,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 #pragma warning restore 618
         });
 
-        CustomAssert.IsInstanceOfType(typeof(SendHttpRequest), message);
+        Xunit.Assert.IsType(typeof(SendHttpRequest), message);
 
         var request = (SendHttpRequest)message;
         Assert.AreEqual("xyz", request.CorrelationId);
@@ -899,7 +899,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var deserialized = JsonConvert.DeserializeObject<TypeNameProperty>(json);
         Assert.AreEqual("Name!", deserialized.Name);
-        CustomAssert.IsInstanceOfType(typeof(List<int>), deserialized.Value);
+        Xunit.Assert.IsType(typeof(List<int>), deserialized.Value);
 
         var nested = (List<int>)deserialized.Value;
         Assert.AreEqual(5, nested.Count);
@@ -927,7 +927,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 #pragma warning restore CS0618 // Type or member is obsolete
         });
 
-        CustomAssert.IsInstanceOfType(typeof(Person), p);
+        Xunit.Assert.IsType(typeof(Person), p);
 
         var person = (Person)p;
 

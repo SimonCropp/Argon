@@ -416,7 +416,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
             MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
         });
         Assert.AreEqual("Name!", deserialized.Name);
-        CustomAssert.IsInstanceOfType(typeof(List<int>), deserialized.Value);
+        Xunit.Assert.IsType(typeof(List<int>), deserialized.Value);
 
         var nested = (List<int>)deserialized.Value;
         Assert.AreEqual(5, nested.Count);

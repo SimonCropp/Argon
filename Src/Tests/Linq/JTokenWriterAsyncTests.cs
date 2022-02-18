@@ -58,7 +58,7 @@ public class JTokenWriterAsyncTests : TestFixtureBase
             root = jsonWriter.Token;
         }
 
-        CustomAssert.IsInstanceOfType(typeof(JArray), root);
+        Xunit.Assert.IsType(typeof(JArray), root);
         Assert.AreEqual(13, root.Children().Count());
         Assert.AreEqual("@", (string)root[0]);
         Assert.AreEqual("\r\n\t\f\b?{\\r\\n\"\'", (string)root[1]);

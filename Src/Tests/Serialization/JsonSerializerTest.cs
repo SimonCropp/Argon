@@ -1353,7 +1353,7 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var o = JsonConvert.DeserializeObject("100000000000000000000000000000000000000.0");
 
-        CustomAssert.IsInstanceOfType(typeof(double), o);
+        Xunit.Assert.IsType(typeof(double), o);
 
         Assert.IsTrue(MathUtils.ApproxEquals(1E+38, (double) o));
     }
@@ -4730,19 +4730,19 @@ Path '', line 1, position 1.");
 
         IDictionary<string, object> newExpando = JsonConvert.DeserializeObject<ExpandoObject>(json);
 
-        CustomAssert.IsInstanceOfType(typeof(long), newExpando["Int"]);
+        Xunit.Assert.IsType(typeof(long), newExpando["Int"]);
         Assert.AreEqual((long) expando.Int, newExpando["Int"]);
 
-        CustomAssert.IsInstanceOfType(typeof(double), newExpando["Decimal"]);
+        Xunit.Assert.IsType(typeof(double), newExpando["Decimal"]);
         Assert.AreEqual(expando.Decimal, newExpando["Decimal"]);
 
-        CustomAssert.IsInstanceOfType(typeof(ExpandoObject), newExpando["Complex"]);
+        Xunit.Assert.IsType(typeof(ExpandoObject), newExpando["Complex"]);
         IDictionary<string, object> o = (ExpandoObject) newExpando["Complex"];
 
-        CustomAssert.IsInstanceOfType(typeof(string), o["String"]);
+        Xunit.Assert.IsType(typeof(string), o["String"]);
         Assert.AreEqual(expando.Complex.String, o["String"]);
 
-        CustomAssert.IsInstanceOfType(typeof(DateTime), o["DateTime"]);
+        Xunit.Assert.IsType(typeof(DateTime), o["DateTime"]);
         Assert.AreEqual(expando.Complex.DateTime, o["DateTime"]);
     }
 
@@ -6523,7 +6523,7 @@ lines.*/
 
         var exception = JsonConvert.DeserializeObject<InvalidOperationException>(json);
         Assert.IsNotNull(exception);
-        CustomAssert.IsInstanceOfType(typeof(InvalidOperationException), exception);
+        Xunit.Assert.IsType(typeof(InvalidOperationException), exception);
 
         Assert.AreEqual("Outter exception...", exception.Message);
     }

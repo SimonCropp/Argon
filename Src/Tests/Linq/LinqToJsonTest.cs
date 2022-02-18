@@ -967,7 +967,7 @@ keyword such as type of business.""
         Assert.AreEqual(null, o["purple"]);
         Assert.AreEqual(null, o.Value<string>("purple"));
 
-        CustomAssert.IsInstanceOfType(typeof(JArray), o["channel"]["item"]);
+        Xunit.Assert.IsType(typeof(JArray), o["channel"]["item"]);
 
         Assert.AreEqual(2, o["channel"]["item"].Children()["title"].Count());
         Assert.AreEqual(0, o["channel"]["item"].Children()["monkey"].Count());
@@ -1114,13 +1114,13 @@ keyword such as type of business.""
   }
 }", o.ToString());
 
-        CustomAssert.IsInstanceOfType(typeof(JObject), o);
-        CustomAssert.IsInstanceOfType(typeof(JObject), o["channel"]);
+        Xunit.Assert.IsType(typeof(JObject), o);
+        Xunit.Assert.IsType(typeof(JObject), o["channel"]);
         Assert.AreEqual("James Newton-King", (string)o["channel"]["title"]);
         Assert.AreEqual(2, o["channel"]["item"].Children().Count());
 
         var a = JArray.FromObject(new List<int> { 0, 1, 2, 3, 4 });
-        CustomAssert.IsInstanceOfType(typeof(JArray), a);
+        Xunit.Assert.IsType(typeof(JArray), a);
         Assert.AreEqual(5, a.Count());
     }
 
@@ -1179,13 +1179,13 @@ keyword such as type of business.""
   }
 }", o.ToString());
 
-        CustomAssert.IsInstanceOfType(typeof(JObject), o);
-        CustomAssert.IsInstanceOfType(typeof(JObject), o["channel"]);
+        Xunit.Assert.IsType(typeof(JObject), o);
+        Xunit.Assert.IsType(typeof(JObject), o["channel"]);
         Assert.AreEqual("James Newton-King", (string)o["channel"]["title"]);
         Assert.AreEqual(2, o["channel"]["item"].Children().Count());
 
         var a = JArray.FromObject(new List<int> { 0, 1, 2, 3, 4 });
-        CustomAssert.IsInstanceOfType(typeof(JArray), a);
+        Xunit.Assert.IsType(typeof(JArray), a);
         Assert.AreEqual(5, a.Count());
     }
 

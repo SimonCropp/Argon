@@ -48,7 +48,7 @@ public class JRawTests : TestFixtureBase
         var r1 = new JRaw("raw1");
         var r2 = r1.CloneToken();
 
-        CustomAssert.IsInstanceOfType(typeof(JRaw), r2);
+        Xunit.Assert.IsType(typeof(JRaw), r2);
     }
 
     [Fact]

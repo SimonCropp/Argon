@@ -751,7 +751,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         Assert.AreEqual(1, dic["one"]);
         Assert.AreEqual(2, dic["two"]);
 
-        CustomAssert.IsInstanceOfType(typeof(ReadOnlyDictionary<string, int>), dic);
+        Xunit.Assert.IsType(typeof(ReadOnlyDictionary<string, int>), dic);
     }
 
     [Fact]
@@ -1761,9 +1761,9 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         Assert.AreEqual("Navigate", o.Method);
         Assert.AreEqual(3, o.Data.Length);
         Assert.AreEqual("dashboard", o.Data[0]);
-        CustomAssert.IsInstanceOfType(typeof(JArray), o.Data[1]);
+        Xunit.Assert.IsType(typeof(JArray), o.Data[1]);
         Assert.AreEqual(4, ((JArray)o.Data[1]).Count);
-        CustomAssert.IsInstanceOfType(typeof(JObject), o.Data[2]);
+        Xunit.Assert.IsType(typeof(JObject), o.Data[2]);
         Assert.AreEqual(1, ((JObject)o.Data[2]).Count);
         Assert.AreEqual(1, (int)((JObject)o.Data[2])["one"]);
     }
