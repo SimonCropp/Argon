@@ -32,10 +32,10 @@ namespace Argon.Tests.Schema;
 
 public class JsonSchemaNodeTests : TestFixtureBase
 {
-  [Fact]
-  public void AddSchema()
-  {
-    var first = @"{
+    [Fact]
+    public void AddSchema()
+    {
+        var first = @"{
   ""id"":""first"",
   ""type"":""object"",
   ""properties"":
@@ -52,7 +52,7 @@ public class JsonSchemaNodeTests : TestFixtureBase
   ""additionalProperties"":{}
 }";
 
-    var second = @"{
+        var second = @"{
   ""id"":""second"",
   ""type"":""object"",
   ""extends"":{""$ref"":""first""},
@@ -77,40 +77,40 @@ public class JsonSchemaNodeTests : TestFixtureBase
   ""additionalProperties"":false
 }";
 
-    var resolver = new JsonSchemaResolver();
-    var firstSchema = JsonSchema.Parse(first, resolver);
-    var secondSchema = JsonSchema.Parse(second, resolver);
+        var resolver = new JsonSchemaResolver();
+        var firstSchema = JsonSchema.Parse(first, resolver);
+        var secondSchema = JsonSchema.Parse(second, resolver);
 
-    var modelBuilder = new JsonSchemaModelBuilder();
+        var modelBuilder = new JsonSchemaModelBuilder();
 
-    var node = modelBuilder.AddSchema(null, secondSchema);
+        var node = modelBuilder.AddSchema(null, secondSchema);
 
-    Xunit.Assert.Equal(2, node.Schemas.Count);
-    Xunit.Assert.Equal(2, node.Properties["firstproperty"].Schemas.Count);
-    Xunit.Assert.Equal(3, node.Properties["secondproperty"].Schemas.Count);
-    Xunit.Assert.Equal(3, node.Properties["secondproperty"].Properties["secondproperty_firstproperty"].Schemas.Count);
-  }
+        Xunit.Assert.Equal(2, node.Schemas.Count);
+        Xunit.Assert.Equal(2, node.Properties["firstproperty"].Schemas.Count);
+        Xunit.Assert.Equal(3, node.Properties["secondproperty"].Schemas.Count);
+        Xunit.Assert.Equal(3, node.Properties["secondproperty"].Properties["secondproperty_firstproperty"].Schemas.Count);
+    }
 
-  [Fact]
-  public void CircularReference()
-  {
-    var json = @"{
+    [Fact]
+    public void CircularReference()
+    {
+        var json = @"{
   ""id"":""CircularReferenceArray"",
   ""description"":""CircularReference"",
   ""type"":[""array""],
   ""items"":{""$ref"":""CircularReferenceArray""}
 }";
 
-    var schema = JsonSchema.Parse(json);
+        var schema = JsonSchema.Parse(json);
 
-    var modelBuilder = new JsonSchemaModelBuilder();
+        var modelBuilder = new JsonSchemaModelBuilder();
 
-    var node = modelBuilder.AddSchema(null, schema);
+        var node = modelBuilder.AddSchema(null, schema);
 
-    Xunit.Assert.Single(node.Schemas);
+        Xunit.Assert.Single(node.Schemas);
 
-    Xunit.Assert.Equal(node, node.Items[0]);
-  }
+        Xunit.Assert.Equal(node, node.Items[0]);
+    }
 }
 
 #pragma warning restore 618

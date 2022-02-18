@@ -32,10 +32,10 @@ namespace Argon.Tests.Schema;
 
 public class JsonSchemaModelBuilderTests : TestFixtureBase
 {
-  [Fact]
-  public void ExtendedComplex()
-  {
-    var first = @"{
+    [Fact]
+    public void ExtendedComplex()
+    {
+        var first = @"{
   ""id"":""first"",
   ""type"":""object"",
   ""properties"":
@@ -53,7 +53,7 @@ public class JsonSchemaModelBuilderTests : TestFixtureBase
   ""additionalProperties"":{}
 }";
 
-    var second = @"{
+        var second = @"{
   ""id"":""second"",
   ""type"":""object"",
   ""extends"":{""$ref"":""first""},
@@ -80,65 +80,65 @@ public class JsonSchemaModelBuilderTests : TestFixtureBase
   ""additionalProperties"":false
 }";
 
-    var resolver = new JsonSchemaResolver();
-    var firstSchema = JsonSchema.Parse(first, resolver);
-    var secondSchema = JsonSchema.Parse(second, resolver);
+        var resolver = new JsonSchemaResolver();
+        var firstSchema = JsonSchema.Parse(first, resolver);
+        var secondSchema = JsonSchema.Parse(second, resolver);
 
-    var modelBuilder = new JsonSchemaModelBuilder();
+        var modelBuilder = new JsonSchemaModelBuilder();
 
-    var model = modelBuilder.Build(secondSchema);
+        var model = modelBuilder.Build(secondSchema);
 
-    Xunit.Assert.Equal(4, model.Properties.Count);
+        Xunit.Assert.Equal(4, model.Properties.Count);
 
-    Xunit.Assert.Equal(JsonSchemaType.String, model.Properties["firstproperty"].Type);
+        Xunit.Assert.Equal(JsonSchemaType.String, model.Properties["firstproperty"].Type);
 
-    Xunit.Assert.Equal(JsonSchemaType.String, model.Properties["secondproperty"].Type);
-    Xunit.Assert.Equal(10, model.Properties["secondproperty"].MaximumLength);
-    Xunit.Assert.Equal(null, model.Properties["secondproperty"].Enum);
-    Xunit.Assert.Equal(null, model.Properties["secondproperty"].Patterns);
+        Xunit.Assert.Equal(JsonSchemaType.String, model.Properties["secondproperty"].Type);
+        Xunit.Assert.Equal(10, model.Properties["secondproperty"].MaximumLength);
+        Xunit.Assert.Equal(null, model.Properties["secondproperty"].Enum);
+        Xunit.Assert.Equal(null, model.Properties["secondproperty"].Patterns);
 
-    Xunit.Assert.Equal(JsonSchemaType.Object, model.Properties["thirdproperty"].Type);
-    Xunit.Assert.Equal(3, model.Properties["thirdproperty"].AdditionalProperties.Enum.Count);
-    Xunit.Assert.Equal("two", (string)model.Properties["thirdproperty"].AdditionalProperties.Enum[0]);
-    Xunit.Assert.Equal("three", (string)model.Properties["thirdproperty"].AdditionalProperties.Enum[1]);
-    Xunit.Assert.Equal("one", (string)model.Properties["thirdproperty"].AdditionalProperties.Enum[2]);
+        Xunit.Assert.Equal(JsonSchemaType.Object, model.Properties["thirdproperty"].Type);
+        Xunit.Assert.Equal(3, model.Properties["thirdproperty"].AdditionalProperties.Enum.Count);
+        Xunit.Assert.Equal("two", (string) model.Properties["thirdproperty"].AdditionalProperties.Enum[0]);
+        Xunit.Assert.Equal("three", (string) model.Properties["thirdproperty"].AdditionalProperties.Enum[1]);
+        Xunit.Assert.Equal("one", (string) model.Properties["thirdproperty"].AdditionalProperties.Enum[2]);
 
-    Xunit.Assert.Equal(JsonSchemaType.String, model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].Type);
-    Xunit.Assert.Equal(9, model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].MaximumLength);
-    Xunit.Assert.Equal(7, model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].MinimumLength);
-    Xunit.Assert.Equal(2, model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].Patterns.Count);
-    Xunit.Assert.Equal("hi", model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].Patterns[0]);
-    Xunit.Assert.Equal("hi2u", model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].Patterns[1]);
-    Xunit.Assert.Equal(null, model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].Properties);
-    Xunit.Assert.Equal(null, model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].Items);
-    Xunit.Assert.Equal(null, model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].AdditionalProperties);
-  }
+        Xunit.Assert.Equal(JsonSchemaType.String, model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].Type);
+        Xunit.Assert.Equal(9, model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].MaximumLength);
+        Xunit.Assert.Equal(7, model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].MinimumLength);
+        Xunit.Assert.Equal(2, model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].Patterns.Count);
+        Xunit.Assert.Equal("hi", model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].Patterns[0]);
+        Xunit.Assert.Equal("hi2u", model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].Patterns[1]);
+        Xunit.Assert.Equal(null, model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].Properties);
+        Xunit.Assert.Equal(null, model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].Items);
+        Xunit.Assert.Equal(null, model.Properties["thirdproperty"].Properties["thirdproperty_firstproperty"].AdditionalProperties);
+    }
 
-  [Fact]
-  public void CircularReference()
-  {
-    var json = @"{
+    [Fact]
+    public void CircularReference()
+    {
+        var json = @"{
   ""id"":""CircularReferenceArray"",
   ""description"":""CircularReference"",
   ""type"":[""array""],
   ""items"":{""$ref"":""CircularReferenceArray""}
 }";
 
-    var schema = JsonSchema.Parse(json);
+        var schema = JsonSchema.Parse(json);
 
-    var modelBuilder = new JsonSchemaModelBuilder();
+        var modelBuilder = new JsonSchemaModelBuilder();
 
-    var model = modelBuilder.Build(schema);
+        var model = modelBuilder.Build(schema);
 
-    Xunit.Assert.Equal(JsonSchemaType.Array, model.Type);
+        Xunit.Assert.Equal(JsonSchemaType.Array, model.Type);
 
-    Xunit.Assert.Equal(model, model.Items[0]);
-  }
+        Xunit.Assert.Equal(model, model.Items[0]);
+    }
 
-  [Fact]
-  public void Required()
-  {
-    var schemaJson = @"{
+    [Fact]
+    public void Required()
+    {
+        var schemaJson = @"{
   ""description"":""A person"",
   ""type"":""object"",
   ""properties"":
@@ -149,16 +149,16 @@ public class JsonSchemaModelBuilderTests : TestFixtureBase
   }
 }";
 
-    var schema = JsonSchema.Parse(schemaJson);
-    var modelBuilder = new JsonSchemaModelBuilder();
-    var model = modelBuilder.Build(schema);
+        var schema = JsonSchema.Parse(schemaJson);
+        var modelBuilder = new JsonSchemaModelBuilder();
+        var model = modelBuilder.Build(schema);
 
-    Xunit.Assert.Equal(JsonSchemaType.Object, model.Type);
-    Xunit.Assert.Equal(3, model.Properties.Count);
-    Xunit.Assert.False(model.Properties["name"].Required);
-    Xunit.Assert.True(model.Properties["hobbies"].Required);
-    Xunit.Assert.True(model.Properties["age"].Required);
-  }
+        Xunit.Assert.Equal(JsonSchemaType.Object, model.Type);
+        Xunit.Assert.Equal(3, model.Properties.Count);
+        Xunit.Assert.False(model.Properties["name"].Required);
+        Xunit.Assert.True(model.Properties["hobbies"].Required);
+        Xunit.Assert.True(model.Properties["age"].Required);
+    }
 }
 
 #pragma warning restore 618
