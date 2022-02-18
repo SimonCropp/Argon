@@ -1200,7 +1200,7 @@ _____'propertyName': NaN,
                 case JsonToken.Undefined:
                 case JsonToken.Date:
                 case JsonToken.Bytes:
-                    Assert.AreEqual(valueStates, stateArray[(int)valueToken], "Error for " + valueToken + " states.");
+                    Assert.AreEqual(valueStates, stateArray[(int)valueToken]);
                     break;
             }
         }

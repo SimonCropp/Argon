@@ -1478,7 +1478,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         var f = serializer.Deserialize<SerializableWrapper>(new JsonTextReader(new StringReader(writer.ToString())));
 
         //Check Round Trip
-        Assert.AreEqual(e, f, "Objects should be equal after round trip json serialization");
+        Assert.AreEqual(e, f);
     }
 
     [Fact]

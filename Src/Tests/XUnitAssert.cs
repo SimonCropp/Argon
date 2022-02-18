@@ -9,22 +9,22 @@ public class XUnitAssert
         Assert.Equal(expected, actual, 5); // hack
     }
 
-    public static void AreEqual(object expected, object actual, string message = null)
+    public static void AreEqual(object expected, object actual)
     {
         Assert.Equal(expected, actual);
     }
 
-    public static void AreEqual<T>(T expected, T actual, string message = null)
+    public static void AreEqual<T>(T expected, T actual)
     {
         Assert.Equal(expected, actual);
     }
 
-    public static void AreNotEqual(object expected, object actual, string message = null)
+    public static void AreNotEqual(object expected, object actual)
     {
         Assert.NotEqual(expected, actual);
     }
 
-    public static void AreNotEqual<T>(T expected, T actual, string message = null)
+    public static void AreNotEqual<T>(T expected, T actual)
     {
         Assert.NotEqual(expected, actual);
     }

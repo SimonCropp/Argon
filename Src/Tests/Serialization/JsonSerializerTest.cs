@@ -7790,7 +7790,7 @@ This is just junk, though.";
 
             var testObject = JsonConvert.DeserializeObject<ChildClassWithProtectedOverridePlusJsonProperty>(testJson);
 
-            Assert.AreEqual(propertyValue, testObject.GetPropertyValue(), "MyProperty should be populated");
+            Assert.AreEqual(propertyValue, testObject.GetPropertyValue());
         }
 
         [Fact]

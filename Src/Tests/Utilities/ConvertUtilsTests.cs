@@ -172,9 +172,9 @@ public class ConvertUtilsTests : TestFixtureBase
         {
             Assert.IsTrue(expectedValue.HasValue);
 
-            Assert.AreEqual(expectedValue.Value, d, "Input string: " + s);
+            Assert.AreEqual(expectedValue.Value, d);
 
-            Assert.AreEqual(expectedValue.Value, d2, "DecimalTryParse result is not equal to decimal.Parse. Input string: " + s);
+            Assert.AreEqual(expectedValue.Value, d2);
 
             Assert.AreEqual(expectedValue.Value.ToString(), d.ToString());
         }
@@ -380,6 +380,6 @@ public class ConvertUtilsTests : TestFixtureBase
 
         Assert.IsTrue(ConvertUtils.TryHexTextToInt(text.ToCharArray(), 0, 4, out var v2));
 
-        Assert.AreEqual(v1, v2, "Invalid result when parsing hex text: " + text);
+        Assert.AreEqual(v1, v2);
     }
 }

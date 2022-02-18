@@ -1535,18 +1535,10 @@ public class JPathExecuteTests : TestFixtureBase
         var t = JToken.Parse(completeJson);
 
         var hasEqualsStrict = t.SelectTokens(completeEqualsStrictPath).Any();
-        Assert.AreEqual(
-            matchStrict,
-            hasEqualsStrict,
-            $"Expected {value1} and {value2} to match: {matchStrict}"
-            + Environment.NewLine + completeJson + Environment.NewLine + completeEqualsStrictPath);
+        Assert.AreEqual(matchStrict, hasEqualsStrict);
 
         var hasNotEqualsStrict = t.SelectTokens(completeNotEqualsStrictPath).Any();
-        Assert.AreNotEqual(
-            matchStrict,
-            hasNotEqualsStrict,
-            $"Expected {value1} and {value2} to match: {!matchStrict}"
-            + Environment.NewLine + completeJson + Environment.NewLine + completeEqualsStrictPath);
+        Assert.AreNotEqual(matchStrict, hasNotEqualsStrict);
     }
 
     public static IEnumerable<object[]> StrictMatchWithInverseTestData()
