@@ -25,7 +25,6 @@
 
 using System.Web;
 using Xunit;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Linq;
 

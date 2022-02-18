@@ -26,7 +26,6 @@
 using System.Text.RegularExpressions;
 
 using Xunit;
-using Assert = Argon.Tests.XUnitAssert;
 using TestCaseSource = Xunit.MemberDataAttribute;
 
 namespace Argon.Tests.Linq.JsonPath;

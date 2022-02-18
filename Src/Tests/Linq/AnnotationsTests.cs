@@ -1,6 +1,5 @@
 ﻿using Xunit;
 using TestAttribute = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Linq;
 

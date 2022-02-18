@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-
 namespace Argon;
 
 public partial class JsonTextWriter

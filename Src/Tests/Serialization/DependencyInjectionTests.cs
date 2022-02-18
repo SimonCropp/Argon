@@ -28,7 +28,6 @@ using Autofac.Core;
 using Autofac.Core.Activators.Reflection;
 using Argon.Tests.TestObjects.Organization;
 using Xunit;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Serialization;
 

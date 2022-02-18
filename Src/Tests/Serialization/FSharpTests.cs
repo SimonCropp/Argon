@@ -24,7 +24,6 @@
 #endregion
 
 using Xunit;
-using Assert = Argon.Tests.XUnitAssert;
 using Microsoft.FSharp.Collections;
 
 namespace Argon.Tests.Serialization;

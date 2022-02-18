@@ -26,7 +26,6 @@
 #pragma warning disable 618
 using System.Text.RegularExpressions;
 using Xunit;
-using Assert = Argon.Tests.XUnitAssert;
 using Argon.Tests.TestObjects;
 using Argon.Tests.TestObjects.GeoCoding;
 

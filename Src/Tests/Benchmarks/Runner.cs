@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Assert = Argon.Tests.XUnitAssert;
-
 namespace Argon.Tests.Benchmarks;
 
 public class Runner : TestFixtureBase

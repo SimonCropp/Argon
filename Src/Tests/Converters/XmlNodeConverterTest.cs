@@ -26,7 +26,6 @@
 using Argon.Tests.Serialization;
 using Argon.Tests.TestObjects;
 using Xunit;
-using Assert = Argon.Tests.XUnitAssert;
 using System.Xml;
 using System.Xml.Linq;
 // ReSharper disable UseObjectOrCollectionInitializer

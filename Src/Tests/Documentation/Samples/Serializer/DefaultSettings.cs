@@ -24,7 +24,6 @@
 #endregion
 
 using Xunit;
-using Assert = Argon.Tests.XUnitAssert;
 using Staff = Argon.Tests.TestObjects.Organization.Employee;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;

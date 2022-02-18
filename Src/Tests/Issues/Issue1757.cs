@@ -25,7 +25,6 @@
 
 #if NETSTANDARD2_0
 using Xunit;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 

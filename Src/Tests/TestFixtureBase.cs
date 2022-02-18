@@ -24,7 +24,6 @@
 #endregion
 
 using System.Text.RegularExpressions;
-using Assert = Argon.Tests.XUnitAssert;
 using XAssert = Xunit.Assert;
 
 namespace Argon.Tests;

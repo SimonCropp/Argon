@@ -26,7 +26,6 @@
 using Moq;
 using BindingFlags = System.Reflection.BindingFlags;
 using Xunit;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 

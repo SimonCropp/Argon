@@ -24,7 +24,6 @@
 #endregion
 
 using Xunit;
-using Assert = Argon.Tests.XUnitAssert;
 using Autofac;
 using Autofac.Core;
 using Autofac.Core.Activators.Reflection;

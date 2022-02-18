@@ -25,7 +25,6 @@
 
 
 using Xunit;
-using Assert = Argon.Tests.XUnitAssert;
 using System.Collections.Immutable;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;

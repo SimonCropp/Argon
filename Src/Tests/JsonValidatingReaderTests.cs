@@ -25,7 +25,6 @@
 
 #pragma warning disable 618
 using Xunit;
-using Assert = Argon.Tests.XUnitAssert;
 using ValidationEventArgs = Argon.Schema.ValidationEventArgs;
 
 namespace Argon.Tests;

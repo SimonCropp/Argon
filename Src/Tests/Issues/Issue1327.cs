@@ -26,7 +26,6 @@
 using System.Xml;
 using System.Xml.Linq;
 using Xunit;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 

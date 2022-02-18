@@ -24,7 +24,6 @@
 #endregion
 
 using Xunit;
-using Assert = Argon.Tests.XUnitAssert;
 using TestCaseSource = Xunit.MemberDataAttribute;
 
 namespace Argon.Tests.Utilities;

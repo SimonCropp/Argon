@@ -25,7 +25,6 @@
 
 using System.ComponentModel;
 using Xunit;
-using Assert = Argon.Tests.XUnitAssert;
 using Argon.Tests.TestObjects;
 using ErrorEventArgs = Argon.Serialization.ErrorEventArgs;
 using OriginalStreamWriter = System.IO.StreamWriter;

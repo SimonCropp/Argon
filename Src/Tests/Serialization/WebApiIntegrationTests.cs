@@ -24,7 +24,6 @@
 #endregion
 
 using Xunit;
-using Assert = Argon.Tests.XUnitAssert;
 using System.Runtime.Serialization.Json;
 
 namespace Argon.Tests.Serialization;

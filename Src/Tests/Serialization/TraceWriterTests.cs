@@ -1,5 +1,4 @@
 ﻿using Xunit;
-using Assert = Argon.Tests.XUnitAssert;
 using Argon.Tests.TestObjects;
 using Argon.Tests.TestObjects.Organization;
 

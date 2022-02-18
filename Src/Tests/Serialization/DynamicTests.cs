@@ -26,7 +26,6 @@
 using System.Dynamic;
 using System.Runtime.Serialization.Formatters;
 using Xunit;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Serialization;
 

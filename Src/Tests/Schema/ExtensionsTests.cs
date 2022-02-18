@@ -26,7 +26,6 @@
 #pragma warning disable 618
 #pragma warning disable 1062
 using Xunit;
-using Assert = Argon.Tests.XUnitAssert;
 using Argon.Tests.TestObjects;
 using Argon.Tests.TestObjects.Organization;
 #if !NET5_0_OR_GREATER

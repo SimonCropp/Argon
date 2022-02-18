@@ -25,7 +25,6 @@
 
 using System.Runtime.Serialization.Formatters.Binary;
 using Xunit;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests;
 

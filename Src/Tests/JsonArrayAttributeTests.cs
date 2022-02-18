@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 using Xunit;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests;
 

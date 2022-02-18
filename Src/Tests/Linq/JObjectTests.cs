@@ -28,7 +28,6 @@ using System.ComponentModel;
 using Argon.Tests.TestObjects;
 using Argon.Tests.TestObjects.Organization;
 using Xunit;
-using Assert = Argon.Tests.XUnitAssert;
 #if !NET5_0_OR_GREATER
 using System.Web.UI;
 #endif
