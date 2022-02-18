@@ -28,7 +28,7 @@ namespace Argon;
 /// <summary>
 /// Instructs the <see cref="JsonSerializer"/> to always serialize the member with the specified name.
 /// </summary>
-[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Parameter, AllowMultiple = false)]
+[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Parameter)]
 public sealed class JsonPropertyAttribute : Attribute
 {
     // yuck. can't set nullable properties on an attribute in C#

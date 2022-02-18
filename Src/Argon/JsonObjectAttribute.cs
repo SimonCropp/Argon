@@ -28,7 +28,7 @@ namespace Argon;
 /// <summary>
 /// Instructs the <see cref="JsonSerializer"/> how to serialize the object.
 /// </summary>
-[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Interface, AllowMultiple = false)]
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Interface)]
 public sealed class JsonObjectAttribute : JsonContainerAttribute
 {
     private MemberSerialization _memberSerialization = MemberSerialization.OptOut;
