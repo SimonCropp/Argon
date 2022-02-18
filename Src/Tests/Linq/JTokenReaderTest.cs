@@ -381,7 +381,7 @@ public class JTokenReaderTest : TestFixtureBase
         var result2 = (HasBytes)JsonSerializer.Create(null)
             .Deserialize(jsonReader, typeof(HasBytes));
 
-        CollectionAssert.AreEqual(new byte[] { 1, 2, 3, 4 }, result2.Bytes);
+        Xunit.Assert.Equal(new byte[] { 1, 2, 3, 4 }, result2.Bytes);
     }
 
     [Fact]
@@ -400,7 +400,7 @@ public class JTokenReaderTest : TestFixtureBase
         var result2 = (HasBytes)JsonSerializer.Create(null)
             .Deserialize(jsonReader, typeof(HasBytes));
 
-        CollectionAssert.AreEquivalent(new byte[0], result2.Bytes);
+        Xunit.Assert.Equal(new byte[0], result2.Bytes);
     }
 
     public class ReadAsBytesTestObject
@@ -441,7 +441,7 @@ public class JTokenReaderTest : TestFixtureBase
             var newObject = (TestObject)serializer.Deserialize(nodeReader);
 
             Assert.AreEqual("Test", newObject.Name);
-            CollectionAssert.AreEquivalent(new byte[] { 72, 63, 62, 71, 92, 55 }, newObject.Data);
+            Xunit.Assert.Equal(new byte[] { 72, 63, 62, 71, 92, 55 }, newObject.Data);
         }
     }
 

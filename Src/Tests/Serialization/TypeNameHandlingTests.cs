@@ -173,7 +173,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Objects
         });
 
-        CollectionAssert.AreEquivalent(Convert.FromBase64String("cGFzc3dvcmQ="), value.EncryptedPassword);
+        Xunit.Assert.Equal(Convert.FromBase64String("cGFzc3dvcmQ="), value.EncryptedPassword);
     }
 
     [Fact]
@@ -214,7 +214,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         });
 
         Assert.IsNotNull(value.EncryptedPassword);
-        CollectionAssert.AreEquivalent(Convert.FromBase64String("cGFzc3dvcmQ="), value.EncryptedPassword);
+        Xunit.Assert.Equal(Convert.FromBase64String("cGFzc3dvcmQ="), value.EncryptedPassword);
     }
 
     [Fact]
@@ -1432,7 +1432,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         Assert.IsTrue(obj.Objects[0] is byte[]);
 
         var d = (byte[])obj.Objects[0];
-        CollectionAssert.AreEquivalent(data, d);
+        Xunit.Assert.Equal(data, d);
     }
 
     [Fact]

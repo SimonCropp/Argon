@@ -1874,7 +1874,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var collectionNew = (ProductCollection)jsonSerializer.Deserialize(new JsonTextReader(new StringReader(sw.GetStringBuilder().ToString())), typeof(ProductCollection));
 
-        CollectionAssert.AreEqual(collection, collectionNew);
+        Xunit.Assert.Equal(collection, collectionNew);
     }
 
     [Fact]
@@ -1930,7 +1930,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var r2 = JsonConvert.DeserializeObject<ReadOnlyCollection<int>>(jsonText);
 
-        CollectionAssert.AreEqual(r1, r2);
+        Xunit.Assert.Equal(r1, r2);
     }
 
     [Fact]

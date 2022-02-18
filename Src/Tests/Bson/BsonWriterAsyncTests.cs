@@ -173,7 +173,7 @@ public class BsonWriterAsyncTests : TestFixtureBase
         await reader.ReadAsync();
         await reader.ReadAsync();
         Assert.AreEqual(JsonToken.Bytes, reader.TokenType);
-        CollectionAssert.AreEquivalent(data, (byte[])reader.Value);
+        Xunit.Assert.Equal(data, (byte[])reader.Value);
     }
 
     [Fact]
@@ -334,7 +334,7 @@ public class BsonWriterAsyncTests : TestFixtureBase
 
         Assert.IsTrue(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.Bytes, reader.TokenType);
-        CollectionAssert.AreEquivalent(oid, (byte[])reader.Value);
+        Xunit.Assert.Equal(oid, (byte[])reader.Value);
 
         Assert.IsTrue(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
@@ -355,7 +355,7 @@ public class BsonWriterAsyncTests : TestFixtureBase
 
         var expected = HexToBytes("29000000075F6964004ABBED9D1D8B0F02180000010274657374000900000031323334C2A335360000");
 
-        CollectionAssert.AreEquivalent(expected, ms.ToArray());
+        Xunit.Assert.Equal(expected, ms.ToArray());
     }
 
     [Fact]
@@ -373,7 +373,7 @@ public class BsonWriterAsyncTests : TestFixtureBase
 
         var expected = HexToBytes("1A-00-00-00-0B-72-65-67-65-78-00-61-62-63-00-69-00-0B-74-65-73-74-00-00-00-00");
 
-        CollectionAssert.AreEquivalent(expected, ms.ToArray());
+        Xunit.Assert.Equal(expected, ms.ToArray());
     }
 
     [Fact]
@@ -511,7 +511,7 @@ public class BsonWriterAsyncTests : TestFixtureBase
 
         Assert.IsTrue(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.Bytes, reader.TokenType);
-        CollectionAssert.AreEqual(new byte[] { 246, 255, 255, 255, 255, 255, 255, 31, 178, 33, 203, 40, 89, 132, 196, 174, 3, 138, 68, 52, 47, 76, 78, 158, 62, 1 }, (byte[])reader.Value);
+        Xunit.Assert.Equal(new byte[] { 246, 255, 255, 255, 255, 255, 255, 31, 178, 33, 203, 40, 89, 132, 196, 174, 3, 138, 68, 52, 47, 76, 78, 158, 62, 1 }, (byte[])reader.Value);
         Assert.AreEqual(i, new BigInteger((byte[])reader.Value));
 
         Assert.IsTrue(await reader.ReadAsync());

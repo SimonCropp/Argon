@@ -152,19 +152,6 @@ public class XUnitAssert
     }
 }
 
-public class CollectionAssert
-{
-    public static void AreEquivalent<T>(IEnumerable<T> expected, IEnumerable<T> actual)
-    {
-        XAssert.Equal(expected, actual);
-    }
-
-    public static void AreEqual<T>(IEnumerable<T> expected, IEnumerable<T> actual)
-    {
-        XAssert.Equal(expected, actual);
-    }
-}
-
 [TestFixture]
 public abstract class TestFixtureBase
 {

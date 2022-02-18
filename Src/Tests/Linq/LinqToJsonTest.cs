@@ -163,13 +163,13 @@ public class LinqToJsonTest : TestFixtureBase
         var data = o["responseArray"].ToObject<byte[]>();
         var expected = Convert.FromBase64String("AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAA");
 
-        CollectionAssert.AreEqual(expected, data);
+        Xunit.Assert.Equal(expected, data);
 
         o = JObject.Parse("{'responseArray':'AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAABAAAA'}");
         data = o["responseArray"].ToObject<byte[]>();
         expected = new Guid("AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAABAAAA").ToByteArray();
 
-        CollectionAssert.AreEqual(expected, data);
+        Xunit.Assert.Equal(expected, data);
     }
 
     [Fact]
@@ -518,7 +518,7 @@ undefined
 
         var expected = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
-        CollectionAssert.AreEqual(expected, list);
+        Xunit.Assert.Equal(expected, list);
     }
 
     [Fact]
@@ -621,7 +621,7 @@ keyword such as type of business.""
 
         var expectedUrls = new List<string> { "http://www.google.com/", "http://news.google.com/", "http://groups.google.com/", "http://maps.google.com/" };
 
-        CollectionAssert.AreEqual(expectedUrls, resultUrls);
+        Xunit.Assert.Equal(expectedUrls, resultUrls);
 
         var descendants = o.Descendants().ToList();
         Assert.AreEqual(89, descendants.Count);
@@ -975,7 +975,7 @@ keyword such as type of business.""
 
         Assert.AreEqual("Json.NET 1.3 + New license + Now on CodePlex", (string)o["channel"]["item"][0]["title"]);
 
-        CollectionAssert.AreEqual(new string[] { "Json.NET 1.3 + New license + Now on CodePlex", "LINQ to JSON beta" }, o["channel"]["item"].Children().Values<string>("title").ToArray());
+        Xunit.Assert.Equal(new string[] { "Json.NET 1.3 + New license + Now on CodePlex", "LINQ to JSON beta" }, o["channel"]["item"].Children().Values<string>("title").ToArray());
     }
 
     [Fact]
@@ -1297,7 +1297,7 @@ keyword such as type of business.""
         var o = JArray.Parse(json);
 
         Assert.AreEqual(4, o.Children()["item"].Children()["title"].Count());
-        CollectionAssert.AreEqual(new string[]
+        Xunit.Assert.Equal(new string[]
             {
                 "Json.NET 1.3 + New license + Now on CodePlex",
                 "LINQ to JSON beta",

@@ -844,7 +844,7 @@ namespace Argon.Tests.Serialization
             var json = JsonConvert.SerializeObject(input);
             var deserialized = JsonConvert.DeserializeObject<ResponseWithNewGenericProperty<List<int>>>(json);
 
-            CollectionAssert.AreEqual(input.Data, deserialized.Data);
+            Xunit.Assert.Equal(input.Data, deserialized.Data);
             Assert.AreEqual(input.Message, deserialized.Message);
             Assert.AreEqual(input.Result, deserialized.Result);
         }
@@ -2055,7 +2055,7 @@ keyword such as type of business.""
 
             var newValues = JsonConvert.DeserializeObject<Dictionary<int, int>>(json);
 
-            CollectionAssert.AreEqual(values, newValues);
+            Xunit.Assert.Equal(values, newValues);
         }
 
         [Fact]
@@ -2886,9 +2886,9 @@ keyword such as type of business.""
             var deserializedObject = JsonConvert.DeserializeObject<GenericListAndDictionaryInterfaceProperties>(json);
             Assert.IsNotNull(deserializedObject);
 
-            CollectionAssert.AreEqual(o.IListProperty.ToArray(), deserializedObject.IListProperty.ToArray());
-            CollectionAssert.AreEqual(o.IEnumerableProperty.ToArray(), deserializedObject.IEnumerableProperty.ToArray());
-            CollectionAssert.AreEqual(o.IDictionaryProperty.ToArray(), deserializedObject.IDictionaryProperty.ToArray());
+            Xunit.Assert.Equal(o.IListProperty.ToArray(), deserializedObject.IListProperty.ToArray());
+            Xunit.Assert.Equal(o.IEnumerableProperty.ToArray(), deserializedObject.IEnumerableProperty.ToArray());
+            Xunit.Assert.Equal(o.IDictionaryProperty.ToArray(), deserializedObject.IDictionaryProperty.ToArray());
         }
 
         [Fact]
@@ -5394,7 +5394,7 @@ Path '', line 1, position 1.");
                 var newObject = (TestObject)serializer.Deserialize(jsonReader);
 
                 Assert.AreEqual("Test", newObject.Name);
-                CollectionAssert.AreEquivalent(new byte[] { 72, 63, 62, 71, 92, 55 }, newObject.Data);
+                Xunit.Assert.Equal(new byte[] { 72, 63, 62, 71, 92, 55 }, newObject.Data);
             }
         }
 
@@ -5711,7 +5711,7 @@ Path '', line 1, position 1.");
             Assert.AreEqual(new Guid("d8220a4b-75b1-4b7a-8112-b7bdae956a45"), actual.SourceTypeID);
             Assert.AreEqual(new Guid("951663c4-924e-4c86-a57a-7ed737501dbd"), actual.BrokerID);
             var bytes = (byte[])actual.Payload;
-            CollectionAssert.AreEquivalent(new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }.ToList(), bytes.ToList());
+            Xunit.Assert.Equal(new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }.ToList(), bytes.ToList());
         }
 
         [Fact]

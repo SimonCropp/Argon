@@ -1478,7 +1478,7 @@ public class JPathExecuteTests : TestFixtureBase
         var mustBeNumber2 = o.SelectTokens("Values[?(@.Coercible !== '1')].Name").Select(x => (string)x);
 
         // FAILS-- JPath returns { "String" }
-        //CollectionAssert.AreEquivalent(new[] { "Number", "String" }, sanity1);
+        //Xunit.Assert.Equal(new[] { "Number", "String" }, sanity1);
         // FAILS-- JPath returns { "Number" }
         //Assert.IsTrue(!sanity2.Any());
         Assert.AreEqual("Number", mustBeNumber1.Single());

@@ -571,7 +571,7 @@ Parameter name: content",
 
         c1.Merge(c2);
         Assert.AreEqual("c2", c1.Name);
-        CollectionAssert.AreEquivalent(new[] { 1, 2, 3, 4 }, c1.Select(i => (int)i));
+        Xunit.Assert.Equal(new[] { 1, 2, 3, 4 }, c1.Select(i => (int)i));
 
         var c3 = new JConstructor();
         c1.Merge(c3);
@@ -583,7 +583,7 @@ Parameter name: content",
             MergeArrayHandling = MergeArrayHandling.Replace
         });
         Assert.AreEqual("c4", c1.Name);
-        CollectionAssert.AreEquivalent(new[] { 5, 6 }, c1.Select(i => (int)i));
+        Xunit.Assert.Equal(new[] { 5, 6 }, c1.Select(i => (int)i));
     }
 
     [Fact]

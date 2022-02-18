@@ -166,7 +166,7 @@ public class BinaryConverterTests : TestFixtureBase
 
         var byteArrayClass = JsonConvert.DeserializeObject<ByteArrayClass>(json);
 
-        CollectionAssert.AreEquivalent(TestData, byteArrayClass.ByteArray);
+        Xunit.Assert.Equal(TestData, byteArrayClass.ByteArray);
         Assert.AreEqual(null, byteArrayClass.NullByteArray);
     }
 
@@ -181,6 +181,6 @@ public class BinaryConverterTests : TestFixtureBase
         var c = JsonConvert.DeserializeObject<ByteArrayClass>(json);
         Assert.IsNotNull(c.ByteArray);
         Assert.AreEqual(4, c.ByteArray.Length);
-        CollectionAssert.AreEquivalent(new byte[] { 0, 1, 2, 3 }, c.ByteArray);
+        Xunit.Assert.Equal(new byte[] { 0, 1, 2, 3 }, c.ByteArray);
     }
 }

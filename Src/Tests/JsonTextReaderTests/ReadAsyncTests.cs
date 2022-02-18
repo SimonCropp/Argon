@@ -214,7 +214,7 @@ public class ReadAsyncTests : TestFixtureBase
 
         var result = await reader.ReadAsBytesAsync();
 
-        CollectionAssert.AreEquivalent(data, result);
+        Xunit.Assert.Equal(data, result);
     }
 
     [Fact]
@@ -958,7 +958,7 @@ public class ReadAsyncTests : TestFixtureBase
         Assert.AreEqual(1.1m, await reader.ReadAsDecimalAsync());
         Assert.AreEqual(JsonToken.Float, reader.TokenType);
 
-        CollectionAssert.AreEquivalent(new byte[0], await reader.ReadAsBytesAsync());
+        Xunit.Assert.Equal(new byte[0], await reader.ReadAsBytesAsync());
         Assert.AreEqual(JsonToken.Bytes, reader.TokenType);
 
         Assert.IsTrue(await reader.ReadAsync());
@@ -1179,13 +1179,13 @@ public class ReadAsyncTests : TestFixtureBase
         var data = await jsonTextReader.ReadAsBytesAsync();
         var expected = Convert.FromBase64String("AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAA");
 
-        CollectionAssert.AreEqual(expected, data);
+        Xunit.Assert.Equal(expected, data);
 
         jsonTextReader = new JsonTextReader(new StringReader("'AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAABAAAA'"));
         data = await jsonTextReader.ReadAsBytesAsync();
         expected = new Guid("AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAABAAAA").ToByteArray();
 
-        CollectionAssert.AreEqual(expected, data);
+        Xunit.Assert.Equal(expected, data);
     }
 
     [Fact]
@@ -1566,7 +1566,7 @@ third line", jsonTextReader.Value);
         Assert.IsTrue(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.Integer, reader.TokenType);
         var data = await reader.ReadAsBytesAsync();
-        CollectionAssert.AreEquivalent(helloWorldData, data);
+        Xunit.Assert.Equal(helloWorldData, data);
         Assert.AreEqual(JsonToken.Bytes, reader.TokenType);
         Assert.IsTrue(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
@@ -1588,7 +1588,7 @@ third line", jsonTextReader.Value);
         Assert.AreEqual(JsonToken.Integer, reader.TokenType);
         Assert.IsTrue(await reader.ReadAsync());
         var data = await reader.ReadAsBytesAsync();
-        CollectionAssert.AreEquivalent(helloWorldData, data);
+        Xunit.Assert.Equal(helloWorldData, data);
         Assert.AreEqual(JsonToken.Bytes, reader.TokenType);
         Assert.IsTrue(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.EndObject, reader.TokenType);

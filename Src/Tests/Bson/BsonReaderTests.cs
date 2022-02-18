@@ -331,7 +331,7 @@ public class BsonReaderTests : TestFixtureBase
 
         Assert.IsTrue(reader.Read());
         Assert.AreEqual(JsonToken.Bytes, reader.TokenType);
-        CollectionAssert.AreEquivalent(new byte[] { 0, 1, 2, 3, 4 }, (byte[])reader.Value);
+        Xunit.Assert.Equal(new byte[] { 0, 1, 2, 3, 4 }, (byte[])reader.Value);
         Assert.AreEqual(typeof(byte[]), reader.ValueType);
 
         Assert.IsTrue(reader.Read());
@@ -525,7 +525,7 @@ public class BsonReaderTests : TestFixtureBase
 
         Assert.IsTrue(reader.Read());
         Assert.AreEqual(JsonToken.Bytes, reader.TokenType);
-        CollectionAssert.AreEquivalent(HexToBytes("4ABBED9D1D8B0F0218000001"), (byte[])reader.Value);
+        Xunit.Assert.Equal(HexToBytes("4ABBED9D1D8B0F0218000001"), (byte[])reader.Value);
         Assert.AreEqual(typeof(byte[]), reader.ValueType);
 
         Assert.IsTrue(reader.Read());
@@ -563,7 +563,7 @@ public class BsonReaderTests : TestFixtureBase
 
         Assert.IsTrue(reader.Read());
         Assert.AreEqual(JsonToken.Bytes, reader.TokenType);
-        CollectionAssert.AreEquivalent(HexToBytes("4A-78-93-79-17-22-00-00-00-00-61-CF"), (byte[])reader.Value);
+        Xunit.Assert.Equal(HexToBytes("4A-78-93-79-17-22-00-00-00-00-61-CF"), (byte[])reader.Value);
         Assert.AreEqual(typeof(byte[]), reader.ValueType);
 
         Assert.IsTrue(reader.Read());
@@ -799,7 +799,7 @@ public class BsonReaderTests : TestFixtureBase
 
         Assert.IsTrue(reader.Read());
         Assert.AreEqual(JsonToken.Bytes, reader.TokenType);
-        CollectionAssert.AreEquivalent(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 }, (byte[])reader.Value);
+        Xunit.Assert.Equal(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 }, (byte[])reader.Value);
         Assert.AreEqual(typeof(byte[]), reader.ValueType);
 
         Assert.IsTrue(reader.Read());
@@ -1447,7 +1447,7 @@ public class BsonReaderTests : TestFixtureBase
             var newObject = (TestObject)serializer.Deserialize(bsonReader);
 
             Assert.AreEqual("Test", newObject.Name);
-            CollectionAssert.AreEquivalent(new byte[] { 72, 63, 62, 71, 92, 55 }, newObject.Data);
+            Xunit.Assert.Equal(new byte[] { 72, 63, 62, 71, 92, 55 }, newObject.Data);
         }
     }
 
@@ -1674,17 +1674,17 @@ public class BsonReaderTests : TestFixtureBase
         Assert.IsTrue(reader.Read());
         Assert.IsTrue(reader.Read());
 
-        CollectionAssert.AreEquivalent(g.ToByteArray(), reader.ReadAsBytes());
+        Xunit.Assert.Equal(g.ToByteArray(), reader.ReadAsBytes());
         Assert.AreEqual(JsonToken.Bytes, reader.TokenType);
         Assert.AreEqual(typeof(byte[]), reader.ValueType);
-        CollectionAssert.AreEquivalent(g.ToByteArray(), (byte[])reader.Value);
+        Xunit.Assert.Equal(g.ToByteArray(), (byte[])reader.Value);
 
         Assert.IsTrue(reader.Read());
         Assert.IsFalse(reader.Read());
 
         var serializer = new JsonSerializer();
         var b = serializer.Deserialize<BytesTestClass>(new BsonReader(new MemoryStream(bytes)));
-        CollectionAssert.AreEquivalent(g.ToByteArray(), b.TheGuid);
+        Xunit.Assert.Equal(g.ToByteArray(), b.TheGuid);
     }
 
     [Fact]
@@ -1706,10 +1706,10 @@ public class BsonReaderTests : TestFixtureBase
         Assert.IsTrue(reader.Read());
         Assert.IsTrue(reader.Read());
 
-        CollectionAssert.AreEquivalent(g.ToByteArray(), reader.ReadAsBytes());
+        Xunit.Assert.Equal(g.ToByteArray(), reader.ReadAsBytes());
         Assert.AreEqual(JsonToken.Bytes, reader.TokenType);
         Assert.AreEqual(typeof(byte[]), reader.ValueType);
-        CollectionAssert.AreEquivalent(g.ToByteArray(), (byte[])reader.Value);
+        Xunit.Assert.Equal(g.ToByteArray(), (byte[])reader.Value);
 
         Assert.IsTrue(reader.Read());
         Assert.IsFalse(reader.Read());
@@ -1719,7 +1719,7 @@ public class BsonReaderTests : TestFixtureBase
             MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
         };
         var b = serializer.Deserialize<BytesTestClass>(new BsonReader(new MemoryStream(bytes)));
-        CollectionAssert.AreEquivalent(g.ToByteArray(), b.TheGuid);
+        Xunit.Assert.Equal(g.ToByteArray(), b.TheGuid);
     }
 
     [Fact]

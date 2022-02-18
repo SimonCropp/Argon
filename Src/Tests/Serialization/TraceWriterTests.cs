@@ -1281,7 +1281,7 @@ Argon Error: 0 : Error!
 
         traceReader.ReadAsBytes();
         Assert.AreEqual(JsonToken.Bytes, traceReader.TokenType);
-        CollectionAssert.AreEqual(Encoding.UTF8.GetBytes("String!"), (byte[])traceReader.Value);
+        Xunit.Assert.Equal(Encoding.UTF8.GetBytes("String!"), (byte[])traceReader.Value);
 
         traceReader.ReadAsInt32();
         Assert.AreEqual(JsonToken.Integer, traceReader.TokenType);

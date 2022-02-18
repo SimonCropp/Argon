@@ -49,7 +49,7 @@ public class FSharpTests : TestFixtureBase
         var l2 = JsonConvert.DeserializeObject<FSharpList<int>>(json);
 
         Assert.AreEqual(l.Length, l2.Length);
-        CollectionAssert.AreEquivalent(l, l2);
+        Xunit.Assert.Equal(l, l2);
     }
 
     [Fact]
@@ -68,7 +68,7 @@ public class FSharpTests : TestFixtureBase
         var l2 = JsonConvert.DeserializeObject<FSharpSet<int>>(json);
 
         Assert.AreEqual(l.Count, l2.Count);
-        CollectionAssert.AreEquivalent(l, l2);
+        Xunit.Assert.Equal(l, l2);
     }
 
     [Fact]

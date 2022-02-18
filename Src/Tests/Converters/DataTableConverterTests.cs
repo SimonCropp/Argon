@@ -421,7 +421,7 @@ public class DataTableConverterTests : TestFixtureBase
         Assert.AreEqual(1, deserializedDataTable.Rows.Count);
 
         var dr1 = deserializedDataTable.Rows[0];
-        CollectionAssert.AreEquivalent(Encoding.UTF8.GetBytes("Hello world!"), (byte[])dr1["data"]);
+        Xunit.Assert.Equal(Encoding.UTF8.GetBytes("Hello world!"), (byte[])dr1["data"]);
         Assert.AreEqual(g, (Guid)dr1["id"]);
     }
 #pragma warning restore 618

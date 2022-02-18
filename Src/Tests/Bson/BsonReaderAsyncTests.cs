@@ -251,7 +251,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
 
         Assert.IsTrue(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.Bytes, reader.TokenType);
-        CollectionAssert.AreEquivalent(new byte[] { 0, 1, 2, 3, 4 }, (byte[])reader.Value);
+        Xunit.Assert.Equal(new byte[] { 0, 1, 2, 3, 4 }, (byte[])reader.Value);
         Assert.AreEqual(typeof(byte[]), reader.ValueType);
 
         Assert.IsTrue(await reader.ReadAsync());
@@ -445,7 +445,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
 
         Assert.IsTrue(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.Bytes, reader.TokenType);
-        CollectionAssert.AreEquivalent(HexToBytes("4ABBED9D1D8B0F0218000001"), (byte[])reader.Value);
+        Xunit.Assert.Equal(HexToBytes("4ABBED9D1D8B0F0218000001"), (byte[])reader.Value);
         Assert.AreEqual(typeof(byte[]), reader.ValueType);
 
         Assert.IsTrue(await reader.ReadAsync());
@@ -483,7 +483,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
 
         Assert.IsTrue(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.Bytes, reader.TokenType);
-        CollectionAssert.AreEquivalent(HexToBytes("4A-78-93-79-17-22-00-00-00-00-61-CF"), (byte[])reader.Value);
+        Xunit.Assert.Equal(HexToBytes("4A-78-93-79-17-22-00-00-00-00-61-CF"), (byte[])reader.Value);
         Assert.AreEqual(typeof(byte[]), reader.ValueType);
 
         Assert.IsTrue(await reader.ReadAsync());
@@ -673,7 +673,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
 
         Assert.IsTrue(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.Bytes, reader.TokenType);
-        CollectionAssert.AreEquivalent(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 }, (byte[])reader.Value);
+        Xunit.Assert.Equal(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 }, (byte[])reader.Value);
         Assert.AreEqual(typeof(byte[]), reader.ValueType);
 
         Assert.IsTrue(await reader.ReadAsync());
@@ -1270,17 +1270,17 @@ public class BsonReaderAsyncTests : TestFixtureBase
         Assert.IsTrue(await reader.ReadAsync());
         Assert.IsTrue(await reader.ReadAsync());
 
-        CollectionAssert.AreEquivalent(g.ToByteArray(), reader.ReadAsBytes());
+        Xunit.Assert.Equal(g.ToByteArray(), reader.ReadAsBytes());
         Assert.AreEqual(JsonToken.Bytes, reader.TokenType);
         Assert.AreEqual(typeof(byte[]), reader.ValueType);
-        CollectionAssert.AreEquivalent(g.ToByteArray(), (byte[])reader.Value);
+        Xunit.Assert.Equal(g.ToByteArray(), (byte[])reader.Value);
 
         Assert.IsTrue(await reader.ReadAsync());
         Assert.IsFalse(await reader.ReadAsync());
 
         var serializer = new JsonSerializer();
         var b = serializer.Deserialize<BytesTestClass>(new BsonReader(new MemoryStream(bytes)));
-        CollectionAssert.AreEquivalent(g.ToByteArray(), b.TheGuid);
+        Xunit.Assert.Equal(g.ToByteArray(), b.TheGuid);
     }
 
     [Fact]
@@ -1302,10 +1302,10 @@ public class BsonReaderAsyncTests : TestFixtureBase
         Assert.IsTrue(await reader.ReadAsync());
         Assert.IsTrue(await reader.ReadAsync());
 
-        CollectionAssert.AreEquivalent(g.ToByteArray(), reader.ReadAsBytes());
+        Xunit.Assert.Equal(g.ToByteArray(), reader.ReadAsBytes());
         Assert.AreEqual(JsonToken.Bytes, reader.TokenType);
         Assert.AreEqual(typeof(byte[]), reader.ValueType);
-        CollectionAssert.AreEquivalent(g.ToByteArray(), (byte[])reader.Value);
+        Xunit.Assert.Equal(g.ToByteArray(), (byte[])reader.Value);
 
         Assert.IsTrue(await reader.ReadAsync());
         Assert.IsFalse(await reader.ReadAsync());
@@ -1315,7 +1315,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
             MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
         };
         var b = serializer.Deserialize<BytesTestClass>(new BsonReader(new MemoryStream(bytes)));
-        CollectionAssert.AreEquivalent(g.ToByteArray(), b.TheGuid);
+        Xunit.Assert.Equal(g.ToByteArray(), b.TheGuid);
     }
 
     public class BytesTestClass

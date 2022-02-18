@@ -1578,7 +1578,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
         };
         var bytes = reader.ReadAsBytes();
 
-        CollectionAssert.AreEquivalent(data, bytes);
+        Xunit.Assert.Equal(data, bytes);
     }
 
     [Fact]
