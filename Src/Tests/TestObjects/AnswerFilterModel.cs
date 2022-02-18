@@ -29,7 +29,7 @@ namespace Argon.Tests.TestObjects;
 public class AnswerFilterModel
 {
     [NonSerialized]
-    private readonly IList answerValues;
+    readonly IList answerValues;
 
     /// <summary>
     /// Initializes a new instance of the  class.

@@ -82,12 +82,12 @@ public abstract class JsonContract
     internal bool IsSealed;
     internal bool IsInstantiable;
 
-    private List<SerializationCallback>? _onDeserializedCallbacks;
-    private List<SerializationCallback>? _onDeserializingCallbacks;
-    private List<SerializationCallback>? _onSerializedCallbacks;
-    private List<SerializationCallback>? _onSerializingCallbacks;
-    private List<SerializationErrorCallback>? _onErrorCallbacks;
-    private Type _createdType;
+    List<SerializationCallback>? _onDeserializedCallbacks;
+    List<SerializationCallback>? _onDeserializingCallbacks;
+    List<SerializationCallback>? _onSerializedCallbacks;
+    List<SerializationCallback>? _onSerializingCallbacks;
+    List<SerializationErrorCallback>? _onErrorCallbacks;
+    Type _createdType;
 
     /// <summary>
     /// Gets the underlying type for the contract.

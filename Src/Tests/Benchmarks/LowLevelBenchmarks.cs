@@ -31,12 +31,12 @@ namespace Argon.Tests.Benchmarks;
 
 public class LowLevelBenchmarks
 {
-    private const string FloatText = "123.123";
-    private static readonly char[] FloatChars = FloatText.ToCharArray();
+    const string FloatText = "123.123";
+    static readonly char[] FloatChars = FloatText.ToCharArray();
 
-    private static readonly Dictionary<string, object> NormalDictionary = new();
+    static readonly Dictionary<string, object> NormalDictionary = new();
 
-    private static readonly ConcurrentDictionary<string, object> ConcurrentDictionary = new();
+    static readonly ConcurrentDictionary<string, object> ConcurrentDictionary = new();
 
     static LowLevelBenchmarks()
     {
@@ -68,7 +68,7 @@ public class LowLevelBenchmarks
         ConcurrentDictionary.GetOrAdd("1", Dummy);
     }
 
-    private object Dummy(string arg)
+    object Dummy(string arg)
     {
         throw new Exception("Should never get here.");
     }

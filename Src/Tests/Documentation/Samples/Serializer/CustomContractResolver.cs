@@ -27,7 +27,6 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
 [TestFixture]
@@ -36,7 +35,7 @@ public class CustomContractResolver : TestFixtureBase
     #region Types
     public class DynamicContractResolver : DefaultContractResolver
     {
-        private readonly char _startingWithChar;
+        readonly char _startingWithChar;
 
         public DynamicContractResolver(char startingWithChar)
         {

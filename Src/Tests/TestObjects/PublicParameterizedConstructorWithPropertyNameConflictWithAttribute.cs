@@ -27,7 +27,7 @@ namespace Argon.Tests.TestObjects;
 
 public class PublicParameterizedConstructorWithPropertyNameConflictWithAttribute
 {
-    private readonly int _value;
+    readonly int _value;
 
     public PublicParameterizedConstructorWithPropertyNameConflictWithAttribute([JsonProperty("name")] string nameParameter)
     {

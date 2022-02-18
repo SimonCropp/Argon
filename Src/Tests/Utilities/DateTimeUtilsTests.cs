@@ -39,12 +39,12 @@ public class DateTimeUtilsTests : TestFixtureBase
         RoundtripDateIso(DateTime.MaxValue);
     }
 
-    private static StringReference CreateStringReference(string s)
+    static StringReference CreateStringReference(string s)
     {
         return new StringReference(s.ToCharArray(), 0, s.Length);
     }
 
-    private static void RoundtripDateIso(DateTime value)
+    static void RoundtripDateIso(DateTime value)
     {
         var sw = new StringWriter();
         DateTimeUtils.WriteDateTimeString(sw, value, DateFormatHandling.IsoDateFormat, null, CultureInfo.InvariantCulture);
@@ -121,7 +121,7 @@ public class DateTimeUtilsTests : TestFixtureBase
         AssertNewDateTimeParseEqual("9999-12-31T23:59:59.9999999-11:30", DateTime.MaxValue); // DateTime.TryParse fails instead of returning MaxDate in some timezones
     }
 
-    private void AssertNewDateTimeParseEqual(string text, object oldDate)
+    void AssertNewDateTimeParseEqual(string text, object oldDate)
     {
         if (TryParseDateIso(text, DateParseHandling.DateTime, DateTimeZoneHandling.RoundtripKind, out var oldDt))
         {
@@ -145,7 +145,7 @@ public class DateTimeUtilsTests : TestFixtureBase
         }
     }
 
-    private void AssertNewDateTimeParseEqual(string text)
+    void AssertNewDateTimeParseEqual(string text)
     {
         //Console.WriteLine("Parsing date text: " + text);
 
@@ -197,7 +197,7 @@ public class DateTimeUtilsTests : TestFixtureBase
         AssertNewDateTimeOffsetParseEqual("9999-12-31T23:59:59.9999999-13:30");
     }
 
-    private void AssertNewDateTimeOffsetParseEqual(string text)
+    void AssertNewDateTimeOffsetParseEqual(string text)
     {
         object newDt = null;
 

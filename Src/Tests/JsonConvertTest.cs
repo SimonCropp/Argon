@@ -31,7 +31,6 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-
 namespace Argon.Tests;
 
 [TestFixture]
@@ -882,7 +881,7 @@ public class JsonConvertTest : TestFixtureBase
         public string MsDateUtc { get; set; }
     }
 
-    private DateTimeResult TestDateTime<T>(string name, T value)
+    DateTimeResult TestDateTime<T>(string name, T value)
     {
         Console.WriteLine(name);
 
@@ -928,7 +927,7 @@ public class JsonConvertTest : TestFixtureBase
         return result;
     }
 
-    private static string TestDateTimeFormat<T>(T value, DateFormatHandling format, DateTimeZoneHandling timeZoneHandling)
+    static string TestDateTimeFormat<T>(T value, DateFormatHandling format, DateTimeZoneHandling timeZoneHandling)
     {
         string date = null;
 
@@ -960,7 +959,7 @@ public class JsonConvertTest : TestFixtureBase
         return date.Trim('"');
     }
 
-    private static void TestDateTimeFormat<T>(T value, JsonConverter converter)
+    static void TestDateTimeFormat<T>(T value, JsonConverter converter)
     {
         var date = Write(value, converter);
 
@@ -1235,7 +1234,7 @@ public class JsonConvertTest : TestFixtureBase
         
     public class OverloadsJsonConverterer : JsonConverter
     {
-        private readonly string _type;
+        readonly string _type;
             
         // constructor with Type argument
 
@@ -1767,10 +1766,10 @@ public class JsonConvertTest : TestFixtureBase
     [JsonObject(ItemRequired = Required.Always)]
     public sealed class ItemsRequiredObjectWithIgnoredProperty
     {
-        private static readonly DateTime s_unixEpoch = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        static readonly DateTime s_unixEpoch = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         [JsonProperty("exp")]
-        private int _expiration
+        int _expiration
         {
             get => (int)(Expiration - s_unixEpoch).TotalSeconds;
             set => Expiration = s_unixEpoch.AddSeconds(value);

@@ -30,7 +30,7 @@ namespace Argon.Utilities;
 
 internal sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
 {
-    private readonly DynamicProxy<T> _proxy;
+    readonly DynamicProxy<T> _proxy;
 
     internal DynamicProxyMetaObject(Expression expression, T value, DynamicProxy<T> proxy)
         : base(expression, BindingRestrictions.Empty, value)
@@ -38,7 +38,7 @@ internal sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
         _proxy = proxy;
     }
 
-    private bool IsOverridden(string method)
+    bool IsOverridden(string method)
     {
         return ReflectionUtils.IsMethodOverridden(_proxy.GetType(), typeof(DynamicProxy<T>), method);
     }
@@ -160,11 +160,11 @@ internal sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
             : base.BindDeleteIndex(binder, indexes);
     }
 
-    private delegate DynamicMetaObject Fallback(DynamicMetaObject? errorSuggestion);
+    delegate DynamicMetaObject Fallback(DynamicMetaObject? errorSuggestion);
 
-    private static Expression[] NoArgs => CollectionUtils.ArrayEmpty<Expression>();
+    static Expression[] NoArgs => CollectionUtils.ArrayEmpty<Expression>();
 
-    private static IEnumerable<Expression> GetArgs(params DynamicMetaObject[] args)
+    static IEnumerable<Expression> GetArgs(params DynamicMetaObject[] args)
     {
         return args.Select(arg =>
         {
@@ -173,12 +173,12 @@ internal sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
         });
     }
 
-    private static Expression[] GetArgArray(DynamicMetaObject[] args)
+    static Expression[] GetArgArray(DynamicMetaObject[] args)
     {
         return new[] { Expression.NewArrayInit(typeof(object), GetArgs(args)) };
     }
 
-    private static Expression[] GetArgArray(DynamicMetaObject[] args, DynamicMetaObject value)
+    static Expression[] GetArgArray(DynamicMetaObject[] args, DynamicMetaObject value)
     {
         var exp = value.Expression;
         return new[]
@@ -188,7 +188,7 @@ internal sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
         };
     }
 
-    private static ConstantExpression Constant(DynamicMetaObjectBinder binder)
+    static ConstantExpression Constant(DynamicMetaObjectBinder binder)
     {
         var t = binder.GetType();
         while (!t.IsVisible)
@@ -202,7 +202,7 @@ internal sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
     /// Helper method for generating a MetaObject which calls a
     /// specific method on Dynamic that returns a result
     /// </summary>
-    private DynamicMetaObject CallMethodWithResult(string methodName, DynamicMetaObjectBinder binder, IEnumerable<Expression> args, Fallback fallback, Fallback? fallbackInvoke = null)
+    DynamicMetaObject CallMethodWithResult(string methodName, DynamicMetaObjectBinder binder, IEnumerable<Expression> args, Fallback fallback, Fallback? fallbackInvoke = null)
     {
         //
         // First, call fallback to do default binding
@@ -213,7 +213,7 @@ internal sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
         return BuildCallMethodWithResult(methodName, binder, args, fallbackResult, fallbackInvoke);
     }
 
-    private DynamicMetaObject BuildCallMethodWithResult(string methodName, DynamicMetaObjectBinder binder, IEnumerable<Expression> args, DynamicMetaObject fallbackResult, Fallback? fallbackInvoke)
+    DynamicMetaObject BuildCallMethodWithResult(string methodName, DynamicMetaObjectBinder binder, IEnumerable<Expression> args, DynamicMetaObject fallbackResult, Fallback? fallbackInvoke)
     {
         //
         // Build a new expression like:
@@ -271,7 +271,7 @@ internal sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
     /// specific method on Dynamic, but uses one of the arguments for
     /// the result.
     /// </summary>
-    private DynamicMetaObject CallMethodReturnLast(string methodName, DynamicMetaObjectBinder binder, IEnumerable<Expression> args, Fallback fallback)
+    DynamicMetaObject CallMethodReturnLast(string methodName, DynamicMetaObjectBinder binder, IEnumerable<Expression> args, Fallback fallback)
     {
         //
         // First, call fallback to do default binding
@@ -317,7 +317,7 @@ internal sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
     /// specific method on Dynamic, but uses one of the arguments for
     /// the result.
     /// </summary>
-    private DynamicMetaObject CallMethodNoResult(string methodName, DynamicMetaObjectBinder binder, Expression[] args, Fallback fallback)
+    DynamicMetaObject CallMethodNoResult(string methodName, DynamicMetaObjectBinder binder, Expression[] args, Fallback fallback)
     {
         //
         // First, call fallback to do default binding
@@ -353,7 +353,7 @@ internal sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
     /// Returns a Restrictions object which includes our current restrictions merged
     /// with a restriction limiting our type
     /// </summary>
-    private BindingRestrictions GetRestrictions()
+    BindingRestrictions GetRestrictions()
     {
         return Value == null && HasValue
             ? BindingRestrictions.GetInstanceRestriction(Expression, null)
@@ -369,7 +369,7 @@ internal sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
     // is only used by DynamicObject.GetMember--it is not expected to
     // (and cannot) implement binding semantics. It is just so the DO
     // can use the Name and IgnoreCase properties.
-    private sealed class GetBinderAdapter : GetMemberBinder
+    sealed class GetBinderAdapter : GetMemberBinder
     {
         internal GetBinderAdapter(InvokeMemberBinder binder) :
             base(binder.Name, binder.IgnoreCase)

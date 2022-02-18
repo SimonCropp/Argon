@@ -1330,11 +1330,11 @@ public class TypeNameHandlingTests : TestFixtureBase
     public class CustomEnumerable<T> : IEnumerable<T>
     {
         //NOTE: a simple linked list
-        private readonly T value;
-        private readonly CustomEnumerable<T> next;
-        private readonly int count;
+        readonly T value;
+        readonly CustomEnumerable<T> next;
+        readonly int count;
 
-        private CustomEnumerable(T value, CustomEnumerable<T> next)
+        CustomEnumerable(T value, CustomEnumerable<T> next)
         {
             this.value = value;
             this.next = next;
@@ -1458,7 +1458,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         TestJsonSerializationRoundTrip(w, TypeNameHandling.Objects);
     }
 
-    private void TestJsonSerializationRoundTrip(SerializableWrapper e, TypeNameHandling flag)
+    void TestJsonSerializationRoundTrip(SerializableWrapper e, TypeNameHandling flag)
     {
         var writer = new StringWriter();
 
@@ -2331,7 +2331,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
     public class FancyBinder : ISerializationBinder
     {
-        private static readonly string Annotate = new(':', 3);
+        static readonly string Annotate = new(':', 3);
 
         public void BindToName(Type serializedType, out string assemblyName, out string typeName)
         {

@@ -27,9 +27,9 @@ using Argon;
 
 class TraceJsonReader : JsonReader, IJsonLineInfo
 {
-    private readonly JsonReader _innerReader;
-    private readonly JsonTextWriter _textWriter;
-    private readonly StringWriter _sw;
+    readonly JsonReader _innerReader;
+    readonly JsonTextWriter _textWriter;
+    readonly StringWriter _sw;
 
     public TraceJsonReader(JsonReader innerReader)
     {

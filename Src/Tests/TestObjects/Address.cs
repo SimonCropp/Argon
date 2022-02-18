@@ -36,7 +36,7 @@ public class Address
         set => _street = value;
     }
 
-    private string _street = "32 Kaiea";
+    string _street = "32 Kaiea";
 
     [DataMember]
     public string Phone
@@ -45,7 +45,7 @@ public class Address
         set => _Phone = value;
     }
 
-    private string _Phone = "(503) 814-6335";
+    string _Phone = "(503) 814-6335";
 
     [DataMember]
     public DateTime Entered
@@ -54,5 +54,5 @@ public class Address
         set => _Entered = value;
     }
 
-    private DateTime _Entered = DateTime.Parse("01/01/2007", CultureInfo.CurrentCulture.DateTimeFormat);
+    DateTime _Entered = DateTime.Parse("01/01/2007", CultureInfo.CurrentCulture.DateTimeFormat);
 }

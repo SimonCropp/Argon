@@ -29,7 +29,7 @@ public partial class JsonTextReader
 {
     // It's not safe to perform the async methods here in a derived class as if the synchronous equivalent
     // has been overriden then the asychronous method will no longer be doing the same operation
-    private readonly bool _safeAsync;
+    readonly bool _safeAsync;
 
     /// <summary>
     /// Asynchronously reads the next JSON token from the source.
@@ -84,7 +84,7 @@ public partial class JsonTextReader
         }
     }
 
-    private async Task<bool> DoReadAsync(Task<bool> task, CancellationToken cancellationToken)
+    async Task<bool> DoReadAsync(Task<bool> task, CancellationToken cancellationToken)
     {
         var result = await task.ConfigureAwait(false);
         if (result)
@@ -94,7 +94,7 @@ public partial class JsonTextReader
         return await DoReadAsync(cancellationToken).ConfigureAwait(false);
     }
 
-    private async Task<bool> ParsePostValueAsync(bool ignoreComments, CancellationToken cancellationToken)
+    async Task<bool> ParsePostValueAsync(bool ignoreComments, CancellationToken cancellationToken)
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -179,7 +179,7 @@ public partial class JsonTextReader
         }
     }
 
-    private async Task<bool> ReadFromFinishedAsync(CancellationToken cancellationToken)
+    async Task<bool> ReadFromFinishedAsync(CancellationToken cancellationToken)
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -205,12 +205,12 @@ public partial class JsonTextReader
         return false;
     }
 
-    private Task<int> ReadDataAsync(bool append, CancellationToken cancellationToken)
+    Task<int> ReadDataAsync(bool append, CancellationToken cancellationToken)
     {
         return ReadDataAsync(append, 0, cancellationToken);
     }
 
-    private async Task<int> ReadDataAsync(bool append, int charsRequired, CancellationToken cancellationToken)
+    async Task<int> ReadDataAsync(bool append, int charsRequired, CancellationToken cancellationToken)
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -234,7 +234,7 @@ public partial class JsonTextReader
         return charsRead;
     }
 
-    private async Task<bool> ParseValueAsync(CancellationToken cancellationToken)
+    async Task<bool> ParseValueAsync(CancellationToken cancellationToken)
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -365,7 +365,7 @@ public partial class JsonTextReader
         }
     }
 
-    private async Task ReadStringIntoBufferAsync(char quote, CancellationToken cancellationToken)
+    async Task ReadStringIntoBufferAsync(char quote, CancellationToken cancellationToken)
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -522,7 +522,7 @@ public partial class JsonTextReader
         }
     }
 
-    private Task ProcessCarriageReturnAsync(bool append, CancellationToken cancellationToken)
+    Task ProcessCarriageReturnAsync(bool append, CancellationToken cancellationToken)
     {
         CharPos++;
 
@@ -536,17 +536,17 @@ public partial class JsonTextReader
         return ProcessCarriageReturnAsync(task);
     }
 
-    private async Task ProcessCarriageReturnAsync(Task<bool> task)
+    async Task ProcessCarriageReturnAsync(Task<bool> task)
     {
         SetNewLine(await task.ConfigureAwait(false));
     }
 
-    private async Task<char> ParseUnicodeAsync(CancellationToken cancellationToken)
+    async Task<char> ParseUnicodeAsync(CancellationToken cancellationToken)
     {
         return ConvertUnicode(await EnsureCharsAsync(4, true, cancellationToken).ConfigureAwait(false));
     }
 
-    private Task<bool> EnsureCharsAsync(int relativePosition, bool append, CancellationToken cancellationToken)
+    Task<bool> EnsureCharsAsync(int relativePosition, bool append, CancellationToken cancellationToken)
     {
         if (CharPos + relativePosition < _charsUsed)
         {
@@ -561,7 +561,7 @@ public partial class JsonTextReader
         return ReadCharsAsync(relativePosition, append, cancellationToken);
     }
 
-    private async Task<bool> ReadCharsAsync(int relativePosition, bool append, CancellationToken cancellationToken)
+    async Task<bool> ReadCharsAsync(int relativePosition, bool append, CancellationToken cancellationToken)
     {
         var charsRequired = CharPos + relativePosition - _charsUsed + 1;
 
@@ -583,7 +583,7 @@ public partial class JsonTextReader
         return true;
     }
 
-    private async Task<bool> ParseObjectAsync(CancellationToken cancellationToken)
+    async Task<bool> ParseObjectAsync(CancellationToken cancellationToken)
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -642,7 +642,7 @@ public partial class JsonTextReader
         }
     }
 
-    private async Task ParseCommentAsync(bool setToken, CancellationToken cancellationToken)
+    async Task ParseCommentAsync(bool setToken, CancellationToken cancellationToken)
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -740,7 +740,7 @@ public partial class JsonTextReader
         }
     }
 
-    private async Task EatWhitespaceAsync(CancellationToken cancellationToken)
+    async Task EatWhitespaceAsync(CancellationToken cancellationToken)
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -783,7 +783,7 @@ public partial class JsonTextReader
         }
     }
 
-    private async Task ParseStringAsync(char quote, ReadType readType, CancellationToken cancellationToken)
+    async Task ParseStringAsync(char quote, ReadType readType, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         CharPos++;
@@ -793,12 +793,12 @@ public partial class JsonTextReader
         ParseReadString(quote, readType);
     }
 
-    private async Task<bool> MatchValueAsync(string value, CancellationToken cancellationToken)
+    async Task<bool> MatchValueAsync(string value, CancellationToken cancellationToken)
     {
         return MatchValue(await EnsureCharsAsync(value.Length - 1, true, cancellationToken).ConfigureAwait(false), value);
     }
 
-    private async Task<bool> MatchValueWithTrailingSeparatorAsync(string value, CancellationToken cancellationToken)
+    async Task<bool> MatchValueWithTrailingSeparatorAsync(string value, CancellationToken cancellationToken)
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -816,7 +816,7 @@ public partial class JsonTextReader
         return IsSeparator(CharBuffer[CharPos]) || CharBuffer[CharPos] == '\0';
     }
 
-    private async Task MatchAndSetAsync(string value, JsonToken newToken, object? tokenValue, CancellationToken cancellationToken)
+    async Task MatchAndSetAsync(string value, JsonToken newToken, object? tokenValue, CancellationToken cancellationToken)
     {
         if (await MatchValueWithTrailingSeparatorAsync(value, cancellationToken).ConfigureAwait(false))
         {
@@ -828,22 +828,22 @@ public partial class JsonTextReader
         }
     }
 
-    private Task ParseTrueAsync(CancellationToken cancellationToken)
+    Task ParseTrueAsync(CancellationToken cancellationToken)
     {
         return MatchAndSetAsync(JsonConvert.True, JsonToken.Boolean, true, cancellationToken);
     }
 
-    private Task ParseFalseAsync(CancellationToken cancellationToken)
+    Task ParseFalseAsync(CancellationToken cancellationToken)
     {
         return MatchAndSetAsync(JsonConvert.False, JsonToken.Boolean, false, cancellationToken);
     }
 
-    private Task ParseNullAsync(CancellationToken cancellationToken)
+    Task ParseNullAsync(CancellationToken cancellationToken)
     {
         return MatchAndSetAsync(JsonConvert.Null, JsonToken.Null, null, cancellationToken);
     }
 
-    private async Task ParseConstructorAsync(CancellationToken cancellationToken)
+    async Task ParseConstructorAsync(CancellationToken cancellationToken)
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -928,22 +928,22 @@ public partial class JsonTextReader
         }
     }
 
-    private async Task<object> ParseNumberNaNAsync(ReadType readType, CancellationToken cancellationToken)
+    async Task<object> ParseNumberNaNAsync(ReadType readType, CancellationToken cancellationToken)
     {
         return ParseNumberNaN(readType, await MatchValueWithTrailingSeparatorAsync(JsonConvert.NaN, cancellationToken).ConfigureAwait(false));
     }
 
-    private async Task<object> ParseNumberPositiveInfinityAsync(ReadType readType, CancellationToken cancellationToken)
+    async Task<object> ParseNumberPositiveInfinityAsync(ReadType readType, CancellationToken cancellationToken)
     {
         return ParseNumberPositiveInfinity(readType, await MatchValueWithTrailingSeparatorAsync(JsonConvert.PositiveInfinity, cancellationToken).ConfigureAwait(false));
     }
 
-    private async Task<object> ParseNumberNegativeInfinityAsync(ReadType readType, CancellationToken cancellationToken)
+    async Task<object> ParseNumberNegativeInfinityAsync(ReadType readType, CancellationToken cancellationToken)
     {
         return ParseNumberNegativeInfinity(readType, await MatchValueWithTrailingSeparatorAsync(JsonConvert.NegativeInfinity, cancellationToken).ConfigureAwait(false));
     }
 
-    private async Task ParseNumberAsync(ReadType readType, CancellationToken cancellationToken)
+    async Task ParseNumberAsync(ReadType readType, CancellationToken cancellationToken)
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -957,12 +957,12 @@ public partial class JsonTextReader
         ParseReadNumber(readType, firstChar, initialPosition);
     }
 
-    private Task ParseUndefinedAsync(CancellationToken cancellationToken)
+    Task ParseUndefinedAsync(CancellationToken cancellationToken)
     {
         return MatchAndSetAsync(JsonConvert.Undefined, JsonToken.Undefined, null, cancellationToken);
     }
 
-    private async Task<bool> ParsePropertyAsync(CancellationToken cancellationToken)
+    async Task<bool> ParsePropertyAsync(CancellationToken cancellationToken)
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -1016,7 +1016,7 @@ public partial class JsonTextReader
         return true;
     }
 
-    private async Task ReadNumberIntoBufferAsync(CancellationToken cancellationToken)
+    async Task ReadNumberIntoBufferAsync(CancellationToken cancellationToken)
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -1052,7 +1052,7 @@ public partial class JsonTextReader
         }
     }
 
-    private async Task ParseUnquotedPropertyAsync(CancellationToken cancellationToken)
+    async Task ParseUnquotedPropertyAsync(CancellationToken cancellationToken)
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -1085,7 +1085,7 @@ public partial class JsonTextReader
         }
     }
 
-    private async Task<bool> ReadNullCharAsync(CancellationToken cancellationToken)
+    async Task<bool> ReadNullCharAsync(CancellationToken cancellationToken)
     {
         if (_charsUsed == CharPos)
         {
@@ -1103,7 +1103,7 @@ public partial class JsonTextReader
         return false;
     }
 
-    private async Task HandleNullAsync(CancellationToken cancellationToken)
+    async Task HandleNullAsync(CancellationToken cancellationToken)
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -1123,7 +1123,7 @@ public partial class JsonTextReader
         throw CreateUnexpectedEndException();
     }
 
-    private async Task ReadFinishedAsync(CancellationToken cancellationToken)
+    async Task ReadFinishedAsync(CancellationToken cancellationToken)
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -1149,7 +1149,7 @@ public partial class JsonTextReader
         SetToken(JsonToken.None);
     }
 
-    private async Task<object?> ReadStringValueAsync(ReadType readType, CancellationToken cancellationToken)
+    async Task<object?> ReadStringValueAsync(ReadType readType, CancellationToken cancellationToken)
     {
         EnsureBuffer();
         MiscellaneousUtils.Assert(CharBuffer != null);
@@ -1285,7 +1285,7 @@ public partial class JsonTextReader
         }
     }
 
-    private async Task<object?> ReadNumberValueAsync(ReadType readType, CancellationToken cancellationToken)
+    async Task<object?> ReadNumberValueAsync(ReadType readType, CancellationToken cancellationToken)
     {
         EnsureBuffer();
         MiscellaneousUtils.Assert(CharBuffer != null);
@@ -1657,7 +1657,7 @@ public partial class JsonTextReader
         }
     }
 
-    private async Task ReadIntoWrappedTypeObjectAsync(CancellationToken cancellationToken)
+    async Task ReadIntoWrappedTypeObjectAsync(CancellationToken cancellationToken)
     {
         await ReaderReadAndAssertAsync(cancellationToken).ConfigureAwait(false);
         if (Value != null && Value.ToString() == JsonTypeReflector.TypePropertyName)

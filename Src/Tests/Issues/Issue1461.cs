@@ -60,12 +60,12 @@ public class Issue1461 : TestFixtureBase
         Assert.AreEqual(@"{""Id"":""test""}", reader.ReadToEnd());
     }
 
-    private class TestObject
+    class TestObject
     {
         public Id Id { get; set; }
     }
 
-    private class TraceWriter : ITraceWriter
+    class TraceWriter : ITraceWriter
     {
         public TraceLevel LevelFilter => TraceLevel.Verbose;
 
@@ -75,7 +75,7 @@ public class Issue1461 : TestFixtureBase
         }
     }
 
-    private class IdJsonConverter : JsonConverter
+    class IdJsonConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType) => typeof(Id) == objectType;
 
@@ -101,7 +101,7 @@ public class Issue1461 : TestFixtureBase
         }
     }
 
-    private class Id : IEquatable<Id>
+    class Id : IEquatable<Id>
     {
         internal object Value { get; set; }
 

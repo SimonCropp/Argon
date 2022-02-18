@@ -30,12 +30,12 @@ namespace Argon.Converters;
 /// </summary>
 public class KeyValuePairConverter : JsonConverter
 {
-    private const string KeyName = "Key";
-    private const string ValueName = "Value";
+    const string KeyName = "Key";
+    const string ValueName = "Value";
 
-    private static readonly ThreadSafeStore<Type, ReflectionObject> ReflectionObjectPerType = new(InitializeReflectionObject);
+    static readonly ThreadSafeStore<Type, ReflectionObject> ReflectionObjectPerType = new(InitializeReflectionObject);
 
-    private static ReflectionObject InitializeReflectionObject(Type t)
+    static ReflectionObject InitializeReflectionObject(Type t)
     {
         IList<Type> genericArguments = t.GetGenericArguments();
         var keyType = genericArguments[0];

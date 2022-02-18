@@ -29,7 +29,7 @@ namespace Argon.Tests.TestObjects;
 
 public class ListSourceTest : IListSource
 {
-    private string str;
+    string str;
 
     public string strprop
     {

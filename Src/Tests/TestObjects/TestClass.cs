@@ -36,7 +36,7 @@ public class TestClass
         set => _Name = value;
     }
 
-    private string _Name = "Rick";
+    string _Name = "Rick";
 
     [DataMember]
     public DateTime Now
@@ -45,7 +45,7 @@ public class TestClass
         set => _Now = value;
     }
 
-    private DateTime _Now = DateTime.Now;
+    DateTime _Now = DateTime.Now;
 
     [DataMember]
     public decimal BigNumber
@@ -54,7 +54,7 @@ public class TestClass
         set => _BigNumber = value;
     }
 
-    private decimal _BigNumber = 1212121.22M;
+    decimal _BigNumber = 1212121.22M;
 
     [DataMember]
     public Address Address1
@@ -63,7 +63,7 @@ public class TestClass
         set => _Address1 = value;
     }
 
-    private Address _Address1 = new();
+    Address _Address1 = new();
 
     [DataMember]
     public List<Address> Addresses
@@ -72,7 +72,7 @@ public class TestClass
         set => _Addresses = value;
     }
 
-    private List<Address> _Addresses = new();
+    List<Address> _Addresses = new();
 
     [DataMember]
     public List<string> strings = new();

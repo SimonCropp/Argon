@@ -29,7 +29,6 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-
 namespace Argon.Tests.Serialization;
 
 [TestFixture]
@@ -37,7 +36,7 @@ public class ExtensionDataTests : TestFixtureBase
 {
     public class CustomDictionary : IDictionary<string, object>
     {
-        private readonly IDictionary<string, object> _inner = new Dictionary<string, object>();
+        readonly IDictionary<string, object> _inner = new Dictionary<string, object>();
 
         public void Add(string key, object value)
         {
@@ -221,7 +220,7 @@ public class ExtensionDataTests : TestFixtureBase
     }
 
 #pragma warning disable 649
-    private class ExtendedObject
+    class ExtendedObject
     {
         [JsonExtensionData]
         internal IDictionary<string, JToken> _additionalData;
@@ -236,7 +235,7 @@ public class ExtensionDataTests : TestFixtureBase
 
         // everything else gets stored here
         [JsonExtensionData]
-        private IDictionary<string, JToken> _additionalData;
+        IDictionary<string, JToken> _additionalData;
     }
 #pragma warning restore 169
 
@@ -924,7 +923,7 @@ public class ExtensionDataTests : TestFixtureBase
 
     public class DocNoSetter
     {
-        private readonly JObject _content;
+        readonly JObject _content;
 
         public DocNoSetter()
         {

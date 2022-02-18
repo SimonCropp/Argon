@@ -25,10 +25,10 @@
 
 class BidirectionalDictionary<TFirst, TSecond>
 {
-    private readonly IDictionary<TFirst, TSecond> _firstToSecond;
-    private readonly IDictionary<TSecond, TFirst> _secondToFirst;
-    private readonly string _duplicateFirstErrorMessage;
-    private readonly string _duplicateSecondErrorMessage;
+    readonly IDictionary<TFirst, TSecond> _firstToSecond;
+    readonly IDictionary<TSecond, TFirst> _secondToFirst;
+    readonly string _duplicateFirstErrorMessage;
+    readonly string _duplicateSecondErrorMessage;
 
     public BidirectionalDictionary()
         : this(EqualityComparer<TFirst>.Default, EqualityComparer<TSecond>.Default)

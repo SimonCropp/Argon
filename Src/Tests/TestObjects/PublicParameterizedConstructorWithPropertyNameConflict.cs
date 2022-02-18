@@ -27,7 +27,7 @@ namespace Argon.Tests.TestObjects;
 
 public class PublicParameterizedConstructorWithPropertyNameConflict
 {
-    private readonly int _value;
+    readonly int _value;
 
     public PublicParameterizedConstructorWithPropertyNameConflict(string name)
     {

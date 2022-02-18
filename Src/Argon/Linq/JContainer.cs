@@ -73,8 +73,8 @@ public abstract partial class JContainer : JToken, IList<JToken>
     /// <value>The container's children tokens.</value>
     protected abstract IList<JToken> ChildrenTokens { get; }
 
-    private object? _syncRoot;
-    private bool _busy;
+    object? _syncRoot;
+    bool _busy;
 
     internal JContainer()
     {
@@ -703,7 +703,7 @@ public abstract partial class JContainer : JToken, IList<JToken>
         MergeItem(content, settings);
     }
 
-    private void ValidateContent(object content)
+    void ValidateContent(object content)
     {
         if (content.GetType().IsSubclassOf(typeof(JToken)))
         {
@@ -850,7 +850,7 @@ public abstract partial class JContainer : JToken, IList<JToken>
         } while (r.Read());
     }
 
-    private static JProperty? ReadProperty(JsonReader r, JsonLoadSettings? settings, IJsonLineInfo? lineInfo, JContainer parent)
+    static JProperty? ReadProperty(JsonReader r, JsonLoadSettings? settings, IJsonLineInfo? lineInfo, JContainer parent)
     {
         var duplicatePropertyNameHandling = settings?.DuplicatePropertyNameHandling ?? DuplicatePropertyNameHandling.Replace;
 
@@ -957,7 +957,7 @@ public abstract partial class JContainer : JToken, IList<JToken>
     }
     #endregion
 
-    private JToken? EnsureValue(object value)
+    JToken? EnsureValue(object value)
     {
         if (value == null)
         {

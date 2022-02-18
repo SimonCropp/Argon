@@ -28,9 +28,9 @@
 [Obsolete("JSON Schema validation has been moved to its own package. See https://www.newtonsoft.com/jsonschema for more details.")]
 class JsonSchemaModelBuilder
 {
-    private JsonSchemaNodeCollection _nodes = new();
-    private Dictionary<JsonSchemaNode, JsonSchemaModel> _nodeModels = new();
-    private JsonSchemaNode _node;
+    JsonSchemaNodeCollection _nodes = new();
+    Dictionary<JsonSchemaNode, JsonSchemaModel> _nodeModels = new();
+    JsonSchemaNode _node;
 
     public JsonSchemaModel Build(JsonSchema schema)
     {
@@ -150,7 +150,7 @@ class JsonSchemaModelBuilder
         parentNode.AdditionalItems = AddSchema(parentNode.AdditionalItems, schema);
     }
 
-    private JsonSchemaModel BuildNodeModel(JsonSchemaNode node)
+    JsonSchemaModel BuildNodeModel(JsonSchemaNode node)
     {
         if (_nodeModels.TryGetValue(node, out var model))
         {

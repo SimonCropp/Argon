@@ -38,7 +38,7 @@ public class PrivateImplementationBClass : PrivateImplementationAClass, IPrivate
     }
 
     [JsonProperty("OverriddenProperty")]
-    private string OverriddenPropertyString
+    string OverriddenPropertyString
     {
         get => OverriddenProperty.ToString();
         set => OverriddenProperty = value;

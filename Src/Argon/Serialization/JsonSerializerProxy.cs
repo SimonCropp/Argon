@@ -29,8 +29,8 @@ namespace Argon.Serialization;
 
 class JsonSerializerProxy : JsonSerializer
 {
-    private readonly JsonSerializerInternalReader? _serializerReader;
-    private readonly JsonSerializerInternalWriter? _serializerWriter;
+    readonly JsonSerializerInternalReader? _serializerReader;
+    readonly JsonSerializerInternalWriter? _serializerWriter;
     internal readonly JsonSerializer _serializer;
 
     public override event EventHandler<ErrorEventArgs>? Error

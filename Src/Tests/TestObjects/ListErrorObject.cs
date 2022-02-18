@@ -29,7 +29,7 @@ public class ListErrorObject
 {
     public string Member { get; set; }
 
-    private string _throwError;
+    string _throwError;
 
     public string ThrowError
     {

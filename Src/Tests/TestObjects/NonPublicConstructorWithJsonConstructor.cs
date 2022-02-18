@@ -31,7 +31,7 @@ public class NonPublicConstructorWithJsonConstructor
     public string Constructor { get; private set; }
 
     [JsonConstructor]
-    private NonPublicConstructorWithJsonConstructor()
+    NonPublicConstructorWithJsonConstructor()
     {
         Constructor = "NonPublic";
     }

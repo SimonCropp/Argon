@@ -36,7 +36,7 @@ public class DefaultSerializationBinder :
 {
     internal static readonly DefaultSerializationBinder Instance = new();
 
-    private readonly ThreadSafeStore<StructMultiKey<string?, string>, Type> _typeCache;
+    readonly ThreadSafeStore<StructMultiKey<string?, string>, Type> _typeCache;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DefaultSerializationBinder"/> class.
@@ -46,7 +46,7 @@ public class DefaultSerializationBinder :
         _typeCache = new ThreadSafeStore<StructMultiKey<string?, string>, Type>(GetTypeFromTypeNameKey);
     }
 
-    private Type GetTypeFromTypeNameKey(StructMultiKey<string?, string> typeNameKey)
+    Type GetTypeFromTypeNameKey(StructMultiKey<string?, string> typeNameKey)
     {
         var assemblyName = typeNameKey.Value1;
         var typeName = typeNameKey.Value2;
@@ -112,7 +112,7 @@ public class DefaultSerializationBinder :
         }
     }
 
-    private Type? GetGenericTypeFromTypeName(string typeName, Assembly assembly)
+    Type? GetGenericTypeFromTypeName(string typeName, Assembly assembly)
     {
         Type? type = null;
         var openBracketIndex = typeName.IndexOf('[');
@@ -158,7 +158,7 @@ public class DefaultSerializationBinder :
         return type;
     }
 
-    private Type GetTypeByName(StructMultiKey<string?, string> typeNameKey)
+    Type GetTypeByName(StructMultiKey<string?, string> typeNameKey)
     {
         return _typeCache.Get(typeNameKey);
     }

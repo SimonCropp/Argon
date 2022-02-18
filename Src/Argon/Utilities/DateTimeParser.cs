@@ -63,26 +63,26 @@ struct DateTimeParser
     public int ZoneMinute;
     public ParserTimeZone Zone;
 
-    private char[] _text;
-    private int _end;
+    char[] _text;
+    int _end;
 
-    private static readonly int[] Power10;
+    static readonly int[] Power10;
 
-    private static readonly int Lzyyyy;
-    private static readonly int Lzyyyy_;
-    private static readonly int Lzyyyy_MM;
-    private static readonly int Lzyyyy_MM_;
-    private static readonly int Lzyyyy_MM_dd;
-    private static readonly int Lzyyyy_MM_ddT;
-    private static readonly int LzHH;
-    private static readonly int LzHH_;
-    private static readonly int LzHH_mm;
-    private static readonly int LzHH_mm_;
-    private static readonly int LzHH_mm_ss;
-    private static readonly int Lz_;
-    private static readonly int Lz_zz;
+    static readonly int Lzyyyy;
+    static readonly int Lzyyyy_;
+    static readonly int Lzyyyy_MM;
+    static readonly int Lzyyyy_MM_;
+    static readonly int Lzyyyy_MM_dd;
+    static readonly int Lzyyyy_MM_ddT;
+    static readonly int LzHH;
+    static readonly int LzHH_;
+    static readonly int LzHH_mm;
+    static readonly int LzHH_mm_;
+    static readonly int LzHH_mm_ss;
+    static readonly int Lz_;
+    static readonly int Lz_zz;
 
-    private const short MaxFractionDigits = 7;
+    const short MaxFractionDigits = 7;
 
     public bool Parse(char[] text, int startIndex, int length)
     {
@@ -97,7 +97,7 @@ struct DateTimeParser
         return false;
     }
 
-    private bool ParseDate(int start)
+    bool ParseDate(int start)
     {
         return Parse4Digit(start, out Year)
                && 1 <= Year
@@ -106,12 +106,12 @@ struct DateTimeParser
                && Month is >= 1 and <= 12 && ParseChar(start + Lzyyyy_MM, '-') && Parse2Digit(start + Lzyyyy_MM_, out Day) && 1 <= Day && Day <= DateTime.DaysInMonth(Year, Month);
     }
 
-    private bool ParseTimeAndZoneAndWhitespace(int start)
+    bool ParseTimeAndZoneAndWhitespace(int start)
     {
         return ParseTime(ref start) && ParseZone(start);
     }
 
-    private bool ParseTime(ref int start)
+    bool ParseTime(ref int start)
     {
         if (!(Parse2Digit(start, out Hour)
               && Hour <= 24
@@ -163,7 +163,7 @@ struct DateTimeParser
         return true;
     }
 
-    private bool ParseZone(int start)
+    bool ParseZone(int start)
     {
         if (start < _end)
         {
@@ -222,7 +222,7 @@ struct DateTimeParser
         return start == _end;
     }
 
-    private bool Parse4Digit(int start, out int num)
+    bool Parse4Digit(int start, out int num)
     {
         if (start + 3 < _end)
         {
@@ -240,7 +240,7 @@ struct DateTimeParser
         return false;
     }
 
-    private bool Parse2Digit(int start, out int num)
+    bool Parse2Digit(int start, out int num)
     {
         if (start + 1 < _end)
         {
@@ -256,7 +256,7 @@ struct DateTimeParser
         return false;
     }
 
-    private bool ParseChar(int start, char ch)
+    bool ParseChar(int start, char ch)
     {
         return start < _end && _text[start] == ch;
     }

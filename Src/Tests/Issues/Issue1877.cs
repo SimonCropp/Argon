@@ -64,7 +64,7 @@ public class Issue1877
         // ...
     }
 
-    private class Fubar2 : Fubar
+    class Fubar2 : Fubar
     {
         [JsonIgnore]
         public new Version Version { get; set; } = new("2.0");

@@ -219,7 +219,7 @@ public static class JsonConvert
         return value.ToString(null, CultureInfo.InvariantCulture);
     }
 
-    private static string ToStringInternal(BigInteger value)
+    static string ToStringInternal(BigInteger value)
     {
         return value.ToString(null, CultureInfo.InvariantCulture);
     }
@@ -250,7 +250,7 @@ public static class JsonConvert
         return EnsureFloatFormat(value, EnsureDecimalPlace(value, value.ToString("R", CultureInfo.InvariantCulture)), floatFormatHandling, quoteChar, nullable);
     }
 
-    private static string EnsureFloatFormat(double value, string text, FloatFormatHandling floatFormatHandling, char quoteChar, bool nullable)
+    static string EnsureFloatFormat(double value, string text, FloatFormatHandling floatFormatHandling, char quoteChar, bool nullable)
     {
         if (floatFormatHandling == FloatFormatHandling.Symbol || !(double.IsInfinity(value) || double.IsNaN(value)))
         {
@@ -280,7 +280,7 @@ public static class JsonConvert
         return EnsureFloatFormat(value, EnsureDecimalPlace(value, value.ToString("R", CultureInfo.InvariantCulture)), floatFormatHandling, quoteChar, nullable);
     }
 
-    private static string EnsureDecimalPlace(double value, string text)
+    static string EnsureDecimalPlace(double value, string text)
     {
         if (double.IsNaN(value) || double.IsInfinity(value) || text.IndexOf('.') != -1 || text.IndexOf('E') != -1 || text.IndexOf('e') != -1)
         {
@@ -290,7 +290,7 @@ public static class JsonConvert
         return text + ".0";
     }
 
-    private static string EnsureDecimalPlace(string text)
+    static string EnsureDecimalPlace(string text)
     {
         if (text.IndexOf('.') != -1)
         {
@@ -623,7 +623,7 @@ public static class JsonConvert
         return SerializeObjectInternal(value, type, jsonSerializer);
     }
 
-    private static string SerializeObjectInternal(object? value, Type? type, JsonSerializer jsonSerializer)
+    static string SerializeObjectInternal(object? value, Type? type, JsonSerializer jsonSerializer)
     {
         var sb = new StringBuilder(256);
         var sw = new StringWriter(sb, CultureInfo.InvariantCulture);

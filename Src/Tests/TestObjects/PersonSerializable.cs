@@ -32,7 +32,7 @@ public class PersonSerializable
     {
     }
 
-    private string _name = "";
+    string _name = "";
 
     public string Name
     {
@@ -41,7 +41,7 @@ public class PersonSerializable
     }
 
     [NonSerialized]
-    private int _age = 0;
+    int _age = 0;
 
     public int Age
     {

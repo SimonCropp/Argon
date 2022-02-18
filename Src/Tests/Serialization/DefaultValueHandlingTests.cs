@@ -37,7 +37,7 @@ namespace Argon.Tests.Serialization;
 [TestFixture]
 public class DefaultValueHandlingTests : TestFixtureBase
 {
-    private class DefaultValueWithConstructorAndRename
+    class DefaultValueWithConstructorAndRename
     {
         public const string DefaultText = "...";
 
@@ -58,7 +58,7 @@ public class DefaultValueHandlingTests : TestFixtureBase
         Assert.AreEqual(DefaultValueWithConstructorAndRename.DefaultText, myObject.Text);
     }
 
-    private class DefaultValueWithConstructor
+    class DefaultValueWithConstructor
     {
         public const string DefaultText = "...";
 
@@ -84,7 +84,7 @@ public class DefaultValueHandlingTests : TestFixtureBase
         [JsonIgnore]
         public MyEnum Status { get; set; }
 
-        private string _data;
+        string _data;
 
         public string Data
         {
@@ -411,14 +411,14 @@ public class DefaultValueHandlingTests : TestFixtureBase
 
     public sealed class FieldExportFormat
     {
-        private string _format;
-        private ExportFormat? _exportFormat;
+        string _format;
+        ExportFormat? _exportFormat;
 
         [JsonProperty]
         public ExportFormat? ExportFormat
         {
             get => _exportFormat;
-            private set
+            set
             {
                 if (!value.HasValue)
                 {
@@ -433,7 +433,7 @@ public class DefaultValueHandlingTests : TestFixtureBase
         public string Format
         {
             get => _format;
-            private set
+            set
             {
                 if (value == null)
                 {
@@ -455,7 +455,7 @@ public class DefaultValueHandlingTests : TestFixtureBase
         }
 
         [JsonConstructor]
-        private FieldExportFormat(string format, ExportFormat? exportFormat)
+        FieldExportFormat(string format, ExportFormat? exportFormat)
         {
             if (exportFormat.HasValue)
             {

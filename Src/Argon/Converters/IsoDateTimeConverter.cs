@@ -30,10 +30,10 @@ namespace Argon.Converters;
 /// </summary>
 public class IsoDateTimeConverter : DateTimeConverterBase
 {
-    private const string DefaultDateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK";
+    const string DefaultDateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK";
 
-    private string? _dateTimeFormat;
-    private CultureInfo? _culture;
+    string? _dateTimeFormat;
+    CultureInfo? _culture;
 
     /// <summary>
     /// Gets or sets the date time styles used when converting a date to and from JSON.

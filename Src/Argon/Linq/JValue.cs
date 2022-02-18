@@ -33,8 +33,8 @@ namespace Argon.Linq;
 /// </summary>
 public partial class JValue : JToken, IEquatable<JValue>, IFormattable, IComparable, IComparable<JValue>, IConvertible
 {
-    private JTokenType _valueType;
-    private object? _value;
+    JTokenType _valueType;
+    object? _value;
 
     internal JValue(object? value, JTokenType type)
     {
@@ -201,7 +201,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// </value>
     public override bool HasValues => false;
 
-    private static int CompareBigInteger(BigInteger i1, object i2)
+    static int CompareBigInteger(BigInteger i1, object i2)
     {
         var result = i1.CompareTo(ConvertUtils.ToBigInteger(i2));
 
@@ -364,7 +364,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
         }
     }
 
-    private static int CompareFloat(object objA, object objB)
+    static int CompareFloat(object objA, object objB)
     {
         var d1 = Convert.ToDouble(objA, CultureInfo.InvariantCulture);
         var d2 = Convert.ToDouble(objB, CultureInfo.InvariantCulture);
@@ -378,7 +378,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
         return d1.CompareTo(d2);
     }
 
-    private static bool Operation(ExpressionType operation, object? objA, object? objB, out object? result)
+    static bool Operation(ExpressionType operation, object? objA, object? objB, out object? result)
     {
         if (objA is string || objB is string)
         {
@@ -565,7 +565,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
         return new JValue(null, JTokenType.Undefined);
     }
 
-    private static JTokenType GetValueType(JTokenType? current, object? value)
+    static JTokenType GetValueType(JTokenType? current, object? value)
     {
         if (value == null)
         {
@@ -628,7 +628,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
         throw new ArgumentException("Could not determine JSON object type for type {0}.".FormatWith(CultureInfo.InvariantCulture, value.GetType()));
     }
 
-    private static JTokenType GetStringValueType(JTokenType? current)
+    static JTokenType GetStringValueType(JTokenType? current)
     {
         if (current == null)
         {
@@ -785,7 +785,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
         return ((int)_valueType).GetHashCode() ^ valueHashCode;
     }
 
-    private static bool ValuesEquals(JValue v1, JValue v2)
+    static bool ValuesEquals(JValue v1, JValue v2)
     {
         return v1 == v2 || (v1._valueType == v2._valueType && Compare(v1._valueType, v1._value, v2._value) == 0);
     }
@@ -921,7 +921,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
         return new DynamicProxyMetaObject<JValue>(parameter, this, new JValueDynamicProxy());
     }
 
-    private class JValueDynamicProxy : DynamicProxy<JValue>
+    class JValueDynamicProxy : DynamicProxy<JValue>
     {
         public override bool TryConvert(JValue instance, ConvertBinder binder, [NotNullWhen(true)]out object? result)
         {

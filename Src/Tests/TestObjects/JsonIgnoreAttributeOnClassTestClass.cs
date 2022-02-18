@@ -28,8 +28,8 @@ namespace Argon.Tests.TestObjects;
 [JsonObject(MemberSerialization.OptIn)]
 public class JsonIgnoreAttributeOnClassTestClass
 {
-    private int _property = 21;
-    private int _ignoredProperty = 12;
+    int _property = 21;
+    int _ignoredProperty = 12;
 
     [JsonProperty("TheField")]
     public int Field;

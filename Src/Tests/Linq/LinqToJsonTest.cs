@@ -406,7 +406,7 @@ undefined
         EscapedPathAssert("this.has.dots", "['this.has.dots']");
     }
 
-    private void EscapedPathAssert(string propertyName, string expectedPath)
+    void EscapedPathAssert(string propertyName, string expectedPath)
     {
         var v1 = int.MaxValue;
         var value = new JValue(v1);
@@ -757,7 +757,7 @@ keyword such as type of business.""
 ]", a.ToString());
     }
 
-    private class Post
+    class Post
     {
         public string Title { get; set; }
         public string Description { get; set; }
@@ -765,7 +765,7 @@ keyword such as type of business.""
         public IList<string> Categories { get; set; }
     }
 
-    private List<Post> GetPosts()
+    List<Post> GetPosts()
     {
         return new List<Post>
         {
@@ -1486,7 +1486,7 @@ keyword such as type of business.""
 }", json);
     }
 
-    private static string SerializeWithNoRedundentIdProperties(object o)
+    static string SerializeWithNoRedundentIdProperties(object o)
     {
         var writer = new JTokenWriter();
         var serializer = JsonSerializer.Create(new JsonSerializerSettings

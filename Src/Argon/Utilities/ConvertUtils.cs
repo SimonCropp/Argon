@@ -93,7 +93,7 @@ enum ParseResult
 
 static class ConvertUtils
 {
-    private static readonly Dictionary<Type, PrimitiveTypeCode> TypeCodeMap =
+    static readonly Dictionary<Type, PrimitiveTypeCode> TypeCodeMap =
         new()
         {
             { typeof(char), PrimitiveTypeCode.Char },
@@ -138,7 +138,7 @@ static class ConvertUtils
             { typeof(DBNull), PrimitiveTypeCode.DBNull }
         };
 
-    private static readonly TypeInformation[] PrimitiveTypeCodes =
+    static readonly TypeInformation[] PrimitiveTypeCodes =
     {
         // need all of these. lookup against the index with TypeCode value
         new(typeof(object), PrimitiveTypeCode.Empty), 
@@ -213,10 +213,10 @@ static class ConvertUtils
         return TimeSpan.Parse(input, CultureInfo.InvariantCulture);
     }
 
-    private static readonly ThreadSafeStore<StructMultiKey<Type, Type>, Func<object?, object?>?> CastConverters =
+    static readonly ThreadSafeStore<StructMultiKey<Type, Type>, Func<object?, object?>?> CastConverters =
         new(CreateCastConverter);
 
-    private static Func<object?, object?>? CreateCastConverter(StructMultiKey<Type, Type> t)
+    static Func<object?, object?>? CreateCastConverter(StructMultiKey<Type, Type> t)
     {
         var initialType = t.Value1;
         var targetType = t.Value2;
@@ -340,7 +340,7 @@ static class ConvertUtils
         }
     }
 
-    private static bool TryConvert(object? initialValue, CultureInfo culture, Type targetType, out object? value)
+    static bool TryConvert(object? initialValue, CultureInfo culture, Type targetType, out object? value)
     {
         try
         {
@@ -359,7 +359,7 @@ static class ConvertUtils
         }
     }
 
-    private static ConvertResult TryConvertInternal(object? initialValue, CultureInfo culture, Type targetType, out object? value)
+    static ConvertResult TryConvertInternal(object? initialValue, CultureInfo culture, Type targetType, out object? value)
     {
         if (initialValue == null)
         {
@@ -541,7 +541,7 @@ static class ConvertUtils
     }
     #endregion
 
-    private static object? EnsureTypeAssignable(object? value, Type initialType, Type targetType)
+    static object? EnsureTypeAssignable(object? value, Type initialType, Type targetType)
     {
         if (value != null)
         {

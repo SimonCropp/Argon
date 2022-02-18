@@ -42,7 +42,7 @@ public class AATestClass
     protected int AA_property3 { private get; set; }
 
     [JsonProperty]
-    private int AA_property4 { get; set; }
+    int AA_property4 { get; set; }
 
     protected int AA_property5 { get; private set; }
     protected int AA_property6 { private get; set; }

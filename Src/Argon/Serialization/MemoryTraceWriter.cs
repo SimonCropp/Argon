@@ -6,8 +6,8 @@
 /// </summary>
 public class MemoryTraceWriter : ITraceWriter
 {
-    private readonly Queue<string> _traceMessages;
-    private readonly object _lock;
+    readonly Queue<string> _traceMessages;
+    readonly object _lock;
 
     /// <summary>
     /// Gets the <see cref="TraceLevel"/> that will be used to filter the trace messages passed to the writer.

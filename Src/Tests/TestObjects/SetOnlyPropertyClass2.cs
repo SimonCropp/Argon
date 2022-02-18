@@ -27,7 +27,7 @@ namespace Argon.Tests.TestObjects;
 
 public class SetOnlyPropertyClass2
 {
-    private object _value;
+    object _value;
 
     public object SetOnlyProperty
     {

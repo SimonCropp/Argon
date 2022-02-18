@@ -28,14 +28,13 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-
 namespace Argon.Tests.Documentation.Samples.Json;
 
 #region Types
 public class XmlJsonWriter : JsonWriter
 {
-    private readonly XmlWriter _writer;
-    private string _propertyName;
+    readonly XmlWriter _writer;
+    string _propertyName;
 
     public XmlJsonWriter(XmlWriter writer)
     {
@@ -197,7 +196,7 @@ public class XmlJsonWriter : JsonWriter
         _writer.WriteEndElement();
     }
 
-    private void WriteValueElement(JTokenType type)
+    void WriteValueElement(JTokenType type)
     {
         if (_propertyName != null)
         {
@@ -210,7 +209,7 @@ public class XmlJsonWriter : JsonWriter
         }
     }
 
-    private void WriteValueElement(string elementName, JTokenType type)
+    void WriteValueElement(string elementName, JTokenType type)
     {
         _writer.WriteStartElement(elementName);
         _writer.WriteAttributeString("type", type.ToString());

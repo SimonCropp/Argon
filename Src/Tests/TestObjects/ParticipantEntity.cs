@@ -27,7 +27,7 @@ namespace Argon.Tests.TestObjects;
 
 class ParticipantEntity
 {
-    private Dictionary<string, string> _properties;
+    Dictionary<string, string> _properties;
 
     [JsonConstructor]
     public ParticipantEntity()

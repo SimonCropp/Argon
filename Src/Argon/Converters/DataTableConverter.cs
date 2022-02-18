@@ -126,7 +126,7 @@ public class DataTableConverter : JsonConverter
         return dt;
     }
 
-    private static void CreateRow(JsonReader reader, DataTable dt, JsonSerializer serializer)
+    static void CreateRow(JsonReader reader, DataTable dt, JsonSerializer serializer)
     {
         var dr = dt.NewRow();
         reader.ReadAndAssert();
@@ -199,7 +199,7 @@ public class DataTableConverter : JsonConverter
         dt.Rows.Add(dr);
     }
 
-    private static Type GetColumnDataType(JsonReader reader)
+    static Type GetColumnDataType(JsonReader reader)
     {
         var tokenType = reader.TokenType;
 

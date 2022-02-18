@@ -274,7 +274,7 @@ public class SerializationTests : TestFixtureBase
     #region SerializationErrorHandlingAttributeObject
     public class PersonError
     {
-        private List<string> _roles;
+        List<string> _roles;
 
         public string Name { get; set; }
         public int Age { get; set; }
@@ -871,7 +871,7 @@ public class SerializationTests : TestFixtureBase
     #region ReducingSerializedJsonSizeContractResolverObject
     public class DynamicContractResolver : DefaultContractResolver
     {
-        private readonly char _startingWithChar;
+        readonly char _startingWithChar;
 
         public DynamicContractResolver(char startingWithChar)
         {

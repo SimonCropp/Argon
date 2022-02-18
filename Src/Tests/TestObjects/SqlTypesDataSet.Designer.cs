@@ -24,9 +24,9 @@ namespace Argon.Tests.TestObjects {
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.DataSet")]
     public partial class SqlTypesDataSet : global::System.Data.DataSet {
         
-        private TestTableDataTable tableTestTable;
+        TestTableDataTable tableTestTable;
         
-        private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
+        global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -198,7 +198,7 @@ namespace Argon.Tests.TestObjects {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private void InitClass() {
+        void InitClass() {
             this.DataSetName = "SqlTypesDataSet";
             this.Prefix = "";
             this.Namespace = "http://tempuri.org/SqlTypesDataSet.xsd";
@@ -210,13 +210,13 @@ namespace Argon.Tests.TestObjects {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private bool ShouldSerializeTestTable() {
+        bool ShouldSerializeTestTable() {
             return false;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private void SchemaChanged(object sender, global::System.ComponentModel.CollectionChangeEventArgs e) {
+        void SchemaChanged(object sender, global::System.ComponentModel.CollectionChangeEventArgs e) {
             if ((e.Action == global::System.ComponentModel.CollectionChangeAction.Remove)) {
                 this.InitVars();
             }
@@ -279,7 +279,7 @@ namespace Argon.Tests.TestObjects {
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
         public partial class TestTableDataTable : global::System.Data.TypedTableBase<TestTableRow> {
             
-            private global::System.Data.DataColumn columnDateTimeValue;
+            global::System.Data.DataColumn columnDateTimeValue;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -390,7 +390,7 @@ namespace Argon.Tests.TestObjects {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            private void InitClass() {
+            void InitClass() {
                 this.columnDateTimeValue = new global::System.Data.DataColumn("DateTimeValue", typeof(global::System.Data.SqlTypes.SqlDateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDateTimeValue);
             }
@@ -524,7 +524,7 @@ namespace Argon.Tests.TestObjects {
         ///</summary>
         public partial class TestTableRow : global::System.Data.DataRow {
             
-            private TestTableDataTable tableTestTable;
+            TestTableDataTable tableTestTable;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -568,9 +568,9 @@ namespace Argon.Tests.TestObjects {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public class TestTableRowChangeEvent : global::System.EventArgs {
             
-            private TestTableRow eventRow;
+            TestTableRow eventRow;
             
-            private global::System.Data.DataRowAction eventAction;
+            global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]

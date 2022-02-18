@@ -27,11 +27,11 @@
 
 class BsonBinaryWriter
 {
-    private static readonly Encoding Encoding = new UTF8Encoding(false);
+    static readonly Encoding Encoding = new UTF8Encoding(false);
 
-    private readonly BinaryWriter _writer;
+    readonly BinaryWriter _writer;
 
-    private byte[] _largeByteBuffer;
+    byte[] _largeByteBuffer;
 
     public DateTimeKind DateTimeKindHandling { get; set; }
 
@@ -57,7 +57,7 @@ class BsonBinaryWriter
         WriteTokenInternal(t);
     }
 
-    private void WriteTokenInternal(BsonToken t)
+    void WriteTokenInternal(BsonToken t)
     {
         switch (t.Type)
         {
@@ -178,7 +178,7 @@ class BsonBinaryWriter
         }
     }
 
-    private void WriteString(string s, int byteCount, int? calculatedlengthPrefix)
+    void WriteString(string s, int byteCount, int? calculatedlengthPrefix)
     {
         if (calculatedlengthPrefix != null)
         {
@@ -212,12 +212,12 @@ class BsonBinaryWriter
         }
     }
 
-    private int CalculateSize(int stringByteCount)
+    int CalculateSize(int stringByteCount)
     {
         return stringByteCount + 1;
     }
 
-    private int CalculateSizeWithLength(int stringByteCount, bool includeSize)
+    int CalculateSizeWithLength(int stringByteCount, bool includeSize)
     {
         var baseSize = includeSize
             ? 5 // size bytes + terminator
@@ -226,7 +226,7 @@ class BsonBinaryWriter
         return baseSize + stringByteCount;
     }
 
-    private int CalculateSize(BsonToken t)
+    int CalculateSize(BsonToken t)
     {
         switch (t.Type)
         {

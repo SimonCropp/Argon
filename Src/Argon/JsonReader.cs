@@ -102,18 +102,18 @@ public abstract partial class JsonReader : IDisposable
     }
 
     // current Token data
-    private JsonToken _tokenType;
-    private object? _value;
+    JsonToken _tokenType;
+    object? _value;
     internal char _quoteChar;
     internal State _currentState;
-    private JsonPosition _currentPosition;
-    private CultureInfo? _culture;
-    private DateTimeZoneHandling _dateTimeZoneHandling;
-    private int? _maxDepth;
-    private bool _hasExceededMaxDepth;
+    JsonPosition _currentPosition;
+    CultureInfo? _culture;
+    DateTimeZoneHandling _dateTimeZoneHandling;
+    int? _maxDepth;
+    bool _hasExceededMaxDepth;
     internal DateParseHandling _dateParseHandling;
     internal FloatParseHandling _floatParseHandling;
-    private List<JsonPosition>? _stack;
+    List<JsonPosition>? _stack;
 
     /// <summary>
     /// Gets the current reader state.
@@ -315,7 +315,7 @@ public abstract partial class JsonReader : IDisposable
         CloseInput = true;
     }
 
-    private void Push(JsonContainerType value)
+    void Push(JsonContainerType value)
     {
         UpdateScopeWithFinishedValue();
 
@@ -342,7 +342,7 @@ public abstract partial class JsonReader : IDisposable
         }
     }
 
-    private JsonContainerType Pop()
+    JsonContainerType Pop()
     {
         JsonPosition oldPosition;
         if (_stack is {Count: > 0})
@@ -365,7 +365,7 @@ public abstract partial class JsonReader : IDisposable
         return oldPosition.Type;
     }
 
-    private JsonContainerType Peek()
+    JsonContainerType Peek()
     {
         return _currentPosition.Type;
     }
@@ -575,7 +575,7 @@ public abstract partial class JsonReader : IDisposable
         }
     }
 
-    private bool ReadArrayElementIntoByteArrayReportDone(List<byte> buffer)
+    bool ReadArrayElementIntoByteArrayReportDone(List<byte> buffer)
     {
         switch (TokenType)
         {
@@ -1031,7 +1031,7 @@ public abstract partial class JsonReader : IDisposable
         }
     }
 
-    private void UpdateScopeWithFinishedValue()
+    void UpdateScopeWithFinishedValue()
     {
         if (_currentPosition.HasIndex)
         {
@@ -1039,7 +1039,7 @@ public abstract partial class JsonReader : IDisposable
         }
     }
 
-    private void ValidateEnd(JsonToken endToken)
+    void ValidateEnd(JsonToken endToken)
     {
         var currentObject = Pop();
 
@@ -1084,12 +1084,12 @@ public abstract partial class JsonReader : IDisposable
         }
     }
 
-    private void SetFinished()
+    void SetFinished()
     {
         _currentState = SupportMultipleContent ? State.Start : State.Finished;
     }
 
-    private JsonContainerType GetTypeForCloseToken(JsonToken token)
+    JsonContainerType GetTypeForCloseToken(JsonToken token)
     {
         switch (token)
         {
@@ -1223,7 +1223,7 @@ public abstract partial class JsonReader : IDisposable
         return true;
     }
 
-    private JsonToken GetContentToken()
+    JsonToken GetContentToken()
     {
         JsonToken t;
         do

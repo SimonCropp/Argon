@@ -85,7 +85,7 @@ namespace Argon.Tests
                 return _File;
             }
         }
-        private ObjectSet<File> _File;
+        ObjectSet<File> _File;
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -101,7 +101,7 @@ namespace Argon.Tests
                 return _Folder;
             }
         }
-        private ObjectSet<Folder> _Folder;
+        ObjectSet<Folder> _Folder;
 
         #endregion
 
@@ -185,7 +185,7 @@ namespace Argon.Tests
                 }
             }
         }
-        private global::System.Guid _FileId;
+        global::System.Guid _FileId;
         partial void OnFileIdChanging(global::System.Guid value);
         partial void OnFileIdChanged();
     
@@ -209,7 +209,7 @@ namespace Argon.Tests
                 OnNameChanged();
             }
         }
-        private global::System.String _Name;
+        global::System.String _Name;
         partial void OnNameChanging(global::System.String value);
         partial void OnNameChanged();
     
@@ -233,7 +233,7 @@ namespace Argon.Tests
                 OnDescriptionChanged();
             }
         }
-        private global::System.String _Description;
+        global::System.String _Description;
         partial void OnDescriptionChanging(global::System.String value);
         partial void OnDescriptionChanged();
     
@@ -257,7 +257,7 @@ namespace Argon.Tests
                 OnCreatedDateChanged();
             }
         }
-        private global::System.DateTime _CreatedDate;
+        global::System.DateTime _CreatedDate;
         partial void OnCreatedDateChanging(global::System.DateTime value);
         partial void OnCreatedDateChanged();
 
@@ -362,7 +362,7 @@ namespace Argon.Tests
                 }
             }
         }
-        private global::System.Guid _FolderId;
+        global::System.Guid _FolderId;
         partial void OnFolderIdChanging(global::System.Guid value);
         partial void OnFolderIdChanged();
     
@@ -386,7 +386,7 @@ namespace Argon.Tests
                 OnNameChanged();
             }
         }
-        private global::System.String _Name;
+        global::System.String _Name;
         partial void OnNameChanging(global::System.String value);
         partial void OnNameChanged();
     
@@ -410,7 +410,7 @@ namespace Argon.Tests
                 OnDescriptionChanged();
             }
         }
-        private global::System.String _Description;
+        global::System.String _Description;
         partial void OnDescriptionChanging(global::System.String value);
         partial void OnDescriptionChanged();
     
@@ -434,7 +434,7 @@ namespace Argon.Tests
                 OnCreatedDateChanged();
             }
         }
-        private global::System.DateTime _CreatedDate;
+        global::System.DateTime _CreatedDate;
         partial void OnCreatedDateChanging(global::System.DateTime value);
         partial void OnCreatedDateChanged();
 

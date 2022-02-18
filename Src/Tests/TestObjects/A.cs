@@ -29,7 +29,7 @@ namespace Argon.Tests.TestObjects;
 public class A
 {
     [JsonProperty("A1")]
-    private string _A1;
+    string _A1;
 
     public string A1
     {
@@ -38,5 +38,5 @@ public class A
     }
 
     [JsonProperty("A2")]
-    private string A2 { get; set; }
+    string A2 { get; set; }
 }

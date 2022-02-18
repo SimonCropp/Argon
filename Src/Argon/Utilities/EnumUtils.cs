@@ -25,12 +25,12 @@
 
 static class EnumUtils
 {
-    private const char EnumSeparatorChar = ',';
-    private const string EnumSeparatorString = ", ";
+    const char EnumSeparatorChar = ',';
+    const string EnumSeparatorString = ", ";
 
-    private static readonly ThreadSafeStore<StructMultiKey<Type, NamingStrategy?>, EnumInfo> ValuesAndNamesPerEnum = new(InitializeValuesAndNames);
+    static readonly ThreadSafeStore<StructMultiKey<Type, NamingStrategy?>, EnumInfo> ValuesAndNamesPerEnum = new(InitializeValuesAndNames);
 
-    private static EnumInfo InitializeValuesAndNames(StructMultiKey<Type, NamingStrategy?> key)
+    static EnumInfo InitializeValuesAndNames(StructMultiKey<Type, NamingStrategy?> key)
     {
         var enumType = key.Value1;
         string[] names = Enum.GetNames(enumType);
@@ -101,7 +101,7 @@ static class EnumUtils
     }
 
     // Used by Newtonsoft.Json.Schema
-    private static CamelCaseNamingStrategy _camelCaseNamingStrategy = new();
+    static CamelCaseNamingStrategy _camelCaseNamingStrategy = new();
     public static bool TryToString(Type enumType, object value, bool camelCase, [NotNullWhen(true)]out string? name)
     {
         return TryToString(enumType, value, camelCase ? _camelCaseNamingStrategy : null, out name);
@@ -132,7 +132,7 @@ static class EnumUtils
         }
     }
 
-    private static string? InternalFlagsFormat(EnumInfo entry, ulong result)
+    static string? InternalFlagsFormat(EnumInfo entry, ulong result)
     {
         var resolvedNames = entry.ResolvedNames;
         var values = entry.Values;
@@ -199,7 +199,7 @@ static class EnumUtils
         return ValuesAndNamesPerEnum.Get(new StructMultiKey<Type, NamingStrategy?>(enumType, null));
     }
 
-    private static ulong ToUInt64(object value)
+    static ulong ToUInt64(object value)
     {
         var typeCode = ConvertUtils.GetTypeCode(value.GetType(), out var _);
 
@@ -356,7 +356,7 @@ static class EnumUtils
         return Enum.ToObject(enumType, result);
     }
 
-    private static int? MatchName(string value, string[] enumNames, string[] resolvedNames, int valueIndex, int valueSubstringLength, StringComparison comparison)
+    static int? MatchName(string value, string[] enumNames, string[] resolvedNames, int valueIndex, int valueSubstringLength, StringComparison comparison)
     {
         var matchingIndex = FindIndexByName(resolvedNames, value, valueIndex, valueSubstringLength, comparison);
         if (matchingIndex == null)
@@ -367,7 +367,7 @@ static class EnumUtils
         return matchingIndex;
     }
 
-    private static int? FindIndexByName(string[] enumNames, string value, int valueIndex, int valueSubstringLength, StringComparison comparison)
+    static int? FindIndexByName(string[] enumNames, string value, int valueIndex, int valueSubstringLength, StringComparison comparison)
     {
         for (var i = 0; i < enumNames.Length; i++)
         {

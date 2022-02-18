@@ -27,7 +27,7 @@ namespace Argon.Tests.TestObjects;
 
 public struct ConvertibleInt : IConvertible
 {
-    private readonly int _value;
+    readonly int _value;
 
     public ConvertibleInt(int value)
     {

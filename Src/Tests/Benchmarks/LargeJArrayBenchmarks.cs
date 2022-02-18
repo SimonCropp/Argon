@@ -29,7 +29,7 @@ namespace Argon.Tests.Benchmarks;
 
 public class LargeJArrayBenchmarks
 {
-    private JArray _largeJArraySample;
+    JArray _largeJArraySample;
 
     [GlobalSetup]
     public void SetupData()

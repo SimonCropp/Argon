@@ -27,9 +27,9 @@ namespace Argon.Tests.TestObjects.JsonTextReaderTests;
 
 public class SlowStream : Stream
 {
-    private byte[] bytes;
-    private int totalBytesRead;
-    private int bytesPerRead;
+    byte[] bytes;
+    int totalBytesRead;
+    int bytesPerRead;
 
     public SlowStream(byte[] content, int bytesPerRead)
     {

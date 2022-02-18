@@ -50,21 +50,21 @@ public class JsonSerializer
     internal IEqualityComparer? _equalityComparer;
     internal ISerializationBinder _serializationBinder;
     internal StreamingContext _context;
-    private IReferenceResolver? _referenceResolver;
+    IReferenceResolver? _referenceResolver;
 
-    private Formatting? _formatting;
-    private DateFormatHandling? _dateFormatHandling;
-    private DateTimeZoneHandling? _dateTimeZoneHandling;
-    private DateParseHandling? _dateParseHandling;
-    private FloatFormatHandling? _floatFormatHandling;
-    private FloatParseHandling? _floatParseHandling;
-    private StringEscapeHandling? _stringEscapeHandling;
-    private CultureInfo _culture;
-    private int? _maxDepth;
-    private bool _maxDepthSet;
-    private bool? _checkAdditionalContent;
-    private string? _dateFormatString;
-    private bool _dateFormatStringSet;
+    Formatting? _formatting;
+    DateFormatHandling? _dateFormatHandling;
+    DateTimeZoneHandling? _dateTimeZoneHandling;
+    DateParseHandling? _dateParseHandling;
+    FloatFormatHandling? _floatFormatHandling;
+    FloatParseHandling? _floatParseHandling;
+    StringEscapeHandling? _stringEscapeHandling;
+    CultureInfo _culture;
+    int? _maxDepth;
+    bool _maxDepthSet;
+    bool? _checkAdditionalContent;
+    string? _dateFormatString;
+    bool _dateFormatStringSet;
 
     /// <summary>
     /// Occurs when the <see cref="JsonSerializer"/> errors during serialization and deserialization.
@@ -636,7 +636,7 @@ public class JsonSerializer
         return serializer;
     }
 
-    private static void ApplySerializerSettings(JsonSerializer serializer, JsonSerializerSettings settings)
+    static void ApplySerializerSettings(JsonSerializer serializer, JsonSerializerSettings settings)
     {
         if (!CollectionUtils.IsNullOrEmpty(settings.Converters))
         {
@@ -972,7 +972,7 @@ public class JsonSerializer
         }
     }
 
-    private void ResetReader(JsonReader reader, CultureInfo? previousCulture, DateTimeZoneHandling? previousDateTimeZoneHandling, DateParseHandling? previousDateParseHandling, FloatParseHandling? previousFloatParseHandling, int? previousMaxDepth, string? previousDateFormatString)
+    void ResetReader(JsonReader reader, CultureInfo? previousCulture, DateTimeZoneHandling? previousDateTimeZoneHandling, DateParseHandling? previousDateParseHandling, FloatParseHandling? previousFloatParseHandling, int? previousMaxDepth, string? previousDateFormatString)
     {
         // reset reader back to previous options
         if (previousCulture != null)
@@ -1060,7 +1060,7 @@ public class JsonSerializer
         SerializeInternal(jsonWriter, value, null);
     }
 
-    private TraceJsonReader CreateTraceJsonReader(JsonReader reader)
+    TraceJsonReader CreateTraceJsonReader(JsonReader reader)
     {
         var traceReader = new TraceJsonReader(reader);
         if (reader.TokenType != JsonToken.None)

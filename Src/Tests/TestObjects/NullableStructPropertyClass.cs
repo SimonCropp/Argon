@@ -28,8 +28,8 @@ namespace Argon.Tests.TestObjects;
 [DataContract]
 public class NullableStructPropertyClass
 {
-    private StructISerializable _foo1;
-    private StructISerializable? _foo2;
+    StructISerializable _foo1;
+    StructISerializable? _foo2;
 
     [DataMember]
     public StructISerializable Foo1

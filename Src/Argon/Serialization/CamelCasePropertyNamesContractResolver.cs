@@ -30,9 +30,9 @@ namespace Argon.Serialization;
 /// </summary>
 public class CamelCasePropertyNamesContractResolver : DefaultContractResolver
 {
-    private static readonly object TypeContractCacheLock = new();
-    private static readonly DefaultJsonNameTable NameTable = new();
-    private static Dictionary<StructMultiKey<Type, Type>, JsonContract>? _contractCache;
+    static readonly object TypeContractCacheLock = new();
+    static readonly DefaultJsonNameTable NameTable = new();
+    static Dictionary<StructMultiKey<Type, Type>, JsonContract>? _contractCache;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CamelCasePropertyNamesContractResolver"/> class.

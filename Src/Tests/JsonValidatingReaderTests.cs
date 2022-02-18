@@ -1101,7 +1101,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
         Assert.IsNotNull(validationEventArgs);
     }
 
-    private JsonSchema GetExtendedSchema()
+    JsonSchema GetExtendedSchema()
     {
         var first = @"{
   ""id"":""first"",

@@ -32,8 +32,8 @@ namespace Argon.Converters;
 /// </summary>
 public class RegexConverter : JsonConverter
 {
-    private const string PatternName = "Pattern";
-    private const string OptionsName = "Options";
+    const string PatternName = "Pattern";
+    const string OptionsName = "Options";
 
     /// <summary>
     /// Writes the JSON representation of the object.
@@ -63,13 +63,13 @@ public class RegexConverter : JsonConverter
         }
     }
 
-    private bool HasFlag(RegexOptions options, RegexOptions flag)
+    bool HasFlag(RegexOptions options, RegexOptions flag)
     {
         return (options & flag) == flag;
     }
 
 #pragma warning disable 618
-    private void WriteBson(BsonWriter writer, Regex regex)
+    void WriteBson(BsonWriter writer, Regex regex)
     {
         // Regular expression - The first cstring is the regex pattern, the second
         // is the regex options string. Options are identified by characters, which 
@@ -106,7 +106,7 @@ public class RegexConverter : JsonConverter
     }
 #pragma warning restore 618
 
-    private void WriteJson(JsonWriter writer, Regex regex, JsonSerializer serializer)
+    void WriteJson(JsonWriter writer, Regex regex, JsonSerializer serializer)
     {
         var resolver = serializer.ContractResolver as DefaultContractResolver;
 
@@ -141,7 +141,7 @@ public class RegexConverter : JsonConverter
         throw JsonSerializationException.Create(reader, "Unexpected token when reading Regex.");
     }
 
-    private object ReadRegexString(JsonReader reader)
+    object ReadRegexString(JsonReader reader)
     {
         var regexText = (string)reader.Value!;
 
@@ -163,7 +163,7 @@ public class RegexConverter : JsonConverter
         throw JsonSerializationException.Create(reader, "Regex pattern must be enclosed by slashes.");
     }
 
-    private Regex ReadRegexObject(JsonReader reader, JsonSerializer serializer)
+    Regex ReadRegexObject(JsonReader reader, JsonSerializer serializer)
     {
         string? pattern = null;
         RegexOptions? options = null;
@@ -221,7 +221,7 @@ public class RegexConverter : JsonConverter
     }
 
     [MethodImpl(MethodImplOptions.NoInlining)]
-    private bool IsRegex(Type objectType)
+    bool IsRegex(Type objectType)
     {
         return objectType == typeof(Regex);
     }

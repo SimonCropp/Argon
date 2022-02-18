@@ -30,7 +30,7 @@ namespace Argon.Tests.Benchmarks;
 
 public class SerializeBenchmarks
 {
-    private static readonly IList<RootObject> LargeCollection;
+    static readonly IList<RootObject> LargeCollection;
 
     static SerializeBenchmarks()
     {

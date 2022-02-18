@@ -29,7 +29,6 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-
 namespace Argon.Tests.Serialization;
 
 [TestFixture]
@@ -315,7 +314,7 @@ public class DynamicChildObject
 
 public class TestDynamicObject : DynamicObject
 {
-    private readonly Dictionary<string, object> _members;
+    readonly Dictionary<string, object> _members;
 
     public int Int;
 

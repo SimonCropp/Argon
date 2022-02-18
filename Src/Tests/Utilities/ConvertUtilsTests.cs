@@ -33,7 +33,7 @@ namespace Argon.Tests.Utilities;
 public class ConvertUtilsTests : TestFixtureBase
 {
 #if HAS_CUSTOM_DOUBLE_PARSE
-        private void AssertDoubleTryParse(string s, ParseResult expectedResult, double? expectedValue)
+        void AssertDoubleTryParse(string s, ParseResult expectedResult, double? expectedValue)
         {
             double d;
             char[] c = s.ToCharArray();
@@ -153,7 +153,7 @@ public class ConvertUtilsTests : TestFixtureBase
         }
 #endif
 
-    private void AssertDecimalTryParse(string s, ParseResult expectedResult, decimal? expectedValue)
+    void AssertDecimalTryParse(string s, ParseResult expectedResult, decimal? expectedValue)
     {
         var c = s.ToCharArray();
         var result = ConvertUtils.DecimalTryParse(c, 0, c.Length, out var d);
@@ -374,7 +374,7 @@ public class ConvertUtilsTests : TestFixtureBase
         Assert.IsFalse(ConvertUtils.TryHexTextToInt("000G".ToCharArray(), 0, 4, out value));
     }
 
-    private void HexParseSame(string text)
+    void HexParseSame(string text)
     {
         var v1 = int.Parse(text, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
 

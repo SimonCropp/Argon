@@ -30,7 +30,7 @@ namespace Argon.Serialization;
 /// </summary>
 public class ReflectionAttributeProvider : IAttributeProvider
 {
-    private readonly object _attributeProvider;
+    readonly object _attributeProvider;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ReflectionAttributeProvider"/> class.

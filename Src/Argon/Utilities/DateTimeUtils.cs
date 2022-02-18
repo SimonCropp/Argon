@@ -29,15 +29,15 @@ using Argon;
 static class DateTimeUtils
 {
     internal static readonly long InitialJavaScriptDateTicks = 621355968000000000;
-    private const string IsoDateFormat = "yyyy-MM-ddTHH:mm:ss.FFFFFFFK";
+    const string IsoDateFormat = "yyyy-MM-ddTHH:mm:ss.FFFFFFFK";
 
-    private const int DaysPer100Years = 36524;
-    private const int DaysPer400Years = 146097;
-    private const int DaysPer4Years = 1461;
-    private const int DaysPerYear = 365;
-    private const long TicksPerDay = 864000000000L;
-    private static readonly int[] DaysToMonth365;
-    private static readonly int[] DaysToMonth366;
+    const int DaysPer100Years = 36524;
+    const int DaysPer400Years = 146097;
+    const int DaysPer4Years = 1461;
+    const int DaysPerYear = 365;
+    const long TicksPerDay = 864000000000L;
+    static readonly int[] DaysToMonth365;
+    static readonly int[] DaysToMonth366;
 
     static DateTimeUtils()
     {
@@ -102,7 +102,7 @@ static class DateTimeUtils
         return value;
     }
 
-    private static DateTime SwitchToLocalTime(DateTime value)
+    static DateTime SwitchToLocalTime(DateTime value)
     {
         switch (value.Kind)
         {
@@ -118,7 +118,7 @@ static class DateTimeUtils
         return value;
     }
 
-    private static DateTime SwitchToUtcTime(DateTime value)
+    static DateTime SwitchToUtcTime(DateTime value)
     {
         switch (value.Kind)
         {
@@ -134,7 +134,7 @@ static class DateTimeUtils
         return value;
     }
 
-    private static long ToUniversalTicks(DateTime dateTime)
+    static long ToUniversalTicks(DateTime dateTime)
     {
         if (dateTime.Kind == DateTimeKind.Utc)
         {
@@ -144,7 +144,7 @@ static class DateTimeUtils
         return ToUniversalTicks(dateTime, dateTime.GetUtcOffset());
     }
 
-    private static long ToUniversalTicks(DateTime dateTime, TimeSpan offset)
+    static long ToUniversalTicks(DateTime dateTime, TimeSpan offset)
     {
         // special case min and max value
         // they never have a timezone appended to avoid issues
@@ -186,7 +186,7 @@ static class DateTimeUtils
         return UniversalTicksToJavaScriptTicks(ticks);
     }
 
-    private static long UniversalTicksToJavaScriptTicks(long universalTicks)
+    static long UniversalTicksToJavaScriptTicks(long universalTicks)
     {
         var javaScriptTicks = (universalTicks - InitialJavaScriptDateTicks) / 10000;
 
@@ -306,7 +306,7 @@ static class DateTimeUtils
         return true;
     }
 
-    private static DateTime CreateDateTime(DateTimeParser dateTimeParser)
+    static DateTime CreateDateTime(DateTimeParser dateTimeParser)
     {
         bool is24Hour;
         if (dateTimeParser.Hour == 24)
@@ -475,7 +475,7 @@ static class DateTimeUtils
         return false;
     }
 
-    private static bool TryParseMicrosoftDate(StringReference text, out long ticks, out TimeSpan offset, out DateTimeKind kind)
+    static bool TryParseMicrosoftDate(StringReference text, out long ticks, out TimeSpan offset, out DateTimeKind kind)
     {
         kind = DateTimeKind.Utc;
 
@@ -505,7 +505,7 @@ static class DateTimeUtils
         return ConvertUtils.Int64TryParse(text.Chars, 6 + text.StartIndex, index - 6, out ticks) == ParseResult.Success;
     }
 
-    private static bool TryParseDateTimeMicrosoft(StringReference text, DateTimeZoneHandling dateTimeZoneHandling, out DateTime dt)
+    static bool TryParseDateTimeMicrosoft(StringReference text, DateTimeZoneHandling dateTimeZoneHandling, out DateTime dt)
     {
         if (!TryParseMicrosoftDate(text, out var ticks, out _, out var kind))
         {
@@ -532,7 +532,7 @@ static class DateTimeUtils
         return true;
     }
 
-    private static bool TryParseDateTimeExact(string text, DateTimeZoneHandling dateTimeZoneHandling, string dateFormatString, CultureInfo culture, out DateTime dt)
+    static bool TryParseDateTimeExact(string text, DateTimeZoneHandling dateTimeZoneHandling, string dateFormatString, CultureInfo culture, out DateTime dt)
     {
         if (DateTime.TryParseExact(text, dateFormatString, culture, DateTimeStyles.RoundtripKind, out var temp))
         {
@@ -545,7 +545,7 @@ static class DateTimeUtils
         return false;
     }
 
-    private static bool TryParseDateTimeOffsetMicrosoft(StringReference text, out DateTimeOffset dt)
+    static bool TryParseDateTimeOffsetMicrosoft(StringReference text, out DateTimeOffset dt)
     {
         if (!TryParseMicrosoftDate(text, out var ticks, out var offset, out _))
         {
@@ -559,7 +559,7 @@ static class DateTimeUtils
         return true;
     }
 
-    private static bool TryParseDateTimeOffsetExact(string text, string dateFormatString, CultureInfo culture, out DateTimeOffset dt)
+    static bool TryParseDateTimeOffsetExact(string text, string dateFormatString, CultureInfo culture, out DateTimeOffset dt)
     {
         if (DateTimeOffset.TryParseExact(text, dateFormatString, culture, DateTimeStyles.RoundtripKind, out var temp))
         {
@@ -571,7 +571,7 @@ static class DateTimeUtils
         return false;
     }
 
-    private static bool TryReadOffset(StringReference offsetText, int startIndex, out TimeSpan offset)
+    static bool TryReadOffset(StringReference offsetText, int startIndex, out TimeSpan offset)
     {
         var negative = offsetText[startIndex] == '-';
 
@@ -705,7 +705,7 @@ static class DateTimeUtils
         return start + length;
     }
 
-    private static void CopyIntToCharArray(char[] chars, int start, int value, int digits)
+    static void CopyIntToCharArray(char[] chars, int start, int value, int digits)
     {
         while (digits-- != 0)
         {
@@ -750,7 +750,7 @@ static class DateTimeUtils
     }
     #endregion
 
-    private static void GetDateValues(DateTime td, out int year, out int month, out int day)
+    static void GetDateValues(DateTime td, out int year, out int month, out int day)
     {
         var ticks = td.Ticks;
         // n = number of days since 1/1/0001

@@ -29,7 +29,7 @@ namespace Argon.Tests.Benchmarks;
 
 public class JsonTextReaderBenchmarks
 {
-    private static readonly string FloatArrayJson;
+    static readonly string FloatArrayJson;
 
     static JsonTextReaderBenchmarks()
     {

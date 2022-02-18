@@ -335,8 +335,8 @@ public class AccountWithEquals
 
 public class PropertyItemReferenceLoopHandling
 {
-    private IList<PropertyItemReferenceLoopHandling> _data;
-    private int _accessCount;
+    IList<PropertyItemReferenceLoopHandling> _data;
+    int _accessCount;
 
     public string Text { get; set; }
 
@@ -380,8 +380,8 @@ public class ReferenceLoopHandlingObjectContainerAttribute
 [JsonObject(ItemReferenceLoopHandling = ReferenceLoopHandling.Ignore)]
 public class ReferenceLoopHandlingObjectContainerAttributeWithPropertyOverride
 {
-    private ReferenceLoopHandlingObjectContainerAttributeWithPropertyOverride _value;
-    private int _getCount;
+    ReferenceLoopHandlingObjectContainerAttributeWithPropertyOverride _value;
+    int _getCount;
 
     [JsonProperty(ReferenceLoopHandling = ReferenceLoopHandling.Serialize)]
     public ReferenceLoopHandlingObjectContainerAttributeWithPropertyOverride Value

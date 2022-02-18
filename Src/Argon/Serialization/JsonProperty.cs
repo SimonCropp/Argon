@@ -33,11 +33,11 @@ public class JsonProperty
     internal Required? _required;
     internal bool _hasExplicitDefaultValue;
 
-    private object? _defaultValue;
-    private bool _hasGeneratedDefaultValue;
-    private string? _propertyName;
+    object? _defaultValue;
+    bool _hasGeneratedDefaultValue;
+    string? _propertyName;
     internal bool _skipPropertyNameEscape;
-    private Type? _propertyType;
+    Type? _propertyType;
 
     // use to cache contract during deserialization
     internal JsonContract? PropertyContract { get; set; }

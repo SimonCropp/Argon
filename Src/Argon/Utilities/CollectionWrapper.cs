@@ -30,9 +30,9 @@ interface IWrappedCollection : IList
 
 class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
 {
-    private readonly IList? _list;
-    private readonly ICollection<T>? _genericCollection;
-    private object? _syncRoot;
+    readonly IList? _list;
+    readonly ICollection<T>? _genericCollection;
+    object? _syncRoot;
 
     public CollectionWrapper(IList list)
     {
@@ -283,7 +283,7 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
         }
     }
 
-    private static void VerifyValueType(object value)
+    static void VerifyValueType(object value)
     {
         if (!IsCompatibleObject(value))
         {
@@ -291,7 +291,7 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
         }
     }
 
-    private static bool IsCompatibleObject(object value)
+    static bool IsCompatibleObject(object value)
     {
         if (!(value is T) && (value != null || (typeof(T).IsValueType && !ReflectionUtils.IsNullableType(typeof(T)))))
         {

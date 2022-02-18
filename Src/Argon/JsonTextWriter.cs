@@ -30,18 +30,18 @@ namespace Argon;
 /// </summary>
 public partial class JsonTextWriter : JsonWriter
 {
-    private const int IndentCharBufferSize = 12;
-    private readonly TextWriter _writer;
-    private Base64Encoder? _base64Encoder;
-    private char _indentChar;
-    private int _indentation;
-    private char _quoteChar;
-    private bool[]? _charEscapeFlags;
-    private char[]? _writeBuffer;
-    private IArrayPool<char>? _arrayPool;
-    private char[]? _indentChars;
+    const int IndentCharBufferSize = 12;
+    readonly TextWriter _writer;
+    Base64Encoder? _base64Encoder;
+    char _indentChar;
+    int _indentation;
+    char _quoteChar;
+    bool[]? _charEscapeFlags;
+    char[]? _writeBuffer;
+    IArrayPool<char>? _arrayPool;
+    char[]? _indentChars;
 
-    private Base64Encoder Base64Encoder
+    Base64Encoder Base64Encoder
     {
         get
         {
@@ -169,7 +169,7 @@ public partial class JsonTextWriter : JsonWriter
         CloseBufferAndWriter();
     }
 
-    private void CloseBufferAndWriter()
+    void CloseBufferAndWriter()
     {
         if (_writeBuffer != null)
         {
@@ -287,7 +287,7 @@ public partial class JsonTextWriter : JsonWriter
         UpdateCharEscapeFlags();
     }
 
-    private void UpdateCharEscapeFlags()
+    void UpdateCharEscapeFlags()
     {
         _charEscapeFlags = JavaScriptUtils.GetCharEscapeFlags(StringEscapeHandling, _quoteChar);
     }
@@ -310,7 +310,7 @@ public partial class JsonTextWriter : JsonWriter
         }
     }
 
-    private int SetIndentChars()
+    int SetIndentChars()
     {
         // Set _indentChars to be a newline followed by IndentCharBufferSize indent characters.
         var writerNewLine = _writer.NewLine;
@@ -354,7 +354,7 @@ public partial class JsonTextWriter : JsonWriter
         _writer.Write(' ');
     }
 
-    private void WriteValueInternal(string value, JsonToken token)
+    void WriteValueInternal(string value, JsonToken token)
     {
         _writer.Write(value);
     }
@@ -425,7 +425,7 @@ public partial class JsonTextWriter : JsonWriter
         }
     }
 
-    private void WriteEscapedString(string value, bool quote)
+    void WriteEscapedString(string value, bool quote)
     {
         EnsureWriteBuffer();
         JavaScriptUtils.WriteEscapedJavaScriptString(_writer, value, _quoteChar, quote, _charEscapeFlags!, StringEscapeHandling, _arrayPool, ref _writeBuffer);
@@ -622,7 +622,7 @@ public partial class JsonTextWriter : JsonWriter
         }
     }
 
-    private int WriteValueToBuffer(DateTime value)
+    int WriteValueToBuffer(DateTime value)
     {
         EnsureWriteBuffer();
         MiscellaneousUtils.Assert(_writeBuffer != null);
@@ -676,7 +676,7 @@ public partial class JsonTextWriter : JsonWriter
         }
     }
 
-    private int WriteValueToBuffer(DateTimeOffset value)
+    int WriteValueToBuffer(DateTimeOffset value)
     {
         EnsureWriteBuffer();
         MiscellaneousUtils.Assert(_writeBuffer != null);
@@ -763,7 +763,7 @@ public partial class JsonTextWriter : JsonWriter
         _writer.Write(ws);
     }
 
-    private void EnsureWriteBuffer()
+    void EnsureWriteBuffer()
     {
         if (_writeBuffer == null)
         {
@@ -772,7 +772,7 @@ public partial class JsonTextWriter : JsonWriter
         }
     }
 
-    private void WriteIntegerValue(long value)
+    void WriteIntegerValue(long value)
     {
         if (value is >= 0 and <= 9)
         {
@@ -785,7 +785,7 @@ public partial class JsonTextWriter : JsonWriter
         }
     }
 
-    private void WriteIntegerValue(ulong value, bool negative)
+    void WriteIntegerValue(ulong value, bool negative)
     {
         if (!negative & value <= 9)
         {
@@ -798,7 +798,7 @@ public partial class JsonTextWriter : JsonWriter
         }
     }
 
-    private int WriteNumberToBuffer(ulong value, bool negative)
+    int WriteNumberToBuffer(ulong value, bool negative)
     {
         if (value <= uint.MaxValue)
         {
@@ -830,7 +830,7 @@ public partial class JsonTextWriter : JsonWriter
         return totalLength;
     }
 
-    private void WriteIntegerValue(int value)
+    void WriteIntegerValue(int value)
     {
         if (value is >= 0 and <= 9)
         {
@@ -843,7 +843,7 @@ public partial class JsonTextWriter : JsonWriter
         }
     }
 
-    private void WriteIntegerValue(uint value, bool negative)
+    void WriteIntegerValue(uint value, bool negative)
     {
         if (!negative & value <= 9)
         {
@@ -856,7 +856,7 @@ public partial class JsonTextWriter : JsonWriter
         }
     }
 
-    private int WriteNumberToBuffer(uint value, bool negative)
+    int WriteNumberToBuffer(uint value, bool negative)
     {
         EnsureWriteBuffer();
         MiscellaneousUtils.Assert(_writeBuffer != null);

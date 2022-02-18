@@ -30,9 +30,9 @@ namespace Argon.Serialization;
 /// </summary>
 public class ExpressionValueProvider : IValueProvider
 {
-    private readonly MemberInfo _memberInfo;
-    private Func<object, object?>? _getter;
-    private Action<object, object?>? _setter;
+    readonly MemberInfo _memberInfo;
+    Func<object, object?>? _getter;
+    Action<object, object?>? _setter;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ExpressionValueProvider"/> class.

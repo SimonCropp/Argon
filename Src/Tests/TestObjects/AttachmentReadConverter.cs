@@ -50,7 +50,7 @@ public class AttachmentReadConverter : JsonConverter
         throw new NotImplementedException();
     }
 
-    private class AttachmentInfo
+    class AttachmentInfo
     {
         [JsonProperty(Required = Required.Always)]
         public string FileName { get; set; }

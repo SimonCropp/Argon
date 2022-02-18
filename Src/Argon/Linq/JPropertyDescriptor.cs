@@ -41,7 +41,7 @@ public class JPropertyDescriptor : PropertyDescriptor
     {
     }
 
-    private static JObject CastInstance(object instance)
+    static JObject CastInstance(object instance)
     {
         return (JObject)instance;
     }

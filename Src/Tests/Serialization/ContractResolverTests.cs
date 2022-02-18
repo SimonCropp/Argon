@@ -35,7 +35,7 @@ namespace Argon.Tests.Serialization;
 
 public class DynamicContractResolver : DefaultContractResolver
 {
-    private readonly char _startingWithChar;
+    readonly char _startingWithChar;
 
     public DynamicContractResolver(char startingWithChar)
     {

@@ -35,7 +35,7 @@ public class JsonPropertyClass
 
     public string pie1 = "PieChart!";
 
-    private int _sweetCakesCount;
+    int _sweetCakesCount;
 
     [JsonProperty("sweet_cakes_count")]
     public int SweetCakesCount

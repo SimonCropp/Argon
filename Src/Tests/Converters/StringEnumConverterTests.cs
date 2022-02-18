@@ -757,7 +757,7 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
     // Define other methods and classes here
     [Flags]
     [JsonConverter(typeof(StringEnumConverter))]
-    private enum Foo
+    enum Foo
     {
         [EnumMember(Value = "foo_bar")]
         FooBar = 0x01,
@@ -768,7 +768,7 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
     }
 
     [JsonConverter(typeof(StringEnumConverter))]
-    private enum Bar
+    enum Bar
     {
         [EnumMember(Value = "foo_bar")]
         FooBar,

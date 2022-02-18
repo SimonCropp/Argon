@@ -73,7 +73,7 @@ public class Issue1757 : TestFixtureBase
             get => default(MyByRefLikeType);
             set { }
         }
-        private static void DoNothing(Span<int> param)
+        static void DoNothing(Span<int> param)
         {
             throw new InvalidOperationException("Should never be called.");
         }

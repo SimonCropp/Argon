@@ -27,7 +27,7 @@ namespace Argon.Tests.TestObjects;
 
 public class PersonWithPrivateConstructor
 {
-    private PersonWithPrivateConstructor()
+    PersonWithPrivateConstructor()
     {
     }
 

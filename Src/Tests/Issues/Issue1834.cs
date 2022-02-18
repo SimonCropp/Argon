@@ -56,7 +56,7 @@ public class Issue1834 : TestFixtureBase
         public IDictionary<string, JToken> ExtensionData;
 
         [JsonConstructor]
-        private ItemWithJsonConstructor(string foo)
+        ItemWithJsonConstructor(string foo)
         {
             Foo = foo;
         }
@@ -71,7 +71,7 @@ public class Issue1834 : TestFixtureBase
         public IDictionary<string, JToken> ExtensionData;
 
         [JsonConstructor]
-        private ItemWithJsonConstructorAndDefaultValue(string foo)
+        ItemWithJsonConstructorAndDefaultValue(string foo)
         {
             Foo = foo;
         }

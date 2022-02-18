@@ -5,9 +5,9 @@
 /// </summary>
 public class JsonLoadSettings
 {
-    private CommentHandling _commentHandling;
-    private LineInfoHandling _lineInfoHandling;
-    private DuplicatePropertyNameHandling _duplicatePropertyNameHandling;
+    CommentHandling _commentHandling;
+    LineInfoHandling _lineInfoHandling;
+    DuplicatePropertyNameHandling _duplicatePropertyNameHandling;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonLoadSettings"/> class.

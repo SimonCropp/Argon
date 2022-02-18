@@ -33,7 +33,7 @@ namespace Argon.Tests.Serialization;
 [TestFixture]
 public class NullValueHandlingTests : TestFixtureBase
 {
-    private const string MovieNullValueHandlingIncludeExpectedResult = @"{
+    const string MovieNullValueHandlingIncludeExpectedResult = @"{
   ""Name"": ""Bad Boys III"",
   ""Description"": ""It's no Bad Boys"",
   ""Classification"": null,
@@ -42,7 +42,7 @@ public class NullValueHandlingTests : TestFixtureBase
   ""ReleaseCountries"": null
 }";
 
-    private const string MovieNullValueHandlingIgnoreExpectedResult = @"{
+    const string MovieNullValueHandlingIgnoreExpectedResult = @"{
   ""Name"": ""Bad Boys III"",
   ""Description"": ""It's no Bad Boys""
 }";

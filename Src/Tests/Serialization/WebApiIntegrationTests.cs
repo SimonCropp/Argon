@@ -108,7 +108,7 @@ public class SerializableType : IEquatable<SerializableType>
     internal string internalField;
     protected internal string protectedInternalField;
     protected string protectedField;
-    private string privateField;
+    string privateField;
 
     public string PublicProperty
     {

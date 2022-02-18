@@ -35,7 +35,7 @@ namespace Argon.Tests.Bson;
 [TestFixture]
 public class BsonReaderTests : TestFixtureBase
 {
-    private const char Euro = '\u20ac';
+    const char Euro = '\u20ac';
 
     [Fact]
     public void DeserializeLargeBsonObject()
@@ -1067,7 +1067,7 @@ public class BsonReaderTests : TestFixtureBase
         Assert.AreEqual(value, (DateTime)o["DateTime"]);
     }
 
-    private string WriteAndReadStringValue(string val)
+    string WriteAndReadStringValue(string val)
     {
         var ms = new MemoryStream();
         var bs = new BsonWriter(ms);
@@ -1088,7 +1088,7 @@ public class BsonReaderTests : TestFixtureBase
         return (string)reader.Value;
     }
 
-    private string WriteAndReadStringPropertyName(string val)
+    string WriteAndReadStringPropertyName(string val)
     {
         var ms = new MemoryStream();
         var bs = new BsonWriter(ms);

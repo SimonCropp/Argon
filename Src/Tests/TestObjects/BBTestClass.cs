@@ -42,7 +42,7 @@ public class BBTestClass : AATestClass
     public int BB_property3 { private get; set; }
 
     [JsonProperty]
-    private int BB_property4 { get; set; }
+    int BB_property4 { get; set; }
 
     public int BB_property5 { get; private set; }
     public int BB_property6 { private get; set; }

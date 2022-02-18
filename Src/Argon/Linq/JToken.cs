@@ -35,20 +35,20 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     , ICloneable
     , IDynamicMetaObjectProvider
 {
-    private static JTokenEqualityComparer? _equalityComparer;
+    static JTokenEqualityComparer? _equalityComparer;
 
-    private object? _annotations;
+    object? _annotations;
 
-    private static readonly JTokenType[] BooleanTypes = new[] { JTokenType.Integer, JTokenType.Float, JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.Boolean };
-    private static readonly JTokenType[] NumberTypes = new[] { JTokenType.Integer, JTokenType.Float, JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.Boolean };
-    private static readonly JTokenType[] BigIntegerTypes = new[] { JTokenType.Integer, JTokenType.Float, JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.Boolean, JTokenType.Bytes };
-    private static readonly JTokenType[] StringTypes = new[] { JTokenType.Date, JTokenType.Integer, JTokenType.Float, JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.Boolean, JTokenType.Bytes, JTokenType.Guid, JTokenType.TimeSpan, JTokenType.Uri };
-    private static readonly JTokenType[] GuidTypes = new[] { JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.Guid, JTokenType.Bytes };
-    private static readonly JTokenType[] TimeSpanTypes = new[] { JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.TimeSpan };
-    private static readonly JTokenType[] UriTypes = new[] { JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.Uri };
-    private static readonly JTokenType[] CharTypes = new[] { JTokenType.Integer, JTokenType.Float, JTokenType.String, JTokenType.Comment, JTokenType.Raw };
-    private static readonly JTokenType[] DateTimeTypes = new[] { JTokenType.Date, JTokenType.String, JTokenType.Comment, JTokenType.Raw };
-    private static readonly JTokenType[] BytesTypes = new[] { JTokenType.Bytes, JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.Integer };
+    static readonly JTokenType[] BooleanTypes = new[] { JTokenType.Integer, JTokenType.Float, JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.Boolean };
+    static readonly JTokenType[] NumberTypes = new[] { JTokenType.Integer, JTokenType.Float, JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.Boolean };
+    static readonly JTokenType[] BigIntegerTypes = new[] { JTokenType.Integer, JTokenType.Float, JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.Boolean, JTokenType.Bytes };
+    static readonly JTokenType[] StringTypes = new[] { JTokenType.Date, JTokenType.Integer, JTokenType.Float, JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.Boolean, JTokenType.Bytes, JTokenType.Guid, JTokenType.TimeSpan, JTokenType.Uri };
+    static readonly JTokenType[] GuidTypes = new[] { JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.Guid, JTokenType.Bytes };
+    static readonly JTokenType[] TimeSpanTypes = new[] { JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.TimeSpan };
+    static readonly JTokenType[] UriTypes = new[] { JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.Uri };
+    static readonly JTokenType[] CharTypes = new[] { JTokenType.Integer, JTokenType.Float, JTokenType.String, JTokenType.Comment, JTokenType.Raw };
+    static readonly JTokenType[] DateTimeTypes = new[] { JTokenType.Date, JTokenType.String, JTokenType.Comment, JTokenType.Raw };
+    static readonly JTokenType[] BytesTypes = new[] { JTokenType.Bytes, JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.Integer };
 
     /// <summary>
     /// Gets a comparer that can compare two tokens for value equality.
@@ -405,7 +405,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         }
     }
 
-    private static JValue? EnsureValue(JToken value)
+    static JValue? EnsureValue(JToken value)
     {
         if (value == null)
         {
@@ -422,7 +422,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         return v;
     }
 
-    private static string GetType(JToken token)
+    static string GetType(JToken token)
     {
         ValidationUtils.ArgumentNotNull(token, nameof(token));
 
@@ -434,7 +434,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         return token.Type.ToString();
     }
 
-    private static bool ValidateToken(JToken o, JTokenType[] validTypes, bool nullable)
+    static bool ValidateToken(JToken o, JTokenType[] validTypes, bool nullable)
     {
         return Array.IndexOf(validTypes, o.Type) != -1 || (nullable && (o.Type == JTokenType.Null || o.Type == JTokenType.Undefined));
     }
@@ -1359,7 +1359,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         return v.Value is Uri uri ? uri : new Uri(Convert.ToString(v.Value, CultureInfo.InvariantCulture));
     }
 
-    private static BigInteger ToBigInteger(JToken value)
+    static BigInteger ToBigInteger(JToken value)
     {
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, BigIntegerTypes, false))
@@ -1370,7 +1370,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         return ConvertUtils.ToBigInteger(v.Value!);
     }
 
-    private static BigInteger? ToBigIntegerNullable(JToken value)
+    static BigInteger? ToBigIntegerNullable(JToken value)
     {
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, BigIntegerTypes, true))
@@ -2135,7 +2135,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         SetLineInfo(lineInfo.LineNumber, lineInfo.LinePosition);
     }
 
-    private class LineInfoAnnotation
+    class LineInfoAnnotation
     {
         internal readonly int LineNumber;
         internal readonly int LinePosition;

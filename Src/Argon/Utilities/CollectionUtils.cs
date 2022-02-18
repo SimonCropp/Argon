@@ -235,7 +235,7 @@ static class CollectionUtils
         }
     }
 
-    private static IList<int> GetDimensions(IList values, int dimensionsCount)
+    static IList<int> GetDimensions(IList values, int dimensionsCount)
     {
         IList<int> dimensions = new List<int>();
 
@@ -269,7 +269,7 @@ static class CollectionUtils
         return dimensions;
     }
 
-    private static void CopyFromJaggedToMultidimensionalArray(IList values, Array multidimensionalArray, int[] indices)
+    static void CopyFromJaggedToMultidimensionalArray(IList values, Array multidimensionalArray, int[] indices)
     {
         var dimension = indices.Length;
         if (dimension == multidimensionalArray.Rank)
@@ -299,7 +299,7 @@ static class CollectionUtils
         }
     }
 
-    private static object JaggedArrayGetValue(IList values, int[] indices)
+    static object JaggedArrayGetValue(IList values, int[] indices)
     {
         var currentList = values;
         for (var i = 0; i < indices.Length; i++)
@@ -338,7 +338,7 @@ static class CollectionUtils
         return EmptyArrayContainer<T>.Empty;
     }
 
-    private static class EmptyArrayContainer<T>
+    static class EmptyArrayContainer<T>
     {
 #pragma warning disable CA1825 // Avoid zero-length array allocations.
         public static readonly T[] Empty = new T[0];

@@ -25,9 +25,9 @@
 
 class JsonFormatterConverter : IFormatterConverter
 {
-    private readonly JsonSerializerInternalReader _reader;
-    private readonly JsonISerializableContract _contract;
-    private readonly JsonProperty? _member;
+    readonly JsonSerializerInternalReader _reader;
+    readonly JsonISerializableContract _contract;
+    readonly JsonProperty? _member;
 
     public JsonFormatterConverter(JsonSerializerInternalReader reader, JsonISerializableContract contract, JsonProperty? member)
     {
@@ -39,7 +39,7 @@ class JsonFormatterConverter : IFormatterConverter
         _member = member;
     }
 
-    private T GetTokenValue<T>(object value)
+    T GetTokenValue<T>(object value)
     {
         ValidationUtils.ArgumentNotNull(value, nameof(value));
 

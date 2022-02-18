@@ -35,10 +35,10 @@ public class DirectoryAccount
     public string Domain { get; set; }
 
     [JsonExtensionData]
-    private IDictionary<string, JToken> _additionalData;
+    IDictionary<string, JToken> _additionalData;
 
     [OnDeserialized]
-    private void OnDeserialized(StreamingContext context)
+    void OnDeserialized(StreamingContext context)
     {
         // SAMAccountName is not deserialized to any property
         // and so it is added to the extension data dictionary

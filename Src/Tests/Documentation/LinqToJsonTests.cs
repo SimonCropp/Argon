@@ -105,7 +105,7 @@ public class LinqToJsonTests : TestFixtureBase
         public IList<string> Categories { get; set; }
     }
 
-    private List<Post> GetPosts()
+    List<Post> GetPosts()
     {
         return new List<Post>();
     }

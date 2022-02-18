@@ -34,7 +34,7 @@ abstract class BsonToken
 
 class BsonObject : BsonToken, IEnumerable<BsonProperty>
 {
-    private readonly List<BsonProperty> _children = new();
+    readonly List<BsonProperty> _children = new();
 
     public void Add(string name, BsonToken token)
     {
@@ -57,7 +57,7 @@ class BsonObject : BsonToken, IEnumerable<BsonProperty>
 
 class BsonArray : BsonToken, IEnumerable<BsonToken>
 {
-    private readonly List<BsonToken> _children = new();
+    readonly List<BsonToken> _children = new();
 
     public void Add(BsonToken token)
     {
@@ -83,7 +83,7 @@ class BsonEmpty : BsonToken
     public static readonly BsonToken Null = new BsonEmpty(BsonType.Null);
     public static readonly BsonToken Undefined = new BsonEmpty(BsonType.Undefined);
 
-    private BsonEmpty(BsonType type)
+    BsonEmpty(BsonType type)
     {
         Type = type;
     }
@@ -109,7 +109,7 @@ class BsonBoolean : BsonValue
     public static readonly BsonBoolean False = new(false);
     public static readonly BsonBoolean True = new(true);
 
-    private BsonBoolean(bool value)
+    BsonBoolean(bool value)
         : base(value, BsonType.Boolean)
     {
     }

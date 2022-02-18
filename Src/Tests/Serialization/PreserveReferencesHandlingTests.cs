@@ -651,7 +651,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     }
 
     [JsonObject(IsReference = true)]
-    private class Condition
+    class Condition
     {
         public int Value { get; }
 
@@ -661,7 +661,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         }
     }
 
-    private class ClassWithConditions
+    class ClassWithConditions
     {
         public Condition Condition1 { get; }
 
@@ -992,7 +992,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     {
         #region properties
         [JsonProperty(Required = Required.Always, PropertyName = "SecretType")]
-        private string secretType;
+        string secretType;
 
         [JsonProperty(Required = Required.Always)]
         public string Login { get; set; }

@@ -27,8 +27,8 @@ namespace Argon.Tests.TestObjects;
 
 public class ClassWithArray
 {
-    private readonly IList<long> bar;
-    private string foo;
+    readonly IList<long> bar;
+    string foo;
 
     public ClassWithArray()
     {

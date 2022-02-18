@@ -44,20 +44,20 @@ public class JsonArrayContract : JsonContainerContract
     /// <value><c>true</c> if the collection type is a multidimensional array; otherwise, <c>false</c>.</value>
     public bool IsMultidimensionalArray { get; }
 
-    private readonly Type? _genericCollectionDefinitionType;
+    readonly Type? _genericCollectionDefinitionType;
 
-    private Type? _genericWrapperType;
-    private ObjectConstructor<object>? _genericWrapperCreator;
-    private Func<object>? _genericTemporaryCollectionCreator;
+    Type? _genericWrapperType;
+    ObjectConstructor<object>? _genericWrapperCreator;
+    Func<object>? _genericTemporaryCollectionCreator;
 
     internal bool IsArray { get; }
     internal bool ShouldCreateWrapper { get; }
     internal bool CanDeserialize { get; private set; }
 
-    private readonly ConstructorInfo? _parameterizedConstructor;
+    readonly ConstructorInfo? _parameterizedConstructor;
 
-    private ObjectConstructor<object>? _parameterizedCreator;
-    private ObjectConstructor<object>? _overrideCreator;
+    ObjectConstructor<object>? _parameterizedCreator;
+    ObjectConstructor<object>? _overrideCreator;
 
     internal ObjectConstructor<object>? ParameterizedCreator
     {
@@ -276,7 +276,7 @@ public class JsonArrayContract : JsonContainerContract
         return (IList)_genericTemporaryCollectionCreator();
     }
 
-    private void StoreFSharpListCreatorIfNecessary(Type underlyingType)
+    void StoreFSharpListCreatorIfNecessary(Type underlyingType)
     {
         if (!HasParameterizedCreatorInternal && underlyingType.Name == FSharpUtils.FSharpListTypeName)
         {

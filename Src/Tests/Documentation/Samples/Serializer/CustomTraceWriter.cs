@@ -27,7 +27,6 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
 [TestFixture]
@@ -36,7 +35,7 @@ public class CustomTraceWriter : TestFixtureBase
     #region Types
     public class NLogTraceWriter : ITraceWriter
     {
-        private static readonly Logger Logger = LogManager.GetLogger("NLogTraceWriter");
+        static readonly Logger Logger = LogManager.GetLogger("NLogTraceWriter");
 
         public TraceLevel LevelFilter =>
             // trace all messages. nlog can handle filtering
@@ -55,7 +54,7 @@ public class CustomTraceWriter : TestFixtureBase
             Logger.Log(logEvent);
         }
 
-        private LogLevel GetLogLevel(TraceLevel level)
+        LogLevel GetLogLevel(TraceLevel level)
         {
             switch (level)
             {

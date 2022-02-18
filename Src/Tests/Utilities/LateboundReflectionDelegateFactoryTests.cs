@@ -122,7 +122,7 @@ public class LateboundReflectionDelegateFactoryTests : TestFixtureBase
 
 public struct MyStruct
 {
-    private int _intProperty;
+    int _intProperty;
 
     public int IntProperty
     {

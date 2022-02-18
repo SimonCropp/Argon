@@ -31,10 +31,10 @@ interface IWrappedDictionary
 
 class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDictionary
 {
-    private readonly IDictionary? _dictionary;
-    private readonly IDictionary<TKey, TValue>? _genericDictionary;
-    private readonly IReadOnlyDictionary<TKey, TValue>? _readOnlyDictionary;
-    private object? _syncRoot;
+    readonly IDictionary? _dictionary;
+    readonly IDictionary<TKey, TValue>? _genericDictionary;
+    readonly IReadOnlyDictionary<TKey, TValue>? _readOnlyDictionary;
+    object? _syncRoot;
 
     public DictionaryWrapper(IDictionary dictionary)
     {
@@ -448,9 +448,9 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
         }
     }
 
-    private readonly struct DictionaryEnumerator<TEnumeratorKey, TEnumeratorValue> : IDictionaryEnumerator
+    readonly struct DictionaryEnumerator<TEnumeratorKey, TEnumeratorValue> : IDictionaryEnumerator
     {
-        private readonly IEnumerator<KeyValuePair<TEnumeratorKey, TEnumeratorValue>> _e;
+        readonly IEnumerator<KeyValuePair<TEnumeratorKey, TEnumeratorValue>> _e;
 
         public DictionaryEnumerator(IEnumerator<KeyValuePair<TEnumeratorKey, TEnumeratorValue>> e)
         {

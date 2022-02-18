@@ -25,14 +25,14 @@
 
 class Base64Encoder
 {
-    private const int Base64LineSize = 76;
-    private const int LineSizeInBytes = 57;
+    const int Base64LineSize = 76;
+    const int LineSizeInBytes = 57;
 
-    private readonly char[] _charsLine = new char[Base64LineSize];
-    private readonly TextWriter _writer;
+    readonly char[] _charsLine = new char[Base64LineSize];
+    readonly TextWriter _writer;
 
-    private byte[]? _leftOverBytes;
-    private int _leftOverBytesCount;
+    byte[]? _leftOverBytes;
+    int _leftOverBytesCount;
 
     public Base64Encoder(TextWriter writer)
     {
@@ -40,7 +40,7 @@ class Base64Encoder
         _writer = writer;
     }
 
-    private void ValidateEncode(byte[] buffer, int index, int count)
+    void ValidateEncode(byte[] buffer, int index, int count)
     {
         if (buffer == null)
         {
@@ -94,7 +94,7 @@ class Base64Encoder
         }
     }
 
-    private void StoreLeftOverBytes(byte[] buffer, int index, ref int count)
+    void StoreLeftOverBytes(byte[] buffer, int index, ref int count)
     {
         var leftOverBytesCount = count % 3;
         if (leftOverBytesCount > 0)
@@ -114,7 +114,7 @@ class Base64Encoder
         _leftOverBytesCount = leftOverBytesCount;
     }
 
-    private bool FulfillFromLeftover(byte[] buffer, int index, ref int count)
+    bool FulfillFromLeftover(byte[] buffer, int index, ref int count)
     {
         var leftOverBytesCount = _leftOverBytesCount;
         while (leftOverBytesCount < 3 && count > 0)
@@ -142,7 +142,7 @@ class Base64Encoder
         }
     }
 
-    private void WriteChars(char[] chars, int index, int count)
+    void WriteChars(char[] chars, int index, int count)
     {
         _writer.Write(chars, index, count);
     }
@@ -178,7 +178,7 @@ class Base64Encoder
         }
     }
 
-    private Task WriteCharsAsync(char[] chars, int index, int count, CancellationToken cancellationToken)
+    Task WriteCharsAsync(char[] chars, int index, int count, CancellationToken cancellationToken)
     {
         return _writer.WriteAsync(chars, index, count, cancellationToken);
     }

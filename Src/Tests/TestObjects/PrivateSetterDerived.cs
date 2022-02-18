@@ -31,7 +31,7 @@ public class PrivateSetterDerived : PrivateSetterBase
     [JsonProperty]
     public string IDoWork { get; private set; }
 
-    private PrivateSetterDerived()
+    PrivateSetterDerived()
     {
     }
 

@@ -28,7 +28,6 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-
 namespace Argon.Tests.Schema;
 
 [TestFixture]
@@ -138,8 +137,8 @@ public class PerformanceTests : TestFixtureBase
 
 public class PerformanceTester : IDisposable
 {
-    private readonly Stopwatch _stopwatch = new();
-    private readonly Action<TimeSpan> _callback;
+    readonly Stopwatch _stopwatch = new();
+    readonly Action<TimeSpan> _callback;
 
     public PerformanceTester(string description)
         : this(ts => Console.WriteLine(description + ": " + ts.TotalSeconds))

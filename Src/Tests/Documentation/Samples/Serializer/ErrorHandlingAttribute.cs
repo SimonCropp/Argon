@@ -27,7 +27,6 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
 [TestFixture]
@@ -36,7 +35,7 @@ public class ErrorHandlingAttribute : TestFixtureBase
     #region Types
     public class Employee
     {
-        private List<string> _roles;
+        List<string> _roles;
 
         public string Name { get; set; }
         public int Age { get; set; }

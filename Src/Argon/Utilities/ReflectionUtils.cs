@@ -95,7 +95,7 @@ static class ReflectionUtils
         }
     }
 
-    private static string GetFullyQualifiedTypeName(Type t, ISerializationBinder? binder)
+    static string GetFullyQualifiedTypeName(Type t, ISerializationBinder? binder)
     {
         if (binder != null)
         {
@@ -106,7 +106,7 @@ static class ReflectionUtils
         return t.AssemblyQualifiedName;
     }
 
-    private static string RemoveAssemblyDetails(string fullyQualifiedTypeName)
+    static string RemoveAssemblyDetails(string fullyQualifiedTypeName)
     {
         var builder = new StringBuilder();
 
@@ -296,7 +296,7 @@ static class ReflectionUtils
         return InheritsGenericDefinitionInternal(type, genericClassDefinition, out implementingType);
     }
 
-    private static bool InheritsGenericDefinitionInternal(Type currentType, Type genericClassDefinition, out Type? implementingType)
+    static bool InheritsGenericDefinitionInternal(Type currentType, Type genericClassDefinition, out Type? implementingType)
     {
         do
         {
@@ -626,7 +626,7 @@ static class ReflectionUtils
         return distinctMembers;
     }
 
-    private static bool IsOverridenGenericMember(MemberInfo memberInfo, BindingFlags bindingAttr)
+    static bool IsOverridenGenericMember(MemberInfo memberInfo, BindingFlags bindingAttr)
     {
         if (memberInfo.MemberType != MemberTypes.Property)
         {
@@ -739,7 +739,7 @@ static class ReflectionUtils
         return new StructMultiKey<string?, string>(assemblyName, typeName);
     }
 
-    private static int? GetAssemblyDelimiterIndex(string fullyQualifiedTypeName)
+    static int? GetAssemblyDelimiterIndex(string fullyQualifiedTypeName)
     {
         // we need to get the first comma following all surrounded in brackets because of generic types
         // e.g. System.Collections.Generic.Dictionary`2[[System.String, mscorlib,Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
@@ -796,7 +796,7 @@ static class ReflectionUtils
         return fieldInfos.Cast<FieldInfo>();
     }
 
-    private static void GetChildPrivateFields(IList<MemberInfo> initialFields, Type targetType, BindingFlags bindingAttr)
+    static void GetChildPrivateFields(IList<MemberInfo> initialFields, Type targetType, BindingFlags bindingAttr)
     {
         // fix weirdness with private FieldInfos only being returned for the current Type
         // find base type fields and add them to result
@@ -854,7 +854,7 @@ static class ReflectionUtils
             : bindingAttr;
     }
 
-    private static void GetChildPrivateProperties(IList<PropertyInfo> initialProperties, Type targetType, BindingFlags bindingAttr)
+    static void GetChildPrivateProperties(IList<PropertyInfo> initialProperties, Type targetType, BindingFlags bindingAttr)
     {
         // fix weirdness with private PropertyInfos only being returned for the current Type
         // find base type properties and add them to result

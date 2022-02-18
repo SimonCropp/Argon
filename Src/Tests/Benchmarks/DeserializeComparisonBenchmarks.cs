@@ -36,8 +36,8 @@ namespace Argon.Tests.Benchmarks;
 
 public class DeserializeComparisonBenchmarks
 {
-    private static readonly byte[] BinaryFormatterData = TestFixtureBase.HexToBytes(BenchmarkConstants.BinaryFormatterHex);
-    private static readonly byte[] BsonData = TestFixtureBase.HexToBytes(BenchmarkConstants.BsonHex);
+    static readonly byte[] BinaryFormatterData = TestFixtureBase.HexToBytes(BenchmarkConstants.BinaryFormatterHex);
+    static readonly byte[] BsonData = TestFixtureBase.HexToBytes(BenchmarkConstants.BsonHex);
 
     [Benchmark]
     public TestClass DataContractSerializer()
@@ -45,7 +45,7 @@ public class DeserializeComparisonBenchmarks
         return DeserializeDataContract<TestClass>(BenchmarkConstants.XmlText);
     }
 
-    private T DeserializeDataContract<T>(string xml)
+    T DeserializeDataContract<T>(string xml)
     {
         var serializer = new DataContractSerializer(typeof(T));
         var ms = new MemoryStream(Encoding.UTF8.GetBytes(xml));
@@ -53,7 +53,7 @@ public class DeserializeComparisonBenchmarks
         return (T)serializer.ReadObject(ms);
     }
 
-    private T DeserializeDataContractJson<T>(string json)
+    T DeserializeDataContractJson<T>(string json)
     {
         var dataContractSerializer = new DataContractJsonSerializer(typeof(T));
         var ms = new MemoryStream(Encoding.UTF8.GetBytes(json));
@@ -68,7 +68,7 @@ public class DeserializeComparisonBenchmarks
             return DeserializeBinaryFormatter<TestClass>(BinaryFormatterData);
         }
 
-        private T DeserializeBinaryFormatter<T>(byte[] bytes)
+        T DeserializeBinaryFormatter<T>(byte[] bytes)
         {
             var formatter = new BinaryFormatter();
             return (T)formatter.Deserialize(new MemoryStream(bytes));
@@ -113,7 +113,7 @@ public class DeserializeComparisonBenchmarks
     }
 
     #region DeserializeJsonNetManual
-    private TestClass DeserializeJsonNetManual(string json)
+    TestClass DeserializeJsonNetManual(string json)
     {
         var c = new TestClass();
 
@@ -173,7 +173,7 @@ public class DeserializeComparisonBenchmarks
         return c;
     }
 
-    private static Address CreateAddress(JsonTextReader reader)
+    static Address CreateAddress(JsonTextReader reader)
     {
         var a = new Address();
         while (reader.Read())
@@ -214,7 +214,7 @@ public class DeserializeComparisonBenchmarks
         return DeserializeJsonNetManualAsync(BenchmarkConstants.JsonIndentedText);
     }
 
-    private async Task<TestClass> DeserializeJsonNetManualAsync(string json)
+    async Task<TestClass> DeserializeJsonNetManualAsync(string json)
     {
         var c = new TestClass();
 
@@ -274,7 +274,7 @@ public class DeserializeComparisonBenchmarks
         return c;
     }
 
-    private static async Task<Address> CreateAddressAsync(JsonTextReader reader)
+    static async Task<Address> CreateAddressAsync(JsonTextReader reader)
     {
         var a = new Address();
         while (await reader.ReadAsync())
@@ -309,7 +309,7 @@ public class DeserializeComparisonBenchmarks
         return DeserializeJsonNetBson<TestClass>(BsonData);
     }
 
-    private T DeserializeJsonNetBson<T>(byte[] bson)
+    T DeserializeJsonNetBson<T>(byte[] bson)
     {
         var serializer = new JsonSerializer();
         return (T)serializer.Deserialize(new BsonReader(new MemoryStream(bson)), typeof(T));

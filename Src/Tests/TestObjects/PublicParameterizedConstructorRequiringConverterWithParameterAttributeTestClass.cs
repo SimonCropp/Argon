@@ -27,7 +27,7 @@ namespace Argon.Tests.TestObjects;
 
 public class PublicParameterizedConstructorRequiringConverterWithParameterAttributeTestClass
 {
-    private readonly NameContainer _nameContainer;
+    readonly NameContainer _nameContainer;
 
     public PublicParameterizedConstructorRequiringConverterWithParameterAttributeTestClass([JsonConverter(typeof(NameContainerConverter))] NameContainer nameParameter)
     {

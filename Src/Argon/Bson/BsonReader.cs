@@ -33,23 +33,23 @@ namespace Argon.Bson;
 [Obsolete("BSON reading and writing has been moved to its own package. See https://www.nuget.org/packages/Newtonsoft.Json.Bson for more details.")]
 public class BsonReader : JsonReader
 {
-    private const int MaxCharBytesSize = 128;
-    private static readonly byte[] SeqRange1 = new byte[] { 0, 127 }; // range of 1-byte sequence
-    private static readonly byte[] SeqRange2 = new byte[] { 194, 223 }; // range of 2-byte sequence
-    private static readonly byte[] SeqRange3 = new byte[] { 224, 239 }; // range of 3-byte sequence
-    private static readonly byte[] SeqRange4 = new byte[] { 240, 244 }; // range of 4-byte sequence
+    const int MaxCharBytesSize = 128;
+    static readonly byte[] SeqRange1 = new byte[] { 0, 127 }; // range of 1-byte sequence
+    static readonly byte[] SeqRange2 = new byte[] { 194, 223 }; // range of 2-byte sequence
+    static readonly byte[] SeqRange3 = new byte[] { 224, 239 }; // range of 3-byte sequence
+    static readonly byte[] SeqRange4 = new byte[] { 240, 244 }; // range of 4-byte sequence
 
-    private readonly BinaryReader _reader;
-    private readonly List<ContainerContext> _stack;
+    readonly BinaryReader _reader;
+    readonly List<ContainerContext> _stack;
 
-    private byte[] _byteBuffer;
-    private char[] _charBuffer;
+    byte[] _byteBuffer;
+    char[] _charBuffer;
 
-    private BsonType _currentElementType;
-    private BsonReaderState _bsonReaderState;
-    private ContainerContext _currentContext;
+    BsonType _currentElementType;
+    BsonReaderState _bsonReaderState;
+    ContainerContext _currentContext;
 
-    private enum BsonReaderState
+    enum BsonReaderState
     {
         Normal = 0,
         ReferenceStart = 1,
@@ -62,7 +62,7 @@ public class BsonReader : JsonReader
         CodeWScopeScopeEnd = 8
     }
 
-    private class ContainerContext
+    class ContainerContext
     {
         public readonly BsonType Type;
         public int Length;
@@ -145,7 +145,7 @@ public class BsonReader : JsonReader
         DateTimeKindHandling = dateTimeKindHandling;
     }
 
-    private string ReadElement()
+    string ReadElement()
     {
         _currentElementType = ReadType();
         var elementName = ReadString();
@@ -214,7 +214,7 @@ public class BsonReader : JsonReader
         }
     }
 
-    private bool ReadCodeWScope()
+    bool ReadCodeWScope()
     {
         switch (_bsonReaderState)
         {
@@ -263,7 +263,7 @@ public class BsonReader : JsonReader
         }
     }
 
-    private bool ReadReference()
+    bool ReadReference()
     {
         switch (CurrentState)
         {
@@ -314,7 +314,7 @@ public class BsonReader : JsonReader
         }
     }
 
-    private bool ReadNormal()
+    bool ReadNormal()
     {
         switch (CurrentState)
         {
@@ -403,7 +403,7 @@ public class BsonReader : JsonReader
         return false;
     }
 
-    private void PopContext()
+    void PopContext()
     {
         _stack.RemoveAt(_stack.Count - 1);
         if (_stack.Count == 0)
@@ -416,19 +416,19 @@ public class BsonReader : JsonReader
         }
     }
 
-    private void PushContext(ContainerContext newContext)
+    void PushContext(ContainerContext newContext)
     {
         _stack.Add(newContext);
         _currentContext = newContext;
     }
 
-    private byte ReadByte()
+    byte ReadByte()
     {
         MovePosition(1);
         return _reader.ReadByte();
     }
 
-    private void ReadType(BsonType type)
+    void ReadType(BsonType type)
     {
         switch (type)
         {
@@ -539,7 +539,7 @@ public class BsonReader : JsonReader
         }
     }
 
-    private byte[] ReadBinary(out BsonBinaryType binaryType)
+    byte[] ReadBinary(out BsonBinaryType binaryType)
     {
         var dataLength = ReadInt32();
 
@@ -556,7 +556,7 @@ public class BsonReader : JsonReader
         return ReadBytes(dataLength);
     }
 
-    private string ReadString()
+    string ReadString()
     {
         EnsureBuffers();
 
@@ -620,7 +620,7 @@ public class BsonReader : JsonReader
         }
     }
 
-    private string ReadLengthString()
+    string ReadLengthString()
     {
         var length = ReadInt32();
 
@@ -632,7 +632,7 @@ public class BsonReader : JsonReader
         return s;
     }
 
-    private string GetString(int length)
+    string GetString(int length)
     {
         if (length == 0)
         {
@@ -701,7 +701,7 @@ public class BsonReader : JsonReader
         return builder.ToString();
     }
 
-    private int GetLastFullCharStop(int start)
+    int GetLastFullCharStop(int start)
     {
         var lookbackPos = start;
         var bis = 0;
@@ -734,7 +734,7 @@ public class BsonReader : JsonReader
         }
     }
 
-    private int BytesInSequence(byte b)
+    int BytesInSequence(byte b)
     {
         if (b <= SeqRange1[1])
         {
@@ -755,7 +755,7 @@ public class BsonReader : JsonReader
         return 0;
     }
 
-    private void EnsureBuffers()
+    void EnsureBuffers()
     {
         if (_byteBuffer == null)
         {
@@ -768,36 +768,36 @@ public class BsonReader : JsonReader
         }
     }
 
-    private double ReadDouble()
+    double ReadDouble()
     {
         MovePosition(8);
         return _reader.ReadDouble();
     }
 
-    private int ReadInt32()
+    int ReadInt32()
     {
         MovePosition(4);
         return _reader.ReadInt32();
     }
 
-    private long ReadInt64()
+    long ReadInt64()
     {
         MovePosition(8);
         return _reader.ReadInt64();
     }
 
-    private BsonType ReadType()
+    BsonType ReadType()
     {
         MovePosition(1);
         return (BsonType)_reader.ReadSByte();
     }
 
-    private void MovePosition(int count)
+    void MovePosition(int count)
     {
         _currentContext.Position += count;
     }
 
-    private byte[] ReadBytes(int count)
+    byte[] ReadBytes(int count)
     {
         MovePosition(count);
         return _reader.ReadBytes(count);

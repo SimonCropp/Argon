@@ -29,7 +29,7 @@ namespace Argon.Tests.Benchmarks;
 
 public class JsonTextWriterBenchmarks
 {
-    private static readonly string UnicodeCharsString = new('\0', 30);
+    static readonly string UnicodeCharsString = new('\0', 30);
 
     [Benchmark]
     public string SerializeUnicodeChars()

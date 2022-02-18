@@ -27,7 +27,7 @@ namespace Argon.Tests.TestObjects;
 
 public class PublicParameterizedConstructorWithNonPropertyParameterTestClass
 {
-    private readonly string _name;
+    readonly string _name;
 
     public PublicParameterizedConstructorWithNonPropertyParameterTestClass(string nameParameter)
     {

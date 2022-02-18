@@ -90,7 +90,7 @@ public abstract partial class JsonWriter
         return AsyncUtils.CompletedTask;
     }
 
-    private async Task AutoCompleteAsync(CancellationToken cancellationToken)
+    async Task AutoCompleteAsync(CancellationToken cancellationToken)
     {
         await WriteValueDelimiterAsync(cancellationToken).ConfigureAwait(false);
         await WriteIndentAsync(cancellationToken).ConfigureAwait(false);
@@ -807,7 +807,7 @@ public abstract partial class JsonWriter
         }
     }
 
-    private async Task WriteConstructorDateAsync(JsonReader reader, CancellationToken cancellationToken)
+    async Task WriteConstructorDateAsync(JsonReader reader, CancellationToken cancellationToken)
     {
         if (!await reader.ReadAsync(cancellationToken).ConfigureAwait(false))
         {

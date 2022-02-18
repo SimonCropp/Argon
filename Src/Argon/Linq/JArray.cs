@@ -33,7 +33,7 @@ namespace Argon.Linq;
 /// </example>
 public partial class JArray : JContainer, IList<JToken>
 {
-    private readonly List<JToken> _values = new();
+    readonly List<JToken> _values = new();
 
     /// <summary>
     /// Gets the container's children tokens.

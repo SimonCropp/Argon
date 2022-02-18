@@ -30,8 +30,8 @@ using Argon;
 
 static class JsonTypeReflector
 {
-    private static bool? _dynamicCodeGeneration;
-    private static bool? _fullyTrusted;
+    static bool? _dynamicCodeGeneration;
+    static bool? _fullyTrusted;
 
     public const string IdPropertyName = "$id";
     public const string RefPropertyName = "$ref";
@@ -44,10 +44,10 @@ static class JsonTypeReflector
 
     public const string ConcurrentDictionaryTypeName = "System.Collections.Concurrent.ConcurrentDictionary`2";
 
-    private static readonly ThreadSafeStore<Type, Func<object[]?, object>> CreatorCache = new(GetCreator);
+    static readonly ThreadSafeStore<Type, Func<object[]?, object>> CreatorCache = new(GetCreator);
 
-    private static readonly ThreadSafeStore<Type, Type?> AssociatedMetadataTypesCache = new(GetAssociateMetadataTypeFromAttribute);
-    private static ReflectionObject? _metadataTypeAttributeReflectionObject;
+    static readonly ThreadSafeStore<Type, Type?> AssociatedMetadataTypesCache = new(GetAssociateMetadataTypeFromAttribute);
+    static ReflectionObject? _metadataTypeAttributeReflectionObject;
 
     public static T? GetCachedAttribute<T>(object attributeProvider) where T : Attribute
     {
@@ -202,7 +202,7 @@ static class JsonTypeReflector
         return containerAttribute.NamingStrategyInstance;
     }
 
-    private static Func<object[]?, object> GetCreator(Type type)
+    static Func<object[]?, object> GetCreator(Type type)
     {
         var defaultConstructor = ReflectionUtils.HasDefaultConstructor(type, false)
             ? ReflectionDelegateFactory.CreateDefaultConstructor<object>(type)
@@ -250,12 +250,12 @@ static class JsonTypeReflector
         };
     }
 
-    private static Type? GetAssociatedMetadataType(Type type)
+    static Type? GetAssociatedMetadataType(Type type)
     {
         return AssociatedMetadataTypesCache.Get(type);
     }
 
-    private static Type? GetAssociateMetadataTypeFromAttribute(Type type)
+    static Type? GetAssociateMetadataTypeFromAttribute(Type type)
     {
         var customAttributes = ReflectionUtils.GetAttributes(type, null, true);
 
@@ -281,7 +281,7 @@ static class JsonTypeReflector
         return null;
     }
 
-    private static T? GetAttribute<T>(Type type) where T : Attribute
+    static T? GetAttribute<T>(Type type) where T : Attribute
     {
         T? attribute;
 
@@ -313,7 +313,7 @@ static class JsonTypeReflector
         return null;
     }
 
-    private static T? GetAttribute<T>(MemberInfo memberInfo) where T : Attribute
+    static T? GetAttribute<T>(MemberInfo memberInfo) where T : Attribute
     {
         T? attribute;
 

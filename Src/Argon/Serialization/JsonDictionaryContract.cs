@@ -52,18 +52,18 @@ public class JsonDictionaryContract : JsonContainerContract
 
     internal JsonContract? KeyContract { get; set; }
 
-    private readonly Type? _genericCollectionDefinitionType;
+    readonly Type? _genericCollectionDefinitionType;
 
-    private Type? _genericWrapperType;
-    private ObjectConstructor<object>? _genericWrapperCreator;
+    Type? _genericWrapperType;
+    ObjectConstructor<object>? _genericWrapperCreator;
 
-    private Func<object>? _genericTemporaryDictionaryCreator;
+    Func<object>? _genericTemporaryDictionaryCreator;
 
     internal bool ShouldCreateWrapper { get; }
 
-    private readonly ConstructorInfo? _parameterizedConstructor;
+    readonly ConstructorInfo? _parameterizedConstructor;
 
-    private ObjectConstructor<object>? _parameterizedCreator;
+    ObjectConstructor<object>? _parameterizedCreator;
 
     internal ObjectConstructor<object>? ParameterizedCreator
     {

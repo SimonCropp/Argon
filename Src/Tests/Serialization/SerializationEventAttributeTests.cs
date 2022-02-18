@@ -309,7 +309,7 @@ public class SerializationEventAttributeTests : TestFixtureBase
         public int Identifier { get; set; }
 
         [OnError]
-        private void OnError(StreamingContext context, ErrorContext error)
+        void OnError(StreamingContext context, ErrorContext error)
         {
             Identifier = 25;
 
@@ -515,7 +515,7 @@ public class Contract
     public string updatedBy { get; set; }
     public DateTime updated_at { get; set; }
 
-    private bool _onDeserializedCalled;
+    bool _onDeserializedCalled;
 
     public bool GetOnDeserializedCalled()
     {

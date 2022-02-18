@@ -2,7 +2,7 @@ class RootFilter : PathFilter
 {
     public static readonly RootFilter Instance = new();
 
-    private RootFilter()
+    RootFilter()
     {
     }
 

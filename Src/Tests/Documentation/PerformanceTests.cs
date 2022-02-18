@@ -90,7 +90,7 @@ public class PersonConverter : JsonConverter
 [TestFixture]
 public class PerformanceTests : TestFixtureBase
 {
-    private static class AppSettings
+    static class AppSettings
     {
         public static readonly IContractResolver SnakeCaseContractResolver = new DefaultContractResolver();
     }

@@ -35,7 +35,7 @@ public class CustomJsonConverter : TestFixtureBase
     #region Types
     public class KeysJsonConverter : JsonConverter
     {
-        private readonly Type[] _types;
+        readonly Type[] _types;
 
         public KeysJsonConverter(params Type[] types)
         {

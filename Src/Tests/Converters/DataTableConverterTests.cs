@@ -692,7 +692,7 @@ public class DataTableConverterTests : TestFixtureBase
             }
         }
 
-        private void OnError(object sender, Argon.Serialization.ErrorEventArgs e)
+        void OnError(object sender, Argon.Serialization.ErrorEventArgs e)
         {
             e.ErrorContext.Handled = true;
         }

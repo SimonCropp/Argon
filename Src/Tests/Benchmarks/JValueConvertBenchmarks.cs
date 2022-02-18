@@ -29,7 +29,7 @@ namespace Argon.Tests.Benchmarks;
 
 public class JValueConvertBenchmarks
 {
-    private static readonly JValue StringJValue = new("String!");
+    static readonly JValue StringJValue = new("String!");
 
     [Benchmark]
     public string JTokenToObjectFast()

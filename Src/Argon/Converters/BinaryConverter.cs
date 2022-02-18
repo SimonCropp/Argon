@@ -32,9 +32,9 @@ namespace Argon.Converters;
 /// </summary>
 public class BinaryConverter : JsonConverter
 {
-    private const string BinaryTypeName = "System.Data.Linq.Binary";
-    private const string BinaryToArrayName = "ToArray";
-    private static ReflectionObject? _reflectionObject;
+    const string BinaryTypeName = "System.Data.Linq.Binary";
+    const string BinaryToArrayName = "ToArray";
+    static ReflectionObject? _reflectionObject;
 
     /// <summary>
     /// Writes the JSON representation of the object.
@@ -55,7 +55,7 @@ public class BinaryConverter : JsonConverter
         writer.WriteValue(data);
     }
 
-    private byte[] GetByteArray(object value)
+    byte[] GetByteArray(object value)
     {
         if (value.GetType().FullName == BinaryTypeName)
         {
@@ -72,7 +72,7 @@ public class BinaryConverter : JsonConverter
         throw new JsonSerializationException("Unexpected value type when writing binary: {0}".FormatWith(CultureInfo.InvariantCulture, value.GetType()));
     }
 
-    private static void EnsureReflectionObject(Type t)
+    static void EnsureReflectionObject(Type t)
     {
         if (_reflectionObject == null)
         {
@@ -138,7 +138,7 @@ public class BinaryConverter : JsonConverter
         throw JsonSerializationException.Create(reader, "Unexpected object type when writing binary: {0}".FormatWith(CultureInfo.InvariantCulture, objectType));
     }
 
-    private byte[] ReadByteArray(JsonReader reader)
+    byte[] ReadByteArray(JsonReader reader)
     {
         var byteList = new List<byte>();
 

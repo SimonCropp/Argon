@@ -72,7 +72,7 @@ class JsonSchemaModel
         return model;
     }
 
-    private static void Combine(JsonSchemaModel model, JsonSchema schema)
+    static void Combine(JsonSchemaModel model, JsonSchema schema)
     {
         // Version 3 of the Draft JSON Schema has the default value of Not Required
         model.Required = model.Required || (schema.Required ?? false);

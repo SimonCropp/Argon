@@ -40,7 +40,7 @@ public class DeserializeWithDependencyInjection : TestFixtureBase
     #region Types
     public class AutofacContractResolver : DefaultContractResolver
     {
-        private readonly IContainer _container;
+        readonly IContainer _container;
 
         public AutofacContractResolver(IContainer container)
         {
@@ -61,7 +61,7 @@ public class DeserializeWithDependencyInjection : TestFixtureBase
             return base.CreateObjectContract(objectType);
         }
 
-        private JsonObjectContract ResolveContact(Type objectType)
+        JsonObjectContract ResolveContact(Type objectType)
         {
             // attempt to create the contact from the resolved type
             if (_container.ComponentRegistry.TryGetRegistration(new TypedService(objectType), out var registration))
@@ -80,8 +80,8 @@ public class DeserializeWithDependencyInjection : TestFixtureBase
 
     public class TaskController
     {
-        private readonly ITaskRepository _repository;
-        private readonly ILogger _logger;
+        readonly ITaskRepository _repository;
+        readonly ILogger _logger;
 
         public TaskController(ITaskRepository repository, ILogger logger)
         {

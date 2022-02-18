@@ -40,10 +40,10 @@ public class PrivateMembersClassWithAttributes
     }
 
     [JsonProperty]
-    private string _privateString;
+    string _privateString;
 
     [JsonProperty]
-    private readonly string _readonlyString;
+    readonly string _readonlyString;
 
     [JsonProperty]
     internal string _internalString;

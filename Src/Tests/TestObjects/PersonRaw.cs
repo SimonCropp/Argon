@@ -27,10 +27,10 @@ namespace Argon.Tests.TestObjects;
 
 public class PersonRaw
 {
-    private Guid _internalId;
-    private string _firstName;
-    private string _lastName;
-    private JRaw _rawContent;
+    Guid _internalId;
+    string _firstName;
+    string _lastName;
+    JRaw _rawContent;
 
     [JsonIgnore]
     public Guid InternalId

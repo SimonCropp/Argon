@@ -84,7 +84,7 @@ class BooleanQueryExpression : QueryExpression
         Right = right;
     }
 
-    private IEnumerable<JToken> GetResult(JToken root, JToken t, object? o)
+    IEnumerable<JToken> GetResult(JToken root, JToken t, object? o)
     {
         if (o is JToken resultToken)
         {
@@ -130,7 +130,7 @@ class BooleanQueryExpression : QueryExpression
         return false;
     }
 
-    private bool MatchTokens(JToken leftResult, JToken rightResult, JsonSelectSettings? settings)
+    bool MatchTokens(JToken leftResult, JToken rightResult, JsonSelectSettings? settings)
     {
         if (leftResult is JValue leftValue && rightResult is JValue rightValue)
         {
@@ -209,7 +209,7 @@ class BooleanQueryExpression : QueryExpression
         return false;
     }
 
-    private static bool RegexEquals(JValue input, JValue pattern, JsonSelectSettings? settings)
+    static bool RegexEquals(JValue input, JValue pattern, JsonSelectSettings? settings)
     {
         if (input.Type != JTokenType.String || pattern.Type != JTokenType.String)
         {

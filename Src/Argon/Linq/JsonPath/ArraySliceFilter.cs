@@ -69,7 +69,7 @@ class ArraySliceFilter : PathFilter
         }
     }
 
-    private bool IsValid(int index, int stopIndex, bool positiveStep)
+    bool IsValid(int index, int stopIndex, bool positiveStep)
     {
         if (positiveStep)
         {

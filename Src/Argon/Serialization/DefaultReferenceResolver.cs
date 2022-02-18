@@ -27,9 +27,9 @@ using Argon;
 
 class DefaultReferenceResolver : IReferenceResolver
 {
-    private int _referenceCount;
+    int _referenceCount;
 
-    private BidirectionalDictionary<string, object> GetMappings(object context)
+    BidirectionalDictionary<string, object> GetMappings(object context)
     {
         if (!(context is JsonSerializerInternalBase internalSerializer))
         {

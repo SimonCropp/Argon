@@ -30,9 +30,9 @@ namespace Argon.Linq;
 /// </summary>
 public class JTokenReader : JsonReader, IJsonLineInfo
 {
-    private readonly JToken _root;
-    private string? _initialPath;
-    private JToken? _parent;
+    readonly JToken _root;
+    string? _initialPath;
+    JToken? _parent;
 
     /// <summary>
     /// Gets the <see cref="JToken"/> at the reader's current position.
@@ -97,7 +97,7 @@ public class JTokenReader : JsonReader, IJsonLineInfo
         return true;
     }
 
-    private bool ReadOver(JToken t)
+    bool ReadOver(JToken t)
     {
         if (t == _root)
         {
@@ -122,14 +122,14 @@ public class JTokenReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private bool ReadToEnd()
+    bool ReadToEnd()
     {
         CurrentToken = null;
         SetToken(JsonToken.None);
         return false;
     }
 
-    private JsonToken? GetEndToken(JContainer c)
+    JsonToken? GetEndToken(JContainer c)
     {
         switch (c.Type)
         {
@@ -146,7 +146,7 @@ public class JTokenReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private bool ReadInto(JContainer c)
+    bool ReadInto(JContainer c)
     {
         var firstChild = c.First;
         if (firstChild == null)
@@ -162,7 +162,7 @@ public class JTokenReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private bool SetEnd(JContainer c)
+    bool SetEnd(JContainer c)
     {
         var endToken = GetEndToken(c);
         if (endToken != null)
@@ -178,7 +178,7 @@ public class JTokenReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private void SetToken(JToken token)
+    void SetToken(JToken token)
     {
         switch (token.Type)
         {
@@ -249,7 +249,7 @@ public class JTokenReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private string? SafeToString(object? value)
+    string? SafeToString(object? value)
     {
         return value?.ToString();
     }

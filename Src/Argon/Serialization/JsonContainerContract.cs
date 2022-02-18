@@ -30,7 +30,7 @@ namespace Argon.Serialization;
 /// </summary>
 public class JsonContainerContract : JsonContract
 {
-    private JsonContract? _itemContract;
+    JsonContract? _itemContract;
 
     // will be null for containers that don't have an item type (e.g. IList) or for complex objects
     internal JsonContract? ItemContract

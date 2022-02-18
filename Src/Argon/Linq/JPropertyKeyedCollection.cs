@@ -27,15 +27,15 @@ using System.Collections.ObjectModel;
 
 class JPropertyKeyedCollection : Collection<JToken>
 {
-    private static readonly IEqualityComparer<string> Comparer = StringComparer.Ordinal;
+    static readonly IEqualityComparer<string> Comparer = StringComparer.Ordinal;
 
-    private Dictionary<string, JToken>? _dictionary;
+    Dictionary<string, JToken>? _dictionary;
 
     public JPropertyKeyedCollection() : base(new List<JToken>())
     {
     }
 
-    private void AddKey(string key, JToken item)
+    void AddKey(string key, JToken item)
     {
         EnsureDictionary();
         _dictionary![key] = item;
@@ -85,7 +85,7 @@ class JPropertyKeyedCollection : Collection<JToken>
         return false;
     }
 
-    private bool ContainsItem(JToken item)
+    bool ContainsItem(JToken item)
     {
         if (_dictionary == null)
         {
@@ -96,7 +96,7 @@ class JPropertyKeyedCollection : Collection<JToken>
         return _dictionary.TryGetValue(key, out _);
     }
 
-    private void EnsureDictionary()
+    void EnsureDictionary()
     {
         if (_dictionary == null)
         {
@@ -104,7 +104,7 @@ class JPropertyKeyedCollection : Collection<JToken>
         }
     }
 
-    private string GetKeyForItem(JToken item)
+    string GetKeyForItem(JToken item)
     {
         return ((JProperty)item).Name;
     }
@@ -137,7 +137,7 @@ class JPropertyKeyedCollection : Collection<JToken>
         base.RemoveItem(index);
     }
 
-    private void RemoveKey(string key)
+    void RemoveKey(string key)
     {
         _dictionary?.Remove(key);
     }

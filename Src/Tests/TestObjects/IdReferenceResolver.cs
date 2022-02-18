@@ -27,7 +27,7 @@ namespace Argon.Tests.TestObjects;
 
 public class IdReferenceResolver : IReferenceResolver
 {
-    private readonly IDictionary<Guid, PersonReference> _people = new Dictionary<Guid, PersonReference>();
+    readonly IDictionary<Guid, PersonReference> _people = new Dictionary<Guid, PersonReference>();
 
     public object ResolveReference(object context, string reference)
     {

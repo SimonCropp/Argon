@@ -40,7 +40,7 @@ namespace Argon;
 [Obsolete("JSON Schema validation has been moved to its own package. See https://www.newtonsoft.com/jsonschema for more details.")]
 public class JsonValidatingReader : JsonReader, IJsonLineInfo
 {
-    private class SchemaScope
+    class SchemaScope
     {
         public string CurrentPropertyName { get; set; }
         public int ArrayItemCount { get; set; }
@@ -68,7 +68,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
             }
         }
 
-        private IEnumerable<string> GetRequiredProperties(JsonSchemaModel schema)
+        IEnumerable<string> GetRequiredProperties(JsonSchemaModel schema)
         {
             if (schema?.Properties == null)
             {
@@ -79,10 +79,10 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private readonly Stack<SchemaScope> _stack;
-    private JsonSchema _schema;
-    private JsonSchemaModel _model;
-    private SchemaScope _currentScope;
+    readonly Stack<SchemaScope> _stack;
+    JsonSchema _schema;
+    JsonSchemaModel _model;
+    SchemaScope _currentScope;
 
     /// <summary>
     /// Sets an event handler for receiving schema validation errors.
@@ -128,13 +128,13 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
     /// <value></value>
     public override Type ValueType => Reader.ValueType;
 
-    private void Push(SchemaScope scope)
+    void Push(SchemaScope scope)
     {
         _stack.Push(scope);
         _currentScope = scope;
     }
 
-    private SchemaScope Pop()
+    SchemaScope Pop()
     {
         var poppedScope = _stack.Pop();
         _currentScope = _stack.Count != 0
@@ -144,11 +144,11 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
         return poppedScope;
     }
 
-    private IList<JsonSchemaModel> CurrentSchemas => _currentScope.Schemas;
+    IList<JsonSchemaModel> CurrentSchemas => _currentScope.Schemas;
 
-    private static readonly IList<JsonSchemaModel> EmptySchemaList = new List<JsonSchemaModel>();
+    static readonly IList<JsonSchemaModel> EmptySchemaList = new List<JsonSchemaModel>();
 
-    private IList<JsonSchemaModel> CurrentMemberSchemas
+    IList<JsonSchemaModel> CurrentMemberSchemas
     {
         get
         {
@@ -240,7 +240,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private void RaiseError(string message, JsonSchemaModel schema)
+    void RaiseError(string message, JsonSchemaModel schema)
     {
         IJsonLineInfo lineInfo = this;
 
@@ -251,7 +251,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
         OnValidationEvent(new JsonSchemaException(exceptionMessage, null, Path, lineInfo.LineNumber, lineInfo.LinePosition));
     }
 
-    private void OnValidationEvent(JsonSchemaException exception)
+    void OnValidationEvent(JsonSchemaException exception)
     {
         var handler = ValidationEventHandler;
         if (handler != null)
@@ -314,7 +314,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private void ValidateNotDisallowed(JsonSchemaModel schema)
+    void ValidateNotDisallowed(JsonSchemaModel schema)
     {
         if (schema == null)
         {
@@ -331,7 +331,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private JsonSchemaType? GetCurrentNodeSchemaType()
+    JsonSchemaType? GetCurrentNodeSchemaType()
     {
         switch (Reader.TokenType)
         {
@@ -474,7 +474,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
         return true;
     }
 
-    private void ValidateCurrentToken()
+    void ValidateCurrentToken()
     {
         // first time validate has been called. build model
         if (_model == null)
@@ -591,7 +591,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private void WriteToken(IList<JsonSchemaModel> schemas)
+    void WriteToken(IList<JsonSchemaModel> schemas)
     {
         foreach (var schemaScope in _stack)
         {
@@ -649,7 +649,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private void ValidateEndObject(JsonSchemaModel schema)
+    void ValidateEndObject(JsonSchemaModel schema)
     {
         if (schema == null)
         {
@@ -665,7 +665,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private void ValidateEndArray(JsonSchemaModel schema)
+    void ValidateEndArray(JsonSchemaModel schema)
     {
         if (schema == null)
         {
@@ -685,7 +685,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private void ValidateNull(JsonSchemaModel schema)
+    void ValidateNull(JsonSchemaModel schema)
     {
         if (schema == null)
         {
@@ -700,7 +700,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
         ValidateNotDisallowed(schema);
     }
 
-    private void ValidateBoolean(JsonSchemaModel schema)
+    void ValidateBoolean(JsonSchemaModel schema)
     {
         if (schema == null)
         {
@@ -715,7 +715,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
         ValidateNotDisallowed(schema);
     }
 
-    private void ValidateString(JsonSchemaModel schema)
+    void ValidateString(JsonSchemaModel schema)
     {
         if (schema == null)
         {
@@ -753,7 +753,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private void ValidateInteger(JsonSchemaModel schema)
+    void ValidateInteger(JsonSchemaModel schema)
     {
         if (schema == null)
         {
@@ -822,7 +822,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private void ProcessValue()
+    void ProcessValue()
     {
         if (_currentScope is {TokenType: JTokenType.Array})
         {
@@ -839,7 +839,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private void ValidateFloat(JsonSchemaModel schema)
+    void ValidateFloat(JsonSchemaModel schema)
     {
         if (schema == null)
         {
@@ -890,19 +890,19 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private static double FloatingPointRemainder(double dividend, double divisor)
+    static double FloatingPointRemainder(double dividend, double divisor)
     {
         return dividend - Math.Floor(dividend / divisor) * divisor;
     }
 
-    private static bool IsZero(double value)
+    static bool IsZero(double value)
     {
         const double epsilon = 2.2204460492503131e-016;
 
         return Math.Abs(value) < 20.0 * epsilon;
     }
 
-    private void ValidatePropertyName(JsonSchemaModel schema)
+    void ValidatePropertyName(JsonSchemaModel schema)
     {
         if (schema == null)
         {
@@ -929,7 +929,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
         _currentScope.CurrentPropertyName = propertyName;
     }
 
-    private bool IsPropertyDefinied(JsonSchemaModel schema, string propertyName)
+    bool IsPropertyDefinied(JsonSchemaModel schema, string propertyName)
     {
         if (schema.Properties != null && schema.Properties.ContainsKey(propertyName))
         {
@@ -950,7 +950,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
         return false;
     }
 
-    private bool ValidateArray(JsonSchemaModel schema)
+    bool ValidateArray(JsonSchemaModel schema)
     {
         if (schema == null)
         {
@@ -960,7 +960,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
         return TestType(schema, JsonSchemaType.Array);
     }
 
-    private bool ValidateObject(JsonSchemaModel schema)
+    bool ValidateObject(JsonSchemaModel schema)
     {
         if (schema == null)
         {
@@ -970,7 +970,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
         return TestType(schema, JsonSchemaType.Object);
     }
 
-    private bool TestType(JsonSchemaModel currentSchema, JsonSchemaType currentType)
+    bool TestType(JsonSchemaModel currentSchema, JsonSchemaType currentType)
     {
         if (!JsonSchemaGenerator.HasFlag(currentSchema.Type, currentType))
         {

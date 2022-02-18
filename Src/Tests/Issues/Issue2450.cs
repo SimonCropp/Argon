@@ -70,7 +70,7 @@ public class Issue2450
 
     public struct Dict : IReadOnlyDictionary<string, object>
     {
-        private readonly IDictionary<string, object> _dict;
+        readonly IDictionary<string, object> _dict;
         public Dict(IDictionary<string, object> dict) => _dict = dict;
 
         public object this[string key] => _dict[key];

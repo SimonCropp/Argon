@@ -1,6 +1,6 @@
 class ScanMultipleFilter : PathFilter
 {
-    private List<string> _names;
+    List<string> _names;
 
     public ScanMultipleFilter(List<string> names)
     {

@@ -30,13 +30,13 @@ namespace Argon.Converters;
 /// </summary>
 public class EntityKeyMemberConverter : JsonConverter
 {
-    private const string EntityKeyMemberFullTypeName = "System.Data.EntityKeyMember";
+    const string EntityKeyMemberFullTypeName = "System.Data.EntityKeyMember";
 
-    private const string KeyPropertyName = "Key";
-    private const string TypePropertyName = "Type";
-    private const string ValuePropertyName = "Value";
+    const string KeyPropertyName = "Key";
+    const string TypePropertyName = "Type";
+    const string ValuePropertyName = "Value";
 
-    private static ReflectionObject? _reflectionObject;
+    static ReflectionObject? _reflectionObject;
 
     /// <summary>
     /// Writes the JSON representation of the object.
@@ -89,7 +89,7 @@ public class EntityKeyMemberConverter : JsonConverter
         writer.WriteEndObject();
     }
 
-    private static void ReadAndAssertProperty(JsonReader reader, string propertyName)
+    static void ReadAndAssertProperty(JsonReader reader, string propertyName)
     {
         reader.ReadAndAssert();
 
@@ -133,7 +133,7 @@ public class EntityKeyMemberConverter : JsonConverter
         return entityKeyMember;
     }
 
-    private static void EnsureReflectionObject(Type objectType)
+    static void EnsureReflectionObject(Type objectType)
     {
         if (_reflectionObject == null)
         {

@@ -25,8 +25,8 @@
 
 class FSharpFunction
 {
-    private readonly object? _instance;
-    private readonly MethodCall<object?, object> _invoker;
+    readonly object? _instance;
+    readonly MethodCall<object?, object> _invoker;
 
     public FSharpFunction(object? instance, MethodCall<object?, object> invoker)
     {
@@ -44,7 +44,7 @@ class FSharpFunction
 
 class FSharpUtils
 {
-    private FSharpUtils(Assembly fsharpCoreAssembly)
+    FSharpUtils(Assembly fsharpCoreAssembly)
     {
         FSharpCoreAssembly = fsharpCoreAssembly;
 
@@ -75,8 +75,8 @@ class FSharpUtils
         _mapType = fsharpCoreAssembly.GetType("Microsoft.FSharp.Collections.FSharpMap`2");
     }
 
-    private static readonly object Lock = new();
-    private static FSharpUtils? _instance;
+    static readonly object Lock = new();
+    static FSharpUtils? _instance;
 
     public static FSharpUtils Instance
     {
@@ -87,8 +87,8 @@ class FSharpUtils
         }
     }
 
-    private MethodInfo _ofSeq;
-    private Type _mapType;
+    MethodInfo _ofSeq;
+    Type _mapType;
 
     public Assembly FSharpCoreAssembly { get; private set; }
     public MethodCall<object?, object> IsUnion { get; private set; }
@@ -119,7 +119,7 @@ class FSharpUtils
         }
     }
 
-    private static MethodInfo GetMethodWithNonPublicFallback(Type type, string methodName, BindingFlags bindingFlags)
+    static MethodInfo GetMethodWithNonPublicFallback(Type type, string methodName, BindingFlags bindingFlags)
     {
         var methodInfo = type.GetMethod(methodName, bindingFlags);
 
@@ -135,7 +135,7 @@ class FSharpUtils
         return methodInfo!;
     }
 
-    private static MethodCall<object?, object> CreateFSharpFuncCall(Type type, string methodName)
+    static MethodCall<object?, object> CreateFSharpFuncCall(Type type, string methodName)
     {
         var innerMethodInfo = GetMethodWithNonPublicFallback(type, methodName, BindingFlags.Public | BindingFlags.Static);
         var invokeFunc = innerMethodInfo.ReturnType.GetMethod("Invoke", BindingFlags.Public | BindingFlags.Instance);

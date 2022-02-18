@@ -45,7 +45,7 @@ public class JsonSchemaGenerator
     /// </summary>
     public UndefinedSchemaIdHandling UndefinedSchemaIdHandling { get; set; }
 
-    private IContractResolver _contractResolver;
+    IContractResolver _contractResolver;
 
     /// <summary>
     /// Gets or sets the contract resolver.
@@ -65,7 +65,7 @@ public class JsonSchemaGenerator
         set => _contractResolver = value;
     }
 
-    private class TypeSchema
+    class TypeSchema
     {
         public Type Type { get; }
         public JsonSchema Schema { get; }
@@ -80,19 +80,19 @@ public class JsonSchemaGenerator
         }
     }
 
-    private JsonSchemaResolver _resolver;
-    private readonly IList<TypeSchema> _stack = new List<TypeSchema>();
+    JsonSchemaResolver _resolver;
+    readonly IList<TypeSchema> _stack = new List<TypeSchema>();
 
-    private JsonSchema CurrentSchema { get; set; }
+    JsonSchema CurrentSchema { get; set; }
 
-    private void Push(TypeSchema typeSchema)
+    void Push(TypeSchema typeSchema)
     {
         CurrentSchema = typeSchema.Schema;
         _stack.Add(typeSchema);
         _resolver.LoadedSchemas.Add(typeSchema.Schema);
     }
 
-    private TypeSchema Pop()
+    TypeSchema Pop()
     {
         var popped = _stack[_stack.Count - 1];
         _stack.RemoveAt(_stack.Count - 1);
@@ -158,7 +158,7 @@ public class JsonSchemaGenerator
         return GenerateInternal(type, !rootSchemaNullable ? Required.Always : Required.Default, false);
     }
 
-    private string GetTitle(Type type)
+    string GetTitle(Type type)
     {
         var containerAttribute = JsonTypeReflector.GetCachedAttribute<JsonContainerAttribute>(type);
 
@@ -170,7 +170,7 @@ public class JsonSchemaGenerator
         return null;
     }
 
-    private string GetDescription(Type type)
+    string GetDescription(Type type)
     {
         var containerAttribute = JsonTypeReflector.GetCachedAttribute<JsonContainerAttribute>(type);
 
@@ -183,7 +183,7 @@ public class JsonSchemaGenerator
         return descriptionAttribute?.Description;
     }
 
-    private string GetTypeId(Type type, bool explicitOnly)
+    string GetTypeId(Type type, bool explicitOnly)
     {
         var containerAttribute = JsonTypeReflector.GetCachedAttribute<JsonContainerAttribute>(type);
 
@@ -208,7 +208,7 @@ public class JsonSchemaGenerator
         }
     }
 
-    private JsonSchema GenerateInternal(Type type, Required valueRequired, bool required)
+    JsonSchema GenerateInternal(Type type, Required valueRequired, bool required)
     {
         ValidationUtils.ArgumentNotNull(type, nameof(type));
 
@@ -344,7 +344,7 @@ public class JsonSchemaGenerator
         return Pop().Schema;
     }
 
-    private JsonSchemaType AddNullType(JsonSchemaType type, Required valueRequired)
+    JsonSchemaType AddNullType(JsonSchemaType type, Required valueRequired)
     {
         if (valueRequired != Required.Always)
         {
@@ -354,12 +354,12 @@ public class JsonSchemaGenerator
         return type;
     }
 
-    private bool HasFlag(DefaultValueHandling value, DefaultValueHandling flag)
+    bool HasFlag(DefaultValueHandling value, DefaultValueHandling flag)
     {
         return (value & flag) == flag;
     }
 
-    private void GenerateObjectSchema(Type type, JsonObjectContract contract)
+    void GenerateObjectSchema(Type type, JsonObjectContract contract)
     {
         CurrentSchema.Properties = new Dictionary<string, JsonSchema>();
         foreach (var property in contract.Properties)
@@ -388,7 +388,7 @@ public class JsonSchemaGenerator
         }
     }
 
-    private void GenerateISerializableContract(Type type, JsonISerializableContract contract)
+    void GenerateISerializableContract(Type type, JsonISerializableContract contract)
     {
         CurrentSchema.AllowAdditionalProperties = true;
     }
@@ -416,7 +416,7 @@ public class JsonSchemaGenerator
         return false;
     }
 
-    private JsonSchemaType GetJsonSchemaType(Type type, Required valueRequired)
+    JsonSchemaType GetJsonSchemaType(Type type, Required valueRequired)
     {
         var schemaType = JsonSchemaType.None;
         if (valueRequired != Required.Always && ReflectionUtils.IsNullable(type))

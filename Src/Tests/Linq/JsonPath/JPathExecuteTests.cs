@@ -1564,7 +1564,7 @@ public class JPathExecuteTests : TestFixtureBase
         }
     }
 
-    private static IEnumerable<object[]> StrictMatchTestData()
+    static IEnumerable<object[]> StrictMatchTestData()
     {
         yield return new object[] { "1", "1", true };
         yield return new object[] { "1", "1.0", true };

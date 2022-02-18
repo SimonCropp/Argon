@@ -30,10 +30,10 @@ using Argon;
 [Obsolete("JSON Schema validation has been moved to its own package. See https://www.newtonsoft.com/jsonschema for more details.")]
 class JsonSchemaBuilder
 {
-    private readonly IList<JsonSchema> _stack;
-    private readonly JsonSchemaResolver _resolver;
-    private readonly IDictionary<string, JsonSchema> _documentSchemas;
-    private JObject _rootSchema;
+    readonly IList<JsonSchema> _stack;
+    readonly JsonSchemaResolver _resolver;
+    readonly IDictionary<string, JsonSchema> _documentSchemas;
+    JObject _rootSchema;
 
     public JsonSchemaBuilder(JsonSchemaResolver resolver)
     {
@@ -42,7 +42,7 @@ class JsonSchemaBuilder
         _resolver = resolver;
     }
 
-    private void Push(JsonSchema value)
+    void Push(JsonSchema value)
     {
         CurrentSchema = value;
         _stack.Add(value);
@@ -50,7 +50,7 @@ class JsonSchemaBuilder
         _documentSchemas.Add(value.Location, value);
     }
 
-    private JsonSchema Pop()
+    JsonSchema Pop()
     {
         var poppedSchema = CurrentSchema;
         _stack.RemoveAt(_stack.Count - 1);
@@ -59,7 +59,7 @@ class JsonSchemaBuilder
         return poppedSchema;
     }
 
-    private JsonSchema CurrentSchema { get; set; }
+    JsonSchema CurrentSchema { get; set; }
 
     internal JsonSchema Read(JsonReader reader)
     {
@@ -74,12 +74,12 @@ class JsonSchemaBuilder
         return schema;
     }
 
-    private string UnescapeReference(string reference)
+    string UnescapeReference(string reference)
     {
         return Uri.UnescapeDataString(reference).Replace("~1", "/").Replace("~0", "~");
     }
 
-    private JsonSchema ResolveReferences(JsonSchema schema)
+    JsonSchema ResolveReferences(JsonSchema schema)
     {
         if (schema.DeferredReference != null)
         {
@@ -192,7 +192,7 @@ class JsonSchemaBuilder
         return schema;
     }
 
-    private JsonSchema BuildSchema(JToken token)
+    JsonSchema BuildSchema(JToken token)
     {
         if (!(token is JObject schemaObject))
         {
@@ -228,7 +228,7 @@ class JsonSchemaBuilder
         return Pop();
     }
 
-    private void ProcessSchemaProperties(JObject schemaObject)
+    void ProcessSchemaProperties(JObject schemaObject)
     {
         foreach (var property in schemaObject)
         {
@@ -325,7 +325,7 @@ class JsonSchemaBuilder
         }
     }
 
-    private void ProcessExtends(JToken token)
+    void ProcessExtends(JToken token)
     {
         IList<JsonSchema> schemas = new List<JsonSchema>();
 
@@ -351,7 +351,7 @@ class JsonSchemaBuilder
         }
     }
 
-    private void ProcessEnum(JToken token)
+    void ProcessEnum(JToken token)
     {
         if (token.Type != JTokenType.Array)
         {
@@ -366,7 +366,7 @@ class JsonSchemaBuilder
         }
     }
 
-    private void ProcessAdditionalProperties(JToken token)
+    void ProcessAdditionalProperties(JToken token)
     {
         if (token.Type == JTokenType.Boolean)
         {
@@ -378,7 +378,7 @@ class JsonSchemaBuilder
         }
     }
 
-    private void ProcessAdditionalItems(JToken token)
+    void ProcessAdditionalItems(JToken token)
     {
         if (token.Type == JTokenType.Boolean)
         {
@@ -390,7 +390,7 @@ class JsonSchemaBuilder
         }
     }
 
-    private IDictionary<string, JsonSchema> ProcessProperties(JToken token)
+    IDictionary<string, JsonSchema> ProcessProperties(JToken token)
     {
         IDictionary<string, JsonSchema> properties = new Dictionary<string, JsonSchema>();
 
@@ -412,7 +412,7 @@ class JsonSchemaBuilder
         return properties;
     }
 
-    private void ProcessItems(JToken token)
+    void ProcessItems(JToken token)
     {
         CurrentSchema.Items = new List<JsonSchema>();
 
@@ -434,7 +434,7 @@ class JsonSchemaBuilder
         }
     }
 
-    private JsonSchemaType? ProcessType(JToken token)
+    JsonSchemaType? ProcessType(JToken token)
     {
         switch (token.Type)
         {

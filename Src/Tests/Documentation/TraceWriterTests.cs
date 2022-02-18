@@ -67,7 +67,7 @@ public class TraceWriterTests : TestFixtureBase
     #region CustomTraceWriterExample
     public class NLogTraceWriter : ITraceWriter
     {
-        private static readonly Logger Logger = LogManager.GetLogger("NLogTraceWriter");
+        static readonly Logger Logger = LogManager.GetLogger("NLogTraceWriter");
 
         public TraceLevel LevelFilter =>
             // trace all messages. nlog can handle filtering
@@ -86,7 +86,7 @@ public class TraceWriterTests : TestFixtureBase
             Logger.Log(logEvent);
         }
 
-        private LogLevel GetLogLevel(TraceLevel level)
+        LogLevel GetLogLevel(TraceLevel level)
         {
             switch (level)
             {

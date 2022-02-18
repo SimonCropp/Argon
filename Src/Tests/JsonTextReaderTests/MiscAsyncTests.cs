@@ -250,7 +250,7 @@ public class MiscAsyncTests : TestFixtureBase
         Assert.AreEqual("ABC \b\ufffd", await ReadStringAsync("ABC \\b\\ud800"));
     }
 
-    private async Task<string> ReadStringAsync(string input)
+    async Task<string> ReadStringAsync(string input)
     {
         var ms = new MemoryStream(Encoding.UTF8.GetBytes(@"""" + input + @""""));
 

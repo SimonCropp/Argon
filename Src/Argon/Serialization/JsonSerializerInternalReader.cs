@@ -100,7 +100,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
     }
 
-    private JsonContract? GetContractSafe(Type? type)
+    JsonContract? GetContractSafe(Type? type)
     {
         if (type == null)
         {
@@ -110,7 +110,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return GetContract(type);
     }
 
-    private JsonContract GetContract(Type type)
+    JsonContract GetContract(Type type)
     {
         return Serializer._contractResolver.ResolveContract(type);
     }
@@ -180,7 +180,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
     }
 
-    private JsonSerializerProxy GetInternalSerializer()
+    JsonSerializerProxy GetInternalSerializer()
     {
         if (InternalSerializer == null)
         {
@@ -190,7 +190,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return InternalSerializer;
     }
 
-    private JToken? CreateJToken(JsonReader reader, JsonContract? contract)
+    JToken? CreateJToken(JsonReader reader, JsonContract? contract)
     {
         ValidationUtils.ArgumentNotNull(reader, nameof(reader));
 
@@ -226,7 +226,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return token;
     }
 
-    private JToken CreateJObject(JsonReader reader)
+    JToken CreateJObject(JsonReader reader)
     {
         ValidationUtils.ArgumentNotNull(reader, nameof(reader));
 
@@ -268,7 +268,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
     }
 
-    private object? CreateValueInternal(JsonReader reader, Type? objectType, JsonContract? contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerMember, object? existingValue)
+    object? CreateValueInternal(JsonReader reader, Type? objectType, JsonContract? contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerMember, object? existingValue)
     {
         if (contract is {ContractType: JsonContractType.Linq})
         {
@@ -332,7 +332,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         throw JsonSerializationException.Create(reader, "Unexpected end when deserializing object.");
     }
 
-    private static bool CoerceEmptyStringToNull(Type? objectType, JsonContract? contract, string s)
+    static bool CoerceEmptyStringToNull(Type? objectType, JsonContract? contract, string s)
     {
         return StringUtils.IsNullOrEmpty(s) && objectType != null && objectType != typeof(string) && objectType != typeof(object) && contract is {IsNullable: true};
     }
@@ -357,7 +357,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
     }
 
-    private JsonConverter? GetConverter(JsonContract? contract, JsonConverter? memberConverter, JsonContainerContract? containerContract, JsonProperty? containerProperty)
+    JsonConverter? GetConverter(JsonContract? contract, JsonConverter? memberConverter, JsonContainerContract? containerContract, JsonProperty? containerProperty)
     {
         JsonConverter? converter = null;
         if (memberConverter != null)
@@ -394,7 +394,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return converter;
     }
 
-    private object? CreateObject(JsonReader reader, Type? objectType, JsonContract? contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerMember, object? existingValue)
+    object? CreateObject(JsonReader reader, Type? objectType, JsonContract? contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerMember, object? existingValue)
     {
         string? id;
         var resolvedObjectType = objectType;
@@ -564,7 +564,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         throw JsonSerializationException.Create(reader, message);
     }
 
-    private bool ReadMetadataPropertiesToken(JTokenReader reader, ref Type? objectType, ref JsonContract? contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerMember, object? existingValue, out object? newValue, out string? id)
+    bool ReadMetadataPropertiesToken(JTokenReader reader, ref Type? objectType, ref JsonContract? contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerMember, object? existingValue, out object? newValue, out string? id)
     {
         id = null;
         newValue = null;
@@ -651,7 +651,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return false;
     }
 
-    private bool ReadMetadataProperties(JsonReader reader, ref Type? objectType, ref JsonContract? contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerMember, object? existingValue, out object? newValue, out string? id)
+    bool ReadMetadataProperties(JsonReader reader, ref Type? objectType, ref JsonContract? contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerMember, object? existingValue, out object? newValue, out string? id)
     {
         id = null;
         newValue = null;
@@ -741,7 +741,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return false;
     }
 
-    private void ResolveTypeName(JsonReader reader, ref Type? objectType, ref JsonContract? contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerMember, string qualifiedTypeName)
+    void ResolveTypeName(JsonReader reader, ref Type? objectType, ref JsonContract? contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerMember, string qualifiedTypeName)
     {
         var resolvedTypeNameHandling =
             member?.TypeNameHandling
@@ -785,7 +785,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
     }
 
-    private JsonArrayContract EnsureArrayContract(JsonReader reader, Type objectType, JsonContract contract)
+    JsonArrayContract EnsureArrayContract(JsonReader reader, Type objectType, JsonContract contract)
     {
         if (contract == null)
         {
@@ -804,7 +804,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return arrayContract;
     }
 
-    private object? CreateList(JsonReader reader, Type? objectType, JsonContract? contract, JsonProperty? member, object? existingValue, string? id)
+    object? CreateList(JsonReader reader, Type? objectType, JsonContract? contract, JsonProperty? member, object? existingValue, string? id)
     {
         object? value;
 
@@ -893,13 +893,13 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return value;
     }
 
-    private bool HasNoDefinedType(JsonContract? contract)
+    bool HasNoDefinedType(JsonContract? contract)
     {
         return contract == null || contract.UnderlyingType == typeof(object) || contract.ContractType == JsonContractType.Linq
                || contract.UnderlyingType == typeof(IDynamicMetaObjectProvider);
     }
 
-    private object? EnsureType(JsonReader reader, object? value, CultureInfo culture, JsonContract? contract, Type? targetType)
+    object? EnsureType(JsonReader reader, object? value, CultureInfo culture, JsonContract? contract, Type? targetType)
     {
         if (targetType == null)
         {
@@ -968,7 +968,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return value;
     }
 
-    private bool SetPropertyValue(JsonProperty property, JsonConverter? propertyConverter, JsonContainerContract? containerContract, JsonProperty? containerProperty, JsonReader reader, object target)
+    bool SetPropertyValue(JsonProperty property, JsonConverter? propertyConverter, JsonContainerContract? containerContract, JsonProperty? containerProperty, JsonReader reader, object target)
     {
         var skipSettingProperty = CalculatePropertyDetails(
             property,
@@ -1036,7 +1036,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return useExistingValue;
     }
 
-    private bool CalculatePropertyDetails(
+    bool CalculatePropertyDetails(
         JsonProperty property,
         ref JsonConverter? propertyConverter,
         JsonContainerContract? containerContract,
@@ -1130,7 +1130,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return false;
     }
 
-    private void AddReference(JsonReader reader, string id, object value)
+    void AddReference(JsonReader reader, string id, object value)
     {
         try
         {
@@ -1147,12 +1147,12 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
     }
 
-    private bool HasFlag(DefaultValueHandling value, DefaultValueHandling flag)
+    bool HasFlag(DefaultValueHandling value, DefaultValueHandling flag)
     {
         return (value & flag) == flag;
     }
 
-    private bool ShouldSetPropertyValue(JsonProperty property, JsonObjectContract? contract, object? value)
+    bool ShouldSetPropertyValue(JsonProperty property, JsonObjectContract? contract, object? value)
     {
         if (value == null && ResolvedNullValueHandling(contract, property) == NullValueHandling.Ignore)
         {
@@ -1174,7 +1174,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return true;
     }
 
-    private IList CreateNewList(JsonReader reader, JsonArrayContract contract, out bool createdFromNonDefaultCreator)
+    IList CreateNewList(JsonReader reader, JsonArrayContract contract, out bool createdFromNonDefaultCreator)
     {
         // some types like non-generic IEnumerable can be serialized but not deserialized
         if (!contract.CanDeserialize)
@@ -1242,7 +1242,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
     }
 
-    private IDictionary CreateNewDictionary(JsonReader reader, JsonDictionaryContract contract, out bool createdFromNonDefaultCreator)
+    IDictionary CreateNewDictionary(JsonReader reader, JsonDictionaryContract contract, out bool createdFromNonDefaultCreator)
     {
         if (contract.OverrideCreator != null)
         {
@@ -1290,7 +1290,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
     }
 
-    private void OnDeserializing(JsonReader reader, JsonContract contract, object value)
+    void OnDeserializing(JsonReader reader, JsonContract contract, object value)
     {
         if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
         {
@@ -1300,7 +1300,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         contract.InvokeOnDeserializing(value, Serializer._context);
     }
 
-    private void OnDeserialized(JsonReader reader, JsonContract contract, object value)
+    void OnDeserialized(JsonReader reader, JsonContract contract, object value)
     {
         if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
         {
@@ -1310,7 +1310,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         contract.InvokeOnDeserialized(value, Serializer._context);
     }
 
-    private object PopulateDictionary(IDictionary dictionary, JsonReader reader, JsonDictionaryContract contract, JsonProperty? containerProperty, string? id)
+    object PopulateDictionary(IDictionary dictionary, JsonReader reader, JsonDictionaryContract contract, JsonProperty? containerProperty, string? id)
     {
         var underlyingDictionary = dictionary is IWrappedDictionary wrappedDictionary ? wrappedDictionary.UnderlyingDictionary : dictionary;
 
@@ -1431,7 +1431,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return underlyingDictionary;
     }
 
-    private object PopulateMultidimensionalArray(IList list, JsonReader reader, JsonArrayContract contract, JsonProperty? containerProperty, string? id)
+    object PopulateMultidimensionalArray(IList list, JsonReader reader, JsonArrayContract contract, JsonProperty? containerProperty, string? id)
     {
         var rank = contract.UnderlyingType.GetArrayRank();
 
@@ -1562,7 +1562,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return list;
     }
 
-    private void ThrowUnexpectedEndException(JsonReader reader, JsonContract contract, object? currentObject, string message)
+    void ThrowUnexpectedEndException(JsonReader reader, JsonContract contract, object? currentObject, string message)
     {
         try
         {
@@ -1581,7 +1581,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
     }
 
-    private object PopulateList(IList list, JsonReader reader, JsonArrayContract contract, JsonProperty? containerProperty, string? id)
+    object PopulateList(IList list, JsonReader reader, JsonArrayContract contract, JsonProperty? containerProperty, string? id)
     {
 #pragma warning disable CS8600, CS8602, CS8603, CS8604
         var underlyingList = list is IWrappedCollection wrappedCollection ? wrappedCollection.UnderlyingCollection : list;
@@ -1682,7 +1682,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 #pragma warning restore CS8600, CS8602, CS8603, CS8604
     }
 
-    private object CreateISerializable(JsonReader reader, JsonISerializableContract contract, JsonProperty? member, string? id)
+    object CreateISerializable(JsonReader reader, JsonISerializableContract contract, JsonProperty? member, string? id)
     {
         var objectType = contract.UnderlyingType;
 
@@ -1775,7 +1775,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return result;
     }
 
-    private object CreateDynamic(JsonReader reader, JsonDynamicContract contract, JsonProperty? member, string? id)
+    object CreateDynamic(JsonReader reader, JsonDynamicContract contract, JsonProperty? member, string? id)
     {
         IDynamicMetaObjectProvider newObject;
 
@@ -1900,7 +1900,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
     }
 
-    private object CreateObjectUsingCreatorWithParameters(JsonReader reader, JsonObjectContract contract, JsonProperty? containerProperty, ObjectConstructor<object> creator, string? id)
+    object CreateObjectUsingCreatorWithParameters(JsonReader reader, JsonObjectContract contract, JsonProperty? containerProperty, ObjectConstructor<object> creator, string? id)
     {
         ValidationUtils.ArgumentNotNull(creator, nameof(creator));
 
@@ -2130,7 +2130,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return createdObject;
     }
 
-    private object? DeserializeConvertable(JsonConverter converter, JsonReader reader, Type objectType, object? existingValue)
+    object? DeserializeConvertable(JsonConverter converter, JsonReader reader, Type objectType, object? existingValue)
     {
         if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
         {
@@ -2147,7 +2147,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return value;
     }
 
-    private List<CreatorPropertyContext> ResolvePropertyAndCreatorValues(JsonObjectContract contract, JsonProperty? containerProperty, JsonReader reader, Type objectType)
+    List<CreatorPropertyContext> ResolvePropertyAndCreatorValues(JsonObjectContract contract, JsonProperty? containerProperty, JsonReader reader, Type objectType)
     {
         var propertyValues = new List<CreatorPropertyContext>();
         var exit = false;
@@ -2282,7 +2282,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return newObject;
     }
 
-    private object PopulateObject(object newObject, JsonReader reader, JsonObjectContract contract, JsonProperty? member, string? id)
+    object PopulateObject(object newObject, JsonReader reader, JsonObjectContract contract, JsonProperty? member, string? id)
     {
         OnDeserializing(reader, contract, newObject);
 
@@ -2416,7 +2416,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return newObject;
     }
 
-    private bool ShouldDeserialize(JsonReader reader, JsonProperty property, object target)
+    bool ShouldDeserialize(JsonReader reader, JsonProperty property, object target)
     {
         if (property.ShouldDeserialize == null)
         {
@@ -2433,7 +2433,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return shouldDeserialize;
     }
 
-    private bool CheckPropertyName(JsonReader reader, string memberName)
+    bool CheckPropertyName(JsonReader reader, string memberName)
     {
         if (Serializer.MetadataPropertyHandling == MetadataPropertyHandling.ReadAhead)
         {
@@ -2450,7 +2450,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return false;
     }
 
-    private void SetExtensionData(JsonObjectContract contract, JsonProperty? member, JsonReader reader, string memberName, object o)
+    void SetExtensionData(JsonObjectContract contract, JsonProperty? member, JsonReader reader, string memberName, object o)
     {
         if (contract.ExtensionDataSetter != null)
         {
@@ -2471,7 +2471,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
     }
 
-    private object? ReadExtensionDataValue(JsonObjectContract contract, JsonProperty? member, JsonReader reader)
+    object? ReadExtensionDataValue(JsonObjectContract contract, JsonProperty? member, JsonReader reader)
     {
         object? value;
         if (contract.ExtensionDataIsJToken)
@@ -2485,7 +2485,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return value;
     }
 
-    private void EndProcessProperty(object newObject, JsonReader reader, JsonObjectContract contract, int initialDepth, JsonProperty property, PropertyPresence presence, bool setDefaultValue)
+    void EndProcessProperty(object newObject, JsonReader reader, JsonObjectContract contract, int initialDepth, JsonProperty property, PropertyPresence presence, bool setDefaultValue)
     {
         if (presence == PropertyPresence.None || presence == PropertyPresence.Null)
         {
@@ -2540,7 +2540,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
     }
 
-    private void SetPropertyPresence(JsonReader reader, JsonProperty property, Dictionary<JsonProperty, PropertyPresence>? requiredProperties)
+    void SetPropertyPresence(JsonReader reader, JsonProperty property, Dictionary<JsonProperty, PropertyPresence>? requiredProperties)
     {
         if (property != null && requiredProperties != null)
         {
@@ -2565,7 +2565,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
     }
 
-    private void HandleError(JsonReader reader, bool readPastError, int initialDepth)
+    void HandleError(JsonReader reader, bool readPastError, int initialDepth)
     {
         ClearErrorContext();
 

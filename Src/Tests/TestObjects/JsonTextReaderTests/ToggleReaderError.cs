@@ -27,7 +27,7 @@ namespace Argon.Tests.TestObjects.JsonTextReaderTests;
 
 public class ToggleReaderError : TextReader
 {
-    private readonly TextReader _inner;
+    readonly TextReader _inner;
 
     public bool Error { get; set; }
 

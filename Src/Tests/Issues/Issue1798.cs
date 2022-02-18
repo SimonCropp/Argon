@@ -81,7 +81,7 @@ public class Issue1798
         Assert.IsInstanceOf(typeof(JsonISerializableContract), resolver.ResolveContract(typeof(Exception)));
     }
 
-    private void AssertNoTargetSite(string json)
+    void AssertNoTargetSite(string json)
     {
         var o = JObject.Parse(json);
 

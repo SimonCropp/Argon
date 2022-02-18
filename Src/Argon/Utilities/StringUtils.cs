@@ -56,7 +56,7 @@ static class StringUtils
         return format.FormatWith(provider, new object?[] { arg0, arg1, arg2, arg3 });
     }
 
-    private static string FormatWith(this string format, IFormatProvider provider, params object?[] args)
+    static string FormatWith(this string format, IFormatProvider provider, params object?[] args)
     {
         // leave this a private to force code to use an explicit overload
         // avoids stack memory being reserved for the object array
@@ -178,7 +178,7 @@ static class StringUtils
         return new string(chars);
     }
 
-    private static char ToLower(char c)
+    static char ToLower(char c)
     {
         c = char.ToLower(c, CultureInfo.InvariantCulture);
         return c;
@@ -188,7 +188,7 @@ static class StringUtils
 
     public static string ToKebabCase(string s) => ToSeparatedCase(s, '-');
 
-    private enum SeparatedCaseState
+    enum SeparatedCaseState
     {
         Start,
         Lower,
@@ -196,7 +196,7 @@ static class StringUtils
         NewWord
     }
 
-    private static string ToSeparatedCase(string s, char separator)
+    static string ToSeparatedCase(string s, char separator)
     {
         if (StringUtils.IsNullOrEmpty(s))
         {

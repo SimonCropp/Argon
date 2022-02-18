@@ -28,8 +28,8 @@ namespace Argon.Tests.TestObjects;
 [Serializable]
 public struct Ratio : IConvertible, IFormattable, ISerializable
 {
-    private readonly int _numerator;
-    private readonly int _denominator;
+    readonly int _numerator;
+    readonly int _denominator;
 
     public Ratio(int numerator, int denominator)
     {

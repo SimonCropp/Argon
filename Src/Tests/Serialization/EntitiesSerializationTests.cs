@@ -439,7 +439,7 @@ public class EntitiesSerializationTests : TestFixtureBase
         Assert.AreEqual(new DateTime(2000, 12, 10, 10, 50, 0, DateTimeKind.Utc), newKey.EntityKeyValues[4].Value);
     }
 
-    private Folder CreateEntitiesTestData()
+    Folder CreateEntitiesTestData()
     {
         var folder = new Folder
         {

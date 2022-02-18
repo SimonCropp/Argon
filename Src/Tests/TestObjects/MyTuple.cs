@@ -28,7 +28,7 @@ namespace Argon.Tests.TestObjects;
 [JsonObject(MemberSerialization.Fields)]
 public class MyTuple<T1>
 {
-    private readonly T1 m_Item1;
+    readonly T1 m_Item1;
 
     public MyTuple(T1 item1)
     {

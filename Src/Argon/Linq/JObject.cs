@@ -40,7 +40,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     , ICustomTypeDescriptor
     , INotifyPropertyChanging
 {
-    private readonly JPropertyKeyedCollection _properties = new();
+    readonly JPropertyKeyedCollection _properties = new();
 
     /// <summary>
     /// Gets the container's children tokens.
@@ -182,7 +182,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
         }
     }
 
-    private static bool IsNull(JToken token)
+    static bool IsNull(JToken token)
     {
         if (token.Type == JTokenType.Null)
         {
@@ -789,7 +789,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
         return new DynamicProxyMetaObject<JObject>(parameter, this, new JObjectDynamicProxy());
     }
 
-    private class JObjectDynamicProxy : DynamicProxy<JObject>
+    class JObjectDynamicProxy : DynamicProxy<JObject>
     {
         public override bool TryGetMember(JObject instance, GetMemberBinder binder, out object? result)
         {

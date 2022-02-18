@@ -27,9 +27,9 @@ using Argon;
 
 class TraceJsonWriter : JsonWriter
 {
-    private readonly JsonWriter _innerWriter;
-    private readonly JsonTextWriter _textWriter;
-    private readonly StringWriter _sw;
+    readonly JsonWriter _innerWriter;
+    readonly JsonTextWriter _textWriter;
+    readonly StringWriter _sw;
 
     public TraceJsonWriter(JsonWriter innerWriter)
     {

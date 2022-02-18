@@ -31,13 +31,12 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-
 namespace Argon.Tests.Converters;
 
 [TestFixture]
 public class BinaryConverterTests : TestFixtureBase
 {
-    private static readonly byte[] TestData = Encoding.UTF8.GetBytes("This is some test data!!!");
+    static readonly byte[] TestData = Encoding.UTF8.GetBytes("This is some test data!!!");
 
     public class ByteArrayClass
     {

@@ -35,9 +35,9 @@ namespace Argon.Tests.Benchmarks;
 
 public class SerializeComparisonBenchmarks
 {
-    private static readonly TestClass TestClass = CreateSerializationObject();
+    static readonly TestClass TestClass = CreateSerializationObject();
 
-    private static TestClass CreateSerializationObject()
+    static TestClass CreateSerializationObject()
     {
         var test = new TestClass
         {
@@ -75,7 +75,7 @@ public class SerializeComparisonBenchmarks
         return SerializeDataContract(TestClass);
     }
 
-    private string SerializeDataContract(object value)
+    string SerializeDataContract(object value)
     {
         var dataContractSerializer = new DataContractSerializer(value.GetType());
 
@@ -97,7 +97,7 @@ public class SerializeComparisonBenchmarks
         return SerializeBinaryFormatter(TestClass);
     }
 
-    private byte[] SerializeBinaryFormatter(object value)
+    byte[] SerializeBinaryFormatter(object value)
     {
         var ms = new MemoryStream(Buffer);
         var formatter = new BinaryFormatter();
@@ -112,7 +112,7 @@ public class SerializeComparisonBenchmarks
         return SerializeWebExtensions(TestClass);
     }
 
-    private string SerializeWebExtensions(object value)
+    string SerializeWebExtensions(object value)
     {
         var ser = new JavaScriptSerializer();
 
@@ -154,7 +154,7 @@ public class SerializeComparisonBenchmarks
     }
 
     #region SerializeJsonNetManual
-    private string SerializeJsonNetLinq(TestClass c)
+    string SerializeJsonNetLinq(TestClass c)
     {
         var o = new JObject(
             new JProperty("strings", new JArray(c.strings)),
@@ -184,7 +184,7 @@ public class SerializeComparisonBenchmarks
     }
 
     #region SerializeJsonNetManual
-    private string SerializeJsonNetManual(TestClass c)
+    string SerializeJsonNetManual(TestClass c)
     {
         var sw = new StringWriter();
         var writer = new JsonTextWriter(sw);
@@ -252,7 +252,7 @@ public class SerializeComparisonBenchmarks
         return SerializeJsonNetManualAsync(TestClass, Formatting.Indented);
     }
 
-    private async Task<string> SerializeJsonNetManualAsync(TestClass c, Formatting formatting)
+    async Task<string> SerializeJsonNetManualAsync(TestClass c, Formatting formatting)
     {
         var sw = new StringWriter();
         var writer = new JsonTextWriter(sw);
@@ -316,9 +316,9 @@ public class SerializeComparisonBenchmarks
         return SerializeJsonNetBson(TestClass);
     }
 
-    private static readonly byte[] Buffer = new byte[4096];
+    static readonly byte[] Buffer = new byte[4096];
 
-    private byte[] SerializeJsonNetBson(TestClass c)
+    byte[] SerializeJsonNetBson(TestClass c)
     {
         var ms = new MemoryStream(Buffer);
         var serializer = new JsonSerializer();

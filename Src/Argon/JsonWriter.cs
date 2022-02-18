@@ -45,7 +45,7 @@ public abstract partial class JsonWriter : IDisposable
     }
 
     // array that gives a new state based on the current state an the token being written
-    private static readonly State[][] StateArray;
+    static readonly State[][] StateArray;
 
     internal static readonly State[][] StateArrayTemplate = new[]
     {
@@ -101,10 +101,10 @@ public abstract partial class JsonWriter : IDisposable
         StateArray = BuildStateArray();
     }
 
-    private List<JsonPosition>? _stack;
-    private JsonPosition _currentPosition;
-    private State _currentState;
-    private Formatting _formatting;
+    List<JsonPosition>? _stack;
+    JsonPosition _currentPosition;
+    State _currentState;
+    Formatting _formatting;
 
     /// <summary>
     /// Gets or sets a value indicating whether the destination should be closed when this writer is closed.
@@ -207,11 +207,11 @@ public abstract partial class JsonWriter : IDisposable
         }
     }
 
-    private DateFormatHandling _dateFormatHandling;
-    private DateTimeZoneHandling _dateTimeZoneHandling;
-    private StringEscapeHandling _stringEscapeHandling;
-    private FloatFormatHandling _floatFormatHandling;
-    private CultureInfo? _culture;
+    DateFormatHandling _dateFormatHandling;
+    DateTimeZoneHandling _dateTimeZoneHandling;
+    StringEscapeHandling _stringEscapeHandling;
+    FloatFormatHandling _floatFormatHandling;
+    CultureInfo? _culture;
 
     /// <summary>
     /// Gets or sets a value indicating how JSON text output should be formatted.
@@ -341,7 +341,7 @@ public abstract partial class JsonWriter : IDisposable
         }
     }
 
-    private void Push(JsonContainerType value)
+    void Push(JsonContainerType value)
     {
         if (_currentPosition.Type != JsonContainerType.None)
         {
@@ -356,7 +356,7 @@ public abstract partial class JsonWriter : IDisposable
         _currentPosition = new JsonPosition(value);
     }
 
-    private JsonContainerType Pop()
+    JsonContainerType Pop()
     {
         var oldPosition = _currentPosition;
 
@@ -373,7 +373,7 @@ public abstract partial class JsonWriter : IDisposable
         return oldPosition.Type;
     }
 
-    private JsonContainerType Peek()
+    JsonContainerType Peek()
     {
         return _currentPosition.Type;
     }
@@ -649,14 +649,14 @@ public abstract partial class JsonWriter : IDisposable
         }
     }
 
-    private bool IsWriteTokenIncomplete(JsonReader reader, bool writeChildren, int initialDepth)
+    bool IsWriteTokenIncomplete(JsonReader reader, bool writeChildren, int initialDepth)
     {
         var finalDepth = CalculateWriteTokenFinalDepth(reader);
         return initialDepth < finalDepth ||
                (writeChildren && initialDepth == finalDepth && JsonTokenUtils.IsStartToken(reader.TokenType));
     }
 
-    private int CalculateWriteTokenInitialDepth(JsonReader reader)
+    int CalculateWriteTokenInitialDepth(JsonReader reader)
     {
         var type = reader.TokenType;
         if (type == JsonToken.None)
@@ -667,7 +667,7 @@ public abstract partial class JsonWriter : IDisposable
         return JsonTokenUtils.IsStartToken(type) ? reader.Depth : reader.Depth + 1;
     }
 
-    private int CalculateWriteTokenFinalDepth(JsonReader reader)
+    int CalculateWriteTokenFinalDepth(JsonReader reader)
     {
         var type = reader.TokenType;
         if (type == JsonToken.None)
@@ -678,7 +678,7 @@ public abstract partial class JsonWriter : IDisposable
         return JsonTokenUtils.IsEndToken(type) ? reader.Depth - 1 : reader.Depth;
     }
 
-    private void WriteConstructorDate(JsonReader reader)
+    void WriteConstructorDate(JsonReader reader)
     {
         if (!JavaScriptUtils.TryGetDateFromConstructorJson(reader, out var dateTime, out var errorMessage))
         {
@@ -688,7 +688,7 @@ public abstract partial class JsonWriter : IDisposable
         WriteValue(dateTime);
     }
 
-    private void WriteEnd(JsonContainerType type)
+    void WriteEnd(JsonContainerType type)
     {
         switch (type)
         {
@@ -706,7 +706,7 @@ public abstract partial class JsonWriter : IDisposable
         }
     }
 
-    private void AutoCompleteAll()
+    void AutoCompleteAll()
     {
         while (Top > 0)
         {
@@ -714,7 +714,7 @@ public abstract partial class JsonWriter : IDisposable
         }
     }
 
-    private JsonToken GetCloseTokenForType(JsonContainerType type)
+    JsonToken GetCloseTokenForType(JsonContainerType type)
     {
         switch (type)
         {
@@ -729,7 +729,7 @@ public abstract partial class JsonWriter : IDisposable
         }
     }
 
-    private void AutoCompleteClose(JsonContainerType type)
+    void AutoCompleteClose(JsonContainerType type)
     {
         var levelsToComplete = CalculateLevelsToComplete(type);
 
@@ -756,7 +756,7 @@ public abstract partial class JsonWriter : IDisposable
         }
     }
 
-    private int CalculateLevelsToComplete(JsonContainerType type)
+    int CalculateLevelsToComplete(JsonContainerType type)
     {
         var levelsToComplete = 0;
 
@@ -787,7 +787,7 @@ public abstract partial class JsonWriter : IDisposable
         return levelsToComplete;
     }
 
-    private void UpdateCurrentState()
+    void UpdateCurrentState()
     {
         var currentLevelType = Peek();
 
@@ -1629,7 +1629,7 @@ public abstract partial class JsonWriter : IDisposable
         }
     }
 
-    private static void ResolveConvertibleValue(IConvertible convertible, out PrimitiveTypeCode typeCode, out object value)
+    static void ResolveConvertibleValue(IConvertible convertible, out PrimitiveTypeCode typeCode, out object value)
     {
         // the value is a non-standard IConvertible
         // convert to the underlying value and retry
@@ -1641,7 +1641,7 @@ public abstract partial class JsonWriter : IDisposable
         value = convertible.ToType(resolvedType, CultureInfo.InvariantCulture);
     }
 
-    private static JsonWriterException CreateUnsupportedTypeException(JsonWriter writer, object value)
+    static JsonWriterException CreateUnsupportedTypeException(JsonWriter writer, object value)
     {
         return JsonWriterException.Create(writer, "Unsupported type: {0}. Use the JsonSerializer class to get the object's JSON representation.".FormatWith(CultureInfo.InvariantCulture, value.GetType()), null);
     }

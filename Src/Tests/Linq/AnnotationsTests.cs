@@ -289,7 +289,7 @@ public class AnnotationsTests : TestFixtureBase
         Assert.AreEqual(0, o2.Annotations<Version>().Count());
     }
 
-    private void AssertCloneCopy<T>(JToken t, T annotation) where T : class
+    void AssertCloneCopy<T>(JToken t, T annotation) where T : class
     {
         Assert.AreEqual(annotation, t.DeepClone().Annotation<T>());
     }

@@ -1676,7 +1676,7 @@ third line", jsonTextReader.Value);
         Assert.IsTrue(reader.ReadAsStringAsync(token).IsCanceled);
     }
 
-    private class NoOverridesDerivedJsonTextAsync : JsonTextReader
+    class NoOverridesDerivedJsonTextAsync : JsonTextReader
     {
         public NoOverridesDerivedJsonTextAsync()
             : base(new StreamReader(Stream.Null))
@@ -1684,7 +1684,7 @@ third line", jsonTextReader.Value);
         }
     }
 
-    private class MinimalOverridesDerivedJsonReader : JsonReader
+    class MinimalOverridesDerivedJsonReader : JsonReader
     {
         public override bool Read() => true;
     }

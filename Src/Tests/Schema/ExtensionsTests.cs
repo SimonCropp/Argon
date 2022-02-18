@@ -159,7 +159,7 @@ namespace Argon.Tests.Schema
             // true
         }
 
-        private void GenerateSchemaAndSerializeFromType<T>(T value)
+        void GenerateSchemaAndSerializeFromType<T>(T value)
         {
             var generator = new JsonSchemaGenerator
             {

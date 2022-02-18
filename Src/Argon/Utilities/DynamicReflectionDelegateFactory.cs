@@ -30,7 +30,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
 {
     internal static DynamicReflectionDelegateFactory Instance { get; } = new();
 
-    private static DynamicMethod CreateDynamicMethod(string name, Type? returnType, Type[] parameterTypes, Type owner)
+    static DynamicMethod CreateDynamicMethod(string name, Type? returnType, Type[] parameterTypes, Type owner)
     {
         var dynamicMethod = !owner.IsInterface
             ? new DynamicMethod(name, returnType, parameterTypes, owner, true)
@@ -59,7 +59,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
         return (MethodCall<T, object?>)dynamicMethod.CreateDelegate(typeof(MethodCall<T, object?>));
     }
 
-    private void GenerateCreateMethodCallIL(MethodBase method, ILGenerator generator, int argsIndex)
+    void GenerateCreateMethodCallIL(MethodBase method, ILGenerator generator, int argsIndex)
     {
         ParameterInfo[] args = method.GetParameters();
 
@@ -243,7 +243,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
         return (Func<T>)dynamicMethod.CreateDelegate(typeof(Func<T>));
     }
 
-    private void GenerateCreateDefaultConstructorIL(Type type, ILGenerator generator, Type delegateType)
+    void GenerateCreateDefaultConstructorIL(Type type, ILGenerator generator, Type delegateType)
     {
         if (type.IsValueType)
         {
@@ -282,7 +282,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
         return (Func<T, object?>)dynamicMethod.CreateDelegate(typeof(Func<T, object?>));
     }
 
-    private void GenerateCreateGetPropertyIL(PropertyInfo propertyInfo, ILGenerator generator)
+    void GenerateCreateGetPropertyIL(PropertyInfo propertyInfo, ILGenerator generator)
     {
         var getMethod = propertyInfo.GetGetMethod(true);
         if (getMethod == null)
@@ -317,7 +317,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
         return (Func<T, object?>)dynamicMethod.CreateDelegate(typeof(Func<T, object?>));
     }
 
-    private void GenerateCreateGetFieldIL(FieldInfo fieldInfo, ILGenerator generator)
+    void GenerateCreateGetFieldIL(FieldInfo fieldInfo, ILGenerator generator)
     {
         if (!fieldInfo.IsStatic)
         {

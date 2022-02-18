@@ -30,17 +30,17 @@ public class PrivateConstructorTestClass
     public string Name { get; set; }
     public int Age { get; set; }
 
-    private PrivateConstructorTestClass()
+    PrivateConstructorTestClass()
     {
     }
 
     // multiple constructors with arguments so the serializer doesn't know what to fall back to
-    private PrivateConstructorTestClass(object a)
+    PrivateConstructorTestClass(object a)
     {
     }
 
     // multiple constructors with arguments so the serializer doesn't know what to fall back to
-    private PrivateConstructorTestClass(object a, object b)
+    PrivateConstructorTestClass(object a, object b)
     {
     }
 }

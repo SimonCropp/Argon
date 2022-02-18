@@ -40,7 +40,7 @@ public class Issue2529 : TestFixtureBase
         Assert.AreEqual(JTokenType.Array, something.Foo.Type);
     }
 
-    private class Something
+    class Something
     {
         public JToken Foo { get; set; } = JValue.CreateNull();
     }

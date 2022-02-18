@@ -30,9 +30,9 @@ namespace Argon.Linq;
 /// </summary>
 public class JsonMergeSettings
 {
-    private MergeArrayHandling _mergeArrayHandling;
-    private MergeNullValueHandling _mergeNullValueHandling;
-    private StringComparison _propertyNameComparison;
+    MergeArrayHandling _mergeArrayHandling;
+    MergeNullValueHandling _mergeNullValueHandling;
+    StringComparison _propertyNameComparison;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonMergeSettings"/> class.

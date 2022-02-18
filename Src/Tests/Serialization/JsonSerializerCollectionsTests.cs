@@ -169,7 +169,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
     public class TestCollectionPrivateParameterized : IEnumerable<int>
     {
-        private readonly List<int> _bars;
+        readonly List<int> _bars;
 
         public TestCollectionPrivateParameterized()
         {
@@ -177,7 +177,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         }
 
         [JsonConstructor]
-        private TestCollectionPrivateParameterized(IEnumerable<int> bars)
+        TestCollectionPrivateParameterized(IEnumerable<int> bars)
         {
             _bars = new List<int>(bars);
         }
@@ -215,7 +215,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     public class TestCollectionPrivate : List<int>
     {
         [JsonConstructor]
-        private TestCollectionPrivate()
+        TestCollectionPrivate()
         {
         }
 
@@ -303,7 +303,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         }
 
         [JsonConstructor]
-        private TestDictionaryPrivateParameterized(IEnumerable<KeyValuePair<string, int>> bars)
+        TestDictionaryPrivateParameterized(IEnumerable<KeyValuePair<string, int>> bars)
             : base(bars.ToDictionary(k => k.Key, k => k.Value))
         {
         }
@@ -330,7 +330,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     public class TestDictionaryPrivate : Dictionary<string, int>
     {
         [JsonConstructor]
-        private TestDictionaryPrivate()
+        TestDictionaryPrivate()
         {
         }
 
@@ -575,7 +575,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
     public class EnumerableClass<T> : IEnumerable<T>
     {
-        private readonly IList<T> _values;
+        readonly IList<T> _values;
 
         public EnumerableClass(IEnumerable<T> values)
         {
@@ -612,7 +612,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
     public class EnumerableClassFailure<T> : IEnumerable<T>
     {
-        private readonly IList<T> _values;
+        readonly IList<T> _values;
 
         public EnumerableClassFailure()
         {
@@ -644,7 +644,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
     public class PrivateDefaultCtorList<T> : List<T>
     {
-        private PrivateDefaultCtorList()
+        PrivateDefaultCtorList()
         {
         }
     }
@@ -664,7 +664,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
     public class PrivateDefaultCtorWithIEnumerableCtorList<T> : List<T>
     {
-        private PrivateDefaultCtorWithIEnumerableCtorList()
+        PrivateDefaultCtorWithIEnumerableCtorList()
         {
         }
 
@@ -768,7 +768,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
     public class CustomReadOnlyDictionary<TKey, TValue> : IReadOnlyDictionary<TKey, TValue>
     {
-        private readonly IDictionary<TKey, TValue> _dictionary;
+        readonly IDictionary<TKey, TValue> _dictionary;
 
         public CustomReadOnlyDictionary(IDictionary<TKey, TValue> dictionary)
         {
@@ -824,7 +824,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
     public class CustomReadOnlyCollection<T> : IReadOnlyCollection<T>
     {
-        private readonly IList<T> _values;
+        readonly IList<T> _values;
 
         public CustomReadOnlyCollection(IList<T> values)
         {
@@ -2125,7 +2125,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
     public sealed class AccountInfo
     {
-        private KeyValuePair<string, string>[] metricDimensions;
+        KeyValuePair<string, string>[] metricDimensions;
 
         public AccountInfo(string endpoint, string name)
         {
@@ -2147,10 +2147,10 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
     public class MyClass : IList<string>
     {
-        private List<string> _storage;
+        List<string> _storage;
 
         [JsonConstructor]
-        private MyClass()
+        MyClass()
         {
             _storage = new List<string>();
         }
@@ -2307,7 +2307,7 @@ public class CASResponce
         ExtractLanguage();
     }
 
-    private void ExtractGroups()
+    void ExtractGroups()
     {
         this.Groups = new List<string>();
         if (this.Person.ContainsKey("groups"))
@@ -2323,7 +2323,7 @@ public class CASResponce
 
     }
 
-    private void ExtractLanguage()
+    void ExtractLanguage()
     {
         if (Person.ContainsKey("language"))
         {
@@ -2349,7 +2349,7 @@ public class CASResponce
 
 
 
-    private void ParseReplyXML(string xmlString)
+    void ParseReplyXML(string xmlString)
     {
         try
         {
@@ -2460,7 +2460,7 @@ public class CASResponce
 
 public class ReadOnlyCollectionWithArrayArgument<T> : IList<T>
 {
-    private readonly IList<T> _values;
+    readonly IList<T> _values;
 
     public ReadOnlyCollectionWithArrayArgument(T[] args)
     {
@@ -2528,7 +2528,7 @@ public class ReadOnlyCollectionWithArrayArgument<T> : IList<T>
 
 public class ReadOnlyIntegerList : IReadOnlyCollection<int>
 {
-    private readonly List<int> _list;
+    readonly List<int> _list;
 
     public ReadOnlyIntegerList(List<int> l)
     {

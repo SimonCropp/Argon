@@ -31,8 +31,8 @@ namespace Argon.Tests.TestObjects;
 public struct TypeConverterSize
 {
     public static readonly TypeConverterSize Empty;
-    private int _width;
-    private int _height;
+    int _width;
+    int _height;
 
     public TypeConverterSize(int width, int height)
     {

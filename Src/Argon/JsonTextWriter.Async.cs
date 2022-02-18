@@ -30,7 +30,7 @@ public partial class JsonTextWriter
 {
     // It's not safe to perform the async methods here in a derived class as if the synchronous equivalent
     // has been overriden then the asychronous method will no longer be doing the same operation.
-    private readonly bool _safeAsync;
+    readonly bool _safeAsync;
 
     /// <summary>
     /// Asynchronously flushes whatever is in the buffer to the destination and also flushes the destination.
@@ -162,7 +162,7 @@ public partial class JsonTextWriter
         return WriteIndentAsync(currentIndentCount, newLineLen, cancellationToken);
     }
 
-    private async Task WriteIndentAsync(int currentIndentCount, int newLineLen, CancellationToken cancellationToken)
+    async Task WriteIndentAsync(int currentIndentCount, int newLineLen, CancellationToken cancellationToken)
     {
         MiscellaneousUtils.Assert(_indentChars != null);
 
@@ -174,7 +174,7 @@ public partial class JsonTextWriter
         }
     }
 
-    private Task WriteValueInternalAsync(JsonToken token, string value, CancellationToken cancellationToken)
+    Task WriteValueInternalAsync(JsonToken token, string value, CancellationToken cancellationToken)
     {
         var task = InternalWriteValueAsync(token, cancellationToken);
         if (task.IsCompletedSucessfully())
@@ -185,7 +185,7 @@ public partial class JsonTextWriter
         return WriteValueInternalAsync(task, value, cancellationToken);
     }
 
-    private async Task WriteValueInternalAsync(Task task, string value, CancellationToken cancellationToken)
+    async Task WriteValueInternalAsync(Task task, string value, CancellationToken cancellationToken)
     {
         await task.ConfigureAwait(false);
         await _writer.WriteAsync(value, cancellationToken).ConfigureAwait(false);
@@ -243,7 +243,7 @@ public partial class JsonTextWriter
         return WriteValueInternalAsync(JsonToken.Null, JsonConvert.Null, cancellationToken);
     }
 
-    private Task WriteDigitsAsync(ulong uvalue, bool negative, CancellationToken cancellationToken)
+    Task WriteDigitsAsync(ulong uvalue, bool negative, CancellationToken cancellationToken)
     {
         if (uvalue <= 9 & !negative)
         {
@@ -254,7 +254,7 @@ public partial class JsonTextWriter
         return _writer.WriteAsync(_writeBuffer!, 0, length, cancellationToken);
     }
 
-    private Task WriteIntegerValueAsync(ulong uvalue, bool negative, CancellationToken cancellationToken)
+    Task WriteIntegerValueAsync(ulong uvalue, bool negative, CancellationToken cancellationToken)
     {
         var task = InternalWriteValueAsync(JsonToken.Integer, cancellationToken);
         if (task.IsCompletedSucessfully())
@@ -265,7 +265,7 @@ public partial class JsonTextWriter
         return WriteIntegerValueAsync(task, uvalue, negative, cancellationToken);
     }
 
-    private async Task WriteIntegerValueAsync(Task task, ulong uvalue, bool negative, CancellationToken cancellationToken)
+    async Task WriteIntegerValueAsync(Task task, ulong uvalue, bool negative, CancellationToken cancellationToken)
     {
         await task.ConfigureAwait(false);
         await WriteDigitsAsync(uvalue, negative, cancellationToken).ConfigureAwait(false);
@@ -287,7 +287,7 @@ public partial class JsonTextWriter
         return WriteIntegerValueAsync(uvalue, false, cancellationToken);
     }
 
-    private Task WriteEscapedStringAsync(string value, bool quote, CancellationToken cancellationToken)
+    Task WriteEscapedStringAsync(string value, bool quote, CancellationToken cancellationToken)
     {
         return JavaScriptUtils.WriteEscapedJavaScriptStringAsync(_writer, value, _quoteChar, quote, _charEscapeFlags!, StringEscapeHandling, this, _writeBuffer!, cancellationToken);
     }
@@ -322,7 +322,7 @@ public partial class JsonTextWriter
         return JavaScriptUtils.WriteCharAsync(task, _writer, ':', cancellationToken);
     }
 
-    private async Task DoWritePropertyNameAsync(Task task, string name, CancellationToken cancellationToken)
+    async Task DoWritePropertyNameAsync(Task task, string name, CancellationToken cancellationToken)
     {
         await task.ConfigureAwait(false);
 
@@ -476,7 +476,7 @@ public partial class JsonTextWriter
         return DoWriteUndefinedAsync(task, cancellationToken);
     }
 
-    private async Task DoWriteUndefinedAsync(Task task, CancellationToken cancellationToken)
+    async Task DoWriteUndefinedAsync(Task task, CancellationToken cancellationToken)
     {
         await task.ConfigureAwait(false);
         await _writer.WriteAsync(JsonConvert.Undefined, cancellationToken).ConfigureAwait(false);
@@ -1045,7 +1045,7 @@ public partial class JsonTextWriter
         return DoWriteValueAsync(task, value, cancellationToken);
     }
 
-    private async Task DoWriteValueAsync(Task task, string? value, CancellationToken cancellationToken)
+    async Task DoWriteValueAsync(Task task, string? value, CancellationToken cancellationToken)
     {
         await task.ConfigureAwait(false);
         await (value == null ? _writer.WriteAsync(JsonConvert.Null, cancellationToken) : WriteEscapedStringAsync(value, true, cancellationToken)).ConfigureAwait(false);
@@ -1301,7 +1301,7 @@ public partial class JsonTextWriter
         return DoWriteRawValueAsync(task, json, cancellationToken);
     }
 
-    private async Task DoWriteRawValueAsync(Task task, string? json, CancellationToken cancellationToken)
+    async Task DoWriteRawValueAsync(Task task, string? json, CancellationToken cancellationToken)
     {
         await task.ConfigureAwait(false);
         await WriteRawAsync(json, cancellationToken).ConfigureAwait(false);

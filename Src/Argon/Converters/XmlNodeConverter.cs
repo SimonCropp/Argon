@@ -30,7 +30,7 @@ using Argon;
 #region XmlNodeWrappers
 class XmlDocumentWrapper : XmlNodeWrapper, IXmlDocument
 {
-    private readonly XmlDocument _document;
+    readonly XmlDocument _document;
 
     public XmlDocumentWrapper(XmlDocument document)
         : base(document)
@@ -124,7 +124,7 @@ class XmlDocumentWrapper : XmlNodeWrapper, IXmlDocument
 
 class XmlElementWrapper : XmlNodeWrapper, IXmlElement
 {
-    private readonly XmlElement _element;
+    readonly XmlElement _element;
 
     public XmlElementWrapper(XmlElement element)
         : base(element)
@@ -149,7 +149,7 @@ class XmlElementWrapper : XmlNodeWrapper, IXmlElement
 
 class XmlDeclarationWrapper : XmlNodeWrapper, IXmlDeclaration
 {
-    private readonly XmlDeclaration _declaration;
+    readonly XmlDeclaration _declaration;
 
     public XmlDeclarationWrapper(XmlDeclaration declaration)
         : base(declaration)
@@ -174,7 +174,7 @@ class XmlDeclarationWrapper : XmlNodeWrapper, IXmlDeclaration
 
 class XmlDocumentTypeWrapper : XmlNodeWrapper, IXmlDocumentType
 {
-    private readonly XmlDocumentType _documentType;
+    readonly XmlDocumentType _documentType;
 
     public XmlDocumentTypeWrapper(XmlDocumentType documentType)
         : base(documentType)
@@ -195,9 +195,9 @@ class XmlDocumentTypeWrapper : XmlNodeWrapper, IXmlDocumentType
 
 class XmlNodeWrapper : IXmlNode
 {
-    private readonly XmlNode _node;
-    private List<IXmlNode>? _childNodes;
-    private List<IXmlNode>? _attributes;
+    readonly XmlNode _node;
+    List<IXmlNode>? _childNodes;
+    List<IXmlNode>? _attributes;
 
     public XmlNodeWrapper(XmlNode node)
     {
@@ -279,7 +279,7 @@ class XmlNodeWrapper : IXmlNode
         }
     }
 
-    private bool HasAttributes
+    bool HasAttributes
     {
         get
         {
@@ -412,7 +412,7 @@ class XDeclarationWrapper : XObjectWrapper, IXmlDeclaration
 
 class XDocumentTypeWrapper : XObjectWrapper, IXmlDocumentType
 {
-    private readonly XDocumentType _documentType;
+    readonly XDocumentType _documentType;
 
     public XDocumentTypeWrapper(XDocumentType documentType)
         : base(documentType)
@@ -433,7 +433,7 @@ class XDocumentTypeWrapper : XObjectWrapper, IXmlDocumentType
 
 class XDocumentWrapper : XContainerWrapper, IXmlDocument
 {
-    private XDocument Document => (XDocument)WrappedNode!;
+    XDocument Document => (XDocument)WrappedNode!;
 
     public XDocumentWrapper(XDocument document)
         : base(document)
@@ -558,7 +558,7 @@ class XDocumentWrapper : XContainerWrapper, IXmlDocument
 
 class XTextWrapper : XObjectWrapper
 {
-    private XText Text => (XText)WrappedNode!;
+    XText Text => (XText)WrappedNode!;
 
     public XTextWrapper(XText text)
         : base(text)
@@ -587,7 +587,7 @@ class XTextWrapper : XObjectWrapper
 
 class XCommentWrapper : XObjectWrapper
 {
-    private XComment Text => (XComment)WrappedNode!;
+    XComment Text => (XComment)WrappedNode!;
 
     public XCommentWrapper(XComment text)
         : base(text)
@@ -616,7 +616,7 @@ class XCommentWrapper : XObjectWrapper
 
 class XProcessingInstructionWrapper : XObjectWrapper
 {
-    private XProcessingInstruction ProcessingInstruction => (XProcessingInstruction)WrappedNode!;
+    XProcessingInstruction ProcessingInstruction => (XProcessingInstruction)WrappedNode!;
 
     public XProcessingInstructionWrapper(XProcessingInstruction processingInstruction)
         : base(processingInstruction)
@@ -634,9 +634,9 @@ class XProcessingInstructionWrapper : XObjectWrapper
 
 class XContainerWrapper : XObjectWrapper
 {
-    private List<IXmlNode>? _childNodes;
+    List<IXmlNode>? _childNodes;
 
-    private XContainer Container => (XContainer)WrappedNode!;
+    XContainer Container => (XContainer)WrappedNode!;
 
     public XContainerWrapper(XContainer container)
         : base(container)
@@ -740,7 +740,7 @@ class XContainerWrapper : XObjectWrapper
 
 class XObjectWrapper : IXmlNode
 {
-    private readonly XObject? _xmlObject;
+    readonly XObject? _xmlObject;
 
     public XObjectWrapper(XObject? xmlObject)
     {
@@ -775,7 +775,7 @@ class XObjectWrapper : IXmlNode
 
 class XAttributeWrapper : XObjectWrapper
 {
-    private XAttribute Attribute => (XAttribute)WrappedNode!;
+    XAttribute Attribute => (XAttribute)WrappedNode!;
 
     public XAttributeWrapper(XAttribute attribute)
         : base(attribute)
@@ -808,9 +808,9 @@ class XAttributeWrapper : XObjectWrapper
 
 class XElementWrapper : XContainerWrapper, IXmlElement
 {
-    private List<IXmlNode>? _attributes;
+    List<IXmlNode>? _attributes;
 
-    private XElement Element => (XElement)WrappedNode!;
+    XElement Element => (XElement)WrappedNode!;
 
     public XElementWrapper(XElement element)
         : base(element)
@@ -858,7 +858,7 @@ class XElementWrapper : XContainerWrapper, IXmlElement
         }
     }
 
-    private bool HasImplicitNamespaceAttribute(string namespaceUri)
+    bool HasImplicitNamespaceAttribute(string namespaceUri)
     {
         if (!StringUtils.IsNullOrEmpty(namespaceUri) && namespaceUri != ParentNode?.NamespaceUri)
         {
@@ -920,13 +920,13 @@ public class XmlNodeConverter : JsonConverter
 {
     internal static readonly List<IXmlNode> EmptyChildNodes = new();
 
-    private const string TextName = "#text";
-    private const string CommentName = "#comment";
-    private const string CDataName = "#cdata-section";
-    private const string WhitespaceName = "#whitespace";
-    private const string SignificantWhitespaceName = "#significant-whitespace";
-    private const string DeclarationName = "?xml";
-    private const string JsonNamespaceUri = "http://james.newtonking.com/projects/json";
+    const string TextName = "#text";
+    const string CommentName = "#comment";
+    const string CDataName = "#cdata-section";
+    const string WhitespaceName = "#whitespace";
+    const string SignificantWhitespaceName = "#significant-whitespace";
+    const string DeclarationName = "?xml";
+    const string JsonNamespaceUri = "http://james.newtonking.com/projects/json";
 
     /// <summary>
     /// Gets or sets the name of the root element to insert when deserializing to XML if the JSON structure has produced multiple root elements.
@@ -989,7 +989,7 @@ public class XmlNodeConverter : JsonConverter
         }
     }
 
-    private IXmlNode WrapXml(object value)
+    IXmlNode WrapXml(object value)
     {
         if (value is XObject xObject)
         {
@@ -1003,7 +1003,7 @@ public class XmlNodeConverter : JsonConverter
         throw new ArgumentException("Value must be an XML object.", nameof(value));
     }
 
-    private void PushParentNamespaces(IXmlNode node, XmlNamespaceManager manager)
+    void PushParentNamespaces(IXmlNode node, XmlNamespaceManager manager)
     {
         List<IXmlNode>? parentElements = null;
 
@@ -1039,7 +1039,7 @@ public class XmlNodeConverter : JsonConverter
         }
     }
 
-    private string ResolveFullName(IXmlNode node, XmlNamespaceManager manager)
+    string ResolveFullName(IXmlNode node, XmlNamespaceManager manager)
     {
         var prefix = node.NamespaceUri == null || (node.LocalName == "xmlns" && node.NamespaceUri == "http://www.w3.org/2000/xmlns/")
             ? null
@@ -1055,7 +1055,7 @@ public class XmlNodeConverter : JsonConverter
         }
     }
 
-    private string GetPropertyName(IXmlNode node, XmlNamespaceManager manager)
+    string GetPropertyName(IXmlNode node, XmlNamespaceManager manager)
     {
         switch (node.NodeType)
         {
@@ -1098,7 +1098,7 @@ public class XmlNodeConverter : JsonConverter
         }
     }
 
-    private bool IsArray(IXmlNode node)
+    bool IsArray(IXmlNode node)
     {
         foreach (var attribute in node.Attributes)
         {
@@ -1111,7 +1111,7 @@ public class XmlNodeConverter : JsonConverter
         return false;
     }
 
-    private void SerializeGroupedNodes(JsonWriter writer, IXmlNode node, XmlNamespaceManager manager, bool writePropertyName)
+    void SerializeGroupedNodes(JsonWriter writer, IXmlNode node, XmlNamespaceManager manager, bool writePropertyName)
     {
         switch (node.ChildNodes.Count)
         {
@@ -1216,7 +1216,7 @@ public class XmlNodeConverter : JsonConverter
         }
     }
 
-    private void WriteGroupedNodes(JsonWriter writer, XmlNamespaceManager manager, bool writePropertyName, List<IXmlNode> groupedNodes, string elementNames)
+    void WriteGroupedNodes(JsonWriter writer, XmlNamespaceManager manager, bool writePropertyName, List<IXmlNode> groupedNodes, string elementNames)
     {
         var writeArray = groupedNodes.Count != 1 || IsArray(groupedNodes[0]);
 
@@ -1242,7 +1242,7 @@ public class XmlNodeConverter : JsonConverter
         }
     }
 
-    private void WriteGroupedNodes(JsonWriter writer, XmlNamespaceManager manager, bool writePropertyName, IXmlNode node, string elementNames)
+    void WriteGroupedNodes(JsonWriter writer, XmlNamespaceManager manager, bool writePropertyName, IXmlNode node, string elementNames)
     {
         var writeArray = IsArray(node);
 
@@ -1265,7 +1265,7 @@ public class XmlNodeConverter : JsonConverter
         }
     }
 
-    private void SerializeNode(JsonWriter writer, IXmlNode node, XmlNamespaceManager manager, bool writePropertyName)
+    void SerializeNode(JsonWriter writer, IXmlNode node, XmlNamespaceManager manager, bool writePropertyName)
     {
         switch (node.NodeType)
         {
@@ -1429,7 +1429,7 @@ public class XmlNodeConverter : JsonConverter
         }
     }
 
-    private static bool AllSameName(IXmlNode node)
+    static bool AllSameName(IXmlNode node)
     {
         foreach (var childNode in node.ChildNodes)
         {
@@ -1531,7 +1531,7 @@ public class XmlNodeConverter : JsonConverter
         return document.WrappedNode;
     }
 
-    private void DeserializeValue(JsonReader reader, IXmlDocument document, XmlNamespaceManager manager, string propertyName, IXmlNode currentNode)
+    void DeserializeValue(JsonReader reader, IXmlDocument document, XmlNamespaceManager manager, string propertyName, IXmlNode currentNode)
     {
         if (!EncodeSpecialCharacters)
         {
@@ -1577,7 +1577,7 @@ public class XmlNodeConverter : JsonConverter
         ReadElement(reader, document, currentNode, propertyName, manager);
     }
 
-    private void ReadElement(JsonReader reader, IXmlDocument document, IXmlNode currentNode, string propertyName, XmlNamespaceManager manager)
+    void ReadElement(JsonReader reader, IXmlDocument document, IXmlNode currentNode, string propertyName, XmlNamespaceManager manager)
     {
         if (StringUtils.IsNullOrEmpty(propertyName))
         {
@@ -1634,7 +1634,7 @@ public class XmlNodeConverter : JsonConverter
         CreateElement(reader, document, currentNode, propertyName, manager, elementPrefix, attributeNameValues);
     }
 
-    private void CreateElement(JsonReader reader, IXmlDocument document, IXmlNode currentNode, string elementName, XmlNamespaceManager manager, string? elementPrefix, Dictionary<string, string?>? attributeNameValues)
+    void CreateElement(JsonReader reader, IXmlDocument document, IXmlNode currentNode, string elementName, XmlNamespaceManager manager, string? elementPrefix, Dictionary<string, string?>? attributeNameValues)
     {
         var element = CreateElement(elementName, document, elementPrefix, manager);
 
@@ -1686,7 +1686,7 @@ public class XmlNodeConverter : JsonConverter
         }
     }
 
-    private static void AddAttribute(JsonReader reader, IXmlDocument document, IXmlNode currentNode, string propertyName, string attributeName, XmlNamespaceManager manager, string? attributePrefix)
+    static void AddAttribute(JsonReader reader, IXmlDocument document, IXmlNode currentNode, string propertyName, string attributeName, XmlNamespaceManager manager, string? attributePrefix)
     {
         if (currentNode.NodeType == XmlNodeType.Document)
         {
@@ -1703,7 +1703,7 @@ public class XmlNodeConverter : JsonConverter
         ((IXmlElement)currentNode).SetAttributeNode(attribute);
     }
 
-    private static string? ConvertTokenToXmlValue(JsonReader reader)
+    static string? ConvertTokenToXmlValue(JsonReader reader)
     {
         switch (reader.TokenType)
         {
@@ -1750,7 +1750,7 @@ public class XmlNodeConverter : JsonConverter
         }
     }
 
-    private void ReadArrayElements(JsonReader reader, IXmlDocument document, string propertyName, IXmlNode currentNode, XmlNamespaceManager manager)
+    void ReadArrayElements(JsonReader reader, IXmlDocument document, string propertyName, IXmlNode currentNode, XmlNamespaceManager manager)
     {
         var elementPrefix = MiscellaneousUtils.GetPrefix(propertyName);
 
@@ -1783,7 +1783,7 @@ public class XmlNodeConverter : JsonConverter
         }
     }
 
-    private void AddJsonArrayAttribute(IXmlElement element, IXmlDocument document)
+    void AddJsonArrayAttribute(IXmlElement element, IXmlDocument document)
     {
         element.SetAttributeNode(document.CreateAttribute("json:Array", JsonNamespaceUri, "true"));
 
@@ -1797,7 +1797,7 @@ public class XmlNodeConverter : JsonConverter
         }
     }
 
-    private bool ShouldReadInto(JsonReader reader)
+    bool ShouldReadInto(JsonReader reader)
     {
         // a string token means the element only has a single text child
         switch (reader.TokenType)
@@ -1816,7 +1816,7 @@ public class XmlNodeConverter : JsonConverter
         return true;
     }
 
-    private Dictionary<string, string?>? ReadAttributeElements(JsonReader reader, XmlNamespaceManager manager)
+    Dictionary<string, string?>? ReadAttributeElements(JsonReader reader, XmlNamespaceManager manager)
     {
         Dictionary<string, string?>? attributeNameValues = null;
         var finished = false;
@@ -1933,7 +1933,7 @@ public class XmlNodeConverter : JsonConverter
         return attributeNameValues;
     }
 
-    private void CreateInstruction(JsonReader reader, IXmlDocument document, IXmlNode currentNode, string propertyName)
+    void CreateInstruction(JsonReader reader, IXmlDocument document, IXmlNode currentNode, string propertyName)
     {
         if (propertyName == DeclarationName)
         {
@@ -1971,7 +1971,7 @@ public class XmlNodeConverter : JsonConverter
         }
     }
 
-    private void CreateDocumentType(JsonReader reader, IXmlDocument document, IXmlNode currentNode)
+    void CreateDocumentType(JsonReader reader, IXmlDocument document, IXmlNode currentNode)
     {
         string? name = null;
         string? publicId = null;
@@ -2006,7 +2006,7 @@ public class XmlNodeConverter : JsonConverter
         currentNode.AppendChild(documentType);
     }
 
-    private IXmlElement CreateElement(string elementName, IXmlDocument document, string? elementPrefix, XmlNamespaceManager manager)
+    IXmlElement CreateElement(string elementName, IXmlDocument document, string? elementPrefix, XmlNamespaceManager manager)
     {
         var encodeName = EncodeSpecialCharacters ? XmlConvert.EncodeLocalName(elementName) : XmlConvert.EncodeName(elementName);
         var ns = StringUtils.IsNullOrEmpty(elementPrefix) ? manager.DefaultNamespace : manager.LookupNamespace(elementPrefix);
@@ -2016,7 +2016,7 @@ public class XmlNodeConverter : JsonConverter
         return element;
     }
 
-    private void DeserializeNode(JsonReader reader, IXmlDocument document, XmlNamespaceManager manager, IXmlNode currentNode)
+    void DeserializeNode(JsonReader reader, IXmlDocument document, XmlNamespaceManager manager, IXmlNode currentNode)
     {
         do
         {
@@ -2087,7 +2087,7 @@ public class XmlNodeConverter : JsonConverter
     /// <param name="attributeName">Attribute name to test.</param>
     /// <param name="prefix">The attribute name prefix if it has one, otherwise an empty string.</param>
     /// <returns><c>true</c> if attribute name is for a namespace attribute, otherwise <c>false</c>.</returns>
-    private bool IsNamespaceAttribute(string attributeName, [NotNullWhen(true)]out string? prefix)
+    bool IsNamespaceAttribute(string attributeName, [NotNullWhen(true)]out string? prefix)
     {
         if (attributeName.StartsWith("xmlns", StringComparison.Ordinal))
         {
@@ -2106,7 +2106,7 @@ public class XmlNodeConverter : JsonConverter
         return false;
     }
 
-    private bool ValueAttributes(List<IXmlNode> c)
+    bool ValueAttributes(List<IXmlNode> c)
     {
         foreach (var xmlNode in c)
         {
@@ -2149,13 +2149,13 @@ public class XmlNodeConverter : JsonConverter
     }
 
     [MethodImpl(MethodImplOptions.NoInlining)]
-    private bool IsXObject(Type valueType)
+    bool IsXObject(Type valueType)
     {
         return typeof(XObject).IsAssignableFrom(valueType);
     }
 
     [MethodImpl(MethodImplOptions.NoInlining)]
-    private bool IsXmlNode(Type valueType)
+    bool IsXmlNode(Type valueType)
     {
         return typeof(XmlNode).IsAssignableFrom(valueType);
     }

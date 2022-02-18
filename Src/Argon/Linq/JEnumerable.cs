@@ -36,7 +36,7 @@ public readonly struct JEnumerable<T> : IJEnumerable<T>, IEquatable<JEnumerable<
     /// </summary>
     public static readonly JEnumerable<T> Empty = new(Enumerable.Empty<T>());
 
-    private readonly IEnumerable<T> _enumerable;
+    readonly IEnumerable<T> _enumerable;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JEnumerable{T}"/> struct.

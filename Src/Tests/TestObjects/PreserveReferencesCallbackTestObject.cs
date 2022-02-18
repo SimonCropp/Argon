@@ -61,7 +61,7 @@ public class PreserveReferencesCallbackTestObject : ISerializable
     }
 
     [OnDeserialized]
-    private void OnDeserializedMethod(StreamingContext context)
+    void OnDeserializedMethod(StreamingContext context)
     {
         if (_serializationInfo == null)
         {

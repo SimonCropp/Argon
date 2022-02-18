@@ -29,9 +29,9 @@ namespace Argon.Tests.Benchmarks;
 
 public class JTokenBenchmarks
 {
-    private static readonly JObject JObjectSample = JObject.Parse(BenchmarkConstants.JsonText);
-    private static readonly string JsonTextSample;
-    private static readonly string NestedJsonText;
+    static readonly JObject JObjectSample = JObject.Parse(BenchmarkConstants.JsonText);
+    static readonly string JsonTextSample;
+    static readonly string NestedJsonText;
 
     static JTokenBenchmarks()
     {

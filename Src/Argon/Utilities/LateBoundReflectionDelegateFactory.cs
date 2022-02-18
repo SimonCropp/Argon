@@ -25,7 +25,7 @@
 
 class LateBoundReflectionDelegateFactory : ReflectionDelegateFactory
 {
-    private static readonly LateBoundReflectionDelegateFactory _instance = new();
+    static readonly LateBoundReflectionDelegateFactory _instance = new();
 
     internal static ReflectionDelegateFactory Instance => _instance;
 

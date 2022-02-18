@@ -27,7 +27,7 @@ namespace Argon.Serialization;
 
 internal abstract class JsonSerializerInternalBase
 {
-    private class ReferenceEqualsEqualityComparer : IEqualityComparer<object>
+    class ReferenceEqualsEqualityComparer : IEqualityComparer<object>
     {
         bool IEqualityComparer<object>.Equals(object x, object y)
         {
@@ -41,8 +41,8 @@ internal abstract class JsonSerializerInternalBase
         }
     }
 
-    private ErrorContext? _currentErrorContext;
-    private BidirectionalDictionary<string, object>? _mappings;
+    ErrorContext? _currentErrorContext;
+    BidirectionalDictionary<string, object>? _mappings;
 
     internal readonly JsonSerializer Serializer;
     internal readonly ITraceWriter? TraceWriter;
@@ -85,7 +85,7 @@ internal abstract class JsonSerializerInternalBase
         return resolvedNullValueHandling;
     }
 
-    private ErrorContext GetErrorContext(object? currentObject, object? member, string path, Exception error)
+    ErrorContext GetErrorContext(object? currentObject, object? member, string path, Exception error)
     {
         if (_currentErrorContext == null)
         {

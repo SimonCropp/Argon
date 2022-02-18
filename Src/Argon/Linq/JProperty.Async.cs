@@ -45,14 +45,14 @@ public partial class JProperty
         return WriteToAsync(task, writer, cancellationToken, converters);
     }
 
-    private async Task WriteToAsync(Task task, JsonWriter writer, CancellationToken cancellationToken, params JsonConverter[] converters)
+    async Task WriteToAsync(Task task, JsonWriter writer, CancellationToken cancellationToken, params JsonConverter[] converters)
     {
         await task.ConfigureAwait(false);
 
         await WriteValueAsync(writer, cancellationToken, converters).ConfigureAwait(false);
     }
 
-    private Task WriteValueAsync(JsonWriter writer, CancellationToken cancellationToken, JsonConverter[] converters)
+    Task WriteValueAsync(JsonWriter writer, CancellationToken cancellationToken, JsonConverter[] converters)
     {
         var value = Value;
         return value != null

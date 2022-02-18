@@ -27,12 +27,12 @@ using Argon;
 
 class JPath
 {
-    private static readonly char[] FloatCharacters = new[] {'.', 'E', 'e'};
+    static readonly char[] FloatCharacters = new[] {'.', 'E', 'e'};
 
-    private readonly string _expression;
+    readonly string _expression;
     public List<PathFilter> Filters { get; }
 
-    private int _currentIndex;
+    int _currentIndex;
 
     public JPath(string expression)
     {
@@ -43,7 +43,7 @@ class JPath
         ParseMain();
     }
 
-    private void ParseMain()
+    void ParseMain()
     {
         var currentPartStartIndex = _currentIndex;
 
@@ -84,7 +84,7 @@ class JPath
         }
     }
 
-    private bool ParsePath(List<PathFilter> filters, int currentPartStartIndex, bool query)
+    bool ParsePath(List<PathFilter> filters, int currentPartStartIndex, bool query)
     {
         var scan = false;
         var followingIndexer = false;
@@ -192,13 +192,13 @@ class JPath
         return atPathEnd;
     }
 
-    private static PathFilter CreatePathFilter(string? member, bool scan)
+    static PathFilter CreatePathFilter(string? member, bool scan)
     {
         var filter = scan ? (PathFilter)new ScanFilter(member) : new FieldFilter(member);
         return filter;
     }
 
-    private PathFilter ParseIndexer(char indexerOpenChar, bool scan)
+    PathFilter ParseIndexer(char indexerOpenChar, bool scan)
     {
         _currentIndex++;
 
@@ -222,7 +222,7 @@ class JPath
         }
     }
 
-    private PathFilter ParseArrayIndexer(char indexerCloseChar)
+    PathFilter ParseArrayIndexer(char indexerCloseChar)
     {
         var start = _currentIndex;
         int? end = null;
@@ -379,7 +379,7 @@ class JPath
         throw new JsonException("Path ended with open indexer.");
     }
 
-    private void EatWhitespace()
+    void EatWhitespace()
     {
         while (_currentIndex < _expression.Length)
         {
@@ -392,7 +392,7 @@ class JPath
         }
     }
 
-    private PathFilter ParseQuery(char indexerCloseChar, bool scan)
+    PathFilter ParseQuery(char indexerCloseChar, bool scan)
     {
         _currentIndex++;
         EnsureLength("Path ended with open indexer.");
@@ -425,7 +425,7 @@ class JPath
         }
     }
 
-    private bool TryParseExpression(out List<PathFilter>? expressionPath)
+    bool TryParseExpression(out List<PathFilter>? expressionPath)
     {
         if (_expression[_currentIndex] == '$')
         {
@@ -451,12 +451,12 @@ class JPath
         return true;
     }
 
-    private JsonException CreateUnexpectedCharacterException()
+    JsonException CreateUnexpectedCharacterException()
     {
         return new JsonException("Unexpected character while parsing path query: " + _expression[_currentIndex]);
     }
 
-    private object ParseSide()
+    object ParseSide()
     {
         EatWhitespace();
 
@@ -479,7 +479,7 @@ class JPath
         throw CreateUnexpectedCharacterException();
     }
 
-    private QueryExpression ParseExpression()
+    QueryExpression ParseExpression()
     {
         QueryExpression? rootExpression = null;
         CompositeExpression? parentExpression = null;
@@ -566,7 +566,7 @@ class JPath
         throw new JsonException("Path ended with open query.");
     }
 
-    private bool TryParseValue(out object? value)
+    bool TryParseValue(out object? value)
     {
         var currentChar = _expression[_currentIndex];
         if (currentChar == '\'')
@@ -641,7 +641,7 @@ class JPath
         return false;
     }
 
-    private string ReadQuotedString()
+    string ReadQuotedString()
     {
         var sb = new StringBuilder();
 
@@ -701,7 +701,7 @@ class JPath
         throw new JsonException("Path ended with an open string.");
     }
 
-    private string ReadRegexString()
+    string ReadRegexString()
     {
         var startIndex = _currentIndex;
 
@@ -744,7 +744,7 @@ class JPath
         throw new JsonException("Path ended with an open regex.");
     }
 
-    private bool Match(string s)
+    bool Match(string s)
     {
         var currentPosition = _currentIndex;
         for (var i = 0; i < s.Length; i++)
@@ -763,7 +763,7 @@ class JPath
         return true;
     }
 
-    private QueryOperator ParseOperator()
+    QueryOperator ParseOperator()
     {
         if (_currentIndex + 1 >= _expression.Length)
         {
@@ -814,7 +814,7 @@ class JPath
         throw new JsonException("Could not read query operator.");
     }
 
-    private PathFilter ParseQuotedField(char indexerCloseChar, bool scan)
+    PathFilter ParseQuotedField(char indexerCloseChar, bool scan)
     {
         List<string>? fields = null;
 
@@ -860,7 +860,7 @@ class JPath
         throw new JsonException("Path ended with open indexer.");
     }
 
-    private void EnsureLength(string message)
+    void EnsureLength(string message)
     {
         if (_currentIndex >= _expression.Length)
         {

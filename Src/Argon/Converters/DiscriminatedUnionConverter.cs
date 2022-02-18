@@ -62,13 +62,13 @@ public class DiscriminatedUnionConverter : JsonConverter
     }
     #endregion
 
-    private const string CasePropertyName = "Case";
-    private const string FieldsPropertyName = "Fields";
+    const string CasePropertyName = "Case";
+    const string FieldsPropertyName = "Fields";
 
-    private static readonly ThreadSafeStore<Type, Union> UnionCache = new(CreateUnion);
-    private static readonly ThreadSafeStore<Type, Type> UnionTypeLookupCache = new(CreateUnionTypeLookup);
+    static readonly ThreadSafeStore<Type, Union> UnionCache = new(CreateUnion);
+    static readonly ThreadSafeStore<Type, Type> UnionTypeLookupCache = new(CreateUnionTypeLookup);
 
-    private static Type CreateUnionTypeLookup(Type t)
+    static Type CreateUnionTypeLookup(Type t)
     {
         // this lookup is because cases with fields are derived from union type
         // need to get declaring type to avoid duplicate Unions in cache
@@ -82,7 +82,7 @@ public class DiscriminatedUnionConverter : JsonConverter
         return unionType;
     }
 
-    private static Union CreateUnion(Type t)
+    static Union CreateUnion(Type t)
     {
         var u = new Union((FSharpFunction)FSharpUtils.Instance.PreComputeUnionTagReader(null, t, null), new List<UnionCase>());
 

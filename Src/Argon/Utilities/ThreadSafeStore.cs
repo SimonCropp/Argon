@@ -25,8 +25,8 @@
 
 class ThreadSafeStore<TKey, TValue>
 {
-    private readonly ConcurrentDictionary<TKey, TValue> _concurrentStore;
-    private readonly Func<TKey, TValue> _creator;
+    readonly ConcurrentDictionary<TKey, TValue> _concurrentStore;
+    readonly Func<TKey, TValue> _creator;
 
     public ThreadSafeStore(Func<TKey, TValue> creator)
     {

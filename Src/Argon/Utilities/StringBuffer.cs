@@ -38,7 +38,7 @@ internal struct StringBuffer
     {
     }
 
-    private StringBuffer(char[] buffer)
+    StringBuffer(char[] buffer)
     {
         InternalBuffer = buffer;
         Position = 0;
@@ -78,7 +78,7 @@ internal struct StringBuffer
         Position = 0;
     }
 
-    private void EnsureSize(IArrayPool<char>? bufferPool, int appendLength)
+    void EnsureSize(IArrayPool<char>? bufferPool, int appendLength)
     {
         var newBuffer = BufferUtils.RentBuffer(bufferPool, (Position + appendLength) * 2);
 

@@ -51,7 +51,7 @@ public class Issue1569 : TestFixtureBase
 
     public class AsyncOnlyStream : Stream
     {
-        private readonly Stream _innerStream;
+        readonly Stream _innerStream;
 
         public AsyncOnlyStream(Stream innerStream)
         {

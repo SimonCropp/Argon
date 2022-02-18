@@ -38,8 +38,8 @@ public class PrivateMembersClass
         i = default(int);
     }
 
-    private string _privateString;
-    private readonly int i;
+    string _privateString;
+    readonly int i;
     internal string _internalString;
 
     public int UseValue()

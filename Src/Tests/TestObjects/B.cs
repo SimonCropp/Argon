@@ -31,7 +31,7 @@ public class B : A
     public string B1 { get; set; }
 
     [JsonProperty("B2")]
-    private string _B2;
+    string _B2;
 
     public string B2
     {
@@ -40,5 +40,5 @@ public class B : A
     }
 
     [JsonProperty("B3")]
-    private string B3 { get; set; }
+    string B3 { get; set; }
 }

@@ -32,7 +32,7 @@ public sealed class Event
     /// </summary>
     /// <returns></returns>
     /// <remarks></remarks>
-    private static int GetCurrentUserId()
+    static int GetCurrentUserId()
     {
         return 0;
     }
@@ -44,19 +44,19 @@ public sealed class Event
     /// </summary>
     /// <returns></returns>
     /// <remarks></remarks>
-    private static string GetCurrentSubLocation()
+    static string GetCurrentSubLocation()
     {
         return "";
     }
 
-    private string _sublocation;
-    private int _userId;
-    private EventType _type;
-    private string _summary;
-    private string _details;
-    private string _stackTrace;
-    private string _tag;
-    private DateTime _time;
+    string _sublocation;
+    int _userId;
+    EventType _type;
+    string _summary;
+    string _details;
+    string _stackTrace;
+    string _tag;
+    DateTime _time;
 
     public Event(string summary)
     {

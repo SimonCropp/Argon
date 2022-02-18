@@ -31,11 +31,11 @@ namespace Argon;
 public class DefaultJsonNameTable : JsonNameTable
 {
     // used to defeat hashtable DoS attack where someone passes in lots of strings that hash to the same hash code
-    private static readonly int HashCodeRandomizer;
+    static readonly int HashCodeRandomizer;
 
-    private int _count;
-    private Entry[] _entries;
-    private int _mask = 31;
+    int _count;
+    Entry[] _entries;
+    int _mask = 31;
 
     static DefaultJsonNameTable()
     {
@@ -128,7 +128,7 @@ public class DefaultJsonNameTable : JsonNameTable
         return AddEntry(key, hashCode);
     }
 
-    private string AddEntry(string str, int hashCode)
+    string AddEntry(string str, int hashCode)
     {
         var index = hashCode & _mask;
         var entry = new Entry(str, hashCode, _entries[index]);
@@ -140,7 +140,7 @@ public class DefaultJsonNameTable : JsonNameTable
         return entry.Value;
     }
 
-    private void Grow()
+    void Grow()
     {
         var entries = _entries;
         var newMask = _mask * 2 + 1;
@@ -161,7 +161,7 @@ public class DefaultJsonNameTable : JsonNameTable
         _mask = newMask;
     }
 
-    private static bool TextEquals(string str1, char[] str2, int str2Start, int str2Length)
+    static bool TextEquals(string str1, char[] str2, int str2Start, int str2Length)
     {
         if (str1.Length != str2Length)
         {
@@ -178,7 +178,7 @@ public class DefaultJsonNameTable : JsonNameTable
         return true;
     }
 
-    private class Entry
+    class Entry
     {
         internal readonly string Value;
         internal readonly int HashCode;

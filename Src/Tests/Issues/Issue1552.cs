@@ -59,8 +59,8 @@ public class Issue1552 : TestFixtureBase
 
 public class RefAndRefReadonlyTestClass
 {
-    private int _refField;
-    private readonly int _refReadonlyField;
+    int _refField;
+    readonly int _refReadonlyField;
 
     public RefAndRefReadonlyTestClass(int refReadonlyField)
     {
@@ -79,8 +79,8 @@ public class RefAndRefReadonlyTestClass
 
 public class RefAndRefReadonlyIgnoredTestClass
 {
-    private int _refField;
-    private readonly int _refReadonlyField;
+    int _refField;
+    readonly int _refReadonlyField;
 
     public RefAndRefReadonlyIgnoredTestClass(int refReadonlyField)
     {

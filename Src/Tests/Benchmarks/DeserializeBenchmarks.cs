@@ -30,8 +30,8 @@ namespace Argon.Tests.Benchmarks;
 
 public class DeserializeBenchmarks
 {
-    private static readonly string LargeJsonText;
-    private static readonly string FloatArrayJson;
+    static readonly string LargeJsonText;
+    static readonly string FloatArrayJson;
 
     static DeserializeBenchmarks()
     {

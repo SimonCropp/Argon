@@ -62,7 +62,7 @@ public class DynamicTests : TestFixtureBase
         }
     }
         
-    private void UpdateValueCount(IDictionary<string, int> counts, dynamic d)
+    void UpdateValueCount(IDictionary<string, int> counts, dynamic d)
     {
         string s = d.ToString();
 
@@ -765,12 +765,12 @@ public class DynamicTests : TestFixtureBase
         AssertValueConverted<BigInteger?>(null);
     }
 
-    private static void AssertValueConverted<T>(object value)
+    static void AssertValueConverted<T>(object value)
     {
         AssertValueConverted<T>(value, value);
     }
 
-    private static void AssertValueConverted<T>(object value, object expected)
+    static void AssertValueConverted<T>(object value, object expected)
     {
         var v = new JValue(value);
         dynamic d = v;
@@ -918,7 +918,7 @@ public class DynamicTests : TestFixtureBase
 
 public class DynamicDictionary : DynamicObject
 {
-    private readonly IDictionary<string, object> _values = new Dictionary<string, object>();
+    readonly IDictionary<string, object> _values = new Dictionary<string, object>();
 
     public override IEnumerable<string> GetDynamicMemberNames()
     {

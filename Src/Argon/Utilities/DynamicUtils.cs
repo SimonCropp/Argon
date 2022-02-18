@@ -32,18 +32,18 @@ static class DynamicUtils
     {
         public const string CSharpAssemblyName = "Microsoft.CSharp, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a";
 
-        private const string BinderTypeName = "Microsoft.CSharp.RuntimeBinder.Binder, " + CSharpAssemblyName;
-        private const string CSharpArgumentInfoTypeName = "Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfo, " + CSharpAssemblyName;
-        private const string CSharpArgumentInfoFlagsTypeName = "Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfoFlags, " + CSharpAssemblyName;
-        private const string CSharpBinderFlagsTypeName = "Microsoft.CSharp.RuntimeBinder.CSharpBinderFlags, " + CSharpAssemblyName;
+        const string BinderTypeName = "Microsoft.CSharp.RuntimeBinder.Binder, " + CSharpAssemblyName;
+        const string CSharpArgumentInfoTypeName = "Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfo, " + CSharpAssemblyName;
+        const string CSharpArgumentInfoFlagsTypeName = "Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfoFlags, " + CSharpAssemblyName;
+        const string CSharpBinderFlagsTypeName = "Microsoft.CSharp.RuntimeBinder.CSharpBinderFlags, " + CSharpAssemblyName;
 
-        private static object? _getCSharpArgumentInfoArray;
-        private static object? _setCSharpArgumentInfoArray;
-        private static MethodCall<object?, object?>? _getMemberCall;
-        private static MethodCall<object?, object?>? _setMemberCall;
-        private static bool _init;
+        static object? _getCSharpArgumentInfoArray;
+        static object? _setCSharpArgumentInfoArray;
+        static MethodCall<object?, object?>? _getMemberCall;
+        static MethodCall<object?, object?>? _setMemberCall;
+        static bool _init;
 
-        private static void Init()
+        static void Init()
         {
             if (!_init)
             {
@@ -63,7 +63,7 @@ static class DynamicUtils
             }
         }
 
-        private static object CreateSharpArgumentInfoArray(params int[] values)
+        static object CreateSharpArgumentInfoArray(params int[] values)
         {
             var csharpArgumentInfoType = Type.GetType(CSharpArgumentInfoTypeName);
             var csharpArgumentInfoFlags = Type.GetType(CSharpArgumentInfoFlagsTypeName);
@@ -80,7 +80,7 @@ static class DynamicUtils
             return a;
         }
 
-        private static void CreateMemberCalls()
+        static void CreateMemberCalls()
         {
             var csharpArgumentInfoType = Type.GetType(CSharpArgumentInfoTypeName, true);
             var csharpBinderFlagsType = Type.GetType(CSharpBinderFlagsTypeName, true);
@@ -121,7 +121,7 @@ static class DynamicUtils
 
 class NoThrowGetBinderMember : GetMemberBinder
 {
-    private readonly GetMemberBinder _innerBinder;
+    readonly GetMemberBinder _innerBinder;
 
     public NoThrowGetBinderMember(GetMemberBinder innerBinder)
         : base(innerBinder.Name, innerBinder.IgnoreCase)
@@ -143,7 +143,7 @@ class NoThrowGetBinderMember : GetMemberBinder
 
 class NoThrowSetBinderMember : SetMemberBinder
 {
-    private readonly SetMemberBinder _innerBinder;
+    readonly SetMemberBinder _innerBinder;
 
     public NoThrowSetBinderMember(SetMemberBinder innerBinder)
         : base(innerBinder.Name, innerBinder.IgnoreCase)

@@ -42,7 +42,7 @@ public class SerializeExtensionData : TestFixtureBase
 
         // everything else gets stored here
         [JsonExtensionData]
-        private IDictionary<string, JToken> _additionalData;
+        IDictionary<string, JToken> _additionalData;
     }
     #endregion
 

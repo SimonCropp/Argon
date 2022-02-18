@@ -27,8 +27,8 @@ namespace Argon.Tests.TestObjects;
 
 class DictionaryKeyCast
 {
-    private String _name;
-    private int _number;
+    String _name;
+    int _number;
 
     public DictionaryKeyCast(String name, int number)
     {

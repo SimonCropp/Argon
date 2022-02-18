@@ -213,7 +213,7 @@ public abstract partial class JsonReader
         }
     }
 
-    private async Task<bool> MoveToContentFromNonContentAsync(CancellationToken cancellationToken)
+    async Task<bool> MoveToContentFromNonContentAsync(CancellationToken cancellationToken)
     {
         while (true)
         {

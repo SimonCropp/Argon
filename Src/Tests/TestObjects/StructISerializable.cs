@@ -28,7 +28,7 @@ namespace Argon.Tests.TestObjects;
 [DataContract]
 public struct StructISerializable : ISerializable
 {
-    private string _name;
+    string _name;
 
     public StructISerializable(SerializationInfo info, StreamingContext context)
     {

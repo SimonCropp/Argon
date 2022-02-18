@@ -119,9 +119,9 @@ public class JsonObjectContract : JsonContainerContract
     public Func<string, string>? ExtensionDataNameResolver { get; set; }
 
     internal bool ExtensionDataIsJToken;
-    private bool? _hasRequiredOrDefaultValueProperties;
-    private JsonPropertyCollection? _creatorParameters;
-    private Type? _extensionDataValueType;
+    bool? _hasRequiredOrDefaultValueProperties;
+    JsonPropertyCollection? _creatorParameters;
+    Type? _extensionDataValueType;
 
     internal bool HasRequiredOrDefaultValueProperties
     {

@@ -44,20 +44,20 @@ public class JsonDynamicContract : JsonContainerContract
     /// <value>The property name resolver.</value>
     public Func<string, string>? PropertyNameResolver { get; set; }
 
-    private readonly ThreadSafeStore<string, CallSite<Func<CallSite, object, object>>> _callSiteGetters =
+    readonly ThreadSafeStore<string, CallSite<Func<CallSite, object, object>>> _callSiteGetters =
         new(CreateCallSiteGetter);
 
-    private readonly ThreadSafeStore<string, CallSite<Func<CallSite, object, object?, object>>> _callSiteSetters =
+    readonly ThreadSafeStore<string, CallSite<Func<CallSite, object, object?, object>>> _callSiteSetters =
         new(CreateCallSiteSetter);
 
-    private static CallSite<Func<CallSite, object, object>> CreateCallSiteGetter(string name)
+    static CallSite<Func<CallSite, object, object>> CreateCallSiteGetter(string name)
     {
         var getMemberBinder = (GetMemberBinder)DynamicUtils.BinderWrapper.GetMember(name, typeof(DynamicUtils));
 
         return CallSite<Func<CallSite, object, object>>.Create(new NoThrowGetBinderMember(getMemberBinder));
     }
 
-    private static CallSite<Func<CallSite, object, object?, object>> CreateCallSiteSetter(string name)
+    static CallSite<Func<CallSite, object, object?, object>> CreateCallSiteSetter(string name)
     {
         var binder = (SetMemberBinder)DynamicUtils.BinderWrapper.SetMember(name, typeof(DynamicUtils));
 

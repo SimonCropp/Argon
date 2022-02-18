@@ -29,10 +29,10 @@ namespace Argon.Tests.TestObjects;
 public sealed class VersionOld : IComparable, IComparable<VersionOld>, IEquatable<VersionOld>
 {
     // AssemblyName depends on the order staying the same
-    private readonly int _Major; // Do not rename (binary serialization)
-    private readonly int _Minor; // Do not rename (binary serialization)
-    private readonly int _Build = -1; // Do not rename (binary serialization)
-    private readonly int _Revision = -1; // Do not rename (binary serialization)
+    readonly int _Major; // Do not rename (binary serialization)
+    readonly int _Minor; // Do not rename (binary serialization)
+    readonly int _Build = -1; // Do not rename (binary serialization)
+    readonly int _Revision = -1; // Do not rename (binary serialization)
 
     [JsonConstructor]
     public VersionOld(int major, int minor, int build, int revision)

@@ -35,7 +35,7 @@ class ReflectionObject
     public ObjectConstructor<object>? Creator { get; }
     public IDictionary<string, ReflectionMember> Members { get; }
 
-    private ReflectionObject(ObjectConstructor<object>? creator)
+    ReflectionObject(ObjectConstructor<object>? creator)
     {
         Members = new Dictionary<string, ReflectionMember>();
         Creator = creator;

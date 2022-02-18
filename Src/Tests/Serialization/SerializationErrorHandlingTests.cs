@@ -1020,7 +1020,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         Assert.AreEqual(2, dictionary["model2"].Int1);
     }
 
-    private class DataModel
+    class DataModel
     {
         public string String1 { get; set; }
         public int Int1 { get; set; }
@@ -1044,10 +1044,10 @@ class ErrorPerson2 //:IPerson - oops! Forgot to implement the person interface
 
 public class ThrowingReader : TextReader
 {
-    private int _position = 0;
-    private static string element = "{\"FirstName\":\"Din\",\"LastName\":\"Rav\",\"Item\":{\"ItemName\":\"temp\"}}";
-    private bool _firstRead = true;
-    private bool _readComma = false;
+    int _position = 0;
+    static string element = "{\"FirstName\":\"Din\",\"LastName\":\"Rav\",\"Item\":{\"ItemName\":\"temp\"}}";
+    bool _firstRead = true;
+    bool _readComma = false;
 
     public ThrowingReader()
     {

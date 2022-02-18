@@ -33,11 +33,11 @@ namespace Argon.Bson;
 [Obsolete("BSON reading and writing has been moved to its own package. See https://www.nuget.org/packages/Newtonsoft.Json.Bson for more details.")]
 public class BsonWriter : JsonWriter
 {
-    private readonly BsonBinaryWriter _writer;
+    readonly BsonBinaryWriter _writer;
 
-    private BsonToken _root;
-    private BsonToken _parent;
-    private string _propertyName;
+    BsonToken _root;
+    BsonToken _parent;
+    string _propertyName;
 
     /// <summary>
     /// Gets or sets the <see cref="DateTimeKind" /> used when writing <see cref="DateTime"/> values to BSON.
@@ -175,18 +175,18 @@ public class BsonWriter : JsonWriter
         }
     }
 
-    private void AddParent(BsonToken container)
+    void AddParent(BsonToken container)
     {
         AddToken(container);
         _parent = container;
     }
 
-    private void RemoveParent()
+    void RemoveParent()
     {
         _parent = _parent.Parent;
     }
 
-    private void AddValue(object value, BsonType type)
+    void AddValue(object value, BsonType type)
     {
         AddToken(new BsonValue(value, type));
     }

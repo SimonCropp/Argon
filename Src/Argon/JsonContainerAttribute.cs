@@ -111,8 +111,8 @@ public abstract class JsonContainerAttribute : Attribute
     internal bool? _itemIsReference;
     internal ReferenceLoopHandling? _itemReferenceLoopHandling;
     internal TypeNameHandling? _itemTypeNameHandling;
-    private Type? _namingStrategyType;
-    private object[]? _namingStrategyParameters;
+    Type? _namingStrategyType;
+    object[]? _namingStrategyParameters;
 
     /// <summary>
     /// Gets or sets a value that indicates whether to preserve object references.

@@ -1602,7 +1602,7 @@ namespace Argon.Tests.Serialization
 }", json);
         }
 
-        private string AssertSerializeDeserializeEqual(object o)
+        string AssertSerializeDeserializeEqual(object o)
         {
             var ms = new MemoryStream();
             var s = new DataContractJsonSerializer(o.GetType());
@@ -2812,7 +2812,7 @@ keyword such as type of business.""
             }, @"Could not create an instance of type Argon.Tests.TestObjects.ICo. Type is an interface or abstract class and cannot be instantiated. Path 'co.Name', line 1, position 14.");
         }
 
-        private Person GetPerson()
+        Person GetPerson()
         {
             var person = new Person
             {
@@ -4864,7 +4864,7 @@ Path '', line 1, position 1.");
             Assert.AreEqual(deserialized.Foo2, null);
         }
 
-        private static NullableStructPropertyClass deserialize(string serStr)
+        static NullableStructPropertyClass deserialize(string serStr)
         {
             return JsonConvert.DeserializeObject<NullableStructPropertyClass>(
                 serStr,
@@ -6315,7 +6315,7 @@ Path '', line 1, position 1.");
             Assert.AreEqual(0, objDeserialized.Age);
         }
 
-        private string Serialize<T>(T obj)
+        string Serialize<T>(T obj)
             where T : class
         {
             var stringWriter = new StringWriter();
@@ -6331,7 +6331,7 @@ Path '', line 1, position 1.");
             return stringWriter.ToString();
         }
 
-        private T Deserialize<T>(string json)
+        T Deserialize<T>(string json)
             where T : class
         {
             var jsonReader = new JsonTextReader(new StringReader(json));
@@ -7958,7 +7958,7 @@ This is just junk, though.";
             Assert.AreEqual(150, depth);
         }
 
-        private static int GetDepth(JToken o)
+        static int GetDepth(JToken o)
         {
             var depth = 1;
             while (o.First != null)

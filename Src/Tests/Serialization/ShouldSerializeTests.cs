@@ -27,7 +27,6 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-
 namespace Argon.Tests.Serialization;
 
 [TestFixture]
@@ -115,7 +114,7 @@ public class ShouldSerializeTests : TestFixtureBase
         Assert.AreEqual(true, setFoo.myBar.ShouldSerializemyBazCalled);
     }
 
-    private string Serialize(Foo2 f)
+    string Serialize(Foo2 f)
     {
         //Code copied from JsonConvert.SerializeObject(), with addition of trace writing
         var jsonSerializer = JsonSerializer.CreateDefault();
@@ -478,7 +477,7 @@ public class ShouldSerializeTestClass
 
 public class SpecifiedTestClass
 {
-    private bool _nameSpecified;
+    bool _nameSpecified;
 
     public string Name { get; set; }
     public int Age { get; set; }
@@ -512,7 +511,7 @@ public class SpecifiedTestClass
 
 public class Foo2
 {
-    private Bar2 myBarField;
+    Bar2 myBarField;
 
     public Bar2 myBar
     {
@@ -520,7 +519,7 @@ public class Foo2
         set => myBarField = value;
     }
 
-    private string nameField;
+    string nameField;
 
     public string name
     {
@@ -544,7 +543,7 @@ public class Bar2
     [JsonIgnore]
     public bool ShouldSerializemyBazCalled { get; set; }
 
-    private Baz1[] myBazField;
+    Baz1[] myBazField;
 
     public Baz1[] myBaz
     {
@@ -552,7 +551,7 @@ public class Bar2
         set => myBazField = value;
     }
 
-    private string nameField;
+    string nameField;
 
     public string name
     {
@@ -574,7 +573,7 @@ public class Bar2
 
 public class Baz1
 {
-    private Frob1[] myFrobField;
+    Frob1[] myFrobField;
 
     public Frob1[] myFrob
     {
@@ -582,7 +581,7 @@ public class Baz1
         set => myFrobField = value;
     }
 
-    private string nameField;
+    string nameField;
 
     public string name
     {
@@ -603,7 +602,7 @@ public class Baz1
 
 public class Frob1
 {
-    private string nameField;
+    string nameField;
 
     public string name
     {

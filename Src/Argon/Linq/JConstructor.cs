@@ -30,7 +30,7 @@ namespace Argon.Linq;
 /// </summary>
 public partial class JConstructor : JContainer
 {
-    private readonly List<JToken> _values = new();
+    readonly List<JToken> _values = new();
 
     /// <summary>
     /// Gets the container's children tokens.

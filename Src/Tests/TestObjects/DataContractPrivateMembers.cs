@@ -41,17 +41,17 @@ public class DataContractPrivateMembers
     }
 
     [DataMember]
-    private string _name;
+    string _name;
 
     [DataMember(Name = "_age")]
-    private int Age { get; set; }
+    int Age { get; set; }
 
     [JsonProperty]
-    private int Rank { get; set; }
+    int Rank { get; set; }
 
     [JsonProperty(PropertyName = "JsonTitle")]
     [DataMember(Name = "DataTitle")]
-    private string Title { get; set; }
+    string Title { get; set; }
 
     public string NotIncluded { get; set; }
 

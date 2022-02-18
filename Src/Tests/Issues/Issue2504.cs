@@ -60,7 +60,7 @@ public class Issue2504 : TestFixtureBase
         }), expectedMessage);
     }
 
-    private static int GetDepth(JToken o)
+    static int GetDepth(JToken o)
     {
         var depth = 1;
         while (o.First != null)
@@ -75,12 +75,12 @@ public class Issue2504 : TestFixtureBase
         return depth;
     }
 
-    private class TestObject
+    class TestObject
     {
         public JToken Children { get; set; }
     }
 
-    private class TestConverter : JsonConverter
+    class TestConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType)
         {

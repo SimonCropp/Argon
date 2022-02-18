@@ -36,9 +36,9 @@ namespace Argon.Tests.TestObjects;
 [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.DataSet")]
 public partial class CustomerDataSet : System.Data.DataSet
 {
-    private CustomersDataTable tableCustomers;
+    CustomersDataTable tableCustomers;
 
-    private System.Data.SchemaSerializationMode _schemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+    System.Data.SchemaSerializationMode _schemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
 
     [DebuggerNonUserCodeAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -214,7 +214,7 @@ public partial class CustomerDataSet : System.Data.DataSet
 
     [DebuggerNonUserCodeAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-    private void InitClass()
+    void InitClass()
     {
         DataSetName = "CustomerDataSet";
         Prefix = "";
@@ -226,14 +226,14 @@ public partial class CustomerDataSet : System.Data.DataSet
 
     [DebuggerNonUserCodeAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-    private bool ShouldSerializeCustomers()
+    bool ShouldSerializeCustomers()
     {
         return false;
     }
 
     [DebuggerNonUserCodeAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-    private void SchemaChanged(object sender, System.ComponentModel.CollectionChangeEventArgs e)
+    void SchemaChanged(object sender, System.ComponentModel.CollectionChangeEventArgs e)
     {
         if (e.Action == System.ComponentModel.CollectionChangeAction.Remove)
         {
@@ -310,7 +310,7 @@ public partial class CustomerDataSet : System.Data.DataSet
     [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
     public partial class CustomersDataTable : System.Data.DataTable, IEnumerable
     {
-        private System.Data.DataColumn columnCustomerID;
+        System.Data.DataColumn columnCustomerID;
 
         [DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -429,7 +429,7 @@ public partial class CustomerDataSet : System.Data.DataSet
 
         [DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private void InitClass()
+        void InitClass()
         {
             columnCustomerID = new System.Data.DataColumn("CustomerID", typeof(string), null, System.Data.MappingType.Element);
             Columns.Add(columnCustomerID);
@@ -594,7 +594,7 @@ public partial class CustomerDataSet : System.Data.DataSet
     ///</summary>
     public partial class CustomersRow : System.Data.DataRow
     {
-        private CustomersDataTable tableCustomers;
+        CustomersDataTable tableCustomers;
 
         [DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -643,9 +643,9 @@ public partial class CustomerDataSet : System.Data.DataSet
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
     public class CustomersRowChangeEvent : EventArgs
     {
-        private CustomersRow eventRow;
+        CustomersRow eventRow;
 
-        private System.Data.DataRowAction eventAction;
+        System.Data.DataRowAction eventAction;
 
         [DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]

@@ -48,7 +48,7 @@ class JsonSchemaNode
         Id = GetId(Schemas);
     }
 
-    private JsonSchemaNode(JsonSchemaNode source, JsonSchema schema)
+    JsonSchemaNode(JsonSchemaNode source, JsonSchema schema)
     {
         Schemas = new ReadOnlyCollection<JsonSchema>(source.Schemas.Union(new[] { schema }).ToList());
         Properties = new Dictionary<string, JsonSchemaNode>(source.Properties);

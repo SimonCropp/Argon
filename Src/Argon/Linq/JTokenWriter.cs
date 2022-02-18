@@ -30,10 +30,10 @@ namespace Argon.Linq;
 /// </summary>
 public partial class JTokenWriter : JsonWriter
 {
-    private JContainer? _token;
-    private JContainer? _parent;
+    JContainer? _token;
+    JContainer? _parent;
     // used when writer is writing single value and the value has no containing parent
-    private JValue? _value;
+    JValue? _value;
 
     /// <summary>
     /// Gets the <see cref="JToken"/> at the writer's current position.
@@ -105,7 +105,7 @@ public partial class JTokenWriter : JsonWriter
         AddParent(new JObject());
     }
 
-    private void AddParent(JContainer container)
+    void AddParent(JContainer container)
     {
         if (_parent == null)
         {
@@ -120,7 +120,7 @@ public partial class JTokenWriter : JsonWriter
         CurrentToken = container;
     }
 
-    private void RemoveParent()
+    void RemoveParent()
     {
         CurrentToken = _parent;
         _parent = _parent!.Parent;
@@ -178,7 +178,7 @@ public partial class JTokenWriter : JsonWriter
         base.WritePropertyName(name);
     }
 
-    private void AddValue(object? value, JsonToken token)
+    void AddValue(object? value, JsonToken token)
     {
         AddValue(new JValue(value), token);
     }

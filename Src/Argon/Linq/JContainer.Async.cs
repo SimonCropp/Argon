@@ -45,7 +45,7 @@ public abstract partial class JContainer
         }
     }
 
-    private async Task ReadContentFromAsync(JsonReader reader, JsonLoadSettings? settings, CancellationToken cancellationToken = default)
+    async Task ReadContentFromAsync(JsonReader reader, JsonLoadSettings? settings, CancellationToken cancellationToken = default)
     {
         var lineInfo = reader as IJsonLineInfo;
 

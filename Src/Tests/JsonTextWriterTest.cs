@@ -1207,7 +1207,7 @@ _____'propertyName': NaN,
         }
     }
 
-    private static IList<object> GetValues(Type enumType)
+    static IList<object> GetValues(Type enumType)
     {
         if (!enumType.IsEnum)
         {
@@ -1456,9 +1456,9 @@ _____'propertyName': NaN,
         } while (c != char.MaxValue);
     }
 
-    private const string EscapedUnicodeText = "!";
+    const string EscapedUnicodeText = "!";
 
-    private static void WriteEscapedJavaScriptStringOld(TextWriter writer, string s, char delimiter, bool appendDelimiters)
+    static void WriteEscapedJavaScriptStringOld(TextWriter writer, string s, char delimiter, bool appendDelimiters)
     {
         // leading delimiter
         if (appendDelimiters)

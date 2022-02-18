@@ -36,14 +36,14 @@ public class DefaultContractResolver : IContractResolver
     // Json.NET Schema requires a property
     internal static IContractResolver Instance { get; } = new DefaultContractResolver();
 
-    private static readonly string[] BlacklistedTypeNames =
+    static readonly string[] BlacklistedTypeNames =
     {
         "System.IO.DriveInfo",
         "System.IO.FileInfo",
         "System.IO.DirectoryInfo"
     };
 
-    private static readonly JsonConverter[] BuiltInConverters =
+    static readonly JsonConverter[] BuiltInConverters =
     {
         new EntityKeyMemberConverter(),
         new ExpandoObjectConverter(),
@@ -59,9 +59,9 @@ public class DefaultContractResolver : IContractResolver
         new RegexConverter()
     };
 
-    private readonly DefaultJsonNameTable _nameTable = new();
+    readonly DefaultJsonNameTable _nameTable = new();
 
-    private readonly ThreadSafeStore<Type, JsonContract> _contractCache;
+    readonly ThreadSafeStore<Type, JsonContract> _contractCache;
 
     /// <summary>
     /// Gets a value indicating whether members are being get and set using dynamic code generation.
@@ -151,7 +151,7 @@ public class DefaultContractResolver : IContractResolver
         return _contractCache.Get(type);
     }
 
-    private static bool FilterMembers(MemberInfo member)
+    static bool FilterMembers(MemberInfo member)
     {
         if (member is PropertyInfo property)
         {
@@ -260,7 +260,7 @@ public class DefaultContractResolver : IContractResolver
         return serializableMembers;
     }
 
-    private bool ShouldSerializeEntityMember(MemberInfo memberInfo)
+    bool ShouldSerializeEntityMember(MemberInfo memberInfo)
     {
         if (memberInfo is PropertyInfo propertyInfo)
         {
@@ -369,12 +369,12 @@ public class DefaultContractResolver : IContractResolver
         return contract;
     }
 
-    private static void ThrowUnableToSerializeError(object o, StreamingContext context)
+    static void ThrowUnableToSerializeError(object o, StreamingContext context)
     {
         throw new JsonSerializationException("Unable to serialize instance of '{0}'.".FormatWith(CultureInfo.InvariantCulture, o.GetType()));
     }
 
-    private MemberInfo GetExtensionDataMemberForType(Type type)
+    MemberInfo GetExtensionDataMemberForType(Type type)
     {
         var members = GetClassHierarchyForType(type).SelectMany(baseType =>
         {
@@ -423,7 +423,7 @@ public class DefaultContractResolver : IContractResolver
         return extensionDataMember;
     }
 
-    private static void SetExtensionDataDelegates(JsonObjectContract contract, MemberInfo member)
+    static void SetExtensionDataDelegates(JsonObjectContract contract, MemberInfo member)
     {
         var extensionDataAttribute = ReflectionUtils.GetAttribute<JsonExtensionDataAttribute>(member);
         if (extensionDataAttribute == null)
@@ -515,7 +515,7 @@ public class DefaultContractResolver : IContractResolver
     // will be always return as an interface and boxed
     internal class EnumerableDictionaryWrapper<TEnumeratorKey, TEnumeratorValue> : IEnumerable<KeyValuePair<object, object>>
     {
-        private readonly IEnumerable<KeyValuePair<TEnumeratorKey, TEnumeratorValue>> _e;
+        readonly IEnumerable<KeyValuePair<TEnumeratorKey, TEnumeratorValue>> _e;
 
         public EnumerableDictionaryWrapper(IEnumerable<KeyValuePair<TEnumeratorKey, TEnumeratorValue>> e)
         {
@@ -537,7 +537,7 @@ public class DefaultContractResolver : IContractResolver
         }
     }
 
-    private ConstructorInfo? GetAttributeConstructor(Type objectType)
+    ConstructorInfo? GetAttributeConstructor(Type objectType)
     {
         IEnumerator<ConstructorInfo> en = objectType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Where(c => c.IsDefined(typeof(JsonConstructorAttribute), true)).GetEnumerator();
 
@@ -561,7 +561,7 @@ public class DefaultContractResolver : IContractResolver
         return null;
     }
 
-    private ConstructorInfo? GetImmutableConstructor(Type objectType, JsonPropertyCollection memberProperties)
+    ConstructorInfo? GetImmutableConstructor(Type objectType, JsonPropertyCollection memberProperties)
     {
         IEnumerable<ConstructorInfo> constructors = objectType.GetConstructors();
         var en = constructors.GetEnumerator();
@@ -590,7 +590,7 @@ public class DefaultContractResolver : IContractResolver
         return null;
     }
 
-    private ConstructorInfo? GetParameterizedConstructor(Type objectType)
+    ConstructorInfo? GetParameterizedConstructor(Type objectType)
     {
         ConstructorInfo[] constructors = objectType.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
         if (constructors.Length == 1)
@@ -637,7 +637,7 @@ public class DefaultContractResolver : IContractResolver
         return parameterCollection;
     }
 
-    private JsonProperty? MatchProperty(JsonPropertyCollection properties, string name, Type type)
+    JsonProperty? MatchProperty(JsonPropertyCollection properties, string name, Type type)
     {
         // it is possible to generate a member with a null name using Reflection.Emit
         // protect against an ArgumentNullException from GetClosestMatchProperty by testing for null here
@@ -708,12 +708,12 @@ public class DefaultContractResolver : IContractResolver
         return JsonTypeReflector.GetJsonConverter(objectType);
     }
 
-    private Func<object> GetDefaultCreator(Type createdType)
+    Func<object> GetDefaultCreator(Type createdType)
     {
         return JsonTypeReflector.ReflectionDelegateFactory.CreateDefaultConstructor<object>(createdType);
     }
 
-    private void InitializeContract(JsonContract contract)
+    void InitializeContract(JsonContract contract)
     {
         var containerAttribute = JsonTypeReflector.GetCachedAttribute<JsonContainerAttribute>(contract.NonNullableUnderlyingType);
         if (containerAttribute != null)
@@ -747,7 +747,7 @@ public class DefaultContractResolver : IContractResolver
         ResolveCallbackMethods(contract, contract.NonNullableUnderlyingType);
     }
 
-    private void ResolveCallbackMethods(JsonContract contract, Type t)
+    void ResolveCallbackMethods(JsonContract contract, Type t)
     {
         GetCallbackMethodsForType(
             t,
@@ -783,7 +783,7 @@ public class DefaultContractResolver : IContractResolver
         }
     }
 
-    private void GetCallbackMethodsForType(Type type, out List<SerializationCallback>? onSerializing, out List<SerializationCallback>? onSerialized, out List<SerializationCallback>? onDeserializing, out List<SerializationCallback>? onDeserialized, out List<SerializationErrorCallback>? onError)
+    void GetCallbackMethodsForType(Type type, out List<SerializationCallback>? onSerializing, out List<SerializationCallback>? onSerialized, out List<SerializationCallback>? onDeserializing, out List<SerializationCallback>? onDeserialized, out List<SerializationErrorCallback>? onError)
     {
         onSerializing = null;
         onSerialized = null;
@@ -849,7 +849,7 @@ public class DefaultContractResolver : IContractResolver
         }
     }
 
-    private static bool IsConcurrentOrObservableCollection(Type t)
+    static bool IsConcurrentOrObservableCollection(Type t)
     {
         if (t.IsGenericType)
         {
@@ -869,7 +869,7 @@ public class DefaultContractResolver : IContractResolver
         return false;
     }
 
-    private static bool ShouldSkipDeserialized(Type t)
+    static bool ShouldSkipDeserialized(Type t)
     {
         // ConcurrentDictionary throws an error in its OnDeserialized so ignore - http://json.codeplex.com/discussions/257093
         if (IsConcurrentOrObservableCollection(t))
@@ -885,7 +885,7 @@ public class DefaultContractResolver : IContractResolver
         return false;
     }
 
-    private static bool ShouldSkipSerializing(Type t)
+    static bool ShouldSkipSerializing(Type t)
     {
         if (IsConcurrentOrObservableCollection(t))
         {
@@ -900,7 +900,7 @@ public class DefaultContractResolver : IContractResolver
         return false;
     }
 
-    private List<Type> GetClassHierarchyForType(Type type)
+    List<Type> GetClassHierarchyForType(Type type)
     {
         var ret = new List<Type>();
 
@@ -1195,7 +1195,7 @@ public class DefaultContractResolver : IContractResolver
         return false;
     }
 
-    private static bool IsValidCallback(MethodInfo method, ParameterInfo[] parameters, Type attributeType, MethodInfo? currentCallback, ref Type? prevAttributeType)
+    static bool IsValidCallback(MethodInfo method, ParameterInfo[] parameters, Type attributeType, MethodInfo? currentCallback, ref Type? prevAttributeType)
     {
         if (!method.IsDefined(attributeType, false))
         {
@@ -1364,7 +1364,7 @@ public class DefaultContractResolver : IContractResolver
         return property;
     }
 
-    private void SetPropertySettingsFromAttributes(JsonProperty property, object attributeProvider, string name, Type declaringType, MemberSerialization memberSerialization, out bool allowNonPublicAccess)
+    void SetPropertySettingsFromAttributes(JsonProperty property, object attributeProvider, string name, Type declaringType, MemberSerialization memberSerialization, out bool allowNonPublicAccess)
     {
         var dataContractAttribute = JsonTypeReflector.GetDataContractAttribute(declaringType);
 
@@ -1523,7 +1523,7 @@ public class DefaultContractResolver : IContractResolver
         }
     }
 
-    private Predicate<object>? CreateShouldSerializeTest(MemberInfo member)
+    Predicate<object>? CreateShouldSerializeTest(MemberInfo member)
     {
         var shouldSerializeMethod = member.DeclaringType.GetMethod(JsonTypeReflector.ShouldSerializePrefix + member.Name, Type.EmptyTypes);
 
@@ -1538,7 +1538,7 @@ public class DefaultContractResolver : IContractResolver
         return o => (bool)shouldSerializeCall(o)!;
     }
 
-    private void SetIsSpecifiedActions(JsonProperty property, MemberInfo member, bool allowNonPublicAccess)
+    void SetIsSpecifiedActions(JsonProperty property, MemberInfo member, bool allowNonPublicAccess)
     {
         MemberInfo? specifiedMember = member.DeclaringType.GetProperty(member.Name + JsonTypeReflector.SpecifiedPostfix, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
         if (specifiedMember == null)

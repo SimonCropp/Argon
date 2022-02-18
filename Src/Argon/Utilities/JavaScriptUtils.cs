@@ -65,7 +65,7 @@ internal static class JavaScriptUtils
     internal static readonly bool[] DoubleQuoteCharEscapeFlags = new bool[128];
     internal static readonly bool[] HtmlCharEscapeFlags = new bool[128];
 
-    private const int UnicodeTextLength = 6;
+    const int UnicodeTextLength = 6;
 
     static JavaScriptUtils()
     {
@@ -92,7 +92,7 @@ internal static class JavaScriptUtils
         }
     }
 
-    private const string EscapedUnicodeText = "!";
+    const string EscapedUnicodeText = "!";
 
     public static bool[] GetCharEscapeFlags(StringEscapeHandling stringEscapeHandling, char quoteChar)
     {
@@ -313,7 +313,7 @@ internal static class JavaScriptUtils
         }
     }
         
-    private static int FirstCharToEscape(string s, bool[] charEscapeFlags, StringEscapeHandling stringEscapeHandling)
+    static int FirstCharToEscape(string s, bool[] charEscapeFlags, StringEscapeHandling stringEscapeHandling)
     {
         for (var i = 0; i != s.Length; i++)
         {
@@ -365,7 +365,7 @@ internal static class JavaScriptUtils
         return WriteEscapedJavaScriptStringWithoutDelimitersAsync(writer, s, charEscapeFlags, stringEscapeHandling, client, writeBuffer, cancellationToken);
     }
 
-    private static Task WriteEscapedJavaScriptStringWithDelimitersAsync(TextWriter writer, string s, char delimiter,
+    static Task WriteEscapedJavaScriptStringWithDelimitersAsync(TextWriter writer, string s, char delimiter,
         bool[] charEscapeFlags, StringEscapeHandling stringEscapeHandling, JsonTextWriter client, char[] writeBuffer, CancellationToken cancellationToken)
     {
         var task = writer.WriteAsync(delimiter, cancellationToken);
@@ -387,7 +387,7 @@ internal static class JavaScriptUtils
             
     }
 
-    private static async Task WriteEscapedJavaScriptStringWithDelimitersAsync(Task task, TextWriter writer, string s, char delimiter,
+    static async Task WriteEscapedJavaScriptStringWithDelimitersAsync(Task task, TextWriter writer, string s, char delimiter,
         bool[] charEscapeFlags, StringEscapeHandling stringEscapeHandling, JsonTextWriter client, char[] writeBuffer, CancellationToken cancellationToken)
     {
         await task.ConfigureAwait(false);
@@ -406,7 +406,7 @@ internal static class JavaScriptUtils
         await writer.WriteAsync(c, cancellationToken).ConfigureAwait(false);
     }
 
-    private static Task WriteEscapedJavaScriptStringWithoutDelimitersAsync(
+    static Task WriteEscapedJavaScriptStringWithoutDelimitersAsync(
         TextWriter writer, string s, bool[] charEscapeFlags, StringEscapeHandling stringEscapeHandling,
         JsonTextWriter client, char[] writeBuffer, CancellationToken cancellationToken)
     {
@@ -416,7 +416,7 @@ internal static class JavaScriptUtils
             : WriteDefinitelyEscapedJavaScriptStringWithoutDelimitersAsync(writer, s, i, charEscapeFlags, stringEscapeHandling, client, writeBuffer, cancellationToken);
     }
 
-    private static async Task WriteDefinitelyEscapedJavaScriptStringWithoutDelimitersAsync(
+    static async Task WriteDefinitelyEscapedJavaScriptStringWithoutDelimitersAsync(
         TextWriter writer, string s, int lastWritePosition, bool[] charEscapeFlags,
         StringEscapeHandling stringEscapeHandling, JsonTextWriter client, char[] writeBuffer,
         CancellationToken cancellationToken)
@@ -611,7 +611,7 @@ internal static class JavaScriptUtils
         return true;
     }
 
-    private static bool TryGetDateConstructorValue(JsonReader reader, out long? integer, [NotNullWhen(false)] out string? errorMessage)
+    static bool TryGetDateConstructorValue(JsonReader reader, out long? integer, [NotNullWhen(false)] out string? errorMessage)
     {
         integer = null;
         errorMessage = null;

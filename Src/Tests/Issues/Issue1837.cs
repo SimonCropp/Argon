@@ -85,11 +85,11 @@ public class Issue1837
     public delegate bool Comparator(JValue lhs, JValue rhs);
 
     // there was going to be an abstractEquality, but check the exception for it's implementation for why that's skipped for now
-    private readonly Comparator StrictEquality = BooleanQueryExpression.EqualsWithStrictMatch;
+    readonly Comparator StrictEquality = BooleanQueryExpression.EqualsWithStrictMatch;
  
     // a bunch of convenience methods for the test belwo
     // these make sure the comparator returns false for all do not wants
-    private void AssertNone(Comparator comparator, JValue token, params JValue[][] doNotWant)
+    void AssertNone(Comparator comparator, JValue token, params JValue[][] doNotWant)
     {
         foreach (var group in doNotWant)
         {
@@ -97,7 +97,7 @@ public class Issue1837
         }
     }
 
-    private void AssertNone(Comparator comparator, JValue token, params JValue[] doNotWant)
+    void AssertNone(Comparator comparator, JValue token, params JValue[] doNotWant)
     {
         foreach (var item in doNotWant)
         {
@@ -106,7 +106,7 @@ public class Issue1837
     }
 
     // these make sure the comparator returns true for all do not wants
-    private void AssertAll(Comparator comparator, JValue token, params JValue[][] want)
+    void AssertAll(Comparator comparator, JValue token, params JValue[][] want)
     {
         foreach (var group in want)
         {
@@ -114,7 +114,7 @@ public class Issue1837
         }
     }
 
-    private void AssertAll(Comparator comparator, JValue token, params JValue[] want)
+    void AssertAll(Comparator comparator, JValue token, params JValue[] want)
     {
         foreach (var item in want)
         {

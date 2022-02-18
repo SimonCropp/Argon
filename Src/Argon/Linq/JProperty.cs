@@ -31,7 +31,7 @@ namespace Argon.Linq;
 public partial class JProperty : JContainer
 {
     #region JPropertyList
-    private class JPropertyList : IList<JToken>
+    class JPropertyList : IList<JToken>
     {
         internal JToken? _token;
 
@@ -131,7 +131,7 @@ public partial class JProperty : JContainer
     }
     #endregion
 
-    private readonly JPropertyList _content = new();
+    readonly JPropertyList _content = new();
 
     /// <summary>
     /// Gets the container's children tokens.

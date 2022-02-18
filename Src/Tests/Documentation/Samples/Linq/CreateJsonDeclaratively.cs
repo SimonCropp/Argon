@@ -27,7 +27,6 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-
 namespace Argon.Tests.Documentation.Samples.Linq;
 
 [TestFixture]
@@ -43,7 +42,7 @@ public class CreateJsonDeclaratively : TestFixtureBase
     }
     #endregion
 
-    private List<Post> GetPosts()
+    List<Post> GetPosts()
     {
         return new List<Post>
         {

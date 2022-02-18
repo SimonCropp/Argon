@@ -283,7 +283,7 @@ public class DataSetConverterTests : TestFixtureBase
         Assert.AreEqual(1, ds.Tables[1].Rows.Count);
     }
 
-    private DataTable CreateDataTable(string dataTableName, int rows)
+    DataTable CreateDataTable(string dataTableName, int rows)
     {
         // create a new DataTable.
         var myTable = new DataTable(dataTableName);
@@ -551,7 +551,7 @@ public class DataSetConverterTests : TestFixtureBase
 }", json);
     }
 
-    private static DataTable CreateDataTable(int cols, string colNamePrefix)
+    static DataTable CreateDataTable(int cols, string colNamePrefix)
     {
         var table = new DataTable();
         for (var i = 1; i <= cols; i++)

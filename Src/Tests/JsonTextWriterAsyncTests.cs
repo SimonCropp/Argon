@@ -81,7 +81,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             return DoDelay(base.WriteLineAsync(value));
         }
 
-        private async Task DoDelay(Task t)
+        async Task DoDelay(Task t)
         {
             await Task.Delay(TimeSpan.FromSeconds(0.01));
             await t;
@@ -1492,9 +1492,9 @@ _____'propertyName': NaN,
         } while (c != char.MaxValue);
     }
 
-    private const string EscapedUnicodeText = "!";
+    const string EscapedUnicodeText = "!";
 
-    private static void WriteEscapedJavaScriptStringOld(TextWriter writer, string s, char delimiter, bool appendDelimiters)
+    static void WriteEscapedJavaScriptStringOld(TextWriter writer, string s, char delimiter, bool appendDelimiters)
     {
         // leading delimiter
         if (appendDelimiters)
@@ -1791,14 +1791,14 @@ null//comment
         Assert.IsTrue(writer.WriteWhitespaceAsync(" ", token).IsCanceled);
     }
 
-    private class NoOverridesDerivedJsonTextWriter : JsonTextWriter
+    class NoOverridesDerivedJsonTextWriter : JsonTextWriter
     {
         public NoOverridesDerivedJsonTextWriter(TextWriter textWriter) : base(textWriter)
         {
         }
     }
 
-    private class MinimalOverridesDerivedJsonWriter : JsonWriter
+    class MinimalOverridesDerivedJsonWriter : JsonWriter
     {
         public override void Flush()
         {
@@ -1964,7 +1964,7 @@ null//comment
     {
         // allergic to certain characters, this null-stream writer throws on any attempt to write them.
 
-        private char[] _singleCharBuffer = new char[1];
+        char[] _singleCharBuffer = new char[1];
 
         public ThrowingWriter(params char[] throwChars)
         {

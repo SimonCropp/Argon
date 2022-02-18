@@ -30,8 +30,8 @@ using Argon;
 [Obsolete("JSON Schema validation has been moved to its own package. See https://www.newtonsoft.com/jsonschema for more details.")]
 class JsonSchemaWriter
 {
-    private readonly JsonWriter _writer;
-    private readonly JsonSchemaResolver _resolver;
+    readonly JsonWriter _writer;
+    readonly JsonSchemaResolver _resolver;
 
     public JsonSchemaWriter(JsonWriter writer, JsonSchemaResolver resolver)
     {
@@ -40,7 +40,7 @@ class JsonSchemaWriter
         _resolver = resolver;
     }
 
-    private void ReferenceOrWriteSchema(JsonSchema schema)
+    void ReferenceOrWriteSchema(JsonSchema schema)
     {
         if (schema.Id != null && _resolver.GetSchema(schema.Id) != null)
         {
@@ -155,7 +155,7 @@ class JsonSchemaWriter
         _writer.WriteEndObject();
     }
 
-    private void WriteSchemaDictionaryIfNotNull(JsonWriter writer, string propertyName, IDictionary<string, JsonSchema> properties)
+    void WriteSchemaDictionaryIfNotNull(JsonWriter writer, string propertyName, IDictionary<string, JsonSchema> properties)
     {
         if (properties != null)
         {
@@ -170,7 +170,7 @@ class JsonSchemaWriter
         }
     }
 
-    private void WriteItems(JsonSchema schema)
+    void WriteItems(JsonSchema schema)
     {
         if (schema.Items == null && !schema.PositionalItemsValidation)
         {
@@ -204,7 +204,7 @@ class JsonSchemaWriter
         _writer.WriteEndArray();
     }
 
-    private void WriteType(string propertyName, JsonWriter writer, JsonSchemaType type)
+    void WriteType(string propertyName, JsonWriter writer, JsonSchemaType type)
     {
         if (Enum.IsDefined(typeof(JsonSchemaType), type))
         {
@@ -236,7 +236,7 @@ class JsonSchemaWriter
         }
     }
 
-    private void WritePropertyIfNotNull(JsonWriter writer, string propertyName, object value)
+    void WritePropertyIfNotNull(JsonWriter writer, string propertyName, object value)
     {
         if (value != null)
         {

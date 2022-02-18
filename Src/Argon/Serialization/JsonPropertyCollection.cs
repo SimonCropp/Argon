@@ -32,8 +32,8 @@ namespace Argon.Serialization;
 /// </summary>
 public class JsonPropertyCollection : KeyedCollection<string, JsonProperty>
 {
-    private readonly Type _type;
-    private readonly List<JsonProperty> _list;
+    readonly Type _type;
+    readonly List<JsonProperty> _list;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonPropertyCollection"/> class.
@@ -137,7 +137,7 @@ public class JsonPropertyCollection : KeyedCollection<string, JsonProperty>
         return property;
     }
 
-    private bool TryGetValue(string key, [NotNullWhen(true)]out JsonProperty? item)
+    bool TryGetValue(string key, [NotNullWhen(true)]out JsonProperty? item)
     {
         if (Dictionary == null)
         {

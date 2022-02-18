@@ -28,16 +28,15 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-
 namespace Argon.Tests.Documentation.Samples.Json;
 
 #region Types
 public class XmlJsonReader : JsonReader
 {
-    private readonly Stack<JTokenType> _stateStack;
-    private readonly XmlReader _reader;
+    readonly Stack<JTokenType> _stateStack;
+    readonly XmlReader _reader;
 
-    private JTokenType? _valueType;
+    JTokenType? _valueType;
 
     public XmlJsonReader(XmlReader reader)
     {
@@ -45,7 +44,7 @@ public class XmlJsonReader : JsonReader
         _stateStack = new Stack<JTokenType>();
     }
 
-    private JTokenType PeekState()
+    JTokenType PeekState()
     {
         var current = _stateStack.Count > 0 ? _stateStack.Peek() : JTokenType.None;
         return current;
@@ -160,7 +159,7 @@ public class XmlJsonReader : JsonReader
         return false;
     }
 
-    private bool HandleValueType()
+    bool HandleValueType()
     {
         switch (_valueType)
         {

@@ -44,22 +44,22 @@ enum ReadType
 /// </summary>
 public partial class JsonTextReader : JsonReader, IJsonLineInfo
 {
-    private const char UnicodeReplacementChar = '\uFFFD';
-    private const int MaximumJavascriptIntegerCharacterLength = 380;
+    const char UnicodeReplacementChar = '\uFFFD';
+    const int MaximumJavascriptIntegerCharacterLength = 380;
 #if DEBUG
     internal int LargeBufferLength { get; set; } = int.MaxValue / 2;
 #else
-        private const int LargeBufferLength = int.MaxValue / 2;
+    const int LargeBufferLength = int.MaxValue / 2;
 #endif
 
-    private readonly TextReader _reader;
-    private int _charsUsed;
-    private int _lineStartPos;
-    private int _lineNumber;
-    private bool _isEndOfFile;
-    private StringBuffer _stringBuffer;
-    private StringReference _stringReference;
-    private IArrayPool<char>? _arrayPool;
+    readonly TextReader _reader;
+    int _charsUsed;
+    int _lineStartPos;
+    int _lineNumber;
+    bool _isEndOfFile;
+    StringBuffer _stringBuffer;
+    StringReference _stringReference;
+    IArrayPool<char>? _arrayPool;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonTextReader"/> class with the specified <see cref="TextReader"/>.
@@ -106,7 +106,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private void EnsureBufferNotEmpty()
+    void EnsureBufferNotEmpty()
     {
         if (_stringBuffer.IsEmpty)
         {
@@ -114,7 +114,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private void SetNewLine(bool hasNextChar)
+    void SetNewLine(bool hasNextChar)
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -126,13 +126,13 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         OnNewLine(CharPos);
     }
 
-    private void OnNewLine(int pos)
+    void OnNewLine(int pos)
     {
         _lineNumber++;
         _lineStartPos = pos;
     }
 
-    private void ParseString(char quote, ReadType readType)
+    void ParseString(char quote, ReadType readType)
     {
         CharPos++;
 
@@ -141,7 +141,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         ParseReadString(quote, readType);
     }
 
-    private void ParseReadString(char quote, ReadType readType)
+    void ParseReadString(char quote, ReadType readType)
     { 
         SetPostValueState(true);
 
@@ -216,14 +216,14 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private static void BlockCopyChars(char[] src, int srcOffset, char[] dst, int dstOffset, int count)
+    static void BlockCopyChars(char[] src, int srcOffset, char[] dst, int dstOffset, int count)
     {
         const int charByteCount = 2;
 
         Buffer.BlockCopy(src, srcOffset * charByteCount, dst, dstOffset * charByteCount, count * charByteCount);
     }
 
-    private void ShiftBufferIfNeeded()
+    void ShiftBufferIfNeeded()
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -246,12 +246,12 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private int ReadData(bool append)
+    int ReadData(bool append)
     {
         return ReadData(append, 0);
     }
 
-    private void PrepareBufferForReadData(bool append, int charsRequired)
+    void PrepareBufferForReadData(bool append, int charsRequired)
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -310,7 +310,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private int ReadData(bool append, int charsRequired)
+    int ReadData(bool append, int charsRequired)
     {
         if (_isEndOfFile)
         {
@@ -335,7 +335,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         return charsRead;
     }
 
-    private bool EnsureChars(int relativePosition, bool append)
+    bool EnsureChars(int relativePosition, bool append)
     {
         if (CharPos + relativePosition >= _charsUsed)
         {
@@ -345,7 +345,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         return true;
     }
 
-    private bool ReadChars(int relativePosition, bool append)
+    bool ReadChars(int relativePosition, bool append)
     {
         if (_isEndOfFile)
         {
@@ -573,7 +573,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private object? ReadStringValue(ReadType readType)
+    object? ReadStringValue(ReadType readType)
     {
         EnsureBuffer();
         MiscellaneousUtils.Assert(CharBuffer != null);
@@ -703,7 +703,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private object? FinishReadQuotedStringValue(ReadType readType)
+    object? FinishReadQuotedStringValue(ReadType readType)
     {
         switch (readType)
         {
@@ -729,7 +729,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private JsonReaderException CreateUnexpectedCharacterException(char c)
+    JsonReaderException CreateUnexpectedCharacterException(char c)
     {
         return JsonReaderException.Create(this, "Unexpected character encountered while parsing value: {0}.".FormatWith(CultureInfo.InvariantCulture, c));
     }
@@ -857,7 +857,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private void ProcessValueComma()
+    void ProcessValueComma()
     {
         CharPos++;
 
@@ -874,7 +874,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         SetStateBasedOnCurrent();
     }
 
-    private object? ReadNumberValue(ReadType readType)
+    object? ReadNumberValue(ReadType readType)
     {
         EnsureBuffer();
         MiscellaneousUtils.Assert(CharBuffer != null);
@@ -985,7 +985,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private object? FinishReadQuotedNumber(ReadType readType)
+    object? FinishReadQuotedNumber(ReadType readType)
     {
         switch (readType)
         {
@@ -1027,7 +1027,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         return (double?)ReadNumberValue(ReadType.ReadAsDouble);
     }
 
-    private void HandleNull()
+    void HandleNull()
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -1049,7 +1049,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         throw CreateUnexpectedEndException();
     }
 
-    private void ReadFinished()
+    void ReadFinished()
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -1073,7 +1073,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         SetToken(JsonToken.None);
     }
 
-    private bool ReadNullChar()
+    bool ReadNullChar()
     {
         if (_charsUsed == CharPos)
         {
@@ -1091,7 +1091,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         return false;
     }
 
-    private void EnsureBuffer()
+    void EnsureBuffer()
     {
         if (CharBuffer == null)
         {
@@ -1100,7 +1100,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private void ReadStringIntoBuffer(char quote)
+    void ReadStringIntoBuffer(char quote)
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -1255,7 +1255,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private void FinishReadStringIntoBuffer(int charPos, int initialPosition, int lastWritePosition)
+    void FinishReadStringIntoBuffer(int charPos, int initialPosition, int lastWritePosition)
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -1278,7 +1278,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         CharPos = charPos + 1;
     }
 
-    private void WriteCharToBuffer(char writeChar, int lastWritePosition, int writeToPosition)
+    void WriteCharToBuffer(char writeChar, int lastWritePosition, int writeToPosition)
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -1290,7 +1290,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         _stringBuffer.Append(_arrayPool, writeChar);
     }
 
-    private char ConvertUnicode(bool enoughChars)
+    char ConvertUnicode(bool enoughChars)
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -1313,12 +1313,12 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private char ParseUnicode()
+    char ParseUnicode()
     {
         return ConvertUnicode(EnsureChars(4, true));
     }
 
-    private void ReadNumberIntoBuffer()
+    void ReadNumberIntoBuffer()
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -1354,7 +1354,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private bool ReadNumberCharIntoBuffer(char currentChar, int charPos)
+    bool ReadNumberCharIntoBuffer(char currentChar, int charPos)
     {
         switch (currentChar)
         {
@@ -1398,13 +1398,13 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private void ClearRecentString()
+    void ClearRecentString()
     {
         _stringBuffer.Position = 0;
         _stringReference = new StringReference();
     }
 
-    private bool ParsePostValue(bool ignoreComments)
+    bool ParsePostValue(bool ignoreComments)
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -1486,7 +1486,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private bool ParseObject()
+    bool ParseObject()
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -1542,7 +1542,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private bool ParseProperty()
+    bool ParseProperty()
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -1600,12 +1600,12 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         return true;
     }
 
-    private bool ValidIdentifierChar(char value)
+    bool ValidIdentifierChar(char value)
     {
         return char.IsLetterOrDigit(value) || value == '_' || value == '$';
     }
 
-    private void ParseUnquotedProperty()
+    void ParseUnquotedProperty()
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -1638,7 +1638,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private bool ReadUnquotedPropertyReportIfDone(char currentChar, int initialPosition)
+    bool ReadUnquotedPropertyReportIfDone(char currentChar, int initialPosition)
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -1657,7 +1657,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         throw JsonReaderException.Create(this, "Invalid JavaScript property identifier character: {0}.".FormatWith(CultureInfo.InvariantCulture, currentChar));
     }
 
-    private bool ParseValue()
+    bool ParseValue()
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -1786,20 +1786,20 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private void ProcessLineFeed()
+    void ProcessLineFeed()
     {
         CharPos++;
         OnNewLine(CharPos);
     }
 
-    private void ProcessCarriageReturn(bool append)
+    void ProcessCarriageReturn(bool append)
     {
         CharPos++;
 
         SetNewLine(EnsureChars(1, append));
     }
 
-    private void EatWhitespace()
+    void EatWhitespace()
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -1842,7 +1842,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private void ParseConstructor()
+    void ParseConstructor()
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -1927,7 +1927,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private void ParseNumber(ReadType readType)
+    void ParseNumber(ReadType readType)
     {
         ShiftBufferIfNeeded();
         MiscellaneousUtils.Assert(CharBuffer != null);
@@ -1940,7 +1940,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         ParseReadNumber(readType, firstChar, initialPosition);
     }
 
-    private void ParseReadNumber(ReadType readType, char firstChar, int initialPosition)
+    void ParseReadNumber(ReadType readType, char firstChar, int initialPosition)
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -2200,7 +2200,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         SetToken(numberType, numberValue, false);
     }
 
-    private JsonReaderException ThrowReaderError(string message, Exception? ex = null)
+    JsonReaderException ThrowReaderError(string message, Exception? ex = null)
     {
         SetToken(JsonToken.Undefined, null, false);
         return JsonReaderException.Create(this, message, ex);
@@ -2211,12 +2211,12 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     // the System.Numerics.BigInteger.Parse method is
     // missing, which happens in some versions of Mono
     [MethodImpl(MethodImplOptions.NoInlining)]
-    private static object BigIntegerParse(string number, CultureInfo culture)
+    static object BigIntegerParse(string number, CultureInfo culture)
     {
         return BigInteger.Parse(number, culture);
     }
 
-    private void ParseComment(bool setToken)
+    void ParseComment(bool setToken)
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -2310,7 +2310,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private void EndComment(bool setToken, int initialPosition, int endPosition)
+    void EndComment(bool setToken, int initialPosition, int endPosition)
     {
         if (setToken)
         {
@@ -2318,12 +2318,12 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private bool MatchValue(string value)
+    bool MatchValue(string value)
     {
         return MatchValue(EnsureChars(value.Length - 1, true), value);
     }
 
-    private bool MatchValue(bool enoughChars, string value)
+    bool MatchValue(bool enoughChars, string value)
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -2347,7 +2347,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         return true;
     }
 
-    private bool MatchValueWithTrailingSeparator(string value)
+    bool MatchValueWithTrailingSeparator(string value)
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -2367,7 +2367,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         return IsSeparator(CharBuffer[CharPos]) || CharBuffer[CharPos] == '\0';
     }
 
-    private bool IsSeparator(char c)
+    bool IsSeparator(char c)
     {
         MiscellaneousUtils.Assert(CharBuffer != null);
 
@@ -2409,7 +2409,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         return false;
     }
 
-    private void ParseTrue()
+    void ParseTrue()
     {
         // check characters equal 'true'
         // and that it is followed by either a separator character
@@ -2424,7 +2424,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private void ParseNull()
+    void ParseNull()
     {
         if (MatchValueWithTrailingSeparator(JsonConvert.Null))
         {
@@ -2436,7 +2436,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private void ParseUndefined()
+    void ParseUndefined()
     {
         if (MatchValueWithTrailingSeparator(JsonConvert.Undefined))
         {
@@ -2448,7 +2448,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private void ParseFalse()
+    void ParseFalse()
     {
         if (MatchValueWithTrailingSeparator(JsonConvert.False))
         {
@@ -2460,12 +2460,12 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private object ParseNumberNegativeInfinity(ReadType readType)
+    object ParseNumberNegativeInfinity(ReadType readType)
     {
         return ParseNumberNegativeInfinity(readType, MatchValueWithTrailingSeparator(JsonConvert.NegativeInfinity));
     }
 
-    private object ParseNumberNegativeInfinity(ReadType readType, bool matched)
+    object ParseNumberNegativeInfinity(ReadType readType, bool matched)
     {
         if (matched)
         {
@@ -2490,11 +2490,11 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         throw JsonReaderException.Create(this, "Error parsing -Infinity value.");
     }
 
-    private object ParseNumberPositiveInfinity(ReadType readType)
+    object ParseNumberPositiveInfinity(ReadType readType)
     {
         return ParseNumberPositiveInfinity(readType, MatchValueWithTrailingSeparator(JsonConvert.PositiveInfinity));
     }
-    private object ParseNumberPositiveInfinity(ReadType readType, bool matched)
+    object ParseNumberPositiveInfinity(ReadType readType, bool matched)
     {
         if (matched)
         {
@@ -2519,12 +2519,12 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         throw JsonReaderException.Create(this, "Error parsing Infinity value.");
     }
 
-    private object ParseNumberNaN(ReadType readType)
+    object ParseNumberNaN(ReadType readType)
     {
         return ParseNumberNaN(readType, MatchValueWithTrailingSeparator(JsonConvert.NaN));
     }
 
-    private object ParseNumberNaN(ReadType readType, bool matched)
+    object ParseNumberNaN(ReadType readType, bool matched)
     {
         if (matched)
         {

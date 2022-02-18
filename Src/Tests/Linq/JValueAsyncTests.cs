@@ -50,7 +50,7 @@ public class JValueAsyncTests : TestFixtureBase
         public decimal Compoundings { get; set; }
     }
 
-    private readonly Rate _rate = new() { Compoundings = 12.166666666666666666666666667m };
+    readonly Rate _rate = new() { Compoundings = 12.166666666666666666666666667m };
 
 
     [Fact]

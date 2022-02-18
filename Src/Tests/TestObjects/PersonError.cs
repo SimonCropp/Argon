@@ -27,7 +27,7 @@ namespace Argon.Tests.TestObjects;
 
 public class PersonError
 {
-    private List<string> _roles;
+    List<string> _roles;
 
     public string Name { get; set; }
     public int Age { get; set; }

@@ -27,7 +27,7 @@ using System.Linq.Expressions;
 
 class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
 {
-    private static readonly ExpressionReflectionDelegateFactory _instance = new();
+    static readonly ExpressionReflectionDelegateFactory _instance = new();
 
     internal static ReflectionDelegateFactory Instance => _instance;
 
@@ -64,7 +64,7 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
         return compiled;
     }
 
-    private class ByRefParameter
+    class ByRefParameter
     {
         public Expression Value;
         public ParameterExpression Variable;
@@ -78,7 +78,7 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
         }
     }
 
-    private Expression BuildMethodCall(MethodBase method, Type type, ParameterExpression? targetParameterExpression, ParameterExpression argsParameterExpression)
+    Expression BuildMethodCall(MethodBase method, Type type, ParameterExpression? targetParameterExpression, ParameterExpression argsParameterExpression)
     {
         ParameterInfo[] parametersInfo = method.GetParameters();
 
@@ -346,7 +346,7 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
         return compiled;
     }
         
-    private Expression EnsureCastExpression(Expression expression, Type targetType, bool allowWidening = false)
+    Expression EnsureCastExpression(Expression expression, Type targetType, bool allowWidening = false)
     {
         var expressionType = expression.Type;
             

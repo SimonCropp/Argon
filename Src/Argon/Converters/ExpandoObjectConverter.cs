@@ -57,7 +57,7 @@ public class ExpandoObjectConverter : JsonConverter
         return ReadValue(reader);
     }
 
-    private object? ReadValue(JsonReader reader)
+    object? ReadValue(JsonReader reader)
     {
         if (!reader.MoveToContent())
         {
@@ -80,7 +80,7 @@ public class ExpandoObjectConverter : JsonConverter
         }
     }
 
-    private object ReadList(JsonReader reader)
+    object ReadList(JsonReader reader)
     {
         IList<object?> list = new List<object?>();
 
@@ -103,7 +103,7 @@ public class ExpandoObjectConverter : JsonConverter
         throw JsonSerializationException.Create(reader, "Unexpected end when reading ExpandoObject.");
     }
 
-    private object ReadObject(JsonReader reader)
+    object ReadObject(JsonReader reader)
     {
         IDictionary<string, object?> expandoObject = new ExpandoObject();
 
