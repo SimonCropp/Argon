@@ -75,23 +75,6 @@ public class ExceptionTests : TestFixtureBase
         Assert.Equal("Inner!", exception.InnerException.Message);
     }
 
-#pragma warning disable 618
-    [Fact]
-    public void JsonSchemaException()
-    {
-        var exception = new JsonSchemaException();
-        Assert.Equal("Exception of type 'Argon.Schema.JsonSchemaException' was thrown.", exception.Message);
-
-        exception = new JsonSchemaException("Message!");
-        Assert.Equal("Message!", exception.Message);
-        Assert.Equal(null, exception.InnerException);
-
-        exception = new JsonSchemaException("Message!", new Exception("Inner!"));
-        Assert.Equal("Message!", exception.Message);
-        Assert.Equal("Inner!", exception.InnerException.Message);
-    }
-#pragma warning restore 618
-
     [Fact]
     public void BinarySerializeException()
     {
