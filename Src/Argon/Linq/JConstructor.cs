@@ -30,7 +30,6 @@ namespace Argon.Linq;
 /// </summary>
 public partial class JConstructor : JContainer
 {
-    private string? _name;
     private readonly List<JToken> _values = new();
 
     /// <summary>
@@ -67,11 +66,7 @@ public partial class JConstructor : JContainer
     /// Gets or sets the name of this constructor.
     /// </summary>
     /// <value>The constructor name.</value>
-    public string? Name
-    {
-        get => _name;
-        set => _name = value;
-    }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Gets the node type for this <see cref="JToken"/>.
@@ -93,7 +88,7 @@ public partial class JConstructor : JContainer
     public JConstructor(JConstructor other)
         : base(other)
     {
-        _name = other.Name;
+        Name = other.Name;
     }
 
     /// <summary>
@@ -133,12 +128,12 @@ public partial class JConstructor : JContainer
             throw new ArgumentException("Constructor name cannot be empty.", nameof(name));
         }
 
-        _name = name;
+        Name = name;
     }
 
     internal override bool DeepEquals(JToken node)
     {
-        return node is JConstructor c && _name == c.Name && ContentsEqual(c);
+        return node is JConstructor c && Name == c.Name && ContentsEqual(c);
     }
 
     internal override JToken CloneToken()
@@ -153,7 +148,7 @@ public partial class JConstructor : JContainer
     /// <param name="converters">A collection of <see cref="JsonConverter"/> which will be used when writing the token.</param>
     public override void WriteTo(JsonWriter writer, params JsonConverter[] converters)
     {
-        writer.WriteStartConstructor(_name!);
+        writer.WriteStartConstructor(Name!);
 
         var count = _values.Count;
         for (var i = 0; i < count; i++)
@@ -196,7 +191,7 @@ public partial class JConstructor : JContainer
 
     internal override int GetDeepHashCode()
     {
-        return (_name?.GetHashCode() ?? 0) ^ ContentsHashCode();
+        return (Name?.GetHashCode() ?? 0) ^ ContentsHashCode();
     }
 
     /// <summary>

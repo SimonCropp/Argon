@@ -36,7 +36,6 @@ public partial class JsonTextWriter : JsonWriter
     private char _indentChar;
     private int _indentation;
     private char _quoteChar;
-    private bool _quoteName;
     private bool[]? _charEscapeFlags;
     private char[]? _writeBuffer;
     private IArrayPool<char>? _arrayPool;
@@ -126,11 +125,7 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Gets or sets a value indicating whether object names will be surrounded with quotes.
     /// </summary>
-    public bool QuoteName
-    {
-        get => _quoteName;
-        set => _quoteName = value;
-    }
+    public bool QuoteName { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonTextWriter"/> class using the specified <see cref="TextWriter"/>.
@@ -145,7 +140,7 @@ public partial class JsonTextWriter : JsonWriter
 
         _writer = textWriter;
         _quoteChar = '"';
-        _quoteName = true;
+        QuoteName = true;
         _indentChar = ' ';
         _indentation = 2;
 
@@ -251,7 +246,7 @@ public partial class JsonTextWriter : JsonWriter
     {
         InternalWritePropertyName(name);
 
-        WriteEscapedString(name, _quoteName);
+        WriteEscapedString(name, QuoteName);
 
         _writer.Write(':');
     }
@@ -267,18 +262,18 @@ public partial class JsonTextWriter : JsonWriter
 
         if (escape)
         {
-            WriteEscapedString(name, _quoteName);
+            WriteEscapedString(name, QuoteName);
         }
         else
         {
-            if (_quoteName)
+            if (QuoteName)
             {
                 _writer.Write(_quoteChar);
             }
 
             _writer.Write(name);
 
-            if (_quoteName)
+            if (QuoteName)
             {
                 _writer.Write(_quoteChar);
             }

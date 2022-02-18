@@ -32,7 +32,6 @@ public class IsoDateTimeConverter : DateTimeConverterBase
 {
     private const string DefaultDateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK";
 
-    private DateTimeStyles _dateTimeStyles = DateTimeStyles.RoundtripKind;
     private string? _dateTimeFormat;
     private CultureInfo? _culture;
 
@@ -40,11 +39,7 @@ public class IsoDateTimeConverter : DateTimeConverterBase
     /// Gets or sets the date time styles used when converting a date to and from JSON.
     /// </summary>
     /// <value>The date time styles used when converting a date to and from JSON.</value>
-    public DateTimeStyles DateTimeStyles
-    {
-        get => _dateTimeStyles;
-        set => _dateTimeStyles = value;
-    }
+    public DateTimeStyles DateTimeStyles { get; set; } = DateTimeStyles.RoundtripKind;
 
     /// <summary>
     /// Gets or sets the date time format used when converting a date to and from JSON.
@@ -78,8 +73,8 @@ public class IsoDateTimeConverter : DateTimeConverterBase
 
         if (value is DateTime dateTime)
         {
-            if ((_dateTimeStyles & DateTimeStyles.AdjustToUniversal) == DateTimeStyles.AdjustToUniversal
-                || (_dateTimeStyles & DateTimeStyles.AssumeUniversal) == DateTimeStyles.AssumeUniversal)
+            if ((DateTimeStyles & DateTimeStyles.AdjustToUniversal) == DateTimeStyles.AdjustToUniversal
+                || (DateTimeStyles & DateTimeStyles.AssumeUniversal) == DateTimeStyles.AssumeUniversal)
             {
                 dateTime = dateTime.ToUniversalTime();
             }
@@ -88,8 +83,8 @@ public class IsoDateTimeConverter : DateTimeConverterBase
         }
         else if (value is DateTimeOffset dateTimeOffset)
         {
-            if ((_dateTimeStyles & DateTimeStyles.AdjustToUniversal) == DateTimeStyles.AdjustToUniversal
-                || (_dateTimeStyles & DateTimeStyles.AssumeUniversal) == DateTimeStyles.AssumeUniversal)
+            if ((DateTimeStyles & DateTimeStyles.AdjustToUniversal) == DateTimeStyles.AdjustToUniversal
+                || (DateTimeStyles & DateTimeStyles.AssumeUniversal) == DateTimeStyles.AssumeUniversal)
             {
                 dateTimeOffset = dateTimeOffset.ToUniversalTime();
             }
@@ -161,21 +156,21 @@ public class IsoDateTimeConverter : DateTimeConverterBase
         {
             if (!StringUtils.IsNullOrEmpty(_dateTimeFormat))
             {
-                return DateTimeOffset.ParseExact(dateText, _dateTimeFormat, Culture, _dateTimeStyles);
+                return DateTimeOffset.ParseExact(dateText, _dateTimeFormat, Culture, DateTimeStyles);
             }
             else
             {
-                return DateTimeOffset.Parse(dateText, Culture, _dateTimeStyles);
+                return DateTimeOffset.Parse(dateText, Culture, DateTimeStyles);
             }
         }
 
         if (!StringUtils.IsNullOrEmpty(_dateTimeFormat))
         {
-            return DateTime.ParseExact(dateText, _dateTimeFormat, Culture, _dateTimeStyles);
+            return DateTime.ParseExact(dateText, _dateTimeFormat, Culture, DateTimeStyles);
         }
         else
         {
-            return DateTime.Parse(dateText, Culture, _dateTimeStyles);
+            return DateTime.Parse(dateText, Culture, DateTimeStyles);
         }
     }
 }

@@ -25,28 +25,24 @@
 
 readonly struct StringReference
 {
-    private readonly char[] _chars;
-    private readonly int _startIndex;
-    private readonly int _length;
+    public char this[int i] => Chars[i];
 
-    public char this[int i] => _chars[i];
+    public char[] Chars { get; }
 
-    public char[] Chars => _chars;
+    public int StartIndex { get; }
 
-    public int StartIndex => _startIndex;
-
-    public int Length => _length;
+    public int Length { get; }
 
     public StringReference(char[] chars, int startIndex, int length)
     {
-        _chars = chars;
-        _startIndex = startIndex;
-        _length = length;
+        Chars = chars;
+        StartIndex = startIndex;
+        Length = length;
     }
 
     public override string ToString()
     {
-        return new string(_chars, _startIndex, _length);
+        return new string(Chars, StartIndex, Length);
     }
 }
 

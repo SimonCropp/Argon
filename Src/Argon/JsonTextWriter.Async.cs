@@ -313,7 +313,7 @@ public partial class JsonTextWriter
             return DoWritePropertyNameAsync(task, name, cancellationToken);
         }
 
-        task = WriteEscapedStringAsync(name, _quoteName, cancellationToken);
+        task = WriteEscapedStringAsync(name, QuoteName, cancellationToken);
         if (task.IsCompletedSucessfully())
         {
             return _writer.WriteAsync(':', cancellationToken);
@@ -326,7 +326,7 @@ public partial class JsonTextWriter
     {
         await task.ConfigureAwait(false);
 
-        await WriteEscapedStringAsync(name, _quoteName, cancellationToken).ConfigureAwait(false);
+        await WriteEscapedStringAsync(name, QuoteName, cancellationToken).ConfigureAwait(false);
 
         await _writer.WriteAsync(':').ConfigureAwait(false);
     }
@@ -351,18 +351,18 @@ public partial class JsonTextWriter
 
         if (escape)
         {
-            await WriteEscapedStringAsync(name, _quoteName, cancellationToken).ConfigureAwait(false);
+            await WriteEscapedStringAsync(name, QuoteName, cancellationToken).ConfigureAwait(false);
         }
         else
         {
-            if (_quoteName)
+            if (QuoteName)
             {
                 await _writer.WriteAsync(_quoteChar).ConfigureAwait(false);
             }
 
             await _writer.WriteAsync(name, cancellationToken).ConfigureAwait(false);
 
-            if (_quoteName)
+            if (QuoteName)
             {
                 await _writer.WriteAsync(_quoteChar).ConfigureAwait(false);
             }

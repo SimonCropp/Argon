@@ -211,7 +211,6 @@ public abstract partial class JsonWriter : IDisposable
     private DateTimeZoneHandling _dateTimeZoneHandling;
     private StringEscapeHandling _stringEscapeHandling;
     private FloatFormatHandling _floatFormatHandling;
-    private string? _dateFormatString;
     private CultureInfo? _culture;
 
     /// <summary>
@@ -310,11 +309,7 @@ public abstract partial class JsonWriter : IDisposable
     /// <summary>
     /// Gets or sets how <see cref="DateTime"/> and <see cref="DateTimeOffset"/> values are formatted when writing JSON text.
     /// </summary>
-    public string? DateFormatString
-    {
-        get => _dateFormatString;
-        set => _dateFormatString = value;
-    }
+    public string? DateFormatString { get; set; }
 
     /// <summary>
     /// Gets or sets the culture used when writing JSON. Defaults to <see cref="CultureInfo.InvariantCulture"/>.

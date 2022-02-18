@@ -33,10 +33,8 @@ namespace Argon.Serialization;
 /// </summary>
 public class DefaultContractResolver : IContractResolver
 {
-    private static readonly IContractResolver _instance = new DefaultContractResolver();
-
     // Json.NET Schema requires a property
-    internal static IContractResolver Instance => _instance;
+    internal static IContractResolver Instance { get; } = new DefaultContractResolver();
 
     private static readonly string[] BlacklistedTypeNames =
     {

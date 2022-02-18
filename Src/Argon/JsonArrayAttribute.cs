@@ -31,17 +31,11 @@ namespace Argon;
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]
 public sealed class JsonArrayAttribute : JsonContainerAttribute
 {
-    private bool _allowNullItems;
-
     /// <summary>
     /// Gets or sets a value indicating whether null items are allowed in the collection.
     /// </summary>
     /// <value><c>true</c> if null items are allowed in the collection; otherwise, <c>false</c>.</value>
-    public bool AllowNullItems
-    {
-        get => _allowNullItems;
-        set => _allowNullItems = value;
-    }
+    public bool AllowNullItems { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonArrayAttribute"/> class.
@@ -56,7 +50,7 @@ public sealed class JsonArrayAttribute : JsonContainerAttribute
     /// <param name="allowNullItems">A flag indicating whether the array can contain null items.</param>
     public JsonArrayAttribute(bool allowNullItems)
     {
-        _allowNullItems = allowNullItems;
+        AllowNullItems = allowNullItems;
     }
 
     /// <summary>

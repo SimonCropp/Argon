@@ -113,7 +113,6 @@ public abstract partial class JsonReader : IDisposable
     private bool _hasExceededMaxDepth;
     internal DateParseHandling _dateParseHandling;
     internal FloatParseHandling _floatParseHandling;
-    private string? _dateFormatString;
     private List<JsonPosition>? _stack;
 
     /// <summary>
@@ -205,11 +204,7 @@ public abstract partial class JsonReader : IDisposable
     /// <summary>
     /// Gets or sets how custom date formatted strings are parsed when reading JSON.
     /// </summary>
-    public string? DateFormatString
-    {
-        get => _dateFormatString;
-        set => _dateFormatString = value;
-    }
+    public string? DateFormatString { get; set; }
 
     /// <summary>
     /// Gets or sets the maximum depth allowed when reading JSON. Reading past this depth will throw a <see cref="JsonReaderException"/>.
@@ -825,7 +820,7 @@ public abstract partial class JsonReader : IDisposable
             return null;
         }
 
-        if (DateTimeUtils.TryParseDateTime(s, DateTimeZoneHandling, _dateFormatString, Culture, out var dt))
+        if (DateTimeUtils.TryParseDateTime(s, DateTimeZoneHandling, DateFormatString, Culture, out var dt))
         {
             dt = DateTimeUtils.EnsureDateTime(dt, DateTimeZoneHandling);
             SetToken(JsonToken.Date, dt, false);
@@ -879,7 +874,7 @@ public abstract partial class JsonReader : IDisposable
             return null;
         }
 
-        if (DateTimeUtils.TryParseDateTimeOffset(s, _dateFormatString, Culture, out var dt))
+        if (DateTimeUtils.TryParseDateTimeOffset(s, DateFormatString, Culture, out var dt))
         {
             SetToken(JsonToken.Date, dt, false);
             return dt;

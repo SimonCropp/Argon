@@ -36,7 +36,7 @@ public partial class JProperty
     /// <returns>A <see cref="Task"/> that represents the asynchronous write operation.</returns>
     public override Task WriteToAsync(JsonWriter writer, CancellationToken cancellationToken, params JsonConverter[] converters)
     {
-        var task = writer.WritePropertyNameAsync(_name, cancellationToken);
+        var task = writer.WritePropertyNameAsync(Name, cancellationToken);
         if (task.IsCompletedSucessfully())
         {
             return WriteValueAsync(writer, cancellationToken, converters);

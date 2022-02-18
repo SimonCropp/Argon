@@ -42,28 +42,24 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
 {
     private class SchemaScope
     {
-        private readonly JTokenType _tokenType;
-        private readonly IList<JsonSchemaModel> _schemas;
-        private readonly Dictionary<string, bool> _requiredProperties;
-
         public string CurrentPropertyName { get; set; }
         public int ArrayItemCount { get; set; }
         public bool IsUniqueArray { get; }
         public IList<JToken> UniqueArrayItems { get; }
         public JTokenWriter CurrentItemWriter { get; set; }
 
-        public IList<JsonSchemaModel> Schemas => _schemas;
+        public IList<JsonSchemaModel> Schemas { get; }
 
-        public Dictionary<string, bool> RequiredProperties => _requiredProperties;
+        public Dictionary<string, bool> RequiredProperties { get; }
 
-        public JTokenType TokenType => _tokenType;
+        public JTokenType TokenType { get; }
 
         public SchemaScope(JTokenType tokenType, IList<JsonSchemaModel> schemas)
         {
-            _tokenType = tokenType;
-            _schemas = schemas;
+            TokenType = tokenType;
+            Schemas = schemas;
 
-            _requiredProperties = schemas.SelectMany<JsonSchemaModel, string>(GetRequiredProperties).Distinct().ToDictionary(p => p, _ => false);
+            RequiredProperties = schemas.SelectMany(GetRequiredProperties).Distinct().ToDictionary(p => p, _ => false);
 
             if (tokenType == JTokenType.Array && schemas.Any(s => s.UniqueItems))
             {
@@ -83,7 +79,6 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
         }
     }
 
-    private readonly JsonReader _reader;
     private readonly Stack<SchemaScope> _stack;
     private JsonSchema _schema;
     private JsonSchemaModel _model;
@@ -98,18 +93,18 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
     /// Gets the text value of the current JSON token.
     /// </summary>
     /// <value></value>
-    public override object Value => _reader.Value;
+    public override object Value => Reader.Value;
 
     /// <summary>
     /// Gets the depth of the current token in the JSON document.
     /// </summary>
     /// <value>The depth of the current token in the JSON document.</value>
-    public override int Depth => _reader.Depth;
+    public override int Depth => Reader.Depth;
 
     /// <summary>
     /// Gets the path of the current JSON token. 
     /// </summary>
-    public override string Path => _reader.Path;
+    public override string Path => Reader.Path;
 
     /// <summary>
     /// Gets the quotation mark character used to enclose the value of a string.
@@ -117,7 +112,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
     /// <value></value>
     public override char QuoteChar
     {
-        get => _reader.QuoteChar;
+        get => Reader.QuoteChar;
         protected internal set { }
     }
 
@@ -125,13 +120,13 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
     /// Gets the type of the current JSON token.
     /// </summary>
     /// <value></value>
-    public override JsonToken TokenType => _reader.TokenType;
+    public override JsonToken TokenType => Reader.TokenType;
 
     /// <summary>
     /// Gets the .NET type for the current JSON token.
     /// </summary>
     /// <value></value>
-    public override Type ValueType => _reader.ValueType;
+    public override Type ValueType => Reader.ValueType;
 
     private void Push(SchemaScope scope)
     {
@@ -277,7 +272,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
     public JsonValidatingReader(JsonReader reader)
     {
         ValidationUtils.ArgumentNotNull(reader, nameof(reader));
-        _reader = reader;
+        Reader = reader;
         _stack = new Stack<SchemaScope>();
     }
 
@@ -304,7 +299,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
     /// Gets the <see cref="JsonReader"/> used to construct this <see cref="JsonValidatingReader"/>.
     /// </summary>
     /// <value>The <see cref="JsonReader"/> specified in the constructor.</value>
-    public JsonReader Reader => _reader;
+    public JsonReader Reader { get; }
 
     /// <summary>
     /// Changes the reader's state to <see cref="JsonReader.State.Closed"/>.
@@ -315,7 +310,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
         base.Close();
         if (CloseInput)
         {
-            _reader?.Close();
+            Reader?.Close();
         }
     }
 
@@ -338,7 +333,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
 
     private JsonSchemaType? GetCurrentNodeSchemaType()
     {
-        switch (_reader.TokenType)
+        switch (Reader.TokenType)
         {
             case JsonToken.StartObject:
                 return JsonSchemaType.Object;
@@ -365,7 +360,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
     /// <returns>A <see cref="Nullable{T}"/> of <see cref="Int32"/>.</returns>
     public override int? ReadAsInt32()
     {
-        var i = _reader.ReadAsInt32();
+        var i = Reader.ReadAsInt32();
 
         ValidateCurrentToken();
         return i;
@@ -379,7 +374,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
     /// </returns>
     public override byte[] ReadAsBytes()
     {
-        var data = _reader.ReadAsBytes();
+        var data = Reader.ReadAsBytes();
 
         ValidateCurrentToken();
         return data;
@@ -391,7 +386,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
     /// <returns>A <see cref="Nullable{T}"/> of <see cref="Decimal"/>.</returns>
     public override decimal? ReadAsDecimal()
     {
-        var d = _reader.ReadAsDecimal();
+        var d = Reader.ReadAsDecimal();
 
         ValidateCurrentToken();
         return d;
@@ -403,7 +398,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
     /// <returns>A <see cref="Nullable{T}"/> of <see cref="Double"/>.</returns>
     public override double? ReadAsDouble()
     {
-        var d = _reader.ReadAsDouble();
+        var d = Reader.ReadAsDouble();
 
         ValidateCurrentToken();
         return d;
@@ -415,7 +410,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
     /// <returns>A <see cref="Nullable{T}"/> of <see cref="Boolean"/>.</returns>
     public override bool? ReadAsBoolean()
     {
-        var b = _reader.ReadAsBoolean();
+        var b = Reader.ReadAsBoolean();
 
         ValidateCurrentToken();
         return b;
@@ -427,7 +422,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
     /// <returns>A <see cref="String"/>. This method will return <c>null</c> at the end of an array.</returns>
     public override string ReadAsString()
     {
-        var s = _reader.ReadAsString();
+        var s = Reader.ReadAsString();
 
         ValidateCurrentToken();
         return s;
@@ -439,7 +434,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
     /// <returns>A <see cref="Nullable{T}"/> of <see cref="DateTime"/>. This method will return <c>null</c> at the end of an array.</returns>
     public override DateTime? ReadAsDateTime()
     {
-        var dateTime = _reader.ReadAsDateTime();
+        var dateTime = Reader.ReadAsDateTime();
 
         ValidateCurrentToken();
         return dateTime;
@@ -451,7 +446,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
     /// <returns>A <see cref="Nullable{T}"/> of <see cref="DateTimeOffset"/>.</returns>
     public override DateTimeOffset? ReadAsDateTimeOffset()
     {
-        var dateTimeOffset = _reader.ReadAsDateTimeOffset();
+        var dateTimeOffset = Reader.ReadAsDateTimeOffset();
 
         ValidateCurrentToken();
         return dateTimeOffset;
@@ -465,12 +460,12 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
     /// </returns>
     public override bool Read()
     {
-        if (!_reader.Read())
+        if (!Reader.Read())
         {
             return false;
         }
 
-        if (_reader.TokenType == JsonToken.Comment)
+        if (Reader.TokenType == JsonToken.Comment)
         {
             return true;
         }
@@ -487,13 +482,13 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
             var builder = new JsonSchemaModelBuilder();
             _model = builder.Build(_schema);
 
-            if (!JsonTokenUtils.IsStartToken(_reader.TokenType))
+            if (!JsonTokenUtils.IsStartToken(Reader.TokenType))
             {
                 Push(new SchemaScope(JTokenType.None, CurrentMemberSchemas));
             }
         }
 
-        switch (_reader.TokenType)
+        switch (Reader.TokenType)
         {
             case JsonToken.StartObject:
                 ProcessValue();
@@ -606,7 +601,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
             {
                 if (schemaScope.CurrentItemWriter == null)
                 {
-                    if (JsonTokenUtils.IsEndToken(_reader.TokenType))
+                    if (JsonTokenUtils.IsEndToken(Reader.TokenType))
                     {
                         continue;
                     }
@@ -614,10 +609,10 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
                     schemaScope.CurrentItemWriter = new JTokenWriter();
                 }
 
-                schemaScope.CurrentItemWriter.WriteToken(_reader, false);
+                schemaScope.CurrentItemWriter.WriteToken(Reader, false);
 
                 // finished writing current item
-                if (schemaScope.CurrentItemWriter.Top == 0 && _reader.TokenType != JsonToken.PropertyName)
+                if (schemaScope.CurrentItemWriter.Top == 0 && Reader.TokenType != JsonToken.PropertyName)
                 {
                     var finishedItem = schemaScope.CurrentItemWriter.Token;
 
@@ -734,7 +729,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
 
         ValidateNotDisallowed(schema);
 
-        var value = _reader.Value.ToString();
+        var value = Reader.Value.ToString();
 
         if (schema.MaximumLength != null && value.Length > schema.MaximumLength)
         {
@@ -772,7 +767,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
 
         ValidateNotDisallowed(schema);
 
-        var value = _reader.Value;
+        var value = Reader.Value;
 
         if (schema.Maximum != null)
         {
@@ -858,7 +853,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
 
         ValidateNotDisallowed(schema);
 
-        var value = Convert.ToDouble(_reader.Value, CultureInfo.InvariantCulture);
+        var value = Convert.ToDouble(Reader.Value, CultureInfo.InvariantCulture);
 
         if (schema.Maximum != null)
         {
@@ -914,7 +909,7 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
             return;
         }
 
-        var propertyName = Convert.ToString(_reader.Value, CultureInfo.InvariantCulture);
+        var propertyName = Convert.ToString(Reader.Value, CultureInfo.InvariantCulture);
 
         if (_currentScope.RequiredProperties.ContainsKey(propertyName))
         {
@@ -988,10 +983,10 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
 
     bool IJsonLineInfo.HasLineInfo()
     {
-        return _reader is IJsonLineInfo lineInfo && lineInfo.HasLineInfo();
+        return Reader is IJsonLineInfo lineInfo && lineInfo.HasLineInfo();
     }
 
-    int IJsonLineInfo.LineNumber => _reader is IJsonLineInfo lineInfo ? lineInfo.LineNumber : 0;
+    int IJsonLineInfo.LineNumber => Reader is IJsonLineInfo lineInfo ? lineInfo.LineNumber : 0;
 
-    int IJsonLineInfo.LinePosition => _reader is IJsonLineInfo lineInfo ? lineInfo.LinePosition : 0;
+    int IJsonLineInfo.LinePosition => Reader is IJsonLineInfo lineInfo ? lineInfo.LinePosition : 0;
 }

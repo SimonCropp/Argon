@@ -37,9 +37,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
 {
     private static JTokenEqualityComparer? _equalityComparer;
 
-    private JContainer? _parent;
-    private JToken? _previous;
-    private JToken? _next;
     private object? _annotations;
 
     private static readonly JTokenType[] BooleanTypes = new[] { JTokenType.Integer, JTokenType.Float, JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.Boolean };
@@ -74,12 +71,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// Gets or sets the parent.
     /// </summary>
     /// <value>The parent.</value>
-    public JContainer? Parent
-    {
-        [DebuggerStepThrough]
-        get => _parent;
-        internal set => _parent = value;
-    }
+    public JContainer? Parent { [DebuggerStepThrough] get; internal set; }
 
     /// <summary>
     /// Gets the root <see cref="JToken"/> of this <see cref="JToken"/>.
@@ -136,21 +128,13 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// Gets the next sibling token of this node.
     /// </summary>
     /// <value>The <see cref="JToken"/> that contains the next sibling token.</value>
-    public JToken? Next
-    {
-        get => _next;
-        internal set => _next = value;
-    }
+    public JToken? Next { get; internal set; }
 
     /// <summary>
     /// Gets the previous sibling token of this node.
     /// </summary>
     /// <value>The <see cref="JToken"/> that contains the previous sibling token.</value>
-    public JToken? Previous
-    {
-        get => _previous;
-        internal set => _previous = value;
-    }
+    public JToken? Previous { get; internal set; }
 
     /// <summary>
     /// Gets the path of the JSON token. 
@@ -204,13 +188,13 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <param name="content">A content object that contains simple content or a collection of content objects to be added after this token.</param>
     public void AddAfterSelf(object? content)
     {
-        if (_parent == null)
+        if (Parent == null)
         {
             throw new InvalidOperationException("The parent is missing.");
         }
 
-        var index = _parent.IndexOfItem(this);
-        _parent.TryAddInternal(index + 1, content, false);
+        var index = Parent.IndexOfItem(this);
+        Parent.TryAddInternal(index + 1, content, false);
     }
 
     /// <summary>
@@ -219,13 +203,13 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <param name="content">A content object that contains simple content or a collection of content objects to be added before this token.</param>
     public void AddBeforeSelf(object? content)
     {
-        if (_parent == null)
+        if (Parent == null)
         {
             throw new InvalidOperationException("The parent is missing.");
         }
 
-        var index = _parent.IndexOfItem(this);
-        _parent.TryAddInternal(index, content, false);
+        var index = Parent.IndexOfItem(this);
+        Parent.TryAddInternal(index, content, false);
     }
 
     /// <summary>
@@ -358,12 +342,12 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// </summary>
     public void Remove()
     {
-        if (_parent == null)
+        if (Parent == null)
         {
             throw new InvalidOperationException("The parent is missing.");
         }
 
-        _parent.RemoveItem(this);
+        Parent.RemoveItem(this);
     }
 
     /// <summary>
@@ -372,12 +356,12 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <param name="value">The value.</param>
     public void Replace(JToken value)
     {
-        if (_parent == null)
+        if (Parent == null)
         {
             throw new InvalidOperationException("The parent is missing.");
         }
 
-        _parent.ReplaceItem(this, value);
+        Parent.ReplaceItem(this, value);
     }
 
     /// <summary>

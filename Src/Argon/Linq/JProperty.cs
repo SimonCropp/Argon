@@ -132,7 +132,6 @@ public partial class JProperty : JContainer
     #endregion
 
     private readonly JPropertyList _content = new();
-    private readonly string _name;
 
     /// <summary>
     /// Gets the container's children tokens.
@@ -144,11 +143,7 @@ public partial class JProperty : JContainer
     /// Gets the property name.
     /// </summary>
     /// <value>The property name.</value>
-    public string Name
-    {
-        [DebuggerStepThrough]
-        get => _name;
-    }
+    public string Name { [DebuggerStepThrough] get; }
 
     /// <summary>
     /// Gets or sets the property value.
@@ -182,7 +177,7 @@ public partial class JProperty : JContainer
     public JProperty(JProperty other)
         : base(other)
     {
-        _name = other.Name;
+        Name = other.Name;
     }
 
     internal override JToken GetItem(int index)
@@ -272,7 +267,7 @@ public partial class JProperty : JContainer
 
     internal override bool DeepEquals(JToken node)
     {
-        return node is JProperty t && _name == t.Name && ContentsEqual(t);
+        return node is JProperty t && Name == t.Name && ContentsEqual(t);
     }
 
     internal override JToken CloneToken()
@@ -295,7 +290,7 @@ public partial class JProperty : JContainer
         // called from JTokenWriter
         ValidationUtils.ArgumentNotNull(name, nameof(name));
 
-        _name = name;
+        Name = name;
     }
 
     /// <summary>
@@ -317,7 +312,7 @@ public partial class JProperty : JContainer
     {
         ValidationUtils.ArgumentNotNull(name, nameof(name));
 
-        _name = name;
+        Name = name;
 
         Value = IsMultiContent(content)
             ? new JArray(content)
@@ -331,7 +326,7 @@ public partial class JProperty : JContainer
     /// <param name="converters">A collection of <see cref="JsonConverter"/> which will be used when writing the token.</param>
     public override void WriteTo(JsonWriter writer, params JsonConverter[] converters)
     {
-        writer.WritePropertyName(_name);
+        writer.WritePropertyName(Name);
 
         var value = Value;
         if (value != null)
@@ -346,7 +341,7 @@ public partial class JProperty : JContainer
 
     internal override int GetDeepHashCode()
     {
-        return _name.GetHashCode() ^ (Value?.GetDeepHashCode() ?? 0);
+        return Name.GetHashCode() ^ (Value?.GetDeepHashCode() ?? 0);
     }
 
     /// <summary>

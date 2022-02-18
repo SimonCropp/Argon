@@ -33,12 +33,11 @@ public class JTokenReader : JsonReader, IJsonLineInfo
     private readonly JToken _root;
     private string? _initialPath;
     private JToken? _parent;
-    private JToken? _current;
 
     /// <summary>
     /// Gets the <see cref="JToken"/> at the reader's current position.
     /// </summary>
-    public JToken? CurrentToken => _current;
+    public JToken? CurrentToken { get; private set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JTokenReader"/> class.
@@ -72,29 +71,29 @@ public class JTokenReader : JsonReader, IJsonLineInfo
     {
         if (CurrentState != State.Start)
         {
-            if (_current == null)
+            if (CurrentToken == null)
             {
                 return false;
             }
 
-            if (_current is JContainer container && _parent != container)
+            if (CurrentToken is JContainer container && _parent != container)
             {
                 return ReadInto(container);
             }
             else
             {
-                return ReadOver(_current);
+                return ReadOver(CurrentToken);
             }
         }
 
         // The current value could already be the root value if it is a comment
-        if (_current == _root)
+        if (CurrentToken == _root)
         {
             return false;
         }
 
-        _current = _root;
-        SetToken(_current);
+        CurrentToken = _root;
+        SetToken(CurrentToken);
         return true;
     }
 
@@ -117,15 +116,15 @@ public class JTokenReader : JsonReader, IJsonLineInfo
         }
         else
         {
-            _current = next;
-            SetToken(_current);
+            CurrentToken = next;
+            SetToken(CurrentToken);
             return true;
         }
     }
 
     private bool ReadToEnd()
     {
-        _current = null;
+        CurrentToken = null;
         SetToken(JsonToken.None);
         return false;
     }
@@ -157,7 +156,7 @@ public class JTokenReader : JsonReader, IJsonLineInfo
         else
         {
             SetToken(firstChild);
-            _current = firstChild;
+            CurrentToken = firstChild;
             _parent = c;
             return true;
         }
@@ -169,7 +168,7 @@ public class JTokenReader : JsonReader, IJsonLineInfo
         if (endToken != null)
         {
             SetToken(endToken.GetValueOrDefault());
-            _current = c;
+            CurrentToken = c;
             _parent = c;
             return true;
         }
@@ -262,7 +261,7 @@ public class JTokenReader : JsonReader, IJsonLineInfo
             return false;
         }
 
-        IJsonLineInfo? info = _current;
+        IJsonLineInfo? info = CurrentToken;
         return info != null && info.HasLineInfo();
     }
 
@@ -275,7 +274,7 @@ public class JTokenReader : JsonReader, IJsonLineInfo
                 return 0;
             }
 
-            IJsonLineInfo? info = _current;
+            IJsonLineInfo? info = CurrentToken;
             if (info != null)
             {
                 return info.LineNumber;
@@ -294,7 +293,7 @@ public class JTokenReader : JsonReader, IJsonLineInfo
                 return 0;
             }
 
-            IJsonLineInfo? info = _current;
+            IJsonLineInfo? info = CurrentToken;
             if (info != null)
             {
                 return info.LinePosition;

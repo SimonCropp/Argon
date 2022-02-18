@@ -67,7 +67,7 @@ public class ThisGenericTest<T> where T : IKeyValueId
 
     public T[] TheItems
     {
-        get => _dict1.Values.ToArray<T>();
+        get => _dict1.Values.ToArray();
         set
         {
             foreach (var item in value)

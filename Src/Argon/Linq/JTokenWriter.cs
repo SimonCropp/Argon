@@ -34,12 +34,11 @@ public partial class JTokenWriter : JsonWriter
     private JContainer? _parent;
     // used when writer is writing single value and the value has no containing parent
     private JValue? _value;
-    private JToken? _current;
 
     /// <summary>
     /// Gets the <see cref="JToken"/> at the writer's current position.
     /// </summary>
-    public JToken? CurrentToken => _current;
+    public JToken? CurrentToken { get; private set; }
 
     /// <summary>
     /// Gets the token being written.
@@ -118,12 +117,12 @@ public partial class JTokenWriter : JsonWriter
         }
 
         _parent = container;
-        _current = container;
+        CurrentToken = container;
     }
 
     private void RemoveParent()
     {
-        _current = _parent;
+        CurrentToken = _parent;
         _parent = _parent!.Parent;
 
         if (_parent is {Type: JTokenType.Property})
@@ -193,7 +192,7 @@ public partial class JTokenWriter : JsonWriter
             // If there is an invalid JToken type then skip it.
             if (_parent.TryAdd(value))
             {
-                _current = _parent.Last;
+                CurrentToken = _parent.Last;
 
                 if (_parent.Type == JTokenType.Property)
                 {
@@ -204,7 +203,7 @@ public partial class JTokenWriter : JsonWriter
         else
         {
             _value = value ?? JValue.CreateNull();
-            _current = _value;
+            CurrentToken = _value;
         }
     }
 
@@ -491,7 +490,7 @@ public partial class JTokenWriter : JsonWriter
             if (_parent != null)
             {
                 _parent.Add(value);
-                _current = _parent.Last;
+                CurrentToken = _parent.Last;
 
                 // if the writer was in a property then move out of it and up to its parent object
                 if (_parent.Type == JTokenType.Property)
@@ -502,7 +501,7 @@ public partial class JTokenWriter : JsonWriter
             }
             else
             {
-                _current = value;
+                CurrentToken = value;
 
                 if (_token == null && _value == null)
                 {

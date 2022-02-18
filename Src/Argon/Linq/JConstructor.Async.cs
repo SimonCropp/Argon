@@ -36,7 +36,7 @@ public partial class JConstructor
     /// <returns>A <see cref="Task"/> that represents the asynchronous write operation.</returns>
     public override async Task WriteToAsync(JsonWriter writer, CancellationToken cancellationToken, params JsonConverter[] converters)
     {
-        await writer.WriteStartConstructorAsync(_name ?? string.Empty, cancellationToken).ConfigureAwait(false);
+        await writer.WriteStartConstructorAsync(Name ?? string.Empty, cancellationToken).ConfigureAwait(false);
 
         for (var i = 0; i < _values.Count; i++)
         {

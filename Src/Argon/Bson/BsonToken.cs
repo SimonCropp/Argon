@@ -93,18 +93,15 @@ class BsonEmpty : BsonToken
 
 class BsonValue : BsonToken
 {
-    private readonly object _value;
-    private readonly BsonType _type;
-
     public BsonValue(object value, BsonType type)
     {
-        _value = value;
-        _type = type;
+        Value = value;
+        Type = type;
     }
 
-    public object Value => _value;
+    public object Value { get; }
 
-    public override BsonType Type => _type;
+    public override BsonType Type { get; }
 }
 
 class BsonBoolean : BsonValue

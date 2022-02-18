@@ -96,16 +96,16 @@ public partial class JsonTextReader
 
     private async Task<bool> ParsePostValueAsync(bool ignoreComments, CancellationToken cancellationToken)
     {
-        MiscellaneousUtils.Assert(_chars != null);
+        MiscellaneousUtils.Assert(CharBuffer != null);
 
         while (true)
         {
-            var currentChar = _chars[_charPos];
+            var currentChar = CharBuffer[CharPos];
 
             switch (currentChar)
             {
                 case '\0':
-                    if (_charsUsed == _charPos)
+                    if (_charsUsed == CharPos)
                     {
                         if (await ReadDataAsync(false, cancellationToken).ConfigureAwait(false) == 0)
                         {
@@ -115,20 +115,20 @@ public partial class JsonTextReader
                     }
                     else
                     {
-                        _charPos++;
+                        CharPos++;
                     }
 
                     break;
                 case '}':
-                    _charPos++;
+                    CharPos++;
                     SetToken(JsonToken.EndObject);
                     return true;
                 case ']':
-                    _charPos++;
+                    CharPos++;
                     SetToken(JsonToken.EndArray);
                     return true;
                 case ')':
-                    _charPos++;
+                    CharPos++;
                     SetToken(JsonToken.EndConstructor);
                     return true;
                 case '/':
@@ -139,7 +139,7 @@ public partial class JsonTextReader
                     }
                     break;
                 case ',':
-                    _charPos++;
+                    CharPos++;
 
                     // finished parsing
                     SetStateBasedOnCurrent();
@@ -148,7 +148,7 @@ public partial class JsonTextReader
                 case StringUtils.Tab:
 
                     // eat
-                    _charPos++;
+                    CharPos++;
                     break;
                 case StringUtils.CarriageReturn:
                     await ProcessCarriageReturnAsync(false, cancellationToken).ConfigureAwait(false);
@@ -160,7 +160,7 @@ public partial class JsonTextReader
                     if (char.IsWhiteSpace(currentChar))
                     {
                         // eat
-                        _charPos++;
+                        CharPos++;
                     }
                     else
                     {
@@ -181,7 +181,7 @@ public partial class JsonTextReader
 
     private async Task<bool> ReadFromFinishedAsync(CancellationToken cancellationToken)
     {
-        MiscellaneousUtils.Assert(_chars != null);
+        MiscellaneousUtils.Assert(CharBuffer != null);
 
         if (await EnsureCharsAsync(0, false, cancellationToken).ConfigureAwait(false))
         {
@@ -192,13 +192,13 @@ public partial class JsonTextReader
                 return false;
             }
 
-            if (_chars[_charPos] == '/')
+            if (CharBuffer[CharPos] == '/')
             {
                 await ParseCommentAsync(true, cancellationToken).ConfigureAwait(false);
                 return true;
             }
 
-            throw JsonReaderException.Create(this, "Additional text encountered after finished reading JSON content: {0}.".FormatWith(CultureInfo.InvariantCulture, _chars[_charPos]));
+            throw JsonReaderException.Create(this, "Additional text encountered after finished reading JSON content: {0}.".FormatWith(CultureInfo.InvariantCulture, CharBuffer[CharPos]));
         }
 
         SetToken(JsonToken.None);
@@ -212,7 +212,7 @@ public partial class JsonTextReader
 
     private async Task<int> ReadDataAsync(bool append, int charsRequired, CancellationToken cancellationToken)
     {
-        MiscellaneousUtils.Assert(_chars != null);
+        MiscellaneousUtils.Assert(CharBuffer != null);
 
         if (_isEndOfFile)
         {
@@ -221,7 +221,7 @@ public partial class JsonTextReader
 
         PrepareBufferForReadData(append, charsRequired);
 
-        var charsRead = await _reader.ReadAsync(_chars, _charsUsed, _chars.Length - _charsUsed - 1, cancellationToken).ConfigureAwait(false);
+        var charsRead = await _reader.ReadAsync(CharBuffer, _charsUsed, CharBuffer.Length - _charsUsed - 1, cancellationToken).ConfigureAwait(false);
 
         _charsUsed += charsRead;
 
@@ -230,22 +230,22 @@ public partial class JsonTextReader
             _isEndOfFile = true;
         }
 
-        _chars[_charsUsed] = '\0';
+        CharBuffer[_charsUsed] = '\0';
         return charsRead;
     }
 
     private async Task<bool> ParseValueAsync(CancellationToken cancellationToken)
     {
-        MiscellaneousUtils.Assert(_chars != null);
+        MiscellaneousUtils.Assert(CharBuffer != null);
 
         while (true)
         {
-            var currentChar = _chars[_charPos];
+            var currentChar = CharBuffer[CharPos];
 
             switch (currentChar)
             {
                 case '\0':
-                    if (_charsUsed == _charPos)
+                    if (_charsUsed == CharPos)
                     {
                         if (await ReadDataAsync(false, cancellationToken).ConfigureAwait(false) == 0)
                         {
@@ -254,7 +254,7 @@ public partial class JsonTextReader
                     }
                     else
                     {
-                        _charPos++;
+                        CharPos++;
                     }
 
                     break;
@@ -271,7 +271,7 @@ public partial class JsonTextReader
                 case 'n':
                     if (await EnsureCharsAsync(1, true, cancellationToken).ConfigureAwait(false))
                     {
-                        switch (_chars[_charPos + 1])
+                        switch (CharBuffer[CharPos + 1])
                         {
                             case 'u':
                                 await ParseNullAsync(cancellationToken).ConfigureAwait(false);
@@ -280,12 +280,12 @@ public partial class JsonTextReader
                                 await ParseConstructorAsync(cancellationToken).ConfigureAwait(false);
                                 break;
                             default:
-                                throw CreateUnexpectedCharacterException(_chars[_charPos]);
+                                throw CreateUnexpectedCharacterException(CharBuffer[CharPos]);
                         }
                     }
                     else
                     {
-                        _charPos++;
+                        CharPos++;
                         throw CreateUnexpectedEndException();
                     }
 
@@ -297,7 +297,7 @@ public partial class JsonTextReader
                     await ParseNumberPositiveInfinityAsync(ReadType.Read, cancellationToken).ConfigureAwait(false);
                     return true;
                 case '-':
-                    if (await EnsureCharsAsync(1, true, cancellationToken).ConfigureAwait(false) && _chars[_charPos + 1] == 'I')
+                    if (await EnsureCharsAsync(1, true, cancellationToken).ConfigureAwait(false) && CharBuffer[CharPos + 1] == 'I')
                     {
                         await ParseNumberNegativeInfinityAsync(ReadType.Read, cancellationToken).ConfigureAwait(false);
                     }
@@ -313,15 +313,15 @@ public partial class JsonTextReader
                     await ParseUndefinedAsync(cancellationToken).ConfigureAwait(false);
                     return true;
                 case '{':
-                    _charPos++;
+                    CharPos++;
                     SetToken(JsonToken.StartObject);
                     return true;
                 case '[':
-                    _charPos++;
+                    CharPos++;
                     SetToken(JsonToken.StartArray);
                     return true;
                 case ']':
-                    _charPos++;
+                    CharPos++;
                     SetToken(JsonToken.EndArray);
                     return true;
                 case ',':
@@ -331,7 +331,7 @@ public partial class JsonTextReader
                     SetToken(JsonToken.Undefined);
                     return true;
                 case ')':
-                    _charPos++;
+                    CharPos++;
                     SetToken(JsonToken.EndConstructor);
                     return true;
                 case StringUtils.CarriageReturn:
@@ -344,13 +344,13 @@ public partial class JsonTextReader
                 case StringUtils.Tab:
 
                     // eat
-                    _charPos++;
+                    CharPos++;
                     break;
                 default:
                     if (char.IsWhiteSpace(currentChar))
                     {
                         // eat
-                        _charPos++;
+                        CharPos++;
                         break;
                     }
 
@@ -367,16 +367,16 @@ public partial class JsonTextReader
 
     private async Task ReadStringIntoBufferAsync(char quote, CancellationToken cancellationToken)
     {
-        MiscellaneousUtils.Assert(_chars != null);
+        MiscellaneousUtils.Assert(CharBuffer != null);
 
-        var charPos = _charPos;
-        var initialPosition = _charPos;
-        var lastWritePosition = _charPos;
+        var charPos = CharPos;
+        var initialPosition = CharPos;
+        var lastWritePosition = CharPos;
         _stringBuffer.Position = 0;
 
         while (true)
         {
-            switch (_chars[charPos++])
+            switch (CharBuffer[charPos++])
             {
                 case '\0':
                     if (_charsUsed == charPos - 1)
@@ -385,14 +385,14 @@ public partial class JsonTextReader
 
                         if (await ReadDataAsync(true, cancellationToken).ConfigureAwait(false) == 0)
                         {
-                            _charPos = charPos;
+                            CharPos = charPos;
                             throw JsonReaderException.Create(this, "Unterminated string. Expected delimiter: {0}.".FormatWith(CultureInfo.InvariantCulture, quote));
                         }
                     }
 
                     break;
                 case '\\':
-                    _charPos = charPos;
+                    CharPos = charPos;
                     if (!await EnsureCharsAsync(0, true, cancellationToken).ConfigureAwait(false))
                     {
                         throw JsonReaderException.Create(this, "Unterminated string. Expected delimiter: {0}.".FormatWith(CultureInfo.InvariantCulture, quote));
@@ -401,7 +401,7 @@ public partial class JsonTextReader
                     // start of escape sequence
                     var escapeStartPos = charPos - 1;
 
-                    var currentChar = _chars[charPos];
+                    var currentChar = CharBuffer[charPos];
                     charPos++;
 
                     char writeChar;
@@ -432,7 +432,7 @@ public partial class JsonTextReader
                             writeChar = currentChar;
                             break;
                         case 'u':
-                            _charPos = charPos;
+                            CharPos = charPos;
                             writeChar = await ParseUnicodeAsync(cancellationToken).ConfigureAwait(false);
 
                             if (StringUtils.IsLowSurrogate(writeChar))
@@ -450,11 +450,11 @@ public partial class JsonTextReader
                                     anotherHighSurrogate = false;
 
                                     // potential start of a surrogate pair
-                                    if (await EnsureCharsAsync(2, true, cancellationToken).ConfigureAwait(false) && _chars[_charPos] == '\\' && _chars[_charPos + 1] == 'u')
+                                    if (await EnsureCharsAsync(2, true, cancellationToken).ConfigureAwait(false) && CharBuffer[CharPos] == '\\' && CharBuffer[CharPos + 1] == 'u')
                                     {
                                         var highSurrogate = writeChar;
 
-                                        _charPos += 2;
+                                        CharPos += 2;
                                         writeChar = await ParseUnicodeAsync(cancellationToken).ConfigureAwait(false);
 
                                         if (StringUtils.IsLowSurrogate(writeChar))
@@ -476,7 +476,7 @@ public partial class JsonTextReader
                                         EnsureBufferNotEmpty();
 
                                         WriteCharToBuffer(highSurrogate, lastWritePosition, escapeStartPos);
-                                        lastWritePosition = _charPos;
+                                        lastWritePosition = CharPos;
                                     }
                                     else
                                     {
@@ -487,10 +487,10 @@ public partial class JsonTextReader
                                 } while (anotherHighSurrogate);
                             }
 
-                            charPos = _charPos;
+                            charPos = CharPos;
                             break;
                         default:
-                            _charPos = charPos;
+                            CharPos = charPos;
                             throw JsonReaderException.Create(this, "Bad JSON escape sequence: {0}.".FormatWith(CultureInfo.InvariantCulture, @"\" + currentChar));
                     }
 
@@ -500,18 +500,18 @@ public partial class JsonTextReader
                     lastWritePosition = charPos;
                     break;
                 case StringUtils.CarriageReturn:
-                    _charPos = charPos - 1;
+                    CharPos = charPos - 1;
                     await ProcessCarriageReturnAsync(true, cancellationToken).ConfigureAwait(false);
-                    charPos = _charPos;
+                    charPos = CharPos;
                     break;
                 case StringUtils.LineFeed:
-                    _charPos = charPos - 1;
+                    CharPos = charPos - 1;
                     ProcessLineFeed();
-                    charPos = _charPos;
+                    charPos = CharPos;
                     break;
                 case '"':
                 case '\'':
-                    if (_chars[charPos - 1] == quote)
+                    if (CharBuffer[charPos - 1] == quote)
                     {
                         FinishReadStringIntoBuffer(charPos - 1, initialPosition, lastWritePosition);
                         return;
@@ -524,7 +524,7 @@ public partial class JsonTextReader
 
     private Task ProcessCarriageReturnAsync(bool append, CancellationToken cancellationToken)
     {
-        _charPos++;
+        CharPos++;
 
         var task = EnsureCharsAsync(1, append, cancellationToken);
         if (task.IsCompletedSucessfully())
@@ -548,7 +548,7 @@ public partial class JsonTextReader
 
     private Task<bool> EnsureCharsAsync(int relativePosition, bool append, CancellationToken cancellationToken)
     {
-        if (_charPos + relativePosition < _charsUsed)
+        if (CharPos + relativePosition < _charsUsed)
         {
             return AsyncUtils.True;
         }
@@ -563,7 +563,7 @@ public partial class JsonTextReader
 
     private async Task<bool> ReadCharsAsync(int relativePosition, bool append, CancellationToken cancellationToken)
     {
-        var charsRequired = _charPos + relativePosition - _charsUsed + 1;
+        var charsRequired = CharPos + relativePosition - _charsUsed + 1;
 
         // it is possible that the TextReader doesn't return all data at once
         // repeat read until the required text is returned or the reader is out of content
@@ -585,16 +585,16 @@ public partial class JsonTextReader
 
     private async Task<bool> ParseObjectAsync(CancellationToken cancellationToken)
     {
-        MiscellaneousUtils.Assert(_chars != null);
+        MiscellaneousUtils.Assert(CharBuffer != null);
 
         while (true)
         {
-            var currentChar = _chars[_charPos];
+            var currentChar = CharBuffer[CharPos];
 
             switch (currentChar)
             {
                 case '\0':
-                    if (_charsUsed == _charPos)
+                    if (_charsUsed == CharPos)
                     {
                         if (await ReadDataAsync(false, cancellationToken).ConfigureAwait(false) == 0)
                         {
@@ -603,13 +603,13 @@ public partial class JsonTextReader
                     }
                     else
                     {
-                        _charPos++;
+                        CharPos++;
                     }
 
                     break;
                 case '}':
                     SetToken(JsonToken.EndObject);
-                    _charPos++;
+                    CharPos++;
                     return true;
                 case '/':
                     await ParseCommentAsync(true, cancellationToken).ConfigureAwait(false);
@@ -624,13 +624,13 @@ public partial class JsonTextReader
                 case StringUtils.Tab:
 
                     // eat
-                    _charPos++;
+                    CharPos++;
                     break;
                 default:
                     if (char.IsWhiteSpace(currentChar))
                     {
                         // eat
-                        _charPos++;
+                        CharPos++;
                     }
                     else
                     {
@@ -644,10 +644,10 @@ public partial class JsonTextReader
 
     private async Task ParseCommentAsync(bool setToken, CancellationToken cancellationToken)
     {
-        MiscellaneousUtils.Assert(_chars != null);
+        MiscellaneousUtils.Assert(CharBuffer != null);
 
         // should have already parsed / character before reaching this method
-        _charPos++;
+        CharPos++;
 
         if (!await EnsureCharsAsync(1, false, cancellationToken).ConfigureAwait(false))
         {
@@ -656,29 +656,29 @@ public partial class JsonTextReader
 
         bool singlelineComment;
 
-        if (_chars[_charPos] == '*')
+        if (CharBuffer[CharPos] == '*')
         {
             singlelineComment = false;
         }
-        else if (_chars[_charPos] == '/')
+        else if (CharBuffer[CharPos] == '/')
         {
             singlelineComment = true;
         }
         else
         {
-            throw JsonReaderException.Create(this, "Error parsing comment. Expected: *, got {0}.".FormatWith(CultureInfo.InvariantCulture, _chars[_charPos]));
+            throw JsonReaderException.Create(this, "Error parsing comment. Expected: *, got {0}.".FormatWith(CultureInfo.InvariantCulture, CharBuffer[CharPos]));
         }
 
-        _charPos++;
+        CharPos++;
 
-        var initialPosition = _charPos;
+        var initialPosition = CharPos;
 
         while (true)
         {
-            switch (_chars[_charPos])
+            switch (CharBuffer[CharPos])
             {
                 case '\0':
-                    if (_charsUsed == _charPos)
+                    if (_charsUsed == CharPos)
                     {
                         if (await ReadDataAsync(true, cancellationToken).ConfigureAwait(false) == 0)
                         {
@@ -687,28 +687,28 @@ public partial class JsonTextReader
                                 throw JsonReaderException.Create(this, "Unexpected end while parsing comment.");
                             }
 
-                            EndComment(setToken, initialPosition, _charPos);
+                            EndComment(setToken, initialPosition, CharPos);
                             return;
                         }
                     }
                     else
                     {
-                        _charPos++;
+                        CharPos++;
                     }
 
                     break;
                 case '*':
-                    _charPos++;
+                    CharPos++;
 
                     if (!singlelineComment)
                     {
                         if (await EnsureCharsAsync(0, true, cancellationToken).ConfigureAwait(false))
                         {
-                            if (_chars[_charPos] == '/')
+                            if (CharBuffer[CharPos] == '/')
                             {
-                                EndComment(setToken, initialPosition, _charPos - 1);
+                                EndComment(setToken, initialPosition, CharPos - 1);
 
-                                _charPos++;
+                                CharPos++;
                                 return;
                             }
                         }
@@ -718,7 +718,7 @@ public partial class JsonTextReader
                 case StringUtils.CarriageReturn:
                     if (singlelineComment)
                     {
-                        EndComment(setToken, initialPosition, _charPos);
+                        EndComment(setToken, initialPosition, CharPos);
                         return;
                     }
 
@@ -727,14 +727,14 @@ public partial class JsonTextReader
                 case StringUtils.LineFeed:
                     if (singlelineComment)
                     {
-                        EndComment(setToken, initialPosition, _charPos);
+                        EndComment(setToken, initialPosition, CharPos);
                         return;
                     }
 
                     ProcessLineFeed();
                     break;
                 default:
-                    _charPos++;
+                    CharPos++;
                     break;
             }
         }
@@ -742,16 +742,16 @@ public partial class JsonTextReader
 
     private async Task EatWhitespaceAsync(CancellationToken cancellationToken)
     {
-        MiscellaneousUtils.Assert(_chars != null);
+        MiscellaneousUtils.Assert(CharBuffer != null);
 
         while (true)
         {
-            var currentChar = _chars[_charPos];
+            var currentChar = CharBuffer[CharPos];
 
             switch (currentChar)
             {
                 case '\0':
-                    if (_charsUsed == _charPos)
+                    if (_charsUsed == CharPos)
                     {
                         if (await ReadDataAsync(false, cancellationToken).ConfigureAwait(false) == 0)
                         {
@@ -760,7 +760,7 @@ public partial class JsonTextReader
                     }
                     else
                     {
-                        _charPos++;
+                        CharPos++;
                     }
                     break;
                 case StringUtils.CarriageReturn:
@@ -772,7 +772,7 @@ public partial class JsonTextReader
                 default:
                     if (currentChar == ' ' || char.IsWhiteSpace(currentChar))
                     {
-                        _charPos++;
+                        CharPos++;
                     }
                     else
                     {
@@ -786,7 +786,7 @@ public partial class JsonTextReader
     private async Task ParseStringAsync(char quote, ReadType readType, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        _charPos++;
+        CharPos++;
 
         ShiftBufferIfNeeded();
         await ReadStringIntoBufferAsync(quote, cancellationToken).ConfigureAwait(false);
@@ -800,7 +800,7 @@ public partial class JsonTextReader
 
     private async Task<bool> MatchValueWithTrailingSeparatorAsync(string value, CancellationToken cancellationToken)
     {
-        MiscellaneousUtils.Assert(_chars != null);
+        MiscellaneousUtils.Assert(CharBuffer != null);
 
         // will match value and then move to the next character, checking that it is a separator character
         if (!await MatchValueAsync(value, cancellationToken).ConfigureAwait(false))
@@ -813,7 +813,7 @@ public partial class JsonTextReader
             return true;
         }
 
-        return IsSeparator(_chars[_charPos]) || _chars[_charPos] == '\0';
+        return IsSeparator(CharBuffer[CharPos]) || CharBuffer[CharPos] == '\0';
     }
 
     private async Task MatchAndSetAsync(string value, JsonToken newToken, object? tokenValue, CancellationToken cancellationToken)
@@ -845,21 +845,21 @@ public partial class JsonTextReader
 
     private async Task ParseConstructorAsync(CancellationToken cancellationToken)
     {
-        MiscellaneousUtils.Assert(_chars != null);
+        MiscellaneousUtils.Assert(CharBuffer != null);
 
         if (await MatchValueWithTrailingSeparatorAsync("new", cancellationToken).ConfigureAwait(false))
         {
             await EatWhitespaceAsync(cancellationToken).ConfigureAwait(false);
 
-            var initialPosition = _charPos;
+            var initialPosition = CharPos;
             int endPosition;
 
             while (true)
             {
-                var currentChar = _chars[_charPos];
+                var currentChar = CharBuffer[CharPos];
                 if (currentChar == '\0')
                 {
-                    if (_charsUsed == _charPos)
+                    if (_charsUsed == CharPos)
                     {
                         if (await ReadDataAsync(true, cancellationToken).ConfigureAwait(false) == 0)
                         {
@@ -868,36 +868,36 @@ public partial class JsonTextReader
                     }
                     else
                     {
-                        endPosition = _charPos;
-                        _charPos++;
+                        endPosition = CharPos;
+                        CharPos++;
                         break;
                     }
                 }
                 else if (char.IsLetterOrDigit(currentChar))
                 {
-                    _charPos++;
+                    CharPos++;
                 }
                 else if (currentChar == StringUtils.CarriageReturn)
                 {
-                    endPosition = _charPos;
+                    endPosition = CharPos;
                     await ProcessCarriageReturnAsync(true, cancellationToken).ConfigureAwait(false);
                     break;
                 }
                 else if (currentChar == StringUtils.LineFeed)
                 {
-                    endPosition = _charPos;
+                    endPosition = CharPos;
                     ProcessLineFeed();
                     break;
                 }
                 else if (char.IsWhiteSpace(currentChar))
                 {
-                    endPosition = _charPos;
-                    _charPos++;
+                    endPosition = CharPos;
+                    CharPos++;
                     break;
                 }
                 else if (currentChar == '(')
                 {
-                    endPosition = _charPos;
+                    endPosition = CharPos;
                     break;
                 }
                 else
@@ -906,17 +906,17 @@ public partial class JsonTextReader
                 }
             }
 
-            _stringReference = new StringReference(_chars, initialPosition, endPosition - initialPosition);
+            _stringReference = new StringReference(CharBuffer, initialPosition, endPosition - initialPosition);
             var constructorName = _stringReference.ToString();
 
             await EatWhitespaceAsync(cancellationToken).ConfigureAwait(false);
 
-            if (_chars[_charPos] != '(')
+            if (CharBuffer[CharPos] != '(')
             {
-                throw JsonReaderException.Create(this, "Unexpected character while parsing constructor: {0}.".FormatWith(CultureInfo.InvariantCulture, _chars[_charPos]));
+                throw JsonReaderException.Create(this, "Unexpected character while parsing constructor: {0}.".FormatWith(CultureInfo.InvariantCulture, CharBuffer[CharPos]));
             }
 
-            _charPos++;
+            CharPos++;
 
             ClearRecentString();
 
@@ -945,12 +945,12 @@ public partial class JsonTextReader
 
     private async Task ParseNumberAsync(ReadType readType, CancellationToken cancellationToken)
     {
-        MiscellaneousUtils.Assert(_chars != null);
+        MiscellaneousUtils.Assert(CharBuffer != null);
 
         ShiftBufferIfNeeded();
 
-        var firstChar = _chars[_charPos];
-        var initialPosition = _charPos;
+        var firstChar = CharBuffer[CharPos];
+        var initialPosition = CharPos;
 
         await ReadNumberIntoBufferAsync(cancellationToken).ConfigureAwait(false);
 
@@ -964,14 +964,14 @@ public partial class JsonTextReader
 
     private async Task<bool> ParsePropertyAsync(CancellationToken cancellationToken)
     {
-        MiscellaneousUtils.Assert(_chars != null);
+        MiscellaneousUtils.Assert(CharBuffer != null);
 
-        var firstChar = _chars[_charPos];
+        var firstChar = CharBuffer[CharPos];
         char quoteChar;
 
         if (firstChar == '"' || firstChar == '\'')
         {
-            _charPos++;
+            CharPos++;
             quoteChar = firstChar;
             ShiftBufferIfNeeded();
             await ReadStringIntoBufferAsync(quoteChar, cancellationToken).ConfigureAwait(false);
@@ -984,7 +984,7 @@ public partial class JsonTextReader
         }
         else
         {
-            throw JsonReaderException.Create(this, "Invalid property identifier character: {0}.".FormatWith(CultureInfo.InvariantCulture, _chars[_charPos]));
+            throw JsonReaderException.Create(this, "Invalid property identifier character: {0}.".FormatWith(CultureInfo.InvariantCulture, CharBuffer[CharPos]));
         }
 
         string propertyName;
@@ -1002,12 +1002,12 @@ public partial class JsonTextReader
 
         await EatWhitespaceAsync(cancellationToken).ConfigureAwait(false);
 
-        if (_chars[_charPos] != ':')
+        if (CharBuffer[CharPos] != ':')
         {
-            throw JsonReaderException.Create(this, "Invalid character after parsing property name. Expected ':' but got: {0}.".FormatWith(CultureInfo.InvariantCulture, _chars[_charPos]));
+            throw JsonReaderException.Create(this, "Invalid character after parsing property name. Expected ':' but got: {0}.".FormatWith(CultureInfo.InvariantCulture, CharBuffer[CharPos]));
         }
 
-        _charPos++;
+        CharPos++;
 
         SetToken(JsonToken.PropertyName, propertyName);
         _quoteChar = quoteChar;
@@ -1018,16 +1018,16 @@ public partial class JsonTextReader
 
     private async Task ReadNumberIntoBufferAsync(CancellationToken cancellationToken)
     {
-        MiscellaneousUtils.Assert(_chars != null);
+        MiscellaneousUtils.Assert(CharBuffer != null);
 
-        var charPos = _charPos;
+        var charPos = CharPos;
 
         while (true)
         {
-            var currentChar = _chars[charPos];
+            var currentChar = CharBuffer[charPos];
             if (currentChar == '\0')
             {
-                _charPos = charPos;
+                CharPos = charPos;
 
                 if (_charsUsed == charPos)
                 {
@@ -1054,17 +1054,17 @@ public partial class JsonTextReader
 
     private async Task ParseUnquotedPropertyAsync(CancellationToken cancellationToken)
     {
-        MiscellaneousUtils.Assert(_chars != null);
+        MiscellaneousUtils.Assert(CharBuffer != null);
 
-        var initialPosition = _charPos;
+        var initialPosition = CharPos;
 
         // parse unquoted property name until whitespace or colon
         while (true)
         {
-            var currentChar = _chars[_charPos];
+            var currentChar = CharBuffer[CharPos];
             if (currentChar == '\0')
             {
-                if (_charsUsed == _charPos)
+                if (_charsUsed == CharPos)
                 {
                     if (await ReadDataAsync(true, cancellationToken).ConfigureAwait(false) == 0)
                     {
@@ -1074,7 +1074,7 @@ public partial class JsonTextReader
                     continue;
                 }
 
-                _stringReference = new StringReference(_chars, initialPosition, _charPos - initialPosition);
+                _stringReference = new StringReference(CharBuffer, initialPosition, CharPos - initialPosition);
                 return;
             }
 
@@ -1087,7 +1087,7 @@ public partial class JsonTextReader
 
     private async Task<bool> ReadNullCharAsync(CancellationToken cancellationToken)
     {
-        if (_charsUsed == _charPos)
+        if (_charsUsed == CharPos)
         {
             if (await ReadDataAsync(false, cancellationToken).ConfigureAwait(false) == 0)
             {
@@ -1097,7 +1097,7 @@ public partial class JsonTextReader
         }
         else
         {
-            _charPos++;
+            CharPos++;
         }
 
         return false;
@@ -1105,27 +1105,27 @@ public partial class JsonTextReader
 
     private async Task HandleNullAsync(CancellationToken cancellationToken)
     {
-        MiscellaneousUtils.Assert(_chars != null);
+        MiscellaneousUtils.Assert(CharBuffer != null);
 
         if (await EnsureCharsAsync(1, true, cancellationToken).ConfigureAwait(false))
         {
-            if (_chars[_charPos + 1] == 'u')
+            if (CharBuffer[CharPos + 1] == 'u')
             {
                 await ParseNullAsync(cancellationToken).ConfigureAwait(false);
                 return;
             }
 
-            _charPos += 2;
-            throw CreateUnexpectedCharacterException(_chars[_charPos - 1]);
+            CharPos += 2;
+            throw CreateUnexpectedCharacterException(CharBuffer[CharPos - 1]);
         }
 
-        _charPos = _charsUsed;
+        CharPos = _charsUsed;
         throw CreateUnexpectedEndException();
     }
 
     private async Task ReadFinishedAsync(CancellationToken cancellationToken)
     {
-        MiscellaneousUtils.Assert(_chars != null);
+        MiscellaneousUtils.Assert(CharBuffer != null);
 
         if (await EnsureCharsAsync(0, false, cancellationToken).ConfigureAwait(false))
         {
@@ -1136,13 +1136,13 @@ public partial class JsonTextReader
                 return;
             }
 
-            if (_chars[_charPos] == '/')
+            if (CharBuffer[CharPos] == '/')
             {
                 await ParseCommentAsync(false, cancellationToken).ConfigureAwait(false);
             }
             else
             {
-                throw JsonReaderException.Create(this, "Additional text encountered after finished reading JSON content: {0}.".FormatWith(CultureInfo.InvariantCulture, _chars[_charPos]));
+                throw JsonReaderException.Create(this, "Additional text encountered after finished reading JSON content: {0}.".FormatWith(CultureInfo.InvariantCulture, CharBuffer[CharPos]));
             }
         }
 
@@ -1152,7 +1152,7 @@ public partial class JsonTextReader
     private async Task<object?> ReadStringValueAsync(ReadType readType, CancellationToken cancellationToken)
     {
         EnsureBuffer();
-        MiscellaneousUtils.Assert(_chars != null);
+        MiscellaneousUtils.Assert(CharBuffer != null);
 
         switch (_currentState)
         {
@@ -1170,7 +1170,7 @@ public partial class JsonTextReader
             case State.ConstructorStart:
                 while (true)
                 {
-                    var currentChar = _chars[_charPos];
+                    var currentChar = CharBuffer[CharPos];
 
                     switch (currentChar)
                     {
@@ -1187,7 +1187,7 @@ public partial class JsonTextReader
                             await ParseStringAsync(currentChar, readType, cancellationToken).ConfigureAwait(false);
                             return FinishReadQuotedStringValue(readType);
                         case '-':
-                            if (await EnsureCharsAsync(1, true, cancellationToken).ConfigureAwait(false) && _chars[_charPos + 1] == 'I')
+                            if (await EnsureCharsAsync(1, true, cancellationToken).ConfigureAwait(false) && CharBuffer[CharPos + 1] == 'I')
                             {
                                 return ParseNumberNegativeInfinity(readType);
                             }
@@ -1209,7 +1209,7 @@ public partial class JsonTextReader
                         case '9':
                             if (readType != ReadType.ReadAsString)
                             {
-                                _charPos++;
+                                CharPos++;
                                 throw CreateUnexpectedCharacterException(currentChar);
                             }
 
@@ -1219,14 +1219,14 @@ public partial class JsonTextReader
                         case 'f':
                             if (readType != ReadType.ReadAsString)
                             {
-                                _charPos++;
+                                CharPos++;
                                 throw CreateUnexpectedCharacterException(currentChar);
                             }
 
                             var expected = currentChar == 't' ? JsonConvert.True : JsonConvert.False;
                             if (!await MatchValueWithTrailingSeparatorAsync(expected, cancellationToken).ConfigureAwait(false))
                             {
-                                throw CreateUnexpectedCharacterException(_chars[_charPos]);
+                                throw CreateUnexpectedCharacterException(CharBuffer[CharPos]);
                             }
 
                             SetToken(JsonToken.String, expected);
@@ -1245,7 +1245,7 @@ public partial class JsonTextReader
                             ProcessValueComma();
                             break;
                         case ']':
-                            _charPos++;
+                            CharPos++;
                             if (_currentState == State.Array || _currentState == State.ArrayStart || _currentState == State.PostValue)
                             {
                                 SetToken(JsonToken.EndArray);
@@ -1263,10 +1263,10 @@ public partial class JsonTextReader
                         case StringUtils.Tab:
 
                             // eat
-                            _charPos++;
+                            CharPos++;
                             break;
                         default:
-                            _charPos++;
+                            CharPos++;
 
                             if (!char.IsWhiteSpace(currentChar))
                             {
@@ -1288,7 +1288,7 @@ public partial class JsonTextReader
     private async Task<object?> ReadNumberValueAsync(ReadType readType, CancellationToken cancellationToken)
     {
         EnsureBuffer();
-        MiscellaneousUtils.Assert(_chars != null);
+        MiscellaneousUtils.Assert(CharBuffer != null);
 
         switch (_currentState)
         {
@@ -1306,7 +1306,7 @@ public partial class JsonTextReader
             case State.ConstructorStart:
                 while (true)
                 {
-                    var currentChar = _chars[_charPos];
+                    var currentChar = CharBuffer[CharPos];
 
                     switch (currentChar)
                     {
@@ -1330,7 +1330,7 @@ public partial class JsonTextReader
                         case 'I':
                             return await ParseNumberPositiveInfinityAsync(readType, cancellationToken).ConfigureAwait(false);
                         case '-':
-                            if (await EnsureCharsAsync(1, true, cancellationToken).ConfigureAwait(false) && _chars[_charPos + 1] == 'I')
+                            if (await EnsureCharsAsync(1, true, cancellationToken).ConfigureAwait(false) && CharBuffer[CharPos + 1] == 'I')
                             {
                                 return await ParseNumberNegativeInfinityAsync(readType, cancellationToken).ConfigureAwait(false);
                             }
@@ -1359,7 +1359,7 @@ public partial class JsonTextReader
                             ProcessValueComma();
                             break;
                         case ']':
-                            _charPos++;
+                            CharPos++;
                             if (_currentState == State.Array || _currentState == State.ArrayStart || _currentState == State.PostValue)
                             {
                                 SetToken(JsonToken.EndArray);
@@ -1377,10 +1377,10 @@ public partial class JsonTextReader
                         case StringUtils.Tab:
 
                             // eat
-                            _charPos++;
+                            CharPos++;
                             break;
                         default:
-                            _charPos++;
+                            CharPos++;
 
                             if (!char.IsWhiteSpace(currentChar))
                             {
@@ -1415,7 +1415,7 @@ public partial class JsonTextReader
     internal async Task<bool?> DoReadAsBooleanAsync(CancellationToken cancellationToken)
     {
         EnsureBuffer();
-        MiscellaneousUtils.Assert(_chars != null);
+        MiscellaneousUtils.Assert(CharBuffer != null);
 
         switch (_currentState)
         {
@@ -1433,7 +1433,7 @@ public partial class JsonTextReader
             case State.ConstructorStart:
                 while (true)
                 {
-                    var currentChar = _chars[_charPos];
+                    var currentChar = CharBuffer[CharPos];
 
                     switch (currentChar)
                     {
@@ -1481,7 +1481,7 @@ public partial class JsonTextReader
                             var isTrue = currentChar == 't';
                             if (!await MatchValueWithTrailingSeparatorAsync(isTrue ? JsonConvert.True : JsonConvert.False, cancellationToken).ConfigureAwait(false))
                             {
-                                throw CreateUnexpectedCharacterException(_chars[_charPos]);
+                                throw CreateUnexpectedCharacterException(CharBuffer[CharPos]);
                             }
 
                             SetToken(JsonToken.Boolean, isTrue);
@@ -1493,7 +1493,7 @@ public partial class JsonTextReader
                             ProcessValueComma();
                             break;
                         case ']':
-                            _charPos++;
+                            CharPos++;
                             if (_currentState == State.Array || _currentState == State.ArrayStart || _currentState == State.PostValue)
                             {
                                 SetToken(JsonToken.EndArray);
@@ -1511,10 +1511,10 @@ public partial class JsonTextReader
                         case StringUtils.Tab:
 
                             // eat
-                            _charPos++;
+                            CharPos++;
                             break;
                         default:
-                            _charPos++;
+                            CharPos++;
 
                             if (!char.IsWhiteSpace(currentChar))
                             {
@@ -1549,7 +1549,7 @@ public partial class JsonTextReader
     internal async Task<byte[]?> DoReadAsBytesAsync(CancellationToken cancellationToken)
     {
         EnsureBuffer();
-        MiscellaneousUtils.Assert(_chars != null);
+        MiscellaneousUtils.Assert(CharBuffer != null);
 
         var isWrapped = false;
 
@@ -1569,7 +1569,7 @@ public partial class JsonTextReader
             case State.ConstructorStart:
                 while (true)
                 {
-                    var currentChar = _chars[_charPos];
+                    var currentChar = CharBuffer[CharPos];
 
                     switch (currentChar)
                     {
@@ -1598,13 +1598,13 @@ public partial class JsonTextReader
 
                             return data;
                         case '{':
-                            _charPos++;
+                            CharPos++;
                             SetToken(JsonToken.StartObject);
                             await ReadIntoWrappedTypeObjectAsync(cancellationToken).ConfigureAwait(false);
                             isWrapped = true;
                             break;
                         case '[':
-                            _charPos++;
+                            CharPos++;
                             SetToken(JsonToken.StartArray);
                             return await ReadArrayIntoByteArrayAsync(cancellationToken).ConfigureAwait(false);
                         case 'n':
@@ -1617,7 +1617,7 @@ public partial class JsonTextReader
                             ProcessValueComma();
                             break;
                         case ']':
-                            _charPos++;
+                            CharPos++;
                             if (_currentState == State.Array || _currentState == State.ArrayStart || _currentState == State.PostValue)
                             {
                                 SetToken(JsonToken.EndArray);
@@ -1635,10 +1635,10 @@ public partial class JsonTextReader
                         case StringUtils.Tab:
 
                             // eat
-                            _charPos++;
+                            CharPos++;
                             break;
                         default:
-                            _charPos++;
+                            CharPos++;
 
                             if (!char.IsWhiteSpace(currentChar))
                             {

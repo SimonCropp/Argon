@@ -237,10 +237,9 @@ public class JsonSchema
     internal string Location { get; set; }
 
 #pragma warning disable CA1305 // Specify IFormatProvider
-    private readonly string _internalId = Guid.NewGuid().ToString("N");
 #pragma warning restore CA1305 // Specify IFormatProvider
 
-    internal string InternalId => _internalId;
+    internal string InternalId { get; } = Guid.NewGuid().ToString("N");
 
     // if this is set then this schema instance is just a deferred reference
     // and will be replaced when the schema reference is resolved

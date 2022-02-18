@@ -82,13 +82,12 @@ public class JsonSchemaGenerator
 
     private JsonSchemaResolver _resolver;
     private readonly IList<TypeSchema> _stack = new List<TypeSchema>();
-    private JsonSchema _currentSchema;
 
-    private JsonSchema CurrentSchema => _currentSchema;
+    private JsonSchema CurrentSchema { get; set; }
 
     private void Push(TypeSchema typeSchema)
     {
-        _currentSchema = typeSchema.Schema;
+        CurrentSchema = typeSchema.Schema;
         _stack.Add(typeSchema);
         _resolver.LoadedSchemas.Add(typeSchema.Schema);
     }
@@ -100,11 +99,11 @@ public class JsonSchemaGenerator
         var newValue = _stack.LastOrDefault();
         if (newValue != null)
         {
-            _currentSchema = newValue.Schema;
+            CurrentSchema = newValue.Schema;
         }
         else
         {
-            _currentSchema = null;
+            CurrentSchema = null;
         }
 
         return popped;
