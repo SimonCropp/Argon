@@ -798,10 +798,10 @@ public class JPathExecuteTests : TestFixtureBase
         IList<JToken> t = a.SelectTokens("$..*").ToList();
         Assert.IsNotNull(t);
         Assert.AreEqual(5, t.Count);
-        Assert.IsTrue(JToken.DeepEquals(a, t[0]));
-        Assert.IsTrue(JToken.DeepEquals(o1, t[1]));
+        Xunit.Assert.True(JToken.DeepEquals(a, t[0]));
+        Xunit.Assert.True(JToken.DeepEquals(o1, t[1]));
         Assert.AreEqual(1, (int)t[2]);
-        Assert.IsTrue(JToken.DeepEquals(o2, t[3]));
+        Xunit.Assert.True(JToken.DeepEquals(o2, t[3]));
         Assert.AreEqual(2, (int)t[4]);
     }
 
@@ -818,8 +818,8 @@ public class JPathExecuteTests : TestFixtureBase
         Assert.AreEqual(4, t.Count);
         Assert.AreEqual(1, (int)t[0]);
         Assert.AreEqual(2, (int)t[1]);
-        Assert.IsTrue(JToken.DeepEquals(new JObject { { "Name", new JArray(3) } }, t[2]));
-        Assert.IsTrue(JToken.DeepEquals(new JArray(3), t[3]));
+        Xunit.Assert.True(JToken.DeepEquals(new JObject { { "Name", new JArray(3) } }, t[2]));
+        Xunit.Assert.True(JToken.DeepEquals(new JArray(3), t[3]));
     }
 
     [Fact]
@@ -834,14 +834,14 @@ public class JPathExecuteTests : TestFixtureBase
         Assert.IsNotNull(t);
         Assert.AreEqual(9, t.Count);
 
-        Assert.IsTrue(JToken.DeepEquals(a, t[0]));
-        Assert.IsTrue(JToken.DeepEquals(o1, t[1]));
+        Xunit.Assert.True(JToken.DeepEquals(a, t[0]));
+        Xunit.Assert.True(JToken.DeepEquals(o1, t[1]));
         Assert.AreEqual(1, (int)t[2]);
-        Assert.IsTrue(JToken.DeepEquals(o2, t[3]));
+        Xunit.Assert.True(JToken.DeepEquals(o2, t[3]));
         Assert.AreEqual(2, (int)t[4]);
-        Assert.IsTrue(JToken.DeepEquals(o3, t[5]));
-        Assert.IsTrue(JToken.DeepEquals(new JObject { { "Name", new JArray(3) } }, t[6]));
-        Assert.IsTrue(JToken.DeepEquals(new JArray(3), t[7]));
+        Xunit.Assert.True(JToken.DeepEquals(o3, t[5]));
+        Xunit.Assert.True(JToken.DeepEquals(new JObject { { "Name", new JArray(3) } }, t[6]));
+        Xunit.Assert.True(JToken.DeepEquals(new JArray(3), t[7]));
         Assert.AreEqual(3, (int)t[8]);
     }
 
@@ -877,7 +877,7 @@ public class JPathExecuteTests : TestFixtureBase
         IList<JToken> t = a.SelectTokens("[ ?( @.hi ) ]").ToList();
         Assert.IsNotNull(t);
         Assert.AreEqual(1, t.Count);
-        Assert.IsTrue(JToken.DeepEquals(new JObject(new JProperty("hi", "ho")), t[0]));
+        Xunit.Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", "ho")), t[0]));
     }
 
     [Fact]
@@ -890,7 +890,7 @@ public class JPathExecuteTests : TestFixtureBase
         IList<JToken> t = a.SelectTokens("[ ?( @.['hi'] == 'ha' ) ]").ToList();
         Assert.IsNotNull(t);
         Assert.AreEqual(1, t.Count);
-        Assert.IsTrue(JToken.DeepEquals(new JObject(new JProperty("hi", "ha")), t[0]));
+        Xunit.Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", "ha")), t[0]));
     }
 
     [Fact]
@@ -903,7 +903,7 @@ public class JPathExecuteTests : TestFixtureBase
         IList<JToken> t = a.SelectTokens("[ ?( @..hi <> 'ha' ) ]").ToList();
         Assert.IsNotNull(t);
         Assert.AreEqual(1, t.Count);
-        Assert.IsTrue(JToken.DeepEquals(new JArray(new JObject(new JProperty("hi", "ho"))), t[0]));
+        Xunit.Assert.True(JToken.DeepEquals(new JArray(new JObject(new JProperty("hi", "ho"))), t[0]));
     }
 
     [Fact]
@@ -942,8 +942,8 @@ public class JPathExecuteTests : TestFixtureBase
         IList<JToken> t = a.SelectTokens("[ ?( @.hi > 1 ) ]").ToList();
         Assert.IsNotNull(t);
         Assert.AreEqual(2, t.Count);
-        Assert.IsTrue(JToken.DeepEquals(new JObject(new JProperty("hi", 2)), t[0]));
-        Assert.IsTrue(JToken.DeepEquals(new JObject(new JProperty("hi", 3)), t[1]));
+        Xunit.Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 2)), t[0]));
+        Xunit.Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 3)), t[1]));
     }
 
     [Fact]
@@ -957,8 +957,8 @@ public class JPathExecuteTests : TestFixtureBase
         IList<JToken> t = a.SelectTokens("[ ?( 1 < @.hi ) ]").ToList();
         Assert.IsNotNull(t);
         Assert.AreEqual(2, t.Count);
-        Assert.IsTrue(JToken.DeepEquals(new JObject(new JProperty("hi", 2)), t[0]));
-        Assert.IsTrue(JToken.DeepEquals(new JObject(new JProperty("hi", 3)), t[1]));
+        Xunit.Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 2)), t[0]));
+        Xunit.Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 3)), t[1]));
     }
 
     [Fact]
@@ -972,8 +972,8 @@ public class JPathExecuteTests : TestFixtureBase
         IList<JToken> t = a.SelectTokens("[ ?( @.hi > 1 ) ]").ToList();
         Assert.IsNotNull(t);
         Assert.AreEqual(2, t.Count);
-        Assert.IsTrue(JToken.DeepEquals(new JObject(new JProperty("hi", 2)), t[0]));
-        Assert.IsTrue(JToken.DeepEquals(new JObject(new JProperty("hi", 3)), t[1]));
+        Xunit.Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 2)), t[0]));
+        Xunit.Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 3)), t[1]));
     }
 
     [Fact]
@@ -988,10 +988,10 @@ public class JPathExecuteTests : TestFixtureBase
         IList<JToken> t = a.SelectTokens("[ ?( @.hi >= 1 ) ]").ToList();
         Assert.IsNotNull(t);
         Assert.AreEqual(4, t.Count);
-        Assert.IsTrue(JToken.DeepEquals(new JObject(new JProperty("hi", 1)), t[0]));
-        Assert.IsTrue(JToken.DeepEquals(new JObject(new JProperty("hi", 2)), t[1]));
-        Assert.IsTrue(JToken.DeepEquals(new JObject(new JProperty("hi", 2.0)), t[2]));
-        Assert.IsTrue(JToken.DeepEquals(new JObject(new JProperty("hi", 3)), t[3]));
+        Xunit.Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 1)), t[0]));
+        Xunit.Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 2)), t[1]));
+        Xunit.Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 2.0)), t[2]));
+        Xunit.Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 3)), t[3]));
     }
 
     [Fact]

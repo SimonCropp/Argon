@@ -576,6 +576,6 @@ public class JsonSchemaTests : TestFixtureBase
         ""NumberProperty"": 23
       }");
 
-    Assert.IsTrue(json.IsValid(schema));
+    Xunit.Assert.True(json.IsValid(schema));
   }
 }

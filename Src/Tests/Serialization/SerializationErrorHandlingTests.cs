@@ -134,7 +134,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         Assert.AreEqual(1, c.Messages.Count);
 
         Console.WriteLine(c.Messages[0]);
-        Assert.IsTrue(possibleMsgs.Any(m => m == c.Messages[0]), "Expected One of: " + Environment.NewLine + string.Join(Environment.NewLine, possibleMsgs) + Environment.NewLine + "Was: " + Environment.NewLine + c.Messages[0]);
+        Xunit.Assert.True(possibleMsgs.Any(m => m == c.Messages[0]), "Expected One of: " + Environment.NewLine + string.Join(Environment.NewLine, possibleMsgs) + Environment.NewLine + "Was: " + Environment.NewLine + c.Messages[0]);
     }
 
     [Fact]
@@ -374,7 +374,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             "[1] - 1 - The string 'I am not a date and will error!' was not recognized as a valid DateTime. There is an unknown word starting at index '0'."
         };
 
-        Assert.IsTrue(possibleErrs.Any(m => m == errors[0]),
+        Xunit.Assert.True(possibleErrs.Any(m => m == errors[0]),
             "Expected One of: " + string.Join(Environment.NewLine, possibleErrs) + Environment.NewLine + "But was: " + errors[0]);
 
         Assert.AreEqual("[2] - 2 - Unexpected token parsing date. Expected String, got StartArray. Path '[2]', line 4, position 9.", errors[1]);
@@ -484,8 +484,8 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         serializer.Deserialize(new JsonTextReader(new StringReader(json)), typeof(MyTypeWithRequiredMembers));
 
         Assert.AreEqual(2, errors.Count);
-        Assert.IsTrue(errors[0].StartsWith(" - Required1 - Required property 'Required1' not found in JSON. Path '', line 1, position 2."));
-        Assert.IsTrue(errors[1].StartsWith(" - Required2 - Required property 'Required2' not found in JSON. Path '', line 1, position 2."));
+        Xunit.Assert.True(errors[0].StartsWith(" - Required1 - Required property 'Required1' not found in JSON. Path '', line 1, position 2."));
+        Xunit.Assert.True(errors[1].StartsWith(" - Required2 - Required property 'Required2' not found in JSON. Path '', line 1, position 2."));
     }
 
     [Fact]
@@ -1014,7 +1014,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var dictionary = JsonConvert.DeserializeObject<TolerantDictionary<string, DataModel>>(json);
 
         Assert.AreEqual(1, dictionary.Count);
-        Assert.IsTrue(dictionary.ContainsKey("model2"));
+        Xunit.Assert.True(dictionary.ContainsKey("model2"));
         Assert.AreEqual("s2", dictionary["model2"].String1);
         Assert.AreEqual(2, dictionary["model2"].Int1);
     }

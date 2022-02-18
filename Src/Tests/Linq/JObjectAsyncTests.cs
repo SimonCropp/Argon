@@ -73,31 +73,31 @@ public class JObjectAsyncTests : TestFixtureBase
 
         JsonReader reader = new JTokenReader(o);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.String, reader.TokenType);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.Raw, reader.TokenType);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.String, reader.TokenType);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
 
-        Assert.IsFalse(await reader.ReadAsync());
+        Xunit.Assert.False(await reader.ReadAsync());
     }
 
     [Fact]

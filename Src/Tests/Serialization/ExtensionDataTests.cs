@@ -324,7 +324,7 @@ public class ExtensionDataTests : TestFixtureBase
         var c2 = JsonConvert.DeserializeObject<JObjectExtensionDataTestClass>(json);
 
         Assert.AreEqual("Name!", c2.Name);
-        Assert.IsTrue(JToken.DeepEquals(c.ExtensionData, c2.ExtensionData));
+        Xunit.Assert.True(JToken.DeepEquals(c.ExtensionData, c2.ExtensionData));
     }
 
     [Fact]
@@ -352,8 +352,8 @@ public class ExtensionDataTests : TestFixtureBase
         Assert.True( (bool)c.ExtensionData["GetPrivate"]);
         Assert.True( (bool)c.ExtensionData["GetOnly"]);
         Assert.True( (bool)c.ExtensionData["NewValueSimple"]);
-        Assert.IsTrue(JToken.DeepEquals(new JArray(1, 2, 3), c.ExtensionData["NewValueComplex"]));
-        Assert.IsTrue(JToken.DeepEquals(new JArray(1, 2, 3), c.ExtensionData["Ignored"]));
+        Xunit.Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), c.ExtensionData["NewValueComplex"]));
+        Xunit.Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), c.ExtensionData["Ignored"]));
 
         Assert.AreEqual(7, c.ExtensionData.Count);
     }
@@ -392,8 +392,8 @@ public class ExtensionDataTests : TestFixtureBase
         Assert.True( (bool)c.ExtensionData["GetPrivate"]);
         Assert.True( (bool)c.ExtensionData["GetOnly"]);
         Assert.True( (bool)c.ExtensionData["NewValueSimple"]);
-        Assert.IsTrue(JToken.DeepEquals(new JArray(1, 2, 3), c.ExtensionData["NewValueComplex"]));
-        Assert.IsTrue(JToken.DeepEquals(new JArray(1, 2, 3), c.ExtensionData["Ignored"]));
+        Xunit.Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), c.ExtensionData["NewValueComplex"]));
+        Xunit.Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), c.ExtensionData["Ignored"]));
 
         Assert.AreEqual(7, c.ExtensionData.Count);
     }
@@ -850,7 +850,7 @@ public class ExtensionDataTests : TestFixtureBase
         // inception
         var o = (JObject)c.ExtensionData["ExtensionData"];
         Assert.AreEqual(1, o.Count);
-        Assert.IsTrue(JToken.DeepEquals(new JObject { { "HAI", true } }, o));
+        Xunit.Assert.True(JToken.DeepEquals(new JObject { { "HAI", true } }, o));
     }
 
     [Fact]

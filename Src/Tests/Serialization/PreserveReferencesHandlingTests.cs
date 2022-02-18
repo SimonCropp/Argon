@@ -265,7 +265,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 
         Assert.AreEqual(2, circularDictionary.Count);
         Assert.AreEqual(1, circularDictionary["other"].Count);
-        Assert.IsTrue(ReferenceEquals(circularDictionary, circularDictionary["self"]));
+        Xunit.Assert.True(ReferenceEquals(circularDictionary, circularDictionary["self"]));
     }
 
     public class CircularList : List<CircularList>
@@ -383,7 +383,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         Assert.AreEqual(1, circularList[1].Count);
         Assert.AreEqual(1, circularList[2].Count);
         Assert.AreEqual(1, circularList[2][0].Count);
-        Assert.IsTrue(ReferenceEquals(circularList, circularList[2][0][0]));
+        Xunit.Assert.True(ReferenceEquals(circularList, circularList[2][0][0]));
     }
 
     [Fact]
@@ -1203,7 +1203,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 
         var d = JsonConvert.DeserializeObject<ReferencedDictionary<TestComponentSimple>>(json);
         Assert.AreEqual(3, d.Count);
-        Assert.IsTrue(ReferenceEquals(d["First"], d["Third"]));
+        Xunit.Assert.True(ReferenceEquals(d["First"], d["Third"]));
     }
 
     [Fact]
@@ -1239,7 +1239,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         var referenceObject = JsonConvert.DeserializeObject<ReferenceObject>(json);
         Assert.IsNotNull(referenceObject);
 
-        Assert.IsTrue(ReferenceEquals(referenceObject.Component1, referenceObject.Component2));
+        Xunit.Assert.True(ReferenceEquals(referenceObject.Component1, referenceObject.Component2));
     }
 
     [Fact]
@@ -1287,8 +1287,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         var c3 = o2.Data.Prop2;
         var c4 = o2.Data.Data[0];
 
-        Assert.IsTrue(ReferenceEquals(c2, c3));
-        Assert.IsFalse(ReferenceEquals(c2, c4));
+        Xunit.Assert.True(ReferenceEquals(c2, c3));
+        Xunit.Assert.False(ReferenceEquals(c2, c4));
     }
 
     [Fact]

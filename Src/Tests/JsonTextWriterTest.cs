@@ -188,16 +188,16 @@ public class JsonTextWriterTest : TestFixtureBase
         var ms = new MemoryStream();
         var writer = new JsonTextWriter(new StreamWriter(ms));
 
-        Assert.IsTrue(ms.CanRead);
+        Xunit.Assert.True(ms.CanRead);
         writer.Close();
-        Assert.IsFalse(ms.CanRead);
+        Xunit.Assert.False(ms.CanRead);
 
         ms = new MemoryStream();
         writer = new JsonTextWriter(new StreamWriter(ms)) { CloseOutput = false };
 
-        Assert.IsTrue(ms.CanRead);
+        Xunit.Assert.True(ms.CanRead);
         writer.Close();
-        Assert.IsTrue(ms.CanRead);
+        Xunit.Assert.True(ms.CanRead);
     }
 
     [Fact]

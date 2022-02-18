@@ -39,7 +39,7 @@ public class JConstructorTests : TestFixtureBase
 
         var constructor = JConstructor.Load(reader);
         Assert.AreEqual("Date", constructor.Name);
-        Assert.IsTrue(JToken.DeepEquals(new JValue(123), constructor.Values().ElementAt(0)));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue(123), constructor.Values().ElementAt(0)));
     }
 
     [Fact]

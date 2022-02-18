@@ -330,7 +330,7 @@ public class JsonSchemaBuilderTests : TestFixtureBase
         var schema = builder.Read(new JsonTextReader(new StringReader(json)));
 
         Assert.AreEqual("DefaultComplexType", schema.Description);
-        Assert.IsTrue(JToken.DeepEquals(JObject.Parse(@"{""pie"":true}"), schema.Default));
+        Xunit.Assert.True(JToken.DeepEquals(JObject.Parse(@"{""pie"":true}"), schema.Default));
     }
 
     [Fact]

@@ -165,7 +165,7 @@ public class JPropertyTests : TestFixtureBase
 
         var property = JProperty.Load(reader);
         Assert.AreEqual("propertyname", property.Name);
-        Assert.IsTrue(JToken.DeepEquals(JArray.Parse("['value1']"), property.Value));
+        Xunit.Assert.True(JToken.DeepEquals(JArray.Parse("['value1']"), property.Value));
 
         Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
 
@@ -177,7 +177,7 @@ public class JPropertyTests : TestFixtureBase
 
         property = JProperty.Load(reader);
         Assert.AreEqual("propertyname", property.Name);
-        Assert.IsTrue(JToken.DeepEquals(JValue.CreateNull(), property.Value));
+        Xunit.Assert.True(JToken.DeepEquals(JValue.CreateNull(), property.Value));
 
         Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
     }

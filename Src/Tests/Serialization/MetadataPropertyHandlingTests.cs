@@ -205,7 +205,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
         Assert.AreEqual(1, circularList[1].Count);
         Assert.AreEqual(1, circularList[2].Count);
         Assert.AreEqual(1, circularList[2][0].Count);
-        Assert.IsTrue(ReferenceEquals(circularList, circularList[2][0][0]));
+        Xunit.Assert.True(ReferenceEquals(circularList, circularList[2][0][0]));
     }
 
     [Fact]
@@ -328,7 +328,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
         Assert.AreEqual("Joe User", employees[1].Name);
         Assert.AreEqual(employees[0], employees[1].Manager);
 
-        Assert.IsTrue(JToken.DeepEquals(t1, t2));
+        Xunit.Assert.True(JToken.DeepEquals(t1, t2));
     }
 
     [Fact]
@@ -617,7 +617,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
                 MetadataPropertyHandling = MetadataPropertyHandling.Ignore
             });
 
-        Assert.IsTrue(actual.Payload is JObject);
+        Xunit.Assert.True(actual.Payload is JObject);
     }
 
     [Fact]

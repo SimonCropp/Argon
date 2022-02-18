@@ -75,7 +75,7 @@ public class Issue1798
         var resolver = new DefaultContractResolver();
 
         var objectContract = (JsonObjectContract) resolver.ResolveContract(typeof(NonSerializableException));
-        Assert.IsFalse(objectContract.Properties.Contains("TargetSite"));
+        Xunit.Assert.False(objectContract.Properties.Contains("TargetSite"));
 
         object o = resolver.ResolveContract(typeof(Exception));
         Xunit.Assert.IsType(typeof(JsonISerializableContract), o);

@@ -51,7 +51,7 @@ public class ConvertUtilsTests : TestFixtureBase
 
             if (result2)
             {
-                Assert.IsTrue(expectedValue.HasValue);
+                Xunit.Assert.True(expectedValue.HasValue);
 
                 Assert.AreEqual(expectedValue.Value, d, "Input string: " + s);
 
@@ -169,7 +169,7 @@ public class ConvertUtilsTests : TestFixtureBase
 
         if (result2)
         {
-            Assert.IsTrue(expectedValue.HasValue);
+            Xunit.Assert.True(expectedValue.HasValue);
 
             Assert.AreEqual(expectedValue.Value, d);
 
@@ -359,25 +359,25 @@ public class ConvertUtilsTests : TestFixtureBase
     [Fact]
     public void HexParseOffset()
     {
-        Assert.IsTrue(ConvertUtils.TryHexTextToInt("!0000".ToCharArray(), 1, 5, out var value));
+        Xunit.Assert.True(ConvertUtils.TryHexTextToInt("!0000".ToCharArray(), 1, 5, out var value));
         Assert.AreEqual(0, value);
     }
 
     [Fact]
     public void HexParseError()
     {
-        Assert.IsFalse(ConvertUtils.TryHexTextToInt("-100".ToCharArray(), 0, 4, out var value));
-        Assert.IsFalse(ConvertUtils.TryHexTextToInt("000g".ToCharArray(), 0, 4, out value));
-        Assert.IsFalse(ConvertUtils.TryHexTextToInt(" ssd".ToCharArray(), 0, 4, out value));
-        Assert.IsFalse(ConvertUtils.TryHexTextToInt("000:".ToCharArray(), 0, 4, out value));
-        Assert.IsFalse(ConvertUtils.TryHexTextToInt("000G".ToCharArray(), 0, 4, out value));
+        Xunit.Assert.False(ConvertUtils.TryHexTextToInt("-100".ToCharArray(), 0, 4, out var value));
+        Xunit.Assert.False(ConvertUtils.TryHexTextToInt("000g".ToCharArray(), 0, 4, out value));
+        Xunit.Assert.False(ConvertUtils.TryHexTextToInt(" ssd".ToCharArray(), 0, 4, out value));
+        Xunit.Assert.False(ConvertUtils.TryHexTextToInt("000:".ToCharArray(), 0, 4, out value));
+        Xunit.Assert.False(ConvertUtils.TryHexTextToInt("000G".ToCharArray(), 0, 4, out value));
     }
 
     void HexParseSame(string text)
     {
         var v1 = int.Parse(text, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
 
-        Assert.IsTrue(ConvertUtils.TryHexTextToInt(text.ToCharArray(), 0, 4, out var v2));
+        Xunit.Assert.True(ConvertUtils.TryHexTextToInt(text.ToCharArray(), 0, 4, out var v2));
 
         Assert.AreEqual(v1, v2);
     }

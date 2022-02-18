@@ -46,7 +46,7 @@ public class JArrayTests : TestFixtureBase
 
         var last = a.Last();
 
-        Assert.IsTrue(a.Remove(last));
+        Xunit.Assert.True(a.Remove(last));
 
         last = a.Last();
         last.Remove();
@@ -70,7 +70,7 @@ public class JArrayTests : TestFixtureBase
         var a = new JArray();
         a.Add(a);
 
-        Assert.IsFalse(ReferenceEquals(a[0], a));
+        Xunit.Assert.False(ReferenceEquals(a[0], a));
     }
 
     [Fact]

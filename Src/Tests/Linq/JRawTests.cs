@@ -38,8 +38,8 @@ public class JRawTests : TestFixtureBase
         var r2 = new JRaw("raw1");
         var r3 = new JRaw("raw2");
 
-        Assert.IsTrue(JToken.DeepEquals(r1, r2));
-        Assert.IsFalse(JToken.DeepEquals(r1, r3));
+        Xunit.Assert.True(JToken.DeepEquals(r1, r2));
+        Xunit.Assert.False(JToken.DeepEquals(r1, r3));
     }
 
     [Fact]

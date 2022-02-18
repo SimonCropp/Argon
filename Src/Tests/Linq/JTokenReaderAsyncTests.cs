@@ -37,10 +37,10 @@ public class JTokenReaderAsyncTests : TestFixtureBase
         var jObject = JObject.Parse("{ maxValue:10000000000000000000}");
 
         var reader = jObject.CreateReader();
-        Assert.IsTrue(await reader.ReadAsync());
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(10000000000000000000d, await reader.ReadAsDoubleAsync());
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
     }
 
     [Fact]
@@ -98,24 +98,24 @@ public class JTokenReaderAsyncTests : TestFixtureBase
             Assert.AreEqual(JsonToken.Null, jsonReader.TokenType);
             Assert.AreEqual(null, jsonReader.Value);
 
-            Assert.IsTrue(await jsonReader.ReadAsync());
+            Xunit.Assert.True(await jsonReader.ReadAsync());
             Assert.AreEqual(JsonToken.EndObject, jsonReader.TokenType);
 
-            Assert.IsFalse(await jsonReader.ReadAsync());
+            Xunit.Assert.False(await jsonReader.ReadAsync());
             Assert.AreEqual(JsonToken.None, jsonReader.TokenType);
         }
 
         using (JsonReader jsonReader = new JTokenReader(o.Property("Test2")))
         {
-            Assert.IsTrue(await jsonReader.ReadAsync());
+            Xunit.Assert.True(await jsonReader.ReadAsync());
             Assert.AreEqual(JsonToken.PropertyName, jsonReader.TokenType);
             Assert.AreEqual("Test2", jsonReader.Value);
 
-            Assert.IsTrue(await jsonReader.ReadAsync());
+            Xunit.Assert.True(await jsonReader.ReadAsync());
             Assert.AreEqual(JsonToken.Date, jsonReader.TokenType);
             Assert.AreEqual(new DateTimeOffset(2000, 10, 15, 5, 5, 5, new TimeSpan(11, 11, 0)), jsonReader.Value);
 
-            Assert.IsFalse(await jsonReader.ReadAsync());
+            Xunit.Assert.False(await jsonReader.ReadAsync());
             Assert.AreEqual(JsonToken.None, jsonReader.TokenType);
         }
     }
@@ -129,10 +129,10 @@ public class JTokenReaderAsyncTests : TestFixtureBase
 
         var reader = o.CreateReader();
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
 
         await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsDateTimeOffsetAsync(); }, "Could not convert string to DateTimeOffset: blablahbla. Path 'Offset', line 1, position 22.");
@@ -147,10 +147,10 @@ public class JTokenReaderAsyncTests : TestFixtureBase
 
         var reader = o.CreateReader();
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
 
         await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsDateTimeOffsetAsync(); }, "Error reading date. Unexpected token: Boolean. Path 'Offset', line 1, position 14.");
@@ -165,10 +165,10 @@ public class JTokenReaderAsyncTests : TestFixtureBase
 
         var reader = o.CreateReader();
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
 
         await reader.ReadAsDateTimeOffsetAsync();
@@ -300,10 +300,10 @@ public class JTokenReaderAsyncTests : TestFixtureBase
             var readBytes = await jsonReader.ReadAsBytesAsync();
             Assert.AreEqual(data, readBytes);
 
-            Assert.IsTrue(await jsonReader.ReadAsync());
+            Xunit.Assert.True(await jsonReader.ReadAsync());
             Assert.AreEqual(JsonToken.EndObject, jsonReader.TokenType);
 
-            Assert.IsFalse(await jsonReader.ReadAsync());
+            Xunit.Assert.False(await jsonReader.ReadAsync());
             Assert.AreEqual(JsonToken.None, jsonReader.TokenType);
         }
     }
@@ -346,10 +346,10 @@ public class JTokenReaderAsyncTests : TestFixtureBase
 
         var reader = o.CreateReader();
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
 
         await reader.ReadAsDecimalAsync();
@@ -367,11 +367,11 @@ public class JTokenReaderAsyncTests : TestFixtureBase
 
         var reader = (JTokenReader)o.CreateReader();
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
         Assert.AreEqual(o, reader.CurrentToken);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
         Assert.AreEqual(o.Property("Name"), reader.CurrentToken);
 
@@ -391,10 +391,10 @@ public class JTokenReaderAsyncTests : TestFixtureBase
 
         var reader = o.CreateReader();
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
 
         await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsInt32Async(); }, "Could not convert string to integer: hi. Path 'Name', line 1, position 12.");
@@ -409,10 +409,10 @@ public class JTokenReaderAsyncTests : TestFixtureBase
 
         var reader = o.CreateReader();
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
 
         await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsInt32Async(); }, "Error reading integer. Unexpected token: Boolean. Path 'Name', line 1, position 12.");
@@ -427,10 +427,10 @@ public class JTokenReaderAsyncTests : TestFixtureBase
 
         var reader = o.CreateReader();
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
 
         await reader.ReadAsDecimalAsync();
@@ -448,10 +448,10 @@ public class JTokenReaderAsyncTests : TestFixtureBase
 
         var reader = o.CreateReader();
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
 
         await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsDecimalAsync(); }, "Could not convert string to decimal: blah. Path 'Name', line 1, position 14.");
@@ -466,10 +466,10 @@ public class JTokenReaderAsyncTests : TestFixtureBase
 
         var reader = o.CreateReader();
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
 
         await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsDecimalAsync(); }, "Error reading decimal. Unexpected token: Boolean. Path 'Name', line 1, position 12.");
@@ -484,10 +484,10 @@ public class JTokenReaderAsyncTests : TestFixtureBase
 
         var reader = o.CreateReader();
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
 
         await reader.ReadAsDecimalAsync();
@@ -508,19 +508,19 @@ public class JTokenReaderAsyncTests : TestFixtureBase
 
         Assert.AreEqual("baseprop", reader.Path);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual("baseprop", reader.Path);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual("baseprop.prop1", reader.Path);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual("baseprop.prop1", reader.Path);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual("baseprop", reader.Path);
 
-        Assert.IsFalse(await reader.ReadAsync());
+        Xunit.Assert.False(await reader.ReadAsync());
         Assert.AreEqual("baseprop", reader.Path);
     }
 
@@ -536,19 +536,19 @@ public class JTokenReaderAsyncTests : TestFixtureBase
 
         Assert.AreEqual("[0]", reader.Path);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual("[0]", reader.Path);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual("[0].prop1", reader.Path);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual("[0].prop1", reader.Path);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual("[0]", reader.Path);
 
-        Assert.IsFalse(await reader.ReadAsync());
+        Xunit.Assert.False(await reader.ReadAsync());
         Assert.AreEqual("[0]", reader.Path);
     }
 
@@ -564,19 +564,19 @@ public class JTokenReaderAsyncTests : TestFixtureBase
 
         Assert.AreEqual("baseprop", reader.Path);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual("baseprop", reader.Path);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual("baseprop[0]", reader.Path);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual("baseprop[1]", reader.Path);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual("baseprop", reader.Path);
 
-        Assert.IsFalse(await reader.ReadAsync());
+        Xunit.Assert.False(await reader.ReadAsync());
         Assert.AreEqual("baseprop", reader.Path);
     }
 
@@ -592,19 +592,19 @@ public class JTokenReaderAsyncTests : TestFixtureBase
 
         Assert.AreEqual("[0]", reader.Path);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual("[0]", reader.Path);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual("[0][0]", reader.Path);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual("[0][1]", reader.Path);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual("[0]", reader.Path);
 
-        Assert.IsFalse(await reader.ReadAsync());
+        Xunit.Assert.False(await reader.ReadAsync());
         Assert.AreEqual("[0]", reader.Path);
     }
 

@@ -39,10 +39,10 @@ public class JTokenReaderTest : TestFixtureBase
         var jObject = JObject.Parse("{ maxValue:10000000000000000000}");
 
         var reader = jObject.CreateReader();
-        Assert.IsTrue(reader.Read());
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(10000000000000000000d, reader.ReadAsDouble());
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
     }
 
     [Fact]
@@ -51,10 +51,10 @@ public class JTokenReaderTest : TestFixtureBase
         var jObject = JObject.Parse("{ maxValue:10000000000000000000}");
 
         var reader = jObject.CreateReader();
-        Assert.IsTrue(reader.Read());
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(10000000000000000000m, reader.ReadAsDecimal());
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
     }
 
     [Fact]
@@ -125,24 +125,24 @@ public class JTokenReaderTest : TestFixtureBase
             Assert.AreEqual(JsonToken.Null, jsonReader.TokenType);
             Assert.AreEqual(null, jsonReader.Value);
 
-            Assert.IsTrue(jsonReader.Read());
+            Xunit.Assert.True(jsonReader.Read());
             Assert.AreEqual(JsonToken.EndObject, jsonReader.TokenType);
 
-            Assert.IsFalse(jsonReader.Read());
+            Xunit.Assert.False(jsonReader.Read());
             Assert.AreEqual(JsonToken.None, jsonReader.TokenType);
         }
 
         using (JsonReader jsonReader = new JTokenReader(o.Property("Test2")))
         {
-            Assert.IsTrue(jsonReader.Read());
+            Xunit.Assert.True(jsonReader.Read());
             Assert.AreEqual(JsonToken.PropertyName, jsonReader.TokenType);
             Assert.AreEqual("Test2", jsonReader.Value);
 
-            Assert.IsTrue(jsonReader.Read());
+            Xunit.Assert.True(jsonReader.Read());
             Assert.AreEqual(JsonToken.Date, jsonReader.TokenType);
             Assert.AreEqual(new DateTimeOffset(2000, 10, 15, 5, 5, 5, new TimeSpan(11, 11, 0)), jsonReader.Value);
 
-            Assert.IsFalse(jsonReader.Read());
+            Xunit.Assert.False(jsonReader.Read());
             Assert.AreEqual(JsonToken.None, jsonReader.TokenType);
         }
     }
@@ -156,10 +156,10 @@ public class JTokenReaderTest : TestFixtureBase
 
         var reader = o.CreateReader();
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
 
         ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsDateTimeOffset(); }, "Could not convert string to DateTimeOffset: blablahbla. Path 'Offset', line 1, position 22.");
@@ -174,10 +174,10 @@ public class JTokenReaderTest : TestFixtureBase
 
         var reader = o.CreateReader();
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
 
         ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsDateTimeOffset(); }, "Error reading date. Unexpected token: Boolean. Path 'Offset', line 1, position 14.");
@@ -192,10 +192,10 @@ public class JTokenReaderTest : TestFixtureBase
 
         var reader = o.CreateReader();
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
 
         reader.ReadAsDateTimeOffset();
@@ -327,10 +327,10 @@ public class JTokenReaderTest : TestFixtureBase
             var readBytes = jsonReader.ReadAsBytes();
             Assert.AreEqual(data, readBytes);
 
-            Assert.IsTrue(jsonReader.Read());
+            Xunit.Assert.True(jsonReader.Read());
             Assert.AreEqual(JsonToken.EndObject, jsonReader.TokenType);
 
-            Assert.IsFalse(jsonReader.Read());
+            Xunit.Assert.False(jsonReader.Read());
             Assert.AreEqual(JsonToken.None, jsonReader.TokenType);
         }
     }
@@ -474,10 +474,10 @@ public class JTokenReaderTest : TestFixtureBase
 
         var reader = o.CreateReader();
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
 
         reader.ReadAsDecimal();
@@ -495,11 +495,11 @@ public class JTokenReaderTest : TestFixtureBase
 
         var reader = (JTokenReader)o.CreateReader();
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
         Assert.AreEqual(o, reader.CurrentToken);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
         Assert.AreEqual(o.Property("Name"), reader.CurrentToken);
 
@@ -519,10 +519,10 @@ public class JTokenReaderTest : TestFixtureBase
 
         var reader = o.CreateReader();
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
 
         ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsInt32(); }, "Could not convert string to integer: hi. Path 'Name', line 1, position 12.");
@@ -537,10 +537,10 @@ public class JTokenReaderTest : TestFixtureBase
 
         var reader = o.CreateReader();
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
 
         ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsInt32(); }, "Error reading integer. Unexpected token: Boolean. Path 'Name', line 1, position 12.");
@@ -555,10 +555,10 @@ public class JTokenReaderTest : TestFixtureBase
 
         var reader = o.CreateReader();
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
 
         reader.ReadAsDecimal();
@@ -576,10 +576,10 @@ public class JTokenReaderTest : TestFixtureBase
 
         var reader = o.CreateReader();
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
 
         ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsDecimal(); }, "Could not convert string to decimal: blah. Path 'Name', line 1, position 14.");
@@ -594,10 +594,10 @@ public class JTokenReaderTest : TestFixtureBase
 
         var reader = o.CreateReader();
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
 
         ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsDecimal(); }, "Error reading decimal. Unexpected token: Boolean. Path 'Name', line 1, position 12.");
@@ -612,10 +612,10 @@ public class JTokenReaderTest : TestFixtureBase
 
         var reader = o.CreateReader();
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
 
         reader.ReadAsDecimal();
@@ -636,19 +636,19 @@ public class JTokenReaderTest : TestFixtureBase
 
         Assert.AreEqual("baseprop", reader.Path);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual("baseprop", reader.Path);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual("baseprop.prop1", reader.Path);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual("baseprop.prop1", reader.Path);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual("baseprop", reader.Path);
 
-        Assert.IsFalse(reader.Read());
+        Xunit.Assert.False(reader.Read());
         Assert.AreEqual("baseprop", reader.Path);
     }
 
@@ -664,19 +664,19 @@ public class JTokenReaderTest : TestFixtureBase
 
         Assert.AreEqual("[0]", reader.Path);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual("[0]", reader.Path);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual("[0].prop1", reader.Path);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual("[0].prop1", reader.Path);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual("[0]", reader.Path);
 
-        Assert.IsFalse(reader.Read());
+        Xunit.Assert.False(reader.Read());
         Assert.AreEqual("[0]", reader.Path);
     }
 
@@ -692,19 +692,19 @@ public class JTokenReaderTest : TestFixtureBase
 
         Assert.AreEqual("baseprop", reader.Path);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual("baseprop", reader.Path);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual("baseprop[0]", reader.Path);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual("baseprop[1]", reader.Path);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual("baseprop", reader.Path);
 
-        Assert.IsFalse(reader.Read());
+        Xunit.Assert.False(reader.Read());
         Assert.AreEqual("baseprop", reader.Path);
     }
 
@@ -720,19 +720,19 @@ public class JTokenReaderTest : TestFixtureBase
 
         Assert.AreEqual("[0]", reader.Path);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual("[0]", reader.Path);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual("[0][0]", reader.Path);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual("[0][1]", reader.Path);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual("[0]", reader.Path);
 
-        Assert.IsFalse(reader.Read());
+        Xunit.Assert.False(reader.Read());
         Assert.AreEqual("[0]", reader.Path);
     }
 

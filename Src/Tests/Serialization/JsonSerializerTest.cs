@@ -125,7 +125,7 @@ public class JsonSerializerTest : TestFixtureBase
             }
             catch (Exception)
             {
-                Assert.IsTrue(s.Position > 0);
+                Xunit.Assert.True(s.Position > 0);
 
                 s.Seek(0, SeekOrigin.Begin);
 
@@ -888,18 +888,18 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.AreEqual(1, o["C"].Count());
         Assert.AreEqual(1, (int) o["C"][0]);
 
-        Assert.IsTrue(JToken.DeepEquals(o, JObject.Parse(json)));
+        Xunit.Assert.True(JToken.DeepEquals(o, JObject.Parse(json)));
 
         json = @"{/* Test */}";
         o = (JObject) JsonConvert.DeserializeObject(json);
         Assert.AreEqual(0, o.Count);
-        Assert.IsTrue(JToken.DeepEquals(o, JObject.Parse(json)));
+        Xunit.Assert.True(JToken.DeepEquals(o, JObject.Parse(json)));
 
         json = @"{""A"": true/* Test */}";
         o = (JObject) JsonConvert.DeserializeObject(json);
         Assert.AreEqual(1, o.Count);
         Assert.True((bool) o["A"]);
-        Assert.IsTrue(JToken.DeepEquals(o, JObject.Parse(json)));
+        Xunit.Assert.True(JToken.DeepEquals(o, JObject.Parse(json)));
     }
 
     [Fact]
@@ -1355,7 +1355,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         Xunit.Assert.IsType(typeof(double), o);
 
-        Assert.IsTrue(MathUtils.ApproxEquals(1E+38, (double) o));
+        Xunit.Assert.True(MathUtils.ApproxEquals(1E+38, (double) o));
     }
 
     [Fact]
@@ -1622,7 +1622,7 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.AreEqual(dataContractJson.Count, jsonNetJson.Count);
         foreach (var property in dataContractJson)
         {
-            Assert.IsTrue(JToken.DeepEquals(jsonNetJson[property.Key], property.Value), "Property not equal: " + property.Key);
+            Xunit.Assert.True(JToken.DeepEquals(jsonNetJson[property.Key], property.Value), "Property not equal: " + property.Key);
         }
 
         return jsonNetJson.ToString();
@@ -2676,7 +2676,7 @@ keyword such as type of business.""
         }
         catch (JsonSerializationException ex)
         {
-            Assert.IsTrue(ex.Message.StartsWith("Required property 'FirstName' expects a value but got null. Path ''"));
+            Xunit.Assert.True(ex.Message.StartsWith("Required property 'FirstName' expects a value but got null. Path ''"));
         }
     }
 
@@ -2711,7 +2711,7 @@ keyword such as type of business.""
         }
         catch (JsonSerializationException ex)
         {
-            Assert.IsTrue(ex.Message.StartsWith("Required property 'LastName' not found in JSON. Path ''"));
+            Xunit.Assert.True(ex.Message.StartsWith("Required property 'LastName' not found in JSON. Path ''"));
         }
     }
 
@@ -2942,7 +2942,7 @@ keyword such as type of business.""
         }
         catch (JsonSerializationException ex)
         {
-            Assert.IsTrue(ex.Message.StartsWith("Required property 'TestProperty2' not found in JSON. Path ''"));
+            Xunit.Assert.True(ex.Message.StartsWith("Required property 'TestProperty2' not found in JSON. Path ''"));
         }
     }
 
@@ -3475,7 +3475,7 @@ Path '', line 1, position 1.");
         }
         catch (JsonSerializationException ex)
         {
-            Assert.IsTrue(ex.Message.StartsWith(@"Cannot deserialize the current JSON object (e.g. {""name"":""value""}) into type 'System.Collections.Generic.List`1[Argon.Tests.TestObjects.Organization.Person]' because the type requires a JSON array (e.g. [1,2,3]) to deserialize correctly." + Environment.NewLine +
+            Xunit.Assert.True(ex.Message.StartsWith(@"Cannot deserialize the current JSON object (e.g. {""name"":""value""}) into type 'System.Collections.Generic.List`1[Argon.Tests.TestObjects.Organization.Person]' because the type requires a JSON array (e.g. [1,2,3]) to deserialize correctly." + Environment.NewLine +
                                                 @"To fix this error either change the JSON to a JSON array (e.g. [1,2,3]) or change the deserialized type so that it is a normal .NET type (e.g. not a primitive type like integer, not a collection type like an array or List<T>) that can be deserialized from a JSON object. JsonObjectAttribute can also be added to the type to force it to deserialize from a JSON object." + Environment.NewLine +
                                                 @"Path ''"));
         }
@@ -3695,7 +3695,7 @@ Path '', line 1, position 1.");
         }
         catch (JsonSerializationException ex)
         {
-            Assert.IsTrue(ex.Message.StartsWith("Could not convert string 'Argon.Tests.TestObjects.Organization.Person' to dictionary key type 'Argon.Tests.TestObjects.Organization.Person'. Create a TypeConverter to convert from the string to the key type object. Path '['Argon.Tests.TestObjects.Organization.Person']'"));
+            Xunit.Assert.True(ex.Message.StartsWith("Could not convert string 'Argon.Tests.TestObjects.Organization.Person' to dictionary key type 'Argon.Tests.TestObjects.Organization.Person'. Create a TypeConverter to convert from the string to the key type object. Path '['Argon.Tests.TestObjects.Organization.Person']'"));
         }
     }
 
@@ -4565,9 +4565,9 @@ Path '', line 1, position 1.");
         var d = JsonConvert.DeserializeObject<HashSet<string>>(jsonText);
 
         Assert.AreEqual(3, d.Count);
-        Assert.IsTrue(d.Contains("One"));
-        Assert.IsTrue(d.Contains("2"));
-        Assert.IsTrue(d.Contains("III"));
+        Xunit.Assert.True(d.Contains("One"));
+        Xunit.Assert.True(d.Contains("2"));
+        Xunit.Assert.True(d.Contains("III"));
     }
 
     [Fact]
@@ -4882,7 +4882,7 @@ Path '', line 1, position 1.");
         var deserializedResponse = JsonConvert.DeserializeObject<JTokenTestClass>(json);
 
         Assert.AreEqual("Success", deserializedResponse.Name);
-        Assert.IsTrue(deserializedResponse.Data.DeepEquals(c.Data));
+        Xunit.Assert.True(deserializedResponse.Data.DeepEquals(c.Data));
     }
 
     [Fact]
@@ -6065,10 +6065,10 @@ Path '', line 1, position 1.");
 
         Assert.IsNotNull(o);
         Assert.AreEqual(4, errors.Count);
-        Assert.IsTrue(errors[0].StartsWith("Required property 'NonAttributeProperty' not found in JSON. Path ''"));
-        Assert.IsTrue(errors[1].StartsWith("Required property 'UnsetProperty' not found in JSON. Path ''"));
-        Assert.IsTrue(errors[2].StartsWith("Required property 'AllowNullProperty' not found in JSON. Path ''"));
-        Assert.IsTrue(errors[3].StartsWith("Required property 'AlwaysProperty' not found in JSON. Path ''"));
+        Xunit.Assert.True(errors[0].StartsWith("Required property 'NonAttributeProperty' not found in JSON. Path ''"));
+        Xunit.Assert.True(errors[1].StartsWith("Required property 'UnsetProperty' not found in JSON. Path ''"));
+        Xunit.Assert.True(errors[2].StartsWith("Required property 'AllowNullProperty' not found in JSON. Path ''"));
+        Xunit.Assert.True(errors[3].StartsWith("Required property 'AlwaysProperty' not found in JSON. Path ''"));
     }
 
     [Fact]
@@ -6090,9 +6090,9 @@ Path '', line 1, position 1.");
 
         Assert.IsNotNull(o);
         Assert.AreEqual(3, errors.Count);
-        Assert.IsTrue(errors[0].StartsWith("Required property 'NonAttributeProperty' expects a value but got null. Path ''"));
-        Assert.IsTrue(errors[1].StartsWith("Required property 'UnsetProperty' expects a value but got null. Path ''"));
-        Assert.IsTrue(errors[2].StartsWith("Required property 'AlwaysProperty' expects a value but got null. Path ''"));
+        Xunit.Assert.True(errors[0].StartsWith("Required property 'NonAttributeProperty' expects a value but got null. Path ''"));
+        Xunit.Assert.True(errors[1].StartsWith("Required property 'UnsetProperty' expects a value but got null. Path ''"));
+        Xunit.Assert.True(errors[2].StartsWith("Required property 'AlwaysProperty' expects a value but got null. Path ''"));
     }
 
     [Fact]
@@ -6250,8 +6250,8 @@ Path '', line 1, position 1.");
         });
 
         var o = JObject.Parse(json);
-        Assert.IsFalse(o.Properties().ElementAt(0).Name.Contains("Z"));
-        Assert.IsFalse(o.Properties().ElementAt(1).Name.Contains("Z"));
+        Xunit.Assert.False(o.Properties().ElementAt(0).Name.Contains("Z"));
+        Xunit.Assert.False(o.Properties().ElementAt(1).Name.Contains("Z"));
 
         var dic2 = JsonConvert.DeserializeObject<IDictionary<DateTime, int>>(json, new JsonSerializerSettings
         {
@@ -7053,7 +7053,7 @@ This is just junk, though.";
         Assert.AreEqual(s1.Count, s2.Count);
         foreach (var s in s1)
         {
-            Assert.IsTrue(s2.Contains(s));
+            Xunit.Assert.True(s2.Contains(s));
         }
     }
 

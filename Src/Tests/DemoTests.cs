@@ -424,7 +424,7 @@ public class DemoTests : TestFixtureBase
         Object.ReferenceEquals(mike.Reportees[0], susan.Reportees[0]);
         // true
 
-        Assert.IsTrue(ReferenceEquals(mike.Reportees[0], susan.Reportees[0]));
+        Xunit.Assert.True(ReferenceEquals(mike.Reportees[0], susan.Reportees[0]));
     }
 
     public class House

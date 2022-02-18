@@ -42,12 +42,12 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
         var resolver2 = new CamelCasePropertyNamesContractResolver();
         var contract2 = (JsonObjectContract)resolver2.ResolveContract(typeof(CamelCasePropertyNamesContractResolverTests));
 
-        Assert.IsTrue(ReferenceEquals(contract1, contract2));
+        Xunit.Assert.True(ReferenceEquals(contract1, contract2));
 
         var nt1 = resolver1.GetNameTable();
         var nt2 = resolver2.GetNameTable();
 
-        Assert.IsTrue(ReferenceEquals(nt1, nt2));
+        Xunit.Assert.True(ReferenceEquals(nt1, nt2));
     }
 
     [Fact]

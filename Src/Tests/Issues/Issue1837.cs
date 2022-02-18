@@ -50,9 +50,9 @@ public class Issue1837
         // given x === y, if x is the same Number value as y, return true.
         target = lhs.One;
         AssertAll(StrictEquality, target, rhs.One, rhs.OneDotZero);
-        Assert.IsFalse(BooleanQueryExpression.EqualsWithStrictMatch(target, rhs.Two));
+        Xunit.Assert.False(BooleanQueryExpression.EqualsWithStrictMatch(target, rhs.Two));
         target = lhs.Scientific;
-        Assert.IsTrue(BooleanQueryExpression.EqualsWithStrictMatch(target, rhs.Scientific));
+        Xunit.Assert.True(BooleanQueryExpression.EqualsWithStrictMatch(target, rhs.Scientific));
 
         // given x === y, if Type(x) is String, then return true if x and y are exactly the same sequence of characters (same length and same characters in corresponding positions); otherwise, return false.
         target = lhs.DerpString;
@@ -75,8 +75,8 @@ public class Issue1837
         AssertNone(StrictEquality, target, rhs.DateYearMonth);
         AssertAll(StrictEquality, target, rhs.DateYear);
         target = lhs.DateISO;
-        Assert.IsTrue(BooleanQueryExpression.EqualsWithStrictMatch(target, rhs.DateISO));
-        Assert.IsFalse(BooleanQueryExpression.EqualsWithStrictMatch(target, rhs.OtherISODate));
+        Xunit.Assert.True(BooleanQueryExpression.EqualsWithStrictMatch(target, rhs.DateISO));
+        Xunit.Assert.False(BooleanQueryExpression.EqualsWithStrictMatch(target, rhs.OtherISODate));
     }
 
     #region helpers        
@@ -100,7 +100,7 @@ public class Issue1837
     {
         foreach (var item in doNotWant)
         {
-            Assert.IsTrue(!comparator(token, item));
+            Xunit.Assert.True(!comparator(token, item));
         }
     }
 
@@ -117,7 +117,7 @@ public class Issue1837
     {
         foreach (var item in want)
         {
-            Assert.IsTrue(comparator(token, item));
+            Xunit.Assert.True(comparator(token, item));
         }
     }
     #endregion

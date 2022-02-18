@@ -228,7 +228,7 @@ public class JValueTests : TestFixtureBase
     [Fact]
     public void JValueIConvertable()
     {
-        Assert.IsTrue(new JValue(0) is IConvertible);
+        Xunit.Assert.True(new JValue(0) is IConvertible);
     }
 
     [Fact]
@@ -313,16 +313,16 @@ public class JValueTests : TestFixtureBase
     [Fact]
     public void DeepEquals()
     {
-        Assert.IsTrue(JToken.DeepEquals(new JValue(5L), new JValue(5)));
-        Assert.IsFalse(JToken.DeepEquals(new JValue(5M), new JValue(5)));
-        Assert.IsTrue(JToken.DeepEquals(new JValue((ulong)long.MaxValue), new JValue(long.MaxValue)));
-        Assert.IsFalse(JToken.DeepEquals(new JValue(0.102410241024102424m), new JValue(0.102410241024102425m))); 
+        Xunit.Assert.True(JToken.DeepEquals(new JValue(5L), new JValue(5)));
+        Xunit.Assert.False(JToken.DeepEquals(new JValue(5M), new JValue(5)));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue((ulong)long.MaxValue), new JValue(long.MaxValue)));
+        Xunit.Assert.False(JToken.DeepEquals(new JValue(0.102410241024102424m), new JValue(0.102410241024102425m))); 
     }
 
     [Fact]
     public void HasValues()
     {
-        Assert.IsFalse(new JValue(5L).HasValues);
+        Xunit.Assert.False(new JValue(5L).HasValues);
     }
 
     [Fact]

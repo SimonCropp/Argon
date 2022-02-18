@@ -255,9 +255,9 @@ public class ImmutableCollectionsTests : TestFixtureBase
 
         var a = JArray.Parse(json);
         Assert.AreEqual(3, a.Count);
-        Assert.IsTrue(a.Any(t => t.DeepEquals("One")));
-        Assert.IsTrue(a.Any(t => t.DeepEquals("II")));
-        Assert.IsTrue(a.Any(t => t.DeepEquals("3")));
+        Xunit.Assert.True(a.Any(t => t.DeepEquals("One")));
+        Xunit.Assert.True(a.Any(t => t.DeepEquals("II")));
+        Xunit.Assert.True(a.Any(t => t.DeepEquals("3")));
     }
 
     [Fact]
@@ -272,9 +272,9 @@ public class ImmutableCollectionsTests : TestFixtureBase
         var l = JsonConvert.DeserializeObject<ImmutableHashSet<string>>(json);
 
         Assert.AreEqual(3, l.Count());
-        Assert.IsTrue(l.Contains("3"));
-        Assert.IsTrue(l.Contains("II"));
-        Assert.IsTrue(l.Contains("One"));
+        Xunit.Assert.True(l.Contains("3"));
+        Xunit.Assert.True(l.Contains("II"));
+        Xunit.Assert.True(l.Contains("One"));
     }
 
     [Fact]
@@ -289,11 +289,11 @@ public class ImmutableCollectionsTests : TestFixtureBase
         var l = JsonConvert.DeserializeObject<IImmutableSet<string>>(json);
 
         Assert.AreEqual(3, l.Count());
-        Assert.IsTrue(l.Contains("3"));
-        Assert.IsTrue(l.Contains("II"));
-        Assert.IsTrue(l.Contains("One"));
+        Xunit.Assert.True(l.Contains("3"));
+        Xunit.Assert.True(l.Contains("II"));
+        Xunit.Assert.True(l.Contains("One"));
 
-        Assert.IsTrue(l is ImmutableHashSet<string>);
+        Xunit.Assert.True(l is ImmutableHashSet<string>);
     }
     #endregion
 
@@ -328,9 +328,9 @@ public class ImmutableCollectionsTests : TestFixtureBase
         var l = JsonConvert.DeserializeObject<ImmutableSortedSet<string>>(json);
 
         Assert.AreEqual(3, l.Count());
-        Assert.IsTrue(l.Contains("3"));
-        Assert.IsTrue(l.Contains("II"));
-        Assert.IsTrue(l.Contains("One"));
+        Xunit.Assert.True(l.Contains("3"));
+        Xunit.Assert.True(l.Contains("II"));
+        Xunit.Assert.True(l.Contains("One"));
     }
     #endregion
 
@@ -386,7 +386,7 @@ public class ImmutableCollectionsTests : TestFixtureBase
         Assert.AreEqual("II", l[2]);
         Assert.AreEqual("3", l[3]);
 
-        Assert.IsTrue(l is ImmutableDictionary<int, string>);
+        Xunit.Assert.True(l is ImmutableDictionary<int, string>);
     }
     #endregion
 

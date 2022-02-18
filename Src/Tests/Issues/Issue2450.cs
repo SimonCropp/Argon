@@ -37,10 +37,10 @@ public class Issue2450
         var resolver = new DefaultContractResolver();
 
         var contract = resolver.ResolveContract(typeof(Dict));
-        Assert.IsTrue(contract is JsonDictionaryContract);
+        Xunit.Assert.True(contract is JsonDictionaryContract);
 
         contract = resolver.ResolveContract(typeof(Dict?));
-        Assert.IsTrue(contract is JsonDictionaryContract);
+        Xunit.Assert.True(contract is JsonDictionaryContract);
     }
 
     [Fact]

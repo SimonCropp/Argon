@@ -328,7 +328,7 @@ public class ExtensionsTests : TestFixtureBase
         };
 
         var a = new JArray(1, 2, 3);
-        Assert.IsTrue(a.IsValid(schema));
+        Xunit.Assert.True(a.IsValid(schema));
     }
 
     [Fact]
@@ -340,7 +340,7 @@ public class ExtensionsTests : TestFixtureBase
         };
 
         var a = new JArray(1, 2, 3, 2, 2);
-        Assert.IsFalse(a.IsValid(schema, out var errorMessages));
+        Xunit.Assert.False(a.IsValid(schema, out var errorMessages));
         Assert.AreEqual(2, errorMessages.Count);
         Assert.AreEqual("Non-unique array item at index 3.", errorMessages[0]);
         Assert.AreEqual("Non-unique array item at index 4.", errorMessages[1]);
@@ -355,7 +355,7 @@ public class ExtensionsTests : TestFixtureBase
         };
 
         var a = new JArray(1, new JObject(new JProperty("value", "value!")), 3, 2, new JObject(new JProperty("value", "value!")), 4, 2, new JObject(new JProperty("value", "value!")));
-        Assert.IsFalse(a.IsValid(schema, out var errorMessages));
+        Xunit.Assert.False(a.IsValid(schema, out var errorMessages));
         Assert.AreEqual(3, errorMessages.Count);
         Assert.AreEqual("Non-unique array item at index 4.", errorMessages[0]);
         Assert.AreEqual("Non-unique array item at index 6.", errorMessages[1]);
@@ -385,7 +385,7 @@ public class ExtensionsTests : TestFixtureBase
             new JArray(1, 2),
             new JArray(1, 1)
         );
-        Assert.IsFalse(a.IsValid(schema, out var errorMessages));
+        Xunit.Assert.False(a.IsValid(schema, out var errorMessages));
         Assert.AreEqual(4, errorMessages.Count);
         Assert.AreEqual("Non-unique array item at index 1.", errorMessages[0]);
         Assert.AreEqual("Non-unique array item at index 3.", errorMessages[1]);
@@ -417,13 +417,13 @@ public class ExtensionsTests : TestFixtureBase
         var o = new JObject(
             new JProperty("bar", 1)
         );
-        Assert.IsTrue(o.IsValid(schema, out var errorMessages));
+        Xunit.Assert.True(o.IsValid(schema, out var errorMessages));
         Assert.AreEqual(0, errorMessages.Count);
 
         o = new JObject(
             new JProperty("bar", 3)
         );
-        Assert.IsFalse(o.IsValid(schema, out errorMessages));
+        Xunit.Assert.False(o.IsValid(schema, out errorMessages));
         Assert.AreEqual(1, errorMessages.Count);
     }
 
@@ -447,7 +447,7 @@ public class ExtensionsTests : TestFixtureBase
         var o = new JObject(
             new JProperty("bar", new JArray(1, 2, 3, 3))
         );
-        Assert.IsFalse(o.IsValid(schema, out var errorMessages));
+        Xunit.Assert.False(o.IsValid(schema, out var errorMessages));
         Assert.AreEqual(1, errorMessages.Count);
     }
 
@@ -465,7 +465,7 @@ public class ExtensionsTests : TestFixtureBase
         };
 
         var a = new JArray(new JObject(), 1);
-        Assert.IsTrue(a.IsValid(schema, out var errorMessages));
+        Xunit.Assert.True(a.IsValid(schema, out var errorMessages));
         Assert.AreEqual(0, errorMessages.Count);
     }
 }

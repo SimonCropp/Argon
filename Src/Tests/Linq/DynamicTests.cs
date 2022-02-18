@@ -123,7 +123,7 @@ public class DynamicTests : TestFixtureBase
         d.First = null;
         Assert.AreEqual(JTokenType.Null, d.First.Type);
 
-        Assert.IsTrue(d.Remove("First"));
+        Xunit.Assert.True(d.Remove("First"));
         Assert.IsNull(d.First);
 
         JValue v1 = d.ChildValue;
@@ -134,7 +134,7 @@ public class DynamicTests : TestFixtureBase
         d.NewValue = newValue1;
         JValue newValue2 = d.NewValue;
 
-        Assert.IsTrue(ReferenceEquals(newValue1, newValue2));
+        Xunit.Assert.True(ReferenceEquals(newValue1, newValue2));
     }
 
     [Fact]
@@ -215,7 +215,7 @@ public class DynamicTests : TestFixtureBase
         Assert.IsNull(count);
         Assert.IsNull(d["Count"]);
 
-        Assert.IsTrue(d.TryGetValue("ChildValue", out JToken v));
+        Xunit.Assert.True(d.TryGetValue("ChildValue", out JToken v));
         Assert.AreEqual("blah blah", (string)v);
     }
 
@@ -239,85 +239,85 @@ public class DynamicTests : TestFixtureBase
 
         dynamic d = o;
 
-        Assert.IsTrue(d.Null == d.Null);
-        Assert.IsTrue(d.Null == null);
-        Assert.IsTrue(d.Null == JValue.CreateNull());
-        Assert.IsFalse(d.Null == 1);
+        Xunit.Assert.True(d.Null == d.Null);
+        Xunit.Assert.True(d.Null == null);
+        Xunit.Assert.True(d.Null == JValue.CreateNull());
+        Xunit.Assert.False(d.Null == 1);
 
-        Assert.IsTrue(d.Integer == d.Integer);
-        Assert.IsTrue(d.Integer > 0);
-        Assert.IsTrue(d.Integer > 0.0m);
-        Assert.IsTrue(d.Integer > 0.0f);
-        Assert.IsTrue(d.Integer > null);
-        Assert.IsTrue(d.Integer >= null);
-        Assert.IsTrue(d.Integer == 1);
-        Assert.IsTrue(d.Integer == 1m);
-        Assert.IsTrue(d.Integer != 1.1f);
-        Assert.IsTrue(d.Integer != 1.1d);
+        Xunit.Assert.True(d.Integer == d.Integer);
+        Xunit.Assert.True(d.Integer > 0);
+        Xunit.Assert.True(d.Integer > 0.0m);
+        Xunit.Assert.True(d.Integer > 0.0f);
+        Xunit.Assert.True(d.Integer > null);
+        Xunit.Assert.True(d.Integer >= null);
+        Xunit.Assert.True(d.Integer == 1);
+        Xunit.Assert.True(d.Integer == 1m);
+        Xunit.Assert.True(d.Integer != 1.1f);
+        Xunit.Assert.True(d.Integer != 1.1d);
 
-        Assert.IsTrue(d.Decimal == d.Decimal);
-        Assert.IsTrue(d.Decimal > 0);
-        Assert.IsTrue(d.Decimal > 0.0m);
-        Assert.IsTrue(d.Decimal > 0.0f);
-        Assert.IsTrue(d.Decimal > null);
-        Assert.IsTrue(d.Decimal >= null);
-        Assert.IsTrue(d.Decimal == 1.1);
-        Assert.IsTrue(d.Decimal == 1.1m);
-        Assert.IsTrue(d.Decimal != 1.0f);
-        Assert.IsTrue(d.Decimal != 1.0d);
-        Assert.IsTrue(d.Decimal > new BigInteger(0));
+        Xunit.Assert.True(d.Decimal == d.Decimal);
+        Xunit.Assert.True(d.Decimal > 0);
+        Xunit.Assert.True(d.Decimal > 0.0m);
+        Xunit.Assert.True(d.Decimal > 0.0f);
+        Xunit.Assert.True(d.Decimal > null);
+        Xunit.Assert.True(d.Decimal >= null);
+        Xunit.Assert.True(d.Decimal == 1.1);
+        Xunit.Assert.True(d.Decimal == 1.1m);
+        Xunit.Assert.True(d.Decimal != 1.0f);
+        Xunit.Assert.True(d.Decimal != 1.0d);
+        Xunit.Assert.True(d.Decimal > new BigInteger(0));
 
-        Assert.IsTrue(d.Float == d.Float);
-        Assert.IsTrue(d.Float > 0);
-        Assert.IsTrue(d.Float > 0.0m);
-        Assert.IsTrue(d.Float > 0.0f);
-        Assert.IsTrue(d.Float > null);
-        Assert.IsTrue(d.Float >= null);
-        Assert.IsTrue(d.Float < 2);
-        Assert.IsTrue(d.Float <= 1.1);
-        Assert.IsTrue(d.Float == 1.1);
-        Assert.IsTrue(d.Float == 1.1m);
-        Assert.IsTrue(d.Float != 1.0f);
-        Assert.IsTrue(d.Float != 1.0d);
-        Assert.IsTrue(d.Float > new BigInteger(0));
+        Xunit.Assert.True(d.Float == d.Float);
+        Xunit.Assert.True(d.Float > 0);
+        Xunit.Assert.True(d.Float > 0.0m);
+        Xunit.Assert.True(d.Float > 0.0f);
+        Xunit.Assert.True(d.Float > null);
+        Xunit.Assert.True(d.Float >= null);
+        Xunit.Assert.True(d.Float < 2);
+        Xunit.Assert.True(d.Float <= 1.1);
+        Xunit.Assert.True(d.Float == 1.1);
+        Xunit.Assert.True(d.Float == 1.1m);
+        Xunit.Assert.True(d.Float != 1.0f);
+        Xunit.Assert.True(d.Float != 1.0d);
+        Xunit.Assert.True(d.Float > new BigInteger(0));
 
-        Assert.IsTrue(d.BigInteger == d.BigInteger);
-        Assert.IsTrue(d.BigInteger > 0);
-        Assert.IsTrue(d.BigInteger > 0.0m);
-        Assert.IsTrue(d.BigInteger > 0.0f);
-        Assert.IsTrue(d.BigInteger > null);
-        Assert.IsTrue(d.BigInteger >= null);
-        Assert.IsTrue(d.BigInteger < 2);
-        Assert.IsTrue(d.BigInteger <= 1.1);
-        Assert.IsTrue(d.BigInteger == 1);
-        Assert.IsTrue(d.BigInteger == 1m);
-        Assert.IsTrue(d.BigInteger != 1.1f);
-        Assert.IsTrue(d.BigInteger != 1.1d);
+        Xunit.Assert.True(d.BigInteger == d.BigInteger);
+        Xunit.Assert.True(d.BigInteger > 0);
+        Xunit.Assert.True(d.BigInteger > 0.0m);
+        Xunit.Assert.True(d.BigInteger > 0.0f);
+        Xunit.Assert.True(d.BigInteger > null);
+        Xunit.Assert.True(d.BigInteger >= null);
+        Xunit.Assert.True(d.BigInteger < 2);
+        Xunit.Assert.True(d.BigInteger <= 1.1);
+        Xunit.Assert.True(d.BigInteger == 1);
+        Xunit.Assert.True(d.BigInteger == 1m);
+        Xunit.Assert.True(d.BigInteger != 1.1f);
+        Xunit.Assert.True(d.BigInteger != 1.1d);
 
-        Assert.IsTrue(d.Bytes == d.Bytes);
-        Assert.IsTrue(d.Bytes == Encoding.UTF8.GetBytes("A string lol!"));
-        Assert.IsTrue(d.Bytes == new JValue(Encoding.UTF8.GetBytes("A string lol!")));
+        Xunit.Assert.True(d.Bytes == d.Bytes);
+        Xunit.Assert.True(d.Bytes == Encoding.UTF8.GetBytes("A string lol!"));
+        Xunit.Assert.True(d.Bytes == new JValue(Encoding.UTF8.GetBytes("A string lol!")));
 
-        Assert.IsTrue(d.Uri == d.Uri);
-        Assert.IsTrue(d.Uri == new Uri("http://json.codeplex.com/"));
-        Assert.IsTrue(d.Uri > new Uri("http://abc.org/"));
-        Assert.IsTrue(d.Uri >= new Uri("http://abc.com/"));
-        Assert.IsTrue(d.Uri > null);
-        Assert.IsTrue(d.Uri >= null);
+        Xunit.Assert.True(d.Uri == d.Uri);
+        Xunit.Assert.True(d.Uri == new Uri("http://json.codeplex.com/"));
+        Xunit.Assert.True(d.Uri > new Uri("http://abc.org/"));
+        Xunit.Assert.True(d.Uri >= new Uri("http://abc.com/"));
+        Xunit.Assert.True(d.Uri > null);
+        Xunit.Assert.True(d.Uri >= null);
 
-        Assert.IsTrue(d.Guid == d.Guid);
-        Assert.IsTrue(d.Guid == new Guid("EA27FE1D-0D80-44F2-BF34-4654156FA7AF"));
-        Assert.IsTrue(d.Guid > new Guid("AAAAAAAA-0D80-44F2-BF34-4654156FA7AF"));
-        Assert.IsTrue(d.Guid >= new Guid("AAAAAAAA-0D80-44F2-BF34-4654156FA7AF"));
-        Assert.IsTrue(d.Guid > null);
-        Assert.IsTrue(d.Guid >= null);
+        Xunit.Assert.True(d.Guid == d.Guid);
+        Xunit.Assert.True(d.Guid == new Guid("EA27FE1D-0D80-44F2-BF34-4654156FA7AF"));
+        Xunit.Assert.True(d.Guid > new Guid("AAAAAAAA-0D80-44F2-BF34-4654156FA7AF"));
+        Xunit.Assert.True(d.Guid >= new Guid("AAAAAAAA-0D80-44F2-BF34-4654156FA7AF"));
+        Xunit.Assert.True(d.Guid > null);
+        Xunit.Assert.True(d.Guid >= null);
 
-        Assert.IsTrue(d.TimeSpan == d.TimeSpan);
-        Assert.IsTrue(d.TimeSpan == TimeSpan.FromDays(1));
-        Assert.IsTrue(d.TimeSpan > TimeSpan.FromHours(1));
-        Assert.IsTrue(d.TimeSpan >= TimeSpan.FromHours(1));
-        Assert.IsTrue(d.TimeSpan > null);
-        Assert.IsTrue(d.TimeSpan >= null);
+        Xunit.Assert.True(d.TimeSpan == d.TimeSpan);
+        Xunit.Assert.True(d.TimeSpan == TimeSpan.FromDays(1));
+        Xunit.Assert.True(d.TimeSpan > TimeSpan.FromHours(1));
+        Xunit.Assert.True(d.TimeSpan >= TimeSpan.FromHours(1));
+        Xunit.Assert.True(d.TimeSpan > null);
+        Xunit.Assert.True(d.TimeSpan >= null);
     }
 
     [Fact]

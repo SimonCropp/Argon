@@ -53,16 +53,6 @@ public class XUnitAssert
         Assert.True(false, message);
     }
 
-    public static void IsTrue(bool condition, string message = null)
-    {
-        Assert.True(condition);
-    }
-
-    public static void IsFalse(bool condition)
-    {
-        Assert.False(condition);
-    }
-
     public static void IsNull(object o)
     {
         Assert.Null(o);

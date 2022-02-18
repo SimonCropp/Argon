@@ -57,23 +57,23 @@ public class DateTimeUtilsTests : TestFixtureBase
     [Fact]
     public void Parse24HourDateTime()
     {
-        Assert.IsTrue(DateTimeUtils.TryParseDateTimeIso(CreateStringReference("2000-12-15T24:00:00Z"), DateTimeZoneHandling.RoundtripKind, out var dt));
+        Xunit.Assert.True(DateTimeUtils.TryParseDateTimeIso(CreateStringReference("2000-12-15T24:00:00Z"), DateTimeZoneHandling.RoundtripKind, out var dt));
         Assert.AreEqual(new DateTime(2000, 12, 16, 0, 0, 0, DateTimeKind.Utc), dt);
 
-        Assert.IsFalse(DateTimeUtils.TryParseDateTimeIso(CreateStringReference("2000-12-15T24:01:00Z"), DateTimeZoneHandling.RoundtripKind, out dt));
-        Assert.IsFalse(DateTimeUtils.TryParseDateTimeIso(CreateStringReference("2000-12-15T24:00:01Z"), DateTimeZoneHandling.RoundtripKind, out dt));
-        Assert.IsFalse(DateTimeUtils.TryParseDateTimeIso(CreateStringReference("2000-12-15T24:00:00.0000001Z"), DateTimeZoneHandling.RoundtripKind, out dt));
+        Xunit.Assert.False(DateTimeUtils.TryParseDateTimeIso(CreateStringReference("2000-12-15T24:01:00Z"), DateTimeZoneHandling.RoundtripKind, out dt));
+        Xunit.Assert.False(DateTimeUtils.TryParseDateTimeIso(CreateStringReference("2000-12-15T24:00:01Z"), DateTimeZoneHandling.RoundtripKind, out dt));
+        Xunit.Assert.False(DateTimeUtils.TryParseDateTimeIso(CreateStringReference("2000-12-15T24:00:00.0000001Z"), DateTimeZoneHandling.RoundtripKind, out dt));
     }
 
     [Fact]
     public void Parse24HourDateTimeOffset()
     {
-        Assert.IsTrue(DateTimeUtils.TryParseDateTimeOffsetIso(CreateStringReference("2000-12-15T24:00:00Z"), out var dt));
+        Xunit.Assert.True(DateTimeUtils.TryParseDateTimeOffsetIso(CreateStringReference("2000-12-15T24:00:00Z"), out var dt));
         Assert.AreEqual(new DateTimeOffset(2000, 12, 16, 0, 0, 0, TimeSpan.Zero), dt);
 
-        Assert.IsFalse(DateTimeUtils.TryParseDateTimeOffsetIso(CreateStringReference("2000-12-15T24:01:00Z"), out dt));
-        Assert.IsFalse(DateTimeUtils.TryParseDateTimeOffsetIso(CreateStringReference("2000-12-15T24:00:01Z"), out dt));
-        Assert.IsFalse(DateTimeUtils.TryParseDateTimeOffsetIso(CreateStringReference("2000-12-15T24:00:00.0000001Z"), out dt));
+        Xunit.Assert.False(DateTimeUtils.TryParseDateTimeOffsetIso(CreateStringReference("2000-12-15T24:01:00Z"), out dt));
+        Xunit.Assert.False(DateTimeUtils.TryParseDateTimeOffsetIso(CreateStringReference("2000-12-15T24:00:01Z"), out dt));
+        Xunit.Assert.False(DateTimeUtils.TryParseDateTimeOffsetIso(CreateStringReference("2000-12-15T24:00:00.0000001Z"), out dt));
     }
 
     [Fact]

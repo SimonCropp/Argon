@@ -190,17 +190,17 @@ public class StringEnumConverterTests : TestFixtureBase
 
         converter.NamingStrategy = null;
 #pragma warning disable CS0618 // Type or member is obsolete
-        Assert.IsFalse(converter.CamelCaseText);
+        Xunit.Assert.False(converter.CamelCaseText);
 #pragma warning restore CS0618 // Type or member is obsolete
 
         converter.NamingStrategy = new CamelCaseNamingStrategy();
 #pragma warning disable CS0618 // Type or member is obsolete
-        Assert.IsTrue(converter.CamelCaseText);
+        Xunit.Assert.True(converter.CamelCaseText);
 #pragma warning restore CS0618 // Type or member is obsolete
 
         converter.NamingStrategy = new SnakeCaseNamingStrategy();
 #pragma warning disable CS0618 // Type or member is obsolete
-        Assert.IsFalse(converter.CamelCaseText);
+        Xunit.Assert.False(converter.CamelCaseText);
 #pragma warning restore CS0618 // Type or member is obsolete
 
 #pragma warning disable CS0618 // Type or member is obsolete

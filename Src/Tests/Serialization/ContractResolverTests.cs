@@ -160,7 +160,7 @@ public class ContractResolverTests : TestFixtureBase
         var resolver = new DefaultContractResolver();
         var contract = (JsonArrayContract)resolver.ResolveContract(typeof(IList<int>));
 
-        Assert.IsTrue(contract.IsInstantiable);
+        Xunit.Assert.True(contract.IsInstantiable);
         Assert.AreEqual(typeof(List<int>), contract.CreatedType);
         Assert.IsNotNull(contract.DefaultCreator);
     }
@@ -182,7 +182,7 @@ public class ContractResolverTests : TestFixtureBase
         var resolver = new DefaultContractResolver();
         var contract = (JsonObjectContract)resolver.ResolveContract(typeof(AbstractTestClass));
 
-        Assert.IsFalse(contract.IsInstantiable);
+        Xunit.Assert.False(contract.IsInstantiable);
         Assert.IsNull(contract.DefaultCreator);
         Assert.IsNull(contract.OverrideCreator);
 
@@ -207,9 +207,9 @@ public class ContractResolverTests : TestFixtureBase
         var resolver = new DefaultContractResolver();
         var contract = (JsonArrayContract)resolver.ResolveContract(typeof(AbstractListTestClass<int>));
 
-        Assert.IsFalse(contract.IsInstantiable);
+        Xunit.Assert.False(contract.IsInstantiable);
         Assert.IsNull(contract.DefaultCreator);
-        Assert.IsFalse(contract.HasParameterizedCreatorInternal);
+        Xunit.Assert.False(contract.HasParameterizedCreatorInternal);
 
         ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<AbstractListTestClass<int>>(@"[1,2]", new JsonSerializerSettings
         {
@@ -238,7 +238,7 @@ public class ContractResolverTests : TestFixtureBase
         var resolver = new DefaultContractResolver();
         var contract = (JsonArrayContract)resolver.ResolveContract(typeof(IList<int>));
 
-        Assert.IsTrue(contract.IsInstantiable);
+        Xunit.Assert.True(contract.IsInstantiable);
         Assert.IsNotNull(contract.DefaultCreator);
 
         contract.DefaultCreator = () => new CustomList<int>();
@@ -265,7 +265,7 @@ public class ContractResolverTests : TestFixtureBase
         var resolver = new DefaultContractResolver();
         var contract = (JsonDictionaryContract)resolver.ResolveContract(typeof(IDictionary<string, int>));
 
-        Assert.IsTrue(contract.IsInstantiable);
+        Xunit.Assert.True(contract.IsInstantiable);
         Assert.IsNotNull(contract.DefaultCreator);
 
         contract.DefaultCreator = () => new CustomDictionary<string, int>();
@@ -287,9 +287,9 @@ public class ContractResolverTests : TestFixtureBase
         var resolver = new DefaultContractResolver();
         var contract = (JsonDictionaryContract)resolver.ResolveContract(typeof(AbstractDictionaryTestClass<string, int>));
 
-        Assert.IsFalse(contract.IsInstantiable);
+        Xunit.Assert.False(contract.IsInstantiable);
         Assert.IsNull(contract.DefaultCreator);
-        Assert.IsFalse(contract.HasParameterizedCreatorInternal);
+        Xunit.Assert.False(contract.HasParameterizedCreatorInternal);
 
         ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<AbstractDictionaryTestClass<string, int>>(@"{key1:1,key2:2}", new JsonSerializerSettings
         {
@@ -364,61 +364,61 @@ public class ContractResolverTests : TestFixtureBase
     public void CalculatingPropertyNameEscapedSkipping()
     {
         var p = new JsonProperty { PropertyName = "abc" };
-        Assert.IsTrue(p._skipPropertyNameEscape);
+        Xunit.Assert.True(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = "123" };
-        Assert.IsTrue(p._skipPropertyNameEscape);
+        Xunit.Assert.True(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = "._-" };
-        Assert.IsTrue(p._skipPropertyNameEscape);
+        Xunit.Assert.True(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = "!@#" };
-        Assert.IsTrue(p._skipPropertyNameEscape);
+        Xunit.Assert.True(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = "$%^" };
-        Assert.IsTrue(p._skipPropertyNameEscape);
+        Xunit.Assert.True(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = "?*(" };
-        Assert.IsTrue(p._skipPropertyNameEscape);
+        Xunit.Assert.True(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = ")_+" };
-        Assert.IsTrue(p._skipPropertyNameEscape);
+        Xunit.Assert.True(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = "=:," };
-        Assert.IsTrue(p._skipPropertyNameEscape);
+        Xunit.Assert.True(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = null };
-        Assert.IsTrue(p._skipPropertyNameEscape);
+        Xunit.Assert.True(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = "&" };
-        Assert.IsFalse(p._skipPropertyNameEscape);
+        Xunit.Assert.False(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = "<" };
-        Assert.IsFalse(p._skipPropertyNameEscape);
+        Xunit.Assert.False(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = ">" };
-        Assert.IsFalse(p._skipPropertyNameEscape);
+        Xunit.Assert.False(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = "'" };
-        Assert.IsFalse(p._skipPropertyNameEscape);
+        Xunit.Assert.False(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = @"""" };
-        Assert.IsFalse(p._skipPropertyNameEscape);
+        Xunit.Assert.False(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = Environment.NewLine };
-        Assert.IsFalse(p._skipPropertyNameEscape);
+        Xunit.Assert.False(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = "\0" };
-        Assert.IsFalse(p._skipPropertyNameEscape);
+        Xunit.Assert.False(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = "\n" };
-        Assert.IsFalse(p._skipPropertyNameEscape);
+        Xunit.Assert.False(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = "\v" };
-        Assert.IsFalse(p._skipPropertyNameEscape);
+        Xunit.Assert.False(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = "\u00B9" };
-        Assert.IsFalse(p._skipPropertyNameEscape);
+        Xunit.Assert.False(p._skipPropertyNameEscape);
     }
 
     [Fact]
@@ -436,7 +436,7 @@ public class ContractResolverTests : TestFixtureBase
         var resolver = new DefaultContractResolver();
         var contract = (JsonObjectContract)resolver.ResolveContract(typeof(NumberFormatInfo));
 
-        Assert.IsFalse(contract.Properties.Any(c => c.PropertyName == "InvariantInfo"));
+        Xunit.Assert.False(contract.Properties.Any(c => c.PropertyName == "InvariantInfo"));
     }
 
     [Fact]
@@ -492,7 +492,7 @@ public class ContractResolverTests : TestFixtureBase
 
         Assert.AreEqual("value!", o.Value);
         Assert.AreEqual(1, o.Age);
-        Assert.IsTrue(ensureCustomCreatorCalled);
+        Xunit.Assert.True(ensureCustomCreatorCalled);
     }
 
     [Fact]
@@ -626,12 +626,12 @@ public class ContractResolverTests : TestFixtureBase
         var getter = contract.ExtensionDataGetter;
 
         IEnumerable<KeyValuePair<object, object>> dictionaryData = getter(myClass).ToDictionary(kv => kv.Key, kv => kv.Value);
-        Assert.IsTrue(dictionaryData.Any());
-        Assert.IsTrue(dictionaryData.Any());
+        Xunit.Assert.True(dictionaryData.Any());
+        Xunit.Assert.True(dictionaryData.Any());
 
         var extensionData = getter(myClass);
-        Assert.IsTrue(extensionData.Any());
-        Assert.IsTrue(extensionData.Any()); // second test fails if the enumerator returned isn't reset
+        Xunit.Assert.True(extensionData.Any());
+        Xunit.Assert.True(extensionData.Any()); // second test fails if the enumerator returned isn't reset
     }
 
     public class ClassWithShouldSerialize

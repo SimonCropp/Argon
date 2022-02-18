@@ -66,7 +66,7 @@ public class DeepEquals : TestFixtureBase
         // true
         #endregion
 
-        Assert.IsTrue(JToken.DeepEquals(o1, o2));
-        Assert.IsTrue(JToken.DeepEquals(s1, o1["String"]));
+        Xunit.Assert.True(JToken.DeepEquals(o1, o2));
+        Xunit.Assert.True(JToken.DeepEquals(s1, o1["String"]));
     }
 }

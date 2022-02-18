@@ -158,6 +158,6 @@ public class JsonSchemaTests
         // true
         #endregion
 
-        Assert.IsTrue(valid);
+        Xunit.Assert.True(valid);
     }
 }

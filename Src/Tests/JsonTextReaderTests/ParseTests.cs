@@ -53,16 +53,16 @@ public class ParseTests : TestFixtureBase
     public void ParsingQuotedPropertyWithControlCharacters()
     {
         JsonReader reader = new JsonTextReader(new StringReader(@"{'hi\r\nbye':1}"));
-        Assert.IsTrue(reader.Read());
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
         Assert.AreEqual("hi\r\nbye", reader.Value);
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.Integer, reader.TokenType);
         Assert.AreEqual(1L, reader.Value);
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
-        Assert.IsFalse(reader.Read());
+        Xunit.Assert.False(reader.Read());
     }
 
     [Fact]
@@ -141,22 +141,22 @@ public class ParseTests : TestFixtureBase
     public void ParseDoubles()
     {
         var reader = new JsonTextReader(new StringReader("1.1"));
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(typeof(double), reader.ValueType);
         Assert.AreEqual(1.1d, reader.Value);
 
         reader = new JsonTextReader(new StringReader("-1.1"));
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(typeof(double), reader.ValueType);
         Assert.AreEqual(-1.1d, reader.Value);
 
         reader = new JsonTextReader(new StringReader("0.0"));
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(typeof(double), reader.ValueType);
         Assert.AreEqual(0.0d, reader.Value);
 
         reader = new JsonTextReader(new StringReader("-0.0"));
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(typeof(double), reader.ValueType);
         Assert.AreEqual(-0.0d, reader.Value);
 
@@ -164,23 +164,23 @@ public class ParseTests : TestFixtureBase
         ExceptionAssert.Throws<JsonReaderException>(() => reader.Read(), "Unexpected character encountered while parsing number: s. Path '', line 1, position 77.");
 
         reader = new JsonTextReader(new StringReader("1E-06"));
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(typeof(double), reader.ValueType);
         Assert.AreEqual(0.000001d, reader.Value);
 
         reader = new JsonTextReader(new StringReader(""));
-        Assert.IsFalse(reader.Read());
+        Xunit.Assert.False(reader.Read());
 
         reader = new JsonTextReader(new StringReader("-"));
         ExceptionAssert.Throws<JsonReaderException>(() => reader.Read(), "Input string '-' is not a valid number. Path '', line 1, position 1.");
 
         reader = new JsonTextReader(new StringReader("1.7976931348623157E+308"));
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(typeof(double), reader.ValueType);
         Assert.AreEqual(Double.MaxValue, reader.Value);
 
         reader = new JsonTextReader(new StringReader("-1.7976931348623157E+308"));
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(typeof(double), reader.ValueType);
         Assert.AreEqual(Double.MinValue, reader.Value);
 
@@ -188,7 +188,7 @@ public class ParseTests : TestFixtureBase
 #if !(NETSTANDARD2_0)
         ExceptionAssert.Throws<JsonReaderException>(() => reader.Read(), "Input string '1E+309' is not a valid number. Path '', line 1, position 6.");
 #else
-            Assert.IsTrue(reader.Read());
+            Xunit.Assert.True(reader.Read());
             Assert.AreEqual(typeof(double), reader.ValueType);
             Assert.AreEqual(Double.PositiveInfinity, reader.Value);
 #endif
@@ -197,7 +197,7 @@ public class ParseTests : TestFixtureBase
 #if !(NETSTANDARD2_0)
         ExceptionAssert.Throws<JsonReaderException>(() => reader.Read(), "Input string '-1E+5000' is not a valid number. Path '', line 1, position 8.");
 #else
-            Assert.IsTrue(reader.Read());
+            Xunit.Assert.True(reader.Read());
             Assert.AreEqual(typeof(double), reader.ValueType);
             Assert.AreEqual(Double.NegativeInfinity, reader.Value);
 #endif
@@ -206,7 +206,7 @@ public class ParseTests : TestFixtureBase
         ExceptionAssert.Throws<JsonReaderException>(() => reader.Read(), "Input string '5.1231231E' is not a valid number. Path '', line 1, position 10.");
 
         reader = new JsonTextReader(new StringReader("1E-23"));
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(typeof(double), reader.ValueType);
         Assert.AreEqual(1e-23, reader.Value);
     }
@@ -217,25 +217,25 @@ public class ParseTests : TestFixtureBase
         var json = "[,,, \n\r\n \0   \r  , ,    ]";
         var reader = new JsonTextReader(new StringReader(json));
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.Undefined, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.Undefined, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.Undefined, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.Undefined, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.Undefined, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
     }
 
@@ -245,9 +245,9 @@ public class ParseTests : TestFixtureBase
         var json = "[true ";
         var reader = new JsonTextReader(new StringReader(json));
 
-        Assert.IsTrue(reader.Read());
-        Assert.IsTrue(reader.Read());
-        Assert.IsFalse(reader.Read());
+        Xunit.Assert.True(reader.Read());
+        Xunit.Assert.True(reader.Read());
+        Xunit.Assert.False(reader.Read());
     }
 
     [Fact]
@@ -256,34 +256,34 @@ public class ParseTests : TestFixtureBase
         var json = "\x00a0{\x00a0'h\x00a0i\x00a0'\x00a0:\x00a0[\x00a0true\x00a0,\x00a0new\x00a0Date\x00a0(\x00a0)\x00a0]\x00a0/*\x00a0comment\x00a0*/\x00a0}\x00a0";
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.Boolean, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.StartConstructor, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.EndConstructor, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.Comment, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
 
-        Assert.IsFalse(reader.Read());
+        Xunit.Assert.False(reader.Read());
     }
 
     [Fact]
@@ -292,10 +292,10 @@ public class ParseTests : TestFixtureBase
         var json = "{hi:1, ";
         var reader = new JsonTextReader(new StringReader(json));
 
-        Assert.IsTrue(reader.Read());
-        Assert.IsTrue(reader.Read());
-        Assert.IsTrue(reader.Read());
-        Assert.IsFalse(reader.Read());
+        Xunit.Assert.True(reader.Read());
+        Xunit.Assert.True(reader.Read());
+        Xunit.Assert.True(reader.Read());
+        Xunit.Assert.False(reader.Read());
     }
 
     [Fact]
@@ -304,10 +304,10 @@ public class ParseTests : TestFixtureBase
         var json = "[]";
         var reader = new JsonTextReader(new StringReader(json));
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
     }
 
@@ -317,10 +317,10 @@ public class ParseTests : TestFixtureBase
         var json = "{}";
         var reader = new JsonTextReader(new StringReader(json));
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
     }
 
@@ -330,10 +330,10 @@ public class ParseTests : TestFixtureBase
         var json = "new Date()";
         var reader = new JsonTextReader(new StringReader(json));
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.StartConstructor, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.EndConstructor, reader.TokenType);
     }
 
@@ -381,11 +381,11 @@ public class ParseTests : TestFixtureBase
         var json = "new Date\n()";
         var reader = new JsonTextReader(new StringReader(json));
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual("Date", reader.Value);
         Assert.AreEqual(JsonToken.StartConstructor, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.EndConstructor, reader.TokenType);
     }
 
@@ -398,11 +398,11 @@ public class ParseTests : TestFixtureBase
         reader.CharBuffer = new char[7];
 #endif
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual("Date", reader.Value);
         Assert.AreEqual(JsonToken.StartConstructor, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.EndConstructor, reader.TokenType);
     }
 
@@ -426,61 +426,61 @@ public class ParseTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
         reader.DateParseHandling = Argon.DateParseHandling.DateTime;
 
-        Assert.IsTrue(reader.Read());
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(new DateTime(DateTimeUtils.InitialJavaScriptDateTicks, DateTimeKind.Utc), reader.Value);
         Assert.AreEqual(typeof(DateTime), reader.ValueType);
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(new DateTime(DateTimeUtils.InitialJavaScriptDateTicks, DateTimeKind.Utc), reader.Value);
         Assert.AreEqual(typeof(DateTime), reader.ValueType);
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
 
         reader = new JsonTextReader(new StringReader(json));
         reader.DateParseHandling = Argon.DateParseHandling.DateTimeOffset;
 
-        Assert.IsTrue(reader.Read());
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(new DateTimeOffset(DateTimeUtils.InitialJavaScriptDateTicks, TimeSpan.Zero), reader.Value);
         Assert.AreEqual(typeof(DateTimeOffset), reader.ValueType);
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(new DateTimeOffset(DateTimeUtils.InitialJavaScriptDateTicks, TimeSpan.Zero), reader.Value);
         Assert.AreEqual(typeof(DateTimeOffset), reader.ValueType);
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
 
         reader = new JsonTextReader(new StringReader(json));
         reader.DateParseHandling = Argon.DateParseHandling.None;
 
-        Assert.IsTrue(reader.Read());
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(@"1970-01-01T00:00:00Z", reader.Value);
         Assert.AreEqual(typeof(string), reader.ValueType);
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(@"/Date(0)/", reader.Value);
         Assert.AreEqual(typeof(string), reader.ValueType);
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
 
         reader = new JsonTextReader(new StringReader(json));
         reader.DateParseHandling = Argon.DateParseHandling.DateTime;
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         reader.ReadAsDateTimeOffset();
         Assert.AreEqual(new DateTimeOffset(DateTimeUtils.InitialJavaScriptDateTicks, TimeSpan.Zero), reader.Value);
         Assert.AreEqual(typeof(DateTimeOffset), reader.ValueType);
         reader.ReadAsDateTimeOffset();
         Assert.AreEqual(new DateTimeOffset(DateTimeUtils.InitialJavaScriptDateTicks, TimeSpan.Zero), reader.Value);
         Assert.AreEqual(typeof(DateTimeOffset), reader.ValueType);
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
 
         reader = new JsonTextReader(new StringReader(json));
         reader.DateParseHandling = Argon.DateParseHandling.DateTimeOffset;
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         reader.ReadAsDateTime();
         Assert.AreEqual(new DateTime(DateTimeUtils.InitialJavaScriptDateTicks, DateTimeKind.Utc), reader.Value);
         Assert.AreEqual(typeof(DateTime), reader.ValueType);
         reader.ReadAsDateTime();
         Assert.AreEqual(new DateTime(DateTimeUtils.InitialJavaScriptDateTicks, DateTimeKind.Utc), reader.Value);
         Assert.AreEqual(typeof(DateTime), reader.ValueType);
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
     }
 }

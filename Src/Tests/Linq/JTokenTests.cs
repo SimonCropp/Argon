@@ -40,7 +40,7 @@ public class JTokenTests : TestFixtureBase
 
         var j1 = JObject.Parse(ob1);
         var j2 = JObject.Parse(ob2);
-        Assert.IsTrue(j1.DeepEquals(j2));
+        Xunit.Assert.True(j1.DeepEquals(j2));
     }
 
     [Fact]
@@ -64,7 +64,7 @@ public class JTokenTests : TestFixtureBase
 
         var c = (JConstructor)JToken.ReadFrom(new JsonTextReader(new StringReader("new Date(1)")));
         Assert.AreEqual("Date", c.Name);
-        Assert.IsTrue(JToken.DeepEquals(new JValue(1), c.Values().ElementAt(0)));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue(1), c.Values().ElementAt(0)));
 
         var v = (JValue)JToken.ReadFrom(new JsonTextReader(new StringReader(@"""stringvalue""")));
         Assert.AreEqual("stringvalue", (string)v);
@@ -154,10 +154,10 @@ public class JTokenTests : TestFixtureBase
         Assert.AreEqual(6, (int)next);
 
         next = next.Next;
-        Assert.IsTrue(JToken.DeepEquals(new JArray(7, 8), next));
+        Xunit.Assert.True(JToken.DeepEquals(new JArray(7, 8), next));
 
         next = next.Next;
-        Assert.IsTrue(JToken.DeepEquals(new JArray(9, 10), next));
+        Xunit.Assert.True(JToken.DeepEquals(new JArray(9, 10), next));
 
         next = next.Next;
         Assert.IsNull(next);
@@ -175,7 +175,7 @@ public class JTokenTests : TestFixtureBase
             );
 
         var previous = a[3].Previous;
-        Assert.IsTrue(JToken.DeepEquals(new JArray(7, 8), previous));
+        Xunit.Assert.True(JToken.DeepEquals(new JArray(7, 8), previous));
 
         previous = previous.Previous;
         Assert.AreEqual(6, (int)previous);
@@ -495,64 +495,64 @@ public class JTokenTests : TestFixtureBase
     [Fact]
     public void ImplicitCastingTo()
     {
-        Assert.IsTrue(JToken.DeepEquals(new JValue(new DateTime(2000, 12, 20)), (JValue)new DateTime(2000, 12, 20)));
-        Assert.IsTrue(JToken.DeepEquals(new JValue(new DateTimeOffset(2000, 12, 20, 23, 50, 10, TimeSpan.Zero)), (JValue)new DateTimeOffset(2000, 12, 20, 23, 50, 10, TimeSpan.Zero)));
-        Assert.IsTrue(JToken.DeepEquals(new JValue((DateTimeOffset?)null), (JValue)(DateTimeOffset?)null));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue(new DateTime(2000, 12, 20)), (JValue)new DateTime(2000, 12, 20)));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue(new DateTimeOffset(2000, 12, 20, 23, 50, 10, TimeSpan.Zero)), (JValue)new DateTimeOffset(2000, 12, 20, 23, 50, 10, TimeSpan.Zero)));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue((DateTimeOffset?)null), (JValue)(DateTimeOffset?)null));
 
         // had to remove implicit casting to avoid user reference to System.Numerics.dll
-        Assert.IsTrue(JToken.DeepEquals(new JValue(new BigInteger(1)), new JValue(new BigInteger(1))));
-        Assert.IsTrue(JToken.DeepEquals(new JValue((BigInteger?)null), new JValue((BigInteger?)null)));
-        Assert.IsTrue(JToken.DeepEquals(new JValue(true), (JValue)true));
-        Assert.IsTrue(JToken.DeepEquals(new JValue(true), (JValue)true));
-        Assert.IsTrue(JToken.DeepEquals(new JValue(true), (JValue)(bool?)true));
-        Assert.IsTrue(JToken.DeepEquals(new JValue((bool?)null), (JValue)(bool?)null));
-        Assert.IsTrue(JToken.DeepEquals(new JValue(10), (JValue)10));
-        Assert.IsTrue(JToken.DeepEquals(new JValue((long?)null), (JValue)(long?)null));
-        Assert.IsTrue(JToken.DeepEquals(new JValue((DateTime?)null), (JValue)(DateTime?)null));
-        Assert.IsTrue(JToken.DeepEquals(new JValue(long.MaxValue), (JValue)long.MaxValue));
-        Assert.IsTrue(JToken.DeepEquals(new JValue((int?)null), (JValue)(int?)null));
-        Assert.IsTrue(JToken.DeepEquals(new JValue((short?)null), (JValue)(short?)null));
-        Assert.IsTrue(JToken.DeepEquals(new JValue((double?)null), (JValue)(double?)null));
-        Assert.IsTrue(JToken.DeepEquals(new JValue((uint?)null), (JValue)(uint?)null));
-        Assert.IsTrue(JToken.DeepEquals(new JValue((decimal?)null), (JValue)(decimal?)null));
-        Assert.IsTrue(JToken.DeepEquals(new JValue((ulong?)null), (JValue)(ulong?)null));
-        Assert.IsTrue(JToken.DeepEquals(new JValue((sbyte?)null), (JValue)(sbyte?)null));
-        Assert.IsTrue(JToken.DeepEquals(new JValue((sbyte)1), (JValue)(sbyte)1));
-        Assert.IsTrue(JToken.DeepEquals(new JValue((byte?)null), (JValue)(byte?)null));
-        Assert.IsTrue(JToken.DeepEquals(new JValue((byte)1), (JValue)(byte)1));
-        Assert.IsTrue(JToken.DeepEquals(new JValue((ushort?)null), (JValue)(ushort?)null));
-        Assert.IsTrue(JToken.DeepEquals(new JValue(short.MaxValue), (JValue)short.MaxValue));
-        Assert.IsTrue(JToken.DeepEquals(new JValue(ushort.MaxValue), (JValue)ushort.MaxValue));
-        Assert.IsTrue(JToken.DeepEquals(new JValue(11.1f), (JValue)11.1f));
-        Assert.IsTrue(JToken.DeepEquals(new JValue(float.MinValue), (JValue)float.MinValue));
-        Assert.IsTrue(JToken.DeepEquals(new JValue(double.MinValue), (JValue)double.MinValue));
-        Assert.IsTrue(JToken.DeepEquals(new JValue(uint.MaxValue), (JValue)uint.MaxValue));
-        Assert.IsTrue(JToken.DeepEquals(new JValue(ulong.MaxValue), (JValue)ulong.MaxValue));
-        Assert.IsTrue(JToken.DeepEquals(new JValue(ulong.MinValue), (JValue)ulong.MinValue));
-        Assert.IsTrue(JToken.DeepEquals(new JValue((string?)null), (JValue)(string?)null));
-        Assert.IsTrue(JToken.DeepEquals(new JValue((DateTime?)null), (JValue)(DateTime?)null));
-        Assert.IsTrue(JToken.DeepEquals(new JValue(decimal.MaxValue), (JValue)decimal.MaxValue));
-        Assert.IsTrue(JToken.DeepEquals(new JValue(decimal.MaxValue), (JValue)(decimal?)decimal.MaxValue));
-        Assert.IsTrue(JToken.DeepEquals(new JValue(decimal.MinValue), (JValue)decimal.MinValue));
-        Assert.IsTrue(JToken.DeepEquals(new JValue(float.MaxValue), (JValue)(float?)float.MaxValue));
-        Assert.IsTrue(JToken.DeepEquals(new JValue(double.MaxValue), (JValue)(double?)double.MaxValue));
-        Assert.IsTrue(JToken.DeepEquals(JValue.CreateNull(), (JValue)(double?)null));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue(new BigInteger(1)), new JValue(new BigInteger(1))));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue((BigInteger?)null), new JValue((BigInteger?)null)));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue(true), (JValue)true));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue(true), (JValue)true));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue(true), (JValue)(bool?)true));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue((bool?)null), (JValue)(bool?)null));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue(10), (JValue)10));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue((long?)null), (JValue)(long?)null));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue((DateTime?)null), (JValue)(DateTime?)null));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue(long.MaxValue), (JValue)long.MaxValue));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue((int?)null), (JValue)(int?)null));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue((short?)null), (JValue)(short?)null));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue((double?)null), (JValue)(double?)null));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue((uint?)null), (JValue)(uint?)null));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue((decimal?)null), (JValue)(decimal?)null));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue((ulong?)null), (JValue)(ulong?)null));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue((sbyte?)null), (JValue)(sbyte?)null));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue((sbyte)1), (JValue)(sbyte)1));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue((byte?)null), (JValue)(byte?)null));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue((byte)1), (JValue)(byte)1));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue((ushort?)null), (JValue)(ushort?)null));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue(short.MaxValue), (JValue)short.MaxValue));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue(ushort.MaxValue), (JValue)ushort.MaxValue));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue(11.1f), (JValue)11.1f));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue(float.MinValue), (JValue)float.MinValue));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue(double.MinValue), (JValue)double.MinValue));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue(uint.MaxValue), (JValue)uint.MaxValue));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue(ulong.MaxValue), (JValue)ulong.MaxValue));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue(ulong.MinValue), (JValue)ulong.MinValue));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue((string?)null), (JValue)(string?)null));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue((DateTime?)null), (JValue)(DateTime?)null));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue(decimal.MaxValue), (JValue)decimal.MaxValue));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue(decimal.MaxValue), (JValue)(decimal?)decimal.MaxValue));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue(decimal.MinValue), (JValue)decimal.MinValue));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue(float.MaxValue), (JValue)(float?)float.MaxValue));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue(double.MaxValue), (JValue)(double?)double.MaxValue));
+        Xunit.Assert.True(JToken.DeepEquals(JValue.CreateNull(), (JValue)(double?)null));
 
-        Assert.IsFalse(JToken.DeepEquals(new JValue(true), (JValue)(bool?)null));
-        Assert.IsFalse(JToken.DeepEquals(JValue.CreateNull(), (JValue?)(object?)null));
+        Xunit.Assert.False(JToken.DeepEquals(new JValue(true), (JValue)(bool?)null));
+        Xunit.Assert.False(JToken.DeepEquals(JValue.CreateNull(), (JValue?)(object?)null));
 
         var emptyData = new byte[0];
-        Assert.IsTrue(JToken.DeepEquals(new JValue(emptyData), (JValue)emptyData));
-        Assert.IsFalse(JToken.DeepEquals(new JValue(emptyData), (JValue)new byte[1]));
-        Assert.IsTrue(JToken.DeepEquals(new JValue(Encoding.UTF8.GetBytes("Hi")), (JValue)Encoding.UTF8.GetBytes("Hi")));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue(emptyData), (JValue)emptyData));
+        Xunit.Assert.False(JToken.DeepEquals(new JValue(emptyData), (JValue)new byte[1]));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue(Encoding.UTF8.GetBytes("Hi")), (JValue)Encoding.UTF8.GetBytes("Hi")));
 
-        Assert.IsTrue(JToken.DeepEquals(new JValue(TimeSpan.FromMinutes(1)), (JValue)TimeSpan.FromMinutes(1)));
-        Assert.IsTrue(JToken.DeepEquals(JValue.CreateNull(), (JValue)(TimeSpan?)null));
-        Assert.IsTrue(JToken.DeepEquals(new JValue(TimeSpan.FromMinutes(1)), (JValue)(TimeSpan?)TimeSpan.FromMinutes(1)));
-        Assert.IsTrue(JToken.DeepEquals(new JValue(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC")), (JValue)new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC")));
-        Assert.IsTrue(JToken.DeepEquals(new JValue(new Uri("http://www.google.com")), (JValue)new Uri("http://www.google.com")));
-        Assert.IsTrue(JToken.DeepEquals(JValue.CreateNull(), (JValue)(Uri?)null));
-        Assert.IsTrue(JToken.DeepEquals(JValue.CreateNull(), (JValue)(Guid?)null));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue(TimeSpan.FromMinutes(1)), (JValue)TimeSpan.FromMinutes(1)));
+        Xunit.Assert.True(JToken.DeepEquals(JValue.CreateNull(), (JValue)(TimeSpan?)null));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue(TimeSpan.FromMinutes(1)), (JValue)(TimeSpan?)TimeSpan.FromMinutes(1)));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC")), (JValue)new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC")));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue(new Uri("http://www.google.com")), (JValue)new Uri("http://www.google.com")));
+        Xunit.Assert.True(JToken.DeepEquals(JValue.CreateNull(), (JValue)(Uri?)null));
+        Xunit.Assert.True(JToken.DeepEquals(JValue.CreateNull(), (JValue)(Guid?)null));
     }
 #nullable disable
 
@@ -590,7 +590,7 @@ public class JTokenTests : TestFixtureBase
         a[1].Remove();
 
         Assert.AreEqual(6, (int)a[0]);
-        Assert.IsTrue(JToken.DeepEquals(new JArray(9, 10), a[1]));
+        Xunit.Assert.True(JToken.DeepEquals(new JArray(9, 10), a[1]));
         Assert.AreEqual(2, a.Count());
 
         var t = a[1];
@@ -624,8 +624,8 @@ public class JTokenTests : TestFixtureBase
         var afterTokens = t.AfterSelf().ToList();
 
         Assert.AreEqual(2, afterTokens.Count);
-        Assert.IsTrue(JToken.DeepEquals(new JArray(1, 2), afterTokens[0]));
-        Assert.IsTrue(JToken.DeepEquals(new JArray(1, 2, 3), afterTokens[1]));
+        Xunit.Assert.True(JToken.DeepEquals(new JArray(1, 2), afterTokens[0]));
+        Xunit.Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), afterTokens[1]));
     }
 
     [Fact]
@@ -643,8 +643,8 @@ public class JTokenTests : TestFixtureBase
         var beforeTokens = t.BeforeSelf().ToList();
 
         Assert.AreEqual(2, beforeTokens.Count);
-        Assert.IsTrue(JToken.DeepEquals(new JValue(5), beforeTokens[0]));
-        Assert.IsTrue(JToken.DeepEquals(new JArray(1), beforeTokens[1]));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue(5), beforeTokens[0]));
+        Xunit.Assert.True(JToken.DeepEquals(new JArray(1), beforeTokens[1]));
     }
 
     [Fact]
@@ -658,7 +658,7 @@ public class JTokenTests : TestFixtureBase
                 new JArray(1, 2, 3)
             );
 
-        Assert.IsTrue(a.HasValues);
+        Xunit.Assert.True(a.HasValues);
     }
 
     [Fact]
@@ -772,7 +772,7 @@ public class JTokenTests : TestFixtureBase
         var descendants = a.Descendants().ToList();
         Assert.AreEqual(10, descendants.Count());
         Assert.AreEqual(5, (int)descendants[0]);
-        Assert.IsTrue(JToken.DeepEquals(new JArray(1, 2, 3), descendants[descendants.Count - 4]));
+        Xunit.Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), descendants[descendants.Count - 4]));
         Assert.AreEqual(1, (int)descendants[descendants.Count - 3]);
         Assert.AreEqual(2, (int)descendants[descendants.Count - 2]);
         Assert.AreEqual(3, (int)descendants[descendants.Count - 1]);
@@ -799,7 +799,7 @@ public class JTokenTests : TestFixtureBase
         var descendants = source.Descendants().ToList();
         Assert.AreEqual(12, descendants.Count());
         Assert.AreEqual(5, (int)descendants[0]);
-        Assert.IsTrue(JToken.DeepEquals(new JArray(1, 2, 3), descendants[descendants.Count - 6]));
+        Xunit.Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), descendants[descendants.Count - 6]));
         Assert.AreEqual(1, (int)descendants[descendants.Count - 5]);
         Assert.AreEqual(2, (int)descendants[descendants.Count - 4]);
         Assert.AreEqual(3, (int)descendants[descendants.Count - 3]);
@@ -822,7 +822,7 @@ public class JTokenTests : TestFixtureBase
         Assert.AreEqual(11, descendantsAndSelf.Count());
         Assert.AreEqual(a, descendantsAndSelf[0]);
         Assert.AreEqual(5, (int)descendantsAndSelf[1]);
-        Assert.IsTrue(JToken.DeepEquals(new JArray(1, 2, 3), descendantsAndSelf[descendantsAndSelf.Count - 4]));
+        Xunit.Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), descendantsAndSelf[descendantsAndSelf.Count - 4]));
         Assert.AreEqual(1, (int)descendantsAndSelf[descendantsAndSelf.Count - 3]);
         Assert.AreEqual(2, (int)descendantsAndSelf[descendantsAndSelf.Count - 2]);
         Assert.AreEqual(3, (int)descendantsAndSelf[descendantsAndSelf.Count - 1]);
@@ -850,7 +850,7 @@ public class JTokenTests : TestFixtureBase
         Assert.AreEqual(14, descendantsAndSelf.Count());
         Assert.AreEqual(a, descendantsAndSelf[0]);
         Assert.AreEqual(5, (int)descendantsAndSelf[1]);
-        Assert.IsTrue(JToken.DeepEquals(new JArray(1, 2, 3), descendantsAndSelf[descendantsAndSelf.Count - 7]));
+        Xunit.Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), descendantsAndSelf[descendantsAndSelf.Count - 7]));
         Assert.AreEqual(1, (int)descendantsAndSelf[descendantsAndSelf.Count - 6]);
         Assert.AreEqual(2, (int)descendantsAndSelf[descendantsAndSelf.Count - 5]);
         Assert.AreEqual(3, (int)descendantsAndSelf[descendantsAndSelf.Count - 4]);
@@ -884,7 +884,7 @@ public class JTokenTests : TestFixtureBase
         writer.WriteEnd();
 
         Assert.AreEqual(6, a.Count());
-        Assert.IsTrue(JToken.DeepEquals(new JObject(new JProperty("Property", "PropertyValue")), a[5]));
+        Xunit.Assert.True(JToken.DeepEquals(new JObject(new JProperty("Property", "PropertyValue")), a[5]));
     }
 
     [Fact]
@@ -975,7 +975,7 @@ public class JTokenTests : TestFixtureBase
         Assert.AreEqual(int.MaxValue, (int)a[2]);
         Assert.AreEqual(4, a.Count());
 
-        Assert.IsTrue(JToken.DeepEquals(new JArray(int.MaxValue, new JArray("Test"), int.MaxValue, new JArray(1, 2, 3)), a));
+        Xunit.Assert.True(JToken.DeepEquals(new JArray(int.MaxValue, new JArray("Test"), int.MaxValue, new JArray(1, 2, 3)), a));
     }
 
     [Fact]
@@ -1115,7 +1115,7 @@ public class JTokenTests : TestFixtureBase
   }
 ]", a2.ToString(Formatting.Indented));
 
-        Assert.IsTrue(a.DeepEquals(a2));
+        Xunit.Assert.True(a.DeepEquals(a2));
     }
 
     [Fact]
@@ -1141,7 +1141,7 @@ public class JTokenTests : TestFixtureBase
 
         var a2 = (JArray)c.Clone();
 
-        Assert.IsTrue(a.DeepEquals(a2));
+        Xunit.Assert.True(a.DeepEquals(a2));
     }
 
     [Fact]
@@ -1156,14 +1156,14 @@ public class JTokenTests : TestFixtureBase
 
         var a2 = (JArray)a.DeepClone();
 
-        Assert.IsTrue(a.DeepEquals(a2));
+        Xunit.Assert.True(a.DeepEquals(a2));
 
         var d = 1 + 0.1 + 0.1 + 0.1;
 
         var v1 = new JValue(d);
         var v2 = new JValue(1.3);
 
-        Assert.IsTrue(v1.DeepEquals(v2));
+        Xunit.Assert.True(v1.DeepEquals(v2));
     }
 
     [Fact]

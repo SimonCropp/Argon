@@ -67,7 +67,7 @@ public class JsonSchemaGeneratorTests : TestFixtureBase
     var valueJson = JsonConvert.SerializeObject(value, Formatting.Indented);
     var o = JObject.Parse(valueJson);
 
-    Assert.IsTrue(o.IsValid(schema));
+    Xunit.Assert.True(o.IsValid(schema));
   }
 
 #if !NET5_0_OR_GREATER
@@ -290,7 +290,7 @@ public class JsonSchemaGeneratorTests : TestFixtureBase
     var json = JsonConvert.SerializeObject(typeof(Version), Formatting.Indented);
 
     var v = new JValue(json);
-    Assert.IsTrue(v.IsValid(schema));
+    Xunit.Assert.True(v.IsValid(schema));
   }
 
   [Fact]

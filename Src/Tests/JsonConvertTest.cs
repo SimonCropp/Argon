@@ -1114,7 +1114,7 @@ public class JsonConvertTest : TestFixtureBase
 
         JsonReader jsonReader = new JsonTextReader(sr);
 
-        Assert.IsTrue(jsonReader.Read());
+        Xunit.Assert.True(jsonReader.Read());
         Assert.AreEqual(typeof(DateTime), jsonReader.ValueType);
     }
 

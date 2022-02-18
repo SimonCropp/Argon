@@ -293,11 +293,11 @@ public class DefaultValueHandlingTests : TestFixtureBase
     [Fact]
     public void ApproxEquals()
     {
-        Assert.IsTrue(MathUtils.ApproxEquals(0.0, 0.0));
-        Assert.IsTrue(MathUtils.ApproxEquals(1000.0, 1000.0000000000001));
+        Xunit.Assert.True(MathUtils.ApproxEquals(0.0, 0.0));
+        Xunit.Assert.True(MathUtils.ApproxEquals(1000.0, 1000.0000000000001));
 
-        Assert.IsFalse(MathUtils.ApproxEquals(1000.0, 1000.000000000001));
-        Assert.IsFalse(MathUtils.ApproxEquals(0.0, 0.00001));
+        Xunit.Assert.False(MathUtils.ApproxEquals(1000.0, 1000.000000000001));
+        Xunit.Assert.False(MathUtils.ApproxEquals(0.0, 0.00001));
     }
 
     [Fact]

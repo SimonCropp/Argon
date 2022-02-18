@@ -359,7 +359,7 @@ public class EntitiesSerializationTests : TestFixtureBase
 }", json);
 
         var newKey = JsonConvert.DeserializeObject<EntityKey>(json);
-        Assert.IsFalse(ReferenceEquals(e, newKey));
+        Xunit.Assert.False(ReferenceEquals(e, newKey));
 
         Assert.AreEqual(5, newKey.EntityKeyValues.Length);
         Assert.AreEqual("GuidId", newKey.EntityKeyValues[0].Key);
@@ -423,7 +423,7 @@ public class EntitiesSerializationTests : TestFixtureBase
 }", json);
 
         var newKey = JsonConvert.DeserializeObject<EntityKey>(json);
-        Assert.IsFalse(ReferenceEquals(e, newKey));
+        Xunit.Assert.False(ReferenceEquals(e, newKey));
 
         Assert.AreEqual(5, newKey.EntityKeyValues.Length);
         Assert.AreEqual("GuidId", newKey.EntityKeyValues[0].Key);

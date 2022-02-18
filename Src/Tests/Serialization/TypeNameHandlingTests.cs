@@ -400,7 +400,7 @@ public class TypeNameHandlingTests : TestFixtureBase
   ""LastModified"": ""0001-01-01T00:00:00""
 }", result);
 
-        Assert.IsTrue(result.Contains("WagePerson"));
+        Xunit.Assert.True(result.Contains("WagePerson"));
         using (var rd = new JsonTextReader(new StringReader(result)))
         {
             var person = serializer.Deserialize<Person>(rd);
@@ -692,7 +692,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         }
         catch (JsonSerializationException ex)
         {
-            Assert.IsTrue(ex.Message.StartsWith(@"Type specified in JSON '" + employeeRef + @"' is not compatible with '" + personRef + @"'."));
+            Xunit.Assert.True(ex.Message.StartsWith(@"Type specified in JSON '" + employeeRef + @"' is not compatible with '" + personRef + @"'."));
         }
     }
 
@@ -1428,7 +1428,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         Assert.IsNotNull(obj);
 
-        Assert.IsTrue(obj.Objects[0] is byte[]);
+        Xunit.Assert.True(obj.Objects[0] is byte[]);
 
         var d = (byte[])obj.Objects[0];
         Xunit.Assert.Equal(data, d);

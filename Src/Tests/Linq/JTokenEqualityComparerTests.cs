@@ -41,10 +41,10 @@ public class JTokenEqualityComparerTests : TestFixtureBase
         o2.Add(new JProperty("hi"));
 
         var c = new JTokenEqualityComparer();
-        Assert.IsTrue(c.Equals(o1, o2));
+        Xunit.Assert.True(c.Equals(o1, o2));
 
         o1["hi"] = 10;
-        Assert.IsFalse(c.Equals(o1, o2));
+        Xunit.Assert.False(c.Equals(o1, o2));
     }
 
     [Fact]

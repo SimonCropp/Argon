@@ -37,8 +37,8 @@ public class FloatAsyncTests : TestFixtureBase
         const string testJson = "{float: 0.0620}";
 
         var reader = new JsonTextReader(new StringReader(testJson));
-        Assert.IsTrue(await reader.ReadAsync());
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
 
         var s = await reader.ReadAsStringAsync();
         Assert.AreEqual("0.0620", s);
@@ -51,15 +51,15 @@ public class FloatAsyncTests : TestFixtureBase
 
         var reader = new JsonTextReader(new StringReader(testJson));
 
-        Assert.IsTrue(await reader.ReadAsync());
-        Assert.IsTrue(await reader.ReadAsync());
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
 
         Assert.AreEqual(JsonToken.Float, reader.TokenType);
         Assert.AreEqual(double.NaN, reader.Value);
 
-        Assert.IsTrue(await reader.ReadAsync());
-        Assert.IsFalse(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
+        Xunit.Assert.False(await reader.ReadAsync());
     }
 
     [Fact]
@@ -69,8 +69,8 @@ public class FloatAsyncTests : TestFixtureBase
 
         var reader = new JsonTextReader(new StringReader(testJson));
 
-        Assert.IsTrue(await reader.ReadAsync());
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
 
         await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => await  reader.ReadAsInt32Async(), "Cannot read NaN value. Path 'float', line 1, position 11.");
     }
@@ -86,7 +86,7 @@ public class FloatAsyncTests : TestFixtureBase
 
         var reader = new JsonTextReader(new StringReader(testJson));
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
 
         Assert.AreEqual(double.NaN, reader.ReadAsDouble());
         Assert.AreEqual(JsonToken.Float, reader.TokenType);
@@ -100,8 +100,8 @@ public class FloatAsyncTests : TestFixtureBase
         Assert.AreEqual(JsonToken.Float, reader.TokenType);
         Assert.AreEqual(double.NegativeInfinity, reader.Value);
 
-        Assert.IsTrue(await reader.ReadAsync());
-        Assert.IsFalse(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
+        Xunit.Assert.False(await reader.ReadAsync());
     }
 
     [Fact]
@@ -115,7 +115,7 @@ public class FloatAsyncTests : TestFixtureBase
 
         var reader = new JsonTextReader(new StringReader(testJson));
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
 
         Assert.AreEqual(JsonConvert.NaN, reader.ReadAsString());
         Assert.AreEqual(JsonToken.String, reader.TokenType);
@@ -129,8 +129,8 @@ public class FloatAsyncTests : TestFixtureBase
         Assert.AreEqual(JsonToken.String, reader.TokenType);
         Assert.AreEqual(JsonConvert.NegativeInfinity, reader.Value);
 
-        Assert.IsTrue(await reader.ReadAsync());
-        Assert.IsFalse(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
+        Xunit.Assert.False(await reader.ReadAsync());
     }
 
     [Fact]
@@ -141,7 +141,7 @@ public class FloatAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
         reader.FloatParseHandling = FloatParseHandling.Decimal;
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
 
         Assert.AreEqual("9223372036854775807", reader.ReadAsString());
@@ -160,7 +160,7 @@ public class FloatAsyncTests : TestFixtureBase
         Assert.AreEqual(JsonToken.String, reader.TokenType);
         Assert.AreEqual("792281625142643375935555555555555555555555555555555555555555555555555439503.35", reader.Value);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
     }
 
@@ -172,30 +172,30 @@ public class FloatAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
         reader.FloatParseHandling = FloatParseHandling.Decimal;
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(1.0m, reader.Value);
         Assert.AreEqual(typeof(decimal), reader.ValueType);
         Assert.AreEqual(JsonToken.Float, reader.TokenType);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(1L, reader.Value);
         Assert.AreEqual(typeof(long), reader.ValueType);
         Assert.AreEqual(JsonToken.Integer, reader.TokenType);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(9.9m, reader.Value);
         Assert.AreEqual(typeof(decimal), reader.ValueType);
         Assert.AreEqual(JsonToken.Float, reader.TokenType);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(Convert.ToDecimal(1E-06), reader.Value);
         Assert.AreEqual(typeof(decimal), reader.ValueType);
         Assert.AreEqual(JsonToken.Float, reader.TokenType);
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
     }
 
@@ -207,7 +207,7 @@ public class FloatAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
         reader.FloatParseHandling = FloatParseHandling.Decimal;
 
-        Assert.IsTrue(await reader.ReadAsync());
+        Xunit.Assert.True(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
 
         await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => await reader.ReadAsync(), "Cannot read NaN value. Path '', line 1, position 4.");

@@ -82,7 +82,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         Assert.AreEqual(@"[1]", output);
 
         var queue2 = JsonConvert.DeserializeObject<ConcurrentQueue<int>>(output);
-        Assert.IsTrue(queue2.TryDequeue(out var i));
+        Xunit.Assert.True(queue2.TryDequeue(out var i));
         Assert.AreEqual(1, i);
     }
 
@@ -95,7 +95,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         Assert.AreEqual(@"[1]", output);
 
         var bag2 = JsonConvert.DeserializeObject<ConcurrentBag<int>>(output);
-        Assert.IsTrue(bag2.TryTake(out var i));
+        Xunit.Assert.True(bag2.TryTake(out var i));
         Assert.AreEqual(1, i);
     }
 
@@ -109,7 +109,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         Assert.AreEqual(@"[1]", output);
 
         var stack2 = JsonConvert.DeserializeObject<ConcurrentStack<int>>(output);
-        Assert.IsTrue(stack2.TryPop(out var i));
+        Xunit.Assert.True(stack2.TryPop(out var i));
         Assert.AreEqual(1, i);
     }
 
@@ -125,7 +125,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         Assert.AreEqual(@"{""1"":2147483647}", output);
 
         var dic2 = JsonConvert.DeserializeObject<ConcurrentDictionary<int, int>>(output);
-        Assert.IsTrue(dic2.TryGetValue(1, out var i));
+        Xunit.Assert.True(dic2.TryGetValue(1, out var i));
         Assert.AreEqual(int.MaxValue, i);
     }
 
@@ -562,7 +562,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             }");
 
         var myOtherResult = JsonConvert.DeserializeObject<object[,]>(myOtherArrayAsString);
-        Assert.IsTrue(JToken.DeepEquals(o, (JToken)myOtherResult[0, 0]));
+        Xunit.Assert.True(JToken.DeepEquals(o, (JToken)myOtherResult[0, 0]));
         Assert.AreEqual("foobar", myOtherResult[0, 1]);
 
         Assert.True( myOtherResult[1, 0]);

@@ -751,7 +751,7 @@ public class XmlNodeConverterTest : TestFixtureBase
     var xmlBack = JsonConvert.DeserializeObject<XElement>(json1);
 
     var equals = XNode.DeepEquals(xmlBack, xml);
-    Assert.IsTrue(equals);
+    Xunit.Assert.True(equals);
   }
 
   [Fact]
@@ -3050,7 +3050,7 @@ public class XmlNodeConverterTest : TestFixtureBase
     var xmlBack = JsonConvert.DeserializeObject<XElement>(json1);
 
     var equals = XNode.DeepEquals(xmlBack, xml);
-    Assert.IsTrue(equals);
+    Xunit.Assert.True(equals);
   }
 
   [Fact]

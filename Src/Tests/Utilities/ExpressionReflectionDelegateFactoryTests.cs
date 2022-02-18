@@ -184,7 +184,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
 
         var result = method(null);
 
-        Assert.IsTrue(result is Movie);
+        Xunit.Assert.True(result is Movie);
     }
 
     public static class StaticTestClass

@@ -88,7 +88,7 @@ public class LinqToJsonTest : TestFixtureBase
     {
         var token1 = new JValue(Guid.NewGuid());
         var token2 = JToken.FromObject(token1);
-        Assert.IsTrue(JToken.DeepEquals(token1, token2));
+        Xunit.Assert.True(JToken.DeepEquals(token1, token2));
         Assert.AreEqual(token1.Type, token2.Type);
     }
 
@@ -97,7 +97,7 @@ public class LinqToJsonTest : TestFixtureBase
     {
         var token1 = new JValue(TimeSpan.FromDays(1));
         var token2 = JToken.FromObject(token1);
-        Assert.IsTrue(JToken.DeepEquals(token1, token2));
+        Xunit.Assert.True(JToken.DeepEquals(token1, token2));
         Assert.AreEqual(token1.Type, token2.Type);
     }
 
@@ -106,7 +106,7 @@ public class LinqToJsonTest : TestFixtureBase
     {
         var token1 = new JValue(new Uri("http://www.newtonsoft.com"));
         var token2 = JToken.FromObject(token1);
-        Assert.IsTrue(JToken.DeepEquals(token1, token2));
+        Xunit.Assert.True(JToken.DeepEquals(token1, token2));
         Assert.AreEqual(token1.Type, token2.Type);
     }
 
@@ -213,12 +213,12 @@ public class LinqToJsonTest : TestFixtureBase
         var tokens1 = new JEnumerable<JToken>();
         var tokens2 = new JEnumerable<JToken>();
 
-        Assert.IsTrue(tokens1.Equals(tokens2));
+        Xunit.Assert.True(tokens1.Equals(tokens2));
 
         object o1 = new JEnumerable<JToken>();
         object o2 = new JEnumerable<JToken>();
 
-        Assert.IsTrue(o1.Equals(o2));
+        Xunit.Assert.True(o1.Equals(o2));
     }
 
     [Fact]
@@ -1538,11 +1538,11 @@ keyword such as type of business.""
             ["prop"] = 1
         };
 
-        Assert.IsFalse(ReferenceEquals(o1, o2));
-        Assert.IsFalse(Equals(o1, o2));
-        Assert.IsFalse(o1.GetHashCode() == o2.GetHashCode());
-        Assert.IsTrue(o1.GetDeepHashCode() == o2.GetDeepHashCode());
-        Assert.IsTrue(JToken.DeepEquals(o1, o2));
+        Xunit.Assert.False(ReferenceEquals(o1, o2));
+        Xunit.Assert.False(Equals(o1, o2));
+        Xunit.Assert.False(o1.GetHashCode() == o2.GetHashCode());
+        Xunit.Assert.True(o1.GetDeepHashCode() == o2.GetDeepHashCode());
+        Xunit.Assert.True(JToken.DeepEquals(o1, o2));
 
         var a1 = new JArray
         {
@@ -1553,10 +1553,10 @@ keyword such as type of business.""
             1
         };
 
-        Assert.IsFalse(ReferenceEquals(a1, a2));
-        Assert.IsFalse(Equals(a1, a2));
-        Assert.IsFalse(a1.GetHashCode() == a2.GetHashCode());
-        Assert.IsTrue(a1.GetDeepHashCode() == a2.GetDeepHashCode());
-        Assert.IsTrue(JToken.DeepEquals(a1, a2));
+        Xunit.Assert.False(ReferenceEquals(a1, a2));
+        Xunit.Assert.False(Equals(a1, a2));
+        Xunit.Assert.False(a1.GetHashCode() == a2.GetHashCode());
+        Xunit.Assert.True(a1.GetDeepHashCode() == a2.GetDeepHashCode());
+        Xunit.Assert.True(JToken.DeepEquals(a1, a2));
     }
 }

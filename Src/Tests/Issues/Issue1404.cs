@@ -37,7 +37,7 @@ public class Issue1404 : TestFixtureBase
     {
         var t = typeof(FileSystemInfo);
 
-        Assert.IsTrue(t.ImplementInterface(typeof(ISerializable)));
+        Xunit.Assert.True(t.ImplementInterface(typeof(ISerializable)));
 
         var resolver = new DefaultContractResolver();
 

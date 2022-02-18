@@ -37,8 +37,8 @@ public class FloatTests : TestFixtureBase
         const string testJson = "{float: 0.0620}";
 
         var reader = new JsonTextReader(new StringReader(testJson));
-        Assert.IsTrue(reader.Read());
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
+        Xunit.Assert.True(reader.Read());
 
         var s = reader.ReadAsString();
         Assert.AreEqual("0.0620", s);
@@ -51,15 +51,15 @@ public class FloatTests : TestFixtureBase
 
         var reader = new JsonTextReader(new StringReader(testJson));
 
-        Assert.IsTrue(reader.Read());
-        Assert.IsTrue(reader.Read());
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
+        Xunit.Assert.True(reader.Read());
+        Xunit.Assert.True(reader.Read());
 
         Assert.AreEqual(JsonToken.Float, reader.TokenType);
         Assert.AreEqual(double.NaN, reader.Value);
 
-        Assert.IsTrue(reader.Read());
-        Assert.IsFalse(reader.Read());
+        Xunit.Assert.True(reader.Read());
+        Xunit.Assert.False(reader.Read());
     }
 
     [Fact]
@@ -69,8 +69,8 @@ public class FloatTests : TestFixtureBase
 
         var reader = new JsonTextReader(new StringReader(testJson));
 
-        Assert.IsTrue(reader.Read());
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
+        Xunit.Assert.True(reader.Read());
 
         ExceptionAssert.Throws<JsonReaderException>(() => reader.ReadAsInt32(), "Cannot read NaN value. Path 'float', line 1, position 11.");
     }
@@ -86,7 +86,7 @@ public class FloatTests : TestFixtureBase
 
         var reader = new JsonTextReader(new StringReader(testJson));
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
 
         Assert.AreEqual(double.NaN, reader.ReadAsDouble());
         Assert.AreEqual(JsonToken.Float, reader.TokenType);
@@ -100,8 +100,8 @@ public class FloatTests : TestFixtureBase
         Assert.AreEqual(JsonToken.Float, reader.TokenType);
         Assert.AreEqual(double.NegativeInfinity, reader.Value);
 
-        Assert.IsTrue(reader.Read());
-        Assert.IsFalse(reader.Read());
+        Xunit.Assert.True(reader.Read());
+        Xunit.Assert.False(reader.Read());
     }
 
     [Fact]
@@ -115,7 +115,7 @@ public class FloatTests : TestFixtureBase
 
         var reader = new JsonTextReader(new StringReader(testJson));
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
 
         Assert.AreEqual(JsonConvert.NaN, reader.ReadAsString());
         Assert.AreEqual(JsonToken.String, reader.TokenType);
@@ -129,8 +129,8 @@ public class FloatTests : TestFixtureBase
         Assert.AreEqual(JsonToken.String, reader.TokenType);
         Assert.AreEqual(JsonConvert.NegativeInfinity, reader.Value);
 
-        Assert.IsTrue(reader.Read());
-        Assert.IsFalse(reader.Read());
+        Xunit.Assert.True(reader.Read());
+        Xunit.Assert.False(reader.Read());
     }
 
     [Fact]
@@ -141,7 +141,7 @@ public class FloatTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
         reader.FloatParseHandling = Argon.FloatParseHandling.Decimal;
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
 
         Assert.AreEqual("9223372036854775807", reader.ReadAsString());
@@ -160,7 +160,7 @@ public class FloatTests : TestFixtureBase
         Assert.AreEqual(JsonToken.String, reader.TokenType);
         Assert.AreEqual("792281625142643375935555555555555555555555555555555555555555555555555439503.35", reader.Value);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
     }
 
@@ -172,30 +172,30 @@ public class FloatTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
         reader.FloatParseHandling = Argon.FloatParseHandling.Decimal;
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(1.0m, reader.Value);
         Assert.AreEqual(typeof(decimal), reader.ValueType);
         Assert.AreEqual(JsonToken.Float, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(1L, reader.Value);
         Assert.AreEqual(typeof(long), reader.ValueType);
         Assert.AreEqual(JsonToken.Integer, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(9.9m, reader.Value);
         Assert.AreEqual(typeof(decimal), reader.ValueType);
         Assert.AreEqual(JsonToken.Float, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(Convert.ToDecimal(1E-06), reader.Value);
         Assert.AreEqual(typeof(decimal), reader.ValueType);
         Assert.AreEqual(JsonToken.Float, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
     }
 
@@ -207,7 +207,7 @@ public class FloatTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
         reader.FloatParseHandling = Argon.FloatParseHandling.Decimal;
 
-        Assert.IsTrue(reader.Read());
+        Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
 
         ExceptionAssert.Throws<JsonReaderException>(() => reader.Read(), "Cannot read NaN value. Path '', line 1, position 4.");

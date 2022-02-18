@@ -218,10 +218,10 @@ public class ShouldSerializeTests : TestFixtureBase
 
         var deserialized = JsonConvert.DeserializeObject<SpecifiedTestClass>(json);
         Assert.IsNull(deserialized.Name);
-        Assert.IsFalse(deserialized.NameSpecified);
-        Assert.IsFalse(deserialized.WeightSpecified);
-        Assert.IsFalse(deserialized.HeightSpecified);
-        Assert.IsFalse(deserialized.FavoriteNumberSpecified);
+        Xunit.Assert.False(deserialized.NameSpecified);
+        Xunit.Assert.False(deserialized.WeightSpecified);
+        Xunit.Assert.False(deserialized.HeightSpecified);
+        Xunit.Assert.False(deserialized.FavoriteNumberSpecified);
         Assert.AreEqual(27, deserialized.Age);
 
         c.NameSpecified = true;
@@ -240,10 +240,10 @@ public class ShouldSerializeTests : TestFixtureBase
 
         deserialized = JsonConvert.DeserializeObject<SpecifiedTestClass>(json);
         Assert.AreEqual("James", deserialized.Name);
-        Assert.IsTrue(deserialized.NameSpecified);
-        Assert.IsTrue(deserialized.WeightSpecified);
-        Assert.IsTrue(deserialized.HeightSpecified);
-        Assert.IsTrue(deserialized.FavoriteNumberSpecified);
+        Xunit.Assert.True(deserialized.NameSpecified);
+        Xunit.Assert.True(deserialized.WeightSpecified);
+        Xunit.Assert.True(deserialized.HeightSpecified);
+        Xunit.Assert.True(deserialized.FavoriteNumberSpecified);
         Assert.AreEqual(27, deserialized.Age);
         Assert.AreEqual(23, deserialized.FavoriteNumber);
     }
@@ -411,7 +411,7 @@ public class ShouldSerializeTests : TestFixtureBase
         Assert.True( c.HasName);
         Assert.AreEqual("Name!", c.Name);
 
-        Assert.IsTrue(traceWriter.GetTraceMessages().Any(m => m.EndsWith("Verbose ShouldDeserialize result for property 'Name' on Argon.Tests.Serialization.ShouldDeserializeTestClass: True. Path 'Name'.")));
+        Xunit.Assert.True(traceWriter.GetTraceMessages().Any(m => m.EndsWith("Verbose ShouldDeserialize result for property 'Name' on Argon.Tests.Serialization.ShouldDeserializeTestClass: True. Path 'Name'.")));
     }
 
     [Fact]
@@ -431,7 +431,7 @@ public class ShouldSerializeTests : TestFixtureBase
         Assert.False( c.HasName);
         Assert.AreEqual(null, c.Name);
 
-        Assert.IsTrue(traceWriter.GetTraceMessages().Any(m => m.EndsWith("Verbose ShouldDeserialize result for property 'Name' on Argon.Tests.Serialization.ShouldDeserializeTestClass: False. Path 'Name'.")));
+        Xunit.Assert.True(traceWriter.GetTraceMessages().Any(m => m.EndsWith("Verbose ShouldDeserialize result for property 'Name' on Argon.Tests.Serialization.ShouldDeserializeTestClass: False. Path 'Name'.")));
     }
 
     public class Employee

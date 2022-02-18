@@ -52,7 +52,7 @@ public class JTokenAsyncTests : TestFixtureBase
 
         var c = (JConstructor)await JToken.ReadFromAsync(new JsonTextReader(new StringReader("new Date(1)")));
         Assert.AreEqual("Date", c.Name);
-        Assert.IsTrue(JToken.DeepEquals(new JValue(1), c.Values().ElementAt(0)));
+        Xunit.Assert.True(JToken.DeepEquals(new JValue(1), c.Values().ElementAt(0)));
 
         var v = (JValue)await JToken.ReadFromAsync(new JsonTextReader(new StringReader(@"""stringvalue""")));
         Assert.AreEqual("stringvalue", (string)v);
@@ -103,6 +103,6 @@ public class JTokenAsyncTests : TestFixtureBase
         await writer.WriteEndAsync();
 
         Assert.AreEqual(6, a.Count);
-        Assert.IsTrue(JToken.DeepEquals(new JObject(new JProperty("Property", "PropertyValue")), a[5]));
+        Xunit.Assert.True(JToken.DeepEquals(new JObject(new JProperty("Property", "PropertyValue")), a[5]));
     }
 }
