@@ -37,10 +37,9 @@ public class JsonSchemaTests : TestFixtureBase
   [Fact]
   public void Extends()
   {
-    string json;
-    var resolver = new JsonSchemaResolver();
+      var resolver = new JsonSchemaResolver();
 
-    json = @"{
+    var json = @"{
   ""id"":""first"",
   ""type"":""object"",
   ""additionalProperties"":{}

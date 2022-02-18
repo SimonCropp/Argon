@@ -696,9 +696,7 @@ public partial class JsonTextWriter : JsonWriter
     {
         InternalWriteValue(JsonToken.String);
 
-        string text;
-
-        text = value.ToString("D", CultureInfo.InvariantCulture);
+        var text = value.ToString("D", CultureInfo.InvariantCulture);
 
         _writer.Write(_quoteChar);
         _writer.Write(text);
@@ -713,8 +711,7 @@ public partial class JsonTextWriter : JsonWriter
     {
         InternalWriteValue(JsonToken.String);
 
-        string text;
-        text = value.ToString(null, CultureInfo.InvariantCulture);
+        var text = value.ToString(null, CultureInfo.InvariantCulture);
 
         _writer.Write(_quoteChar);
         _writer.Write(text);

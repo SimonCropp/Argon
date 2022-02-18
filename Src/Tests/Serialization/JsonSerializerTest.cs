@@ -2195,9 +2195,8 @@ keyword such as type of business.""
         {
             var json = JsonConvert.SerializeObject(new ConverableMembers(), Formatting.Indented);
 
-            string expected = null;
 #if (NETSTANDARD2_0)
-            expected = @"{
+            var expected = @"{
   ""String"": ""string"",
   ""Int32"": 2147483647,
   ""UInt32"": 4294967295,
@@ -2524,9 +2523,7 @@ keyword such as type of business.""
         [Fact]
         public void DeserializeNullable()
         {
-            string json;
-
-            json = JsonConvert.SerializeObject((int?)null);
+            var json = JsonConvert.SerializeObject((int?)null);
             Assert.AreEqual("null", json);
 
             json = JsonConvert.SerializeObject((int?)1);
@@ -2543,9 +2540,7 @@ keyword such as type of business.""
                 LastName = "LastNameValue"
             };
 
-            string json;
-
-            json = JsonConvert.SerializeObject(personRaw);
+            var json = JsonConvert.SerializeObject(personRaw);
             Assert.AreEqual(@"{""first_name"":""FirstNameValue"",""RawContent"":[1,2,3,4,5],""last_name"":""LastNameValue""}", json);
         }
 
@@ -4114,8 +4109,7 @@ Path '', line 1, position 1.");
             person.Name = "Name!";
 
             var dateTimeOffset = new DateTimeOffset(2000, 12, 20, 22, 59, 59, TimeSpan.FromHours(2));
-            string dateTimeOffsetText;
-            dateTimeOffsetText = @"2000-12-20T22:59:59+02:00";
+            var dateTimeOffsetText = @"2000-12-20T22:59:59+02:00";
 
             var o = new ISerializableTestObject("String!", int.MinValue, dateTimeOffset, person);
 
@@ -4166,8 +4160,7 @@ Path '', line 1, position 1.");
             person.Name = "Name!";
 
             var dateTimeOffset = new DateTimeOffset(2000, 12, 20, 22, 59, 59, TimeSpan.FromHours(2));
-            string dateTimeOffsetText;
-            dateTimeOffsetText = @"\/Date(977345999000+0200)\/";
+            var dateTimeOffsetText = @"\/Date(977345999000+0200)\/";
 
             var o = new ISerializableTestObject("String!", int.MinValue, dateTimeOffset, person);
 
@@ -6659,10 +6652,9 @@ This is just junk, though.";
         [Fact]
         public void SerializeFloatingPointHandling()
         {
-            string json;
             IList<double> d = new List<double> { 1.1, double.NaN, double.PositiveInfinity };
 
-            json = JsonConvert.SerializeObject(d);
+            var json = JsonConvert.SerializeObject(d);
             // [1.1,"NaN","Infinity"]
 
             json = JsonConvert.SerializeObject(d, new JsonSerializerSettings { FloatFormatHandling = FloatFormatHandling.Symbol });

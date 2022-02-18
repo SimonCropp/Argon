@@ -261,11 +261,10 @@ public partial class CustomerDataSet : System.Data.DataSet
             var s2 = new MemoryStream();
             try
             {
-                global::System.Xml.Schema.XmlSchema schema = null;
                 dsSchema.Write(s1);
                 for (var schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext();)
                 {
-                    schema = (global::System.Xml.Schema.XmlSchema)schemas.Current;
+                    var schema = (global::System.Xml.Schema.XmlSchema)schemas.Current;
                     s2.SetLength(0);
                     schema.Write(s2);
                     if (s1.Length == s2.Length)
@@ -549,11 +548,10 @@ public partial class CustomerDataSet : System.Data.DataSet
                 var s2 = new MemoryStream();
                 try
                 {
-                    global::System.Xml.Schema.XmlSchema schema = null;
                     dsSchema.Write(s1);
                     for (var schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext();)
                     {
-                        schema = (global::System.Xml.Schema.XmlSchema)schemas.Current;
+                        var schema = (global::System.Xml.Schema.XmlSchema)schemas.Current;
                         s2.SetLength(0);
                         schema.Write(s2);
                         if (s1.Length == s2.Length)

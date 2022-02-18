@@ -344,10 +344,9 @@ public class DynamicTests : TestFixtureBase
         );
 
         dynamic d = o;
-        dynamic r;
 
         #region Add
-        r = d.String + " LAMO!";
+        var r = d.String + " LAMO!";
         Assert.AreEqual("A string lol! LAMO!", (string)r);
         r += " gg";
         Assert.AreEqual("A string lol! LAMO! gg", (string)r);

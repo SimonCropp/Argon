@@ -50,9 +50,7 @@ namespace Argon.Tests.Linq.ComponentModel
                         new JProperty("Fifth", new JObject(
                             new JProperty("Sixth", "String!")))))));
 
-            object value;
-
-            value = (string)DataBinder.Eval(o, "First.Value");
+            object value = (string)DataBinder.Eval(o, "First.Value");
             Assert.Equal(value, (string)o["First"]);
 
             value = DataBinder.Eval(o, "Second.Value");

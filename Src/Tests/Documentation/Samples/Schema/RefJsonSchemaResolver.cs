@@ -31,10 +31,10 @@ public class RefJsonSchemaResolver
   public void Example()
   {
     #region Usage
-    string schemaJson;
+
     var resolver = new JsonSchemaResolver();
 
-    schemaJson = @"{
+    var schemaJson = @"{
               'id': 'person',
               'type': 'object',
               'properties': {

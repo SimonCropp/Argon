@@ -464,9 +464,7 @@ public class JsonConvertTest : TestFixtureBase
     [Fact]
     public void EscapeJavaScriptString()
     {
-        string result;
-
-        result = JavaScriptUtils.ToEscapedJavaScriptString("How now brown cow?", '"', true, StringEscapeHandling.Default);
+        var result = JavaScriptUtils.ToEscapedJavaScriptString("How now brown cow?", '"', true, StringEscapeHandling.Default);
         Assert.AreEqual(@"""How now brown cow?""", result);
 
         result = JavaScriptUtils.ToEscapedJavaScriptString("How now 'brown' cow?", '"', true, StringEscapeHandling.Default);
@@ -525,9 +523,7 @@ public class JsonConvertTest : TestFixtureBase
     [Fact]
     public void EscapeJavaScriptString_UnicodeLinefeeds()
     {
-        string result;
-
-        result = JavaScriptUtils.ToEscapedJavaScriptString("before" + '\u0085' + "after", '"', true, StringEscapeHandling.Default);
+        var result = JavaScriptUtils.ToEscapedJavaScriptString("before" + '\u0085' + "after", '"', true, StringEscapeHandling.Default);
         Assert.AreEqual(@"""before\u0085after""", result);
 
         result = JavaScriptUtils.ToEscapedJavaScriptString("before" + '\u2028' + "after", '"', true, StringEscapeHandling.Default);
@@ -561,9 +557,7 @@ public class JsonConvertTest : TestFixtureBase
     [Fact]
     public void ObjectToString()
     {
-        object value;
-
-        value = 1;
+        object value = 1;
         Assert.AreEqual("1", JsonConvert.ToString(value));
 
         value = 1.1;
@@ -726,9 +720,7 @@ public class JsonConvertTest : TestFixtureBase
     [Fact]
     public void WriteDateTime()
     {
-        DateTimeResult result = null;
-
-        result = TestDateTime("DateTime Max", DateTime.MaxValue);
+        var result = TestDateTime("DateTime Max", DateTime.MaxValue);
         Assert.AreEqual("9999-12-31T23:59:59.9999999", result.IsoDateRoundtrip);
         Assert.AreEqual("9999-12-31T23:59:59.9999999" + GetOffset(DateTime.MaxValue, DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
         Assert.AreEqual("9999-12-31T23:59:59.9999999", result.IsoDateUnspecified);

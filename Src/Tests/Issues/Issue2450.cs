@@ -36,9 +36,8 @@ public class Issue2450
     public void Test()
     {
         var resolver = new DefaultContractResolver();
-        JsonContract contract;
 
-        contract = resolver.ResolveContract(typeof(Dict));
+        var contract = resolver.ResolveContract(typeof(Dict));
         Assert.IsTrue(contract is JsonDictionaryContract);
 
         contract = resolver.ResolveContract(typeof(Dict?));

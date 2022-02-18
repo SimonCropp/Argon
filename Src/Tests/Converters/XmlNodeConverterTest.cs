@@ -72,9 +72,7 @@ public class XmlNodeConverterTest : TestFixtureBase
 
   private XmlNode DeserializeXmlNode(string json, string deserializeRootElementName)
   {
-    JsonTextReader reader;
-
-    reader = new JsonTextReader(new StringReader(json));
+      var reader = new JsonTextReader(new StringReader(json));
     reader.Read();
     var converter = new XmlNodeConverter();
     if (deserializeRootElementName != null)
@@ -853,7 +851,6 @@ public class XmlNodeConverterTest : TestFixtureBase
   public void SerializeNodeTypes()
   {
     var doc = new XmlDocument();
-    string jsonText;
 
     var xml = @"<?xml version=""1.0"" encoding=""utf-8"" ?>
 <xs:schema xs:id=""SomeID"" 
@@ -871,7 +868,7 @@ public class XmlNodeConverterTest : TestFixtureBase
     var attribute = document.DocumentElement.ChildNodes[0].Attributes["IsDataSet", "urn:schemas-microsoft-com:xml-msdata"];
     attribute.Value = "true";
 
-    jsonText = JsonConvert.SerializeXmlNode(attribute);
+    var jsonText = JsonConvert.SerializeXmlNode(attribute);
 
     Assert.AreEqual(@"{""@msdata:IsDataSet"":""true""}", jsonText);
 

@@ -705,9 +705,8 @@ public class JPathExecuteTests : TestFixtureBase
     public void EvaluateArraySlice()
     {
         var a = new JArray(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        IList<JToken> t = null;
 
-        t = a.SelectTokens("[-3:]").ToList();
+        IList<JToken> t = a.SelectTokens("[-3:]").ToList();
         Assert.AreEqual(3, t.Count);
         Assert.AreEqual(7, (int)t[0]);
         Assert.AreEqual(8, (int)t[1]);

@@ -69,9 +69,7 @@ public class ParseTests : TestFixtureBase
     [Fact]
     public void ParseIntegers()
     {
-        JsonTextReader reader = null;
-
-        reader = new JsonTextReader(new StringReader("1"));
+        var reader = new JsonTextReader(new StringReader("1"));
         Assert.AreEqual(1, reader.ReadAsInt32());
 
         reader = new JsonTextReader(new StringReader("-1"));
@@ -111,9 +109,7 @@ public class ParseTests : TestFixtureBase
     [Fact]
     public void ParseDecimals()
     {
-        JsonTextReader reader = null;
-
-        reader = new JsonTextReader(new StringReader("1.1"));
+        var reader = new JsonTextReader(new StringReader("1.1"));
         Assert.AreEqual(1.1m, reader.ReadAsDecimal());
 
         reader = new JsonTextReader(new StringReader("-1.1"));
@@ -145,9 +141,7 @@ public class ParseTests : TestFixtureBase
     [Fact]
     public void ParseDoubles()
     {
-        JsonTextReader reader = null;
-
-        reader = new JsonTextReader(new StringReader("1.1"));
+        var reader = new JsonTextReader(new StringReader("1.1"));
         Assert.IsTrue(reader.Read());
         Assert.AreEqual(typeof(double), reader.ValueType);
         Assert.AreEqual(1.1d, reader.Value);

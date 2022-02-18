@@ -1004,11 +1004,8 @@ public class BsonReaderTests : TestFixtureBase
 
         var bson = ms.ToArray();
 
-        JObject o;
-        BsonReader reader;
-
-        reader = new BsonReader(new MemoryStream(bson), false, DateTimeKind.Utc);
-        o = (JObject)JToken.ReadFrom(reader);
+        var reader = new BsonReader(new MemoryStream(bson), false, DateTimeKind.Utc);
+        var o = (JObject)JToken.ReadFrom(reader);
         Assert.AreEqual(value, (DateTime)o["DateTime"]);
 
         reader = new BsonReader(new MemoryStream(bson), false, DateTimeKind.Local);
@@ -1036,11 +1033,8 @@ public class BsonReaderTests : TestFixtureBase
 
         var bson = ms.ToArray();
 
-        JObject o;
-        BsonReader reader;
-
-        reader = new BsonReader(new MemoryStream(bson), false, DateTimeKind.Unspecified);
-        o = (JObject)JToken.ReadFrom(reader);
+        var reader = new BsonReader(new MemoryStream(bson), false, DateTimeKind.Unspecified);
+        var o = (JObject)JToken.ReadFrom(reader);
         Assert.AreEqual(value, (DateTime)o["DateTime"]);
     }
 
@@ -1059,11 +1053,8 @@ public class BsonReaderTests : TestFixtureBase
 
         var bson = ms.ToArray();
 
-        JObject o;
-        BsonReader reader;
-
-        reader = new BsonReader(new MemoryStream(bson), false, DateTimeKind.Local);
-        o = (JObject)JToken.ReadFrom(reader);
+        var reader = new BsonReader(new MemoryStream(bson), false, DateTimeKind.Local);
+        var o = (JObject)JToken.ReadFrom(reader);
         Assert.AreEqual(value, (DateTime)o["DateTime"]);
     }
 

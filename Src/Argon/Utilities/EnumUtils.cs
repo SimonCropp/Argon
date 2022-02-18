@@ -36,7 +36,6 @@ static class EnumUtils
         string[] names = Enum.GetNames(enumType);
         var resolvedNames = new string[names.Length];
         var values = new ulong[names.Length];
-        bool hasSpecifiedName;
 
         for (var i = 0; i < names.Length; i++)
         {
@@ -44,13 +43,12 @@ static class EnumUtils
             var f = enumType.GetField(name, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static)!;
             values[i] = ToUInt64(f.GetValue(null));
 
-            string resolvedName;
             var specifiedName = f.GetCustomAttributes(typeof(EnumMemberAttribute), true)
                 .Cast<EnumMemberAttribute>()
                 .Select(a => a.Value)
                 .SingleOrDefault();
-            hasSpecifiedName = specifiedName != null;
-            resolvedName = specifiedName ?? name;
+            var hasSpecifiedName = specifiedName != null;
+            var resolvedName = specifiedName ?? name;
 
             if (Array.IndexOf(resolvedNames, resolvedName, 0, i) != -1)
             {

@@ -177,8 +177,7 @@ public class DefaultContractResolver : IContractResolver
     /// <returns>The serializable members for the type.</returns>
     protected virtual List<MemberInfo> GetSerializableMembers(Type objectType)
     {
-        bool ignoreSerializableAttribute;
-        ignoreSerializableAttribute = IgnoreSerializableAttribute;
+        var ignoreSerializableAttribute = IgnoreSerializableAttribute;
 
         var memberSerialization = JsonTypeReflector.GetObjectMemberSerialization(objectType, ignoreSerializableAttribute);
 
@@ -283,8 +282,7 @@ public class DefaultContractResolver : IContractResolver
         var contract = new JsonObjectContract(objectType);
         InitializeContract(contract);
 
-        bool ignoreSerializableAttribute;
-        ignoreSerializableAttribute = IgnoreSerializableAttribute;
+        var ignoreSerializableAttribute = IgnoreSerializableAttribute;
 
         contract.MemberSerialization = JsonTypeReflector.GetObjectMemberSerialization(contract.NonNullableUnderlyingType, ignoreSerializableAttribute);
         contract.Properties.AddRange(CreateProperties(contract.NonNullableUnderlyingType, contract.MemberSerialization));
@@ -1303,7 +1301,6 @@ public class DefaultContractResolver : IContractResolver
     protected virtual IValueProvider CreateMemberValueProvider(MemberInfo member)
     {
         // warning - this method use to cause errors with Intellitrace. Retest in VS Ultimate after changes
-        IValueProvider valueProvider;
 
 #if !(NETSTANDARD2_0)
             if (DynamicCodeGeneration)
@@ -1315,7 +1312,7 @@ public class DefaultContractResolver : IContractResolver
                 valueProvider = new ReflectionValueProvider(member);
             }
 #else
-        valueProvider = new ExpressionValueProvider(member);
+        IValueProvider valueProvider = new ExpressionValueProvider(member);
 #endif
 
         return valueProvider;
@@ -1483,9 +1480,7 @@ public class DefaultContractResolver : IContractResolver
 
         if (memberSerialization != MemberSerialization.OptIn)
         {
-            var hasIgnoreDataMemberAttribute = false;
-
-            hasIgnoreDataMemberAttribute = JsonTypeReflector.GetAttribute<IgnoreDataMemberAttribute>(attributeProvider) != null;
+            var hasIgnoreDataMemberAttribute = JsonTypeReflector.GetAttribute<IgnoreDataMemberAttribute>(attributeProvider) != null;
 
             // ignored if it has JsonIgnore or NonSerialized or IgnoreDataMember attributes
             property.Ignored = hasJsonIgnoreAttribute || hasIgnoreDataMemberAttribute;

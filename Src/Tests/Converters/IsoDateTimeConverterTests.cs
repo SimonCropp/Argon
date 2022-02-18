@@ -67,9 +67,8 @@ public class IsoDateTimeConverterTests : TestFixtureBase
         var converter = new IsoDateTimeConverter();
 
         var d = new DateTime(2000, 12, 15, 22, 11, 3, 55, DateTimeKind.Utc);
-        string result;
 
-        result = JsonConvert.SerializeObject(d, converter);
+        var result = JsonConvert.SerializeObject(d, converter);
         Assert.AreEqual(@"""2000-12-15T22:11:03.055Z""", result);
 
         Assert.AreEqual(d, JsonConvert.DeserializeObject<DateTime>(result, converter));
@@ -85,9 +84,8 @@ public class IsoDateTimeConverterTests : TestFixtureBase
         var converter = new IsoDateTimeConverter { DateTimeFormat = "F", Culture = CultureInfo.InvariantCulture };
 
         var d = new DateTime(2000, 12, 15, 22, 11, 3, 0, DateTimeKind.Utc);
-        string result;
 
-        result = JsonConvert.SerializeObject(d, converter);
+        var result = JsonConvert.SerializeObject(d, converter);
         Assert.AreEqual(@"""Friday, 15 December 2000 22:11:03""", result);
 
         Assert.AreEqual(d, JsonConvert.DeserializeObject<DateTime>(result, converter));
@@ -130,9 +128,8 @@ public class IsoDateTimeConverterTests : TestFixtureBase
         var converter = new IsoDateTimeConverter { DateTimeFormat = "F", Culture = culture };
 
         var d = new DateTime(2000, 12, 15, 22, 11, 3, 0, DateTimeKind.Utc);
-        string result;
 
-        result = JsonConvert.SerializeObject(d, converter);
+        var result = JsonConvert.SerializeObject(d, converter);
         Assert.AreEqual(@"""Friday, 15 December 2000 10:11:03 p.m.""", result);
 
         Assert.AreEqual(d, JsonConvert.DeserializeObject<DateTime>(result, converter));
@@ -162,9 +159,8 @@ public class IsoDateTimeConverterTests : TestFixtureBase
         var converter = new IsoDateTimeConverter();
 
         var d = new DateTimeOffset(2000, 12, 15, 22, 11, 3, 55, TimeSpan.Zero);
-        string result;
 
-        result = JsonConvert.SerializeObject(d, converter);
+        var result = JsonConvert.SerializeObject(d, converter);
         Assert.AreEqual(@"""2000-12-15T22:11:03.055+00:00""", result);
 
         Assert.AreEqual(d, JsonConvert.DeserializeObject<DateTimeOffset>(result, converter));

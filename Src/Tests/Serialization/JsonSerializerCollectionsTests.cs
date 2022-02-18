@@ -1880,12 +1880,10 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void GenericCollectionInheritance()
     {
-        string json;
-
         var foo1 = new GenericClass<GenericItem<string>, string>();
         foo1.Items.Add(new GenericItem<string> { Value = "Hello" });
 
-        json = JsonConvert.SerializeObject(new { selectList = foo1 });
+        var json = JsonConvert.SerializeObject(new { selectList = foo1 });
         Assert.AreEqual(@"{""selectList"":[{""Value"":""Hello""}]}", json);
 
         var foo2 = new GenericClass<NonGenericItem, string>();

@@ -283,9 +283,8 @@ public class JsonTextWriterTest : TestFixtureBase
         }
 
         var json = sw.ToString();
-        string expected;
 
-        expected = @"[null,""c"",null,true,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1.1,null,1.1,null,1.1,null,""1970-01-01T00:00:00Z"",null,""1970-01-01T00:00:00+00:00""]";
+        var expected = @"[null,""c"",null,true,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1.1,null,1.1,null,1.1,null,""1970-01-01T00:00:00Z"",null,""1970-01-01T00:00:00+00:00""]";
 
         Assert.AreEqual(expected, json);
     }

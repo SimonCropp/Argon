@@ -67,9 +67,7 @@ public class JTokenTests : TestFixtureBase
         Assert.AreEqual("Date", c.Name);
         Assert.IsTrue(JToken.DeepEquals(new JValue(1), c.Values().ElementAt(0)));
 
-        JValue v;
-
-        v = (JValue)JToken.ReadFrom(new JsonTextReader(new StringReader(@"""stringvalue""")));
+        var v = (JValue)JToken.ReadFrom(new JsonTextReader(new StringReader(@"""stringvalue""")));
         Assert.AreEqual("stringvalue", (string)v);
 
         v = (JValue)JToken.ReadFrom(new JsonTextReader(new StringReader(@"1")));
@@ -578,7 +576,6 @@ public class JTokenTests : TestFixtureBase
     [Fact]
     public void Remove()
     {
-        JToken t;
         var a =
             new JArray(
                 5,
@@ -597,7 +594,7 @@ public class JTokenTests : TestFixtureBase
         Assert.IsTrue(JToken.DeepEquals(new JArray(9, 10), a[1]));
         Assert.AreEqual(2, a.Count());
 
-        t = a[1];
+        var t = a[1];
         t.Remove();
         Assert.AreEqual(6, (int)a[0]);
         Assert.IsNull(t.Next);

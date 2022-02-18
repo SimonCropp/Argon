@@ -1194,9 +1194,8 @@ keyword such as type of business.""
     public void AsJEnumerable()
     {
         JObject o = null;
-        IJEnumerable<JToken> enumerable = null;
 
-        enumerable = o.AsJEnumerable();
+        var enumerable = o.AsJEnumerable();
         Assert.IsNull(enumerable);
 
         o =

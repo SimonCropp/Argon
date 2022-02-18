@@ -906,9 +906,7 @@ null//comment
     [Fact]
     public void ScientificNotation()
     {
-        double d;
-
-        d = Convert.ToDouble("6.0221418e23", CultureInfo.InvariantCulture);
+        var d = Convert.ToDouble("6.0221418e23", CultureInfo.InvariantCulture);
 
         Assert.AreEqual("6,0221418E+23", d.ToString(new CultureInfo("fr-FR")));
         Assert.AreEqual("602214180000000000000000", d.ToString("0.#############################################################################"));

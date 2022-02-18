@@ -374,8 +374,7 @@ public class BsonWriter : JsonWriter
     public override void WriteValue(char value)
     {
         base.WriteValue(value);
-        string s = null;
-        s = value.ToString(CultureInfo.InvariantCulture);
+        var s = value.ToString(CultureInfo.InvariantCulture);
         AddToken(new BsonString(s, true));
     }
 

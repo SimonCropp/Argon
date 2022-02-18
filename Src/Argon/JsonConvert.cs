@@ -343,10 +343,8 @@ public static class JsonConvert
 
     internal static string ToString(Guid value, char quoteChar)
     {
-        string text;
-        string qc;
-        text = value.ToString("D", CultureInfo.InvariantCulture);
-        qc = quoteChar.ToString(CultureInfo.InvariantCulture);
+        var text = value.ToString("D", CultureInfo.InvariantCulture);
+        var qc = quoteChar.ToString(CultureInfo.InvariantCulture);
 
         return qc + text + qc;
     }

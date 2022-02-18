@@ -250,8 +250,7 @@ public class DiscriminatedUnionConverter : JsonConverter
 
         // all fsharp objects have CompilationMappingAttribute
         // get the fsharp assembly from the attribute and initialize latebound methods
-        object[] attributes;
-        attributes = objectType.GetCustomAttributes(true);
+        object[] attributes = objectType.GetCustomAttributes(true);
 
         var isFSharpType = false;
         foreach (var attribute in attributes)

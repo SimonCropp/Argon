@@ -186,9 +186,7 @@ public class JValueTests : TestFixtureBase
     [Fact]
     public void JValueToString()
     {
-        JValue v;
-
-        v = new JValue(true);
+        var v = new JValue(true);
         Assert.AreEqual("True", v.ToString());
 
         v = new JValue(Encoding.UTF8.GetBytes("Blah"));

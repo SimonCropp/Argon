@@ -236,8 +236,7 @@ static class StringUtils
                         break;
                 }
 
-                char c;
-                c = char.ToLower(s[i], CultureInfo.InvariantCulture);
+                var c = char.ToLower(s[i], CultureInfo.InvariantCulture);
                 sb.Append(c);
 
                 state = SeparatedCaseState.Upper;

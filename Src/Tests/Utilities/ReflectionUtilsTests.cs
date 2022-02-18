@@ -35,9 +35,7 @@ public class ReflectionUtilsTests : TestFixtureBase
     [Fact]
     public void GetTypeNameSimpleForGenericTypes()
     {
-        string typeName;
-
-        typeName = ReflectionUtils.GetTypeName(typeof(IList<Type>), TypeNameAssemblyFormatHandling.Simple, null);
+        var typeName = ReflectionUtils.GetTypeName(typeof(IList<Type>), TypeNameAssemblyFormatHandling.Simple, null);
         Assert.AreEqual("System.Collections.Generic.IList`1[[System.Type, mscorlib]], mscorlib", typeName);
 
         typeName = ReflectionUtils.GetTypeName(typeof(IDictionary<IList<Type>, IList<Type>>), TypeNameAssemblyFormatHandling.Simple, null);
