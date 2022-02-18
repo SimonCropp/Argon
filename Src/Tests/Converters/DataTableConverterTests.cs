@@ -474,8 +474,8 @@ public class DataTableConverterTests : TestFixtureBase
         Xunit.Assert.Equal("shirt", table.Rows[0]["item"]);
         Xunit.Assert.Equal("pants", table.Rows[1]["item"]);
         Xunit.Assert.Equal("shoes", table.Rows[2]["item"]);
-        Assert.AreEqual(49.99, (double)table.Rows[0]["price"], 0.01);
-        Assert.AreEqual(54.99, (double)table.Rows[1]["price"], 0.01);
+        XUnitAssert.AreEqual(49.99, (double)table.Rows[0]["price"], 0.01);
+        XUnitAssert.AreEqual(54.99, (double)table.Rows[1]["price"], 0.01);
         Xunit.Assert.IsType(typeof(DBNull), table.Rows[2]["price"]);
     }
 
@@ -490,8 +490,8 @@ public class DataTableConverterTests : TestFixtureBase
         Xunit.Assert.Equal("shirt", table.Rows[0]["item"]);
         Xunit.Assert.Equal("pants", table.Rows[1]["item"]);
         Xunit.Assert.Equal("shoes", table.Rows[2]["item"]);
-        Assert.AreEqual(49.99, (double)table.Rows[0]["price"], 0.01);
-        Assert.AreEqual(54.99, (double)table.Rows[1]["price"], 0.01);
+        XUnitAssert.AreEqual(49.99, (double)table.Rows[0]["price"], 0.01);
+        XUnitAssert.AreEqual(54.99, (double)table.Rows[1]["price"], 0.01);
         Xunit.Assert.IsType(typeof(DBNull), table.Rows[2]["price"]);
     }
 

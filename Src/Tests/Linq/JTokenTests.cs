@@ -47,7 +47,7 @@ public class JTokenTests : TestFixtureBase
     public void ReadFrom()
     {
         var o = (JObject)JToken.ReadFrom(new JsonTextReader(new StringReader("{'pie':true}")));
-        Assert.True( (bool)o["pie"]);
+        XUnitAssert.True((bool)o["pie"]);
 
         var a = (JArray)JToken.ReadFrom(new JsonTextReader(new StringReader("[1,2,3]")));
         Xunit.Assert.Equal(1, (int)a[0]);
@@ -60,7 +60,7 @@ public class JTokenTests : TestFixtureBase
 
         var p = (JProperty)JToken.ReadFrom(reader);
         Xunit.Assert.Equal("pie", p.Name);
-        Assert.True( (bool)p.Value);
+        XUnitAssert.True((bool)p.Value);
 
         var c = (JConstructor)JToken.ReadFrom(new JsonTextReader(new StringReader("new Date(1)")));
         Xunit.Assert.Equal("Date", c.Name);
@@ -87,14 +87,14 @@ public class JTokenTests : TestFixtureBase
     public void Load()
     {
         var o = (JObject)JToken.Load(new JsonTextReader(new StringReader("{'pie':true}")));
-        Assert.True( (bool)o["pie"]);
+        XUnitAssert.True((bool)o["pie"]);
     }
 
     [Fact]
     public void Parse()
     {
         var o = (JObject)JToken.Parse("{'pie':true}");
-        Assert.True( (bool)o["pie"]);
+        XUnitAssert.True((bool)o["pie"]);
     }
 
     [Fact]
@@ -135,8 +135,8 @@ public class JTokenTests : TestFixtureBase
 
         Xunit.Assert.NotSame(o1.Value, o2.Value);
         Xunit.Assert.Equal(o1.Value.Children().Count(), o2.Value.Children().Count());
-        Assert.False( JToken.DeepEquals(o1, o2));
-        Assert.True( JToken.DeepEquals(o1.Value, o2.Value));
+        XUnitAssert.False(JToken.DeepEquals(o1, o2));
+        XUnitAssert.True(JToken.DeepEquals(o1.Value, o2.Value));
     }
 
     [Fact]
@@ -249,8 +249,8 @@ public class JTokenTests : TestFixtureBase
         Xunit.Assert.Equal(new DateTimeOffset(2000, 12, 20, 23, 50, 10, TimeSpan.Zero), (DateTimeOffset)new JValue(new DateTimeOffset(2000, 12, 20, 23, 50, 10, TimeSpan.Zero)));
         Xunit.Assert.Equal(null, (DateTimeOffset?)new JValue((DateTimeOffset?)null));
         Xunit.Assert.Equal(null, (DateTimeOffset?)(JValue?)null);
-        Assert.True( (bool)new JValue(true));
-        Assert.True( (bool?)new JValue(true));
+        XUnitAssert.True((bool)new JValue(true));
+        XUnitAssert.True((bool?)new JValue(true));
         Xunit.Assert.Equal(null, (bool?)(JValue?)null);
         Xunit.Assert.Equal(null, (bool?)JValue.CreateNull());
         Xunit.Assert.Equal(10, (long)new JValue(10));
@@ -304,12 +304,12 @@ public class JTokenTests : TestFixtureBase
         Xunit.Assert.Equal(null, (string?)(JValue?)null);
         Xunit.Assert.Equal("12/12/2000 12:12:12", (string?)new JValue(new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc)));
         Xunit.Assert.Equal("12/12/2000 12:12:12 +00:00", (string?)new JValue(new DateTimeOffset(2000, 12, 12, 12, 12, 12, TimeSpan.Zero)));
-        Assert.True( (bool)new JValue(1));
-        Assert.True( (bool)new JValue(1.0));
-        Assert.True( (bool)new JValue("true"));
-        Assert.True( (bool)new JValue(true));
-        Assert.True( (bool)new JValue(2));
-        Assert.False( (bool)new JValue(0));
+        XUnitAssert.True((bool)new JValue(1));
+        XUnitAssert.True((bool)new JValue(1.0));
+        XUnitAssert.True((bool)new JValue("true"));
+        XUnitAssert.True((bool)new JValue(true));
+        XUnitAssert.True((bool)new JValue(2));
+        XUnitAssert.False((bool)new JValue(0));
         Xunit.Assert.Equal(1, (int)new JValue(1));
         Xunit.Assert.Equal(1, (int)new JValue(1.0));
         Xunit.Assert.Equal(1, (int)new JValue("1"));
@@ -377,7 +377,7 @@ public class JTokenTests : TestFixtureBase
         Xunit.Assert.Equal(BigInteger.Parse(bigIntegerText), new JValue(intData).ToObject<BigInteger>());
 
         Xunit.Assert.Equal(4.0d, (double)new JValue(new BigInteger(4.5d)));
-        Assert.True( (bool)new JValue(new BigInteger(1)));
+        XUnitAssert.True((bool)new JValue(new BigInteger(1)));
         Xunit.Assert.Equal(long.MaxValue, (long)new JValue(new BigInteger(long.MaxValue)));
         Xunit.Assert.Equal(long.MaxValue, (long)new JValue(new BigInteger(new byte[] { 255, 255, 255, 255, 255, 255, 255, 127 })));
         Xunit.Assert.Equal("9223372036854775807", (string?)new JValue(new BigInteger(long.MaxValue)));
@@ -472,8 +472,8 @@ public class JTokenTests : TestFixtureBase
         Xunit.Assert.Equal((double)1, new JValue(1.0).ToObject(typeof(double?)));
         Xunit.Assert.Equal(1m, new JValue(1).ToObject(typeof(decimal)));
         Xunit.Assert.Equal(1m, new JValue(1).ToObject(typeof(decimal?)));
-        Assert.True( new JValue(true).ToObject(typeof(bool)));
-        Assert.True( new JValue(true).ToObject(typeof(bool?)));
+        XUnitAssert.True(new JValue(true).ToObject(typeof(bool)));
+        XUnitAssert.True(new JValue(true).ToObject(typeof(bool?)));
         Xunit.Assert.Equal('b', new JValue('b').ToObject(typeof(char)));
         Xunit.Assert.Equal('b', new JValue('b').ToObject(typeof(char?)));
         Xunit.Assert.Equal(TimeSpan.MaxValue, new JValue(TimeSpan.MaxValue).ToObject(typeof(TimeSpan)));

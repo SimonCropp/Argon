@@ -353,7 +353,7 @@ public class JPathParseTests : TestFixtureBase
         Xunit.Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
         var expressions = (BooleanQueryExpression)((QueryFilter)path.Filters[1]).Expression;
         Xunit.Assert.Equal(QueryOperator.Equals, expressions.Operator);
-        Assert.False( (bool)(JToken)expressions.Right);
+        XUnitAssert.False((bool)(JToken)expressions.Right);
     }
 
     [Fact]
@@ -364,7 +364,7 @@ public class JPathParseTests : TestFixtureBase
         Xunit.Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
         var expressions = (BooleanQueryExpression)((QueryFilter)path.Filters[1]).Expression;
         Xunit.Assert.Equal(QueryOperator.Equals, expressions.Operator);
-        Assert.True( (bool)(JToken)expressions.Right);
+        XUnitAssert.True((bool)(JToken)expressions.Right);
     }
 
     [Fact]

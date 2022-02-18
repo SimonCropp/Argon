@@ -87,7 +87,7 @@ public class Issue1798
 
         if (o.ContainsKey("TargetSite"))
         {
-            Assert.Fail("JSON has TargetSite property.");
+            XUnitAssert.Fail("JSON has TargetSite property.");
         }
     }
 }

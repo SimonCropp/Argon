@@ -565,7 +565,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         Xunit.Assert.True(JToken.DeepEquals(o, (JToken)myOtherResult[0, 0]));
         Xunit.Assert.Equal("foobar", myOtherResult[0, 1]);
 
-        Assert.True( myOtherResult[1, 0]);
+        XUnitAssert.True(myOtherResult[1, 0]);
         Xunit.Assert.Equal(0.4, myOtherResult[1, 1]);
 
         Xunit.Assert.Equal(0.05, myOtherResult[2, 0]);

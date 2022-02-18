@@ -137,43 +137,43 @@ public class ReadTests : TestFixtureBase
         Xunit.Assert.True(reader.Read());
         Xunit.Assert.Equal("", reader.Path);
 
-        Assert.True( reader.ReadAsBoolean());
+        XUnitAssert.True(reader.ReadAsBoolean());
         Xunit.Assert.Equal("[0]", reader.Path);
 
-        Assert.False( reader.ReadAsBoolean());
+        XUnitAssert.False(reader.ReadAsBoolean());
         Xunit.Assert.Equal("[1]", reader.Path);
 
-        Assert.True( reader.ReadAsBoolean());
+        XUnitAssert.True(reader.ReadAsBoolean());
         Xunit.Assert.Equal("[2]", reader.Path);
 
-        Assert.False( reader.ReadAsBoolean());
+        XUnitAssert.False(reader.ReadAsBoolean());
         Xunit.Assert.Equal("[3]", reader.Path);
 
-        Assert.True( reader.ReadAsBoolean());
+        XUnitAssert.True(reader.ReadAsBoolean());
         Xunit.Assert.Equal("[4]", reader.Path);
 
-        Assert.True( reader.ReadAsBoolean());
+        XUnitAssert.True(reader.ReadAsBoolean());
         Xunit.Assert.Equal("[5]", reader.Path);
 
-        Assert.True( reader.ReadAsBoolean());
+        XUnitAssert.True(reader.ReadAsBoolean());
         Xunit.Assert.Equal("[6]", reader.Path);
 
-        Assert.True( reader.ReadAsBoolean());
+        XUnitAssert.True(reader.ReadAsBoolean());
         Xunit.Assert.Equal("[7]", reader.Path);
 
-        Assert.True( reader.ReadAsBoolean());
+        XUnitAssert.True(reader.ReadAsBoolean());
         Xunit.Assert.Equal("[8]", reader.Path);
 
-        Assert.True( reader.ReadAsBoolean());
+        XUnitAssert.True(reader.ReadAsBoolean());
         Xunit.Assert.Equal("[9]", reader.Path);
 
-        Assert.True( reader.ReadAsBoolean());
+        XUnitAssert.True(reader.ReadAsBoolean());
         Xunit.Assert.Equal("[10]", reader.Path);
 
-        Assert.False( reader.ReadAsBoolean());
+        XUnitAssert.False(reader.ReadAsBoolean());
         Xunit.Assert.Equal("[11]", reader.Path);
 
-        Assert.False( reader.ReadAsBoolean());
+        XUnitAssert.False(reader.ReadAsBoolean());
         Xunit.Assert.Equal("[12]", reader.Path);
 
         Xunit.Assert.Equal(null, reader.ReadAsBoolean());
@@ -198,7 +198,7 @@ public class ReadTests : TestFixtureBase
 
         var reader = new JsonTextReader(new StringReader(json));
 
-        Assert.True( reader.ReadAsBoolean());
+        XUnitAssert.True(reader.ReadAsBoolean());
         Xunit.Assert.Equal(null, reader.ReadAsBoolean());
     }
 
@@ -993,7 +993,7 @@ public class ReadTests : TestFixtureBase
 
         Xunit.Assert.True(reader.Read());
         Xunit.Assert.Equal(JsonToken.Boolean, reader.TokenType);
-        Assert.True( reader.Value);
+        XUnitAssert.True(reader.Value);
 
         Xunit.Assert.True(reader.Read());
         Xunit.Assert.Equal(JsonToken.Comment, reader.TokenType);
@@ -1074,19 +1074,19 @@ public class ReadTests : TestFixtureBase
         Xunit.Assert.True(reader.Read());
 
         Xunit.Assert.True(reader.Read());
-        Assert.False( reader.Value);
+        XUnitAssert.False(reader.Value);
 
         Xunit.Assert.True(reader.Read());
         Xunit.Assert.Equal(JsonToken.Boolean, reader.TokenType);
-        Assert.True( reader.Value);
+        XUnitAssert.True(reader.Value);
 
         Xunit.Assert.True(reader.Read());
         Xunit.Assert.Equal(JsonToken.Boolean, reader.TokenType);
-        Assert.True( reader.Value);
+        XUnitAssert.True(reader.Value);
 
         Xunit.Assert.True(reader.Read());
         Xunit.Assert.Equal(JsonToken.Boolean, reader.TokenType);
-        Assert.False( reader.Value);
+        XUnitAssert.False(reader.Value);
 
         Xunit.Assert.True(reader.Read());
         Xunit.Assert.Equal(JsonToken.String, reader.TokenType);

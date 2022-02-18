@@ -110,7 +110,7 @@ public class ShouldSerializeTests : TestFixtureBase
         Xunit.Assert.NotNull(deserializedSetFoo.myBar.myBaz[2].myFrob[0]);
         Xunit.Assert.Equal(setFoo.myBar.myBaz[2].myFrob[0].name, deserializedSetFoo.myBar.myBaz[2].myFrob[0].name);
 
-        Assert.True( setFoo.myBar.ShouldSerializemyBazCalled);
+        XUnitAssert.True(setFoo.myBar.ShouldSerializemyBazCalled);
     }
 
     string Serialize(Foo2 f)
@@ -349,12 +349,12 @@ public class ShouldSerializeTests : TestFixtureBase
         var mikeString = "{\"Name\": \"Mike Person\"}";
         var mike = JsonConvert.DeserializeObject<FamilyDetails>(mikeString);
 
-        Assert.False( mike.NumberOfChildrenSpecified);
+        XUnitAssert.False(mike.NumberOfChildrenSpecified);
 
         var mikeFullDisclosureString = "{\"Name\": \"Mike Person\", \"NumberOfChildren\": \"0\"}";
         mike = JsonConvert.DeserializeObject<FamilyDetails>(mikeFullDisclosureString);
 
-        Assert.True( mike.NumberOfChildrenSpecified);
+        XUnitAssert.True(mike.NumberOfChildrenSpecified);
     }
 
     [Fact]
@@ -408,7 +408,7 @@ public class ShouldSerializeTests : TestFixtureBase
         });
 
         Xunit.Assert.Equal(null, c.ExtensionData);
-        Assert.True( c.HasName);
+        XUnitAssert.True(c.HasName);
         Xunit.Assert.Equal("Name!", c.Name);
 
         Xunit.Assert.True(traceWriter.GetTraceMessages().Any(m => m.EndsWith("Verbose ShouldDeserialize result for property 'Name' on Argon.Tests.Serialization.ShouldDeserializeTestClass: True. Path 'Name'.")));
@@ -428,7 +428,7 @@ public class ShouldSerializeTests : TestFixtureBase
 
         Xunit.Assert.Equal(1, c.ExtensionData.Count);
         Xunit.Assert.Equal("Name!", (string)c.ExtensionData["Name"]);
-        Assert.False( c.HasName);
+        XUnitAssert.False(c.HasName);
         Xunit.Assert.Equal(null, c.Name);
 
         Xunit.Assert.True(traceWriter.GetTraceMessages().Any(m => m.EndsWith("Verbose ShouldDeserialize result for property 'Name' on Argon.Tests.Serialization.ShouldDeserializeTestClass: False. Path 'Name'.")));

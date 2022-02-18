@@ -46,12 +46,12 @@ public class ExtensionsTests : TestFixtureBase
         var stringToken = JToken.FromObject("pie");
         var integerToken = JToken.FromObject(1);
 
-        Assert.True(integerToken.IsValid(schema));
-        Assert.True(integerToken.IsValid(schema, out var errorMessages));
+        XUnitAssert.True(integerToken.IsValid(schema));
+        XUnitAssert.True(integerToken.IsValid(schema, out var errorMessages));
         Xunit.Assert.Equal(0, errorMessages.Count);
 
-        Assert.False(stringToken.IsValid(schema));
-        Assert.False(stringToken.IsValid(schema, out errorMessages));
+        XUnitAssert.False(stringToken.IsValid(schema));
+        XUnitAssert.False(stringToken.IsValid(schema, out errorMessages));
         Xunit.Assert.Equal(1, errorMessages.Count);
         Xunit.Assert.Equal("Invalid type. Expected Integer but got String.", errorMessages[0]);
     }
@@ -176,7 +176,7 @@ public class ExtensionsTests : TestFixtureBase
 
         if (errors.Count > 0)
         {
-            Assert.Fail("Schema generated for type '{0}' is not valid." + Environment.NewLine + string.Join(Environment.NewLine, errors.ToArray()), typeof(T));
+            XUnitAssert.Fail("Schema generated for type '{0}' is not valid." + Environment.NewLine + string.Join(Environment.NewLine, errors.ToArray()), typeof(T));
         }
     }
 

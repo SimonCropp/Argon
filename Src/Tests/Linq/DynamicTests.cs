@@ -53,7 +53,7 @@ public class DynamicTests : TestFixtureBase
         var session = JsonConvert.DeserializeObject<dynamic>("{}");
         if (session.sessionInfo != null)
         {
-            Assert.Fail();
+            XUnitAssert.Fail();
         }
     }
         
@@ -434,7 +434,7 @@ public class DynamicTests : TestFixtureBase
         Xunit.Assert.Equal(-2, (int)r);
 
         r = d.Integer - 1.1;
-        Assert.AreEqual(-0.1d, (double)r, 0.00001);
+        XUnitAssert.AreEqual(-0.1d, (double)r, 0.00001);
         r -= 2;
         Xunit.Assert.Equal(-2.1d, (double)r);
 
@@ -449,7 +449,7 @@ public class DynamicTests : TestFixtureBase
         Xunit.Assert.Equal(null, r.Value);
 
         r = d.Float - 1;
-        Assert.AreEqual(0.1d, (double)r, 0.00001);
+        XUnitAssert.AreEqual(0.1d, (double)r, 0.00001);
         r -= 2;
         Xunit.Assert.Equal(-1.9d, (double)r);
 
@@ -526,9 +526,9 @@ public class DynamicTests : TestFixtureBase
         Xunit.Assert.Equal(2.2d, (double)r);
 
         r = d.Float * 1.1;
-        Assert.AreEqual(1.21d, (double)r, 0.00001);
+        XUnitAssert.AreEqual(1.21d, (double)r, 0.00001);
         r *= 2;
-        Assert.AreEqual(2.42d, (double)r, 0.00001);
+        XUnitAssert.AreEqual(2.42d, (double)r, 0.00001);
 
         r = d.Float * 1.1d;
         Xunit.Assert.Equal(1.21m, (decimal)r);
@@ -580,7 +580,7 @@ public class DynamicTests : TestFixtureBase
         r = d.Integer / 1.1;
         Xunit.Assert.Equal(0.9090909090909091d, (double)r);
         r /= 2;
-        Assert.AreEqual(0.454545454545455d, (double)r, 0.00001);
+        XUnitAssert.AreEqual(0.454545454545455d, (double)r, 0.00001);
 
         r = d.Integer / 1.1d;
         Xunit.Assert.Equal(0.909090909090909m, (decimal)r);
@@ -598,9 +598,9 @@ public class DynamicTests : TestFixtureBase
         Xunit.Assert.Equal(0.55d, (double)r);
 
         r = d.Float / 1.1;
-        Assert.AreEqual(1d, (double)r, 0.00001);
+        XUnitAssert.AreEqual(1d, (double)r, 0.00001);
         r /= 2;
-        Assert.AreEqual(0.5d, (double)r, 0.00001);
+        XUnitAssert.AreEqual(0.5d, (double)r, 0.00001);
 
         r = d.Float / 1.1d;
         Xunit.Assert.Equal(1m, (decimal)r);

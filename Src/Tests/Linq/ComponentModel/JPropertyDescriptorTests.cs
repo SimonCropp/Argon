@@ -87,7 +87,7 @@ public class JPropertyDescriptorTests : TestFixtureBase
     {
         var propertyDescriptor1 = new JPropertyDescriptor("prop1");
 
-        Assert.False( propertyDescriptor1.IsReadOnly);
+        XUnitAssert.False(propertyDescriptor1.IsReadOnly);
     }
 
     [Fact]

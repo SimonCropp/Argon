@@ -53,7 +53,7 @@ public class JTokenAnnotation : TestFixtureBase
         // employer
         #endregion
 
-        Assert.True( changedProperties.Contains("age"));
-        Assert.True( changedProperties.Contains("employer"));
+        XUnitAssert.True(changedProperties.Contains("age"));
+        XUnitAssert.True(changedProperties.Contains("employer"));
     }
 }

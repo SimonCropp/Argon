@@ -58,7 +58,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
         var o = (InTestClass)creator(args);
         Xunit.Assert.NotNull(o);
         Xunit.Assert.Equal("Value", o.Value);
-        Assert.True( o.B1);
+        XUnitAssert.True(o.B1);
     }
 
     [Fact]
@@ -85,7 +85,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
         var o = (OutAndRefTestClass)creator(args);
         Xunit.Assert.NotNull(o);
         Xunit.Assert.Equal("Input", o.Input);
-        Assert.True( o.B1);
+        XUnitAssert.True(o.B1);
     }
 
     [Fact]
@@ -99,8 +99,8 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
         var o = (OutAndRefTestClass)creator(args);
         Xunit.Assert.NotNull(o);
         Xunit.Assert.Equal("Input", o.Input);
-        Assert.True( o.B1);
-        Assert.False( o.B2);
+        XUnitAssert.True(o.B1);
+        XUnitAssert.False(o.B2);
     }
 
     [Fact]

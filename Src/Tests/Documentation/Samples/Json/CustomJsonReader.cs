@@ -435,7 +435,7 @@ public class CustomJsonReader : TestFixtureBase
 
             Xunit.Assert.True(reader.Read());
             Xunit.Assert.Equal(JsonToken.Boolean, reader.TokenType);
-            Assert.True( reader.Value);
+            XUnitAssert.True(reader.Value);
 
             Xunit.Assert.True(reader.Read());
             Xunit.Assert.Equal(JsonToken.EndArray, reader.TokenType);

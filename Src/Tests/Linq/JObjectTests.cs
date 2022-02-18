@@ -130,14 +130,14 @@ public class JObjectTests : TestFixtureBase
         var o = new JObject {{"PropertyNameValue", new JValue(1)}};
         Xunit.Assert.Equal(1, o.Children().Count());
 
-        Assert.False(o.TryGetValue("sdf", out var t));
+        XUnitAssert.False(o.TryGetValue("sdf", out var t));
         Xunit.Assert.Equal(null, t);
 
-        Assert.False(o.TryGetValue(null, out t));
+        XUnitAssert.False(o.TryGetValue(null, out t));
         Xunit.Assert.Equal(null, t);
 
-        Assert.True(o.TryGetValue("PropertyNameValue", out t));
-        Assert.True(JToken.DeepEquals(new JValue(1), t));
+        XUnitAssert.True(o.TryGetValue("PropertyNameValue", out t));
+        XUnitAssert.True(JToken.DeepEquals(new JValue(1), t));
     }
 
     [Fact]
@@ -149,20 +149,20 @@ public class JObjectTests : TestFixtureBase
         };
         Xunit.Assert.Equal(1, o.Children().Count());
 
-        Assert.True(o.TryGetValue("PropertyNameValue", out var t));
-        Assert.True(JToken.DeepEquals(new JValue(1), t));
+        XUnitAssert.True(o.TryGetValue("PropertyNameValue", out var t));
+        XUnitAssert.True(JToken.DeepEquals(new JValue(1), t));
 
         o["PropertyNameValue"] = new JValue(2);
         Xunit.Assert.Equal(1, o.Children().Count());
 
-        Assert.True(o.TryGetValue("PropertyNameValue", out t));
-        Assert.True(JToken.DeepEquals(new JValue(2), t));
+        XUnitAssert.True(o.TryGetValue("PropertyNameValue", out t));
+        XUnitAssert.True(JToken.DeepEquals(new JValue(2), t));
 
         o["PropertyNameValue"] = null;
         Xunit.Assert.Equal(1, o.Children().Count());
 
-        Assert.True(o.TryGetValue("PropertyNameValue", out t));
-        Assert.True(JToken.DeepEquals(JValue.CreateNull(), t));
+        XUnitAssert.True(o.TryGetValue("PropertyNameValue", out t));
+        XUnitAssert.True(JToken.DeepEquals(JValue.CreateNull(), t));
     }
 
     [Fact]
@@ -171,9 +171,9 @@ public class JObjectTests : TestFixtureBase
         var o = new JObject {{"PropertyNameValue", new JValue(1)}};
         Xunit.Assert.Equal(1, o.Children().Count());
 
-        Assert.False(o.Remove("sdf"));
-        Assert.False(o.Remove(null));
-        Assert.True(o.Remove("PropertyNameValue"));
+        XUnitAssert.False(o.Remove("sdf"));
+        XUnitAssert.False(o.Remove(null));
+        XUnitAssert.True(o.Remove("PropertyNameValue"));
 
         Xunit.Assert.Equal(0, o.Children().Count());
     }
@@ -185,10 +185,10 @@ public class JObjectTests : TestFixtureBase
         var o = new JObject {{"PropertyNameValue", v}};
         Xunit.Assert.Equal(1, o.Children().Count());
 
-        Assert.False(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new KeyValuePair<string, JToken>("PropertyNameValue1", new JValue(1))));
-        Assert.False(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new KeyValuePair<string, JToken>("PropertyNameValue", new JValue(2))));
-        Assert.False(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new KeyValuePair<string, JToken>("PropertyNameValue", new JValue(1))));
-        Assert.True(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new KeyValuePair<string, JToken>("PropertyNameValue", v)));
+        XUnitAssert.False(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new KeyValuePair<string, JToken>("PropertyNameValue1", new JValue(1))));
+        XUnitAssert.False(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new KeyValuePair<string, JToken>("PropertyNameValue", new JValue(2))));
+        XUnitAssert.False(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new KeyValuePair<string, JToken>("PropertyNameValue", new JValue(1))));
+        XUnitAssert.True(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new KeyValuePair<string, JToken>("PropertyNameValue", v)));
 
         Xunit.Assert.Equal(0, o.Children().Count());
     }
@@ -251,19 +251,19 @@ public class JObjectTests : TestFixtureBase
         Xunit.Assert.Equal(1, o.Children().Count());
 
         var contains = ((ICollection<KeyValuePair<string, JToken>>) o).Contains(new KeyValuePair<string, JToken>("PropertyNameValue", new JValue(1)));
-        Assert.False(contains);
+        XUnitAssert.False(contains);
 
         contains = ((ICollection<KeyValuePair<string, JToken>>) o).Contains(new KeyValuePair<string, JToken>("PropertyNameValue", v));
-        Assert.True(contains);
+        XUnitAssert.True(contains);
 
         contains = ((ICollection<KeyValuePair<string, JToken>>) o).Contains(new KeyValuePair<string, JToken>("PropertyNameValue", new JValue(2)));
-        Assert.False(contains);
+        XUnitAssert.False(contains);
 
         contains = ((ICollection<KeyValuePair<string, JToken>>) o).Contains(new KeyValuePair<string, JToken>("PropertyNameValue1", new JValue(1)));
-        Assert.False(contains);
+        XUnitAssert.False(contains);
 
         contains = ((ICollection<KeyValuePair<string, JToken>>) o).Contains(default(KeyValuePair<string, JToken>));
-        Assert.False(contains);
+        XUnitAssert.False(contains);
     }
 
     [Fact]
@@ -273,15 +273,15 @@ public class JObjectTests : TestFixtureBase
         Xunit.Assert.Equal(1, o.Children().Count());
 
         var contains = o.ContainsKey("PropertyNameValue");
-        Assert.True(contains);
+        XUnitAssert.True(contains);
 
         contains = o.ContainsKey("does not exist");
-        Assert.False(contains);
+        XUnitAssert.False(contains);
 
         ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
                 contains = o.ContainsKey(null);
-                Assert.False(contains);
+                XUnitAssert.False(contains);
             },
             @"Value cannot be null.
 Parameter name: propertyName",
@@ -295,7 +295,7 @@ Parameter name: propertyName",
         Xunit.Assert.Equal(1, o.Children().Count());
 
         var contains = ((IDictionary<string, JToken>) o).ContainsKey("PropertyNameValue");
-        Assert.True(contains);
+        XUnitAssert.True(contains);
     }
 
     [Fact]
@@ -486,7 +486,7 @@ Parameter name: arrayIndex",
         var json = @"{""foo"":true}";
         var o = (JObject) JsonConvert.DeserializeObject(json);
         var value = o.Value<bool?>("foo");
-        Assert.True(value);
+        XUnitAssert.True(value);
 
         json = @"{""foo"":null}";
         o = (JObject) JsonConvert.DeserializeObject(json);
@@ -1294,42 +1294,42 @@ Parameter name: arrayIndex",
     public void IBindingListSupportsChangeNotification()
     {
         IBindingList l = new JObject();
-        Assert.True(l.SupportsChangeNotification);
+        XUnitAssert.True(l.SupportsChangeNotification);
     }
 
     [Fact]
     public void IBindingListSupportsSearching()
     {
         IBindingList l = new JObject();
-        Assert.False(l.SupportsSearching);
+        XUnitAssert.False(l.SupportsSearching);
     }
 
     [Fact]
     public void IBindingListSupportsSorting()
     {
         IBindingList l = new JObject();
-        Assert.False(l.SupportsSorting);
+        XUnitAssert.False(l.SupportsSorting);
     }
 
     [Fact]
     public void IBindingListAllowEdit()
     {
         IBindingList l = new JObject();
-        Assert.True(l.AllowEdit);
+        XUnitAssert.True(l.AllowEdit);
     }
 
     [Fact]
     public void IBindingListAllowNew()
     {
         IBindingList l = new JObject();
-        Assert.True(l.AllowNew);
+        XUnitAssert.True(l.AllowNew);
     }
 
     [Fact]
     public void IBindingListAllowRemove()
     {
         IBindingList l = new JObject();
-        Assert.True(l.AllowRemove);
+        XUnitAssert.True(l.AllowRemove);
     }
 
     [Fact]
@@ -1382,7 +1382,7 @@ Parameter name: arrayIndex",
     public void IBindingListIsSorted()
     {
         IBindingList l = new JObject();
-        Assert.False(l.IsSorted);
+        XUnitAssert.False(l.IsSorted);
     }
 
     [Fact]
@@ -1774,29 +1774,29 @@ Parameter name: arrayIndex",
         Xunit.Assert.Equal("prop1", prop1.Name);
         Xunit.Assert.Equal(typeof(object), prop1.PropertyType);
         Xunit.Assert.Equal(typeof(JObject), prop1.ComponentType);
-        Assert.False(prop1.CanResetValue(o));
-        Assert.False(prop1.ShouldSerializeValue(o));
+        XUnitAssert.False(prop1.CanResetValue(o));
+        XUnitAssert.False(prop1.ShouldSerializeValue(o));
 
         var prop2 = properties[1];
         Xunit.Assert.Equal("prop2", prop2.Name);
         Xunit.Assert.Equal(typeof(object), prop2.PropertyType);
         Xunit.Assert.Equal(typeof(JObject), prop2.ComponentType);
-        Assert.False(prop2.CanResetValue(o));
-        Assert.False(prop2.ShouldSerializeValue(o));
+        XUnitAssert.False(prop2.CanResetValue(o));
+        XUnitAssert.False(prop2.ShouldSerializeValue(o));
 
         var prop3 = properties[2];
         Xunit.Assert.Equal("prop3", prop3.Name);
         Xunit.Assert.Equal(typeof(object), prop3.PropertyType);
         Xunit.Assert.Equal(typeof(JObject), prop3.ComponentType);
-        Assert.False(prop3.CanResetValue(o));
-        Assert.False(prop3.ShouldSerializeValue(o));
+        XUnitAssert.False(prop3.CanResetValue(o));
+        XUnitAssert.False(prop3.ShouldSerializeValue(o));
 
         var prop4 = properties[3];
         Xunit.Assert.Equal("prop4", prop4.Name);
         Xunit.Assert.Equal(typeof(object), prop4.PropertyType);
         Xunit.Assert.Equal(typeof(JObject), prop4.ComponentType);
-        Assert.False(prop4.CanResetValue(o));
-        Assert.False(prop4.ShouldSerializeValue(o));
+        XUnitAssert.False(prop4.CanResetValue(o));
+        XUnitAssert.False(prop4.ShouldSerializeValue(o));
     }
 
     [Fact]

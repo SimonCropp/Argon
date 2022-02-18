@@ -74,7 +74,7 @@ public class DynamicTests : TestFixtureBase
 }", json);
 
         var newDynamicObject = JsonConvert.DeserializeObject<TestDynamicObject>(json);
-        Assert.True( newDynamicObject.Explicit);
+        XUnitAssert.True(newDynamicObject.Explicit);
 
         d = newDynamicObject;
 
@@ -235,7 +235,7 @@ public class DynamicTests : TestFixtureBase
 
         var foo = JsonConvert.DeserializeObject<DictionaryDynamicObject>(json, settings);
 
-        Assert.False( foo.Values["retweeted"]);
+        XUnitAssert.False(foo.Values["retweeted"]);
     }
 
     [Fact]

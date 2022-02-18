@@ -781,7 +781,7 @@ public class ContractResolverTests : TestFixtureBase
         var property1 = contract.Properties["Name"];
 
         Xunit.Assert.Equal(Required.Always, property1.Required);
-        Assert.True( property1.IsRequiredSpecified);
+        XUnitAssert.True(property1.IsRequiredSpecified);
     }
 
     [Fact]
@@ -794,12 +794,12 @@ public class ContractResolverTests : TestFixtureBase
         var unset = contract.Properties["UnsetProperty"];
 
         Xunit.Assert.Equal(Required.Default, unset.Required);
-        Assert.False( unset.IsRequiredSpecified);
+        XUnitAssert.False(unset.IsRequiredSpecified);
 
         var allowNull = contract.Properties["AllowNullProperty"];
 
         Xunit.Assert.Equal(Required.AllowNull, allowNull.Required);
-        Assert.True( allowNull.IsRequiredSpecified);
+        XUnitAssert.True(allowNull.IsRequiredSpecified);
     }
 
     [Fact]

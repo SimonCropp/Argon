@@ -285,7 +285,7 @@ public class EntitiesSerializationTests : TestFixtureBase
         Xunit.Assert.Equal("Folder", f.EntityKey.EntitySetName);
         Xunit.Assert.Equal("DataServicesTestDatabaseEntities", f.EntityKey.EntityContainerName);
         Xunit.Assert.Equal("Folder", f.EntityKey.EntitySetName);
-        Assert.False( f.EntityKey.IsTemporary);
+        XUnitAssert.False(f.EntityKey.IsTemporary);
         Xunit.Assert.Equal(1, f.EntityKey.EntityKeyValues.Length);
         Xunit.Assert.Equal("FolderId", f.EntityKey.EntityKeyValues[0].Key);
         Xunit.Assert.Equal(new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E"), f.EntityKey.EntityKeyValues[0].Value);

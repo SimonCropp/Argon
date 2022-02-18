@@ -349,9 +349,9 @@ public class ExtensionDataTests : TestFixtureBase
 
         Xunit.Assert.Equal("Readonly", (string)c.ExtensionData["Readonly"]);
         Xunit.Assert.Equal("Wrong name!", (string)c.ExtensionData["CustomName"]);
-        Assert.True( (bool)c.ExtensionData["GetPrivate"]);
-        Assert.True( (bool)c.ExtensionData["GetOnly"]);
-        Assert.True( (bool)c.ExtensionData["NewValueSimple"]);
+        XUnitAssert.True((bool)c.ExtensionData["GetPrivate"]);
+        XUnitAssert.True((bool)c.ExtensionData["GetOnly"]);
+        XUnitAssert.True((bool)c.ExtensionData["NewValueSimple"]);
         Xunit.Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), c.ExtensionData["NewValueComplex"]));
         Xunit.Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), c.ExtensionData["Ignored"]));
 
@@ -389,9 +389,9 @@ public class ExtensionDataTests : TestFixtureBase
 
         Xunit.Assert.Equal("Readonly", (string)c.ExtensionData["Readonly"]);
         Xunit.Assert.Equal("Wrong name!", (string)c.ExtensionData["CustomName"]);
-        Assert.True( (bool)c.ExtensionData["GetPrivate"]);
-        Assert.True( (bool)c.ExtensionData["GetOnly"]);
-        Assert.True( (bool)c.ExtensionData["NewValueSimple"]);
+        XUnitAssert.True((bool)c.ExtensionData["GetPrivate"]);
+        XUnitAssert.True((bool)c.ExtensionData["GetOnly"]);
+        XUnitAssert.True((bool)c.ExtensionData["NewValueSimple"]);
         Xunit.Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), c.ExtensionData["NewValueComplex"]));
         Xunit.Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), c.ExtensionData["Ignored"]));
 

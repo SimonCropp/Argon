@@ -546,7 +546,7 @@ public class MiscAsyncTests : TestFixtureBase
                 }
             }
 
-            Assert.Fail();
+            XUnitAssert.Fail();
         }
         catch
         {
@@ -780,7 +780,7 @@ null//comment
 
         Xunit.Assert.True(await reader.ReadAsync());
         Xunit.Assert.Equal(JsonToken.Boolean, reader.TokenType);
-        Assert.True( reader.Value);
+        XUnitAssert.True(reader.Value);
         Xunit.Assert.Equal(4, reader.LineNumber);
 
         Xunit.Assert.True(await reader.ReadAsync());

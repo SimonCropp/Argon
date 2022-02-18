@@ -219,7 +219,7 @@ public class StringEnumConverterTests : TestFixtureBase
 
         Xunit.Assert.NotNull(converter.NamingStrategy);
         Xunit.Assert.Equal(typeof(CamelCaseNamingStrategy), converter.NamingStrategy.GetType());
-        Assert.True( converter.AllowIntegerValues);
+        XUnitAssert.True(converter.AllowIntegerValues);
     }
 
     [Fact]
@@ -229,10 +229,10 @@ public class StringEnumConverterTests : TestFixtureBase
 
         Xunit.Assert.NotNull(converter.NamingStrategy);
         Xunit.Assert.Equal(typeof(CamelCaseNamingStrategy), converter.NamingStrategy.GetType());
-        Assert.False( converter.AllowIntegerValues);
-        Assert.True( converter.NamingStrategy.OverrideSpecifiedNames);
-        Assert.True( converter.NamingStrategy.ProcessDictionaryKeys);
-        Assert.True( converter.NamingStrategy.ProcessExtensionDataNames);
+        XUnitAssert.False(converter.AllowIntegerValues);
+        XUnitAssert.True(converter.NamingStrategy.OverrideSpecifiedNames);
+        XUnitAssert.True(converter.NamingStrategy.ProcessDictionaryKeys);
+        XUnitAssert.True(converter.NamingStrategy.ProcessExtensionDataNames);
     }
 
     [Fact]
@@ -685,7 +685,7 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
             return;
         }
 
-        Assert.Fail();
+        XUnitAssert.Fail();
     }
 
     [Fact]

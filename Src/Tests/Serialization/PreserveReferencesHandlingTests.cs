@@ -133,7 +133,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         var c2 = JsonConvert.DeserializeObject<Container>(s, settings);
 
         Xunit.Assert.Equal(c2.ListA[0], c2.ListB[0]);
-        Assert.True( c2.ListA[0].B.SomeValue);
+        XUnitAssert.True(c2.ListA[0].B.SomeValue);
     }
 
     public class Parent
@@ -983,7 +983,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         Xunit.Assert.Equal("James", p2.Name);
 
         var equal = Object.ReferenceEquals(p1, p2);
-        Assert.True( equal);
+        XUnitAssert.True(equal);
     }
 
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]

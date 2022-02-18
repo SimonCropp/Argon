@@ -123,7 +123,7 @@ public class JsonSchemaBuilderTests : TestFixtureBase
         var schema = builder.Read(new JsonTextReader(new StringReader(json)));
 
         Xunit.Assert.Equal("Required", schema.Description);
-        Assert.True( schema.Required);
+        XUnitAssert.True(schema.Required);
     }
 
     [Fact]
@@ -137,8 +137,8 @@ public class JsonSchemaBuilderTests : TestFixtureBase
         var builder = new JsonSchemaBuilder(new JsonSchemaResolver());
         var schema = builder.Read(new JsonTextReader(new StringReader(json)));
 
-        Assert.True( schema.ExclusiveMinimum);
-        Assert.True( schema.ExclusiveMaximum);
+        XUnitAssert.True(schema.ExclusiveMinimum);
+        XUnitAssert.True(schema.ExclusiveMaximum);
     }
 
     [Fact]
@@ -153,7 +153,7 @@ public class JsonSchemaBuilderTests : TestFixtureBase
         var schema = builder.Read(new JsonTextReader(new StringReader(json)));
 
         Xunit.Assert.Equal("ReadOnly", schema.Description);
-        Assert.True( schema.ReadOnly);
+        XUnitAssert.True(schema.ReadOnly);
     }
 
     [Fact]
@@ -168,7 +168,7 @@ public class JsonSchemaBuilderTests : TestFixtureBase
         var schema = builder.Read(new JsonTextReader(new StringReader(json)));
 
         Xunit.Assert.Equal("Hidden", schema.Description);
-        Assert.True( schema.Hidden);
+        XUnitAssert.True(schema.Hidden);
     }
 
     [Fact]
@@ -420,7 +420,7 @@ public class JsonSchemaBuilderTests : TestFixtureBase
 
         Xunit.Assert.NotNull(schema.AdditionalItems);
         Xunit.Assert.Equal(JsonSchemaType.Integer, schema.AdditionalItems.Type);
-        Assert.True( schema.AllowAdditionalItems);
+        XUnitAssert.True(schema.AllowAdditionalItems);
     }
 
     [Fact]
@@ -435,7 +435,7 @@ public class JsonSchemaBuilderTests : TestFixtureBase
         var schema = builder.Read(new JsonTextReader(new StringReader(json)));
 
         Xunit.Assert.Null(schema.AdditionalItems);
-        Assert.False( schema.AllowAdditionalItems);
+        XUnitAssert.False(schema.AllowAdditionalItems);
     }
 
     [Fact]
@@ -450,7 +450,7 @@ public class JsonSchemaBuilderTests : TestFixtureBase
         var schema = builder.Read(new JsonTextReader(new StringReader(json)));
 
         Xunit.Assert.Null(schema.AdditionalItems);
-        Assert.False( schema.AllowAdditionalItems);
+        XUnitAssert.False(schema.AllowAdditionalItems);
     }
 
     [Fact]

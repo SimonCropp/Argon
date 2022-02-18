@@ -566,7 +566,7 @@ public class MiscTests : TestFixtureBase
                 }
             }
 
-            Assert.Fail();
+            XUnitAssert.Fail();
         }
         catch
         {
@@ -800,7 +800,7 @@ null//comment
 
         Xunit.Assert.True(reader.Read());
         Xunit.Assert.Equal(JsonToken.Boolean, reader.TokenType);
-        Assert.True( reader.Value);
+        XUnitAssert.True(reader.Value);
         Xunit.Assert.Equal(4, reader.LineNumber);
 
         Xunit.Assert.True(reader.Read());

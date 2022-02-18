@@ -103,7 +103,7 @@ public class JsonTextWriterTest : TestFixtureBase
             }
 
 
-            Assert.Fail();
+            XUnitAssert.Fail();
         }
         catch
         {
@@ -1016,7 +1016,7 @@ Parameter name: value", "Value cannot be null. (Parameter 'value')");
             jsonWriter.IndentChar = '_';
             Xunit.Assert.Equal('_', jsonWriter.IndentChar);
             jsonWriter.QuoteName = true;
-            Assert.True( jsonWriter.QuoteName);
+            XUnitAssert.True(jsonWriter.QuoteName);
             jsonWriter.QuoteChar = '\'';
             Xunit.Assert.Equal('\'', jsonWriter.QuoteChar);
 

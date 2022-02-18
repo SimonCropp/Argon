@@ -325,7 +325,7 @@ public class BsonReaderTests : TestFixtureBase
 
         Xunit.Assert.True(reader.Read());
         Xunit.Assert.Equal(JsonToken.Boolean, reader.TokenType);
-        Assert.True( reader.Value);
+        XUnitAssert.True(reader.Value);
         Xunit.Assert.Equal(typeof(bool), reader.ValueType);
 
         Xunit.Assert.True(reader.Read());
@@ -406,13 +406,13 @@ public class BsonReaderTests : TestFixtureBase
         var ms = new MemoryStream(data);
         var reader = new BsonReader(ms);
 
-        Assert.False( reader.ReadRootValueAsArray);
+        XUnitAssert.False(reader.ReadRootValueAsArray);
         Xunit.Assert.Equal(DateTimeKind.Local, reader.DateTimeKindHandling);
 
         reader.ReadRootValueAsArray = true;
         reader.DateTimeKindHandling = DateTimeKind.Utc;
 
-        Assert.True( reader.ReadRootValueAsArray);
+        XUnitAssert.True(reader.ReadRootValueAsArray);
         Xunit.Assert.Equal(DateTimeKind.Utc, reader.DateTimeKindHandling);
 
         Xunit.Assert.True(reader.Read());
@@ -450,13 +450,13 @@ public class BsonReaderTests : TestFixtureBase
             var ms = new MemoryStream(data);
             var reader = new BsonReader(ms);
 
-            Assert.False( reader.ReadRootValueAsArray);
+            XUnitAssert.False(reader.ReadRootValueAsArray);
             Xunit.Assert.Equal(DateTimeKind.Local, reader.DateTimeKindHandling);
 
             reader.ReadRootValueAsArray = true;
             reader.DateTimeKindHandling = DateTimeKind.Utc;
 
-            Assert.True( reader.ReadRootValueAsArray);
+            XUnitAssert.True(reader.ReadRootValueAsArray);
             Xunit.Assert.Equal(DateTimeKind.Utc, reader.DateTimeKindHandling);
 
             Xunit.Assert.True(reader.Read());
@@ -475,7 +475,7 @@ public class BsonReaderTests : TestFixtureBase
         var reader = new BsonReader(ms, true, DateTimeKind.Utc);
         reader.JsonNet35BinaryCompatibility = true;
 
-        Assert.True( reader.ReadRootValueAsArray);
+        XUnitAssert.True(reader.ReadRootValueAsArray);
         Xunit.Assert.Equal(DateTimeKind.Utc, reader.DateTimeKindHandling);
 
         Xunit.Assert.True(reader.Read());

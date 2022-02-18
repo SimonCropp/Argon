@@ -424,7 +424,7 @@ public class SerializationTests : TestFixtureBase
         // true
         #endregion
 
-        Assert.True( equal);
+        XUnitAssert.True(equal);
     }
 
     #region PreservingObjectReferencesAttribute

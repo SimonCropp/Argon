@@ -178,7 +178,7 @@ public static class ExceptionAssert
         {
             action();
 
-            Assert.Fail("Exception of type " + typeof(TException).Name + " expected. No exception thrown.");
+            XUnitAssert.Fail("Exception of type " + typeof(TException).Name + " expected. No exception thrown.");
             return null;
         }
         catch (TException ex)
@@ -210,7 +210,7 @@ public static class ExceptionAssert
         {
             await action();
 
-            Assert.Fail("Exception of type " + typeof(TException).Name + " expected. No exception thrown.");
+            XUnitAssert.Fail("Exception of type " + typeof(TException).Name + " expected. No exception thrown.");
             return null;
         }
         catch (TException ex)

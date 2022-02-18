@@ -56,7 +56,7 @@ public class EnumUtilsTests : TestFixtureBase
             return;
         }
 
-        Assert.Fail($"Expected {exceptionType.FullName} exception.");
+        XUnitAssert.Fail($"Expected {exceptionType.FullName} exception.");
     }
 
     [Theory]
