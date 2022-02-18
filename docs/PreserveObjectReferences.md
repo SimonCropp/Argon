@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <topic id="PreserveObjectReferences" revisionNumber="1">
   <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!--
@@ -37,10 +37,10 @@
         object ID. The second Person in JSON is now only a reference to the first.</para>
         <para>With PreserveReferencesHandling on, now only one Person object is created
         on deserialization and the list contains two references to it, mirroring
-        what we started with.</para>
+        what was started with.</para>
  <para>
-   Metadata properties like <codeInline>$id</codeInline> must be located at the beginning of a JSON object to be successfully detected during deserialization. If you can't control
-   the order of properties in your JSON object then <codeEntityReference>T:Argon.MetadataPropertyHandling</codeEntityReference> can be used to remove this restriction.
+   Metadata properties like <codeInline>$id</codeInline> must be located at the beginning of a JSON object to be successfully detected during deserialization. If it is not possible control
+   the order of properties in the JSON object then <codeEntityReference>T:Argon.MetadataPropertyHandling</codeEntityReference> can be used to remove this restriction.
  </para>
 <alert class="note">
   <para>References cannot be preserved when a value is set via a non-default constructor.

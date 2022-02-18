@@ -1,9 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <topic id="QueryingLINQtoJSON" revisionNumber="1">
   <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
     <introduction>
-      <para>LINQ to JSON provides a number of methods for getting data from its objects. The index methods on JObject/JArray let you quickly get data by its property name
-      on an object or index in a collection, while <codeEntityReference>M:Argon.Linq.JToken.Children</codeEntityReference> lets you get ranges
+      <para>LINQ to JSON provides methods for getting data from its objects. The index methods on JObject/JArray supports quickly get data by its property name
+      on an object or index in a collection, while <codeEntityReference>M:Argon.Linq.JToken.Children</codeEntityReference> allows the retrieval of ranges
       of data as <codeInline>IEnumerable&lt;JToken&gt;</codeInline> to then query using LINQ.</para>
       <autoOutline lead="none" excludeRelatedTopics="true" />
     </introduction>
@@ -15,7 +15,7 @@
         <autoOutline /> -->
         <para>The simplest way to get a value from LINQ to JSON is to use the
         <codeEntityReference>P:Argon.Linq.JToken.Item(System.Object)</codeEntityReference> index on
-        JObject/JArray and then cast the returned <codeEntityReference>T:Argon.Linq.JValue</codeEntityReference> to the type you want.
+        JObject/JArray and then cast the returned <codeEntityReference>T:Argon.Linq.JValue</codeEntityReference> to the type required.
         </para>
 
 <code lang="cs" source="..\Src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonSimpleQuerying" title="Getting JSON Values" />
@@ -32,7 +32,7 @@
 <alert class="note">
         <para><codeEntityReference>M:Argon.Linq.JToken.Children</codeEntityReference> returns all the children of a token. If it is a
         JObject it will return a collection of properties to work with, and if
-        it is a JArray you will get a collection of the array's values.</para>
+        it is a JArray a collection of the array's values will be returned.</para>
 </alert>
 
 <code lang="cs" source="..\Src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonQuerying" title="Querying JSON" />
@@ -41,8 +41,8 @@
 
 <code lang="cs" source="..\Src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonDeserializeObject" title="Deserializing Using LINQ Objects" />
 
-        <para>Manually serializing and deserializing between .NET objects is useful when you are
-        working with JSON that doesn't closely match your .NET objects.</para>
+        <para>Manually serializing and deserializing between .NET objects is useful when
+        working with JSON that doesn't closely match the .NET objects.</para>
 
 <code lang="cs" source="..\Src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonDeserializeExample" title="Deserializing Using LINQ Example" />
       </content>

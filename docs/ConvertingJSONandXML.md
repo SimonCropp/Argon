@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <topic id="ConvertingJSONandXML" revisionNumber="1">
   <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
     <introduction>
@@ -24,13 +24,13 @@
   <listItem><para>Empty elements are null.</para></listItem>
 </list>
 
-<para>If the XML created from JSON doesn't match what you want, then you will need to convert it manually.
-The best approach to do this is to load your JSON into a LINQ to JSON object like JObject or JArray and then use LINQ to create
+<para>If the XML created from JSON doesn't match, then convert it manually.
+The best approach to do this is to load the JSON into a LINQ to JSON object like JObject or JArray and then use LINQ to create
 an XDocument. The opposite process, using LINQ with an XDocument to create a JObject or JArray, also works.
-You can find out more about using LINQ to JSON with LINQ <link xlink:href="QueryingLINQtoJSON">here</link>.</para>
+More about using LINQ to JSON with LINQ <link xlink:href="QueryingLINQtoJSON">here</link>.</para>
 
 <alert class="note">
-  <para>The version of Json.NET being used in your application will change what XML conversion methods are available.
+  <para>The version of Json.NET being used in the application will change what XML conversion methods are available.
   SerializeXmlNode/DeserializeXmlNode are available when the framework supports XmlDocument;
   SerializeXNode/DeserializeXNode are available when the framework supports XDocument.</para>
 </alert>

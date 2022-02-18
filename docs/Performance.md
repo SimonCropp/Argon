@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <topic id="Performance" revisionNumber="1">
   <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
     <introduction>
@@ -12,8 +12,8 @@
         <para>The <codeEntityReference>T:Argon.Serialization.IContractResolver</codeEntityReference> resolves .NET types to contracts that are used during serialization inside JsonSerializer.
         Creating a contract involves inspecting a type with slow reflection, so contracts are typically
         cached by implementations of IContractResolver like <codeEntityReference>T:Argon.Serialization.DefaultContractResolver</codeEntityReference>.</para>
-        <para>To avoid the overhead of recreating contracts every time you use JsonSerializer you should create the contract resolver once and reuse it.
-        Note that if you are not using a contract resolver then a shared internal instance is automatically used when serializing and deserializing.
+        <para>To avoid the overhead of recreating contracts every time a JsonSerializer is used create the contract resolver once and reuse it.
+        Note that if not using a contract resolver then a shared internal instance is automatically used when serializing and deserializing.
         </para>
 
 <code lang="cs" source="..\Src\Tests\Documentation\PerformanceTests.cs" region="ReuseContractResolver" title="Reuse ContractResolver" />
@@ -49,7 +49,7 @@
     <section address="JsonConverters">
       <title>JsonConverters</title>
       <content>
-        <para>Passing a <codeEntityReference>T:Argon.JsonConverter</codeEntityReference> to SerializeObject or DeserializeObject provides a simple way to completely
+        <para>Passing a <codeEntityReference>T:Argon.JsonConverter</codeEntityReference> to SerializeObject or DeserializeObject provides a way to completely
         change how an object is serialized. There is, however, a small amount of overhead; the CanConvert method is called for every
         value to check whether serialization should be handled by that JsonConverter.</para>
         <para>There are a couple of ways to continue to use JsonConverters without any overhead. The simplest way
@@ -58,8 +58,8 @@
 
 <code lang="cs" source="..\Src\Tests\Documentation\PerformanceTests.cs" region="JsonConverterAttribute" title="Use JsonConverter with JsonConverterAttribute" />
 
-        <para>If the class you want to convert isn't your own and you're unable to use an attribute, a JsonConverter can still be used by
-        creating your own <codeEntityReference>T:Argon.Serialization.IContractResolver</codeEntityReference>.</para>
+        <para>If the class to convert isn't owned and is it nor possible to use an attribute, a JsonConverter can still be used by
+        creating a <codeEntityReference>T:Argon.Serialization.IContractResolver</codeEntityReference>.</para>
         
 <code lang="cs" source="..\Src\Tests\Documentation\PerformanceTests.cs" region="JsonConverterContractResolver" title="Use JsonConverter with IContractResolver" />
 
@@ -75,7 +75,7 @@
 <code lang="cs" source="..\Src\Tests\Documentation\PerformanceTests.cs" region="ReaderWriter" title="Manually serialize using JsonTextWriter" />
 
         <para>
-          If performance is important and you don't mind writing more code to get it, then this is your best choice. You can read more about using JsonReader/JsonWriter here: <link xlink:href="ReadingWritingJSON" />
+          If performance is important, then this is the best choice. More about using JsonReader/JsonWriter here: <link xlink:href="ReadingWritingJSON" />
         </para>
       </content>
     </section>

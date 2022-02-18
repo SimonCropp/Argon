@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <topic id="DatesInJSON" revisionNumber="1">
   <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!--
@@ -30,16 +30,16 @@
 <linkUri>http://en.wikipedia.org/wiki/ISO_8601</linkUri>
 <linkTarget>_blank</linkTarget>
 </externalLink>: <codeInline>"2012-03-19T07:22Z"</codeInline>.</para>
-        <para>Prior to Json.NET 4.5 dates were written using the Microsoft
-        format: <codeInline>"\/Date(1198908717056)\/"</codeInline>. If you want to use this format, or
-        you want to maintain compatibility with Microsoft JSON serializers or
+        <para>Before Json.NET 4.5 dates were written using the Microsoft
+        format: <codeInline>"\/Date(1198908717056)\/"</codeInline>. To use this format, or
+        to maintain compatibility with Microsoft JSON serializers or
         older versions of Json.NET, then change the
         <codeEntityReference>T:Argon.DateFormatHandling</codeEntityReference>
         setting to MicrosoftDateFormat.</para>
         <para>The <codeEntityReference>T:Argon.DateTimeZoneHandling</codeEntityReference> setting can be
         used to convert a DateTime's <codeEntityReference>T:System.DateTimeKind</codeEntityReference> when serializing. For example set
         DateTimeZoneHandling to Utc to serialize all DateTimes as UTC dates. Note that this setting does not effect DateTimeOffsets.</para>
-        <para>If your dates don't follow the ISO 8601 standard, then the DateFormatString setting can be used to customize the format of
+        <para>If dates don't follow the ISO 8601 standard, then the DateFormatString setting can be used to customize the format of
         	date strings that are read and written using .NET's <externalLink>
 <linkText>custom date and time format syntax</linkText>
 <linkUri>https://msdn.microsoft.com/en-us/library/8kb3ddd4.aspx</linkUri>
@@ -60,7 +60,7 @@
         
 <code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="SerializingDatesInJson" title="DateTime JsonConverters Example" />        
         
-        <para>Simply pass the JsonConverter you wish to use to the Json.NET
+        <para>Pass the JsonConverter to use to the Json.NET
         serializer.</para>
       </content>
     </section>

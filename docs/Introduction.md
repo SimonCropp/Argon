@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <topic id="Introduction" revisionNumber="1">
   <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!--
@@ -40,11 +40,11 @@
     </listItem>
 
 </list>
-<para>The JSON serializer in Json.NET is a good choice when the JSON you are reading or writing maps closely to a .NET class.</para>
-<para>LINQ to JSON is good for situations where you are only interested in
-getting values from JSON, you don't have a class to serialize or deserialize to, 
-or the JSON is radically different from your class and you need to manually read 
-and write from your objects.</para>
+<para>The JSON serializer in Json.NET is a good choice when the JSON is reading or writing maps closely to a .NET class.</para>
+<para>LINQ to JSON is good for situations when only interested in
+getting values from JSON, and don't have a class to serialize or deserialize to, 
+or the JSON is radically different from the class and need to manually read 
+and write from the objects.</para>
 </content>
 </section>
 

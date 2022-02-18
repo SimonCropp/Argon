@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <topic id="ReadingWritingJSON" revisionNumber="1">
   <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
     <introduction>
@@ -22,7 +22,7 @@
         <para><codeEntityReference>T:Argon.JsonTextReader</codeEntityReference>
         and <codeEntityReference>T:Argon.JsonTextWriter</codeEntityReference>
         are used to read and write JSON text.
-        The JsonTextWriter has a number of settings on it to control how JSON is formatted
+        The JsonTextWriter has settings on it to control how JSON is formatted
         when it is written. These options include formatting, indentation character, indent
         count, and quote character.</para>
 
@@ -40,8 +40,8 @@
         and <codeEntityReference>T:Argon.Linq.JTokenWriter</codeEntityReference>
         read and write LINQ to JSON objects. They are located in the
         <codeEntityReference>N:Argon.Linq</codeEntityReference>
-        namespace. These objects allow you to use LINQ to JSON objects with objects that
-        read and write JSON, such as the JsonSerializer. For example you can deserialize
+        namespace. These objects support the use LINQ to JSON objects with objects that
+        read and write JSON, such as the JsonSerializer. For example to deserialize
         from a LINQ to JSON object into a regular .NET object and vice versa.</para>
 <code lang="cs" source="..\Src\Tests\Documentation\ReadingAndWritingJsonTests.cs" region="ReadingAndWritingJsonLinq" title="Deserializing with JTokenReader" />
       </content>

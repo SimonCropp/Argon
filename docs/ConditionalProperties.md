@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <topic id="ConditionalProperties" revisionNumber="1">
   <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
     <introduction>
@@ -26,8 +26,8 @@
       <title>IContractResolver</title>
       <content>
         <para>ShouldSerialize can also be set using an <codeEntityReference>T:Argon.Serialization.IContractResolver</codeEntityReference>.
-        Conditionally serializing a property using an IContractResolver is useful if you don't want to place a ShouldSerialize method on a class
-        or you didn't declare the class and are unable to.</para>
+        Conditionally serializing a property using an IContractResolver is useful avoid placing a ShouldSerialize method on a class
+        or are unable to.</para>
 
 <code lang="cs" source="..\Src\Tests\Documentation\ConditionalPropertiesTests.cs" region="ShouldSerializeContractResolver" title="Conditional properties with IContractResolver" />
         

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <topic id="CustomCreationConverter" revisionNumber="1">
   <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!--
@@ -17,9 +17,6 @@
       <title>Example</title>
       <content>
 <code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="CustomCreationConverterObject" title="CustomCreationConverter" />
-        <para>This is an extremely simple example. A more complicated scenario
-        could involve an object factory or service locator that resolves the
-        object at runtime.</para>
 <code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="CustomCreationConverterExample" title="CustomCreationConverter Example" />
       </content>
     </section>
