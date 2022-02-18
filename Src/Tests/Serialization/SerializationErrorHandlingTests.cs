@@ -42,7 +42,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var a2 = JsonConvert.DeserializeObject<AAA>(@"{""MyTest"":{""$type"":""<Namespace>.JsonTest+MyTest2, <Assembly>""}}", new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.Auto,
-            Error = (object _, ErrorEventArgs e) =>
+            Error = (_, e) =>
             {
                 errors.Add(e.ErrorContext.Error);
                 e.ErrorContext.Handled = true;
@@ -62,7 +62,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var a2 = (JObject)JsonConvert.DeserializeObject(@"{""$type"":""<Namespace>.JsonTest+MyTest2, <Assembly>""}", new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.Auto,
-            Error = (object _, ErrorEventArgs e) =>
+            Error = (_, e) =>
             {
                 errors.Add(e.ErrorContext.Error);
                 e.ErrorContext.Handled = true;
