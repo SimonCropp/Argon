@@ -57,7 +57,7 @@ public class CreateJsonCollectionInitializer : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Cpu"": ""Intel"",
   ""Memory"": 32,
   ""Drives"": [

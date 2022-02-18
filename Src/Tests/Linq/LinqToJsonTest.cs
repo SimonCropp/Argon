@@ -132,7 +132,7 @@ public class LinqToJsonTest : TestFixtureBase
         var instance = new TestClass_ULong { Value = ulong.MaxValue };
         var output = JObject.FromObject(instance);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Value"": 18446744073709551615
 }", output.ToString());
     }
@@ -148,7 +148,7 @@ public class LinqToJsonTest : TestFixtureBase
         var instance = new TestClass_Byte { Value = byte.MaxValue };
         var output = JObject.FromObject(instance);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Value"": 255
 }", output.ToString());
     }
@@ -424,7 +424,7 @@ undefined
 
         foreach (JObject friend in items)
         {
-            StringAssert.AreEqual(@"{
+            XUnitAssert.AreEqualNormalized(@"{
   ""name"": ""value!""
 }", friend.ToString());
         }
@@ -637,7 +637,7 @@ keyword such as type of business.""
 
         var o = JObject.Parse(json);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""CPU"": ""Intel"",
   ""Drives"": [
     ""DVD read/writer"",
@@ -647,7 +647,7 @@ keyword such as type of business.""
 
         var list = o.Value<JArray>("Drives");
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   ""DVD read/writer"",
   ""500 gigabyte hard drive""
 ]", list.ToString());
@@ -656,7 +656,7 @@ keyword such as type of business.""
         Assert.Equal(@"""CPU"": ""Intel""", cpuProperty.ToString());
 
         var drivesProperty = o.Property("Drives");
-        StringAssert.AreEqual(@"""Drives"": [
+        XUnitAssert.AreEqualNormalized(@"""Drives"": [
   ""DVD read/writer"",
   ""500 gigabyte hard drive""
 ]", drivesProperty.ToString());
@@ -669,10 +669,10 @@ keyword such as type of business.""
 
         var o = JObject.Parse(json);
 
-        StringAssert.AreEqual(@"""Establised"": new Date(
+        XUnitAssert.AreEqualNormalized(@"""Establised"": new Date(
   1264118400000
 )", o.Property("Establised").ToString());
-        StringAssert.AreEqual(@"new Date(
+        XUnitAssert.AreEqualNormalized(@"new Date(
   1264118400000
 )", o.Property("Establised").Value.ToString());
         Assert.Equal(@"""Width"": 1.1", o.Property("Width").ToString());
@@ -683,7 +683,7 @@ keyword such as type of business.""
         json = @"[null,undefined]";
 
         var a = JArray.Parse(json);
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   null,
   undefined
 ]", a.ToString());
@@ -704,7 +704,7 @@ keyword such as type of business.""
 
         Assert.Equal(4, o.Properties().Count());
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Test1"": ""Test1Value"",
   ""Test2"": ""Test2Value"",
   ""Test3"": ""Test3Value"",
@@ -731,7 +731,7 @@ keyword such as type of business.""
             );
 
         Assert.Equal(5, a.Count());
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""Test1"": ""Test1Value"",
     ""Test2"": ""Test2Value"",
@@ -808,7 +808,7 @@ keyword such as type of business.""
         //   ]
         // }
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Title"": ""How to use FromObject - Super effective!"",
   ""Description"": null,
   ""Link"": null,
@@ -879,7 +879,7 @@ keyword such as type of business.""
                                             from c in p.Categories
                                             select new JValue(c)))))))));
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""channel"": {
     ""title"": ""James Newton-King"",
     ""link"": ""http://james.newtonking.com"",
@@ -1025,7 +1025,7 @@ keyword such as type of business.""
 
         var json = sw.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Test1"": new Date(
     971586305000
   ),
@@ -1084,7 +1084,7 @@ keyword such as type of business.""
             }
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""channel"": {
     ""title"": ""James Newton-King"",
     ""link"": ""http://james.newtonking.com"",
@@ -1149,7 +1149,7 @@ keyword such as type of business.""
             }
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""channel"": {
     ""title"": ""James Newton-King"",
     ""link"": ""http://james.newtonking.com"",
@@ -1310,7 +1310,7 @@ keyword such as type of business.""
         var c1 = new UriGuidTimeSpanTestClass();
         var o = JObject.FromObject(c1);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Guid"": ""00000000-0000-0000-0000-000000000000"",
   ""NullableGuid"": null,
   ""TimeSpan"": ""00:00:00"",
@@ -1339,7 +1339,7 @@ keyword such as type of business.""
         };
         var o = JObject.FromObject(c1);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Guid"": ""1924129c-f7e0-40f3-9607-9939c531395a"",
   ""NullableGuid"": ""9e9f3adf-e017-4f72-91e0-617ebe85967d"",
   ""TimeSpan"": ""1.00:00:00"",
@@ -1356,7 +1356,7 @@ keyword such as type of business.""
 
         var j = JsonConvert.SerializeObject(c1, Formatting.Indented);
 
-        StringAssert.AreEqual(j, o.ToString());
+        XUnitAssert.AreEqualNormalized(j, o.ToString());
     }
 
     [Fact]
@@ -1458,7 +1458,7 @@ keyword such as type of business.""
 
         var json = SerializeWithNoRedundentIdProperties(dic1);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$id"": ""1"",
   ""list1"": [
     ""A string!"",

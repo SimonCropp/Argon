@@ -544,13 +544,13 @@ public class ContractResolverTests : TestFixtureBase
         //   "BookPrice": 16.19
         // }
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""AuthorName"": ""Brandon Sanderson"",
   ""AuthorAge"": 34,
   ""AuthorCountry"": ""United States of America""
 }", startingWithA);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""BookName"": ""The Gathering Storm"",
   ""BookPrice"": 16.19
 }", startingWithB);
@@ -576,7 +576,7 @@ public class ContractResolverTests : TestFixtureBase
         var skipCompilerGeneratedJson = JsonConvert.SerializeObject(structTest, Formatting.Indented,
             new JsonSerializerSettings { ContractResolver = skipCompilerGeneratedResolver });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""StringField"": ""Field"",
   ""IntField"": 1,
   ""StringProperty"": ""Property"",

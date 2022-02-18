@@ -93,7 +93,7 @@ public class JsonPropertyItemLevelSetting : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""Acme Ltd."",
   ""Employees"": [
     {

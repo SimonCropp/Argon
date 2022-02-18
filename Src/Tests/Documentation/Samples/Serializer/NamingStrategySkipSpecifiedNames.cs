@@ -72,7 +72,7 @@ public class NamingStrategySkipSpecifiedNames : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""firstName"": ""John"",
   ""lastName"": ""Smith"",
   ""UPN"": ""john.smith@acme.com""

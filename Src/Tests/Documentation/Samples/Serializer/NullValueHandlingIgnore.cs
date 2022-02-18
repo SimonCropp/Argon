@@ -71,7 +71,7 @@ public class NullValueHandlingIgnore : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""Nigal Newborn"",
   ""Age"": 1
 }", jsonIgnoreNullValues);

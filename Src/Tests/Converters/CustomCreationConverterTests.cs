@@ -194,7 +194,7 @@ public class CustomCreationConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(initial, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Id"": ""00000001-0002-0003-0405-060708090a0b"",
   ""Year"": 2010,
   ""Company"": ""Company!"",

@@ -46,7 +46,7 @@ public class Issue1598 : TestFixtureBase
         var json = JsonConvert.SerializeObject(activities, Formatting.Indented);
         // note that this has been reverted back in 11.0.2 because it is causing compat issues
         // https://github.com/JamesNK/Newtonsoft.Json/issues/1627
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""Name"": ""An activity""
   }
@@ -68,7 +68,7 @@ public class Issue1598 : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(activities, Formatting.Indented);
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""Name"": ""An activity""
   }

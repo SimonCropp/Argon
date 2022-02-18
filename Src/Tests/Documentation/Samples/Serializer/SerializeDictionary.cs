@@ -50,7 +50,7 @@ public class SerializeDictionary : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""James"": 9001,
   ""Jo"": 3474,
   ""Jess"": 11926

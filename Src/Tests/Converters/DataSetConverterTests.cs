@@ -66,7 +66,7 @@ public class DataSetConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(dataSet, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Table1"": [
     {
       ""id"": 0,
@@ -110,7 +110,7 @@ public class DataSetConverterTests : TestFixtureBase
         var converter = new DataSetConverter();
         converter.WriteJson(jsonWriter, null, null);
 
-        StringAssert.AreEqual(@"null", sw.ToString());
+        XUnitAssert.AreEqualNormalized(@"null", sw.ToString());
     }
 
     [Fact]
@@ -123,7 +123,7 @@ public class DataSetConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c1, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Set"": null
 }", json);
 
@@ -140,7 +140,7 @@ public class DataSetConverterTests : TestFixtureBase
             Formatting = Formatting.Indented
         });
 
-        StringAssert.AreEqual(@"null", json);
+        XUnitAssert.AreEqualNormalized(@"null", json);
     }
 
     [Fact]
@@ -196,7 +196,7 @@ public class DataSetConverterTests : TestFixtureBase
 
         var deserializedDs = JsonConvert.DeserializeObject<DataSet>(json, new IsoDateTimeConverter());
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""FirstTable"": [
     {
       ""StringCol"": ""Item Name"",
@@ -349,7 +349,7 @@ public class DataSetConverterTests : TestFixtureBase
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""firstTable"": [
     {
       ""stringCol"": ""Item Name"",
@@ -399,7 +399,7 @@ public class DataSetConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented, new IsoDateTimeConverter());
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Before"": ""Before"",
   ""Set"": {
     ""FirstTable"": [
@@ -470,7 +470,7 @@ public class DataSetConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(ds, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Customers"": [
     {
       ""CustomerID"": ""234""
@@ -487,7 +487,7 @@ public class DataSetConverterTests : TestFixtureBase
 
         var json1 = JsonConvert.SerializeObject(ds1, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Customers"": [
     {
       ""CustomerID"": ""234""
@@ -523,7 +523,7 @@ public class DataSetConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(test, Formatting.Indented, new LowercaseDataTableConverter());
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""TableWrapper1"": {
     ""DataTableProperty"": [
       {

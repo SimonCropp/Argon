@@ -45,7 +45,7 @@ public class JObjectTests : TestFixtureBase
 
         string output = o.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""title"": null
 }", output);
 
@@ -104,7 +104,7 @@ public class JObjectTests : TestFixtureBase
     {
         var o = new JObject {new JProperty("novalue")};
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""novalue"": null
 }", o.ToString());
     }
@@ -515,7 +515,7 @@ Parameter name: arrayIndex",
 
         var json = o.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""val1"": 1,
   ""val2"": 1
 }", json);
@@ -576,7 +576,7 @@ Parameter name: arrayIndex",
 
         var output = o.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""title"": null
 }", output);
     }
@@ -655,7 +655,7 @@ Parameter name: arrayIndex",
             ["o"] = new JValue(@"<div class='s1'>" + StringUtils.CarriageReturnLineFeed + @"</div>")
         };
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""rc"": 200,
   ""m"": """",
   ""o"": ""<div class='s1'>\r\n</div>""
@@ -674,7 +674,7 @@ Parameter name: arrayIndex",
             ["JobTitle"] = new JValue("Support")
         };
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""FirstName"": ""Maurice"",
   ""LastName"": ""Moss"",
   ""BirthDate"": ""1977-12-30T00:00:00"",
@@ -691,7 +691,7 @@ Parameter name: arrayIndex",
             ["JobTitle"] = "Manager"
         };
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""FirstName"": ""Jen"",
   ""LastName"": ""Barber"",
   ""BirthDate"": ""1978-03-15T00:00:00"",
@@ -1661,7 +1661,7 @@ Parameter name: arrayIndex",
 
         var output = o.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""title"": null
 }", output);
     }
@@ -1729,7 +1729,7 @@ Parameter name: arrayIndex",
 
         var o = (JObject) JToken.ReadFrom(reader);
         Assert.NotNull(o);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""code"": 0,
   ""msg"": ""No action taken""
 }", o.ToString(Formatting.Indented));

@@ -91,7 +91,7 @@ public class TypeNameHandlingTests : TestFixtureBase
   }
 }";
 
-        StringAssert.AreEqual(expectedJson, json);
+        XUnitAssert.AreEqualNormalized(expectedJson, json);
     }
 
 
@@ -226,7 +226,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.All
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$type"": """ + tupleRef + @""",
   ""Item1"": 1,
   ""Item2"": 2,
@@ -279,7 +279,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Auto
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Collection"": [
     ""Collection value!""
   ],
@@ -317,7 +317,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Auto
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""movie"": {
     ""$type"": ""Argon.Tests.TestObjects.Movie, Tests"",
     ""Name"": ""Die Hard"",
@@ -343,7 +343,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Auto
         });
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""Key"": ""movie"",
     ""Value"": {
@@ -390,7 +390,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         serializer.Serialize(new JsonTextWriter(sw) { Formatting = Formatting.Indented }, new WagePerson(), typeof(Person));
         var result = sw.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$type"": ""Argon.Tests.TestObjects.Organization.WagePerson, Tests"",
   ""HourlyWage"": 0.0,
   ""Name"": null,
@@ -415,7 +415,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Auto
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$type"": ""Argon.Tests.TestObjects.Organization.WagePerson, Tests"",
   ""HourlyWage"": 0.0,
   ""Name"": null,
@@ -432,7 +432,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Auto
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$type"": ""Argon.Tests.TestObjects.Organization.WagePerson, Tests"",
   ""HourlyWage"": 0.0,
   ""Name"": null,
@@ -449,7 +449,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Auto
         });
 
-        StringAssert.AreEqual(@"{""$type"":""Argon.Tests.TestObjects.Organization.WagePerson, Tests"",""HourlyWage"":0.0,""Name"":null,""BirthDate"":""0001-01-01T00:00:00"",""LastModified"":""0001-01-01T00:00:00""}", json);
+        XUnitAssert.AreEqualNormalized(@"{""$type"":""Argon.Tests.TestObjects.Organization.WagePerson, Tests"",""HourlyWage"":0.0,""Name"":null,""BirthDate"":""0001-01-01T00:00:00"",""LastModified"":""0001-01-01T00:00:00""}", json);
     }
 
     public class Wrapper
@@ -478,7 +478,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Auto
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Array"": [
     {
       ""$id"": ""1"",
@@ -512,7 +512,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Objects
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$id"": ""1"",
   ""$type"": """ + employeeRef + @""",
   ""Name"": null,
@@ -590,7 +590,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 #pragma warning restore 618
         });
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""$id"": ""1"",
     ""$type"": """ + employeeRef + @""",
@@ -708,7 +708,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var o = (JObject)JsonConvert.DeserializeObject(json);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""Name!"",
   ""Manager"": null
 }", o.ToString());
@@ -813,7 +813,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 #pragma warning restore 618
             });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$type"": """ + containerTypeName + @""",
   ""In"": {
     ""$type"": """ + productListTypeName + @""",
@@ -850,7 +850,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(typeNameProperty, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""Name!"",
   ""Value"": {
     ""$type"": """ + typeNamePropertyRef + @""",
@@ -881,7 +881,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(typeNameProperty, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""Name!"",
   ""Value"": {
     ""$type"": """ + listRef + @""",
@@ -980,7 +980,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         //  }
         //]
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""$type"": ""Customer"",
     ""Name"": ""Caroline Customer""
@@ -1071,7 +1071,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         //  }
         //]
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""$type"": ""Customer"",
     ""Name"": ""Caroline Customer""
@@ -1172,7 +1172,7 @@ public class TypeNameHandlingTests : TestFixtureBase
   }
 }";
 
-        StringAssert.AreEqual(expected, json);
+        XUnitAssert.AreEqualNormalized(expected, json);
 
         var sr = new StringReader(json);
 
@@ -1262,7 +1262,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         var urlStatusTypeName = ReflectionUtils.GetTypeName(typeof(UrlStatus), TypeNameAssemblyFormatHandling.Simple, null);
         var listTypeName = ReflectionUtils.GetTypeName(typeof(List<UrlStatus>), TypeNameAssemblyFormatHandling.Simple, null);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$type"": """ + dictionaryTypeName + @""",
   ""First"": {
     ""$type"": """ + urlStatusTypeName + @""",
@@ -1318,7 +1318,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(products, Formatting.Indented, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$type"": """ + productClassRef + @""",
   ""$values"": []
 }", json);
@@ -1408,7 +1408,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         var objectArrayRef = ReflectionUtils.GetTypeName(typeof(object[]), TypeNameAssemblyFormatHandling.Simple, null);
         var byteArrayRef = ReflectionUtils.GetTypeName(typeof(byte[]), TypeNameAssemblyFormatHandling.Simple, null);
 
-        StringAssert.AreEqual(output, @"{
+        XUnitAssert.AreEqualNormalized(output, @"{
   ""$type"": """ + carClassRef + @""",
   ""Year"": ""2000-10-05T01:01:01Z"",
   ""Objects"": {
@@ -1534,7 +1534,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   1,
   2,
   3
@@ -1559,7 +1559,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""$type"": ""Argon.Tests.TestObjects.TestComponentSimple, Tests"",
     ""MyProperty"": 0
@@ -1596,7 +1596,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""First"": {
     ""$type"": ""Argon.Tests.TestObjects.TestComponentSimple, Tests"",
     ""MyProperty"": 1
@@ -1639,7 +1639,7 @@ public class TypeNameHandlingTests : TestFixtureBase
   ""String"": ""String!"",
   ""Integer"": 2147483647
 }";
-        StringAssert.AreEqual(expected, json);
+        XUnitAssert.AreEqualNormalized(expected, json);
 
         var o2 = JsonConvert.DeserializeObject<TypeNameObject>(json);
         Assert.NotNull(o2);
@@ -1648,7 +1648,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         Assert.Equal(1, ((TestComponentSimple)o2.Object1).MyProperty);
         Assert.IsType(typeof(long), o2.Object2);
         Assert.IsType(typeof(JObject), o2.ObjectNotHandled);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""MyProperty"": 2147483647
 }", o2.ObjectNotHandled.ToString());
     }
@@ -1667,7 +1667,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(c1, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Data"": [
     1,
     ""two"",
@@ -1710,7 +1710,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var listTypeName = ReflectionUtils.GetTypeName(typeof(List<object>), TypeNameAssemblyFormatHandling.Simple, null);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Data"": [
     {
       ""$type"": ""Argon.Tests.TestObjects.TestComponentSimple, Tests"",
@@ -1792,7 +1792,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var dictionaryTypeName = ReflectionUtils.GetTypeName(typeof(Dictionary<string, object>), TypeNameAssemblyFormatHandling.Simple, null);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Data"": {
     ""one"": {
       ""$type"": ""Argon.Tests.TestObjects.TestComponentSimple, Tests"",
@@ -1870,7 +1870,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var listTypeName = ReflectionUtils.GetTypeName(typeof(List<object>), TypeNameAssemblyFormatHandling.Simple, null);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Data"": {
     ""Prop1"": {
       ""$type"": """ + listTypeName + @""",
@@ -1925,7 +1925,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         d1.Data = (DynamicDictionary)data;
 
         var json = JsonConvert.SerializeObject(d1, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Data"": {
     ""one"": {
       ""$type"": ""Argon.Tests.TestObjects.TestComponentSimple, Tests"",
@@ -1992,7 +1992,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var dictionaryTypeName = ReflectionUtils.GetTypeName(typeof(Dictionary<string, Guid>), TypeNameAssemblyFormatHandling.Simple, null);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$type"": """ + dictionaryTypeName + @""",
   ""k1"": ""a6e986df-fc2c-4906-a1ef-9492388f7833""
 }", serializedString);
@@ -2025,7 +2025,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(p, settings);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""c"": {
     ""$type"": ""Argon.Tests.Serialization.MyChild, Tests"",
     ""p"": ""string!""
@@ -2060,7 +2060,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(p, settings);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""c"": {
     ""$type"": ""Argon.Tests.Serialization.MyChildList, Tests"",
     ""$values"": [
@@ -2100,7 +2100,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(pp, settings);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""ParentProp"": {
     ""c"": {
       ""$type"": ""Argon.Tests.Serialization.MyChild, Tests"",
@@ -2181,7 +2181,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var listTypeName = ReflectionUtils.GetTypeName(typeof(List<MyInterfaceImplementationType>), TypeNameAssemblyFormatHandling.Simple, null);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Rows"": {
     ""key"": {
       ""$type"": """ + listTypeName + @""",
@@ -2259,7 +2259,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
             var json = JsonConvert.SerializeObject(objWithMessage, serializerSettings);
 
-            StringAssert.AreEqual(@"{
+            XUnitAssert.AreEqualNormalized(@"{
   ""Message"": {
     ""Value"": ""Hello!""
   }
@@ -2282,7 +2282,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 }";
             var objWithMessage = JsonConvert.DeserializeObject<ObjectWithOptionalMessage>(json, serializerSettings);
 
-            StringAssert.AreEqual("Hello!", objWithMessage.Message.Value.Value);
+            XUnitAssert.AreEqualNormalized("Hello!", objWithMessage.Message.Value.Value);
         }
 #endif
 

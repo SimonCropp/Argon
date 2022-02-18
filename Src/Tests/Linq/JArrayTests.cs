@@ -404,7 +404,7 @@ Parameter name: index",
 
         var result = "myOptions = " + optionValues.ToString();
 
-        StringAssert.AreEqual(@"myOptions = {
+        XUnitAssert.AreEqualNormalized(@"myOptions = {
   ""options"": [
     {
       ""text"": ""Zero text"",

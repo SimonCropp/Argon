@@ -59,7 +59,7 @@ public class JsonPropertyPropertyLevelSetting : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""Red October"",
   ""Class"": ""Typhoon""
 }", json);

@@ -141,7 +141,7 @@ public class JsonSerializerTest : TestFixtureBase
         //Class implementing interface with hidden members - flat object. 
         var strJsonSubclass = JsonConvert.SerializeObject(mySubclass, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""ID"": 123,
   ""Name"": ""ABC"",
   ""P1"": true,
@@ -151,7 +151,7 @@ public class JsonSerializerTest : TestFixtureBase
         //Class implementing interface with hidden members - member of another class. 
         var strJsonMainClass = JsonConvert.SerializeObject(myMainClass, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""ID"": 567,
   ""Name"": ""XYZ"",
   ""Subclass"": {
@@ -308,7 +308,7 @@ public class JsonSerializerTest : TestFixtureBase
         var foo1 = new FooRequired(new[] {"A", "B", "C"});
         var json = JsonConvert.SerializeObject(foo1);
 
-        StringAssert.AreEqual(@"{""Bars"":[""A"",""B"",""C""]}", json);
+        XUnitAssert.AreEqualNormalized(@"{""Bars"":[""A"",""B"",""C""]}", json);
 
         var foo2 = JsonConvert.DeserializeObject<FooRequired>(json);
         Assert.Equal(foo1.Bars.Count, foo2.Bars.Count);
@@ -391,7 +391,7 @@ public class JsonSerializerTest : TestFixtureBase
             ContractResolver = new DictionaryKeyContractResolver()
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""NAME"": ""James"",
   ""AGE"": 1,
   ""ROLENAMES"": {
@@ -522,7 +522,7 @@ public class JsonSerializerTest : TestFixtureBase
             ContractResolver = new IgnoredPropertiesContractResolver()
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""Name!""
 }", json);
 
@@ -565,7 +565,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(t, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Item1"": 1,
   ""Item2"": 2,
   ""Item3"": ""string""
@@ -628,7 +628,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""FaqId"": 1,
   ""Name"": null,
   ""IsDeleted"": false,
@@ -655,7 +655,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""IsProxy"": true,
   ""FaqId"": 1,
   ""Name"": null,
@@ -1307,7 +1307,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(obj, settings);
 
-        StringAssert.AreEqual(json, @"{
+        XUnitAssert.AreEqualNormalized(json, @"{
   ""$id"": ""1"",
   ""stringValue"": ""string!"",
   ""intValue"": 42,
@@ -1386,7 +1386,7 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.Equal(null, v.Value);
         Assert.Equal(JTokenType.String, v.Type);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""title"": null
 }", output);
     }
@@ -1507,7 +1507,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var json = AssertSerializeDeserializeEqual(baseWith);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""JustAProperty"": ""JustAProperty2!"",
   ""Virtual"": ""Virtual2!"",
   ""VirtualWithDataMemberBase"": ""VirtualWithDataMember2!"",
@@ -1535,7 +1535,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(baseWith, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""VirtualWithDataMemberBase"": ""VirtualWithDataMember2!"",
   ""VirtualSub"": ""Virtual2!"",
   ""WithDataMemberBase"": ""WithDataMember2!"",
@@ -1561,7 +1561,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var json = AssertSerializeDeserializeEqual(baseWith);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""JustAProperty"": ""JustAProperty2!"",
   ""JustAProperty2"": ""JustAProperty!"",
   ""Virtual"": ""Virtual2!"",
@@ -1591,7 +1591,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var json = AssertSerializeDeserializeEqual(baseWith);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""JustAProperty"": ""JustAProperty2!"",
   ""Virtual"": ""Virtual2!"",
   ""VirtualWithDataMemberBase"": ""VirtualWithDataMember2!"",
@@ -1767,7 +1767,7 @@ public class JsonSerializerTest : TestFixtureBase
         var p = JsonConvert.DeserializeObject(value, typeof(TypedSubHashtable)) as TypedSubHashtable;
 
         Assert.Equal("01/24/2010 12:00:00", p.Hash["ExpiryDate"].ToString());
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   ""01/24/2010 12:00:00""
 ]", p.Hash["UntypedArray"].ToString());
     }
@@ -2245,7 +2245,7 @@ keyword such as type of business.""
 }";
 #endif
 
-        StringAssert.AreEqual(expected, json);
+        XUnitAssert.AreEqualNormalized(expected, json);
 
         var c = JsonConvert.DeserializeObject<ConverableMembers>(json);
         Assert.Equal("string", c.String);
@@ -2316,7 +2316,7 @@ keyword such as type of business.""
         var ts = new TimeSpan(00, 23, 59, 1);
 
         var json = JsonConvert.SerializeObject(new ClassWithTimeSpan {TimeSpanField = ts}, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""TimeSpanField"": ""23:59:01""
 }", json);
 
@@ -2477,7 +2477,7 @@ keyword such as type of business.""
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""DefaultConverter"": ""1970-01-01T00:00:00Z"",
   ""MemberConverter"": ""1970-01-01T00:00:00Z""
 }", json);
@@ -2627,7 +2627,7 @@ keyword such as type of business.""
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""FirstName"": ""Bob"",
   ""MiddleName"": ""Cosmo"",
   ""LastName"": ""Smith"",
@@ -2863,7 +2863,7 @@ keyword such as type of business.""
 
         var json = JsonConvert.SerializeObject(o, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""IEnumerableProperty"": [
     4,
     5,
@@ -3001,7 +3001,7 @@ keyword such as type of business.""
 
         var json = JsonConvert.SerializeObject(o, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""DefaultValueHandlingIncludeProperty"": ""Default!"",
   ""DefaultValueHandlingPopulateProperty"": ""Default!"",
   ""NullValueHandlingIncludeProperty"": null,
@@ -3012,7 +3012,7 @@ keyword such as type of business.""
 
         json = JsonConvert.SerializeObject(o, Formatting.Indented, new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""DefaultValueHandlingIncludeProperty"": ""Default!"",
   ""DefaultValueHandlingPopulateProperty"": ""Default!"",
   ""NullValueHandlingIncludeProperty"": null
@@ -3090,7 +3090,7 @@ keyword such as type of business.""
 
         var json = JsonConvert.SerializeObject(optInClass, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""James NK"",
   ""Age"": 26
 }", json);
@@ -3115,7 +3115,7 @@ keyword such as type of business.""
         };
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""_name"": ""Jeff"",
   ""_age"": 26,
   ""Rank"": 10,
@@ -3271,7 +3271,7 @@ keyword such as type of business.""
 
         var json = JsonConvert.SerializeObject(content, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Children"": [
     {
       ""Children"": null,
@@ -3583,7 +3583,7 @@ Path '', line 1, position 1.");
     {
         var c1 = new ConstructorReadonlyFields("String!", int.MaxValue);
         var json = JsonConvert.SerializeObject(c1, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""A"": ""String!"",
   ""B"": 2147483647
 }", json);
@@ -3606,7 +3606,7 @@ Path '', line 1, position 1.");
 
         var json = JsonConvert.SerializeObject(structTest, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""StringField"": ""StringField"",
   ""IntField"": 10,
   ""StringProperty"": ""StringProperty!"",
@@ -3629,7 +3629,7 @@ Path '', line 1, position 1.");
         f.Bars.Add(new Bar {Id = 2});
 
         var json = JsonConvert.SerializeObject(f, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Bars"": [
     0,
     1,
@@ -3654,7 +3654,7 @@ Path '', line 1, position 1.");
         };
 
         var json = JsonConvert.SerializeObject(dictionary, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""f60eaee0-ae47-488e-b330-59527b742d77"": 1,
   ""c2594c02-eba1-426a-aa87-8dd8871350b0"": 2
 }", json);
@@ -3671,7 +3671,7 @@ Path '', line 1, position 1.");
 
         var json = JsonConvert.SerializeObject(dictionary, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Argon.Tests.TestObjects.Organization.Person"": 1,
   ""Argon.Tests.TestObjects.Organization.Person"": 2
 }", json);
@@ -3791,7 +3791,7 @@ Path '', line 1, position 1.");
         wagePerson.Name = "Jim Bob";
 
         var json = JsonConvert.SerializeObject(personPropertyClass, Formatting.Indented);
-        StringAssert.AreEqual(
+        XUnitAssert.AreEqualNormalized(
             @"{
   ""Person"": {
     ""HourlyWage"": 12.50,
@@ -3834,7 +3834,7 @@ Path '', line 1, position 1.");
 
         var json = g.ToJson();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""MyProperty"": ""some value"",
   ""TheItems"": [
     {
@@ -3895,7 +3895,7 @@ Path '', line 1, position 1.");
         var value = new B();
         var json = JsonConvert.SerializeObject(value, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""B2"": null,
   ""A1"": null,
   ""B3"": null,
@@ -3947,7 +3947,7 @@ Path '', line 1, position 1.");
             Formatting = Formatting.Indented
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""C2"": {
     ""IntProperty"": 1
   },
@@ -4220,7 +4220,7 @@ Path '', line 1, position 1.");
     {
         var myA = new AATestClass(2);
         var json = JsonConvert.SerializeObject(myA, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""AA_field1"": 2,
   ""AA_property1"": 2,
   ""AA_property2"": 2,
@@ -4230,7 +4230,7 @@ Path '', line 1, position 1.");
 
         var myB = new BBTestClass(3, 4);
         json = JsonConvert.SerializeObject(myB, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""BB_field1"": 4,
   ""BB_field2"": 4,
   ""AA_field1"": 3,
@@ -4336,7 +4336,7 @@ Path '', line 1, position 1.");
     }
   }
 }";
-        StringAssert.AreEqual(expected, json);
+        XUnitAssert.AreEqualNormalized(expected, json);
 
         var newTestObject = JsonConvert.DeserializeObject<XNodeTestObject>(json);
         Assert.Equal(testObject.Document.ToString(), newTestObject.Document.ToString());
@@ -4359,7 +4359,7 @@ Path '', line 1, position 1.");
     ""root"": ""hehe, root""
   }
 }";
-        StringAssert.AreEqual(expected, json);
+        XUnitAssert.AreEqualNormalized(expected, json);
 
         var newTestObject = JsonConvert.DeserializeObject<XmlNodeTestObject>(json);
         Assert.Equal(testObject.Document.InnerXml, newTestObject.Document.InnerXml);
@@ -4506,7 +4506,7 @@ Path '', line 1, position 1.");
 
         var json = JsonConvert.SerializeObject(dictionary, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""First!"": ""First"",
   ""Second!"": ""Second""
 }", json);
@@ -4522,7 +4522,7 @@ Path '', line 1, position 1.");
     {
         var jsonText = JsonConvert.SerializeObject(new double?[] {2.4, 4.3, null}, Formatting.Indented);
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   2.4,
   4.3,
   null
@@ -4554,7 +4554,7 @@ Path '', line 1, position 1.");
             "III"
         }, Formatting.Indented);
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   ""One"",
   ""2"",
   ""III""
@@ -4628,7 +4628,7 @@ Path '', line 1, position 1.");
 
         var json = JsonConvert.SerializeObject(testStruct, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""MyInt"": 2147483647
 }", json);
 
@@ -4701,7 +4701,7 @@ Path '', line 1, position 1.");
     {
         var json = JsonConvert.SerializeObject(new DerivedEvent(), Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""event"": ""derived""
 }", json);
     }
@@ -4717,7 +4717,7 @@ Path '', line 1, position 1.");
         expando.Complex.DateTime = new DateTime(2000, 12, 20, 18, 55, 0, DateTimeKind.Utc);
 
         string json = JsonConvert.SerializeObject(expando, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Int"": 1,
   ""Decimal"": 99.9,
   ""Complex"": {
@@ -4927,7 +4927,7 @@ Path '', line 1, position 1.");
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Enumerable"": [
     ""One"",
     ""Two"",
@@ -4949,7 +4949,7 @@ Path '', line 1, position 1.");
 
         var json = JsonConvert.SerializeObject(i, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": null
 }", json);
     }
@@ -5048,7 +5048,7 @@ Path '', line 1, position 1.");
         //  ""nonVirtualMember"": ""NonVirtualMember!""
         //}", result);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""virtualMember"": ""VirtualMember!"",
   ""nonVirtualMember"": ""NonVirtualMember!""
 }", result);
@@ -5110,7 +5110,7 @@ Path '', line 1, position 1.");
 
         var result = JsonConvert.SerializeObject(cc, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""virtualMember"": ""2010-12-31T00:00:00Z"",
   ""newMemberWithProperty"": null
 }", result);
@@ -5124,7 +5124,7 @@ Path '', line 1, position 1.");
         c1.Categories.Add("two");
 
         var json = JsonConvert.SerializeObject(c1, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Title"": ""blah"",
   ""Categories"": [
     ""one"",
@@ -5147,7 +5147,7 @@ Path '', line 1, position 1.");
         c1.Categories.Add("two", 2);
 
         var json = JsonConvert.SerializeObject(c1, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Title"": ""blah"",
   ""Categories"": {
     ""one"": 1,
@@ -5172,7 +5172,7 @@ Path '', line 1, position 1.");
             NonSerialized = "NonSerialized!"
         }, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""DerivedClassValue"": ""DerivedClassValue!"",
   ""BaseClassValue"": ""BaseClassValue!""
 }", json);
@@ -5183,7 +5183,7 @@ Path '', line 1, position 1.");
             CollectionDerivedClassValue = "CollectionDerivedClassValue!"
         }, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""CollectionDerivedClassValue"": ""CollectionDerivedClassValue!"",
   ""BaseClassValue"": ""BaseClassValue!""
 }", json);
@@ -5195,7 +5195,7 @@ Path '', line 1, position 1.");
         var c1 = new PrivateMembersClassWithAttributes("privateString!", "internalString!", "readonlyString!");
 
         var json = JsonConvert.SerializeObject(c1, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""_privateString"": ""privateString!"",
   ""_readonlyString"": ""readonlyString!"",
   ""_internalString"": ""internalString!""
@@ -5223,7 +5223,7 @@ Path '', line 1, position 1.");
         var d = new DerivedType();
         var json = JsonConvert.SerializeObject(d, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""dinosaur"": null,
   ""dog"": null,
   ""cat"": null,
@@ -5279,7 +5279,7 @@ Path '', line 1, position 1.");
         var c1 = new UriGuidTimeSpanTestClass();
         var json = JsonConvert.SerializeObject(c1, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Guid"": ""00000000-0000-0000-0000-000000000000"",
   ""NullableGuid"": null,
   ""TimeSpan"": ""00:00:00"",
@@ -5308,7 +5308,7 @@ Path '', line 1, position 1.");
         };
         var json = JsonConvert.SerializeObject(c1, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Guid"": ""1924129c-f7e0-40f3-9607-9939c531395a"",
   ""NullableGuid"": ""9e9f3adf-e017-4f72-91e0-617ebe85967d"",
   ""TimeSpan"": ""1.00:00:00"",
@@ -5412,7 +5412,7 @@ Path '', line 1, position 1.");
             ContractResolver = contractResolver
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""x"": 2147483647,
   ""y"": 2,
   ""z"": 3
@@ -5449,7 +5449,7 @@ Path '', line 1, position 1.");
             ContractResolver = contractResolver
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""x"": 2147483647,
   ""y"": 2,
   ""z"": 3
@@ -5582,7 +5582,7 @@ Path '', line 1, position 1.");
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Integer"": 1,
   ""NullableInteger1"": 2,
   ""NullableInteger2"": null
@@ -5692,7 +5692,7 @@ Path '', line 1, position 1.");
 
         var jsonString = JsonConvert.SerializeObject(expected, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""SourceTypeID"": ""d8220a4b-75b1-4b7a-8112-b7bdae956a45"",
   ""BrokerID"": ""951663c4-924e-4c86-a57a-7ed737501dbd"",
   ""Latitude"": 33.657145,
@@ -5955,7 +5955,7 @@ Path '', line 1, position 1.");
             Converters = {new MetroStringConverter()},
             Formatting = Formatting.Indented
         });
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   "":::NAME:::"": "":::APPLE:::"",
   "":::EXPIRYDATE:::"": ""2012-04-01T00:00:00"",
   "":::PRICE:::"": 3.99,
@@ -5981,7 +5981,7 @@ Path '', line 1, position 1.");
             Formatting = Formatting.Indented
         });
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   "":::GRAY:::"",
   "":::GRAY:::"",
   "":::GRAY:::"",
@@ -6038,7 +6038,7 @@ Path '', line 1, position 1.");
         var v = (JValue) a[0];
 
         Assert.Equal(typeof(string), v.Value.GetType());
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   ""2000-01-02T03:04:05+06:00""
 ]", a.ToString());
     }
@@ -6110,7 +6110,7 @@ Path '', line 1, position 1.");
             Formatting = Formatting.Indented
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""DefaultProperty"": null,
   ""AllowNullProperty"": null
 }", json);
@@ -6172,7 +6172,7 @@ Path '', line 1, position 1.");
 
         var json = JsonConvert.SerializeObject(dic1, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""2000-12-12T12:12:12+00:00"": 1,
   ""2013-12-12T12:12:12+00:00"": 2
 }", json);
@@ -6198,7 +6198,7 @@ Path '', line 1, position 1.");
             DateFormatHandling = DateFormatHandling.MicrosoftDateFormat
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""\/Date(976623132000+0000)\/"": 1,
   ""\/Date(1386850332000+0000)\/"": 2
 }", json);
@@ -6221,7 +6221,7 @@ Path '', line 1, position 1.");
 
         var json = JsonConvert.SerializeObject(dic1, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""2000-12-12T12:12:12Z"": 1,
   ""2013-12-12T12:12:12Z"": 2
 }", json);
@@ -6275,7 +6275,7 @@ Path '', line 1, position 1.");
             DateFormatHandling = DateFormatHandling.MicrosoftDateFormat
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""\/Date(976623132000)\/"": 1,
   ""\/Date(1386850332000)\/"": 2
 }", json);
@@ -6363,7 +6363,7 @@ Path '', line 1, position 1.");
         //  ]
         //}
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""EventName"": ""Blackadder III"",
   ""Venue"": ""Gryphon Theatre"",
   ""Performances"": [
@@ -6405,7 +6405,7 @@ Path '', line 1, position 1.");
         //Console.WriteLine(Encoding.UTF8.GetString(ms.ToArray()));
 
         var json = JsonConvert.SerializeObject(dataContract, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""DataMemberAttribute"": ""Value!"",
   ""IgnoreDataMemberAndDataMemberAttribute"": ""Value!""
 }", json);
@@ -6419,7 +6419,7 @@ Path '', line 1, position 1.");
         };
 
         json = JsonConvert.SerializeObject(poco, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""NoAttribute"": ""Value!"",
   ""DataMemberAttribute"": ""Value!""
 }", json);
@@ -6641,7 +6641,7 @@ This is just junk, though.";
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""key"": 123,
   ""value"": ""test value""
 }", json);
@@ -6796,7 +6796,7 @@ This is just junk, though.";
             FloatFormatHandling = FloatFormatHandling.DefaultValue
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Object"": 0.0,
   ""Float"": 0.0,
   ""Double"": 0.0,
@@ -6830,7 +6830,7 @@ This is just junk, though.";
             Culture = culture
         });
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   ""2000 p.m."",
   ""2000 p.m.""
 ]", json);
@@ -6850,7 +6850,7 @@ This is just junk, though.";
             DateFormatString = @"yyyy'-'MM'-'dd'T'HH':'mm':'ss.fffK"
         });
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   ""2000-12-12T12:12:12.000Z"",
   ""2000-12-12T12:12:12.000+01:00""
 ]", json);
@@ -6891,7 +6891,7 @@ This is just junk, though.";
 
         var json = sw.ToString();
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   ""2000 p.m."",
   ""2000 p.m.""
 ]", json);
@@ -6926,7 +6926,7 @@ This is just junk, though.";
 
         var json = sw.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""html"": ""\u003chtml\u003e\u003c/html\u003e""
 }", json);
     }
@@ -7078,7 +7078,7 @@ This is just junk, though.";
                 }
             });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""<Active>k__BackingField"": false,
   ""<Ja>k__BackingField"": false,
   ""<Handlungsbedarf>k__BackingField"": false,
@@ -7095,7 +7095,7 @@ This is just junk, though.";
 
         var json = JsonConvert.SerializeObject(new[] {i}, Formatting.Indented);
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   123456789999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999990
 ]", json);
     }
@@ -7141,7 +7141,7 @@ This is just junk, though.";
             Formatting = Formatting.Indented
         });
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""$id"": ""0b64ffdf-d155-44ad-9689-58d9adb137f3"",
     ""Name"": ""John Smith"",
@@ -7192,7 +7192,7 @@ This is just junk, though.";
             Formatting = Formatting.Indented
         });
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""$id"": ""1"",
     ""Name"": ""John Smith"",
@@ -7345,7 +7345,7 @@ This is just junk, though.";
         var dict2 = new Dictionary<IMyInterface, string> {{consoleWriter, "Console"}};
 
         var text2 = JsonConvert.SerializeObject(dict2, Formatting.Indented, options);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Console Writer"": ""Console""
 }", text2);
 
@@ -7359,7 +7359,7 @@ This is just junk, though.";
         var dict3 = new Dictionary<string, IMyInterface> {{"Console", consoleWriter}};
 
         var text3 = JsonConvert.SerializeObject(dict3, Formatting.Indented, options);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Console"": ""Console Writer""
 }", text3);
 
@@ -7385,7 +7385,7 @@ This is just junk, though.";
     {
         var c = new TestClassConvertable {Id = new ConvertibleId {Value = 1}, X = 2};
         var s = JsonConvert.SerializeObject(c, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Id"": ""1"",
   ""X"": 2
 }", s);
@@ -7514,7 +7514,7 @@ This is just junk, though.";
             {dt, "123"}
         }, settings);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""2000-pie-Dec-Friday-22"": ""123""
 }", json);
 
@@ -7540,7 +7540,7 @@ This is just junk, though.";
             {dt, "123"}
         }, settings);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""2000-pie-Dec-Friday-22"": ""123""
 }", json);
 
@@ -7565,7 +7565,7 @@ This is just junk, though.";
             {dt, "123"}
         }, settings);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""2000-pie-Dec-Friday-22!+00:00"": ""123""
 }", json);
 
@@ -7591,7 +7591,7 @@ This is just junk, though.";
             {dt, "123"}
         }, settings);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""2000-pie-Dec-Friday-22!+00:00"": ""123""
 }", json);
 
@@ -7637,7 +7637,7 @@ This is just junk, though.";
 
         var json = JsonConvert.SerializeObject(c1, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""MY_CONSTANT"": "".""
 }", json);
 
@@ -7653,7 +7653,7 @@ This is just junk, though.";
         };
 
         var json = JsonConvert.SerializeObject(o, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""PropertyChanged"": null,
   ""TestString"": ""Test string""
 }", json);
@@ -7810,7 +7810,7 @@ This is just junk, though.";
 
         var json = JsonConvert.SerializeObject(c1, settings);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""NormalDate"": ""2000-12-20T00:00:00Z"",
   ""JavaScriptDate"": new Date(
     977270400000

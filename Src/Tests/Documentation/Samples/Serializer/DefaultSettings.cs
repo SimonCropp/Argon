@@ -69,7 +69,7 @@ public class DefaultSettings : TestFixtureBase
             JsonConvert.DefaultSettings = null;
         }
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""firstName"": ""Eric"",
   ""lastName"": ""Example"",
   ""birthDate"": ""1980-04-20T00:00:00Z"",

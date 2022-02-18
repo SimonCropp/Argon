@@ -64,7 +64,7 @@ public class VersionConverterTests : TestFixtureBase
   ""StringProperty2"": ""StringProperty2""
 }}", version1, version2);
 
-            StringAssert.AreEqual(expectedJson, json);
+            XUnitAssert.AreEqualNormalized(expectedJson, json);
         }
 
         internal static void DeserializeVersionClass(string version1, string version2)
@@ -91,7 +91,7 @@ public class VersionConverterTests : TestFixtureBase
         var converter = new VersionConverter();
         converter.WriteJson(jsonWriter, null, null);
 
-        StringAssert.AreEqual(@"null", sw.ToString());
+        XUnitAssert.AreEqualNormalized(@"null", sw.ToString());
     }
 
     [Fact]

@@ -986,7 +986,7 @@ public class JTokenTests : TestFixtureBase
 
         var json = a.ToString(Formatting.Indented, new IsoDateTimeConverter());
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   ""2009-02-15T00:00:00Z""
 ]", json);
 
@@ -1087,7 +1087,7 @@ public class JTokenTests : TestFixtureBase
 
         var a2 = (JArray)a.DeepClone();
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   5,
   [
     1

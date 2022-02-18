@@ -57,7 +57,7 @@ public class CreateWriter : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""name1"": ""value1"",
   ""name2"": ""value2"",
   ""name3"": [

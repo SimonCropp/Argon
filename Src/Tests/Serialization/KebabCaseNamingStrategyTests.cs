@@ -51,7 +51,7 @@ public class KebabCaseNamingStrategyTests : TestFixtureBase
             ContractResolver = contractResolver
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""name"": ""Name!"",
   ""birth-date"": ""2000-11-20T23:55:44Z"",
   ""last-modified"": ""2000-11-20T23:55:44Z""
@@ -67,7 +67,7 @@ public class KebabCaseNamingStrategyTests : TestFixtureBase
         Assert.Equal(person.Name, deserializedPerson.Name);
 
         json = JsonConvert.SerializeObject(person, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""Name!"",
   ""BirthDate"": ""2000-11-20T23:55:44Z"",
   ""LastModified"": ""2000-11-20T23:55:44Z""
@@ -140,7 +140,7 @@ public class KebabCaseNamingStrategyTests : TestFixtureBase
         //  ]
         //}
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""name"": ""Widget"",
   ""expiry-date"": ""2010-12-20T18:01:00Z"",
   ""price"": 9.99,
@@ -173,7 +173,7 @@ public class KebabCaseNamingStrategyTests : TestFixtureBase
                 ContractResolver = contractResolver
             });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""explicit"": false,
   ""text"": ""Text!"",
   ""integer"": 2147483647,
@@ -202,7 +202,7 @@ public class KebabCaseNamingStrategyTests : TestFixtureBase
                 ContractResolver = contractResolver
             });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""First"": ""Value1!"",
   ""Second"": ""Value2!""
 }", json);
@@ -231,7 +231,7 @@ public class KebabCaseNamingStrategyTests : TestFixtureBase
                 ContractResolver = contractResolver
             });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""first"": ""Value1!"",
   ""second"": ""Value2!""
 }", json);
@@ -257,7 +257,7 @@ public class KebabCaseNamingStrategyTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""HasNoAttributeNamingStrategy"": ""Value1!"",
   ""has-attribute-naming-strategy"": ""Value2!""
 }", json);
@@ -283,7 +283,7 @@ public class KebabCaseNamingStrategyTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""prop1"": ""Value1!"",
   ""prop2"": ""Value2!"",
   ""HasAttributeNamingStrategy"": null
@@ -306,7 +306,7 @@ public class KebabCaseNamingStrategyTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""key1"": ""Value1!"",
   ""key2"": ""Value2!""
 }", json);

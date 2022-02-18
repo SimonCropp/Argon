@@ -708,7 +708,7 @@ public class BsonWriterTests : TestFixtureBase
 
         var o = (JObject)JToken.ReadFrom(new BsonReader(new MemoryStream(ms.ToArray())));
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Regex"": ""/(hi)/iux""
 }", o.ToString());
     }

@@ -44,7 +44,7 @@ public class RegexConverterTests : TestFixtureBase
         var converter = new RegexConverter();
         converter.WriteJson(jsonWriter, null, null);
 
-        StringAssert.AreEqual(@"null", sw.ToString());
+        XUnitAssert.AreEqualNormalized(@"null", sw.ToString());
     }
 
     [Fact]
@@ -54,7 +54,7 @@ public class RegexConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(regex, Formatting.Indented, new RegexConverter());
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Pattern"": ""abc"",
   ""Options"": 513
 }", json);
@@ -73,7 +73,7 @@ public class RegexConverterTests : TestFixtureBase
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""pattern"": ""abc"",
   ""options"": ""ignoreCase""
 }", json);
@@ -279,7 +279,7 @@ public class RegexConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(new RegexTestClass { Regex = regex }, Formatting.Indented, new RegexConverter());
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Regex"": {
     ""Pattern"": """",
     ""Options"": 0

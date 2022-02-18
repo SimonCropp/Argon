@@ -80,7 +80,7 @@ public class NamingStrategySkipDictionaryKeys : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""date"": ""2016-06-27T00:00:00Z"",
   ""game"": ""Donkey Kong"",
   ""userPoints"": {

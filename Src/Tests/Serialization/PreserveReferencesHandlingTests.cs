@@ -103,7 +103,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 
         var s = JsonConvert.SerializeObject(c1, settings);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$id"": ""1"",
   ""$type"": ""Argon.Tests.Serialization.PreserveReferencesHandlingTests+Container, Tests"",
   ""ListA"": {
@@ -177,7 +177,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
             PreserveReferencesHandling = PreserveReferencesHandling.All
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$id"": ""1"",
   ""ReadOnlyChild"": {
     ""PropertyName"": ""value?""
@@ -229,7 +229,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         var json = JsonConvert.SerializeObject(circularDictionary, Formatting.Indented,
             new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.All });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$id"": ""1"",
   ""other"": {
     ""$id"": ""2"",
@@ -295,7 +295,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
             Formatting.Indented,
             new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   null,
   [
     null
@@ -317,7 +317,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         var json = JsonConvert.SerializeObject(circularList, Formatting.Indented,
             new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.All });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$id"": ""1"",
   ""$values"": [
     null,
@@ -446,7 +446,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         var json = JsonConvert.SerializeObject(circularDictionary, Formatting.Indented,
             new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""other"": {
     ""blah"": null
   }
@@ -531,7 +531,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
             Converters = new List<JsonConverter> { new CircularReferenceClassConverter() }
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$id"": ""1"",
   ""$type"": ""CircularReferenceClass"",
   ""Name"": ""c1"",
@@ -605,7 +605,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(employees, Formatting.Indented);
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""$id"": ""1"",
     ""Name"": ""Mike Manager"",
@@ -678,7 +678,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         var value = new ClassWithConditions(condition, condition);
 
         var json = JsonConvert.SerializeObject(value, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Condition1"": {
     ""$id"": ""1"",
     ""Value"": 1
@@ -723,7 +723,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
             PreserveReferencesHandling = PreserveReferencesHandling.Objects
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$id"": ""1"",
   ""Name"": ""c1"",
   ""Child"": {
@@ -781,7 +781,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(employees, Formatting.Indented);
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""$id"": ""1"",
     ""Name"": ""e1"",
@@ -851,7 +851,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(employees, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""One"": {
     ""$id"": ""1"",
     ""Name"": ""e1"",
@@ -1079,7 +1079,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         var data = ms.ToArray();
         var json = Encoding.UTF8.GetString(data, 0, data.Length);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$id"": ""1"",
   ""$values"": [
     {
@@ -1119,7 +1119,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   1,
   2,
   3
@@ -1139,7 +1139,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""$id"": ""1"",
     ""MyProperty"": 0
@@ -1165,7 +1165,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""First"": 1,
   ""Second"": 2,
   ""Third"": 3
@@ -1185,7 +1185,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""First"": {
     ""$id"": ""1"",
     ""MyProperty"": 0
@@ -1232,7 +1232,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
   ""String"": ""String!"",
   ""Integer"": 2147483647
 }";
-        StringAssert.AreEqual(expected, json);
+        XUnitAssert.AreEqualNormalized(expected, json);
 
         var referenceObject = JsonConvert.DeserializeObject<ReferenceObject>(json);
         Assert.NotNull(referenceObject);
@@ -1259,7 +1259,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(o1, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Data"": {
     ""Prop1"": {
       ""$id"": ""1"",

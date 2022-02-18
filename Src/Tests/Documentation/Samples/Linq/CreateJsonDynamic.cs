@@ -60,7 +60,7 @@ public class CreateJsonDynamic : TestFixtureBase
 
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""ProductName"": ""Elbow Grease"",
   ""Enabled"": true,
   ""Price"": 4.90,

@@ -96,7 +96,7 @@ public class CustomTraceWriter : TestFixtureBase
         // ]
         #endregion
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   ""New Zealand"",
   ""Australia"",
   ""Denmark"",

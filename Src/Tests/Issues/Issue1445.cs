@@ -43,7 +43,7 @@ public class Issue1445 : TestFixtureBase
         var data = dt.Select().Select(r => r.ItemArray).ToArray();
 
         var json = JsonConvert.SerializeObject(data, Formatting.Indented);
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   [
     ""string1"",
     ""string2""

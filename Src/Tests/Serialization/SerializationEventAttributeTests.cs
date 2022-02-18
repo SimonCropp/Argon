@@ -46,7 +46,7 @@ public class SerializationEventAttributeTests : TestFixtureBase
             Assert.Equal(null, obj.Member5);
 
             var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
-            StringAssert.AreEqual(@"{
+            XUnitAssert.AreEqualNormalized(@"{
   ""Member1"": 11,
   ""Member2"": ""This value went into the data file during serialization."",
   ""Member4"": null
@@ -96,7 +96,7 @@ public class SerializationEventAttributeTests : TestFixtureBase
         Assert.Equal(null, obj.Member4);
 
         var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Member1"": 11,
   ""Member2"": ""This value went into the data file during serialization."",
   ""Member4"": null
@@ -132,7 +132,7 @@ public class SerializationEventAttributeTests : TestFixtureBase
         Assert.Equal(null, obj.Member4);
 
         var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   -1.0,
   1.1,
   2.222222222,
@@ -170,7 +170,7 @@ public class SerializationEventAttributeTests : TestFixtureBase
         Assert.Equal(null, obj.Member4);
 
         var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""1.1"": ""first"",
   ""2.222222222"": ""second"",
   ""2147483647"": ""third"",
@@ -203,7 +203,7 @@ public class SerializationEventAttributeTests : TestFixtureBase
         Assert.Equal(null, obj.Member5);
 
         var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Member1"": 11,
   ""Member2"": ""This value went into the data file during serialization."",
   ""Member4"": null
@@ -245,7 +245,7 @@ public class SerializationEventAttributeTests : TestFixtureBase
         var obj = new SerializationEventContextSubClassTestObject();
 
         var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""TestMember"": ""Set!""
 }", json);
     }
@@ -274,7 +274,7 @@ public class SerializationEventAttributeTests : TestFixtureBase
                     "ContextValue")
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""TestMember"": ""Remoting ContextValue""
 }", json);
     }
@@ -326,7 +326,7 @@ public class SerializationEventAttributeTests : TestFixtureBase
 
         var e = c.GetEvents();
 
-        StringAssert.AreEqual(@"OnDeserializing
+        XUnitAssert.AreEqualNormalized(@"OnDeserializing
 OnDeserializing_Derived
 OnDeserialized
 OnDeserialized_Derived
@@ -345,7 +345,7 @@ OnSerialized_Derived", string.Join(Environment.NewLine, e.ToArray()));
 
         var e = c.GetEvents();
 
-        StringAssert.AreEqual(@"OnDeserializing
+        XUnitAssert.AreEqualNormalized(@"OnDeserializing
 OnDeserializing_Derived
 OnDeserializing_Derived_Derived
 OnDeserialized
@@ -373,7 +373,7 @@ OnSerialized_Derived_Derived", string.Join(Environment.NewLine, e.ToArray()));
 
         var e = c.GetEvents();
 
-        StringAssert.AreEqual(@"OnDeserializing
+        XUnitAssert.AreEqualNormalized(@"OnDeserializing
 OnDeserializing_Derived
 OnDeserializing_Derived_Derived
 OnDeserialized

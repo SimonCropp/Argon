@@ -75,7 +75,7 @@ public class ModifyJson : TestFixtureBase
 
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""channel"": {
     ""title"": ""STAR WARS"",
     ""link"": ""http://www.starwars.com"",

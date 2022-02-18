@@ -72,7 +72,7 @@ public class SerializeDataSet : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Table1"": [
     {
       ""id"": 0,

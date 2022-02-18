@@ -65,7 +65,7 @@ public class JsonConverterAttributeProperty : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""UserName"": ""domain\\username"",
   ""Status"": ""Deleted""
 }", json);

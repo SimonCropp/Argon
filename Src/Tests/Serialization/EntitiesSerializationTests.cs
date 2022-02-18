@@ -109,7 +109,7 @@ public class EntitiesSerializationTests : TestFixtureBase
   }
 }";
 
-        StringAssert.AreEqual(expected, json);
+        XUnitAssert.AreEqualNormalized(expected, json);
     }
 
     [Fact]
@@ -199,7 +199,7 @@ public class EntitiesSerializationTests : TestFixtureBase
   }
 }";
 
-        StringAssert.AreEqual(expected, json);
+        XUnitAssert.AreEqualNormalized(expected, json);
     }
 
     [Fact]
@@ -323,7 +323,7 @@ public class EntitiesSerializationTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(e, settings);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$id"": ""1"",
   ""entitySetName"": ""Folder"",
   ""entityContainerName"": ""DataServicesTestDatabaseEntities"",
@@ -387,7 +387,7 @@ public class EntitiesSerializationTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(e, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$id"": ""1"",
   ""EntitySetName"": ""Folder"",
   ""EntityContainerName"": ""DataServicesTestDatabaseEntities"",

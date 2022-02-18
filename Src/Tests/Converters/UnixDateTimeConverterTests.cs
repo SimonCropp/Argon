@@ -192,7 +192,7 @@ public class UnixDateTimeConverterTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(l1, Formatting.Indented);
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   1514840476,
   3
 ]", json);
@@ -214,7 +214,7 @@ public class UnixDateTimeConverterTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(l1, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""First"": 3,
   ""Second"": 1514840476
 }", json);
@@ -237,7 +237,7 @@ public class UnixDateTimeConverterTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(obj1, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Object1"": 3,
   ""Object2"": null,
   ""ObjectNotHandled"": 1514840476

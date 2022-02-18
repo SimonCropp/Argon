@@ -116,9 +116,9 @@ public class NullValueHandlingTests : TestFixtureBase
         //   "Description": "It's no Bad Boys"
         // }
 
-        StringAssert.AreEqual(MovieNullValueHandlingIncludeExpectedResult, included);
+        XUnitAssert.AreEqualNormalized(MovieNullValueHandlingIncludeExpectedResult, included);
 
-        StringAssert.AreEqual(MovieNullValueHandlingIgnoreExpectedResult, ignored);
+        XUnitAssert.AreEqualNormalized(MovieNullValueHandlingIgnoreExpectedResult, ignored);
     }
 
     [Fact]
@@ -139,7 +139,7 @@ public class NullValueHandlingTests : TestFixtureBase
         //   "Description": "It's no Bad Boys"
         // }
 
-        StringAssert.AreEqual(MovieNullValueHandlingIgnoreExpectedResult, ignored);
+        XUnitAssert.AreEqualNormalized(MovieNullValueHandlingIgnoreExpectedResult, ignored);
     }
 
     [Fact]
@@ -164,6 +164,6 @@ public class NullValueHandlingTests : TestFixtureBase
         //   "ReleaseCountries": null
         // }
 
-        StringAssert.AreEqual(MovieNullValueHandlingIncludeExpectedResult, included);
+        XUnitAssert.AreEqualNormalized(MovieNullValueHandlingIncludeExpectedResult, included);
     }
 }

@@ -106,7 +106,7 @@ public class ConditionalPropertiesTests : TestFixtureBase
         // ]
         #endregion
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""Name"": ""Joe Employee"",
     ""Manager"": {
@@ -142,7 +142,7 @@ public class ConditionalPropertiesTests : TestFixtureBase
                 ContractResolver = ShouldSerializeContractResolver.Instance
             });
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""Name"": ""Joe Employee"",
     ""Manager"": {

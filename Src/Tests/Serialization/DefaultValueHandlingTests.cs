@@ -130,7 +130,7 @@ public class DefaultValueHandlingTests : TestFixtureBase
             Formatting.Indented,
             new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Include });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Company"": ""Acme Ltd."",
   ""Amount"": 50.0,
   ""Paid"": false,
@@ -157,7 +157,7 @@ public class DefaultValueHandlingTests : TestFixtureBase
             Formatting.Indented,
             new JsonSerializerSettings { });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Company"": ""Acme Ltd."",
   ""Amount"": 50.0,
   ""Paid"": false,
@@ -170,7 +170,7 @@ public class DefaultValueHandlingTests : TestFixtureBase
             Formatting.Indented,
             new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Company"": ""Acme Ltd."",
   ""Amount"": 50.0
 }", ignored);
@@ -324,7 +324,7 @@ public class DefaultValueHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""IntInclude"": 0,
   ""IntDefault"": 0
 }", json);
@@ -334,7 +334,7 @@ public class DefaultValueHandlingTests : TestFixtureBase
             DefaultValueHandling = DefaultValueHandling.Ignore
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""IntInclude"": 0
 }", json);
 
@@ -343,7 +343,7 @@ public class DefaultValueHandlingTests : TestFixtureBase
             DefaultValueHandling = DefaultValueHandling.Include
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""IntInclude"": 0,
   ""IntDefault"": 0
 }", json);

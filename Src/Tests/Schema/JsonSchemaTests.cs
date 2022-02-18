@@ -74,7 +74,7 @@ public class JsonSchemaTests : TestFixtureBase
         third.WriteTo(jsonWriter, resolver);
 
         var writtenJson = writer.ToString();
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""id"": ""third"",
   ""type"": ""object"",
   ""additionalProperties"": false,
@@ -90,7 +90,7 @@ public class JsonSchemaTests : TestFixtureBase
         third.WriteTo(jsonWriter1);
 
         writtenJson = writer1.ToString();
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""id"": ""third"",
   ""type"": ""object"",
   ""additionalProperties"": false,
@@ -126,7 +126,7 @@ public class JsonSchemaTests : TestFixtureBase
 
         var newJson = s.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""type"": ""object"",
   ""additionalProperties"": {
     ""type"": ""string""
@@ -150,7 +150,7 @@ public class JsonSchemaTests : TestFixtureBase
 
         newJson = s.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""type"": ""object"",
   ""additionalProperties"": {
     ""type"": ""string""
@@ -174,7 +174,7 @@ public class JsonSchemaTests : TestFixtureBase
 
         newJson = s.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""type"": ""object"",
   ""additionalProperties"": {
     ""type"": ""string""
@@ -207,7 +207,7 @@ public class JsonSchemaTests : TestFixtureBase
 
         var json = writer.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""description"": ""AdditionalProperties"",
   ""type"": [
     ""string"",
@@ -247,7 +247,7 @@ public class JsonSchemaTests : TestFixtureBase
 
         var json = writer.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""description"": ""A person"",
   ""type"": ""object"",
   ""properties"": {
@@ -282,7 +282,7 @@ public class JsonSchemaTests : TestFixtureBase
 
         var json = writer.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""description"": ""Type"",
   ""type"": [
     ""string"",
@@ -322,7 +322,7 @@ public class JsonSchemaTests : TestFixtureBase
 
         var writtenJson = writer.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""id"": ""CircularReferenceArray"",
   ""description"": ""CircularReference"",
   ""type"": ""array"",
@@ -350,7 +350,7 @@ public class JsonSchemaTests : TestFixtureBase
 
         var json = writer.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""description"": ""Type"",
   ""type"": [
     ""string"",
@@ -383,7 +383,7 @@ public class JsonSchemaTests : TestFixtureBase
 
         var json = writer.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""description"": ""Type"",
   ""type"": [
     ""string"",
@@ -409,7 +409,7 @@ public class JsonSchemaTests : TestFixtureBase
 
         var json = writer.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""items"": [
     {},
     {}
@@ -434,7 +434,7 @@ public class JsonSchemaTests : TestFixtureBase
 
         var json = writer.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""exclusiveMinimum"": true,
   ""exclusiveMaximum"": true
 }", json);
@@ -459,7 +459,7 @@ public class JsonSchemaTests : TestFixtureBase
 
         var json = writer.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""patternProperties"": {
     ""[abc]"": {}
   }
@@ -475,7 +475,7 @@ public class JsonSchemaTests : TestFixtureBase
 
         var json = schema.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""additionalItems"": {
     ""type"": ""integer""
   }
@@ -498,7 +498,7 @@ public class JsonSchemaTests : TestFixtureBase
 
         var json = writer.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""items"": []
 }", json);
     }
@@ -520,7 +520,7 @@ public class JsonSchemaTests : TestFixtureBase
 
         var json = writer.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""items"": [
     {
       ""type"": ""string""
@@ -545,7 +545,7 @@ public class JsonSchemaTests : TestFixtureBase
 
         var json = writer.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""items"": {
     ""type"": ""string""
   }

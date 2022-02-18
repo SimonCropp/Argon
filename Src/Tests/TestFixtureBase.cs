@@ -47,37 +47,6 @@ public abstract class TestFixtureBase
     }
 }
 
-public static class StringAssert
-{
-    static readonly Regex Regex = new(@"\r\n|\n\r|\n|\r", RegexOptions.CultureInvariant);
-
-    public static void AreEqual(string expected, string actual)
-    {
-        expected = Normalize(expected);
-        actual = Normalize(actual);
-
-        Xunit.Assert.Equal(expected, actual);
-    }
-
-    public static bool Equals(string s1, string s2)
-    {
-        s1 = Normalize(s1);
-        s2 = Normalize(s2);
-
-        return string.Equals(s1, s2);
-    }
-
-    public static string Normalize(string s)
-    {
-        if (s != null)
-        {
-            s = Regex.Replace(s, "\r\n");
-        }
-
-        return s;
-    }
-}
-
 public static class ExceptionAssert
 {
     public static TException Throws<TException>(Action action, params string[] possibleMessages)
@@ -98,7 +67,7 @@ public static class ExceptionAssert
             }
             foreach (var possibleMessage in possibleMessages)
             {
-                if (StringAssert.Equals(possibleMessage, ex.Message))
+                if (XUnitAssert.EqualsNormalized(possibleMessage, ex.Message))
                 {
                     return ex;
                 }
@@ -130,7 +99,7 @@ public static class ExceptionAssert
             }
             foreach (var possibleMessage in possibleMessages)
             {
-                if (StringAssert.Equals(possibleMessage, ex.Message))
+                if (XUnitAssert.EqualsNormalized(possibleMessage, ex.Message))
                 {
                     return ex;
                 }

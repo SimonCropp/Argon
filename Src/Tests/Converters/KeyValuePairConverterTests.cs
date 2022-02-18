@@ -20,7 +20,7 @@ public class KeyValuePairConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(values, Formatting.Indented);
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""Key"": ""123"",
     ""Value"": 123

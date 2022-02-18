@@ -46,12 +46,12 @@ public class TraceWriterTests : TestFixtureBase
         Assert.Equal("Admin", roles[0].Name);
         Assert.Equal("Publisher", roles[1].Name);
 
-        StringAssert.AreEqual(@"Deserialized JSON: 
+        XUnitAssert.AreEqualNormalized(@"Deserialized JSON: 
 {
   ""name"": ""Admin""
 }", traceWriter.TraceRecords[2].Message);
 
-        StringAssert.AreEqual(@"Deserialized JSON: 
+        XUnitAssert.AreEqualNormalized(@"Deserialized JSON: 
 {
   ""name"": ""Publisher""
 }", traceWriter.TraceRecords[5].Message);
@@ -83,12 +83,12 @@ public class TraceWriterTests : TestFixtureBase
         Assert.Equal("Admin", roles[0].Name);
         Assert.Equal("Publisher", roles[1].Name);
 
-        StringAssert.AreEqual(@"Deserialized JSON: 
+        XUnitAssert.AreEqualNormalized(@"Deserialized JSON: 
 {
   ""name"": ""Admin""
 }", traceWriter.TraceRecords[2].Message);
 
-        StringAssert.AreEqual(@"Deserialized JSON: 
+        XUnitAssert.AreEqualNormalized(@"Deserialized JSON: 
 {
   ""name"": ""Publisher""
 }", traceWriter.TraceRecords[5].Message);
@@ -112,7 +112,7 @@ public class TraceWriterTests : TestFixtureBase
             traceWriter.Trace(TraceLevel.Error, "Error!", null);
             traceWriter.Trace(TraceLevel.Off, "Off!", null);
 
-            StringAssert.AreEqual(@"Argon Verbose: 0 : Verbose!
+            XUnitAssert.AreEqualNormalized(@"Argon Verbose: 0 : Verbose!
 Argon Information: 0 : Info!
 Argon Warning: 0 : Warning!
 Argon Error: 0 : Error!
@@ -134,7 +134,7 @@ Argon Error: 0 : Error!
         traceJsonWriter.WriteValue((byte?)null);
         traceJsonWriter.WriteEndArray();
 
-        StringAssert.AreEqual(@"Serialized JSON: 
+        XUnitAssert.AreEqualNormalized(@"Serialized JSON: 
 [
   null
 ]", traceJsonWriter.GetSerializedJsonMessage());
@@ -149,7 +149,7 @@ Argon Error: 0 : Error!
         traceJsonWriter.WriteValue((object)null);
         traceJsonWriter.WriteEndArray();
 
-        StringAssert.AreEqual(@"Serialized JSON: 
+        XUnitAssert.AreEqualNormalized(@"Serialized JSON: 
 [
   null
 ]", traceJsonWriter.GetSerializedJsonMessage());
@@ -164,7 +164,7 @@ Argon Error: 0 : Error!
         traceJsonWriter.WriteValue((string)null);
         traceJsonWriter.WriteEndArray();
 
-        StringAssert.AreEqual(@"Serialized JSON: 
+        XUnitAssert.AreEqualNormalized(@"Serialized JSON: 
 [
   null
 ]", traceJsonWriter.GetSerializedJsonMessage());
@@ -179,7 +179,7 @@ Argon Error: 0 : Error!
         traceJsonWriter.WriteValue((Uri)null);
         traceJsonWriter.WriteEndArray();
 
-        StringAssert.AreEqual(@"Serialized JSON: 
+        XUnitAssert.AreEqualNormalized(@"Serialized JSON: 
 [
   null
 ]", traceJsonWriter.GetSerializedJsonMessage());
@@ -194,7 +194,7 @@ Argon Error: 0 : Error!
         traceJsonWriter.WriteValue((byte[])null);
         traceJsonWriter.WriteEndArray();
 
-        StringAssert.AreEqual(@"Serialized JSON: 
+        XUnitAssert.AreEqualNormalized(@"Serialized JSON: 
 [
   null
 ]", traceJsonWriter.GetSerializedJsonMessage());
@@ -234,13 +234,13 @@ Argon Error: 0 : Error!
             Formatting = Formatting.Indented
         });
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   $('#element'),
   $('#element'),
   $('#element')
 ]", json);
 
-        Assert.True(StringAssert.Normalize(traceWriter.ToString()).EndsWith(StringAssert.Normalize(@"Verbose Serialized JSON: 
+        Assert.True(XUnitAssert.Normalize(traceWriter.ToString()).EndsWith(XUnitAssert.Normalize(@"Verbose Serialized JSON: 
 [
   $('#element'),
   $('#element'),
@@ -288,8 +288,8 @@ Argon Error: 0 : Error!
   ]
 }";
 
-        json = StringAssert.Normalize(json);
-        output = StringAssert.Normalize(output);
+        json = XUnitAssert.Normalize(json);
+        output = XUnitAssert.Normalize(output);
 
         Assert.True(output.Contains(json));
     }
@@ -348,8 +348,8 @@ Argon Error: 0 : Error!
         Assert.Equal(1018, output.Length);
         Assert.Equal(7, memoryTraceWriter.GetTraceMessages().Count());
 
-        json = StringAssert.Normalize(json);
-        output = StringAssert.Normalize(output);
+        json = XUnitAssert.Normalize(json);
+        output = XUnitAssert.Normalize(output);
 
         Assert.True(output.Contains(json));
     }
@@ -999,7 +999,7 @@ Argon Error: 0 : Error!
         Assert.Equal("IsSpecified result for property 'FavoriteNumber' on Argon.Tests.Serialization.SpecifiedTestClass: False. Path 'Age'.", traceWriter.TraceRecords[4].Message);
         Assert.Equal("Finished serializing Argon.Tests.Serialization.SpecifiedTestClass. Path ''.", traceWriter.TraceRecords[5].Message);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Age"": 27
 }", json);
 
@@ -1026,7 +1026,7 @@ Argon Error: 0 : Error!
         c.FavoriteNumber = 23;
         json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""James"",
   ""Age"": 27,
   ""Weight"": 0,
@@ -1074,7 +1074,7 @@ Argon Error: 0 : Error!
   ""Prop1"": 1
 }";
 
-        StringAssert.AreEqual("Serialized JSON: " + Environment.NewLine + json, traceWriter.GetSerializedJsonMessage());
+        XUnitAssert.AreEqualNormalized("Serialized JSON: " + Environment.NewLine + json, traceWriter.GetSerializedJsonMessage());
     }
 
     [Fact]
@@ -1095,7 +1095,7 @@ Argon Error: 0 : Error!
   ""Prop1"": 1
 }";
 
-        StringAssert.AreEqual("Serialized JSON: " + Environment.NewLine + json, traceWriter.GetSerializedJsonMessage());
+        XUnitAssert.AreEqualNormalized("Serialized JSON: " + Environment.NewLine + json, traceWriter.GetSerializedJsonMessage());
     }
 
     [Fact]
@@ -1214,7 +1214,7 @@ Argon Error: 0 : Error!
   ]
 }";
 
-        StringAssert.AreEqual("Serialized JSON: " + Environment.NewLine + json, traceWriter.GetSerializedJsonMessage());
+        XUnitAssert.AreEqualNormalized("Serialized JSON: " + Environment.NewLine + json, traceWriter.GetSerializedJsonMessage());
     }
 
     [Fact]
@@ -1327,7 +1327,7 @@ Argon Error: 0 : Error!
 
         traceReader.Close();
 
-        StringAssert.AreEqual("Deserialized JSON: " + Environment.NewLine + json, traceReader.GetDeserializedJsonMessage());
+        XUnitAssert.AreEqualNormalized("Deserialized JSON: " + Environment.NewLine + json, traceReader.GetDeserializedJsonMessage());
     }
 }
 

@@ -119,7 +119,7 @@ public class JsonConvertTest : TestFixtureBase
 
             var json = JsonConvert.SerializeObject(new { test = new[] { 1, 2, 3 } });
 
-            StringAssert.AreEqual(@"{
+            XUnitAssert.AreEqualNormalized(@"{
   ""test"": [
     1,
     2,
@@ -240,7 +240,7 @@ public class JsonConvertTest : TestFixtureBase
             //   "jobTitle": "Web Dude"
             // }
 
-            StringAssert.AreEqual(@"{
+            XUnitAssert.AreEqualNormalized(@"{
   ""firstName"": ""Eric"",
   ""lastName"": ""Example"",
   ""birthDate"": ""1980-04-20T00:00:00Z"",
@@ -323,7 +323,7 @@ public class JsonConvertTest : TestFixtureBase
             var serializer = JsonSerializer.CreateDefault();
             serializer.Serialize(sw, l);
 
-            StringAssert.AreEqual(@"[
+            XUnitAssert.AreEqualNormalized(@"[
   1,
   2,
   3
@@ -372,7 +372,7 @@ public class JsonConvertTest : TestFixtureBase
             });
             serializer.Serialize(sw, l);
 
-            StringAssert.AreEqual(@"[
+            XUnitAssert.AreEqualNormalized(@"[
   2,
   4,
   6
@@ -382,7 +382,7 @@ public class JsonConvertTest : TestFixtureBase
             serializer.Converters.Clear();
             serializer.Serialize(sw, l);
 
-            StringAssert.AreEqual(@"[
+            XUnitAssert.AreEqualNormalized(@"[
   1,
   2,
   3
@@ -392,7 +392,7 @@ public class JsonConvertTest : TestFixtureBase
             serializer = JsonSerializer.Create(new JsonSerializerSettings { Formatting = Formatting.Indented });
             serializer.Serialize(sw, l);
 
-            StringAssert.AreEqual(@"[
+            XUnitAssert.AreEqualNormalized(@"[
   1,
   2,
   3

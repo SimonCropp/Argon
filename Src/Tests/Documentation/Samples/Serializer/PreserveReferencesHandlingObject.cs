@@ -121,7 +121,7 @@ public class PreserveReferencesHandlingObject : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$id"": ""1"",
   ""Name"": ""My Documents"",
   ""Parent"": {

@@ -78,7 +78,7 @@ public class DataTableConverterTests : TestFixtureBase
         var converter = new DataTableConverter();
         converter.WriteJson(jsonWriter, dt, new JsonSerializer());
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""TimeSpan"": null,
     ""Char[]"": null,
@@ -124,7 +124,7 @@ public class DataTableConverterTests : TestFixtureBase
 
         var stringName = typeof(string).AssemblyQualifiedName;
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""TimeSpan"": ""00:00:00"",
     ""Char[]"": [
@@ -151,7 +151,7 @@ public class DataTableConverterTests : TestFixtureBase
         var converter = new DataTableConverter();
         converter.WriteJson(jsonWriter, null, null);
 
-        StringAssert.AreEqual(@"null", sw.ToString());
+        XUnitAssert.AreEqualNormalized(@"null", sw.ToString());
     }
 
     [Fact]
@@ -326,7 +326,7 @@ public class DataTableConverterTests : TestFixtureBase
         myTable.Rows.Add(myNewRow);
 
         var json = JsonConvert.SerializeObject(myTable, Formatting.Indented);
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""StringCol"": ""Item Name"",
     ""Int32Col"": 2147483647,
@@ -400,7 +400,7 @@ public class DataTableConverterTests : TestFixtureBase
         serializer.Serialize(bw, table);
 
         var o = JToken.ReadFrom(new BsonReader(new MemoryStream(ms.ToArray())) { ReadRootValueAsArray = true });
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""data"": ""SGVsbG8gd29ybGQh"",
     ""id"": ""ede9a599-a7d9-44a9-9243-7c287049dd20""
@@ -512,7 +512,7 @@ public class DataTableConverterTests : TestFixtureBase
         var pair = new KeyValuePair<DataTable, int>(table, 1);
         var serializedpair = JsonConvert.SerializeObject(pair, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Key"": [
     {
       ""id"": 0,
@@ -537,7 +537,7 @@ public class DataTableConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(dt, Formatting.Indented);
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""CustomerID"": ""432""
   }
@@ -573,7 +573,7 @@ public class DataTableConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c1, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Table"": null
 }", json);
 
@@ -590,7 +590,7 @@ public class DataTableConverterTests : TestFixtureBase
             Formatting = Formatting.Indented
         });
 
-        StringAssert.AreEqual(@"null", json);
+        XUnitAssert.AreEqualNormalized(@"null", json);
     }
 
     [Fact]
@@ -614,7 +614,7 @@ public class DataTableConverterTests : TestFixtureBase
 
         var json2 = JsonConvert.SerializeObject(ds, Formatting.Indented, new SqlDateTimeConverter());
 
-        StringAssert.AreEqual(json, json2);
+        XUnitAssert.AreEqualNormalized(json, json2);
     }
 
     internal class SqlDateTimeConverter : JsonConverter

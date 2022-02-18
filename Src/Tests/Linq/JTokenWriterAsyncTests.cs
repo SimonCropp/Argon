@@ -175,7 +175,7 @@ public class JTokenWriterAsyncTests : TestFixtureBase
         await writer.WriteCommentAsync("fail");
         await writer.WriteEndArrayAsync();
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   /*fail*/]", writer.Token.ToString());
     }
 
@@ -193,7 +193,7 @@ public class JTokenWriterAsyncTests : TestFixtureBase
         Assert.Equal(new BigInteger(123), i.Value);
         Assert.Equal(JTokenType.Integer, i.Type);
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   123
 ]", writer.Token.ToString());
     }
@@ -209,7 +209,7 @@ public class JTokenWriterAsyncTests : TestFixtureBase
         await writer.WriteEndArrayAsync();
 
         // this is a bug. See non-async equivalent test.
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   fail,
   fail
 ]", writer.Token.ToString());
@@ -236,7 +236,7 @@ public class JTokenWriterAsyncTests : TestFixtureBase
 
         Console.WriteLine(writer.Token.ToString());
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""prop1"": [
       1
@@ -262,7 +262,7 @@ public class JTokenWriterAsyncTests : TestFixtureBase
 
         await writer.WriteEndObjectAsync();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Prop1"": 1
 }", writer.Token.ToString());
     }
@@ -282,7 +282,7 @@ public class JTokenWriterAsyncTests : TestFixtureBase
 
         await writer.WriteEndArrayAsync();
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   1
 ]", writer.Token.ToString());
     }
@@ -306,7 +306,7 @@ public class JTokenWriterAsyncTests : TestFixtureBase
 
         await writer.WriteEndArrayAsync();
 
-        StringAssert.AreEqual(@"[]", writer.Token.ToString());
+        XUnitAssert.AreEqualNormalized(@"[]", writer.Token.ToString());
     }
 
     [Fact]
@@ -319,7 +319,7 @@ public class JTokenWriterAsyncTests : TestFixtureBase
         await writer.WriteRawValueAsync("fail");
         await writer.WriteEndArrayAsync();
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   fail,
   fail
 ]", writer.Token.ToString());
@@ -342,7 +342,7 @@ public class JTokenWriterAsyncTests : TestFixtureBase
 
         await writer.WriteEndObjectAsync();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""prop1"": []
 }", writer.Token.ToString());
     }

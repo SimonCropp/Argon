@@ -214,7 +214,7 @@ public class DemoTests : TestFixtureBase
         //   "Date": new Date(1401796800000)
         // }
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""Serialize All The Things"",
   ""Date"": new Date(
     1401840000000
@@ -301,7 +301,7 @@ public class DemoTests : TestFixtureBase
         //   "Name": "Mike Manager"
         // }
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Reportees"": [
     {
       ""Name"": ""Arnie Admin""
@@ -358,7 +358,7 @@ public class DemoTests : TestFixtureBase
         //   ]
         // }
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$id"": ""1"",
   ""$type"": ""Argon.Tests.DemoTests+Manager, Tests"",
   ""Reportees"": [
@@ -565,7 +565,7 @@ public class DemoTests : TestFixtureBase
         //   ]
         // }
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""FirstName"": ""John"",
   ""LastName"": ""Smith"",
   ""Enabled"": true,
@@ -619,7 +619,7 @@ public class DemoTests : TestFixtureBase
         //   }
         // ]
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""PackageId"": ""Argon"",
     ""Version"": ""11.0.1"",

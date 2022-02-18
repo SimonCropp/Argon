@@ -65,7 +65,7 @@ public class DataContractAndDataMember : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""ImportantLegalDocuments.docx"",
   ""Size"": 51200
 }", json);

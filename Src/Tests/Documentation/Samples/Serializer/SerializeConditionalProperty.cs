@@ -78,7 +78,7 @@ public class SerializeConditionalProperty : TestFixtureBase
         // ]
         #endregion
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""Name"": ""Joe Employee"",
     ""Manager"": {

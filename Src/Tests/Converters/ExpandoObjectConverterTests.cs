@@ -60,7 +60,7 @@ public class ExpandoObjectConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(d, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Before"": ""Before!"",
   ""Expando"": {
     ""String"": ""String!"",
@@ -86,7 +86,7 @@ public class ExpandoObjectConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(d, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Before"": null,
   ""Expando"": null,
   ""After"": null

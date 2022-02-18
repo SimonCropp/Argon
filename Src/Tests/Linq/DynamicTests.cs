@@ -847,7 +847,7 @@ public class DynamicTests : TestFixtureBase
         //   "StockValue": 22050.00
         // }
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""ProductName"": ""Elbow Grease (SALE)"",
   ""Enabled"": true,
   ""Price"": 2.45,

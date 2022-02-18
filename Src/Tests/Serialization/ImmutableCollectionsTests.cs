@@ -42,7 +42,7 @@ public class ImmutableCollectionsTests : TestFixtureBase
         });
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   ""One"",
   ""II"",
   ""3""
@@ -97,7 +97,7 @@ public class ImmutableCollectionsTests : TestFixtureBase
         });
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   ""One"",
   ""II"",
   ""3""
@@ -142,7 +142,7 @@ public class ImmutableCollectionsTests : TestFixtureBase
         });
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   ""One"",
   ""II"",
   ""3""
@@ -196,7 +196,7 @@ public class ImmutableCollectionsTests : TestFixtureBase
         });
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   ""3"",
   ""II"",
   ""One""
@@ -307,7 +307,7 @@ public class ImmutableCollectionsTests : TestFixtureBase
         });
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   ""3"",
   ""II"",
   ""One""
@@ -400,7 +400,7 @@ public class ImmutableCollectionsTests : TestFixtureBase
         });
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""1"": ""One"",
   ""2"": ""II"",
   ""3"": ""3""

@@ -88,7 +88,7 @@ public class FromObject : TestFixtureBase
         // ]
         #endregion
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   ""DVD"",
   ""SSD""
 ]", a.ToString());

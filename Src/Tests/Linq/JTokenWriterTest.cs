@@ -175,7 +175,7 @@ public class JTokenWriterTest : TestFixtureBase
         writer.WriteComment("fail");
         writer.WriteEndArray();
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   /*fail*/]", writer.Token.ToString());
     }
 
@@ -193,7 +193,7 @@ public class JTokenWriterTest : TestFixtureBase
         Assert.Equal(new BigInteger(123), i.Value);
         Assert.Equal(JTokenType.Integer, i.Type);
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   123
 ]", writer.Token.ToString());
     }
@@ -211,7 +211,7 @@ public class JTokenWriterTest : TestFixtureBase
         // this is a bug. write raw shouldn't be autocompleting like this
         // hard to fix without introducing Raw and RawValue token types
         // meh
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   fail,
   fail
 ]", writer.Token.ToString());
@@ -238,7 +238,7 @@ public class JTokenWriterTest : TestFixtureBase
 
         Console.WriteLine(writer.Token.ToString());
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""prop1"": [
       1
@@ -264,7 +264,7 @@ public class JTokenWriterTest : TestFixtureBase
 
         writer.WriteEndObject();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Prop1"": 1
 }", writer.Token.ToString());
     }
@@ -284,7 +284,7 @@ public class JTokenWriterTest : TestFixtureBase
 
         writer.WriteEndArray();
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   1
 ]", writer.Token.ToString());
     }
@@ -308,7 +308,7 @@ public class JTokenWriterTest : TestFixtureBase
 
         writer.WriteEndArray();
 
-        StringAssert.AreEqual(@"[]", writer.Token.ToString());
+        XUnitAssert.AreEqualNormalized(@"[]", writer.Token.ToString());
     }
 
     [Fact]
@@ -321,7 +321,7 @@ public class JTokenWriterTest : TestFixtureBase
         writer.WriteRawValue("fail");
         writer.WriteEndArray();
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   fail,
   fail
 ]", writer.Token.ToString());
@@ -344,7 +344,7 @@ public class JTokenWriterTest : TestFixtureBase
 
         writer.WriteEndObject();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""prop1"": []
 }", writer.Token.ToString());
     }

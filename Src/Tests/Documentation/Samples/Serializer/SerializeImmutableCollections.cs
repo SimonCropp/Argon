@@ -50,7 +50,7 @@ public class SerializeImmutableCollections : TestFixtureBase
         // ]
         #endregion
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   ""One"",
   ""II"",
   ""3""

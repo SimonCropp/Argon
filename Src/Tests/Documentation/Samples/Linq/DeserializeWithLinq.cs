@@ -74,7 +74,7 @@ public class DeserializeWithLinq : TestFixtureBase
         // <p>Content!</p>
         #endregion
 
-        StringAssert.AreEqual(@"<h3>Title!</h3>
+        XUnitAssert.AreEqualNormalized(@"<h3>Title!</h3>
 <p>Content!</p>", blogPosts[0].Body);
     }
 }

@@ -87,7 +87,7 @@ public class SerializeWithLinq : TestFixtureBase
         // ]
         #endregion
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""Title"": ""Json.NET is awesome!"",
     ""Author"": {

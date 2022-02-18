@@ -399,7 +399,7 @@ public class JValueTests : TestFixtureBase
         var jTokenWriter = new JTokenWriter();
         new JsonSerializer().Serialize(jTokenWriter, rate);
         var json = jTokenWriter.Token.ToString();
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Compoundings"": 12.166666666666666666666666667
 }", json);
     }
@@ -678,7 +678,7 @@ public class JValueTests : TestFixtureBase
             new JValue(1.1f)
         );
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   ""2013-02-01T01:02:03.004+01:00"",
   5,
   1.1
@@ -693,7 +693,7 @@ public class JValueTests : TestFixtureBase
             new JValue(new Uri("http://james.newtonking.com/install?v=7.0.1"))
         );
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   ""http://james.newtonking.com"",
   ""http://james.newtonking.com/install?v=7.0.1""
 ]", a.ToString());
@@ -742,7 +742,7 @@ public class JValueTests : TestFixtureBase
 
         var json = o.ToString(Formatting.Indented, new ReadOnlyStringConverter());
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""name"": ""Hello World""
 }", json);
     }

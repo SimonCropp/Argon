@@ -453,7 +453,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(d, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""key"": [
     {
       ""Text1"": ""value1""
@@ -480,7 +480,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var output = JsonConvert.SerializeObject(onebasedArray, Formatting.Indented);
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   ""2"",
   ""3"",
   ""4""
@@ -505,7 +505,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         // Now lets try and serialize the Array
         var output = JsonConvert.SerializeObject(onebasedArray, Formatting.Indented);
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   [
     ""1_2"",
     ""1_3"",
@@ -536,7 +536,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var myOtherArrayAsString = JsonConvert.SerializeObject(myOtherArray, Formatting.Indented);
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   [
     {
       ""Key"": ""my value"",
@@ -813,7 +813,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         var dic = new CustomReadOnlyDictionary<string, int>(d);
 
         var json = JsonConvert.SerializeObject(dic, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""one"": 1,
   ""two"": 2
 }", json);
@@ -854,7 +854,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         var list = new CustomReadOnlyCollection<int>(l);
 
         var json = JsonConvert.SerializeObject(list, Formatting.Indented);
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   1,
   2,
   3
@@ -945,7 +945,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(list, Formatting.Indented);
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""Key"": ""key1"",
     ""Value"": {
@@ -1035,7 +1035,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(v1, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""First"": 1,
   ""Second"": null,
   ""Third"": 3
@@ -1064,7 +1064,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var originalJson = JsonConvert.SerializeObject(go, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Components"": {
     ""Key!"": {}
   },
@@ -1167,7 +1167,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c1, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""NonReadOnlyList"": [
     1
   ],
@@ -1292,7 +1292,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(aa, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Before"": ""Before!"",
   ""Coordinates"": [
     [
@@ -1599,7 +1599,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             Formatting = Formatting.Indented
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$id"": ""1"",
   ""$values"": [
     {
@@ -1653,7 +1653,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             Formatting = Formatting.Indented
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$type"": """ + ReflectionUtils.GetTypeName(typeof(List<Event1[,]>), 0, DefaultSerializationBinder.Instance) + @""",
   ""$values"": [
     {
@@ -1790,7 +1790,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(name, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""personsName"": ""The Idiot in Next To Me"",
   ""pNumbers"": [
     {
@@ -1823,7 +1823,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
             var json = JsonConvert.SerializeObject(list);
 
-            StringAssert.AreEqual($"[{{\"Property\":\"{propertyValue}\"}}]", json);
+            XUnitAssert.AreEqualNormalized($"[{{\"Property\":\"{propertyValue}\"}}]", json);
         }
 
         public interface IFirstInterface
@@ -1967,7 +1967,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         //  }
         //]
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""Name"": ""Product 1"",
     ""ExpiryDate"": ""2000-12-29T00:00:00Z"",
@@ -2022,7 +2022,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   1,
   2,
   3,

@@ -77,7 +77,7 @@ public class JsonPropertyOrder : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""FullName"": ""Aaron Account"",
   ""EmailAddress"": ""aaron@example.com"",
   ""CreatedDate"": ""2010-10-01T00:00:00"",

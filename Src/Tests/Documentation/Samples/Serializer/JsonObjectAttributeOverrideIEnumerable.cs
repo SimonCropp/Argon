@@ -79,7 +79,7 @@ public class JsonObjectAttributeOverrideIEnumerable : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""My Documents"",
   ""Files"": [
     ""ImportantLegalDocuments.docx"",

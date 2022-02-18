@@ -63,7 +63,7 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""name"": ""Name!"",
   ""birthDate"": ""2000-11-20T23:55:44Z"",
   ""lastModified"": ""2000-11-20T23:55:44Z""
@@ -79,7 +79,7 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
         Assert.Equal(person.Name, deserializedPerson.Name);
 
         json = JsonConvert.SerializeObject(person, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""Name!"",
   ""BirthDate"": ""2000-11-20T23:55:44Z"",
   ""LastModified"": ""2000-11-20T23:55:44Z""
@@ -123,7 +123,7 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
             ContractResolver = new CamelCasePropertyNamesContractResolver { DefaultMembersSearchFlags = BindingFlags.NonPublic | BindingFlags.Instance }
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""_privateString"": ""PrivateString!"",
   ""i"": 0,
   ""_internalString"": ""InternalString!""
@@ -175,7 +175,7 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
         //  ]
         //}
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""name"": ""Widget"",
   ""expiryDate"": ""2010-12-20T18:01:00Z"",
   ""price"": 9.99,
@@ -200,7 +200,7 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""explicit"": false,
   ""text"": ""Text!"",
   ""integer"": 2147483647,
@@ -224,7 +224,7 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""first"": ""Value1!"",
   ""second"": ""Value2!""
 }", json);

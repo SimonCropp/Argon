@@ -88,7 +88,7 @@ public class CustomContractResolver : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""LastName"": ""Deepwater-Diver""
 }", startingWithL);
     }

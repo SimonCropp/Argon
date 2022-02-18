@@ -140,14 +140,14 @@ public class ShouldSerializeTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Age"": 27
 }", json);
 
         c._shouldSerializeName = true;
         json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""James"",
   ""Age"": 27
 }", json);
@@ -185,7 +185,7 @@ public class ShouldSerializeTests : TestFixtureBase
         //   }
         // ]
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""Name"": ""Joe Employee"",
     ""Manager"": {
@@ -210,7 +210,7 @@ public class ShouldSerializeTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Age"": 27
 }", json);
 
@@ -228,7 +228,7 @@ public class ShouldSerializeTests : TestFixtureBase
         c.FavoriteNumber = 23;
         json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""James"",
   ""Age"": 27,
   ""Weight"": 0,
@@ -334,7 +334,7 @@ public class ShouldSerializeTests : TestFixtureBase
         //  }
         //]
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""Name"": ""Joe Family Details"",
     ""NumberOfChildren"": 4
@@ -384,7 +384,7 @@ public class ShouldSerializeTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(joe, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Age"": 100,
   ""Name"": ""Joe Employee"",
   ""Manager"": {

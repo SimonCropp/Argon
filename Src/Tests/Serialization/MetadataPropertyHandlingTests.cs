@@ -114,7 +114,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
         };
         var serializedString = JsonConvert.SerializeObject(inputContext, jsonSerializerSettings);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$type"": """ + ReflectionUtils.GetTypeName(typeof(Dictionary<string, Guid>), 0, DefaultSerializationBinder.Instance) + @""",
   ""k1"": ""5dd2dba0-20c0-49f8-a054-1fa3b0a8d774""
 }", serializedString);
@@ -139,7 +139,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
 
         var jsonString = JsonConvert.SerializeObject(expected, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""SourceTypeID"": ""d8220a4b-75b1-4b7a-8112-b7bdae956a45"",
   ""BrokerID"": ""951663c4-924e-4c86-a57a-7ed737501dbd"",
   ""Latitude"": 33.657145,
@@ -245,7 +245,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(child, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""_id"": 2,
   ""Name"": ""Isabell"",
   ""Father"": {
@@ -395,7 +395,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(typeNameProperty, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""Name!"",
   ""Value"": {
     ""$type"": """ + listRef + @""",
@@ -457,7 +457,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c1, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$id"": ""Id!"",
   ""$ref"": ""Ref!"",
   ""$value"": ""Value!"",

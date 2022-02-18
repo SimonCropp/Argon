@@ -40,7 +40,7 @@ public class JsonSchemaGeneratorTests : TestFixtureBase
 
         var json = schema.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""type"": ""object"",
   ""additionalProperties"": {
     ""type"": [
@@ -77,7 +77,7 @@ public class JsonSchemaGeneratorTests : TestFixtureBase
 
         var json = schema.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""description"": ""DefaultValueAttributeTestClass description!"",
   ""type"": ""object"",
   ""additionalProperties"": false,
@@ -108,7 +108,7 @@ public class JsonSchemaGeneratorTests : TestFixtureBase
 
         var json = schema.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""id"": ""Person"",
   ""title"": ""Title!"",
   ""description"": ""JsonObjectAttribute description!"",
@@ -141,7 +141,7 @@ public class JsonSchemaGeneratorTests : TestFixtureBase
 
         var json = schema.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""type"": ""object"",
   ""properties"": {
     ""Id"": {
@@ -362,7 +362,7 @@ public class JsonSchemaGeneratorTests : TestFixtureBase
 
         var json = schema.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""id"": ""Argon.Tests.TestObjects.VersionOld"",
   ""type"": [
     ""object"",
@@ -415,7 +415,7 @@ public class JsonSchemaGeneratorTests : TestFixtureBase
 
         var json = schema.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""id"": ""Argon.Tests.Schema.SerializableTestObject"",
   ""type"": [
     ""object"",
@@ -449,7 +449,7 @@ public class JsonSchemaGeneratorTests : TestFixtureBase
 
         Assert.Equal(0, errors.Count);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""_name"": ""Name!""
 }", jsonWriter.Token.ToString());
 
@@ -477,7 +477,7 @@ public class JsonSchemaGeneratorTests : TestFixtureBase
 
         var json = schema.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""type"": ""object"",
   ""properties"": {
     ""x"": {
@@ -519,7 +519,7 @@ public class JsonSchemaGeneratorTests : TestFixtureBase
         var jsonSchema = jsonSchemaGenerator.Generate(typeof(CircularReferenceClass));
         var json = jsonSchema.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""id"": ""Argon.Tests.TestObjects.CircularReferenceClass"",
   ""type"": [
     ""object"",
@@ -548,7 +548,7 @@ public class JsonSchemaGeneratorTests : TestFixtureBase
         var jsonSchema = jsonSchemaGenerator.Generate(typeof(JsonPropertyWithHandlingValues));
         var json = jsonSchema.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""id"": ""Argon.Tests.TestObjects.JsonPropertyWithHandlingValues"",
   ""required"": true,
   ""type"": [
@@ -620,7 +620,7 @@ public class JsonSchemaGeneratorTests : TestFixtureBase
         var jsonSchema = jsonSchemaGenerator.Generate(typeof(NullableInt32TestClass));
         var json = jsonSchema.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""type"": ""object"",
   ""properties"": {
     ""Value"": {

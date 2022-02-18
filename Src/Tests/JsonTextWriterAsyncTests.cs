@@ -156,7 +156,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             await writer.WriteEndObjectAsync();
         }
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
     ""PropByte"": 1,
     ""PropSByte"": 2,
     ""PropShort"": 3,
@@ -203,7 +203,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             await writer.WriteEndArrayAsync();
         }
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
     {
         ""IncompleteProp"": null
     }
@@ -531,7 +531,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
 }";
         var result = sb.ToString();
 
-        StringAssert.AreEqual(expected, result);
+        XUnitAssert.AreEqualNormalized(expected, result);
     }
 
     [Fact]
@@ -570,7 +570,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
 }";
         var result = sb.ToString();
 
-        StringAssert.AreEqual(expected, result);
+        XUnitAssert.AreEqualNormalized(expected, result);
     }
 
     [Fact]
@@ -622,7 +622,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
 }";
         var result = sb.ToString();
 
-        StringAssert.AreEqual(expected, result);
+        XUnitAssert.AreEqualNormalized(expected, result);
     }
 
     [Fact]
@@ -701,7 +701,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
 ]";
         var result = sb.ToString();
 
-        StringAssert.AreEqual(expected, result);
+        XUnitAssert.AreEqualNormalized(expected, result);
     }
 
     [Fact]
@@ -749,7 +749,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
 ]";
         var result = sb.ToString();
 
-        StringAssert.AreEqual(expected, result);
+        XUnitAssert.AreEqualNormalized(expected, result);
     }
 
     [Fact]
@@ -785,7 +785,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
 ]";
         var result = sb.ToString();
 
-        StringAssert.AreEqual(expected, result);
+        XUnitAssert.AreEqualNormalized(expected, result);
     }
 
     [Fact]
@@ -822,7 +822,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
 ]";
         var result = sb.ToString();
 
-        StringAssert.AreEqual(expected, result);
+        XUnitAssert.AreEqualNormalized(expected, result);
     }
 
     [Fact]
@@ -848,7 +848,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
 ]";
         var result = sb.ToString();
 
-        StringAssert.AreEqual(expected, result);
+        XUnitAssert.AreEqualNormalized(expected, result);
     }
 
     [Fact]
@@ -876,7 +876,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
 ]";
         var result = sb.ToString();
 
-        StringAssert.AreEqual(expected, result);
+        XUnitAssert.AreEqualNormalized(expected, result);
     }
 
     [Fact]
@@ -1030,7 +1030,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
 
         Console.WriteLine(sb.ToString());
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   2147483647,
   -2147483648,
   0,
@@ -1168,7 +1168,7 @@ _____'propertyName': NaN,
 }";
         var result = sb.ToString();
 
-        StringAssert.AreEqual(expected, result);
+        XUnitAssert.AreEqualNormalized(expected, result);
     }
 
     [Fact]
@@ -1230,7 +1230,7 @@ _____'propertyName': NaN,
 ]";
         var result = sb.ToString();
 
-        StringAssert.AreEqual(expected, result);
+        XUnitAssert.AreEqualNormalized(expected, result);
     }
 
     [Fact]
@@ -1281,7 +1281,7 @@ _____'propertyName': NaN,
             Assert.Equal("", writer.Path);
         }
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""Property1"": [
       1,
@@ -1417,7 +1417,7 @@ _____'propertyName': NaN,
 
         await writer.WriteEndAsync();
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   '2000-01-01T01:01:01Z',
   '2000-01-01T01:01:01+00:00',
   '\/Date(946688461000)\/',
@@ -1457,7 +1457,7 @@ _____'propertyName': NaN,
 
         await writer.WriteEndAsync();
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   '2000 a.m.',
   '2000 a.m.'
 ]", sw.ToString());
@@ -1640,7 +1640,7 @@ _____'propertyName': NaN,
         await writer.WriteEndObjectAsync();
         Assert.Equal(WriteState.Start, writer.WriteState);
 
-        StringAssert.AreEqual(@"{{{
+        XUnitAssert.AreEqualNormalized(@"{{{
   ""1ytreporP"": NULL!!!
 }}}", sw.ToString());
     }
@@ -1665,7 +1665,7 @@ _____'propertyName': NaN,
                 await writer.CloseAsync();
             }
 
-            StringAssert.AreEqual(@"{
+            XUnitAssert.AreEqualNormalized(@"{
   a: 1
 }", stringWriter.ToString());
         }
@@ -1703,7 +1703,7 @@ null//comment
 
         await w.WriteTokenAsync(r, true);
 
-        StringAssert.AreEqual(@"/*comment*//*hi*/*/{/*comment*/
+        XUnitAssert.AreEqualNormalized(@"/*comment*//*hi*/*/{/*comment*/
   ""Name"": /*comment*/ true/*comment after true*//*comment after comma*/,
   ""ExpiryDate"": /*comment*/ new Constructor(
     /*comment*/,

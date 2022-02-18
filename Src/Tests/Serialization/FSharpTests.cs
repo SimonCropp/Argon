@@ -37,7 +37,7 @@ public class FSharpTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   1,
   2,
   3
@@ -56,7 +56,7 @@ public class FSharpTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   1,
   2,
   3

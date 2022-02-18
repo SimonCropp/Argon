@@ -124,7 +124,7 @@ public class ExtensionDataTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(e, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""extensionData1"": [
     1,
     2,
@@ -169,7 +169,7 @@ public class ExtensionDataTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""Name!"",
   ""Key!"": ""Value!""
 }", json);
@@ -423,7 +423,7 @@ public class ExtensionDataTests : TestFixtureBase
             Formatting = Formatting.Indented
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""readonly"": ""Readonly"",
   ""name"": null,
   ""custom_name"": null,
@@ -463,7 +463,7 @@ public class ExtensionDataTests : TestFixtureBase
             Formatting = Formatting.Indented
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""readonly"": ""Readonly"",
   ""name"": null,
   ""custom_name"": null,
@@ -499,7 +499,7 @@ public class ExtensionDataTests : TestFixtureBase
             Formatting = Formatting.Indented
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""name"": null,
   ""testValue1"": 1,
   ""alreadyCamelCase"": {
@@ -690,7 +690,7 @@ public class ExtensionDataTests : TestFixtureBase
             Formatting = Formatting.Indented
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$id"": ""1"",
   ""Name"": ""Name!"",
   ""Test"": 1,
@@ -815,7 +815,7 @@ public class ExtensionDataTests : TestFixtureBase
             Formatting = Formatting.Indented
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$type"": ""Argon.Tests.Serialization.ExtensionDataTests+PublicExtensionDataAttributeTestClass, Tests"",
   ""Name"": ""Name!"",
   ""Test"": {

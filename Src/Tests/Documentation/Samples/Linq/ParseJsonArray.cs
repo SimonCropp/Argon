@@ -49,7 +49,7 @@ public class ParseJsonArray : TestFixtureBase
         // ]
         #endregion
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   ""Small"",
   ""Medium"",
   ""Large""

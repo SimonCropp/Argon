@@ -188,7 +188,7 @@ public class JavaScriptDateTimeConverterTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(l1, Formatting.Indented);
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   new Date(
     976651800000
   ),
@@ -213,7 +213,7 @@ public class JavaScriptDateTimeConverterTests : TestFixtureBase
         l1.Add("Second", new DateTime(1983, 10, 9, 23, 10, 0, DateTimeKind.Utc));
 
         var json = JsonConvert.SerializeObject(l1, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""First"": new Date(
     976651800000
   ),
@@ -240,7 +240,7 @@ public class JavaScriptDateTimeConverterTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(l1, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Object1"": new Date(
     976651800000
   ),

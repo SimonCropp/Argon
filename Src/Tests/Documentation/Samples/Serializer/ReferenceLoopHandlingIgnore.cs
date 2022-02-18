@@ -60,7 +60,7 @@ public class ReferenceLoopHandlingIgnore : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""Joe User"",
   ""Manager"": {
     ""Name"": ""Mike Manager""

@@ -336,7 +336,7 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
         };
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented, new StringEnumConverter());
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Enum"": ""@first""
 }", json);
 
@@ -346,7 +346,7 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
         };
 
         json = JsonConvert.SerializeObject(c, Formatting.Indented, new StringEnumConverter());
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Enum"": ""Third""
 }", json);
     }
@@ -360,7 +360,7 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
         };
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented, new StringEnumConverter());
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Enum"": "",third""
 }", json);
 
@@ -377,7 +377,7 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
         };
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented, new StringEnumConverter());
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Enum"": "",""
 }", json);
 
@@ -422,7 +422,7 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
 
         var json = JsonConvert.SerializeObject(enumClass, Formatting.Indented, new StringEnumConverter());
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""StoreColor"": ""Red"",
   ""NullableStoreColor1"": ""White"",
   ""NullableStoreColor2"": null
@@ -443,7 +443,7 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
         var json = JsonConvert.SerializeObject(enumClass, Formatting.Indented, new StringEnumConverter { CamelCaseText = true });
 #pragma warning restore CS0618 // Type or member is obsolete
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""StoreColor"": ""red"",
   ""NullableStoreColor1"": ""darkGoldenrod"",
   ""NullableStoreColor2"": null
@@ -462,7 +462,7 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
 
         var json = JsonConvert.SerializeObject(enumClass, Formatting.Indented, new StringEnumConverter());
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""StoreColor"": 1000,
   ""NullableStoreColor1"": 1000,
   ""NullableStoreColor2"": null
@@ -481,7 +481,7 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
 
         var json = JsonConvert.SerializeObject(enumClass, Formatting.Indented, new StringEnumConverter());
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""StoreColor"": ""Red, White"",
   ""NullableStoreColor1"": 0,
   ""NullableStoreColor2"": ""Black, Red, White""
@@ -499,7 +499,7 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
 
         var json = JsonConvert.SerializeObject(negativeEnumClass, Formatting.Indented, new StringEnumConverter());
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Value1"": ""NegativeTwo"",
   ""Value2"": ""Two, Four""
 }", json);
@@ -530,7 +530,7 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
 
         var json = JsonConvert.SerializeObject(negativeEnumClass, Formatting.Indented, new StringEnumConverter());
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Value1"": ""Negative"",
   ""Value2"": -2147483648
 }", json);
@@ -609,7 +609,7 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
 #pragma warning disable CS0618 // Type or member is obsolete
         var json = JsonConvert.SerializeObject(c, Formatting.Indented, new StringEnumConverter { CamelCaseText = true });
 #pragma warning restore CS0618 // Type or member is obsolete
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Enum"": ""first, second""
 }", json);
     }
@@ -704,7 +704,7 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
         var json1 = JsonConvert.SerializeObject(lfoo, Formatting.Indented, new StringEnumConverter { CamelCaseText = true });
 #pragma warning restore CS0618 // Type or member is obsolete
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   ""Bat, baz"",
   ""foo_bar"",
   ""Bat"",
@@ -729,7 +729,7 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
         var json2 = JsonConvert.SerializeObject(lbar, Formatting.Indented, new StringEnumConverter { CamelCaseText = true });
 #pragma warning restore CS0618 // Type or member is obsolete
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   ""foo_bar"",
   ""Bat"",
   ""baz""

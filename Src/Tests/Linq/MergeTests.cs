@@ -123,7 +123,7 @@ Parameter name: content",
 
         var json = left.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Property1"": 1,
   ""Property2"": 2
 }", json);
@@ -145,7 +145,7 @@ Parameter name: content",
 
         var json = left.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Property1"": {
     ""SubProperty1"": 1,
     ""SubProperty2"": 2
@@ -170,7 +170,7 @@ Parameter name: content",
 
         var json = left.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Property1"": {
     ""SubProperty1"": 1
   }
@@ -194,7 +194,7 @@ Parameter name: content",
 
         var json = left.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Property1"": {
     ""SubProperty1"": 1,
     ""SubProperty2"": 2
@@ -263,7 +263,7 @@ Parameter name: content",
 
         var json = left.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Array1"": [
     {
       ""Property1"": {
@@ -314,7 +314,7 @@ Parameter name: content",
 
         var json = left.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Array1"": [
     {
       ""Property1"": 1
@@ -366,7 +366,7 @@ Parameter name: content",
 
         var json = left.ToString();
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   1,
   5,
   {
@@ -418,7 +418,7 @@ Parameter name: content",
 
         var json = left.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Property1"": {
     ""Nested"": true
   },
@@ -458,7 +458,7 @@ Parameter name: content",
 
         var json = left.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Array1"": [
     4,
     5
@@ -488,7 +488,7 @@ Parameter name: content",
 
         var json = left.ToString();
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   4,
   5
 ]", json);
@@ -522,7 +522,7 @@ Parameter name: content",
 
         var json = left.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Array1"": [
     {
       ""Property1"": 1
@@ -680,14 +680,14 @@ Parameter name: content",
             MergeNullValueHandling = MergeNullValueHandling.Ignore
         });
 
-        StringAssert.AreEqual(originalJson, oldFoo.ToString());
+        XUnitAssert.AreEqualNormalized(originalJson, oldFoo.ToString());
 
         oldFoo.Merge(newFoo, new JsonMergeSettings
         {
             MergeNullValueHandling = MergeNullValueHandling.Merge
         });
 
-        StringAssert.AreEqual(newJson, newFoo.ToString());
+        XUnitAssert.AreEqualNormalized(newJson, newFoo.ToString());
     }
 
     [Fact]
@@ -708,14 +708,14 @@ Parameter name: content",
             MergeNullValueHandling = MergeNullValueHandling.Ignore
         });
 
-        StringAssert.AreEqual(originalJson, oldFoo.ToString());
+        XUnitAssert.AreEqualNormalized(originalJson, oldFoo.ToString());
 
         oldFoo.Merge(newFoo, new JsonMergeSettings
         {
             MergeNullValueHandling = MergeNullValueHandling.Merge
         });
 
-        StringAssert.AreEqual(newJson, newFoo.ToString());
+        XUnitAssert.AreEqualNormalized(newJson, newFoo.ToString());
     }
 
     [Fact]

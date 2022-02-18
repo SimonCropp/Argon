@@ -84,7 +84,7 @@ public class Issue1597 : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(o, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Wish"": 264,
   ""Collect"": 7498,
   ""Doing"": 385,

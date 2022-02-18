@@ -53,7 +53,7 @@ public class ParseJsonObject : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""CPU"": ""Intel"",
   ""Drives"": [
     ""DVD read/writer"",

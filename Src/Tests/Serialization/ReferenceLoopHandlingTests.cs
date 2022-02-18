@@ -67,7 +67,7 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
         {
             ReferenceLoopHandling = ReferenceLoopHandling.Serialize
         });
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Value"": {
     ""Value"": {
       ""Value"": {
@@ -119,7 +119,7 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Text"": ""Text!"",
   ""Data"": [
     {
@@ -279,7 +279,7 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
             Formatting = Formatting.Indented
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""main"",
   ""Manager"": {
     ""Name"": ""main"",
