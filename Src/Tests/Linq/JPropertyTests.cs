@@ -129,7 +129,7 @@ public class JPropertyTests : TestFixtureBase
         var p1 = new JProperty("TestProperty", null);
         var p2 = new JProperty("TestProperty", null);
 
-        Assert.AreEqual(true, JToken.DeepEquals(p1, p2));
+        Assert.True( JToken.DeepEquals(p1, p2));
     }
 
     [Fact]
@@ -151,8 +151,8 @@ public class JPropertyTests : TestFixtureBase
         var v = new JValue(1);
         var p = new JProperty("TestProperty", v);
 
-        Assert.AreEqual(true, p.Contains(v));
-        Assert.AreEqual(false, p.Contains(new JValue(1)));
+        Assert.True( p.Contains(v));
+        Assert.False( p.Contains(new JValue(1)));
     }
 
     [Fact]

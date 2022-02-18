@@ -70,7 +70,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         Assert.IsTrue(await reader.ReadAsync());
-        Assert.AreEqual(true, (bool)await reader.ReadAsBooleanAsync());
+        Assert.True( (bool)await reader.ReadAsBooleanAsync());
 
         await ExceptionAssert.ThrowsAsync<JsonReaderException>(
             () => reader.ReadAsBooleanAsync(),

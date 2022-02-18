@@ -801,7 +801,7 @@ null//comment
 
         Assert.IsTrue(reader.Read());
         Assert.AreEqual(JsonToken.Boolean, reader.TokenType);
-        Assert.AreEqual(true, reader.Value);
+        Assert.True( reader.Value);
         Assert.AreEqual(4, reader.LineNumber);
 
         Assert.IsTrue(reader.Read());

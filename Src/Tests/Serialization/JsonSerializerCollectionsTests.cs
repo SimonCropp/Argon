@@ -566,7 +566,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         Assert.IsTrue(JToken.DeepEquals(o, (JToken)myOtherResult[0, 0]));
         Assert.AreEqual("foobar", myOtherResult[0, 1]);
 
-        Assert.AreEqual(true, myOtherResult[1, 0]);
+        Assert.True( myOtherResult[1, 0]);
         Assert.AreEqual(0.4, myOtherResult[1, 1]);
 
         Assert.AreEqual(0.05, myOtherResult[2, 0]);

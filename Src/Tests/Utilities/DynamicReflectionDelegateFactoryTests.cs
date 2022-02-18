@@ -59,7 +59,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
         var o = (InTestClass)creator(args);
         Assert.IsNotNull(o);
         Assert.AreEqual("Value", o.Value);
-        Assert.AreEqual(true, o.B1);
+        Assert.True( o.B1);
     }
 
     [Fact]
@@ -86,7 +86,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
         var o = (OutAndRefTestClass)creator(args);
         Assert.IsNotNull(o);
         Assert.AreEqual("Input", o.Input);
-        Assert.AreEqual(true, o.B1);
+        Assert.True( o.B1);
     }
 
     [Fact]
@@ -100,8 +100,8 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
         var o = (OutAndRefTestClass)creator(args);
         Assert.IsNotNull(o);
         Assert.AreEqual("Input", o.Input);
-        Assert.AreEqual(true, o.B1);
-        Assert.AreEqual(false, o.B2);
+        Assert.True( o.B1);
+        Assert.False( o.B2);
     }
 
     [Fact]

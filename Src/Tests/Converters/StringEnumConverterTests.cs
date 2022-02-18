@@ -220,7 +220,7 @@ public class StringEnumConverterTests : TestFixtureBase
 
         Assert.IsNotNull(converter.NamingStrategy);
         Assert.AreEqual(typeof(CamelCaseNamingStrategy), converter.NamingStrategy.GetType());
-        Assert.AreEqual(true, converter.AllowIntegerValues);
+        Assert.True( converter.AllowIntegerValues);
     }
 
     [Fact]
@@ -230,10 +230,10 @@ public class StringEnumConverterTests : TestFixtureBase
 
         Assert.IsNotNull(converter.NamingStrategy);
         Assert.AreEqual(typeof(CamelCaseNamingStrategy), converter.NamingStrategy.GetType());
-        Assert.AreEqual(false, converter.AllowIntegerValues);
-        Assert.AreEqual(true, converter.NamingStrategy.OverrideSpecifiedNames);
-        Assert.AreEqual(true, converter.NamingStrategy.ProcessDictionaryKeys);
-        Assert.AreEqual(true, converter.NamingStrategy.ProcessExtensionDataNames);
+        Assert.False( converter.AllowIntegerValues);
+        Assert.True( converter.NamingStrategy.OverrideSpecifiedNames);
+        Assert.True( converter.NamingStrategy.ProcessDictionaryKeys);
+        Assert.True( converter.NamingStrategy.ProcessExtensionDataNames);
     }
 
     [Fact]

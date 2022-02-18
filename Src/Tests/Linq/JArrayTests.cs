@@ -81,10 +81,10 @@ public class JArrayTests : TestFixtureBase
 
         var a = new JArray { v };
 
-        Assert.AreEqual(false, a.Contains(new JValue(2)));
-        Assert.AreEqual(false, a.Contains(new JValue(1)));
-        Assert.AreEqual(false, a.Contains(null));
-        Assert.AreEqual(true, a.Contains(v));
+        Assert.False( a.Contains(new JValue(2)));
+        Assert.False( a.Contains(new JValue(1)));
+        Assert.False( a.Contains(null));
+        Assert.True( a.Contains(v));
     }
 
     [Fact]
@@ -164,10 +164,10 @@ Parameter name: arrayIndex",
 
         Assert.AreEqual(1, j.Count);
 
-        Assert.AreEqual(false, j.Remove(new JValue(1)));
-        Assert.AreEqual(false, j.Remove(null));
-        Assert.AreEqual(true, j.Remove(v));
-        Assert.AreEqual(false, j.Remove(v));
+        Assert.False( j.Remove(new JValue(1)));
+        Assert.False( j.Remove(null));
+        Assert.True( j.Remove(v));
+        Assert.False( j.Remove(v));
 
         Assert.AreEqual(0, j.Count);
     }
@@ -212,13 +212,13 @@ Parameter name: arrayIndex",
             v3
         };
 
-        Assert.AreEqual(true, j.Contains(v1));
+        Assert.True( j.Contains(v1));
         j.RemoveAt(0);
-        Assert.AreEqual(false, j.Contains(v1));
+        Assert.False( j.Contains(v1));
 
-        Assert.AreEqual(true, j.Contains(v3));
+        Assert.True( j.Contains(v3));
         j.RemoveAt(1);
-        Assert.AreEqual(false, j.Contains(v3));
+        Assert.False( j.Contains(v3));
 
         Assert.AreEqual(1, j.Count);
     }
@@ -619,29 +619,29 @@ Parameter name: index",
 
         var a = JArray.Parse(json, new JsonLoadSettings());
 
-        Assert.AreEqual(true, ((IJsonLineInfo)a).HasLineInfo());
-        Assert.AreEqual(true, ((IJsonLineInfo)a[0]).HasLineInfo());
-        Assert.AreEqual(true, ((IJsonLineInfo)a[1]).HasLineInfo());
-        Assert.AreEqual(true, ((IJsonLineInfo)a[2]).HasLineInfo());
+        Assert.True( ((IJsonLineInfo)a).HasLineInfo());
+        Assert.True( ((IJsonLineInfo)a[0]).HasLineInfo());
+        Assert.True( ((IJsonLineInfo)a[1]).HasLineInfo());
+        Assert.True( ((IJsonLineInfo)a[2]).HasLineInfo());
 
         a = JArray.Parse(json, new JsonLoadSettings
         {
             LineInfoHandling = LineInfoHandling.Ignore
         });
 
-        Assert.AreEqual(false, ((IJsonLineInfo)a).HasLineInfo());
-        Assert.AreEqual(false, ((IJsonLineInfo)a[0]).HasLineInfo());
-        Assert.AreEqual(false, ((IJsonLineInfo)a[1]).HasLineInfo());
-        Assert.AreEqual(false, ((IJsonLineInfo)a[2]).HasLineInfo());
+        Assert.False( ((IJsonLineInfo)a).HasLineInfo());
+        Assert.False( ((IJsonLineInfo)a[0]).HasLineInfo());
+        Assert.False( ((IJsonLineInfo)a[1]).HasLineInfo());
+        Assert.False( ((IJsonLineInfo)a[2]).HasLineInfo());
 
         a = JArray.Parse(json, new JsonLoadSettings
         {
             LineInfoHandling = LineInfoHandling.Load
         });
 
-        Assert.AreEqual(true, ((IJsonLineInfo)a).HasLineInfo());
-        Assert.AreEqual(true, ((IJsonLineInfo)a[0]).HasLineInfo());
-        Assert.AreEqual(true, ((IJsonLineInfo)a[1]).HasLineInfo());
-        Assert.AreEqual(true, ((IJsonLineInfo)a[2]).HasLineInfo());
+        Assert.True( ((IJsonLineInfo)a).HasLineInfo());
+        Assert.True( ((IJsonLineInfo)a[0]).HasLineInfo());
+        Assert.True( ((IJsonLineInfo)a[1]).HasLineInfo());
+        Assert.True( ((IJsonLineInfo)a[2]).HasLineInfo());
     }
 }

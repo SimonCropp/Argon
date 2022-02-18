@@ -88,17 +88,17 @@ public class JTokenReaderTest : TestFixtureBase
 
             jsonReader.Read();
             Assert.AreEqual(JsonToken.StartObject, jsonReader.TokenType);
-            Assert.AreEqual(false, lineInfo.HasLineInfo());
+            Assert.False( lineInfo.HasLineInfo());
 
             jsonReader.Read();
             Assert.AreEqual(JsonToken.PropertyName, jsonReader.TokenType);
             Assert.AreEqual("Test1", jsonReader.Value);
-            Assert.AreEqual(false, lineInfo.HasLineInfo());
+            Assert.False( lineInfo.HasLineInfo());
 
             jsonReader.Read();
             Assert.AreEqual(JsonToken.Date, jsonReader.TokenType);
             Assert.AreEqual(new DateTime(2000, 10, 15, 5, 5, 5, DateTimeKind.Utc), jsonReader.Value);
-            Assert.AreEqual(false, lineInfo.HasLineInfo());
+            Assert.False( lineInfo.HasLineInfo());
             Assert.AreEqual(0, lineInfo.LinePosition);
             Assert.AreEqual(0, lineInfo.LineNumber);
 
@@ -225,14 +225,14 @@ public class JTokenReaderTest : TestFixtureBase
             Assert.AreEqual(jsonReader.TokenType, JsonToken.None);
             Assert.AreEqual(0, lineInfo.LineNumber);
             Assert.AreEqual(0, lineInfo.LinePosition);
-            Assert.AreEqual(false, lineInfo.HasLineInfo());
+            Assert.False( lineInfo.HasLineInfo());
             Assert.AreEqual(null, jsonReader.CurrentToken);
 
             jsonReader.Read();
             Assert.AreEqual(jsonReader.TokenType, JsonToken.StartObject);
             Assert.AreEqual(1, lineInfo.LineNumber);
             Assert.AreEqual(1, lineInfo.LinePosition);
-            Assert.AreEqual(true, lineInfo.HasLineInfo());
+            Assert.True( lineInfo.HasLineInfo());
             Assert.AreEqual(o, jsonReader.CurrentToken);
 
             jsonReader.Read();
@@ -240,7 +240,7 @@ public class JTokenReaderTest : TestFixtureBase
             Assert.AreEqual(jsonReader.Value, "CPU");
             Assert.AreEqual(2, lineInfo.LineNumber);
             Assert.AreEqual(6, lineInfo.LinePosition);
-            Assert.AreEqual(true, lineInfo.HasLineInfo());
+            Assert.True( lineInfo.HasLineInfo());
             Assert.AreEqual(o.Property("CPU"), jsonReader.CurrentToken);
 
             jsonReader.Read();
@@ -248,7 +248,7 @@ public class JTokenReaderTest : TestFixtureBase
             Assert.AreEqual(jsonReader.Value, "Intel");
             Assert.AreEqual(2, lineInfo.LineNumber);
             Assert.AreEqual(14, lineInfo.LinePosition);
-            Assert.AreEqual(true, lineInfo.HasLineInfo());
+            Assert.True( lineInfo.HasLineInfo());
             Assert.AreEqual(o.Property("CPU").Value, jsonReader.CurrentToken);
 
             jsonReader.Read();
@@ -256,14 +256,14 @@ public class JTokenReaderTest : TestFixtureBase
             Assert.AreEqual(jsonReader.Value, "Drives");
             Assert.AreEqual(3, lineInfo.LineNumber);
             Assert.AreEqual(9, lineInfo.LinePosition);
-            Assert.AreEqual(true, lineInfo.HasLineInfo());
+            Assert.True( lineInfo.HasLineInfo());
             Assert.AreEqual(o.Property("Drives"), jsonReader.CurrentToken);
 
             jsonReader.Read();
             Assert.AreEqual(jsonReader.TokenType, JsonToken.StartArray);
             Assert.AreEqual(3, lineInfo.LineNumber);
             Assert.AreEqual(11, lineInfo.LinePosition);
-            Assert.AreEqual(true, lineInfo.HasLineInfo());
+            Assert.True( lineInfo.HasLineInfo());
             Assert.AreEqual(o.Property("Drives").Value, jsonReader.CurrentToken);
 
             jsonReader.Read();
@@ -271,7 +271,7 @@ public class JTokenReaderTest : TestFixtureBase
             Assert.AreEqual(jsonReader.Value, "DVD read/writer");
             Assert.AreEqual(4, lineInfo.LineNumber);
             Assert.AreEqual(21, lineInfo.LinePosition);
-            Assert.AreEqual(true, lineInfo.HasLineInfo());
+            Assert.True( lineInfo.HasLineInfo());
             Assert.AreEqual(o["Drives"][0], jsonReader.CurrentToken);
 
             jsonReader.Read();
@@ -279,21 +279,21 @@ public class JTokenReaderTest : TestFixtureBase
             Assert.AreEqual(jsonReader.Value, "500 gigabyte hard drive");
             Assert.AreEqual(5, lineInfo.LineNumber);
             Assert.AreEqual(29, lineInfo.LinePosition);
-            Assert.AreEqual(true, lineInfo.HasLineInfo());
+            Assert.True( lineInfo.HasLineInfo());
             Assert.AreEqual(o["Drives"][1], jsonReader.CurrentToken);
 
             jsonReader.Read();
             Assert.AreEqual(jsonReader.TokenType, JsonToken.EndArray);
             Assert.AreEqual(3, lineInfo.LineNumber);
             Assert.AreEqual(11, lineInfo.LinePosition);
-            Assert.AreEqual(true, lineInfo.HasLineInfo());
+            Assert.True( lineInfo.HasLineInfo());
             Assert.AreEqual(o["Drives"], jsonReader.CurrentToken);
 
             jsonReader.Read();
             Assert.AreEqual(jsonReader.TokenType, JsonToken.EndObject);
             Assert.AreEqual(1, lineInfo.LineNumber);
             Assert.AreEqual(1, lineInfo.LinePosition);
-            Assert.AreEqual(true, lineInfo.HasLineInfo());
+            Assert.True( lineInfo.HasLineInfo());
             Assert.AreEqual(o, jsonReader.CurrentToken);
 
             jsonReader.Read();
@@ -874,7 +874,7 @@ public class JTokenReaderTest : TestFixtureBase
 
         var reader = new JTokenReader(s);
 
-        Assert.AreEqual(true, reader.ReadAsBoolean());
+        Assert.True( reader.ReadAsBoolean());
     }
 
     [Fact]
@@ -884,7 +884,7 @@ public class JTokenReaderTest : TestFixtureBase
 
         var reader = new JTokenReader(s);
 
-        Assert.AreEqual(true, reader.ReadAsBoolean());
+        Assert.True( reader.ReadAsBoolean());
     }
 
     [Fact]
@@ -904,7 +904,7 @@ public class JTokenReaderTest : TestFixtureBase
 
         var reader = new JTokenReader(n);
 
-        Assert.AreEqual(true, reader.ReadAsBoolean());
+        Assert.True( reader.ReadAsBoolean());
     }
 
     [Fact]

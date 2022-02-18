@@ -138,43 +138,43 @@ public class ReadAsyncTests : TestFixtureBase
         Assert.IsTrue(await reader.ReadAsync());
         Assert.AreEqual("", reader.Path);
 
-        Assert.AreEqual(true, await reader.ReadAsBooleanAsync());
+        Assert.True( await reader.ReadAsBooleanAsync());
         Assert.AreEqual("[0]", reader.Path);
 
-        Assert.AreEqual(false, await reader.ReadAsBooleanAsync());
+        Assert.False( await reader.ReadAsBooleanAsync());
         Assert.AreEqual("[1]", reader.Path);
 
-        Assert.AreEqual(true, await reader.ReadAsBooleanAsync());
+        Assert.True( await reader.ReadAsBooleanAsync());
         Assert.AreEqual("[2]", reader.Path);
 
-        Assert.AreEqual(false, await reader.ReadAsBooleanAsync());
+        Assert.False( await reader.ReadAsBooleanAsync());
         Assert.AreEqual("[3]", reader.Path);
 
-        Assert.AreEqual(true, await reader.ReadAsBooleanAsync());
+        Assert.True( await reader.ReadAsBooleanAsync());
         Assert.AreEqual("[4]", reader.Path);
 
-        Assert.AreEqual(true, await reader.ReadAsBooleanAsync());
+        Assert.True( await reader.ReadAsBooleanAsync());
         Assert.AreEqual("[5]", reader.Path);
 
-        Assert.AreEqual(true, await reader.ReadAsBooleanAsync());
+        Assert.True( await reader.ReadAsBooleanAsync());
         Assert.AreEqual("[6]", reader.Path);
 
-        Assert.AreEqual(true, await reader.ReadAsBooleanAsync());
+        Assert.True( await reader.ReadAsBooleanAsync());
         Assert.AreEqual("[7]", reader.Path);
 
-        Assert.AreEqual(true, await reader.ReadAsBooleanAsync());
+        Assert.True( await reader.ReadAsBooleanAsync());
         Assert.AreEqual("[8]", reader.Path);
 
-        Assert.AreEqual(true, await reader.ReadAsBooleanAsync());
+        Assert.True( await reader.ReadAsBooleanAsync());
         Assert.AreEqual("[9]", reader.Path);
 
-        Assert.AreEqual(true, await reader.ReadAsBooleanAsync());
+        Assert.True( await reader.ReadAsBooleanAsync());
         Assert.AreEqual("[10]", reader.Path);
 
-        Assert.AreEqual(false, await reader.ReadAsBooleanAsync());
+        Assert.False( await reader.ReadAsBooleanAsync());
         Assert.AreEqual("[11]", reader.Path);
 
-        Assert.AreEqual(false, await reader.ReadAsBooleanAsync());
+        Assert.False( await reader.ReadAsBooleanAsync());
         Assert.AreEqual("[12]", reader.Path);
 
         Assert.AreEqual(null, await reader.ReadAsBooleanAsync());
@@ -199,7 +199,7 @@ public class ReadAsyncTests : TestFixtureBase
 
         var reader = new JsonTextReader(new StringReader(json));
 
-        Assert.AreEqual(true, await reader.ReadAsBooleanAsync());
+        Assert.True( await reader.ReadAsBooleanAsync());
         Assert.AreEqual(null, await reader.ReadAsBooleanAsync());
     }
 
@@ -1002,7 +1002,7 @@ public class ReadAsyncTests : TestFixtureBase
 
         Assert.IsTrue(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.Boolean, reader.TokenType);
-        Assert.AreEqual(true, reader.Value);
+        Assert.True( reader.Value);
 
         Assert.IsTrue(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.Comment, reader.TokenType);
@@ -1083,19 +1083,19 @@ public class ReadAsyncTests : TestFixtureBase
         Assert.IsTrue(await reader.ReadAsync());
 
         Assert.IsTrue(await reader.ReadAsync());
-        Assert.AreEqual(false, reader.Value);
+        Assert.False( reader.Value);
 
         Assert.IsTrue(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.Boolean, reader.TokenType);
-        Assert.AreEqual(true, reader.Value);
+        Assert.True( reader.Value);
 
         Assert.IsTrue(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.Boolean, reader.TokenType);
-        Assert.AreEqual(true, reader.Value);
+        Assert.True( reader.Value);
 
         Assert.IsTrue(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.Boolean, reader.TokenType);
-        Assert.AreEqual(false, reader.Value);
+        Assert.False( reader.Value);
 
         Assert.IsTrue(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.String, reader.TokenType);

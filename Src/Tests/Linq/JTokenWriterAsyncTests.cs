@@ -63,7 +63,7 @@ public class JTokenWriterAsyncTests : TestFixtureBase
         Assert.AreEqual(13, root.Children().Count());
         Assert.AreEqual("@", (string)root[0]);
         Assert.AreEqual("\r\n\t\f\b?{\\r\\n\"\'", (string)root[1]);
-        Assert.AreEqual(true, (bool)root[2]);
+        Assert.True( (bool)root[2]);
         Assert.AreEqual(10, (int)root[3]);
         Assert.AreEqual(10.99, (double)root[4]);
         Assert.AreEqual(0.99, (double)root[5]);

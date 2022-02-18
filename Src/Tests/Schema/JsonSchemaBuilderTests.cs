@@ -124,7 +124,7 @@ public class JsonSchemaBuilderTests : TestFixtureBase
         var schema = builder.Read(new JsonTextReader(new StringReader(json)));
 
         Assert.AreEqual("Required", schema.Description);
-        Assert.AreEqual(true, schema.Required);
+        Assert.True( schema.Required);
     }
 
     [Fact]
@@ -138,8 +138,8 @@ public class JsonSchemaBuilderTests : TestFixtureBase
         var builder = new JsonSchemaBuilder(new JsonSchemaResolver());
         var schema = builder.Read(new JsonTextReader(new StringReader(json)));
 
-        Assert.AreEqual(true, schema.ExclusiveMinimum);
-        Assert.AreEqual(true, schema.ExclusiveMaximum);
+        Assert.True( schema.ExclusiveMinimum);
+        Assert.True( schema.ExclusiveMaximum);
     }
 
     [Fact]
@@ -154,7 +154,7 @@ public class JsonSchemaBuilderTests : TestFixtureBase
         var schema = builder.Read(new JsonTextReader(new StringReader(json)));
 
         Assert.AreEqual("ReadOnly", schema.Description);
-        Assert.AreEqual(true, schema.ReadOnly);
+        Assert.True( schema.ReadOnly);
     }
 
     [Fact]
@@ -169,7 +169,7 @@ public class JsonSchemaBuilderTests : TestFixtureBase
         var schema = builder.Read(new JsonTextReader(new StringReader(json)));
 
         Assert.AreEqual("Hidden", schema.Description);
-        Assert.AreEqual(true, schema.Hidden);
+        Assert.True( schema.Hidden);
     }
 
     [Fact]
@@ -421,7 +421,7 @@ public class JsonSchemaBuilderTests : TestFixtureBase
 
         Assert.IsNotNull(schema.AdditionalItems);
         Assert.AreEqual(JsonSchemaType.Integer, schema.AdditionalItems.Type);
-        Assert.AreEqual(true, schema.AllowAdditionalItems);
+        Assert.True( schema.AllowAdditionalItems);
     }
 
     [Fact]
@@ -436,7 +436,7 @@ public class JsonSchemaBuilderTests : TestFixtureBase
         var schema = builder.Read(new JsonTextReader(new StringReader(json)));
 
         Assert.IsNull(schema.AdditionalItems);
-        Assert.AreEqual(false, schema.AllowAdditionalItems);
+        Assert.False( schema.AllowAdditionalItems);
     }
 
     [Fact]
@@ -451,7 +451,7 @@ public class JsonSchemaBuilderTests : TestFixtureBase
         var schema = builder.Read(new JsonTextReader(new StringReader(json)));
 
         Assert.IsNull(schema.AdditionalItems);
-        Assert.AreEqual(false, schema.AllowAdditionalItems);
+        Assert.False( schema.AllowAdditionalItems);
     }
 
     [Fact]

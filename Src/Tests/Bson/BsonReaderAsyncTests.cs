@@ -246,7 +246,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
 
         Assert.IsTrue(await reader.ReadAsync());
         Assert.AreEqual(JsonToken.Boolean, reader.TokenType);
-        Assert.AreEqual(true, reader.Value);
+        Assert.True( reader.Value);
         Assert.AreEqual(typeof(bool), reader.ValueType);
 
         Assert.IsTrue(await reader.ReadAsync());
@@ -327,13 +327,13 @@ public class BsonReaderAsyncTests : TestFixtureBase
         var ms = new MemoryStream(data);
         var reader = new BsonReader(ms);
 
-        Assert.AreEqual(false, reader.ReadRootValueAsArray);
+        Assert.False( reader.ReadRootValueAsArray);
         Assert.AreEqual(DateTimeKind.Local, reader.DateTimeKindHandling);
 
         reader.ReadRootValueAsArray = true;
         reader.DateTimeKindHandling = DateTimeKind.Utc;
 
-        Assert.AreEqual(true, reader.ReadRootValueAsArray);
+        Assert.True( reader.ReadRootValueAsArray);
         Assert.AreEqual(DateTimeKind.Utc, reader.DateTimeKindHandling);
 
         Assert.IsTrue(await reader.ReadAsync());
@@ -371,13 +371,13 @@ public class BsonReaderAsyncTests : TestFixtureBase
             var ms = new MemoryStream(data);
             var reader = new BsonReader(ms);
 
-            Assert.AreEqual(false, reader.ReadRootValueAsArray);
+            Assert.False( reader.ReadRootValueAsArray);
             Assert.AreEqual(DateTimeKind.Local, reader.DateTimeKindHandling);
 
             reader.ReadRootValueAsArray = true;
             reader.DateTimeKindHandling = DateTimeKind.Utc;
 
-            Assert.AreEqual(true, reader.ReadRootValueAsArray);
+            Assert.True( reader.ReadRootValueAsArray);
             Assert.AreEqual(DateTimeKind.Utc, reader.DateTimeKindHandling);
 
             Assert.IsTrue(await reader.ReadAsync());
@@ -396,7 +396,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
         var reader = new BsonReader(ms, true, DateTimeKind.Utc);
         reader.JsonNet35BinaryCompatibility = true;
 
-        Assert.AreEqual(true, reader.ReadRootValueAsArray);
+        Assert.True( reader.ReadRootValueAsArray);
         Assert.AreEqual(DateTimeKind.Utc, reader.DateTimeKindHandling);
 
         Assert.IsTrue(await reader.ReadAsync());

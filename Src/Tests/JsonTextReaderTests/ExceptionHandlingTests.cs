@@ -70,7 +70,7 @@ public class ExceptionHandlingTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         Assert.IsTrue(reader.Read());
-        Assert.AreEqual(true, (bool)reader.ReadAsBoolean());
+        Assert.True( (bool)reader.ReadAsBoolean());
 
         ExceptionAssert.Throws<JsonReaderException>(
             () => reader.ReadAsBoolean(),

@@ -36,15 +36,15 @@ public class JsonArrayAttributeTests : TestFixtureBase
     {
         var attribute = new JsonPropertyAttribute();
         Assert.AreEqual(null, attribute._isReference);
-        Assert.AreEqual(false, attribute.IsReference);
+        Assert.False( attribute.IsReference);
 
         attribute.IsReference = false;
-        Assert.AreEqual(false, attribute._isReference);
-        Assert.AreEqual(false, attribute.IsReference);
+        Assert.False( attribute._isReference);
+        Assert.False( attribute.IsReference);
 
         attribute.IsReference = true;
-        Assert.AreEqual(true, attribute._isReference);
-        Assert.AreEqual(true, attribute.IsReference);
+        Assert.True( attribute._isReference);
+        Assert.True( attribute.IsReference);
     }
 
     [Fact]

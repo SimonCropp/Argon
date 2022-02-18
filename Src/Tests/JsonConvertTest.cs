@@ -646,7 +646,7 @@ public class JsonConvertTest : TestFixtureBase
         Assert.AreEqual(new DateTimeOffset(new DateTime(100, 1, 1, 1, 1, 1, DateTimeKind.Utc)), d);
 
         var b = JsonConvert.DeserializeObject<bool>("true");
-        Assert.AreEqual(true, b);
+        Assert.True( b);
 
         var n = JsonConvert.DeserializeObject<object>("null");
         Assert.AreEqual(null, n);

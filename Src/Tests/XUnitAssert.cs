@@ -13,6 +13,20 @@ public class XUnitAssert
     {
         Assert.Equal(expected, actual);
     }
+    
+    public static void False(object actual)
+    {
+        Assert.IsType<bool>(actual);
+        Assert.NotNull(actual);
+        Assert.False((bool) actual);
+    }
+    
+    public static void True(object actual)
+    {
+        Assert.IsType<bool>(actual);
+        Assert.NotNull(actual);
+        Assert.True((bool) actual);
+    }
 
     public static void AreEqual<T>(T expected, T actual)
     {

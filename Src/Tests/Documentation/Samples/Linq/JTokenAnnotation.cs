@@ -54,7 +54,7 @@ public class JTokenAnnotation : TestFixtureBase
         // employer
         #endregion
 
-        Assert.AreEqual(true, changedProperties.Contains("age"));
-        Assert.AreEqual(true, changedProperties.Contains("employer"));
+        Assert.True( changedProperties.Contains("age"));
+        Assert.True( changedProperties.Contains("employer"));
     }
 }

@@ -289,7 +289,7 @@ public class LinqToJsonTest : TestFixtureBase
         Assert.AreEqual(JTokenType.Comment, v.Type);
 
         IJsonLineInfo lineInfo = v;
-        Assert.AreEqual(true, lineInfo.HasLineInfo());
+        Assert.True( lineInfo.HasLineInfo());
         Assert.AreEqual(2, lineInfo.LineNumber);
         Assert.AreEqual(5, lineInfo.LinePosition);
     }
@@ -314,7 +314,7 @@ public class LinqToJsonTest : TestFixtureBase
         Assert.AreEqual(JTokenType.Array, a.Type);
 
         IJsonLineInfo lineInfo = a;
-        Assert.AreEqual(true, lineInfo.HasLineInfo());
+        Assert.True( lineInfo.HasLineInfo());
         Assert.AreEqual(3, lineInfo.LineNumber);
         Assert.AreEqual(1, lineInfo.LinePosition);
     }
@@ -336,7 +336,7 @@ undefined
         Assert.AreEqual(JTokenType.Undefined, v.Type);
 
         IJsonLineInfo lineInfo = v;
-        Assert.AreEqual(true, lineInfo.HasLineInfo());
+        Assert.True( lineInfo.HasLineInfo());
         Assert.AreEqual(2, lineInfo.LineNumber);
         Assert.AreEqual(9, lineInfo.LinePosition);
     }

@@ -58,7 +58,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
         var o = (InTestClass)creator(args);
         Assert.IsNotNull(o);
         Assert.AreEqual("Value", o.Value);
-        Assert.AreEqual(true, o.B1);
+        Assert.True( o.B1);
     }
 
     [Fact]
@@ -98,8 +98,8 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
         var o = (OutAndRefTestClass)creator(args);
         Assert.IsNotNull(o);
         Assert.AreEqual("Input", o.Input);
-        Assert.AreEqual(true, o.B1);
-        Assert.AreEqual(false, o.B2);
+        Assert.True( o.B1);
+        Assert.False( o.B2);
     }
 
     [Fact]
@@ -175,7 +175,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
         method = ExpressionReflectionDelegateFactory.Instance.CreateMethodCall<object>(TestReflectionUtils.GetMethod(typeof(Movie), "Equals"));
 
         result = method(m, m);
-        Assert.AreEqual(true, result);
+        Assert.True( result);
     }
 
     [Fact]
@@ -250,7 +250,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
         getter = ExpressionReflectionDelegateFactory.Instance.CreateGet<object>(TestReflectionUtils.GetField(typeof(FieldsTestClass), "BoolField"));
 
         value = getter(c);
-        Assert.AreEqual(true, value);
+        Assert.True( value);
     }
 
     [Fact]
@@ -277,7 +277,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
         setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(TestReflectionUtils.GetField(typeof(FieldsTestClass), "BoolField"));
 
         setter(c, true);
-        Assert.AreEqual(true, c.BoolField);
+        Assert.True( c.BoolField);
     }
 
     [Fact]

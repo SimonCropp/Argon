@@ -251,19 +251,19 @@ namespace Argon.Tests.Serialization
 ]");
 
             var i = 0;
-            Assert.AreEqual(true, l[i++]);
-            Assert.AreEqual(false, l[i++]);
-            Assert.AreEqual(true, l[i++]);
-            Assert.AreEqual(false, l[i++]);
-            Assert.AreEqual(true, l[i++]);
-            Assert.AreEqual(true, l[i++]);
-            Assert.AreEqual(true, l[i++]);
-            Assert.AreEqual(true, l[i++]);
-            Assert.AreEqual(true, l[i++]);
-            Assert.AreEqual(true, l[i++]);
-            Assert.AreEqual(true, l[i++]);
-            Assert.AreEqual(false, l[i++]);
-            Assert.AreEqual(false, l[i++]);
+            Assert.True( l[i++]);
+            Assert.False( l[i++]);
+            Assert.True( l[i++]);
+            Assert.False( l[i++]);
+            Assert.True( l[i++]);
+            Assert.True( l[i++]);
+            Assert.True( l[i++]);
+            Assert.True( l[i++]);
+            Assert.True( l[i++]);
+            Assert.True( l[i++]);
+            Assert.True( l[i++]);
+            Assert.False( l[i++]);
+            Assert.False( l[i++]);
         }
 
         [Fact]
@@ -288,19 +288,19 @@ namespace Argon.Tests.Serialization
 ]");
 
             var i = 0;
-            Assert.AreEqual(true, l[i++]);
-            Assert.AreEqual(false, l[i++]);
-            Assert.AreEqual(true, l[i++]);
-            Assert.AreEqual(false, l[i++]);
-            Assert.AreEqual(true, l[i++]);
-            Assert.AreEqual(true, l[i++]);
-            Assert.AreEqual(true, l[i++]);
-            Assert.AreEqual(true, l[i++]);
-            Assert.AreEqual(true, l[i++]);
-            Assert.AreEqual(true, l[i++]);
-            Assert.AreEqual(true, l[i++]);
-            Assert.AreEqual(false, l[i++]);
-            Assert.AreEqual(false, l[i++]);
+            Assert.True( l[i++]);
+            Assert.False( l[i++]);
+            Assert.True( l[i++]);
+            Assert.False( l[i++]);
+            Assert.True( l[i++]);
+            Assert.True( l[i++]);
+            Assert.True( l[i++]);
+            Assert.True( l[i++]);
+            Assert.True( l[i++]);
+            Assert.True( l[i++]);
+            Assert.True( l[i++]);
+            Assert.False( l[i++]);
+            Assert.False( l[i++]);
             Assert.AreEqual(null, l[i++]);
             Assert.AreEqual(null, l[i++]);
         }
@@ -765,7 +765,7 @@ namespace Argon.Tests.Serialization
             Assert.AreEqual(@"{""IsTransient"":true}", JsonConvert.SerializeObject(new ChildClass { IsTransient = true }));
 
             var childClass = JsonConvert.DeserializeObject<ChildClass>(@"{""IsTransient"":true}");
-            Assert.AreEqual(true, childClass.IsTransient);
+            Assert.True( childClass.IsTransient);
         }
 
         [Fact]
@@ -774,7 +774,7 @@ namespace Argon.Tests.Serialization
             Assert.AreEqual(@"{""IsTransient"":true}", JsonConvert.SerializeObject(new ChildClassVirtual { IsTransient = true }));
 
             var childClass = JsonConvert.DeserializeObject<ChildClassVirtual>(@"{""IsTransient"":true}");
-            Assert.AreEqual(true, childClass.IsTransient);
+            Assert.True( childClass.IsTransient);
         }
 
         [Fact]
@@ -884,8 +884,8 @@ namespace Argon.Tests.Serialization
             /* Test */";
             var o = (JObject)JsonConvert.DeserializeObject(json);
             Assert.AreEqual(3, o.Count);
-            Assert.AreEqual(true, (bool)o["A"]);
-            Assert.AreEqual(false, (bool)o["B"]);
+            Assert.True( (bool)o["A"]);
+            Assert.False( (bool)o["B"]);
             Assert.AreEqual(1, o["C"].Count());
             Assert.AreEqual(1, (int)o["C"][0]);
 
@@ -899,7 +899,7 @@ namespace Argon.Tests.Serialization
             json = @"{""A"": true/* Test */}";
             o = (JObject)JsonConvert.DeserializeObject(json);
             Assert.AreEqual(1, o.Count);
-            Assert.AreEqual(true, (bool)o["A"]);
+            Assert.True( (bool)o["A"]);
             Assert.IsTrue(JToken.DeepEquals(o, JObject.Parse(json)));
         }
 
@@ -910,7 +910,7 @@ namespace Argon.Tests.Serialization
             Assert.AreEqual(null, o.A);
 
             o = JsonConvert.DeserializeObject<CommentTestObject>(@"{""A"": true/* Test */}");
-            Assert.AreEqual(true, o.A);
+            Assert.True( o.A);
         }
 
         [Fact]
@@ -940,7 +940,7 @@ namespace Argon.Tests.Serialization
 #pragma warning restore CS0618 // Type or member is obsolete
 
             serializer.CheckAdditionalContent = true;
-            Assert.AreEqual(true, serializer.CheckAdditionalContent);
+            Assert.True( serializer.CheckAdditionalContent);
 
             serializer.ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor;
             Assert.AreEqual(ConstructorHandling.AllowNonPublicDefaultConstructor, serializer.ConstructorHandling);
@@ -1050,7 +1050,7 @@ namespace Argon.Tests.Serialization
 #pragma warning restore CS0618 // Type or member is obsolete
 
             settings.CheckAdditionalContent = true;
-            Assert.AreEqual(true, settings.CheckAdditionalContent);
+            Assert.True( settings.CheckAdditionalContent);
 
             settings.ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor;
             Assert.AreEqual(ConstructorHandling.AllowNonPublicDefaultConstructor, settings.ConstructorHandling);
@@ -1177,7 +1177,7 @@ namespace Argon.Tests.Serialization
 
 
             serializerProxy.CheckAdditionalContent = true;
-            Assert.AreEqual(true, serializerProxy.CheckAdditionalContent);
+            Assert.True( serializerProxy.CheckAdditionalContent);
 
             serializerProxy.ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor;
             Assert.AreEqual(ConstructorHandling.AllowNonPublicDefaultConstructor, serializerProxy.ConstructorHandling);
@@ -2582,7 +2582,7 @@ keyword such as type of business.""
             Assert.AreEqual(5, userNullablleDeserialized.RoleId);
             Assert.AreEqual(6, userNullablleDeserialized.NullableRoleId);
             Assert.AreEqual(null, userNullablleDeserialized.NullRoleId);
-            Assert.AreEqual(true, userNullablleDeserialized.Active);
+            Assert.True( userNullablleDeserialized.Active);
         }
 
         [Fact]
@@ -4048,7 +4048,7 @@ Path '', line 1, position 1.");
                 });
 
                 Assert.IsNotNull(value);
-                Assert.AreEqual(false, value._booleanValue);
+                Assert.False( value._booleanValue);
             }
             finally
             {
@@ -5012,7 +5012,7 @@ Path '', line 1, position 1.");
 
             var commentTestClass = JsonConvert.DeserializeObject<CommentTestClass>(json);
 
-            Assert.AreEqual(true, commentTestClass.Indexed);
+            Assert.True( commentTestClass.Indexed);
             Assert.AreEqual(1939, commentTestClass.StartYear);
             Assert.AreEqual(63, commentTestClass.Values.Count);
         }
@@ -5553,7 +5553,7 @@ Path '', line 1, position 1.");
 
             var b2 = JsonConvert.DeserializeObject<Bb>(json);
 
-            Assert.AreEqual(true, b2.no);
+            Assert.True( b2.no);
         }
 
         [Fact]
@@ -7873,14 +7873,14 @@ This is just junk, though.";
 
             var settings = new JsonSerializerSettings();
             Assert.AreEqual(64, settings.MaxDepth);
-            Assert.AreEqual(false, settings._maxDepthSet);
+            Assert.False( settings._maxDepthSet);
 
             // Default should be the same
             Assert.AreEqual(reader.MaxDepth, settings.MaxDepth);
 
             settings.MaxDepth = 2;
             Assert.AreEqual(2, settings.MaxDepth);
-            Assert.AreEqual(true, settings._maxDepthSet);
+            Assert.True( settings._maxDepthSet);
 
             var serializer = JsonSerializer.Create(settings);
             Assert.AreEqual(2, serializer.MaxDepth);

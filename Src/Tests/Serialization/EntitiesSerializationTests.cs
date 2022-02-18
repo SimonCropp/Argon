@@ -286,7 +286,7 @@ public class EntitiesSerializationTests : TestFixtureBase
         Assert.AreEqual("Folder", f.EntityKey.EntitySetName);
         Assert.AreEqual("DataServicesTestDatabaseEntities", f.EntityKey.EntityContainerName);
         Assert.AreEqual("Folder", f.EntityKey.EntitySetName);
-        Assert.AreEqual(false, f.EntityKey.IsTemporary);
+        Assert.False( f.EntityKey.IsTemporary);
         Assert.AreEqual(1, f.EntityKey.EntityKeyValues.Length);
         Assert.AreEqual("FolderId", f.EntityKey.EntityKeyValues[0].Key);
         Assert.AreEqual(new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E"), f.EntityKey.EntityKeyValues[0].Value);

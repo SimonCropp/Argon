@@ -354,7 +354,7 @@ public class JPathParseTests : TestFixtureBase
         Assert.AreEqual("Blah", ((FieldFilter)path.Filters[0]).Name);
         var expressions = (BooleanQueryExpression)((QueryFilter)path.Filters[1]).Expression;
         Assert.AreEqual(QueryOperator.Equals, expressions.Operator);
-        Assert.AreEqual(false, (bool)(JToken)expressions.Right);
+        Assert.False( (bool)(JToken)expressions.Right);
     }
 
     [Fact]
@@ -365,7 +365,7 @@ public class JPathParseTests : TestFixtureBase
         Assert.AreEqual("Blah", ((FieldFilter)path.Filters[0]).Name);
         var expressions = (BooleanQueryExpression)((QueryFilter)path.Filters[1]).Expression;
         Assert.AreEqual(QueryOperator.Equals, expressions.Operator);
-        Assert.AreEqual(true, (bool)(JToken)expressions.Right);
+        Assert.True( (bool)(JToken)expressions.Right);
     }
 
     [Fact]

@@ -350,9 +350,9 @@ public class ExtensionDataTests : TestFixtureBase
 
         Assert.AreEqual("Readonly", (string)c.ExtensionData["Readonly"]);
         Assert.AreEqual("Wrong name!", (string)c.ExtensionData["CustomName"]);
-        Assert.AreEqual(true, (bool)c.ExtensionData["GetPrivate"]);
-        Assert.AreEqual(true, (bool)c.ExtensionData["GetOnly"]);
-        Assert.AreEqual(true, (bool)c.ExtensionData["NewValueSimple"]);
+        Assert.True( (bool)c.ExtensionData["GetPrivate"]);
+        Assert.True( (bool)c.ExtensionData["GetOnly"]);
+        Assert.True( (bool)c.ExtensionData["NewValueSimple"]);
         Assert.IsTrue(JToken.DeepEquals(new JArray(1, 2, 3), c.ExtensionData["NewValueComplex"]));
         Assert.IsTrue(JToken.DeepEquals(new JArray(1, 2, 3), c.ExtensionData["Ignored"]));
 
@@ -390,9 +390,9 @@ public class ExtensionDataTests : TestFixtureBase
 
         Assert.AreEqual("Readonly", (string)c.ExtensionData["Readonly"]);
         Assert.AreEqual("Wrong name!", (string)c.ExtensionData["CustomName"]);
-        Assert.AreEqual(true, (bool)c.ExtensionData["GetPrivate"]);
-        Assert.AreEqual(true, (bool)c.ExtensionData["GetOnly"]);
-        Assert.AreEqual(true, (bool)c.ExtensionData["NewValueSimple"]);
+        Assert.True( (bool)c.ExtensionData["GetPrivate"]);
+        Assert.True( (bool)c.ExtensionData["GetOnly"]);
+        Assert.True( (bool)c.ExtensionData["NewValueSimple"]);
         Assert.IsTrue(JToken.DeepEquals(new JArray(1, 2, 3), c.ExtensionData["NewValueComplex"]));
         Assert.IsTrue(JToken.DeepEquals(new JArray(1, 2, 3), c.ExtensionData["Ignored"]));
 

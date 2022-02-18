@@ -47,12 +47,12 @@ namespace Argon.Tests.Schema
             var stringToken = JToken.FromObject("pie");
             var integerToken = JToken.FromObject(1);
 
-            Assert.AreEqual(true, integerToken.IsValid(schema));
-            Assert.AreEqual(true, integerToken.IsValid(schema, out var errorMessages));
+            Assert.True( integerToken.IsValid(schema));
+            Assert.True( integerToken.IsValid(schema, out var errorMessages));
             Assert.AreEqual(0, errorMessages.Count);
 
-            Assert.AreEqual(false, stringToken.IsValid(schema));
-            Assert.AreEqual(false, stringToken.IsValid(schema, out errorMessages));
+            Assert.False( stringToken.IsValid(schema));
+            Assert.False( stringToken.IsValid(schema, out errorMessages));
             Assert.AreEqual(1, errorMessages.Count);
             Assert.AreEqual("Invalid type. Expected Integer but got String.", errorMessages[0]);
         }

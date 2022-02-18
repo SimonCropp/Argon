@@ -111,7 +111,7 @@ public class JValueTests : TestFixtureBase
     public void ChangeValue()
     {
         var v = new JValue(true);
-        Assert.AreEqual(true, v.Value);
+        Assert.True( v.Value);
         Assert.AreEqual(JTokenType.Boolean, v.Type);
 
         v.Value = "Pie";
@@ -474,13 +474,13 @@ public class JValueTests : TestFixtureBase
     [Fact]
     public void ConvertsToBoolean()
     {
-        Assert.AreEqual(true, Convert.ToBoolean(new JValue(true)));
+        Assert.True( Convert.ToBoolean(new JValue(true)));
     }
 
     [Fact]
     public void ConvertsToBoolean_String()
     {
-        Assert.AreEqual(true, Convert.ToBoolean(new JValue("true")));
+        Assert.True( Convert.ToBoolean(new JValue("true")));
     }
 
     [Fact]

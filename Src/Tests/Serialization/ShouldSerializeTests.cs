@@ -111,7 +111,7 @@ public class ShouldSerializeTests : TestFixtureBase
         Assert.IsNotNull(deserializedSetFoo.myBar.myBaz[2].myFrob[0]);
         Assert.AreEqual(setFoo.myBar.myBaz[2].myFrob[0].name, deserializedSetFoo.myBar.myBaz[2].myFrob[0].name);
 
-        Assert.AreEqual(true, setFoo.myBar.ShouldSerializemyBazCalled);
+        Assert.True( setFoo.myBar.ShouldSerializemyBazCalled);
     }
 
     string Serialize(Foo2 f)
@@ -350,12 +350,12 @@ public class ShouldSerializeTests : TestFixtureBase
         var mikeString = "{\"Name\": \"Mike Person\"}";
         var mike = JsonConvert.DeserializeObject<FamilyDetails>(mikeString);
 
-        Assert.AreEqual(false, mike.NumberOfChildrenSpecified);
+        Assert.False( mike.NumberOfChildrenSpecified);
 
         var mikeFullDisclosureString = "{\"Name\": \"Mike Person\", \"NumberOfChildren\": \"0\"}";
         mike = JsonConvert.DeserializeObject<FamilyDetails>(mikeFullDisclosureString);
 
-        Assert.AreEqual(true, mike.NumberOfChildrenSpecified);
+        Assert.True( mike.NumberOfChildrenSpecified);
     }
 
     [Fact]
@@ -409,7 +409,7 @@ public class ShouldSerializeTests : TestFixtureBase
         });
 
         Assert.AreEqual(null, c.ExtensionData);
-        Assert.AreEqual(true, c.HasName);
+        Assert.True( c.HasName);
         Assert.AreEqual("Name!", c.Name);
 
         Assert.IsTrue(traceWriter.GetTraceMessages().Any(m => m.EndsWith("Verbose ShouldDeserialize result for property 'Name' on Argon.Tests.Serialization.ShouldDeserializeTestClass: True. Path 'Name'.")));
@@ -429,7 +429,7 @@ public class ShouldSerializeTests : TestFixtureBase
 
         Assert.AreEqual(1, c.ExtensionData.Count);
         Assert.AreEqual("Name!", (string)c.ExtensionData["Name"]);
-        Assert.AreEqual(false, c.HasName);
+        Assert.False( c.HasName);
         Assert.AreEqual(null, c.Name);
 
         Assert.IsTrue(traceWriter.GetTraceMessages().Any(m => m.EndsWith("Verbose ShouldDeserialize result for property 'Name' on Argon.Tests.Serialization.ShouldDeserializeTestClass: False. Path 'Name'.")));

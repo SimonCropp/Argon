@@ -131,14 +131,14 @@ namespace Argon.Tests.Linq
             var o = new JObject {{"PropertyNameValue", new JValue(1)}};
             Assert.AreEqual(1, o.Children().Count());
 
-            Assert.AreEqual(false, o.TryGetValue("sdf", out var t));
+            Assert.False( o.TryGetValue("sdf", out var t));
             Assert.AreEqual(null, t);
 
-            Assert.AreEqual(false, o.TryGetValue(null, out t));
+            Assert.False( o.TryGetValue(null, out t));
             Assert.AreEqual(null, t);
 
-            Assert.AreEqual(true, o.TryGetValue("PropertyNameValue", out t));
-            Assert.AreEqual(true, JToken.DeepEquals(new JValue(1), t));
+            Assert.True( o.TryGetValue("PropertyNameValue", out t));
+            Assert.True( JToken.DeepEquals(new JValue(1), t));
         }
 
         [Fact]
@@ -150,20 +150,20 @@ namespace Argon.Tests.Linq
             };
             Assert.AreEqual(1, o.Children().Count());
 
-            Assert.AreEqual(true, o.TryGetValue("PropertyNameValue", out var t));
-            Assert.AreEqual(true, JToken.DeepEquals(new JValue(1), t));
+            Assert.True( o.TryGetValue("PropertyNameValue", out var t));
+            Assert.True( JToken.DeepEquals(new JValue(1), t));
 
             o["PropertyNameValue"] = new JValue(2);
             Assert.AreEqual(1, o.Children().Count());
 
-            Assert.AreEqual(true, o.TryGetValue("PropertyNameValue", out t));
-            Assert.AreEqual(true, JToken.DeepEquals(new JValue(2), t));
+            Assert.True( o.TryGetValue("PropertyNameValue", out t));
+            Assert.True( JToken.DeepEquals(new JValue(2), t));
 
             o["PropertyNameValue"] = null;
             Assert.AreEqual(1, o.Children().Count());
 
-            Assert.AreEqual(true, o.TryGetValue("PropertyNameValue", out t));
-            Assert.AreEqual(true, JToken.DeepEquals(JValue.CreateNull(), t));
+            Assert.True( o.TryGetValue("PropertyNameValue", out t));
+            Assert.True( JToken.DeepEquals(JValue.CreateNull(), t));
         }
 
         [Fact]
@@ -172,9 +172,9 @@ namespace Argon.Tests.Linq
             var o = new JObject {{"PropertyNameValue", new JValue(1)}};
             Assert.AreEqual(1, o.Children().Count());
 
-            Assert.AreEqual(false, o.Remove("sdf"));
-            Assert.AreEqual(false, o.Remove(null));
-            Assert.AreEqual(true, o.Remove("PropertyNameValue"));
+            Assert.False( o.Remove("sdf"));
+            Assert.False( o.Remove(null));
+            Assert.True( o.Remove("PropertyNameValue"));
 
             Assert.AreEqual(0, o.Children().Count());
         }
@@ -186,10 +186,10 @@ namespace Argon.Tests.Linq
             var o = new JObject {{"PropertyNameValue", v}};
             Assert.AreEqual(1, o.Children().Count());
 
-            Assert.AreEqual(false, ((ICollection<KeyValuePair<string, JToken>>)o).Remove(new KeyValuePair<string, JToken>("PropertyNameValue1", new JValue(1))));
-            Assert.AreEqual(false, ((ICollection<KeyValuePair<string, JToken>>)o).Remove(new KeyValuePair<string, JToken>("PropertyNameValue", new JValue(2))));
-            Assert.AreEqual(false, ((ICollection<KeyValuePair<string, JToken>>)o).Remove(new KeyValuePair<string, JToken>("PropertyNameValue", new JValue(1))));
-            Assert.AreEqual(true, ((ICollection<KeyValuePair<string, JToken>>)o).Remove(new KeyValuePair<string, JToken>("PropertyNameValue", v)));
+            Assert.False( ((ICollection<KeyValuePair<string, JToken>>)o).Remove(new KeyValuePair<string, JToken>("PropertyNameValue1", new JValue(1))));
+            Assert.False( ((ICollection<KeyValuePair<string, JToken>>)o).Remove(new KeyValuePair<string, JToken>("PropertyNameValue", new JValue(2))));
+            Assert.False( ((ICollection<KeyValuePair<string, JToken>>)o).Remove(new KeyValuePair<string, JToken>("PropertyNameValue", new JValue(1))));
+            Assert.True( ((ICollection<KeyValuePair<string, JToken>>)o).Remove(new KeyValuePair<string, JToken>("PropertyNameValue", v)));
 
             Assert.AreEqual(0, o.Children().Count());
         }
@@ -252,19 +252,19 @@ namespace Argon.Tests.Linq
             Assert.AreEqual(1, o.Children().Count());
 
             var contains = ((ICollection<KeyValuePair<string, JToken>>)o).Contains(new KeyValuePair<string, JToken>("PropertyNameValue", new JValue(1)));
-            Assert.AreEqual(false, contains);
+            Assert.False( contains);
 
             contains = ((ICollection<KeyValuePair<string, JToken>>)o).Contains(new KeyValuePair<string, JToken>("PropertyNameValue", v));
-            Assert.AreEqual(true, contains);
+            Assert.True( contains);
 
             contains = ((ICollection<KeyValuePair<string, JToken>>)o).Contains(new KeyValuePair<string, JToken>("PropertyNameValue", new JValue(2)));
-            Assert.AreEqual(false, contains);
+            Assert.False( contains);
 
             contains = ((ICollection<KeyValuePair<string, JToken>>)o).Contains(new KeyValuePair<string, JToken>("PropertyNameValue1", new JValue(1)));
-            Assert.AreEqual(false, contains);
+            Assert.False( contains);
 
             contains = ((ICollection<KeyValuePair<string, JToken>>)o).Contains(default(KeyValuePair<string, JToken>));
-            Assert.AreEqual(false, contains);
+            Assert.False( contains);
         }
 
         [Fact]
@@ -274,15 +274,15 @@ namespace Argon.Tests.Linq
             Assert.AreEqual(1, o.Children().Count());
 
             var contains = o.ContainsKey("PropertyNameValue");
-            Assert.AreEqual(true, contains);
+            Assert.True( contains);
 
             contains = o.ContainsKey("does not exist");
-            Assert.AreEqual(false, contains);
+            Assert.False( contains);
 
             ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
                 contains = o.ContainsKey(null);
-                Assert.AreEqual(false, contains);
+                Assert.False( contains);
             },
             @"Value cannot be null.
 Parameter name: propertyName",
@@ -296,7 +296,7 @@ Parameter name: propertyName",
             Assert.AreEqual(1, o.Children().Count());
 
             var contains = ((IDictionary<string, JToken>)o).ContainsKey("PropertyNameValue");
-            Assert.AreEqual(true, contains);
+            Assert.True( contains);
         }
 
         [Fact]
@@ -487,7 +487,7 @@ Parameter name: arrayIndex",
             var json = @"{""foo"":true}";
             var o = (JObject)JsonConvert.DeserializeObject(json);
             var value = o.Value<bool?>("foo");
-            Assert.AreEqual(true, value);
+            Assert.True( value);
 
             json = @"{""foo"":null}";
             o = (JObject)JsonConvert.DeserializeObject(json);
@@ -1292,42 +1292,42 @@ Parameter name: arrayIndex",
         public void IBindingListSupportsChangeNotification()
         {
             IBindingList l = new JObject();
-            Assert.AreEqual(true, l.SupportsChangeNotification);
+            Assert.True( l.SupportsChangeNotification);
         }
 
         [Fact]
         public void IBindingListSupportsSearching()
         {
             IBindingList l = new JObject();
-            Assert.AreEqual(false, l.SupportsSearching);
+            Assert.False( l.SupportsSearching);
         }
 
         [Fact]
         public void IBindingListSupportsSorting()
         {
             IBindingList l = new JObject();
-            Assert.AreEqual(false, l.SupportsSorting);
+            Assert.False( l.SupportsSorting);
         }
 
         [Fact]
         public void IBindingListAllowEdit()
         {
             IBindingList l = new JObject();
-            Assert.AreEqual(true, l.AllowEdit);
+            Assert.True( l.AllowEdit);
         }
 
         [Fact]
         public void IBindingListAllowNew()
         {
             IBindingList l = new JObject();
-            Assert.AreEqual(true, l.AllowNew);
+            Assert.True( l.AllowNew);
         }
 
         [Fact]
         public void IBindingListAllowRemove()
         {
             IBindingList l = new JObject();
-            Assert.AreEqual(true, l.AllowRemove);
+            Assert.True( l.AllowRemove);
         }
 
         [Fact]
@@ -1380,7 +1380,7 @@ Parameter name: arrayIndex",
         public void IBindingListIsSorted()
         {
             IBindingList l = new JObject();
-            Assert.AreEqual(false, l.IsSorted);
+            Assert.False( l.IsSorted);
         }
 
         [Fact]
@@ -1772,29 +1772,29 @@ Parameter name: arrayIndex",
             Assert.AreEqual("prop1", prop1.Name);
             Assert.AreEqual(typeof(object), prop1.PropertyType);
             Assert.AreEqual(typeof(JObject), prop1.ComponentType);
-            Assert.AreEqual(false, prop1.CanResetValue(o));
-            Assert.AreEqual(false, prop1.ShouldSerializeValue(o));
+            Assert.False( prop1.CanResetValue(o));
+            Assert.False( prop1.ShouldSerializeValue(o));
 
             var prop2 = properties[1];
             Assert.AreEqual("prop2", prop2.Name);
             Assert.AreEqual(typeof(object), prop2.PropertyType);
             Assert.AreEqual(typeof(JObject), prop2.ComponentType);
-            Assert.AreEqual(false, prop2.CanResetValue(o));
-            Assert.AreEqual(false, prop2.ShouldSerializeValue(o));
+            Assert.False( prop2.CanResetValue(o));
+            Assert.False( prop2.ShouldSerializeValue(o));
 
             var prop3 = properties[2];
             Assert.AreEqual("prop3", prop3.Name);
             Assert.AreEqual(typeof(object), prop3.PropertyType);
             Assert.AreEqual(typeof(JObject), prop3.ComponentType);
-            Assert.AreEqual(false, prop3.CanResetValue(o));
-            Assert.AreEqual(false, prop3.ShouldSerializeValue(o));
+            Assert.False( prop3.CanResetValue(o));
+            Assert.False( prop3.ShouldSerializeValue(o));
 
             var prop4 = properties[3];
             Assert.AreEqual("prop4", prop4.Name);
             Assert.AreEqual(typeof(object), prop4.PropertyType);
             Assert.AreEqual(typeof(JObject), prop4.ComponentType);
-            Assert.AreEqual(false, prop4.CanResetValue(o));
-            Assert.AreEqual(false, prop4.ShouldSerializeValue(o));
+            Assert.False( prop4.CanResetValue(o));
+            Assert.False( prop4.ShouldSerializeValue(o));
         }
 
         [Fact]

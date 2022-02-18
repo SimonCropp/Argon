@@ -1017,7 +1017,7 @@ Parameter name: value", "Value cannot be null. (Parameter 'value')");
             jsonWriter.IndentChar = '_';
             Assert.AreEqual('_', jsonWriter.IndentChar);
             jsonWriter.QuoteName = true;
-            Assert.AreEqual(true, jsonWriter.QuoteName);
+            Assert.True( jsonWriter.QuoteName);
             jsonWriter.QuoteChar = '\'';
             Assert.AreEqual('\'', jsonWriter.QuoteChar);
 

@@ -75,7 +75,7 @@ public class DynamicTests : TestFixtureBase
 }", json);
 
         var newDynamicObject = JsonConvert.DeserializeObject<TestDynamicObject>(json);
-        Assert.AreEqual(true, newDynamicObject.Explicit);
+        Assert.True( newDynamicObject.Explicit);
 
         d = newDynamicObject;
 
@@ -236,7 +236,7 @@ public class DynamicTests : TestFixtureBase
 
         var foo = JsonConvert.DeserializeObject<DictionaryDynamicObject>(json, settings);
 
-        Assert.AreEqual(false, foo.Values["retweeted"]);
+        Assert.False( foo.Values["retweeted"]);
     }
 
     [Fact]

@@ -138,43 +138,43 @@ public class ReadTests : TestFixtureBase
         Assert.IsTrue(reader.Read());
         Assert.AreEqual("", reader.Path);
 
-        Assert.AreEqual(true, reader.ReadAsBoolean());
+        Assert.True( reader.ReadAsBoolean());
         Assert.AreEqual("[0]", reader.Path);
 
-        Assert.AreEqual(false, reader.ReadAsBoolean());
+        Assert.False( reader.ReadAsBoolean());
         Assert.AreEqual("[1]", reader.Path);
 
-        Assert.AreEqual(true, reader.ReadAsBoolean());
+        Assert.True( reader.ReadAsBoolean());
         Assert.AreEqual("[2]", reader.Path);
 
-        Assert.AreEqual(false, reader.ReadAsBoolean());
+        Assert.False( reader.ReadAsBoolean());
         Assert.AreEqual("[3]", reader.Path);
 
-        Assert.AreEqual(true, reader.ReadAsBoolean());
+        Assert.True( reader.ReadAsBoolean());
         Assert.AreEqual("[4]", reader.Path);
 
-        Assert.AreEqual(true, reader.ReadAsBoolean());
+        Assert.True( reader.ReadAsBoolean());
         Assert.AreEqual("[5]", reader.Path);
 
-        Assert.AreEqual(true, reader.ReadAsBoolean());
+        Assert.True( reader.ReadAsBoolean());
         Assert.AreEqual("[6]", reader.Path);
 
-        Assert.AreEqual(true, reader.ReadAsBoolean());
+        Assert.True( reader.ReadAsBoolean());
         Assert.AreEqual("[7]", reader.Path);
 
-        Assert.AreEqual(true, reader.ReadAsBoolean());
+        Assert.True( reader.ReadAsBoolean());
         Assert.AreEqual("[8]", reader.Path);
 
-        Assert.AreEqual(true, reader.ReadAsBoolean());
+        Assert.True( reader.ReadAsBoolean());
         Assert.AreEqual("[9]", reader.Path);
 
-        Assert.AreEqual(true, reader.ReadAsBoolean());
+        Assert.True( reader.ReadAsBoolean());
         Assert.AreEqual("[10]", reader.Path);
 
-        Assert.AreEqual(false, reader.ReadAsBoolean());
+        Assert.False( reader.ReadAsBoolean());
         Assert.AreEqual("[11]", reader.Path);
 
-        Assert.AreEqual(false, reader.ReadAsBoolean());
+        Assert.False( reader.ReadAsBoolean());
         Assert.AreEqual("[12]", reader.Path);
 
         Assert.AreEqual(null, reader.ReadAsBoolean());
@@ -199,7 +199,7 @@ public class ReadTests : TestFixtureBase
 
         var reader = new JsonTextReader(new StringReader(json));
 
-        Assert.AreEqual(true, reader.ReadAsBoolean());
+        Assert.True( reader.ReadAsBoolean());
         Assert.AreEqual(null, reader.ReadAsBoolean());
     }
 
@@ -994,7 +994,7 @@ public class ReadTests : TestFixtureBase
 
         Assert.IsTrue(reader.Read());
         Assert.AreEqual(JsonToken.Boolean, reader.TokenType);
-        Assert.AreEqual(true, reader.Value);
+        Assert.True( reader.Value);
 
         Assert.IsTrue(reader.Read());
         Assert.AreEqual(JsonToken.Comment, reader.TokenType);
@@ -1075,19 +1075,19 @@ public class ReadTests : TestFixtureBase
         Assert.IsTrue(reader.Read());
 
         Assert.IsTrue(reader.Read());
-        Assert.AreEqual(false, reader.Value);
+        Assert.False( reader.Value);
 
         Assert.IsTrue(reader.Read());
         Assert.AreEqual(JsonToken.Boolean, reader.TokenType);
-        Assert.AreEqual(true, reader.Value);
+        Assert.True( reader.Value);
 
         Assert.IsTrue(reader.Read());
         Assert.AreEqual(JsonToken.Boolean, reader.TokenType);
-        Assert.AreEqual(true, reader.Value);
+        Assert.True( reader.Value);
 
         Assert.IsTrue(reader.Read());
         Assert.AreEqual(JsonToken.Boolean, reader.TokenType);
-        Assert.AreEqual(false, reader.Value);
+        Assert.False( reader.Value);
 
         Assert.IsTrue(reader.Read());
         Assert.AreEqual(JsonToken.String, reader.TokenType);
