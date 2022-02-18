@@ -26,7 +26,6 @@
 static class StringUtils
 {
     public const string CarriageReturnLineFeed = "\r\n";
-    public const string Empty = "";
     public const char CarriageReturn = '\r';
     public const char LineFeed = '\n';
     public const char Tab = '\t';
@@ -98,9 +97,7 @@ static class StringUtils
     public static StringWriter CreateStringWriter(int capacity)
     {
         var sb = new StringBuilder(capacity);
-        var sw = new StringWriter(sb, CultureInfo.InvariantCulture);
-
-        return sw;
+        return new StringWriter(sb, CultureInfo.InvariantCulture);
     }
 
     public static void ToCharAsUnicode(char c, char[] buffer)
@@ -180,8 +177,7 @@ static class StringUtils
 
     static char ToLower(char c)
     {
-        c = char.ToLower(c, CultureInfo.InvariantCulture);
-        return c;
+        return char.ToLower(c, CultureInfo.InvariantCulture);
     }
 
     public static string ToSnakeCase(string s) => ToSeparatedCase(s, '_');

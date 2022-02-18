@@ -1025,7 +1025,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 
         public override string ToString()
         {
-            return string.Format("SecretType: {0}, Login: {1}", secretType, Login);
+            return $"SecretType: {secretType}, Login: {Login}";
         }
         #endregion
     }

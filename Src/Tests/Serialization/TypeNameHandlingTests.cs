@@ -2332,7 +2332,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         public void BindToName(Type serializedType, out string assemblyName, out string typeName)
         {
-            assemblyName = string.Format("FancyAssemblyName=>{0}", Assembly.GetAssembly(serializedType)?.GetName().Name);
+            assemblyName = $"FancyAssemblyName=>{Assembly.GetAssembly(serializedType)?.GetName().Name}";
             typeName = string.Format("{0}{1}{0}", Annotate, serializedType.Name);
         }
 

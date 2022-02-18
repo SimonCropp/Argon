@@ -1234,7 +1234,7 @@ public class JsonConvertTest : TestFixtureBase
 
         public OverloadsJsonConverterer(object objectParam)
         {
-            _type = string.Format("object({0})", objectParam.GetType().FullName);
+            _type = $"object({objectParam.GetType().FullName})";
         }
 
         // primitive type conversions

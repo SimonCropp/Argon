@@ -57,7 +57,7 @@ public class SerializationEventAttributeTests : TestFixtureBase
             Assert.Equal("This is a nonserialized value", obj.Member3);
             Assert.Equal(null, obj.Member4);
 
-            var expectedError = String.Format("Error message for member Member6 = Error getting value from 'Member6' on '{0}'.", obj.GetType().FullName);
+            var expectedError = $"Error message for member Member6 = Error getting value from 'Member6' on '{obj.GetType().FullName}'.";
             Assert.Equal(expectedError, obj.Member5);
 
             var o = JObject.Parse(@"{
@@ -74,7 +74,7 @@ public class SerializationEventAttributeTests : TestFixtureBase
             Assert.Equal("This value was set during deserialization", obj.Member3);
             Assert.Equal("This value was set after deserialization.", obj.Member4);
 
-            expectedError = String.Format("Error message for member Member6 = Error setting value to 'Member6' on '{0}'.", obj.GetType());
+            expectedError = $"Error message for member Member6 = Error setting value to 'Member6' on '{obj.GetType()}'.";
             Assert.Equal(expectedError, obj.Member5);
 
             var derivedObj = obj as DerivedSerializationEventTestObject;

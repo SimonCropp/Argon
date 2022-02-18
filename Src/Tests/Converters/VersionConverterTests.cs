@@ -57,19 +57,19 @@ public class VersionConverterTests : TestFixtureBase
 
             var json = JsonConvert.SerializeObject(versionClass, Formatting.Indented, new VersionConverter());
 
-            var expectedJson = string.Format(@"{{
+            var expectedJson = $@"{{
   ""StringProperty1"": ""StringProperty1"",
-  ""Version1"": ""{0}"",
-  ""Version2"": ""{1}"",
+  ""Version1"": ""{version1}"",
+  ""Version2"": ""{version2}"",
   ""StringProperty2"": ""StringProperty2""
-}}", version1, version2);
+}}";
 
             XUnitAssert.AreEqualNormalized(expectedJson, json);
         }
 
         internal static void DeserializeVersionClass(string version1, string version2)
         {
-            var json = string.Format(@"{{""StringProperty1"": ""StringProperty1"", ""Version1"": ""{0}"", ""Version2"": ""{1}"", ""StringProperty2"": ""StringProperty2""}}", version1, version2);
+            var json = $@"{{""StringProperty1"": ""StringProperty1"", ""Version1"": ""{version1}"", ""Version2"": ""{version2}"", ""StringProperty2"": ""StringProperty2""}}";
             var expectedVersion1 = new Version(version1);
             var expectedVersion2 = new Version(version2);
 
