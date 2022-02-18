@@ -47,22 +47,6 @@ public abstract class TestFixtureBase
     }
 }
 
-public static class CustomAssert
-{
-    public static void Contains(IList collection, object value)
-    {
-        Contains(collection, value, null);
-    }
-
-    public static void Contains(IList collection, object value, string message)
-    {
-        if (!collection.Cast<object>().Any(i => i.Equals(value)))
-        {
-            throw new Exception(message ?? "Value not found in collection.");
-        }
-    }
-}
-
 public static class StringAssert
 {
     static readonly Regex Regex = new(@"\r\n|\n\r|\n|\r", RegexOptions.CultureInvariant);

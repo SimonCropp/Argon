@@ -1745,7 +1745,7 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.NotSame(executorObject, executorObject2);
         Assert.Equal(executorObject2.serverClassName, "BanSubs");
         Assert.Equal(executorObject2.serverMethodParams.Length, 4);
-        CustomAssert.Contains(executorObject2.serverMethodParams, "101");
+        Assert.Contains("101", executorObject2.serverMethodParams);
         Assert.Equal(executorObject2.clientGetResultFunction, "ClientBanSubsCB");
     }
 
