@@ -69,7 +69,7 @@ static class MiscellaneousUtils
 
     public static ArgumentOutOfRangeException CreateArgumentOutOfRangeException(string paramName, object actualValue, string message)
     {
-        var newMessage = message + Environment.NewLine + string.Format(@"Actual value was {0}.", actualValue);
+        var newMessage = message + Environment.NewLine + $@"Actual value was {actualValue}.";
 
         return new ArgumentOutOfRangeException(paramName, newMessage);
     }

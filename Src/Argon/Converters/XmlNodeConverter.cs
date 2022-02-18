@@ -1690,7 +1690,7 @@ public class XmlNodeConverter : JsonConverter
     {
         if (currentNode.NodeType == XmlNodeType.Document)
         {
-            throw JsonSerializationException.Create(reader, string.Format("JSON root object has property '{0}' that will be converted to an attribute. A root object cannot have any attribute properties. Consider specifying a DeserializeRootElementName.", propertyName));
+            throw JsonSerializationException.Create(reader, $"JSON root object has property '{propertyName}' that will be converted to an attribute. A root object cannot have any attribute properties. Consider specifying a DeserializeRootElementName.");
         }
 
         var encodedName = XmlConvert.EncodeName(attributeName);
@@ -1746,7 +1746,7 @@ public class XmlNodeConverter : JsonConverter
             case JsonToken.Null:
                 return null;
             default:
-                throw JsonSerializationException.Create(reader, string.Format("Cannot get an XML string value from token type '{0}'.", reader.TokenType));
+                throw JsonSerializationException.Create(reader, $"Cannot get an XML string value from token type '{reader.TokenType}'.");
         }
     }
 

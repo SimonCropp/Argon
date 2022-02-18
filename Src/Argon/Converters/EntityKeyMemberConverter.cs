@@ -95,7 +95,7 @@ public class EntityKeyMemberConverter : JsonConverter
 
         if (reader.TokenType != JsonToken.PropertyName || !string.Equals(reader.Value?.ToString(), propertyName, StringComparison.OrdinalIgnoreCase))
         {
-            throw new JsonSerializationException(string.Format("Expected JSON property '{0}'.", propertyName));
+            throw new JsonSerializationException($"Expected JSON property '{propertyName}'.");
         }
     }
 

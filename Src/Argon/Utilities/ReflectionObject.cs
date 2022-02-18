@@ -89,7 +89,7 @@ class ReflectionObject
             MemberInfo[] members = t.GetMember(memberName, BindingFlags.Instance | BindingFlags.Public);
             if (members.Length != 1)
             {
-                throw new ArgumentException(string.Format("Expected a single member with the name '{0}'.", memberName));
+                throw new ArgumentException($"Expected a single member with the name '{memberName}'.");
             }
 
             var member = members.Single();
@@ -128,7 +128,7 @@ class ReflectionObject
                     }
                     break;
                 default:
-                    throw new ArgumentException(string.Format("Unexpected member type '{0}' for member '{1}'.", member.MemberType, member.Name));
+                    throw new ArgumentException($"Unexpected member type '{member.MemberType}' for member '{member.Name}'.");
             }
 
             reflectionMember.MemberType = ReflectionUtils.GetMemberUnderlyingType(member);

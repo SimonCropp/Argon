@@ -63,7 +63,7 @@ class ArraySliceFilter : PathFilter
             {
                 if (settings?.ErrorWhenNoMatch ?? false)
                 {
-                    throw new JsonException(string.Format("Array slice is not valid on {0}.", t.GetType().Name));
+                    throw new JsonException($"Array slice is not valid on {t.GetType().Name}.");
                 }
             }
         }

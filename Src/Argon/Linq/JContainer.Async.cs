@@ -34,14 +34,14 @@ public abstract partial class JContainer
 
         if (!await reader.ReadAsync(cancellationToken).ConfigureAwait(false))
         {
-            throw JsonReaderException.Create(reader, string.Format("Error reading {0} from JsonReader.", GetType().Name));
+            throw JsonReaderException.Create(reader, $"Error reading {GetType().Name} from JsonReader.");
         }
 
         await ReadContentFromAsync(reader, options, cancellationToken).ConfigureAwait(false);
 
         if (reader.Depth > startDepth)
         {
-            throw JsonReaderException.Create(reader, string.Format("Unexpected end of content while loading {0}.", GetType().Name));
+            throw JsonReaderException.Create(reader, $"Unexpected end of content while loading {GetType().Name}.");
         }
     }
 
@@ -153,7 +153,7 @@ public abstract partial class JContainer
                     }
                     break;
                 default:
-                    throw new InvalidOperationException(string.Format("The JsonReader should not be on a token of type {0}.", reader.TokenType));
+                    throw new InvalidOperationException($"The JsonReader should not be on a token of type {reader.TokenType}.");
             }
         } while (await reader.ReadAsync(cancellationToken).ConfigureAwait(false));
     }

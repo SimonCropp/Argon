@@ -26,7 +26,7 @@ class FieldMultipleFilter : PathFilter
 
                     if (settings?.ErrorWhenNoMatch ?? false)
                     {
-                        throw new JsonException(string.Format("Property '{0}' does not exist on JObject.", name));
+                        throw new JsonException($"Property '{name}' does not exist on JObject.");
                     }
                 }
             }
@@ -34,7 +34,7 @@ class FieldMultipleFilter : PathFilter
             {
                 if (settings?.ErrorWhenNoMatch ?? false)
                 {
-                    throw new JsonException(string.Format("Properties {0} not valid on {1}.", string.Join(", ", Names.Select(n => "'" + n + "'")), t.GetType().Name));
+                    throw new JsonException($"Properties {string.Join(", ", Names.Select(n => "'" + n + "'"))} not valid on {t.GetType().Name}.");
                 }
             }
         }

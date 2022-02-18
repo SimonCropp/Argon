@@ -233,20 +233,20 @@ static class JsonTypeReflector
                     }
                     else
                     {
-                        throw new JsonException(string.Format("No matching parameterized constructor found for '{0}'.", type));
+                        throw new JsonException($"No matching parameterized constructor found for '{type}'.");
                     }
                 }
 
                 if (defaultConstructor == null)
                 {
-                    throw new JsonException(string.Format("No parameterless constructor defined for '{0}'.", type));
+                    throw new JsonException($"No parameterless constructor defined for '{type}'.");
                 }
 
                 return defaultConstructor();
             }
             catch (Exception ex)
             {
-                throw new JsonException(string.Format("Error creating '{0}'.", type), ex);
+                throw new JsonException($"Error creating '{type}'.", ex);
             }
         };
     }

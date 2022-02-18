@@ -36,7 +36,7 @@ public abstract partial class JsonWriter
 
         if (newState == State.Error)
         {
-            throw JsonWriterException.Create(this, string.Format("Token {0} in state {1} would result in an invalid JSON object.", tokenBeingWritten.ToString(), oldState.ToString()), null);
+            throw JsonWriterException.Create(this, $"Token {tokenBeingWritten.ToString()} in state {oldState.ToString()} would result in an invalid JSON object.", null);
         }
 
         _currentState = newState;

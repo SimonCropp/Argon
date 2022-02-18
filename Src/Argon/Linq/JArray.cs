@@ -122,7 +122,7 @@ public partial class JArray : JContainer, IList<JToken>
 
         if (reader.TokenType != JsonToken.StartArray)
         {
-            throw JsonReaderException.Create(reader, string.Format("Error reading JArray from JsonReader. Current JsonReader item is not an array: {0}", reader.TokenType));
+            throw JsonReaderException.Create(reader, $"Error reading JArray from JsonReader. Current JsonReader item is not an array: {reader.TokenType}");
         }
 
         var a = new JArray();
@@ -193,7 +193,7 @@ public partial class JArray : JContainer, IList<JToken>
 
         if (token.Type != JTokenType.Array)
         {
-            throw new ArgumentException(string.Format("Object serialized to {0}. JArray instance expected.", token.Type));
+            throw new ArgumentException($"Object serialized to {token.Type}. JArray instance expected.");
         }
 
         return (JArray)token;
@@ -228,7 +228,7 @@ public partial class JArray : JContainer, IList<JToken>
 
             if (!(key is int))
             {
-                throw new ArgumentException(string.Format("Accessed JArray values with invalid key value: {0}. Int32 array index expected.", MiscellaneousUtils.ToString(key)));
+                throw new ArgumentException($"Accessed JArray values with invalid key value: {MiscellaneousUtils.ToString(key)}. Int32 array index expected.");
             }
 
             return GetItem((int)key);
@@ -239,7 +239,7 @@ public partial class JArray : JContainer, IList<JToken>
 
             if (!(key is int))
             {
-                throw new ArgumentException(string.Format("Set JArray values with invalid key value: {0}. Int32 array index expected.", MiscellaneousUtils.ToString(key)));
+                throw new ArgumentException($"Set JArray values with invalid key value: {MiscellaneousUtils.ToString(key)}. Int32 array index expected.");
             }
 
             SetItem((int)key, value);

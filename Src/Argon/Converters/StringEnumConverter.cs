@@ -175,7 +175,7 @@ public class StringEnumConverter : JsonConverter
         {
             if (!AllowIntegerValues)
             {
-                throw JsonSerializationException.Create(null, writer.ContainerPath, string.Format("Integer value {0} is not allowed.", e.ToString("D")), null);
+                throw JsonSerializationException.Create(null, writer.ContainerPath, $"Integer value {e.ToString("D")} is not allowed.", null);
             }
 
             // enum value has no name so write number
@@ -201,7 +201,7 @@ public class StringEnumConverter : JsonConverter
         {
             if (!ReflectionUtils.IsNullableType(objectType))
             {
-                throw JsonSerializationException.Create(reader, string.Format("Cannot convert null value to {0}.", objectType));
+                throw JsonSerializationException.Create(reader, $"Cannot convert null value to {objectType}.");
             }
 
             return null;
@@ -228,7 +228,7 @@ public class StringEnumConverter : JsonConverter
             {
                 if (!AllowIntegerValues)
                 {
-                    throw JsonSerializationException.Create(reader, string.Format("Integer value {0} is not allowed.", reader.Value));
+                    throw JsonSerializationException.Create(reader, $"Integer value {reader.Value} is not allowed.");
                 }
 
                 return ConvertUtils.ConvertOrCast(reader.Value, CultureInfo.InvariantCulture, t);
@@ -236,11 +236,11 @@ public class StringEnumConverter : JsonConverter
         }
         catch (Exception ex)
         {
-            throw JsonSerializationException.Create(reader, string.Format("Error converting value {0} to type '{1}'.", MiscellaneousUtils.ToString(reader.Value), objectType), ex);
+            throw JsonSerializationException.Create(reader, $"Error converting value {MiscellaneousUtils.ToString(reader.Value)} to type '{objectType}'.", ex);
         }
 
         // we don't actually expect to get here.
-        throw JsonSerializationException.Create(reader, string.Format("Unexpected token {0} when parsing enum.", reader.TokenType));
+        throw JsonSerializationException.Create(reader, $"Unexpected token {reader.TokenType} when parsing enum.");
     }
 
     /// <summary>

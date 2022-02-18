@@ -313,9 +313,9 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             var message = "Self referencing loop detected";
             if (property != null)
             {
-                message += string.Format(" for property '{0}'", property.PropertyName);
+                message += $" for property '{property.PropertyName}'";
             }
-            message += string.Format(" with type '{0}'.", value.GetType());
+            message += $" with type '{value.GetType()}'.";
 
             switch (referenceLoopHandling.GetValueOrDefault(Serializer._referenceLoopHandling))
             {
@@ -347,7 +347,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
         if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
         {
-            TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(null, writer.Path,string.Format( "Writing object reference to Id '{0}' for {1}.", reference, value.GetType())), null);
+            TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(null, writer.Path, $"Writing object reference to Id '{reference}' for {value.GetType()}."), null);
         }
 
         writer.WriteStartObject();
@@ -366,7 +366,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         }
         catch (Exception ex)
         {
-            throw JsonSerializationException.Create(null, writer.ContainerPath, string.Format("Error writing object reference for '{0}'.", value.GetType()), ex);
+            throw JsonSerializationException.Create(null, writer.ContainerPath, $"Error writing object reference for '{value.GetType()}'.", ex);
         }
     }
 
@@ -408,7 +408,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
     {
         if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
         {
-            TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(null, writer.Path,string.Format( "Started serializing {0}", contract.UnderlyingType)), null);
+            TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(null, writer.Path, $"Started serializing {contract.UnderlyingType}"), null);
         }
 
         contract.InvokeOnSerializing(value, Serializer._context);
@@ -418,7 +418,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
     {
         if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
         {
-            TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(null, writer.Path, string.Format("Finished serializing {0}", contract.UnderlyingType)), null);
+            TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(null, writer.Path, $"Finished serializing {contract.UnderlyingType}"), null);
         }
 
         contract.InvokeOnSerialized(value, Serializer._context);
@@ -532,11 +532,11 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                     var resolvedRequired = property._required ?? objectContract?.ItemRequired ?? Required.Default;
                     if (resolvedRequired == Required.Always)
                     {
-                        throw JsonSerializationException.Create(null, writer.ContainerPath, string.Format("Cannot write a null value for property '{0}'. Property requires a value.", property.PropertyName), null);
+                        throw JsonSerializationException.Create(null, writer.ContainerPath, $"Cannot write a null value for property '{property.PropertyName}'. Property requires a value.", null);
                     }
                     if (resolvedRequired == Required.DisallowNull)
                     {
-                        throw JsonSerializationException.Create(null, writer.ContainerPath, string.Format("Cannot write a null value for property '{0}'. Property requires a non-null value.", property.PropertyName), null);
+                        throw JsonSerializationException.Create(null, writer.ContainerPath, $"Cannot write a null value for property '{property.PropertyName}'. Property requires a non-null value.", null);
                     }
                 }
 
@@ -583,7 +583,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
         if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
         {
-            TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(null, writer.Path,string.Format( "Writing object reference Id '{0}' for {1}.", reference, type)), null);
+            TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(null, writer.Path, $"Writing object reference Id '{reference}' for {type}."), null);
         }
 
         writer.WritePropertyName(JsonTypeReflector.IdPropertyName, false);
@@ -596,7 +596,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
         if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
         {
-            TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(null, writer.Path, string.Format("Writing type name '{0}' for {1}.", typeName, type)), null);
+            TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(null, writer.Path, $"Writing type name '{typeName}' for {type}."), null);
         }
 
         writer.WritePropertyName(JsonTypeReflector.TypePropertyName, false);
@@ -635,14 +635,14 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
             if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
             {
-                TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(null, writer.Path, string.Format("Started serializing {0} with converter {1}.", value.GetType(), converter.GetType())), null);
+                TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(null, writer.Path, $"Started serializing {value.GetType()} with converter {converter.GetType()}."), null);
             }
 
             converter.WriteJson(writer, value, GetInternalSerializer());
 
             if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
             {
-                TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(null, writer.Path,string.Format( "Finished serializing {0} with converter {1}.", value.GetType(), converter.GetType())), null);
+                TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(null, writer.Path, $"Finished serializing {value.GetType()} with converter {converter.GetType()}."), null);
             }
 
             _serializeStack.RemoveAt(_serializeStack.Count - 1);
@@ -1182,7 +1182,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
         if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
         {
-            TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(null, writer.Path, string.Format("ShouldSerialize result for property '{0}' on {1}: {2}", property.PropertyName, property.DeclaringType, shouldSerialize)), null);
+            TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(null, writer.Path, $"ShouldSerialize result for property '{property.PropertyName}' on {property.DeclaringType}: {shouldSerialize}"), null);
         }
 
         return shouldSerialize;
@@ -1199,7 +1199,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
         if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
         {
-            TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(null, writer.Path, string.Format("IsSpecified result for property '{0}' on {1}: {2}", property.PropertyName, property.DeclaringType, isSpecified)), null);
+            TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(null, writer.Path, $"IsSpecified result for property '{property.PropertyName}' on {property.DeclaringType}: {isSpecified}"), null);
         }
 
         return isSpecified;

@@ -25,7 +25,7 @@ class FieldFilter : PathFilter
                     }
                     else if (settings?.ErrorWhenNoMatch ?? false)
                     {
-                        throw new JsonException(string.Format("Property '{0}' does not exist on JObject.", Name));
+                        throw new JsonException($"Property '{Name}' does not exist on JObject.");
                     }
                 }
                 else
@@ -40,7 +40,7 @@ class FieldFilter : PathFilter
             {
                 if (settings?.ErrorWhenNoMatch ?? false)
                 {
-                    throw new JsonException(string.Format("Property '{0}' not valid on {1}.", Name ?? "*", t.GetType().Name));
+                    throw new JsonException($"Property '{Name ?? "*"}' not valid on {t.GetType().Name}.");
                 }
             }
         }

@@ -99,7 +99,7 @@ public abstract partial class JContainer : JToken, IList<JToken>
     {
         if (_busy)
         {
-            throw new InvalidOperationException(string.Format("Cannot change {0} during a collection change event.", GetType()));
+            throw new InvalidOperationException($"Cannot change {GetType()} during a collection change event.");
         }
     }
 
@@ -578,7 +578,7 @@ public abstract partial class JContainer : JToken, IList<JToken>
 
         if (o.Type == JTokenType.Property)
         {
-            throw new ArgumentException(string.Format("Can not add {0} to {1}.", o.GetType(), GetType()));
+            throw new ArgumentException($"Can not add {o.GetType()} to {GetType()}.");
         }
     }
 
@@ -714,7 +714,7 @@ public abstract partial class JContainer : JToken, IList<JToken>
             return;
         }
 
-        throw new ArgumentException(string.Format("Could not determine JSON object type for type {0}.", content.GetType()), nameof(content));
+        throw new ArgumentException($"Could not determine JSON object type for type {content.GetType()}.", nameof(content));
     }
 
     internal void ReadTokenFrom(JsonReader reader, JsonLoadSettings? options)
@@ -723,7 +723,7 @@ public abstract partial class JContainer : JToken, IList<JToken>
 
         if (!reader.Read())
         {
-            throw JsonReaderException.Create(reader,string.Format( "Error reading {0} from JsonReader.", GetType().Name));
+            throw JsonReaderException.Create(reader, $"Error reading {GetType().Name} from JsonReader.");
         }
 
         ReadContentFrom(reader, options);
@@ -732,7 +732,7 @@ public abstract partial class JContainer : JToken, IList<JToken>
 
         if (endDepth > startDepth)
         {
-            throw JsonReaderException.Create(reader, string.Format("Unexpected end of content while loading {0}.", GetType().Name));
+            throw JsonReaderException.Create(reader, $"Unexpected end of content while loading {GetType().Name}.");
         }
     }
 
@@ -845,7 +845,7 @@ public abstract partial class JContainer : JToken, IList<JToken>
                     }
                     break;
                 default:
-                    throw new InvalidOperationException(string.Format("The JsonReader should not be on a token of type {0}.", r.TokenType));
+                    throw new InvalidOperationException($"The JsonReader should not be on a token of type {r.TokenType}.");
             }
         } while (r.Read());
     }
@@ -865,7 +865,7 @@ public abstract partial class JContainer : JToken, IList<JToken>
             }
             else if (duplicatePropertyNameHandling == DuplicatePropertyNameHandling.Error)
             {
-                throw JsonReaderException.Create(r, string.Format("Property with the name '{0}' already exists in the current JSON object.", propertyName));
+                throw JsonReaderException.Create(r, $"Property with the name '{propertyName}' already exists in the current JSON object.");
             }
         }
 
@@ -1060,12 +1060,12 @@ public abstract partial class JContainer : JToken, IList<JToken>
 
         if (args.NewObject == null)
         {
-            throw new JsonException(string.Format("Could not determine new value to add to '{0}'.", GetType()));
+            throw new JsonException($"Could not determine new value to add to '{GetType()}'.");
         }
 
         if (!(args.NewObject is JToken newItem))
         {
-            throw new JsonException(string.Format("New item to be added to collection must be compatible with {0}.", typeof(JToken)));
+            throw new JsonException($"New item to be added to collection must be compatible with {typeof(JToken)}.");
         }
 
         Add(newItem);

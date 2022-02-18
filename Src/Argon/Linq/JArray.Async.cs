@@ -80,7 +80,7 @@ public partial class JArray
 
         if (reader.TokenType != JsonToken.StartArray)
         {
-            throw JsonReaderException.Create(reader, string.Format("Error reading JArray from JsonReader. Current JsonReader item is not an array: {0}", reader.TokenType));
+            throw JsonReaderException.Create(reader, $"Error reading JArray from JsonReader. Current JsonReader item is not an array: {reader.TokenType}");
         }
 
         var a = new JArray();

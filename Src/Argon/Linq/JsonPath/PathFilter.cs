@@ -12,7 +12,7 @@ abstract class PathFilter
             {
                 if (settings?.ErrorWhenNoMatch ?? false)
                 {
-                    throw new JsonException(string.Format("Index {0} outside the bounds of JArray.", index));
+                    throw new JsonException($"Index {index} outside the bounds of JArray.");
                 }
 
                 return null;
@@ -26,7 +26,7 @@ abstract class PathFilter
             {
                 if (settings?.ErrorWhenNoMatch ?? false)
                 {
-                    throw new JsonException(string.Format("Index {0} outside the bounds of JConstructor.", index));
+                    throw new JsonException($"Index {index} outside the bounds of JConstructor.");
                 }
 
                 return null;
@@ -38,7 +38,7 @@ abstract class PathFilter
         {
             if (settings?.ErrorWhenNoMatch ?? false)
             {
-                throw new JsonException(string.Format("Index {0} not valid on {1}.", index, t.GetType().Name));
+                throw new JsonException($"Index {index} not valid on {t.GetType().Name}.");
             }
 
             return null;

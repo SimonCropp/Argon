@@ -180,7 +180,7 @@ public class DiscriminatedUnionConverter : JsonConverter
 
                 if (caseInfo == null)
                 {
-                    throw JsonSerializationException.Create(reader, string.Format("No union type found with the name '{0}'.", caseName));
+                    throw JsonSerializationException.Create(reader, $"No union type found with the name '{caseName}'.");
                 }
             }
             else if (string.Equals(propertyName, FieldsPropertyName, StringComparison.OrdinalIgnoreCase))
@@ -195,7 +195,7 @@ public class DiscriminatedUnionConverter : JsonConverter
             }
             else
             {
-                throw JsonSerializationException.Create(reader,string.Format( "Unexpected property '{0}' found when reading union.", propertyName));
+                throw JsonSerializationException.Create(reader, $"Unexpected property '{propertyName}' found when reading union.");
             }
 
             reader.ReadAndAssert();
@@ -203,21 +203,21 @@ public class DiscriminatedUnionConverter : JsonConverter
 
         if (caseInfo == null)
         {
-            throw JsonSerializationException.Create(reader, string.Format("No '{0}' property with union name found.", CasePropertyName));
+            throw JsonSerializationException.Create(reader, $"No '{CasePropertyName}' property with union name found.");
         }
 
         var typedFieldValues = new object?[caseInfo.Fields.Length];
 
         if (caseInfo.Fields.Length > 0 && fields == null)
         {
-            throw JsonSerializationException.Create(reader, string.Format("No '{0}' property with union fields found.", FieldsPropertyName));
+            throw JsonSerializationException.Create(reader, $"No '{FieldsPropertyName}' property with union fields found.");
         }
 
         if (fields != null)
         {
             if (caseInfo.Fields.Length != fields.Count)
             {
-                throw JsonSerializationException.Create(reader, string.Format("The number of field values does not match the number of properties defined by union '{0}'.", caseName));
+                throw JsonSerializationException.Create(reader, $"The number of field values does not match the number of properties defined by union '{caseName}'.");
             }
 
             for (var i = 0; i < fields.Count; i++)

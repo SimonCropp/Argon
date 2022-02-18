@@ -65,12 +65,12 @@ public class ExpressionValueProvider : IValueProvider
             {
                 if (!ReflectionUtils.IsNullable(ReflectionUtils.GetMemberUnderlyingType(_memberInfo)))
                 {
-                    throw new JsonSerializationException(string.Format("Incompatible value. Cannot set {0} to null.", _memberInfo));
+                    throw new JsonSerializationException($"Incompatible value. Cannot set {_memberInfo} to null.");
                 }
             }
             else if (!ReflectionUtils.GetMemberUnderlyingType(_memberInfo).IsAssignableFrom(value.GetType()))
             {
-                throw new JsonSerializationException(string.Format("Incompatible value. Cannot set {0} to type {1}.", _memberInfo, value.GetType()));
+                throw new JsonSerializationException($"Incompatible value. Cannot set {_memberInfo} to type {value.GetType()}.");
             }
 #endif
 
@@ -78,7 +78,7 @@ public class ExpressionValueProvider : IValueProvider
         }
         catch (Exception ex)
         {
-            throw new JsonSerializationException(string.Format("Error setting value to '{0}' on '{1}'.", _memberInfo.Name, target.GetType()), ex);
+            throw new JsonSerializationException($"Error setting value to '{_memberInfo.Name}' on '{target.GetType()}'.", ex);
         }
     }
 
@@ -100,7 +100,7 @@ public class ExpressionValueProvider : IValueProvider
         }
         catch (Exception ex)
         {
-            throw new JsonSerializationException(string.Format("Error getting value from '{0}' on '{1}'.", _memberInfo.Name, target.GetType()), ex);
+            throw new JsonSerializationException($"Error getting value from '{_memberInfo.Name}' on '{target.GetType()}'.", ex);
         }
     }
 }

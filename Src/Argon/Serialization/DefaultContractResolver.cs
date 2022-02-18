@@ -366,7 +366,7 @@ public class DefaultContractResolver : IContractResolver
 
     static void ThrowUnableToSerializeError(object o, StreamingContext context)
     {
-        throw new JsonSerializationException(string.Format("Unable to serialize instance of '{0}'.", o.GetType()));
+        throw new JsonSerializationException($"Unable to serialize instance of '{o.GetType()}'.");
     }
 
     MemberInfo GetExtensionDataMemberForType(Type type)
@@ -396,7 +396,7 @@ public class DefaultContractResolver : IContractResolver
 
             if (!ReflectionUtils.CanReadMemberValue(m, true))
             {
-                throw new JsonException(string.Format("Invalid extension data attribute on '{0}'. Member '{1}' must have a getter.", GetClrTypeFullName(m.DeclaringType), m.Name));
+                throw new JsonException($"Invalid extension data attribute on '{GetClrTypeFullName(m.DeclaringType)}'. Member '{m.Name}' must have a getter.");
             }
 
             var t = ReflectionUtils.GetMemberUnderlyingType(m);
@@ -412,7 +412,7 @@ public class DefaultContractResolver : IContractResolver
                 }
             }
 
-            throw new JsonException(string.Format("Invalid extension data attribute on '{0}'. Member '{1}' type must implement IDictionary<string, JToken>.", GetClrTypeFullName(m.DeclaringType), m.Name));
+            throw new JsonException($"Invalid extension data attribute on '{GetClrTypeFullName(m.DeclaringType)}'. Member '{m.Name}' type must implement IDictionary<string, JToken>.");
         });
 
         return extensionDataMember;
@@ -951,7 +951,7 @@ public class DefaultContractResolver : IContractResolver
             }
             else
             {
-                throw new JsonException(string.Format("Constructor for '{0}' must have no parameters or a single parameter that implements '{1}'.", contract.UnderlyingType, expectedParameterType));
+                throw new JsonException($"Constructor for '{contract.UnderlyingType}' must have no parameters or a single parameter that implements '{expectedParameterType}'.");
             }
 
             contract.OverrideCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(overrideConstructor);
@@ -989,7 +989,7 @@ public class DefaultContractResolver : IContractResolver
             }
             else
             {
-                throw new JsonException(string.Format("Constructor for '{0}' must have no parameters or a single parameter that implements '{1}'.", contract.UnderlyingType, expectedParameterType));
+                throw new JsonException($"Constructor for '{contract.UnderlyingType}' must have no parameters or a single parameter that implements '{expectedParameterType}'.");
             }
 
             contract.OverrideCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(overrideConstructor);
@@ -1199,7 +1199,7 @@ public class DefaultContractResolver : IContractResolver
 
         if (currentCallback != null)
         {
-            throw new JsonException(string.Format("Invalid attribute. Both '{0}' and '{1}' in type '{2}' have '{3}'.", method, currentCallback, GetClrTypeFullName(method.DeclaringType), attributeType));
+            throw new JsonException($"Invalid attribute. Both '{method}' and '{currentCallback}' in type '{GetClrTypeFullName(method.DeclaringType)}' have '{attributeType}'.");
         }
 
         if (prevAttributeType != null)
@@ -1209,7 +1209,7 @@ public class DefaultContractResolver : IContractResolver
 
         if (method.IsVirtual)
         {
-            throw new JsonException(string.Format("Virtual Method '{0}' of type '{1}' cannot be marked with '{2}' attribute.", method, GetClrTypeFullName(method.DeclaringType), attributeType));
+            throw new JsonException($"Virtual Method '{method}' of type '{GetClrTypeFullName(method.DeclaringType)}' cannot be marked with '{attributeType}' attribute.");
         }
 
         if (method.ReturnType != typeof(void))
@@ -1244,7 +1244,7 @@ public class DefaultContractResolver : IContractResolver
             return type.FullName;
         }
 
-        return string.Format("{0}.{1}", type.Namespace, type.Name);
+        return $"{type.Namespace}.{type.Name}";
     }
 
     /// <summary>
