@@ -42,7 +42,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var a2 = JsonConvert.DeserializeObject<AAA>(@"{""MyTest"":{""$type"":""<Namespace>.JsonTest+MyTest2, <Assembly>""}}", new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.Auto,
-            Error = (object _, Argon.Serialization.ErrorEventArgs e) =>
+            Error = (object _, ErrorEventArgs e) =>
             {
                 errors.Add(e.ErrorContext.Error);
                 e.ErrorContext.Handled = true;
@@ -62,7 +62,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var a2 = (JObject)JsonConvert.DeserializeObject(@"{""$type"":""<Namespace>.JsonTest+MyTest2, <Assembly>""}", new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.Auto,
-            Error = (object _, Argon.Serialization.ErrorEventArgs e) =>
+            Error = (object _, ErrorEventArgs e) =>
             {
                 errors.Add(e.ErrorContext.Error);
                 e.ErrorContext.Handled = true;
@@ -97,7 +97,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var json = "{\"myint\":3554860000,\"Mybool\":false}";
         var i = JsonConvert.DeserializeObject<MyClass1>(json, new JsonSerializerSettings
         {
-            Error = delegate (object _, Argon.Serialization.ErrorEventArgs args)
+            Error = delegate (object _, ErrorEventArgs args)
             {
                 errors.Add(args.ErrorContext.Error.Message);
                 args.ErrorContext.Handled = true;
@@ -915,7 +915,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var serialiser = JsonSerializer.Create(new JsonSerializerSettings { });
 
         var foo = "{ something: { rootSomethingElse { somethingElse: 0 } } }";
-        var reader = new System.IO.StringReader(foo);
+        var reader = new StringReader(foo);
 
         ExceptionAssert.Throws<Exception>(() => { serialiser.Deserialize(reader, typeof(Something)); }, "An error occurred.");
     }
@@ -937,7 +937,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             Something = s
         };
 
-        var writer = new System.IO.StringWriter();
+        var writer = new StringWriter();
 
         ExceptionAssert.Throws<Exception>(() => { serialiser.Serialize(writer, r); }, "An error occurred.");
     }

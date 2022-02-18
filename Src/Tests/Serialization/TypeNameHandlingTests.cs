@@ -2129,7 +2129,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         };
 
         var serialized = JsonConvert.SerializeObject(input,
-            Argon.Formatting.Indented,
+            Formatting.Indented,
             new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.All,

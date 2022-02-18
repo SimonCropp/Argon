@@ -5642,7 +5642,7 @@ Path '', line 1, position 1.");
   ""PostProperty"": ""-1""
 }";
 
-                JsonConvert.DeserializeObject<TestObjects.MyClass>(json);
+                JsonConvert.DeserializeObject<MyClass>(json);
             }, "Unexpected character encountered while parsing value: t. Path 'PreProperty', line 2, position 18.");
         }
 
@@ -5654,7 +5654,7 @@ Path '', line 1, position 1.");
                 var json = @"{
   ""PreProperty"": ";
 
-                JsonConvert.DeserializeObject<TestObjects.MyClass>(json);
+                JsonConvert.DeserializeObject<MyClass>(json);
             });
         }
 

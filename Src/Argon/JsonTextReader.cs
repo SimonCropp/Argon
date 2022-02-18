@@ -2219,7 +2219,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static object BigIntegerParse(string number, CultureInfo culture)
     {
-        return System.Numerics.BigInteger.Parse(number, culture);
+        return BigInteger.Parse(number, culture);
     }
 
     private void ParseComment(bool setToken)
