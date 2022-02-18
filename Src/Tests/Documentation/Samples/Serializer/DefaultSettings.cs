@@ -30,7 +30,6 @@ using Staff = Argon.Tests.TestObjects.Organization.Employee;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class DefaultSettings : TestFixtureBase
 {
     [Fact]

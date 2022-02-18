@@ -164,7 +164,6 @@ public class AutofacContractResolver : DefaultContractResolver
     }
 }
 
-[TestFixture]
 public class DependencyInjectionTests : TestFixtureBase
 {
     [Fact]

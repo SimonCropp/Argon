@@ -69,13 +69,6 @@ public class TestReflectionUtils
     }
 }
 
-public class TestFixtureAttribute : Attribute
-{
-    // xunit doesn't need a test fixture attribute
-    // this exists so the project compiles
-}
-
-[TestFixture]
 public abstract class TestFixtureBase
 {
     protected string GetDataContractJsonSerializeResult(object o)

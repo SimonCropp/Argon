@@ -31,7 +31,6 @@ using Argon.Tests.TestObjects;
 
 namespace Argon.Tests.Linq;
 
-[TestFixture]
 public class JTokenReaderTest : TestFixtureBase
 {
     [Fact]

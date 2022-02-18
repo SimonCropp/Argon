@@ -29,7 +29,6 @@ using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.JsonPath;
 
-[TestFixture]
 public class QueryJsonSelectTokenJsonPath : TestFixtureBase
 {
   [Fact]

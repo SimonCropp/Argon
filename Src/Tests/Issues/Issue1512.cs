@@ -30,7 +30,6 @@ using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue1512 : TestFixtureBase
 {
     [Fact]

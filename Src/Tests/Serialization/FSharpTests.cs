@@ -30,7 +30,6 @@ using Microsoft.FSharp.Collections;
 
 namespace Argon.Tests.Serialization;
 
-[TestFixture]
 public class FSharpTests : TestFixtureBase
 {
     [Fact]

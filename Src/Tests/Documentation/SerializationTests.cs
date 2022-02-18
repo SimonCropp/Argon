@@ -33,7 +33,6 @@ using OriginalStreamWriter = System.IO.StreamWriter;
 
 namespace Argon.Tests.Documentation;
 
-[TestFixture]
 public class SerializationTests : TestFixtureBase
 {
     public class StreamWriter : OriginalStreamWriter

@@ -34,7 +34,6 @@ using LogService = Argon.Tests.Serialization.LogManager;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class DeserializeWithDependencyInjection : TestFixtureBase
 {
     #region Types

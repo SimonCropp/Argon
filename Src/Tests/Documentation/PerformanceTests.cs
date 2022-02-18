@@ -87,7 +87,6 @@ public class PersonConverter : JsonConverter
     }
 }
 
-[TestFixture]
 public class PerformanceTests : TestFixtureBase
 {
     static class AppSettings

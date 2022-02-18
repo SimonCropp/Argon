@@ -30,7 +30,6 @@ using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Bson;
 
-[TestFixture]
 public class BsonReaderAsyncTests : TestFixtureBase
 {
     const char Euro = '\u20ac';

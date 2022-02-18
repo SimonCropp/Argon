@@ -48,7 +48,6 @@ public class InTestClass
     }
 }
 
-[TestFixture]
 public class LateboundReflectionDelegateFactoryTests : TestFixtureBase
 {
     [Fact]

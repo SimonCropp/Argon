@@ -29,7 +29,6 @@ using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue1541 : TestFixtureBase
 {
 #if NET5_0_OR_GREATER

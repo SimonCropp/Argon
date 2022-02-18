@@ -32,7 +32,6 @@ namespace Argon.Tests.Issues;
 /// <summary>
 /// Here's where we test the sandbox for needles and broken glass
 /// </summary>
-[TestFixture]
 public class Issue1837
 {
     [Fact]

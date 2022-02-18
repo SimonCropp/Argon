@@ -30,7 +30,6 @@ using Argon.Tests.TestObjects.JsonTextReaderTests;
 
 namespace Argon.Tests.JsonTextReaderTests;
 
-[TestFixture]
 public class ExceptionHandlingTests : TestFixtureBase
 {
     [Fact]

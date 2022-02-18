@@ -30,7 +30,6 @@ using JsonConstructor = Argon.JsonConstructorAttribute;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class JsonConstructorAttribute : TestFixtureBase
 {
     #region Types

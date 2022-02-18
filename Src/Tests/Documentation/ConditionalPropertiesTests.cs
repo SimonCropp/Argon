@@ -59,7 +59,6 @@ public class ShouldSerializeContractResolver : DefaultContractResolver
 }
 #endregion
 
-[TestFixture]
 public class ConditionalPropertiesTests : TestFixtureBase
 {
     #region EmployeeShouldSerializeExample

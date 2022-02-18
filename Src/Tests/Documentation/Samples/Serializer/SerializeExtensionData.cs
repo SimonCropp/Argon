@@ -29,7 +29,6 @@ using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class SerializeExtensionData : TestFixtureBase
 {
 #pragma warning disable 169

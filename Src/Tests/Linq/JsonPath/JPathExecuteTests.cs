@@ -32,7 +32,6 @@ using TestCaseSource = Xunit.MemberDataAttribute;
 
 namespace Argon.Tests.Linq.JsonPath;
 
-[TestFixture]
 public class JPathExecuteTests : TestFixtureBase
 {
     [Fact]

@@ -29,7 +29,6 @@ using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Utilities;
 
-[TestFixture]
 public class DateTimeUtilsTests : TestFixtureBase
 {
     [Fact]

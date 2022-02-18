@@ -51,7 +51,6 @@ public static class File
     }
 }
 
-[TestFixture]
 public class LinqToJsonTests : TestFixtureBase
 {
     [Fact]

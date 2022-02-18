@@ -30,7 +30,6 @@ using Argon.Tests.TestObjects;
 
 namespace Argon.Tests.Serialization;
 
-[TestFixture]
 public class JsonPropertyCollectionTests : TestFixtureBase
 {
     [Fact]

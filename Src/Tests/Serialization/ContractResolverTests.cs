@@ -93,7 +93,6 @@ public class AddressWithDataMember
     public string AddressLine1 { get; set; }
 }
 
-[TestFixture]
 public class ContractResolverTests : TestFixtureBase
 {
     [Fact]

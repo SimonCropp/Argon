@@ -29,7 +29,6 @@ using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Utilities;
 
-[TestFixture]
 public class ConvertUtilsTests : TestFixtureBase
 {
 #if HAS_CUSTOM_DOUBLE_PARSE

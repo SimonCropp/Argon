@@ -35,7 +35,6 @@ using System.Xml.Linq;
 
 namespace Argon.Tests.Serialization;
 
-[TestFixture]
 public class JsonSerializerCollectionsTests : TestFixtureBase
 {
     [Fact]
@@ -1815,7 +1814,6 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         Assert.AreEqual("444-1212", newName.pNumbers[1].phoneNumber);
     }
 
-    [TestFixture]
     public class MultipleDefinedPropertySerialization
     {
         [Fact]

@@ -31,7 +31,6 @@ using Argon.Tests.TestObjects.Organization;
 
 namespace Argon.Tests.Serialization;
 
-[TestFixture]
 public class KebabCaseNamingStrategyTests : TestFixtureBase
 {
     [Fact]

@@ -30,7 +30,6 @@ using TestCase = Xunit.InlineDataAttribute;
 
 namespace Argon.Tests.Linq;
 
-[TestFixture]
 public class JTokenTests : TestFixtureBase
 {
     [Fact]

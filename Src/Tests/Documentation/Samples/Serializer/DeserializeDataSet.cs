@@ -31,7 +31,6 @@ using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class DeserializeDataSet : TestFixtureBase
 {
     [Fact]

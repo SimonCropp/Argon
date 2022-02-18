@@ -308,7 +308,6 @@ public class XmlJsonWriter : JsonWriter
 }
 #endregion
 
-[TestFixture]
 public class CustomJsonWriter : TestFixtureBase
 {
     [Fact]

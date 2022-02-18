@@ -32,7 +32,6 @@ using Argon.Tests.TestObjects;
 
 namespace Argon.Tests;
 
-[TestFixture]
 public class JsonTextWriterAsyncTests : TestFixtureBase
 {
     public class LazyStringWriter : StringWriter

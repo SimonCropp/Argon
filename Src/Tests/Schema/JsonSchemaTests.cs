@@ -31,7 +31,6 @@ using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Schema;
 
-[TestFixture]
 public class JsonSchemaTests : TestFixtureBase
 {
   [Fact]

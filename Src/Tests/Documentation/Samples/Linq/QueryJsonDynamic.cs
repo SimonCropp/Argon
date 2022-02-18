@@ -30,50 +30,48 @@ using Assert = Argon.Tests.XUnitAssert;
 #else
 using Xunit;
 
-namespace Argon.Tests.Documentation.Samples.Linq
+namespace Argon.Tests.Documentation.Samples.Linq;
+
+public class QueryJsonDynamic : TestFixtureBase
 {
-    [TestFixture]
-    public class QueryJsonDynamic : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            var json = @"[
-              {
-                'Title': 'Json.NET is awesome!',
-                'Author': {
-                  'Name': 'James Newton-King',
-                  'Twitter': '@JamesNK',
-                  'Picture': '/jamesnk.png'
-                },
-                'Date': '2013-01-23T19:30:00',
-                'BodyHtml': '&lt;h3&gt;Title!&lt;/h3&gt;\r\n&lt;p&gt;Content!&lt;/p&gt;'
-              }
-            ]";
+        #region Usage
+        var json = @"[
+          {
+            'Title': 'Json.NET is awesome!',
+            'Author': {
+              'Name': 'James Newton-King',
+              'Twitter': '@JamesNK',
+              'Picture': '/jamesnk.png'
+            },
+            'Date': '2013-01-23T19:30:00',
+            'BodyHtml': '&lt;h3&gt;Title!&lt;/h3&gt;\r\n&lt;p&gt;Content!&lt;/p&gt;'
+          }
+        ]";
 
-            dynamic blogPosts = JArray.Parse(json);
+        dynamic blogPosts = JArray.Parse(json);
 
-            var blogPost = blogPosts[0];
+        var blogPost = blogPosts[0];
 
-            string title = blogPost.Title;
+        string title = blogPost.Title;
 
-            Console.WriteLine(title);
-            // Json.NET is awesome!
+        Console.WriteLine(title);
+        // Json.NET is awesome!
 
-            string author = blogPost.Author.Name;
+        string author = blogPost.Author.Name;
 
-            Console.WriteLine(author);
-            // James Newton-King
+        Console.WriteLine(author);
+        // James Newton-King
 
-            DateTime postDate = blogPost.Date;
+        DateTime postDate = blogPost.Date;
 
-            Console.WriteLine(postDate);
-            // 23/01/2013 7:30:00 p.m.
-            #endregion
+        Console.WriteLine(postDate);
+        // 23/01/2013 7:30:00 p.m.
+        #endregion
 
-            Assert.Equal("Json.NET is awesome!", title);
-        }
+        Assert.Equal("Json.NET is awesome!", title);
     }
 }
 

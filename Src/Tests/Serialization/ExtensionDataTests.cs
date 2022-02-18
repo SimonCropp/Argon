@@ -31,7 +31,6 @@ using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Serialization;
 
-[TestFixture]
 public class ExtensionDataTests : TestFixtureBase
 {
     public class CustomDictionary : IDictionary<string, object>

@@ -33,7 +33,6 @@ using Argon.Tests.TestObjects.GeoCoding;
 
 namespace Argon.Tests.Bson;
 
-[TestFixture]
 public class BsonWriterTests : TestFixtureBase
 {
     [Fact]

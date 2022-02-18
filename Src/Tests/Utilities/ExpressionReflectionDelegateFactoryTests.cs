@@ -31,7 +31,6 @@ using Argon.Tests.TestObjects.Organization;
 
 namespace Argon.Tests.Utilities;
 
-[TestFixture]
 public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
 {
     [Fact]

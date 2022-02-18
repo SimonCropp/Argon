@@ -32,7 +32,6 @@ using System.Dynamic;
 
 namespace Argon.Tests.Serialization;
 
-[TestFixture]
 public class ReferenceLoopHandlingTests : TestFixtureBase
 {
     [Fact]

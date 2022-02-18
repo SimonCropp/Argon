@@ -30,7 +30,6 @@ using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Converters;
 
-[TestFixture]
 public class ObjectIdConverterTests : TestFixtureBase
 {
     public class ObjectIdTestClass

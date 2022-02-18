@@ -49,7 +49,6 @@ public class VersionClass
     public string StringProperty2 { get; set; }
 }
 
-[TestFixture]
 public class VersionConverterTests : TestFixtureBase
 {
     internal static class VersionHelperClass

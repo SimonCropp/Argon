@@ -61,7 +61,6 @@ public static class LogManager
     }
 }
 
-[TestFixture]
 public class TraceWriterTests : TestFixtureBase
 {
     #region CustomTraceWriterExample

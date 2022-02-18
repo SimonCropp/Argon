@@ -31,7 +31,6 @@ using Argon.Tests.TestObjects.JsonTextReaderTests;
 
 namespace Argon.Tests;
 
-[TestFixture]
 public class JsonTextWriterTest : TestFixtureBase
 {
     [Fact]

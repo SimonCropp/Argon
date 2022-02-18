@@ -30,7 +30,6 @@ using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Serialization;
 
-[TestFixture]
 public class DateTimeZoneHandlingTests : TestFixtureBase
 {
     [Fact]

@@ -48,7 +48,6 @@ public class JsonSchemaSpecTest
     }
 }
 
-[TestFixture]
 public class JsonSchemaSpecTests : TestFixtureBase
 {
     [Theory]

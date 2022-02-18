@@ -30,7 +30,6 @@ using ErrorEventArgs = Argon.Serialization.ErrorEventArgs;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class ErrorHandlingEvent : TestFixtureBase
 {
     [Fact]

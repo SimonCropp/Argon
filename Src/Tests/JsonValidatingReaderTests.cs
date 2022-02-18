@@ -31,7 +31,6 @@ using ValidationEventArgs = Argon.Schema.ValidationEventArgs;
 
 namespace Argon.Tests;
 
-[TestFixture]
 public class JsonValidatingReaderTests : TestFixtureBase
 {
     [Fact]

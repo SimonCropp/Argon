@@ -28,7 +28,6 @@ using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests;
 
-[TestFixture]
 public class JsonArrayAttributeTests : TestFixtureBase
 {
     [Fact]

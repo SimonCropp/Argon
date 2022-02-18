@@ -30,7 +30,6 @@ using System.Runtime.Serialization.Json;
 
 namespace Argon.Tests.Serialization;
 
-[TestFixture]
 public class WebApiIntegrationTests : TestFixtureBase
 {
     [Fact]

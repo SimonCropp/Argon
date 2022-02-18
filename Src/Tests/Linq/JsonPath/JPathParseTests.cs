@@ -29,7 +29,6 @@ using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Linq.JsonPath;
 
-[TestFixture]
 public class JPathParseTests : TestFixtureBase
 {
     [Fact]

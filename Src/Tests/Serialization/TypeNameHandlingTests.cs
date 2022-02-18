@@ -35,7 +35,6 @@ using System.Net;
 
 namespace Argon.Tests.Serialization;
 
-[TestFixture]
 public class TypeNameHandlingTests : TestFixtureBase
 {
     [Fact]

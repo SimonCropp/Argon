@@ -33,7 +33,6 @@ using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests;
 
-[TestFixture]
 public class JsonConvertTest : TestFixtureBase
 {
     [Fact]

@@ -29,7 +29,6 @@ using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Utilities;
-[TestFixture]
 public class ReflectionUtilsTests : TestFixtureBase
 {
     [Fact]

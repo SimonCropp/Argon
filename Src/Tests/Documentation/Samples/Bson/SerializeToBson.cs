@@ -29,7 +29,6 @@ using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Bson;
 
-[TestFixture]
 public class SerializeToBson : TestFixtureBase
 {
     #region Types

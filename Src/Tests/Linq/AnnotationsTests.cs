@@ -4,7 +4,6 @@ using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Linq;
 
-[TestFixture]
 public class AnnotationsTests : TestFixtureBase
 {
     [Fact]

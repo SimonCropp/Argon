@@ -29,7 +29,6 @@ using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Linq;
 
-[TestFixture]
 public class ReadJTokenFromBson : TestFixtureBase
 {
 #pragma warning disable 618

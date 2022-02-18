@@ -29,7 +29,6 @@ using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.JsonTextReaderTests;
 
-[TestFixture]
 public class FloatTests : TestFixtureBase
 {
     [Fact]

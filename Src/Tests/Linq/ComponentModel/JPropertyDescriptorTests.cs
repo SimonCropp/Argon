@@ -29,7 +29,6 @@ using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Linq.ComponentModel;
 
-[TestFixture]
 public class JPropertyDescriptorTests : TestFixtureBase
 {
     [Fact]

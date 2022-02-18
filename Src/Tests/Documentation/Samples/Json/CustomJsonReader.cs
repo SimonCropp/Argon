@@ -259,7 +259,6 @@ public class XmlJsonReader : JsonReader
 }
 #endregion
 
-[TestFixture]
 public class CustomJsonReader : TestFixtureBase
 {
     [Fact]

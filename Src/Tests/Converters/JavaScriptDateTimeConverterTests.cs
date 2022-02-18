@@ -30,7 +30,6 @@ using Argon.Tests.TestObjects;
 
 namespace Argon.Tests.Converters;
 
-[TestFixture]
 public class JavaScriptDateTimeConverterTests : TestFixtureBase
 {
     [Fact]

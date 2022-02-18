@@ -20,7 +20,6 @@ public class RoleTrace
     public string Name { get; set; }
 }
 
-[TestFixture]
 public class TraceWriterTests : TestFixtureBase
 {
     [Fact]
