@@ -719,11 +719,11 @@ public class JsonConvertTest : TestFixtureBase
     {
         var result = TestDateTime("DateTime Max", DateTime.MaxValue);
         Assert.Equal("9999-12-31T23:59:59.9999999", result.IsoDateRoundtrip);
-        Assert.Equal("9999-12-31T23:59:59.9999999" + GetOffset(DateTime.MaxValue, DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
+        Assert.Equal("9999-12-31T23:59:59.9999999" + DateTime.MaxValue.GetOffset(DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
         Assert.Equal("9999-12-31T23:59:59.9999999", result.IsoDateUnspecified);
         Assert.Equal("9999-12-31T23:59:59.9999999Z", result.IsoDateUtc);
         Assert.Equal(@"\/Date(253402300799999)\/", result.MsDateRoundtrip);
-        Assert.Equal(@"\/Date(253402300799999" + GetOffset(DateTime.MaxValue, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
+        Assert.Equal(@"\/Date(253402300799999" + DateTime.MaxValue.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
         Assert.Equal(@"\/Date(253402300799999)\/", result.MsDateUnspecified);
         Assert.Equal(@"\/Date(253402300799999)\/", result.MsDateUtc);
 
@@ -731,51 +731,51 @@ public class JsonConvertTest : TestFixtureBase
         var localToUtcDate = year2000local.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.FFFFFFFK");
 
         result = TestDateTime("DateTime Local", year2000local);
-        Assert.Equal("2000-01-01T01:01:01" + GetOffset(year2000local, DateFormatHandling.IsoDateFormat), result.IsoDateRoundtrip);
-        Assert.Equal("2000-01-01T01:01:01" + GetOffset(year2000local, DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
+        Assert.Equal("2000-01-01T01:01:01" + year2000local.GetOffset(DateFormatHandling.IsoDateFormat), result.IsoDateRoundtrip);
+        Assert.Equal("2000-01-01T01:01:01" + year2000local.GetOffset(DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
         Assert.Equal("2000-01-01T01:01:01", result.IsoDateUnspecified);
         Assert.Equal(localToUtcDate, result.IsoDateUtc);
-        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000local) + GetOffset(year2000local, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateRoundtrip);
-        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000local) + GetOffset(year2000local, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
-        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000local) + GetOffset(year2000local, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateUnspecified);
+        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000local) + year2000local.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateRoundtrip);
+        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000local) + year2000local.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
+        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000local) + year2000local.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateUnspecified);
         Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000local) + @")\/", result.MsDateUtc);
 
         var millisecondsLocal = new DateTime(2000, 1, 1, 1, 1, 1, 999, DateTimeKind.Local);
         localToUtcDate = millisecondsLocal.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.FFFFFFFK");
 
         result = TestDateTime("DateTime Local with milliseconds", millisecondsLocal);
-        Assert.Equal("2000-01-01T01:01:01.999" + GetOffset(millisecondsLocal, DateFormatHandling.IsoDateFormat), result.IsoDateRoundtrip);
-        Assert.Equal("2000-01-01T01:01:01.999" + GetOffset(millisecondsLocal, DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
+        Assert.Equal("2000-01-01T01:01:01.999" + millisecondsLocal.GetOffset(DateFormatHandling.IsoDateFormat), result.IsoDateRoundtrip);
+        Assert.Equal("2000-01-01T01:01:01.999" + millisecondsLocal.GetOffset(DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
         Assert.Equal("2000-01-01T01:01:01.999", result.IsoDateUnspecified);
         Assert.Equal(localToUtcDate, result.IsoDateUtc);
-        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(millisecondsLocal) + GetOffset(millisecondsLocal, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateRoundtrip);
-        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(millisecondsLocal) + GetOffset(millisecondsLocal, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
-        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(millisecondsLocal) + GetOffset(millisecondsLocal, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateUnspecified);
+        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(millisecondsLocal) + millisecondsLocal.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateRoundtrip);
+        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(millisecondsLocal) + millisecondsLocal.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
+        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(millisecondsLocal) + millisecondsLocal.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateUnspecified);
         Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(millisecondsLocal) + @")\/", result.MsDateUtc);
 
         var ticksLocal = new DateTime(636556897826822481, DateTimeKind.Local);
         localToUtcDate = ticksLocal.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.FFFFFFFK");
 
         result = TestDateTime("DateTime Local with ticks", ticksLocal);
-        Assert.Equal("2018-03-03T16:03:02.6822481" + GetOffset(ticksLocal, DateFormatHandling.IsoDateFormat), result.IsoDateRoundtrip);
-        Assert.Equal("2018-03-03T16:03:02.6822481" + GetOffset(ticksLocal, DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
+        Assert.Equal("2018-03-03T16:03:02.6822481" + ticksLocal.GetOffset(DateFormatHandling.IsoDateFormat), result.IsoDateRoundtrip);
+        Assert.Equal("2018-03-03T16:03:02.6822481" + ticksLocal.GetOffset(DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
         Assert.Equal("2018-03-03T16:03:02.6822481", result.IsoDateUnspecified);
         Assert.Equal(localToUtcDate, result.IsoDateUtc);
-        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(ticksLocal) + GetOffset(ticksLocal, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateRoundtrip);
-        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(ticksLocal) + GetOffset(ticksLocal, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
-        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(ticksLocal) + GetOffset(ticksLocal, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateUnspecified);
+        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(ticksLocal) + ticksLocal.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateRoundtrip);
+        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(ticksLocal) + ticksLocal.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
+        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(ticksLocal) + ticksLocal.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateUnspecified);
         Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(ticksLocal) + @")\/", result.MsDateUtc);
 
         var year2000Unspecified = new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Unspecified);
 
         result = TestDateTime("DateTime Unspecified", year2000Unspecified);
         Assert.Equal("2000-01-01T01:01:01", result.IsoDateRoundtrip);
-        Assert.Equal("2000-01-01T01:01:01" + GetOffset(year2000Unspecified, DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
+        Assert.Equal("2000-01-01T01:01:01" + year2000Unspecified.GetOffset(DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
         Assert.Equal("2000-01-01T01:01:01", result.IsoDateUnspecified);
         Assert.Equal("2000-01-01T01:01:01Z", result.IsoDateUtc);
-        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000Unspecified) + GetOffset(year2000Unspecified, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateRoundtrip);
-        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000Unspecified) + GetOffset(year2000Unspecified, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
-        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000Unspecified) + GetOffset(year2000Unspecified, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateUnspecified);
+        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000Unspecified) + year2000Unspecified.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateRoundtrip);
+        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000Unspecified) + year2000Unspecified.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
+        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000Unspecified) + year2000Unspecified.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateUnspecified);
         Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000Unspecified.ToLocalTime()) + @")\/", result.MsDateUtc);
 
         var year2000Utc = new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc);
@@ -783,12 +783,12 @@ public class JsonConvertTest : TestFixtureBase
 
         result = TestDateTime("DateTime Utc", year2000Utc);
         Assert.Equal("2000-01-01T01:01:01Z", result.IsoDateRoundtrip);
-        Assert.Equal(utcTolocalDate + GetOffset(year2000Utc, DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
+        Assert.Equal(utcTolocalDate + year2000Utc.GetOffset(DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
         Assert.Equal("2000-01-01T01:01:01", result.IsoDateUnspecified);
         Assert.Equal("2000-01-01T01:01:01Z", result.IsoDateUtc);
         Assert.Equal(@"\/Date(946688461000)\/", result.MsDateRoundtrip);
-        Assert.Equal(@"\/Date(946688461000" + GetOffset(year2000Utc, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
-        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(DateTime.SpecifyKind(year2000Utc, DateTimeKind.Unspecified)) + GetOffset(year2000Utc, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateUnspecified);
+        Assert.Equal(@"\/Date(946688461000" + year2000Utc.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
+        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(DateTime.SpecifyKind(year2000Utc, DateTimeKind.Unspecified)) + year2000Utc.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateUnspecified);
         Assert.Equal(@"\/Date(946688461000)\/", result.MsDateUtc);
 
         var unixEpoc = new DateTime(621355968000000000, DateTimeKind.Utc);
@@ -796,31 +796,31 @@ public class JsonConvertTest : TestFixtureBase
 
         result = TestDateTime("DateTime Unix Epoc", unixEpoc);
         Assert.Equal("1970-01-01T00:00:00Z", result.IsoDateRoundtrip);
-        Assert.Equal(utcTolocalDate + GetOffset(unixEpoc, DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
+        Assert.Equal(utcTolocalDate + unixEpoc.GetOffset(DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
         Assert.Equal("1970-01-01T00:00:00", result.IsoDateUnspecified);
         Assert.Equal("1970-01-01T00:00:00Z", result.IsoDateUtc);
         Assert.Equal(@"\/Date(0)\/", result.MsDateRoundtrip);
-        Assert.Equal(@"\/Date(0" + GetOffset(unixEpoc, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
-        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(DateTime.SpecifyKind(unixEpoc, DateTimeKind.Unspecified)) + GetOffset(unixEpoc, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateUnspecified);
+        Assert.Equal(@"\/Date(0" + unixEpoc.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
+        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(DateTime.SpecifyKind(unixEpoc, DateTimeKind.Unspecified)) + unixEpoc.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateUnspecified);
         Assert.Equal(@"\/Date(0)\/", result.MsDateUtc);
 
         result = TestDateTime("DateTime Min", DateTime.MinValue);
         Assert.Equal("0001-01-01T00:00:00", result.IsoDateRoundtrip);
-        Assert.Equal("0001-01-01T00:00:00" + GetOffset(DateTime.MinValue, DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
+        Assert.Equal("0001-01-01T00:00:00" + DateTime.MinValue.GetOffset(DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
         Assert.Equal("0001-01-01T00:00:00", result.IsoDateUnspecified);
         Assert.Equal("0001-01-01T00:00:00Z", result.IsoDateUtc);
         Assert.Equal(@"\/Date(-62135596800000)\/", result.MsDateRoundtrip);
-        Assert.Equal(@"\/Date(-62135596800000" + GetOffset(DateTime.MinValue, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
+        Assert.Equal(@"\/Date(-62135596800000" + DateTime.MinValue.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
         Assert.Equal(@"\/Date(-62135596800000)\/", result.MsDateUnspecified);
         Assert.Equal(@"\/Date(-62135596800000)\/", result.MsDateUtc);
 
         result = TestDateTime("DateTime Default", default(DateTime));
         Assert.Equal("0001-01-01T00:00:00", result.IsoDateRoundtrip);
-        Assert.Equal("0001-01-01T00:00:00" + GetOffset(default(DateTime), DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
+        Assert.Equal("0001-01-01T00:00:00" + default(DateTime).GetOffset(DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
         Assert.Equal("0001-01-01T00:00:00", result.IsoDateUnspecified);
         Assert.Equal("0001-01-01T00:00:00Z", result.IsoDateUtc);
         Assert.Equal(@"\/Date(-62135596800000)\/", result.MsDateRoundtrip);
-        Assert.Equal(@"\/Date(-62135596800000" + GetOffset(default(DateTime), DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
+        Assert.Equal(@"\/Date(-62135596800000" + default(DateTime).GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
         Assert.Equal(@"\/Date(-62135596800000)\/", result.MsDateUnspecified);
         Assert.Equal(@"\/Date(-62135596800000)\/", result.MsDateUtc);
 

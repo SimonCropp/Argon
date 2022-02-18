@@ -44,7 +44,7 @@ public class ObjectIdConverterTests : TestFixtureBase
     {
         var c = new ObjectIdTestClass
         {
-            Id = new BsonObjectId(HexToBytes("4ABBED9D1D8B0F0218000001")),
+            Id = new BsonObjectId("4ABBED9D1D8B0F0218000001".HexToBytes()),
             Test = "1234£56"
         };
 
@@ -55,7 +55,7 @@ public class ObjectIdConverterTests : TestFixtureBase
         var writer = new BsonWriter(ms);
         serializer.Serialize(writer, c);
 
-        var expected = HexToBytes("29000000075F6964004ABBED9D1D8B0F02180000010274657374000900000031323334C2A335360000");
+        var expected = "29000000075F6964004ABBED9D1D8B0F02180000010274657374000900000031323334C2A335360000".HexToBytes();
 
         Assert.Equal(expected, ms.ToArray());
     }
@@ -63,14 +63,14 @@ public class ObjectIdConverterTests : TestFixtureBase
     [Fact]
     public void Deserialize()
     {
-        var bson = HexToBytes("29000000075F6964004ABBED9D1D8B0F02180000010274657374000900000031323334C2A335360000");
+        var bson = "29000000075F6964004ABBED9D1D8B0F02180000010274657374000900000031323334C2A335360000".HexToBytes();
 
         var serializer = new JsonSerializer();
 
         var reader = new BsonReader(new MemoryStream(bson));
         var c = serializer.Deserialize<ObjectIdTestClass>(reader);
 
-        Assert.Equal(c.Id.Value, HexToBytes("4ABBED9D1D8B0F0218000001"));
+        Assert.Equal(c.Id.Value, "4ABBED9D1D8B0F0218000001".HexToBytes());
         Assert.Equal(c.Test, "1234£56");
     }
 }

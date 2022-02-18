@@ -188,7 +188,7 @@ public class RegexConverterTests : TestFixtureBase
         serializer.Serialize(writer, new RegexTestClass { Regex = regex });
 
         var expected = "13-00-00-00-0B-52-65-67-65-78-00-61-62-63-00-69-75-00-00";
-        var bson = BytesToHex(ms.ToArray());
+        var bson = ms.ToArray().BytesToHex();
 
         Assert.Equal(expected, bson);
     }
@@ -196,7 +196,7 @@ public class RegexConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeFromBson()
     {
-        var ms = new MemoryStream(HexToBytes("13-00-00-00-0B-52-65-67-65-78-00-61-62-63-00-69-75-00-00"));
+        var ms = new MemoryStream("13-00-00-00-0B-52-65-67-65-78-00-61-62-63-00-69-75-00-00".HexToBytes());
         var reader = new BsonReader(ms);
         var serializer = new JsonSerializer();
         serializer.Converters.Add(new RegexConverter());
@@ -244,7 +244,7 @@ public class RegexConverterTests : TestFixtureBase
         serializer.Serialize(writer, new RegexTestClass { Regex = regex });
 
         var expected = "14-00-00-00-0B-52-65-67-65-78-00-2F-00-69-6D-73-75-78-00-00";
-        var bson = BytesToHex(ms.ToArray());
+        var bson = ms.ToArray().BytesToHex();
 
         Assert.Equal(expected, bson);
 

@@ -35,7 +35,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadSingleObjectAsync()
     {
-        var data = HexToBytes("0F-00-00-00-10-42-6C-61-68-00-01-00-00-00-00");
+        var data = "0F-00-00-00-10-42-6C-61-68-00-01-00-00-00-00".HexToBytes();
         var ms = new MemoryStream(data);
         var reader = new BsonReader(ms);
 
@@ -62,7 +62,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadGuid_TextAsync()
     {
-        var data = HexToBytes("31-00-00-00-02-30-00-25-00-00-00-64-38-32-31-65-65-64-37-2D-34-62-35-63-2D-34-33-63-39-2D-38-61-63-32-2D-36-39-32-38-65-35-37-39-62-37-30-35-00-00");
+        var data = "31-00-00-00-02-30-00-25-00-00-00-64-38-32-31-65-65-64-37-2D-34-62-35-63-2D-34-33-63-39-2D-38-61-63-32-2D-36-39-32-38-65-35-37-39-62-37-30-35-00-00".HexToBytes();
 
         var ms = new MemoryStream(data);
         var reader = new BsonReader(ms);
@@ -96,7 +96,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadGuid_BytesAsync()
     {
-        var data = HexToBytes("1D-00-00-00-05-30-00-10-00-00-00-04-D7-EE-21-D8-5C-4B-C9-43-8A-C2-69-28-E5-79-B7-05-00");
+        var data = "1D-00-00-00-05-30-00-10-00-00-00-04-D7-EE-21-D8-5C-4B-C9-43-8A-C2-69-28-E5-79-B7-05-00".HexToBytes();
 
         var ms = new MemoryStream(data);
         var reader = new BsonReader(ms);
@@ -132,7 +132,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadDoubleAsync()
     {
-        var data = HexToBytes("10-00-00-00-01-30-00-8F-C2-F5-28-5C-FF-58-40-00");
+        var data = "10-00-00-00-01-30-00-8F-C2-F5-28-5C-FF-58-40-00".HexToBytes();
 
         var ms = new MemoryStream(data);
         var reader = new BsonReader(ms);
@@ -156,7 +156,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadDouble_DecimalAsync()
     {
-        var data = HexToBytes("10-00-00-00-01-30-00-8F-C2-F5-28-5C-FF-58-40-00");
+        var data = "10-00-00-00-01-30-00-8F-C2-F5-28-5C-FF-58-40-00".HexToBytes();
 
         var ms = new MemoryStream(data);
         var reader = new BsonReader(ms);
@@ -181,7 +181,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadValuesAsync()
     {
-        var data = HexToBytes("8C-00-00-00-12-30-00-FF-FF-FF-FF-FF-FF-FF-7F-12-31-00-FF-FF-FF-FF-FF-FF-FF-7F-10-32-00-FF-FF-FF-7F-10-33-00-FF-FF-FF-7F-10-34-00-FF-00-00-00-10-35-00-7F-00-00-00-02-36-00-02-00-00-00-61-00-01-37-00-00-00-00-00-00-00-F0-45-01-38-00-FF-FF-FF-FF-FF-FF-EF-7F-01-39-00-00-00-00-E0-FF-FF-EF-47-08-31-30-00-01-05-31-31-00-05-00-00-00-02-00-01-02-03-04-09-31-32-00-40-C5-E2-BA-E3-00-00-00-09-31-33-00-40-C5-E2-BA-E3-00-00-00-00");
+        var data = "8C-00-00-00-12-30-00-FF-FF-FF-FF-FF-FF-FF-7F-12-31-00-FF-FF-FF-FF-FF-FF-FF-7F-10-32-00-FF-FF-FF-7F-10-33-00-FF-FF-FF-7F-10-34-00-FF-00-00-00-10-35-00-7F-00-00-00-02-36-00-02-00-00-00-61-00-01-37-00-00-00-00-00-00-00-F0-45-01-38-00-FF-FF-FF-FF-FF-FF-EF-7F-01-39-00-00-00-00-E0-FF-FF-EF-47-08-31-30-00-01-05-31-31-00-05-00-00-00-02-00-01-02-03-04-09-31-32-00-40-C5-E2-BA-E3-00-00-00-09-31-33-00-40-C5-E2-BA-E3-00-00-00-00".HexToBytes();
         var ms = new MemoryStream(data);
         var reader = new BsonReader(ms);
         reader.JsonNet35BinaryCompatibility = true;
@@ -271,7 +271,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadObjectBsonFromSiteAsync()
     {
-        var data = HexToBytes("20-00-00-00-02-30-00-02-00-00-00-61-00-02-31-00-02-00-00-00-62-00-02-32-00-02-00-00-00-63-00-00");
+        var data = "20-00-00-00-02-30-00-02-00-00-00-61-00-02-31-00-02-00-00-00-62-00-02-32-00-02-00-00-00-63-00-00".HexToBytes();
 
         var ms = new MemoryStream(data);
         var reader = new BsonReader(ms);
@@ -319,7 +319,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadArrayBsonFromSiteAsync()
     {
-        var data = HexToBytes("20-00-00-00-02-30-00-02-00-00-00-61-00-02-31-00-02-00-00-00-62-00-02-32-00-02-00-00-00-63-00-00");
+        var data = "20-00-00-00-02-30-00-02-00-00-00-61-00-02-31-00-02-00-00-00-62-00-02-32-00-02-00-00-00-63-00-00".HexToBytes();
 
         var ms = new MemoryStream(data);
         var reader = new BsonReader(ms);
@@ -363,7 +363,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
     {
         await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () =>
         {
-            var data = HexToBytes("20-00-00-00-02-30-00-02-00-00-00-61-00-02-31-00-02-00-00-00-62-00-02-32-00-02-00-00-00-63-00-00");
+            var data = "20-00-00-00-02-30-00-02-00-00-00-61-00-02-31-00-02-00-00-00-62-00-02-32-00-02-00-00-00-63-00-00".HexToBytes();
 
             var ms = new MemoryStream(data);
             var reader = new BsonReader(ms);
@@ -387,7 +387,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadBytesAsync()
     {
-        var data = HexToBytes("2B-00-00-00-02-30-00-02-00-00-00-61-00-02-31-00-02-00-00-00-62-00-05-32-00-0C-00-00-00-02-48-65-6C-6C-6F-20-77-6F-72-6C-64-21-00");
+        var data = "2B-00-00-00-02-30-00-02-00-00-00-61-00-02-31-00-02-00-00-00-62-00-05-32-00-0C-00-00-00-02-48-65-6C-6C-6F-20-77-6F-72-6C-64-21-00".HexToBytes();
 
         var ms = new MemoryStream(data);
         var reader = new BsonReader(ms, true, DateTimeKind.Utc);
@@ -428,7 +428,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadOidAsync()
     {
-        var data = HexToBytes("29000000075F6964004ABBED9D1D8B0F02180000010274657374000900000031323334C2A335360000");
+        var data = "29000000075F6964004ABBED9D1D8B0F02180000010274657374000900000031323334C2A335360000".HexToBytes();
 
         var ms = new MemoryStream(data);
         var reader = new BsonReader(ms);
@@ -442,7 +442,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
 
         Assert.True(await reader.ReadAsync());
         Assert.Equal(JsonToken.Bytes, reader.TokenType);
-        Assert.Equal(HexToBytes("4ABBED9D1D8B0F0218000001"), (byte[])reader.Value);
+        Assert.Equal("4ABBED9D1D8B0F0218000001".HexToBytes(), (byte[])reader.Value);
         Assert.Equal(typeof(byte[]), reader.ValueType);
 
         Assert.True(await reader.ReadAsync());
@@ -466,7 +466,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
     {
         var hexdoc = "82-00-00-00-07-5F-69-64-00-4A-78-93-79-17-22-00-00-00-00-61-CF-04-61-00-5D-00-00-00-01-30-00-00-00-00-00-00-00-F0-3F-01-31-00-00-00-00-00-00-00-00-40-01-32-00-00-00-00-00-00-00-08-40-01-33-00-00-00-00-00-00-00-10-40-01-34-00-00-00-00-00-00-00-14-50-01-35-00-00-00-00-00-00-00-18-40-01-36-00-00-00-00-00-00-00-1C-40-01-37-00-00-00-00-00-00-00-20-40-00-02-62-00-05-00-00-00-74-65-73-74-00-00";
 
-        var data = HexToBytes(hexdoc);
+        var data = hexdoc.HexToBytes();
 
         var ms = new MemoryStream(data);
         var reader = new BsonReader(ms);
@@ -480,7 +480,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
 
         Assert.True(await reader.ReadAsync());
         Assert.Equal(JsonToken.Bytes, reader.TokenType);
-        Assert.Equal(HexToBytes("4A-78-93-79-17-22-00-00-00-00-61-CF"), (byte[])reader.Value);
+        Assert.Equal("4A-78-93-79-17-22-00-00-00-00-61-CF".HexToBytes(), (byte[])reader.Value);
         Assert.Equal(typeof(byte[]), reader.ValueType);
 
         Assert.True(await reader.ReadAsync());
@@ -525,7 +525,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
     {
         var hexdoc = "15-00-00-00-0B-72-65-67-65-78-00-74-65-73-74-00-67-69-6D-00-00";
 
-        var data = HexToBytes(hexdoc);
+        var data = hexdoc.HexToBytes();
 
         var ms = new MemoryStream(data);
         var reader = new BsonReader(ms);
@@ -554,7 +554,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
     {
         var hexdoc = "1A-00-00-00-0D-63-6F-64-65-00-0B-00-00-00-49-20-61-6D-20-63-6F-64-65-21-00-00";
 
-        var data = HexToBytes(hexdoc);
+        var data = hexdoc.HexToBytes();
 
         var ms = new MemoryStream(data);
         var reader = new BsonReader(ms);
@@ -583,7 +583,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
     {
         var hexdoc = "10-00-00-00-06-75-6E-64-65-66-69-6E-65-64-00-00";
 
-        var data = HexToBytes(hexdoc);
+        var data = hexdoc.HexToBytes();
 
         var ms = new MemoryStream(data);
         var reader = new BsonReader(ms);
@@ -612,7 +612,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
     {
         var hexdoc = "13-00-00-00-12-6C-6F-6E-67-00-FF-FF-FF-FF-FF-FF-FF-7F-00";
 
-        var data = HexToBytes(hexdoc);
+        var data = hexdoc.HexToBytes();
 
         var ms = new MemoryStream(data);
         var reader = new BsonReader(ms);
@@ -641,7 +641,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
     {
         var hexdoc = "1E-00-00-00-0C-6F-69-64-00-04-00-00-00-6F-69-64-00-01-02-03-04-05-06-07-08-09-0A-0B-0C-00";
 
-        var data = HexToBytes(hexdoc);
+        var data = hexdoc.HexToBytes();
 
         var ms = new MemoryStream(data);
         var reader = new BsonReader(ms);
@@ -688,7 +688,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
     {
         var hexdoc = "75-00-00-00-0F-63-6F-64-65-57-69-74-68-53-63-6F-70-65-00-61-00-00-00-35-00-00-00-66-6F-72-20-28-69-6E-74-20-69-20-3D-20-30-3B-20-69-20-3C-20-31-30-30-30-3B-20-69-2B-2B-29-0D-0A-7B-0D-0A-20-20-61-6C-65-72-74-28-61-72-67-31-29-3B-0D-0A-7D-00-24-00-00-00-02-61-72-67-31-00-15-00-00-00-4A-73-6F-6E-2E-4E-45-54-20-69-73-20-61-77-65-73-6F-6D-65-2E-00-00-00";
 
-        var data = HexToBytes(hexdoc);
+        var data = hexdoc.HexToBytes();
 
         var ms = new MemoryStream(data);
         var reader = new BsonReader(ms);
@@ -752,7 +752,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
         var bson =
             "4E-02-00-00-02-30-2D-31-2D-32-2D-33-2D-34-2D-35-2D-36-2D-37-2D-38-2D-39-2D-31-30-2D-31-31-2D-31-32-2D-31-33-2D-31-34-2D-31-35-2D-31-36-2D-31-37-2D-31-38-2D-31-39-2D-32-30-2D-32-31-2D-32-32-2D-32-33-2D-32-34-2D-32-35-2D-32-36-2D-32-37-2D-32-38-2D-32-39-2D-33-30-2D-33-31-2D-33-32-2D-33-33-2D-33-34-2D-33-35-2D-33-36-2D-33-37-2D-33-38-2D-33-39-2D-34-30-2D-34-31-2D-34-32-2D-34-33-2D-34-34-2D-34-35-2D-34-36-2D-34-37-2D-34-38-2D-34-39-2D-35-30-2D-35-31-2D-35-32-2D-35-33-2D-35-34-2D-35-35-2D-35-36-2D-35-37-2D-35-38-2D-35-39-2D-36-30-2D-36-31-2D-36-32-2D-36-33-2D-36-34-2D-36-35-2D-36-36-2D-36-37-2D-36-38-2D-36-39-2D-37-30-2D-37-31-2D-37-32-2D-37-33-2D-37-34-2D-37-35-2D-37-36-2D-37-37-2D-37-38-2D-37-39-2D-38-30-2D-38-31-2D-38-32-2D-38-33-2D-38-34-2D-38-35-2D-38-36-2D-38-37-2D-38-38-2D-38-39-2D-39-30-2D-39-31-2D-39-32-2D-39-33-2D-39-34-2D-39-35-2D-39-36-2D-39-37-2D-39-38-2D-39-39-00-22-01-00-00-30-2D-31-2D-32-2D-33-2D-34-2D-35-2D-36-2D-37-2D-38-2D-39-2D-31-30-2D-31-31-2D-31-32-2D-31-33-2D-31-34-2D-31-35-2D-31-36-2D-31-37-2D-31-38-2D-31-39-2D-32-30-2D-32-31-2D-32-32-2D-32-33-2D-32-34-2D-32-35-2D-32-36-2D-32-37-2D-32-38-2D-32-39-2D-33-30-2D-33-31-2D-33-32-2D-33-33-2D-33-34-2D-33-35-2D-33-36-2D-33-37-2D-33-38-2D-33-39-2D-34-30-2D-34-31-2D-34-32-2D-34-33-2D-34-34-2D-34-35-2D-34-36-2D-34-37-2D-34-38-2D-34-39-2D-35-30-2D-35-31-2D-35-32-2D-35-33-2D-35-34-2D-35-35-2D-35-36-2D-35-37-2D-35-38-2D-35-39-2D-36-30-2D-36-31-2D-36-32-2D-36-33-2D-36-34-2D-36-35-2D-36-36-2D-36-37-2D-36-38-2D-36-39-2D-37-30-2D-37-31-2D-37-32-2D-37-33-2D-37-34-2D-37-35-2D-37-36-2D-37-37-2D-37-38-2D-37-39-2D-38-30-2D-38-31-2D-38-32-2D-38-33-2D-38-34-2D-38-35-2D-38-36-2D-38-37-2D-38-38-2D-38-39-2D-39-30-2D-39-31-2D-39-32-2D-39-33-2D-39-34-2D-39-35-2D-39-36-2D-39-37-2D-39-38-2D-39-39-00-00";
 
-        var reader = new BsonReader(new MemoryStream(HexToBytes(bson)));
+        var reader = new BsonReader(new MemoryStream(bson.HexToBytes()));
 
         var largeStringBuilder = new StringBuilder();
         for (var i = 0; i < 100; i++)
@@ -789,7 +789,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
     {
         var bson = "0C-00-00-00-02-00-01-00-00-00-00-00";
 
-        var reader = new BsonReader(new MemoryStream(HexToBytes(bson)));
+        var reader = new BsonReader(new MemoryStream(bson.HexToBytes()));
 
         Assert.True(await reader.ReadAsync());
         Assert.Equal(JsonToken.StartObject, reader.TokenType);
@@ -828,7 +828,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
 
         Assert.Equal("20-00-00-00-03-41-72-67-75-6D-65-6E-74-73-00-05-00-00-00-00-04-4C-69-73-74-00-05-00-00-00-00-00", bson);
 
-        var reader = new BsonReader(new MemoryStream(HexToBytes(bson)));
+        var reader = new BsonReader(new MemoryStream(bson.HexToBytes()));
 
         Assert.True(await reader.ReadAsync());
         Assert.Equal(JsonToken.StartObject, reader.TokenType);
@@ -1104,7 +1104,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
     {
         var hexdoc = "1A-00-00-00-0B-72-65-67-65-78-00-61-62-63-00-69-00-0B-74-65-73-74-00-00-00-00";
 
-        var data = HexToBytes(hexdoc);
+        var data = hexdoc.HexToBytes();
 
         var ms = new MemoryStream(data);
         var reader = new BsonReader(ms);
