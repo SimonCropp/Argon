@@ -20,3 +20,5 @@ _ReSharper.*
 *.orig
 .DS_Store
 Src/.idea/
+
+nugets/
