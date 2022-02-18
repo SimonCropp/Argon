@@ -41,14 +41,14 @@ public class JObjectProperties : TestFixtureBase
 
         foreach (var property in o.Properties())
         {
-            Console.WriteLine(property.Name + " - " + property.Value);
+            Console.WriteLine($"{property.Name} - {property.Value}");
         }
         // name1 - value1
         // name2 - value2
 
         foreach (var property in o)
         {
-            Console.WriteLine(property.Key + " - " + property.Value);
+            Console.WriteLine($"{property.Key} - {property.Value}");
         }
         // name1 - value1
         // name2 - value2

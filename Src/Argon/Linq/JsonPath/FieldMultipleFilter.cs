@@ -34,7 +34,7 @@ class FieldMultipleFilter : PathFilter
             {
                 if (settings?.ErrorWhenNoMatch ?? false)
                 {
-                    throw new JsonException($"Properties {string.Join(", ", Names.Select(n => "'" + n + "'"))} not valid on {t.GetType().Name}.");
+                    throw new JsonException($"Properties {string.Join(", ", Names.Select(n => $"'{n}'"))} not valid on {t.GetType().Name}.");
                 }
             }
         }

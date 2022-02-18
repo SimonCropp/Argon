@@ -100,7 +100,7 @@ static class ReflectionUtils
         if (binder != null)
         {
             binder.BindToName(t, out var assemblyName, out var typeName);
-            return typeName + (assemblyName == null ? "" : ", " + assemblyName);
+            return typeName + (assemblyName == null ? "" : $", {assemblyName}");
         }
 
         return t.AssemblyQualifiedName;

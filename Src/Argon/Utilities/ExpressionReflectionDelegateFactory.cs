@@ -363,7 +363,7 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
             if (allowWidening && targetType.IsPrimitive)
             {
                 var toTargetTypeMethod = typeof(Convert)
-                    .GetMethod("To" + targetType.Name, new[] { typeof(object) });
+                    .GetMethod($"To{targetType.Name}", new[] { typeof(object) });
 
                 if (toTargetTypeMethod != null)
                 {

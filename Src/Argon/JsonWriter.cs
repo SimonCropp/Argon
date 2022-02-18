@@ -166,7 +166,7 @@ public abstract partial class JsonWriter : IDisposable
                 case State.Start:
                     return WriteState.Start;
                 default:
-                    throw JsonWriterException.Create(this, "Invalid state: " + _currentState, null);
+                    throw JsonWriterException.Create(this, $"Invalid state: {_currentState}", null);
             }
         }
     }
@@ -701,7 +701,7 @@ public abstract partial class JsonWriter : IDisposable
                 WriteEndConstructor();
                 break;
             default:
-                throw JsonWriterException.Create(this, "Unexpected type when writing end: " + type, null);
+                throw JsonWriterException.Create(this, $"Unexpected type when writing end: {type}", null);
         }
     }
 
@@ -724,7 +724,7 @@ public abstract partial class JsonWriter : IDisposable
             case JsonContainerType.Constructor:
                 return JsonToken.EndConstructor;
             default:
-                throw JsonWriterException.Create(this, "No close token for type: " + type, null);
+                throw JsonWriterException.Create(this, $"No close token for type: {type}", null);
         }
     }
 
@@ -805,7 +805,7 @@ public abstract partial class JsonWriter : IDisposable
                 _currentState = State.Start;
                 break;
             default:
-                throw JsonWriterException.Create(this, "Unknown JsonType: " + currentLevelType, null);
+                throw JsonWriterException.Create(this, $"Unknown JsonType: {currentLevelType}", null);
         }
     }
 

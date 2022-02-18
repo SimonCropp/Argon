@@ -37,7 +37,7 @@ public class DefaultValueAttributeIgnore : TestFixtureBase
         public string LastName { get; set; }
 
         [DefaultValue(" ")]
-        public string FullName => FirstName + " " + LastName;
+        public string FullName => $"{FirstName} {LastName}";
     }
     #endregion
 

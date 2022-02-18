@@ -324,14 +324,14 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 case ReferenceLoopHandling.Ignore:
                     if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
                     {
-                        TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(null, writer.Path, message + ". Skipping serializing self referenced value."), null);
+                        TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(null, writer.Path, $"{message}. Skipping serializing self referenced value."), null);
                     }
 
                     return false;
                 case ReferenceLoopHandling.Serialize:
                     if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
                     {
-                        TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(null, writer.Path, message + ". Serializing self referenced value."), null);
+                        TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(null, writer.Path, $"{message}. Serializing self referenced value."), null);
                     }
 
                     return true;
@@ -826,8 +826,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
     {
         if (!JsonTypeReflector.FullyTrusted)
         {
-            var message = @"Type '{0}' implements ISerializable but cannot be serialized using the ISerializable interface because the current application is not fully trusted and ISerializable can expose secure data." + Environment.NewLine +
-                          @"To fix this error either change the environment to be fully trusted, change the application to not deserialize the type, add JsonObjectAttribute to the type or change the JsonSerializer setting ContractResolver to use a new DefaultContractResolver with IgnoreSerializableInterface set to true." + Environment.NewLine;
+            var message = $@"Type '{{0}}' implements ISerializable but cannot be serialized using the ISerializable interface because the current application is not fully trusted and ISerializable can expose secure data.{Environment.NewLine}To fix this error either change the environment to be fully trusted, change the application to not deserialize the type, add JsonObjectAttribute to the type or change the JsonSerializer setting ContractResolver to use a new DefaultContractResolver with IgnoreSerializableInterface set to true.{Environment.NewLine}";
             message = string.Format(message, value.GetType());
 
             throw JsonSerializationException.Create(null, writer.ContainerPath, message, null);

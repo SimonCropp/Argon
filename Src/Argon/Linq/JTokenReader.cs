@@ -330,7 +330,7 @@ public class JTokenReader : JsonReader, IJsonLineInfo
                 }
                 else
                 {
-                    path = _initialPath + "." + path;
+                    path = $"{_initialPath}.{path}";
                 }
             }
 

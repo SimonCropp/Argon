@@ -724,7 +724,7 @@ public class JValueTests : TestFixtureBase
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            return reader.Value + "!";
+            return $"{reader.Value}!";
         }
 
         public override bool CanConvert(Type objectType)

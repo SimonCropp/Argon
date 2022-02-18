@@ -45,7 +45,7 @@ public class VersionKeyedCollection : KeyedCollection<string, Person>, IEnumerab
     [OnError]
     internal void OnErrorMethod(StreamingContext context, ErrorContext errorContext)
     {
-        Messages.Add(errorContext.Path + " - Error message for member " + errorContext.Member + " = " + errorContext.Error.Message);
+        Messages.Add($"{errorContext.Path} - Error message for member {errorContext.Member} = {errorContext.Error.Message}");
         errorContext.Handled = true;
     }
 
@@ -55,7 +55,7 @@ public class VersionKeyedCollection : KeyedCollection<string, Person>, IEnumerab
         {
             if (i % 2 == 0)
             {
-                throw new Exception("Index even: " + i);
+                throw new Exception($"Index even: {i}");
             }
 
             yield return this[i];

@@ -105,16 +105,16 @@ public class DynamicTests : TestFixtureBase
         var dynamicChildObjectTypeName = ReflectionUtils.GetTypeName(typeof(DynamicChildObject), TypeNameAssemblyFormatHandling.Full, null);
         var expandoObjectTypeName = ReflectionUtils.GetTypeName(typeof(ExpandoObject), TypeNameAssemblyFormatHandling.Full, null);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""$type"": """ + expandoObjectTypeName + @""",
+        XUnitAssert.AreEqualNormalized($@"{{
+  ""$type"": ""{expandoObjectTypeName}"",
   ""Text"": ""Text!"",
   ""Integer"": 2147483647,
-  ""DynamicChildObject"": {
-    ""$type"": """ + dynamicChildObjectTypeName + @""",
+  ""DynamicChildObject"": {{
+    ""$type"": ""{dynamicChildObjectTypeName}"",
     ""Text"": ""Child text!"",
     ""Integer"": -2147483648
-  }
-}", json);
+  }}
+}}", json);
 
         dynamic n = JsonConvert.DeserializeObject(json, null, new JsonSerializerSettings
         {

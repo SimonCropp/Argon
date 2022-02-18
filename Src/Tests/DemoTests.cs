@@ -101,7 +101,7 @@ public class DemoTests : TestFixtureBase
                             + color.Blue.ToString("X2");
 
             // write value to json
-            writer.WriteValue("#" + hexString);
+            writer.WriteValue($"#{hexString}");
         }
 
         //public override object ReadJson(JsonReader reader, Type objectType,

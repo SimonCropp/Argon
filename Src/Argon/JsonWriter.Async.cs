@@ -260,7 +260,7 @@ public abstract partial class JsonWriter
                     return cancellationToken.FromCanceled();
                 }
 
-                throw JsonWriterException.Create(this, "Unexpected type when writing end: " + type, null);
+                throw JsonWriterException.Create(this, $"Unexpected type when writing end: {type}", null);
         }
     }
 
@@ -815,7 +815,7 @@ public abstract partial class JsonWriter
         }
         if (reader.TokenType != JsonToken.Integer)
         {
-            throw JsonWriterException.Create(this, "Unexpected token when reading date constructor. Expected Integer, got " + reader.TokenType, null);
+            throw JsonWriterException.Create(this, $"Unexpected token when reading date constructor. Expected Integer, got {reader.TokenType}", null);
         }
 
         var date = DateTimeUtils.ConvertJavaScriptTicksToDateTime((long)reader.Value!);
@@ -826,7 +826,7 @@ public abstract partial class JsonWriter
         }
         if (reader.TokenType != JsonToken.EndConstructor)
         {
-            throw JsonWriterException.Create(this, "Unexpected token when reading date constructor. Expected EndConstructor, got " + reader.TokenType, null);
+            throw JsonWriterException.Create(this, $"Unexpected token when reading date constructor. Expected EndConstructor, got {reader.TokenType}", null);
         }
 
         await WriteValueAsync(date, cancellationToken).ConfigureAwait(false);

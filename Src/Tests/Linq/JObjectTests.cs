@@ -532,7 +532,7 @@ Parameter name: arrayIndex",
         var i = 1;
         foreach (JProperty property in t)
         {
-            Assert.Equal("PropertyNameValue" + i, property.Name);
+            Assert.Equal($"PropertyNameValue{i}", property.Name);
             Assert.Equal(i, (int) property.Value);
 
             i++;
@@ -551,7 +551,7 @@ Parameter name: arrayIndex",
         var i = 1;
         foreach (var pair in o)
         {
-            Assert.Equal("PropertyNameValue" + i, pair.Key);
+            Assert.Equal($"PropertyNameValue{i}", pair.Key);
             Assert.Equal(i, (int) pair.Value);
 
             i++;
@@ -649,7 +649,7 @@ Parameter name: arrayIndex",
         {
             ["rc"] = new JValue(200),
             ["m"] = new JValue(""),
-            ["o"] = new JValue(@"<div class='s1'>" + StringUtils.CarriageReturnLineFeed + @"</div>")
+            ["o"] = new JValue($@"<div class='s1'>{StringUtils.CarriageReturnLineFeed}</div>")
         };
 
         XUnitAssert.AreEqualNormalized(@"{

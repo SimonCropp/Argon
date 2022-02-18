@@ -52,7 +52,7 @@ public class CreateReader : TestFixtureBase
             Console.Write(reader.TokenType);
             if (reader.Value != null)
             {
-                Console.Write(" - " + reader.Value);
+                Console.Write($" - {reader.Value}");
             }
 
             Console.WriteLine();

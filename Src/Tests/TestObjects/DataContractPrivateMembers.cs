@@ -57,6 +57,6 @@ public class DataContractPrivateMembers
 
     public override string ToString()
     {
-        return "_name: " + _name + ", _age: " + Age + ", Rank: " + Rank + ", JsonTitle: " + Title;
+        return $"_name: {_name}, _age: {Age}, Rank: {Rank}, JsonTitle: {Title}";
     }
 }

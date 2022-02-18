@@ -38,7 +38,7 @@ class DictionaryKeyCast
 
     public override string ToString()
     {
-        return _name + " " + _number;
+        return $"{_name} {_number}";
     }
 
     public static implicit operator DictionaryKeyCast(string dictionaryKey)

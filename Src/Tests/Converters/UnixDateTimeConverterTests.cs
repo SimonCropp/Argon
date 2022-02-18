@@ -48,7 +48,7 @@ public class UnixDateTimeConverterTests : TestFixtureBase
 
         var result = JsonConvert.SerializeObject(now, new UnixDateTimeConverter());
 
-        Assert.Equal(nowSeconds + "", result);
+        Assert.Equal($"{nowSeconds}", result);
     }
 
     [Fact]

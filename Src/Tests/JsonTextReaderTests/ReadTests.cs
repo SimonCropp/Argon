@@ -192,7 +192,7 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadAsBoolean_NullChar()
     {
-        var json = '\0' + @"true" + '\0' + '\0';
+        var json = "\0true\0\0";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -205,7 +205,7 @@ public class ReadTests : TestFixtureBase
     {
         var data = Encoding.UTF8.GetBytes("Hello world");
 
-        var json = @"""" + Convert.ToBase64String(data) + @"""";
+        var json = $@"""{Convert.ToBase64String(data)}""";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -253,7 +253,7 @@ public class ReadTests : TestFixtureBase
 
         Assert.True(reader.Read());
         Assert.Equal(JsonToken.String, reader.TokenType);
-        Assert.Equal(@"Hi,I" + '\u0092' + "ve send you smth", reader.Value);
+        Assert.Equal(@"Hi,Ive send you smth", reader.Value);
 
         Assert.True(reader.Read());
         Assert.Equal(JsonToken.EndObject, reader.TokenType);
@@ -962,14 +962,13 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadContentDelimitedByComments()
     {
-        var json = @"/*comment*/{/*comment*/Name:/*comment*/true/*comment*/,/*comment*/
+        var json = $@"/*comment*/{{/*comment*/Name:/*comment*/true/*comment*/,/*comment*/
         ""ExpiryDate"":/*comment*/new
-" + StringUtils.LineFeed +
-                   @"Date
+{StringUtils.LineFeed}Date
 (/*comment*/null/*comment*/),
         ""Price"": 3.99,
         ""Sizes"":/*comment*/[/*comment*/
-          ""Small""/*comment*/]/*comment*/}/*comment*/";
+          ""Small""/*comment*/]/*comment*/}}/*comment*/";
 
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
 
@@ -1378,7 +1377,7 @@ third line", jsonTextReader.Value);
     public void ReadLongString()
     {
         var s = new string('a', 10000);
-        JsonReader reader = new JsonTextReader(new StringReader("'" + s + "'"));
+        JsonReader reader = new JsonTextReader(new StringReader($"'{s}'"));
         reader.Read();
 
         Assert.Equal(s, reader.Value);
@@ -1479,35 +1478,10 @@ third line", jsonTextReader.Value);
     [Fact]
     public void ReadNewLines()
     {
-        var newLinesText = StringUtils.CarriageReturn + StringUtils.CarriageReturnLineFeed + StringUtils.LineFeed + StringUtils.CarriageReturnLineFeed + " " + StringUtils.CarriageReturn + StringUtils.CarriageReturnLineFeed;
+        var newLinesText = $"{StringUtils.CarriageReturn}{StringUtils.CarriageReturnLineFeed}{StringUtils.LineFeed}{StringUtils.CarriageReturnLineFeed} {StringUtils.CarriageReturn}{StringUtils.CarriageReturnLineFeed}";
 
         var json =
-            newLinesText
-            + "{" + newLinesText
-            + "'" + newLinesText
-            + "name1" + newLinesText
-            + "'" + newLinesText
-            + ":" + newLinesText
-            + "[" + newLinesText
-            + "new" + newLinesText
-            + "Date" + newLinesText
-            + "(" + newLinesText
-            + "1" + newLinesText
-            + "," + newLinesText
-            + "null" + newLinesText
-            + "/*" + newLinesText
-            + "blah comment" + newLinesText
-            + "*/" + newLinesText
-            + ")" + newLinesText
-            + "," + newLinesText
-            + "1.1111" + newLinesText
-            + "]" + newLinesText
-            + "," + newLinesText
-            + "name2" + newLinesText
-            + ":" + newLinesText
-            + "{" + newLinesText
-            + "}" + newLinesText
-            + "}" + newLinesText;
+            $"{newLinesText}{{{newLinesText}'{newLinesText}name1{newLinesText}'{newLinesText}:{newLinesText}[{newLinesText}new{newLinesText}Date{newLinesText}({newLinesText}1{newLinesText},{newLinesText}null{newLinesText}/*{newLinesText}blah comment{newLinesText}*/{newLinesText}){newLinesText},{newLinesText}1.1111{newLinesText}]{newLinesText},{newLinesText}name2{newLinesText}:{newLinesText}{{{newLinesText}}}{newLinesText}}}{newLinesText}";
 
         var count = 0;
         var sr = new StringReader(newLinesText);
@@ -1522,7 +1496,7 @@ third line", jsonTextReader.Value);
 
         Assert.True(reader.Read());
         Assert.Equal(31, reader.LineNumber);
-        Assert.Equal(newLinesText + "name1" + newLinesText, reader.Value);
+        Assert.Equal($"{newLinesText}name1{newLinesText}", reader.Value);
 
         Assert.True(reader.Read());
         Assert.Equal(37, reader.LineNumber);
@@ -1542,7 +1516,7 @@ third line", jsonTextReader.Value);
 
         Assert.True(reader.Read());
         Assert.Equal(91, reader.LineNumber);
-        Assert.Equal(newLinesText + "blah comment" + newLinesText, reader.Value);
+        Assert.Equal($"{newLinesText}blah comment{newLinesText}", reader.Value);
 
         Assert.True(reader.Read());
         Assert.Equal(97, reader.LineNumber);
@@ -1573,7 +1547,7 @@ third line", jsonTextReader.Value);
         var helloWorld = "Hello world!";
         var helloWorldData = Encoding.UTF8.GetBytes(helloWorld);
 
-        JsonReader reader = new JsonTextReader(new StringReader(@"[1,'" + Convert.ToBase64String(helloWorldData) + @"']"));
+        JsonReader reader = new JsonTextReader(new StringReader($@"[1,'{Convert.ToBase64String(helloWorldData)}']"));
         Assert.True(reader.Read());
         Assert.Equal(JsonToken.StartArray, reader.TokenType);
         Assert.True(reader.Read());
@@ -1593,7 +1567,7 @@ third line", jsonTextReader.Value);
         var helloWorld = "Hello world!";
         var helloWorldData = Encoding.UTF8.GetBytes(helloWorld);
 
-        JsonReader reader = new JsonTextReader(new StringReader(@"{num:1,data:'" + Convert.ToBase64String(helloWorldData) + @"'}"));
+        JsonReader reader = new JsonTextReader(new StringReader($@"{{num:1,data:'{Convert.ToBase64String(helloWorldData)}'}}"));
         Assert.True(reader.Read());
         Assert.Equal(JsonToken.StartObject, reader.TokenType);
         Assert.True(reader.Read());
@@ -1649,7 +1623,8 @@ third line", jsonTextReader.Value);
     'DVD read/writer',
     ""500 gigabyte hard drive""
   ]
-}" + '\n';
+}
+";
 
         var o = JsonConvert.DeserializeObject(input);
     }

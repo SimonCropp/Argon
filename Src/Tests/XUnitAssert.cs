@@ -67,7 +67,7 @@ public class XUnitAssert
         {
             action();
 
-            Fail("Exception of type " + typeof(TException).Name + " expected. No exception thrown.");
+            Fail($"Exception of type {typeof(TException).Name} expected. No exception thrown.");
             return null;
         }
         catch (TException ex)
@@ -99,7 +99,7 @@ public class XUnitAssert
         {
             await action();
 
-            Fail("Exception of type " + typeof(TException).Name + " expected. No exception thrown.");
+            Fail($"Exception of type {typeof(TException).Name} expected. No exception thrown.");
             return null;
         }
         catch (TException ex)
@@ -116,7 +116,7 @@ public class XUnitAssert
                 }
             }
 
-            throw new Exception("Unexpected exception message." + Environment.NewLine + "Expected one of: " + string.Join(Environment.NewLine, possibleMessages) + Environment.NewLine + "Got: " + ex.Message + Environment.NewLine + Environment.NewLine + ex);
+            throw new Exception($"Unexpected exception message.{Environment.NewLine}Expected one of: {string.Join(Environment.NewLine, possibleMessages)}{Environment.NewLine}Got: {ex.Message}{Environment.NewLine}{Environment.NewLine}{ex}");
         }
         catch (Exception ex)
         {

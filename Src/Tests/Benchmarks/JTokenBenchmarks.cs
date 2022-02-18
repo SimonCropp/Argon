@@ -42,7 +42,7 @@ public class JTokenBenchmarks
         }
         JsonTextSample = o.ToString();
 
-        NestedJsonText = new string('[', 100000) + "1" + new string(']', 100000);
+        NestedJsonText = $"{new string('[', 100000)}1{new string(']', 100000)}";
     }
 
     [Benchmark]

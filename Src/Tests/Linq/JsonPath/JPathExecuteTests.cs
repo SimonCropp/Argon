@@ -1519,15 +1519,15 @@ public class JPathExecuteTests : TestFixtureBase
     [TestCaseSource(nameof(StrictMatchWithInverseTestData))]
     public static void EqualsStrict(string value1, string value2, bool matchStrict)
     {
-        var completeJson = @"{
+        var completeJson = $@"{{
   ""Values"": [
-    {
-      ""Property"": " + value1 + @"
-    }
+    {{
+      ""Property"": {value1}
+    }}
   ]
-}";
-        var completeEqualsStrictPath = "$.Values[?(@.Property === " + value2 + ")]";
-        var completeNotEqualsStrictPath = "$.Values[?(@.Property !== " + value2 + ")]";
+}}";
+        var completeEqualsStrictPath = $"$.Values[?(@.Property === {value2})]";
+        var completeNotEqualsStrictPath = $"$.Values[?(@.Property !== {value2})]";
 
         var t = JToken.Parse(completeJson);
 

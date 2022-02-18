@@ -324,7 +324,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     // ignore
                     break;
                 default:
-                    throw JsonSerializationException.Create(reader, "Unexpected token while deserializing object: " + reader.TokenType);
+                    throw JsonSerializationException.Create(reader, $"Unexpected token while deserializing object: {reader.TokenType}");
             }
         } while (reader.Read());
 
@@ -484,7 +484,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     // without needing the $value property
                     if (reader.TokenType == JsonToken.StartObject)
                     {
-                        throw JsonSerializationException.Create(reader, "Unexpected token when deserializing primitive value: " + reader.TokenType);
+                        throw JsonSerializationException.Create(reader, $"Unexpected token when deserializing primitive value: {reader.TokenType}");
                     }
 
                     var value = CreateValueInternal(reader, resolvedObjectType, primitiveContract, member, null, null, existingValue);
@@ -556,8 +556,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 return CreateISerializable(reader, serializableContract, member, id);
         }
 
-        var message = @"Cannot deserialize the current JSON object (e.g. {{""name"":""value""}}) into type '{0}' because the type requires a {1} to deserialize correctly." + Environment.NewLine +
-                      @"To fix this error either change the JSON to a {1} or change the deserialized type so that it is a normal .NET type (e.g. not a primitive type like integer, not a collection type like an array or List<T>) that can be deserialized from a JSON object. JsonObjectAttribute can also be added to the type to force it to deserialize from a JSON object." + Environment.NewLine;
+        var message = $@"Cannot deserialize the current JSON object (e.g. {{{{""name"":""value""}}}}) into type '{{0}}' because the type requires a {{1}} to deserialize correctly.{Environment.NewLine}To fix this error either change the JSON to a {{1}} or change the deserialized type so that it is a normal .NET type (e.g. not a primitive type like integer, not a collection type like an array or List<T>) that can be deserialized from a JSON object. JsonObjectAttribute can also be added to the type to force it to deserialize from a JSON object.{Environment.NewLine}";
         message = string.Format(message, resolvedObjectType, GetExpectedDescription(contract));
 
         throw JsonSerializationException.Create(reader, message);
@@ -793,8 +792,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
         if (!(contract is JsonArrayContract arrayContract))
         {
-            var message = @"Cannot deserialize the current JSON array (e.g. [1,2,3]) into type '{0}' because the type requires a {1} to deserialize correctly." + Environment.NewLine +
-                          @"To fix this error either change the JSON to a {1} or change the deserialized type to an array or a type that implements a collection interface (e.g. ICollection, IList) like List<T> that can be deserialized from a JSON array. JsonArrayAttribute can also be added to the type to force it to deserialize from a JSON array." + Environment.NewLine;
+            var message = $@"Cannot deserialize the current JSON array (e.g. [1,2,3]) into type '{{0}}' because the type requires a {{1}} to deserialize correctly.{Environment.NewLine}To fix this error either change the JSON to a {{1}} or change the deserialized type to an array or a type that implements a collection interface (e.g. ICollection, IList) like List<T> that can be deserialized from a JSON array. JsonArrayAttribute can also be added to the type to force it to deserialize from a JSON array.{Environment.NewLine}";
             message = string.Format(message, objectType, GetExpectedDescription(contract));
 
             throw JsonSerializationException.Create(reader, message);
@@ -1417,7 +1415,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     finished = true;
                     break;
                 default:
-                    throw JsonSerializationException.Create(reader, "Unexpected token when deserializing object: " + reader.TokenType);
+                    throw JsonSerializationException.Create(reader, $"Unexpected token when deserializing object: {reader.TokenType}");
             }
         } while (!finished && reader.Read());
 
@@ -1542,7 +1540,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                         case JsonToken.Comment:
                             break;
                         default:
-                            throw JsonSerializationException.Create(reader, "Unexpected token when deserializing multidimensional array: " + reader.TokenType);
+                            throw JsonSerializationException.Create(reader, $"Unexpected token when deserializing multidimensional array: {reader.TokenType}");
                     }
                 }
                 else
@@ -1687,8 +1685,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
         if (!JsonTypeReflector.FullyTrusted)
         {
-            var message = @"Type '{0}' implements ISerializable but cannot be deserialized using the ISerializable interface because the current application is not fully trusted and ISerializable can expose secure data." + Environment.NewLine +
-                          @"To fix this error either change the environment to be fully trusted, change the application to not deserialize the type, add JsonObjectAttribute to the type or change the JsonSerializer setting ContractResolver to use a new DefaultContractResolver with IgnoreSerializableInterface set to true." + Environment.NewLine;
+            var message = $@"Type '{{0}}' implements ISerializable but cannot be deserialized using the ISerializable interface because the current application is not fully trusted and ISerializable can expose secure data.{Environment.NewLine}To fix this error either change the environment to be fully trusted, change the application to not deserialize the type, add JsonObjectAttribute to the type or change the JsonSerializer setting ContractResolver to use a new DefaultContractResolver with IgnoreSerializableInterface set to true.{Environment.NewLine}";
             message = string.Format(message, objectType);
 
             throw JsonSerializationException.Create(reader, message);
@@ -1870,7 +1867,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     finished = true;
                     break;
                 default:
-                    throw JsonSerializationException.Create(reader, "Unexpected token when deserializing object: " + reader.TokenType);
+                    throw JsonSerializationException.Create(reader, $"Unexpected token when deserializing object: {reader.TokenType}");
             }
         } while (!finished && reader.Read());
 
@@ -2226,7 +2223,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     exit = true;
                     break;
                 default:
-                    throw JsonSerializationException.Create(reader, "Unexpected token when deserializing object: " + reader.TokenType);
+                    throw JsonSerializationException.Create(reader, $"Unexpected token when deserializing object: {reader.TokenType}");
             }
         } while (!exit && reader.Read());
 
@@ -2391,7 +2388,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     // ignore
                     break;
                 default:
-                    throw JsonSerializationException.Create(reader, "Unexpected token when deserializing object: " + reader.TokenType);
+                    throw JsonSerializationException.Create(reader, $"Unexpected token when deserializing object: {reader.TokenType}");
             }
         } while (!finished && reader.Read());
 

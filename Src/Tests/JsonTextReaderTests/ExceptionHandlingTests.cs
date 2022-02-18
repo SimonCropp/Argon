@@ -35,7 +35,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     {
         var data = Encoding.UTF8.GetBytes("Hello world");
 
-        var json = @"['" + Convert.ToBase64String(data) + "' '" + Convert.ToBase64String(data) + @"']";
+        var json = $@"['{Convert.ToBase64String(data)}' '{Convert.ToBase64String(data)}']";
         var reader = new JsonTextReader(new StringReader(json));
 
         Assert.True(reader.Read());
@@ -329,8 +329,8 @@ public class ExceptionHandlingTests : TestFixtureBase
             () => { new JsonTextReader(null); },
             new[]
             {
-                "Value cannot be null." + Environment.NewLine + "Parameter name: reader",
-                "Argument cannot be null." + Environment.NewLine + "Parameter name: reader", // Mono
+                $"Value cannot be null.{Environment.NewLine}Parameter name: reader",
+                $"Argument cannot be null.{Environment.NewLine}Parameter name: reader", // Mono
                 "Value cannot be null. (Parameter 'reader')"
             });
     }
@@ -559,7 +559,7 @@ public class ExceptionHandlingTests : TestFixtureBase
             {
                 reader = new JsonTextReader(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
                 reader.ReadAsInt32();
-            }, "JSON integer " + total + " is too large or small for an Int32. Path '', line 1, position 10.");
+            }, $"JSON integer {total} is too large or small for an Int32. Path '', line 1, position 10.");
         }
     }
 
@@ -580,7 +580,7 @@ public class ExceptionHandlingTests : TestFixtureBase
             {
                 reader = new JsonTextReader(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
                 reader.ReadAsInt32();
-            }, "JSON integer " + total + " is too large or small for an Int32. Path '', line 1, position 11.");
+            }, $"JSON integer {total} is too large or small for an Int32. Path '', line 1, position 11.");
         }
     }
 
@@ -794,7 +794,7 @@ public class ExceptionHandlingTests : TestFixtureBase
         var helloWorld = "Hello world!";
         var helloWorldData = Encoding.UTF8.GetBytes(helloWorld);
 
-        JsonReader reader = new JsonTextReader(new StringReader(@"'" + Convert.ToBase64String(helloWorldData)));
+        JsonReader reader = new JsonTextReader(new StringReader($@"'{Convert.ToBase64String(helloWorldData)}"));
 
         XUnitAssert.Throws<JsonReaderException>(() => { reader.ReadAsBytes(); }, "Unterminated string. Expected delimiter: '. Path '', line 1, position 17.");
     }

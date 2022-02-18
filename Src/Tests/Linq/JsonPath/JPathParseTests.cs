@@ -728,7 +728,7 @@ public class JPathParseTests : TestFixtureBase
     [Fact]
     public void AdjacentIndexers()
     {
-        var path = new JPath("[1][0][0][" + int.MaxValue + "]");
+        var path = new JPath($"[1][0][0][{int.MaxValue}]");
         Assert.Equal(4, path.Filters.Count);
         Assert.Equal(1, ((ArrayIndexFilter)path.Filters[0]).Index);
         Assert.Equal(0, ((ArrayIndexFilter)path.Filters[1]).Index);

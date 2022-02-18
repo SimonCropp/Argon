@@ -824,7 +824,7 @@ public partial class JsonTextReader
         }
         else
         {
-            throw JsonReaderException.Create(this, "Error parsing " + newToken.ToString().ToLowerInvariant() + " value.");
+            throw JsonReaderException.Create(this, $"Error parsing {newToken.ToString().ToLowerInvariant()} value.");
         }
     }
 

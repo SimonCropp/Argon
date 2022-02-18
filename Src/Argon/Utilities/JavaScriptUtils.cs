@@ -626,7 +626,7 @@ internal static class JavaScriptUtils
         }
         if (reader.TokenType != JsonToken.Integer)
         {
-            errorMessage = "Unexpected token when reading date constructor. Expected Integer, got " + reader.TokenType;
+            errorMessage = $"Unexpected token when reading date constructor. Expected Integer, got {reader.TokenType}";
             return false;
         }
 

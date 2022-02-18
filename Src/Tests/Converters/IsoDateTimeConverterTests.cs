@@ -55,7 +55,7 @@ public class IsoDateTimeConverterTests : TestFixtureBase
     {
         var utcOffset = d.GetUtcOffset();
 
-        return utcOffset.Hours.ToString("+00;-00", CultureInfo.InvariantCulture) + ":" + utcOffset.Minutes.ToString("00;00", CultureInfo.InvariantCulture);
+        return $"{utcOffset.Hours.ToString("+00;-00", CultureInfo.InvariantCulture)}:{utcOffset.Minutes.ToString("00;00", CultureInfo.InvariantCulture)}";
     }
 
     [Fact]
@@ -72,7 +72,7 @@ public class IsoDateTimeConverterTests : TestFixtureBase
 
         d = new DateTime(2000, 12, 15, 22, 11, 3, 55, DateTimeKind.Local);
         result = JsonConvert.SerializeObject(d, converter);
-        Assert.Equal(@"""2000-12-15T22:11:03.055" + GetUtcOffsetText(d) + @"""", result);
+        Assert.Equal($@"""2000-12-15T22:11:03.055{GetUtcOffsetText(d)}""", result);
     }
 
     [Fact]

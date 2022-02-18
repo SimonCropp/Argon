@@ -1620,7 +1620,7 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.Equal(dataContractJson.Count, jsonNetJson.Count);
         foreach (var property in dataContractJson)
         {
-            Assert.True(JToken.DeepEquals(jsonNetJson[property.Key], property.Value), "Property not equal: " + property.Key);
+            Assert.True(JToken.DeepEquals(jsonNetJson[property.Key], property.Value), $"Property not equal: {property.Key}");
         }
 
         return jsonNetJson.ToString();
@@ -2599,7 +2599,7 @@ keyword such as type of business.""
         var typeClass = new TypeClass {TypeProperty = typeof(bool)};
 
         var json = JsonConvert.SerializeObject(typeClass);
-        Assert.Equal(@"{""TypeProperty"":""" + boolRef + @"""}", json);
+        Assert.Equal($@"{{""TypeProperty"":""{boolRef}""}}", json);
 
         var typeClass2 = JsonConvert.DeserializeObject<TypeClass>(json);
         Assert.Equal(typeof(bool), typeClass2.TypeProperty);
@@ -2608,7 +2608,7 @@ keyword such as type of business.""
         typeClass = new TypeClass {TypeProperty = typeof(JsonSerializerTest)};
 
         json = JsonConvert.SerializeObject(typeClass);
-        Assert.Equal(@"{""TypeProperty"":""" + jsonSerializerTestRef + @"""}", json);
+        Assert.Equal($@"{{""TypeProperty"":""{jsonSerializerTestRef}""}}", json);
 
         typeClass2 = JsonConvert.DeserializeObject<TypeClass>(json);
         Assert.Equal(typeof(JsonSerializerTest), typeClass2.TypeProperty);
@@ -3042,7 +3042,7 @@ keyword such as type of business.""
             o.ReferenceLoopHandlingErrorProperty = o;
 
             JsonConvert.SerializeObject(o, Formatting.Indented, new JsonSerializerSettings {ReferenceLoopHandling = ReferenceLoopHandling.Ignore});
-        }, "Self referencing loop detected for property 'ReferenceLoopHandlingErrorProperty' with type '" + classRef + "'. Path ''.");
+        }, $"Self referencing loop detected for property 'ReferenceLoopHandlingErrorProperty' with type '{classRef}'. Path ''.");
     }
 
     [Fact]
@@ -3473,9 +3473,7 @@ Path '', line 1, position 1.");
         }
         catch (JsonSerializationException ex)
         {
-            Assert.True(ex.Message.StartsWith(@"Cannot deserialize the current JSON object (e.g. {""name"":""value""}) into type 'System.Collections.Generic.List`1[Argon.Tests.TestObjects.Organization.Person]' because the type requires a JSON array (e.g. [1,2,3]) to deserialize correctly." + Environment.NewLine +
-                                                @"To fix this error either change the JSON to a JSON array (e.g. [1,2,3]) or change the deserialized type so that it is a normal .NET type (e.g. not a primitive type like integer, not a collection type like an array or List<T>) that can be deserialized from a JSON object. JsonObjectAttribute can also be added to the type to force it to deserialize from a JSON object." + Environment.NewLine +
-                                                @"Path ''"));
+            Assert.True(ex.Message.StartsWith($@"Cannot deserialize the current JSON object (e.g. {{""name"":""value""}}) into type 'System.Collections.Generic.List`1[Argon.Tests.TestObjects.Organization.Person]' because the type requires a JSON array (e.g. [1,2,3]) to deserialize correctly.{Environment.NewLine}To fix this error either change the JSON to a JSON array (e.g. [1,2,3]) or change the deserialized type so that it is a normal .NET type (e.g. not a primitive type like integer, not a collection type like an array or List<T>) that can be deserialized from a JSON object. JsonObjectAttribute can also be added to the type to force it to deserialize from a JSON object.{Environment.NewLine}Path ''"));
         }
     }
 
@@ -4064,9 +4062,7 @@ Path '', line 1, position 1.");
                     JsonTypeReflector.SetFullyTrusted(false);
 
                     JsonConvert.DeserializeObject<ISerializableTestObject>("{booleanValue:true}");
-                }, @"Type 'Argon.Tests.TestObjects.ISerializableTestObject' implements ISerializable but cannot be deserialized using the ISerializable interface because the current application is not fully trusted and ISerializable can expose secure data." + Environment.NewLine +
-                   @"To fix this error either change the environment to be fully trusted, change the application to not deserialize the type, add JsonObjectAttribute to the type or change the JsonSerializer setting ContractResolver to use a new DefaultContractResolver with IgnoreSerializableInterface set to true." + Environment.NewLine +
-                   @"Path 'booleanValue', line 1, position 14.");
+                }, $@"Type 'Argon.Tests.TestObjects.ISerializableTestObject' implements ISerializable but cannot be deserialized using the ISerializable interface because the current application is not fully trusted and ISerializable can expose secure data.{Environment.NewLine}To fix this error either change the environment to be fully trusted, change the application to not deserialize the type, add JsonObjectAttribute to the type or change the JsonSerializer setting ContractResolver to use a new DefaultContractResolver with IgnoreSerializableInterface set to true.{Environment.NewLine}Path 'booleanValue', line 1, position 14.");
         }
         finally
         {
@@ -4085,9 +4081,7 @@ Path '', line 1, position 1.");
                     var value = new ISerializableTestObject("string!", 0, default(DateTimeOffset), null);
 
                     JsonConvert.SerializeObject(value);
-                }, @"Type 'Argon.Tests.TestObjects.ISerializableTestObject' implements ISerializable but cannot be serialized using the ISerializable interface because the current application is not fully trusted and ISerializable can expose secure data." + Environment.NewLine +
-                   @"To fix this error either change the environment to be fully trusted, change the application to not deserialize the type, add JsonObjectAttribute to the type or change the JsonSerializer setting ContractResolver to use a new DefaultContractResolver with IgnoreSerializableInterface set to true." + Environment.NewLine +
-                   @"Path ''.");
+                }, $@"Type 'Argon.Tests.TestObjects.ISerializableTestObject' implements ISerializable but cannot be serialized using the ISerializable interface because the current application is not fully trusted and ISerializable can expose secure data.{Environment.NewLine}To fix this error either change the environment to be fully trusted, change the application to not deserialize the type, add JsonObjectAttribute to the type or change the JsonSerializer setting ContractResolver to use a new DefaultContractResolver with IgnoreSerializableInterface set to true.{Environment.NewLine}Path ''.");
         }
         finally
         {
@@ -4112,15 +4106,15 @@ Path '', line 1, position 1.");
         var o = new ISerializableTestObject("String!", int.MinValue, dateTimeOffset, person);
 
         var json = JsonConvert.SerializeObject(o, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"{
+        XUnitAssert.AreEqualNormalized($@"{{
   ""stringValue"": ""String!"",
   ""intValue"": -2147483648,
-  ""dateTimeOffsetValue"": """ + dateTimeOffsetText + @""",
-  ""personValue"": {
+  ""dateTimeOffsetValue"": ""{dateTimeOffsetText}"",
+  ""personValue"": {{
     ""Name"": ""Name!"",
     ""BirthDate"": ""2000-01-01T01:01:01Z"",
     ""LastModified"": ""2000-01-01T01:01:01Z""
-  },
+  }},
   ""nullPersonValue"": null,
   ""nullableInt"": null,
   ""booleanValue"": false,
@@ -4135,7 +4129,7 @@ Path '', line 1, position 1.");
   ""ushortValue"": 0,
   ""uintValue"": 0,
   ""ulongValue"": 0
-}", json);
+}}", json);
 
         var o2 = JsonConvert.DeserializeObject<ISerializableTestObject>(json);
         Xunit.Assert.Equal("String!", o2._stringValue);
@@ -4166,15 +4160,15 @@ Path '', line 1, position 1.");
         {
             DateFormatHandling = DateFormatHandling.MicrosoftDateFormat
         });
-        XUnitAssert.AreEqualNormalized(@"{
+        XUnitAssert.AreEqualNormalized($@"{{
   ""stringValue"": ""String!"",
   ""intValue"": -2147483648,
-  ""dateTimeOffsetValue"": """ + dateTimeOffsetText + @""",
-  ""personValue"": {
+  ""dateTimeOffsetValue"": ""{dateTimeOffsetText}"",
+  ""personValue"": {{
     ""Name"": ""Name!"",
     ""BirthDate"": ""\/Date(946688461000)\/"",
     ""LastModified"": ""\/Date(946688461000)\/""
-  },
+  }},
   ""nullPersonValue"": null,
   ""nullableInt"": null,
   ""booleanValue"": false,
@@ -4189,7 +4183,7 @@ Path '', line 1, position 1.");
   ""ushortValue"": 0,
   ""uintValue"": 0,
   ""ulongValue"": 0
-}", json);
+}}", json);
 
         var o2 = JsonConvert.DeserializeObject<ISerializableTestObject>(json);
         Xunit.Assert.Equal("String!", o2._stringValue);
@@ -4614,7 +4608,7 @@ Path '', line 1, position 1.");
         }
         else
         {
-            XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<StringDictionaryTestClass>(json); }, "Cannot create and populate list type " + classRef + ". Path 'StringDictionaryProperty', line 2, position 31.");
+            XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<StringDictionaryTestClass>(json); }, $"Cannot create and populate list type {classRef}. Path 'StringDictionaryProperty', line 2, position 31.");
         }
     }
 
@@ -5692,17 +5686,17 @@ Path '', line 1, position 1.");
 
         var jsonString = JsonConvert.SerializeObject(expected, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
+        XUnitAssert.AreEqualNormalized($@"{{
   ""SourceTypeID"": ""d8220a4b-75b1-4b7a-8112-b7bdae956a45"",
   ""BrokerID"": ""951663c4-924e-4c86-a57a-7ed737501dbd"",
   ""Latitude"": 33.657145,
   ""Longitude"": -117.766684,
   ""TimeStamp"": ""2000-03-01T23:59:59Z"",
-  ""Payload"": {
-    ""$type"": """ + ReflectionUtils.GetTypeName(typeof(byte[]), 0, DefaultSerializationBinder.Instance) + @""",
+  ""Payload"": {{
+    ""$type"": ""{ReflectionUtils.GetTypeName(typeof(byte[]), 0, DefaultSerializationBinder.Instance)}"",
     ""$value"": ""AAECAwQFBgcICQ==""
-  }
-}", jsonString);
+  }}
+}}", jsonString);
 
         var actual = JsonConvert.DeserializeObject<Item>(jsonString);
 
@@ -5831,8 +5825,8 @@ Path '', line 1, position 1.");
             () => { JsonConvert.DeserializeObject<double>(null); },
             new[]
             {
-                "Value cannot be null." + Environment.NewLine + "Parameter name: value",
-                "Argument cannot be null." + Environment.NewLine + "Parameter name: value", // mono
+                $"Value cannot be null.{Environment.NewLine}Parameter name: value",
+                $"Argument cannot be null.{Environment.NewLine}Parameter name: value", // mono
                 "Value cannot be null. (Parameter 'value')"
             });
     }
@@ -5844,8 +5838,8 @@ Path '', line 1, position 1.");
             () => { JsonConvert.DeserializeObject(null); },
             new[]
             {
-                "Value cannot be null." + Environment.NewLine + "Parameter name: value",
-                "Argument cannot be null." + Environment.NewLine + "Parameter name: value", // mono
+                $"Value cannot be null.{Environment.NewLine}Parameter name: value",
+                $"Argument cannot be null.{Environment.NewLine}Parameter name: value", // mono
                 "Value cannot be null. (Parameter 'value')"
             });
     }
@@ -7758,7 +7752,7 @@ This is just junk, though.";
         Assert.Equal(1, c.Properties.Count);
 
         var propertyValue = "test";
-        var testJson = @"{ 'MyProperty' : '" + propertyValue + "' }";
+        var testJson = $@"{{ 'MyProperty' : '{propertyValue}' }}";
 
         var testObject = JsonConvert.DeserializeObject<ChildClassWithProtectedOverridePlusJsonProperty>(testJson);
 

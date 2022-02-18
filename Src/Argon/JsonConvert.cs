@@ -287,7 +287,7 @@ public static class JsonConvert
             return text;
         }
 
-        return text + ".0";
+        return $"{text}.0";
     }
 
     static string EnsureDecimalPlace(string text)
@@ -297,7 +297,7 @@ public static class JsonConvert
             return text;
         }
 
-        return text + ".0";
+        return $"{text}.0";
     }
 
     /// <summary>

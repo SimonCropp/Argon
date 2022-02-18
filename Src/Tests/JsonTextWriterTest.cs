@@ -37,8 +37,8 @@ public class JsonTextWriterTest : TestFixtureBase
         var arrayPool = new FakeArrayPool();
 
         var longString = new string('A', 2000);
-        var longEscapedString = "Hello!" + new string('!', 50) + new string('\n', 1000) + "Good bye!";
-        var longerEscapedString = "Hello!" + new string('!', 2000) + new string('\n', 1000) + "Good bye!";
+        var longEscapedString = $"Hello!{new string('!', 50)}{new string('\n', 1000)}Good bye!";
+        var longerEscapedString = $"Hello!{new string('!', 2000)}{new string('\n', 1000)}Good bye!";
 
         for (var i = 0; i < 1000; i++)
         {
@@ -67,7 +67,7 @@ public class JsonTextWriterTest : TestFixtureBase
 
             if ((i + 1) % 100 == 0)
             {
-                Console.WriteLine("Allocated buffers: " + arrayPool.FreeArrays.Count);
+                Console.WriteLine($"Allocated buffers: {arrayPool.FreeArrays.Count}");
             }
         }
 
@@ -116,7 +116,7 @@ public class JsonTextWriterTest : TestFixtureBase
     {
         var o = new JObject
         {
-            {"BodyHtml", "<h3>Title!</h3>" + Environment.NewLine + new string(' ', 100) + "<p>Content!</p>"}
+            {"BodyHtml", $"<h3>Title!</h3>{Environment.NewLine}{new string(' ', 100)}<p>Content!</p>"}
         };
 
         var arrayPool = new JsonArrayPool();
@@ -159,7 +159,9 @@ public class JsonTextWriterTest : TestFixtureBase
 
         var json = Encoding.UTF8.GetString(data, 0, data.Length);
 
-        Assert.Equal(@"{" + '\n' + @"  ""prop"": true" + '\n' + "}", json);
+        Assert.Equal(@"{
+  ""prop"": true
+}", json);
     }
 
     [Fact]
@@ -777,7 +779,7 @@ public class JsonTextWriterTest : TestFixtureBase
 
             while (i < 3)
             {
-                jsonWriter.WritePropertyName("d" + i);
+                jsonWriter.WritePropertyName($"d{i}");
                 jsonWriter.WriteRawValue(rawJson);
 
                 i++;
@@ -1637,15 +1639,14 @@ _____'propertyName': NaN,
     [Fact]
     public void WriteComments()
     {
-        var json = @"//comment*//*hi*/
-{//comment
+        var json = $@"//comment*//*hi*/
+{{//comment
 Name://comment
-true//comment after true" + StringUtils.CarriageReturn + @"
-,//comment after comma" + StringUtils.CarriageReturnLineFeed + @"
-""ExpiryDate""://comment" + StringUtils.LineFeed + @"
+true//comment after true{StringUtils.CarriageReturn}
+,//comment after comma{StringUtils.CarriageReturnLineFeed}
+""ExpiryDate""://comment{StringUtils.LineFeed}
 new
-" + StringUtils.LineFeed +
-                   @"Constructor
+{StringUtils.LineFeed}Constructor
 (//comment
 null//comment
 ),
@@ -1655,7 +1656,7 @@ null//comment
 
           ""Small""//comment
 ]//comment
-}//comment 
+}}//comment 
 //comment 1 ";
 
         var r = new JsonTextReader(new StringReader(json));

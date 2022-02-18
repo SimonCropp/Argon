@@ -498,7 +498,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         {
             for (var j = onebasedArray.GetLowerBound(1); j <= onebasedArray.GetUpperBound(1); j++)
             {
-                onebasedArray.SetValue(i + "_" + j, new[] { i, j });
+                onebasedArray.SetValue($"{i}_{j}", new[] { i, j });
             }
         }
 
@@ -1653,77 +1653,77 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             Formatting = Formatting.Indented
         });
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""$type"": """ + ReflectionUtils.GetTypeName(typeof(List<Event1[,]>), 0, DefaultSerializationBinder.Instance) + @""",
+        XUnitAssert.AreEqualNormalized($@"{{
+  ""$type"": ""{ReflectionUtils.GetTypeName(typeof(List<Event1[,]>), 0, DefaultSerializationBinder.Instance)}"",
   ""$values"": [
-    {
+    {{
       ""$type"": ""Argon.Tests.TestObjects.Events.Event1[,], Tests"",
       ""$values"": [
         [
-          {
+          {{
             ""$type"": ""Argon.Tests.TestObjects.Events.Event1, Tests"",
             ""EventName"": ""EventName!"",
             ""Venue"": null,
             ""Performances"": null
-          },
-          {
+          }},
+          {{
             ""$type"": ""Argon.Tests.TestObjects.Events.Event1, Tests"",
             ""EventName"": ""EventName!"",
             ""Venue"": null,
             ""Performances"": null
-          }
+          }}
         ],
         [
-          {
+          {{
             ""$type"": ""Argon.Tests.TestObjects.Events.Event1, Tests"",
             ""EventName"": ""EventName!"",
             ""Venue"": null,
             ""Performances"": null
-          },
-          {
+          }},
+          {{
             ""$type"": ""Argon.Tests.TestObjects.Events.Event1, Tests"",
             ""EventName"": ""EventName!"",
             ""Venue"": null,
             ""Performances"": null
-          }
+          }}
         ]
       ]
-    },
-    {
+    }},
+    {{
       ""$type"": ""Argon.Tests.TestObjects.Events.Event1[,], Tests"",
       ""$values"": [
         [
-          {
+          {{
             ""$type"": ""Argon.Tests.TestObjects.Events.Event1, Tests"",
             ""EventName"": ""EventName!"",
             ""Venue"": null,
             ""Performances"": null
-          },
-          {
+          }},
+          {{
             ""$type"": ""Argon.Tests.TestObjects.Events.Event1, Tests"",
             ""EventName"": ""EventName!"",
             ""Venue"": null,
             ""Performances"": null
-          }
+          }}
         ],
         [
-          {
+          {{
             ""$type"": ""Argon.Tests.TestObjects.Events.Event1, Tests"",
             ""EventName"": ""EventName!"",
             ""Venue"": null,
             ""Performances"": null
-          },
-          {
+          }},
+          {{
             ""$type"": ""Argon.Tests.TestObjects.Events.Event1, Tests"",
             ""EventName"": ""EventName!"",
             ""Venue"": null,
             ""Performances"": null
-          }
+          }}
         ]
       ]
-    }
+    }}
   ]
-}", json);
+}}", json);
 
         var values2 = (IList<Event1[,]>)JsonConvert.DeserializeObject(json, new JsonSerializerSettings
         {
@@ -2379,7 +2379,7 @@ public class CASResponce
                         }
                         else
                         {
-                            eduPerson[xPersonValue.Name.LocalName] = eduPerson[xPersonValue.Name.LocalName] + ";" + xPersonValue.Value;
+                            eduPerson[xPersonValue.Name.LocalName] = $"{eduPerson[xPersonValue.Name.LocalName]};{xPersonValue.Value}";
                         }
                     }
                 }

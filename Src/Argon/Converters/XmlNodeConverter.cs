@@ -1045,14 +1045,12 @@ public class XmlNodeConverter : JsonConverter
             ? null
             : manager.LookupPrefix(node.NamespaceUri);
 
-        if (!StringUtils.IsNullOrEmpty(prefix))
-        {
-            return prefix + ":" + XmlConvert.DecodeName(node.LocalName);
-        }
-        else
+        if (StringUtils.IsNullOrEmpty(prefix))
         {
             return XmlConvert.DecodeName(node.LocalName);
         }
+
+        return $"{prefix}:{XmlConvert.DecodeName(node.LocalName)}";
     }
 
     string GetPropertyName(IXmlNode node, XmlNamespaceManager manager)
@@ -1062,11 +1060,11 @@ public class XmlNodeConverter : JsonConverter
             case XmlNodeType.Attribute:
                 if (node.NamespaceUri == JsonNamespaceUri)
                 {
-                    return "$" + node.LocalName;
+                    return $"${node.LocalName}";
                 }
                 else
                 {
-                    return "@" + ResolveFullName(node, manager);
+                    return $"@{ResolveFullName(node, manager)}";
                 }
             case XmlNodeType.CDATA:
                 return CDataName;
@@ -1075,16 +1073,16 @@ public class XmlNodeConverter : JsonConverter
             case XmlNodeType.Element:
                 if (node.NamespaceUri == JsonNamespaceUri)
                 {
-                    return "$" + node.LocalName;
+                    return $"${node.LocalName}";
                 }
                 else
                 {
                     return ResolveFullName(node, manager);
                 }
             case XmlNodeType.ProcessingInstruction:
-                return "?" + ResolveFullName(node, manager);
+                return $"?{ResolveFullName(node, manager)}";
             case XmlNodeType.DocumentType:
-                return "!" + ResolveFullName(node, manager);
+                return $"!{ResolveFullName(node, manager)}";
             case XmlNodeType.XmlDeclaration:
                 return DeclarationName;
             case XmlNodeType.SignificantWhitespace:
@@ -1094,7 +1092,7 @@ public class XmlNodeConverter : JsonConverter
             case XmlNodeType.Whitespace:
                 return WhitespaceName;
             default:
-                throw new JsonSerializationException("Unexpected XmlNodeType when getting node name: " + node.NodeType);
+                throw new JsonSerializationException($"Unexpected XmlNodeType when getting node name: {node.NodeType}");
         }
     }
 
@@ -1425,7 +1423,7 @@ public class XmlNodeConverter : JsonConverter
                 writer.WriteEndObject();
                 break;
             default:
-                throw new JsonSerializationException("Unexpected XmlNodeType when serializing nodes: " + node.NodeType);
+                throw new JsonSerializationException($"Unexpected XmlNodeType when serializing nodes: {node.NodeType}");
         }
     }
 
@@ -1503,7 +1501,7 @@ public class XmlNodeConverter : JsonConverter
 
         if (document == null || rootNode == null)
         {
-            throw JsonSerializationException.Create(reader, "Unexpected type when converting XML: " + objectType);
+            throw JsonSerializationException.Create(reader, $"Unexpected type when converting XML: {objectType}");
         }
 
         if (!StringUtils.IsNullOrEmpty(DeserializeRootElementName))
@@ -1872,13 +1870,13 @@ public class XmlNodeConverter : JsonConverter
 
                                             // ensure that the prefix used is free
                                             int? i = null;
-                                            while (manager.LookupNamespace("json" + i) != null)
+                                            while (manager.LookupNamespace($"json{i}") != null)
                                             {
                                                 i = i.GetValueOrDefault() + 1;
                                             }
-                                            jsonPrefix = "json" + i;
+                                            jsonPrefix = $"json{i}";
 
-                                            attributeNameValues.Add("xmlns:" + jsonPrefix, JsonNamespaceUri);
+                                            attributeNameValues.Add($"xmlns:{jsonPrefix}", JsonNamespaceUri);
                                             manager.AddNamespace(jsonPrefix, JsonNamespaceUri);
                                         }
 
@@ -1894,7 +1892,7 @@ public class XmlNodeConverter : JsonConverter
 
                                         if (!JsonTokenUtils.IsPrimitiveToken(reader.TokenType))
                                         {
-                                            throw JsonSerializationException.Create(reader, "Unexpected JsonToken: " + reader.TokenType);
+                                            throw JsonSerializationException.Create(reader, $"Unexpected JsonToken: {reader.TokenType}");
                                         }
 
                                         if (attributeNameValues == null)
@@ -1903,7 +1901,7 @@ public class XmlNodeConverter : JsonConverter
                                         }
 
                                         attributeValue = reader.Value?.ToString();
-                                        attributeNameValues.Add(jsonPrefix + ":" + attributeName, attributeValue);
+                                        attributeNameValues.Add($"{jsonPrefix}:{attributeName}", attributeValue);
                                         break;
                                     default:
                                         finished = true;
@@ -1926,7 +1924,7 @@ public class XmlNodeConverter : JsonConverter
                     finished = true;
                     break;
                 default:
-                    throw JsonSerializationException.Create(reader, "Unexpected JsonToken: " + reader.TokenType);
+                    throw JsonSerializationException.Create(reader, $"Unexpected JsonToken: {reader.TokenType}");
             }
         }
 
@@ -1957,7 +1955,7 @@ public class XmlNodeConverter : JsonConverter
                         standalone = ConvertTokenToXmlValue(reader);
                         break;
                     default:
-                        throw JsonSerializationException.Create(reader, "Unexpected property name encountered while deserializing XmlDeclaration: " + reader.Value);
+                        throw JsonSerializationException.Create(reader, $"Unexpected property name encountered while deserializing XmlDeclaration: {reader.Value}");
                 }
             }
 
@@ -1998,7 +1996,7 @@ public class XmlNodeConverter : JsonConverter
                     internalSubset = ConvertTokenToXmlValue(reader);
                     break;
                 default:
-                    throw JsonSerializationException.Create(reader, "Unexpected property name encountered while deserializing XmlDeclaration: " + reader.Value);
+                    throw JsonSerializationException.Create(reader, $"Unexpected property name encountered while deserializing XmlDeclaration: {reader.Value}");
             }
         }
 
@@ -2075,7 +2073,7 @@ public class XmlNodeConverter : JsonConverter
                 case JsonToken.EndArray:
                     return;
                 default:
-                    throw JsonSerializationException.Create(reader, "Unexpected JsonToken when deserializing node: " + reader.TokenType);
+                    throw JsonSerializationException.Create(reader, $"Unexpected JsonToken when deserializing node: {reader.TokenType}");
             }
         } while (reader.Read());
         // don't read if current token is a property. token was already read when parsing element attributes

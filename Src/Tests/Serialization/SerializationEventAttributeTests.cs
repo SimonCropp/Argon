@@ -257,7 +257,7 @@ public class SerializationEventAttributeTests : TestFixtureBase
         [OnSerializing]
         internal void OnSerializingMethod(StreamingContext context)
         {
-            TestMember = context.State + " " + context.Context;
+            TestMember = $"{context.State} {context.Context}";
         }
     }
 

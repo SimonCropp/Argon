@@ -317,7 +317,7 @@ public class ConvertUtilsTests : TestFixtureBase
         {
             for (var k = 2; k < 10; k++)
             {
-                var t = j.ToString(CultureInfo.InvariantCulture) + k.ToString(CultureInfo.InvariantCulture) + "47483647";
+                var t = $"{j.ToString(CultureInfo.InvariantCulture)}{k.ToString(CultureInfo.InvariantCulture)}47483647";
 
                 c = t.ToCharArray();
                 result = ConvertUtils.Int32TryParse(c, 0, c.Length, out i);
@@ -330,7 +330,7 @@ public class ConvertUtilsTests : TestFixtureBase
         {
             for (var k = 2; k < 10; k++)
             {
-                var t = "-" + j.ToString(CultureInfo.InvariantCulture) + k.ToString(CultureInfo.InvariantCulture) + "47483648";
+                var t = $"-{j.ToString(CultureInfo.InvariantCulture)}{k.ToString(CultureInfo.InvariantCulture)}47483648";
 
                 c = t.ToCharArray();
                 result = ConvertUtils.Int32TryParse(c, 0, c.Length, out i);

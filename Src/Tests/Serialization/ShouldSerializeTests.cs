@@ -621,7 +621,7 @@ public class ShouldDeserializeContractResolver : DefaultContractResolver
     {
         var property = base.CreateProperty(member, memberSerialization);
 
-        var shouldDeserializeMethodInfo = member.DeclaringType.GetMethod("ShouldDeserialize" + member.Name);
+        var shouldDeserializeMethodInfo = member.DeclaringType.GetMethod($"ShouldDeserialize{member.Name}");
 
         if (shouldDeserializeMethodInfo != null)
         {

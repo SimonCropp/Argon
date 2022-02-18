@@ -79,7 +79,7 @@ class JPath
 
             if (_currentIndex < _expression.Length)
             {
-                throw new JsonException("Unexpected character while parsing path: " + _expression[lastCharacterIndex]);
+                throw new JsonException($"Unexpected character while parsing path: {_expression[lastCharacterIndex]}");
             }
         }
     }
@@ -160,7 +160,7 @@ class JPath
                     {
                         if (followingIndexer)
                         {
-                            throw new JsonException("Unexpected character following indexer: " + currentChar);
+                            throw new JsonException($"Unexpected character following indexer: {currentChar}");
                         }
 
                         _currentIndex++;
@@ -324,7 +324,7 @@ class JPath
 
                 if (_expression[_currentIndex] != indexerCloseChar)
                 {
-                    throw new JsonException("Unexpected character while parsing path indexer: " + currentCharacter);
+                    throw new JsonException($"Unexpected character while parsing path indexer: {currentCharacter}");
                 }
 
                 return new ArrayIndexFilter();
@@ -363,13 +363,13 @@ class JPath
             }
             else if (!char.IsDigit(currentCharacter) && currentCharacter != '-')
             {
-                throw new JsonException("Unexpected character while parsing path indexer: " + currentCharacter);
+                throw new JsonException($"Unexpected character while parsing path indexer: {currentCharacter}");
             }
             else
             {
                 if (end != null)
                 {
-                    throw new JsonException("Unexpected character while parsing path indexer: " + currentCharacter);
+                    throw new JsonException($"Unexpected character while parsing path indexer: {currentCharacter}");
                 }
 
                 _currentIndex++;
@@ -399,7 +399,7 @@ class JPath
 
         if (_expression[_currentIndex] != '(')
         {
-            throw new JsonException("Unexpected character while parsing path indexer: " + _expression[_currentIndex]);
+            throw new JsonException($"Unexpected character while parsing path indexer: {_expression[_currentIndex]}");
         }
 
         _currentIndex++;
@@ -412,7 +412,7 @@ class JPath
 
         if (_expression[_currentIndex] != indexerCloseChar)
         {
-            throw new JsonException("Unexpected character while parsing path indexer: " + _expression[_currentIndex]);
+            throw new JsonException($"Unexpected character while parsing path indexer: {_expression[_currentIndex]}");
         }
 
         if (!scan)
@@ -453,7 +453,7 @@ class JPath
 
     JsonException CreateUnexpectedCharacterException()
     {
-        return new JsonException("Unexpected character while parsing path query: " + _expression[_currentIndex]);
+        return new JsonException($"Unexpected character while parsing path query: {_expression[_currentIndex]}");
     }
 
     object ParseSide()
@@ -679,7 +679,7 @@ class JPath
                         resolvedChar = currentChar;
                         break;
                     default:
-                        throw new JsonException(@"Unknown escape character: \" + currentChar);
+                        throw new JsonException($@"Unknown escape character: \{currentChar}");
                 }
 
                 sb.Append(resolvedChar);
@@ -853,7 +853,7 @@ class JPath
             }
             else
             {
-                throw new JsonException("Unexpected character while parsing path indexer: " + _expression[_currentIndex]);
+                throw new JsonException($"Unexpected character while parsing path indexer: {_expression[_currentIndex]}");
             }
         }
 
