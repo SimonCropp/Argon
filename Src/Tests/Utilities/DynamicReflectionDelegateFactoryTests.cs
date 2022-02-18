@@ -37,7 +37,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void ConstructorWithInString()
     {
-        var constructor = TestReflectionUtils.GetConstructors(typeof(InTestClass)).Single(c => c.GetParameters().Count() == 1);
+        var constructor = typeof(InTestClass).GetConstructors().Single(c => c.GetParameters().Count() == 1);
 
         var creator = DynamicReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
@@ -50,7 +50,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void ConstructorWithInStringAndBool()
     {
-        var constructor = TestReflectionUtils.GetConstructors(typeof(InTestClass)).Single(c => c.GetParameters().Count() == 2);
+        var constructor = typeof(InTestClass).GetConstructors().Single(c => c.GetParameters().Count() == 2);
 
         var creator = DynamicReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 

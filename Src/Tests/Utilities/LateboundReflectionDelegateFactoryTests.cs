@@ -53,7 +53,7 @@ public class LateboundReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void ConstructorWithInString()
     {
-        var constructor = TestReflectionUtils.GetConstructors(typeof(InTestClass)).Single(c => c.GetParameters().Count() == 1);
+        var constructor = typeof(InTestClass).GetConstructors().Single(c => c.GetParameters().Count() == 1);
 
         var creator = LateBoundReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
@@ -66,7 +66,7 @@ public class LateboundReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void ConstructorWithInStringAndBool()
     {
-        var constructor = TestReflectionUtils.GetConstructors(typeof(InTestClass)).Single(c => c.GetParameters().Count() == 2);
+        var constructor = typeof(InTestClass).GetConstructors().Single(c => c.GetParameters().Count() == 2);
 
         var creator = LateBoundReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
@@ -80,7 +80,7 @@ public class LateboundReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void ConstructorWithRefString()
     {
-        var constructor = TestReflectionUtils.GetConstructors(typeof(OutAndRefTestClass)).Single(c => c.GetParameters().Count() == 1);
+        var constructor = typeof(OutAndRefTestClass).GetConstructors().Single(c => c.GetParameters().Count() == 1);
 
         var creator = LateBoundReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
@@ -93,7 +93,7 @@ public class LateboundReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void ConstructorWithRefStringAndOutBool()
     {
-        var constructor = TestReflectionUtils.GetConstructors(typeof(OutAndRefTestClass)).Single(c => c.GetParameters().Count() == 2);
+        var constructor = typeof(OutAndRefTestClass).GetConstructors().Single(c => c.GetParameters().Count() == 2);
 
         var creator = LateBoundReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
@@ -106,7 +106,7 @@ public class LateboundReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void ConstructorWithRefStringAndRefBoolAndRefBool()
     {
-        var constructor = TestReflectionUtils.GetConstructors(typeof(OutAndRefTestClass)).Single(c => c.GetParameters().Count() == 3);
+        var constructor = typeof(OutAndRefTestClass).GetConstructors().Single(c => c.GetParameters().Count() == 3);
 
         var creator = LateBoundReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 

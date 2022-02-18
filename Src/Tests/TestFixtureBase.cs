@@ -24,63 +24,13 @@
 #endregion
 
 using System.Text.RegularExpressions;
-using System.Runtime.Serialization.Json;
 using Assert = Argon.Tests.XUnitAssert;
 using XAssert = Xunit.Assert;
 
 namespace Argon.Tests;
 
-public class TestReflectionUtils
-{
-    public static IEnumerable<ConstructorInfo> GetConstructors(Type type)
-    {
-#if !NET5_0_OR_GREATER
-            return type.GetConstructors();
-#else
-        return type.GetTypeInfo().DeclaredConstructors;
-#endif
-    }
-
-    public static PropertyInfo GetProperty(Type type, string name)
-    {
-#if !NET5_0_OR_GREATER
-            return type.GetProperty(name);
-#else
-        return type.GetTypeInfo().GetDeclaredProperty(name);
-#endif
-    }
-
-    public static FieldInfo GetField(Type type, string name)
-    {
-#if !NET5_0_OR_GREATER
-            return type.GetField(name);
-#else
-        return type.GetTypeInfo().GetDeclaredField(name);
-#endif
-    }
-
-    public static MethodInfo GetMethod(Type type, string name)
-    {
-#if !NET5_0_OR_GREATER
-            return type.GetMethod(name);
-#else
-        return type.GetTypeInfo().GetDeclaredMethod(name);
-#endif
-    }
-}
-
 public abstract class TestFixtureBase
 {
-    protected string GetDataContractJsonSerializeResult(object o)
-    {
-        var ms = new MemoryStream();
-        var s = new DataContractJsonSerializer(o.GetType());
-        s.WriteObject(ms, o);
-
-        var data = ms.ToArray();
-        return Encoding.UTF8.GetString(data, 0, data.Length);
-    }
-
     protected string GetOffset(DateTime d, DateFormatHandling dateFormatHandling)
     {
         var chars = new char[8];
