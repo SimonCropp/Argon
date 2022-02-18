@@ -34,10 +34,10 @@ namespace Argon.Bson;
 public class BsonReader : JsonReader
 {
     const int MaxCharBytesSize = 128;
-    static readonly byte[] SeqRange1 = new byte[] { 0, 127 }; // range of 1-byte sequence
-    static readonly byte[] SeqRange2 = new byte[] { 194, 223 }; // range of 2-byte sequence
-    static readonly byte[] SeqRange3 = new byte[] { 224, 239 }; // range of 3-byte sequence
-    static readonly byte[] SeqRange4 = new byte[] { 240, 244 }; // range of 4-byte sequence
+    static readonly byte[] SeqRange1 = { 0, 127 }; // range of 1-byte sequence
+    static readonly byte[] SeqRange2 = { 194, 223 }; // range of 2-byte sequence
+    static readonly byte[] SeqRange3 = { 224, 239 }; // range of 3-byte sequence
+    static readonly byte[] SeqRange4 = { 240, 244 }; // range of 4-byte sequence
 
     readonly BinaryReader _reader;
     readonly List<ContainerContext> _stack;

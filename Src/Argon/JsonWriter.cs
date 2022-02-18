@@ -47,8 +47,7 @@ public abstract partial class JsonWriter : IDisposable
     // array that gives a new state based on the current state an the token being written
     static readonly State[][] StateArray;
 
-    internal static readonly State[][] StateArrayTemplate = new[]
-    {
+    internal static readonly State[][] StateArrayTemplate = {
         //                                      Start                    PropertyName            ObjectStart         Object            ArrayStart              Array                   ConstructorStart        Constructor             Closed       Error
         //
         /* None                        */new[] { State.Error,            State.Error,            State.Error,        State.Error,      State.Error,            State.Error,            State.Error,            State.Error,            State.Error, State.Error },

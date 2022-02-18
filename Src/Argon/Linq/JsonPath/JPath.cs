@@ -27,7 +27,7 @@ using Argon;
 
 class JPath
 {
-    static readonly char[] FloatCharacters = new[] {'.', 'E', 'e'};
+    static readonly char[] FloatCharacters = {'.', 'E', 'e'};
 
     readonly string _expression;
     public List<PathFilter> Filters { get; }
