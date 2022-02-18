@@ -12,7 +12,6 @@
     <Using Include="Argon.Converters" />
     <Using Include="Argon.Utilities" />
     <Using Include="System.Runtime.Serialization" />
-    <Using Include="Argon.Bson" />
     <Using Include="Argon.Linq" />
     <Using Include="System.Numerics" />
     <Using Include="System.Diagnostics.CodeAnalysis" />

@@ -89,6 +89,7 @@ public class SerializeComparisonBenchmarks
             return sr.ReadToEnd();
         }
     }
+    static readonly byte[] Buffer = new byte[4096];
 
 #if (!NET5_0_OR_GREATER)
     [Benchmark]
@@ -308,24 +309,4 @@ public class SerializeComparisonBenchmarks
         await writer.FlushAsync();
         return sw.ToString();
     }
-
-#pragma warning disable 618
-    [Benchmark]
-    public byte[] JsonNetBson()
-    {
-        return SerializeJsonNetBson(TestClass);
-    }
-
-    static readonly byte[] Buffer = new byte[4096];
-
-    byte[] SerializeJsonNetBson(TestClass c)
-    {
-        var ms = new MemoryStream(Buffer);
-        var serializer = new JsonSerializer();
-        var writer = new BsonWriter(ms);
-        serializer.Serialize(writer, c);
-
-        return ms.ToArray();
-    }
-#pragma warning restore 618
 }

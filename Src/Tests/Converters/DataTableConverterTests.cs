@@ -381,49 +381,6 @@ public class DataTableConverterTests : TestFixtureBase
         Assert.Equal(t1.TableName, t2.TableName);
     }
 
-#pragma warning disable 618
-    [Fact]
-    public void RoundtripBsonBytes()
-    {
-        var g = new Guid("EDE9A599-A7D9-44A9-9243-7C287049DD20");
-
-        var table = new DataTable();
-        table.Columns.Add("data", typeof(byte[]));
-        table.Columns.Add("id", typeof(Guid));
-        table.Rows.Add(Encoding.UTF8.GetBytes("Hello world!"), g);
-
-        var serializer = new JsonSerializer();
-
-        var ms = new MemoryStream();
-        var bw = new BsonWriter(ms);
-
-        serializer.Serialize(bw, table);
-
-        var o = JToken.ReadFrom(new BsonReader(new MemoryStream(ms.ToArray())) { ReadRootValueAsArray = true });
-        XUnitAssert.AreEqualNormalized(@"[
-  {
-    ""data"": ""SGVsbG8gd29ybGQh"",
-    ""id"": ""ede9a599-a7d9-44a9-9243-7c287049dd20""
-  }
-]", o.ToString());
-
-        var deserializedDataTable = serializer.Deserialize<DataTable>(new BsonReader(new MemoryStream(ms.ToArray())) { ReadRootValueAsArray = true });
-
-        Assert.Equal(string.Empty, deserializedDataTable.TableName);
-        Assert.Equal(2, deserializedDataTable.Columns.Count);
-        Assert.Equal("data", deserializedDataTable.Columns[0].ColumnName);
-        Assert.Equal(typeof(byte[]), deserializedDataTable.Columns[0].DataType);
-        Assert.Equal("id", deserializedDataTable.Columns[1].ColumnName);
-        Assert.Equal(typeof(Guid), deserializedDataTable.Columns[1].DataType);
-
-        Assert.Equal(1, deserializedDataTable.Rows.Count);
-
-        var dr1 = deserializedDataTable.Rows[0];
-        Assert.Equal(Encoding.UTF8.GetBytes("Hello world!"), (byte[])dr1["data"]);
-        Assert.Equal(g, (Guid)dr1["id"]);
-    }
-#pragma warning restore 618
-
     [Fact]
     public void SerializeDataTableWithNull()
     {

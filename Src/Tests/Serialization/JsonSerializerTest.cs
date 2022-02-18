@@ -6018,32 +6018,6 @@ Path '', line 1, position 1.");
         Assert.Equal("baz", values[1].Name);
     }
 
-#pragma warning disable 618
-    [Fact]
-    public void TokenFromBson()
-    {
-        var ms = new MemoryStream();
-        var writer = new BsonWriter(ms);
-        writer.WriteStartArray();
-        writer.WriteValue("2000-01-02T03:04:05+06:00");
-        writer.WriteEndArray();
-
-        var data = ms.ToArray();
-        var reader = new BsonReader(new MemoryStream(data))
-        {
-            ReadRootValueAsArray = true
-        };
-
-        var a = (JArray) JToken.ReadFrom(reader);
-        var v = (JValue) a[0];
-
-        Assert.Equal(typeof(string), v.Value.GetType());
-        XUnitAssert.AreEqualNormalized(@"[
-  ""2000-01-02T03:04:05+06:00""
-]", a.ToString());
-    }
-#pragma warning restore 618
-
     [Fact]
     public void ObjectRequiredDeserializeMissing()
     {
