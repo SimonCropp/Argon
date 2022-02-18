@@ -23,9 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Utilities;
-
-internal static class AsyncUtils
+static class AsyncUtils
 {
     // Pre-allocate to avoid wasted allocations.
     public static readonly Task<bool> False = Task.FromResult(false);

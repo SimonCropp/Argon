@@ -25,11 +25,9 @@
 
 using System.Text.RegularExpressions;
 
-namespace Argon.Utilities;
+delegate T Creator<T>();
 
-internal delegate T Creator<T>();
-
-internal static class MiscellaneousUtils
+static class MiscellaneousUtils
 {
     [Conditional("DEBUG")]
     public static void Assert([DoesNotReturnIf(false)] bool condition, string? message = null)

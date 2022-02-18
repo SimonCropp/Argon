@@ -23,9 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Utilities;
-
-internal static class EnumUtils
+static class EnumUtils
 {
     private const char EnumSeparatorChar = ',';
     private const string EnumSeparatorString = ", ";

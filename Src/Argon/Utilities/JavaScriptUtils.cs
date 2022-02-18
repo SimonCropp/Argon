@@ -23,9 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Utilities;
+using Argon;
 
-internal static class BufferUtils
+static class BufferUtils
 {
     public static char[] RentBuffer(IArrayPool<char>? bufferPool, int minSize)
     {

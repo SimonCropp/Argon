@@ -23,14 +23,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Utilities;
-
 /// <summary>
 /// Helper class for serializing immutable collections.
 /// Note that this is used by all builds, even those that don't support immutable collections, in case the DLL is GACed
 /// https://github.com/JamesNK/Newtonsoft.Json/issues/652
 /// </summary>
-internal static class ImmutableCollectionsUtils
+static class ImmutableCollectionsUtils
 {
     internal class ImmutableCollectionTypeInfo
     {

@@ -26,10 +26,9 @@
 using System.ComponentModel;
 using System.Security;
 using System.Security.Permissions;
+using Argon;
 
-namespace Argon.Serialization;
-
-internal static class JsonTypeReflector
+static class JsonTypeReflector
 {
     private static bool? _dynamicCodeGeneration;
     private static bool? _fullyTrusted;

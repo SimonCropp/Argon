@@ -23,9 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Utilities;
+using Argon;
 
-internal static class ReflectionUtils
+static class ReflectionUtils
 {
     public static bool IsVirtual(this PropertyInfo propertyInfo)
     {

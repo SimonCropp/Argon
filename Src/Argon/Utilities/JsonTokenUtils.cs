@@ -23,9 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Utilities;
+using Argon;
 
-internal static class JsonTokenUtils
+static class JsonTokenUtils
 {
     internal static bool IsEndToken(JsonToken token)
     {

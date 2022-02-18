@@ -23,9 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Utilities;
-
-internal readonly struct StringReference
+readonly struct StringReference
 {
     private readonly char[] _chars;
     private readonly int _startIndex;
@@ -52,7 +50,7 @@ internal readonly struct StringReference
     }
 }
 
-internal static class StringReferenceExtensions
+static class StringReferenceExtensions
 {
     public static int IndexOf(this StringReference s, char c, int startIndex, int length)
     {

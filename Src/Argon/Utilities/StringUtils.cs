@@ -23,9 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Utilities;
-
-internal static class StringUtils
+static class StringUtils
 {
     public const string CarriageReturnLineFeed = "\r\n";
     public const string Empty = "";

@@ -23,9 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Utilities;
-
-internal static class MathUtils
+static class MathUtils
 {
     public static int IntLength(ulong i)
     {

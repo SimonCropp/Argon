@@ -23,9 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Utilities;
-
-internal static class CollectionUtils
+static class CollectionUtils
 {
     /// <summary>
     /// Determines whether the collection is <c>null</c> or empty.

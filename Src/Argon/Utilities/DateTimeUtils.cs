@@ -24,10 +24,9 @@
 #endregion
 
 using System.Xml;
+using Argon;
 
-namespace Argon.Utilities;
-
-internal static class DateTimeUtils
+static class DateTimeUtils
 {
     internal static readonly long InitialJavaScriptDateTicks = 621355968000000000;
     private const string IsoDateFormat = "yyyy-MM-ddTHH:mm:ss.FFFFFFFK";
