@@ -1748,7 +1748,7 @@ third line", jsonTextReader.Value);
     [Fact]
     public async Task MaxDepth_GreaterThanDefaultAsync()
     {
-        var json = GetNestedJson(150);
+        var json = NestedJson.Build(150);
 
         var reader = new JsonTextReader(new StringReader(json));
         reader.MaxDepth = 150;
@@ -1761,7 +1761,7 @@ third line", jsonTextReader.Value);
     [Fact]
     public async Task MaxDepth_NullAsync()
     {
-        var json = GetNestedJson(150);
+        var json = NestedJson.Build(150);
 
         var reader = new JsonTextReader(new StringReader(json));
         reader.MaxDepth = null;
@@ -1774,7 +1774,7 @@ third line", jsonTextReader.Value);
     [Fact]
     public async Task MaxDepth_MaxValueAsync()
     {
-        var json = GetNestedJson(150);
+        var json = NestedJson.Build(150);
 
         var reader = new JsonTextReader(new StringReader(json));
         reader.MaxDepth = int.MaxValue;

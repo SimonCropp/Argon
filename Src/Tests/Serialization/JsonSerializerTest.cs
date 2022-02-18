@@ -7908,7 +7908,7 @@ This is just junk, though.";
     [Fact]
     public void SetMaxDepth_DefaultDepthExceeded()
     {
-        var json = GetNestedJson(150);
+        var json = NestedJson.Build(150);
 
         ExceptionAssert.Throws<JsonReaderException>(
             () => JsonConvert.DeserializeObject<JObject>(json),
@@ -7918,7 +7918,7 @@ This is just junk, though.";
     [Fact]
     public void SetMaxDepth_IncreasedDepthNotExceeded()
     {
-        var json = GetNestedJson(150);
+        var json = NestedJson.Build(150);
 
         var o = JsonConvert.DeserializeObject<JObject>(json, new JsonSerializerSettings {MaxDepth = 150});
         var depth = GetDepth(o);
@@ -7929,7 +7929,7 @@ This is just junk, though.";
     [Fact]
     public void SetMaxDepth_NullDepthNotExceeded()
     {
-        var json = GetNestedJson(150);
+        var json = NestedJson.Build(150);
 
         var o = JsonConvert.DeserializeObject<JObject>(json, new JsonSerializerSettings {MaxDepth = null});
         var depth = GetDepth(o);
@@ -7940,7 +7940,7 @@ This is just junk, though.";
     [Fact]
     public void SetMaxDepth_MaxValueDepthNotExceeded()
     {
-        var json = GetNestedJson(150);
+        var json = NestedJson.Build(150);
 
         var o = JsonConvert.DeserializeObject<JObject>(json, new JsonSerializerSettings {MaxDepth = int.MaxValue});
         var depth = GetDepth(o);

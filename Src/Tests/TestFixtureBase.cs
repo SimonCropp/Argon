@@ -32,33 +32,18 @@ public abstract class TestFixtureBase
     protected TestFixtureBase()
     {
 #if !NET5_0_OR_GREATER
-            //CultureInfo turkey = CultureInfo.CreateSpecificCulture("tr");
-            //Thread.CurrentThread.CurrentCulture = turkey;
-            //Thread.CurrentThread.CurrentUICulture = turkey;
+        //CultureInfo turkey = CultureInfo.CreateSpecificCulture("tr");
+        //Thread.CurrentThread.CurrentCulture = turkey;
+        //Thread.CurrentThread.CurrentUICulture = turkey;
 
-            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-            Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
+        Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+        Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
 #else
         // suppress writing to console with dotnet test to keep build log size small
         Console.SetOut(new StringWriter());
 #endif
 
         JsonConvert.DefaultSettings = null;
-    }
-
-    protected string GetNestedJson(int depth)
-    {
-        var root = new JObject();
-        var current = root;
-        for (var i = 0; i < depth - 1; i++)
-        {
-            var nested = new JObject();
-            current[i.ToString()] = nested;
-
-            current = nested;
-        }
-
-        return root.ToString();
     }
 }
 
