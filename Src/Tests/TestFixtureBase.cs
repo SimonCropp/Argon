@@ -124,11 +124,6 @@ public abstract class TestFixtureBase
 
 public static class CustomAssert
 {
-    public static void IsInstanceOfType(Type t, object instance)
-    {
-        XAssert.IsType(t, instance);
-    }
-
     public static void Contains(IList collection, object value)
     {
         Contains(collection, value, null);

@@ -123,32 +123,32 @@ public class ExpandoObjectConverterTests : TestFixtureBase
         Assert.IsNotNull(o.Expando);
 
         dynamic d = o.Expando;
-        CustomAssert.IsInstanceOfType(typeof(ExpandoObject), d);
+        Xunit.Assert.IsType(typeof(ExpandoObject), d);
 
         Assert.AreEqual("String!", d.String);
-        CustomAssert.IsInstanceOfType(typeof(string), d.String);
+        Xunit.Assert.IsType(typeof(string), d.String);
 
         Assert.AreEqual(234, d.Integer);
-        CustomAssert.IsInstanceOfType(typeof(long), d.Integer);
+        Xunit.Assert.IsType(typeof(long), d.Integer);
 
         Assert.AreEqual(1.23, d.Float);
-        CustomAssert.IsInstanceOfType(typeof(double), d.Float);
+        Xunit.Assert.IsType(typeof(double), d.Float);
 
         Assert.IsNotNull(d.List);
         Assert.AreEqual(3, d.List.Count);
-        CustomAssert.IsInstanceOfType(typeof(List<object>), d.List);
+        Xunit.Assert.IsType(typeof(List<object>), d.List);
 
         Assert.AreEqual("First", d.List[0]);
-        CustomAssert.IsInstanceOfType(typeof(string), d.List[0]);
+        Xunit.Assert.IsType(typeof(string), d.List[0]);
 
         Assert.AreEqual("Second", d.List[1]);
         Assert.AreEqual("Third", d.List[2]);
 
         Assert.IsNotNull(d.Object);
-        CustomAssert.IsInstanceOfType(typeof(ExpandoObject), d.Object);
+        Xunit.Assert.IsType(typeof(ExpandoObject), d.Object);
 
         Assert.AreEqual(1, d.Object.First);
-        CustomAssert.IsInstanceOfType(typeof(long), d.Object.First);
+        Xunit.Assert.IsType(typeof(long), d.Object.First);
     }
 
     [Fact]

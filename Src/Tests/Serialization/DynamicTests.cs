@@ -126,11 +126,11 @@ public class DynamicTests : TestFixtureBase
 #pragma warning restore 618
         });
 
-        CustomAssert.IsInstanceOfType(typeof(ExpandoObject), n);
+        Xunit.Assert.IsType(typeof(ExpandoObject), n);
         Assert.AreEqual("Text!", n.Text);
         Assert.AreEqual(int.MaxValue, n.Integer);
 
-        CustomAssert.IsInstanceOfType(typeof(DynamicChildObject), n.DynamicChildObject);
+        Xunit.Assert.IsType(typeof(DynamicChildObject), n.DynamicChildObject);
         Assert.AreEqual("Child text!", n.DynamicChildObject.Text);
         Assert.AreEqual(int.MinValue, n.DynamicChildObject.Integer);
     }
