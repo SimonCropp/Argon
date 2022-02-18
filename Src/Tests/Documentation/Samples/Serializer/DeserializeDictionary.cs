@@ -47,6 +47,6 @@ public class DeserializeDictionary : TestFixtureBase
         // _blank
         #endregion
 
-        Xunit.Assert.Equal("_blank", htmlAttributes["target"]);
+        Assert.Equal("_blank", htmlAttributes["target"]);
     }
 }

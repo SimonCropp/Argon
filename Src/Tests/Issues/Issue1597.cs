@@ -42,11 +42,11 @@ public class Issue1597 : TestFixtureBase
 
         var o = JsonConvert.DeserializeObject<IReadOnlyDictionary<CollectionStatus, int>>(json);
 
-        Xunit.Assert.Equal(264, o[CollectionStatus.Wish]);
-        Xunit.Assert.Equal(7498, o[CollectionStatus.Collect]);
-        Xunit.Assert.Equal(385, o[CollectionStatus.Doing]);
-        Xunit.Assert.Equal(285, o[CollectionStatus.OnHold]);
-        Xunit.Assert.Equal(221, o[CollectionStatus.Dropped]);
+        Assert.Equal(264, o[CollectionStatus.Wish]);
+        Assert.Equal(7498, o[CollectionStatus.Collect]);
+        Assert.Equal(385, o[CollectionStatus.Doing]);
+        Assert.Equal(285, o[CollectionStatus.OnHold]);
+        Assert.Equal(221, o[CollectionStatus.Dropped]);
     }
 
     [Fact]
@@ -62,11 +62,11 @@ public class Issue1597 : TestFixtureBase
 
         var o = JsonConvert.DeserializeObject<IReadOnlyDictionary<CollectionStatus, int>>(json);
 
-        Xunit.Assert.Equal(264, o[CollectionStatus.Wish]);
-        Xunit.Assert.Equal(7498, o[CollectionStatus.Collect]);
-        Xunit.Assert.Equal(385, o[CollectionStatus.Doing]);
-        Xunit.Assert.Equal(285, o[CollectionStatus.OnHold]);
-        Xunit.Assert.Equal(221, o[CollectionStatus.Dropped]);
+        Assert.Equal(264, o[CollectionStatus.Wish]);
+        Assert.Equal(7498, o[CollectionStatus.Collect]);
+        Assert.Equal(385, o[CollectionStatus.Doing]);
+        Assert.Equal(285, o[CollectionStatus.OnHold]);
+        Assert.Equal(221, o[CollectionStatus.Dropped]);
     }
 
     [Fact]

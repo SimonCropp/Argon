@@ -107,7 +107,7 @@ public class Issue1351 : TestFixtureBase
             },
             "Error reading object reference '4'. Path '[1].Color.A', line 16, position 10.");
 
-        Xunit.Assert.Equal("A different Id has already been assigned for value 'Argon.Tests.Issues.Issue1351+Color'. This error may be caused by an object being reused multiple times during deserialization and can be fixed with the setting ObjectCreationHandling.Replace.", exception.InnerException.Message);
+        Assert.Equal("A different Id has already been assigned for value 'Argon.Tests.Issues.Issue1351+Color'. This error may be caused by an object being reused multiple times during deserialization and can be fixed with the setting ObjectCreationHandling.Replace.", exception.InnerException.Message);
     }
 
     [Fact]
@@ -148,9 +148,9 @@ public class Issue1351 : TestFixtureBase
         var obj = JsonConvert.DeserializeObject<List<TestClass>>(json, settings);
 
         var o1 = obj[0];
-        Xunit.Assert.Equal(1, o1.Color.A);
+        Assert.Equal(1, o1.Color.A);
 
         var o2 = obj[1];
-        Xunit.Assert.Equal(2, o2.Color.A);
+        Assert.Equal(2, o2.Color.A);
     }
 }

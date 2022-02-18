@@ -54,6 +54,6 @@ public class StrictEqualsQuery : TestFixtureBase
         // Valid JSON
         #endregion
 
-        Xunit.Assert.Equal(1, strictResults.Count);
+        Assert.Equal(1, strictResults.Count);
     }
 }

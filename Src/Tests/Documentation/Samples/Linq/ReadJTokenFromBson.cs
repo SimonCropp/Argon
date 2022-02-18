@@ -49,7 +49,7 @@ public class ReadJTokenFromBson : TestFixtureBase
         // value1
         #endregion
 
-        Xunit.Assert.Equal("value1", value);
+        Assert.Equal("value1", value);
     }
 #pragma warning restore 618
 }

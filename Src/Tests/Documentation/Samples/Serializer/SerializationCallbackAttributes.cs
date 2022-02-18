@@ -125,6 +125,6 @@ public class SerializationCallbackAttributes : TestFixtureBase
         // This value was set after deserialization.
         #endregion
 
-        Xunit.Assert.Equal("This value was set after deserialization.", obj.Member4);
+        Assert.Equal("This value was set after deserialization.", obj.Member4);
     }
 }

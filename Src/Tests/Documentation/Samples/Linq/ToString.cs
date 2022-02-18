@@ -49,6 +49,6 @@ public class ToString : TestFixtureBase
         // {"string1":"value","integer2":99,"datetime3":new Date(959032800000)}
         #endregion
 
-        Xunit.Assert.NotNull(o.ToString(Formatting.None, new JavaScriptDateTimeConverter()));
+        Assert.NotNull(o.ToString(Formatting.None, new JavaScriptDateTimeConverter()));
     }
 }

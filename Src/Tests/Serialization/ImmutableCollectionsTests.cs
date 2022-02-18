@@ -60,10 +60,10 @@ public class ImmutableCollectionsTests : TestFixtureBase
 
         var l = JsonConvert.DeserializeObject<ImmutableList<string>>(json);
 
-        Xunit.Assert.Equal(3, l.Count);
-        Xunit.Assert.Equal("One", l[0]);
-        Xunit.Assert.Equal("II", l[1]);
-        Xunit.Assert.Equal("3", l[2]);
+        Assert.Equal(3, l.Count);
+        Assert.Equal("One", l[0]);
+        Assert.Equal("II", l[1]);
+        Assert.Equal("3", l[2]);
     }
 
     [Fact]
@@ -78,10 +78,10 @@ public class ImmutableCollectionsTests : TestFixtureBase
         // what sorcery is this?!
         var champions = JsonConvert.DeserializeObject<IImmutableList<string>>(json);
 
-        Xunit.Assert.Equal(3, champions.Count);
-        Xunit.Assert.Equal("Volibear", champions[0]);
-        Xunit.Assert.Equal("Teemo", champions[1]);
-        Xunit.Assert.Equal("Katarina", champions[2]);
+        Assert.Equal(3, champions.Count);
+        Assert.Equal("Volibear", champions[0]);
+        Assert.Equal("Teemo", champions[1]);
+        Assert.Equal("Katarina", champions[2]);
     }
     #endregion
 
@@ -115,10 +115,10 @@ public class ImmutableCollectionsTests : TestFixtureBase
 
         var l = JsonConvert.DeserializeObject<ImmutableArray<string>>(json);
 
-        Xunit.Assert.Equal(3, l.Length);
-        Xunit.Assert.Equal("One", l[0]);
-        Xunit.Assert.Equal("II", l[1]);
-        Xunit.Assert.Equal("3", l[2]);
+        Assert.Equal(3, l.Length);
+        Assert.Equal("One", l[0]);
+        Assert.Equal("II", l[1]);
+        Assert.Equal("3", l[2]);
     }
 
     [Fact]
@@ -160,10 +160,10 @@ public class ImmutableCollectionsTests : TestFixtureBase
 
         var l = JsonConvert.DeserializeObject<ImmutableQueue<string>>(json);
 
-        Xunit.Assert.Equal(3, l.Count());
-        Xunit.Assert.Equal("One", l.ElementAt(0));
-        Xunit.Assert.Equal("II", l.ElementAt(1));
-        Xunit.Assert.Equal("3", l.ElementAt(2));
+        Assert.Equal(3, l.Count());
+        Assert.Equal("One", l.ElementAt(0));
+        Assert.Equal("II", l.ElementAt(1));
+        Assert.Equal("3", l.ElementAt(2));
     }
 
     [Fact]
@@ -177,10 +177,10 @@ public class ImmutableCollectionsTests : TestFixtureBase
 
         var l = JsonConvert.DeserializeObject<IImmutableQueue<string>>(json);
 
-        Xunit.Assert.Equal(3, l.Count());
-        Xunit.Assert.Equal("One", l.ElementAt(0));
-        Xunit.Assert.Equal("II", l.ElementAt(1));
-        Xunit.Assert.Equal("3", l.ElementAt(2));
+        Assert.Equal(3, l.Count());
+        Assert.Equal("One", l.ElementAt(0));
+        Assert.Equal("II", l.ElementAt(1));
+        Assert.Equal("3", l.ElementAt(2));
     }
     #endregion
 
@@ -214,10 +214,10 @@ public class ImmutableCollectionsTests : TestFixtureBase
 
         var l = JsonConvert.DeserializeObject<ImmutableStack<string>>(json);
 
-        Xunit.Assert.Equal(3, l.Count());
-        Xunit.Assert.Equal("3", l.ElementAt(0));
-        Xunit.Assert.Equal("II", l.ElementAt(1));
-        Xunit.Assert.Equal("One", l.ElementAt(2));
+        Assert.Equal(3, l.Count());
+        Assert.Equal("3", l.ElementAt(0));
+        Assert.Equal("II", l.ElementAt(1));
+        Assert.Equal("One", l.ElementAt(2));
     }
 
     [Fact]
@@ -231,10 +231,10 @@ public class ImmutableCollectionsTests : TestFixtureBase
 
         var l = JsonConvert.DeserializeObject<IImmutableStack<string>>(json);
 
-        Xunit.Assert.Equal(3, l.Count());
-        Xunit.Assert.Equal("3", l.ElementAt(0));
-        Xunit.Assert.Equal("II", l.ElementAt(1));
-        Xunit.Assert.Equal("One", l.ElementAt(2));
+        Assert.Equal(3, l.Count());
+        Assert.Equal("3", l.ElementAt(0));
+        Assert.Equal("II", l.ElementAt(1));
+        Assert.Equal("One", l.ElementAt(2));
     }
     #endregion
 
@@ -252,10 +252,10 @@ public class ImmutableCollectionsTests : TestFixtureBase
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
 
         var a = JArray.Parse(json);
-        Xunit.Assert.Equal(3, a.Count);
-        Xunit.Assert.True(a.Any(t => t.DeepEquals("One")));
-        Xunit.Assert.True(a.Any(t => t.DeepEquals("II")));
-        Xunit.Assert.True(a.Any(t => t.DeepEquals("3")));
+        Assert.Equal(3, a.Count);
+        Assert.True(a.Any(t => t.DeepEquals("One")));
+        Assert.True(a.Any(t => t.DeepEquals("II")));
+        Assert.True(a.Any(t => t.DeepEquals("3")));
     }
 
     [Fact]
@@ -269,10 +269,10 @@ public class ImmutableCollectionsTests : TestFixtureBase
 
         var l = JsonConvert.DeserializeObject<ImmutableHashSet<string>>(json);
 
-        Xunit.Assert.Equal(3, l.Count());
-        Xunit.Assert.True(l.Contains("3"));
-        Xunit.Assert.True(l.Contains("II"));
-        Xunit.Assert.True(l.Contains("One"));
+        Assert.Equal(3, l.Count());
+        Assert.True(l.Contains("3"));
+        Assert.True(l.Contains("II"));
+        Assert.True(l.Contains("One"));
     }
 
     [Fact]
@@ -286,12 +286,12 @@ public class ImmutableCollectionsTests : TestFixtureBase
 
         var l = JsonConvert.DeserializeObject<IImmutableSet<string>>(json);
 
-        Xunit.Assert.Equal(3, l.Count());
-        Xunit.Assert.True(l.Contains("3"));
-        Xunit.Assert.True(l.Contains("II"));
-        Xunit.Assert.True(l.Contains("One"));
+        Assert.Equal(3, l.Count());
+        Assert.True(l.Contains("3"));
+        Assert.True(l.Contains("II"));
+        Assert.True(l.Contains("One"));
 
-        Xunit.Assert.True(l is ImmutableHashSet<string>);
+        Assert.True(l is ImmutableHashSet<string>);
     }
     #endregion
 
@@ -325,10 +325,10 @@ public class ImmutableCollectionsTests : TestFixtureBase
 
         var l = JsonConvert.DeserializeObject<ImmutableSortedSet<string>>(json);
 
-        Xunit.Assert.Equal(3, l.Count());
-        Xunit.Assert.True(l.Contains("3"));
-        Xunit.Assert.True(l.Contains("II"));
-        Xunit.Assert.True(l.Contains("One"));
+        Assert.Equal(3, l.Count());
+        Assert.True(l.Contains("3"));
+        Assert.True(l.Contains("II"));
+        Assert.True(l.Contains("One"));
     }
     #endregion
 
@@ -345,10 +345,10 @@ public class ImmutableCollectionsTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
         var a = JObject.Parse(json);
-        Xunit.Assert.Equal(3, a.Count);
-        Xunit.Assert.Equal("One", (string)a["1"]);
-        Xunit.Assert.Equal("II", (string)a["2"]);
-        Xunit.Assert.Equal("3", (string)a["3"]);
+        Assert.Equal(3, a.Count);
+        Assert.Equal("One", (string)a["1"]);
+        Assert.Equal("II", (string)a["2"]);
+        Assert.Equal("3", (string)a["3"]);
     }
 
     [Fact]
@@ -362,10 +362,10 @@ public class ImmutableCollectionsTests : TestFixtureBase
 
         var l = JsonConvert.DeserializeObject<ImmutableDictionary<int, string>>(json);
 
-        Xunit.Assert.Equal(3, l.Count);
-        Xunit.Assert.Equal("One", l[1]);
-        Xunit.Assert.Equal("II", l[2]);
-        Xunit.Assert.Equal("3", l[3]);
+        Assert.Equal(3, l.Count);
+        Assert.Equal("One", l[1]);
+        Assert.Equal("II", l[2]);
+        Assert.Equal("3", l[3]);
     }
 
     [Fact]
@@ -379,12 +379,12 @@ public class ImmutableCollectionsTests : TestFixtureBase
 
         var l = JsonConvert.DeserializeObject<IImmutableDictionary<int, string>>(json);
 
-        Xunit.Assert.Equal(3, l.Count);
-        Xunit.Assert.Equal("One", l[1]);
-        Xunit.Assert.Equal("II", l[2]);
-        Xunit.Assert.Equal("3", l[3]);
+        Assert.Equal(3, l.Count);
+        Assert.Equal("One", l[1]);
+        Assert.Equal("II", l[2]);
+        Assert.Equal("3", l[3]);
 
-        Xunit.Assert.True(l is ImmutableDictionary<int, string>);
+        Assert.True(l is ImmutableDictionary<int, string>);
     }
     #endregion
 
@@ -418,10 +418,10 @@ public class ImmutableCollectionsTests : TestFixtureBase
 
         var l = JsonConvert.DeserializeObject<ImmutableSortedDictionary<int, string>>(json);
 
-        Xunit.Assert.Equal(3, l.Count);
-        Xunit.Assert.Equal("One", l[1]);
-        Xunit.Assert.Equal("II", l[2]);
-        Xunit.Assert.Equal("3", l[3]);
+        Assert.Equal(3, l.Count);
+        Assert.Equal("One", l[1]);
+        Assert.Equal("II", l[2]);
+        Assert.Equal("3", l[3]);
     }
     #endregion
 }

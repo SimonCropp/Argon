@@ -34,14 +34,14 @@ public class JPropertyTests : TestFixtureBase
     public void NullValue()
     {
         var p = new JProperty("TestProperty", null);
-        Xunit.Assert.NotNull(p.Value);
-        Xunit.Assert.Equal(JTokenType.Null, p.Value.Type);
-        Xunit.Assert.Equal(p, p.Value.Parent);
+        Assert.NotNull(p.Value);
+        Assert.Equal(JTokenType.Null, p.Value.Type);
+        Assert.Equal(p, p.Value.Parent);
 
         p.Value = null;
-        Xunit.Assert.NotNull(p.Value);
-        Xunit.Assert.Equal(JTokenType.Null, p.Value.Type);
-        Xunit.Assert.Equal(p, p.Value.Parent);
+        Assert.NotNull(p.Value);
+        Assert.Equal(JTokenType.Null, p.Value.Type);
+        Assert.Equal(p, p.Value.Parent);
     }
 
     [Fact]
@@ -61,8 +61,8 @@ public class JPropertyTests : TestFixtureBase
 
         p.Value = 1;
 
-        Xunit.Assert.Equal(ListChangedType.ItemChanged, listChangedType.Value);
-        Xunit.Assert.Equal(0, index.Value);
+        Assert.Equal(ListChangedType.ItemChanged, listChangedType.Value);
+        Assert.Equal(0, index.Value);
     }
 
     [Fact]
@@ -71,7 +71,7 @@ public class JPropertyTests : TestFixtureBase
         var p = new JProperty("TestProperty", null);
         IList l = p;
 
-        Xunit.Assert.Equal(1, l.Count);
+        Assert.Equal(1, l.Count);
     }
 
     [Fact]
@@ -117,7 +117,7 @@ public class JPropertyTests : TestFixtureBase
         IList l = p;
 
         var result = l.Cast<JToken>().ToList();
-        Xunit.Assert.Equal(1, result.Count);
+        Assert.Equal(1, result.Count);
     }
 
     [Fact]
@@ -136,10 +136,10 @@ public class JPropertyTests : TestFixtureBase
         var p1 = new JProperty("TestProperty", v);
 
         IList l1 = p1;
-        Xunit.Assert.Equal(0, l1.IndexOf(v));
+        Assert.Equal(0, l1.IndexOf(v));
 
         IList<JToken> l2 = p1;
-        Xunit.Assert.Equal(0, l2.IndexOf(v));
+        Assert.Equal(0, l2.IndexOf(v));
     }
 
     [Fact]
@@ -158,26 +158,26 @@ public class JPropertyTests : TestFixtureBase
         JsonReader reader = new JsonTextReader(new StringReader("{'propertyname':['value1']}"));
         reader.Read();
 
-        Xunit.Assert.Equal(JsonToken.StartObject, reader.TokenType);
+        Assert.Equal(JsonToken.StartObject, reader.TokenType);
         reader.Read();
 
         var property = JProperty.Load(reader);
-        Xunit.Assert.Equal("propertyname", property.Name);
-        Xunit.Assert.True(JToken.DeepEquals(JArray.Parse("['value1']"), property.Value));
+        Assert.Equal("propertyname", property.Name);
+        Assert.True(JToken.DeepEquals(JArray.Parse("['value1']"), property.Value));
 
-        Xunit.Assert.Equal(JsonToken.EndObject, reader.TokenType);
+        Assert.Equal(JsonToken.EndObject, reader.TokenType);
 
         reader = new JsonTextReader(new StringReader("{'propertyname':null}"));
         reader.Read();
 
-        Xunit.Assert.Equal(JsonToken.StartObject, reader.TokenType);
+        Assert.Equal(JsonToken.StartObject, reader.TokenType);
         reader.Read();
 
         property = JProperty.Load(reader);
-        Xunit.Assert.Equal("propertyname", property.Name);
-        Xunit.Assert.True(JToken.DeepEquals(JValue.CreateNull(), property.Value));
+        Assert.Equal("propertyname", property.Name);
+        Assert.True(JToken.DeepEquals(JValue.CreateNull(), property.Value));
 
-        Xunit.Assert.Equal(JsonToken.EndObject, reader.TokenType);
+        Assert.Equal(JsonToken.EndObject, reader.TokenType);
     }
 
     [Fact]
@@ -186,9 +186,9 @@ public class JPropertyTests : TestFixtureBase
         var p = new JProperty("error", new List<string> { "one", "two" });
         var a = (JArray)p.Value;
 
-        Xunit.Assert.Equal(a.Count, 2);
-        Xunit.Assert.Equal("one", (string)a[0]);
-        Xunit.Assert.Equal("two", (string)a[1]);
+        Assert.Equal(a.Count, 2);
+        Assert.Equal("one", (string)a[0]);
+        Assert.Equal("two", (string)a[1]);
     }
 
     [Fact]
@@ -219,6 +219,6 @@ public class JPropertyTests : TestFixtureBase
         property.Remove();
         obj.Add(new JProperty("prop2", value));
 
-        Xunit.Assert.Equal(((JProperty)value.Parent).Name, "prop2");
+        Assert.Equal(((JProperty)value.Parent).Name, "prop2");
     }
 }

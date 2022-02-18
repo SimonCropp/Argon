@@ -57,8 +57,8 @@ public class LateboundReflectionDelegateFactoryTests : TestFixtureBase
 
         var args = new object[] { "Value" };
         var o = (InTestClass)creator(args);
-        Xunit.Assert.NotNull(o);
-        Xunit.Assert.Equal("Value", o.Value);
+        Assert.NotNull(o);
+        Assert.Equal("Value", o.Value);
     }
 
     [Fact]
@@ -70,8 +70,8 @@ public class LateboundReflectionDelegateFactoryTests : TestFixtureBase
 
         var args = new object[] { "Value", true };
         var o = (InTestClass)creator(args);
-        Xunit.Assert.NotNull(o);
-        Xunit.Assert.Equal("Value", o.Value);
+        Assert.NotNull(o);
+        Assert.Equal("Value", o.Value);
         XUnitAssert.True(o.B1);
     }
 
@@ -84,8 +84,8 @@ public class LateboundReflectionDelegateFactoryTests : TestFixtureBase
 
         var args = new object[] { "Input" };
         var o = (OutAndRefTestClass)creator(args);
-        Xunit.Assert.NotNull(o);
-        Xunit.Assert.Equal("Input", o.Input);
+        Assert.NotNull(o);
+        Assert.Equal("Input", o.Input);
     }
 
     [Fact]
@@ -97,8 +97,8 @@ public class LateboundReflectionDelegateFactoryTests : TestFixtureBase
 
         var args = new object[] { "Input", null };
         var o = (OutAndRefTestClass)creator(args);
-        Xunit.Assert.NotNull(o);
-        Xunit.Assert.Equal("Input", o.Input);
+        Assert.NotNull(o);
+        Assert.Equal("Input", o.Input);
     }
 
     [Fact]
@@ -110,8 +110,8 @@ public class LateboundReflectionDelegateFactoryTests : TestFixtureBase
 
         var args = new object[] { "Input", true, null };
         var o = (OutAndRefTestClass)creator(args);
-        Xunit.Assert.NotNull(o);
-        Xunit.Assert.Equal("Input", o.Input);
+        Assert.NotNull(o);
+        Assert.Equal("Input", o.Input);
         XUnitAssert.True(o.B1);
         XUnitAssert.False(o.B2);
     }

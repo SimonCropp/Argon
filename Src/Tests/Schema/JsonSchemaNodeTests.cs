@@ -83,10 +83,10 @@ public class JsonSchemaNodeTests : TestFixtureBase
 
         var node = modelBuilder.AddSchema(null, secondSchema);
 
-        Xunit.Assert.Equal(2, node.Schemas.Count);
-        Xunit.Assert.Equal(2, node.Properties["firstproperty"].Schemas.Count);
-        Xunit.Assert.Equal(3, node.Properties["secondproperty"].Schemas.Count);
-        Xunit.Assert.Equal(3, node.Properties["secondproperty"].Properties["secondproperty_firstproperty"].Schemas.Count);
+        Assert.Equal(2, node.Schemas.Count);
+        Assert.Equal(2, node.Properties["firstproperty"].Schemas.Count);
+        Assert.Equal(3, node.Properties["secondproperty"].Schemas.Count);
+        Assert.Equal(3, node.Properties["secondproperty"].Properties["secondproperty_firstproperty"].Schemas.Count);
     }
 
     [Fact]
@@ -105,9 +105,9 @@ public class JsonSchemaNodeTests : TestFixtureBase
 
         var node = modelBuilder.AddSchema(null, schema);
 
-        Xunit.Assert.Single(node.Schemas);
+        Assert.Single(node.Schemas);
 
-        Xunit.Assert.Equal(node, node.Items[0]);
+        Assert.Equal(node, node.Items[0]);
     }
 }
 

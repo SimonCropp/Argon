@@ -75,6 +75,6 @@ public class DeserializeCustomCreationConverter : TestFixtureBase
         // Carpenter
         #endregion
 
-        Xunit.Assert.Equal("Carpenter", employee.JobTitle);
+        Assert.Equal("Carpenter", employee.JobTitle);
     }
 }

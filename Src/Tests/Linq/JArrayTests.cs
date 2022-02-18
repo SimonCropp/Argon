@@ -44,22 +44,22 @@ public class JArrayTests : TestFixtureBase
 
         var last = a.Last();
 
-        Xunit.Assert.True(a.Remove(last));
+        Assert.True(a.Remove(last));
 
         last = a.Last();
         last.Remove();
 
-        Xunit.Assert.Equal(2, a.Count);
+        Assert.Equal(2, a.Count);
     }
 
     [Fact]
     public void Clear()
     {
         var a = new JArray { 1 };
-        Xunit.Assert.Equal(1, a.Count);
+        Assert.Equal(1, a.Count);
 
         a.Clear();
-        Xunit.Assert.Equal(0, a.Count);
+        Assert.Equal(0, a.Count);
     }
 
     [Fact]
@@ -68,7 +68,7 @@ public class JArrayTests : TestFixtureBase
         var a = new JArray();
         a.Add(a);
 
-        Xunit.Assert.False(ReferenceEquals(a[0], a));
+        Assert.False(ReferenceEquals(a[0], a));
     }
 
     [Fact]
@@ -93,21 +93,21 @@ public class JArrayTests : TestFixtureBase
             new JValue(2),
             new JValue(3)
         };
-        Xunit.Assert.Equal(3, j.Count);
+        Assert.Equal(3, j.Count);
 
         var a = new JToken[5];
 
         ((ICollection<JToken>)j).CopyTo(a, 1);
 
-        Xunit.Assert.Equal(null, a[0]);
+        Assert.Equal(null, a[0]);
 
-        Xunit.Assert.Equal(1, (int)a[1]);
+        Assert.Equal(1, (int)a[1]);
 
-        Xunit.Assert.Equal(2, (int)a[2]);
+        Assert.Equal(2, (int)a[2]);
 
-        Xunit.Assert.Equal(3, (int)a[3]);
+        Assert.Equal(3, (int)a[3]);
 
-        Xunit.Assert.Equal(null, a[4]);
+        Assert.Equal(null, a[4]);
     }
 
     [Fact]
@@ -159,14 +159,14 @@ Parameter name: arrayIndex",
         var v = new JValue(1);
         var j = new JArray {v};
 
-        Xunit.Assert.Equal(1, j.Count);
+        Assert.Equal(1, j.Count);
 
         XUnitAssert.False(j.Remove(new JValue(1)));
         XUnitAssert.False(j.Remove(null));
         XUnitAssert.True(j.Remove(v));
         XUnitAssert.False(j.Remove(v));
 
-        Xunit.Assert.Equal(0, j.Count);
+        Assert.Equal(0, j.Count);
     }
 
     [Fact]
@@ -178,21 +178,21 @@ Parameter name: arrayIndex",
 
         var j = new JArray {v1};
 
-        Xunit.Assert.Equal(0, j.IndexOf(v1));
+        Assert.Equal(0, j.IndexOf(v1));
 
         j.Add(v2);
-        Xunit.Assert.Equal(0, j.IndexOf(v1));
-        Xunit.Assert.Equal(1, j.IndexOf(v2));
+        Assert.Equal(0, j.IndexOf(v1));
+        Assert.Equal(1, j.IndexOf(v2));
 
         j.AddFirst(v3);
-        Xunit.Assert.Equal(1, j.IndexOf(v1));
-        Xunit.Assert.Equal(2, j.IndexOf(v2));
-        Xunit.Assert.Equal(0, j.IndexOf(v3));
+        Assert.Equal(1, j.IndexOf(v1));
+        Assert.Equal(2, j.IndexOf(v2));
+        Assert.Equal(0, j.IndexOf(v3));
 
         v3.Remove();
-        Xunit.Assert.Equal(0, j.IndexOf(v1));
-        Xunit.Assert.Equal(1, j.IndexOf(v2));
-        Xunit.Assert.Equal(-1, j.IndexOf(v3));
+        Assert.Equal(0, j.IndexOf(v1));
+        Assert.Equal(1, j.IndexOf(v2));
+        Assert.Equal(-1, j.IndexOf(v3));
     }
 
     [Fact]
@@ -217,7 +217,7 @@ Parameter name: arrayIndex",
         j.RemoveAt(1);
         XUnitAssert.False(j.Contains(v3));
 
-        Xunit.Assert.Equal(1, j.Count);
+        Assert.Equal(1, j.Count);
     }
 
     [Fact]
@@ -261,10 +261,10 @@ Parameter name: index",
 
         j.Insert(1, v4);
 
-        Xunit.Assert.Equal(0, j.IndexOf(v1));
-        Xunit.Assert.Equal(1, j.IndexOf(v4));
-        Xunit.Assert.Equal(2, j.IndexOf(v2));
-        Xunit.Assert.Equal(3, j.IndexOf(v3));
+        Assert.Equal(0, j.IndexOf(v1));
+        Assert.Equal(1, j.IndexOf(v4));
+        Assert.Equal(2, j.IndexOf(v2));
+        Assert.Equal(3, j.IndexOf(v3));
     }
 
     [Fact]
@@ -275,20 +275,20 @@ Parameter name: index",
         var v3 = new JValue(3);
 
         var j = new JArray();
-        Xunit.Assert.Equal(null, j.First);
-        Xunit.Assert.Equal(null, j.Last);
+        Assert.Equal(null, j.First);
+        Assert.Equal(null, j.Last);
 
         j.AddFirst(v1);
-        Xunit.Assert.Equal(v1, j.First);
-        Xunit.Assert.Equal(v1, j.Last);
+        Assert.Equal(v1, j.First);
+        Assert.Equal(v1, j.Last);
 
         j.AddFirst(v2);
-        Xunit.Assert.Equal(v2, j.First);
-        Xunit.Assert.Equal(v1, j.Last);
+        Assert.Equal(v2, j.First);
+        Assert.Equal(v1, j.Last);
 
         j.AddFirst(v3);
-        Xunit.Assert.Equal(v3, j.First);
-        Xunit.Assert.Equal(v1, j.Last);
+        Assert.Equal(v3, j.First);
+        Assert.Equal(v1, j.Last);
     }
 
     [Fact]
@@ -300,11 +300,11 @@ Parameter name: index",
         var j = new JArray();
 
         j.Insert(0, v1);
-        Xunit.Assert.Equal(0, j.IndexOf(v1));
+        Assert.Equal(0, j.IndexOf(v1));
 
         j.Insert(0, v2);
-        Xunit.Assert.Equal(1, j.IndexOf(v1));
-        Xunit.Assert.Equal(0, j.IndexOf(v2));
+        Assert.Equal(1, j.IndexOf(v1));
+        Assert.Equal(0, j.IndexOf(v2));
     }
 
     [Fact]
@@ -313,7 +313,7 @@ Parameter name: index",
         var j = new JArray();
         j.Insert(0, null);
 
-        Xunit.Assert.Equal(null, ((JValue)j[0]).Value);
+        Assert.Equal(null, ((JValue)j[0]).Value);
     }
 
     [Fact]
@@ -357,10 +357,10 @@ Parameter name: index",
 
         j[1] = v4;
 
-        Xunit.Assert.Equal(null, v2.Parent);
-        Xunit.Assert.Equal(-1, j.IndexOf(v2));
-        Xunit.Assert.Equal(j, v4.Parent);
-        Xunit.Assert.Equal(1, j.IndexOf(v4));
+        Assert.Equal(null, v2.Parent);
+        Assert.Equal(-1, j.IndexOf(v2));
+        Assert.Equal(j, v4.Parent);
+        Assert.Equal(1, j.IndexOf(v4));
     }
 
     [Fact]
@@ -434,7 +434,7 @@ Parameter name: index",
         var i = 1;
         foreach (var token in a)
         {
-            Xunit.Assert.Equal(i, (int)token);
+            Assert.Equal(i, (int)token);
             i++;
         }
     }
@@ -447,10 +447,10 @@ Parameter name: index",
         ITypedList a = new JArray(new JObject(p1, p2));
 
         var propertyDescriptors = a.GetItemProperties(null);
-        Xunit.Assert.NotNull(propertyDescriptors);
-        Xunit.Assert.Equal(2, propertyDescriptors.Count);
-        Xunit.Assert.Equal("Test1", propertyDescriptors[0].Name);
-        Xunit.Assert.Equal("Test2", propertyDescriptors[1].Name);
+        Assert.NotNull(propertyDescriptors);
+        Assert.Equal(2, propertyDescriptors.Count);
+        Assert.Equal("Test1", propertyDescriptors[0].Name);
+        Assert.Equal("Test2", propertyDescriptors[1].Name);
     }
 
     [Fact]
@@ -459,10 +459,10 @@ Parameter name: index",
         var a = new JArray(1, 2);
         a.Add(a);
 
-        Xunit.Assert.Equal(3, a.Count);
-        Xunit.Assert.Equal(1, (int)a[0]);
-        Xunit.Assert.Equal(2, (int)a[1]);
-        Xunit.Assert.NotSame(a, a[2]);
+        Assert.Equal(3, a.Count);
+        Assert.Equal(1, (int)a[0]);
+        Assert.Equal(2, (int)a[1]);
+        Assert.NotSame(a, a[2]);
     }
 
     [Fact]
@@ -487,21 +487,21 @@ Parameter name: index",
             [key] = new JValue(3)
         };
 
-        Xunit.Assert.Equal(3, (int)a[key]);
+        Assert.Equal(3, (int)a[key]);
     }
 
     [Fact]
     public void ReplaceAll()
     {
         var a = new JArray(new[] { 1, 2, 3 });
-        Xunit.Assert.Equal(3, a.Count);
-        Xunit.Assert.Equal(1, (int)a[0]);
-        Xunit.Assert.Equal(2, (int)a[1]);
-        Xunit.Assert.Equal(3, (int)a[2]);
+        Assert.Equal(3, a.Count);
+        Assert.Equal(1, (int)a[0]);
+        Assert.Equal(2, (int)a[1]);
+        Assert.Equal(3, (int)a[2]);
 
         a.ReplaceAll(1);
-        Xunit.Assert.Equal(1, a.Count);
-        Xunit.Assert.Equal(1, (int)a[0]);
+        Assert.Equal(1, a.Count);
+        Assert.Equal(1, (int)a[0]);
     }
 
     [Fact]
@@ -517,9 +517,9 @@ Parameter name: index",
         array.Insert(0, 123);
         array.Insert(1, 456);
 
-        Xunit.Assert.Equal(2, array.Count);
-        Xunit.Assert.Equal(123, (int)array[0]);
-        Xunit.Assert.Equal(456, (int)array[1]);
+        Assert.Equal(2, array.Count);
+        Assert.Equal(123, (int)array[0]);
+        Assert.Equal(456, (int)array[1]);
     }
 
     [Fact]
@@ -541,13 +541,13 @@ Parameter name: index",
 
         var decks = (JArray)JObject.Parse(json)["decks"];
         IList<JToken> l = decks.ToList();
-        Xunit.Assert.Equal(0, l.Count);
+        Assert.Equal(0, l.Count);
 
         json = @"{""decks"":[1]}";
 
         decks = (JArray)JObject.Parse(json)["decks"];
         l = decks.ToList();
-        Xunit.Assert.Equal(1, l.Count);
+        Assert.Equal(1, l.Count);
     }
 
     [Fact]
@@ -557,31 +557,31 @@ Parameter name: index",
 
         var a = JArray.Parse(json, new JsonLoadSettings());
 
-        Xunit.Assert.Equal(3, a.Count);
-        Xunit.Assert.Equal(1, (int)a[0]);
-        Xunit.Assert.Equal(2, (int)a[1]);
-        Xunit.Assert.Equal(3, (int)a[2]);
+        Assert.Equal(3, a.Count);
+        Assert.Equal(1, (int)a[0]);
+        Assert.Equal(2, (int)a[1]);
+        Assert.Equal(3, (int)a[2]);
 
         a = JArray.Parse(json, new JsonLoadSettings
         {
             CommentHandling = CommentHandling.Ignore
         });
 
-        Xunit.Assert.Equal(3, a.Count);
-        Xunit.Assert.Equal(1, (int)a[0]);
-        Xunit.Assert.Equal(2, (int)a[1]);
-        Xunit.Assert.Equal(3, (int)a[2]);
+        Assert.Equal(3, a.Count);
+        Assert.Equal(1, (int)a[0]);
+        Assert.Equal(2, (int)a[1]);
+        Assert.Equal(3, (int)a[2]);
 
         a = JArray.Parse(json, new JsonLoadSettings
         {
             CommentHandling = CommentHandling.Load
         });
 
-        Xunit.Assert.Equal(4, a.Count);
-        Xunit.Assert.Equal(1, (int)a[0]);
-        Xunit.Assert.Equal(2, (int)a[1]);
-        Xunit.Assert.Equal(JTokenType.Comment, a[2].Type);
-        Xunit.Assert.Equal(3, (int)a[3]);
+        Assert.Equal(4, a.Count);
+        Assert.Equal(1, (int)a[0]);
+        Assert.Equal(2, (int)a[1]);
+        Assert.Equal(JTokenType.Comment, a[2].Type);
+        Assert.Equal(3, (int)a[3]);
     }
 
     [Fact]
@@ -592,10 +592,10 @@ Parameter name: index",
 
         var a = JArray.Parse(json);
 
-        Xunit.Assert.Equal(3, a.Count);
-        Xunit.Assert.Equal(1, (int)a[0]);
-        Xunit.Assert.Equal(2, (int)a[1]);
-        Xunit.Assert.Equal(3, (int)a[2]);
+        Assert.Equal(3, a.Count);
+        Assert.Equal(1, (int)a[0]);
+        Assert.Equal(2, (int)a[1]);
+        Assert.Equal(3, (int)a[2]);
     }
 
     [Fact]

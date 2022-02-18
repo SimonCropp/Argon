@@ -48,7 +48,7 @@ public class QueryExpressionTests : TestFixtureBase
             { "LastName", "LastName!" }
         };
 
-        Xunit.Assert.True(compositeExpression.IsMatch(o1, o1));
+        Assert.True(compositeExpression.IsMatch(o1, o1));
 
         var o2 = new JObject
         {
@@ -56,14 +56,14 @@ public class QueryExpressionTests : TestFixtureBase
             { "FirstName", "FirstName!" }
         };
 
-        Xunit.Assert.False(compositeExpression.IsMatch(o2, o2));
+        Assert.False(compositeExpression.IsMatch(o2, o2));
 
         var o3 = new JObject
         {
             { "Title", "Title!" }
         };
 
-        Xunit.Assert.False(compositeExpression.IsMatch(o3, o3));
+        Assert.False(compositeExpression.IsMatch(o3, o3));
     }
 
     [Fact]
@@ -85,7 +85,7 @@ public class QueryExpressionTests : TestFixtureBase
             { "LastName", "LastName!" }
         };
 
-        Xunit.Assert.True(compositeExpression.IsMatch(o1, o1));
+        Assert.True(compositeExpression.IsMatch(o1, o1));
 
         var o2 = new JObject
         {
@@ -93,14 +93,14 @@ public class QueryExpressionTests : TestFixtureBase
             { "FirstName", "FirstName!" }
         };
 
-        Xunit.Assert.True(compositeExpression.IsMatch(o2, o2));
+        Assert.True(compositeExpression.IsMatch(o2, o2));
 
         var o3 = new JObject
         {
             { "Title", "Title!" }
         };
 
-        Xunit.Assert.False(compositeExpression.IsMatch(o3, o3));
+        Assert.False(compositeExpression.IsMatch(o3, o3));
     }
         
     [Fact]
@@ -108,17 +108,17 @@ public class QueryExpressionTests : TestFixtureBase
     {
         var e1 = new BooleanQueryExpression(QueryOperator.RegexEquals, new List<PathFilter> { new ArrayIndexFilter() }, new JValue("/foo.*d/"));
 
-        Xunit.Assert.True(e1.IsMatch(null, new JArray("food")));
-        Xunit.Assert.True(e1.IsMatch(null, new JArray("fooood and drink")));
-        Xunit.Assert.False(e1.IsMatch(null, new JArray("FOOD")));
-        Xunit.Assert.False(e1.IsMatch(null, new JArray("foo", "foog", "good")));
+        Assert.True(e1.IsMatch(null, new JArray("food")));
+        Assert.True(e1.IsMatch(null, new JArray("fooood and drink")));
+        Assert.False(e1.IsMatch(null, new JArray("FOOD")));
+        Assert.False(e1.IsMatch(null, new JArray("foo", "foog", "good")));
 
         var e2 = new BooleanQueryExpression(QueryOperator.RegexEquals, new List<PathFilter> { new ArrayIndexFilter() }, new JValue("/Foo.*d/i"));
 
-        Xunit.Assert.True(e2.IsMatch(null, new JArray("food")));
-        Xunit.Assert.True(e2.IsMatch(null, new JArray("fooood and drink")));
-        Xunit.Assert.True(e2.IsMatch(null, new JArray("FOOD")));
-        Xunit.Assert.False(e2.IsMatch(null, new JArray("foo", "foog", "good")));
+        Assert.True(e2.IsMatch(null, new JArray("food")));
+        Assert.True(e2.IsMatch(null, new JArray("fooood and drink")));
+        Assert.True(e2.IsMatch(null, new JArray("FOOD")));
+        Assert.False(e2.IsMatch(null, new JArray("foo", "foog", "good")));
     }
 
     [Fact]
@@ -126,13 +126,13 @@ public class QueryExpressionTests : TestFixtureBase
     {
         var e1 = new BooleanQueryExpression(QueryOperator.RegexEquals, new List<PathFilter> { new ArrayIndexFilter() }, new JValue("/// comment/"));
 
-        Xunit.Assert.True(e1.IsMatch(null, new JArray("// comment")));
-        Xunit.Assert.False(e1.IsMatch(null, new JArray("//comment", "/ comment")));
+        Assert.True(e1.IsMatch(null, new JArray("// comment")));
+        Assert.False(e1.IsMatch(null, new JArray("//comment", "/ comment")));
 
         var e2 = new BooleanQueryExpression(QueryOperator.RegexEquals, new List<PathFilter> { new ArrayIndexFilter() }, new JValue("/<tag>.*</tag>/i"));
 
-        Xunit.Assert.True(e2.IsMatch(null, new JArray("<Tag>Test</Tag>", "")));
-        Xunit.Assert.False(e2.IsMatch(null, new JArray("<tag>Test<tag>")));
+        Assert.True(e2.IsMatch(null, new JArray("<Tag>Test</Tag>", "")));
+        Assert.False(e2.IsMatch(null, new JArray("<tag>Test<tag>")));
     }
 
     [Fact]
@@ -140,19 +140,19 @@ public class QueryExpressionTests : TestFixtureBase
     {
         var e1 = new BooleanQueryExpression(QueryOperator.LessThan, new List<PathFilter> { new ArrayIndexFilter() }, new JValue(3));
 
-        Xunit.Assert.True(e1.IsMatch(null, new JArray(1, 2, 3, 4, 5)));
-        Xunit.Assert.True(e1.IsMatch(null, new JArray(2, 3, 4, 5)));
-        Xunit.Assert.False(e1.IsMatch(null, new JArray(3, 4, 5)));
-        Xunit.Assert.False(e1.IsMatch(null, new JArray(4, 5)));
-        Xunit.Assert.False(e1.IsMatch(null, new JArray("11", 5)));
+        Assert.True(e1.IsMatch(null, new JArray(1, 2, 3, 4, 5)));
+        Assert.True(e1.IsMatch(null, new JArray(2, 3, 4, 5)));
+        Assert.False(e1.IsMatch(null, new JArray(3, 4, 5)));
+        Assert.False(e1.IsMatch(null, new JArray(4, 5)));
+        Assert.False(e1.IsMatch(null, new JArray("11", 5)));
 
         var e2 = new BooleanQueryExpression(QueryOperator.LessThanOrEquals, new List<PathFilter> { new ArrayIndexFilter() }, new JValue(3));
 
-        Xunit.Assert.True(e2.IsMatch(null, new JArray(1, 2, 3, 4, 5)));
-        Xunit.Assert.True(e2.IsMatch(null, new JArray(2, 3, 4, 5)));
-        Xunit.Assert.True(e2.IsMatch(null, new JArray(3, 4, 5)));
-        Xunit.Assert.False(e2.IsMatch(null, new JArray(4, 5)));
-        Xunit.Assert.False(e1.IsMatch(null, new JArray("11", 5)));
+        Assert.True(e2.IsMatch(null, new JArray(1, 2, 3, 4, 5)));
+        Assert.True(e2.IsMatch(null, new JArray(2, 3, 4, 5)));
+        Assert.True(e2.IsMatch(null, new JArray(3, 4, 5)));
+        Assert.False(e2.IsMatch(null, new JArray(4, 5)));
+        Assert.False(e1.IsMatch(null, new JArray("11", 5)));
     }
 
     [Fact]
@@ -160,10 +160,10 @@ public class QueryExpressionTests : TestFixtureBase
     {
         var e1 = new BooleanQueryExpression(QueryOperator.GreaterThan, new List<PathFilter> { new ArrayIndexFilter() }, new JValue(3));
 
-        Xunit.Assert.True(e1.IsMatch(null, new JArray("2", "26")));
-        Xunit.Assert.True(e1.IsMatch(null, new JArray(2, 26)));
-        Xunit.Assert.False(e1.IsMatch(null, new JArray(2, 3)));
-        Xunit.Assert.False(e1.IsMatch(null, new JArray("2", "3")));
+        Assert.True(e1.IsMatch(null, new JArray("2", "26")));
+        Assert.True(e1.IsMatch(null, new JArray(2, 26)));
+        Assert.False(e1.IsMatch(null, new JArray(2, 3)));
+        Assert.False(e1.IsMatch(null, new JArray("2", "3")));
     }
 
     [Fact]
@@ -171,11 +171,11 @@ public class QueryExpressionTests : TestFixtureBase
     {
         var e1 = new BooleanQueryExpression(QueryOperator.GreaterThanOrEquals, new List<PathFilter> { new ArrayIndexFilter() }, new JValue(3));
 
-        Xunit.Assert.True(e1.IsMatch(null, new JArray("2", "26")));
-        Xunit.Assert.True(e1.IsMatch(null, new JArray(2, 26)));
-        Xunit.Assert.True(e1.IsMatch(null, new JArray(2, 3)));
-        Xunit.Assert.True(e1.IsMatch(null, new JArray("2", "3")));
-        Xunit.Assert.False(e1.IsMatch(null, new JArray(2, 1)));
-        Xunit.Assert.False(e1.IsMatch(null, new JArray("2", "1")));
+        Assert.True(e1.IsMatch(null, new JArray("2", "26")));
+        Assert.True(e1.IsMatch(null, new JArray(2, 26)));
+        Assert.True(e1.IsMatch(null, new JArray(2, 3)));
+        Assert.True(e1.IsMatch(null, new JArray("2", "3")));
+        Assert.False(e1.IsMatch(null, new JArray(2, 1)));
+        Assert.False(e1.IsMatch(null, new JArray("2", "1")));
     }
 }

@@ -54,6 +54,6 @@ public class ErrorWhenNoMatchQuery : TestFixtureBase
         }
         #endregion
 
-        Xunit.Assert.Equal("Unable to find result in JSON.", result);
+        Assert.Equal("Unable to find result in JSON.", result);
     }
 }

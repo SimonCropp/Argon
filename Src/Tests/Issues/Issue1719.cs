@@ -38,7 +38,7 @@ public class Issue1719 : TestFixtureBase
             NullValueHandling = NullValueHandling.Ignore,
         });
 
-        Xunit.Assert.Null(a.PropertyBag);
+        Assert.Null(a.PropertyBag);
     }
 
     [Fact]
@@ -49,7 +49,7 @@ public class Issue1719 : TestFixtureBase
             NullValueHandling = NullValueHandling.Ignore,
         });
 
-        Xunit.Assert.Null(a.PropertyBag);
+        Assert.Null(a.PropertyBag);
     }
 
     [Fact]
@@ -60,7 +60,7 @@ public class Issue1719 : TestFixtureBase
             DefaultValueHandling = DefaultValueHandling.Ignore,
         });
 
-        Xunit.Assert.Null(a.PropertyBag);
+        Assert.Null(a.PropertyBag);
     }
 
     class ExtensionDataTestClass

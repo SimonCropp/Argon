@@ -46,12 +46,12 @@ public class ExtensionsTests : TestFixtureBase
 
         XUnitAssert.True(integerToken.IsValid(schema));
         XUnitAssert.True(integerToken.IsValid(schema, out var errorMessages));
-        Xunit.Assert.Equal(0, errorMessages.Count);
+        Assert.Equal(0, errorMessages.Count);
 
         XUnitAssert.False(stringToken.IsValid(schema));
         XUnitAssert.False(stringToken.IsValid(schema, out errorMessages));
-        Xunit.Assert.Equal(1, errorMessages.Count);
-        Xunit.Assert.Equal("Invalid type. Expected Integer but got String.", errorMessages[0]);
+        Assert.Equal(1, errorMessages.Count);
+        Assert.Equal("Invalid type. Expected Integer but got String.", errorMessages[0]);
     }
 
     [Fact]
@@ -62,14 +62,14 @@ public class ExtensionsTests : TestFixtureBase
 
         var errors = new List<string>();
         stringToken.Validate(schema, (_, args) => errors.Add(args.Message));
-        Xunit.Assert.Equal(0, errors.Count);
+        Assert.Equal(0, errors.Count);
 
         stringToken = JToken.FromObject("pie");
 
         stringToken.Validate(schema, (_, args) => errors.Add(args.Message));
-        Xunit.Assert.Equal(1, errors.Count);
+        Assert.Equal(1, errors.Count);
 
-        Xunit.Assert.Equal("String 'pie' does not match regex pattern 'lol'.", errors[0]);
+        Assert.Equal("String 'pie' does not match regex pattern 'lol'.", errors[0]);
     }
 
     [Fact]
@@ -101,8 +101,8 @@ public class ExtensionsTests : TestFixtureBase
         var errors = new List<string>();
         o.Validate(schema, (_, args) => errors.Add(args.Message));
 
-        Xunit.Assert.Equal("Required properties are missing from object: lol. Line 1, position 1.", errors[0]);
-        Xunit.Assert.Equal(1, errors.Count);
+        Assert.Equal("Required properties are missing from object: lol. Line 1, position 1.", errors[0]);
+        Assert.Equal(1, errors.Count);
     }
 
     [Fact]
@@ -114,9 +114,9 @@ public class ExtensionsTests : TestFixtureBase
         var errors = new List<string>();
         o.Validate(schema, (_, args) => errors.Add(args.Path + " - " + args.Message));
 
-        Xunit.Assert.Equal("lol - Invalid type. Expected String but got Integer. Line 1, position 8.", errors[0]);
-        Xunit.Assert.Equal("1", o.SelectToken("lol").ToString());
-        Xunit.Assert.Equal(1, errors.Count);
+        Assert.Equal("lol - Invalid type. Expected String but got Integer. Line 1, position 8.", errors[0]);
+        Assert.Equal("1", o.SelectToken("lol").ToString());
+        Assert.Equal(1, errors.Count);
     }
 
     [Fact]
@@ -222,8 +222,8 @@ public class ExtensionsTests : TestFixtureBase
         var errors = new List<string>();
         o.Validate(schema, (_, args) => errors.Add(args.Message));
 
-        Xunit.Assert.Equal(1, errors.Count);
-        Xunit.Assert.Equal("Property 'g' has not been defined and the schema does not allow additional properties. Line 1, position 5.", errors[0]);
+        Assert.Equal(1, errors.Count);
+        Assert.Equal("Property 'g' has not been defined and the schema does not allow additional properties. Line 1, position 5.", errors[0]);
     }
 
     [Fact]
@@ -326,7 +326,7 @@ public class ExtensionsTests : TestFixtureBase
         };
 
         var a = new JArray(1, 2, 3);
-        Xunit.Assert.True(a.IsValid(schema));
+        Assert.True(a.IsValid(schema));
     }
 
     [Fact]
@@ -338,10 +338,10 @@ public class ExtensionsTests : TestFixtureBase
         };
 
         var a = new JArray(1, 2, 3, 2, 2);
-        Xunit.Assert.False(a.IsValid(schema, out var errorMessages));
-        Xunit.Assert.Equal(2, errorMessages.Count);
-        Xunit.Assert.Equal("Non-unique array item at index 3.", errorMessages[0]);
-        Xunit.Assert.Equal("Non-unique array item at index 4.", errorMessages[1]);
+        Assert.False(a.IsValid(schema, out var errorMessages));
+        Assert.Equal(2, errorMessages.Count);
+        Assert.Equal("Non-unique array item at index 3.", errorMessages[0]);
+        Assert.Equal("Non-unique array item at index 4.", errorMessages[1]);
     }
 
     [Fact]
@@ -353,11 +353,11 @@ public class ExtensionsTests : TestFixtureBase
         };
 
         var a = new JArray(1, new JObject(new JProperty("value", "value!")), 3, 2, new JObject(new JProperty("value", "value!")), 4, 2, new JObject(new JProperty("value", "value!")));
-        Xunit.Assert.False(a.IsValid(schema, out var errorMessages));
-        Xunit.Assert.Equal(3, errorMessages.Count);
-        Xunit.Assert.Equal("Non-unique array item at index 4.", errorMessages[0]);
-        Xunit.Assert.Equal("Non-unique array item at index 6.", errorMessages[1]);
-        Xunit.Assert.Equal("Non-unique array item at index 7.", errorMessages[2]);
+        Assert.False(a.IsValid(schema, out var errorMessages));
+        Assert.Equal(3, errorMessages.Count);
+        Assert.Equal("Non-unique array item at index 4.", errorMessages[0]);
+        Assert.Equal("Non-unique array item at index 6.", errorMessages[1]);
+        Assert.Equal("Non-unique array item at index 7.", errorMessages[2]);
     }
 
     [Fact]
@@ -383,12 +383,12 @@ public class ExtensionsTests : TestFixtureBase
             new JArray(1, 2),
             new JArray(1, 1)
         );
-        Xunit.Assert.False(a.IsValid(schema, out var errorMessages));
-        Xunit.Assert.Equal(4, errorMessages.Count);
-        Xunit.Assert.Equal("Non-unique array item at index 1.", errorMessages[0]);
-        Xunit.Assert.Equal("Non-unique array item at index 3.", errorMessages[1]);
-        Xunit.Assert.Equal("Non-unique array item at index 1.", errorMessages[2]);
-        Xunit.Assert.Equal("Non-unique array item at index 4.", errorMessages[3]);
+        Assert.False(a.IsValid(schema, out var errorMessages));
+        Assert.Equal(4, errorMessages.Count);
+        Assert.Equal("Non-unique array item at index 1.", errorMessages[0]);
+        Assert.Equal("Non-unique array item at index 3.", errorMessages[1]);
+        Assert.Equal("Non-unique array item at index 1.", errorMessages[2]);
+        Assert.Equal("Non-unique array item at index 4.", errorMessages[3]);
     }
 
     [Fact]
@@ -415,14 +415,14 @@ public class ExtensionsTests : TestFixtureBase
         var o = new JObject(
             new JProperty("bar", 1)
         );
-        Xunit.Assert.True(o.IsValid(schema, out var errorMessages));
-        Xunit.Assert.Equal(0, errorMessages.Count);
+        Assert.True(o.IsValid(schema, out var errorMessages));
+        Assert.Equal(0, errorMessages.Count);
 
         o = new JObject(
             new JProperty("bar", 3)
         );
-        Xunit.Assert.False(o.IsValid(schema, out errorMessages));
-        Xunit.Assert.Equal(1, errorMessages.Count);
+        Assert.False(o.IsValid(schema, out errorMessages));
+        Assert.Equal(1, errorMessages.Count);
     }
 
     [Fact]
@@ -445,8 +445,8 @@ public class ExtensionsTests : TestFixtureBase
         var o = new JObject(
             new JProperty("bar", new JArray(1, 2, 3, 3))
         );
-        Xunit.Assert.False(o.IsValid(schema, out var errorMessages));
-        Xunit.Assert.Equal(1, errorMessages.Count);
+        Assert.False(o.IsValid(schema, out var errorMessages));
+        Assert.Equal(1, errorMessages.Count);
     }
 
     [Fact]
@@ -463,7 +463,7 @@ public class ExtensionsTests : TestFixtureBase
         };
 
         var a = new JArray(new JObject(), 1);
-        Xunit.Assert.True(a.IsValid(schema, out var errorMessages));
-        Xunit.Assert.Equal(0, errorMessages.Count);
+        Assert.True(a.IsValid(schema, out var errorMessages));
+        Assert.Equal(0, errorMessages.Count);
     }
 }

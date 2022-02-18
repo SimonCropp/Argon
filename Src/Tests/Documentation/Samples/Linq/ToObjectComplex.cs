@@ -64,7 +64,7 @@ public class ToObjectComplex : TestFixtureBase
         // Mike Smith
         #endregion
 
-        Xunit.Assert.Equal("John Smith", person[0].Name);
-        Xunit.Assert.Equal("Mike Smith", person[1].Name);
+        Assert.Equal("John Smith", person[0].Name);
+        Assert.Equal("Mike Smith", person[1].Name);
     }
 }

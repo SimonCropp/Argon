@@ -59,11 +59,11 @@ public class JsonSerializerTest : TestFixtureBase
         };
         var json = JsonConvert.SerializeObject(c);
 
-        Xunit.Assert.Equal(@"{""strprop"":""test""}", json);
+        Assert.Equal(@"{""strprop"":""test""}", json);
 
         var c2 = JsonConvert.DeserializeObject<ListSourceTest>(json);
 
-        Xunit.Assert.Equal("test", c2.strprop);
+        Assert.Equal("test", c2.strprop);
     }
 
     [Fact]
@@ -71,8 +71,8 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var result = JsonConvert.DeserializeObject<ImmutableStruct>("{ \"Value\": \"working\", \"Value2\": 2 }");
 
-        Xunit.Assert.Equal("working", result.Value);
-        Xunit.Assert.Equal(2, result.Value2);
+        Assert.Equal("working", result.Value);
+        Assert.Equal(2, result.Value2);
     }
 
     public struct AlmostImmutableStruct
@@ -92,8 +92,8 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var result = JsonConvert.DeserializeObject<AlmostImmutableStruct>("{ \"Value\": \"working\", \"Value2\": 2 }");
 
-        Xunit.Assert.Equal(null, result.Value);
-        Xunit.Assert.Equal(2, result.Value2);
+        Assert.Equal(null, result.Value);
+        Assert.Equal(2, result.Value2);
     }
 
     [Fact]
@@ -123,11 +123,11 @@ public class JsonSerializerTest : TestFixtureBase
             }
             catch (Exception)
             {
-                Xunit.Assert.True(s.Position > 0);
+                Assert.True(s.Position > 0);
 
                 s.Seek(0, SeekOrigin.Begin);
 
-                Xunit.Assert.Equal(0, s.Position);
+                Assert.Equal(0, s.Position);
             }
         }
     }
@@ -171,19 +171,19 @@ public class JsonSerializerTest : TestFixtureBase
 }";
         var enumerableClass = JsonConvert.DeserializeObject<GenericIEnumerableWithImplicitConversion>(deserialized);
         var enumerableObject = enumerableClass.Enumerable.ToArray();
-        Xunit.Assert.Equal(2, enumerableObject.Length);
-        Xunit.Assert.Equal("abc", enumerableObject[0].Value);
-        Xunit.Assert.Equal("def", enumerableObject[1].Value);
+        Assert.Equal(2, enumerableObject.Length);
+        Assert.Equal("abc", enumerableObject[0].Value);
+        Assert.Equal("def", enumerableObject[1].Value);
     }
 
     [Fact]
     public void LargeIntegerAsString()
     {
         var largeBrokenNumber = JsonConvert.DeserializeObject<Foo64>("{\"Blah\": 43443333222211111117 }");
-        Xunit.Assert.Equal("43443333222211111117", largeBrokenNumber.Blah);
+        Assert.Equal("43443333222211111117", largeBrokenNumber.Blah);
 
         var largeOddWorkingNumber = JsonConvert.DeserializeObject<Foo64>("{\"Blah\": 53443333222211111117 }");
-        Xunit.Assert.Equal("53443333222211111117", largeOddWorkingNumber.Blah);
+        Assert.Equal("53443333222211111117", largeOddWorkingNumber.Blah);
     }
 
     [Fact]
@@ -192,8 +192,8 @@ public class JsonSerializerTest : TestFixtureBase
         var d = JsonConvert.DeserializeObject<DateTimeOffset>(@"""/Date(1418924498000+0800)/""");
         var initialTicks = DateTimeUtils.ConvertDateTimeToJavaScriptTicks(d.DateTime, d.Offset);
 
-        Xunit.Assert.Equal(1418924498000, initialTicks);
-        Xunit.Assert.Equal(8, d.Offset.Hours);
+        Assert.Equal(1418924498000, initialTicks);
+        Assert.Equal(8, d.Offset.Hours);
     }
 
     [Fact]
@@ -298,8 +298,8 @@ public class JsonSerializerTest : TestFixtureBase
         XUnitAssert.True(l[i++]);
         XUnitAssert.False(l[i++]);
         XUnitAssert.False(l[i++]);
-        Xunit.Assert.Equal(null, l[i++]);
-        Xunit.Assert.Equal(null, l[i++]);
+        Assert.Equal(null, l[i++]);
+        Assert.Equal(null, l[i++]);
     }
 
     [Fact]
@@ -311,10 +311,10 @@ public class JsonSerializerTest : TestFixtureBase
         StringAssert.AreEqual(@"{""Bars"":[""A"",""B"",""C""]}", json);
 
         var foo2 = JsonConvert.DeserializeObject<FooRequired>(json);
-        Xunit.Assert.Equal(foo1.Bars.Count, foo2.Bars.Count);
-        Xunit.Assert.Equal(foo1.Bars[0], foo2.Bars[0]);
-        Xunit.Assert.Equal(foo1.Bars[1], foo2.Bars[1]);
-        Xunit.Assert.Equal(foo1.Bars[2], foo2.Bars[2]);
+        Assert.Equal(foo1.Bars.Count, foo2.Bars.Count);
+        Assert.Equal(foo1.Bars[0], foo2.Bars[0]);
+        Assert.Equal(foo1.Bars[1], foo2.Bars[1]);
+        Assert.Equal(foo1.Bars[2], foo2.Bars[2]);
     }
 
     [Fact]
@@ -333,7 +333,7 @@ public class JsonSerializerTest : TestFixtureBase
     public void DisallowNull_NoValue()
     {
         var o = JsonConvert.DeserializeObject<Binding_DisallowNull>("{}");
-        Xunit.Assert.Null(o.RequiredProperty);
+        Assert.Null(o.RequiredProperty);
     }
 
     [Fact]
@@ -346,8 +346,8 @@ public class JsonSerializerTest : TestFixtureBase
     public void NoErrorWhenValueDoesNotMatchIgnoredProperty()
     {
         var p = JsonConvert.DeserializeObject<IgnoredProperty>("{'StringProp1':[1,2,3],'StringProp2':{}}");
-        Xunit.Assert.Null(p.StringProp1);
-        Xunit.Assert.Null(p.StringProp2);
+        Assert.Null(p.StringProp1);
+        Assert.Null(p.StringProp2);
     }
 
     [Fact]
@@ -363,7 +363,7 @@ public class JsonSerializerTest : TestFixtureBase
         {
             NullValueHandling = NullValueHandling.Ignore
         });
-        Xunit.Assert.Equal("{}", json);
+        Assert.Equal("{}", json);
     }
 
     [Fact]
@@ -437,10 +437,10 @@ public class JsonSerializerTest : TestFixtureBase
     public void DeserializeEnumsByName()
     {
         var e1 = JsonConvert.DeserializeObject<EnumA>("'ValueA'");
-        Xunit.Assert.Equal(EnumA.ValueA, e1);
+        Assert.Equal(EnumA.ValueA, e1);
 
         var e2 = JsonConvert.DeserializeObject<EnumA>("'value_a'", new StringEnumConverter());
-        Xunit.Assert.Equal(EnumA.ValueA, e2);
+        Assert.Equal(EnumA.ValueA, e2);
     }
 
     [Fact]
@@ -459,7 +459,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c2);
 
-        Xunit.Assert.Equal(@"{""Name"":""Name!""}", json);
+        Assert.Equal(@"{""Name"":""Name!""}", json);
 
         ExceptionAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<RequiredPropertyTestClass>(@"{}"),
@@ -471,7 +471,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var c3 = JsonConvert.DeserializeObject<RequiredPropertyTestClass>(@"{""Name"":""Name!""}");
 
-        Xunit.Assert.Equal("Name!", c3.Name);
+        Assert.Equal("Name!", c3.Name);
     }
 
     [Fact]
@@ -487,7 +487,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c2);
 
-        Xunit.Assert.Equal(@"{""Name"":""Name!""}", json);
+        Assert.Equal(@"{""Name"":""Name!""}", json);
 
         ExceptionAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<RequiredPropertyConstructorTestClass>(@"{}"),
@@ -495,7 +495,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var c3 = JsonConvert.DeserializeObject<RequiredPropertyConstructorTestClass>(@"{""Name"":""Name!""}");
 
-        Xunit.Assert.Equal("Name!", c3.Name);
+        Assert.Equal("Name!", c3.Name);
     }
 
     [Fact]
@@ -555,7 +555,7 @@ public class JsonSerializerTest : TestFixtureBase
             ContractResolver = new IgnoredPropertiesContractResolver()
         });
 
-        Xunit.Assert.Equal("Name!", c2.Name);
+        Assert.Equal("Name!", c2.Name);
     }
 
     [Fact]
@@ -573,9 +573,9 @@ public class JsonSerializerTest : TestFixtureBase
 
         var t2 = JsonConvert.DeserializeObject<ValueTuple<int, int, string>>(json);
 
-        Xunit.Assert.Equal(1, t2.Item1);
-        Xunit.Assert.Equal(2, t2.Item2);
-        Xunit.Assert.Equal("string", t2.Item3);
+        Assert.Equal(1, t2.Item1);
+        Assert.Equal(2, t2.Item2);
+        Assert.Equal("string", t2.Item3);
     }
 
     [Fact]
@@ -583,7 +583,7 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var result = JsonConvert.DeserializeObject<ImmutableStructWithConstructorAttribute>("{ \"Value\": \"working\" }");
 
-        Xunit.Assert.Equal("working", result.Value);
+        Assert.Equal("working", result.Value);
     }
 
     public struct ImmutableStructWithConstructorAttribute
@@ -607,11 +607,11 @@ public class JsonSerializerTest : TestFixtureBase
         };
         var json = JsonConvert.SerializeObject(c);
 
-        Xunit.Assert.Equal("{}", json);
+        Assert.Equal("{}", json);
 
         var c2 = JsonConvert.DeserializeObject<CustomerWithMetadataType>("{'UpdatedBy_Id':'F6E0666D-13C7-4745-B486-800812C8F6DE'}");
 
-        Xunit.Assert.Equal(Guid.Empty, c2.UpdatedBy_Id);
+        Assert.Equal(Guid.Empty, c2.UpdatedBy_Id);
     }
 
     [Fact]
@@ -639,8 +639,8 @@ public class JsonSerializerTest : TestFixtureBase
 
         var c2 = JsonConvert.DeserializeObject<FaqItem>(json);
 
-        Xunit.Assert.Equal(1, c2.FaqId);
-        Xunit.Assert.Equal(1, c2.Sections.Count);
+        Assert.Equal(1, c2.FaqId);
+        Assert.Equal(1, c2.Sections.Count);
     }
 
     [Fact]
@@ -667,8 +667,8 @@ public class JsonSerializerTest : TestFixtureBase
 
         var c2 = JsonConvert.DeserializeObject<FaqItemProxy>(json);
 
-        Xunit.Assert.Equal(1, c2.FaqId);
-        Xunit.Assert.Equal(1, c2.Sections.Count);
+        Assert.Equal(1, c2.FaqId);
+        Assert.Equal(1, c2.Sections.Count);
     }
 #endif
 
@@ -682,11 +682,11 @@ public class JsonSerializerTest : TestFixtureBase
     ""Value4"": null,
     ""Value5"": null
 }");
-        Xunit.Assert.Null(otc.Value1);
-        Xunit.Assert.Equal(JTokenType.Null, otc.Value2.Type);
-        Xunit.Assert.Equal(JTokenType.Raw, otc.Value3.Type);
-        Xunit.Assert.Equal(JTokenType.Null, otc.Value4.Type);
-        Xunit.Assert.Null(otc.Value5);
+        Assert.Null(otc.Value1);
+        Assert.Equal(JTokenType.Null, otc.Value2.Type);
+        Assert.Equal(JTokenType.Raw, otc.Value3.Type);
+        Assert.Equal(JTokenType.Null, otc.Value4.Type);
+        Assert.Null(otc.Value5);
     }
 
     [Fact]
@@ -702,16 +702,16 @@ public class JsonSerializerTest : TestFixtureBase
             Error = (_, a) => a.ErrorContext.Handled = true
         });
 
-        Xunit.Assert.Equal(0, l.ChildId);
+        Assert.Equal(0, l.ChildId);
     }
 
     [Fact]
     public void DeserializeObservableCollection()
     {
         var s = JsonConvert.DeserializeObject<ObservableCollection<string>>("['1','2']");
-        Xunit.Assert.Equal(2, s.Count);
-        Xunit.Assert.Equal("1", s[0]);
-        Xunit.Assert.Equal("2", s[1]);
+        Assert.Equal(2, s.Count);
+        Assert.Equal("1", s[0]);
+        Assert.Equal("2", s[1]);
     }
 
     [Fact]
@@ -720,27 +720,27 @@ public class JsonSerializerTest : TestFixtureBase
         var c1 = new ObservableCollection<string> {"1", "2"};
 
         var output = JsonConvert.SerializeObject(c1);
-        Xunit.Assert.Equal("[\"1\",\"2\"]", output);
+        Assert.Equal("[\"1\",\"2\"]", output);
 
         var c2 = JsonConvert.DeserializeObject<ObservableCollection<string>>(output);
-        Xunit.Assert.Equal(2, c2.Count);
-        Xunit.Assert.Equal("1", c2[0]);
-        Xunit.Assert.Equal("2", c2[1]);
+        Assert.Equal(2, c2.Count);
+        Assert.Equal("1", c2[0]);
+        Assert.Equal("2", c2[1]);
     }
 
     [Fact]
     public void DeserializeBoolAsStringInDictionary()
     {
         var d = JsonConvert.DeserializeObject<Dictionary<string, string>>("{\"Test1\":false}");
-        Xunit.Assert.Equal(1, d.Count);
-        Xunit.Assert.Equal("false", d["Test1"]);
+        Assert.Equal(1, d.Count);
+        Assert.Equal("false", d["Test1"]);
     }
 
     [Fact]
     public void PopulateResetSettings()
     {
         var reader = new JsonTextReader(new StringReader(@"[""2000-01-01T01:01:01+00:00""]"));
-        Xunit.Assert.Equal(DateParseHandling.DateTime, reader.DateParseHandling);
+        Assert.Equal(DateParseHandling.DateTime, reader.DateParseHandling);
 
         var serializer = new JsonSerializer
         {
@@ -750,16 +750,16 @@ public class JsonSerializerTest : TestFixtureBase
         IList<object> l = new List<object>();
         serializer.Populate(reader, l);
 
-        Xunit.Assert.Equal(typeof(DateTimeOffset), l[0].GetType());
-        Xunit.Assert.Equal(new DateTimeOffset(2000, 1, 1, 1, 1, 1, TimeSpan.Zero), l[0]);
+        Assert.Equal(typeof(DateTimeOffset), l[0].GetType());
+        Assert.Equal(new DateTimeOffset(2000, 1, 1, 1, 1, 1, TimeSpan.Zero), l[0]);
 
-        Xunit.Assert.Equal(DateParseHandling.DateTime, reader.DateParseHandling);
+        Assert.Equal(DateParseHandling.DateTime, reader.DateParseHandling);
     }
 
     [Fact]
     public void NewProperty()
     {
-        Xunit.Assert.Equal(@"{""IsTransient"":true}", JsonConvert.SerializeObject(new ChildClass {IsTransient = true}));
+        Assert.Equal(@"{""IsTransient"":true}", JsonConvert.SerializeObject(new ChildClass {IsTransient = true}));
 
         var childClass = JsonConvert.DeserializeObject<ChildClass>(@"{""IsTransient"":true}");
         XUnitAssert.True(childClass.IsTransient);
@@ -768,7 +768,7 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void NewPropertyVirtual()
     {
-        Xunit.Assert.Equal(@"{""IsTransient"":true}", JsonConvert.SerializeObject(new ChildClassVirtual {IsTransient = true}));
+        Assert.Equal(@"{""IsTransient"":true}", JsonConvert.SerializeObject(new ChildClassVirtual {IsTransient = true}));
 
         var childClass = JsonConvert.DeserializeObject<ChildClassVirtual>(@"{""IsTransient"":true}");
         XUnitAssert.True(childClass.IsTransient);
@@ -787,9 +787,9 @@ public class JsonSerializerTest : TestFixtureBase
         var json = JsonConvert.SerializeObject(input);
         var deserialized = JsonConvert.DeserializeObject<ResponseWithNewGenericProperty<int>>(json);
 
-        Xunit.Assert.Equal(input.Data, deserialized.Data);
-        Xunit.Assert.Equal(input.Message, deserialized.Message);
-        Xunit.Assert.Equal(input.Result, deserialized.Result);
+        Assert.Equal(input.Data, deserialized.Data);
+        Assert.Equal(input.Message, deserialized.Message);
+        Assert.Equal(input.Result, deserialized.Result);
     }
 
     [Fact]
@@ -805,9 +805,9 @@ public class JsonSerializerTest : TestFixtureBase
         var json = JsonConvert.SerializeObject(input);
         var deserialized = JsonConvert.DeserializeObject<ResponseWithNewGenericPropertyVirtual<int>>(json);
 
-        Xunit.Assert.Equal(input.Data, deserialized.Data);
-        Xunit.Assert.Equal(input.Message, deserialized.Message);
-        Xunit.Assert.Equal(input.Result, deserialized.Result);
+        Assert.Equal(input.Data, deserialized.Data);
+        Assert.Equal(input.Message, deserialized.Message);
+        Assert.Equal(input.Result, deserialized.Result);
     }
 
     [Fact]
@@ -823,9 +823,9 @@ public class JsonSerializerTest : TestFixtureBase
         var json = JsonConvert.SerializeObject(input);
         var deserialized = JsonConvert.DeserializeObject<ResponseWithNewGenericPropertyOverride<int>>(json);
 
-        Xunit.Assert.Equal(input.Data, deserialized.Data);
-        Xunit.Assert.Equal(input.Message, deserialized.Message);
-        Xunit.Assert.Equal(input.Result, deserialized.Result);
+        Assert.Equal(input.Data, deserialized.Data);
+        Assert.Equal(input.Message, deserialized.Message);
+        Assert.Equal(input.Result, deserialized.Result);
     }
 
     [Fact]
@@ -841,9 +841,9 @@ public class JsonSerializerTest : TestFixtureBase
         var json = JsonConvert.SerializeObject(input);
         var deserialized = JsonConvert.DeserializeObject<ResponseWithNewGenericProperty<List<int>>>(json);
 
-        Xunit.Assert.Equal(input.Data, deserialized.Data);
-        Xunit.Assert.Equal(input.Message, deserialized.Message);
-        Xunit.Assert.Equal(input.Result, deserialized.Result);
+        Assert.Equal(input.Data, deserialized.Data);
+        Assert.Equal(input.Message, deserialized.Message);
+        Assert.Equal(input.Result, deserialized.Result);
     }
 
     [Fact]
@@ -852,10 +852,10 @@ public class JsonSerializerTest : TestFixtureBase
         var json = "['1.2.3.4']";
         var deserialized = JsonConvert.DeserializeObject<List<Version>>(json);
 
-        Xunit.Assert.Equal(1, deserialized[0].Major);
-        Xunit.Assert.Equal(2, deserialized[0].Minor);
-        Xunit.Assert.Equal(3, deserialized[0].Build);
-        Xunit.Assert.Equal(4, deserialized[0].Revision);
+        Assert.Equal(1, deserialized[0].Major);
+        Assert.Equal(2, deserialized[0].Minor);
+        Assert.Equal(3, deserialized[0].Build);
+        Assert.Equal(4, deserialized[0].Revision);
     }
 
     [Fact]
@@ -880,31 +880,31 @@ public class JsonSerializerTest : TestFixtureBase
             }
             /* Test */";
         var o = (JObject) JsonConvert.DeserializeObject(json);
-        Xunit.Assert.Equal(3, o.Count);
+        Assert.Equal(3, o.Count);
         XUnitAssert.True((bool) o["A"]);
         XUnitAssert.False((bool) o["B"]);
-        Xunit.Assert.Equal(1, o["C"].Count());
-        Xunit.Assert.Equal(1, (int) o["C"][0]);
+        Assert.Equal(1, o["C"].Count());
+        Assert.Equal(1, (int) o["C"][0]);
 
-        Xunit.Assert.True(JToken.DeepEquals(o, JObject.Parse(json)));
+        Assert.True(JToken.DeepEquals(o, JObject.Parse(json)));
 
         json = @"{/* Test */}";
         o = (JObject) JsonConvert.DeserializeObject(json);
-        Xunit.Assert.Equal(0, o.Count);
-        Xunit.Assert.True(JToken.DeepEquals(o, JObject.Parse(json)));
+        Assert.Equal(0, o.Count);
+        Assert.True(JToken.DeepEquals(o, JObject.Parse(json)));
 
         json = @"{""A"": true/* Test */}";
         o = (JObject) JsonConvert.DeserializeObject(json);
-        Xunit.Assert.Equal(1, o.Count);
+        Assert.Equal(1, o.Count);
         XUnitAssert.True((bool) o["A"]);
-        Xunit.Assert.True(JToken.DeepEquals(o, JObject.Parse(json)));
+        Assert.True(JToken.DeepEquals(o, JObject.Parse(json)));
     }
 
     [Fact]
     public void DeserializeCommentTestObjectWithComments()
     {
         var o = JsonConvert.DeserializeObject<CommentTestObject>(@"{/* Test */}");
-        Xunit.Assert.Equal(null, o.A);
+        Assert.Equal(null, o.A);
 
         o = JsonConvert.DeserializeObject<CommentTestObject>(@"{""A"": true/* Test */}");
         XUnitAssert.True(o.A);
@@ -916,118 +916,118 @@ public class JsonSerializerTest : TestFixtureBase
         var serializer = new JsonSerializer();
 
 #pragma warning disable CS0618 // Type or member is obsolete
-        Xunit.Assert.NotNull(serializer.Binder);
+        Assert.NotNull(serializer.Binder);
 #pragma warning restore CS0618 // Type or member is obsolete
-        Xunit.Assert.NotNull(serializer.SerializationBinder);
+        Assert.NotNull(serializer.SerializationBinder);
 
         var customBinder = new DefaultSerializationBinder();
 #pragma warning disable CS0618 // Type or member is obsolete
         serializer.Binder = customBinder;
-        Xunit.Assert.Equal(customBinder, serializer.Binder);
+        Assert.Equal(customBinder, serializer.Binder);
 #pragma warning restore CS0618 // Type or member is obsolete
 
-        Xunit.Assert.IsType(typeof(DefaultSerializationBinder), serializer.SerializationBinder);
+        Assert.IsType(typeof(DefaultSerializationBinder), serializer.SerializationBinder);
 
         serializer.SerializationBinder = customBinder;
-        Xunit.Assert.Equal(customBinder, serializer.SerializationBinder);
+        Assert.Equal(customBinder, serializer.SerializationBinder);
 
 #pragma warning disable CS0618 // Type or member is obsolete
         // can still fetch because DefaultSerializationBinder inherits from SerializationBinder
-        Xunit.Assert.Equal(customBinder, serializer.Binder);
+        Assert.Equal(customBinder, serializer.Binder);
 #pragma warning restore CS0618 // Type or member is obsolete
 
         serializer.CheckAdditionalContent = true;
         XUnitAssert.True(serializer.CheckAdditionalContent);
 
         serializer.ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor;
-        Xunit.Assert.Equal(ConstructorHandling.AllowNonPublicDefaultConstructor, serializer.ConstructorHandling);
+        Assert.Equal(ConstructorHandling.AllowNonPublicDefaultConstructor, serializer.ConstructorHandling);
 
         serializer.Context = new StreamingContext(StreamingContextStates.Other);
-        Xunit.Assert.Equal(new StreamingContext(StreamingContextStates.Other), serializer.Context);
+        Assert.Equal(new StreamingContext(StreamingContextStates.Other), serializer.Context);
 
         var resolver = new CamelCasePropertyNamesContractResolver();
         serializer.ContractResolver = resolver;
-        Xunit.Assert.Equal(resolver, serializer.ContractResolver);
+        Assert.Equal(resolver, serializer.ContractResolver);
 
         serializer.Converters.Add(new StringEnumConverter());
-        Xunit.Assert.Equal(1, serializer.Converters.Count);
+        Assert.Equal(1, serializer.Converters.Count);
 
         serializer.Culture = new CultureInfo("en-nz");
-        Xunit.Assert.Equal("en-NZ", serializer.Culture.ToString());
+        Assert.Equal("en-NZ", serializer.Culture.ToString());
 
         serializer.EqualityComparer = EqualityComparer<object>.Default;
-        Xunit.Assert.Equal(EqualityComparer<object>.Default, serializer.EqualityComparer);
+        Assert.Equal(EqualityComparer<object>.Default, serializer.EqualityComparer);
 
         serializer.DateFormatHandling = DateFormatHandling.MicrosoftDateFormat;
-        Xunit.Assert.Equal(DateFormatHandling.MicrosoftDateFormat, serializer.DateFormatHandling);
+        Assert.Equal(DateFormatHandling.MicrosoftDateFormat, serializer.DateFormatHandling);
 
         serializer.DateFormatString = "yyyy";
-        Xunit.Assert.Equal("yyyy", serializer.DateFormatString);
+        Assert.Equal("yyyy", serializer.DateFormatString);
 
         serializer.DateParseHandling = DateParseHandling.None;
-        Xunit.Assert.Equal(DateParseHandling.None, serializer.DateParseHandling);
+        Assert.Equal(DateParseHandling.None, serializer.DateParseHandling);
 
         serializer.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
-        Xunit.Assert.Equal(DateTimeZoneHandling.Utc, serializer.DateTimeZoneHandling);
+        Assert.Equal(DateTimeZoneHandling.Utc, serializer.DateTimeZoneHandling);
 
         serializer.DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate;
-        Xunit.Assert.Equal(DefaultValueHandling.IgnoreAndPopulate, serializer.DefaultValueHandling);
+        Assert.Equal(DefaultValueHandling.IgnoreAndPopulate, serializer.DefaultValueHandling);
 
         serializer.FloatFormatHandling = FloatFormatHandling.Symbol;
-        Xunit.Assert.Equal(FloatFormatHandling.Symbol, serializer.FloatFormatHandling);
+        Assert.Equal(FloatFormatHandling.Symbol, serializer.FloatFormatHandling);
 
         serializer.FloatParseHandling = FloatParseHandling.Decimal;
-        Xunit.Assert.Equal(FloatParseHandling.Decimal, serializer.FloatParseHandling);
+        Assert.Equal(FloatParseHandling.Decimal, serializer.FloatParseHandling);
 
         serializer.Formatting = Formatting.Indented;
-        Xunit.Assert.Equal(Formatting.Indented, serializer.Formatting);
+        Assert.Equal(Formatting.Indented, serializer.Formatting);
 
         serializer.MaxDepth = 9001;
-        Xunit.Assert.Equal(9001, serializer.MaxDepth);
+        Assert.Equal(9001, serializer.MaxDepth);
 
         serializer.MissingMemberHandling = MissingMemberHandling.Error;
-        Xunit.Assert.Equal(MissingMemberHandling.Error, serializer.MissingMemberHandling);
+        Assert.Equal(MissingMemberHandling.Error, serializer.MissingMemberHandling);
 
         serializer.NullValueHandling = NullValueHandling.Ignore;
-        Xunit.Assert.Equal(NullValueHandling.Ignore, serializer.NullValueHandling);
+        Assert.Equal(NullValueHandling.Ignore, serializer.NullValueHandling);
 
         serializer.ObjectCreationHandling = ObjectCreationHandling.Replace;
-        Xunit.Assert.Equal(ObjectCreationHandling.Replace, serializer.ObjectCreationHandling);
+        Assert.Equal(ObjectCreationHandling.Replace, serializer.ObjectCreationHandling);
 
         serializer.PreserveReferencesHandling = PreserveReferencesHandling.All;
-        Xunit.Assert.Equal(PreserveReferencesHandling.All, serializer.PreserveReferencesHandling);
+        Assert.Equal(PreserveReferencesHandling.All, serializer.PreserveReferencesHandling);
 
         serializer.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-        Xunit.Assert.Equal(ReferenceLoopHandling.Ignore, serializer.ReferenceLoopHandling);
+        Assert.Equal(ReferenceLoopHandling.Ignore, serializer.ReferenceLoopHandling);
 
         var referenceResolver = new IdReferenceResolver();
         serializer.ReferenceResolver = referenceResolver;
-        Xunit.Assert.Equal(referenceResolver, serializer.ReferenceResolver);
+        Assert.Equal(referenceResolver, serializer.ReferenceResolver);
 
         serializer.StringEscapeHandling = StringEscapeHandling.EscapeNonAscii;
-        Xunit.Assert.Equal(StringEscapeHandling.EscapeNonAscii, serializer.StringEscapeHandling);
+        Assert.Equal(StringEscapeHandling.EscapeNonAscii, serializer.StringEscapeHandling);
 
         var traceWriter = new MemoryTraceWriter();
         serializer.TraceWriter = traceWriter;
-        Xunit.Assert.Equal(traceWriter, serializer.TraceWriter);
+        Assert.Equal(traceWriter, serializer.TraceWriter);
 
 #pragma warning disable 618
         serializer.TypeNameAssemblyFormat = FormatterAssemblyStyle.Full;
-        Xunit.Assert.Equal(FormatterAssemblyStyle.Full, serializer.TypeNameAssemblyFormat);
+        Assert.Equal(FormatterAssemblyStyle.Full, serializer.TypeNameAssemblyFormat);
 #pragma warning restore 618
 
-        Xunit.Assert.Equal(TypeNameAssemblyFormatHandling.Full, serializer.TypeNameAssemblyFormatHandling);
+        Assert.Equal(TypeNameAssemblyFormatHandling.Full, serializer.TypeNameAssemblyFormatHandling);
 
         serializer.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple;
 #pragma warning disable 618
-        Xunit.Assert.Equal(FormatterAssemblyStyle.Simple, serializer.TypeNameAssemblyFormat);
+        Assert.Equal(FormatterAssemblyStyle.Simple, serializer.TypeNameAssemblyFormat);
 #pragma warning restore 618
 
         serializer.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full;
-        Xunit.Assert.Equal(TypeNameAssemblyFormatHandling.Full, serializer.TypeNameAssemblyFormatHandling);
+        Assert.Equal(TypeNameAssemblyFormatHandling.Full, serializer.TypeNameAssemblyFormatHandling);
 
         serializer.TypeNameHandling = TypeNameHandling.All;
-        Xunit.Assert.Equal(TypeNameHandling.All, serializer.TypeNameHandling);
+        Assert.Equal(TypeNameHandling.All, serializer.TypeNameHandling);
     }
 
     [Fact]
@@ -1036,114 +1036,114 @@ public class JsonSerializerTest : TestFixtureBase
         var settings = new JsonSerializerSettings();
 
 #pragma warning disable CS0618 // Type or member is obsolete
-        Xunit.Assert.Null(settings.Binder);
+        Assert.Null(settings.Binder);
 #pragma warning restore CS0618 // Type or member is obsolete
-        Xunit.Assert.Null(settings.SerializationBinder);
+        Assert.Null(settings.SerializationBinder);
 
         var customBinder = new DefaultSerializationBinder();
 #pragma warning disable CS0618 // Type or member is obsolete
         settings.Binder = customBinder;
-        Xunit.Assert.Equal(customBinder, settings.Binder);
+        Assert.Equal(customBinder, settings.Binder);
 #pragma warning restore CS0618 // Type or member is obsolete
 
         settings.CheckAdditionalContent = true;
         XUnitAssert.True(settings.CheckAdditionalContent);
 
         settings.ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor;
-        Xunit.Assert.Equal(ConstructorHandling.AllowNonPublicDefaultConstructor, settings.ConstructorHandling);
+        Assert.Equal(ConstructorHandling.AllowNonPublicDefaultConstructor, settings.ConstructorHandling);
 
         settings.Context = new StreamingContext(StreamingContextStates.Other);
-        Xunit.Assert.Equal(new StreamingContext(StreamingContextStates.Other), settings.Context);
+        Assert.Equal(new StreamingContext(StreamingContextStates.Other), settings.Context);
 
         var resolver = new CamelCasePropertyNamesContractResolver();
         settings.ContractResolver = resolver;
-        Xunit.Assert.Equal(resolver, settings.ContractResolver);
+        Assert.Equal(resolver, settings.ContractResolver);
 
         settings.Converters.Add(new StringEnumConverter());
-        Xunit.Assert.Equal(1, settings.Converters.Count);
+        Assert.Equal(1, settings.Converters.Count);
 
         settings.Culture = new CultureInfo("en-nz");
-        Xunit.Assert.Equal("en-NZ", settings.Culture.ToString());
+        Assert.Equal("en-NZ", settings.Culture.ToString());
 
         settings.EqualityComparer = EqualityComparer<object>.Default;
-        Xunit.Assert.Equal(EqualityComparer<object>.Default, settings.EqualityComparer);
+        Assert.Equal(EqualityComparer<object>.Default, settings.EqualityComparer);
 
         settings.DateFormatHandling = DateFormatHandling.MicrosoftDateFormat;
-        Xunit.Assert.Equal(DateFormatHandling.MicrosoftDateFormat, settings.DateFormatHandling);
+        Assert.Equal(DateFormatHandling.MicrosoftDateFormat, settings.DateFormatHandling);
 
         settings.DateFormatString = "yyyy";
-        Xunit.Assert.Equal("yyyy", settings.DateFormatString);
+        Assert.Equal("yyyy", settings.DateFormatString);
 
         settings.DateParseHandling = DateParseHandling.None;
-        Xunit.Assert.Equal(DateParseHandling.None, settings.DateParseHandling);
+        Assert.Equal(DateParseHandling.None, settings.DateParseHandling);
 
         settings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
-        Xunit.Assert.Equal(DateTimeZoneHandling.Utc, settings.DateTimeZoneHandling);
+        Assert.Equal(DateTimeZoneHandling.Utc, settings.DateTimeZoneHandling);
 
         settings.DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate;
-        Xunit.Assert.Equal(DefaultValueHandling.IgnoreAndPopulate, settings.DefaultValueHandling);
+        Assert.Equal(DefaultValueHandling.IgnoreAndPopulate, settings.DefaultValueHandling);
 
         settings.FloatFormatHandling = FloatFormatHandling.Symbol;
-        Xunit.Assert.Equal(FloatFormatHandling.Symbol, settings.FloatFormatHandling);
+        Assert.Equal(FloatFormatHandling.Symbol, settings.FloatFormatHandling);
 
         settings.FloatParseHandling = FloatParseHandling.Decimal;
-        Xunit.Assert.Equal(FloatParseHandling.Decimal, settings.FloatParseHandling);
+        Assert.Equal(FloatParseHandling.Decimal, settings.FloatParseHandling);
 
         settings.Formatting = Formatting.Indented;
-        Xunit.Assert.Equal(Formatting.Indented, settings.Formatting);
+        Assert.Equal(Formatting.Indented, settings.Formatting);
 
         settings.MaxDepth = 9001;
-        Xunit.Assert.Equal(9001, settings.MaxDepth);
+        Assert.Equal(9001, settings.MaxDepth);
 
         settings.MissingMemberHandling = MissingMemberHandling.Error;
-        Xunit.Assert.Equal(MissingMemberHandling.Error, settings.MissingMemberHandling);
+        Assert.Equal(MissingMemberHandling.Error, settings.MissingMemberHandling);
 
         settings.NullValueHandling = NullValueHandling.Ignore;
-        Xunit.Assert.Equal(NullValueHandling.Ignore, settings.NullValueHandling);
+        Assert.Equal(NullValueHandling.Ignore, settings.NullValueHandling);
 
         settings.ObjectCreationHandling = ObjectCreationHandling.Replace;
-        Xunit.Assert.Equal(ObjectCreationHandling.Replace, settings.ObjectCreationHandling);
+        Assert.Equal(ObjectCreationHandling.Replace, settings.ObjectCreationHandling);
 
         settings.PreserveReferencesHandling = PreserveReferencesHandling.All;
-        Xunit.Assert.Equal(PreserveReferencesHandling.All, settings.PreserveReferencesHandling);
+        Assert.Equal(PreserveReferencesHandling.All, settings.PreserveReferencesHandling);
 
         settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-        Xunit.Assert.Equal(ReferenceLoopHandling.Ignore, settings.ReferenceLoopHandling);
+        Assert.Equal(ReferenceLoopHandling.Ignore, settings.ReferenceLoopHandling);
 
         var referenceResolver = new IdReferenceResolver();
 #pragma warning disable 618
         settings.ReferenceResolver = referenceResolver;
-        Xunit.Assert.Equal(referenceResolver, settings.ReferenceResolver);
+        Assert.Equal(referenceResolver, settings.ReferenceResolver);
 #pragma warning restore 618
-        Xunit.Assert.Equal(referenceResolver, settings.ReferenceResolverProvider());
+        Assert.Equal(referenceResolver, settings.ReferenceResolverProvider());
 
         settings.ReferenceResolverProvider = () => referenceResolver;
-        Xunit.Assert.Equal(referenceResolver, settings.ReferenceResolverProvider());
+        Assert.Equal(referenceResolver, settings.ReferenceResolverProvider());
 
         settings.StringEscapeHandling = StringEscapeHandling.EscapeNonAscii;
-        Xunit.Assert.Equal(StringEscapeHandling.EscapeNonAscii, settings.StringEscapeHandling);
+        Assert.Equal(StringEscapeHandling.EscapeNonAscii, settings.StringEscapeHandling);
 
         var traceWriter = new MemoryTraceWriter();
         settings.TraceWriter = traceWriter;
-        Xunit.Assert.Equal(traceWriter, settings.TraceWriter);
+        Assert.Equal(traceWriter, settings.TraceWriter);
 
 #pragma warning disable 618
         settings.TypeNameAssemblyFormat = FormatterAssemblyStyle.Full;
-        Xunit.Assert.Equal(FormatterAssemblyStyle.Full, settings.TypeNameAssemblyFormat);
+        Assert.Equal(FormatterAssemblyStyle.Full, settings.TypeNameAssemblyFormat);
 #pragma warning restore 618
 
-        Xunit.Assert.Equal(TypeNameAssemblyFormatHandling.Full, settings.TypeNameAssemblyFormatHandling);
+        Assert.Equal(TypeNameAssemblyFormatHandling.Full, settings.TypeNameAssemblyFormatHandling);
 
         settings.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple;
 #pragma warning disable 618
-        Xunit.Assert.Equal(FormatterAssemblyStyle.Simple, settings.TypeNameAssemblyFormat);
+        Assert.Equal(FormatterAssemblyStyle.Simple, settings.TypeNameAssemblyFormat);
 #pragma warning restore 618
 
         settings.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full;
-        Xunit.Assert.Equal(TypeNameAssemblyFormatHandling.Full, settings.TypeNameAssemblyFormatHandling);
+        Assert.Equal(TypeNameAssemblyFormatHandling.Full, settings.TypeNameAssemblyFormatHandling);
 
         settings.TypeNameHandling = TypeNameHandling.All;
-        Xunit.Assert.Equal(TypeNameHandling.All, settings.TypeNameHandling);
+        Assert.Equal(TypeNameHandling.All, settings.TypeNameHandling);
     }
 
     [Fact]
@@ -1152,24 +1152,24 @@ public class JsonSerializerTest : TestFixtureBase
         var serializerProxy = new JsonSerializerProxy(new JsonSerializerInternalReader(new JsonSerializer()));
 
 #pragma warning disable CS0618 // Type or member is obsolete
-        Xunit.Assert.NotNull(serializerProxy.Binder);
+        Assert.NotNull(serializerProxy.Binder);
 #pragma warning restore CS0618 // Type or member is obsolete
-        Xunit.Assert.NotNull(serializerProxy.SerializationBinder);
+        Assert.NotNull(serializerProxy.SerializationBinder);
 
         var customBinder = new DefaultSerializationBinder();
 #pragma warning disable CS0618 // Type or member is obsolete
         serializerProxy.Binder = customBinder;
-        Xunit.Assert.Equal(customBinder, serializerProxy.Binder);
+        Assert.Equal(customBinder, serializerProxy.Binder);
 #pragma warning restore CS0618 // Type or member is obsolete
 
-        Xunit.Assert.IsType(typeof(DefaultSerializationBinder), serializerProxy.SerializationBinder);
+        Assert.IsType(typeof(DefaultSerializationBinder), serializerProxy.SerializationBinder);
 
         serializerProxy.SerializationBinder = customBinder;
-        Xunit.Assert.Equal(customBinder, serializerProxy.SerializationBinder);
+        Assert.Equal(customBinder, serializerProxy.SerializationBinder);
 
 #pragma warning disable CS0618 // Type or member is obsolete
         // can still fetch because DefaultSerializationBinder inherits from SerializationBinder
-        Xunit.Assert.Equal(customBinder, serializerProxy.Binder);
+        Assert.Equal(customBinder, serializerProxy.Binder);
 #pragma warning restore CS0618 // Type or member is obsolete
 
 
@@ -1177,94 +1177,94 @@ public class JsonSerializerTest : TestFixtureBase
         XUnitAssert.True(serializerProxy.CheckAdditionalContent);
 
         serializerProxy.ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor;
-        Xunit.Assert.Equal(ConstructorHandling.AllowNonPublicDefaultConstructor, serializerProxy.ConstructorHandling);
+        Assert.Equal(ConstructorHandling.AllowNonPublicDefaultConstructor, serializerProxy.ConstructorHandling);
 
         serializerProxy.Context = new StreamingContext(StreamingContextStates.Other);
-        Xunit.Assert.Equal(new StreamingContext(StreamingContextStates.Other), serializerProxy.Context);
+        Assert.Equal(new StreamingContext(StreamingContextStates.Other), serializerProxy.Context);
 
         var resolver = new CamelCasePropertyNamesContractResolver();
         serializerProxy.ContractResolver = resolver;
-        Xunit.Assert.Equal(resolver, serializerProxy.ContractResolver);
+        Assert.Equal(resolver, serializerProxy.ContractResolver);
 
         serializerProxy.Converters.Add(new StringEnumConverter());
-        Xunit.Assert.Equal(1, serializerProxy.Converters.Count);
+        Assert.Equal(1, serializerProxy.Converters.Count);
 
         serializerProxy.Culture = new CultureInfo("en-nz");
-        Xunit.Assert.Equal("en-NZ", serializerProxy.Culture.ToString());
+        Assert.Equal("en-NZ", serializerProxy.Culture.ToString());
 
         serializerProxy.EqualityComparer = EqualityComparer<object>.Default;
-        Xunit.Assert.Equal(EqualityComparer<object>.Default, serializerProxy.EqualityComparer);
+        Assert.Equal(EqualityComparer<object>.Default, serializerProxy.EqualityComparer);
 
         serializerProxy.DateFormatHandling = DateFormatHandling.MicrosoftDateFormat;
-        Xunit.Assert.Equal(DateFormatHandling.MicrosoftDateFormat, serializerProxy.DateFormatHandling);
+        Assert.Equal(DateFormatHandling.MicrosoftDateFormat, serializerProxy.DateFormatHandling);
 
         serializerProxy.DateFormatString = "yyyy";
-        Xunit.Assert.Equal("yyyy", serializerProxy.DateFormatString);
+        Assert.Equal("yyyy", serializerProxy.DateFormatString);
 
         serializerProxy.DateParseHandling = DateParseHandling.None;
-        Xunit.Assert.Equal(DateParseHandling.None, serializerProxy.DateParseHandling);
+        Assert.Equal(DateParseHandling.None, serializerProxy.DateParseHandling);
 
         serializerProxy.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
-        Xunit.Assert.Equal(DateTimeZoneHandling.Utc, serializerProxy.DateTimeZoneHandling);
+        Assert.Equal(DateTimeZoneHandling.Utc, serializerProxy.DateTimeZoneHandling);
 
         serializerProxy.DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate;
-        Xunit.Assert.Equal(DefaultValueHandling.IgnoreAndPopulate, serializerProxy.DefaultValueHandling);
+        Assert.Equal(DefaultValueHandling.IgnoreAndPopulate, serializerProxy.DefaultValueHandling);
 
         serializerProxy.FloatFormatHandling = FloatFormatHandling.Symbol;
-        Xunit.Assert.Equal(FloatFormatHandling.Symbol, serializerProxy.FloatFormatHandling);
+        Assert.Equal(FloatFormatHandling.Symbol, serializerProxy.FloatFormatHandling);
 
         serializerProxy.FloatParseHandling = FloatParseHandling.Decimal;
-        Xunit.Assert.Equal(FloatParseHandling.Decimal, serializerProxy.FloatParseHandling);
+        Assert.Equal(FloatParseHandling.Decimal, serializerProxy.FloatParseHandling);
 
         serializerProxy.Formatting = Formatting.Indented;
-        Xunit.Assert.Equal(Formatting.Indented, serializerProxy.Formatting);
+        Assert.Equal(Formatting.Indented, serializerProxy.Formatting);
 
         serializerProxy.MaxDepth = 9001;
-        Xunit.Assert.Equal(9001, serializerProxy.MaxDepth);
+        Assert.Equal(9001, serializerProxy.MaxDepth);
 
         serializerProxy.MissingMemberHandling = MissingMemberHandling.Error;
-        Xunit.Assert.Equal(MissingMemberHandling.Error, serializerProxy.MissingMemberHandling);
+        Assert.Equal(MissingMemberHandling.Error, serializerProxy.MissingMemberHandling);
 
         serializerProxy.NullValueHandling = NullValueHandling.Ignore;
-        Xunit.Assert.Equal(NullValueHandling.Ignore, serializerProxy.NullValueHandling);
+        Assert.Equal(NullValueHandling.Ignore, serializerProxy.NullValueHandling);
 
         serializerProxy.ObjectCreationHandling = ObjectCreationHandling.Replace;
-        Xunit.Assert.Equal(ObjectCreationHandling.Replace, serializerProxy.ObjectCreationHandling);
+        Assert.Equal(ObjectCreationHandling.Replace, serializerProxy.ObjectCreationHandling);
 
         serializerProxy.PreserveReferencesHandling = PreserveReferencesHandling.All;
-        Xunit.Assert.Equal(PreserveReferencesHandling.All, serializerProxy.PreserveReferencesHandling);
+        Assert.Equal(PreserveReferencesHandling.All, serializerProxy.PreserveReferencesHandling);
 
         serializerProxy.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-        Xunit.Assert.Equal(ReferenceLoopHandling.Ignore, serializerProxy.ReferenceLoopHandling);
+        Assert.Equal(ReferenceLoopHandling.Ignore, serializerProxy.ReferenceLoopHandling);
 
         var referenceResolver = new IdReferenceResolver();
         serializerProxy.ReferenceResolver = referenceResolver;
-        Xunit.Assert.Equal(referenceResolver, serializerProxy.ReferenceResolver);
+        Assert.Equal(referenceResolver, serializerProxy.ReferenceResolver);
 
         serializerProxy.StringEscapeHandling = StringEscapeHandling.EscapeNonAscii;
-        Xunit.Assert.Equal(StringEscapeHandling.EscapeNonAscii, serializerProxy.StringEscapeHandling);
+        Assert.Equal(StringEscapeHandling.EscapeNonAscii, serializerProxy.StringEscapeHandling);
 
         var traceWriter = new MemoryTraceWriter();
         serializerProxy.TraceWriter = traceWriter;
-        Xunit.Assert.Equal(traceWriter, serializerProxy.TraceWriter);
+        Assert.Equal(traceWriter, serializerProxy.TraceWriter);
 
 #pragma warning disable 618
         serializerProxy.TypeNameAssemblyFormat = FormatterAssemblyStyle.Full;
-        Xunit.Assert.Equal(FormatterAssemblyStyle.Full, serializerProxy.TypeNameAssemblyFormat);
+        Assert.Equal(FormatterAssemblyStyle.Full, serializerProxy.TypeNameAssemblyFormat);
 #pragma warning restore 618
 
-        Xunit.Assert.Equal(TypeNameAssemblyFormatHandling.Full, serializerProxy.TypeNameAssemblyFormatHandling);
+        Assert.Equal(TypeNameAssemblyFormatHandling.Full, serializerProxy.TypeNameAssemblyFormatHandling);
 
         serializerProxy.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple;
 #pragma warning disable 618
-        Xunit.Assert.Equal(FormatterAssemblyStyle.Simple, serializerProxy.TypeNameAssemblyFormat);
+        Assert.Equal(FormatterAssemblyStyle.Simple, serializerProxy.TypeNameAssemblyFormat);
 #pragma warning restore 618
 
         serializerProxy.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full;
-        Xunit.Assert.Equal(TypeNameAssemblyFormatHandling.Full, serializerProxy.TypeNameAssemblyFormatHandling);
+        Assert.Equal(TypeNameAssemblyFormatHandling.Full, serializerProxy.TypeNameAssemblyFormatHandling);
 
         serializerProxy.TypeNameHandling = TypeNameHandling.All;
-        Xunit.Assert.Equal(TypeNameHandling.All, serializerProxy.TypeNameHandling);
+        Assert.Equal(TypeNameHandling.All, serializerProxy.TypeNameHandling);
     }
 
     [Fact]
@@ -1273,12 +1273,12 @@ public class JsonSerializerTest : TestFixtureBase
         var ratio = new Ratio(2, 1);
         var json = JsonConvert.SerializeObject(ratio);
 
-        Xunit.Assert.Equal(@"{""n"":2,""d"":1}", json);
+        Assert.Equal(@"{""n"":2,""d"":1}", json);
 
         var ratio2 = JsonConvert.DeserializeObject<Ratio>(json);
 
-        Xunit.Assert.Equal(ratio.Denominator, ratio2.Denominator);
-        Xunit.Assert.Equal(ratio.Numerator, ratio2.Numerator);
+        Assert.Equal(ratio.Denominator, ratio2.Denominator);
+        Assert.Equal(ratio.Numerator, ratio2.Numerator);
     }
 
     [Fact]
@@ -1335,15 +1335,15 @@ public class JsonSerializerTest : TestFixtureBase
 
         var obj2 = JsonConvert.DeserializeObject<PreserveReferencesCallbackTestObject>(json);
 
-        Xunit.Assert.Equal(obj._stringValue, obj2._stringValue);
-        Xunit.Assert.Equal(obj._intValue, obj2._intValue);
-        Xunit.Assert.Equal(obj._person1.Name, obj2._person1.Name);
-        Xunit.Assert.Equal(obj._person2.Name, obj2._person2.Name);
-        Xunit.Assert.Equal(obj._person3.Name, obj2._person3.Name);
-        Xunit.Assert.Equal(obj2._person1, obj2._person3);
-        Xunit.Assert.Equal(obj2._person1.Spouse, obj2._person2);
-        Xunit.Assert.Equal(obj2._person2.Spouse, obj2._person1);
-        Xunit.Assert.Equal(obj2._parent, obj2);
+        Assert.Equal(obj._stringValue, obj2._stringValue);
+        Assert.Equal(obj._intValue, obj2._intValue);
+        Assert.Equal(obj._person1.Name, obj2._person1.Name);
+        Assert.Equal(obj._person2.Name, obj2._person2.Name);
+        Assert.Equal(obj._person3.Name, obj2._person3.Name);
+        Assert.Equal(obj2._person1, obj2._person3);
+        Assert.Equal(obj2._person1.Spouse, obj2._person2);
+        Assert.Equal(obj2._person2.Spouse, obj2._person1);
+        Assert.Equal(obj2._parent, obj2);
     }
 
     [Fact]
@@ -1351,9 +1351,9 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var o = JsonConvert.DeserializeObject("100000000000000000000000000000000000000.0");
 
-        Xunit.Assert.IsType(typeof(double), o);
+        Assert.IsType(typeof(double), o);
 
-        Xunit.Assert.True(MathUtils.ApproxEquals(1E+38, (double) o));
+        Assert.True(MathUtils.ApproxEquals(1E+38, (double) o));
     }
 
     [Fact]
@@ -1365,8 +1365,8 @@ public class JsonSerializerTest : TestFixtureBase
 
         var r2 = JsonConvert.DeserializeObject<Regex>(json);
 
-        Xunit.Assert.Equal("(hi)", r2.ToString());
-        Xunit.Assert.Equal(RegexOptions.CultureInvariant, r2.Options);
+        Assert.Equal("(hi)", r2.ToString());
+        Assert.Equal(RegexOptions.CultureInvariant, r2.Options);
     }
 
     [Fact]
@@ -1383,8 +1383,8 @@ public class JsonSerializerTest : TestFixtureBase
 
         var output = o.ToString();
 
-        Xunit.Assert.Equal(null, v.Value);
-        Xunit.Assert.Equal(JTokenType.String, v.Type);
+        Assert.Equal(null, v.Value);
+        Assert.Equal(JTokenType.String, v.Type);
 
         StringAssert.AreEqual(@"{
   ""title"": null
@@ -1401,7 +1401,7 @@ public class JsonSerializerTest : TestFixtureBase
         var original = new Foo1 {foo = "value"};
         var json = JsonConvert.SerializeObject(original);
         var expectedJson = @"{""foo"":""value""}";
-        Xunit.Assert.Equal(expectedJson, json); // passes
+        Assert.Equal(expectedJson, json); // passes
     }
 
     [Fact]
@@ -1409,7 +1409,7 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var json = @"{""foo"":""value""}";
         var deserialized = JsonConvert.DeserializeObject<Foo1>(json);
-        Xunit.Assert.Equal("value", deserialized.foo); // passes
+        Assert.Equal("value", deserialized.foo); // passes
     }
 
     [Fact]
@@ -1418,7 +1418,7 @@ public class JsonSerializerTest : TestFixtureBase
         var original = new FooBar1 {foo = new Bar1 {bar = "value"}};
         var json = JsonConvert.SerializeObject(original);
         var expectedJson = @"{""foo"":{""bar"":""value""}}";
-        Xunit.Assert.Equal(expectedJson, json); // passes
+        Assert.Equal(expectedJson, json); // passes
     }
 
     [Fact]
@@ -1426,8 +1426,8 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var json = @"{""foo"":{""bar"":""value""}}";
         var deserialized = JsonConvert.DeserializeObject<FooBar1>(json);
-        Xunit.Assert.NotNull(deserialized.foo); // passes
-        Xunit.Assert.Equal("value", deserialized.foo.bar); // passes
+        Assert.NotNull(deserialized.foo); // passes
+        Assert.Equal("value", deserialized.foo.bar); // passes
     }
 
     [Fact]
@@ -1436,7 +1436,7 @@ public class JsonSerializerTest : TestFixtureBase
         var original = new Foo1<Bar1> {foo = new Bar1 {bar = "value"}, foo2 = new Bar1 {bar = "value2"}};
         var json = JsonConvert.SerializeObject(original);
         var expectedJson = @"{""foo"":{""bar"":""value""},""foo2"":{""bar"":""value2""}}";
-        Xunit.Assert.Equal(expectedJson, json);
+        Assert.Equal(expectedJson, json);
     }
 
     [Fact]
@@ -1444,10 +1444,10 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var json = @"{""foo"":{""bar"":""value""},""foo2"":{""bar"":""value2""}}";
         var deserialized = JsonConvert.DeserializeObject<Foo1<Bar1>>(json);
-        Xunit.Assert.NotNull(deserialized.foo2); // passes (bug only occurs for generics that /hide/ another property)
-        Xunit.Assert.Equal("value2", deserialized.foo2.bar); // also passes, with no issue
-        Xunit.Assert.NotNull(deserialized.foo);
-        Xunit.Assert.Equal("value", deserialized.foo.bar);
+        Assert.NotNull(deserialized.foo2); // passes (bug only occurs for generics that /hide/ another property)
+        Assert.Equal("value2", deserialized.foo2.bar); // also passes, with no issue
+        Assert.NotNull(deserialized.foo);
+        Assert.Equal("value", deserialized.foo.bar);
     }
 
     [Fact]
@@ -1486,7 +1486,7 @@ public class JsonSerializerTest : TestFixtureBase
         };
 
         var result = JsonConvert.SerializeObject(cc);
-        Xunit.Assert.Equal(@"{""NewMember"":""NewMember!"",""virtualMember"":""VirtualMember!"",""nonVirtualMember"":""NonVirtualMember!""}", result);
+        Assert.Equal(@"{""NewMember"":""NewMember!"",""virtualMember"":""VirtualMember!"",""nonVirtualMember"":""NonVirtualMember!""}", result);
     }
 
     [Fact]
@@ -1617,10 +1617,10 @@ public class JsonSerializerTest : TestFixtureBase
         //Console.WriteLine("DataContractJsonSerializer: " + dataContractJson);
         //Console.WriteLine("JsonDotNetSerializer      : " + jsonNetJson);
 
-        Xunit.Assert.Equal(dataContractJson.Count, jsonNetJson.Count);
+        Assert.Equal(dataContractJson.Count, jsonNetJson.Count);
         foreach (var property in dataContractJson)
         {
-            Xunit.Assert.True(JToken.DeepEquals(jsonNetJson[property.Key], property.Value), "Property not equal: " + property.Key);
+            Assert.True(JToken.DeepEquals(jsonNetJson[property.Key], property.Value), "Property not equal: " + property.Key);
         }
 
         return jsonNetJson.ToString();
@@ -1635,8 +1635,8 @@ public class JsonSerializerTest : TestFixtureBase
 
         var deserializedStore = (Store) JsonConvert.DeserializeObject(jsonText, typeof(Store));
 
-        Xunit.Assert.Equal(store.Establised, deserializedStore.Establised);
-        Xunit.Assert.Equal(store.product.Count, deserializedStore.product.Count);
+        Assert.Equal(store.Establised, deserializedStore.Establised);
+        Assert.Equal(store.product.Count, deserializedStore.product.Count);
 
         Console.WriteLine(jsonText);
     }
@@ -1666,12 +1666,12 @@ public class JsonSerializerTest : TestFixtureBase
 
         var deserializedProduct = (Product) JsonConvert.DeserializeObject(output, typeof(Product));
 
-        Xunit.Assert.Equal("Apple", deserializedProduct.Name);
-        Xunit.Assert.Equal(new DateTime(2008, 12, 28), deserializedProduct.ExpiryDate);
-        Xunit.Assert.Equal(3.99m, deserializedProduct.Price);
-        Xunit.Assert.Equal("Small", deserializedProduct.Sizes[0]);
-        Xunit.Assert.Equal("Medium", deserializedProduct.Sizes[1]);
-        Xunit.Assert.Equal("Large", deserializedProduct.Sizes[2]);
+        Assert.Equal("Apple", deserializedProduct.Name);
+        Assert.Equal(new DateTime(2008, 12, 28), deserializedProduct.ExpiryDate);
+        Assert.Equal(3.99m, deserializedProduct.Price);
+        Assert.Equal("Small", deserializedProduct.Sizes[0]);
+        Assert.Equal("Medium", deserializedProduct.Sizes[1]);
+        Assert.Equal("Large", deserializedProduct.Sizes[2]);
     }
 
     //[Fact]
@@ -1699,9 +1699,9 @@ public class JsonSerializerTest : TestFixtureBase
 
         var p = JsonConvert.DeserializeObject(value, typeof(Product)) as Product;
 
-        Xunit.Assert.Equal("Orange", p.Name);
-        Xunit.Assert.Equal(new DateTime(2010, 1, 24, 12, 0, 0), p.ExpiryDate);
-        Xunit.Assert.Equal(3.99m, p.Price);
+        Assert.Equal("Orange", p.Name);
+        Assert.Equal(new DateTime(2010, 1, 24, 12, 0, 0), p.ExpiryDate);
+        Assert.Equal(3.99m, p.Price);
     }
 
     [Fact]
@@ -1725,7 +1725,7 @@ public class JsonSerializerTest : TestFixtureBase
         var deserializedDictionary = (Dictionary<string, object>) JsonConvert.DeserializeObject(jsonText, typeof(Dictionary<string, object>));
         var deserializedDate = (DateTime) deserializedDictionary["date"];
 
-        Xunit.Assert.Equal(dateValue, deserializedDate);
+        Assert.Equal(dateValue, deserializedDate);
     }
 
     [Fact]
@@ -1742,11 +1742,11 @@ public class JsonSerializerTest : TestFixtureBase
 
         var executorObject2 = JsonConvert.DeserializeObject(output, typeof(MethodExecutorObject)) as MethodExecutorObject;
 
-        Xunit.Assert.NotSame(executorObject, executorObject2);
-        Xunit.Assert.Equal(executorObject2.serverClassName, "BanSubs");
-        Xunit.Assert.Equal(executorObject2.serverMethodParams.Length, 4);
+        Assert.NotSame(executorObject, executorObject2);
+        Assert.Equal(executorObject2.serverClassName, "BanSubs");
+        Assert.Equal(executorObject2.serverMethodParams.Length, 4);
         CustomAssert.Contains(executorObject2.serverMethodParams, "101");
-        Xunit.Assert.Equal(executorObject2.clientGetResultFunction, "ClientBanSubsCB");
+        Assert.Equal(executorObject2.clientGetResultFunction, "ClientBanSubsCB");
     }
 
     [Fact]
@@ -1756,7 +1756,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var p = JsonConvert.DeserializeObject(value, typeof(Hashtable)) as Hashtable;
 
-        Xunit.Assert.Equal("Orange", p["Name"].ToString());
+        Assert.Equal("Orange", p["Name"].ToString());
     }
 
     [Fact]
@@ -1766,7 +1766,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var p = JsonConvert.DeserializeObject(value, typeof(TypedSubHashtable)) as TypedSubHashtable;
 
-        Xunit.Assert.Equal("01/24/2010 12:00:00", p.Hash["ExpiryDate"].ToString());
+        Assert.Equal("01/24/2010 12:00:00", p.Hash["ExpiryDate"].ToString());
         StringAssert.AreEqual(@"[
   ""01/24/2010 12:00:00""
 ]", p.Hash["UntypedArray"].ToString());
@@ -1779,8 +1779,8 @@ public class JsonSerializerTest : TestFixtureBase
 
         var c = JsonConvert.DeserializeObject<GetOnlyPropertyClass>(value);
 
-        Xunit.Assert.Equal(c.Field, "Field");
-        Xunit.Assert.Equal(c.GetOnlyProperty, "GetOnlyProperty");
+        Assert.Equal(c.Field, "Field");
+        Assert.Equal(c.GetOnlyProperty, "GetOnlyProperty");
     }
 
     [Fact]
@@ -1790,7 +1790,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var c = JsonConvert.DeserializeObject<SetOnlyPropertyClass>(value);
 
-        Xunit.Assert.Equal(c.Field, "Field");
+        Assert.Equal(c.Field, "Field");
     }
 
     [Fact]
@@ -1798,12 +1798,12 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var json = JsonConvert.SerializeObject(new JsonIgnoreAttributeTestClass());
 
-        Xunit.Assert.Equal(@"{""Field"":0,""Property"":21}", json);
+        Assert.Equal(@"{""Field"":0,""Property"":21}", json);
 
         var c = JsonConvert.DeserializeObject<JsonIgnoreAttributeTestClass>(@"{""Field"":99,""Property"":-1,""IgnoredField"":-1,""IgnoredObject"":[1,2,3,4,5]}");
 
-        Xunit.Assert.Equal(0, c.IgnoredField);
-        Xunit.Assert.Equal(99, c.Field);
+        Assert.Equal(0, c.IgnoredField);
+        Assert.Equal(99, c.Field);
     }
 
     [Fact]
@@ -1907,11 +1907,11 @@ keyword such as type of business.""
 }";
 
         var o = (JObject) JsonConvert.DeserializeObject(jsonText);
-        Xunit.Assert.Equal(4, o.Children().Count());
+        Assert.Equal(4, o.Children().Count());
 
         var torrentsArray = (JToken) o["torrents"];
         var nestedTorrentsArray = (JToken) torrentsArray[0];
-        Xunit.Assert.Equal(nestedTorrentsArray.Children().Count(), 19);
+        Assert.Equal(nestedTorrentsArray.Children().Count(), 19);
     }
 
     [Fact]
@@ -1925,12 +1925,12 @@ keyword such as type of business.""
 
         var jsonText = JsonConvert.SerializeObject(test);
 
-        Xunit.Assert.Equal(@"{""pie"":""Delicious"",""pie1"":""PieChart!"",""sweet_cakes_count"":2147483647}", jsonText);
+        Assert.Equal(@"{""pie"":""Delicious"",""pie1"":""PieChart!"",""sweet_cakes_count"":2147483647}", jsonText);
 
         var test2 = JsonConvert.DeserializeObject<JsonPropertyClass>(jsonText);
 
-        Xunit.Assert.Equal(test.Pie, test2.Pie);
-        Xunit.Assert.Equal(test.SweetCakesCount, test2.SweetCakesCount);
+        Assert.Equal(test.Pie, test2.Pie);
+        Assert.Equal(test.SweetCakesCount, test2.SweetCakesCount);
     }
 
     [Fact]
@@ -1957,8 +1957,8 @@ keyword such as type of business.""
 
         var jsonNetResult = JsonConvert.DeserializeObject<List<string>>(json);
 
-        Xunit.Assert.Equal(1, jsonNetResult.Count);
-        Xunit.Assert.Equal(dataContractResult[0], jsonNetResult[0]);
+        Assert.Equal(1, jsonNetResult.Count);
+        Assert.Equal(dataContractResult[0], jsonNetResult[0]);
     }
 
     [Fact]
@@ -1976,10 +1976,10 @@ keyword such as type of business.""
 
         var jsonNetResult = JsonConvert.DeserializeObject<List<string>>(json);
 
-        Xunit.Assert.Equal(1, jsonNetResult.Count);
-        Xunit.Assert.Equal(dataContractResult[0], jsonNetResult[0]);
+        Assert.Equal(1, jsonNetResult.Count);
+        Assert.Equal(dataContractResult[0], jsonNetResult[0]);
 #if !NET5_0_OR_GREATER
-        Xunit.Assert.Equal(javaScriptSerializerResult[0], jsonNetResult[0]);
+        Assert.Equal(javaScriptSerializerResult[0], jsonNetResult[0]);
 #endif
     }
 
@@ -2005,7 +2005,7 @@ keyword such as type of business.""
         var expected = sr.ReadToEnd();
 
         var result = JsonConvert.SerializeObject(testDates, new JsonSerializerSettings {DateFormatHandling = DateFormatHandling.MicrosoftDateFormat});
-        Xunit.Assert.Equal(expected, result);
+        Assert.Equal(expected, result);
     }
 
     [Fact]
@@ -2020,7 +2020,7 @@ keyword such as type of business.""
         };
 
         var result = JsonConvert.SerializeObject(testDates);
-        Xunit.Assert.Equal(@"[""0100-01-01T01:01:01+00:00"",""2000-01-01T01:01:01+00:00"",""2000-01-01T01:01:01+13:00"",""2000-01-01T01:01:01-03:30""]", result);
+        Assert.Equal(@"[""0100-01-01T01:01:01+00:00"",""2000-01-01T01:01:01+00:00"",""2000-01-01T01:01:01+13:00"",""2000-01-01T01:01:01-03:30""]", result);
     }
 
     [Fact]
@@ -2035,7 +2035,7 @@ keyword such as type of business.""
         };
 
         var result = JsonConvert.SerializeObject(testDates, new JsonSerializerSettings {DateFormatHandling = DateFormatHandling.MicrosoftDateFormat});
-        Xunit.Assert.Equal(@"[""\/Date(-59011455539000+0000)\/"",""\/Date(946688461000+0000)\/"",""\/Date(946641661000+1300)\/"",""\/Date(946701061000-0330)\/""]", result);
+        Assert.Equal(@"[""\/Date(-59011455539000+0000)\/"",""\/Date(946688461000+0000)\/"",""\/Date(946641661000+1300)\/"",""\/Date(946701061000-0330)\/""]", result);
     }
 
     [Fact]
@@ -2049,11 +2049,11 @@ keyword such as type of business.""
 
         var json = JsonConvert.SerializeObject(values);
 
-        Xunit.Assert.Equal(@"{""-5"":6,""-2147483648"":2147483647}", json);
+        Assert.Equal(@"{""-5"":6,""-2147483648"":2147483647}", json);
 
         var newValues = JsonConvert.DeserializeObject<Dictionary<int, int>>(json);
 
-        Xunit.Assert.Equal(values, newValues);
+        Assert.Equal(values, newValues);
     }
 
     [Fact]
@@ -2070,16 +2070,16 @@ keyword such as type of business.""
             };
 
         var json = JsonConvert.SerializeObject(anonymous);
-        Xunit.Assert.Equal(@"{""StringValue"":""I am a string"",""IntValue"":2147483647,""NestedAnonymous"":{""NestedValue"":255},""NestedArray"":[1,2],""Product"":{""Name"":""TestProduct"",""ExpiryDate"":""2000-01-01T00:00:00Z"",""Price"":0.0,""Sizes"":null}}", json);
+        Assert.Equal(@"{""StringValue"":""I am a string"",""IntValue"":2147483647,""NestedAnonymous"":{""NestedValue"":255},""NestedArray"":[1,2],""Product"":{""Name"":""TestProduct"",""ExpiryDate"":""2000-01-01T00:00:00Z"",""Price"":0.0,""Sizes"":null}}", json);
 
         anonymous = JsonConvert.DeserializeAnonymousType(json, anonymous);
-        Xunit.Assert.Equal("I am a string", anonymous.StringValue);
-        Xunit.Assert.Equal(int.MaxValue, anonymous.IntValue);
-        Xunit.Assert.Equal(255, anonymous.NestedAnonymous.NestedValue);
-        Xunit.Assert.Equal(2, anonymous.NestedArray.Length);
-        Xunit.Assert.Equal(1, anonymous.NestedArray[0]);
-        Xunit.Assert.Equal(2, anonymous.NestedArray[1]);
-        Xunit.Assert.Equal("TestProduct", anonymous.Product.Name);
+        Assert.Equal("I am a string", anonymous.StringValue);
+        Assert.Equal(int.MaxValue, anonymous.IntValue);
+        Assert.Equal(255, anonymous.NestedAnonymous.NestedValue);
+        Assert.Equal(2, anonymous.NestedArray.Length);
+        Assert.Equal(1, anonymous.NestedArray[0]);
+        Assert.Equal(2, anonymous.NestedArray[1]);
+        Assert.Equal("TestProduct", anonymous.Product.Name);
     }
 
     [Fact]
@@ -2100,24 +2100,24 @@ keyword such as type of business.""
         });
 
         var json = JsonConvert.SerializeObject(anonymous, settings);
-        Xunit.Assert.Equal(@"{""DateValue"":""2000""}", json);
+        Assert.Equal(@"{""DateValue"":""2000""}", json);
 
         anonymous = JsonConvert.DeserializeAnonymousType(json, anonymous, settings);
-        Xunit.Assert.Equal(d, anonymous.DateValue);
+        Assert.Equal(d, anonymous.DateValue);
     }
 
     [Fact]
     public void SerializeObject()
     {
         var json = JsonConvert.SerializeObject(new object());
-        Xunit.Assert.Equal("{}", json);
+        Assert.Equal("{}", json);
     }
 
     [Fact]
     public void SerializeNull()
     {
         var json = JsonConvert.SerializeObject(null);
-        Xunit.Assert.Equal("null", json);
+        Assert.Equal("null", json);
     }
 
     [Fact]
@@ -2125,13 +2125,13 @@ keyword such as type of business.""
     {
         var json = "{foo:'hello',bar:[1,2,3]}";
         var wibble = JsonConvert.DeserializeObject<ClassWithArray>(json);
-        Xunit.Assert.Equal("hello", wibble.Foo);
+        Assert.Equal("hello", wibble.Foo);
 
-        Xunit.Assert.Equal(4, wibble.Bar.Count);
-        Xunit.Assert.Equal(int.MaxValue, wibble.Bar[0]);
-        Xunit.Assert.Equal(1, wibble.Bar[1]);
-        Xunit.Assert.Equal(2, wibble.Bar[2]);
-        Xunit.Assert.Equal(3, wibble.Bar[3]);
+        Assert.Equal(4, wibble.Bar.Count);
+        Assert.Equal(int.MaxValue, wibble.Bar[0]);
+        Assert.Equal(1, wibble.Bar[1]);
+        Assert.Equal(2, wibble.Bar[2]);
+        Assert.Equal(3, wibble.Bar[3]);
     }
 
     [Fact]
@@ -2139,13 +2139,13 @@ keyword such as type of business.""
     {
         var json = "{bar:[1,2,3], foo:'hello'}";
         var wibble = JsonConvert.DeserializeObject<ClassWithArray>(json);
-        Xunit.Assert.Equal("hello", wibble.Foo);
+        Assert.Equal("hello", wibble.Foo);
 
-        Xunit.Assert.Equal(4, wibble.Bar.Count);
-        Xunit.Assert.Equal(int.MaxValue, wibble.Bar[0]);
-        Xunit.Assert.Equal(1, wibble.Bar[1]);
-        Xunit.Assert.Equal(2, wibble.Bar[2]);
-        Xunit.Assert.Equal(3, wibble.Bar[3]);
+        Assert.Equal(4, wibble.Bar.Count);
+        Assert.Equal(int.MaxValue, wibble.Bar[0]);
+        Assert.Equal(1, wibble.Bar[1]);
+        Assert.Equal(2, wibble.Bar[2]);
+        Assert.Equal(3, wibble.Bar[3]);
     }
 
     [Fact]
@@ -2160,9 +2160,9 @@ keyword such as type of business.""
 
         var wibble = (ClassWithArray) s.Deserialize(new StringReader(json), typeof(ClassWithArray));
 
-        Xunit.Assert.Equal("hello", wibble.Foo);
+        Assert.Equal("hello", wibble.Foo);
 
-        Xunit.Assert.Equal(1, wibble.Bar.Count);
+        Assert.Equal(1, wibble.Bar.Count);
     }
 
     [Fact]
@@ -2178,14 +2178,14 @@ keyword such as type of business.""
         var json = JsonConvert.SerializeObject(wibble);
 
         var wibbleOut = JsonConvert.DeserializeObject<ClassWithArray>(json);
-        Xunit.Assert.Equal("hello", wibbleOut.Foo);
+        Assert.Equal("hello", wibbleOut.Foo);
 
-        Xunit.Assert.Equal(5, wibbleOut.Bar.Count);
-        Xunit.Assert.Equal(int.MaxValue, wibbleOut.Bar[0]);
-        Xunit.Assert.Equal(int.MaxValue, wibbleOut.Bar[1]);
-        Xunit.Assert.Equal(1, wibbleOut.Bar[2]);
-        Xunit.Assert.Equal(2, wibbleOut.Bar[3]);
-        Xunit.Assert.Equal(3, wibbleOut.Bar[4]);
+        Assert.Equal(5, wibbleOut.Bar.Count);
+        Assert.Equal(int.MaxValue, wibbleOut.Bar[0]);
+        Assert.Equal(int.MaxValue, wibbleOut.Bar[1]);
+        Assert.Equal(1, wibbleOut.Bar[2]);
+        Assert.Equal(2, wibbleOut.Bar[3]);
+        Assert.Equal(3, wibbleOut.Bar[4]);
     }
 
     [Fact]
@@ -2248,10 +2248,10 @@ keyword such as type of business.""
         StringAssert.AreEqual(expected, json);
 
         var c = JsonConvert.DeserializeObject<ConverableMembers>(json);
-        Xunit.Assert.Equal("string", c.String);
-        Xunit.Assert.Equal(double.MaxValue, c.Double);
+        Assert.Equal("string", c.String);
+        Assert.Equal(double.MaxValue, c.Double);
 #if !NET5_0_OR_GREATER
-        Xunit.Assert.Equal(DBNull.Value, c.DBNull);
+        Assert.Equal(DBNull.Value, c.DBNull);
 #endif
     }
 
@@ -2264,7 +2264,7 @@ keyword such as type of business.""
         s.Push(3);
 
         var json = JsonConvert.SerializeObject(s);
-        Xunit.Assert.Equal("[3,2,1]", json);
+        Assert.Equal("[3,2,1]", json);
     }
 
     [Fact]
@@ -2276,7 +2276,7 @@ keyword such as type of business.""
         var indented = JsonConvert.SerializeObject(obj, settings);
 
         var none = JsonConvert.SerializeObject(obj, Formatting.None, settings);
-        Xunit.Assert.NotEqual(indented, none);
+        Assert.NotEqual(indented, none);
     }
 
     [Fact]
@@ -2285,7 +2285,7 @@ keyword such as type of business.""
         var date = new DateTime(2001, 4, 4, 0, 0, 0, DateTimeKind.Utc);
 
         var json = JsonConvert.SerializeObject(date);
-        Xunit.Assert.Equal(@"""2001-04-04T00:00:00Z""", json);
+        Assert.Equal(@"""2001-04-04T00:00:00Z""", json);
     }
 
     [Fact]
@@ -2294,20 +2294,20 @@ keyword such as type of business.""
         var guid = new Guid("BED7F4EA-1A96-11d2-8F08-00A0C9A6186D");
 
         var json = JsonConvert.SerializeObject(new ClassWithGuid {GuidField = guid});
-        Xunit.Assert.Equal(@"{""GuidField"":""bed7f4ea-1a96-11d2-8f08-00a0c9a6186d""}", json);
+        Assert.Equal(@"{""GuidField"":""bed7f4ea-1a96-11d2-8f08-00a0c9a6186d""}", json);
 
         var c = JsonConvert.DeserializeObject<ClassWithGuid>(json);
-        Xunit.Assert.Equal(guid, c.GuidField);
+        Assert.Equal(guid, c.GuidField);
     }
 
     [Fact]
     public void EnumTest()
     {
         var json = JsonConvert.SerializeObject(StringComparison.CurrentCultureIgnoreCase);
-        Xunit.Assert.Equal(@"1", json);
+        Assert.Equal(@"1", json);
 
         var s = JsonConvert.DeserializeObject<StringComparison>(json);
-        Xunit.Assert.Equal(StringComparison.CurrentCultureIgnoreCase, s);
+        Assert.Equal(StringComparison.CurrentCultureIgnoreCase, s);
     }
 
     [Fact]
@@ -2321,7 +2321,7 @@ keyword such as type of business.""
 }", json);
 
         var c = JsonConvert.DeserializeObject<ClassWithTimeSpan>(json);
-        Xunit.Assert.Equal(ts, c.TimeSpanField);
+        Assert.Equal(ts, c.TimeSpanField);
     }
 
     [Fact]
@@ -2329,12 +2329,12 @@ keyword such as type of business.""
     {
         var json = JsonConvert.SerializeObject(new JsonIgnoreAttributeOnClassTestClass());
 
-        Xunit.Assert.Equal(@"{""TheField"":0,""Property"":21}", json);
+        Assert.Equal(@"{""TheField"":0,""Property"":21}", json);
 
         var c = JsonConvert.DeserializeObject<JsonIgnoreAttributeOnClassTestClass>(@"{""TheField"":99,""Property"":-1,""IgnoredField"":-1}");
 
-        Xunit.Assert.Equal(0, c.IgnoredField);
-        Xunit.Assert.Equal(99, c.Field);
+        Assert.Equal(0, c.IgnoredField);
+        Assert.Equal(99, c.Field);
     }
 
     [Fact]
@@ -2346,9 +2346,9 @@ keyword such as type of business.""
 
         var deserialized = JsonConvert.DeserializeObject<ConstructorCaseSensitivityClass>(json);
 
-        Xunit.Assert.Equal("param1", deserialized.param1);
-        Xunit.Assert.Equal("Param1", deserialized.Param1);
-        Xunit.Assert.Equal("Param2", deserialized.Param2);
+        Assert.Equal("param1", deserialized.param1);
+        Assert.Equal("Param1", deserialized.Param1);
+        Assert.Equal("Param2", deserialized.Param2);
     }
 
     [Fact]
@@ -2357,11 +2357,11 @@ keyword such as type of business.""
         var c1 = new ConverterPrecedenceClass("!Test!");
 
         var json = JsonConvert.SerializeObject(c1);
-        Xunit.Assert.Equal(@"[""Class"",""!Test!""]", json);
+        Assert.Equal(@"[""Class"",""!Test!""]", json);
 
         var c2 = JsonConvert.DeserializeObject<ConverterPrecedenceClass>(json);
 
-        Xunit.Assert.Equal("!Test!", c2.TestValue);
+        Assert.Equal("!Test!", c2.TestValue);
     }
 
     [Fact]
@@ -2370,11 +2370,11 @@ keyword such as type of business.""
         var c1 = new ConverterPrecedenceClass("!Test!");
 
         var json = JsonConvert.SerializeObject(c1, new ArgumentConverterPrecedenceClassConverter());
-        Xunit.Assert.Equal(@"[""Class"",""!Test!""]", json);
+        Assert.Equal(@"[""Class"",""!Test!""]", json);
 
         var c2 = JsonConvert.DeserializeObject<ConverterPrecedenceClass>(json, new ArgumentConverterPrecedenceClassConverter());
 
-        Xunit.Assert.Equal("!Test!", c2.TestValue);
+        Assert.Equal("!Test!", c2.TestValue);
     }
 
     [Fact]
@@ -2384,12 +2384,12 @@ keyword such as type of business.""
         var m1 = new MemberConverterClass {DefaultConverter = testDate, MemberConverter = testDate};
 
         var json = JsonConvert.SerializeObject(m1);
-        Xunit.Assert.Equal(@"{""DefaultConverter"":""1970-01-01T00:00:00Z"",""MemberConverter"":""1970-01-01T00:00:00Z""}", json);
+        Assert.Equal(@"{""DefaultConverter"":""1970-01-01T00:00:00Z"",""MemberConverter"":""1970-01-01T00:00:00Z""}", json);
 
         var m2 = JsonConvert.DeserializeObject<MemberConverterClass>(json);
 
-        Xunit.Assert.Equal(testDate, m2.DefaultConverter);
-        Xunit.Assert.Equal(testDate, m2.MemberConverter);
+        Assert.Equal(testDate, m2.DefaultConverter);
+        Assert.Equal(testDate, m2.MemberConverter);
     }
 
     [Fact]
@@ -2402,12 +2402,12 @@ keyword such as type of business.""
         {
             DateFormatHandling = DateFormatHandling.MicrosoftDateFormat
         });
-        Xunit.Assert.Equal(@"{""DefaultConverter"":""\/Date(0)\/"",""MemberConverter"":""1970-01-01T00:00:00Z""}", json);
+        Assert.Equal(@"{""DefaultConverter"":""\/Date(0)\/"",""MemberConverter"":""1970-01-01T00:00:00Z""}", json);
 
         var m2 = JsonConvert.DeserializeObject<MemberConverterClass>(json);
 
-        Xunit.Assert.Equal(testDate, m2.DefaultConverter);
-        Xunit.Assert.Equal(testDate, m2.MemberConverter);
+        Assert.Equal(testDate, m2.DefaultConverter);
+        Assert.Equal(testDate, m2.MemberConverter);
     }
 
     [Fact]
@@ -2420,15 +2420,15 @@ keyword such as type of business.""
         {
             DateFormatHandling = DateFormatHandling.MicrosoftDateFormat,
         });
-        Xunit.Assert.Equal(@"{""DefaultConverter"":""\/Date(0)\/"",""MemberConverter"":""1970-01-01T00:00:00Z""}", json);
+        Assert.Equal(@"{""DefaultConverter"":""\/Date(0)\/"",""MemberConverter"":""1970-01-01T00:00:00Z""}", json);
 
         var m2 = JsonConvert.DeserializeObject<MemberConverterClass>(json, new JsonSerializerSettings
         {
             DateParseHandling = DateParseHandling.None
         });
 
-        Xunit.Assert.Equal(new DateTime(1970, 1, 1), m2.DefaultConverter);
-        Xunit.Assert.Equal(new DateTime(1970, 1, 1), m2.MemberConverter);
+        Assert.Equal(new DateTime(1970, 1, 1), m2.DefaultConverter);
+        Assert.Equal(new DateTime(1970, 1, 1), m2.MemberConverter);
     }
 
     [Fact]
@@ -2441,12 +2441,12 @@ keyword such as type of business.""
         {
             DateFormatHandling = DateFormatHandling.IsoDateFormat,
         });
-        Xunit.Assert.Equal(@"{""DefaultConverter"":""1970-01-01T00:00:00Z"",""MemberConverter"":""1970-01-01T00:00:00Z""}", json);
+        Assert.Equal(@"{""DefaultConverter"":""1970-01-01T00:00:00Z"",""MemberConverter"":""1970-01-01T00:00:00Z""}", json);
 
         var m2 = JsonConvert.DeserializeObject<MemberConverterClass>(json);
 
-        Xunit.Assert.Equal(testDate, m2.DefaultConverter);
-        Xunit.Assert.Equal(testDate, m2.MemberConverter);
+        Assert.Equal(testDate, m2.DefaultConverter);
+        Assert.Equal(testDate, m2.MemberConverter);
     }
 
     [Fact]
@@ -2456,12 +2456,12 @@ keyword such as type of business.""
         var m1 = new MemberConverterClass {DefaultConverter = testDate, MemberConverter = testDate};
 
         var json = JsonConvert.SerializeObject(m1, new JavaScriptDateTimeConverter());
-        Xunit.Assert.Equal(@"{""DefaultConverter"":new Date(0),""MemberConverter"":""1970-01-01T00:00:00Z""}", json);
+        Assert.Equal(@"{""DefaultConverter"":new Date(0),""MemberConverter"":""1970-01-01T00:00:00Z""}", json);
 
         var m2 = JsonConvert.DeserializeObject<MemberConverterClass>(json, new JavaScriptDateTimeConverter());
 
-        Xunit.Assert.Equal(testDate, m2.DefaultConverter);
-        Xunit.Assert.Equal(testDate, m2.MemberConverter);
+        Assert.Equal(testDate, m2.DefaultConverter);
+        Assert.Equal(testDate, m2.MemberConverter);
     }
 
     [Fact]
@@ -2493,12 +2493,12 @@ keyword such as type of business.""
         };
 
         var json = JsonConvert.SerializeObject(c1, new ArgumentConverterPrecedenceClassConverter());
-        Xunit.Assert.Equal(@"{""DefaultConverter"":[""Class"",""DefaultConverterValue""],""MemberConverter"":[""Member"",""MemberConverterValue""]}", json);
+        Assert.Equal(@"{""DefaultConverter"":[""Class"",""DefaultConverterValue""],""MemberConverter"":[""Member"",""MemberConverterValue""]}", json);
 
         var c2 = JsonConvert.DeserializeObject<ClassAndMemberConverterClass>(json, new ArgumentConverterPrecedenceClassConverter());
 
-        Xunit.Assert.Equal("DefaultConverterValue", c2.DefaultConverter.TestValue);
-        Xunit.Assert.Equal("MemberConverterValue", c2.MemberConverter.TestValue);
+        Assert.Equal("DefaultConverterValue", c2.DefaultConverter.TestValue);
+        Assert.Equal("MemberConverterValue", c2.MemberConverter.TestValue);
     }
 
     [Fact]
@@ -2515,17 +2515,17 @@ keyword such as type of business.""
     public void GenericAbstractProperty()
     {
         var json = JsonConvert.SerializeObject(new GenericImpl());
-        Xunit.Assert.Equal(@"{""Id"":0}", json);
+        Assert.Equal(@"{""Id"":0}", json);
     }
 
     [Fact]
     public void DeserializeNullable()
     {
         var json = JsonConvert.SerializeObject((int?) null);
-        Xunit.Assert.Equal("null", json);
+        Assert.Equal("null", json);
 
         json = JsonConvert.SerializeObject((int?) 1);
-        Xunit.Assert.Equal("1", json);
+        Assert.Equal("1", json);
     }
 
     [Fact]
@@ -2539,7 +2539,7 @@ keyword such as type of business.""
         };
 
         var json = JsonConvert.SerializeObject(personRaw);
-        Xunit.Assert.Equal(@"{""first_name"":""FirstNameValue"",""RawContent"":[1,2,3,4,5],""last_name"":""LastNameValue""}", json);
+        Assert.Equal(@"{""first_name"":""FirstNameValue"",""RawContent"":[1,2,3,4,5],""last_name"":""LastNameValue""}", json);
     }
 
     [Fact]
@@ -2549,9 +2549,9 @@ keyword such as type of business.""
 
         var personRaw = JsonConvert.DeserializeObject<PersonRaw>(json);
 
-        Xunit.Assert.Equal("FirstNameValue", personRaw.FirstName);
-        Xunit.Assert.Equal("[1,2,3,4,5]", personRaw.RawContent.ToString());
-        Xunit.Assert.Equal("LastNameValue", personRaw.LastName);
+        Assert.Equal("FirstNameValue", personRaw.FirstName);
+        Assert.Equal("[1,2,3,4,5]", personRaw.RawContent.ToString());
+        Assert.Equal("LastNameValue", personRaw.LastName);
     }
 
     [Fact]
@@ -2570,16 +2570,16 @@ keyword such as type of business.""
 
         var json = JsonConvert.SerializeObject(userNullablle);
 
-        Xunit.Assert.Equal(@"{""Id"":""ad6205e8-0df4-465d-aea6-8ba18e93a7e7"",""FName"":""FirstValue"",""LName"":""LastValue"",""RoleId"":5,""NullableRoleId"":6,""NullRoleId"":null,""Active"":true}", json);
+        Assert.Equal(@"{""Id"":""ad6205e8-0df4-465d-aea6-8ba18e93a7e7"",""FName"":""FirstValue"",""LName"":""LastValue"",""RoleId"":5,""NullableRoleId"":6,""NullRoleId"":null,""Active"":true}", json);
 
         var userNullablleDeserialized = JsonConvert.DeserializeObject<UserNullable>(json);
 
-        Xunit.Assert.Equal(new Guid("AD6205E8-0DF4-465d-AEA6-8BA18E93A7E7"), userNullablleDeserialized.Id);
-        Xunit.Assert.Equal("FirstValue", userNullablleDeserialized.FName);
-        Xunit.Assert.Equal("LastValue", userNullablleDeserialized.LName);
-        Xunit.Assert.Equal(5, userNullablleDeserialized.RoleId);
-        Xunit.Assert.Equal(6, userNullablleDeserialized.NullableRoleId);
-        Xunit.Assert.Equal(null, userNullablleDeserialized.NullRoleId);
+        Assert.Equal(new Guid("AD6205E8-0DF4-465d-AEA6-8BA18E93A7E7"), userNullablleDeserialized.Id);
+        Assert.Equal("FirstValue", userNullablleDeserialized.FName);
+        Assert.Equal("LastValue", userNullablleDeserialized.LName);
+        Assert.Equal(5, userNullablleDeserialized.RoleId);
+        Assert.Equal(6, userNullablleDeserialized.NullableRoleId);
+        Assert.Equal(null, userNullablleDeserialized.NullRoleId);
         XUnitAssert.True(userNullablleDeserialized.Active);
     }
 
@@ -2589,7 +2589,7 @@ keyword such as type of business.""
         var json = @"{""Height"":1}";
 
         var c = JsonConvert.DeserializeObject<DoubleClass>(json);
-        Xunit.Assert.Equal(1, c.Height);
+        Assert.Equal(1, c.Height);
     }
 
     [Fact]
@@ -2599,19 +2599,19 @@ keyword such as type of business.""
         var typeClass = new TypeClass {TypeProperty = typeof(bool)};
 
         var json = JsonConvert.SerializeObject(typeClass);
-        Xunit.Assert.Equal(@"{""TypeProperty"":""" + boolRef + @"""}", json);
+        Assert.Equal(@"{""TypeProperty"":""" + boolRef + @"""}", json);
 
         var typeClass2 = JsonConvert.DeserializeObject<TypeClass>(json);
-        Xunit.Assert.Equal(typeof(bool), typeClass2.TypeProperty);
+        Assert.Equal(typeof(bool), typeClass2.TypeProperty);
 
         var jsonSerializerTestRef = typeof(JsonSerializerTest).AssemblyQualifiedName;
         typeClass = new TypeClass {TypeProperty = typeof(JsonSerializerTest)};
 
         json = JsonConvert.SerializeObject(typeClass);
-        Xunit.Assert.Equal(@"{""TypeProperty"":""" + jsonSerializerTestRef + @"""}", json);
+        Assert.Equal(@"{""TypeProperty"":""" + jsonSerializerTestRef + @"""}", json);
 
         typeClass2 = JsonConvert.DeserializeObject<TypeClass>(json);
-        Xunit.Assert.Equal(typeof(JsonSerializerTest), typeClass2.TypeProperty);
+        Assert.Equal(typeof(JsonSerializerTest), typeClass2.TypeProperty);
     }
 
     [Fact]
@@ -2636,8 +2636,8 @@ keyword such as type of business.""
 
         var c2 = JsonConvert.DeserializeObject<RequiredMembersClass>(json);
 
-        Xunit.Assert.Equal("Bob", c2.FirstName);
-        Xunit.Assert.Equal(new DateTime(2000, 12, 20, 10, 55, 55, DateTimeKind.Utc), c2.BirthDate);
+        Assert.Equal("Bob", c2.FirstName);
+        Assert.Equal(new DateTime(2000, 12, 20, 10, 55, 55, DateTimeKind.Utc), c2.BirthDate);
     }
 
     [Fact]
@@ -2652,9 +2652,9 @@ keyword such as type of business.""
 
         var c = JsonConvert.DeserializeObject<RequiredMembersClass>(json);
 
-        Xunit.Assert.Equal("I can't be null bro!", c.FirstName);
-        Xunit.Assert.Equal(null, c.MiddleName);
-        Xunit.Assert.Equal(null, c.LastName);
+        Assert.Equal("I can't be null bro!", c.FirstName);
+        Assert.Equal(null, c.MiddleName);
+        Assert.Equal(null, c.LastName);
     }
 
     [Fact]
@@ -2674,7 +2674,7 @@ keyword such as type of business.""
         }
         catch (JsonSerializationException ex)
         {
-            Xunit.Assert.True(ex.Message.StartsWith("Required property 'FirstName' expects a value but got null. Path ''"));
+            Assert.True(ex.Message.StartsWith("Required property 'FirstName' expects a value but got null. Path ''"));
         }
     }
 
@@ -2709,7 +2709,7 @@ keyword such as type of business.""
         }
         catch (JsonSerializationException ex)
         {
-            Xunit.Assert.True(ex.Message.StartsWith("Required property 'LastName' not found in JSON. Path ''"));
+            Assert.True(ex.Message.StartsWith("Required property 'LastName' not found in JSON. Path ''"));
         }
     }
 
@@ -2725,7 +2725,7 @@ keyword such as type of business.""
 
         var json = JsonConvert.SerializeObject(aa);
 
-        Xunit.Assert.Equal(@"{""Before"":""Before!"",""Coordinates"":[[1,1],[1,2],[2,1],[2,2]],""After"":""After!""}", json);
+        Assert.Equal(@"{""Before"":""Before!"",""Coordinates"":[[1,1],[1,2],[2,1],[2,2]],""After"":""After!""}", json);
     }
 
     [Fact]
@@ -2735,16 +2735,16 @@ keyword such as type of business.""
 
         var aa = JsonConvert.DeserializeObject<JaggedArray>(json);
 
-        Xunit.Assert.Equal("Before!", aa.Before);
-        Xunit.Assert.Equal("After!", aa.After);
-        Xunit.Assert.Equal(4, aa.Coordinates.Length);
-        Xunit.Assert.Equal(2, aa.Coordinates[0].Length);
-        Xunit.Assert.Equal(1, aa.Coordinates[0][0]);
-        Xunit.Assert.Equal(2, aa.Coordinates[1][1]);
+        Assert.Equal("Before!", aa.Before);
+        Assert.Equal("After!", aa.After);
+        Assert.Equal(4, aa.Coordinates.Length);
+        Assert.Equal(2, aa.Coordinates[0].Length);
+        Assert.Equal(1, aa.Coordinates[0][0]);
+        Assert.Equal(2, aa.Coordinates[1][1]);
 
         var after = JsonConvert.SerializeObject(aa);
 
-        Xunit.Assert.Equal(json, after);
+        Assert.Equal(json, after);
     }
 
     [Fact]
@@ -2835,9 +2835,9 @@ keyword such as type of business.""
         var javascriptJson = JsonConvert.SerializeObject(entry, new JavaScriptDateTimeConverter());
         // {"Details":"Application started.","LogDate":new Date(1234656000000)}
 
-        Xunit.Assert.Equal(@"{""Details"":""Application started."",""LogDate"":""2009-02-15T00:00:00Z""}", defaultJson);
-        Xunit.Assert.Equal(@"{""Details"":""Application started."",""LogDate"":""2009-02-15T00:00:00Z""}", isoJson);
-        Xunit.Assert.Equal(@"{""Details"":""Application started."",""LogDate"":new Date(1234656000000)}", javascriptJson);
+        Assert.Equal(@"{""Details"":""Application started."",""LogDate"":""2009-02-15T00:00:00Z""}", defaultJson);
+        Assert.Equal(@"{""Details"":""Application started."",""LogDate"":""2009-02-15T00:00:00Z""}", isoJson);
+        Assert.Equal(@"{""Details"":""Application started."",""LogDate"":new Date(1234656000000)}", javascriptJson);
     }
 
     [Fact]
@@ -2882,11 +2882,11 @@ keyword such as type of business.""
 }", json);
 
         var deserializedObject = JsonConvert.DeserializeObject<GenericListAndDictionaryInterfaceProperties>(json);
-        Xunit.Assert.NotNull(deserializedObject);
+        Assert.NotNull(deserializedObject);
 
-        Xunit.Assert.Equal(o.IListProperty.ToArray(), deserializedObject.IListProperty.ToArray());
-        Xunit.Assert.Equal(o.IEnumerableProperty.ToArray(), deserializedObject.IEnumerableProperty.ToArray());
-        Xunit.Assert.Equal(o.IDictionaryProperty.ToArray(), deserializedObject.IDictionaryProperty.ToArray());
+        Assert.Equal(o.IListProperty.ToArray(), deserializedObject.IListProperty.ToArray());
+        Assert.Equal(o.IEnumerableProperty.ToArray(), deserializedObject.IEnumerableProperty.ToArray());
+        Assert.Equal(o.IDictionaryProperty.ToArray(), deserializedObject.IDictionaryProperty.ToArray());
     }
 
     [Fact]
@@ -2900,12 +2900,12 @@ keyword such as type of business.""
 }";
 
         var o = JsonConvert.DeserializeObject<PropertyCase>(json);
-        Xunit.Assert.NotNull(o);
+        Assert.NotNull(o);
 
-        Xunit.Assert.Equal("firstName", o.firstName);
-        Xunit.Assert.Equal("FirstName", o.FirstName);
-        Xunit.Assert.Equal("LastName", o.LastName);
-        Xunit.Assert.Equal("lastName", o.lastName);
+        Assert.Equal("firstName", o.firstName);
+        Assert.Equal("FirstName", o.FirstName);
+        Assert.Equal("LastName", o.LastName);
+        Assert.Equal("lastName", o.lastName);
     }
 
     [Fact]
@@ -2917,15 +2917,15 @@ keyword such as type of business.""
         {
             DefaultValueHandling = DefaultValueHandling.Populate
         });
-        Xunit.Assert.Equal("value", c.TestProperty1);
-        Xunit.Assert.Equal(21, c.TestProperty2);
+        Assert.Equal("value", c.TestProperty1);
+        Assert.Equal(21, c.TestProperty2);
 
         c = JsonConvert.DeserializeObject<ConstructorAndDefaultValueAttributeTestClass>(json, new JsonSerializerSettings
         {
             DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
         });
-        Xunit.Assert.Equal("value", c.TestProperty1);
-        Xunit.Assert.Equal(21, c.TestProperty2);
+        Assert.Equal("value", c.TestProperty1);
+        Assert.Equal(21, c.TestProperty2);
     }
 
     [Fact]
@@ -2940,7 +2940,7 @@ keyword such as type of business.""
         }
         catch (JsonSerializationException ex)
         {
-            Xunit.Assert.True(ex.Message.StartsWith("Required property 'TestProperty2' not found in JSON. Path ''"));
+            Assert.True(ex.Message.StartsWith("Required property 'TestProperty2' not found in JSON. Path ''"));
         }
     }
 
@@ -2953,12 +2953,12 @@ keyword such as type of business.""
         };
 
         var json = JsonConvert.SerializeObject(i);
-        Xunit.Assert.Equal(@"{""SubProp"":""my subprop"",""SuperProp"":""overrided superprop""}", json);
+        Assert.Equal(@"{""SubProp"":""my subprop"",""SuperProp"":""overrided superprop""}", json);
 
         var ii = JsonConvert.DeserializeObject<SubKlass>(json);
 
         var newJson = JsonConvert.SerializeObject(ii);
-        Xunit.Assert.Equal(@"{""SubProp"":""my subprop"",""SuperProp"":""overrided superprop""}", newJson);
+        Assert.Equal(@"{""SubProp"":""my subprop"",""SuperProp"":""overrided superprop""}", newJson);
     }
 
     [Fact]
@@ -2974,7 +2974,7 @@ keyword such as type of business.""
             PreserveReferencesHandling = PreserveReferencesHandling.Objects
         });
 
-        Xunit.Assert.Equal(@"{""$id"":""1"",""SubProp"":""my subprop"",""SuperProp"":""overrided superprop""}", json);
+        Assert.Equal(@"{""$id"":""1"",""SubProp"":""my subprop"",""SuperProp"":""overrided superprop""}", json);
 
         var ii = JsonConvert.DeserializeObject<SubKlass>(json, new JsonSerializerSettings
         {
@@ -2985,7 +2985,7 @@ keyword such as type of business.""
         {
             PreserveReferencesHandling = PreserveReferencesHandling.Objects
         });
-        Xunit.Assert.Equal(@"{""$id"":""1"",""SubProp"":""my subprop"",""SuperProp"":""overrided superprop""}", newJson);
+        Assert.Equal(@"{""$id"":""1"",""SubProp"":""my subprop"",""SuperProp"":""overrided superprop""}", newJson);
     }
 
     [Fact]
@@ -3025,10 +3025,10 @@ keyword such as type of business.""
         var json = "{}";
 
         var o = JsonConvert.DeserializeObject<JsonPropertyWithHandlingValues>(json);
-        Xunit.Assert.Equal("Default!", o.DefaultValueHandlingIgnoreAndPopulateProperty);
-        Xunit.Assert.Equal("Default!", o.DefaultValueHandlingPopulateProperty);
-        Xunit.Assert.Equal(null, o.DefaultValueHandlingIgnoreProperty);
-        Xunit.Assert.Equal(null, o.DefaultValueHandlingIncludeProperty);
+        Assert.Equal("Default!", o.DefaultValueHandlingIgnoreAndPopulateProperty);
+        Assert.Equal("Default!", o.DefaultValueHandlingPopulateProperty);
+        Assert.Equal(null, o.DefaultValueHandlingIgnoreProperty);
+        Assert.Equal(null, o.DefaultValueHandlingIncludeProperty);
     }
 
     [Fact]
@@ -3067,14 +3067,14 @@ keyword such as type of business.""
 }";
 
         var r = JsonConvert.DeserializeObject<RequestOnly>(json);
-        Xunit.Assert.Equal("ux.settings.update", r.Request);
+        Assert.Equal("ux.settings.update", r.Request);
 
         var n = JsonConvert.DeserializeObject<NonRequest>(json);
-        Xunit.Assert.Equal(new Guid("14c561bd-32a8-457e-b4e5-4bba0832897f"), n.Sid);
-        Xunit.Assert.Equal(new Guid("30c39065-0f31-de11-9442-001e3786a8ec"), n.Uid);
-        Xunit.Assert.Equal(8, n.FidOrder.Count);
-        Xunit.Assert.Equal("id", n.FidOrder[0]);
-        Xunit.Assert.Equal("titleId", n.FidOrder[n.FidOrder.Count - 1]);
+        Assert.Equal(new Guid("14c561bd-32a8-457e-b4e5-4bba0832897f"), n.Sid);
+        Assert.Equal(new Guid("30c39065-0f31-de11-9442-001e3786a8ec"), n.Uid);
+        Assert.Equal(8, n.FidOrder.Count);
+        Assert.Equal("id", n.FidOrder[0]);
+        Assert.Equal("titleId", n.FidOrder[n.FidOrder.Count - 1]);
     }
 
 #if !NET5_0_OR_GREATER
@@ -3100,9 +3100,9 @@ keyword such as type of business.""
   ""NotIncluded"": ""Ignore me!"",
   ""Age"": 26
 }");
-        Xunit.Assert.Equal(26, newOptInClass.Age);
-        Xunit.Assert.Equal("James NK", newOptInClass.Name);
-        Xunit.Assert.Equal(null, newOptInClass.NotIncluded);
+        Assert.Equal(26, newOptInClass.Age);
+        Assert.Equal("James NK", newOptInClass.Name);
+        Assert.Equal(null, newOptInClass.NotIncluded);
     }
 #endif
 
@@ -3123,7 +3123,7 @@ keyword such as type of business.""
 }", json);
 
         var cc = JsonConvert.DeserializeObject<DataContractPrivateMembers>(json);
-        Xunit.Assert.Equal("_name: Jeff, _age: 26, Rank: 10, JsonTitle: Dr", cc.ToString());
+        Assert.Equal("_name: Jeff, _age: 26, Rank: 10, JsonTitle: Dr", cc.ToString());
     }
 
     [Fact]
@@ -3140,9 +3140,9 @@ keyword such as type of business.""
             json,
             new JsonSerializerSettings {ObjectCreationHandling = ObjectCreationHandling.Replace});
 
-        Xunit.Assert.Equal("Name!", c.Name);
-        Xunit.Assert.Equal(1, c.Dictionary.Count);
-        Xunit.Assert.Equal(11, c.Dictionary["Item"]);
+        Assert.Equal("Name!", c.Name);
+        Assert.Equal(1, c.Dictionary.Count);
+        Assert.Equal(11, c.Dictionary["Item"]);
     }
 
     [Fact]
@@ -3170,16 +3170,16 @@ keyword such as type of business.""
         var c = JsonConvert.DeserializeObject<DictionaryInterfaceClass>(json,
             new JsonSerializerSettings {ObjectCreationHandling = ObjectCreationHandling.Reuse});
 
-        Xunit.Assert.Equal("Name!", c.Name);
-        Xunit.Assert.Equal(3, c.Dictionary.Count);
-        Xunit.Assert.Equal(11, c.Dictionary["Item"]);
-        Xunit.Assert.Equal(1, c.Dictionary["existing"]);
-        Xunit.Assert.Equal(4, c.Collection.Count);
-        Xunit.Assert.Equal(1, c.Collection.ElementAt(0));
-        Xunit.Assert.Equal(999, c.Collection.ElementAt(3));
-        Xunit.Assert.Equal("EmployeeName!", c.Employee.Name);
-        Xunit.Assert.Equal("ManagerName!", c.Employee.Manager.Name);
-        Xunit.Assert.NotNull(c.Random);
+        Assert.Equal("Name!", c.Name);
+        Assert.Equal(3, c.Dictionary.Count);
+        Assert.Equal(11, c.Dictionary["Item"]);
+        Assert.Equal(1, c.Dictionary["existing"]);
+        Assert.Equal(4, c.Collection.Count);
+        Assert.Equal(1, c.Collection.ElementAt(0));
+        Assert.Equal(999, c.Collection.ElementAt(3));
+        Assert.Equal("EmployeeName!", c.Employee.Name);
+        Assert.Equal("ManagerName!", c.Employee.Manager.Name);
+        Assert.NotNull(c.Random);
     }
 
     [Fact]
@@ -3198,12 +3198,12 @@ keyword such as type of business.""
 
         var deserializedProduct = (Product) JsonConvert.DeserializeObject(json, typeof(Product));
 
-        Xunit.Assert.Equal("Apple", deserializedProduct.Name);
-        Xunit.Assert.Equal(new DateTime(2008, 12, 28, 0, 0, 0, DateTimeKind.Utc), deserializedProduct.ExpiryDate);
-        Xunit.Assert.Equal(3.99m, deserializedProduct.Price);
-        Xunit.Assert.Equal("Small", deserializedProduct.Sizes[0]);
-        Xunit.Assert.Equal("Medium", deserializedProduct.Sizes[1]);
-        Xunit.Assert.Equal("Large", deserializedProduct.Sizes[2]);
+        Assert.Equal("Apple", deserializedProduct.Name);
+        Assert.Equal(new DateTime(2008, 12, 28, 0, 0, 0, DateTimeKind.Utc), deserializedProduct.ExpiryDate);
+        Assert.Equal(3.99m, deserializedProduct.Price);
+        Assert.Equal("Small", deserializedProduct.Sizes[0]);
+        Assert.Equal("Medium", deserializedProduct.Sizes[1]);
+        Assert.Equal("Large", deserializedProduct.Sizes[2]);
     }
 
     [Fact]
@@ -3224,11 +3224,11 @@ keyword such as type of business.""
         var o = JObject.Parse(json);
 
         var s = JsonConvert.DeserializeObject<Shortie>(o["short"].ToString());
-        Xunit.Assert.NotNull(s);
+        Assert.NotNull(s);
 
-        Xunit.Assert.Equal(s.Original, "http://www.contrast.ie/blog/online&#45;marketing&#45;2009/");
-        Xunit.Assert.Equal(s.Short, "m2sqc6");
-        Xunit.Assert.Equal(s.Shortened, "http://short.ie/m2sqc6");
+        Assert.Equal(s.Original, "http://www.contrast.ie/blog/online&#45;marketing&#45;2009/");
+        Assert.Equal(s.Short, "m2sqc6");
+        Assert.Equal(s.Shortened, "http://short.ie/m2sqc6");
     }
 
     [Fact]
@@ -3237,10 +3237,10 @@ keyword such as type of business.""
         var uri = new Uri("http://codeplex.com");
         var json = JsonConvert.SerializeObject(uri);
 
-        Xunit.Assert.Equal("http://codeplex.com/", uri.ToString());
+        Assert.Equal("http://codeplex.com/", uri.ToString());
 
         var newUri = JsonConvert.DeserializeObject<Uri>(json);
-        Xunit.Assert.Equal(uri, newUri);
+        Assert.Equal(uri, newUri);
     }
 
     [Fact]
@@ -3253,7 +3253,7 @@ keyword such as type of business.""
 
         var json = JsonConvert.SerializeObject(value);
 
-        Xunit.Assert.Equal(@"{""bar"":{""baz"":13}}", json);
+        Assert.Equal(@"{""bar"":{""baz"":13}}", json);
     }
 
     [Fact]
@@ -3305,10 +3305,10 @@ keyword such as type of business.""
 
         var content = JsonConvert.DeserializeObject<Content>(json);
 
-        Xunit.Assert.Equal("Blah, blah, blah", content.Text);
-        Xunit.Assert.Equal(2, content.Children.Count);
-        Xunit.Assert.Equal("First", content.Children[0].Text);
-        Xunit.Assert.Equal("Second", content.Children[1].Text);
+        Assert.Equal("Blah, blah, blah", content.Text);
+        Assert.Equal(2, content.Children.Count);
+        Assert.Equal("First", content.Children[0].Text);
+        Assert.Equal("Second", content.Children[1].Text);
     }
 
     [Fact]
@@ -3318,9 +3318,9 @@ keyword such as type of business.""
 
         var r = JsonConvert.DeserializeObject<RoleTransfer>(json);
 
-        Xunit.Assert.Equal(RoleTransferOperation.Second, r.Operation);
-        Xunit.Assert.Equal("Admin", r.RoleName);
-        Xunit.Assert.Equal(RoleTransferDirection.First, r.Direction);
+        Assert.Equal(RoleTransferOperation.Second, r.Operation);
+        Assert.Equal("Admin", r.RoleName);
+        Assert.Equal(RoleTransferDirection.First, r.Direction);
     }
 
     [Fact]
@@ -3330,9 +3330,9 @@ keyword such as type of business.""
 
         var values = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
 
-        Xunit.Assert.Equal(2, values.Count);
-        Xunit.Assert.Equal("value1", values["key1"]);
-        Xunit.Assert.Equal("value2", values["key2"]);
+        Assert.Equal(2, values.Count);
+        Assert.Equal("value1", values["key1"]);
+        Assert.Equal("value2", values["key2"]);
     }
 
     [Fact]
@@ -3341,7 +3341,7 @@ keyword such as type of business.""
         var json = @"{""DateTimeField"":""""}";
 
         var c = JsonConvert.DeserializeObject<NullableDateTimeTestClass>(json);
-        Xunit.Assert.Equal(null, c.DateTimeField);
+        Assert.Equal(null, c.DateTimeField);
     }
 
     [Fact]
@@ -3359,9 +3359,9 @@ keyword such as type of business.""
 
         var setOnly = JsonConvert.DeserializeObject<SetOnlyPropertyClass2>(json);
         var a = (JArray) setOnly.GetValue();
-        Xunit.Assert.Equal(5, a.Count);
-        Xunit.Assert.Equal(1, (int) a[0]);
-        Xunit.Assert.Equal(5, (int) a[a.Count - 1]);
+        Assert.Equal(5, a.Count);
+        Assert.Equal(1, (int) a[0]);
+        Assert.Equal(5, (int) a[a.Count - 1]);
     }
 
     [Fact]
@@ -3376,11 +3376,11 @@ keyword such as type of business.""
     public void DeserializeNullableListWithNulls()
     {
         var l = JsonConvert.DeserializeObject<List<decimal?>>("[ 3.3, null, 1.1 ] ");
-        Xunit.Assert.Equal(3, l.Count);
+        Assert.Equal(3, l.Count);
 
-        Xunit.Assert.Equal(3.3m, l[0]);
-        Xunit.Assert.Equal(null, l[1]);
-        Xunit.Assert.Equal(1.1m, l[2]);
+        Assert.Equal(3.3m, l[0]);
+        Assert.Equal(null, l[1]);
+        Assert.Equal(1.1m, l[2]);
     }
 
     [Fact]
@@ -3473,7 +3473,7 @@ Path '', line 1, position 1.");
         }
         catch (JsonSerializationException ex)
         {
-            Xunit.Assert.True(ex.Message.StartsWith(@"Cannot deserialize the current JSON object (e.g. {""name"":""value""}) into type 'System.Collections.Generic.List`1[Argon.Tests.TestObjects.Organization.Person]' because the type requires a JSON array (e.g. [1,2,3]) to deserialize correctly." + Environment.NewLine +
+            Assert.True(ex.Message.StartsWith(@"Cannot deserialize the current JSON object (e.g. {""name"":""value""}) into type 'System.Collections.Generic.List`1[Argon.Tests.TestObjects.Organization.Person]' because the type requires a JSON array (e.g. [1,2,3]) to deserialize correctly." + Environment.NewLine +
                                                 @"To fix this error either change the JSON to a JSON array (e.g. [1,2,3]) or change the deserialized type so that it is a normal .NET type (e.g. not a primitive type like integer, not a collection type like an array or List<T>) that can be deserialized from a JSON object. JsonObjectAttribute can also be added to the type to force it to deserialize from a JSON object." + Environment.NewLine +
                                                 @"Path ''"));
         }
@@ -3501,7 +3501,7 @@ Path '', line 1, position 1.");
         var json = @"{""Name"":""""}";
 
         var p = JsonConvert.DeserializeObject<Person>(json);
-        Xunit.Assert.Equal("", p.Name);
+        Assert.Equal("", p.Name);
     }
 
     [Fact]
@@ -3575,7 +3575,7 @@ Path '', line 1, position 1.");
         };
 
         var json = JsonConvert.SerializeObject(strings);
-        Xunit.Assert.Equal(@"[""str_1"",""str_2"",""str_3""]", json);
+        Assert.Equal(@"[""str_1"",""str_2"",""str_3""]", json);
     }
 
     [Fact]
@@ -3589,8 +3589,8 @@ Path '', line 1, position 1.");
 }", json);
 
         var c2 = JsonConvert.DeserializeObject<ConstructorReadonlyFields>(json);
-        Xunit.Assert.Equal("String!", c2.A);
-        Xunit.Assert.Equal(int.MaxValue, c2.B);
+        Assert.Equal("String!", c2.A);
+        Assert.Equal(int.MaxValue, c2.B);
     }
 
     [Fact]
@@ -3614,10 +3614,10 @@ Path '', line 1, position 1.");
 }", json);
 
         var deserialized = JsonConvert.DeserializeObject<StructTest>(json);
-        Xunit.Assert.Equal(structTest.StringProperty, deserialized.StringProperty);
-        Xunit.Assert.Equal(structTest.StringField, deserialized.StringField);
-        Xunit.Assert.Equal(structTest.IntProperty, deserialized.IntProperty);
-        Xunit.Assert.Equal(structTest.IntField, deserialized.IntField);
+        Assert.Equal(structTest.StringProperty, deserialized.StringProperty);
+        Assert.Equal(structTest.StringField, deserialized.StringField);
+        Assert.Equal(structTest.IntProperty, deserialized.IntProperty);
+        Assert.Equal(structTest.IntField, deserialized.IntField);
     }
 
     [Fact]
@@ -3638,10 +3638,10 @@ Path '', line 1, position 1.");
 }", json);
 
         var newFoo = JsonConvert.DeserializeObject<Foo>(json);
-        Xunit.Assert.Equal(3, newFoo.Bars.Count);
-        Xunit.Assert.Equal(0, newFoo.Bars[0].Id);
-        Xunit.Assert.Equal(1, newFoo.Bars[1].Id);
-        Xunit.Assert.Equal(2, newFoo.Bars[2].Id);
+        Assert.Equal(3, newFoo.Bars.Count);
+        Assert.Equal(0, newFoo.Bars[0].Id);
+        Assert.Equal(1, newFoo.Bars[1].Id);
+        Assert.Equal(2, newFoo.Bars[2].Id);
     }
 
     [Fact]
@@ -3693,7 +3693,7 @@ Path '', line 1, position 1.");
         }
         catch (JsonSerializationException ex)
         {
-            Xunit.Assert.True(ex.Message.StartsWith("Could not convert string 'Argon.Tests.TestObjects.Organization.Person' to dictionary key type 'Argon.Tests.TestObjects.Organization.Person'. Create a TypeConverter to convert from the string to the key type object. Path '['Argon.Tests.TestObjects.Organization.Person']'"));
+            Assert.True(ex.Message.StartsWith("Could not convert string 'Argon.Tests.TestObjects.Organization.Person' to dictionary key type 'Argon.Tests.TestObjects.Organization.Person'. Create a TypeConverter to convert from the string to the key type object. Path '['Argon.Tests.TestObjects.Organization.Person']'"));
         }
     }
 
@@ -3773,9 +3773,9 @@ Path '', line 1, position 1.");
         // Content = Self: Zoolander. Socialite <b>Paris Hilton</b>...
         // Url = http://www.imdb.com/name/nm0385296/
 
-        Xunit.Assert.Equal(2, searchResults.Count);
-        Xunit.Assert.Equal("<b>Paris Hilton</b> - Wikipedia, the free encyclopedia", searchResults[0].Title);
-        Xunit.Assert.Equal("<b>Paris Hilton</b>", searchResults[1].Title);
+        Assert.Equal(2, searchResults.Count);
+        Assert.Equal("<b>Paris Hilton</b> - Wikipedia, the free encyclopedia", searchResults[0].Title);
+        Assert.Equal("<b>Paris Hilton</b>", searchResults[1].Title);
     }
 
     [Fact]
@@ -3803,7 +3803,7 @@ Path '', line 1, position 1.");
             json);
 
         var newPersonPropertyClass = JsonConvert.DeserializeObject<PersonPropertyClass>(json);
-        Xunit.Assert.Equal(wagePerson.HourlyWage, ((WagePerson) newPersonPropertyClass.Person).HourlyWage);
+        Assert.Equal(wagePerson.HourlyWage, ((WagePerson) newPersonPropertyClass.Person).HourlyWage);
     }
 
     [Fact]
@@ -3811,15 +3811,15 @@ Path '', line 1, position 1.");
     {
         var d = JsonConvert.DeserializeObject<ExistingValueClass>(@"{'Dictionary':{appended:'appended',existing:'new'}}");
 
-        Xunit.Assert.NotNull(d);
-        Xunit.Assert.NotNull(d.Dictionary);
-        Xunit.Assert.Equal(typeof(Dictionary<string, string>), d.Dictionary.GetType());
-        Xunit.Assert.Equal(typeof(List<string>), d.List.GetType());
-        Xunit.Assert.Equal(2, d.Dictionary.Count);
-        Xunit.Assert.Equal("new", d.Dictionary["existing"]);
-        Xunit.Assert.Equal("appended", d.Dictionary["appended"]);
-        Xunit.Assert.Equal(1, d.List.Count);
-        Xunit.Assert.Equal("existing", d.List[0]);
+        Assert.NotNull(d);
+        Assert.NotNull(d.Dictionary);
+        Assert.Equal(typeof(Dictionary<string, string>), d.Dictionary.GetType());
+        Assert.Equal(typeof(List<string>), d.List.GetType());
+        Assert.Equal(2, d.Dictionary.Count);
+        Assert.Equal("new", d.Dictionary["existing"]);
+        Assert.Equal("appended", d.Dictionary["appended"]);
+        Assert.Equal(1, d.List.Count);
+        Assert.Equal("existing", d.List[0]);
     }
 
     [Fact]
@@ -3851,17 +3851,17 @@ Path '', line 1, position 1.");
 }", json);
 
         var gen = JsonConvert.DeserializeObject<ThisGenericTest<KeyValueId>>(json);
-        Xunit.Assert.Equal("some value", gen.MyProperty);
+        Assert.Equal("some value", gen.MyProperty);
     }
 
     [Fact]
     public void JRawValue()
     {
         var deserialized = JsonConvert.DeserializeObject<JRawValueTestObject>("{value:3}");
-        Xunit.Assert.Equal("3", deserialized.Value.ToString());
+        Assert.Equal("3", deserialized.Value.ToString());
 
         deserialized = JsonConvert.DeserializeObject<JRawValueTestObject>("{value:'3'}");
-        Xunit.Assert.Equal(@"""3""", deserialized.Value.ToString());
+        Assert.Equal(@"""3""", deserialized.Value.ToString());
     }
 
     [Fact]
@@ -3871,10 +3871,10 @@ Path '', line 1, position 1.");
 
         var dic = JsonConvert.DeserializeObject<DictionaryWithNoDefaultConstructor>(json);
 
-        Xunit.Assert.Equal(3, dic.Count);
-        Xunit.Assert.Equal("value1", dic["key1"]);
-        Xunit.Assert.Equal("value2", dic["key2"]);
-        Xunit.Assert.Equal("value3", dic["key3"]);
+        Assert.Equal(3, dic.Count);
+        Assert.Equal("value1", dic["key1"]);
+        Assert.Equal("value2", dic["key2"]);
+        Assert.Equal("value3", dic["key3"]);
     }
 
     [Fact]
@@ -3922,7 +3922,7 @@ Path '', line 1, position 1.");
             DateParseHandling = DateParseHandling.DateTimeOffset
         });
 
-        Xunit.Assert.Equal(c.DateTimeOffsetValue, cISO.DateTimeOffsetValue);
+        Assert.Equal(c.DateTimeOffsetValue, cISO.DateTimeOffsetValue);
     }
 
     [Fact]
@@ -3962,10 +3962,10 @@ Path '', line 1, position 1.");
   ""StringProperty"": ""Value!""
 }");
 
-        Xunit.Assert.Equal("Value!", newC1.StringProperty);
-        Xunit.Assert.Equal(1, newC1.C2.IntProperty);
-        Xunit.Assert.Equal(null, newC1.C2.C1.StringProperty);
-        Xunit.Assert.Equal(null, newC1.C2.C1.C2);
+        Assert.Equal("Value!", newC1.StringProperty);
+        Assert.Equal(1, newC1.C2.IntProperty);
+        Assert.Equal(null, newC1.C2.C1.StringProperty);
+        Assert.Equal(null, newC1.C2.C1.C2);
     }
 
     [Fact]
@@ -3974,7 +3974,7 @@ Path '', line 1, position 1.");
         var json = "{ Key: 'abc', Value: 123 }";
         var item = JsonConvert.DeserializeObject<KeyValueTestClass>(json);
 
-        Xunit.Assert.Equal(123L, item.Value);
+        Assert.Equal(123L, item.Value);
     }
 
     [Fact]
@@ -4011,11 +4011,11 @@ Path '', line 1, position 1.");
 
         var json = JsonConvert.SerializeObject(modelStateDictionary);
 
-        Xunit.Assert.Equal(@"{""key"":""value""}", json);
+        Assert.Equal(@"{""key"":""value""}", json);
 
         var newModelStateDictionary = JsonConvert.DeserializeObject<ModelStateDictionary<string>>(json);
-        Xunit.Assert.Equal(1, newModelStateDictionary.Count);
-        Xunit.Assert.Equal("value", newModelStateDictionary["key"]);
+        Assert.Equal(1, newModelStateDictionary.Count);
+        Assert.Equal("value", newModelStateDictionary["key"]);
     }
 
 #if DEBUG
@@ -4208,11 +4208,11 @@ Path '', line 1, position 1.");
             JsonConvert.DeserializeObject<List<KVPair<string, string>>>(
                 "[{\"Key\":\"Two\",\"Value\":\"2\"},{\"Key\":\"One\",\"Value\":\"1\"}]");
 
-        Xunit.Assert.Equal(2, kvPairs.Count);
-        Xunit.Assert.Equal("Two", kvPairs[0].Key);
-        Xunit.Assert.Equal("2", kvPairs[0].Value);
-        Xunit.Assert.Equal("One", kvPairs[1].Key);
-        Xunit.Assert.Equal("1", kvPairs[1].Value);
+        Assert.Equal(2, kvPairs.Count);
+        Assert.Equal("Two", kvPairs[0].Key);
+        Assert.Equal("2", kvPairs[0].Value);
+        Assert.Equal("One", kvPairs[1].Key);
+        Assert.Equal("1", kvPairs[1].Value);
     }
 
     [Fact]
@@ -4262,14 +4262,14 @@ Path '', line 1, position 1.");
   ""AA_property6"": 2
 }");
 
-        Xunit.Assert.Equal(2, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetField("AA_field1", BindingFlags.Instance | BindingFlags.NonPublic), myA));
-        Xunit.Assert.Equal(0, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetField("AA_field2", BindingFlags.Instance | BindingFlags.NonPublic), myA));
-        Xunit.Assert.Equal(2, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property1", BindingFlags.Instance | BindingFlags.NonPublic), myA));
-        Xunit.Assert.Equal(2, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property2", BindingFlags.Instance | BindingFlags.NonPublic), myA));
-        Xunit.Assert.Equal(2, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property3", BindingFlags.Instance | BindingFlags.NonPublic), myA));
-        Xunit.Assert.Equal(2, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property4", BindingFlags.Instance | BindingFlags.NonPublic), myA));
-        Xunit.Assert.Equal(0, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property5", BindingFlags.Instance | BindingFlags.NonPublic), myA));
-        Xunit.Assert.Equal(0, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property6", BindingFlags.Instance | BindingFlags.NonPublic), myA));
+        Assert.Equal(2, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetField("AA_field1", BindingFlags.Instance | BindingFlags.NonPublic), myA));
+        Assert.Equal(0, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetField("AA_field2", BindingFlags.Instance | BindingFlags.NonPublic), myA));
+        Assert.Equal(2, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property1", BindingFlags.Instance | BindingFlags.NonPublic), myA));
+        Assert.Equal(2, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property2", BindingFlags.Instance | BindingFlags.NonPublic), myA));
+        Assert.Equal(2, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property3", BindingFlags.Instance | BindingFlags.NonPublic), myA));
+        Assert.Equal(2, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property4", BindingFlags.Instance | BindingFlags.NonPublic), myA));
+        Assert.Equal(0, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property5", BindingFlags.Instance | BindingFlags.NonPublic), myA));
+        Assert.Equal(0, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property6", BindingFlags.Instance | BindingFlags.NonPublic), myA));
 
         var myB = JsonConvert.DeserializeObject<BBTestClass>(
             @"{
@@ -4293,25 +4293,25 @@ Path '', line 1, position 1.");
   ""BB_property8"": 3
 }");
 
-        Xunit.Assert.Equal(3, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetField("AA_field1", BindingFlags.Instance | BindingFlags.NonPublic), myB));
-        Xunit.Assert.Equal(0, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetField("AA_field2", BindingFlags.Instance | BindingFlags.NonPublic), myB));
-        Xunit.Assert.Equal(2, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property1", BindingFlags.Instance | BindingFlags.NonPublic), myB));
-        Xunit.Assert.Equal(2, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property2", BindingFlags.Instance | BindingFlags.NonPublic), myB));
-        Xunit.Assert.Equal(2, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property3", BindingFlags.Instance | BindingFlags.NonPublic), myB));
-        Xunit.Assert.Equal(2, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property4", BindingFlags.Instance | BindingFlags.NonPublic), myB));
-        Xunit.Assert.Equal(0, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property5", BindingFlags.Instance | BindingFlags.NonPublic), myB));
-        Xunit.Assert.Equal(0, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property6", BindingFlags.Instance | BindingFlags.NonPublic), myB));
+        Assert.Equal(3, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetField("AA_field1", BindingFlags.Instance | BindingFlags.NonPublic), myB));
+        Assert.Equal(0, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetField("AA_field2", BindingFlags.Instance | BindingFlags.NonPublic), myB));
+        Assert.Equal(2, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property1", BindingFlags.Instance | BindingFlags.NonPublic), myB));
+        Assert.Equal(2, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property2", BindingFlags.Instance | BindingFlags.NonPublic), myB));
+        Assert.Equal(2, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property3", BindingFlags.Instance | BindingFlags.NonPublic), myB));
+        Assert.Equal(2, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property4", BindingFlags.Instance | BindingFlags.NonPublic), myB));
+        Assert.Equal(0, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property5", BindingFlags.Instance | BindingFlags.NonPublic), myB));
+        Assert.Equal(0, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property6", BindingFlags.Instance | BindingFlags.NonPublic), myB));
 
-        Xunit.Assert.Equal(4, myB.BB_field1);
-        Xunit.Assert.Equal(4, myB.BB_field2);
-        Xunit.Assert.Equal(3, myB.BB_property1);
-        Xunit.Assert.Equal(3, myB.BB_property2);
-        Xunit.Assert.Equal(3, ReflectionUtils.GetMemberValue(typeof(BBTestClass).GetProperty("BB_property3", BindingFlags.Instance | BindingFlags.Public), myB));
-        Xunit.Assert.Equal(3, ReflectionUtils.GetMemberValue(typeof(BBTestClass).GetProperty("BB_property4", BindingFlags.Instance | BindingFlags.NonPublic), myB));
-        Xunit.Assert.Equal(0, myB.BB_property5);
-        Xunit.Assert.Equal(3, ReflectionUtils.GetMemberValue(typeof(BBTestClass).GetProperty("BB_property6", BindingFlags.Instance | BindingFlags.Public), myB));
-        Xunit.Assert.Equal(3, ReflectionUtils.GetMemberValue(typeof(BBTestClass).GetProperty("BB_property7", BindingFlags.Instance | BindingFlags.Public), myB));
-        Xunit.Assert.Equal(3, ReflectionUtils.GetMemberValue(typeof(BBTestClass).GetProperty("BB_property8", BindingFlags.Instance | BindingFlags.Public), myB));
+        Assert.Equal(4, myB.BB_field1);
+        Assert.Equal(4, myB.BB_field2);
+        Assert.Equal(3, myB.BB_property1);
+        Assert.Equal(3, myB.BB_property2);
+        Assert.Equal(3, ReflectionUtils.GetMemberValue(typeof(BBTestClass).GetProperty("BB_property3", BindingFlags.Instance | BindingFlags.Public), myB));
+        Assert.Equal(3, ReflectionUtils.GetMemberValue(typeof(BBTestClass).GetProperty("BB_property4", BindingFlags.Instance | BindingFlags.NonPublic), myB));
+        Assert.Equal(0, myB.BB_property5);
+        Assert.Equal(3, ReflectionUtils.GetMemberValue(typeof(BBTestClass).GetProperty("BB_property6", BindingFlags.Instance | BindingFlags.Public), myB));
+        Assert.Equal(3, ReflectionUtils.GetMemberValue(typeof(BBTestClass).GetProperty("BB_property7", BindingFlags.Instance | BindingFlags.Public), myB));
+        Assert.Equal(3, ReflectionUtils.GetMemberValue(typeof(BBTestClass).GetProperty("BB_property8", BindingFlags.Instance | BindingFlags.Public), myB));
     }
 
     [Fact]
@@ -4339,10 +4339,10 @@ Path '', line 1, position 1.");
         StringAssert.AreEqual(expected, json);
 
         var newTestObject = JsonConvert.DeserializeObject<XNodeTestObject>(json);
-        Xunit.Assert.Equal(testObject.Document.ToString(), newTestObject.Document.ToString());
-        Xunit.Assert.Equal(testObject.Element.ToString(), newTestObject.Element.ToString());
+        Assert.Equal(testObject.Document.ToString(), newTestObject.Document.ToString());
+        Assert.Equal(testObject.Element.ToString(), newTestObject.Element.ToString());
 
-        Xunit.Assert.Null(newTestObject.Element.Parent);
+        Assert.Null(newTestObject.Element.Parent);
     }
 
     [Fact]
@@ -4362,7 +4362,7 @@ Path '', line 1, position 1.");
         StringAssert.AreEqual(expected, json);
 
         var newTestObject = JsonConvert.DeserializeObject<XmlNodeTestObject>(json);
-        Xunit.Assert.Equal(testObject.Document.InnerXml, newTestObject.Document.InnerXml);
+        Assert.Equal(testObject.Document.InnerXml, newTestObject.Document.InnerXml);
     }
 
     [Fact]
@@ -4375,7 +4375,7 @@ Path '', line 1, position 1.");
         };
 
         var json = JsonConvert.SerializeObject(source, new PosConverter(), new PosDoubleConverter());
-        Xunit.Assert.Equal("{\"position\":new Pos(100,200),\"center\":new PosD(251.6,361.3)}", json);
+        Assert.Equal("{\"position\":new Pos(100,200),\"center\":new PosD(251.6,361.3)}", json);
     }
 
     [Fact]
@@ -4445,13 +4445,13 @@ Path '', line 1, position 1.");
 
         var json = JsonConvert.SerializeObject(child);
 
-        Xunit.Assert.Equal(@"{""_id"":2,""Name"":""Isabell"",""Father"":{""$ref"":null,""$id"":null,""blah"":""blah!""}}", json);
+        Assert.Equal(@"{""_id"":2,""Name"":""Isabell"",""Father"":{""$ref"":null,""$id"":null,""blah"":""blah!""}}", json);
 
         var result = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
 
-        Xunit.Assert.Equal(3, result.Count);
-        Xunit.Assert.Equal(1, ((JObject) result["Father"]).Count);
-        Xunit.Assert.Equal("blah!", (string) ((JObject) result["Father"])["blah"]);
+        Assert.Equal(3, result.Count);
+        Assert.Equal(1, ((JObject) result["Father"]).Count);
+        Assert.Equal("blah!", (string) ((JObject) result["Father"])["blah"]);
     }
 
     [Fact]
@@ -4460,9 +4460,9 @@ Path '', line 1, position 1.");
         var json = @"{""First"":""First"",""Second"":2,""Ignored"":{""Name"":""James""},""AdditionalContent"":{""LOL"":true}}";
 
         var cc = JsonConvert.DeserializeObject<ConstructorCompexIgnoredProperty>(json);
-        Xunit.Assert.Equal("First", cc.First);
-        Xunit.Assert.Equal(2, cc.Second);
-        Xunit.Assert.Equal(null, cc.Ignored);
+        Assert.Equal("First", cc.First);
+        Assert.Equal(2, cc.Second);
+        Assert.Equal(null, cc.Ignored);
     }
 
     [Fact]
@@ -4475,9 +4475,9 @@ Path '', line 1, position 1.");
             {
                 MissingMemberHandling = MissingMemberHandling.Error
             });
-        Xunit.Assert.Equal("First", cc.First);
-        Xunit.Assert.Equal(2, cc.Second);
-        Xunit.Assert.Equal(null, cc.Ignored);
+        Assert.Equal("First", cc.First);
+        Assert.Equal(2, cc.Second);
+        Assert.Equal(null, cc.Ignored);
     }
 
     [Fact]
@@ -4491,8 +4491,8 @@ Path '', line 1, position 1.");
                 FloatParseHandling = FloatParseHandling.Decimal
             });
 
-        Xunit.Assert.Equal(typeof(decimal), dic["value"].GetType());
-        Xunit.Assert.Equal(9.9m, dic["value"]);
+        Assert.Equal(typeof(decimal), dic["value"].GetType());
+        Assert.Equal(9.9m, dic["value"]);
     }
 
     [Fact]
@@ -4514,7 +4514,7 @@ Path '', line 1, position 1.");
         var newDictionary =
             JsonConvert.DeserializeObject<Dictionary<DictionaryKey, string>>(json);
 
-        Xunit.Assert.Equal(2, newDictionary.Count);
+        Assert.Equal(2, newDictionary.Count);
     }
 
     [Fact]
@@ -4538,10 +4538,10 @@ Path '', line 1, position 1.");
   null
 ]", typeof(double?[]));
 
-        Xunit.Assert.Equal(3, d.Length);
-        Xunit.Assert.Equal(2.4, d[0]);
-        Xunit.Assert.Equal(4.3, d[1]);
-        Xunit.Assert.Equal(null, d[2]);
+        Assert.Equal(3, d.Length);
+        Assert.Equal(2.4, d[0]);
+        Assert.Equal(4.3, d[1]);
+        Assert.Equal(null, d[2]);
     }
 
     [Fact]
@@ -4562,10 +4562,10 @@ Path '', line 1, position 1.");
 
         var d = JsonConvert.DeserializeObject<HashSet<string>>(jsonText);
 
-        Xunit.Assert.Equal(3, d.Count);
-        Xunit.Assert.True(d.Contains("One"));
-        Xunit.Assert.True(d.Contains("2"));
-        Xunit.Assert.True(d.Contains("III"));
+        Assert.Equal(3, d.Count);
+        Assert.True(d.Contains("One"));
+        Assert.True(d.Contains("2"));
+        Assert.True(d.Contains("III"));
     }
 
     [Fact]
@@ -4580,9 +4580,9 @@ Path '', line 1, position 1.");
         var reader = new JsonTextReader(new StringReader(json));
 
         var z = (ByteArrayTestClass[]) serializer1.Deserialize(reader, typeof(ByteArrayTestClass[]));
-        Xunit.Assert.Equal(2, z.Length);
-        Xunit.Assert.Equal(0, z[0].Prop1.Length);
-        Xunit.Assert.Equal(0, z[1].Prop1.Length);
+        Assert.Equal(2, z.Length);
+        Assert.Equal(0, z[0].Prop1.Length);
+        Assert.Equal(0, z[1].Prop1.Length);
     }
 
     [Fact]
@@ -4607,10 +4607,10 @@ Path '', line 1, position 1.");
         {
             var d = JsonConvert.DeserializeObject<StringDictionaryTestClass>(json);
 
-            Xunit.Assert.Equal(3, d.StringDictionaryProperty.Count);
-            Xunit.Assert.Equal("One", d.StringDictionaryProperty["1"]);
-            Xunit.Assert.Equal("II", d.StringDictionaryProperty["2"]);
-            Xunit.Assert.Equal("3", d.StringDictionaryProperty["3"]);
+            Assert.Equal(3, d.StringDictionaryProperty.Count);
+            Assert.Equal("One", d.StringDictionaryProperty["1"]);
+            Assert.Equal("II", d.StringDictionaryProperty["2"]);
+            Assert.Equal("3", d.StringDictionaryProperty["3"]);
         }
         else
         {
@@ -4634,7 +4634,7 @@ Path '', line 1, position 1.");
 
         var newStruct = JsonConvert.DeserializeObject<StructWithAttribute>(json);
 
-        Xunit.Assert.Equal(int.MaxValue, newStruct.MyInt);
+        Assert.Equal(int.MaxValue, newStruct.MyInt);
     }
 
     [Fact]
@@ -4645,7 +4645,7 @@ Path '', line 1, position 1.");
             Offset = new DateTimeOffset(new DateTime(2000, 1, 1), TimeSpan.FromHours(6))
         });
 
-        Xunit.Assert.Equal("{\"Offset\":\"2000-01-01T00:00:00+06:00\"}", serializeObject);
+        Assert.Equal("{\"Offset\":\"2000-01-01T00:00:00+06:00\"}", serializeObject);
 
         var reader = new JsonTextReader(new StringReader(serializeObject))
         {
@@ -4655,15 +4655,15 @@ Path '', line 1, position 1.");
 
         var deserializeObject = serializer.Deserialize<TimeZoneOffsetObject>(reader);
 
-        Xunit.Assert.Equal(TimeSpan.FromHours(6), deserializeObject.Offset.Offset);
-        Xunit.Assert.Equal(new DateTime(2000, 1, 1), deserializeObject.Offset.Date);
+        Assert.Equal(TimeSpan.FromHours(6), deserializeObject.Offset.Offset);
+        Assert.Equal(new DateTime(2000, 1, 1), deserializeObject.Offset.Date);
     }
 
     [Fact]
     public void DeserializePropertyNullableDateTimeOffsetExactIso()
     {
         var d = JsonConvert.DeserializeObject<NullableDateTimeTestClass>("{\"DateTimeOffsetField\":\"2000-01-01T00:00:00+06:00\"}");
-        Xunit.Assert.Equal(new DateTimeOffset(new DateTime(2000, 1, 1), TimeSpan.FromHours(6)), d.DateTimeOffsetField);
+        Assert.Equal(new DateTimeOffset(new DateTime(2000, 1, 1), TimeSpan.FromHours(6)), d.DateTimeOffsetField);
     }
 
     [Fact]
@@ -4674,7 +4674,7 @@ Path '', line 1, position 1.");
             Offset = new DateTimeOffset(new DateTime(2000, 1, 1), TimeSpan.FromHours(6))
         }, Formatting.None, new JsonSerializerSettings {DateFormatHandling = DateFormatHandling.MicrosoftDateFormat});
 
-        Xunit.Assert.Equal("{\"Offset\":\"\\/Date(946663200000+0600)\\/\"}", serializeObject);
+        Assert.Equal("{\"Offset\":\"\\/Date(946663200000+0600)\\/\"}", serializeObject);
 
         var reader = new JsonTextReader(new StringReader(serializeObject));
 
@@ -4685,15 +4685,15 @@ Path '', line 1, position 1.");
 
         var deserializeObject = serializer.Deserialize<TimeZoneOffsetObject>(reader);
 
-        Xunit.Assert.Equal(TimeSpan.FromHours(6), deserializeObject.Offset.Offset);
-        Xunit.Assert.Equal(new DateTime(2000, 1, 1), deserializeObject.Offset.Date);
+        Assert.Equal(TimeSpan.FromHours(6), deserializeObject.Offset.Offset);
+        Assert.Equal(new DateTime(2000, 1, 1), deserializeObject.Offset.Date);
     }
 
     [Fact]
     public void DeserializePropertyNullableDateTimeOffsetExactMsAjax()
     {
         var d = JsonConvert.DeserializeObject<NullableDateTimeTestClass>("{\"DateTimeOffsetField\":\"\\/Date(946663200000+0600)\\/\"}");
-        Xunit.Assert.Equal(new DateTimeOffset(new DateTime(2000, 1, 1), TimeSpan.FromHours(6)), d.DateTimeOffsetField);
+        Assert.Equal(new DateTimeOffset(new DateTime(2000, 1, 1), TimeSpan.FromHours(6)), d.DateTimeOffsetField);
     }
 
     [Fact]
@@ -4728,34 +4728,34 @@ Path '', line 1, position 1.");
 
         IDictionary<string, object> newExpando = JsonConvert.DeserializeObject<ExpandoObject>(json);
 
-        Xunit.Assert.IsType(typeof(long), newExpando["Int"]);
-        Xunit.Assert.Equal((long) expando.Int, newExpando["Int"]);
+        Assert.IsType(typeof(long), newExpando["Int"]);
+        Assert.Equal((long) expando.Int, newExpando["Int"]);
 
-        Xunit.Assert.IsType(typeof(double), newExpando["Decimal"]);
-        Xunit.Assert.Equal(expando.Decimal, newExpando["Decimal"]);
+        Assert.IsType(typeof(double), newExpando["Decimal"]);
+        Assert.Equal(expando.Decimal, newExpando["Decimal"]);
 
-        Xunit.Assert.IsType(typeof(ExpandoObject), newExpando["Complex"]);
+        Assert.IsType(typeof(ExpandoObject), newExpando["Complex"]);
         IDictionary<string, object> o = (ExpandoObject) newExpando["Complex"];
 
-        Xunit.Assert.IsType(typeof(string), o["String"]);
-        Xunit.Assert.Equal(expando.Complex.String, o["String"]);
+        Assert.IsType(typeof(string), o["String"]);
+        Assert.Equal(expando.Complex.String, o["String"]);
 
-        Xunit.Assert.IsType(typeof(DateTime), o["DateTime"]);
-        Xunit.Assert.Equal(expando.Complex.DateTime, o["DateTime"]);
+        Assert.IsType(typeof(DateTime), o["DateTime"]);
+        Assert.Equal(expando.Complex.DateTime, o["DateTime"]);
     }
 
     [Fact]
     public void DeserializeDecimalExact()
     {
         var d = JsonConvert.DeserializeObject<decimal>("123456789876543.21");
-        Xunit.Assert.Equal(123456789876543.21m, d);
+        Assert.Equal(123456789876543.21m, d);
     }
 
     [Fact]
     public void DeserializeNullableDecimalExact()
     {
         var d = JsonConvert.DeserializeObject<decimal?>("123456789876543.21");
-        Xunit.Assert.Equal(123456789876543.21m, d);
+        Assert.Equal(123456789876543.21m, d);
     }
 
     [Fact]
@@ -4768,7 +4768,7 @@ Path '', line 1, position 1.");
         var serializer = new JsonSerializer();
 
         var i = serializer.Deserialize<Invoice>(reader);
-        Xunit.Assert.Equal(123456789876543.21m, i.Amount);
+        Assert.Equal(123456789876543.21m, i.Amount);
     }
 
     [Fact]
@@ -4776,7 +4776,7 @@ Path '', line 1, position 1.");
     {
         var json = "[123456789876543.21]";
         var a = JsonConvert.DeserializeObject<IList<decimal>>(json);
-        Xunit.Assert.Equal(123456789876543.21m, a[0]);
+        Assert.Equal(123456789876543.21m, a[0]);
     }
 
     [Fact]
@@ -4789,7 +4789,7 @@ Path '', line 1, position 1.");
         var serializer = new JsonSerializer();
 
         var d = serializer.Deserialize<IDictionary<string, decimal>>(reader);
-        Xunit.Assert.Equal(123456789876543.21m, d["Value"]);
+        Assert.Equal(123456789876543.21m, d["Value"]);
     }
 
     [Fact]
@@ -4804,9 +4804,9 @@ Path '', line 1, position 1.");
 
         obj = JsonConvert.DeserializeObject<VectorParent>(str);
 
-        Xunit.Assert.Equal(1, obj.Position.X);
-        Xunit.Assert.Equal(2, obj.Position.Y);
-        Xunit.Assert.Equal(3, obj.Position.Z);
+        Assert.Equal(1, obj.Position.X);
+        Assert.Equal(2, obj.Position.Y);
+        Assert.Equal(3, obj.Position.Z);
     }
 
     [Fact]
@@ -4824,8 +4824,8 @@ Path '', line 1, position 1.");
 
         var meh = JsonConvert.DeserializeObject<PrivateSetterBase>(json, settings);
 
-        Xunit.Assert.Equal(((PrivateSetterDerived) meh).IDoWork, "woo");
-        Xunit.Assert.Equal(meh.IDontWork, "meh");
+        Assert.Equal(((PrivateSetterDerived) meh).IDoWork, "woo");
+        Assert.Equal(meh.IDontWork, "meh");
     }
 
     [Fact]
@@ -4845,14 +4845,14 @@ Path '', line 1, position 1.");
         //throws error on deserialization because bar1.Foo2 is of type Foo?
         var s = JsonConvert.SerializeObject(nullableStructPropertyClass);
         var deserialized = deserialize(s);
-        Xunit.Assert.Equal(deserialized.Foo1.Name, "foo 1");
-        Xunit.Assert.Equal(deserialized.Foo2.Value.Name, "foo 2");
+        Assert.Equal(deserialized.Foo1.Name, "foo 1");
+        Assert.Equal(deserialized.Foo2.Value.Name, "foo 2");
 
         //no error Foo2 is null
         s = JsonConvert.SerializeObject(barWithNull);
         deserialized = deserialize(s);
-        Xunit.Assert.Equal(deserialized.Foo1.Name, "foo 1");
-        Xunit.Assert.Equal(deserialized.Foo2, null);
+        Assert.Equal(deserialized.Foo1.Name, "foo 1");
+        Assert.Equal(deserialized.Foo2, null);
     }
 
     static NullableStructPropertyClass deserialize(string serStr)
@@ -4879,8 +4879,8 @@ Path '', line 1, position 1.");
 
         var deserializedResponse = JsonConvert.DeserializeObject<JTokenTestClass>(json);
 
-        Xunit.Assert.Equal("Success", deserializedResponse.Name);
-        Xunit.Assert.True(deserializedResponse.Data.DeepEquals(c.Data));
+        Assert.Equal("Success", deserializedResponse.Name);
+        Assert.True(deserializedResponse.Data.DeepEquals(c.Data));
     }
 
     [Fact]
@@ -4890,31 +4890,31 @@ Path '', line 1, position 1.");
         var json = JsonConvert.SerializeObject(data);
         var obj = JsonConvert.DeserializeObject<DecimalTest>(json, new JsonSerializerSettings {MetadataPropertyHandling = MetadataPropertyHandling.Default});
 
-        Xunit.Assert.Equal(decimal.MinValue, obj.Value);
+        Assert.Equal(decimal.MinValue, obj.Value);
     }
 
     [Fact]
     public void NonPublicConstructorWithJsonConstructorTest()
     {
         var c = JsonConvert.DeserializeObject<NonPublicConstructorWithJsonConstructor>("{}");
-        Xunit.Assert.Equal("NonPublic", c.Constructor);
+        Assert.Equal("NonPublic", c.Constructor);
     }
 
     [Fact]
     public void PublicConstructorOverridenByJsonConstructorTest()
     {
         var c = JsonConvert.DeserializeObject<PublicConstructorOverridenByJsonConstructor>("{Value:'value!'}");
-        Xunit.Assert.Equal("Public Parameterized", c.Constructor);
-        Xunit.Assert.Equal("value!", c.Value);
+        Assert.Equal("Public Parameterized", c.Constructor);
+        Assert.Equal("value!", c.Value);
     }
 
     [Fact]
     public void MultipleParametrizedConstructorsJsonConstructorTest()
     {
         var c = JsonConvert.DeserializeObject<MultipleParametrizedConstructorsJsonConstructor>("{Value:'value!', Age:1}");
-        Xunit.Assert.Equal("Public Parameterized 2", c.Constructor);
-        Xunit.Assert.Equal("value!", c.Value);
-        Xunit.Assert.Equal(1, c.Age);
+        Assert.Equal("Public Parameterized 2", c.Constructor);
+        Assert.Equal("value!", c.Value);
+        Assert.Equal(1, c.Age);
     }
 
     [Fact]
@@ -4937,9 +4937,9 @@ Path '', line 1, position 1.");
 
         var c2 = JsonConvert.DeserializeObject<EnumerableClass>(json);
 
-        Xunit.Assert.Equal("One", c2.Enumerable.ElementAt(0));
-        Xunit.Assert.Equal("Two", c2.Enumerable.ElementAt(1));
-        Xunit.Assert.Equal("Three", c2.Enumerable.ElementAt(2));
+        Assert.Equal("One", c2.Enumerable.ElementAt(0));
+        Assert.Equal("Two", c2.Enumerable.ElementAt(1));
+        Assert.Equal("Three", c2.Enumerable.ElementAt(2));
     }
 
     [Fact]
@@ -4965,9 +4965,9 @@ Path '', line 1, position 1.");
 }";
 
         var p = JsonConvert.DeserializeObject<DeserializeStringConvert>(json);
-        Xunit.Assert.Equal(40, p.Age);
-        Xunit.Assert.Equal(44.4, p.Height);
-        Xunit.Assert.Equal(4m, p.Price);
+        Assert.Equal(40, p.Age);
+        Assert.Equal(44.4, p.Height);
+        Assert.Equal(4m, p.Price);
     }
 
     [Fact]
@@ -4981,7 +4981,7 @@ Path '', line 1, position 1.");
     {
         var dateTime = JsonConvert.DeserializeObject("null", typeof(DateTime?));
 
-        Xunit.Assert.Null(dateTime);
+        Assert.Null(dateTime);
     }
 
     [Fact]
@@ -4991,7 +4991,7 @@ Path '', line 1, position 1.");
 
         var json = JsonConvert.SerializeObject(e, Formatting.Indented);
 
-        Xunit.Assert.Equal(@"{}", json);
+        Assert.Equal(@"{}", json);
     }
 
     [Fact]
@@ -5011,8 +5011,8 @@ Path '', line 1, position 1.");
         var commentTestClass = JsonConvert.DeserializeObject<CommentTestClass>(json);
 
         XUnitAssert.True(commentTestClass.Indexed);
-        Xunit.Assert.Equal(1939, commentTestClass.StartYear);
-        Xunit.Assert.Equal(63, commentTestClass.Values.Count);
+        Assert.Equal(1939, commentTestClass.StartYear);
+        Assert.Equal(63, commentTestClass.Values.Count);
     }
 
     [Fact]
@@ -5022,7 +5022,7 @@ Path '', line 1, position 1.");
 
         var withoutParameterisedConstructor = JsonConvert.DeserializeObject<DTOWithoutParameterisedConstructor>(json);
         var withParameterisedConstructor = JsonConvert.DeserializeObject<DTOWithParameterisedConstructor>(json);
-        Xunit.Assert.Equal(withoutParameterisedConstructor.B, withParameterisedConstructor.B);
+        Assert.Equal(withoutParameterisedConstructor.B, withParameterisedConstructor.B);
     }
 
     [Fact]
@@ -5070,7 +5070,7 @@ Path '', line 1, position 1.");
 
         var xml = Encoding.UTF8.GetString(ms.ToArray(), 0, Convert.ToInt32(ms.Length));
 
-        Xunit.Assert.Equal(@"<ChildDataContract xmlns=""http://schemas.datacontract.org/2004/07/Argon.Tests.TestObjects"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""><nonVirtualMember>NonVirtualMember!</nonVirtualMember><virtualMember>VirtualMember!</virtualMember><NewMember i:nil=""true""/></ChildDataContract>", xml);
+        Assert.Equal(@"<ChildDataContract xmlns=""http://schemas.datacontract.org/2004/07/Argon.Tests.TestObjects"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""><nonVirtualMember>NonVirtualMember!</nonVirtualMember><virtualMember>VirtualMember!</virtualMember><NewMember i:nil=""true""/></ChildDataContract>", xml);
     }
 
     [Fact]
@@ -5083,7 +5083,7 @@ Path '', line 1, position 1.");
         };
 
         var result = JsonConvert.SerializeObject(cc);
-        Xunit.Assert.Equal(@"{""virtualMember"":""VirtualMember!"",""nonVirtualMember"":""NonVirtualMember!""}", result);
+        Assert.Equal(@"{""virtualMember"":""VirtualMember!"",""nonVirtualMember"":""NonVirtualMember!""}", result);
     }
 
     [Fact]
@@ -5096,7 +5096,7 @@ Path '', line 1, position 1.");
         };
 
         var result = JsonConvert.SerializeObject(cc);
-        Xunit.Assert.Equal(@"{""differentVirtualMember"":""VirtualMember!"",""nonVirtualMember"":""NonVirtualMember!""}", result);
+        Assert.Equal(@"{""differentVirtualMember"":""VirtualMember!"",""nonVirtualMember"":""NonVirtualMember!""}", result);
     }
 
     [Fact]
@@ -5133,10 +5133,10 @@ Path '', line 1, position 1.");
 }", json);
 
         var c2 = JsonConvert.DeserializeObject<NonDefaultConstructorWithReadOnlyCollectionProperty>(json);
-        Xunit.Assert.Equal(c1.Title, c2.Title);
-        Xunit.Assert.Equal(c1.Categories.Count, c2.Categories.Count);
-        Xunit.Assert.Equal("one", c2.Categories[0]);
-        Xunit.Assert.Equal("two", c2.Categories[1]);
+        Assert.Equal(c1.Title, c2.Title);
+        Assert.Equal(c1.Categories.Count, c2.Categories.Count);
+        Assert.Equal("one", c2.Categories[0]);
+        Assert.Equal("two", c2.Categories[1]);
     }
 
     [Fact]
@@ -5156,10 +5156,10 @@ Path '', line 1, position 1.");
 }", json);
 
         var c2 = JsonConvert.DeserializeObject<NonDefaultConstructorWithReadOnlyDictionaryProperty>(json);
-        Xunit.Assert.Equal(c1.Title, c2.Title);
-        Xunit.Assert.Equal(c1.Categories.Count, c2.Categories.Count);
-        Xunit.Assert.Equal(1, c2.Categories["one"]);
-        Xunit.Assert.Equal(2, c2.Categories["two"]);
+        Assert.Equal(c1.Title, c2.Title);
+        Assert.Equal(c1.Categories.Count, c2.Categories.Count);
+        Assert.Equal(1, c2.Categories["one"]);
+        Assert.Equal(2, c2.Categories["two"]);
     }
 
     [Fact]
@@ -5202,7 +5202,7 @@ Path '', line 1, position 1.");
 }", json);
 
         var c2 = JsonConvert.DeserializeObject<PrivateMembersClassWithAttributes>(json);
-        Xunit.Assert.Equal("readonlyString!", c2.UseValue());
+        Assert.Equal("readonlyString!", c2.UseValue());
     }
 
     [Fact]
@@ -5210,11 +5210,11 @@ Path '', line 1, position 1.");
     {
         var r = JsonConvert.DeserializeObject<BusRun>("{\"Departures\":[\"\\/Date(1309874148734-0400)\\/\",\"\\/Date(1309874148739-0400)\\/\",null],\"WheelchairAccessible\":true}");
 
-        Xunit.Assert.Equal(typeof(List<DateTime?>), r.Departures.GetType());
-        Xunit.Assert.Equal(3, r.Departures.Count());
-        Xunit.Assert.NotNull(r.Departures.ElementAt(0));
-        Xunit.Assert.NotNull(r.Departures.ElementAt(1));
-        Xunit.Assert.Null(r.Departures.ElementAt(2));
+        Assert.Equal(typeof(List<DateTime?>), r.Departures.GetType());
+        Assert.Equal(3, r.Departures.Count());
+        Assert.NotNull(r.Departures.ElementAt(0));
+        Assert.NotNull(r.Departures.ElementAt(1));
+        Assert.Null(r.Departures.ElementAt(2));
     }
 
     [Fact]
@@ -5247,7 +5247,7 @@ Path '', line 1, position 1.");
 
         var c = JsonConvert.DeserializeObject<CustomClass>(json);
 
-        Xunit.Assert.Equal(new Guid("bb2f3da7-bf79-4d14-9d54-0a1f7ff5f902"), c.clientId);
+        Assert.Equal(new Guid("bb2f3da7-bf79-4d14-9d54-0a1f7ff5f902"), c.clientId);
     }
 
     [Fact]
@@ -5265,12 +5265,12 @@ Path '', line 1, position 1.");
 
         var sex = JsonConvert.SerializeObject(classWithException);
         var dex = JsonConvert.DeserializeObject<ClassWithException>(sex);
-        Xunit.Assert.Equal(dex.Exceptions[0].ToString(), dex.Exceptions[0].ToString());
+        Assert.Equal(dex.Exceptions[0].ToString(), dex.Exceptions[0].ToString());
 
         sex = JsonConvert.SerializeObject(classWithException, Formatting.Indented);
 
         dex = JsonConvert.DeserializeObject<ClassWithException>(sex); // this fails!
-        Xunit.Assert.Equal(dex.Exceptions[0].ToString(), dex.Exceptions[0].ToString());
+        Assert.Equal(dex.Exceptions[0].ToString(), dex.Exceptions[0].ToString());
     }
 
     [Fact]
@@ -5288,11 +5288,11 @@ Path '', line 1, position 1.");
 }", json);
 
         var c2 = JsonConvert.DeserializeObject<UriGuidTimeSpanTestClass>(json);
-        Xunit.Assert.Equal(c1.Guid, c2.Guid);
-        Xunit.Assert.Equal(c1.NullableGuid, c2.NullableGuid);
-        Xunit.Assert.Equal(c1.TimeSpan, c2.TimeSpan);
-        Xunit.Assert.Equal(c1.NullableTimeSpan, c2.NullableTimeSpan);
-        Xunit.Assert.Equal(c1.Uri, c2.Uri);
+        Assert.Equal(c1.Guid, c2.Guid);
+        Assert.Equal(c1.NullableGuid, c2.NullableGuid);
+        Assert.Equal(c1.TimeSpan, c2.TimeSpan);
+        Assert.Equal(c1.NullableTimeSpan, c2.NullableTimeSpan);
+        Assert.Equal(c1.Uri, c2.Uri);
     }
 
     [Fact]
@@ -5317,11 +5317,11 @@ Path '', line 1, position 1.");
 }", json);
 
         var c2 = JsonConvert.DeserializeObject<UriGuidTimeSpanTestClass>(json);
-        Xunit.Assert.Equal(c1.Guid, c2.Guid);
-        Xunit.Assert.Equal(c1.NullableGuid, c2.NullableGuid);
-        Xunit.Assert.Equal(c1.TimeSpan, c2.TimeSpan);
-        Xunit.Assert.Equal(c1.NullableTimeSpan, c2.NullableTimeSpan);
-        Xunit.Assert.Equal(c1.Uri, c2.Uri);
+        Assert.Equal(c1.Guid, c2.Guid);
+        Assert.Equal(c1.NullableGuid, c2.NullableGuid);
+        Assert.Equal(c1.TimeSpan, c2.TimeSpan);
+        Assert.Equal(c1.NullableTimeSpan, c2.NullableTimeSpan);
+        Assert.Equal(c1.Uri, c2.Uri);
     }
 
     [Fact]
@@ -5339,7 +5339,7 @@ Path '', line 1, position 1.");
             jw.Flush();
 
             var result = sw.ToString();
-            Xunit.Assert.Equal(@"{""p"":1}", result);
+            Assert.Equal(@"{""p"":1}", result);
         }
     }
 
@@ -5351,7 +5351,7 @@ Path '', line 1, position 1.");
         var json = JsonConvert.SerializeObject(uri);
         var output = JsonConvert.DeserializeObject<Uri>(json);
 
-        Xunit.Assert.Equal(uri, output);
+        Assert.Equal(uri, output);
     }
 
     [Fact]
@@ -5362,7 +5362,7 @@ Path '', line 1, position 1.");
         var json = JsonConvert.SerializeObject(uri);
         var output = JsonConvert.DeserializeObject<Uri>(json);
 
-        Xunit.Assert.Equal(uri, output);
+        Assert.Equal(uri, output);
     }
 
     [Fact]
@@ -5391,8 +5391,8 @@ Path '', line 1, position 1.");
             // Get exception here
             var newObject = (TestObject) serializer.Deserialize(jsonReader);
 
-            Xunit.Assert.Equal("Test", newObject.Name);
-            Xunit.Assert.Equal(new byte[] {72, 63, 62, 71, 92, 55}, newObject.Data);
+            Assert.Equal("Test", newObject.Name);
+            Assert.Equal(new byte[] {72, 63, 62, 71, 92, 55}, newObject.Data);
         }
     }
 
@@ -5428,9 +5428,9 @@ Path '', line 1, position 1.");
                 ContractResolver = contractResolver
             });
 
-        Xunit.Assert.Equal(-1, c2.x);
-        Xunit.Assert.Equal(-2, StaticTestClass.y);
-        Xunit.Assert.Equal(-3, StaticTestClass.z);
+        Assert.Equal(-1, c2.x);
+        Assert.Equal(-2, StaticTestClass.y);
+        Assert.Equal(-3, StaticTestClass.z);
     }
 
     [Fact]
@@ -5465,9 +5465,9 @@ Path '', line 1, position 1.");
                 ContractResolver = contractResolver
             });
 
-        Xunit.Assert.Equal(-1, c2.x);
-        Xunit.Assert.Equal(-2, StaticTestClass.y);
-        Xunit.Assert.Equal(-3, StaticTestClass.z);
+        Assert.Equal(-1, c2.x);
+        Assert.Equal(-2, StaticTestClass.y);
+        Assert.Equal(-3, StaticTestClass.z);
     }
 
     [Fact]
@@ -5486,8 +5486,8 @@ Path '', line 1, position 1.");
 
             var c = JsonConvert.DeserializeObject<DecimalTestClass>(json);
 
-            Xunit.Assert.Equal(1.5m, c.Quantity);
-            Xunit.Assert.Equal(2.2d, c.OptionalQuantity);
+            Assert.Equal(1.5m, c.Quantity);
+            Assert.Equal(2.2d, c.OptionalQuantity);
         }
         finally
         {
@@ -5505,8 +5505,8 @@ Path '', line 1, position 1.");
 
         var d2 = JsonConvert.DeserializeObject<IList<decimal>>(json);
 
-        Xunit.Assert.Equal(d1.Count, d2.Count);
-        Xunit.Assert.Equal(d1[0], d2[0]);
+        Assert.Equal(d1.Count, d2.Count);
+        Assert.Equal(d1[0], d2[0]);
     }
 
     [Fact]
@@ -5518,8 +5518,8 @@ Path '', line 1, position 1.");
 
         var d2 = JsonConvert.DeserializeObject<IList<DateTimeOffset?>>(json);
 
-        Xunit.Assert.Equal(d1.Count, d2.Count);
-        Xunit.Assert.Equal(d1[0], d2[0]);
+        Assert.Equal(d1.Count, d2.Count);
+        Assert.Equal(d1[0], d2[0]);
     }
 
     [Fact]
@@ -5531,8 +5531,8 @@ Path '', line 1, position 1.");
 
         var d2 = JsonConvert.DeserializeObject<IList<byte[]>>(json);
 
-        Xunit.Assert.Equal(d1.Count, d2.Count);
-        Xunit.Assert.Equal(d1[0], d2[0]);
+        Assert.Equal(d1.Count, d2.Count);
+        Assert.Equal(d1[0], d2[0]);
     }
 
     [Fact]
@@ -5547,7 +5547,7 @@ Path '', line 1, position 1.");
 
         var json = JsonConvert.SerializeObject(b);
 
-        Xunit.Assert.Equal(@"{""no"":true}", json);
+        Assert.Equal(@"{""no"":true}", json);
 
         var b2 = JsonConvert.DeserializeObject<Bb>(json);
 
@@ -5608,7 +5608,7 @@ Path '', line 1, position 1.");
 
         var json = JsonConvert.SerializeObject(widget);
 
-        Xunit.Assert.Equal(@"{""Id"":{""Value"":""id""}}", json);
+        Assert.Equal(@"{""Id"":{""Value"":""id""}}", json);
     }
 
     [Fact]
@@ -5618,9 +5618,9 @@ Path '', line 1, position 1.");
 
         var w = JsonConvert.DeserializeObject<Widget>(json);
 
-        Xunit.Assert.Equal(new WidgetId {Value = "id"}, w.Id);
-        Xunit.Assert.Equal(new WidgetId {Value = "id"}, w.Id.Value);
-        Xunit.Assert.Equal("id", w.Id.Value.Value);
+        Assert.Equal(new WidgetId {Value = "id"}, w.Id);
+        Assert.Equal(new WidgetId {Value = "id"}, w.Id.Value);
+        Assert.Equal("id", w.Id.Value.Value);
     }
 
     [Fact]
@@ -5655,12 +5655,12 @@ Path '', line 1, position 1.");
         var json = @"{""Id"":null}";
         var c = JsonConvert.DeserializeObject<NullableGuid>(json);
 
-        Xunit.Assert.Equal(null, c.Id);
+        Assert.Equal(null, c.Id);
 
         json = @"{""Id"":""d8220a4b-75b1-4b7a-8112-b7bdae956a45""}";
         c = JsonConvert.DeserializeObject<NullableGuid>(json);
 
-        Xunit.Assert.Equal(new Guid("d8220a4b-75b1-4b7a-8112-b7bdae956a45"), c.Id);
+        Assert.Equal(new Guid("d8220a4b-75b1-4b7a-8112-b7bdae956a45"), c.Id);
     }
 
     [Fact]
@@ -5670,11 +5670,11 @@ Path '', line 1, position 1.");
         var writer = new NullableGuidCountingJsonTextWriter(new StreamWriter(Stream.Null));
         var serializer = JsonSerializer.Create();
         serializer.Serialize(writer, ng);
-        Xunit.Assert.Equal(1, writer.NullableGuidCount);
+        Assert.Equal(1, writer.NullableGuidCount);
         var traceWriter = new MemoryTraceWriter();
         serializer.TraceWriter = traceWriter;
         serializer.Serialize(writer, ng);
-        Xunit.Assert.Equal(2, writer.NullableGuidCount);
+        Assert.Equal(2, writer.NullableGuidCount);
     }
 
     [Fact]
@@ -5706,10 +5706,10 @@ Path '', line 1, position 1.");
 
         var actual = JsonConvert.DeserializeObject<Item>(jsonString);
 
-        Xunit.Assert.Equal(new Guid("d8220a4b-75b1-4b7a-8112-b7bdae956a45"), actual.SourceTypeID);
-        Xunit.Assert.Equal(new Guid("951663c4-924e-4c86-a57a-7ed737501dbd"), actual.BrokerID);
+        Assert.Equal(new Guid("d8220a4b-75b1-4b7a-8112-b7bdae956a45"), actual.SourceTypeID);
+        Assert.Equal(new Guid("951663c4-924e-4c86-a57a-7ed737501dbd"), actual.BrokerID);
         var bytes = (byte[]) actual.Payload;
-        Xunit.Assert.Equal(new byte[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}.ToList(), bytes.ToList());
+        Assert.Equal(new byte[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}.ToList(), bytes.ToList());
     }
 
     [Fact]
@@ -5718,8 +5718,8 @@ Path '', line 1, position 1.");
         var serializer = JsonSerializer.Create(new JsonSerializerSettings());
         var dict = serializer.Deserialize<Dictionary<string, string>>(new JsonTextReader(new StringReader("{'k1':'','k2':'v2'}")));
 
-        Xunit.Assert.Equal("", dict["k1"]);
-        Xunit.Assert.Equal("v2", dict["k2"]);
+        Assert.Equal("", dict["k1"]);
+        Assert.Equal("v2", dict["k2"]);
     }
 
     [Fact]
@@ -5731,11 +5731,11 @@ Path '', line 1, position 1.");
             NullableEnum = null
         });
 
-        Xunit.Assert.Equal(@"{""Id"":7,""NullableEnum"":null}", json);
+        Assert.Equal(@"{""Id"":7,""NullableEnum"":null}", json);
 
         var e = JsonConvert.DeserializeObject<WithEnums>(json);
 
-        Xunit.Assert.Equal(null, e.NullableEnum);
+        Assert.Equal(null, e.NullableEnum);
 
         json = JsonConvert.SerializeObject(new WithEnums
         {
@@ -5743,11 +5743,11 @@ Path '', line 1, position 1.");
             NullableEnum = MyEnum.Value2
         });
 
-        Xunit.Assert.Equal(@"{""Id"":7,""NullableEnum"":1}", json);
+        Assert.Equal(@"{""Id"":7,""NullableEnum"":1}", json);
 
         e = JsonConvert.DeserializeObject<WithEnums>(json);
 
-        Xunit.Assert.Equal(MyEnum.Value2, e.NullableEnum);
+        Assert.Equal(MyEnum.Value2, e.NullableEnum);
     }
 
     [Fact]
@@ -5755,11 +5755,11 @@ Path '', line 1, position 1.");
     {
         var json = JsonConvert.SerializeObject(new Widget1 {Id = new WidgetId1 {Value = 1234}});
 
-        Xunit.Assert.Equal(@"{""Id"":""1234""}", json);
+        Assert.Equal(@"{""Id"":""1234""}", json);
 
         var w = JsonConvert.DeserializeObject<Widget1>(@"{""Id"":""1234""}");
 
-        Xunit.Assert.Equal(new WidgetId1 {Value = 1234}, w.Id);
+        Assert.Equal(new WidgetId1 {Value = 1234}, w.Id);
     }
 
     [Fact]
@@ -5771,32 +5771,32 @@ Path '', line 1, position 1.");
         var reader = new JsonTextReader(new StringReader("{'k1':'','k2':'v2'}"));
         var dict2 = serializer.Deserialize<Dictionary<string, object>>(reader);
 
-        Xunit.Assert.Equal(dict["k1"], dict2["k1"]);
+        Assert.Equal(dict["k1"], dict2["k1"]);
     }
 
     [Fact]
     public void DeserializeEmptyStrings()
     {
         object v = JsonConvert.DeserializeObject<double?>("");
-        Xunit.Assert.Null(v);
+        Assert.Null(v);
 
         v = JsonConvert.DeserializeObject<char?>("");
-        Xunit.Assert.Null(v);
+        Assert.Null(v);
 
         v = JsonConvert.DeserializeObject<int?>("");
-        Xunit.Assert.Null(v);
+        Assert.Null(v);
 
         v = JsonConvert.DeserializeObject<decimal?>("");
-        Xunit.Assert.Null(v);
+        Assert.Null(v);
 
         v = JsonConvert.DeserializeObject<DateTime?>("");
-        Xunit.Assert.Null(v);
+        Assert.Null(v);
 
         v = JsonConvert.DeserializeObject<DateTimeOffset?>("");
-        Xunit.Assert.Null(v);
+        Assert.Null(v);
 
         v = JsonConvert.DeserializeObject<byte[]>("");
-        Xunit.Assert.Null(v);
+        Assert.Null(v);
     }
 
     [Fact]
@@ -5821,7 +5821,7 @@ Path '', line 1, position 1.");
     public void DeserializeByteArrayFromEmptyString()
     {
         var b = JsonConvert.DeserializeObject<byte[]>("");
-        Xunit.Assert.Null(b);
+        Assert.Null(b);
     }
 
     [Fact]
@@ -5857,7 +5857,7 @@ Path '', line 1, position 1.");
             @"{""Value"":""2012-02-25T19:55:50.6095676+13:00""}";
 
         var c = JsonConvert.DeserializeObject<DateTimeWrapper>(jsonIsoText, new IsoDateTimeConverter());
-        Xunit.Assert.Equal(DateTimeKind.Local, c.Value.Kind);
+        Assert.Equal(DateTimeKind.Local, c.Value.Kind);
     }
 
     [Fact]
@@ -5871,10 +5871,10 @@ Path '', line 1, position 1.");
                     DateTimeZoneHandling = DateTimeZoneHandling.Local
                 });
 
-        Xunit.Assert.Equal(new DateTime(2008, 12, 12, 12, 12, 12, 0, DateTimeKind.Utc).ToLocalTime(), c.DateTimeField);
-        Xunit.Assert.Equal(new DateTimeOffset(2008, 12, 12, 12, 12, 12, 0, TimeSpan.Zero), c.DateTimeOffsetField);
-        Xunit.Assert.Equal("Pre", c.PreField);
-        Xunit.Assert.Equal("Post", c.PostField);
+        Assert.Equal(new DateTime(2008, 12, 12, 12, 12, 12, 0, DateTimeKind.Utc).ToLocalTime(), c.DateTimeField);
+        Assert.Equal(new DateTimeOffset(2008, 12, 12, 12, 12, 12, 0, TimeSpan.Zero), c.DateTimeOffsetField);
+        Assert.Equal("Pre", c.PreField);
+        Assert.Equal("Post", c.PostField);
 
         var c2 =
             JsonConvert.DeserializeObject<DateTimeTestClass>(
@@ -5884,10 +5884,10 @@ Path '', line 1, position 1.");
                     DateTimeZoneHandling = DateTimeZoneHandling.Local
                 });
 
-        Xunit.Assert.Equal(new DateTime(2008, 1, 1, 1, 1, 1, 0, DateTimeKind.Utc).ToLocalTime(), c2.DateTimeField);
-        Xunit.Assert.Equal(new DateTimeOffset(2008, 1, 1, 1, 1, 1, 0, TimeSpan.Zero), c2.DateTimeOffsetField);
-        Xunit.Assert.Equal("Pre", c2.PreField);
-        Xunit.Assert.Equal("Post", c2.PostField);
+        Assert.Equal(new DateTime(2008, 1, 1, 1, 1, 1, 0, DateTimeKind.Utc).ToLocalTime(), c2.DateTimeField);
+        Assert.Equal(new DateTimeOffset(2008, 1, 1, 1, 1, 1, 0, TimeSpan.Zero), c2.DateTimeOffsetField);
+        Assert.Equal("Pre", c2.PreField);
+        Assert.Equal("Post", c2.PostField);
     }
 
     [Fact]
@@ -5901,19 +5901,19 @@ Path '', line 1, position 1.");
                     DateTimeZoneHandling = DateTimeZoneHandling.Local
                 });
 
-        Xunit.Assert.Equal(new DateTime(2008, 12, 12, 12, 12, 12, 0, DateTimeKind.Utc).ToLocalTime(), c.DateTimeField);
-        Xunit.Assert.Equal(new DateTimeOffset(2008, 12, 12, 12, 12, 12, 0, TimeSpan.Zero), c.DateTimeOffsetField);
-        Xunit.Assert.Equal("Pre", c.PreField);
-        Xunit.Assert.Equal("Post", c.PostField);
+        Assert.Equal(new DateTime(2008, 12, 12, 12, 12, 12, 0, DateTimeKind.Utc).ToLocalTime(), c.DateTimeField);
+        Assert.Equal(new DateTimeOffset(2008, 12, 12, 12, 12, 12, 0, TimeSpan.Zero), c.DateTimeOffsetField);
+        Assert.Equal("Pre", c.PreField);
+        Assert.Equal("Post", c.PostField);
 
         var c2 =
             JsonConvert.DeserializeObject<NullableDateTimeTestClass>(
                 @"{""PreField"":""Pre"",""DateTimeField"":null,""DateTimeOffsetField"":null,""PostField"":""Post""}");
 
-        Xunit.Assert.Equal(null, c2.DateTimeField);
-        Xunit.Assert.Equal(null, c2.DateTimeOffsetField);
-        Xunit.Assert.Equal("Pre", c2.PreField);
-        Xunit.Assert.Equal("Post", c2.PostField);
+        Assert.Equal(null, c2.DateTimeField);
+        Assert.Equal(null, c2.DateTimeOffsetField);
+        Assert.Equal("Pre", c2.PreField);
+        Assert.Equal("Post", c2.PostField);
     }
 
     [Fact]
@@ -5926,7 +5926,7 @@ Path '', line 1, position 1.");
         var serializedPerson = JsonConvert.SerializeObject(person);
         var roundtrippedPerson = JsonConvert.DeserializeObject<PersonWithPrivateConstructor>(serializedPerson);
 
-        Xunit.Assert.Equal(person.Name, roundtrippedPerson.Name);
+        Assert.Equal(person.Name, roundtrippedPerson.Name);
     }
 
 #if !NET5_0_OR_GREATER
@@ -6013,9 +6013,9 @@ Path '', line 1, position 1.");
             values.Add(foo);
         }
 
-        Xunit.Assert.Equal(2, values.Count);
-        Xunit.Assert.Equal("bar", values[0].Name);
-        Xunit.Assert.Equal("baz", values[1].Name);
+        Assert.Equal(2, values.Count);
+        Assert.Equal("bar", values[0].Name);
+        Assert.Equal("baz", values[1].Name);
     }
 
 #pragma warning disable 618
@@ -6034,10 +6034,10 @@ Path '', line 1, position 1.");
             ReadRootValueAsArray = true
         };
 
-        var a = (JArray) JArray.ReadFrom(reader);
+        var a = (JArray) JToken.ReadFrom(reader);
         var v = (JValue) a[0];
 
-        Xunit.Assert.Equal(typeof(string), v.Value.GetType());
+        Assert.Equal(typeof(string), v.Value.GetType());
         StringAssert.AreEqual(@"[
   ""2000-01-02T03:04:05+06:00""
 ]", a.ToString());
@@ -6061,12 +6061,12 @@ Path '', line 1, position 1.");
             Error = error
         });
 
-        Xunit.Assert.NotNull(o);
-        Xunit.Assert.Equal(4, errors.Count);
-        Xunit.Assert.True(errors[0].StartsWith("Required property 'NonAttributeProperty' not found in JSON. Path ''"));
-        Xunit.Assert.True(errors[1].StartsWith("Required property 'UnsetProperty' not found in JSON. Path ''"));
-        Xunit.Assert.True(errors[2].StartsWith("Required property 'AllowNullProperty' not found in JSON. Path ''"));
-        Xunit.Assert.True(errors[3].StartsWith("Required property 'AlwaysProperty' not found in JSON. Path ''"));
+        Assert.NotNull(o);
+        Assert.Equal(4, errors.Count);
+        Assert.True(errors[0].StartsWith("Required property 'NonAttributeProperty' not found in JSON. Path ''"));
+        Assert.True(errors[1].StartsWith("Required property 'UnsetProperty' not found in JSON. Path ''"));
+        Assert.True(errors[2].StartsWith("Required property 'AllowNullProperty' not found in JSON. Path ''"));
+        Assert.True(errors[3].StartsWith("Required property 'AlwaysProperty' not found in JSON. Path ''"));
     }
 
     [Fact]
@@ -6086,11 +6086,11 @@ Path '', line 1, position 1.");
             Error = error
         });
 
-        Xunit.Assert.NotNull(o);
-        Xunit.Assert.Equal(3, errors.Count);
-        Xunit.Assert.True(errors[0].StartsWith("Required property 'NonAttributeProperty' expects a value but got null. Path ''"));
-        Xunit.Assert.True(errors[1].StartsWith("Required property 'UnsetProperty' expects a value but got null. Path ''"));
-        Xunit.Assert.True(errors[2].StartsWith("Required property 'AlwaysProperty' expects a value but got null. Path ''"));
+        Assert.NotNull(o);
+        Assert.Equal(3, errors.Count);
+        Assert.True(errors[0].StartsWith("Required property 'NonAttributeProperty' expects a value but got null. Path ''"));
+        Assert.True(errors[1].StartsWith("Required property 'UnsetProperty' expects a value but got null. Path ''"));
+        Assert.True(errors[2].StartsWith("Required property 'AlwaysProperty' expects a value but got null. Path ''"));
     }
 
     [Fact]
@@ -6115,10 +6115,10 @@ Path '', line 1, position 1.");
   ""AllowNullProperty"": null
 }", json);
 
-        Xunit.Assert.Equal(3, errors.Count);
-        Xunit.Assert.Equal("Cannot write a null value for property 'NonAttributeProperty'. Property requires a value. Path ''.", errors[0]);
-        Xunit.Assert.Equal("Cannot write a null value for property 'UnsetProperty'. Property requires a value. Path ''.", errors[1]);
-        Xunit.Assert.Equal("Cannot write a null value for property 'AlwaysProperty'. Property requires a value. Path ''.", errors[2]);
+        Assert.Equal(3, errors.Count);
+        Assert.Equal("Cannot write a null value for property 'NonAttributeProperty'. Property requires a value. Path ''.", errors[0]);
+        Assert.Equal("Cannot write a null value for property 'UnsetProperty'. Property requires a value. Path ''.", errors[1]);
+        Assert.Equal("Cannot write a null value for property 'AlwaysProperty'. Property requires a value. Path ''.", errors[2]);
     }
 
     [Fact]
@@ -6137,10 +6137,10 @@ Path '', line 1, position 1.");
 
         var c2 = JsonConvert.DeserializeObject<PropertyItemConverter>("{'Data':['::ONE::','::TWO::']}");
 
-        Xunit.Assert.NotNull(c2);
-        Xunit.Assert.Equal(2, c2.Data.Count);
-        Xunit.Assert.Equal("one", c2.Data[0]);
-        Xunit.Assert.Equal("two", c2.Data[1]);
+        Assert.NotNull(c2);
+        Assert.Equal(2, c2.Data.Count);
+        Assert.Equal("one", c2.Data[0]);
+        Assert.Equal("two", c2.Data[1]);
     }
 
     [Fact]
@@ -6158,7 +6158,7 @@ Path '', line 1, position 1.");
 
         var json = JsonConvert.SerializeObject(c);
 
-        Xunit.Assert.Equal(@"{""Data"":["":::ONE:::"","":::TWO:::"","":::THREE:::""]}", json);
+        Assert.Equal(@"{""Data"":["":::ONE:::"","":::TWO:::"","":::THREE:::""]}", json);
     }
 
     [Fact]
@@ -6179,9 +6179,9 @@ Path '', line 1, position 1.");
 
         var dic2 = JsonConvert.DeserializeObject<IDictionary<DateTimeOffset, int>>(json);
 
-        Xunit.Assert.Equal(2, dic2.Count);
-        Xunit.Assert.Equal(1, dic2[new DateTimeOffset(2000, 12, 12, 12, 12, 12, TimeSpan.Zero)]);
-        Xunit.Assert.Equal(2, dic2[new DateTimeOffset(2013, 12, 12, 12, 12, 12, TimeSpan.Zero)]);
+        Assert.Equal(2, dic2.Count);
+        Assert.Equal(1, dic2[new DateTimeOffset(2000, 12, 12, 12, 12, 12, TimeSpan.Zero)]);
+        Assert.Equal(2, dic2[new DateTimeOffset(2013, 12, 12, 12, 12, 12, TimeSpan.Zero)]);
     }
 
     [Fact]
@@ -6205,9 +6205,9 @@ Path '', line 1, position 1.");
 
         var dic2 = JsonConvert.DeserializeObject<IDictionary<DateTimeOffset?, int>>(json);
 
-        Xunit.Assert.Equal(2, dic2.Count);
-        Xunit.Assert.Equal(1, dic2[new DateTimeOffset(2000, 12, 12, 12, 12, 12, TimeSpan.Zero)]);
-        Xunit.Assert.Equal(2, dic2[new DateTimeOffset(2013, 12, 12, 12, 12, 12, TimeSpan.Zero)]);
+        Assert.Equal(2, dic2.Count);
+        Assert.Equal(1, dic2[new DateTimeOffset(2000, 12, 12, 12, 12, 12, TimeSpan.Zero)]);
+        Assert.Equal(2, dic2[new DateTimeOffset(2013, 12, 12, 12, 12, 12, TimeSpan.Zero)]);
     }
 
     [Fact]
@@ -6228,9 +6228,9 @@ Path '', line 1, position 1.");
 
         var dic2 = JsonConvert.DeserializeObject<IDictionary<DateTime, int>>(json);
 
-        Xunit.Assert.Equal(2, dic2.Count);
-        Xunit.Assert.Equal(1, dic2[new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc)]);
-        Xunit.Assert.Equal(2, dic2[new DateTime(2013, 12, 12, 12, 12, 12, DateTimeKind.Utc)]);
+        Assert.Equal(2, dic2.Count);
+        Assert.Equal(1, dic2[new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc)]);
+        Assert.Equal(2, dic2[new DateTime(2013, 12, 12, 12, 12, 12, DateTimeKind.Utc)]);
     }
 
     [Fact]
@@ -6248,17 +6248,17 @@ Path '', line 1, position 1.");
         });
 
         var o = JObject.Parse(json);
-        Xunit.Assert.False(o.Properties().ElementAt(0).Name.Contains("Z"));
-        Xunit.Assert.False(o.Properties().ElementAt(1).Name.Contains("Z"));
+        Assert.False(o.Properties().ElementAt(0).Name.Contains("Z"));
+        Assert.False(o.Properties().ElementAt(1).Name.Contains("Z"));
 
         var dic2 = JsonConvert.DeserializeObject<IDictionary<DateTime, int>>(json, new JsonSerializerSettings
         {
             DateTimeZoneHandling = DateTimeZoneHandling.Utc
         });
 
-        Xunit.Assert.Equal(2, dic2.Count);
-        Xunit.Assert.Equal(1, dic2[new DateTime(2020, 12, 12, 12, 12, 12, DateTimeKind.Utc)]);
-        Xunit.Assert.Equal(2, dic2[new DateTime(2023, 12, 12, 12, 12, 12, DateTimeKind.Utc)]);
+        Assert.Equal(2, dic2.Count);
+        Assert.Equal(1, dic2[new DateTime(2020, 12, 12, 12, 12, 12, DateTimeKind.Utc)]);
+        Assert.Equal(2, dic2[new DateTime(2023, 12, 12, 12, 12, 12, DateTimeKind.Utc)]);
     }
 
     [Fact]
@@ -6282,16 +6282,16 @@ Path '', line 1, position 1.");
 
         var dic2 = JsonConvert.DeserializeObject<IDictionary<DateTime, int>>(json);
 
-        Xunit.Assert.Equal(2, dic2.Count);
-        Xunit.Assert.Equal(1, dic2[new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc)]);
-        Xunit.Assert.Equal(2, dic2[new DateTime(2013, 12, 12, 12, 12, 12, DateTimeKind.Utc)]);
+        Assert.Equal(2, dic2.Count);
+        Assert.Equal(1, dic2[new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc)]);
+        Assert.Equal(2, dic2[new DateTime(2013, 12, 12, 12, 12, 12, DateTimeKind.Utc)]);
     }
 
     [Fact]
     public void DeserializeEmptyJsonString()
     {
         var s = (string) new JsonSerializer().Deserialize(new JsonTextReader(new StringReader("''")));
-        Xunit.Assert.Equal("", s);
+        Assert.Equal("", s);
     }
 
     [Fact]
@@ -6302,8 +6302,8 @@ Path '', line 1, position 1.");
         var json = Serialize(testObj);
         var objDeserialized = Deserialize<PersonSerializable>(json);
 
-        Xunit.Assert.Equal(testObj.Name, objDeserialized.Name);
-        Xunit.Assert.Equal(0, objDeserialized.Age);
+        Assert.Equal(testObj.Name, objDeserialized.Name);
+        Assert.Equal(0, objDeserialized.Age);
     }
 
     string Serialize<T>(T obj)
@@ -6384,7 +6384,7 @@ Path '', line 1, position 1.");
     public void IgnoreDataMemberTest()
     {
         var json = JsonConvert.SerializeObject(new IgnoreDataMemberTestClass {Ignored = int.MaxValue}, Formatting.Indented);
-        Xunit.Assert.Equal(@"{}", json);
+        Assert.Equal(@"{}", json);
     }
 
     [Fact]
@@ -6434,8 +6434,8 @@ Path '', line 1, position 1.");
         var s = JsonSerializer.Create(settings);
         IDictionary<string, int> o = s.Deserialize<Dictionary<string, int>>(new JsonTextReader(new StringReader(json)));
 
-        Xunit.Assert.NotNull(o);
-        Xunit.Assert.Equal(1, o["one"]);
+        Assert.NotNull(o);
+        Assert.Equal(1, o["one"]);
 
         settings.CheckAdditionalContent = true;
         s = JsonSerializer.Create(settings);
@@ -6451,8 +6451,8 @@ Path '', line 1, position 1.");
         var s = JsonSerializer.Create(settings);
         IDictionary<string, int> o = s.Deserialize<Dictionary<string, int>>(new JsonTextReader(new StringReader(json)));
 
-        Xunit.Assert.NotNull(o);
-        Xunit.Assert.Equal(1, o["one"]);
+        Assert.NotNull(o);
+        Assert.Equal(1, o["one"]);
     }
 
     [Fact]
@@ -6469,8 +6469,8 @@ lines.*/
         var s = JsonSerializer.Create(settings);
         IDictionary<string, int> o = s.Deserialize<Dictionary<string, int>>(new JsonTextReader(new StringReader(json)));
 
-        Xunit.Assert.NotNull(o);
-        Xunit.Assert.Equal(1, o["one"]);
+        Assert.NotNull(o);
+        Assert.Equal(1, o["one"]);
     }
 
     [Fact]
@@ -6520,10 +6520,10 @@ lines.*/
 }";
 
         var exception = JsonConvert.DeserializeObject<InvalidOperationException>(json);
-        Xunit.Assert.NotNull(exception);
-        Xunit.Assert.IsType(typeof(InvalidOperationException), exception);
+        Assert.NotNull(exception);
+        Assert.IsType(typeof(InvalidOperationException), exception);
 
-        Xunit.Assert.Equal("Outter exception...", exception.Message);
+        Assert.Equal("Outter exception...", exception.Message);
     }
 #endif
 
@@ -6557,7 +6557,7 @@ lines.*/
         var reader = new JsonTextReader(new StringReader(json));
 
         var mt = (ItemConverterTestClass) serializer.Deserialize(reader, typeof(ItemConverterTestClass));
-        Xunit.Assert.Equal(1, mt.MyProperty.Count);
+        Assert.Equal(1, mt.MyProperty.Count);
     }
 
     [Fact]
@@ -6572,7 +6572,7 @@ This is just junk, though.";
         var reader = new JsonTextReader(new StringReader(json));
 
         var mt = (ItemConverterTestClass) serializer.Deserialize(reader, typeof(ItemConverterTestClass));
-        Xunit.Assert.Equal(1, mt.MyProperty.Count);
+        Assert.Equal(1, mt.MyProperty.Count);
     }
 
     [Fact]
@@ -6598,26 +6598,26 @@ This is just junk, though.";
     public void DeserializeRelativeUri()
     {
         var uris = JsonConvert.DeserializeObject<IList<Uri>>(@"[""http://localhost/path?query#hash""]");
-        Xunit.Assert.Equal(1, uris.Count);
-        Xunit.Assert.Equal(new Uri("http://localhost/path?query#hash"), uris[0]);
+        Assert.Equal(1, uris.Count);
+        Assert.Equal(new Uri("http://localhost/path?query#hash"), uris[0]);
 
         var uri = JsonConvert.DeserializeObject<Uri>(@"""http://localhost/path?query#hash""");
-        Xunit.Assert.NotNull(uri);
+        Assert.NotNull(uri);
 
         var i1 = new Uri("http://localhost/path?query#hash", UriKind.RelativeOrAbsolute);
         var i2 = new Uri("http://localhost/path?query#hash");
-        Xunit.Assert.Equal(i1, i2);
+        Assert.Equal(i1, i2);
 
         uri = JsonConvert.DeserializeObject<Uri>(@"""/path?query#hash""");
-        Xunit.Assert.NotNull(uri);
-        Xunit.Assert.Equal(new Uri("/path?query#hash", UriKind.RelativeOrAbsolute), uri);
+        Assert.NotNull(uri);
+        Assert.Equal(new Uri("/path?query#hash", UriKind.RelativeOrAbsolute), uri);
     }
 
     [Fact]
     public void DeserializeDictionaryItemConverter()
     {
         var actual = JsonConvert.DeserializeObject<ItemConverterTestClass>(@"{ ""MyProperty"":{""Key"":""Y""}}");
-        Xunit.Assert.Equal("X", actual.MyProperty["Key"]);
+        Assert.Equal("X", actual.MyProperty["Key"]);
     }
 
     [Fact]
@@ -6628,8 +6628,8 @@ This is just junk, though.";
                 "{key: 123, \"VALUE\": \"test value\"}"
             );
 
-        Xunit.Assert.Equal(123, result.Key);
-        Xunit.Assert.Equal("test value", result.Value);
+        Assert.Equal(123, result.Key);
+        Assert.Equal("test value", result.Value);
     }
 
     [Fact]
@@ -6661,7 +6661,7 @@ This is just junk, though.";
         json = JsonConvert.SerializeObject(d, new JsonSerializerSettings {FloatFormatHandling = FloatFormatHandling.DefaultValue});
         // [1.1,0.0,0.0]
 
-        Xunit.Assert.Equal("[1.1,0.0,0.0]", json);
+        Assert.Equal("[1.1,0.0,0.0]", json);
     }
 
     [Fact]
@@ -6676,7 +6676,7 @@ This is just junk, though.";
         var nineQuindecillion = l[0];
         // 9000000000000000000000000000000000000000000000000
 
-        Xunit.Assert.Equal(BigInteger.Parse("9000000000000000000000000000000000000000000000000"), nineQuindecillion);
+        Assert.Equal(BigInteger.Parse("9000000000000000000000000000000000000000000000000"), nineQuindecillion);
     }
 
     [Fact]
@@ -6691,7 +6691,7 @@ This is just junk, though.";
         var i = l[0];
         // 900
 
-        Xunit.Assert.Equal(900, i);
+        Assert.Equal(900, i);
     }
 
     [Fact]
@@ -6704,8 +6704,8 @@ This is just junk, though.";
 
         var l = JsonConvert.DeserializeObject<IReadOnlyList<int?>>(json);
 
-        Xunit.Assert.Equal(1, l[0]);
-        Xunit.Assert.Equal(null, l[1]);
+        Assert.Equal(1, l[0]);
+        Assert.Equal(null, l[1]);
     }
 
     [Fact]
@@ -6713,14 +6713,14 @@ This is just junk, though.";
     {
         var tuple = new MyTuple<int>(500);
         var json = JsonConvert.SerializeObject(tuple);
-        Xunit.Assert.Equal(@"{""m_Item1"":500}", json);
+        Assert.Equal(@"{""m_Item1"":500}", json);
 
         MyTuple<int> obj = null;
 
         Action doStuff = () => { obj = JsonConvert.DeserializeObject<MyTuple<int>>(json); };
 
         doStuff();
-        Xunit.Assert.Equal(500, obj.Item1);
+        Assert.Equal(500, obj.Item1);
     }
 
 #if DEBUG
@@ -6755,13 +6755,13 @@ This is just junk, though.";
         {
             ContractResolver = contractResolver
         });
-        Xunit.Assert.Equal(@"{""m_Item1"":500}", json);
+        Assert.Equal(@"{""m_Item1"":500}", json);
 
         var obj = JsonConvert.DeserializeObject<Tuple<int>>(json, new JsonSerializerSettings
         {
             ContractResolver = contractResolver
         });
-        Xunit.Assert.Equal(500, obj.Item1);
+        Assert.Equal(500, obj.Item1);
     }
 
     [Fact]
@@ -6775,8 +6775,8 @@ This is just junk, though.";
 
         var dateTimeOffset = (DateTimeOffset) ((JValue) obj["startDateTime"]).Value;
 
-        Xunit.Assert.Equal(TimeSpan.FromHours(9.5), dateTimeOffset.Offset);
-        Xunit.Assert.Equal("07/19/2012 14:30:00 +09:30", dateTimeOffset.ToString(CultureInfo.InvariantCulture));
+        Assert.Equal(TimeSpan.FromHours(9.5), dateTimeOffset.Offset);
+        Assert.Equal("07/19/2012 14:30:00 +09:30", dateTimeOffset.ToString(CultureInfo.InvariantCulture));
     }
 
     [Fact]
@@ -6885,9 +6885,9 @@ This is just junk, though.";
         });
         serializer.Serialize(jsonWriter, dates);
 
-        Xunit.Assert.Null(jsonWriter.DateFormatString);
-        Xunit.Assert.Equal(CultureInfo.InvariantCulture, jsonWriter.Culture);
-        Xunit.Assert.Equal(Formatting.None, jsonWriter.Formatting);
+        Assert.Null(jsonWriter.DateFormatString);
+        Assert.Equal(CultureInfo.InvariantCulture, jsonWriter.Culture);
+        Assert.Equal(Formatting.None, jsonWriter.Formatting);
 
         var json = sw.ToString();
 
@@ -6902,11 +6902,11 @@ This is just junk, though.";
     {
         var tuple = Tuple.Create(500, 20);
         var json = JsonConvert.SerializeObject(tuple);
-        Xunit.Assert.Equal(@"{""Item1"":500,""Item2"":20}", json);
+        Assert.Equal(@"{""Item1"":500,""Item2"":20}", json);
 
         var tuple2 = JsonConvert.DeserializeObject<Tuple<int, int>>(json);
-        Xunit.Assert.Equal(500, tuple2.Item1);
-        Xunit.Assert.Equal(20, tuple2.Item2);
+        Assert.Equal(500, tuple2.Item1);
+        Assert.Equal(20, tuple2.Item2);
     }
 
     [Fact]
@@ -6922,7 +6922,7 @@ This is just junk, though.";
         });
         serializer.Serialize(jsonWriter, new {html = "<html></html>"});
 
-        Xunit.Assert.Equal(StringEscapeHandling.Default, jsonWriter.StringEscapeHandling);
+        Assert.Equal(StringEscapeHandling.Default, jsonWriter.StringEscapeHandling);
 
         var json = sw.ToString();
 
@@ -6950,7 +6950,7 @@ This is just junk, though.";
 
         var l = JsonConvert.DeserializeObject<IList<BigInteger>>(json);
 
-        Xunit.Assert.Equal(BigInteger.Parse("999999999999999999999999999999999999999999999999"), l[0]);
+        Assert.Equal(BigInteger.Parse("999999999999999999999999999999999999999999999999"), l[0]);
 
         ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<IList<long>>(json), "Error converting value 999999999999999999999999999999999999999999999999 to type 'System.Int64'. Path '[0]', line 1, position 49.");
     }
@@ -6962,7 +6962,7 @@ This is just junk, though.";
 
         var json = JsonConvert.SerializeObject(p);
 
-        Xunit.Assert.Equal(@"{""First"":""One"",""Second"":2}", json);
+        Assert.Equal(@"{""First"":""One"",""Second"":2}", json);
 
         var r = new DefaultContractResolver
         {
@@ -6974,7 +6974,7 @@ This is just junk, though.";
             ContractResolver = r
         });
 
-        Xunit.Assert.Equal(@"{""First"":""One"",""Second"":2}", json);
+        Assert.Equal(@"{""First"":""One"",""Second"":2}", json);
     }
 
     [Fact]
@@ -6987,14 +6987,14 @@ This is just junk, though.";
 ]";
 
         var floats = JsonConvert.DeserializeObject<IList<float>>(json);
-        Xunit.Assert.Equal(float.NaN, floats[0]);
-        Xunit.Assert.Equal(float.PositiveInfinity, floats[1]);
-        Xunit.Assert.Equal(float.NegativeInfinity, floats[2]);
+        Assert.Equal(float.NaN, floats[0]);
+        Assert.Equal(float.PositiveInfinity, floats[1]);
+        Assert.Equal(float.NegativeInfinity, floats[2]);
 
         var doubles = JsonConvert.DeserializeObject<IList<double>>(json);
-        Xunit.Assert.Equal(float.NaN, doubles[0]);
-        Xunit.Assert.Equal(float.PositiveInfinity, doubles[1]);
-        Xunit.Assert.Equal(float.NegativeInfinity, doubles[2]);
+        Assert.Equal(float.NaN, doubles[0]);
+        Assert.Equal(float.PositiveInfinity, doubles[1]);
+        Assert.Equal(float.NegativeInfinity, doubles[2]);
     }
 
     [Fact]
@@ -7017,7 +7017,7 @@ This is just junk, though.";
             DateFormatString = JsonSerializerSettings.DefaultDateFormatString
         });
 
-        Xunit.Assert.Equal(expected, actual);
+        Assert.Equal(expected, actual);
     }
 
     [Fact]
@@ -7032,11 +7032,11 @@ This is just junk, though.";
 }";
 
         var c2 = JsonConvert.DeserializeObject<NullableTestClass>(json);
-        Xunit.Assert.Null(c2.MyNullableBool);
-        Xunit.Assert.Null(c2.MyNullableInteger);
-        Xunit.Assert.Null(c2.MyNullableDateTime);
-        Xunit.Assert.Null(c2.MyNullableDateTimeOffset);
-        Xunit.Assert.Null(c2.MyNullableDecimal);
+        Assert.Null(c2.MyNullableBool);
+        Assert.Null(c2.MyNullableInteger);
+        Assert.Null(c2.MyNullableDateTime);
+        Assert.Null(c2.MyNullableDateTimeOffset);
+        Assert.Null(c2.MyNullableDecimal);
     }
 
     [Fact]
@@ -7048,10 +7048,10 @@ This is just junk, though.";
 
         var s2 = JsonConvert.DeserializeObject<ISet<string>>(json);
 
-        Xunit.Assert.Equal(s1.Count, s2.Count);
+        Assert.Equal(s1.Count, s2.Count);
         foreach (var s in s1)
         {
-            Xunit.Assert.True(s2.Contains(s));
+            Assert.True(s2.Contains(s));
         }
     }
 
@@ -7063,7 +7063,7 @@ This is just junk, though.";
         var serialiser = JsonSerializer.Create(settings);
         var d = serialiser.Deserialize<decimal?>(reader);
 
-        Xunit.Assert.Equal(1234567890.123456m, d);
+        Assert.Equal(1234567890.123456m, d);
     }
 
     [Fact]
@@ -7105,7 +7105,7 @@ This is just junk, though.";
     {
         const string json = @"{""something_else"":""my value""}";
         var foo = JsonConvert.DeserializeObject<FooConstructor>(json);
-        Xunit.Assert.Equal("my value", foo.Bar);
+        Assert.Equal("my value", foo.Bar);
     }
 
     [Fact]
@@ -7218,12 +7218,12 @@ This is just junk, though.";
             new Dictionary<Size, Size> {{new Size(1, 2), new Size(3, 4)}}
         );
 
-        Xunit.Assert.Equal(@"{""1, 2"":""3, 4""}", json);
+        Assert.Equal(@"{""1, 2"":""3, 4""}", json);
 
         var d = JsonConvert.DeserializeObject<Dictionary<Size, Size>>(json);
 
-        Xunit.Assert.Equal(new Size(1, 2), d.Keys.First());
-        Xunit.Assert.Equal(new Size(3, 4), d.Values.First());
+        Assert.Equal(new Size(1, 2), d.Keys.First());
+        Assert.Equal(new Size(3, 4), d.Values.First());
     }
 #endif
 
@@ -7234,12 +7234,12 @@ This is just junk, though.";
             new Dictionary<TypeConverterSize, TypeConverterSize> {{new TypeConverterSize(1, 2), new TypeConverterSize(3, 4)}}
         );
 
-        Xunit.Assert.Equal(@"{""1, 2"":""3, 4""}", json);
+        Assert.Equal(@"{""1, 2"":""3, 4""}", json);
 
         var d = JsonConvert.DeserializeObject<Dictionary<TypeConverterSize, TypeConverterSize>>(json);
 
-        Xunit.Assert.Equal(new TypeConverterSize(1, 2), d.Keys.First());
-        Xunit.Assert.Equal(new TypeConverterSize(3, 4), d.Values.First());
+        Assert.Equal(new TypeConverterSize(1, 2), d.Keys.First());
+        Assert.Equal(new TypeConverterSize(3, 4), d.Values.First());
     }
 
     [Fact]
@@ -7271,13 +7271,13 @@ This is just junk, though.";
             Formatting = Formatting.Indented
         });
 
-        Xunit.Assert.Equal(2, people.Count);
+        Assert.Equal(2, people.Count);
 
         var john = people[0];
         var jane = people[1];
 
-        Xunit.Assert.Equal(john, jane.Spouse);
-        Xunit.Assert.Equal(jane, john.Spouse);
+        Assert.Equal(john, jane.Spouse);
+        Assert.Equal(jane, john.Spouse);
     }
 
     [Fact]
@@ -7307,13 +7307,13 @@ This is just junk, though.";
             Formatting = Formatting.Indented
         });
 
-        Xunit.Assert.Equal(2, people.Count);
+        Assert.Equal(2, people.Count);
 
         var john = people[0];
         var jane = people[1];
 
-        Xunit.Assert.Equal(john, jane.Spouse);
-        Xunit.Assert.Equal(jane, john.Spouse);
+        Assert.Equal(john, jane.Spouse);
+        Assert.Equal(jane, john.Spouse);
     }
 
     [Fact]
@@ -7333,10 +7333,10 @@ This is just junk, though.";
         // Therefore we need dynamic handling of type information if the type is not serialized with the type converter directly
         //
         var text1 = JsonConvert.SerializeObject(consoleWriter, Formatting.Indented, options);
-        Xunit.Assert.Equal(@"""Console Writer""", text1);
+        Assert.Equal(@"""Console Writer""", text1);
 
         var restoredWriter = JsonConvert.DeserializeObject<IMyInterface>(text1, options);
-        Xunit.Assert.Equal("ConsoleWriter", restoredWriter.PrintTest());
+        Assert.Equal("ConsoleWriter", restoredWriter.PrintTest());
 
         //
         // Case 2: Serialize a dictionary where the interface is the key
@@ -7350,7 +7350,7 @@ This is just junk, though.";
 }", text2);
 
         var restoredObject = JsonConvert.DeserializeObject<Dictionary<IMyInterface, string>>(text2, options);
-        Xunit.Assert.Equal("ConsoleWriter", restoredObject.First().Key.PrintTest());
+        Assert.Equal("ConsoleWriter", restoredObject.First().Key.PrintTest());
 
         //
         // Case 3 Serialize a dictionary where the interface is the value
@@ -7364,7 +7364,7 @@ This is just junk, though.";
 }", text3);
 
         var restoredDict2 = JsonConvert.DeserializeObject<Dictionary<string, IMyInterface>>(text3, options);
-        Xunit.Assert.Equal("ConsoleWriter", restoredDict2.First().Value.PrintTest());
+        Assert.Equal("ConsoleWriter", restoredDict2.First().Value.PrintTest());
     }
 
     [Fact]
@@ -7376,7 +7376,7 @@ This is just junk, though.";
         };
         var json = JsonConvert.SerializeObject(product);
 
-        Xunit.Assert.Equal(@"{""pa_info"":{""s"":""d""}}", json);
+        Assert.Equal(@"{""pa_info"":{""s"":""d""}}", json);
         var deserializedProduct = JsonConvert.DeserializeObject<ParticipantEntity>(json);
     }
 
@@ -7398,7 +7398,7 @@ This is just junk, though.";
         var o = JsonConvert.DeserializeObject<JObject>(content);
         var time = (int) o["result"]["time"];
 
-        Xunit.Assert.Equal(1408188593, time);
+        Assert.Equal(1408188593, time);
     }
 
     [Fact]
@@ -7412,7 +7412,7 @@ This is just junk, though.";
 
         var uriWithPlus2 = JsonConvert.DeserializeObject<Uri>(jsonWithPlus);
 
-        Xunit.Assert.Equal(originalUri, uriWithPlus2.OriginalString);
+        Assert.Equal(originalUri, uriWithPlus2.OriginalString);
     }
 
     [Fact]
@@ -7427,11 +7427,11 @@ This is just junk, though.";
 
         var json = JsonConvert.SerializeObject(dt, settings);
 
-        Xunit.Assert.Equal(@"""2000-pie-Dec-Friday-22""", json);
+        Assert.Equal(@"""2000-pie-Dec-Friday-22""", json);
 
         var dt1 = JsonConvert.DeserializeObject<DateTime>(json, settings);
 
-        Xunit.Assert.Equal(dt, dt1);
+        Assert.Equal(dt, dt1);
 
         var reader = new JsonTextReader(new StringReader(json))
         {
@@ -7439,9 +7439,9 @@ This is just junk, though.";
         };
         var v = (JValue) JToken.ReadFrom(reader);
 
-        Xunit.Assert.Equal(JTokenType.Date, v.Type);
-        Xunit.Assert.Equal(typeof(DateTime), v.Value.GetType());
-        Xunit.Assert.Equal(dt, (DateTime) v.Value);
+        Assert.Equal(JTokenType.Date, v.Type);
+        Assert.Equal(typeof(DateTime), v.Value.GetType());
+        Assert.Equal(dt, (DateTime) v.Value);
 
         reader = new JsonTextReader(new StringReader(@"""abc"""))
         {
@@ -7449,9 +7449,9 @@ This is just junk, though.";
         };
         v = (JValue) JToken.ReadFrom(reader);
 
-        Xunit.Assert.Equal(JTokenType.String, v.Type);
-        Xunit.Assert.Equal(typeof(string), v.Value.GetType());
-        Xunit.Assert.Equal("abc", v.Value);
+        Assert.Equal(JTokenType.String, v.Type);
+        Assert.Equal(typeof(string), v.Value.GetType());
+        Assert.Equal("abc", v.Value);
     }
 
     [Fact]
@@ -7469,11 +7469,11 @@ This is just junk, though.";
 
         var json = JsonConvert.SerializeObject(dt, settings);
 
-        Xunit.Assert.Equal(@"""2000-pie-Ara-Cuma-22""", json);
+        Assert.Equal(@"""2000-pie-Ara-Cuma-22""", json);
 
         var dt1 = JsonConvert.DeserializeObject<DateTime>(json, settings);
 
-        Xunit.Assert.Equal(dt, dt1);
+        Assert.Equal(dt, dt1);
 
         var reader = new JsonTextReader(new StringReader(json))
         {
@@ -7482,9 +7482,9 @@ This is just junk, though.";
         };
         var v = (JValue) JToken.ReadFrom(reader);
 
-        Xunit.Assert.Equal(JTokenType.Date, v.Type);
-        Xunit.Assert.Equal(typeof(DateTime), v.Value.GetType());
-        Xunit.Assert.Equal(dt, (DateTime) v.Value);
+        Assert.Equal(JTokenType.Date, v.Type);
+        Assert.Equal(typeof(DateTime), v.Value.GetType());
+        Assert.Equal(dt, (DateTime) v.Value);
 
         reader = new JsonTextReader(new StringReader(@"""2000-pie-Dec-Friday-22"""))
         {
@@ -7493,9 +7493,9 @@ This is just junk, though.";
         };
         v = (JValue) JToken.ReadFrom(reader);
 
-        Xunit.Assert.Equal(JTokenType.String, v.Type);
-        Xunit.Assert.Equal(typeof(string), v.Value.GetType());
-        Xunit.Assert.Equal("2000-pie-Dec-Friday-22", v.Value);
+        Assert.Equal(JTokenType.String, v.Type);
+        Assert.Equal(typeof(string), v.Value.GetType());
+        Assert.Equal("2000-pie-Dec-Friday-22", v.Value);
     }
 
     [Fact]
@@ -7520,7 +7520,7 @@ This is just junk, though.";
 
         var d = JsonConvert.DeserializeObject<Dictionary<DateTime, string>>(json, settings);
 
-        Xunit.Assert.Equal(dt, d.Keys.ElementAt(0));
+        Assert.Equal(dt, d.Keys.ElementAt(0));
     }
 
     [Fact]
@@ -7546,7 +7546,7 @@ This is just junk, though.";
 
         var d = JsonConvert.DeserializeObject<Dictionary<DateTime, string>>(json, settings);
 
-        Xunit.Assert.Equal(dt, d.Keys.ElementAt(0));
+        Assert.Equal(dt, d.Keys.ElementAt(0));
     }
 
     [Fact]
@@ -7571,7 +7571,7 @@ This is just junk, though.";
 
         var d = JsonConvert.DeserializeObject<Dictionary<DateTimeOffset, string>>(json, settings);
 
-        Xunit.Assert.Equal(dt, d.Keys.ElementAt(0));
+        Assert.Equal(dt, d.Keys.ElementAt(0));
     }
 
     [Fact]
@@ -7597,7 +7597,7 @@ This is just junk, though.";
 
         var d = JsonConvert.DeserializeObject<Dictionary<DateTimeOffset, string>>(json, settings);
 
-        Xunit.Assert.Equal(dt, d.Keys.ElementAt(0));
+        Assert.Equal(dt, d.Keys.ElementAt(0));
     }
 
     [Fact]
@@ -7612,11 +7612,11 @@ This is just junk, though.";
 
         var json = JsonConvert.SerializeObject(dt, settings);
 
-        Xunit.Assert.Equal(@"""2000-pie-Dec-Friday-22""", json);
+        Assert.Equal(@"""2000-pie-Dec-Friday-22""", json);
 
         var dt1 = JsonConvert.DeserializeObject<DateTimeOffset>(json, settings);
 
-        Xunit.Assert.Equal(dt, dt1);
+        Assert.Equal(dt, dt1);
 
         var reader = new JsonTextReader(new StringReader(json))
         {
@@ -7625,9 +7625,9 @@ This is just junk, though.";
         };
         var v = (JValue) JToken.ReadFrom(reader);
 
-        Xunit.Assert.Equal(JTokenType.Date, v.Type);
-        Xunit.Assert.Equal(typeof(DateTimeOffset), v.Value.GetType());
-        Xunit.Assert.Equal(dt, (DateTimeOffset) v.Value);
+        Assert.Equal(JTokenType.Date, v.Type);
+        Assert.Equal(typeof(DateTimeOffset), v.Value.GetType());
+        Assert.Equal(dt, (DateTimeOffset) v.Value);
     }
 
     [Fact]
@@ -7659,7 +7659,7 @@ This is just junk, though.";
 }", json);
 
         var o2 = JsonConvert.DeserializeObject<MyObservableObject>(json);
-        Xunit.Assert.Equal("Test string", o2.TestString);
+        Assert.Equal("Test string", o2.TestString);
     }
 
     [Fact]
@@ -7672,8 +7672,8 @@ This is just junk, though.";
 
         var clonedObject = JsonConvert.DeserializeObject<DerivedConstructorType>(jsonCopy, serializerSettings);
 
-        Xunit.Assert.Equal("Base", clonedObject.BaseProperty);
-        Xunit.Assert.Equal("Derived", clonedObject.DerivedProperty);
+        Assert.Equal("Base", clonedObject.BaseProperty);
+        Assert.Equal("Derived", clonedObject.DerivedProperty);
     }
 
     [Fact]
@@ -7698,8 +7698,8 @@ This is just junk, though.";
 
         var d = JsonConvert.DeserializeObject<DerivedWithPrivate>(json);
 
-        Xunit.Assert.Equal("base", d.BaseProperty);
-        Xunit.Assert.Equal("derived", d.DerivedProperty);
+        Assert.Equal("base", d.BaseProperty);
+        Assert.Equal("derived", d.DerivedProperty);
     }
 
     [Fact]
@@ -7712,7 +7712,7 @@ This is just junk, though.";
         var output = JsonConvert.SerializeObject(instance);
         var result = JsonConvert.DeserializeObject<NullableLongTestClass>(output);
 
-        Xunit.Assert.Equal(ulong.MaxValue, result.Value);
+        Assert.Equal(ulong.MaxValue, result.Value);
     }
 
     [Fact]
@@ -7781,14 +7781,14 @@ This is just junk, though.";
     public void ChildClassWithProtectedOverridePlusJsonProperty_Serialize()
     {
         var c = (JsonObjectContract) DefaultContractResolver.Instance.ResolveContract(typeof(ChildClassWithProtectedOverridePlusJsonProperty));
-        Xunit.Assert.Equal(1, c.Properties.Count);
+        Assert.Equal(1, c.Properties.Count);
 
         var propertyValue = "test";
         var testJson = @"{ 'MyProperty' : '" + propertyValue + "' }";
 
         var testObject = JsonConvert.DeserializeObject<ChildClassWithProtectedOverridePlusJsonProperty>(testJson);
 
-        Xunit.Assert.Equal(propertyValue, testObject.GetPropertyValue());
+        Assert.Equal(propertyValue, testObject.GetPropertyValue());
     }
 
     [Fact]
@@ -7819,8 +7819,8 @@ This is just junk, though.";
 
         var c2 = JsonConvert.DeserializeObject<JsonPropertyConverterTestClass>(json, settings);
 
-        Xunit.Assert.Equal(dt, c2.NormalDate);
-        Xunit.Assert.Equal(dt, c2.JavaScriptDate);
+        Assert.Equal(dt, c2.NormalDate);
+        Assert.Equal(dt, c2.JavaScriptDate);
     }
 
     [Fact]
@@ -7867,21 +7867,21 @@ This is just junk, though.";
     public void SetMaxDepth_DepthExceeded()
     {
         var reader = new JsonTextReader(new StringReader("[[['text']]]"));
-        Xunit.Assert.Equal(64, reader.MaxDepth);
+        Assert.Equal(64, reader.MaxDepth);
 
         var settings = new JsonSerializerSettings();
-        Xunit.Assert.Equal(64, settings.MaxDepth);
+        Assert.Equal(64, settings.MaxDepth);
         XUnitAssert.False(settings._maxDepthSet);
 
         // Default should be the same
-        Xunit.Assert.Equal(reader.MaxDepth, settings.MaxDepth);
+        Assert.Equal(reader.MaxDepth, settings.MaxDepth);
 
         settings.MaxDepth = 2;
-        Xunit.Assert.Equal(2, settings.MaxDepth);
+        Assert.Equal(2, settings.MaxDepth);
         XUnitAssert.True(settings._maxDepthSet);
 
         var serializer = JsonSerializer.Create(settings);
-        Xunit.Assert.Equal(2, serializer.MaxDepth);
+        Assert.Equal(2, serializer.MaxDepth);
 
         ExceptionAssert.Throws<JsonReaderException>(
             () => serializer.Deserialize(reader),
@@ -7898,11 +7898,11 @@ This is just junk, though.";
         };
 
         var serializer = JsonSerializer.Create(settings);
-        Xunit.Assert.Equal(2, serializer.MaxDepth);
+        Assert.Equal(2, serializer.MaxDepth);
 
         serializer.Deserialize(reader);
 
-        Xunit.Assert.Equal(64, reader.MaxDepth);
+        Assert.Equal(64, reader.MaxDepth);
     }
 
     [Fact]
@@ -7923,7 +7923,7 @@ This is just junk, though.";
         var o = JsonConvert.DeserializeObject<JObject>(json, new JsonSerializerSettings {MaxDepth = 150});
         var depth = GetDepth(o);
 
-        Xunit.Assert.Equal(150, depth);
+        Assert.Equal(150, depth);
     }
 
     [Fact]
@@ -7934,7 +7934,7 @@ This is just junk, though.";
         var o = JsonConvert.DeserializeObject<JObject>(json, new JsonSerializerSettings {MaxDepth = null});
         var depth = GetDepth(o);
 
-        Xunit.Assert.Equal(150, depth);
+        Assert.Equal(150, depth);
     }
 
     [Fact]
@@ -7945,7 +7945,7 @@ This is just junk, though.";
         var o = JsonConvert.DeserializeObject<JObject>(json, new JsonSerializerSettings {MaxDepth = int.MaxValue});
         var depth = GetDepth(o);
 
-        Xunit.Assert.Equal(150, depth);
+        Assert.Equal(150, depth);
     }
 
     static int GetDepth(JToken o)

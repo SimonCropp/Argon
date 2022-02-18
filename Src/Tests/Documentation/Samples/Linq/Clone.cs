@@ -62,11 +62,11 @@ public class Clone : TestFixtureBase
         Console.WriteLine(JToken.DeepEquals(o1, o2));
         // true
 
-        Console.WriteLine(Object.ReferenceEquals(o1, o2));
+        Console.WriteLine(ReferenceEquals(o1, o2));
         // false
         #endregion
 
-        Xunit.Assert.True(JToken.DeepEquals(o1, o2));
-        Xunit.Assert.False(Object.ReferenceEquals(o1, o2));
+        Assert.True(JToken.DeepEquals(o1, o2));
+        Assert.False(ReferenceEquals(o1, o2));
     }
 }

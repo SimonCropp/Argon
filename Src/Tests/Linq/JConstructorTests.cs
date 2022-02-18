@@ -36,19 +36,19 @@ public class JConstructorTests : TestFixtureBase
         reader.Read();
 
         var constructor = JConstructor.Load(reader);
-        Xunit.Assert.Equal("Date", constructor.Name);
-        Xunit.Assert.True(JToken.DeepEquals(new JValue(123), constructor.Values().ElementAt(0)));
+        Assert.Equal("Date", constructor.Name);
+        Assert.True(JToken.DeepEquals(new JValue(123), constructor.Values().ElementAt(0)));
     }
 
     [Fact]
     public void CreateWithMultiValue()
     {
         var constructor = new JConstructor("Test", new List<int> { 1, 2, 3 });
-        Xunit.Assert.Equal("Test", constructor.Name);
-        Xunit.Assert.Equal(3, constructor.Children().Count());
-        Xunit.Assert.Equal(1, (int)constructor.Children().ElementAt(0));
-        Xunit.Assert.Equal(2, (int)constructor.Children().ElementAt(1));
-        Xunit.Assert.Equal(3, (int)constructor.Children().ElementAt(2));
+        Assert.Equal("Test", constructor.Name);
+        Assert.Equal(3, constructor.Children().Count());
+        Assert.Equal(1, (int)constructor.Children().ElementAt(0));
+        Assert.Equal(2, (int)constructor.Children().ElementAt(1));
+        Assert.Equal(3, (int)constructor.Children().ElementAt(2));
     }
 
     [Fact]
@@ -59,7 +59,7 @@ public class JConstructorTests : TestFixtureBase
         var i = 1;
         foreach (var token in c)
         {
-            Xunit.Assert.Equal(i, (int)token);
+            Assert.Equal(i, (int)token);
             i++;
         }
     }
@@ -88,6 +88,6 @@ public class JConstructorTests : TestFixtureBase
         c.Add(null);
         c[key] = new JValue(3);
 
-        Xunit.Assert.Equal(3, (int)c[key]);
+        Assert.Equal(3, (int)c[key]);
     }
 }

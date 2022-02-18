@@ -96,11 +96,11 @@ public class MissingMemberHandlingTests : TestFixtureBase
 
         var deserializedProductShort = (ProductShort)deserializedValue;
 
-        Xunit.Assert.Equal("Apple", deserializedProductShort.Name);
-        Xunit.Assert.Equal(new DateTime(2008, 12, 28), deserializedProductShort.ExpiryDate);
-        Xunit.Assert.Equal("Small", deserializedProductShort.Sizes[0]);
-        Xunit.Assert.Equal("Medium", deserializedProductShort.Sizes[1]);
-        Xunit.Assert.Equal("Large", deserializedProductShort.Sizes[2]);
+        Assert.Equal("Apple", deserializedProductShort.Name);
+        Assert.Equal(new DateTime(2008, 12, 28), deserializedProductShort.ExpiryDate);
+        Assert.Equal("Small", deserializedProductShort.Sizes[0]);
+        Assert.Equal("Medium", deserializedProductShort.Sizes[1]);
+        Assert.Equal("Large", deserializedProductShort.Sizes[2]);
     }
 
     [Fact]
@@ -113,8 +113,8 @@ public class MissingMemberHandlingTests : TestFixtureBase
 
         var myClass = (MyClass)serializer.Deserialize(new StringReader(response), typeof(MyClass));
 
-        Xunit.Assert.Equal(1, myClass.PreProperty);
-        Xunit.Assert.Equal(2, myClass.PostProperty);
+        Assert.Equal(1, myClass.PreProperty);
+        Assert.Equal(2, myClass.PostProperty);
     }
 
     [Fact]
@@ -124,7 +124,7 @@ public class MissingMemberHandlingTests : TestFixtureBase
 
         var c = JsonConvert.DeserializeObject<DoubleClass>(json, new JsonSerializerSettings { MissingMemberHandling = MissingMemberHandling.Error });
 
-        Xunit.Assert.Equal(1d, c.Height);
+        Assert.Equal(1d, c.Height);
     }
 
     [Fact]
@@ -192,8 +192,8 @@ public class MissingMemberHandlingTests : TestFixtureBase
 
         JsonConvert.PopulateObject(@"{nameERROR:{""first"":""hi""}}", p, settings);
 
-        Xunit.Assert.Equal(1, errors.Count);
-        Xunit.Assert.Equal("Could not find member 'nameERROR' on object of type 'Person'. Path 'nameERROR', line 1, position 11.", errors[0]);
+        Assert.Equal(1, errors.Count);
+        Assert.Equal("Could not find member 'nameERROR' on object of type 'Person'. Path 'nameERROR', line 1, position 11.", errors[0]);
     }
 
     [Fact]
@@ -218,8 +218,8 @@ public class MissingMemberHandlingTests : TestFixtureBase
 
         JsonConvert.PopulateObject(@"{name:{""firstERROR"":""hi""}}", p, settings);
 
-        Xunit.Assert.Equal(1, errors.Count);
-        Xunit.Assert.Equal("Could not find member 'firstERROR' on object of type 'Name'. Path 'name.firstERROR', line 1, position 20.", errors[0]);
+        Assert.Equal(1, errors.Count);
+        Assert.Equal("Could not find member 'firstERROR' on object of type 'Name'. Path 'name.firstERROR', line 1, position 20.", errors[0]);
     }
 
     [JsonObject(MissingMemberHandling = MissingMemberHandling.Ignore)]
@@ -240,7 +240,7 @@ public class MissingMemberHandlingTests : TestFixtureBase
         var json = @"{""extensionData1"": [1,2,3]}";
         var e2 = JsonConvert.DeserializeObject<SimpleExtendableObject>(json, new JsonSerializerSettings { MissingMemberHandling = MissingMemberHandling.Error });
         var o1 = (JArray)e2.Data["extensionData1"];
-        Xunit.Assert.Equal(JTokenType.Array, o1.Type);
+        Assert.Equal(JTokenType.Array, o1.Type);
     }
 
     [Fact]
@@ -249,7 +249,7 @@ public class MissingMemberHandlingTests : TestFixtureBase
         var json = @"{""Data"":{""extensionData1"": [1,2,3]}}";
         var e3 = JsonConvert.DeserializeObject<ObjectWithExtendableChild>(json, new JsonSerializerSettings { MissingMemberHandling = MissingMemberHandling.Error });
         var o1 = (JArray)e3.Data.Data["extensionData1"];
-        Xunit.Assert.Equal(JTokenType.Array, o1.Type);
+        Assert.Equal(JTokenType.Array, o1.Type);
     }
 
     [Fact]

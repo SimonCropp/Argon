@@ -48,14 +48,14 @@ public class NullValueHandlingTests : TestFixtureBase
     public void DeserializeNullIntoDateTime()
     {
         var c = JsonConvert.DeserializeObject<DateTimeTestClass>(@"{DateTimeField:null}", new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-        Xunit.Assert.Equal(c.DateTimeField, default(DateTime));
+        Assert.Equal(c.DateTimeField, default(DateTime));
     }
 
     [Fact]
     public void DeserializeEmptyStringIntoDateTimeWithEmptyStringDefaultValue()
     {
         var c = JsonConvert.DeserializeObject<DateTimeTestClass>(@"{DateTimeField:""""}", new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-        Xunit.Assert.Equal(c.DateTimeField, default(DateTime));
+        Assert.Equal(c.DateTimeField, default(DateTime));
     }
 
     [Fact]
@@ -73,16 +73,16 @@ public class NullValueHandlingTests : TestFixtureBase
 
         //JsonConvert.ConvertDateTimeToJavaScriptTicks(s1.Establised.DateTime)
 
-        Xunit.Assert.Equal(@"{""Color"":4,""Establised"":""2010-01-22T01:01:01Z"",""Width"":1.1,""Employees"":999,""RoomsPerFloor"":[1,2,3,4,5,6,7,8,9],""Open"":false,""Symbol"":""@"",""Mottos"":[""Hello World"",""öäüÖÄÜ\\'{new Date(12345);}[222]_µ@²³~"",null,"" ""],""Cost"":100980.1,""Escape"":""\r\n\t\f\b?{\\r\\n\""'"",""product"":[{""Name"":""Rocket"",""ExpiryDate"":""2000-02-02T23:01:30Z"",""Price"":0.0},{""Name"":""Alien"",""ExpiryDate"":""2000-01-01T00:00:00Z"",""Price"":0.0}]}", sw.GetStringBuilder().ToString());
+        Assert.Equal(@"{""Color"":4,""Establised"":""2010-01-22T01:01:01Z"",""Width"":1.1,""Employees"":999,""RoomsPerFloor"":[1,2,3,4,5,6,7,8,9],""Open"":false,""Symbol"":""@"",""Mottos"":[""Hello World"",""öäüÖÄÜ\\'{new Date(12345);}[222]_µ@²³~"",null,"" ""],""Cost"":100980.1,""Escape"":""\r\n\t\f\b?{\\r\\n\""'"",""product"":[{""Name"":""Rocket"",""ExpiryDate"":""2000-02-02T23:01:30Z"",""Price"":0.0},{""Name"":""Alien"",""ExpiryDate"":""2000-01-01T00:00:00Z"",""Price"":0.0}]}", sw.GetStringBuilder().ToString());
 
         var s2 = (Store)jsonSerializer.Deserialize(new JsonTextReader(new StringReader("{}")), typeof(Store));
-        Xunit.Assert.Equal("\r\n\t\f\b?{\\r\\n\"\'", s2.Escape);
+        Assert.Equal("\r\n\t\f\b?{\\r\\n\"\'", s2.Escape);
 
         var s3 = (Store)jsonSerializer.Deserialize(new JsonTextReader(new StringReader(@"{""Escape"":null}")), typeof(Store));
-        Xunit.Assert.Equal("\r\n\t\f\b?{\\r\\n\"\'", s3.Escape);
+        Assert.Equal("\r\n\t\f\b?{\\r\\n\"\'", s3.Escape);
 
         var s4 = (Store)jsonSerializer.Deserialize(new JsonTextReader(new StringReader(@"{""Color"":2,""Establised"":""\/Date(1264071600000+1300)\/"",""Width"":1.1,""Employees"":999,""RoomsPerFloor"":[1,2,3,4,5,6,7,8,9],""Open"":false,""Symbol"":""@"",""Mottos"":[""Hello World"",""öäüÖÄÜ\\'{new Date(12345);}[222]_µ@²³~"",null,"" ""],""Cost"":100980.1,""Escape"":""\r\n\t\f\b?{\\r\\n\""'"",""product"":[{""Name"":""Rocket"",""ExpiryDate"":""\/Date(949485690000+1300)\/"",""Price"":0},{""Name"":""Alien"",""ExpiryDate"":""\/Date(946638000000)\/"",""Price"":0.0}]}")), typeof(Store));
-        Xunit.Assert.Equal(s1.Establised, s3.Establised);
+        Assert.Equal(s1.Establised, s3.Establised);
     }
 
     [Fact]

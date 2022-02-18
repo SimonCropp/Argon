@@ -57,7 +57,7 @@ public class DynamicConcreteTests : TestFixtureBase
             ContractResolver = new DynamicConcreteContractResolver()
         });
 
-        Xunit.Assert.Equal("Name!", c.Name);
+        Assert.Equal("Name!", c.Name);
     }
 
     [Fact]
@@ -70,8 +70,8 @@ public class DynamicConcreteTests : TestFixtureBase
             ContractResolver = new DynamicConcreteContractResolver()
         });
 
-        Xunit.Assert.Equal("Name!", c.Name);
-        Xunit.Assert.Equal("Same", c.Game);
+        Assert.Equal("Name!", c.Name);
+        Assert.Equal("Same", c.Game);
     }
 
     [Fact]

@@ -70,11 +70,11 @@ public class DemoTests : TestFixtureBase
             Formatting = Formatting.Indented,
             Converters = { new HtmlColorConverter() }
         });
-        Xunit.Assert.Equal(255, r2.Red);
-        Xunit.Assert.Equal(0, r2.Green);
-        Xunit.Assert.Equal(0, r2.Blue);
+        Assert.Equal(255, r2.Red);
+        Assert.Equal(0, r2.Green);
+        Assert.Equal(0, r2.Blue);
 
-        Xunit.Assert.Equal(@"""#FF0000""", json);
+        Assert.Equal(@"""#FF0000""", json);
     }
 
     public class PersonDemo
@@ -237,7 +237,7 @@ public class DemoTests : TestFixtureBase
         // Name = Serialize All The Things
         // Date = Tuesday, 3 June 2014
 
-        Xunit.Assert.Equal("Serialize All The Things", s.Name);
+        Assert.Equal("Serialize All The Things", s.Name);
     }
 
     [Fact]
@@ -419,10 +419,10 @@ public class DemoTests : TestFixtureBase
         var mike = (Manager)e;
         var susan = (Manager)mike.Reportees[1];
 
-        Object.ReferenceEquals(mike.Reportees[0], susan.Reportees[0]);
+        ReferenceEquals(mike.Reportees[0], susan.Reportees[0]);
         // true
 
-        Xunit.Assert.True(ReferenceEquals(mike.Reportees[0], susan.Reportees[0]));
+        Assert.True(ReferenceEquals(mike.Reportees[0], susan.Reportees[0]));
     }
 
     public class House
@@ -589,7 +589,7 @@ public class DemoTests : TestFixtureBase
             value = serializer.Deserialize<IList<int>>(reader);
         }
 
-        Xunit.Assert.Equal(4, value.Count);
+        Assert.Equal(4, value.Count);
     }
 
     [Fact]
@@ -654,7 +654,7 @@ public class DemoTests : TestFixtureBase
         Console.WriteLine(packages.Count);
         // 1
 
-        Xunit.Assert.Equal(1, packages.Count);
+        Assert.Equal(1, packages.Count);
     }
 
     [Fact]

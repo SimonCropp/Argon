@@ -87,6 +87,6 @@ public class DeserializeObjectCreationHandling : TestFixtureBase
         // Christchurch
         #endregion
 
-        Xunit.Assert.Equal(3, model2.Offices.Count);
+        Assert.Equal(3, model2.Offices.Count);
     }
 }

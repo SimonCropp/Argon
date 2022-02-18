@@ -33,81 +33,81 @@ public class JPathParseTests : TestFixtureBase
     public void BooleanQuery_TwoValues()
     {
         var path = new JPath("[?(1 > 2)]");
-        Xunit.Assert.Equal(1, path.Filters.Count);
+        Assert.Equal(1, path.Filters.Count);
         var booleanExpression = (BooleanQueryExpression)((QueryFilter)path.Filters[0]).Expression;
-        Xunit.Assert.Equal(1, (int)(JValue)booleanExpression.Left);
-        Xunit.Assert.Equal(2, (int)(JValue)booleanExpression.Right);
-        Xunit.Assert.Equal(QueryOperator.GreaterThan, booleanExpression.Operator);
+        Assert.Equal(1, (int)(JValue)booleanExpression.Left);
+        Assert.Equal(2, (int)(JValue)booleanExpression.Right);
+        Assert.Equal(QueryOperator.GreaterThan, booleanExpression.Operator);
     }
 
     [Fact]
     public void BooleanQuery_TwoPaths()
     {
         var path = new JPath("[?(@.price > @.max_price)]");
-        Xunit.Assert.Equal(1, path.Filters.Count);
+        Assert.Equal(1, path.Filters.Count);
         var booleanExpression = (BooleanQueryExpression)((QueryFilter)path.Filters[0]).Expression;
         var leftPaths = (List<PathFilter>)booleanExpression.Left;
         var rightPaths = (List<PathFilter>)booleanExpression.Right;
 
-        Xunit.Assert.Equal("price", ((FieldFilter)leftPaths[0]).Name);
-        Xunit.Assert.Equal("max_price", ((FieldFilter)rightPaths[0]).Name);
-        Xunit.Assert.Equal(QueryOperator.GreaterThan, booleanExpression.Operator);
+        Assert.Equal("price", ((FieldFilter)leftPaths[0]).Name);
+        Assert.Equal("max_price", ((FieldFilter)rightPaths[0]).Name);
+        Assert.Equal(QueryOperator.GreaterThan, booleanExpression.Operator);
     }
 
     [Fact]
     public void SingleProperty()
     {
         var path = new JPath("Blah");
-        Xunit.Assert.Equal(1, path.Filters.Count);
-        Xunit.Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
+        Assert.Equal(1, path.Filters.Count);
+        Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
     }
 
     [Fact]
     public void SingleQuotedProperty()
     {
         var path = new JPath("['Blah']");
-        Xunit.Assert.Equal(1, path.Filters.Count);
-        Xunit.Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
+        Assert.Equal(1, path.Filters.Count);
+        Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
     }
 
     [Fact]
     public void SingleQuotedPropertyWithWhitespace()
     {
         var path = new JPath("[  'Blah'  ]");
-        Xunit.Assert.Equal(1, path.Filters.Count);
-        Xunit.Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
+        Assert.Equal(1, path.Filters.Count);
+        Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
     }
 
     [Fact]
     public void SingleQuotedPropertyWithDots()
     {
         var path = new JPath("['Blah.Ha']");
-        Xunit.Assert.Equal(1, path.Filters.Count);
-        Xunit.Assert.Equal("Blah.Ha", ((FieldFilter)path.Filters[0]).Name);
+        Assert.Equal(1, path.Filters.Count);
+        Assert.Equal("Blah.Ha", ((FieldFilter)path.Filters[0]).Name);
     }
 
     [Fact]
     public void SingleQuotedPropertyWithBrackets()
     {
         var path = new JPath("['[*]']");
-        Xunit.Assert.Equal(1, path.Filters.Count);
-        Xunit.Assert.Equal("[*]", ((FieldFilter)path.Filters[0]).Name);
+        Assert.Equal(1, path.Filters.Count);
+        Assert.Equal("[*]", ((FieldFilter)path.Filters[0]).Name);
     }
 
     [Fact]
     public void SinglePropertyWithRoot()
     {
         var path = new JPath("$.Blah");
-        Xunit.Assert.Equal(1, path.Filters.Count);
-        Xunit.Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
+        Assert.Equal(1, path.Filters.Count);
+        Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
     }
 
     [Fact]
     public void SinglePropertyWithRootWithStartAndEndWhitespace()
     {
         var path = new JPath(" $.Blah ");
-        Xunit.Assert.Equal(1, path.Filters.Count);
-        Xunit.Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
+        Assert.Equal(1, path.Filters.Count);
+        Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
     }
 
     [Fact]
@@ -132,203 +132,203 @@ public class JPathParseTests : TestFixtureBase
     public void WildcardPropertyWithRoot()
     {
         var path = new JPath("$.*");
-        Xunit.Assert.Equal(1, path.Filters.Count);
-        Xunit.Assert.Equal(null, ((FieldFilter)path.Filters[0]).Name);
+        Assert.Equal(1, path.Filters.Count);
+        Assert.Equal(null, ((FieldFilter)path.Filters[0]).Name);
     }
 
     [Fact]
     public void WildcardArrayWithRoot()
     {
         var path = new JPath("$.[*]");
-        Xunit.Assert.Equal(1, path.Filters.Count);
-        Xunit.Assert.Equal(null, ((ArrayIndexFilter)path.Filters[0]).Index);
+        Assert.Equal(1, path.Filters.Count);
+        Assert.Equal(null, ((ArrayIndexFilter)path.Filters[0]).Index);
     }
 
     [Fact]
     public void RootArrayNoDot()
     {
         var path = new JPath("$[1]");
-        Xunit.Assert.Equal(1, path.Filters.Count);
-        Xunit.Assert.Equal(1, ((ArrayIndexFilter)path.Filters[0]).Index);
+        Assert.Equal(1, path.Filters.Count);
+        Assert.Equal(1, ((ArrayIndexFilter)path.Filters[0]).Index);
     }
 
     [Fact]
     public void WildcardArray()
     {
         var path = new JPath("[*]");
-        Xunit.Assert.Equal(1, path.Filters.Count);
-        Xunit.Assert.Equal(null, ((ArrayIndexFilter)path.Filters[0]).Index);
+        Assert.Equal(1, path.Filters.Count);
+        Assert.Equal(null, ((ArrayIndexFilter)path.Filters[0]).Index);
     }
 
     [Fact]
     public void WildcardArrayWithProperty()
     {
         var path = new JPath("[ * ].derp");
-        Xunit.Assert.Equal(2, path.Filters.Count);
-        Xunit.Assert.Equal(null, ((ArrayIndexFilter)path.Filters[0]).Index);
-        Xunit.Assert.Equal("derp", ((FieldFilter)path.Filters[1]).Name);
+        Assert.Equal(2, path.Filters.Count);
+        Assert.Equal(null, ((ArrayIndexFilter)path.Filters[0]).Index);
+        Assert.Equal("derp", ((FieldFilter)path.Filters[1]).Name);
     }
 
     [Fact]
     public void QuotedWildcardPropertyWithRoot()
     {
         var path = new JPath("$.['*']");
-        Xunit.Assert.Equal(1, path.Filters.Count);
-        Xunit.Assert.Equal("*", ((FieldFilter)path.Filters[0]).Name);
+        Assert.Equal(1, path.Filters.Count);
+        Assert.Equal("*", ((FieldFilter)path.Filters[0]).Name);
     }
 
     [Fact]
     public void SingleScanWithRoot()
     {
         var path = new JPath("$..Blah");
-        Xunit.Assert.Equal(1, path.Filters.Count);
-        Xunit.Assert.Equal("Blah", ((ScanFilter)path.Filters[0]).Name);
+        Assert.Equal(1, path.Filters.Count);
+        Assert.Equal("Blah", ((ScanFilter)path.Filters[0]).Name);
     }
 
     [Fact]
     public void QueryTrue()
     {
         var path = new JPath("$.elements[?(true)]");
-        Xunit.Assert.Equal(2, path.Filters.Count);
-        Xunit.Assert.Equal("elements", ((FieldFilter)path.Filters[0]).Name);
-        Xunit.Assert.Equal(QueryOperator.Exists, ((QueryFilter)path.Filters[1]).Expression.Operator);
+        Assert.Equal(2, path.Filters.Count);
+        Assert.Equal("elements", ((FieldFilter)path.Filters[0]).Name);
+        Assert.Equal(QueryOperator.Exists, ((QueryFilter)path.Filters[1]).Expression.Operator);
     }
 
     [Fact]
     public void ScanQuery()
     {
         var path = new JPath("$.elements..[?(@.id=='AAA')]");
-        Xunit.Assert.Equal(2, path.Filters.Count);
-        Xunit.Assert.Equal("elements", ((FieldFilter)path.Filters[0]).Name);
+        Assert.Equal(2, path.Filters.Count);
+        Assert.Equal("elements", ((FieldFilter)path.Filters[0]).Name);
 
         var expression = (BooleanQueryExpression)((QueryScanFilter) path.Filters[1]).Expression;
 
         var paths = (List<PathFilter>)expression.Left;
 
         object o = paths[0];
-        Xunit.Assert.IsType(typeof(FieldFilter), o);
+        Assert.IsType(typeof(FieldFilter), o);
     }
 
     [Fact]
     public void WildcardScanWithRoot()
     {
         var path = new JPath("$..*");
-        Xunit.Assert.Equal(1, path.Filters.Count);
-        Xunit.Assert.Equal(null, ((ScanFilter)path.Filters[0]).Name);
+        Assert.Equal(1, path.Filters.Count);
+        Assert.Equal(null, ((ScanFilter)path.Filters[0]).Name);
     }
 
     [Fact]
     public void WildcardScanWithRootWithWhitespace()
     {
         var path = new JPath("$..* ");
-        Xunit.Assert.Equal(1, path.Filters.Count);
-        Xunit.Assert.Equal(null, ((ScanFilter)path.Filters[0]).Name);
+        Assert.Equal(1, path.Filters.Count);
+        Assert.Equal(null, ((ScanFilter)path.Filters[0]).Name);
     }
 
     [Fact]
     public void TwoProperties()
     {
         var path = new JPath("Blah.Two");
-        Xunit.Assert.Equal(2, path.Filters.Count);
-        Xunit.Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
-        Xunit.Assert.Equal("Two", ((FieldFilter)path.Filters[1]).Name);
+        Assert.Equal(2, path.Filters.Count);
+        Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
+        Assert.Equal("Two", ((FieldFilter)path.Filters[1]).Name);
     }
 
     [Fact]
     public void OnePropertyOneScan()
     {
         var path = new JPath("Blah..Two");
-        Xunit.Assert.Equal(2, path.Filters.Count);
-        Xunit.Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
-        Xunit.Assert.Equal("Two", ((ScanFilter)path.Filters[1]).Name);
+        Assert.Equal(2, path.Filters.Count);
+        Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
+        Assert.Equal("Two", ((ScanFilter)path.Filters[1]).Name);
     }
 
     [Fact]
     public void SinglePropertyAndIndexer()
     {
         var path = new JPath("Blah[0]");
-        Xunit.Assert.Equal(2, path.Filters.Count);
-        Xunit.Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
-        Xunit.Assert.Equal(0, ((ArrayIndexFilter)path.Filters[1]).Index);
+        Assert.Equal(2, path.Filters.Count);
+        Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
+        Assert.Equal(0, ((ArrayIndexFilter)path.Filters[1]).Index);
     }
 
     [Fact]
     public void SinglePropertyAndExistsQuery()
     {
         var path = new JPath("Blah[ ?( @..name ) ]");
-        Xunit.Assert.Equal(2, path.Filters.Count);
-        Xunit.Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
+        Assert.Equal(2, path.Filters.Count);
+        Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
         var expressions = (BooleanQueryExpression)((QueryFilter)path.Filters[1]).Expression;
-        Xunit.Assert.Equal(QueryOperator.Exists, expressions.Operator);
+        Assert.Equal(QueryOperator.Exists, expressions.Operator);
         var paths = (List<PathFilter>)expressions.Left;
-        Xunit.Assert.Equal(1, paths.Count);
-        Xunit.Assert.Equal("name", ((ScanFilter)paths[0]).Name);
+        Assert.Equal(1, paths.Count);
+        Assert.Equal("name", ((ScanFilter)paths[0]).Name);
     }
 
     [Fact]
     public void SinglePropertyAndFilterWithWhitespace()
     {
         var path = new JPath("Blah[ ?( @.name=='hi' ) ]");
-        Xunit.Assert.Equal(2, path.Filters.Count);
-        Xunit.Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
+        Assert.Equal(2, path.Filters.Count);
+        Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
         var expressions = (BooleanQueryExpression)((QueryFilter)path.Filters[1]).Expression;
-        Xunit.Assert.Equal(QueryOperator.Equals, expressions.Operator);
-        Xunit.Assert.Equal("hi", (string)(JToken)expressions.Right);
+        Assert.Equal(QueryOperator.Equals, expressions.Operator);
+        Assert.Equal("hi", (string)(JToken)expressions.Right);
     }
 
     [Fact]
     public void SinglePropertyAndFilterWithEscapeQuote()
     {
         var path = new JPath(@"Blah[ ?( @.name=='h\'i' ) ]");
-        Xunit.Assert.Equal(2, path.Filters.Count);
-        Xunit.Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
+        Assert.Equal(2, path.Filters.Count);
+        Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
         var expressions = (BooleanQueryExpression)((QueryFilter)path.Filters[1]).Expression;
-        Xunit.Assert.Equal(QueryOperator.Equals, expressions.Operator);
-        Xunit.Assert.Equal("h'i", (string)(JToken)expressions.Right);
+        Assert.Equal(QueryOperator.Equals, expressions.Operator);
+        Assert.Equal("h'i", (string)(JToken)expressions.Right);
     }
 
     [Fact]
     public void SinglePropertyAndFilterWithDoubleEscape()
     {
         var path = new JPath(@"Blah[ ?( @.name=='h\\i' ) ]");
-        Xunit.Assert.Equal(2, path.Filters.Count);
-        Xunit.Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
+        Assert.Equal(2, path.Filters.Count);
+        Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
         var expressions = (BooleanQueryExpression)((QueryFilter)path.Filters[1]).Expression;
-        Xunit.Assert.Equal(QueryOperator.Equals, expressions.Operator);
-        Xunit.Assert.Equal("h\\i", (string)(JToken)expressions.Right);
+        Assert.Equal(QueryOperator.Equals, expressions.Operator);
+        Assert.Equal("h\\i", (string)(JToken)expressions.Right);
     }
 
     [Fact]
     public void SinglePropertyAndFilterWithRegexAndOptions()
     {
         var path = new JPath("Blah[ ?( @.name=~/hi/i ) ]");
-        Xunit.Assert.Equal(2, path.Filters.Count);
-        Xunit.Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
+        Assert.Equal(2, path.Filters.Count);
+        Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
         var expressions = (BooleanQueryExpression)((QueryFilter)path.Filters[1]).Expression;
-        Xunit.Assert.Equal(QueryOperator.RegexEquals, expressions.Operator);
-        Xunit.Assert.Equal("/hi/i", (string)(JToken)expressions.Right);
+        Assert.Equal(QueryOperator.RegexEquals, expressions.Operator);
+        Assert.Equal("/hi/i", (string)(JToken)expressions.Right);
     }
 
     [Fact]
     public void SinglePropertyAndFilterWithRegex()
     {
         var path = new JPath("Blah[?(@.title =~ /^.*Sword.*$/)]");
-        Xunit.Assert.Equal(2, path.Filters.Count);
-        Xunit.Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
+        Assert.Equal(2, path.Filters.Count);
+        Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
         var expressions = (BooleanQueryExpression)((QueryFilter)path.Filters[1]).Expression;
-        Xunit.Assert.Equal(QueryOperator.RegexEquals, expressions.Operator);
-        Xunit.Assert.Equal("/^.*Sword.*$/", (string)(JToken)expressions.Right);
+        Assert.Equal(QueryOperator.RegexEquals, expressions.Operator);
+        Assert.Equal("/^.*Sword.*$/", (string)(JToken)expressions.Right);
     }
 
     [Fact]
     public void SinglePropertyAndFilterWithEscapedRegex()
     {
         var path = new JPath(@"Blah[?(@.title =~ /[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g)]");
-        Xunit.Assert.Equal(2, path.Filters.Count);
-        Xunit.Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
+        Assert.Equal(2, path.Filters.Count);
+        Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
         var expressions = (BooleanQueryExpression)((QueryFilter)path.Filters[1]).Expression;
-        Xunit.Assert.Equal(QueryOperator.RegexEquals, expressions.Operator);
-        Xunit.Assert.Equal(@"/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g", (string)(JToken)expressions.Right);
+        Assert.Equal(QueryOperator.RegexEquals, expressions.Operator);
+        Assert.Equal(@"/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g", (string)(JToken)expressions.Right);
     }
 
     [Fact]
@@ -347,10 +347,10 @@ public class JPathParseTests : TestFixtureBase
     public void SinglePropertyAndFilterWithFalse()
     {
         var path = new JPath("Blah[ ?( @.name==false ) ]");
-        Xunit.Assert.Equal(2, path.Filters.Count);
-        Xunit.Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
+        Assert.Equal(2, path.Filters.Count);
+        Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
         var expressions = (BooleanQueryExpression)((QueryFilter)path.Filters[1]).Expression;
-        Xunit.Assert.Equal(QueryOperator.Equals, expressions.Operator);
+        Assert.Equal(QueryOperator.Equals, expressions.Operator);
         XUnitAssert.False((bool)(JToken)expressions.Right);
     }
 
@@ -358,10 +358,10 @@ public class JPathParseTests : TestFixtureBase
     public void SinglePropertyAndFilterWithTrue()
     {
         var path = new JPath("Blah[ ?( @.name==true ) ]");
-        Xunit.Assert.Equal(2, path.Filters.Count);
-        Xunit.Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
+        Assert.Equal(2, path.Filters.Count);
+        Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
         var expressions = (BooleanQueryExpression)((QueryFilter)path.Filters[1]).Expression;
-        Xunit.Assert.Equal(QueryOperator.Equals, expressions.Operator);
+        Assert.Equal(QueryOperator.Equals, expressions.Operator);
         XUnitAssert.True((bool)(JToken)expressions.Right);
     }
 
@@ -369,11 +369,11 @@ public class JPathParseTests : TestFixtureBase
     public void SinglePropertyAndFilterWithNull()
     {
         var path = new JPath("Blah[ ?( @.name==null ) ]");
-        Xunit.Assert.Equal(2, path.Filters.Count);
-        Xunit.Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
+        Assert.Equal(2, path.Filters.Count);
+        Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
         var expressions = (BooleanQueryExpression)((QueryFilter)path.Filters[1]).Expression;
-        Xunit.Assert.Equal(QueryOperator.Equals, expressions.Operator);
-        Xunit.Assert.Equal(null, ((JValue)expressions.Right).Value);
+        Assert.Equal(QueryOperator.Equals, expressions.Operator);
+        Assert.Equal(null, ((JValue)expressions.Right).Value);
     }
 
     [Fact]
@@ -382,7 +382,7 @@ public class JPathParseTests : TestFixtureBase
         var path = new JPath("[?(@..name<>null)]");
         var expressions = (BooleanQueryExpression)((QueryFilter)path.Filters[0]).Expression;
         var paths = (List<PathFilter>)expressions.Left;
-        Xunit.Assert.Equal("name", ((ScanFilter)paths[0]).Name);
+        Assert.Equal("name", ((ScanFilter)paths[0]).Name);
     }
 
     [Fact]
@@ -390,7 +390,7 @@ public class JPathParseTests : TestFixtureBase
     {
         var path = new JPath("[?(@.name<>null)]");
         var expressions = (BooleanQueryExpression)((QueryFilter)path.Filters[0]).Expression;
-        Xunit.Assert.Equal(QueryOperator.NotEquals, expressions.Operator);
+        Assert.Equal(QueryOperator.NotEquals, expressions.Operator);
     }
 
     [Fact]
@@ -398,7 +398,7 @@ public class JPathParseTests : TestFixtureBase
     {
         var path = new JPath("[?(@.name!=null)]");
         var expressions = (BooleanQueryExpression)((QueryFilter)path.Filters[0]).Expression;
-        Xunit.Assert.Equal(QueryOperator.NotEquals, expressions.Operator);
+        Assert.Equal(QueryOperator.NotEquals, expressions.Operator);
     }
 
     [Fact]
@@ -406,7 +406,7 @@ public class JPathParseTests : TestFixtureBase
     {
         var path = new JPath("[?(@.name<null)]");
         var expressions = (BooleanQueryExpression)((QueryFilter)path.Filters[0]).Expression;
-        Xunit.Assert.Equal(QueryOperator.LessThan, expressions.Operator);
+        Assert.Equal(QueryOperator.LessThan, expressions.Operator);
     }
 
     [Fact]
@@ -414,7 +414,7 @@ public class JPathParseTests : TestFixtureBase
     {
         var path = new JPath("[?(@.name<=null)]");
         var expressions = (BooleanQueryExpression)((QueryFilter)path.Filters[0]).Expression;
-        Xunit.Assert.Equal(QueryOperator.LessThanOrEquals, expressions.Operator);
+        Assert.Equal(QueryOperator.LessThanOrEquals, expressions.Operator);
     }
 
     [Fact]
@@ -422,7 +422,7 @@ public class JPathParseTests : TestFixtureBase
     {
         var path = new JPath("[?(@.name>null)]");
         var expressions = (BooleanQueryExpression)((QueryFilter)path.Filters[0]).Expression;
-        Xunit.Assert.Equal(QueryOperator.GreaterThan, expressions.Operator);
+        Assert.Equal(QueryOperator.GreaterThan, expressions.Operator);
     }
 
     [Fact]
@@ -430,7 +430,7 @@ public class JPathParseTests : TestFixtureBase
     {
         var path = new JPath("[?(@.name>=null)]");
         var expressions = (BooleanQueryExpression)((QueryFilter)path.Filters[0]).Expression;
-        Xunit.Assert.Equal(QueryOperator.GreaterThanOrEquals, expressions.Operator);
+        Assert.Equal(QueryOperator.GreaterThanOrEquals, expressions.Operator);
     }
 
     [Fact]
@@ -438,7 +438,7 @@ public class JPathParseTests : TestFixtureBase
     {
         var path = new JPath("[?(@.name>=12)]");
         var expressions = (BooleanQueryExpression)((QueryFilter)path.Filters[0]).Expression;
-        Xunit.Assert.Equal(12, (int)(JToken)expressions.Right);
+        Assert.Equal(12, (int)(JToken)expressions.Right);
     }
 
     [Fact]
@@ -446,7 +446,7 @@ public class JPathParseTests : TestFixtureBase
     {
         var path = new JPath("[?(@.name>=-12)]");
         var expressions = (BooleanQueryExpression)((QueryFilter)path.Filters[0]).Expression;
-        Xunit.Assert.Equal(-12, (int)(JToken)expressions.Right);
+        Assert.Equal(-12, (int)(JToken)expressions.Right);
     }
 
     [Fact]
@@ -454,7 +454,7 @@ public class JPathParseTests : TestFixtureBase
     {
         var path = new JPath("[?(@.name>=12.1)]");
         var expressions = (BooleanQueryExpression)((QueryFilter)path.Filters[0]).Expression;
-        Xunit.Assert.Equal(12.1d, (double)(JToken)expressions.Right);
+        Assert.Equal(12.1d, (double)(JToken)expressions.Right);
     }
 
     [Fact]
@@ -462,18 +462,18 @@ public class JPathParseTests : TestFixtureBase
     {
         var path = new JPath("[?(@.name&&@.title)]");
         var expressions = (CompositeExpression)((QueryFilter)path.Filters[0]).Expression;
-        Xunit.Assert.Equal(QueryOperator.And, expressions.Operator);
-        Xunit.Assert.Equal(2, expressions.Expressions.Count);
+        Assert.Equal(QueryOperator.And, expressions.Operator);
+        Assert.Equal(2, expressions.Expressions.Count);
 
         var first = (BooleanQueryExpression)expressions.Expressions[0];
         var firstPaths = (List<PathFilter>)first.Left;
-        Xunit.Assert.Equal("name", ((FieldFilter)firstPaths[0]).Name);
-        Xunit.Assert.Equal(QueryOperator.Exists, first.Operator);
+        Assert.Equal("name", ((FieldFilter)firstPaths[0]).Name);
+        Assert.Equal(QueryOperator.Exists, first.Operator);
 
         var second = (BooleanQueryExpression)expressions.Expressions[1];
         var secondPaths = (List<PathFilter>)second.Left;
-        Xunit.Assert.Equal("title", ((FieldFilter)secondPaths[0]).Name);
-        Xunit.Assert.Equal(QueryOperator.Exists, second.Operator);
+        Assert.Equal("title", ((FieldFilter)secondPaths[0]).Name);
+        Assert.Equal(QueryOperator.Exists, second.Operator);
     }
 
     [Fact]
@@ -481,26 +481,26 @@ public class JPathParseTests : TestFixtureBase
     {
         var path = new JPath("[?(@.name&&@.title||@.pie)]");
         var andExpression = (CompositeExpression)((QueryFilter)path.Filters[0]).Expression;
-        Xunit.Assert.Equal(QueryOperator.And, andExpression.Operator);
-        Xunit.Assert.Equal(2, andExpression.Expressions.Count);
+        Assert.Equal(QueryOperator.And, andExpression.Operator);
+        Assert.Equal(2, andExpression.Expressions.Count);
 
         var first = (BooleanQueryExpression)andExpression.Expressions[0];
         var firstPaths = (List<PathFilter>)first.Left;
-        Xunit.Assert.Equal("name", ((FieldFilter)firstPaths[0]).Name);
-        Xunit.Assert.Equal(QueryOperator.Exists, first.Operator);
+        Assert.Equal("name", ((FieldFilter)firstPaths[0]).Name);
+        Assert.Equal(QueryOperator.Exists, first.Operator);
 
         var orExpression = (CompositeExpression)andExpression.Expressions[1];
-        Xunit.Assert.Equal(2, orExpression.Expressions.Count);
+        Assert.Equal(2, orExpression.Expressions.Count);
 
         var orFirst = (BooleanQueryExpression)orExpression.Expressions[0];
         var orFirstPaths = (List<PathFilter>)orFirst.Left;
-        Xunit.Assert.Equal("title", ((FieldFilter)orFirstPaths[0]).Name);
-        Xunit.Assert.Equal(QueryOperator.Exists, orFirst.Operator);
+        Assert.Equal("title", ((FieldFilter)orFirstPaths[0]).Name);
+        Assert.Equal(QueryOperator.Exists, orFirst.Operator);
 
         var orSecond = (BooleanQueryExpression)orExpression.Expressions[1];
         var orSecondPaths = (List<PathFilter>)orSecond.Left;
-        Xunit.Assert.Equal("pie", ((FieldFilter)orSecondPaths[0]).Name);
-        Xunit.Assert.Equal(QueryOperator.Exists, orSecond.Operator);
+        Assert.Equal("pie", ((FieldFilter)orSecondPaths[0]).Name);
+        Assert.Equal(QueryOperator.Exists, orSecond.Operator);
     }
 
     [Fact]
@@ -509,11 +509,11 @@ public class JPathParseTests : TestFixtureBase
         var path = new JPath("[?($.name>=12.1)]");
         var expressions = (BooleanQueryExpression)((QueryFilter)path.Filters[0]).Expression;
         var paths = (List<PathFilter>)expressions.Left;
-        Xunit.Assert.Equal(2, paths.Count);
+        Assert.Equal(2, paths.Count);
         object o = paths[0];
-        Xunit.Assert.IsType(typeof(RootFilter), o);
+        Assert.IsType(typeof(RootFilter), o);
         object o1 = paths[1];
-        Xunit.Assert.IsType(typeof(FieldFilter), o1);
+        Assert.IsType(typeof(FieldFilter), o1);
     }
 
     [Fact]
@@ -569,20 +569,20 @@ public class JPathParseTests : TestFixtureBase
     {
         var path = new JPath("[?(@.name>=5.56789e+0)]");
         var expressions = (BooleanQueryExpression)((QueryFilter)path.Filters[0]).Expression;
-        Xunit.Assert.Equal(5.56789e+0, (double)(JToken)expressions.Right);
+        Assert.Equal(5.56789e+0, (double)(JToken)expressions.Right);
     }
 
     [Fact]
     public void MultiplePropertiesAndIndexers()
     {
         var path = new JPath("Blah[0]..Two.Three[1].Four");
-        Xunit.Assert.Equal(6, path.Filters.Count);
-        Xunit.Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
-        Xunit.Assert.Equal(0, ((ArrayIndexFilter)path.Filters[1]).Index);
-        Xunit.Assert.Equal("Two", ((ScanFilter)path.Filters[2]).Name);
-        Xunit.Assert.Equal("Three", ((FieldFilter)path.Filters[3]).Name);
-        Xunit.Assert.Equal(1, ((ArrayIndexFilter)path.Filters[4]).Index);
-        Xunit.Assert.Equal("Four", ((FieldFilter)path.Filters[5]).Name);
+        Assert.Equal(6, path.Filters.Count);
+        Assert.Equal("Blah", ((FieldFilter)path.Filters[0]).Name);
+        Assert.Equal(0, ((ArrayIndexFilter)path.Filters[1]).Index);
+        Assert.Equal("Two", ((ScanFilter)path.Filters[2]).Name);
+        Assert.Equal("Three", ((FieldFilter)path.Filters[3]).Name);
+        Assert.Equal(1, ((ArrayIndexFilter)path.Filters[4]).Index);
+        Assert.Equal("Four", ((FieldFilter)path.Filters[5]).Name);
     }
 
     [Fact]
@@ -601,116 +601,116 @@ public class JPathParseTests : TestFixtureBase
     public void IndexerOnly()
     {
         var path = new JPath("[111119990]");
-        Xunit.Assert.Equal(1, path.Filters.Count);
-        Xunit.Assert.Equal(111119990, ((ArrayIndexFilter)path.Filters[0]).Index);
+        Assert.Equal(1, path.Filters.Count);
+        Assert.Equal(111119990, ((ArrayIndexFilter)path.Filters[0]).Index);
     }
 
     [Fact]
     public void IndexerOnlyWithWhitespace()
     {
         var path = new JPath("[  10  ]");
-        Xunit.Assert.Equal(1, path.Filters.Count);
-        Xunit.Assert.Equal(10, ((ArrayIndexFilter)path.Filters[0]).Index);
+        Assert.Equal(1, path.Filters.Count);
+        Assert.Equal(10, ((ArrayIndexFilter)path.Filters[0]).Index);
     }
 
     [Fact]
     public void MultipleIndexes()
     {
         var path = new JPath("[111119990,3]");
-        Xunit.Assert.Equal(1, path.Filters.Count);
-        Xunit.Assert.Equal(2, ((ArrayMultipleIndexFilter)path.Filters[0]).Indexes.Count);
-        Xunit.Assert.Equal(111119990, ((ArrayMultipleIndexFilter)path.Filters[0]).Indexes[0]);
-        Xunit.Assert.Equal(3, ((ArrayMultipleIndexFilter)path.Filters[0]).Indexes[1]);
+        Assert.Equal(1, path.Filters.Count);
+        Assert.Equal(2, ((ArrayMultipleIndexFilter)path.Filters[0]).Indexes.Count);
+        Assert.Equal(111119990, ((ArrayMultipleIndexFilter)path.Filters[0]).Indexes[0]);
+        Assert.Equal(3, ((ArrayMultipleIndexFilter)path.Filters[0]).Indexes[1]);
     }
 
     [Fact]
     public void MultipleIndexesWithWhitespace()
     {
         var path = new JPath("[   111119990  ,   3   ]");
-        Xunit.Assert.Equal(1, path.Filters.Count);
-        Xunit.Assert.Equal(2, ((ArrayMultipleIndexFilter)path.Filters[0]).Indexes.Count);
-        Xunit.Assert.Equal(111119990, ((ArrayMultipleIndexFilter)path.Filters[0]).Indexes[0]);
-        Xunit.Assert.Equal(3, ((ArrayMultipleIndexFilter)path.Filters[0]).Indexes[1]);
+        Assert.Equal(1, path.Filters.Count);
+        Assert.Equal(2, ((ArrayMultipleIndexFilter)path.Filters[0]).Indexes.Count);
+        Assert.Equal(111119990, ((ArrayMultipleIndexFilter)path.Filters[0]).Indexes[0]);
+        Assert.Equal(3, ((ArrayMultipleIndexFilter)path.Filters[0]).Indexes[1]);
     }
 
     [Fact]
     public void MultipleQuotedIndexes()
     {
         var path = new JPath("['111119990','3']");
-        Xunit.Assert.Equal(1, path.Filters.Count);
-        Xunit.Assert.Equal(2, ((FieldMultipleFilter)path.Filters[0]).Names.Count);
-        Xunit.Assert.Equal("111119990", ((FieldMultipleFilter)path.Filters[0]).Names[0]);
-        Xunit.Assert.Equal("3", ((FieldMultipleFilter)path.Filters[0]).Names[1]);
+        Assert.Equal(1, path.Filters.Count);
+        Assert.Equal(2, ((FieldMultipleFilter)path.Filters[0]).Names.Count);
+        Assert.Equal("111119990", ((FieldMultipleFilter)path.Filters[0]).Names[0]);
+        Assert.Equal("3", ((FieldMultipleFilter)path.Filters[0]).Names[1]);
     }
 
     [Fact]
     public void MultipleQuotedIndexesWithWhitespace()
     {
         var path = new JPath("[ '111119990' , '3' ]");
-        Xunit.Assert.Equal(1, path.Filters.Count);
-        Xunit.Assert.Equal(2, ((FieldMultipleFilter)path.Filters[0]).Names.Count);
-        Xunit.Assert.Equal("111119990", ((FieldMultipleFilter)path.Filters[0]).Names[0]);
-        Xunit.Assert.Equal("3", ((FieldMultipleFilter)path.Filters[0]).Names[1]);
+        Assert.Equal(1, path.Filters.Count);
+        Assert.Equal(2, ((FieldMultipleFilter)path.Filters[0]).Names.Count);
+        Assert.Equal("111119990", ((FieldMultipleFilter)path.Filters[0]).Names[0]);
+        Assert.Equal("3", ((FieldMultipleFilter)path.Filters[0]).Names[1]);
     }
 
     [Fact]
     public void SlicingIndexAll()
     {
         var path = new JPath("[111119990:3:2]");
-        Xunit.Assert.Equal(1, path.Filters.Count);
-        Xunit.Assert.Equal(111119990, ((ArraySliceFilter)path.Filters[0]).Start);
-        Xunit.Assert.Equal(3, ((ArraySliceFilter)path.Filters[0]).End);
-        Xunit.Assert.Equal(2, ((ArraySliceFilter)path.Filters[0]).Step);
+        Assert.Equal(1, path.Filters.Count);
+        Assert.Equal(111119990, ((ArraySliceFilter)path.Filters[0]).Start);
+        Assert.Equal(3, ((ArraySliceFilter)path.Filters[0]).End);
+        Assert.Equal(2, ((ArraySliceFilter)path.Filters[0]).Step);
     }
 
     [Fact]
     public void SlicingIndex()
     {
         var path = new JPath("[111119990:3]");
-        Xunit.Assert.Equal(1, path.Filters.Count);
-        Xunit.Assert.Equal(111119990, ((ArraySliceFilter)path.Filters[0]).Start);
-        Xunit.Assert.Equal(3, ((ArraySliceFilter)path.Filters[0]).End);
-        Xunit.Assert.Equal(null, ((ArraySliceFilter)path.Filters[0]).Step);
+        Assert.Equal(1, path.Filters.Count);
+        Assert.Equal(111119990, ((ArraySliceFilter)path.Filters[0]).Start);
+        Assert.Equal(3, ((ArraySliceFilter)path.Filters[0]).End);
+        Assert.Equal(null, ((ArraySliceFilter)path.Filters[0]).Step);
     }
 
     [Fact]
     public void SlicingIndexNegative()
     {
         var path = new JPath("[-111119990:-3:-2]");
-        Xunit.Assert.Equal(1, path.Filters.Count);
-        Xunit.Assert.Equal(-111119990, ((ArraySliceFilter)path.Filters[0]).Start);
-        Xunit.Assert.Equal(-3, ((ArraySliceFilter)path.Filters[0]).End);
-        Xunit.Assert.Equal(-2, ((ArraySliceFilter)path.Filters[0]).Step);
+        Assert.Equal(1, path.Filters.Count);
+        Assert.Equal(-111119990, ((ArraySliceFilter)path.Filters[0]).Start);
+        Assert.Equal(-3, ((ArraySliceFilter)path.Filters[0]).End);
+        Assert.Equal(-2, ((ArraySliceFilter)path.Filters[0]).Step);
     }
 
     [Fact]
     public void SlicingIndexEmptyStop()
     {
         var path = new JPath("[  -3  :  ]");
-        Xunit.Assert.Equal(1, path.Filters.Count);
-        Xunit.Assert.Equal(-3, ((ArraySliceFilter)path.Filters[0]).Start);
-        Xunit.Assert.Equal(null, ((ArraySliceFilter)path.Filters[0]).End);
-        Xunit.Assert.Equal(null, ((ArraySliceFilter)path.Filters[0]).Step);
+        Assert.Equal(1, path.Filters.Count);
+        Assert.Equal(-3, ((ArraySliceFilter)path.Filters[0]).Start);
+        Assert.Equal(null, ((ArraySliceFilter)path.Filters[0]).End);
+        Assert.Equal(null, ((ArraySliceFilter)path.Filters[0]).Step);
     }
 
     [Fact]
     public void SlicingIndexEmptyStart()
     {
         var path = new JPath("[ : 1 : ]");
-        Xunit.Assert.Equal(1, path.Filters.Count);
-        Xunit.Assert.Equal(null, ((ArraySliceFilter)path.Filters[0]).Start);
-        Xunit.Assert.Equal(1, ((ArraySliceFilter)path.Filters[0]).End);
-        Xunit.Assert.Equal(null, ((ArraySliceFilter)path.Filters[0]).Step);
+        Assert.Equal(1, path.Filters.Count);
+        Assert.Equal(null, ((ArraySliceFilter)path.Filters[0]).Start);
+        Assert.Equal(1, ((ArraySliceFilter)path.Filters[0]).End);
+        Assert.Equal(null, ((ArraySliceFilter)path.Filters[0]).Step);
     }
 
     [Fact]
     public void SlicingIndexWhitespace()
     {
         var path = new JPath("[  -111119990  :  -3  :  -2  ]");
-        Xunit.Assert.Equal(1, path.Filters.Count);
-        Xunit.Assert.Equal(-111119990, ((ArraySliceFilter)path.Filters[0]).Start);
-        Xunit.Assert.Equal(-3, ((ArraySliceFilter)path.Filters[0]).End);
-        Xunit.Assert.Equal(-2, ((ArraySliceFilter)path.Filters[0]).Step);
+        Assert.Equal(1, path.Filters.Count);
+        Assert.Equal(-111119990, ((ArraySliceFilter)path.Filters[0]).Start);
+        Assert.Equal(-3, ((ArraySliceFilter)path.Filters[0]).End);
+        Assert.Equal(-2, ((ArraySliceFilter)path.Filters[0]).Step);
     }
 
     [Fact]
@@ -729,11 +729,11 @@ public class JPathParseTests : TestFixtureBase
     public void AdjacentIndexers()
     {
         var path = new JPath("[1][0][0][" + int.MaxValue + "]");
-        Xunit.Assert.Equal(4, path.Filters.Count);
-        Xunit.Assert.Equal(1, ((ArrayIndexFilter)path.Filters[0]).Index);
-        Xunit.Assert.Equal(0, ((ArrayIndexFilter)path.Filters[1]).Index);
-        Xunit.Assert.Equal(0, ((ArrayIndexFilter)path.Filters[2]).Index);
-        Xunit.Assert.Equal(int.MaxValue, ((ArrayIndexFilter)path.Filters[3]).Index);
+        Assert.Equal(4, path.Filters.Count);
+        Assert.Equal(1, ((ArrayIndexFilter)path.Filters[0]).Index);
+        Assert.Equal(0, ((ArrayIndexFilter)path.Filters[1]).Index);
+        Assert.Equal(0, ((ArrayIndexFilter)path.Filters[2]).Index);
+        Assert.Equal(int.MaxValue, ((ArrayIndexFilter)path.Filters[3]).Index);
     }
 
     [Fact]
@@ -746,12 +746,12 @@ public class JPathParseTests : TestFixtureBase
     public void PropertyFollowingEscapedPropertyName()
     {
         var path = new JPath("frameworks.NET5_0_OR_GREATER.dependencies.['System.Xml.ReaderWriter'].source");
-        Xunit.Assert.Equal(5, path.Filters.Count);
+        Assert.Equal(5, path.Filters.Count);
 
-        Xunit.Assert.Equal("frameworks", ((FieldFilter)path.Filters[0]).Name);
-        Xunit.Assert.Equal("NET5_0_OR_GREATER", ((FieldFilter)path.Filters[1]).Name);
-        Xunit.Assert.Equal("dependencies", ((FieldFilter)path.Filters[2]).Name);
-        Xunit.Assert.Equal("System.Xml.ReaderWriter", ((FieldFilter)path.Filters[3]).Name);
-        Xunit.Assert.Equal("source", ((FieldFilter)path.Filters[4]).Name);
+        Assert.Equal("frameworks", ((FieldFilter)path.Filters[0]).Name);
+        Assert.Equal("NET5_0_OR_GREATER", ((FieldFilter)path.Filters[1]).Name);
+        Assert.Equal("dependencies", ((FieldFilter)path.Filters[2]).Name);
+        Assert.Equal("System.Xml.ReaderWriter", ((FieldFilter)path.Filters[3]).Name);
+        Assert.Equal("source", ((FieldFilter)path.Filters[4]).Name);
     }
 }

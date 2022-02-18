@@ -59,6 +59,6 @@ public class DeserializeObject : TestFixtureBase
         // james@example.com
         #endregion
 
-        Xunit.Assert.Equal("james@example.com", account.Email);
+        Assert.Equal("james@example.com", account.Email);
     }
 }

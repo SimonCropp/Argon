@@ -34,45 +34,45 @@ public class ExceptionTests : TestFixtureBase
     public void JsonSerializationException()
     {
         var exception = new JsonSerializationException();
-        Xunit.Assert.Equal("Exception of type 'Argon.JsonSerializationException' was thrown.", exception.Message);
+        Assert.Equal("Exception of type 'Argon.JsonSerializationException' was thrown.", exception.Message);
 
         exception = new JsonSerializationException("Message!");
-        Xunit.Assert.Equal("Message!", exception.Message);
-        Xunit.Assert.Equal(null, exception.InnerException);
+        Assert.Equal("Message!", exception.Message);
+        Assert.Equal(null, exception.InnerException);
 
         exception = new JsonSerializationException("Message!", new Exception("Inner!"));
-        Xunit.Assert.Equal("Message!", exception.Message);
-        Xunit.Assert.Equal("Inner!", exception.InnerException.Message);
+        Assert.Equal("Message!", exception.Message);
+        Assert.Equal("Inner!", exception.InnerException.Message);
     }
 
     [Fact]
     public void JsonWriterException()
     {
         var exception = new JsonWriterException();
-        Xunit.Assert.Equal("Exception of type 'Argon.JsonWriterException' was thrown.", exception.Message);
+        Assert.Equal("Exception of type 'Argon.JsonWriterException' was thrown.", exception.Message);
 
         exception = new JsonWriterException("Message!");
-        Xunit.Assert.Equal("Message!", exception.Message);
-        Xunit.Assert.Equal(null, exception.InnerException);
+        Assert.Equal("Message!", exception.Message);
+        Assert.Equal(null, exception.InnerException);
 
         exception = new JsonWriterException("Message!", new Exception("Inner!"));
-        Xunit.Assert.Equal("Message!", exception.Message);
-        Xunit.Assert.Equal("Inner!", exception.InnerException.Message);
+        Assert.Equal("Message!", exception.Message);
+        Assert.Equal("Inner!", exception.InnerException.Message);
     }
 
     [Fact]
     public void JsonReaderException()
     {
         var exception = new JsonReaderException();
-        Xunit.Assert.Equal("Exception of type 'Argon.JsonReaderException' was thrown.", exception.Message);
+        Assert.Equal("Exception of type 'Argon.JsonReaderException' was thrown.", exception.Message);
 
         exception = new JsonReaderException("Message!");
-        Xunit.Assert.Equal("Message!", exception.Message);
-        Xunit.Assert.Equal(null, exception.InnerException);
+        Assert.Equal("Message!", exception.Message);
+        Assert.Equal(null, exception.InnerException);
 
         exception = new JsonReaderException("Message!", new Exception("Inner!"));
-        Xunit.Assert.Equal("Message!", exception.Message);
-        Xunit.Assert.Equal("Inner!", exception.InnerException.Message);
+        Assert.Equal("Message!", exception.Message);
+        Assert.Equal("Inner!", exception.InnerException.Message);
     }
 
 #pragma warning disable 618
@@ -80,15 +80,15 @@ public class ExceptionTests : TestFixtureBase
     public void JsonSchemaException()
     {
         var exception = new JsonSchemaException();
-        Xunit.Assert.Equal("Exception of type 'Argon.Schema.JsonSchemaException' was thrown.", exception.Message);
+        Assert.Equal("Exception of type 'Argon.Schema.JsonSchemaException' was thrown.", exception.Message);
 
         exception = new JsonSchemaException("Message!");
-        Xunit.Assert.Equal("Message!", exception.Message);
-        Xunit.Assert.Equal(null, exception.InnerException);
+        Assert.Equal("Message!", exception.Message);
+        Assert.Equal(null, exception.InnerException);
 
         exception = new JsonSchemaException("Message!", new Exception("Inner!"));
-        Xunit.Assert.Equal("Message!", exception.Message);
-        Xunit.Assert.Equal("Inner!", exception.InnerException.Message);
+        Assert.Equal("Message!", exception.Message);
+        Assert.Equal("Inner!", exception.InnerException.Message);
     }
 #pragma warning restore 618
 

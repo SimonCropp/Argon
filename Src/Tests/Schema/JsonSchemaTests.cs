@@ -53,7 +53,7 @@ public class JsonSchemaTests : TestFixtureBase
 }";
 
         var second = JsonSchema.Parse(json, resolver);
-        Xunit.Assert.Equal(first, second.Extends[0]);
+        Assert.Equal(first, second.Extends[0]);
 
         json =
           @"{
@@ -64,8 +64,8 @@ public class JsonSchemaTests : TestFixtureBase
 }";
 
         var third = JsonSchema.Parse(json, resolver);
-        Xunit.Assert.Equal(second, third.Extends[0]);
-        Xunit.Assert.Equal(first, third.Extends[0].Extends[0]);
+        Assert.Equal(second, third.Extends[0]);
+        Assert.Equal(first, third.Extends[0].Extends[0]);
 
         var writer = new StringWriter();
         var jsonWriter = new JsonTextWriter(writer);
@@ -574,6 +574,6 @@ public class JsonSchemaTests : TestFixtureBase
         ""NumberProperty"": 23
       }");
 
-        Xunit.Assert.True(json.IsValid(schema));
+        Assert.True(json.IsValid(schema));
     }
 }

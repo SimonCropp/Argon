@@ -37,17 +37,17 @@ public class Issue1752 : TestFixtureBase
         var s1 = JsonConvert.SerializeObject(new TestObject { Obj = new byte[] { } }, settings);
 
         var t1 = JsonConvert.DeserializeObject<TestObject>(s1, settings);
-        Xunit.Assert.NotNull(t1.Obj);
+        Assert.NotNull(t1.Obj);
 
         var data = (byte[])t1.Obj;
-        Xunit.Assert.Equal(0, data.Length);
+        Assert.Equal(0, data.Length);
     }
 
     [Fact]
     public void Test_Null()
     {
         var t1 = JsonConvert.DeserializeObject<TestObject1>("{'Obj':null}");
-        Xunit.Assert.Null(t1.Obj);
+        Assert.Null(t1.Obj);
     }
 
     class TestObject

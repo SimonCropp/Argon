@@ -62,9 +62,9 @@ public class KebabCaseNamingStrategyTests : TestFixtureBase
             ContractResolver = contractResolver
         });
 
-        Xunit.Assert.Equal(person.BirthDate, deserializedPerson.BirthDate);
-        Xunit.Assert.Equal(person.LastModified, deserializedPerson.LastModified);
-        Xunit.Assert.Equal(person.Name, deserializedPerson.Name);
+        Assert.Equal(person.BirthDate, deserializedPerson.BirthDate);
+        Assert.Equal(person.LastModified, deserializedPerson.LastModified);
+        Assert.Equal(person.Name, deserializedPerson.Name);
 
         json = JsonConvert.SerializeObject(person, Formatting.Indented);
         StringAssert.AreEqual(@"{
@@ -102,8 +102,8 @@ public class KebabCaseNamingStrategyTests : TestFixtureBase
         var o = (JObject)writer.Token;
         var p = o.Property("the-field");
 
-        Xunit.Assert.NotNull(p);
-        Xunit.Assert.Equal(int.MinValue, (int)p.Value);
+        Assert.NotNull(p);
+        Assert.Equal(int.MinValue, (int)p.Value);
     }
 
     [Fact]

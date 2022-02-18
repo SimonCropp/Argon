@@ -35,7 +35,7 @@ public class Issue1574 : TestFixtureBase
         var c = new TestClass();
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        Xunit.Assert.Equal("{}", json);
+        Assert.Equal("{}", json);
     }
 
     public enum ServerType { STUN, TURN };

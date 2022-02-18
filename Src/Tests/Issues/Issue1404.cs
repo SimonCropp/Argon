@@ -35,13 +35,13 @@ public class Issue1404 : TestFixtureBase
     {
         var t = typeof(FileSystemInfo);
 
-        Xunit.Assert.True(t.ImplementInterface(typeof(ISerializable)));
+        Assert.True(t.ImplementInterface(typeof(ISerializable)));
 
         var resolver = new DefaultContractResolver();
 
         var contract = resolver.ResolveContract(t);
 
-        Xunit.Assert.Equal(JsonContractType.Object, contract.ContractType);
+        Assert.Equal(JsonContractType.Object, contract.ContractType);
     }
 }
 #endif

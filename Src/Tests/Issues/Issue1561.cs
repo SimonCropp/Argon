@@ -39,7 +39,7 @@ public class Issue1561 : TestFixtureBase
 
         var serialized = JsonConvert.SerializeObject(data);
 
-        Xunit.Assert.Equal(@"{""Value"":1.1}", serialized);
+        Assert.Equal(@"{""Value"":1.1}", serialized);
     }
 
     public class Data

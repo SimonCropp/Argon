@@ -34,8 +34,8 @@ public class NamingStrategyEquality: TestFixtureBase
     {
         var s1 = new CamelCaseNamingStrategy();
         var s2 = new CamelCaseNamingStrategy();
-        Xunit.Assert.True(s1.Equals(s2));
-        Xunit.Assert.True(s1.GetHashCode() == s2.GetHashCode());
+        Assert.True(s1.Equals(s2));
+        Assert.True(s1.GetHashCode() == s2.GetHashCode());
     }
 
     [Fact]
@@ -54,8 +54,8 @@ public class NamingStrategyEquality: TestFixtureBase
     {
         var s1 = new DefaultNamingStrategy();
         var s2 = new DefaultNamingStrategy();
-        Xunit.Assert.True(s1.Equals(s2));
-        Xunit.Assert.True(s1.GetHashCode() == s2.GetHashCode());
+        Assert.True(s1.Equals(s2));
+        Assert.True(s1.GetHashCode() == s2.GetHashCode());
     }
 
     [Fact]
@@ -74,8 +74,8 @@ public class NamingStrategyEquality: TestFixtureBase
     {
         var s1 = new SnakeCaseNamingStrategy();
         var s2 = new SnakeCaseNamingStrategy();
-        Xunit.Assert.True(s1.Equals(s2));
-        Xunit.Assert.True(s1.GetHashCode() == s2.GetHashCode());
+        Assert.True(s1.Equals(s2));
+        Assert.True(s1.GetHashCode() == s2.GetHashCode());
     }
 
     [Fact]
@@ -94,8 +94,8 @@ public class NamingStrategyEquality: TestFixtureBase
     {
         var s1 = new KebabCaseNamingStrategy();
         var s2 = new KebabCaseNamingStrategy();
-        Xunit.Assert.True(s1.Equals(s2));
-        Xunit.Assert.True(s1.GetHashCode() == s2.GetHashCode());
+        Assert.True(s1.Equals(s2));
+        Assert.True(s1.GetHashCode() == s2.GetHashCode());
     }
 
     [Fact]
@@ -114,8 +114,8 @@ public class NamingStrategyEquality: TestFixtureBase
     {
         NamingStrategy s1 = new SnakeCaseNamingStrategy();
         NamingStrategy s2 = new DefaultNamingStrategy();
-        Xunit.Assert.False(s1.Equals(s2));
-        Xunit.Assert.False(s1.GetHashCode() == s2.GetHashCode());
+        Assert.False(s1.Equals(s2));
+        Assert.False(s1.GetHashCode() == s2.GetHashCode());
     }
 
     void CheckInequality<T>(bool overrideSpecifiedNames, bool processDictionaryKeys, bool processExtensionDataNames)
@@ -135,7 +135,7 @@ public class NamingStrategyEquality: TestFixtureBase
             ProcessExtensionDataNames = processExtensionDataNames
         };
 
-        Xunit.Assert.False(s1.Equals(s2));
-        Xunit.Assert.False(s1.GetHashCode() == s2.GetHashCode());
+        Assert.False(s1.Equals(s2));
+        Assert.False(s1.GetHashCode() == s2.GetHashCode());
     }
 }

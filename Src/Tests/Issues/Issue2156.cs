@@ -49,7 +49,7 @@ public class Issue2156
         var count1 = t.SelectTokens("$..a.name").Count(); // result: 1, expected: 1
         var count2 = t.SelectTokens("$..['a']['name']").Count(); // result: 2, expected: 1
 
-        Xunit.Assert.Equal(1, count1);
-        Xunit.Assert.Equal(1, count2);
+        Assert.Equal(1, count1);
+        Assert.Equal(1, count2);
     }
 }

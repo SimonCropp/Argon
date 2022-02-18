@@ -71,6 +71,6 @@ public class CreateReader : TestFixtureBase
         // EndObject
         #endregion
 
-        Xunit.Assert.False(reader.Read());
+        Assert.False(reader.Read());
     }
 }

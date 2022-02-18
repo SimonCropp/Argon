@@ -53,9 +53,9 @@ public class QueryJsonSelectTokenEscaped : TestFixtureBase
         // Make-Believe
         #endregion
 
-        Xunit.Assert.Equal("Taito", spaceInvaders);
-        Xunit.Assert.Equal("id", doom3);
-        Xunit.Assert.Equal("Atari", yarsRevenge);
-        Xunit.Assert.Equal("Make-Believe", governmentIntelligence);
+        Assert.Equal("Taito", spaceInvaders);
+        Assert.Equal("id", doom3);
+        Assert.Equal("Atari", yarsRevenge);
+        Assert.Equal("Make-Believe", governmentIntelligence);
     }
 }

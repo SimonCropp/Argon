@@ -42,7 +42,7 @@ public class Issue1877
         {
             Converters = { new VersionConverter() }
         });
-        Xunit.Assert.Equal(@"{""Version"":""4.0""}", s);
+        Assert.Equal(@"{""Version"":""4.0""}", s);
 
         var f3 = JsonConvert.DeserializeObject<Fubar2>(s, new JsonSerializerSettings
         {
@@ -50,8 +50,8 @@ public class Issue1877
             Converters = { new VersionConverter() }
         });
 
-        Xunit.Assert.Equal(2, f3.Version.Major);
-        Xunit.Assert.Equal(4, (f3 as Fubar).Version.Major);
+        Assert.Equal(2, f3.Version.Major);
+        Assert.Equal(4, (f3 as Fubar).Version.Major);
     }
 
     class Fubar

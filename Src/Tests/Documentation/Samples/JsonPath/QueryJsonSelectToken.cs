@@ -82,6 +82,6 @@ public class QueryJsonSelectToken : TestFixtureBase
 
         #endregion
 
-        Xunit.Assert.Equal("Elbow Grease", productName);
+        Assert.Equal("Elbow Grease", productName);
     }
 }

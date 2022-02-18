@@ -55,7 +55,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
 
         var u = (User)o;
 
-        Xunit.Assert.Equal(u.Name, "James");
+        Assert.Equal(u.Name, "James");
     }
 
     [Fact]
@@ -121,7 +121,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
 
         var deserializedObject = (Dictionary<string, Guid>)JsonConvert.DeserializeObject(serializedString, jsonSerializerSettings);
 
-        Xunit.Assert.Equal(someValue, deserializedObject[contextKey]);
+        Assert.Equal(someValue, deserializedObject[contextKey]);
     }
 
     [Fact]
@@ -156,10 +156,10 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
             MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
         });
 
-        Xunit.Assert.Equal(new Guid("d8220a4b-75b1-4b7a-8112-b7bdae956a45"), actual.SourceTypeID);
-        Xunit.Assert.Equal(new Guid("951663c4-924e-4c86-a57a-7ed737501dbd"), actual.BrokerID);
+        Assert.Equal(new Guid("d8220a4b-75b1-4b7a-8112-b7bdae956a45"), actual.SourceTypeID);
+        Assert.Equal(new Guid("951663c4-924e-4c86-a57a-7ed737501dbd"), actual.BrokerID);
         var bytes = (byte[])actual.Payload;
-        Xunit.Assert.Equal(new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, bytes);
+        Assert.Equal(new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, bytes);
     }
 
     [Fact]
@@ -198,12 +198,12 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
                 MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
             });
 
-        Xunit.Assert.Equal(3, circularList.Count);
-        Xunit.Assert.Equal(null, circularList[0]);
-        Xunit.Assert.Equal(1, circularList[1].Count);
-        Xunit.Assert.Equal(1, circularList[2].Count);
-        Xunit.Assert.Equal(1, circularList[2][0].Count);
-        Xunit.Assert.True(ReferenceEquals(circularList, circularList[2][0][0]));
+        Assert.Equal(3, circularList.Count);
+        Assert.Equal(null, circularList[0]);
+        Assert.Equal(1, circularList[1].Count);
+        Assert.Equal(1, circularList[2].Count);
+        Assert.Equal(1, circularList[2][0].Count);
+        Assert.True(ReferenceEquals(circularList, circularList[2][0][0]));
     }
 
     [Fact]
@@ -260,9 +260,9 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
             MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
         });
 
-        Xunit.Assert.Equal(3, result.Count);
-        Xunit.Assert.Equal(1, ((JObject)result["Father"]).Count);
-        Xunit.Assert.Equal("blah!", (string)((JObject)result["Father"])["blah"]);
+        Assert.Equal(3, result.Count);
+        Assert.Equal(1, ((JObject)result["Father"]).Count);
+        Assert.Equal("blah!", (string)((JObject)result["Father"])["blah"]);
     }
 
     [Fact]
@@ -288,10 +288,10 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
             MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
         });
 
-        Xunit.Assert.Equal(2, employees.Count);
-        Xunit.Assert.Equal("Mike Manager", employees[0].Name);
-        Xunit.Assert.Equal("Joe User", employees[1].Name);
-        Xunit.Assert.Equal(employees[0], employees[1].Manager);
+        Assert.Equal(2, employees.Count);
+        Assert.Equal("Mike Manager", employees[0].Name);
+        Assert.Equal("Joe User", employees[1].Name);
+        Assert.Equal(employees[0], employees[1].Manager);
     }
 
     [Fact]
@@ -321,12 +321,12 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
         });
         var employees = t1.ToObject<List<EmployeeReference>>(serializer);
 
-        Xunit.Assert.Equal(2, employees.Count);
-        Xunit.Assert.Equal("Mike Manager", employees[0].Name);
-        Xunit.Assert.Equal("Joe User", employees[1].Name);
-        Xunit.Assert.Equal(employees[0], employees[1].Manager);
+        Assert.Equal(2, employees.Count);
+        Assert.Equal("Mike Manager", employees[0].Name);
+        Assert.Equal("Joe User", employees[1].Name);
+        Assert.Equal(employees[0], employees[1].Manager);
 
-        Xunit.Assert.True(JToken.DeepEquals(t1, t2));
+        Assert.True(JToken.DeepEquals(t1, t2));
     }
 
     [Fact]
@@ -366,20 +366,20 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
             MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
         });
 
-        Xunit.Assert.Equal(4, values.Count);
+        Assert.Equal(4, values.Count);
 
         var e = (EmployeeReference)values[0];
         var p = (Person)values[1];
 
-        Xunit.Assert.Equal("Bob", e.Name);
-        Xunit.Assert.Equal("Frank", e.Manager.Name);
+        Assert.Equal("Bob", e.Name);
+        Assert.Equal("Frank", e.Manager.Name);
 
-        Xunit.Assert.Equal(null, p.Name);
-        Xunit.Assert.Equal(new DateTime(2000, 12, 30, 0, 0, 0, DateTimeKind.Utc), p.BirthDate);
-        Xunit.Assert.Equal(new DateTime(2000, 12, 30, 0, 0, 0, DateTimeKind.Utc), p.LastModified);
+        Assert.Equal(null, p.Name);
+        Assert.Equal(new DateTime(2000, 12, 30, 0, 0, 0, DateTimeKind.Utc), p.BirthDate);
+        Assert.Equal(new DateTime(2000, 12, 30, 0, 0, 0, DateTimeKind.Utc), p.LastModified);
 
-        Xunit.Assert.Equal("String!", values[2]);
-        Xunit.Assert.Equal((long)int.MinValue, values[3]);
+        Assert.Equal("String!", values[2]);
+        Assert.Equal((long)int.MinValue, values[3]);
     }
 
     [Fact]
@@ -413,16 +413,16 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
         {
             MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
         });
-        Xunit.Assert.Equal("Name!", deserialized.Name);
-        Xunit.Assert.IsType(typeof(List<int>), deserialized.Value);
+        Assert.Equal("Name!", deserialized.Name);
+        Assert.IsType(typeof(List<int>), deserialized.Value);
 
         var nested = (List<int>)deserialized.Value;
-        Xunit.Assert.Equal(5, nested.Count);
-        Xunit.Assert.Equal(1, nested[0]);
-        Xunit.Assert.Equal(2, nested[1]);
-        Xunit.Assert.Equal(3, nested[2]);
-        Xunit.Assert.Equal(4, nested[3]);
-        Xunit.Assert.Equal(5, nested[4]);
+        Assert.Equal(5, nested.Count);
+        Assert.Equal(1, nested[0]);
+        Assert.Equal(2, nested[1]);
+        Assert.Equal(3, nested[2]);
+        Assert.Equal(4, nested[3]);
+        Assert.Equal(5, nested[4]);
     }
 
     public class MetadataPropertyDisabledTestClass
@@ -470,11 +470,11 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
             MetadataPropertyHandling = MetadataPropertyHandling.Ignore
         });
 
-        Xunit.Assert.Equal("Id!", c2.Id);
-        Xunit.Assert.Equal("Ref!", c2.Ref);
-        Xunit.Assert.Equal("Type!", c2.Type);
-        Xunit.Assert.Equal("Value!", c2.Value);
-        Xunit.Assert.Equal("Values!", c2.Values);
+        Assert.Equal("Id!", c2.Id);
+        Assert.Equal("Ref!", c2.Ref);
+        Assert.Equal("Type!", c2.Type);
+        Assert.Equal("Value!", c2.Value);
+        Assert.Equal("Values!", c2.Values);
     }
 
     [Fact]
@@ -487,7 +487,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
             MetadataPropertyHandling = MetadataPropertyHandling.Ignore
         });
 
-        Xunit.Assert.Equal(null, c.Id);
+        Assert.Equal(null, c.Id);
     }
 
     [Fact]
@@ -509,12 +509,12 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
                 MetadataPropertyHandling = MetadataPropertyHandling.Ignore
             });
 
-        Xunit.Assert.Equal(new Guid("d8220a4b-75b1-4b7a-8112-b7bdae956a45"), actual.SourceTypeID);
-        Xunit.Assert.Equal(new Guid("951663c4-924e-4c86-a57a-7ed737501dbd"), actual.BrokerID);
+        Assert.Equal(new Guid("d8220a4b-75b1-4b7a-8112-b7bdae956a45"), actual.SourceTypeID);
+        Assert.Equal(new Guid("951663c4-924e-4c86-a57a-7ed737501dbd"), actual.BrokerID);
         var o = (JObject)actual.Payload;
-        Xunit.Assert.Equal("System.Byte[], mscorlib", (string)o["$type"]);
-        Xunit.Assert.Equal("AAECAwQFBgcICQ==", (string)o["$value"]);
-        Xunit.Assert.Equal(null, o.Parent);
+        Assert.Equal("System.Byte[], mscorlib", (string)o["$type"]);
+        Assert.Equal("AAECAwQFBgcICQ==", (string)o["$value"]);
+        Assert.Equal(null, o.Parent);
     }
 
     [Fact]
@@ -529,7 +529,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
             });
 
         var o = (JObject)actual.Payload;
-        Xunit.Assert.Equal(null, o.Parent);
+        Assert.Equal(null, o.Parent);
     }
 
     public class ItemWithJTokens
@@ -554,17 +554,17 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
                 TypeNameHandling = TypeNameHandling.All
             });
 
-        Xunit.Assert.Equal(JTokenType.Integer, actual.Payload1.Type);
-        Xunit.Assert.Equal(1, (int)actual.Payload1);
-        Xunit.Assert.Equal(null, actual.Payload1.Parent);
+        Assert.Equal(JTokenType.Integer, actual.Payload1.Type);
+        Assert.Equal(1, (int)actual.Payload1);
+        Assert.Equal(null, actual.Payload1.Parent);
 
-        Xunit.Assert.Equal(JTokenType.Object, actual.Payload2.Type);
-        Xunit.Assert.Equal(1, (int)actual.Payload2["prop1"]);
-        Xunit.Assert.Equal(2, (int)actual.Payload2["prop2"][0]);
-        Xunit.Assert.Equal(null, actual.Payload2.Parent);
+        Assert.Equal(JTokenType.Object, actual.Payload2.Type);
+        Assert.Equal(1, (int)actual.Payload2["prop1"]);
+        Assert.Equal(2, (int)actual.Payload2["prop2"][0]);
+        Assert.Equal(null, actual.Payload2.Parent);
 
-        Xunit.Assert.Equal(1, (int)actual.Payload3[0]);
-        Xunit.Assert.Equal(null, actual.Payload3.Parent);
+        Assert.Equal(1, (int)actual.Payload3[0]);
+        Assert.Equal(null, actual.Payload3.Parent);
     }
 
     [Fact]
@@ -579,7 +579,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
             });
 
         var o = (JArray)actual.Payload;
-        Xunit.Assert.Equal(null, o.Parent);
+        Assert.Equal(null, o.Parent);
     }
 
     public class ItemWithUntypedPayload
@@ -601,7 +601,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
                 TypeNameHandling = TypeNameHandling.Auto
             });
 
-        Xunit.Assert.Equal(5f, actual.Payload);
+        Assert.Equal(5f, actual.Payload);
 
         actual = JsonConvert.DeserializeObject<ItemWithUntypedPayload>(@"{
   ""Payload"": {
@@ -615,7 +615,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
                 MetadataPropertyHandling = MetadataPropertyHandling.Ignore
             });
 
-        Xunit.Assert.True(actual.Payload is JObject);
+        Assert.True(actual.Payload is JObject);
     }
 
     [Fact]
@@ -633,7 +633,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
             MetadataPropertyHandling = MetadataPropertyHandling.Ignore
         });
 
-        Xunit.Assert.Equal("1", c.Id);
-        Xunit.Assert.Equal("CircularReferenceClass", c.Type);
+        Assert.Equal("1", c.Id);
+        Assert.Equal("CircularReferenceClass", c.Type);
     }
 }

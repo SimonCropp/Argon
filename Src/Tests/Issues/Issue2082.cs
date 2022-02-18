@@ -44,7 +44,7 @@ public class Issue2082
             Converters = new[] { new StringEnumConverter { NamingStrategy = namingStrategy } }
         });
 
-        Xunit.Assert.Equal(@"{""value"":""UPPER_CASE_NAME""}", json);
+        Assert.Equal(@"{""value"":""UPPER_CASE_NAME""}", json);
     }
         
     public class TestClass

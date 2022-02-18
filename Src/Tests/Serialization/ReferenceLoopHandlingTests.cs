@@ -36,12 +36,12 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
     public void ReferenceLoopHandlingTest()
     {
         var attribute = new JsonPropertyAttribute();
-        Xunit.Assert.Equal(null, attribute._defaultValueHandling);
-        Xunit.Assert.Equal(ReferenceLoopHandling.Error, attribute.ReferenceLoopHandling);
+        Assert.Equal(null, attribute._defaultValueHandling);
+        Assert.Equal(ReferenceLoopHandling.Error, attribute.ReferenceLoopHandling);
 
         attribute.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-        Xunit.Assert.Equal(ReferenceLoopHandling.Ignore, attribute._referenceLoopHandling);
-        Xunit.Assert.Equal(ReferenceLoopHandling.Ignore, attribute.ReferenceLoopHandling);
+        Assert.Equal(ReferenceLoopHandling.Ignore, attribute._referenceLoopHandling);
+        Assert.Equal(ReferenceLoopHandling.Ignore, attribute.ReferenceLoopHandling);
     }
 
     [Fact]
@@ -54,7 +54,7 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
         {
             ReferenceLoopHandling = ReferenceLoopHandling.Serialize
         });
-        Xunit.Assert.Equal("{}", json);
+        Assert.Equal("{}", json);
     }
 
     [Fact]
@@ -92,7 +92,7 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
         {
             ReferenceLoopHandling = ReferenceLoopHandling.Serialize
         });
-        Xunit.Assert.Equal("[]", json);
+        Assert.Equal("[]", json);
     }
 
     [Fact]
@@ -105,7 +105,7 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
         {
             ReferenceLoopHandling = ReferenceLoopHandling.Serialize
         });
-        Xunit.Assert.Equal("{}", json);
+        Assert.Equal("{}", json);
     }
 
     [Fact]
@@ -198,7 +198,7 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
             new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
 
         var c = JsonConvert.SerializeObject(main, settings);
-        Xunit.Assert.Equal(@"{""Child"":{""Name"":""Child1""}}", c);
+        Assert.Equal(@"{""Child"":{""Name"":""Child1""}}", c);
     }
 
     public class DictionaryDynamicObject : DynamicObject
@@ -253,7 +253,7 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
         var settings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
 
         var c = JsonConvert.SerializeObject(parent, settings);
-        Xunit.Assert.Equal(@"{""child"":{""name"":""child""},""name"":""parent""}", c);
+        Assert.Equal(@"{""child"":{""name"":""child""},""name"":""parent""}", c);
     }
 
     [Fact]

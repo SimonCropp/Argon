@@ -99,7 +99,7 @@ public class ContractResolverTests : TestFixtureBase
         var contractResolver = new DefaultContractResolver();
         var contract = contractResolver.ResolveContract(typeof(ISerializableTestObject));
 
-        Xunit.Assert.Equal(JsonContractType.Serializable, contract.ContractType);
+        Assert.Equal(JsonContractType.Serializable, contract.ContractType);
     }
 
     [Fact]
@@ -108,7 +108,7 @@ public class ContractResolverTests : TestFixtureBase
         var contractResolver = new DefaultContractResolver();
         var contract = contractResolver.ResolveContract(typeof(ISerializableWithoutAttributeTestObject));
 
-        Xunit.Assert.Equal(JsonContractType.Object, contract.ContractType);
+        Assert.Equal(JsonContractType.Object, contract.ContractType);
     }
 
     [Fact]
@@ -120,7 +120,7 @@ public class ContractResolverTests : TestFixtureBase
         };
         var contract = (JsonObjectContract)contractResolver.ResolveContract(typeof(AnswerFilterModel));
 
-        Xunit.Assert.Equal(MemberSerialization.Fields, contract.MemberSerialization);
+        Assert.Equal(MemberSerialization.Fields, contract.MemberSerialization);
     }
 
     [Fact]
@@ -128,28 +128,28 @@ public class ContractResolverTests : TestFixtureBase
     {
         var p = new JsonProperty();
 
-        Xunit.Assert.Equal(null, p.GetResolvedDefaultValue());
-        Xunit.Assert.Equal(null, p.DefaultValue);
+        Assert.Equal(null, p.GetResolvedDefaultValue());
+        Assert.Equal(null, p.DefaultValue);
 
         p.PropertyType = typeof(int);
 
-        Xunit.Assert.Equal(0, p.GetResolvedDefaultValue());
-        Xunit.Assert.Equal(null, p.DefaultValue);
+        Assert.Equal(0, p.GetResolvedDefaultValue());
+        Assert.Equal(null, p.DefaultValue);
 
         p.PropertyType = typeof(DateTime);
 
-        Xunit.Assert.Equal(new DateTime(), p.GetResolvedDefaultValue());
-        Xunit.Assert.Equal(null, p.DefaultValue);
+        Assert.Equal(new DateTime(), p.GetResolvedDefaultValue());
+        Assert.Equal(null, p.DefaultValue);
 
         p.PropertyType = null;
 
-        Xunit.Assert.Equal(null, p.GetResolvedDefaultValue());
-        Xunit.Assert.Equal(null, p.DefaultValue);
+        Assert.Equal(null, p.GetResolvedDefaultValue());
+        Assert.Equal(null, p.DefaultValue);
 
         p.PropertyType = typeof(CompareOptions);
 
-        Xunit.Assert.Equal(CompareOptions.None, (CompareOptions)p.GetResolvedDefaultValue());
-        Xunit.Assert.Equal(null, p.DefaultValue);
+        Assert.Equal(CompareOptions.None, (CompareOptions)p.GetResolvedDefaultValue());
+        Assert.Equal(null, p.DefaultValue);
     }
 
     [Fact]
@@ -158,9 +158,9 @@ public class ContractResolverTests : TestFixtureBase
         var resolver = new DefaultContractResolver();
         var contract = (JsonArrayContract)resolver.ResolveContract(typeof(IList<int>));
 
-        Xunit.Assert.True(contract.IsInstantiable);
-        Xunit.Assert.Equal(typeof(List<int>), contract.CreatedType);
-        Xunit.Assert.NotNull(contract.DefaultCreator);
+        Assert.True(contract.IsInstantiable);
+        Assert.Equal(typeof(List<int>), contract.CreatedType);
+        Assert.NotNull(contract.DefaultCreator);
     }
 
     [Fact]
@@ -170,8 +170,8 @@ public class ContractResolverTests : TestFixtureBase
         var contract = (JsonObjectContract)resolver.ResolveContract(typeof(Invoice));
 
         var property = contract.Properties["FollowUpDays"];
-        Xunit.Assert.Equal(1, property.AttributeProvider.GetAttributes(false).Count);
-        Xunit.Assert.Equal(typeof(DefaultValueAttribute), property.AttributeProvider.GetAttributes(false)[0].GetType());
+        Assert.Equal(1, property.AttributeProvider.GetAttributes(false).Count);
+        Assert.Equal(typeof(DefaultValueAttribute), property.AttributeProvider.GetAttributes(false)[0].GetType());
     }
 
     [Fact]
@@ -180,9 +180,9 @@ public class ContractResolverTests : TestFixtureBase
         var resolver = new DefaultContractResolver();
         var contract = (JsonObjectContract)resolver.ResolveContract(typeof(AbstractTestClass));
 
-        Xunit.Assert.False(contract.IsInstantiable);
-        Xunit.Assert.Null(contract.DefaultCreator);
-        Xunit.Assert.Null(contract.OverrideCreator);
+        Assert.False(contract.IsInstantiable);
+        Assert.Null(contract.DefaultCreator);
+        Assert.Null(contract.OverrideCreator);
 
         ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<AbstractTestClass>(@"{Value:'Value!'}", new JsonSerializerSettings
         {
@@ -196,7 +196,7 @@ public class ContractResolverTests : TestFixtureBase
             ContractResolver = resolver
         });
 
-        Xunit.Assert.Equal("Value!", o.Value);
+        Assert.Equal("Value!", o.Value);
     }
 
     [Fact]
@@ -205,9 +205,9 @@ public class ContractResolverTests : TestFixtureBase
         var resolver = new DefaultContractResolver();
         var contract = (JsonArrayContract)resolver.ResolveContract(typeof(AbstractListTestClass<int>));
 
-        Xunit.Assert.False(contract.IsInstantiable);
-        Xunit.Assert.Null(contract.DefaultCreator);
-        Xunit.Assert.False(contract.HasParameterizedCreatorInternal);
+        Assert.False(contract.IsInstantiable);
+        Assert.Null(contract.DefaultCreator);
+        Assert.False(contract.HasParameterizedCreatorInternal);
 
         ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<AbstractListTestClass<int>>(@"[1,2]", new JsonSerializerSettings
         {
@@ -221,9 +221,9 @@ public class ContractResolverTests : TestFixtureBase
             ContractResolver = resolver
         });
 
-        Xunit.Assert.Equal(2, l.Count);
-        Xunit.Assert.Equal(1, l[0]);
-        Xunit.Assert.Equal(2, l[1]);
+        Assert.Equal(2, l.Count);
+        Assert.Equal(1, l[0]);
+        Assert.Equal(2, l[1]);
     }
 
     public class CustomList<T> : List<T>
@@ -236,8 +236,8 @@ public class ContractResolverTests : TestFixtureBase
         var resolver = new DefaultContractResolver();
         var contract = (JsonArrayContract)resolver.ResolveContract(typeof(IList<int>));
 
-        Xunit.Assert.True(contract.IsInstantiable);
-        Xunit.Assert.NotNull(contract.DefaultCreator);
+        Assert.True(contract.IsInstantiable);
+        Assert.NotNull(contract.DefaultCreator);
 
         contract.DefaultCreator = () => new CustomList<int>();
 
@@ -246,11 +246,11 @@ public class ContractResolverTests : TestFixtureBase
             ContractResolver = resolver
         });
 
-        Xunit.Assert.Equal(typeof(CustomList<int>), l.GetType());
-        Xunit.Assert.Equal(3, l.Count);
-        Xunit.Assert.Equal(1, l[0]);
-        Xunit.Assert.Equal(2, l[1]);
-        Xunit.Assert.Equal(3, l[2]);
+        Assert.Equal(typeof(CustomList<int>), l.GetType());
+        Assert.Equal(3, l.Count);
+        Assert.Equal(1, l[0]);
+        Assert.Equal(2, l[1]);
+        Assert.Equal(3, l[2]);
     }
 
     public class CustomDictionary<TKey, TValue> : Dictionary<TKey, TValue>
@@ -263,8 +263,8 @@ public class ContractResolverTests : TestFixtureBase
         var resolver = new DefaultContractResolver();
         var contract = (JsonDictionaryContract)resolver.ResolveContract(typeof(IDictionary<string, int>));
 
-        Xunit.Assert.True(contract.IsInstantiable);
-        Xunit.Assert.NotNull(contract.DefaultCreator);
+        Assert.True(contract.IsInstantiable);
+        Assert.NotNull(contract.DefaultCreator);
 
         contract.DefaultCreator = () => new CustomDictionary<string, int>();
 
@@ -273,10 +273,10 @@ public class ContractResolverTests : TestFixtureBase
             ContractResolver = resolver
         });
 
-        Xunit.Assert.Equal(typeof(CustomDictionary<string, int>), d.GetType());
-        Xunit.Assert.Equal(2, d.Count);
-        Xunit.Assert.Equal(1, d["key1"]);
-        Xunit.Assert.Equal(2, d["key2"]);
+        Assert.Equal(typeof(CustomDictionary<string, int>), d.GetType());
+        Assert.Equal(2, d.Count);
+        Assert.Equal(1, d["key1"]);
+        Assert.Equal(2, d["key2"]);
     }
 
     [Fact]
@@ -285,9 +285,9 @@ public class ContractResolverTests : TestFixtureBase
         var resolver = new DefaultContractResolver();
         var contract = (JsonDictionaryContract)resolver.ResolveContract(typeof(AbstractDictionaryTestClass<string, int>));
 
-        Xunit.Assert.False(contract.IsInstantiable);
-        Xunit.Assert.Null(contract.DefaultCreator);
-        Xunit.Assert.False(contract.HasParameterizedCreatorInternal);
+        Assert.False(contract.IsInstantiable);
+        Assert.Null(contract.DefaultCreator);
+        Assert.False(contract.HasParameterizedCreatorInternal);
 
         ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<AbstractDictionaryTestClass<string, int>>(@"{key1:1,key2:2}", new JsonSerializerSettings
         {
@@ -301,9 +301,9 @@ public class ContractResolverTests : TestFixtureBase
             ContractResolver = resolver
         });
 
-        Xunit.Assert.Equal(2, d.Count);
-        Xunit.Assert.Equal(1, d["key1"]);
-        Xunit.Assert.Equal(2, d["key2"]);
+        Assert.Equal(2, d.Count);
+        Assert.Equal(1, d["key1"]);
+        Assert.Equal(2, d["key2"]);
     }
 
     [Fact]
@@ -322,13 +322,13 @@ public class ContractResolverTests : TestFixtureBase
                 }
             });
 
-        Xunit.Assert.Equal(@"{""AddressLine1-'-\""-"":""value!""}", json);
+        Assert.Equal(@"{""AddressLine1-'-\""-"":""value!""}", json);
 
         var reader = new JsonTextReader(new StringReader(json));
         reader.Read();
         reader.Read();
 
-        Xunit.Assert.Equal(@"AddressLine1-'-""-", reader.Value);
+        Assert.Equal(@"AddressLine1-'-""-", reader.Value);
     }
 
     [Fact]
@@ -349,74 +349,74 @@ public class ContractResolverTests : TestFixtureBase
                 StringEscapeHandling = StringEscapeHandling.EscapeHtml
             });
 
-        Xunit.Assert.Equal(@"{""\u003cb\u003eAddressLine1\u003c/b\u003e"":""value!""}", json);
+        Assert.Equal(@"{""\u003cb\u003eAddressLine1\u003c/b\u003e"":""value!""}", json);
 
         var reader = new JsonTextReader(new StringReader(json));
         reader.Read();
         reader.Read();
 
-        Xunit.Assert.Equal(@"<b>AddressLine1</b>", reader.Value);
+        Assert.Equal(@"<b>AddressLine1</b>", reader.Value);
     }
 
     [Fact]
     public void CalculatingPropertyNameEscapedSkipping()
     {
         var p = new JsonProperty { PropertyName = "abc" };
-        Xunit.Assert.True(p._skipPropertyNameEscape);
+        Assert.True(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = "123" };
-        Xunit.Assert.True(p._skipPropertyNameEscape);
+        Assert.True(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = "._-" };
-        Xunit.Assert.True(p._skipPropertyNameEscape);
+        Assert.True(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = "!@#" };
-        Xunit.Assert.True(p._skipPropertyNameEscape);
+        Assert.True(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = "$%^" };
-        Xunit.Assert.True(p._skipPropertyNameEscape);
+        Assert.True(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = "?*(" };
-        Xunit.Assert.True(p._skipPropertyNameEscape);
+        Assert.True(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = ")_+" };
-        Xunit.Assert.True(p._skipPropertyNameEscape);
+        Assert.True(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = "=:," };
-        Xunit.Assert.True(p._skipPropertyNameEscape);
+        Assert.True(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = null };
-        Xunit.Assert.True(p._skipPropertyNameEscape);
+        Assert.True(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = "&" };
-        Xunit.Assert.False(p._skipPropertyNameEscape);
+        Assert.False(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = "<" };
-        Xunit.Assert.False(p._skipPropertyNameEscape);
+        Assert.False(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = ">" };
-        Xunit.Assert.False(p._skipPropertyNameEscape);
+        Assert.False(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = "'" };
-        Xunit.Assert.False(p._skipPropertyNameEscape);
+        Assert.False(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = @"""" };
-        Xunit.Assert.False(p._skipPropertyNameEscape);
+        Assert.False(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = Environment.NewLine };
-        Xunit.Assert.False(p._skipPropertyNameEscape);
+        Assert.False(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = "\0" };
-        Xunit.Assert.False(p._skipPropertyNameEscape);
+        Assert.False(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = "\n" };
-        Xunit.Assert.False(p._skipPropertyNameEscape);
+        Assert.False(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = "\v" };
-        Xunit.Assert.False(p._skipPropertyNameEscape);
+        Assert.False(p._skipPropertyNameEscape);
 
         p = new JsonProperty { PropertyName = "\u00B9" };
-        Xunit.Assert.False(p._skipPropertyNameEscape);
+        Assert.False(p._skipPropertyNameEscape);
     }
 
     [Fact]
@@ -425,7 +425,7 @@ public class ContractResolverTests : TestFixtureBase
         var resolver = new DefaultContractResolver();
         var contract = (JsonObjectContract)resolver.ResolveContract(typeof(AddressWithDataMember));
 
-        Xunit.Assert.Equal("AddressLine1", contract.Properties[0].PropertyName);
+        Assert.Equal("AddressLine1", contract.Properties[0].PropertyName);
     }
 
     [Fact]
@@ -434,7 +434,7 @@ public class ContractResolverTests : TestFixtureBase
         var resolver = new DefaultContractResolver();
         var contract = (JsonObjectContract)resolver.ResolveContract(typeof(NumberFormatInfo));
 
-        Xunit.Assert.False(contract.Properties.Any(c => c.PropertyName == "InvariantInfo"));
+        Assert.False(contract.Properties.Any(c => c.PropertyName == "InvariantInfo"));
     }
 
     [Fact]
@@ -443,13 +443,13 @@ public class ContractResolverTests : TestFixtureBase
         var resolver = new DefaultContractResolver();
         var contract = (JsonObjectContract)resolver.ResolveContract(typeof(PublicParameterizedConstructorWithPropertyNameConflictWithAttribute));
 
-        Xunit.Assert.Null(contract.DefaultCreator);
-        Xunit.Assert.NotNull(contract.ParameterizedCreator);
-        Xunit.Assert.Equal(1, contract.CreatorParameters.Count);
-        Xunit.Assert.Equal("name", contract.CreatorParameters[0].PropertyName);
+        Assert.Null(contract.DefaultCreator);
+        Assert.NotNull(contract.ParameterizedCreator);
+        Assert.Equal(1, contract.CreatorParameters.Count);
+        Assert.Equal("name", contract.CreatorParameters[0].PropertyName);
 
         contract.ParameterizedCreator = null;
-        Xunit.Assert.Null(contract.ParameterizedCreator);
+        Assert.Null(contract.ParameterizedCreator);
     }
 
     [Fact]
@@ -458,14 +458,14 @@ public class ContractResolverTests : TestFixtureBase
         var resolver = new DefaultContractResolver();
         var contract = (JsonObjectContract)resolver.ResolveContract(typeof(MultipleParametrizedConstructorsJsonConstructor));
 
-        Xunit.Assert.Null(contract.DefaultCreator);
-        Xunit.Assert.NotNull(contract.OverrideCreator);
-        Xunit.Assert.Equal(2, contract.CreatorParameters.Count);
-        Xunit.Assert.Equal("Value", contract.CreatorParameters[0].PropertyName);
-        Xunit.Assert.Equal("Age", contract.CreatorParameters[1].PropertyName);
+        Assert.Null(contract.DefaultCreator);
+        Assert.NotNull(contract.OverrideCreator);
+        Assert.Equal(2, contract.CreatorParameters.Count);
+        Assert.Equal("Value", contract.CreatorParameters[0].PropertyName);
+        Assert.Equal("Age", contract.CreatorParameters[1].PropertyName);
 
         contract.OverrideCreator = null;
-        Xunit.Assert.Null(contract.OverrideCreator);
+        Assert.Null(contract.OverrideCreator);
     }
 
     [Fact]
@@ -481,16 +481,16 @@ public class ContractResolverTests : TestFixtureBase
             ensureCustomCreatorCalled = true;
             return new MultipleParametrizedConstructorsJsonConstructor((string)args[0], (int)args[1]);
         };
-        Xunit.Assert.NotNull(contract.OverrideCreator);
+        Assert.NotNull(contract.OverrideCreator);
 
         var o = JsonConvert.DeserializeObject<MultipleParametrizedConstructorsJsonConstructor>("{Value:'value!', Age:1}", new JsonSerializerSettings
         {
             ContractResolver = resolver
         });
 
-        Xunit.Assert.Equal("value!", o.Value);
-        Xunit.Assert.Equal(1, o.Age);
-        Xunit.Assert.True(ensureCustomCreatorCalled);
+        Assert.Equal("value!", o.Value);
+        Assert.Equal(1, o.Age);
+        Assert.True(ensureCustomCreatorCalled);
     }
 
     [Fact]
@@ -510,9 +510,9 @@ public class ContractResolverTests : TestFixtureBase
 
         var o = JObject.Parse(iPersonJson);
 
-        Xunit.Assert.Equal("Maurice", (string)o["FirstName"]);
-        Xunit.Assert.Equal("Moss", (string)o["LastName"]);
-        Xunit.Assert.Equal(new DateTime(1977, 12, 30, 1, 1, 1, DateTimeKind.Utc), (DateTime)o["BirthDate"]);
+        Assert.Equal("Maurice", (string)o["FirstName"]);
+        Assert.Equal("Moss", (string)o["LastName"]);
+        Assert.Equal(new DateTime(1977, 12, 30, 1, 1, 1, DateTimeKind.Utc), (DateTime)o["BirthDate"]);
     }
 
     [Fact]
@@ -596,8 +596,8 @@ public class ContractResolverTests : TestFixtureBase
 
         Console.WriteLine(includeCompilerGeneratedJson);
 
-        Xunit.Assert.Equal("Property", (string)o["<StringProperty>k__BackingField"]);
-        Xunit.Assert.Equal(2, (int)o["<IntProperty>k__BackingField"]);
+        Assert.Equal("Property", (string)o["<StringProperty>k__BackingField"]);
+        Assert.Equal(2, (int)o["<IntProperty>k__BackingField"]);
     }
 #pragma warning restore 618
 
@@ -624,12 +624,12 @@ public class ContractResolverTests : TestFixtureBase
         var getter = contract.ExtensionDataGetter;
 
         IEnumerable<KeyValuePair<object, object>> dictionaryData = getter(myClass).ToDictionary(kv => kv.Key, kv => kv.Value);
-        Xunit.Assert.True(dictionaryData.Any());
-        Xunit.Assert.True(dictionaryData.Any());
+        Assert.True(dictionaryData.Any());
+        Assert.True(dictionaryData.Any());
 
         var extensionData = getter(myClass);
-        Xunit.Assert.True(extensionData.Any());
-        Xunit.Assert.True(extensionData.Any()); // second test fails if the enumerator returned isn't reset
+        Assert.True(extensionData.Any());
+        Assert.True(extensionData.Any()); // second test fails if the enumerator returned isn't reset
     }
 
     public class ClassWithShouldSerialize
@@ -654,10 +654,10 @@ public class ContractResolverTests : TestFixtureBase
         var contract = (JsonObjectContract)resolver.ResolveContract(typeof(ClassWithShouldSerialize));
 
         var property1 = contract.Properties["Prop1"];
-        Xunit.Assert.Equal(null, property1.ShouldSerialize);
+        Assert.Equal(null, property1.ShouldSerialize);
 
         var property2 = contract.Properties["Prop2"];
-        Xunit.Assert.Equal(null, property2.ShouldSerialize);
+        Assert.Equal(null, property2.ShouldSerialize);
     }
 
     [Fact]
@@ -668,10 +668,10 @@ public class ContractResolverTests : TestFixtureBase
         var contract = (JsonObjectContract)resolver.ResolveContract(typeof(ClassWithShouldSerialize));
 
         var property1 = contract.Properties["Prop1"];
-        Xunit.Assert.NotEqual(null, property1.ShouldSerialize);
+        Assert.NotEqual(null, property1.ShouldSerialize);
 
         var property2 = contract.Properties["Prop2"];
-        Xunit.Assert.Equal(null, property2.ShouldSerialize);
+        Assert.Equal(null, property2.ShouldSerialize);
     }
 
     public class ClassWithIsSpecified
@@ -706,8 +706,8 @@ public class ContractResolverTests : TestFixtureBase
 
         var c = (JsonDictionaryContract)resolver.ResolveContract(typeof(IDictionary));
 
-        Xunit.Assert.Null(c.DictionaryKeyType);
-        Xunit.Assert.Null(c.DictionaryValueType);
+        Assert.Null(c.DictionaryKeyType);
+        Assert.Null(c.DictionaryValueType);
     }
 
     [Fact]
@@ -721,24 +721,24 @@ public class ContractResolverTests : TestFixtureBase
         var contract = (JsonObjectContract)resolver.ResolveContract(typeof(ClassWithIsSpecified));
 
         var property1 = contract.Properties["Prop1"];
-        Xunit.Assert.Equal(null, property1.GetIsSpecified);
-        Xunit.Assert.Equal(null, property1.SetIsSpecified);
+        Assert.Equal(null, property1.GetIsSpecified);
+        Assert.Equal(null, property1.SetIsSpecified);
 
         var property2 = contract.Properties["Prop2"];
-        Xunit.Assert.Equal(null, property2.GetIsSpecified);
-        Xunit.Assert.Equal(null, property2.SetIsSpecified);
+        Assert.Equal(null, property2.GetIsSpecified);
+        Assert.Equal(null, property2.SetIsSpecified);
 
         var property3 = contract.Properties["Prop3"];
-        Xunit.Assert.Equal(null, property3.GetIsSpecified);
-        Xunit.Assert.Equal(null, property3.SetIsSpecified);
+        Assert.Equal(null, property3.GetIsSpecified);
+        Assert.Equal(null, property3.SetIsSpecified);
 
         var property4 = contract.Properties["Prop4"];
-        Xunit.Assert.Equal(null, property4.GetIsSpecified);
-        Xunit.Assert.Equal(null, property4.SetIsSpecified);
+        Assert.Equal(null, property4.GetIsSpecified);
+        Assert.Equal(null, property4.SetIsSpecified);
 
         var property5 = contract.Properties["Prop5"];
-        Xunit.Assert.Equal(null, property5.GetIsSpecified);
-        Xunit.Assert.Equal(null, property5.SetIsSpecified);
+        Assert.Equal(null, property5.GetIsSpecified);
+        Assert.Equal(null, property5.SetIsSpecified);
     }
 
     [Fact]
@@ -749,24 +749,24 @@ public class ContractResolverTests : TestFixtureBase
         var contract = (JsonObjectContract)resolver.ResolveContract(typeof(ClassWithIsSpecified));
 
         var property1 = contract.Properties["Prop1"];
-        Xunit.Assert.NotEqual(null, property1.GetIsSpecified);
-        Xunit.Assert.NotEqual(null, property1.SetIsSpecified);
+        Assert.NotEqual(null, property1.GetIsSpecified);
+        Assert.NotEqual(null, property1.SetIsSpecified);
 
         var property2 = contract.Properties["Prop2"];
-        Xunit.Assert.NotEqual(null, property2.GetIsSpecified);
-        Xunit.Assert.NotEqual(null, property2.SetIsSpecified);
+        Assert.NotEqual(null, property2.GetIsSpecified);
+        Assert.NotEqual(null, property2.SetIsSpecified);
 
         var property3 = contract.Properties["Prop3"];
-        Xunit.Assert.Equal(null, property3.GetIsSpecified);
-        Xunit.Assert.Equal(null, property3.SetIsSpecified);
+        Assert.Equal(null, property3.GetIsSpecified);
+        Assert.Equal(null, property3.SetIsSpecified);
 
         var property4 = contract.Properties["Prop4"];
-        Xunit.Assert.Equal(null, property4.GetIsSpecified);
-        Xunit.Assert.Equal(null, property4.SetIsSpecified);
+        Assert.Equal(null, property4.GetIsSpecified);
+        Assert.Equal(null, property4.SetIsSpecified);
 
         var property5 = contract.Properties["Prop5"];
-        Xunit.Assert.Equal(null, property5.GetIsSpecified);
-        Xunit.Assert.Equal(null, property5.SetIsSpecified);
+        Assert.Equal(null, property5.GetIsSpecified);
+        Assert.Equal(null, property5.SetIsSpecified);
     }
 
     [Fact]
@@ -778,7 +778,7 @@ public class ContractResolverTests : TestFixtureBase
 
         var property1 = contract.Properties["Name"];
 
-        Xunit.Assert.Equal(Required.Always, property1.Required);
+        Assert.Equal(Required.Always, property1.Required);
         XUnitAssert.True(property1.IsRequiredSpecified);
     }
 
@@ -791,12 +791,12 @@ public class ContractResolverTests : TestFixtureBase
 
         var unset = contract.Properties["UnsetProperty"];
 
-        Xunit.Assert.Equal(Required.Default, unset.Required);
+        Assert.Equal(Required.Default, unset.Required);
         XUnitAssert.False(unset.IsRequiredSpecified);
 
         var allowNull = contract.Properties["AllowNullProperty"];
 
-        Xunit.Assert.Equal(Required.AllowNull, allowNull.Required);
+        Assert.Equal(Required.AllowNull, allowNull.Required);
         XUnitAssert.True(allowNull.IsRequiredSpecified);
     }
 
@@ -807,7 +807,7 @@ public class ContractResolverTests : TestFixtureBase
 
         var contract = (JsonObjectContract)resolver.ResolveContract(typeof(object));
 
-        Xunit.Assert.Null(contract.InternalConverter);
+        Assert.Null(contract.InternalConverter);
     }
 
     [Fact]
@@ -817,6 +817,6 @@ public class ContractResolverTests : TestFixtureBase
 
         var contract = resolver.ResolveContract(typeof(Regex));
 
-        Xunit.Assert.IsType(typeof(RegexConverter), contract.InternalConverter);
+        Assert.IsType(typeof(RegexConverter), contract.InternalConverter);
     }
 }

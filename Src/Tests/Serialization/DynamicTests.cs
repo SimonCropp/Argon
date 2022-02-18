@@ -56,9 +56,9 @@ public class DynamicTests : TestFixtureBase
             values.Add(memberName, value);
         }
 
-        Xunit.Assert.Equal(d.Int, values["Int"]);
-        Xunit.Assert.Equal(d.Decimal, values["Decimal"]);
-        Xunit.Assert.Equal(d.ChildObject, values["ChildObject"]);
+        Assert.Equal(d.Int, values["Int"]);
+        Assert.Equal(d.Decimal, values["Decimal"]);
+        Assert.Equal(d.ChildObject, values["ChildObject"]);
 
         var json = JsonConvert.SerializeObject(dynamicObject, Formatting.Indented);
         StringAssert.AreEqual(@"{
@@ -76,10 +76,10 @@ public class DynamicTests : TestFixtureBase
 
         d = newDynamicObject;
 
-        Xunit.Assert.Equal(99.9, d.Decimal);
-        Xunit.Assert.Equal(1, d.Int);
-        Xunit.Assert.Equal(dynamicObject.ChildObject.Integer, d.ChildObject.Integer);
-        Xunit.Assert.Equal(dynamicObject.ChildObject.Text, d.ChildObject.Text);
+        Assert.Equal(99.9, d.Decimal);
+        Assert.Equal(1, d.Int);
+        Assert.Equal(dynamicObject.ChildObject.Integer, d.ChildObject.Integer);
+        Assert.Equal(dynamicObject.ChildObject.Text, d.ChildObject.Text);
     }
 
     [Fact]
@@ -124,13 +124,13 @@ public class DynamicTests : TestFixtureBase
 #pragma warning restore 618
         });
 
-        Xunit.Assert.IsType(typeof(ExpandoObject), n);
-        Xunit.Assert.Equal("Text!", n.Text);
-        Xunit.Assert.Equal(int.MaxValue, n.Integer);
+        Assert.IsType(typeof(ExpandoObject), n);
+        Assert.Equal("Text!", n.Text);
+        Assert.Equal(int.MaxValue, n.Integer);
 
-        Xunit.Assert.IsType(typeof(DynamicChildObject), n.DynamicChildObject);
-        Xunit.Assert.Equal("Child text!", n.DynamicChildObject.Text);
-        Xunit.Assert.Equal(int.MinValue, n.DynamicChildObject.Integer);
+        Assert.IsType(typeof(DynamicChildObject), n.DynamicChildObject);
+        Assert.Equal("Child text!", n.DynamicChildObject.Text);
+        Assert.Equal(int.MinValue, n.DynamicChildObject.Integer);
     }
 
     [Fact]

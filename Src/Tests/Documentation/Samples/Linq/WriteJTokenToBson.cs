@@ -52,7 +52,7 @@ public class WriteJTokenToBson : TestFixtureBase
         // KQAAAAJuYW1lMQAHAAAAdmFsdWUxAAJuYW1lMgAHAAAAdmFsdWUyAAA=
         #endregion
 
-        Xunit.Assert.Equal("KQAAAAJuYW1lMQAHAAAAdmFsdWUxAAJuYW1lMgAHAAAAdmFsdWUyAAA=", data);
+        Assert.Equal("KQAAAAJuYW1lMQAHAAAAdmFsdWUxAAJuYW1lMgAHAAAAdmFsdWUyAAA=", data);
     }
 #pragma warning restore 618
 }

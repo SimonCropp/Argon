@@ -116,37 +116,37 @@ public class ExpandoObjectConverterTests : TestFixtureBase
 
         var o = JsonConvert.DeserializeObject<ExpandoContainer>(json);
 
-        Xunit.Assert.Equal(o.Before, "Before!");
-        Xunit.Assert.Equal(o.After, "After!");
-        Xunit.Assert.NotNull(o.Expando);
+        Assert.Equal(o.Before, "Before!");
+        Assert.Equal(o.After, "After!");
+        Assert.NotNull(o.Expando);
 
         dynamic d = o.Expando;
-        Xunit.Assert.IsType(typeof(ExpandoObject), d);
+        Assert.IsType(typeof(ExpandoObject), d);
 
-        Xunit.Assert.Equal("String!", d.String);
-        Xunit.Assert.IsType(typeof(string), d.String);
+        Assert.Equal("String!", d.String);
+        Assert.IsType(typeof(string), d.String);
 
-        Xunit.Assert.Equal(234, d.Integer);
-        Xunit.Assert.IsType(typeof(long), d.Integer);
+        Assert.Equal(234, d.Integer);
+        Assert.IsType(typeof(long), d.Integer);
 
-        Xunit.Assert.Equal(1.23, d.Float);
-        Xunit.Assert.IsType(typeof(double), d.Float);
+        Assert.Equal(1.23, d.Float);
+        Assert.IsType(typeof(double), d.Float);
 
-        Xunit.Assert.NotNull(d.List);
-        Xunit.Assert.Equal(3, d.List.Count);
-        Xunit.Assert.IsType(typeof(List<object>), d.List);
+        Assert.NotNull(d.List);
+        Assert.Equal(3, d.List.Count);
+        Assert.IsType(typeof(List<object>), d.List);
 
-        Xunit.Assert.Equal("First", d.List[0]);
-        Xunit.Assert.IsType(typeof(string), d.List[0]);
+        Assert.Equal("First", d.List[0]);
+        Assert.IsType(typeof(string), d.List[0]);
 
-        Xunit.Assert.Equal("Second", d.List[1]);
-        Xunit.Assert.Equal("Third", d.List[2]);
+        Assert.Equal("Second", d.List[1]);
+        Assert.Equal("Third", d.List[2]);
 
-        Xunit.Assert.NotNull(d.Object);
-        Xunit.Assert.IsType(typeof(ExpandoObject), d.Object);
+        Assert.NotNull(d.Object);
+        Assert.IsType(typeof(ExpandoObject), d.Object);
 
-        Xunit.Assert.Equal(1, d.Object.First);
-        Xunit.Assert.IsType(typeof(long), d.Object.First);
+        Assert.Equal(1, d.Object.First);
+        Assert.IsType(typeof(long), d.Object.First);
     }
 
     [Fact]
@@ -160,6 +160,6 @@ public class ExpandoObjectConverterTests : TestFixtureBase
 
         var c = JsonConvert.DeserializeObject<ExpandoContainer>(json);
 
-        Xunit.Assert.Equal(null, c.Expando);
+        Assert.Equal(null, c.Expando);
     }
 }

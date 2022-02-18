@@ -89,6 +89,6 @@ public class QueryJson : TestFixtureBase
 
         #endregion
 
-        Xunit.Assert.Equal("Json.NET, CodePlex", string.Join(", ", categoriesText));
+        Assert.Equal("Json.NET, CodePlex", string.Join(", ", categoriesText));
     }
 }

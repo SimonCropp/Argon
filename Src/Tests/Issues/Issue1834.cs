@@ -35,7 +35,7 @@ public class Issue1834 : TestFixtureBase
         var json = "{'foo':'test!'}";
         var c = JsonConvert.DeserializeObject<ItemWithJsonConstructor>(json);
 
-        Xunit.Assert.Null(c.ExtensionData);
+        Assert.Null(c.ExtensionData);
     }
 
     [Fact]
@@ -44,7 +44,7 @@ public class Issue1834 : TestFixtureBase
         var json = "{'foo':'test!'}";
         var c = JsonConvert.DeserializeObject<ItemWithJsonConstructorAndDefaultValue>(json);
 
-        Xunit.Assert.Null(c.ExtensionData);
+        Assert.Null(c.ExtensionData);
     }
 
     public class ItemWithJsonConstructor

@@ -76,6 +76,6 @@ public class DeserializeConstructorHandling : TestFixtureBase
         // http://www.google.com
         #endregion
 
-        Xunit.Assert.Equal("http://www.google.com", website.Url);
+        Assert.Equal("http://www.google.com", website.Url);
     }
 }

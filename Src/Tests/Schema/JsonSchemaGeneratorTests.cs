@@ -65,7 +65,7 @@ public class JsonSchemaGeneratorTests : TestFixtureBase
         var valueJson = JsonConvert.SerializeObject(value, Formatting.Indented);
         var o = JObject.Parse(valueJson);
 
-        Xunit.Assert.True(o.IsValid(schema));
+        Assert.True(o.IsValid(schema));
     }
 
 #if !NET5_0_OR_GREATER
@@ -197,10 +197,10 @@ public class JsonSchemaGeneratorTests : TestFixtureBase
         var generator = new JsonSchemaGenerator();
         var schema = generator.Generate(typeof(RequiredMembersClass));
 
-        Xunit.Assert.Equal(JsonSchemaType.String, schema.Properties["FirstName"].Type);
-        Xunit.Assert.Equal(JsonSchemaType.String | JsonSchemaType.Null, schema.Properties["MiddleName"].Type);
-        Xunit.Assert.Equal(JsonSchemaType.String | JsonSchemaType.Null, schema.Properties["LastName"].Type);
-        Xunit.Assert.Equal(JsonSchemaType.String, schema.Properties["BirthDate"].Type);
+        Assert.Equal(JsonSchemaType.String, schema.Properties["FirstName"].Type);
+        Assert.Equal(JsonSchemaType.String | JsonSchemaType.Null, schema.Properties["MiddleName"].Type);
+        Assert.Equal(JsonSchemaType.String | JsonSchemaType.Null, schema.Properties["LastName"].Type);
+        Assert.Equal(JsonSchemaType.String, schema.Properties["BirthDate"].Type);
     }
 
     [Fact]
@@ -209,12 +209,12 @@ public class JsonSchemaGeneratorTests : TestFixtureBase
         var generator = new JsonSchemaGenerator();
         var schema = generator.Generate(typeof(Store));
 
-        Xunit.Assert.Equal(11, schema.Properties.Count);
+        Assert.Equal(11, schema.Properties.Count);
 
         var productArraySchema = schema.Properties["product"];
         var productSchema = productArraySchema.Items[0];
 
-        Xunit.Assert.Equal(4, productSchema.Properties.Count);
+        Assert.Equal(4, productSchema.Properties.Count);
     }
 
     [Fact]
@@ -223,15 +223,15 @@ public class JsonSchemaGeneratorTests : TestFixtureBase
         var generator = new JsonSchemaGenerator();
 
         var schema = generator.Generate(typeof(Store));
-        Xunit.Assert.Equal(null, schema.Id);
+        Assert.Equal(null, schema.Id);
 
         generator.UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseTypeName;
         schema = generator.Generate(typeof(Store));
-        Xunit.Assert.Equal(typeof(Store).FullName, schema.Id);
+        Assert.Equal(typeof(Store).FullName, schema.Id);
 
         generator.UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseAssemblyQualifiedName;
         schema = generator.Generate(typeof(Store));
-        Xunit.Assert.Equal(typeof(Store).AssemblyQualifiedName, schema.Id);
+        Assert.Equal(typeof(Store).AssemblyQualifiedName, schema.Id);
     }
 
     [Fact]
@@ -254,10 +254,10 @@ public class JsonSchemaGeneratorTests : TestFixtureBase
 
         var schema = generator.Generate(typeof(CircularReferenceClass), true);
 
-        Xunit.Assert.Equal(JsonSchemaType.String, schema.Properties["Name"].Type);
-        Xunit.Assert.Equal(typeof(CircularReferenceClass).FullName, schema.Id);
-        Xunit.Assert.Equal(JsonSchemaType.Object | JsonSchemaType.Null, schema.Properties["Child"].Type);
-        Xunit.Assert.Equal(schema, schema.Properties["Child"]);
+        Assert.Equal(JsonSchemaType.String, schema.Properties["Name"].Type);
+        Assert.Equal(typeof(CircularReferenceClass).FullName, schema.Id);
+        Assert.Equal(JsonSchemaType.Object | JsonSchemaType.Null, schema.Properties["Child"].Type);
+        Assert.Equal(schema, schema.Properties["Child"]);
     }
 
     [Fact]
@@ -267,10 +267,10 @@ public class JsonSchemaGeneratorTests : TestFixtureBase
 
         var schema = generator.Generate(typeof(CircularReferenceWithIdClass));
 
-        Xunit.Assert.Equal(JsonSchemaType.String | JsonSchemaType.Null, schema.Properties["Name"].Type);
-        Xunit.Assert.Equal("MyExplicitId", schema.Id);
-        Xunit.Assert.Equal(JsonSchemaType.Object | JsonSchemaType.Null, schema.Properties["Child"].Type);
-        Xunit.Assert.Equal(schema, schema.Properties["Child"]);
+        Assert.Equal(JsonSchemaType.String | JsonSchemaType.Null, schema.Properties["Name"].Type);
+        Assert.Equal("MyExplicitId", schema.Id);
+        Assert.Equal(JsonSchemaType.Object | JsonSchemaType.Null, schema.Properties["Child"].Type);
+        Assert.Equal(schema, schema.Properties["Child"]);
     }
 
     [Fact]
@@ -283,12 +283,12 @@ public class JsonSchemaGeneratorTests : TestFixtureBase
 
         var schema = generator.Generate(typeof(Type));
 
-        Xunit.Assert.Equal(JsonSchemaType.String, schema.Type);
+        Assert.Equal(JsonSchemaType.String, schema.Type);
 
         var json = JsonConvert.SerializeObject(typeof(Version), Formatting.Indented);
 
         var v = new JValue(json);
-        Xunit.Assert.True(v.IsValid(schema));
+        Assert.True(v.IsValid(schema));
     }
 
     [Fact]
@@ -301,9 +301,9 @@ public class JsonSchemaGeneratorTests : TestFixtureBase
 
         var schema = generator.Generate(typeof(ISerializableTestObject));
 
-        Xunit.Assert.Equal(JsonSchemaType.Object, schema.Type);
-        Xunit.Assert.Equal(true, schema.AllowAdditionalProperties);
-        Xunit.Assert.Equal(null, schema.Properties);
+        Assert.Equal(JsonSchemaType.Object, schema.Type);
+        Assert.Equal(true, schema.AllowAdditionalProperties);
+        Assert.Equal(null, schema.Properties);
     }
 
     [Fact]
@@ -316,7 +316,7 @@ public class JsonSchemaGeneratorTests : TestFixtureBase
 
         var schema = generator.Generate(typeof(DBNull));
 
-        Xunit.Assert.Equal(JsonSchemaType.Null, schema.Type);
+        Assert.Equal(JsonSchemaType.Null, schema.Type);
     }
 
     public class CustomDirectoryInfoMapper : DefaultContractResolver
@@ -447,14 +447,14 @@ public class JsonSchemaGeneratorTests : TestFixtureBase
         var errors = new List<string>();
         jsonWriter.Token.Validate(schema, (_, args) => errors.Add(args.Message));
 
-        Xunit.Assert.Equal(0, errors.Count);
+        Assert.Equal(0, errors.Count);
 
         StringAssert.AreEqual(@"{
   ""_name"": ""Name!""
 }", jsonWriter.Token.ToString());
 
         var c = jsonWriter.Token.ToObject<SerializableTestObject>(serializer);
-        Xunit.Assert.Equal("Name!", c.Name);
+        Assert.Equal("Name!", c.Name);
     }
 
     public enum SortTypeFlag
@@ -505,7 +505,7 @@ public class JsonSchemaGeneratorTests : TestFixtureBase
         var jsonSchema = jsonSchemaGenerator.Generate(type);
 
         // should succeed
-        Xunit.Assert.NotNull(jsonSchema);
+        Assert.NotNull(jsonSchema);
     }
 
     [Fact]

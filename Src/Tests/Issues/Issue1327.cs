@@ -69,8 +69,8 @@ public class Issue1327 : TestFixtureBase
 
         var p = JsonConvert.DeserializeObject<PersonWithXmlNode>(json);
 
-        Xunit.Assert.Equal("Kumar", p.Name);
-        Xunit.Assert.Equal("vinoth", p.TestXml.SelectSingleNode("//name").InnerText);
+        Assert.Equal("Kumar", p.Name);
+        Assert.Equal("vinoth", p.TestXml.SelectSingleNode("//name").InnerText);
     }
 
     [Fact]
@@ -107,9 +107,9 @@ public class Issue1327 : TestFixtureBase
 
         var p = JsonConvert.DeserializeObject<PersonWithXObject>(json);
 
-        Xunit.Assert.Equal("Kumar", p.Name);
-        Xunit.Assert.Equal("vinoth", (string) ((XDocument) p.TestXml1).Root.Element("order").Element("name"));
-        Xunit.Assert.Equal("vinoth", (string) ((XDocument) p.TestXml2).Root.Element("order").Element("name"));
-        Xunit.Assert.Equal("vinoth", (string) ((XDocument) p.TestXml3).Root.Element("order").Element("name"));
+        Assert.Equal("Kumar", p.Name);
+        Assert.Equal("vinoth", (string) ((XDocument) p.TestXml1).Root.Element("order").Element("name"));
+        Assert.Equal("vinoth", (string) ((XDocument) p.TestXml2).Root.Element("order").Element("name"));
+        Assert.Equal("vinoth", (string) ((XDocument) p.TestXml3).Root.Element("order").Element("name"));
     }
 }

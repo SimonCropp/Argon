@@ -250,8 +250,8 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             }
         }
 
-        Xunit.Assert.Equal(0, arrayPool.UsedArrays.Count);
-        Xunit.Assert.Equal(3, arrayPool.FreeArrays.Count);
+        Assert.Equal(0, arrayPool.UsedArrays.Count);
+        Assert.Equal(3, arrayPool.FreeArrays.Count);
     }
 
     [Fact]
@@ -285,8 +285,8 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         {
         }
 
-        Xunit.Assert.Equal(0, arrayPool.UsedArrays.Count);
-        Xunit.Assert.Equal(1, arrayPool.FreeArrays.Count);
+        Assert.Equal(0, arrayPool.UsedArrays.Count);
+        Assert.Equal(1, arrayPool.FreeArrays.Count);
     }
 
     [Fact]
@@ -312,7 +312,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
 
         var json = Encoding.UTF8.GetString(data, 0, data.Length);
 
-        Xunit.Assert.Equal(@"{" + '\n' + @"  ""prop"": true" + '\n' + "}", json);
+        Assert.Equal(@"{" + '\n' + @"  ""prop"": true" + '\n' + "}", json);
     }
 
     [Fact]
@@ -330,7 +330,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         await writer.WriteEndObjectAsync();
         await writer.FlushAsync();
 
-        Xunit.Assert.Equal(@"{name:""value""}", sb.ToString());
+        Assert.Equal(@"{name:""value""}", sb.ToString());
     }
 
     [Fact]
@@ -339,16 +339,16 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         var ms = new MemoryStream();
         var writer = new JsonTextWriter(new StreamWriter(ms));
 
-        Xunit.Assert.True(ms.CanRead);
+        Assert.True(ms.CanRead);
         await writer.CloseAsync();
-        Xunit.Assert.False(ms.CanRead);
+        Assert.False(ms.CanRead);
 
         ms = new MemoryStream();
         writer = new JsonTextWriter(new StreamWriter(ms)) { CloseOutput = false };
 
-        Xunit.Assert.True(ms.CanRead);
+        Assert.True(ms.CanRead);
         await writer.CloseAsync();
-        Xunit.Assert.True(ms.CanRead);
+        Assert.True(ms.CanRead);
     }
 
     [Fact]
@@ -358,7 +358,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         var writer = new JsonTextWriter(sw);
         await writer.WriteValueAsync(new ConvertibleInt(1));
 
-        Xunit.Assert.Equal("1", sw.ToString());
+        Assert.Equal("1", sw.ToString());
     }
 
     [Fact]
@@ -389,7 +389,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         var expected = @"[""@"",""\r\n\t\f\b?{\\r\\n\""'"",true,10,10.99,0.99,1E-18,0.000000000000000001,null,null,""This is a string."",null,undefined]";
         var result = sb.ToString();
 
-        Xunit.Assert.Equal(expected, result);
+        Assert.Equal(expected, result);
     }
 
     [Fact]
@@ -435,7 +435,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         var json = sw.ToString();
         var expected = @"[null,""c"",null,true,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1.1,null,1.1,null,1.1,null,""1970-01-01T00:00:00Z"",null,""1970-01-01T00:00:00+00:00""]";
 
-        Xunit.Assert.Equal(expected, json);
+        Assert.Equal(expected, json);
     }
 
     [Fact]
@@ -454,7 +454,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         var json = sw.ToString();
         var expected = @"[""c""]";
 
-        Xunit.Assert.Equal(expected, json);
+        Assert.Equal(expected, json);
     }
 
     [Fact]
@@ -491,7 +491,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         var expected = @"[""\""These pretzels are making me thirsty!\"""",""Jeff's house was burninated."",""1. You don't talk about fight club.\r\n2. You don't talk about fight club."",""35% of\t statistics\n are made\r up.""]";
         var result = sb.ToString();
 
-        Xunit.Assert.Equal(expected, result);
+        Assert.Equal(expected, result);
     }
 
     [Fact]
@@ -516,7 +516,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             await jsonWriter.WriteValueAsync("500 gigabyte hard drive");
             await jsonWriter.WriteValueAsync("200 gigabyte hard drive");
             await jsonWriter.WriteEndObjectAsync();
-            Xunit.Assert.Equal(WriteState.Start, jsonWriter.WriteState);
+            Assert.Equal(WriteState.Start, jsonWriter.WriteState);
         }
 
         var expected = @"{
@@ -596,7 +596,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             await jsonWriter.WriteValueAsync("200 gigabyte hard drive");
             await jsonWriter.WriteEndAsync();
             await jsonWriter.WriteEndObjectAsync();
-            Xunit.Assert.Equal(WriteState.Start, jsonWriter.WriteState);
+            Assert.Equal(WriteState.Start, jsonWriter.WriteState);
         }
 
         // {
@@ -633,38 +633,38 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
 
         using (JsonWriter jsonWriter = new JsonTextWriter(sw))
         {
-            Xunit.Assert.Equal(WriteState.Start, jsonWriter.WriteState);
+            Assert.Equal(WriteState.Start, jsonWriter.WriteState);
 
             await jsonWriter.WriteStartObjectAsync();
-            Xunit.Assert.Equal(WriteState.Object, jsonWriter.WriteState);
-            Xunit.Assert.Equal("", jsonWriter.Path);
+            Assert.Equal(WriteState.Object, jsonWriter.WriteState);
+            Assert.Equal("", jsonWriter.Path);
 
             await jsonWriter.WritePropertyNameAsync("CPU");
-            Xunit.Assert.Equal(WriteState.Property, jsonWriter.WriteState);
-            Xunit.Assert.Equal("CPU", jsonWriter.Path);
+            Assert.Equal(WriteState.Property, jsonWriter.WriteState);
+            Assert.Equal("CPU", jsonWriter.Path);
 
             await jsonWriter.WriteValueAsync("Intel");
-            Xunit.Assert.Equal(WriteState.Object, jsonWriter.WriteState);
-            Xunit.Assert.Equal("CPU", jsonWriter.Path);
+            Assert.Equal(WriteState.Object, jsonWriter.WriteState);
+            Assert.Equal("CPU", jsonWriter.Path);
 
             await jsonWriter.WritePropertyNameAsync("Drives");
-            Xunit.Assert.Equal(WriteState.Property, jsonWriter.WriteState);
-            Xunit.Assert.Equal("Drives", jsonWriter.Path);
+            Assert.Equal(WriteState.Property, jsonWriter.WriteState);
+            Assert.Equal("Drives", jsonWriter.Path);
 
             await jsonWriter.WriteStartArrayAsync();
-            Xunit.Assert.Equal(WriteState.Array, jsonWriter.WriteState);
+            Assert.Equal(WriteState.Array, jsonWriter.WriteState);
 
             await jsonWriter.WriteValueAsync("DVD read/writer");
-            Xunit.Assert.Equal(WriteState.Array, jsonWriter.WriteState);
-            Xunit.Assert.Equal("Drives[0]", jsonWriter.Path);
+            Assert.Equal(WriteState.Array, jsonWriter.WriteState);
+            Assert.Equal("Drives[0]", jsonWriter.Path);
 
             await jsonWriter.WriteEndAsync();
-            Xunit.Assert.Equal(WriteState.Object, jsonWriter.WriteState);
-            Xunit.Assert.Equal("Drives", jsonWriter.Path);
+            Assert.Equal(WriteState.Object, jsonWriter.WriteState);
+            Assert.Equal("Drives", jsonWriter.Path);
 
             await jsonWriter.WriteEndObjectAsync();
-            Xunit.Assert.Equal(WriteState.Start, jsonWriter.WriteState);
-            Xunit.Assert.Equal("", jsonWriter.Path);
+            Assert.Equal(WriteState.Start, jsonWriter.WriteState);
+            Assert.Equal("", jsonWriter.Path);
         }
     }
 
@@ -897,7 +897,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         var expected = @"{""PropertyName"":[1,2,3,4,5]}";
         var result = sb.ToString();
 
-        Xunit.Assert.Equal(expected, result);
+        Assert.Equal(expected, result);
     }
 
     [Fact]
@@ -912,7 +912,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         var writer = new JsonTextWriter(sw);
         await writer.WriteTokenAsync(reader, cancel);
 
-        Xunit.Assert.Equal("1", sw.ToString());
+        Assert.Equal("1", sw.ToString());
     }
 
     [Fact]
@@ -939,7 +939,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             await jsonWriter.WriteEndObjectAsync();
         }
 
-        Xunit.Assert.Equal(@"{""d0"":[1,2],""d1"":[1,2],""d2"":[1,2]}", sb.ToString());
+        Assert.Equal(@"{""d0"":[1,2],""d1"":[1,2],""d2"":[1,2]}", sb.ToString());
     }
 
     [Fact]
@@ -963,7 +963,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             await jsonWriter.WriteEndObjectAsync();
         }
 
-        Xunit.Assert.Equal(@"{""con"":new Ext.data.JsonStore({""aa"":""aa""})}", sb.ToString());
+        Assert.Equal(@"{""con"":new Ext.data.JsonStore({""aa"":""aa""})}", sb.ToString());
     }
 
     [Fact]
@@ -998,9 +998,9 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         }
 
 #if !(NETSTANDARD2_0)
-            Xunit.Assert.Equal(@"[0.0,0.0,0.1,1.0,1.000001,1E-06,4.94065645841247E-324,Infinity,-Infinity,NaN,1.7976931348623157E+308,-1.7976931348623157E+308,Infinity,-Infinity,NaN]", sb.ToString());
+            Assert.Equal(@"[0.0,0.0,0.1,1.0,1.000001,1E-06,4.94065645841247E-324,Infinity,-Infinity,NaN,1.7976931348623157E+308,-1.7976931348623157E+308,Infinity,-Infinity,NaN]", sb.ToString());
 #else
-        Xunit.Assert.Equal(@"[0.0,0.0,0.1,1.0,1.000001,1E-06,5E-324,Infinity,-Infinity,NaN,1.7976931348623157E+308,-1.7976931348623157E+308,Infinity,-Infinity,NaN]", sb.ToString());
+        Assert.Equal(@"[0.0,0.0,0.1,1.0,1.000001,1E-06,5E-324,Infinity,-Infinity,NaN,1.7976931348623157E+308,-1.7976931348623157E+308,Infinity,-Infinity,NaN]", sb.ToString());
 #endif
     }
 
@@ -1061,7 +1061,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             await jsonWriter.WriteTokenAsync(JsonToken.EndArray);
         }
 
-        Xunit.Assert.Equal(@"[1,{""string"":2147483647}]", sb.ToString());
+        Assert.Equal(@"[1,{""string"":2147483647}]", sb.ToString());
     }
 
     [Fact]
@@ -1097,10 +1097,10 @@ Parameter name: value", "Value cannot be null. (Parameter 'value')");
         using (JsonWriter jsonWriter = new JsonTextWriter(new StringWriter()))
         {
             var ex = await ExceptionAssert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await jsonWriter.WriteTokenAsync((JsonToken)int.MinValue));
-            Xunit.Assert.Equal("token", ex.ParamName);
+            Assert.Equal("token", ex.ParamName);
 
             ex = await ExceptionAssert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await jsonWriter.WriteTokenAsync((JsonToken)int.MinValue, "test"));
-            Xunit.Assert.Equal("token", ex.ParamName);
+            Assert.Equal("token", ex.ParamName);
         }
     }
 
@@ -1135,16 +1135,16 @@ Parameter name: value", "Value cannot be null. (Parameter 'value')");
             jsonWriter.Formatting = Formatting.Indented;
             jsonWriter.FloatFormatHandling = FloatFormatHandling.Symbol;
 
-            Xunit.Assert.Equal(Formatting.Indented, jsonWriter.Formatting);
+            Assert.Equal(Formatting.Indented, jsonWriter.Formatting);
 
             jsonWriter.Indentation = 5;
-            Xunit.Assert.Equal(5, jsonWriter.Indentation);
+            Assert.Equal(5, jsonWriter.Indentation);
             jsonWriter.IndentChar = '_';
-            Xunit.Assert.Equal('_', jsonWriter.IndentChar);
+            Assert.Equal('_', jsonWriter.IndentChar);
             jsonWriter.QuoteName = true;
             XUnitAssert.True(jsonWriter.QuoteName);
             jsonWriter.QuoteChar = '\'';
-            Xunit.Assert.Equal('\'', jsonWriter.QuoteChar);
+            Assert.Equal('\'', jsonWriter.QuoteChar);
 
             await jsonWriter.WriteStartObjectAsync();
 
@@ -1152,9 +1152,9 @@ Parameter name: value", "Value cannot be null. (Parameter 'value')");
             await jsonWriter.WriteValueAsync(double.NaN);
 
             jsonWriter.IndentChar = '?';
-            Xunit.Assert.Equal('?', jsonWriter.IndentChar);
+            Assert.Equal('?', jsonWriter.IndentChar);
             jsonWriter.Indentation = 6;
-            Xunit.Assert.Equal(6, jsonWriter.Indentation);
+            Assert.Equal(6, jsonWriter.Indentation);
 
             await jsonWriter.WritePropertyNameAsync("prop2");
             await jsonWriter.WriteValueAsync(123);
@@ -1183,7 +1183,7 @@ _____'propertyName': NaN,
         using (var jsonWriter = new JsonTextWriter(sw))
         {
             jsonWriter.Formatting = Formatting.Indented;
-            Xunit.Assert.Equal(Formatting.Indented, jsonWriter.Formatting);
+            Assert.Equal(Formatting.Indented, jsonWriter.Formatting);
 
             await jsonWriter.WriteValueAsync(data);
         }
@@ -1191,11 +1191,11 @@ _____'propertyName': NaN,
         var expected = @"""SGVsbG8gd29ybGQu""";
         var result = sb.ToString();
 
-        Xunit.Assert.Equal(expected, result);
+        Assert.Equal(expected, result);
 
         var d2 = Convert.FromBase64String(result.Trim('"'));
 
-        Xunit.Assert.Equal(text, Encoding.UTF8.GetString(d2, 0, d2.Length));
+        Assert.Equal(text, Encoding.UTF8.GetString(d2, 0, d2.Length));
     }
 
     [Fact]
@@ -1210,7 +1210,7 @@ _____'propertyName': NaN,
         using (var jsonWriter = new JsonTextWriter(sw))
         {
             jsonWriter.Formatting = Formatting.Indented;
-            Xunit.Assert.Equal(Formatting.Indented, jsonWriter.Formatting);
+            Assert.Equal(Formatting.Indented, jsonWriter.Formatting);
 
             await jsonWriter.WriteStartArrayAsync();
             await jsonWriter.WriteValueAsync(data);
@@ -1244,41 +1244,41 @@ _____'propertyName': NaN,
             writer.Formatting = Formatting.Indented;
 
             await writer.WriteStartArrayAsync();
-            Xunit.Assert.Equal("", writer.Path);
+            Assert.Equal("", writer.Path);
             await writer.WriteStartObjectAsync();
-            Xunit.Assert.Equal("[0]", writer.Path);
+            Assert.Equal("[0]", writer.Path);
             await writer.WritePropertyNameAsync("Property1");
-            Xunit.Assert.Equal("[0].Property1", writer.Path);
+            Assert.Equal("[0].Property1", writer.Path);
             await writer.WriteStartArrayAsync();
-            Xunit.Assert.Equal("[0].Property1", writer.Path);
+            Assert.Equal("[0].Property1", writer.Path);
             await writer.WriteValueAsync(1);
-            Xunit.Assert.Equal("[0].Property1[0]", writer.Path);
+            Assert.Equal("[0].Property1[0]", writer.Path);
             await writer.WriteStartArrayAsync();
-            Xunit.Assert.Equal("[0].Property1[1]", writer.Path);
+            Assert.Equal("[0].Property1[1]", writer.Path);
             await writer.WriteStartArrayAsync();
-            Xunit.Assert.Equal("[0].Property1[1][0]", writer.Path);
+            Assert.Equal("[0].Property1[1][0]", writer.Path);
             await writer.WriteStartArrayAsync();
-            Xunit.Assert.Equal("[0].Property1[1][0][0]", writer.Path);
+            Assert.Equal("[0].Property1[1][0][0]", writer.Path);
             await writer.WriteEndObjectAsync();
-            Xunit.Assert.Equal("[0]", writer.Path);
+            Assert.Equal("[0]", writer.Path);
             await writer.WriteStartObjectAsync();
-            Xunit.Assert.Equal("[1]", writer.Path);
+            Assert.Equal("[1]", writer.Path);
             await writer.WritePropertyNameAsync("Property2");
-            Xunit.Assert.Equal("[1].Property2", writer.Path);
+            Assert.Equal("[1].Property2", writer.Path);
             await writer.WriteStartConstructorAsync("Constructor1");
-            Xunit.Assert.Equal("[1].Property2", writer.Path);
+            Assert.Equal("[1].Property2", writer.Path);
             await writer.WriteNullAsync();
-            Xunit.Assert.Equal("[1].Property2[0]", writer.Path);
+            Assert.Equal("[1].Property2[0]", writer.Path);
             await writer.WriteStartArrayAsync();
-            Xunit.Assert.Equal("[1].Property2[1]", writer.Path);
+            Assert.Equal("[1].Property2[1]", writer.Path);
             await writer.WriteValueAsync(1);
-            Xunit.Assert.Equal("[1].Property2[1][0]", writer.Path);
+            Assert.Equal("[1].Property2[1][0]", writer.Path);
             await writer.WriteEndAsync();
-            Xunit.Assert.Equal("[1].Property2[1]", writer.Path);
+            Assert.Equal("[1].Property2[1]", writer.Path);
             await writer.WriteEndObjectAsync();
-            Xunit.Assert.Equal("[1]", writer.Path);
+            Assert.Equal("[1]", writer.Path);
             await writer.WriteEndArrayAsync();
-            Xunit.Assert.Equal("", writer.Path);
+            Assert.Equal("", writer.Path);
         }
 
         StringAssert.AreEqual(@"[
@@ -1314,7 +1314,7 @@ _____'propertyName': NaN,
 
         await writer.WriteValueAsync(new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Unspecified));
 
-        Xunit.Assert.Equal(@"""2000-01-01T01:01:01Z""", sw.ToString());
+        Assert.Equal(@"""2000-01-01T01:01:01Z""", sw.ToString());
     }
 
     [Fact]
@@ -1332,11 +1332,11 @@ _____'propertyName': NaN,
 
         var json = sw.ToString();
 
-        Xunit.Assert.Equal(@"""\u003cscript type=\u0022text/javascript\u0022\u003ealert(\u0027hi\u0027);\u003c/script\u003e""", json);
+        Assert.Equal(@"""\u003cscript type=\u0022text/javascript\u0022\u003ealert(\u0027hi\u0027);\u003c/script\u003e""", json);
 
         var reader = new JsonTextReader(new StringReader(json));
 
-        Xunit.Assert.Equal(script, reader.ReadAsString());
+        Assert.Equal(script, reader.ReadAsString());
     }
 
     [Fact]
@@ -1354,12 +1354,12 @@ _____'propertyName': NaN,
 
         var json = sw.ToString();
 
-        Xunit.Assert.Equal(8, json.Length);
-        Xunit.Assert.Equal(@"""\u5f20""", json);
+        Assert.Equal(8, json.Length);
+        Assert.Equal(@"""\u5f20""", json);
 
         var reader = new JsonTextReader(new StringReader(json));
 
-        Xunit.Assert.Equal(unicode, reader.ReadAsString());
+        Assert.Equal(unicode, reader.ReadAsString());
 
         sw = new StringWriter();
         writer = new JsonTextWriter(sw)
@@ -1371,8 +1371,8 @@ _____'propertyName': NaN,
 
         json = sw.ToString();
 
-        Xunit.Assert.Equal(3, json.Length);
-        Xunit.Assert.Equal("\"\u5f20\"", json);
+        Assert.Equal(3, json.Length);
+        Assert.Equal("\"\u5f20\"", json);
     }
 
     [Fact]
@@ -1386,7 +1386,7 @@ _____'propertyName': NaN,
         await writer.WritePropertyNameAsync("Blah");
         await writer.WriteEndAsync();
 
-        Xunit.Assert.Equal("{'Blah':null}", sw.ToString());
+        Assert.Equal("{'Blah':null}", sw.ToString());
     }
 
     [Fact]
@@ -1631,14 +1631,14 @@ _____'propertyName': NaN,
         var sw = new StringWriter();
         CustomJsonTextWriter writer = new CustomAsyncJsonTextWriter(sw) { Formatting = Formatting.Indented };
         await writer.WriteStartObjectAsync();
-        Xunit.Assert.Equal(WriteState.Object, writer.WriteState);
+        Assert.Equal(WriteState.Object, writer.WriteState);
         await writer.WritePropertyNameAsync("Property1");
-        Xunit.Assert.Equal(WriteState.Property, writer.WriteState);
-        Xunit.Assert.Equal("Property1", writer.Path);
+        Assert.Equal(WriteState.Property, writer.WriteState);
+        Assert.Equal("Property1", writer.Path);
         await writer.WriteNullAsync();
-        Xunit.Assert.Equal(WriteState.Object, writer.WriteState);
+        Assert.Equal(WriteState.Object, writer.WriteState);
         await writer.WriteEndObjectAsync();
-        Xunit.Assert.Equal(WriteState.Start, writer.WriteState);
+        Assert.Equal(WriteState.Start, writer.WriteState);
 
         StringAssert.AreEqual(@"{{{
   ""1ytreporP"": NULL!!!
@@ -1728,64 +1728,64 @@ null//comment
 
         var writer = new JsonTextWriter(new StreamWriter(Stream.Null));
 
-        Xunit.Assert.True(writer.CloseAsync(token).IsCanceled);
-        Xunit.Assert.True(writer.FlushAsync(token).IsCanceled);
-        Xunit.Assert.True(writer.WriteCommentAsync("test", token).IsCanceled);
-        Xunit.Assert.True(writer.WriteEndArrayAsync(token).IsCanceled);
-        Xunit.Assert.True(writer.WriteEndAsync(token).IsCanceled);
-        Xunit.Assert.True(writer.WriteEndConstructorAsync(token).IsCanceled);
-        Xunit.Assert.True(writer.WriteEndObjectAsync(token).IsCanceled);
-        Xunit.Assert.True(writer.WriteNullAsync(token).IsCanceled);
-        Xunit.Assert.True(writer.WritePropertyNameAsync("test", token).IsCanceled);
-        Xunit.Assert.True(writer.WritePropertyNameAsync("test", false, token).IsCanceled);
-        Xunit.Assert.True(writer.WriteRawAsync("{}", token).IsCanceled);
-        Xunit.Assert.True(writer.WriteRawValueAsync("{}", token).IsCanceled);
-        Xunit.Assert.True(writer.WriteStartArrayAsync(token).IsCanceled);
-        Xunit.Assert.True(writer.WriteStartConstructorAsync("test", token).IsCanceled);
-        Xunit.Assert.True(writer.WriteStartObjectAsync(token).IsCanceled);
-        Xunit.Assert.True(writer.WriteTokenAsync(JsonToken.Comment, token).IsCanceled);
-        Xunit.Assert.True(writer.WriteTokenAsync(JsonToken.Boolean, true, token).IsCanceled);
+        Assert.True(writer.CloseAsync(token).IsCanceled);
+        Assert.True(writer.FlushAsync(token).IsCanceled);
+        Assert.True(writer.WriteCommentAsync("test", token).IsCanceled);
+        Assert.True(writer.WriteEndArrayAsync(token).IsCanceled);
+        Assert.True(writer.WriteEndAsync(token).IsCanceled);
+        Assert.True(writer.WriteEndConstructorAsync(token).IsCanceled);
+        Assert.True(writer.WriteEndObjectAsync(token).IsCanceled);
+        Assert.True(writer.WriteNullAsync(token).IsCanceled);
+        Assert.True(writer.WritePropertyNameAsync("test", token).IsCanceled);
+        Assert.True(writer.WritePropertyNameAsync("test", false, token).IsCanceled);
+        Assert.True(writer.WriteRawAsync("{}", token).IsCanceled);
+        Assert.True(writer.WriteRawValueAsync("{}", token).IsCanceled);
+        Assert.True(writer.WriteStartArrayAsync(token).IsCanceled);
+        Assert.True(writer.WriteStartConstructorAsync("test", token).IsCanceled);
+        Assert.True(writer.WriteStartObjectAsync(token).IsCanceled);
+        Assert.True(writer.WriteTokenAsync(JsonToken.Comment, token).IsCanceled);
+        Assert.True(writer.WriteTokenAsync(JsonToken.Boolean, true, token).IsCanceled);
         var reader = new JsonTextReader(new StringReader("[1,2,3,4,5]"));
-        Xunit.Assert.True(writer.WriteTokenAsync(reader, token).IsCanceled);
-        Xunit.Assert.True(writer.WriteUndefinedAsync(token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(bool), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(bool?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(byte), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(byte?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(byte[]), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(char), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(char?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(DateTime), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(DateTime?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(DateTimeOffset), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(DateTimeOffset?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(decimal), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(decimal?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(double), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(double?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(float), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(float?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(Guid), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(Guid?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(int), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(int?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(long), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(long?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(object), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(sbyte), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(sbyte?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(short), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(short?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(TimeSpan), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(TimeSpan?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(uint), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(uint?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(ulong), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(ulong?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(Uri), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(ushort), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(ushort?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteWhitespaceAsync(" ", token).IsCanceled);
+        Assert.True(writer.WriteTokenAsync(reader, token).IsCanceled);
+        Assert.True(writer.WriteUndefinedAsync(token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(bool), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(bool?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(byte), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(byte?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(byte[]), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(char), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(char?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(DateTime), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(DateTime?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(DateTimeOffset), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(DateTimeOffset?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(decimal), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(decimal?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(double), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(double?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(float), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(float?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(Guid), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(Guid?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(int), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(int?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(long), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(long?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(object), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(sbyte), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(sbyte?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(short), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(short?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(TimeSpan), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(TimeSpan?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(uint), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(uint?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(ulong), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(ulong?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(Uri), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(ushort), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(ushort?), token).IsCanceled);
+        Assert.True(writer.WriteWhitespaceAsync(" ", token).IsCanceled);
     }
 
     class NoOverridesDerivedJsonTextWriter : JsonTextWriter
@@ -1811,64 +1811,64 @@ null//comment
 
         var writer = new NoOverridesDerivedJsonTextWriter(new StreamWriter(Stream.Null));
 
-        Xunit.Assert.True(writer.CloseAsync(token).IsCanceled);
-        Xunit.Assert.True(writer.FlushAsync(token).IsCanceled);
-        Xunit.Assert.True(writer.WriteCommentAsync("test", token).IsCanceled);
-        Xunit.Assert.True(writer.WriteEndArrayAsync(token).IsCanceled);
-        Xunit.Assert.True(writer.WriteEndAsync(token).IsCanceled);
-        Xunit.Assert.True(writer.WriteEndConstructorAsync(token).IsCanceled);
-        Xunit.Assert.True(writer.WriteEndObjectAsync(token).IsCanceled);
-        Xunit.Assert.True(writer.WriteNullAsync(token).IsCanceled);
-        Xunit.Assert.True(writer.WritePropertyNameAsync("test", token).IsCanceled);
-        Xunit.Assert.True(writer.WritePropertyNameAsync("test", false, token).IsCanceled);
-        Xunit.Assert.True(writer.WriteRawAsync("{}", token).IsCanceled);
-        Xunit.Assert.True(writer.WriteRawValueAsync("{}", token).IsCanceled);
-        Xunit.Assert.True(writer.WriteStartArrayAsync(token).IsCanceled);
-        Xunit.Assert.True(writer.WriteStartConstructorAsync("test", token).IsCanceled);
-        Xunit.Assert.True(writer.WriteStartObjectAsync(token).IsCanceled);
-        Xunit.Assert.True(writer.WriteTokenAsync(JsonToken.Comment, token).IsCanceled);
-        Xunit.Assert.True(writer.WriteTokenAsync(JsonToken.Boolean, true, token).IsCanceled);
+        Assert.True(writer.CloseAsync(token).IsCanceled);
+        Assert.True(writer.FlushAsync(token).IsCanceled);
+        Assert.True(writer.WriteCommentAsync("test", token).IsCanceled);
+        Assert.True(writer.WriteEndArrayAsync(token).IsCanceled);
+        Assert.True(writer.WriteEndAsync(token).IsCanceled);
+        Assert.True(writer.WriteEndConstructorAsync(token).IsCanceled);
+        Assert.True(writer.WriteEndObjectAsync(token).IsCanceled);
+        Assert.True(writer.WriteNullAsync(token).IsCanceled);
+        Assert.True(writer.WritePropertyNameAsync("test", token).IsCanceled);
+        Assert.True(writer.WritePropertyNameAsync("test", false, token).IsCanceled);
+        Assert.True(writer.WriteRawAsync("{}", token).IsCanceled);
+        Assert.True(writer.WriteRawValueAsync("{}", token).IsCanceled);
+        Assert.True(writer.WriteStartArrayAsync(token).IsCanceled);
+        Assert.True(writer.WriteStartConstructorAsync("test", token).IsCanceled);
+        Assert.True(writer.WriteStartObjectAsync(token).IsCanceled);
+        Assert.True(writer.WriteTokenAsync(JsonToken.Comment, token).IsCanceled);
+        Assert.True(writer.WriteTokenAsync(JsonToken.Boolean, true, token).IsCanceled);
         var reader = new JsonTextReader(new StringReader("[1,2,3,4,5]"));
-        Xunit.Assert.True(writer.WriteTokenAsync(reader, token).IsCanceled);
-        Xunit.Assert.True(writer.WriteUndefinedAsync(token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(bool), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(bool?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(byte), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(byte?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(byte[]), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(char), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(char?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(DateTime), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(DateTime?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(DateTimeOffset), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(DateTimeOffset?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(decimal), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(decimal?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(double), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(double?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(float), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(float?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(Guid), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(Guid?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(int), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(int?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(long), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(long?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(object), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(sbyte), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(sbyte?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(short), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(short?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(TimeSpan), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(TimeSpan?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(uint), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(uint?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(ulong), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(ulong?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(Uri), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(ushort), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(ushort?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteWhitespaceAsync(" ", token).IsCanceled);
+        Assert.True(writer.WriteTokenAsync(reader, token).IsCanceled);
+        Assert.True(writer.WriteUndefinedAsync(token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(bool), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(bool?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(byte), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(byte?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(byte[]), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(char), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(char?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(DateTime), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(DateTime?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(DateTimeOffset), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(DateTimeOffset?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(decimal), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(decimal?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(double), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(double?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(float), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(float?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(Guid), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(Guid?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(int), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(int?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(long), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(long?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(object), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(sbyte), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(sbyte?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(short), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(short?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(TimeSpan), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(TimeSpan?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(uint), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(uint?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(ulong), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(ulong?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(Uri), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(ushort), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(ushort?), token).IsCanceled);
+        Assert.True(writer.WriteWhitespaceAsync(" ", token).IsCanceled);
     }
 
     [Fact]
@@ -1880,64 +1880,64 @@ null//comment
 
         var writer = new MinimalOverridesDerivedJsonWriter();
 
-        Xunit.Assert.True(writer.CloseAsync(token).IsCanceled);
-        Xunit.Assert.True(writer.FlushAsync(token).IsCanceled);
-        Xunit.Assert.True(writer.WriteCommentAsync("test", token).IsCanceled);
-        Xunit.Assert.True(writer.WriteEndArrayAsync(token).IsCanceled);
-        Xunit.Assert.True(writer.WriteEndAsync(token).IsCanceled);
-        Xunit.Assert.True(writer.WriteEndConstructorAsync(token).IsCanceled);
-        Xunit.Assert.True(writer.WriteEndObjectAsync(token).IsCanceled);
-        Xunit.Assert.True(writer.WriteNullAsync(token).IsCanceled);
-        Xunit.Assert.True(writer.WritePropertyNameAsync("test", token).IsCanceled);
-        Xunit.Assert.True(writer.WritePropertyNameAsync("test", false, token).IsCanceled);
-        Xunit.Assert.True(writer.WriteRawAsync("{}", token).IsCanceled);
-        Xunit.Assert.True(writer.WriteRawValueAsync("{}", token).IsCanceled);
-        Xunit.Assert.True(writer.WriteStartArrayAsync(token).IsCanceled);
-        Xunit.Assert.True(writer.WriteStartConstructorAsync("test", token).IsCanceled);
-        Xunit.Assert.True(writer.WriteStartObjectAsync(token).IsCanceled);
-        Xunit.Assert.True(writer.WriteTokenAsync(JsonToken.Comment, token).IsCanceled);
-        Xunit.Assert.True(writer.WriteTokenAsync(JsonToken.Boolean, true, token).IsCanceled);
+        Assert.True(writer.CloseAsync(token).IsCanceled);
+        Assert.True(writer.FlushAsync(token).IsCanceled);
+        Assert.True(writer.WriteCommentAsync("test", token).IsCanceled);
+        Assert.True(writer.WriteEndArrayAsync(token).IsCanceled);
+        Assert.True(writer.WriteEndAsync(token).IsCanceled);
+        Assert.True(writer.WriteEndConstructorAsync(token).IsCanceled);
+        Assert.True(writer.WriteEndObjectAsync(token).IsCanceled);
+        Assert.True(writer.WriteNullAsync(token).IsCanceled);
+        Assert.True(writer.WritePropertyNameAsync("test", token).IsCanceled);
+        Assert.True(writer.WritePropertyNameAsync("test", false, token).IsCanceled);
+        Assert.True(writer.WriteRawAsync("{}", token).IsCanceled);
+        Assert.True(writer.WriteRawValueAsync("{}", token).IsCanceled);
+        Assert.True(writer.WriteStartArrayAsync(token).IsCanceled);
+        Assert.True(writer.WriteStartConstructorAsync("test", token).IsCanceled);
+        Assert.True(writer.WriteStartObjectAsync(token).IsCanceled);
+        Assert.True(writer.WriteTokenAsync(JsonToken.Comment, token).IsCanceled);
+        Assert.True(writer.WriteTokenAsync(JsonToken.Boolean, true, token).IsCanceled);
         var reader = new JsonTextReader(new StringReader("[1,2,3,4,5]"));
-        Xunit.Assert.True(writer.WriteTokenAsync(reader, token).IsCanceled);
-        Xunit.Assert.True(writer.WriteUndefinedAsync(token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(bool), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(bool?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(byte), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(byte?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(byte[]), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(char), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(char?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(DateTime), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(DateTime?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(DateTimeOffset), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(DateTimeOffset?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(decimal), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(decimal?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(double), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(double?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(float), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(float?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(Guid), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(Guid?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(int), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(int?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(long), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(long?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(object), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(sbyte), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(sbyte?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(short), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(short?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(TimeSpan), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(TimeSpan?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(uint), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(uint?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(ulong), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(ulong?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(Uri), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(ushort), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteValueAsync(default(ushort?), token).IsCanceled);
-        Xunit.Assert.True(writer.WriteWhitespaceAsync(" ", token).IsCanceled);
+        Assert.True(writer.WriteTokenAsync(reader, token).IsCanceled);
+        Assert.True(writer.WriteUndefinedAsync(token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(bool), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(bool?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(byte), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(byte?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(byte[]), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(char), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(char?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(DateTime), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(DateTime?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(DateTimeOffset), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(DateTimeOffset?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(decimal), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(decimal?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(double), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(double?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(float), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(float?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(Guid), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(Guid?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(int), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(int?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(long), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(long?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(object), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(sbyte), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(sbyte?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(short), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(short?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(TimeSpan), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(TimeSpan?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(uint), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(uint?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(ulong), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(ulong?), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(Uri), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(ushort), token).IsCanceled);
+        Assert.True(writer.WriteValueAsync(default(ushort?), token).IsCanceled);
+        Assert.True(writer.WriteWhitespaceAsync(" ", token).IsCanceled);
     }
 
     [Fact]

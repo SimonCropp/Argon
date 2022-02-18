@@ -67,7 +67,7 @@ public class SerializationTests : TestFixtureBase
         var deserializedProduct = JsonConvert.DeserializeObject<Product>(output);
         #endregion
 
-        Xunit.Assert.Equal("Apple", deserializedProduct.Name);
+        Assert.Equal("Apple", deserializedProduct.Name);
     }
 
     [Fact]
@@ -209,7 +209,7 @@ public class SerializationTests : TestFixtureBase
         // This value was set after deserialization.
         #endregion
 
-        Xunit.Assert.Equal(11, obj.Member1);
+        Assert.Equal(11, obj.Member1);
     }
 
     [Fact]
@@ -247,7 +247,7 @@ public class SerializationTests : TestFixtureBase
         // Cannot convert null value to System.DateTime.
         #endregion
 
-        Xunit.Assert.Equal(new DateTime(2009, 9, 9, 0, 0, 0, DateTimeKind.Utc), c[0]);
+        Assert.Equal(new DateTime(2009, 9, 9, 0, 0, 0, DateTimeKind.Utc), c[0]);
     }
 
     [Fact]
@@ -418,7 +418,7 @@ public class SerializationTests : TestFixtureBase
         Console.WriteLine(p2.Name);
         // James
 
-        var equal = Object.ReferenceEquals(p1, p2);
+        var equal = ReferenceEquals(p1, p2);
         // true
         #endregion
 
@@ -515,7 +515,7 @@ public class SerializationTests : TestFixtureBase
         // Support
         #endregion
 
-        Xunit.Assert.Equal("Support", employee.JobTitle);
+        Assert.Equal("Support", employee.JobTitle);
     }
 
     [Fact]
@@ -647,7 +647,7 @@ public class SerializationTests : TestFixtureBase
         // Product 1
         #endregion
 
-        Xunit.Assert.Equal("Product 1", p1.Name);
+        Assert.Equal("Product 1", p1.Name);
     }
 
     [Fact]
@@ -665,7 +665,7 @@ public class SerializationTests : TestFixtureBase
         // value1
         #endregion
 
-        Xunit.Assert.Equal("value1", values["key1"]);
+        Assert.Equal("value1", values["key1"]);
     }
 
     #region SerializingDatesInJson
@@ -1028,7 +1028,7 @@ public class SerializationTests : TestFixtureBase
         // Url = http://www.imdb.com/name/nm0385296/
         #endregion
 
-        Xunit.Assert.Equal("<b>Paris Hilton</b> - Wikipedia, the free encyclopedia", searchResults[0].Title);
+        Assert.Equal("<b>Paris Hilton</b> - Wikipedia, the free encyclopedia", searchResults[0].Title);
     }
 
     [Fact]
@@ -1055,6 +1055,6 @@ public class SerializationTests : TestFixtureBase
         Console.WriteLine(deserialized[3, 0] + ", " + deserialized[3, 1]);
         // Han, Leia
 
-        Xunit.Assert.Equal("Han", deserialized[3, 0]);
+        Assert.Equal("Han", deserialized[3, 0]);
     }
 }

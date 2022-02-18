@@ -56,7 +56,7 @@ public class RegexQuery : TestFixtureBase
         // Argon
         #endregion
 
-        Xunit.Assert.Equal(1, packages.Count);
-        Xunit.Assert.Equal("Argon", (string)packages[0]["PackageId"]);
+        Assert.Equal(1, packages.Count);
+        Assert.Equal("Argon", (string)packages[0]["PackageId"]);
     }
 }

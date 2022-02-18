@@ -139,7 +139,7 @@ static class StringUtils
 
     public static string ToCamelCase(string s)
     {
-        if (StringUtils.IsNullOrEmpty(s) || !char.IsUpper(s[0]))
+        if (IsNullOrEmpty(s) || !char.IsUpper(s[0]))
         {
             return s;
         }
@@ -198,7 +198,7 @@ static class StringUtils
 
     static string ToSeparatedCase(string s, char separator)
     {
-        if (StringUtils.IsNullOrEmpty(s))
+        if (IsNullOrEmpty(s))
         {
             return s;
         }

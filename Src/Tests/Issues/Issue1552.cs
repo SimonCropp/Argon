@@ -39,7 +39,7 @@ public class Issue1552 : TestFixtureBase
             () => JsonConvert.SerializeObject(c),
             "Error getting value from 'RefField' on 'Argon.Tests.Issues.RefAndRefReadonlyTestClass'.");
 
-        Xunit.Assert.Equal("Could not create getter for Int32& RefField. ByRef return values are not supported.", ex.InnerException.Message);
+        Assert.Equal("Could not create getter for Int32& RefField. ByRef return values are not supported.", ex.InnerException.Message);
     }
 
     [Fact]
@@ -50,7 +50,7 @@ public class Issue1552 : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c);
 
-        Xunit.Assert.Equal("{}", json);
+        Assert.Equal("{}", json);
     }
 }
 

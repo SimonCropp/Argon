@@ -36,37 +36,37 @@ public class JTokenAsyncTests : TestFixtureBase
         XUnitAssert.True((bool)o["pie"]);
 
         var a = (JArray)await JToken.ReadFromAsync(new JsonTextReader(new StringReader("[1,2,3]")));
-        Xunit.Assert.Equal(1, (int)a[0]);
-        Xunit.Assert.Equal(2, (int)a[1]);
-        Xunit.Assert.Equal(3, (int)a[2]);
+        Assert.Equal(1, (int)a[0]);
+        Assert.Equal(2, (int)a[1]);
+        Assert.Equal(3, (int)a[2]);
 
         JsonReader reader = new JsonTextReader(new StringReader("{'pie':true}"));
         await reader.ReadAsync();
         await reader.ReadAsync();
 
         var p = (JProperty)await JToken.ReadFromAsync(reader);
-        Xunit.Assert.Equal("pie", p.Name);
+        Assert.Equal("pie", p.Name);
         XUnitAssert.True((bool)p.Value);
 
         var c = (JConstructor)await JToken.ReadFromAsync(new JsonTextReader(new StringReader("new Date(1)")));
-        Xunit.Assert.Equal("Date", c.Name);
-        Xunit.Assert.True(JToken.DeepEquals(new JValue(1), c.Values().ElementAt(0)));
+        Assert.Equal("Date", c.Name);
+        Assert.True(JToken.DeepEquals(new JValue(1), c.Values().ElementAt(0)));
 
         var v = (JValue)await JToken.ReadFromAsync(new JsonTextReader(new StringReader(@"""stringvalue""")));
-        Xunit.Assert.Equal("stringvalue", (string)v);
+        Assert.Equal("stringvalue", (string)v);
 
         v = (JValue)await JToken.ReadFromAsync(new JsonTextReader(new StringReader(@"1")));
-        Xunit.Assert.Equal(1, (int)v);
+        Assert.Equal(1, (int)v);
 
         v = (JValue)await JToken.ReadFromAsync(new JsonTextReader(new StringReader(@"1.1")));
-        Xunit.Assert.Equal(1.1, (double)v);
+        Assert.Equal(1.1, (double)v);
 
         v = (JValue)await JToken.ReadFromAsync(new JsonTextReader(new StringReader(@"""1970-01-01T00:00:00+12:31"""))
         {
             DateParseHandling = DateParseHandling.DateTimeOffset
         });
-        Xunit.Assert.Equal(typeof(DateTimeOffset), v.Value.GetType());
-        Xunit.Assert.Equal(new DateTimeOffset(DateTimeUtils.InitialJavaScriptDateTicks, new TimeSpan(12, 31, 0)), v.Value);
+        Assert.Equal(typeof(DateTimeOffset), v.Value.GetType());
+        Assert.Equal(new DateTimeOffset(DateTimeUtils.InitialJavaScriptDateTicks, new TimeSpan(12, 31, 0)), v.Value);
     }
 
     [Fact]
@@ -88,19 +88,19 @@ public class JTokenAsyncTests : TestFixtureBase
             );
 
         var writer = a.CreateWriter();
-        Xunit.Assert.NotNull(writer);
-        Xunit.Assert.Equal(4, a.Count);
+        Assert.NotNull(writer);
+        Assert.Equal(4, a.Count);
 
         await writer.WriteValueAsync("String");
-        Xunit.Assert.Equal(5, a.Count);
-        Xunit.Assert.Equal("String", (string)a[4]);
+        Assert.Equal(5, a.Count);
+        Assert.Equal("String", (string)a[4]);
 
         await writer.WriteStartObjectAsync();
         await writer.WritePropertyNameAsync("Property");
         await writer.WriteValueAsync("PropertyValue");
         await writer.WriteEndAsync();
 
-        Xunit.Assert.Equal(6, a.Count);
-        Xunit.Assert.True(JToken.DeepEquals(new JObject(new JProperty("Property", "PropertyValue")), a[5]));
+        Assert.Equal(6, a.Count);
+        Assert.True(JToken.DeepEquals(new JObject(new JProperty("Property", "PropertyValue")), a[5]));
     }
 }

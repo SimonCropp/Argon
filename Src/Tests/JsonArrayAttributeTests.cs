@@ -32,7 +32,7 @@ public class JsonArrayAttributeTests : TestFixtureBase
     public void IsReferenceTest()
     {
         var attribute = new JsonPropertyAttribute();
-        Xunit.Assert.Equal(null, attribute._isReference);
+        Assert.Equal(null, attribute._isReference);
         XUnitAssert.False(attribute.IsReference);
 
         attribute.IsReference = false;
@@ -48,23 +48,23 @@ public class JsonArrayAttributeTests : TestFixtureBase
     public void NullValueHandlingTest()
     {
         var attribute = new JsonPropertyAttribute();
-        Xunit.Assert.Equal(null, attribute._nullValueHandling);
-        Xunit.Assert.Equal(NullValueHandling.Include, attribute.NullValueHandling);
+        Assert.Equal(null, attribute._nullValueHandling);
+        Assert.Equal(NullValueHandling.Include, attribute.NullValueHandling);
 
         attribute.NullValueHandling = NullValueHandling.Ignore;
-        Xunit.Assert.Equal(NullValueHandling.Ignore, attribute._nullValueHandling);
-        Xunit.Assert.Equal(NullValueHandling.Ignore, attribute.NullValueHandling);
+        Assert.Equal(NullValueHandling.Ignore, attribute._nullValueHandling);
+        Assert.Equal(NullValueHandling.Ignore, attribute.NullValueHandling);
     }
 
     [Fact]
     public void DefaultValueHandlingTest()
     {
         var attribute = new JsonPropertyAttribute();
-        Xunit.Assert.Equal(null, attribute._defaultValueHandling);
-        Xunit.Assert.Equal(DefaultValueHandling.Include, attribute.DefaultValueHandling);
+        Assert.Equal(null, attribute._defaultValueHandling);
+        Assert.Equal(DefaultValueHandling.Include, attribute.DefaultValueHandling);
 
         attribute.DefaultValueHandling = DefaultValueHandling.Ignore;
-        Xunit.Assert.Equal(DefaultValueHandling.Ignore, attribute._defaultValueHandling);
-        Xunit.Assert.Equal(DefaultValueHandling.Ignore, attribute.DefaultValueHandling);
+        Assert.Equal(DefaultValueHandling.Ignore, attribute._defaultValueHandling);
+        Assert.Equal(DefaultValueHandling.Ignore, attribute.DefaultValueHandling);
     }
 }

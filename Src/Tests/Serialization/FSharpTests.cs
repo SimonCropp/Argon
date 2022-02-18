@@ -45,8 +45,8 @@ public class FSharpTests : TestFixtureBase
 
         var l2 = JsonConvert.DeserializeObject<FSharpList<int>>(json);
 
-        Xunit.Assert.Equal(l.Length, l2.Length);
-        Xunit.Assert.Equal(l, l2);
+        Assert.Equal(l.Length, l2.Length);
+        Assert.Equal(l, l2);
     }
 
     [Fact]
@@ -64,8 +64,8 @@ public class FSharpTests : TestFixtureBase
 
         var l2 = JsonConvert.DeserializeObject<FSharpSet<int>>(json);
 
-        Xunit.Assert.Equal(l.Count, l2.Count);
-        Xunit.Assert.Equal(l, l2);
+        Assert.Equal(l.Count, l2.Count);
+        Assert.Equal(l, l2);
     }
 
     [Fact]
@@ -77,9 +77,9 @@ public class FSharpTests : TestFixtureBase
 
         var m2 = JsonConvert.DeserializeObject<FSharpMap<string, int>>(json);
 
-        Xunit.Assert.Equal(m1.Count, m2.Count);
-        Xunit.Assert.Equal(1, m2["one"]);
-        Xunit.Assert.Equal(2, m2["II"]);
-        Xunit.Assert.Equal(3, m2["3"]);
+        Assert.Equal(m1.Count, m2.Count);
+        Assert.Equal(1, m2["one"]);
+        Assert.Equal(2, m2["II"]);
+        Assert.Equal(3, m2["3"]);
     }
 }

@@ -278,28 +278,28 @@ public class EntitiesSerializationTests : TestFixtureBase
 
         var f = JsonConvert.DeserializeObject<Folder>(json, new IsoDateTimeConverter());
 
-        Xunit.Assert.NotNull(f);
-        Xunit.Assert.Equal(new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E"), f.FolderId);
-        Xunit.Assert.Equal("Folder", f.EntityKey.EntitySetName);
-        Xunit.Assert.Equal("DataServicesTestDatabaseEntities", f.EntityKey.EntityContainerName);
-        Xunit.Assert.Equal("Folder", f.EntityKey.EntitySetName);
+        Assert.NotNull(f);
+        Assert.Equal(new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E"), f.FolderId);
+        Assert.Equal("Folder", f.EntityKey.EntitySetName);
+        Assert.Equal("DataServicesTestDatabaseEntities", f.EntityKey.EntityContainerName);
+        Assert.Equal("Folder", f.EntityKey.EntitySetName);
         XUnitAssert.False(f.EntityKey.IsTemporary);
-        Xunit.Assert.Equal(1, f.EntityKey.EntityKeyValues.Length);
-        Xunit.Assert.Equal("FolderId", f.EntityKey.EntityKeyValues[0].Key);
-        Xunit.Assert.Equal(new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E"), f.EntityKey.EntityKeyValues[0].Value);
-        Xunit.Assert.Equal("Root folder", f.Name);
-        Xunit.Assert.Equal(new DateTime(2000, 12, 10, 10, 50, 0, DateTimeKind.Utc), f.CreatedDate);
-        Xunit.Assert.Equal(null, f.ParentFolder);
-        Xunit.Assert.Equal(1, f.ChildFolders.Count);
+        Assert.Equal(1, f.EntityKey.EntityKeyValues.Length);
+        Assert.Equal("FolderId", f.EntityKey.EntityKeyValues[0].Key);
+        Assert.Equal(new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E"), f.EntityKey.EntityKeyValues[0].Value);
+        Assert.Equal("Root folder", f.Name);
+        Assert.Equal(new DateTime(2000, 12, 10, 10, 50, 0, DateTimeKind.Utc), f.CreatedDate);
+        Assert.Equal(null, f.ParentFolder);
+        Assert.Equal(1, f.ChildFolders.Count);
 
         var childFolder = f.ChildFolders.ElementAt(0);
 
-        Xunit.Assert.Equal("Child folder", childFolder.Name);
-        Xunit.Assert.Equal("Description!", childFolder.Description);
-        Xunit.Assert.Equal(f, childFolder.ParentFolder);
-        Xunit.Assert.Equal(f, childFolder.ParentFolderReference.Value);
+        Assert.Equal("Child folder", childFolder.Name);
+        Assert.Equal("Description!", childFolder.Description);
+        Assert.Equal(f, childFolder.ParentFolder);
+        Assert.Equal(f, childFolder.ParentFolderReference.Value);
         // is this a problem?
-        Xunit.Assert.Equal(null, childFolder.ParentFolderReference.EntityKey);
+        Assert.Equal(null, childFolder.ParentFolderReference.EntityKey);
     }
 
     [Fact]
@@ -357,19 +357,19 @@ public class EntitiesSerializationTests : TestFixtureBase
 }", json);
 
         var newKey = JsonConvert.DeserializeObject<EntityKey>(json);
-        Xunit.Assert.False(ReferenceEquals(e, newKey));
+        Assert.False(ReferenceEquals(e, newKey));
 
-        Xunit.Assert.Equal(5, newKey.EntityKeyValues.Length);
-        Xunit.Assert.Equal("GuidId", newKey.EntityKeyValues[0].Key);
-        Xunit.Assert.Equal(new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E"), newKey.EntityKeyValues[0].Value);
-        Xunit.Assert.Equal("IntId", newKey.EntityKeyValues[1].Key);
-        Xunit.Assert.Equal(int.MaxValue, newKey.EntityKeyValues[1].Value);
-        Xunit.Assert.Equal("LongId", newKey.EntityKeyValues[2].Key);
-        Xunit.Assert.Equal(long.MaxValue, newKey.EntityKeyValues[2].Value);
-        Xunit.Assert.Equal("StringId", newKey.EntityKeyValues[3].Key);
-        Xunit.Assert.Equal("String!", newKey.EntityKeyValues[3].Value);
-        Xunit.Assert.Equal("DateTimeId", newKey.EntityKeyValues[4].Key);
-        Xunit.Assert.Equal(new DateTime(2000, 12, 10, 10, 50, 0, DateTimeKind.Utc), newKey.EntityKeyValues[4].Value);
+        Assert.Equal(5, newKey.EntityKeyValues.Length);
+        Assert.Equal("GuidId", newKey.EntityKeyValues[0].Key);
+        Assert.Equal(new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E"), newKey.EntityKeyValues[0].Value);
+        Assert.Equal("IntId", newKey.EntityKeyValues[1].Key);
+        Assert.Equal(int.MaxValue, newKey.EntityKeyValues[1].Value);
+        Assert.Equal("LongId", newKey.EntityKeyValues[2].Key);
+        Assert.Equal(long.MaxValue, newKey.EntityKeyValues[2].Value);
+        Assert.Equal("StringId", newKey.EntityKeyValues[3].Key);
+        Assert.Equal("String!", newKey.EntityKeyValues[3].Value);
+        Assert.Equal("DateTimeId", newKey.EntityKeyValues[4].Key);
+        Assert.Equal(new DateTime(2000, 12, 10, 10, 50, 0, DateTimeKind.Utc), newKey.EntityKeyValues[4].Value);
     }
 
     [Fact]
@@ -421,19 +421,19 @@ public class EntitiesSerializationTests : TestFixtureBase
 }", json);
 
         var newKey = JsonConvert.DeserializeObject<EntityKey>(json);
-        Xunit.Assert.False(ReferenceEquals(e, newKey));
+        Assert.False(ReferenceEquals(e, newKey));
 
-        Xunit.Assert.Equal(5, newKey.EntityKeyValues.Length);
-        Xunit.Assert.Equal("GuidId", newKey.EntityKeyValues[0].Key);
-        Xunit.Assert.Equal(new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E"), newKey.EntityKeyValues[0].Value);
-        Xunit.Assert.Equal("IntId", newKey.EntityKeyValues[1].Key);
-        Xunit.Assert.Equal(int.MaxValue, newKey.EntityKeyValues[1].Value);
-        Xunit.Assert.Equal("LongId", newKey.EntityKeyValues[2].Key);
-        Xunit.Assert.Equal(long.MaxValue, newKey.EntityKeyValues[2].Value);
-        Xunit.Assert.Equal("StringId", newKey.EntityKeyValues[3].Key);
-        Xunit.Assert.Equal("String!", newKey.EntityKeyValues[3].Value);
-        Xunit.Assert.Equal("DateTimeId", newKey.EntityKeyValues[4].Key);
-        Xunit.Assert.Equal(new DateTime(2000, 12, 10, 10, 50, 0, DateTimeKind.Utc), newKey.EntityKeyValues[4].Value);
+        Assert.Equal(5, newKey.EntityKeyValues.Length);
+        Assert.Equal("GuidId", newKey.EntityKeyValues[0].Key);
+        Assert.Equal(new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E"), newKey.EntityKeyValues[0].Value);
+        Assert.Equal("IntId", newKey.EntityKeyValues[1].Key);
+        Assert.Equal(int.MaxValue, newKey.EntityKeyValues[1].Value);
+        Assert.Equal("LongId", newKey.EntityKeyValues[2].Key);
+        Assert.Equal(long.MaxValue, newKey.EntityKeyValues[2].Value);
+        Assert.Equal("StringId", newKey.EntityKeyValues[3].Key);
+        Assert.Equal("String!", newKey.EntityKeyValues[3].Value);
+        Assert.Equal("DateTimeId", newKey.EntityKeyValues[4].Key);
+        Assert.Equal(new DateTime(2000, 12, 10, 10, 50, 0, DateTimeKind.Utc), newKey.EntityKeyValues[4].Value);
     }
 
     Folder CreateEntitiesTestData()

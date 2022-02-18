@@ -41,7 +41,7 @@ public class Issue2492
         var serializer = JsonSerializer.Create();
         var x = serializer.Deserialize<JToken>(jsonReader);
 
-        Xunit.Assert.Equal(JTokenType.Object, x["ABC"].Type);
+        Assert.Equal(JTokenType.Object, x["ABC"].Type);
     }
 
     [Fact]
@@ -55,6 +55,6 @@ public class Issue2492
         var serializer = JsonSerializer.Create();
         var x = serializer.Deserialize<JToken>(jsonReader);
 
-        Xunit.Assert.Equal(JTokenType.Integer, x["ABC"].Type);
+        Assert.Equal(JTokenType.Integer, x["ABC"].Type);
     }
 }

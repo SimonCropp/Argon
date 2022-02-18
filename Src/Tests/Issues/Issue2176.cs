@@ -33,8 +33,8 @@ public class Issue2176
     public void Test()
     {
         var o = JsonConvert.DeserializeObject<Dummy>(Json);
-        Xunit.Assert.Equal(0, o.P0);
-        Xunit.Assert.Equal(256, o.P256);
+        Assert.Equal(0, o.P0);
+        Assert.Equal(256, o.P256);
     }
 
     public class Dummy

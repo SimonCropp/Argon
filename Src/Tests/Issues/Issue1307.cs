@@ -95,6 +95,6 @@ public class Issue1307 : TestFixtureBase
 }";
 
         var c = JsonConvert.DeserializeObject<MyOtherClass>(json);
-        Xunit.Assert.Equal(3, c.InstanceOfMyClass.Dummy.Length);
+        Assert.Equal(3, c.InstanceOfMyClass.Dummy.Length);
     }
 }

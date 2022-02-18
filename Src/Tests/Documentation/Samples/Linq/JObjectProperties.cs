@@ -54,6 +54,6 @@ public class JObjectProperties : TestFixtureBase
         // name2 - value2
         #endregion
 
-        Xunit.Assert.Equal(2, o.Count);
+        Assert.Equal(2, o.Count);
     }
 }

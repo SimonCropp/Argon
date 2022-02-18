@@ -41,7 +41,7 @@ public class Issue0573
         var messages = traceWriter.GetTraceMessages().ToList();
 
         var hasMessage = messages.Any(message => message.Contains("Info Unable to deserialize value to non-writable property 'Value' on Argon.Tests.Issues.Issue0573+PrivateSetterTestClass. Path 'Value', line 1, position 13."));
-        Xunit.Assert.True(hasMessage);
+        Assert.True(hasMessage);
     }
 
     public class PrivateSetterTestClass

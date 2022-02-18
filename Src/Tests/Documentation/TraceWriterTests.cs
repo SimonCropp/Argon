@@ -140,7 +140,7 @@ public class TraceWriterTests : TestFixtureBase
 
         var memoryTraceWriter = (MemoryTraceWriter)traceWriter;
 
-        Xunit.Assert.Equal(876, memoryTraceWriter.ToString().Length);
-        Xunit.Assert.Equal(7, memoryTraceWriter.GetTraceMessages().Count());
+        Assert.Equal(876, memoryTraceWriter.ToString().Length);
+        Assert.Equal(7, memoryTraceWriter.GetTraceMessages().Count());
     }
 }

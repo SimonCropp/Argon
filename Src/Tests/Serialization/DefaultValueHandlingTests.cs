@@ -52,7 +52,7 @@ public class DefaultValueHandlingTests : TestFixtureBase
     public void DefaultValueWithConstructorAndRenameTest()
     {
         var myObject = JsonConvert.DeserializeObject<DefaultValueWithConstructorAndRename>("{}");
-        Xunit.Assert.Equal(DefaultValueWithConstructorAndRename.DefaultText, myObject.Text);
+        Assert.Equal(DefaultValueWithConstructorAndRename.DefaultText, myObject.Text);
     }
 
     class DefaultValueWithConstructor
@@ -73,7 +73,7 @@ public class DefaultValueHandlingTests : TestFixtureBase
     public void DefaultValueWithConstructorTest()
     {
         var myObject = JsonConvert.DeserializeObject<DefaultValueWithConstructor>("{}");
-        Xunit.Assert.Equal(DefaultValueWithConstructor.DefaultText, myObject.Text);
+        Assert.Equal(DefaultValueWithConstructor.DefaultText, myObject.Text);
     }
 
     public class MyClass
@@ -91,7 +91,7 @@ public class DefaultValueHandlingTests : TestFixtureBase
                 _data = value;
                 if (_data != null && _data.StartsWith("Other"))
                 {
-                    this.Status = MyEnum.Other;
+                    Status = MyEnum.Other;
                 }
             }
         }
@@ -110,7 +110,7 @@ public class DefaultValueHandlingTests : TestFixtureBase
 
         var result = JsonConvert.DeserializeObject<MyClass>(json, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate });
 
-        Xunit.Assert.Equal(MyEnum.Other, result.Status);
+        Assert.Equal(MyEnum.Other, result.Status);
     }
 
     [Fact]
@@ -181,19 +181,19 @@ public class DefaultValueHandlingTests : TestFixtureBase
     {
         var json = JsonConvert.SerializeObject(new DefaultValueAttributeTestClass(),
             Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
-        Xunit.Assert.Equal(@"{""TestField1"":0,""TestProperty1"":null}", json);
+        Assert.Equal(@"{""TestField1"":0,""TestProperty1"":null}", json);
 
         json = JsonConvert.SerializeObject(new DefaultValueAttributeTestClass { TestField1 = int.MinValue, TestProperty1 = "NotDefault" },
             Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
-        Xunit.Assert.Equal(@"{""TestField1"":-2147483648,""TestProperty1"":""NotDefault""}", json);
+        Assert.Equal(@"{""TestField1"":-2147483648,""TestProperty1"":""NotDefault""}", json);
 
         json = JsonConvert.SerializeObject(new DefaultValueAttributeTestClass { TestField1 = 21, TestProperty1 = "NotDefault" },
             Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
-        Xunit.Assert.Equal(@"{""TestProperty1"":""NotDefault""}", json);
+        Assert.Equal(@"{""TestProperty1"":""NotDefault""}", json);
 
         json = JsonConvert.SerializeObject(new DefaultValueAttributeTestClass { TestField1 = 21, TestProperty1 = "TestProperty1Value" },
             Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
-        Xunit.Assert.Equal(@"{}", json);
+        Assert.Equal(@"{}", json);
     }
 
     [Fact]
@@ -205,13 +205,13 @@ public class DefaultValueHandlingTests : TestFixtureBase
         {
             DefaultValueHandling = DefaultValueHandling.Populate
         });
-        Xunit.Assert.Equal("TestProperty1Value", c.TestProperty1);
+        Assert.Equal("TestProperty1Value", c.TestProperty1);
 
         c = JsonConvert.DeserializeObject<DefaultValueAttributeTestClass>(json, new JsonSerializerSettings
         {
             DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
         });
-        Xunit.Assert.Equal("TestProperty1Value", c.TestProperty1);
+        Assert.Equal("TestProperty1Value", c.TestProperty1);
     }
 
     public class DefaultHandler
@@ -230,15 +230,15 @@ public class DefaultValueHandlingTests : TestFixtureBase
         {
             DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
         });
-        Xunit.Assert.Equal(-1, c1.field1);
-        Xunit.Assert.Equal("default", c1.field2);
+        Assert.Equal(-1, c1.field1);
+        Assert.Equal("default", c1.field2);
 
         var c2 = JsonConvert.DeserializeObject<DefaultHandler>("{'field1':-1,'field2':'default'}", new JsonSerializerSettings
         {
             DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
         });
-        Xunit.Assert.Equal(-1, c2.field1);
-        Xunit.Assert.Equal("default", c2.field2);
+        Assert.Equal(-1, c2.field1);
+        Assert.Equal("default", c2.field2);
     }
 
     [JsonObject]
@@ -285,17 +285,17 @@ public class DefaultValueHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(user, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore });
 
-        Xunit.Assert.Equal(@"{""firstName"":""blub""}", json);
+        Assert.Equal(@"{""firstName"":""blub""}", json);
     }
 
     [Fact]
     public void ApproxEquals()
     {
-        Xunit.Assert.True(MathUtils.ApproxEquals(0.0, 0.0));
-        Xunit.Assert.True(MathUtils.ApproxEquals(1000.0, 1000.0000000000001));
+        Assert.True(MathUtils.ApproxEquals(0.0, 0.0));
+        Assert.True(MathUtils.ApproxEquals(1000.0, 1000.0000000000001));
 
-        Xunit.Assert.False(MathUtils.ApproxEquals(1000.0, 1000.000000000001));
-        Xunit.Assert.False(MathUtils.ApproxEquals(0.0, 0.00001));
+        Assert.False(MathUtils.ApproxEquals(1000.0, 1000.000000000001));
+        Assert.False(MathUtils.ApproxEquals(0.0, 0.00001));
     }
 
     [Fact]
@@ -309,12 +309,12 @@ public class DefaultValueHandlingTests : TestFixtureBase
         var ms = new MemoryStream();
         jsonSerializer.WriteObject(ms, c);
 
-        Xunit.Assert.Equal("{}", Encoding.UTF8.GetString(ms.ToArray()));
+        Assert.Equal("{}", Encoding.UTF8.GetString(ms.ToArray()));
 #endif
 
         var json = JsonConvert.SerializeObject(c);
 
-        Xunit.Assert.Equal("{}", json);
+        Assert.Equal("{}", json);
     }
 
     [Fact]
@@ -359,10 +359,10 @@ public class DefaultValueHandlingTests : TestFixtureBase
             DefaultValueHandling = DefaultValueHandling.Ignore
         });
 
-        Xunit.Assert.Equal(int.MaxValue, o.IntValue1);
-        Xunit.Assert.Equal(int.MinValue, o.IntValue2);
-        Xunit.Assert.Equal(int.MaxValue, o.IntValue3);
-        Xunit.Assert.Equal("Derp!", o.ClassValue.Derp);
+        Assert.Equal(int.MaxValue, o.IntValue1);
+        Assert.Equal(int.MinValue, o.IntValue2);
+        Assert.Equal(int.MaxValue, o.IntValue3);
+        Assert.Equal("Derp!", o.ClassValue.Derp);
     }
 
     [Fact]
@@ -375,9 +375,9 @@ public class DefaultValueHandlingTests : TestFixtureBase
             DefaultValueHandling = DefaultValueHandling.Populate
         });
 
-        Xunit.Assert.Equal(1, o.IntValue1);
-        Xunit.Assert.Equal(0, o.IntValue2);
-        Xunit.Assert.Equal(null, o.ClassValue);
+        Assert.Equal(1, o.IntValue1);
+        Assert.Equal(0, o.IntValue2);
+        Assert.Equal(null, o.ClassValue);
     }
 
     [Fact]
@@ -389,14 +389,14 @@ public class DefaultValueHandlingTests : TestFixtureBase
             DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate
         });
 
-        Xunit.Assert.Equal("fff", obj.Field1);
+        Assert.Equal("fff", obj.Field1);
     }
 
     [Fact]
     public void PopulateTest()
     {
         var test = JsonConvert.DeserializeObject<PopulateWithNullJsonTest>("{\"IntValue\":null}");
-        Xunit.Assert.Equal(0, test.IntValue);
+        Assert.Equal(0, test.IntValue);
     }
 
     public class PopulateWithNullJsonTest
@@ -475,8 +475,8 @@ public class DefaultValueHandlingTests : TestFixtureBase
             DefaultValueHandling = DefaultValueHandling.Populate
         });
 
-        Xunit.Assert.Equal(ExportFormat.Default, o.ExportFormat);
-        Xunit.Assert.Equal(null, o.Format);
+        Assert.Equal(ExportFormat.Default, o.ExportFormat);
+        Assert.Equal(null, o.Format);
     }
 }
 

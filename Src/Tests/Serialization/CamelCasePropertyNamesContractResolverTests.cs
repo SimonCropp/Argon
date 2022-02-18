@@ -40,12 +40,12 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
         var resolver2 = new CamelCasePropertyNamesContractResolver();
         var contract2 = (JsonObjectContract)resolver2.ResolveContract(typeof(CamelCasePropertyNamesContractResolverTests));
 
-        Xunit.Assert.True(ReferenceEquals(contract1, contract2));
+        Assert.True(ReferenceEquals(contract1, contract2));
 
         var nt1 = resolver1.GetNameTable();
         var nt2 = resolver2.GetNameTable();
 
-        Xunit.Assert.True(ReferenceEquals(nt1, nt2));
+        Assert.True(ReferenceEquals(nt1, nt2));
     }
 
     [Fact]
@@ -74,9 +74,9 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         });
 
-        Xunit.Assert.Equal(person.BirthDate, deserializedPerson.BirthDate);
-        Xunit.Assert.Equal(person.LastModified, deserializedPerson.LastModified);
-        Xunit.Assert.Equal(person.Name, deserializedPerson.Name);
+        Assert.Equal(person.BirthDate, deserializedPerson.BirthDate);
+        Assert.Equal(person.LastModified, deserializedPerson.LastModified);
+        Assert.Equal(person.Name, deserializedPerson.Name);
 
         json = JsonConvert.SerializeObject(person, Formatting.Indented);
         StringAssert.AreEqual(@"{
@@ -106,8 +106,8 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
         var o = (JObject)writer.Token;
         var p = o.Property("theField");
 
-        Xunit.Assert.NotNull(p);
-        Xunit.Assert.Equal(int.MinValue, (int)p.Value);
+        Assert.NotNull(p);
+        Assert.Equal(int.MinValue, (int)p.Value);
 
         var json = o.ToString();
     }
@@ -138,11 +138,11 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
             ContractResolver = new CamelCasePropertyNamesContractResolver { DefaultMembersSearchFlags = BindingFlags.NonPublic | BindingFlags.Instance }
         });
 
-        Xunit.Assert.Equal("Private!", ReflectionUtils.GetMemberValue(typeof(PrivateMembersClass).GetField("_privateString", BindingFlags.Instance | BindingFlags.NonPublic), deserializedPrivateMembersClass));
-        Xunit.Assert.Equal("Internal!", ReflectionUtils.GetMemberValue(typeof(PrivateMembersClass).GetField("_internalString", BindingFlags.Instance | BindingFlags.NonPublic), deserializedPrivateMembersClass));
+        Assert.Equal("Private!", ReflectionUtils.GetMemberValue(typeof(PrivateMembersClass).GetField("_privateString", BindingFlags.Instance | BindingFlags.NonPublic), deserializedPrivateMembersClass));
+        Assert.Equal("Internal!", ReflectionUtils.GetMemberValue(typeof(PrivateMembersClass).GetField("_internalString", BindingFlags.Instance | BindingFlags.NonPublic), deserializedPrivateMembersClass));
 
         // readonly
-        Xunit.Assert.Equal(0, ReflectionUtils.GetMemberValue(typeof(PrivateMembersClass).GetField("i", BindingFlags.Instance | BindingFlags.NonPublic), deserializedPrivateMembersClass));
+        Assert.Equal(0, ReflectionUtils.GetMemberValue(typeof(PrivateMembersClass).GetField("i", BindingFlags.Instance | BindingFlags.NonPublic), deserializedPrivateMembersClass));
     }
 #pragma warning restore 618
 

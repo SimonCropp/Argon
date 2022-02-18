@@ -76,6 +76,6 @@ public class CustomJsonConverterGeneric : TestFixtureBase
         // 10.0.4
         #endregion
 
-        Xunit.Assert.Equal("10.0.4", p2.Version.ToString());
+        Assert.Equal("10.0.4", p2.Version.ToString());
     }
 }

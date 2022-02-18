@@ -57,7 +57,7 @@ public class ObjectIdConverterTests : TestFixtureBase
 
         var expected = HexToBytes("29000000075F6964004ABBED9D1D8B0F02180000010274657374000900000031323334C2A335360000");
 
-        Xunit.Assert.Equal(expected, ms.ToArray());
+        Assert.Equal(expected, ms.ToArray());
     }
 
     [Fact]
@@ -70,8 +70,8 @@ public class ObjectIdConverterTests : TestFixtureBase
         var reader = new BsonReader(new MemoryStream(bson));
         var c = serializer.Deserialize<ObjectIdTestClass>(reader);
 
-        Xunit.Assert.Equal(c.Id.Value, HexToBytes("4ABBED9D1D8B0F0218000001"));
-        Xunit.Assert.Equal(c.Test, "1234£56");
+        Assert.Equal(c.Id.Value, HexToBytes("4ABBED9D1D8B0F0218000001"));
+        Assert.Equal(c.Test, "1234£56");
     }
 }
 #pragma warning restore 618

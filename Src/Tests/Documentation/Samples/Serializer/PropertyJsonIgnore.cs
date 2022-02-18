@@ -57,6 +57,6 @@ public class PropertyJsonIgnore : TestFixtureBase
         // {"FullName":"Joe User","EmailAddress":"joe@example.com"}
         #endregion
 
-        Xunit.Assert.Equal(@"{""FullName"":""Joe User"",""EmailAddress"":""joe@example.com""}", json);
+        Assert.Equal(@"{""FullName"":""Joe User"",""EmailAddress"":""joe@example.com""}", json);
     }
 }

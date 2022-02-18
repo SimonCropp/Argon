@@ -63,6 +63,6 @@ public class DeserializeDataSet : TestFixtureBase
         // 1 - item 1
         #endregion
 
-        Xunit.Assert.Equal(2, dataTable.Rows.Count);
+        Assert.Equal(2, dataTable.Rows.Count);
     }
 }

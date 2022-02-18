@@ -51,6 +51,6 @@ public class ToObjectGeneric : TestFixtureBase
         // "True"
         #endregion
 
-        Xunit.Assert.Equal("True", s);
+        Assert.Equal("True", s);
     }
 }

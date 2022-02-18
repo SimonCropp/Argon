@@ -34,7 +34,7 @@ public class Issue2529 : TestFixtureBase
     {
         var something = JsonConvert.DeserializeObject<Something>("{ \"foo\": [] }");
 
-        Xunit.Assert.Equal(JTokenType.Array, something.Foo.Type);
+        Assert.Equal(JTokenType.Array, something.Foo.Type);
     }
 
     class Something

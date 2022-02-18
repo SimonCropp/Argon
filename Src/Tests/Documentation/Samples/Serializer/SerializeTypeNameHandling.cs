@@ -112,6 +112,6 @@ public class SerializeTypeNameHandling : TestFixtureBase
         // Hotel
         #endregion
 
-        Xunit.Assert.Equal("Hotel", newStockholder.Businesses[0].GetType().Name);
+        Assert.Equal("Hotel", newStockholder.Businesses[0].GetType().Name);
     }
 }

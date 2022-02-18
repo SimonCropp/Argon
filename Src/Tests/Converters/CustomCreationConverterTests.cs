@@ -75,13 +75,13 @@ public class CustomCreationConverterTests : TestFixtureBase
 
         var person = people[0];
 
-        Xunit.Assert.Equal("Employee", person.GetType().Name);
+        Assert.Equal("Employee", person.GetType().Name);
 
-        Xunit.Assert.Equal("Maurice", person.FirstName);
+        Assert.Equal("Maurice", person.FirstName);
 
         var employee = (Employee)person;
 
-        Xunit.Assert.Equal("Support", employee.JobTitle);
+        Assert.Equal("Support", employee.JobTitle);
     }
 
     public class MyClass
@@ -121,10 +121,10 @@ public class CustomCreationConverterTests : TestFixtureBase
 }
 ";
         var myClass = JsonConvert.DeserializeObject<MyClass>(json);
-        Xunit.Assert.NotNull(myClass);
-        Xunit.Assert.Equal("A value", myClass.Value);
-        Xunit.Assert.NotNull(myClass.Thing);
-        Xunit.Assert.Equal(123, myClass.Thing.Number);
+        Assert.NotNull(myClass);
+        Assert.Equal("A value", myClass.Value);
+        Assert.NotNull(myClass.Thing);
+        Assert.Equal(123, myClass.Thing.Number);
     }
 
     [Fact]
@@ -138,7 +138,7 @@ public class CustomCreationConverterTests : TestFixtureBase
         var json = JsonConvert.SerializeObject(myClass); // <-- Exception here
 
         const string expected = @"{""Value"":""Foo"",""Thing"":{""Number"":456}}";
-        Xunit.Assert.Equal(expected, json);
+        Assert.Equal(expected, json);
     }
 
     internal interface IRange<T>
@@ -212,13 +212,13 @@ public class CustomCreationConverterTests : TestFixtureBase
         var deserialized = JsonConvert.DeserializeObject<NullInterfaceTestClass>(
             json, new IntRangeConverter(), new DecimalRangeConverter());
 
-        Xunit.Assert.Equal("Company!", deserialized.Company);
-        Xunit.Assert.Equal(new Guid(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11), deserialized.Id);
-        Xunit.Assert.Equal(0, deserialized.DecimalRange.First);
-        Xunit.Assert.Equal(1, deserialized.DecimalRange.Last);
-        Xunit.Assert.Equal(int.MinValue, deserialized.IntRange.First);
-        Xunit.Assert.Equal(int.MaxValue, deserialized.IntRange.Last);
-        Xunit.Assert.Equal(null, deserialized.NullDecimalRange);
-        Xunit.Assert.Equal(2010, deserialized.Year);
+        Assert.Equal("Company!", deserialized.Company);
+        Assert.Equal(new Guid(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11), deserialized.Id);
+        Assert.Equal(0, deserialized.DecimalRange.First);
+        Assert.Equal(1, deserialized.DecimalRange.Last);
+        Assert.Equal(int.MinValue, deserialized.IntRange.First);
+        Assert.Equal(int.MaxValue, deserialized.IntRange.Last);
+        Assert.Equal(null, deserialized.NullDecimalRange);
+        Assert.Equal(2010, deserialized.Year);
     }
 }

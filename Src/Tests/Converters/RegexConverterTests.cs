@@ -92,8 +92,8 @@ public class RegexConverterTests : TestFixtureBase
             Converters = { new RegexConverter() }
         });
 
-        Xunit.Assert.Equal("abc", regex.ToString());
-        Xunit.Assert.Equal(RegexOptions.IgnoreCase, regex.Options);
+        Assert.Equal("abc", regex.ToString());
+        Assert.Equal(RegexOptions.IgnoreCase, regex.Options);
     }
 
     [Fact]
@@ -109,8 +109,8 @@ public class RegexConverterTests : TestFixtureBase
 
         var r = JsonConvert.DeserializeObject<RegexTestClass>(json);
 
-        Xunit.Assert.Equal("(hi)", r.Regex.ToString());
-        Xunit.Assert.Equal(RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture, r.Regex.Options);
+        Assert.Equal("(hi)", r.Regex.ToString());
+        Assert.Equal(RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture, r.Regex.Options);
     }
 
     [Fact]
@@ -125,8 +125,8 @@ public class RegexConverterTests : TestFixtureBase
             Converters = { new RegexConverter() }
         });
 
-        Xunit.Assert.Equal("abc", c.Regex.ToString());
-        Xunit.Assert.Equal(RegexOptions.None, c.Regex.Options);
+        Assert.Equal("abc", c.Regex.ToString());
+        Assert.Equal(RegexOptions.None, c.Regex.Options);
     }
 
     [Fact]
@@ -190,7 +190,7 @@ public class RegexConverterTests : TestFixtureBase
         var expected = "13-00-00-00-0B-52-65-67-65-78-00-61-62-63-00-69-75-00-00";
         var bson = BytesToHex(ms.ToArray());
 
-        Xunit.Assert.Equal(expected, bson);
+        Assert.Equal(expected, bson);
     }
 
     [Fact]
@@ -203,8 +203,8 @@ public class RegexConverterTests : TestFixtureBase
 
         var c = serializer.Deserialize<RegexTestClass>(reader);
 
-        Xunit.Assert.Equal("abc", c.Regex.ToString());
-        Xunit.Assert.Equal(RegexOptions.IgnoreCase, c.Regex.Options);
+        Assert.Equal("abc", c.Regex.ToString());
+        Assert.Equal(RegexOptions.IgnoreCase, c.Regex.Options);
     }
 
     [Fact]
@@ -225,8 +225,8 @@ public class RegexConverterTests : TestFixtureBase
 
         var c = serializer.Deserialize<RegexTestClass>(reader);
 
-        Xunit.Assert.Equal("", c.Regex.ToString());
-        Xunit.Assert.Equal(RegexOptions.None, c.Regex.Options);
+        Assert.Equal("", c.Regex.ToString());
+        Assert.Equal(RegexOptions.None, c.Regex.Options);
     }
 
     [Fact]
@@ -246,7 +246,7 @@ public class RegexConverterTests : TestFixtureBase
         var expected = "14-00-00-00-0B-52-65-67-65-78-00-2F-00-69-6D-73-75-78-00-00";
         var bson = BytesToHex(ms.ToArray());
 
-        Xunit.Assert.Equal(expected, bson);
+        Assert.Equal(expected, bson);
 
         ms.Seek(0, SeekOrigin.Begin);
         var reader = new BsonReader(ms);
@@ -254,8 +254,8 @@ public class RegexConverterTests : TestFixtureBase
 
         var c = serializer.Deserialize<RegexTestClass>(reader);
 
-        Xunit.Assert.Equal("/", c.Regex.ToString());
-        Xunit.Assert.Equal(RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Multiline | RegexOptions.ExplicitCapture, c.Regex.Options);
+        Assert.Equal("/", c.Regex.ToString());
+        Assert.Equal(RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Multiline | RegexOptions.ExplicitCapture, c.Regex.Options);
     }
 #pragma warning restore 618
 
@@ -268,8 +268,8 @@ public class RegexConverterTests : TestFixtureBase
 }";
 
         var newRegex = JsonConvert.DeserializeObject<Regex>(json, new RegexConverter());
-        Xunit.Assert.Equal("abc", newRegex.ToString());
-        Xunit.Assert.Equal(RegexOptions.IgnoreCase | RegexOptions.CultureInvariant, newRegex.Options);
+        Assert.Equal("abc", newRegex.ToString());
+        Assert.Equal(RegexOptions.IgnoreCase | RegexOptions.CultureInvariant, newRegex.Options);
     }
 
     [Fact]
@@ -287,8 +287,8 @@ public class RegexConverterTests : TestFixtureBase
 }", json);
 
         var newRegex = JsonConvert.DeserializeObject<RegexTestClass>(json, new RegexConverter());
-        Xunit.Assert.Equal("", newRegex.Regex.ToString());
-        Xunit.Assert.Equal(RegexOptions.None, newRegex.Regex.Options);
+        Assert.Equal("", newRegex.Regex.ToString());
+        Assert.Equal(RegexOptions.None, newRegex.Regex.Options);
     }
 
     public class SimpleClassWithRegex
@@ -300,9 +300,9 @@ public class RegexConverterTests : TestFixtureBase
     public void DeserializeNullRegex()
     {
         var json = JsonConvert.SerializeObject(new SimpleClassWithRegex { RegProp = null });
-        Xunit.Assert.Equal(@"{""RegProp"":null}", json);
+        Assert.Equal(@"{""RegProp"":null}", json);
 
         var obj = JsonConvert.DeserializeObject<SimpleClassWithRegex>(json);
-        Xunit.Assert.Equal(null, obj.RegProp);
+        Assert.Equal(null, obj.RegProp);
     }
 }

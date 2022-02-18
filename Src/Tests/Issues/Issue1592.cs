@@ -43,7 +43,7 @@ public class Issue1592 : TestFixtureBase
         reader.Read();
         reader.Read();
 
-        Xunit.Assert.Equal("testing", reader.Value);
-        Xunit.Assert.Equal("['test customer\\'s']", reader.Path);
+        Assert.Equal("testing", reader.Value);
+        Assert.Equal("['test customer\\'s']", reader.Path);
     }
 }

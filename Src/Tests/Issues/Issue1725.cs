@@ -36,7 +36,7 @@ public class Issue1725 : TestFixtureBase
         var json = JsonConvert.SerializeObject(p1);
 
         var p2 = JsonConvert.DeserializeObject<InPerson>(json);
-        Xunit.Assert.Equal("some name", p2.Name);
+        Assert.Equal("some name", p2.Name);
     }
 
     [Fact]
@@ -47,7 +47,7 @@ public class Issue1725 : TestFixtureBase
         var json = JsonConvert.SerializeObject(p1);
 
         var p2 = JsonConvert.DeserializeObject<RefPerson>(json);
-        Xunit.Assert.Equal("some name", p2.Name);
+        Assert.Equal("some name", p2.Name);
     }
 
     [Fact]
@@ -57,7 +57,7 @@ public class Issue1725 : TestFixtureBase
         var json = JsonConvert.SerializeObject(p1);
 
         var p2 = JsonConvert.DeserializeObject<InNullablePerson>(json);
-        Xunit.Assert.Equal(1, p2.Age);
+        Assert.Equal(1, p2.Age);
     }
 
     [Fact]
@@ -68,7 +68,7 @@ public class Issue1725 : TestFixtureBase
         var json = JsonConvert.SerializeObject(p1);
 
         var p2 = JsonConvert.DeserializeObject<RefNullablePerson>(json);
-        Xunit.Assert.Equal(1, p2.Age);
+        Assert.Equal(1, p2.Age);
     }
 
     public class InPerson
