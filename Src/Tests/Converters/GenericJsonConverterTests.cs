@@ -28,7 +28,6 @@ using System.Data.Linq;
 using System.Data.SqlTypes;
 #endif
 using Xunit;
-using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Converters;

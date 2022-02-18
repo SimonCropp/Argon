@@ -26,7 +26,6 @@
 #pragma warning disable 618
 
 using Xunit;
-using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 using TestCaseSource = Xunit.MemberDataAttribute;
 

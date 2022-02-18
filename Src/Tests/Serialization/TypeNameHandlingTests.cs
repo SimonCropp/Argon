@@ -29,7 +29,6 @@ using System.Runtime.Serialization.Formatters;
 using Argon.Tests.TestObjects;
 using Argon.Tests.TestObjects.Organization;
 using Xunit;
-using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 using System.Net;
 

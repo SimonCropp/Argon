@@ -24,7 +24,6 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 using System.Data;
 using Argon.Tests.TestObjects;

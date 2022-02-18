@@ -26,7 +26,6 @@
 
 using Argon.Tests.TestObjects.JsonTextReaderTests;
 using Xunit;
-using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 using Argon.Tests.TestObjects;
 

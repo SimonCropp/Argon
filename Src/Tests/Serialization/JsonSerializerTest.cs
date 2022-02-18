@@ -30,7 +30,6 @@ using System.Web.Script.Serialization;
 #endif
 using System.Text.RegularExpressions;
 using Xunit;
-using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 using System.Xml;
 using System.Collections.ObjectModel;

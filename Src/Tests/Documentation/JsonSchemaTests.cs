@@ -25,7 +25,6 @@
 
 #pragma warning disable 618
 #pragma warning disable 1062
-using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation;

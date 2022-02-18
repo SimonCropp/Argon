@@ -29,7 +29,6 @@ using System.Runtime.Serialization.Json;
 #endif
 using Argon.Tests.TestObjects;
 using Xunit;
-using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Serialization;

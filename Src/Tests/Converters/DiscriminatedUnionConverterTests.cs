@@ -27,7 +27,6 @@ using Microsoft.FSharp.Reflection;
 using Argon.Tests.TestObjects.GeometricForms;
 using Argon.Tests.TestObjects.Money;
 using Xunit;
-using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Converters;
