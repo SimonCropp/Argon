@@ -48,6 +48,6 @@ public class SerializeCollection : TestFixtureBase
         // ["Starcraft","Halo","Legend of Zelda"]
         #endregion
 
-        Assert.AreEqual(@"[""Starcraft"",""Halo"",""Legend of Zelda""]", json);
+        Xunit.Assert.Equal(@"[""Starcraft"",""Halo"",""Legend of Zelda""]", json);
     }
 }

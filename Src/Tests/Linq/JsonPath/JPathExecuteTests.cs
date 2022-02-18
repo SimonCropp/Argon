@@ -41,16 +41,16 @@ public class JPathExecuteTests : TestFixtureBase
         var jObj = JObject.Parse(statusJson);
 
         var aa = jObj.SelectToken("$..[?(@.usingmem>10)]");//found,10
-        Assert.AreEqual(jObj, aa);
+        Xunit.Assert.Equal(jObj, aa);
 
         var bb = jObj.SelectToken("$..[?(@.usingmem>27000)]");//null, 27,000
-        Assert.AreEqual(jObj, bb);
+        Xunit.Assert.Equal(jObj, bb);
 
         var cc = jObj.SelectToken("$..[?(@.usingmem>21437)]");//found, 21,437
-        Assert.AreEqual(jObj, cc);
+        Xunit.Assert.Equal(jObj, cc);
 
         var dd = jObj.SelectToken("$..[?(@.usingmem>21438)]");//null,21,438
-        Assert.AreEqual(jObj, dd);
+        Xunit.Assert.Equal(jObj, dd);
     }
 
     [Fact]
@@ -95,7 +95,7 @@ public class JPathExecuteTests : TestFixtureBase
 
         var results = models.SelectTokens("$.persons[?(@.age > 3)]").ToList();
 
-        Assert.AreEqual(1, results.Count);
+        Xunit.Assert.Equal(1, results.Count);
     }
 
     [Fact]
@@ -118,7 +118,7 @@ public class JPathExecuteTests : TestFixtureBase
 
         var results = models.SelectTokens("$.persons[?(@.age > '3')]").ToList();
 
-        Assert.AreEqual(1, results.Count);
+        Xunit.Assert.Equal(1, results.Count);
     }
 
     [Fact]
@@ -152,10 +152,10 @@ public class JPathExecuteTests : TestFixtureBase
 
         var results = models.SelectTokens("$.b..*.id").ToList();
 
-        Assert.AreEqual(3, results.Count);
-        Assert.AreEqual(2, (int)results[0]);
-        Assert.AreEqual(3, (int)results[1]);
-        Assert.AreEqual(4, (int)results[2]);
+        Xunit.Assert.Equal(3, results.Count);
+        Xunit.Assert.Equal(2, (int)results[0]);
+        Xunit.Assert.Equal(3, (int)results[1]);
+        Xunit.Assert.Equal(4, (int)results[2]);
     }
 
     [Fact]
@@ -193,8 +193,8 @@ public class JPathExecuteTests : TestFixtureBase
 
         var results = models.SelectTokens("$.elements..[?(@.id=='AAA')]").ToList();
 
-        Assert.AreEqual(1, results.Count);
-        Assert.AreEqual(models["elements"][0]["children"][0]["children"][0], results[0]);
+        Xunit.Assert.Equal(1, results.Count);
+        Xunit.Assert.Equal(models["elements"][0]["children"][0]["children"][0], results[0]);
     }
 
     [Fact]
@@ -232,9 +232,9 @@ public class JPathExecuteTests : TestFixtureBase
 
         var results = models.SelectTokens("$.elements[?(true)]").ToList();
 
-        Assert.AreEqual(2, results.Count);
-        Assert.AreEqual(results[0], models["elements"][0]);
-        Assert.AreEqual(results[1], models["elements"][1]);
+        Xunit.Assert.Equal(2, results.Count);
+        Xunit.Assert.Equal(results[0], models["elements"][0]);
+        Xunit.Assert.Equal(results[1], models["elements"][1]);
     }
 
     [Fact]
@@ -272,7 +272,7 @@ public class JPathExecuteTests : TestFixtureBase
 
         var results = models.SelectTokens("$.elements..[?(true)]").ToList();
 
-        Assert.AreEqual(25, results.Count);
+        Xunit.Assert.Equal(25, results.Count);
     }
 
     [Fact]
@@ -305,10 +305,10 @@ public class JPathExecuteTests : TestFixtureBase
         var models = JObject.Parse(json);
 
         var result = models.SelectTokens("$..['My.Child.Node']").Count();
-        Assert.AreEqual(1, result);
+        Xunit.Assert.Equal(1, result);
 
         result = models.SelectTokens("..['My.Child.Node']").Count();
-        Assert.AreEqual(1, result);
+        Xunit.Assert.Equal(1, result);
     }
 
     [Fact]
@@ -341,13 +341,13 @@ public class JPathExecuteTests : TestFixtureBase
         var models = JObject.Parse(json);
 
         var results = models.SelectTokens("$..['My.Child.Node','Prop1','Prop2']").ToList();
-        Assert.AreEqual("Val1", (string)results[0]);
-        Assert.AreEqual("Val2", (string)results[1]);
-        Assert.AreEqual(JTokenType.Object, results[2].Type);
-        Assert.AreEqual("Val3", (string)results[3]);
-        Assert.AreEqual("Val4", (string)results[4]);
-        Assert.AreEqual("Val5", (string)results[5]);
-        Assert.AreEqual("Val6", (string)results[6]);
+        Xunit.Assert.Equal("Val1", (string)results[0]);
+        Xunit.Assert.Equal("Val2", (string)results[1]);
+        Xunit.Assert.Equal(JTokenType.Object, results[2].Type);
+        Xunit.Assert.Equal("Val3", (string)results[3]);
+        Xunit.Assert.Equal("Val4", (string)results[4]);
+        Xunit.Assert.Equal("Val5", (string)results[5]);
+        Xunit.Assert.Equal("Val6", (string)results[6]);
     }
 
     [Fact]
@@ -390,10 +390,10 @@ public class JPathExecuteTests : TestFixtureBase
         var jToken = JObject.Parse(json);
         IList<JToken> tokens = jToken.SelectTokens("$..en-US").ToList();
 
-        Assert.AreEqual(3, tokens.Count);
-        Assert.AreEqual("Add", (string)tokens[0]);
-        Assert.AreEqual("Sort by", (string)tokens[1]);
-        Assert.AreEqual("Name", (string)tokens[2]);
+        Xunit.Assert.Equal(3, tokens.Count);
+        Xunit.Assert.Equal("Add", (string)tokens[0]);
+        Xunit.Assert.Equal("Sort by", (string)tokens[1]);
+        Xunit.Assert.Equal("Name", (string)tokens[2]);
     }
 
     [Fact]
@@ -408,8 +408,8 @@ public class JPathExecuteTests : TestFixtureBase
 
         IList<JToken> results = o.SelectTokens("$..test").ToList();
 
-        Assert.AreEqual(1, results.Count);
-        Assert.AreEqual("no one will find me", (string)results[0]);
+        Xunit.Assert.Equal(1, results.Count);
+        Xunit.Assert.Equal("no one will find me", (string)results[0]);
     }
 
     [Fact]
@@ -420,7 +420,7 @@ public class JPathExecuteTests : TestFixtureBase
 
         var bookId = (string)o.SelectToken("bookId", true);
 
-        Assert.AreEqual("1000", bookId);
+        Xunit.Assert.Equal("1000", bookId);
     }
 
     [Fact]
@@ -430,7 +430,7 @@ public class JPathExecuteTests : TestFixtureBase
             new JProperty("", 1));
 
         var t = o.SelectToken("['']");
-        Assert.AreEqual(1, (int)t);
+        Xunit.Assert.Equal(1, (int)t);
     }
 
     [Fact]
@@ -440,10 +440,10 @@ public class JPathExecuteTests : TestFixtureBase
             new JProperty("Blah", 1));
 
         var t = o.SelectToken("");
-        Assert.AreEqual(o, t);
+        Xunit.Assert.Equal(o, t);
 
         t = o.SelectToken("['']");
-        Assert.AreEqual(null, t);
+        Xunit.Assert.Equal(null, t);
     }
 
     [Fact]
@@ -453,7 +453,7 @@ public class JPathExecuteTests : TestFixtureBase
             new JProperty(" ", 1));
 
         var t = o.SelectToken("[' ']");
-        Assert.AreEqual(1, (int)t);
+        Xunit.Assert.Equal(1, (int)t);
     }
 
     [Fact]
@@ -463,7 +463,7 @@ public class JPathExecuteTests : TestFixtureBase
             new JProperty("Blah", 1));
 
         var t = o.SelectToken(" ");
-        Assert.AreEqual(o, t);
+        Xunit.Assert.Equal(o, t);
     }
 
     [Fact]
@@ -473,7 +473,7 @@ public class JPathExecuteTests : TestFixtureBase
             new JProperty("Blah", 1));
 
         var t = o.SelectToken("$");
-        Assert.AreEqual(o, t);
+        Xunit.Assert.Equal(o, t);
     }
 
     [Fact]
@@ -483,7 +483,7 @@ public class JPathExecuteTests : TestFixtureBase
             new JProperty("$values", new JArray(1, 2, 3)));
 
         var t = o.SelectToken("$values[1]");
-        Assert.AreEqual(2, (int)t);
+        Xunit.Assert.Equal(2, (int)t);
     }
 
     [Fact]
@@ -494,8 +494,8 @@ public class JPathExecuteTests : TestFixtureBase
 
         var t = o.SelectToken("Blah");
         Xunit.Assert.NotNull(t);
-        Assert.AreEqual(JTokenType.Integer, t.Type);
-        Assert.AreEqual(1, (int)t);
+        Xunit.Assert.Equal(JTokenType.Integer, t.Type);
+        Xunit.Assert.Equal(1, (int)t);
     }
 
     [Fact]
@@ -507,9 +507,9 @@ public class JPathExecuteTests : TestFixtureBase
 
         IList<JToken> t = o.SelectTokens("$.*").ToList();
         Xunit.Assert.NotNull(t);
-        Assert.AreEqual(2, t.Count);
-        Assert.AreEqual(1, (int)t[0]);
-        Assert.AreEqual(2, (int)t[1]);
+        Xunit.Assert.Equal(2, t.Count);
+        Xunit.Assert.Equal(1, (int)t[0]);
+        Xunit.Assert.Equal(2, (int)t[1]);
     }
 
     [Fact]
@@ -520,8 +520,8 @@ public class JPathExecuteTests : TestFixtureBase
 
         var t = o.SelectToken("['Blah']");
         Xunit.Assert.NotNull(t);
-        Assert.AreEqual(JTokenType.Integer, t.Type);
-        Assert.AreEqual(1, (int)t);
+        Xunit.Assert.Equal(JTokenType.Integer, t.Type);
+        Xunit.Assert.Equal(1, (int)t);
     }
 
     [Fact]
@@ -636,7 +636,7 @@ public class JPathExecuteTests : TestFixtureBase
             new JProperty("Blah", 1));
 
         var v = (JValue)o.SelectToken("Blah", true);
-        Assert.AreEqual(1, v.Value);
+        Xunit.Assert.Equal(1, v.Value);
     }
 
     [Fact]
@@ -696,8 +696,8 @@ public class JPathExecuteTests : TestFixtureBase
 
         var t = a.SelectToken("[1]");
         Xunit.Assert.NotNull(t);
-        Assert.AreEqual(JTokenType.Integer, t.Type);
-        Assert.AreEqual(2, (int)t);
+        Xunit.Assert.Equal(JTokenType.Integer, t.Type);
+        Xunit.Assert.Equal(2, (int)t);
     }
 
     [Fact]
@@ -706,45 +706,45 @@ public class JPathExecuteTests : TestFixtureBase
         var a = new JArray(1, 2, 3, 4, 5, 6, 7, 8, 9);
 
         IList<JToken> t = a.SelectTokens("[-3:]").ToList();
-        Assert.AreEqual(3, t.Count);
-        Assert.AreEqual(7, (int)t[0]);
-        Assert.AreEqual(8, (int)t[1]);
-        Assert.AreEqual(9, (int)t[2]);
+        Xunit.Assert.Equal(3, t.Count);
+        Xunit.Assert.Equal(7, (int)t[0]);
+        Xunit.Assert.Equal(8, (int)t[1]);
+        Xunit.Assert.Equal(9, (int)t[2]);
 
         t = a.SelectTokens("[-1:-2:-1]").ToList();
-        Assert.AreEqual(1, t.Count);
-        Assert.AreEqual(9, (int)t[0]);
+        Xunit.Assert.Equal(1, t.Count);
+        Xunit.Assert.Equal(9, (int)t[0]);
 
         t = a.SelectTokens("[-2:-1]").ToList();
-        Assert.AreEqual(1, t.Count);
-        Assert.AreEqual(8, (int)t[0]);
+        Xunit.Assert.Equal(1, t.Count);
+        Xunit.Assert.Equal(8, (int)t[0]);
 
         t = a.SelectTokens("[1:1]").ToList();
-        Assert.AreEqual(0, t.Count);
+        Xunit.Assert.Equal(0, t.Count);
 
         t = a.SelectTokens("[1:2]").ToList();
-        Assert.AreEqual(1, t.Count);
-        Assert.AreEqual(2, (int)t[0]);
+        Xunit.Assert.Equal(1, t.Count);
+        Xunit.Assert.Equal(2, (int)t[0]);
 
         t = a.SelectTokens("[::-1]").ToList();
-        Assert.AreEqual(9, t.Count);
-        Assert.AreEqual(9, (int)t[0]);
-        Assert.AreEqual(8, (int)t[1]);
-        Assert.AreEqual(7, (int)t[2]);
-        Assert.AreEqual(6, (int)t[3]);
-        Assert.AreEqual(5, (int)t[4]);
-        Assert.AreEqual(4, (int)t[5]);
-        Assert.AreEqual(3, (int)t[6]);
-        Assert.AreEqual(2, (int)t[7]);
-        Assert.AreEqual(1, (int)t[8]);
+        Xunit.Assert.Equal(9, t.Count);
+        Xunit.Assert.Equal(9, (int)t[0]);
+        Xunit.Assert.Equal(8, (int)t[1]);
+        Xunit.Assert.Equal(7, (int)t[2]);
+        Xunit.Assert.Equal(6, (int)t[3]);
+        Xunit.Assert.Equal(5, (int)t[4]);
+        Xunit.Assert.Equal(4, (int)t[5]);
+        Xunit.Assert.Equal(3, (int)t[6]);
+        Xunit.Assert.Equal(2, (int)t[7]);
+        Xunit.Assert.Equal(1, (int)t[8]);
 
         t = a.SelectTokens("[::-2]").ToList();
-        Assert.AreEqual(5, t.Count);
-        Assert.AreEqual(9, (int)t[0]);
-        Assert.AreEqual(7, (int)t[1]);
-        Assert.AreEqual(5, (int)t[2]);
-        Assert.AreEqual(3, (int)t[3]);
-        Assert.AreEqual(1, (int)t[4]);
+        Xunit.Assert.Equal(5, t.Count);
+        Xunit.Assert.Equal(9, (int)t[0]);
+        Xunit.Assert.Equal(7, (int)t[1]);
+        Xunit.Assert.Equal(5, (int)t[2]);
+        Xunit.Assert.Equal(3, (int)t[3]);
+        Xunit.Assert.Equal(1, (int)t[4]);
     }
 
     [Fact]
@@ -754,11 +754,11 @@ public class JPathExecuteTests : TestFixtureBase
 
         var t = a.SelectTokens("[*]").ToList();
         Xunit.Assert.NotNull(t);
-        Assert.AreEqual(4, t.Count);
-        Assert.AreEqual(1, (int)t[0]);
-        Assert.AreEqual(2, (int)t[1]);
-        Assert.AreEqual(3, (int)t[2]);
-        Assert.AreEqual(4, (int)t[3]);
+        Xunit.Assert.Equal(4, t.Count);
+        Xunit.Assert.Equal(1, (int)t[0]);
+        Xunit.Assert.Equal(2, (int)t[1]);
+        Xunit.Assert.Equal(3, (int)t[2]);
+        Xunit.Assert.Equal(4, (int)t[3]);
     }
 
     [Fact]
@@ -768,10 +768,10 @@ public class JPathExecuteTests : TestFixtureBase
 
         var t = a.SelectTokens("[1,2,0]");
         Xunit.Assert.NotNull(t);
-        Assert.AreEqual(3, t.Count());
-        Assert.AreEqual(2, (int)t.ElementAt(0));
-        Assert.AreEqual(3, (int)t.ElementAt(1));
-        Assert.AreEqual(1, (int)t.ElementAt(2));
+        Xunit.Assert.Equal(3, t.Count());
+        Xunit.Assert.Equal(2, (int)t.ElementAt(0));
+        Xunit.Assert.Equal(3, (int)t.ElementAt(1));
+        Xunit.Assert.Equal(1, (int)t.ElementAt(2));
     }
 
     [Fact]
@@ -783,9 +783,9 @@ public class JPathExecuteTests : TestFixtureBase
 
         IList<JToken> t = a.SelectTokens("$..Name").ToList();
         Xunit.Assert.NotNull(t);
-        Assert.AreEqual(2, t.Count);
-        Assert.AreEqual(1, (int)t[0]);
-        Assert.AreEqual(2, (int)t[1]);
+        Xunit.Assert.Equal(2, t.Count);
+        Xunit.Assert.Equal(1, (int)t[0]);
+        Xunit.Assert.Equal(2, (int)t[1]);
     }
 
     [Fact]
@@ -797,12 +797,12 @@ public class JPathExecuteTests : TestFixtureBase
 
         IList<JToken> t = a.SelectTokens("$..*").ToList();
         Xunit.Assert.NotNull(t);
-        Assert.AreEqual(5, t.Count);
+        Xunit.Assert.Equal(5, t.Count);
         Xunit.Assert.True(JToken.DeepEquals(a, t[0]));
         Xunit.Assert.True(JToken.DeepEquals(o1, t[1]));
-        Assert.AreEqual(1, (int)t[2]);
+        Xunit.Assert.Equal(1, (int)t[2]);
         Xunit.Assert.True(JToken.DeepEquals(o2, t[3]));
-        Assert.AreEqual(2, (int)t[4]);
+        Xunit.Assert.Equal(2, (int)t[4]);
     }
 
     [Fact]
@@ -815,9 +815,9 @@ public class JPathExecuteTests : TestFixtureBase
 
         IList<JToken> t = a.SelectTokens("$..Name").ToList();
         Xunit.Assert.NotNull(t);
-        Assert.AreEqual(4, t.Count);
-        Assert.AreEqual(1, (int)t[0]);
-        Assert.AreEqual(2, (int)t[1]);
+        Xunit.Assert.Equal(4, t.Count);
+        Xunit.Assert.Equal(1, (int)t[0]);
+        Xunit.Assert.Equal(2, (int)t[1]);
         Xunit.Assert.True(JToken.DeepEquals(new JObject { { "Name", new JArray(3) } }, t[2]));
         Xunit.Assert.True(JToken.DeepEquals(new JArray(3), t[3]));
     }
@@ -832,17 +832,17 @@ public class JPathExecuteTests : TestFixtureBase
 
         IList<JToken> t = a.SelectTokens("$..*").ToList();
         Xunit.Assert.NotNull(t);
-        Assert.AreEqual(9, t.Count);
+        Xunit.Assert.Equal(9, t.Count);
 
         Xunit.Assert.True(JToken.DeepEquals(a, t[0]));
         Xunit.Assert.True(JToken.DeepEquals(o1, t[1]));
-        Assert.AreEqual(1, (int)t[2]);
+        Xunit.Assert.Equal(1, (int)t[2]);
         Xunit.Assert.True(JToken.DeepEquals(o2, t[3]));
-        Assert.AreEqual(2, (int)t[4]);
+        Xunit.Assert.Equal(2, (int)t[4]);
         Xunit.Assert.True(JToken.DeepEquals(o3, t[5]));
         Xunit.Assert.True(JToken.DeepEquals(new JObject { { "Name", new JArray(3) } }, t[6]));
         Xunit.Assert.True(JToken.DeepEquals(new JArray(3), t[7]));
-        Assert.AreEqual(3, (int)t[8]);
+        Xunit.Assert.Equal(3, (int)t[8]);
     }
 
     [Fact]
@@ -853,11 +853,11 @@ public class JPathExecuteTests : TestFixtureBase
 
         var t = o.SelectToken("Blah");
         Xunit.Assert.NotNull(t);
-        Assert.AreEqual(JTokenType.Array, t.Type);
+        Xunit.Assert.Equal(JTokenType.Array, t.Type);
 
         t = o.SelectToken("Blah[2]");
-        Assert.AreEqual(JTokenType.Integer, t.Type);
-        Assert.AreEqual(3, (int)t);
+        Xunit.Assert.Equal(JTokenType.Integer, t.Type);
+        Xunit.Assert.Equal(3, (int)t);
     }
 
     [Fact]
@@ -866,7 +866,7 @@ public class JPathExecuteTests : TestFixtureBase
         var o2 = JObject.Parse("{'People':[{'N':'Jeff'}]}");
         var a2 = (string)o2.SelectToken("People[0].N");
 
-        Assert.AreEqual("Jeff", a2);
+        Xunit.Assert.Equal("Jeff", a2);
     }
 
     [Fact]
@@ -876,7 +876,7 @@ public class JPathExecuteTests : TestFixtureBase
 
         IList<JToken> t = a.SelectTokens("[ ?( @.hi ) ]").ToList();
         Xunit.Assert.NotNull(t);
-        Assert.AreEqual(1, t.Count);
+        Xunit.Assert.Equal(1, t.Count);
         Xunit.Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", "ho")), t[0]));
     }
 
@@ -889,7 +889,7 @@ public class JPathExecuteTests : TestFixtureBase
 
         IList<JToken> t = a.SelectTokens("[ ?( @.['hi'] == 'ha' ) ]").ToList();
         Xunit.Assert.NotNull(t);
-        Assert.AreEqual(1, t.Count);
+        Xunit.Assert.Equal(1, t.Count);
         Xunit.Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", "ha")), t[0]));
     }
 
@@ -902,7 +902,7 @@ public class JPathExecuteTests : TestFixtureBase
 
         IList<JToken> t = a.SelectTokens("[ ?( @..hi <> 'ha' ) ]").ToList();
         Xunit.Assert.NotNull(t);
-        Assert.AreEqual(1, t.Count);
+        Xunit.Assert.Equal(1, t.Count);
         Xunit.Assert.True(JToken.DeepEquals(new JArray(new JObject(new JProperty("hi", "ho"))), t[0]));
     }
 
@@ -913,9 +913,9 @@ public class JPathExecuteTests : TestFixtureBase
 
         IList<JToken> t = a.SelectTokens("[ ?( @ > 1 ) ]").ToList();
         Xunit.Assert.NotNull(t);
-        Assert.AreEqual(2, t.Count);
-        Assert.AreEqual(2, (int)t[0]);
-        Assert.AreEqual(3, (int)t[1]);
+        Xunit.Assert.Equal(2, t.Count);
+        Xunit.Assert.Equal(2, (int)t[0]);
+        Xunit.Assert.Equal(3, (int)t[1]);
     }
 
     [Fact]
@@ -928,7 +928,7 @@ public class JPathExecuteTests : TestFixtureBase
         // int has no children to query
         IList<JToken> t = a.SelectTokens("[?(@ <> 1)][?(@ <> 4)][?(@ < 7)]").ToList();
         Xunit.Assert.NotNull(t);
-        Assert.AreEqual(0, t.Count);
+        Xunit.Assert.Equal(0, t.Count);
     }
 
     [Fact]
@@ -941,7 +941,7 @@ public class JPathExecuteTests : TestFixtureBase
 
         IList<JToken> t = a.SelectTokens("[ ?( @.hi > 1 ) ]").ToList();
         Xunit.Assert.NotNull(t);
-        Assert.AreEqual(2, t.Count);
+        Xunit.Assert.Equal(2, t.Count);
         Xunit.Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 2)), t[0]));
         Xunit.Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 3)), t[1]));
     }
@@ -956,7 +956,7 @@ public class JPathExecuteTests : TestFixtureBase
 
         IList<JToken> t = a.SelectTokens("[ ?( 1 < @.hi ) ]").ToList();
         Xunit.Assert.NotNull(t);
-        Assert.AreEqual(2, t.Count);
+        Xunit.Assert.Equal(2, t.Count);
         Xunit.Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 2)), t[0]));
         Xunit.Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 3)), t[1]));
     }
@@ -971,7 +971,7 @@ public class JPathExecuteTests : TestFixtureBase
 
         IList<JToken> t = a.SelectTokens("[ ?( @.hi > 1 ) ]").ToList();
         Xunit.Assert.NotNull(t);
-        Assert.AreEqual(2, t.Count);
+        Xunit.Assert.Equal(2, t.Count);
         Xunit.Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 2)), t[0]));
         Xunit.Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 3)), t[1]));
     }
@@ -987,7 +987,7 @@ public class JPathExecuteTests : TestFixtureBase
 
         IList<JToken> t = a.SelectTokens("[ ?( @.hi >= 1 ) ]").ToList();
         Xunit.Assert.NotNull(t);
-        Assert.AreEqual(4, t.Count);
+        Xunit.Assert.Equal(4, t.Count);
         Xunit.Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 1)), t[0]));
         Xunit.Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 2)), t[1]));
         Xunit.Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 2.0)), t[2]));
@@ -1014,9 +1014,9 @@ public class JPathExecuteTests : TestFixtureBase
 
         IList<JToken> t = a.SelectTokens("[?(@.cast[?(@.name=='Will Smith')])].name").ToList();
         Xunit.Assert.NotNull(t);
-        Assert.AreEqual(2, t.Count);
-        Assert.AreEqual("Bad Boys", (string)t[0]);
-        Assert.AreEqual("Independence Day", (string)t[1]);
+        Xunit.Assert.Equal(2, t.Count);
+        Xunit.Assert.Equal("Bad Boys", (string)t[0]);
+        Xunit.Assert.Equal("Independence Day", (string)t[1]);
     }
 
     [Fact]
@@ -1044,7 +1044,7 @@ public class JPathExecuteTests : TestFixtureBase
 ]");
 
         var v = (JValue)a.SelectToken("[1].Property2[1][0]");
-        Assert.AreEqual(1L, v.Value);
+        Xunit.Assert.Equal(1L, v.Value);
     }
 
     [Fact]
@@ -1066,8 +1066,8 @@ public class JPathExecuteTests : TestFixtureBase
 ]");
 
         var results = a.SelectTokens("[?(@.price > @.max_price)]").ToList();
-        Assert.AreEqual(1, results.Count);
-        Assert.AreEqual(a[2], results[0]);
+        Xunit.Assert.Equal(1, results.Count);
+        Xunit.Assert.Equal(a[2], results[0]);
     }
 
     [Fact]
@@ -1089,10 +1089,10 @@ public class JPathExecuteTests : TestFixtureBase
 ]");
 
         var results = a.SelectTokens("[?(true)]").ToList();
-        Assert.AreEqual(3, results.Count);
-        Assert.AreEqual(a[0], results[0]);
-        Assert.AreEqual(a[1], results[1]);
-        Assert.AreEqual(a[2], results[2]);
+        Xunit.Assert.Equal(3, results.Count);
+        Xunit.Assert.Equal(a[0], results[0]);
+        Xunit.Assert.Equal(a[1], results[1]);
+        Xunit.Assert.Equal(a[2], results[2]);
     }
 
     [Fact]
@@ -1114,10 +1114,10 @@ public class JPathExecuteTests : TestFixtureBase
 ]");
 
         var results = a.SelectTokens("[?(true)]").ToList();
-        Assert.AreEqual(3, results.Count);
-        Assert.AreEqual(a[0], results[0]);
-        Assert.AreEqual(a[1], results[1]);
-        Assert.AreEqual(a[2], results[2]);
+        Xunit.Assert.Equal(3, results.Count);
+        Xunit.Assert.Equal(a[0], results[0]);
+        Xunit.Assert.Equal(a[1], results[1]);
+        Xunit.Assert.Equal(a[2], results[2]);
     }
 
     [Fact]
@@ -1157,13 +1157,13 @@ public class JPathExecuteTests : TestFixtureBase
 
         IList<JToken> tokens = o.SelectTokens("$..*[?(@.text)]").ToList();
         var i = 0;
-        Assert.AreEqual("Sort system", (string)tokens[i++]["text"]);
-        Assert.AreEqual("TSP-1", (string)tokens[i++]["text"]);
-        Assert.AreEqual("Passenger 15", (string)tokens[i++]["text"]);
-        Assert.AreEqual("Yard 11", (string)tokens[i++]["text"]);
-        Assert.AreEqual("Sort yard 12", (string)tokens[i++]["text"]);
-        Assert.AreEqual("Yard 13", (string)tokens[i++]["text"]);
-        Assert.AreEqual(6, tokens.Count);
+        Xunit.Assert.Equal("Sort system", (string)tokens[i++]["text"]);
+        Xunit.Assert.Equal("TSP-1", (string)tokens[i++]["text"]);
+        Xunit.Assert.Equal("Passenger 15", (string)tokens[i++]["text"]);
+        Xunit.Assert.Equal("Yard 11", (string)tokens[i++]["text"]);
+        Xunit.Assert.Equal("Sort yard 12", (string)tokens[i++]["text"]);
+        Xunit.Assert.Equal("Yard 13", (string)tokens[i++]["text"]);
+        Xunit.Assert.Equal(6, tokens.Count);
     }
 
     [Fact]
@@ -1194,22 +1194,22 @@ public class JPathExecuteTests : TestFixtureBase
         );
 
         IList<JToken> t = o.SelectTokens("$.prop[?(@.childProp =='ff2dc672-6e15-4aa2-afb0-18f4f69596ad')]").ToList();
-        Assert.AreEqual(2, t.Count);
+        Xunit.Assert.Equal(2, t.Count);
 
         t = o.SelectTokens("$.prop[?(@.childProp =='http://localhost')]").ToList();
-        Assert.AreEqual(2, t.Count);
+        Xunit.Assert.Equal(2, t.Count);
 
         t = o.SelectTokens("$.prop[?(@.childProp =='2000-12-05T05:07:59Z')]").ToList();
-        Assert.AreEqual(2, t.Count);
+        Xunit.Assert.Equal(2, t.Count);
 
         t = o.SelectTokens("$.prop[?(@.childProp =='2000-12-05T05:07:59-10:00')]").ToList();
-        Assert.AreEqual(2, t.Count);
+        Xunit.Assert.Equal(2, t.Count);
 
         t = o.SelectTokens("$.prop[?(@.childProp =='SGVsbG8gd29ybGQ=')]").ToList();
-        Assert.AreEqual(2, t.Count);
+        Xunit.Assert.Equal(2, t.Count);
 
         t = o.SelectTokens("$.prop[?(@.childProp =='365.23:59:59')]").ToList();
-        Assert.AreEqual(2, t.Count);
+        Xunit.Assert.Equal(2, t.Count);
     }
 
     [Fact]
@@ -1255,9 +1255,9 @@ public class JPathExecuteTests : TestFixtureBase
         var productName = (string)o.SelectToken("Manufacturers[1].Products[0].Name");
         // Elbow Grease
 
-        Assert.AreEqual("Acme Co", name);
-        Assert.AreEqual(50m, productPrice);
-        Assert.AreEqual("Elbow Grease", productName);
+        Xunit.Assert.Equal("Acme Co", name);
+        Xunit.Assert.Equal(50m, productPrice);
+        Xunit.Assert.Equal("Elbow Grease", productName);
 
         IList<string> storeNames = o.SelectToken("Stores").Select(s => (string)s).ToList();
         // Lambton Quay
@@ -1270,13 +1270,13 @@ public class JPathExecuteTests : TestFixtureBase
         var totalPrice = o["Manufacturers"].Sum(m => (decimal)m.SelectToken("Products[0].Price"));
         // 149.95
 
-        Assert.AreEqual(2, storeNames.Count);
-        Assert.AreEqual("Lambton Quay", storeNames[0]);
-        Assert.AreEqual("Willis Street", storeNames[1]);
-        Assert.AreEqual(2, firstProductNames.Count);
-        Assert.AreEqual(null, firstProductNames[0]);
-        Assert.AreEqual("Headlight Fluid", firstProductNames[1]);
-        Assert.AreEqual(149.95m, totalPrice);
+        Xunit.Assert.Equal(2, storeNames.Count);
+        Xunit.Assert.Equal("Lambton Quay", storeNames[0]);
+        Xunit.Assert.Equal("Willis Street", storeNames[1]);
+        Xunit.Assert.Equal(2, firstProductNames.Count);
+        Xunit.Assert.Equal(null, firstProductNames[0]);
+        Xunit.Assert.Equal("Headlight Fluid", firstProductNames[1]);
+        Xunit.Assert.Equal(149.95m, totalPrice);
     }
 
     [Fact]
@@ -1311,19 +1311,19 @@ public class JPathExecuteTests : TestFixtureBase
         var a = JArray.Parse(json);
 
         var result = a.SelectTokens("$.[?(@.value!=1)]").ToList();
-        Assert.AreEqual(4, result.Count);
+        Xunit.Assert.Equal(4, result.Count);
 
         result = a.SelectTokens("$.[?(@.value!='2000-12-05T05:07:59-10:00')]").ToList();
-        Assert.AreEqual(4, result.Count);
+        Xunit.Assert.Equal(4, result.Count);
 
         result = a.SelectTokens("$.[?(@.value!=null)]").ToList();
-        Assert.AreEqual(4, result.Count);
+        Xunit.Assert.Equal(4, result.Count);
 
         result = a.SelectTokens("$.[?(@.value!=123)]").ToList();
-        Assert.AreEqual(3, result.Count);
+        Xunit.Assert.Equal(3, result.Count);
 
         result = a.SelectTokens("$.[?(@.value)]").ToList();
-        Assert.AreEqual(4, result.Count);
+        Xunit.Assert.Equal(4, result.Count);
     }
 
     [Fact]
@@ -1372,10 +1372,10 @@ public class JPathExecuteTests : TestFixtureBase
         var a = JArray.Parse(json);
 
         var result = a.SelectTokens("$.[?($.[0].store.bicycle.price < 20)]").ToList();
-        Assert.AreEqual(1, result.Count);
+        Xunit.Assert.Equal(1, result.Count);
 
         result = a.SelectTokens("$.[?($.[0].store.bicycle.price < 10)]").ToList();
-        Assert.AreEqual(0, result.Count);
+        Xunit.Assert.Equal(0, result.Count);
     }
 
     [Fact]
@@ -1424,10 +1424,10 @@ public class JPathExecuteTests : TestFixtureBase
         var a = JObject.Parse(json);
 
         var result = a.SelectTokens("$..book[?(@.price <= $['expensive'])]").ToList();
-        Assert.AreEqual(2, result.Count);
+        Xunit.Assert.Equal(2, result.Count);
 
         result = a.SelectTokens("$.store..[?(@.price > $.expensive)]").ToList();
-        Assert.AreEqual(3, result.Count);
+        Xunit.Assert.Equal(3, result.Count);
     }
 
     [Fact]
@@ -1449,7 +1449,7 @@ public class JPathExecuteTests : TestFixtureBase
         };
 
         var result = rootObject.SelectTokens("$.dateObjectsArray[?(@.date == $.referenceDate)]").ToList();
-        Assert.AreEqual(2, result.Count);
+        Xunit.Assert.Equal(2, result.Count);
     }
 
     [Fact]
@@ -1480,10 +1480,10 @@ public class JPathExecuteTests : TestFixtureBase
         //Xunit.Assert.Equal(new[] { "Number", "String" }, sanity1);
         // FAILS-- JPath returns { "Number" }
         //Assert.IsTrue(!sanity2.Any());
-        Assert.AreEqual("Number", mustBeNumber1.Single());
-        Assert.AreEqual("String", mustBeString1.Single());
-        Assert.AreEqual("Number", mustBeNumber2.Single());
-        Assert.AreEqual("String", mustBeString2.Single());
+        Xunit.Assert.Equal("Number", mustBeNumber1.Single());
+        Xunit.Assert.Equal("String", mustBeString1.Single());
+        Xunit.Assert.Equal("Number", mustBeNumber2.Single());
+        Xunit.Assert.Equal("String", mustBeString2.Single());
     }
 
     [Fact]
@@ -1500,7 +1500,7 @@ public class JPathExecuteTests : TestFixtureBase
 }");
 
         var tokens = t.SelectTokens("$..[?(@.['@Type'] == 'FindMe')]").ToList();
-        Assert.AreEqual(1, tokens.Count);
+        Xunit.Assert.Equal(1, tokens.Count);
     }
 
     [Fact]
@@ -1534,7 +1534,7 @@ public class JPathExecuteTests : TestFixtureBase
         var t = JToken.Parse(completeJson);
 
         var hasEqualsStrict = t.SelectTokens(completeEqualsStrictPath).Any();
-        Assert.AreEqual(matchStrict, hasEqualsStrict);
+        Xunit.Assert.Equal(matchStrict, hasEqualsStrict);
 
         var hasNotEqualsStrict = t.SelectTokens(completeNotEqualsStrictPath).Any();
         Xunit.Assert.NotEqual(matchStrict, hasNotEqualsStrict);

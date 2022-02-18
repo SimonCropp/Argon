@@ -49,9 +49,9 @@ public class Issue1545 : TestFixtureBase
             }";
 
         var s = JsonConvert.DeserializeObject<Simple>(json);
-        Assert.AreEqual(2, s.Array.Length);
-        Assert.AreEqual("item1", s.Array[0].Value);
-        Assert.AreEqual("item2", s.Array[1].Value);
+        Xunit.Assert.Equal(2, s.Array.Length);
+        Xunit.Assert.Equal("item1", s.Array[0].Value);
+        Xunit.Assert.Equal("item2", s.Array[1].Value);
     }
 
     [Fact]
@@ -73,13 +73,13 @@ public class Issue1545 : TestFixtureBase
             ]";
 
         var s = JsonConvert.DeserializeObject<int[,]>(json);
-        Assert.AreEqual(6, s.Length);
-        Assert.AreEqual(1, s[0, 0]);
-        Assert.AreEqual(2, s[0, 1]);
-        Assert.AreEqual(3, s[0, 2]);
-        Assert.AreEqual(4, s[1, 0]);
-        Assert.AreEqual(5, s[1, 1]);
-        Assert.AreEqual(6, s[1, 2]);
+        Xunit.Assert.Equal(6, s.Length);
+        Xunit.Assert.Equal(1, s[0, 0]);
+        Xunit.Assert.Equal(2, s[0, 1]);
+        Xunit.Assert.Equal(3, s[0, 2]);
+        Xunit.Assert.Equal(4, s[1, 0]);
+        Xunit.Assert.Equal(5, s[1, 1]);
+        Xunit.Assert.Equal(6, s[1, 2]);
     }
 }
 

@@ -36,7 +36,7 @@ public class Issue1593 : TestFixtureBase
     public void Test()
     {
         var json = JsonConvert.SerializeObject(CreateModel());
-        Assert.AreEqual(@"{""Specific"":2,""A"":1}", json);
+        Xunit.Assert.Equal(@"{""Specific"":2,""A"":1}", json);
     }
 
     class BaseModel

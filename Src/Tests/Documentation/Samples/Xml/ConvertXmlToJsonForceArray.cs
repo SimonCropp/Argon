@@ -81,6 +81,6 @@ public class ConvertXmlToJsonForceArray : TestFixtureBase
         // }
         #endregion
 
-        Assert.AreEqual(@"{""person"":{""@id"":""1"",""name"":""Alan"",""url"":""http://www.google.com"",""role"":[""Admin""]}}", json);
+        Xunit.Assert.Equal(@"{""person"":{""@id"":""1"",""name"":""Alan"",""url"":""http://www.google.com"",""role"":[""Admin""]}}", json);
     }
 }

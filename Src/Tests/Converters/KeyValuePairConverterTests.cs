@@ -12,7 +12,7 @@ public class KeyValuePairConverterTests : TestFixtureBase
         var contractResolver = new DefaultContractResolver();
         var contract = (JsonObjectContract)contractResolver.ResolveContract(typeof(KeyValuePair<string, int>));
 
-        Assert.AreEqual(typeof(KeyValuePairConverter), contract.InternalConverter.GetType());
+        Xunit.Assert.Equal(typeof(KeyValuePairConverter), contract.InternalConverter.GetType());
 
         IList<KeyValuePair<string, int>> values = new List<KeyValuePair<string, int>>
         {
@@ -35,11 +35,11 @@ public class KeyValuePairConverterTests : TestFixtureBase
 
         var v2 = JsonConvert.DeserializeObject<IList<KeyValuePair<string, int>>>(json);
 
-        Assert.AreEqual(2, v2.Count);
-        Assert.AreEqual("123", v2[0].Key);
-        Assert.AreEqual(123, v2[0].Value);
-        Assert.AreEqual("456", v2[1].Key);
-        Assert.AreEqual(456, v2[1].Value);
+        Xunit.Assert.Equal(2, v2.Count);
+        Xunit.Assert.Equal("123", v2[0].Key);
+        Xunit.Assert.Equal(123, v2[0].Value);
+        Xunit.Assert.Equal("456", v2[1].Key);
+        Xunit.Assert.Equal(456, v2[1].Value);
     }
 
     [Fact]

@@ -42,7 +42,7 @@ public class LinqToJsonTest : TestFixtureBase
             ["We're offline!"] = v
         };
 
-        Assert.AreEqual(@"['We\'re offline!']", v.Path);
+        Xunit.Assert.Equal(@"['We\'re offline!']", v.Path);
     }
 
     public class DemoClass
@@ -56,7 +56,7 @@ public class LinqToJsonTest : TestFixtureBase
         var jArray = JArray.Parse("[{ maxValue:10000000000000000000 }]");
         var list = jArray.ToObject<List<DemoClass>>();
 
-        Assert.AreEqual(10000000000000000000m, list[0].maxValue);
+        Xunit.Assert.Equal(10000000000000000000m, list[0].maxValue);
     }
 
     [Fact]
@@ -64,7 +64,7 @@ public class LinqToJsonTest : TestFixtureBase
     {
         var token = new JValue(new Guid("91274484-3b20-48b4-9d18-7d936b2cb88f"));
         var value = token.ToObject<string>();
-        Assert.AreEqual("91274484-3b20-48b4-9d18-7d936b2cb88f", value);
+        Xunit.Assert.Equal("91274484-3b20-48b4-9d18-7d936b2cb88f", value);
     }
 
     [Fact]
@@ -72,7 +72,7 @@ public class LinqToJsonTest : TestFixtureBase
     {
         var token = new JValue(1234);
         var value = token.ToObject<string>();
-        Assert.AreEqual("1234", value);
+        Xunit.Assert.Equal("1234", value);
     }
 
     [Fact]
@@ -80,7 +80,7 @@ public class LinqToJsonTest : TestFixtureBase
     {
         var token = new JValue("1234");
         var value = token.ToObject<int>();
-        Assert.AreEqual(1234, value);
+        Xunit.Assert.Equal(1234, value);
     }
 
     [Fact]
@@ -89,7 +89,7 @@ public class LinqToJsonTest : TestFixtureBase
         var token1 = new JValue(Guid.NewGuid());
         var token2 = JToken.FromObject(token1);
         Xunit.Assert.True(JToken.DeepEquals(token1, token2));
-        Assert.AreEqual(token1.Type, token2.Type);
+        Xunit.Assert.Equal(token1.Type, token2.Type);
     }
 
     [Fact]
@@ -98,7 +98,7 @@ public class LinqToJsonTest : TestFixtureBase
         var token1 = new JValue(TimeSpan.FromDays(1));
         var token2 = JToken.FromObject(token1);
         Xunit.Assert.True(JToken.DeepEquals(token1, token2));
-        Assert.AreEqual(token1.Type, token2.Type);
+        Xunit.Assert.Equal(token1.Type, token2.Type);
     }
 
     [Fact]
@@ -107,7 +107,7 @@ public class LinqToJsonTest : TestFixtureBase
         var token1 = new JValue(new Uri("http://www.newtonsoft.com"));
         var token2 = JToken.FromObject(token1);
         Xunit.Assert.True(JToken.DeepEquals(token1, token2));
-        Assert.AreEqual(token1.Type, token2.Type);
+        Xunit.Assert.Equal(token1.Type, token2.Type);
     }
 
     [Fact]
@@ -117,10 +117,10 @@ public class LinqToJsonTest : TestFixtureBase
         {
             ["id"] = Guid.NewGuid()
         };
-        Assert.AreEqual(JTokenType.Guid, anon["id"].Type);
+        Xunit.Assert.Equal(JTokenType.Guid, anon["id"].Type);
 
         var dict = anon.ToObject<Dictionary<string, JToken>>();
-        Assert.AreEqual(JTokenType.Guid, dict["id"].Type);
+        Xunit.Assert.Equal(JTokenType.Guid, dict["id"].Type);
     }
 
     public class TestClass_ULong
@@ -196,7 +196,7 @@ public class LinqToJsonTest : TestFixtureBase
     {
         var tokens = new JEnumerable<JToken>();
 
-        Assert.AreEqual(0, tokens.Count());
+        Xunit.Assert.Equal(0, tokens.Count());
     }
 
     [Fact]
@@ -204,7 +204,7 @@ public class LinqToJsonTest : TestFixtureBase
     {
         IEnumerable tokens = new JEnumerable<JToken>();
 
-        Assert.AreEqual(0, tokens.Cast<JToken>().Count());
+        Xunit.Assert.Equal(0, tokens.Cast<JToken>().Count());
     }
 
     [Fact]
@@ -226,7 +226,7 @@ public class LinqToJsonTest : TestFixtureBase
     {
         var tokens = new JEnumerable<JToken>();
 
-        Assert.AreEqual(0, tokens.GetHashCode());
+        Xunit.Assert.Equal(0, tokens.GetHashCode());
     }
 
     [Fact]
@@ -245,9 +245,9 @@ public class LinqToJsonTest : TestFixtureBase
             CommentHandling = CommentHandling.Load
         });
 
-        Assert.AreEqual(4, a.Count);
-        Assert.AreEqual(JTokenType.Comment, a[0].Type);
-        Assert.AreEqual(" hi", ((JValue)a[0]).Value);
+        Xunit.Assert.Equal(4, a.Count);
+        Xunit.Assert.Equal(JTokenType.Comment, a[0].Type);
+        Xunit.Assert.Equal(" hi", ((JValue)a[0]).Value);
     }
 
     [Fact]
@@ -263,9 +263,9 @@ public class LinqToJsonTest : TestFixtureBase
         var jsonReader = new JsonTextReader(textReader);
         var a = (JArray)JToken.ReadFrom(jsonReader);
 
-        Assert.AreEqual(3, a.Count);
-        Assert.AreEqual(JTokenType.Integer, a[0].Type);
-        Assert.AreEqual(1L, ((JValue)a[0]).Value);
+        Xunit.Assert.Equal(3, a.Count);
+        Xunit.Assert.Equal(JTokenType.Integer, a[0].Type);
+        Xunit.Assert.Equal(1L, ((JValue)a[0]).Value);
     }
 
     [Fact]
@@ -285,12 +285,12 @@ public class LinqToJsonTest : TestFixtureBase
             CommentHandling = CommentHandling.Load
         });
 
-        Assert.AreEqual(JTokenType.Comment, v.Type);
+        Xunit.Assert.Equal(JTokenType.Comment, v.Type);
 
         IJsonLineInfo lineInfo = v;
         Assert.True( lineInfo.HasLineInfo());
-        Assert.AreEqual(2, lineInfo.LineNumber);
-        Assert.AreEqual(5, lineInfo.LinePosition);
+        Xunit.Assert.Equal(2, lineInfo.LineNumber);
+        Xunit.Assert.Equal(5, lineInfo.LinePosition);
     }
 
     [Fact]
@@ -310,12 +310,12 @@ public class LinqToJsonTest : TestFixtureBase
             CommentHandling = CommentHandling.Ignore
         });
 
-        Assert.AreEqual(JTokenType.Array, a.Type);
+        Xunit.Assert.Equal(JTokenType.Array, a.Type);
 
         IJsonLineInfo lineInfo = a;
         Assert.True( lineInfo.HasLineInfo());
-        Assert.AreEqual(3, lineInfo.LineNumber);
-        Assert.AreEqual(1, lineInfo.LinePosition);
+        Xunit.Assert.Equal(3, lineInfo.LineNumber);
+        Xunit.Assert.Equal(1, lineInfo.LinePosition);
     }
 
     [Fact]
@@ -332,12 +332,12 @@ undefined
         var jsonReader = new JsonTextReader(textReader);
         var v = (JValue)JToken.ReadFrom(jsonReader);
 
-        Assert.AreEqual(JTokenType.Undefined, v.Type);
+        Xunit.Assert.Equal(JTokenType.Undefined, v.Type);
 
         IJsonLineInfo lineInfo = v;
         Assert.True( lineInfo.HasLineInfo());
-        Assert.AreEqual(2, lineInfo.LineNumber);
-        Assert.AreEqual(9, lineInfo.LinePosition);
+        Xunit.Assert.Equal(2, lineInfo.LineNumber);
+        Xunit.Assert.Equal(9, lineInfo.LinePosition);
     }
 
     [Fact]
@@ -367,7 +367,7 @@ undefined
         };
 
         var idProperty = o["person"]["$id"].Parent;
-        Assert.AreEqual("person.$id", idProperty.Path);
+        Xunit.Assert.Equal("person.$id", idProperty.Path);
     }
 
     [Fact]
@@ -389,11 +389,11 @@ undefined
 
         var v1 = o["frameworks"]["NET5_0_OR_GREATER"]["dependencies"]["System.Xml.ReaderWriter"]["source"];
 
-        Assert.AreEqual("frameworks.NET5_0_OR_GREATER.dependencies['System.Xml.ReaderWriter'].source", v1.Path);
+        Xunit.Assert.Equal("frameworks.NET5_0_OR_GREATER.dependencies['System.Xml.ReaderWriter'].source", v1.Path);
 
         var v2 = o.SelectToken(v1.Path);
 
-        Assert.AreEqual(v1, v2);
+        Xunit.Assert.Equal(v1, v2);
     }
 
     [Fact]
@@ -412,11 +412,11 @@ undefined
 
         var o = new JObject(new JProperty(propertyName, value));
 
-        Assert.AreEqual(expectedPath, value.Path);
+        Xunit.Assert.Equal(expectedPath, value.Path);
 
         var selectedValue = (JValue)o.SelectToken(value.Path);
 
-        Assert.AreEqual(value, selectedValue);
+        Xunit.Assert.Equal(value, selectedValue);
     }
 
     [Fact]
@@ -438,10 +438,10 @@ undefined
         var j = JArray.Parse("[-1E+4,100.0e-2]");
 
         var value = (double)j[0];
-        Assert.AreEqual(-10000d, value);
+        Xunit.Assert.Equal(-10000d, value);
 
         value = (double)j[1];
-        Assert.AreEqual(1d, value);
+        Xunit.Assert.Equal(1d, value);
     }
 
     [Fact]
@@ -472,7 +472,7 @@ undefined
         var serializer = new JsonSerializer();
         var p = (Person)serializer.Deserialize(new JTokenReader(o), typeof(Person));
 
-        Assert.AreEqual("John Smith", p.Name);
+        Xunit.Assert.Equal("John Smith", p.Name);
     }
 
     [Fact]
@@ -489,22 +489,22 @@ undefined
         var o = JObject.Parse(json);
         IList<JProperty> properties = o.Properties().ToList();
 
-        Assert.AreEqual("CPU", properties[0].Name);
-        Assert.AreEqual("Intel", (string)properties[0].Value);
-        Assert.AreEqual("Drives", properties[1].Name);
+        Xunit.Assert.Equal("CPU", properties[0].Name);
+        Xunit.Assert.Equal("Intel", (string)properties[0].Value);
+        Xunit.Assert.Equal("Drives", properties[1].Name);
 
         var list = (JArray)properties[1].Value;
-        Assert.AreEqual(2, list.Children().Count());
-        Assert.AreEqual("DVD read/writer", (string)list.Children().ElementAt(0));
-        Assert.AreEqual("500 gigabyte hard drive", (string)list.Children().ElementAt(1));
+        Xunit.Assert.Equal(2, list.Children().Count());
+        Xunit.Assert.Equal("DVD read/writer", (string)list.Children().ElementAt(0));
+        Xunit.Assert.Equal("500 gigabyte hard drive", (string)list.Children().ElementAt(1));
 
         var parameterValues =
             (from p in o.Properties()
                 where p.Value is JValue
                 select ((JValue)p.Value).Value).ToList();
 
-        Assert.AreEqual(1, parameterValues.Count);
-        Assert.AreEqual("Intel", parameterValues[0]);
+        Xunit.Assert.Equal(1, parameterValues.Count);
+        Xunit.Assert.Equal("Intel", parameterValues[0]);
     }
 
     [Fact]
@@ -608,13 +608,13 @@ keyword such as type of business.""
 
         var resultObjects = o["results"].Children<JObject>().ToList();
 
-        Assert.AreEqual(32, resultObjects.Properties().Count());
+        Xunit.Assert.Equal(32, resultObjects.Properties().Count());
 
-        Assert.AreEqual(32, resultObjects.Cast<JToken>().Values().Count());
+        Xunit.Assert.Equal(32, resultObjects.Cast<JToken>().Values().Count());
 
-        Assert.AreEqual(4, resultObjects.Cast<JToken>().Values("GsearchResultClass").Count());
+        Xunit.Assert.Equal(4, resultObjects.Cast<JToken>().Values("GsearchResultClass").Count());
 
-        Assert.AreEqual(5, o.PropertyValues().Cast<JArray>().Children().Count());
+        Xunit.Assert.Equal(5, o.PropertyValues().Cast<JArray>().Children().Count());
 
         var resultUrls = o["results"].Children().Values<string>("url").ToList();
 
@@ -623,7 +623,7 @@ keyword such as type of business.""
         Xunit.Assert.Equal(expectedUrls, resultUrls);
 
         var descendants = o.Descendants().ToList();
-        Assert.AreEqual(89, descendants.Count);
+        Xunit.Assert.Equal(89, descendants.Count);
     }
 
     [Fact]
@@ -655,7 +655,7 @@ keyword such as type of business.""
 ]", list.ToString());
 
         var cpuProperty = o.Property("CPU");
-        Assert.AreEqual(@"""CPU"": ""Intel""", cpuProperty.ToString());
+        Xunit.Assert.Equal(@"""CPU"": ""Intel""", cpuProperty.ToString());
 
         var drivesProperty = o.Property("Drives");
         StringAssert.AreEqual(@"""Drives"": [
@@ -677,10 +677,10 @@ keyword such as type of business.""
         StringAssert.AreEqual(@"new Date(
   1264118400000
 )", o.Property("Establised").Value.ToString());
-        Assert.AreEqual(@"""Width"": 1.1", o.Property("Width").ToString());
-        Assert.AreEqual(@"1.1", ((JValue)o.Property("Width").Value).ToString(CultureInfo.InvariantCulture));
-        Assert.AreEqual(@"""Open"": false", o.Property("Open").ToString());
-        Assert.AreEqual(@"False", o.Property("Open").Value.ToString());
+        Xunit.Assert.Equal(@"""Width"": 1.1", o.Property("Width").ToString());
+        Xunit.Assert.Equal(@"1.1", ((JValue)o.Property("Width").Value).ToString(CultureInfo.InvariantCulture));
+        Xunit.Assert.Equal(@"""Open"": false", o.Property("Open").ToString());
+        Xunit.Assert.Equal(@"False", o.Property("Open").Value.ToString());
 
         json = @"[null,undefined]";
 
@@ -689,8 +689,8 @@ keyword such as type of business.""
   null,
   undefined
 ]", a.ToString());
-        Assert.AreEqual(@"", a.Children().ElementAt(0).ToString());
-        Assert.AreEqual(@"", a.Children().ElementAt(1).ToString());
+        Xunit.Assert.Equal(@"", a.Children().ElementAt(0).ToString());
+        Xunit.Assert.Equal(@"", a.Children().ElementAt(1).ToString());
     }
 
     [Fact]
@@ -704,7 +704,7 @@ keyword such as type of business.""
                 new JProperty("Test4", null)
             );
 
-        Assert.AreEqual(4, o.Properties().Count());
+        Xunit.Assert.Equal(4, o.Properties().Count());
 
         StringAssert.AreEqual(@"{
   ""Test1"": ""Test1Value"",
@@ -732,7 +732,7 @@ keyword such as type of business.""
                 )
             );
 
-        Assert.AreEqual(5, a.Count());
+        Xunit.Assert.Equal(5, a.Count());
         StringAssert.AreEqual(@"[
   {
     ""Test1"": ""Test1Value"",
@@ -852,8 +852,8 @@ keyword such as type of business.""
         // Querying LINQ to JSON
 
         Xunit.Assert.NotNull(serializerBasics);
-        Assert.AreEqual(2, since2012.Count);
-        Assert.AreEqual(1, linqToJson.Count);
+        Xunit.Assert.Equal(2, since2012.Count);
+        Xunit.Assert.Equal(1, linqToJson.Count);
     }
 
     [Fact]
@@ -913,8 +913,8 @@ keyword such as type of business.""
             from p in rss["channel"]["item"]
             select p.Value<string>("title");
 
-        Assert.AreEqual("Json.NET 1.3 + New license + Now on CodePlex", postTitles.ElementAt(0));
-        Assert.AreEqual("LINQ to JSON beta", postTitles.ElementAt(1));
+        Xunit.Assert.Equal("Json.NET 1.3 + New license + Now on CodePlex", postTitles.ElementAt(0));
+        Xunit.Assert.Equal("LINQ to JSON beta", postTitles.ElementAt(1));
 
         var categories =
             from c in rss["channel"]["item"].Children()["category"].Values<string>()
@@ -923,12 +923,12 @@ keyword such as type of business.""
             orderby g.Count() descending
             select new { Category = g.Key, Count = g.Count() };
 
-        Assert.AreEqual("Json.NET", categories.ElementAt(0).Category);
-        Assert.AreEqual(2, categories.ElementAt(0).Count);
-        Assert.AreEqual("CodePlex", categories.ElementAt(1).Category);
-        Assert.AreEqual(1, categories.ElementAt(1).Count);
-        Assert.AreEqual("LINQ", categories.ElementAt(2).Category);
-        Assert.AreEqual(1, categories.ElementAt(2).Count);
+        Xunit.Assert.Equal("Json.NET", categories.ElementAt(0).Category);
+        Xunit.Assert.Equal(2, categories.ElementAt(0).Count);
+        Xunit.Assert.Equal("CodePlex", categories.ElementAt(1).Category);
+        Xunit.Assert.Equal(1, categories.ElementAt(1).Count);
+        Xunit.Assert.Equal("LINQ", categories.ElementAt(2).Category);
+        Xunit.Assert.Equal(1, categories.ElementAt(2).Count);
     }
 
     [Fact]
@@ -964,15 +964,15 @@ keyword such as type of business.""
 
         var o = JObject.Parse(json);
 
-        Assert.AreEqual(null, o["purple"]);
-        Assert.AreEqual(null, o.Value<string>("purple"));
+        Xunit.Assert.Equal(null, o["purple"]);
+        Xunit.Assert.Equal(null, o.Value<string>("purple"));
 
         Xunit.Assert.IsType(typeof(JArray), o["channel"]["item"]);
 
-        Assert.AreEqual(2, o["channel"]["item"].Children()["title"].Count());
-        Assert.AreEqual(0, o["channel"]["item"].Children()["monkey"].Count());
+        Xunit.Assert.Equal(2, o["channel"]["item"].Children()["title"].Count());
+        Xunit.Assert.Equal(0, o["channel"]["item"].Children()["monkey"].Count());
 
-        Assert.AreEqual("Json.NET 1.3 + New license + Now on CodePlex", (string)o["channel"]["item"][0]["title"]);
+        Xunit.Assert.Equal("Json.NET 1.3 + New license + Now on CodePlex", (string)o["channel"]["item"][0]["title"]);
 
         Xunit.Assert.Equal(new string[] { "Json.NET 1.3 + New license + Now on CodePlex", "LINQ to JSON beta" }, o["channel"]["item"].Children().Values<string>("title").ToArray());
     }
@@ -983,7 +983,7 @@ keyword such as type of business.""
         ExceptionAssert.Throws<ArgumentException>(() =>
         {
             var o = new JObject();
-            Assert.AreEqual(null, o[0]);
+            Xunit.Assert.Equal(null, o[0]);
         }, "Accessed JObject values with invalid key value: 0. Object property name expected.");
     }
 
@@ -993,7 +993,7 @@ keyword such as type of business.""
         ExceptionAssert.Throws<ArgumentException>(() =>
         {
             var a = new JArray();
-            Assert.AreEqual(null, a["purple"]);
+            Xunit.Assert.Equal(null, a["purple"]);
         }, @"Accessed JArray values with invalid key value: ""purple"". Int32 array index expected.");
     }
 
@@ -1003,7 +1003,7 @@ keyword such as type of business.""
         ExceptionAssert.Throws<ArgumentException>(() =>
         {
             var c = new JConstructor("ConstructorValue");
-            Assert.AreEqual(null, c["purple"]);
+            Xunit.Assert.Equal(null, c["purple"]);
         }, @"Accessed JConstructor values with invalid key value: ""purple"". Argument position index expected.");
     }
 
@@ -1058,7 +1058,7 @@ keyword such as type of business.""
             jsonSerializer.Serialize(jsonWriter, testDates);
         }
 
-        Assert.AreEqual(4, jsonWriter.Token.Children().Count());
+        Xunit.Assert.Equal(4, jsonWriter.Token.Children().Count());
     }
 
     [Fact]
@@ -1116,12 +1116,12 @@ keyword such as type of business.""
 
         Xunit.Assert.IsType(typeof(JObject), o);
         Xunit.Assert.IsType(typeof(JObject), o["channel"]);
-        Assert.AreEqual("James Newton-King", (string)o["channel"]["title"]);
-        Assert.AreEqual(2, o["channel"]["item"].Children().Count());
+        Xunit.Assert.Equal("James Newton-King", (string)o["channel"]["title"]);
+        Xunit.Assert.Equal(2, o["channel"]["item"].Children().Count());
 
         var a = JArray.FromObject(new List<int> { 0, 1, 2, 3, 4 });
         Xunit.Assert.IsType(typeof(JArray), a);
-        Assert.AreEqual(5, a.Count());
+        Xunit.Assert.Equal(5, a.Count());
     }
 
     [Fact]
@@ -1181,12 +1181,12 @@ keyword such as type of business.""
 
         Xunit.Assert.IsType(typeof(JObject), o);
         Xunit.Assert.IsType(typeof(JObject), o["channel"]);
-        Assert.AreEqual("James Newton-King", (string)o["channel"]["title"]);
-        Assert.AreEqual(2, o["channel"]["item"].Children().Count());
+        Xunit.Assert.Equal("James Newton-King", (string)o["channel"]["title"]);
+        Xunit.Assert.Equal(2, o["channel"]["item"].Children().Count());
 
         var a = JArray.FromObject(new List<int> { 0, 1, 2, 3, 4 });
         Xunit.Assert.IsType(typeof(JArray), a);
-        Assert.AreEqual(5, a.Count());
+        Xunit.Assert.Equal(5, a.Count());
     }
 
     [Fact]
@@ -1206,11 +1206,11 @@ keyword such as type of business.""
 
         enumerable = o.AsJEnumerable();
         Xunit.Assert.NotNull(enumerable);
-        Assert.AreEqual(o, enumerable);
+        Xunit.Assert.Equal(o, enumerable);
 
         var d = enumerable["Test1"].Value<DateTime>();
 
-        Assert.AreEqual(new DateTime(2000, 10, 15, 5, 5, 5, DateTimeKind.Utc), d);
+        Xunit.Assert.Equal(new DateTime(2000, 10, 15, 5, 5, 5, DateTimeKind.Utc), d);
     }
 
     [Fact]
@@ -1223,7 +1223,7 @@ keyword such as type of business.""
         };
 
         IJEnumerable<JToken> values = o.Properties();
-        Assert.AreEqual(4, values.Count());
+        Xunit.Assert.Equal(4, values.Count());
     }
 
     [Fact]
@@ -1233,8 +1233,8 @@ keyword such as type of business.""
 
         var list1 = olist.AsEnumerable().Values<int>().ToList();
 
-        Assert.AreEqual(12, list1[0]);
-        Assert.AreEqual(55, list1[1]);
+        Xunit.Assert.Equal(12, list1[0]);
+        Xunit.Assert.Equal(55, list1[1]);
     }
 
     [Fact]
@@ -1295,7 +1295,7 @@ keyword such as type of business.""
 
         var o = JArray.Parse(json);
 
-        Assert.AreEqual(4, o.Children()["item"].Children()["title"].Count());
+        Xunit.Assert.Equal(4, o.Children()["item"].Children()["title"].Count());
         Xunit.Assert.Equal(new string[]
             {
                 "Json.NET 1.3 + New license + Now on CodePlex",
@@ -1321,11 +1321,11 @@ keyword such as type of business.""
 }", o.ToString());
 
         var c2 = o.ToObject<UriGuidTimeSpanTestClass>();
-        Assert.AreEqual(c1.Guid, c2.Guid);
-        Assert.AreEqual(c1.NullableGuid, c2.NullableGuid);
-        Assert.AreEqual(c1.TimeSpan, c2.TimeSpan);
-        Assert.AreEqual(c1.NullableTimeSpan, c2.NullableTimeSpan);
-        Assert.AreEqual(c1.Uri, c2.Uri);
+        Xunit.Assert.Equal(c1.Guid, c2.Guid);
+        Xunit.Assert.Equal(c1.NullableGuid, c2.NullableGuid);
+        Xunit.Assert.Equal(c1.TimeSpan, c2.TimeSpan);
+        Xunit.Assert.Equal(c1.NullableTimeSpan, c2.NullableTimeSpan);
+        Xunit.Assert.Equal(c1.Uri, c2.Uri);
     }
 
     [Fact]
@@ -1350,11 +1350,11 @@ keyword such as type of business.""
 }", o.ToString());
 
         var c2 = o.ToObject<UriGuidTimeSpanTestClass>();
-        Assert.AreEqual(c1.Guid, c2.Guid);
-        Assert.AreEqual(c1.NullableGuid, c2.NullableGuid);
-        Assert.AreEqual(c1.TimeSpan, c2.TimeSpan);
-        Assert.AreEqual(c1.NullableTimeSpan, c2.NullableTimeSpan);
-        Assert.AreEqual(c1.Uri, c2.Uri);
+        Xunit.Assert.Equal(c1.Guid, c2.Guid);
+        Xunit.Assert.Equal(c1.NullableGuid, c2.NullableGuid);
+        Xunit.Assert.Equal(c1.TimeSpan, c2.TimeSpan);
+        Xunit.Assert.Equal(c1.NullableTimeSpan, c2.NullableTimeSpan);
+        Xunit.Assert.Equal(c1.Uri, c2.Uri);
 
         var j = JsonConvert.SerializeObject(c1, Formatting.Indented);
 
@@ -1366,11 +1366,11 @@ keyword such as type of business.""
     {
         var json = @"/* blah */ {'hi':'hi!'}";
         var o = JObject.Parse(json);
-        Assert.AreEqual("hi!", (string)o["hi"]);
+        Xunit.Assert.Equal("hi!", (string)o["hi"]);
 
         json = @"/* blah */ ['hi!']";
         var a = JArray.Parse(json);
-        Assert.AreEqual("hi!", (string)a[0]);
+        Xunit.Assert.Equal("hi!", (string)a[0]);
     }
 
     [Fact]
@@ -1385,7 +1385,7 @@ keyword such as type of business.""
         {
             users.Add("name2", name);
 
-            Assert.AreEqual(users["name2"], "Matthew Doig");
+            Xunit.Assert.Equal(users["name2"], "Matthew Doig");
         }, "The best overloaded method match for 'System.Collections.Generic.IDictionary<string,string>.Add(string, string)' has some invalid arguments");
     }
 
@@ -1410,7 +1410,7 @@ keyword such as type of business.""
         var o = JObject.Parse("{'FooBar':'SOME_OTHER_VALUE'}");
 
         var e = o["FooBar"].ToObject<FooBar>();
-        Assert.AreEqual(FooBar.SomeOtherValue, e);
+        Xunit.Assert.Equal(FooBar.SomeOtherValue, e);
     }
 
     public enum FooBarNoEnum
@@ -1433,7 +1433,7 @@ keyword such as type of business.""
         var o = JObject.Parse("{'FooBarNoEnum':'SOME_OTHER_VALUE'}");
 
         var e = o["FooBarNoEnum"].ToObject<FooBarNoEnum>();
-        Assert.AreEqual(FooBarNoEnum.SomeOtherValue, e);
+        Xunit.Assert.Equal(FooBarNoEnum.SomeOtherValue, e);
     }
 
     [Fact]

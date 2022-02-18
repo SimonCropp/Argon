@@ -34,7 +34,7 @@ public class JsonArrayAttributeTests : TestFixtureBase
     public void IsReferenceTest()
     {
         var attribute = new JsonPropertyAttribute();
-        Assert.AreEqual(null, attribute._isReference);
+        Xunit.Assert.Equal(null, attribute._isReference);
         Assert.False( attribute.IsReference);
 
         attribute.IsReference = false;
@@ -50,23 +50,23 @@ public class JsonArrayAttributeTests : TestFixtureBase
     public void NullValueHandlingTest()
     {
         var attribute = new JsonPropertyAttribute();
-        Assert.AreEqual(null, attribute._nullValueHandling);
-        Assert.AreEqual(NullValueHandling.Include, attribute.NullValueHandling);
+        Xunit.Assert.Equal(null, attribute._nullValueHandling);
+        Xunit.Assert.Equal(NullValueHandling.Include, attribute.NullValueHandling);
 
         attribute.NullValueHandling = NullValueHandling.Ignore;
-        Assert.AreEqual(NullValueHandling.Ignore, attribute._nullValueHandling);
-        Assert.AreEqual(NullValueHandling.Ignore, attribute.NullValueHandling);
+        Xunit.Assert.Equal(NullValueHandling.Ignore, attribute._nullValueHandling);
+        Xunit.Assert.Equal(NullValueHandling.Ignore, attribute.NullValueHandling);
     }
 
     [Fact]
     public void DefaultValueHandlingTest()
     {
         var attribute = new JsonPropertyAttribute();
-        Assert.AreEqual(null, attribute._defaultValueHandling);
-        Assert.AreEqual(DefaultValueHandling.Include, attribute.DefaultValueHandling);
+        Xunit.Assert.Equal(null, attribute._defaultValueHandling);
+        Xunit.Assert.Equal(DefaultValueHandling.Include, attribute.DefaultValueHandling);
 
         attribute.DefaultValueHandling = DefaultValueHandling.Ignore;
-        Assert.AreEqual(DefaultValueHandling.Ignore, attribute._defaultValueHandling);
-        Assert.AreEqual(DefaultValueHandling.Ignore, attribute.DefaultValueHandling);
+        Xunit.Assert.Equal(DefaultValueHandling.Ignore, attribute._defaultValueHandling);
+        Xunit.Assert.Equal(DefaultValueHandling.Ignore, attribute.DefaultValueHandling);
     }
 }

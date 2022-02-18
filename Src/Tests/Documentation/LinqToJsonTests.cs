@@ -347,8 +347,8 @@ public class LinqToJsonTests : TestFixtureBase
         //CodePlex - Count: 1
         #endregion
 
-        Assert.AreEqual(2, postTitles.Count());
-        Assert.AreEqual(3, categories.Count());
+        Xunit.Assert.Equal(2, postTitles.Count());
+        Xunit.Assert.Equal(3, categories.Count());
     }
 
     #region LinqToJsonDeserializeObject
@@ -402,8 +402,8 @@ public class LinqToJsonTests : TestFixtureBase
         // No action taken
         #endregion
 
-        Assert.AreEqual("http://www.foo.com/", shortie.Original);
-        Assert.AreEqual("No action taken", shortie.Error.ErrorMessage);
+        Xunit.Assert.Equal("http://www.foo.com/", shortie.Original);
+        Xunit.Assert.Equal("No action taken", shortie.Error.ErrorMessage);
     }
 
     [Fact]
@@ -444,7 +444,7 @@ public class LinqToJsonTests : TestFixtureBase
         var name = (string)o.SelectToken("Manufacturers[0].Name");
         #endregion
 
-        Assert.AreEqual("Acme Co", name);
+        Xunit.Assert.Equal("Acme Co", name);
     }
 
     [Fact]
@@ -492,9 +492,9 @@ public class LinqToJsonTests : TestFixtureBase
         // Elbow Grease
         #endregion
 
-        Assert.AreEqual("Acme Co", name);
-        Assert.AreEqual(50m, productPrice);
-        Assert.AreEqual("Elbow Grease", productName);
+        Xunit.Assert.Equal("Acme Co", name);
+        Xunit.Assert.Equal(50m, productPrice);
+        Xunit.Assert.Equal("Elbow Grease", productName);
     }
 
     [Fact]
@@ -544,8 +544,8 @@ public class LinqToJsonTests : TestFixtureBase
         // 149.95
         #endregion
 
-        Assert.AreEqual(2, storeNames.Count);
-        Assert.AreEqual(2, firstProductNames.Count);
-        Assert.AreEqual(149.95m, totalPrice);
+        Xunit.Assert.Equal(2, storeNames.Count);
+        Xunit.Assert.Equal(2, firstProductNames.Count);
+        Xunit.Assert.Equal(149.95m, totalPrice);
     }
 }

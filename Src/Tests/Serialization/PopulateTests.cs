@@ -40,7 +40,7 @@ public class PopulateTests : TestFixtureBase
 
         JsonConvert.PopulateObject(@"{""Name"":""James""}", p);
 
-        Assert.AreEqual("James", p.Name);
+        Xunit.Assert.Equal("James", p.Name);
     }
 
     [Fact]
@@ -53,10 +53,10 @@ public class PopulateTests : TestFixtureBase
 
         JsonConvert.PopulateObject(@"[{""Name"":""James""}, null]", people);
 
-        Assert.AreEqual(3, people.Count);
-        Assert.AreEqual("Initial", people[0].Name);
-        Assert.AreEqual("James", people[1].Name);
-        Assert.AreEqual(null, people[2]);
+        Xunit.Assert.Equal(3, people.Count);
+        Xunit.Assert.Equal("Initial", people[0].Name);
+        Xunit.Assert.Equal("James", people[1].Name);
+        Xunit.Assert.Equal(null, people[2]);
     }
 
     [Fact]
@@ -116,9 +116,9 @@ public class PopulateTests : TestFixtureBase
             ObjectCreationHandling = ObjectCreationHandling.Replace
         });
 
-        Assert.AreEqual(1, s.Mottos.Count);
-        Assert.AreEqual("Fail whale", s.Mottos[0]);
-        Assert.AreEqual(1, s.product.Count);
+        Xunit.Assert.Equal(1, s.Mottos.Count);
+        Xunit.Assert.Equal("Fail whale", s.Mottos[0]);
+        Xunit.Assert.Equal(1, s.product.Count);
 
         //Assert.AreEqual("James", p.Name);
     }
@@ -131,9 +131,9 @@ public class PopulateTests : TestFixtureBase
         var serializer = new JsonSerializer();
         serializer.Populate(new StringReader(@"[{""Name"":""James""},{""Name"":""Jim""}]"), p);
 
-        Assert.AreEqual(2, p.Count);
-        Assert.AreEqual("James", p[0].Name);
-        Assert.AreEqual("Jim", p[1].Name);
+        Xunit.Assert.Equal(2, p.Count);
+        Xunit.Assert.Equal("James", p[0].Name);
+        Xunit.Assert.Equal("Jim", p[1].Name);
     }
 
     [Fact]
@@ -144,8 +144,8 @@ public class PopulateTests : TestFixtureBase
         var serializer = new JsonSerializer();
         serializer.Populate(new StringReader(@"{""Name"":""James""}"), p);
 
-        Assert.AreEqual(1, p.Count);
-        Assert.AreEqual("James", p["Name"]);
+        Xunit.Assert.Equal(1, p.Count);
+        Xunit.Assert.Equal("James", p["Name"]);
     }
 
     [Fact]

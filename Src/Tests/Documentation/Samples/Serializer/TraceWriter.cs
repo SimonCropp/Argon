@@ -68,6 +68,6 @@ public class TraceWriter : TestFixtureBase
         // }
         #endregion
 
-        Assert.AreEqual(4, traceWriter.GetTraceMessages().Count());
+        Xunit.Assert.Equal(4, traceWriter.GetTraceMessages().Count());
     }
 }

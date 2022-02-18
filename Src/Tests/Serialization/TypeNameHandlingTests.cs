@@ -142,19 +142,19 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Objects
         });
 
-        Assert.AreEqual(1, value.Array2D[0, 0]);
-        Assert.AreEqual(2, value.Array2D[0, 1]);
-        Assert.AreEqual(2, value.Array2D[1, 0]);
-        Assert.AreEqual(4, value.Array2D[1, 1]);
-        Assert.AreEqual(3, value.Array2D[2, 0]);
-        Assert.AreEqual(6, value.Array2D[2, 1]);
+        Xunit.Assert.Equal(1, value.Array2D[0, 0]);
+        Xunit.Assert.Equal(2, value.Array2D[0, 1]);
+        Xunit.Assert.Equal(2, value.Array2D[1, 0]);
+        Xunit.Assert.Equal(4, value.Array2D[1, 1]);
+        Xunit.Assert.Equal(3, value.Array2D[2, 0]);
+        Xunit.Assert.Equal(6, value.Array2D[2, 1]);
 
-        Assert.AreEqual(1, value.Array3D[0, 0, 0]);
-        Assert.AreEqual(2, value.Array3D[0, 0, 1]);
-        Assert.AreEqual(3, value.Array3D[0, 0, 2]);
-        Assert.AreEqual(4, value.Array3D[0, 1, 0]);
-        Assert.AreEqual(5, value.Array3D[0, 1, 1]);
-        Assert.AreEqual(6, value.Array3D[0, 1, 2]);
+        Xunit.Assert.Equal(1, value.Array3D[0, 0, 0]);
+        Xunit.Assert.Equal(2, value.Array3D[0, 0, 1]);
+        Xunit.Assert.Equal(3, value.Array3D[0, 0, 2]);
+        Xunit.Assert.Equal(4, value.Array3D[0, 1, 0]);
+        Xunit.Assert.Equal(5, value.Array3D[0, 1, 1]);
+        Xunit.Assert.Equal(6, value.Array3D[0, 1, 2]);
     }
 
     [Fact]
@@ -240,9 +240,9 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.All
         });
 
-        Assert.AreEqual(1, t2.Item1);
-        Assert.AreEqual(2, t2.Item2);
-        Assert.AreEqual("string", t2.Item3);
+        Xunit.Assert.Equal(1, t2.Item1);
+        Xunit.Assert.Equal(2, t2.Item2);
+        Xunit.Assert.Equal("string", t2.Item3);
     }
 
     public class KnownAutoTypes
@@ -540,7 +540,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         });
 
         Xunit.Assert.IsType(typeof(EmployeeReference), employee);
-        Assert.AreEqual("Name!", ((EmployeeReference)employee).Name);
+        Xunit.Assert.Equal("Name!", ((EmployeeReference)employee).Name);
     }
 
     [Fact]
@@ -651,20 +651,20 @@ public class TypeNameHandlingTests : TestFixtureBase
 #pragma warning restore 618
         });
 
-        Assert.AreEqual(4, values.Count);
+        Xunit.Assert.Equal(4, values.Count);
 
         var e = (EmployeeReference)values[0];
         var p = (Person)values[1];
 
-        Assert.AreEqual("Bob", e.Name);
-        Assert.AreEqual("Frank", e.Manager.Name);
+        Xunit.Assert.Equal("Bob", e.Name);
+        Xunit.Assert.Equal("Frank", e.Manager.Name);
 
-        Assert.AreEqual(null, p.Name);
-        Assert.AreEqual(new DateTime(2000, 12, 30, 0, 0, 0, DateTimeKind.Utc), p.BirthDate);
-        Assert.AreEqual(new DateTime(2000, 12, 30, 0, 0, 0, DateTimeKind.Utc), p.LastModified);
+        Xunit.Assert.Equal(null, p.Name);
+        Xunit.Assert.Equal(new DateTime(2000, 12, 30, 0, 0, 0, DateTimeKind.Utc), p.BirthDate);
+        Xunit.Assert.Equal(new DateTime(2000, 12, 30, 0, 0, 0, DateTimeKind.Utc), p.LastModified);
 
-        Assert.AreEqual("String!", values[2]);
-        Assert.AreEqual((long)int.MinValue, values[3]);
+        Xunit.Assert.Equal("String!", values[2]);
+        Xunit.Assert.Equal((long)int.MinValue, values[3]);
     }
 
     [Fact]
@@ -788,9 +788,9 @@ public class TypeNameHandlingTests : TestFixtureBase
         Xunit.Assert.IsType(typeof(SendHttpRequest), message);
 
         var request = (SendHttpRequest)message;
-        Assert.AreEqual("xyz", request.CorrelationId);
-        Assert.AreEqual(2, request.RequestData.Count);
-        Assert.AreEqual("siedemnaście", request.RequestData["Id"]);
+        Xunit.Assert.Equal("xyz", request.CorrelationId);
+        Xunit.Assert.Equal(2, request.RequestData.Count);
+        Xunit.Assert.Equal("siedemnaście", request.RequestData["Id"]);
     }
 
     [Fact]
@@ -862,12 +862,12 @@ public class TypeNameHandlingTests : TestFixtureBase
 }", json);
 
         var deserialized = JsonConvert.DeserializeObject<TypeNameProperty>(json);
-        Assert.AreEqual("Name!", deserialized.Name);
+        Xunit.Assert.Equal("Name!", deserialized.Name);
         Xunit.Assert.IsType(typeof(TypeNameProperty), deserialized.Value);
 
         var nested = (TypeNameProperty)deserialized.Value;
-        Assert.AreEqual("Nested!", nested.Name);
-        Assert.AreEqual(null, nested.Value);
+        Xunit.Assert.Equal("Nested!", nested.Name);
+        Xunit.Assert.Equal(null, nested.Value);
     }
 
     [Fact]
@@ -898,16 +898,16 @@ public class TypeNameHandlingTests : TestFixtureBase
 }", json);
 
         var deserialized = JsonConvert.DeserializeObject<TypeNameProperty>(json);
-        Assert.AreEqual("Name!", deserialized.Name);
+        Xunit.Assert.Equal("Name!", deserialized.Name);
         Xunit.Assert.IsType(typeof(List<int>), deserialized.Value);
 
         var nested = (List<int>)deserialized.Value;
-        Assert.AreEqual(5, nested.Count);
-        Assert.AreEqual(1, nested[0]);
-        Assert.AreEqual(2, nested[1]);
-        Assert.AreEqual(3, nested[2]);
-        Assert.AreEqual(4, nested[3]);
-        Assert.AreEqual(5, nested[4]);
+        Xunit.Assert.Equal(5, nested.Count);
+        Xunit.Assert.Equal(1, nested[0]);
+        Xunit.Assert.Equal(2, nested[1]);
+        Xunit.Assert.Equal(3, nested[2]);
+        Xunit.Assert.Equal(4, nested[3]);
+        Xunit.Assert.Equal(5, nested[4]);
     }
 
     [Fact]
@@ -931,7 +931,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var person = (Person)p;
 
-        Assert.AreEqual("Name!", person.Name);
+        Xunit.Assert.Equal("Name!", person.Name);
     }
 
     public class CustomSerializationBinder : SerializationBinder
@@ -1005,11 +1005,11 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         Xunit.Assert.IsType(typeof(Customer), newValues[0]);
         var customer = (Customer)newValues[0];
-        Assert.AreEqual("Caroline Customer", customer.Name);
+        Xunit.Assert.Equal("Caroline Customer", customer.Name);
 
         Xunit.Assert.IsType(typeof(Purchase), newValues[1]);
         var purchase = (Purchase)newValues[1];
-        Assert.AreEqual("Elbow Grease", purchase.ProductName);
+        Xunit.Assert.Equal("Elbow Grease", purchase.ProductName);
     }
 
     public class TypeNameSerializationBinder : SerializationBinder
@@ -1094,11 +1094,11 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         Xunit.Assert.IsType(typeof(Customer), newValues[0]);
         var customer = (Customer)newValues[0];
-        Assert.AreEqual("Caroline Customer", customer.Name);
+        Xunit.Assert.Equal("Caroline Customer", customer.Name);
 
         Xunit.Assert.IsType(typeof(Purchase), newValues[1]);
         var purchase = (Purchase)newValues[1];
-        Assert.AreEqual("Elbow Grease", purchase.ProductName);
+        Xunit.Assert.Equal("Elbow Grease", purchase.ProductName);
     }
 
     public class NewTypeNameSerializationBinder : ISerializationBinder
@@ -1192,12 +1192,12 @@ public class TypeNameHandlingTests : TestFixtureBase
         Xunit.Assert.NotNull(anotherTestObject);
         Xunit.Assert.IsType(typeof(ContentSubClass), anotherTestObject.TestMember);
         Xunit.Assert.IsType(typeof(Dictionary<int, IList<ContentBaseClass>>), anotherTestObject.AnotherTestMember);
-        Assert.AreEqual(1, anotherTestObject.AnotherTestMember.Count);
+        Xunit.Assert.Equal(1, anotherTestObject.AnotherTestMember.Count);
 
         var list = anotherTestObject.AnotherTestMember[1];
 
         Xunit.Assert.IsType(typeof(List<ContentBaseClass>), list);
-        Assert.AreEqual(1, list.Count);
+        Xunit.Assert.Equal(1, list.Count);
         Xunit.Assert.IsType(typeof(ContentSubClass), list[0]);
     }
 
@@ -1304,11 +1304,11 @@ public class TypeNameHandlingTests : TestFixtureBase
         Xunit.Assert.IsType(typeof(Dictionary<string, object>), c);
 
         var newCollection = (Dictionary<string, object>)c;
-        Assert.AreEqual(3, newCollection.Count);
-        Assert.AreEqual(@"http://www.bing.com", ((UrlStatus)newCollection["First"]).Url);
+        Xunit.Assert.Equal(3, newCollection.Count);
+        Xunit.Assert.Equal(@"http://www.bing.com", ((UrlStatus)newCollection["First"]).Url);
 
         var statues = (List<UrlStatus>)newCollection["List"];
-        Assert.AreEqual(2, statues.Count);
+        Xunit.Assert.Equal(2, statues.Count);
     }
 
     [Fact]
@@ -1477,7 +1477,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         var f = serializer.Deserialize<SerializableWrapper>(new JsonTextReader(new StringReader(writer.ToString())));
 
         //Check Round Trip
-        Assert.AreEqual(e, f);
+        Xunit.Assert.Equal(e, f);
     }
 
     [Fact]
@@ -1504,7 +1504,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var o = JObject.Parse(json);
 
-        Assert.AreEqual(":::MESSAGE:::, AssemblyName", (string)o["$type"]);
+        Xunit.Assert.Equal(":::MESSAGE:::, AssemblyName", (string)o["$type"]);
     }
 
     public class MetroBinder : SerializationBinder
@@ -1579,7 +1579,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 ]", json);
 
         var l2 = JsonConvert.DeserializeObject<TypeNameList<object>>(json);
-        Assert.AreEqual(4, l2.Count);
+        Xunit.Assert.Equal(4, l2.Count);
 
         Xunit.Assert.IsType(typeof(TestComponentSimple), l2[0]);
         Xunit.Assert.IsType(typeof(Employee), l2[1]);
@@ -1608,10 +1608,10 @@ public class TypeNameHandlingTests : TestFixtureBase
 }", json);
 
         var l2 = JsonConvert.DeserializeObject<TypeNameDictionary<object>>(json);
-        Assert.AreEqual(3, l2.Count);
+        Xunit.Assert.Equal(3, l2.Count);
 
         Xunit.Assert.IsType(typeof(TestComponentSimple), l2["First"]);
-        Assert.AreEqual(1, ((TestComponentSimple)l2["First"]).MyProperty);
+        Xunit.Assert.Equal(1, ((TestComponentSimple)l2["First"]).MyProperty);
         Xunit.Assert.IsType(typeof(string), l2["Second"]);
         Xunit.Assert.IsType(typeof(long), l2["Third"]);
     }
@@ -1647,7 +1647,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         Xunit.Assert.NotNull(o2);
 
         Xunit.Assert.IsType(typeof(TestComponentSimple), o2.Object1);
-        Assert.AreEqual(1, ((TestComponentSimple)o2.Object1).MyProperty);
+        Xunit.Assert.Equal(1, ((TestComponentSimple)o2.Object1).MyProperty);
         Xunit.Assert.IsType(typeof(long), o2.Object2);
         Xunit.Assert.IsType(typeof(JObject), o2.ObjectNotHandled);
         StringAssert.AreEqual(@"{
@@ -1681,13 +1681,13 @@ public class TypeNameHandlingTests : TestFixtureBase
 }", json);
 
         var c2 = JsonConvert.DeserializeObject<PropertyItemTypeNameHandling>(json);
-        Assert.AreEqual(3, c2.Data.Count);
+        Xunit.Assert.Equal(3, c2.Data.Count);
 
         Xunit.Assert.IsType(typeof(long), c2.Data[0]);
         Xunit.Assert.IsType(typeof(string), c2.Data[1]);
         Xunit.Assert.IsType(typeof(TestComponentSimple), c2.Data[2]);
         var c = (TestComponentSimple)c2.Data[2];
-        Assert.AreEqual(1, c.MyProperty);
+        Xunit.Assert.Equal(1, c.MyProperty);
     }
 
     [Fact]
@@ -1730,7 +1730,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 }", json);
 
         var c2 = JsonConvert.DeserializeObject<PropertyItemTypeNameHandling>(json);
-        Assert.AreEqual(2, c2.Data.Count);
+        Xunit.Assert.Equal(2, c2.Data.Count);
 
         Xunit.Assert.IsType(typeof(TestComponentSimple), c2.Data[0]);
         Xunit.Assert.IsType(typeof(List<object>), c2.Data[1]);
@@ -1756,14 +1756,14 @@ public class TypeNameHandlingTests : TestFixtureBase
 }";
 
         c2 = JsonConvert.DeserializeObject<PropertyItemTypeNameHandling>(json);
-        Assert.AreEqual(2, c2.Data.Count);
+        Xunit.Assert.Equal(2, c2.Data.Count);
 
         Xunit.Assert.IsType(typeof(TestComponentSimple), c2.Data[0]);
         Xunit.Assert.IsType(typeof(List<object>), c2.Data[1]);
         c = (List<object>)c2.Data[1];
         Xunit.Assert.IsType(typeof(JObject), c[0]);
         var o = (JObject)c[0];
-        Assert.AreEqual(1, (int)o["MyProperty"]);
+        Xunit.Assert.Equal(1, (int)o["MyProperty"]);
     }
 
     [Fact]
@@ -1810,7 +1810,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 }", json);
 
         var c2 = JsonConvert.DeserializeObject<PropertyItemTypeNameHandlingDictionary>(json);
-        Assert.AreEqual(2, c2.Data.Count);
+        Xunit.Assert.Equal(2, c2.Data.Count);
 
         Xunit.Assert.IsType(typeof(TestComponentSimple), c2.Data["one"]);
         Xunit.Assert.IsType(typeof(Dictionary<string, object>), c2.Data["two"]);
@@ -1834,7 +1834,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 }";
 
         c2 = JsonConvert.DeserializeObject<PropertyItemTypeNameHandlingDictionary>(json);
-        Assert.AreEqual(2, c2.Data.Count);
+        Xunit.Assert.Equal(2, c2.Data.Count);
 
         Xunit.Assert.IsType(typeof(TestComponentSimple), c2.Data["one"]);
         Xunit.Assert.IsType(typeof(Dictionary<string, object>), c2.Data["two"]);
@@ -1842,7 +1842,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         Xunit.Assert.IsType(typeof(JObject), c["one"]);
 
         var o = (JObject)c["one"];
-        Assert.AreEqual(1, (int)o["MyProperty"]);
+        Xunit.Assert.Equal(1, (int)o["MyProperty"]);
     }
 
     [Fact]
@@ -1902,7 +1902,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var o = (List<object>)o2.Data.Prop1;
         var j = (JObject)o[0];
-        Assert.AreEqual(1, (int)j["MyProperty"]);
+        Xunit.Assert.Equal(1, (int)j["MyProperty"]);
     }
 
     [Fact]
@@ -1948,11 +1948,11 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         dynamic data3 = d2.Data;
         var c = (TestComponentSimple)data3.one;
-        Assert.AreEqual(1, c.MyProperty);
+        Xunit.Assert.Equal(1, c.MyProperty);
 
         var data4 = data3.two;
         var o = (JObject)data4.one;
-        Assert.AreEqual(2, (int)o["MyProperty"]);
+        Xunit.Assert.Equal(2, (int)o["MyProperty"]);
 
         json = @"{
   ""Data"": {
@@ -1974,7 +1974,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         data3 = d2.Data;
         data4 = data3.two;
         o = (JObject)data4.one;
-        Assert.AreEqual(2, (int)o["MyProperty"]);
+        Xunit.Assert.Equal(2, (int)o["MyProperty"]);
     }
 
     [Fact]
@@ -2001,7 +2001,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var deserializedObject = (Dictionary<string, Guid>)JsonConvert.DeserializeObject(serializedString, jsonSerializerSettings);
 
-        Assert.AreEqual(someValue, deserializedObject[contextKey]);
+        Xunit.Assert.Equal(someValue, deserializedObject[contextKey]);
     }
 
     [Fact]
@@ -2036,7 +2036,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var p2 = JsonConvert.DeserializeObject<MyParent>(json, settings);
         Xunit.Assert.IsType(typeof(MyChild), p2.Child);
-        Assert.AreEqual("string!", ((MyChild)p2.Child).MyProperty);
+        Xunit.Assert.Equal("string!", ((MyChild)p2.Child).MyProperty);
     }
 
     [Fact]
@@ -2073,8 +2073,8 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var p2 = JsonConvert.DeserializeObject<MyParent>(json, settings);
         Xunit.Assert.IsType(typeof(MyChildList), p2.Child);
-        Assert.AreEqual(1, ((MyChildList)p2.Child).Count);
-        Assert.AreEqual("string!", ((MyChildList)p2.Child)[0]);
+        Xunit.Assert.Equal(1, ((MyChildList)p2.Child).Count);
+        Xunit.Assert.Equal("string!", ((MyChildList)p2.Child)[0]);
     }
 
     [Fact]
@@ -2114,7 +2114,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         var pp2 = JsonConvert.DeserializeObject<ParentParent>(json, settings);
         var p2 = pp2.ParentProp;
         Xunit.Assert.IsType(typeof(MyChild), p2.Child);
-        Assert.AreEqual("string!", ((MyChild)p2.Child).MyProperty);
+        Xunit.Assert.Equal("string!", ((MyChild)p2.Child).MyProperty);
     }
 
     [Fact]
@@ -2143,9 +2143,9 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var strings = output.SelectMany(s => s).ToList();
 
-        Assert.AreEqual(9, strings.Count);
-        Assert.AreEqual("One", strings[0]);
-        Assert.AreEqual("Nine", strings[8]);
+        Xunit.Assert.Equal(9, strings.Count);
+        Xunit.Assert.Equal("One", strings[0]);
+        Xunit.Assert.Equal("Nine", strings[8]);
     }
 
     [Fact]
@@ -2171,7 +2171,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         });
 
         var item = (ReportItemKeys)g.ItemIdentifier;
-        Assert.AreEqual(1UL, item.WantedUnitID);
+        Xunit.Assert.Equal(1UL, item.WantedUnitID);
     }
 
     [Fact]
@@ -2198,7 +2198,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var deserialized = JsonConvert.DeserializeObject<DataType>(serialized);
 
-        Assert.AreEqual("property", deserialized.Rows["key"].First().SomeProperty);
+        Xunit.Assert.Equal("property", deserialized.Rows["key"].First().SomeProperty);
     }
 
 #if !NET5_0_OR_GREATER
@@ -2325,7 +2325,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         var binder = serializer.SerializationBinder;
 
         Xunit.Assert.IsType(typeof(SerializationBinderAdapter), binder);
-        Assert.AreEqual(typeof(string), binder.BindToType(null, null));
+        Xunit.Assert.Equal(typeof(string), binder.BindToType(null, null));
     }
 
     public class FancyBinder : ISerializationBinder

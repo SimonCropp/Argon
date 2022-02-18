@@ -41,11 +41,11 @@ public class SerializationEventAttributeTests : TestFixtureBase
         {
             var obj = current;
 
-            Assert.AreEqual(11, obj.Member1);
-            Assert.AreEqual("Hello World!", obj.Member2);
-            Assert.AreEqual("This is a nonserialized value", obj.Member3);
-            Assert.AreEqual(null, obj.Member4);
-            Assert.AreEqual(null, obj.Member5);
+            Xunit.Assert.Equal(11, obj.Member1);
+            Xunit.Assert.Equal("Hello World!", obj.Member2);
+            Xunit.Assert.Equal("This is a nonserialized value", obj.Member3);
+            Xunit.Assert.Equal(null, obj.Member4);
+            Xunit.Assert.Equal(null, obj.Member5);
 
             var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
             StringAssert.AreEqual(@"{
@@ -54,13 +54,13 @@ public class SerializationEventAttributeTests : TestFixtureBase
   ""Member4"": null
 }", json);
 
-            Assert.AreEqual(11, obj.Member1);
-            Assert.AreEqual("This value was reset after serialization.", obj.Member2);
-            Assert.AreEqual("This is a nonserialized value", obj.Member3);
-            Assert.AreEqual(null, obj.Member4);
+            Xunit.Assert.Equal(11, obj.Member1);
+            Xunit.Assert.Equal("This value was reset after serialization.", obj.Member2);
+            Xunit.Assert.Equal("This is a nonserialized value", obj.Member3);
+            Xunit.Assert.Equal(null, obj.Member4);
 
             var expectedError = String.Format("Error message for member Member6 = Error getting value from 'Member6' on '{0}'.", obj.GetType().FullName);
-            Assert.AreEqual(expectedError, obj.Member5);
+            Xunit.Assert.Equal(expectedError, obj.Member5);
 
             var o = JObject.Parse(@"{
   ""Member1"": 11,
@@ -71,18 +71,18 @@ public class SerializationEventAttributeTests : TestFixtureBase
 
             obj = (SerializationEventTestObject)JsonConvert.DeserializeObject(o.ToString(), obj.GetType());
 
-            Assert.AreEqual(11, obj.Member1);
-            Assert.AreEqual("This value went into the data file during serialization.", obj.Member2);
-            Assert.AreEqual("This value was set during deserialization", obj.Member3);
-            Assert.AreEqual("This value was set after deserialization.", obj.Member4);
+            Xunit.Assert.Equal(11, obj.Member1);
+            Xunit.Assert.Equal("This value went into the data file during serialization.", obj.Member2);
+            Xunit.Assert.Equal("This value was set during deserialization", obj.Member3);
+            Xunit.Assert.Equal("This value was set after deserialization.", obj.Member4);
 
             expectedError = String.Format("Error message for member Member6 = Error setting value to 'Member6' on '{0}'.", obj.GetType());
-            Assert.AreEqual(expectedError, obj.Member5);
+            Xunit.Assert.Equal(expectedError, obj.Member5);
 
             var derivedObj = obj as DerivedSerializationEventTestObject;
             if (derivedObj != null)
             {
-                Assert.AreEqual("This value was set after deserialization.", derivedObj.Member7);
+                Xunit.Assert.Equal("This value was set after deserialization.", derivedObj.Member7);
             }
         }
     }
@@ -92,10 +92,10 @@ public class SerializationEventAttributeTests : TestFixtureBase
     {
         var obj = new SerializationEventTestObjectWithConstructor(11, "Hello World!", null);
 
-        Assert.AreEqual(11, obj.Member1);
-        Assert.AreEqual("Hello World!", obj.Member2);
-        Assert.AreEqual("This is a nonserialized value", obj.Member3);
-        Assert.AreEqual(null, obj.Member4);
+        Xunit.Assert.Equal(11, obj.Member1);
+        Xunit.Assert.Equal("Hello World!", obj.Member2);
+        Xunit.Assert.Equal("This is a nonserialized value", obj.Member3);
+        Xunit.Assert.Equal(null, obj.Member4);
 
         var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
         StringAssert.AreEqual(@"{
@@ -104,17 +104,17 @@ public class SerializationEventAttributeTests : TestFixtureBase
   ""Member4"": null
 }", json);
 
-        Assert.AreEqual(11, obj.Member1);
-        Assert.AreEqual("This value was reset after serialization.", obj.Member2);
-        Assert.AreEqual("This is a nonserialized value", obj.Member3);
-        Assert.AreEqual(null, obj.Member4);
+        Xunit.Assert.Equal(11, obj.Member1);
+        Xunit.Assert.Equal("This value was reset after serialization.", obj.Member2);
+        Xunit.Assert.Equal("This is a nonserialized value", obj.Member3);
+        Xunit.Assert.Equal(null, obj.Member4);
 
         obj = JsonConvert.DeserializeObject<SerializationEventTestObjectWithConstructor>(json);
 
-        Assert.AreEqual(11, obj.Member1);
-        Assert.AreEqual("This value went into the data file during serialization.", obj.Member2);
-        Assert.AreEqual("This value was set during deserialization", obj.Member3);
-        Assert.AreEqual("This value was set after deserialization.", obj.Member4);
+        Xunit.Assert.Equal(11, obj.Member1);
+        Xunit.Assert.Equal("This value went into the data file during serialization.", obj.Member2);
+        Xunit.Assert.Equal("This value was set during deserialization", obj.Member3);
+        Xunit.Assert.Equal("This value was set after deserialization.", obj.Member4);
     }
 
     [Fact]
@@ -128,10 +128,10 @@ public class SerializationEventAttributeTests : TestFixtureBase
             Convert.ToDecimal(Math.PI)
         };
 
-        Assert.AreEqual(11, obj.Member1);
-        Assert.AreEqual("Hello World!", obj.Member2);
-        Assert.AreEqual("This is a nonserialized value", obj.Member3);
-        Assert.AreEqual(null, obj.Member4);
+        Xunit.Assert.Equal(11, obj.Member1);
+        Xunit.Assert.Equal("Hello World!", obj.Member2);
+        Xunit.Assert.Equal("This is a nonserialized value", obj.Member3);
+        Xunit.Assert.Equal(null, obj.Member4);
 
         var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
         StringAssert.AreEqual(@"[
@@ -142,17 +142,17 @@ public class SerializationEventAttributeTests : TestFixtureBase
   3.14159265358979
 ]", json);
 
-        Assert.AreEqual(11, obj.Member1);
-        Assert.AreEqual("This value was reset after serialization.", obj.Member2);
-        Assert.AreEqual("This is a nonserialized value", obj.Member3);
-        Assert.AreEqual(null, obj.Member4);
+        Xunit.Assert.Equal(11, obj.Member1);
+        Xunit.Assert.Equal("This value was reset after serialization.", obj.Member2);
+        Xunit.Assert.Equal("This is a nonserialized value", obj.Member3);
+        Xunit.Assert.Equal(null, obj.Member4);
 
         obj = JsonConvert.DeserializeObject<SerializationEventTestList>(json);
 
-        Assert.AreEqual(11, obj.Member1);
-        Assert.AreEqual("Hello World!", obj.Member2);
-        Assert.AreEqual("This value was set during deserialization", obj.Member3);
-        Assert.AreEqual("This value was set after deserialization.", obj.Member4);
+        Xunit.Assert.Equal(11, obj.Member1);
+        Xunit.Assert.Equal("Hello World!", obj.Member2);
+        Xunit.Assert.Equal("This value was set during deserialization", obj.Member3);
+        Xunit.Assert.Equal("This value was set after deserialization.", obj.Member4);
     }
 
     [Fact]
@@ -166,10 +166,10 @@ public class SerializationEventAttributeTests : TestFixtureBase
             { Convert.ToDecimal(Math.PI), "fourth" }
         };
 
-        Assert.AreEqual(11, obj.Member1);
-        Assert.AreEqual("Hello World!", obj.Member2);
-        Assert.AreEqual("This is a nonserialized value", obj.Member3);
-        Assert.AreEqual(null, obj.Member4);
+        Xunit.Assert.Equal(11, obj.Member1);
+        Xunit.Assert.Equal("Hello World!", obj.Member2);
+        Xunit.Assert.Equal("This is a nonserialized value", obj.Member3);
+        Xunit.Assert.Equal(null, obj.Member4);
 
         var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
         StringAssert.AreEqual(@"{
@@ -180,17 +180,17 @@ public class SerializationEventAttributeTests : TestFixtureBase
   ""79228162514264337593543950335"": ""Inserted on serializing""
 }", json);
 
-        Assert.AreEqual(11, obj.Member1);
-        Assert.AreEqual("This value was reset after serialization.", obj.Member2);
-        Assert.AreEqual("This is a nonserialized value", obj.Member3);
-        Assert.AreEqual(null, obj.Member4);
+        Xunit.Assert.Equal(11, obj.Member1);
+        Xunit.Assert.Equal("This value was reset after serialization.", obj.Member2);
+        Xunit.Assert.Equal("This is a nonserialized value", obj.Member3);
+        Xunit.Assert.Equal(null, obj.Member4);
 
         obj = JsonConvert.DeserializeObject<SerializationEventTestDictionary>(json);
 
-        Assert.AreEqual(11, obj.Member1);
-        Assert.AreEqual("Hello World!", obj.Member2);
-        Assert.AreEqual("This value was set during deserialization", obj.Member3);
-        Assert.AreEqual("This value was set after deserialization.", obj.Member4);
+        Xunit.Assert.Equal(11, obj.Member1);
+        Xunit.Assert.Equal("Hello World!", obj.Member2);
+        Xunit.Assert.Equal("This value was set during deserialization", obj.Member3);
+        Xunit.Assert.Equal("This value was set after deserialization.", obj.Member4);
     }
 
     [Fact]
@@ -198,11 +198,11 @@ public class SerializationEventAttributeTests : TestFixtureBase
     {
         var obj = new SerializationEventTestObject();
 
-        Assert.AreEqual(11, obj.Member1);
-        Assert.AreEqual("Hello World!", obj.Member2);
-        Assert.AreEqual("This is a nonserialized value", obj.Member3);
-        Assert.AreEqual(null, obj.Member4);
-        Assert.AreEqual(null, obj.Member5);
+        Xunit.Assert.Equal(11, obj.Member1);
+        Xunit.Assert.Equal("Hello World!", obj.Member2);
+        Xunit.Assert.Equal("This is a nonserialized value", obj.Member3);
+        Xunit.Assert.Equal(null, obj.Member4);
+        Xunit.Assert.Equal(null, obj.Member5);
 
         var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
         StringAssert.AreEqual(@"{
@@ -211,19 +211,19 @@ public class SerializationEventAttributeTests : TestFixtureBase
   ""Member4"": null
 }", json);
 
-        Assert.AreEqual(11, obj.Member1);
-        Assert.AreEqual("This value was reset after serialization.", obj.Member2);
-        Assert.AreEqual("This is a nonserialized value", obj.Member3);
-        Assert.AreEqual(null, obj.Member4);
-        Assert.AreEqual("Error message for member Member6 = Error getting value from 'Member6' on 'Argon.Tests.TestObjects.SerializationEventTestObject'.", obj.Member5);
+        Xunit.Assert.Equal(11, obj.Member1);
+        Xunit.Assert.Equal("This value was reset after serialization.", obj.Member2);
+        Xunit.Assert.Equal("This is a nonserialized value", obj.Member3);
+        Xunit.Assert.Equal(null, obj.Member4);
+        Xunit.Assert.Equal("Error message for member Member6 = Error getting value from 'Member6' on 'Argon.Tests.TestObjects.SerializationEventTestObject'.", obj.Member5);
 
         obj = JsonConvert.DeserializeObject<SerializationEventTestObject>(json);
 
-        Assert.AreEqual(11, obj.Member1);
-        Assert.AreEqual("This value went into the data file during serialization.", obj.Member2);
-        Assert.AreEqual("This value was set during deserialization", obj.Member3);
-        Assert.AreEqual("This value was set after deserialization.", obj.Member4);
-        Assert.AreEqual(null, obj.Member5);
+        Xunit.Assert.Equal(11, obj.Member1);
+        Xunit.Assert.Equal("This value went into the data file during serialization.", obj.Member2);
+        Xunit.Assert.Equal("This value was set during deserialization", obj.Member3);
+        Xunit.Assert.Equal("This value was set after deserialization.", obj.Member4);
+        Xunit.Assert.Equal(null, obj.Member5);
     }
 
     public class SerializationEventBaseTestObject
@@ -287,7 +287,7 @@ public class SerializationEventAttributeTests : TestFixtureBase
         // Verify contract is properly finding our callback
         var resolver = new DefaultContractResolver().ResolveContract(typeof(FooEvent));
 
-        Assert.AreEqual(resolver.OnErrorCallbacks.Count, 1);
+        Xunit.Assert.Equal(resolver.OnErrorCallbacks.Count, 1);
 
         var serializer = JsonSerializer.Create(new JsonSerializerSettings
         {
@@ -300,7 +300,7 @@ public class SerializationEventAttributeTests : TestFixtureBase
         var foo = serializer.Deserialize<FooEvent>(new JsonTextReader(new StringReader("{ Id: 25 }")));
 
         // When fixed, this would pass.
-        Assert.AreEqual(25, foo.Identifier);
+        Xunit.Assert.Equal(25, foo.Identifier);
     }
 
     public class FooEvent

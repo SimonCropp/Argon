@@ -46,16 +46,16 @@ public class ConvertUtilsTests : TestFixtureBase
                 && !(s.StartsWith("-0") && s.Length > 2 && !s.StartsWith("-0.") && !s.StartsWith("-0e", StringComparison.OrdinalIgnoreCase))
                 && s.IndexOf(".e", StringComparison.OrdinalIgnoreCase) == -1;
 
-            Assert.AreEqual(expectedResult, result);
-            Assert.AreEqual(expectedResult == ParseResult.Success, result2);
+            Xunit.Assert.Equal(expectedResult, result);
+            Xunit.Assert.Equal(expectedResult == ParseResult.Success, result2);
 
             if (result2)
             {
                 Xunit.Assert.True(expectedValue.HasValue);
 
-                Assert.AreEqual(expectedValue.Value, d, "Input string: " + s);
+                Xunit.Assert.Equal(expectedValue.Value, d, "Input string: " + s);
 
-                Assert.AreEqual(expectedValue.Value, d2, "DoubleTryParse result is not equal to double.Parse. Input string: " + s);
+                Xunit.Assert.Equal(expectedValue.Value, d2, "DoubleTryParse result is not equal to double.Parse. Input string: " + s);
             }
         }
 
@@ -164,18 +164,18 @@ public class ConvertUtilsTests : TestFixtureBase
                       && !(s.StartsWith("-0") && s.Length > 2 && !s.StartsWith("-0.") && !s.StartsWith("-0e", StringComparison.OrdinalIgnoreCase))
                       && s.IndexOf(".e", StringComparison.OrdinalIgnoreCase) == -1;
 
-        Assert.AreEqual(expectedResult, result);
-        Assert.AreEqual(expectedResult == ParseResult.Success, result2);
+        Xunit.Assert.Equal(expectedResult, result);
+        Xunit.Assert.Equal(expectedResult == ParseResult.Success, result2);
 
         if (result2)
         {
             Xunit.Assert.True(expectedValue.HasValue);
 
-            Assert.AreEqual(expectedValue.Value, d);
+            Xunit.Assert.Equal(expectedValue.Value, d);
 
-            Assert.AreEqual(expectedValue.Value, d2);
+            Xunit.Assert.Equal(expectedValue.Value, d2);
 
-            Assert.AreEqual(expectedValue.Value.ToString(), d.ToString());
+            Xunit.Assert.Equal(expectedValue.Value.ToString(), d.ToString());
         }
     }
 
@@ -255,38 +255,38 @@ public class ConvertUtilsTests : TestFixtureBase
     {
         var c = "43443333222211111117".ToCharArray();
         var result = ConvertUtils.Int64TryParse(c, 0, c.Length, out var l);
-        Assert.AreEqual(ParseResult.Overflow, result);
+        Xunit.Assert.Equal(ParseResult.Overflow, result);
 
         c = "9223372036854775807".ToCharArray();
         result = ConvertUtils.Int64TryParse(c, 0, c.Length, out l);
-        Assert.AreEqual(ParseResult.Success, result);
-        Assert.AreEqual(9223372036854775807L, l);
+        Xunit.Assert.Equal(ParseResult.Success, result);
+        Xunit.Assert.Equal(9223372036854775807L, l);
 
         c = "9223372036854775808".ToCharArray();
         result = ConvertUtils.Int64TryParse(c, 0, c.Length, out l);
-        Assert.AreEqual(ParseResult.Overflow, result);
+        Xunit.Assert.Equal(ParseResult.Overflow, result);
 
         for (var i = 3; i < 10; i++)
         {
             c = ("9" + i + "23372036854775807").ToCharArray();
             result = ConvertUtils.Int64TryParse(c, 0, c.Length, out l);
-            Assert.AreEqual(ParseResult.Overflow, result);
+            Xunit.Assert.Equal(ParseResult.Overflow, result);
         }
 
         c = "-9223372036854775808".ToCharArray();
         result = ConvertUtils.Int64TryParse(c, 0, c.Length, out l);
-        Assert.AreEqual(ParseResult.Success, result);
-        Assert.AreEqual(-9223372036854775808L, l);
+        Xunit.Assert.Equal(ParseResult.Success, result);
+        Xunit.Assert.Equal(-9223372036854775808L, l);
 
         c = "-9223372036854775809".ToCharArray();
         result = ConvertUtils.Int64TryParse(c, 0, c.Length, out l);
-        Assert.AreEqual(ParseResult.Overflow, result);
+        Xunit.Assert.Equal(ParseResult.Overflow, result);
 
         for (var i = 3; i < 10; i++)
         {
             c = ("-9" + i + "23372036854775808").ToCharArray();
             result = ConvertUtils.Int64TryParse(c, 0, c.Length, out l);
-            Assert.AreEqual(ParseResult.Overflow, result);
+            Xunit.Assert.Equal(ParseResult.Overflow, result);
         }
     }
 
@@ -295,25 +295,25 @@ public class ConvertUtilsTests : TestFixtureBase
     {
         var c = "43443333227".ToCharArray();
         var result = ConvertUtils.Int32TryParse(c, 0, c.Length, out var i);
-        Assert.AreEqual(ParseResult.Overflow, result);
+        Xunit.Assert.Equal(ParseResult.Overflow, result);
 
         c = "2147483647".ToCharArray();
         result = ConvertUtils.Int32TryParse(c, 0, c.Length, out i);
-        Assert.AreEqual(ParseResult.Success, result);
-        Assert.AreEqual(2147483647, i);
+        Xunit.Assert.Equal(ParseResult.Success, result);
+        Xunit.Assert.Equal(2147483647, i);
 
         c = "2147483648".ToCharArray();
         result = ConvertUtils.Int32TryParse(c, 0, c.Length, out i);
-        Assert.AreEqual(ParseResult.Overflow, result);
+        Xunit.Assert.Equal(ParseResult.Overflow, result);
 
         c = "-2147483648".ToCharArray();
         result = ConvertUtils.Int32TryParse(c, 0, c.Length, out i);
-        Assert.AreEqual(ParseResult.Success, result);
-        Assert.AreEqual(-2147483648, i);
+        Xunit.Assert.Equal(ParseResult.Success, result);
+        Xunit.Assert.Equal(-2147483648, i);
 
         c = "-2147483649".ToCharArray();
         result = ConvertUtils.Int32TryParse(c, 0, c.Length, out i);
-        Assert.AreEqual(ParseResult.Overflow, result);
+        Xunit.Assert.Equal(ParseResult.Overflow, result);
 
         for (var j = 2; j < 10; j++)
         {
@@ -324,7 +324,7 @@ public class ConvertUtilsTests : TestFixtureBase
                 c = t.ToCharArray();
                 result = ConvertUtils.Int32TryParse(c, 0, c.Length, out i);
 
-                Assert.AreEqual(ParseResult.Overflow, result);
+                Xunit.Assert.Equal(ParseResult.Overflow, result);
             }
         }
 
@@ -337,7 +337,7 @@ public class ConvertUtilsTests : TestFixtureBase
                 c = t.ToCharArray();
                 result = ConvertUtils.Int32TryParse(c, 0, c.Length, out i);
 
-                Assert.AreEqual(ParseResult.Overflow, result);
+                Xunit.Assert.Equal(ParseResult.Overflow, result);
             }
         }
     }
@@ -360,7 +360,7 @@ public class ConvertUtilsTests : TestFixtureBase
     public void HexParseOffset()
     {
         Xunit.Assert.True(ConvertUtils.TryHexTextToInt("!0000".ToCharArray(), 1, 5, out var value));
-        Assert.AreEqual(0, value);
+        Xunit.Assert.Equal(0, value);
     }
 
     [Fact]
@@ -379,6 +379,6 @@ public class ConvertUtilsTests : TestFixtureBase
 
         Xunit.Assert.True(ConvertUtils.TryHexTextToInt(text.ToCharArray(), 0, 4, out var v2));
 
-        Assert.AreEqual(v1, v2);
+        Xunit.Assert.Equal(v1, v2);
     }
 }

@@ -39,7 +39,7 @@ public class EnumUtilsTests : TestFixtureBase
         var enumType = expected.GetType();
 
         var result = (Enum)EnumUtils.ParseEnum(enumType, null, value, false);
-        Assert.AreEqual(expected, result);
+        Xunit.Assert.Equal(expected, result);
     }
 
     [Theory]
@@ -65,7 +65,7 @@ public class EnumUtilsTests : TestFixtureBase
     {
         EnumUtils.TryToString(e.GetType(), e, null, out var result);
 
-        Assert.AreEqual(expected, result);
+        Xunit.Assert.Equal(expected, result);
     }
 
     #region Test data

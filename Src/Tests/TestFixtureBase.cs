@@ -147,7 +147,7 @@ public static class StringAssert
         expected = Normalize(expected);
         actual = Normalize(actual);
 
-        Assert.AreEqual(expected, actual);
+        Xunit.Assert.Equal(expected, actual);
     }
 
     public static bool Equals(string s1, string s2)

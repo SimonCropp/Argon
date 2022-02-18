@@ -50,7 +50,7 @@ public class ShouldSerializeTests : TestFixtureBase
     {
         var json = JsonConvert.SerializeObject(new B());
 
-        Assert.AreEqual("{}", json);
+        Xunit.Assert.Equal("{}", json);
     }
 
     [Fact]
@@ -95,20 +95,20 @@ public class ShouldSerializeTests : TestFixtureBase
         var setFooJson = Serialize(setFoo);
         var deserializedSetFoo = JsonConvert.DeserializeObject<Foo2>(setFooJson);
 
-        Assert.AreEqual(setFoo.name, deserializedSetFoo.name);
+        Xunit.Assert.Equal(setFoo.name, deserializedSetFoo.name);
         Xunit.Assert.NotNull(deserializedSetFoo.myBar);
-        Assert.AreEqual(setFoo.myBar.name, deserializedSetFoo.myBar.name);
+        Xunit.Assert.Equal(setFoo.myBar.name, deserializedSetFoo.myBar.name);
         Xunit.Assert.NotNull(deserializedSetFoo.myBar.myBaz);
-        Assert.AreEqual(setFoo.myBar.myBaz.Length, deserializedSetFoo.myBar.myBaz.Length);
-        Assert.AreEqual(setFoo.myBar.myBaz[0].name, deserializedSetFoo.myBar.myBaz[0].name);
+        Xunit.Assert.Equal(setFoo.myBar.myBaz.Length, deserializedSetFoo.myBar.myBaz.Length);
+        Xunit.Assert.Equal(setFoo.myBar.myBaz[0].name, deserializedSetFoo.myBar.myBaz[0].name);
         Xunit.Assert.NotNull(deserializedSetFoo.myBar.myBaz[0].myFrob[0]);
-        Assert.AreEqual(setFoo.myBar.myBaz[0].myFrob[0].name, deserializedSetFoo.myBar.myBaz[0].myFrob[0].name);
-        Assert.AreEqual(setFoo.myBar.myBaz[1].name, deserializedSetFoo.myBar.myBaz[1].name);
+        Xunit.Assert.Equal(setFoo.myBar.myBaz[0].myFrob[0].name, deserializedSetFoo.myBar.myBaz[0].myFrob[0].name);
+        Xunit.Assert.Equal(setFoo.myBar.myBaz[1].name, deserializedSetFoo.myBar.myBaz[1].name);
         Xunit.Assert.NotNull(deserializedSetFoo.myBar.myBaz[2].myFrob[0]);
-        Assert.AreEqual(setFoo.myBar.myBaz[1].myFrob[0].name, deserializedSetFoo.myBar.myBaz[1].myFrob[0].name);
-        Assert.AreEqual(setFoo.myBar.myBaz[2].name, deserializedSetFoo.myBar.myBaz[2].name);
+        Xunit.Assert.Equal(setFoo.myBar.myBaz[1].myFrob[0].name, deserializedSetFoo.myBar.myBaz[1].myFrob[0].name);
+        Xunit.Assert.Equal(setFoo.myBar.myBaz[2].name, deserializedSetFoo.myBar.myBaz[2].name);
         Xunit.Assert.NotNull(deserializedSetFoo.myBar.myBaz[2].myFrob[0]);
-        Assert.AreEqual(setFoo.myBar.myBaz[2].myFrob[0].name, deserializedSetFoo.myBar.myBaz[2].myFrob[0].name);
+        Xunit.Assert.Equal(setFoo.myBar.myBaz[2].myFrob[0].name, deserializedSetFoo.myBar.myBaz[2].myFrob[0].name);
 
         Assert.True( setFoo.myBar.ShouldSerializemyBazCalled);
     }
@@ -155,8 +155,8 @@ public class ShouldSerializeTests : TestFixtureBase
 }", json);
 
         var deserialized = JsonConvert.DeserializeObject<ShouldSerializeTestClass>(json);
-        Assert.AreEqual("James", deserialized.Name);
-        Assert.AreEqual(27, deserialized.Age);
+        Xunit.Assert.Equal("James", deserialized.Name);
+        Xunit.Assert.Equal(27, deserialized.Age);
     }
 
     [Fact]
@@ -222,7 +222,7 @@ public class ShouldSerializeTests : TestFixtureBase
         Xunit.Assert.False(deserialized.WeightSpecified);
         Xunit.Assert.False(deserialized.HeightSpecified);
         Xunit.Assert.False(deserialized.FavoriteNumberSpecified);
-        Assert.AreEqual(27, deserialized.Age);
+        Xunit.Assert.Equal(27, deserialized.Age);
 
         c.NameSpecified = true;
         c.WeightSpecified = true;
@@ -239,13 +239,13 @@ public class ShouldSerializeTests : TestFixtureBase
 }", json);
 
         deserialized = JsonConvert.DeserializeObject<SpecifiedTestClass>(json);
-        Assert.AreEqual("James", deserialized.Name);
+        Xunit.Assert.Equal("James", deserialized.Name);
         Xunit.Assert.True(deserialized.NameSpecified);
         Xunit.Assert.True(deserialized.WeightSpecified);
         Xunit.Assert.True(deserialized.HeightSpecified);
         Xunit.Assert.True(deserialized.FavoriteNumberSpecified);
-        Assert.AreEqual(27, deserialized.Age);
-        Assert.AreEqual(23, deserialized.FavoriteNumber);
+        Xunit.Assert.Equal(27, deserialized.Age);
+        Xunit.Assert.Equal(23, deserialized.FavoriteNumber);
     }
 
     //    [Fact]
@@ -407,9 +407,9 @@ public class ShouldSerializeTests : TestFixtureBase
             TraceWriter = traceWriter
         });
 
-        Assert.AreEqual(null, c.ExtensionData);
+        Xunit.Assert.Equal(null, c.ExtensionData);
         Assert.True( c.HasName);
-        Assert.AreEqual("Name!", c.Name);
+        Xunit.Assert.Equal("Name!", c.Name);
 
         Xunit.Assert.True(traceWriter.GetTraceMessages().Any(m => m.EndsWith("Verbose ShouldDeserialize result for property 'Name' on Argon.Tests.Serialization.ShouldDeserializeTestClass: True. Path 'Name'.")));
     }
@@ -426,10 +426,10 @@ public class ShouldSerializeTests : TestFixtureBase
             TraceWriter = traceWriter
         });
 
-        Assert.AreEqual(1, c.ExtensionData.Count);
-        Assert.AreEqual("Name!", (string)c.ExtensionData["Name"]);
+        Xunit.Assert.Equal(1, c.ExtensionData.Count);
+        Xunit.Assert.Equal("Name!", (string)c.ExtensionData["Name"]);
         Assert.False( c.HasName);
-        Assert.AreEqual(null, c.Name);
+        Xunit.Assert.Equal(null, c.Name);
 
         Xunit.Assert.True(traceWriter.GetTraceMessages().Any(m => m.EndsWith("Verbose ShouldDeserialize result for property 'Name' on Argon.Tests.Serialization.ShouldDeserializeTestClass: False. Path 'Name'.")));
     }

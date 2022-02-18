@@ -41,7 +41,7 @@ public class Issue1353 : TestFixtureBase
 
         var d2 = JsonConvert.DeserializeObject<ConcurrentDictionary<string, string>>(json);
 
-        Assert.AreEqual(1, d2.Count);
-        Assert.AreEqual("value!", d2["key!"]);
+        Xunit.Assert.Equal(1, d2.Count);
+        Xunit.Assert.Equal("value!", d2["key!"]);
     }
 }

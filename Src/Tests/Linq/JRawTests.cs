@@ -57,6 +57,6 @@ public class JRawTests : TestFixtureBase
         var r1 = new JRaw("1");
         var i = r1.ToObject<int>();
 
-        Assert.AreEqual(1, i);
+        Xunit.Assert.Equal(1, i);
     }
 }

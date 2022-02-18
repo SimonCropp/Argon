@@ -83,8 +83,8 @@ public class DeserializeExtensionData : TestFixtureBase
         // johns
         #endregion
 
-        Assert.AreEqual("John Smith", account.DisplayName);
-        Assert.AreEqual("contoso", account.Domain);
-        Assert.AreEqual("johns", account.UserName);
+        Xunit.Assert.Equal("John Smith", account.DisplayName);
+        Xunit.Assert.Equal("contoso", account.Domain);
+        Xunit.Assert.Equal("johns", account.UserName);
     }
 }

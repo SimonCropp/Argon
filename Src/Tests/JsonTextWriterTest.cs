@@ -73,8 +73,8 @@ public class JsonTextWriterTest : TestFixtureBase
             }
         }
 
-        Assert.AreEqual(0, arrayPool.UsedArrays.Count);
-        Assert.AreEqual(3, arrayPool.FreeArrays.Count);
+        Xunit.Assert.Equal(0, arrayPool.UsedArrays.Count);
+        Xunit.Assert.Equal(3, arrayPool.FreeArrays.Count);
     }
 
     [Fact]
@@ -109,8 +109,8 @@ public class JsonTextWriterTest : TestFixtureBase
         {
         }
 
-        Assert.AreEqual(0, arrayPool.UsedArrays.Count);
-        Assert.AreEqual(1, arrayPool.FreeArrays.Count);
+        Xunit.Assert.Equal(0, arrayPool.UsedArrays.Count);
+        Xunit.Assert.Equal(1, arrayPool.FreeArrays.Count);
     }
 
     [Fact]
@@ -161,7 +161,7 @@ public class JsonTextWriterTest : TestFixtureBase
 
         var json = Encoding.UTF8.GetString(data, 0, data.Length);
 
-        Assert.AreEqual(@"{" + '\n' + @"  ""prop"": true" + '\n' + "}", json);
+        Xunit.Assert.Equal(@"{" + '\n' + @"  ""prop"": true" + '\n' + "}", json);
     }
 
     [Fact]
@@ -179,7 +179,7 @@ public class JsonTextWriterTest : TestFixtureBase
         writer.WriteEndObject();
         writer.Flush();
 
-        Assert.AreEqual(@"{name:""value""}", sb.ToString());
+        Xunit.Assert.Equal(@"{name:""value""}", sb.ToString());
     }
 
     [Fact]
@@ -207,7 +207,7 @@ public class JsonTextWriterTest : TestFixtureBase
         var writer = new JsonTextWriter(sw);
         writer.WriteValue(new ConvertibleInt(1));
 
-        Assert.AreEqual("1", sw.ToString());
+        Xunit.Assert.Equal("1", sw.ToString());
     }
 
     [Fact]
@@ -238,7 +238,7 @@ public class JsonTextWriterTest : TestFixtureBase
         var expected = @"[""@"",""\r\n\t\f\b?{\\r\\n\""'"",true,10,10.99,0.99,1E-18,0.000000000000000001,null,null,""This is a string."",null,undefined]";
         var result = sb.ToString();
 
-        Assert.AreEqual(expected, result);
+        Xunit.Assert.Equal(expected, result);
     }
 
     [Fact]
@@ -285,7 +285,7 @@ public class JsonTextWriterTest : TestFixtureBase
 
         var expected = @"[null,""c"",null,true,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1.1,null,1.1,null,1.1,null,""1970-01-01T00:00:00Z"",null,""1970-01-01T00:00:00+00:00""]";
 
-        Assert.AreEqual(expected, json);
+        Xunit.Assert.Equal(expected, json);
     }
 
     [Fact]
@@ -304,7 +304,7 @@ public class JsonTextWriterTest : TestFixtureBase
         var json = sw.ToString();
         var expected = @"[""c""]";
 
-        Assert.AreEqual(expected, json);
+        Xunit.Assert.Equal(expected, json);
     }
 
     [Fact]
@@ -341,7 +341,7 @@ public class JsonTextWriterTest : TestFixtureBase
         var expected = @"[""\""These pretzels are making me thirsty!\"""",""Jeff's house was burninated."",""1. You don't talk about fight club.\r\n2. You don't talk about fight club."",""35% of\t statistics\n are made\r up.""]";
         var result = sb.ToString();
 
-        Assert.AreEqual(expected, result);
+        Xunit.Assert.Equal(expected, result);
     }
 
     [Fact]
@@ -366,7 +366,7 @@ public class JsonTextWriterTest : TestFixtureBase
             jsonWriter.WriteValue("500 gigabyte hard drive");
             jsonWriter.WriteValue("200 gigabyte hard drive");
             jsonWriter.WriteEndObject();
-            Assert.AreEqual(WriteState.Start, jsonWriter.WriteState);
+            Xunit.Assert.Equal(WriteState.Start, jsonWriter.WriteState);
         }
 
         var expected = @"{
@@ -446,7 +446,7 @@ public class JsonTextWriterTest : TestFixtureBase
             jsonWriter.WriteValue("200 gigabyte hard drive");
             jsonWriter.WriteEnd();
             jsonWriter.WriteEndObject();
-            Assert.AreEqual(WriteState.Start, jsonWriter.WriteState);
+            Xunit.Assert.Equal(WriteState.Start, jsonWriter.WriteState);
         }
 
         // {
@@ -483,38 +483,38 @@ public class JsonTextWriterTest : TestFixtureBase
 
         using (JsonWriter jsonWriter = new JsonTextWriter(sw))
         {
-            Assert.AreEqual(WriteState.Start, jsonWriter.WriteState);
+            Xunit.Assert.Equal(WriteState.Start, jsonWriter.WriteState);
 
             jsonWriter.WriteStartObject();
-            Assert.AreEqual(WriteState.Object, jsonWriter.WriteState);
-            Assert.AreEqual("", jsonWriter.Path);
+            Xunit.Assert.Equal(WriteState.Object, jsonWriter.WriteState);
+            Xunit.Assert.Equal("", jsonWriter.Path);
 
             jsonWriter.WritePropertyName("CPU");
-            Assert.AreEqual(WriteState.Property, jsonWriter.WriteState);
-            Assert.AreEqual("CPU", jsonWriter.Path);
+            Xunit.Assert.Equal(WriteState.Property, jsonWriter.WriteState);
+            Xunit.Assert.Equal("CPU", jsonWriter.Path);
 
             jsonWriter.WriteValue("Intel");
-            Assert.AreEqual(WriteState.Object, jsonWriter.WriteState);
-            Assert.AreEqual("CPU", jsonWriter.Path);
+            Xunit.Assert.Equal(WriteState.Object, jsonWriter.WriteState);
+            Xunit.Assert.Equal("CPU", jsonWriter.Path);
 
             jsonWriter.WritePropertyName("Drives");
-            Assert.AreEqual(WriteState.Property, jsonWriter.WriteState);
-            Assert.AreEqual("Drives", jsonWriter.Path);
+            Xunit.Assert.Equal(WriteState.Property, jsonWriter.WriteState);
+            Xunit.Assert.Equal("Drives", jsonWriter.Path);
 
             jsonWriter.WriteStartArray();
-            Assert.AreEqual(WriteState.Array, jsonWriter.WriteState);
+            Xunit.Assert.Equal(WriteState.Array, jsonWriter.WriteState);
 
             jsonWriter.WriteValue("DVD read/writer");
-            Assert.AreEqual(WriteState.Array, jsonWriter.WriteState);
-            Assert.AreEqual("Drives[0]", jsonWriter.Path);
+            Xunit.Assert.Equal(WriteState.Array, jsonWriter.WriteState);
+            Xunit.Assert.Equal("Drives[0]", jsonWriter.Path);
 
             jsonWriter.WriteEnd();
-            Assert.AreEqual(WriteState.Object, jsonWriter.WriteState);
-            Assert.AreEqual("Drives", jsonWriter.Path);
+            Xunit.Assert.Equal(WriteState.Object, jsonWriter.WriteState);
+            Xunit.Assert.Equal("Drives", jsonWriter.Path);
 
             jsonWriter.WriteEndObject();
-            Assert.AreEqual(WriteState.Start, jsonWriter.WriteState);
-            Assert.AreEqual("", jsonWriter.Path);
+            Xunit.Assert.Equal(WriteState.Start, jsonWriter.WriteState);
+            Xunit.Assert.Equal("", jsonWriter.Path);
         }
     }
 
@@ -747,7 +747,7 @@ public class JsonTextWriterTest : TestFixtureBase
         var expected = @"{""PropertyName"":[1,2,3,4,5]}";
         var result = sb.ToString();
 
-        Assert.AreEqual(expected, result);
+        Xunit.Assert.Equal(expected, result);
     }
 
     [Fact]
@@ -761,7 +761,7 @@ public class JsonTextWriterTest : TestFixtureBase
         var writer = new JsonTextWriter(sw);
         writer.WriteToken(reader);
 
-        Assert.AreEqual("1", sw.ToString());
+        Xunit.Assert.Equal("1", sw.ToString());
     }
 
     [Fact]
@@ -788,7 +788,7 @@ public class JsonTextWriterTest : TestFixtureBase
             jsonWriter.WriteEndObject();
         }
 
-        Assert.AreEqual(@"{""d0"":[1,2],""d1"":[1,2],""d2"":[1,2]}", sb.ToString());
+        Xunit.Assert.Equal(@"{""d0"":[1,2],""d1"":[1,2],""d2"":[1,2]}", sb.ToString());
     }
 
     [Fact]
@@ -812,7 +812,7 @@ public class JsonTextWriterTest : TestFixtureBase
             jsonWriter.WriteEndObject();
         }
 
-        Assert.AreEqual(@"{""con"":new Ext.data.JsonStore({""aa"":""aa""})}", sb.ToString());
+        Xunit.Assert.Equal(@"{""con"":new Ext.data.JsonStore({""aa"":""aa""})}", sb.ToString());
     }
 
     [Fact]
@@ -847,9 +847,9 @@ public class JsonTextWriterTest : TestFixtureBase
         }
 
 #if !(NETSTANDARD2_0)
-            Assert.AreEqual(@"[0.0,0.0,0.1,1.0,1.000001,1E-06,4.94065645841247E-324,Infinity,-Infinity,NaN,1.7976931348623157E+308,-1.7976931348623157E+308,Infinity,-Infinity,NaN]", sb.ToString());
+            Xunit.Assert.Equal(@"[0.0,0.0,0.1,1.0,1.000001,1E-06,4.94065645841247E-324,Infinity,-Infinity,NaN,1.7976931348623157E+308,-1.7976931348623157E+308,Infinity,-Infinity,NaN]", sb.ToString());
 #else
-        Assert.AreEqual(@"[0.0,0.0,0.1,1.0,1.000001,1E-06,5E-324,Infinity,-Infinity,NaN,1.7976931348623157E+308,-1.7976931348623157E+308,Infinity,-Infinity,NaN]", sb.ToString());
+        Xunit.Assert.Equal(@"[0.0,0.0,0.1,1.0,1.000001,1E-06,5E-324,Infinity,-Infinity,NaN,1.7976931348623157E+308,-1.7976931348623157E+308,Infinity,-Infinity,NaN]", sb.ToString());
 #endif
 
     }
@@ -919,7 +919,7 @@ public class JsonTextWriterTest : TestFixtureBase
             jsonWriter.WriteToken(JsonToken.EndArray);
         }
 
-        Assert.AreEqual(@"[1,{""integer"":2147483647,""null-string"":null}]", sb.ToString());
+        Xunit.Assert.Equal(@"[1,{""integer"":2147483647,""null-string"":null}]", sb.ToString());
     }
 
     [Fact]
@@ -955,10 +955,10 @@ Parameter name: value", "Value cannot be null. (Parameter 'value')");
         using (JsonWriter jsonWriter = new JsonTextWriter(new StringWriter()))
         {
             var ex = ExceptionAssert.Throws<ArgumentOutOfRangeException>(() => jsonWriter.WriteToken((JsonToken)int.MinValue));
-            Assert.AreEqual("token", ex.ParamName);
+            Xunit.Assert.Equal("token", ex.ParamName);
 
             ex = ExceptionAssert.Throws<ArgumentOutOfRangeException>(() => jsonWriter.WriteToken((JsonToken)int.MinValue, "test"));
-            Assert.AreEqual("token", ex.ParamName);
+            Xunit.Assert.Equal("token", ex.ParamName);
         }
     }
 
@@ -1009,16 +1009,16 @@ Parameter name: value", "Value cannot be null. (Parameter 'value')");
             jsonWriter.Formatting = Formatting.Indented;
             jsonWriter.FloatFormatHandling = FloatFormatHandling.Symbol;
 
-            Assert.AreEqual(Formatting.Indented, jsonWriter.Formatting);
+            Xunit.Assert.Equal(Formatting.Indented, jsonWriter.Formatting);
 
             jsonWriter.Indentation = 5;
-            Assert.AreEqual(5, jsonWriter.Indentation);
+            Xunit.Assert.Equal(5, jsonWriter.Indentation);
             jsonWriter.IndentChar = '_';
-            Assert.AreEqual('_', jsonWriter.IndentChar);
+            Xunit.Assert.Equal('_', jsonWriter.IndentChar);
             jsonWriter.QuoteName = true;
             Assert.True( jsonWriter.QuoteName);
             jsonWriter.QuoteChar = '\'';
-            Assert.AreEqual('\'', jsonWriter.QuoteChar);
+            Xunit.Assert.Equal('\'', jsonWriter.QuoteChar);
 
             jsonWriter.WriteStartObject();
 
@@ -1026,9 +1026,9 @@ Parameter name: value", "Value cannot be null. (Parameter 'value')");
             jsonWriter.WriteValue(double.NaN);
 
             jsonWriter.IndentChar = '?';
-            Assert.AreEqual('?', jsonWriter.IndentChar);
+            Xunit.Assert.Equal('?', jsonWriter.IndentChar);
             jsonWriter.Indentation = 6;
-            Assert.AreEqual(6, jsonWriter.Indentation);
+            Xunit.Assert.Equal(6, jsonWriter.Indentation);
 
             jsonWriter.WritePropertyName("prop2");
             jsonWriter.WriteValue(123);
@@ -1057,7 +1057,7 @@ _____'propertyName': NaN,
         using (var jsonWriter = new JsonTextWriter(sw))
         {
             jsonWriter.Formatting = Formatting.Indented;
-            Assert.AreEqual(Formatting.Indented, jsonWriter.Formatting);
+            Xunit.Assert.Equal(Formatting.Indented, jsonWriter.Formatting);
 
             jsonWriter.WriteValue(data);
         }
@@ -1065,11 +1065,11 @@ _____'propertyName': NaN,
         var expected = @"""SGVsbG8gd29ybGQu""";
         var result = sb.ToString();
 
-        Assert.AreEqual(expected, result);
+        Xunit.Assert.Equal(expected, result);
 
         var d2 = Convert.FromBase64String(result.Trim('"'));
 
-        Assert.AreEqual(text, Encoding.UTF8.GetString(d2, 0, d2.Length));
+        Xunit.Assert.Equal(text, Encoding.UTF8.GetString(d2, 0, d2.Length));
     }
 
     [Fact]
@@ -1084,7 +1084,7 @@ _____'propertyName': NaN,
         using (var jsonWriter = new JsonTextWriter(sw))
         {
             jsonWriter.Formatting = Formatting.Indented;
-            Assert.AreEqual(Formatting.Indented, jsonWriter.Formatting);
+            Xunit.Assert.Equal(Formatting.Indented, jsonWriter.Formatting);
 
             jsonWriter.WriteStartArray();
             jsonWriter.WriteValue(data);
@@ -1121,41 +1121,41 @@ _____'propertyName': NaN,
             writer.Formatting = Formatting.Indented;
 
             writer.WriteStartArray();
-            Assert.AreEqual("", writer.Path);
+            Xunit.Assert.Equal("", writer.Path);
             writer.WriteStartObject();
-            Assert.AreEqual("[0]", writer.Path);
+            Xunit.Assert.Equal("[0]", writer.Path);
             writer.WritePropertyName("Property1");
-            Assert.AreEqual("[0].Property1", writer.Path);
+            Xunit.Assert.Equal("[0].Property1", writer.Path);
             writer.WriteStartArray();
-            Assert.AreEqual("[0].Property1", writer.Path);
+            Xunit.Assert.Equal("[0].Property1", writer.Path);
             writer.WriteValue(1);
-            Assert.AreEqual("[0].Property1[0]", writer.Path);
+            Xunit.Assert.Equal("[0].Property1[0]", writer.Path);
             writer.WriteStartArray();
-            Assert.AreEqual("[0].Property1[1]", writer.Path);
+            Xunit.Assert.Equal("[0].Property1[1]", writer.Path);
             writer.WriteStartArray();
-            Assert.AreEqual("[0].Property1[1][0]", writer.Path);
+            Xunit.Assert.Equal("[0].Property1[1][0]", writer.Path);
             writer.WriteStartArray();
-            Assert.AreEqual("[0].Property1[1][0][0]", writer.Path);
+            Xunit.Assert.Equal("[0].Property1[1][0][0]", writer.Path);
             writer.WriteEndObject();
-            Assert.AreEqual("[0]", writer.Path);
+            Xunit.Assert.Equal("[0]", writer.Path);
             writer.WriteStartObject();
-            Assert.AreEqual("[1]", writer.Path);
+            Xunit.Assert.Equal("[1]", writer.Path);
             writer.WritePropertyName("Property2");
-            Assert.AreEqual("[1].Property2", writer.Path);
+            Xunit.Assert.Equal("[1].Property2", writer.Path);
             writer.WriteStartConstructor("Constructor1");
-            Assert.AreEqual("[1].Property2", writer.Path);
+            Xunit.Assert.Equal("[1].Property2", writer.Path);
             writer.WriteNull();
-            Assert.AreEqual("[1].Property2[0]", writer.Path);
+            Xunit.Assert.Equal("[1].Property2[0]", writer.Path);
             writer.WriteStartArray();
-            Assert.AreEqual("[1].Property2[1]", writer.Path);
+            Xunit.Assert.Equal("[1].Property2[1]", writer.Path);
             writer.WriteValue(1);
-            Assert.AreEqual("[1].Property2[1][0]", writer.Path);
+            Xunit.Assert.Equal("[1].Property2[1][0]", writer.Path);
             writer.WriteEnd();
-            Assert.AreEqual("[1].Property2[1]", writer.Path);
+            Xunit.Assert.Equal("[1].Property2[1]", writer.Path);
             writer.WriteEndObject();
-            Assert.AreEqual("[1]", writer.Path);
+            Xunit.Assert.Equal("[1]", writer.Path);
             writer.WriteEndArray();
-            Assert.AreEqual("", writer.Path);
+            Xunit.Assert.Equal("", writer.Path);
         }
 
         StringAssert.AreEqual(@"[
@@ -1199,7 +1199,7 @@ _____'propertyName': NaN,
                 case JsonToken.Undefined:
                 case JsonToken.Date:
                 case JsonToken.Bytes:
-                    Assert.AreEqual(valueStates, stateArray[(int)valueToken]);
+                    Xunit.Assert.Equal(valueStates, stateArray[(int)valueToken]);
                     break;
             }
         }
@@ -1234,7 +1234,7 @@ _____'propertyName': NaN,
 
         writer.WriteValue(new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Unspecified));
 
-        Assert.AreEqual(@"""2000-01-01T01:01:01Z""", sw.ToString());
+        Xunit.Assert.Equal(@"""2000-01-01T01:01:01Z""", sw.ToString());
     }
 
     [Fact]
@@ -1252,11 +1252,11 @@ _____'propertyName': NaN,
 
         var json = sw.ToString();
 
-        Assert.AreEqual(@"""\u003cscript type=\u0022text/javascript\u0022\u003ealert(\u0027hi\u0027);\u003c/script\u003e""", json);
+        Xunit.Assert.Equal(@"""\u003cscript type=\u0022text/javascript\u0022\u003ealert(\u0027hi\u0027);\u003c/script\u003e""", json);
 
         var reader = new JsonTextReader(new StringReader(json));
 
-        Assert.AreEqual(script, reader.ReadAsString());
+        Xunit.Assert.Equal(script, reader.ReadAsString());
     }
 
     [Fact]
@@ -1274,12 +1274,12 @@ _____'propertyName': NaN,
 
         var json = sw.ToString();
 
-        Assert.AreEqual(8, json.Length);
-        Assert.AreEqual(@"""\u5f20""", json);
+        Xunit.Assert.Equal(8, json.Length);
+        Xunit.Assert.Equal(@"""\u5f20""", json);
 
         var reader = new JsonTextReader(new StringReader(json));
 
-        Assert.AreEqual(unicode, reader.ReadAsString());
+        Xunit.Assert.Equal(unicode, reader.ReadAsString());
 
         sw = new StringWriter();
         writer = new JsonTextWriter(sw)
@@ -1291,8 +1291,8 @@ _____'propertyName': NaN,
 
         json = sw.ToString();
 
-        Assert.AreEqual(3, json.Length);
-        Assert.AreEqual("\"\u5f20\"", json);
+        Xunit.Assert.Equal(3, json.Length);
+        Xunit.Assert.Equal("\"\u5f20\"", json);
     }
 
     [Fact]
@@ -1306,7 +1306,7 @@ _____'propertyName': NaN,
         writer.WritePropertyName("Blah");
         writer.WriteEnd();
 
-        Assert.AreEqual("{'Blah':null}", sw.ToString());
+        Xunit.Assert.Equal("{'Blah':null}", sw.ToString());
     }
 
     [Fact]
@@ -1320,7 +1320,7 @@ _____'propertyName': NaN,
         writer.WritePropertyName("Blah");
         writer.Close();
 
-        Assert.AreEqual("{'Blah':null}", sw.ToString());
+        Xunit.Assert.Equal("{'Blah':null}", sw.ToString());
     }
 
     [Fact]
@@ -1335,7 +1335,7 @@ _____'propertyName': NaN,
             writer.WritePropertyName("Blah");
         }
 
-        Assert.AreEqual("{'Blah':null}", sw.ToString());
+        Xunit.Assert.Equal("{'Blah':null}", sw.ToString());
     }
 
     [Fact]
@@ -1351,7 +1351,7 @@ _____'propertyName': NaN,
             writer.WritePropertyName("Blah");
         }
 
-        Assert.AreEqual("{'Blah':", sw.ToString());
+        Xunit.Assert.Equal("{'Blah':", sw.ToString());
     }
 
     [Fact]
@@ -1596,14 +1596,14 @@ _____'propertyName': NaN,
         var sw = new StringWriter();
         var writer = new CustomJsonTextWriter(sw) { Formatting = Formatting.Indented };
         writer.WriteStartObject();
-        Assert.AreEqual(WriteState.Object, writer.WriteState);
+        Xunit.Assert.Equal(WriteState.Object, writer.WriteState);
         writer.WritePropertyName("Property1");
-        Assert.AreEqual(WriteState.Property, writer.WriteState);
-        Assert.AreEqual("Property1", writer.Path);
+        Xunit.Assert.Equal(WriteState.Property, writer.WriteState);
+        Xunit.Assert.Equal("Property1", writer.Path);
         writer.WriteNull();
-        Assert.AreEqual(WriteState.Object, writer.WriteState);
+        Xunit.Assert.Equal(WriteState.Object, writer.WriteState);
         writer.WriteEndObject();
-        Assert.AreEqual(WriteState.Start, writer.WriteState);
+        Xunit.Assert.Equal(WriteState.Start, writer.WriteState);
 
         StringAssert.AreEqual(@"{{{
   ""1ytreporP"": NULL!!!
@@ -1690,7 +1690,7 @@ null//comment
         UnmanagedResourceFakingJsonWriter.CreateAndDispose();
         GC.Collect();
         GC.WaitForPendingFinalizers();
-        Assert.AreEqual(1, UnmanagedResourceFakingJsonWriter.DisposalCalls);
+        Xunit.Assert.Equal(1, UnmanagedResourceFakingJsonWriter.DisposalCalls);
     }
 }
 

@@ -65,7 +65,7 @@ public class BsonWriterTests : TestFixtureBase
         writer.WriteEndObject();
 
         var bson = BytesToHex(ms.ToArray());
-        Assert.AreEqual("0F-00-00-00-10-42-6C-61-68-00-01-00-00-00-00", bson);
+        Xunit.Assert.Equal("0F-00-00-00-10-42-6C-61-68-00-01-00-00-00-00", bson);
     }
 
     [Fact]
@@ -92,7 +92,7 @@ public class BsonWriterTests : TestFixtureBase
         writer.WriteEnd();
 
         var bson = BytesToHex(ms.ToArray());
-        Assert.AreEqual("8C-00-00-00-12-30-00-FF-FF-FF-FF-FF-FF-FF-7F-12-31-00-FF-FF-FF-FF-FF-FF-FF-7F-10-32-00-FF-FF-FF-7F-10-33-00-FF-FF-FF-7F-10-34-00-FF-00-00-00-10-35-00-7F-00-00-00-02-36-00-02-00-00-00-61-00-01-37-00-00-00-00-00-00-00-F0-45-01-38-00-FF-FF-FF-FF-FF-FF-EF-7F-01-39-00-00-00-00-E0-FF-FF-EF-47-08-31-30-00-01-05-31-31-00-05-00-00-00-00-00-01-02-03-04-09-31-32-00-40-C5-E2-BA-E3-00-00-00-09-31-33-00-40-C5-E2-BA-E3-00-00-00-00", bson);
+        Xunit.Assert.Equal("8C-00-00-00-12-30-00-FF-FF-FF-FF-FF-FF-FF-7F-12-31-00-FF-FF-FF-FF-FF-FF-FF-7F-10-32-00-FF-FF-FF-7F-10-33-00-FF-FF-FF-7F-10-34-00-FF-00-00-00-10-35-00-7F-00-00-00-02-36-00-02-00-00-00-61-00-01-37-00-00-00-00-00-00-00-F0-45-01-38-00-FF-FF-FF-FF-FF-FF-EF-7F-01-39-00-00-00-00-E0-FF-FF-EF-47-08-31-30-00-01-05-31-31-00-05-00-00-00-00-00-01-02-03-04-09-31-32-00-40-C5-E2-BA-E3-00-00-00-09-31-33-00-40-C5-E2-BA-E3-00-00-00-00", bson);
     }
 
     [Fact]
@@ -106,7 +106,7 @@ public class BsonWriterTests : TestFixtureBase
         writer.WriteEnd();
 
         var bson = BytesToHex(ms.ToArray());
-        Assert.AreEqual("10-00-00-00-01-30-00-8F-C2-F5-28-5C-FF-58-40-00", bson);
+        Xunit.Assert.Equal("10-00-00-00-01-30-00-8F-C2-F5-28-5C-FF-58-40-00", bson);
     }
 
     [Fact]
@@ -122,7 +122,7 @@ public class BsonWriterTests : TestFixtureBase
         writer.WriteEnd();
 
         var bson = BytesToHex(ms.ToArray());
-        Assert.AreEqual("1D-00-00-00-05-30-00-10-00-00-00-04-D7-EE-21-D8-5C-4B-C9-43-8A-C2-69-28-E5-79-B7-05-00", bson);
+        Xunit.Assert.Equal("1D-00-00-00-05-30-00-10-00-00-00-04-D7-EE-21-D8-5C-4B-C9-43-8A-C2-69-28-E5-79-B7-05-00", bson);
     }
 
     [Fact]
@@ -143,7 +143,7 @@ public class BsonWriterTests : TestFixtureBase
         var expected = "20-00-00-00-02-30-00-02-00-00-00-61-00-02-31-00-02-00-00-00-62-00-02-32-00-02-00-00-00-63-00-00";
         var bson = BytesToHex(ms.ToArray());
 
-        Assert.AreEqual(expected, bson);
+        Xunit.Assert.Equal(expected, bson);
     }
 
     [Fact]
@@ -166,7 +166,7 @@ public class BsonWriterTests : TestFixtureBase
         var expected = "2B-00-00-00-02-30-00-02-00-00-00-61-00-02-31-00-02-00-00-00-62-00-05-32-00-0C-00-00-00-00-48-65-6C-6C-6F-20-77-6F-72-6C-64-21-00";
         var bson = BytesToHex(ms.ToArray());
 
-        Assert.AreEqual(expected, bson);
+        Xunit.Assert.Equal(expected, bson);
 
         var reader = new BsonReader(new MemoryStream(ms.ToArray()));
         reader.ReadRootValueAsArray = true;
@@ -174,7 +174,7 @@ public class BsonWriterTests : TestFixtureBase
         reader.Read();
         reader.Read();
         reader.Read();
-        Assert.AreEqual(JsonToken.Bytes, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.Bytes, reader.TokenType);
         Xunit.Assert.Equal(data, (byte[])reader.Value);
     }
 
@@ -212,7 +212,7 @@ public class BsonWriterTests : TestFixtureBase
         var expected = "87-00-00-00-05-5F-69-64-00-0C-00-00-00-00-4A-78-93-79-17-22-00-00-00-00-61-CF-04-61-00-5D-00-00-00-01-30-00-00-00-00-00-00-00-F0-3F-01-31-00-00-00-00-00-00-00-00-40-01-32-00-00-00-00-00-00-00-08-40-01-33-00-00-00-00-00-00-00-10-40-01-34-00-00-00-00-00-00-00-14-50-01-35-00-00-00-00-00-00-00-18-40-01-36-00-00-00-00-00-00-00-1C-40-01-37-00-00-00-00-00-00-00-20-40-00-02-62-00-05-00-00-00-74-65-73-74-00-00";
         var bson = BytesToHex(ms.ToArray());
 
-        Assert.AreEqual(expected, bson);
+        Xunit.Assert.Equal(expected, bson);
     }
 
     [Fact]
@@ -245,19 +245,19 @@ public class BsonWriterTests : TestFixtureBase
         var s2 = (Store)serializer.Deserialize(reader, typeof(Store));
 
         Xunit.Assert.NotEqual(s1, s2);
-        Assert.AreEqual(s1.Color, s2.Color);
-        Assert.AreEqual(s1.Cost, s2.Cost);
-        Assert.AreEqual(s1.Employees, s2.Employees);
-        Assert.AreEqual(s1.Escape, s2.Escape);
-        Assert.AreEqual(s1.Establised, s2.Establised);
-        Assert.AreEqual(s1.Mottos.Count, s2.Mottos.Count);
-        Assert.AreEqual(s1.Mottos.First(), s2.Mottos.First());
-        Assert.AreEqual(s1.Mottos.Last(), s2.Mottos.Last());
-        Assert.AreEqual(s1.Open, s2.Open);
-        Assert.AreEqual(s1.product.Count, s2.product.Count);
-        Assert.AreEqual(s1.RoomsPerFloor.Length, s2.RoomsPerFloor.Length);
-        Assert.AreEqual(s1.Symbol, s2.Symbol);
-        Assert.AreEqual(s1.Width, s2.Width);
+        Xunit.Assert.Equal(s1.Color, s2.Color);
+        Xunit.Assert.Equal(s1.Cost, s2.Cost);
+        Xunit.Assert.Equal(s1.Employees, s2.Employees);
+        Xunit.Assert.Equal(s1.Escape, s2.Escape);
+        Xunit.Assert.Equal(s1.Establised, s2.Establised);
+        Xunit.Assert.Equal(s1.Mottos.Count, s2.Mottos.Count);
+        Xunit.Assert.Equal(s1.Mottos.First(), s2.Mottos.First());
+        Xunit.Assert.Equal(s1.Mottos.Last(), s2.Mottos.Last());
+        Xunit.Assert.Equal(s1.Open, s2.Open);
+        Xunit.Assert.Equal(s1.product.Count, s2.product.Count);
+        Xunit.Assert.Equal(s1.RoomsPerFloor.Length, s2.RoomsPerFloor.Length);
+        Xunit.Assert.Equal(s1.Symbol, s2.Symbol);
+        Xunit.Assert.Equal(s1.Width, s2.Width);
 
         var ms1 = new MemoryStream();
         var writer1 = new BsonWriter(ms1);
@@ -291,7 +291,7 @@ public class BsonWriterTests : TestFixtureBase
         writer.WriteEndObject();
 
         var bson = BytesToHex(ms.ToArray());
-        Assert.AreEqual("4E-02-00-00-02-30-2D-31-2D-32-2D-33-2D-34-2D-35-2D-36-2D-37-2D-38-2D-39-2D-31-30-2D-31-31-2D-31-32-2D-31-33-2D-31-34-2D-31-35-2D-31-36-2D-31-37-2D-31-38-2D-31-39-2D-32-30-2D-32-31-2D-32-32-2D-32-33-2D-32-34-2D-32-35-2D-32-36-2D-32-37-2D-32-38-2D-32-39-2D-33-30-2D-33-31-2D-33-32-2D-33-33-2D-33-34-2D-33-35-2D-33-36-2D-33-37-2D-33-38-2D-33-39-2D-34-30-2D-34-31-2D-34-32-2D-34-33-2D-34-34-2D-34-35-2D-34-36-2D-34-37-2D-34-38-2D-34-39-2D-35-30-2D-35-31-2D-35-32-2D-35-33-2D-35-34-2D-35-35-2D-35-36-2D-35-37-2D-35-38-2D-35-39-2D-36-30-2D-36-31-2D-36-32-2D-36-33-2D-36-34-2D-36-35-2D-36-36-2D-36-37-2D-36-38-2D-36-39-2D-37-30-2D-37-31-2D-37-32-2D-37-33-2D-37-34-2D-37-35-2D-37-36-2D-37-37-2D-37-38-2D-37-39-2D-38-30-2D-38-31-2D-38-32-2D-38-33-2D-38-34-2D-38-35-2D-38-36-2D-38-37-2D-38-38-2D-38-39-2D-39-30-2D-39-31-2D-39-32-2D-39-33-2D-39-34-2D-39-35-2D-39-36-2D-39-37-2D-39-38-2D-39-39-00-22-01-00-00-30-2D-31-2D-32-2D-33-2D-34-2D-35-2D-36-2D-37-2D-38-2D-39-2D-31-30-2D-31-31-2D-31-32-2D-31-33-2D-31-34-2D-31-35-2D-31-36-2D-31-37-2D-31-38-2D-31-39-2D-32-30-2D-32-31-2D-32-32-2D-32-33-2D-32-34-2D-32-35-2D-32-36-2D-32-37-2D-32-38-2D-32-39-2D-33-30-2D-33-31-2D-33-32-2D-33-33-2D-33-34-2D-33-35-2D-33-36-2D-33-37-2D-33-38-2D-33-39-2D-34-30-2D-34-31-2D-34-32-2D-34-33-2D-34-34-2D-34-35-2D-34-36-2D-34-37-2D-34-38-2D-34-39-2D-35-30-2D-35-31-2D-35-32-2D-35-33-2D-35-34-2D-35-35-2D-35-36-2D-35-37-2D-35-38-2D-35-39-2D-36-30-2D-36-31-2D-36-32-2D-36-33-2D-36-34-2D-36-35-2D-36-36-2D-36-37-2D-36-38-2D-36-39-2D-37-30-2D-37-31-2D-37-32-2D-37-33-2D-37-34-2D-37-35-2D-37-36-2D-37-37-2D-37-38-2D-37-39-2D-38-30-2D-38-31-2D-38-32-2D-38-33-2D-38-34-2D-38-35-2D-38-36-2D-38-37-2D-38-38-2D-38-39-2D-39-30-2D-39-31-2D-39-32-2D-39-33-2D-39-34-2D-39-35-2D-39-36-2D-39-37-2D-39-38-2D-39-39-00-00", bson);
+        Xunit.Assert.Equal("4E-02-00-00-02-30-2D-31-2D-32-2D-33-2D-34-2D-35-2D-36-2D-37-2D-38-2D-39-2D-31-30-2D-31-31-2D-31-32-2D-31-33-2D-31-34-2D-31-35-2D-31-36-2D-31-37-2D-31-38-2D-31-39-2D-32-30-2D-32-31-2D-32-32-2D-32-33-2D-32-34-2D-32-35-2D-32-36-2D-32-37-2D-32-38-2D-32-39-2D-33-30-2D-33-31-2D-33-32-2D-33-33-2D-33-34-2D-33-35-2D-33-36-2D-33-37-2D-33-38-2D-33-39-2D-34-30-2D-34-31-2D-34-32-2D-34-33-2D-34-34-2D-34-35-2D-34-36-2D-34-37-2D-34-38-2D-34-39-2D-35-30-2D-35-31-2D-35-32-2D-35-33-2D-35-34-2D-35-35-2D-35-36-2D-35-37-2D-35-38-2D-35-39-2D-36-30-2D-36-31-2D-36-32-2D-36-33-2D-36-34-2D-36-35-2D-36-36-2D-36-37-2D-36-38-2D-36-39-2D-37-30-2D-37-31-2D-37-32-2D-37-33-2D-37-34-2D-37-35-2D-37-36-2D-37-37-2D-37-38-2D-37-39-2D-38-30-2D-38-31-2D-38-32-2D-38-33-2D-38-34-2D-38-35-2D-38-36-2D-38-37-2D-38-38-2D-38-39-2D-39-30-2D-39-31-2D-39-32-2D-39-33-2D-39-34-2D-39-35-2D-39-36-2D-39-37-2D-39-38-2D-39-39-00-22-01-00-00-30-2D-31-2D-32-2D-33-2D-34-2D-35-2D-36-2D-37-2D-38-2D-39-2D-31-30-2D-31-31-2D-31-32-2D-31-33-2D-31-34-2D-31-35-2D-31-36-2D-31-37-2D-31-38-2D-31-39-2D-32-30-2D-32-31-2D-32-32-2D-32-33-2D-32-34-2D-32-35-2D-32-36-2D-32-37-2D-32-38-2D-32-39-2D-33-30-2D-33-31-2D-33-32-2D-33-33-2D-33-34-2D-33-35-2D-33-36-2D-33-37-2D-33-38-2D-33-39-2D-34-30-2D-34-31-2D-34-32-2D-34-33-2D-34-34-2D-34-35-2D-34-36-2D-34-37-2D-34-38-2D-34-39-2D-35-30-2D-35-31-2D-35-32-2D-35-33-2D-35-34-2D-35-35-2D-35-36-2D-35-37-2D-35-38-2D-35-39-2D-36-30-2D-36-31-2D-36-32-2D-36-33-2D-36-34-2D-36-35-2D-36-36-2D-36-37-2D-36-38-2D-36-39-2D-37-30-2D-37-31-2D-37-32-2D-37-33-2D-37-34-2D-37-35-2D-37-36-2D-37-37-2D-37-38-2D-37-39-2D-38-30-2D-38-31-2D-38-32-2D-38-33-2D-38-34-2D-38-35-2D-38-36-2D-38-37-2D-38-38-2D-38-39-2D-39-30-2D-39-31-2D-39-32-2D-39-33-2D-39-34-2D-39-35-2D-39-36-2D-39-37-2D-39-38-2D-39-39-00-00", bson);
     }
 
     [Fact]
@@ -347,26 +347,26 @@ public class BsonWriterTests : TestFixtureBase
         var bsonGoogleMapGeocoder = (GoogleMapGeocoderStructure)serializer.Deserialize(reader, typeof(GoogleMapGeocoderStructure));
 
         Xunit.Assert.NotNull(bsonGoogleMapGeocoder);
-        Assert.AreEqual("1600 Amphitheatre Parkway, Mountain View, CA, USA", bsonGoogleMapGeocoder.Name);
-        Assert.AreEqual("200", bsonGoogleMapGeocoder.Status.Code);
-        Assert.AreEqual("geocode", bsonGoogleMapGeocoder.Status.Request);
+        Xunit.Assert.Equal("1600 Amphitheatre Parkway, Mountain View, CA, USA", bsonGoogleMapGeocoder.Name);
+        Xunit.Assert.Equal("200", bsonGoogleMapGeocoder.Status.Code);
+        Xunit.Assert.Equal("geocode", bsonGoogleMapGeocoder.Status.Request);
 
         IList<Placemark> placemarks = bsonGoogleMapGeocoder.Placemark;
         Xunit.Assert.NotNull(placemarks);
-        Assert.AreEqual(1, placemarks.Count);
+        Xunit.Assert.Equal(1, placemarks.Count);
 
         var placemark = placemarks[0];
-        Assert.AreEqual("1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA", placemark.Address);
-        Assert.AreEqual(8, placemark.AddressDetails.Accuracy);
-        Assert.AreEqual("US", placemark.AddressDetails.Country.CountryNameCode);
-        Assert.AreEqual("CA", placemark.AddressDetails.Country.AdministrativeArea.AdministrativeAreaName);
-        Assert.AreEqual("Santa Clara", placemark.AddressDetails.Country.AdministrativeArea.SubAdministrativeArea.SubAdministrativeAreaName);
-        Assert.AreEqual("Mountain View", placemark.AddressDetails.Country.AdministrativeArea.SubAdministrativeArea.Locality.LocalityName);
-        Assert.AreEqual("1600 Amphitheatre Pkwy", placemark.AddressDetails.Country.AdministrativeArea.SubAdministrativeArea.Locality.Thoroughfare.ThoroughfareName);
-        Assert.AreEqual("94043", placemark.AddressDetails.Country.AdministrativeArea.SubAdministrativeArea.Locality.PostalCode.PostalCodeNumber);
-        Assert.AreEqual(-122.083739m, placemark.Point.Coordinates[0]);
-        Assert.AreEqual(37.423021m, placemark.Point.Coordinates[1]);
-        Assert.AreEqual(0m, placemark.Point.Coordinates[2]);
+        Xunit.Assert.Equal("1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA", placemark.Address);
+        Xunit.Assert.Equal(8, placemark.AddressDetails.Accuracy);
+        Xunit.Assert.Equal("US", placemark.AddressDetails.Country.CountryNameCode);
+        Xunit.Assert.Equal("CA", placemark.AddressDetails.Country.AdministrativeArea.AdministrativeAreaName);
+        Xunit.Assert.Equal("Santa Clara", placemark.AddressDetails.Country.AdministrativeArea.SubAdministrativeArea.SubAdministrativeAreaName);
+        Xunit.Assert.Equal("Mountain View", placemark.AddressDetails.Country.AdministrativeArea.SubAdministrativeArea.Locality.LocalityName);
+        Xunit.Assert.Equal("1600 Amphitheatre Pkwy", placemark.AddressDetails.Country.AdministrativeArea.SubAdministrativeArea.Locality.Thoroughfare.ThoroughfareName);
+        Xunit.Assert.Equal("94043", placemark.AddressDetails.Country.AdministrativeArea.SubAdministrativeArea.Locality.PostalCode.PostalCodeNumber);
+        Xunit.Assert.Equal(-122.083739m, placemark.Point.Coordinates[0]);
+        Xunit.Assert.Equal(37.423021m, placemark.Point.Coordinates[1]);
+        Xunit.Assert.Equal(0m, placemark.Point.Coordinates[2]);
     }
 
     [Fact]
@@ -381,7 +381,7 @@ public class BsonWriterTests : TestFixtureBase
         writer.WriteEndObject();
 
         var bson = BytesToHex(ms.ToArray());
-        Assert.AreEqual("0C-00-00-00-02-00-01-00-00-00-00-00", bson);
+        Xunit.Assert.Equal("0C-00-00-00-02-00-01-00-00-00-00-00", bson);
     }
 
     [Fact]
@@ -472,9 +472,9 @@ public class BsonWriterTests : TestFixtureBase
         Console.WriteLine(deserializedProduct.Name);
         // Carlos' Spicy Wieners
 
-        Assert.AreEqual("Carlos' Spicy Wieners", deserializedProduct.Name);
-        Assert.AreEqual(9.95m, deserializedProduct.Price);
-        Assert.AreEqual(3, deserializedProduct.Sizes.Length);
+        Xunit.Assert.Equal("Carlos' Spicy Wieners", deserializedProduct.Name);
+        Xunit.Assert.Equal(9.95m, deserializedProduct.Price);
+        Xunit.Assert.Equal(3, deserializedProduct.Sizes.Length);
     }
 
     [Fact]
@@ -491,23 +491,23 @@ public class BsonWriterTests : TestFixtureBase
         writer.WriteEndObject();
 
         var bson = BytesToHex(ms.ToArray());
-        Assert.AreEqual("17-00-00-00-07-5F-6F-69-64-00-01-02-03-04-05-06-07-08-09-0A-0B-0C-00", bson);
+        Xunit.Assert.Equal("17-00-00-00-07-5F-6F-69-64-00-01-02-03-04-05-06-07-08-09-0A-0B-0C-00", bson);
 
         ms.Seek(0, SeekOrigin.Begin);
         var reader = new BsonReader(ms);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartObject, reader.TokenType);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.Bytes, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.Bytes, reader.TokenType);
         Xunit.Assert.Equal(oid, (byte[])reader.Value);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndObject, reader.TokenType);
     }
 
     [Fact]
@@ -570,12 +570,12 @@ public class BsonWriterTests : TestFixtureBase
 
         Console.WriteLine(deserializedProduct.Name);
 
-        Assert.AreEqual(null, deserializedProduct.Name);
-        Assert.AreEqual(9.95m, deserializedProduct.Price);
-        Assert.AreEqual(3, deserializedProduct.Sizes.Length);
-        Assert.AreEqual("Small", deserializedProduct.Sizes[0]);
-        Assert.AreEqual("", deserializedProduct.Sizes[1]);
-        Assert.AreEqual(null, deserializedProduct.Sizes[2]);
+        Xunit.Assert.Equal(null, deserializedProduct.Name);
+        Xunit.Assert.Equal(9.95m, deserializedProduct.Price);
+        Xunit.Assert.Equal(3, deserializedProduct.Sizes.Length);
+        Xunit.Assert.Equal("Small", deserializedProduct.Sizes[0]);
+        Xunit.Assert.Equal("", deserializedProduct.Sizes[1]);
+        Xunit.Assert.Equal(null, deserializedProduct.Sizes[2]);
     }
 
     [Fact]
@@ -596,22 +596,22 @@ public class BsonWriterTests : TestFixtureBase
         reader.ReadRootValueAsArray = true;
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartArray, reader.TokenType);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
-        Assert.AreEqual("Content!", reader.Value);
+        Xunit.Assert.Equal(JsonToken.String, reader.TokenType);
+        Xunit.Assert.Equal("Content!", reader.Value);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
-        Assert.AreEqual("", reader.Value);
+        Xunit.Assert.Equal(JsonToken.String, reader.TokenType);
+        Xunit.Assert.Equal("", reader.Value);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.Null, reader.TokenType);
-        Assert.AreEqual(null, reader.Value);
+        Xunit.Assert.Equal(JsonToken.Null, reader.TokenType);
+        Xunit.Assert.Equal(null, reader.Value);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndArray, reader.TokenType);
 
         Xunit.Assert.False(reader.Read());
     }
@@ -636,22 +636,22 @@ public class BsonWriterTests : TestFixtureBase
         reader.DateTimeKindHandling = DateTimeKind.Utc;
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartArray, reader.TokenType);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.Date, reader.TokenType);
-        Assert.AreEqual(new DateTime(2000, 10, 12, 20, 55, 0, DateTimeKind.Utc), reader.Value);
+        Xunit.Assert.Equal(JsonToken.Date, reader.TokenType);
+        Xunit.Assert.Equal(new DateTime(2000, 10, 12, 20, 55, 0, DateTimeKind.Utc), reader.Value);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.Date, reader.TokenType);
-        Assert.AreEqual(new DateTime(2000, 10, 12, 20, 55, 0, DateTimeKind.Utc), reader.Value);
+        Xunit.Assert.Equal(JsonToken.Date, reader.TokenType);
+        Xunit.Assert.Equal(new DateTime(2000, 10, 12, 20, 55, 0, DateTimeKind.Utc), reader.Value);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.Date, reader.TokenType);
-        Assert.AreEqual(new DateTime(2000, 10, 12, 20, 55, 0, DateTimeKind.Utc), reader.Value);
+        Xunit.Assert.Equal(JsonToken.Date, reader.TokenType);
+        Xunit.Assert.Equal(new DateTime(2000, 10, 12, 20, 55, 0, DateTimeKind.Utc), reader.Value);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndArray, reader.TokenType);
 
         Xunit.Assert.False(reader.Read());
     }
@@ -684,7 +684,7 @@ public class BsonWriterTests : TestFixtureBase
         writer.WriteValue(new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Unspecified));
         writer.WriteEndArray();
 
-        Assert.AreEqual("10-00-00-00-09-30-00-C8-88-07-6B-DC-00-00-00-00", BitConverter.ToString(ms.ToArray()));
+        Xunit.Assert.Equal("10-00-00-00-09-30-00-C8-88-07-6B-DC-00-00-00-00", BitConverter.ToString(ms.ToArray()));
     }
 
     public class RegexTestClass
@@ -706,7 +706,7 @@ public class BsonWriterTests : TestFixtureBase
 
         var hex = BitConverter.ToString(ms.ToArray());
 
-        Assert.AreEqual("15-00-00-00-0B-52-65-67-65-78-00-28-68-69-29-00-69-75-78-00-00", hex);
+        Xunit.Assert.Equal("15-00-00-00-0B-52-65-67-65-78-00-28-68-69-29-00-69-75-78-00-00", hex);
 
         var o = (JObject)JObject.ReadFrom(new BsonReader(new MemoryStream(ms.ToArray())));
 
@@ -758,7 +758,7 @@ public class BsonWriterTests : TestFixtureBase
 
         var c2 = serializer.Deserialize<GuidTestClass>(reader);
 
-        Assert.AreEqual(c.AGuid, c2.AGuid);
+        Xunit.Assert.Equal(c.AGuid, c2.AGuid);
     }
 
     [Fact]
@@ -781,7 +781,7 @@ public class BsonWriterTests : TestFixtureBase
 
         var c2 = serializer.Deserialize<GuidTestClass>(reader);
 
-        Assert.AreEqual(c.AGuid, c2.AGuid.ToString());
+        Xunit.Assert.Equal(c.AGuid, c2.AGuid.ToString());
     }
 
     [Fact]
@@ -798,23 +798,23 @@ public class BsonWriterTests : TestFixtureBase
         writer.WriteEndObject();
 
         var bson = BytesToHex(ms.ToArray());
-        Assert.AreEqual("2A-00-00-00-05-42-6C-61-68-00-1A-00-00-00-00-F6-FF-FF-FF-FF-FF-FF-1F-B2-21-CB-28-59-84-C4-AE-03-8A-44-34-2F-4C-4E-9E-3E-01-00", bson);
+        Xunit.Assert.Equal("2A-00-00-00-05-42-6C-61-68-00-1A-00-00-00-00-F6-FF-FF-FF-FF-FF-FF-1F-B2-21-CB-28-59-84-C4-AE-03-8A-44-34-2F-4C-4E-9E-3E-01-00", bson);
 
         ms.Seek(0, SeekOrigin.Begin);
         var reader = new BsonReader(ms);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartObject, reader.TokenType);
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.Bytes, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.Bytes, reader.TokenType);
         Xunit.Assert.Equal(new byte[] { 246, 255, 255, 255, 255, 255, 255, 31, 178, 33, 203, 40, 89, 132, 196, 174, 3, 138, 68, 52, 47, 76, 78, 158, 62, 1 }, (byte[])reader.Value);
-        Assert.AreEqual(i, new BigInteger((byte[])reader.Value));
+        Xunit.Assert.Equal(i, new BigInteger((byte[])reader.Value));
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndObject, reader.TokenType);
 
         Xunit.Assert.False(reader.Read());
     }
@@ -835,12 +835,12 @@ public class BsonWriterTests : TestFixtureBase
 
         var reader = new BsonReader(ms);
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartObject, reader.TokenType);
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-        Assert.AreEqual("http://example.net/", reader.ReadAsString());
+        Xunit.Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+        Xunit.Assert.Equal("http://example.net/", reader.ReadAsString());
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.PropertyName, reader.TokenType);
         Xunit.Assert.Null(reader.ReadAsString());
     }
 
@@ -860,12 +860,12 @@ public class BsonWriterTests : TestFixtureBase
 
         var reader = new BsonReader(ms);
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartObject, reader.TokenType);
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-        Assert.AreEqual(new byte[] {0, 1, 2, 3, 4, 5, 6, 7}, reader.ReadAsBytes());
+        Xunit.Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+        Xunit.Assert.Equal(new byte[] {0, 1, 2, 3, 4, 5, 6, 7}, reader.ReadAsBytes());
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.PropertyName, reader.TokenType);
         Xunit.Assert.Null(reader.ReadAsBytes());
     }
 
@@ -879,7 +879,7 @@ public class BsonWriterTests : TestFixtureBase
         writer.WritePropertyName("Blah");
         writer.WriteEnd();
 
-        Assert.AreEqual("0B-00-00-00-0A-42-6C-61-68-00-00", BitConverter.ToString(ms.ToArray()));
+        Xunit.Assert.Equal("0B-00-00-00-0A-42-6C-61-68-00-00", BitConverter.ToString(ms.ToArray()));
     }
 
     [Fact]
@@ -892,7 +892,7 @@ public class BsonWriterTests : TestFixtureBase
         writer.WritePropertyName("Blah");
         writer.Close();
 
-        Assert.AreEqual("0B-00-00-00-0A-42-6C-61-68-00-00", BitConverter.ToString(ms.ToArray()));
+        Xunit.Assert.Equal("0B-00-00-00-0A-42-6C-61-68-00-00", BitConverter.ToString(ms.ToArray()));
     }
 
     [Fact]
@@ -905,7 +905,7 @@ public class BsonWriterTests : TestFixtureBase
             writer.WritePropertyName("Blah");
         }
 
-        Assert.AreEqual("0B-00-00-00-0A-42-6C-61-68-00-00", BitConverter.ToString(ms.ToArray()));
+        Xunit.Assert.Equal("0B-00-00-00-0A-42-6C-61-68-00-00", BitConverter.ToString(ms.ToArray()));
     }
 
     [Fact]
@@ -923,7 +923,7 @@ public class BsonWriterTests : TestFixtureBase
         }
 
         // nothing is written because a BSON document needs to be completed before it can be written
-        Assert.AreEqual(string.Empty, BitConverter.ToString(ms.ToArray()));
+        Xunit.Assert.Equal(string.Empty, BitConverter.ToString(ms.ToArray()));
     }
 }
 #pragma warning restore 618

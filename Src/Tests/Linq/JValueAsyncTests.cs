@@ -40,8 +40,8 @@ public class JValueAsyncTests : TestFixtureBase
                 FloatParseHandling = FloatParseHandling.Decimal
             });
 
-        Assert.AreEqual(9.9m, v.Value);
-        Assert.AreEqual(typeof(decimal), v.Value.GetType());
+        Xunit.Assert.Equal(9.9m, v.Value);
+        Xunit.Assert.Equal(typeof(decimal), v.Value.GetType());
     }
 
     public class Rate
@@ -67,10 +67,10 @@ public class JValueAsyncTests : TestFixtureBase
 
             Xunit.Assert.IsType(typeof(DateTimeOffset), d.Value);
             var offset = ((DateTimeOffset)d.Value).Offset;
-            Assert.AreEqual(TimeSpan.FromHours(1), offset);
+            Xunit.Assert.Equal(TimeSpan.FromHours(1), offset);
 
             var dateTimeOffset = (DateTimeOffset)d;
-            Assert.AreEqual(TimeSpan.FromHours(1), dateTimeOffset.Offset);
+            Xunit.Assert.Equal(TimeSpan.FromHours(1), dateTimeOffset.Offset);
         }
     }
 
@@ -81,12 +81,12 @@ public class JValueAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader("'2013-08-14T04:38:31.000+1230'"));
         reader.DateParseHandling = DateParseHandling.DateTimeOffset;
         var date = (JValue)await JToken.ReadFromAsync(reader);
-        Assert.AreEqual(expectedDate, date.Value);
+        Xunit.Assert.Equal(expectedDate, date.Value);
 
         var expectedDate2 = new DateTimeOffset(2013, 08, 14, 4, 38, 31, TimeSpan.FromHours(12));
         var reader2 = new JsonTextReader(new StringReader("'2013-08-14T04:38:31.000+12'"));
         reader2.DateParseHandling = DateParseHandling.DateTimeOffset;
         var date2 = (JValue)await JToken.ReadFromAsync(reader2);
-        Assert.AreEqual(expectedDate2, date2.Value);
+        Xunit.Assert.Equal(expectedDate2, date2.Value);
     }
 }

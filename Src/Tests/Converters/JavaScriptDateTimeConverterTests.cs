@@ -40,7 +40,7 @@ public class JavaScriptDateTimeConverterTests : TestFixtureBase
         var d = new DateTime(2000, 12, 15, 22, 11, 3, 55, DateTimeKind.Utc);
 
         var result = JsonConvert.SerializeObject(d, converter);
-        Assert.AreEqual("new Date(976918263055)", result);
+        Xunit.Assert.Equal("new Date(976918263055)", result);
     }
 
     [Fact]
@@ -51,7 +51,7 @@ public class JavaScriptDateTimeConverterTests : TestFixtureBase
         var now = new DateTimeOffset(2000, 12, 15, 22, 11, 3, 55, TimeSpan.Zero);
 
         var result = JsonConvert.SerializeObject(now, converter);
-        Assert.AreEqual("new Date(976918263055)", result);
+        Xunit.Assert.Equal("new Date(976918263055)", result);
     }
 
     [Fact]
@@ -66,7 +66,7 @@ public class JavaScriptDateTimeConverterTests : TestFixtureBase
         var converter = new JavaScriptDateTimeConverter();
 
         var result = JsonConvert.SerializeObject(t, converter);
-        Assert.AreEqual(@"{""PreField"":null,""DateTimeField"":null,""DateTimeOffsetField"":null,""PostField"":null}", result);
+        Xunit.Assert.Equal(@"{""PreField"":null,""DateTimeField"":null,""DateTimeOffsetField"":null,""PostField"":null}", result);
 
         t = new NullableDateTimeTestClass
         {
@@ -75,7 +75,7 @@ public class JavaScriptDateTimeConverterTests : TestFixtureBase
         };
 
         result = JsonConvert.SerializeObject(t, converter);
-        Assert.AreEqual(@"{""PreField"":null,""DateTimeField"":new Date(976918263055),""DateTimeOffsetField"":new Date(976918263055),""PostField"":null}", result);
+        Xunit.Assert.Equal(@"{""PreField"":null,""DateTimeField"":new Date(976918263055),""DateTimeOffsetField"":new Date(976918263055),""PostField"":null}", result);
     }
 
     [Fact]
@@ -97,7 +97,7 @@ public class JavaScriptDateTimeConverterTests : TestFixtureBase
         var json = JsonConvert.SerializeObject(start, converter);
 
         var result = JsonConvert.DeserializeObject<DateTimeOffset>(json, converter);
-        Assert.AreEqual(new DateTimeOffset(2000, 12, 15, 22, 11, 3, 55, TimeSpan.Zero), result);
+        Xunit.Assert.Equal(new DateTimeOffset(2000, 12, 15, 22, 11, 3, 55, TimeSpan.Zero), result);
     }
 
     [Fact]
@@ -106,7 +106,7 @@ public class JavaScriptDateTimeConverterTests : TestFixtureBase
         var converter = new JavaScriptDateTimeConverter();
 
         var result = JsonConvert.DeserializeObject<DateTime>("new Date(976918263055)", converter);
-        Assert.AreEqual(new DateTime(2000, 12, 15, 22, 11, 3, 55, DateTimeKind.Utc), result);
+        Xunit.Assert.Equal(new DateTime(2000, 12, 15, 22, 11, 3, 55, DateTimeKind.Utc), result);
     }
 
     [Fact]
@@ -115,25 +115,25 @@ public class JavaScriptDateTimeConverterTests : TestFixtureBase
         var converter = new JavaScriptDateTimeConverter();
 
         var result = JsonConvert.DeserializeObject<DateTime>("new Date(2000, 11)", converter);
-        Assert.AreEqual(new DateTime(2000, 12, 1, 0, 0, 0, 0, DateTimeKind.Utc), result);
+        Xunit.Assert.Equal(new DateTime(2000, 12, 1, 0, 0, 0, 0, DateTimeKind.Utc), result);
 
         result = JsonConvert.DeserializeObject<DateTime>("new Date(2000, 11, 12)", converter);
-        Assert.AreEqual(new DateTime(2000, 12, 12, 0, 0, 0, 0, DateTimeKind.Utc), result);
+        Xunit.Assert.Equal(new DateTime(2000, 12, 12, 0, 0, 0, 0, DateTimeKind.Utc), result);
 
         result = JsonConvert.DeserializeObject<DateTime>("new Date(2000, 11, 12, 20)", converter);
-        Assert.AreEqual(new DateTime(2000, 12, 12, 20, 0, 0, 0, DateTimeKind.Utc), result);
+        Xunit.Assert.Equal(new DateTime(2000, 12, 12, 20, 0, 0, 0, DateTimeKind.Utc), result);
 
         result = JsonConvert.DeserializeObject<DateTime>("new Date(2000, 11, 12, 20, 1)", converter);
-        Assert.AreEqual(new DateTime(2000, 12, 12, 20, 1, 0, 0, DateTimeKind.Utc), result);
+        Xunit.Assert.Equal(new DateTime(2000, 12, 12, 20, 1, 0, 0, DateTimeKind.Utc), result);
 
         result = JsonConvert.DeserializeObject<DateTime>("new Date(2000, 11, 12, 20, 1, 2)", converter);
-        Assert.AreEqual(new DateTime(2000, 12, 12, 20, 1, 2, 0, DateTimeKind.Utc), result);
+        Xunit.Assert.Equal(new DateTime(2000, 12, 12, 20, 1, 2, 0, DateTimeKind.Utc), result);
 
         result = JsonConvert.DeserializeObject<DateTime>("new Date(2000, 11, 12, 20, 1, 2, 3)", converter);
-        Assert.AreEqual(new DateTime(2000, 12, 12, 20, 1, 2, 3, DateTimeKind.Utc), result);
+        Xunit.Assert.Equal(new DateTime(2000, 12, 12, 20, 1, 2, 3, DateTimeKind.Utc), result);
 
         result = JsonConvert.DeserializeObject<DateTime>("new Date(2000, 11, 1, 0, 0, 0, 0)", converter);
-        Assert.AreEqual(new DateTime(2000, 12, 1, 0, 0, 0, 0, DateTimeKind.Utc), result);
+        Xunit.Assert.Equal(new DateTime(2000, 12, 1, 0, 0, 0, 0, DateTimeKind.Utc), result);
     }
 
     [Fact]
@@ -202,8 +202,8 @@ public class JavaScriptDateTimeConverterTests : TestFixtureBase
         var l2 = JsonConvert.DeserializeObject<ConverterList<object>>(json);
         Xunit.Assert.NotNull(l2);
 
-        Assert.AreEqual(new DateTime(2000, 12, 12, 20, 10, 0, DateTimeKind.Utc), l2[0]);
-        Assert.AreEqual(new DateTime(1983, 10, 9, 23, 10, 0, DateTimeKind.Utc), l2[1]);
+        Xunit.Assert.Equal(new DateTime(2000, 12, 12, 20, 10, 0, DateTimeKind.Utc), l2[0]);
+        Xunit.Assert.Equal(new DateTime(1983, 10, 9, 23, 10, 0, DateTimeKind.Utc), l2[1]);
     }
 
     [Fact]
@@ -227,8 +227,8 @@ public class JavaScriptDateTimeConverterTests : TestFixtureBase
         var l2 = JsonConvert.DeserializeObject<ConverterDictionary<object>>(json);
         Xunit.Assert.NotNull(l2);
 
-        Assert.AreEqual(new DateTime(2000, 12, 12, 20, 10, 0, DateTimeKind.Utc), l2["First"]);
-        Assert.AreEqual(new DateTime(1983, 10, 9, 23, 10, 0, DateTimeKind.Utc), l2["Second"]);
+        Xunit.Assert.Equal(new DateTime(2000, 12, 12, 20, 10, 0, DateTimeKind.Utc), l2["First"]);
+        Xunit.Assert.Equal(new DateTime(1983, 10, 9, 23, 10, 0, DateTimeKind.Utc), l2["Second"]);
     }
 
     [Fact]

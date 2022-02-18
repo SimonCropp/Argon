@@ -79,6 +79,6 @@ public class JsonConverterAttributeClass : TestFixtureBase
         // "domain\\username"
         #endregion
 
-        Assert.AreEqual(@"""domain\\username""", json);
+        Xunit.Assert.Equal(@"""domain\\username""", json);
     }
 }

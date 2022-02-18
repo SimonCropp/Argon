@@ -50,6 +50,6 @@ public class JValueValue : TestFixtureBase
         // http://www.google.com/
         #endregion
 
-        Assert.AreEqual(new Uri("http://www.google.com/"), u.Value);
+        Xunit.Assert.Equal(new Uri("http://www.google.com/"), u.Value);
     }
 }

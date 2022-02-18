@@ -37,25 +37,25 @@ public class JPropertyAsyncTests : TestFixtureBase
         JsonReader reader = new JsonTextReader(new StringReader("{'propertyname':['value1']}"));
         await reader.ReadAsync();
 
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartObject, reader.TokenType);
         await reader.ReadAsync();
 
         var property = await JProperty.LoadAsync(reader);
-        Assert.AreEqual("propertyname", property.Name);
+        Xunit.Assert.Equal("propertyname", property.Name);
         Xunit.Assert.True(JToken.DeepEquals(JArray.Parse("['value1']"), property.Value));
 
-        Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndObject, reader.TokenType);
 
         reader = new JsonTextReader(new StringReader("{'propertyname':null}"));
         await reader.ReadAsync();
 
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartObject, reader.TokenType);
         await reader.ReadAsync();
 
         property = await JProperty.LoadAsync(reader);
-        Assert.AreEqual("propertyname", property.Name);
+        Xunit.Assert.Equal("propertyname", property.Name);
         Xunit.Assert.True(JToken.DeepEquals(JValue.CreateNull(), property.Value));
 
-        Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndObject, reader.TokenType);
     }
 }

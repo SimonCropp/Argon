@@ -43,6 +43,6 @@ public class DeserializeCollection : TestFixtureBase
         // Starcraft, Halo, Legend of Zelda
         #endregion
 
-        Assert.AreEqual("Starcraft, Halo, Legend of Zelda", string.Join(", ", videogames.ToArray()));
+        Xunit.Assert.Equal("Starcraft, Halo, Legend of Zelda", string.Join(", ", videogames.ToArray()));
     }
 }

@@ -44,7 +44,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
         var args = new object[] { "Value" };
         var o = (InTestClass)creator(args);
         Xunit.Assert.NotNull(o);
-        Assert.AreEqual("Value", o.Value);
+        Xunit.Assert.Equal("Value", o.Value);
     }
 
     [Fact]
@@ -57,7 +57,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
         var args = new object[] { "Value", true };
         var o = (InTestClass)creator(args);
         Xunit.Assert.NotNull(o);
-        Assert.AreEqual("Value", o.Value);
+        Xunit.Assert.Equal("Value", o.Value);
         Assert.True( o.B1);
     }
 
@@ -71,7 +71,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
         var args = new object[] { "Input" };
         var o = (OutAndRefTestClass)creator(args);
         Xunit.Assert.NotNull(o);
-        Assert.AreEqual("Input", o.Input);
+        Xunit.Assert.Equal("Input", o.Input);
     }
 
     [Fact]
@@ -84,7 +84,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
         var args = new object[] { "Input", false };
         var o = (OutAndRefTestClass)creator(args);
         Xunit.Assert.NotNull(o);
-        Assert.AreEqual("Input", o.Input);
+        Xunit.Assert.Equal("Input", o.Input);
         Assert.True( o.B1);
     }
 
@@ -98,7 +98,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
         var args = new object[] { "Input", true, null };
         var o = (OutAndRefTestClass)creator(args);
         Xunit.Assert.NotNull(o);
-        Assert.AreEqual("Input", o.Input);
+        Xunit.Assert.Equal("Input", o.Input);
         Assert.True( o.B1);
         Assert.False( o.B2);
     }
@@ -131,11 +131,11 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
 
             setter(m, "Hi");
 
-            Assert.AreEqual(m.Name, "Hi");
+            Xunit.Assert.Equal(m.Name, "Hi");
 
             setter(p, "Hi");
 
-            Assert.AreEqual(p.Name, "Hi");
+            Xunit.Assert.Equal(p.Name, "Hi");
         }, "Unable to cast object of type 'Argon.Tests.TestObjects.Organization.Person' to type 'Argon.Tests.TestObjects.Movie'.");
     }
 
@@ -150,7 +150,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
 
             setter(structTest, "Hi");
 
-            Assert.AreEqual("Hi", ((StructTest)structTest).StringProperty);
+            Xunit.Assert.Equal("Hi", ((StructTest)structTest).StringProperty);
 
             setter(new TimeSpan(), "Hi");
         }, "Specified cast is not valid.");
@@ -182,7 +182,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
         Xunit.Assert.NotNull(result);
 
         var key = (DictionaryKey)result;
-        Assert.AreEqual("First!", key.Value);
+        Xunit.Assert.Equal("First!", key.Value);
     }
 
     [Fact]
@@ -202,7 +202,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
         var result = call(p);
         Xunit.Assert.NotNull(result);
 
-        Assert.AreEqual("Name!", (string)result);
+        Xunit.Assert.Equal("Name!", (string)result);
     }
 
     [Fact]
@@ -210,11 +210,11 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
     {
         var creator1 = DynamicReflectionDelegateFactory.Instance.CreateDefaultConstructor<object>(typeof(MyStruct));
         var myStruct1 = (MyStruct)creator1.Invoke();
-        Assert.AreEqual(0, myStruct1.IntProperty);
+        Xunit.Assert.Equal(0, myStruct1.IntProperty);
 
         var creator2 = DynamicReflectionDelegateFactory.Instance.CreateDefaultConstructor<MyStruct>(typeof(MyStruct));
         var myStruct2 = creator2.Invoke();
-        Assert.AreEqual(0, myStruct2.IntProperty);
+        Xunit.Assert.Equal(0, myStruct2.IntProperty);
     }
 
     public struct TestStruct
@@ -245,7 +245,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
         Xunit.Assert.NotNull(result);
 
         var s = (TestStruct)result;
-        Assert.AreEqual(246, s.Value);
+        Xunit.Assert.Equal(246, s.Value);
     }
 }
 

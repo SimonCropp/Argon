@@ -54,8 +54,8 @@ public class BinaryConverterTests : TestFixtureBase
 
         var binaryClass = JsonConvert.DeserializeObject<BinaryClass>(json, new BinaryConverter());
 
-        Assert.AreEqual(new Binary(TestData), binaryClass.Binary);
-        Assert.AreEqual(null, binaryClass.NullBinary);
+        Xunit.Assert.Equal(new Binary(TestData), binaryClass.Binary);
+        Xunit.Assert.Equal(null, binaryClass.NullBinary);
     }
 
     [Fact]
@@ -68,8 +68,8 @@ public class BinaryConverterTests : TestFixtureBase
 
         var binaryClass = JsonConvert.DeserializeObject<BinaryClass>(json, new BinaryConverter());
 
-        Assert.AreEqual(new byte[] { 0, 1, 2, 3 }, binaryClass.Binary.ToArray());
-        Assert.AreEqual(null, binaryClass.NullBinary);
+        Xunit.Assert.Equal(new byte[] { 0, 1, 2, 3 }, binaryClass.Binary.ToArray());
+        Xunit.Assert.Equal(null, binaryClass.NullBinary);
     }
 
     public class BinaryClass
@@ -150,9 +150,9 @@ public class BinaryConverterTests : TestFixtureBase
 
         var sqlBinaryClass = JsonConvert.DeserializeObject<SqlBinaryClass>(json, new BinaryConverter());
 
-        Assert.AreEqual(new SqlBinary(TestData), sqlBinaryClass.SqlBinary);
-        Assert.AreEqual(new SqlBinary(TestData), sqlBinaryClass.NullableSqlBinary1);
-        Assert.AreEqual(null, sqlBinaryClass.NullableSqlBinary2);
+        Xunit.Assert.Equal(new SqlBinary(TestData), sqlBinaryClass.SqlBinary);
+        Xunit.Assert.Equal(new SqlBinary(TestData), sqlBinaryClass.NullableSqlBinary1);
+        Xunit.Assert.Equal(null, sqlBinaryClass.NullableSqlBinary2);
     }
 
     [Fact]
@@ -166,7 +166,7 @@ public class BinaryConverterTests : TestFixtureBase
         var byteArrayClass = JsonConvert.DeserializeObject<ByteArrayClass>(json);
 
         Xunit.Assert.Equal(TestData, byteArrayClass.ByteArray);
-        Assert.AreEqual(null, byteArrayClass.NullByteArray);
+        Xunit.Assert.Equal(null, byteArrayClass.NullByteArray);
     }
 
     [Fact]
@@ -179,7 +179,7 @@ public class BinaryConverterTests : TestFixtureBase
 
         var c = JsonConvert.DeserializeObject<ByteArrayClass>(json);
         Xunit.Assert.NotNull(c.ByteArray);
-        Assert.AreEqual(4, c.ByteArray.Length);
+        Xunit.Assert.Equal(4, c.ByteArray.Length);
         Xunit.Assert.Equal(new byte[] { 0, 1, 2, 3 }, c.ByteArray);
     }
 }

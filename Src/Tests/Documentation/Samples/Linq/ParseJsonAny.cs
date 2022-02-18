@@ -56,6 +56,6 @@ public class ParseJsonAny : TestFixtureBase
         // String
         #endregion
 
-        Assert.AreEqual(JTokenType.String, t4.Type);
+        Xunit.Assert.Equal(JTokenType.String, t4.Type);
     }
 }

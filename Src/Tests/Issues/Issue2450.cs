@@ -53,7 +53,7 @@ public class Issue2450
         });
 
         var json = JsonConvert.SerializeObject(d);
-        Assert.AreEqual(@"{""prop1"":1,""prop2"":2}", json);
+        Xunit.Assert.Equal(@"{""prop1"":1,""prop2"":2}", json);
     }
 
     [Fact]
@@ -62,8 +62,8 @@ public class Issue2450
         var json = @"{""prop1"":1,""prop2"":2}";
 
         var d = JsonConvert.DeserializeObject<Dict?>(json);
-        Assert.AreEqual((Int64)1, d.Value["prop1"]);
-        Assert.AreEqual((Int64)2, d.Value["prop2"]);
+        Xunit.Assert.Equal((Int64)1, d.Value["prop1"]);
+        Xunit.Assert.Equal((Int64)2, d.Value["prop2"]);
     }
 
     public struct Dict : IReadOnlyDictionary<string, object>

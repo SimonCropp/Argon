@@ -51,7 +51,7 @@ public class JObjectTests : TestFixtureBase
   ""title"": null
 }", output);
 
-        Assert.AreEqual(null, v.Value);
+        Xunit.Assert.Equal(null, v.Value);
         Xunit.Assert.Null((string) o.title);
     }
 
@@ -77,9 +77,9 @@ public class JObjectTests : TestFixtureBase
             }
         }
 
-        Assert.AreEqual(2, roles.Count);
-        Assert.AreEqual("Admin", (string) roles[0]["name"]);
-        Assert.AreEqual("Publisher", (string) roles[1]["name"]);
+        Xunit.Assert.Equal(2, roles.Count);
+        Xunit.Assert.Equal("Admin", (string) roles[0]["name"]);
+        Xunit.Assert.Equal("Publisher", (string) roles[1]["name"]);
     }
 
     [Fact]
@@ -98,7 +98,7 @@ public class JObjectTests : TestFixtureBase
 
         var o = JToken.Parse(json);
 
-        Assert.AreEqual("Apple", (string) o["Name"]);
+        Xunit.Assert.Equal("Apple", (string) o["Name"]);
     }
 
     [Fact]
@@ -117,24 +117,24 @@ public class JObjectTests : TestFixtureBase
         var o = new JObject();
         var d = (IDictionary<string, JToken>) o;
 
-        Assert.AreEqual(0, d.Keys.Count);
+        Xunit.Assert.Equal(0, d.Keys.Count);
 
         o["value"] = true;
 
-        Assert.AreEqual(1, d.Keys.Count);
+        Xunit.Assert.Equal(1, d.Keys.Count);
     }
 
     [Fact]
     public void TryGetValue()
     {
         var o = new JObject {{"PropertyNameValue", new JValue(1)}};
-        Assert.AreEqual(1, o.Children().Count());
+        Xunit.Assert.Equal(1, o.Children().Count());
 
         Assert.False(o.TryGetValue("sdf", out var t));
-        Assert.AreEqual(null, t);
+        Xunit.Assert.Equal(null, t);
 
         Assert.False(o.TryGetValue(null, out t));
-        Assert.AreEqual(null, t);
+        Xunit.Assert.Equal(null, t);
 
         Assert.True(o.TryGetValue("PropertyNameValue", out t));
         Assert.True(JToken.DeepEquals(new JValue(1), t));
@@ -147,19 +147,19 @@ public class JObjectTests : TestFixtureBase
         {
             ["PropertyNameValue"] = new JValue(1)
         };
-        Assert.AreEqual(1, o.Children().Count());
+        Xunit.Assert.Equal(1, o.Children().Count());
 
         Assert.True(o.TryGetValue("PropertyNameValue", out var t));
         Assert.True(JToken.DeepEquals(new JValue(1), t));
 
         o["PropertyNameValue"] = new JValue(2);
-        Assert.AreEqual(1, o.Children().Count());
+        Xunit.Assert.Equal(1, o.Children().Count());
 
         Assert.True(o.TryGetValue("PropertyNameValue", out t));
         Assert.True(JToken.DeepEquals(new JValue(2), t));
 
         o["PropertyNameValue"] = null;
-        Assert.AreEqual(1, o.Children().Count());
+        Xunit.Assert.Equal(1, o.Children().Count());
 
         Assert.True(o.TryGetValue("PropertyNameValue", out t));
         Assert.True(JToken.DeepEquals(JValue.CreateNull(), t));
@@ -169,13 +169,13 @@ public class JObjectTests : TestFixtureBase
     public void Remove()
     {
         var o = new JObject {{"PropertyNameValue", new JValue(1)}};
-        Assert.AreEqual(1, o.Children().Count());
+        Xunit.Assert.Equal(1, o.Children().Count());
 
         Assert.False(o.Remove("sdf"));
         Assert.False(o.Remove(null));
         Assert.True(o.Remove("PropertyNameValue"));
 
-        Assert.AreEqual(0, o.Children().Count());
+        Xunit.Assert.Equal(0, o.Children().Count());
     }
 
     [Fact]
@@ -183,14 +183,14 @@ public class JObjectTests : TestFixtureBase
     {
         var v = new JValue(1);
         var o = new JObject {{"PropertyNameValue", v}};
-        Assert.AreEqual(1, o.Children().Count());
+        Xunit.Assert.Equal(1, o.Children().Count());
 
         Assert.False(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new KeyValuePair<string, JToken>("PropertyNameValue1", new JValue(1))));
         Assert.False(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new KeyValuePair<string, JToken>("PropertyNameValue", new JValue(2))));
         Assert.False(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new KeyValuePair<string, JToken>("PropertyNameValue", new JValue(1))));
         Assert.True(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new KeyValuePair<string, JToken>("PropertyNameValue", v)));
 
-        Assert.AreEqual(0, o.Children().Count());
+        Xunit.Assert.Equal(0, o.Children().Count());
     }
 
     [Fact]
@@ -211,12 +211,12 @@ public class JObjectTests : TestFixtureBase
     {
         var o = new JObject {{"PropertyNameValue", new JValue(1)}};
 
-        Assert.AreEqual(1, (int) o["PropertyNameValue"]);
+        Xunit.Assert.Equal(1, (int) o["PropertyNameValue"]);
 
         o.Add("PropertyNameValue1", null);
-        Assert.AreEqual(null, ((JValue) o["PropertyNameValue1"]).Value);
+        Xunit.Assert.Equal(null, ((JValue) o["PropertyNameValue1"]).Value);
 
-        Assert.AreEqual(2, o.Children().Count());
+        Xunit.Assert.Equal(2, o.Children().Count());
     }
 
     [Fact]
@@ -225,22 +225,22 @@ public class JObjectTests : TestFixtureBase
         var o = new JObject();
         ((ICollection<KeyValuePair<string, JToken>>) o).Add(new KeyValuePair<string, JToken>("PropertyNameValue", new JValue(1)));
 
-        Assert.AreEqual(1, (int) o["PropertyNameValue"]);
-        Assert.AreEqual(1, o.Children().Count());
+        Xunit.Assert.Equal(1, (int) o["PropertyNameValue"]);
+        Xunit.Assert.Equal(1, o.Children().Count());
     }
 
     [Fact]
     public void GenericCollectionClear()
     {
         var o = new JObject {{"PropertyNameValue", new JValue(1)}};
-        Assert.AreEqual(1, o.Children().Count());
+        Xunit.Assert.Equal(1, o.Children().Count());
 
         var p = (JProperty) o.Children().ElementAt(0);
 
         ((ICollection<KeyValuePair<string, JToken>>) o).Clear();
-        Assert.AreEqual(0, o.Children().Count());
+        Xunit.Assert.Equal(0, o.Children().Count());
 
-        Assert.AreEqual(null, p.Parent);
+        Xunit.Assert.Equal(null, p.Parent);
     }
 
     [Fact]
@@ -248,7 +248,7 @@ public class JObjectTests : TestFixtureBase
     {
         var v = new JValue(1);
         var o = new JObject {{"PropertyNameValue", v}};
-        Assert.AreEqual(1, o.Children().Count());
+        Xunit.Assert.Equal(1, o.Children().Count());
 
         var contains = ((ICollection<KeyValuePair<string, JToken>>) o).Contains(new KeyValuePair<string, JToken>("PropertyNameValue", new JValue(1)));
         Assert.False(contains);
@@ -270,7 +270,7 @@ public class JObjectTests : TestFixtureBase
     public void Contains()
     {
         var o = new JObject {{"PropertyNameValue", new JValue(1)}};
-        Assert.AreEqual(1, o.Children().Count());
+        Xunit.Assert.Equal(1, o.Children().Count());
 
         var contains = o.ContainsKey("PropertyNameValue");
         Assert.True(contains);
@@ -292,7 +292,7 @@ Parameter name: propertyName",
     public void GenericDictionaryContains()
     {
         var o = new JObject {{"PropertyNameValue", new JValue(1)}};
-        Assert.AreEqual(1, o.Children().Count());
+        Xunit.Assert.Equal(1, o.Children().Count());
 
         var contains = ((IDictionary<string, JToken>) o).ContainsKey("PropertyNameValue");
         Assert.True(contains);
@@ -307,24 +307,24 @@ Parameter name: propertyName",
             {"PropertyNameValue2", new JValue(2)},
             {"PropertyNameValue3", new JValue(3)}
         };
-        Assert.AreEqual(3, o.Children().Count());
+        Xunit.Assert.Equal(3, o.Children().Count());
 
         var a = new KeyValuePair<string, JToken>[5];
 
         ((ICollection<KeyValuePair<string, JToken>>) o).CopyTo(a, 1);
 
-        Assert.AreEqual(default(KeyValuePair<string, JToken>), a[0]);
+        Xunit.Assert.Equal(default(KeyValuePair<string, JToken>), a[0]);
 
-        Assert.AreEqual("PropertyNameValue", a[1].Key);
-        Assert.AreEqual(1, (int) a[1].Value);
+        Xunit.Assert.Equal("PropertyNameValue", a[1].Key);
+        Xunit.Assert.Equal(1, (int) a[1].Value);
 
-        Assert.AreEqual("PropertyNameValue2", a[2].Key);
-        Assert.AreEqual(2, (int) a[2].Value);
+        Xunit.Assert.Equal("PropertyNameValue2", a[2].Key);
+        Xunit.Assert.Equal(2, (int) a[2].Value);
 
-        Assert.AreEqual("PropertyNameValue3", a[3].Key);
-        Assert.AreEqual(3, (int) a[3].Value);
+        Xunit.Assert.Equal("PropertyNameValue3", a[3].Key);
+        Xunit.Assert.Equal(3, (int) a[3].Value);
 
-        Assert.AreEqual(default(KeyValuePair<string, JToken>), a[4]);
+        Xunit.Assert.Equal(default(KeyValuePair<string, JToken>), a[4]);
     }
 
     [Fact]
@@ -391,10 +391,10 @@ Parameter name: arrayIndex",
 
         var o = JObject.FromObject(raw);
 
-        Assert.AreEqual("FirstNameValue", (string) o["first_name"]);
-        Assert.AreEqual(JTokenType.Raw, ((JValue) o["RawContent"]).Type);
-        Assert.AreEqual("[1,2,3,4,5]", (string) o["RawContent"]);
-        Assert.AreEqual("LastNameValue", (string) o["last_name"]);
+        Xunit.Assert.Equal("FirstNameValue", (string) o["first_name"]);
+        Xunit.Assert.Equal(JTokenType.Raw, ((JValue) o["RawContent"]).Type);
+        Xunit.Assert.Equal("[1,2,3,4,5]", (string) o["RawContent"]);
+        Xunit.Assert.Equal("LastNameValue", (string) o["last_name"]);
     }
 
     [Fact]
@@ -412,28 +412,28 @@ Parameter name: arrayIndex",
         JsonReader reader = new JTokenReader(o);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartObject, reader.TokenType);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.String, reader.TokenType);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.Raw, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.Raw, reader.TokenType);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.String, reader.TokenType);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndObject, reader.TokenType);
 
         Xunit.Assert.False(reader.Read());
     }
@@ -454,9 +454,9 @@ Parameter name: arrayIndex",
         var serializer = new JsonSerializer();
         raw = (PersonRaw) serializer.Deserialize(reader, typeof(PersonRaw));
 
-        Assert.AreEqual("FirstNameValue", raw.FirstName);
-        Assert.AreEqual("LastNameValue", raw.LastName);
-        Assert.AreEqual("[1,2,3,4,5]", raw.RawContent.Value);
+        Xunit.Assert.Equal("FirstNameValue", raw.FirstName);
+        Xunit.Assert.Equal("LastNameValue", raw.LastName);
+        Xunit.Assert.Equal("[1,2,3,4,5]", raw.RawContent.Value);
     }
 
     [Fact]
@@ -477,7 +477,7 @@ Parameter name: arrayIndex",
         var a = (JArray) JsonConvert.DeserializeObject(json);
         var v = (JValue) a[0];
 
-        Assert.AreEqual(DateTimeUtils.ConvertJavaScriptTicksToDateTime(1207285200000), (DateTime) v);
+        Xunit.Assert.Equal(DateTimeUtils.ConvertJavaScriptTicksToDateTime(1207285200000), (DateTime) v);
     }
 
     [Fact]
@@ -491,7 +491,7 @@ Parameter name: arrayIndex",
         json = @"{""foo"":null}";
         o = (JObject) JsonConvert.DeserializeObject(json);
         value = o.Value<bool?>("foo");
-        Assert.AreEqual(null, value);
+        Xunit.Assert.Equal(null, value);
     }
 
     [Fact]
@@ -537,8 +537,8 @@ Parameter name: arrayIndex",
         var i = 1;
         foreach (JProperty property in t)
         {
-            Assert.AreEqual("PropertyNameValue" + i, property.Name);
-            Assert.AreEqual(i, (int) property.Value);
+            Xunit.Assert.Equal("PropertyNameValue" + i, property.Name);
+            Xunit.Assert.Equal(i, (int) property.Value);
 
             i++;
         }
@@ -556,8 +556,8 @@ Parameter name: arrayIndex",
         var i = 1;
         foreach (var pair in o)
         {
-            Assert.AreEqual("PropertyNameValue" + i, pair.Key);
-            Assert.AreEqual(i, (int) pair.Value);
+            Xunit.Assert.Equal("PropertyNameValue" + i, pair.Key);
+            Xunit.Assert.Equal(i, (int) pair.Value);
 
             i++;
         }
@@ -568,8 +568,8 @@ Parameter name: arrayIndex",
     {
         string s = null;
         var v = new JValue(s);
-        Assert.AreEqual(null, v.Value);
-        Assert.AreEqual(JTokenType.String, v.Type);
+        Xunit.Assert.Equal(null, v.Value);
+        Xunit.Assert.Equal(JTokenType.String, v.Type);
 
         var o = new JObject
         {
@@ -607,8 +607,8 @@ Parameter name: arrayIndex",
         var smallest = (string) sizes[0];
         // Small
 
-        Assert.AreEqual("Apple", name);
-        Assert.AreEqual("Small", smallest);
+        Xunit.Assert.Equal("Apple", name);
+        Xunit.Assert.Equal("Small", smallest);
     }
 
     [Fact]
@@ -640,11 +640,11 @@ Parameter name: arrayIndex",
             }
         };
 
-        Assert.AreEqual("http://www.foo.com/", shortie.Original);
-        Assert.AreEqual("krehqk", shortie.Short);
-        Assert.AreEqual(null, shortie.Shortened);
-        Assert.AreEqual(0, shortie.Error.Code);
-        Assert.AreEqual("No action taken", shortie.Error.ErrorMessage);
+        Xunit.Assert.Equal("http://www.foo.com/", shortie.Original);
+        Xunit.Assert.Equal("krehqk", shortie.Short);
+        Xunit.Assert.Equal(null, shortie.Shortened);
+        Xunit.Assert.Equal(0, shortie.Error.Code);
+        Xunit.Assert.Equal("No action taken", shortie.Error.ErrorMessage);
     }
 
     [Fact]
@@ -710,29 +710,29 @@ Parameter name: arrayIndex",
 
         var o = new JObject(p1, p2);
         IList l = o;
-        Assert.AreEqual(p1, l[0]);
-        Assert.AreEqual(p2, l[1]);
+        Xunit.Assert.Equal(p1, l[0]);
+        Xunit.Assert.Equal(p2, l[1]);
 
         var p3 = new JProperty("Test1", "III");
 
         p1.Replace(p3);
-        Assert.AreEqual(null, p1.Parent);
-        Assert.AreEqual(l, p3.Parent);
+        Xunit.Assert.Equal(null, p1.Parent);
+        Xunit.Assert.Equal(l, p3.Parent);
 
-        Assert.AreEqual(p3, l[0]);
-        Assert.AreEqual(p2, l[1]);
+        Xunit.Assert.Equal(p3, l[0]);
+        Xunit.Assert.Equal(p2, l[1]);
 
-        Assert.AreEqual(2, l.Count);
-        Assert.AreEqual(2, o.Properties().Count());
+        Xunit.Assert.Equal(2, l.Count);
+        Xunit.Assert.Equal(2, o.Properties().Count());
 
         var p4 = new JProperty("Test4", "IV");
 
         p2.Replace(p4);
-        Assert.AreEqual(null, p2.Parent);
-        Assert.AreEqual(l, p4.Parent);
+        Xunit.Assert.Equal(null, p2.Parent);
+        Xunit.Assert.Equal(l, p4.Parent);
 
-        Assert.AreEqual(p3, l[0]);
-        Assert.AreEqual(p4, l[1]);
+        Xunit.Assert.Equal(p3, l[0]);
+        Xunit.Assert.Equal(p4, l[1]);
     }
 
     [Fact]
@@ -758,40 +758,40 @@ Parameter name: arrayIndex",
         };
 
         o["StringValue"] = "value1";
-        Assert.AreEqual(null, changing);
-        Assert.AreEqual("value1", changed);
-        Assert.AreEqual("value1", (string) o["StringValue"]);
-        Assert.AreEqual(1, changingCount);
-        Assert.AreEqual(1, changedCount);
+        Xunit.Assert.Equal(null, changing);
+        Xunit.Assert.Equal("value1", changed);
+        Xunit.Assert.Equal("value1", (string) o["StringValue"]);
+        Xunit.Assert.Equal(1, changingCount);
+        Xunit.Assert.Equal(1, changedCount);
 
         o["StringValue"] = "value1";
-        Assert.AreEqual(1, changingCount);
-        Assert.AreEqual(1, changedCount);
+        Xunit.Assert.Equal(1, changingCount);
+        Xunit.Assert.Equal(1, changedCount);
 
         o["StringValue"] = "value2";
-        Assert.AreEqual("value1", changing);
-        Assert.AreEqual("value2", changed);
-        Assert.AreEqual("value2", (string) o["StringValue"]);
-        Assert.AreEqual(2, changingCount);
-        Assert.AreEqual(2, changedCount);
+        Xunit.Assert.Equal("value1", changing);
+        Xunit.Assert.Equal("value2", changed);
+        Xunit.Assert.Equal("value2", (string) o["StringValue"]);
+        Xunit.Assert.Equal(2, changingCount);
+        Xunit.Assert.Equal(2, changedCount);
 
         o["StringValue"] = null;
-        Assert.AreEqual("value2", changing);
-        Assert.AreEqual(null, changed);
-        Assert.AreEqual(null, (string) o["StringValue"]);
-        Assert.AreEqual(3, changingCount);
-        Assert.AreEqual(3, changedCount);
+        Xunit.Assert.Equal("value2", changing);
+        Xunit.Assert.Equal(null, changed);
+        Xunit.Assert.Equal(null, (string) o["StringValue"]);
+        Xunit.Assert.Equal(3, changingCount);
+        Xunit.Assert.Equal(3, changedCount);
 
         o["NullValue"] = null;
-        Assert.AreEqual(null, changing);
-        Assert.AreEqual(null, changed);
-        Assert.AreEqual(JValue.CreateNull(), o["NullValue"]);
-        Assert.AreEqual(4, changingCount);
-        Assert.AreEqual(4, changedCount);
+        Xunit.Assert.Equal(null, changing);
+        Xunit.Assert.Equal(null, changed);
+        Xunit.Assert.Equal(JValue.CreateNull(), o["NullValue"]);
+        Xunit.Assert.Equal(4, changingCount);
+        Xunit.Assert.Equal(4, changedCount);
 
         o["NullValue"] = null;
-        Assert.AreEqual(4, changingCount);
-        Assert.AreEqual(4, changedCount);
+        Xunit.Assert.Equal(4, changingCount);
+        Xunit.Assert.Equal(4, changedCount);
     }
 
     [Fact]
@@ -809,30 +809,30 @@ Parameter name: arrayIndex",
         };
 
         o["StringValue"] = "value1";
-        Assert.AreEqual("value1", changed);
-        Assert.AreEqual("value1", (string) o["StringValue"]);
-        Assert.AreEqual(1, changedCount);
+        Xunit.Assert.Equal("value1", changed);
+        Xunit.Assert.Equal("value1", (string) o["StringValue"]);
+        Xunit.Assert.Equal(1, changedCount);
 
         o["StringValue"] = "value1";
-        Assert.AreEqual(1, changedCount);
+        Xunit.Assert.Equal(1, changedCount);
 
         o["StringValue"] = "value2";
-        Assert.AreEqual("value2", changed);
-        Assert.AreEqual("value2", (string) o["StringValue"]);
-        Assert.AreEqual(2, changedCount);
+        Xunit.Assert.Equal("value2", changed);
+        Xunit.Assert.Equal("value2", (string) o["StringValue"]);
+        Xunit.Assert.Equal(2, changedCount);
 
         o["StringValue"] = null;
-        Assert.AreEqual(null, changed);
-        Assert.AreEqual(null, (string) o["StringValue"]);
-        Assert.AreEqual(3, changedCount);
+        Xunit.Assert.Equal(null, changed);
+        Xunit.Assert.Equal(null, (string) o["StringValue"]);
+        Xunit.Assert.Equal(3, changedCount);
 
         o["NullValue"] = null;
-        Assert.AreEqual(null, changed);
-        Assert.AreEqual(JValue.CreateNull(), o["NullValue"]);
-        Assert.AreEqual(4, changedCount);
+        Xunit.Assert.Equal(null, changed);
+        Xunit.Assert.Equal(JValue.CreateNull(), o["NullValue"]);
+        Xunit.Assert.Equal(4, changedCount);
 
         o["NullValue"] = null;
-        Assert.AreEqual(4, changedCount);
+        Xunit.Assert.Equal(4, changedCount);
     }
 
     [Fact]
@@ -851,8 +851,8 @@ Parameter name: arrayIndex",
         var p = new JProperty("Test", 1);
         IList l = new JObject(p);
 
-        Assert.AreEqual(0, l.IndexOf(p));
-        Assert.AreEqual(-1, l.IndexOf(new JProperty("Test", 1)));
+        Xunit.Assert.Equal(0, l.IndexOf(p));
+        Xunit.Assert.Equal(-1, l.IndexOf(new JProperty("Test", 1)));
     }
 
     [Fact]
@@ -861,11 +861,11 @@ Parameter name: arrayIndex",
         var p = new JProperty("Test", 1);
         IList l = new JObject(p);
 
-        Assert.AreEqual(1, l.Count);
+        Xunit.Assert.Equal(1, l.Count);
 
         l.Clear();
 
-        Assert.AreEqual(0, l.Count);
+        Xunit.Assert.Equal(0, l.Count);
     }
 
     [Fact]
@@ -879,8 +879,8 @@ Parameter name: arrayIndex",
 
         l.CopyTo(a, 0);
 
-        Assert.AreEqual(p1, a[0]);
-        Assert.AreEqual(p2, a[1]);
+        Xunit.Assert.Equal(p1, a[0]);
+        Xunit.Assert.Equal(p2, a[1]);
     }
 
     [Fact]
@@ -894,8 +894,8 @@ Parameter name: arrayIndex",
 
         l.Add(p3);
 
-        Assert.AreEqual(3, l.Count);
-        Assert.AreEqual(p3, l[2]);
+        Xunit.Assert.Equal(3, l.Count);
+        Xunit.Assert.Equal(p3, l[2]);
     }
 
     [Fact]
@@ -950,17 +950,17 @@ Parameter name: arrayIndex",
 
         // won't do anything
         l.Remove(p3);
-        Assert.AreEqual(2, l.Count);
+        Xunit.Assert.Equal(2, l.Count);
 
         l.Remove(p1);
-        Assert.AreEqual(1, l.Count);
+        Xunit.Assert.Equal(1, l.Count);
         Xunit.Assert.False(l.Contains(p1));
         Xunit.Assert.True(l.Contains(p2));
 
         l.Remove(p2);
-        Assert.AreEqual(0, l.Count);
+        Xunit.Assert.Equal(0, l.Count);
         Xunit.Assert.False(l.Contains(p2));
-        Assert.AreEqual(null, p2.Parent);
+        Xunit.Assert.Equal(null, p2.Parent);
     }
 
     [Fact]
@@ -974,10 +974,10 @@ Parameter name: arrayIndex",
         l.RemoveAt(0);
 
         l.Remove(p1);
-        Assert.AreEqual(1, l.Count);
+        Xunit.Assert.Equal(1, l.Count);
 
         l.Remove(p2);
-        Assert.AreEqual(0, l.Count);
+        Xunit.Assert.Equal(0, l.Count);
     }
 
     [Fact]
@@ -990,11 +990,11 @@ Parameter name: arrayIndex",
         var p3 = new JProperty("Test3", "III");
 
         l.Insert(1, p3);
-        Assert.AreEqual(l, p3.Parent);
+        Xunit.Assert.Equal(l, p3.Parent);
 
-        Assert.AreEqual(p1, l[0]);
-        Assert.AreEqual(p3, l[1]);
-        Assert.AreEqual(p2, l[2]);
+        Xunit.Assert.Equal(p1, l[0]);
+        Xunit.Assert.Equal(p3, l[1]);
+        Xunit.Assert.Equal(p2, l[2]);
     }
 
     [Fact]
@@ -1022,8 +1022,8 @@ Parameter name: arrayIndex",
 
         l[0] = p3;
 
-        Assert.AreEqual(p3, l[0]);
-        Assert.AreEqual(p2, l[1]);
+        Xunit.Assert.Equal(p3, l[0]);
+        Xunit.Assert.Equal(p2, l[1]);
     }
 
     [Fact]
@@ -1091,8 +1091,8 @@ Parameter name: arrayIndex",
         var p = new JProperty("Test", 1);
         IList<JToken> l = new JObject(p);
 
-        Assert.AreEqual(0, l.IndexOf(p));
-        Assert.AreEqual(-1, l.IndexOf(new JProperty("Test", 1)));
+        Xunit.Assert.Equal(0, l.IndexOf(p));
+        Xunit.Assert.Equal(-1, l.IndexOf(new JProperty("Test", 1)));
     }
 
     [Fact]
@@ -1101,11 +1101,11 @@ Parameter name: arrayIndex",
         var p = new JProperty("Test", 1);
         IList<JToken> l = new JObject(p);
 
-        Assert.AreEqual(1, l.Count);
+        Xunit.Assert.Equal(1, l.Count);
 
         l.Clear();
 
-        Assert.AreEqual(0, l.Count);
+        Xunit.Assert.Equal(0, l.Count);
     }
 
     [Fact]
@@ -1119,8 +1119,8 @@ Parameter name: arrayIndex",
 
         l.CopyTo(a, 0);
 
-        Assert.AreEqual(p1, a[0]);
-        Assert.AreEqual(p2, a[1]);
+        Xunit.Assert.Equal(p1, a[0]);
+        Xunit.Assert.Equal(p2, a[1]);
     }
 
     [Fact]
@@ -1134,8 +1134,8 @@ Parameter name: arrayIndex",
 
         l.Add(p3);
 
-        Assert.AreEqual(3, l.Count);
-        Assert.AreEqual(p3, l[2]);
+        Xunit.Assert.Equal(3, l.Count);
+        Xunit.Assert.Equal(p3, l[2]);
     }
 
     [Fact]
@@ -1191,17 +1191,17 @@ Parameter name: arrayIndex",
 
         // won't do anything
         Xunit.Assert.False(l.Remove(p3));
-        Assert.AreEqual(2, l.Count);
+        Xunit.Assert.Equal(2, l.Count);
 
         Xunit.Assert.True(l.Remove(p1));
-        Assert.AreEqual(1, l.Count);
+        Xunit.Assert.Equal(1, l.Count);
         Xunit.Assert.False(l.Contains(p1));
         Xunit.Assert.True(l.Contains(p2));
 
         Xunit.Assert.True(l.Remove(p2));
-        Assert.AreEqual(0, l.Count);
+        Xunit.Assert.Equal(0, l.Count);
         Xunit.Assert.False(l.Contains(p2));
-        Assert.AreEqual(null, p2.Parent);
+        Xunit.Assert.Equal(null, p2.Parent);
     }
 
     [Fact]
@@ -1215,10 +1215,10 @@ Parameter name: arrayIndex",
         l.RemoveAt(0);
 
         l.Remove(p1);
-        Assert.AreEqual(1, l.Count);
+        Xunit.Assert.Equal(1, l.Count);
 
         l.Remove(p2);
-        Assert.AreEqual(0, l.Count);
+        Xunit.Assert.Equal(0, l.Count);
     }
 
     [Fact]
@@ -1231,11 +1231,11 @@ Parameter name: arrayIndex",
         var p3 = new JProperty("Test3", "III");
 
         l.Insert(1, p3);
-        Assert.AreEqual(l, p3.Parent);
+        Xunit.Assert.Equal(l, p3.Parent);
 
-        Assert.AreEqual(p1, l[0]);
-        Assert.AreEqual(p3, l[1]);
-        Assert.AreEqual(p2, l[2]);
+        Xunit.Assert.Equal(p1, l[0]);
+        Xunit.Assert.Equal(p3, l[1]);
+        Xunit.Assert.Equal(p2, l[2]);
     }
 
     [Fact]
@@ -1256,8 +1256,8 @@ Parameter name: arrayIndex",
 
         l[0] = p3;
 
-        Assert.AreEqual(p3, l[0]);
-        Assert.AreEqual(p2, l[1]);
+        Xunit.Assert.Equal(p3, l[0]);
+        Xunit.Assert.Equal(p2, l[1]);
     }
 
     [Fact]
@@ -1280,14 +1280,14 @@ Parameter name: arrayIndex",
     public void IBindingListSortDirection()
     {
         IBindingList l = new JObject();
-        Assert.AreEqual(ListSortDirection.Ascending, l.SortDirection);
+        Xunit.Assert.Equal(ListSortDirection.Ascending, l.SortDirection);
     }
 
     [Fact]
     public void IBindingListSortProperty()
     {
         IBindingList l = new JObject();
-        Assert.AreEqual(null, l.SortProperty);
+        Xunit.Assert.Equal(null, l.SortProperty);
     }
 
     [Fact]
@@ -1406,8 +1406,8 @@ Parameter name: arrayIndex",
         Xunit.Assert.NotNull(newObject);
 
         var p = (JProperty) newObject;
-        Assert.AreEqual("Property!", p.Name);
-        Assert.AreEqual(o, p.Parent);
+        Xunit.Assert.Equal("Property!", p.Name);
+        Xunit.Assert.Equal(o, p.Parent);
     }
 
     [Fact]
@@ -1417,7 +1417,7 @@ Parameter name: arrayIndex",
         var p2 = new JProperty("Test2", "Two");
         ITypedList l = new JObject(p1, p2);
 
-        Assert.AreEqual(string.Empty, l.GetListName(null));
+        Xunit.Assert.Equal(string.Empty, l.GetListName(null));
     }
 
     [Fact]
@@ -1450,23 +1450,23 @@ Parameter name: arrayIndex",
         var p3 = new JProperty("Test3", "III");
 
         o.Add(p3);
-        Assert.AreEqual(changedType, ListChangedType.ItemAdded);
-        Assert.AreEqual(index, 2);
-        Assert.AreEqual(p3, ((IList<JToken>) o)[index.Value]);
+        Xunit.Assert.Equal(changedType, ListChangedType.ItemAdded);
+        Xunit.Assert.Equal(index, 2);
+        Xunit.Assert.Equal(p3, ((IList<JToken>) o)[index.Value]);
 
         var p4 = new JProperty("Test4", "IV");
 
         ((IList<JToken>) o)[index.Value] = p4;
-        Assert.AreEqual(changedType, ListChangedType.ItemChanged);
-        Assert.AreEqual(index, 2);
-        Assert.AreEqual(p4, ((IList<JToken>) o)[index.Value]);
+        Xunit.Assert.Equal(changedType, ListChangedType.ItemChanged);
+        Xunit.Assert.Equal(index, 2);
+        Xunit.Assert.Equal(p4, ((IList<JToken>) o)[index.Value]);
         Xunit.Assert.False(((IList<JToken>) o).Contains(p3));
         Xunit.Assert.True(((IList<JToken>) o).Contains(p4));
 
         o["Test1"] = 2;
-        Assert.AreEqual(changedType, ListChangedType.ItemChanged);
-        Assert.AreEqual(index, 0);
-        Assert.AreEqual(2, (int) o["Test1"]);
+        Xunit.Assert.Equal(changedType, ListChangedType.ItemChanged);
+        Xunit.Assert.Equal(index, 0);
+        Xunit.Assert.Equal(2, (int) o["Test1"]);
     }
 
     [Fact]
@@ -1488,23 +1488,23 @@ Parameter name: arrayIndex",
         var p3 = new JProperty("Test3", "III");
 
         o.Add(p3);
-        Assert.AreEqual(changedType, NotifyCollectionChangedAction.Add);
-        Assert.AreEqual(index, 2);
-        Assert.AreEqual(p3, ((IList<JToken>) o)[index.Value]);
+        Xunit.Assert.Equal(changedType, NotifyCollectionChangedAction.Add);
+        Xunit.Assert.Equal(index, 2);
+        Xunit.Assert.Equal(p3, ((IList<JToken>) o)[index.Value]);
 
         var p4 = new JProperty("Test4", "IV");
 
         ((IList<JToken>) o)[index.Value] = p4;
-        Assert.AreEqual(changedType, NotifyCollectionChangedAction.Replace);
-        Assert.AreEqual(index, 2);
-        Assert.AreEqual(p4, ((IList<JToken>) o)[index.Value]);
+        Xunit.Assert.Equal(changedType, NotifyCollectionChangedAction.Replace);
+        Xunit.Assert.Equal(index, 2);
+        Xunit.Assert.Equal(p4, ((IList<JToken>) o)[index.Value]);
         Xunit.Assert.False(((IList<JToken>) o).Contains(p3));
         Xunit.Assert.True(((IList<JToken>) o).Contains(p4));
 
         o["Test1"] = 2;
-        Assert.AreEqual(changedType, NotifyCollectionChangedAction.Replace);
-        Assert.AreEqual(index, 0);
-        Assert.AreEqual(2, (int) o["Test1"]);
+        Xunit.Assert.Equal(changedType, NotifyCollectionChangedAction.Replace);
+        Xunit.Assert.Equal(index, 0);
+        Xunit.Assert.Equal(2, (int) o["Test1"]);
     }
 
     [Fact]
@@ -1558,7 +1558,7 @@ Parameter name: arrayIndex",
         var o = JObject.Parse(json);
 
         var searchAddress = (string) o["Placemark"][0]["AddressDetails"]["Country"]["AdministrativeArea"]["SubAdministrativeArea"]["Locality"]["Thoroughfare"]["ThoroughfareName"];
-        Assert.AreEqual("435 N Mulford Rd", searchAddress);
+        Xunit.Assert.Equal("435 N Mulford Rd", searchAddress);
     }
 
     [Fact]
@@ -1583,7 +1583,7 @@ Parameter name: arrayIndex",
             [key] = new JValue(3)
         };
 
-        Assert.AreEqual(3, (int) o[key]);
+        Xunit.Assert.Equal(3, (int) o[key]);
     }
 
     [Fact]
@@ -1597,7 +1597,7 @@ Parameter name: arrayIndex",
         var o = JObject.Parse(json);
         var value = (string) o["Name"];
 
-        Assert.AreEqual("Name2", value);
+        Xunit.Assert.Equal("Name2", value);
     }
 
     [Fact]
@@ -1611,7 +1611,7 @@ Parameter name: arrayIndex",
         var o = JObject.Parse(json, new JsonLoadSettings());
         var value = (string) o["Name"];
 
-        Assert.AreEqual("Name2", value);
+        Xunit.Assert.Equal("Name2", value);
     }
 
     [Fact]
@@ -1628,7 +1628,7 @@ Parameter name: arrayIndex",
         });
         var value = (string) o["Name"];
 
-        Assert.AreEqual("Name1", value);
+        Xunit.Assert.Equal("Name1", value);
     }
 
     [Fact]
@@ -1645,7 +1645,7 @@ Parameter name: arrayIndex",
         });
         var value = (string) o["Name"];
 
-        Assert.AreEqual("Name2", value);
+        Xunit.Assert.Equal("Name2", value);
     }
 
     [Fact]
@@ -1653,8 +1653,8 @@ Parameter name: arrayIndex",
     {
         var dbNull = DBNull.Value;
         var v = new JValue(dbNull);
-        Assert.AreEqual(DBNull.Value, v.Value);
-        Assert.AreEqual(JTokenType.Null, v.Type);
+        Xunit.Assert.Equal(DBNull.Value, v.Value);
+        Xunit.Assert.Equal(JTokenType.Null, v.Type);
 
         var o = new JObject
         {
@@ -1768,33 +1768,33 @@ Parameter name: arrayIndex",
         ICustomTypeDescriptor descriptor = o;
 
         var properties = descriptor.GetProperties();
-        Assert.AreEqual(4, properties.Count);
+        Xunit.Assert.Equal(4, properties.Count);
 
         var prop1 = properties[0];
-        Assert.AreEqual("prop1", prop1.Name);
-        Assert.AreEqual(typeof(object), prop1.PropertyType);
-        Assert.AreEqual(typeof(JObject), prop1.ComponentType);
+        Xunit.Assert.Equal("prop1", prop1.Name);
+        Xunit.Assert.Equal(typeof(object), prop1.PropertyType);
+        Xunit.Assert.Equal(typeof(JObject), prop1.ComponentType);
         Assert.False(prop1.CanResetValue(o));
         Assert.False(prop1.ShouldSerializeValue(o));
 
         var prop2 = properties[1];
-        Assert.AreEqual("prop2", prop2.Name);
-        Assert.AreEqual(typeof(object), prop2.PropertyType);
-        Assert.AreEqual(typeof(JObject), prop2.ComponentType);
+        Xunit.Assert.Equal("prop2", prop2.Name);
+        Xunit.Assert.Equal(typeof(object), prop2.PropertyType);
+        Xunit.Assert.Equal(typeof(JObject), prop2.ComponentType);
         Assert.False(prop2.CanResetValue(o));
         Assert.False(prop2.ShouldSerializeValue(o));
 
         var prop3 = properties[2];
-        Assert.AreEqual("prop3", prop3.Name);
-        Assert.AreEqual(typeof(object), prop3.PropertyType);
-        Assert.AreEqual(typeof(JObject), prop3.ComponentType);
+        Xunit.Assert.Equal("prop3", prop3.Name);
+        Xunit.Assert.Equal(typeof(object), prop3.PropertyType);
+        Xunit.Assert.Equal(typeof(JObject), prop3.ComponentType);
         Assert.False(prop3.CanResetValue(o));
         Assert.False(prop3.ShouldSerializeValue(o));
 
         var prop4 = properties[3];
-        Assert.AreEqual("prop4", prop4.Name);
-        Assert.AreEqual(typeof(object), prop4.PropertyType);
-        Assert.AreEqual(typeof(JObject), prop4.ComponentType);
+        Xunit.Assert.Equal("prop4", prop4.Name);
+        Xunit.Assert.Equal(typeof(object), prop4.PropertyType);
+        Xunit.Assert.Equal(typeof(JObject), prop4.ComponentType);
         Assert.False(prop4.CanResetValue(o));
         Assert.False(prop4.ShouldSerializeValue(o));
     }
@@ -1803,34 +1803,34 @@ Parameter name: arrayIndex",
     public void ParseEmptyObjectWithComment()
     {
         var o = JObject.Parse("{ /* A Comment */ }");
-        Assert.AreEqual(0, o.Count);
+        Xunit.Assert.Equal(0, o.Count);
     }
 
     [Fact]
     public void FromObjectTimeSpan()
     {
         var v = (JValue) JToken.FromObject(TimeSpan.FromDays(1));
-        Assert.AreEqual(v.Value, TimeSpan.FromDays(1));
+        Xunit.Assert.Equal(v.Value, TimeSpan.FromDays(1));
 
-        Assert.AreEqual("1.00:00:00", v.ToString());
+        Xunit.Assert.Equal("1.00:00:00", v.ToString());
     }
 
     [Fact]
     public void FromObjectUri()
     {
         var v = (JValue) JToken.FromObject(new Uri("http://www.stuff.co.nz"));
-        Assert.AreEqual(v.Value, new Uri("http://www.stuff.co.nz"));
+        Xunit.Assert.Equal(v.Value, new Uri("http://www.stuff.co.nz"));
 
-        Assert.AreEqual("http://www.stuff.co.nz/", v.ToString());
+        Xunit.Assert.Equal("http://www.stuff.co.nz/", v.ToString());
     }
 
     [Fact]
     public void FromObjectGuid()
     {
         var v = (JValue) JToken.FromObject(new Guid("9065ACF3-C820-467D-BE50-8D4664BEAF35"));
-        Assert.AreEqual(v.Value, new Guid("9065ACF3-C820-467D-BE50-8D4664BEAF35"));
+        Xunit.Assert.Equal(v.Value, new Guid("9065ACF3-C820-467D-BE50-8D4664BEAF35"));
 
-        Assert.AreEqual("9065acf3-c820-467d-be50-8d4664beaf35", v.ToString());
+        Xunit.Assert.Equal("9065acf3-c820-467d-be50-8d4664beaf35", v.ToString());
     }
 
     [Fact]
@@ -1908,18 +1908,18 @@ Parameter name: arrayIndex",
     {
         var o = JObject.Parse(@"{}");
         IList<JToken> l1 = o.ToList<JToken>();
-        Assert.AreEqual(0, l1.Count);
+        Xunit.Assert.Equal(0, l1.Count);
 
         IList<KeyValuePair<string, JToken>> l2 = o.ToList<KeyValuePair<string, JToken>>();
-        Assert.AreEqual(0, l2.Count);
+        Xunit.Assert.Equal(0, l2.Count);
 
         o = JObject.Parse(@"{'hi':null}");
 
         l1 = o.ToList<JToken>();
-        Assert.AreEqual(1, l1.Count);
+        Xunit.Assert.Equal(1, l1.Count);
 
         l2 = o.ToList<KeyValuePair<string, JToken>>();
-        Assert.AreEqual(1, l2.Count);
+        Xunit.Assert.Equal(1, l2.Count);
     }
 
     [Fact]
@@ -1950,8 +1950,8 @@ Parameter name: arrayIndex",
         var ignoreCase = (string) o.GetValue("Name", StringComparison.OrdinalIgnoreCase);
         // Lower
 
-        Assert.AreEqual("Upper", exactMatch);
-        Assert.AreEqual("Lower", ignoreCase);
+        Xunit.Assert.Equal("Upper", exactMatch);
+        Xunit.Assert.Equal("Lower", ignoreCase);
     }
 
     [Fact]
@@ -1964,25 +1964,25 @@ Parameter name: arrayIndex",
             ["title"] = "Title!"
         };
 
-        Assert.AreEqual(null, a.GetValue("NAME", StringComparison.Ordinal));
-        Assert.AreEqual(null, a.GetValue("NAME"));
-        Assert.AreEqual(null, a.GetValue("TITLE"));
-        Assert.AreEqual("Name!", (string) a.GetValue("NAME", StringComparison.OrdinalIgnoreCase));
-        Assert.AreEqual("name!", (string) a.GetValue("name", StringComparison.Ordinal));
-        Assert.AreEqual(null, a.GetValue(null, StringComparison.Ordinal));
-        Assert.AreEqual(null, a.GetValue(null));
+        Xunit.Assert.Equal(null, a.GetValue("NAME", StringComparison.Ordinal));
+        Xunit.Assert.Equal(null, a.GetValue("NAME"));
+        Xunit.Assert.Equal(null, a.GetValue("TITLE"));
+        Xunit.Assert.Equal("Name!", (string) a.GetValue("NAME", StringComparison.OrdinalIgnoreCase));
+        Xunit.Assert.Equal("name!", (string) a.GetValue("name", StringComparison.Ordinal));
+        Xunit.Assert.Equal(null, a.GetValue(null, StringComparison.Ordinal));
+        Xunit.Assert.Equal(null, a.GetValue(null));
 
         Xunit.Assert.False(a.TryGetValue("NAME", StringComparison.Ordinal, out var v));
-        Assert.AreEqual(null, v);
+        Xunit.Assert.Equal(null, v);
 
         Xunit.Assert.False(a.TryGetValue("NAME", out v));
         Xunit.Assert.False(a.TryGetValue("TITLE", out v));
 
         Xunit.Assert.True(a.TryGetValue("NAME", StringComparison.OrdinalIgnoreCase, out v));
-        Assert.AreEqual("Name!", (string) v);
+        Xunit.Assert.Equal("Name!", (string) v);
 
         Xunit.Assert.True(a.TryGetValue("name", StringComparison.Ordinal, out v));
-        Assert.AreEqual("name!", (string) v);
+        Xunit.Assert.Equal("name!", (string) v);
 
         Xunit.Assert.False(a.TryGetValue(null, StringComparison.Ordinal, out v));
     }
@@ -2036,7 +2036,7 @@ Parameter name: arrayIndex",
 
         var json = JsonConvert.SerializeObject(p, settings);
 
-        Assert.AreEqual(@"{""foo"":""bar"",""name"":""Daniel Wertheim"",""birthDate"":""0001-01-01T00:00:00"",""lastModified"":""0001-01-01T00:00:00""}", json);
+        Xunit.Assert.Equal(@"{""foo"":""bar"",""name"":""Daniel Wertheim"",""birthDate"":""0001-01-01T00:00:00"",""lastModified"":""0001-01-01T00:00:00""}", json);
     }
 
     [Fact]
@@ -2049,10 +2049,10 @@ Parameter name: arrayIndex",
             CommentHandling = CommentHandling.Ignore
         });
 
-        Assert.AreEqual(3, o["prop"].Count());
-        Assert.AreEqual(1, (int) o["prop"][0]);
-        Assert.AreEqual(2, (int) o["prop"][1]);
-        Assert.AreEqual(3, (int) o["prop"][2]);
+        Xunit.Assert.Equal(3, o["prop"].Count());
+        Xunit.Assert.Equal(1, (int) o["prop"][0]);
+        Xunit.Assert.Equal(2, (int) o["prop"][1]);
+        Xunit.Assert.Equal(3, (int) o["prop"][2]);
     }
 
     [Fact]
@@ -2063,10 +2063,10 @@ Parameter name: arrayIndex",
 
         var o = JObject.Parse(json);
 
-        Assert.AreEqual(3, o["prop"].Count());
-        Assert.AreEqual(1, (int) o["prop"][0]);
-        Assert.AreEqual(2, (int) o["prop"][1]);
-        Assert.AreEqual(3, (int) o["prop"][2]);
+        Xunit.Assert.Equal(3, o["prop"].Count());
+        Xunit.Assert.Equal(1, (int) o["prop"][0]);
+        Xunit.Assert.Equal(2, (int) o["prop"][1]);
+        Xunit.Assert.Equal(3, (int) o["prop"][2]);
     }
 
     [Fact]
@@ -2089,16 +2089,16 @@ Parameter name: arrayIndex",
         };
 
         var properties = o.GetProperties();
-        Assert.AreEqual(1, properties.Count);
+        Xunit.Assert.Equal(1, properties.Count);
 
         var pd = properties[0];
-        Assert.AreEqual("prop1", pd.Name);
+        Xunit.Assert.Equal("prop1", pd.Name);
 
         var owner = o.GetPropertyOwner(pd);
-        Assert.AreEqual(o, owner);
+        Xunit.Assert.Equal(o, owner);
 
         var value = pd.GetValue(owner);
-        Assert.AreEqual(1, (int) (JToken) value);
+        Xunit.Assert.Equal(1, (int) (JToken) value);
     }
 
     [Fact]
@@ -2111,18 +2111,18 @@ Parameter name: arrayIndex",
             ["title"] = "Title!"
         };
 
-        Assert.AreEqual(null, a.Property("NAME", StringComparison.Ordinal));
-        Assert.AreEqual(null, a.Property("NAME"));
-        Assert.AreEqual(null, a.Property("TITLE"));
-        Assert.AreEqual(null, a.Property(null, StringComparison.Ordinal));
-        Assert.AreEqual(null, a.Property(null, StringComparison.OrdinalIgnoreCase));
-        Assert.AreEqual(null, a.Property(null));
+        Xunit.Assert.Equal(null, a.Property("NAME", StringComparison.Ordinal));
+        Xunit.Assert.Equal(null, a.Property("NAME"));
+        Xunit.Assert.Equal(null, a.Property("TITLE"));
+        Xunit.Assert.Equal(null, a.Property(null, StringComparison.Ordinal));
+        Xunit.Assert.Equal(null, a.Property(null, StringComparison.OrdinalIgnoreCase));
+        Xunit.Assert.Equal(null, a.Property(null));
 
         // Return first match when ignoring case
-        Assert.AreEqual("Name", a.Property("NAME", StringComparison.OrdinalIgnoreCase).Name);
+        Xunit.Assert.Equal("Name", a.Property("NAME", StringComparison.OrdinalIgnoreCase).Name);
         // Return exact match before ignoring case
-        Assert.AreEqual("name", a.Property("name", StringComparison.OrdinalIgnoreCase).Name);
+        Xunit.Assert.Equal("name", a.Property("name", StringComparison.OrdinalIgnoreCase).Name);
         // Return exact match without ignoring case
-        Assert.AreEqual("name", a.Property("name", StringComparison.Ordinal).Name);
+        Xunit.Assert.Equal("name", a.Property("name", StringComparison.Ordinal).Name);
     }
 }

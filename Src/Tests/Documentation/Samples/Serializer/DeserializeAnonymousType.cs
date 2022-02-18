@@ -50,6 +50,6 @@ public class DeserializeAnonymousType : TestFixtureBase
         // Mike
         #endregion
 
-        Assert.AreEqual("Mike", customer2.Name);
+        Xunit.Assert.Equal("Mike", customer2.Name);
     }
 }

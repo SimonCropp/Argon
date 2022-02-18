@@ -43,7 +43,7 @@ public class Issue1404 : TestFixtureBase
 
         var contract = resolver.ResolveContract(t);
 
-        Assert.AreEqual(JsonContractType.Object, contract.ContractType);
+        Xunit.Assert.Equal(JsonContractType.Object, contract.ContractType);
     }
 }
 #endif

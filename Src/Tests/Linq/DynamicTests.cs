@@ -44,7 +44,7 @@ public class DynamicTests : TestFixtureBase
         var dyn = JsonConvert.DeserializeObject<dynamic>(rawJson);
         DateTime dueDate = dyn.task.dueDate.Value;
 
-        Assert.AreEqual(new DateTime(2012, 12, 3, 0, 0, 0, DateTimeKind.Unspecified), dueDate);
+        Xunit.Assert.Equal(new DateTime(2012, 12, 3, 0, 0, 0, DateTimeKind.Unspecified), dueDate);
     }
 
     [Fact]
@@ -117,18 +117,18 @@ public class DynamicTests : TestFixtureBase
 
         d.First = "A value!";
 
-        Assert.AreEqual(new JValue("A value!"), d.First);
-        Assert.AreEqual("A value!", (string)d.First);
+        Xunit.Assert.Equal(new JValue("A value!"), d.First);
+        Xunit.Assert.Equal("A value!", (string)d.First);
 
         d.First = null;
-        Assert.AreEqual(JTokenType.Null, d.First.Type);
+        Xunit.Assert.Equal(JTokenType.Null, d.First.Type);
 
         Xunit.Assert.True(d.Remove("First"));
         Xunit.Assert.Null(d.First);
 
         JValue v1 = d.ChildValue;
         JValue v2 = d["ChildValue"];
-        Assert.AreEqual(v1, v2);
+        Xunit.Assert.Equal(v1, v2);
 
         var newValue1 = new JValue("Blah blah");
         d.NewValue = newValue1;
@@ -150,8 +150,8 @@ public class DynamicTests : TestFixtureBase
 
         long? c2 = d.Count;
 
-        Assert.AreEqual(null, c1);
-        Assert.AreEqual(99, c2);
+        Xunit.Assert.Equal(null, c1);
+        Xunit.Assert.Equal(99, c2);
     }
 
     [Fact]
@@ -164,14 +164,14 @@ public class DynamicTests : TestFixtureBase
 
         foreach (JProperty value in d)
         {
-            Assert.AreEqual("ChildValue", value.Name);
-            Assert.AreEqual("blah blah", (string)value.Value);
+            Xunit.Assert.Equal("ChildValue", value.Name);
+            Xunit.Assert.Equal("blah blah", (string)value.Value);
         }
 
         foreach (var value in d)
         {
-            Assert.AreEqual("ChildValue", value.Name);
-            Assert.AreEqual("blah blah", (string)value.Value);
+            Xunit.Assert.Equal("ChildValue", value.Name);
+            Xunit.Assert.Equal("blah blah", (string)value.Value);
         }
     }
 
@@ -186,7 +186,7 @@ public class DynamicTests : TestFixtureBase
         d.First = new JArray();
         d.First.Add("Hi");
 
-        Assert.AreEqual(1, d.First.Count);
+        Xunit.Assert.Equal(1, d.First.Count);
     }
 
     [Fact]
@@ -216,7 +216,7 @@ public class DynamicTests : TestFixtureBase
         Xunit.Assert.Null(d["Count"]);
 
         Xunit.Assert.True(d.TryGetValue("ChildValue", out JToken v));
-        Assert.AreEqual("blah blah", (string)v);
+        Xunit.Assert.Equal("blah blah", (string)v);
     }
 
     [Fact]
@@ -342,96 +342,96 @@ public class DynamicTests : TestFixtureBase
 
         #region Add
         var r = d.String + " LAMO!";
-        Assert.AreEqual("A string lol! LAMO!", (string)r);
+        Xunit.Assert.Equal("A string lol! LAMO!", (string)r);
         r += " gg";
-        Assert.AreEqual("A string lol! LAMO! gg", (string)r);
+        Xunit.Assert.Equal("A string lol! LAMO! gg", (string)r);
 
         r = d.String + null;
-        Assert.AreEqual("A string lol!", (string)r);
+        Xunit.Assert.Equal("A string lol!", (string)r);
         r += null;
-        Assert.AreEqual("A string lol!", (string)r);
+        Xunit.Assert.Equal("A string lol!", (string)r);
 
         r = d.Integer + 1;
-        Assert.AreEqual(2, (int)r);
+        Xunit.Assert.Equal(2, (int)r);
         r += 2;
-        Assert.AreEqual(4, (int)r);
+        Xunit.Assert.Equal(4, (int)r);
 
         r = d.Integer + 1.1;
-        Assert.AreEqual(2.1, (double)r);
+        Xunit.Assert.Equal(2.1, (double)r);
         r += 2;
-        Assert.AreEqual(4.1, (double)r);
+        Xunit.Assert.Equal(4.1, (double)r);
 
         r = d.Integer + 1.1d;
-        Assert.AreEqual(2.1m, (decimal)r);
+        Xunit.Assert.Equal(2.1m, (decimal)r);
         r += 2;
-        Assert.AreEqual(4.1m, (decimal)r);
+        Xunit.Assert.Equal(4.1m, (decimal)r);
 
         r = d.Integer + null;
-        Assert.AreEqual(null, r.Value);
+        Xunit.Assert.Equal(null, r.Value);
         r += 2;
-        Assert.AreEqual(null, r.Value);
+        Xunit.Assert.Equal(null, r.Value);
 
         r = d.Float + 1;
-        Assert.AreEqual(2.1d, (double)r);
+        Xunit.Assert.Equal(2.1d, (double)r);
         r += 2;
-        Assert.AreEqual(4.1d, (double)r);
+        Xunit.Assert.Equal(4.1d, (double)r);
 
         r = d.Float + 1.1;
-        Assert.AreEqual(2.2d, (double)r);
+        Xunit.Assert.Equal(2.2d, (double)r);
         r += 2;
-        Assert.AreEqual(4.2d, (double)r);
+        Xunit.Assert.Equal(4.2d, (double)r);
 
         r = d.Float + 1.1d;
-        Assert.AreEqual(2.2m, (decimal)r);
+        Xunit.Assert.Equal(2.2m, (decimal)r);
         r += 2;
-        Assert.AreEqual(4.2m, (decimal)r);
+        Xunit.Assert.Equal(4.2m, (decimal)r);
 
         r = d.Float + null;
-        Assert.AreEqual(null, r.Value);
+        Xunit.Assert.Equal(null, r.Value);
         r += 2;
-        Assert.AreEqual(null, r.Value);
+        Xunit.Assert.Equal(null, r.Value);
 
         r = d.Decimal + 1;
-        Assert.AreEqual(2.1m, (decimal)r);
+        Xunit.Assert.Equal(2.1m, (decimal)r);
         r += 2;
-        Assert.AreEqual(4.1m, (decimal)r);
+        Xunit.Assert.Equal(4.1m, (decimal)r);
 
         r = d.Decimal + 1.1;
-        Assert.AreEqual(2.2m, (decimal)r);
+        Xunit.Assert.Equal(2.2m, (decimal)r);
         r += 2;
-        Assert.AreEqual(4.2m, (decimal)r);
+        Xunit.Assert.Equal(4.2m, (decimal)r);
 
         r = d.Decimal + 1.1d;
-        Assert.AreEqual(2.2m, (decimal)r);
+        Xunit.Assert.Equal(2.2m, (decimal)r);
         r += 2;
-        Assert.AreEqual(4.2m, (decimal)r);
+        Xunit.Assert.Equal(4.2m, (decimal)r);
 
         r = d.Decimal + null;
-        Assert.AreEqual(null, r.Value);
+        Xunit.Assert.Equal(null, r.Value);
         r += 2;
-        Assert.AreEqual(null, r.Value);
+        Xunit.Assert.Equal(null, r.Value);
 
         r = d.BigInteger + null;
-        Assert.AreEqual(null, r.Value);
+        Xunit.Assert.Equal(null, r.Value);
         r += 2;
-        Assert.AreEqual(null, r.Value);
+        Xunit.Assert.Equal(null, r.Value);
 
         r = d.BigInteger + 1;
-        Assert.AreEqual(101, (int)r);
+        Xunit.Assert.Equal(101, (int)r);
         r += 2;
-        Assert.AreEqual(103, (int)r);
+        Xunit.Assert.Equal(103, (int)r);
 
         r = d.BigInteger + 1.1d;
-        Assert.AreEqual(101m, (decimal)r);
+        Xunit.Assert.Equal(101m, (decimal)r);
         r += 2;
-        Assert.AreEqual(103m, (decimal)r);
+        Xunit.Assert.Equal(103m, (decimal)r);
         #endregion
 
         #region Subtract
         r = d.Integer - 1;
-        Assert.AreEqual(0, (int)r);
+        Xunit.Assert.Equal(0, (int)r);
         r -= 2;
-        Assert.AreEqual(-2, (int)r);
+        Xunit.Assert.Equal(-2, (int)r);
 
         r = d.Integer - 1.1;
         Assert.AreEqual(-0.1d, (double)r, 0.00001);
@@ -444,9 +444,9 @@ public class DynamicTests : TestFixtureBase
         Assert.AreEqual(-2.1m, (decimal)r);
 
         r = d.Integer - null;
-        Assert.AreEqual(null, r.Value);
+        Xunit.Assert.Equal(null, r.Value);
         r -= 2;
-        Assert.AreEqual(null, r.Value);
+        Xunit.Assert.Equal(null, r.Value);
 
         r = d.Float - 1;
         Assert.AreEqual(0.1d, (double)r, 0.00001);
@@ -454,76 +454,76 @@ public class DynamicTests : TestFixtureBase
         Assert.AreEqual(-1.9d, (double)r);
 
         r = d.Float - 1.1;
-        Assert.AreEqual(0d, (double)r);
+        Xunit.Assert.Equal(0d, (double)r);
         r -= 2;
-        Assert.AreEqual(-2d, (double)r);
+        Xunit.Assert.Equal(-2d, (double)r);
 
         r = d.Float - 1.1d;
-        Assert.AreEqual(0m, (decimal)r);
+        Xunit.Assert.Equal(0m, (decimal)r);
         r -= 2;
-        Assert.AreEqual(-2m, (decimal)r);
+        Xunit.Assert.Equal(-2m, (decimal)r);
 
         r = d.Float - null;
-        Assert.AreEqual(null, r.Value);
+        Xunit.Assert.Equal(null, r.Value);
         r -= 2;
-        Assert.AreEqual(null, r.Value);
+        Xunit.Assert.Equal(null, r.Value);
 
         r = d.Decimal - 1;
-        Assert.AreEqual(0.1m, (decimal)r);
+        Xunit.Assert.Equal(0.1m, (decimal)r);
         r -= 2;
-        Assert.AreEqual(-1.9m, (decimal)r);
+        Xunit.Assert.Equal(-1.9m, (decimal)r);
 
         r = d.Decimal - 1.1;
-        Assert.AreEqual(0m, (decimal)r);
+        Xunit.Assert.Equal(0m, (decimal)r);
         r -= 2;
-        Assert.AreEqual(-2m, (decimal)r);
+        Xunit.Assert.Equal(-2m, (decimal)r);
 
         r = d.Decimal - 1.1d;
-        Assert.AreEqual(0m, (decimal)r);
+        Xunit.Assert.Equal(0m, (decimal)r);
         r -= 2;
-        Assert.AreEqual(-2m, (decimal)r);
+        Xunit.Assert.Equal(-2m, (decimal)r);
 
         r = d.Decimal - null;
-        Assert.AreEqual(null, r.Value);
+        Xunit.Assert.Equal(null, r.Value);
         r -= 2;
-        Assert.AreEqual(null, r.Value);
+        Xunit.Assert.Equal(null, r.Value);
 
         r = d.BigInteger - null;
-        Assert.AreEqual(null, r.Value);
+        Xunit.Assert.Equal(null, r.Value);
         r -= 2;
-        Assert.AreEqual(null, r.Value);
+        Xunit.Assert.Equal(null, r.Value);
 
         r = d.BigInteger - 1.1d;
-        Assert.AreEqual(99m, (decimal)r);
+        Xunit.Assert.Equal(99m, (decimal)r);
         r -= 2;
-        Assert.AreEqual(97m, (decimal)r);
+        Xunit.Assert.Equal(97m, (decimal)r);
         #endregion
 
         #region Multiply
         r = d.Integer * 1;
-        Assert.AreEqual(1, (int)r);
+        Xunit.Assert.Equal(1, (int)r);
         r *= 2;
-        Assert.AreEqual(2, (int)r);
+        Xunit.Assert.Equal(2, (int)r);
 
         r = d.Integer * 1.1;
-        Assert.AreEqual(1.1d, (double)r);
+        Xunit.Assert.Equal(1.1d, (double)r);
         r *= 2;
-        Assert.AreEqual(2.2d, (double)r);
+        Xunit.Assert.Equal(2.2d, (double)r);
 
         r = d.Integer * 1.1d;
-        Assert.AreEqual(1.1m, (decimal)r);
+        Xunit.Assert.Equal(1.1m, (decimal)r);
         r *= 2;
-        Assert.AreEqual(2.2m, (decimal)r);
+        Xunit.Assert.Equal(2.2m, (decimal)r);
 
         r = d.Integer * null;
-        Assert.AreEqual(null, r.Value);
+        Xunit.Assert.Equal(null, r.Value);
         r *= 2;
-        Assert.AreEqual(null, r.Value);
+        Xunit.Assert.Equal(null, r.Value);
 
         r = d.Float * 1;
-        Assert.AreEqual(1.1d, (double)r);
+        Xunit.Assert.Equal(1.1d, (double)r);
         r *= 2;
-        Assert.AreEqual(2.2d, (double)r);
+        Xunit.Assert.Equal(2.2d, (double)r);
 
         r = d.Float * 1.1;
         Assert.AreEqual(1.21d, (double)r, 0.00001);
@@ -531,71 +531,71 @@ public class DynamicTests : TestFixtureBase
         Assert.AreEqual(2.42d, (double)r, 0.00001);
 
         r = d.Float * 1.1d;
-        Assert.AreEqual(1.21m, (decimal)r);
+        Xunit.Assert.Equal(1.21m, (decimal)r);
         r *= 2;
-        Assert.AreEqual(2.42m, (decimal)r);
+        Xunit.Assert.Equal(2.42m, (decimal)r);
 
         r = d.Float * null;
-        Assert.AreEqual(null, r.Value);
+        Xunit.Assert.Equal(null, r.Value);
         r *= 2;
-        Assert.AreEqual(null, r.Value);
+        Xunit.Assert.Equal(null, r.Value);
 
         r = d.Decimal * 1;
-        Assert.AreEqual(1.1m, (decimal)r);
+        Xunit.Assert.Equal(1.1m, (decimal)r);
         r *= 2;
-        Assert.AreEqual(2.2m, (decimal)r);
+        Xunit.Assert.Equal(2.2m, (decimal)r);
 
         r = d.Decimal * 1.1;
-        Assert.AreEqual(1.21m, (decimal)r);
+        Xunit.Assert.Equal(1.21m, (decimal)r);
         r *= 2;
-        Assert.AreEqual(2.42m, (decimal)r);
+        Xunit.Assert.Equal(2.42m, (decimal)r);
 
         r = d.Decimal * 1.1d;
-        Assert.AreEqual(1.21m, (decimal)r);
+        Xunit.Assert.Equal(1.21m, (decimal)r);
         r *= 2;
-        Assert.AreEqual(2.42m, (decimal)r);
+        Xunit.Assert.Equal(2.42m, (decimal)r);
 
         r = d.Decimal * null;
-        Assert.AreEqual(null, r.Value);
+        Xunit.Assert.Equal(null, r.Value);
         r *= 2;
-        Assert.AreEqual(null, r.Value);
+        Xunit.Assert.Equal(null, r.Value);
 
         r = d.BigInteger * 1.1d;
-        Assert.AreEqual(100m, (decimal)r);
+        Xunit.Assert.Equal(100m, (decimal)r);
         r *= 2;
-        Assert.AreEqual(200m, (decimal)r);
+        Xunit.Assert.Equal(200m, (decimal)r);
 
         r = d.BigInteger * null;
-        Assert.AreEqual(null, r.Value);
+        Xunit.Assert.Equal(null, r.Value);
         r *= 2;
-        Assert.AreEqual(null, r.Value);
+        Xunit.Assert.Equal(null, r.Value);
         #endregion
 
         #region Divide
         r = d.Integer / 1;
-        Assert.AreEqual(1, (int)r);
+        Xunit.Assert.Equal(1, (int)r);
         r /= 2;
-        Assert.AreEqual(0, (int)r);
+        Xunit.Assert.Equal(0, (int)r);
 
         r = d.Integer / 1.1;
-        Assert.AreEqual(0.9090909090909091d, (double)r);
+        Xunit.Assert.Equal(0.9090909090909091d, (double)r);
         r /= 2;
         Assert.AreEqual(0.454545454545455d, (double)r, 0.00001);
 
         r = d.Integer / 1.1d;
-        Assert.AreEqual(0.909090909090909m, (decimal)r);
+        Xunit.Assert.Equal(0.909090909090909m, (decimal)r);
         r /= 2;
-        Assert.AreEqual(0.454545454545454m, (decimal)r);
+        Xunit.Assert.Equal(0.454545454545454m, (decimal)r);
 
         r = d.Integer / null;
-        Assert.AreEqual(null, r.Value);
+        Xunit.Assert.Equal(null, r.Value);
         r /= 2;
-        Assert.AreEqual(null, r.Value);
+        Xunit.Assert.Equal(null, r.Value);
 
         r = d.Float / 1;
-        Assert.AreEqual(1.1d, (double)r);
+        Xunit.Assert.Equal(1.1d, (double)r);
         r /= 2;
-        Assert.AreEqual(0.55d, (double)r);
+        Xunit.Assert.Equal(0.55d, (double)r);
 
         r = d.Float / 1.1;
         Assert.AreEqual(1d, (double)r, 0.00001);
@@ -603,44 +603,44 @@ public class DynamicTests : TestFixtureBase
         Assert.AreEqual(0.5d, (double)r, 0.00001);
 
         r = d.Float / 1.1d;
-        Assert.AreEqual(1m, (decimal)r);
+        Xunit.Assert.Equal(1m, (decimal)r);
         r /= 2;
-        Assert.AreEqual(0.5m, (decimal)r);
+        Xunit.Assert.Equal(0.5m, (decimal)r);
 
         r = d.Float / null;
-        Assert.AreEqual(null, r.Value);
+        Xunit.Assert.Equal(null, r.Value);
         r /= 2;
-        Assert.AreEqual(null, r.Value);
+        Xunit.Assert.Equal(null, r.Value);
 
         r = d.Decimal / 1;
-        Assert.AreEqual(1.1m, (decimal)r);
+        Xunit.Assert.Equal(1.1m, (decimal)r);
         r /= 2;
-        Assert.AreEqual(0.55m, (decimal)r);
+        Xunit.Assert.Equal(0.55m, (decimal)r);
 
         r = d.Decimal / 1.1;
-        Assert.AreEqual(1m, (decimal)r);
+        Xunit.Assert.Equal(1m, (decimal)r);
         r /= 2;
-        Assert.AreEqual(0.5m, (decimal)r);
+        Xunit.Assert.Equal(0.5m, (decimal)r);
 
         r = d.Decimal / 1.1d;
-        Assert.AreEqual(1m, (decimal)r);
+        Xunit.Assert.Equal(1m, (decimal)r);
         r /= 2;
-        Assert.AreEqual(0.5m, (decimal)r);
+        Xunit.Assert.Equal(0.5m, (decimal)r);
 
         r = d.Decimal / null;
-        Assert.AreEqual(null, r.Value);
+        Xunit.Assert.Equal(null, r.Value);
         r /= 2;
-        Assert.AreEqual(null, r.Value);
+        Xunit.Assert.Equal(null, r.Value);
 
         r = d.BigInteger / 1.1d;
-        Assert.AreEqual(100m, (decimal)r);
+        Xunit.Assert.Equal(100m, (decimal)r);
         r /= 2;
-        Assert.AreEqual(50m, (decimal)r);
+        Xunit.Assert.Equal(50m, (decimal)r);
 
         r = d.BigInteger / null;
-        Assert.AreEqual(null, r.Value);
+        Xunit.Assert.Equal(null, r.Value);
         r /= 2;
-        Assert.AreEqual(null, r.Value);
+        Xunit.Assert.Equal(null, r.Value);
         #endregion
     }
 
@@ -663,17 +663,17 @@ public class DynamicTests : TestFixtureBase
 
         dynamic d = o;
 
-        Assert.AreEqual("", d.Null.ToString());
-        Assert.AreEqual("1", d.Integer.ToString());
-        Assert.AreEqual("1.1", d.Float.ToString(CultureInfo.InvariantCulture));
-        Assert.AreEqual("12/29/2000 23:51:10", d.DateTime.ToString(null, CultureInfo.InvariantCulture));
-        Assert.AreEqual("True", d.Boolean.ToString());
-        Assert.AreEqual("A string lol!", d.String.ToString());
-        Assert.AreEqual("System.Byte[]", d.Bytes.ToString());
-        Assert.AreEqual("http://json.codeplex.com/", d.Uri.ToString());
-        Assert.AreEqual("ea27fe1d-0d80-44f2-bf34-4654156fa7af", d.Guid.ToString());
-        Assert.AreEqual("1.00:00:00", d.TimeSpan.ToString());
-        Assert.AreEqual("100", d.BigInteger.ToString());
+        Xunit.Assert.Equal("", d.Null.ToString());
+        Xunit.Assert.Equal("1", d.Integer.ToString());
+        Xunit.Assert.Equal("1.1", d.Float.ToString(CultureInfo.InvariantCulture));
+        Xunit.Assert.Equal("12/29/2000 23:51:10", d.DateTime.ToString(null, CultureInfo.InvariantCulture));
+        Xunit.Assert.Equal("True", d.Boolean.ToString());
+        Xunit.Assert.Equal("A string lol!", d.String.ToString());
+        Xunit.Assert.Equal("System.Byte[]", d.Bytes.ToString());
+        Xunit.Assert.Equal("http://json.codeplex.com/", d.Uri.ToString());
+        Xunit.Assert.Equal("ea27fe1d-0d80-44f2-bf34-4654156fa7af", d.Guid.ToString());
+        Xunit.Assert.Equal("1.00:00:00", d.TimeSpan.ToString());
+        Xunit.Assert.Equal("100", d.BigInteger.ToString());
     }
 
     [Fact]
@@ -687,9 +687,9 @@ public class DynamicTests : TestFixtureBase
 
         var memberNames = o.GetDynamicMemberNames().ToList();
 
-        Assert.AreEqual(2, memberNames.Count);
-        Assert.AreEqual("ChildValue", memberNames[0]);
-        Assert.AreEqual("Hello Joe", memberNames[1]);
+        Xunit.Assert.Equal(2, memberNames.Count);
+        Xunit.Assert.Equal("ChildValue", memberNames[0]);
+        Xunit.Assert.Equal("Hello Joe", memberNames[1]);
 
         o = new JObject(
             new JProperty("ChildValue1", "blah blah"),
@@ -699,9 +699,9 @@ public class DynamicTests : TestFixtureBase
 
         memberNames = o.GetDynamicMemberNames().ToList();
 
-        Assert.AreEqual(2, memberNames.Count);
-        Assert.AreEqual("ChildValue1", memberNames[0]);
-        Assert.AreEqual("Hello Joe1", memberNames[1]);
+        Xunit.Assert.Equal(2, memberNames.Count);
+        Xunit.Assert.Equal("ChildValue1", memberNames[0]);
+        Xunit.Assert.Equal("Hello Joe1", memberNames[1]);
     }
 
     [Fact]
@@ -770,7 +770,7 @@ public class DynamicTests : TestFixtureBase
         dynamic d = v;
 
         T t = d;
-        Assert.AreEqual(expected, t);
+        Xunit.Assert.Equal(expected, t);
     }
 
     [Fact]
@@ -819,8 +819,8 @@ public class DynamicTests : TestFixtureBase
         string newRole = newHotness.Roles[0];
         // Admin
 
-        Assert.AreEqual("Admin", oldRole);
-        Assert.AreEqual("Admin", newRole);
+        Xunit.Assert.Equal("Admin", oldRole);
+        Xunit.Assert.Equal("Admin", newRole);
     }
 
     [Fact]
@@ -865,7 +865,7 @@ public class DynamicTests : TestFixtureBase
         dynamic json = JObject.FromObject(new { uid = g });
         JToken token = json.uid;
 
-        Assert.AreEqual(g, ((JValue)token).Value);
+        Xunit.Assert.Equal(g, ((JValue)token).Value);
     }
 
     [Fact]
@@ -875,7 +875,7 @@ public class DynamicTests : TestFixtureBase
         dynamic json = JObject.FromObject(new { uid = g });
         var token = (JToken)json.uid;
 
-        Assert.AreEqual(g, ((JValue)token).Value);
+        Xunit.Assert.Equal(g, ((JValue)token).Value);
     }
 
     [Fact]
@@ -885,7 +885,7 @@ public class DynamicTests : TestFixtureBase
         dynamic json = JObject.FromObject(new { uid = g });
         var token = json.uid as JToken;
 
-        Assert.AreEqual(g, ((JValue)token).Value);
+        Xunit.Assert.Equal(g, ((JValue)token).Value);
     }
 
     [Fact]
@@ -895,7 +895,7 @@ public class DynamicTests : TestFixtureBase
         var json = JObject.FromObject(new { uid = g });
         var token = json["uid"];
 
-        Assert.AreEqual(g, ((JValue)token).Value);
+        Xunit.Assert.Equal(g, ((JValue)token).Value);
     }
 
     [Fact]

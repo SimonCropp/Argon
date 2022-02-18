@@ -50,37 +50,37 @@ public class JTokenTests : TestFixtureBase
         Assert.True( (bool)o["pie"]);
 
         var a = (JArray)JToken.ReadFrom(new JsonTextReader(new StringReader("[1,2,3]")));
-        Assert.AreEqual(1, (int)a[0]);
-        Assert.AreEqual(2, (int)a[1]);
-        Assert.AreEqual(3, (int)a[2]);
+        Xunit.Assert.Equal(1, (int)a[0]);
+        Xunit.Assert.Equal(2, (int)a[1]);
+        Xunit.Assert.Equal(3, (int)a[2]);
 
         JsonReader reader = new JsonTextReader(new StringReader("{'pie':true}"));
         reader.Read();
         reader.Read();
 
         var p = (JProperty)JToken.ReadFrom(reader);
-        Assert.AreEqual("pie", p.Name);
+        Xunit.Assert.Equal("pie", p.Name);
         Assert.True( (bool)p.Value);
 
         var c = (JConstructor)JToken.ReadFrom(new JsonTextReader(new StringReader("new Date(1)")));
-        Assert.AreEqual("Date", c.Name);
+        Xunit.Assert.Equal("Date", c.Name);
         Xunit.Assert.True(JToken.DeepEquals(new JValue(1), c.Values().ElementAt(0)));
 
         var v = (JValue)JToken.ReadFrom(new JsonTextReader(new StringReader(@"""stringvalue""")));
-        Assert.AreEqual("stringvalue", (string)v);
+        Xunit.Assert.Equal("stringvalue", (string)v);
 
         v = (JValue)JToken.ReadFrom(new JsonTextReader(new StringReader(@"1")));
-        Assert.AreEqual(1, (int)v);
+        Xunit.Assert.Equal(1, (int)v);
 
         v = (JValue)JToken.ReadFrom(new JsonTextReader(new StringReader(@"1.1")));
-        Assert.AreEqual(1.1, (double)v);
+        Xunit.Assert.Equal(1.1, (double)v);
 
         v = (JValue)JToken.ReadFrom(new JsonTextReader(new StringReader(@"""1970-01-01T00:00:00+12:31"""))
         {
             DateParseHandling = DateParseHandling.DateTimeOffset
         });
-        Assert.AreEqual(typeof(DateTimeOffset), v.Value.GetType());
-        Assert.AreEqual(new DateTimeOffset(DateTimeUtils.InitialJavaScriptDateTicks, new TimeSpan(12, 31, 0)), v.Value);
+        Xunit.Assert.Equal(typeof(DateTimeOffset), v.Value.GetType());
+        Xunit.Assert.Equal(new DateTimeOffset(DateTimeUtils.InitialJavaScriptDateTicks, new TimeSpan(12, 31, 0)), v.Value);
     }
 
     [Fact]
@@ -102,7 +102,7 @@ public class JTokenTests : TestFixtureBase
     {
         var v = new JArray(new JConstructor("TestConstructor"), new JValue(new DateTime(2000, 12, 20)));
 
-        Assert.AreEqual(null, v.Parent);
+        Xunit.Assert.Equal(null, v.Parent);
 
         var o =
             new JObject(
@@ -112,29 +112,29 @@ public class JTokenTests : TestFixtureBase
                 new JProperty("Test4", null)
             );
 
-        Assert.AreEqual(o.Property("Test1"), v.Parent);
+        Xunit.Assert.Equal(o.Property("Test1"), v.Parent);
 
         var p = new JProperty("NewProperty", v);
 
         // existing value should still have same parent
-        Assert.AreEqual(o.Property("Test1"), v.Parent);
+        Xunit.Assert.Equal(o.Property("Test1"), v.Parent);
 
         // new value should be cloned
         Assert.AreNotSame(p.Value, v);
 
-        Assert.AreEqual((DateTime)((JValue)p.Value[1]).Value, (DateTime)((JValue)v[1]).Value);
+        Xunit.Assert.Equal((DateTime)((JValue)p.Value[1]).Value, (DateTime)((JValue)v[1]).Value);
 
-        Assert.AreEqual(v, o["Test1"]);
+        Xunit.Assert.Equal(v, o["Test1"]);
 
-        Assert.AreEqual(null, o.Parent);
+        Xunit.Assert.Equal(null, o.Parent);
         var o1 = new JProperty("O1", o);
-        Assert.AreEqual(o, o1.Value);
+        Xunit.Assert.Equal(o, o1.Value);
 
         Xunit.Assert.NotEqual(null, o.Parent);
         var o2 = new JProperty("O2", o);
 
         Assert.AreNotSame(o1.Value, o2.Value);
-        Assert.AreEqual(o1.Value.Children().Count(), o2.Value.Children().Count());
+        Xunit.Assert.Equal(o1.Value.Children().Count(), o2.Value.Children().Count());
         Assert.False( JToken.DeepEquals(o1, o2));
         Assert.True( JToken.DeepEquals(o1.Value, o2.Value));
     }
@@ -151,7 +151,7 @@ public class JTokenTests : TestFixtureBase
             );
 
         var next = a[0].Next;
-        Assert.AreEqual(6, (int)next);
+        Xunit.Assert.Equal(6, (int)next);
 
         next = next.Next;
         Xunit.Assert.True(JToken.DeepEquals(new JArray(7, 8), next));
@@ -178,10 +178,10 @@ public class JTokenTests : TestFixtureBase
         Xunit.Assert.True(JToken.DeepEquals(new JArray(7, 8), previous));
 
         previous = previous.Previous;
-        Assert.AreEqual(6, (int)previous);
+        Xunit.Assert.Equal(6, (int)previous);
 
         previous = previous.Previous;
-        Assert.AreEqual(5, (int)previous);
+        Xunit.Assert.Equal(5, (int)previous);
 
         previous = previous.Previous;
         Xunit.Assert.Null(previous);
@@ -198,8 +198,8 @@ public class JTokenTests : TestFixtureBase
                 new JArray(1, 2, 3)
             );
 
-        Assert.AreEqual(4, a.Count());
-        Assert.AreEqual(3, a.Children<JArray>().Count());
+        Xunit.Assert.Equal(4, a.Count());
+        Xunit.Assert.Equal(3, a.Children<JArray>().Count());
     }
 
     [Fact]
@@ -213,8 +213,8 @@ public class JTokenTests : TestFixtureBase
                 new JArray(1, 2, 3)
             );
 
-        Assert.AreEqual(5, (int)a[1].Previous);
-        Assert.AreEqual(2, a[2].BeforeSelf().Count());
+        Xunit.Assert.Equal(5, (int)a[1].Previous);
+        Xunit.Assert.Equal(2, a[2].BeforeSelf().Count());
     }
 
     [Fact]
@@ -223,7 +223,7 @@ public class JTokenTests : TestFixtureBase
         var o = new JObject();
 
         var result = o.BeforeSelf().ToList();
-        Assert.AreEqual(0, result.Count);
+        Xunit.Assert.Equal(0, result.Count);
     }
 
     [Fact]
@@ -234,153 +234,153 @@ public class JTokenTests : TestFixtureBase
         a.Add(o);
 
         var result = o.BeforeSelf().ToList();
-        Assert.AreEqual(0, result.Count);
+        Xunit.Assert.Equal(0, result.Count);
     }
 
 #nullable enable
     [Fact]
     public void Casting()
     {
-        Assert.AreEqual(1L, (long)new JValue(1));
-        Assert.AreEqual(2L, (long)new JArray(1, 2, 3)[1]);
+        Xunit.Assert.Equal(1L, (long)new JValue(1));
+        Xunit.Assert.Equal(2L, (long)new JArray(1, 2, 3)[1]);
 
-        Assert.AreEqual(new DateTime(2000, 12, 20), (DateTime)new JValue(new DateTime(2000, 12, 20)));
-        Assert.AreEqual(new DateTimeOffset(2000, 12, 20, 0, 0, 0, TimeSpan.Zero), (DateTimeOffset)new JValue(new DateTime(2000, 12, 20, 0, 0, 0, DateTimeKind.Utc)));
-        Assert.AreEqual(new DateTimeOffset(2000, 12, 20, 23, 50, 10, TimeSpan.Zero), (DateTimeOffset)new JValue(new DateTimeOffset(2000, 12, 20, 23, 50, 10, TimeSpan.Zero)));
-        Assert.AreEqual(null, (DateTimeOffset?)new JValue((DateTimeOffset?)null));
-        Assert.AreEqual(null, (DateTimeOffset?)(JValue?)null);
+        Xunit.Assert.Equal(new DateTime(2000, 12, 20), (DateTime)new JValue(new DateTime(2000, 12, 20)));
+        Xunit.Assert.Equal(new DateTimeOffset(2000, 12, 20, 0, 0, 0, TimeSpan.Zero), (DateTimeOffset)new JValue(new DateTime(2000, 12, 20, 0, 0, 0, DateTimeKind.Utc)));
+        Xunit.Assert.Equal(new DateTimeOffset(2000, 12, 20, 23, 50, 10, TimeSpan.Zero), (DateTimeOffset)new JValue(new DateTimeOffset(2000, 12, 20, 23, 50, 10, TimeSpan.Zero)));
+        Xunit.Assert.Equal(null, (DateTimeOffset?)new JValue((DateTimeOffset?)null));
+        Xunit.Assert.Equal(null, (DateTimeOffset?)(JValue?)null);
         Assert.True( (bool)new JValue(true));
         Assert.True( (bool?)new JValue(true));
-        Assert.AreEqual(null, (bool?)(JValue?)null);
-        Assert.AreEqual(null, (bool?)JValue.CreateNull());
-        Assert.AreEqual(10, (long)new JValue(10));
-        Assert.AreEqual(null, (long?)new JValue((long?)null));
-        Assert.AreEqual(null, (long?)(JValue?)null);
-        Assert.AreEqual(null, (int?)new JValue((int?)null));
-        Assert.AreEqual(null, (int?)(JValue?)null);
-        Assert.AreEqual(null, (DateTime?)new JValue((DateTime?)null));
-        Assert.AreEqual(null, (DateTime?)(JValue?)null);
-        Assert.AreEqual(null, (short?)new JValue((short?)null));
-        Assert.AreEqual(null, (short?)(JValue?)null);
-        Assert.AreEqual(null, (float?)new JValue((float?)null));
-        Assert.AreEqual(null, (float?)(JValue?)null);
-        Assert.AreEqual(null, (double?)new JValue((double?)null));
-        Assert.AreEqual(null, (double?)(JValue?)null);
-        Assert.AreEqual(null, (decimal?)new JValue((decimal?)null));
-        Assert.AreEqual(null, (decimal?)(JValue?)null);
-        Assert.AreEqual(null, (uint?)new JValue((uint?)null));
-        Assert.AreEqual(null, (uint?)(JValue?)null);
-        Assert.AreEqual(null, (sbyte?)new JValue((sbyte?)null));
-        Assert.AreEqual(null, (sbyte?)(JValue?)null);
-        Assert.AreEqual(null, (byte?)new JValue((byte?)null));
-        Assert.AreEqual(null, (byte?)(JValue?)null);
-        Assert.AreEqual(null, (ulong?)new JValue((ulong?)null));
-        Assert.AreEqual(null, (ulong?)(JValue?)null);
-        Assert.AreEqual(null, (uint?)new JValue((uint?)null));
-        Assert.AreEqual(null, (uint?)(JValue?)null);
-        Assert.AreEqual(11.1f, (float)new JValue(11.1));
-        Assert.AreEqual(float.MinValue, (float)new JValue(float.MinValue));
-        Assert.AreEqual(1.1, (double)new JValue(1.1));
-        Assert.AreEqual(uint.MaxValue, (uint)new JValue(uint.MaxValue));
-        Assert.AreEqual(ulong.MaxValue, (ulong)new JValue(ulong.MaxValue));
-        Assert.AreEqual(ulong.MaxValue, (ulong)new JProperty("Test", new JValue(ulong.MaxValue)));
-        Assert.AreEqual(null, (string?)new JValue((string?)null));
-        Assert.AreEqual(5m, (decimal)new JValue(5L));
-        Assert.AreEqual(5m, (decimal?)new JValue(5L));
-        Assert.AreEqual(5f, (float)new JValue(5L));
-        Assert.AreEqual(5f, (float)new JValue(5m));
-        Assert.AreEqual(5f, (float?)new JValue(5m));
-        Assert.AreEqual(5, (byte)new JValue(5));
-        Assert.AreEqual(SByte.MinValue, (sbyte?)new JValue(SByte.MinValue));
-        Assert.AreEqual(SByte.MinValue, (sbyte)new JValue(SByte.MinValue));
+        Xunit.Assert.Equal(null, (bool?)(JValue?)null);
+        Xunit.Assert.Equal(null, (bool?)JValue.CreateNull());
+        Xunit.Assert.Equal(10, (long)new JValue(10));
+        Xunit.Assert.Equal(null, (long?)new JValue((long?)null));
+        Xunit.Assert.Equal(null, (long?)(JValue?)null);
+        Xunit.Assert.Equal(null, (int?)new JValue((int?)null));
+        Xunit.Assert.Equal(null, (int?)(JValue?)null);
+        Xunit.Assert.Equal(null, (DateTime?)new JValue((DateTime?)null));
+        Xunit.Assert.Equal(null, (DateTime?)(JValue?)null);
+        Xunit.Assert.Equal(null, (short?)new JValue((short?)null));
+        Xunit.Assert.Equal(null, (short?)(JValue?)null);
+        Xunit.Assert.Equal(null, (float?)new JValue((float?)null));
+        Xunit.Assert.Equal(null, (float?)(JValue?)null);
+        Xunit.Assert.Equal(null, (double?)new JValue((double?)null));
+        Xunit.Assert.Equal(null, (double?)(JValue?)null);
+        Xunit.Assert.Equal(null, (decimal?)new JValue((decimal?)null));
+        Xunit.Assert.Equal(null, (decimal?)(JValue?)null);
+        Xunit.Assert.Equal(null, (uint?)new JValue((uint?)null));
+        Xunit.Assert.Equal(null, (uint?)(JValue?)null);
+        Xunit.Assert.Equal(null, (sbyte?)new JValue((sbyte?)null));
+        Xunit.Assert.Equal(null, (sbyte?)(JValue?)null);
+        Xunit.Assert.Equal(null, (byte?)new JValue((byte?)null));
+        Xunit.Assert.Equal(null, (byte?)(JValue?)null);
+        Xunit.Assert.Equal(null, (ulong?)new JValue((ulong?)null));
+        Xunit.Assert.Equal(null, (ulong?)(JValue?)null);
+        Xunit.Assert.Equal(null, (uint?)new JValue((uint?)null));
+        Xunit.Assert.Equal(null, (uint?)(JValue?)null);
+        Xunit.Assert.Equal(11.1f, (float)new JValue(11.1));
+        Xunit.Assert.Equal(float.MinValue, (float)new JValue(float.MinValue));
+        Xunit.Assert.Equal(1.1, (double)new JValue(1.1));
+        Xunit.Assert.Equal(uint.MaxValue, (uint)new JValue(uint.MaxValue));
+        Xunit.Assert.Equal(ulong.MaxValue, (ulong)new JValue(ulong.MaxValue));
+        Xunit.Assert.Equal(ulong.MaxValue, (ulong)new JProperty("Test", new JValue(ulong.MaxValue)));
+        Xunit.Assert.Equal(null, (string?)new JValue((string?)null));
+        Xunit.Assert.Equal(5m, (decimal)new JValue(5L));
+        Xunit.Assert.Equal(5m, (decimal?)new JValue(5L));
+        Xunit.Assert.Equal(5f, (float)new JValue(5L));
+        Xunit.Assert.Equal(5f, (float)new JValue(5m));
+        Xunit.Assert.Equal(5f, (float?)new JValue(5m));
+        Xunit.Assert.Equal(5, (byte)new JValue(5));
+        Xunit.Assert.Equal(SByte.MinValue, (sbyte?)new JValue(SByte.MinValue));
+        Xunit.Assert.Equal(SByte.MinValue, (sbyte)new JValue(SByte.MinValue));
 
-        Assert.AreEqual(null, (sbyte?)JValue.CreateNull());
+        Xunit.Assert.Equal(null, (sbyte?)JValue.CreateNull());
 
-        Assert.AreEqual("1", (string?)new JValue(1));
-        Assert.AreEqual("1", (string?)new JValue(1.0));
-        Assert.AreEqual("1.0", (string?)new JValue(1.0m));
-        Assert.AreEqual("True", (string?)new JValue(true));
-        Assert.AreEqual(null, (string?)JValue.CreateNull());
-        Assert.AreEqual(null, (string?)(JValue?)null);
-        Assert.AreEqual("12/12/2000 12:12:12", (string?)new JValue(new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc)));
-        Assert.AreEqual("12/12/2000 12:12:12 +00:00", (string?)new JValue(new DateTimeOffset(2000, 12, 12, 12, 12, 12, TimeSpan.Zero)));
+        Xunit.Assert.Equal("1", (string?)new JValue(1));
+        Xunit.Assert.Equal("1", (string?)new JValue(1.0));
+        Xunit.Assert.Equal("1.0", (string?)new JValue(1.0m));
+        Xunit.Assert.Equal("True", (string?)new JValue(true));
+        Xunit.Assert.Equal(null, (string?)JValue.CreateNull());
+        Xunit.Assert.Equal(null, (string?)(JValue?)null);
+        Xunit.Assert.Equal("12/12/2000 12:12:12", (string?)new JValue(new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc)));
+        Xunit.Assert.Equal("12/12/2000 12:12:12 +00:00", (string?)new JValue(new DateTimeOffset(2000, 12, 12, 12, 12, 12, TimeSpan.Zero)));
         Assert.True( (bool)new JValue(1));
         Assert.True( (bool)new JValue(1.0));
         Assert.True( (bool)new JValue("true"));
         Assert.True( (bool)new JValue(true));
         Assert.True( (bool)new JValue(2));
         Assert.False( (bool)new JValue(0));
-        Assert.AreEqual(1, (int)new JValue(1));
-        Assert.AreEqual(1, (int)new JValue(1.0));
-        Assert.AreEqual(1, (int)new JValue("1"));
-        Assert.AreEqual(1, (int)new JValue(true));
-        Assert.AreEqual(1m, (decimal)new JValue(1));
-        Assert.AreEqual(1m, (decimal)new JValue(1.0));
-        Assert.AreEqual(1m, (decimal)new JValue("1"));
-        Assert.AreEqual(1m, (decimal)new JValue(true));
-        Assert.AreEqual(TimeSpan.FromMinutes(1), (TimeSpan)new JValue(TimeSpan.FromMinutes(1)));
-        Assert.AreEqual("00:01:00", (string?)new JValue(TimeSpan.FromMinutes(1)));
-        Assert.AreEqual(TimeSpan.FromMinutes(1), (TimeSpan)new JValue("00:01:00"));
-        Assert.AreEqual("46efe013-b56a-4e83-99e4-4dce7678a5bc", (string?)new JValue(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC")));
-        Assert.AreEqual("http://www.google.com/", (string?)new JValue(new Uri("http://www.google.com")));
-        Assert.AreEqual(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC"), (Guid)new JValue("46EFE013-B56A-4E83-99E4-4DCE7678A5BC"));
-        Assert.AreEqual(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC"), (Guid)new JValue(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC")));
-        Assert.AreEqual(new Uri("http://www.google.com"), (Uri?)new JValue("http://www.google.com"));
-        Assert.AreEqual(new Uri("http://www.google.com"), (Uri?)new JValue(new Uri("http://www.google.com")));
-        Assert.AreEqual(null, (Uri?)JValue.CreateNull());
-        Assert.AreEqual(Convert.ToBase64String(Encoding.UTF8.GetBytes("hi")), (string?)new JValue(Encoding.UTF8.GetBytes("hi")));
+        Xunit.Assert.Equal(1, (int)new JValue(1));
+        Xunit.Assert.Equal(1, (int)new JValue(1.0));
+        Xunit.Assert.Equal(1, (int)new JValue("1"));
+        Xunit.Assert.Equal(1, (int)new JValue(true));
+        Xunit.Assert.Equal(1m, (decimal)new JValue(1));
+        Xunit.Assert.Equal(1m, (decimal)new JValue(1.0));
+        Xunit.Assert.Equal(1m, (decimal)new JValue("1"));
+        Xunit.Assert.Equal(1m, (decimal)new JValue(true));
+        Xunit.Assert.Equal(TimeSpan.FromMinutes(1), (TimeSpan)new JValue(TimeSpan.FromMinutes(1)));
+        Xunit.Assert.Equal("00:01:00", (string?)new JValue(TimeSpan.FromMinutes(1)));
+        Xunit.Assert.Equal(TimeSpan.FromMinutes(1), (TimeSpan)new JValue("00:01:00"));
+        Xunit.Assert.Equal("46efe013-b56a-4e83-99e4-4dce7678a5bc", (string?)new JValue(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC")));
+        Xunit.Assert.Equal("http://www.google.com/", (string?)new JValue(new Uri("http://www.google.com")));
+        Xunit.Assert.Equal(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC"), (Guid)new JValue("46EFE013-B56A-4E83-99E4-4DCE7678A5BC"));
+        Xunit.Assert.Equal(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC"), (Guid)new JValue(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC")));
+        Xunit.Assert.Equal(new Uri("http://www.google.com"), (Uri?)new JValue("http://www.google.com"));
+        Xunit.Assert.Equal(new Uri("http://www.google.com"), (Uri?)new JValue(new Uri("http://www.google.com")));
+        Xunit.Assert.Equal(null, (Uri?)JValue.CreateNull());
+        Xunit.Assert.Equal(Convert.ToBase64String(Encoding.UTF8.GetBytes("hi")), (string?)new JValue(Encoding.UTF8.GetBytes("hi")));
         Xunit.Assert.Equal((byte[])Encoding.UTF8.GetBytes("hi"), (byte[]?)new JValue(Convert.ToBase64String(Encoding.UTF8.GetBytes("hi"))));
-        Assert.AreEqual(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC"), (Guid)new JValue(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC").ToByteArray()));
-        Assert.AreEqual(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC"), (Guid?)new JValue(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC").ToByteArray()));
-        Assert.AreEqual((sbyte?)1, (sbyte?)new JValue((short?)1));
+        Xunit.Assert.Equal(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC"), (Guid)new JValue(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC").ToByteArray()));
+        Xunit.Assert.Equal(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC"), (Guid?)new JValue(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC").ToByteArray()));
+        Xunit.Assert.Equal((sbyte?)1, (sbyte?)new JValue((short?)1));
 
-        Assert.AreEqual(null, (Uri?)(JValue?)null);
-        Assert.AreEqual(null, (int?)(JValue?)null);
-        Assert.AreEqual(null, (uint?)(JValue?)null);
-        Assert.AreEqual(null, (Guid?)(JValue?)null);
-        Assert.AreEqual(null, (TimeSpan?)(JValue?)null);
-        Assert.AreEqual(null, (byte[]?)(JValue?)null);
-        Assert.AreEqual(null, (bool?)(JValue?)null);
-        Assert.AreEqual(null, (char?)(JValue?)null);
-        Assert.AreEqual(null, (DateTime?)(JValue?)null);
-        Assert.AreEqual(null, (DateTimeOffset?)(JValue?)null);
-        Assert.AreEqual(null, (short?)(JValue?)null);
-        Assert.AreEqual(null, (ushort?)(JValue?)null);
-        Assert.AreEqual(null, (byte?)(JValue?)null);
-        Assert.AreEqual(null, (byte?)(JValue?)null);
-        Assert.AreEqual(null, (sbyte?)(JValue?)null);
-        Assert.AreEqual(null, (sbyte?)(JValue?)null);
-        Assert.AreEqual(null, (long?)(JValue?)null);
-        Assert.AreEqual(null, (ulong?)(JValue?)null);
-        Assert.AreEqual(null, (double?)(JValue?)null);
-        Assert.AreEqual(null, (float?)(JValue?)null);
+        Xunit.Assert.Equal(null, (Uri?)(JValue?)null);
+        Xunit.Assert.Equal(null, (int?)(JValue?)null);
+        Xunit.Assert.Equal(null, (uint?)(JValue?)null);
+        Xunit.Assert.Equal(null, (Guid?)(JValue?)null);
+        Xunit.Assert.Equal(null, (TimeSpan?)(JValue?)null);
+        Xunit.Assert.Equal(null, (byte[]?)(JValue?)null);
+        Xunit.Assert.Equal(null, (bool?)(JValue?)null);
+        Xunit.Assert.Equal(null, (char?)(JValue?)null);
+        Xunit.Assert.Equal(null, (DateTime?)(JValue?)null);
+        Xunit.Assert.Equal(null, (DateTimeOffset?)(JValue?)null);
+        Xunit.Assert.Equal(null, (short?)(JValue?)null);
+        Xunit.Assert.Equal(null, (ushort?)(JValue?)null);
+        Xunit.Assert.Equal(null, (byte?)(JValue?)null);
+        Xunit.Assert.Equal(null, (byte?)(JValue?)null);
+        Xunit.Assert.Equal(null, (sbyte?)(JValue?)null);
+        Xunit.Assert.Equal(null, (sbyte?)(JValue?)null);
+        Xunit.Assert.Equal(null, (long?)(JValue?)null);
+        Xunit.Assert.Equal(null, (ulong?)(JValue?)null);
+        Xunit.Assert.Equal(null, (double?)(JValue?)null);
+        Xunit.Assert.Equal(null, (float?)(JValue?)null);
 
         var data = new byte[0];
-        Assert.AreEqual(data, (byte[]?)new JValue(data));
+        Xunit.Assert.Equal(data, (byte[]?)new JValue(data));
 
-        Assert.AreEqual(5, (int)new JValue(StringComparison.OrdinalIgnoreCase));
+        Xunit.Assert.Equal(5, (int)new JValue(StringComparison.OrdinalIgnoreCase));
 
         var bigIntegerText = "1234567899999999999999999999999999999999999999999999999999999999999990";
 
-        Assert.AreEqual(BigInteger.Parse(bigIntegerText), new JValue(BigInteger.Parse(bigIntegerText)).Value);
+        Xunit.Assert.Equal(BigInteger.Parse(bigIntegerText), new JValue(BigInteger.Parse(bigIntegerText)).Value);
 
-        Assert.AreEqual(BigInteger.Parse(bigIntegerText), new JValue(bigIntegerText).ToObject<BigInteger>());
-        Assert.AreEqual(new BigInteger(long.MaxValue), new JValue(long.MaxValue).ToObject<BigInteger>());
-        Assert.AreEqual(new BigInteger(4.5d), new JValue(4.5d).ToObject<BigInteger>());
-        Assert.AreEqual(new BigInteger(4.5f), new JValue(4.5f).ToObject<BigInteger>());
-        Assert.AreEqual(new BigInteger(byte.MaxValue), new JValue(byte.MaxValue).ToObject<BigInteger>());
-        Assert.AreEqual(new BigInteger(123), new JValue(123).ToObject<BigInteger>());
-        Assert.AreEqual(new BigInteger(123), new JValue(123).ToObject<BigInteger?>());
-        Assert.AreEqual(null, JValue.CreateNull().ToObject<BigInteger?>());
+        Xunit.Assert.Equal(BigInteger.Parse(bigIntegerText), new JValue(bigIntegerText).ToObject<BigInteger>());
+        Xunit.Assert.Equal(new BigInteger(long.MaxValue), new JValue(long.MaxValue).ToObject<BigInteger>());
+        Xunit.Assert.Equal(new BigInteger(4.5d), new JValue(4.5d).ToObject<BigInteger>());
+        Xunit.Assert.Equal(new BigInteger(4.5f), new JValue(4.5f).ToObject<BigInteger>());
+        Xunit.Assert.Equal(new BigInteger(byte.MaxValue), new JValue(byte.MaxValue).ToObject<BigInteger>());
+        Xunit.Assert.Equal(new BigInteger(123), new JValue(123).ToObject<BigInteger>());
+        Xunit.Assert.Equal(new BigInteger(123), new JValue(123).ToObject<BigInteger?>());
+        Xunit.Assert.Equal(null, JValue.CreateNull().ToObject<BigInteger?>());
 
         var intData = BigInteger.Parse(bigIntegerText).ToByteArray();
-        Assert.AreEqual(BigInteger.Parse(bigIntegerText), new JValue(intData).ToObject<BigInteger>());
+        Xunit.Assert.Equal(BigInteger.Parse(bigIntegerText), new JValue(intData).ToObject<BigInteger>());
 
-        Assert.AreEqual(4.0d, (double)new JValue(new BigInteger(4.5d)));
+        Xunit.Assert.Equal(4.0d, (double)new JValue(new BigInteger(4.5d)));
         Assert.True( (bool)new JValue(new BigInteger(1)));
-        Assert.AreEqual(long.MaxValue, (long)new JValue(new BigInteger(long.MaxValue)));
-        Assert.AreEqual(long.MaxValue, (long)new JValue(new BigInteger(new byte[] { 255, 255, 255, 255, 255, 255, 255, 127 })));
-        Assert.AreEqual("9223372036854775807", (string?)new JValue(new BigInteger(long.MaxValue)));
+        Xunit.Assert.Equal(long.MaxValue, (long)new JValue(new BigInteger(long.MaxValue)));
+        Xunit.Assert.Equal(long.MaxValue, (long)new JValue(new BigInteger(new byte[] { 255, 255, 255, 255, 255, 255, 255, 127 })));
+        Xunit.Assert.Equal("9223372036854775807", (string?)new JValue(new BigInteger(long.MaxValue)));
 
         intData = (byte[]?)new JValue(new BigInteger(long.MaxValue));
         Xunit.Assert.Equal(new byte[] { 255, 255, 255, 255, 255, 255, 255, 127 }, intData);
@@ -446,49 +446,49 @@ public class JTokenTests : TestFixtureBase
     [Fact]
     public void ToObject()
     {
-        Assert.AreEqual((BigInteger)1, new JValue(1).ToObject(typeof(BigInteger)));
-        Assert.AreEqual((BigInteger)1, new JValue(1).ToObject(typeof(BigInteger?)));
-        Assert.AreEqual((BigInteger?)null, JValue.CreateNull().ToObject(typeof(BigInteger?)));
-        Assert.AreEqual((ushort)1, new JValue(1).ToObject(typeof(ushort)));
-        Assert.AreEqual((ushort)1, new JValue(1).ToObject(typeof(ushort?)));
-        Assert.AreEqual((uint)1L, new JValue(1).ToObject(typeof(uint)));
-        Assert.AreEqual((uint)1L, new JValue(1).ToObject(typeof(uint?)));
-        Assert.AreEqual((ulong)1L, new JValue(1).ToObject(typeof(ulong)));
-        Assert.AreEqual((ulong)1L, new JValue(1).ToObject(typeof(ulong?)));
-        Assert.AreEqual((sbyte)1L, new JValue(1).ToObject(typeof(sbyte)));
-        Assert.AreEqual((sbyte)1L, new JValue(1).ToObject(typeof(sbyte?)));
-        Assert.AreEqual(null, JValue.CreateNull().ToObject(typeof(sbyte?)));
-        Assert.AreEqual((byte)1L, new JValue(1).ToObject(typeof(byte)));
-        Assert.AreEqual((byte)1L, new JValue(1).ToObject(typeof(byte?)));
-        Assert.AreEqual((short)1L, new JValue(1).ToObject(typeof(short)));
-        Assert.AreEqual((short)1L, new JValue(1).ToObject(typeof(short?)));
-        Assert.AreEqual(1, new JValue(1).ToObject(typeof(int)));
-        Assert.AreEqual(1, new JValue(1).ToObject(typeof(int?)));
-        Assert.AreEqual(1L, new JValue(1).ToObject(typeof(long)));
-        Assert.AreEqual(1L, new JValue(1).ToObject(typeof(long?)));
-        Assert.AreEqual((float)1, new JValue(1.0).ToObject(typeof(float)));
-        Assert.AreEqual((float)1, new JValue(1.0).ToObject(typeof(float?)));
-        Assert.AreEqual((double)1, new JValue(1.0).ToObject(typeof(double)));
-        Assert.AreEqual((double)1, new JValue(1.0).ToObject(typeof(double?)));
-        Assert.AreEqual(1m, new JValue(1).ToObject(typeof(decimal)));
-        Assert.AreEqual(1m, new JValue(1).ToObject(typeof(decimal?)));
+        Xunit.Assert.Equal((BigInteger)1, new JValue(1).ToObject(typeof(BigInteger)));
+        Xunit.Assert.Equal((BigInteger)1, new JValue(1).ToObject(typeof(BigInteger?)));
+        Xunit.Assert.Equal((BigInteger?)null, JValue.CreateNull().ToObject(typeof(BigInteger?)));
+        Xunit.Assert.Equal((ushort)1, new JValue(1).ToObject(typeof(ushort)));
+        Xunit.Assert.Equal((ushort)1, new JValue(1).ToObject(typeof(ushort?)));
+        Xunit.Assert.Equal((uint)1L, new JValue(1).ToObject(typeof(uint)));
+        Xunit.Assert.Equal((uint)1L, new JValue(1).ToObject(typeof(uint?)));
+        Xunit.Assert.Equal((ulong)1L, new JValue(1).ToObject(typeof(ulong)));
+        Xunit.Assert.Equal((ulong)1L, new JValue(1).ToObject(typeof(ulong?)));
+        Xunit.Assert.Equal((sbyte)1L, new JValue(1).ToObject(typeof(sbyte)));
+        Xunit.Assert.Equal((sbyte)1L, new JValue(1).ToObject(typeof(sbyte?)));
+        Xunit.Assert.Equal(null, JValue.CreateNull().ToObject(typeof(sbyte?)));
+        Xunit.Assert.Equal((byte)1L, new JValue(1).ToObject(typeof(byte)));
+        Xunit.Assert.Equal((byte)1L, new JValue(1).ToObject(typeof(byte?)));
+        Xunit.Assert.Equal((short)1L, new JValue(1).ToObject(typeof(short)));
+        Xunit.Assert.Equal((short)1L, new JValue(1).ToObject(typeof(short?)));
+        Xunit.Assert.Equal(1, new JValue(1).ToObject(typeof(int)));
+        Xunit.Assert.Equal(1, new JValue(1).ToObject(typeof(int?)));
+        Xunit.Assert.Equal(1L, new JValue(1).ToObject(typeof(long)));
+        Xunit.Assert.Equal(1L, new JValue(1).ToObject(typeof(long?)));
+        Xunit.Assert.Equal((float)1, new JValue(1.0).ToObject(typeof(float)));
+        Xunit.Assert.Equal((float)1, new JValue(1.0).ToObject(typeof(float?)));
+        Xunit.Assert.Equal((double)1, new JValue(1.0).ToObject(typeof(double)));
+        Xunit.Assert.Equal((double)1, new JValue(1.0).ToObject(typeof(double?)));
+        Xunit.Assert.Equal(1m, new JValue(1).ToObject(typeof(decimal)));
+        Xunit.Assert.Equal(1m, new JValue(1).ToObject(typeof(decimal?)));
         Assert.True( new JValue(true).ToObject(typeof(bool)));
         Assert.True( new JValue(true).ToObject(typeof(bool?)));
-        Assert.AreEqual('b', new JValue('b').ToObject(typeof(char)));
-        Assert.AreEqual('b', new JValue('b').ToObject(typeof(char?)));
-        Assert.AreEqual(TimeSpan.MaxValue, new JValue(TimeSpan.MaxValue).ToObject(typeof(TimeSpan)));
-        Assert.AreEqual(TimeSpan.MaxValue, new JValue(TimeSpan.MaxValue).ToObject(typeof(TimeSpan?)));
-        Assert.AreEqual(DateTime.MaxValue, new JValue(DateTime.MaxValue).ToObject(typeof(DateTime)));
-        Assert.AreEqual(DateTime.MaxValue, new JValue(DateTime.MaxValue).ToObject(typeof(DateTime?)));
-        Assert.AreEqual(DateTimeOffset.MaxValue, new JValue(DateTimeOffset.MaxValue).ToObject(typeof(DateTimeOffset)));
-        Assert.AreEqual(DateTimeOffset.MaxValue, new JValue(DateTimeOffset.MaxValue).ToObject(typeof(DateTimeOffset?)));
-        Assert.AreEqual("b", new JValue("b").ToObject(typeof(string)));
-        Assert.AreEqual(new Guid("A34B2080-B5F0-488E-834D-45D44ECB9E5C"), new JValue(new Guid("A34B2080-B5F0-488E-834D-45D44ECB9E5C")).ToObject(typeof(Guid)));
-        Assert.AreEqual(new Guid("A34B2080-B5F0-488E-834D-45D44ECB9E5C"), new JValue(new Guid("A34B2080-B5F0-488E-834D-45D44ECB9E5C")).ToObject(typeof(Guid?)));
-        Assert.AreEqual(new Uri("http://www.google.com/"), new JValue(new Uri("http://www.google.com/")).ToObject(typeof(Uri)));
-        Assert.AreEqual(StringComparison.Ordinal, new JValue("Ordinal").ToObject(typeof(StringComparison)));
-        Assert.AreEqual(StringComparison.Ordinal, new JValue("Ordinal").ToObject(typeof(StringComparison?)));
-        Assert.AreEqual(null, JValue.CreateNull().ToObject(typeof(StringComparison?)));
+        Xunit.Assert.Equal('b', new JValue('b').ToObject(typeof(char)));
+        Xunit.Assert.Equal('b', new JValue('b').ToObject(typeof(char?)));
+        Xunit.Assert.Equal(TimeSpan.MaxValue, new JValue(TimeSpan.MaxValue).ToObject(typeof(TimeSpan)));
+        Xunit.Assert.Equal(TimeSpan.MaxValue, new JValue(TimeSpan.MaxValue).ToObject(typeof(TimeSpan?)));
+        Xunit.Assert.Equal(DateTime.MaxValue, new JValue(DateTime.MaxValue).ToObject(typeof(DateTime)));
+        Xunit.Assert.Equal(DateTime.MaxValue, new JValue(DateTime.MaxValue).ToObject(typeof(DateTime?)));
+        Xunit.Assert.Equal(DateTimeOffset.MaxValue, new JValue(DateTimeOffset.MaxValue).ToObject(typeof(DateTimeOffset)));
+        Xunit.Assert.Equal(DateTimeOffset.MaxValue, new JValue(DateTimeOffset.MaxValue).ToObject(typeof(DateTimeOffset?)));
+        Xunit.Assert.Equal("b", new JValue("b").ToObject(typeof(string)));
+        Xunit.Assert.Equal(new Guid("A34B2080-B5F0-488E-834D-45D44ECB9E5C"), new JValue(new Guid("A34B2080-B5F0-488E-834D-45D44ECB9E5C")).ToObject(typeof(Guid)));
+        Xunit.Assert.Equal(new Guid("A34B2080-B5F0-488E-834D-45D44ECB9E5C"), new JValue(new Guid("A34B2080-B5F0-488E-834D-45D44ECB9E5C")).ToObject(typeof(Guid?)));
+        Xunit.Assert.Equal(new Uri("http://www.google.com/"), new JValue(new Uri("http://www.google.com/")).ToObject(typeof(Uri)));
+        Xunit.Assert.Equal(StringComparison.Ordinal, new JValue("Ordinal").ToObject(typeof(StringComparison)));
+        Xunit.Assert.Equal(StringComparison.Ordinal, new JValue("Ordinal").ToObject(typeof(StringComparison?)));
+        Xunit.Assert.Equal(null, JValue.CreateNull().ToObject(typeof(StringComparison?)));
     }
 
 #nullable enable
@@ -567,9 +567,9 @@ public class JTokenTests : TestFixtureBase
                 new JArray(9, 10)
             );
 
-        Assert.AreEqual(a, a.Root);
-        Assert.AreEqual(a, a[0].Root);
-        Assert.AreEqual(a, ((JArray)a[2])[0].Root);
+        Xunit.Assert.Equal(a, a.Root);
+        Xunit.Assert.Equal(a, a[0].Root);
+        Xunit.Assert.Equal(a, ((JArray)a[2])[0].Root);
     }
 
     [Fact]
@@ -585,24 +585,24 @@ public class JTokenTests : TestFixtureBase
 
         a[0].Remove();
 
-        Assert.AreEqual(6, (int)a[0]);
+        Xunit.Assert.Equal(6, (int)a[0]);
 
         a[1].Remove();
 
-        Assert.AreEqual(6, (int)a[0]);
+        Xunit.Assert.Equal(6, (int)a[0]);
         Xunit.Assert.True(JToken.DeepEquals(new JArray(9, 10), a[1]));
-        Assert.AreEqual(2, a.Count());
+        Xunit.Assert.Equal(2, a.Count());
 
         var t = a[1];
         t.Remove();
-        Assert.AreEqual(6, (int)a[0]);
+        Xunit.Assert.Equal(6, (int)a[0]);
         Xunit.Assert.Null(t.Next);
         Xunit.Assert.Null(t.Previous);
         Xunit.Assert.Null(t.Parent);
 
         t = a[0];
         t.Remove();
-        Assert.AreEqual(0, a.Count());
+        Xunit.Assert.Equal(0, a.Count());
 
         Xunit.Assert.Null(t.Next);
         Xunit.Assert.Null(t.Previous);
@@ -623,7 +623,7 @@ public class JTokenTests : TestFixtureBase
         var t = a[1];
         var afterTokens = t.AfterSelf().ToList();
 
-        Assert.AreEqual(2, afterTokens.Count);
+        Xunit.Assert.Equal(2, afterTokens.Count);
         Xunit.Assert.True(JToken.DeepEquals(new JArray(1, 2), afterTokens[0]));
         Xunit.Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), afterTokens[1]));
     }
@@ -642,7 +642,7 @@ public class JTokenTests : TestFixtureBase
         var t = a[2];
         var beforeTokens = t.BeforeSelf().ToList();
 
-        Assert.AreEqual(2, beforeTokens.Count);
+        Xunit.Assert.Equal(2, beforeTokens.Count);
         Xunit.Assert.True(JToken.DeepEquals(new JValue(5), beforeTokens[0]));
         Xunit.Assert.True(JToken.DeepEquals(new JArray(1), beforeTokens[1]));
     }
@@ -674,9 +674,9 @@ public class JTokenTests : TestFixtureBase
 
         var t = a[1][0];
         var ancestors = t.Ancestors().ToList();
-        Assert.AreEqual(2, ancestors.Count());
-        Assert.AreEqual(a[1], ancestors[0]);
-        Assert.AreEqual(a, ancestors[1]);
+        Xunit.Assert.Equal(2, ancestors.Count());
+        Xunit.Assert.Equal(a[1], ancestors[0]);
+        Xunit.Assert.Equal(a, ancestors[1]);
     }
 
     [Fact]
@@ -692,10 +692,10 @@ public class JTokenTests : TestFixtureBase
 
         var t = a[1][0];
         var ancestors = t.AncestorsAndSelf().ToList();
-        Assert.AreEqual(3, ancestors.Count());
-        Assert.AreEqual(t, ancestors[0]);
-        Assert.AreEqual(a[1], ancestors[1]);
-        Assert.AreEqual(a, ancestors[2]);
+        Xunit.Assert.Equal(3, ancestors.Count());
+        Xunit.Assert.Equal(t, ancestors[0]);
+        Xunit.Assert.Equal(a[1], ancestors[1]);
+        Xunit.Assert.Equal(a, ancestors[2]);
     }
 
     [Fact]
@@ -720,13 +720,13 @@ public class JTokenTests : TestFixtureBase
         var source = new List<JToken> { t1, t2 };
 
         var ancestors = source.AncestorsAndSelf().ToList();
-        Assert.AreEqual(6, ancestors.Count());
-        Assert.AreEqual(t1, ancestors[0]);
-        Assert.AreEqual(a[1], ancestors[1]);
-        Assert.AreEqual(a, ancestors[2]);
-        Assert.AreEqual(t2, ancestors[3]);
-        Assert.AreEqual(o.Property("prop1"), ancestors[4]);
-        Assert.AreEqual(o, ancestors[5]);
+        Xunit.Assert.Equal(6, ancestors.Count());
+        Xunit.Assert.Equal(t1, ancestors[0]);
+        Xunit.Assert.Equal(a[1], ancestors[1]);
+        Xunit.Assert.Equal(a, ancestors[2]);
+        Xunit.Assert.Equal(t2, ancestors[3]);
+        Xunit.Assert.Equal(o.Property("prop1"), ancestors[4]);
+        Xunit.Assert.Equal(o, ancestors[5]);
     }
 
     [Fact]
@@ -751,11 +751,11 @@ public class JTokenTests : TestFixtureBase
         var source = new List<JToken> { t1, t2 };
 
         var ancestors = source.Ancestors().ToList();
-        Assert.AreEqual(4, ancestors.Count());
-        Assert.AreEqual(a[1], ancestors[0]);
-        Assert.AreEqual(a, ancestors[1]);
-        Assert.AreEqual(o.Property("prop1"), ancestors[2]);
-        Assert.AreEqual(o, ancestors[3]);
+        Xunit.Assert.Equal(4, ancestors.Count());
+        Xunit.Assert.Equal(a[1], ancestors[0]);
+        Xunit.Assert.Equal(a, ancestors[1]);
+        Xunit.Assert.Equal(o.Property("prop1"), ancestors[2]);
+        Xunit.Assert.Equal(o, ancestors[3]);
     }
 
     [Fact]
@@ -770,12 +770,12 @@ public class JTokenTests : TestFixtureBase
             );
 
         var descendants = a.Descendants().ToList();
-        Assert.AreEqual(10, descendants.Count());
-        Assert.AreEqual(5, (int)descendants[0]);
+        Xunit.Assert.Equal(10, descendants.Count());
+        Xunit.Assert.Equal(5, (int)descendants[0]);
         Xunit.Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), descendants[descendants.Count - 4]));
-        Assert.AreEqual(1, (int)descendants[descendants.Count - 3]);
-        Assert.AreEqual(2, (int)descendants[descendants.Count - 2]);
-        Assert.AreEqual(3, (int)descendants[descendants.Count - 1]);
+        Xunit.Assert.Equal(1, (int)descendants[descendants.Count - 3]);
+        Xunit.Assert.Equal(2, (int)descendants[descendants.Count - 2]);
+        Xunit.Assert.Equal(3, (int)descendants[descendants.Count - 1]);
     }
 
     [Fact]
@@ -797,14 +797,14 @@ public class JTokenTests : TestFixtureBase
         var source = new List<JContainer> { a, o };
 
         var descendants = source.Descendants().ToList();
-        Assert.AreEqual(12, descendants.Count());
-        Assert.AreEqual(5, (int)descendants[0]);
+        Xunit.Assert.Equal(12, descendants.Count());
+        Xunit.Assert.Equal(5, (int)descendants[0]);
         Xunit.Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), descendants[descendants.Count - 6]));
-        Assert.AreEqual(1, (int)descendants[descendants.Count - 5]);
-        Assert.AreEqual(2, (int)descendants[descendants.Count - 4]);
-        Assert.AreEqual(3, (int)descendants[descendants.Count - 3]);
-        Assert.AreEqual(o.Property("prop1"), descendants[descendants.Count - 2]);
-        Assert.AreEqual(o["prop1"], descendants[descendants.Count - 1]);
+        Xunit.Assert.Equal(1, (int)descendants[descendants.Count - 5]);
+        Xunit.Assert.Equal(2, (int)descendants[descendants.Count - 4]);
+        Xunit.Assert.Equal(3, (int)descendants[descendants.Count - 3]);
+        Xunit.Assert.Equal(o.Property("prop1"), descendants[descendants.Count - 2]);
+        Xunit.Assert.Equal(o["prop1"], descendants[descendants.Count - 1]);
     }
 
     [Fact]
@@ -819,13 +819,13 @@ public class JTokenTests : TestFixtureBase
             );
 
         var descendantsAndSelf = a.DescendantsAndSelf().ToList();
-        Assert.AreEqual(11, descendantsAndSelf.Count());
-        Assert.AreEqual(a, descendantsAndSelf[0]);
-        Assert.AreEqual(5, (int)descendantsAndSelf[1]);
+        Xunit.Assert.Equal(11, descendantsAndSelf.Count());
+        Xunit.Assert.Equal(a, descendantsAndSelf[0]);
+        Xunit.Assert.Equal(5, (int)descendantsAndSelf[1]);
         Xunit.Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), descendantsAndSelf[descendantsAndSelf.Count - 4]));
-        Assert.AreEqual(1, (int)descendantsAndSelf[descendantsAndSelf.Count - 3]);
-        Assert.AreEqual(2, (int)descendantsAndSelf[descendantsAndSelf.Count - 2]);
-        Assert.AreEqual(3, (int)descendantsAndSelf[descendantsAndSelf.Count - 1]);
+        Xunit.Assert.Equal(1, (int)descendantsAndSelf[descendantsAndSelf.Count - 3]);
+        Xunit.Assert.Equal(2, (int)descendantsAndSelf[descendantsAndSelf.Count - 2]);
+        Xunit.Assert.Equal(3, (int)descendantsAndSelf[descendantsAndSelf.Count - 1]);
     }
 
     [Fact]
@@ -847,16 +847,16 @@ public class JTokenTests : TestFixtureBase
         var source = new List<JContainer> { a, o };
 
         var descendantsAndSelf = source.DescendantsAndSelf().ToList();
-        Assert.AreEqual(14, descendantsAndSelf.Count());
-        Assert.AreEqual(a, descendantsAndSelf[0]);
-        Assert.AreEqual(5, (int)descendantsAndSelf[1]);
+        Xunit.Assert.Equal(14, descendantsAndSelf.Count());
+        Xunit.Assert.Equal(a, descendantsAndSelf[0]);
+        Xunit.Assert.Equal(5, (int)descendantsAndSelf[1]);
         Xunit.Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), descendantsAndSelf[descendantsAndSelf.Count - 7]));
-        Assert.AreEqual(1, (int)descendantsAndSelf[descendantsAndSelf.Count - 6]);
-        Assert.AreEqual(2, (int)descendantsAndSelf[descendantsAndSelf.Count - 5]);
-        Assert.AreEqual(3, (int)descendantsAndSelf[descendantsAndSelf.Count - 4]);
-        Assert.AreEqual(o, descendantsAndSelf[descendantsAndSelf.Count - 3]);
-        Assert.AreEqual(o.Property("prop1"), descendantsAndSelf[descendantsAndSelf.Count - 2]);
-        Assert.AreEqual(o["prop1"], descendantsAndSelf[descendantsAndSelf.Count - 1]);
+        Xunit.Assert.Equal(1, (int)descendantsAndSelf[descendantsAndSelf.Count - 6]);
+        Xunit.Assert.Equal(2, (int)descendantsAndSelf[descendantsAndSelf.Count - 5]);
+        Xunit.Assert.Equal(3, (int)descendantsAndSelf[descendantsAndSelf.Count - 4]);
+        Xunit.Assert.Equal(o, descendantsAndSelf[descendantsAndSelf.Count - 3]);
+        Xunit.Assert.Equal(o.Property("prop1"), descendantsAndSelf[descendantsAndSelf.Count - 2]);
+        Xunit.Assert.Equal(o["prop1"], descendantsAndSelf[descendantsAndSelf.Count - 1]);
     }
 
     [Fact]
@@ -872,18 +872,18 @@ public class JTokenTests : TestFixtureBase
 
         var writer = a.CreateWriter();
         Xunit.Assert.NotNull(writer);
-        Assert.AreEqual(4, a.Count());
+        Xunit.Assert.Equal(4, a.Count());
 
         writer.WriteValue("String");
-        Assert.AreEqual(5, a.Count());
-        Assert.AreEqual("String", (string)a[4]);
+        Xunit.Assert.Equal(5, a.Count());
+        Xunit.Assert.Equal("String", (string)a[4]);
 
         writer.WriteStartObject();
         writer.WritePropertyName("Property");
         writer.WriteValue("PropertyValue");
         writer.WriteEnd();
 
-        Assert.AreEqual(6, a.Count());
+        Xunit.Assert.Equal(6, a.Count());
         Xunit.Assert.True(JToken.DeepEquals(new JObject(new JProperty("Property", "PropertyValue")), a[5]));
     }
 
@@ -900,18 +900,18 @@ public class JTokenTests : TestFixtureBase
 
         a.AddFirst("First");
 
-        Assert.AreEqual("First", (string)a[0]);
-        Assert.AreEqual(a, a[0].Parent);
-        Assert.AreEqual(a[1], a[0].Next);
-        Assert.AreEqual(5, a.Count());
+        Xunit.Assert.Equal("First", (string)a[0]);
+        Xunit.Assert.Equal(a, a[0].Parent);
+        Xunit.Assert.Equal(a[1], a[0].Next);
+        Xunit.Assert.Equal(5, a.Count());
 
         a.AddFirst("NewFirst");
-        Assert.AreEqual("NewFirst", (string)a[0]);
-        Assert.AreEqual(a, a[0].Parent);
-        Assert.AreEqual(a[1], a[0].Next);
-        Assert.AreEqual(6, a.Count());
+        Xunit.Assert.Equal("NewFirst", (string)a[0]);
+        Xunit.Assert.Equal(a, a[0].Parent);
+        Xunit.Assert.Equal(a[1], a[0].Next);
+        Xunit.Assert.Equal(6, a.Count());
 
-        Assert.AreEqual(a[0], a[0].Next.Previous);
+        Xunit.Assert.Equal(a[0], a[0].Next.Previous);
     }
 
     [Fact]
@@ -926,10 +926,10 @@ public class JTokenTests : TestFixtureBase
             );
 
         var first = a.First;
-        Assert.AreEqual(5, (int)first);
+        Xunit.Assert.Equal(5, (int)first);
 
         a.RemoveAll();
-        Assert.AreEqual(0, a.Count());
+        Xunit.Assert.Equal(0, a.Count());
 
         Xunit.Assert.Null(first.Parent);
         Xunit.Assert.Null(first.Next);
@@ -965,15 +965,15 @@ public class JTokenTests : TestFixtureBase
             );
 
         a[0].Replace(new JValue(int.MaxValue));
-        Assert.AreEqual(int.MaxValue, (int)a[0]);
-        Assert.AreEqual(4, a.Count());
+        Xunit.Assert.Equal(int.MaxValue, (int)a[0]);
+        Xunit.Assert.Equal(4, a.Count());
 
         a[1][0].Replace(new JValue("Test"));
-        Assert.AreEqual("Test", (string)a[1][0]);
+        Xunit.Assert.Equal("Test", (string)a[1][0]);
 
         a[2].Replace(new JValue(int.MaxValue));
-        Assert.AreEqual(int.MaxValue, (int)a[2]);
-        Assert.AreEqual(4, a.Count());
+        Xunit.Assert.Equal(int.MaxValue, (int)a[2]);
+        Xunit.Assert.Equal(4, a.Count());
 
         Xunit.Assert.True(JToken.DeepEquals(new JArray(int.MaxValue, new JArray("Test"), int.MaxValue, new JArray(1, 2, 3)), a));
     }
@@ -994,7 +994,7 @@ public class JTokenTests : TestFixtureBase
 
         json = JsonConvert.SerializeObject(a, new IsoDateTimeConverter());
 
-        Assert.AreEqual(@"[""2009-02-15T00:00:00Z""]", json);
+        Xunit.Assert.Equal(@"[""2009-02-15T00:00:00Z""]", json);
     }
 
     [Fact]
@@ -1007,7 +1007,7 @@ public class JTokenTests : TestFixtureBase
 
         var json = a.ToString(Formatting.None, new IsoDateTimeConverter());
 
-        Assert.AreEqual(@"[""2009-02-15T00:00:00Z""]", json);
+        Xunit.Assert.Equal(@"[""2009-02-15T00:00:00Z""]", json);
     }
 
     [Fact]
@@ -1023,15 +1023,15 @@ public class JTokenTests : TestFixtureBase
 
         a[1].AddAfterSelf("pie");
 
-        Assert.AreEqual(5, (int)a[0]);
-        Assert.AreEqual(1, a[1].Count());
-        Assert.AreEqual("pie", (string)a[2]);
-        Assert.AreEqual(5, a.Count());
+        Xunit.Assert.Equal(5, (int)a[0]);
+        Xunit.Assert.Equal(1, a[1].Count());
+        Xunit.Assert.Equal("pie", (string)a[2]);
+        Xunit.Assert.Equal(5, a.Count());
 
         a[4].AddAfterSelf("lastpie");
 
-        Assert.AreEqual("lastpie", (string)a[5]);
-        Assert.AreEqual("lastpie", (string)a.Last);
+        Xunit.Assert.Equal("lastpie", (string)a[5]);
+        Xunit.Assert.Equal("lastpie", (string)a.Last);
     }
 
     [Fact]
@@ -1047,25 +1047,25 @@ public class JTokenTests : TestFixtureBase
 
         a[1].AddBeforeSelf("pie");
 
-        Assert.AreEqual(5, (int)a[0]);
-        Assert.AreEqual("pie", (string)a[1]);
-        Assert.AreEqual(a, a[1].Parent);
-        Assert.AreEqual(a[2], a[1].Next);
-        Assert.AreEqual(5, a.Count());
+        Xunit.Assert.Equal(5, (int)a[0]);
+        Xunit.Assert.Equal("pie", (string)a[1]);
+        Xunit.Assert.Equal(a, a[1].Parent);
+        Xunit.Assert.Equal(a[2], a[1].Next);
+        Xunit.Assert.Equal(5, a.Count());
 
         a[0].AddBeforeSelf("firstpie");
 
-        Assert.AreEqual("firstpie", (string)a[0]);
-        Assert.AreEqual(5, (int)a[1]);
-        Assert.AreEqual("pie", (string)a[2]);
-        Assert.AreEqual(a, a[0].Parent);
-        Assert.AreEqual(a[1], a[0].Next);
-        Assert.AreEqual(6, a.Count());
+        Xunit.Assert.Equal("firstpie", (string)a[0]);
+        Xunit.Assert.Equal(5, (int)a[1]);
+        Xunit.Assert.Equal("pie", (string)a[2]);
+        Xunit.Assert.Equal(a, a[0].Parent);
+        Xunit.Assert.Equal(a[1], a[0].Next);
+        Xunit.Assert.Equal(6, a.Count());
 
         a.Last.AddBeforeSelf("secondlastpie");
 
-        Assert.AreEqual("secondlastpie", (string)a[5]);
-        Assert.AreEqual(7, a.Count());
+        Xunit.Assert.Equal("secondlastpie", (string)a[5]);
+        Xunit.Assert.Equal(7, a.Count());
     }
 
     [Fact]
@@ -1193,30 +1193,30 @@ public class JTokenTests : TestFixtureBase
             );
 
         var t = o.SelectToken("Test1[0]");
-        Assert.AreEqual("Test1[0]", t.Path);
+        Xunit.Assert.Equal("Test1[0]", t.Path);
 
         t = o.SelectToken("Test2");
-        Assert.AreEqual("Test2", t.Path);
+        Xunit.Assert.Equal("Test2", t.Path);
 
         t = o.SelectToken("");
-        Assert.AreEqual("", t.Path);
+        Xunit.Assert.Equal("", t.Path);
 
         t = o.SelectToken("Test4[0][0]");
-        Assert.AreEqual("Test4[0][0]", t.Path);
+        Xunit.Assert.Equal("Test4[0][0]", t.Path);
 
         t = o.SelectToken("Test4[0]");
-        Assert.AreEqual("Test4[0]", t.Path);
+        Xunit.Assert.Equal("Test4[0]", t.Path);
 
         t = t.DeepClone();
-        Assert.AreEqual("", t.Path);
+        Xunit.Assert.Equal("", t.Path);
 
         t = o.SelectToken("Test3.Test1[1].Test1");
-        Assert.AreEqual("Test3.Test1[1].Test1", t.Path);
+        Xunit.Assert.Equal("Test3.Test1[1].Test1", t.Path);
 
         var a = new JArray(1);
-        Assert.AreEqual("", a.Path);
+        Xunit.Assert.Equal("", a.Path);
 
-        Assert.AreEqual("[0]", a[0].Path);
+        Xunit.Assert.Equal("[0]", a[0].Path);
     }
 
     [Fact]
@@ -1229,10 +1229,10 @@ public class JTokenTests : TestFixtureBase
             CommentHandling = CommentHandling.Ignore
         });
 
-        Assert.AreEqual(3, o["prop"].Count());
-        Assert.AreEqual(1, (int)o["prop"][0]);
-        Assert.AreEqual(2, (int)o["prop"][1]);
-        Assert.AreEqual(3, (int)o["prop"][2]);
+        Xunit.Assert.Equal(3, o["prop"].Count());
+        Xunit.Assert.Equal(1, (int)o["prop"][0]);
+        Xunit.Assert.Equal(2, (int)o["prop"][1]);
+        Xunit.Assert.Equal(3, (int)o["prop"][2]);
     }
 
     [Fact]
@@ -1243,10 +1243,10 @@ public class JTokenTests : TestFixtureBase
 
         var o = JToken.Parse(json);
 
-        Assert.AreEqual(3, o["prop"].Count());
-        Assert.AreEqual(1, (int)o["prop"][0]);
-        Assert.AreEqual(2, (int)o["prop"][1]);
-        Assert.AreEqual(3, (int)o["prop"][2]);
+        Xunit.Assert.Equal(3, o["prop"].Count());
+        Xunit.Assert.Equal(1, (int)o["prop"][0]);
+        Xunit.Assert.Equal(2, (int)o["prop"][1]);
+        Xunit.Assert.Equal(3, (int)o["prop"][2]);
     }
 
     [Fact]
@@ -1284,9 +1284,9 @@ public class JTokenTests : TestFixtureBase
 
         var path = v.Path;
 
-        Assert.AreEqual(expectedPath, path);
+        Xunit.Assert.Equal(expectedPath, path);
 
         var token = o.SelectToken(path);
-        Assert.AreEqual(v, token);
+        Xunit.Assert.Equal(v, token);
     }
 }

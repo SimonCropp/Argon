@@ -59,6 +59,6 @@ public class SerializeWithJsonConverters : TestFixtureBase
         // CurrentCulture, Ordinal
         #endregion
 
-        Assert.AreEqual("CurrentCulture, Ordinal", string.Join(", ", newStringComparsions.Select(c => c.ToString()).ToArray()));
+        Xunit.Assert.Equal("CurrentCulture, Ordinal", string.Join(", ", newStringComparsions.Select(c => c.ToString()).ToArray()));
     }
 }

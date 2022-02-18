@@ -40,7 +40,7 @@ public class Issue1619 : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(value, new DirectoryInfoJsonConverter());
-        Assert.AreEqual(@"{""Bar"":""c:\\temp""}", json);
+        Xunit.Assert.Equal(@"{""Bar"":""c:\\temp""}", json);
     }
 
     public class Foo

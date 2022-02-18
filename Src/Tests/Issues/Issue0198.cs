@@ -76,9 +76,9 @@ public class Issue0198 : TestFixtureBase
 
         var o = a.First();
 
-        Assert.AreEqual(1, o.Prop1.Count);
-        Assert.AreEqual(1, o.Prop2.Count);
-        Assert.AreEqual(1, o.Prop3.Count);
+        Xunit.Assert.Equal(1, o.Prop1.Count);
+        Xunit.Assert.Equal(1, o.Prop2.Count);
+        Xunit.Assert.Equal(1, o.Prop3.Count);
     }
 
     [Fact]
@@ -103,7 +103,7 @@ public class Issue0198 : TestFixtureBase
             TypeNameHandling = TypeNameHandling.All
         });
 
-        Assert.AreEqual(1, a.Prop1.Count);
+        Xunit.Assert.Equal(1, a.Prop1.Count);
     }
 
     class TestClass1 : AbstactClass

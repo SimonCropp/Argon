@@ -67,6 +67,6 @@ public class ErrorHandlingEvent : TestFixtureBase
         // Cannot convert null value to System.DateTime.
         #endregion
 
-        Assert.AreEqual(3, errors.Count);
+        Xunit.Assert.Equal(3, errors.Count);
     }
 }

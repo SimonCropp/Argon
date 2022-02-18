@@ -56,7 +56,7 @@ public class JTokenEqualityComparerTests : TestFixtureBase
 
         dic[v11] = 1;
         dic[v12] += 1;
-        Assert.AreEqual(2, dic[v11]);
+        Xunit.Assert.Equal(2, dic[v11]);
     }
 
     [Fact]
@@ -68,7 +68,7 @@ public class JTokenEqualityComparerTests : TestFixtureBase
 
         dic[v11] = 1;
         dic[v12] += 1;
-        Assert.AreEqual(2, dic[v11]);
+        Xunit.Assert.Equal(2, dic[v11]);
     }
 
     [Fact]
@@ -80,7 +80,7 @@ public class JTokenEqualityComparerTests : TestFixtureBase
 
         dic[v11] = 1;
         dic[v12] += 1;
-        Assert.AreEqual(2, dic[v11]);
+        Xunit.Assert.Equal(2, dic[v11]);
     }
 
     [Fact]
@@ -92,6 +92,6 @@ public class JTokenEqualityComparerTests : TestFixtureBase
 
         dic[v11] = 1;
         dic[v12] += 1;
-        Assert.AreEqual(2, dic[v11]);
+        Xunit.Assert.Equal(2, dic[v11]);
     }
 }

@@ -132,7 +132,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 
         var c2 = JsonConvert.DeserializeObject<Container>(s, settings);
 
-        Assert.AreEqual(c2.ListA[0], c2.ListB[0]);
+        Xunit.Assert.Equal(c2.ListA[0], c2.ListB[0]);
         Assert.True( c2.ListA[0].B.SomeValue);
     }
 
@@ -211,13 +211,13 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
             PreserveReferencesHandling = PreserveReferencesHandling.All
         });
 
-        Assert.AreEqual("value?", newP.Child1.PropertyName);
-        Assert.AreEqual(newP.Child1, newP.Child2);
-        Assert.AreEqual(newP.Child1, newP.ReadOnlyChild);
+        Xunit.Assert.Equal("value?", newP.Child1.PropertyName);
+        Xunit.Assert.Equal(newP.Child1, newP.Child2);
+        Xunit.Assert.Equal(newP.Child1, newP.ReadOnlyChild);
 
-        Assert.AreEqual("value!", newP.List1[0]);
-        Assert.AreEqual(newP.List1, newP.List2);
-        Assert.AreEqual(newP.List1, newP.ReadOnlyList);
+        Xunit.Assert.Equal("value!", newP.List1[0]);
+        Xunit.Assert.Equal(newP.List1, newP.List2);
+        Xunit.Assert.Equal(newP.List1, newP.ReadOnlyList);
     }
 
     [Fact]
@@ -263,8 +263,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
                 PreserveReferencesHandling = PreserveReferencesHandling.All
             });
 
-        Assert.AreEqual(2, circularDictionary.Count);
-        Assert.AreEqual(1, circularDictionary["other"].Count);
+        Xunit.Assert.Equal(2, circularDictionary.Count);
+        Xunit.Assert.Equal(1, circularDictionary["other"].Count);
         Xunit.Assert.True(ReferenceEquals(circularDictionary, circularDictionary["self"]));
     }
 
@@ -378,11 +378,11 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         var circularList = JsonConvert.DeserializeObject<CircularList>(json,
             new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.All });
 
-        Assert.AreEqual(3, circularList.Count);
-        Assert.AreEqual(null, circularList[0]);
-        Assert.AreEqual(1, circularList[1].Count);
-        Assert.AreEqual(1, circularList[2].Count);
-        Assert.AreEqual(1, circularList[2][0].Count);
+        Xunit.Assert.Equal(3, circularList.Count);
+        Xunit.Assert.Equal(null, circularList[0]);
+        Xunit.Assert.Equal(1, circularList[1].Count);
+        Xunit.Assert.Equal(1, circularList[2].Count);
+        Xunit.Assert.Equal(1, circularList[2][0].Count);
         Xunit.Assert.True(ReferenceEquals(circularList, circularList[2][0][0]));
     }
 
@@ -581,10 +581,10 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
             Converters = new List<JsonConverter> { new CircularReferenceClassConverter() }
         });
 
-        Assert.AreEqual("c1", c1.Name);
-        Assert.AreEqual("c2", c1.Child.Name);
-        Assert.AreEqual("c3", c1.Child.Child.Name);
-        Assert.AreEqual("c1", c1.Child.Child.Child.Name);
+        Xunit.Assert.Equal("c1", c1.Name);
+        Xunit.Assert.Equal("c2", c1.Child.Name);
+        Xunit.Assert.Equal("c3", c1.Child.Child.Name);
+        Xunit.Assert.Equal("c1", c1.Child.Child.Child.Name);
     }
 
     [Fact]
@@ -643,10 +643,10 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 
         var employees = JsonConvert.DeserializeObject<List<EmployeeReference>>(json);
 
-        Assert.AreEqual(2, employees.Count);
-        Assert.AreEqual("Mike Manager", employees[0].Name);
-        Assert.AreEqual("Joe User", employees[1].Name);
-        Assert.AreEqual(employees[0], employees[1].Manager);
+        Xunit.Assert.Equal(2, employees.Count);
+        Xunit.Assert.Equal("Mike Manager", employees[0].Name);
+        Xunit.Assert.Equal("Joe User", employees[1].Name);
+        Xunit.Assert.Equal(employees[0], employees[1].Manager);
     }
 
     [JsonObject(IsReference = true)]
@@ -705,8 +705,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 }";
 
         var value = JsonConvert.DeserializeObject<ClassWithConditions>(json);
-        Assert.AreEqual(value.Condition1.Value, 1);
-        Assert.AreEqual(value.Condition1, value.Condition2);
+        Xunit.Assert.Equal(value.Condition1.Value, 1);
+        Xunit.Assert.Equal(value.Condition1, value.Condition2);
     }
 
     [Fact]
@@ -767,10 +767,10 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
                 PreserveReferencesHandling = PreserveReferencesHandling.Objects
             });
 
-        Assert.AreEqual("c1", c1.Name);
-        Assert.AreEqual("c2", c1.Child.Name);
-        Assert.AreEqual("c3", c1.Child.Child.Name);
-        Assert.AreEqual("c1", c1.Child.Child.Child.Name);
+        Xunit.Assert.Equal("c1", c1.Name);
+        Xunit.Assert.Equal("c2", c1.Child.Name);
+        Xunit.Assert.Equal("c3", c1.Child.Child.Name);
+        Xunit.Assert.Equal("c1", c1.Child.Child.Child.Name);
     }
 
     [Fact]
@@ -826,15 +826,15 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 ]";
 
         var employees = JsonConvert.DeserializeObject<List<EmployeeReference>>(json);
-        Assert.AreEqual(4, employees.Count);
+        Xunit.Assert.Equal(4, employees.Count);
 
-        Assert.AreEqual("e1", employees[0].Name);
-        Assert.AreEqual("e2", employees[1].Name);
-        Assert.AreEqual("e1", employees[2].Name);
-        Assert.AreEqual("e2", employees[3].Name);
+        Xunit.Assert.Equal("e1", employees[0].Name);
+        Xunit.Assert.Equal("e2", employees[1].Name);
+        Xunit.Assert.Equal("e1", employees[2].Name);
+        Xunit.Assert.Equal("e2", employees[3].Name);
 
-        Assert.AreEqual(employees[0], employees[2]);
-        Assert.AreEqual(employees[1], employees[3]);
+        Xunit.Assert.Equal(employees[0], employees[2]);
+        Xunit.Assert.Equal(employees[1], employees[3]);
     }
 
     [Fact]
@@ -896,16 +896,16 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 }";
 
         var employees = JsonConvert.DeserializeObject<Dictionary<string, EmployeeReference>>(json);
-        Assert.AreEqual(4, employees.Count);
+        Xunit.Assert.Equal(4, employees.Count);
 
         var e1 = employees["One"];
         var e2 = employees["Two"];
 
-        Assert.AreEqual("e1", e1.Name);
-        Assert.AreEqual("e2", e2.Name);
+        Xunit.Assert.Equal("e1", e1.Name);
+        Xunit.Assert.Equal("e2", e2.Name);
 
-        Assert.AreEqual(e1, employees["Three"]);
-        Assert.AreEqual(e2, employees["Four"]);
+        Xunit.Assert.Equal(e1, employees["Three"]);
+        Xunit.Assert.Equal(e2, employees["Four"]);
     }
 
     [Fact]
@@ -974,13 +974,13 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         var deserializedPeople = JsonConvert.DeserializeObject<List<Person>>(json,
             new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects });
 
-        Assert.AreEqual(2, deserializedPeople.Count);
+        Xunit.Assert.Equal(2, deserializedPeople.Count);
 
         var p1 = deserializedPeople[0];
         var p2 = deserializedPeople[1];
 
-        Assert.AreEqual("James", p1.Name);
-        Assert.AreEqual("James", p2.Name);
+        Xunit.Assert.Equal("James", p1.Name);
+        Xunit.Assert.Equal("James", p2.Name);
 
         var equal = Object.ReferenceEquals(p1, p2);
         Assert.True( equal);
@@ -1104,8 +1104,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
             myClasses2 = ser.Deserialize<IList<MyClass>>(reader);
         }
 
-        Assert.AreEqual(2, myClasses2.Count);
-        Assert.AreEqual(myClasses2[0], myClasses2[1]);
+        Xunit.Assert.Equal(2, myClasses2.Count);
+        Xunit.Assert.Equal(myClasses2[0], myClasses2[1]);
 
         Xunit.Assert.NotEqual(myClasses1[0], myClasses2[0]);
     }
@@ -1202,7 +1202,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 }", json);
 
         var d = JsonConvert.DeserializeObject<ReferencedDictionary<TestComponentSimple>>(json);
-        Assert.AreEqual(3, d.Count);
+        Xunit.Assert.Equal(3, d.Count);
         Xunit.Assert.True(ReferenceEquals(d["First"], d["Third"]));
     }
 

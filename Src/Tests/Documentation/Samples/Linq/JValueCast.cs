@@ -77,6 +77,6 @@ public class JValueCast : TestFixtureBase
         // {null}
         #endregion
 
-        Assert.AreEqual("01/21/2013 00:00:00", s);
+        Xunit.Assert.Equal("01/21/2013 00:00:00", s);
     }
 }

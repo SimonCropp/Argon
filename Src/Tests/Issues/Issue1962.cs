@@ -38,8 +38,8 @@ public class Issue1962
 [ 1, 2, 42 ]";
         var token = JToken.Parse(json);
 
-        Assert.AreEqual(JTokenType.Comment, token.Type);
-        Assert.AreEqual(" comment", ((JValue)token).Value);
+        Xunit.Assert.Equal(JTokenType.Comment, token.Type);
+        Xunit.Assert.Equal(" comment", ((JValue)token).Value);
     }
 
     [Fact]
@@ -52,8 +52,8 @@ public class Issue1962
             CommentHandling = CommentHandling.Load
         });
 
-        Assert.AreEqual(JTokenType.Comment, token.Type);
-        Assert.AreEqual(" comment", ((JValue)token).Value);
+        Xunit.Assert.Equal(JTokenType.Comment, token.Type);
+        Xunit.Assert.Equal(" comment", ((JValue)token).Value);
 
         var obj = token.ToObject<int[]>();
         Xunit.Assert.Null(obj);
@@ -69,10 +69,10 @@ public class Issue1962
             CommentHandling = CommentHandling.Ignore
         });
 
-        Assert.AreEqual(JTokenType.Array, token.Type);
-        Assert.AreEqual(3, token.Count());
-        Assert.AreEqual(1, (int)token[0]);
-        Assert.AreEqual(2, (int)token[1]);
-        Assert.AreEqual(42, (int)token[2]);
+        Xunit.Assert.Equal(JTokenType.Array, token.Type);
+        Xunit.Assert.Equal(3, token.Count());
+        Xunit.Assert.Equal(1, (int)token[0]);
+        Xunit.Assert.Equal(2, (int)token[1]);
+        Xunit.Assert.Equal(42, (int)token[2]);
     }
 }

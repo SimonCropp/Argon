@@ -54,9 +54,9 @@ public class DeserializeImmutableCollections : TestFixtureBase
         // 3
         #endregion
 
-        Assert.AreEqual(3, l.Count);
-        Assert.AreEqual("One", l[0]);
-        Assert.AreEqual("II", l[1]);
-        Assert.AreEqual("3", l[2]);
+        Xunit.Assert.Equal(3, l.Count);
+        Xunit.Assert.Equal("One", l[0]);
+        Xunit.Assert.Equal("II", l[1]);
+        Xunit.Assert.Equal("3", l[2]);
     }
 }

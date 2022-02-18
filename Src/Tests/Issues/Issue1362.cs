@@ -39,7 +39,7 @@ public class Issue1362 : TestFixtureBase
 
         var value = values[7];
 
-        Assert.AreEqual(2.5504d, value);
-        Assert.AreEqual("2.5504", value.ToString(CultureInfo.InvariantCulture));
+        Xunit.Assert.Equal(2.5504d, value);
+        Xunit.Assert.Equal("2.5504", value.ToString(CultureInfo.InvariantCulture));
     }
 }

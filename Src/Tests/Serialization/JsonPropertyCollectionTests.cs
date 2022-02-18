@@ -45,7 +45,7 @@ public class JsonPropertyCollectionTests : TestFixtureBase
         var resolver = new DefaultContractResolver();
         var contract = (JsonObjectContract)resolver.ResolveContract(value.GetType());
 
-        Assert.AreEqual(3, contract.Properties.Count);
+        Xunit.Assert.Equal(3, contract.Properties.Count);
         Xunit.Assert.True(contract.Properties.Contains("OverriddenProperty"), "Contract is missing property 'OverriddenProperty'");
         Xunit.Assert.True(contract.Properties.Contains("PropertyA"), "Contract is missing property 'PropertyA'");
         Xunit.Assert.True(contract.Properties.Contains("PropertyB"), "Contract is missing property 'PropertyB'");

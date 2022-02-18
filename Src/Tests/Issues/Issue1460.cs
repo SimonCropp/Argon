@@ -38,7 +38,7 @@ public class Issue1460 : TestFixtureBase
         var writer = new JsonTextWriter(sw);
         JsonWriter.WriteValue(writer, PrimitiveTypeCode.Object, null);
 
-        Assert.AreEqual("null", sw.ToString());
+        Xunit.Assert.Equal("null", sw.ToString());
     }
 
     [Fact]
@@ -48,6 +48,6 @@ public class Issue1460 : TestFixtureBase
         var writer = new JsonTextWriter(sw);
         await JsonWriter.WriteValueAsync(writer, PrimitiveTypeCode.Object, null, CancellationToken.None);
 
-        Assert.AreEqual("null", sw.ToString());
+        Xunit.Assert.Equal("null", sw.ToString());
     }
 }

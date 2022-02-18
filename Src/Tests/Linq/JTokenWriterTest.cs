@@ -59,20 +59,20 @@ public class JTokenWriterTest : TestFixtureBase
         }
 
         Xunit.Assert.IsType(typeof(JArray), root);
-        Assert.AreEqual(13, root.Children().Count());
-        Assert.AreEqual("@", (string)root[0]);
-        Assert.AreEqual("\r\n\t\f\b?{\\r\\n\"\'", (string)root[1]);
+        Xunit.Assert.Equal(13, root.Children().Count());
+        Xunit.Assert.Equal("@", (string)root[0]);
+        Xunit.Assert.Equal("\r\n\t\f\b?{\\r\\n\"\'", (string)root[1]);
         Assert.True( (bool)root[2]);
-        Assert.AreEqual(10, (int)root[3]);
-        Assert.AreEqual(10.99, (double)root[4]);
-        Assert.AreEqual(0.99, (double)root[5]);
-        Assert.AreEqual(0.000000000000000001d, (double)root[6]);
-        Assert.AreEqual(0.000000000000000001m, (decimal)root[7]);
-        Assert.AreEqual(null, (string)root[8]);
-        Assert.AreEqual("This is a string.", (string)root[9]);
-        Assert.AreEqual(null, ((JValue)root[10]).Value);
-        Assert.AreEqual(null, ((JValue)root[11]).Value);
-        Assert.AreEqual(data, (byte[])root[12]);
+        Xunit.Assert.Equal(10, (int)root[3]);
+        Xunit.Assert.Equal(10.99, (double)root[4]);
+        Xunit.Assert.Equal(0.99, (double)root[5]);
+        Xunit.Assert.Equal(0.000000000000000001d, (double)root[6]);
+        Xunit.Assert.Equal(0.000000000000000001m, (decimal)root[7]);
+        Xunit.Assert.Equal(null, (string)root[8]);
+        Xunit.Assert.Equal("This is a string.", (string)root[9]);
+        Xunit.Assert.Equal(null, ((JValue)root[10]).Value);
+        Xunit.Assert.Equal(null, ((JValue)root[11]).Value);
+        Xunit.Assert.Equal(data, (byte[])root[12]);
     }
 
     [Fact]
@@ -80,37 +80,37 @@ public class JTokenWriterTest : TestFixtureBase
     {
         using (JsonWriter jsonWriter = new JTokenWriter())
         {
-            Assert.AreEqual(WriteState.Start, jsonWriter.WriteState);
+            Xunit.Assert.Equal(WriteState.Start, jsonWriter.WriteState);
 
             jsonWriter.WriteStartObject();
-            Assert.AreEqual(WriteState.Object, jsonWriter.WriteState);
+            Xunit.Assert.Equal(WriteState.Object, jsonWriter.WriteState);
 
             jsonWriter.WritePropertyName("CPU");
-            Assert.AreEqual(WriteState.Property, jsonWriter.WriteState);
+            Xunit.Assert.Equal(WriteState.Property, jsonWriter.WriteState);
 
             jsonWriter.WriteValue("Intel");
-            Assert.AreEqual(WriteState.Object, jsonWriter.WriteState);
+            Xunit.Assert.Equal(WriteState.Object, jsonWriter.WriteState);
 
             jsonWriter.WritePropertyName("Drives");
-            Assert.AreEqual(WriteState.Property, jsonWriter.WriteState);
+            Xunit.Assert.Equal(WriteState.Property, jsonWriter.WriteState);
 
             jsonWriter.WriteStartArray();
-            Assert.AreEqual(WriteState.Array, jsonWriter.WriteState);
+            Xunit.Assert.Equal(WriteState.Array, jsonWriter.WriteState);
 
             jsonWriter.WriteValue("DVD read/writer");
-            Assert.AreEqual(WriteState.Array, jsonWriter.WriteState);
+            Xunit.Assert.Equal(WriteState.Array, jsonWriter.WriteState);
 
             jsonWriter.WriteValue(new BigInteger(123));
-            Assert.AreEqual(WriteState.Array, jsonWriter.WriteState);
+            Xunit.Assert.Equal(WriteState.Array, jsonWriter.WriteState);
 
             jsonWriter.WriteValue(new byte[0]);
-            Assert.AreEqual(WriteState.Array, jsonWriter.WriteState);
+            Xunit.Assert.Equal(WriteState.Array, jsonWriter.WriteState);
 
             jsonWriter.WriteEnd();
-            Assert.AreEqual(WriteState.Object, jsonWriter.WriteState);
+            Xunit.Assert.Equal(WriteState.Object, jsonWriter.WriteState);
 
             jsonWriter.WriteEndObject();
-            Assert.AreEqual(WriteState.Start, jsonWriter.WriteState);
+            Xunit.Assert.Equal(WriteState.Start, jsonWriter.WriteState);
         }
     }
 
@@ -119,52 +119,52 @@ public class JTokenWriterTest : TestFixtureBase
     {
         using (var jsonWriter = new JTokenWriter())
         {
-            Assert.AreEqual(WriteState.Start, jsonWriter.WriteState);
-            Assert.AreEqual(null, jsonWriter.CurrentToken);
+            Xunit.Assert.Equal(WriteState.Start, jsonWriter.WriteState);
+            Xunit.Assert.Equal(null, jsonWriter.CurrentToken);
 
             jsonWriter.WriteStartObject();
-            Assert.AreEqual(WriteState.Object, jsonWriter.WriteState);
-            Assert.AreEqual(jsonWriter.Token, jsonWriter.CurrentToken);
+            Xunit.Assert.Equal(WriteState.Object, jsonWriter.WriteState);
+            Xunit.Assert.Equal(jsonWriter.Token, jsonWriter.CurrentToken);
 
             var o = (JObject)jsonWriter.Token;
 
             jsonWriter.WritePropertyName("CPU");
-            Assert.AreEqual(WriteState.Property, jsonWriter.WriteState);
-            Assert.AreEqual(o.Property("CPU"), jsonWriter.CurrentToken);
+            Xunit.Assert.Equal(WriteState.Property, jsonWriter.WriteState);
+            Xunit.Assert.Equal(o.Property("CPU"), jsonWriter.CurrentToken);
 
             jsonWriter.WriteValue("Intel");
-            Assert.AreEqual(WriteState.Object, jsonWriter.WriteState);
-            Assert.AreEqual(o["CPU"], jsonWriter.CurrentToken);
+            Xunit.Assert.Equal(WriteState.Object, jsonWriter.WriteState);
+            Xunit.Assert.Equal(o["CPU"], jsonWriter.CurrentToken);
 
             jsonWriter.WritePropertyName("Drives");
-            Assert.AreEqual(WriteState.Property, jsonWriter.WriteState);
-            Assert.AreEqual(o.Property("Drives"), jsonWriter.CurrentToken);
+            Xunit.Assert.Equal(WriteState.Property, jsonWriter.WriteState);
+            Xunit.Assert.Equal(o.Property("Drives"), jsonWriter.CurrentToken);
 
             jsonWriter.WriteStartArray();
-            Assert.AreEqual(WriteState.Array, jsonWriter.WriteState);
-            Assert.AreEqual(o["Drives"], jsonWriter.CurrentToken);
+            Xunit.Assert.Equal(WriteState.Array, jsonWriter.WriteState);
+            Xunit.Assert.Equal(o["Drives"], jsonWriter.CurrentToken);
 
             var a = (JArray)jsonWriter.CurrentToken;
 
             jsonWriter.WriteValue("DVD read/writer");
-            Assert.AreEqual(WriteState.Array, jsonWriter.WriteState);
-            Assert.AreEqual(a[a.Count - 1], jsonWriter.CurrentToken);
+            Xunit.Assert.Equal(WriteState.Array, jsonWriter.WriteState);
+            Xunit.Assert.Equal(a[a.Count - 1], jsonWriter.CurrentToken);
 
             jsonWriter.WriteValue(new BigInteger(123));
-            Assert.AreEqual(WriteState.Array, jsonWriter.WriteState);
-            Assert.AreEqual(a[a.Count - 1], jsonWriter.CurrentToken);
+            Xunit.Assert.Equal(WriteState.Array, jsonWriter.WriteState);
+            Xunit.Assert.Equal(a[a.Count - 1], jsonWriter.CurrentToken);
 
             jsonWriter.WriteValue(new byte[0]);
-            Assert.AreEqual(WriteState.Array, jsonWriter.WriteState);
-            Assert.AreEqual(a[a.Count - 1], jsonWriter.CurrentToken);
+            Xunit.Assert.Equal(WriteState.Array, jsonWriter.WriteState);
+            Xunit.Assert.Equal(a[a.Count - 1], jsonWriter.CurrentToken);
 
             jsonWriter.WriteEnd();
-            Assert.AreEqual(WriteState.Object, jsonWriter.WriteState);
-            Assert.AreEqual(a, jsonWriter.CurrentToken);
+            Xunit.Assert.Equal(WriteState.Object, jsonWriter.WriteState);
+            Xunit.Assert.Equal(a, jsonWriter.CurrentToken);
 
             jsonWriter.WriteEndObject();
-            Assert.AreEqual(WriteState.Start, jsonWriter.WriteState);
-            Assert.AreEqual(o, jsonWriter.CurrentToken);
+            Xunit.Assert.Equal(WriteState.Start, jsonWriter.WriteState);
+            Xunit.Assert.Equal(o, jsonWriter.CurrentToken);
         }
     }
 
@@ -192,8 +192,8 @@ public class JTokenWriterTest : TestFixtureBase
 
         var i = (JValue)writer.Token[0];
 
-        Assert.AreEqual(new BigInteger(123), i.Value);
-        Assert.AreEqual(JTokenType.Integer, i.Type);
+        Xunit.Assert.Equal(new BigInteger(123), i.Value);
+        Xunit.Assert.Equal(JTokenType.Integer, i.Type);
 
         StringAssert.AreEqual(@"[
   123
@@ -234,7 +234,7 @@ public class JTokenWriterTest : TestFixtureBase
 
         writer.WriteToken(o.CreateReader());
 
-        Assert.AreEqual(WriteState.Array, writer.WriteState);
+        Xunit.Assert.Equal(WriteState.Array, writer.WriteState);
 
         writer.WriteEndArray();
 
@@ -262,7 +262,7 @@ public class JTokenWriterTest : TestFixtureBase
 
         writer.WriteToken(v.CreateReader());
 
-        Assert.AreEqual(WriteState.Object, writer.WriteState);
+        Xunit.Assert.Equal(WriteState.Object, writer.WriteState);
 
         writer.WriteEndObject();
 
@@ -282,7 +282,7 @@ public class JTokenWriterTest : TestFixtureBase
 
         writer.WriteToken(v.CreateReader());
 
-        Assert.AreEqual(WriteState.Array, writer.WriteState);
+        Xunit.Assert.Equal(WriteState.Array, writer.WriteState);
 
         writer.WriteEndArray();
 
@@ -306,7 +306,7 @@ public class JTokenWriterTest : TestFixtureBase
 
         writer.WriteToken(reader);
 
-        Assert.AreEqual(WriteState.Array, writer.WriteState);
+        Xunit.Assert.Equal(WriteState.Array, writer.WriteState);
 
         writer.WriteEndArray();
 
@@ -364,7 +364,7 @@ public class JTokenWriterTest : TestFixtureBase
         var value = (JValue)writer.Token;
         var dt = (DateTime)value.Value;
 
-        Assert.AreEqual(new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc), dt);
+        Xunit.Assert.Equal(new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc), dt);
     }
 
     [Fact]
@@ -387,6 +387,6 @@ public class JTokenWriterTest : TestFixtureBase
             token = jsonWriter.Token;
         }
 
-        Assert.AreEqual(@"[1,{""integer"":2147483647,""null-string"":null}]", token.ToString(Formatting.None));
+        Xunit.Assert.Equal(@"[1,{""integer"":2147483647,""null-string"":null}]", token.ToString(Formatting.None));
     }
 }

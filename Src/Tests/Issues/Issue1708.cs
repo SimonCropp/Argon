@@ -41,6 +41,6 @@ public class Issue1708 : TestFixtureBase
         var serializer = new JsonSerializer();
         var dt = serializer.Deserialize<DateTime>(jsonTextReader);
 
-        Assert.AreEqual(DateTimeKind.Utc, dt.Kind);
+        Xunit.Assert.Equal(DateTimeKind.Utc, dt.Kind);
     }
 }

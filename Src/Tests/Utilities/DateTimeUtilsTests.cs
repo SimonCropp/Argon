@@ -51,14 +51,14 @@ public class DateTimeUtilsTests : TestFixtureBase
 
         DateTimeUtils.TryParseDateTimeIso(CreateStringReference(minDateText), DateTimeZoneHandling.RoundtripKind, out var parsedDt);
 
-        Assert.AreEqual(value, parsedDt);
+        Xunit.Assert.Equal(value, parsedDt);
     }
 
     [Fact]
     public void Parse24HourDateTime()
     {
         Xunit.Assert.True(DateTimeUtils.TryParseDateTimeIso(CreateStringReference("2000-12-15T24:00:00Z"), DateTimeZoneHandling.RoundtripKind, out var dt));
-        Assert.AreEqual(new DateTime(2000, 12, 16, 0, 0, 0, DateTimeKind.Utc), dt);
+        Xunit.Assert.Equal(new DateTime(2000, 12, 16, 0, 0, 0, DateTimeKind.Utc), dt);
 
         Xunit.Assert.False(DateTimeUtils.TryParseDateTimeIso(CreateStringReference("2000-12-15T24:01:00Z"), DateTimeZoneHandling.RoundtripKind, out dt));
         Xunit.Assert.False(DateTimeUtils.TryParseDateTimeIso(CreateStringReference("2000-12-15T24:00:01Z"), DateTimeZoneHandling.RoundtripKind, out dt));
@@ -69,7 +69,7 @@ public class DateTimeUtilsTests : TestFixtureBase
     public void Parse24HourDateTimeOffset()
     {
         Xunit.Assert.True(DateTimeUtils.TryParseDateTimeOffsetIso(CreateStringReference("2000-12-15T24:00:00Z"), out var dt));
-        Assert.AreEqual(new DateTimeOffset(2000, 12, 16, 0, 0, 0, TimeSpan.Zero), dt);
+        Xunit.Assert.Equal(new DateTimeOffset(2000, 12, 16, 0, 0, 0, TimeSpan.Zero), dt);
 
         Xunit.Assert.False(DateTimeUtils.TryParseDateTimeOffsetIso(CreateStringReference("2000-12-15T24:01:00Z"), out dt));
         Xunit.Assert.False(DateTimeUtils.TryParseDateTimeOffsetIso(CreateStringReference("2000-12-15T24:00:01Z"), out dt));
@@ -135,7 +135,7 @@ public class DateTimeUtilsTests : TestFixtureBase
 
         if (!Equals(oldDate, newDt))
         {
-            Assert.AreEqual(oldDate, newDt);
+            Xunit.Assert.Equal(oldDate, newDt);
         }
     }
 
@@ -158,8 +158,8 @@ public class DateTimeUtilsTests : TestFixtureBase
 
         var initialTicks = DateTimeUtils.ConvertDateTimeToJavaScriptTicks(d.DateTime, d.Offset);
 
-        Assert.AreEqual(1418924498000, initialTicks);
-        Assert.AreEqual(8, d.Offset.Hours);
+        Xunit.Assert.Equal(1418924498000, initialTicks);
+        Xunit.Assert.Equal(8, d.Offset.Hours);
     }
 
     [Fact]
@@ -207,7 +207,7 @@ public class DateTimeUtilsTests : TestFixtureBase
             var oldTicks = oldDt != null ? (long?)((DateTime)oldDt).Ticks : null;
             var newTicks = newDt != null ? (long?)((DateTime)newDt).Ticks : null;
 
-            Assert.AreEqual(oldDt, newDt);
+            Xunit.Assert.Equal(oldDt, newDt);
         }
     }
 

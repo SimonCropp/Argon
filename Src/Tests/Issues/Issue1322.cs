@@ -43,7 +43,7 @@ public class Issue1322 : TestFixtureBase
 
         var v1 = JsonConvert.DeserializeObject<IList<KeyValuePair<string, string>>>(json);
 
-        Assert.AreEqual("123", v1[0].Key);
-        Assert.AreEqual("2017-05-19T11:00:59", v1[0].Value);
+        Xunit.Assert.Equal("123", v1[0].Key);
+        Xunit.Assert.Equal("2017-05-19T11:00:59", v1[0].Value);
     }
 }

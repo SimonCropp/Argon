@@ -36,6 +36,6 @@ public class Issue2484
     {
         var json = "[]";
         var ex = ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject(json, typeof(JObject)));
-        Assert.AreEqual("Deserialized JSON type 'Argon.Linq.JArray' is not compatible with expected type 'Argon.Linq.JObject'. Path '', line 1, position 2.", ex.Message);
+        Xunit.Assert.Equal("Deserialized JSON type 'Argon.Linq.JArray' is not compatible with expected type 'Argon.Linq.JObject'. Path '', line 1, position 2.", ex.Message);
     }
 }

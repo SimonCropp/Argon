@@ -38,7 +38,7 @@ public class JConstructorAsyncTests : TestFixtureBase
         await reader.ReadAsync();
 
         var constructor = await JConstructor.LoadAsync(reader);
-        Assert.AreEqual("Date", constructor.Name);
+        Xunit.Assert.Equal("Date", constructor.Name);
         Xunit.Assert.True(JToken.DeepEquals(new JValue(123), constructor.Values().ElementAt(0)));
     }
 }

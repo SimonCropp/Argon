@@ -117,6 +117,6 @@ public class CustomJsonConverter : TestFixtureBase
         // James
         #endregion
 
-        Assert.AreEqual("James", newEmployee.FirstName);
+        Xunit.Assert.Equal("James", newEmployee.FirstName);
     }
 }

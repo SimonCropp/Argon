@@ -66,6 +66,6 @@ public class JsonConstructorAttribute : TestFixtureBase
         // domain\username
         #endregion
 
-        Assert.AreEqual(@"domain\username", user.UserName);
+        Xunit.Assert.Equal(@"domain\username", user.UserName);
     }
 }

@@ -70,6 +70,6 @@ public class SerializeExtensionData : TestFixtureBase
         // }
         #endregion
 
-        Assert.AreEqual(@"{""TaxRate"":0.15,""HourlyRate"":150,""Hours"":40}", result);
+        Xunit.Assert.Equal(@"{""TaxRate"":0.15,""HourlyRate"":150,""Hours"":40}", result);
     }
 }

@@ -76,6 +76,6 @@ public class PopulateObject : TestFixtureBase
         // User, Admin, Expired
         #endregion
 
-        Assert.AreEqual("User, Admin, Expired", string.Join(", ", account.Roles.ToArray()));
+        Xunit.Assert.Equal("User, Admin, Expired", string.Join(", ", account.Roles.ToArray()));
     }
 }

@@ -36,7 +36,7 @@ public class Issue1796 : TestFixtureBase
     {
         var json = "[{}]";
         var c = JsonConvert.DeserializeObject<TestStack>(json);
-        Assert.AreEqual(1, c.Count);
+        Xunit.Assert.Equal(1, c.Count);
     }
 
     [Fact]
@@ -44,7 +44,7 @@ public class Issue1796 : TestFixtureBase
     {
         var json = "['hi']";
         var c = JsonConvert.DeserializeObject<TestStack<string>>(json);
-        Assert.AreEqual(1, c.Count);
+        Xunit.Assert.Equal(1, c.Count);
     }
 
     public class TestStack : SortedSet<object>

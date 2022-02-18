@@ -35,10 +35,10 @@ public class Issue1682 : TestFixtureBase
     public void Test_Serialize()
     {
         var s1 = JsonConvert.SerializeObject(new ConcreteSerializable());
-        Assert.AreEqual("{}", s1);
+        Xunit.Assert.Equal("{}", s1);
 
         var s2 = JsonConvert.SerializeObject(new ClassWithSerializableProperty());
-        Assert.AreEqual(@"{""Serializable"":null}", s2);
+        Xunit.Assert.Equal(@"{""Serializable"":null}", s2);
     }
 
     [Fact]

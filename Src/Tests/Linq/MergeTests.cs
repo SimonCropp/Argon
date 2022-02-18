@@ -48,7 +48,7 @@ Parameter name: content",
     {
         var a = new JArray { "1", "2" };
         a.Merge(a, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Replace });
-        Assert.AreEqual(new JArray { "1", "2" }, a);
+        Xunit.Assert.Equal(new JArray { "1", "2" }, a);
     }
 
     [Fact]
@@ -60,7 +60,7 @@ Parameter name: content",
             ["2"] = 2
         };
         a.Merge(a, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Replace });
-        Assert.AreEqual(new JObject
+        Xunit.Assert.Equal(new JObject
         {
             ["1"] = 1,
             ["2"] = 2
@@ -72,7 +72,7 @@ Parameter name: content",
     {
         var a = new JArray { "1", "2" };
         a.Merge(new string[] { "3", "4" }, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Replace });
-        Assert.AreEqual(new JArray { "3", "4" }, a);
+        Xunit.Assert.Equal(new JArray { "3", "4" }, a);
     }
 
     [Fact]
@@ -80,7 +80,7 @@ Parameter name: content",
     {
         var a = new JArray { "1", "2" };
         a.Merge(new string[] { "3", "4" }, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Concat });
-        Assert.AreEqual(new JArray { "1", "2", "3", "4" }, a);
+        Xunit.Assert.Equal(new JArray { "1", "2", "3", "4" }, a);
     }
 
     [Fact]
@@ -88,7 +88,7 @@ Parameter name: content",
     {
         var a = new JArray { "1", "2" };
         a.Merge(new string[] { "2", "3", "4" }, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Union });
-        Assert.AreEqual(new JArray { "1", "2", "3", "4" }, a);
+        Xunit.Assert.Equal(new JArray { "1", "2", "3", "4" }, a);
     }
 
     [Fact]
@@ -96,7 +96,7 @@ Parameter name: content",
     {
         var a = new JArray { "1", "2" };
         a.Merge(new string[] { "2" }, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Merge });
-        Assert.AreEqual(new JArray { "2", "2" }, a);
+        Xunit.Assert.Equal(new JArray { "2", "2" }, a);
     }
 
     [Fact]
@@ -106,7 +106,7 @@ Parameter name: content",
         var b = new JObject { ["a"] = false ? "2" : null };
         a.Merge(b);
 
-        Assert.AreEqual(1, (int)a["a"]);
+        Xunit.Assert.Equal(1, (int)a["a"]);
     }
 
     [Fact]
@@ -549,17 +549,17 @@ Parameter name: content",
         var p2 = new JProperty("p2", 2);
 
         p1.Merge(p2);
-        Assert.AreEqual(2, (int)p1.Value);
+        Xunit.Assert.Equal(2, (int)p1.Value);
 
         var p3 = new JProperty("p3");
 
         p1.Merge(p3);
-        Assert.AreEqual(2, (int)p1.Value);
+        Xunit.Assert.Equal(2, (int)p1.Value);
 
         var p4 = new JProperty("p4", null);
 
         p1.Merge(p4);
-        Assert.AreEqual(2, (int)p1.Value);
+        Xunit.Assert.Equal(2, (int)p1.Value);
     }
 
     [Fact]
@@ -569,19 +569,19 @@ Parameter name: content",
         var c2 = new JConstructor("c2", new[] { 3, 4 });
 
         c1.Merge(c2);
-        Assert.AreEqual("c2", c1.Name);
+        Xunit.Assert.Equal("c2", c1.Name);
         Xunit.Assert.Equal(new[] { 1, 2, 3, 4 }, c1.Select(i => (int)i));
 
         var c3 = new JConstructor();
         c1.Merge(c3);
-        Assert.AreEqual("c2", c1.Name);
+        Xunit.Assert.Equal("c2", c1.Name);
 
         var c4 = new JConstructor("c4", new[] { 5, 6 });
         c1.Merge(c4, new JsonMergeSettings
         {
             MergeArrayHandling = MergeArrayHandling.Replace
         });
-        Assert.AreEqual("c4", c1.Name);
+        Xunit.Assert.Equal("c4", c1.Name);
         Xunit.Assert.Equal(new[] { 5, 6 }, c1.Select(i => (int)i));
     }
 
@@ -590,21 +590,21 @@ Parameter name: content",
     {
         var c = new JConstructor();
         c.Merge(new JConstructor());
-        Assert.AreEqual(null, c.Name);
-        Assert.AreEqual(0, c.Count);
+        Xunit.Assert.Equal(null, c.Name);
+        Xunit.Assert.Equal(0, c.Count);
 
         var o = new JObject();
         o.Merge(new JObject());
-        Assert.AreEqual(0, o.Count);
+        Xunit.Assert.Equal(0, o.Count);
 
         var a = new JArray();
         a.Merge(new JArray());
-        Assert.AreEqual(0, a.Count);
+        Xunit.Assert.Equal(0, a.Count);
 
         var p = new JProperty("name1");
         p.Merge(new JProperty("name2"));
-        Assert.AreEqual("name1", p.Name);
-        Assert.AreEqual(0, p.Count);
+        Xunit.Assert.Equal("name1", p.Name);
+        Xunit.Assert.Equal(0, p.Count);
     }
 
     [Fact]
@@ -612,21 +612,21 @@ Parameter name: content",
     {
         var c = new JConstructor();
         c.Merge(null);
-        Assert.AreEqual(null, c.Name);
-        Assert.AreEqual(0, c.Count);
+        Xunit.Assert.Equal(null, c.Name);
+        Xunit.Assert.Equal(0, c.Count);
 
         var o = new JObject();
         o.Merge(null);
-        Assert.AreEqual(0, o.Count);
+        Xunit.Assert.Equal(0, o.Count);
 
         var a = new JArray();
         a.Merge(null);
-        Assert.AreEqual(0, a.Count);
+        Xunit.Assert.Equal(0, a.Count);
 
         var p = new JProperty("name1");
         p.Merge(null);
-        Assert.AreEqual("name1", p.Name);
-        Assert.AreEqual(0, p.Count);
+        Xunit.Assert.Equal("name1", p.Name);
+        Xunit.Assert.Equal(0, p.Count);
     }
 
     [Fact]
@@ -649,15 +649,15 @@ Parameter name: content",
         });
 
         Xunit.Assert.NotNull(source["Property1"]);
-        Assert.AreEqual(JTokenType.Null, source["Property1"].Type);
+        Xunit.Assert.Equal(JTokenType.Null, source["Property1"].Type);
         Xunit.Assert.NotNull(source["Property2"]);
-        Assert.AreEqual(JTokenType.Null, source["Property2"].Type);
+        Xunit.Assert.Equal(JTokenType.Null, source["Property2"].Type);
         Xunit.Assert.NotNull(source["Property3"]);
-        Assert.AreEqual(JTokenType.Null, source["Property3"].Type);
+        Xunit.Assert.Equal(JTokenType.Null, source["Property3"].Type);
         Xunit.Assert.NotNull(source["Property4"]);
-        Assert.AreEqual(JTokenType.Null, source["Property4"].Type);
+        Xunit.Assert.Equal(JTokenType.Null, source["Property4"].Type);
         Xunit.Assert.NotNull(source["Property5"]);
-        Assert.AreEqual(JTokenType.Null, source["Property5"].Type);
+        Xunit.Assert.Equal(JTokenType.Null, source["Property5"].Type);
     }
 
     [Fact]
@@ -743,8 +743,8 @@ Parameter name: content",
         Xunit.Assert.NotNull(o1["Words"]);
 
         var words = (JArray)o1["Words"];
-        Assert.AreEqual("User", (string)words[0]);
-        Assert.AreEqual("Name", (string)words[1]);
+        Xunit.Assert.Equal("User", (string)words[0]);
+        Xunit.Assert.Equal("Name", (string)words[1]);
     }
 
     [Fact]
@@ -752,6 +752,6 @@ Parameter name: content",
     {
         var settings = new JsonMergeSettings();
 
-        Assert.AreEqual(StringComparison.Ordinal, settings.PropertyNameComparison);
+        Xunit.Assert.Equal(StringComparison.Ordinal, settings.PropertyNameComparison);
     }
 }

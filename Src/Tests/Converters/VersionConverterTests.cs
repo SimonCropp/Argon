@@ -77,10 +77,10 @@ public class VersionConverterTests : TestFixtureBase
 
             var versionClass = JsonConvert.DeserializeObject<VersionClass>(json, new VersionConverter());
 
-            Assert.AreEqual("StringProperty1", versionClass.StringProperty1);
-            Assert.AreEqual(expectedVersion1, versionClass.Version1);
-            Assert.AreEqual(expectedVersion2, versionClass.Version2);
-            Assert.AreEqual("StringProperty2", versionClass.StringProperty2);
+            Xunit.Assert.Equal("StringProperty1", versionClass.StringProperty1);
+            Xunit.Assert.Equal(expectedVersion1, versionClass.Version1);
+            Xunit.Assert.Equal(expectedVersion2, versionClass.Version2);
+            Xunit.Assert.Equal("StringProperty2", versionClass.StringProperty2);
         }
     }
 
@@ -132,6 +132,6 @@ public class VersionConverterTests : TestFixtureBase
         var report2 = JsonConvert.DeserializeObject<Version>(reportJSON);
         var reportJSON2 = JsonConvert.SerializeObject(report2);
 
-        Assert.AreEqual(reportJSON, reportJSON2);
+        Xunit.Assert.Equal(reportJSON, reportJSON2);
     }
 }

@@ -37,9 +37,9 @@ public class IsoDateTimeConverterTests : TestFixtureBase
     public void PropertiesShouldBeSet()
     {
         var converter = new IsoDateTimeConverter();
-        Assert.AreEqual(CultureInfo.CurrentCulture, converter.Culture);
-        Assert.AreEqual(string.Empty, converter.DateTimeFormat);
-        Assert.AreEqual(DateTimeStyles.RoundtripKind, converter.DateTimeStyles);
+        Xunit.Assert.Equal(CultureInfo.CurrentCulture, converter.Culture);
+        Xunit.Assert.Equal(string.Empty, converter.DateTimeFormat);
+        Xunit.Assert.Equal(DateTimeStyles.RoundtripKind, converter.DateTimeStyles);
 
         converter = new IsoDateTimeConverter
         {
@@ -48,9 +48,9 @@ public class IsoDateTimeConverterTests : TestFixtureBase
             DateTimeStyles = DateTimeStyles.None
         };
 
-        Assert.AreEqual(CultureInfo.InvariantCulture, converter.Culture);
-        Assert.AreEqual("F", converter.DateTimeFormat);
-        Assert.AreEqual(DateTimeStyles.None, converter.DateTimeStyles);
+        Xunit.Assert.Equal(CultureInfo.InvariantCulture, converter.Culture);
+        Xunit.Assert.Equal("F", converter.DateTimeFormat);
+        Xunit.Assert.Equal(DateTimeStyles.None, converter.DateTimeStyles);
     }
 
     public static string GetUtcOffsetText(DateTime d)
@@ -68,13 +68,13 @@ public class IsoDateTimeConverterTests : TestFixtureBase
         var d = new DateTime(2000, 12, 15, 22, 11, 3, 55, DateTimeKind.Utc);
 
         var result = JsonConvert.SerializeObject(d, converter);
-        Assert.AreEqual(@"""2000-12-15T22:11:03.055Z""", result);
+        Xunit.Assert.Equal(@"""2000-12-15T22:11:03.055Z""", result);
 
-        Assert.AreEqual(d, JsonConvert.DeserializeObject<DateTime>(result, converter));
+        Xunit.Assert.Equal(d, JsonConvert.DeserializeObject<DateTime>(result, converter));
 
         d = new DateTime(2000, 12, 15, 22, 11, 3, 55, DateTimeKind.Local);
         result = JsonConvert.SerializeObject(d, converter);
-        Assert.AreEqual(@"""2000-12-15T22:11:03.055" + GetUtcOffsetText(d) + @"""", result);
+        Xunit.Assert.Equal(@"""2000-12-15T22:11:03.055" + GetUtcOffsetText(d) + @"""", result);
     }
 
     [Fact]
@@ -85,13 +85,13 @@ public class IsoDateTimeConverterTests : TestFixtureBase
         var d = new DateTime(2000, 12, 15, 22, 11, 3, 0, DateTimeKind.Utc);
 
         var result = JsonConvert.SerializeObject(d, converter);
-        Assert.AreEqual(@"""Friday, 15 December 2000 22:11:03""", result);
+        Xunit.Assert.Equal(@"""Friday, 15 December 2000 22:11:03""", result);
 
-        Assert.AreEqual(d, JsonConvert.DeserializeObject<DateTime>(result, converter));
+        Xunit.Assert.Equal(d, JsonConvert.DeserializeObject<DateTime>(result, converter));
 
         d = new DateTime(2000, 12, 15, 22, 11, 3, 0, DateTimeKind.Local);
         result = JsonConvert.SerializeObject(d, converter);
-        Assert.AreEqual(@"""Friday, 15 December 2000 22:11:03""", result);
+        Xunit.Assert.Equal(@"""Friday, 15 December 2000 22:11:03""", result);
     }
 
     [Fact]
@@ -107,9 +107,9 @@ public class IsoDateTimeConverterTests : TestFixtureBase
 
         var d = JsonConvert.DeserializeObject<DateTime>(json, converter);
 
-        Assert.AreEqual(9, d.Day);
-        Assert.AreEqual(12, d.Month);
-        Assert.AreEqual(2006, d.Year);
+        Xunit.Assert.Equal(9, d.Day);
+        Xunit.Assert.Equal(12, d.Month);
+        Xunit.Assert.Equal(2006, d.Year);
     }
 
     [Fact]
@@ -129,13 +129,13 @@ public class IsoDateTimeConverterTests : TestFixtureBase
         var d = new DateTime(2000, 12, 15, 22, 11, 3, 0, DateTimeKind.Utc);
 
         var result = JsonConvert.SerializeObject(d, converter);
-        Assert.AreEqual(@"""Friday, 15 December 2000 10:11:03 p.m.""", result);
+        Xunit.Assert.Equal(@"""Friday, 15 December 2000 10:11:03 p.m.""", result);
 
-        Assert.AreEqual(d, JsonConvert.DeserializeObject<DateTime>(result, converter));
+        Xunit.Assert.Equal(d, JsonConvert.DeserializeObject<DateTime>(result, converter));
 
         d = new DateTime(2000, 12, 15, 22, 11, 3, 0, DateTimeKind.Local);
         result = JsonConvert.SerializeObject(d, converter);
-        Assert.AreEqual(@"""Friday, 15 December 2000 10:11:03 p.m.""", result);
+        Xunit.Assert.Equal(@"""Friday, 15 December 2000 10:11:03 p.m.""", result);
     }
 
     [Fact]
@@ -147,9 +147,9 @@ public class IsoDateTimeConverterTests : TestFixtureBase
 
         var d = JsonConvert.DeserializeObject<DateTime>(json, converter);
 
-        Assert.AreEqual(9, d.Day);
-        Assert.AreEqual(12, d.Month);
-        Assert.AreEqual(2006, d.Year);
+        Xunit.Assert.Equal(9, d.Day);
+        Xunit.Assert.Equal(12, d.Month);
+        Xunit.Assert.Equal(2006, d.Year);
     }
 
     [Fact]
@@ -160,9 +160,9 @@ public class IsoDateTimeConverterTests : TestFixtureBase
         var d = new DateTimeOffset(2000, 12, 15, 22, 11, 3, 55, TimeSpan.Zero);
 
         var result = JsonConvert.SerializeObject(d, converter);
-        Assert.AreEqual(@"""2000-12-15T22:11:03.055+00:00""", result);
+        Xunit.Assert.Equal(@"""2000-12-15T22:11:03.055+00:00""", result);
 
-        Assert.AreEqual(d, JsonConvert.DeserializeObject<DateTimeOffset>(result, converter));
+        Xunit.Assert.Equal(d, JsonConvert.DeserializeObject<DateTimeOffset>(result, converter));
     }
 
     [Fact]
@@ -176,7 +176,7 @@ public class IsoDateTimeConverterTests : TestFixtureBase
             PostField = "Post"
         };
         var json = JsonConvert.SerializeObject(c, new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal });
-        Assert.AreEqual(@"{""PreField"":""Pre"",""DateTimeField"":""2008-12-12T12:12:12Z"",""DateTimeOffsetField"":""2008-12-12T12:12:12+00:00"",""PostField"":""Post""}", json);
+        Xunit.Assert.Equal(@"{""PreField"":""Pre"",""DateTimeField"":""2008-12-12T12:12:12Z"",""DateTimeOffsetField"":""2008-12-12T12:12:12+00:00"",""PostField"":""Post""}", json);
 
         //test the other edge case too
         c.DateTimeField = new DateTime(2008, 1, 1, 1, 1, 1, 0, DateTimeKind.Utc).ToLocalTime();
@@ -184,7 +184,7 @@ public class IsoDateTimeConverterTests : TestFixtureBase
         c.PreField = "Pre";
         c.PostField = "Post";
         json = JsonConvert.SerializeObject(c, new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal });
-        Assert.AreEqual(@"{""PreField"":""Pre"",""DateTimeField"":""2008-01-01T01:01:01Z"",""DateTimeOffsetField"":""2008-01-01T01:01:01+00:00"",""PostField"":""Post""}", json);
+        Xunit.Assert.Equal(@"{""PreField"":""Pre"",""DateTimeField"":""2008-01-01T01:01:01Z"",""DateTimeOffsetField"":""2008-01-01T01:01:01+00:00"",""PostField"":""Post""}", json);
     }
 
     [Fact]
@@ -198,7 +198,7 @@ public class IsoDateTimeConverterTests : TestFixtureBase
             PostField = "Post"
         };
         var json = JsonConvert.SerializeObject(c, new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal });
-        Assert.AreEqual(@"{""PreField"":""Pre"",""DateTimeField"":""2008-12-12T12:12:12Z"",""DateTimeOffsetField"":""2008-12-12T12:12:12+00:00"",""PostField"":""Post""}", json);
+        Xunit.Assert.Equal(@"{""PreField"":""Pre"",""DateTimeField"":""2008-12-12T12:12:12Z"",""DateTimeOffsetField"":""2008-12-12T12:12:12+00:00"",""PostField"":""Post""}", json);
 
         //test the other edge case too
         c.DateTimeField = null;
@@ -206,7 +206,7 @@ public class IsoDateTimeConverterTests : TestFixtureBase
         c.PreField = "Pre";
         c.PostField = "Post";
         json = JsonConvert.SerializeObject(c, new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal });
-        Assert.AreEqual(@"{""PreField"":""Pre"",""DateTimeField"":null,""DateTimeOffsetField"":null,""PostField"":""Post""}", json);
+        Xunit.Assert.Equal(@"{""PreField"":""Pre"",""DateTimeField"":null,""DateTimeOffsetField"":null,""PostField"":""Post""}", json);
     }
 
     [Fact]
@@ -216,7 +216,7 @@ public class IsoDateTimeConverterTests : TestFixtureBase
 
         var c = JsonConvert.DeserializeObject<NullableDateTimeTestClass>(json,
             new JsonSerializerSettings { Converters = new[] { new IsoDateTimeConverter() } });
-        Assert.AreEqual(null, c.DateTimeField);
+        Xunit.Assert.Equal(null, c.DateTimeField);
     }
 
     [Fact]
@@ -249,7 +249,7 @@ public class IsoDateTimeConverterTests : TestFixtureBase
         // if the current timezone is utc then local already equals utc
         if (offset == TimeSpan.Zero)
         {
-            Assert.AreEqual(json, json2);
+            Xunit.Assert.Equal(json, json2);
         }
         else
         {
@@ -274,7 +274,7 @@ public class IsoDateTimeConverterTests : TestFixtureBase
         //   "LastModified": "2009-04-12T20:44:55"
         // }
 
-        Assert.AreEqual(@"{""Name"":""Keith"",""BirthDate"":""1980-03-08T00:00:00"",""LastModified"":""2009-04-12T20:44:55""}", jsonText);
+        Xunit.Assert.Equal(@"{""Name"":""Keith"",""BirthDate"":""1980-03-08T00:00:00"",""LastModified"":""2009-04-12T20:44:55""}", jsonText);
     }
 
     [Fact]
@@ -293,7 +293,7 @@ public class IsoDateTimeConverterTests : TestFixtureBase
 
         var test = JsonConvert.DeserializeObject<DateTimeOffset>("\"2014-01-01T00:00:00+02:15\"", settings);
 
-        Assert.AreEqual(dto, test);
-        Assert.AreEqual(dto.ToString("o"), test.ToString("o"));
+        Xunit.Assert.Equal(dto, test);
+        Xunit.Assert.Equal(dto.ToString("o"), test.ToString("o"));
     }
 }

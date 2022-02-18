@@ -72,11 +72,11 @@ public class DemoTests : TestFixtureBase
             Formatting = Formatting.Indented,
             Converters = { new HtmlColorConverter() }
         });
-        Assert.AreEqual(255, r2.Red);
-        Assert.AreEqual(0, r2.Green);
-        Assert.AreEqual(0, r2.Blue);
+        Xunit.Assert.Equal(255, r2.Red);
+        Xunit.Assert.Equal(0, r2.Green);
+        Xunit.Assert.Equal(0, r2.Blue);
 
-        Assert.AreEqual(@"""#FF0000""", json);
+        Xunit.Assert.Equal(@"""#FF0000""", json);
     }
 
     public class PersonDemo
@@ -239,7 +239,7 @@ public class DemoTests : TestFixtureBase
         // Name = Serialize All The Things
         // Date = Tuesday, 3 June 2014
 
-        Assert.AreEqual("Serialize All The Things", s.Name);
+        Xunit.Assert.Equal("Serialize All The Things", s.Name);
     }
 
     [Fact]
@@ -591,7 +591,7 @@ public class DemoTests : TestFixtureBase
             value = serializer.Deserialize<IList<int>>(reader);
         }
 
-        Assert.AreEqual(4, value.Count);
+        Xunit.Assert.Equal(4, value.Count);
     }
 
     [Fact]
@@ -656,7 +656,7 @@ public class DemoTests : TestFixtureBase
         Console.WriteLine(packages.Count);
         // 1
 
-        Assert.AreEqual(1, packages.Count);
+        Xunit.Assert.Equal(1, packages.Count);
     }
 
     [Fact]

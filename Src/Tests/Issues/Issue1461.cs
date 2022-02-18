@@ -56,7 +56,7 @@ public class Issue1461 : TestFixtureBase
         stream.Position = 0;
 
         var reader = new StreamReader(stream);
-        Assert.AreEqual(@"{""Id"":""test""}", reader.ReadToEnd());
+        Xunit.Assert.Equal(@"{""Id"":""test""}", reader.ReadToEnd());
     }
 
     class TestObject

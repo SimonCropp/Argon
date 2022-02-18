@@ -71,7 +71,7 @@ public class ReadAsyncTests : TestFixtureBase
         var token = new JValue(BigInteger.Parse("1"));
 
         var i = await token.CreateReader().ReadAsInt32Async();
-        Assert.AreEqual(1, i);
+        Xunit.Assert.Equal(1, i);
     }
 
     [Fact]
@@ -87,12 +87,12 @@ public class ReadAsyncTests : TestFixtureBase
         await reader.ReadAsync();
         await reader.ReadAsync();
         await reader.ReadAsync();
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-        Assert.AreEqual("C", reader.Value);
+        Xunit.Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+        Xunit.Assert.Equal("C", reader.Value);
 
         await reader.ReadAsync();
-        Assert.AreEqual(JsonToken.Undefined, reader.TokenType);
-        Assert.AreEqual(null, reader.Value);
+        Xunit.Assert.Equal(JsonToken.Undefined, reader.TokenType);
+        Xunit.Assert.Equal(null, reader.Value);
     }
 
     [Fact]
@@ -135,60 +135,60 @@ public class ReadAsyncTests : TestFixtureBase
 #endif
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual("", reader.Path);
+        Xunit.Assert.Equal("", reader.Path);
 
         Assert.True( await reader.ReadAsBooleanAsync());
-        Assert.AreEqual("[0]", reader.Path);
+        Xunit.Assert.Equal("[0]", reader.Path);
 
         Assert.False( await reader.ReadAsBooleanAsync());
-        Assert.AreEqual("[1]", reader.Path);
+        Xunit.Assert.Equal("[1]", reader.Path);
 
         Assert.True( await reader.ReadAsBooleanAsync());
-        Assert.AreEqual("[2]", reader.Path);
+        Xunit.Assert.Equal("[2]", reader.Path);
 
         Assert.False( await reader.ReadAsBooleanAsync());
-        Assert.AreEqual("[3]", reader.Path);
+        Xunit.Assert.Equal("[3]", reader.Path);
 
         Assert.True( await reader.ReadAsBooleanAsync());
-        Assert.AreEqual("[4]", reader.Path);
+        Xunit.Assert.Equal("[4]", reader.Path);
 
         Assert.True( await reader.ReadAsBooleanAsync());
-        Assert.AreEqual("[5]", reader.Path);
+        Xunit.Assert.Equal("[5]", reader.Path);
 
         Assert.True( await reader.ReadAsBooleanAsync());
-        Assert.AreEqual("[6]", reader.Path);
+        Xunit.Assert.Equal("[6]", reader.Path);
 
         Assert.True( await reader.ReadAsBooleanAsync());
-        Assert.AreEqual("[7]", reader.Path);
+        Xunit.Assert.Equal("[7]", reader.Path);
 
         Assert.True( await reader.ReadAsBooleanAsync());
-        Assert.AreEqual("[8]", reader.Path);
+        Xunit.Assert.Equal("[8]", reader.Path);
 
         Assert.True( await reader.ReadAsBooleanAsync());
-        Assert.AreEqual("[9]", reader.Path);
+        Xunit.Assert.Equal("[9]", reader.Path);
 
         Assert.True( await reader.ReadAsBooleanAsync());
-        Assert.AreEqual("[10]", reader.Path);
+        Xunit.Assert.Equal("[10]", reader.Path);
 
         Assert.False( await reader.ReadAsBooleanAsync());
-        Assert.AreEqual("[11]", reader.Path);
+        Xunit.Assert.Equal("[11]", reader.Path);
 
         Assert.False( await reader.ReadAsBooleanAsync());
-        Assert.AreEqual("[12]", reader.Path);
+        Xunit.Assert.Equal("[12]", reader.Path);
 
-        Assert.AreEqual(null, await reader.ReadAsBooleanAsync());
-        Assert.AreEqual("[13]", reader.Path);
+        Xunit.Assert.Equal(null, await reader.ReadAsBooleanAsync());
+        Xunit.Assert.Equal("[13]", reader.Path);
 
-        Assert.AreEqual(null, await reader.ReadAsBooleanAsync());
-        Assert.AreEqual("[14]", reader.Path);
+        Xunit.Assert.Equal(null, await reader.ReadAsBooleanAsync());
+        Xunit.Assert.Equal("[14]", reader.Path);
 
-        Assert.AreEqual(null, await reader.ReadAsBooleanAsync());
-        Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
-        Assert.AreEqual("", reader.Path);
+        Xunit.Assert.Equal(null, await reader.ReadAsBooleanAsync());
+        Xunit.Assert.Equal(JsonToken.EndArray, reader.TokenType);
+        Xunit.Assert.Equal("", reader.Path);
 
-        Assert.AreEqual(null, await reader.ReadAsBooleanAsync());
-        Assert.AreEqual(JsonToken.None, reader.TokenType);
-        Assert.AreEqual("", reader.Path);
+        Xunit.Assert.Equal(null, await reader.ReadAsBooleanAsync());
+        Xunit.Assert.Equal(JsonToken.None, reader.TokenType);
+        Xunit.Assert.Equal("", reader.Path);
     }
 
     [Fact]
@@ -199,7 +199,7 @@ public class ReadAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         Assert.True( await reader.ReadAsBooleanAsync());
-        Assert.AreEqual(null, await reader.ReadAsBooleanAsync());
+        Xunit.Assert.Equal(null, await reader.ReadAsBooleanAsync());
     }
 
     [Fact]
@@ -222,7 +222,7 @@ public class ReadAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(@""));
 
         Xunit.Assert.Null(await reader.ReadAsBooleanAsync());
-        Assert.AreEqual(JsonToken.None, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.None, reader.TokenType);
     }
 
     [Fact]
@@ -231,9 +231,9 @@ public class ReadAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(@"[/*hi*/1/*hi*/,2/*hi*/]"));
 
         var data = await reader.ReadAsBytesAsync();
-        Assert.AreEqual(2, data.Length);
-        Assert.AreEqual(1, data[0]);
-        Assert.AreEqual(2, data[1]);
+        Xunit.Assert.Equal(2, data.Length);
+        Xunit.Assert.Equal(1, data[0]);
+        Xunit.Assert.Equal(2, data[1]);
     }
 
     [Fact]
@@ -247,18 +247,18 @@ public class ReadAsyncTests : TestFixtureBase
 #endif
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartObject, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-        Assert.AreEqual("Message", reader.Value);
+        Xunit.Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+        Xunit.Assert.Equal("Message", reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
-        Assert.AreEqual(@"Hi,I" + '\u0092' + "ve send you smth", reader.Value);
+        Xunit.Assert.Equal(JsonToken.String, reader.TokenType);
+        Xunit.Assert.Equal(@"Hi,I" + '\u0092' + "ve send you smth", reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndObject, reader.TokenType);
 
         Xunit.Assert.False(await reader.ReadAsync());
     }
@@ -271,17 +271,17 @@ public class ReadAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartObject, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.Integer, reader.TokenType);
-        Assert.AreEqual(11806310474565, reader.Value);
+        Xunit.Assert.Equal(JsonToken.Integer, reader.TokenType);
+        Xunit.Assert.Equal(11806310474565, reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndObject, reader.TokenType);
     }
 
 #if DEBUG
@@ -324,19 +324,19 @@ public class ReadAsyncTests : TestFixtureBase
             reader.LargeBufferLength = largeBufferLength;
 
             Xunit.Assert.True(await reader.ReadAsync());
-            Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
+            Xunit.Assert.Equal(JsonToken.StartArray, reader.TokenType);
 
             Xunit.Assert.True(await reader.ReadAsync());
-            Assert.AreEqual(JsonToken.String, reader.TokenType);
-            Assert.AreEqual(largeBufferLength, reader.CharBuffer.Length);
+            Xunit.Assert.Equal(JsonToken.String, reader.TokenType);
+            Xunit.Assert.Equal(largeBufferLength, reader.CharBuffer.Length);
 
             Xunit.Assert.True(await reader.ReadAsync());
-            Assert.AreEqual(JsonToken.String, reader.TokenType);
+            Xunit.Assert.Equal(JsonToken.String, reader.TokenType);
             // buffer has been shifted before reading the second string
-            Assert.AreEqual(largeBufferLength, reader.CharBuffer.Length);
+            Xunit.Assert.Equal(largeBufferLength, reader.CharBuffer.Length);
 
             Xunit.Assert.True(await reader.ReadAsync());
-            Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
+            Xunit.Assert.Equal(JsonToken.EndArray, reader.TokenType);
 
             Xunit.Assert.False(await reader.ReadAsync());
         }
@@ -353,7 +353,7 @@ public class ReadAsyncTests : TestFixtureBase
         Xunit.Assert.NotNull(data);
 
         var text = Encoding.UTF8.GetString(data, 0, data.Length);
-        Assert.AreEqual("Hello world.", text);
+        Xunit.Assert.Equal("Hello world.", text);
     }
 
     [Fact]
@@ -363,22 +363,22 @@ public class ReadAsyncTests : TestFixtureBase
         var jsonReader = new JsonTextReader(s);
 
         Xunit.Assert.True(await jsonReader.ReadAsync());
-        Assert.AreEqual(JsonToken.StartArray, jsonReader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartArray, jsonReader.TokenType);
 
         Xunit.Assert.True(await jsonReader.ReadAsync());
-        Assert.AreEqual(JsonToken.Integer, jsonReader.TokenType);
-        Assert.AreEqual(250L, jsonReader.Value);
+        Xunit.Assert.Equal(JsonToken.Integer, jsonReader.TokenType);
+        Xunit.Assert.Equal(250L, jsonReader.Value);
 
         Xunit.Assert.True(await jsonReader.ReadAsync());
-        Assert.AreEqual(JsonToken.Integer, jsonReader.TokenType);
-        Assert.AreEqual(250L, jsonReader.Value);
+        Xunit.Assert.Equal(JsonToken.Integer, jsonReader.TokenType);
+        Xunit.Assert.Equal(250L, jsonReader.Value);
 
         Xunit.Assert.True(await jsonReader.ReadAsync());
-        Assert.AreEqual(JsonToken.Integer, jsonReader.TokenType);
-        Assert.AreEqual(250L, jsonReader.Value);
+        Xunit.Assert.Equal(JsonToken.Integer, jsonReader.TokenType);
+        Xunit.Assert.Equal(250L, jsonReader.Value);
 
         Xunit.Assert.True(await jsonReader.ReadAsync());
-        Assert.AreEqual(JsonToken.EndArray, jsonReader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndArray, jsonReader.TokenType);
 
         Xunit.Assert.False(await jsonReader.ReadAsync());
     }
@@ -390,25 +390,25 @@ public class ReadAsyncTests : TestFixtureBase
         var jsonReader = new JsonTextReader(s);
 
         Xunit.Assert.True(await jsonReader.ReadAsync());
-        Assert.AreEqual(JsonToken.StartArray, jsonReader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartArray, jsonReader.TokenType);
 
         await jsonReader.ReadAsync();
-        Assert.AreEqual(JsonToken.Integer, jsonReader.TokenType);
-        Assert.AreEqual(typeof(long), jsonReader.ValueType);
-        Assert.AreEqual(250L, (long)jsonReader.Value);
+        Xunit.Assert.Equal(JsonToken.Integer, jsonReader.TokenType);
+        Xunit.Assert.Equal(typeof(long), jsonReader.ValueType);
+        Xunit.Assert.Equal(250L, (long)jsonReader.Value);
 
         await jsonReader.ReadAsync();
-        Assert.AreEqual(JsonToken.Integer, jsonReader.TokenType);
-        Assert.AreEqual(typeof(long), jsonReader.ValueType);
-        Assert.AreEqual(250L, (long)jsonReader.Value);
+        Xunit.Assert.Equal(JsonToken.Integer, jsonReader.TokenType);
+        Xunit.Assert.Equal(typeof(long), jsonReader.ValueType);
+        Xunit.Assert.Equal(250L, (long)jsonReader.Value);
 
         await jsonReader.ReadAsync();
-        Assert.AreEqual(JsonToken.Integer, jsonReader.TokenType);
-        Assert.AreEqual(typeof(long), jsonReader.ValueType);
-        Assert.AreEqual(250L, (long)jsonReader.Value);
+        Xunit.Assert.Equal(JsonToken.Integer, jsonReader.TokenType);
+        Xunit.Assert.Equal(typeof(long), jsonReader.ValueType);
+        Xunit.Assert.Equal(250L, (long)jsonReader.Value);
 
         Xunit.Assert.True(await jsonReader.ReadAsync());
-        Assert.AreEqual(JsonToken.EndArray, jsonReader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndArray, jsonReader.TokenType);
 
         Xunit.Assert.False(await jsonReader.ReadAsync());
     }
@@ -420,25 +420,25 @@ public class ReadAsyncTests : TestFixtureBase
         var jsonReader = new JsonTextReader(s);
 
         Xunit.Assert.True(await jsonReader.ReadAsync());
-        Assert.AreEqual(JsonToken.StartArray, jsonReader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartArray, jsonReader.TokenType);
 
         await jsonReader.ReadAsInt32Async();
-        Assert.AreEqual(JsonToken.Integer, jsonReader.TokenType);
-        Assert.AreEqual(typeof(int), jsonReader.ValueType);
-        Assert.AreEqual(250, jsonReader.Value);
+        Xunit.Assert.Equal(JsonToken.Integer, jsonReader.TokenType);
+        Xunit.Assert.Equal(typeof(int), jsonReader.ValueType);
+        Xunit.Assert.Equal(250, jsonReader.Value);
 
         await jsonReader.ReadAsInt32Async();
-        Assert.AreEqual(JsonToken.Integer, jsonReader.TokenType);
-        Assert.AreEqual(typeof(int), jsonReader.ValueType);
-        Assert.AreEqual(250, jsonReader.Value);
+        Xunit.Assert.Equal(JsonToken.Integer, jsonReader.TokenType);
+        Xunit.Assert.Equal(typeof(int), jsonReader.ValueType);
+        Xunit.Assert.Equal(250, jsonReader.Value);
 
         await jsonReader.ReadAsInt32Async();
-        Assert.AreEqual(JsonToken.Integer, jsonReader.TokenType);
-        Assert.AreEqual(typeof(int), jsonReader.ValueType);
-        Assert.AreEqual(250, jsonReader.Value);
+        Xunit.Assert.Equal(JsonToken.Integer, jsonReader.TokenType);
+        Xunit.Assert.Equal(typeof(int), jsonReader.ValueType);
+        Xunit.Assert.Equal(250, jsonReader.Value);
 
         Xunit.Assert.True(await jsonReader.ReadAsync());
-        Assert.AreEqual(JsonToken.EndArray, jsonReader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndArray, jsonReader.TokenType);
 
         Xunit.Assert.False(await jsonReader.ReadAsync());
     }
@@ -449,7 +449,7 @@ public class ReadAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(@""));
 
         Xunit.Assert.Null(await reader.ReadAsDecimalAsync());
-        Assert.AreEqual(JsonToken.None, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.None, reader.TokenType);
     }
 
     [Fact]
@@ -458,7 +458,7 @@ public class ReadAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(@""));
 
         Xunit.Assert.Null(await reader.ReadAsBytesAsync());
-        Assert.AreEqual(JsonToken.None, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.None, reader.TokenType);
     }
 
     [Fact]
@@ -467,7 +467,7 @@ public class ReadAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(@""));
 
         Xunit.Assert.Null(await reader.ReadAsDateTimeOffsetAsync());
-        Assert.AreEqual(JsonToken.None, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.None, reader.TokenType);
     }
 
     [Fact]
@@ -478,18 +478,18 @@ public class ReadAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartObject, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
         await reader.ReadAsDateTimeOffsetAsync();
-        Assert.AreEqual(JsonToken.Date, reader.TokenType);
-        Assert.AreEqual(typeof(DateTimeOffset), reader.ValueType);
-        Assert.AreEqual(new DateTimeOffset(new DateTime(2000, 1, 1), TimeSpan.FromHours(6)), reader.Value);
+        Xunit.Assert.Equal(JsonToken.Date, reader.TokenType);
+        Xunit.Assert.Equal(typeof(DateTimeOffset), reader.ValueType);
+        Xunit.Assert.Equal(new DateTimeOffset(new DateTime(2000, 1, 1), TimeSpan.FromHours(6)), reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndObject, reader.TokenType);
     }
 
     [Fact]
@@ -500,18 +500,18 @@ public class ReadAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartObject, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
         await reader.ReadAsDateTimeOffsetAsync();
-        Assert.AreEqual(JsonToken.Date, reader.TokenType);
-        Assert.AreEqual(typeof(DateTimeOffset), reader.ValueType);
-        Assert.AreEqual(new DateTimeOffset(new DateTime(2000, 1, 1), TimeSpan.FromHours(-6)), reader.Value);
+        Xunit.Assert.Equal(JsonToken.Date, reader.TokenType);
+        Xunit.Assert.Equal(typeof(DateTimeOffset), reader.ValueType);
+        Xunit.Assert.Equal(new DateTimeOffset(new DateTime(2000, 1, 1), TimeSpan.FromHours(-6)), reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndObject, reader.TokenType);
     }
 
     [Fact]
@@ -522,10 +522,10 @@ public class ReadAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartObject, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
         await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () =>
         {
@@ -541,18 +541,18 @@ public class ReadAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartObject, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
         await reader.ReadAsDateTimeOffsetAsync();
-        Assert.AreEqual(JsonToken.Date, reader.TokenType);
-        Assert.AreEqual(typeof(DateTimeOffset), reader.ValueType);
-        Assert.AreEqual(new DateTimeOffset(new DateTime(2000, 1, 1), TimeSpan.FromHours(6)), reader.Value);
+        Xunit.Assert.Equal(JsonToken.Date, reader.TokenType);
+        Xunit.Assert.Equal(typeof(DateTimeOffset), reader.ValueType);
+        Xunit.Assert.Equal(new DateTimeOffset(new DateTime(2000, 1, 1), TimeSpan.FromHours(6)), reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndObject, reader.TokenType);
     }
 
     [Fact]
@@ -563,18 +563,18 @@ public class ReadAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartObject, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
         await reader.ReadAsDateTimeOffsetAsync();
-        Assert.AreEqual(JsonToken.Date, reader.TokenType);
-        Assert.AreEqual(typeof(DateTimeOffset), reader.ValueType);
-        Assert.AreEqual(new DateTimeOffset(new DateTime(2000, 1, 1), TimeSpan.FromHours(-6).Add(TimeSpan.FromMinutes(-31))), reader.Value);
+        Xunit.Assert.Equal(JsonToken.Date, reader.TokenType);
+        Xunit.Assert.Equal(typeof(DateTimeOffset), reader.ValueType);
+        Xunit.Assert.Equal(new DateTimeOffset(new DateTime(2000, 1, 1), TimeSpan.FromHours(-6).Add(TimeSpan.FromMinutes(-31))), reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndObject, reader.TokenType);
     }
 
     [Fact]
@@ -585,18 +585,18 @@ public class ReadAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartObject, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
         await reader.ReadAsDateTimeOffsetAsync();
-        Assert.AreEqual(JsonToken.Date, reader.TokenType);
-        Assert.AreEqual(typeof(DateTimeOffset), reader.ValueType);
-        Assert.AreEqual(new DateTimeOffset(new DateTime(2011, 8, 1, 21, 25, 0, DateTimeKind.Utc), TimeSpan.Zero), reader.Value);
+        Xunit.Assert.Equal(JsonToken.Date, reader.TokenType);
+        Xunit.Assert.Equal(typeof(DateTimeOffset), reader.ValueType);
+        Xunit.Assert.Equal(new DateTimeOffset(new DateTime(2011, 8, 1, 21, 25, 0, DateTimeKind.Utc), TimeSpan.Zero), reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndObject, reader.TokenType);
     }
 
     [Fact]
@@ -608,20 +608,20 @@ public class ReadAsyncTests : TestFixtureBase
         reader.Culture = new CultureInfo("en-US");
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartObject, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
         await reader.ReadAsDateTimeOffsetAsync();
-        Assert.AreEqual(JsonToken.Date, reader.TokenType);
-        Assert.AreEqual(typeof(DateTimeOffset), reader.ValueType);
+        Xunit.Assert.Equal(JsonToken.Date, reader.TokenType);
+        Xunit.Assert.Equal(typeof(DateTimeOffset), reader.ValueType);
 
         var dt = (DateTimeOffset)reader.Value;
-        Assert.AreEqual(new DateTime(2011, 1, 30, 0, 0, 0, DateTimeKind.Unspecified), dt.DateTime);
+        Xunit.Assert.Equal(new DateTime(2011, 1, 30, 0, 0, 0, DateTimeKind.Unspecified), dt.DateTime);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndObject, reader.TokenType);
     }
 
     [Fact]
@@ -633,20 +633,20 @@ public class ReadAsyncTests : TestFixtureBase
         reader.Culture = new CultureInfo("en-NZ");
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartObject, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
         await reader.ReadAsDateTimeOffsetAsync();
-        Assert.AreEqual(JsonToken.Date, reader.TokenType);
-        Assert.AreEqual(typeof(DateTimeOffset), reader.ValueType);
+        Xunit.Assert.Equal(JsonToken.Date, reader.TokenType);
+        Xunit.Assert.Equal(typeof(DateTimeOffset), reader.ValueType);
 
         var dt = (DateTimeOffset)reader.Value;
-        Assert.AreEqual(new DateTime(2011, 1, 30, 0, 0, 0, DateTimeKind.Unspecified), dt.DateTime);
+        Xunit.Assert.Equal(new DateTime(2011, 1, 30, 0, 0, 0, DateTimeKind.Unspecified), dt.DateTime);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndObject, reader.TokenType);
     }
 
     [Fact]
@@ -657,15 +657,15 @@ public class ReadAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartObject, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
         await reader.ReadAsDecimalAsync();
-        Assert.AreEqual(JsonToken.Float, reader.TokenType);
-        Assert.AreEqual(typeof(decimal), reader.ValueType);
-        Assert.AreEqual(1m, reader.Value);
+        Xunit.Assert.Equal(JsonToken.Float, reader.TokenType);
+        Xunit.Assert.Equal(typeof(decimal), reader.ValueType);
+        Xunit.Assert.Equal(1m, reader.Value);
     }
 
     [Fact]
@@ -676,10 +676,10 @@ public class ReadAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartObject, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
         await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () =>
         {
@@ -695,18 +695,18 @@ public class ReadAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartObject, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
         var d = await reader.ReadAsDecimalAsync();
-        Assert.AreEqual(JsonToken.Float, reader.TokenType);
-        Assert.AreEqual(typeof(decimal), reader.ValueType);
-        Assert.AreEqual(-79228162514264300000000000000m, d);
+        Xunit.Assert.Equal(JsonToken.Float, reader.TokenType);
+        Xunit.Assert.Equal(typeof(decimal), reader.ValueType);
+        Xunit.Assert.Equal(-79228162514264300000000000000m, d);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndObject, reader.TokenType);
     }
 
     [Fact]
@@ -718,18 +718,18 @@ public class ReadAsyncTests : TestFixtureBase
         reader.Culture = new CultureInfo("fr-FR");
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartObject, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
         var d = await reader.ReadAsDecimalAsync();
-        Assert.AreEqual(JsonToken.Float, reader.TokenType);
-        Assert.AreEqual(typeof(decimal), reader.ValueType);
-        Assert.AreEqual(9.99m, d);
+        Xunit.Assert.Equal(JsonToken.Float, reader.TokenType);
+        Xunit.Assert.Equal(typeof(decimal), reader.ValueType);
+        Xunit.Assert.Equal(9.99m, d);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndObject, reader.TokenType);
     }
 
     [Fact]
@@ -759,7 +759,7 @@ public class ReadAsyncTests : TestFixtureBase
         }
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(new DateTime(631136448000000000), reader.Value);
+        Xunit.Assert.Equal(new DateTime(631136448000000000), reader.Value);
     }
 
     [Fact]
@@ -787,7 +787,7 @@ public class ReadAsyncTests : TestFixtureBase
         }
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.Comment, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.Comment, reader.TokenType);
 
         Xunit.Assert.False(await reader.ReadAsync());
     }
@@ -796,28 +796,28 @@ public class ReadAsyncTests : TestFixtureBase
     public async Task ReadAsDouble_NullAsync()
     {
         var reader = new JsonTextReader(new StringReader("null"));
-        Assert.AreEqual(null, await reader.ReadAsDoubleAsync());
+        Xunit.Assert.Equal(null, await reader.ReadAsDoubleAsync());
     }
 
     [Fact]
     public async Task ReadAsDouble_SuccessAsync()
     {
         var reader = new JsonTextReader(new StringReader("'12.34'"));
-        Assert.AreEqual(12.34d, await reader.ReadAsDoubleAsync());
+        Xunit.Assert.Equal(12.34d, await reader.ReadAsDoubleAsync());
     }
 
     [Fact]
     public async Task ReadAsDouble_HexAsync()
     {
         var reader = new JsonTextReader(new StringReader("0XCAFEBABE"));
-        Assert.AreEqual(3405691582d, await reader.ReadAsDoubleAsync());
+        Xunit.Assert.Equal(3405691582d, await reader.ReadAsDoubleAsync());
     }
 
     [Fact]
     public async Task ReadAsDouble_AllowThousandsAsync()
     {
         var reader = new JsonTextReader(new StringReader("'1,112.34'"));
-        Assert.AreEqual(1112.34d, await reader.ReadAsDoubleAsync());
+        Xunit.Assert.Equal(1112.34d, await reader.ReadAsDoubleAsync());
     }
 
     [Fact]
@@ -832,7 +832,7 @@ public class ReadAsyncTests : TestFixtureBase
             await reader.ReadAsDoubleAsync();
         }, "Could not convert string to double: Trump. Path '[0]', line 1, position 8.");
 
-        Assert.AreEqual(1d, await reader.ReadAsDoubleAsync());
+        Xunit.Assert.Equal(1d, await reader.ReadAsDoubleAsync());
         Xunit.Assert.True(await reader.ReadAsync());
     }
 
@@ -845,7 +845,7 @@ public class ReadAsyncTests : TestFixtureBase
         Xunit.Assert.True(await reader.ReadAsync());
 
         var s = await reader.ReadAsStringAsync();
-        Assert.AreEqual("false", s);
+        Xunit.Assert.Equal("false", s);
 
         Xunit.Assert.True(await reader.ReadAsync());
         Xunit.Assert.False(await reader.ReadAsync());
@@ -896,28 +896,28 @@ public class ReadAsyncTests : TestFixtureBase
 
         await reader.ReadAsync();
         await reader.ReadAsInt32Async();
-        Assert.AreEqual("[0]", reader.Path);
+        Xunit.Assert.Equal("[0]", reader.Path);
         await reader.ReadAsDecimalAsync();
-        Assert.AreEqual("[1]", reader.Path);
+        Xunit.Assert.Equal("[1]", reader.Path);
         await reader.ReadAsDateTimeAsync();
-        Assert.AreEqual("[2]", reader.Path);
+        Xunit.Assert.Equal("[2]", reader.Path);
         await reader.ReadAsDateTimeOffsetAsync();
-        Assert.AreEqual("[3]", reader.Path);
+        Xunit.Assert.Equal("[3]", reader.Path);
         await reader.ReadAsStringAsync();
-        Assert.AreEqual("[4]", reader.Path);
+        Xunit.Assert.Equal("[4]", reader.Path);
         await reader.ReadAsBytesAsync();
-        Assert.AreEqual("[5]", reader.Path);
+        Xunit.Assert.Equal("[5]", reader.Path);
         await reader.ReadAsDoubleAsync();
-        Assert.AreEqual("[6]", reader.Path);
+        Xunit.Assert.Equal("[6]", reader.Path);
 
         Xunit.Assert.Null(await reader.ReadAsStringAsync());
-        Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndArray, reader.TokenType);
 
         Xunit.Assert.Null(await reader.ReadAsStringAsync());
-        Assert.AreEqual(JsonToken.None, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.None, reader.TokenType);
 
         Xunit.Assert.Null(await reader.ReadAsBytesAsync());
-        Assert.AreEqual(JsonToken.None, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.None, reader.TokenType);
     }
 
     [Fact]
@@ -928,46 +928,46 @@ public class ReadAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.Comment, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.Comment, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartArray, reader.TokenType);
 
-        Assert.AreEqual(1, await reader.ReadAsInt32Async());
-        Assert.AreEqual(JsonToken.Integer, reader.TokenType);
+        Xunit.Assert.Equal(1, await reader.ReadAsInt32Async());
+        Xunit.Assert.Equal(JsonToken.Integer, reader.TokenType);
 
-        Assert.AreEqual(2, await reader.ReadAsInt32Async());
-        Assert.AreEqual(JsonToken.Integer, reader.TokenType);
+        Xunit.Assert.Equal(2, await reader.ReadAsInt32Async());
+        Xunit.Assert.Equal(JsonToken.Integer, reader.TokenType);
 
-        Assert.AreEqual("three", await reader.ReadAsStringAsync());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
+        Xunit.Assert.Equal("three", await reader.ReadAsStringAsync());
+        Xunit.Assert.Equal(JsonToken.String, reader.TokenType);
 
-        Assert.AreEqual("four", await reader.ReadAsStringAsync());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
+        Xunit.Assert.Equal("four", await reader.ReadAsStringAsync());
+        Xunit.Assert.Equal(JsonToken.String, reader.TokenType);
 
-        Assert.AreEqual(null, await reader.ReadAsStringAsync());
-        Assert.AreEqual(JsonToken.Null, reader.TokenType);
+        Xunit.Assert.Equal(null, await reader.ReadAsStringAsync());
+        Xunit.Assert.Equal(JsonToken.Null, reader.TokenType);
 
-        Assert.AreEqual(null, await reader.ReadAsInt32Async());
-        Assert.AreEqual(JsonToken.Null, reader.TokenType);
+        Xunit.Assert.Equal(null, await reader.ReadAsInt32Async());
+        Xunit.Assert.Equal(JsonToken.Null, reader.TokenType);
 
-        Assert.AreEqual(3.99m, await reader.ReadAsDecimalAsync());
-        Assert.AreEqual(JsonToken.Float, reader.TokenType);
+        Xunit.Assert.Equal(3.99m, await reader.ReadAsDecimalAsync());
+        Xunit.Assert.Equal(JsonToken.Float, reader.TokenType);
 
-        Assert.AreEqual(1.1m, await reader.ReadAsDecimalAsync());
-        Assert.AreEqual(JsonToken.Float, reader.TokenType);
+        Xunit.Assert.Equal(1.1m, await reader.ReadAsDecimalAsync());
+        Xunit.Assert.Equal(JsonToken.Float, reader.TokenType);
 
         Xunit.Assert.Equal(new byte[0], await reader.ReadAsBytesAsync());
-        Assert.AreEqual(JsonToken.Bytes, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.Bytes, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.Comment, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.Comment, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndArray, reader.TokenType);
 
-        Assert.AreEqual(null, await reader.ReadAsInt32Async());
-        Assert.AreEqual(JsonToken.None, reader.TokenType);
+        Xunit.Assert.Equal(null, await reader.ReadAsInt32Async());
+        Xunit.Assert.Equal(JsonToken.None, reader.TokenType);
     }
 
     [Fact]
@@ -984,54 +984,54 @@ public class ReadAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.Comment, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.Comment, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartObject, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.Comment, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.Comment, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-        Assert.AreEqual("Name", reader.Value);
+        Xunit.Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+        Xunit.Assert.Equal("Name", reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.Comment, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.Comment, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.Boolean, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.Boolean, reader.TokenType);
         Assert.True( reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.Comment, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.Comment, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.Comment, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.Comment, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-        Assert.AreEqual("ExpiryDate", reader.Value);
+        Xunit.Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+        Xunit.Assert.Equal("ExpiryDate", reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.Comment, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.Comment, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.StartConstructor, reader.TokenType);
-        Assert.AreEqual(5, reader.LineNumber);
-        Assert.AreEqual("Date", reader.Value);
+        Xunit.Assert.Equal(JsonToken.StartConstructor, reader.TokenType);
+        Xunit.Assert.Equal(5, reader.LineNumber);
+        Xunit.Assert.Equal("Date", reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.Comment, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.Comment, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.Null, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.Null, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.Comment, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.Comment, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.EndConstructor, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndConstructor, reader.TokenType);
     }
 
     [Fact]
@@ -1047,27 +1047,27 @@ public class ReadAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
 
         await reader.ReadAsync();
-        Assert.AreEqual(1, reader.LineNumber);
+        Xunit.Assert.Equal(1, reader.LineNumber);
 
         await reader.ReadAsInt32Async();
-        Assert.AreEqual(2, reader.LineNumber);
-        Assert.AreEqual("[0]", reader.Path);
+        Xunit.Assert.Equal(2, reader.LineNumber);
+        Xunit.Assert.Equal("[0]", reader.Path);
 
         await reader.ReadAsInt32Async();
-        Assert.AreEqual(3, reader.LineNumber);
-        Assert.AreEqual("[1]", reader.Path);
+        Xunit.Assert.Equal(3, reader.LineNumber);
+        Xunit.Assert.Equal("[1]", reader.Path);
 
         await reader.ReadAsInt32Async();
-        Assert.AreEqual(4, reader.LineNumber);
-        Assert.AreEqual("[2]", reader.Path);
+        Xunit.Assert.Equal(4, reader.LineNumber);
+        Xunit.Assert.Equal("[2]", reader.Path);
 
         await reader.ReadAsInt32Async();
-        Assert.AreEqual(5, reader.LineNumber);
-        Assert.AreEqual("[3]", reader.Path);
+        Xunit.Assert.Equal(5, reader.LineNumber);
+        Xunit.Assert.Equal("[3]", reader.Path);
 
         await reader.ReadAsync();
-        Assert.AreEqual(6, reader.LineNumber);
-        Assert.AreEqual(string.Empty, reader.Path);
+        Xunit.Assert.Equal(6, reader.LineNumber);
+        Xunit.Assert.Equal(string.Empty, reader.Path);
 
         Xunit.Assert.False(await reader.ReadAsync());
     }
@@ -1085,48 +1085,48 @@ public class ReadAsyncTests : TestFixtureBase
         Assert.False( reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.Boolean, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.Boolean, reader.TokenType);
         Assert.True( reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.Boolean, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.Boolean, reader.TokenType);
         Assert.True( reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.Boolean, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.Boolean, reader.TokenType);
         Assert.False( reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
-        Assert.AreEqual("test!", reader.Value);
+        Xunit.Assert.Equal(JsonToken.String, reader.TokenType);
+        Xunit.Assert.Equal("test!", reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.Float, reader.TokenType);
-        Assert.AreEqual(1.11d, reader.Value);
+        Xunit.Assert.Equal(JsonToken.Float, reader.TokenType);
+        Xunit.Assert.Equal(1.11d, reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.Float, reader.TokenType);
-        Assert.AreEqual(0d, reader.Value);
+        Xunit.Assert.Equal(JsonToken.Float, reader.TokenType);
+        Xunit.Assert.Equal(0d, reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.Float, reader.TokenType);
-        Assert.AreEqual(0d, reader.Value);
+        Xunit.Assert.Equal(JsonToken.Float, reader.TokenType);
+        Xunit.Assert.Equal(0d, reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.Float, reader.TokenType);
-        Assert.AreEqual(0.0000025d, reader.Value);
+        Xunit.Assert.Equal(JsonToken.Float, reader.TokenType);
+        Xunit.Assert.Equal(0.0000025d, reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.Float, reader.TokenType);
-        Assert.AreEqual(3000000000d, reader.Value);
+        Xunit.Assert.Equal(JsonToken.Float, reader.TokenType);
+        Xunit.Assert.Equal(3000000000d, reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.Float, reader.TokenType);
-        Assert.AreEqual(602214180000000000000000d, reader.Value);
+        Xunit.Assert.Equal(JsonToken.Float, reader.TokenType);
+        Xunit.Assert.Equal(602214180000000000000000d, reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
-        Assert.AreEqual(reader.Value, "Purple\r \n monkey's:\tdishwasher");
+        Xunit.Assert.Equal(JsonToken.String, reader.TokenType);
+        Xunit.Assert.Equal(reader.Value, "Purple\r \n monkey's:\tdishwasher");
 
         Xunit.Assert.True(await reader.ReadAsync());
     }
@@ -1144,31 +1144,31 @@ public class ReadAsyncTests : TestFixtureBase
 
         var jsonTextReader = new JsonTextReader(new StringReader(json));
         Xunit.Assert.True(await jsonTextReader.ReadAsync());
-        Assert.AreEqual(JsonToken.StartObject, jsonTextReader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartObject, jsonTextReader.TokenType);
 
         Xunit.Assert.True(await jsonTextReader.ReadAsync());
-        Assert.AreEqual(JsonToken.PropertyName, jsonTextReader.TokenType);
+        Xunit.Assert.Equal(JsonToken.PropertyName, jsonTextReader.TokenType);
 
         Xunit.Assert.True(await jsonTextReader.ReadAsync());
-        Assert.AreEqual(JsonToken.StartArray, jsonTextReader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartArray, jsonTextReader.TokenType);
 
         Xunit.Assert.True(await jsonTextReader.ReadAsync());
-        Assert.AreEqual(JsonToken.String, jsonTextReader.TokenType);
-        Assert.AreEqual("src", jsonTextReader.Value);
+        Xunit.Assert.Equal(JsonToken.String, jsonTextReader.TokenType);
+        Xunit.Assert.Equal("src", jsonTextReader.Value);
 
         Xunit.Assert.True(await jsonTextReader.ReadAsync());
-        Assert.AreEqual(JsonToken.Comment, jsonTextReader.TokenType);
-        Assert.AreEqual(@"""", jsonTextReader.Value);
+        Xunit.Assert.Equal(JsonToken.Comment, jsonTextReader.TokenType);
+        Xunit.Assert.Equal(@"""", jsonTextReader.Value);
 
         Xunit.Assert.True(await jsonTextReader.ReadAsync());
-        Assert.AreEqual(JsonToken.String, jsonTextReader.TokenType);
-        Assert.AreEqual("test", jsonTextReader.Value);
+        Xunit.Assert.Equal(JsonToken.String, jsonTextReader.TokenType);
+        Xunit.Assert.Equal("test", jsonTextReader.Value);
 
         Xunit.Assert.True(await jsonTextReader.ReadAsync());
-        Assert.AreEqual(JsonToken.EndArray, jsonTextReader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndArray, jsonTextReader.TokenType);
 
         Xunit.Assert.True(await jsonTextReader.ReadAsync());
-        Assert.AreEqual(JsonToken.EndObject, jsonTextReader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndObject, jsonTextReader.TokenType);
     }
 
     [Fact]
@@ -1197,7 +1197,7 @@ public class ReadAsyncTests : TestFixtureBase
         await jsonTextReader.ReadAsync();
         await jsonTextReader.ReadAsync();
 
-        Assert.AreEqual(@"Forest's Bakery And Cafe", jsonTextReader.Value);
+        Xunit.Assert.Equal(@"Forest's Bakery And Cafe", jsonTextReader.Value);
     }
 
     [Fact]
@@ -1210,9 +1210,9 @@ third line""";
         var jsonTextReader = new JsonTextReader(new StringReader(json));
 
         Xunit.Assert.True(await jsonTextReader.ReadAsync());
-        Assert.AreEqual(JsonToken.String, jsonTextReader.TokenType);
+        Xunit.Assert.Equal(JsonToken.String, jsonTextReader.TokenType);
 
-        Assert.AreEqual(@"first line
+        Xunit.Assert.Equal(@"first line
 second line
 third line", jsonTextReader.Value);
     }
@@ -1228,30 +1228,30 @@ third line", jsonTextReader.Value);
         var jsonTextReader = new JsonTextReader(new StringReader(json));
 
         Xunit.Assert.True(await jsonTextReader.ReadAsync());
-        Assert.AreEqual(JsonToken.StartObject, jsonTextReader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartObject, jsonTextReader.TokenType);
 
         Xunit.Assert.True(await jsonTextReader.ReadAsync());
-        Assert.AreEqual(JsonToken.PropertyName, jsonTextReader.TokenType);
+        Xunit.Assert.Equal(JsonToken.PropertyName, jsonTextReader.TokenType);
 
         Xunit.Assert.True(await jsonTextReader.ReadAsync());
-        Assert.AreEqual(JsonToken.Integer, jsonTextReader.TokenType);
+        Xunit.Assert.Equal(JsonToken.Integer, jsonTextReader.TokenType);
 
         Xunit.Assert.True(await jsonTextReader.ReadAsync());
-        Assert.AreEqual(JsonToken.PropertyName, jsonTextReader.TokenType);
+        Xunit.Assert.Equal(JsonToken.PropertyName, jsonTextReader.TokenType);
 
         Xunit.Assert.True(await jsonTextReader.ReadAsync());
-        Assert.AreEqual(JsonToken.Integer, jsonTextReader.TokenType);
-        Assert.AreEqual(typeof(BigInteger), jsonTextReader.ValueType);
-        Assert.AreEqual(BigInteger.Parse("333333333333333333333333333333333333333"), jsonTextReader.Value);
+        Xunit.Assert.Equal(JsonToken.Integer, jsonTextReader.TokenType);
+        Xunit.Assert.Equal(typeof(BigInteger), jsonTextReader.ValueType);
+        Xunit.Assert.Equal(BigInteger.Parse("333333333333333333333333333333333333333"), jsonTextReader.Value);
 
         Xunit.Assert.True(await jsonTextReader.ReadAsync());
-        Assert.AreEqual(JsonToken.EndObject, jsonTextReader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndObject, jsonTextReader.TokenType);
 
         Xunit.Assert.False(await jsonTextReader.ReadAsync());
 
         var o = JObject.Parse(json);
         var i = (BigInteger)((JValue)o["ChildId"]).Value;
-        Assert.AreEqual(BigInteger.Parse("333333333333333333333333333333333333333"), i);
+        Xunit.Assert.Equal(BigInteger.Parse("333333333333333333333333333333333333333"), i);
     }
 
     [Fact]
@@ -1264,17 +1264,17 @@ third line", jsonTextReader.Value);
         var jsonTextReader = new JsonTextReader(new StringReader(json));
 
         Xunit.Assert.True(await jsonTextReader.ReadAsync());
-        Assert.AreEqual(JsonToken.StartObject, jsonTextReader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartObject, jsonTextReader.TokenType);
 
         Xunit.Assert.True(await jsonTextReader.ReadAsync());
-        Assert.AreEqual(JsonToken.PropertyName, jsonTextReader.TokenType);
+        Xunit.Assert.Equal(JsonToken.PropertyName, jsonTextReader.TokenType);
 
         Xunit.Assert.True(await jsonTextReader.ReadAsync());
-        Assert.AreEqual(JsonToken.String, jsonTextReader.TokenType);
-        Assert.AreEqual(@"/Date(9467082_PIE_340000-0631)/", jsonTextReader.Value);
+        Xunit.Assert.Equal(JsonToken.String, jsonTextReader.TokenType);
+        Xunit.Assert.Equal(@"/Date(9467082_PIE_340000-0631)/", jsonTextReader.Value);
 
         Xunit.Assert.True(await jsonTextReader.ReadAsync());
-        Assert.AreEqual(JsonToken.EndObject, jsonTextReader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndObject, jsonTextReader.TokenType);
 
         Xunit.Assert.False(await jsonTextReader.ReadAsync());
     }
@@ -1289,20 +1289,20 @@ third line", jsonTextReader.Value);
         Xunit.Assert.True(await reader.ReadAsync());
         Xunit.Assert.True(await reader.ReadAsync());
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.StartConstructor, reader.TokenType);
-        Assert.AreEqual("Date", reader.Value);
+        Xunit.Assert.Equal(JsonToken.StartConstructor, reader.TokenType);
+        Xunit.Assert.Equal("Date", reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(0L, reader.Value);
+        Xunit.Assert.Equal(0L, reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual("hi", reader.Value);
+        Xunit.Assert.Equal("hi", reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.EndConstructor, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndConstructor, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual("MemberConverter", reader.Value);
+        Xunit.Assert.Equal("MemberConverter", reader.Value);
     }
 
     [Fact]
@@ -1324,61 +1324,61 @@ third line", jsonTextReader.Value);
             jsonReader.CharBuffer = new char[5];
 #endif
 
-            Assert.AreEqual(jsonReader.TokenType, JsonToken.None);
-            Assert.AreEqual(0, jsonReader.LineNumber);
-            Assert.AreEqual(0, jsonReader.LinePosition);
+            Xunit.Assert.Equal(jsonReader.TokenType, JsonToken.None);
+            Xunit.Assert.Equal(0, jsonReader.LineNumber);
+            Xunit.Assert.Equal(0, jsonReader.LinePosition);
 
             await jsonReader.ReadAsync();
-            Assert.AreEqual(jsonReader.TokenType, JsonToken.StartObject);
-            Assert.AreEqual(1, jsonReader.LineNumber);
-            Assert.AreEqual(1, jsonReader.LinePosition);
+            Xunit.Assert.Equal(jsonReader.TokenType, JsonToken.StartObject);
+            Xunit.Assert.Equal(1, jsonReader.LineNumber);
+            Xunit.Assert.Equal(1, jsonReader.LinePosition);
 
             await jsonReader.ReadAsync();
-            Assert.AreEqual(jsonReader.TokenType, JsonToken.PropertyName);
-            Assert.AreEqual(jsonReader.Value, "CPU");
-            Assert.AreEqual(2, jsonReader.LineNumber);
-            Assert.AreEqual(6, jsonReader.LinePosition);
+            Xunit.Assert.Equal(jsonReader.TokenType, JsonToken.PropertyName);
+            Xunit.Assert.Equal(jsonReader.Value, "CPU");
+            Xunit.Assert.Equal(2, jsonReader.LineNumber);
+            Xunit.Assert.Equal(6, jsonReader.LinePosition);
 
             await jsonReader.ReadAsync();
-            Assert.AreEqual(JsonToken.String, jsonReader.TokenType);
-            Assert.AreEqual("Intel", jsonReader.Value);
-            Assert.AreEqual(2, jsonReader.LineNumber);
-            Assert.AreEqual(14, jsonReader.LinePosition);
+            Xunit.Assert.Equal(JsonToken.String, jsonReader.TokenType);
+            Xunit.Assert.Equal("Intel", jsonReader.Value);
+            Xunit.Assert.Equal(2, jsonReader.LineNumber);
+            Xunit.Assert.Equal(14, jsonReader.LinePosition);
 
             await jsonReader.ReadAsync();
-            Assert.AreEqual(jsonReader.TokenType, JsonToken.PropertyName);
-            Assert.AreEqual(jsonReader.Value, "Drives");
-            Assert.AreEqual(3, jsonReader.LineNumber);
-            Assert.AreEqual(9, jsonReader.LinePosition);
+            Xunit.Assert.Equal(jsonReader.TokenType, JsonToken.PropertyName);
+            Xunit.Assert.Equal(jsonReader.Value, "Drives");
+            Xunit.Assert.Equal(3, jsonReader.LineNumber);
+            Xunit.Assert.Equal(9, jsonReader.LinePosition);
 
             await jsonReader.ReadAsync();
-            Assert.AreEqual(jsonReader.TokenType, JsonToken.StartArray);
-            Assert.AreEqual(3, jsonReader.LineNumber);
-            Assert.AreEqual(11, jsonReader.LinePosition);
+            Xunit.Assert.Equal(jsonReader.TokenType, JsonToken.StartArray);
+            Xunit.Assert.Equal(3, jsonReader.LineNumber);
+            Xunit.Assert.Equal(11, jsonReader.LinePosition);
 
             await jsonReader.ReadAsync();
-            Assert.AreEqual(jsonReader.TokenType, JsonToken.String);
-            Assert.AreEqual(jsonReader.Value, "DVD read/writer");
-            Assert.AreEqual(jsonReader.QuoteChar, '\'');
-            Assert.AreEqual(4, jsonReader.LineNumber);
-            Assert.AreEqual(21, jsonReader.LinePosition);
+            Xunit.Assert.Equal(jsonReader.TokenType, JsonToken.String);
+            Xunit.Assert.Equal(jsonReader.Value, "DVD read/writer");
+            Xunit.Assert.Equal(jsonReader.QuoteChar, '\'');
+            Xunit.Assert.Equal(4, jsonReader.LineNumber);
+            Xunit.Assert.Equal(21, jsonReader.LinePosition);
 
             await jsonReader.ReadAsync();
-            Assert.AreEqual(jsonReader.TokenType, JsonToken.String);
-            Assert.AreEqual(jsonReader.Value, "500 gigabyte hard drive");
-            Assert.AreEqual(jsonReader.QuoteChar, '"');
-            Assert.AreEqual(5, jsonReader.LineNumber);
-            Assert.AreEqual(29, jsonReader.LinePosition);
+            Xunit.Assert.Equal(jsonReader.TokenType, JsonToken.String);
+            Xunit.Assert.Equal(jsonReader.Value, "500 gigabyte hard drive");
+            Xunit.Assert.Equal(jsonReader.QuoteChar, '"');
+            Xunit.Assert.Equal(5, jsonReader.LineNumber);
+            Xunit.Assert.Equal(29, jsonReader.LinePosition);
 
             await jsonReader.ReadAsync();
-            Assert.AreEqual(jsonReader.TokenType, JsonToken.EndArray);
-            Assert.AreEqual(6, jsonReader.LineNumber);
-            Assert.AreEqual(3, jsonReader.LinePosition);
+            Xunit.Assert.Equal(jsonReader.TokenType, JsonToken.EndArray);
+            Xunit.Assert.Equal(6, jsonReader.LineNumber);
+            Xunit.Assert.Equal(3, jsonReader.LinePosition);
 
             await jsonReader.ReadAsync();
-            Assert.AreEqual(jsonReader.TokenType, JsonToken.EndObject);
-            Assert.AreEqual(7, jsonReader.LineNumber);
-            Assert.AreEqual(1, jsonReader.LinePosition);
+            Xunit.Assert.Equal(jsonReader.TokenType, JsonToken.EndObject);
+            Xunit.Assert.Equal(7, jsonReader.LineNumber);
+            Xunit.Assert.Equal(1, jsonReader.LinePosition);
 
             Xunit.Assert.False(await jsonReader.ReadAsync());
         }
@@ -1391,7 +1391,7 @@ third line", jsonTextReader.Value);
         JsonReader reader = new JsonTextReader(new StringReader("'" + s + "'"));
         await reader.ReadAsync();
 
-        Assert.AreEqual(s, reader.Value);
+        Xunit.Assert.Equal(s, reader.Value);
     }
 
     [Fact]
@@ -1415,7 +1415,7 @@ third line", jsonTextReader.Value);
         for (var i = 0; i < valueCount; i++)
         {
             Xunit.Assert.True(await reader.ReadAsync());
-            Assert.AreEqual((long)i, reader.Value);
+            Xunit.Assert.Equal((long)i, reader.Value);
         }
 
         Xunit.Assert.True(await reader.ReadAsync());
@@ -1429,42 +1429,42 @@ third line", jsonTextReader.Value);
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartObject, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartArray, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.Integer, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.Integer, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.String, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.Null, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.Null, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndArray, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.Boolean, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.Boolean, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndObject, reader.TokenType);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.Comment, reader.TokenType);
-        Assert.AreEqual("\0sd\0f\0", reader.Value);
+        Xunit.Assert.Equal(JsonToken.Comment, reader.TokenType);
+        Xunit.Assert.Equal("\0sd\0f\0", reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.Comment, reader.TokenType);
-        Assert.AreEqual("\0sd\0f\0", reader.Value);
+        Xunit.Assert.Equal(JsonToken.Comment, reader.TokenType);
+        Xunit.Assert.Equal("\0sd\0f\0", reader.Value);
 
         Xunit.Assert.False(await reader.ReadAsync());
     }
@@ -1475,7 +1475,7 @@ third line", jsonTextReader.Value);
         JsonReader reader = new JsonTextReader(new StringReader("'h\0i'"));
         Xunit.Assert.True(await reader.ReadAsync());
 
-        Assert.AreEqual("h\0i", reader.Value);
+        Xunit.Assert.Equal("h\0i", reader.Value);
     }
 
     [Fact]
@@ -1485,7 +1485,7 @@ third line", jsonTextReader.Value);
         Xunit.Assert.True(await reader.ReadAsync());
 
         Xunit.Assert.Null(await reader.ReadAsBytesAsync());
-        Assert.AreEqual(JsonToken.None, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.None, reader.TokenType);
     }
 
     [Fact]
@@ -1504,53 +1504,53 @@ third line", jsonTextReader.Value);
 
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(7, reader.LineNumber);
+        Xunit.Assert.Equal(7, reader.LineNumber);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(31, reader.LineNumber);
-        Assert.AreEqual(newLinesText + "name1" + newLinesText, reader.Value);
+        Xunit.Assert.Equal(31, reader.LineNumber);
+        Xunit.Assert.Equal(newLinesText + "name1" + newLinesText, reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(37, reader.LineNumber);
+        Xunit.Assert.Equal(37, reader.LineNumber);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(55, reader.LineNumber);
-        Assert.AreEqual(JsonToken.StartConstructor, reader.TokenType);
-        Assert.AreEqual("Date", reader.Value);
+        Xunit.Assert.Equal(55, reader.LineNumber);
+        Xunit.Assert.Equal(JsonToken.StartConstructor, reader.TokenType);
+        Xunit.Assert.Equal("Date", reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(61, reader.LineNumber);
-        Assert.AreEqual(1L, reader.Value);
+        Xunit.Assert.Equal(61, reader.LineNumber);
+        Xunit.Assert.Equal(1L, reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(73, reader.LineNumber);
-        Assert.AreEqual(null, reader.Value);
+        Xunit.Assert.Equal(73, reader.LineNumber);
+        Xunit.Assert.Equal(null, reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(91, reader.LineNumber);
-        Assert.AreEqual(newLinesText + "blah comment" + newLinesText, reader.Value);
+        Xunit.Assert.Equal(91, reader.LineNumber);
+        Xunit.Assert.Equal(newLinesText + "blah comment" + newLinesText, reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(97, reader.LineNumber);
+        Xunit.Assert.Equal(97, reader.LineNumber);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(109, reader.LineNumber);
+        Xunit.Assert.Equal(109, reader.LineNumber);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(115, reader.LineNumber);
+        Xunit.Assert.Equal(115, reader.LineNumber);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(133, reader.LineNumber);
-        Assert.AreEqual("name2", reader.Value);
+        Xunit.Assert.Equal(133, reader.LineNumber);
+        Xunit.Assert.Equal("name2", reader.Value);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(139, reader.LineNumber);
+        Xunit.Assert.Equal(139, reader.LineNumber);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(145, reader.LineNumber);
+        Xunit.Assert.Equal(145, reader.LineNumber);
 
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(151, reader.LineNumber);
+        Xunit.Assert.Equal(151, reader.LineNumber);
     }
 
     [Fact]
@@ -1561,14 +1561,14 @@ third line", jsonTextReader.Value);
 
         JsonReader reader = new JsonTextReader(new StringReader(@"[1,'" + Convert.ToBase64String(helloWorldData) + @"']"));
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartArray, reader.TokenType);
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.Integer, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.Integer, reader.TokenType);
         var data = await reader.ReadAsBytesAsync();
         Xunit.Assert.Equal(helloWorldData, data);
-        Assert.AreEqual(JsonToken.Bytes, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.Bytes, reader.TokenType);
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndArray, reader.TokenType);
 
         Xunit.Assert.False(await reader.ReadAsync());
     }
@@ -1581,16 +1581,16 @@ third line", jsonTextReader.Value);
 
         JsonReader reader = new JsonTextReader(new StringReader(@"{num:1,data:'" + Convert.ToBase64String(helloWorldData) + @"'}"));
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartObject, reader.TokenType);
         Xunit.Assert.True(await reader.ReadAsync());
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.Integer, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.Integer, reader.TokenType);
         Xunit.Assert.True(await reader.ReadAsync());
         var data = await reader.ReadAsBytesAsync();
         Xunit.Assert.Equal(helloWorldData, data);
-        Assert.AreEqual(JsonToken.Bytes, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.Bytes, reader.TokenType);
         Xunit.Assert.True(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndObject, reader.TokenType);
 
         Xunit.Assert.False(await reader.ReadAsync());
     }
@@ -1604,25 +1604,25 @@ third line", jsonTextReader.Value);
 
         using (JsonReader jsonReader = new JsonTextReader(sr))
         {
-            Assert.AreEqual(0, jsonReader.Depth);
+            Xunit.Assert.Equal(0, jsonReader.Depth);
 
             await jsonReader.ReadAsync();
-            Assert.AreEqual(JsonToken.StartObject, jsonReader.TokenType);
-            Assert.AreEqual(0, jsonReader.Depth);
+            Xunit.Assert.Equal(JsonToken.StartObject, jsonReader.TokenType);
+            Xunit.Assert.Equal(0, jsonReader.Depth);
 
             await jsonReader.ReadAsync();
-            Assert.AreEqual(JsonToken.PropertyName, jsonReader.TokenType);
-            Assert.AreEqual(1, jsonReader.Depth);
+            Xunit.Assert.Equal(JsonToken.PropertyName, jsonReader.TokenType);
+            Xunit.Assert.Equal(1, jsonReader.Depth);
 
             await jsonReader.ReadAsync();
-            Assert.AreEqual(jsonReader.TokenType, JsonToken.String);
-            Assert.AreEqual("Purple\r \n monkey's:\tdishwasher", jsonReader.Value);
-            Assert.AreEqual('\'', jsonReader.QuoteChar);
-            Assert.AreEqual(1, jsonReader.Depth);
+            Xunit.Assert.Equal(jsonReader.TokenType, JsonToken.String);
+            Xunit.Assert.Equal("Purple\r \n monkey's:\tdishwasher", jsonReader.Value);
+            Xunit.Assert.Equal('\'', jsonReader.QuoteChar);
+            Xunit.Assert.Equal(1, jsonReader.Depth);
 
             await jsonReader.ReadAsync();
-            Assert.AreEqual(JsonToken.EndObject, jsonReader.TokenType);
-            Assert.AreEqual(0, jsonReader.Depth);
+            Xunit.Assert.Equal(JsonToken.EndObject, jsonReader.TokenType);
+            Xunit.Assert.Equal(0, jsonReader.Depth);
         }
     }
 

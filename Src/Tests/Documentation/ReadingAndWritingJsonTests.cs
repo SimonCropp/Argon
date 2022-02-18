@@ -130,6 +130,6 @@ public class ReadingAndWritingJsonTests : TestFixtureBase
         // John Smith
         #endregion
 
-        Assert.AreEqual("John Smith", p.Name);
+        Xunit.Assert.Equal("John Smith", p.Name);
     }
 }

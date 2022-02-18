@@ -73,7 +73,7 @@ public class ObjectIdConverterTests : TestFixtureBase
         var c = serializer.Deserialize<ObjectIdTestClass>(reader);
 
         Xunit.Assert.Equal(c.Id.Value, HexToBytes("4ABBED9D1D8B0F0218000001"));
-        Assert.AreEqual(c.Test, "1234£56");
+        Xunit.Assert.Equal(c.Test, "1234£56");
     }
 }
 #pragma warning restore 618

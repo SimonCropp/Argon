@@ -58,10 +58,10 @@ public class ReflectionAttributeProviderTests : TestFixtureBase
         var provider = new ReflectionAttributeProvider(property);
 
         var attributes = provider.GetAttributes(typeof(DefaultValueAttribute), false);
-        Assert.AreEqual(1, attributes.Count);
+        Xunit.Assert.Equal(1, attributes.Count);
 
         attributes = provider.GetAttributes(false);
-        Assert.AreEqual(2, attributes.Count);
+        Xunit.Assert.Equal(2, attributes.Count);
     }
 
     [Fact]
@@ -72,10 +72,10 @@ public class ReflectionAttributeProviderTests : TestFixtureBase
         var provider = new ReflectionAttributeProvider(field);
 
         var attributes = provider.GetAttributes(typeof(DefaultValueAttribute), false);
-        Assert.AreEqual(1, attributes.Count);
+        Xunit.Assert.Equal(1, attributes.Count);
 
         attributes = provider.GetAttributes(false);
-        Assert.AreEqual(2, attributes.Count);
+        Xunit.Assert.Equal(2, attributes.Count);
     }
 
     [Fact]
@@ -88,9 +88,9 @@ public class ReflectionAttributeProviderTests : TestFixtureBase
         var provider = new ReflectionAttributeProvider(parameter);
 
         var attributes = provider.GetAttributes(typeof(DefaultValueAttribute), false);
-        Assert.AreEqual(1, attributes.Count);
+        Xunit.Assert.Equal(1, attributes.Count);
 
         attributes = provider.GetAttributes(false);
-        Assert.AreEqual(2, attributes.Count);
+        Xunit.Assert.Equal(2, attributes.Count);
     }
 }

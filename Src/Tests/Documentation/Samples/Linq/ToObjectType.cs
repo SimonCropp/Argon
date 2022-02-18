@@ -53,6 +53,6 @@ public class ToObjectType : TestFixtureBase
         // "True"
         #endregion
 
-        Assert.AreEqual("True", s);
+        Xunit.Assert.Equal("True", s);
     }
 }

@@ -57,7 +57,7 @@ public class GenericJsonConverterTests : TestFixtureBase
         var converter = new TestGenericConverter();
         converter.WriteJson(jsonWriter, (object)"String!", null);
 
-        Assert.AreEqual(@"""String!""", sw.ToString());
+        Xunit.Assert.Equal(@"""String!""", sw.ToString());
     }
 
     [Fact]
@@ -69,7 +69,7 @@ public class GenericJsonConverterTests : TestFixtureBase
         var converter = new TestGenericConverter();
         converter.WriteJson(jsonWriter, "String!", null);
 
-        Assert.AreEqual(@"""String!""", sw.ToString());
+        Xunit.Assert.Equal(@"""String!""", sw.ToString());
     }
 
     [Fact]
@@ -96,7 +96,7 @@ public class GenericJsonConverterTests : TestFixtureBase
         var converter = new TestGenericConverter();
         var s = converter.ReadJson(jsonReader, typeof(string), null, false, null);
 
-        Assert.AreEqual(@"String!", s);
+        Xunit.Assert.Equal(@"String!", s);
     }
 
     [Fact]
@@ -109,7 +109,7 @@ public class GenericJsonConverterTests : TestFixtureBase
         var converter = new TestGenericConverter();
         var s = converter.ReadJson(jsonReader, typeof(string), "Existing!", true, null);
 
-        Assert.AreEqual(@"String!Existing!", s);
+        Xunit.Assert.Equal(@"String!Existing!", s);
     }
 
     [Fact]
@@ -122,7 +122,7 @@ public class GenericJsonConverterTests : TestFixtureBase
         var converter = new TestGenericConverter();
         var s = (string)converter.ReadJson(jsonReader, typeof(string), null, null);
 
-        Assert.AreEqual(@"String!", s);
+        Xunit.Assert.Equal(@"String!", s);
     }
 
     [Fact]

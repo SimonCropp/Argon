@@ -55,7 +55,7 @@ public class ExceptionHandlingTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(0, (int)reader.ReadAsInt32());
+        Xunit.Assert.Equal(0, (int)reader.ReadAsInt32());
 
         ExceptionAssert.Throws<JsonReaderException>(
             () => reader.ReadAsInt32(),
@@ -83,7 +83,7 @@ public class ExceptionHandlingTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(new DateTime(2017, 2, 4, 0, 0, 0, DateTimeKind.Utc), (DateTime)reader.ReadAsDateTime());
+        Xunit.Assert.Equal(new DateTime(2017, 2, 4, 0, 0, 0, DateTimeKind.Utc), (DateTime)reader.ReadAsDateTime());
 
         ExceptionAssert.Throws<JsonReaderException>(
             () => reader.ReadAsDateTime(),
@@ -97,7 +97,7 @@ public class ExceptionHandlingTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(new DateTimeOffset(2017, 2, 4, 0, 0, 0, TimeSpan.Zero), (DateTimeOffset)reader.ReadAsDateTimeOffset());
+        Xunit.Assert.Equal(new DateTimeOffset(2017, 2, 4, 0, 0, 0, TimeSpan.Zero), (DateTimeOffset)reader.ReadAsDateTimeOffset());
 
         ExceptionAssert.Throws<JsonReaderException>(
             () => reader.ReadAsDateTimeOffset(),
@@ -111,7 +111,7 @@ public class ExceptionHandlingTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual("2017-02-04T00:00:00Z", reader.ReadAsString());
+        Xunit.Assert.Equal("2017-02-04T00:00:00Z", reader.ReadAsString());
 
         ExceptionAssert.Throws<JsonReaderException>(
             () => reader.ReadAsString(),
@@ -195,16 +195,16 @@ public class ExceptionHandlingTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartObject, reader.TokenType);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.String, reader.TokenType);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
         ExceptionAssert.Throws<JsonReaderException>(() => { reader.Read(); }, "Unexpected content while parsing JSON. Path 'u', line 1, position 29.");
     }
@@ -243,7 +243,7 @@ public class ExceptionHandlingTests : TestFixtureBase
         toggleReaderError.Error = false;
 
         Xunit.Assert.True(jsonTextReader.Read());
-        Assert.AreEqual("first", jsonTextReader.Value);
+        Xunit.Assert.Equal("first", jsonTextReader.Value);
 
         toggleReaderError.Error = true;
 
@@ -252,7 +252,7 @@ public class ExceptionHandlingTests : TestFixtureBase
         toggleReaderError.Error = false;
 
         Xunit.Assert.True(jsonTextReader.Read());
-        Assert.AreEqual(1L, jsonTextReader.Value);
+        Xunit.Assert.Equal(1L, jsonTextReader.Value);
 
         toggleReaderError.Error = true;
 
@@ -313,13 +313,13 @@ public class ExceptionHandlingTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         reader.Read();
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartObject, reader.TokenType);
 
         reader.Read();
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
         reader.Read();
-        Assert.AreEqual(JsonToken.Boolean, reader.TokenType);
+        Xunit.Assert.Equal(JsonToken.Boolean, reader.TokenType);
 
         ExceptionAssert.Throws<JsonReaderException>(() => { reader.Read(); }, @"Invalid character after parsing property name. Expected ':' but got: "". Path 'A', line 3, position 8.");
     }
@@ -398,19 +398,19 @@ public class ExceptionHandlingTests : TestFixtureBase
 #endif
 
         reader.Read();
-        Assert.AreEqual(1, reader.LineNumber);
+        Xunit.Assert.Equal(1, reader.LineNumber);
 
         reader.Read();
-        Assert.AreEqual(2, reader.LineNumber);
+        Xunit.Assert.Equal(2, reader.LineNumber);
 
         reader.Read();
-        Assert.AreEqual(3, reader.LineNumber);
+        Xunit.Assert.Equal(3, reader.LineNumber);
 
         reader.Read();
-        Assert.AreEqual(4, reader.LineNumber);
+        Xunit.Assert.Equal(4, reader.LineNumber);
 
         reader.Read();
-        Assert.AreEqual(5, reader.LineNumber);
+        Xunit.Assert.Equal(5, reader.LineNumber);
 
         ExceptionAssert.Throws<JsonReaderException>(() => { reader.Read(); }, "Additional text encountered after finished reading JSON content: c. Path '', line 5, position 1.");
     }
@@ -474,15 +474,15 @@ public class ExceptionHandlingTests : TestFixtureBase
         var jsonTextReader = new JsonTextReader(new StringReader(json));
 
         Xunit.Assert.True(jsonTextReader.Read());
-        Assert.AreEqual(JsonToken.StartObject, jsonTextReader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartObject, jsonTextReader.TokenType);
 
         Xunit.Assert.True(jsonTextReader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, jsonTextReader.TokenType);
+        Xunit.Assert.Equal(JsonToken.PropertyName, jsonTextReader.TokenType);
 
         ExceptionAssert.Throws<JsonReaderException>(() => jsonTextReader.ReadAsInt32(), "JSON integer 333333333333333333333333333333333333333 is too large or small for an Int32. Path 'ChildId', line 2, position 52.");
 
         Xunit.Assert.True(jsonTextReader.Read());
-        Assert.AreEqual(JsonToken.EndObject, jsonTextReader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndObject, jsonTextReader.TokenType);
 
         Xunit.Assert.False(jsonTextReader.Read());
     }
@@ -500,7 +500,7 @@ public class ExceptionHandlingTests : TestFixtureBase
         var jsonTextReader = new JsonTextReader(new StringReader(json));
 
         Xunit.Assert.True(jsonTextReader.Read());
-        Assert.AreEqual(JsonToken.StartArray, jsonTextReader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartArray, jsonTextReader.TokenType);
 
         ExceptionAssert.Throws<JsonReaderException>(() => jsonTextReader.ReadAsInt32(), "JSON integer 333333333333333333333333333333333333333 is too large or small for an Int32. Path '[0]', line 2, position 41.");
 
@@ -511,7 +511,7 @@ public class ExceptionHandlingTests : TestFixtureBase
         ExceptionAssert.Throws<JsonReaderException>(() => jsonTextReader.ReadAsInt32(), "Input string '0f' is not a valid integer. Path '[3]', line 5, position 4.");
 
         Xunit.Assert.True(jsonTextReader.Read());
-        Assert.AreEqual(JsonToken.EndArray, jsonTextReader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndArray, jsonTextReader.TokenType);
 
         Xunit.Assert.False(jsonTextReader.Read());
     }
@@ -526,10 +526,10 @@ public class ExceptionHandlingTests : TestFixtureBase
         var jsonTextReader = new JsonTextReader(new StringReader(json));
 
         Xunit.Assert.True(jsonTextReader.Read());
-        Assert.AreEqual(JsonToken.StartObject, jsonTextReader.TokenType);
+        Xunit.Assert.Equal(JsonToken.StartObject, jsonTextReader.TokenType);
 
         Xunit.Assert.True(jsonTextReader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, jsonTextReader.TokenType);
+        Xunit.Assert.Equal(JsonToken.PropertyName, jsonTextReader.TokenType);
 
         try
         {
@@ -540,7 +540,7 @@ public class ExceptionHandlingTests : TestFixtureBase
         }
 
         Xunit.Assert.True(jsonTextReader.Read());
-        Assert.AreEqual(JsonToken.EndObject, jsonTextReader.TokenType);
+        Xunit.Assert.Equal(JsonToken.EndObject, jsonTextReader.TokenType);
 
         Xunit.Assert.False(jsonTextReader.Read());
     }
@@ -552,7 +552,7 @@ public class ExceptionHandlingTests : TestFixtureBase
 
         var reader = new JsonTextReader(new StringReader(i.ToString(CultureInfo.InvariantCulture)));
         reader.Read();
-        Assert.AreEqual(typeof(long), reader.ValueType);
+        Xunit.Assert.Equal(typeof(long), reader.ValueType);
 
         for (var j = 1; j < 1000; j++)
         {
@@ -572,8 +572,8 @@ public class ExceptionHandlingTests : TestFixtureBase
 
         var reader = new JsonTextReader(new StringReader(i.ToString(CultureInfo.InvariantCulture)));
         reader.Read();
-        Assert.AreEqual(typeof(long), reader.ValueType);
-        Assert.AreEqual(i, reader.Value);
+        Xunit.Assert.Equal(typeof(long), reader.ValueType);
+        Xunit.Assert.Equal(i, reader.Value);
 
         for (var j = 1; j < 1000; j++)
         {
@@ -593,7 +593,7 @@ public class ExceptionHandlingTests : TestFixtureBase
 
         var reader = new JsonTextReader(new StringReader(i.ToString(CultureInfo.InvariantCulture)));
         reader.Read();
-        Assert.AreEqual(typeof(long), reader.ValueType);
+        Xunit.Assert.Equal(typeof(long), reader.ValueType);
 
         for (var j = 1; j < 1000; j++)
         {
@@ -602,7 +602,7 @@ public class ExceptionHandlingTests : TestFixtureBase
             reader = new JsonTextReader(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
             reader.Read();
 
-            Assert.AreEqual(typeof(BigInteger), reader.ValueType);
+            Xunit.Assert.Equal(typeof(BigInteger), reader.ValueType);
         }
     }
 
@@ -613,7 +613,7 @@ public class ExceptionHandlingTests : TestFixtureBase
 
         var reader = new JsonTextReader(new StringReader(i.ToString(CultureInfo.InvariantCulture)));
         reader.Read();
-        Assert.AreEqual(typeof(long), reader.ValueType);
+        Xunit.Assert.Equal(typeof(long), reader.ValueType);
 
         for (var j = 1; j < 1000; j++)
         {
@@ -622,7 +622,7 @@ public class ExceptionHandlingTests : TestFixtureBase
             reader = new JsonTextReader(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
             reader.Read();
 
-            Assert.AreEqual(typeof(BigInteger), reader.ValueType);
+            Xunit.Assert.Equal(typeof(BigInteger), reader.ValueType);
         }
     }
 
@@ -865,7 +865,7 @@ new Date()"));
             reader.ReadAsInt32();
         }, "Unexpected character encountered while parsing value: ,. Path '[0]', line 1, position 2.");
 
-        Assert.AreEqual(1, reader.ReadAsInt32());
+        Xunit.Assert.Equal(1, reader.ReadAsInt32());
         Xunit.Assert.True(reader.Read());
     }
 
@@ -892,7 +892,7 @@ new Date()"));
             reader.ReadAsInt32();
         }, "Unexpected character encountered while parsing value: ,. Path '[1]', line 1, position 4.");
 
-        Assert.AreEqual(1, reader.ReadAsInt32());
+        Xunit.Assert.Equal(1, reader.ReadAsInt32());
         Xunit.Assert.True(reader.Read());
     }
 
@@ -938,7 +938,7 @@ new Date()"));
             reader.ReadAsString();
         }, "Unexpected character encountered while parsing value: ,. Path '[0]', line 1, position 2.");
 
-        Assert.AreEqual(string.Empty, reader.ReadAsString());
+        Xunit.Assert.Equal(string.Empty, reader.ReadAsString());
         Xunit.Assert.True(reader.Read());
     }
 
@@ -954,7 +954,7 @@ new Date()"));
             reader.ReadAsString();
         }, "Unexpected character encountered while parsing value: ,. Path '[1]', line 1, position 5.");
 
-        Assert.AreEqual(string.Empty, reader.ReadAsString());
+        Xunit.Assert.Equal(string.Empty, reader.ReadAsString());
         Xunit.Assert.True(reader.Read());
     }
 
@@ -979,7 +979,7 @@ new Date()"));
             reader.ReadAsDateTime();
         }, "Unexpected character encountered while parsing value: ,. Path '[0]', line 1, position 4.");
 
-        Assert.AreEqual(56, reader.ReadAsInt32());
+        Xunit.Assert.Equal(56, reader.ReadAsInt32());
         Xunit.Assert.True(reader.Read());
     }
 
@@ -1045,40 +1045,40 @@ new Date()"));
         };
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(0, reader.Depth);
+        Xunit.Assert.Equal(0, reader.Depth);
 
         ExceptionAssert.Throws<JsonReaderException>(() => { Xunit.Assert.True(reader.Read()); }, "The reader's MaxDepth of 1 has been exceeded. Path '[0]', line 1, position 2.");
-        Assert.AreEqual(1, reader.Depth);
+        Xunit.Assert.Equal(1, reader.Depth);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(2, reader.Depth);
+        Xunit.Assert.Equal(2, reader.Depth);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(3, reader.Depth);
+        Xunit.Assert.Equal(3, reader.Depth);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(3, reader.Depth);
+        Xunit.Assert.Equal(3, reader.Depth);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(2, reader.Depth);
+        Xunit.Assert.Equal(2, reader.Depth);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(1, reader.Depth);
+        Xunit.Assert.Equal(1, reader.Depth);
 
         ExceptionAssert.Throws<JsonReaderException>(() => { Xunit.Assert.True(reader.Read()); }, "The reader's MaxDepth of 1 has been exceeded. Path '[1]', line 1, position 9.");
-        Assert.AreEqual(1, reader.Depth);
+        Xunit.Assert.Equal(1, reader.Depth);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(2, reader.Depth);
+        Xunit.Assert.Equal(2, reader.Depth);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(2, reader.Depth);
+        Xunit.Assert.Equal(2, reader.Depth);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(1, reader.Depth);
+        Xunit.Assert.Equal(1, reader.Depth);
 
         Xunit.Assert.True(reader.Read());
-        Assert.AreEqual(0, reader.Depth);
+        Xunit.Assert.Equal(0, reader.Depth);
 
         Xunit.Assert.False(reader.Read());
     }

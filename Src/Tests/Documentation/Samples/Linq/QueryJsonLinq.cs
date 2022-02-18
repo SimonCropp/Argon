@@ -92,6 +92,6 @@ public class QueryJsonLinq : TestFixtureBase
         //CodePlex - Count: 1
         #endregion
 
-        Assert.AreEqual(3, categories.Count());
+        Xunit.Assert.Equal(3, categories.Count());
     }
 }

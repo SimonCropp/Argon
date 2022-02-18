@@ -46,6 +46,6 @@ public class QueryJsonIgnoreCase : TestFixtureBase
         Console.WriteLine(name);
         #endregion
 
-        Assert.AreEqual("James Newton-King", name);
+        Xunit.Assert.Equal("James Newton-King", name);
     }
 }

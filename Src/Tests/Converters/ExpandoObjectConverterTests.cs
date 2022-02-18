@@ -118,36 +118,36 @@ public class ExpandoObjectConverterTests : TestFixtureBase
 
         var o = JsonConvert.DeserializeObject<ExpandoContainer>(json);
 
-        Assert.AreEqual(o.Before, "Before!");
-        Assert.AreEqual(o.After, "After!");
+        Xunit.Assert.Equal(o.Before, "Before!");
+        Xunit.Assert.Equal(o.After, "After!");
         Xunit.Assert.NotNull(o.Expando);
 
         dynamic d = o.Expando;
         Xunit.Assert.IsType(typeof(ExpandoObject), d);
 
-        Assert.AreEqual("String!", d.String);
+        Xunit.Assert.Equal("String!", d.String);
         Xunit.Assert.IsType(typeof(string), d.String);
 
-        Assert.AreEqual(234, d.Integer);
+        Xunit.Assert.Equal(234, d.Integer);
         Xunit.Assert.IsType(typeof(long), d.Integer);
 
-        Assert.AreEqual(1.23, d.Float);
+        Xunit.Assert.Equal(1.23, d.Float);
         Xunit.Assert.IsType(typeof(double), d.Float);
 
         Xunit.Assert.NotNull(d.List);
-        Assert.AreEqual(3, d.List.Count);
+        Xunit.Assert.Equal(3, d.List.Count);
         Xunit.Assert.IsType(typeof(List<object>), d.List);
 
-        Assert.AreEqual("First", d.List[0]);
+        Xunit.Assert.Equal("First", d.List[0]);
         Xunit.Assert.IsType(typeof(string), d.List[0]);
 
-        Assert.AreEqual("Second", d.List[1]);
-        Assert.AreEqual("Third", d.List[2]);
+        Xunit.Assert.Equal("Second", d.List[1]);
+        Xunit.Assert.Equal("Third", d.List[2]);
 
         Xunit.Assert.NotNull(d.Object);
         Xunit.Assert.IsType(typeof(ExpandoObject), d.Object);
 
-        Assert.AreEqual(1, d.Object.First);
+        Xunit.Assert.Equal(1, d.Object.First);
         Xunit.Assert.IsType(typeof(long), d.Object.First);
     }
 
@@ -162,6 +162,6 @@ public class ExpandoObjectConverterTests : TestFixtureBase
 
         var c = JsonConvert.DeserializeObject<ExpandoContainer>(json);
 
-        Assert.AreEqual(null, c.Expando);
+        Xunit.Assert.Equal(null, c.Expando);
     }
 }

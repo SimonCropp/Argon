@@ -43,8 +43,8 @@ public class Issue1566 : TestFixtureBase
         var jsonObjectWithLowercase = JsonConvert.DeserializeObject<GitHubPullRequestReview>(jsonWithLowercase);
 
         // Assert
-        Assert.AreEqual(GitHubPullRequestReviewState.Approved, jsonObjectWithUppercase.State);
-        Assert.AreEqual(GitHubPullRequestReviewState.Approved, jsonObjectWithLowercase.State);
+        Xunit.Assert.Equal(GitHubPullRequestReviewState.Approved, jsonObjectWithUppercase.State);
+        Xunit.Assert.Equal(GitHubPullRequestReviewState.Approved, jsonObjectWithLowercase.State);
     }
 
     [Fact]
@@ -59,8 +59,8 @@ public class Issue1566 : TestFixtureBase
         var jsonObjectWithLowercase = JsonConvert.DeserializeObject<GitHubPullRequestReview>(jsonWithLowercase);
 
         // Assert
-        Assert.AreEqual(GitHubPullRequestReviewState.ChangesRequested, jsonObjectWithUppercase.State);
-        Assert.AreEqual(GitHubPullRequestReviewState.ChangesRequested, jsonObjectWithLowercase.State);
+        Xunit.Assert.Equal(GitHubPullRequestReviewState.ChangesRequested, jsonObjectWithUppercase.State);
+        Xunit.Assert.Equal(GitHubPullRequestReviewState.ChangesRequested, jsonObjectWithLowercase.State);
     }
 
     public enum GitHubPullRequestReviewState

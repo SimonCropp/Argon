@@ -55,7 +55,7 @@ public class Issue1642 : TestFixtureBase
         var o = Activator.CreateInstance(enumType);
 
         var json = JsonConvert.SerializeObject(o, new JsonSerializerSettings { Converters = { new StringEnumConverter() } });
-        Assert.AreEqual(@"""TestValue""", json);
+        Xunit.Assert.Equal(@"""TestValue""", json);
     }
 
 }

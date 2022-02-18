@@ -71,8 +71,8 @@ public class ReadMultipleContentWithJsonReader : TestFixtureBase
         // Publisher
         #endregion
 
-        Assert.AreEqual(2, roles.Count);
-        Assert.AreEqual("Admin", roles[0].Name);
-        Assert.AreEqual("Publisher", roles[1].Name);
+        Xunit.Assert.Equal(2, roles.Count);
+        Xunit.Assert.Equal("Admin", roles[0].Name);
+        Xunit.Assert.Equal("Publisher", roles[1].Name);
     }
 }

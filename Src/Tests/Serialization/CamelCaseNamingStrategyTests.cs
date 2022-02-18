@@ -64,9 +64,9 @@ public class CamelCaseNamingStrategyTests : TestFixtureBase
             ContractResolver = contractResolver
         });
 
-        Assert.AreEqual(person.BirthDate, deserializedPerson.BirthDate);
-        Assert.AreEqual(person.LastModified, deserializedPerson.LastModified);
-        Assert.AreEqual(person.Name, deserializedPerson.Name);
+        Xunit.Assert.Equal(person.BirthDate, deserializedPerson.BirthDate);
+        Xunit.Assert.Equal(person.LastModified, deserializedPerson.LastModified);
+        Xunit.Assert.Equal(person.Name, deserializedPerson.Name);
 
         json = JsonConvert.SerializeObject(person, Formatting.Indented);
         StringAssert.AreEqual(@"{
@@ -105,7 +105,7 @@ public class CamelCaseNamingStrategyTests : TestFixtureBase
         var p = o.Property("theField");
 
         Xunit.Assert.NotNull(p);
-        Assert.AreEqual(int.MinValue, (int)p.Value);
+        Xunit.Assert.Equal(int.MinValue, (int)p.Value);
     }
 
     [Fact]

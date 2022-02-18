@@ -13,10 +13,10 @@ public class AnnotationsTests : TestFixtureBase
         o.AddAnnotation("A string!");
 
         var s = o.Annotation<string>();
-        Assert.AreEqual("A string!", s);
+        Xunit.Assert.Equal("A string!", s);
 
         s = (string)o.Annotation(typeof(string));
-        Assert.AreEqual("A string!", s);
+        Xunit.Assert.Equal("A string!", s);
     }
 
     [Fact]
@@ -27,10 +27,10 @@ public class AnnotationsTests : TestFixtureBase
         o.AddAnnotation("Another string!");
 
         var s = o.Annotation<string>();
-        Assert.AreEqual("A string!", s);
+        Xunit.Assert.Equal("A string!", s);
 
         s = (string)o.Annotation(typeof(string));
-        Assert.AreEqual("A string!", s);
+        Xunit.Assert.Equal("A string!", s);
     }
 
     [Fact]
@@ -41,16 +41,16 @@ public class AnnotationsTests : TestFixtureBase
         o.AddAnnotation(new Uri("http://www.google.com/"));
 
         var s = o.Annotation<string>();
-        Assert.AreEqual("A string!", s);
+        Xunit.Assert.Equal("A string!", s);
 
         s = (string)o.Annotation(typeof(string));
-        Assert.AreEqual("A string!", s);
+        Xunit.Assert.Equal("A string!", s);
 
         var i = o.Annotation<Uri>();
-        Assert.AreEqual(new Uri("http://www.google.com/"), i);
+        Xunit.Assert.Equal(new Uri("http://www.google.com/"), i);
 
         i = (Uri)o.Annotation(typeof(Uri));
-        Assert.AreEqual(new Uri("http://www.google.com/"), i);
+        Xunit.Assert.Equal(new Uri("http://www.google.com/"), i);
     }
 
     [Fact]
@@ -59,10 +59,10 @@ public class AnnotationsTests : TestFixtureBase
         var o = new JObject();
 
         var s = o.Annotation<string>();
-        Assert.AreEqual(null, s);
+        Xunit.Assert.Equal(null, s);
 
         s = (string)o.Annotation(typeof(string));
-        Assert.AreEqual(null, s);
+        Xunit.Assert.Equal(null, s);
     }
 
     [Fact]
@@ -75,17 +75,17 @@ public class AnnotationsTests : TestFixtureBase
 
         IList<string> l = o.Annotations<string>().ToList();
 
-        Assert.AreEqual(3, l.Count);
-        Assert.AreEqual("A string!", l[0]);
-        Assert.AreEqual("A string 2!", l[1]);
-        Assert.AreEqual("A string 3!", l[2]);
+        Xunit.Assert.Equal(3, l.Count);
+        Xunit.Assert.Equal("A string!", l[0]);
+        Xunit.Assert.Equal("A string 2!", l[1]);
+        Xunit.Assert.Equal("A string 3!", l[2]);
 
         l = o.Annotations(typeof(string)).Cast<string>().ToList();
 
-        Assert.AreEqual(3, l.Count);
-        Assert.AreEqual("A string!", l[0]);
-        Assert.AreEqual("A string 2!", l[1]);
-        Assert.AreEqual("A string 3!", l[2]);
+        Xunit.Assert.Equal(3, l.Count);
+        Xunit.Assert.Equal("A string!", l[0]);
+        Xunit.Assert.Equal("A string 2!", l[1]);
+        Xunit.Assert.Equal("A string 3!", l[2]);
     }
 
     [Fact]
@@ -99,19 +99,19 @@ public class AnnotationsTests : TestFixtureBase
 
         IList<object> l = o.Annotations<object>().ToList();
 
-        Assert.AreEqual(4, l.Count);
-        Assert.AreEqual("A string!", l[0]);
-        Assert.AreEqual("A string 2!", l[1]);
-        Assert.AreEqual("A string 3!", l[2]);
-        Assert.AreEqual(new Uri("http://www.google.com/"), l[3]);
+        Xunit.Assert.Equal(4, l.Count);
+        Xunit.Assert.Equal("A string!", l[0]);
+        Xunit.Assert.Equal("A string 2!", l[1]);
+        Xunit.Assert.Equal("A string 3!", l[2]);
+        Xunit.Assert.Equal(new Uri("http://www.google.com/"), l[3]);
 
         l = o.Annotations(typeof(object)).ToList();
 
-        Assert.AreEqual(4, l.Count);
-        Assert.AreEqual("A string!", l[0]);
-        Assert.AreEqual("A string 2!", l[1]);
-        Assert.AreEqual("A string 3!", l[2]);
-        Assert.AreEqual(new Uri("http://www.google.com/"), l[3]);
+        Xunit.Assert.Equal(4, l.Count);
+        Xunit.Assert.Equal("A string!", l[0]);
+        Xunit.Assert.Equal("A string 2!", l[1]);
+        Xunit.Assert.Equal("A string 3!", l[2]);
+        Xunit.Assert.Equal(new Uri("http://www.google.com/"), l[3]);
     }
 
     [Fact]
@@ -123,7 +123,7 @@ public class AnnotationsTests : TestFixtureBase
         o.RemoveAnnotations<string>();
 
         var s = o.Annotation<string>();
-        Assert.AreEqual(null, s);
+        Xunit.Assert.Equal(null, s);
     }
 
     [Fact]
@@ -135,10 +135,10 @@ public class AnnotationsTests : TestFixtureBase
         o.RemoveAnnotations(typeof(string));
 
         var s = o.Annotation<string>();
-        Assert.AreEqual(null, s);
+        Xunit.Assert.Equal(null, s);
 
         s = (string)o.Annotation(typeof(string));
-        Assert.AreEqual(null, s);
+        Xunit.Assert.Equal(null, s);
     }
 
     [Fact]
@@ -152,15 +152,15 @@ public class AnnotationsTests : TestFixtureBase
         o.RemoveAnnotations<string>();
 
         var s = o.Annotation<string>();
-        Assert.AreEqual(null, s);
+        Xunit.Assert.Equal(null, s);
 
         o.AddAnnotation("A string 4!");
 
         s = o.Annotation<string>();
-        Assert.AreEqual("A string 4!", s);
+        Xunit.Assert.Equal("A string 4!", s);
 
         var i = (Uri)o.Annotation(typeof(Uri));
-        Assert.AreEqual(null, i);
+        Xunit.Assert.Equal(null, i);
     }
 
     [Fact]
@@ -174,10 +174,10 @@ public class AnnotationsTests : TestFixtureBase
         o.RemoveAnnotations<Uri>();
 
         var s = o.Annotation<string>();
-        Assert.AreEqual(null, s);
+        Xunit.Assert.Equal(null, s);
 
         var i = o.Annotation<Uri>();
-        Assert.AreEqual(null, i);
+        Xunit.Assert.Equal(null, i);
     }
 
     [Fact]
@@ -190,7 +190,7 @@ public class AnnotationsTests : TestFixtureBase
         o.RemoveAnnotations(typeof(string));
 
         var s = o.Annotation<string>();
-        Assert.AreEqual(null, s);
+        Xunit.Assert.Equal(null, s);
     }
 
     [Fact]
@@ -204,10 +204,10 @@ public class AnnotationsTests : TestFixtureBase
         o.RemoveAnnotations(typeof(Uri));
 
         var s = o.Annotation<string>();
-        Assert.AreEqual(null, s);
+        Xunit.Assert.Equal(null, s);
 
         var i = o.Annotation<Uri>();
-        Assert.AreEqual(null, i);
+        Xunit.Assert.Equal(null, i);
     }
 
     [Fact]
@@ -220,10 +220,10 @@ public class AnnotationsTests : TestFixtureBase
         o.RemoveAnnotations<string>();
 
         var s = o.Annotation<string>();
-        Assert.AreEqual(null, s);
+        Xunit.Assert.Equal(null, s);
 
         var i = o.Annotation<Uri>();
-        Assert.AreEqual(new Uri("http://www.google.com/"), i);
+        Xunit.Assert.Equal(new Uri("http://www.google.com/"), i);
     }
 
     [Fact]
@@ -236,10 +236,10 @@ public class AnnotationsTests : TestFixtureBase
         o.RemoveAnnotations(typeof(string));
 
         var s = o.Annotation<string>();
-        Assert.AreEqual(null, s);
+        Xunit.Assert.Equal(null, s);
 
         var i = o.Annotation<Uri>();
-        Assert.AreEqual(new Uri("http://www.google.com/"), i);
+        Xunit.Assert.Equal(new Uri("http://www.google.com/"), i);
     }
 
     [Fact]
@@ -280,17 +280,17 @@ public class AnnotationsTests : TestFixtureBase
         o.AddAnnotation(version);
 
         var o2 = (JObject)o.DeepClone();
-        Assert.AreEqual("string!", o2.Annotation<string>());
-        Assert.AreEqual(version, o2.Annotation<Version>());
+        Xunit.Assert.Equal("string!", o2.Annotation<string>());
+        Xunit.Assert.Equal(version, o2.Annotation<Version>());
 
         o2.RemoveAnnotations<Version>();
-        Assert.AreEqual(1, o.Annotations<Version>().Count());
-        Assert.AreEqual(0, o2.Annotations<Version>().Count());
+        Xunit.Assert.Equal(1, o.Annotations<Version>().Count());
+        Xunit.Assert.Equal(0, o2.Annotations<Version>().Count());
     }
 
     void AssertCloneCopy<T>(JToken t, T annotation) where T : class
     {
-        Assert.AreEqual(annotation, t.DeepClone().Annotation<T>());
+        Xunit.Assert.Equal(annotation, t.DeepClone().Annotation<T>());
     }
 
     [Fact]
@@ -313,6 +313,6 @@ public class AnnotationsTests : TestFixtureBase
         // age
         // employer
 
-        Assert.AreEqual(2, changedProperties.Count);
+        Xunit.Assert.Equal(2, changedProperties.Count);
     }
 }

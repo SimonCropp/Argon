@@ -42,7 +42,7 @@ public class Issue1752 : TestFixtureBase
         Xunit.Assert.NotNull(t1.Obj);
 
         var data = (byte[])t1.Obj;
-        Assert.AreEqual(0, data.Length);
+        Xunit.Assert.Equal(0, data.Length);
     }
 
     [Fact]

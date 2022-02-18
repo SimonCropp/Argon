@@ -93,6 +93,6 @@ public class SerializeSerializationBinder : TestFixtureBase
         // Car
         #endregion
 
-        Assert.AreEqual("Car", newValue.GetType().Name);
+        Xunit.Assert.Equal("Car", newValue.GetType().Name);
     }
 }

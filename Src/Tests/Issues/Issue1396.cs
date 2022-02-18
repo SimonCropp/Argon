@@ -39,7 +39,7 @@ public class Issue1396 : TestFixtureBase
         {
             jsonReader.SupportMultipleContent = true;
             Xunit.Assert.True(jsonReader.Read());
-            Assert.AreEqual(JsonToken.Undefined, jsonReader.TokenType);
+            Xunit.Assert.Equal(JsonToken.Undefined, jsonReader.TokenType);
             Xunit.Assert.False(jsonReader.Read());
         }
     }

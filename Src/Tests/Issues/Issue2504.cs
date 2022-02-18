@@ -42,7 +42,7 @@ public class Issue2504 : TestFixtureBase
             MaxDepth = 150
         });
 
-        Assert.AreEqual(150, GetDepth(o.Children));
+        Xunit.Assert.Equal(150, GetDepth(o.Children));
     }
 
     [Fact]

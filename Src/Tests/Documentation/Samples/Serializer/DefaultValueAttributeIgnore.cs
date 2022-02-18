@@ -67,6 +67,6 @@ public class DefaultValueAttributeIgnore : TestFixtureBase
         // {}
         #endregion
 
-        Assert.AreEqual("{}", jsonIgnoreDefaultValues);
+        Xunit.Assert.Equal("{}", jsonIgnoreDefaultValues);
     }
 }

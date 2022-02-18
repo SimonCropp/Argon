@@ -61,15 +61,15 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
     {
         var json = JsonConvert.SerializeObject(Shape.NewRectangle(10.0, 5.0), new DoubleDoubleConverter());
 
-        Assert.AreEqual(@"{""Case"":""Rectangle"",""Fields"":[20.0,10.0]}", json);
+        Xunit.Assert.Equal(@"{""Case"":""Rectangle"",""Fields"":[20.0,10.0]}", json);
 
         var c = JsonConvert.DeserializeObject<Shape>(json, new DoubleDoubleConverter());
         Assert.True( c.IsRectangle);
 
         var r = (Shape.Rectangle)c;
 
-        Assert.AreEqual(5.0, r.length);
-        Assert.AreEqual(10.0, r.width);
+        Xunit.Assert.Equal(5.0, r.length);
+        Xunit.Assert.Equal(10.0, r.width);
     }
 
     [Fact]
@@ -77,7 +77,7 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
     {
         var json = JsonConvert.SerializeObject(Currency.AUD);
 
-        Assert.AreEqual(@"{""Case"":""AUD""}", json);
+        Xunit.Assert.Equal(@"{""Case"":""AUD""}", json);
     }
 
     [Fact]
@@ -135,20 +135,20 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
     {
         var json = JsonConvert.SerializeObject(Shape.NewRectangle(10.0, 5.0));
 
-        Assert.AreEqual(@"{""Case"":""Rectangle"",""Fields"":[10.0,5.0]}", json);
+        Xunit.Assert.Equal(@"{""Case"":""Rectangle"",""Fields"":[10.0,5.0]}", json);
     }
 
     [Fact]
     public void DeserializeBasicUnion()
     {
         var c = JsonConvert.DeserializeObject<Currency>(@"{""Case"":""AUD""}");
-        Assert.AreEqual(Currency.AUD, c);
+        Xunit.Assert.Equal(Currency.AUD, c);
 
         c = JsonConvert.DeserializeObject<Currency>(@"{""Case"":""EUR""}");
-        Assert.AreEqual(Currency.EUR, c);
+        Xunit.Assert.Equal(Currency.EUR, c);
 
         c = JsonConvert.DeserializeObject<Currency>(@"null");
-        Assert.AreEqual(null, c);
+        Xunit.Assert.Equal(null, c);
     }
 
     [Fact]
@@ -159,8 +159,8 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
 
         var r = (Shape.Rectangle)c;
 
-        Assert.AreEqual(5.0, r.length);
-        Assert.AreEqual(10.0, r.width);
+        Xunit.Assert.Equal(5.0, r.length);
+        Xunit.Assert.Equal(10.0, r.width);
     }
 
     public class Union
@@ -218,8 +218,8 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
 
         var fields = caseInfo.FieldReader.Invoke(value);
 
-        Assert.AreEqual(10d, fields[0]);
-        Assert.AreEqual(5d, fields[1]);
+        Xunit.Assert.Equal(10d, fields[0]);
+        Xunit.Assert.Equal(5d, fields[1]);
     }
 
     [Fact]
@@ -234,9 +234,9 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
             10.0, 5.0
         });
 
-        Assert.AreEqual("Argon.Tests.TestObjects.GeometricForms.Shape+Rectangle", value.ToString());
-        Assert.AreEqual(10, value.width);
-        Assert.AreEqual(5, value.length);
+        Xunit.Assert.Equal("Argon.Tests.TestObjects.GeometricForms.Shape+Rectangle", value.ToString());
+        Xunit.Assert.Equal(10, value.width);
+        Xunit.Assert.Equal(5, value.length);
     }
 
     [Fact]
@@ -284,14 +284,14 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.All
         });
 
-        Assert.AreEqual(@"{""Case"":""Rectangle"",""Fields"":[10.0,5.0]}", json);
+        Xunit.Assert.Equal(@"{""Case"":""Rectangle"",""Fields"":[10.0,5.0]}", json);
 
         var c = JsonConvert.DeserializeObject<Shape>(json);
         Assert.True( c.IsRectangle);
 
         var r = (Shape.Rectangle)c;
 
-        Assert.AreEqual(5.0, r.length);
-        Assert.AreEqual(10.0, r.width);
+        Xunit.Assert.Equal(5.0, r.length);
+        Xunit.Assert.Equal(10.0, r.width);
     }
 }

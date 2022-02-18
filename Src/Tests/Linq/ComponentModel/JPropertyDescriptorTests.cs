@@ -39,8 +39,8 @@ public class JPropertyDescriptorTests : TestFixtureBase
         var prop1 = new JPropertyDescriptor("prop1");
         var prop2 = new JPropertyDescriptor("prop2");
 
-        Assert.AreEqual("12345!", ((JValue)prop1.GetValue(o)).Value);
-        Assert.AreEqual(o["prop2"], prop2.GetValue(o));
+        Xunit.Assert.Equal("12345!", ((JValue)prop1.GetValue(o)).Value);
+        Xunit.Assert.Equal(o["prop2"], prop2.GetValue(o));
     }
 
     [Fact]
@@ -48,7 +48,7 @@ public class JPropertyDescriptorTests : TestFixtureBase
     {
         var prop1 = new JPropertyDescriptor("prop1");
 
-        Assert.AreEqual(null, prop1.GetValue(null));
+        Xunit.Assert.Equal(null, prop1.GetValue(null));
     }
 
     [Fact]
@@ -60,7 +60,7 @@ public class JPropertyDescriptorTests : TestFixtureBase
 
         propertyDescriptor1.SetValue(o, "54321!");
 
-        Assert.AreEqual("54321!", (string)o["prop1"]);
+        Xunit.Assert.Equal("54321!", (string)o["prop1"]);
     }
 
     [Fact]
@@ -79,7 +79,7 @@ public class JPropertyDescriptorTests : TestFixtureBase
         var propertyDescriptor1 = new JPropertyDescriptor("prop1");
         propertyDescriptor1.ResetValue(o);
 
-        Assert.AreEqual("12345!", (string)o["prop1"]);
+        Xunit.Assert.Equal("12345!", (string)o["prop1"]);
     }
 
     [Fact]
@@ -95,6 +95,6 @@ public class JPropertyDescriptorTests : TestFixtureBase
     {
         var propertyDescriptor1 = new JPropertyDescriptor("prop1");
 
-        Assert.AreEqual(typeof(object), propertyDescriptor1.PropertyType);
+        Xunit.Assert.Equal(typeof(object), propertyDescriptor1.PropertyType);
     }
 }

@@ -42,10 +42,10 @@ public class Issue1512 : TestFixtureBase
                         ]";
         var result = JsonConvert.DeserializeObject<ImmutableArray<Outer>>(json);
 
-        Assert.AreEqual(1, result.Length);
-        Assert.AreEqual(2, result[0].Inners.Value.Length);
-        Assert.AreEqual("hi", result[0].Inners.Value[0]);
-        Assert.AreEqual("bye", result[0].Inners.Value[1]);
+        Xunit.Assert.Equal(1, result.Length);
+        Xunit.Assert.Equal(2, result[0].Inners.Value.Length);
+        Xunit.Assert.Equal("hi", result[0].Inners.Value[0]);
+        Xunit.Assert.Equal("bye", result[0].Inners.Value[1]);
     }
 
     [Fact]
@@ -58,10 +58,10 @@ public class Issue1512 : TestFixtureBase
                         ]";
         var result = JsonConvert.DeserializeObject<ImmutableArray<OuterProperty>>(json);
 
-        Assert.AreEqual(1, result.Length);
-        Assert.AreEqual(2, result[0].Inners.Value.Length);
-        Assert.AreEqual("hi", result[0].Inners.Value[0]);
-        Assert.AreEqual("bye", result[0].Inners.Value[1]);
+        Xunit.Assert.Equal(1, result.Length);
+        Xunit.Assert.Equal(2, result[0].Inners.Value.Length);
+        Xunit.Assert.Equal("hi", result[0].Inners.Value[0]);
+        Xunit.Assert.Equal("bye", result[0].Inners.Value[1]);
     }
 }
 
