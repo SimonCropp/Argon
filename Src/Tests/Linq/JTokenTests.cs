@@ -120,7 +120,7 @@ public class JTokenTests : TestFixtureBase
         Xunit.Assert.Equal(o.Property("Test1"), v.Parent);
 
         // new value should be cloned
-        Assert.AreNotSame(p.Value, v);
+        Xunit.Assert.NotSame(p.Value, v);
 
         Xunit.Assert.Equal((DateTime)((JValue)p.Value[1]).Value, (DateTime)((JValue)v[1]).Value);
 
@@ -133,7 +133,7 @@ public class JTokenTests : TestFixtureBase
         Xunit.Assert.NotEqual(null, o.Parent);
         var o2 = new JProperty("O2", o);
 
-        Assert.AreNotSame(o1.Value, o2.Value);
+        Xunit.Assert.NotSame(o1.Value, o2.Value);
         Xunit.Assert.Equal(o1.Value.Children().Count(), o2.Value.Children().Count());
         Assert.False( JToken.DeepEquals(o1, o2));
         Assert.True( JToken.DeepEquals(o1.Value, o2.Value));

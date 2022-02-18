@@ -464,7 +464,7 @@ Parameter name: index",
         Xunit.Assert.Equal(3, a.Count);
         Xunit.Assert.Equal(1, (int)a[0]);
         Xunit.Assert.Equal(2, (int)a[1]);
-        Assert.AreNotSame(a, a[2]);
+        Xunit.Assert.NotSame(a, a[2]);
     }
 
     [Fact]

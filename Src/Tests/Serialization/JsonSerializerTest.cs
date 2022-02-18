@@ -1744,7 +1744,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var executorObject2 = JsonConvert.DeserializeObject(output, typeof(MethodExecutorObject)) as MethodExecutorObject;
 
-        Assert.AreNotSame(executorObject, executorObject2);
+        Xunit.Assert.NotSame(executorObject, executorObject2);
         Xunit.Assert.Equal(executorObject2.serverClassName, "BanSubs");
         Xunit.Assert.Equal(executorObject2.serverMethodParams.Length, 4);
         CustomAssert.Contains(executorObject2.serverMethodParams, "101");

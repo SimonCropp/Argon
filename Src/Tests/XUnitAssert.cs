@@ -23,11 +23,6 @@ public class XUnitAssert
         Assert.True((bool) actual);
     }
 
-    public static void AreEqual<T>(T expected, T actual)
-    {
-        Assert.Equal(expected, actual);
-    }
-
     public static void Fail(string message = null, params object[] args)
     {
         if (message != null)
@@ -36,15 +31,5 @@ public class XUnitAssert
         }
 
         Assert.True(false, message);
-    }
-
-    public static void AreNotSame(object expected, object actual)
-    {
-        Assert.NotSame(expected, actual);
-    }
-
-    public static void AreSame(object expected, object actual)
-    {
-        Assert.Same(expected, actual);
     }
 }
