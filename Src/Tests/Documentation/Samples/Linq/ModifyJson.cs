@@ -31,11 +31,12 @@ namespace Argon.Tests.Documentation.Samples.Linq;
 
 public class ModifyJson : TestFixtureBase
 {
-  [Fact]
-  public void Example()
-  {
-    #region Usage
-    var json = @"{
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+
+        var json = @"{
               'channel': {
                 'title': 'Star Wars',
                 'link': 'http://www.starwars.com',
@@ -45,37 +46,38 @@ public class ModifyJson : TestFixtureBase
               }
             }";
 
-    var rss = JObject.Parse(json);
+        var rss = JObject.Parse(json);
 
-    var channel = (JObject)rss["channel"];
+        var channel = (JObject) rss["channel"];
 
-    channel["title"] = ((string)channel["title"]).ToUpper();
-    channel["description"] = ((string)channel["description"]).ToUpper();
+        channel["title"] = ((string) channel["title"]).ToUpper();
+        channel["description"] = ((string) channel["description"]).ToUpper();
 
-    channel.Property("obsolete").Remove();
+        channel.Property("obsolete").Remove();
 
-    channel.Property("description").AddAfterSelf(new JProperty("new", "New value"));
+        channel.Property("description").AddAfterSelf(new JProperty("new", "New value"));
 
-    var item = (JArray)channel["item"];
-    item.Add("Item 1");
-    item.Add("Item 2");
+        var item = (JArray) channel["item"];
+        item.Add("Item 1");
+        item.Add("Item 2");
 
-    Console.WriteLine(rss.ToString());
-    // {
-    //   "channel": {
-    //     "title": "STAR WARS",
-    //     "link": "http://www.starwars.com",
-    //     "description": "STAR WARS BLOG.",
-    //     "new": "New value",
-    //     "item": [
-    //       "Item 1",
-    //       "Item 2"
-    //     ]
-    //   }
-    // }
-    #endregion
+        Console.WriteLine(rss.ToString());
+        // {
+        //   "channel": {
+        //     "title": "STAR WARS",
+        //     "link": "http://www.starwars.com",
+        //     "description": "STAR WARS BLOG.",
+        //     "new": "New value",
+        //     "item": [
+        //       "Item 1",
+        //       "Item 2"
+        //     ]
+        //   }
+        // }
 
-    StringAssert.AreEqual(@"{
+        #endregion
+
+        StringAssert.AreEqual(@"{
   ""channel"": {
     ""title"": ""STAR WARS"",
     ""link"": ""http://www.starwars.com"",
@@ -87,5 +89,5 @@ public class ModifyJson : TestFixtureBase
     ]
   }
 }", rss.ToString());
-  }
+    }
 }

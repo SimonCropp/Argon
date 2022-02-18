@@ -31,11 +31,12 @@ namespace Argon.Tests.Documentation.Samples.Linq;
 
 public class QueryJson : TestFixtureBase
 {
-  [Fact]
-  public void Example()
-  {
-    #region Usage
-    var json = @"{
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+
+        var json = @"{
               'channel': {
                 'title': 'James Newton-King',
                 'link': 'http://james.newtonking.com',
@@ -63,32 +64,33 @@ public class QueryJson : TestFixtureBase
               }
             }";
 
-    var rss = JObject.Parse(json);
+        var rss = JObject.Parse(json);
 
-    var rssTitle = (string)rss["channel"]["title"];
+        var rssTitle = (string) rss["channel"]["title"];
 
-    Console.WriteLine(rssTitle);
-    // James Newton-King
+        Console.WriteLine(rssTitle);
+        // James Newton-King
 
-    var itemTitle = (string)rss["channel"]["item"][0]["title"];
+        var itemTitle = (string) rss["channel"]["item"][0]["title"];
 
-    Console.WriteLine(itemTitle);
-    // Json.NET 1.3 + New license + Now on CodePlex
+        Console.WriteLine(itemTitle);
+        // Json.NET 1.3 + New license + Now on CodePlex
 
-    var categories = (JArray)rss["channel"]["item"][0]["category"];
+        var categories = (JArray) rss["channel"]["item"][0]["category"];
 
-    Console.WriteLine(categories);
-    // [
-    //   "Json.NET",
-    //   "CodePlex"
-    // ]
+        Console.WriteLine(categories);
+        // [
+        //   "Json.NET",
+        //   "CodePlex"
+        // ]
 
-    var categoriesText = categories.Select(c => (string)c).ToArray();
+        var categoriesText = categories.Select(c => (string) c).ToArray();
 
-    Console.WriteLine(string.Join(", ", categoriesText));
-    // Json.NET, CodePlex
-    #endregion
+        Console.WriteLine(string.Join(", ", categoriesText));
+        // Json.NET, CodePlex
 
-    Xunit.Assert.Equal("Json.NET, CodePlex", string.Join(", ", categoriesText));
-  }
+        #endregion
+
+        Xunit.Assert.Equal("Json.NET, CodePlex", string.Join(", ", categoriesText));
+    }
 }

@@ -31,11 +31,12 @@ namespace Argon.Tests.Documentation.Samples.JsonPath;
 
 public class QueryJsonSelectTokenJsonPath : TestFixtureBase
 {
-  [Fact]
-  public void Example()
-  {
-    #region Usage
-    var o = JObject.Parse(@"{
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+
+        var o = JObject.Parse(@"{
               'Stores': [
                 'Lambton Quay',
                 'Willis Street'
@@ -66,24 +67,26 @@ public class QueryJsonSelectTokenJsonPath : TestFixtureBase
               ]
             }");
 
-    // manufacturer with the name 'Acme Co'
-    var acme = o.SelectToken("$.Manufacturers[?(@.Name == 'Acme Co')]");
+        // manufacturer with the name 'Acme Co'
+        var acme = o.SelectToken("$.Manufacturers[?(@.Name == 'Acme Co')]");
 
-    Console.WriteLine(acme);
-    // { "Name": "Acme Co", Products: [{ "Name": "Anvil", "Price": 50 }] }
+        Console.WriteLine(acme);
+        // { "Name": "Acme Co", Products: [{ "Name": "Anvil", "Price": 50 }] }
 
-    // name of all products priced 50 and above
-    var pricyProducts = o.SelectTokens("$..Products[?(@.Price >= 50)].Name");
+        // name of all products priced 50 and above
+        var pricyProducts = o.SelectTokens("$..Products[?(@.Price >= 50)].Name");
 
-    foreach (var item in pricyProducts)
-    {
-      Console.WriteLine(item);
-    }
-    // Anvil
-    // Elbow Grease
-    #endregion
+        foreach (var item in pricyProducts)
+        {
+            Console.WriteLine(item);
+        }
 
-    StringAssert.AreEqual(@"{
+        // Anvil
+        // Elbow Grease
+
+        #endregion
+
+        StringAssert.AreEqual(@"{
   ""Name"": ""Acme Co"",
   ""Products"": [
     {
@@ -93,7 +96,7 @@ public class QueryJsonSelectTokenJsonPath : TestFixtureBase
   ]
 }", acme.ToString());
 
-    Xunit.Assert.Equal("Anvil", (string)pricyProducts.ElementAt(0));
-    Xunit.Assert.Equal("Elbow Grease", (string)pricyProducts.ElementAt(1));
-  }
+        Xunit.Assert.Equal("Anvil", (string) pricyProducts.ElementAt(0));
+        Xunit.Assert.Equal("Elbow Grease", (string) pricyProducts.ElementAt(1));
+    }
 }

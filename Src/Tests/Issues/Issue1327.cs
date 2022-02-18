@@ -33,30 +33,30 @@ namespace Argon.Tests.Issues;
 
 public class Issue1327 : TestFixtureBase
 {
-  public class PersonWithXmlNode
-  {
-    public XmlNode TestXml { get; set; }
+    public class PersonWithXmlNode
+    {
+        public XmlNode TestXml { get; set; }
 
-    public string Name { get; set; }
+        public string Name { get; set; }
 
-    public int IdNumber { get; set; }
-  }
+        public int IdNumber { get; set; }
+    }
 
-  public class PersonWithXObject
-  {
-    public XObject TestXml1 { get; set; }
-    public XNode TestXml2 { get; set; }
-    public XContainer TestXml3 { get; set; }
+    public class PersonWithXObject
+    {
+        public XObject TestXml1 { get; set; }
+        public XNode TestXml2 { get; set; }
+        public XContainer TestXml3 { get; set; }
 
-    public string Name { get; set; }
+        public string Name { get; set; }
 
-    public int IdNumber { get; set; }
-  }
+        public int IdNumber { get; set; }
+    }
 
-  [Fact]
-  public void Test_XmlNode()
-  {
-    var json = @"{
+    [Fact]
+    public void Test_XmlNode()
+    {
+        var json = @"{
   ""TestXml"": {
     ""orders"": {
       ""order"": {
@@ -69,16 +69,16 @@ public class Issue1327 : TestFixtureBase
   ""IdNumber"": 990268
 }";
 
-    var p = JsonConvert.DeserializeObject<PersonWithXmlNode>(json);
+        var p = JsonConvert.DeserializeObject<PersonWithXmlNode>(json);
 
-    Xunit.Assert.Equal("Kumar", p.Name);
-    Xunit.Assert.Equal("vinoth", p.TestXml.SelectSingleNode("//name").InnerText);
-  }
+        Xunit.Assert.Equal("Kumar", p.Name);
+        Xunit.Assert.Equal("vinoth", p.TestXml.SelectSingleNode("//name").InnerText);
+    }
 
-  [Fact]
-  public void Test_XObject()
-  {
-    var json = @"{
+    [Fact]
+    public void Test_XObject()
+    {
+        var json = @"{
   ""TestXml1"": {
     ""orders"": {
       ""order"": {
@@ -107,11 +107,11 @@ public class Issue1327 : TestFixtureBase
   ""IdNumber"": 990268
 }";
 
-    var p = JsonConvert.DeserializeObject<PersonWithXObject>(json);
+        var p = JsonConvert.DeserializeObject<PersonWithXObject>(json);
 
-    Xunit.Assert.Equal("Kumar", p.Name);
-    Xunit.Assert.Equal("vinoth", (string)((XDocument)p.TestXml1).Root.Element("order").Element("name"));
-    Xunit.Assert.Equal("vinoth", (string)((XDocument)p.TestXml2).Root.Element("order").Element("name"));
-    Xunit.Assert.Equal("vinoth", (string)((XDocument)p.TestXml3).Root.Element("order").Element("name"));
-  }
+        Xunit.Assert.Equal("Kumar", p.Name);
+        Xunit.Assert.Equal("vinoth", (string) ((XDocument) p.TestXml1).Root.Element("order").Element("name"));
+        Xunit.Assert.Equal("vinoth", (string) ((XDocument) p.TestXml2).Root.Element("order").Element("name"));
+        Xunit.Assert.Equal("vinoth", (string) ((XDocument) p.TestXml3).Root.Element("order").Element("name"));
+    }
 }

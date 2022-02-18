@@ -31,11 +31,12 @@ namespace Argon.Tests.Documentation.Samples.JsonPath;
 
 public class QueryJsonSelectToken : TestFixtureBase
 {
-  [Fact]
-  public void Example()
-  {
-    #region Usage
-    var o = JObject.Parse(@"{
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+
+        var o = JObject.Parse(@"{
               'Stores': [
                 'Lambton Quay',
                 'Willis Street'
@@ -66,22 +67,23 @@ public class QueryJsonSelectToken : TestFixtureBase
               ]
             }");
 
-    var name = (string)o.SelectToken("Manufacturers[0].Name");
+        var name = (string) o.SelectToken("Manufacturers[0].Name");
 
-    Console.WriteLine(name);
-    // Acme Co
+        Console.WriteLine(name);
+        // Acme Co
 
-    var productPrice = (decimal)o.SelectToken("Manufacturers[0].Products[0].Price");
+        var productPrice = (decimal) o.SelectToken("Manufacturers[0].Products[0].Price");
 
-    Console.WriteLine(productPrice);
-    // 50
+        Console.WriteLine(productPrice);
+        // 50
 
-    var productName = (string)o.SelectToken("Manufacturers[1].Products[0].Name");
+        var productName = (string) o.SelectToken("Manufacturers[1].Products[0].Name");
 
-    Console.WriteLine(productName);
-    // Elbow Grease
-    #endregion
+        Console.WriteLine(productName);
+        // Elbow Grease
 
-    Xunit.Assert.Equal("Elbow Grease", productName);
-  }
+        #endregion
+
+        Xunit.Assert.Equal("Elbow Grease", productName);
+    }
 }
