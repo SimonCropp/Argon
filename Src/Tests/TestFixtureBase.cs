@@ -75,83 +75,6 @@ public class TestFixtureAttribute : Attribute
     // this exists so the project compiles
 }
 
-public class XUnitAssert
-{
-    public static void IsInstanceOf(Type expectedType, object o)
-    {
-        XAssert.IsType(expectedType, o);
-    }
-
-    public static void AreEqual(double expected, double actual, double r)
-    {
-        XAssert.Equal(expected, actual, 5); // hack
-    }
-
-    public static void AreEqual(object expected, object actual, string message = null)
-    {
-        XAssert.Equal(expected, actual);
-    }
-
-    public static void AreEqual<T>(T expected, T actual, string message = null)
-    {
-        XAssert.Equal(expected, actual);
-    }
-
-    public static void AreNotEqual(object expected, object actual, string message = null)
-    {
-        XAssert.NotEqual(expected, actual);
-    }
-
-    public static void AreNotEqual<T>(T expected, T actual, string message = null)
-    {
-        XAssert.NotEqual(expected, actual);
-    }
-
-    public static void Fail(string message = null, params object[] args)
-    {
-        if (message != null)
-        {
-            message = message.FormatWith(CultureInfo.InvariantCulture, args);
-        }
-
-        XAssert.True(false, message);
-    }
-
-    public static void Pass()
-    {
-    }
-
-    public static void IsTrue(bool condition, string message = null)
-    {
-        XAssert.True(condition);
-    }
-
-    public static void IsFalse(bool condition)
-    {
-        XAssert.False(condition);
-    }
-
-    public static void IsNull(object o)
-    {
-        XAssert.Null(o);
-    }
-
-    public static void IsNotNull(object o)
-    {
-        XAssert.NotNull(o);
-    }
-
-    public static void AreNotSame(object expected, object actual)
-    {
-        XAssert.NotSame(expected, actual);
-    }
-
-    public static void AreSame(object expected, object actual)
-    {
-        XAssert.Same(expected, actual);
-    }
-}
-
 [TestFixture]
 public abstract class TestFixtureBase
 {
@@ -270,7 +193,7 @@ public static class CustomAssert
 {
     public static void IsInstanceOfType(Type t, object instance)
     {
-        Assert.IsInstanceOf(t, instance);
+        XAssert.IsType(t, instance);
     }
 
     public static void Contains(IList collection, object value)

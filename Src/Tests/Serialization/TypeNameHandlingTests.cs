@@ -2295,9 +2295,9 @@ public class TypeNameHandlingTests : TestFixtureBase
         var serializer = JsonSerializer.Create();
 #pragma warning disable CS0618
         Assert.AreNotEqual(null, serializer.Binder);
-        Assert.IsInstanceOf(typeof(DefaultSerializationBinder), serializer.Binder);
+        Xunit.Assert.IsType(typeof(DefaultSerializationBinder), serializer.Binder);
 #pragma warning restore CS0618 // Type or member is obsolete
-        Assert.IsInstanceOf(typeof(DefaultSerializationBinder), serializer.SerializationBinder);
+        Xunit.Assert.IsType(typeof(DefaultSerializationBinder), serializer.SerializationBinder);
     }
 
     [Fact]
@@ -2312,7 +2312,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             serializationBinder.ToString();
         }, "Cannot get SerializationBinder because an ISerializationBinder was previously set.");
 
-        Assert.IsInstanceOf(typeof(FancyBinder), serializer.SerializationBinder);
+        Xunit.Assert.IsType(typeof(FancyBinder), serializer.SerializationBinder);
     }
 
     [Fact]
@@ -2320,12 +2320,12 @@ public class TypeNameHandlingTests : TestFixtureBase
     {
 #pragma warning disable CS0618 // Type or member is obsolete
         var serializer = JsonSerializer.Create(new JsonSerializerSettings { Binder = new OldBinder() });
-        Assert.IsInstanceOf(typeof(OldBinder), serializer.Binder);
+        Xunit.Assert.IsType(typeof(OldBinder), serializer.Binder);
 #pragma warning restore CS0618 // Type or member is obsolete
 
         var binder = serializer.SerializationBinder;
 
-        Assert.IsInstanceOf(typeof(SerializationBinderAdapter), binder);
+        Xunit.Assert.IsType(typeof(SerializationBinderAdapter), binder);
         Assert.AreEqual(typeof(string), binder.BindToType(null, null));
     }
 

@@ -56,10 +56,6 @@ public class DynamicTests : TestFixtureBase
         {
             Assert.Fail();
         }
-        else
-        {
-            Assert.Pass();
-        }
     }
         
     void UpdateValueCount(IDictionary<string, int> counts, dynamic d)

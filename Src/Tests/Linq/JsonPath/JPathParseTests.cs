@@ -208,7 +208,8 @@ public class JPathParseTests : TestFixtureBase
 
         var paths = (List<PathFilter>)expression.Left;
 
-        Assert.IsInstanceOf(typeof(FieldFilter), paths[0]);
+        object o = paths[0];
+        Xunit.Assert.IsType(typeof(FieldFilter), o);
     }
 
     [Fact]
@@ -512,8 +513,10 @@ public class JPathParseTests : TestFixtureBase
         var expressions = (BooleanQueryExpression)((QueryFilter)path.Filters[0]).Expression;
         var paths = (List<PathFilter>)expressions.Left;
         Assert.AreEqual(2, paths.Count);
-        Assert.IsInstanceOf(typeof(RootFilter), paths[0]);
-        Assert.IsInstanceOf(typeof(FieldFilter), paths[1]);
+        object o = paths[0];
+        Xunit.Assert.IsType(typeof(RootFilter), o);
+        object o1 = paths[1];
+        Xunit.Assert.IsType(typeof(FieldFilter), o1);
     }
 
     [Fact]

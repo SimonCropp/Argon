@@ -820,6 +820,6 @@ public class ContractResolverTests : TestFixtureBase
 
         var contract = resolver.ResolveContract(typeof(Regex));
 
-        Assert.IsInstanceOf(typeof(RegexConverter), contract.InternalConverter);
+        Xunit.Assert.IsType(typeof(RegexConverter), contract.InternalConverter);
     }
 }

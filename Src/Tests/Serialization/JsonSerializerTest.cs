@@ -929,7 +929,7 @@ namespace Argon.Tests.Serialization
             Assert.AreEqual(customBinder, serializer.Binder);
 #pragma warning restore CS0618 // Type or member is obsolete
 
-            Assert.IsInstanceOf(typeof(DefaultSerializationBinder), serializer.SerializationBinder);
+            Xunit.Assert.IsType(typeof(DefaultSerializationBinder), serializer.SerializationBinder);
 
             serializer.SerializationBinder = customBinder;
             Assert.AreEqual(customBinder, serializer.SerializationBinder);
@@ -1165,7 +1165,7 @@ namespace Argon.Tests.Serialization
             Assert.AreEqual(customBinder, serializerProxy.Binder);
 #pragma warning restore CS0618 // Type or member is obsolete
 
-            Assert.IsInstanceOf(typeof(DefaultSerializationBinder), serializerProxy.SerializationBinder);
+            Xunit.Assert.IsType(typeof(DefaultSerializationBinder), serializerProxy.SerializationBinder);
 
             serializerProxy.SerializationBinder = customBinder;
             Assert.AreEqual(customBinder, serializerProxy.SerializationBinder);
