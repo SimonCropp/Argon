@@ -124,7 +124,7 @@ public class ImmutableCollectionsTests : TestFixtureBase
     [Fact]
     public void SerializeDefaultArray()
     {
-        ExceptionAssert.Throws<InvalidOperationException>(
+        XUnitAssert.Throws<InvalidOperationException>(
             () => JsonConvert.SerializeObject(default(ImmutableArray<int>), Formatting.Indented),
             "This operation cannot be performed on a default instance of ImmutableArray<T>.  Consider initializing the array, or checking the ImmutableArray<T>.IsDefault property.");
     }

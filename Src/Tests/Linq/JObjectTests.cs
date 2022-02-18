@@ -194,7 +194,7 @@ public class JObjectTests : TestFixtureBase
     [Fact]
     public void DuplicatePropertyNameShouldThrow()
     {
-        ExceptionAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(() =>
         {
             var o = new JObject
             {
@@ -276,7 +276,7 @@ public class JObjectTests : TestFixtureBase
         contains = o.ContainsKey("does not exist");
         XUnitAssert.False(contains);
 
-        ExceptionAssert.Throws<ArgumentNullException>(() =>
+        XUnitAssert.Throws<ArgumentNullException>(() =>
             {
                 contains = o.ContainsKey(null);
                 XUnitAssert.False(contains);
@@ -328,7 +328,7 @@ Parameter name: propertyName",
     [Fact]
     public void GenericCollectionCopyToNullArrayShouldThrow()
     {
-        ExceptionAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(() =>
             {
                 var o = new JObject();
                 ((ICollection<KeyValuePair<string, JToken>>) o).CopyTo(null, 0);
@@ -341,7 +341,7 @@ Parameter name: array",
     [Fact]
     public void GenericCollectionCopyToNegativeArrayIndexShouldThrow()
     {
-        ExceptionAssert.Throws<ArgumentOutOfRangeException>(() =>
+        XUnitAssert.Throws<ArgumentOutOfRangeException>(() =>
             {
                 var o = new JObject();
                 ((ICollection<KeyValuePair<string, JToken>>) o).CopyTo(new KeyValuePair<string, JToken>[1], -1);
@@ -354,7 +354,7 @@ Parameter name: arrayIndex",
     [Fact]
     public void GenericCollectionCopyToArrayIndexEqualGreaterToArrayLengthShouldThrow()
     {
-        ExceptionAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(() =>
         {
             var o = new JObject();
             ((ICollection<KeyValuePair<string, JToken>>) o).CopyTo(new KeyValuePair<string, JToken>[1], 1);
@@ -364,7 +364,7 @@ Parameter name: arrayIndex",
     [Fact]
     public void GenericCollectionCopyToInsufficientArrayCapacity()
     {
-        ExceptionAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(() =>
         {
             var o = new JObject
             {
@@ -460,7 +460,7 @@ Parameter name: arrayIndex",
     [Fact]
     public void Parse_ShouldThrowOnUnexpectedToken()
     {
-        ExceptionAssert.Throws<JsonReaderException>(() =>
+        XUnitAssert.Throws<JsonReaderException>(() =>
         {
             var json = @"[""prop""]";
             JObject.Parse(json);
@@ -495,7 +495,7 @@ Parameter name: arrayIndex",
     [Fact]
     public void Blog()
     {
-        ExceptionAssert.Throws<JsonReaderException>(() =>
+        XUnitAssert.Throws<JsonReaderException>(() =>
         {
             JObject.Parse(@"{
     ""name"": ""James"",
@@ -899,7 +899,7 @@ Parameter name: arrayIndex",
     [Fact]
     public void IListAddBadToken()
     {
-        ExceptionAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(() =>
         {
             var p1 = new JProperty("Test1", 1);
             var p2 = new JProperty("Test2", "Two");
@@ -912,7 +912,7 @@ Parameter name: arrayIndex",
     [Fact]
     public void IListAddBadValue()
     {
-        ExceptionAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(() =>
         {
             var p1 = new JProperty("Test1", 1);
             var p2 = new JProperty("Test2", "Two");
@@ -925,7 +925,7 @@ Parameter name: arrayIndex",
     [Fact]
     public void IListAddPropertyWithExistingName()
     {
-        ExceptionAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(() =>
         {
             var p1 = new JProperty("Test1", 1);
             var p2 = new JProperty("Test2", "Two");
@@ -1027,7 +1027,7 @@ Parameter name: arrayIndex",
     [Fact]
     public void IListSetItemAlreadyExists()
     {
-        ExceptionAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(() =>
         {
             var p1 = new JProperty("Test1", 1);
             var p2 = new JProperty("Test2", "Two");
@@ -1043,7 +1043,7 @@ Parameter name: arrayIndex",
     [Fact]
     public void IListSetItemInvalid()
     {
-        ExceptionAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(() =>
         {
             var p1 = new JProperty("Test1", 1);
             var p2 = new JProperty("Test2", "Two");
@@ -1139,7 +1139,7 @@ Parameter name: arrayIndex",
     [Fact]
     public void GenericListJTokenAddBadToken()
     {
-        ExceptionAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(() =>
         {
             var p1 = new JProperty("Test1", 1);
             var p2 = new JProperty("Test2", "Two");
@@ -1152,7 +1152,7 @@ Parameter name: arrayIndex",
     [Fact]
     public void GenericListJTokenAddBadValue()
     {
-        ExceptionAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(() =>
         {
             var p1 = new JProperty("Test1", 1);
             var p2 = new JProperty("Test2", "Two");
@@ -1166,7 +1166,7 @@ Parameter name: arrayIndex",
     [Fact]
     public void GenericListJTokenAddPropertyWithExistingName()
     {
-        ExceptionAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(() =>
         {
             var p1 = new JProperty("Test1", 1);
             var p2 = new JProperty("Test2", "Two");
@@ -1261,7 +1261,7 @@ Parameter name: arrayIndex",
     [Fact]
     public void GenericListJTokenSetItemAlreadyExists()
     {
-        ExceptionAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(() =>
         {
             var p1 = new JProperty("Test1", 1);
             var p2 = new JProperty("Test2", "Two");
@@ -1341,7 +1341,7 @@ Parameter name: arrayIndex",
     [Fact]
     public void IBindingListApplySort()
     {
-        ExceptionAssert.Throws<NotSupportedException>(() =>
+        XUnitAssert.Throws<NotSupportedException>(() =>
         {
             IBindingList l = new JObject();
             l.ApplySort(null, ListSortDirection.Ascending);
@@ -1351,7 +1351,7 @@ Parameter name: arrayIndex",
     [Fact]
     public void IBindingListRemoveSort()
     {
-        ExceptionAssert.Throws<NotSupportedException>(() =>
+        XUnitAssert.Throws<NotSupportedException>(() =>
         {
             IBindingList l = new JObject();
             l.RemoveSort();
@@ -1369,7 +1369,7 @@ Parameter name: arrayIndex",
     [Fact]
     public void IBindingListFind()
     {
-        ExceptionAssert.Throws<NotSupportedException>(() =>
+        XUnitAssert.Throws<NotSupportedException>(() =>
         {
             IBindingList l = new JObject();
             l.Find(null, null);
@@ -1386,7 +1386,7 @@ Parameter name: arrayIndex",
     [Fact]
     public void IBindingListAddNew()
     {
-        ExceptionAssert.Throws<JsonException>(() =>
+        XUnitAssert.Throws<JsonException>(() =>
         {
             IBindingList l = new JObject();
             l.AddNew();
@@ -1562,7 +1562,7 @@ Parameter name: arrayIndex",
     [Fact]
     public void SetValueWithInvalidPropertyName()
     {
-        ExceptionAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(() =>
         {
             var o = new JObject
             {
@@ -1669,7 +1669,7 @@ Parameter name: arrayIndex",
     [Fact]
     public void InvalidValueCastExceptionMessage()
     {
-        ExceptionAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(() =>
         {
             var json = @"{
   ""responseData"": {}, 
@@ -1686,7 +1686,7 @@ Parameter name: arrayIndex",
     [Fact]
     public void InvalidPropertyValueCastExceptionMessage()
     {
-        ExceptionAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(() =>
         {
             var json = @"{
   ""responseData"": {}, 
@@ -1703,7 +1703,7 @@ Parameter name: arrayIndex",
     [Fact]
     public void ParseIncomplete()
     {
-        ExceptionAssert.Throws<Exception>(() => { JObject.Parse("{ foo:"); }, "Unexpected end of content while loading JObject. Path 'foo', line 1, position 6.");
+        XUnitAssert.Throws<Exception>(() => { JObject.Parse("{ foo:"); }, "Unexpected end of content while loading JObject. Path 'foo', line 1, position 6.");
     }
 
     [Fact]
@@ -1738,7 +1738,7 @@ Parameter name: arrayIndex",
     [Fact]
     public void LoadFromNestedObjectIncomplete()
     {
-        ExceptionAssert.Throws<JsonReaderException>(() =>
+        XUnitAssert.Throws<JsonReaderException>(() =>
         {
             var jsonText = @"{
   ""short"":
@@ -1834,7 +1834,7 @@ Parameter name: arrayIndex",
     [Fact]
     public void ParseAdditionalContent()
     {
-        ExceptionAssert.Throws<JsonReaderException>(() =>
+        XUnitAssert.Throws<JsonReaderException>(() =>
         {
             var json = @"{
 ""Name"": ""Apple"",
@@ -2074,7 +2074,7 @@ Parameter name: arrayIndex",
 //Another comment.
 []";
 
-        ExceptionAssert.Throws<JsonReaderException>(() => JObject.Parse(json),
+        XUnitAssert.Throws<JsonReaderException>(() => JObject.Parse(json),
             "Additional text encountered after finished reading JSON content: [. Path '', line 3, position 0.");
     }
 

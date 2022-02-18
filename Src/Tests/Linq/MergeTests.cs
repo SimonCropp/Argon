@@ -34,7 +34,7 @@ public class MergeTests : TestFixtureBase
     {
         var a = new JObject();
 
-        ExceptionAssert.Throws<ArgumentException>(
+        XUnitAssert.Throws<ArgumentException>(
             () => a.Merge(new Version()),
             @"Could not determine JSON object type for type System.Version.
 Parameter name: content",

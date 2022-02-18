@@ -136,7 +136,7 @@ public class RegexConverterTests : TestFixtureBase
   ""Regex"": ""abc\/""
 }";
 
-        ExceptionAssert.Throws<JsonSerializationException>(
+        XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<RegexTestClass>(json, new JsonSerializerSettings
             {
                 Converters = { new RegexConverter() }
@@ -151,7 +151,7 @@ public class RegexConverterTests : TestFixtureBase
   ""Regex"": ""\/abc""
 }";
 
-        ExceptionAssert.Throws<JsonSerializationException>(
+        XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<RegexTestClass>(json, new JsonSerializerSettings
             {
                 Converters = {new RegexConverter()}
@@ -166,7 +166,7 @@ public class RegexConverterTests : TestFixtureBase
   ""Regex"": ""abc""
 }";
 
-        ExceptionAssert.Throws<JsonSerializationException>(
+        XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<RegexTestClass>(json, new JsonSerializerSettings
             {
                 Converters = { new RegexConverter() }

@@ -82,7 +82,7 @@ public class JsonConvertTest : TestFixtureBase
     [Fact]
     public void PopulateObjectWithNoContent()
     {
-        ExceptionAssert.Throws<JsonSerializationException>(() =>
+        XUnitAssert.Throws<JsonSerializationException>(() =>
         {
             var json = @"";
 
@@ -94,7 +94,7 @@ public class JsonConvertTest : TestFixtureBase
     [Fact]
     public void PopulateObjectWithOnlyComment()
     {
-        var ex = ExceptionAssert.Throws<JsonSerializationException>(() =>
+        var ex = XUnitAssert.Throws<JsonSerializationException>(() =>
         {
             var json = @"// file header";
 
@@ -533,7 +533,7 @@ public class JsonConvertTest : TestFixtureBase
     [Fact]
     public void ToStringInvalid()
     {
-        ExceptionAssert.Throws<ArgumentException>(() => { JsonConvert.ToString(new Version(1, 0)); }, "Unsupported type: System.Version. Use the JsonSerializer class to get the object's JSON representation.");
+        XUnitAssert.Throws<ArgumentException>(() => { JsonConvert.ToString(new Version(1, 0)); }, "Unsupported type: System.Version. Use the JsonSerializer class to get the object's JSON representation.");
     }
 
     [Fact]
@@ -620,7 +620,7 @@ public class JsonConvertTest : TestFixtureBase
     [Fact]
     public void TestInvalidStrings()
     {
-        ExceptionAssert.Throws<JsonReaderException>(() =>
+        XUnitAssert.Throws<JsonReaderException>(() =>
         {
             var orig = @"this is a string ""that has quotes"" ";
 
@@ -1102,7 +1102,7 @@ public class JsonConvertTest : TestFixtureBase
         Assert.Equal(typeof(BigInteger), v.Value.GetType());
         Assert.Equal(BigInteger.Parse(new String('9', 380)), (BigInteger)v.Value);
 
-        ExceptionAssert.Throws<JsonReaderException>(() => JObject.Parse(@"{""biginteger"":" + new String('9', 381) + "}"), "JSON integer " + new String('9', 381) + " is too large to parse. Path 'biginteger', line 1, position 395.");
+        XUnitAssert.Throws<JsonReaderException>(() => JObject.Parse(@"{""biginteger"":" + new String('9', 381) + "}"), "JSON integer " + new String('9', 381) + " is too large to parse. Path 'biginteger', line 1, position 395.");
     }
 
     [Fact]
@@ -1207,7 +1207,7 @@ public class JsonConvertTest : TestFixtureBase
     {
         var value = new IncorrectJsonConvertParameters { One = "Boom" };
 
-        ExceptionAssert.Throws<JsonException>(() => { JsonConvert.SerializeObject(value); });
+        XUnitAssert.Throws<JsonException>(() => { JsonConvert.SerializeObject(value); });
     }
 
     public class IncorrectJsonConvertParameters

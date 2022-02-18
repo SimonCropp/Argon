@@ -130,7 +130,7 @@ public class JObjectAsyncTests : TestFixtureBase
     [Fact]
     public async Task LoadFromNestedObjectIncompleteAsync()
     {
-        await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () =>
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () =>
         {
             var jsonText = @"{
   ""short"":

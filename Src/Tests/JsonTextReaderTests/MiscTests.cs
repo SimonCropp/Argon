@@ -1059,6 +1059,6 @@ null//comment
         Assert.True(r.Read());
         Assert.True(r.Read());
 
-        ExceptionAssert.Throws<JsonReaderException>(() => { r.Read(); }, @"Invalid Unicode escape sequence: \u123!. Path 'prop', line 1, position 11.");
+        XUnitAssert.Throws<JsonReaderException>(() => { r.Read(); }, @"Invalid Unicode escape sequence: \u123!. Path 'prop', line 1, position 11.");
     }
 }

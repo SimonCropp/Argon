@@ -67,7 +67,7 @@ public class JConstructorTests : TestFixtureBase
     [Fact]
     public void SetValueWithInvalidIndex()
     {
-        ExceptionAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(() =>
         {
             var c = new JConstructor
             {

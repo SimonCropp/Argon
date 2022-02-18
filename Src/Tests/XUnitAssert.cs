@@ -38,7 +38,7 @@ public class XUnitAssert
         expected = Normalize(expected);
         actual = Normalize(actual);
 
-        Xunit.Assert.Equal(expected, actual);
+        Assert.Equal(expected, actual);
     }
 
     public static bool EqualsNormalized(string s1, string s2)
@@ -57,5 +57,70 @@ public class XUnitAssert
         }
 
         return s;
+    }
+
+
+    public static TException Throws<TException>(Action action, params string[] possibleMessages)
+        where TException : Exception
+    {
+        try
+        {
+            action();
+
+            XUnitAssert.Fail("Exception of type " + typeof(TException).Name + " expected. No exception thrown.");
+            return null;
+        }
+        catch (TException ex)
+        {
+            if (possibleMessages == null || possibleMessages.Length == 0)
+            {
+                return ex;
+            }
+            foreach (var possibleMessage in possibleMessages)
+            {
+                if (XUnitAssert.EqualsNormalized(possibleMessage, ex.Message))
+                {
+                    return ex;
+                }
+            }
+
+            throw new Exception("Unexpected exception message." + Environment.NewLine + "Expected one of: " + string.Join(Environment.NewLine, possibleMessages) + Environment.NewLine + "Got: " + ex.Message + Environment.NewLine + Environment.NewLine + ex);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(string.Format("Exception of type {0} expected; got exception of type {1}.", typeof(TException).Name, ex.GetType().Name), ex);
+        }
+    }
+
+    public static async Task<TException> ThrowsAsync<TException>(Func<Task> action, params string[] possibleMessages)
+        where TException : Exception
+    {
+        try
+        {
+            await action();
+
+            XUnitAssert.Fail("Exception of type " + typeof(TException).Name + " expected. No exception thrown.");
+            return null;
+        }
+        catch (TException ex)
+        {
+            if (possibleMessages == null || possibleMessages.Length == 0)
+            {
+                return ex;
+            }
+            foreach (var possibleMessage in possibleMessages)
+            {
+                if (XUnitAssert.EqualsNormalized(possibleMessage, ex.Message))
+                {
+                    return ex;
+                }
+            }
+
+            throw new Exception("Unexpected exception message." + Environment.NewLine + "Expected one of: " + string.Join(Environment.NewLine, possibleMessages) + Environment.NewLine + "Got: " + ex.Message + Environment.NewLine + Environment.NewLine + ex);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(string.Format("Exception of type {0} expected; got exception of type {1}.", typeof(TException).Name, ex.GetType().Name), ex);
+        }
     }
 }

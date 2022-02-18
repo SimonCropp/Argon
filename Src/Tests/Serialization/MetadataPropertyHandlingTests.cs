@@ -87,7 +87,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
   ]
 }";
 
-        ExceptionAssert.Throws<JsonSerializationException>(() =>
+        XUnitAssert.Throws<JsonSerializationException>(() =>
         {
             JsonConvert.DeserializeObject<string[][]>(json,
                 new JsonSerializerSettings
@@ -216,7 +216,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
   ""Manager"": null
 }";
 
-        ExceptionAssert.Throws<JsonSerializationException>(() =>
+        XUnitAssert.Throws<JsonSerializationException>(() =>
         {
             JsonConvert.DeserializeObject(json, null, new JsonSerializerSettings
             {

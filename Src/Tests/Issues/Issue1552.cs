@@ -35,7 +35,7 @@ public class Issue1552 : TestFixtureBase
         var c = new RefAndRefReadonlyTestClass(123);
         c.SetRefField(456);
 
-        var ex = ExceptionAssert.Throws<JsonSerializationException>(
+        var ex = XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.SerializeObject(c),
             "Error getting value from 'RefField' on 'Argon.Tests.Issues.RefAndRefReadonlyTestClass'.");
 

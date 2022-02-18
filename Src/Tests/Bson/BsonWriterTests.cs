@@ -385,7 +385,7 @@ public class BsonWriterTests : TestFixtureBase
     [Fact]
     public void WriteComment()
     {
-        ExceptionAssert.Throws<JsonWriterException>(() =>
+        XUnitAssert.Throws<JsonWriterException>(() =>
         {
             var ms = new MemoryStream();
             var writer = new BsonWriter(ms);
@@ -398,7 +398,7 @@ public class BsonWriterTests : TestFixtureBase
     [Fact]
     public void WriteConstructor()
     {
-        ExceptionAssert.Throws<JsonWriterException>(() =>
+        XUnitAssert.Throws<JsonWriterException>(() =>
         {
             var ms = new MemoryStream();
             var writer = new BsonWriter(ms);
@@ -411,7 +411,7 @@ public class BsonWriterTests : TestFixtureBase
     [Fact]
     public void WriteRaw()
     {
-        ExceptionAssert.Throws<JsonWriterException>(() =>
+        XUnitAssert.Throws<JsonWriterException>(() =>
         {
             var ms = new MemoryStream();
             var writer = new BsonWriter(ms);
@@ -424,7 +424,7 @@ public class BsonWriterTests : TestFixtureBase
     [Fact]
     public void WriteRawValue()
     {
-        ExceptionAssert.Throws<JsonWriterException>(() =>
+        XUnitAssert.Throws<JsonWriterException>(() =>
         {
             var ms = new MemoryStream();
             var writer = new BsonWriter(ms);
@@ -657,7 +657,7 @@ public class BsonWriterTests : TestFixtureBase
     [Fact]
     public void WriteValueOutsideOfObjectOrArray()
     {
-        ExceptionAssert.Throws<JsonWriterException>(() =>
+        XUnitAssert.Throws<JsonWriterException>(() =>
         {
             var stream = new MemoryStream();
 
@@ -723,7 +723,7 @@ public class BsonWriterTests : TestFixtureBase
 
         var writer = new BsonWriter(ms);
 
-        ExceptionAssert.Throws<JsonWriterException>(() => { serializer.Serialize(writer, b); }, "Error writing Binary value. BSON must start with an Object or Array. Path ''.");
+        XUnitAssert.Throws<JsonWriterException>(() => { serializer.Serialize(writer, b); }, "Error writing Binary value. BSON must start with an Object or Array. Path ''.");
     }
 
     public class GuidTestClass

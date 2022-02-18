@@ -79,7 +79,7 @@ public class JavaScriptDateTimeConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeNullToNonNullable()
     {
-        ExceptionAssert.Throws<Exception>(() =>
+        XUnitAssert.Throws<Exception>(() =>
         {
             var c2 =
                 JsonConvert.DeserializeObject<DateTimeTestClass>(@"{""PreField"":""Pre"",""DateTimeField"":null,""DateTimeOffsetField"":null,""PostField"":""Post""}", new JavaScriptDateTimeConverter());
@@ -139,7 +139,7 @@ public class JavaScriptDateTimeConverterTests : TestFixtureBase
     {
         var converter = new JavaScriptDateTimeConverter();
 
-        ExceptionAssert.Throws<JsonSerializationException>(() =>
+        XUnitAssert.Throws<JsonSerializationException>(() =>
         {
             JsonConvert.DeserializeObject<DateTime>("new Date(1, 2, 3, 4, 5, 6, 7, 8)", converter);
         }, "Unexpected number of arguments when reading date constructor. Path '', line 1, position 32.");
@@ -150,7 +150,7 @@ public class JavaScriptDateTimeConverterTests : TestFixtureBase
     {
         var converter = new JavaScriptDateTimeConverter();
 
-        ExceptionAssert.Throws<JsonSerializationException>(() =>
+        XUnitAssert.Throws<JsonSerializationException>(() =>
         {
             JsonConvert.DeserializeObject<DateTime>("new Date()", converter);
         }, "Date constructor has no arguments. Path '', line 1, position 10.");
@@ -161,7 +161,7 @@ public class JavaScriptDateTimeConverterTests : TestFixtureBase
     {
         var converter = new JavaScriptDateTimeConverter();
 
-        ExceptionAssert.Throws<JsonSerializationException>(() =>
+        XUnitAssert.Throws<JsonSerializationException>(() =>
         {
             JsonConvert.DeserializeObject<DateTime>("new Date(", converter);
         }, "Unexpected end when reading date constructor. Path '', line 1, position 9.");
@@ -172,7 +172,7 @@ public class JavaScriptDateTimeConverterTests : TestFixtureBase
     {
         var converter = new JavaScriptDateTimeConverter();
 
-        ExceptionAssert.Throws<JsonSerializationException>(() =>
+        XUnitAssert.Throws<JsonSerializationException>(() =>
         {
             JsonConvert.DeserializeObject<DateTime>("new Date(2, 3", converter);
         }, "Unexpected end when reading date constructor. Path '[1]', line 1, position 13.");

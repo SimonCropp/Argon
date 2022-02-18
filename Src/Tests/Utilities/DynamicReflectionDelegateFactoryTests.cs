@@ -104,7 +104,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void CreateGetWithBadObjectTarget()
     {
-        ExceptionAssert.Throws<InvalidCastException>(() =>
+        XUnitAssert.Throws<InvalidCastException>(() =>
         {
             var p = new Person
             {
@@ -120,7 +120,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void CreateSetWithBadObjectTarget()
     {
-        ExceptionAssert.Throws<InvalidCastException>(() =>
+        XUnitAssert.Throws<InvalidCastException>(() =>
         {
             var p = new Person();
             var m = new Movie();
@@ -140,7 +140,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void CreateSetWithBadTarget()
     {
-        ExceptionAssert.Throws<InvalidCastException>(() =>
+        XUnitAssert.Throws<InvalidCastException>(() =>
         {
             object structTest = new StructTest();
 
@@ -157,7 +157,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void CreateSetWithBadObjectValue()
     {
-        ExceptionAssert.Throws<InvalidCastException>(() =>
+        XUnitAssert.Throws<InvalidCastException>(() =>
         {
             var m = new Movie();
 

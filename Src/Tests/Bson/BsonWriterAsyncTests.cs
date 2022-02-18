@@ -255,7 +255,7 @@ public class BsonWriterAsyncTests : TestFixtureBase
     [Fact]
     public async Task WriteCommentAsync()
     {
-        await ExceptionAssert.ThrowsAsync<JsonWriterException>(async () =>
+        await XUnitAssert.ThrowsAsync<JsonWriterException>(async () =>
         {
             var ms = new MemoryStream();
             var writer = new BsonWriter(ms);
@@ -268,7 +268,7 @@ public class BsonWriterAsyncTests : TestFixtureBase
     [Fact]
     public async Task WriteConstructorAsync()
     {
-        await ExceptionAssert.ThrowsAsync<JsonWriterException>(async () =>
+        await XUnitAssert.ThrowsAsync<JsonWriterException>(async () =>
         {
             var ms = new MemoryStream();
             var writer = new BsonWriter(ms);
@@ -281,7 +281,7 @@ public class BsonWriterAsyncTests : TestFixtureBase
     [Fact]
     public async Task WriteRawAsync()
     {
-        await ExceptionAssert.ThrowsAsync<JsonWriterException>(async () =>
+        await XUnitAssert.ThrowsAsync<JsonWriterException>(async () =>
         {
             var ms = new MemoryStream();
             var writer = new BsonWriter(ms);
@@ -294,7 +294,7 @@ public class BsonWriterAsyncTests : TestFixtureBase
     [Fact]
     public async Task WriteRawValueAsync()
     {
-        await ExceptionAssert.ThrowsAsync<JsonWriterException>(async () =>
+        await XUnitAssert.ThrowsAsync<JsonWriterException>(async () =>
         {
             var ms = new MemoryStream();
             var writer = new BsonWriter(ms);
@@ -454,7 +454,7 @@ public class BsonWriterAsyncTests : TestFixtureBase
     [Fact]
     public async Task WriteValueOutsideOfObjectOrArrayAsync()
     {
-        await ExceptionAssert.ThrowsAsync<JsonWriterException>(async () =>
+        await XUnitAssert.ThrowsAsync<JsonWriterException>(async () =>
         {
             var stream = new MemoryStream();
 

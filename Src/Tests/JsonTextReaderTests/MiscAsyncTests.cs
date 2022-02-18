@@ -1028,6 +1028,6 @@ null//comment
         Assert.True(await r.ReadAsync());
         Assert.True(await r.ReadAsync());
 
-        await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => { await r.ReadAsync(); }, @"Invalid Unicode escape sequence: \u123!. Path 'prop', line 1, position 11.");
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () => { await r.ReadAsync(); }, @"Invalid Unicode escape sequence: \u123!. Path 'prop', line 1, position 11.");
     }
 }

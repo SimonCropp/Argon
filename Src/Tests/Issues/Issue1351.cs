@@ -101,7 +101,7 @@ public class Issue1351 : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(t, settings);
 
-        var exception = ExceptionAssert.Throws<JsonSerializationException>(() =>
+        var exception = XUnitAssert.Throws<JsonSerializationException>(() =>
             {
                 JsonConvert.DeserializeObject<List<TestClass>>(json, settings);
             },

@@ -441,7 +441,7 @@ public class BsonReaderTests : TestFixtureBase
     [Fact]
     public void ReadAsInt32BadString()
     {
-        ExceptionAssert.Throws<JsonReaderException>(() =>
+        XUnitAssert.Throws<JsonReaderException>(() =>
         {
             var data = "20-00-00-00-02-30-00-02-00-00-00-61-00-02-31-00-02-00-00-00-62-00-02-32-00-02-00-00-00-63-00-00".HexToBytes();
 

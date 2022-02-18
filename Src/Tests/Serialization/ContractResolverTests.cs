@@ -184,7 +184,7 @@ public class ContractResolverTests : TestFixtureBase
         Assert.Null(contract.DefaultCreator);
         Assert.Null(contract.OverrideCreator);
 
-        ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<AbstractTestClass>(@"{Value:'Value!'}", new JsonSerializerSettings
+        XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<AbstractTestClass>(@"{Value:'Value!'}", new JsonSerializerSettings
         {
             ContractResolver = resolver
         }), "Could not create an instance of type Argon.Tests.TestObjects.AbstractTestClass. Type is an interface or abstract class and cannot be instantiated. Path 'Value', line 1, position 7.");
@@ -209,7 +209,7 @@ public class ContractResolverTests : TestFixtureBase
         Assert.Null(contract.DefaultCreator);
         Assert.False(contract.HasParameterizedCreatorInternal);
 
-        ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<AbstractListTestClass<int>>(@"[1,2]", new JsonSerializerSettings
+        XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<AbstractListTestClass<int>>(@"[1,2]", new JsonSerializerSettings
         {
             ContractResolver = resolver
         }), "Could not create an instance of type Argon.Tests.TestObjects.AbstractListTestClass`1[System.Int32]. Type is an interface or abstract class and cannot be instantiated. Path '', line 1, position 1.");
@@ -289,7 +289,7 @@ public class ContractResolverTests : TestFixtureBase
         Assert.Null(contract.DefaultCreator);
         Assert.False(contract.HasParameterizedCreatorInternal);
 
-        ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<AbstractDictionaryTestClass<string, int>>(@"{key1:1,key2:2}", new JsonSerializerSettings
+        XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<AbstractDictionaryTestClass<string, int>>(@"{key1:1,key2:2}", new JsonSerializerSettings
         {
             ContractResolver = resolver
         }), "Could not create an instance of type Argon.Tests.TestObjects.AbstractDictionaryTestClass`2[System.String,System.Int32]. Type is an interface or abstract class and cannot be instantiated. Path 'key1', line 1, position 6.");

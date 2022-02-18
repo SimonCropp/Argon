@@ -377,7 +377,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
     [Fact]
     public void ThrowExceptionWhenNoValidationEventHandler()
     {
-        ExceptionAssert.Throws<JsonSchemaException>(() =>
+        XUnitAssert.Throws<JsonSchemaException>(() =>
         {
             var schemaJson = @"{
   ""type"":""integer"",
@@ -1595,7 +1595,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
     [Fact]
     public void ReadAsInt32Failure()
     {
-        ExceptionAssert.Throws<JsonSchemaException>(() =>
+        XUnitAssert.Throws<JsonSchemaException>(() =>
         {
             var s = new JsonSchemaGenerator().Generate(typeof(int));
             s.Maximum = 2;
@@ -1625,7 +1625,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
     [Fact]
     public void ReadAsDecimalFailure()
     {
-        ExceptionAssert.Throws<JsonSchemaException>(() =>
+        XUnitAssert.Throws<JsonSchemaException>(() =>
         {
             var s = new JsonSchemaGenerator().Generate(typeof(decimal));
             s.DivisibleBy = 1;

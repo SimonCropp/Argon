@@ -190,7 +190,7 @@ public class DynamicTests : TestFixtureBase
     [Fact]
     public void JObjectPropertyNameWithNonToken()
     {
-        ExceptionAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(() =>
         {
             dynamic d = new JObject();
 
@@ -902,7 +902,7 @@ public class DynamicTests : TestFixtureBase
         var g = Guid.NewGuid();
         dynamic json = JObject.FromObject(new { uid = g });
 
-        ExceptionAssert.Throws<InvalidOperationException>(
+        XUnitAssert.Throws<InvalidOperationException>(
             () => { JObject token = json.uid; },
             "Can not convert from System.Guid to Argon.Linq.JObject.");
     }

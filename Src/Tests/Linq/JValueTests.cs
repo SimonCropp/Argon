@@ -232,7 +232,7 @@ public class JValueTests : TestFixtureBase
     [Fact]
     public void Last()
     {
-        ExceptionAssert.Throws<InvalidOperationException>(() =>
+        XUnitAssert.Throws<InvalidOperationException>(() =>
         {
             var v = new JValue(true);
             var last = v.Last;
@@ -250,7 +250,7 @@ public class JValueTests : TestFixtureBase
     [Fact]
     public void First()
     {
-        ExceptionAssert.Throws<InvalidOperationException>(() =>
+        XUnitAssert.Throws<InvalidOperationException>(() =>
         {
             var v = new JValue(true);
             var first = v.First;
@@ -260,7 +260,7 @@ public class JValueTests : TestFixtureBase
     [Fact]
     public void Item()
     {
-        ExceptionAssert.Throws<InvalidOperationException>(() =>
+        XUnitAssert.Throws<InvalidOperationException>(() =>
         {
             var v = new JValue(true);
             var first = v[0];
@@ -270,7 +270,7 @@ public class JValueTests : TestFixtureBase
     [Fact]
     public void Values()
     {
-        ExceptionAssert.Throws<InvalidOperationException>(() =>
+        XUnitAssert.Throws<InvalidOperationException>(() =>
         {
             var v = new JValue(true);
             v.Values<int>();
@@ -280,7 +280,7 @@ public class JValueTests : TestFixtureBase
     [Fact]
     public void RemoveParentNull()
     {
-        ExceptionAssert.Throws<InvalidOperationException>(() =>
+        XUnitAssert.Throws<InvalidOperationException>(() =>
         {
             var v = new JValue(true);
             v.Remove();
@@ -326,7 +326,7 @@ public class JValueTests : TestFixtureBase
     [Fact]
     public void SetValue()
     {
-        ExceptionAssert.Throws<InvalidOperationException>(() =>
+        XUnitAssert.Throws<InvalidOperationException>(() =>
         {
             JToken t = new JValue(5L);
             t[0] = new JValue(3);
@@ -336,7 +336,7 @@ public class JValueTests : TestFixtureBase
     [Fact]
     public void CastNullValueToNonNullable()
     {
-        ExceptionAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(() =>
         {
             var v = JValue.CreateNull();
             var i = (int)v;
@@ -787,7 +787,7 @@ public class JValueTests : TestFixtureBase
         Assert.Equal(StringComparison.OrdinalIgnoreCase, e6);
 
         // does not support EnumMember. breaking change to add
-        ExceptionAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(() =>
         {
             d = new JValue("value_a");
             var e7 = (EnumA)d;

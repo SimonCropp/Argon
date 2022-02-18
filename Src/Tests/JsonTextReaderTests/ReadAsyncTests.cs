@@ -45,7 +45,7 @@ public class ReadAsyncTests : TestFixtureBase
     {
         var token = new JValue(long.MaxValue);
 
-        await ExceptionAssert.ThrowsAsync<JsonReaderException>(
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(
             () => token.CreateReader().ReadAsInt32Async(),
             "Could not convert to integer: 9223372036854775807. Path ''."
         );
@@ -56,7 +56,7 @@ public class ReadAsyncTests : TestFixtureBase
     {
         var token = new JValue(double.MaxValue);
 
-        await ExceptionAssert.ThrowsAsync<JsonReaderException>(
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(
             () => token.CreateReader().ReadAsDecimalAsync(),
             "Could not convert to decimal: 1.79769313486232E+308. Path ''.",
             "Could not convert to decimal: 1.7976931348623157E+308. Path ''."
@@ -96,7 +96,7 @@ public class ReadAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadAsInt32AsyncWithUndefined()
     {
-        await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () =>
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () =>
             {
                 var reader = new JsonTextReader(new StringReader("undefined"));
                 await reader.ReadAsInt32Async();
@@ -525,7 +525,7 @@ public class ReadAsyncTests : TestFixtureBase
         Assert.True(await reader.ReadAsync());
         Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
-        await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () =>
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () =>
         {
             await reader.ReadAsDateTimeOffsetAsync();
         }, "Could not convert string to DateTimeOffset: blablahbla. Path 'Offset', line 1, position 22.");
@@ -679,7 +679,7 @@ public class ReadAsyncTests : TestFixtureBase
         Assert.True(await reader.ReadAsync());
         Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
-        await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () =>
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () =>
         {
             await reader.ReadAsInt32Async();
         }, "Input string '1.1' is not a valid integer. Path 'Name', line 1, position 12.");
@@ -825,7 +825,7 @@ public class ReadAsyncTests : TestFixtureBase
 
         Assert.True(await reader.ReadAsync());
 
-        await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () =>
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () =>
         {
             await reader.ReadAsDoubleAsync();
         }, "Could not convert string to double: Trump. Path '[0]', line 1, position 8.");
@@ -857,7 +857,7 @@ public class ReadAsyncTests : TestFixtureBase
         Assert.True(await reader.ReadAsync());
         Assert.True(await reader.ReadAsync());
 
-        await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () =>
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () =>
         {
             await reader.ReadAsync();
         }, "Error parsing boolean value. Path 'Test1', line 1, position 14.");
@@ -875,7 +875,7 @@ public class ReadAsyncTests : TestFixtureBase
         Assert.True(await reader.ReadAsync());
         Assert.True(await reader.ReadAsync());
 
-        await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () =>
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () =>
         {
             await reader.ReadAsStringAsync();
         }, "Unexpected character encountered while parsing value: 1. Path 'Test1', line 1, position 14.");
@@ -1742,7 +1742,7 @@ third line", jsonTextReader.Value);
         var settings = new JsonLoadSettings { DuplicatePropertyNameHandling = DuplicatePropertyNameHandling.Error };
 
         var reader = new JsonTextReader(new StringReader(json));
-        await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => await JToken.ReadFromAsync(reader, settings));
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () => await JToken.ReadFromAsync(reader, settings));
     }
 
     [Fact]

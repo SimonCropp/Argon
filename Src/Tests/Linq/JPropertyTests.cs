@@ -80,7 +80,7 @@ public class JPropertyTests : TestFixtureBase
         var p = new JProperty("TestProperty", null);
         IList l = p;
 
-        ExceptionAssert.Throws<JsonException>(() => { l.Clear(); }, "Cannot add or remove items from Argon.Linq.JProperty.");
+        XUnitAssert.Throws<JsonException>(() => { l.Clear(); }, "Cannot add or remove items from Argon.Linq.JProperty.");
     }
 
     [Fact]
@@ -89,7 +89,7 @@ public class JPropertyTests : TestFixtureBase
         var p = new JProperty("TestProperty", null);
         IList l = p;
 
-        ExceptionAssert.Throws<JsonException>(() => { l.Add(null); }, "Argon.Linq.JProperty cannot have multiple values.");
+        XUnitAssert.Throws<JsonException>(() => { l.Add(null); }, "Argon.Linq.JProperty cannot have multiple values.");
     }
 
     [Fact]
@@ -98,7 +98,7 @@ public class JPropertyTests : TestFixtureBase
         var p = new JProperty("TestProperty", null);
         IList l = p;
 
-        ExceptionAssert.Throws<JsonException>(() => { l.Remove(p.Value); }, "Cannot add or remove items from Argon.Linq.JProperty.");
+        XUnitAssert.Throws<JsonException>(() => { l.Remove(p.Value); }, "Cannot add or remove items from Argon.Linq.JProperty.");
     }
 
     [Fact]
@@ -107,7 +107,7 @@ public class JPropertyTests : TestFixtureBase
         var p = new JProperty("TestProperty", null);
         IList l = p;
 
-        ExceptionAssert.Throws<JsonException>(() => { l.RemoveAt(0); }, "Cannot add or remove items from Argon.Linq.JProperty.");
+        XUnitAssert.Throws<JsonException>(() => { l.RemoveAt(0); }, "Cannot add or remove items from Argon.Linq.JProperty.");
     }
 
     [Fact]
@@ -196,7 +196,7 @@ public class JPropertyTests : TestFixtureBase
     {
         IList<JToken> t = new JProperty("error", new List<string> { "one", "two" });
 
-        ExceptionAssert.Throws<JsonException>(() => { t.Add(1); }, "Argon.Linq.JProperty cannot have multiple values.");
+        XUnitAssert.Throws<JsonException>(() => { t.Add(1); }, "Argon.Linq.JProperty cannot have multiple values.");
     }
 
     [Fact]

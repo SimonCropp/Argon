@@ -237,7 +237,7 @@ public class JsonSchemaGeneratorTests : TestFixtureBase
     [Fact]
     public void CircularReferenceError()
     {
-        ExceptionAssert.Throws<Exception>(() =>
+        XUnitAssert.Throws<Exception>(() =>
         {
             var generator = new JsonSchemaGenerator();
             generator.Generate(typeof(CircularReferenceClass));

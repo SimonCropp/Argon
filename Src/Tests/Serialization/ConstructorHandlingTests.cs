@@ -58,7 +58,7 @@ public class ConstructorHandlingTests : TestFixtureBase
     [Fact]
     public void FailWithPrivateConstructorPlusParameterizedAndDefault()
     {
-        ExceptionAssert.Throws<Exception>(() =>
+        XUnitAssert.Throws<Exception>(() =>
         {
             var json = @"{Name:""Name!""}";
 

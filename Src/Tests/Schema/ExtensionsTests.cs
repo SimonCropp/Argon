@@ -75,7 +75,7 @@ public class ExtensionsTests : TestFixtureBase
     [Fact]
     public void ValidateWithOutEventHandlerFailure()
     {
-        ExceptionAssert.Throws<JsonSchemaException>(() =>
+        XUnitAssert.Throws<JsonSchemaException>(() =>
         {
             var schema = JsonSchema.Parse("{'pattern':'lol'}");
             var stringToken = JToken.FromObject("pie");
@@ -229,7 +229,7 @@ public class ExtensionsTests : TestFixtureBase
     [Fact]
     public void ExclusiveMaximum_Int()
     {
-        ExceptionAssert.Throws<JsonSchemaException>(() =>
+        XUnitAssert.Throws<JsonSchemaException>(() =>
         {
             var schema = new JsonSchema
             {
@@ -245,7 +245,7 @@ public class ExtensionsTests : TestFixtureBase
     [Fact]
     public void ExclusiveMaximum_Float()
     {
-        ExceptionAssert.Throws<JsonSchemaException>(() =>
+        XUnitAssert.Throws<JsonSchemaException>(() =>
         {
             var schema = new JsonSchema
             {
@@ -261,7 +261,7 @@ public class ExtensionsTests : TestFixtureBase
     [Fact]
     public void ExclusiveMinimum_Int()
     {
-        ExceptionAssert.Throws<JsonSchemaException>(() =>
+        XUnitAssert.Throws<JsonSchemaException>(() =>
         {
             var schema = new JsonSchema
             {
@@ -277,7 +277,7 @@ public class ExtensionsTests : TestFixtureBase
     [Fact]
     public void ExclusiveMinimum_Float()
     {
-        ExceptionAssert.Throws<JsonSchemaException>(() =>
+        XUnitAssert.Throws<JsonSchemaException>(() =>
         {
             var schema = new JsonSchema
             {
@@ -293,7 +293,7 @@ public class ExtensionsTests : TestFixtureBase
     [Fact]
     public void DivisibleBy_Int()
     {
-        ExceptionAssert.Throws<JsonSchemaException>(() =>
+        XUnitAssert.Throws<JsonSchemaException>(() =>
         {
             var schema = new JsonSchema
             {

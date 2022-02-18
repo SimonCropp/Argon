@@ -812,7 +812,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var jReader = new JsonTextReader(new StreamReader(stream));
         var s = new JsonSerializer();
 
-        ExceptionAssert.Throws<JsonReaderException>(() => { var obj = s.Deserialize<ErrorTestObject>(jReader); }, @"Unterminated string. Expected delimiter: "". Path '', line 1, position 3.");
+        XUnitAssert.Throws<JsonReaderException>(() => { var obj = s.Deserialize<ErrorTestObject>(jReader); }, @"Unterminated string. Expected delimiter: "". Path '', line 1, position 3.");
     }
 
     public class RootThing
@@ -914,7 +914,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var foo = "{ something: { rootSomethingElse { somethingElse: 0 } } }";
         var reader = new StringReader(foo);
 
-        ExceptionAssert.Throws<Exception>(() => { serialiser.Deserialize(reader, typeof(Something)); }, "An error occurred.");
+        XUnitAssert.Throws<Exception>(() => { serialiser.Deserialize(reader, typeof(Something)); }, "An error occurred.");
     }
 
     [Fact]
@@ -936,7 +936,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
         var writer = new StringWriter();
 
-        ExceptionAssert.Throws<Exception>(() => { serialiser.Serialize(writer, r); }, "An error occurred.");
+        XUnitAssert.Throws<Exception>(() => { serialiser.Serialize(writer, r); }, "An error occurred.");
     }
 
     [Fact]

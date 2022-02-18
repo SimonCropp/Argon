@@ -172,19 +172,19 @@ public class LinqToJsonTest : TestFixtureBase
     [Fact]
     public void IncompleteContainers()
     {
-        ExceptionAssert.Throws<JsonReaderException>(
+        XUnitAssert.Throws<JsonReaderException>(
             () => JArray.Parse("[1,"),
             "Unexpected end of content while loading JArray. Path '[0]', line 1, position 3.");
 
-        ExceptionAssert.Throws<JsonReaderException>(
+        XUnitAssert.Throws<JsonReaderException>(
             () => JArray.Parse("[1"),
             "Unexpected end of content while loading JArray. Path '[0]', line 1, position 2.");
 
-        ExceptionAssert.Throws<JsonReaderException>(
+        XUnitAssert.Throws<JsonReaderException>(
             () => JObject.Parse("{'key':1,"),
             "Unexpected end of content while loading JObject. Path 'key', line 1, position 9.");
 
-        ExceptionAssert.Throws<JsonReaderException>(
+        XUnitAssert.Throws<JsonReaderException>(
             () => JObject.Parse("{'key':1"),
             "Unexpected end of content while loading JObject. Path 'key', line 1, position 8.");
     }
@@ -347,7 +347,7 @@ undefined
         jsonReader.Read();
         jsonReader.Read();
 
-        ExceptionAssert.Throws<JsonReaderException>(() => JToken.ReadFrom(jsonReader), @"Error reading JToken from JsonReader. Unexpected token: EndArray. Path '', line 1, position 2.");
+        XUnitAssert.Throws<JsonReaderException>(() => JToken.ReadFrom(jsonReader), @"Error reading JToken from JsonReader. Unexpected token: EndArray. Path '', line 1, position 2.");
     }
 
     [Fact]
@@ -978,7 +978,7 @@ keyword such as type of business.""
     [Fact]
     public void JObjectIntIndex()
     {
-        ExceptionAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(() =>
         {
             var o = new JObject();
             Assert.Equal(null, o[0]);
@@ -988,7 +988,7 @@ keyword such as type of business.""
     [Fact]
     public void JArrayStringIndex()
     {
-        ExceptionAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(() =>
         {
             var a = new JArray();
             Assert.Equal(null, a["purple"]);
@@ -998,7 +998,7 @@ keyword such as type of business.""
     [Fact]
     public void JConstructorStringIndex()
     {
-        ExceptionAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(() =>
         {
             var c = new JConstructor("ConstructorValue");
             Assert.Equal(null, c["purple"]);
@@ -1379,7 +1379,7 @@ keyword such as type of business.""
         IDictionary<string, string> users = new Dictionary<string, string>();
 
         // unfortunatly there doesn't appear to be a way around this
-        ExceptionAssert.Throws<Microsoft.CSharp.RuntimeBinder.RuntimeBinderException>(() =>
+        XUnitAssert.Throws<Microsoft.CSharp.RuntimeBinder.RuntimeBinderException>(() =>
         {
             users.Add("name2", name);
 

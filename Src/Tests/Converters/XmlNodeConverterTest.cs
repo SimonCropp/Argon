@@ -782,7 +782,7 @@ public class XmlNodeConverterTest : TestFixtureBase
         ""Description"": ""Creators of fine software products and services.""
     }
 }";
-        ExceptionAssert.Throws<JsonSerializationException>(
+        XUnitAssert.Throws<JsonSerializationException>(
             () => { JsonConvert.DeserializeXmlNode(json); },
             "JSON root object has multiple properties. The root object must have a single property in order to create a valid XML document. Consider specifying a DeserializeRootElementName. Path 'Email', line 3, position 13.");
     }
@@ -1186,7 +1186,7 @@ public class XmlNodeConverterTest : TestFixtureBase
     {
         var json = @"{'Row' : ";
 
-        ExceptionAssert.Throws<JsonSerializationException>(
+        XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeXmlNode(json, "ROOT"),
             "Unexpected end when reading JSON. Path 'Row', line 1, position 9.");
     }
@@ -1347,7 +1347,7 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void NoRootObject()
     {
-        ExceptionAssert.Throws<JsonSerializationException>(() =>
+        XUnitAssert.Throws<JsonSerializationException>(() =>
         {
             var newDoc = (XmlDocument) JsonConvert.DeserializeXmlNode(@"[1]");
         }, "XmlNodeConverter can only convert JSON that begins with an object. Path '', line 1, position 1.");
@@ -1356,7 +1356,7 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void RootObjectMultipleProperties()
     {
-        ExceptionAssert.Throws<JsonSerializationException>(
+        XUnitAssert.Throws<JsonSerializationException>(
             () =>
             {
                 var newDoc = (XmlDocument) JsonConvert.DeserializeXmlNode(@"{Prop1:1,Prop2:2}");
@@ -1503,7 +1503,7 @@ public class XmlNodeConverterTest : TestFixtureBase
     {
         var json = @"{""count"": 773840,""photos"": null}";
 
-        ExceptionAssert.Throws<JsonSerializationException>(
+        XUnitAssert.Throws<JsonSerializationException>(
             () => { JsonConvert.DeserializeXmlNode(json); },
             "JSON root object has multiple properties. The root object must have a single property in order to create a valid XML document. Consider specifying a DeserializeRootElementName. Path 'photos', line 1, position 26.");
     }
@@ -1513,7 +1513,7 @@ public class XmlNodeConverterTest : TestFixtureBase
     {
         var json = @"{""count"": 773840,""photos"": null}";
 
-        ExceptionAssert.Throws<JsonSerializationException>(
+        XUnitAssert.Throws<JsonSerializationException>(
             () => { JsonConvert.DeserializeXNode(json); },
             "JSON root object has multiple properties. The root object must have a single property in order to create a valid XML document. Consider specifying a DeserializeRootElementName. Path 'photos', line 1, position 26.");
     }
@@ -2027,7 +2027,7 @@ public class XmlNodeConverterTest : TestFixtureBase
   ""$id"": []
 }";
 
-        ExceptionAssert.Throws<JsonSerializationException>(
+        XUnitAssert.Throws<JsonSerializationException>(
             () => { JsonConvert.DeserializeXmlNode(json, "root"); },
             "Unexpected JsonToken: StartArray. Path '$id', line 2, position 10.");
     }
@@ -2155,7 +2155,7 @@ public class XmlNodeConverterTest : TestFixtureBase
   }
 }";
 
-        ExceptionAssert.Throws<JsonSerializationException>(
+        XUnitAssert.Throws<JsonSerializationException>(
             () => { DeserializeXmlNode(json); },
             "XmlNodeConverter cannot convert JSON with an empty property name to XML. Path '8452309520V2.', line 3, position 9.");
     }
@@ -3121,7 +3121,7 @@ public class XmlNodeConverterTest : TestFixtureBase
   ""UserPreferredTimeZone"": 8
 }";
 
-        ExceptionAssert.Throws<JsonSerializationException>(
+        XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeXmlNode(json),
             "JSON root object has property '$id' that will be converted to an attribute. A root object cannot have any attribute properties. Consider specifying a DeserializeRootElementName. Path '$id', line 2, position 12.");
     }

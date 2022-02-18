@@ -45,7 +45,7 @@ public class ReadTests : TestFixtureBase
     {
         var token = new JValue(long.MaxValue);
 
-        ExceptionAssert.Throws<JsonReaderException>(
+        XUnitAssert.Throws<JsonReaderException>(
             () => token.CreateReader().ReadAsInt32(),
             "Could not convert to integer: 9223372036854775807. Path ''."
         );
@@ -56,7 +56,7 @@ public class ReadTests : TestFixtureBase
     {
         var token = new JValue(double.MaxValue);
 
-        ExceptionAssert.Throws<JsonReaderException>(
+        XUnitAssert.Throws<JsonReaderException>(
             () => token.CreateReader().ReadAsDecimal(),
             "Could not convert to decimal: 1.79769313486232E+308. Path ''.",
             "Could not convert to decimal: 1.7976931348623157E+308. Path ''."
@@ -96,7 +96,7 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadAsInt32WithUndefined()
     {
-        ExceptionAssert.Throws<JsonReaderException>(() =>
+        XUnitAssert.Throws<JsonReaderException>(() =>
             {
                 var reader = new JsonTextReader(new StringReader("undefined"));
                 reader.ReadAsInt32();
@@ -525,7 +525,7 @@ public class ReadTests : TestFixtureBase
         Assert.True(reader.Read());
         Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
-        ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsDateTimeOffset(); }, "Could not convert string to DateTimeOffset: blablahbla. Path 'Offset', line 1, position 22.");
+        XUnitAssert.Throws<JsonReaderException>(() => { reader.ReadAsDateTimeOffset(); }, "Could not convert string to DateTimeOffset: blablahbla. Path 'Offset', line 1, position 22.");
     }
 
     [Fact]
@@ -676,7 +676,7 @@ public class ReadTests : TestFixtureBase
         Assert.True(reader.Read());
         Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
-        ExceptionAssert.Throws<JsonReaderException>(() => { reader.ReadAsInt32(); }, "Input string '1.1' is not a valid integer. Path 'Name', line 1, position 12.");
+        XUnitAssert.Throws<JsonReaderException>(() => { reader.ReadAsInt32(); }, "Input string '1.1' is not a valid integer. Path 'Name', line 1, position 12.");
     }
 
     [Fact]
@@ -819,7 +819,7 @@ public class ReadTests : TestFixtureBase
 
         Assert.True(reader.Read());
 
-        ExceptionAssert.Throws<JsonReaderException>(
+        XUnitAssert.Throws<JsonReaderException>(
             () => { reader.ReadAsDouble(); },
             "Could not convert string to double: Trump. Path '[0]', line 1, position 8.");
 
@@ -850,7 +850,7 @@ public class ReadTests : TestFixtureBase
         Assert.True(reader.Read());
         Assert.True(reader.Read());
 
-        ExceptionAssert.Throws<JsonReaderException>(
+        XUnitAssert.Throws<JsonReaderException>(
             () => { reader.Read(); },
             "Error parsing boolean value. Path 'Test1', line 1, position 14.");
 
@@ -867,7 +867,7 @@ public class ReadTests : TestFixtureBase
         Assert.True(reader.Read());
         Assert.True(reader.Read());
 
-        ExceptionAssert.Throws<JsonReaderException>(
+        XUnitAssert.Throws<JsonReaderException>(
             () => { reader.ReadAsString(); },
             "Unexpected character encountered while parsing value: 1. Path 'Test1', line 1, position 14.");
 
@@ -1705,7 +1705,7 @@ third line", jsonTextReader.Value);
         var settings = new JsonLoadSettings {DuplicatePropertyNameHandling = DuplicatePropertyNameHandling.Error};
 
         var reader = new JsonTextReader(new StringReader(json));
-        ExceptionAssert.Throws<JsonException>(() =>
+        XUnitAssert.Throws<JsonException>(() =>
         {
             JToken.ReadFrom(reader, settings);
         });

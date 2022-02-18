@@ -120,7 +120,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void DefaultConstructor_Abstract()
     {
-        ExceptionAssert.Throws<Exception>(
+        XUnitAssert.Throws<Exception>(
             () =>
             {
                 var create = ExpressionReflectionDelegateFactory.Instance.CreateDefaultConstructor<object>(typeof(Type));
@@ -296,7 +296,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void CreateGetWithBadObjectTarget()
     {
-        ExceptionAssert.Throws<InvalidCastException>(
+        XUnitAssert.Throws<InvalidCastException>(
             () =>
             {
                 var p = new Person
@@ -318,7 +318,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void CreateSetWithBadObjectTarget()
     {
-        ExceptionAssert.Throws<InvalidCastException>(
+        XUnitAssert.Throws<InvalidCastException>(
             () =>
             {
                 var p = new Person();
@@ -344,7 +344,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void CreateSetWithBadObjectValue()
     {
-        ExceptionAssert.Throws<InvalidCastException>(
+        XUnitAssert.Throws<InvalidCastException>(
             () =>
             {
                 var m = new Movie();

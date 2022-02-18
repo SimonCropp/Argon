@@ -54,7 +54,7 @@ public class UnixDateTimeConverterTests : TestFixtureBase
     [Fact]
     public void SerializeInvalidDate()
     {
-        ExceptionAssert.Throws<JsonSerializationException>(
+        XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.SerializeObject(new DateTime(1964, 2, 7), new UnixDateTimeConverter()),
             "Cannot convert date value that is before Unix epoch of 00:00:00 UTC on 1 January 1970."
         );
@@ -65,7 +65,7 @@ public class UnixDateTimeConverterTests : TestFixtureBase
     {
         var converter = new UnixDateTimeConverter();
 
-        ExceptionAssert.Throws<JsonSerializationException>(
+        XUnitAssert.Throws<JsonSerializationException>(
             () => converter.WriteJson(new JTokenWriter(), new object(), new JsonSerializer()),
             "Expected date object value."
         );
@@ -109,7 +109,7 @@ public class UnixDateTimeConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeNullToNonNullable()
     {
-        ExceptionAssert.Throws<Exception>(
+        XUnitAssert.Throws<Exception>(
             () => JsonConvert.DeserializeObject<DateTimeTestClass>(
                 @"{""PreField"":""Pre"",""DateTimeField"":null,""DateTimeOffsetField"":null,""PostField"":""Post""}",
                 new UnixDateTimeConverter()
@@ -142,7 +142,7 @@ public class UnixDateTimeConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeInvalidStringToDateTimeOffset()
     {
-        ExceptionAssert.Throws<JsonSerializationException>(
+        XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<DateTimeOffset>(@"""PIE""", new UnixDateTimeConverter()),
             "Cannot convert invalid value to System.DateTimeOffset. Path '', line 1, position 5."
         );
@@ -167,7 +167,7 @@ public class UnixDateTimeConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeInvalidValue()
     {
-        ExceptionAssert.Throws<JsonSerializationException>(
+        XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<DateTime>("-1", new UnixDateTimeConverter()),
             "Cannot convert value that is before Unix epoch of 00:00:00 UTC on 1 January 1970 to System.DateTime. Path '', line 1, position 2."
         );
@@ -176,7 +176,7 @@ public class UnixDateTimeConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeInvalidValueType()
     {
-        ExceptionAssert.Throws<JsonSerializationException>(
+        XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<DateTime>("false", new UnixDateTimeConverter()),
             "Unexpected token parsing date. Expected Integer or String, got Boolean. Path '', line 1, position 5."
         );

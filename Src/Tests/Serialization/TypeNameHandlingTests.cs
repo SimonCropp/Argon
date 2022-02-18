@@ -185,7 +185,7 @@ public class TypeNameHandlingTests : TestFixtureBase
   }
 }";
 
-        ExceptionAssert.Throws<JsonReaderException>(() =>
+        XUnitAssert.Throws<JsonReaderException>(() =>
         {
             JsonConvert.DeserializeObject<HasByteArray>(json, new JsonSerializerSettings
             {
@@ -368,7 +368,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             sb.Append(@"{""$value"":");
         }
 
-        ExceptionAssert.Throws<JsonSerializationException>(() =>
+        XUnitAssert.Throws<JsonSerializationException>(() =>
         {
             var reader = new JsonTextReader(new StringReader(sb.ToString()));
             var ser = new JsonSerializer
@@ -724,7 +724,7 @@ public class TypeNameHandlingTests : TestFixtureBase
   ""Manager"": null
 }";
 
-        ExceptionAssert.Throws<JsonSerializationException>(() =>
+        XUnitAssert.Throws<JsonSerializationException>(() =>
         {
             JsonConvert.DeserializeObject(json, null, new JsonSerializerSettings
             {
@@ -2301,7 +2301,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     public void ObsoleteBinderThrowsIfISerializationBinderSet()
     {
         var serializer = JsonSerializer.Create(new JsonSerializerSettings { SerializationBinder = new FancyBinder() });
-        ExceptionAssert.Throws<InvalidOperationException>(() =>
+        XUnitAssert.Throws<InvalidOperationException>(() =>
         {
 #pragma warning disable CS0618 // Type or member is obsolete
             var serializationBinder = serializer.Binder;

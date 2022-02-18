@@ -53,7 +53,7 @@ public class MissingMemberHandlingTests : TestFixtureBase
         //  ]
         //}
 
-        ExceptionAssert.Throws<JsonSerializationException>(() =>
+        XUnitAssert.Throws<JsonSerializationException>(() =>
         {
             var deserializedProductShort = (ProductShort)JsonConvert.DeserializeObject(output, typeof(ProductShort), new JsonSerializerSettings { MissingMemberHandling = MissingMemberHandling.Error });
         }, @"Could not find member 'Price' on object of type 'ProductShort'. Path 'Price', line 4, position 10.");
@@ -132,7 +132,7 @@ public class MissingMemberHandlingTests : TestFixtureBase
     {
         var json = @"{""Missing"":1}";
 
-        ExceptionAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<DoubleClass>(json, new JsonSerializerSettings { MissingMemberHandling = MissingMemberHandling.Error }); }, "Could not find member 'Missing' on object of type 'DoubleClass'. Path 'Missing', line 1, position 11.");
+        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<DoubleClass>(json, new JsonSerializerSettings { MissingMemberHandling = MissingMemberHandling.Error }); }, "Could not find member 'Missing' on object of type 'DoubleClass'. Path 'Missing', line 1, position 11.");
     }
 
     [Fact]
@@ -151,7 +151,7 @@ public class MissingMemberHandlingTests : TestFixtureBase
     {
         var json = @"{""Missing"":1}";
 
-        ExceptionAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<NameWithMissingError>(json); }, "Could not find member 'Missing' on object of type 'NameWithMissingError'. Path 'Missing', line 1, position 11.");
+        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<NameWithMissingError>(json); }, "Could not find member 'Missing' on object of type 'NameWithMissingError'. Path 'Missing', line 1, position 11.");
     }
 
     [JsonObject(MissingMemberHandling = MissingMemberHandling.Error)]
@@ -257,7 +257,7 @@ public class MissingMemberHandlingTests : TestFixtureBase
     {
         var json = @"{""InvalidData"":{""extensionData1"": [1,2,3]}}";
 
-        ExceptionAssert.Throws<JsonSerializationException>(() =>
+        XUnitAssert.Throws<JsonSerializationException>(() =>
         {
             JsonConvert.DeserializeObject<ObjectWithExtendableChild>(json, new JsonSerializerSettings { MissingMemberHandling = MissingMemberHandling.Error });
         }, "Could not find member 'InvalidData' on object of type 'ObjectWithExtendableChild'. Path 'InvalidData', line 1, position 15.");

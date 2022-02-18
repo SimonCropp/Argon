@@ -460,7 +460,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
     [Fact]
     public async Task WriteValueObjectWithUnsupportedValueAsync()
     {
-        await ExceptionAssert.ThrowsAsync<JsonWriterException>(async () =>
+        await XUnitAssert.ThrowsAsync<JsonWriterException>(async () =>
         {
             var sw = new StringWriter();
             using (var jsonWriter = new JsonTextWriter(sw))
@@ -1074,9 +1074,9 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         {
             await jsonWriter.WriteTokenAsync(JsonToken.StartArray);
 
-            await ExceptionAssert.ThrowsAsync<FormatException>(async () => { await jsonWriter.WriteTokenAsync(JsonToken.Integer, "three"); }, "Input string was not in a correct format.");
+            await XUnitAssert.ThrowsAsync<FormatException>(async () => { await jsonWriter.WriteTokenAsync(JsonToken.Integer, "three"); }, "Input string was not in a correct format.");
 
-            await ExceptionAssert.ThrowsAsync<ArgumentNullException>(async () => { await jsonWriter.WriteTokenAsync(JsonToken.Integer); }, @"Value cannot be null.
+            await XUnitAssert.ThrowsAsync<ArgumentNullException>(async () => { await jsonWriter.WriteTokenAsync(JsonToken.Integer); }, @"Value cannot be null.
 Parameter name: value", "Value cannot be null. (Parameter 'value')");
         }
     }
@@ -1086,8 +1086,8 @@ Parameter name: value", "Value cannot be null. (Parameter 'value')");
     {
         using (JsonWriter jsonWriter = new JsonTextWriter(new StringWriter()))
         {
-            await ExceptionAssert.ThrowsAsync<ArgumentNullException>(async () => { await jsonWriter.WriteTokenAsync(null); });
-            await ExceptionAssert.ThrowsAsync<ArgumentNullException>(async () => { await jsonWriter.WriteTokenAsync(null, true); });
+            await XUnitAssert.ThrowsAsync<ArgumentNullException>(async () => { await jsonWriter.WriteTokenAsync(null); });
+            await XUnitAssert.ThrowsAsync<ArgumentNullException>(async () => { await jsonWriter.WriteTokenAsync(null, true); });
         }
     }
 
@@ -1096,10 +1096,10 @@ Parameter name: value", "Value cannot be null. (Parameter 'value')");
     {
         using (JsonWriter jsonWriter = new JsonTextWriter(new StringWriter()))
         {
-            var ex = await ExceptionAssert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await jsonWriter.WriteTokenAsync((JsonToken)int.MinValue));
+            var ex = await XUnitAssert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await jsonWriter.WriteTokenAsync((JsonToken)int.MinValue));
             Assert.Equal("token", ex.ParamName);
 
-            ex = await ExceptionAssert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await jsonWriter.WriteTokenAsync((JsonToken)int.MinValue, "test"));
+            ex = await XUnitAssert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await jsonWriter.WriteTokenAsync((JsonToken)int.MinValue, "test"));
             Assert.Equal("token", ex.ParamName);
         }
     }
@@ -1107,7 +1107,7 @@ Parameter name: value", "Value cannot be null. (Parameter 'value')");
     [Fact]
     public async Task BadWriteEndArrayAsync()
     {
-        await ExceptionAssert.ThrowsAsync<JsonWriterException>(async () =>
+        await XUnitAssert.ThrowsAsync<JsonWriterException>(async () =>
         {
             var sb = new StringBuilder();
             var sw = new StringWriter(sb);
@@ -1946,7 +1946,7 @@ null//comment
         var writer = new JsonTextWriter(new ThrowingWriter(' '));
         writer.Formatting = Formatting.Indented;
         await writer.WriteStartObjectAsync();
-        await ExceptionAssert.ThrowsAsync<InvalidOperationException>(async () => await writer.WritePropertyNameAsync("aa"));
+        await XUnitAssert.ThrowsAsync<InvalidOperationException>(async () => await writer.WritePropertyNameAsync("aa"));
     }
 
 
@@ -1954,7 +1954,7 @@ null//comment
     public async Task FailureOnStartWriteObject()
     {
         var writer = new JsonTextWriter(new ThrowingWriter('{'));
-        await ExceptionAssert.ThrowsAsync<InvalidOperationException>(async () => await writer.WriteStartObjectAsync());
+        await XUnitAssert.ThrowsAsync<InvalidOperationException>(async () => await writer.WriteStartObjectAsync());
     }
 
     public class ThrowingWriter : TextWriter

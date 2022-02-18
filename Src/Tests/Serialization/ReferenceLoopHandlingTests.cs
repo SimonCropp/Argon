@@ -179,7 +179,7 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
         var settings =
             new JsonSerializerSettings();
 
-        ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.SerializeObject(main, settings), "Self referencing loop detected with type 'Argon.Tests.Serialization.ReferenceLoopHandlingTests+MainClass'. Path 'Child'.");
+        XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.SerializeObject(main, settings), "Self referencing loop detected with type 'Argon.Tests.Serialization.ReferenceLoopHandlingTests+MainClass'. Path 'Child'.");
     }
 
     [Fact]
@@ -237,7 +237,7 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
 
         var settings = new JsonSerializerSettings();
 
-        ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.SerializeObject(parent, settings), "Self referencing loop detected with type 'Argon.Tests.Serialization.ReferenceLoopHandlingTests+DictionaryDynamicObject'. Path 'child'.");
+        XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.SerializeObject(parent, settings), "Self referencing loop detected with type 'Argon.Tests.Serialization.ReferenceLoopHandlingTests+DictionaryDynamicObject'. Path 'child'.");
     }
 
     [Fact]
@@ -269,7 +269,7 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
         };
         account.Manager = manager;
 
-        ExceptionAssert.Throws<JsonSerializationException>(
+        XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.SerializeObject(account),
             "Self referencing loop detected for property 'Manager' with type 'Argon.Tests.Serialization.AccountWithEquals'. Path ''.");
 

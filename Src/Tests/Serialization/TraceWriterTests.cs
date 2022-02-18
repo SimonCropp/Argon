@@ -604,7 +604,7 @@ Argon Error: 0 : Error!
             LevelFilter = TraceLevel.Info
         };
 
-        ExceptionAssert.Throws<Exception>(() =>
+        XUnitAssert.Throws<Exception>(() =>
         {
             JsonConvert.DeserializeObject<IntegerTestClass>(
                 json,
@@ -633,7 +633,7 @@ Argon Error: 0 : Error!
             LevelFilter = TraceLevel.Info
         };
 
-        ExceptionAssert.Throws<Exception>(() =>
+        XUnitAssert.Throws<Exception>(() =>
         {
             JsonConvert.DeserializeObject<TraceTestObject>(
                 json,
@@ -848,7 +848,7 @@ Argon Error: 0 : Error!
             LevelFilter = TraceLevel.Verbose
         };
 
-        ExceptionAssert.Throws<SerializationException>(() =>
+        XUnitAssert.Throws<SerializationException>(() =>
             {
                 JsonConvert.DeserializeObject<Exception>(
                     "{}",

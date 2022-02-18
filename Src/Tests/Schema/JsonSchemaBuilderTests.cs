@@ -374,7 +374,7 @@ public class JsonSchemaBuilderTests : TestFixtureBase
     [Fact]
     public void UnresolvedReference()
     {
-        ExceptionAssert.Throws<Exception>(() =>
+        XUnitAssert.Throws<Exception>(() =>
         {
             var json = @"{
   ""id"":""CircularReferenceArray"",
@@ -586,7 +586,7 @@ public class JsonSchemaBuilderTests : TestFixtureBase
             }
         }";
 
-        ExceptionAssert.Throws<JsonException>(() =>
+        XUnitAssert.Throws<JsonException>(() =>
         {
             var builder = new JsonSchemaBuilder(new JsonSchemaResolver());
             builder.Read(new JsonTextReader(new StringReader(json)));
@@ -604,7 +604,7 @@ public class JsonSchemaBuilderTests : TestFixtureBase
             }
         }";
 
-        ExceptionAssert.Throws<JsonException>(() =>
+        XUnitAssert.Throws<JsonException>(() =>
         {
             var builder = new JsonSchemaBuilder(new JsonSchemaResolver());
             builder.Read(new JsonTextReader(new StringReader(json)));
@@ -622,7 +622,7 @@ public class JsonSchemaBuilderTests : TestFixtureBase
             }
         }";
 
-        ExceptionAssert.Throws<JsonException>(() =>
+        XUnitAssert.Throws<JsonException>(() =>
         {
             var builder = new JsonSchemaBuilder(new JsonSchemaResolver());
             builder.Read(new JsonTextReader(new StringReader(json)));

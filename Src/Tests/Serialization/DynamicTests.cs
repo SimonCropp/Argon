@@ -136,7 +136,7 @@ public class DynamicTests : TestFixtureBase
     [Fact]
     public void NoPublicDefaultConstructor()
     {
-        ExceptionAssert.Throws<JsonSerializationException>(() =>
+        XUnitAssert.Throws<JsonSerializationException>(() =>
         {
             var settings = new JsonSerializerSettings
             {
