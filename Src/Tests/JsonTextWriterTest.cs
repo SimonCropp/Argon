@@ -1207,7 +1207,7 @@ _____'propertyName': NaN,
     {
         if (!enumType.IsEnum)
         {
-            throw new ArgumentException("Type {0} is not an enum.".FormatWith(CultureInfo.InvariantCulture, enumType.Name), nameof(enumType));
+            throw new ArgumentException(string.Format("Type {0} is not an enum.", enumType.Name), nameof(enumType));
         }
 
         var values = new List<object>();
@@ -1445,7 +1445,7 @@ _____'propertyName': NaN,
 
             if (newText != oldText)
             {
-                throw new Exception("Difference for char '{0}' (value {1}). Old text: {2}, New text: {3}".FormatWith(CultureInfo.InvariantCulture, c, (int)c, oldText, newText));
+                throw new Exception(string.Format("Difference for char '{0}' (value {1}). Old text: {2}, New text: {3}", c, (int)c, oldText, newText));
             }
 
             c++;

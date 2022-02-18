@@ -279,7 +279,7 @@ static class ConvertUtils
             return new BigInteger(bytes);
         }
 
-        throw new InvalidCastException("Cannot convert {0} to BigInteger.".FormatWith(CultureInfo.InvariantCulture, value.GetType()));
+        throw new InvalidCastException(string.Format("Cannot convert {0} to BigInteger.", value.GetType()));
     }
 
     public static object FromBigInteger(BigInteger i, Type targetType)
@@ -311,7 +311,7 @@ static class ConvertUtils
         }
         catch (Exception ex)
         {
-            throw new InvalidOperationException("Can not convert from BigInteger to {0}.".FormatWith(CultureInfo.InvariantCulture, targetType), ex);
+            throw new InvalidOperationException(string.Format("Can not convert from BigInteger to {0}.", targetType), ex);
         }
     }
 
@@ -330,11 +330,11 @@ static class ConvertUtils
             case ConvertResult.Success:
                 return value!;
             case ConvertResult.CannotConvertNull:
-                throw new Exception("Can not convert null {0} into non-nullable {1}.".FormatWith(CultureInfo.InvariantCulture, initialValue.GetType(), targetType));
+                throw new Exception(string.Format("Can not convert null {0} into non-nullable {1}.", initialValue.GetType(), targetType));
             case ConvertResult.NotInstantiableType:
-                throw new ArgumentException("Target type {0} is not a value type or a non-abstract class.".FormatWith(CultureInfo.InvariantCulture, targetType), nameof(targetType));
+                throw new ArgumentException(string.Format("Target type {0} is not a value type or a non-abstract class.", targetType), nameof(targetType));
             case ConvertResult.NoValidConversion:
-                throw new InvalidOperationException("Can not convert from {0} to {1}.".FormatWith(CultureInfo.InvariantCulture, initialValue.GetType(), targetType));
+                throw new InvalidOperationException(string.Format("Can not convert from {0} to {1}.", initialValue.GetType(), targetType));
             default:
                 throw new InvalidOperationException("Unexpected conversion result.");
         }
@@ -566,7 +566,7 @@ static class ConvertUtils
             }
         }
 
-        throw new ArgumentException("Could not cast or convert from {0} to {1}.".FormatWith(CultureInfo.InvariantCulture, initialType?.ToString() ?? "{null}", targetType));
+        throw new ArgumentException(string.Format("Could not cast or convert from {0} to {1}.", initialType?.ToString() ?? "{null}", targetType));
     }
 
     public static bool VersionTryParse(string input, [NotNullWhen(true)]out Version? result)

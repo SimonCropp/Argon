@@ -77,12 +77,12 @@ public class VersionConverter : JsonConverter
                 }
                 catch (Exception ex)
                 {
-                    throw JsonSerializationException.Create(reader, "Error parsing version string: {0}".FormatWith(CultureInfo.InvariantCulture, reader.Value), ex);
+                    throw JsonSerializationException.Create(reader, string.Format("Error parsing version string: {0}", reader.Value), ex);
                 }
             }
             else
             {
-                throw JsonSerializationException.Create(reader, "Unexpected token or value when parsing version. Token: {0}, Value: {1}".FormatWith(CultureInfo.InvariantCulture, reader.TokenType, reader.Value));
+                throw JsonSerializationException.Create(reader, string.Format("Unexpected token or value when parsing version. Token: {0}, Value: {1}", reader.TokenType, reader.Value));
             }
         }
     }

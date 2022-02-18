@@ -55,7 +55,7 @@ public class ReflectionValueProvider : IValueProvider
         }
         catch (Exception ex)
         {
-            throw new JsonSerializationException("Error setting value to '{0}' on '{1}'.".FormatWith(CultureInfo.InvariantCulture, _memberInfo.Name, target.GetType()), ex);
+            throw new JsonSerializationException(string.Format("Error setting value to '{0}' on '{1}'.", _memberInfo.Name, target.GetType()), ex);
         }
     }
 
@@ -71,14 +71,14 @@ public class ReflectionValueProvider : IValueProvider
             // https://github.com/dotnet/corefx/issues/26053
             if (_memberInfo is PropertyInfo propertyInfo && propertyInfo.PropertyType.IsByRef)
             {
-                throw new InvalidOperationException("Could not create getter for {0}. ByRef return values are not supported.".FormatWith(CultureInfo.InvariantCulture, propertyInfo));
+                throw new InvalidOperationException(string.Format("Could not create getter for {0}. ByRef return values are not supported.", propertyInfo));
             }
 
             return ReflectionUtils.GetMemberValue(_memberInfo, target);
         }
         catch (Exception ex)
         {
-            throw new JsonSerializationException("Error getting value from '{0}' on '{1}'.".FormatWith(CultureInfo.InvariantCulture, _memberInfo.Name, target.GetType()), ex);
+            throw new JsonSerializationException(string.Format("Error getting value from '{0}' on '{1}'.", _memberInfo.Name, target.GetType()), ex);
         }
     }
 }

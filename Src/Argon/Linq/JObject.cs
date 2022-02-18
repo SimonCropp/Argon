@@ -129,7 +129,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
 
         if (o.Type != JTokenType.Property)
         {
-            throw new ArgumentException("Can not add {0} to {1}.".FormatWith(CultureInfo.InvariantCulture, o.GetType(), GetType()));
+            throw new ArgumentException(string.Format("Can not add {0} to {1}.", o.GetType(), GetType()));
         }
 
         var newProperty = (JProperty)o;
@@ -146,7 +146,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
 
         if (_properties.TryGetValue(newProperty.Name, out existing))
         {
-            throw new ArgumentException("Can not add property {0} to {1}. Property with the same name already exists on object.".FormatWith(CultureInfo.InvariantCulture, newProperty.Name, GetType()));
+            throw new ArgumentException(string.Format("Can not add property {0} to {1}. Property with the same name already exists on object.", newProperty.Name, GetType()));
         }
     }
 
@@ -302,7 +302,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
 
             if (!(key is string propertyName))
             {
-                throw new ArgumentException("Accessed JObject values with invalid key value: {0}. Object property name expected.".FormatWith(CultureInfo.InvariantCulture, MiscellaneousUtils.ToString(key)));
+                throw new ArgumentException(string.Format("Accessed JObject values with invalid key value: {0}. Object property name expected.", MiscellaneousUtils.ToString(key)));
             }
 
             return this[propertyName];
@@ -313,7 +313,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
 
             if (!(key is string propertyName))
             {
-                throw new ArgumentException("Set JObject values with invalid key value: {0}. Object property name expected.".FormatWith(CultureInfo.InvariantCulture, MiscellaneousUtils.ToString(key)));
+                throw new ArgumentException(string.Format("Set JObject values with invalid key value: {0}. Object property name expected.", MiscellaneousUtils.ToString(key)));
             }
 
             this[propertyName] = value;
@@ -389,7 +389,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
 
         if (reader.TokenType != JsonToken.StartObject)
         {
-            throw JsonReaderException.Create(reader, "Error reading JObject from JsonReader. Current JsonReader item is not an object: {0}".FormatWith(CultureInfo.InvariantCulture, reader.TokenType));
+            throw JsonReaderException.Create(reader, string.Format("Error reading JObject from JsonReader. Current JsonReader item is not an object: {0}", reader.TokenType));
         }
 
         var o = new JObject();
@@ -466,7 +466,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
 
         if (token.Type != JTokenType.Object)
         {
-            throw new ArgumentException("Object serialized to {0}. JObject instance expected.".FormatWith(CultureInfo.InvariantCulture, token.Type));
+            throw new ArgumentException(string.Format("Object serialized to {0}. JObject instance expected.", token.Type));
         }
 
         return (JObject)token;

@@ -112,7 +112,7 @@ public class JsonPropertyCollection : KeyedCollection<string, JsonProperty>
 
             if (duplicateProperty)
             {
-                throw new JsonSerializationException("A member with the name '{0}' already exists on '{1}'. Use the JsonPropertyAttribute to specify another name.".FormatWith(CultureInfo.InvariantCulture, property.PropertyName, _type));
+                throw new JsonSerializationException(string.Format("A member with the name '{0}' already exists on '{1}'. Use the JsonPropertyAttribute to specify another name.", property.PropertyName, _type));
             }
         }
 

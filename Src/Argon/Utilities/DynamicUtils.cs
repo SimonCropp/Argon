@@ -50,7 +50,7 @@ static class DynamicUtils
                 var binderType = Type.GetType(BinderTypeName, false);
                 if (binderType == null)
                 {
-                    throw new InvalidOperationException("Could not resolve type '{0}'. You may need to add a reference to Microsoft.CSharp.dll to work with dynamic types.".FormatWith(CultureInfo.InvariantCulture, BinderTypeName));
+                    throw new InvalidOperationException(string.Format("Could not resolve type '{0}'. You may need to add a reference to Microsoft.CSharp.dll to work with dynamic types.", BinderTypeName));
                 }
 
                 // None

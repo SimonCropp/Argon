@@ -78,7 +78,7 @@ public class UnixDateTimeConverter : DateTimeConverterBase
         {
             if (!nullable)
             {
-                throw JsonSerializationException.Create(reader, "Cannot convert null value to {0}.".FormatWith(CultureInfo.InvariantCulture, objectType));
+                throw JsonSerializationException.Create(reader,string.Format( "Cannot convert null value to {0}.", objectType));
             }
 
             return null;
@@ -94,12 +94,12 @@ public class UnixDateTimeConverter : DateTimeConverterBase
         {
             if (!long.TryParse((string)reader.Value!, out seconds))
             {
-                throw JsonSerializationException.Create(reader, "Cannot convert invalid value to {0}.".FormatWith(CultureInfo.InvariantCulture, objectType));
+                throw JsonSerializationException.Create(reader, string.Format("Cannot convert invalid value to {0}.", objectType));
             }
         }
         else
         {
-            throw JsonSerializationException.Create(reader, "Unexpected token parsing date. Expected Integer or String, got {0}.".FormatWith(CultureInfo.InvariantCulture, reader.TokenType));
+            throw JsonSerializationException.Create(reader, string.Format("Unexpected token parsing date. Expected Integer or String, got {0}.", reader.TokenType));
         }
 
         if (seconds >= 0)
@@ -117,7 +117,7 @@ public class UnixDateTimeConverter : DateTimeConverterBase
         }
         else
         {
-            throw JsonSerializationException.Create(reader, "Cannot convert value that is before Unix epoch of 00:00:00 UTC on 1 January 1970 to {0}.".FormatWith(CultureInfo.InvariantCulture, objectType));
+            throw JsonSerializationException.Create(reader, string.Format("Cannot convert value that is before Unix epoch of 00:00:00 UTC on 1 January 1970 to {0}.", objectType));
         }
     }
 }

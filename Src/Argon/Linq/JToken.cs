@@ -278,8 +278,8 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <value>The <see cref="JToken"/> with the specified key.</value>
     public virtual JToken? this[object key]
     {
-        get => throw new InvalidOperationException("Cannot access child value on {0}.".FormatWith(CultureInfo.InvariantCulture, GetType()));
-        set => throw new InvalidOperationException("Cannot set child value on {0}.".FormatWith(CultureInfo.InvariantCulture, GetType()));
+        get => throw new InvalidOperationException(string.Format("Cannot access child value on {0}.", GetType()));
+        set => throw new InvalidOperationException(string.Format("Cannot set child value on {0}.", GetType()));
     }
 
     /// <summary>
@@ -300,13 +300,13 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// Get the first child token of this token.
     /// </summary>
     /// <value>A <see cref="JToken"/> containing the first child token of the <see cref="JToken"/>.</value>
-    public virtual JToken? First => throw new InvalidOperationException("Cannot access child value on {0}.".FormatWith(CultureInfo.InvariantCulture, GetType()));
+    public virtual JToken? First => throw new InvalidOperationException(string.Format("Cannot access child value on {0}.", GetType()));
 
     /// <summary>
     /// Get the last child token of this token.
     /// </summary>
     /// <value>A <see cref="JToken"/> containing the last child token of the <see cref="JToken"/>.</value>
-    public virtual JToken? Last => throw new InvalidOperationException("Cannot access child value on {0}.".FormatWith(CultureInfo.InvariantCulture, GetType()));
+    public virtual JToken? Last => throw new InvalidOperationException(string.Format("Cannot access child value on {0}.", GetType()));
 
     /// <summary>
     /// Returns a collection of the child tokens of this token, in document order.
@@ -334,7 +334,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <returns>A <see cref="IEnumerable{T}"/> containing the child values of this <see cref="JToken"/>, in document order.</returns>
     public virtual IEnumerable<T?> Values<T>()
     {
-        throw new InvalidOperationException("Cannot access child value on {0}.".FormatWith(CultureInfo.InvariantCulture, GetType()));
+        throw new InvalidOperationException(string.Format("Cannot access child value on {0}.", GetType()));
     }
 
     /// <summary>
@@ -450,7 +450,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, BooleanTypes, false))
         {
-            throw new ArgumentException("Can not convert {0} to Boolean.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to Boolean.", GetType(value)));
         }
 
         if (v.Value is BigInteger integer)
@@ -471,7 +471,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, DateTimeTypes, false))
         {
-            throw new ArgumentException("Can not convert {0} to DateTimeOffset.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to DateTimeOffset.", GetType(value)));
         }
 
         if (v.Value is DateTimeOffset offset)
@@ -502,7 +502,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, BooleanTypes, true))
         {
-            throw new ArgumentException("Can not convert {0} to Boolean.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to Boolean.", GetType(value)));
         }
 
         if (v.Value is BigInteger integer)
@@ -523,7 +523,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, NumberTypes, false))
         {
-            throw new ArgumentException("Can not convert {0} to Int64.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to Int64.", GetType(value)));
         }
 
         if (v.Value is BigInteger integer)
@@ -549,7 +549,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, DateTimeTypes, true))
         {
-            throw new ArgumentException("Can not convert {0} to DateTime.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to DateTime.", GetType(value)));
         }
 
         if (v.Value is DateTimeOffset offset)
@@ -575,7 +575,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, DateTimeTypes, true))
         {
-            throw new ArgumentException("Can not convert {0} to DateTimeOffset.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to DateTimeOffset.", GetType(value)));
         }
 
         if (v.Value == null)
@@ -610,7 +610,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, NumberTypes, true))
         {
-            throw new ArgumentException("Can not convert {0} to Decimal.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to Decimal.", GetType(value)));
         }
 
         if (v.Value is BigInteger integer)
@@ -636,7 +636,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, NumberTypes, true))
         {
-            throw new ArgumentException("Can not convert {0} to Double.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to Double.", GetType(value)));
         }
 
         if (v.Value is BigInteger integer)
@@ -662,7 +662,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, CharTypes, true))
         {
-            throw new ArgumentException("Can not convert {0} to Char.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to Char.", GetType(value)));
         }
 
         if (v.Value is BigInteger integer)
@@ -683,7 +683,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, NumberTypes, false))
         {
-            throw new ArgumentException("Can not convert {0} to Int32.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to Int32.", GetType(value)));
         }
 
         if (v.Value is BigInteger integer)
@@ -704,7 +704,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, NumberTypes, false))
         {
-            throw new ArgumentException("Can not convert {0} to Int16.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to Int16.", GetType(value)));
         }
 
         if (v.Value is BigInteger integer)
@@ -726,7 +726,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, NumberTypes, false))
         {
-            throw new ArgumentException("Can not convert {0} to UInt16.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to UInt16.", GetType(value)));
         }
 
         if (v.Value is BigInteger integer)
@@ -748,7 +748,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, CharTypes, false))
         {
-            throw new ArgumentException("Can not convert {0} to Char.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to Char.", GetType(value)));
         }
 
         if (v.Value is BigInteger integer)
@@ -769,7 +769,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, NumberTypes, false))
         {
-            throw new ArgumentException("Can not convert {0} to Byte.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to Byte.", GetType(value)));
         }
 
         if (v.Value is BigInteger integer)
@@ -791,7 +791,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, NumberTypes, false))
         {
-            throw new ArgumentException("Can not convert {0} to SByte.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to SByte.", GetType(value)));
         }
 
         if (v.Value is BigInteger integer)
@@ -817,7 +817,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, NumberTypes, true))
         {
-            throw new ArgumentException("Can not convert {0} to Int32.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to Int32.", GetType(value)));
         }
 
         if (v.Value is BigInteger integer)
@@ -843,7 +843,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, NumberTypes, true))
         {
-            throw new ArgumentException("Can not convert {0} to Int16.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to Int16.", GetType(value)));
         }
 
         if (v.Value is BigInteger integer)
@@ -870,7 +870,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, NumberTypes, true))
         {
-            throw new ArgumentException("Can not convert {0} to UInt16.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to UInt16.", GetType(value)));
         }
 
         if (v.Value is BigInteger integer)
@@ -896,7 +896,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, NumberTypes, true))
         {
-            throw new ArgumentException("Can not convert {0} to Byte.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to Byte.", GetType(value)));
         }
 
         if (v.Value is BigInteger integer)
@@ -923,7 +923,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, NumberTypes, true))
         {
-            throw new ArgumentException("Can not convert {0} to SByte.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to SByte.", GetType(value)));
         }
 
         if (v.Value is BigInteger integer)
@@ -944,7 +944,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, DateTimeTypes, false))
         {
-            throw new ArgumentException("Can not convert {0} to DateTime.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to DateTime.", GetType(value)));
         }
 
         if (v.Value is DateTimeOffset offset)
@@ -970,7 +970,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, NumberTypes, true))
         {
-            throw new ArgumentException("Can not convert {0} to Int64.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to Int64.", GetType(value)));
         }
 
         if (v.Value is BigInteger integer)
@@ -996,7 +996,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, NumberTypes, true))
         {
-            throw new ArgumentException("Can not convert {0} to Single.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to Single.", GetType(value)));
         }
 
         if (v.Value is BigInteger integer)
@@ -1017,7 +1017,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, NumberTypes, false))
         {
-            throw new ArgumentException("Can not convert {0} to Decimal.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to Decimal.", GetType(value)));
         }
 
         if (v.Value is BigInteger integer)
@@ -1044,7 +1044,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, NumberTypes, true))
         {
-            throw new ArgumentException("Can not convert {0} to UInt32.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to UInt32.", GetType(value)));
         }
 
         if (v.Value is BigInteger integer)
@@ -1071,7 +1071,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, NumberTypes, true))
         {
-            throw new ArgumentException("Can not convert {0} to UInt64.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to UInt64.", GetType(value)));
         }
 
         if (v.Value is BigInteger integer)
@@ -1092,7 +1092,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, NumberTypes, false))
         {
-            throw new ArgumentException("Can not convert {0} to Double.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to Double.", GetType(value)));
         }
 
         if (v.Value is BigInteger integer)
@@ -1113,7 +1113,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, NumberTypes, false))
         {
-            throw new ArgumentException("Can not convert {0} to Single.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to Single.", GetType(value)));
         }
 
         if (v.Value is BigInteger integer)
@@ -1139,7 +1139,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, StringTypes, true))
         {
-            throw new ArgumentException("Can not convert {0} to String.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to String.", GetType(value)));
         }
 
         if (v.Value == null)
@@ -1171,7 +1171,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, NumberTypes, false))
         {
-            throw new ArgumentException("Can not convert {0} to UInt32.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to UInt32.", GetType(value)));
         }
 
         if (v.Value is BigInteger integer)
@@ -1193,7 +1193,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, NumberTypes, false))
         {
-            throw new ArgumentException("Can not convert {0} to UInt64.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to UInt64.", GetType(value)));
         }
 
         if (v.Value is BigInteger integer)
@@ -1219,7 +1219,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, BytesTypes, false))
         {
-            throw new ArgumentException("Can not convert {0} to byte array.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to byte array.", GetType(value)));
         }
 
         if (v.Value is string)
@@ -1236,7 +1236,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return bytes;
         }
 
-        throw new ArgumentException("Can not convert {0} to byte array.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+        throw new ArgumentException(string.Format("Can not convert {0} to byte array.", GetType(value)));
     }
 
     /// <summary>
@@ -1249,7 +1249,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, GuidTypes, false))
         {
-            throw new ArgumentException("Can not convert {0} to Guid.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to Guid.", GetType(value)));
         }
 
         if (v.Value is byte[] bytes)
@@ -1275,7 +1275,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, GuidTypes, true))
         {
-            throw new ArgumentException("Can not convert {0} to Guid.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to Guid.", GetType(value)));
         }
 
         if (v.Value == null)
@@ -1301,7 +1301,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, TimeSpanTypes, false))
         {
-            throw new ArgumentException("Can not convert {0} to TimeSpan.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to TimeSpan.", GetType(value)));
         }
 
         return v.Value is TimeSpan span ? span : ConvertUtils.ParseTimeSpan(Convert.ToString(v.Value, CultureInfo.InvariantCulture));
@@ -1322,7 +1322,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, TimeSpanTypes, true))
         {
-            throw new ArgumentException("Can not convert {0} to TimeSpan.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to TimeSpan.", GetType(value)));
         }
 
         if (v.Value == null)
@@ -1348,7 +1348,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, UriTypes, true))
         {
-            throw new ArgumentException("Can not convert {0} to Uri.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to Uri.", GetType(value)));
         }
 
         if (v.Value == null)
@@ -1364,7 +1364,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, BigIntegerTypes, false))
         {
-            throw new ArgumentException("Can not convert {0} to BigInteger.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to BigInteger.", GetType(value)));
         }
 
         return ConvertUtils.ToBigInteger(v.Value!);
@@ -1375,7 +1375,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         if (v == null || !ValidateToken(v, BigIntegerTypes, true))
         {
-            throw new ArgumentException("Can not convert {0} to BigInteger.".FormatWith(CultureInfo.InvariantCulture, GetType(value)));
+            throw new ArgumentException(string.Format("Can not convert {0} to BigInteger.", GetType(value)));
         }
 
         if (v.Value == null)
@@ -1841,7 +1841,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
                     catch (Exception ex)
                     {
                         var enumType = objectType.IsEnum ? objectType : Nullable.GetUnderlyingType(objectType);
-                        throw new ArgumentException("Could not convert '{0}' to {1}.".FormatWith(CultureInfo.InvariantCulture, (string?)this, enumType.Name), ex);
+                        throw new ArgumentException(string.Format("Could not convert '{0}' to {1}.", (string?)this, enumType.Name), ex);
                     }
                 }
 
@@ -2054,7 +2054,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
                 v.SetLineInfo(lineInfo, settings);
                 return v;
             default:
-                throw JsonReaderException.Create(reader, "Error reading JToken from JsonReader. Unexpected token: {0}".FormatWith(CultureInfo.InvariantCulture, reader.TokenType));
+                throw JsonReaderException.Create(reader, string.Format("Error reading JToken from JsonReader. Unexpected token: {0}", reader.TokenType));
         }
     }
 

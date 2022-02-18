@@ -59,7 +59,7 @@ class BidirectionalDictionary<TFirst, TSecond>
         {
             if (!existingSecond!.Equals(second))
             {
-                throw new ArgumentException(_duplicateFirstErrorMessage.FormatWith(CultureInfo.InvariantCulture, first));
+                throw new ArgumentException(string.Format(_duplicateFirstErrorMessage, first));
             }
         }
 
@@ -67,7 +67,7 @@ class BidirectionalDictionary<TFirst, TSecond>
         {
             if (!existingFirst!.Equals(first))
             {
-                throw new ArgumentException(_duplicateSecondErrorMessage.FormatWith(CultureInfo.InvariantCulture, second));
+                throw new ArgumentException(string.Format(_duplicateSecondErrorMessage, second));
             }
         }
 

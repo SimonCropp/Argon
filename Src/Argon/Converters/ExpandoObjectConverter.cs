@@ -76,7 +76,7 @@ public class ExpandoObjectConverter : JsonConverter
                     return reader.Value;
                 }
 
-                throw JsonSerializationException.Create(reader, "Unexpected token when converting ExpandoObject: {0}".FormatWith(CultureInfo.InvariantCulture, reader.TokenType));
+                throw JsonSerializationException.Create(reader, string.Format("Unexpected token when converting ExpandoObject: {0}", reader.TokenType));
         }
     }
 

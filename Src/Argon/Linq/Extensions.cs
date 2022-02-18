@@ -259,7 +259,7 @@ public static class Extensions
         {
             if (!(token is JValue value))
             {
-                throw new InvalidCastException("Cannot cast {0} to {1}.".FormatWith(CultureInfo.InvariantCulture, token.GetType(), typeof(T)));
+                throw new InvalidCastException(string.Format("Cannot cast {0} to {1}.", token.GetType(), typeof(T)));
             }
 
             if (value.Value is U u)

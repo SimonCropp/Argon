@@ -424,12 +424,12 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             return true;
                         }
 
-                        throw JsonReaderException.Create(this, "Additional text encountered after finished reading JSON content: {0}.".FormatWith(CultureInfo.InvariantCulture, CharBuffer[CharPos]));
+                        throw JsonReaderException.Create(this, string.Format("Additional text encountered after finished reading JSON content: {0}.", CharBuffer[CharPos]));
                     }
                     SetToken(JsonToken.None);
                     return false;
                 default:
-                    throw JsonReaderException.Create(this, "Unexpected state: {0}.".FormatWith(CultureInfo.InvariantCulture, CurrentState));
+                    throw JsonReaderException.Create(this, string.Format("Unexpected state: {0}.", CurrentState));
             }
         }
     }
@@ -508,7 +508,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                                 ReaderReadAndAssert();
                                 if (TokenType != JsonToken.EndObject)
                                 {
-                                    throw JsonReaderException.Create(this, "Error reading bytes. Unexpected token: {0}.".FormatWith(CultureInfo.InvariantCulture, TokenType));
+                                    throw JsonReaderException.Create(this, string.Format("Error reading bytes. Unexpected token: {0}.", TokenType));
                                 }
                                 SetToken(JsonToken.Bytes, data, false);
                             }
@@ -567,7 +567,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 ReadFinished();
                 return null;
             default:
-                throw JsonReaderException.Create(this, "Unexpected state: {0}.".FormatWith(CultureInfo.InvariantCulture, CurrentState));
+                throw JsonReaderException.Create(this, string.Format("Unexpected state: {0}.", CurrentState));
         }
     }
 
@@ -697,7 +697,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 ReadFinished();
                 return null;
             default:
-                throw JsonReaderException.Create(this, "Unexpected state: {0}.".FormatWith(CultureInfo.InvariantCulture, CurrentState));
+                throw JsonReaderException.Create(this, string.Format("Unexpected state: {0}.", CurrentState));
         }
     }
 
@@ -729,7 +729,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
     JsonReaderException CreateUnexpectedCharacterException(char c)
     {
-        return JsonReaderException.Create(this, "Unexpected character encountered while parsing value: {0}.".FormatWith(CultureInfo.InvariantCulture, c));
+        return JsonReaderException.Create(this, string.Format("Unexpected character encountered while parsing value: {0}.", c));
     }
 
     /// <summary>
@@ -851,7 +851,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 ReadFinished();
                 return null;
             default:
-                throw JsonReaderException.Create(this, "Unexpected state: {0}.".FormatWith(CultureInfo.InvariantCulture, CurrentState));
+                throw JsonReaderException.Create(this, string.Format("Unexpected state: {0}.", CurrentState));
         }
     }
 
@@ -979,7 +979,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 ReadFinished();
                 return null;
             default:
-                throw JsonReaderException.Create(this, "Unexpected state: {0}.".FormatWith(CultureInfo.InvariantCulture, CurrentState));
+                throw JsonReaderException.Create(this, string.Format("Unexpected state: {0}.", CurrentState));
         }
     }
 
@@ -1064,7 +1064,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             }
             else
             {
-                throw JsonReaderException.Create(this, "Additional text encountered after finished reading JSON content: {0}.".FormatWith(CultureInfo.InvariantCulture, CharBuffer[CharPos]));
+                throw JsonReaderException.Create(this, string.Format("Additional text encountered after finished reading JSON content: {0}.", CharBuffer[CharPos]));
             }
         }
 
@@ -1119,7 +1119,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                         if (ReadData(true) == 0)
                         {
                             CharPos = charPos;
-                            throw JsonReaderException.Create(this, "Unterminated string. Expected delimiter: {0}.".FormatWith(CultureInfo.InvariantCulture, quote));
+                            throw JsonReaderException.Create(this, string.Format("Unterminated string. Expected delimiter: {0}.", quote));
                         }
                     }
                     break;
@@ -1127,7 +1127,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     CharPos = charPos;
                     if (!EnsureChars(0, true))
                     {
-                        throw JsonReaderException.Create(this, "Unterminated string. Expected delimiter: {0}.".FormatWith(CultureInfo.InvariantCulture, quote));
+                        throw JsonReaderException.Create(this, string.Format("Unterminated string. Expected delimiter: {0}.", quote));
                     }
 
                     // start of escape sequence
@@ -1223,7 +1223,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             break;
                         default:
                             CharPos = charPos;
-                            throw JsonReaderException.Create(this, "Bad JSON escape sequence: {0}.".FormatWith(CultureInfo.InvariantCulture, @"\" + currentChar));
+                            throw JsonReaderException.Create(this, string.Format("Bad JSON escape sequence: \\{0}.",  currentChar));
                     }
 
                     EnsureBufferNotEmpty();
@@ -1302,7 +1302,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             }
             else
             {
-                throw JsonReaderException.Create(this, @"Invalid Unicode escape sequence: \u{0}.".FormatWith(CultureInfo.InvariantCulture, new string(CharBuffer, CharPos, 4)));
+                throw JsonReaderException.Create(this, string.Format(@"Invalid Unicode escape sequence: \u{0}.", new string(CharBuffer, CharPos, 4)));
             }
         }
         else
@@ -1392,7 +1392,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     return true;
                 }
 
-                throw JsonReaderException.Create(this, "Unexpected character encountered while parsing number: {0}.".FormatWith(CultureInfo.InvariantCulture, currentChar));
+                throw JsonReaderException.Create(this, string.Format("Unexpected character encountered while parsing number: {0}.", currentChar));
         }
     }
 
@@ -1477,7 +1477,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             return false;
                         }
 
-                        throw JsonReaderException.Create(this, "After parsing a value an unexpected character was encountered: {0}.".FormatWith(CultureInfo.InvariantCulture, currentChar));
+                        throw JsonReaderException.Create(this, string.Format("After parsing a value an unexpected character was encountered: {0}.", currentChar));
                     }
                     break;
             }
@@ -1562,7 +1562,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
         else
         {
-            throw JsonReaderException.Create(this, "Invalid property identifier character: {0}.".FormatWith(CultureInfo.InvariantCulture, CharBuffer[CharPos]));
+            throw JsonReaderException.Create(this, string.Format("Invalid property identifier character: {0}.", CharBuffer[CharPos]));
         }
 
         string? propertyName;
@@ -1586,7 +1586,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
         if (CharBuffer[CharPos] != ':')
         {
-            throw JsonReaderException.Create(this, "Invalid character after parsing property name. Expected ':' but got: {0}.".FormatWith(CultureInfo.InvariantCulture, CharBuffer[CharPos]));
+            throw JsonReaderException.Create(this, string.Format("Invalid character after parsing property name. Expected ':' but got: {0}.", CharBuffer[CharPos]));
         }
 
         CharPos++;
@@ -1652,7 +1652,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             return true;
         }
 
-        throw JsonReaderException.Create(this, "Invalid JavaScript property identifier character: {0}.".FormatWith(CultureInfo.InvariantCulture, currentChar));
+        throw JsonReaderException.Create(this, string.Format("Invalid JavaScript property identifier character: {0}.", currentChar));
     }
 
     bool ParseValue()
@@ -1899,7 +1899,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 }
                 else
                 {
-                    throw JsonReaderException.Create(this, "Unexpected character while parsing constructor: {0}.".FormatWith(CultureInfo.InvariantCulture, currentChar));
+                    throw JsonReaderException.Create(this, string.Format("Unexpected character while parsing constructor: {0}.", currentChar));
                 }
             }
 
@@ -1910,7 +1910,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
             if (CharBuffer[CharPos] != '(')
             {
-                throw JsonReaderException.Create(this, "Unexpected character while parsing constructor: {0}.".FormatWith(CultureInfo.InvariantCulture, CharBuffer[CharPos]));
+                throw JsonReaderException.Create(this, string.Format("Unexpected character while parsing constructor: {0}.", CharBuffer[CharPos]));
             }
 
             CharPos++;
@@ -1975,14 +1975,14 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     }
                     catch (Exception ex)
                     {
-                        throw ThrowReaderError("Input string '{0}' is not a valid number.".FormatWith(CultureInfo.InvariantCulture, number), ex);
+                        throw ThrowReaderError(string.Format("Input string '{0}' is not a valid number.", number), ex);
                     }
                 }
                 else
                 {
                     if (!double.TryParse(number, NumberStyles.Float, CultureInfo.InvariantCulture, out _))
                     {
-                        throw ThrowReaderError("Input string '{0}' is not a valid number.".FormatWith(CultureInfo.InvariantCulture, _stringReference.ToString()));
+                        throw ThrowReaderError(string.Format("Input string '{0}' is not a valid number.", _stringReference.ToString()));
                     }
                 }
 
@@ -2009,7 +2009,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     }
                     catch (Exception ex)
                     {
-                        throw ThrowReaderError("Input string '{0}' is not a valid integer.".FormatWith(CultureInfo.InvariantCulture, number), ex);
+                        throw ThrowReaderError(string.Format("Input string '{0}' is not a valid integer.", number), ex);
                     }
                 }
                 else
@@ -2021,11 +2021,11 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     }
                     else if (parseResult == ParseResult.Overflow)
                     {
-                        throw ThrowReaderError("JSON integer {0} is too large or small for an Int32.".FormatWith(CultureInfo.InvariantCulture, _stringReference.ToString()));
+                        throw ThrowReaderError(string.Format("JSON integer {0} is too large or small for an Int32.", _stringReference.ToString()));
                     }
                     else
                     {
-                        throw ThrowReaderError("Input string '{0}' is not a valid integer.".FormatWith(CultureInfo.InvariantCulture, _stringReference.ToString()));
+                        throw ThrowReaderError(string.Format("Input string '{0}' is not a valid integer.", _stringReference.ToString()));
                     }
                 }
 
@@ -2052,7 +2052,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     }
                     catch (Exception ex)
                     {
-                        throw ThrowReaderError("Input string '{0}' is not a valid decimal.".FormatWith(CultureInfo.InvariantCulture, number), ex);
+                        throw ThrowReaderError(string.Format("Input string '{0}' is not a valid decimal.", number), ex);
                     }
                 }
                 else
@@ -2064,7 +2064,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     }
                     else
                     {
-                        throw ThrowReaderError("Input string '{0}' is not a valid decimal.".FormatWith(CultureInfo.InvariantCulture, _stringReference.ToString()));
+                        throw ThrowReaderError(string.Format("Input string '{0}' is not a valid decimal.", _stringReference.ToString()));
                     }
                 }
 
@@ -2091,7 +2091,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     }
                     catch (Exception ex)
                     {
-                        throw ThrowReaderError("Input string '{0}' is not a valid double.".FormatWith(CultureInfo.InvariantCulture, number), ex);
+                        throw ThrowReaderError(string.Format("Input string '{0}' is not a valid double.", number), ex);
                     }
                 }
                 else
@@ -2104,7 +2104,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     }
                     else
                     {
-                        throw ThrowReaderError("Input string '{0}' is not a valid double.".FormatWith(CultureInfo.InvariantCulture, _stringReference.ToString()));
+                        throw ThrowReaderError(string.Format("Input string '{0}' is not a valid double.", _stringReference.ToString()));
                     }
                 }
 
@@ -2130,7 +2130,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     }
                     catch (Exception ex)
                     {
-                        throw ThrowReaderError("Input string '{0}' is not a valid number.".FormatWith(CultureInfo.InvariantCulture, number), ex);
+                        throw ThrowReaderError(string.Format("Input string '{0}' is not a valid number.", number), ex);
                     }
 
                     numberType = JsonToken.Integer;
@@ -2149,7 +2149,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
                         if (number.Length > MaximumJavascriptIntegerCharacterLength)
                         {
-                            throw ThrowReaderError("JSON integer {0} is too large to parse.".FormatWith(CultureInfo.InvariantCulture, _stringReference.ToString()));
+                            throw ThrowReaderError(string.Format("JSON integer {0} is too large to parse.", _stringReference.ToString()));
                         }
 
                         numberValue = BigIntegerParse(number, CultureInfo.InvariantCulture);
@@ -2166,7 +2166,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             }
                             else
                             {
-                                throw ThrowReaderError("Input string '{0}' is not a valid decimal.".FormatWith(CultureInfo.InvariantCulture, _stringReference.ToString()));
+                                throw ThrowReaderError(string.Format("Input string '{0}' is not a valid decimal.", _stringReference.ToString()));
                             }
                         }
                         else
@@ -2179,7 +2179,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             }
                             else
                             {
-                                throw ThrowReaderError("Input string '{0}' is not a valid number.".FormatWith(CultureInfo.InvariantCulture, _stringReference.ToString()));
+                                throw ThrowReaderError(string.Format("Input string '{0}' is not a valid number.", _stringReference.ToString()));
                             }
                         }
 
@@ -2238,7 +2238,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
         else
         {
-            throw JsonReaderException.Create(this, "Error parsing comment. Expected: *, got {0}.".FormatWith(CultureInfo.InvariantCulture, CharBuffer[CharPos]));
+            throw JsonReaderException.Create(this, string.Format("Error parsing comment. Expected: *, got {0}.", CharBuffer[CharPos]));
         }
 
         CharPos++;

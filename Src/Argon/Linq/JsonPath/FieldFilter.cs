@@ -25,7 +25,7 @@ class FieldFilter : PathFilter
                     }
                     else if (settings?.ErrorWhenNoMatch ?? false)
                     {
-                        throw new JsonException("Property '{0}' does not exist on JObject.".FormatWith(CultureInfo.InvariantCulture, Name));
+                        throw new JsonException(string.Format("Property '{0}' does not exist on JObject.", Name));
                     }
                 }
                 else
@@ -40,7 +40,7 @@ class FieldFilter : PathFilter
             {
                 if (settings?.ErrorWhenNoMatch ?? false)
                 {
-                    throw new JsonException("Property '{0}' not valid on {1}.".FormatWith(CultureInfo.InvariantCulture, Name ?? "*", t.GetType().Name));
+                    throw new JsonException(string.Format("Property '{0}' not valid on {1}.", Name ?? "*", t.GetType().Name));
                 }
             }
         }

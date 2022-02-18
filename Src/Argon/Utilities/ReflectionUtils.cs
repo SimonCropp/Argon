@@ -243,7 +243,7 @@ static class ReflectionUtils
 
         if (!genericInterfaceDefinition.IsInterface || !genericInterfaceDefinition.IsGenericTypeDefinition)
         {
-            throw new ArgumentNullException("'{0}' is not a generic interface definition.".FormatWith(CultureInfo.InvariantCulture, genericInterfaceDefinition));
+            throw new ArgumentNullException(string.Format("'{0}' is not a generic interface definition.", genericInterfaceDefinition));
         }
 
         if (type.IsInterface)
@@ -290,7 +290,7 @@ static class ReflectionUtils
 
         if (!genericClassDefinition.IsClass || !genericClassDefinition.IsGenericTypeDefinition)
         {
-            throw new ArgumentNullException("'{0}' is not a generic class definition.".FormatWith(CultureInfo.InvariantCulture, genericClassDefinition));
+            throw new ArgumentNullException(string.Format("'{0}' is not a generic class definition.", genericClassDefinition));
         }
 
         return InheritsGenericDefinitionInternal(type, genericClassDefinition, out implementingType);
@@ -331,7 +331,7 @@ static class ReflectionUtils
         {
             if (genericListType!.IsGenericTypeDefinition)
             {
-                throw new Exception("Type {0} is not a collection.".FormatWith(CultureInfo.InvariantCulture, type));
+                throw new Exception(string.Format("Type {0} is not a collection.", type));
             }
 
             return genericListType!.GetGenericArguments()[0];
@@ -341,7 +341,7 @@ static class ReflectionUtils
             return null;
         }
 
-        throw new Exception("Type {0} is not a collection.".FormatWith(CultureInfo.InvariantCulture, type));
+        throw new Exception(string.Format("Type {0} is not a collection.", type));
     }
 
     public static void GetDictionaryKeyValueTypes(Type dictionaryType, out Type? keyType, out Type? valueType)
@@ -352,7 +352,7 @@ static class ReflectionUtils
         {
             if (genericDictionaryType!.IsGenericTypeDefinition)
             {
-                throw new Exception("Type {0} is not a dictionary.".FormatWith(CultureInfo.InvariantCulture, dictionaryType));
+                throw new Exception(string.Format("Type {0} is not a dictionary.", dictionaryType));
             }
 
             var dictionaryGenericArguments = genericDictionaryType!.GetGenericArguments();
@@ -368,7 +368,7 @@ static class ReflectionUtils
             return;
         }
 
-        throw new Exception("Type {0} is not a dictionary.".FormatWith(CultureInfo.InvariantCulture, dictionaryType));
+        throw new Exception(string.Format("Type {0} is not a dictionary.", dictionaryType));
     }
 
     /// <summary>
@@ -451,10 +451,10 @@ static class ReflectionUtils
                 }
                 catch (TargetParameterCountException e)
                 {
-                    throw new ArgumentException("MemberInfo '{0}' has index parameters".FormatWith(CultureInfo.InvariantCulture, member.Name), e);
+                    throw new ArgumentException(string.Format("MemberInfo '{0}' has index parameters", member.Name), e);
                 }
             default:
-                throw new ArgumentException("MemberInfo '{0}' is not of type FieldInfo or PropertyInfo".FormatWith(CultureInfo.InvariantCulture, member.Name), nameof(member));
+                throw new ArgumentException(string.Format("MemberInfo '{0}' is not of type FieldInfo or PropertyInfo", member.Name), nameof(member));
         }
     }
 
@@ -478,7 +478,7 @@ static class ReflectionUtils
                 ((PropertyInfo)member).SetValue(target, value, null);
                 break;
             default:
-                throw new ArgumentException("MemberInfo '{0}' must be of type FieldInfo or PropertyInfo".FormatWith(CultureInfo.InvariantCulture, member.Name), nameof(member));
+                throw new ArgumentException(string.Format("MemberInfo '{0}' must be of type FieldInfo or PropertyInfo", member.Name), nameof(member));
         }
     }
 

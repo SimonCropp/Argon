@@ -482,7 +482,7 @@ public static class JsonConvert
                 return ToStringInternal((BigInteger)value);
         }
 
-        throw new ArgumentException("Unsupported type: {0}. Use the JsonSerializer class to get the object's JSON representation.".FormatWith(CultureInfo.InvariantCulture, value.GetType()));
+        throw new ArgumentException(string.Format("Unsupported type: {0}. Use the JsonSerializer class to get the object's JSON representation.", value.GetType()));
     }
 
     #region Serialize

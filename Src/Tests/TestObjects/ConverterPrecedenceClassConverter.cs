@@ -45,7 +45,7 @@ public abstract class ConverterPrecedenceClassConverter : JsonConverter
         var converter = (string)j[0];
         if (converter != ConverterType)
         {
-            throw new Exception("Serialize converter {0} and deserialize converter {1} do not match.".FormatWith(CultureInfo.InvariantCulture, converter, ConverterType));
+            throw new Exception(string.Format("Serialize converter {0} and deserialize converter {1} do not match.", converter, ConverterType));
         }
 
         var testValue = (string)j[1];

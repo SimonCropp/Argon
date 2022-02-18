@@ -34,7 +34,7 @@ internal abstract class ReflectionDelegateFactory
             // https://github.com/dotnet/corefx/issues/26053
             if (propertyInfo.PropertyType.IsByRef)
             {
-                throw new InvalidOperationException("Could not create getter for {0}. ByRef return values are not supported.".FormatWith(CultureInfo.InvariantCulture, propertyInfo));
+                throw new InvalidOperationException(string.Format("Could not create getter for {0}. ByRef return values are not supported.", propertyInfo));
             }
 
             return CreateGet<T>(propertyInfo);
@@ -45,7 +45,7 @@ internal abstract class ReflectionDelegateFactory
             return CreateGet<T>(fieldInfo);
         }
 
-        throw new Exception("Could not create getter for {0}.".FormatWith(CultureInfo.InvariantCulture, memberInfo));
+        throw new Exception(string.Format("Could not create getter for {0}.", memberInfo));
     }
 
     public Action<T, object?> CreateSet<T>(MemberInfo memberInfo)
@@ -60,7 +60,7 @@ internal abstract class ReflectionDelegateFactory
             return CreateSet<T>(fieldInfo);
         }
 
-        throw new Exception("Could not create setter for {0}.".FormatWith(CultureInfo.InvariantCulture, memberInfo));
+        throw new Exception(string.Format("Could not create setter for {0}.", memberInfo));
     }
 
     public abstract MethodCall<T, object?> CreateMethodCall<T>(MethodBase method);

@@ -26,7 +26,7 @@ public class XUnitAssert
     {
         if (message != null)
         {
-            message = message.FormatWith(CultureInfo.InvariantCulture, args);
+            message = string.Format(message, args);
         }
 
         Assert.True(false, message);

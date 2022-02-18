@@ -86,7 +86,7 @@ public abstract class JsonConverter<T> : JsonConverter
     {
         if (!(value != null ? value is T : ReflectionUtils.IsNullable(typeof(T))))
         {
-            throw new JsonSerializationException("Converter cannot write specified value to JSON. {0} is required.".FormatWith(CultureInfo.InvariantCulture, typeof(T)));
+            throw new JsonSerializationException(string.Format("Converter cannot write specified value to JSON. {0} is required.", typeof(T)));
         }
         WriteJson(writer, (T?)value, serializer);
     }
@@ -112,7 +112,7 @@ public abstract class JsonConverter<T> : JsonConverter
         var existingIsNull = existingValue == null;
         if (!(existingIsNull || existingValue is T))
         {
-            throw new JsonSerializationException("Converter cannot read JSON with the specified existing value. {0} is required.".FormatWith(CultureInfo.InvariantCulture, typeof(T)));
+            throw new JsonSerializationException(string.Format("Converter cannot read JSON with the specified existing value. {0} is required.", typeof(T)));
         }
         return ReadJson(reader, objectType, existingIsNull ? default : (T?)existingValue, !existingIsNull, serializer);
     }

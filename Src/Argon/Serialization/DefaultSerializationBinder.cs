@@ -76,7 +76,7 @@ public class DefaultSerializationBinder :
 
             if (assembly == null)
             {
-                throw new JsonSerializationException("Could not load assembly '{0}'.".FormatWith(CultureInfo.InvariantCulture, assemblyName));
+                throw new JsonSerializationException(string.Format("Could not load assembly '{0}'.", assemblyName));
             }
 
             var type = assembly.GetType(typeName);
@@ -92,13 +92,13 @@ public class DefaultSerializationBinder :
                     }
                     catch (Exception ex)
                     {
-                        throw new JsonSerializationException("Could not find type '{0}' in assembly '{1}'.".FormatWith(CultureInfo.InvariantCulture, typeName, assembly.FullName), ex);
+                        throw new JsonSerializationException(string.Format("Could not find type '{0}' in assembly '{1}'.", typeName, assembly.FullName), ex);
                     }
                 }
 
                 if (type == null)
                 {
-                    throw new JsonSerializationException("Could not find type '{0}' in assembly '{1}'.".FormatWith(CultureInfo.InvariantCulture, typeName, assembly.FullName));
+                    throw new JsonSerializationException(string.Format("Could not find type '{0}' in assembly '{1}'.", typeName, assembly.FullName));
                 }
             }
 

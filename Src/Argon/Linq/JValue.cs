@@ -360,7 +360,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
 
                 return ts1.CompareTo(ts2);
             default:
-                throw MiscellaneousUtils.CreateArgumentOutOfRangeException(nameof(valueType), valueType, "Unexpected value type: {0}".FormatWith(CultureInfo.InvariantCulture, valueType));
+                throw MiscellaneousUtils.CreateArgumentOutOfRangeException(nameof(valueType), valueType,string.Format( "Unexpected value type: {0}", valueType));
         }
     }
 
@@ -623,7 +623,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
             return JTokenType.TimeSpan;
         }
 
-        throw new ArgumentException("Could not determine JSON object type for type {0}.".FormatWith(CultureInfo.InvariantCulture, value.GetType()));
+        throw new ArgumentException(string.Format("Could not determine JSON object type for type {0}.", value.GetType()));
     }
 
     static JTokenType GetStringValueType(JTokenType? current)

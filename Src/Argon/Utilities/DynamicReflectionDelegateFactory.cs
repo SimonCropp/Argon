@@ -263,7 +263,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
 
             if (constructorInfo == null)
             {
-                throw new ArgumentException("Could not get constructor for {0}.".FormatWith(CultureInfo.InvariantCulture, type));
+                throw new ArgumentException(string.Format("Could not get constructor for {0}.", type));
             }
 
             generator.Emit(OpCodes.Newobj, constructorInfo);
@@ -287,7 +287,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
         var getMethod = propertyInfo.GetGetMethod(true);
         if (getMethod == null)
         {
-            throw new ArgumentException("Property '{0}' does not have a getter.".FormatWith(CultureInfo.InvariantCulture, propertyInfo.Name));
+            throw new ArgumentException(string.Format("Property '{0}' does not have a getter.", propertyInfo.Name));
         }
 
         if (!getMethod.IsStatic)

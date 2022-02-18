@@ -53,7 +53,7 @@ class ArraySliceFilter : PathFilter
                 {
                     if (settings?.ErrorWhenNoMatch ?? false)
                     {
-                        throw new JsonException("Array slice of {0} to {1} returned no results.".FormatWith(CultureInfo.InvariantCulture,
+                        throw new JsonException(string.Format("Array slice of {0} to {1} returned no results.",
                             Start != null ? Start.GetValueOrDefault().ToString(CultureInfo.InvariantCulture) : "*",
                             End != null ? End.GetValueOrDefault().ToString(CultureInfo.InvariantCulture) : "*"));
                     }
@@ -63,7 +63,7 @@ class ArraySliceFilter : PathFilter
             {
                 if (settings?.ErrorWhenNoMatch ?? false)
                 {
-                    throw new JsonException("Array slice is not valid on {0}.".FormatWith(CultureInfo.InvariantCulture, t.GetType().Name));
+                    throw new JsonException(string.Format("Array slice is not valid on {0}.", t.GetType().Name));
                 }
             }
         }

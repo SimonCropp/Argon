@@ -93,7 +93,7 @@ public class IsoDateTimeConverter : DateTimeConverterBase
         }
         else
         {
-            throw new JsonSerializationException("Unexpected value when converting date. Expected DateTime or DateTimeOffset, got {0}.".FormatWith(CultureInfo.InvariantCulture, ReflectionUtils.GetObjectType(value)!));
+            throw new JsonSerializationException(string.Format("Unexpected value when converting date. Expected DateTime or DateTimeOffset, got {0}.", ReflectionUtils.GetObjectType(value)!));
         }
 
         writer.WriteValue(text);
@@ -114,7 +114,7 @@ public class IsoDateTimeConverter : DateTimeConverterBase
         {
             if (!nullable)
             {
-                throw JsonSerializationException.Create(reader, "Cannot convert null value to {0}.".FormatWith(CultureInfo.InvariantCulture, objectType));
+                throw JsonSerializationException.Create(reader, string.Format("Cannot convert null value to {0}.", objectType));
             }
 
             return null;
@@ -142,7 +142,7 @@ public class IsoDateTimeConverter : DateTimeConverterBase
 
         if (reader.TokenType != JsonToken.String)
         {
-            throw JsonSerializationException.Create(reader, "Unexpected token parsing date. Expected String, got {0}.".FormatWith(CultureInfo.InvariantCulture, reader.TokenType));
+            throw JsonSerializationException.Create(reader,string.Format( "Unexpected token parsing date. Expected String, got {0}.", reader.TokenType));
         }
 
         var dateText = reader.Value?.ToString();
