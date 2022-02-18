@@ -82,7 +82,7 @@ public class DataSetConverterTests : TestFixtureBase
 }", json);
 
         var deserializedDataSet = JsonConvert.DeserializeObject<DataSet>(json);
-        Assert.IsNotNull(deserializedDataSet);
+        Xunit.Assert.NotNull(deserializedDataSet);
 
         Assert.AreEqual(1, deserializedDataSet.Tables.Count);
 
@@ -229,7 +229,7 @@ public class DataSetConverterTests : TestFixtureBase
   ]
 }", json);
 
-        Assert.IsNotNull(deserializedDs);
+        Xunit.Assert.NotNull(deserializedDs);
     }
 
     [Fact]
@@ -259,7 +259,7 @@ public class DataSetConverterTests : TestFixtureBase
 }";
 
         var ds = JsonConvert.DeserializeObject<DataSet>(json);
-        Assert.IsNotNull(ds);
+        Xunit.Assert.NotNull(ds);
 
         Assert.AreEqual(2, ds.Tables.Count);
         Assert.AreEqual("FirstTable", ds.Tables[0].TableName);

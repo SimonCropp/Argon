@@ -851,7 +851,7 @@ keyword such as type of business.""
             .Where(p => p["Categories"].Any(c => (string)c == "LINQ to JSON")).ToList();
         // Querying LINQ to JSON
 
-        Assert.IsNotNull(serializerBasics);
+        Xunit.Assert.NotNull(serializerBasics);
         Assert.AreEqual(2, since2012.Count);
         Assert.AreEqual(1, linqToJson.Count);
     }
@@ -1195,7 +1195,7 @@ keyword such as type of business.""
         JObject o = null;
 
         var enumerable = o.AsJEnumerable();
-        Assert.IsNull(enumerable);
+        Xunit.Assert.Null(enumerable);
 
         o =
             new JObject(
@@ -1205,7 +1205,7 @@ keyword such as type of business.""
             );
 
         enumerable = o.AsJEnumerable();
-        Assert.IsNotNull(enumerable);
+        Xunit.Assert.NotNull(enumerable);
         Assert.AreEqual(o, enumerable);
 
         var d = enumerable["Test1"].Value<DateTime>();

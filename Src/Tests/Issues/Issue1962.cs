@@ -56,7 +56,7 @@ public class Issue1962
         Assert.AreEqual(" comment", ((JValue)token).Value);
 
         var obj = token.ToObject<int[]>();
-        Assert.IsNull(obj);
+        Xunit.Assert.Null(obj);
     }
 
     [Fact]

@@ -648,15 +648,15 @@ Parameter name: content",
             MergeNullValueHandling = MergeNullValueHandling.Merge
         });
 
-        Assert.IsNotNull(source["Property1"]);
+        Xunit.Assert.NotNull(source["Property1"]);
         Assert.AreEqual(JTokenType.Null, source["Property1"].Type);
-        Assert.IsNotNull(source["Property2"]);
+        Xunit.Assert.NotNull(source["Property2"]);
         Assert.AreEqual(JTokenType.Null, source["Property2"].Type);
-        Assert.IsNotNull(source["Property3"]);
+        Xunit.Assert.NotNull(source["Property3"]);
         Assert.AreEqual(JTokenType.Null, source["Property3"].Type);
-        Assert.IsNotNull(source["Property4"]);
+        Xunit.Assert.NotNull(source["Property4"]);
         Assert.AreEqual(JTokenType.Null, source["Property4"].Type);
-        Assert.IsNotNull(source["Property5"]);
+        Xunit.Assert.NotNull(source["Property5"]);
         Assert.AreEqual(JTokenType.Null, source["Property5"].Type);
     }
 
@@ -739,8 +739,8 @@ Parameter name: content",
             PropertyNameComparison = StringComparison.OrdinalIgnoreCase
         });
 
-        Assert.IsNull(o1["words"]);
-        Assert.IsNotNull(o1["Words"]);
+        Xunit.Assert.Null(o1["words"]);
+        Xunit.Assert.NotNull(o1["Words"]);
 
         var words = (JArray)o1["Words"];
         Assert.AreEqual("User", (string)words[0]);

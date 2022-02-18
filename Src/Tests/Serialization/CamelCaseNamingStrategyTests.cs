@@ -104,7 +104,7 @@ public class CamelCaseNamingStrategyTests : TestFixtureBase
         var o = (JObject)writer.Token;
         var p = o.Property("theField");
 
-        Assert.IsNotNull(p);
+        Xunit.Assert.NotNull(p);
         Assert.AreEqual(int.MinValue, (int)p.Value);
     }
 

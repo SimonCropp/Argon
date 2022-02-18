@@ -122,7 +122,7 @@ public class JObjectAsyncTests : TestFixtureBase
         await reader.ReadAsync();
 
         var o = (JObject)await JToken.ReadFromAsync(reader);
-        Assert.IsNotNull(o);
+        Xunit.Assert.NotNull(o);
         StringAssert.AreEqual(@"{
   ""code"": 0,
   ""msg"": ""No action taken""

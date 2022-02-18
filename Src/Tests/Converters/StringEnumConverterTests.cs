@@ -174,12 +174,12 @@ public class StringEnumConverterTests : TestFixtureBase
     public void NamingStrategyAndCamelCaseText()
     {
         var converter = new StringEnumConverter();
-        Assert.IsNull(converter.NamingStrategy);
+        Xunit.Assert.Null(converter.NamingStrategy);
 
 #pragma warning disable CS0618 // Type or member is obsolete
         converter.CamelCaseText = true;
 #pragma warning restore CS0618 // Type or member is obsolete
-        Assert.IsNotNull(converter.NamingStrategy);
+        Xunit.Assert.NotNull(converter.NamingStrategy);
         Assert.AreEqual(typeof(CamelCaseNamingStrategy), converter.NamingStrategy.GetType());
 
         var camelCaseInstance = converter.NamingStrategy;
@@ -206,7 +206,7 @@ public class StringEnumConverterTests : TestFixtureBase
 #pragma warning disable CS0618 // Type or member is obsolete
         converter.CamelCaseText = false;
 #pragma warning restore CS0618 // Type or member is obsolete
-        Assert.IsNotNull(converter.NamingStrategy);
+        Xunit.Assert.NotNull(converter.NamingStrategy);
         Assert.AreEqual(typeof(SnakeCaseNamingStrategy), converter.NamingStrategy.GetType());
     }
 
@@ -217,7 +217,7 @@ public class StringEnumConverterTests : TestFixtureBase
         var converter = new StringEnumConverter(true);
 #pragma warning restore CS0618 // Type or member is obsolete
 
-        Assert.IsNotNull(converter.NamingStrategy);
+        Xunit.Assert.NotNull(converter.NamingStrategy);
         Assert.AreEqual(typeof(CamelCaseNamingStrategy), converter.NamingStrategy.GetType());
         Assert.True( converter.AllowIntegerValues);
     }
@@ -227,7 +227,7 @@ public class StringEnumConverterTests : TestFixtureBase
     {
         var converter = new StringEnumConverter(typeof(CamelCaseNamingStrategy), new object[] { true, true, true }, false);
 
-        Assert.IsNotNull(converter.NamingStrategy);
+        Xunit.Assert.NotNull(converter.NamingStrategy);
         Assert.AreEqual(typeof(CamelCaseNamingStrategy), converter.NamingStrategy.GetType());
         Assert.False( converter.AllowIntegerValues);
         Assert.True( converter.NamingStrategy.OverrideSpecifiedNames);
@@ -639,7 +639,7 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
 }";
 
         var c = JsonConvert.DeserializeObject<EnumClass>(json, new StringEnumConverter());
-        Assert.IsNull(c.NullableStoreColor2);
+        Xunit.Assert.Null(c.NullableStoreColor2);
     }
 
     [Fact]

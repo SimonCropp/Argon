@@ -200,7 +200,7 @@ public class JavaScriptDateTimeConverterTests : TestFixtureBase
 ]", json);
 
         var l2 = JsonConvert.DeserializeObject<ConverterList<object>>(json);
-        Assert.IsNotNull(l2);
+        Xunit.Assert.NotNull(l2);
 
         Assert.AreEqual(new DateTime(2000, 12, 12, 20, 10, 0, DateTimeKind.Utc), l2[0]);
         Assert.AreEqual(new DateTime(1983, 10, 9, 23, 10, 0, DateTimeKind.Utc), l2[1]);
@@ -225,7 +225,7 @@ public class JavaScriptDateTimeConverterTests : TestFixtureBase
 }", json);
 
         var l2 = JsonConvert.DeserializeObject<ConverterDictionary<object>>(json);
-        Assert.IsNotNull(l2);
+        Xunit.Assert.NotNull(l2);
 
         Assert.AreEqual(new DateTime(2000, 12, 12, 20, 10, 0, DateTimeKind.Utc), l2["First"]);
         Assert.AreEqual(new DateTime(1983, 10, 9, 23, 10, 0, DateTimeKind.Utc), l2["Second"]);
@@ -251,7 +251,7 @@ public class JavaScriptDateTimeConverterTests : TestFixtureBase
 }", json);
 
         var l2 = JsonConvert.DeserializeObject<ConverterObject>(json);
-        Assert.IsNotNull(l2);
+        Xunit.Assert.NotNull(l2);
 
         //Assert.AreEqual(new DateTime(2000, 12, 12, 20, 10, 0, DateTimeKind.Utc), l2["First"]);
         //Assert.AreEqual(new DateTime(1983, 10, 9, 23, 10, 0, DateTimeKind.Utc), l2["Second"]);

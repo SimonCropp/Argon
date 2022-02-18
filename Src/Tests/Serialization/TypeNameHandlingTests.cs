@@ -212,7 +212,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Objects
         });
 
-        Assert.IsNotNull(value.EncryptedPassword);
+        Xunit.Assert.NotNull(value.EncryptedPassword);
         Xunit.Assert.Equal(Convert.FromBase64String("cGFzc3dvcmQ="), value.EncryptedPassword);
     }
 
@@ -1189,7 +1189,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             anotherTestObject = deserializingTester.Deserialize<HolderClass>(jsonReader);
         }
 
-        Assert.IsNotNull(anotherTestObject);
+        Xunit.Assert.NotNull(anotherTestObject);
         Xunit.Assert.IsType(typeof(ContentSubClass), anotherTestObject.TestMember);
         Xunit.Assert.IsType(typeof(Dictionary<int, IList<ContentBaseClass>>), anotherTestObject.AnotherTestMember);
         Assert.AreEqual(1, anotherTestObject.AnotherTestMember.Count);
@@ -1426,7 +1426,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 }");
         var obj = JsonConvert.DeserializeObject<Car>(output, jsonSettings);
 
-        Assert.IsNotNull(obj);
+        Xunit.Assert.NotNull(obj);
 
         Xunit.Assert.True(obj.Objects[0] is byte[]);
 
@@ -1644,7 +1644,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         StringAssert.AreEqual(expected, json);
 
         var o2 = JsonConvert.DeserializeObject<TypeNameObject>(json);
-        Assert.IsNotNull(o2);
+        Xunit.Assert.NotNull(o2);
 
         Xunit.Assert.IsType(typeof(TestComponentSimple), o2.Object1);
         Assert.AreEqual(1, ((TestComponentSimple)o2.Object1).MyProperty);
@@ -1892,8 +1892,8 @@ public class TypeNameHandlingTests : TestFixtureBase
 }", json);
 
         var o2 = JsonConvert.DeserializeObject<PropertyItemTypeNameHandlingObject>(json);
-        Assert.IsNotNull(o2);
-        Assert.IsNotNull(o2.Data);
+        Xunit.Assert.NotNull(o2);
+        Xunit.Assert.NotNull(o2.Data);
 
         Xunit.Assert.IsType(typeof(List<object>), o2.Data.Prop1);
         Xunit.Assert.IsType(typeof(TestComponentSimple), o2.Data.Prop2);
@@ -1943,8 +1943,8 @@ public class TypeNameHandlingTests : TestFixtureBase
 }", json);
 
         var d2 = JsonConvert.DeserializeObject<PropertyItemTypeNameHandlingDynamic>(json);
-        Assert.IsNotNull(d2);
-        Assert.IsNotNull(d2.Data);
+        Xunit.Assert.NotNull(d2);
+        Xunit.Assert.NotNull(d2.Data);
 
         dynamic data3 = d2.Data;
         var c = (TestComponentSimple)data3.one;
@@ -2222,7 +2222,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
             var obtainedDictionary = (Dictionary<int, HashSet<string>>)JsonConvert.DeserializeObject(obtainedJson, serializerSettings);
 
-            Assert.IsNotNull(obtainedDictionary);
+            Xunit.Assert.NotNull(obtainedDictionary);
         }
 
         [Fact]
@@ -2245,7 +2245,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
             var obtainedDictionary = (Dictionary<int, HashSet<string>>)JsonConvert.DeserializeObject(obtainedJson, serializerSettings);
 
-            Assert.IsNotNull(obtainedDictionary);
+            Xunit.Assert.NotNull(obtainedDictionary);
         }
 
         [Fact]
@@ -2293,7 +2293,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     {
         var serializer = JsonSerializer.Create();
 #pragma warning disable CS0618
-        Assert.AreNotEqual(null, serializer.Binder);
+        Xunit.Assert.NotEqual(null, serializer.Binder);
         Xunit.Assert.IsType(typeof(DefaultSerializationBinder), serializer.Binder);
 #pragma warning restore CS0618 // Type or member is obsolete
         Xunit.Assert.IsType(typeof(DefaultSerializationBinder), serializer.SerializationBinder);

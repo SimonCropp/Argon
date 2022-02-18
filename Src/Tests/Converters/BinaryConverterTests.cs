@@ -178,7 +178,7 @@ public class BinaryConverterTests : TestFixtureBase
 }";
 
         var c = JsonConvert.DeserializeObject<ByteArrayClass>(json);
-        Assert.IsNotNull(c.ByteArray);
+        Xunit.Assert.NotNull(c.ByteArray);
         Assert.AreEqual(4, c.ByteArray.Length);
         Xunit.Assert.Equal(new byte[] { 0, 1, 2, 3 }, c.ByteArray);
     }

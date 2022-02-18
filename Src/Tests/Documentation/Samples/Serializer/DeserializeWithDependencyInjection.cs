@@ -123,8 +123,8 @@ public class DeserializeWithDependencyInjection : TestFixtureBase
         // TaskRepository
         #endregion
 
-        Assert.IsNotNull(controller);
-        Assert.IsNotNull(controller.Logger);
+        Xunit.Assert.NotNull(controller);
+        Xunit.Assert.NotNull(controller.Logger);
 
         Assert.AreEqual(new DateTime(2000, 12, 12), controller.Logger.DateTime);
         Assert.AreEqual("Debug", controller.Logger.Level);

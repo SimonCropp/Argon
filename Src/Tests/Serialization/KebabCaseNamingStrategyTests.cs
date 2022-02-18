@@ -104,7 +104,7 @@ public class KebabCaseNamingStrategyTests : TestFixtureBase
         var o = (JObject)writer.Token;
         var p = o.Property("the-field");
 
-        Assert.IsNotNull(p);
+        Xunit.Assert.NotNull(p);
         Assert.AreEqual(int.MinValue, (int)p.Value);
     }
 

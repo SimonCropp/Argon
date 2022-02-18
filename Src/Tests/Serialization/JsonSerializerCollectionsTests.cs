@@ -69,7 +69,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var deserializedObject = JsonConvert.DeserializeObject<ConcurrentDictionary<string, string>>(jsonValue);
 
-        Assert.IsNull(deserializedObject[key]);
+        Xunit.Assert.Null(deserializedObject[key]);
     }
 
     [Fact]

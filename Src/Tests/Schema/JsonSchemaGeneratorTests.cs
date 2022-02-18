@@ -507,7 +507,7 @@ public class JsonSchemaGeneratorTests : TestFixtureBase
         var jsonSchema = jsonSchemaGenerator.Generate(type);
 
         // should succeed
-        Assert.IsNotNull(jsonSchema);
+        Xunit.Assert.NotNull(jsonSchema);
     }
 
     [Fact]

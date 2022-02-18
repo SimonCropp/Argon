@@ -426,7 +426,7 @@ Argon Error: 0 : Error!
 
         await Task.WhenAll(tasks);
 
-        Assert.IsNotNull(s);
+        Xunit.Assert.NotNull(s);
     }
 
     [Fact]
@@ -938,7 +938,7 @@ Argon Error: 0 : Error!
             TraceWriter = traceWriter
         });
 
-        Assert.IsNotNull(c);
+        Xunit.Assert.NotNull(c);
         Assert.AreEqual(1, c.Name);
 
         Assert.AreEqual("Deserializing Argon.Tests.TestObjects.PublicParameterizedConstructorWithPropertyNameConflictWithAttribute using creator with parameters: name. Path 'name', line 1, position 6.", traceWriter.TraceRecords[0].Message);
@@ -1015,7 +1015,7 @@ Argon Error: 0 : Error!
         Assert.AreEqual("Started deserializing Argon.Tests.Serialization.SpecifiedTestClass. Path 'Age', line 2, position 8.", traceWriter.TraceRecords[0].Message);
         Xunit.Assert.True(traceWriter.TraceRecords[1].Message.StartsWith("Finished deserializing Argon.Tests.Serialization.SpecifiedTestClass. Path ''"));
 
-        Assert.IsNull(deserialized.Name);
+        Xunit.Assert.Null(deserialized.Name);
         Xunit.Assert.False(deserialized.NameSpecified);
         Xunit.Assert.False(deserialized.WeightSpecified);
         Xunit.Assert.False(deserialized.HeightSpecified);

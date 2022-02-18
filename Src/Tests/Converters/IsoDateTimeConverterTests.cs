@@ -253,7 +253,7 @@ public class IsoDateTimeConverterTests : TestFixtureBase
         }
         else
         {
-            Assert.AreNotEqual(json, json2);
+            Xunit.Assert.NotEqual(json, json2);
         }
     }
 

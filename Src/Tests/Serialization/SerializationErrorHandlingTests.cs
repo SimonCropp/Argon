@@ -48,7 +48,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             }
         });
 
-        Assert.IsNotNull(a2);
+        Xunit.Assert.NotNull(a2);
         Assert.AreEqual(1, errors.Count);
         Assert.AreEqual("Error resolving type specified in JSON '<Namespace>.JsonTest+MyTest2, <Assembly>'. Path 'MyTest.$type', line 1, position 61.", errors[0].Message);
     }
@@ -68,7 +68,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             }
         });
 
-        Assert.IsNull(a2);
+        Xunit.Assert.Null(a2);
         Assert.AreEqual(1, errors.Count);
         Assert.AreEqual("Error resolving type specified in JSON '<Namespace>.JsonTest+MyTest2, <Assembly>'. Path '$type', line 1, position 51.", errors[0].Message);
     }
@@ -567,7 +567,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
         var result = serializer.Deserialize<ErrorPerson[]>(new JsonTextReader(new ThrowingReader()));
 
-        Assert.IsNull(result);
+        Xunit.Assert.Null(result);
         Assert.AreEqual(3, errors.Count);
         Assert.AreEqual("too far", errors[0]);
         Assert.AreEqual("too far", errors[1]);
@@ -591,7 +591,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
                 }
             });
 
-        Assert.IsNotNull(o);
+        Xunit.Assert.NotNull(o);
 
         Assert.AreEqual(1, errors.Count);
         Assert.AreEqual("Unexpected character encountered while parsing value: x. Path '[0]', line 1, position 4.", errors[0]);
@@ -617,7 +617,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         });
         var o = serializer.Deserialize(reader, typeof(int[]));
 
-        Assert.IsNotNull(o);
+        Xunit.Assert.NotNull(o);
 
         Assert.AreEqual(1, errors.Count);
         Assert.AreEqual("Error reading integer. Unexpected token: Boolean. Path '[1]'.", errors[0]);
@@ -643,7 +643,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
                 }
             });
 
-        Assert.IsNotNull(o);
+        Xunit.Assert.NotNull(o);
 
         Assert.AreEqual(2, errors.Count);
         Assert.AreEqual("Unexpected character encountered while parsing value: x. Path 'badarray[0]', line 1, position 16.", errors[0]);
@@ -678,7 +678,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
             var logMessage = jsonSerializer.Deserialize<LogMessage>(jsonTextReader);
 
-            Assert.IsNotNull(logMessage.Events);
+            Xunit.Assert.NotNull(logMessage.Events);
             Assert.AreEqual(1, logMessage.Events.Count);
             Assert.AreEqual("64411", logMessage.Events[0].Code);
         }
@@ -708,7 +708,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
             var logEvents = jsonSerializer.Deserialize<IDictionary<string, LogEvent>>(jsonTextReader);
 
-            Assert.IsNotNull(logEvents);
+            Xunit.Assert.NotNull(logEvents);
             Assert.AreEqual(2, logEvents.Count);
             Assert.AreEqual("64411", logEvents["events"].Code);
             Assert.AreEqual("64412", logEvents["events2"].Code);
@@ -802,7 +802,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         s.Error += (_, args) => { args.ErrorContext.Handled = true; };
         var obj = s.Deserialize<ErrorPerson2>(jReader);
 
-        Assert.IsNull(obj);
+        Xunit.Assert.Null(obj);
     }
 
     [Fact]
@@ -949,7 +949,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             Error = (_, e) => { e.ErrorContext.Handled = true; }
         });
 
-        Assert.IsNull(result);
+        Xunit.Assert.Null(result);
     }
 
     [Fact]

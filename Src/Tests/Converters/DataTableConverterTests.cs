@@ -44,7 +44,7 @@ public class DataTableConverterTests : TestFixtureBase
         Assert.AreEqual(typeof(string[]), dt.Columns["col1"].DataType);
 
         Assert.AreEqual(1, dt.Rows.Count);
-        Assert.IsNotNull(dt.Rows[0]["col1"]);
+        Xunit.Assert.NotNull(dt.Rows[0]["col1"]);
 
         var value = (object[])dt.Rows[0]["col1"];
         Assert.AreEqual(0, value.Length);
@@ -189,7 +189,7 @@ public class DataTableConverterTests : TestFixtureBase
 ]";
 
         var deserializedDataTable = JsonConvert.DeserializeObject<DataTable>(json);
-        Assert.IsNotNull(deserializedDataTable);
+        Xunit.Assert.NotNull(deserializedDataTable);
 
         Assert.AreEqual(string.Empty, deserializedDataTable.TableName);
         Assert.AreEqual(5, deserializedDataTable.Columns.Count);
@@ -240,7 +240,7 @@ public class DataTableConverterTests : TestFixtureBase
             DateParseHandling = DateParseHandling.DateTimeOffset,
             FloatParseHandling = FloatParseHandling.Decimal
         });
-        Assert.IsNotNull(deserializedDataTable);
+        Xunit.Assert.NotNull(deserializedDataTable);
 
         Assert.AreEqual(string.Empty, deserializedDataTable.TableName);
         Assert.AreEqual(2, deserializedDataTable.Columns.Count);

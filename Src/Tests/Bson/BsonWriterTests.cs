@@ -244,7 +244,7 @@ public class BsonWriterTests : TestFixtureBase
         var reader = new BsonReader(ms);
         var s2 = (Store)serializer.Deserialize(reader, typeof(Store));
 
-        Assert.AreNotEqual(s1, s2);
+        Xunit.Assert.NotEqual(s1, s2);
         Assert.AreEqual(s1.Color, s2.Color);
         Assert.AreEqual(s1.Cost, s2.Cost);
         Assert.AreEqual(s1.Employees, s2.Employees);
@@ -346,13 +346,13 @@ public class BsonWriterTests : TestFixtureBase
         var reader = new BsonReader(ms);
         var bsonGoogleMapGeocoder = (GoogleMapGeocoderStructure)serializer.Deserialize(reader, typeof(GoogleMapGeocoderStructure));
 
-        Assert.IsNotNull(bsonGoogleMapGeocoder);
+        Xunit.Assert.NotNull(bsonGoogleMapGeocoder);
         Assert.AreEqual("1600 Amphitheatre Parkway, Mountain View, CA, USA", bsonGoogleMapGeocoder.Name);
         Assert.AreEqual("200", bsonGoogleMapGeocoder.Status.Code);
         Assert.AreEqual("geocode", bsonGoogleMapGeocoder.Status.Request);
 
         IList<Placemark> placemarks = bsonGoogleMapGeocoder.Placemark;
-        Assert.IsNotNull(placemarks);
+        Xunit.Assert.NotNull(placemarks);
         Assert.AreEqual(1, placemarks.Count);
 
         var placemark = placemarks[0];
@@ -841,7 +841,7 @@ public class BsonWriterTests : TestFixtureBase
         Assert.AreEqual("http://example.net/", reader.ReadAsString());
         Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-        Assert.IsNull(reader.ReadAsString());
+        Xunit.Assert.Null(reader.ReadAsString());
     }
 
     [Fact]
@@ -866,7 +866,7 @@ public class BsonWriterTests : TestFixtureBase
         Assert.AreEqual(new byte[] {0, 1, 2, 3, 4, 5, 6, 7}, reader.ReadAsBytes());
         Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-        Assert.IsNull(reader.ReadAsBytes());
+        Xunit.Assert.Null(reader.ReadAsBytes());
     }
 
     [Fact]

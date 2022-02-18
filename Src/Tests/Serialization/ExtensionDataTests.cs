@@ -179,7 +179,7 @@ public class ExtensionDataTests : TestFixtureBase
         var c2 = JsonConvert.DeserializeObject<ExtensionDataDeserializeWithNonDefaultConstructor>(json);
 
         Assert.AreEqual("Name!", c2.Name);
-        Assert.IsNotNull(c2._extensionData);
+        Xunit.Assert.NotNull(c2._extensionData);
         Assert.AreEqual(1, c2._extensionData.Count);
         Assert.AreEqual("Value!", (string)c2._extensionData["Key!"]);
     }

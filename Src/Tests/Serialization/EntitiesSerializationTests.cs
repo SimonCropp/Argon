@@ -280,7 +280,7 @@ public class EntitiesSerializationTests : TestFixtureBase
 
         var f = JsonConvert.DeserializeObject<Folder>(json, new IsoDateTimeConverter());
 
-        Assert.IsNotNull(f);
+        Xunit.Assert.NotNull(f);
         Assert.AreEqual(new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E"), f.FolderId);
         Assert.AreEqual("Folder", f.EntityKey.EntitySetName);
         Assert.AreEqual("DataServicesTestDatabaseEntities", f.EntityKey.EntityContainerName);

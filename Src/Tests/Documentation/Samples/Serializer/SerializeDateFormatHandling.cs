@@ -51,6 +51,6 @@ public class SerializeDateFormatHandling : TestFixtureBase
         // "\/Date(1356044400000+0100)\/"
         #endregion
 
-        Assert.IsNotNull(jsonMsDate);
+        Xunit.Assert.NotNull(jsonMsDate);
     }
 }

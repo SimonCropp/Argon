@@ -123,9 +123,9 @@ public class CustomCreationConverterTests : TestFixtureBase
 }
 ";
         var myClass = JsonConvert.DeserializeObject<MyClass>(json);
-        Assert.IsNotNull(myClass);
+        Xunit.Assert.NotNull(myClass);
         Assert.AreEqual("A value", myClass.Value);
-        Assert.IsNotNull(myClass.Thing);
+        Xunit.Assert.NotNull(myClass.Thing);
         Assert.AreEqual(123, myClass.Thing.Number);
     }
 

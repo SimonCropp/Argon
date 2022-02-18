@@ -124,7 +124,7 @@ public class DynamicTests : TestFixtureBase
         Assert.AreEqual(JTokenType.Null, d.First.Type);
 
         Xunit.Assert.True(d.Remove("First"));
-        Assert.IsNull(d.First);
+        Xunit.Assert.Null(d.First);
 
         JValue v1 = d.ChildValue;
         JValue v2 = d["ChildValue"];
@@ -212,8 +212,8 @@ public class DynamicTests : TestFixtureBase
 
         object count = d.Count;
 
-        Assert.IsNull(count);
-        Assert.IsNull(d["Count"]);
+        Xunit.Assert.Null(count);
+        Xunit.Assert.Null(d["Count"]);
 
         Xunit.Assert.True(d.TryGetValue("ChildValue", out JToken v));
         Assert.AreEqual("blah blah", (string)v);

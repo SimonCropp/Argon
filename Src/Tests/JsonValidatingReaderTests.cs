@@ -120,7 +120,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         Xunit.Assert.False(reader.Read());
 
-        Assert.IsNull(validationEventArgs);
+        Xunit.Assert.Null(validationEventArgs);
     }
 
     [Fact]
@@ -193,7 +193,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
         Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
 
-        Assert.IsNull(validationEventArgs);
+        Xunit.Assert.Null(validationEventArgs);
     }
 
     [Fact]
@@ -217,7 +217,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
         Assert.AreEqual(JsonToken.String, reader.TokenType);
         Assert.AreEqual("String 'pie' is less than minimum length of 5. Line 1, position 5.", validationEventArgs.Message);
 
-        Assert.IsNotNull(validationEventArgs);
+        Xunit.Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -241,7 +241,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
         Assert.AreEqual(JsonToken.String, reader.TokenType);
         Assert.AreEqual("String 'The quick brown fox jumps over the lazy dog.' exceeds maximum length of 10. Line 1, position 46.", validationEventArgs.Message);
 
-        Assert.IsNotNull(validationEventArgs);
+        Xunit.Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -282,7 +282,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
         Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
 
-        Assert.IsNotNull(validationEventArgs);
+        Xunit.Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -306,7 +306,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
         Assert.AreEqual("String 'The quick brown fox jumps over the lazy dog.' does not match regex pattern 'foo'. Line 1, position 46.", validationEventArgs.Message);
         Assert.AreEqual("", validationEventArgs.Path);
 
-        Assert.IsNotNull(validationEventArgs);
+        Xunit.Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -330,7 +330,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
         Assert.AreEqual("Integer 10 exceeds maximum value of 5. Line 1, position 2.", validationEventArgs.Message);
         Assert.AreEqual("", validationEventArgs.Path);
 
-        Assert.IsNotNull(validationEventArgs);
+        Xunit.Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -354,7 +354,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
         Assert.AreEqual("Integer 99999999999999999999999999999999999999999999999999999999999999999999 exceeds maximum value of 5. Line 1, position 68.", validationEventArgs.Message);
         Assert.AreEqual("", validationEventArgs.Path);
 
-        Assert.IsNotNull(validationEventArgs);
+        Xunit.Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -371,7 +371,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         v.Validate(JsonSchema.Parse(schemaJson), (_, args) => { validationEventArgs = args; });
 
-        Assert.IsNotNull(validationEventArgs);
+        Xunit.Assert.NotNull(validationEventArgs);
         Assert.AreEqual("Integer 1 is less than minimum value of 5.", validationEventArgs.Message);
         Assert.AreEqual("", validationEventArgs.Path);
     }
@@ -413,7 +413,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
         Assert.AreEqual(JsonToken.Integer, reader.TokenType);
         Assert.AreEqual("Integer 1 is less than minimum value of 5. Line 1, position 1.", validationEventArgs.Message);
 
-        Assert.IsNotNull(validationEventArgs);
+        Xunit.Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -454,7 +454,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
         Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
 
-        Assert.IsNotNull(validationEventArgs);
+        Xunit.Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -477,7 +477,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
         Assert.AreEqual(JsonToken.Float, reader.TokenType);
         Assert.AreEqual("Float 10.0 exceeds maximum value of 5. Line 1, position 4.", validationEventArgs.Message);
 
-        Assert.IsNotNull(validationEventArgs);
+        Xunit.Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -500,7 +500,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
         Assert.AreEqual(JsonToken.Float, reader.TokenType);
         Assert.AreEqual("Float 1.1 is less than minimum value of 5. Line 1, position 3.", validationEventArgs.Message);
 
-        Assert.IsNotNull(validationEventArgs);
+        Xunit.Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -541,7 +541,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
         Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
 
-        Assert.IsNotNull(validationEventArgs);
+        Xunit.Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -581,7 +581,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
         Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
 
-        Assert.IsNotNull(validationEventArgs);
+        Xunit.Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -608,7 +608,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.Integer, reader.TokenType);
-        Assert.IsNull(validationEventArgs);
+        Xunit.Assert.Null(validationEventArgs);
 
         Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
@@ -644,7 +644,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
         Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
 
-        Assert.IsNotNull(validationEventArgs);
+        Xunit.Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -671,7 +671,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.Integer, reader.TokenType);
-        Assert.IsNotNull(validationEventArgs);
+        Xunit.Assert.NotNull(validationEventArgs);
         Assert.AreEqual(@"Integer 999999999999999999999999999999999999999999999999999999999 is not evenly divisible by 1.1. Line 1, position 58.", validationEventArgs.Message);
         Assert.AreEqual("[0]", validationEventArgs.Path);
 
@@ -696,7 +696,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         a.Validate(JsonSchema.Parse(schemaJson), (_, args) => { validationEventArgs = args; });
 
-        Assert.IsNull(validationEventArgs);
+        Xunit.Assert.Null(validationEventArgs);
     }
 
     [Fact]
@@ -726,7 +726,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
         Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
 
-        Assert.IsNull(validationEventArgs);
+        Xunit.Assert.Null(validationEventArgs);
     }
 
     [Fact]
@@ -760,7 +760,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
         Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
 
-        Assert.IsNotNull(validationEventArgs);
+        Xunit.Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -798,7 +798,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
         Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
 
-        Assert.IsNotNull(validationEventArgs);
+        Xunit.Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -834,7 +834,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
         Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
         Assert.AreEqual("Array item count 4 exceeds maximum count of 3. Line 1, position 21.", validationEventArgs.Message);
 
-        Assert.IsNotNull(validationEventArgs);
+        Xunit.Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -864,7 +864,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
         Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
         Assert.AreEqual("Array item count 1 is less than minimum count of 2. Line 1, position 6.", validationEventArgs.Message);
 
-        Assert.IsNotNull(validationEventArgs);
+        Xunit.Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -889,7 +889,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
         Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
         Assert.AreEqual(@"Invalid type. Expected String but got Array. Line 1, position 1.", validationEventArgs.Message);
 
-        Assert.IsNotNull(validationEventArgs);
+        Xunit.Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -925,7 +925,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
         Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
 
-        Assert.IsNotNull(validationEventArgs);
+        Xunit.Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -967,7 +967,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
         Assert.AreEqual("Required properties are missing from object: hobbies, age. Line 1, position 16.", validationEventArgs.Message);
         Assert.AreEqual("", validationEventArgs.Path);
 
-        Assert.IsNotNull(validationEventArgs);
+        Xunit.Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -1002,12 +1002,12 @@ public class JsonValidatingReaderTests : TestFixtureBase
         Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.String, reader.TokenType);
         Assert.AreEqual("James", reader.Value.ToString());
-        Assert.IsNull(validationEventArgs);
+        Xunit.Assert.Null(validationEventArgs);
 
         Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
 
-        Assert.IsNull(validationEventArgs);
+        Xunit.Assert.Null(validationEventArgs);
     }
 
     [Fact]
@@ -1064,7 +1064,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
         Xunit.Assert.True(reader.Read());
         Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
 
-        Assert.IsNotNull(validationEventArgs);
+        Xunit.Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -1097,7 +1097,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
         Assert.AreEqual(1, errors.Count);
         Assert.AreEqual("String 'The quick brown fox jumps over the lazy dog.' exceeds maximum length of 9. Line 1, position 46.", errors[0]);
 
-        Assert.IsNotNull(validationEventArgs);
+        Xunit.Assert.NotNull(validationEventArgs);
     }
 
     JsonSchema GetExtendedSchema()

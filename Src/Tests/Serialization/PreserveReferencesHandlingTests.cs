@@ -1051,7 +1051,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         var json = JsonConvert.SerializeObject(user1, Formatting.Indented, serializerSettings);
 
         var deserializedUser = JsonConvert.DeserializeObject<User>(json, serializerSettings);
-        Assert.IsNotNull(deserializedUser);
+        Xunit.Assert.NotNull(deserializedUser);
     }
 
     [Fact]
@@ -1107,7 +1107,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         Assert.AreEqual(2, myClasses2.Count);
         Assert.AreEqual(myClasses2[0], myClasses2[1]);
 
-        Assert.AreNotEqual(myClasses1[0], myClasses2[0]);
+        Xunit.Assert.NotEqual(myClasses1[0], myClasses2[0]);
     }
 
     [Fact]
@@ -1237,7 +1237,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         StringAssert.AreEqual(expected, json);
 
         var referenceObject = JsonConvert.DeserializeObject<ReferenceObject>(json);
-        Assert.IsNotNull(referenceObject);
+        Xunit.Assert.NotNull(referenceObject);
 
         Xunit.Assert.True(ReferenceEquals(referenceObject.Component1, referenceObject.Component2));
     }

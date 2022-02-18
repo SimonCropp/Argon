@@ -300,14 +300,14 @@ public class JValueTests : TestFixtureBase
     public void Previous()
     {
         var v = new JValue(true);
-        Assert.IsNull(v.Previous);
+        Xunit.Assert.Null(v.Previous);
     }
 
     [Fact]
     public void Next()
     {
         var v = new JValue(true);
-        Assert.IsNull(v.Next);
+        Xunit.Assert.Null(v.Next);
     }
 
     [Fact]

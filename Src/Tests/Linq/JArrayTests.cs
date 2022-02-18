@@ -449,7 +449,7 @@ Parameter name: index",
         ITypedList a = new JArray(new JObject(p1, p2));
 
         var propertyDescriptors = a.GetItemProperties(null);
-        Assert.IsNotNull(propertyDescriptors);
+        Xunit.Assert.NotNull(propertyDescriptors);
         Assert.AreEqual(2, propertyDescriptors.Count);
         Assert.AreEqual("Test1", propertyDescriptors[0].Name);
         Assert.AreEqual("Test2", propertyDescriptors[1].Name);

@@ -210,8 +210,8 @@ public class DependencyInjectionTests : TestFixtureBase
             ContractResolver = contractResolver
         });
 
-        Assert.IsNotNull(controller);
-        Assert.IsNotNull(controller.Logger);
+        Xunit.Assert.NotNull(controller);
+        Xunit.Assert.NotNull(controller.Logger);
 
         Assert.AreEqual(1, count);
 
@@ -265,9 +265,9 @@ public class DependencyInjectionTests : TestFixtureBase
             ContractResolver = contractResolver
         });
 
-        Assert.IsNotNull(o);
-        Assert.IsNotNull(o.Logger);
-        Assert.IsNotNull(o.Repository);
+        Xunit.Assert.NotNull(o);
+        Xunit.Assert.NotNull(o.Logger);
+        Xunit.Assert.NotNull(o.Repository);
         Assert.AreEqual(o.Repository.CreatedOn, DateTime.Parse("2015-04-01 20:00"));
 
         Assert.AreEqual(2, count);

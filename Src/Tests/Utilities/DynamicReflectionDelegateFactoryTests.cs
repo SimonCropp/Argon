@@ -43,7 +43,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
 
         var args = new object[] { "Value" };
         var o = (InTestClass)creator(args);
-        Assert.IsNotNull(o);
+        Xunit.Assert.NotNull(o);
         Assert.AreEqual("Value", o.Value);
     }
 
@@ -56,7 +56,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
 
         var args = new object[] { "Value", true };
         var o = (InTestClass)creator(args);
-        Assert.IsNotNull(o);
+        Xunit.Assert.NotNull(o);
         Assert.AreEqual("Value", o.Value);
         Assert.True( o.B1);
     }
@@ -70,7 +70,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
 
         var args = new object[] { "Input" };
         var o = (OutAndRefTestClass)creator(args);
-        Assert.IsNotNull(o);
+        Xunit.Assert.NotNull(o);
         Assert.AreEqual("Input", o.Input);
     }
 
@@ -83,7 +83,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
 
         var args = new object[] { "Input", false };
         var o = (OutAndRefTestClass)creator(args);
-        Assert.IsNotNull(o);
+        Xunit.Assert.NotNull(o);
         Assert.AreEqual("Input", o.Input);
         Assert.True( o.B1);
     }
@@ -97,7 +97,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
 
         var args = new object[] { "Input", true, null };
         var o = (OutAndRefTestClass)creator(args);
-        Assert.IsNotNull(o);
+        Xunit.Assert.NotNull(o);
         Assert.AreEqual("Input", o.Input);
         Assert.True( o.B1);
         Assert.False( o.B2);
@@ -174,12 +174,12 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
     {
         var castMethodInfo = typeof(DictionaryKey).GetMethod("op_Implicit", new[] { typeof(string) });
 
-        Assert.IsNotNull(castMethodInfo);
+        Xunit.Assert.NotNull(castMethodInfo);
 
         var call = DynamicReflectionDelegateFactory.Instance.CreateMethodCall<object>(castMethodInfo);
 
         var result = call(null, "First!");
-        Assert.IsNotNull(result);
+        Xunit.Assert.NotNull(result);
 
         var key = (DictionaryKey)result;
         Assert.AreEqual("First!", key.Value);
@@ -190,7 +190,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
     {
         var namePropertyInfo = typeof(Person).GetProperty(nameof(Person.Name));
 
-        Assert.IsNotNull(namePropertyInfo);
+        Xunit.Assert.NotNull(namePropertyInfo);
 
         var call = DynamicReflectionDelegateFactory.Instance.CreateGet<Person>(namePropertyInfo);
 
@@ -200,7 +200,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
         };
 
         var result = call(p);
-        Assert.IsNotNull(result);
+        Xunit.Assert.NotNull(result);
 
         Assert.AreEqual("Name!", (string)result);
     }
@@ -237,12 +237,12 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
     {
         var methodInfo = typeof(DynamicReflectionDelegateFactoryTests).GetMethod(nameof(StructMethod), new[] { typeof(TestStruct) });
 
-        Assert.IsNotNull(methodInfo);
+        Xunit.Assert.NotNull(methodInfo);
 
         var call = DynamicReflectionDelegateFactory.Instance.CreateMethodCall<object>(methodInfo);
 
         var result = call(null, new TestStruct(123));
-        Assert.IsNotNull(result);
+        Xunit.Assert.NotNull(result);
 
         var s = (TestStruct)result;
         Assert.AreEqual(246, s.Value);

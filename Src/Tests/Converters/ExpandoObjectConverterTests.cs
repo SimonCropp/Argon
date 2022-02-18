@@ -120,7 +120,7 @@ public class ExpandoObjectConverterTests : TestFixtureBase
 
         Assert.AreEqual(o.Before, "Before!");
         Assert.AreEqual(o.After, "After!");
-        Assert.IsNotNull(o.Expando);
+        Xunit.Assert.NotNull(o.Expando);
 
         dynamic d = o.Expando;
         Xunit.Assert.IsType(typeof(ExpandoObject), d);
@@ -134,7 +134,7 @@ public class ExpandoObjectConverterTests : TestFixtureBase
         Assert.AreEqual(1.23, d.Float);
         Xunit.Assert.IsType(typeof(double), d.Float);
 
-        Assert.IsNotNull(d.List);
+        Xunit.Assert.NotNull(d.List);
         Assert.AreEqual(3, d.List.Count);
         Xunit.Assert.IsType(typeof(List<object>), d.List);
 
@@ -144,7 +144,7 @@ public class ExpandoObjectConverterTests : TestFixtureBase
         Assert.AreEqual("Second", d.List[1]);
         Assert.AreEqual("Third", d.List[2]);
 
-        Assert.IsNotNull(d.Object);
+        Xunit.Assert.NotNull(d.Object);
         Xunit.Assert.IsType(typeof(ExpandoObject), d.Object);
 
         Assert.AreEqual(1, d.Object.First);

@@ -153,11 +153,11 @@ public class JsonConvertTest : TestFixtureBase
             reader.Read();
 
             var jsonTextReader = (JsonTextReader)reader;
-            Assert.IsNotNull(jsonTextReader.PropertyNameTable);
+            Xunit.Assert.NotNull(jsonTextReader.PropertyNameTable);
 
             var s = serializer.Deserialize<string>(reader);
             Assert.AreEqual("hi", s);
-            Assert.IsNotNull(jsonTextReader.PropertyNameTable);
+            Xunit.Assert.NotNull(jsonTextReader.PropertyNameTable);
 
             var o = new NameTableTestClass
             {
@@ -179,13 +179,13 @@ public class JsonConvertTest : TestFixtureBase
         var sr = new StringReader("{'property':'hi'}");
         var jsonTextReader = new JsonTextReader(sr);
 
-        Assert.IsNull(jsonTextReader.PropertyNameTable);
+        Xunit.Assert.Null(jsonTextReader.PropertyNameTable);
 
         var serializer = new JsonSerializer();
         serializer.Converters.Add(new NameTableTestClassConverter());
         var o = serializer.Deserialize<NameTableTestClass>(jsonTextReader);
 
-        Assert.IsNull(jsonTextReader.PropertyNameTable);
+        Xunit.Assert.Null(jsonTextReader.PropertyNameTable);
         Assert.AreEqual("hi", o.Value);
     }
 
@@ -203,7 +203,7 @@ public class JsonConvertTest : TestFixtureBase
         var sr = new StringReader("{'property':'hi'}");
         var jsonTextReader = new JsonTextReader(sr);
 
-        Assert.IsNull(jsonTextReader.PropertyNameTable);
+        Xunit.Assert.Null(jsonTextReader.PropertyNameTable);
         var nameTable = jsonTextReader.PropertyNameTable = new CustonNameTable();
 
         var serializer = new JsonSerializer();
@@ -429,7 +429,7 @@ public class JsonConvertTest : TestFixtureBase
     public void DeserializeObject_EmptyString()
     {
         var result = JsonConvert.DeserializeObject(string.Empty);
-        Assert.IsNull(result);
+        Xunit.Assert.Null(result);
     }
 
     [Fact]
@@ -443,21 +443,21 @@ public class JsonConvertTest : TestFixtureBase
     public void DeserializeObject_Integer_EmptyString()
     {
         var value = JsonConvert.DeserializeObject<int?>("");
-        Assert.IsNull(value);
+        Xunit.Assert.Null(value);
     }
 
     [Fact]
     public void DeserializeObject_Decimal_EmptyString()
     {
         var value = JsonConvert.DeserializeObject<decimal?>("");
-        Assert.IsNull(value);
+        Xunit.Assert.Null(value);
     }
 
     [Fact]
     public void DeserializeObject_DateTime_EmptyString()
     {
         var value = JsonConvert.DeserializeObject<DateTime?>("");
-        Assert.IsNull(value);
+        Xunit.Assert.Null(value);
     }
 
     [Fact]
@@ -1618,35 +1618,35 @@ public class JsonConvertTest : TestFixtureBase
     public void ShouldNotPopulateReadOnlyEnumerableObjectWithNonDefaultConstructor()
     {
         object actual = JsonConvert.DeserializeObject<HasReadOnlyEnumerableObject>("{\"foo\":{}}");
-        Assert.IsNotNull(actual);
+        Xunit.Assert.NotNull(actual);
     }
 
     [Fact]
     public void ShouldNotPopulateReadOnlyEnumerableObjectWithDefaultConstructor()
     {
         object actual = JsonConvert.DeserializeObject<HasReadOnlyEnumerableObjectAndDefaultConstructor>("{\"foo\":{}}");
-        Assert.IsNotNull(actual);
+        Xunit.Assert.NotNull(actual);
     }
 
     [Fact]
     public void ShouldNotPopulateContructorArgumentEnumerableObject()
     {
         object actual = JsonConvert.DeserializeObject<AcceptsEnumerableObjectToConstructor>("{\"foo\":{}}");
-        Assert.IsNotNull(actual);
+        Xunit.Assert.NotNull(actual);
     }
 
     [Fact]
     public void ShouldNotPopulateEnumerableObjectProperty()
     {
         object actual = JsonConvert.DeserializeObject<HasEnumerableObject>("{\"foo\":{}}");
-        Assert.IsNotNull(actual);
+        Xunit.Assert.NotNull(actual);
     }
 
     [Fact]
     public void ShouldNotPopulateReadOnlyDictionaryObjectWithNonDefaultConstructor()
     {
         object actual = JsonConvert.DeserializeObject<HasReadOnlyDictionary>("{\"foo\":{'key':'value'}}");
-        Assert.IsNotNull(actual);
+        Xunit.Assert.NotNull(actual);
     }
 
     public sealed class HasReadOnlyDictionary
@@ -1749,7 +1749,7 @@ public class JsonConvertTest : TestFixtureBase
   ""active"": true
 }";
         var value = JsonConvert.DeserializeObject<ItemsRequiredObjectWithIgnoredProperty>(json);
-        Assert.IsNotNull(value);
+        Xunit.Assert.NotNull(value);
         Assert.AreEqual(value.Expiration, new DateTime(2017, 1, 1, 0, 0, 0, DateTimeKind.Utc));
         Assert.AreEqual(value.Active, true);
     }

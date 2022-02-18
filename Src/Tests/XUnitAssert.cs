@@ -33,16 +33,6 @@ public class XUnitAssert
         Assert.Equal(expected, actual);
     }
 
-    public static void AreNotEqual(object expected, object actual)
-    {
-        Assert.NotEqual(expected, actual);
-    }
-
-    public static void AreNotEqual<T>(T expected, T actual)
-    {
-        Assert.NotEqual(expected, actual);
-    }
-
     public static void Fail(string message = null, params object[] args)
     {
         if (message != null)
@@ -51,16 +41,6 @@ public class XUnitAssert
         }
 
         Assert.True(false, message);
-    }
-
-    public static void IsNull(object o)
-    {
-        Assert.Null(o);
-    }
-
-    public static void IsNotNull(object o)
-    {
-        Assert.NotNull(o);
     }
 
     public static void AreNotSame(object expected, object actual)

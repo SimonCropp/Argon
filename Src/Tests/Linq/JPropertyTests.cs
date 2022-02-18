@@ -36,12 +36,12 @@ public class JPropertyTests : TestFixtureBase
     public void NullValue()
     {
         var p = new JProperty("TestProperty", null);
-        Assert.IsNotNull(p.Value);
+        Xunit.Assert.NotNull(p.Value);
         Assert.AreEqual(JTokenType.Null, p.Value.Type);
         Assert.AreEqual(p, p.Value.Parent);
 
         p.Value = null;
-        Assert.IsNotNull(p.Value);
+        Xunit.Assert.NotNull(p.Value);
         Assert.AreEqual(JTokenType.Null, p.Value.Type);
         Assert.AreEqual(p, p.Value.Parent);
     }

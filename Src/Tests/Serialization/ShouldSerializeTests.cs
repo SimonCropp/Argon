@@ -96,18 +96,18 @@ public class ShouldSerializeTests : TestFixtureBase
         var deserializedSetFoo = JsonConvert.DeserializeObject<Foo2>(setFooJson);
 
         Assert.AreEqual(setFoo.name, deserializedSetFoo.name);
-        Assert.IsNotNull(deserializedSetFoo.myBar);
+        Xunit.Assert.NotNull(deserializedSetFoo.myBar);
         Assert.AreEqual(setFoo.myBar.name, deserializedSetFoo.myBar.name);
-        Assert.IsNotNull(deserializedSetFoo.myBar.myBaz);
+        Xunit.Assert.NotNull(deserializedSetFoo.myBar.myBaz);
         Assert.AreEqual(setFoo.myBar.myBaz.Length, deserializedSetFoo.myBar.myBaz.Length);
         Assert.AreEqual(setFoo.myBar.myBaz[0].name, deserializedSetFoo.myBar.myBaz[0].name);
-        Assert.IsNotNull(deserializedSetFoo.myBar.myBaz[0].myFrob[0]);
+        Xunit.Assert.NotNull(deserializedSetFoo.myBar.myBaz[0].myFrob[0]);
         Assert.AreEqual(setFoo.myBar.myBaz[0].myFrob[0].name, deserializedSetFoo.myBar.myBaz[0].myFrob[0].name);
         Assert.AreEqual(setFoo.myBar.myBaz[1].name, deserializedSetFoo.myBar.myBaz[1].name);
-        Assert.IsNotNull(deserializedSetFoo.myBar.myBaz[2].myFrob[0]);
+        Xunit.Assert.NotNull(deserializedSetFoo.myBar.myBaz[2].myFrob[0]);
         Assert.AreEqual(setFoo.myBar.myBaz[1].myFrob[0].name, deserializedSetFoo.myBar.myBaz[1].myFrob[0].name);
         Assert.AreEqual(setFoo.myBar.myBaz[2].name, deserializedSetFoo.myBar.myBaz[2].name);
-        Assert.IsNotNull(deserializedSetFoo.myBar.myBaz[2].myFrob[0]);
+        Xunit.Assert.NotNull(deserializedSetFoo.myBar.myBaz[2].myFrob[0]);
         Assert.AreEqual(setFoo.myBar.myBaz[2].myFrob[0].name, deserializedSetFoo.myBar.myBaz[2].myFrob[0].name);
 
         Assert.True( setFoo.myBar.ShouldSerializemyBazCalled);
@@ -217,7 +217,7 @@ public class ShouldSerializeTests : TestFixtureBase
 }", json);
 
         var deserialized = JsonConvert.DeserializeObject<SpecifiedTestClass>(json);
-        Assert.IsNull(deserialized.Name);
+        Xunit.Assert.Null(deserialized.Name);
         Xunit.Assert.False(deserialized.NameSpecified);
         Xunit.Assert.False(deserialized.WeightSpecified);
         Xunit.Assert.False(deserialized.HeightSpecified);

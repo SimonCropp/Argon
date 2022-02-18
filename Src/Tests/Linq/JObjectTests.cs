@@ -52,7 +52,7 @@ public class JObjectTests : TestFixtureBase
 }", output);
 
         Assert.AreEqual(null, v.Value);
-        Assert.IsNull((string) o.title);
+        Xunit.Assert.Null((string) o.title);
     }
 
     [Fact]
@@ -1062,7 +1062,7 @@ Parameter name: arrayIndex",
         var p2 = new JProperty("Test2", "Two");
         IList l = new JObject(p1, p2);
 
-        Assert.IsNotNull(l.SyncRoot);
+        Xunit.Assert.NotNull(l.SyncRoot);
     }
 
     [Fact]
@@ -1403,7 +1403,7 @@ Parameter name: arrayIndex",
 
         IBindingList l = o;
         var newObject = l.AddNew();
-        Assert.IsNotNull(newObject);
+        Xunit.Assert.NotNull(newObject);
 
         var p = (JProperty) newObject;
         Assert.AreEqual("Property!", p.Name);
@@ -1428,7 +1428,7 @@ Parameter name: arrayIndex",
         ITypedList l = new JObject(p1, p2);
 
         var propertyDescriptors = l.GetItemProperties(null);
-        Assert.IsNull(propertyDescriptors);
+        Xunit.Assert.Null(propertyDescriptors);
     }
 
     [Fact]
@@ -1730,7 +1730,7 @@ Parameter name: arrayIndex",
         reader.Read();
 
         var o = (JObject) JToken.ReadFrom(reader);
-        Assert.IsNotNull(o);
+        Xunit.Assert.NotNull(o);
         StringAssert.AreEqual(@"{
   ""code"": 0,
   ""msg"": ""No action taken""

@@ -36,16 +36,16 @@ public class Issue1984
     public void Test_NullValue()
     {
         var actual = JsonConvert.DeserializeObject<A>("{ Values: null}");
-        Assert.IsNotNull(actual);
-        Assert.IsNull(actual.Values);
+        Xunit.Assert.NotNull(actual);
+        Xunit.Assert.Null(actual.Values);
     }
 
     [Fact]
     public void Test_WithoutValue()
     {
         var actual = JsonConvert.DeserializeObject<A>("{ }");
-        Assert.IsNotNull(actual);
-        Assert.IsNull(actual.Values);
+        Xunit.Assert.NotNull(actual);
+        Xunit.Assert.Null(actual.Values);
     }
         
     public class A

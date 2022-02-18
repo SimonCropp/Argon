@@ -504,7 +504,7 @@ public class XmlNodeConverterTest : TestFixtureBase
         Assert.AreEqual(@"{""Bar"":null}", json);
         var foo2 = JsonConvert.DeserializeObject<Foo>(json);
 
-        Assert.IsNull(foo2.Bar);
+        Xunit.Assert.Null(foo2.Bar);
     }
 
     [Fact]
@@ -1260,7 +1260,7 @@ public class XmlNodeConverterTest : TestFixtureBase
         Assert.AreEqual(@"{""Bar"":null}", json);
         var foo2 = JsonConvert.DeserializeObject<Foo2>(json);
 
-        Assert.IsNull(foo2.Bar);
+        Xunit.Assert.Null(foo2.Bar);
     }
 
     [Fact]

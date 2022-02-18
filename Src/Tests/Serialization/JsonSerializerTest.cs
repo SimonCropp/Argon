@@ -335,7 +335,7 @@ public class JsonSerializerTest : TestFixtureBase
     public void DisallowNull_NoValue()
     {
         var o = JsonConvert.DeserializeObject<Binding_DisallowNull>("{}");
-        Assert.IsNull(o.RequiredProperty);
+        Xunit.Assert.Null(o.RequiredProperty);
     }
 
     [Fact]
@@ -348,8 +348,8 @@ public class JsonSerializerTest : TestFixtureBase
     public void NoErrorWhenValueDoesNotMatchIgnoredProperty()
     {
         var p = JsonConvert.DeserializeObject<IgnoredProperty>("{'StringProp1':[1,2,3],'StringProp2':{}}");
-        Assert.IsNull(p.StringProp1);
-        Assert.IsNull(p.StringProp2);
+        Xunit.Assert.Null(p.StringProp1);
+        Xunit.Assert.Null(p.StringProp2);
     }
 
     [Fact]
@@ -684,11 +684,11 @@ public class JsonSerializerTest : TestFixtureBase
     ""Value4"": null,
     ""Value5"": null
 }");
-        Assert.IsNull(otc.Value1);
+        Xunit.Assert.Null(otc.Value1);
         Assert.AreEqual(JTokenType.Null, otc.Value2.Type);
         Assert.AreEqual(JTokenType.Raw, otc.Value3.Type);
         Assert.AreEqual(JTokenType.Null, otc.Value4.Type);
-        Assert.IsNull(otc.Value5);
+        Xunit.Assert.Null(otc.Value5);
     }
 
     [Fact]
@@ -918,9 +918,9 @@ public class JsonSerializerTest : TestFixtureBase
         var serializer = new JsonSerializer();
 
 #pragma warning disable CS0618 // Type or member is obsolete
-        Assert.IsNotNull(serializer.Binder);
+        Xunit.Assert.NotNull(serializer.Binder);
 #pragma warning restore CS0618 // Type or member is obsolete
-        Assert.IsNotNull(serializer.SerializationBinder);
+        Xunit.Assert.NotNull(serializer.SerializationBinder);
 
         var customBinder = new DefaultSerializationBinder();
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -1038,9 +1038,9 @@ public class JsonSerializerTest : TestFixtureBase
         var settings = new JsonSerializerSettings();
 
 #pragma warning disable CS0618 // Type or member is obsolete
-        Assert.IsNull(settings.Binder);
+        Xunit.Assert.Null(settings.Binder);
 #pragma warning restore CS0618 // Type or member is obsolete
-        Assert.IsNull(settings.SerializationBinder);
+        Xunit.Assert.Null(settings.SerializationBinder);
 
         var customBinder = new DefaultSerializationBinder();
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -1154,9 +1154,9 @@ public class JsonSerializerTest : TestFixtureBase
         var serializerProxy = new JsonSerializerProxy(new JsonSerializerInternalReader(new JsonSerializer()));
 
 #pragma warning disable CS0618 // Type or member is obsolete
-        Assert.IsNotNull(serializerProxy.Binder);
+        Xunit.Assert.NotNull(serializerProxy.Binder);
 #pragma warning restore CS0618 // Type or member is obsolete
-        Assert.IsNotNull(serializerProxy.SerializationBinder);
+        Xunit.Assert.NotNull(serializerProxy.SerializationBinder);
 
         var customBinder = new DefaultSerializationBinder();
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -1428,7 +1428,7 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var json = @"{""foo"":{""bar"":""value""}}";
         var deserialized = JsonConvert.DeserializeObject<FooBar1>(json);
-        Assert.IsNotNull(deserialized.foo); // passes
+        Xunit.Assert.NotNull(deserialized.foo); // passes
         Assert.AreEqual("value", deserialized.foo.bar); // passes
     }
 
@@ -1446,9 +1446,9 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var json = @"{""foo"":{""bar"":""value""},""foo2"":{""bar"":""value2""}}";
         var deserialized = JsonConvert.DeserializeObject<Foo1<Bar1>>(json);
-        Assert.IsNotNull(deserialized.foo2); // passes (bug only occurs for generics that /hide/ another property)
+        Xunit.Assert.NotNull(deserialized.foo2); // passes (bug only occurs for generics that /hide/ another property)
         Assert.AreEqual("value2", deserialized.foo2.bar); // also passes, with no issue
-        Assert.IsNotNull(deserialized.foo);
+        Xunit.Assert.NotNull(deserialized.foo);
         Assert.AreEqual("value", deserialized.foo.bar);
     }
 
@@ -2278,7 +2278,7 @@ keyword such as type of business.""
         var indented = JsonConvert.SerializeObject(obj, settings);
 
         var none = JsonConvert.SerializeObject(obj, Formatting.None, settings);
-        Assert.AreNotEqual(indented, none);
+        Xunit.Assert.NotEqual(indented, none);
     }
 
     [Fact]
@@ -2884,7 +2884,7 @@ keyword such as type of business.""
 }", json);
 
         var deserializedObject = JsonConvert.DeserializeObject<GenericListAndDictionaryInterfaceProperties>(json);
-        Assert.IsNotNull(deserializedObject);
+        Xunit.Assert.NotNull(deserializedObject);
 
         Xunit.Assert.Equal(o.IListProperty.ToArray(), deserializedObject.IListProperty.ToArray());
         Xunit.Assert.Equal(o.IEnumerableProperty.ToArray(), deserializedObject.IEnumerableProperty.ToArray());
@@ -2902,7 +2902,7 @@ keyword such as type of business.""
 }";
 
         var o = JsonConvert.DeserializeObject<PropertyCase>(json);
-        Assert.IsNotNull(o);
+        Xunit.Assert.NotNull(o);
 
         Assert.AreEqual("firstName", o.firstName);
         Assert.AreEqual("FirstName", o.FirstName);
@@ -3181,7 +3181,7 @@ keyword such as type of business.""
         Assert.AreEqual(999, c.Collection.ElementAt(3));
         Assert.AreEqual("EmployeeName!", c.Employee.Name);
         Assert.AreEqual("ManagerName!", c.Employee.Manager.Name);
-        Assert.IsNotNull(c.Random);
+        Xunit.Assert.NotNull(c.Random);
     }
 
     [Fact]
@@ -3226,7 +3226,7 @@ keyword such as type of business.""
         var o = JObject.Parse(json);
 
         var s = JsonConvert.DeserializeObject<Shortie>(o["short"].ToString());
-        Assert.IsNotNull(s);
+        Xunit.Assert.NotNull(s);
 
         Assert.AreEqual(s.Original, "http://www.contrast.ie/blog/online&#45;marketing&#45;2009/");
         Assert.AreEqual(s.Short, "m2sqc6");
@@ -3813,8 +3813,8 @@ Path '', line 1, position 1.");
     {
         var d = JsonConvert.DeserializeObject<ExistingValueClass>(@"{'Dictionary':{appended:'appended',existing:'new'}}");
 
-        Assert.IsNotNull(d);
-        Assert.IsNotNull(d.Dictionary);
+        Xunit.Assert.NotNull(d);
+        Xunit.Assert.NotNull(d.Dictionary);
         Assert.AreEqual(typeof(Dictionary<string, string>), d.Dictionary.GetType());
         Assert.AreEqual(typeof(List<string>), d.List.GetType());
         Assert.AreEqual(2, d.Dictionary.Count);
@@ -4047,7 +4047,7 @@ Path '', line 1, position 1.");
                 }
             });
 
-            Assert.IsNotNull(value);
+            Xunit.Assert.NotNull(value);
             Assert.False(value._booleanValue);
         }
         finally
@@ -4344,7 +4344,7 @@ Path '', line 1, position 1.");
         Assert.AreEqual(testObject.Document.ToString(), newTestObject.Document.ToString());
         Assert.AreEqual(testObject.Element.ToString(), newTestObject.Element.ToString());
 
-        Assert.IsNull(newTestObject.Element.Parent);
+        Xunit.Assert.Null(newTestObject.Element.Parent);
     }
 
     [Fact]
@@ -4983,7 +4983,7 @@ Path '', line 1, position 1.");
     {
         var dateTime = JsonConvert.DeserializeObject("null", typeof(DateTime?));
 
-        Assert.IsNull(dateTime);
+        Xunit.Assert.Null(dateTime);
     }
 
     [Fact]
@@ -5214,9 +5214,9 @@ Path '', line 1, position 1.");
 
         Assert.AreEqual(typeof(List<DateTime?>), r.Departures.GetType());
         Assert.AreEqual(3, r.Departures.Count());
-        Assert.IsNotNull(r.Departures.ElementAt(0));
-        Assert.IsNotNull(r.Departures.ElementAt(1));
-        Assert.IsNull(r.Departures.ElementAt(2));
+        Xunit.Assert.NotNull(r.Departures.ElementAt(0));
+        Xunit.Assert.NotNull(r.Departures.ElementAt(1));
+        Xunit.Assert.Null(r.Departures.ElementAt(2));
     }
 
     [Fact]
@@ -5780,25 +5780,25 @@ Path '', line 1, position 1.");
     public void DeserializeEmptyStrings()
     {
         object v = JsonConvert.DeserializeObject<double?>("");
-        Assert.IsNull(v);
+        Xunit.Assert.Null(v);
 
         v = JsonConvert.DeserializeObject<char?>("");
-        Assert.IsNull(v);
+        Xunit.Assert.Null(v);
 
         v = JsonConvert.DeserializeObject<int?>("");
-        Assert.IsNull(v);
+        Xunit.Assert.Null(v);
 
         v = JsonConvert.DeserializeObject<decimal?>("");
-        Assert.IsNull(v);
+        Xunit.Assert.Null(v);
 
         v = JsonConvert.DeserializeObject<DateTime?>("");
-        Assert.IsNull(v);
+        Xunit.Assert.Null(v);
 
         v = JsonConvert.DeserializeObject<DateTimeOffset?>("");
-        Assert.IsNull(v);
+        Xunit.Assert.Null(v);
 
         v = JsonConvert.DeserializeObject<byte[]>("");
-        Assert.IsNull(v);
+        Xunit.Assert.Null(v);
     }
 
     [Fact]
@@ -5823,7 +5823,7 @@ Path '', line 1, position 1.");
     public void DeserializeByteArrayFromEmptyString()
     {
         var b = JsonConvert.DeserializeObject<byte[]>("");
-        Assert.IsNull(b);
+        Xunit.Assert.Null(b);
     }
 
     [Fact]
@@ -6063,7 +6063,7 @@ Path '', line 1, position 1.");
             Error = error
         });
 
-        Assert.IsNotNull(o);
+        Xunit.Assert.NotNull(o);
         Assert.AreEqual(4, errors.Count);
         Xunit.Assert.True(errors[0].StartsWith("Required property 'NonAttributeProperty' not found in JSON. Path ''"));
         Xunit.Assert.True(errors[1].StartsWith("Required property 'UnsetProperty' not found in JSON. Path ''"));
@@ -6088,7 +6088,7 @@ Path '', line 1, position 1.");
             Error = error
         });
 
-        Assert.IsNotNull(o);
+        Xunit.Assert.NotNull(o);
         Assert.AreEqual(3, errors.Count);
         Xunit.Assert.True(errors[0].StartsWith("Required property 'NonAttributeProperty' expects a value but got null. Path ''"));
         Xunit.Assert.True(errors[1].StartsWith("Required property 'UnsetProperty' expects a value but got null. Path ''"));
@@ -6139,7 +6139,7 @@ Path '', line 1, position 1.");
 
         var c2 = JsonConvert.DeserializeObject<PropertyItemConverter>("{'Data':['::ONE::','::TWO::']}");
 
-        Assert.IsNotNull(c2);
+        Xunit.Assert.NotNull(c2);
         Assert.AreEqual(2, c2.Data.Count);
         Assert.AreEqual("one", c2.Data[0]);
         Assert.AreEqual("two", c2.Data[1]);
@@ -6436,7 +6436,7 @@ Path '', line 1, position 1.");
         var s = JsonSerializer.Create(settings);
         IDictionary<string, int> o = s.Deserialize<Dictionary<string, int>>(new JsonTextReader(new StringReader(json)));
 
-        Assert.IsNotNull(o);
+        Xunit.Assert.NotNull(o);
         Assert.AreEqual(1, o["one"]);
 
         settings.CheckAdditionalContent = true;
@@ -6453,7 +6453,7 @@ Path '', line 1, position 1.");
         var s = JsonSerializer.Create(settings);
         IDictionary<string, int> o = s.Deserialize<Dictionary<string, int>>(new JsonTextReader(new StringReader(json)));
 
-        Assert.IsNotNull(o);
+        Xunit.Assert.NotNull(o);
         Assert.AreEqual(1, o["one"]);
     }
 
@@ -6471,7 +6471,7 @@ lines.*/
         var s = JsonSerializer.Create(settings);
         IDictionary<string, int> o = s.Deserialize<Dictionary<string, int>>(new JsonTextReader(new StringReader(json)));
 
-        Assert.IsNotNull(o);
+        Xunit.Assert.NotNull(o);
         Assert.AreEqual(1, o["one"]);
     }
 
@@ -6522,7 +6522,7 @@ lines.*/
 }";
 
         var exception = JsonConvert.DeserializeObject<InvalidOperationException>(json);
-        Assert.IsNotNull(exception);
+        Xunit.Assert.NotNull(exception);
         Xunit.Assert.IsType(typeof(InvalidOperationException), exception);
 
         Assert.AreEqual("Outter exception...", exception.Message);
@@ -6604,14 +6604,14 @@ This is just junk, though.";
         Assert.AreEqual(new Uri("http://localhost/path?query#hash"), uris[0]);
 
         var uri = JsonConvert.DeserializeObject<Uri>(@"""http://localhost/path?query#hash""");
-        Assert.IsNotNull(uri);
+        Xunit.Assert.NotNull(uri);
 
         var i1 = new Uri("http://localhost/path?query#hash", UriKind.RelativeOrAbsolute);
         var i2 = new Uri("http://localhost/path?query#hash");
         Assert.AreEqual(i1, i2);
 
         uri = JsonConvert.DeserializeObject<Uri>(@"""/path?query#hash""");
-        Assert.IsNotNull(uri);
+        Xunit.Assert.NotNull(uri);
         Assert.AreEqual(new Uri("/path?query#hash", UriKind.RelativeOrAbsolute), uri);
     }
 
@@ -6887,7 +6887,7 @@ This is just junk, though.";
         });
         serializer.Serialize(jsonWriter, dates);
 
-        Assert.IsNull(jsonWriter.DateFormatString);
+        Xunit.Assert.Null(jsonWriter.DateFormatString);
         Assert.AreEqual(CultureInfo.InvariantCulture, jsonWriter.Culture);
         Assert.AreEqual(Formatting.None, jsonWriter.Formatting);
 
@@ -7034,11 +7034,11 @@ This is just junk, though.";
 }";
 
         var c2 = JsonConvert.DeserializeObject<NullableTestClass>(json);
-        Assert.IsNull(c2.MyNullableBool);
-        Assert.IsNull(c2.MyNullableInteger);
-        Assert.IsNull(c2.MyNullableDateTime);
-        Assert.IsNull(c2.MyNullableDateTimeOffset);
-        Assert.IsNull(c2.MyNullableDecimal);
+        Xunit.Assert.Null(c2.MyNullableBool);
+        Xunit.Assert.Null(c2.MyNullableInteger);
+        Xunit.Assert.Null(c2.MyNullableDateTime);
+        Xunit.Assert.Null(c2.MyNullableDateTimeOffset);
+        Xunit.Assert.Null(c2.MyNullableDecimal);
     }
 
     [Fact]

@@ -414,7 +414,7 @@ public class JTokenReaderTest : TestFixtureBase
 
         var nullToken = JToken.ReadFrom(new JsonTextReader(new StringReader("{ Data: null }")));
         var x = s.Deserialize<ReadAsBytesTestObject>(new JTokenReader(nullToken));
-        Assert.IsNull(x.Data);
+        Xunit.Assert.Null(x.Data);
     }
 
     [Fact]

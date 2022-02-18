@@ -90,7 +90,7 @@ public class JTokenAsyncTests : TestFixtureBase
             );
 
         var writer = a.CreateWriter();
-        Assert.IsNotNull(writer);
+        Xunit.Assert.NotNull(writer);
         Assert.AreEqual(4, a.Count);
 
         await writer.WriteValueAsync("String");

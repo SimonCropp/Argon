@@ -402,7 +402,7 @@ public class JsonSchemaBuilderTests : TestFixtureBase
         var builder = new JsonSchemaBuilder(new JsonSchemaResolver());
         var schema = builder.Read(new JsonTextReader(new StringReader(json)));
 
-        Assert.IsNotNull(schema.PatternProperties);
+        Xunit.Assert.NotNull(schema.PatternProperties);
         Assert.AreEqual(1, schema.PatternProperties.Count);
         Assert.AreEqual("Blah", schema.PatternProperties["[abc]"].Id);
     }
@@ -418,7 +418,7 @@ public class JsonSchemaBuilderTests : TestFixtureBase
         var builder = new JsonSchemaBuilder(new JsonSchemaResolver());
         var schema = builder.Read(new JsonTextReader(new StringReader(json)));
 
-        Assert.IsNotNull(schema.AdditionalItems);
+        Xunit.Assert.NotNull(schema.AdditionalItems);
         Assert.AreEqual(JsonSchemaType.Integer, schema.AdditionalItems.Type);
         Assert.True( schema.AllowAdditionalItems);
     }
@@ -434,7 +434,7 @@ public class JsonSchemaBuilderTests : TestFixtureBase
         var builder = new JsonSchemaBuilder(new JsonSchemaResolver());
         var schema = builder.Read(new JsonTextReader(new StringReader(json)));
 
-        Assert.IsNull(schema.AdditionalItems);
+        Xunit.Assert.Null(schema.AdditionalItems);
         Assert.False( schema.AllowAdditionalItems);
     }
 
@@ -449,7 +449,7 @@ public class JsonSchemaBuilderTests : TestFixtureBase
         var builder = new JsonSchemaBuilder(new JsonSchemaResolver());
         var schema = builder.Read(new JsonTextReader(new StringReader(json)));
 
-        Assert.IsNull(schema.AdditionalItems);
+        Xunit.Assert.Null(schema.AdditionalItems);
         Assert.False( schema.AllowAdditionalItems);
     }
 

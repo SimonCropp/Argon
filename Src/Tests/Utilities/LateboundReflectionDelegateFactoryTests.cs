@@ -59,7 +59,7 @@ public class LateboundReflectionDelegateFactoryTests : TestFixtureBase
 
         var args = new object[] { "Value" };
         var o = (InTestClass)creator(args);
-        Assert.IsNotNull(o);
+        Xunit.Assert.NotNull(o);
         Assert.AreEqual("Value", o.Value);
     }
 
@@ -72,7 +72,7 @@ public class LateboundReflectionDelegateFactoryTests : TestFixtureBase
 
         var args = new object[] { "Value", true };
         var o = (InTestClass)creator(args);
-        Assert.IsNotNull(o);
+        Xunit.Assert.NotNull(o);
         Assert.AreEqual("Value", o.Value);
         Assert.True( o.B1);
     }
@@ -86,7 +86,7 @@ public class LateboundReflectionDelegateFactoryTests : TestFixtureBase
 
         var args = new object[] { "Input" };
         var o = (OutAndRefTestClass)creator(args);
-        Assert.IsNotNull(o);
+        Xunit.Assert.NotNull(o);
         Assert.AreEqual("Input", o.Input);
     }
 
@@ -99,7 +99,7 @@ public class LateboundReflectionDelegateFactoryTests : TestFixtureBase
 
         var args = new object[] { "Input", null };
         var o = (OutAndRefTestClass)creator(args);
-        Assert.IsNotNull(o);
+        Xunit.Assert.NotNull(o);
         Assert.AreEqual("Input", o.Input);
     }
 
@@ -112,7 +112,7 @@ public class LateboundReflectionDelegateFactoryTests : TestFixtureBase
 
         var args = new object[] { "Input", true, null };
         var o = (OutAndRefTestClass)creator(args);
-        Assert.IsNotNull(o);
+        Xunit.Assert.NotNull(o);
         Assert.AreEqual("Input", o.Input);
         Assert.True( o.B1);
         Assert.False( o.B2);

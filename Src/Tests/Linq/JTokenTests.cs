@@ -130,7 +130,7 @@ public class JTokenTests : TestFixtureBase
         var o1 = new JProperty("O1", o);
         Assert.AreEqual(o, o1.Value);
 
-        Assert.AreNotEqual(null, o.Parent);
+        Xunit.Assert.NotEqual(null, o.Parent);
         var o2 = new JProperty("O2", o);
 
         Assert.AreNotSame(o1.Value, o2.Value);
@@ -160,7 +160,7 @@ public class JTokenTests : TestFixtureBase
         Xunit.Assert.True(JToken.DeepEquals(new JArray(9, 10), next));
 
         next = next.Next;
-        Assert.IsNull(next);
+        Xunit.Assert.Null(next);
     }
 
     [Fact]
@@ -184,7 +184,7 @@ public class JTokenTests : TestFixtureBase
         Assert.AreEqual(5, (int)previous);
 
         previous = previous.Previous;
-        Assert.IsNull(previous);
+        Xunit.Assert.Null(previous);
     }
 
     [Fact]
@@ -596,17 +596,17 @@ public class JTokenTests : TestFixtureBase
         var t = a[1];
         t.Remove();
         Assert.AreEqual(6, (int)a[0]);
-        Assert.IsNull(t.Next);
-        Assert.IsNull(t.Previous);
-        Assert.IsNull(t.Parent);
+        Xunit.Assert.Null(t.Next);
+        Xunit.Assert.Null(t.Previous);
+        Xunit.Assert.Null(t.Parent);
 
         t = a[0];
         t.Remove();
         Assert.AreEqual(0, a.Count());
 
-        Assert.IsNull(t.Next);
-        Assert.IsNull(t.Previous);
-        Assert.IsNull(t.Parent);
+        Xunit.Assert.Null(t.Next);
+        Xunit.Assert.Null(t.Previous);
+        Xunit.Assert.Null(t.Parent);
     }
 
     [Fact]
@@ -871,7 +871,7 @@ public class JTokenTests : TestFixtureBase
             );
 
         var writer = a.CreateWriter();
-        Assert.IsNotNull(writer);
+        Xunit.Assert.NotNull(writer);
         Assert.AreEqual(4, a.Count());
 
         writer.WriteValue("String");
@@ -931,8 +931,8 @@ public class JTokenTests : TestFixtureBase
         a.RemoveAll();
         Assert.AreEqual(0, a.Count());
 
-        Assert.IsNull(first.Parent);
-        Assert.IsNull(first.Next);
+        Xunit.Assert.Null(first.Parent);
+        Xunit.Assert.Null(first.Next);
     }
 
     [Fact]

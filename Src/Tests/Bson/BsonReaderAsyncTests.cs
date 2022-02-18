@@ -412,7 +412,7 @@ public class BsonReaderAsyncTests : TestFixtureBase
         Assert.AreEqual(typeof(string), reader.ValueType);
 
         var encodedStringData = await reader.ReadAsBytesAsync();
-        Assert.IsNotNull(encodedStringData);
+        Xunit.Assert.NotNull(encodedStringData);
         Assert.AreEqual(JsonToken.Bytes, reader.TokenType);
         Assert.AreEqual(encodedStringData, reader.Value);
         Assert.AreEqual(typeof(byte[]), reader.ValueType);

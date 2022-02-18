@@ -53,7 +53,7 @@ public class ConstructorHandlingTests : TestFixtureBase
             {
                 ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
             });
-        Assert.IsNotNull(c);
+        Xunit.Assert.NotNull(c);
         Assert.AreEqual("Name!", c.Name);
     }
 
@@ -78,7 +78,7 @@ public class ConstructorHandlingTests : TestFixtureBase
             {
                 ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
             });
-        Assert.IsNotNull(c);
+        Xunit.Assert.NotNull(c);
         Assert.AreEqual("Name!", c.Name);
         Assert.AreEqual(1, c.Age);
     }
@@ -89,7 +89,7 @@ public class ConstructorHandlingTests : TestFixtureBase
         var json = @"{Name:""Name!""}";
 
         var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorTestClass>(json);
-        Assert.IsNotNull(c);
+        Xunit.Assert.NotNull(c);
         Assert.AreEqual("Name!", c.Name);
     }
 
@@ -99,7 +99,7 @@ public class ConstructorHandlingTests : TestFixtureBase
         var json = @"{nameParameter:""Name!""}";
 
         var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorWithNonPropertyParameterTestClass>(json);
-        Assert.IsNotNull(c);
+        Xunit.Assert.NotNull(c);
         Assert.AreEqual("Name!", c.Name);
     }
 
@@ -109,7 +109,7 @@ public class ConstructorHandlingTests : TestFixtureBase
         var json = @"{nameParameter:""Name!""}";
 
         var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorRequiringConverterTestClass>(json, new NameContainerConverter());
-        Assert.IsNotNull(c);
+        Xunit.Assert.NotNull(c);
         Assert.AreEqual("Name!", c.Name.Value);
     }
 
@@ -119,7 +119,7 @@ public class ConstructorHandlingTests : TestFixtureBase
         var json = @"{nameParameter:""Name!""}";
 
         var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorRequiringConverterWithParameterAttributeTestClass>(json);
-        Assert.IsNotNull(c);
+        Xunit.Assert.NotNull(c);
         Assert.AreEqual("Name!", c.Name.Value);
     }
 
@@ -129,7 +129,7 @@ public class ConstructorHandlingTests : TestFixtureBase
         var json = @"{name:""Name!""}";
 
         var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorRequiringConverterWithPropertyAttributeTestClass>(json);
-        Assert.IsNotNull(c);
+        Xunit.Assert.NotNull(c);
         Assert.AreEqual("Name!", c.Name.Value);
     }
 
@@ -139,7 +139,7 @@ public class ConstructorHandlingTests : TestFixtureBase
         var json = @"{name:""1""}";
 
         var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorWithPropertyNameConflict>(json);
-        Assert.IsNotNull(c);
+        Xunit.Assert.NotNull(c);
         Assert.AreEqual(1, c.Name);
     }
 
@@ -149,7 +149,7 @@ public class ConstructorHandlingTests : TestFixtureBase
         var json = @"{name:""1""}";
 
         var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorWithPropertyNameConflictWithAttribute>(json);
-        Assert.IsNotNull(c);
+        Xunit.Assert.NotNull(c);
         Assert.AreEqual(1, c.Name);
     }
 
