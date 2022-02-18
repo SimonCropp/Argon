@@ -130,7 +130,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
             if (reader.TokenType == JsonToken.None && !reader.ReadForType(contract, converter != null))
             {
-                if (contract != null && !contract.IsNullable)
+                if (contract is {IsNullable: false})
                 {
                     throw JsonSerializationException.Create(reader, "No JSON content found and type '{0}' is not nullable.".FormatWith(CultureInfo.InvariantCulture, contract.UnderlyingType));
                 }
@@ -140,7 +140,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
             object? deserializedValue;
 
-            if (converter != null && converter.CanRead)
+            if (converter is {CanRead: true})
             {
                 deserializedValue = DeserializeConvertable(converter, reader, objectType!, null);
             }
@@ -270,7 +270,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
     private object? CreateValueInternal(JsonReader reader, Type? objectType, JsonContract? contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerMember, object? existingValue)
     {
-        if (contract != null && contract.ContractType == JsonContractType.Linq)
+        if (contract is {ContractType: JsonContractType.Linq})
         {
             return CreateJToken(reader, contract);
         }
@@ -334,7 +334,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
     private static bool CoerceEmptyStringToNull(Type? objectType, JsonContract? contract, string s)
     {
-        return StringUtils.IsNullOrEmpty(s) && objectType != null && objectType != typeof(string) && objectType != typeof(object) && contract != null && contract.IsNullable;
+        return StringUtils.IsNullOrEmpty(s) && objectType != null && objectType != typeof(string) && objectType != typeof(object) && contract is {IsNullable: true};
     }
 
     internal string GetExpectedDescription(JsonContract contract)
@@ -594,7 +594,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
                     newValue = Serializer.GetReferenceResolver().ResolveReference(this, reference);
 
-                    if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Info)
+                    if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
                     {
                         TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader, reader.Path, "Resolved object reference '{0}' to {1}.".FormatWith(CultureInfo.InvariantCulture, reference, newValue.GetType())), null);
                     }
@@ -691,7 +691,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
                             newValue = Serializer.GetReferenceResolver().ResolveReference(this, reference);
 
-                            if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Info)
+                            if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
                             {
                                 TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, "Resolved object reference '{0}' to {1}.".FormatWith(CultureInfo.InvariantCulture, reference, newValue!.GetType())), null);
                             }
@@ -768,7 +768,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 throw JsonSerializationException.Create(reader, "Type specified in JSON '{0}' was not resolved.".FormatWith(CultureInfo.InvariantCulture, qualifiedTypeName));
             }
 
-            if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Verbose)
+            if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
             {
                 TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, "Resolved type '{0}' to {1}.".FormatWith(CultureInfo.InvariantCulture, qualifiedTypeName, specifiedType)), null);
             }
@@ -997,7 +997,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
         object? value;
 
-        if (propertyConverter != null && propertyConverter.CanRead)
+        if (propertyConverter is {CanRead: true})
         {
             if (!gottenCurrentValue && property.Readable)
             {
@@ -1021,7 +1021,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
             if (property.SetIsSpecified != null)
             {
-                if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Verbose)
+                if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
                 {
                     TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, "IsSpecified for property '{0}' on {1} set to true.".FormatWith(CultureInfo.InvariantCulture, property.PropertyName, property.DeclaringType)), null);
                 }
@@ -1088,7 +1088,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
         if (!property.Writable && !useExistingValue)
         {
-            if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Info)
+            if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
             {
                 TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, "Unable to deserialize value to non-writable property '{0}' on {1}.".FormatWith(CultureInfo.InvariantCulture, property.PropertyName, property.DeclaringType)), null);
             }
@@ -1134,7 +1134,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
     {
         try
         {
-            if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Verbose)
+            if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
             {
                 TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, "Read object reference Id '{0}' for {1}.".FormatWith(CultureInfo.InvariantCulture, id, value.GetType())), null);
             }
@@ -1292,7 +1292,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
     private void OnDeserializing(JsonReader reader, JsonContract contract, object value)
     {
-        if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Info)
+        if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
         {
             TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, "Started deserializing {0}".FormatWith(CultureInfo.InvariantCulture, contract.UnderlyingType)), null);
         }
@@ -1302,7 +1302,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
     private void OnDeserialized(JsonReader reader, JsonContract contract, object value)
     {
-        if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Info)
+        if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
         {
             TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, "Finished deserializing {0}".FormatWith(CultureInfo.InvariantCulture, contract.UnderlyingType)), null);
         }
@@ -1372,7 +1372,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                                     break;
                                 }
                                 default:
-                                    keyValue = contract.KeyContract != null && contract.KeyContract.IsEnum
+                                    keyValue = contract.KeyContract is {IsEnum: true}
                                         ? EnumUtils.ParseEnum(contract.KeyContract.NonNullableUnderlyingType, (Serializer._contractResolver as DefaultContractResolver)?.NamingStrategy, keyValue.ToString(), false)
                                         : EnsureType(reader, keyValue, CultureInfo.InvariantCulture, contract.KeyContract, contract.DictionaryKeyType)!;
                                     break;
@@ -1389,7 +1389,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                         }
 
                         object? itemValue;
-                        if (dictionaryValueConverter != null && dictionaryValueConverter.CanRead)
+                        if (dictionaryValueConverter is {CanRead: true})
                         {
                             itemValue = DeserializeConvertable(dictionaryValueConverter, reader, contract.DictionaryValueType!, null);
                         }
@@ -1473,7 +1473,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                             default:
                                 object? value;
 
-                                if (collectionItemConverter != null && collectionItemConverter.CanRead)
+                                if (collectionItemConverter is {CanRead: true})
                                 {
                                     value = DeserializeConvertable(collectionItemConverter, reader, contract.CollectionItemType!, null);
                                 }
@@ -1628,7 +1628,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                         default:
                             object? value;
 
-                            if (collectionItemConverter != null && collectionItemConverter.CanRead)
+                            if (collectionItemConverter is {CanRead: true})
                             {
                                 value = DeserializeConvertable(collectionItemConverter, reader, contract.CollectionItemType, null);
                             }
@@ -1695,7 +1695,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             throw JsonSerializationException.Create(reader, message);
         }
 
-        if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Info)
+        if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
         {
             TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, "Deserializing {0} using ISerializable constructor.".FormatWith(CultureInfo.InvariantCulture, contract.UnderlyingType)), null);
         }
@@ -1763,7 +1763,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         tokenReader.ReadAndAssert(); // Move to first token
 
         object? result;
-        if (itemConverter != null && itemConverter.CanRead)
+        if (itemConverter is {CanRead: true})
         {
             result = DeserializeConvertable(itemConverter, tokenReader, type, null);
         }
@@ -1821,7 +1821,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                         // first attempt to find a settable property, otherwise fall back to a dynamic set without type
                         var property = contract.Properties.GetClosestMatchProperty(memberName);
 
-                        if (property != null && property.Writable && !property.Ignored)
+                        if (property is {Writable: true, Ignored: false})
                         {
                             if (property.PropertyContract == null)
                             {
@@ -1843,7 +1843,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                             var dynamicMemberConverter = GetConverter(dynamicMemberContract, null, null, member);
 
                             object? value;
-                            if (dynamicMemberConverter != null && dynamicMemberConverter.CanRead)
+                            if (dynamicMemberConverter is {CanRead: true})
                             {
                                 value = DeserializeConvertable(dynamicMemberConverter!, reader, t, null);
                             }
@@ -1909,7 +1909,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
         var objectType = contract.UnderlyingType;
 
-        if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Info)
+        if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
         {
             var parameters = string.Join(", ", contract.CreatorParameters.Select(p => p.PropertyName));
             TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, "Deserializing {0} using creator with parameters: {1}.".FormatWith(CultureInfo.InvariantCulture, contract.UnderlyingType, parameters)), null);
@@ -1970,7 +1970,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 constructorProperty = contract.CreatorParameters.ForgivingCaseSensitiveFind(p => p.PropertyName!, context.Property.UnderlyingName!);
             }
 
-            if (constructorProperty != null && !constructorProperty.Ignored)
+            if (constructorProperty is {Ignored: false})
             {
                 // handle giving default values to creator parameters
                 // this needs to happen before the call to creator
@@ -2132,14 +2132,14 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
     private object? DeserializeConvertable(JsonConverter converter, JsonReader reader, Type objectType, object? existingValue)
     {
-        if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Info)
+        if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
         {
             TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, "Started deserializing {0} with converter {1}.".FormatWith(CultureInfo.InvariantCulture, objectType, converter.GetType())), null);
         }
 
         var value = converter.ReadJson(reader, objectType, existingValue, GetInternalSerializer());
 
-        if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Info)
+        if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
         {
             TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, "Finished deserializing {0} with converter {1}.".FormatWith(CultureInfo.InvariantCulture, objectType, converter.GetType())), null);
         }
@@ -2182,7 +2182,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                                 throw JsonSerializationException.Create(reader, "Unexpected end when setting {0}'s value.".FormatWith(CultureInfo.InvariantCulture, memberName));
                             }
 
-                            if (propertyConverter != null && propertyConverter.CanRead)
+                            if (propertyConverter is {CanRead: true})
                             {
                                 creatorPropertyContext.Value = DeserializeConvertable(propertyConverter, reader, property.PropertyType!, null);
                             }
@@ -2201,7 +2201,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                             throw JsonSerializationException.Create(reader, "Unexpected end when setting {0}'s value.".FormatWith(CultureInfo.InvariantCulture, memberName));
                         }
 
-                        if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Verbose)
+                        if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
                         {
                             TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, "Could not find member '{0}' on {1}.".FormatWith(CultureInfo.InvariantCulture, memberName, contract.UnderlyingType)), null);
                         }
@@ -2320,7 +2320,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
                         if (property == null)
                         {
-                            if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Verbose)
+                            if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
                             {
                                 TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, "Could not find member '{0}' on {1}".FormatWith(CultureInfo.InvariantCulture, propertyName, contract.UnderlyingType)), null);
                             }
@@ -2425,7 +2425,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
         var shouldDeserialize = property.ShouldDeserialize(target);
 
-        if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Verbose)
+        if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
         {
             TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(null, reader.Path, "ShouldDeserialize result for property '{0}' on {1}: {2}".FormatWith(CultureInfo.InvariantCulture, property.PropertyName, property.DeclaringType, shouldDeserialize)), null);
         }

@@ -345,7 +345,7 @@ internal static class DateTimeUtils
                     }
                 }
             }
-            else if (s.Length >= 19 && s.Length <= 40 && char.IsDigit(s[i]) && s[i + 10] == 'T')
+            else if (s.Length is >= 19 and <= 40 && char.IsDigit(s[i]) && s[i + 10] == 'T')
             {
                 if (TryParseDateTimeIso(s, dateTimeZoneHandling, out dt))
                 {
@@ -380,7 +380,7 @@ internal static class DateTimeUtils
                     }
                 }
             }
-            else if (s.Length >= 19 && s.Length <= 40 && char.IsDigit(s[0]) && s[10] == 'T')
+            else if (s.Length is >= 19 and <= 40 && char.IsDigit(s[0]) && s[10] == 'T')
             {
                 if (DateTime.TryParseExact(s, IsoDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out dt))
                 {
@@ -417,7 +417,7 @@ internal static class DateTimeUtils
                     }
                 }
             }
-            else if (s.Length >= 19 && s.Length <= 40 && char.IsDigit(s[i]) && s[i + 10] == 'T')
+            else if (s.Length is >= 19 and <= 40 && char.IsDigit(s[i]) && s[i + 10] == 'T')
             {
                 if (TryParseDateTimeOffsetIso(s, out dt))
                 {
@@ -452,7 +452,7 @@ internal static class DateTimeUtils
                     }
                 }
             }
-            else if (s.Length >= 19 && s.Length <= 40 && char.IsDigit(s[0]) && s[10] == 'T')
+            else if (s.Length is >= 19 and <= 40 && char.IsDigit(s[0]) && s[10] == 'T')
             {
                 if (DateTimeOffset.TryParseExact(s, IsoDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out dt))
                 {

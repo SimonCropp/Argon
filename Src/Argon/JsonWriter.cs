@@ -365,7 +365,7 @@ public abstract partial class JsonWriter : IDisposable
     {
         var oldPosition = _currentPosition;
 
-        if (_stack != null && _stack.Count > 0)
+        if (_stack is {Count: > 0})
         {
             _currentPosition = _stack[_stack.Count - 1];
             _stack.RemoveAt(_stack.Count - 1);

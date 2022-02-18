@@ -252,7 +252,7 @@ public class DefaultContractResolver : IContractResolver
             // serialize all fields
             foreach (var member in allMembers)
             {
-                if (member is FieldInfo field && !field.IsStatic)
+                if (member is FieldInfo {IsStatic: false})
                 {
                     serializableMembers.Add(member);
                 }
@@ -726,7 +726,7 @@ public class DefaultContractResolver : IContractResolver
         {
             var dataContractAttribute = JsonTypeReflector.GetDataContractAttribute(contract.NonNullableUnderlyingType);
             // doesn't have a null value
-            if (dataContractAttribute != null && dataContractAttribute.IsReference)
+            if (dataContractAttribute is {IsReference: true})
             {
                 contract.IsReference = true;
             }

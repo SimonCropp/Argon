@@ -37,10 +37,10 @@ public partial class JValue
     /// <returns>A <see cref="Task"/> that represents the asynchronous write operation.</returns>
     public override Task WriteToAsync(JsonWriter writer, CancellationToken cancellationToken, params JsonConverter[] converters)
     {
-        if (converters != null && converters.Length > 0 && _value != null)
+        if (converters is {Length: > 0} && _value != null)
         {
             var matchingConverter = JsonSerializer.GetMatchingConverter(converters, _value.GetType());
-            if (matchingConverter != null && matchingConverter.CanWrite)
+            if (matchingConverter is {CanWrite: true})
             {
                 // TODO: Call WriteJsonAsync when it exists.
                 matchingConverter.WriteJson(writer, _value, JsonSerializer.CreateDefault());

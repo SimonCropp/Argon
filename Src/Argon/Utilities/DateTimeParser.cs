@@ -103,12 +103,7 @@ struct DateTimeParser
                && 1 <= Year
                && ParseChar(start + Lzyyyy, '-')
                && Parse2Digit(start + Lzyyyy_, out Month)
-               && 1 <= Month
-               && Month <= 12
-               && ParseChar(start + Lzyyyy_MM, '-')
-               && Parse2Digit(start + Lzyyyy_MM_, out Day)
-               && 1 <= Day
-               && Day <= DateTime.DaysInMonth(Year, Month);
+               && Month is >= 1 and <= 12 && ParseChar(start + Lzyyyy_MM, '-') && Parse2Digit(start + Lzyyyy_MM_, out Day) && 1 <= Day && Day <= DateTime.DaysInMonth(Year, Month);
     }
 
     private bool ParseTimeAndZoneAndWhitespace(int start)
@@ -235,10 +230,7 @@ struct DateTimeParser
             var digit2 = _text[start + 1] - '0';
             var digit3 = _text[start + 2] - '0';
             var digit4 = _text[start + 3] - '0';
-            if (0 <= digit1 && digit1 < 10
-                            && 0 <= digit2 && digit2 < 10
-                            && 0 <= digit3 && digit3 < 10
-                            && 0 <= digit4 && digit4 < 10)
+            if (digit1 is >= 0 and < 10 && digit2 is >= 0 and < 10 && digit3 is >= 0 and < 10 && digit4 is >= 0 and < 10)
             {
                 num = ((digit1 * 10 + digit2) * 10 + digit3) * 10 + digit4;
                 return true;
@@ -254,8 +246,7 @@ struct DateTimeParser
         {
             var digit1 = _text[start] - '0';
             var digit2 = _text[start + 1] - '0';
-            if (0 <= digit1 && digit1 < 10
-                            && 0 <= digit2 && digit2 < 10)
+            if (digit1 is >= 0 and < 10 && digit2 is >= 0 and < 10)
             {
                 num = digit1 * 10 + digit2;
                 return true;

@@ -806,7 +806,7 @@ public class JsonSerializer
             out var previousMaxDepth,
             out var previousDateFormatString);
 
-        var traceJsonReader = TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Verbose
+        var traceJsonReader = TraceWriter is {LevelFilter: >= TraceLevel.Verbose}
             ? CreateTraceJsonReader(reader)
             : null;
 
@@ -884,7 +884,7 @@ public class JsonSerializer
             out var previousMaxDepth,
             out var previousDateFormatString);
 
-        var traceJsonReader = TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Verbose
+        var traceJsonReader = TraceWriter is {LevelFilter: >= TraceLevel.Verbose}
             ? CreateTraceJsonReader(reader)
             : null;
 
@@ -1000,8 +1000,7 @@ public class JsonSerializer
             reader.DateFormatString = previousDateFormatString;
         }
 
-        if (reader is JsonTextReader textReader && textReader.PropertyNameTable != null &&
-            _contractResolver is DefaultContractResolver resolver && textReader.PropertyNameTable == resolver.GetNameTable())
+        if (reader is JsonTextReader {PropertyNameTable: { }} textReader && _contractResolver is DefaultContractResolver resolver && textReader.PropertyNameTable == resolver.GetNameTable())
         {
             textReader.PropertyNameTable = null;
         }
@@ -1126,7 +1125,7 @@ public class JsonSerializer
             jsonWriter.DateFormatString = _dateFormatString;
         }
 
-        var traceJsonWriter = TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Verbose
+        var traceJsonWriter = TraceWriter is {LevelFilter: >= TraceLevel.Verbose}
             ? new TraceJsonWriter(jsonWriter)
             : null;
 

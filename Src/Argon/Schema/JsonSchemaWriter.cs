@@ -135,7 +135,7 @@ class JsonSchemaWriter
         {
             WriteType(JsonSchemaConstants.DisallowPropertyName, _writer, schema.Disallow.GetValueOrDefault());
         }
-        if (schema.Extends != null && schema.Extends.Count > 0)
+        if (schema.Extends is {Count: > 0})
         {
             _writer.WritePropertyName(JsonSchemaConstants.ExtendsPropertyName);
             if (schema.Extends.Count == 1)
@@ -181,7 +181,7 @@ class JsonSchemaWriter
 
         if (!schema.PositionalItemsValidation)
         {
-            if (schema.Items != null && schema.Items.Count > 0)
+            if (schema.Items is {Count: > 0})
             {
                 ReferenceOrWriteSchema(schema.Items[0]);
             }

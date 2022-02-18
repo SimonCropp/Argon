@@ -149,7 +149,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             Serializer.GetMatchingConverter(valueContract.UnderlyingType) ??
             valueContract.InternalConverter;
 
-        if (converter != null && converter.CanWrite)
+        if (converter is {CanWrite: true})
         {
             SerializeConvertable(writer, converter, value, valueContract, containerContract, containerProperty);
             return;
@@ -322,14 +322,14 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 case ReferenceLoopHandling.Error:
                     throw JsonSerializationException.Create(null, writer.ContainerPath, message, null);
                 case ReferenceLoopHandling.Ignore:
-                    if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Verbose)
+                    if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
                     {
                         TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(null, writer.Path, message + ". Skipping serializing self referenced value."), null);
                     }
 
                     return false;
                 case ReferenceLoopHandling.Serialize:
-                    if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Verbose)
+                    if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
                     {
                         TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(null, writer.Path, message + ". Serializing self referenced value."), null);
                     }
@@ -345,7 +345,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
     {
         var reference = GetReference(writer, value);
 
-        if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Info)
+        if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
         {
             TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(null, writer.Path, "Writing object reference to Id '{0}' for {1}.".FormatWith(CultureInfo.InvariantCulture, reference, value.GetType())), null);
         }
@@ -406,7 +406,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
     private void OnSerializing(JsonWriter writer, JsonContract contract, object value)
     {
-        if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Info)
+        if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
         {
             TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(null, writer.Path, "Started serializing {0}".FormatWith(CultureInfo.InvariantCulture, contract.UnderlyingType)), null);
         }
@@ -416,7 +416,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
     private void OnSerialized(JsonWriter writer, JsonContract contract, object value)
     {
-        if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Info)
+        if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
         {
             TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(null, writer.Path, "Finished serializing {0}".FormatWith(CultureInfo.InvariantCulture, contract.UnderlyingType)), null);
         }
@@ -581,7 +581,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
     {
         var reference = GetReference(writer, value);
 
-        if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Verbose)
+        if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
         {
             TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(null, writer.Path, "Writing object reference Id '{0}' for {1}.".FormatWith(CultureInfo.InvariantCulture, reference, type)), null);
         }
@@ -594,7 +594,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
     {
         var typeName = ReflectionUtils.GetTypeName(type, Serializer._typeNameAssemblyFormatHandling, Serializer._serializationBinder);
 
-        if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Verbose)
+        if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
         {
             TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(null, writer.Path, "Writing type name '{0}' for {1}.".FormatWith(CultureInfo.InvariantCulture, typeName, type)), null);
         }
@@ -633,14 +633,14 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
             _serializeStack.Add(value);
 
-            if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Info)
+            if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
             {
                 TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(null, writer.Path, "Started serializing {0} with converter {1}.".FormatWith(CultureInfo.InvariantCulture, value.GetType(), converter.GetType())), null);
             }
 
             converter.WriteJson(writer, value, GetInternalSerializer());
 
-            if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Info)
+            if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
             {
                 TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(null, writer.Path, "Finished serializing {0} with converter {1}.".FormatWith(CultureInfo.InvariantCulture, value.GetType(), converter.GetType())), null);
             }
@@ -1180,7 +1180,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
         var shouldSerialize = property.ShouldSerialize(target);
 
-        if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Verbose)
+        if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
         {
             TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(null, writer.Path, "ShouldSerialize result for property '{0}' on {1}: {2}".FormatWith(CultureInfo.InvariantCulture, property.PropertyName, property.DeclaringType, shouldSerialize)), null);
         }
@@ -1197,7 +1197,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
         var isSpecified = property.GetIsSpecified(target);
 
-        if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Verbose)
+        if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
         {
             TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(null, writer.Path, "IsSpecified result for property '{0}' on {1}: {2}".FormatWith(CultureInfo.InvariantCulture, property.PropertyName, property.DeclaringType, isSpecified)), null);
         }

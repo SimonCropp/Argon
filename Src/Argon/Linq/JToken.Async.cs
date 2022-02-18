@@ -87,7 +87,7 @@ public abstract partial class JToken
 
         if (reader.TokenType == JsonToken.None)
         {
-            if (!await (settings != null && settings.CommentHandling == CommentHandling.Ignore ? reader.ReadAndMoveToContentAsync(cancellationToken) : reader.ReadAsync(cancellationToken)).ConfigureAwait(false))
+            if (!await (settings is {CommentHandling: CommentHandling.Ignore} ? reader.ReadAndMoveToContentAsync(cancellationToken) : reader.ReadAsync(cancellationToken)).ConfigureAwait(false))
             {
                 throw JsonReaderException.Create(reader, "Error reading JToken from JsonReader.");
             }

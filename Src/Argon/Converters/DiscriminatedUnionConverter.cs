@@ -128,7 +128,7 @@ public class DiscriminatedUnionConverter : JsonConverter
         writer.WriteStartObject();
         writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(CasePropertyName) : CasePropertyName);
         writer.WriteValue(caseInfo.Name);
-        if (caseInfo.Fields != null && caseInfo.Fields.Length > 0)
+        if (caseInfo.Fields is {Length: > 0})
         {
             var fields = (object[])caseInfo.FieldReader.Invoke(value)!;
 

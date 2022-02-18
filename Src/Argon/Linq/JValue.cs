@@ -680,10 +680,10 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <param name="converters">A collection of <see cref="JsonConverter"/>s which will be used when writing the token.</param>
     public override void WriteTo(JsonWriter writer, params JsonConverter[] converters)
     {
-        if (converters != null && converters.Length > 0 && _value != null)
+        if (converters is {Length: > 0} && _value != null)
         {
             var matchingConverter = JsonSerializer.GetMatchingConverter(converters, _value.GetType());
-            if (matchingConverter != null && matchingConverter.CanWrite)
+            if (matchingConverter is {CanWrite: true})
             {
                 matchingConverter.WriteJson(writer, _value, JsonSerializer.CreateDefault());
                 return;

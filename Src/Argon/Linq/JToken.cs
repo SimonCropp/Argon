@@ -2018,7 +2018,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         bool hasContent;
         if (reader.TokenType == JsonToken.None)
         {
-            hasContent = settings != null && settings.CommentHandling == CommentHandling.Ignore
+            hasContent = settings is {CommentHandling: CommentHandling.Ignore}
                 ? reader.ReadAndMoveToContent()
                 : reader.Read();
         }

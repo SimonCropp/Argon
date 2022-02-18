@@ -522,7 +522,7 @@ public static class JsonConvert
     [DebuggerStepThrough]
     public static string SerializeObject(object? value, params JsonConverter[] converters)
     {
-        var settings = converters != null && converters.Length > 0
+        var settings = converters is {Length: > 0}
             ? new JsonSerializerSettings { Converters = converters }
             : null;
 
@@ -539,7 +539,7 @@ public static class JsonConvert
     [DebuggerStepThrough]
     public static string SerializeObject(object? value, Formatting formatting, params JsonConverter[] converters)
     {
-        var settings = converters != null && converters.Length > 0
+        var settings = converters is {Length: > 0}
             ? new JsonSerializerSettings { Converters = converters }
             : null;
 
@@ -766,7 +766,7 @@ public static class JsonConvert
     [DebuggerStepThrough]
     public static object? DeserializeObject(string value, Type type, params JsonConverter[] converters)
     {
-        var settings = converters != null && converters.Length > 0
+        var settings = converters is {Length: > 0}
             ? new JsonSerializerSettings { Converters = converters }
             : null;
 
@@ -831,7 +831,7 @@ public static class JsonConvert
         {
             jsonSerializer.Populate(jsonReader, target);
 
-            if (settings != null && settings.CheckAdditionalContent)
+            if (settings is {CheckAdditionalContent: true})
             {
                 while (jsonReader.Read())
                 {

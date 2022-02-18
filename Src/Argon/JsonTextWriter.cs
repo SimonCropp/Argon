@@ -779,7 +779,7 @@ public partial class JsonTextWriter : JsonWriter
 
     private void WriteIntegerValue(long value)
     {
-        if (value >= 0 && value <= 9)
+        if (value is >= 0 and <= 9)
         {
             _writer.Write((char)('0' + value));
         }
@@ -837,7 +837,7 @@ public partial class JsonTextWriter : JsonWriter
 
     private void WriteIntegerValue(int value)
     {
-        if (value >= 0 && value <= 9)
+        if (value is >= 0 and <= 9)
         {
             _writer.Write((char)('0' + value));
         }

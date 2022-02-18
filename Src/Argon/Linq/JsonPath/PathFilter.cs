@@ -48,7 +48,7 @@ abstract class PathFilter
     protected static JToken? GetNextScanValue(JToken originalParent, JToken? container, JToken? value)
     {
         // step into container's values
-        if (container != null && container.HasValues)
+        if (container is {HasValues: true})
         {
             value = container.First;
         }

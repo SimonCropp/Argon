@@ -114,7 +114,7 @@ internal abstract class JsonSerializerInternalBase
     {
         var errorContext = GetErrorContext(currentObject, keyValue, path, ex);
 
-        if (TraceWriter != null && TraceWriter.LevelFilter >= TraceLevel.Error && !errorContext.Traced)
+        if (TraceWriter is {LevelFilter: >= TraceLevel.Error} && !errorContext.Traced)
         {
             // only write error once
             errorContext.Traced = true;

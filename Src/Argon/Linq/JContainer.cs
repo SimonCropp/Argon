@@ -745,7 +745,7 @@ public abstract partial class JContainer : JToken, IList<JToken>
 
         do
         {
-            if (parent is JProperty p && p.Value != null)
+            if (parent is JProperty {Value: { }})
             {
                 if (parent == this)
                 {
@@ -816,7 +816,7 @@ public abstract partial class JContainer : JToken, IList<JToken>
                     parent.Add(v);
                     break;
                 case JsonToken.Comment:
-                    if (settings != null && settings.CommentHandling == CommentHandling.Load)
+                    if (settings is {CommentHandling: CommentHandling.Load})
                     {
                         v = JValue.CreateComment(r.Value!.ToString());
                         v.SetLineInfo(lineInfo, settings);

@@ -237,7 +237,7 @@ public partial class JProperty : JContainer
     internal override bool InsertItem(int index, JToken? item, bool skipParentCheck)
     {
         // don't add comments to JProperty
-        if (item != null && item.Type == JTokenType.Comment)
+        if (item is {Type: JTokenType.Comment})
         {
             return false;
         }

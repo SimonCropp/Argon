@@ -213,14 +213,14 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
                     {
                         if (!schema.PositionalItemsValidation)
                         {
-                            if (schema.Items != null && schema.Items.Count > 0)
+                            if (schema.Items is {Count: > 0})
                             {
                                 schemas.Add(schema.Items[0]);
                             }
                         }
                         else
                         {
-                            if (schema.Items != null && schema.Items.Count > 0)
+                            if (schema.Items is {Count: > 0})
                             {
                                 if (schema.Items.Count > _currentScope.ArrayItemCount - 1)
                                 {
@@ -829,17 +829,14 @@ public class JsonValidatingReader : JsonReader, IJsonLineInfo
 
     private void ProcessValue()
     {
-        if (_currentScope != null && _currentScope.TokenType == JTokenType.Array)
+        if (_currentScope is {TokenType: JTokenType.Array})
         {
             _currentScope.ArrayItemCount++;
 
             foreach (var currentSchema in CurrentSchemas)
             {
                 // if there is positional validation and the array index is past the number of item validation schemas and there are no additional items then error
-                if (currentSchema != null
-                    && currentSchema.PositionalItemsValidation
-                    && !currentSchema.AllowAdditionalItems
-                    && (currentSchema.Items == null || _currentScope.ArrayItemCount - 1 >= currentSchema.Items.Count))
+                if (currentSchema is {PositionalItemsValidation: true, AllowAdditionalItems: false} && (currentSchema.Items == null || _currentScope.ArrayItemCount - 1 >= currentSchema.Items.Count))
                 {
                     RaiseError("Index {0} has not been defined and the schema does not allow additional items.".FormatWith(CultureInfo.InvariantCulture, _currentScope.ArrayItemCount), currentSchema);
                 }

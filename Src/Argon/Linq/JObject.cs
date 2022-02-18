@@ -115,7 +115,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     internal override bool InsertItem(int index, JToken? item, bool skipParentCheck)
     {
         // don't add comments to JObject, no name to reference comment by
-        if (item != null && item.Type == JTokenType.Comment)
+        if (item is {Type: JTokenType.Comment})
         {
             return false;
         }
@@ -189,7 +189,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
             return true;
         }
 
-        if (token is JValue v && v.Value == null)
+        if (token is JValue {Value: null})
         {
             return true;
         }

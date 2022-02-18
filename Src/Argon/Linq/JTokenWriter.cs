@@ -126,7 +126,7 @@ public partial class JTokenWriter : JsonWriter
         _current = _parent;
         _parent = _parent!.Parent;
 
-        if (_parent != null && _parent.Type == JTokenType.Property)
+        if (_parent is {Type: JTokenType.Property})
         {
             _parent = _parent.Parent;
         }
