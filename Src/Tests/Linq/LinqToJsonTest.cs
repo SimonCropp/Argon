@@ -974,7 +974,7 @@ keyword such as type of business.""
 
         Xunit.Assert.Equal("Json.NET 1.3 + New license + Now on CodePlex", (string)o["channel"]["item"][0]["title"]);
 
-        Xunit.Assert.Equal(new string[] { "Json.NET 1.3 + New license + Now on CodePlex", "LINQ to JSON beta" }, o["channel"]["item"].Children().Values<string>("title").ToArray());
+        Xunit.Assert.Equal(new[] { "Json.NET 1.3 + New license + Now on CodePlex", "LINQ to JSON beta" }, o["channel"]["item"].Children().Values<string>("title").ToArray());
     }
 
     [Fact]
@@ -1296,7 +1296,7 @@ keyword such as type of business.""
         var o = JArray.Parse(json);
 
         Xunit.Assert.Equal(4, o.Children()["item"].Children()["title"].Count());
-        Xunit.Assert.Equal(new string[]
+        Xunit.Assert.Equal(new[]
             {
                 "Json.NET 1.3 + New license + Now on CodePlex",
                 "LINQ to JSON beta",

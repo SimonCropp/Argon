@@ -329,7 +329,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     {
         ExceptionAssert.Throws<ArgumentNullException>(
             () => { new JsonTextReader(null); },
-            new string[]
+            new[]
             {
                 "Value cannot be null." + Environment.NewLine + "Parameter name: reader",
                 "Argument cannot be null." + Environment.NewLine + "Parameter name: reader", // Mono

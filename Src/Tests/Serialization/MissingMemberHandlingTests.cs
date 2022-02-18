@@ -40,7 +40,7 @@ public class MissingMemberHandlingTests : TestFixtureBase
             Name = "Apple",
             ExpiryDate = new DateTime(2008, 12, 28),
             Price = 3.99M,
-            Sizes = new string[] { "Small", "Medium", "Large" }
+            Sizes = new[] { "Small", "Medium", "Large" }
         };
 
         var output = JsonConvert.SerializeObject(product, Formatting.Indented);
@@ -69,7 +69,7 @@ public class MissingMemberHandlingTests : TestFixtureBase
             Name = "Apple",
             ExpiryDate = new DateTime(2008, 12, 28),
             Price = 3.99M,
-            Sizes = new string[] { "Small", "Medium", "Large" }
+            Sizes = new[] { "Small", "Medium", "Large" }
         };
 
         var output = JsonConvert.SerializeObject(product);

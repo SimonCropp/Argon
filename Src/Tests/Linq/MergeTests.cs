@@ -71,7 +71,7 @@ Parameter name: content",
     public void MergeArrayIntoArray_Replace()
     {
         var a = new JArray { "1", "2" };
-        a.Merge(new string[] { "3", "4" }, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Replace });
+        a.Merge(new[] { "3", "4" }, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Replace });
         Xunit.Assert.Equal(new JArray { "3", "4" }, a);
     }
 
@@ -79,7 +79,7 @@ Parameter name: content",
     public void MergeArrayIntoArray_Concat()
     {
         var a = new JArray { "1", "2" };
-        a.Merge(new string[] { "3", "4" }, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Concat });
+        a.Merge(new[] { "3", "4" }, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Concat });
         Xunit.Assert.Equal(new JArray { "1", "2", "3", "4" }, a);
     }
 
@@ -87,7 +87,7 @@ Parameter name: content",
     public void MergeArrayIntoArray_Union()
     {
         var a = new JArray { "1", "2" };
-        a.Merge(new string[] { "2", "3", "4" }, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Union });
+        a.Merge(new[] { "2", "3", "4" }, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Union });
         Xunit.Assert.Equal(new JArray { "1", "2", "3", "4" }, a);
     }
 
@@ -95,7 +95,7 @@ Parameter name: content",
     public void MergeArrayIntoArray_Merge()
     {
         var a = new JArray { "1", "2" };
-        a.Merge(new string[] { "2" }, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Merge });
+        a.Merge(new[] { "2" }, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Merge });
         Xunit.Assert.Equal(new JArray { "2", "2" }, a);
     }
 

@@ -1651,7 +1651,7 @@ public class JsonSerializerTest : TestFixtureBase
             Name = "Apple",
             ExpiryDate = new DateTime(2008, 12, 28),
             Price = 3.99M,
-            Sizes = new string[] {"Small", "Medium", "Large"}
+            Sizes = new[] {"Small", "Medium", "Large"}
         };
 
         var output = JsonConvert.SerializeObject(product);
@@ -3991,7 +3991,7 @@ Path '', line 1, position 1.");
         var ms = new MemoryStream();
         var serializer = new DataContractJsonSerializer(
             typeof(DataContractJsonSerializerTestClass),
-            new Type[] {typeof(Human)});
+            new[] {typeof(Human)});
         serializer.WriteObject(ms, c);
 
         var jsonBytes = ms.ToArray();

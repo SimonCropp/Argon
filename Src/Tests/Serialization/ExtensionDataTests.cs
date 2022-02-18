@@ -122,7 +122,7 @@ public class ExtensionDataTests : TestFixtureBase
     public void DataBagDoesNotInheritFromDictionaryClass()
     {
         var e = new Example();
-        e.Data.Add("extensionData1", new int[] { 1, 2, 3 });
+        e.Data.Add("extensionData1", new[] { 1, 2, 3 });
 
         var json = JsonConvert.SerializeObject(e, Formatting.Indented);
 

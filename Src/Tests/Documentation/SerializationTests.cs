@@ -51,7 +51,7 @@ public class SerializationTests : TestFixtureBase
             Name = "Apple",
             ExpiryDate = new DateTime(2008, 12, 28),
             Price = 3.99M,
-            Sizes = new string[] { "Small", "Medium", "Large" }
+            Sizes = new[] { "Small", "Medium", "Large" }
         };
 
         var output = JsonConvert.SerializeObject(product);
@@ -1036,7 +1036,7 @@ public class SerializationTests : TestFixtureBase
     [Fact]
     public void SerializeMultidimensionalArrayExample()
     {
-        var famousCouples = new string[,]
+        var famousCouples = new[,]
         {
             { "Adam", "Eve" },
             { "Bonnie", "Clyde" },

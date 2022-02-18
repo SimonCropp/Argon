@@ -1494,10 +1494,10 @@ public class JsonConvertTest : TestFixtureBase
 
     public class OverloadWithArrayParameters
     {
-        [JsonConverter(typeof(OverloadsJsonConverterer), new int[] { 1, 2, 3 })]
+        [JsonConverter(typeof(OverloadsJsonConverterer), new[] { 1, 2, 3 })]
         public int WithParams { get; set; }
 
-        [JsonConverter(typeof(OverloadsJsonConverterer), new bool[] { true, false })]
+        [JsonConverter(typeof(OverloadsJsonConverterer), new[] { true, false })]
         public int WithoutParams { get; set; }
     }
 
@@ -1512,7 +1512,7 @@ public class JsonConvertTest : TestFixtureBase
 
     public class OverloadWithBaseType
     {
-        [JsonConverter(typeof(OverloadsJsonConverterer), new object[] { new string[] { "a", "b", "c" } })]
+        [JsonConverter(typeof(OverloadsJsonConverterer), new object[] { new[] { "a", "b", "c" } })]
         public int Overload { get; set; }
     }
 

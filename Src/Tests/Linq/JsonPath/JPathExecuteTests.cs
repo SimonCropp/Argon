@@ -1544,12 +1544,12 @@ public class JPathExecuteTests : TestFixtureBase
     {
         foreach (var item in StrictMatchTestData())
         {
-            yield return new object[] { item[0], item[1], item[2] };
+            yield return new[] { item[0], item[1], item[2] };
 
             if (!item[0].Equals(item[1]))
             {
                 // Test the inverse
-                yield return new object[] { item[1], item[0], item[2] };
+                yield return new[] { item[1], item[0], item[2] };
             }
         }
     }

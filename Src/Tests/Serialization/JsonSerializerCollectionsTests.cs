@@ -1920,7 +1920,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void ReadOnlyCollectionSerialize()
     {
-        var r1 = new ReadOnlyCollection<int>(new int[] { 0, 1, 2, 3, 4 });
+        var r1 = new ReadOnlyCollection<int>(new[] { 0, 1, 2, 3, 4 });
 
         var jsonText = JsonConvert.SerializeObject(r1);
 

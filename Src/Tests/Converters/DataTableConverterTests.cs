@@ -101,7 +101,7 @@ public class DataTableConverterTests : TestFixtureBase
         var types = new Dictionary<Type, object>
         {
             [typeof(TimeSpan)] = TimeSpan.Zero,
-            [typeof(char[])] = new char[] {'a', 'b', 'c' },
+            [typeof(char[])] = new[] {'a', 'b', 'c' },
             [typeof(Type)] = typeof(string),
             [typeof(Object)] = new(),
             [typeof(byte[])] = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 },
