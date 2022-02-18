@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if NETSTANDARD2_0
+#if NET5_0_OR_GREATER
 using Xunit;
 
 namespace Argon.Tests.Issues;

@@ -154,7 +154,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         var dictionary = new Dictionary<float, int> { { float.MaxValue, 1 } };
         var output = JsonConvert.SerializeObject(dictionary);
-#if !(NETSTANDARD2_0)
+#if !(NET5_0_OR_GREATER)
         Assert.Equal(@"{""3.40282347E+38"":1}", output);
 #else
             Assert.Equal(@"{""3.4028235E+38"":1}", output);

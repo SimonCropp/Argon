@@ -863,7 +863,7 @@ Argon Error: 0 : Error!
         Assert.True(traceWriter.TraceRecords[0].Message.StartsWith("Deserializing System.Exception using ISerializable constructor. Path ''"));
         Assert.Equal(TraceLevel.Info, traceWriter.TraceRecords[0].Level);
 
-#if !NETSTANDARD2_0
+#if !NET5_0_OR_GREATER
             Assert.Equal("Error deserializing System.Exception. Member 'ClassName' was not found. Path '', line 1, position 2.", traceWriter.TraceRecords[1].Message);
 #else
         Assert.Equal("Error deserializing System.Exception. Member 'Message' was not found. Path '', line 1, position 2.", traceWriter.TraceRecords[1].Message);

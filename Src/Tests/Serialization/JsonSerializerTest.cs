@@ -2193,7 +2193,7 @@ keyword such as type of business.""
     {
         var json = JsonConvert.SerializeObject(new ConverableMembers(), Formatting.Indented);
 
-#if (NETSTANDARD2_0)
+#if (NET5_0_OR_GREATER)
             var expected = @"{
   ""String"": ""string"",
   ""Int32"": 2147483647,

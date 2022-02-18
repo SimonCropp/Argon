@@ -183,7 +183,7 @@ public class ParseTests : TestFixtureBase
         Assert.Equal(Double.MinValue, reader.Value);
 
         reader = new JsonTextReader(new StringReader("1E+309"));
-#if !(NETSTANDARD2_0)
+#if !(NET5_0_OR_GREATER)
         XUnitAssert.Throws<JsonReaderException>(() => reader.Read(), "Input string '1E+309' is not a valid number. Path '', line 1, position 6.");
 #else
             Assert.True(reader.Read());
@@ -192,7 +192,7 @@ public class ParseTests : TestFixtureBase
 #endif
 
         reader = new JsonTextReader(new StringReader("-1E+5000"));
-#if !(NETSTANDARD2_0)
+#if !(NET5_0_OR_GREATER)
         XUnitAssert.Throws<JsonReaderException>(() => reader.Read(), "Input string '-1E+5000' is not a valid number. Path '', line 1, position 8.");
 #else
             Assert.True(reader.Read());
