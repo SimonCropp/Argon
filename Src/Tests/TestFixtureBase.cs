@@ -106,16 +106,6 @@ public abstract class TestFixtureBase
         JsonConvert.DefaultSettings = null;
     }
 
-    protected void WriteEscapedJson(string json)
-    {
-        Console.WriteLine(EscapeJson(json));
-    }
-
-    protected string EscapeJson(string json)
-    {
-        return @"@""" + json.Replace(@"""", @"""""") + @"""";
-    }
-
     protected string GetNestedJson(int depth)
     {
         var root = new JObject();
