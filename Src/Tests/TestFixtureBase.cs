@@ -23,9 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.Text.RegularExpressions;
-
-namespace Argon.Tests;
+using Argon;
 
 public abstract class TestFixtureBase
 {
@@ -45,8 +43,4 @@ public abstract class TestFixtureBase
 
         JsonConvert.DefaultSettings = null;
     }
-}
-
-public static class ExceptionAssert
-{
 }
