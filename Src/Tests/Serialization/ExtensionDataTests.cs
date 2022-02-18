@@ -103,7 +103,7 @@ public class ExtensionDataTests : TestFixtureBase
             return _inner.GetEnumerator();
         }
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
             return _inner.GetEnumerator();
         }
@@ -460,9 +460,9 @@ public class ExtensionDataTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, new JsonSerializerSettings
         {
-            ContractResolver = new Argon.Serialization.DefaultContractResolver
+            ContractResolver = new DefaultContractResolver
             {
-                NamingStrategy = new Argon.Serialization.CamelCaseNamingStrategy()
+                NamingStrategy = new CamelCaseNamingStrategy()
             },
             Formatting = Formatting.Indented
         });

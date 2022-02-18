@@ -30,12 +30,12 @@ namespace Argon.Tests.TestObjects;
     [MetadataType(typeof(CustomerValidation))]
     public partial class CustomerWithMetadataType
     {
-        public System.Guid UpdatedBy_Id { get; set; }
+        public Guid UpdatedBy_Id { get; set; }
 
         public class CustomerValidation
         {
             [JsonIgnore]
-            public System.Guid UpdatedBy_Id { get; set; }
+            public Guid UpdatedBy_Id { get; set; }
         }
     }
 #endif

@@ -476,7 +476,7 @@ public class DataTableConverterTests : TestFixtureBase
         Assert.AreEqual("shoes", table.Rows[2]["item"]);
         Assert.AreEqual(49.99, (double)table.Rows[0]["price"], 0.01);
         Assert.AreEqual(54.99, (double)table.Rows[1]["price"], 0.01);
-        CustomAssert.IsInstanceOfType(typeof(System.DBNull), table.Rows[2]["price"]);
+        CustomAssert.IsInstanceOfType(typeof(DBNull), table.Rows[2]["price"]);
     }
 
     [Fact]
@@ -492,7 +492,7 @@ public class DataTableConverterTests : TestFixtureBase
         Assert.AreEqual("shoes", table.Rows[2]["item"]);
         Assert.AreEqual(49.99, (double)table.Rows[0]["price"], 0.01);
         Assert.AreEqual(54.99, (double)table.Rows[1]["price"], 0.01);
-        CustomAssert.IsInstanceOfType(typeof(System.DBNull), table.Rows[2]["price"]);
+        CustomAssert.IsInstanceOfType(typeof(DBNull), table.Rows[2]["price"]);
     }
 
     [Fact]

@@ -125,7 +125,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             await writer.WriteValueAsync((object)null);
 
             await writer.WritePropertyNameAsync("PropObjectBigInteger");
-            await writer.WriteValueAsync((object)System.Numerics.BigInteger.Parse("123456789012345678901234567890"));
+            await writer.WriteValueAsync((object)BigInteger.Parse("123456789012345678901234567890"));
 
             await writer.WritePropertyNameAsync("PropUndefined");
             await writer.WriteUndefinedAsync();

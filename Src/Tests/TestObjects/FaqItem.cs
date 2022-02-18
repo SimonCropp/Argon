@@ -35,7 +35,7 @@ namespace Argon.Tests.TestObjects
     {
         public FaqItem()
         {
-            this.Sections = new HashSet<FaqSection>();
+            Sections = new HashSet<FaqSection>();
         }
 
         public int FaqId { get; set; }

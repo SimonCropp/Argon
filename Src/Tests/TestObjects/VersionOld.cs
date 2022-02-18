@@ -93,7 +93,7 @@ public sealed class VersionOld : IComparable, IComparable<VersionOld>, IEquatabl
     public int CompareTo(VersionOld value)
     {
         return
-            object.ReferenceEquals(value, this) ? 0 :
+            ReferenceEquals(value, this) ? 0 :
             value is null ? 1 :
             _Major != value._Major ? _Major > value._Major ? 1 : -1 :
             _Minor != value._Minor ? _Minor > value._Minor ? 1 : -1 :
@@ -104,7 +104,7 @@ public sealed class VersionOld : IComparable, IComparable<VersionOld>, IEquatabl
 
     public bool Equals(VersionOld obj)
     {
-        return object.ReferenceEquals(obj, this) ||
+        return ReferenceEquals(obj, this) ||
                (!(obj is null) &&
                 _Major == obj._Major &&
                 _Minor == obj._Minor &&

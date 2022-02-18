@@ -752,7 +752,7 @@ public class XmlNodeConverterTest : TestFixtureBase
     var json1 = JsonConvert.SerializeXNode(xml);
     var xmlBack = JsonConvert.DeserializeObject<XElement>(json1);
 
-    var equals = XElement.DeepEquals(xmlBack, xml);
+    var equals = XNode.DeepEquals(xmlBack, xml);
     Assert.IsTrue(equals);
   }
 
@@ -2375,11 +2375,11 @@ public class XmlNodeConverterTest : TestFixtureBase
   [Fact]
   public void IgnoreCultureForTypedAttributes()
   {
-    var originalCulture = System.Threading.Thread.CurrentThread.CurrentCulture;
+    var originalCulture = Thread.CurrentThread.CurrentCulture;
 
     try
     {
-      System.Threading.Thread.CurrentThread.CurrentCulture = new CultureInfo("ru-RU");
+      Thread.CurrentThread.CurrentCulture = new CultureInfo("ru-RU");
 
       // in russian culture value 12.27 will be written as 12,27
 
@@ -2404,7 +2404,7 @@ public class XmlNodeConverterTest : TestFixtureBase
     }
     finally
     {
-      System.Threading.Thread.CurrentThread.CurrentCulture = originalCulture;
+      Thread.CurrentThread.CurrentCulture = originalCulture;
     }
   }
 
@@ -2475,10 +2475,10 @@ public class XmlNodeConverterTest : TestFixtureBase
 
   private static void JsonBodyToSoapXml(Stream json, Stream xml)
   {
-    var settings = new Argon.JsonSerializerSettings();
-    settings.Converters.Add(new Argon.Converters.XmlNodeConverter());
-    var serializer = Argon.JsonSerializer.Create(settings);
-    using (var reader = new Argon.JsonTextReader(new System.IO.StreamReader(json)))
+    var settings = new JsonSerializerSettings();
+    settings.Converters.Add(new XmlNodeConverter());
+    var serializer = JsonSerializer.Create(settings);
+    using (var reader = new JsonTextReader(new StreamReader(json)))
     {
       var doc = (XmlDocument)serializer.Deserialize(reader, typeof(XmlDocument));
       if (reader.Read() && reader.TokenType != JsonToken.Comment)
@@ -3043,7 +3043,7 @@ public class XmlNodeConverterTest : TestFixtureBase
     var json1 = JsonConvert.SerializeXNode(xml);
     var xmlBack = JsonConvert.DeserializeObject<XElement>(json1);
 
-    var equals = XElement.DeepEquals(xmlBack, xml);
+    var equals = XNode.DeepEquals(xmlBack, xml);
     Assert.IsTrue(equals);
   }
 

@@ -693,7 +693,7 @@ public class ContractResolverTests : TestFixtureBase
         public bool Prop1Specified;
         public bool Prop2Specified { get; set; }
         public static bool Prop3Specified { get; set; }
-        public event System.Func<bool> Prop4Specified;
+        public event Func<bool> Prop4Specified;
         public static bool Prop5Specified;
 
         protected virtual bool OnProp4Specified()

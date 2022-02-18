@@ -129,7 +129,7 @@ public class ParseTests : TestFixtureBase
         ExceptionAssert.Throws<JsonReaderException>(() => reader.ReadAsDecimal(), "Unexpected character encountered while parsing number: s. Path '', line 1, position 77.");
 
         reader = new JsonTextReader(new StringReader("9999999999999999999999999999999999999999999999999999999999999999999999999999asdasdasd"));
-        reader.FloatParseHandling = Argon.FloatParseHandling.Decimal;
+        reader.FloatParseHandling = FloatParseHandling.Decimal;
         ExceptionAssert.Throws<JsonReaderException>(() => reader.Read(), "Unexpected character encountered while parsing number: s. Path '', line 1, position 77.");
 
         reader = new JsonTextReader(new StringReader("1E-06"));

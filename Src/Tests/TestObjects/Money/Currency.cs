@@ -81,42 +81,42 @@ public class Currency
     public bool IsAUD
     {
         [CompilerGenerated, DebuggerNonUserCode]
-        get => this.Tag == 1;
+        get => Tag == 1;
     }
 
     [CompilerGenerated, DebuggerNonUserCode, DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public bool IsEUR
     {
         [CompilerGenerated, DebuggerNonUserCode]
-        get => this.Tag == 4;
+        get => Tag == 4;
     }
 
     [CompilerGenerated, DebuggerNonUserCode, DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public bool IsJPY
     {
         [CompilerGenerated, DebuggerNonUserCode]
-        get => this.Tag == 5;
+        get => Tag == 5;
     }
 
     [CompilerGenerated, DebuggerNonUserCode, DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public bool IsLocalCurrency
     {
         [CompilerGenerated, DebuggerNonUserCode]
-        get => this.Tag == 0;
+        get => Tag == 0;
     }
 
     [CompilerGenerated, DebuggerNonUserCode, DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public bool IsNZD
     {
         [CompilerGenerated, DebuggerNonUserCode]
-        get => this.Tag == 2;
+        get => Tag == 2;
     }
 
     [CompilerGenerated, DebuggerNonUserCode, DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public bool IsUSD
     {
         [CompilerGenerated, DebuggerNonUserCode]
-        get => this.Tag == 3;
+        get => Tag == 3;
     }
 
     [CompilerGenerated, DebuggerNonUserCode, DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -144,7 +144,7 @@ public class Currency
     public int Tag
     {
         [CompilerGenerated, DebuggerNonUserCode]
-        get => this._tag;
+        get => _tag;
     }
 
     [CompilerGenerated, DebuggerNonUserCode, DebuggerBrowsable(DebuggerBrowsableState.Never)]
