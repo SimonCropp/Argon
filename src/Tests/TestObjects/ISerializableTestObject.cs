@@ -83,24 +83,24 @@ public class ISerializableTestObject : ISerializable
 
     public void GetObjectData(SerializationInfo info, StreamingContext context)
     {
-        info.AddValue((string)"stringValue", (object)_stringValue);
-        info.AddValue((string)"intValue", (int)_intValue);
-        info.AddValue((string)"dateTimeOffsetValue", (object)_dateTimeOffsetValue);
-        info.AddValue((string)"personValue", (object)_personValue);
-        info.AddValue((string)"nullPersonValue", (object)_nullPersonValue);
+        info.AddValue("stringValue", _stringValue);
+        info.AddValue("intValue", _intValue);
+        info.AddValue("dateTimeOffsetValue", _dateTimeOffsetValue);
+        info.AddValue("personValue", _personValue);
+        info.AddValue("nullPersonValue", _nullPersonValue);
         info.AddValue("nullableInt", null);
 
-        info.AddValue((string)"booleanValue", (bool)_booleanValue);
-        info.AddValue((string)"byteValue", (byte)_byteValue);
-        info.AddValue((string)"charValue", (char)_charValue);
-        info.AddValue((string)"dateTimeValue", (DateTime)_dateTimeValue);
-        info.AddValue((string)"decimalValue", (decimal)_decimalValue);
-        info.AddValue((string)"shortValue", (short)_shortValue);
-        info.AddValue((string)"longValue", (long)_longValue);
-        info.AddValue((string)"sbyteValue", (sbyte)_sbyteValue);
-        info.AddValue((string)"floatValue", (float)_floatValue);
-        info.AddValue((string)"ushortValue", (ushort)_ushortValue);
-        info.AddValue((string)"uintValue", (uint)_uintValue);
-        info.AddValue((string)"ulongValue", (ulong)_ulongValue);
+        info.AddValue("booleanValue", _booleanValue);
+        info.AddValue("byteValue", _byteValue);
+        info.AddValue("charValue", _charValue);
+        info.AddValue("dateTimeValue", _dateTimeValue);
+        info.AddValue("decimalValue", _decimalValue);
+        info.AddValue("shortValue", _shortValue);
+        info.AddValue("longValue", _longValue);
+        info.AddValue("sbyteValue", _sbyteValue);
+        info.AddValue("floatValue", _floatValue);
+        info.AddValue("ushortValue", _ushortValue);
+        info.AddValue("uintValue", _uintValue);
+        info.AddValue("ulongValue", _ulongValue);
     }
 }

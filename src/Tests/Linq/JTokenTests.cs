@@ -327,7 +327,7 @@ public class JTokenTests : TestFixtureBase
         Assert.Equal(new Uri("http://www.google.com"), (Uri?)new JValue(new Uri("http://www.google.com")));
         Assert.Equal(null, (Uri?)JValue.CreateNull());
         Assert.Equal(Convert.ToBase64String(Encoding.UTF8.GetBytes("hi")), (string?)new JValue(Encoding.UTF8.GetBytes("hi")));
-        Assert.Equal((byte[])Encoding.UTF8.GetBytes("hi"), (byte[]?)new JValue(Convert.ToBase64String(Encoding.UTF8.GetBytes("hi"))));
+        Assert.Equal(Encoding.UTF8.GetBytes("hi"), (byte[]?)new JValue(Convert.ToBase64String(Encoding.UTF8.GetBytes("hi"))));
         Assert.Equal(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC"), (Guid)new JValue(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC").ToByteArray()));
         Assert.Equal(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC"), (Guid?)new JValue(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC").ToByteArray()));
         Assert.Equal((sbyte?)1, (sbyte?)new JValue((short?)1));
@@ -446,7 +446,7 @@ public class JTokenTests : TestFixtureBase
     {
         Assert.Equal((BigInteger)1, new JValue(1).ToObject(typeof(BigInteger)));
         Assert.Equal((BigInteger)1, new JValue(1).ToObject(typeof(BigInteger?)));
-        Assert.Equal((BigInteger?)null, JValue.CreateNull().ToObject(typeof(BigInteger?)));
+        Assert.Equal(null, JValue.CreateNull().ToObject(typeof(BigInteger?)));
         Assert.Equal((ushort)1, new JValue(1).ToObject(typeof(ushort)));
         Assert.Equal((ushort)1, new JValue(1).ToObject(typeof(ushort?)));
         Assert.Equal((uint)1L, new JValue(1).ToObject(typeof(uint)));
@@ -515,9 +515,9 @@ public class JTokenTests : TestFixtureBase
         Assert.True(JToken.DeepEquals(new JValue((decimal?)null), (JValue)(decimal?)null));
         Assert.True(JToken.DeepEquals(new JValue((ulong?)null), (JValue)(ulong?)null));
         Assert.True(JToken.DeepEquals(new JValue((sbyte?)null), (JValue)(sbyte?)null));
-        Assert.True(JToken.DeepEquals(new JValue((sbyte)1), (JValue)(sbyte)1));
+        Assert.True(JToken.DeepEquals(new JValue(1), (JValue)(sbyte)1));
         Assert.True(JToken.DeepEquals(new JValue((byte?)null), (JValue)(byte?)null));
-        Assert.True(JToken.DeepEquals(new JValue((byte)1), (JValue)(byte)1));
+        Assert.True(JToken.DeepEquals(new JValue(1), (JValue)(byte)1));
         Assert.True(JToken.DeepEquals(new JValue((ushort?)null), (JValue)(ushort?)null));
         Assert.True(JToken.DeepEquals(new JValue(short.MaxValue), (JValue)short.MaxValue));
         Assert.True(JToken.DeepEquals(new JValue(ushort.MaxValue), (JValue)ushort.MaxValue));
@@ -537,7 +537,7 @@ public class JTokenTests : TestFixtureBase
         Assert.True(JToken.DeepEquals(JValue.CreateNull(), (JValue)(double?)null));
 
         Assert.False(JToken.DeepEquals(new JValue(true), (JValue)(bool?)null));
-        Assert.False(JToken.DeepEquals(JValue.CreateNull(), (JValue?)(object?)null));
+        Assert.False(JToken.DeepEquals(JValue.CreateNull(), (JValue?)null));
 
         var emptyData = new byte[0];
         Assert.True(JToken.DeepEquals(new JValue(emptyData), (JValue)emptyData));

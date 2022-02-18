@@ -119,7 +119,7 @@ public class JValueTests : TestFixtureBase
         Assert.Equal(null, v.Value);
         Assert.Equal(JTokenType.Null, v.Type);
 
-        v.Value = (int?)null;
+        v.Value = null;
         Assert.Equal(null, v.Value);
         Assert.Equal(JTokenType.Null, v.Type);
 

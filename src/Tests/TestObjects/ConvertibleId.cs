@@ -42,7 +42,7 @@ public class ConvertibleId : IConvertible
         }
         if (conversionType == typeof(int))
         {
-            return (int)Value;
+            return Value;
         }
         if (conversionType == typeof(long))
         {
@@ -97,7 +97,7 @@ public class ConvertibleId : IConvertible
 
     long IConvertible.ToInt64(IFormatProvider provider)
     {
-        return (long)Value;
+        return Value;
     }
 
     sbyte IConvertible.ToSByte(IFormatProvider provider)

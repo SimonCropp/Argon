@@ -1115,16 +1115,16 @@ Argon Error: 0 : Error!
         traceWriter.WriteValue(1.1d);
         traceWriter.WriteValue(1.1m);
         traceWriter.WriteValue(1);
-        traceWriter.WriteValue((char)'!');
+        traceWriter.WriteValue('!');
         traceWriter.WriteValue((short)1);
         traceWriter.WriteValue((ushort)1);
-        traceWriter.WriteValue((int)1);
+        traceWriter.WriteValue(1);
         traceWriter.WriteValue((uint)1);
         traceWriter.WriteValue((sbyte)1);
         traceWriter.WriteValue((byte)1);
         traceWriter.WriteValue((long)1);
         traceWriter.WriteValue((ulong)1);
-        traceWriter.WriteValue((bool)true);
+        traceWriter.WriteValue(true);
 
         traceWriter.WriteValue((DateTime?)new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc));
         traceWriter.WriteValue((DateTimeOffset?)new DateTimeOffset(2000, 12, 12, 12, 12, 12, TimeSpan.FromHours(2)));

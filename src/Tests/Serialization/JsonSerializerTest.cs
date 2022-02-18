@@ -1909,8 +1909,8 @@ keyword such as type of business.""
         var o = (JObject) JsonConvert.DeserializeObject(jsonText);
         Assert.Equal(4, o.Children().Count());
 
-        var torrentsArray = (JToken) o["torrents"];
-        var nestedTorrentsArray = (JToken) torrentsArray[0];
+        var torrentsArray = o["torrents"];
+        var nestedTorrentsArray = torrentsArray[0];
         Assert.Equal(nestedTorrentsArray.Children().Count(), 19);
     }
 
@@ -2521,7 +2521,7 @@ keyword such as type of business.""
     [Fact]
     public void DeserializeNullable()
     {
-        var json = JsonConvert.SerializeObject((int?) null);
+        var json = JsonConvert.SerializeObject(null);
         Assert.Equal("null", json);
 
         json = JsonConvert.SerializeObject((int?) 1);
