@@ -23,93 +23,75 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if (NETSTANDARD2_0)
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using System.Reflection.Emit;
-using System.Runtime.Serialization;
-using System.Threading.Tasks;
-using Argon.Converters;
-using Argon.Linq;
-using Argon.Serialization;
-using Argon.Utilities;
-#if NET5_0_OR_GREATER
+#if NETSTANDARD2_0
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
-using System.Text;
-#else
-using Xunit;
-#endif
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue1757 : TestFixtureBase
 {
-    [TestFixture]
-    public class Issue1757 : TestFixtureBase
+    [Fact]
+    public void Test_Serialize()
     {
-        [Fact]
-        public void Test_Serialize()
+        JsonConvert.SerializeObject(new TestObject());
+    }
+
+    [Fact]
+    public void Test_SerializeEncoding()
+    {
+        JsonConvert.SerializeObject(Encoding.UTF8);
+    }
+
+    [Fact]
+    public void Test_Deserialize()
+    {
+        JsonConvert.DeserializeObject<TestObject>(@"{'Room':{},'RefLike':{}}");
+    }
+
+    public class TestObject
+    {
+        public Span<int> this[int i]
         {
-            JsonConvert.SerializeObject(new TestObject());
+            get => default(Span<int>);
+            set => DoNothing(value);
+        }
+        public static Span<int> Space
+        {
+            get => default(Span<int>);
+            set => DoNothing(value);
+        }
+        public Span<int> Room
+        {
+            get => default(Span<int>);
+            set => DoNothing(value);
+        }
+        public MyByRefLikeType RefLike
+        {
+            get => default(MyByRefLikeType);
+            set { }
+        }
+        private static void DoNothing(Span<int> param)
+        {
+            throw new InvalidOperationException("Should never be called.");
+        }
+        public string PrintMySpan(string str, Span<int> mySpan = default)
+        {
+            return str;
         }
 
-        [Fact]
-        public void Test_SerializeEncoding()
+        public Span<int> GetSpan(int[] array)
         {
-            JsonConvert.SerializeObject(Encoding.UTF8);
+            return array.AsSpan();
         }
+    }
 
-        [Fact]
-        public void Test_Deserialize()
-        {
-            JsonConvert.DeserializeObject<TestObject>(@"{'Room':{},'RefLike':{}}");
-        }
-
-        public class TestObject
-        {
-            public Span<int> this[int i]
-            {
-                get => default(Span<int>);
-                set => DoNothing(value);
-            }
-            public static Span<int> Space
-            {
-                get => default(Span<int>);
-                set => DoNothing(value);
-            }
-            public Span<int> Room
-            {
-                get => default(Span<int>);
-                set => DoNothing(value);
-            }
-            public MyByRefLikeType RefLike
-            {
-                get => default(MyByRefLikeType);
-                set { }
-            }
-            private static void DoNothing(Span<int> param)
-            {
-                throw new InvalidOperationException("Should never be called.");
-            }
-            public string PrintMySpan(string str, Span<int> mySpan = default)
-            {
-                return str;
-            }
-
-            public Span<int> GetSpan(int[] array)
-            {
-                return array.AsSpan();
-            }
-        }
-
-        public ref struct MyByRefLikeType
-        {
-            public MyByRefLikeType(int i) { }
-            public static int Index;
-        }
+    public ref struct MyByRefLikeType
+    {
+        public MyByRefLikeType(int i) { }
+        public static int Index;
     }
 }
 #endif

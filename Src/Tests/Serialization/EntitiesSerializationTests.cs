@@ -24,30 +24,24 @@
 #endregion
 
 #if !NET5_0_OR_GREATER
-using Argon.Serialization;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using Argon.Converters;using Xunit;
+using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
+namespace Argon.Tests.Serialization;
 
-namespace Argon.Tests.Serialization
+[TestFixture]
+public class EntitiesSerializationTests : TestFixtureBase
 {
-    [TestFixture]
-    public class EntitiesSerializationTests : TestFixtureBase
+    [Fact]
+    public void SerializeEntity()
     {
-        [Fact]
-        public void SerializeEntity()
-        {
-            var rootFolder = CreateEntitiesTestData();
+        var rootFolder = CreateEntitiesTestData();
 
-            var json = JsonConvert.SerializeObject(rootFolder, Formatting.Indented, new IsoDateTimeConverter());
+        var json = JsonConvert.SerializeObject(rootFolder, Formatting.Indented, new IsoDateTimeConverter());
 
-            var expected = @"{
+        var expected = @"{
   ""$id"": ""1"",
   ""FolderId"": ""a4e8ba80-eb24-4591-bb1c-62d3ad83701e"",
   ""Name"": ""Root folder"",
@@ -118,26 +112,26 @@ namespace Argon.Tests.Serialization
   }
 }";
 
-            StringAssert.AreEqual(expected, json);
-        }
+        StringAssert.AreEqual(expected, json);
+    }
 
-        [Fact]
-        public void SerializeEntityCamelCase()
+    [Fact]
+    public void SerializeEntityCamelCase()
+    {
+        var rootFolder = CreateEntitiesTestData();
+
+        var settings = new JsonSerializerSettings
         {
-            var rootFolder = CreateEntitiesTestData();
+            Formatting = Formatting.Indented,
+            ContractResolver = new CamelCasePropertyNamesContractResolver(),
+            Converters = {new IsoDateTimeConverter()}
+        };
 
-            var settings = new JsonSerializerSettings
-            {
-                Formatting = Formatting.Indented,
-                ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                Converters = { new IsoDateTimeConverter() }
-            };
+        var json = JsonConvert.SerializeObject(rootFolder, settings);
 
-            var json = JsonConvert.SerializeObject(rootFolder, settings);
+        Console.WriteLine(json);
 
-            Console.WriteLine(json);
-
-            var expected = @"{
+        var expected = @"{
   ""$id"": ""1"",
   ""folderId"": ""a4e8ba80-eb24-4591-bb1c-62d3ad83701e"",
   ""name"": ""Root folder"",
@@ -208,13 +202,13 @@ namespace Argon.Tests.Serialization
   }
 }";
 
-            StringAssert.AreEqual(expected, json);
-        }
+        StringAssert.AreEqual(expected, json);
+    }
 
-        [Fact]
-        public void DeserializeEntity()
-        {
-            var json = @"{
+    [Fact]
+    public void DeserializeEntity()
+    {
+        var json = @"{
   ""$id"": ""1"",
   ""FolderId"": ""a4e8ba80-eb24-4591-bb1c-62d3ad83701e"",
   ""Name"": ""Root folder"",
@@ -285,54 +279,54 @@ namespace Argon.Tests.Serialization
   }
 }";
 
-            var f = JsonConvert.DeserializeObject<Folder>(json, new IsoDateTimeConverter());
+        var f = JsonConvert.DeserializeObject<Folder>(json, new IsoDateTimeConverter());
 
-            Assert.IsNotNull(f);
-            Assert.AreEqual(new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E"), f.FolderId);
-            Assert.AreEqual("Folder", f.EntityKey.EntitySetName);
-            Assert.AreEqual("DataServicesTestDatabaseEntities", f.EntityKey.EntityContainerName);
-            Assert.AreEqual("Folder", f.EntityKey.EntitySetName);
-            Assert.AreEqual(false, f.EntityKey.IsTemporary);
-            Assert.AreEqual(1, f.EntityKey.EntityKeyValues.Length);
-            Assert.AreEqual("FolderId", f.EntityKey.EntityKeyValues[0].Key);
-            Assert.AreEqual(new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E"), f.EntityKey.EntityKeyValues[0].Value);
-            Assert.AreEqual("Root folder", f.Name);
-            Assert.AreEqual(new DateTime(2000, 12, 10, 10, 50, 0, DateTimeKind.Utc), f.CreatedDate);
-            Assert.AreEqual(null, f.ParentFolder);
-            Assert.AreEqual(1, f.ChildFolders.Count);
+        Assert.IsNotNull(f);
+        Assert.AreEqual(new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E"), f.FolderId);
+        Assert.AreEqual("Folder", f.EntityKey.EntitySetName);
+        Assert.AreEqual("DataServicesTestDatabaseEntities", f.EntityKey.EntityContainerName);
+        Assert.AreEqual("Folder", f.EntityKey.EntitySetName);
+        Assert.AreEqual(false, f.EntityKey.IsTemporary);
+        Assert.AreEqual(1, f.EntityKey.EntityKeyValues.Length);
+        Assert.AreEqual("FolderId", f.EntityKey.EntityKeyValues[0].Key);
+        Assert.AreEqual(new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E"), f.EntityKey.EntityKeyValues[0].Value);
+        Assert.AreEqual("Root folder", f.Name);
+        Assert.AreEqual(new DateTime(2000, 12, 10, 10, 50, 0, DateTimeKind.Utc), f.CreatedDate);
+        Assert.AreEqual(null, f.ParentFolder);
+        Assert.AreEqual(1, f.ChildFolders.Count);
 
-            var childFolder = f.ChildFolders.ElementAt(0);
+        var childFolder = f.ChildFolders.ElementAt(0);
 
-            Assert.AreEqual("Child folder", childFolder.Name);
-            Assert.AreEqual("Description!", childFolder.Description);
-            Assert.AreEqual(f, childFolder.ParentFolder);
-            Assert.AreEqual(f, childFolder.ParentFolderReference.Value);
-            // is this a problem?
-            Assert.AreEqual(null, childFolder.ParentFolderReference.EntityKey);
-        }
+        Assert.AreEqual("Child folder", childFolder.Name);
+        Assert.AreEqual("Description!", childFolder.Description);
+        Assert.AreEqual(f, childFolder.ParentFolder);
+        Assert.AreEqual(f, childFolder.ParentFolderReference.Value);
+        // is this a problem?
+        Assert.AreEqual(null, childFolder.ParentFolderReference.EntityKey);
+    }
 
-        [Fact]
-        public void SerializeMultiValueEntityKey()
-        {
-            var e = new EntityKey("DataServicesTestDatabaseEntities.Folder",
-                new List<EntityKeyMember>
-                {
-                    new("GuidId", new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E")),
-                    new("IntId", int.MaxValue),
-                    new("LongId", long.MaxValue),
-                    new("StringId", "String!"),
-                    new("DateTimeId", new DateTime(2000, 12, 10, 10, 50, 0, DateTimeKind.Utc))
-                });
-
-            var settings = new JsonSerializerSettings
+    [Fact]
+    public void SerializeMultiValueEntityKey()
+    {
+        var e = new EntityKey("DataServicesTestDatabaseEntities.Folder",
+            new List<EntityKeyMember>
             {
-                Formatting = Formatting.Indented,
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            };
+                new("GuidId", new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E")),
+                new("IntId", int.MaxValue),
+                new("LongId", long.MaxValue),
+                new("StringId", "String!"),
+                new("DateTimeId", new DateTime(2000, 12, 10, 10, 50, 0, DateTimeKind.Utc))
+            });
 
-            var json = JsonConvert.SerializeObject(e, settings);
+        var settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented,
+            ContractResolver = new CamelCasePropertyNamesContractResolver()
+        };
 
-            StringAssert.AreEqual(@"{
+        var json = JsonConvert.SerializeObject(e, settings);
+
+        StringAssert.AreEqual(@"{
   ""$id"": ""1"",
   ""entitySetName"": ""Folder"",
   ""entityContainerName"": ""DataServicesTestDatabaseEntities"",
@@ -365,38 +359,38 @@ namespace Argon.Tests.Serialization
   ]
 }", json);
 
-            var newKey = JsonConvert.DeserializeObject<EntityKey>(json);
-            Assert.IsFalse(ReferenceEquals(e, newKey));
+        var newKey = JsonConvert.DeserializeObject<EntityKey>(json);
+        Assert.IsFalse(ReferenceEquals(e, newKey));
 
-            Assert.AreEqual(5, newKey.EntityKeyValues.Length);
-            Assert.AreEqual("GuidId", newKey.EntityKeyValues[0].Key);
-            Assert.AreEqual(new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E"), newKey.EntityKeyValues[0].Value);
-            Assert.AreEqual("IntId", newKey.EntityKeyValues[1].Key);
-            Assert.AreEqual(int.MaxValue, newKey.EntityKeyValues[1].Value);
-            Assert.AreEqual("LongId", newKey.EntityKeyValues[2].Key);
-            Assert.AreEqual(long.MaxValue, newKey.EntityKeyValues[2].Value);
-            Assert.AreEqual("StringId", newKey.EntityKeyValues[3].Key);
-            Assert.AreEqual("String!", newKey.EntityKeyValues[3].Value);
-            Assert.AreEqual("DateTimeId", newKey.EntityKeyValues[4].Key);
-            Assert.AreEqual(new DateTime(2000, 12, 10, 10, 50, 0, DateTimeKind.Utc), newKey.EntityKeyValues[4].Value);
-        }
+        Assert.AreEqual(5, newKey.EntityKeyValues.Length);
+        Assert.AreEqual("GuidId", newKey.EntityKeyValues[0].Key);
+        Assert.AreEqual(new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E"), newKey.EntityKeyValues[0].Value);
+        Assert.AreEqual("IntId", newKey.EntityKeyValues[1].Key);
+        Assert.AreEqual(int.MaxValue, newKey.EntityKeyValues[1].Value);
+        Assert.AreEqual("LongId", newKey.EntityKeyValues[2].Key);
+        Assert.AreEqual(long.MaxValue, newKey.EntityKeyValues[2].Value);
+        Assert.AreEqual("StringId", newKey.EntityKeyValues[3].Key);
+        Assert.AreEqual("String!", newKey.EntityKeyValues[3].Value);
+        Assert.AreEqual("DateTimeId", newKey.EntityKeyValues[4].Key);
+        Assert.AreEqual(new DateTime(2000, 12, 10, 10, 50, 0, DateTimeKind.Utc), newKey.EntityKeyValues[4].Value);
+    }
 
-        [Fact]
-        public void SerializeMultiValueEntityKeyCameCase()
-        {
-            var e = new EntityKey("DataServicesTestDatabaseEntities.Folder",
-                new List<EntityKeyMember>
-                {
-                    new("GuidId", new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E")),
-                    new("IntId", int.MaxValue),
-                    new("LongId", long.MaxValue),
-                    new("StringId", "String!"),
-                    new("DateTimeId", new DateTime(2000, 12, 10, 10, 50, 0, DateTimeKind.Utc))
-                });
+    [Fact]
+    public void SerializeMultiValueEntityKeyCameCase()
+    {
+        var e = new EntityKey("DataServicesTestDatabaseEntities.Folder",
+            new List<EntityKeyMember>
+            {
+                new("GuidId", new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E")),
+                new("IntId", int.MaxValue),
+                new("LongId", long.MaxValue),
+                new("StringId", "String!"),
+                new("DateTimeId", new DateTime(2000, 12, 10, 10, 50, 0, DateTimeKind.Utc))
+            });
 
-            var json = JsonConvert.SerializeObject(e, Formatting.Indented);
+        var json = JsonConvert.SerializeObject(e, Formatting.Indented);
 
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""$id"": ""1"",
   ""EntitySetName"": ""Folder"",
   ""EntityContainerName"": ""DataServicesTestDatabaseEntities"",
@@ -429,56 +423,55 @@ namespace Argon.Tests.Serialization
   ]
 }", json);
 
-            var newKey = JsonConvert.DeserializeObject<EntityKey>(json);
-            Assert.IsFalse(ReferenceEquals(e, newKey));
+        var newKey = JsonConvert.DeserializeObject<EntityKey>(json);
+        Assert.IsFalse(ReferenceEquals(e, newKey));
 
-            Assert.AreEqual(5, newKey.EntityKeyValues.Length);
-            Assert.AreEqual("GuidId", newKey.EntityKeyValues[0].Key);
-            Assert.AreEqual(new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E"), newKey.EntityKeyValues[0].Value);
-            Assert.AreEqual("IntId", newKey.EntityKeyValues[1].Key);
-            Assert.AreEqual(int.MaxValue, newKey.EntityKeyValues[1].Value);
-            Assert.AreEqual("LongId", newKey.EntityKeyValues[2].Key);
-            Assert.AreEqual(long.MaxValue, newKey.EntityKeyValues[2].Value);
-            Assert.AreEqual("StringId", newKey.EntityKeyValues[3].Key);
-            Assert.AreEqual("String!", newKey.EntityKeyValues[3].Value);
-            Assert.AreEqual("DateTimeId", newKey.EntityKeyValues[4].Key);
-            Assert.AreEqual(new DateTime(2000, 12, 10, 10, 50, 0, DateTimeKind.Utc), newKey.EntityKeyValues[4].Value);
-        }
+        Assert.AreEqual(5, newKey.EntityKeyValues.Length);
+        Assert.AreEqual("GuidId", newKey.EntityKeyValues[0].Key);
+        Assert.AreEqual(new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E"), newKey.EntityKeyValues[0].Value);
+        Assert.AreEqual("IntId", newKey.EntityKeyValues[1].Key);
+        Assert.AreEqual(int.MaxValue, newKey.EntityKeyValues[1].Value);
+        Assert.AreEqual("LongId", newKey.EntityKeyValues[2].Key);
+        Assert.AreEqual(long.MaxValue, newKey.EntityKeyValues[2].Value);
+        Assert.AreEqual("StringId", newKey.EntityKeyValues[3].Key);
+        Assert.AreEqual("String!", newKey.EntityKeyValues[3].Value);
+        Assert.AreEqual("DateTimeId", newKey.EntityKeyValues[4].Key);
+        Assert.AreEqual(new DateTime(2000, 12, 10, 10, 50, 0, DateTimeKind.Utc), newKey.EntityKeyValues[4].Value);
+    }
 
-        private Folder CreateEntitiesTestData()
+    private Folder CreateEntitiesTestData()
+    {
+        var folder = new Folder
         {
-            var folder = new Folder
-            {
-              FolderId = new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E")
-            };
-            folder.EntityKey = new EntityKey("DataServicesTestDatabaseEntities.Folder", "FolderId", folder.FolderId);
-            folder.Name = "Root folder";
-            folder.Description = "Description!";
-            folder.CreatedDate = new DateTime(2000, 12, 10, 10, 50, 0, DateTimeKind.Utc);
+            FolderId = new Guid("A4E8BA80-EB24-4591-BB1C-62D3AD83701E")
+        };
+        folder.EntityKey = new EntityKey("DataServicesTestDatabaseEntities.Folder", "FolderId", folder.FolderId);
+        folder.Name = "Root folder";
+        folder.Description = "Description!";
+        folder.CreatedDate = new DateTime(2000, 12, 10, 10, 50, 0, DateTimeKind.Utc);
 
-            var childFolder = new Folder
-            {
-              FolderId = new Guid("484936E2-7CBB-4592-93FF-B2103E5705E4")
-            };
-            childFolder.EntityKey = new EntityKey("DataServicesTestDatabaseEntities.Folder", "FolderId", childFolder.FolderId);
-            childFolder.Name = "Child folder";
-            childFolder.Description = "Description!";
-            childFolder.CreatedDate = new DateTime(2001, 11, 20, 10, 50, 0, DateTimeKind.Utc);
+        var childFolder = new Folder
+        {
+            FolderId = new Guid("484936E2-7CBB-4592-93FF-B2103E5705E4")
+        };
+        childFolder.EntityKey = new EntityKey("DataServicesTestDatabaseEntities.Folder", "FolderId", childFolder.FolderId);
+        childFolder.Name = "Child folder";
+        childFolder.Description = "Description!";
+        childFolder.CreatedDate = new DateTime(2001, 11, 20, 10, 50, 0, DateTimeKind.Utc);
 
-            folder.ChildFolders.Add(childFolder);
+        folder.ChildFolders.Add(childFolder);
 
-            var file1 = new File
-            {
-              FileId = new Guid("CC76D734-49F1-4616-BB38-41514228AC6C")
-            };
-            file1.EntityKey = new EntityKey("DataServicesTestDatabaseEntities.File", "FileId", file1.FileId);
-            file1.Name = "File 1";
-            file1.Description = "Description!";
-            file1.CreatedDate = new DateTime(2002, 10, 30, 10, 50, 0, DateTimeKind.Utc);
+        var file1 = new File
+        {
+            FileId = new Guid("CC76D734-49F1-4616-BB38-41514228AC6C")
+        };
+        file1.EntityKey = new EntityKey("DataServicesTestDatabaseEntities.File", "FileId", file1.FileId);
+        file1.Name = "File 1";
+        file1.Description = "Description!";
+        file1.CreatedDate = new DateTime(2002, 10, 30, 10, 50, 0, DateTimeKind.Utc);
 
-            childFolder.Files.Add(file1);
-            return folder;
-        }
+        childFolder.Files.Add(file1);
+        return folder;
     }
 }
 

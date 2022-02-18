@@ -24,35 +24,27 @@
 #endregion
 
 #if NETSTANDARD2_0
-using System;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
-using Argon.Serialization;
-using Argon.Utilities;
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue1404 : TestFixtureBase
 {
-    [TestFixture]
-    public class Issue1404 : TestFixtureBase
+    [Fact]
+    public void Test()
     {
-        [Fact]
-        public void Test()
-        {
-            var t = typeof(FileSystemInfo);
+        var t = typeof(FileSystemInfo);
 
-            Assert.IsTrue(t.ImplementInterface(typeof(ISerializable)));
+        Assert.IsTrue(t.ImplementInterface(typeof(ISerializable)));
 
-            var resolver = new DefaultContractResolver();
+        var resolver = new DefaultContractResolver();
 
-            var contract = resolver.ResolveContract(t);
+        var contract = resolver.ResolveContract(t);
 
-            Assert.AreEqual(JsonContractType.Object, contract.ContractType);
-        }
+        Assert.AreEqual(JsonContractType.Object, contract.ContractType);
     }
 }
 #endif

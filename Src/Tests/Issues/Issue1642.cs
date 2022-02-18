@@ -24,49 +24,40 @@
 #endregion
 
 #if !NET5_0_OR_GREATER
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
 using System.Reflection.Emit;
-using System.Runtime.Serialization;
-using Argon.Converters;
-using Argon.Linq;
-using Argon.Serialization;
-using Argon.Utilities;
 using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Issues
+namespace Argon.Tests.Issues;
+
+[TestFixture]
+public class Issue1642 : TestFixtureBase
 {
-    [TestFixture]
-    public class Issue1642 : TestFixtureBase
+    [Fact]
+    public void Test()
     {
-        [Fact]
-        public void Test()
-        {
-            var currentDomain = AppDomain.CurrentDomain;
+        var currentDomain = AppDomain.CurrentDomain;
 
-            var aName = new AssemblyName("TempAssembly");
-            var ab = currentDomain.DefineDynamicAssembly(
-                aName, AssemblyBuilderAccess.RunAndSave);
+        var aName = new AssemblyName("TempAssembly");
+        var ab = currentDomain.DefineDynamicAssembly(
+            aName, AssemblyBuilderAccess.RunAndSave);
 
-            var mb = ab.DefineDynamicModule(aName.Name, aName.Name + ".dll");
+        var mb = ab.DefineDynamicModule(aName.Name, aName.Name + ".dll");
 
-            var typeBuilder = mb.DefineType("TestEnum", TypeAttributes.NotPublic | TypeAttributes.Sealed, typeof(Enum));
-            typeBuilder.DefineField("value__", typeof(int), FieldAttributes.FamANDAssem | FieldAttributes.Family | FieldAttributes.SpecialName | FieldAttributes.RTSpecialName);
+        var typeBuilder = mb.DefineType("TestEnum", TypeAttributes.NotPublic | TypeAttributes.Sealed, typeof(Enum));
+        typeBuilder.DefineField("value__", typeof(int), FieldAttributes.FamANDAssem | FieldAttributes.Family | FieldAttributes.SpecialName | FieldAttributes.RTSpecialName);
 
-            var fieldBuilder = typeBuilder.DefineField("TestValue", typeBuilder, FieldAttributes.Family | FieldAttributes.Static | FieldAttributes.Literal);
-            fieldBuilder.SetConstant(0);
+        var fieldBuilder = typeBuilder.DefineField("TestValue", typeBuilder, FieldAttributes.Family | FieldAttributes.Static | FieldAttributes.Literal);
+        fieldBuilder.SetConstant(0);
 
-            var enumType = typeBuilder.CreateType();
+        var enumType = typeBuilder.CreateType();
 
-            var o = Activator.CreateInstance(enumType);
+        var o = Activator.CreateInstance(enumType);
 
-            var json = JsonConvert.SerializeObject(o, new JsonSerializerSettings { Converters = { new StringEnumConverter() } });
-            Assert.AreEqual(@"""TestValue""", json);
-        }
+        var json = JsonConvert.SerializeObject(o, new JsonSerializerSettings { Converters = { new StringEnumConverter() } });
+        Assert.AreEqual(@"""TestValue""", json);
     }
+
 }
 #endif

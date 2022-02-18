@@ -24,92 +24,85 @@
 #endregion
 
 #if !NETSTANDARD2_0
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Reflection;
-using Argon.Utilities;
-using System.Globalization;
 
-namespace Argon.Serialization
+namespace Argon.Serialization;
+
+/// <summary>
+/// Get and set values for a <see cref="MemberInfo"/> using dynamic methods.
+/// </summary>
+public class DynamicValueProvider : IValueProvider
 {
+    private readonly MemberInfo _memberInfo;
+    private Func<object, object?>? _getter;
+    private Action<object, object?>? _setter;
+
     /// <summary>
-    /// Get and set values for a <see cref="MemberInfo"/> using dynamic methods.
+    /// Initializes a new instance of the <see cref="DynamicValueProvider"/> class.
     /// </summary>
-    public class DynamicValueProvider : IValueProvider
+    /// <param name="memberInfo">The member info.</param>
+    public DynamicValueProvider(MemberInfo memberInfo)
     {
-        private readonly MemberInfo _memberInfo;
-        private Func<object, object?>? _getter;
-        private Action<object, object?>? _setter;
+        ValidationUtils.ArgumentNotNull(memberInfo, nameof(memberInfo));
+        _memberInfo = memberInfo;
+    }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DynamicValueProvider"/> class.
-        /// </summary>
-        /// <param name="memberInfo">The member info.</param>
-        public DynamicValueProvider(MemberInfo memberInfo)
+    /// <summary>
+    /// Sets the value.
+    /// </summary>
+    /// <param name="target">The target to set the value on.</param>
+    /// <param name="value">The value to set on the target.</param>
+    public void SetValue(object target, object? value)
+    {
+        try
         {
-            ValidationUtils.ArgumentNotNull(memberInfo, nameof(memberInfo));
-            _memberInfo = memberInfo;
-        }
-
-        /// <summary>
-        /// Sets the value.
-        /// </summary>
-        /// <param name="target">The target to set the value on.</param>
-        /// <param name="value">The value to set on the target.</param>
-        public void SetValue(object target, object? value)
-        {
-            try
+            if (_setter == null)
             {
-                if (_setter == null)
-                {
-                    _setter = DynamicReflectionDelegateFactory.Instance.CreateSet<object>(_memberInfo);
-                }
+                _setter = DynamicReflectionDelegateFactory.Instance.CreateSet<object>(_memberInfo);
+            }
 
 #if DEBUG
-                // dynamic method doesn't check whether the type is 'legal' to set
-                // add this check for unit tests
-                if (value == null)
+            // dynamic method doesn't check whether the type is 'legal' to set
+            // add this check for unit tests
+            if (value == null)
+            {
+                if (!ReflectionUtils.IsNullable(ReflectionUtils.GetMemberUnderlyingType(_memberInfo)))
                 {
-                    if (!ReflectionUtils.IsNullable(ReflectionUtils.GetMemberUnderlyingType(_memberInfo)))
-                    {
-                        throw new JsonSerializationException("Incompatible value. Cannot set {0} to null.".FormatWith(CultureInfo.InvariantCulture, _memberInfo));
-                    }
+                    throw new JsonSerializationException("Incompatible value. Cannot set {0} to null.".FormatWith(CultureInfo.InvariantCulture, _memberInfo));
                 }
-                else if (!ReflectionUtils.GetMemberUnderlyingType(_memberInfo).IsAssignableFrom(value.GetType()))
-                {
-                    throw new JsonSerializationException("Incompatible value. Cannot set {0} to type {1}.".FormatWith(CultureInfo.InvariantCulture, _memberInfo, value.GetType()));
-                }
+            }
+            else if (!ReflectionUtils.GetMemberUnderlyingType(_memberInfo).IsAssignableFrom(value.GetType()))
+            {
+                throw new JsonSerializationException("Incompatible value. Cannot set {0} to type {1}.".FormatWith(CultureInfo.InvariantCulture, _memberInfo, value.GetType()));
+            }
 #endif
 
-                _setter(target, value);
-            }
-            catch (Exception ex)
-            {
-                throw new JsonSerializationException("Error setting value to '{0}' on '{1}'.".FormatWith(CultureInfo.InvariantCulture, _memberInfo.Name, target.GetType()), ex);
-            }
+            _setter(target, value);
         }
-
-        /// <summary>
-        /// Gets the value.
-        /// </summary>
-        /// <param name="target">The target to get the value from.</param>
-        /// <returns>The value.</returns>
-        public object? GetValue(object target)
+        catch (Exception ex)
         {
-            try
-            {
-                if (_getter == null)
-                {
-                    _getter = DynamicReflectionDelegateFactory.Instance.CreateGet<object>(_memberInfo);
-                }
+            throw new JsonSerializationException("Error setting value to '{0}' on '{1}'.".FormatWith(CultureInfo.InvariantCulture, _memberInfo.Name, target.GetType()), ex);
+        }
+    }
 
-                return _getter(target);
-            }
-            catch (Exception ex)
+    /// <summary>
+    /// Gets the value.
+    /// </summary>
+    /// <param name="target">The target to get the value from.</param>
+    /// <returns>The value.</returns>
+    public object? GetValue(object target)
+    {
+        try
+        {
+            if (_getter == null)
             {
-                throw new JsonSerializationException("Error getting value from '{0}' on '{1}'.".FormatWith(CultureInfo.InvariantCulture, _memberInfo.Name, target.GetType()), ex);
+                _getter = DynamicReflectionDelegateFactory.Instance.CreateGet<object>(_memberInfo);
             }
+
+            return _getter(target);
+        }
+        catch (Exception ex)
+        {
+            throw new JsonSerializationException("Error getting value from '{0}' on '{1}'.".FormatWith(CultureInfo.InvariantCulture, _memberInfo.Name, target.GetType()), ex);
         }
     }
 }

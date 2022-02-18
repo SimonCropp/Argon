@@ -24,52 +24,43 @@
 #endregion
 
 #if !NET5_0_OR_GREATER
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using Argon.Tests.LinqToSql;
 using Xunit;
-using System.Reflection;
-using System.ComponentModel;
-using Argon.Serialization;
 using System.Data.Linq.Mapping;
 
-namespace Argon.Tests.LinqToSql
+namespace Argon.Tests.LinqToSql;
+
+public class LinqToSqlClassesSerializationTests : TestFixtureBase
 {
-    public class LinqToSqlClassesSerializationTests : TestFixtureBase
+    [Fact]
+    public void Serialize()
     {
-        [Fact]
-        public void Serialize()
+        var role = new Role
         {
-            var role = new Role
-            {
-              Name = "Role1",
-              RoleId = new Guid("67EA92B7-4BD3-4718-BD75-3C7EDF800B34")
-            };
+            Name = "Role1",
+            RoleId = new Guid("67EA92B7-4BD3-4718-BD75-3C7EDF800B34")
+        };
 
-            var person = new Person
-            {
-              FirstName = "FirstName!",
-              LastName = "LastName!",
-              PersonId = new Guid("7AA027AA-C995-4986-908D-999D8063599F")
-            };
-            person.PersonRoles.Add(new PersonRole
-            {
-                PersonRoleId = new Guid("B012DD41-71DF-4839-B8D5-D1333FB886BC"),
-                Role = role
-            });
+        var person = new Person
+        {
+            FirstName = "FirstName!",
+            LastName = "LastName!",
+            PersonId = new Guid("7AA027AA-C995-4986-908D-999D8063599F")
+        };
+        person.PersonRoles.Add(new PersonRole
+        {
+            PersonRoleId = new Guid("B012DD41-71DF-4839-B8D5-D1333FB886BC"),
+            Role = role
+        });
 
-            person.Department = new Department
-            {
-                DepartmentId = new Guid("08F68BF9-929B-4434-BC47-C9489D22112B"),
-                Name = "Name!"
-            };
+        person.Department = new Department
+        {
+            DepartmentId = new Guid("08F68BF9-929B-4434-BC47-C9489D22112B"),
+            Name = "Name!"
+        };
 
-            var json = JsonConvert.SerializeObject(person, Formatting.Indented, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+        var json = JsonConvert.SerializeObject(person, Formatting.Indented, new JsonSerializerSettings {ReferenceLoopHandling = ReferenceLoopHandling.Ignore});
 
-            StringAssert.AreEqual(@"{
+        StringAssert.AreEqual(@"{
   ""first_name"": ""FirstName!"",
   ""LastName"": ""LastName!"",
   ""PersonId"": ""7aa027aa-c995-4986-908d-999d8063599f"",
@@ -90,12 +81,12 @@ namespace Argon.Tests.LinqToSql
     ""Name"": ""!emaN""
   }
 }", json);
-        }
+    }
 
-        [Fact]
-        public void Deserialize()
-        {
-            var json = @"{
+    [Fact]
+    public void Deserialize()
+    {
+        var json = @"{
   ""first_name"": ""FirstName!"",
   ""LastName"": ""LastName!"",
   ""PersonId"": ""7aa027aa-c995-4986-908d-999d8063599f"",
@@ -116,26 +107,25 @@ namespace Argon.Tests.LinqToSql
   }
 }";
 
-            var person = JsonConvert.DeserializeObject<Person>(json);
-            Assert.NotNull(person);
+        var person = JsonConvert.DeserializeObject<Person>(json);
+        Assert.NotNull(person);
 
-            Assert.Equal(new Guid("7AA027AA-C995-4986-908D-999D8063599F"), person.PersonId);
-            Assert.Equal("FirstName!", person.FirstName);
-            Assert.Equal("LastName!", person.LastName);
-            Assert.Single(person.PersonRoles);
-            Assert.Equal(person.PersonId, person.PersonRoles[0].PersonId);
-            Assert.Equal(new Guid("67EA92B7-4BD3-4718-BD75-3C7EDF800B34"), person.PersonRoles[0].RoleId);
-            Assert.NotNull(person.PersonRoles[0].Role);
-            Assert.Single(person.PersonRoles[0].Role.PersonRoles);
+        Assert.Equal(new Guid("7AA027AA-C995-4986-908D-999D8063599F"), person.PersonId);
+        Assert.Equal("FirstName!", person.FirstName);
+        Assert.Equal("LastName!", person.LastName);
+        Assert.Single(person.PersonRoles);
+        Assert.Equal(person.PersonId, person.PersonRoles[0].PersonId);
+        Assert.Equal(new Guid("67EA92B7-4BD3-4718-BD75-3C7EDF800B34"), person.PersonRoles[0].RoleId);
+        Assert.NotNull(person.PersonRoles[0].Role);
+        Assert.Single(person.PersonRoles[0].Role.PersonRoles);
 
-            Assert.Equal("Name!", person.Department.Name);
+        Assert.Equal("Name!", person.Department.Name);
 
-            var tableAttribute = JsonTypeReflector.GetAttribute<TableAttribute>(typeof(Person));
-            Assert.Equal("", tableAttribute.Name);
+        var tableAttribute = JsonTypeReflector.GetAttribute<TableAttribute>(typeof(Person));
+        Assert.Equal("", tableAttribute.Name);
 
-            var columnAttribute = JsonTypeReflector.GetAttribute<ColumnAttribute>(typeof(Person).GetProperty("FirstName"));
-            Assert.Equal("_FirstName", columnAttribute.Storage);
-        }
+        var columnAttribute = JsonTypeReflector.GetAttribute<ColumnAttribute>(typeof(Person).GetProperty("FirstName"));
+        Assert.Equal("_FirstName", columnAttribute.Storage);
     }
 }
 

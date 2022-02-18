@@ -25,46 +25,38 @@
 
 #if !NET5_0_OR_GREATER
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Argon.Linq;
-
-namespace Argon.Tests.LinqToSql
+namespace Argon.Tests.LinqToSql;
+public class DepartmentConverter : JsonConverter
 {
-    public class DepartmentConverter : JsonConverter
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        var department = (Department)value;
+
+        var o = new JObject
         {
-            var department = (Department)value;
+            ["DepartmentId"] = new JValue(department.DepartmentId.ToString()),
+            ["Name"] = new JValue(new string(department.Name.Reverse().ToArray()))
+        };
 
-            var o = new JObject
-            {
-                ["DepartmentId"] = new JValue(department.DepartmentId.ToString()),
-                ["Name"] = new JValue(new string(department.Name.Reverse().ToArray()))
-            };
+        o.WriteTo(writer);
+    }
 
-            o.WriteTo(writer);
-        }
+    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    {
+        var o = JObject.Load(reader);
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        var department = new Department
         {
-            var o = JObject.Load(reader);
+            DepartmentId = new Guid((string)o["DepartmentId"]),
+            Name = new string(((string)o["Name"]).Reverse().ToArray())
+        };
 
-            var department = new Department
-            {
-                DepartmentId = new Guid((string)o["DepartmentId"]),
-                Name = new string(((string)o["Name"]).Reverse().ToArray())
-            };
+        return department;
+    }
 
-            return department;
-        }
-
-        public override bool CanConvert(Type objectType)
-        {
-            return objectType == typeof(Department);
-        }
+    public override bool CanConvert(Type objectType)
+    {
+        return objectType == typeof(Department);
     }
 }
 

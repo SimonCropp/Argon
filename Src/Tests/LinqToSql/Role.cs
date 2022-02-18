@@ -25,26 +25,21 @@
 
 #if !NET5_0_OR_GREATER
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Linq;
-using System.Linq;
-using System.Text;
 
-namespace Argon.Tests.LinqToSql
+namespace Argon.Tests.LinqToSql;
+
+[MetadataType(typeof(RoleMetadata))]
+public partial class Role
 {
-    [MetadataType(typeof(RoleMetadata))]
-    public partial class Role
+    public class RoleMetadata
     {
-        public class RoleMetadata
-        {
-            [JsonConverter(typeof(GuidByteArrayConverter))]
-            public Guid RoleId { get; set; }
+        [JsonConverter(typeof(GuidByteArrayConverter))]
+        public Guid RoleId { get; set; }
 
-            [JsonIgnore]
-            public EntitySet<PersonRole> PersonRoles { get; set; }
-        }
+        [JsonIgnore]
+        public EntitySet<PersonRole> PersonRoles { get; set; }
     }
 }
 

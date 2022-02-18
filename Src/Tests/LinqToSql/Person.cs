@@ -25,21 +25,17 @@
 
 #if !NET5_0_OR_GREATER
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
-namespace Argon.Tests.LinqToSql
+namespace Argon.Tests.LinqToSql;
+
+[MetadataType(typeof(PersonMetadata))]
+public partial class Person
 {
-    [MetadataType(typeof(PersonMetadata))]
-    public partial class Person
+    public class PersonMetadata
     {
-        public class PersonMetadata
-        {
-            [JsonProperty("first_name")]
-            public string FirstName { get; set; }
-        }
+        [JsonProperty("first_name")]
+        public string FirstName { get; set; }
     }
 }
 

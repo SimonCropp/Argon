@@ -24,74 +24,71 @@
 #endregion
 
 #if !NETSTANDARD2_0
-using System;
 using System.Reflection.Emit;
-using System.Reflection;
 
-namespace Argon.Utilities
+namespace Argon.Utilities;
+
+internal static class ILGeneratorExtensions
 {
-    internal static class ILGeneratorExtensions
+    public static void PushInstance(this ILGenerator generator, Type type)
     {
-        public static void PushInstance(this ILGenerator generator, Type type)
+        generator.Emit(OpCodes.Ldarg_0);
+        if (type.IsValueType)
         {
-            generator.Emit(OpCodes.Ldarg_0);
-            if (type.IsValueType)
-            {
-                generator.Emit(OpCodes.Unbox, type);
-            }
-            else
-            {
-                generator.Emit(OpCodes.Castclass, type);
-            }
+            generator.Emit(OpCodes.Unbox, type);
         }
+        else
+        {
+            generator.Emit(OpCodes.Castclass, type);
+        }
+    }
 
-        public static void PushArrayInstance(this ILGenerator generator, int argsIndex, int arrayIndex)
-        {
-            generator.Emit(OpCodes.Ldarg, argsIndex);
-            generator.Emit(OpCodes.Ldc_I4, arrayIndex);
-            generator.Emit(OpCodes.Ldelem_Ref);
-        }
+    public static void PushArrayInstance(this ILGenerator generator, int argsIndex, int arrayIndex)
+    {
+        generator.Emit(OpCodes.Ldarg, argsIndex);
+        generator.Emit(OpCodes.Ldc_I4, arrayIndex);
+        generator.Emit(OpCodes.Ldelem_Ref);
+    }
 
-        public static void BoxIfNeeded(this ILGenerator generator, Type type)
+    public static void BoxIfNeeded(this ILGenerator generator, Type type)
+    {
+        if (type.IsValueType)
         {
-            if (type.IsValueType)
-            {
-                generator.Emit(OpCodes.Box, type);
-            }
-            else
-            {
-                generator.Emit(OpCodes.Castclass, type);
-            }
+            generator.Emit(OpCodes.Box, type);
         }
+        else
+        {
+            generator.Emit(OpCodes.Castclass, type);
+        }
+    }
 
-        public static void UnboxIfNeeded(this ILGenerator generator, Type type)
+    public static void UnboxIfNeeded(this ILGenerator generator, Type type)
+    {
+        if (type.IsValueType)
         {
-            if (type.IsValueType)
-            {
-                generator.Emit(OpCodes.Unbox_Any, type);
-            }
-            else
-            {
-                generator.Emit(OpCodes.Castclass, type);
-            }
+            generator.Emit(OpCodes.Unbox_Any, type);
         }
+        else
+        {
+            generator.Emit(OpCodes.Castclass, type);
+        }
+    }
 
-        public static void CallMethod(this ILGenerator generator, MethodInfo methodInfo)
+    public static void CallMethod(this ILGenerator generator, MethodInfo methodInfo)
+    {
+        if (methodInfo.IsFinal || !methodInfo.IsVirtual)
         {
-            if (methodInfo.IsFinal || !methodInfo.IsVirtual)
-            {
-                generator.Emit(OpCodes.Call, methodInfo);
-            }
-            else
-            {
-                generator.Emit(OpCodes.Callvirt, methodInfo);
-            }
+            generator.Emit(OpCodes.Call, methodInfo);
         }
+        else
+        {
+            generator.Emit(OpCodes.Callvirt, methodInfo);
+        }
+    }
 
-        public static void Return(this ILGenerator generator)
-        {
-            generator.Emit(OpCodes.Ret);
-        }
+    public static void Return(this ILGenerator generator)
+    {
+        generator.Emit(OpCodes.Ret);
     }
 }
 

@@ -25,32 +25,26 @@
 
 #if !NET5_0_OR_GREATER
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+namespace Argon.Tests.LinqToSql;
 
-namespace Argon.Tests.LinqToSql
+public class GuidByteArrayConverter : JsonConverter
 {
-    public class GuidByteArrayConverter : JsonConverter
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            var guid = (Guid)value;
-            writer.WriteValue(Convert.ToBase64String(guid.ToByteArray()));
-        }
+        var guid = (Guid)value;
+        writer.WriteValue(Convert.ToBase64String(guid.ToByteArray()));
+    }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            var encodedData = (string)reader.Value;
-            var data = Convert.FromBase64String(encodedData);
-            return new Guid(data);
-        }
+    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    {
+        var encodedData = (string)reader.Value;
+        var data = Convert.FromBase64String(encodedData);
+        return new Guid(data);
+    }
 
-        public override bool CanConvert(Type objectType)
-        {
-            return objectType == typeof(Guid);
-        }
+    public override bool CanConvert(Type objectType)
+    {
+        return objectType == typeof(Guid);
     }
 }
 

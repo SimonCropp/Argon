@@ -24,23 +24,18 @@
 #endregion
 
 #if !NET5_0_OR_GREATER
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Data.Linq;
-using System.Linq;
-using System.Text;
 
-namespace Argon.Tests.LinqToSql
+namespace Argon.Tests.LinqToSql;
+
+[MetadataType(typeof(DepartmentMetadata))]
+public partial class Department
 {
-    [MetadataType(typeof(DepartmentMetadata))]
-    public partial class Department
+    [JsonConverter(typeof(DepartmentConverter))]
+    public class DepartmentMetadata
     {
-        [JsonConverter(typeof(DepartmentConverter))]
-        public class DepartmentMetadata
-        {
-        }
     }
 }
+
 
 #endif
