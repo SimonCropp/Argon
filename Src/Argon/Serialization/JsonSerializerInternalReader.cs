@@ -2190,7 +2190,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                             {
                                 creatorPropertyContext.Value = CreateValueInternal(reader, property.PropertyType, property.PropertyContract, property, contract, containerProperty, null);
                             }
-                                
+
                             continue;
                         }
                     }

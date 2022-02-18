@@ -46,7 +46,7 @@ public class Issue2082
 
         Assert.Equal(@"{""value"":""UPPER_CASE_NAME""}", json);
     }
-        
+
     public class TestClass
     {
         public TestEnum Value { get; set; }

@@ -51,7 +51,7 @@ public class SerializeDateFormatString : TestFixtureBase
         //   "7 December, 2009",
         //   "1 January, 2010",
         //   "10 February, 2010"
-        // ]            
+        // ]
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"[

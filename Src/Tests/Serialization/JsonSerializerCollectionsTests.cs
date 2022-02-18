@@ -62,7 +62,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     public void DeserializeConcurrentDictionaryWithNullValue()
     {
         const string key = "id";
-            
+
         var jsonValue = $"{{\"{key}\":null}}";
 
         var deserializedObject = JsonConvert.DeserializeObject<ConcurrentDictionary<string, string>>(jsonValue);
@@ -2233,7 +2233,7 @@ public class CASResponce
     //            <cn>Anders And</cn>
     //            <eo>QQT3tKSKjCxQSGsDiR8HTP9L5VsojBvOYyjOu8pwLMA=</eo>
     //            <guid>DE423352CC763649B8F2ECF1DA304750</guid>
-    //            <language>da</language>  
+    //            <language>da</language>
     //        </norEduPerson>
     //    </cas:authenticationSuccess>
     //</cas:serviceResponse>

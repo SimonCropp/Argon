@@ -345,11 +345,11 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
         var compiled = (Action<T, object?>)lambdaExpression.Compile();
         return compiled;
     }
-        
+
     Expression EnsureCastExpression(Expression expression, Type targetType, bool allowWidening = false)
     {
         var expressionType = expression.Type;
-            
+
         // check if a cast or conversion is required
         if (expressionType == targetType || (!expressionType.IsValueType && targetType.IsAssignableFrom(expressionType)))
         {
@@ -373,10 +373,10 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
                         Expression.Call(toTargetTypeMethod, expression));
                 }
             }
-                
+
             return Expression.Condition(
                 Expression.Equal(expression, Expression.Constant(null, typeof(object))),
-                Expression.Default(targetType), 
+                Expression.Default(targetType),
                 convert);
         }
 

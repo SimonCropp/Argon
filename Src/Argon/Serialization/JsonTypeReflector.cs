@@ -25,7 +25,9 @@
 
 using System.ComponentModel;
 using System.Security;
+#if !NETSTANDARD2_0
 using System.Security.Permissions;
+#endif
 using Argon;
 
 static class JsonTypeReflector

@@ -1415,7 +1415,7 @@ public class DefaultContractResolver : IContractResolver
         {
             property.PropertyName = ResolvePropertyName(mappedName);
         }
-            
+
         property.UnderlyingName = name;
 
         var hasMemberAttribute = false;

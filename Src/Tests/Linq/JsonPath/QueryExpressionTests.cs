@@ -102,7 +102,7 @@ public class QueryExpressionTests : TestFixtureBase
 
         Assert.False(compositeExpression.IsMatch(o3, o3));
     }
-        
+
     [Fact]
     public void BooleanExpressionTest_RegexEqualsOperator()
     {

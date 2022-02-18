@@ -138,7 +138,7 @@ public class JsonSerializerTest : TestFixtureBase
         var mySubclass = MyFactory.InstantiateSubclass();
         var myMainClass = MyFactory.InstantiateManiClass();
 
-        //Class implementing interface with hidden members - flat object. 
+        //Class implementing interface with hidden members - flat object.
         var strJsonSubclass = JsonConvert.SerializeObject(mySubclass, Formatting.Indented);
 
         XUnitAssert.AreEqualNormalized(@"{
@@ -148,7 +148,7 @@ public class JsonSerializerTest : TestFixtureBase
   ""P2"": 44
 }", strJsonSubclass);
 
-        //Class implementing interface with hidden members - member of another class. 
+        //Class implementing interface with hidden members - member of another class.
         var strJsonMainClass = JsonConvert.SerializeObject(myMainClass, Formatting.Indented);
 
         XUnitAssert.AreEqualNormalized(@"{

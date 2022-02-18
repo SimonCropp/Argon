@@ -43,7 +43,7 @@ public enum WriteState
     Closed = 1,
 
     /// <summary>
-    /// An object is being written. 
+    /// An object is being written.
     /// </summary>
     Object = 2,
 

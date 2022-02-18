@@ -172,7 +172,7 @@ public class JsonDictionaryContract : JsonContainerContract
         DictionaryKeyType = keyType;
         DictionaryValueType = valueType;
 
-        if (DictionaryKeyType != null && 
+        if (DictionaryKeyType != null &&
             DictionaryValueType != null &&
             ImmutableCollectionsUtils.TryBuildImmutableForDictionaryContract(
                 NonNullableUnderlyingType,

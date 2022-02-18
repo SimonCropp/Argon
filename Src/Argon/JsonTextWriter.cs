@@ -737,7 +737,7 @@ public partial class JsonTextWriter : JsonWriter
     #endregion
 
     /// <summary>
-    /// Writes a comment <c>/*...*/</c> containing the specified text. 
+    /// Writes a comment <c>/*...*/</c> containing the specified text.
     /// </summary>
     /// <param name="text">Text to place inside the comment.</param>
     public override void WriteComment(string? text)

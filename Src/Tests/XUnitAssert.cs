@@ -14,7 +14,7 @@ public class XUnitAssert
         Assert.NotNull(actual);
         Assert.False((bool) actual);
     }
-    
+
     public static void True(object actual)
     {
         Assert.IsType<bool>(actual);
@@ -67,7 +67,7 @@ public class XUnitAssert
         {
             action();
 
-            XUnitAssert.Fail("Exception of type " + typeof(TException).Name + " expected. No exception thrown.");
+            Fail("Exception of type " + typeof(TException).Name + " expected. No exception thrown.");
             return null;
         }
         catch (TException ex)
@@ -78,7 +78,7 @@ public class XUnitAssert
             }
             foreach (var possibleMessage in possibleMessages)
             {
-                if (XUnitAssert.EqualsNormalized(possibleMessage, ex.Message))
+                if (EqualsNormalized(possibleMessage, ex.Message))
                 {
                     return ex;
                 }
@@ -99,7 +99,7 @@ public class XUnitAssert
         {
             await action();
 
-            XUnitAssert.Fail("Exception of type " + typeof(TException).Name + " expected. No exception thrown.");
+            Fail("Exception of type " + typeof(TException).Name + " expected. No exception thrown.");
             return null;
         }
         catch (TException ex)
@@ -110,7 +110,7 @@ public class XUnitAssert
             }
             foreach (var possibleMessage in possibleMessages)
             {
-                if (XUnitAssert.EqualsNormalized(possibleMessage, ex.Message))
+                if (EqualsNormalized(possibleMessage, ex.Message))
                 {
                     return ex;
                 }

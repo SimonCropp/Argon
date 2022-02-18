@@ -40,9 +40,9 @@ public class Issue1837
         var rhs = new TestData();
 
         // For all tests, if Type(x) is different from Type(y), return false.
-        // given x === y, if Type(x) is Null, return true 
+        // given x === y, if Type(x) is Null, return true
         var target = lhs.Null;
-        AssertAll(StrictEquality, target, rhs.Null);            
+        AssertAll(StrictEquality, target, rhs.Null);
         AssertNone(StrictEquality, target, rhs.ErrybodyButNull);
 
         // given x === y, if x is the same Number value as y, return true.
@@ -65,7 +65,7 @@ public class Issue1837
         AssertAll(StrictEquality, target, rhs.False);
         AssertNone(StrictEquality, target, new[] { rhs.True }, rhs.Nopes, rhs.Numbers, rhs.Strings, rhs.Dates);
 
-        //Dates 
+        //Dates
         target = lhs.DateYearMonth;
         AssertAll(StrictEquality, target, rhs.DateYearMonth);
         AssertNone(StrictEquality, target, rhs.DateYear);
@@ -77,13 +77,13 @@ public class Issue1837
         Assert.False(BooleanQueryExpression.EqualsWithStrictMatch(target, rhs.OtherISODate));
     }
 
-    #region helpers        
+    #region helpers
     // used by asserters to perform the comparison
     public delegate bool Comparator(JValue lhs, JValue rhs);
 
     // there was going to be an abstractEquality, but check the exception for it's implementation for why that's skipped for now
     readonly Comparator StrictEquality = BooleanQueryExpression.EqualsWithStrictMatch;
- 
+
     // a bunch of convenience methods for the test belwo
     // these make sure the comparator returns false for all do not wants
     void AssertNone(Comparator comparator, JValue token, params JValue[][] doNotWant)

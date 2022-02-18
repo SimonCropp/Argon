@@ -126,7 +126,7 @@ public class TraceWriterTests : TestFixtureBase
         // 2012-11-11T12:08:42.797 Info Started serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
         // 2012-11-11T12:08:42.798 Info Finished serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
         // 2012-11-11T12:08:42.799 Info Finished serializing Argon.Tests.Serialization.Staff. Path ''.
-        // 2013-05-18T21:38:11.255 Verbose Serialized JSON: 
+        // 2013-05-18T21:38:11.255 Verbose Serialized JSON:
         // {
         //   "Name": "Arnie Admin",
         //   "StartDate": new Date(

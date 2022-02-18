@@ -239,7 +239,7 @@ public abstract class JsonContract
         underlyingType = ReflectionUtils.EnsureNotByRefType(underlyingType);
 
         IsNullable = ReflectionUtils.IsNullable(underlyingType);
-             
+
         NonNullableUnderlyingType = IsNullable && ReflectionUtils.IsNullableType(underlyingType) ? Nullable.GetUnderlyingType(underlyingType) : underlyingType;
 
         _createdType = CreatedType = NonNullableUnderlyingType;

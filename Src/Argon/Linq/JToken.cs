@@ -137,7 +137,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     public JToken? Previous { get; internal set; }
 
     /// <summary>
-    /// Gets the path of the JSON token. 
+    /// Gets the path of the JSON token.
     /// </summary>
     public string Path
     {

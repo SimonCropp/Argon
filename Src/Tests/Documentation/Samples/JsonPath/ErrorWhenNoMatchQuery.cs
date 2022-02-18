@@ -42,7 +42,7 @@ public class ErrorWhenNoMatchQuery : TestFixtureBase
               }
             ]");
 
-        // A true value for errorWhenNoMatch will result in an error if the queried value is missing 
+        // A true value for errorWhenNoMatch will result in an error if the queried value is missing
         string result;
         try
         {

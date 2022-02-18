@@ -23,9 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if NET5_0_OR_GREATER
-using Xunit;
-#else
+#if !NET5_0_OR_GREATER
 using Xunit;
 
 namespace Argon.Tests.Documentation.Samples.Linq;

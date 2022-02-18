@@ -23,10 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !NET5_0_OR_GREATER
-using System.Data.Linq;
-using System.Data.SqlTypes;
-#endif
 using Xunit;
 
 namespace Argon.Tests.Converters;

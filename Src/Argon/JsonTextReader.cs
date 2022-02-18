@@ -140,7 +140,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     }
 
     void ParseReadString(char quote, ReadType readType)
-    { 
+    {
         SetPostValueState(true);
 
         switch (readType)
@@ -2205,7 +2205,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     }
 
     // By using the BigInteger type in a separate method,
-    // the runtime can execute the ParseNumber even if 
+    // the runtime can execute the ParseNumber even if
     // the System.Numerics.BigInteger.Parse method is
     // missing, which happens in some versions of Mono
     [MethodImpl(MethodImplOptions.NoInlining)]

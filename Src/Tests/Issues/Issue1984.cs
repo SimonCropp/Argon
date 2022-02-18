@@ -45,7 +45,7 @@ public class Issue1984
         Assert.NotNull(actual);
         Assert.Null(actual.Values);
     }
-        
+
     public class A
     {
         public ImmutableArray<string>? Values { get; set; }

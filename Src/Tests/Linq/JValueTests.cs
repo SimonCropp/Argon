@@ -314,7 +314,7 @@ public class JValueTests : TestFixtureBase
         Assert.True(JToken.DeepEquals(new JValue(5L), new JValue(5)));
         Assert.False(JToken.DeepEquals(new JValue(5M), new JValue(5)));
         Assert.True(JToken.DeepEquals(new JValue((ulong)long.MaxValue), new JValue(long.MaxValue)));
-        Assert.False(JToken.DeepEquals(new JValue(0.102410241024102424m), new JValue(0.102410241024102425m))); 
+        Assert.False(JToken.DeepEquals(new JValue(0.102410241024102424m), new JValue(0.102410241024102425m)));
     }
 
     [Fact]

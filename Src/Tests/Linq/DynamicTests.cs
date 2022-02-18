@@ -54,7 +54,7 @@ public class DynamicTests : TestFixtureBase
             XUnitAssert.Fail();
         }
     }
-        
+
     void UpdateValueCount(IDictionary<string, int> counts, dynamic d)
     {
         string s = d.ToString();

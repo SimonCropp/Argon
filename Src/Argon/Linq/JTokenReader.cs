@@ -304,7 +304,7 @@ public class JTokenReader : JsonReader, IJsonLineInfo
     }
 
     /// <summary>
-    /// Gets the path of the current JSON token. 
+    /// Gets the path of the current JSON token.
     /// </summary>
     public override string Path
     {

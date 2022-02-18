@@ -64,7 +64,7 @@ static class DateTimeUtils
                 throw MiscellaneousUtils.CreateArgumentOutOfRangeException(nameof(kind), kind, "Unexpected DateTimeKind value.");
         }
     }
-        
+
     public static string ToDateTimeFormat(DateTimeKind kind)
     {
         switch (kind)

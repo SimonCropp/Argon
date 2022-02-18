@@ -111,7 +111,7 @@ public class DeserializeWithDependencyInjection : TestFixtureBase
               }
             }";
 
-        // ITaskRespository and ILogger constructor parameters are injected by Autofac 
+        // ITaskRespository and ILogger constructor parameters are injected by Autofac
         var controller = JsonConvert.DeserializeObject<TaskController>(json, new JsonSerializerSettings
         {
             ContractResolver = contractResolver

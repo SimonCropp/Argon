@@ -45,7 +45,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
         var generator = dynamicMethod.GetILGenerator();
 
         GenerateCreateMethodCallIL(method, generator, 0);
-        
+
         return (ObjectConstructor<object>)dynamicMethod.CreateDelegate(typeof(ObjectConstructor<object>));
     }
 
@@ -156,13 +156,13 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
 
                 // argument has value, try to convert it to parameter type
                 generator.MarkLabel(skipSettingDefault);
-                
+
                 if (parameterType.IsPrimitive)
                 {
                     // for primitive types we need to handle type widening (e.g. short -> int)
                     var toParameterTypeMethod = typeof(IConvertible)
                         .GetMethod("To" + parameterType.Name, new[] { typeof(IFormatProvider) });
-                    
+
                     if (toParameterTypeMethod != null)
                     {
                         var skipConvertible = generator.DefineLabel();
@@ -195,7 +195,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
                 generator.Emit(OpCodes.Ldloc_S, localObject);
 
                 generator.UnboxIfNeeded(parameterType);
-                
+
                 // parameter finished, we out!
                 generator.MarkLabel(finishedProcessingParameter);
             }

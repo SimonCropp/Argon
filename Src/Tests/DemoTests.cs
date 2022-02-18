@@ -188,7 +188,7 @@ public class DemoTests : TestFixtureBase
         var trace = traceWriter.ToString();
         // Started serializing System.Collections.Generic.List`1[System.String].
         // Finished serializing System.Collections.Generic.List`1[System.String].
-        // Verbose Serialized JSON: 
+        // Verbose Serialized JSON:
         // [
         //   "User",
         //   "Admin"
@@ -286,7 +286,7 @@ public class DemoTests : TestFixtureBase
         var json = JsonConvert.SerializeObject(mike, Formatting.Indented);
         // {
         //   "Reportees": [
-        //     { 
+        //     {
         //       "Name": "Arnie Admin"
         //     },
         //     {

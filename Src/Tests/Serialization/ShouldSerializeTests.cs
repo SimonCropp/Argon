@@ -288,10 +288,10 @@ public class ShouldSerializeTests : TestFixtureBase
 
     public class OptionalOrder
     {
-        // This field shouldn't be serialized 
+        // This field shouldn't be serialized
         // if it is uninitialized.
         public string FirstOrder;
-        // Use the XmlIgnoreAttribute to ignore the 
+        // Use the XmlIgnoreAttribute to ignore the
         // special field named "FirstOrderSpecified".
         [System.Xml.Serialization.XmlIgnoreAttribute]
         public bool FirstOrderSpecified;

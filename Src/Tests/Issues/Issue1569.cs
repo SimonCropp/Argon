@@ -42,7 +42,7 @@ public class Issue1569 : TestFixtureBase
 #endif
 
         while (await reader.ReadAsync())
-        {   
+        {
         }
     }
 

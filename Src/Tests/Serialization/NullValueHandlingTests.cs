@@ -129,7 +129,7 @@ public class NullValueHandlingTests : TestFixtureBase
             Name = "Bad Boys III",
             Description = "It's no Bad Boys"
         };
-            
+
         var ignored = JsonConvert.SerializeObject(movie,
             Formatting.Indented,
             new JsonSerializerSettings { NullValueHandling = NullValueHandling.Include });

@@ -293,7 +293,7 @@ public class JTokenWriterAsyncTests : TestFixtureBase
         var o = new JObject();
         var reader = o.CreateReader();
         while (reader.Read())
-        {   
+        {
         }
 
         var writer = new JTokenWriter();

@@ -895,7 +895,7 @@ public class JsonConvertTest : TestFixtureBase
         }
 
         TestDateTimeFormat(value, new IsoDateTimeConverter());
-            
+
         if (value is DateTime)
         {
             Console.WriteLine(XmlConvert.ToString((DateTime)(object)value, XmlDateTimeSerializationMode.RoundtripKind));
@@ -1213,25 +1213,25 @@ public class JsonConvertTest : TestFixtureBase
     public class IncorrectJsonConvertParameters
     {
         /// <summary>
-        /// We deliberately use the wrong number/type of arguments for ClobberingJsonConverter to ensure an 
+        /// We deliberately use the wrong number/type of arguments for ClobberingJsonConverter to ensure an
         /// exception is thrown.
         /// </summary>
         [JsonConverter(typeof(ClobberingJsonConverter), "Uno", "Blammo")]
         public string One { get; set; }
     }
 
-        
+
     public class OverloadsJsonConverterer : JsonConverter
     {
         readonly string _type;
-            
+
         // constructor with Type argument
 
         public OverloadsJsonConverterer(Type typeParam)
         {
             _type = "Type";
         }
-            
+
         public OverloadsJsonConverterer(object objectParam)
         {
             _type = string.Format("object({0})", objectParam.GetType().FullName);
@@ -1292,7 +1292,7 @@ public class JsonConvertTest : TestFixtureBase
         {
             writer.WriteValue(_type);
         }
-            
+
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             throw new NotImplementedException();
@@ -1302,7 +1302,7 @@ public class JsonConvertTest : TestFixtureBase
         {
             return objectType == typeof(int);
         }
-            
+
     }
 
     public class OverloadWithTypeParameter
@@ -1319,7 +1319,7 @@ public class JsonConvertTest : TestFixtureBase
 
         Assert.Equal("{\"Overload\":\"Type\"}", json);
     }
-        
+
     public class OverloadWithUnhandledParameter
     {
         [JsonConverter(typeof(OverloadsJsonConverterer), "str")]
@@ -1358,7 +1358,7 @@ public class JsonConvertTest : TestFixtureBase
         [JsonConverter(typeof(OverloadsJsonConverterer), 1UL)]
         public int Overload { get; set; }
     }
-        
+
     public class OverloadWithShortParameter
     {
         [JsonConverter(typeof(OverloadsJsonConverterer), (short)1)]
@@ -1376,7 +1376,7 @@ public class JsonConvertTest : TestFixtureBase
         [JsonConverter(typeof(OverloadsJsonConverterer), (sbyte)1)]
         public int Overload { get; set; }
     }
-        
+
     public class OverloadWithByteParameter
     {
         [JsonConverter(typeof(OverloadsJsonConverterer), (byte)1)]
@@ -1406,7 +1406,7 @@ public class JsonConvertTest : TestFixtureBase
         [JsonConverter(typeof(OverloadsJsonConverterer), 1.5)]
         public int Overload { get; set; }
     }
-        
+
     [Fact]
     public void JsonConverterConstructor_OverloadsWithPrimitiveParams()
     {

@@ -185,7 +185,7 @@ public abstract partial class JsonWriter : IDisposable
     }
 
     /// <summary>
-    /// Gets the path of the writer. 
+    /// Gets the path of the writer.
     /// </summary>
     public string Path
     {

@@ -312,7 +312,7 @@ internal static class JavaScriptUtils
             return w.ToString();
         }
     }
-        
+
     static int FirstCharToEscape(string s, bool[] charEscapeFlags, StringEscapeHandling stringEscapeHandling)
     {
         for (var i = 0; i != s.Length; i++)
@@ -384,7 +384,6 @@ internal static class JavaScriptUtils
         }
 
         return WriteCharAsync(task, writer, delimiter, cancellationToken);
-            
     }
 
     static async Task WriteEscapedJavaScriptStringWithDelimitersAsync(Task task, TextWriter writer, string s, char delimiter,

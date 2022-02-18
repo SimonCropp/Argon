@@ -26,7 +26,6 @@
 #if !NET5_0_OR_GREATER
 using Xunit;
 using System.Web.UI;
-using Argon.Linq;
 
 namespace Argon.Tests.Linq.ComponentModel;
 

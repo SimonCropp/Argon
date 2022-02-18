@@ -141,23 +141,23 @@ static class ConvertUtils
     static readonly TypeInformation[] PrimitiveTypeCodes =
     {
         // need all of these. lookup against the index with TypeCode value
-        new(typeof(object), PrimitiveTypeCode.Empty), 
-        new(typeof(object), PrimitiveTypeCode.Object), 
-        new(typeof(object), PrimitiveTypeCode.DBNull), 
-        new(typeof(bool), PrimitiveTypeCode.Boolean), 
-        new(typeof(char), PrimitiveTypeCode.Char), 
-        new(typeof(sbyte), PrimitiveTypeCode.SByte), 
-        new(typeof(byte), PrimitiveTypeCode.Byte), 
-        new(typeof(short), PrimitiveTypeCode.Int16), 
-        new(typeof(ushort), PrimitiveTypeCode.UInt16), 
-        new(typeof(int), PrimitiveTypeCode.Int32), 
-        new(typeof(uint), PrimitiveTypeCode.UInt32), 
-        new(typeof(long), PrimitiveTypeCode.Int64), 
-        new(typeof(ulong), PrimitiveTypeCode.UInt64), 
-        new(typeof(float), PrimitiveTypeCode.Single), 
-        new(typeof(double), PrimitiveTypeCode.Double), 
-        new(typeof(decimal), PrimitiveTypeCode.Decimal), 
-        new(typeof(DateTime), PrimitiveTypeCode.DateTime), 
+        new(typeof(object), PrimitiveTypeCode.Empty),
+        new(typeof(object), PrimitiveTypeCode.Object),
+        new(typeof(object), PrimitiveTypeCode.DBNull),
+        new(typeof(bool), PrimitiveTypeCode.Boolean),
+        new(typeof(char), PrimitiveTypeCode.Char),
+        new(typeof(sbyte), PrimitiveTypeCode.SByte),
+        new(typeof(byte), PrimitiveTypeCode.Byte),
+        new(typeof(short), PrimitiveTypeCode.Int16),
+        new(typeof(ushort), PrimitiveTypeCode.UInt16),
+        new(typeof(int), PrimitiveTypeCode.Int32),
+        new(typeof(uint), PrimitiveTypeCode.UInt32),
+        new(typeof(long), PrimitiveTypeCode.Int64),
+        new(typeof(ulong), PrimitiveTypeCode.UInt64),
+        new(typeof(float), PrimitiveTypeCode.Single),
+        new(typeof(double), PrimitiveTypeCode.Double),
+        new(typeof(decimal), PrimitiveTypeCode.Decimal),
+        new(typeof(DateTime), PrimitiveTypeCode.DateTime),
         new(typeof(object), PrimitiveTypeCode.Empty), // no 17 in TypeCode for some reason
         new(typeof(string), PrimitiveTypeCode.String)
     };
@@ -846,7 +846,7 @@ static class ConvertUtils
                     }
                     if (i == numDecimalStart)
                     {
-                        // E follows decimal point		
+                        // E follows decimal point
                         return ParseResult.Invalid;
                     }
                     i++;
@@ -873,7 +873,7 @@ static class ConvertUtils
                             break;
                     }
 
-                    // parse 3 digit 
+                    // parse 3 digit
                     for (; i < end; i++)
                     {
                         c = chars[i];

@@ -1124,7 +1124,7 @@ public class ErrorTestObject
     {
     }
 }
-    
+
 /// <summary>
 /// A dictionary that ignores deserialization errors and excludes bad items
 /// </summary>

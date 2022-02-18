@@ -101,7 +101,7 @@ public class JsonPropertyCollection : KeyedCollection<string, JsonProperty>
                         // current property is hidden by the existing so don't add it
                         return;
                     }
-                        
+
                     if (_type.ImplementInterface(existingProperty.DeclaringType) && _type.ImplementInterface(property.DeclaringType))
                     {
                         // current property was already defined on another interface

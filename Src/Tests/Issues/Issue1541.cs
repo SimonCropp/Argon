@@ -23,13 +23,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
+#if NET5_0_OR_GREATER
 using Xunit;
 
 namespace Argon.Tests.Issues;
 
 public class Issue1541 : TestFixtureBase
 {
-#if NET5_0_OR_GREATER
     [Fact]
     public void Test_DirectoryInfo()
     {
@@ -59,5 +59,5 @@ public class Issue1541 : TestFixtureBase
             () => JsonConvert.SerializeObject(drive),
             "Unable to serialize instance of 'System.IO.DriveInfo'.");
     }
-#endif
 }
+#endif
