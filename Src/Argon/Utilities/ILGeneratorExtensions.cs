@@ -35,7 +35,7 @@ namespace Argon.Utilities
         public static void PushInstance(this ILGenerator generator, Type type)
         {
             generator.Emit(OpCodes.Ldarg_0);
-            if (type.IsValueType())
+            if (type.IsValueType)
             {
                 generator.Emit(OpCodes.Unbox, type);
             }
@@ -54,7 +54,7 @@ namespace Argon.Utilities
 
         public static void BoxIfNeeded(this ILGenerator generator, Type type)
         {
-            if (type.IsValueType())
+            if (type.IsValueType)
             {
                 generator.Emit(OpCodes.Box, type);
             }
@@ -66,7 +66,7 @@ namespace Argon.Utilities
 
         public static void UnboxIfNeeded(this ILGenerator generator, Type type)
         {
-            if (type.IsValueType())
+            if (type.IsValueType)
             {
                 generator.Emit(OpCodes.Unbox_Any, type);
             }

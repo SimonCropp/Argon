@@ -259,7 +259,7 @@ public class DiscriminatedUnionConverter : JsonConverter
             var attributeType = attribute.GetType();
             if (attributeType.FullName == "Microsoft.FSharp.Core.CompilationMappingAttribute")
             {
-                FSharpUtils.EnsureInitialized(attributeType.Assembly());
+                FSharpUtils.EnsureInitialized(attributeType.Assembly);
 
                 isFSharpType = true;
                 break;

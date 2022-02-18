@@ -239,7 +239,7 @@ internal static class EnumUtils
         ValidationUtils.ArgumentNotNull(enumType, nameof(enumType));
         ValidationUtils.ArgumentNotNull(value, nameof(value));
 
-        if (!enumType.IsEnum())
+        if (!enumType.IsEnum)
         {
             throw new ArgumentException("Type provided must be an Enum.", nameof(enumType));
         }

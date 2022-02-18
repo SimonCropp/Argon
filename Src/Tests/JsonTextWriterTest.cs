@@ -1209,7 +1209,7 @@ _____'propertyName': NaN,
 
     private static IList<object> GetValues(Type enumType)
     {
-        if (!enumType.IsEnum())
+        if (!enumType.IsEnum)
         {
             throw new ArgumentException("Type {0} is not an enum.".FormatWith(CultureInfo.InvariantCulture, enumType.Name), nameof(enumType));
         }

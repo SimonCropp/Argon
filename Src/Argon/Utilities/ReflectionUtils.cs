@@ -163,7 +163,7 @@ internal static class ReflectionUtils
     {
         ValidationUtils.ArgumentNotNull(t, nameof(t));
 
-        if (t.IsValueType())
+        if (t.IsValueType)
         {
             return true;
         }
@@ -191,7 +191,7 @@ internal static class ReflectionUtils
     {
         ValidationUtils.ArgumentNotNull(t, nameof(t));
 
-        if (t.IsValueType())
+        if (t.IsValueType)
         {
             return IsNullableType(t);
         }
@@ -203,7 +203,7 @@ internal static class ReflectionUtils
     {
         ValidationUtils.ArgumentNotNull(t, nameof(t));
 
-        return t.IsGenericType() && t.GetGenericTypeDefinition() == typeof(Nullable<>);
+        return t.IsGenericType && t.GetGenericTypeDefinition() == typeof(Nullable<>);
     }
 
     public static Type EnsureNotNullableType(Type t)
@@ -222,7 +222,7 @@ internal static class ReflectionUtils
 
     public static bool IsGenericDefinition(Type type, Type genericInterfaceDefinition)
     {
-        if (!type.IsGenericType())
+        if (!type.IsGenericType)
         {
             return false;
         }
@@ -241,14 +241,14 @@ internal static class ReflectionUtils
         ValidationUtils.ArgumentNotNull(type, nameof(type));
         ValidationUtils.ArgumentNotNull(genericInterfaceDefinition, nameof(genericInterfaceDefinition));
 
-        if (!genericInterfaceDefinition.IsInterface() || !genericInterfaceDefinition.IsGenericTypeDefinition())
+        if (!genericInterfaceDefinition.IsInterface || !genericInterfaceDefinition.IsGenericTypeDefinition)
         {
             throw new ArgumentNullException("'{0}' is not a generic interface definition.".FormatWith(CultureInfo.InvariantCulture, genericInterfaceDefinition));
         }
 
-        if (type.IsInterface())
+        if (type.IsInterface)
         {
-            if (type.IsGenericType())
+            if (type.IsGenericType)
             {
                 var interfaceDefinition = type.GetGenericTypeDefinition();
 
@@ -262,7 +262,7 @@ internal static class ReflectionUtils
 
         foreach (var i in type.GetInterfaces())
         {
-            if (i.IsGenericType())
+            if (i.IsGenericType)
             {
                 var interfaceDefinition = i.GetGenericTypeDefinition();
 
@@ -288,7 +288,7 @@ internal static class ReflectionUtils
         ValidationUtils.ArgumentNotNull(type, nameof(type));
         ValidationUtils.ArgumentNotNull(genericClassDefinition, nameof(genericClassDefinition));
 
-        if (!genericClassDefinition.IsClass() || !genericClassDefinition.IsGenericTypeDefinition())
+        if (!genericClassDefinition.IsClass || !genericClassDefinition.IsGenericTypeDefinition)
         {
             throw new ArgumentNullException("'{0}' is not a generic class definition.".FormatWith(CultureInfo.InvariantCulture, genericClassDefinition));
         }
@@ -300,13 +300,13 @@ internal static class ReflectionUtils
     {
         do
         {
-            if (currentType.IsGenericType() && genericClassDefinition == currentType.GetGenericTypeDefinition())
+            if (currentType.IsGenericType && genericClassDefinition == currentType.GetGenericTypeDefinition())
             {
                 implementingType = currentType;
                 return true;
             }
 
-            currentType = currentType.BaseType();
+            currentType = currentType.BaseType;
         }
         while (currentType != null);
 
@@ -329,7 +329,7 @@ internal static class ReflectionUtils
         }
         if (ImplementsGenericDefinition(type, typeof(IEnumerable<>), out var genericListType))
         {
-            if (genericListType!.IsGenericTypeDefinition())
+            if (genericListType!.IsGenericTypeDefinition)
             {
                 throw new Exception("Type {0} is not a collection.".FormatWith(CultureInfo.InvariantCulture, type));
             }
@@ -350,7 +350,7 @@ internal static class ReflectionUtils
 
         if (ImplementsGenericDefinition(dictionaryType, typeof(IDictionary<,>), out var genericDictionaryType))
         {
-            if (genericDictionaryType!.IsGenericTypeDefinition())
+            if (genericDictionaryType!.IsGenericTypeDefinition)
             {
                 throw new Exception("Type {0} is not a dictionary.".FormatWith(CultureInfo.InvariantCulture, dictionaryType));
             }
@@ -380,7 +380,7 @@ internal static class ReflectionUtils
     {
         ValidationUtils.ArgumentNotNull(member, nameof(member));
 
-        switch (member.MemberType())
+        switch (member.MemberType)
         {
             case MemberTypes.Field:
                 return ((FieldInfo)member).FieldType;
@@ -397,7 +397,7 @@ internal static class ReflectionUtils
 
     public static bool IsByRefLikeType(Type type)
     {
-        if (!type.IsValueType())
+        if (!type.IsValueType)
         {
             return false;
         }
@@ -440,7 +440,7 @@ internal static class ReflectionUtils
         ValidationUtils.ArgumentNotNull(member, nameof(member));
         ValidationUtils.ArgumentNotNull(target, nameof(target));
 
-        switch (member.MemberType())
+        switch (member.MemberType)
         {
             case MemberTypes.Field:
                 return ((FieldInfo)member).GetValue(target);
@@ -469,7 +469,7 @@ internal static class ReflectionUtils
         ValidationUtils.ArgumentNotNull(member, nameof(member));
         ValidationUtils.ArgumentNotNull(target, nameof(target));
 
-        switch (member.MemberType())
+        switch (member.MemberType)
         {
             case MemberTypes.Field:
                 ((FieldInfo)member).SetValue(target, value);
@@ -492,7 +492,7 @@ internal static class ReflectionUtils
     /// </returns>
     public static bool CanReadMemberValue(MemberInfo member, bool nonPublic)
     {
-        switch (member.MemberType())
+        switch (member.MemberType)
         {
             case MemberTypes.Field:
                 var fieldInfo = (FieldInfo)member;
@@ -534,7 +534,7 @@ internal static class ReflectionUtils
     /// </returns>
     public static bool CanSetMemberValue(MemberInfo member, bool nonPublic, bool canSetReadOnly)
     {
-        switch (member.MemberType())
+        switch (member.MemberType)
         {
             case MemberTypes.Field:
                 var fieldInfo = (FieldInfo)member;
@@ -628,7 +628,7 @@ internal static class ReflectionUtils
 
     private static bool IsOverridenGenericMember(MemberInfo memberInfo, BindingFlags bindingAttr)
     {
-        if (memberInfo.MemberType() != MemberTypes.Property)
+        if (memberInfo.MemberType != MemberTypes.Property)
         {
             return false;
         }
@@ -640,7 +640,7 @@ internal static class ReflectionUtils
         }
 
         var declaringType = propertyInfo.DeclaringType;
-        if (!declaringType.IsGenericType())
+        if (!declaringType.IsGenericType)
         {
             return false;
         }
@@ -771,7 +771,7 @@ internal static class ReflectionUtils
     {
         const BindingFlags bindingAttr = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
 
-        switch (memberInfo.MemberType())
+        switch (memberInfo.MemberType)
         {
             case MemberTypes.Property:
                 var propertyInfo = (PropertyInfo)memberInfo;
@@ -780,7 +780,7 @@ internal static class ReflectionUtils
 
                 return targetType.GetProperty(propertyInfo.Name, bindingAttr, null, propertyInfo.PropertyType, types, null);
             default:
-                return targetType.GetMember(memberInfo.Name, memberInfo.MemberType(), bindingAttr).SingleOrDefault();
+                return targetType.GetMember(memberInfo.Name, memberInfo.MemberType, bindingAttr).SingleOrDefault();
         }
     }
 
@@ -805,7 +805,7 @@ internal static class ReflectionUtils
             // modify flags to not search for public fields
             var nonPublicBindingAttr = bindingAttr.RemoveFlag(BindingFlags.Public);
 
-            while ((targetType = targetType.BaseType()) != null)
+            while ((targetType = targetType.BaseType) != null)
             {
                 // filter out protected fields
                 IEnumerable<FieldInfo> childPrivateFields =
@@ -823,7 +823,7 @@ internal static class ReflectionUtils
         var propertyInfos = new List<PropertyInfo>(targetType.GetProperties(bindingAttr));
 
         // GetProperties on an interface doesn't return properties from its interfaces
-        if (targetType.IsInterface())
+        if (targetType.IsInterface)
         {
             foreach (var i in targetType.GetInterfaces())
             {
@@ -861,7 +861,7 @@ internal static class ReflectionUtils
 
         // also find base properties that have been hidden by subtype properties with the same name
 
-        while ((targetType = targetType.BaseType()) != null)
+        while ((targetType = targetType.BaseType) != null)
         {
             foreach (var propertyInfo in targetType.GetProperties(bindingAttr))
             {
@@ -935,7 +935,7 @@ internal static class ReflectionUtils
 
     public static object? GetDefaultValue(Type type)
     {
-        if (!type.IsValueType())
+        if (!type.IsValueType)
         {
             return null;
         }

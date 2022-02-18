@@ -106,7 +106,7 @@ public class JsonArrayContract : JsonContainerContract
 
         // netcoreapp3.0 uses EmptyPartition for empty enumerable. Treat as an empty array.
         IsArray = CreatedType.IsArray ||
-                  (NonNullableUnderlyingType.IsGenericType() && NonNullableUnderlyingType.GetGenericTypeDefinition().FullName == "System.Linq.EmptyPartition`1");
+                  (NonNullableUnderlyingType.IsGenericType && NonNullableUnderlyingType.GetGenericTypeDefinition().FullName == "System.Linq.EmptyPartition`1");
 
         bool canDeserialize;
 
@@ -193,7 +193,7 @@ public class JsonArrayContract : JsonContainerContract
 
             StoreFSharpListCreatorIfNecessary(NonNullableUnderlyingType);
 
-            if (NonNullableUnderlyingType.IsGenericType() && NonNullableUnderlyingType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+            if (NonNullableUnderlyingType.IsGenericType && NonNullableUnderlyingType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
             {
                 _genericCollectionDefinitionType = tempCollectionType;
 
@@ -280,7 +280,7 @@ public class JsonArrayContract : JsonContainerContract
     {
         if (!HasParameterizedCreatorInternal && underlyingType.Name == FSharpUtils.FSharpListTypeName)
         {
-            FSharpUtils.EnsureInitialized(underlyingType.Assembly());
+            FSharpUtils.EnsureInitialized(underlyingType.Assembly);
             _parameterizedCreator = FSharpUtils.Instance.CreateSeq(CollectionItemType!);
         }
     }

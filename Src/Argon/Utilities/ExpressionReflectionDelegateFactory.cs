@@ -184,7 +184,7 @@ internal class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
         ValidationUtils.ArgumentNotNull(type, "type");
 
         // avoid error from expressions compiler because of abstract class
-        if (type.IsAbstract())
+        if (type.IsAbstract)
         {
             return () => (T)Activator.CreateInstance(type);
         }
@@ -275,7 +275,7 @@ internal class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
 
         // use reflection for structs
         // expression doesn't correctly set value
-        if (fieldInfo.DeclaringType.IsValueType() || fieldInfo.IsInitOnly)
+        if (fieldInfo.DeclaringType.IsValueType || fieldInfo.IsInitOnly)
         {
             return LateBoundReflectionDelegateFactory.Instance.CreateSet<T>(fieldInfo);
         }
@@ -311,7 +311,7 @@ internal class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
 
         // use reflection for structs
         // expression doesn't correctly set value
-        if (propertyInfo.DeclaringType.IsValueType())
+        if (propertyInfo.DeclaringType.IsValueType)
         {
             return LateBoundReflectionDelegateFactory.Instance.CreateSet<T>(propertyInfo);
         }
@@ -353,16 +353,16 @@ internal class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
         var expressionType = expression.Type;
             
         // check if a cast or conversion is required
-        if (expressionType == targetType || (!expressionType.IsValueType() && targetType.IsAssignableFrom(expressionType)))
+        if (expressionType == targetType || (!expressionType.IsValueType && targetType.IsAssignableFrom(expressionType)))
         {
             return expression;
         }
 
-        if (targetType.IsValueType())
+        if (targetType.IsValueType)
         {
             Expression convert = Expression.Unbox(expression, targetType);
 
-            if (allowWidening && targetType.IsPrimitive())
+            if (allowWidening && targetType.IsPrimitive)
             {
                 var toTargetTypeMethod = typeof(Convert)
                     .GetMethod("To" + targetType.Name, new[] { typeof(object) });

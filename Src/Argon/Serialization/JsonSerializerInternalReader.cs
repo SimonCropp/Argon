@@ -1083,7 +1083,7 @@ internal class JsonSerializerInternalReader : JsonSerializerInternalBase
             {
                 propertyContract = GetContract(currentValue.GetType());
 
-                useExistingValue = !propertyContract.IsReadOnlyOrFixedSize && !propertyContract.UnderlyingType.IsValueType();
+                useExistingValue = !propertyContract.IsReadOnlyOrFixedSize && !propertyContract.UnderlyingType.IsValueType;
             }
         }
 

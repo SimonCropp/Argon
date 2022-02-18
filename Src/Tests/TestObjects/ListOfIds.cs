@@ -61,10 +61,6 @@ public class ListOfIds<T> : JsonConverter where T : Bar, new()
 
     public override bool CanConvert(Type objectType)
     {
-#if NET5_0_OR_GREATER && !NETSTANDARD2_0
-            return Argon.Utilities.TypeExtensions.IsAssignableFrom(typeof(IList<T>), objectType);
-#else
         return typeof(IList<T>).IsAssignableFrom(objectType);
-#endif
     }
 }

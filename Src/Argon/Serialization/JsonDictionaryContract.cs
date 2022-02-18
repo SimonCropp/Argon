@@ -118,7 +118,7 @@ public class JsonDictionaryContract : JsonContainerContract
             {
                 CreatedType = typeof(Dictionary<,>).MakeGenericType(keyType, valueType);
             }
-            else if (NonNullableUnderlyingType.IsGenericType())
+            else if (NonNullableUnderlyingType.IsGenericType)
             {
                 // ConcurrentDictionary<,> + IDictionary setter + null value = error
                 // wrap to use generic setter
@@ -164,7 +164,7 @@ public class JsonDictionaryContract : JsonContainerContract
 
             if (!HasParameterizedCreatorInternal && NonNullableUnderlyingType.Name == FSharpUtils.FSharpMapTypeName)
             {
-                FSharpUtils.EnsureInitialized(NonNullableUnderlyingType.Assembly());
+                FSharpUtils.EnsureInitialized(NonNullableUnderlyingType.Assembly);
                 _parameterizedCreator = FSharpUtils.Instance.CreateMap(keyType, valueType);
             }
         }

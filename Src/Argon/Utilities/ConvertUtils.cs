@@ -177,7 +177,7 @@ internal static class ConvertUtils
             return typeCode;
         }
 
-        if (t.IsEnum())
+        if (t.IsEnum)
         {
             isEnum = true;
             return GetTypeCode(Enum.GetUnderlyingType(t));
@@ -187,7 +187,7 @@ internal static class ConvertUtils
         if (ReflectionUtils.IsNullableType(t))
         {
             var nonNullable = Nullable.GetUnderlyingType(t);
-            if (nonNullable.IsEnum())
+            if (nonNullable.IsEnum)
             {
                 var nullableUnderlyingType = typeof(Nullable<>).MakeGenericType(Enum.GetUnderlyingType(nonNullable));
                 isEnum = true;
@@ -384,7 +384,7 @@ internal static class ConvertUtils
         // use Convert.ChangeType if both types are IConvertible
         if (IsConvertible(initialValue.GetType()) && IsConvertible(targetType))
         {
-            if (targetType.IsEnum())
+            if (targetType.IsEnum)
             {
                 if (initialValue is string)
                 {
@@ -500,7 +500,7 @@ internal static class ConvertUtils
             return ConvertResult.CannotConvertNull;
         }
 
-        if (targetType.IsInterface() || targetType.IsGenericTypeDefinition() || targetType.IsAbstract())
+        if (targetType.IsInterface || targetType.IsGenericTypeDefinition || targetType.IsAbstract)
         {
             value = null;
             return ConvertResult.NotInstantiableType;

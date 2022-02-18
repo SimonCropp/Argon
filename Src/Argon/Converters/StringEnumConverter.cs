@@ -256,6 +256,6 @@ public class StringEnumConverter : JsonConverter
             ? Nullable.GetUnderlyingType(objectType)
             : objectType;
 
-        return t.IsEnum();
+        return t.IsEnum;
     }
 }

@@ -1857,14 +1857,14 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
                     }
                     catch (Exception ex)
                     {
-                        var enumType = objectType.IsEnum() ? objectType : Nullable.GetUnderlyingType(objectType);
+                        var enumType = objectType.IsEnum ? objectType : Nullable.GetUnderlyingType(objectType);
                         throw new ArgumentException("Could not convert '{0}' to {1}.".FormatWith(CultureInfo.InvariantCulture, (string?)this, enumType.Name), ex);
                     }
                 }
 
                 if (Type == JTokenType.Integer)
                 {
-                    var enumType = objectType.IsEnum() ? objectType : Nullable.GetUnderlyingType(objectType);
+                    var enumType = objectType.IsEnum ? objectType : Nullable.GetUnderlyingType(objectType);
                     return Enum.ToObject(enumType, ((JValue)this).Value);
                 }
             }

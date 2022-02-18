@@ -169,7 +169,7 @@ internal sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
         return args.Select(arg =>
         {
             var exp = arg.Expression;
-            return exp.Type.IsValueType() ? Expression.Convert(exp, typeof(object)) : exp;
+            return exp.Type.IsValueType ? Expression.Convert(exp, typeof(object)) : exp;
         });
     }
 
@@ -184,16 +184,16 @@ internal sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
         return new[]
         {
             Expression.NewArrayInit(typeof(object), GetArgs(args)),
-            exp.Type.IsValueType() ? Expression.Convert(exp, typeof(object)) : exp
+            exp.Type.IsValueType ? Expression.Convert(exp, typeof(object)) : exp
         };
     }
 
     private static ConstantExpression Constant(DynamicMetaObjectBinder binder)
     {
         var t = binder.GetType();
-        while (!t.IsVisible())
+        while (!t.IsVisible)
         {
-            t = t.BaseType();
+            t = t.BaseType;
         }
         return Expression.Constant(binder, t);
     }

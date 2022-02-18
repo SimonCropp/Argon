@@ -295,7 +295,7 @@ internal class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
 
     private static bool IsCompatibleObject(object value)
     {
-        if (!(value is T) && (value != null || (typeof(T).IsValueType() && !ReflectionUtils.IsNullableType(typeof(T)))))
+        if (!(value is T) && (value != null || (typeof(T).IsValueType && !ReflectionUtils.IsNullableType(typeof(T)))))
         {
             return false;
         }

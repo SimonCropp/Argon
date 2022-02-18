@@ -291,7 +291,7 @@ public class JsonSchemaGenerator
                 case JsonContractType.Primitive:
                     CurrentSchema.Type = GetJsonSchemaType(type, valueRequired);
 
-                    if (CurrentSchema.Type == JsonSchemaType.Integer && type.IsEnum() && !type.IsDefined(typeof(FlagsAttribute), true))
+                    if (CurrentSchema.Type == JsonSchemaType.Integer && type.IsEnum && !type.IsDefined(typeof(FlagsAttribute), true))
                     {
                         CurrentSchema.Enum = new List<JToken>();
 
@@ -383,7 +383,7 @@ public class JsonSchemaGenerator
             }
         }
 
-        if (type.IsSealed())
+        if (type.IsSealed)
         {
             CurrentSchema.AllowAdditionalProperties = false;
         }

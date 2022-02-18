@@ -39,7 +39,7 @@ namespace Argon.Utilities
 
         private static DynamicMethod CreateDynamicMethod(string name, Type? returnType, Type[] parameterTypes, Type owner)
         {
-            var dynamicMethod = !owner.IsInterface()
+            var dynamicMethod = !owner.IsInterface
                 ? new DynamicMethod(name, returnType, parameterTypes, owner, true)
                 : new DynamicMethod(name, returnType, parameterTypes, owner.Module, true);
 
@@ -109,7 +109,7 @@ namespace Argon.Utilities
                     {
                         generator.PushArrayInstance(argsIndex, i);
 
-                        if (parameterType.IsValueType())
+                        if (parameterType.IsValueType)
                         {
                             var skipSettingDefault = generator.DefineLabel();
                             var finishedProcessingParameter = generator.DefineLabel();
@@ -140,7 +140,7 @@ namespace Argon.Utilities
 
                     generator.Emit(variableAddressOpCode, localVariable);
                 }
-                else if (parameterType.IsValueType())
+                else if (parameterType.IsValueType)
                 {
                     generator.PushArrayInstance(argsIndex, i);
                     generator.Emit(OpCodes.Stloc_S, localObject);
@@ -164,7 +164,7 @@ namespace Argon.Utilities
                     // argument has value, try to convert it to parameter type
                     generator.MarkLabel(skipSettingDefault);
                     
-                    if (parameterType.IsPrimitive())
+                    if (parameterType.IsPrimitive)
                     {
                         // for primitive types we need to handle type widening (e.g. short -> int)
                         var toParameterTypeMethod = typeof(IConvertible)
@@ -252,7 +252,7 @@ namespace Argon.Utilities
 
         private void GenerateCreateDefaultConstructorIL(Type type, ILGenerator generator, Type delegateType)
         {
-            if (type.IsValueType())
+            if (type.IsValueType)
             {
                 generator.DeclareLocal(type);
                 generator.Emit(OpCodes.Ldloc_0);

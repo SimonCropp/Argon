@@ -28,7 +28,6 @@ using Xunit;
 using Test = Xunit.FactAttribute;
 using Assert = Argon.Tests.XUnitAssert;
 
-
 namespace Argon.Tests.Serialization;
 
 [TestFixture]
@@ -55,12 +54,7 @@ public class ReflectionAttributeProviderTests : TestFixtureBase
     [Fact]
     public void GetAttributes_Property()
     {
-        PropertyInfo property;
-#if NET5_0_OR_GREATER && !NETSTANDARD2_0
-            property = Argon.Utilities.TypeExtensions.GetProperty(typeof(ReflectionTestObject), "TestProperty");
-#else
-        property = typeof(ReflectionTestObject).GetProperty("TestProperty");
-#endif
+        var property = typeof(ReflectionTestObject).GetProperty("TestProperty");
 
         var provider = new ReflectionAttributeProvider(property);
 
@@ -74,12 +68,7 @@ public class ReflectionAttributeProviderTests : TestFixtureBase
     [Fact]
     public void GetAttributes_Field()
     {
-        FieldInfo field;
-#if NET5_0_OR_GREATER && !NETSTANDARD2_0
-            field = (FieldInfo)Argon.Utilities.TypeExtensions.GetField(typeof(ReflectionTestObject), "TestField");
-#else
-        field = typeof(ReflectionTestObject).GetField("TestField");
-#endif
+        var field = typeof(ReflectionTestObject).GetField("TestField");
 
         var provider = new ReflectionAttributeProvider(field);
 

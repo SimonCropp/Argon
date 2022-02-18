@@ -61,7 +61,7 @@ internal class LateBoundReflectionDelegateFactory : ReflectionDelegateFactory
     {
         ValidationUtils.ArgumentNotNull(type, nameof(type));
 
-        if (type.IsValueType())
+        if (type.IsValueType)
         {
             return () => (T)Activator.CreateInstance(type);
         }

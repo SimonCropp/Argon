@@ -227,7 +227,7 @@ public class DefaultContractResolver : IContractResolver
                         {
                             serializableMembers.Add(member);
                         }
-                        else if (memberSerialization == MemberSerialization.Fields && member.MemberType() == MemberTypes.Field)
+                        else if (memberSerialization == MemberSerialization.Fields && member.MemberType == MemberTypes.Field)
                         {
                             serializableMembers.Add(member);
                         }
@@ -266,7 +266,7 @@ public class DefaultContractResolver : IContractResolver
     {
         if (memberInfo is PropertyInfo propertyInfo)
         {
-            if (propertyInfo.PropertyType.IsGenericType() && propertyInfo.PropertyType.GetGenericTypeDefinition().FullName == "System.Data.Objects.DataClasses.EntityReference`1")
+            if (propertyInfo.PropertyType.IsGenericType && propertyInfo.PropertyType.GetGenericTypeDefinition().FullName == "System.Data.Objects.DataClasses.EntityReference`1")
             {
                 return false;
             }
@@ -342,7 +342,7 @@ public class DefaultContractResolver : IContractResolver
                     contract.CreatorParameters.AddRange(CreateConstructorParameters(constructor, contract.Properties));
                 }
             }
-            else if (contract.NonNullableUnderlyingType.IsValueType())
+            else if (contract.NonNullableUnderlyingType.IsValueType)
             {
                 // value types always have default constructor
                 // check whether there is a constructor that matches with non-writable properties on value type
@@ -389,7 +389,7 @@ public class DefaultContractResolver : IContractResolver
 
         var extensionDataMember = members.LastOrDefault(m =>
         {
-            var memberType = m.MemberType();
+            var memberType = m.MemberType;
             if (memberType != MemberTypes.Property && memberType != MemberTypes.Field)
             {
                 return false;
@@ -738,11 +738,11 @@ public class DefaultContractResolver : IContractResolver
         contract.InternalConverter = JsonSerializer.GetMatchingConverter(BuiltInConverters, contract.NonNullableUnderlyingType);
 
         if (contract.IsInstantiable
-            && (ReflectionUtils.HasDefaultConstructor(contract.CreatedType, true) || contract.CreatedType.IsValueType()))
+            && (ReflectionUtils.HasDefaultConstructor(contract.CreatedType, true) || contract.CreatedType.IsValueType))
         {
             contract.DefaultCreator = GetDefaultCreator(contract.CreatedType);
 
-            contract.DefaultCreatorNonPublic = !contract.CreatedType.IsValueType() &&
+            contract.DefaultCreatorNonPublic = !contract.CreatedType.IsValueType &&
                                                ReflectionUtils.GetDefaultConstructor(contract.CreatedType) == null;
         }
 
@@ -853,7 +853,7 @@ public class DefaultContractResolver : IContractResolver
 
     private static bool IsConcurrentOrObservableCollection(Type t)
     {
-        if (t.IsGenericType())
+        if (t.IsGenericType)
         {
             var definition = t.GetGenericTypeDefinition();
 
@@ -910,7 +910,7 @@ public class DefaultContractResolver : IContractResolver
         while (current != null && current != typeof(object))
         {
             ret.Add(current);
-            current = current.BaseType();
+            current = current.BaseType;
         }
 
         // Return the class list in order of simple => complex
@@ -1246,7 +1246,7 @@ public class DefaultContractResolver : IContractResolver
 
     internal static string GetClrTypeFullName(Type type)
     {
-        if (type.IsGenericTypeDefinition() || !type.ContainsGenericParameters())
+        if (type.IsGenericTypeDefinition || !type.ContainsGenericParameters)
         {
             return type.FullName;
         }

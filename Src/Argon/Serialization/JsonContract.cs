@@ -107,8 +107,8 @@ public abstract class JsonContract
             ValidationUtils.ArgumentNotNull(value, nameof(value));
             _createdType = value;
 
-            IsSealed = _createdType.IsSealed();
-            IsInstantiable = !(_createdType.IsInterface() || _createdType.IsAbstract());
+            IsSealed = _createdType.IsSealed;
+            IsInstantiable = !(_createdType.IsInterface || _createdType.IsAbstract);
         }
     }
 
@@ -245,7 +245,7 @@ public abstract class JsonContract
         _createdType = CreatedType = NonNullableUnderlyingType;
 
         IsConvertable = ConvertUtils.IsConvertible(NonNullableUnderlyingType);
-        IsEnum = NonNullableUnderlyingType.IsEnum();
+        IsEnum = NonNullableUnderlyingType.IsEnum;
 
         InternalReadType = ReadType.Read;
     }

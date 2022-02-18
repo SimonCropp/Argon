@@ -90,7 +90,7 @@ internal static class JsonTypeReflector
                 return result;
             }
 
-            currentType = currentType.BaseType();
+            currentType = currentType.BaseType;
         }
 
         return null;
@@ -101,7 +101,7 @@ internal static class JsonTypeReflector
         // DataMemberAttribute does not have inheritance
 
         // can't override a field
-        if (memberInfo.MemberType() == MemberTypes.Field)
+        if (memberInfo.MemberType == MemberTypes.Field)
         {
             return CachedAttributeGetter<DataMemberAttribute>.GetAttribute(memberInfo);
         }
@@ -123,7 +123,7 @@ internal static class JsonTypeReflector
                         result = CachedAttributeGetter<DataMemberAttribute>.GetAttribute(baseProperty);
                     }
 
-                    currentType = currentType.BaseType();
+                    currentType = currentType.BaseType;
                 }
             }
         }

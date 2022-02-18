@@ -100,7 +100,7 @@ internal static class ImmutableCollectionsUtils
 
     internal static bool TryBuildImmutableForArrayContract(Type underlyingType, Type collectionItemType, [NotNullWhen(true)]out Type? createdType, [NotNullWhen(true)]out ObjectConstructor<object>? parameterizedCreator)
     {
-        if (underlyingType.IsGenericType())
+        if (underlyingType.IsGenericType)
         {
             var underlyingTypeDefinition = underlyingType.GetGenericTypeDefinition();
             var name = underlyingTypeDefinition.FullName;
@@ -108,8 +108,8 @@ internal static class ImmutableCollectionsUtils
             var definition = ArrayContractImmutableCollectionDefinitions.FirstOrDefault(d => d.ContractTypeName == name);
             if (definition != null)
             {
-                var createdTypeDefinition = underlyingTypeDefinition.Assembly().GetType(definition.CreatedTypeName);
-                var builderTypeDefinition = underlyingTypeDefinition.Assembly().GetType(definition.BuilderTypeName);
+                var createdTypeDefinition = underlyingTypeDefinition.Assembly.GetType(definition.CreatedTypeName);
+                var builderTypeDefinition = underlyingTypeDefinition.Assembly.GetType(definition.BuilderTypeName);
 
                 if (createdTypeDefinition != null && builderTypeDefinition != null)
                 {
@@ -132,7 +132,7 @@ internal static class ImmutableCollectionsUtils
 
     internal static bool TryBuildImmutableForDictionaryContract(Type underlyingType, Type keyItemType, Type valueItemType, [NotNullWhen(true)]out Type? createdType, [NotNullWhen(true)]out ObjectConstructor<object>? parameterizedCreator)
     {
-        if (underlyingType.IsGenericType())
+        if (underlyingType.IsGenericType)
         {
             var underlyingTypeDefinition = underlyingType.GetGenericTypeDefinition();
             var name = underlyingTypeDefinition.FullName;
@@ -140,8 +140,8 @@ internal static class ImmutableCollectionsUtils
             var definition = DictionaryContractImmutableCollectionDefinitions.FirstOrDefault(d => d.ContractTypeName == name);
             if (definition != null)
             {
-                var createdTypeDefinition = underlyingTypeDefinition.Assembly().GetType(definition.CreatedTypeName);
-                var builderTypeDefinition = underlyingTypeDefinition.Assembly().GetType(definition.BuilderTypeName);
+                var createdTypeDefinition = underlyingTypeDefinition.Assembly.GetType(definition.CreatedTypeName);
+                var builderTypeDefinition = underlyingTypeDefinition.Assembly.GetType(definition.BuilderTypeName);
 
                 if (createdTypeDefinition != null && builderTypeDefinition != null)
                 {
@@ -149,7 +149,7 @@ internal static class ImmutableCollectionsUtils
                     {
                         ParameterInfo[] parameters = m.GetParameters();
 
-                        return m.Name == "CreateRange" && parameters.Length == 1 && parameters[0].ParameterType.IsGenericType() && parameters[0].ParameterType.GetGenericTypeDefinition() == typeof(IEnumerable<>);
+                        return m.Name == "CreateRange" && parameters.Length == 1 && parameters[0].ParameterType.IsGenericType && parameters[0].ParameterType.GetGenericTypeDefinition() == typeof(IEnumerable<>);
                     });
                     if (mb != null)
                     {

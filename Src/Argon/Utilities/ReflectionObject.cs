@@ -98,7 +98,7 @@ internal class ReflectionObject
 
             var reflectionMember = new ReflectionMember();
 
-            switch (member.MemberType())
+            switch (member.MemberType)
             {
                 case MemberTypes.Field:
                 case MemberTypes.Property:
@@ -130,7 +130,7 @@ internal class ReflectionObject
                     }
                     break;
                 default:
-                    throw new ArgumentException("Unexpected member type '{0}' for member '{1}'.".FormatWith(CultureInfo.InvariantCulture, member.MemberType(), member.Name));
+                    throw new ArgumentException("Unexpected member type '{0}' for member '{1}'.".FormatWith(CultureInfo.InvariantCulture, member.MemberType, member.Name));
             }
 
             reflectionMember.MemberType = ReflectionUtils.GetMemberUnderlyingType(member);
