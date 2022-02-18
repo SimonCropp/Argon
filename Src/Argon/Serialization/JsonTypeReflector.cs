@@ -233,20 +233,20 @@ static class JsonTypeReflector
                     }
                     else
                     {
-                        throw new JsonException("No matching parameterized constructor found for '{0}'.".FormatWith(CultureInfo.InvariantCulture, type));
+                        throw new JsonException($"No matching parameterized constructor found for '{type}'.");
                     }
                 }
 
                 if (defaultConstructor == null)
                 {
-                    throw new JsonException("No parameterless constructor defined for '{0}'.".FormatWith(CultureInfo.InvariantCulture, type));
+                    throw new JsonException($"No parameterless constructor defined for '{type}'.");
                 }
 
                 return defaultConstructor();
             }
             catch (Exception ex)
             {
-                throw new JsonException("Error creating '{0}'.".FormatWith(CultureInfo.InvariantCulture, type), ex);
+                throw new JsonException($"Error creating '{type}'.", ex);
             }
         };
     }

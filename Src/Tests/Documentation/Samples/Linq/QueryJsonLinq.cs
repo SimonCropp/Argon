@@ -83,7 +83,7 @@ public class QueryJsonLinq : TestFixtureBase
 
         foreach (var c in categories)
         {
-            Console.WriteLine(c.Category + " - Count: " + c.Count);
+            Console.WriteLine($"{c.Category} - Count: {c.Count}");
         }
         //Json.NET - Count: 2
         //LINQ - Count: 1

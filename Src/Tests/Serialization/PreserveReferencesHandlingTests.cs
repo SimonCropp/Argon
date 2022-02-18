@@ -103,30 +103,30 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 
         var s = JsonConvert.SerializeObject(c1, settings);
 
-        XUnitAssert.AreEqualNormalized(@"{
+        XUnitAssert.AreEqualNormalized($@"{{
   ""$id"": ""1"",
   ""$type"": ""Argon.Tests.Serialization.PreserveReferencesHandlingTests+Container, Tests"",
-  ""ListA"": {
+  ""ListA"": {{
     ""$id"": ""2"",
-    ""$type"": """ + ReflectionUtils.GetTypeName(typeof(List<ContentA>), 0, DefaultSerializationBinder.Instance) + @""",
+    ""$type"": ""{ReflectionUtils.GetTypeName(typeof(List<ContentA>), 0, DefaultSerializationBinder.Instance)}"",
     ""$values"": [
-      {
+      {{
         ""$id"": ""3"",
         ""$type"": ""Argon.Tests.Serialization.PreserveReferencesHandlingTests+ContentB, Tests"",
         ""SomeValue"": true
-      }
+      }}
     ]
-  },
-  ""ListB"": {
+  }},
+  ""ListB"": {{
     ""$id"": ""4"",
-    ""$type"": """ + ReflectionUtils.GetTypeName(typeof(List<ContentA>), 0, DefaultSerializationBinder.Instance) + @""",
+    ""$type"": ""{ReflectionUtils.GetTypeName(typeof(List<ContentA>), 0, DefaultSerializationBinder.Instance)}"",
     ""$values"": [
-      {
+      {{
         ""$ref"": ""3""
-      }
+      }}
     ]
-  }
-}", s);
+  }}
+}}", s);
 
         var c2 = JsonConvert.DeserializeObject<Container>(s, settings);
 
@@ -280,7 +280,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         circularList.Add(new CircularList { null });
         circularList.Add(new CircularList { new() { circularList } });
 
-        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.SerializeObject(circularList, Formatting.Indented); }, "Self referencing loop detected with type '" + classRef + "'. Path '[2][0]'.");
+        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.SerializeObject(circularList, Formatting.Indented); }, $"Self referencing loop detected with type '{classRef}'. Path '[2][0]'.");
     }
 
     [Fact]
@@ -433,7 +433,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         circularDictionary.Add("other", new CircularDictionary { { "blah", null } });
         circularDictionary.Add("self", circularDictionary);
 
-        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.SerializeObject(circularDictionary, Formatting.Indented); }, @"Self referencing loop detected with type '" + classRef + "'. Path ''.");
+        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.SerializeObject(circularDictionary, Formatting.Indented); }, $@"Self referencing loop detected with type '{classRef}'. Path ''.");
     }
 
     [Fact]
@@ -1025,7 +1025,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 
         public override string ToString()
         {
-            return string.Format("SecretType: {0}, Login: {1}", secretType, Login);
+            return $"SecretType: {secretType}, Login: {Login}";
         }
         #endregion
     }

@@ -336,7 +336,7 @@ public abstract partial class JsonReader : IDisposable
             if (_maxDepth != null && Depth + 1 > _maxDepth && !_hasExceededMaxDepth)
             {
                 _hasExceededMaxDepth = true;
-                throw JsonReaderException.Create(this, "The reader's MaxDepth of {0} has been exceeded.".FormatWith(CultureInfo.InvariantCulture, _maxDepth));
+                throw JsonReaderException.Create(this, $"The reader's MaxDepth of {_maxDepth} has been exceeded.");
             }
         }
     }
@@ -410,7 +410,7 @@ public abstract partial class JsonReader : IDisposable
                     catch (Exception ex)
                     {
                         // handle error for large integer overflow exceptions
-                        throw JsonReaderException.Create(this, "Could not convert to integer: {0}.".FormatWith(CultureInfo.InvariantCulture, v), ex);
+                        throw JsonReaderException.Create(this, $"Could not convert to integer: {v}.", ex);
                     }
                 }
 
@@ -421,7 +421,7 @@ public abstract partial class JsonReader : IDisposable
                 return ReadInt32String(s);
         }
 
-        throw JsonReaderException.Create(this, "Error reading integer. Unexpected token: {0}.".FormatWith(CultureInfo.InvariantCulture, t));
+        throw JsonReaderException.Create(this, $"Error reading integer. Unexpected token: {t}.");
     }
 
     internal int? ReadInt32String(string? s)
@@ -440,7 +440,7 @@ public abstract partial class JsonReader : IDisposable
         else
         {
             SetToken(JsonToken.String, s, false);
-            throw JsonReaderException.Create(this, "Could not convert string to integer: {0}.".FormatWith(CultureInfo.InvariantCulture, s));
+            throw JsonReaderException.Create(this, $"Could not convert string to integer: {s}.");
         }
     }
 
@@ -482,7 +482,7 @@ public abstract partial class JsonReader : IDisposable
             }
         }
 
-        throw JsonReaderException.Create(this, "Error reading string. Unexpected token: {0}.".FormatWith(CultureInfo.InvariantCulture, t));
+        throw JsonReaderException.Create(this, $"Error reading string. Unexpected token: {t}.");
     }
 
     /// <summary>
@@ -504,7 +504,7 @@ public abstract partial class JsonReader : IDisposable
 
                 if (TokenType != JsonToken.EndObject)
                 {
-                    throw JsonReaderException.Create(this, "Error reading bytes. Unexpected token: {0}.".FormatWith(CultureInfo.InvariantCulture, TokenType));
+                    throw JsonReaderException.Create(this, $"Error reading bytes. Unexpected token: {TokenType}.");
                 }
 
                 SetToken(JsonToken.Bytes, data, false);
@@ -551,7 +551,7 @@ public abstract partial class JsonReader : IDisposable
                 return ReadArrayIntoByteArray();
         }
 
-        throw JsonReaderException.Create(this, "Error reading bytes. Unexpected token: {0}.".FormatWith(CultureInfo.InvariantCulture, t));
+        throw JsonReaderException.Create(this, $"Error reading bytes. Unexpected token: {t}.");
     }
 
     internal byte[] ReadArrayIntoByteArray()
@@ -588,7 +588,7 @@ public abstract partial class JsonReader : IDisposable
             case JsonToken.Comment:
                 return false;
             default:
-                throw JsonReaderException.Create(this, "Unexpected token when reading bytes: {0}.".FormatWith(CultureInfo.InvariantCulture, TokenType));
+                throw JsonReaderException.Create(this, $"Unexpected token when reading bytes: {TokenType}.");
         }
     }
 
@@ -630,7 +630,7 @@ public abstract partial class JsonReader : IDisposable
                 return ReadDoubleString((string?)Value);
         }
 
-        throw JsonReaderException.Create(this, "Error reading double. Unexpected token: {0}.".FormatWith(CultureInfo.InvariantCulture, t));
+        throw JsonReaderException.Create(this, $"Error reading double. Unexpected token: {t}.");
     }
 
     internal double? ReadDoubleString(string? s)
@@ -649,7 +649,7 @@ public abstract partial class JsonReader : IDisposable
         else
         {
             SetToken(JsonToken.String, s, false);
-            throw JsonReaderException.Create(this, "Could not convert string to double: {0}.".FormatWith(CultureInfo.InvariantCulture, s));
+            throw JsonReaderException.Create(this, $"Could not convert string to double: {s}.");
         }
     }
 
@@ -687,7 +687,7 @@ public abstract partial class JsonReader : IDisposable
                 return (bool)Value!;
         }
 
-        throw JsonReaderException.Create(this, "Error reading boolean. Unexpected token: {0}.".FormatWith(CultureInfo.InvariantCulture, t));
+        throw JsonReaderException.Create(this, $"Error reading boolean. Unexpected token: {t}.");
     }
 
     internal bool? ReadBooleanString(string? s)
@@ -706,7 +706,7 @@ public abstract partial class JsonReader : IDisposable
         else
         {
             SetToken(JsonToken.String, s, false);
-            throw JsonReaderException.Create(this, "Could not convert string to boolean: {0}.".FormatWith(CultureInfo.InvariantCulture, s));
+            throw JsonReaderException.Create(this, $"Could not convert string to boolean: {s}.");
         }
     }
 
@@ -745,7 +745,7 @@ public abstract partial class JsonReader : IDisposable
                     catch (Exception ex)
                     {
                         // handle error for large integer overflow exceptions
-                        throw JsonReaderException.Create(this, "Could not convert to decimal: {0}.".FormatWith(CultureInfo.InvariantCulture, v), ex);
+                        throw JsonReaderException.Create(this, $"Could not convert to decimal: {v}.", ex);
                     }
                 }
 
@@ -755,7 +755,7 @@ public abstract partial class JsonReader : IDisposable
                 return ReadDecimalString((string?)Value);
         }
 
-        throw JsonReaderException.Create(this, "Error reading decimal. Unexpected token: {0}.".FormatWith(CultureInfo.InvariantCulture, t));
+        throw JsonReaderException.Create(this, $"Error reading decimal. Unexpected token: {t}.");
     }
 
     internal decimal? ReadDecimalString(string? s)
@@ -780,7 +780,7 @@ public abstract partial class JsonReader : IDisposable
         else
         {
             SetToken(JsonToken.String, s, false);
-            throw JsonReaderException.Create(this, "Could not convert string to decimal: {0}.".FormatWith(CultureInfo.InvariantCulture, s));
+            throw JsonReaderException.Create(this, $"Could not convert string to decimal: {s}.");
         }
     }
 
@@ -807,7 +807,7 @@ public abstract partial class JsonReader : IDisposable
                 return ReadDateTimeString((string?)Value);
         }
 
-        throw JsonReaderException.Create(this, "Error reading date. Unexpected token: {0}.".FormatWith(CultureInfo.InvariantCulture, TokenType));
+        throw JsonReaderException.Create(this, $"Error reading date. Unexpected token: {TokenType}.");
     }
 
     internal DateTime? ReadDateTimeString(string? s)
@@ -832,7 +832,7 @@ public abstract partial class JsonReader : IDisposable
             return dt;
         }
 
-        throw JsonReaderException.Create(this, "Could not convert string to DateTime: {0}.".FormatWith(CultureInfo.InvariantCulture, s));
+        throw JsonReaderException.Create(this, $"Could not convert string to DateTime: {s}.");
     }
 
     /// <summary>
@@ -860,7 +860,7 @@ public abstract partial class JsonReader : IDisposable
                 var s = (string?)Value;
                 return ReadDateTimeOffsetString(s);
             default:
-                throw JsonReaderException.Create(this, "Error reading date. Unexpected token: {0}.".FormatWith(CultureInfo.InvariantCulture, t));
+                throw JsonReaderException.Create(this, $"Error reading date. Unexpected token: {t}.");
         }
     }
 
@@ -885,7 +885,7 @@ public abstract partial class JsonReader : IDisposable
         }
 
         SetToken(JsonToken.String, s, false);
-        throw JsonReaderException.Create(this, "Could not convert string to DateTimeOffset: {0}.".FormatWith(CultureInfo.InvariantCulture, s));
+        throw JsonReaderException.Create(this, $"Could not convert string to DateTimeOffset: {s}.");
     }
 
     internal void ReaderReadAndAssert()
@@ -917,7 +917,7 @@ public abstract partial class JsonReader : IDisposable
             }
         }
 
-        throw JsonReaderException.Create(this, "Error reading bytes. Unexpected token: {0}.".FormatWith(CultureInfo.InvariantCulture, JsonToken.StartObject));
+        throw JsonReaderException.Create(this, $"Error reading bytes. Unexpected token: {JsonToken.StartObject}.");
     }
 
     /// <summary>
@@ -1043,7 +1043,7 @@ public abstract partial class JsonReader : IDisposable
 
         if (GetTypeForCloseToken(endToken) != currentObject)
         {
-            throw JsonReaderException.Create(this, "JsonToken {0} is not valid for closing JsonType {1}.".FormatWith(CultureInfo.InvariantCulture, endToken, currentObject));
+            throw JsonReaderException.Create(this, $"JsonToken {endToken} is not valid for closing JsonType {currentObject}.");
         }
 
         if (Peek() != JsonContainerType.None || SupportMultipleContent)
@@ -1078,7 +1078,7 @@ public abstract partial class JsonReader : IDisposable
                 SetFinished();
                 break;
             default:
-                throw JsonReaderException.Create(this, "While setting the reader state back to current object an unexpected JsonType was encountered: {0}".FormatWith(CultureInfo.InvariantCulture, currentObject));
+                throw JsonReaderException.Create(this, $"While setting the reader state back to current object an unexpected JsonType was encountered: {currentObject}");
         }
     }
 
@@ -1098,7 +1098,7 @@ public abstract partial class JsonReader : IDisposable
             case JsonToken.EndConstructor:
                 return JsonContainerType.Constructor;
             default:
-                throw JsonReaderException.Create(this, "Not a valid close JsonToken: {0}".FormatWith(CultureInfo.InvariantCulture, token));
+                throw JsonReaderException.Create(this, $"Not a valid close JsonToken: {token}");
         }
     }
 
@@ -1169,7 +1169,7 @@ public abstract partial class JsonReader : IDisposable
                 var result = ReadAndMoveToContent();
                 if (TokenType == JsonToken.Undefined)
                 {
-                    throw JsonReaderException.Create(this, "An undefined token is not a valid {0}.".FormatWith(CultureInfo.InvariantCulture, contract?.UnderlyingType ?? typeof(long)));
+                    throw JsonReaderException.Create(this, $"An undefined token is not a valid {contract?.UnderlyingType ?? typeof(long)}.");
                 }
                 return result;
             case ReadType.ReadAsDecimal:

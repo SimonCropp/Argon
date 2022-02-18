@@ -88,7 +88,7 @@ public class SerializationEventTestObject
     [OnError]
     internal void OnErrorMethod(StreamingContext context, ErrorContext errorContext)
     {
-        Member5 = "Error message for member " + errorContext.Member + " = " + errorContext.Error.Message;
+        Member5 = $"Error message for member {errorContext.Member} = {errorContext.Error.Message}";
         errorContext.Handled = true;
     }
 }

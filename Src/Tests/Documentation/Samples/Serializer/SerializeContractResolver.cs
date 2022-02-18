@@ -35,7 +35,7 @@ public class SerializeContractResolver : TestFixtureBase
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
-        public string FullName => FirstName + " " + LastName;
+        public string FullName => $"{FirstName} {LastName}";
     }
     #endregion
 

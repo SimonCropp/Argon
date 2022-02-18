@@ -287,7 +287,7 @@ public static class JsonConvert
             return text;
         }
 
-        return text + ".0";
+        return $"{text}.0";
     }
 
     static string EnsureDecimalPlace(string text)
@@ -297,7 +297,7 @@ public static class JsonConvert
             return text;
         }
 
-        return text + ".0";
+        return $"{text}.0";
     }
 
     /// <summary>
@@ -482,7 +482,7 @@ public static class JsonConvert
                 return ToStringInternal((BigInteger)value);
         }
 
-        throw new ArgumentException("Unsupported type: {0}. Use the JsonSerializer class to get the object's JSON representation.".FormatWith(CultureInfo.InvariantCulture, value.GetType()));
+        throw new ArgumentException($"Unsupported type: {value.GetType()}. Use the JsonSerializer class to get the object's JSON representation.");
     }
 
     #region Serialize

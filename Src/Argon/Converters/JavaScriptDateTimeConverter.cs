@@ -74,7 +74,7 @@ public class JavaScriptDateTimeConverter : DateTimeConverterBase
         {
             if (!ReflectionUtils.IsNullable(objectType))
             {
-                throw JsonSerializationException.Create(reader, "Cannot convert null value to {0}.".FormatWith(CultureInfo.InvariantCulture, objectType));
+                throw JsonSerializationException.Create(reader, $"Cannot convert null value to {objectType}.");
             }
 
             return null;
@@ -82,7 +82,7 @@ public class JavaScriptDateTimeConverter : DateTimeConverterBase
 
         if (reader.TokenType != JsonToken.StartConstructor || !string.Equals(reader.Value?.ToString(), "Date", StringComparison.Ordinal))
         {
-            throw JsonSerializationException.Create(reader, "Unexpected token or value when parsing date. Token: {0}, Value: {1}".FormatWith(CultureInfo.InvariantCulture, reader.TokenType, reader.Value));
+            throw JsonSerializationException.Create(reader, $"Unexpected token or value when parsing date. Token: {reader.TokenType}, Value: {reader.Value}");
         }
 
         if (!JavaScriptUtils.TryGetDateFromConstructorJson(reader, out var d, out var errorMessage))

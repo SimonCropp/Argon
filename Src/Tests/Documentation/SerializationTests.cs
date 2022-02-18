@@ -1052,7 +1052,7 @@ public class SerializationTests : TestFixtureBase
 
         var deserialized = JsonConvert.DeserializeObject<string[,]>(json);
 
-        Console.WriteLine(deserialized[3, 0] + ", " + deserialized[3, 1]);
+        Console.WriteLine($"{deserialized[3, 0]}, {deserialized[3, 1]}");
         // Han, Leia
 
         Assert.Equal("Han", deserialized[3, 0]);

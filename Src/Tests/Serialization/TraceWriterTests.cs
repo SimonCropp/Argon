@@ -213,7 +213,7 @@ Argon Error: 0 : Error!
 
         Assert.Equal("$('#element')", json);
 
-        Assert.True(traceWriter.ToString().EndsWith("Verbose Serialized JSON: " + Environment.NewLine + "$('#element')", StringComparison.Ordinal));
+        Assert.True(traceWriter.ToString().EndsWith($"Verbose Serialized JSON: {Environment.NewLine}$('#element')", StringComparison.Ordinal));
     }
 
     [Fact]
@@ -734,12 +734,12 @@ Argon Error: 0 : Error!
         });
 
         Assert.Equal("Started serializing System.Collections.Generic.List`1[System.Object]. Path ''.", traceWriter.TraceRecords[0].Message);
-        Assert.Equal("Writing type name '" + ReflectionUtils.GetTypeName(typeof(List<object>), 0, DefaultSerializationBinder.Instance) + "' for System.Collections.Generic.List`1[System.Object]. Path ''.", traceWriter.TraceRecords[1].Message);
+        Assert.Equal($"Writing type name '{ReflectionUtils.GetTypeName(typeof(List<object>), 0, DefaultSerializationBinder.Instance)}' for System.Collections.Generic.List`1[System.Object]. Path ''.", traceWriter.TraceRecords[1].Message);
         Assert.Equal("Started serializing System.Collections.Generic.Dictionary`2[System.String,System.String]. Path '$values'.", traceWriter.TraceRecords[2].Message);
-        Assert.Equal("Writing type name '" + ReflectionUtils.GetTypeName(typeof(Dictionary<string, string>), 0, DefaultSerializationBinder.Instance) + "' for System.Collections.Generic.Dictionary`2[System.String,System.String]. Path '$values[0]'.", traceWriter.TraceRecords[3].Message);
+        Assert.Equal($"Writing type name '{ReflectionUtils.GetTypeName(typeof(Dictionary<string, string>), 0, DefaultSerializationBinder.Instance)}' for System.Collections.Generic.Dictionary`2[System.String,System.String]. Path '$values[0]'.", traceWriter.TraceRecords[3].Message);
         Assert.Equal("Finished serializing System.Collections.Generic.Dictionary`2[System.String,System.String]. Path '$values[0]'.", traceWriter.TraceRecords[4].Message);
         Assert.Equal("Started serializing Argon.Tests.TestObjects.VersionOld. Path '$values[0]'.", traceWriter.TraceRecords[5].Message);
-        Assert.Equal("Writing type name '" + ReflectionUtils.GetTypeName(typeof(VersionOld), 0, DefaultSerializationBinder.Instance) + "' for Argon.Tests.TestObjects.VersionOld. Path '$values[1]'.", traceWriter.TraceRecords[6].Message);
+        Assert.Equal($"Writing type name '{ReflectionUtils.GetTypeName(typeof(VersionOld), 0, DefaultSerializationBinder.Instance)}' for Argon.Tests.TestObjects.VersionOld. Path '$values[1]'.", traceWriter.TraceRecords[6].Message);
         Assert.Equal("Finished serializing Argon.Tests.TestObjects.VersionOld. Path '$values[1]'.", traceWriter.TraceRecords[7].Message);
         Assert.Equal("Finished serializing System.Collections.Generic.List`1[System.Object]. Path ''.", traceWriter.TraceRecords[8].Message);
     }
@@ -1074,7 +1074,7 @@ Argon Error: 0 : Error!
   ""Prop1"": 1
 }";
 
-        XUnitAssert.AreEqualNormalized("Serialized JSON: " + Environment.NewLine + json, traceWriter.GetSerializedJsonMessage());
+        XUnitAssert.AreEqualNormalized($"Serialized JSON: {Environment.NewLine}{json}", traceWriter.GetSerializedJsonMessage());
     }
 
     [Fact]
@@ -1095,7 +1095,7 @@ Argon Error: 0 : Error!
   ""Prop1"": 1
 }";
 
-        XUnitAssert.AreEqualNormalized("Serialized JSON: " + Environment.NewLine + json, traceWriter.GetSerializedJsonMessage());
+        XUnitAssert.AreEqualNormalized($"Serialized JSON: {Environment.NewLine}{json}", traceWriter.GetSerializedJsonMessage());
     }
 
     [Fact]
@@ -1214,7 +1214,7 @@ Argon Error: 0 : Error!
   ]
 }";
 
-        XUnitAssert.AreEqualNormalized("Serialized JSON: " + Environment.NewLine + json, traceWriter.GetSerializedJsonMessage());
+        XUnitAssert.AreEqualNormalized($"Serialized JSON: {Environment.NewLine}{json}", traceWriter.GetSerializedJsonMessage());
     }
 
     [Fact]
@@ -1327,7 +1327,7 @@ Argon Error: 0 : Error!
 
         traceReader.Close();
 
-        XUnitAssert.AreEqualNormalized("Deserialized JSON: " + Environment.NewLine + json, traceReader.GetDeserializedJsonMessage());
+        XUnitAssert.AreEqualNormalized($"Deserialized JSON: {Environment.NewLine}{json}", traceReader.GetDeserializedJsonMessage());
     }
 }
 
@@ -1339,7 +1339,7 @@ public class TraceRecord
 
     public override string ToString()
     {
-        return Level + " - " + Message;
+        return $"{Level} - {Message}";
     }
 }
 

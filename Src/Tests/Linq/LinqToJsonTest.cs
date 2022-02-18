@@ -798,7 +798,7 @@ keyword such as type of business.""
         // create JObject directly from the Post
         var o = JObject.FromObject(p);
 
-        o["Title"] = o["Title"] + " - Super effective!";
+        o["Title"] = $"{o["Title"]} - Super effective!";
 
         var json = o.ToString();
         // {

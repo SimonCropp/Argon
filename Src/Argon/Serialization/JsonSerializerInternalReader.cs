@@ -63,7 +63,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             }
             else
             {
-                throw JsonSerializationException.Create(reader, "Cannot populate JSON array onto type '{0}'.".FormatWith(CultureInfo.InvariantCulture, objectType));
+                throw JsonSerializationException.Create(reader, $"Cannot populate JSON array onto type '{objectType}'.");
             }
         }
         else if (reader.TokenType == JsonToken.StartObject)
@@ -91,12 +91,12 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             }
             else
             {
-                throw JsonSerializationException.Create(reader, "Cannot populate JSON object onto type '{0}'.".FormatWith(CultureInfo.InvariantCulture, objectType));
+                throw JsonSerializationException.Create(reader, $"Cannot populate JSON object onto type '{objectType}'.");
             }
         }
         else
         {
-            throw JsonSerializationException.Create(reader, "Unexpected initial token '{0}' when populating object. Expected JSON object or array.".FormatWith(CultureInfo.InvariantCulture, reader.TokenType));
+            throw JsonSerializationException.Create(reader, $"Unexpected initial token '{reader.TokenType}' when populating object. Expected JSON object or array.");
         }
     }
 
@@ -132,7 +132,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             {
                 if (contract is {IsNullable: false})
                 {
-                    throw JsonSerializationException.Create(reader, "No JSON content found and type '{0}' is not nullable.".FormatWith(CultureInfo.InvariantCulture, contract.UnderlyingType));
+                    throw JsonSerializationException.Create(reader, $"No JSON content found and type '{contract.UnderlyingType}' is not nullable.");
                 }
 
                 return null;
@@ -218,8 +218,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         {
             if (!contract.UnderlyingType.IsAssignableFrom(token.GetType()))
             {
-                throw JsonSerializationException.Create(reader, "Deserialized JSON type '{0}' is not compatible with expected type '{1}'."
-                    .FormatWith(CultureInfo.InvariantCulture, token.GetType().FullName, contract.UnderlyingType.FullName));
+                throw JsonSerializationException.Create(reader, $"Deserialized JSON type '{token.GetType().FullName}' is not compatible with expected type '{contract.UnderlyingType.FullName}'.");
             }
         }
 
@@ -325,7 +324,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     // ignore
                     break;
                 default:
-                    throw JsonSerializationException.Create(reader, "Unexpected token while deserializing object: " + reader.TokenType);
+                    throw JsonSerializationException.Create(reader, $"Unexpected token while deserializing object: {reader.TokenType}");
             }
         } while (reader.Read());
 
@@ -485,7 +484,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     // without needing the $value property
                     if (reader.TokenType == JsonToken.StartObject)
                     {
-                        throw JsonSerializationException.Create(reader, "Unexpected token when deserializing primitive value: " + reader.TokenType);
+                        throw JsonSerializationException.Create(reader, $"Unexpected token when deserializing primitive value: {reader.TokenType}");
                     }
 
                     var value = CreateValueInternal(reader, resolvedObjectType, primitiveContract, member, null, null, existingValue);
@@ -508,22 +507,22 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     {
                         if (id != null)
                         {
-                            throw JsonSerializationException.Create(reader, "Cannot preserve reference to readonly dictionary, or dictionary created from a non-default constructor: {0}.".FormatWith(CultureInfo.InvariantCulture, contract.UnderlyingType));
+                            throw JsonSerializationException.Create(reader, $"Cannot preserve reference to readonly dictionary, or dictionary created from a non-default constructor: {contract.UnderlyingType}.");
                         }
 
                         if (contract.OnSerializingCallbacks.Count > 0)
                         {
-                            throw JsonSerializationException.Create(reader, "Cannot call OnSerializing on readonly dictionary, or dictionary created from a non-default constructor: {0}.".FormatWith(CultureInfo.InvariantCulture, contract.UnderlyingType));
+                            throw JsonSerializationException.Create(reader, $"Cannot call OnSerializing on readonly dictionary, or dictionary created from a non-default constructor: {contract.UnderlyingType}.");
                         }
 
                         if (contract.OnErrorCallbacks.Count > 0)
                         {
-                            throw JsonSerializationException.Create(reader, "Cannot call OnError on readonly list, or dictionary created from a non-default constructor: {0}.".FormatWith(CultureInfo.InvariantCulture, contract.UnderlyingType));
+                            throw JsonSerializationException.Create(reader, $"Cannot call OnError on readonly list, or dictionary created from a non-default constructor: {contract.UnderlyingType}.");
                         }
 
                         if (!dictionaryContract.HasParameterizedCreatorInternal)
                         {
-                            throw JsonSerializationException.Create(reader, "Cannot deserialize readonly or fixed size dictionary: {0}.".FormatWith(CultureInfo.InvariantCulture, contract.UnderlyingType));
+                            throw JsonSerializationException.Create(reader, $"Cannot deserialize readonly or fixed size dictionary: {contract.UnderlyingType}.");
                         }
                     }
 
@@ -557,9 +556,8 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 return CreateISerializable(reader, serializableContract, member, id);
         }
 
-        var message = @"Cannot deserialize the current JSON object (e.g. {{""name"":""value""}}) into type '{0}' because the type requires a {1} to deserialize correctly." + Environment.NewLine +
-                      @"To fix this error either change the JSON to a {1} or change the deserialized type so that it is a normal .NET type (e.g. not a primitive type like integer, not a collection type like an array or List<T>) that can be deserialized from a JSON object. JsonObjectAttribute can also be added to the type to force it to deserialize from a JSON object." + Environment.NewLine;
-        message = message.FormatWith(CultureInfo.InvariantCulture, resolvedObjectType, GetExpectedDescription(contract));
+        var message = $@"Cannot deserialize the current JSON object (e.g. {{{{""name"":""value""}}}}) into type '{{0}}' because the type requires a {{1}} to deserialize correctly.{Environment.NewLine}To fix this error either change the JSON to a {{1}} or change the deserialized type so that it is a normal .NET type (e.g. not a primitive type like integer, not a collection type like an array or List<T>) that can be deserialized from a JSON object. JsonObjectAttribute can also be added to the type to force it to deserialize from a JSON object.{Environment.NewLine}";
+        message = string.Format(message, resolvedObjectType, GetExpectedDescription(contract));
 
         throw JsonSerializationException.Create(reader, message);
     }
@@ -579,7 +577,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 var refToken = refProperty.Value;
                 if (refToken.Type != JTokenType.String && refToken.Type != JTokenType.Null)
                 {
-                    throw JsonSerializationException.Create(refToken, refToken.Path, "JSON reference {0} property must have a string or null value.".FormatWith(CultureInfo.InvariantCulture, JsonTypeReflector.RefPropertyName), null);
+                    throw JsonSerializationException.Create(refToken, refToken.Path, $"JSON reference {JsonTypeReflector.RefPropertyName} property must have a string or null value.", null);
                 }
 
                 var reference = (string?)refProperty;
@@ -589,14 +587,14 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     var additionalContent = refProperty.Next ?? refProperty.Previous;
                     if (additionalContent != null)
                     {
-                        throw JsonSerializationException.Create(additionalContent, additionalContent.Path, "Additional content found in JSON reference object. A JSON reference object should only have a {0} property.".FormatWith(CultureInfo.InvariantCulture, JsonTypeReflector.RefPropertyName), null);
+                        throw JsonSerializationException.Create(additionalContent, additionalContent.Path, $"Additional content found in JSON reference object. A JSON reference object should only have a {JsonTypeReflector.RefPropertyName} property.", null);
                     }
 
                     newValue = Serializer.GetReferenceResolver().ResolveReference(this, reference);
 
                     if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
                     {
-                        TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader, reader.Path, "Resolved object reference '{0}' to {1}.".FormatWith(CultureInfo.InvariantCulture, reference, newValue.GetType())), null);
+                        TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader, reader.Path, $"Resolved object reference '{reference}' to {newValue.GetType()}."), null);
                     }
 
                     reader.Skip();
@@ -675,7 +673,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                         reader.ReadAndAssert();
                         if (reader.TokenType != JsonToken.String && reader.TokenType != JsonToken.Null)
                         {
-                            throw JsonSerializationException.Create(reader, "JSON reference {0} property must have a string or null value.".FormatWith(CultureInfo.InvariantCulture, JsonTypeReflector.RefPropertyName));
+                            throw JsonSerializationException.Create(reader, $"JSON reference {JsonTypeReflector.RefPropertyName} property must have a string or null value.");
                         }
 
                         var reference = reader.Value?.ToString();
@@ -686,14 +684,14 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                         {
                             if (reader.TokenType == JsonToken.PropertyName)
                             {
-                                throw JsonSerializationException.Create(reader, "Additional content found in JSON reference object. A JSON reference object should only have a {0} property.".FormatWith(CultureInfo.InvariantCulture, JsonTypeReflector.RefPropertyName));
+                                throw JsonSerializationException.Create(reader, $"Additional content found in JSON reference object. A JSON reference object should only have a {JsonTypeReflector.RefPropertyName} property.");
                             }
 
                             newValue = Serializer.GetReferenceResolver().ResolveReference(this, reference);
 
                             if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
                             {
-                                TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, "Resolved object reference '{0}' to {1}.".FormatWith(CultureInfo.InvariantCulture, reference, newValue!.GetType())), null);
+                                TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Resolved object reference '{reference}' to {newValue!.GetType()}."), null);
                             }
 
                             return true;
@@ -760,24 +758,24 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             }
             catch (Exception ex)
             {
-                throw JsonSerializationException.Create(reader, "Error resolving type specified in JSON '{0}'.".FormatWith(CultureInfo.InvariantCulture, qualifiedTypeName), ex);
+                throw JsonSerializationException.Create(reader, $"Error resolving type specified in JSON '{qualifiedTypeName}'.", ex);
             }
 
             if (specifiedType == null)
             {
-                throw JsonSerializationException.Create(reader, "Type specified in JSON '{0}' was not resolved.".FormatWith(CultureInfo.InvariantCulture, qualifiedTypeName));
+                throw JsonSerializationException.Create(reader, $"Type specified in JSON '{qualifiedTypeName}' was not resolved.");
             }
 
             if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
             {
-                TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, "Resolved type '{0}' to {1}.".FormatWith(CultureInfo.InvariantCulture, qualifiedTypeName, specifiedType)), null);
+                TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Resolved type '{qualifiedTypeName}' to {specifiedType}."), null);
             }
 
             if (objectType != null
                 && objectType != typeof(IDynamicMetaObjectProvider)
                 && !objectType.IsAssignableFrom(specifiedType))
             {
-                throw JsonSerializationException.Create(reader, "Type specified in JSON '{0}' is not compatible with '{1}'.".FormatWith(CultureInfo.InvariantCulture, specifiedType.AssemblyQualifiedName, objectType.AssemblyQualifiedName));
+                throw JsonSerializationException.Create(reader, $"Type specified in JSON '{specifiedType.AssemblyQualifiedName}' is not compatible with '{objectType.AssemblyQualifiedName}'.");
             }
 
             objectType = specifiedType;
@@ -789,14 +787,13 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
     {
         if (contract == null)
         {
-            throw JsonSerializationException.Create(reader, "Could not resolve type '{0}' to a JsonContract.".FormatWith(CultureInfo.InvariantCulture, objectType));
+            throw JsonSerializationException.Create(reader, $"Could not resolve type '{objectType}' to a JsonContract.");
         }
 
         if (!(contract is JsonArrayContract arrayContract))
         {
-            var message = @"Cannot deserialize the current JSON array (e.g. [1,2,3]) into type '{0}' because the type requires a {1} to deserialize correctly." + Environment.NewLine +
-                          @"To fix this error either change the JSON to a {1} or change the deserialized type to an array or a type that implements a collection interface (e.g. ICollection, IList) like List<T> that can be deserialized from a JSON array. JsonArrayAttribute can also be added to the type to force it to deserialize from a JSON array." + Environment.NewLine;
-            message = message.FormatWith(CultureInfo.InvariantCulture, objectType, GetExpectedDescription(contract));
+            var message = $@"Cannot deserialize the current JSON array (e.g. [1,2,3]) into type '{{0}}' because the type requires a {{1}} to deserialize correctly.{Environment.NewLine}To fix this error either change the JSON to a {{1}} or change the deserialized type to an array or a type that implements a collection interface (e.g. ICollection, IList) like List<T> that can be deserialized from a JSON array. JsonArrayAttribute can also be added to the type to force it to deserialize from a JSON array.{Environment.NewLine}";
+            message = string.Format(message, objectType, GetExpectedDescription(contract));
 
             throw JsonSerializationException.Create(reader, message);
         }
@@ -826,22 +823,22 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             {
                 if (id != null)
                 {
-                    throw JsonSerializationException.Create(reader, "Cannot preserve reference to array or readonly list, or list created from a non-default constructor: {0}.".FormatWith(CultureInfo.InvariantCulture, contract.UnderlyingType));
+                    throw JsonSerializationException.Create(reader, $"Cannot preserve reference to array or readonly list, or list created from a non-default constructor: {contract.UnderlyingType}.");
                 }
 
                 if (contract.OnSerializingCallbacks.Count > 0)
                 {
-                    throw JsonSerializationException.Create(reader, "Cannot call OnSerializing on an array or readonly list, or list created from a non-default constructor: {0}.".FormatWith(CultureInfo.InvariantCulture, contract.UnderlyingType));
+                    throw JsonSerializationException.Create(reader, $"Cannot call OnSerializing on an array or readonly list, or list created from a non-default constructor: {contract.UnderlyingType}.");
                 }
 
                 if (contract.OnErrorCallbacks.Count > 0)
                 {
-                    throw JsonSerializationException.Create(reader, "Cannot call OnError on an array or readonly list, or list created from a non-default constructor: {0}.".FormatWith(CultureInfo.InvariantCulture, contract.UnderlyingType));
+                    throw JsonSerializationException.Create(reader, $"Cannot call OnError on an array or readonly list, or list created from a non-default constructor: {contract.UnderlyingType}.");
                 }
 
                 if (!arrayContract.HasParameterizedCreatorInternal && !arrayContract.IsArray)
                 {
-                    throw JsonSerializationException.Create(reader, "Cannot deserialize readonly or fixed size list: {0}.".FormatWith(CultureInfo.InvariantCulture, contract.UnderlyingType));
+                    throw JsonSerializationException.Create(reader, $"Cannot deserialize readonly or fixed size list: {contract.UnderlyingType}.");
                 }
             }
 
@@ -884,7 +881,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         {
             if (!arrayContract.CanDeserialize)
             {
-                throw JsonSerializationException.Create(reader, "Cannot populate list type {0}.".FormatWith(CultureInfo.InvariantCulture, contract.CreatedType));
+                throw JsonSerializationException.Create(reader, $"Cannot populate list type {contract.CreatedType}.");
             }
 
             value = PopulateList(arrayContract.ShouldCreateWrapper || !(existingValue is IList list) ? arrayContract.CreateWrapper(existingValue) : list, reader, arrayContract, member, id);
@@ -961,7 +958,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             }
             catch (Exception ex)
             {
-                throw JsonSerializationException.Create(reader, "Error converting value {0} to type '{1}'.".FormatWith(CultureInfo.InvariantCulture, MiscellaneousUtils.ToString(value), targetType), ex);
+                throw JsonSerializationException.Create(reader, $"Error converting value {MiscellaneousUtils.ToString(value)} to type '{targetType}'.", ex);
             }
         }
 
@@ -1023,7 +1020,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             {
                 if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
                 {
-                    TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, "IsSpecified for property '{0}' on {1} set to true.".FormatWith(CultureInfo.InvariantCulture, property.PropertyName, property.DeclaringType)), null);
+                    TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"IsSpecified for property '{property.PropertyName}' on {property.DeclaringType} set to true."), null);
                 }
 
                 property.SetIsSpecified(target, true);
@@ -1090,7 +1087,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         {
             if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
             {
-                TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, "Unable to deserialize value to non-writable property '{0}' on {1}.".FormatWith(CultureInfo.InvariantCulture, property.PropertyName, property.DeclaringType)), null);
+                TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Unable to deserialize value to non-writable property '{property.PropertyName}' on {property.DeclaringType}."), null);
             }
 
             return true;
@@ -1136,14 +1133,14 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         {
             if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
             {
-                TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, "Read object reference Id '{0}' for {1}.".FormatWith(CultureInfo.InvariantCulture, id, value.GetType())), null);
+                TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Read object reference Id '{id}' for {value.GetType()}."), null);
             }
 
             Serializer.GetReferenceResolver().AddReference(this, id, value);
         }
         catch (Exception ex)
         {
-            throw JsonSerializationException.Create(reader, "Error reading object reference '{0}'.".FormatWith(CultureInfo.InvariantCulture, id), ex);
+            throw JsonSerializationException.Create(reader, $"Error reading object reference '{id}'.", ex);
         }
     }
 
@@ -1179,7 +1176,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         // some types like non-generic IEnumerable can be serialized but not deserialized
         if (!contract.CanDeserialize)
         {
-            throw JsonSerializationException.Create(reader, "Cannot create and populate list type {0}.".FormatWith(CultureInfo.InvariantCulture, contract.CreatedType));
+            throw JsonSerializationException.Create(reader, $"Cannot create and populate list type {contract.CreatedType}.");
         }
 
         if (contract.OverrideCreator != null)
@@ -1235,10 +1232,10 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         {
             if (!contract.IsInstantiable)
             {
-                throw JsonSerializationException.Create(reader, "Could not create an instance of type {0}. Type is an interface or abstract class and cannot be instantiated.".FormatWith(CultureInfo.InvariantCulture, contract.UnderlyingType));
+                throw JsonSerializationException.Create(reader, $"Could not create an instance of type {contract.UnderlyingType}. Type is an interface or abstract class and cannot be instantiated.");
             }
 
-            throw JsonSerializationException.Create(reader, "Unable to find a constructor to use for type {0}.".FormatWith(CultureInfo.InvariantCulture, contract.UnderlyingType));
+            throw JsonSerializationException.Create(reader, $"Unable to find a constructor to use for type {contract.UnderlyingType}.");
         }
     }
 
@@ -1283,10 +1280,10 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         {
             if (!contract.IsInstantiable)
             {
-                throw JsonSerializationException.Create(reader, "Could not create an instance of type {0}. Type is an interface or abstract class and cannot be instantiated.".FormatWith(CultureInfo.InvariantCulture, contract.UnderlyingType));
+                throw JsonSerializationException.Create(reader, $"Could not create an instance of type {contract.UnderlyingType}. Type is an interface or abstract class and cannot be instantiated.");
             }
 
-            throw JsonSerializationException.Create(reader, "Unable to find a default constructor to use for type {0}.".FormatWith(CultureInfo.InvariantCulture, contract.UnderlyingType));
+            throw JsonSerializationException.Create(reader, $"Unable to find a default constructor to use for type {contract.UnderlyingType}.");
         }
     }
 
@@ -1294,7 +1291,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
     {
         if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
         {
-            TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, "Started deserializing {0}".FormatWith(CultureInfo.InvariantCulture, contract.UnderlyingType)), null);
+            TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Started deserializing {contract.UnderlyingType}"), null);
         }
 
         contract.InvokeOnDeserializing(value, Serializer._context);
@@ -1304,7 +1301,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
     {
         if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
         {
-            TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, "Finished deserializing {0}".FormatWith(CultureInfo.InvariantCulture, contract.UnderlyingType)), null);
+            TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Finished deserializing {contract.UnderlyingType}"), null);
         }
 
         contract.InvokeOnDeserialized(value, Serializer._context);
@@ -1380,7 +1377,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                         }
                         catch (Exception ex)
                         {
-                            throw JsonSerializationException.Create(reader, "Could not convert string '{0}' to dictionary key type '{1}'. Create a TypeConverter to convert from the string to the key type object.".FormatWith(CultureInfo.InvariantCulture, reader.Value, contract.DictionaryKeyType), ex);
+                            throw JsonSerializationException.Create(reader, $"Could not convert string '{reader.Value}' to dictionary key type '{contract.DictionaryKeyType}'. Create a TypeConverter to convert from the string to the key type object.", ex);
                         }
 
                         if (!reader.ReadForType(contract.ItemContract, dictionaryValueConverter != null))
@@ -1418,7 +1415,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     finished = true;
                     break;
                 default:
-                    throw JsonSerializationException.Create(reader, "Unexpected token when deserializing object: " + reader.TokenType);
+                    throw JsonSerializationException.Create(reader, $"Unexpected token when deserializing object: {reader.TokenType}");
             }
         } while (!finished && reader.Read());
 
@@ -1543,7 +1540,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                         case JsonToken.Comment:
                             break;
                         default:
-                            throw JsonSerializationException.Create(reader, "Unexpected token when deserializing multidimensional array: " + reader.TokenType);
+                            throw JsonSerializationException.Create(reader, $"Unexpected token when deserializing multidimensional array: {reader.TokenType}");
                     }
                 }
                 else
@@ -1688,16 +1685,15 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
         if (!JsonTypeReflector.FullyTrusted)
         {
-            var message = @"Type '{0}' implements ISerializable but cannot be deserialized using the ISerializable interface because the current application is not fully trusted and ISerializable can expose secure data." + Environment.NewLine +
-                          @"To fix this error either change the environment to be fully trusted, change the application to not deserialize the type, add JsonObjectAttribute to the type or change the JsonSerializer setting ContractResolver to use a new DefaultContractResolver with IgnoreSerializableInterface set to true." + Environment.NewLine;
-            message = message.FormatWith(CultureInfo.InvariantCulture, objectType);
+            var message = $@"Type '{{0}}' implements ISerializable but cannot be deserialized using the ISerializable interface because the current application is not fully trusted and ISerializable can expose secure data.{Environment.NewLine}To fix this error either change the environment to be fully trusted, change the application to not deserialize the type, add JsonObjectAttribute to the type or change the JsonSerializer setting ContractResolver to use a new DefaultContractResolver with IgnoreSerializableInterface set to true.{Environment.NewLine}";
+            message = string.Format(message, objectType);
 
             throw JsonSerializationException.Create(reader, message);
         }
 
         if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
         {
-            TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, "Deserializing {0} using ISerializable constructor.".FormatWith(CultureInfo.InvariantCulture, contract.UnderlyingType)), null);
+            TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Deserializing {contract.UnderlyingType} using ISerializable constructor."), null);
         }
 
         var serializationInfo = new SerializationInfo(contract.UnderlyingType, new JsonFormatterConverter(this, contract, member));
@@ -1711,7 +1707,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     var memberName = reader.Value!.ToString();
                     if (!reader.Read())
                     {
-                        throw JsonSerializationException.Create(reader, "Unexpected end when setting {0}'s value.".FormatWith(CultureInfo.InvariantCulture, memberName));
+                        throw JsonSerializationException.Create(reader, $"Unexpected end when setting {memberName}'s value.");
                     }
                     serializationInfo.AddValue(memberName, JToken.ReadFrom(reader));
                     break;
@@ -1721,7 +1717,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     finished = true;
                     break;
                 default:
-                    throw JsonSerializationException.Create(reader, "Unexpected token when deserializing object: " + reader.TokenType);
+                    throw JsonSerializationException.Create(reader, $"Unexpected token when deserializing object: {reader.TokenType}");
             }
         } while (!finished && reader.Read());
 
@@ -1732,12 +1728,12 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
         if (!contract.IsInstantiable)
         {
-            throw JsonSerializationException.Create(reader, "Could not create an instance of type {0}. Type is an interface or abstract class and cannot be instantiated.".FormatWith(CultureInfo.InvariantCulture, contract.UnderlyingType));
+            throw JsonSerializationException.Create(reader, $"Could not create an instance of type {contract.UnderlyingType}. Type is an interface or abstract class and cannot be instantiated.");
         }
 
         if (contract.ISerializableCreator == null)
         {
-            throw JsonSerializationException.Create(reader, "ISerializable type '{0}' does not have a valid constructor. To correctly implement ISerializable a constructor that takes SerializationInfo and StreamingContext parameters should be present.".FormatWith(CultureInfo.InvariantCulture, objectType));
+            throw JsonSerializationException.Create(reader, $"ISerializable type '{objectType}' does not have a valid constructor. To correctly implement ISerializable a constructor that takes SerializationInfo and StreamingContext parameters should be present.");
         }
 
         var createdObject = contract.ISerializableCreator(serializationInfo, Serializer._context);
@@ -1781,7 +1777,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
         if (!contract.IsInstantiable)
         {
-            throw JsonSerializationException.Create(reader, "Could not create an instance of type {0}. Type is an interface or abstract class and cannot be instantiated.".FormatWith(CultureInfo.InvariantCulture, contract.UnderlyingType));
+            throw JsonSerializationException.Create(reader, $"Could not create an instance of type {contract.UnderlyingType}. Type is an interface or abstract class and cannot be instantiated.");
         }
 
         if (contract.DefaultCreator != null &&
@@ -1791,7 +1787,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
         else
         {
-            throw JsonSerializationException.Create(reader, "Unable to find a default constructor to use for type {0}.".FormatWith(CultureInfo.InvariantCulture, contract.UnderlyingType));
+            throw JsonSerializationException.Create(reader, $"Unable to find a default constructor to use for type {contract.UnderlyingType}.");
         }
 
         if (id != null)
@@ -1815,7 +1811,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     {
                         if (!reader.Read())
                         {
-                            throw JsonSerializationException.Create(reader, "Unexpected end when setting {0}'s value.".FormatWith(CultureInfo.InvariantCulture, memberName));
+                            throw JsonSerializationException.Create(reader, $"Unexpected end when setting {memberName}'s value.");
                         }
 
                         // first attempt to find a settable property, otherwise fall back to a dynamic set without type
@@ -1871,7 +1867,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     finished = true;
                     break;
                 default:
-                    throw JsonSerializationException.Create(reader, "Unexpected token when deserializing object: " + reader.TokenType);
+                    throw JsonSerializationException.Create(reader, $"Unexpected token when deserializing object: {reader.TokenType}");
             }
         } while (!finished && reader.Read());
 
@@ -1912,7 +1908,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
         {
             var parameters = string.Join(", ", contract.CreatorParameters.Select(p => p.PropertyName));
-            TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, "Deserializing {0} using creator with parameters: {1}.".FormatWith(CultureInfo.InvariantCulture, contract.UnderlyingType, parameters)), null);
+            TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Deserializing {contract.UnderlyingType} using creator with parameters: {parameters}."), null);
         }
 
         var propertyContexts = ResolvePropertyAndCreatorValues(contract, containerProperty, reader, objectType);
@@ -2134,14 +2130,14 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
     {
         if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
         {
-            TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, "Started deserializing {0} with converter {1}.".FormatWith(CultureInfo.InvariantCulture, objectType, converter.GetType())), null);
+            TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Started deserializing {objectType} with converter {converter.GetType()}."), null);
         }
 
         var value = converter.ReadJson(reader, objectType, existingValue, GetInternalSerializer());
 
         if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
         {
-            TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, "Finished deserializing {0} with converter {1}.".FormatWith(CultureInfo.InvariantCulture, objectType, converter.GetType())), null);
+            TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Finished deserializing {objectType} with converter {converter.GetType()}."), null);
         }
 
         return value;
@@ -2179,7 +2175,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
                             if (!reader.ReadForType(property.PropertyContract, propertyConverter != null))
                             {
-                                throw JsonSerializationException.Create(reader, "Unexpected end when setting {0}'s value.".FormatWith(CultureInfo.InvariantCulture, memberName));
+                                throw JsonSerializationException.Create(reader, $"Unexpected end when setting {memberName}'s value.");
                             }
 
                             if (propertyConverter is {CanRead: true})
@@ -2198,17 +2194,17 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     {
                         if (!reader.Read())
                         {
-                            throw JsonSerializationException.Create(reader, "Unexpected end when setting {0}'s value.".FormatWith(CultureInfo.InvariantCulture, memberName));
+                            throw JsonSerializationException.Create(reader, $"Unexpected end when setting {memberName}'s value.");
                         }
 
                         if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
                         {
-                            TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, "Could not find member '{0}' on {1}.".FormatWith(CultureInfo.InvariantCulture, memberName, contract.UnderlyingType)), null);
+                            TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Could not find member '{memberName}' on {contract.UnderlyingType}."), null);
                         }
 
                         if ((contract.MissingMemberHandling ?? Serializer._missingMemberHandling) == MissingMemberHandling.Error)
                         {
-                            throw JsonSerializationException.Create(reader, "Could not find member '{0}' on object of type '{1}'".FormatWith(CultureInfo.InvariantCulture, memberName, objectType.Name));
+                            throw JsonSerializationException.Create(reader, $"Could not find member '{memberName}' on object of type '{objectType.Name}'");
                         }
                     }
 
@@ -2227,7 +2223,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     exit = true;
                     break;
                 default:
-                    throw JsonSerializationException.Create(reader, "Unexpected token when deserializing object: " + reader.TokenType);
+                    throw JsonSerializationException.Create(reader, $"Unexpected token when deserializing object: {reader.TokenType}");
             }
         } while (!exit && reader.Read());
 
@@ -2272,10 +2268,10 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         {
             if (!objectContract.IsInstantiable)
             {
-                throw JsonSerializationException.Create(reader, "Could not create an instance of type {0}. Type is an interface or abstract class and cannot be instantiated.".FormatWith(CultureInfo.InvariantCulture, objectContract.UnderlyingType));
+                throw JsonSerializationException.Create(reader, $"Could not create an instance of type {objectContract.UnderlyingType}. Type is an interface or abstract class and cannot be instantiated.");
             }
 
-            throw JsonSerializationException.Create(reader, "Unable to find a constructor to use for type {0}. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute.".FormatWith(CultureInfo.InvariantCulture, objectContract.UnderlyingType));
+            throw JsonSerializationException.Create(reader, $"Unable to find a constructor to use for type {objectContract.UnderlyingType}. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute.");
         }
 
         createdFromNonDefaultCreator = false;
@@ -2322,12 +2318,12 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                         {
                             if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
                             {
-                                TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, "Could not find member '{0}' on {1}".FormatWith(CultureInfo.InvariantCulture, propertyName, contract.UnderlyingType)), null);
+                                TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Could not find member '{propertyName}' on {contract.UnderlyingType}"), null);
                             }
 
                             if ((contract.MissingMemberHandling ?? Serializer._missingMemberHandling) == MissingMemberHandling.Error)
                             {
-                                throw JsonSerializationException.Create(reader, "Could not find member '{0}' on object of type '{1}'".FormatWith(CultureInfo.InvariantCulture, propertyName, contract.UnderlyingType.Name));
+                                throw JsonSerializationException.Create(reader, $"Could not find member '{propertyName}' on object of type '{contract.UnderlyingType.Name}'");
                             }
 
                             if (!reader.Read())
@@ -2360,7 +2356,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
                             if (!reader.ReadForType(property.PropertyContract, propertyConverter != null))
                             {
-                                throw JsonSerializationException.Create(reader, "Unexpected end when setting {0}'s value.".FormatWith(CultureInfo.InvariantCulture, propertyName));
+                                throw JsonSerializationException.Create(reader, $"Unexpected end when setting {propertyName}'s value.");
                             }
 
                             SetPropertyPresence(reader, property, propertiesPresence);
@@ -2392,7 +2388,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     // ignore
                     break;
                 default:
-                    throw JsonSerializationException.Create(reader, "Unexpected token when deserializing object: " + reader.TokenType);
+                    throw JsonSerializationException.Create(reader, $"Unexpected token when deserializing object: {reader.TokenType}");
             }
         } while (!finished && reader.Read());
 
@@ -2427,7 +2423,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
         if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
         {
-            TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(null, reader.Path, "ShouldDeserialize result for property '{0}' on {1}: {2}".FormatWith(CultureInfo.InvariantCulture, property.PropertyName, property.DeclaringType, shouldDeserialize)), null);
+            TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(null, reader.Path, $"ShouldDeserialize result for property '{property.PropertyName}' on {property.DeclaringType}: {shouldDeserialize}"), null);
         }
 
         return shouldDeserialize;
@@ -2462,7 +2458,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             }
             catch (Exception ex)
             {
-                throw JsonSerializationException.Create(reader, "Error setting value in extension data for type '{0}'.".FormatWith(CultureInfo.InvariantCulture, contract.UnderlyingType), ex);
+                throw JsonSerializationException.Create(reader, $"Error setting value in extension data for type '{contract.UnderlyingType}'.", ex);
             }
         }
         else
@@ -2498,7 +2494,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     case PropertyPresence.None:
                         if (resolvedRequired is Required.AllowNull or Required.Always)
                         {
-                            throw JsonSerializationException.Create(reader, "Required property '{0}' not found in JSON.".FormatWith(CultureInfo.InvariantCulture, property.PropertyName));
+                            throw JsonSerializationException.Create(reader, $"Required property '{property.PropertyName}' not found in JSON.");
                         }
 
                         if (setDefaultValue && !property.Ignored)
@@ -2517,11 +2513,11 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     case PropertyPresence.Null:
                         if (resolvedRequired == Required.Always)
                         {
-                            throw JsonSerializationException.Create(reader, "Required property '{0}' expects a value but got null.".FormatWith(CultureInfo.InvariantCulture, property.PropertyName));
+                            throw JsonSerializationException.Create(reader, $"Required property '{property.PropertyName}' expects a value but got null.");
                         }
                         if (resolvedRequired == Required.DisallowNull)
                         {
-                            throw JsonSerializationException.Create(reader, "Required property '{0}' expects a non-null value.".FormatWith(CultureInfo.InvariantCulture, property.PropertyName));
+                            throw JsonSerializationException.Create(reader, $"Required property '{property.PropertyName}' expects a non-null value.");
                         }
                         break;
                 }

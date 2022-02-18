@@ -100,7 +100,7 @@ static class ReflectionUtils
         if (binder != null)
         {
             binder.BindToName(t, out var assemblyName, out var typeName);
-            return typeName + (assemblyName == null ? "" : ", " + assemblyName);
+            return typeName + (assemblyName == null ? "" : $", {assemblyName}");
         }
 
         return t.AssemblyQualifiedName;
@@ -243,7 +243,7 @@ static class ReflectionUtils
 
         if (!genericInterfaceDefinition.IsInterface || !genericInterfaceDefinition.IsGenericTypeDefinition)
         {
-            throw new ArgumentNullException("'{0}' is not a generic interface definition.".FormatWith(CultureInfo.InvariantCulture, genericInterfaceDefinition));
+            throw new ArgumentNullException($"'{genericInterfaceDefinition}' is not a generic interface definition.");
         }
 
         if (type.IsInterface)
@@ -290,7 +290,7 @@ static class ReflectionUtils
 
         if (!genericClassDefinition.IsClass || !genericClassDefinition.IsGenericTypeDefinition)
         {
-            throw new ArgumentNullException("'{0}' is not a generic class definition.".FormatWith(CultureInfo.InvariantCulture, genericClassDefinition));
+            throw new ArgumentNullException($"'{genericClassDefinition}' is not a generic class definition.");
         }
 
         return InheritsGenericDefinitionInternal(type, genericClassDefinition, out implementingType);
@@ -331,7 +331,7 @@ static class ReflectionUtils
         {
             if (genericListType!.IsGenericTypeDefinition)
             {
-                throw new Exception("Type {0} is not a collection.".FormatWith(CultureInfo.InvariantCulture, type));
+                throw new Exception($"Type {type} is not a collection.");
             }
 
             return genericListType!.GetGenericArguments()[0];
@@ -341,7 +341,7 @@ static class ReflectionUtils
             return null;
         }
 
-        throw new Exception("Type {0} is not a collection.".FormatWith(CultureInfo.InvariantCulture, type));
+        throw new Exception($"Type {type} is not a collection.");
     }
 
     public static void GetDictionaryKeyValueTypes(Type dictionaryType, out Type? keyType, out Type? valueType)
@@ -352,7 +352,7 @@ static class ReflectionUtils
         {
             if (genericDictionaryType!.IsGenericTypeDefinition)
             {
-                throw new Exception("Type {0} is not a dictionary.".FormatWith(CultureInfo.InvariantCulture, dictionaryType));
+                throw new Exception($"Type {dictionaryType} is not a dictionary.");
             }
 
             var dictionaryGenericArguments = genericDictionaryType!.GetGenericArguments();
@@ -368,7 +368,7 @@ static class ReflectionUtils
             return;
         }
 
-        throw new Exception("Type {0} is not a dictionary.".FormatWith(CultureInfo.InvariantCulture, dictionaryType));
+        throw new Exception($"Type {dictionaryType} is not a dictionary.");
     }
 
     /// <summary>
@@ -451,10 +451,10 @@ static class ReflectionUtils
                 }
                 catch (TargetParameterCountException e)
                 {
-                    throw new ArgumentException("MemberInfo '{0}' has index parameters".FormatWith(CultureInfo.InvariantCulture, member.Name), e);
+                    throw new ArgumentException($"MemberInfo '{member.Name}' has index parameters", e);
                 }
             default:
-                throw new ArgumentException("MemberInfo '{0}' is not of type FieldInfo or PropertyInfo".FormatWith(CultureInfo.InvariantCulture, member.Name), nameof(member));
+                throw new ArgumentException($"MemberInfo '{member.Name}' is not of type FieldInfo or PropertyInfo", nameof(member));
         }
     }
 
@@ -478,7 +478,7 @@ static class ReflectionUtils
                 ((PropertyInfo)member).SetValue(target, value, null);
                 break;
             default:
-                throw new ArgumentException("MemberInfo '{0}' must be of type FieldInfo or PropertyInfo".FormatWith(CultureInfo.InvariantCulture, member.Name), nameof(member));
+                throw new ArgumentException($"MemberInfo '{member.Name}' must be of type FieldInfo or PropertyInfo", nameof(member));
         }
     }
 

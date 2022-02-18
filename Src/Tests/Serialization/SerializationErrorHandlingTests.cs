@@ -132,7 +132,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         Assert.Equal(1, c.Messages.Count);
 
         Console.WriteLine(c.Messages[0]);
-        Assert.True(possibleMsgs.Any(m => m == c.Messages[0]), "Expected One of: " + Environment.NewLine + string.Join(Environment.NewLine, possibleMsgs) + Environment.NewLine + "Was: " + Environment.NewLine + c.Messages[0]);
+        Assert.True(possibleMsgs.Any(m => m == c.Messages[0]), $"Expected One of: {Environment.NewLine}{string.Join(Environment.NewLine, possibleMsgs)}{Environment.NewLine}Was: {Environment.NewLine}{c.Messages[0]}");
     }
 
     [Fact]
@@ -335,7 +335,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         {
             Error = delegate(object _, ErrorEventArgs args)
             {
-                errors.Add(args.ErrorContext.Path + " - " + args.ErrorContext.Member + " - " + args.ErrorContext.Error.Message);
+                errors.Add($"{args.ErrorContext.Path} - {args.ErrorContext.Member} - {args.ErrorContext.Error.Message}");
                 args.ErrorContext.Handled = true;
             },
             Converters = { new IsoDateTimeConverter() }
@@ -373,7 +373,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         };
 
         Assert.True(possibleErrs.Any(m => m == errors[0]),
-            "Expected One of: " + string.Join(Environment.NewLine, possibleErrs) + Environment.NewLine + "But was: " + errors[0]);
+            $"Expected One of: {string.Join(Environment.NewLine, possibleErrs)}{Environment.NewLine}But was: {errors[0]}");
 
         Assert.Equal("[2] - 2 - Unexpected token parsing date. Expected String, got StartArray. Path '[2]', line 4, position 9.", errors[1]);
         Assert.Equal("[4] - 4 - Cannot convert null value to System.DateTime. Path '[4]', line 8, position 12.", errors[2]);
@@ -448,7 +448,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
                 // only log an error once
                 if (args.CurrentObject == args.ErrorContext.OriginalObject)
                 {
-                    errors.Add(args.ErrorContext.Path + " - " + args.ErrorContext.Member + " - " + args.ErrorContext.Error.Message);
+                    errors.Add($"{args.ErrorContext.Path} - {args.ErrorContext.Member} - {args.ErrorContext.Error.Message}");
                 }
             };
 
@@ -476,7 +476,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         };
         serializer.Error += delegate(object _, ErrorEventArgs args)
         {
-            errors.Add(args.ErrorContext.Path + " - " + args.ErrorContext.Member + " - " + args.ErrorContext.Error.Message);
+            errors.Add($"{args.ErrorContext.Path} - {args.ErrorContext.Member} - {args.ErrorContext.Error.Message}");
             args.ErrorContext.Handled = true;
         };
         serializer.Deserialize(new JsonTextReader(new StringReader(json)), typeof(MyTypeWithRequiredMembers));
@@ -496,7 +496,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var serializer = new JsonSerializer();
         serializer.Error += delegate(object _, ErrorEventArgs args)
         {
-            errors.Add(args.ErrorContext.Path + " - " + args.ErrorContext.Member + " - " + args.ErrorContext.Error.Message);
+            errors.Add($"{args.ErrorContext.Path} - {args.ErrorContext.Member} - {args.ErrorContext.Error.Message}");
             args.ErrorContext.Handled = true;
         };
 
@@ -517,7 +517,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var serializer = new JsonSerializer();
         serializer.Error += delegate(object _, ErrorEventArgs args)
         {
-            errors.Add(args.ErrorContext.Path + " - " + args.ErrorContext.Member + " - " + args.ErrorContext.Error.Message);
+            errors.Add($"{args.ErrorContext.Path} - {args.ErrorContext.Member} - {args.ErrorContext.Error.Message}");
             args.ErrorContext.Handled = true;
         };
 

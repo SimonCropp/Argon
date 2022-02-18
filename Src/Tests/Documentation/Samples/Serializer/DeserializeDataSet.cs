@@ -57,7 +57,7 @@ public class DeserializeDataSet : TestFixtureBase
 
         foreach (DataRow row in dataTable.Rows)
         {
-            Console.WriteLine(row["id"] + " - " + row["item"]);
+            Console.WriteLine($"{row["id"]} - {row["item"]}");
         }
         // 0 - item 0
         // 1 - item 1

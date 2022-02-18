@@ -402,7 +402,7 @@ Parameter name: index",
                             new JProperty("text", r.ListItemText),
                             new JProperty("value", r.ListItemValue.ToString())))));
 
-        var result = "myOptions = " + optionValues.ToString();
+        var result = $"myOptions = {optionValues}";
 
         XUnitAssert.AreEqualNormalized(@"myOptions = {
   ""options"": [

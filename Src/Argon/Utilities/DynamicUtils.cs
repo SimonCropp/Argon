@@ -32,10 +32,10 @@ static class DynamicUtils
     {
         public const string CSharpAssemblyName = "Microsoft.CSharp, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a";
 
-        const string BinderTypeName = "Microsoft.CSharp.RuntimeBinder.Binder, " + CSharpAssemblyName;
-        const string CSharpArgumentInfoTypeName = "Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfo, " + CSharpAssemblyName;
-        const string CSharpArgumentInfoFlagsTypeName = "Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfoFlags, " + CSharpAssemblyName;
-        const string CSharpBinderFlagsTypeName = "Microsoft.CSharp.RuntimeBinder.CSharpBinderFlags, " + CSharpAssemblyName;
+        const string BinderTypeName = $"Microsoft.CSharp.RuntimeBinder.Binder, {CSharpAssemblyName}";
+        const string CSharpArgumentInfoTypeName = $"Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfo, {CSharpAssemblyName}";
+        const string CSharpArgumentInfoFlagsTypeName = $"Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfoFlags, {CSharpAssemblyName}";
+        const string CSharpBinderFlagsTypeName = $"Microsoft.CSharp.RuntimeBinder.CSharpBinderFlags, {CSharpAssemblyName}";
 
         static object? _getCSharpArgumentInfoArray;
         static object? _setCSharpArgumentInfoArray;
@@ -50,7 +50,7 @@ static class DynamicUtils
                 var binderType = Type.GetType(BinderTypeName, false);
                 if (binderType == null)
                 {
-                    throw new InvalidOperationException("Could not resolve type '{0}'. You may need to add a reference to Microsoft.CSharp.dll to work with dynamic types.".FormatWith(CultureInfo.InvariantCulture, BinderTypeName));
+                    throw new InvalidOperationException($"Could not resolve type '{BinderTypeName}'. You may need to add a reference to Microsoft.CSharp.dll to work with dynamic types.");
                 }
 
                 // None

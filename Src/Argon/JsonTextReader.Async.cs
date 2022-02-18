@@ -79,7 +79,7 @@ public partial class JsonTextReader
                 case State.Finished:
                     return ReadFromFinishedAsync(cancellationToken);
                 default:
-                    throw JsonReaderException.Create(this, "Unexpected state: {0}.".FormatWith(CultureInfo.InvariantCulture, CurrentState));
+                    throw JsonReaderException.Create(this, $"Unexpected state: {CurrentState}.");
             }
         }
     }
@@ -171,7 +171,7 @@ public partial class JsonTextReader
                             return false;
                         }
 
-                        throw JsonReaderException.Create(this, "After parsing a value an unexpected character was encountered: {0}.".FormatWith(CultureInfo.InvariantCulture, currentChar));
+                        throw JsonReaderException.Create(this, $"After parsing a value an unexpected character was encountered: {currentChar}.");
                     }
 
                     break;
@@ -198,7 +198,7 @@ public partial class JsonTextReader
                 return true;
             }
 
-            throw JsonReaderException.Create(this, "Additional text encountered after finished reading JSON content: {0}.".FormatWith(CultureInfo.InvariantCulture, CharBuffer[CharPos]));
+            throw JsonReaderException.Create(this, $"Additional text encountered after finished reading JSON content: {CharBuffer[CharPos]}.");
         }
 
         SetToken(JsonToken.None);
@@ -386,7 +386,7 @@ public partial class JsonTextReader
                         if (await ReadDataAsync(true, cancellationToken).ConfigureAwait(false) == 0)
                         {
                             CharPos = charPos;
-                            throw JsonReaderException.Create(this, "Unterminated string. Expected delimiter: {0}.".FormatWith(CultureInfo.InvariantCulture, quote));
+                            throw JsonReaderException.Create(this, $"Unterminated string. Expected delimiter: {quote}.");
                         }
                     }
 
@@ -395,7 +395,7 @@ public partial class JsonTextReader
                     CharPos = charPos;
                     if (!await EnsureCharsAsync(0, true, cancellationToken).ConfigureAwait(false))
                     {
-                        throw JsonReaderException.Create(this, "Unterminated string. Expected delimiter: {0}.".FormatWith(CultureInfo.InvariantCulture, quote));
+                        throw JsonReaderException.Create(this, $"Unterminated string. Expected delimiter: {quote}.");
                     }
 
                     // start of escape sequence
@@ -491,7 +491,7 @@ public partial class JsonTextReader
                             break;
                         default:
                             CharPos = charPos;
-                            throw JsonReaderException.Create(this, "Bad JSON escape sequence: {0}.".FormatWith(CultureInfo.InvariantCulture, @"\" + currentChar));
+                            throw JsonReaderException.Create(this, $"Bad JSON escape sequence: \\{currentChar}.");
                     }
 
                     EnsureBufferNotEmpty();
@@ -666,7 +666,7 @@ public partial class JsonTextReader
         }
         else
         {
-            throw JsonReaderException.Create(this, "Error parsing comment. Expected: *, got {0}.".FormatWith(CultureInfo.InvariantCulture, CharBuffer[CharPos]));
+            throw JsonReaderException.Create(this, $"Error parsing comment. Expected: *, got {CharBuffer[CharPos]}.");
         }
 
         CharPos++;
@@ -824,7 +824,7 @@ public partial class JsonTextReader
         }
         else
         {
-            throw JsonReaderException.Create(this, "Error parsing " + newToken.ToString().ToLowerInvariant() + " value.");
+            throw JsonReaderException.Create(this, $"Error parsing {newToken.ToString().ToLowerInvariant()} value.");
         }
     }
 
@@ -902,7 +902,7 @@ public partial class JsonTextReader
                 }
                 else
                 {
-                    throw JsonReaderException.Create(this, "Unexpected character while parsing constructor: {0}.".FormatWith(CultureInfo.InvariantCulture, currentChar));
+                    throw JsonReaderException.Create(this, $"Unexpected character while parsing constructor: {currentChar}.");
                 }
             }
 
@@ -913,7 +913,7 @@ public partial class JsonTextReader
 
             if (CharBuffer[CharPos] != '(')
             {
-                throw JsonReaderException.Create(this, "Unexpected character while parsing constructor: {0}.".FormatWith(CultureInfo.InvariantCulture, CharBuffer[CharPos]));
+                throw JsonReaderException.Create(this, $"Unexpected character while parsing constructor: {CharBuffer[CharPos]}.");
             }
 
             CharPos++;
@@ -984,7 +984,7 @@ public partial class JsonTextReader
         }
         else
         {
-            throw JsonReaderException.Create(this, "Invalid property identifier character: {0}.".FormatWith(CultureInfo.InvariantCulture, CharBuffer[CharPos]));
+            throw JsonReaderException.Create(this, $"Invalid property identifier character: {CharBuffer[CharPos]}.");
         }
 
         string propertyName;
@@ -1004,7 +1004,7 @@ public partial class JsonTextReader
 
         if (CharBuffer[CharPos] != ':')
         {
-            throw JsonReaderException.Create(this, "Invalid character after parsing property name. Expected ':' but got: {0}.".FormatWith(CultureInfo.InvariantCulture, CharBuffer[CharPos]));
+            throw JsonReaderException.Create(this, $"Invalid character after parsing property name. Expected ':' but got: {CharBuffer[CharPos]}.");
         }
 
         CharPos++;
@@ -1142,7 +1142,7 @@ public partial class JsonTextReader
             }
             else
             {
-                throw JsonReaderException.Create(this, "Additional text encountered after finished reading JSON content: {0}.".FormatWith(CultureInfo.InvariantCulture, CharBuffer[CharPos]));
+                throw JsonReaderException.Create(this, $"Additional text encountered after finished reading JSON content: {CharBuffer[CharPos]}.");
             }
         }
 
@@ -1281,7 +1281,7 @@ public partial class JsonTextReader
                 await ReadFinishedAsync(cancellationToken).ConfigureAwait(false);
                 return null;
             default:
-                throw JsonReaderException.Create(this, "Unexpected state: {0}.".FormatWith(CultureInfo.InvariantCulture, CurrentState));
+                throw JsonReaderException.Create(this, $"Unexpected state: {CurrentState}.");
         }
     }
 
@@ -1395,7 +1395,7 @@ public partial class JsonTextReader
                 await ReadFinishedAsync(cancellationToken).ConfigureAwait(false);
                 return null;
             default:
-                throw JsonReaderException.Create(this, "Unexpected state: {0}.".FormatWith(CultureInfo.InvariantCulture, CurrentState));
+                throw JsonReaderException.Create(this, $"Unexpected state: {CurrentState}.");
         }
     }
 
@@ -1529,7 +1529,7 @@ public partial class JsonTextReader
                 await ReadFinishedAsync(cancellationToken).ConfigureAwait(false);
                 return null;
             default:
-                throw JsonReaderException.Create(this, "Unexpected state: {0}.".FormatWith(CultureInfo.InvariantCulture, CurrentState));
+                throw JsonReaderException.Create(this, $"Unexpected state: {CurrentState}.");
         }
     }
 
@@ -1590,7 +1590,7 @@ public partial class JsonTextReader
                                 await ReaderReadAndAssertAsync(cancellationToken).ConfigureAwait(false);
                                 if (TokenType != JsonToken.EndObject)
                                 {
-                                    throw JsonReaderException.Create(this, "Error reading bytes. Unexpected token: {0}.".FormatWith(CultureInfo.InvariantCulture, TokenType));
+                                    throw JsonReaderException.Create(this, $"Error reading bytes. Unexpected token: {TokenType}.");
                                 }
 
                                 SetToken(JsonToken.Bytes, data, false);
@@ -1653,7 +1653,7 @@ public partial class JsonTextReader
                 await ReadFinishedAsync(cancellationToken).ConfigureAwait(false);
                 return null;
             default:
-                throw JsonReaderException.Create(this, "Unexpected state: {0}.".FormatWith(CultureInfo.InvariantCulture, CurrentState));
+                throw JsonReaderException.Create(this, $"Unexpected state: {CurrentState}.");
         }
     }
 
@@ -1673,7 +1673,7 @@ public partial class JsonTextReader
             }
         }
 
-        throw JsonReaderException.Create(this, "Error reading bytes. Unexpected token: {0}.".FormatWith(CultureInfo.InvariantCulture, JsonToken.StartObject));
+        throw JsonReaderException.Create(this, $"Error reading bytes. Unexpected token: {JsonToken.StartObject}.");
     }
 
     /// <summary>

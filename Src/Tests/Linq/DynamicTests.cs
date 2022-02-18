@@ -102,7 +102,7 @@ public class DynamicTests : TestFixtureBase
             count++;
         }
 
-        Console.WriteLine("Time (secs): " + sw.Elapsed.TotalSeconds);
+        Console.WriteLine($"Time (secs): {sw.Elapsed.TotalSeconds}");
     }
 
     [Fact]

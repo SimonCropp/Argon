@@ -137,7 +137,7 @@ public static class DynamicConcrete
 
     static string ProxyName(Type targetType)
     {
-        return targetType.Name + "Proxy";
+        return $"{targetType.Name}Proxy";
     }
 
     static DynamicConcrete()
@@ -149,7 +149,7 @@ public static class DynamicConcrete
 
     static Type GetConstructedType(Type targetType)
     {
-        var typeBuilder = ModuleBuilder.DefineType(targetType.Name + "Proxy", TypeAttributes.Public);
+        var typeBuilder = ModuleBuilder.DefineType($"{targetType.Name}Proxy", TypeAttributes.Public);
 
         var ctorBuilder = typeBuilder.DefineConstructor(
             MethodAttributes.Public,
@@ -255,10 +255,10 @@ public static class DynamicConcrete
         // Backing Field
         var propertyName = methodInfo.Name.Replace("get_", "");
         var propertyType = methodInfo.ReturnType;
-        var backingField = typeBuilder.DefineField("_" + propertyName, propertyType, FieldAttributes.Private);
+        var backingField = typeBuilder.DefineField($"_{propertyName}", propertyType, FieldAttributes.Private);
 
         //Getter
-        var backingGet = typeBuilder.DefineMethod("get_" + propertyName, MethodAttributes.Public |
+        var backingGet = typeBuilder.DefineMethod($"get_{propertyName}", MethodAttributes.Public |
                                                                          MethodAttributes.SpecialName | MethodAttributes.Virtual |
                                                                          MethodAttributes.HideBySig, propertyType, Type.EmptyTypes);
         var getIl = backingGet.GetILGenerator();
@@ -268,7 +268,7 @@ public static class DynamicConcrete
         getIl.Emit(OpCodes.Ret);
 
         //Setter
-        var backingSet = typeBuilder.DefineMethod("set_" + propertyName, MethodAttributes.Public |
+        var backingSet = typeBuilder.DefineMethod($"set_{propertyName}", MethodAttributes.Public |
                                                                          MethodAttributes.SpecialName | MethodAttributes.Virtual |
                                                                          MethodAttributes.HideBySig, null, new[] {propertyType});
 

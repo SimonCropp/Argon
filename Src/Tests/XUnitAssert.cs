@@ -26,7 +26,7 @@ public class XUnitAssert
     {
         if (message != null)
         {
-            message = message.FormatWith(CultureInfo.InvariantCulture, args);
+            message = string.Format(message, args);
         }
 
         Assert.True(false, message);
@@ -67,7 +67,7 @@ public class XUnitAssert
         {
             action();
 
-            Fail("Exception of type " + typeof(TException).Name + " expected. No exception thrown.");
+            Fail($"Exception of type {typeof(TException).Name} expected. No exception thrown.");
             return null;
         }
         catch (TException ex)
@@ -84,11 +84,11 @@ public class XUnitAssert
                 }
             }
 
-            throw new Exception("Unexpected exception message." + Environment.NewLine + "Expected one of: " + string.Join(Environment.NewLine, possibleMessages) + Environment.NewLine + "Got: " + ex.Message + Environment.NewLine + Environment.NewLine + ex);
+            throw new Exception($"Unexpected exception message.{Environment.NewLine}Expected one of: {string.Join(Environment.NewLine, possibleMessages)}{Environment.NewLine}Got: {ex.Message}{Environment.NewLine}{Environment.NewLine}{ex}");
         }
         catch (Exception ex)
         {
-            throw new Exception(string.Format("Exception of type {0} expected; got exception of type {1}.", typeof(TException).Name, ex.GetType().Name), ex);
+            throw new Exception($"Exception of type {typeof(TException).Name} expected; got exception of type {ex.GetType().Name}.", ex);
         }
     }
 
@@ -99,7 +99,7 @@ public class XUnitAssert
         {
             await action();
 
-            Fail("Exception of type " + typeof(TException).Name + " expected. No exception thrown.");
+            Fail($"Exception of type {typeof(TException).Name} expected. No exception thrown.");
             return null;
         }
         catch (TException ex)
@@ -116,11 +116,11 @@ public class XUnitAssert
                 }
             }
 
-            throw new Exception("Unexpected exception message." + Environment.NewLine + "Expected one of: " + string.Join(Environment.NewLine, possibleMessages) + Environment.NewLine + "Got: " + ex.Message + Environment.NewLine + Environment.NewLine + ex);
+            throw new Exception($"Unexpected exception message.{Environment.NewLine}Expected one of: {string.Join(Environment.NewLine, possibleMessages)}{Environment.NewLine}Got: {ex.Message}{Environment.NewLine}{Environment.NewLine}{ex}");
         }
         catch (Exception ex)
         {
-            throw new Exception(string.Format("Exception of type {0} expected; got exception of type {1}.", typeof(TException).Name, ex.GetType().Name), ex);
+            throw new Exception($"Exception of type {typeof(TException).Name} expected; got exception of type {ex.GetType().Name}.", ex);
         }
     }
 }

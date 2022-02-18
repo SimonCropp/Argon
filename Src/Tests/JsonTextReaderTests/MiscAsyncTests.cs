@@ -249,7 +249,7 @@ public class MiscAsyncTests : TestFixtureBase
 
     async Task<string> ReadStringAsync(string input)
     {
-        var ms = new MemoryStream(Encoding.UTF8.GetBytes(@"""" + input + @""""));
+        var ms = new MemoryStream(Encoding.UTF8.GetBytes($@"""{input}"""));
 
         var reader = new JsonTextReader(new StreamReader(ms));
         await reader.ReadAsync();
@@ -490,15 +490,15 @@ public class MiscAsyncTests : TestFixtureBase
     [Fact]
     public async Task BufferTestAsync()
     {
-        var json = @"{
+        var json = $@"{{
               ""CPU"": ""Intel"",
               ""Description"": ""Amazing!\nBuy now!"",
               ""Drives"": [
                 ""DVD read/writer"",
                 ""500 gigabyte hard drive"",
-                ""Amazing Drive" + new string('!', 9000) + @"""
+                ""Amazing Drive{new string('!', 9000)}""
               ]
-            }";
+            }}";
 
         var arrayPool = new FakeArrayPool();
 
@@ -515,7 +515,7 @@ public class MiscAsyncTests : TestFixtureBase
 
             if ((i + 1) % 100 == 0)
             {
-                Console.WriteLine("Allocated buffers: " + arrayPool.FreeArrays.Count);
+                Console.WriteLine($"Allocated buffers: {arrayPool.FreeArrays.Count}");
             }
         }
 
@@ -621,7 +621,7 @@ public class MiscAsyncTests : TestFixtureBase
     public async Task LongStringTestAsync()
     {
         var length = 20000;
-        var json = @"[""" + new string(' ', length) + @"""]";
+        var json = $@"[""{new string(' ', length)}""]";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -732,14 +732,10 @@ public class MiscAsyncTests : TestFixtureBase
     [Fact]
     public async Task SingleLineCommentsAsync()
     {
-        var json = @"//comment*//*hi*/
-{//comment
+        var json = $@"//comment*//*hi*/
+{{//comment
 Name://comment
-true//comment after true" + StringUtils.CarriageReturn +
-                   @",//comment after comma" + StringUtils.CarriageReturnLineFeed +
-                   @"""ExpiryDate""://comment" + StringUtils.LineFeed +
-                   @"new " + StringUtils.LineFeed +
-                   @"Date
+true//comment after true{StringUtils.CarriageReturn},//comment after comma{StringUtils.CarriageReturnLineFeed}""ExpiryDate""://comment{StringUtils.LineFeed}new {StringUtils.LineFeed}Date
 (//comment
 null//comment
 ),
@@ -749,7 +745,7 @@ null//comment
 
           ""Small""//comment
 ]//comment
-}//comment 
+}}//comment 
 //comment 1 ";
 
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));

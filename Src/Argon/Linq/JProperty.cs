@@ -211,12 +211,12 @@ public partial class JProperty : JContainer
 
     internal override bool RemoveItem(JToken? item)
     {
-        throw new JsonException("Cannot add or remove items from {0}.".FormatWith(CultureInfo.InvariantCulture, typeof(JProperty)));
+        throw new JsonException($"Cannot add or remove items from {typeof(JProperty)}.");
     }
 
     internal override void RemoveItemAt(int index)
     {
-        throw new JsonException("Cannot add or remove items from {0}.".FormatWith(CultureInfo.InvariantCulture, typeof(JProperty)));
+        throw new JsonException($"Cannot add or remove items from {typeof(JProperty)}.");
     }
 
     internal override int IndexOfItem(JToken? item)
@@ -239,7 +239,7 @@ public partial class JProperty : JContainer
 
         if (Value != null)
         {
-            throw new JsonException("{0} cannot have multiple values.".FormatWith(CultureInfo.InvariantCulture, typeof(JProperty)));
+            throw new JsonException($"{typeof(JProperty)} cannot have multiple values.");
         }
 
         return base.InsertItem(0, item, false);
@@ -262,7 +262,7 @@ public partial class JProperty : JContainer
 
     internal override void ClearItems()
     {
-        throw new JsonException("Cannot add or remove items from {0}.".FormatWith(CultureInfo.InvariantCulture, typeof(JProperty)));
+        throw new JsonException($"Cannot add or remove items from {typeof(JProperty)}.");
     }
 
     internal override bool DeepEquals(JToken node)
@@ -375,7 +375,7 @@ public partial class JProperty : JContainer
 
         if (reader.TokenType != JsonToken.PropertyName)
         {
-            throw JsonReaderException.Create(reader, "Error reading JProperty from JsonReader. Current JsonReader item is not a property: {0}".FormatWith(CultureInfo.InvariantCulture, reader.TokenType));
+            throw JsonReaderException.Create(reader, $"Error reading JProperty from JsonReader. Current JsonReader item is not a property: {reader.TokenType}");
         }
 
         var p = new JProperty((string)reader.Value!);

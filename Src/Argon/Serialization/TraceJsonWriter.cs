@@ -37,7 +37,7 @@ class TraceJsonWriter : JsonWriter
 
         _sw = new StringWriter(CultureInfo.InvariantCulture);
         // prefix the message in the stringwriter to avoid concat with a potentially large JSON string
-        _sw.Write("Serialized JSON: " + Environment.NewLine);
+        _sw.Write($"Serialized JSON: {Environment.NewLine}");
 
         _textWriter = new JsonTextWriter(_sw);
         _textWriter.Formatting = Formatting.Indented;

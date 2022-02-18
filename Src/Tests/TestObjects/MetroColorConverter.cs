@@ -37,7 +37,7 @@ namespace Argon.Tests.TestObjects
             var color = (Color)value;
             var fixedColor = color == Color.White || color == Color.Black ? color : Color.Gray;
 
-            writer.WriteValue(":::" + fixedColor.ToKnownColor().ToString().ToUpper() + ":::");
+            writer.WriteValue($":::{fixedColor.ToKnownColor().ToString().ToUpper()}:::");
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)

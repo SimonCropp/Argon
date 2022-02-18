@@ -124,21 +124,21 @@ public class DataTableConverterTests : TestFixtureBase
 
         var stringName = typeof(string).AssemblyQualifiedName;
 
-        XUnitAssert.AreEqualNormalized(@"[
-  {
+        XUnitAssert.AreEqualNormalized($@"[
+  {{
     ""TimeSpan"": ""00:00:00"",
     ""Char[]"": [
       ""a"",
       ""b"",
       ""c""
     ],
-    ""Type"": """ + stringName + @""",
-    ""Object"": {},
+    ""Type"": ""{stringName}"",
+    ""Object"": {{}},
     ""Byte[]"": ""AQIDBAUGBwg="",
     ""Uri"": ""http://localhost"",
     ""Guid"": ""00000001-0002-0003-0405-060708090a0b"",
     ""BigInteger"": 10000000000000000000000000000000000
-  }
+  }}
 ]", sw.ToString());
     }
 

@@ -40,7 +40,7 @@ public class Issue1642 : TestFixtureBase
         var ab = currentDomain.DefineDynamicAssembly(
             aName, AssemblyBuilderAccess.RunAndSave);
 
-        var mb = ab.DefineDynamicModule(aName.Name, aName.Name + ".dll");
+        var mb = ab.DefineDynamicModule(aName.Name, $"{aName.Name}.dll");
 
         var typeBuilder = mb.DefineType("TestEnum", TypeAttributes.NotPublic | TypeAttributes.Sealed, typeof(Enum));
         typeBuilder.DefineField("value__", typeof(int), FieldAttributes.FamANDAssem | FieldAttributes.Family | FieldAttributes.SpecialName | FieldAttributes.RTSpecialName);

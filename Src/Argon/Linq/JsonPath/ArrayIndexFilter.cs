@@ -30,7 +30,7 @@ class ArrayIndexFilter : PathFilter
                 {
                     if (settings?.ErrorWhenNoMatch ?? false)
                     {
-                        throw new JsonException("Index * not valid on {0}.".FormatWith(CultureInfo.InvariantCulture, t.GetType().Name));
+                        throw new JsonException($"Index * not valid on {t.GetType().Name}.");
                     }
                 }
             }

@@ -123,9 +123,9 @@ internal abstract class JsonSerializerInternalBase
             var message = GetType() == typeof(JsonSerializerInternalWriter) ? "Error serializing" : "Error deserializing";
             if (contract != null)
             {
-                message += " " + contract.UnderlyingType;
+                message += $" {contract.UnderlyingType}";
             }
-            message += ". " + ex.Message;
+            message += $". {ex.Message}";
 
             // add line information to non-json.net exception message
             if (!(ex is JsonException))

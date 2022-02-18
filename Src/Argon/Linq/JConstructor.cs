@@ -171,7 +171,7 @@ public partial class JConstructor : JContainer
 
             if (!(key is int i))
             {
-                throw new ArgumentException("Accessed JConstructor values with invalid key value: {0}. Argument position index expected.".FormatWith(CultureInfo.InvariantCulture, MiscellaneousUtils.ToString(key)));
+                throw new ArgumentException($"Accessed JConstructor values with invalid key value: {MiscellaneousUtils.ToString(key)}. Argument position index expected.");
             }
 
             return GetItem(i);
@@ -182,7 +182,7 @@ public partial class JConstructor : JContainer
 
             if (!(key is int i))
             {
-                throw new ArgumentException("Set JConstructor values with invalid key value: {0}. Argument position index expected.".FormatWith(CultureInfo.InvariantCulture, MiscellaneousUtils.ToString(key)));
+                throw new ArgumentException($"Set JConstructor values with invalid key value: {MiscellaneousUtils.ToString(key)}. Argument position index expected.");
             }
 
             SetItem(i, value);
@@ -225,7 +225,7 @@ public partial class JConstructor : JContainer
 
         if (reader.TokenType != JsonToken.StartConstructor)
         {
-            throw JsonReaderException.Create(reader, "Error reading JConstructor from JsonReader. Current JsonReader item is not a constructor: {0}".FormatWith(CultureInfo.InvariantCulture, reader.TokenType));
+            throw JsonReaderException.Create(reader, $"Error reading JConstructor from JsonReader. Current JsonReader item is not a constructor: {reader.TokenType}");
         }
 
         var c = new JConstructor((string)reader.Value!);

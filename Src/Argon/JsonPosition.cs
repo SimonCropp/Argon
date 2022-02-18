@@ -155,11 +155,11 @@ struct JsonPosition
             message += " ";
         }
 
-        message += "Path '{0}'".FormatWith(CultureInfo.InvariantCulture, path);
+        message += $"Path '{path}'";
 
         if (lineInfo != null && lineInfo.HasLineInfo())
         {
-            message += ", line {0}, position {1}".FormatWith(CultureInfo.InvariantCulture, lineInfo.LineNumber, lineInfo.LinePosition);
+            message += $", line {lineInfo.LineNumber}, position {lineInfo.LinePosition}";
         }
 
         message += ".";

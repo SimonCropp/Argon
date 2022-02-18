@@ -287,7 +287,7 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
     {
         if (!IsCompatibleObject(value))
         {
-            throw new ArgumentException("The value '{0}' is not of type '{1}' and cannot be used in this generic collection.".FormatWith(CultureInfo.InvariantCulture, value, typeof(T)), nameof(value));
+            throw new ArgumentException($"The value '{value}' is not of type '{typeof(T)}' and cannot be used in this generic collection.", nameof(value));
         }
     }
 

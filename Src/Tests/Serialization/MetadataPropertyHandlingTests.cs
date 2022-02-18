@@ -114,10 +114,10 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
         };
         var serializedString = JsonConvert.SerializeObject(inputContext, jsonSerializerSettings);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""$type"": """ + ReflectionUtils.GetTypeName(typeof(Dictionary<string, Guid>), 0, DefaultSerializationBinder.Instance) + @""",
+        XUnitAssert.AreEqualNormalized($@"{{
+  ""$type"": ""{ReflectionUtils.GetTypeName(typeof(Dictionary<string, Guid>), 0, DefaultSerializationBinder.Instance)}"",
   ""k1"": ""5dd2dba0-20c0-49f8-a054-1fa3b0a8d774""
-}", serializedString);
+}}", serializedString);
 
         var deserializedObject = (Dictionary<string, Guid>)JsonConvert.DeserializeObject(serializedString, jsonSerializerSettings);
 
@@ -139,17 +139,17 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
 
         var jsonString = JsonConvert.SerializeObject(expected, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
+        XUnitAssert.AreEqualNormalized($@"{{
   ""SourceTypeID"": ""d8220a4b-75b1-4b7a-8112-b7bdae956a45"",
   ""BrokerID"": ""951663c4-924e-4c86-a57a-7ed737501dbd"",
   ""Latitude"": 33.657145,
   ""Longitude"": -117.766684,
   ""TimeStamp"": ""2000-03-01T23:59:59Z"",
-  ""Payload"": {
-    ""$type"": """ + ReflectionUtils.GetTypeName(typeof(byte[]), 0, DefaultSerializationBinder.Instance) + @""",
+  ""Payload"": {{
+    ""$type"": ""{ReflectionUtils.GetTypeName(typeof(byte[]), 0, DefaultSerializationBinder.Instance)}"",
     ""$value"": ""AAECAwQFBgcICQ==""
-  }
-}", jsonString);
+  }}
+}}", jsonString);
 
         var actual = JsonConvert.DeserializeObject<Item>(jsonString, new JsonSerializerSettings
         {
@@ -335,24 +335,24 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
         var employeeRef = typeof(EmployeeReference).AssemblyQualifiedName;
         var personRef = typeof(Person).AssemblyQualifiedName;
 
-        var json = @"[
-  {
+        var json = $@"[
+  {{
     ""Name"": ""Bob"",
     ""$id"": ""1"",
-    ""$type"": """ + employeeRef + @""",
-    ""Manager"": {
+    ""$type"": ""{employeeRef}"",
+    ""Manager"": {{
       ""$id"": ""2"",
-      ""$type"": """ + employeeRef + @""",
+      ""$type"": ""{employeeRef}"",
       ""Name"": ""Frank"",
       ""Manager"": null
-    }
-  },
-  {
+    }}
+  }},
+  {{
     ""Name"": null,
-    ""$type"": """ + personRef + @""",
+    ""$type"": ""{personRef}"",
     ""BirthDate"": ""\/Date(978134400000)\/"",
     ""LastModified"": ""\/Date(978134400000)\/""
-  },
+  }},
   ""String!"",
   -2147483648
 ]";
@@ -395,10 +395,10 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(typeNameProperty, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
+        XUnitAssert.AreEqualNormalized($@"{{
   ""Name"": ""Name!"",
-  ""Value"": {
-    ""$type"": """ + listRef + @""",
+  ""Value"": {{
+    ""$type"": ""{listRef}"",
     ""$values"": [
       1,
       2,
@@ -406,8 +406,8 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
       4,
       5
     ]
-  }
-}", json);
+  }}
+}}", json);
 
         var deserialized = JsonConvert.DeserializeObject<TypeNameHandlingTests.TypeNameProperty>(json, new JsonSerializerSettings
         {

@@ -99,7 +99,7 @@ public sealed class Event
 
     public override string ToString()
     {
-        return string.Format("{{ sublocation = {0}, userId = {1}, type = {2}, summary = {3}, details = {4}, stackTrace = {5}, tag = {6} }}", _sublocation, _userId, _type, _summary, _details, _stackTrace, _tag);
+        return $"{{ sublocation = {_sublocation}, userId = {_userId}, type = {_type}, summary = {_summary}, details = {_details}, stackTrace = {_stackTrace}, tag = {_tag} }}";
     }
 
     public string sublocation

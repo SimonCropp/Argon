@@ -366,7 +366,7 @@ public class DefaultContractResolver : IContractResolver
 
     static void ThrowUnableToSerializeError(object o, StreamingContext context)
     {
-        throw new JsonSerializationException("Unable to serialize instance of '{0}'.".FormatWith(CultureInfo.InvariantCulture, o.GetType()));
+        throw new JsonSerializationException($"Unable to serialize instance of '{o.GetType()}'.");
     }
 
     MemberInfo GetExtensionDataMemberForType(Type type)
@@ -396,7 +396,7 @@ public class DefaultContractResolver : IContractResolver
 
             if (!ReflectionUtils.CanReadMemberValue(m, true))
             {
-                throw new JsonException("Invalid extension data attribute on '{0}'. Member '{1}' must have a getter.".FormatWith(CultureInfo.InvariantCulture, GetClrTypeFullName(m.DeclaringType), m.Name));
+                throw new JsonException($"Invalid extension data attribute on '{GetClrTypeFullName(m.DeclaringType)}'. Member '{m.Name}' must have a getter.");
             }
 
             var t = ReflectionUtils.GetMemberUnderlyingType(m);
@@ -412,7 +412,7 @@ public class DefaultContractResolver : IContractResolver
                 }
             }
 
-            throw new JsonException("Invalid extension data attribute on '{0}'. Member '{1}' type must implement IDictionary<string, JToken>.".FormatWith(CultureInfo.InvariantCulture, GetClrTypeFullName(m.DeclaringType), m.Name));
+            throw new JsonException($"Invalid extension data attribute on '{GetClrTypeFullName(m.DeclaringType)}'. Member '{m.Name}' type must implement IDictionary<string, JToken>.");
         });
 
         return extensionDataMember;
@@ -470,7 +470,7 @@ public class DefaultContractResolver : IContractResolver
                 {
                     if (setExtensionDataDictionary == null)
                     {
-                        throw new JsonSerializationException("Cannot set value onto extension data member '{0}'. The extension data collection is null and it cannot be set.".FormatWith(CultureInfo.InvariantCulture, member.Name));
+                        throw new JsonSerializationException($"Cannot set value onto extension data member '{member.Name}'. The extension data collection is null and it cannot be set.");
                     }
 
                     dictionary = createExtensionDataDictionary();
@@ -951,7 +951,7 @@ public class DefaultContractResolver : IContractResolver
             }
             else
             {
-                throw new JsonException("Constructor for '{0}' must have no parameters or a single parameter that implements '{1}'.".FormatWith(CultureInfo.InvariantCulture, contract.UnderlyingType, expectedParameterType));
+                throw new JsonException($"Constructor for '{contract.UnderlyingType}' must have no parameters or a single parameter that implements '{expectedParameterType}'.");
             }
 
             contract.OverrideCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(overrideConstructor);
@@ -989,7 +989,7 @@ public class DefaultContractResolver : IContractResolver
             }
             else
             {
-                throw new JsonException("Constructor for '{0}' must have no parameters or a single parameter that implements '{1}'.".FormatWith(CultureInfo.InvariantCulture, contract.UnderlyingType, expectedParameterType));
+                throw new JsonException($"Constructor for '{contract.UnderlyingType}' must have no parameters or a single parameter that implements '{expectedParameterType}'.");
             }
 
             contract.OverrideCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(overrideConstructor);
@@ -1199,36 +1199,36 @@ public class DefaultContractResolver : IContractResolver
 
         if (currentCallback != null)
         {
-            throw new JsonException("Invalid attribute. Both '{0}' and '{1}' in type '{2}' have '{3}'.".FormatWith(CultureInfo.InvariantCulture, method, currentCallback, GetClrTypeFullName(method.DeclaringType), attributeType));
+            throw new JsonException($"Invalid attribute. Both '{method}' and '{currentCallback}' in type '{GetClrTypeFullName(method.DeclaringType)}' have '{attributeType}'.");
         }
 
         if (prevAttributeType != null)
         {
-            throw new JsonException("Invalid Callback. Method '{3}' in type '{2}' has both '{0}' and '{1}'.".FormatWith(CultureInfo.InvariantCulture, prevAttributeType, attributeType, GetClrTypeFullName(method.DeclaringType), method));
+            throw new JsonException(string.Format("Invalid Callback. Method '{3}' in type '{2}' has both '{0}' and '{1}'.", prevAttributeType, attributeType, GetClrTypeFullName(method.DeclaringType), method));
         }
 
         if (method.IsVirtual)
         {
-            throw new JsonException("Virtual Method '{0}' of type '{1}' cannot be marked with '{2}' attribute.".FormatWith(CultureInfo.InvariantCulture, method, GetClrTypeFullName(method.DeclaringType), attributeType));
+            throw new JsonException($"Virtual Method '{method}' of type '{GetClrTypeFullName(method.DeclaringType)}' cannot be marked with '{attributeType}' attribute.");
         }
 
         if (method.ReturnType != typeof(void))
         {
-            throw new JsonException("Serialization Callback '{1}' in type '{0}' must return void.".FormatWith(CultureInfo.InvariantCulture, GetClrTypeFullName(method.DeclaringType), method));
+            throw new JsonException(string.Format("Serialization Callback '{1}' in type '{0}' must return void.", GetClrTypeFullName(method.DeclaringType), method));
         }
 
         if (attributeType == typeof(OnErrorAttribute))
         {
             if (parameters == null || parameters.Length != 2 || parameters[0].ParameterType != typeof(StreamingContext) || parameters[1].ParameterType != typeof(ErrorContext))
             {
-                throw new JsonException("Serialization Error Callback '{1}' in type '{0}' must have two parameters of type '{2}' and '{3}'.".FormatWith(CultureInfo.InvariantCulture, GetClrTypeFullName(method.DeclaringType), method, typeof(StreamingContext), typeof(ErrorContext)));
+                throw new JsonException(string.Format("Serialization Error Callback '{1}' in type '{0}' must have two parameters of type '{2}' and '{3}'.", GetClrTypeFullName(method.DeclaringType), method, typeof(StreamingContext), typeof(ErrorContext)));
             }
         }
         else
         {
             if (parameters == null || parameters.Length != 1 || parameters[0].ParameterType != typeof(StreamingContext))
             {
-                throw new JsonException("Serialization Callback '{1}' in type '{0}' must have a single parameter of type '{2}'.".FormatWith(CultureInfo.InvariantCulture, GetClrTypeFullName(method.DeclaringType), method, typeof(StreamingContext)));
+                throw new JsonException(string.Format("Serialization Callback '{1}' in type '{0}' must have a single parameter of type '{2}'.", GetClrTypeFullName(method.DeclaringType), method, typeof(StreamingContext)));
             }
         }
 
@@ -1244,7 +1244,7 @@ public class DefaultContractResolver : IContractResolver
             return type.FullName;
         }
 
-        return "{0}.{1}".FormatWith(CultureInfo.InvariantCulture, type.Namespace, type.Name);
+        return $"{type.Namespace}.{type.Name}";
     }
 
     /// <summary>

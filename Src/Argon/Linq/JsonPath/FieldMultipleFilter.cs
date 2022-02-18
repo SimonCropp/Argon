@@ -26,7 +26,7 @@ class FieldMultipleFilter : PathFilter
 
                     if (settings?.ErrorWhenNoMatch ?? false)
                     {
-                        throw new JsonException("Property '{0}' does not exist on JObject.".FormatWith(CultureInfo.InvariantCulture, name));
+                        throw new JsonException($"Property '{name}' does not exist on JObject.");
                     }
                 }
             }
@@ -34,7 +34,7 @@ class FieldMultipleFilter : PathFilter
             {
                 if (settings?.ErrorWhenNoMatch ?? false)
                 {
-                    throw new JsonException("Properties {0} not valid on {1}.".FormatWith(CultureInfo.InvariantCulture, string.Join(", ", Names.Select(n => "'" + n + "'")), t.GetType().Name));
+                    throw new JsonException($"Properties {string.Join(", ", Names.Select(n => $"'{n}'"))} not valid on {t.GetType().Name}.");
                 }
             }
         }

@@ -35,7 +35,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     {
         var data = Encoding.UTF8.GetBytes("Hello world");
 
-        var json = @"['" + Convert.ToBase64String(data) + "' '" + Convert.ToBase64String(data) + @"']";
+        var json = $@"['{Convert.ToBase64String(data)}' '{Convert.ToBase64String(data)}']";
         var reader = new JsonTextReader(new StringReader(json));
 
         Assert.True(await reader.ReadAsync());
@@ -546,7 +546,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
             {
                 reader = new JsonTextReader(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
                 await reader.ReadAsInt32Async();
-            }, "JSON integer " + total + " is too large or small for an Int32. Path '', line 1, position 10.");
+            }, $"JSON integer {total} is too large or small for an Int32. Path '', line 1, position 10.");
         }
     }
 
@@ -567,7 +567,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
             {
                 reader = new JsonTextReader(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
                 await reader.ReadAsInt32Async();
-            }, "JSON integer " + total + " is too large or small for an Int32. Path '', line 1, position 11.");
+            }, $"JSON integer {total} is too large or small for an Int32. Path '', line 1, position 11.");
         }
     }
 
@@ -781,7 +781,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
         var helloWorld = "Hello world!";
         var helloWorldData = Encoding.UTF8.GetBytes(helloWorld);
 
-        JsonReader reader = new JsonTextReader(new StringReader(@"'" + Convert.ToBase64String(helloWorldData)));
+        JsonReader reader = new JsonTextReader(new StringReader($@"'{Convert.ToBase64String(helloWorldData)}"));
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsBytesAsync(); }, "Unterminated string. Expected delimiter: '. Path '', line 1, position 17.");
     }

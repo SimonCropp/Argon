@@ -166,7 +166,7 @@ public abstract partial class JsonWriter : IDisposable
                 case State.Start:
                     return WriteState.Start;
                 default:
-                    throw JsonWriterException.Create(this, "Invalid state: " + _currentState, null);
+                    throw JsonWriterException.Create(this, $"Invalid state: {_currentState}", null);
             }
         }
     }
@@ -701,7 +701,7 @@ public abstract partial class JsonWriter : IDisposable
                 WriteEndConstructor();
                 break;
             default:
-                throw JsonWriterException.Create(this, "Unexpected type when writing end: " + type, null);
+                throw JsonWriterException.Create(this, $"Unexpected type when writing end: {type}", null);
         }
     }
 
@@ -724,7 +724,7 @@ public abstract partial class JsonWriter : IDisposable
             case JsonContainerType.Constructor:
                 return JsonToken.EndConstructor;
             default:
-                throw JsonWriterException.Create(this, "No close token for type: " + type, null);
+                throw JsonWriterException.Create(this, $"No close token for type: {type}", null);
         }
     }
 
@@ -805,7 +805,7 @@ public abstract partial class JsonWriter : IDisposable
                 _currentState = State.Start;
                 break;
             default:
-                throw JsonWriterException.Create(this, "Unknown JsonType: " + currentLevelType, null);
+                throw JsonWriterException.Create(this, $"Unknown JsonType: {currentLevelType}", null);
         }
     }
 
@@ -845,7 +845,7 @@ public abstract partial class JsonWriter : IDisposable
 
         if (newState == State.Error)
         {
-            throw JsonWriterException.Create(this, "Token {0} in state {1} would result in an invalid JSON object.".FormatWith(CultureInfo.InvariantCulture, tokenBeingWritten.ToString(), _currentState.ToString()), null);
+            throw JsonWriterException.Create(this, $"Token {tokenBeingWritten.ToString()} in state {_currentState.ToString()} would result in an invalid JSON object.", null);
         }
 
         if (_currentState is State.Object or State.Array or State.Constructor && tokenBeingWritten != JsonToken.Comment)
@@ -1641,7 +1641,7 @@ public abstract partial class JsonWriter : IDisposable
 
     static JsonWriterException CreateUnsupportedTypeException(JsonWriter writer, object value)
     {
-        return JsonWriterException.Create(writer, "Unsupported type: {0}. Use the JsonSerializer class to get the object's JSON representation.".FormatWith(CultureInfo.InvariantCulture, value.GetType()), null);
+        return JsonWriterException.Create(writer, $"Unsupported type: {value.GetType()}. Use the JsonSerializer class to get the object's JSON representation.", null);
     }
 
     /// <summary>

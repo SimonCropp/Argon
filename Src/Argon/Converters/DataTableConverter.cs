@@ -111,7 +111,7 @@ public class DataTableConverter : JsonConverter
 
         if (reader.TokenType != JsonToken.StartArray)
         {
-            throw JsonSerializationException.Create(reader, "Unexpected JSON token when reading DataTable. Expected StartArray, got {0}.".FormatWith(CultureInfo.InvariantCulture, reader.TokenType));
+            throw JsonSerializationException.Create(reader, $"Unexpected JSON token when reading DataTable. Expected StartArray, got {reader.TokenType}.");
         }
 
         reader.ReadAndAssert();
@@ -226,7 +226,7 @@ public class DataTableConverter : JsonConverter
                 var arrayType = GetColumnDataType(reader);
                 return arrayType.MakeArrayType();
             default:
-                throw JsonSerializationException.Create(reader, "Unexpected JSON token when reading DataTable: {0}".FormatWith(CultureInfo.InvariantCulture, tokenType));
+                throw JsonSerializationException.Create(reader, $"Unexpected JSON token when reading DataTable: {tokenType}");
         }
     }
 

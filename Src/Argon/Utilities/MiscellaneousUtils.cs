@@ -69,7 +69,7 @@ static class MiscellaneousUtils
 
     public static ArgumentOutOfRangeException CreateArgumentOutOfRangeException(string paramName, object actualValue, string message)
     {
-        var newMessage = message + Environment.NewLine + @"Actual value was {0}.".FormatWith(CultureInfo.InvariantCulture, actualValue);
+        var newMessage = $@"{message}{Environment.NewLine}Actual value was {actualValue}.";
 
         return new ArgumentOutOfRangeException(paramName, newMessage);
     }
@@ -81,7 +81,7 @@ static class MiscellaneousUtils
             return "{null}";
         }
 
-        return value is string s ? @"""" + s + @"""" : value!.ToString();
+        return value is string s ? $@"""{s}""" : value!.ToString();
     }
 
     public static int ByteArrayCompare(byte[] a1, byte[] a2)

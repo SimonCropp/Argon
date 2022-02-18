@@ -36,7 +36,7 @@ public abstract partial class JsonWriter
 
         if (newState == State.Error)
         {
-            throw JsonWriterException.Create(this, "Token {0} in state {1} would result in an invalid JSON object.".FormatWith(CultureInfo.InvariantCulture, tokenBeingWritten.ToString(), oldState.ToString()), null);
+            throw JsonWriterException.Create(this, $"Token {tokenBeingWritten.ToString()} in state {oldState.ToString()} would result in an invalid JSON object.", null);
         }
 
         _currentState = newState;
@@ -260,7 +260,7 @@ public abstract partial class JsonWriter
                     return cancellationToken.FromCanceled();
                 }
 
-                throw JsonWriterException.Create(this, "Unexpected type when writing end: " + type, null);
+                throw JsonWriterException.Create(this, $"Unexpected type when writing end: {type}", null);
         }
     }
 
@@ -815,7 +815,7 @@ public abstract partial class JsonWriter
         }
         if (reader.TokenType != JsonToken.Integer)
         {
-            throw JsonWriterException.Create(this, "Unexpected token when reading date constructor. Expected Integer, got " + reader.TokenType, null);
+            throw JsonWriterException.Create(this, $"Unexpected token when reading date constructor. Expected Integer, got {reader.TokenType}", null);
         }
 
         var date = DateTimeUtils.ConvertJavaScriptTicksToDateTime((long)reader.Value!);
@@ -826,7 +826,7 @@ public abstract partial class JsonWriter
         }
         if (reader.TokenType != JsonToken.EndConstructor)
         {
-            throw JsonWriterException.Create(this, "Unexpected token when reading date constructor. Expected EndConstructor, got " + reader.TokenType, null);
+            throw JsonWriterException.Create(this, $"Unexpected token when reading date constructor. Expected EndConstructor, got {reader.TokenType}", null);
         }
 
         await WriteValueAsync(date, cancellationToken).ConfigureAwait(false);

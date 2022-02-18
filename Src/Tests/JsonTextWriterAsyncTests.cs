@@ -216,8 +216,8 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         var arrayPool = new FakeArrayPool();
 
         var longString = new string('A', 2000);
-        var longEscapedString = "Hello!" + new string('!', 50) + new string('\n', 1000) + "Good bye!";
-        var longerEscapedString = "Hello!" + new string('!', 2000) + new string('\n', 1000) + "Good bye!";
+        var longEscapedString = $"Hello!{new string('!', 50)}{new string('\n', 1000)}Good bye!";
+        var longerEscapedString = $"Hello!{new string('!', 2000)}{new string('\n', 1000)}Good bye!";
 
         for (var i = 0; i < 1000; i++)
         {
@@ -246,7 +246,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
 
             if ((i + 1) % 100 == 0)
             {
-                Console.WriteLine("Allocated buffers: " + arrayPool.FreeArrays.Count);
+                Console.WriteLine($"Allocated buffers: {arrayPool.FreeArrays.Count}");
             }
         }
 
@@ -312,7 +312,9 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
 
         var json = Encoding.UTF8.GetString(data, 0, data.Length);
 
-        Assert.Equal(@"{" + '\n' + @"  ""prop"": true" + '\n' + "}", json);
+        Assert.Equal(@"{
+  ""prop"": true
+}", json);
     }
 
     [Fact]
@@ -930,7 +932,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
 
             while (i < 3)
             {
-                await jsonWriter.WritePropertyNameAsync("d" + i);
+                await jsonWriter.WritePropertyNameAsync($"d{i}");
                 await jsonWriter.WriteRawValueAsync(rawJson);
 
                 i++;
@@ -1482,7 +1484,7 @@ _____'propertyName': NaN,
 
             if (newText != oldText)
             {
-                throw new Exception("Difference for char '{0}' (value {1}). Old text: {2}, New text: {3}".FormatWith(CultureInfo.InvariantCulture, c, (int)c, oldText, newText));
+                throw new Exception(string.Format($"Difference for char '{c}' (value {(int) c}). Old text: {oldText}, New text: {newText}"));
             }
 
             c++;
@@ -1674,15 +1676,14 @@ _____'propertyName': NaN,
     [Fact]
     public async Task WriteCommentsAsync()
     {
-        var json = @"//comment*//*hi*/
-{//comment
+        var json = $@"//comment*//*hi*/
+{{//comment
 Name://comment
-true//comment after true" + StringUtils.CarriageReturn + @"
-,//comment after comma" + StringUtils.CarriageReturnLineFeed + @"
-""ExpiryDate""://comment" + StringUtils.LineFeed + @"
+true//comment after true{StringUtils.CarriageReturn}
+,//comment after comma{StringUtils.CarriageReturnLineFeed}
+""ExpiryDate""://comment{StringUtils.LineFeed}
 new
-" + StringUtils.LineFeed +
-                   @"Constructor
+{StringUtils.LineFeed}Constructor
 (//comment
 null//comment
 ),
@@ -1692,7 +1693,7 @@ null//comment
 
           ""Small""//comment
 ]//comment
-}//comment 
+}}//comment 
 //comment 1 ";
 
         var r = new JsonTextReader(new StringReader(json));

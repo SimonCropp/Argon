@@ -58,7 +58,7 @@ public class DataSetConverterTests : TestFixtureBase
         for (var i = 0; i < 2; i++)
         {
             var newRow = table.NewRow();
-            newRow["item"] = "item " + i;
+            newRow["item"] = $"item {i}";
             table.Rows.Add(newRow);
         }
 

@@ -33,7 +33,7 @@ public class PosConverter : JsonConverter
 
         if (p != null)
         {
-            writer.WriteRawValue(String.Format("new Pos({0},{1})", p.X, p.Y));
+            writer.WriteRawValue($"new Pos({p.X},{p.Y})");
         }
         else
         {

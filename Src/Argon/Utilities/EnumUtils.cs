@@ -52,7 +52,7 @@ static class EnumUtils
 
             if (Array.IndexOf(resolvedNames, resolvedName, 0, i) != -1)
             {
-                throw new InvalidOperationException("Enum name '{0}' already exists on enum '{1}'.".FormatWith(CultureInfo.InvariantCulture, resolvedName, enumType.Name));
+                throw new InvalidOperationException($"Enum name '{resolvedName}' already exists on enum '{enumType.Name}'.");
             }
 
             resolvedNames[i] = key.Value2 != null
@@ -71,7 +71,7 @@ static class EnumUtils
 
         if (!enumType.IsDefined(typeof(FlagsAttribute), false))
         {
-            throw new ArgumentException("Enum type {0} is not a set of flags.".FormatWith(CultureInfo.InvariantCulture, enumType));
+            throw new ArgumentException($"Enum type {enumType} is not a set of flags.");
         }
 
         var underlyingType = Enum.GetUnderlyingType(value.GetType());
@@ -290,7 +290,7 @@ static class EnumUtils
             {
                 if (disallowNumber)
                 {
-                    throw new FormatException("Integer string '{0}' is not allowed.".FormatWith(CultureInfo.InvariantCulture, value));
+                    throw new FormatException($"Integer string '{value}' is not allowed.");
                 }
 
                 return Enum.ToObject(enumType, temp);
@@ -342,7 +342,7 @@ static class EnumUtils
                 }
 
                 // no match so error
-                throw new ArgumentException("Requested value '{0}' was not found.".FormatWith(CultureInfo.InvariantCulture, value));
+                throw new ArgumentException($"Requested value '{value}' was not found.");
             }
 
             result |= enumValues[matchingIndex.Value];
