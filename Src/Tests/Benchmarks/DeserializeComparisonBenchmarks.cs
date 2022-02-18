@@ -37,7 +37,6 @@ namespace Argon.Tests.Benchmarks;
 public class DeserializeComparisonBenchmarks
 {
     static readonly byte[] BinaryFormatterData = BenchmarkConstants.BinaryFormatterHex.HexToBytes();
-    static readonly byte[] BsonData = BenchmarkConstants.BsonHex.HexToBytes();
 
     [Benchmark]
     public TestClass DataContractSerializer()
@@ -301,18 +300,4 @@ public class DeserializeComparisonBenchmarks
         }
         return a;
     }
-
-#pragma warning disable 618
-    [Benchmark]
-    public TestClass JsonNetBson()
-    {
-        return DeserializeJsonNetBson<TestClass>(BsonData);
-    }
-
-    T DeserializeJsonNetBson<T>(byte[] bson)
-    {
-        var serializer = new JsonSerializer();
-        return (T)serializer.Deserialize(new BsonReader(new MemoryStream(bson)), typeof(T));
-    }
-#pragma warning restore 618
 }

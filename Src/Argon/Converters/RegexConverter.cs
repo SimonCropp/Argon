@@ -28,7 +28,7 @@ using System.Text.RegularExpressions;
 namespace Argon.Converters;
 
 /// <summary>
-/// Converts a <see cref="Regex"/> to and from JSON and BSON.
+/// Converts a <see cref="Regex"/> to and from JSON.
 /// </summary>
 public class RegexConverter : JsonConverter
 {
@@ -49,62 +49,10 @@ public class RegexConverter : JsonConverter
             return;
         }
 
-        var regex = (Regex)value;
+        var regex = (Regex) value;
 
-#pragma warning disable 618
-        if (writer is BsonWriter bsonWriter)
-        {
-            WriteBson(bsonWriter, regex);
-        }
-#pragma warning restore 618
-        else
-        {
-            WriteJson(writer, regex, serializer);
-        }
+        WriteJson(writer, regex, serializer);
     }
-
-    bool HasFlag(RegexOptions options, RegexOptions flag)
-    {
-        return (options & flag) == flag;
-    }
-
-#pragma warning disable 618
-    void WriteBson(BsonWriter writer, Regex regex)
-    {
-        // Regular expression - The first cstring is the regex pattern, the second
-        // is the regex options string. Options are identified by characters, which 
-        // must be stored in alphabetical order. Valid options are 'i' for case 
-        // insensitive matching, 'm' for multiline matching, 'x' for verbose mode, 
-        // 'l' to make \w, \W, etc. locale dependent, 's' for dotall mode 
-        // ('.' matches everything), and 'u' to make \w, \W, etc. match unicode.
-
-        string? options = null;
-
-        if (HasFlag(regex.Options, RegexOptions.IgnoreCase))
-        {
-            options += "i";
-        }
-
-        if (HasFlag(regex.Options, RegexOptions.Multiline))
-        {
-            options += "m";
-        }
-
-        if (HasFlag(regex.Options, RegexOptions.Singleline))
-        {
-            options += "s";
-        }
-
-        options += "u";
-
-        if (HasFlag(regex.Options, RegexOptions.ExplicitCapture))
-        {
-            options += "x";
-        }
-
-        writer.WriteRegex(regex.ToString(), options);
-    }
-#pragma warning restore 618
 
     void WriteJson(JsonWriter writer, Regex regex, JsonSerializer serializer)
     {
