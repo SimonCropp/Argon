@@ -436,12 +436,12 @@ public class DynamicTests : TestFixtureBase
         r = d.Integer - 1.1;
         Assert.AreEqual(-0.1d, (double)r, 0.00001);
         r -= 2;
-        Assert.AreEqual(-2.1d, (double)r);
+        Xunit.Assert.Equal(-2.1d, (double)r);
 
         r = d.Integer - 1.1d;
-        Assert.AreEqual(-0.1m, (decimal)r);
+        Xunit.Assert.Equal(-0.1m, (decimal)r);
         r -= 2;
-        Assert.AreEqual(-2.1m, (decimal)r);
+        Xunit.Assert.Equal(-2.1m, (decimal)r);
 
         r = d.Integer - null;
         Xunit.Assert.Equal(null, r.Value);
@@ -451,7 +451,7 @@ public class DynamicTests : TestFixtureBase
         r = d.Float - 1;
         Assert.AreEqual(0.1d, (double)r, 0.00001);
         r -= 2;
-        Assert.AreEqual(-1.9d, (double)r);
+        Xunit.Assert.Equal(-1.9d, (double)r);
 
         r = d.Float - 1.1;
         Xunit.Assert.Equal(0d, (double)r);

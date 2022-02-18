@@ -55,7 +55,7 @@ public class JsonSchemaTests : TestFixtureBase
 }";
 
     var second = JsonSchema.Parse(json, resolver);
-    Assert.AreEqual(first, second.Extends[0]);
+    Xunit.Assert.Equal(first, second.Extends[0]);
 
     json =
       @"{
@@ -66,8 +66,8 @@ public class JsonSchemaTests : TestFixtureBase
 }";
 
     var third = JsonSchema.Parse(json, resolver);
-    Assert.AreEqual(second, third.Extends[0]);
-    Assert.AreEqual(first, third.Extends[0].Extends[0]);
+    Xunit.Assert.Equal(second, third.Extends[0]);
+    Xunit.Assert.Equal(first, third.Extends[0].Extends[0]);
 
     var writer = new StringWriter();
     var jsonWriter = new JsonTextWriter(writer);

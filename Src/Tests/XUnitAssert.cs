@@ -9,11 +9,6 @@ public class XUnitAssert
         Assert.Equal(expected, actual, 5); // hack
     }
 
-    public static void AreEqual(object expected, object actual)
-    {
-        Assert.Equal(expected, actual);
-    }
-    
     public static void False(object actual)
     {
         Assert.IsType<bool>(actual);

@@ -93,7 +93,7 @@ public class QueryJsonSelectTokenJsonPath : TestFixtureBase
   ]
 }", acme.ToString());
 
-    Assert.AreEqual("Anvil", (string)pricyProducts.ElementAt(0));
-    Assert.AreEqual("Elbow Grease", (string)pricyProducts.ElementAt(1));
+    Xunit.Assert.Equal("Anvil", (string)pricyProducts.ElementAt(0));
+    Xunit.Assert.Equal("Elbow Grease", (string)pricyProducts.ElementAt(1));
   }
 }
