@@ -23,9 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Serialization;
+using Argon;
 
-internal class TraceJsonReader : JsonReader, IJsonLineInfo
+class TraceJsonReader : JsonReader, IJsonLineInfo
 {
     private readonly JsonReader _innerReader;
     private readonly JsonTextWriter _textWriter;

@@ -25,9 +25,7 @@
 
 using System.Linq.Expressions;
 
-namespace Argon.Utilities;
-
-internal class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
+class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
 {
     private static readonly ExpressionReflectionDelegateFactory _instance = new();
 

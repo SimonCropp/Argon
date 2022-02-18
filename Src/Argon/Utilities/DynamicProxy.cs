@@ -25,9 +25,7 @@
 
 using System.Dynamic;
 
-namespace Argon.Utilities;
-
-internal class DynamicProxy<T>
+class DynamicProxy<T>
 {
     public virtual IEnumerable<string> GetDynamicMemberNames(T instance)
     {

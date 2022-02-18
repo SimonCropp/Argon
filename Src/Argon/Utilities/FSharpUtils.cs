@@ -23,9 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Utilities;
-
-internal class FSharpFunction
+class FSharpFunction
 {
     private readonly object? _instance;
     private readonly MethodCall<object?, object> _invoker;
@@ -44,7 +42,7 @@ internal class FSharpFunction
     }
 }
 
-internal class FSharpUtils
+class FSharpUtils
 {
     private FSharpUtils(Assembly fsharpCoreAssembly)
     {

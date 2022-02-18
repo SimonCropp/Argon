@@ -1,6 +1,6 @@
-namespace Argon.Linq.JsonPath;
+using Argon;
 
-internal class ArrayIndexFilter : PathFilter
+class ArrayIndexFilter : PathFilter
 {
     public int? Index { get; set; }
 

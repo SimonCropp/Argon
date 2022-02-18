@@ -25,9 +25,7 @@
 
 #nullable disable
 
-namespace Argon.Bson;
-
-internal enum BsonType : sbyte
+enum BsonType : sbyte
 {
     Number = 1,
     String = 2,

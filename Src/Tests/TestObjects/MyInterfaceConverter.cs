@@ -27,7 +27,7 @@ using System.ComponentModel;
 
 namespace Argon.Tests.TestObjects;
 
-internal class MyInterfaceConverter : TypeConverter
+class MyInterfaceConverter : TypeConverter
 {
     private readonly List<IMyInterface> _writers = new()
     {

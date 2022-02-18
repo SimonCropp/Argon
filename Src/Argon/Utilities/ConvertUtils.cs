@@ -25,9 +25,7 @@
 
 using System.ComponentModel;
 
-namespace Argon.Utilities;
-
-internal enum PrimitiveTypeCode
+enum PrimitiveTypeCode
 {
     Empty = 0,
     Object = 1,
@@ -73,7 +71,7 @@ internal enum PrimitiveTypeCode
     DBNull = 41
 }
 
-internal class TypeInformation
+class TypeInformation
 {
     public Type Type { get; }
     public PrimitiveTypeCode TypeCode { get; }
@@ -85,7 +83,7 @@ internal class TypeInformation
     }
 }
 
-internal enum ParseResult
+enum ParseResult
 {
     None = 0,
     Success = 1,
@@ -93,7 +91,7 @@ internal enum ParseResult
     Invalid = 3
 }
 
-internal static class ConvertUtils
+static class ConvertUtils
 {
     private static readonly Dictionary<Type, PrimitiveTypeCode> TypeCodeMap =
         new()

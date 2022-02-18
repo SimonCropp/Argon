@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Argon.Linq.JsonPath;
 using System.Dynamic;
 using System.Linq.Expressions;
 

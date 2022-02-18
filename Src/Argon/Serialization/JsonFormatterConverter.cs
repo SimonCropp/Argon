@@ -23,9 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Serialization;
-
-internal class JsonFormatterConverter : IFormatterConverter
+class JsonFormatterConverter : IFormatterConverter
 {
     private readonly JsonSerializerInternalReader _reader;
     private readonly JsonISerializableContract _contract;

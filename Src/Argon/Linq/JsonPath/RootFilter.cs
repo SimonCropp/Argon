@@ -1,6 +1,4 @@
-namespace Argon.Linq.JsonPath;
-
-internal class RootFilter : PathFilter
+class RootFilter : PathFilter
 {
     public static readonly RootFilter Instance = new();
 

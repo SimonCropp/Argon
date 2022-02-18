@@ -25,9 +25,7 @@
 
 using System.Collections.ObjectModel;
 
-namespace Argon.Linq;
-
-internal class JPropertyKeyedCollection : Collection<JToken>
+class JPropertyKeyedCollection : Collection<JToken>
 {
     private static readonly IEqualityComparer<string> Comparer = StringComparer.Ordinal;
 

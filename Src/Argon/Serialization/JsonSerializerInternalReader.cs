@@ -24,10 +24,9 @@
 #endregion
 
 using System.Dynamic;
+using Argon;
 
-namespace Argon.Serialization;
-
-internal class JsonSerializerInternalReader : JsonSerializerInternalBase
+class JsonSerializerInternalReader : JsonSerializerInternalBase
 {
     internal enum PropertyPresence
     {

@@ -25,7 +25,7 @@
 
 namespace Argon.Tests.TestObjects;
 
-internal class TraceWriter : IMyInterface
+class TraceWriter : IMyInterface
 {
     public string Name => "Trace Writer";
 

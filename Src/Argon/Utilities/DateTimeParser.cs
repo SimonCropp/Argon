@@ -23,9 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Utilities;
-
-internal enum ParserTimeZone
+enum ParserTimeZone
 {
     Unspecified = 0,
     Utc = 1,
@@ -33,7 +31,7 @@ internal enum ParserTimeZone
     LocalEastOfUtc = 3
 }
 
-internal struct DateTimeParser
+struct DateTimeParser
 {
     static DateTimeParser()
     {

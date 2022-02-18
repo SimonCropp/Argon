@@ -25,9 +25,7 @@
 
 #nullable disable
 
-namespace Argon.Bson;
-
-internal class BsonBinaryWriter
+class BsonBinaryWriter
 {
     private static readonly Encoding Encoding = new UTF8Encoding(false);
 

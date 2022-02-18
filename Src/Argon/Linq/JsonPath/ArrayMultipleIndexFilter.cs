@@ -1,6 +1,4 @@
-namespace Argon.Linq.JsonPath;
-
-internal class ArrayMultipleIndexFilter : PathFilter
+class ArrayMultipleIndexFilter : PathFilter
 {
     internal List<int> Indexes;
 

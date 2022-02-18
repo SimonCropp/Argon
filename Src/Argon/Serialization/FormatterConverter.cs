@@ -1,6 +1,4 @@
-﻿namespace Argon.Serialization;
-
-internal class FormatterConverter : IFormatterConverter
+﻿class FormatterConverter : IFormatterConverter
 {
     public object Convert(object value, Type type)
     {

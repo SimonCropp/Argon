@@ -25,16 +25,14 @@
 
 #nullable disable
 
-namespace Argon.Bson;
-
-internal abstract class BsonToken
+abstract class BsonToken
 {
     public abstract BsonType Type { get; }
     public BsonToken Parent { get; set; }
     public int CalculatedSize { get; set; }
 }
 
-internal class BsonObject : BsonToken, IEnumerable<BsonProperty>
+class BsonObject : BsonToken, IEnumerable<BsonProperty>
 {
     private readonly List<BsonProperty> _children = new();
 
@@ -57,7 +55,7 @@ internal class BsonObject : BsonToken, IEnumerable<BsonProperty>
     }
 }
 
-internal class BsonArray : BsonToken, IEnumerable<BsonToken>
+class BsonArray : BsonToken, IEnumerable<BsonToken>
 {
     private readonly List<BsonToken> _children = new();
 
@@ -80,7 +78,7 @@ internal class BsonArray : BsonToken, IEnumerable<BsonToken>
     }
 }
 
-internal class BsonEmpty : BsonToken
+class BsonEmpty : BsonToken
 {
     public static readonly BsonToken Null = new BsonEmpty(BsonType.Null);
     public static readonly BsonToken Undefined = new BsonEmpty(BsonType.Undefined);
@@ -93,7 +91,7 @@ internal class BsonEmpty : BsonToken
     public override BsonType Type { get; }
 }
 
-internal class BsonValue : BsonToken
+class BsonValue : BsonToken
 {
     private readonly object _value;
     private readonly BsonType _type;
@@ -109,7 +107,7 @@ internal class BsonValue : BsonToken
     public override BsonType Type => _type;
 }
 
-internal class BsonBoolean : BsonValue
+class BsonBoolean : BsonValue
 {
     public static readonly BsonBoolean False = new(false);
     public static readonly BsonBoolean True = new(true);
@@ -120,7 +118,7 @@ internal class BsonBoolean : BsonValue
     }
 }
 
-internal class BsonString : BsonValue
+class BsonString : BsonValue
 {
     public int ByteCount { get; set; }
     public bool IncludeLength { get; }
@@ -132,7 +130,7 @@ internal class BsonString : BsonValue
     }
 }
 
-internal class BsonBinary : BsonValue
+class BsonBinary : BsonValue
 {
     public BsonBinaryType BinaryType { get; set; }
 
@@ -143,7 +141,7 @@ internal class BsonBinary : BsonValue
     }
 }
 
-internal class BsonRegex : BsonToken
+class BsonRegex : BsonToken
 {
     public BsonString Pattern { get; set; }
     public BsonString Options { get; set; }
@@ -157,7 +155,7 @@ internal class BsonRegex : BsonToken
     public override BsonType Type => BsonType.Regex;
 }
 
-internal class BsonProperty
+ class BsonProperty
 {
     public BsonString Name { get; set; }
     public BsonToken Value { get; set; }

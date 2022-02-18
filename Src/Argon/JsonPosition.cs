@@ -23,9 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon;
+using Argon;
 
-internal enum JsonContainerType
+enum JsonContainerType
 {
     None = 0,
     Object = 1,
@@ -33,7 +33,7 @@ internal enum JsonContainerType
     Constructor = 3
 }
 
-internal struct JsonPosition
+struct JsonPosition
 {
     private static readonly char[] SpecialCharacters = { '.', ' ', '\'', '/', '"', '[', ']', '(', ')', '\t', '\n', '\r', '\f', '\b', '\\', '\u0085', '\u2028', '\u2029' };
 

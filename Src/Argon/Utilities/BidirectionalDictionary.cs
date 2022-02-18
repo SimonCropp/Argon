@@ -23,9 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Utilities;
-
-internal class BidirectionalDictionary<TFirst, TSecond>
+class BidirectionalDictionary<TFirst, TSecond>
 {
     private readonly IDictionary<TFirst, TSecond> _firstToSecond;
     private readonly IDictionary<TSecond, TFirst> _secondToFirst;

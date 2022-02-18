@@ -28,7 +28,7 @@ using System.ComponentModel;
 namespace Argon.Tests.TestObjects;
 
 [TypeConverter(typeof(MyInterfaceConverter))]
-internal interface IMyInterface
+interface IMyInterface
 {
     string Name { get; }
 

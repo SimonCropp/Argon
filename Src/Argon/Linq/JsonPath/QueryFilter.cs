@@ -1,6 +1,4 @@
-namespace Argon.Linq.JsonPath;
-
-internal class QueryFilter : PathFilter
+class QueryFilter : PathFilter
 {
     internal QueryExpression Expression;
 

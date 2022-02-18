@@ -25,7 +25,7 @@
 
 namespace Argon.Tests.TestObjects;
 
-internal class Bb : Aa
+class Bb : Aa
 {
     public new bool no;
 }

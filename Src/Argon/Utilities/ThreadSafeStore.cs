@@ -23,9 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Utilities;
-
-internal class ThreadSafeStore<TKey, TValue>
+class ThreadSafeStore<TKey, TValue>
 {
     private readonly ConcurrentDictionary<TKey, TValue> _concurrentStore;
     private readonly Func<TKey, TValue> _creator;

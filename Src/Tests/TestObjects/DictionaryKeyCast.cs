@@ -25,7 +25,7 @@
 
 namespace Argon.Tests.TestObjects;
 
-internal class DictionaryKeyCast
+class DictionaryKeyCast
 {
     private String _name;
     private int _number;

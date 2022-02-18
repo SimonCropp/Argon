@@ -1,6 +1,6 @@
-namespace Argon.Linq.JsonPath;
+using Argon;
 
-internal abstract class PathFilter
+abstract class PathFilter
 {
     public abstract IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings? settings);
 

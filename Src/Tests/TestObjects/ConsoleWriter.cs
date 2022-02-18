@@ -28,7 +28,7 @@ using System.ComponentModel;
 namespace Argon.Tests.TestObjects;
 
 [TypeConverter(typeof(MyInterfaceConverter))]
-internal class ConsoleWriter : IMyInterface
+class ConsoleWriter : IMyInterface
 {
     public string Name => "Console Writer";
 

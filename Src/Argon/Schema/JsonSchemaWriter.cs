@@ -23,12 +23,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
+using Argon;
+
 #nullable disable
 
-namespace Argon.Schema;
-
 [Obsolete("JSON Schema validation has been moved to its own package. See https://www.newtonsoft.com/jsonschema for more details.")]
-internal class JsonSchemaWriter
+class JsonSchemaWriter
 {
     private readonly JsonWriter _writer;
     private readonly JsonSchemaResolver _resolver;

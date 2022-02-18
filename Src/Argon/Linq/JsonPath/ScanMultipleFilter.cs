@@ -1,6 +1,4 @@
-namespace Argon.Linq.JsonPath;
-
-internal class ScanMultipleFilter : PathFilter
+class ScanMultipleFilter : PathFilter
 {
     private List<string> _names;
 

@@ -23,9 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Utilities;
-
-internal class Base64Encoder
+class Base64Encoder
 {
     private const int Base64LineSize = 76;
     private const int LineSizeInBytes = 57;

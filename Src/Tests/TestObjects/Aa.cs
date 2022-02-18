@@ -25,7 +25,7 @@
 
 namespace Argon.Tests.TestObjects;
 
-internal class Aa
+class Aa
 {
     public int no;
 }

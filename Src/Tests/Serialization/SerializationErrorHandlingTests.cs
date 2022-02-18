@@ -1032,11 +1032,11 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     }
 }
 
-internal interface IErrorPerson2
+interface IErrorPerson2
 {
 }
 
-internal class ErrorPerson2 //:IPerson - oops! Forgot to implement the person interface
+class ErrorPerson2 //:IPerson - oops! Forgot to implement the person interface
 {
     public string LastName { get; set; }
     public string FirstName { get; set; }

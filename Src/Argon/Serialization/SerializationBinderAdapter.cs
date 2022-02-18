@@ -23,9 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Serialization;
-
-internal class SerializationBinderAdapter : ISerializationBinder
+class SerializationBinderAdapter : ISerializationBinder
 {
 #pragma warning disable 618
     public readonly SerializationBinder SerializationBinder;

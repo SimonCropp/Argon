@@ -25,10 +25,8 @@
 
 #nullable disable
 
-namespace Argon.Schema;
-
 [Obsolete("JSON Schema validation has been moved to its own package. See https://www.newtonsoft.com/jsonschema for more details.")]
-internal class JsonSchemaModel
+class JsonSchemaModel
 {
     public bool Required { get; set; }
     public JsonSchemaType Type { get; set; }

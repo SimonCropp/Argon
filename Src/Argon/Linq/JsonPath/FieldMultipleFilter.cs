@@ -1,6 +1,6 @@
-namespace Argon.Linq.JsonPath;
+using Argon;
 
-internal class FieldMultipleFilter : PathFilter
+class FieldMultipleFilter : PathFilter
 {
     internal List<string> Names;
 

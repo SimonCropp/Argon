@@ -57,7 +57,7 @@ internal sealed class AllowNullAttribute : Attribute
 /// Specifies that the method will not return if the associated Boolean parameter is passed the specified value.
 /// </summary>
 [AttributeUsage(AttributeTargets.Parameter, Inherited = false)]
-internal class DoesNotReturnIfAttribute : Attribute
+class DoesNotReturnIfAttribute : Attribute
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="DoesNotReturnIfAttribute"/> class.

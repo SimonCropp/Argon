@@ -23,9 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Serialization;
+using Argon;
 
-internal class DefaultReferenceResolver : IReferenceResolver
+class DefaultReferenceResolver : IReferenceResolver
 {
     private int _referenceCount;
 

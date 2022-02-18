@@ -26,9 +26,7 @@
 #if !NETSTANDARD2_0
 using System.Reflection.Emit;
 
-namespace Argon.Utilities;
-
-internal class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
+class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
 {
     internal static DynamicReflectionDelegateFactory Instance { get; } = new();
 

@@ -1,8 +1,7 @@
 ﻿using System.Text.RegularExpressions;
+using Argon;
 
-namespace Argon.Linq.JsonPath;
-
-internal enum QueryOperator
+enum QueryOperator
 {
     None = 0,
     Equals = 1,
@@ -19,7 +18,7 @@ internal enum QueryOperator
     StrictNotEquals = 12
 }
 
-internal abstract class QueryExpression
+abstract class QueryExpression
 {
     internal QueryOperator Operator;
 
@@ -37,7 +36,7 @@ internal abstract class QueryExpression
     public abstract bool IsMatch(JToken root, JToken t, JsonSelectSettings? settings);
 }
 
-internal class CompositeExpression : QueryExpression
+class CompositeExpression : QueryExpression
 {
     public List<QueryExpression> Expressions { get; set; }
 
@@ -74,7 +73,7 @@ internal class CompositeExpression : QueryExpression
     }
 }
 
-internal class BooleanQueryExpression : QueryExpression
+class BooleanQueryExpression : QueryExpression
 {
     public readonly object Left;
     public readonly object? Right;

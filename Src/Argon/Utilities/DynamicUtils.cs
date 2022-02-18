@@ -26,9 +26,7 @@
 using System.Dynamic;
 using System.Linq.Expressions;
 
-namespace Argon.Utilities;
-
-internal static class DynamicUtils
+static class DynamicUtils
 {
     internal static class BinderWrapper
     {
@@ -121,7 +119,7 @@ internal static class DynamicUtils
     }
 }
 
-internal class NoThrowGetBinderMember : GetMemberBinder
+class NoThrowGetBinderMember : GetMemberBinder
 {
     private readonly GetMemberBinder _innerBinder;
 
@@ -143,7 +141,7 @@ internal class NoThrowGetBinderMember : GetMemberBinder
     }
 }
 
-internal class NoThrowSetBinderMember : SetMemberBinder
+class NoThrowSetBinderMember : SetMemberBinder
 {
     private readonly SetMemberBinder _innerBinder;
 
@@ -165,7 +163,7 @@ internal class NoThrowSetBinderMember : SetMemberBinder
     }
 }
 
-internal class NoThrowExpressionVisitor : ExpressionVisitor
+class NoThrowExpressionVisitor : ExpressionVisitor
 {
     internal static readonly object ErrorResult = new();
 

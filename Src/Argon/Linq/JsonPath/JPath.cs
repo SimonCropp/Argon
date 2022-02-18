@@ -23,9 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Linq.JsonPath;
+using Argon;
 
-internal class JPath
+class JPath
 {
     private static readonly char[] FloatCharacters = new[] {'.', 'E', 'e'};
 

@@ -25,10 +25,9 @@
 
 using System.Dynamic;
 using System.Security;
+using Argon;
 
-namespace Argon.Serialization;
-
-internal class JsonSerializerInternalWriter : JsonSerializerInternalBase
+class JsonSerializerInternalWriter : JsonSerializerInternalBase
 {
     private Type? _rootType;
     private int _rootLevel;

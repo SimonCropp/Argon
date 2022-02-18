@@ -23,14 +23,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Utilities;
-
-internal interface IWrappedCollection : IList
+interface IWrappedCollection : IList
 {
     object UnderlyingCollection { get; }
 }
 
-internal class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
+class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
 {
     private readonly IList? _list;
     private readonly ICollection<T>? _genericCollection;

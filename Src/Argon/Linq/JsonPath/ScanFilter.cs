@@ -1,6 +1,4 @@
-namespace Argon.Linq.JsonPath;
-
-internal class ScanFilter : PathFilter
+class ScanFilter : PathFilter
 {
     internal string? Name;
 

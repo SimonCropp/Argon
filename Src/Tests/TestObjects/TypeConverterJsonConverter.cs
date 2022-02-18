@@ -27,7 +27,7 @@ using System.ComponentModel;
 
 namespace Argon.Tests.TestObjects;
 
-internal class TypeConverterJsonConverter : JsonConverter
+class TypeConverterJsonConverter : JsonConverter
 {
     private TypeConverter GetConverter(Type type)
     {

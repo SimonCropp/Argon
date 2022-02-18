@@ -23,9 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Serialization;
+using Argon;
 
-internal class TraceJsonWriter : JsonWriter
+class TraceJsonWriter : JsonWriter
 {
     private readonly JsonWriter _innerWriter;
     private readonly JsonTextWriter _textWriter;

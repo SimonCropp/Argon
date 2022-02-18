@@ -25,11 +25,10 @@
 
 using System.Xml;
 using System.Xml.Linq;
-
-namespace Argon.Converters;
+using Argon;
 
 #region XmlNodeWrappers
-internal class XmlDocumentWrapper : XmlNodeWrapper, IXmlDocument
+class XmlDocumentWrapper : XmlNodeWrapper, IXmlDocument
 {
     private readonly XmlDocument _document;
 
@@ -123,7 +122,7 @@ internal class XmlDocumentWrapper : XmlNodeWrapper, IXmlDocument
     }
 }
 
-internal class XmlElementWrapper : XmlNodeWrapper, IXmlElement
+class XmlElementWrapper : XmlNodeWrapper, IXmlElement
 {
     private readonly XmlElement _element;
 
@@ -148,7 +147,7 @@ internal class XmlElementWrapper : XmlNodeWrapper, IXmlElement
     public bool IsEmpty => _element.IsEmpty;
 }
 
-internal class XmlDeclarationWrapper : XmlNodeWrapper, IXmlDeclaration
+class XmlDeclarationWrapper : XmlNodeWrapper, IXmlDeclaration
 {
     private readonly XmlDeclaration _declaration;
 
@@ -173,7 +172,7 @@ internal class XmlDeclarationWrapper : XmlNodeWrapper, IXmlDeclaration
     }
 }
 
-internal class XmlDocumentTypeWrapper : XmlNodeWrapper, IXmlDocumentType
+class XmlDocumentTypeWrapper : XmlNodeWrapper, IXmlDocumentType
 {
     private readonly XmlDocumentType _documentType;
 
@@ -194,7 +193,7 @@ internal class XmlDocumentTypeWrapper : XmlNodeWrapper, IXmlDocumentType
     public override string? LocalName => "DOCTYPE";
 }
 
-internal class XmlNodeWrapper : IXmlNode
+class XmlNodeWrapper : IXmlNode
 {
     private readonly XmlNode _node;
     private List<IXmlNode>? _childNodes;
@@ -329,7 +328,7 @@ internal class XmlNodeWrapper : IXmlNode
 #endregion
 
 #region Interfaces
-internal interface IXmlDocument : IXmlNode
+interface IXmlDocument : IXmlNode
 {
     IXmlNode CreateComment(string? text);
     IXmlNode CreateTextNode(string? text);
@@ -347,14 +346,14 @@ internal interface IXmlDocument : IXmlNode
     IXmlElement? DocumentElement { get; }
 }
 
-internal interface IXmlDeclaration : IXmlNode
+interface IXmlDeclaration : IXmlNode
 {
     string Version { get; }
     string Encoding { get; set; }
     string Standalone { get; set; }
 }
 
-internal interface IXmlDocumentType : IXmlNode
+interface IXmlDocumentType : IXmlNode
 {
     string Name { get; }
     string System { get; }
@@ -362,14 +361,14 @@ internal interface IXmlDocumentType : IXmlNode
     string InternalSubset { get; }
 }
 
-internal interface IXmlElement : IXmlNode
+interface IXmlElement : IXmlNode
 {
     void SetAttributeNode(IXmlNode attribute);
     string GetPrefixOfNamespace(string namespaceUri);
     bool IsEmpty { get; }
 }
 
-internal interface IXmlNode
+interface IXmlNode
 {
     XmlNodeType NodeType { get; }
     string? LocalName { get; }
@@ -384,7 +383,7 @@ internal interface IXmlNode
 #endregion
 
 #region XNodeWrappers
-internal class XDeclarationWrapper : XObjectWrapper, IXmlDeclaration
+class XDeclarationWrapper : XObjectWrapper, IXmlDeclaration
 {
     internal XDeclaration Declaration { get; }
 
@@ -411,7 +410,7 @@ internal class XDeclarationWrapper : XObjectWrapper, IXmlDeclaration
     }
 }
 
-internal class XDocumentTypeWrapper : XObjectWrapper, IXmlDocumentType
+class XDocumentTypeWrapper : XObjectWrapper, IXmlDocumentType
 {
     private readonly XDocumentType _documentType;
 
@@ -432,7 +431,7 @@ internal class XDocumentTypeWrapper : XObjectWrapper, IXmlDocumentType
     public override string? LocalName => "DOCTYPE";
 }
 
-internal class XDocumentWrapper : XContainerWrapper, IXmlDocument
+class XDocumentWrapper : XContainerWrapper, IXmlDocument
 {
     private XDocument Document => (XDocument)WrappedNode!;
 
@@ -557,7 +556,7 @@ internal class XDocumentWrapper : XContainerWrapper, IXmlDocument
     }
 }
 
-internal class XTextWrapper : XObjectWrapper
+class XTextWrapper : XObjectWrapper
 {
     private XText Text => (XText)WrappedNode!;
 
@@ -586,7 +585,7 @@ internal class XTextWrapper : XObjectWrapper
     }
 }
 
-internal class XCommentWrapper : XObjectWrapper
+class XCommentWrapper : XObjectWrapper
 {
     private XComment Text => (XComment)WrappedNode!;
 
@@ -615,7 +614,7 @@ internal class XCommentWrapper : XObjectWrapper
     }
 }
 
-internal class XProcessingInstructionWrapper : XObjectWrapper
+class XProcessingInstructionWrapper : XObjectWrapper
 {
     private XProcessingInstruction ProcessingInstruction => (XProcessingInstruction)WrappedNode!;
 
@@ -633,7 +632,7 @@ internal class XProcessingInstructionWrapper : XObjectWrapper
     }
 }
 
-internal class XContainerWrapper : XObjectWrapper
+class XContainerWrapper : XObjectWrapper
 {
     private List<IXmlNode>? _childNodes;
 
@@ -739,7 +738,7 @@ internal class XContainerWrapper : XObjectWrapper
     }
 }
 
-internal class XObjectWrapper : IXmlNode
+class XObjectWrapper : IXmlNode
 {
     private readonly XObject? _xmlObject;
 
@@ -774,7 +773,7 @@ internal class XObjectWrapper : IXmlNode
     public virtual string? NamespaceUri => null;
 }
 
-internal class XAttributeWrapper : XObjectWrapper
+class XAttributeWrapper : XObjectWrapper
 {
     private XAttribute Attribute => (XAttribute)WrappedNode!;
 
@@ -807,7 +806,7 @@ internal class XAttributeWrapper : XObjectWrapper
     }
 }
 
-internal class XElementWrapper : XContainerWrapper, IXmlElement
+class XElementWrapper : XContainerWrapper, IXmlElement
 {
     private List<IXmlNode>? _attributes;
 

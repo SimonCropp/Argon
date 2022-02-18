@@ -23,9 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Utilities;
-
-internal class LateBoundReflectionDelegateFactory : ReflectionDelegateFactory
+class LateBoundReflectionDelegateFactory : ReflectionDelegateFactory
 {
     private static readonly LateBoundReflectionDelegateFactory _instance = new();
 

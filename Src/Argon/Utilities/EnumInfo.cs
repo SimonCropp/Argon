@@ -23,9 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Utilities;
-
-internal class EnumInfo
+class EnumInfo
 {
     public EnumInfo(bool isFlags, ulong[] values, string[] names, string[] resolvedNames)
     {

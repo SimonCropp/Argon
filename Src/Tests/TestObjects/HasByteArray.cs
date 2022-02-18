@@ -25,12 +25,12 @@
 
 namespace Argon.Tests.TestObjects;
 
-internal class HasByteArray
+class HasByteArray
 {
     public byte[] EncryptedPassword { get; set; }
 }
 
-internal class HasMultidimensionalByteArray
+class HasMultidimensionalByteArray
 {
     public byte[,] Array2D { get; set; }
     public byte[,,] Array3D { get; set; }

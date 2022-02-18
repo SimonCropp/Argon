@@ -27,7 +27,7 @@ using System.Runtime.Serialization.Formatters;
 
 namespace Argon.Serialization;
 
-internal class JsonSerializerProxy : JsonSerializer
+class JsonSerializerProxy : JsonSerializer
 {
     private readonly JsonSerializerInternalReader? _serializerReader;
     private readonly JsonSerializerInternalWriter? _serializerWriter;

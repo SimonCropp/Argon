@@ -25,9 +25,7 @@
 
 #nullable disable
 
-namespace Argon.Bson;
-
-internal enum BsonBinaryType : byte
+enum BsonBinaryType : byte
 {
     Binary = 0x00,
     Function = 0x01,

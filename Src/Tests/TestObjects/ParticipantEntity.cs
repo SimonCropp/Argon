@@ -25,7 +25,7 @@
 
 namespace Argon.Tests.TestObjects;
 
-internal class ParticipantEntity
+class ParticipantEntity
 {
     private Dictionary<string, string> _properties;
 
