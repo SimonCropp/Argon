@@ -1071,7 +1071,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             property.ObjectCreationHandling.GetValueOrDefault(Serializer._objectCreationHandling);
 
         if (objectCreationHandling != ObjectCreationHandling.Replace
-            && (tokenType == JsonToken.StartArray || tokenType == JsonToken.StartObject || propertyConverter != null)
+            && (tokenType is JsonToken.StartArray or JsonToken.StartObject || propertyConverter != null)
             && property.Readable
             && property.PropertyContract?.ContractType != JsonContractType.Linq)
         {
@@ -1976,7 +1976,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 // this needs to happen before the call to creator
                 if (trackPresence)
                 {
-                    if (context.Presence == PropertyPresence.None || context.Presence == PropertyPresence.Null)
+                    if (context.Presence is PropertyPresence.None or PropertyPresence.Null)
                     {
                         if (constructorProperty.PropertyContract == null)
                         {
@@ -2487,7 +2487,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
     void EndProcessProperty(object newObject, JsonReader reader, JsonObjectContract contract, int initialDepth, JsonProperty property, PropertyPresence presence, bool setDefaultValue)
     {
-        if (presence == PropertyPresence.None || presence == PropertyPresence.Null)
+        if (presence is PropertyPresence.None or PropertyPresence.Null)
         {
             try
             {
@@ -2496,7 +2496,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 switch (presence)
                 {
                     case PropertyPresence.None:
-                        if (resolvedRequired == Required.AllowNull || resolvedRequired == Required.Always)
+                        if (resolvedRequired is Required.AllowNull or Required.Always)
                         {
                             throw JsonSerializationException.Create(reader, "Required property '{0}' not found in JSON.".FormatWith(CultureInfo.InvariantCulture, property.PropertyName));
                         }

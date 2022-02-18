@@ -156,7 +156,7 @@ public abstract partial class JsonReader : IDisposable
         get => _dateTimeZoneHandling;
         set
         {
-            if (value < DateTimeZoneHandling.Local || value > DateTimeZoneHandling.RoundtripKind)
+            if (value is < DateTimeZoneHandling.Local or > DateTimeZoneHandling.RoundtripKind)
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
@@ -173,8 +173,7 @@ public abstract partial class JsonReader : IDisposable
         get => _dateParseHandling;
         set
         {
-            if (value < DateParseHandling.None ||
-                value > DateParseHandling.DateTimeOffset
+            if (value is < DateParseHandling.None or > DateParseHandling.DateTimeOffset
                )
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
@@ -192,7 +191,7 @@ public abstract partial class JsonReader : IDisposable
         get => _floatParseHandling;
         set
         {
-            if (value < FloatParseHandling.Double || value > FloatParseHandling.Decimal)
+            if (value is < FloatParseHandling.Double or > FloatParseHandling.Decimal)
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
@@ -1210,7 +1209,7 @@ public abstract partial class JsonReader : IDisposable
     internal bool MoveToContent()
     {
         var t = TokenType;
-        while (t == JsonToken.None || t == JsonToken.Comment)
+        while (t is JsonToken.None or JsonToken.Comment)
         {
             if (!Read())
             {

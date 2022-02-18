@@ -296,7 +296,7 @@ static class DateTimeUtils
         }
 
         var ticks = d.Ticks - offset.Ticks;
-        if (ticks < 0 || ticks > 3155378975999999999)
+        if (ticks is < 0 or > 3155378975999999999)
         {
             dt = default;
             return false;

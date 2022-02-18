@@ -54,7 +54,7 @@ static class MiscellaneousUtils
             {
                 return Convert.ToDecimal(objA, CultureInfo.CurrentCulture).Equals(Convert.ToDecimal(objB, CultureInfo.CurrentCulture));
             }
-            else if ((objA is double || objA is float || objA is decimal) && (objB is double || objB is float || objB is decimal))
+            else if (objA is double or float or decimal && objB is double or float or decimal)
             {
                 return MathUtils.ApproxEquals(Convert.ToDouble(objA, CultureInfo.CurrentCulture), Convert.ToDouble(objB, CultureInfo.CurrentCulture));
             }
@@ -122,7 +122,7 @@ static class MiscellaneousUtils
     {
         var colonPosition = qualifiedName.IndexOf(':');
 
-        if (colonPosition == -1 || colonPosition == 0 || qualifiedName.Length - 1 == colonPosition)
+        if (colonPosition is -1 or 0 || qualifiedName.Length - 1 == colonPosition)
         {
             prefix = null;
             localName = qualifiedName;

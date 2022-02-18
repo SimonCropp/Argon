@@ -170,7 +170,7 @@ public class JsonSerializer
         get => _typeNameHandling;
         set
         {
-            if (value < TypeNameHandling.None || value > TypeNameHandling.Auto)
+            if (value is < TypeNameHandling.None or > TypeNameHandling.Auto)
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
@@ -190,7 +190,7 @@ public class JsonSerializer
         get => (FormatterAssemblyStyle)_typeNameAssemblyFormatHandling;
         set
         {
-            if (value < FormatterAssemblyStyle.Simple || value > FormatterAssemblyStyle.Full)
+            if (value is < FormatterAssemblyStyle.Simple or > FormatterAssemblyStyle.Full)
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
@@ -209,7 +209,7 @@ public class JsonSerializer
         get => _typeNameAssemblyFormatHandling;
         set
         {
-            if (value < TypeNameAssemblyFormatHandling.Simple || value > TypeNameAssemblyFormatHandling.Full)
+            if (value is < TypeNameAssemblyFormatHandling.Simple or > TypeNameAssemblyFormatHandling.Full)
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
@@ -227,7 +227,7 @@ public class JsonSerializer
         get => _preserveReferencesHandling;
         set
         {
-            if (value < PreserveReferencesHandling.None || value > PreserveReferencesHandling.All)
+            if (value is < PreserveReferencesHandling.None or > PreserveReferencesHandling.All)
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
@@ -245,7 +245,7 @@ public class JsonSerializer
         get => _referenceLoopHandling;
         set
         {
-            if (value < ReferenceLoopHandling.Error || value > ReferenceLoopHandling.Serialize)
+            if (value is < ReferenceLoopHandling.Error or > ReferenceLoopHandling.Serialize)
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
@@ -263,7 +263,7 @@ public class JsonSerializer
         get => _missingMemberHandling;
         set
         {
-            if (value < MissingMemberHandling.Ignore || value > MissingMemberHandling.Error)
+            if (value is < MissingMemberHandling.Ignore or > MissingMemberHandling.Error)
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
@@ -281,7 +281,7 @@ public class JsonSerializer
         get => _nullValueHandling;
         set
         {
-            if (value < NullValueHandling.Include || value > NullValueHandling.Ignore)
+            if (value is < NullValueHandling.Include or > NullValueHandling.Ignore)
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
@@ -299,7 +299,7 @@ public class JsonSerializer
         get => _defaultValueHandling;
         set
         {
-            if (value < DefaultValueHandling.Include || value > DefaultValueHandling.IgnoreAndPopulate)
+            if (value is < DefaultValueHandling.Include or > DefaultValueHandling.IgnoreAndPopulate)
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
@@ -318,7 +318,7 @@ public class JsonSerializer
         get => _objectCreationHandling;
         set
         {
-            if (value < ObjectCreationHandling.Auto || value > ObjectCreationHandling.Replace)
+            if (value is < ObjectCreationHandling.Auto or > ObjectCreationHandling.Replace)
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
@@ -337,7 +337,7 @@ public class JsonSerializer
         get => _constructorHandling;
         set
         {
-            if (value < ConstructorHandling.Default || value > ConstructorHandling.AllowNonPublicDefaultConstructor)
+            if (value is < ConstructorHandling.Default or > ConstructorHandling.AllowNonPublicDefaultConstructor)
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
@@ -356,7 +356,7 @@ public class JsonSerializer
         get => _metadataPropertyHandling;
         set
         {
-            if (value < MetadataPropertyHandling.Default || value > MetadataPropertyHandling.Ignore)
+            if (value is < MetadataPropertyHandling.Default or > MetadataPropertyHandling.Ignore)
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }

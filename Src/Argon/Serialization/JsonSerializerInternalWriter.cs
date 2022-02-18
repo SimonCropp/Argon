@@ -230,7 +230,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
         MiscellaneousUtils.Assert(valueContract != null);
 
-        if (valueContract.ContractType == JsonContractType.Primitive || valueContract.ContractType == JsonContractType.String)
+        if (valueContract.ContractType is JsonContractType.Primitive or JsonContractType.String)
         {
             return false;
         }
@@ -282,7 +282,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
         MiscellaneousUtils.Assert(contract != null);
 
-        if (contract.ContractType == JsonContractType.Primitive || contract.ContractType == JsonContractType.String)
+        if (contract.ContractType is JsonContractType.Primitive or JsonContractType.String)
         {
             return true;
         }
@@ -378,7 +378,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             return true;
         }
 
-        if (value is Guid || value is Uri || value is TimeSpan)
+        if (value is Guid or Uri or TimeSpan)
         {
             s = value.ToString();
             return true;

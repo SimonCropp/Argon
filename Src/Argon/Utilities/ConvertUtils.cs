@@ -627,7 +627,7 @@ static class ConvertUtils
             {
                 var c = chars[i] - '0';
 
-                if (c < 0 || c > 9)
+                if (c is < 0 or > 9)
                 {
                     return ParseResult.Invalid;
                 }
@@ -640,7 +640,7 @@ static class ConvertUtils
         {
             var c = chars[i] - '0';
 
-            if (c < 0 || c > 9)
+            if (c is < 0 or > 9)
             {
                 return ParseResult.Invalid;
             }
@@ -658,7 +658,7 @@ static class ConvertUtils
                 {
                     c = chars[i] - '0';
 
-                    if (c < 0 || c > 9)
+                    if (c is < 0 or > 9)
                     {
                         return ParseResult.Invalid;
                     }
@@ -719,7 +719,7 @@ static class ConvertUtils
             {
                 var c = chars[i] - '0';
 
-                if (c < 0 || c > 9)
+                if (c is < 0 or > 9)
                 {
                     return ParseResult.Invalid;
                 }
@@ -732,7 +732,7 @@ static class ConvertUtils
         {
             var c = chars[i] - '0';
 
-            if (c < 0 || c > 9)
+            if (c is < 0 or > 9)
             {
                 return ParseResult.Invalid;
             }
@@ -750,7 +750,7 @@ static class ConvertUtils
                 {
                     c = chars[i] - '0';
 
-                    if (c < 0 || c > 9)
+                    if (c is < 0 or > 9)
                     {
                         return ParseResult.Invalid;
                     }
@@ -877,7 +877,7 @@ static class ConvertUtils
                     for (; i < end; i++)
                     {
                         c = chars[i];
-                        if (c < '0' || c > '9')
+                        if (c is < '0' or > '9')
                         {
                             return ParseResult.Invalid;
                         }
@@ -896,7 +896,7 @@ static class ConvertUtils
                     }
                     break;
                 default:
-                    if (c < '0' || c > '9')
+                    if (c is < '0' or > '9')
                     {
                         return ParseResult.Invalid;
                     }
@@ -911,7 +911,7 @@ static class ConvertUtils
                             {
                                 goto case '.';
                             }
-                            if (c == 'e' || c == 'E')
+                            if (c is 'e' or 'E')
                             {
                                 goto case 'E';
                             }

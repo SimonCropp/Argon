@@ -534,7 +534,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             break;
                         case ']':
                             CharPos++;
-                            if (_currentState == State.Array || _currentState == State.ArrayStart || _currentState == State.PostValue)
+                            if (_currentState is State.Array or State.ArrayStart or State.PostValue)
                             {
                                 SetToken(JsonToken.EndArray);
                                 return null;
@@ -664,7 +664,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             break;
                         case ']':
                             CharPos++;
-                            if (_currentState == State.Array || _currentState == State.ArrayStart || _currentState == State.PostValue)
+                            if (_currentState is State.Array or State.ArrayStart or State.PostValue)
                             {
                                 SetToken(JsonToken.EndArray);
                                 return null;
@@ -818,7 +818,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             break;
                         case ']':
                             CharPos++;
-                            if (_currentState == State.Array || _currentState == State.ArrayStart || _currentState == State.PostValue)
+                            if (_currentState is State.Array or State.ArrayStart or State.PostValue)
                             {
                                 SetToken(JsonToken.EndArray);
                                 return null;
@@ -946,7 +946,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             break;
                         case ']':
                             CharPos++;
-                            if (_currentState == State.Array || _currentState == State.ArrayStart || _currentState == State.PostValue)
+                            if (_currentState is State.Array or State.ArrayStart or State.PostValue)
                             {
                                 SetToken(JsonToken.EndArray);
                                 return null;
@@ -1387,7 +1387,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             default:
                 CharPos = charPos;
 
-                if (char.IsWhiteSpace(currentChar) || currentChar == ',' || currentChar == '}' || currentChar == ']' || currentChar == ')' || currentChar == '/')
+                if (char.IsWhiteSpace(currentChar) || currentChar is ',' or '}' or ']' or ')' or '/')
                 {
                     return true;
                 }
@@ -1547,7 +1547,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         var firstChar = CharBuffer[CharPos];
         char quoteChar;
 
-        if (firstChar == '"' || firstChar == '\'')
+        if (firstChar is '"' or '\'')
         {
             CharPos++;
             quoteChar = firstChar;
@@ -1600,7 +1600,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
     bool ValidIdentifierChar(char value)
     {
-        return char.IsLetterOrDigit(value) || value == '_' || value == '$';
+        return char.IsLetterOrDigit(value) || value is '_' or '$';
     }
 
     void ParseUnquotedProperty()
@@ -1773,7 +1773,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                         CharPos++;
                         break;
                     }
-                    if (char.IsNumber(currentChar) || currentChar == '-' || currentChar == '.')
+                    if (char.IsNumber(currentChar) || currentChar is '-' or '.')
                     {
                         ParseNumber(ReadType.Read);
                         return true;
@@ -2384,9 +2384,9 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
                 var nextChart = CharBuffer[CharPos + 1];
 
-                return nextChart == '*' || nextChart == '/';
+                return nextChart is '*' or '/';
             case ')':
-                if (CurrentState == State.Constructor || CurrentState == State.ConstructorStart)
+                if (CurrentState is State.Constructor or State.ConstructorStart)
                 {
                     return true;
                 }

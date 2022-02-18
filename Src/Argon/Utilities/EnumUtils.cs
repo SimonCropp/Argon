@@ -268,7 +268,7 @@ static class EnumUtils
 
         // check whether string is a number and parse as a number value
         var firstNonWhitespaceChar = value[firstNonWhitespaceIndex];
-        if (char.IsDigit(firstNonWhitespaceChar) || firstNonWhitespaceChar == '-' || firstNonWhitespaceChar == '+')
+        if (char.IsDigit(firstNonWhitespaceChar) || firstNonWhitespaceChar is '-' or '+')
         {
             var underlyingType = Enum.GetUnderlyingType(enumType);
 

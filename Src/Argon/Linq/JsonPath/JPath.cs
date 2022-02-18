@@ -64,7 +64,7 @@ class JPath
             // only increment position for "$." or "$["
             // otherwise assume property that starts with $
             var c = _expression[_currentIndex + 1];
-            if (c == '.' || c == '[')
+            if (c is '.' or '[')
             {
                 _currentIndex++;
                 currentPartStartIndex = _currentIndex;
@@ -152,7 +152,7 @@ class JPath
                     followingDot = true;
                     break;
                 default:
-                    if (query && (currentChar == '=' || currentChar == '<' || currentChar == '!' || currentChar == '>' || currentChar == '|' || currentChar == '&'))
+                    if (query && currentChar is '=' or '<' or '!' or '>' or '|' or '&')
                     {
                         ended = true;
                     }
@@ -583,7 +583,7 @@ class JPath
             while (_currentIndex < _expression.Length)
             {
                 currentChar = _expression[_currentIndex];
-                if (currentChar == ' ' || currentChar == ')')
+                if (currentChar is ' ' or ')')
                 {
                     var numberText = sb.ToString();
 

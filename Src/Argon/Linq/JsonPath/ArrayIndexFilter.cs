@@ -19,7 +19,7 @@ class ArrayIndexFilter : PathFilter
             }
             else
             {
-                if (t is JArray || t is JConstructor)
+                if (t is JArray or JConstructor)
                 {
                     foreach (var v in t)
                     {

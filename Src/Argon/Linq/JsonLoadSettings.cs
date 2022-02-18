@@ -29,7 +29,7 @@ public class JsonLoadSettings
         get => _commentHandling;
         set
         {
-            if (value < CommentHandling.Ignore || value > CommentHandling.Load)
+            if (value is < CommentHandling.Ignore or > CommentHandling.Load)
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
@@ -48,7 +48,7 @@ public class JsonLoadSettings
         get => _lineInfoHandling;
         set
         {
-            if (value < LineInfoHandling.Ignore || value > LineInfoHandling.Load)
+            if (value is < LineInfoHandling.Ignore or > LineInfoHandling.Load)
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
@@ -67,7 +67,7 @@ public class JsonLoadSettings
         get => _duplicatePropertyNameHandling;
         set
         {
-            if (value < DuplicatePropertyNameHandling.Replace || value > DuplicatePropertyNameHandling.Error)
+            if (value is < DuplicatePropertyNameHandling.Replace or > DuplicatePropertyNameHandling.Error)
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }

@@ -436,7 +436,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
 
     static bool ValidateToken(JToken o, JTokenType[] validTypes, bool nullable)
     {
-        return Array.IndexOf(validTypes, o.Type) != -1 || (nullable && (o.Type == JTokenType.Null || o.Type == JTokenType.Undefined));
+        return Array.IndexOf(validTypes, o.Type) != -1 || (nullable && o.Type is JTokenType.Null or JTokenType.Undefined);
     }
 
     #region Cast from operators

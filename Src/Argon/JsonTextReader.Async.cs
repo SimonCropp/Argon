@@ -354,7 +354,7 @@ public partial class JsonTextReader
                         break;
                     }
 
-                    if (char.IsNumber(currentChar) || currentChar == '-' || currentChar == '.')
+                    if (char.IsNumber(currentChar) || currentChar is '-' or '.')
                     {
                         await ParseNumberAsync(ReadType.Read, cancellationToken).ConfigureAwait(false);
                         return true;
@@ -969,7 +969,7 @@ public partial class JsonTextReader
         var firstChar = CharBuffer[CharPos];
         char quoteChar;
 
-        if (firstChar == '"' || firstChar == '\'')
+        if (firstChar is '"' or '\'')
         {
             CharPos++;
             quoteChar = firstChar;
@@ -1246,7 +1246,7 @@ public partial class JsonTextReader
                             break;
                         case ']':
                             CharPos++;
-                            if (_currentState == State.Array || _currentState == State.ArrayStart || _currentState == State.PostValue)
+                            if (_currentState is State.Array or State.ArrayStart or State.PostValue)
                             {
                                 SetToken(JsonToken.EndArray);
                                 return null;
@@ -1360,7 +1360,7 @@ public partial class JsonTextReader
                             break;
                         case ']':
                             CharPos++;
-                            if (_currentState == State.Array || _currentState == State.ArrayStart || _currentState == State.PostValue)
+                            if (_currentState is State.Array or State.ArrayStart or State.PostValue)
                             {
                                 SetToken(JsonToken.EndArray);
                                 return null;
@@ -1494,7 +1494,7 @@ public partial class JsonTextReader
                             break;
                         case ']':
                             CharPos++;
-                            if (_currentState == State.Array || _currentState == State.ArrayStart || _currentState == State.PostValue)
+                            if (_currentState is State.Array or State.ArrayStart or State.PostValue)
                             {
                                 SetToken(JsonToken.EndArray);
                                 return null;
@@ -1618,7 +1618,7 @@ public partial class JsonTextReader
                             break;
                         case ']':
                             CharPos++;
-                            if (_currentState == State.Array || _currentState == State.ArrayStart || _currentState == State.PostValue)
+                            if (_currentState is State.Array or State.ArrayStart or State.PostValue)
                             {
                                 SetToken(JsonToken.EndArray);
                                 return null;

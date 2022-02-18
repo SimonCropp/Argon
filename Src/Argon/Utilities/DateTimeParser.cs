@@ -135,7 +135,7 @@ struct DateTimeParser
             while (++start < _end && numberOfDigits < MaxFractionDigits)
             {
                 var digit = _text[start] - '0';
-                if (digit < 0 || digit > 9)
+                if (digit is < 0 or > 9)
                 {
                     break;
                 }
@@ -168,7 +168,7 @@ struct DateTimeParser
         if (start < _end)
         {
             var ch = _text[start];
-            if (ch == 'Z' || ch == 'z')
+            if (ch is 'Z' or 'z')
             {
                 Zone = ParserTimeZone.Utc;
                 start++;

@@ -872,7 +872,7 @@ public class DefaultContractResolver : IContractResolver
             return true;
         }
 
-        if (t.Name == FSharpUtils.FSharpSetTypeName || t.Name == FSharpUtils.FSharpMapTypeName)
+        if (t.Name is FSharpUtils.FSharpSetTypeName or FSharpUtils.FSharpMapTypeName)
         {
             return true;
         }
@@ -887,7 +887,7 @@ public class DefaultContractResolver : IContractResolver
             return true;
         }
 
-        if (t.Name == FSharpUtils.FSharpSetTypeName || t.Name == FSharpUtils.FSharpMapTypeName)
+        if (t.Name is FSharpUtils.FSharpSetTypeName or FSharpUtils.FSharpMapTypeName)
         {
             return true;
         }

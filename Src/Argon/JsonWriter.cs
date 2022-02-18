@@ -220,7 +220,7 @@ public abstract partial class JsonWriter : IDisposable
         get => _formatting;
         set
         {
-            if (value < Formatting.None || value > Formatting.Indented)
+            if (value is < Formatting.None or > Formatting.Indented)
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
@@ -237,7 +237,7 @@ public abstract partial class JsonWriter : IDisposable
         get => _dateFormatHandling;
         set
         {
-            if (value < DateFormatHandling.IsoDateFormat || value > DateFormatHandling.MicrosoftDateFormat)
+            if (value is < DateFormatHandling.IsoDateFormat or > DateFormatHandling.MicrosoftDateFormat)
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
@@ -254,7 +254,7 @@ public abstract partial class JsonWriter : IDisposable
         get => _dateTimeZoneHandling;
         set
         {
-            if (value < DateTimeZoneHandling.Local || value > DateTimeZoneHandling.RoundtripKind)
+            if (value is < DateTimeZoneHandling.Local or > DateTimeZoneHandling.RoundtripKind)
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
@@ -271,7 +271,7 @@ public abstract partial class JsonWriter : IDisposable
         get => _stringEscapeHandling;
         set
         {
-            if (value < StringEscapeHandling.Default || value > StringEscapeHandling.EscapeHtml)
+            if (value is < StringEscapeHandling.Default or > StringEscapeHandling.EscapeHtml)
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
@@ -296,7 +296,7 @@ public abstract partial class JsonWriter : IDisposable
         get => _floatFormatHandling;
         set
         {
-            if (value < FloatFormatHandling.String || value > FloatFormatHandling.DefaultValue)
+            if (value is < FloatFormatHandling.String or > FloatFormatHandling.DefaultValue)
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
@@ -848,7 +848,7 @@ public abstract partial class JsonWriter : IDisposable
             throw JsonWriterException.Create(this, "Token {0} in state {1} would result in an invalid JSON object.".FormatWith(CultureInfo.InvariantCulture, tokenBeingWritten.ToString(), _currentState.ToString()), null);
         }
 
-        if ((_currentState == State.Object || _currentState == State.Array || _currentState == State.Constructor) && tokenBeingWritten != JsonToken.Comment)
+        if (_currentState is State.Object or State.Array or State.Constructor && tokenBeingWritten != JsonToken.Comment)
         {
             WriteValueDelimiter();
         }
@@ -861,8 +861,7 @@ public abstract partial class JsonWriter : IDisposable
             }
 
             // don't indent a property when it is the first token to be written (i.e. at the start)
-            if (_currentState == State.Array || _currentState == State.ArrayStart || _currentState == State.Constructor || _currentState == State.ConstructorStart
-                || (tokenBeingWritten == JsonToken.PropertyName && _currentState != State.Start))
+            if (_currentState is State.Array or State.ArrayStart or State.Constructor or State.ConstructorStart || (tokenBeingWritten == JsonToken.PropertyName && _currentState != State.Start))
             {
                 WriteIndent();
             }

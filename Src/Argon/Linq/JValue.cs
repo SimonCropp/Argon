@@ -216,7 +216,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
         {
             return 0m.CompareTo(Math.Abs(d1 - Math.Truncate(d1)));
         }
-        else if (i2 is double || i2 is float)
+        else if (i2 is double or float)
         {
             var d = Convert.ToDouble(i2, CultureInfo.InvariantCulture);
             return 0d.CompareTo(Math.Abs(d - Math.Truncate(d)));
@@ -382,7 +382,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     {
         if (objA is string || objB is string)
         {
-            if (operation == ExpressionType.Add || operation == ExpressionType.AddAssign)
+            if (operation is ExpressionType.Add or ExpressionType.AddAssign)
             {
                 result = objA?.ToString() + objB?.ToString();
                 return true;
@@ -485,8 +485,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                     return true;
             }
         }
-        else if (objA is int || objA is uint || objA is long || objA is short || objA is ushort || objA is sbyte || objA is byte ||
-                 objB is int || objB is uint || objB is long || objB is short || objB is ushort || objB is sbyte || objB is byte)
+        else if (objA is int or uint or long or short or ushort or sbyte or byte || objB is int or uint or long or short or ushort or sbyte or byte)
         {
             if (objA == null || objB == null)
             {
@@ -579,8 +578,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
         {
             return GetStringValueType(current);
         }
-        else if (value is long || value is int || value is short || value is sbyte
-                 || value is ulong || value is uint || value is ushort || value is byte)
+        else if (value is long or int or short or sbyte or ulong or uint or ushort or byte)
         {
             return JTokenType.Integer;
         }
@@ -592,7 +590,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
         {
             return JTokenType.Integer;
         }
-        else if (value is double || value is float || value is decimal)
+        else if (value is double or float or decimal)
         {
             return JTokenType.Float;
         }

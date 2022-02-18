@@ -104,7 +104,7 @@ struct JsonPosition
 
     internal static bool TypeHasIndex(JsonContainerType type)
     {
-        return type == JsonContainerType.Array || type == JsonContainerType.Constructor;
+        return type is JsonContainerType.Array or JsonContainerType.Constructor;
     }
 
     internal static string BuildPath(List<JsonPosition> positions, JsonPosition? currentPosition)
