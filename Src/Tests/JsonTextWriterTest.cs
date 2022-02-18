@@ -159,7 +159,7 @@ public class JsonTextWriterTest : TestFixtureBase
 
         var json = Encoding.UTF8.GetString(data, 0, data.Length);
 
-        Assert.Equal(@"{
+        XUnitAssert.EqualsNormalized(@"{
   ""prop"": true
 }", json);
     }
