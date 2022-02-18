@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue1460 : TestFixtureBase
 {
     [Fact]
@@ -39,7 +36,7 @@ public class Issue1460 : TestFixtureBase
         var writer = new JsonTextWriter(sw);
         JsonWriter.WriteValue(writer, PrimitiveTypeCode.Object, null);
 
-        Assert.AreEqual("null", sw.ToString());
+        Assert.Equal("null", sw.ToString());
     }
 
     [Fact]
@@ -49,6 +46,6 @@ public class Issue1460 : TestFixtureBase
         var writer = new JsonTextWriter(sw);
         await JsonWriter.WriteValueAsync(writer, PrimitiveTypeCode.Object, null, CancellationToken.None);
 
-        Assert.AreEqual("null", sw.ToString());
+        Assert.Equal("null", sw.ToString());
     }
 }

@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Serialization;
 
-[TestFixture]
 public class ShouldSerializeTests : TestFixtureBase
 {
     public class A
@@ -51,7 +48,7 @@ public class ShouldSerializeTests : TestFixtureBase
     {
         var json = JsonConvert.SerializeObject(new B());
 
-        Assert.AreEqual("{}", json);
+        Assert.Equal("{}", json);
     }
 
     [Fact]
@@ -96,22 +93,22 @@ public class ShouldSerializeTests : TestFixtureBase
         var setFooJson = Serialize(setFoo);
         var deserializedSetFoo = JsonConvert.DeserializeObject<Foo2>(setFooJson);
 
-        Assert.AreEqual(setFoo.name, deserializedSetFoo.name);
-        Assert.IsNotNull(deserializedSetFoo.myBar);
-        Assert.AreEqual(setFoo.myBar.name, deserializedSetFoo.myBar.name);
-        Assert.IsNotNull(deserializedSetFoo.myBar.myBaz);
-        Assert.AreEqual(setFoo.myBar.myBaz.Length, deserializedSetFoo.myBar.myBaz.Length);
-        Assert.AreEqual(setFoo.myBar.myBaz[0].name, deserializedSetFoo.myBar.myBaz[0].name);
-        Assert.IsNotNull(deserializedSetFoo.myBar.myBaz[0].myFrob[0]);
-        Assert.AreEqual(setFoo.myBar.myBaz[0].myFrob[0].name, deserializedSetFoo.myBar.myBaz[0].myFrob[0].name);
-        Assert.AreEqual(setFoo.myBar.myBaz[1].name, deserializedSetFoo.myBar.myBaz[1].name);
-        Assert.IsNotNull(deserializedSetFoo.myBar.myBaz[2].myFrob[0]);
-        Assert.AreEqual(setFoo.myBar.myBaz[1].myFrob[0].name, deserializedSetFoo.myBar.myBaz[1].myFrob[0].name);
-        Assert.AreEqual(setFoo.myBar.myBaz[2].name, deserializedSetFoo.myBar.myBaz[2].name);
-        Assert.IsNotNull(deserializedSetFoo.myBar.myBaz[2].myFrob[0]);
-        Assert.AreEqual(setFoo.myBar.myBaz[2].myFrob[0].name, deserializedSetFoo.myBar.myBaz[2].myFrob[0].name);
+        Assert.Equal(setFoo.name, deserializedSetFoo.name);
+        Assert.NotNull(deserializedSetFoo.myBar);
+        Assert.Equal(setFoo.myBar.name, deserializedSetFoo.myBar.name);
+        Assert.NotNull(deserializedSetFoo.myBar.myBaz);
+        Assert.Equal(setFoo.myBar.myBaz.Length, deserializedSetFoo.myBar.myBaz.Length);
+        Assert.Equal(setFoo.myBar.myBaz[0].name, deserializedSetFoo.myBar.myBaz[0].name);
+        Assert.NotNull(deserializedSetFoo.myBar.myBaz[0].myFrob[0]);
+        Assert.Equal(setFoo.myBar.myBaz[0].myFrob[0].name, deserializedSetFoo.myBar.myBaz[0].myFrob[0].name);
+        Assert.Equal(setFoo.myBar.myBaz[1].name, deserializedSetFoo.myBar.myBaz[1].name);
+        Assert.NotNull(deserializedSetFoo.myBar.myBaz[2].myFrob[0]);
+        Assert.Equal(setFoo.myBar.myBaz[1].myFrob[0].name, deserializedSetFoo.myBar.myBaz[1].myFrob[0].name);
+        Assert.Equal(setFoo.myBar.myBaz[2].name, deserializedSetFoo.myBar.myBaz[2].name);
+        Assert.NotNull(deserializedSetFoo.myBar.myBaz[2].myFrob[0]);
+        Assert.Equal(setFoo.myBar.myBaz[2].myFrob[0].name, deserializedSetFoo.myBar.myBaz[2].myFrob[0].name);
 
-        Assert.AreEqual(true, setFoo.myBar.ShouldSerializemyBazCalled);
+        XUnitAssert.True(setFoo.myBar.ShouldSerializemyBazCalled);
     }
 
     string Serialize(Foo2 f)
@@ -143,21 +140,21 @@ public class ShouldSerializeTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Age"": 27
 }", json);
 
         c._shouldSerializeName = true;
         json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""James"",
   ""Age"": 27
 }", json);
 
         var deserialized = JsonConvert.DeserializeObject<ShouldSerializeTestClass>(json);
-        Assert.AreEqual("James", deserialized.Name);
-        Assert.AreEqual(27, deserialized.Age);
+        Assert.Equal("James", deserialized.Name);
+        Assert.Equal(27, deserialized.Age);
     }
 
     [Fact]
@@ -188,7 +185,7 @@ public class ShouldSerializeTests : TestFixtureBase
         //   }
         // ]
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""Name"": ""Joe Employee"",
     ""Manager"": {
@@ -213,17 +210,17 @@ public class ShouldSerializeTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Age"": 27
 }", json);
 
         var deserialized = JsonConvert.DeserializeObject<SpecifiedTestClass>(json);
-        Assert.IsNull(deserialized.Name);
-        Assert.IsFalse(deserialized.NameSpecified);
-        Assert.IsFalse(deserialized.WeightSpecified);
-        Assert.IsFalse(deserialized.HeightSpecified);
-        Assert.IsFalse(deserialized.FavoriteNumberSpecified);
-        Assert.AreEqual(27, deserialized.Age);
+        Assert.Null(deserialized.Name);
+        Assert.False(deserialized.NameSpecified);
+        Assert.False(deserialized.WeightSpecified);
+        Assert.False(deserialized.HeightSpecified);
+        Assert.False(deserialized.FavoriteNumberSpecified);
+        Assert.Equal(27, deserialized.Age);
 
         c.NameSpecified = true;
         c.WeightSpecified = true;
@@ -231,7 +228,7 @@ public class ShouldSerializeTests : TestFixtureBase
         c.FavoriteNumber = 23;
         json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""James"",
   ""Age"": 27,
   ""Weight"": 0,
@@ -240,13 +237,13 @@ public class ShouldSerializeTests : TestFixtureBase
 }", json);
 
         deserialized = JsonConvert.DeserializeObject<SpecifiedTestClass>(json);
-        Assert.AreEqual("James", deserialized.Name);
-        Assert.IsTrue(deserialized.NameSpecified);
-        Assert.IsTrue(deserialized.WeightSpecified);
-        Assert.IsTrue(deserialized.HeightSpecified);
-        Assert.IsTrue(deserialized.FavoriteNumberSpecified);
-        Assert.AreEqual(27, deserialized.Age);
-        Assert.AreEqual(23, deserialized.FavoriteNumber);
+        Assert.Equal("James", deserialized.Name);
+        Assert.True(deserialized.NameSpecified);
+        Assert.True(deserialized.WeightSpecified);
+        Assert.True(deserialized.HeightSpecified);
+        Assert.True(deserialized.FavoriteNumberSpecified);
+        Assert.Equal(27, deserialized.Age);
+        Assert.Equal(23, deserialized.FavoriteNumber);
     }
 
     //    [Fact]
@@ -337,7 +334,7 @@ public class ShouldSerializeTests : TestFixtureBase
         //  }
         //]
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""Name"": ""Joe Family Details"",
     ""NumberOfChildren"": 4
@@ -350,12 +347,12 @@ public class ShouldSerializeTests : TestFixtureBase
         var mikeString = "{\"Name\": \"Mike Person\"}";
         var mike = JsonConvert.DeserializeObject<FamilyDetails>(mikeString);
 
-        Assert.AreEqual(false, mike.NumberOfChildrenSpecified);
+        XUnitAssert.False(mike.NumberOfChildrenSpecified);
 
         var mikeFullDisclosureString = "{\"Name\": \"Mike Person\", \"NumberOfChildren\": \"0\"}";
         mike = JsonConvert.DeserializeObject<FamilyDetails>(mikeFullDisclosureString);
 
-        Assert.AreEqual(true, mike.NumberOfChildrenSpecified);
+        XUnitAssert.True(mike.NumberOfChildrenSpecified);
     }
 
     [Fact]
@@ -387,7 +384,7 @@ public class ShouldSerializeTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(joe, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Age"": 100,
   ""Name"": ""Joe Employee"",
   ""Manager"": {
@@ -408,11 +405,11 @@ public class ShouldSerializeTests : TestFixtureBase
             TraceWriter = traceWriter
         });
 
-        Assert.AreEqual(null, c.ExtensionData);
-        Assert.AreEqual(true, c.HasName);
-        Assert.AreEqual("Name!", c.Name);
+        Assert.Equal(null, c.ExtensionData);
+        XUnitAssert.True(c.HasName);
+        Assert.Equal("Name!", c.Name);
 
-        Assert.IsTrue(traceWriter.GetTraceMessages().Any(m => m.EndsWith("Verbose ShouldDeserialize result for property 'Name' on Argon.Tests.Serialization.ShouldDeserializeTestClass: True. Path 'Name'.")));
+        Assert.True(traceWriter.GetTraceMessages().Any(m => m.EndsWith("Verbose ShouldDeserialize result for property 'Name' on Argon.Tests.Serialization.ShouldDeserializeTestClass: True. Path 'Name'.")));
     }
 
     [Fact]
@@ -427,12 +424,12 @@ public class ShouldSerializeTests : TestFixtureBase
             TraceWriter = traceWriter
         });
 
-        Assert.AreEqual(1, c.ExtensionData.Count);
-        Assert.AreEqual("Name!", (string)c.ExtensionData["Name"]);
-        Assert.AreEqual(false, c.HasName);
-        Assert.AreEqual(null, c.Name);
+        Assert.Equal(1, c.ExtensionData.Count);
+        Assert.Equal("Name!", (string)c.ExtensionData["Name"]);
+        XUnitAssert.False(c.HasName);
+        Assert.Equal(null, c.Name);
 
-        Assert.IsTrue(traceWriter.GetTraceMessages().Any(m => m.EndsWith("Verbose ShouldDeserialize result for property 'Name' on Argon.Tests.Serialization.ShouldDeserializeTestClass: False. Path 'Name'.")));
+        Assert.True(traceWriter.GetTraceMessages().Any(m => m.EndsWith("Verbose ShouldDeserialize result for property 'Name' on Argon.Tests.Serialization.ShouldDeserializeTestClass: False. Path 'Name'.")));
     }
 
     public class Employee

@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue1778 : TestFixtureBase
 {
     [Fact]
@@ -39,7 +36,7 @@ public class Issue1778 : TestFixtureBase
         reader.Read();
         reader.Read();
 
-        ExceptionAssert.Throws<JsonReaderException>(
+        XUnitAssert.Throws<JsonReaderException>(
             () => reader.ReadAsDateTime(),
             "Cannot read number value as type. Path 'enddate', line 1, position 13.");
     }
@@ -51,7 +48,7 @@ public class Issue1778 : TestFixtureBase
         reader.Read();
         reader.Read();
 
-        await ExceptionAssert.ThrowsAsync<JsonReaderException>(
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(
             () => reader.ReadAsDateTimeAsync(),
             "Cannot read number value as type. Path 'enddate', line 1, position 13.");
     }

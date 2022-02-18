@@ -25,28 +25,25 @@
 
 using System.Collections.Immutable;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue1984
 {
     [Fact]
     public void Test_NullValue()
     {
         var actual = JsonConvert.DeserializeObject<A>("{ Values: null}");
-        Assert.IsNotNull(actual);
-        Assert.IsNull(actual.Values);
+        Assert.NotNull(actual);
+        Assert.Null(actual.Values);
     }
 
     [Fact]
     public void Test_WithoutValue()
     {
         var actual = JsonConvert.DeserializeObject<A>("{ }");
-        Assert.IsNotNull(actual);
-        Assert.IsNull(actual.Values);
+        Assert.NotNull(actual);
+        Assert.Null(actual.Values);
     }
         
     public class A

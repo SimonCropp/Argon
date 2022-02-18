@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Linq;
 
-[TestFixture]
 public class FromObject : TestFixtureBase
 {
     #region Types
@@ -91,7 +88,7 @@ public class FromObject : TestFixtureBase
         // ]
         #endregion
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   ""DVD"",
   ""SSD""
 ]", a.ToString());

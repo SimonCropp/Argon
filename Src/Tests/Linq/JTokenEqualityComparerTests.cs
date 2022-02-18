@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Linq;
 
-[TestFixture]
 public class JTokenEqualityComparerTests : TestFixtureBase
 {
     [Fact]
@@ -42,10 +39,10 @@ public class JTokenEqualityComparerTests : TestFixtureBase
         o2.Add(new JProperty("hi"));
 
         var c = new JTokenEqualityComparer();
-        Assert.IsTrue(c.Equals(o1, o2));
+        Assert.True(c.Equals(o1, o2));
 
         o1["hi"] = 10;
-        Assert.IsFalse(c.Equals(o1, o2));
+        Assert.False(c.Equals(o1, o2));
     }
 
     [Fact]
@@ -57,7 +54,7 @@ public class JTokenEqualityComparerTests : TestFixtureBase
 
         dic[v11] = 1;
         dic[v12] += 1;
-        Assert.AreEqual(2, dic[v11]);
+        Assert.Equal(2, dic[v11]);
     }
 
     [Fact]
@@ -69,7 +66,7 @@ public class JTokenEqualityComparerTests : TestFixtureBase
 
         dic[v11] = 1;
         dic[v12] += 1;
-        Assert.AreEqual(2, dic[v11]);
+        Assert.Equal(2, dic[v11]);
     }
 
     [Fact]
@@ -81,7 +78,7 @@ public class JTokenEqualityComparerTests : TestFixtureBase
 
         dic[v11] = 1;
         dic[v12] += 1;
-        Assert.AreEqual(2, dic[v11]);
+        Assert.Equal(2, dic[v11]);
     }
 
     [Fact]
@@ -93,6 +90,6 @@ public class JTokenEqualityComparerTests : TestFixtureBase
 
         dic[v11] = 1;
         dic[v12] += 1;
-        Assert.AreEqual(2, dic[v11]);
+        Assert.Equal(2, dic[v11]);
     }
 }

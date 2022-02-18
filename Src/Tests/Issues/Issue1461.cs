@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue1461 : TestFixtureBase
 {
     [Fact]
@@ -57,7 +54,7 @@ public class Issue1461 : TestFixtureBase
         stream.Position = 0;
 
         var reader = new StreamReader(stream);
-        Assert.AreEqual(@"{""Id"":""test""}", reader.ReadToEnd());
+        Assert.Equal(@"{""Id"":""test""}", reader.ReadToEnd());
     }
 
     class TestObject
@@ -133,7 +130,7 @@ public class Issue1461 : TestFixtureBase
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == this.GetType() && Equals((Id)obj);
+            return obj.GetType() == GetType() && Equals((Id)obj);
         }
 
         public override int GetHashCode()

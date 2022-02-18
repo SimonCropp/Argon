@@ -24,27 +24,24 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 using System.Dynamic;
 
 // ReSharper disable UseObjectOrCollectionInitializer
 
 namespace Argon.Tests.Serialization;
 
-[TestFixture]
 public class ReferenceLoopHandlingTests : TestFixtureBase
 {
     [Fact]
     public void ReferenceLoopHandlingTest()
     {
         var attribute = new JsonPropertyAttribute();
-        Assert.AreEqual(null, attribute._defaultValueHandling);
-        Assert.AreEqual(ReferenceLoopHandling.Error, attribute.ReferenceLoopHandling);
+        Assert.Equal(null, attribute._defaultValueHandling);
+        Assert.Equal(ReferenceLoopHandling.Error, attribute.ReferenceLoopHandling);
 
         attribute.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-        Assert.AreEqual(ReferenceLoopHandling.Ignore, attribute._referenceLoopHandling);
-        Assert.AreEqual(ReferenceLoopHandling.Ignore, attribute.ReferenceLoopHandling);
+        Assert.Equal(ReferenceLoopHandling.Ignore, attribute._referenceLoopHandling);
+        Assert.Equal(ReferenceLoopHandling.Ignore, attribute.ReferenceLoopHandling);
     }
 
     [Fact]
@@ -57,7 +54,7 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
         {
             ReferenceLoopHandling = ReferenceLoopHandling.Serialize
         });
-        Assert.AreEqual("{}", json);
+        Assert.Equal("{}", json);
     }
 
     [Fact]
@@ -70,7 +67,7 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
         {
             ReferenceLoopHandling = ReferenceLoopHandling.Serialize
         });
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Value"": {
     ""Value"": {
       ""Value"": {
@@ -95,7 +92,7 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
         {
             ReferenceLoopHandling = ReferenceLoopHandling.Serialize
         });
-        Assert.AreEqual("[]", json);
+        Assert.Equal("[]", json);
     }
 
     [Fact]
@@ -108,7 +105,7 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
         {
             ReferenceLoopHandling = ReferenceLoopHandling.Serialize
         });
-        Assert.AreEqual("{}", json);
+        Assert.Equal("{}", json);
     }
 
     [Fact]
@@ -122,7 +119,7 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Text"": ""Text!"",
   ""Data"": [
     {
@@ -182,7 +179,7 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
         var settings =
             new JsonSerializerSettings();
 
-        ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.SerializeObject(main, settings), "Self referencing loop detected with type 'Argon.Tests.Serialization.ReferenceLoopHandlingTests+MainClass'. Path 'Child'.");
+        XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.SerializeObject(main, settings), "Self referencing loop detected with type 'Argon.Tests.Serialization.ReferenceLoopHandlingTests+MainClass'. Path 'Child'.");
     }
 
     [Fact]
@@ -201,7 +198,7 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
             new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
 
         var c = JsonConvert.SerializeObject(main, settings);
-        Assert.AreEqual(@"{""Child"":{""Name"":""Child1""}}", c);
+        Assert.Equal(@"{""Child"":{""Name"":""Child1""}}", c);
     }
 
     public class DictionaryDynamicObject : DynamicObject
@@ -240,7 +237,7 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
 
         var settings = new JsonSerializerSettings();
 
-        ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.SerializeObject(parent, settings), "Self referencing loop detected with type 'Argon.Tests.Serialization.ReferenceLoopHandlingTests+DictionaryDynamicObject'. Path 'child'.");
+        XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.SerializeObject(parent, settings), "Self referencing loop detected with type 'Argon.Tests.Serialization.ReferenceLoopHandlingTests+DictionaryDynamicObject'. Path 'child'.");
     }
 
     [Fact]
@@ -256,7 +253,7 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
         var settings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
 
         var c = JsonConvert.SerializeObject(parent, settings);
-        Assert.AreEqual(@"{""child"":{""name"":""child""},""name"":""parent""}", c);
+        Assert.Equal(@"{""child"":{""name"":""child""},""name"":""parent""}", c);
     }
 
     [Fact]
@@ -272,7 +269,7 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
         };
         account.Manager = manager;
 
-        ExceptionAssert.Throws<JsonSerializationException>(
+        XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.SerializeObject(account),
             "Self referencing loop detected for property 'Manager' with type 'Argon.Tests.Serialization.AccountWithEquals'. Path ''.");
 
@@ -282,7 +279,7 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
             Formatting = Formatting.Indented
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""main"",
   ""Manager"": {
     ""Name"": ""main"",

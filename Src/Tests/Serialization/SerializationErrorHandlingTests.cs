@@ -25,13 +25,10 @@
 
 using Argon.Tests.TestObjects;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 using ErrorEventArgs = Argon.Serialization.ErrorEventArgs;
 
 namespace Argon.Tests.Serialization;
 
-[TestFixture]
 public class SerializationErrorHandlingTests : TestFixtureBase
 {
     [Fact]
@@ -49,9 +46,9 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             }
         });
 
-        Assert.IsNotNull(a2);
-        Assert.AreEqual(1, errors.Count);
-        Assert.AreEqual("Error resolving type specified in JSON '<Namespace>.JsonTest+MyTest2, <Assembly>'. Path 'MyTest.$type', line 1, position 61.", errors[0].Message);
+        Assert.NotNull(a2);
+        Assert.Equal(1, errors.Count);
+        Assert.Equal("Error resolving type specified in JSON '<Namespace>.JsonTest+MyTest2, <Assembly>'. Path 'MyTest.$type', line 1, position 61.", errors[0].Message);
     }
 
     [Fact]
@@ -69,9 +66,9 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             }
         });
 
-        Assert.IsNull(a2);
-        Assert.AreEqual(1, errors.Count);
-        Assert.AreEqual("Error resolving type specified in JSON '<Namespace>.JsonTest+MyTest2, <Assembly>'. Path '$type', line 1, position 51.", errors[0].Message);
+        Assert.Null(a2);
+        Assert.Equal(1, errors.Count);
+        Assert.Equal("Error resolving type specified in JSON '<Namespace>.JsonTest+MyTest2, <Assembly>'. Path '$type', line 1, position 51.", errors[0].Message);
     }
 
     public class AAA
@@ -104,8 +101,8 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             }
         });
 
-        Assert.AreEqual(1, errors.Count);
-        Assert.AreEqual("JSON integer 3554860000 is too large or small for an Int32. Path 'myint', line 1, position 19.", errors[0]);
+        Assert.Equal(1, errors.Count);
+        Assert.Equal("JSON integer 3554860000 is too large or small for an Int32. Path 'myint', line 1, position 19.", errors[0]);
     }
 
     [Fact]
@@ -131,11 +128,11 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             "[1] - Error message for member 1 = An item with the same key has already been added. Key: Jim" // netcore
         };
         var c = JsonConvert.DeserializeObject<VersionKeyedCollection>(json);
-        Assert.AreEqual(1, c.Count);
-        Assert.AreEqual(1, c.Messages.Count);
+        Assert.Equal(1, c.Count);
+        Assert.Equal(1, c.Messages.Count);
 
         Console.WriteLine(c.Messages[0]);
-        Assert.IsTrue(possibleMsgs.Any(m => m == c.Messages[0]), "Expected One of: " + Environment.NewLine + string.Join(Environment.NewLine, possibleMsgs) + Environment.NewLine + "Was: " + Environment.NewLine + c.Messages[0]);
+        Assert.True(possibleMsgs.Any(m => m == c.Messages[0]), "Expected One of: " + Environment.NewLine + string.Join(Environment.NewLine, possibleMsgs) + Environment.NewLine + "Was: " + Environment.NewLine + c.Messages[0]);
     }
 
     [Fact]
@@ -164,11 +161,11 @@ public class SerializationErrorHandlingTests : TestFixtureBase
   }
 ]");
 
-        Assert.AreEqual(3, c.Count);
-        Assert.AreEqual("Value1", c[0].Member);
-        Assert.AreEqual("Value2", c[1].Member);
-        Assert.AreEqual("Value3", c[2].Member);
-        Assert.AreEqual("Handle this!", c[2].ThrowError);
+        Assert.Equal(3, c.Count);
+        Assert.Equal("Value1", c[0].Member);
+        Assert.Equal("Value2", c[1].Member);
+        Assert.Equal("Value3", c[2].Member);
+        Assert.Equal("Handle this!", c[2].ThrowError);
     }
 
     [Fact]
@@ -230,7 +227,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             }
         });
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   [
     [
       {
@@ -292,7 +289,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""Member"": ""Value1"",
     ""ThrowError"": ""Handle this!"",
@@ -323,10 +320,10 @@ public class SerializationErrorHandlingTests : TestFixtureBase
   ""2000-12-01T00:00:00Z""
 ]", new IsoDateTimeConverter());
 
-        Assert.AreEqual(3, c.Count);
-        Assert.AreEqual(new DateTime(2009, 9, 9, 0, 0, 0, DateTimeKind.Utc), c[0]);
-        Assert.AreEqual(new DateTime(1977, 2, 20, 0, 0, 0, DateTimeKind.Utc), c[1]);
-        Assert.AreEqual(new DateTime(2000, 12, 1, 0, 0, 0, DateTimeKind.Utc), c[2]);
+        Assert.Equal(3, c.Count);
+        Assert.Equal(new DateTime(2009, 9, 9, 0, 0, 0, DateTimeKind.Utc), c[0]);
+        Assert.Equal(new DateTime(1977, 2, 20, 0, 0, 0, DateTimeKind.Utc), c[1]);
+        Assert.Equal(new DateTime(2000, 12, 1, 0, 0, 0, DateTimeKind.Utc), c[2]);
     }
 
     [Fact]
@@ -362,12 +359,12 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         // Unexpected token parsing date. Expected String, got StartArray.
         // Cannot convert null value to System.DateTime.
 
-        Assert.AreEqual(3, c.Count);
-        Assert.AreEqual(new DateTime(2009, 9, 9, 0, 0, 0, DateTimeKind.Utc), c[0]);
-        Assert.AreEqual(new DateTime(1977, 2, 20, 0, 0, 0, DateTimeKind.Utc), c[1]);
-        Assert.AreEqual(new DateTime(2000, 12, 1, 0, 0, 0, DateTimeKind.Utc), c[2]);
+        Assert.Equal(3, c.Count);
+        Assert.Equal(new DateTime(2009, 9, 9, 0, 0, 0, DateTimeKind.Utc), c[0]);
+        Assert.Equal(new DateTime(1977, 2, 20, 0, 0, 0, DateTimeKind.Utc), c[1]);
+        Assert.Equal(new DateTime(2000, 12, 1, 0, 0, 0, DateTimeKind.Utc), c[2]);
 
-        Assert.AreEqual(3, errors.Count);
+        Assert.Equal(3, errors.Count);
         var possibleErrs = new[]
         {
             "[1] - 1 - The string was not recognized as a valid DateTime. There is an unknown word starting at index 0.",
@@ -375,11 +372,11 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             "[1] - 1 - The string 'I am not a date and will error!' was not recognized as a valid DateTime. There is an unknown word starting at index '0'."
         };
 
-        Assert.IsTrue(possibleErrs.Any(m => m == errors[0]),
+        Assert.True(possibleErrs.Any(m => m == errors[0]),
             "Expected One of: " + string.Join(Environment.NewLine, possibleErrs) + Environment.NewLine + "But was: " + errors[0]);
 
-        Assert.AreEqual("[2] - 2 - Unexpected token parsing date. Expected String, got StartArray. Path '[2]', line 4, position 9.", errors[1]);
-        Assert.AreEqual("[4] - 4 - Cannot convert null value to System.DateTime. Path '[4]', line 8, position 12.", errors[2]);
+        Assert.Equal("[2] - 2 - Unexpected token parsing date. Expected String, got StartArray. Path '[2]', line 4, position 9.", errors[1]);
+        Assert.Equal("[4] - 4 - Cannot convert null value to System.DateTime. Path '[4]', line 8, position 12.", errors[2]);
     }
 
     [Fact]
@@ -407,12 +404,12 @@ public class SerializationErrorHandlingTests : TestFixtureBase
                 }
             });
 
-        Assert.AreEqual(3, c.Count);
-        Assert.AreEqual(new DateTime(2009, 9, 9, 0, 0, 0, DateTimeKind.Utc), c[0]);
-        Assert.AreEqual(new DateTime(1977, 2, 20, 0, 0, 0, DateTimeKind.Utc), c[1]);
-        Assert.AreEqual(new DateTime(2000, 12, 1, 0, 0, 0, DateTimeKind.Utc), c[2]);
+        Assert.Equal(3, c.Count);
+        Assert.Equal(new DateTime(2009, 9, 9, 0, 0, 0, DateTimeKind.Utc), c[0]);
+        Assert.Equal(new DateTime(1977, 2, 20, 0, 0, 0, DateTimeKind.Utc), c[1]);
+        Assert.Equal(new DateTime(2000, 12, 1, 0, 0, 0, DateTimeKind.Utc), c[2]);
 
-        Assert.AreEqual(false, eventErrorHandlerCalled);
+        XUnitAssert.False(eventErrorHandlerCalled);
     }
 
     [Fact]
@@ -428,7 +425,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(person, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""George Michael Bluth"",
   ""Age"": 16,
   ""Title"": ""Mister Manager""
@@ -462,10 +459,10 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             e = ex;
         }
 
-        Assert.AreEqual(@"Could not convert string to DateTime: kjhkjhkjhkjh. Path '[0][0]', line 1, position 16.", e.Message);
+        Assert.Equal(@"Could not convert string to DateTime: kjhkjhkjhkjh. Path '[0][0]', line 1, position 16.", e.Message);
 
-        Assert.AreEqual(1, errors.Count);
-        Assert.AreEqual(@"[0][0] - 0 - Could not convert string to DateTime: kjhkjhkjhkjh. Path '[0][0]', line 1, position 16.", errors[0]);
+        Assert.Equal(1, errors.Count);
+        Assert.Equal(@"[0][0] - 0 - Could not convert string to DateTime: kjhkjhkjhkjh. Path '[0][0]', line 1, position 16.", errors[0]);
     }
 
     [Fact]
@@ -484,9 +481,9 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         };
         serializer.Deserialize(new JsonTextReader(new StringReader(json)), typeof(MyTypeWithRequiredMembers));
 
-        Assert.AreEqual(2, errors.Count);
-        Assert.IsTrue(errors[0].StartsWith(" - Required1 - Required property 'Required1' not found in JSON. Path '', line 1, position 2."));
-        Assert.IsTrue(errors[1].StartsWith(" - Required2 - Required property 'Required2' not found in JSON. Path '', line 1, position 2."));
+        Assert.Equal(2, errors.Count);
+        Assert.True(errors[0].StartsWith(" - Required1 - Required property 'Required1' not found in JSON. Path '', line 1, position 2."));
+        Assert.True(errors[1].StartsWith(" - Required2 - Required property 'Required2' not found in JSON. Path '', line 1, position 2."));
     }
 
     [Fact]
@@ -505,9 +502,9 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
         serializer.Deserialize(new JsonTextReader(new StringReader(json)), typeof(int[]));
 
-        Assert.AreEqual(2, errors.Count);
-        Assert.AreEqual("[0] - 0 - Could not convert string to integer: a. Path '[0]', line 1, position 4.", errors[0]);
-        Assert.AreEqual("[1] - 1 - Could not convert string to integer: b. Path '[1]', line 1, position 8.", errors[1]);
+        Assert.Equal(2, errors.Count);
+        Assert.Equal("[0] - 0 - Could not convert string to integer: a. Path '[0]', line 1, position 4.", errors[0]);
+        Assert.Equal("[1] - 1 - Could not convert string to integer: b. Path '[1]', line 1, position 8.", errors[1]);
     }
 
     [Fact]
@@ -526,9 +523,9 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
         serializer.Deserialize(new JsonTextReader(new StringReader(json)), typeof(int[,]));
 
-        Assert.AreEqual(2, errors.Count);
-        Assert.AreEqual("[0][0] - 0 - Could not convert string to integer: a. Path '[0][0]', line 1, position 5.", errors[0]);
-        Assert.AreEqual("[1][0] - 0 - Could not convert string to integer: b. Path '[1][0]', line 1, position 16.", errors[1]);
+        Assert.Equal(2, errors.Count);
+        Assert.Equal("[0][0] - 0 - Could not convert string to integer: a. Path '[0][0]', line 1, position 5.", errors[0]);
+        Assert.Equal("[1][0] - 0 - Could not convert string to integer: b. Path '[1][0]', line 1, position 16.", errors[1]);
     }
 
     [Fact]
@@ -545,8 +542,8 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
         serializer.Deserialize<Nest>(new JsonTextReader(new StringReader(json)) { MaxDepth = 3 });
 
-        Assert.AreEqual(1, errors.Count);
-        Assert.AreEqual("A.A.A", errors[0]);
+        Assert.Equal(1, errors.Count);
+        Assert.Equal("A.A.A", errors[0]);
     }
 
     public class Nest
@@ -568,11 +565,11 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
         var result = serializer.Deserialize<ErrorPerson[]>(new JsonTextReader(new ThrowingReader()));
 
-        Assert.IsNull(result);
-        Assert.AreEqual(3, errors.Count);
-        Assert.AreEqual("too far", errors[0]);
-        Assert.AreEqual("too far", errors[1]);
-        Assert.AreEqual("Infinite loop detected from error handling. Path '[1023]', line 1, position 65536.", errors[2]);
+        Assert.Null(result);
+        Assert.Equal(3, errors.Count);
+        Assert.Equal("too far", errors[0]);
+        Assert.Equal("too far", errors[1]);
+        Assert.Equal("Infinite loop detected from error handling. Path '[1023]', line 1, position 65536.", errors[2]);
     }
 
     [Fact]
@@ -592,13 +589,13 @@ public class SerializationErrorHandlingTests : TestFixtureBase
                 }
             });
 
-        Assert.IsNotNull(o);
+        Assert.NotNull(o);
 
-        Assert.AreEqual(1, errors.Count);
-        Assert.AreEqual("Unexpected character encountered while parsing value: x. Path '[0]', line 1, position 4.", errors[0]);
+        Assert.Equal(1, errors.Count);
+        Assert.Equal("Unexpected character encountered while parsing value: x. Path '[0]', line 1, position 4.", errors[0]);
 
-        Assert.AreEqual(1, ((int[])o).Length);
-        Assert.AreEqual(0, ((int[])o)[0]);
+        Assert.Equal(1, ((int[])o).Length);
+        Assert.Equal(0, ((int[])o)[0]);
     }
 
     [Fact]
@@ -618,13 +615,13 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         });
         var o = serializer.Deserialize(reader, typeof(int[]));
 
-        Assert.IsNotNull(o);
+        Assert.NotNull(o);
 
-        Assert.AreEqual(1, errors.Count);
-        Assert.AreEqual("Error reading integer. Unexpected token: Boolean. Path '[1]'.", errors[0]);
+        Assert.Equal(1, errors.Count);
+        Assert.Equal("Error reading integer. Unexpected token: Boolean. Path '[1]'.", errors[0]);
 
-        Assert.AreEqual(1, ((int[])o).Length);
-        Assert.AreEqual(0, ((int[])o)[0]);
+        Assert.Equal(1, ((int[])o).Length);
+        Assert.Equal(0, ((int[])o)[0]);
     }
 
     [Fact]
@@ -644,16 +641,16 @@ public class SerializationErrorHandlingTests : TestFixtureBase
                 }
             });
 
-        Assert.IsNotNull(o);
+        Assert.NotNull(o);
 
-        Assert.AreEqual(2, errors.Count);
-        Assert.AreEqual("Unexpected character encountered while parsing value: x. Path 'badarray[0]', line 1, position 16.", errors[0]);
-        Assert.AreEqual("Unexpected character encountered while parsing value: ,. Path 'badarray[1]', line 1, position 17.", errors[1]);
+        Assert.Equal(2, errors.Count);
+        Assert.Equal("Unexpected character encountered while parsing value: x. Path 'badarray[0]', line 1, position 16.", errors[0]);
+        Assert.Equal("Unexpected character encountered while parsing value: ,. Path 'badarray[1]', line 1, position 17.", errors[1]);
 
-        Assert.AreEqual(2, o.Count);
-        Assert.AreEqual(2, o["badarray"].Length);
-        Assert.AreEqual(0, o["badarray"][0]);
-        Assert.AreEqual(2, o["badarray"][1]);
+        Assert.Equal(2, o.Count);
+        Assert.Equal(2, o["badarray"].Length);
+        Assert.Equal(0, o["badarray"][0]);
+        Assert.Equal(2, o["badarray"][1]);
     }
 
     [Fact]
@@ -679,15 +676,15 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
             var logMessage = jsonSerializer.Deserialize<LogMessage>(jsonTextReader);
 
-            Assert.IsNotNull(logMessage.Events);
-            Assert.AreEqual(1, logMessage.Events.Count);
-            Assert.AreEqual("64411", logMessage.Events[0].Code);
+            Assert.NotNull(logMessage.Events);
+            Assert.Equal(1, logMessage.Events.Count);
+            Assert.Equal("64411", logMessage.Events[0].Code);
         }
 
-        Assert.AreEqual(3, errors.Count);
-        Assert.AreEqual(@"Unterminated string. Expected delimiter: "". Path 'events[1].code', line 1, position 45.", errors[0]);
-        Assert.AreEqual(@"Unexpected end when deserializing array. Path 'events[1].code', line 1, position 45.", errors[1]);
-        Assert.AreEqual(@"Unexpected end when deserializing object. Path 'events[1].code', line 1, position 45.", errors[2]);
+        Assert.Equal(3, errors.Count);
+        Assert.Equal(@"Unterminated string. Expected delimiter: "". Path 'events[1].code', line 1, position 45.", errors[0]);
+        Assert.Equal(@"Unexpected end when deserializing array. Path 'events[1].code', line 1, position 45.", errors[1]);
+        Assert.Equal(@"Unexpected end when deserializing object. Path 'events[1].code', line 1, position 45.", errors[2]);
     }
 
     [Fact]
@@ -709,15 +706,15 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
             var logEvents = jsonSerializer.Deserialize<IDictionary<string, LogEvent>>(jsonTextReader);
 
-            Assert.IsNotNull(logEvents);
-            Assert.AreEqual(2, logEvents.Count);
-            Assert.AreEqual("64411", logEvents["events"].Code);
-            Assert.AreEqual("64412", logEvents["events2"].Code);
+            Assert.NotNull(logEvents);
+            Assert.Equal(2, logEvents.Count);
+            Assert.Equal("64411", logEvents["events"].Code);
+            Assert.Equal("64412", logEvents["events2"].Code);
         }
 
-        Assert.AreEqual(2, errors.Count);
-        Assert.AreEqual(@"Unexpected end when deserializing object. Path 'events2.code', line 1, position 49.", errors[0]);
-        Assert.AreEqual(@"Unexpected end when deserializing object. Path 'events2.code', line 1, position 49.", errors[1]);
+        Assert.Equal(2, errors.Count);
+        Assert.Equal(@"Unexpected end when deserializing object. Path 'events2.code', line 1, position 49.", errors[0]);
+        Assert.Equal(@"Unexpected end when deserializing object. Path 'events2.code', line 1, position 49.", errors[1]);
     }
 
     [Fact]
@@ -741,17 +738,17 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             },
             MetadataPropertyHandling = MetadataPropertyHandling.Default
         });
-        Assert.AreEqual(true, newDynamicObject.Explicit);
+        XUnitAssert.True(newDynamicObject.Explicit);
 
         dynamic d = newDynamicObject;
 
-        Assert.AreEqual(99.9, d.Decimal);
-        Assert.AreEqual(1, d.Int);
-        Assert.AreEqual(123, d.ChildObject.Integer);
+        Assert.Equal(99.9, d.Decimal);
+        Assert.Equal(1, d.Int);
+        Assert.Equal(123, d.ChildObject.Integer);
 
-        Assert.AreEqual(2, errors.Count);
-        Assert.AreEqual(@"Unexpected end when deserializing object. Path 'ChildObject.Integer', line 6, position 18.", errors[0]);
-        Assert.AreEqual(@"Unexpected end when deserializing object. Path 'ChildObject.Integer', line 6, position 18.", errors[1]);
+        Assert.Equal(2, errors.Count);
+        Assert.Equal(@"Unexpected end when deserializing object. Path 'ChildObject.Integer', line 6, position 18.", errors[0]);
+        Assert.Equal(@"Unexpected end when deserializing object. Path 'ChildObject.Integer', line 6, position 18.", errors[1]);
     }
 
     [Fact]
@@ -769,7 +766,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
         var dictionary = data.GroupBy(person => person.FirstName).ToDictionary(group => @group.Key, group => @group.Cast<IErrorPerson2>());
         var output = JsonConvert.SerializeObject(dictionary, Formatting.None, settings);
-        Assert.AreEqual(@"{""Scott"":[]}", output);
+        Assert.Equal(@"{""Scott"":[]}", output);
     }
 
     [Fact]
@@ -789,7 +786,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var dictionary = data.GroupBy(person => person.FirstName).ToDictionary(group => @group.Key, group => @group.Cast<IErrorPerson2>());
         var output = JsonConvert.SerializeObject(dictionary, Formatting.None, settings);
 
-        Assert.AreEqual(@"{""Scott"":[],""James"":[]}", output);
+        Assert.Equal(@"{""Scott"":[],""James"":[]}", output);
     }
 
     [Fact]
@@ -803,7 +800,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         s.Error += (_, args) => { args.ErrorContext.Handled = true; };
         var obj = s.Deserialize<ErrorPerson2>(jReader);
 
-        Assert.IsNull(obj);
+        Assert.Null(obj);
     }
 
     [Fact]
@@ -815,7 +812,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var jReader = new JsonTextReader(new StreamReader(stream));
         var s = new JsonSerializer();
 
-        ExceptionAssert.Throws<JsonReaderException>(() => { var obj = s.Deserialize<ErrorTestObject>(jReader); }, @"Unterminated string. Expected delimiter: "". Path '', line 1, position 3.");
+        XUnitAssert.Throws<JsonReaderException>(() => { var obj = s.Deserialize<ErrorTestObject>(jReader); }, @"Unterminated string. Expected delimiter: "". Path '', line 1, position 3.");
     }
 
     public class RootThing
@@ -880,7 +877,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
         public Something()
         {
-            this.RootSomethingElse = new RootSomethingElse();
+            RootSomethingElse = new RootSomethingElse();
         }
     }
 
@@ -917,7 +914,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var foo = "{ something: { rootSomethingElse { somethingElse: 0 } } }";
         var reader = new StringReader(foo);
 
-        ExceptionAssert.Throws<Exception>(() => { serialiser.Deserialize(reader, typeof(Something)); }, "An error occurred.");
+        XUnitAssert.Throws<Exception>(() => { serialiser.Deserialize(reader, typeof(Something)); }, "An error occurred.");
     }
 
     [Fact]
@@ -939,7 +936,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
         var writer = new StringWriter();
 
-        ExceptionAssert.Throws<Exception>(() => { serialiser.Serialize(writer, r); }, "An error occurred.");
+        XUnitAssert.Throws<Exception>(() => { serialiser.Serialize(writer, r); }, "An error occurred.");
     }
 
     [Fact]
@@ -950,7 +947,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             Error = (_, e) => { e.ErrorContext.Handled = true; }
         });
 
-        Assert.IsNull(result);
+        Assert.Null(result);
     }
 
     [Fact]
@@ -961,7 +958,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             Error = (_, e) => { e.ErrorContext.Handled = true; }
         });
 
-        Assert.AreEqual(string.Empty, result);
+        Assert.Equal(string.Empty, result);
     }
 
     [Fact]
@@ -991,18 +988,18 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var data = new DataModel();
         serializer.Populate(reader, data);
 
-        Assert.AreEqual("blah", data.String1);
-        Assert.AreEqual(0, data.Int1);
-        Assert.AreEqual("also blah", data.String2);
-        Assert.AreEqual(0, data.Int2);
-        Assert.AreEqual("more blah", data.String3);
-        Assert.AreEqual(default(DateTime), data.DateTime1);
-        Assert.AreEqual("even more blah", data.String4);
+        Assert.Equal("blah", data.String1);
+        Assert.Equal(0, data.Int1);
+        Assert.Equal("also blah", data.String2);
+        Assert.Equal(0, data.Int2);
+        Assert.Equal("more blah", data.String3);
+        Assert.Equal(default(DateTime), data.DateTime1);
+        Assert.Equal("even more blah", data.String4);
 
         //Assert.AreEqual(2, errorMessages.Count);
-        Assert.AreEqual("JSON integer 2147483648 is too large or small for an Int32. Path 'int1', line 3, position 20.", errorMessages[0]);
-        Assert.AreEqual("JSON integer 2147483648 is too large or small for an Int32. Path 'int2', line 5, position 20.", errorMessages[1]);
-        Assert.AreEqual("Could not convert string to DateTime: 200NOTDATE. Path 'dateTime1', line 7, position 27.", errorMessages[2]);
+        Assert.Equal("JSON integer 2147483648 is too large or small for an Int32. Path 'int1', line 3, position 20.", errorMessages[0]);
+        Assert.Equal("JSON integer 2147483648 is too large or small for an Int32. Path 'int2', line 5, position 20.", errorMessages[1]);
+        Assert.Equal("Could not convert string to DateTime: 200NOTDATE. Path 'dateTime1', line 7, position 27.", errorMessages[2]);
     }
 
     [Fact]
@@ -1014,10 +1011,10 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             }";
         var dictionary = JsonConvert.DeserializeObject<TolerantDictionary<string, DataModel>>(json);
 
-        Assert.AreEqual(1, dictionary.Count);
-        Assert.IsTrue(dictionary.ContainsKey("model2"));
-        Assert.AreEqual("s2", dictionary["model2"].String1);
-        Assert.AreEqual(2, dictionary["model2"].Int1);
+        Assert.Equal(1, dictionary.Count);
+        Assert.True(dictionary.ContainsKey("model2"));
+        Assert.Equal("s2", dictionary["model2"].String1);
+        Assert.Equal(2, dictionary["model2"].Int1);
     }
 
     class DataModel

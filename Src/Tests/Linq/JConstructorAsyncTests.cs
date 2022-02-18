@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Linq;
 
-[TestFixture]
 public class JConstructorAsyncTests : TestFixtureBase
 {
     [Fact]
@@ -39,7 +36,7 @@ public class JConstructorAsyncTests : TestFixtureBase
         await reader.ReadAsync();
 
         var constructor = await JConstructor.LoadAsync(reader);
-        Assert.AreEqual("Date", constructor.Name);
-        Assert.IsTrue(JToken.DeepEquals(new JValue(123), constructor.Values().ElementAt(0)));
+        Assert.Equal("Date", constructor.Name);
+        Assert.True(JToken.DeepEquals(new JValue(123), constructor.Values().ElementAt(0)));
     }
 }

@@ -25,14 +25,11 @@
 
 using System.ComponentModel;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 // ReSharper disable UseObjectOrCollectionInitializer
 
 namespace Argon.Tests.Linq;
 
-[TestFixture]
 public class JArrayTests : TestFixtureBase
 {
     [Fact]
@@ -47,22 +44,22 @@ public class JArrayTests : TestFixtureBase
 
         var last = a.Last();
 
-        Assert.IsTrue(a.Remove(last));
+        Assert.True(a.Remove(last));
 
         last = a.Last();
         last.Remove();
 
-        Assert.AreEqual(2, a.Count);
+        Assert.Equal(2, a.Count);
     }
 
     [Fact]
     public void Clear()
     {
         var a = new JArray { 1 };
-        Assert.AreEqual(1, a.Count);
+        Assert.Equal(1, a.Count);
 
         a.Clear();
-        Assert.AreEqual(0, a.Count);
+        Assert.Equal(0, a.Count);
     }
 
     [Fact]
@@ -71,7 +68,7 @@ public class JArrayTests : TestFixtureBase
         var a = new JArray();
         a.Add(a);
 
-        Assert.IsFalse(ReferenceEquals(a[0], a));
+        Assert.False(ReferenceEquals(a[0], a));
     }
 
     [Fact]
@@ -81,10 +78,10 @@ public class JArrayTests : TestFixtureBase
 
         var a = new JArray { v };
 
-        Assert.AreEqual(false, a.Contains(new JValue(2)));
-        Assert.AreEqual(false, a.Contains(new JValue(1)));
-        Assert.AreEqual(false, a.Contains(null));
-        Assert.AreEqual(true, a.Contains(v));
+        XUnitAssert.False(a.Contains(new JValue(2)));
+        XUnitAssert.False(a.Contains(new JValue(1)));
+        XUnitAssert.False(a.Contains(null));
+        XUnitAssert.True(a.Contains(v));
     }
 
     [Fact]
@@ -96,21 +93,21 @@ public class JArrayTests : TestFixtureBase
             new JValue(2),
             new JValue(3)
         };
-        Assert.AreEqual(3, j.Count);
+        Assert.Equal(3, j.Count);
 
         var a = new JToken[5];
 
         ((ICollection<JToken>)j).CopyTo(a, 1);
 
-        Assert.AreEqual(null, a[0]);
+        Assert.Equal(null, a[0]);
 
-        Assert.AreEqual(1, (int)a[1]);
+        Assert.Equal(1, (int)a[1]);
 
-        Assert.AreEqual(2, (int)a[2]);
+        Assert.Equal(2, (int)a[2]);
 
-        Assert.AreEqual(3, (int)a[3]);
+        Assert.Equal(3, (int)a[3]);
 
-        Assert.AreEqual(null, a[4]);
+        Assert.Equal(null, a[4]);
     }
 
     [Fact]
@@ -118,7 +115,7 @@ public class JArrayTests : TestFixtureBase
     {
         var j = new JArray();
 
-        ExceptionAssert.Throws<ArgumentNullException>(() => { ((ICollection<JToken>)j).CopyTo(null, 0); },
+        XUnitAssert.Throws<ArgumentNullException>(() => { ((ICollection<JToken>)j).CopyTo(null, 0); },
             @"Value cannot be null.
 Parameter name: array",
             "Value cannot be null. (Parameter 'array')");
@@ -129,7 +126,7 @@ Parameter name: array",
     {
         var j = new JArray();
 
-        ExceptionAssert.Throws<ArgumentOutOfRangeException>(() => { ((ICollection<JToken>)j).CopyTo(new JToken[1], -1); },
+        XUnitAssert.Throws<ArgumentOutOfRangeException>(() => { ((ICollection<JToken>)j).CopyTo(new JToken[1], -1); },
             @"arrayIndex is less than 0.
 Parameter name: arrayIndex",
             "arrayIndex is less than 0. (Parameter 'arrayIndex')");
@@ -140,7 +137,7 @@ Parameter name: arrayIndex",
     {
         var j = new JArray();
 
-        ExceptionAssert.Throws<ArgumentException>(() => { ((ICollection<JToken>)j).CopyTo(new JToken[1], 1); }, @"arrayIndex is equal to or greater than the length of array.");
+        XUnitAssert.Throws<ArgumentException>(() => { ((ICollection<JToken>)j).CopyTo(new JToken[1], 1); }, @"arrayIndex is equal to or greater than the length of array.");
     }
 
     [Fact]
@@ -153,7 +150,7 @@ Parameter name: arrayIndex",
             new JValue(3)
         };
 
-        ExceptionAssert.Throws<ArgumentException>(() => { ((ICollection<JToken>)j).CopyTo(new JToken[3], 1); }, @"The number of elements in the source JObject is greater than the available space from arrayIndex to the end of the destination array.");
+        XUnitAssert.Throws<ArgumentException>(() => { ((ICollection<JToken>)j).CopyTo(new JToken[3], 1); }, @"The number of elements in the source JObject is greater than the available space from arrayIndex to the end of the destination array.");
     }
 
     [Fact]
@@ -162,14 +159,14 @@ Parameter name: arrayIndex",
         var v = new JValue(1);
         var j = new JArray {v};
 
-        Assert.AreEqual(1, j.Count);
+        Assert.Equal(1, j.Count);
 
-        Assert.AreEqual(false, j.Remove(new JValue(1)));
-        Assert.AreEqual(false, j.Remove(null));
-        Assert.AreEqual(true, j.Remove(v));
-        Assert.AreEqual(false, j.Remove(v));
+        XUnitAssert.False(j.Remove(new JValue(1)));
+        XUnitAssert.False(j.Remove(null));
+        XUnitAssert.True(j.Remove(v));
+        XUnitAssert.False(j.Remove(v));
 
-        Assert.AreEqual(0, j.Count);
+        Assert.Equal(0, j.Count);
     }
 
     [Fact]
@@ -181,21 +178,21 @@ Parameter name: arrayIndex",
 
         var j = new JArray {v1};
 
-        Assert.AreEqual(0, j.IndexOf(v1));
+        Assert.Equal(0, j.IndexOf(v1));
 
         j.Add(v2);
-        Assert.AreEqual(0, j.IndexOf(v1));
-        Assert.AreEqual(1, j.IndexOf(v2));
+        Assert.Equal(0, j.IndexOf(v1));
+        Assert.Equal(1, j.IndexOf(v2));
 
         j.AddFirst(v3);
-        Assert.AreEqual(1, j.IndexOf(v1));
-        Assert.AreEqual(2, j.IndexOf(v2));
-        Assert.AreEqual(0, j.IndexOf(v3));
+        Assert.Equal(1, j.IndexOf(v1));
+        Assert.Equal(2, j.IndexOf(v2));
+        Assert.Equal(0, j.IndexOf(v3));
 
         v3.Remove();
-        Assert.AreEqual(0, j.IndexOf(v1));
-        Assert.AreEqual(1, j.IndexOf(v2));
-        Assert.AreEqual(-1, j.IndexOf(v3));
+        Assert.Equal(0, j.IndexOf(v1));
+        Assert.Equal(1, j.IndexOf(v2));
+        Assert.Equal(-1, j.IndexOf(v3));
     }
 
     [Fact]
@@ -212,15 +209,15 @@ Parameter name: arrayIndex",
             v3
         };
 
-        Assert.AreEqual(true, j.Contains(v1));
+        XUnitAssert.True(j.Contains(v1));
         j.RemoveAt(0);
-        Assert.AreEqual(false, j.Contains(v1));
+        XUnitAssert.False(j.Contains(v1));
 
-        Assert.AreEqual(true, j.Contains(v3));
+        XUnitAssert.True(j.Contains(v3));
         j.RemoveAt(1);
-        Assert.AreEqual(false, j.Contains(v3));
+        XUnitAssert.False(j.Contains(v3));
 
-        Assert.AreEqual(1, j.Count);
+        Assert.Equal(1, j.Count);
     }
 
     [Fact]
@@ -228,7 +225,7 @@ Parameter name: arrayIndex",
     {
         var j = new JArray();
 
-        ExceptionAssert.Throws<ArgumentOutOfRangeException>(
+        XUnitAssert.Throws<ArgumentOutOfRangeException>(
             () => { j.RemoveAt(0); },
             @"Index is equal to or greater than Count.
 Parameter name: index",
@@ -240,7 +237,7 @@ Parameter name: index",
     {
         var j = new JArray();
 
-        ExceptionAssert.Throws<ArgumentOutOfRangeException>(
+        XUnitAssert.Throws<ArgumentOutOfRangeException>(
             () => { j.RemoveAt(-1); },
             @"Index is less than 0.
 Parameter name: index",
@@ -264,10 +261,10 @@ Parameter name: index",
 
         j.Insert(1, v4);
 
-        Assert.AreEqual(0, j.IndexOf(v1));
-        Assert.AreEqual(1, j.IndexOf(v4));
-        Assert.AreEqual(2, j.IndexOf(v2));
-        Assert.AreEqual(3, j.IndexOf(v3));
+        Assert.Equal(0, j.IndexOf(v1));
+        Assert.Equal(1, j.IndexOf(v4));
+        Assert.Equal(2, j.IndexOf(v2));
+        Assert.Equal(3, j.IndexOf(v3));
     }
 
     [Fact]
@@ -278,20 +275,20 @@ Parameter name: index",
         var v3 = new JValue(3);
 
         var j = new JArray();
-        Assert.AreEqual(null, j.First);
-        Assert.AreEqual(null, j.Last);
+        Assert.Equal(null, j.First);
+        Assert.Equal(null, j.Last);
 
         j.AddFirst(v1);
-        Assert.AreEqual(v1, j.First);
-        Assert.AreEqual(v1, j.Last);
+        Assert.Equal(v1, j.First);
+        Assert.Equal(v1, j.Last);
 
         j.AddFirst(v2);
-        Assert.AreEqual(v2, j.First);
-        Assert.AreEqual(v1, j.Last);
+        Assert.Equal(v2, j.First);
+        Assert.Equal(v1, j.Last);
 
         j.AddFirst(v3);
-        Assert.AreEqual(v3, j.First);
-        Assert.AreEqual(v1, j.Last);
+        Assert.Equal(v3, j.First);
+        Assert.Equal(v1, j.Last);
     }
 
     [Fact]
@@ -303,11 +300,11 @@ Parameter name: index",
         var j = new JArray();
 
         j.Insert(0, v1);
-        Assert.AreEqual(0, j.IndexOf(v1));
+        Assert.Equal(0, j.IndexOf(v1));
 
         j.Insert(0, v2);
-        Assert.AreEqual(1, j.IndexOf(v1));
-        Assert.AreEqual(0, j.IndexOf(v2));
+        Assert.Equal(1, j.IndexOf(v1));
+        Assert.Equal(0, j.IndexOf(v2));
     }
 
     [Fact]
@@ -316,7 +313,7 @@ Parameter name: index",
         var j = new JArray();
         j.Insert(0, null);
 
-        Assert.AreEqual(null, ((JValue)j[0]).Value);
+        Assert.Equal(null, ((JValue)j[0]).Value);
     }
 
     [Fact]
@@ -324,7 +321,7 @@ Parameter name: index",
     {
         var j = new JArray();
 
-        ExceptionAssert.Throws<ArgumentOutOfRangeException>(
+        XUnitAssert.Throws<ArgumentOutOfRangeException>(
             () => { j.Insert(-1, new JValue(1)); },
             @"Index was out of range. Must be non-negative and less than the size of the collection.
 Parameter name: index",
@@ -336,7 +333,7 @@ Parameter name: index",
     {
         var j = new JArray();
 
-        ExceptionAssert.Throws<ArgumentOutOfRangeException>(
+        XUnitAssert.Throws<ArgumentOutOfRangeException>(
             () => { j.Insert(2, new JValue(1)); },
             @"Index must be within the bounds of the List.
 Parameter name: index",
@@ -360,10 +357,10 @@ Parameter name: index",
 
         j[1] = v4;
 
-        Assert.AreEqual(null, v2.Parent);
-        Assert.AreEqual(-1, j.IndexOf(v2));
-        Assert.AreEqual(j, v4.Parent);
-        Assert.AreEqual(1, j.IndexOf(v4));
+        Assert.Equal(null, v2.Parent);
+        Assert.Equal(-1, j.IndexOf(v2));
+        Assert.Equal(j, v4.Parent);
+        Assert.Equal(1, j.IndexOf(v4));
     }
 
     [Fact]
@@ -371,7 +368,7 @@ Parameter name: index",
     {
         var json = @"{""prop"":""value""}";
 
-        ExceptionAssert.Throws<JsonReaderException>(() => { JArray.Parse(json); }, "Error reading JArray from JsonReader. Current JsonReader item is not an array: StartObject. Path '', line 1, position 1.");
+        XUnitAssert.Throws<JsonReaderException>(() => { JArray.Parse(json); }, "Error reading JArray from JsonReader. Current JsonReader item is not an array: StartObject. Path '', line 1, position 1.");
     }
 
     public class ListItemFields
@@ -407,7 +404,7 @@ Parameter name: index",
 
         var result = "myOptions = " + optionValues.ToString();
 
-        StringAssert.AreEqual(@"myOptions = {
+        XUnitAssert.AreEqualNormalized(@"myOptions = {
   ""options"": [
     {
       ""text"": ""Zero text"",
@@ -437,7 +434,7 @@ Parameter name: index",
         var i = 1;
         foreach (var token in a)
         {
-            Assert.AreEqual(i, (int)token);
+            Assert.Equal(i, (int)token);
             i++;
         }
     }
@@ -450,10 +447,10 @@ Parameter name: index",
         ITypedList a = new JArray(new JObject(p1, p2));
 
         var propertyDescriptors = a.GetItemProperties(null);
-        Assert.IsNotNull(propertyDescriptors);
-        Assert.AreEqual(2, propertyDescriptors.Count);
-        Assert.AreEqual("Test1", propertyDescriptors[0].Name);
-        Assert.AreEqual("Test2", propertyDescriptors[1].Name);
+        Assert.NotNull(propertyDescriptors);
+        Assert.Equal(2, propertyDescriptors.Count);
+        Assert.Equal("Test1", propertyDescriptors[0].Name);
+        Assert.Equal("Test2", propertyDescriptors[1].Name);
     }
 
     [Fact]
@@ -462,16 +459,16 @@ Parameter name: index",
         var a = new JArray(1, 2);
         a.Add(a);
 
-        Assert.AreEqual(3, a.Count);
-        Assert.AreEqual(1, (int)a[0]);
-        Assert.AreEqual(2, (int)a[1]);
-        Assert.AreNotSame(a, a[2]);
+        Assert.Equal(3, a.Count);
+        Assert.Equal(1, (int)a[0]);
+        Assert.Equal(2, (int)a[1]);
+        Assert.NotSame(a, a[2]);
     }
 
     [Fact]
     public void SetValueWithInvalidIndex()
     {
-        ExceptionAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(() =>
         {
             var a = new JArray
             {
@@ -490,27 +487,27 @@ Parameter name: index",
             [key] = new JValue(3)
         };
 
-        Assert.AreEqual(3, (int)a[key]);
+        Assert.Equal(3, (int)a[key]);
     }
 
     [Fact]
     public void ReplaceAll()
     {
         var a = new JArray(new[] { 1, 2, 3 });
-        Assert.AreEqual(3, a.Count);
-        Assert.AreEqual(1, (int)a[0]);
-        Assert.AreEqual(2, (int)a[1]);
-        Assert.AreEqual(3, (int)a[2]);
+        Assert.Equal(3, a.Count);
+        Assert.Equal(1, (int)a[0]);
+        Assert.Equal(2, (int)a[1]);
+        Assert.Equal(3, (int)a[2]);
 
         a.ReplaceAll(1);
-        Assert.AreEqual(1, a.Count);
-        Assert.AreEqual(1, (int)a[0]);
+        Assert.Equal(1, a.Count);
+        Assert.Equal(1, (int)a[0]);
     }
 
     [Fact]
     public void ParseIncomplete()
     {
-        ExceptionAssert.Throws<JsonReaderException>(() => { JArray.Parse("[1"); }, "Unexpected end of content while loading JArray. Path '[0]', line 1, position 2.");
+        XUnitAssert.Throws<JsonReaderException>(() => { JArray.Parse("[1"); }, "Unexpected end of content while loading JArray. Path '[0]', line 1, position 2.");
     }
 
     [Fact]
@@ -520,9 +517,9 @@ Parameter name: index",
         array.Insert(0, 123);
         array.Insert(1, 456);
 
-        Assert.AreEqual(2, array.Count);
-        Assert.AreEqual(123, (int)array[0]);
-        Assert.AreEqual(456, (int)array[1]);
+        Assert.Equal(2, array.Count);
+        Assert.Equal(123, (int)array[0]);
+        Assert.Equal(456, (int)array[1]);
     }
 
     [Fact]
@@ -534,7 +531,7 @@ Parameter name: index",
 ""Large""
 ], 987987";
 
-        ExceptionAssert.Throws<JsonReaderException>(() => { JArray.Parse(json); }, "Additional text encountered after finished reading JSON content: ,. Path '', line 5, position 1.");
+        XUnitAssert.Throws<JsonReaderException>(() => { JArray.Parse(json); }, "Additional text encountered after finished reading JSON content: ,. Path '', line 5, position 1.");
     }
 
     [Fact]
@@ -544,13 +541,13 @@ Parameter name: index",
 
         var decks = (JArray)JObject.Parse(json)["decks"];
         IList<JToken> l = decks.ToList();
-        Assert.AreEqual(0, l.Count);
+        Assert.Equal(0, l.Count);
 
         json = @"{""decks"":[1]}";
 
         decks = (JArray)JObject.Parse(json)["decks"];
         l = decks.ToList();
-        Assert.AreEqual(1, l.Count);
+        Assert.Equal(1, l.Count);
     }
 
     [Fact]
@@ -560,31 +557,31 @@ Parameter name: index",
 
         var a = JArray.Parse(json, new JsonLoadSettings());
 
-        Assert.AreEqual(3, a.Count);
-        Assert.AreEqual(1, (int)a[0]);
-        Assert.AreEqual(2, (int)a[1]);
-        Assert.AreEqual(3, (int)a[2]);
+        Assert.Equal(3, a.Count);
+        Assert.Equal(1, (int)a[0]);
+        Assert.Equal(2, (int)a[1]);
+        Assert.Equal(3, (int)a[2]);
 
         a = JArray.Parse(json, new JsonLoadSettings
         {
             CommentHandling = CommentHandling.Ignore
         });
 
-        Assert.AreEqual(3, a.Count);
-        Assert.AreEqual(1, (int)a[0]);
-        Assert.AreEqual(2, (int)a[1]);
-        Assert.AreEqual(3, (int)a[2]);
+        Assert.Equal(3, a.Count);
+        Assert.Equal(1, (int)a[0]);
+        Assert.Equal(2, (int)a[1]);
+        Assert.Equal(3, (int)a[2]);
 
         a = JArray.Parse(json, new JsonLoadSettings
         {
             CommentHandling = CommentHandling.Load
         });
 
-        Assert.AreEqual(4, a.Count);
-        Assert.AreEqual(1, (int)a[0]);
-        Assert.AreEqual(2, (int)a[1]);
-        Assert.AreEqual(JTokenType.Comment, a[2].Type);
-        Assert.AreEqual(3, (int)a[3]);
+        Assert.Equal(4, a.Count);
+        Assert.Equal(1, (int)a[0]);
+        Assert.Equal(2, (int)a[1]);
+        Assert.Equal(JTokenType.Comment, a[2].Type);
+        Assert.Equal(3, (int)a[3]);
     }
 
     [Fact]
@@ -595,10 +592,10 @@ Parameter name: index",
 
         var a = JArray.Parse(json);
 
-        Assert.AreEqual(3, a.Count);
-        Assert.AreEqual(1, (int)a[0]);
-        Assert.AreEqual(2, (int)a[1]);
-        Assert.AreEqual(3, (int)a[2]);
+        Assert.Equal(3, a.Count);
+        Assert.Equal(1, (int)a[0]);
+        Assert.Equal(2, (int)a[1]);
+        Assert.Equal(3, (int)a[2]);
     }
 
     [Fact]
@@ -608,7 +605,7 @@ Parameter name: index",
 //Another comment.
 []";
 
-        ExceptionAssert.Throws<JsonReaderException>(() => JArray.Parse(json),
+        XUnitAssert.Throws<JsonReaderException>(() => JArray.Parse(json),
             "Additional text encountered after finished reading JSON content: [. Path '', line 3, position 0.");
     }
 
@@ -619,29 +616,29 @@ Parameter name: index",
 
         var a = JArray.Parse(json, new JsonLoadSettings());
 
-        Assert.AreEqual(true, ((IJsonLineInfo)a).HasLineInfo());
-        Assert.AreEqual(true, ((IJsonLineInfo)a[0]).HasLineInfo());
-        Assert.AreEqual(true, ((IJsonLineInfo)a[1]).HasLineInfo());
-        Assert.AreEqual(true, ((IJsonLineInfo)a[2]).HasLineInfo());
+        XUnitAssert.True(((IJsonLineInfo)a).HasLineInfo());
+        XUnitAssert.True(((IJsonLineInfo)a[0]).HasLineInfo());
+        XUnitAssert.True(((IJsonLineInfo)a[1]).HasLineInfo());
+        XUnitAssert.True(((IJsonLineInfo)a[2]).HasLineInfo());
 
         a = JArray.Parse(json, new JsonLoadSettings
         {
             LineInfoHandling = LineInfoHandling.Ignore
         });
 
-        Assert.AreEqual(false, ((IJsonLineInfo)a).HasLineInfo());
-        Assert.AreEqual(false, ((IJsonLineInfo)a[0]).HasLineInfo());
-        Assert.AreEqual(false, ((IJsonLineInfo)a[1]).HasLineInfo());
-        Assert.AreEqual(false, ((IJsonLineInfo)a[2]).HasLineInfo());
+        XUnitAssert.False(((IJsonLineInfo)a).HasLineInfo());
+        XUnitAssert.False(((IJsonLineInfo)a[0]).HasLineInfo());
+        XUnitAssert.False(((IJsonLineInfo)a[1]).HasLineInfo());
+        XUnitAssert.False(((IJsonLineInfo)a[2]).HasLineInfo());
 
         a = JArray.Parse(json, new JsonLoadSettings
         {
             LineInfoHandling = LineInfoHandling.Load
         });
 
-        Assert.AreEqual(true, ((IJsonLineInfo)a).HasLineInfo());
-        Assert.AreEqual(true, ((IJsonLineInfo)a[0]).HasLineInfo());
-        Assert.AreEqual(true, ((IJsonLineInfo)a[1]).HasLineInfo());
-        Assert.AreEqual(true, ((IJsonLineInfo)a[2]).HasLineInfo());
+        XUnitAssert.True(((IJsonLineInfo)a).HasLineInfo());
+        XUnitAssert.True(((IJsonLineInfo)a[0]).HasLineInfo());
+        XUnitAssert.True(((IJsonLineInfo)a[1]).HasLineInfo());
+        XUnitAssert.True(((IJsonLineInfo)a[2]).HasLineInfo());
     }
 }

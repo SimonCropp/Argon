@@ -24,13 +24,10 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 using Microsoft.FSharp.Collections;
 
 namespace Argon.Tests.Serialization;
 
-[TestFixture]
 public class FSharpTests : TestFixtureBase
 {
     [Fact]
@@ -40,7 +37,7 @@ public class FSharpTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   1,
   2,
   3
@@ -48,8 +45,8 @@ public class FSharpTests : TestFixtureBase
 
         var l2 = JsonConvert.DeserializeObject<FSharpList<int>>(json);
 
-        Assert.AreEqual(l.Length, l2.Length);
-        CollectionAssert.AreEquivalent(l, l2);
+        Assert.Equal(l.Length, l2.Length);
+        Assert.Equal(l, l2);
     }
 
     [Fact]
@@ -59,7 +56,7 @@ public class FSharpTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   1,
   2,
   3
@@ -67,8 +64,8 @@ public class FSharpTests : TestFixtureBase
 
         var l2 = JsonConvert.DeserializeObject<FSharpSet<int>>(json);
 
-        Assert.AreEqual(l.Count, l2.Count);
-        CollectionAssert.AreEquivalent(l, l2);
+        Assert.Equal(l.Count, l2.Count);
+        Assert.Equal(l, l2);
     }
 
     [Fact]
@@ -80,9 +77,9 @@ public class FSharpTests : TestFixtureBase
 
         var m2 = JsonConvert.DeserializeObject<FSharpMap<string, int>>(json);
 
-        Assert.AreEqual(m1.Count, m2.Count);
-        Assert.AreEqual(1, m2["one"]);
-        Assert.AreEqual(2, m2["II"]);
-        Assert.AreEqual(3, m2["3"]);
+        Assert.Equal(m1.Count, m2.Count);
+        Assert.Equal(1, m2["one"]);
+        Assert.Equal(2, m2["II"]);
+        Assert.Equal(3, m2["3"]);
     }
 }

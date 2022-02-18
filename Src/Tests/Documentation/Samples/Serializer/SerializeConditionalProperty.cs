@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class SerializeConditionalProperty : TestFixtureBase
 {
     #region Types
@@ -81,7 +78,7 @@ public class SerializeConditionalProperty : TestFixtureBase
         // ]
         #endregion
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""Name"": ""Joe Employee"",
     ""Manager"": {

@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue1566 : TestFixtureBase
 {
     [Fact]
@@ -44,8 +41,8 @@ public class Issue1566 : TestFixtureBase
         var jsonObjectWithLowercase = JsonConvert.DeserializeObject<GitHubPullRequestReview>(jsonWithLowercase);
 
         // Assert
-        Assert.AreEqual(GitHubPullRequestReviewState.Approved, jsonObjectWithUppercase.State);
-        Assert.AreEqual(GitHubPullRequestReviewState.Approved, jsonObjectWithLowercase.State);
+        Assert.Equal(GitHubPullRequestReviewState.Approved, jsonObjectWithUppercase.State);
+        Assert.Equal(GitHubPullRequestReviewState.Approved, jsonObjectWithLowercase.State);
     }
 
     [Fact]
@@ -60,8 +57,8 @@ public class Issue1566 : TestFixtureBase
         var jsonObjectWithLowercase = JsonConvert.DeserializeObject<GitHubPullRequestReview>(jsonWithLowercase);
 
         // Assert
-        Assert.AreEqual(GitHubPullRequestReviewState.ChangesRequested, jsonObjectWithUppercase.State);
-        Assert.AreEqual(GitHubPullRequestReviewState.ChangesRequested, jsonObjectWithLowercase.State);
+        Assert.Equal(GitHubPullRequestReviewState.ChangesRequested, jsonObjectWithUppercase.State);
+        Assert.Equal(GitHubPullRequestReviewState.ChangesRequested, jsonObjectWithLowercase.State);
     }
 
     public enum GitHubPullRequestReviewState

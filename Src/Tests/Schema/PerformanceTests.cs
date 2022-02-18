@@ -25,12 +25,9 @@
 
 #pragma warning disable 618
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Schema;
 
-[TestFixture]
 public class PerformanceTests : TestFixtureBase
 {
     [Fact]

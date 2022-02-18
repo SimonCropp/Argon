@@ -25,12 +25,9 @@
 
 using System.Dynamic;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Converters;
 
-[TestFixture]
 public class ExpandoObjectConverterTests : TestFixtureBase
 {
     public class ExpandoContainer
@@ -63,7 +60,7 @@ public class ExpandoObjectConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(d, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Before"": ""Before!"",
   ""Expando"": {
     ""String"": ""String!"",
@@ -89,7 +86,7 @@ public class ExpandoObjectConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(d, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Before"": null,
   ""Expando"": null,
   ""After"": null
@@ -119,37 +116,37 @@ public class ExpandoObjectConverterTests : TestFixtureBase
 
         var o = JsonConvert.DeserializeObject<ExpandoContainer>(json);
 
-        Assert.AreEqual(o.Before, "Before!");
-        Assert.AreEqual(o.After, "After!");
-        Assert.IsNotNull(o.Expando);
+        Assert.Equal(o.Before, "Before!");
+        Assert.Equal(o.After, "After!");
+        Assert.NotNull(o.Expando);
 
         dynamic d = o.Expando;
-        CustomAssert.IsInstanceOfType(typeof(ExpandoObject), d);
+        Assert.IsType(typeof(ExpandoObject), d);
 
-        Assert.AreEqual("String!", d.String);
-        CustomAssert.IsInstanceOfType(typeof(string), d.String);
+        Assert.Equal("String!", d.String);
+        Assert.IsType(typeof(string), d.String);
 
-        Assert.AreEqual(234, d.Integer);
-        CustomAssert.IsInstanceOfType(typeof(long), d.Integer);
+        Assert.Equal(234, d.Integer);
+        Assert.IsType(typeof(long), d.Integer);
 
-        Assert.AreEqual(1.23, d.Float);
-        CustomAssert.IsInstanceOfType(typeof(double), d.Float);
+        Assert.Equal(1.23, d.Float);
+        Assert.IsType(typeof(double), d.Float);
 
-        Assert.IsNotNull(d.List);
-        Assert.AreEqual(3, d.List.Count);
-        CustomAssert.IsInstanceOfType(typeof(List<object>), d.List);
+        Assert.NotNull(d.List);
+        Assert.Equal(3, d.List.Count);
+        Assert.IsType(typeof(List<object>), d.List);
 
-        Assert.AreEqual("First", d.List[0]);
-        CustomAssert.IsInstanceOfType(typeof(string), d.List[0]);
+        Assert.Equal("First", d.List[0]);
+        Assert.IsType(typeof(string), d.List[0]);
 
-        Assert.AreEqual("Second", d.List[1]);
-        Assert.AreEqual("Third", d.List[2]);
+        Assert.Equal("Second", d.List[1]);
+        Assert.Equal("Third", d.List[2]);
 
-        Assert.IsNotNull(d.Object);
-        CustomAssert.IsInstanceOfType(typeof(ExpandoObject), d.Object);
+        Assert.NotNull(d.Object);
+        Assert.IsType(typeof(ExpandoObject), d.Object);
 
-        Assert.AreEqual(1, d.Object.First);
-        CustomAssert.IsInstanceOfType(typeof(long), d.Object.First);
+        Assert.Equal(1, d.Object.First);
+        Assert.IsType(typeof(long), d.Object.First);
     }
 
     [Fact]
@@ -163,6 +160,6 @@ public class ExpandoObjectConverterTests : TestFixtureBase
 
         var c = JsonConvert.DeserializeObject<ExpandoContainer>(json);
 
-        Assert.AreEqual(null, c.Expando);
+        Assert.Equal(null, c.Expando);
     }
 }

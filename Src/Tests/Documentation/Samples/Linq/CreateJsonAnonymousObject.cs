@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Linq;
 
-[TestFixture]
 public class CreateJsonAnonymousObject : TestFixtureBase
 {
     #region Types
@@ -102,7 +99,7 @@ public class CreateJsonAnonymousObject : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""channel"": {
     ""title"": ""Star Wars"",
     ""link"": ""http://www.starwars.com"",

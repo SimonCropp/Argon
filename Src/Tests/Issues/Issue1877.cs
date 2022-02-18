@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue1877
 {
     [Fact]
@@ -45,7 +42,7 @@ public class Issue1877
         {
             Converters = { new VersionConverter() }
         });
-        Assert.AreEqual(@"{""Version"":""4.0""}", s);
+        Assert.Equal(@"{""Version"":""4.0""}", s);
 
         var f3 = JsonConvert.DeserializeObject<Fubar2>(s, new JsonSerializerSettings
         {
@@ -53,8 +50,8 @@ public class Issue1877
             Converters = { new VersionConverter() }
         });
 
-        Assert.AreEqual(2, f3.Version.Major);
-        Assert.AreEqual(4, (f3 as Fubar).Version.Major);
+        Assert.Equal(2, f3.Version.Major);
+        Assert.Equal(4, (f3 as Fubar).Version.Major);
     }
 
     class Fubar

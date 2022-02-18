@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Linq;
 
-[TestFixture]
 public class JObjectProperties : TestFixtureBase
 {
     [Fact]
@@ -57,6 +54,6 @@ public class JObjectProperties : TestFixtureBase
         // name2 - value2
         #endregion
 
-        Assert.AreEqual(2, o.Count);
+        Assert.Equal(2, o.Count);
     }
 }

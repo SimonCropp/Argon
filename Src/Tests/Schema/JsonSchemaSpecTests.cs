@@ -26,8 +26,6 @@
 #pragma warning disable 618
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 using TestCaseSource = Xunit.MemberDataAttribute;
 
 namespace Argon.Tests.Schema;
@@ -48,7 +46,6 @@ public class JsonSchemaSpecTest
     }
 }
 
-[TestFixture]
 public class JsonSchemaSpecTests : TestFixtureBase
 {
     [Theory]
@@ -60,7 +57,7 @@ public class JsonSchemaSpecTests : TestFixtureBase
         var v = jsonSchemaSpecTest.Data.IsValid(s, out var e);
         var errorMessages = (e != null ? e.ToArray() : null) ?? new string[0];
 
-        Assert.AreEqual(jsonSchemaSpecTest.IsValid, v, jsonSchemaSpecTest.TestCaseDescription + " - " + jsonSchemaSpecTest.TestDescription + " - errors: " + string.Join(", ", errorMessages));
+        Assert.Equal(jsonSchemaSpecTest.IsValid, v);
     }
 
     public static IList<object[]> GetSpecTestDetails()

@@ -25,12 +25,9 @@
 
 using System.Web;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Linq;
 
-[TestFixture]
 public class SerializeWithLinq : TestFixtureBase
 {
     #region Types
@@ -90,7 +87,7 @@ public class SerializeWithLinq : TestFixtureBase
         // ]
         #endregion
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""Title"": ""Json.NET is awesome!"",
     ""Author"": {

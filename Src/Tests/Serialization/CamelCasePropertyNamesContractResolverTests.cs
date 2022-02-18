@@ -24,14 +24,11 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 using Argon.Tests.TestObjects;
 using Argon.Tests.TestObjects.Organization;
 
 namespace Argon.Tests.Serialization;
 
-[TestFixture]
 public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
 {
     [Fact]
@@ -43,12 +40,12 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
         var resolver2 = new CamelCasePropertyNamesContractResolver();
         var contract2 = (JsonObjectContract)resolver2.ResolveContract(typeof(CamelCasePropertyNamesContractResolverTests));
 
-        Assert.IsTrue(ReferenceEquals(contract1, contract2));
+        Assert.True(ReferenceEquals(contract1, contract2));
 
         var nt1 = resolver1.GetNameTable();
         var nt2 = resolver2.GetNameTable();
 
-        Assert.IsTrue(ReferenceEquals(nt1, nt2));
+        Assert.True(ReferenceEquals(nt1, nt2));
     }
 
     [Fact]
@@ -66,7 +63,7 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""name"": ""Name!"",
   ""birthDate"": ""2000-11-20T23:55:44Z"",
   ""lastModified"": ""2000-11-20T23:55:44Z""
@@ -77,12 +74,12 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         });
 
-        Assert.AreEqual(person.BirthDate, deserializedPerson.BirthDate);
-        Assert.AreEqual(person.LastModified, deserializedPerson.LastModified);
-        Assert.AreEqual(person.Name, deserializedPerson.Name);
+        Assert.Equal(person.BirthDate, deserializedPerson.BirthDate);
+        Assert.Equal(person.LastModified, deserializedPerson.LastModified);
+        Assert.Equal(person.Name, deserializedPerson.Name);
 
         json = JsonConvert.SerializeObject(person, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""Name!"",
   ""BirthDate"": ""2000-11-20T23:55:44Z"",
   ""LastModified"": ""2000-11-20T23:55:44Z""
@@ -109,8 +106,8 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
         var o = (JObject)writer.Token;
         var p = o.Property("theField");
 
-        Assert.IsNotNull(p);
-        Assert.AreEqual(int.MinValue, (int)p.Value);
+        Assert.NotNull(p);
+        Assert.Equal(int.MinValue, (int)p.Value);
 
         var json = o.ToString();
     }
@@ -126,7 +123,7 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
             ContractResolver = new CamelCasePropertyNamesContractResolver { DefaultMembersSearchFlags = BindingFlags.NonPublic | BindingFlags.Instance }
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""_privateString"": ""PrivateString!"",
   ""i"": 0,
   ""_internalString"": ""InternalString!""
@@ -141,11 +138,11 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
             ContractResolver = new CamelCasePropertyNamesContractResolver { DefaultMembersSearchFlags = BindingFlags.NonPublic | BindingFlags.Instance }
         });
 
-        Assert.AreEqual("Private!", ReflectionUtils.GetMemberValue(typeof(PrivateMembersClass).GetField("_privateString", BindingFlags.Instance | BindingFlags.NonPublic), deserializedPrivateMembersClass));
-        Assert.AreEqual("Internal!", ReflectionUtils.GetMemberValue(typeof(PrivateMembersClass).GetField("_internalString", BindingFlags.Instance | BindingFlags.NonPublic), deserializedPrivateMembersClass));
+        Assert.Equal("Private!", ReflectionUtils.GetMemberValue(typeof(PrivateMembersClass).GetField("_privateString", BindingFlags.Instance | BindingFlags.NonPublic), deserializedPrivateMembersClass));
+        Assert.Equal("Internal!", ReflectionUtils.GetMemberValue(typeof(PrivateMembersClass).GetField("_internalString", BindingFlags.Instance | BindingFlags.NonPublic), deserializedPrivateMembersClass));
 
         // readonly
-        Assert.AreEqual(0, ReflectionUtils.GetMemberValue(typeof(PrivateMembersClass).GetField("i", BindingFlags.Instance | BindingFlags.NonPublic), deserializedPrivateMembersClass));
+        Assert.Equal(0, ReflectionUtils.GetMemberValue(typeof(PrivateMembersClass).GetField("i", BindingFlags.Instance | BindingFlags.NonPublic), deserializedPrivateMembersClass));
     }
 #pragma warning restore 618
 
@@ -178,7 +175,7 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
         //  ]
         //}
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""name"": ""Widget"",
   ""expiryDate"": ""2010-12-20T18:01:00Z"",
   ""price"": 9.99,
@@ -203,7 +200,7 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""explicit"": false,
   ""text"": ""Text!"",
   ""integer"": 2147483647,
@@ -227,7 +224,7 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""first"": ""Value1!"",
   ""second"": ""Value2!""
 }", json);

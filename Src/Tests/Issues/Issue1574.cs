@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue1574 : TestFixtureBase
 {
     [Fact]
@@ -38,7 +35,7 @@ public class Issue1574 : TestFixtureBase
         var c = new TestClass();
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        Assert.AreEqual("{}", json);
+        Assert.Equal("{}", json);
     }
 
     public enum ServerType { STUN, TURN };

@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Json;
 
-[TestFixture]
 public class WriteJsonWithJsonTextWriter : TestFixtureBase
 {
     [Fact]
@@ -71,7 +68,7 @@ public class WriteJsonWithJsonTextWriter : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""CPU"": ""Intel"",
   ""PSU"": ""500W"",
   ""Drives"": [

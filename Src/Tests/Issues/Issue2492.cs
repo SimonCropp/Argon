@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue2492
 {
     [Fact]
@@ -44,7 +41,7 @@ public class Issue2492
         var serializer = JsonSerializer.Create();
         var x = serializer.Deserialize<JToken>(jsonReader);
 
-        Assert.AreEqual(JTokenType.Object, x["ABC"].Type);
+        Assert.Equal(JTokenType.Object, x["ABC"].Type);
     }
 
     [Fact]
@@ -58,6 +55,6 @@ public class Issue2492
         var serializer = JsonSerializer.Create();
         var x = serializer.Deserialize<JToken>(jsonReader);
 
-        Assert.AreEqual(JTokenType.Integer, x["ABC"].Type);
+        Assert.Equal(JTokenType.Integer, x["ABC"].Type);
     }
 }

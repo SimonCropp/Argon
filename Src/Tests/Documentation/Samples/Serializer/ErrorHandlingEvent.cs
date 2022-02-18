@@ -24,13 +24,10 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 using ErrorEventArgs = Argon.Serialization.ErrorEventArgs;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class ErrorHandlingEvent : TestFixtureBase
 {
     [Fact]
@@ -68,6 +65,6 @@ public class ErrorHandlingEvent : TestFixtureBase
         // Cannot convert null value to System.DateTime.
         #endregion
 
-        Assert.AreEqual(3, errors.Count);
+        Assert.Equal(3, errors.Count);
     }
 }

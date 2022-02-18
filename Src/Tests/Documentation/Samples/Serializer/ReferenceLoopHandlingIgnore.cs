@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class ReferenceLoopHandlingIgnore : TestFixtureBase
 {
     #region Types
@@ -63,7 +60,7 @@ public class ReferenceLoopHandlingIgnore : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""Joe User"",
   ""Manager"": {
     ""Name"": ""Mike Manager""

@@ -60,7 +60,7 @@ public class LinqToSqlClassesSerializationTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(person, Formatting.Indented, new JsonSerializerSettings {ReferenceLoopHandling = ReferenceLoopHandling.Ignore});
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""first_name"": ""FirstName!"",
   ""LastName"": ""LastName!"",
   ""PersonId"": ""7aa027aa-c995-4986-908d-999d8063599f"",

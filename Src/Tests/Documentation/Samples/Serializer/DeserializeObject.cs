@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class DeserializeObject : TestFixtureBase
 {
     #region Types
@@ -62,6 +59,6 @@ public class DeserializeObject : TestFixtureBase
         // james@example.com
         #endregion
 
-        Assert.AreEqual("james@example.com", account.Email);
+        Assert.Equal("james@example.com", account.Email);
     }
 }

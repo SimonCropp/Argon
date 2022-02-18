@@ -26,12 +26,9 @@
 using Argon.Tests.TestObjects;
 using Argon.Tests.TestObjects.Organization;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Serialization;
 
-[TestFixture]
 public class PopulateTests : TestFixtureBase
 {
     [Fact]
@@ -41,7 +38,7 @@ public class PopulateTests : TestFixtureBase
 
         JsonConvert.PopulateObject(@"{""Name"":""James""}", p);
 
-        Assert.AreEqual("James", p.Name);
+        Assert.Equal("James", p.Name);
     }
 
     [Fact]
@@ -54,10 +51,10 @@ public class PopulateTests : TestFixtureBase
 
         JsonConvert.PopulateObject(@"[{""Name"":""James""}, null]", people);
 
-        Assert.AreEqual(3, people.Count);
-        Assert.AreEqual("Initial", people[0].Name);
-        Assert.AreEqual("James", people[1].Name);
-        Assert.AreEqual(null, people[2]);
+        Assert.Equal(3, people.Count);
+        Assert.Equal("Initial", people[0].Name);
+        Assert.Equal("James", people[1].Name);
+        Assert.Equal(null, people[2]);
     }
 
     [Fact]
@@ -117,9 +114,9 @@ public class PopulateTests : TestFixtureBase
             ObjectCreationHandling = ObjectCreationHandling.Replace
         });
 
-        Assert.AreEqual(1, s.Mottos.Count);
-        Assert.AreEqual("Fail whale", s.Mottos[0]);
-        Assert.AreEqual(1, s.product.Count);
+        Assert.Equal(1, s.Mottos.Count);
+        Assert.Equal("Fail whale", s.Mottos[0]);
+        Assert.Equal(1, s.product.Count);
 
         //Assert.AreEqual("James", p.Name);
     }
@@ -132,9 +129,9 @@ public class PopulateTests : TestFixtureBase
         var serializer = new JsonSerializer();
         serializer.Populate(new StringReader(@"[{""Name"":""James""},{""Name"":""Jim""}]"), p);
 
-        Assert.AreEqual(2, p.Count);
-        Assert.AreEqual("James", p[0].Name);
-        Assert.AreEqual("Jim", p[1].Name);
+        Assert.Equal(2, p.Count);
+        Assert.Equal("James", p[0].Name);
+        Assert.Equal("Jim", p[1].Name);
     }
 
     [Fact]
@@ -145,13 +142,13 @@ public class PopulateTests : TestFixtureBase
         var serializer = new JsonSerializer();
         serializer.Populate(new StringReader(@"{""Name"":""James""}"), p);
 
-        Assert.AreEqual(1, p.Count);
-        Assert.AreEqual("James", p["Name"]);
+        Assert.Equal(1, p.Count);
+        Assert.Equal("James", p["Name"]);
     }
 
     [Fact]
     public void PopulateWithBadJson()
     {
-        ExceptionAssert.Throws<JsonSerializationException>(() => { JsonConvert.PopulateObject("1", new Person()); }, "Unexpected initial token 'Integer' when populating object. Expected JSON object or array. Path '', line 1, position 1.");
+        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.PopulateObject("1", new Person()); }, "Unexpected initial token 'Integer' when populating object. Expected JSON object or array. Path '', line 1, position 1.");
     }
 }

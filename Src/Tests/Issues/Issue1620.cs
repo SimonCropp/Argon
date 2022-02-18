@@ -26,12 +26,9 @@
 using Moq;
 using BindingFlags = System.Reflection.BindingFlags;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue1620 : TestFixtureBase
 {
     [Fact]
@@ -41,7 +38,7 @@ public class Issue1620 : TestFixtureBase
         var foo = mock.Object;
 
         var json = JsonConvert.SerializeObject(foo, new JsonSerializerSettings { Converters = { new FooConverter() } });
-        Assert.AreEqual(@"""foo""", json);
+        Assert.Equal(@"""foo""", json);
     }
 
     [Fact]
@@ -52,7 +49,7 @@ public class Issue1620 : TestFixtureBase
 
         var properties = ReflectionUtils.GetFieldsAndProperties(foo.GetType(), BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).ToList();
 
-        Assert.AreEqual(1, properties.Count(p => p.Name == "Mock"));
+        Assert.Equal(1, properties.Count(p => p.Name == "Mock"));
     }
 
     public interface IFoo

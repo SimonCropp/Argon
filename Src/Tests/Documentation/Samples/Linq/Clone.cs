@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Linq;
 
-[TestFixture]
 public class Clone : TestFixtureBase
 {
     [Fact]
@@ -65,11 +62,11 @@ public class Clone : TestFixtureBase
         Console.WriteLine(JToken.DeepEquals(o1, o2));
         // true
 
-        Console.WriteLine(Object.ReferenceEquals(o1, o2));
+        Console.WriteLine(ReferenceEquals(o1, o2));
         // false
         #endregion
 
-        Assert.IsTrue(JToken.DeepEquals(o1, o2));
-        Assert.IsFalse(Object.ReferenceEquals(o1, o2));
+        Assert.True(JToken.DeepEquals(o1, o2));
+        Assert.False(ReferenceEquals(o1, o2));
     }
 }

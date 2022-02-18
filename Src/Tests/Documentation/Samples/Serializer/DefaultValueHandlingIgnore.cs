@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class DefaultValueHandlingIgnore : TestFixtureBase
 {
     #region Types
@@ -67,6 +64,6 @@ public class DefaultValueHandlingIgnore : TestFixtureBase
         // {}
         #endregion
 
-        Assert.AreEqual("{}", jsonIgnoreDefaultValues);
+        Assert.Equal("{}", jsonIgnoreDefaultValues);
     }
 }

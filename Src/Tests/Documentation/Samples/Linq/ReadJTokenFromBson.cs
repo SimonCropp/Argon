@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Linq;
 
-[TestFixture]
 public class ReadJTokenFromBson : TestFixtureBase
 {
 #pragma warning disable 618
@@ -52,7 +49,7 @@ public class ReadJTokenFromBson : TestFixtureBase
         // value1
         #endregion
 
-        Assert.AreEqual("value1", value);
+        Assert.Equal("value1", value);
     }
 #pragma warning restore 618
 }

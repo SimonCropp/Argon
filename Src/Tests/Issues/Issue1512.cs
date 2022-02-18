@@ -25,12 +25,9 @@
 
 using System.Collections.Immutable;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue1512 : TestFixtureBase
 {
     [Fact]
@@ -43,10 +40,10 @@ public class Issue1512 : TestFixtureBase
                         ]";
         var result = JsonConvert.DeserializeObject<ImmutableArray<Outer>>(json);
 
-        Assert.AreEqual(1, result.Length);
-        Assert.AreEqual(2, result[0].Inners.Value.Length);
-        Assert.AreEqual("hi", result[0].Inners.Value[0]);
-        Assert.AreEqual("bye", result[0].Inners.Value[1]);
+        Assert.Equal(1, result.Length);
+        Assert.Equal(2, result[0].Inners.Value.Length);
+        Assert.Equal("hi", result[0].Inners.Value[0]);
+        Assert.Equal("bye", result[0].Inners.Value[1]);
     }
 
     [Fact]
@@ -59,10 +56,10 @@ public class Issue1512 : TestFixtureBase
                         ]";
         var result = JsonConvert.DeserializeObject<ImmutableArray<OuterProperty>>(json);
 
-        Assert.AreEqual(1, result.Length);
-        Assert.AreEqual(2, result[0].Inners.Value.Length);
-        Assert.AreEqual("hi", result[0].Inners.Value[0]);
-        Assert.AreEqual("bye", result[0].Inners.Value[1]);
+        Assert.Equal(1, result.Length);
+        Assert.Equal(2, result[0].Inners.Value.Length);
+        Assert.Equal("hi", result[0].Inners.Value[0]);
+        Assert.Equal("bye", result[0].Inners.Value[1]);
     }
 }
 
@@ -70,7 +67,7 @@ public sealed class Outer
 {
     public Outer(ImmutableArray<string>? inners)
     {
-        this.Inners = inners;
+        Inners = inners;
     }
 
     public ImmutableArray<string>? Inners { get; }

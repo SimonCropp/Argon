@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Linq;
 
-[TestFixture]
 public class ParseJsonAny : TestFixtureBase
 {
     [Fact]
@@ -57,6 +54,6 @@ public class ParseJsonAny : TestFixtureBase
         // String
         #endregion
 
-        Assert.AreEqual(JTokenType.String, t4.Type);
+        Assert.Equal(JTokenType.String, t4.Type);
     }
 }

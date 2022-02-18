@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue1552 : TestFixtureBase
 {
     [Fact]
@@ -38,11 +35,11 @@ public class Issue1552 : TestFixtureBase
         var c = new RefAndRefReadonlyTestClass(123);
         c.SetRefField(456);
 
-        var ex = ExceptionAssert.Throws<JsonSerializationException>(
+        var ex = XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.SerializeObject(c),
             "Error getting value from 'RefField' on 'Argon.Tests.Issues.RefAndRefReadonlyTestClass'.");
 
-        Assert.AreEqual("Could not create getter for Int32& RefField. ByRef return values are not supported.", ex.InnerException.Message);
+        Assert.Equal("Could not create getter for Int32& RefField. ByRef return values are not supported.", ex.InnerException.Message);
     }
 
     [Fact]
@@ -53,7 +50,7 @@ public class Issue1552 : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c);
 
-        Assert.AreEqual("{}", json);
+        Assert.Equal("{}", json);
     }
 }
 

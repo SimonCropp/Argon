@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue1752 : TestFixtureBase
 {
     [Fact]
@@ -40,17 +37,17 @@ public class Issue1752 : TestFixtureBase
         var s1 = JsonConvert.SerializeObject(new TestObject { Obj = new byte[] { } }, settings);
 
         var t1 = JsonConvert.DeserializeObject<TestObject>(s1, settings);
-        Assert.IsNotNull(t1.Obj);
+        Assert.NotNull(t1.Obj);
 
         var data = (byte[])t1.Obj;
-        Assert.AreEqual(0, data.Length);
+        Assert.Equal(0, data.Length);
     }
 
     [Fact]
     public void Test_Null()
     {
         var t1 = JsonConvert.DeserializeObject<TestObject1>("{'Obj':null}");
-        Assert.IsNull(t1.Obj);
+        Assert.Null(t1.Obj);
     }
 
     class TestObject

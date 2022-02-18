@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue1597 : TestFixtureBase
 {
     [Fact]
@@ -45,11 +42,11 @@ public class Issue1597 : TestFixtureBase
 
         var o = JsonConvert.DeserializeObject<IReadOnlyDictionary<CollectionStatus, int>>(json);
 
-        Assert.AreEqual(264, o[CollectionStatus.Wish]);
-        Assert.AreEqual(7498, o[CollectionStatus.Collect]);
-        Assert.AreEqual(385, o[CollectionStatus.Doing]);
-        Assert.AreEqual(285, o[CollectionStatus.OnHold]);
-        Assert.AreEqual(221, o[CollectionStatus.Dropped]);
+        Assert.Equal(264, o[CollectionStatus.Wish]);
+        Assert.Equal(7498, o[CollectionStatus.Collect]);
+        Assert.Equal(385, o[CollectionStatus.Doing]);
+        Assert.Equal(285, o[CollectionStatus.OnHold]);
+        Assert.Equal(221, o[CollectionStatus.Dropped]);
     }
 
     [Fact]
@@ -65,11 +62,11 @@ public class Issue1597 : TestFixtureBase
 
         var o = JsonConvert.DeserializeObject<IReadOnlyDictionary<CollectionStatus, int>>(json);
 
-        Assert.AreEqual(264, o[CollectionStatus.Wish]);
-        Assert.AreEqual(7498, o[CollectionStatus.Collect]);
-        Assert.AreEqual(385, o[CollectionStatus.Doing]);
-        Assert.AreEqual(285, o[CollectionStatus.OnHold]);
-        Assert.AreEqual(221, o[CollectionStatus.Dropped]);
+        Assert.Equal(264, o[CollectionStatus.Wish]);
+        Assert.Equal(7498, o[CollectionStatus.Collect]);
+        Assert.Equal(385, o[CollectionStatus.Doing]);
+        Assert.Equal(285, o[CollectionStatus.OnHold]);
+        Assert.Equal(221, o[CollectionStatus.Dropped]);
     }
 
     [Fact]
@@ -87,7 +84,7 @@ public class Issue1597 : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(o, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Wish"": 264,
   ""Collect"": 7498,
   ""Doing"": 385,

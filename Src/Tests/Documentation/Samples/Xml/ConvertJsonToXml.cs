@@ -25,19 +25,17 @@
 
 using System.Xml.Linq;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Xml;
 
-[TestFixture]
 public class ConvertJsonToXml : TestFixtureBase
 {
-  [Fact]
-  public void Example()
-  {
-    #region Usage
-    var json = @"{
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+
+        var json = @"{
               '@Id': 1,
               'Email': 'james@example.com',
               'Active': true,
@@ -53,23 +51,24 @@ public class ConvertJsonToXml : TestFixtureBase
               }
             }";
 
-    XNode node = JsonConvert.DeserializeXNode(json, "Root");
+        XNode node = JsonConvert.DeserializeXNode(json, "Root");
 
-    Console.WriteLine(node.ToString());
-    // <Root Id="1">
-    //   <Email>james@example.com</Email>
-    //   <Active>true</Active>
-    //   <CreatedDate>2013-01-20T00:00:00Z</CreatedDate>
-    //   <Roles>User</Roles>
-    //   <Roles>Admin</Roles>
-    //   <Team Id="2">
-    //     <Name>Software Developers</Name>
-    //     <Description>Creators of fine software products and services.</Description>
-    //   </Team>
-    // </Root>
-    #endregion
+        Console.WriteLine(node.ToString());
+        // <Root Id="1">
+        //   <Email>james@example.com</Email>
+        //   <Active>true</Active>
+        //   <CreatedDate>2013-01-20T00:00:00Z</CreatedDate>
+        //   <Roles>User</Roles>
+        //   <Roles>Admin</Roles>
+        //   <Team Id="2">
+        //     <Name>Software Developers</Name>
+        //     <Description>Creators of fine software products and services.</Description>
+        //   </Team>
+        // </Root>
 
-    StringAssert.AreEqual(@"<Root Id=""1"">
+        #endregion
+
+        XUnitAssert.AreEqualNormalized(@"<Root Id=""1"">
   <Email>james@example.com</Email>
   <Active>true</Active>
   <CreatedDate>2013-01-20T00:00:00Z</CreatedDate>
@@ -80,5 +79,5 @@ public class ConvertJsonToXml : TestFixtureBase
     <Description>Creators of fine software products and services.</Description>
   </Team>
 </Root>", node.ToString());
-  }
+    }
 }

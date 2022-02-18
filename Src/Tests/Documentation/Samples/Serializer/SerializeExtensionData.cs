@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class SerializeExtensionData : TestFixtureBase
 {
 #pragma warning disable 169
@@ -71,6 +68,6 @@ public class SerializeExtensionData : TestFixtureBase
         // }
         #endregion
 
-        Assert.AreEqual(@"{""TaxRate"":0.15,""HourlyRate"":150,""Hours"":40}", result);
+        Assert.Equal(@"{""TaxRate"":0.15,""HourlyRate"":150,""Hours"":40}", result);
     }
 }

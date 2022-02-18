@@ -25,12 +25,9 @@
 
 using System.Xml;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue1734
 {
   [Fact]
@@ -38,7 +35,7 @@ public class Issue1734
   {
     var xmlDoc = JsonConvert.DeserializeXmlNode(JsonWithoutNamespace, "", true);
 
-    StringAssert.AreEqual(@"<Test_Service>
+    XUnitAssert.AreEqualNormalized(@"<Test_Service>
   <fname>mark</fname>
   <lname>joye</lname>
   <CarCompany>saab</CarCompany>
@@ -74,7 +71,7 @@ public class Issue1734
 
     xmlDoc = JsonConvert.DeserializeXmlNode(JsonWithNamespace, "", true);
 
-    StringAssert.AreEqual(@"<ns3:Test_Service xmlns:ns3=""http://www.CCKS.org/XRT/Form"">
+    XUnitAssert.AreEqualNormalized(@"<ns3:Test_Service xmlns:ns3=""http://www.CCKS.org/XRT/Form"">
   <ns3:fname>mark</ns3:fname>
   <ns3:lname>joye</ns3:lname>
   <ns3:CarCompany>saab</ns3:CarCompany>
@@ -132,7 +129,7 @@ public class Issue1734
     var xmlDoc = JsonConvert.DeserializeXNode(JsonWithoutNamespace, "", true);
 
     var xml = xmlDoc.ToString();
-    StringAssert.AreEqual(@"<Test_Service>
+    XUnitAssert.AreEqualNormalized(@"<Test_Service>
   <fname>mark</fname>
   <lname>joye</lname>
   <CarCompany>saab</CarCompany>
@@ -169,7 +166,7 @@ public class Issue1734
     xmlDoc = JsonConvert.DeserializeXNode(JsonWithNamespace, "", true);
 
     xml = xmlDoc.ToString();
-    StringAssert.AreEqual(@"<ns3:Test_Service xmlns:ns3=""http://www.CCKS.org/XRT/Form"">
+    XUnitAssert.AreEqualNormalized(@"<ns3:Test_Service xmlns:ns3=""http://www.CCKS.org/XRT/Form"">
   <ns3:fname>mark</ns3:fname>
   <ns3:lname>joye</ns3:lname>
   <ns3:CarCompany>saab</ns3:CarCompany>

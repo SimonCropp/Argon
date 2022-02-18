@@ -24,8 +24,6 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Converters;
 
@@ -49,7 +47,6 @@ public class VersionClass
     public string StringProperty2 { get; set; }
 }
 
-[TestFixture]
 public class VersionConverterTests : TestFixtureBase
 {
     internal static class VersionHelperClass
@@ -67,7 +64,7 @@ public class VersionConverterTests : TestFixtureBase
   ""StringProperty2"": ""StringProperty2""
 }}", version1, version2);
 
-            StringAssert.AreEqual(expectedJson, json);
+            XUnitAssert.AreEqualNormalized(expectedJson, json);
         }
 
         internal static void DeserializeVersionClass(string version1, string version2)
@@ -78,10 +75,10 @@ public class VersionConverterTests : TestFixtureBase
 
             var versionClass = JsonConvert.DeserializeObject<VersionClass>(json, new VersionConverter());
 
-            Assert.AreEqual("StringProperty1", versionClass.StringProperty1);
-            Assert.AreEqual(expectedVersion1, versionClass.Version1);
-            Assert.AreEqual(expectedVersion2, versionClass.Version2);
-            Assert.AreEqual("StringProperty2", versionClass.StringProperty2);
+            Assert.Equal("StringProperty1", versionClass.StringProperty1);
+            Assert.Equal(expectedVersion1, versionClass.Version1);
+            Assert.Equal(expectedVersion2, versionClass.Version2);
+            Assert.Equal("StringProperty2", versionClass.StringProperty2);
         }
     }
 
@@ -94,7 +91,7 @@ public class VersionConverterTests : TestFixtureBase
         var converter = new VersionConverter();
         converter.WriteJson(jsonWriter, null, null);
 
-        StringAssert.AreEqual(@"null", sw.ToString());
+        XUnitAssert.AreEqualNormalized(@"null", sw.ToString());
     }
 
     [Fact]
@@ -133,6 +130,6 @@ public class VersionConverterTests : TestFixtureBase
         var report2 = JsonConvert.DeserializeObject<Version>(reportJSON);
         var reportJSON2 = JsonConvert.SerializeObject(report2);
 
-        Assert.AreEqual(reportJSON, reportJSON2);
+        Assert.Equal(reportJSON, reportJSON2);
     }
 }

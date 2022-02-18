@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Linq;
 
-[TestFixture]
 public class ToObjectComplex : TestFixtureBase
 {
     #region Types
@@ -67,7 +64,7 @@ public class ToObjectComplex : TestFixtureBase
         // Mike Smith
         #endregion
 
-        Assert.AreEqual("John Smith", person[0].Name);
-        Assert.AreEqual("Mike Smith", person[1].Name);
+        Assert.Equal("John Smith", person[0].Name);
+        Assert.Equal("Mike Smith", person[1].Name);
     }
 }

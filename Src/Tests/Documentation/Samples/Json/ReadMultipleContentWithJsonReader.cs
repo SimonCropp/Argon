@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Json;
 
-[TestFixture]
 public class ReadMultipleContentWithJsonReader : TestFixtureBase
 {
     #region Types
@@ -72,8 +69,8 @@ public class ReadMultipleContentWithJsonReader : TestFixtureBase
         // Publisher
         #endregion
 
-        Assert.AreEqual(2, roles.Count);
-        Assert.AreEqual("Admin", roles[0].Name);
-        Assert.AreEqual("Publisher", roles[1].Name);
+        Assert.Equal(2, roles.Count);
+        Assert.Equal("Admin", roles[0].Name);
+        Assert.Equal("Publisher", roles[1].Name);
     }
 }

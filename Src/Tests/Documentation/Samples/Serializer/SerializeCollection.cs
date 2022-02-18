@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class SerializeCollection : TestFixtureBase
 {
     [Fact]
@@ -49,6 +46,6 @@ public class SerializeCollection : TestFixtureBase
         // ["Starcraft","Halo","Legend of Zelda"]
         #endregion
 
-        Assert.AreEqual(@"[""Starcraft"",""Halo"",""Legend of Zelda""]", json);
+        Assert.Equal(@"[""Starcraft"",""Halo"",""Legend of Zelda""]", json);
     }
 }

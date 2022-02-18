@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Linq;
 
-[TestFixture]
 public class JRawTests : TestFixtureBase
 {
     [Fact]
@@ -39,8 +36,8 @@ public class JRawTests : TestFixtureBase
         var r2 = new JRaw("raw1");
         var r3 = new JRaw("raw2");
 
-        Assert.IsTrue(JToken.DeepEquals(r1, r2));
-        Assert.IsFalse(JToken.DeepEquals(r1, r3));
+        Assert.True(JToken.DeepEquals(r1, r2));
+        Assert.False(JToken.DeepEquals(r1, r3));
     }
 
     [Fact]
@@ -49,7 +46,7 @@ public class JRawTests : TestFixtureBase
         var r1 = new JRaw("raw1");
         var r2 = r1.CloneToken();
 
-        CustomAssert.IsInstanceOfType(typeof(JRaw), r2);
+        Assert.IsType(typeof(JRaw), r2);
     }
 
     [Fact]
@@ -58,6 +55,6 @@ public class JRawTests : TestFixtureBase
         var r1 = new JRaw("1");
         var i = r1.ToObject<int>();
 
-        Assert.AreEqual(1, i);
+        Assert.Equal(1, i);
     }
 }

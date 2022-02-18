@@ -24,8 +24,6 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 using Autofac;
 using Autofac.Core;
 using Autofac.Core.Activators.Reflection;
@@ -34,7 +32,6 @@ using LogService = Argon.Tests.Serialization.LogManager;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class DeserializeWithDependencyInjection : TestFixtureBase
 {
     #region Types
@@ -124,10 +121,10 @@ public class DeserializeWithDependencyInjection : TestFixtureBase
         // TaskRepository
         #endregion
 
-        Assert.IsNotNull(controller);
-        Assert.IsNotNull(controller.Logger);
+        Assert.NotNull(controller);
+        Assert.NotNull(controller.Logger);
 
-        Assert.AreEqual(new DateTime(2000, 12, 12), controller.Logger.DateTime);
-        Assert.AreEqual("Debug", controller.Logger.Level);
+        Assert.Equal(new DateTime(2000, 12, 12), controller.Logger.DateTime);
+        Assert.Equal("Debug", controller.Logger.Level);
     }
 }

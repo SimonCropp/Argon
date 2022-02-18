@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Linq.ComponentModel;
 
-[TestFixture]
 public class JPropertyDescriptorTests : TestFixtureBase
 {
     [Fact]
@@ -40,8 +37,8 @@ public class JPropertyDescriptorTests : TestFixtureBase
         var prop1 = new JPropertyDescriptor("prop1");
         var prop2 = new JPropertyDescriptor("prop2");
 
-        Assert.AreEqual("12345!", ((JValue)prop1.GetValue(o)).Value);
-        Assert.AreEqual(o["prop2"], prop2.GetValue(o));
+        Assert.Equal("12345!", ((JValue)prop1.GetValue(o)).Value);
+        Assert.Equal(o["prop2"], prop2.GetValue(o));
     }
 
     [Fact]
@@ -49,7 +46,7 @@ public class JPropertyDescriptorTests : TestFixtureBase
     {
         var prop1 = new JPropertyDescriptor("prop1");
 
-        Assert.AreEqual(null, prop1.GetValue(null));
+        Assert.Equal(null, prop1.GetValue(null));
     }
 
     [Fact]
@@ -61,7 +58,7 @@ public class JPropertyDescriptorTests : TestFixtureBase
 
         propertyDescriptor1.SetValue(o, "54321!");
 
-        Assert.AreEqual("54321!", (string)o["prop1"]);
+        Assert.Equal("54321!", (string)o["prop1"]);
     }
 
     [Fact]
@@ -80,7 +77,7 @@ public class JPropertyDescriptorTests : TestFixtureBase
         var propertyDescriptor1 = new JPropertyDescriptor("prop1");
         propertyDescriptor1.ResetValue(o);
 
-        Assert.AreEqual("12345!", (string)o["prop1"]);
+        Assert.Equal("12345!", (string)o["prop1"]);
     }
 
     [Fact]
@@ -88,7 +85,7 @@ public class JPropertyDescriptorTests : TestFixtureBase
     {
         var propertyDescriptor1 = new JPropertyDescriptor("prop1");
 
-        Assert.AreEqual(false, propertyDescriptor1.IsReadOnly);
+        XUnitAssert.False(propertyDescriptor1.IsReadOnly);
     }
 
     [Fact]
@@ -96,6 +93,6 @@ public class JPropertyDescriptorTests : TestFixtureBase
     {
         var propertyDescriptor1 = new JPropertyDescriptor("prop1");
 
-        Assert.AreEqual(typeof(object), propertyDescriptor1.PropertyType);
+        Assert.Equal(typeof(object), propertyDescriptor1.PropertyType);
     }
 }

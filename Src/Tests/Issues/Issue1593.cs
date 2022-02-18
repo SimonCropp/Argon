@@ -25,19 +25,16 @@
 
 using System.Dynamic;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue1593 : TestFixtureBase
 {
     [Fact]
     public void Test()
     {
         var json = JsonConvert.SerializeObject(CreateModel());
-        Assert.AreEqual(@"{""Specific"":2,""A"":1}", json);
+        Assert.Equal(@"{""Specific"":2,""A"":1}", json);
     }
 
     class BaseModel

@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue1834 : TestFixtureBase
 {
     [Fact]
@@ -38,7 +35,7 @@ public class Issue1834 : TestFixtureBase
         var json = "{'foo':'test!'}";
         var c = JsonConvert.DeserializeObject<ItemWithJsonConstructor>(json);
 
-        Assert.IsNull(c.ExtensionData);
+        Assert.Null(c.ExtensionData);
     }
 
     [Fact]
@@ -47,7 +44,7 @@ public class Issue1834 : TestFixtureBase
         var json = "{'foo':'test!'}";
         var c = JsonConvert.DeserializeObject<ItemWithJsonConstructorAndDefaultValue>(json);
 
-        Assert.IsNull(c.ExtensionData);
+        Assert.Null(c.ExtensionData);
     }
 
     public class ItemWithJsonConstructor

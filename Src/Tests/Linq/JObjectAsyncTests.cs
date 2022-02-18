@@ -25,12 +25,9 @@
 
 using Argon.Tests.TestObjects;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Linq;
 
-[TestFixture]
 public class JObjectAsyncTests : TestFixtureBase
 {
     [Fact]
@@ -55,9 +52,9 @@ public class JObjectAsyncTests : TestFixtureBase
             }
         }
 
-        Assert.AreEqual(2, roles.Count);
-        Assert.AreEqual("Admin", (string)roles[0]["name"]);
-        Assert.AreEqual("Publisher", (string)roles[1]["name"]);
+        Assert.Equal(2, roles.Count);
+        Assert.Equal("Admin", (string)roles[0]["name"]);
+        Assert.Equal("Publisher", (string)roles[1]["name"]);
     }
 
     [Fact]
@@ -74,31 +71,31 @@ public class JObjectAsyncTests : TestFixtureBase
 
         JsonReader reader = new JTokenReader(o);
 
-        Assert.IsTrue(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Assert.True(await reader.ReadAsync());
+        Assert.Equal(JsonToken.StartObject, reader.TokenType);
 
-        Assert.IsTrue(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
+        Assert.True(await reader.ReadAsync());
+        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
-        Assert.IsTrue(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
+        Assert.True(await reader.ReadAsync());
+        Assert.Equal(JsonToken.String, reader.TokenType);
 
-        Assert.IsTrue(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
+        Assert.True(await reader.ReadAsync());
+        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
-        Assert.IsTrue(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.Raw, reader.TokenType);
+        Assert.True(await reader.ReadAsync());
+        Assert.Equal(JsonToken.Raw, reader.TokenType);
 
-        Assert.IsTrue(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
+        Assert.True(await reader.ReadAsync());
+        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
-        Assert.IsTrue(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
+        Assert.True(await reader.ReadAsync());
+        Assert.Equal(JsonToken.String, reader.TokenType);
 
-        Assert.IsTrue(await reader.ReadAsync());
-        Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
+        Assert.True(await reader.ReadAsync());
+        Assert.Equal(JsonToken.EndObject, reader.TokenType);
 
-        Assert.IsFalse(await reader.ReadAsync());
+        Assert.False(await reader.ReadAsync());
     }
 
     [Fact]
@@ -123,8 +120,8 @@ public class JObjectAsyncTests : TestFixtureBase
         await reader.ReadAsync();
 
         var o = (JObject)await JToken.ReadFromAsync(reader);
-        Assert.IsNotNull(o);
-        StringAssert.AreEqual(@"{
+        Assert.NotNull(o);
+        XUnitAssert.AreEqualNormalized(@"{
   ""code"": 0,
   ""msg"": ""No action taken""
 }", o.ToString(Formatting.Indented));
@@ -133,7 +130,7 @@ public class JObjectAsyncTests : TestFixtureBase
     [Fact]
     public async Task LoadFromNestedObjectIncompleteAsync()
     {
-        await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () =>
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () =>
         {
             var jsonText = @"{
   ""short"":
@@ -165,7 +162,7 @@ public class JObjectAsyncTests : TestFixtureBase
         var o = (JObject)await JToken.ReadFromAsync(reader, new JsonLoadSettings());
         var value = (string)o["Name"];
 
-        Assert.AreEqual("Name2", value);
+        Assert.Equal("Name2", value);
     }
 
     [Fact]
@@ -183,6 +180,6 @@ public class JObjectAsyncTests : TestFixtureBase
         });
         var value = (string)o["Name"];
 
-        Assert.AreEqual("Name1", value);
+        Assert.Equal("Name1", value);
     }
 }

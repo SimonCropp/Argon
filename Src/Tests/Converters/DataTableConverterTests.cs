@@ -24,8 +24,6 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 using System.Data;
 using Argon.Tests.TestObjects;
 
@@ -40,14 +38,14 @@ public class DataTableConverterTests : TestFixtureBase
 
         var dt = JsonConvert.DeserializeObject<DataTable>(jsonString2);
 
-        Assert.AreEqual(1, dt.Columns.Count);
-        Assert.AreEqual(typeof(string[]), dt.Columns["col1"].DataType);
+        Assert.Equal(1, dt.Columns.Count);
+        Assert.Equal(typeof(string[]), dt.Columns["col1"].DataType);
 
-        Assert.AreEqual(1, dt.Rows.Count);
-        Assert.IsNotNull(dt.Rows[0]["col1"]);
+        Assert.Equal(1, dt.Rows.Count);
+        Assert.NotNull(dt.Rows[0]["col1"]);
 
         var value = (object[])dt.Rows[0]["col1"];
-        Assert.AreEqual(0, value.Length);
+        Assert.Equal(0, value.Length);
     }
 
     [Fact]
@@ -80,7 +78,7 @@ public class DataTableConverterTests : TestFixtureBase
         var converter = new DataTableConverter();
         converter.WriteJson(jsonWriter, dt, new JsonSerializer());
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""TimeSpan"": null,
     ""Char[]"": null,
@@ -101,7 +99,7 @@ public class DataTableConverterTests : TestFixtureBase
         var types = new Dictionary<Type, object>
         {
             [typeof(TimeSpan)] = TimeSpan.Zero,
-            [typeof(char[])] = new char[] {'a', 'b', 'c' },
+            [typeof(char[])] = new[] {'a', 'b', 'c' },
             [typeof(Type)] = typeof(string),
             [typeof(Object)] = new(),
             [typeof(byte[])] = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 },
@@ -126,7 +124,7 @@ public class DataTableConverterTests : TestFixtureBase
 
         var stringName = typeof(string).AssemblyQualifiedName;
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""TimeSpan"": ""00:00:00"",
     ""Char[]"": [
@@ -153,7 +151,7 @@ public class DataTableConverterTests : TestFixtureBase
         var converter = new DataTableConverter();
         converter.WriteJson(jsonWriter, null, null);
 
-        StringAssert.AreEqual(@"null", sw.ToString());
+        XUnitAssert.AreEqualNormalized(@"null", sw.ToString());
     }
 
     [Fact]
@@ -189,36 +187,36 @@ public class DataTableConverterTests : TestFixtureBase
 ]";
 
         var deserializedDataTable = JsonConvert.DeserializeObject<DataTable>(json);
-        Assert.IsNotNull(deserializedDataTable);
+        Assert.NotNull(deserializedDataTable);
 
-        Assert.AreEqual(string.Empty, deserializedDataTable.TableName);
-        Assert.AreEqual(5, deserializedDataTable.Columns.Count);
-        Assert.AreEqual("id", deserializedDataTable.Columns[0].ColumnName);
-        Assert.AreEqual(typeof(long), deserializedDataTable.Columns[0].DataType);
-        Assert.AreEqual("item", deserializedDataTable.Columns[1].ColumnName);
-        Assert.AreEqual(typeof(string), deserializedDataTable.Columns[1].DataType);
-        Assert.AreEqual("DataTableCol", deserializedDataTable.Columns[2].ColumnName);
-        Assert.AreEqual(typeof(DataTable), deserializedDataTable.Columns[2].DataType);
-        Assert.AreEqual("ArrayCol", deserializedDataTable.Columns[3].ColumnName);
-        Assert.AreEqual(typeof(long[]), deserializedDataTable.Columns[3].DataType);
-        Assert.AreEqual("DateCol", deserializedDataTable.Columns[4].ColumnName);
-        Assert.AreEqual(typeof(DateTime), deserializedDataTable.Columns[4].DataType);
+        Assert.Equal(string.Empty, deserializedDataTable.TableName);
+        Assert.Equal(5, deserializedDataTable.Columns.Count);
+        Assert.Equal("id", deserializedDataTable.Columns[0].ColumnName);
+        Assert.Equal(typeof(long), deserializedDataTable.Columns[0].DataType);
+        Assert.Equal("item", deserializedDataTable.Columns[1].ColumnName);
+        Assert.Equal(typeof(string), deserializedDataTable.Columns[1].DataType);
+        Assert.Equal("DataTableCol", deserializedDataTable.Columns[2].ColumnName);
+        Assert.Equal(typeof(DataTable), deserializedDataTable.Columns[2].DataType);
+        Assert.Equal("ArrayCol", deserializedDataTable.Columns[3].ColumnName);
+        Assert.Equal(typeof(long[]), deserializedDataTable.Columns[3].DataType);
+        Assert.Equal("DateCol", deserializedDataTable.Columns[4].ColumnName);
+        Assert.Equal(typeof(DateTime), deserializedDataTable.Columns[4].DataType);
 
-        Assert.AreEqual(2, deserializedDataTable.Rows.Count);
+        Assert.Equal(2, deserializedDataTable.Rows.Count);
 
         var dr1 = deserializedDataTable.Rows[0];
-        Assert.AreEqual(0L, dr1["id"]);
-        Assert.AreEqual("item 0", dr1["item"]);
-        Assert.AreEqual("0!", ((DataTable)dr1["DataTableCol"]).Rows[0]["NestedStringCol"]);
-        Assert.AreEqual(0L, ((long[])dr1["ArrayCol"])[0]);
-        Assert.AreEqual(new DateTime(2000, 12, 29, 0, 0, 0, DateTimeKind.Utc), dr1["DateCol"]);
+        Assert.Equal(0L, dr1["id"]);
+        Assert.Equal("item 0", dr1["item"]);
+        Assert.Equal("0!", ((DataTable)dr1["DataTableCol"]).Rows[0]["NestedStringCol"]);
+        Assert.Equal(0L, ((long[])dr1["ArrayCol"])[0]);
+        Assert.Equal(new DateTime(2000, 12, 29, 0, 0, 0, DateTimeKind.Utc), dr1["DateCol"]);
 
         var dr2 = deserializedDataTable.Rows[1];
-        Assert.AreEqual(1L, dr2["id"]);
-        Assert.AreEqual("item 1", dr2["item"]);
-        Assert.AreEqual("1!", ((DataTable)dr2["DataTableCol"]).Rows[0]["NestedStringCol"]);
-        Assert.AreEqual(1L, ((long[])dr2["ArrayCol"])[0]);
-        Assert.AreEqual(new DateTime(2000, 12, 29, 0, 0, 0, DateTimeKind.Utc), dr2["DateCol"]);
+        Assert.Equal(1L, dr2["id"]);
+        Assert.Equal("item 1", dr2["item"]);
+        Assert.Equal("1!", ((DataTable)dr2["DataTableCol"]).Rows[0]["NestedStringCol"]);
+        Assert.Equal(1L, ((long[])dr2["ArrayCol"])[0]);
+        Assert.Equal(new DateTime(2000, 12, 29, 0, 0, 0, DateTimeKind.Utc), dr2["DateCol"]);
     }
 
     [Fact]
@@ -240,24 +238,24 @@ public class DataTableConverterTests : TestFixtureBase
             DateParseHandling = DateParseHandling.DateTimeOffset,
             FloatParseHandling = FloatParseHandling.Decimal
         });
-        Assert.IsNotNull(deserializedDataTable);
+        Assert.NotNull(deserializedDataTable);
 
-        Assert.AreEqual(string.Empty, deserializedDataTable.TableName);
-        Assert.AreEqual(2, deserializedDataTable.Columns.Count);
-        Assert.AreEqual("DateCol", deserializedDataTable.Columns[0].ColumnName);
-        Assert.AreEqual(typeof(DateTimeOffset), deserializedDataTable.Columns[0].DataType);
-        Assert.AreEqual("FloatCol", deserializedDataTable.Columns[1].ColumnName);
-        Assert.AreEqual(typeof(decimal), deserializedDataTable.Columns[1].DataType);
+        Assert.Equal(string.Empty, deserializedDataTable.TableName);
+        Assert.Equal(2, deserializedDataTable.Columns.Count);
+        Assert.Equal("DateCol", deserializedDataTable.Columns[0].ColumnName);
+        Assert.Equal(typeof(DateTimeOffset), deserializedDataTable.Columns[0].DataType);
+        Assert.Equal("FloatCol", deserializedDataTable.Columns[1].ColumnName);
+        Assert.Equal(typeof(decimal), deserializedDataTable.Columns[1].DataType);
 
-        Assert.AreEqual(2, deserializedDataTable.Rows.Count);
+        Assert.Equal(2, deserializedDataTable.Rows.Count);
 
         var dr1 = deserializedDataTable.Rows[0];
-        Assert.AreEqual(new DateTimeOffset(2000, 12, 29, 0, 0, 0, TimeSpan.Zero), dr1["DateCol"]);
-        Assert.AreEqual(99.9999999999999999999m, dr1["FloatCol"]);
+        Assert.Equal(new DateTimeOffset(2000, 12, 29, 0, 0, 0, TimeSpan.Zero), dr1["DateCol"]);
+        Assert.Equal(99.9999999999999999999m, dr1["FloatCol"]);
 
         var dr2 = deserializedDataTable.Rows[1];
-        Assert.AreEqual(new DateTimeOffset(2000, 12, 29, 0, 0, 0, TimeSpan.Zero), dr2["DateCol"]);
-        Assert.AreEqual(99.9999999999999999999m, dr2["FloatCol"]);
+        Assert.Equal(new DateTimeOffset(2000, 12, 29, 0, 0, 0, TimeSpan.Zero), dr2["DateCol"]);
+        Assert.Equal(99.9999999999999999999m, dr2["FloatCol"]);
     }
 
     [Fact]
@@ -328,7 +326,7 @@ public class DataTableConverterTests : TestFixtureBase
         myTable.Rows.Add(myNewRow);
 
         var json = JsonConvert.SerializeObject(myTable, Formatting.Indented);
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""StringCol"": ""Item Name"",
     ""Int32Col"": 2147483647,
@@ -377,10 +375,10 @@ public class DataTableConverterTests : TestFixtureBase
         var t1 = new DataTable("Custom");
 
         var json = JsonConvert.SerializeObject(t1, Formatting.Indented, new TestDataTableConverter());
-        Assert.AreEqual(@"""Custom""", json);
+        Assert.Equal(@"""Custom""", json);
 
         var t2 = JsonConvert.DeserializeObject<DataTable>(json, new TestDataTableConverter());
-        Assert.AreEqual(t1.TableName, t2.TableName);
+        Assert.Equal(t1.TableName, t2.TableName);
     }
 
 #pragma warning disable 618
@@ -402,7 +400,7 @@ public class DataTableConverterTests : TestFixtureBase
         serializer.Serialize(bw, table);
 
         var o = JToken.ReadFrom(new BsonReader(new MemoryStream(ms.ToArray())) { ReadRootValueAsArray = true });
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""data"": ""SGVsbG8gd29ybGQh"",
     ""id"": ""ede9a599-a7d9-44a9-9243-7c287049dd20""
@@ -411,18 +409,18 @@ public class DataTableConverterTests : TestFixtureBase
 
         var deserializedDataTable = serializer.Deserialize<DataTable>(new BsonReader(new MemoryStream(ms.ToArray())) { ReadRootValueAsArray = true });
 
-        Assert.AreEqual(string.Empty, deserializedDataTable.TableName);
-        Assert.AreEqual(2, deserializedDataTable.Columns.Count);
-        Assert.AreEqual("data", deserializedDataTable.Columns[0].ColumnName);
-        Assert.AreEqual(typeof(byte[]), deserializedDataTable.Columns[0].DataType);
-        Assert.AreEqual("id", deserializedDataTable.Columns[1].ColumnName);
-        Assert.AreEqual(typeof(Guid), deserializedDataTable.Columns[1].DataType);
+        Assert.Equal(string.Empty, deserializedDataTable.TableName);
+        Assert.Equal(2, deserializedDataTable.Columns.Count);
+        Assert.Equal("data", deserializedDataTable.Columns[0].ColumnName);
+        Assert.Equal(typeof(byte[]), deserializedDataTable.Columns[0].DataType);
+        Assert.Equal("id", deserializedDataTable.Columns[1].ColumnName);
+        Assert.Equal(typeof(Guid), deserializedDataTable.Columns[1].DataType);
 
-        Assert.AreEqual(1, deserializedDataTable.Rows.Count);
+        Assert.Equal(1, deserializedDataTable.Rows.Count);
 
         var dr1 = deserializedDataTable.Rows[0];
-        CollectionAssert.AreEquivalent(Encoding.UTF8.GetBytes("Hello world!"), (byte[])dr1["data"]);
-        Assert.AreEqual(g, (Guid)dr1["id"]);
+        Assert.Equal(Encoding.UTF8.GetBytes("Hello world!"), (byte[])dr1["data"]);
+        Assert.Equal(g, (Guid)dr1["id"]);
     }
 #pragma warning restore 618
 
@@ -437,7 +435,7 @@ public class DataTableConverterTests : TestFixtureBase
         table.Rows.Add("shoes"); // no price
 
         var json = JsonConvert.SerializeObject(table);
-        Assert.AreEqual(@"["
+        Assert.Equal(@"["
                         + @"{""item"":""shirt"",""price"":49.99},"
                         + @"{""item"":""pants"",""price"":54.99},"
                         + @"{""item"":""shoes"",""price"":null}]", json);
@@ -457,7 +455,7 @@ public class DataTableConverterTests : TestFixtureBase
         {
             NullValueHandling = NullValueHandling.Ignore
         });
-        Assert.AreEqual(@"["
+        Assert.Equal(@"["
                         + @"{""item"":""shirt"",""price"":49.99},"
                         + @"{""item"":""pants"",""price"":54.99},"
                         + @"{""item"":""shoes""}]", json);
@@ -471,12 +469,12 @@ public class DataTableConverterTests : TestFixtureBase
                             + @"{""item"":""pants"",""price"":54.99},"
                             + @"{""item"":""shoes""}]";
         var table = JsonConvert.DeserializeObject<DataTable>(json);
-        Assert.AreEqual("shirt", table.Rows[0]["item"]);
-        Assert.AreEqual("pants", table.Rows[1]["item"]);
-        Assert.AreEqual("shoes", table.Rows[2]["item"]);
-        Assert.AreEqual(49.99, (double)table.Rows[0]["price"], 0.01);
-        Assert.AreEqual(54.99, (double)table.Rows[1]["price"], 0.01);
-        CustomAssert.IsInstanceOfType(typeof(DBNull), table.Rows[2]["price"]);
+        Assert.Equal("shirt", table.Rows[0]["item"]);
+        Assert.Equal("pants", table.Rows[1]["item"]);
+        Assert.Equal("shoes", table.Rows[2]["item"]);
+        XUnitAssert.AreEqual(49.99, (double)table.Rows[0]["price"], 0.01);
+        XUnitAssert.AreEqual(54.99, (double)table.Rows[1]["price"], 0.01);
+        Assert.IsType(typeof(DBNull), table.Rows[2]["price"]);
     }
 
     [Fact]
@@ -487,12 +485,12 @@ public class DataTableConverterTests : TestFixtureBase
                             + @"{""item"":""pants"",""price"":54.99},"
                             + @"{""item"":""shoes"",""price"":null}]";
         var table = JsonConvert.DeserializeObject<DataTable>(json);
-        Assert.AreEqual("shirt", table.Rows[0]["item"]);
-        Assert.AreEqual("pants", table.Rows[1]["item"]);
-        Assert.AreEqual("shoes", table.Rows[2]["item"]);
-        Assert.AreEqual(49.99, (double)table.Rows[0]["price"], 0.01);
-        Assert.AreEqual(54.99, (double)table.Rows[1]["price"], 0.01);
-        CustomAssert.IsInstanceOfType(typeof(DBNull), table.Rows[2]["price"]);
+        Assert.Equal("shirt", table.Rows[0]["item"]);
+        Assert.Equal("pants", table.Rows[1]["item"]);
+        Assert.Equal("shoes", table.Rows[2]["item"]);
+        XUnitAssert.AreEqual(49.99, (double)table.Rows[0]["price"], 0.01);
+        XUnitAssert.AreEqual(54.99, (double)table.Rows[1]["price"], 0.01);
+        Assert.IsType(typeof(DBNull), table.Rows[2]["price"]);
     }
 
     [Fact]
@@ -514,7 +512,7 @@ public class DataTableConverterTests : TestFixtureBase
         var pair = new KeyValuePair<DataTable, int>(table, 1);
         var serializedpair = JsonConvert.SerializeObject(pair, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Key"": [
     {
       ""id"": 0,
@@ -526,9 +524,9 @@ public class DataTableConverterTests : TestFixtureBase
 
         var pair2 = (KeyValuePair<DataTable, int>)JsonConvert.DeserializeObject(serializedpair, typeof(KeyValuePair<DataTable, int>));
 
-        Assert.AreEqual(1, pair2.Value);
-        Assert.AreEqual(1, pair2.Key.Rows.Count);
-        Assert.AreEqual("item!", pair2.Key.Rows[0]["item"]);
+        Assert.Equal(1, pair2.Value);
+        Assert.Equal(1, pair2.Key.Rows.Count);
+        Assert.Equal("item!", pair2.Key.Rows[0]["item"]);
     }
 
     [Fact]
@@ -539,7 +537,7 @@ public class DataTableConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(dt, Formatting.Indented);
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""CustomerID"": ""432""
   }
@@ -557,7 +555,7 @@ public class DataTableConverterTests : TestFixtureBase
 
         var dt = JsonConvert.DeserializeObject<CustomerDataSet.CustomersDataTable>(json);
 
-        Assert.AreEqual("432", dt[0].CustomerID);
+        Assert.Equal("432", dt[0].CustomerID);
     }
 
     public class DataTableTestClass
@@ -575,13 +573,13 @@ public class DataTableConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c1, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Table"": null
 }", json);
 
         var c2 = JsonConvert.DeserializeObject<DataTableTestClass>(json);
 
-        Assert.AreEqual(null, c2.Table);
+        Assert.Equal(null, c2.Table);
     }
 
     [Fact]
@@ -592,7 +590,7 @@ public class DataTableConverterTests : TestFixtureBase
             Formatting = Formatting.Indented
         });
 
-        StringAssert.AreEqual(@"null", json);
+        XUnitAssert.AreEqualNormalized(@"null", json);
     }
 
     [Fact]
@@ -611,12 +609,12 @@ public class DataTableConverterTests : TestFixtureBase
 
         var ds = JsonConvert.DeserializeObject<SqlTypesDataSet>(json, new SqlDateTimeConverter());
 
-        Assert.AreEqual(new System.Data.SqlTypes.SqlDateTime(2015, 11, 28), ds.TestTable[0].DateTimeValue);
-        Assert.AreEqual(System.Data.SqlTypes.SqlDateTime.Null, ds.TestTable[1].DateTimeValue);
+        Assert.Equal(new System.Data.SqlTypes.SqlDateTime(2015, 11, 28), ds.TestTable[0].DateTimeValue);
+        Assert.Equal(System.Data.SqlTypes.SqlDateTime.Null, ds.TestTable[1].DateTimeValue);
 
         var json2 = JsonConvert.SerializeObject(ds, Formatting.Indented, new SqlDateTimeConverter());
 
-        StringAssert.AreEqual(json, json2);
+        XUnitAssert.AreEqualNormalized(json, json2);
     }
 
     internal class SqlDateTimeConverter : JsonConverter
@@ -657,7 +655,7 @@ public class DataTableConverterTests : TestFixtureBase
         var json = "[{\"timeCol\":\"\"}]";
         DataTable table = JsonConvert.DeserializeObject<CustomDataTable>(json);
 
-        Assert.AreEqual(DBNull.Value, table.Rows[0]["timeCol"]);
+        Assert.Equal(DBNull.Value, table.Rows[0]["timeCol"]);
     }
 
     [JsonConverter(typeof(DataTableConverterTest))]

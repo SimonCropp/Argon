@@ -25,43 +25,42 @@
 
 #if NET5_0_OR_GREATER
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 #else
 using Xunit;
 
-namespace Argon.Tests.Documentation.Samples.Linq
+namespace Argon.Tests.Documentation.Samples.Linq;
+
+public class CreateJsonDynamic : TestFixtureBase
 {
-    [TestFixture]
-    public class CreateJsonDynamic : TestFixtureBase
+    [Fact]
+    public void Example()
     {
-        [Fact]
-        public void Example()
-        {
-            #region Usage
-            dynamic product = new JObject();
-            product.ProductName = "Elbow Grease";
-            product.Enabled = true;
-            product.Price = 4.90m;
-            product.StockCount = 9000;
-            product.StockValue = 44100;
-            product.Tags = new JArray("Real", "OnSale");
+        #region Usage
 
-            Console.WriteLine(product.ToString());
-            // {
-            //   "ProductName": "Elbow Grease",
-            //   "Enabled": true,
-            //   "Price": 4.90,
-            //   "StockCount": 9000,
-            //   "StockValue": 44100,
-            //   "Tags": [
-            //     "Real",
-            //     "OnSale"
-            //   ]
-            // }
-            #endregion
+        dynamic product = new JObject();
+        product.ProductName = "Elbow Grease";
+        product.Enabled = true;
+        product.Price = 4.90m;
+        product.StockCount = 9000;
+        product.StockValue = 44100;
+        product.Tags = new JArray("Real", "OnSale");
 
-            StringAssert.AreEqual(@"{
+        Console.WriteLine(product.ToString());
+        // {
+        //   "ProductName": "Elbow Grease",
+        //   "Enabled": true,
+        //   "Price": 4.90,
+        //   "StockCount": 9000,
+        //   "StockValue": 44100,
+        //   "Tags": [
+        //     "Real",
+        //     "OnSale"
+        //   ]
+        // }
+
+        #endregion
+
+        XUnitAssert.AreEqualNormalized(@"{
   ""ProductName"": ""Elbow Grease"",
   ""Enabled"": true,
   ""Price"": 4.90,
@@ -72,7 +71,6 @@ namespace Argon.Tests.Documentation.Samples.Linq
     ""OnSale""
   ]
 }", product.ToString());
-        }
     }
 }
 

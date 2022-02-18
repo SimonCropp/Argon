@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Linq;
 
-[TestFixture]
 public class CreateJsonCollectionInitializer : TestFixtureBase
 {
     [Fact]
@@ -60,7 +57,7 @@ public class CreateJsonCollectionInitializer : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Cpu"": ""Intel"",
   ""Memory"": 32,
   ""Drives"": [

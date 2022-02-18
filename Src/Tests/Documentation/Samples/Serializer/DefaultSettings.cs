@@ -24,13 +24,10 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 using Staff = Argon.Tests.TestObjects.Organization.Employee;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class DefaultSettings : TestFixtureBase
 {
     [Fact]
@@ -72,7 +69,7 @@ public class DefaultSettings : TestFixtureBase
             JsonConvert.DefaultSettings = null;
         }
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""firstName"": ""Eric"",
   ""lastName"": ""Example"",
   ""birthDate"": ""1980-04-20T00:00:00Z"",

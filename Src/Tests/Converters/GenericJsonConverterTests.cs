@@ -28,12 +28,9 @@ using System.Data.Linq;
 using System.Data.SqlTypes;
 #endif
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Converters;
 
-[TestFixture]
 public class GenericJsonConverterTests : TestFixtureBase
 {
     public class TestGenericConverter : JsonConverter<string>
@@ -58,7 +55,7 @@ public class GenericJsonConverterTests : TestFixtureBase
         var converter = new TestGenericConverter();
         converter.WriteJson(jsonWriter, (object)"String!", null);
 
-        Assert.AreEqual(@"""String!""", sw.ToString());
+        Assert.Equal(@"""String!""", sw.ToString());
     }
 
     [Fact]
@@ -70,7 +67,7 @@ public class GenericJsonConverterTests : TestFixtureBase
         var converter = new TestGenericConverter();
         converter.WriteJson(jsonWriter, "String!", null);
 
-        Assert.AreEqual(@"""String!""", sw.ToString());
+        Assert.Equal(@"""String!""", sw.ToString());
     }
 
     [Fact]
@@ -81,7 +78,7 @@ public class GenericJsonConverterTests : TestFixtureBase
 
         var converter = new TestGenericConverter();
 
-        ExceptionAssert.Throws<JsonSerializationException>(() =>
+        XUnitAssert.Throws<JsonSerializationException>(() =>
         {
             converter.WriteJson(jsonWriter, 123, null);
         }, "Converter cannot write specified value to JSON. System.String is required.");
@@ -97,7 +94,7 @@ public class GenericJsonConverterTests : TestFixtureBase
         var converter = new TestGenericConverter();
         var s = converter.ReadJson(jsonReader, typeof(string), null, false, null);
 
-        Assert.AreEqual(@"String!", s);
+        Assert.Equal(@"String!", s);
     }
 
     [Fact]
@@ -110,7 +107,7 @@ public class GenericJsonConverterTests : TestFixtureBase
         var converter = new TestGenericConverter();
         var s = converter.ReadJson(jsonReader, typeof(string), "Existing!", true, null);
 
-        Assert.AreEqual(@"String!Existing!", s);
+        Assert.Equal(@"String!Existing!", s);
     }
 
     [Fact]
@@ -123,7 +120,7 @@ public class GenericJsonConverterTests : TestFixtureBase
         var converter = new TestGenericConverter();
         var s = (string)converter.ReadJson(jsonReader, typeof(string), null, null);
 
-        Assert.AreEqual(@"String!", s);
+        Assert.Equal(@"String!", s);
     }
 
     [Fact]
@@ -135,7 +132,7 @@ public class GenericJsonConverterTests : TestFixtureBase
 
         var converter = new TestGenericConverter();
 
-        ExceptionAssert.Throws<JsonSerializationException>(() =>
+        XUnitAssert.Throws<JsonSerializationException>(() =>
         {
             converter.ReadJson(jsonReader, typeof(string), 12345, null);
         }, "Converter cannot read JSON with the specified existing value. System.String is required.");

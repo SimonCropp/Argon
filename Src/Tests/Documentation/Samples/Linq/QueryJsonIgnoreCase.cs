@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Linq;
 
-[TestFixture]
 public class QueryJsonIgnoreCase : TestFixtureBase
 {
     [Fact]
@@ -47,6 +44,6 @@ public class QueryJsonIgnoreCase : TestFixtureBase
         Console.WriteLine(name);
         #endregion
 
-        Assert.AreEqual("James Newton-King", name);
+        Assert.Equal("James Newton-King", name);
     }
 }

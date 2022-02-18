@@ -25,8 +25,6 @@
 
 #pragma warning disable 618
 #pragma warning disable 1062
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation;
 
@@ -158,6 +156,6 @@ public class JsonSchemaTests
         // true
         #endregion
 
-        Assert.IsTrue(valid);
+        Xunit.Assert.True(valid);
     }
 }

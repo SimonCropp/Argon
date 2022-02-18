@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class PropertyJsonIgnore : TestFixtureBase
 {
     #region Types
@@ -60,6 +57,6 @@ public class PropertyJsonIgnore : TestFixtureBase
         // {"FullName":"Joe User","EmailAddress":"joe@example.com"}
         #endregion
 
-        Assert.AreEqual(@"{""FullName"":""Joe User"",""EmailAddress"":""joe@example.com""}", json);
+        Assert.Equal(@"{""FullName"":""Joe User"",""EmailAddress"":""joe@example.com""}", json);
     }
 }

@@ -25,12 +25,9 @@
 
 #if NETSTANDARD2_0
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue1757 : TestFixtureBase
 {
     [Fact]

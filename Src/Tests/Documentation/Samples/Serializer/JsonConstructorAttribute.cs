@@ -24,13 +24,10 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 using JsonConstructor = Argon.JsonConstructorAttribute;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class JsonConstructorAttribute : TestFixtureBase
 {
     #region Types
@@ -67,6 +64,6 @@ public class JsonConstructorAttribute : TestFixtureBase
         // domain\username
         #endregion
 
-        Assert.AreEqual(@"domain\username", user.UserName);
+        Assert.Equal(@"domain\username", user.UserName);
     }
 }

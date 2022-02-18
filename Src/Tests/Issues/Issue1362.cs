@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue1362 : TestFixtureBase
 {
     [Fact]
@@ -40,7 +37,7 @@ public class Issue1362 : TestFixtureBase
 
         var value = values[7];
 
-        Assert.AreEqual(2.5504d, value);
-        Assert.AreEqual("2.5504", value.ToString(CultureInfo.InvariantCulture));
+        Assert.Equal(2.5504d, value);
+        Assert.Equal("2.5504", value.ToString(CultureInfo.InvariantCulture));
     }
 }

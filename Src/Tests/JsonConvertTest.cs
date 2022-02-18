@@ -28,12 +28,9 @@ using System.Xml;
 using Argon.Tests.TestObjects;
 using Argon.Tests.TestObjects.Organization;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests;
 
-[TestFixture]
 public class JsonConvertTest : TestFixtureBase
 {
     [Fact]
@@ -45,7 +42,7 @@ public class JsonConvertTest : TestFixtureBase
         var value = nonAsciiChar + @"\" + escapableNonQuoteAsciiChar;
 
         var convertedValue = JsonConvert.ToString((object)value);
-        Assert.AreEqual(@"""" + nonAsciiChar + @"\\\u0000""", convertedValue);
+        Assert.Equal(@"""" + nonAsciiChar + @"\\\u0000""", convertedValue);
     }
 
     public class PopulateTestObject
@@ -64,7 +61,7 @@ public class JsonConvertTest : TestFixtureBase
         var o = new PopulateTestObject();
         JsonConvert.PopulateObject(json, o);
 
-        Assert.AreEqual(1m, o.Prop);
+        Assert.Equal(1m, o.Prop);
     }
 
     [Fact]
@@ -79,13 +76,13 @@ public class JsonConvertTest : TestFixtureBase
         var o = new PopulateTestObject();
         JsonConvert.PopulateObject(json, o);
 
-        Assert.AreEqual(1m, o.Prop);
+        Assert.Equal(1m, o.Prop);
     }
 
     [Fact]
     public void PopulateObjectWithNoContent()
     {
-        ExceptionAssert.Throws<JsonSerializationException>(() =>
+        XUnitAssert.Throws<JsonSerializationException>(() =>
         {
             var json = @"";
 
@@ -97,7 +94,7 @@ public class JsonConvertTest : TestFixtureBase
     [Fact]
     public void PopulateObjectWithOnlyComment()
     {
-        var ex = ExceptionAssert.Throws<JsonSerializationException>(() =>
+        var ex = XUnitAssert.Throws<JsonSerializationException>(() =>
         {
             var json = @"// file header";
 
@@ -105,9 +102,9 @@ public class JsonConvertTest : TestFixtureBase
             JsonConvert.PopulateObject(json, o);
         }, "No JSON content found. Path '', line 1, position 14.");
 
-        Assert.AreEqual(1, ex.LineNumber);
-        Assert.AreEqual(14, ex.LinePosition);
-        Assert.AreEqual(string.Empty, ex.Path);
+        Assert.Equal(1, ex.LineNumber);
+        Assert.Equal(14, ex.LinePosition);
+        Assert.Equal(string.Empty, ex.Path);
     }
 
     [Fact]
@@ -122,7 +119,7 @@ public class JsonConvertTest : TestFixtureBase
 
             var json = JsonConvert.SerializeObject(new { test = new[] { 1, 2, 3 } });
 
-            StringAssert.AreEqual(@"{
+            XUnitAssert.AreEqualNormalized(@"{
   ""test"": [
     1,
     2,
@@ -154,11 +151,11 @@ public class JsonConvertTest : TestFixtureBase
             reader.Read();
 
             var jsonTextReader = (JsonTextReader)reader;
-            Assert.IsNotNull(jsonTextReader.PropertyNameTable);
+            Assert.NotNull(jsonTextReader.PropertyNameTable);
 
             var s = serializer.Deserialize<string>(reader);
-            Assert.AreEqual("hi", s);
-            Assert.IsNotNull(jsonTextReader.PropertyNameTable);
+            Assert.Equal("hi", s);
+            Assert.NotNull(jsonTextReader.PropertyNameTable);
 
             var o = new NameTableTestClass
             {
@@ -180,14 +177,14 @@ public class JsonConvertTest : TestFixtureBase
         var sr = new StringReader("{'property':'hi'}");
         var jsonTextReader = new JsonTextReader(sr);
 
-        Assert.IsNull(jsonTextReader.PropertyNameTable);
+        Assert.Null(jsonTextReader.PropertyNameTable);
 
         var serializer = new JsonSerializer();
         serializer.Converters.Add(new NameTableTestClassConverter());
         var o = serializer.Deserialize<NameTableTestClass>(jsonTextReader);
 
-        Assert.IsNull(jsonTextReader.PropertyNameTable);
-        Assert.AreEqual("hi", o.Value);
+        Assert.Null(jsonTextReader.PropertyNameTable);
+        Assert.Equal("hi", o.Value);
     }
 
     public class CustonNameTable : JsonNameTable
@@ -204,14 +201,14 @@ public class JsonConvertTest : TestFixtureBase
         var sr = new StringReader("{'property':'hi'}");
         var jsonTextReader = new JsonTextReader(sr);
 
-        Assert.IsNull(jsonTextReader.PropertyNameTable);
+        Assert.Null(jsonTextReader.PropertyNameTable);
         var nameTable = jsonTextReader.PropertyNameTable = new CustonNameTable();
 
         var serializer = new JsonSerializer();
         var o = serializer.Deserialize<Dictionary<string, string>>(jsonTextReader);
-        Assert.AreEqual("hi", o["_property"]);
+        Assert.Equal("hi", o["_property"]);
 
-        Assert.AreEqual(nameTable, jsonTextReader.PropertyNameTable);
+        Assert.Equal(nameTable, jsonTextReader.PropertyNameTable);
     }
 
     [Fact]
@@ -243,7 +240,7 @@ public class JsonConvertTest : TestFixtureBase
             //   "jobTitle": "Web Dude"
             // }
 
-            StringAssert.AreEqual(@"{
+            XUnitAssert.AreEqualNormalized(@"{
   ""firstName"": ""Eric"",
   ""lastName"": ""Example"",
   ""birthDate"": ""1980-04-20T00:00:00Z"",
@@ -272,7 +269,7 @@ public class JsonConvertTest : TestFixtureBase
                 Formatting = Formatting.None
             });
 
-            Assert.AreEqual(@"{""test"":[1,2,3]}", json);
+            Assert.Equal(@"{""test"":[1,2,3]}", json);
         }
         finally
         {
@@ -302,7 +299,7 @@ public class JsonConvertTest : TestFixtureBase
                 }
             });
 
-            Assert.AreEqual(@"[new Date(976593724000)]", json);
+            Assert.Equal(@"[new Date(976593724000)]", json);
         }
         finally
         {
@@ -326,7 +323,7 @@ public class JsonConvertTest : TestFixtureBase
             var serializer = JsonSerializer.CreateDefault();
             serializer.Serialize(sw, l);
 
-            StringAssert.AreEqual(@"[
+            XUnitAssert.AreEqualNormalized(@"[
   1,
   2,
   3
@@ -336,19 +333,19 @@ public class JsonConvertTest : TestFixtureBase
             serializer.Formatting = Formatting.None;
             serializer.Serialize(sw, l);
 
-            Assert.AreEqual(@"[1,2,3]", sw.ToString());
+            Assert.Equal(@"[1,2,3]", sw.ToString());
 
             sw = new StringWriter();
             serializer = new JsonSerializer();
             serializer.Serialize(sw, l);
 
-            Assert.AreEqual(@"[1,2,3]", sw.ToString());
+            Assert.Equal(@"[1,2,3]", sw.ToString());
 
             sw = new StringWriter();
             serializer = JsonSerializer.Create();
             serializer.Serialize(sw, l);
 
-            Assert.AreEqual(@"[1,2,3]", sw.ToString());
+            Assert.Equal(@"[1,2,3]", sw.ToString());
         }
         finally
         {
@@ -375,7 +372,7 @@ public class JsonConvertTest : TestFixtureBase
             });
             serializer.Serialize(sw, l);
 
-            StringAssert.AreEqual(@"[
+            XUnitAssert.AreEqualNormalized(@"[
   2,
   4,
   6
@@ -385,7 +382,7 @@ public class JsonConvertTest : TestFixtureBase
             serializer.Converters.Clear();
             serializer.Serialize(sw, l);
 
-            StringAssert.AreEqual(@"[
+            XUnitAssert.AreEqualNormalized(@"[
   1,
   2,
   3
@@ -395,7 +392,7 @@ public class JsonConvertTest : TestFixtureBase
             serializer = JsonSerializer.Create(new JsonSerializerSettings { Formatting = Formatting.Indented });
             serializer.Serialize(sw, l);
 
-            StringAssert.AreEqual(@"[
+            XUnitAssert.AreEqualNormalized(@"[
   1,
   2,
   3
@@ -430,71 +427,71 @@ public class JsonConvertTest : TestFixtureBase
     public void DeserializeObject_EmptyString()
     {
         var result = JsonConvert.DeserializeObject(string.Empty);
-        Assert.IsNull(result);
+        Assert.Null(result);
     }
 
     [Fact]
     public void DeserializeObject_Integer()
     {
         var result = JsonConvert.DeserializeObject("1");
-        Assert.AreEqual(1L, result);
+        Assert.Equal(1L, result);
     }
 
     [Fact]
     public void DeserializeObject_Integer_EmptyString()
     {
         var value = JsonConvert.DeserializeObject<int?>("");
-        Assert.IsNull(value);
+        Assert.Null(value);
     }
 
     [Fact]
     public void DeserializeObject_Decimal_EmptyString()
     {
         var value = JsonConvert.DeserializeObject<decimal?>("");
-        Assert.IsNull(value);
+        Assert.Null(value);
     }
 
     [Fact]
     public void DeserializeObject_DateTime_EmptyString()
     {
         var value = JsonConvert.DeserializeObject<DateTime?>("");
-        Assert.IsNull(value);
+        Assert.Null(value);
     }
 
     [Fact]
     public void EscapeJavaScriptString()
     {
         var result = JavaScriptUtils.ToEscapedJavaScriptString("How now brown cow?", '"', true, StringEscapeHandling.Default);
-        Assert.AreEqual(@"""How now brown cow?""", result);
+        Assert.Equal(@"""How now brown cow?""", result);
 
         result = JavaScriptUtils.ToEscapedJavaScriptString("How now 'brown' cow?", '"', true, StringEscapeHandling.Default);
-        Assert.AreEqual(@"""How now 'brown' cow?""", result);
+        Assert.Equal(@"""How now 'brown' cow?""", result);
 
         result = JavaScriptUtils.ToEscapedJavaScriptString("How now <brown> cow?", '"', true, StringEscapeHandling.Default);
-        Assert.AreEqual(@"""How now <brown> cow?""", result);
+        Assert.Equal(@"""How now <brown> cow?""", result);
 
         result = JavaScriptUtils.ToEscapedJavaScriptString("How \r\nnow brown cow?", '"', true, StringEscapeHandling.Default);
-        Assert.AreEqual(@"""How \r\nnow brown cow?""", result);
+        Assert.Equal(@"""How \r\nnow brown cow?""", result);
 
         result = JavaScriptUtils.ToEscapedJavaScriptString("\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007", '"', true, StringEscapeHandling.Default);
-        Assert.AreEqual(@"""\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007""", result);
+        Assert.Equal(@"""\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007""", result);
 
         result =
             JavaScriptUtils.ToEscapedJavaScriptString("\b\t\n\u000b\f\r\u000e\u000f\u0010\u0011\u0012\u0013", '"', true, StringEscapeHandling.Default);
-        Assert.AreEqual(@"""\b\t\n\u000b\f\r\u000e\u000f\u0010\u0011\u0012\u0013""", result);
+        Assert.Equal(@"""\b\t\n\u000b\f\r\u000e\u000f\u0010\u0011\u0012\u0013""", result);
 
         result =
             JavaScriptUtils.ToEscapedJavaScriptString(
                 "\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f ", '"', true, StringEscapeHandling.Default);
-        Assert.AreEqual(@"""\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f """, result);
+        Assert.Equal(@"""\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f """, result);
 
         result =
             JavaScriptUtils.ToEscapedJavaScriptString(
                 "!\"#$%&\u0027()*+,-./0123456789:;\u003c=\u003e?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]", '"', true, StringEscapeHandling.Default);
-        Assert.AreEqual(@"""!\""#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]""", result);
+        Assert.Equal(@"""!\""#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]""", result);
 
         result = JavaScriptUtils.ToEscapedJavaScriptString("^_`abcdefghijklmnopqrstuvwxyz{|}~", '"', true, StringEscapeHandling.Default);
-        Assert.AreEqual(@"""^_`abcdefghijklmnopqrstuvwxyz{|}~""", result);
+        Assert.Equal(@"""^_`abcdefghijklmnopqrstuvwxyz{|}~""", result);
 
         var data =
             "\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007\b\t\n\u000b\f\r\u000e\u000f\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f !\"#$%&\u0027()*+,-./0123456789:;\u003c=\u003e?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
@@ -502,41 +499,41 @@ public class JsonConvertTest : TestFixtureBase
             @"""\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007\b\t\n\u000b\f\r\u000e\u000f\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f !\""#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~""";
 
         result = JavaScriptUtils.ToEscapedJavaScriptString(data, '"', true, StringEscapeHandling.Default);
-        Assert.AreEqual(expected, result);
+        Assert.Equal(expected, result);
 
         result = JavaScriptUtils.ToEscapedJavaScriptString("Fred's cat.", '\'', true, StringEscapeHandling.Default);
-        Assert.AreEqual(result, @"'Fred\'s cat.'");
+        Assert.Equal(result, @"'Fred\'s cat.'");
 
         result = JavaScriptUtils.ToEscapedJavaScriptString(@"""How are you gentlemen?"" said Cats.", '"', true, StringEscapeHandling.Default);
-        Assert.AreEqual(result, @"""\""How are you gentlemen?\"" said Cats.""");
+        Assert.Equal(result, @"""\""How are you gentlemen?\"" said Cats.""");
 
         result = JavaScriptUtils.ToEscapedJavaScriptString(@"""How are' you gentlemen?"" said Cats.", '"', true, StringEscapeHandling.Default);
-        Assert.AreEqual(result, @"""\""How are' you gentlemen?\"" said Cats.""");
+        Assert.Equal(result, @"""\""How are' you gentlemen?\"" said Cats.""");
 
         result = JavaScriptUtils.ToEscapedJavaScriptString(@"Fred's ""cat"".", '\'', true, StringEscapeHandling.Default);
-        Assert.AreEqual(result, @"'Fred\'s ""cat"".'");
+        Assert.Equal(result, @"'Fred\'s ""cat"".'");
 
         result = JavaScriptUtils.ToEscapedJavaScriptString("\u001farray\u003caddress", '"', true, StringEscapeHandling.Default);
-        Assert.AreEqual(result, @"""\u001farray<address""");
+        Assert.Equal(result, @"""\u001farray<address""");
     }
 
     [Fact]
     public void EscapeJavaScriptString_UnicodeLinefeeds()
     {
         var result = JavaScriptUtils.ToEscapedJavaScriptString("before" + '\u0085' + "after", '"', true, StringEscapeHandling.Default);
-        Assert.AreEqual(@"""before\u0085after""", result);
+        Assert.Equal(@"""before\u0085after""", result);
 
         result = JavaScriptUtils.ToEscapedJavaScriptString("before" + '\u2028' + "after", '"', true, StringEscapeHandling.Default);
-        Assert.AreEqual(@"""before\u2028after""", result);
+        Assert.Equal(@"""before\u2028after""", result);
 
         result = JavaScriptUtils.ToEscapedJavaScriptString("before" + '\u2029' + "after", '"', true, StringEscapeHandling.Default);
-        Assert.AreEqual(@"""before\u2029after""", result);
+        Assert.Equal(@"""before\u2029after""", result);
     }
 
     [Fact]
     public void ToStringInvalid()
     {
-        ExceptionAssert.Throws<ArgumentException>(() => { JsonConvert.ToString(new Version(1, 0)); }, "Unsupported type: System.Version. Use the JsonSerializer class to get the object's JSON representation.");
+        XUnitAssert.Throws<ArgumentException>(() => { JsonConvert.ToString(new Version(1, 0)); }, "Unsupported type: System.Version. Use the JsonSerializer class to get the object's JSON representation.");
     }
 
     [Fact]
@@ -544,86 +541,86 @@ public class JsonConvertTest : TestFixtureBase
     {
         var guid = new Guid("BED7F4EA-1A96-11d2-8F08-00A0C9A6186D");
         var json = JsonConvert.ToString(guid);
-        Assert.AreEqual(@"""bed7f4ea-1a96-11d2-8f08-00a0c9a6186d""", json);
+        Assert.Equal(@"""bed7f4ea-1a96-11d2-8f08-00a0c9a6186d""", json);
     }
 
     [Fact]
     public void EnumToString()
     {
         var json = JsonConvert.ToString(StringComparison.CurrentCultureIgnoreCase);
-        Assert.AreEqual("1", json);
+        Assert.Equal("1", json);
     }
 
     [Fact]
     public void ObjectToString()
     {
         object value = 1;
-        Assert.AreEqual("1", JsonConvert.ToString(value));
+        Assert.Equal("1", JsonConvert.ToString(value));
 
         value = 1.1;
-        Assert.AreEqual("1.1", JsonConvert.ToString(value));
+        Assert.Equal("1.1", JsonConvert.ToString(value));
 
         value = 1.1m;
-        Assert.AreEqual("1.1", JsonConvert.ToString(value));
+        Assert.Equal("1.1", JsonConvert.ToString(value));
 
         value = (float)1.1;
-        Assert.AreEqual("1.1", JsonConvert.ToString(value));
+        Assert.Equal("1.1", JsonConvert.ToString(value));
 
         value = (short)1;
-        Assert.AreEqual("1", JsonConvert.ToString(value));
+        Assert.Equal("1", JsonConvert.ToString(value));
 
         value = (long)1;
-        Assert.AreEqual("1", JsonConvert.ToString(value));
+        Assert.Equal("1", JsonConvert.ToString(value));
 
         value = (byte)1;
-        Assert.AreEqual("1", JsonConvert.ToString(value));
+        Assert.Equal("1", JsonConvert.ToString(value));
 
         value = (uint)1;
-        Assert.AreEqual("1", JsonConvert.ToString(value));
+        Assert.Equal("1", JsonConvert.ToString(value));
 
         value = (ushort)1;
-        Assert.AreEqual("1", JsonConvert.ToString(value));
+        Assert.Equal("1", JsonConvert.ToString(value));
 
         value = (sbyte)1;
-        Assert.AreEqual("1", JsonConvert.ToString(value));
+        Assert.Equal("1", JsonConvert.ToString(value));
 
         value = (ulong)1;
-        Assert.AreEqual("1", JsonConvert.ToString(value));
+        Assert.Equal("1", JsonConvert.ToString(value));
 
         value = new DateTime(DateTimeUtils.InitialJavaScriptDateTicks, DateTimeKind.Utc);
-        Assert.AreEqual(@"""1970-01-01T00:00:00Z""", JsonConvert.ToString(value));
+        Assert.Equal(@"""1970-01-01T00:00:00Z""", JsonConvert.ToString(value));
 
         value = new DateTime(DateTimeUtils.InitialJavaScriptDateTicks, DateTimeKind.Utc);
-        Assert.AreEqual(@"""\/Date(0)\/""", JsonConvert.ToString((DateTime)value, DateFormatHandling.MicrosoftDateFormat, DateTimeZoneHandling.RoundtripKind));
+        Assert.Equal(@"""\/Date(0)\/""", JsonConvert.ToString((DateTime)value, DateFormatHandling.MicrosoftDateFormat, DateTimeZoneHandling.RoundtripKind));
 
         value = new DateTimeOffset(DateTimeUtils.InitialJavaScriptDateTicks, TimeSpan.Zero);
-        Assert.AreEqual(@"""1970-01-01T00:00:00+00:00""", JsonConvert.ToString(value));
+        Assert.Equal(@"""1970-01-01T00:00:00+00:00""", JsonConvert.ToString(value));
 
         value = new DateTimeOffset(DateTimeUtils.InitialJavaScriptDateTicks, TimeSpan.Zero);
-        Assert.AreEqual(@"""\/Date(0+0000)\/""", JsonConvert.ToString((DateTimeOffset)value, DateFormatHandling.MicrosoftDateFormat));
+        Assert.Equal(@"""\/Date(0+0000)\/""", JsonConvert.ToString((DateTimeOffset)value, DateFormatHandling.MicrosoftDateFormat));
 
         value = null;
-        Assert.AreEqual("null", JsonConvert.ToString(value));
+        Assert.Equal("null", JsonConvert.ToString(value));
 
 #if !NET5_0_OR_GREATER
             value = DBNull.Value;
-            Assert.AreEqual("null", JsonConvert.ToString(value));
+            Assert.Equal("null", JsonConvert.ToString(value));
 #endif
 
         value = "I am a string";
-        Assert.AreEqual(@"""I am a string""", JsonConvert.ToString(value));
+        Assert.Equal(@"""I am a string""", JsonConvert.ToString(value));
 
         value = true;
-        Assert.AreEqual("true", JsonConvert.ToString(value));
+        Assert.Equal("true", JsonConvert.ToString(value));
 
         value = 'c';
-        Assert.AreEqual(@"""c""", JsonConvert.ToString(value));
+        Assert.Equal(@"""c""", JsonConvert.ToString(value));
     }
 
     [Fact]
     public void TestInvalidStrings()
     {
-        ExceptionAssert.Throws<JsonReaderException>(() =>
+        XUnitAssert.Throws<JsonReaderException>(() =>
         {
             var orig = @"this is a string ""that has quotes"" ";
 
@@ -640,57 +637,57 @@ public class JsonConvertTest : TestFixtureBase
     public void DeserializeValueObjects()
     {
         var i = JsonConvert.DeserializeObject<int>("1");
-        Assert.AreEqual(1, i);
+        Assert.Equal(1, i);
 
         var d = JsonConvert.DeserializeObject<DateTimeOffset>(@"""\/Date(-59011455539000+0000)\/""");
-        Assert.AreEqual(new DateTimeOffset(new DateTime(100, 1, 1, 1, 1, 1, DateTimeKind.Utc)), d);
+        Assert.Equal(new DateTimeOffset(new DateTime(100, 1, 1, 1, 1, 1, DateTimeKind.Utc)), d);
 
         var b = JsonConvert.DeserializeObject<bool>("true");
-        Assert.AreEqual(true, b);
+        XUnitAssert.True(b);
 
         var n = JsonConvert.DeserializeObject<object>("null");
-        Assert.AreEqual(null, n);
+        Assert.Equal(null, n);
 
         var u = JsonConvert.DeserializeObject<object>("undefined");
-        Assert.AreEqual(null, u);
+        Assert.Equal(null, u);
     }
 
     [Fact]
     public void FloatToString()
     {
-        Assert.AreEqual("1.1", JsonConvert.ToString(1.1));
-        Assert.AreEqual("1.11", JsonConvert.ToString(1.11));
-        Assert.AreEqual("1.111", JsonConvert.ToString(1.111));
-        Assert.AreEqual("1.1111", JsonConvert.ToString(1.1111));
-        Assert.AreEqual("1.11111", JsonConvert.ToString(1.11111));
-        Assert.AreEqual("1.111111", JsonConvert.ToString(1.111111));
-        Assert.AreEqual("1.0", JsonConvert.ToString(1.0));
-        Assert.AreEqual("1.0", JsonConvert.ToString(1d));
-        Assert.AreEqual("-1.0", JsonConvert.ToString(-1d));
-        Assert.AreEqual("1.01", JsonConvert.ToString(1.01));
-        Assert.AreEqual("1.001", JsonConvert.ToString(1.001));
-        Assert.AreEqual(JsonConvert.PositiveInfinity, JsonConvert.ToString(Double.PositiveInfinity));
-        Assert.AreEqual(JsonConvert.NegativeInfinity, JsonConvert.ToString(Double.NegativeInfinity));
-        Assert.AreEqual(JsonConvert.NaN, JsonConvert.ToString(Double.NaN));
+        Assert.Equal("1.1", JsonConvert.ToString(1.1));
+        Assert.Equal("1.11", JsonConvert.ToString(1.11));
+        Assert.Equal("1.111", JsonConvert.ToString(1.111));
+        Assert.Equal("1.1111", JsonConvert.ToString(1.1111));
+        Assert.Equal("1.11111", JsonConvert.ToString(1.11111));
+        Assert.Equal("1.111111", JsonConvert.ToString(1.111111));
+        Assert.Equal("1.0", JsonConvert.ToString(1.0));
+        Assert.Equal("1.0", JsonConvert.ToString(1d));
+        Assert.Equal("-1.0", JsonConvert.ToString(-1d));
+        Assert.Equal("1.01", JsonConvert.ToString(1.01));
+        Assert.Equal("1.001", JsonConvert.ToString(1.001));
+        Assert.Equal(JsonConvert.PositiveInfinity, JsonConvert.ToString(Double.PositiveInfinity));
+        Assert.Equal(JsonConvert.NegativeInfinity, JsonConvert.ToString(Double.NegativeInfinity));
+        Assert.Equal(JsonConvert.NaN, JsonConvert.ToString(Double.NaN));
     }
 
     [Fact]
     public void DecimalToString()
     {
-        Assert.AreEqual("1.1", JsonConvert.ToString(1.1m));
-        Assert.AreEqual("1.11", JsonConvert.ToString(1.11m));
-        Assert.AreEqual("1.111", JsonConvert.ToString(1.111m));
-        Assert.AreEqual("1.1111", JsonConvert.ToString(1.1111m));
-        Assert.AreEqual("1.11111", JsonConvert.ToString(1.11111m));
-        Assert.AreEqual("1.111111", JsonConvert.ToString(1.111111m));
-        Assert.AreEqual("1.0", JsonConvert.ToString(1.0m));
-        Assert.AreEqual("-1.0", JsonConvert.ToString(-1.0m));
-        Assert.AreEqual("-1.0", JsonConvert.ToString(-1m));
-        Assert.AreEqual("1.0", JsonConvert.ToString(1m));
-        Assert.AreEqual("1.01", JsonConvert.ToString(1.01m));
-        Assert.AreEqual("1.001", JsonConvert.ToString(1.001m));
-        Assert.AreEqual("79228162514264337593543950335.0", JsonConvert.ToString(Decimal.MaxValue));
-        Assert.AreEqual("-79228162514264337593543950335.0", JsonConvert.ToString(Decimal.MinValue));
+        Assert.Equal("1.1", JsonConvert.ToString(1.1m));
+        Assert.Equal("1.11", JsonConvert.ToString(1.11m));
+        Assert.Equal("1.111", JsonConvert.ToString(1.111m));
+        Assert.Equal("1.1111", JsonConvert.ToString(1.1111m));
+        Assert.Equal("1.11111", JsonConvert.ToString(1.11111m));
+        Assert.Equal("1.111111", JsonConvert.ToString(1.111111m));
+        Assert.Equal("1.0", JsonConvert.ToString(1.0m));
+        Assert.Equal("-1.0", JsonConvert.ToString(-1.0m));
+        Assert.Equal("-1.0", JsonConvert.ToString(-1m));
+        Assert.Equal("1.0", JsonConvert.ToString(1m));
+        Assert.Equal("1.01", JsonConvert.ToString(1.01m));
+        Assert.Equal("1.001", JsonConvert.ToString(1.001m));
+        Assert.Equal("79228162514264337593543950335.0", JsonConvert.ToString(Decimal.MaxValue));
+        Assert.Equal("-79228162514264337593543950335.0", JsonConvert.ToString(Decimal.MinValue));
     }
 
     [Fact]
@@ -699,7 +696,7 @@ public class JsonConvertTest : TestFixtureBase
         var v = "It's a good day\r\n\"sunshine\"";
 
         var json = JsonConvert.ToString(v);
-        Assert.AreEqual(@"""It's a good day\r\n\""sunshine\""""", json);
+        Assert.Equal(@"""It's a good day\r\n\""sunshine\""""", json);
     }
 
     [Fact]
@@ -708,156 +705,156 @@ public class JsonConvertTest : TestFixtureBase
         var v = "<b>hi " + '\u20AC' + "</b>";
 
         var json = JsonConvert.ToString(v, '"');
-        Assert.AreEqual(@"""<b>hi " + '\u20AC' + @"</b>""", json);
+        Assert.Equal(@"""<b>hi " + '\u20AC' + @"</b>""", json);
 
         json = JsonConvert.ToString(v, '"', StringEscapeHandling.EscapeHtml);
-        Assert.AreEqual(@"""\u003cb\u003ehi " + '\u20AC' + @"\u003c/b\u003e""", json);
+        Assert.Equal(@"""\u003cb\u003ehi " + '\u20AC' + @"\u003c/b\u003e""", json);
 
         json = JsonConvert.ToString(v, '"', StringEscapeHandling.EscapeNonAscii);
-        Assert.AreEqual(@"""<b>hi \u20ac</b>""", json);
+        Assert.Equal(@"""<b>hi \u20ac</b>""", json);
     }
 
     [Fact]
     public void WriteDateTime()
     {
         var result = TestDateTime("DateTime Max", DateTime.MaxValue);
-        Assert.AreEqual("9999-12-31T23:59:59.9999999", result.IsoDateRoundtrip);
-        Assert.AreEqual("9999-12-31T23:59:59.9999999" + GetOffset(DateTime.MaxValue, DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
-        Assert.AreEqual("9999-12-31T23:59:59.9999999", result.IsoDateUnspecified);
-        Assert.AreEqual("9999-12-31T23:59:59.9999999Z", result.IsoDateUtc);
-        Assert.AreEqual(@"\/Date(253402300799999)\/", result.MsDateRoundtrip);
-        Assert.AreEqual(@"\/Date(253402300799999" + GetOffset(DateTime.MaxValue, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
-        Assert.AreEqual(@"\/Date(253402300799999)\/", result.MsDateUnspecified);
-        Assert.AreEqual(@"\/Date(253402300799999)\/", result.MsDateUtc);
+        Assert.Equal("9999-12-31T23:59:59.9999999", result.IsoDateRoundtrip);
+        Assert.Equal("9999-12-31T23:59:59.9999999" + DateTime.MaxValue.GetOffset(DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
+        Assert.Equal("9999-12-31T23:59:59.9999999", result.IsoDateUnspecified);
+        Assert.Equal("9999-12-31T23:59:59.9999999Z", result.IsoDateUtc);
+        Assert.Equal(@"\/Date(253402300799999)\/", result.MsDateRoundtrip);
+        Assert.Equal(@"\/Date(253402300799999" + DateTime.MaxValue.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
+        Assert.Equal(@"\/Date(253402300799999)\/", result.MsDateUnspecified);
+        Assert.Equal(@"\/Date(253402300799999)\/", result.MsDateUtc);
 
         var year2000local = new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Local);
         var localToUtcDate = year2000local.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.FFFFFFFK");
 
         result = TestDateTime("DateTime Local", year2000local);
-        Assert.AreEqual("2000-01-01T01:01:01" + GetOffset(year2000local, DateFormatHandling.IsoDateFormat), result.IsoDateRoundtrip);
-        Assert.AreEqual("2000-01-01T01:01:01" + GetOffset(year2000local, DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
-        Assert.AreEqual("2000-01-01T01:01:01", result.IsoDateUnspecified);
-        Assert.AreEqual(localToUtcDate, result.IsoDateUtc);
-        Assert.AreEqual(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000local) + GetOffset(year2000local, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateRoundtrip);
-        Assert.AreEqual(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000local) + GetOffset(year2000local, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
-        Assert.AreEqual(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000local) + GetOffset(year2000local, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateUnspecified);
-        Assert.AreEqual(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000local) + @")\/", result.MsDateUtc);
+        Assert.Equal("2000-01-01T01:01:01" + year2000local.GetOffset(DateFormatHandling.IsoDateFormat), result.IsoDateRoundtrip);
+        Assert.Equal("2000-01-01T01:01:01" + year2000local.GetOffset(DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
+        Assert.Equal("2000-01-01T01:01:01", result.IsoDateUnspecified);
+        Assert.Equal(localToUtcDate, result.IsoDateUtc);
+        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000local) + year2000local.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateRoundtrip);
+        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000local) + year2000local.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
+        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000local) + year2000local.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateUnspecified);
+        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000local) + @")\/", result.MsDateUtc);
 
         var millisecondsLocal = new DateTime(2000, 1, 1, 1, 1, 1, 999, DateTimeKind.Local);
         localToUtcDate = millisecondsLocal.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.FFFFFFFK");
 
         result = TestDateTime("DateTime Local with milliseconds", millisecondsLocal);
-        Assert.AreEqual("2000-01-01T01:01:01.999" + GetOffset(millisecondsLocal, DateFormatHandling.IsoDateFormat), result.IsoDateRoundtrip);
-        Assert.AreEqual("2000-01-01T01:01:01.999" + GetOffset(millisecondsLocal, DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
-        Assert.AreEqual("2000-01-01T01:01:01.999", result.IsoDateUnspecified);
-        Assert.AreEqual(localToUtcDate, result.IsoDateUtc);
-        Assert.AreEqual(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(millisecondsLocal) + GetOffset(millisecondsLocal, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateRoundtrip);
-        Assert.AreEqual(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(millisecondsLocal) + GetOffset(millisecondsLocal, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
-        Assert.AreEqual(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(millisecondsLocal) + GetOffset(millisecondsLocal, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateUnspecified);
-        Assert.AreEqual(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(millisecondsLocal) + @")\/", result.MsDateUtc);
+        Assert.Equal("2000-01-01T01:01:01.999" + millisecondsLocal.GetOffset(DateFormatHandling.IsoDateFormat), result.IsoDateRoundtrip);
+        Assert.Equal("2000-01-01T01:01:01.999" + millisecondsLocal.GetOffset(DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
+        Assert.Equal("2000-01-01T01:01:01.999", result.IsoDateUnspecified);
+        Assert.Equal(localToUtcDate, result.IsoDateUtc);
+        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(millisecondsLocal) + millisecondsLocal.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateRoundtrip);
+        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(millisecondsLocal) + millisecondsLocal.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
+        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(millisecondsLocal) + millisecondsLocal.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateUnspecified);
+        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(millisecondsLocal) + @")\/", result.MsDateUtc);
 
         var ticksLocal = new DateTime(636556897826822481, DateTimeKind.Local);
         localToUtcDate = ticksLocal.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.FFFFFFFK");
 
         result = TestDateTime("DateTime Local with ticks", ticksLocal);
-        Assert.AreEqual("2018-03-03T16:03:02.6822481" + GetOffset(ticksLocal, DateFormatHandling.IsoDateFormat), result.IsoDateRoundtrip);
-        Assert.AreEqual("2018-03-03T16:03:02.6822481" + GetOffset(ticksLocal, DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
-        Assert.AreEqual("2018-03-03T16:03:02.6822481", result.IsoDateUnspecified);
-        Assert.AreEqual(localToUtcDate, result.IsoDateUtc);
-        Assert.AreEqual(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(ticksLocal) + GetOffset(ticksLocal, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateRoundtrip);
-        Assert.AreEqual(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(ticksLocal) + GetOffset(ticksLocal, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
-        Assert.AreEqual(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(ticksLocal) + GetOffset(ticksLocal, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateUnspecified);
-        Assert.AreEqual(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(ticksLocal) + @")\/", result.MsDateUtc);
+        Assert.Equal("2018-03-03T16:03:02.6822481" + ticksLocal.GetOffset(DateFormatHandling.IsoDateFormat), result.IsoDateRoundtrip);
+        Assert.Equal("2018-03-03T16:03:02.6822481" + ticksLocal.GetOffset(DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
+        Assert.Equal("2018-03-03T16:03:02.6822481", result.IsoDateUnspecified);
+        Assert.Equal(localToUtcDate, result.IsoDateUtc);
+        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(ticksLocal) + ticksLocal.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateRoundtrip);
+        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(ticksLocal) + ticksLocal.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
+        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(ticksLocal) + ticksLocal.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateUnspecified);
+        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(ticksLocal) + @")\/", result.MsDateUtc);
 
         var year2000Unspecified = new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Unspecified);
 
         result = TestDateTime("DateTime Unspecified", year2000Unspecified);
-        Assert.AreEqual("2000-01-01T01:01:01", result.IsoDateRoundtrip);
-        Assert.AreEqual("2000-01-01T01:01:01" + GetOffset(year2000Unspecified, DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
-        Assert.AreEqual("2000-01-01T01:01:01", result.IsoDateUnspecified);
-        Assert.AreEqual("2000-01-01T01:01:01Z", result.IsoDateUtc);
-        Assert.AreEqual(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000Unspecified) + GetOffset(year2000Unspecified, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateRoundtrip);
-        Assert.AreEqual(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000Unspecified) + GetOffset(year2000Unspecified, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
-        Assert.AreEqual(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000Unspecified) + GetOffset(year2000Unspecified, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateUnspecified);
-        Assert.AreEqual(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000Unspecified.ToLocalTime()) + @")\/", result.MsDateUtc);
+        Assert.Equal("2000-01-01T01:01:01", result.IsoDateRoundtrip);
+        Assert.Equal("2000-01-01T01:01:01" + year2000Unspecified.GetOffset(DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
+        Assert.Equal("2000-01-01T01:01:01", result.IsoDateUnspecified);
+        Assert.Equal("2000-01-01T01:01:01Z", result.IsoDateUtc);
+        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000Unspecified) + year2000Unspecified.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateRoundtrip);
+        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000Unspecified) + year2000Unspecified.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
+        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000Unspecified) + year2000Unspecified.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateUnspecified);
+        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(year2000Unspecified.ToLocalTime()) + @")\/", result.MsDateUtc);
 
         var year2000Utc = new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc);
         var utcTolocalDate = year2000Utc.ToLocalTime().ToString("yyyy-MM-ddTHH:mm:ss");
 
         result = TestDateTime("DateTime Utc", year2000Utc);
-        Assert.AreEqual("2000-01-01T01:01:01Z", result.IsoDateRoundtrip);
-        Assert.AreEqual(utcTolocalDate + GetOffset(year2000Utc, DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
-        Assert.AreEqual("2000-01-01T01:01:01", result.IsoDateUnspecified);
-        Assert.AreEqual("2000-01-01T01:01:01Z", result.IsoDateUtc);
-        Assert.AreEqual(@"\/Date(946688461000)\/", result.MsDateRoundtrip);
-        Assert.AreEqual(@"\/Date(946688461000" + GetOffset(year2000Utc, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
-        Assert.AreEqual(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(DateTime.SpecifyKind(year2000Utc, DateTimeKind.Unspecified)) + GetOffset(year2000Utc, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateUnspecified);
-        Assert.AreEqual(@"\/Date(946688461000)\/", result.MsDateUtc);
+        Assert.Equal("2000-01-01T01:01:01Z", result.IsoDateRoundtrip);
+        Assert.Equal(utcTolocalDate + year2000Utc.GetOffset(DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
+        Assert.Equal("2000-01-01T01:01:01", result.IsoDateUnspecified);
+        Assert.Equal("2000-01-01T01:01:01Z", result.IsoDateUtc);
+        Assert.Equal(@"\/Date(946688461000)\/", result.MsDateRoundtrip);
+        Assert.Equal(@"\/Date(946688461000" + year2000Utc.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
+        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(DateTime.SpecifyKind(year2000Utc, DateTimeKind.Unspecified)) + year2000Utc.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateUnspecified);
+        Assert.Equal(@"\/Date(946688461000)\/", result.MsDateUtc);
 
         var unixEpoc = new DateTime(621355968000000000, DateTimeKind.Utc);
         utcTolocalDate = unixEpoc.ToLocalTime().ToString("yyyy-MM-ddTHH:mm:ss");
 
         result = TestDateTime("DateTime Unix Epoc", unixEpoc);
-        Assert.AreEqual("1970-01-01T00:00:00Z", result.IsoDateRoundtrip);
-        Assert.AreEqual(utcTolocalDate + GetOffset(unixEpoc, DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
-        Assert.AreEqual("1970-01-01T00:00:00", result.IsoDateUnspecified);
-        Assert.AreEqual("1970-01-01T00:00:00Z", result.IsoDateUtc);
-        Assert.AreEqual(@"\/Date(0)\/", result.MsDateRoundtrip);
-        Assert.AreEqual(@"\/Date(0" + GetOffset(unixEpoc, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
-        Assert.AreEqual(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(DateTime.SpecifyKind(unixEpoc, DateTimeKind.Unspecified)) + GetOffset(unixEpoc, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateUnspecified);
-        Assert.AreEqual(@"\/Date(0)\/", result.MsDateUtc);
+        Assert.Equal("1970-01-01T00:00:00Z", result.IsoDateRoundtrip);
+        Assert.Equal(utcTolocalDate + unixEpoc.GetOffset(DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
+        Assert.Equal("1970-01-01T00:00:00", result.IsoDateUnspecified);
+        Assert.Equal("1970-01-01T00:00:00Z", result.IsoDateUtc);
+        Assert.Equal(@"\/Date(0)\/", result.MsDateRoundtrip);
+        Assert.Equal(@"\/Date(0" + unixEpoc.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
+        Assert.Equal(@"\/Date(" + DateTimeUtils.ConvertDateTimeToJavaScriptTicks(DateTime.SpecifyKind(unixEpoc, DateTimeKind.Unspecified)) + unixEpoc.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateUnspecified);
+        Assert.Equal(@"\/Date(0)\/", result.MsDateUtc);
 
         result = TestDateTime("DateTime Min", DateTime.MinValue);
-        Assert.AreEqual("0001-01-01T00:00:00", result.IsoDateRoundtrip);
-        Assert.AreEqual("0001-01-01T00:00:00" + GetOffset(DateTime.MinValue, DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
-        Assert.AreEqual("0001-01-01T00:00:00", result.IsoDateUnspecified);
-        Assert.AreEqual("0001-01-01T00:00:00Z", result.IsoDateUtc);
-        Assert.AreEqual(@"\/Date(-62135596800000)\/", result.MsDateRoundtrip);
-        Assert.AreEqual(@"\/Date(-62135596800000" + GetOffset(DateTime.MinValue, DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
-        Assert.AreEqual(@"\/Date(-62135596800000)\/", result.MsDateUnspecified);
-        Assert.AreEqual(@"\/Date(-62135596800000)\/", result.MsDateUtc);
+        Assert.Equal("0001-01-01T00:00:00", result.IsoDateRoundtrip);
+        Assert.Equal("0001-01-01T00:00:00" + DateTime.MinValue.GetOffset(DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
+        Assert.Equal("0001-01-01T00:00:00", result.IsoDateUnspecified);
+        Assert.Equal("0001-01-01T00:00:00Z", result.IsoDateUtc);
+        Assert.Equal(@"\/Date(-62135596800000)\/", result.MsDateRoundtrip);
+        Assert.Equal(@"\/Date(-62135596800000" + DateTime.MinValue.GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
+        Assert.Equal(@"\/Date(-62135596800000)\/", result.MsDateUnspecified);
+        Assert.Equal(@"\/Date(-62135596800000)\/", result.MsDateUtc);
 
         result = TestDateTime("DateTime Default", default(DateTime));
-        Assert.AreEqual("0001-01-01T00:00:00", result.IsoDateRoundtrip);
-        Assert.AreEqual("0001-01-01T00:00:00" + GetOffset(default(DateTime), DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
-        Assert.AreEqual("0001-01-01T00:00:00", result.IsoDateUnspecified);
-        Assert.AreEqual("0001-01-01T00:00:00Z", result.IsoDateUtc);
-        Assert.AreEqual(@"\/Date(-62135596800000)\/", result.MsDateRoundtrip);
-        Assert.AreEqual(@"\/Date(-62135596800000" + GetOffset(default(DateTime), DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
-        Assert.AreEqual(@"\/Date(-62135596800000)\/", result.MsDateUnspecified);
-        Assert.AreEqual(@"\/Date(-62135596800000)\/", result.MsDateUtc);
+        Assert.Equal("0001-01-01T00:00:00", result.IsoDateRoundtrip);
+        Assert.Equal("0001-01-01T00:00:00" + default(DateTime).GetOffset(DateFormatHandling.IsoDateFormat), result.IsoDateLocal);
+        Assert.Equal("0001-01-01T00:00:00", result.IsoDateUnspecified);
+        Assert.Equal("0001-01-01T00:00:00Z", result.IsoDateUtc);
+        Assert.Equal(@"\/Date(-62135596800000)\/", result.MsDateRoundtrip);
+        Assert.Equal(@"\/Date(-62135596800000" + default(DateTime).GetOffset(DateFormatHandling.MicrosoftDateFormat) + @")\/", result.MsDateLocal);
+        Assert.Equal(@"\/Date(-62135596800000)\/", result.MsDateUnspecified);
+        Assert.Equal(@"\/Date(-62135596800000)\/", result.MsDateUtc);
 
         result = TestDateTime("DateTimeOffset TimeSpan Zero", new DateTimeOffset(2000, 1, 1, 1, 1, 1, TimeSpan.Zero));
-        Assert.AreEqual("2000-01-01T01:01:01+00:00", result.IsoDateRoundtrip);
-        Assert.AreEqual(@"\/Date(946688461000+0000)\/", result.MsDateRoundtrip);
+        Assert.Equal("2000-01-01T01:01:01+00:00", result.IsoDateRoundtrip);
+        Assert.Equal(@"\/Date(946688461000+0000)\/", result.MsDateRoundtrip);
 
         result = TestDateTime("DateTimeOffset TimeSpan 1 hour", new DateTimeOffset(2000, 1, 1, 1, 1, 1, TimeSpan.FromHours(1)));
-        Assert.AreEqual("2000-01-01T01:01:01+01:00", result.IsoDateRoundtrip);
-        Assert.AreEqual(@"\/Date(946684861000+0100)\/", result.MsDateRoundtrip);
+        Assert.Equal("2000-01-01T01:01:01+01:00", result.IsoDateRoundtrip);
+        Assert.Equal(@"\/Date(946684861000+0100)\/", result.MsDateRoundtrip);
 
         result = TestDateTime("DateTimeOffset TimeSpan 1.5 hour", new DateTimeOffset(2000, 1, 1, 1, 1, 1, TimeSpan.FromHours(1.5)));
-        Assert.AreEqual("2000-01-01T01:01:01+01:30", result.IsoDateRoundtrip);
-        Assert.AreEqual(@"\/Date(946683061000+0130)\/", result.MsDateRoundtrip);
+        Assert.Equal("2000-01-01T01:01:01+01:30", result.IsoDateRoundtrip);
+        Assert.Equal(@"\/Date(946683061000+0130)\/", result.MsDateRoundtrip);
 
         result = TestDateTime("DateTimeOffset TimeSpan 13 hour", new DateTimeOffset(2000, 1, 1, 1, 1, 1, TimeSpan.FromHours(13)));
-        Assert.AreEqual("2000-01-01T01:01:01+13:00", result.IsoDateRoundtrip);
-        Assert.AreEqual(@"\/Date(946641661000+1300)\/", result.MsDateRoundtrip);
+        Assert.Equal("2000-01-01T01:01:01+13:00", result.IsoDateRoundtrip);
+        Assert.Equal(@"\/Date(946641661000+1300)\/", result.MsDateRoundtrip);
 
         result = TestDateTime("DateTimeOffset TimeSpan with ticks", new DateTimeOffset(634663873826822481, TimeSpan.Zero));
-        Assert.AreEqual("2012-03-03T16:03:02.6822481+00:00", result.IsoDateRoundtrip);
-        Assert.AreEqual(@"\/Date(1330790582682+0000)\/", result.MsDateRoundtrip);
+        Assert.Equal("2012-03-03T16:03:02.6822481+00:00", result.IsoDateRoundtrip);
+        Assert.Equal(@"\/Date(1330790582682+0000)\/", result.MsDateRoundtrip);
 
         result = TestDateTime("DateTimeOffset Min", DateTimeOffset.MinValue);
-        Assert.AreEqual("0001-01-01T00:00:00+00:00", result.IsoDateRoundtrip);
-        Assert.AreEqual(@"\/Date(-62135596800000+0000)\/", result.MsDateRoundtrip);
+        Assert.Equal("0001-01-01T00:00:00+00:00", result.IsoDateRoundtrip);
+        Assert.Equal(@"\/Date(-62135596800000+0000)\/", result.MsDateRoundtrip);
 
         result = TestDateTime("DateTimeOffset Max", DateTimeOffset.MaxValue);
-        Assert.AreEqual("9999-12-31T23:59:59.9999999+00:00", result.IsoDateRoundtrip);
-        Assert.AreEqual(@"\/Date(253402300799999+0000)\/", result.MsDateRoundtrip);
+        Assert.Equal("9999-12-31T23:59:59.9999999+00:00", result.IsoDateRoundtrip);
+        Assert.Equal(@"\/Date(253402300799999+0000)\/", result.MsDateRoundtrip);
 
         result = TestDateTime("DateTimeOffset Default", default(DateTimeOffset));
-        Assert.AreEqual("0001-01-01T00:00:00+00:00", result.IsoDateRoundtrip);
-        Assert.AreEqual(@"\/Date(-62135596800000+0000)\/", result.MsDateRoundtrip);
+        Assert.Equal("0001-01-01T00:00:00+00:00", result.IsoDateRoundtrip);
+        Assert.Equal(@"\/Date(-62135596800000+0000)\/", result.MsDateRoundtrip);
     }
 
     public class DateTimeResult
@@ -944,7 +941,7 @@ public class JsonConvertTest : TestFixtureBase
 
                 valueTicks = valueTicks / 10000 * 10000;
 
-                Assert.AreEqual(valueTicks, parsedTicks);
+                Assert.Equal(valueTicks, parsedTicks);
             }
         }
 
@@ -961,7 +958,7 @@ public class JsonConvertTest : TestFixtureBase
 
         try
         {
-            Assert.AreEqual(value, parsed);
+            Assert.Equal(value, parsed);
         }
         catch (Exception)
         {
@@ -971,7 +968,7 @@ public class JsonConvertTest : TestFixtureBase
 
             valueTicks = valueTicks / 10000 * 10000;
 
-            Assert.AreEqual(valueTicks, parsedTicks);
+            Assert.Equal(valueTicks, parsedTicks);
         }
     }
 
@@ -1008,7 +1005,7 @@ public class JsonConvertTest : TestFixtureBase
                 DateTimeZoneHandling = DateTimeZoneHandling.Utc
             });
 
-        Assert.AreEqual(@"""2000-01-01T01:01:01Z""", json);
+        Assert.Equal(@"""2000-01-01T01:01:01Z""", json);
     }
 
     [Fact]
@@ -1028,7 +1025,7 @@ public class JsonConvertTest : TestFixtureBase
         var name = m.Name;
         // Bad Boys
 
-        Assert.AreEqual("Bad Boys", m.Name);
+        Assert.Equal("Bad Boys", m.Name);
     }
 
     [Fact]
@@ -1050,7 +1047,7 @@ public class JsonConvertTest : TestFixtureBase
 
         var date = newDict["foo"];
 
-        Assert.AreEqual(date, now);
+        Assert.Equal(date, now);
     }
 
     [Fact]
@@ -1065,7 +1062,7 @@ public class JsonConvertTest : TestFixtureBase
         writer.WriteValue(dt);
         writer.Flush();
 
-        Assert.AreEqual(@"""2000-12-31T20:59:59.9999999+11:33""", sw.ToString());
+        Assert.Equal(@"""2000-12-31T20:59:59.9999999+11:33""", sw.ToString());
     }
 
     [Fact]
@@ -1101,11 +1098,11 @@ public class JsonConvertTest : TestFixtureBase
         // Maximum javascript number length (in characters) is 380
         var o = JObject.Parse(@"{""biginteger"":" + new String('9', 380) + "}");
         var v = (JValue)o["biginteger"];
-        Assert.AreEqual(JTokenType.Integer, v.Type);
-        Assert.AreEqual(typeof(BigInteger), v.Value.GetType());
-        Assert.AreEqual(BigInteger.Parse(new String('9', 380)), (BigInteger)v.Value);
+        Assert.Equal(JTokenType.Integer, v.Type);
+        Assert.Equal(typeof(BigInteger), v.Value.GetType());
+        Assert.Equal(BigInteger.Parse(new String('9', 380)), (BigInteger)v.Value);
 
-        ExceptionAssert.Throws<JsonReaderException>(() => JObject.Parse(@"{""biginteger"":" + new String('9', 381) + "}"), "JSON integer " + new String('9', 381) + " is too large to parse. Path 'biginteger', line 1, position 395.");
+        XUnitAssert.Throws<JsonReaderException>(() => JObject.Parse(@"{""biginteger"":" + new String('9', 381) + "}"), "JSON integer " + new String('9', 381) + " is too large to parse. Path 'biginteger', line 1, position 395.");
     }
 
     [Fact]
@@ -1115,8 +1112,8 @@ public class JsonConvertTest : TestFixtureBase
 
         JsonReader jsonReader = new JsonTextReader(sr);
 
-        Assert.IsTrue(jsonReader.Read());
-        Assert.AreEqual(typeof(DateTime), jsonReader.ValueType);
+        Assert.True(jsonReader.Read());
+        Assert.Equal(typeof(DateTime), jsonReader.ValueType);
     }
 
 #if false
@@ -1155,7 +1152,7 @@ public class JsonConvertTest : TestFixtureBase
         var clobber = new ClobberMyProperties { One = "Red", Two = "Green", Three = "Yellow", Four = "Black" };
         var json = JsonConvert.SerializeObject(clobber);
 
-        Assert.AreEqual("{\"One\":\"Uno-1-Red\",\"Two\":\"Dos-2-Green\",\"Three\":\"Tres-1337-Yellow\",\"Four\":\"Black\"}", json);
+        Assert.Equal("{\"One\":\"Uno-1-Red\",\"Two\":\"Dos-2-Green\",\"Three\":\"Tres-1337-Yellow\",\"Four\":\"Black\"}", json);
     }
 
     public class ClobberMyProperties
@@ -1210,7 +1207,7 @@ public class JsonConvertTest : TestFixtureBase
     {
         var value = new IncorrectJsonConvertParameters { One = "Boom" };
 
-        ExceptionAssert.Throws<JsonException>(() => { JsonConvert.SerializeObject(value); });
+        XUnitAssert.Throws<JsonException>(() => { JsonConvert.SerializeObject(value); });
     }
 
     public class IncorrectJsonConvertParameters
@@ -1320,7 +1317,7 @@ public class JsonConvertTest : TestFixtureBase
         var value = new OverloadWithTypeParameter();
         var json = JsonConvert.SerializeObject(value);
 
-        Assert.AreEqual("{\"Overload\":\"Type\"}", json);
+        Assert.Equal("{\"Overload\":\"Type\"}", json);
     }
         
     public class OverloadWithUnhandledParameter
@@ -1335,7 +1332,7 @@ public class JsonConvertTest : TestFixtureBase
         var value = new OverloadWithUnhandledParameter();
         var json = JsonConvert.SerializeObject(value);
 
-        Assert.AreEqual("{\"Overload\":\"object(System.String)\"}", json);
+        Assert.Equal("{\"Overload\":\"object(System.String)\"}", json);
     }
 
     public class OverloadWithIntParameter
@@ -1416,89 +1413,89 @@ public class JsonConvertTest : TestFixtureBase
         {
             var value = new OverloadWithIntParameter();
             var json = JsonConvert.SerializeObject(value);
-            Assert.AreEqual("{\"Overload\":\"int\"}", json);
+            Assert.Equal("{\"Overload\":\"int\"}", json);
         }
 
         {
             // uint -> long
             var value = new OverloadWithUIntParameter();
             var json = JsonConvert.SerializeObject(value);
-            Assert.AreEqual("{\"Overload\":\"long\"}", json);
+            Assert.Equal("{\"Overload\":\"long\"}", json);
         }
 
         {
             var value = new OverloadWithLongParameter();
             var json = JsonConvert.SerializeObject(value);
-            Assert.AreEqual("{\"Overload\":\"long\"}", json);
+            Assert.Equal("{\"Overload\":\"long\"}", json);
         }
 
         {
             // ulong -> double
             var value = new OverloadWithULongParameter();
             var json = JsonConvert.SerializeObject(value);
-            Assert.AreEqual("{\"Overload\":\"double\"}", json);
+            Assert.Equal("{\"Overload\":\"double\"}", json);
         }
 
         {
             var value = new OverloadWithShortParameter();
             var json = JsonConvert.SerializeObject(value);
-            Assert.AreEqual("{\"Overload\":\"short\"}", json);
+            Assert.Equal("{\"Overload\":\"short\"}", json);
         }
 
         {
             // ushort -> int
             var value = new OverloadWithUShortParameter();
             var json = JsonConvert.SerializeObject(value);
-            Assert.AreEqual("{\"Overload\":\"int\"}", json);
+            Assert.Equal("{\"Overload\":\"int\"}", json);
         }
 
         {
             // sbyte -> short
             var value = new OverloadWithSByteParameter();
             var json = JsonConvert.SerializeObject(value);
-            Assert.AreEqual("{\"Overload\":\"short\"}", json);
+            Assert.Equal("{\"Overload\":\"short\"}", json);
         }
 
         {
             var value = new OverloadWithByteParameter();
             var json = JsonConvert.SerializeObject(value);
-            Assert.AreEqual("{\"Overload\":\"byte\"}", json);
+            Assert.Equal("{\"Overload\":\"byte\"}", json);
         }
 
         {
             // char -> int
             var value = new OverloadWithCharParameter();
             var json = JsonConvert.SerializeObject(value);
-            Assert.AreEqual("{\"Overload\":\"int\"}", json);
+            Assert.Equal("{\"Overload\":\"int\"}", json);
         }
 
         {
             // bool -> (object)bool
             var value = new OverloadWithBoolParameter();
             var json = JsonConvert.SerializeObject(value);
-            Assert.AreEqual("{\"Overload\":\"object(System.Boolean)\"}", json);
+            Assert.Equal("{\"Overload\":\"object(System.Boolean)\"}", json);
         }
 
         {
             // float -> double
             var value = new OverloadWithFloatParameter();
             var json = JsonConvert.SerializeObject(value);
-            Assert.AreEqual("{\"Overload\":\"double\"}", json);
+            Assert.Equal("{\"Overload\":\"double\"}", json);
         }
 
         {
             var value = new OverloadWithDoubleParameter();
             var json = JsonConvert.SerializeObject(value);
-            Assert.AreEqual("{\"Overload\":\"double\"}", json);
+            Assert.Equal("{\"Overload\":\"double\"}", json);
         }
     }
 
     public class OverloadWithArrayParameters
     {
-        [JsonConverter(typeof(OverloadsJsonConverterer), new int[] { 1, 2, 3 })]
+        [JsonConverter(typeof(OverloadsJsonConverterer), new[] { 1, 2, 3 })]
         public int WithParams { get; set; }
 
-        [JsonConverter(typeof(OverloadsJsonConverterer), new bool[] { true, false })]
+        [JsonConverter(typeof(OverloadsJsonConverterer), new[] { true, false })]
         public int WithoutParams { get; set; }
     }
 
@@ -1508,12 +1505,12 @@ public class JsonConvertTest : TestFixtureBase
         var value = new OverloadWithArrayParameters();
         var json = JsonConvert.SerializeObject(value);
 
-        Assert.AreEqual("{\"WithParams\":\"int[]\",\"WithoutParams\":\"bool[]\"}", json);
+        Assert.Equal("{\"WithParams\":\"int[]\",\"WithoutParams\":\"bool[]\"}", json);
     }
 
     public class OverloadWithBaseType
     {
-        [JsonConverter(typeof(OverloadsJsonConverterer), new object[] { new string[] { "a", "b", "c" } })]
+        [JsonConverter(typeof(OverloadsJsonConverterer), new object[] { new[] { "a", "b", "c" } })]
         public int Overload { get; set; }
     }
 
@@ -1540,7 +1537,7 @@ public class JsonConvertTest : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(measurements);
 
-        Assert.AreEqual("{\"Positions\":[57.72,60.44,63.44,66.81,70.45],\"Loads\":[23284.0,23225.0,23062.0,22846.0,22594.0],\"Gain\":12345.679}", json);
+        Assert.Equal("{\"Positions\":[57.72,60.44,63.44,66.81,70.45],\"Loads\":[23284.0,23225.0,23062.0,22846.0,22594.0],\"Gain\":12345.679}", json);
     }
 
     public class Measurements
@@ -1598,7 +1595,7 @@ public class JsonConvertTest : TestFixtureBase
     public void GenericBaseClassSerialization()
     {
         var json = JsonConvert.SerializeObject(new NonGenericChildClass());
-        Assert.AreEqual("{\"Data\":null}", json);
+        Assert.Equal("{\"Data\":null}", json);
     }
 
     public class GenericBaseClass<O, T>
@@ -1619,35 +1616,35 @@ public class JsonConvertTest : TestFixtureBase
     public void ShouldNotPopulateReadOnlyEnumerableObjectWithNonDefaultConstructor()
     {
         object actual = JsonConvert.DeserializeObject<HasReadOnlyEnumerableObject>("{\"foo\":{}}");
-        Assert.IsNotNull(actual);
+        Assert.NotNull(actual);
     }
 
     [Fact]
     public void ShouldNotPopulateReadOnlyEnumerableObjectWithDefaultConstructor()
     {
         object actual = JsonConvert.DeserializeObject<HasReadOnlyEnumerableObjectAndDefaultConstructor>("{\"foo\":{}}");
-        Assert.IsNotNull(actual);
+        Assert.NotNull(actual);
     }
 
     [Fact]
     public void ShouldNotPopulateContructorArgumentEnumerableObject()
     {
         object actual = JsonConvert.DeserializeObject<AcceptsEnumerableObjectToConstructor>("{\"foo\":{}}");
-        Assert.IsNotNull(actual);
+        Assert.NotNull(actual);
     }
 
     [Fact]
     public void ShouldNotPopulateEnumerableObjectProperty()
     {
         object actual = JsonConvert.DeserializeObject<HasEnumerableObject>("{\"foo\":{}}");
-        Assert.IsNotNull(actual);
+        Assert.NotNull(actual);
     }
 
     [Fact]
     public void ShouldNotPopulateReadOnlyDictionaryObjectWithNonDefaultConstructor()
     {
         object actual = JsonConvert.DeserializeObject<HasReadOnlyDictionary>("{\"foo\":{'key':'value'}}");
-        Assert.IsNotNull(actual);
+        Assert.NotNull(actual);
     }
 
     public sealed class HasReadOnlyDictionary
@@ -1750,9 +1747,9 @@ public class JsonConvertTest : TestFixtureBase
   ""active"": true
 }";
         var value = JsonConvert.DeserializeObject<ItemsRequiredObjectWithIgnoredProperty>(json);
-        Assert.IsNotNull(value);
-        Assert.AreEqual(value.Expiration, new DateTime(2017, 1, 1, 0, 0, 0, DateTimeKind.Utc));
-        Assert.AreEqual(value.Active, true);
+        Assert.NotNull(value);
+        Assert.Equal(value.Expiration, new DateTime(2017, 1, 1, 0, 0, 0, DateTimeKind.Utc));
+        Assert.Equal(value.Active, true);
     }
 
     [JsonObject(ItemRequired = Required.Always)]

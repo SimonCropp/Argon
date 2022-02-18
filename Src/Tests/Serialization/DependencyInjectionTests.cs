@@ -28,8 +28,6 @@ using Autofac.Core;
 using Autofac.Core.Activators.Reflection;
 using Argon.Tests.TestObjects.Organization;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Serialization;
 
@@ -164,7 +162,6 @@ public class AutofacContractResolver : DefaultContractResolver
     }
 }
 
-[TestFixture]
 public class DependencyInjectionTests : TestFixtureBase
 {
     [Fact]
@@ -181,7 +178,7 @@ public class DependencyInjectionTests : TestFixtureBase
             ContractResolver = resolver
         });
 
-        Assert.AreEqual("Company name!", user.Company.CompanyName);
+        Assert.Equal("Company name!", user.Company.CompanyName);
     }
 
     [Fact]
@@ -211,13 +208,13 @@ public class DependencyInjectionTests : TestFixtureBase
             ContractResolver = contractResolver
         });
 
-        Assert.IsNotNull(controller);
-        Assert.IsNotNull(controller.Logger);
+        Assert.NotNull(controller);
+        Assert.NotNull(controller.Logger);
 
-        Assert.AreEqual(1, count);
+        Assert.Equal(1, count);
 
-        Assert.AreEqual(new DateTime(2000, 12, 12), controller.Logger.DateTime);
-        Assert.AreEqual("Debug", controller.Logger.Level);
+        Assert.Equal(new DateTime(2000, 12, 12), controller.Logger.DateTime);
+        Assert.Equal("Debug", controller.Logger.Level);
     }
 
     [Fact]
@@ -266,19 +263,19 @@ public class DependencyInjectionTests : TestFixtureBase
             ContractResolver = contractResolver
         });
 
-        Assert.IsNotNull(o);
-        Assert.IsNotNull(o.Logger);
-        Assert.IsNotNull(o.Repository);
-        Assert.AreEqual(o.Repository.CreatedOn, DateTime.Parse("2015-04-01 20:00"));
+        Assert.NotNull(o);
+        Assert.NotNull(o.Logger);
+        Assert.NotNull(o.Repository);
+        Assert.Equal(o.Repository.CreatedOn, DateTime.Parse("2015-04-01 20:00"));
 
-        Assert.AreEqual(2, count);
+        Assert.Equal(2, count);
 
-        Assert.AreEqual(new DateTime(2000, 12, 12), o.Logger.DateTime);
-        Assert.AreEqual("Debug", o.Logger.Level);
-        Assert.AreEqual("server=.", o.Repository.ConnectionString);
-        Assert.AreEqual(2, o.People.Count);
-        Assert.AreEqual("Name1!", o.People[0].Name);
-        Assert.AreEqual("Name2!", o.People[1].Name);
-        Assert.AreEqual("Name3!", o.Person.Name);
+        Assert.Equal(new DateTime(2000, 12, 12), o.Logger.DateTime);
+        Assert.Equal("Debug", o.Logger.Level);
+        Assert.Equal("server=.", o.Repository.ConnectionString);
+        Assert.Equal(2, o.People.Count);
+        Assert.Equal("Name1!", o.People[0].Name);
+        Assert.Equal("Name2!", o.People[1].Name);
+        Assert.Equal("Name3!", o.Person.Name);
     }
 }

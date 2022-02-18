@@ -153,7 +153,7 @@ class NoThrowSetBinderMember : SetMemberBinder
 
     public override DynamicMetaObject FallbackSetMember(DynamicMetaObject target, DynamicMetaObject value, DynamicMetaObject errorSuggestion)
     {
-        var retMetaObject = _innerBinder.Bind(target, new DynamicMetaObject[] { value });
+        var retMetaObject = _innerBinder.Bind(target, new[] { value });
 
         var noThrowVisitor = new NoThrowExpressionVisitor();
         var resultExpression = noThrowVisitor.Visit(retMetaObject.Expression);

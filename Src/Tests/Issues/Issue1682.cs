@@ -24,28 +24,25 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue1682 : TestFixtureBase
 {
     [Fact]
     public void Test_Serialize()
     {
         var s1 = JsonConvert.SerializeObject(new ConcreteSerializable());
-        Assert.AreEqual("{}", s1);
+        Assert.Equal("{}", s1);
 
         var s2 = JsonConvert.SerializeObject(new ClassWithSerializableProperty());
-        Assert.AreEqual(@"{""Serializable"":null}", s2);
+        Assert.Equal(@"{""Serializable"":null}", s2);
     }
 
     [Fact]
     public void Test_Deserialize()
     {
-        ExceptionAssert.Throws<JsonSerializationException>(
+        XUnitAssert.Throws<JsonSerializationException>(
             () => { JsonConvert.DeserializeObject<BaseSerializable>("{}"); },
             "Could not create an instance of type Argon.Tests.Issues.Issue1682+BaseSerializable. Type is an interface or abstract class and cannot be instantiated. Path '', line 1, position 2.");
     }

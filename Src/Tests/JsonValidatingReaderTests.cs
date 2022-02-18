@@ -25,13 +25,10 @@
 
 #pragma warning disable 618
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 using ValidationEventArgs = Argon.Schema.ValidationEventArgs;
 
 namespace Argon.Tests;
 
-[TestFixture]
 public class JsonValidatingReaderTests : TestFixtureBase
 {
     [Fact]
@@ -41,7 +38,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
         JsonReader reader = new JsonTextReader(new StringReader(json));
 
         var validatingReader = new JsonValidatingReader(reader);
-        Assert.AreEqual(reader, validatingReader.Reader);
+        Assert.Equal(reader, validatingReader.Reader);
     }
 
     [Fact]
@@ -69,59 +66,59 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
         var schema = JsonSchema.Parse(schemaJson);
         reader.Schema = schema;
-        Assert.AreEqual(schema, reader.Schema);
-        Assert.AreEqual(0, reader.Depth);
-        Assert.AreEqual("", reader.Path);
+        Assert.Equal(schema, reader.Schema);
+        Assert.Equal(0, reader.Depth);
+        Assert.Equal("", reader.Path);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
-        Assert.AreEqual("", reader.Path);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.StartObject, reader.TokenType);
+        Assert.Equal("", reader.Path);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-        Assert.AreEqual("name", reader.Value.ToString());
-        Assert.AreEqual("name", reader.Path);
-        Assert.AreEqual(1, reader.Depth);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+        Assert.Equal("name", reader.Value.ToString());
+        Assert.Equal("name", reader.Path);
+        Assert.Equal(1, reader.Depth);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
-        Assert.AreEqual("James", reader.Value.ToString());
-        Assert.AreEqual(typeof(string), reader.ValueType);
-        Assert.AreEqual('"', reader.QuoteChar);
-        Assert.AreEqual("name", reader.Path);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.String, reader.TokenType);
+        Assert.Equal("James", reader.Value.ToString());
+        Assert.Equal(typeof(string), reader.ValueType);
+        Assert.Equal('"', reader.QuoteChar);
+        Assert.Equal("name", reader.Path);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-        Assert.AreEqual("hobbies", reader.Value.ToString());
-        Assert.AreEqual('\'', reader.QuoteChar);
-        Assert.AreEqual("hobbies", reader.Path);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+        Assert.Equal("hobbies", reader.Value.ToString());
+        Assert.Equal('\'', reader.QuoteChar);
+        Assert.Equal("hobbies", reader.Path);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
-        Assert.AreEqual("hobbies", reader.Path);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.StartArray, reader.TokenType);
+        Assert.Equal("hobbies", reader.Path);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
-        Assert.AreEqual("pie", reader.Value.ToString());
-        Assert.AreEqual('"', reader.QuoteChar);
-        Assert.AreEqual("hobbies[0]", reader.Path);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.String, reader.TokenType);
+        Assert.Equal("pie", reader.Value.ToString());
+        Assert.Equal('"', reader.QuoteChar);
+        Assert.Equal("hobbies[0]", reader.Path);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
-        Assert.AreEqual("cake", reader.Value.ToString());
-        Assert.AreEqual("hobbies[1]", reader.Path);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.String, reader.TokenType);
+        Assert.Equal("cake", reader.Value.ToString());
+        Assert.Equal("hobbies[1]", reader.Path);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
-        Assert.AreEqual("hobbies", reader.Path);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.EndArray, reader.TokenType);
+        Assert.Equal("hobbies", reader.Path);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
-        Assert.AreEqual("", reader.Path);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.EndObject, reader.TokenType);
+        Assert.Equal("", reader.Path);
 
-        Assert.IsFalse(reader.Read());
+        Assert.False(reader.Read());
 
-        Assert.IsNull(validationEventArgs);
+        Assert.Null(validationEventArgs);
     }
 
     [Fact]
@@ -139,62 +136,62 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
         reader.Schema = JsonSchema.Parse(schemaJson);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.StartArray, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
-        Assert.AreEqual("pie", reader.Value.ToString());
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.String, reader.TokenType);
+        Assert.Equal("pie", reader.Value.ToString());
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
-        Assert.AreEqual("cake", reader.Value.ToString());
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.String, reader.TokenType);
+        Assert.Equal("cake", reader.Value.ToString());
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.StartArray, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
-        Assert.AreEqual("nested1", reader.Value.ToString());
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.String, reader.TokenType);
+        Assert.Equal("nested1", reader.Value.ToString());
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
-        Assert.AreEqual("nested2", reader.Value.ToString());
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.String, reader.TokenType);
+        Assert.Equal("nested2", reader.Value.ToString());
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.EndArray, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.StartObject, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-        Assert.AreEqual("nestedproperty1", reader.Value.ToString());
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+        Assert.Equal("nestedproperty1", reader.Value.ToString());
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Float, reader.TokenType);
-        Assert.AreEqual(1.1, reader.Value);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Float, reader.TokenType);
+        Assert.Equal(1.1, reader.Value);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-        Assert.AreEqual("nestedproperty2", reader.Value.ToString());
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+        Assert.Equal("nestedproperty2", reader.Value.ToString());
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.StartArray, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Null, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Null, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.EndArray, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.EndObject, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.EndArray, reader.TokenType);
 
-        Assert.IsNull(validationEventArgs);
+        Assert.Null(validationEventArgs);
     }
 
     [Fact]
@@ -214,11 +211,11 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
         reader.Schema = JsonSchema.Parse(schemaJson);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
-        Assert.AreEqual("String 'pie' is less than minimum length of 5. Line 1, position 5.", validationEventArgs.Message);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.String, reader.TokenType);
+        Assert.Equal("String 'pie' is less than minimum length of 5. Line 1, position 5.", validationEventArgs.Message);
 
-        Assert.IsNotNull(validationEventArgs);
+        Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -238,11 +235,11 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
         reader.Schema = JsonSchema.Parse(schemaJson);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
-        Assert.AreEqual("String 'The quick brown fox jumps over the lazy dog.' exceeds maximum length of 10. Line 1, position 46.", validationEventArgs.Message);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.String, reader.TokenType);
+        Assert.Equal("String 'The quick brown fox jumps over the lazy dog.' exceeds maximum length of 10. Line 1, position 46.", validationEventArgs.Message);
 
-        Assert.IsNotNull(validationEventArgs);
+        Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -265,25 +262,25 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
         reader.Schema = JsonSchema.Parse(schemaJson);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.StartArray, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.String, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
-        Assert.AreEqual(null, validationEventArgs);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.String, reader.TokenType);
+        Assert.Equal(null, validationEventArgs);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
-        Assert.AreEqual(@"Value ""THREE"" is not defined in enum. Line 1, position 20.", validationEventArgs.Message);
-        Assert.AreEqual("[2]", validationEventArgs.Path);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.String, reader.TokenType);
+        Assert.Equal(@"Value ""THREE"" is not defined in enum. Line 1, position 20.", validationEventArgs.Message);
+        Assert.Equal("[2]", validationEventArgs.Path);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.EndArray, reader.TokenType);
 
-        Assert.IsNotNull(validationEventArgs);
+        Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -302,12 +299,12 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
         reader.Schema = JsonSchema.Parse(schemaJson);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
-        Assert.AreEqual("String 'The quick brown fox jumps over the lazy dog.' does not match regex pattern 'foo'. Line 1, position 46.", validationEventArgs.Message);
-        Assert.AreEqual("", validationEventArgs.Path);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.String, reader.TokenType);
+        Assert.Equal("String 'The quick brown fox jumps over the lazy dog.' does not match regex pattern 'foo'. Line 1, position 46.", validationEventArgs.Message);
+        Assert.Equal("", validationEventArgs.Path);
 
-        Assert.IsNotNull(validationEventArgs);
+        Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -326,12 +323,12 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
         reader.Schema = JsonSchema.Parse(schemaJson);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Integer, reader.TokenType);
-        Assert.AreEqual("Integer 10 exceeds maximum value of 5. Line 1, position 2.", validationEventArgs.Message);
-        Assert.AreEqual("", validationEventArgs.Path);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Integer, reader.TokenType);
+        Assert.Equal("Integer 10 exceeds maximum value of 5. Line 1, position 2.", validationEventArgs.Message);
+        Assert.Equal("", validationEventArgs.Path);
 
-        Assert.IsNotNull(validationEventArgs);
+        Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -350,12 +347,12 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
         reader.Schema = JsonSchema.Parse(schemaJson);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Integer, reader.TokenType);
-        Assert.AreEqual("Integer 99999999999999999999999999999999999999999999999999999999999999999999 exceeds maximum value of 5. Line 1, position 68.", validationEventArgs.Message);
-        Assert.AreEqual("", validationEventArgs.Path);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Integer, reader.TokenType);
+        Assert.Equal("Integer 99999999999999999999999999999999999999999999999999999999999999999999 exceeds maximum value of 5. Line 1, position 68.", validationEventArgs.Message);
+        Assert.Equal("", validationEventArgs.Path);
 
-        Assert.IsNotNull(validationEventArgs);
+        Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -372,15 +369,15 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         v.Validate(JsonSchema.Parse(schemaJson), (_, args) => { validationEventArgs = args; });
 
-        Assert.IsNotNull(validationEventArgs);
-        Assert.AreEqual("Integer 1 is less than minimum value of 5.", validationEventArgs.Message);
-        Assert.AreEqual("", validationEventArgs.Path);
+        Assert.NotNull(validationEventArgs);
+        Assert.Equal("Integer 1 is less than minimum value of 5.", validationEventArgs.Message);
+        Assert.Equal("", validationEventArgs.Path);
     }
 
     [Fact]
     public void ThrowExceptionWhenNoValidationEventHandler()
     {
-        ExceptionAssert.Throws<JsonSchemaException>(() =>
+        XUnitAssert.Throws<JsonSchemaException>(() =>
         {
             var schemaJson = @"{
   ""type"":""integer"",
@@ -390,7 +387,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
             var reader = new JsonValidatingReader(new JsonTextReader(new StringReader("10")));
             reader.Schema = JsonSchema.Parse(schemaJson);
 
-            Assert.IsTrue(reader.Read());
+            Assert.True(reader.Read());
         }, "Integer 10 exceeds maximum value of 5. Line 1, position 2.");
     }
 
@@ -410,11 +407,11 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
         reader.Schema = JsonSchema.Parse(schemaJson);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Integer, reader.TokenType);
-        Assert.AreEqual("Integer 1 is less than minimum value of 5. Line 1, position 1.", validationEventArgs.Message);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Integer, reader.TokenType);
+        Assert.Equal("Integer 1 is less than minimum value of 5. Line 1, position 1.", validationEventArgs.Message);
 
-        Assert.IsNotNull(validationEventArgs);
+        Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -437,25 +434,25 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
         reader.Schema = JsonSchema.Parse(schemaJson);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.StartArray, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Integer, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Integer, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Integer, reader.TokenType);
-        Assert.AreEqual(null, validationEventArgs);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Integer, reader.TokenType);
+        Assert.Equal(null, validationEventArgs);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Integer, reader.TokenType);
-        Assert.AreEqual(@"Value 3 is not defined in enum. Line 1, position 6.", validationEventArgs.Message);
-        Assert.AreEqual("[2]", validationEventArgs.Path);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Integer, reader.TokenType);
+        Assert.Equal(@"Value 3 is not defined in enum. Line 1, position 6.", validationEventArgs.Message);
+        Assert.Equal("[2]", validationEventArgs.Path);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.EndArray, reader.TokenType);
 
-        Assert.IsNotNull(validationEventArgs);
+        Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -474,11 +471,11 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
         reader.Schema = JsonSchema.Parse(schemaJson);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Float, reader.TokenType);
-        Assert.AreEqual("Float 10.0 exceeds maximum value of 5. Line 1, position 4.", validationEventArgs.Message);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Float, reader.TokenType);
+        Assert.Equal("Float 10.0 exceeds maximum value of 5. Line 1, position 4.", validationEventArgs.Message);
 
-        Assert.IsNotNull(validationEventArgs);
+        Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -497,11 +494,11 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
         reader.Schema = JsonSchema.Parse(schemaJson);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Float, reader.TokenType);
-        Assert.AreEqual("Float 1.1 is less than minimum value of 5. Line 1, position 3.", validationEventArgs.Message);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Float, reader.TokenType);
+        Assert.Equal("Float 1.1 is less than minimum value of 5. Line 1, position 3.", validationEventArgs.Message);
 
-        Assert.IsNotNull(validationEventArgs);
+        Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -524,25 +521,25 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
         reader.Schema = JsonSchema.Parse(schemaJson);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.StartArray, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Float, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Float, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Float, reader.TokenType);
-        Assert.AreEqual(null, validationEventArgs);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Float, reader.TokenType);
+        Assert.Equal(null, validationEventArgs);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Float, reader.TokenType);
-        Assert.AreEqual(@"Value 3.0 is not defined in enum. Line 1, position 12.", validationEventArgs.Message);
-        Assert.AreEqual("[2]", validationEventArgs.Path);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Float, reader.TokenType);
+        Assert.Equal(@"Value 3.0 is not defined in enum. Line 1, position 12.", validationEventArgs.Message);
+        Assert.Equal("[2]", validationEventArgs.Path);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.EndArray, reader.TokenType);
 
-        Assert.IsNotNull(validationEventArgs);
+        Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -564,25 +561,25 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
         reader.Schema = JsonSchema.Parse(schemaJson);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.StartArray, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Float, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Float, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Float, reader.TokenType);
-        Assert.AreEqual(null, validationEventArgs);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Float, reader.TokenType);
+        Assert.Equal(null, validationEventArgs);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Float, reader.TokenType);
-        Assert.AreEqual(@"Float 4.001 is not evenly divisible by 0.1. Line 1, position 14.", validationEventArgs.Message);
-        Assert.AreEqual("[2]", validationEventArgs.Path);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Float, reader.TokenType);
+        Assert.Equal(@"Float 4.001 is not evenly divisible by 0.1. Line 1, position 14.", validationEventArgs.Message);
+        Assert.Equal("[2]", validationEventArgs.Path);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.EndArray, reader.TokenType);
 
-        Assert.IsNotNull(validationEventArgs);
+        Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -604,15 +601,15 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
         reader.Schema = JsonSchema.Parse(schemaJson);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.StartArray, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Integer, reader.TokenType);
-        Assert.IsNull(validationEventArgs);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Integer, reader.TokenType);
+        Assert.Null(validationEventArgs);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.EndArray, reader.TokenType);
     }
 
     [Fact]
@@ -634,18 +631,18 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
         reader.Schema = JsonSchema.Parse(schemaJson);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.StartArray, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Integer, reader.TokenType);
-        Assert.AreEqual(@"Integer 999999999999999999999999999999999999999999999999999999999 is not evenly divisible by 2. Line 1, position 58.", validationEventArgs.Message);
-        Assert.AreEqual("[0]", validationEventArgs.Path);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Integer, reader.TokenType);
+        Assert.Equal(@"Integer 999999999999999999999999999999999999999999999999999999999 is not evenly divisible by 2. Line 1, position 58.", validationEventArgs.Message);
+        Assert.Equal("[0]", validationEventArgs.Path);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.EndArray, reader.TokenType);
 
-        Assert.IsNotNull(validationEventArgs);
+        Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -667,17 +664,17 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
         reader.Schema = JsonSchema.Parse(schemaJson);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.StartArray, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Integer, reader.TokenType);
-        Assert.IsNotNull(validationEventArgs);
-        Assert.AreEqual(@"Integer 999999999999999999999999999999999999999999999999999999999 is not evenly divisible by 1.1. Line 1, position 58.", validationEventArgs.Message);
-        Assert.AreEqual("[0]", validationEventArgs.Path);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Integer, reader.TokenType);
+        Assert.NotNull(validationEventArgs);
+        Assert.Equal(@"Integer 999999999999999999999999999999999999999999999999999999999 is not evenly divisible by 1.1. Line 1, position 58.", validationEventArgs.Message);
+        Assert.Equal("[0]", validationEventArgs.Path);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.EndArray, reader.TokenType);
     }
 
     [Fact]
@@ -697,7 +694,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         a.Validate(JsonSchema.Parse(schemaJson), (_, args) => { validationEventArgs = args; });
 
-        Assert.IsNull(validationEventArgs);
+        Assert.Null(validationEventArgs);
     }
 
     [Fact]
@@ -718,16 +715,16 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
         reader.Schema = JsonSchema.Parse(schemaJson);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.StartArray, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Integer, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Integer, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.EndArray, reader.TokenType);
 
-        Assert.IsNull(validationEventArgs);
+        Assert.Null(validationEventArgs);
     }
 
     [Fact]
@@ -750,18 +747,18 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
         reader.Schema = JsonSchema.Parse(schemaJson);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.StartArray, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Null, reader.TokenType);
-        Assert.AreEqual(@"Value null is not defined in enum. Line 1, position 5.", validationEventArgs.Message);
-        Assert.AreEqual("[0]", validationEventArgs.Path);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Null, reader.TokenType);
+        Assert.Equal(@"Value null is not defined in enum. Line 1, position 5.", validationEventArgs.Message);
+        Assert.Equal("[0]", validationEventArgs.Path);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.EndArray, reader.TokenType);
 
-        Assert.IsNotNull(validationEventArgs);
+        Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -784,22 +781,22 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
         reader.Schema = JsonSchema.Parse(schemaJson);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.StartArray, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Boolean, reader.TokenType);
-        Assert.AreEqual(null, validationEventArgs);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Boolean, reader.TokenType);
+        Assert.Equal(null, validationEventArgs);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Boolean, reader.TokenType);
-        Assert.AreEqual(@"Value false is not defined in enum. Line 1, position 11.", validationEventArgs.Message);
-        Assert.AreEqual("[1]", validationEventArgs.Path);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Boolean, reader.TokenType);
+        Assert.Equal(@"Value false is not defined in enum. Line 1, position 11.", validationEventArgs.Message);
+        Assert.Equal("[1]", validationEventArgs.Path);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.EndArray, reader.TokenType);
 
-        Assert.IsNotNull(validationEventArgs);
+        Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -819,23 +816,23 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
         reader.Schema = JsonSchema.Parse(schemaJson);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.StartArray, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Null, reader.TokenType);
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Null, reader.TokenType);
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Null, reader.TokenType);
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Null, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Null, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Null, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Null, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Null, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
-        Assert.AreEqual("Array item count 4 exceeds maximum count of 3. Line 1, position 21.", validationEventArgs.Message);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.EndArray, reader.TokenType);
+        Assert.Equal("Array item count 4 exceeds maximum count of 3. Line 1, position 21.", validationEventArgs.Message);
 
-        Assert.IsNotNull(validationEventArgs);
+        Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -855,17 +852,17 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
         reader.Schema = JsonSchema.Parse(schemaJson);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.StartArray, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Null, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Null, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
-        Assert.AreEqual("Array item count 1 is less than minimum count of 2. Line 1, position 6.", validationEventArgs.Message);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.EndArray, reader.TokenType);
+        Assert.Equal("Array item count 1 is less than minimum count of 2. Line 1, position 6.", validationEventArgs.Message);
 
-        Assert.IsNotNull(validationEventArgs);
+        Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -886,11 +883,11 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
         reader.Schema = JsonSchema.Parse(schemaJson);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
-        Assert.AreEqual(@"Invalid type. Expected String but got Array. Line 1, position 1.", validationEventArgs.Message);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.StartArray, reader.TokenType);
+        Assert.Equal(@"Invalid type. Expected String but got Array. Line 1, position 1.", validationEventArgs.Message);
 
-        Assert.IsNotNull(validationEventArgs);
+        Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -912,21 +909,21 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
         reader.Schema = JsonSchema.Parse(schemaJson);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.StartArray, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
-        Assert.AreEqual(null, validationEventArgs);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.String, reader.TokenType);
+        Assert.Equal(null, validationEventArgs);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Float, reader.TokenType);
-        Assert.AreEqual(@"Type Float is disallowed. Line 1, position 10.", validationEventArgs.Message);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Float, reader.TokenType);
+        Assert.Equal(@"Type Float is disallowed. Line 1, position 10.", validationEventArgs.Message);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.EndArray, reader.TokenType);
 
-        Assert.IsNotNull(validationEventArgs);
+        Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -951,24 +948,24 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
         reader.Schema = JsonSchema.Parse(schemaJson);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.StartObject, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-        Assert.AreEqual("name", reader.Value.ToString());
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+        Assert.Equal("name", reader.Value.ToString());
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
-        Assert.AreEqual("James", reader.Value.ToString());
-        Assert.AreEqual(null, validationEventArgs);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.String, reader.TokenType);
+        Assert.Equal("James", reader.Value.ToString());
+        Assert.Equal(null, validationEventArgs);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
-        Assert.AreEqual("Required properties are missing from object: hobbies, age. Line 1, position 16.", validationEventArgs.Message);
-        Assert.AreEqual("", validationEventArgs.Path);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.EndObject, reader.TokenType);
+        Assert.Equal("Required properties are missing from object: hobbies, age. Line 1, position 16.", validationEventArgs.Message);
+        Assert.Equal("", validationEventArgs.Path);
 
-        Assert.IsNotNull(validationEventArgs);
+        Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -993,22 +990,22 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
         reader.Schema = JsonSchema.Parse(schemaJson);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.StartObject, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-        Assert.AreEqual("name", reader.Value.ToString());
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+        Assert.Equal("name", reader.Value.ToString());
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
-        Assert.AreEqual("James", reader.Value.ToString());
-        Assert.IsNull(validationEventArgs);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.String, reader.TokenType);
+        Assert.Equal("James", reader.Value.ToString());
+        Assert.Null(validationEventArgs);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.EndObject, reader.TokenType);
 
-        Assert.IsNull(validationEventArgs);
+        Assert.Null(validationEventArgs);
     }
 
     [Fact]
@@ -1032,40 +1029,40 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
         reader.Schema = JsonSchema.Parse(schemaJson);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.StartObject, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-        Assert.AreEqual("name", reader.Value.ToString());
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+        Assert.Equal("name", reader.Value.ToString());
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
-        Assert.AreEqual("James", reader.Value.ToString());
-        Assert.AreEqual(null, validationEventArgs);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.String, reader.TokenType);
+        Assert.Equal("James", reader.Value.ToString());
+        Assert.Equal(null, validationEventArgs);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-        Assert.AreEqual("additionalProperty1", reader.Value.ToString());
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+        Assert.Equal("additionalProperty1", reader.Value.ToString());
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Null, reader.TokenType);
-        Assert.AreEqual(null, reader.Value);
-        Assert.AreEqual("Property 'additionalProperty1' has not been defined and the schema does not allow additional properties. Line 1, position 38.", validationEventArgs.Message);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Null, reader.TokenType);
+        Assert.Equal(null, reader.Value);
+        Assert.Equal("Property 'additionalProperty1' has not been defined and the schema does not allow additional properties. Line 1, position 38.", validationEventArgs.Message);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-        Assert.AreEqual("additionalProperty2", reader.Value.ToString());
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+        Assert.Equal("additionalProperty2", reader.Value.ToString());
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Null, reader.TokenType);
-        Assert.AreEqual(null, reader.Value);
-        Assert.AreEqual("Property 'additionalProperty2' has not been defined and the schema does not allow additional properties. Line 1, position 65.", validationEventArgs.Message);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Null, reader.TokenType);
+        Assert.Equal(null, reader.Value);
+        Assert.Equal("Property 'additionalProperty2' has not been defined and the schema does not allow additional properties. Line 1, position 65.", validationEventArgs.Message);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.EndObject, reader.TokenType);
 
-        Assert.IsNotNull(validationEventArgs);
+        Assert.NotNull(validationEventArgs);
     }
 
     [Fact]
@@ -1093,12 +1090,12 @@ public class JsonValidatingReaderTests : TestFixtureBase
         };
         reader.Schema = JsonSchema.Parse(schemaJson);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
-        Assert.AreEqual(1, errors.Count);
-        Assert.AreEqual("String 'The quick brown fox jumps over the lazy dog.' exceeds maximum length of 9. Line 1, position 46.", errors[0]);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.String, reader.TokenType);
+        Assert.Equal(1, errors.Count);
+        Assert.Equal("String 'The quick brown fox jumps over the lazy dog.' exceeds maximum length of 9. Line 1, position 46.", errors[0]);
 
-        Assert.IsNotNull(validationEventArgs);
+        Assert.NotNull(validationEventArgs);
     }
 
     JsonSchema GetExtendedSchema()
@@ -1142,51 +1139,51 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
         reader.Schema = GetExtendedSchema();
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.StartObject, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-        Assert.AreEqual("firstproperty", reader.Value.ToString());
-        Assert.AreEqual(null, validationEventArgs);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+        Assert.Equal("firstproperty", reader.Value.ToString());
+        Assert.Equal(null, validationEventArgs);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
-        Assert.AreEqual("blah", reader.Value.ToString());
-        Assert.AreEqual(null, validationEventArgs);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.String, reader.TokenType);
+        Assert.Equal("blah", reader.Value.ToString());
+        Assert.Equal(null, validationEventArgs);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-        Assert.AreEqual("secondproperty", reader.Value.ToString());
-        Assert.AreEqual(null, validationEventArgs);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+        Assert.Equal("secondproperty", reader.Value.ToString());
+        Assert.Equal(null, validationEventArgs);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
-        Assert.AreEqual("blah2", reader.Value.ToString());
-        Assert.AreEqual(null, validationEventArgs);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.String, reader.TokenType);
+        Assert.Equal("blah2", reader.Value.ToString());
+        Assert.Equal(null, validationEventArgs);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-        Assert.AreEqual("additional", reader.Value.ToString());
-        Assert.AreEqual("Property 'additional' has not been defined and the schema does not allow additional properties. Line 1, position 62.", validationEventArgs.Message);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+        Assert.Equal("additional", reader.Value.ToString());
+        Assert.Equal("Property 'additional' has not been defined and the schema does not allow additional properties. Line 1, position 62.", validationEventArgs.Message);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
-        Assert.AreEqual("blah3", reader.Value.ToString());
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.String, reader.TokenType);
+        Assert.Equal("blah3", reader.Value.ToString());
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-        Assert.AreEqual("additional2", reader.Value.ToString());
-        Assert.AreEqual("Property 'additional2' has not been defined and the schema does not allow additional properties. Line 1, position 84.", validationEventArgs.Message);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+        Assert.Equal("additional2", reader.Value.ToString());
+        Assert.Equal("Property 'additional2' has not been defined and the schema does not allow additional properties. Line 1, position 84.", validationEventArgs.Message);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
-        Assert.AreEqual("blah4", reader.Value.ToString());
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.String, reader.TokenType);
+        Assert.Equal("blah4", reader.Value.ToString());
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.EndObject, reader.TokenType);
 
-        Assert.IsFalse(reader.Read());
+        Assert.False(reader.Read());
     }
 
     [Fact]
@@ -1200,14 +1197,14 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.ValidationEventHandler += (_, args) => { errors.Add(args.Message); };
         reader.Schema = GetExtendedSchema();
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.StartObject, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.EndObject, reader.TokenType);
 
-        Assert.AreEqual(1, errors.Count);
-        Assert.AreEqual("Required properties are missing from object: secondproperty, firstproperty. Line 1, position 2.", errors[0]);
+        Assert.Equal(1, errors.Count);
+        Assert.Equal("Required properties are missing from object: secondproperty, firstproperty. Line 1, position 2.", errors[0]);
     }
 
     [Fact]
@@ -1227,25 +1224,25 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
         reader.Schema = JsonSchema.Parse(schemaJson);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.StartArray, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Integer, reader.TokenType);
-        Assert.AreEqual("Invalid type. Expected String but got Integer. Line 1, position 2.", validationEventArgs.Message);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Integer, reader.TokenType);
+        Assert.Equal("Invalid type. Expected String but got Integer. Line 1, position 2.", validationEventArgs.Message);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
-        Assert.AreEqual("Invalid type. Expected Integer but got String. Line 1, position 7.", validationEventArgs.Message);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.String, reader.TokenType);
+        Assert.Equal("Invalid type. Expected Integer but got String. Line 1, position 7.", validationEventArgs.Message);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Null, reader.TokenType);
-        Assert.AreEqual("Index 3 has not been defined and the schema does not allow additional items. Line 1, position 13.", validationEventArgs.Message);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Null, reader.TokenType);
+        Assert.Equal("Index 3 has not been defined and the schema does not allow additional items. Line 1, position 13.", validationEventArgs.Message);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.EndArray, reader.TokenType);
 
-        Assert.IsFalse(reader.Read());
+        Assert.False(reader.Read());
     }
 
     [Fact]
@@ -1273,42 +1270,42 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.ValidationEventHandler += (_, args) => { validationEventArgs = args; };
         reader.Schema = JsonSchema.Parse(schemaJson);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.StartObject, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-        Assert.AreEqual(null, validationEventArgs);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+        Assert.Equal(null, validationEventArgs);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.String, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-        Assert.AreEqual(null, validationEventArgs);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+        Assert.Equal(null, validationEventArgs);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.String, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-        Assert.AreEqual(null, validationEventArgs);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+        Assert.Equal(null, validationEventArgs);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.Integer, reader.TokenType);
-        Assert.AreEqual("Invalid type. Expected String but got Integer. Line 4, position 9.", validationEventArgs.Message);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.Integer, reader.TokenType);
+        Assert.Equal("Invalid type. Expected String but got Integer. Line 4, position 9.", validationEventArgs.Message);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-        Assert.AreEqual("Property 'hey' has not been defined and the schema does not allow additional properties. Line 5, position 8.", validationEventArgs.Message);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+        Assert.Equal("Property 'hey' has not been defined and the schema does not allow additional properties. Line 5, position 8.", validationEventArgs.Message);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.String, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.EndObject, reader.TokenType);
 
-        Assert.IsFalse(reader.Read());
+        Assert.False(reader.Read());
     }
 
     [Fact]
@@ -1385,68 +1382,68 @@ public class JsonValidatingReaderTests : TestFixtureBase
         };
         reader.Schema = secondSchema;
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.StartObject, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-        Assert.AreEqual("firstproperty", reader.Value.ToString());
-        Assert.AreEqual(null, validationEventArgs);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+        Assert.Equal("firstproperty", reader.Value.ToString());
+        Assert.Equal(null, validationEventArgs);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
-        Assert.AreEqual("blahblahblahblahblahblah", reader.Value.ToString());
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.String, reader.TokenType);
+        Assert.Equal("blahblahblahblahblahblah", reader.Value.ToString());
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-        Assert.AreEqual("secondproperty", reader.Value.ToString());
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+        Assert.Equal("secondproperty", reader.Value.ToString());
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
-        Assert.AreEqual("secasecasecasecaseca", reader.Value.ToString());
-        Assert.AreEqual(1, errors.Count);
-        Assert.AreEqual("secondproperty - String 'secasecasecasecaseca' exceeds maximum length of 10. Line 3, position 41.", errors[0]);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.String, reader.TokenType);
+        Assert.Equal("secasecasecasecaseca", reader.Value.ToString());
+        Assert.Equal(1, errors.Count);
+        Assert.Equal("secondproperty - String 'secasecasecasecaseca' exceeds maximum length of 10. Line 3, position 41.", errors[0]);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-        Assert.AreEqual("thirdproperty", reader.Value.ToString());
-        Assert.AreEqual(1, errors.Count);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+        Assert.Equal("thirdproperty", reader.Value.ToString());
+        Assert.Equal(1, errors.Count);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
-        Assert.AreEqual(1, errors.Count);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.StartObject, reader.TokenType);
+        Assert.Equal(1, errors.Count);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-        Assert.AreEqual("thirdproperty_firstproperty", reader.Value.ToString());
-        Assert.AreEqual(1, errors.Count);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+        Assert.Equal("thirdproperty_firstproperty", reader.Value.ToString());
+        Assert.Equal(1, errors.Count);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
-        Assert.AreEqual("aaa", reader.Value.ToString());
-        Assert.AreEqual(4, errors.Count);
-        Assert.AreEqual("thirdproperty.thirdproperty_firstproperty - String 'aaa' is less than minimum length of 7. Line 5, position 39.", errors[1]);
-        Assert.AreEqual("thirdproperty.thirdproperty_firstproperty - String 'aaa' does not match regex pattern 'hi'. Line 5, position 39.", errors[2]);
-        Assert.AreEqual("thirdproperty.thirdproperty_firstproperty - String 'aaa' does not match regex pattern 'hi2u'. Line 5, position 39.", errors[3]);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.String, reader.TokenType);
+        Assert.Equal("aaa", reader.Value.ToString());
+        Assert.Equal(4, errors.Count);
+        Assert.Equal("thirdproperty.thirdproperty_firstproperty - String 'aaa' is less than minimum length of 7. Line 5, position 39.", errors[1]);
+        Assert.Equal("thirdproperty.thirdproperty_firstproperty - String 'aaa' does not match regex pattern 'hi'. Line 5, position 39.", errors[2]);
+        Assert.Equal("thirdproperty.thirdproperty_firstproperty - String 'aaa' does not match regex pattern 'hi2u'. Line 5, position 39.", errors[3]);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-        Assert.AreEqual("additional", reader.Value.ToString());
-        Assert.AreEqual(4, errors.Count);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+        Assert.Equal("additional", reader.Value.ToString());
+        Assert.Equal(4, errors.Count);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.String, reader.TokenType);
-        Assert.AreEqual("three", reader.Value.ToString());
-        Assert.AreEqual(5, errors.Count);
-        Assert.AreEqual("thirdproperty.additional - String 'three' is less than minimum length of 6. Line 6, position 24.", errors[4]);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.String, reader.TokenType);
+        Assert.Equal("three", reader.Value.ToString());
+        Assert.Equal(5, errors.Count);
+        Assert.Equal("thirdproperty.additional - String 'three' is less than minimum length of 6. Line 6, position 24.", errors[4]);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.EndObject, reader.TokenType);
 
-        Assert.IsTrue(reader.Read());
-        Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.EndObject, reader.TokenType);
 
-        Assert.IsFalse(reader.Read());
+        Assert.False(reader.Read());
     }
 
     [Fact]
@@ -1562,7 +1559,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
         {
         }
 
-        Assert.AreEqual(1, validationEventArgs.Count);
+        Assert.Equal(1, validationEventArgs.Count);
     }
 
     [Fact]
@@ -1578,7 +1575,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
         };
         var bytes = reader.ReadAsBytes();
 
-        CollectionAssert.AreEquivalent(data, bytes);
+        Assert.Equal(data, bytes);
     }
 
     [Fact]
@@ -1592,13 +1589,13 @@ public class JsonValidatingReaderTests : TestFixtureBase
         };
         var i = reader.ReadAsInt32();
 
-        Assert.AreEqual(1, i);
+        Assert.Equal(1, i);
     }
 
     [Fact]
     public void ReadAsInt32Failure()
     {
-        ExceptionAssert.Throws<JsonSchemaException>(() =>
+        XUnitAssert.Throws<JsonSchemaException>(() =>
         {
             var s = new JsonSchemaGenerator().Generate(typeof(int));
             s.Maximum = 2;
@@ -1622,13 +1619,13 @@ public class JsonValidatingReaderTests : TestFixtureBase
         };
         var d = reader.ReadAsDecimal();
 
-        Assert.AreEqual(1.5m, d);
+        Assert.Equal(1.5m, d);
     }
 
     [Fact]
     public void ReadAsDecimalFailure()
     {
-        ExceptionAssert.Throws<JsonSchemaException>(() =>
+        XUnitAssert.Throws<JsonSchemaException>(() =>
         {
             var s = new JsonSchemaGenerator().Generate(typeof(decimal));
             s.DivisibleBy = 1;
@@ -1648,10 +1645,10 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.Schema = new JsonSchemaGenerator().Generate(typeof(int[]));
         var values = new JsonSerializer().Deserialize<int[]>(reader);
 
-        Assert.AreEqual(3, values.Length);
-        Assert.AreEqual(1, values[0]);
-        Assert.AreEqual(2, values[1]);
-        Assert.AreEqual(3, values[2]);
+        Assert.Equal(3, values.Length);
+        Assert.Equal(1, values[0]);
+        Assert.Equal(2, values[1]);
+        Assert.Equal(3, values[2]);
     }
 
     [Fact]
@@ -1674,20 +1671,20 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.Schema = JsonSchema.Parse(schemaJson);
 
         reader.Read();
-        Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
+        Assert.Equal(JsonToken.StartArray, reader.TokenType);
 
         reader.ReadAsInt32();
-        Assert.AreEqual(JsonToken.Integer, reader.TokenType);
-        Assert.AreEqual(null, validationEventArgs);
+        Assert.Equal(JsonToken.Integer, reader.TokenType);
+        Assert.Equal(null, validationEventArgs);
 
         reader.ReadAsInt32();
-        Assert.AreEqual(JsonToken.Integer, reader.TokenType);
-        Assert.AreEqual(null, validationEventArgs);
+        Assert.Equal(JsonToken.Integer, reader.TokenType);
+        Assert.Equal(null, validationEventArgs);
 
         reader.ReadAsInt32();
-        Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
-        Assert.AreEqual("Array item count 2 exceeds maximum count of 1. Line 1, position 5.", validationEventArgs.Message);
-        Assert.AreEqual("", validationEventArgs.Path);
+        Assert.Equal(JsonToken.EndArray, reader.TokenType);
+        Assert.Equal("Array item count 2 exceeds maximum count of 1. Line 1, position 5.", validationEventArgs.Message);
+        Assert.Equal("", validationEventArgs.Path);
     }
 
     [Fact]
@@ -1710,19 +1707,19 @@ public class JsonValidatingReaderTests : TestFixtureBase
         reader.Schema = JsonSchema.Parse(schemaJson);
 
         reader.Read();
-        Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
+        Assert.Equal(JsonToken.StartArray, reader.TokenType);
 
         reader.ReadAsInt32();
-        Assert.AreEqual(JsonToken.Integer, reader.TokenType);
-        Assert.AreEqual(null, validationEventArgs);
+        Assert.Equal(JsonToken.Integer, reader.TokenType);
+        Assert.Equal(null, validationEventArgs);
 
         reader.ReadAsInt32();
-        Assert.AreEqual(JsonToken.Integer, reader.TokenType);
-        Assert.AreEqual(null, validationEventArgs);
+        Assert.Equal(JsonToken.Integer, reader.TokenType);
+        Assert.Equal(null, validationEventArgs);
 
         reader.ReadAsInt32();
-        Assert.AreEqual(JsonToken.None, reader.TokenType);
-        Assert.AreEqual(null, validationEventArgs);
+        Assert.Equal(JsonToken.None, reader.TokenType);
+        Assert.Equal(null, validationEventArgs);
     }
 
     [Fact]
@@ -1733,7 +1730,7 @@ public class JsonValidatingReaderTests : TestFixtureBase
 
         validatingReader.Close();
 
-        Assert.IsTrue(underlyingReader.IsClosed);
+        Assert.True(underlyingReader.IsClosed);
     }
 }
 

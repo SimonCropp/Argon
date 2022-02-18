@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Utilities;
 
-[TestFixture]
 public class ConvertUtilsTests : TestFixtureBase
 {
 #if HAS_CUSTOM_DOUBLE_PARSE
@@ -47,16 +44,16 @@ public class ConvertUtilsTests : TestFixtureBase
                 && !(s.StartsWith("-0") && s.Length > 2 && !s.StartsWith("-0.") && !s.StartsWith("-0e", StringComparison.OrdinalIgnoreCase))
                 && s.IndexOf(".e", StringComparison.OrdinalIgnoreCase) == -1;
 
-            Assert.AreEqual(expectedResult, result);
-            Assert.AreEqual(expectedResult == ParseResult.Success, result2);
+            Xunit.Assert.Equal(expectedResult, result);
+            Xunit.Assert.Equal(expectedResult == ParseResult.Success, result2);
 
             if (result2)
             {
-                Assert.IsTrue(expectedValue.HasValue);
+                Xunit.Assert.True(expectedValue.HasValue);
 
-                Assert.AreEqual(expectedValue.Value, d, "Input string: " + s);
+                Xunit.Assert.Equal(expectedValue.Value, d, "Input string: " + s);
 
-                Assert.AreEqual(expectedValue.Value, d2, "DoubleTryParse result is not equal to double.Parse. Input string: " + s);
+                Xunit.Assert.Equal(expectedValue.Value, d2, "DoubleTryParse result is not equal to double.Parse. Input string: " + s);
             }
         }
 
@@ -165,18 +162,18 @@ public class ConvertUtilsTests : TestFixtureBase
                       && !(s.StartsWith("-0") && s.Length > 2 && !s.StartsWith("-0.") && !s.StartsWith("-0e", StringComparison.OrdinalIgnoreCase))
                       && s.IndexOf(".e", StringComparison.OrdinalIgnoreCase) == -1;
 
-        Assert.AreEqual(expectedResult, result);
-        Assert.AreEqual(expectedResult == ParseResult.Success, result2);
+        Assert.Equal(expectedResult, result);
+        Assert.Equal(expectedResult == ParseResult.Success, result2);
 
         if (result2)
         {
-            Assert.IsTrue(expectedValue.HasValue);
+            Assert.True(expectedValue.HasValue);
 
-            Assert.AreEqual(expectedValue.Value, d, "Input string: " + s);
+            Assert.Equal(expectedValue.Value, d);
 
-            Assert.AreEqual(expectedValue.Value, d2, "DecimalTryParse result is not equal to decimal.Parse. Input string: " + s);
+            Assert.Equal(expectedValue.Value, d2);
 
-            Assert.AreEqual(expectedValue.Value.ToString(), d.ToString());
+            Assert.Equal(expectedValue.Value.ToString(), d.ToString());
         }
     }
 
@@ -256,38 +253,38 @@ public class ConvertUtilsTests : TestFixtureBase
     {
         var c = "43443333222211111117".ToCharArray();
         var result = ConvertUtils.Int64TryParse(c, 0, c.Length, out var l);
-        Assert.AreEqual(ParseResult.Overflow, result);
+        Assert.Equal(ParseResult.Overflow, result);
 
         c = "9223372036854775807".ToCharArray();
         result = ConvertUtils.Int64TryParse(c, 0, c.Length, out l);
-        Assert.AreEqual(ParseResult.Success, result);
-        Assert.AreEqual(9223372036854775807L, l);
+        Assert.Equal(ParseResult.Success, result);
+        Assert.Equal(9223372036854775807L, l);
 
         c = "9223372036854775808".ToCharArray();
         result = ConvertUtils.Int64TryParse(c, 0, c.Length, out l);
-        Assert.AreEqual(ParseResult.Overflow, result);
+        Assert.Equal(ParseResult.Overflow, result);
 
         for (var i = 3; i < 10; i++)
         {
             c = ("9" + i + "23372036854775807").ToCharArray();
             result = ConvertUtils.Int64TryParse(c, 0, c.Length, out l);
-            Assert.AreEqual(ParseResult.Overflow, result);
+            Assert.Equal(ParseResult.Overflow, result);
         }
 
         c = "-9223372036854775808".ToCharArray();
         result = ConvertUtils.Int64TryParse(c, 0, c.Length, out l);
-        Assert.AreEqual(ParseResult.Success, result);
-        Assert.AreEqual(-9223372036854775808L, l);
+        Assert.Equal(ParseResult.Success, result);
+        Assert.Equal(-9223372036854775808L, l);
 
         c = "-9223372036854775809".ToCharArray();
         result = ConvertUtils.Int64TryParse(c, 0, c.Length, out l);
-        Assert.AreEqual(ParseResult.Overflow, result);
+        Assert.Equal(ParseResult.Overflow, result);
 
         for (var i = 3; i < 10; i++)
         {
             c = ("-9" + i + "23372036854775808").ToCharArray();
             result = ConvertUtils.Int64TryParse(c, 0, c.Length, out l);
-            Assert.AreEqual(ParseResult.Overflow, result);
+            Assert.Equal(ParseResult.Overflow, result);
         }
     }
 
@@ -296,25 +293,25 @@ public class ConvertUtilsTests : TestFixtureBase
     {
         var c = "43443333227".ToCharArray();
         var result = ConvertUtils.Int32TryParse(c, 0, c.Length, out var i);
-        Assert.AreEqual(ParseResult.Overflow, result);
+        Assert.Equal(ParseResult.Overflow, result);
 
         c = "2147483647".ToCharArray();
         result = ConvertUtils.Int32TryParse(c, 0, c.Length, out i);
-        Assert.AreEqual(ParseResult.Success, result);
-        Assert.AreEqual(2147483647, i);
+        Assert.Equal(ParseResult.Success, result);
+        Assert.Equal(2147483647, i);
 
         c = "2147483648".ToCharArray();
         result = ConvertUtils.Int32TryParse(c, 0, c.Length, out i);
-        Assert.AreEqual(ParseResult.Overflow, result);
+        Assert.Equal(ParseResult.Overflow, result);
 
         c = "-2147483648".ToCharArray();
         result = ConvertUtils.Int32TryParse(c, 0, c.Length, out i);
-        Assert.AreEqual(ParseResult.Success, result);
-        Assert.AreEqual(-2147483648, i);
+        Assert.Equal(ParseResult.Success, result);
+        Assert.Equal(-2147483648, i);
 
         c = "-2147483649".ToCharArray();
         result = ConvertUtils.Int32TryParse(c, 0, c.Length, out i);
-        Assert.AreEqual(ParseResult.Overflow, result);
+        Assert.Equal(ParseResult.Overflow, result);
 
         for (var j = 2; j < 10; j++)
         {
@@ -325,7 +322,7 @@ public class ConvertUtilsTests : TestFixtureBase
                 c = t.ToCharArray();
                 result = ConvertUtils.Int32TryParse(c, 0, c.Length, out i);
 
-                Assert.AreEqual(ParseResult.Overflow, result);
+                Assert.Equal(ParseResult.Overflow, result);
             }
         }
 
@@ -338,7 +335,7 @@ public class ConvertUtilsTests : TestFixtureBase
                 c = t.ToCharArray();
                 result = ConvertUtils.Int32TryParse(c, 0, c.Length, out i);
 
-                Assert.AreEqual(ParseResult.Overflow, result);
+                Assert.Equal(ParseResult.Overflow, result);
             }
         }
     }
@@ -360,26 +357,26 @@ public class ConvertUtilsTests : TestFixtureBase
     [Fact]
     public void HexParseOffset()
     {
-        Assert.IsTrue(ConvertUtils.TryHexTextToInt("!0000".ToCharArray(), 1, 5, out var value));
-        Assert.AreEqual(0, value);
+        Assert.True(ConvertUtils.TryHexTextToInt("!0000".ToCharArray(), 1, 5, out var value));
+        Assert.Equal(0, value);
     }
 
     [Fact]
     public void HexParseError()
     {
-        Assert.IsFalse(ConvertUtils.TryHexTextToInt("-100".ToCharArray(), 0, 4, out var value));
-        Assert.IsFalse(ConvertUtils.TryHexTextToInt("000g".ToCharArray(), 0, 4, out value));
-        Assert.IsFalse(ConvertUtils.TryHexTextToInt(" ssd".ToCharArray(), 0, 4, out value));
-        Assert.IsFalse(ConvertUtils.TryHexTextToInt("000:".ToCharArray(), 0, 4, out value));
-        Assert.IsFalse(ConvertUtils.TryHexTextToInt("000G".ToCharArray(), 0, 4, out value));
+        Assert.False(ConvertUtils.TryHexTextToInt("-100".ToCharArray(), 0, 4, out var value));
+        Assert.False(ConvertUtils.TryHexTextToInt("000g".ToCharArray(), 0, 4, out value));
+        Assert.False(ConvertUtils.TryHexTextToInt(" ssd".ToCharArray(), 0, 4, out value));
+        Assert.False(ConvertUtils.TryHexTextToInt("000:".ToCharArray(), 0, 4, out value));
+        Assert.False(ConvertUtils.TryHexTextToInt("000G".ToCharArray(), 0, 4, out value));
     }
 
     void HexParseSame(string text)
     {
         var v1 = int.Parse(text, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
 
-        Assert.IsTrue(ConvertUtils.TryHexTextToInt(text.ToCharArray(), 0, 4, out var v2));
+        Assert.True(ConvertUtils.TryHexTextToInt(text.ToCharArray(), 0, 4, out var v2));
 
-        Assert.AreEqual(v1, v2, "Invalid result when parsing hex text: " + text);
+        Assert.Equal(v1, v2);
     }
 }

@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.JsonPath;
 
-[TestFixture]
 public class ErrorWhenNoMatchQuery : TestFixtureBase
 {
     [Fact]
@@ -57,6 +54,6 @@ public class ErrorWhenNoMatchQuery : TestFixtureBase
         }
         #endregion
 
-        Assert.AreEqual("Unable to find result in JSON.", result);
+        Assert.Equal("Unable to find result in JSON.", result);
     }
 }

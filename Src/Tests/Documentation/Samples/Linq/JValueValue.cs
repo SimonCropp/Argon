@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Linq;
 
-[TestFixture]
 public class JValueValue : TestFixtureBase
 {
     [Fact]
@@ -51,6 +48,6 @@ public class JValueValue : TestFixtureBase
         // http://www.google.com/
         #endregion
 
-        Assert.AreEqual(new Uri("http://www.google.com/"), u.Value);
+        Assert.Equal(new Uri("http://www.google.com/"), u.Value);
     }
 }

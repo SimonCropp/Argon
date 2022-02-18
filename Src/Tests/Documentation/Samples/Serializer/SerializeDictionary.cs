@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class SerializeDictionary : TestFixtureBase
 {
     [Fact]
@@ -53,7 +50,7 @@ public class SerializeDictionary : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""James"": 9001,
   ""Jo"": 3474,
   ""Jess"": 11926

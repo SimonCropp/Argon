@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue1545 : TestFixtureBase
 {
     [Fact]
@@ -50,9 +47,9 @@ public class Issue1545 : TestFixtureBase
             }";
 
         var s = JsonConvert.DeserializeObject<Simple>(json);
-        Assert.AreEqual(2, s.Array.Length);
-        Assert.AreEqual("item1", s.Array[0].Value);
-        Assert.AreEqual("item2", s.Array[1].Value);
+        Assert.Equal(2, s.Array.Length);
+        Assert.Equal("item1", s.Array[0].Value);
+        Assert.Equal("item2", s.Array[1].Value);
     }
 
     [Fact]
@@ -74,13 +71,13 @@ public class Issue1545 : TestFixtureBase
             ]";
 
         var s = JsonConvert.DeserializeObject<int[,]>(json);
-        Assert.AreEqual(6, s.Length);
-        Assert.AreEqual(1, s[0, 0]);
-        Assert.AreEqual(2, s[0, 1]);
-        Assert.AreEqual(3, s[0, 2]);
-        Assert.AreEqual(4, s[1, 0]);
-        Assert.AreEqual(5, s[1, 1]);
-        Assert.AreEqual(6, s[1, 2]);
+        Assert.Equal(6, s.Length);
+        Assert.Equal(1, s[0, 0]);
+        Assert.Equal(2, s[0, 1]);
+        Assert.Equal(3, s[0, 2]);
+        Assert.Equal(4, s[1, 0]);
+        Assert.Equal(5, s[1, 1]);
+        Assert.Equal(6, s[1, 2]);
     }
 }
 

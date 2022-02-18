@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class PreserveReferencesHandlingObject : TestFixtureBase
 {
     #region Types
@@ -124,7 +121,7 @@ public class PreserveReferencesHandlingObject : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$id"": ""1"",
   ""Name"": ""My Documents"",
   ""Parent"": {

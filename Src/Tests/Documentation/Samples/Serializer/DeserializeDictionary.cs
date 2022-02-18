@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class DeserializeDictionary : TestFixtureBase
 {
     [Fact]
@@ -50,6 +47,6 @@ public class DeserializeDictionary : TestFixtureBase
         // _blank
         #endregion
 
-        Assert.AreEqual("_blank", htmlAttributes["target"]);
+        Assert.Equal("_blank", htmlAttributes["target"]);
     }
 }

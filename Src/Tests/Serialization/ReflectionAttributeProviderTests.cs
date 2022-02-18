@@ -25,12 +25,9 @@
 
 using System.ComponentModel;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Serialization;
 
-[TestFixture]
 public class ReflectionAttributeProviderTests : TestFixtureBase
 {
     public class ReflectionTestObject
@@ -59,10 +56,10 @@ public class ReflectionAttributeProviderTests : TestFixtureBase
         var provider = new ReflectionAttributeProvider(property);
 
         var attributes = provider.GetAttributes(typeof(DefaultValueAttribute), false);
-        Assert.AreEqual(1, attributes.Count);
+        Assert.Equal(1, attributes.Count);
 
         attributes = provider.GetAttributes(false);
-        Assert.AreEqual(2, attributes.Count);
+        Assert.Equal(2, attributes.Count);
     }
 
     [Fact]
@@ -73,10 +70,10 @@ public class ReflectionAttributeProviderTests : TestFixtureBase
         var provider = new ReflectionAttributeProvider(field);
 
         var attributes = provider.GetAttributes(typeof(DefaultValueAttribute), false);
-        Assert.AreEqual(1, attributes.Count);
+        Assert.Equal(1, attributes.Count);
 
         attributes = provider.GetAttributes(false);
-        Assert.AreEqual(2, attributes.Count);
+        Assert.Equal(2, attributes.Count);
     }
 
     [Fact]
@@ -89,9 +86,9 @@ public class ReflectionAttributeProviderTests : TestFixtureBase
         var provider = new ReflectionAttributeProvider(parameter);
 
         var attributes = provider.GetAttributes(typeof(DefaultValueAttribute), false);
-        Assert.AreEqual(1, attributes.Count);
+        Assert.Equal(1, attributes.Count);
 
         attributes = provider.GetAttributes(false);
-        Assert.AreEqual(2, attributes.Count);
+        Assert.Equal(2, attributes.Count);
     }
 }

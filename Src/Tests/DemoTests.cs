@@ -26,12 +26,9 @@
 using System.Buffers;
 using System.Data;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests;
 
-[TestFixture]
 public class DemoTests : TestFixtureBase
 {
     public class HtmlColor
@@ -73,11 +70,11 @@ public class DemoTests : TestFixtureBase
             Formatting = Formatting.Indented,
             Converters = { new HtmlColorConverter() }
         });
-        Assert.AreEqual(255, r2.Red);
-        Assert.AreEqual(0, r2.Green);
-        Assert.AreEqual(0, r2.Blue);
+        Assert.Equal(255, r2.Red);
+        Assert.Equal(0, r2.Green);
+        Assert.Equal(0, r2.Blue);
 
-        Assert.AreEqual(@"""#FF0000""", json);
+        Assert.Equal(@"""#FF0000""", json);
     }
 
     public class PersonDemo
@@ -217,7 +214,7 @@ public class DemoTests : TestFixtureBase
         //   "Date": new Date(1401796800000)
         // }
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""Serialize All The Things"",
   ""Date"": new Date(
     1401840000000
@@ -240,7 +237,7 @@ public class DemoTests : TestFixtureBase
         // Name = Serialize All The Things
         // Date = Tuesday, 3 June 2014
 
-        Assert.AreEqual("Serialize All The Things", s.Name);
+        Assert.Equal("Serialize All The Things", s.Name);
     }
 
     [Fact]
@@ -304,7 +301,7 @@ public class DemoTests : TestFixtureBase
         //   "Name": "Mike Manager"
         // }
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Reportees"": [
     {
       ""Name"": ""Arnie Admin""
@@ -361,7 +358,7 @@ public class DemoTests : TestFixtureBase
         //   ]
         // }
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$id"": ""1"",
   ""$type"": ""Argon.Tests.DemoTests+Manager, Tests"",
   ""Reportees"": [
@@ -422,10 +419,10 @@ public class DemoTests : TestFixtureBase
         var mike = (Manager)e;
         var susan = (Manager)mike.Reportees[1];
 
-        Object.ReferenceEquals(mike.Reportees[0], susan.Reportees[0]);
+        ReferenceEquals(mike.Reportees[0], susan.Reportees[0]);
         // true
 
-        Assert.IsTrue(ReferenceEquals(mike.Reportees[0], susan.Reportees[0]));
+        Assert.True(ReferenceEquals(mike.Reportees[0], susan.Reportees[0]));
     }
 
     public class House
@@ -568,7 +565,7 @@ public class DemoTests : TestFixtureBase
         //   ]
         // }
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""FirstName"": ""John"",
   ""LastName"": ""Smith"",
   ""Enabled"": true,
@@ -592,7 +589,7 @@ public class DemoTests : TestFixtureBase
             value = serializer.Deserialize<IList<int>>(reader);
         }
 
-        Assert.AreEqual(4, value.Count);
+        Assert.Equal(4, value.Count);
     }
 
     [Fact]
@@ -622,7 +619,7 @@ public class DemoTests : TestFixtureBase
         //   }
         // ]
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""PackageId"": ""Argon"",
     ""Version"": ""11.0.1"",
@@ -657,7 +654,7 @@ public class DemoTests : TestFixtureBase
         Console.WriteLine(packages.Count);
         // 1
 
-        Assert.AreEqual(1, packages.Count);
+        Assert.Equal(1, packages.Count);
     }
 
     [Fact]

@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue1874
 {
     [Fact]
@@ -39,13 +36,13 @@ public class Issue1874
 
         JsonConvert.PopulateObject(@"{""Foo"": 1, ""Bar"": 2}", something);
 
-        Assert.AreEqual(1, something.Extra.Count);
-        Assert.AreEqual(2, (int)something.Extra["Bar"]);
+        Assert.Equal(1, something.Extra.Count);
+        Assert.Equal(2, (int)something.Extra["Bar"]);
 
         JsonConvert.PopulateObject(@"{""Foo"": 2, ""Bar"": 3}", something);
 
-        Assert.AreEqual(1, something.Extra.Count);
-        Assert.AreEqual(3, (int)something.Extra["Bar"]);
+        Assert.Equal(1, something.Extra.Count);
+        Assert.Equal(3, (int)something.Extra["Bar"]);
     }
 
     public class Something

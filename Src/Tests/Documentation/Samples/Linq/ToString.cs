@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Linq;
 
-[TestFixture]
 public class ToString : TestFixtureBase
 {
     [Fact]
@@ -52,6 +49,6 @@ public class ToString : TestFixtureBase
         // {"string1":"value","integer2":99,"datetime3":new Date(959032800000)}
         #endregion
 
-        Assert.IsNotNull(o.ToString(Formatting.None, new JavaScriptDateTimeConverter()));
+        Assert.NotNull(o.ToString(Formatting.None, new JavaScriptDateTimeConverter()));
     }
 }

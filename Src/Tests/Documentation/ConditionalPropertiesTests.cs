@@ -24,8 +24,6 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation;
 
@@ -59,7 +57,6 @@ public class ShouldSerializeContractResolver : DefaultContractResolver
 }
 #endregion
 
-[TestFixture]
 public class ConditionalPropertiesTests : TestFixtureBase
 {
     #region EmployeeShouldSerializeExample
@@ -109,7 +106,7 @@ public class ConditionalPropertiesTests : TestFixtureBase
         // ]
         #endregion
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""Name"": ""Joe Employee"",
     ""Manager"": {
@@ -145,7 +142,7 @@ public class ConditionalPropertiesTests : TestFixtureBase
                 ContractResolver = ShouldSerializeContractResolver.Instance
             });
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""Name"": ""Joe Employee"",
     ""Manager"": {

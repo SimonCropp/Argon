@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue1798
 {
     public class NonSerializableException : Exception
@@ -76,9 +73,10 @@ public class Issue1798
         var resolver = new DefaultContractResolver();
 
         var objectContract = (JsonObjectContract) resolver.ResolveContract(typeof(NonSerializableException));
-        Assert.IsFalse(objectContract.Properties.Contains("TargetSite"));
+        Assert.False(objectContract.Properties.Contains("TargetSite"));
 
-        Assert.IsInstanceOf(typeof(JsonISerializableContract), resolver.ResolveContract(typeof(Exception)));
+        object o = resolver.ResolveContract(typeof(Exception));
+        Assert.IsType(typeof(JsonISerializableContract), o);
     }
 
     void AssertNoTargetSite(string json)
@@ -87,7 +85,7 @@ public class Issue1798
 
         if (o.ContainsKey("TargetSite"))
         {
-            Assert.Fail("JSON has TargetSite property.");
+            XUnitAssert.Fail("JSON has TargetSite property.");
         }
     }
 }

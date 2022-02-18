@@ -24,19 +24,17 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.JsonPath;
 
-[TestFixture]
 public class QueryJsonSelectTokenWithLinq : TestFixtureBase
 {
-  [Fact]
-  public void Example()
-  {
-    #region Usage
-    var o = JObject.Parse(@"{
+    [Fact]
+    public void Example()
+    {
+        #region Usage
+
+        var o = JObject.Parse(@"{
               'Stores': [
                 'Lambton Quay',
                 'Willis Street'
@@ -67,23 +65,24 @@ public class QueryJsonSelectTokenWithLinq : TestFixtureBase
               ]
             }");
 
-    var storeNames = o.SelectToken("Stores").Select(s => (string)s).ToArray();
+        var storeNames = o.SelectToken("Stores").Select(s => (string) s).ToArray();
 
-    Console.WriteLine(string.Join(", ", storeNames));
-    // Lambton Quay, Willis Street
+        Console.WriteLine(string.Join(", ", storeNames));
+        // Lambton Quay, Willis Street
 
-    var firstProductNames = o["Manufacturers"].Select(m => (string)m.SelectToken("Products[1].Name"))
-      .Where(n => n != null).ToArray();
+        var firstProductNames = o["Manufacturers"].Select(m => (string) m.SelectToken("Products[1].Name"))
+            .Where(n => n != null).ToArray();
 
-    Console.WriteLine(string.Join(", ", firstProductNames));
-    // Headlight Fluid
+        Console.WriteLine(string.Join(", ", firstProductNames));
+        // Headlight Fluid
 
-    var totalPrice = o["Manufacturers"].Sum(m => (decimal)m.SelectToken("Products[0].Price"));
+        var totalPrice = o["Manufacturers"].Sum(m => (decimal) m.SelectToken("Products[0].Price"));
 
-    Console.WriteLine(totalPrice);
-    // 149.95
-    #endregion
+        Console.WriteLine(totalPrice);
+        // 149.95
 
-    Assert.AreEqual(149.95m, totalPrice);
-  }
+        #endregion
+
+        Assert.Equal(149.95m, totalPrice);
+    }
 }

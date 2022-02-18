@@ -24,8 +24,6 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 using TestCaseSource = Xunit.MemberDataAttribute;
 
 namespace Argon.Tests.Utilities;
@@ -39,7 +37,7 @@ public class EnumUtilsTests : TestFixtureBase
         var enumType = expected.GetType();
 
         var result = (Enum)EnumUtils.ParseEnum(enumType, null, value, false);
-        Assert.AreEqual(expected, result);
+        Assert.Equal(expected, result);
     }
 
     [Theory]
@@ -56,7 +54,7 @@ public class EnumUtilsTests : TestFixtureBase
             return;
         }
 
-        Assert.Fail($"Expected {exceptionType.FullName} exception.");
+        XUnitAssert.Fail($"Expected {exceptionType.FullName} exception.");
     }
 
     [Theory]
@@ -65,7 +63,7 @@ public class EnumUtilsTests : TestFixtureBase
     {
         EnumUtils.TryToString(e.GetType(), e, null, out var result);
 
-        Assert.AreEqual(expected, result);
+        Assert.Equal(expected, result);
     }
 
     #region Test data

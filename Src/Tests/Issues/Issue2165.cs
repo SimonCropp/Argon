@@ -24,18 +24,15 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue2165
 {
     [Fact]
     public void Test_Deserializer()
     {
-        ExceptionAssert.Throws<JsonWriterException>(
+        XUnitAssert.Throws<JsonWriterException>(
             () => JsonConvert.DeserializeObject<JObject>("{"),
             "Unexpected end when reading token. Path ''.");
     }
@@ -49,7 +46,7 @@ public class Issue2165
         var jsonReader = new JsonTextReader(new StringReader("{"));
         jsonReader.Read();
 
-        ExceptionAssert.Throws<JsonWriterException>(
+        XUnitAssert.Throws<JsonWriterException>(
             () => writer.WriteToken(jsonReader),
             "Unexpected end when reading token. Path ''.");
     }
@@ -63,7 +60,7 @@ public class Issue2165
         var jsonReader = new JsonTextReader(new StringReader("{"));
         await jsonReader.ReadAsync();
 
-        await ExceptionAssert.ThrowsAsync<JsonWriterException>(
+        await XUnitAssert.ThrowsAsync<JsonWriterException>(
             () => writer.WriteTokenAsync(jsonReader),
             "Unexpected end when reading token. Path ''.");
     }

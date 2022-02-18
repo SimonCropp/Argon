@@ -1,6 +1,4 @@
 ﻿using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 using Argon.Tests.TestObjects;
 using Argon.Tests.TestObjects.Organization;
 
@@ -20,7 +18,6 @@ public class RoleTrace
     public string Name { get; set; }
 }
 
-[TestFixture]
 public class TraceWriterTests : TestFixtureBase
 {
     [Fact]
@@ -46,15 +43,15 @@ public class TraceWriterTests : TestFixtureBase
             roles.Add(role);
         }
 
-        Assert.AreEqual("Admin", roles[0].Name);
-        Assert.AreEqual("Publisher", roles[1].Name);
+        Assert.Equal("Admin", roles[0].Name);
+        Assert.Equal("Publisher", roles[1].Name);
 
-        StringAssert.AreEqual(@"Deserialized JSON: 
+        XUnitAssert.AreEqualNormalized(@"Deserialized JSON: 
 {
   ""name"": ""Admin""
 }", traceWriter.TraceRecords[2].Message);
 
-        StringAssert.AreEqual(@"Deserialized JSON: 
+        XUnitAssert.AreEqualNormalized(@"Deserialized JSON: 
 {
   ""name"": ""Publisher""
 }", traceWriter.TraceRecords[5].Message);
@@ -83,15 +80,15 @@ public class TraceWriterTests : TestFixtureBase
             roles.Add(role);
         }
 
-        Assert.AreEqual("Admin", roles[0].Name);
-        Assert.AreEqual("Publisher", roles[1].Name);
+        Assert.Equal("Admin", roles[0].Name);
+        Assert.Equal("Publisher", roles[1].Name);
 
-        StringAssert.AreEqual(@"Deserialized JSON: 
+        XUnitAssert.AreEqualNormalized(@"Deserialized JSON: 
 {
   ""name"": ""Admin""
 }", traceWriter.TraceRecords[2].Message);
 
-        StringAssert.AreEqual(@"Deserialized JSON: 
+        XUnitAssert.AreEqualNormalized(@"Deserialized JSON: 
 {
   ""name"": ""Publisher""
 }", traceWriter.TraceRecords[5].Message);
@@ -115,7 +112,7 @@ public class TraceWriterTests : TestFixtureBase
             traceWriter.Trace(TraceLevel.Error, "Error!", null);
             traceWriter.Trace(TraceLevel.Off, "Off!", null);
 
-            StringAssert.AreEqual(@"Argon Verbose: 0 : Verbose!
+            XUnitAssert.AreEqualNormalized(@"Argon Verbose: 0 : Verbose!
 Argon Information: 0 : Info!
 Argon Warning: 0 : Warning!
 Argon Error: 0 : Error!
@@ -137,7 +134,7 @@ Argon Error: 0 : Error!
         traceJsonWriter.WriteValue((byte?)null);
         traceJsonWriter.WriteEndArray();
 
-        StringAssert.AreEqual(@"Serialized JSON: 
+        XUnitAssert.AreEqualNormalized(@"Serialized JSON: 
 [
   null
 ]", traceJsonWriter.GetSerializedJsonMessage());
@@ -152,7 +149,7 @@ Argon Error: 0 : Error!
         traceJsonWriter.WriteValue((object)null);
         traceJsonWriter.WriteEndArray();
 
-        StringAssert.AreEqual(@"Serialized JSON: 
+        XUnitAssert.AreEqualNormalized(@"Serialized JSON: 
 [
   null
 ]", traceJsonWriter.GetSerializedJsonMessage());
@@ -167,7 +164,7 @@ Argon Error: 0 : Error!
         traceJsonWriter.WriteValue((string)null);
         traceJsonWriter.WriteEndArray();
 
-        StringAssert.AreEqual(@"Serialized JSON: 
+        XUnitAssert.AreEqualNormalized(@"Serialized JSON: 
 [
   null
 ]", traceJsonWriter.GetSerializedJsonMessage());
@@ -182,7 +179,7 @@ Argon Error: 0 : Error!
         traceJsonWriter.WriteValue((Uri)null);
         traceJsonWriter.WriteEndArray();
 
-        StringAssert.AreEqual(@"Serialized JSON: 
+        XUnitAssert.AreEqualNormalized(@"Serialized JSON: 
 [
   null
 ]", traceJsonWriter.GetSerializedJsonMessage());
@@ -197,7 +194,7 @@ Argon Error: 0 : Error!
         traceJsonWriter.WriteValue((byte[])null);
         traceJsonWriter.WriteEndArray();
 
-        StringAssert.AreEqual(@"Serialized JSON: 
+        XUnitAssert.AreEqualNormalized(@"Serialized JSON: 
 [
   null
 ]", traceJsonWriter.GetSerializedJsonMessage());
@@ -214,9 +211,9 @@ Argon Error: 0 : Error!
             TraceWriter = traceWriter
         });
 
-        Assert.AreEqual("$('#element')", json);
+        Assert.Equal("$('#element')", json);
 
-        Assert.IsTrue(traceWriter.ToString().EndsWith("Verbose Serialized JSON: " + Environment.NewLine + "$('#element')", StringComparison.Ordinal));
+        Assert.True(traceWriter.ToString().EndsWith("Verbose Serialized JSON: " + Environment.NewLine + "$('#element')", StringComparison.Ordinal));
     }
 
     [Fact]
@@ -237,13 +234,13 @@ Argon Error: 0 : Error!
             Formatting = Formatting.Indented
         });
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   $('#element'),
   $('#element'),
   $('#element')
 ]", json);
 
-        Assert.IsTrue(StringAssert.Normalize(traceWriter.ToString()).EndsWith(StringAssert.Normalize(@"Verbose Serialized JSON: 
+        Assert.True(XUnitAssert.Normalize(traceWriter.ToString()).EndsWith(XUnitAssert.Normalize(@"Verbose Serialized JSON: 
 [
   $('#element'),
   $('#element'),
@@ -277,8 +274,8 @@ Argon Error: 0 : Error!
         var memoryTraceWriter = (MemoryTraceWriter)traceWriter;
         var output = memoryTraceWriter.ToString();
 
-        Assert.AreEqual(876, output.Length);
-        Assert.AreEqual(7, memoryTraceWriter.GetTraceMessages().Count());
+        Assert.Equal(876, output.Length);
+        Assert.Equal(7, memoryTraceWriter.GetTraceMessages().Count());
 
         var json = @"Serialized JSON: 
 {
@@ -291,10 +288,10 @@ Argon Error: 0 : Error!
   ]
 }";
 
-        json = StringAssert.Normalize(json);
-        output = StringAssert.Normalize(output);
+        json = XUnitAssert.Normalize(json);
+        output = XUnitAssert.Normalize(output);
 
-        Assert.IsTrue(output.Contains(json));
+        Assert.True(output.Contains(json));
     }
 
     [Fact]
@@ -348,13 +345,13 @@ Argon Error: 0 : Error!
         var memoryTraceWriter = (MemoryTraceWriter)traceWriter;
         var output = memoryTraceWriter.ToString();
 
-        Assert.AreEqual(1018, output.Length);
-        Assert.AreEqual(7, memoryTraceWriter.GetTraceMessages().Count());
+        Assert.Equal(1018, output.Length);
+        Assert.Equal(7, memoryTraceWriter.GetTraceMessages().Count());
 
-        json = StringAssert.Normalize(json);
-        output = StringAssert.Normalize(output);
+        json = XUnitAssert.Normalize(json);
+        output = XUnitAssert.Normalize(output);
 
-        Assert.IsTrue(output.Contains(json));
+        Assert.True(output.Contains(json));
     }
 
     [Fact]
@@ -369,10 +366,10 @@ Argon Error: 0 : Error!
 
         IList<string> traceMessages = traceWriter.GetTraceMessages().ToList();
 
-        Assert.AreEqual(1000, traceMessages.Count);
+        Assert.Equal(1000, traceMessages.Count);
 
-        Assert.IsTrue(traceMessages.First().EndsWith(" 6"));
-        Assert.IsTrue(traceMessages.Last().EndsWith(" 1005"));
+        Assert.True(traceMessages.First().EndsWith(" 6"));
+        Assert.True(traceMessages.Last().EndsWith(" 1005"));
     }
 
     [Fact]
@@ -397,7 +394,7 @@ Argon Error: 0 : Error!
 
         IList<string> traceMessages = traceWriter.GetTraceMessages().ToList();
 
-        Assert.AreEqual(1000, traceMessages.Count);
+        Assert.Equal(1000, traceMessages.Count);
     }
 
     [Fact]
@@ -427,7 +424,7 @@ Argon Error: 0 : Error!
 
         await Task.WhenAll(tasks);
 
-        Assert.IsNotNull(s);
+        Assert.NotNull(s);
     }
 
     [Fact]
@@ -460,18 +457,18 @@ Argon Error: 0 : Error!
                     Formatting = Formatting.Indented
                 });
 
-        Assert.AreEqual("Started serializing Argon.Tests.Serialization.TraceTestObject. Path ''.", traceWriter.TraceRecords[0].Message);
-        Assert.AreEqual("Started serializing System.Collections.Generic.List`1[System.Int32]. Path 'IntList'.", traceWriter.TraceRecords[1].Message);
-        Assert.AreEqual("Finished serializing System.Collections.Generic.List`1[System.Int32]. Path 'IntList'.", traceWriter.TraceRecords[2].Message);
-        Assert.AreEqual("Started serializing System.String[]. Path 'StringArray'.", traceWriter.TraceRecords[3].Message);
-        Assert.AreEqual("Finished serializing System.String[]. Path 'StringArray'.", traceWriter.TraceRecords[4].Message);
-        Assert.AreEqual("Started serializing Argon.Tests.TestObjects.VersionOld. Path 'Version'.", traceWriter.TraceRecords[5].Message);
-        Assert.AreEqual("Finished serializing Argon.Tests.TestObjects.VersionOld. Path 'Version'.", traceWriter.TraceRecords[6].Message);
-        Assert.AreEqual("Started serializing System.Collections.Generic.Dictionary`2[System.String,System.String]. Path 'StringDictionary'.", traceWriter.TraceRecords[7].Message);
-        Assert.AreEqual("Finished serializing System.Collections.Generic.Dictionary`2[System.String,System.String]. Path 'StringDictionary'.", traceWriter.TraceRecords[8].Message);
-        Assert.AreEqual("Finished serializing Argon.Tests.Serialization.TraceTestObject. Path ''.", traceWriter.TraceRecords[9].Message);
+        Assert.Equal("Started serializing Argon.Tests.Serialization.TraceTestObject. Path ''.", traceWriter.TraceRecords[0].Message);
+        Assert.Equal("Started serializing System.Collections.Generic.List`1[System.Int32]. Path 'IntList'.", traceWriter.TraceRecords[1].Message);
+        Assert.Equal("Finished serializing System.Collections.Generic.List`1[System.Int32]. Path 'IntList'.", traceWriter.TraceRecords[2].Message);
+        Assert.Equal("Started serializing System.String[]. Path 'StringArray'.", traceWriter.TraceRecords[3].Message);
+        Assert.Equal("Finished serializing System.String[]. Path 'StringArray'.", traceWriter.TraceRecords[4].Message);
+        Assert.Equal("Started serializing Argon.Tests.TestObjects.VersionOld. Path 'Version'.", traceWriter.TraceRecords[5].Message);
+        Assert.Equal("Finished serializing Argon.Tests.TestObjects.VersionOld. Path 'Version'.", traceWriter.TraceRecords[6].Message);
+        Assert.Equal("Started serializing System.Collections.Generic.Dictionary`2[System.String,System.String]. Path 'StringDictionary'.", traceWriter.TraceRecords[7].Message);
+        Assert.Equal("Finished serializing System.Collections.Generic.Dictionary`2[System.String,System.String]. Path 'StringDictionary'.", traceWriter.TraceRecords[8].Message);
+        Assert.Equal("Finished serializing Argon.Tests.Serialization.TraceTestObject. Path ''.", traceWriter.TraceRecords[9].Message);
 
-        Assert.IsFalse(traceWriter.TraceRecords.Any(r => r.Level == TraceLevel.Verbose));
+        Assert.False(traceWriter.TraceRecords.Any(r => r.Level == TraceLevel.Verbose));
     }
 
     [Fact]
@@ -512,26 +509,26 @@ Argon Error: 0 : Error!
                 TraceWriter = traceWriter
             });
 
-        Assert.AreEqual(2, o2.IntList.Count);
-        Assert.AreEqual(2, o2.StringArray.Length);
-        Assert.AreEqual(1, o2.Version.Major);
-        Assert.AreEqual(2, o2.Version.Minor);
-        Assert.AreEqual(3, o2.StringDictionary.Count);
-        Assert.AreEqual(1.1d, o2.Double);
+        Assert.Equal(2, o2.IntList.Count);
+        Assert.Equal(2, o2.StringArray.Length);
+        Assert.Equal(1, o2.Version.Major);
+        Assert.Equal(2, o2.Version.Minor);
+        Assert.Equal(3, o2.StringDictionary.Count);
+        Assert.Equal(1.1d, o2.Double);
 
-        Assert.AreEqual("Started deserializing Argon.Tests.Serialization.TraceTestObject. Path 'IntList', line 2, position 12.", traceWriter.TraceRecords[0].Message);
-        Assert.AreEqual("Started deserializing System.Collections.Generic.IList`1[System.Int32]. Path 'IntList', line 2, position 14.", traceWriter.TraceRecords[1].Message);
-        Assert.IsTrue(traceWriter.TraceRecords[2].Message.StartsWith("Finished deserializing System.Collections.Generic.IList`1[System.Int32]. Path 'IntList'"));
-        Assert.AreEqual("Started deserializing System.String[]. Path 'StringArray', line 6, position 18.", traceWriter.TraceRecords[3].Message);
-        Assert.IsTrue(traceWriter.TraceRecords[4].Message.StartsWith("Finished deserializing System.String[]. Path 'StringArray'"));
-        Assert.AreEqual("Deserializing Argon.Tests.TestObjects.VersionOld using creator with parameters: Major, Minor, Build, Revision. Path 'Version.Major', line 11, position 12.", traceWriter.TraceRecords[5].Message);
-        Assert.IsTrue(traceWriter.TraceRecords[6].Message.StartsWith("Started deserializing Argon.Tests.TestObjects.VersionOld. Path 'Version'"));
-        Assert.IsTrue(traceWriter.TraceRecords[7].Message.StartsWith("Finished deserializing Argon.Tests.TestObjects.VersionOld. Path 'Version'"));
-        Assert.AreEqual("Started deserializing System.Collections.Generic.IDictionary`2[System.String,System.String]. Path 'StringDictionary.1', line 19, position 8.", traceWriter.TraceRecords[8].Message);
-        Assert.IsTrue(traceWriter.TraceRecords[9].Message.StartsWith("Finished deserializing System.Collections.Generic.IDictionary`2[System.String,System.String]. Path 'StringDictionary'"));
-        Assert.IsTrue(traceWriter.TraceRecords[10].Message.StartsWith("Finished deserializing Argon.Tests.Serialization.TraceTestObject. Path ''"));
+        Assert.Equal("Started deserializing Argon.Tests.Serialization.TraceTestObject. Path 'IntList', line 2, position 12.", traceWriter.TraceRecords[0].Message);
+        Assert.Equal("Started deserializing System.Collections.Generic.IList`1[System.Int32]. Path 'IntList', line 2, position 14.", traceWriter.TraceRecords[1].Message);
+        Assert.True(traceWriter.TraceRecords[2].Message.StartsWith("Finished deserializing System.Collections.Generic.IList`1[System.Int32]. Path 'IntList'"));
+        Assert.Equal("Started deserializing System.String[]. Path 'StringArray', line 6, position 18.", traceWriter.TraceRecords[3].Message);
+        Assert.True(traceWriter.TraceRecords[4].Message.StartsWith("Finished deserializing System.String[]. Path 'StringArray'"));
+        Assert.Equal("Deserializing Argon.Tests.TestObjects.VersionOld using creator with parameters: Major, Minor, Build, Revision. Path 'Version.Major', line 11, position 12.", traceWriter.TraceRecords[5].Message);
+        Assert.True(traceWriter.TraceRecords[6].Message.StartsWith("Started deserializing Argon.Tests.TestObjects.VersionOld. Path 'Version'"));
+        Assert.True(traceWriter.TraceRecords[7].Message.StartsWith("Finished deserializing Argon.Tests.TestObjects.VersionOld. Path 'Version'"));
+        Assert.Equal("Started deserializing System.Collections.Generic.IDictionary`2[System.String,System.String]. Path 'StringDictionary.1', line 19, position 8.", traceWriter.TraceRecords[8].Message);
+        Assert.True(traceWriter.TraceRecords[9].Message.StartsWith("Finished deserializing System.Collections.Generic.IDictionary`2[System.String,System.String]. Path 'StringDictionary'"));
+        Assert.True(traceWriter.TraceRecords[10].Message.StartsWith("Finished deserializing Argon.Tests.Serialization.TraceTestObject. Path ''"));
 
-        Assert.IsFalse(traceWriter.TraceRecords.Any(r => r.Level == TraceLevel.Verbose));
+        Assert.False(traceWriter.TraceRecords.Any(r => r.Level == TraceLevel.Verbose));
     }
 
     [Fact]
@@ -575,26 +572,26 @@ Argon Error: 0 : Error!
                 MetadataPropertyHandling = MetadataPropertyHandling.Default
             });
 
-        Assert.AreEqual(2, o2.IntList.Count);
-        Assert.AreEqual(2, o2.StringArray.Length);
-        Assert.AreEqual(1, o2.Version.Major);
-        Assert.AreEqual(2, o2.Version.Minor);
-        Assert.AreEqual(3, o2.StringDictionary.Count);
-        Assert.AreEqual(1.1d, o2.Double);
+        Assert.Equal(2, o2.IntList.Count);
+        Assert.Equal(2, o2.StringArray.Length);
+        Assert.Equal(1, o2.Version.Major);
+        Assert.Equal(2, o2.Version.Minor);
+        Assert.Equal(3, o2.StringDictionary.Count);
+        Assert.Equal(1.1d, o2.Double);
 
-        Assert.AreEqual("Started deserializing Argon.Tests.Serialization.TraceTestObject. Path 'IntList', line 2, position 12.", traceWriter.TraceRecords[0].Message);
-        Assert.AreEqual("Started deserializing System.Collections.Generic.IList`1[System.Int32]. Path 'IntList', line 2, position 14.", traceWriter.TraceRecords[1].Message);
-        Assert.IsTrue(traceWriter.TraceRecords[2].Message.StartsWith("Finished deserializing System.Collections.Generic.IList`1[System.Int32]. Path 'IntList'"));
-        Assert.AreEqual("Started deserializing System.String[]. Path 'StringArray', line 6, position 18.", traceWriter.TraceRecords[3].Message);
-        Assert.IsTrue(traceWriter.TraceRecords[4].Message.StartsWith("Finished deserializing System.String[]. Path 'StringArray'"));
-        Assert.AreEqual("Deserializing Argon.Tests.TestObjects.VersionOld using creator with parameters: Major, Minor, Build, Revision. Path 'Version.Major', line 11, position 12.", traceWriter.TraceRecords[5].Message);
-        Assert.IsTrue(traceWriter.TraceRecords[6].Message.StartsWith("Started deserializing Argon.Tests.TestObjects.VersionOld. Path 'Version'"));
-        Assert.IsTrue(traceWriter.TraceRecords[7].Message.StartsWith("Finished deserializing Argon.Tests.TestObjects.VersionOld. Path 'Version'"));
-        Assert.AreEqual("Started deserializing System.Collections.Generic.IDictionary`2[System.String,System.String]. Path 'StringDictionary.1', line 19, position 8.", traceWriter.TraceRecords[8].Message);
-        Assert.IsTrue(traceWriter.TraceRecords[9].Message.StartsWith("Finished deserializing System.Collections.Generic.IDictionary`2[System.String,System.String]. Path 'StringDictionary'"));
-        Assert.IsTrue(traceWriter.TraceRecords[10].Message.StartsWith("Finished deserializing Argon.Tests.Serialization.TraceTestObject. Path ''"));
+        Assert.Equal("Started deserializing Argon.Tests.Serialization.TraceTestObject. Path 'IntList', line 2, position 12.", traceWriter.TraceRecords[0].Message);
+        Assert.Equal("Started deserializing System.Collections.Generic.IList`1[System.Int32]. Path 'IntList', line 2, position 14.", traceWriter.TraceRecords[1].Message);
+        Assert.True(traceWriter.TraceRecords[2].Message.StartsWith("Finished deserializing System.Collections.Generic.IList`1[System.Int32]. Path 'IntList'"));
+        Assert.Equal("Started deserializing System.String[]. Path 'StringArray', line 6, position 18.", traceWriter.TraceRecords[3].Message);
+        Assert.True(traceWriter.TraceRecords[4].Message.StartsWith("Finished deserializing System.String[]. Path 'StringArray'"));
+        Assert.Equal("Deserializing Argon.Tests.TestObjects.VersionOld using creator with parameters: Major, Minor, Build, Revision. Path 'Version.Major', line 11, position 12.", traceWriter.TraceRecords[5].Message);
+        Assert.True(traceWriter.TraceRecords[6].Message.StartsWith("Started deserializing Argon.Tests.TestObjects.VersionOld. Path 'Version'"));
+        Assert.True(traceWriter.TraceRecords[7].Message.StartsWith("Finished deserializing Argon.Tests.TestObjects.VersionOld. Path 'Version'"));
+        Assert.Equal("Started deserializing System.Collections.Generic.IDictionary`2[System.String,System.String]. Path 'StringDictionary.1', line 19, position 8.", traceWriter.TraceRecords[8].Message);
+        Assert.True(traceWriter.TraceRecords[9].Message.StartsWith("Finished deserializing System.Collections.Generic.IDictionary`2[System.String,System.String]. Path 'StringDictionary'"));
+        Assert.True(traceWriter.TraceRecords[10].Message.StartsWith("Finished deserializing Argon.Tests.Serialization.TraceTestObject. Path ''"));
 
-        Assert.IsFalse(traceWriter.TraceRecords.Any(r => r.Level == TraceLevel.Verbose));
+        Assert.False(traceWriter.TraceRecords.Any(r => r.Level == TraceLevel.Verbose));
     }
 
     [Fact]
@@ -607,7 +604,7 @@ Argon Error: 0 : Error!
             LevelFilter = TraceLevel.Info
         };
 
-        ExceptionAssert.Throws<Exception>(() =>
+        XUnitAssert.Throws<Exception>(() =>
         {
             JsonConvert.DeserializeObject<IntegerTestClass>(
                 json,
@@ -617,13 +614,13 @@ Argon Error: 0 : Error!
                 });
         }, "Could not convert string to integer: hi. Path 'Integer', line 1, position 15.");
 
-        Assert.AreEqual(2, traceWriter.TraceRecords.Count);
+        Assert.Equal(2, traceWriter.TraceRecords.Count);
 
-        Assert.AreEqual(TraceLevel.Info, traceWriter.TraceRecords[0].Level);
-        Assert.AreEqual("Started deserializing Argon.Tests.Serialization.IntegerTestClass. Path 'Integer', line 1, position 11.", traceWriter.TraceRecords[0].Message);
+        Assert.Equal(TraceLevel.Info, traceWriter.TraceRecords[0].Level);
+        Assert.Equal("Started deserializing Argon.Tests.Serialization.IntegerTestClass. Path 'Integer', line 1, position 11.", traceWriter.TraceRecords[0].Message);
 
-        Assert.AreEqual(TraceLevel.Error, traceWriter.TraceRecords[1].Level);
-        Assert.AreEqual("Error deserializing Argon.Tests.Serialization.IntegerTestClass. Could not convert string to integer: hi. Path 'Integer', line 1, position 15.", traceWriter.TraceRecords[1].Message);
+        Assert.Equal(TraceLevel.Error, traceWriter.TraceRecords[1].Level);
+        Assert.Equal("Error deserializing Argon.Tests.Serialization.IntegerTestClass. Could not convert string to integer: hi. Path 'Integer', line 1, position 15.", traceWriter.TraceRecords[1].Message);
     }
 
     [Fact]
@@ -636,7 +633,7 @@ Argon Error: 0 : Error!
             LevelFilter = TraceLevel.Info
         };
 
-        ExceptionAssert.Throws<Exception>(() =>
+        XUnitAssert.Throws<Exception>(() =>
         {
             JsonConvert.DeserializeObject<TraceTestObject>(
                 json,
@@ -646,16 +643,16 @@ Argon Error: 0 : Error!
                 });
         }, "Could not convert string to integer: two. Path 'IntList[1]', line 1, position 20.");
 
-        Assert.AreEqual(3, traceWriter.TraceRecords.Count);
+        Assert.Equal(3, traceWriter.TraceRecords.Count);
 
-        Assert.AreEqual(TraceLevel.Info, traceWriter.TraceRecords[0].Level);
-        Assert.AreEqual("Started deserializing Argon.Tests.Serialization.TraceTestObject. Path 'IntList', line 1, position 11.", traceWriter.TraceRecords[0].Message);
+        Assert.Equal(TraceLevel.Info, traceWriter.TraceRecords[0].Level);
+        Assert.Equal("Started deserializing Argon.Tests.Serialization.TraceTestObject. Path 'IntList', line 1, position 11.", traceWriter.TraceRecords[0].Message);
 
-        Assert.AreEqual(TraceLevel.Info, traceWriter.TraceRecords[1].Level);
-        Assert.AreEqual("Started deserializing System.Collections.Generic.IList`1[System.Int32]. Path 'IntList', line 1, position 12.", traceWriter.TraceRecords[1].Message);
+        Assert.Equal(TraceLevel.Info, traceWriter.TraceRecords[1].Level);
+        Assert.Equal("Started deserializing System.Collections.Generic.IList`1[System.Int32]. Path 'IntList', line 1, position 12.", traceWriter.TraceRecords[1].Message);
 
-        Assert.AreEqual(TraceLevel.Error, traceWriter.TraceRecords[2].Level);
-        Assert.AreEqual("Error deserializing System.Collections.Generic.IList`1[System.Int32]. Could not convert string to integer: two. Path 'IntList[1]', line 1, position 20.", traceWriter.TraceRecords[2].Message);
+        Assert.Equal(TraceLevel.Error, traceWriter.TraceRecords[2].Level);
+        Assert.Equal("Error deserializing System.Collections.Generic.IList`1[System.Int32]. Could not convert string to integer: two. Path 'IntList[1]', line 1, position 20.", traceWriter.TraceRecords[2].Message);
     }
 
     [Fact]
@@ -679,9 +676,9 @@ Argon Error: 0 : Error!
                 TraceWriter = traceWriter
             });
 
-        Assert.IsTrue(traceWriter.TraceRecords.Any(r => r.Message == "Writing object reference Id '1' for Argon.Tests.Serialization.PreserveReferencesHandlingTests+CircularDictionary. Path ''."));
-        Assert.IsTrue(traceWriter.TraceRecords.Any(r => r.Message == "Writing object reference Id '2' for Argon.Tests.Serialization.PreserveReferencesHandlingTests+CircularDictionary. Path 'other'."));
-        Assert.IsTrue(traceWriter.TraceRecords.Any(r => r.Message == "Writing object reference to Id '1' for Argon.Tests.Serialization.PreserveReferencesHandlingTests+CircularDictionary. Path 'self'."));
+        Assert.True(traceWriter.TraceRecords.Any(r => r.Message == "Writing object reference Id '1' for Argon.Tests.Serialization.PreserveReferencesHandlingTests+CircularDictionary. Path ''."));
+        Assert.True(traceWriter.TraceRecords.Any(r => r.Message == "Writing object reference Id '2' for Argon.Tests.Serialization.PreserveReferencesHandlingTests+CircularDictionary. Path 'other'."));
+        Assert.True(traceWriter.TraceRecords.Any(r => r.Message == "Writing object reference to Id '1' for Argon.Tests.Serialization.PreserveReferencesHandlingTests+CircularDictionary. Path 'self'."));
     }
 
     [Fact]
@@ -711,9 +708,9 @@ Argon Error: 0 : Error!
                 TraceWriter = traceWriter
             });
 
-        Assert.IsTrue(traceWriter.TraceRecords.Any(r => r.Message == "Read object reference Id '1' for Argon.Tests.Serialization.PreserveReferencesHandlingTests+CircularDictionary. Path 'other', line 3, position 10."));
-        Assert.IsTrue(traceWriter.TraceRecords.Any(r => r.Message == "Read object reference Id '2' for Argon.Tests.Serialization.PreserveReferencesHandlingTests+CircularDictionary. Path 'other.blah', line 5, position 11."));
-        Assert.IsTrue(traceWriter.TraceRecords.Any(r => r.Message.StartsWith("Resolved object reference '1' to Argon.Tests.Serialization.PreserveReferencesHandlingTests+CircularDictionary. Path 'self'")));
+        Assert.True(traceWriter.TraceRecords.Any(r => r.Message == "Read object reference Id '1' for Argon.Tests.Serialization.PreserveReferencesHandlingTests+CircularDictionary. Path 'other', line 3, position 10."));
+        Assert.True(traceWriter.TraceRecords.Any(r => r.Message == "Read object reference Id '2' for Argon.Tests.Serialization.PreserveReferencesHandlingTests+CircularDictionary. Path 'other.blah', line 5, position 11."));
+        Assert.True(traceWriter.TraceRecords.Any(r => r.Message.StartsWith("Resolved object reference '1' to Argon.Tests.Serialization.PreserveReferencesHandlingTests+CircularDictionary. Path 'self'")));
     }
 
     [Fact]
@@ -736,15 +733,15 @@ Argon Error: 0 : Error!
             TraceWriter = traceWriter
         });
 
-        Assert.AreEqual("Started serializing System.Collections.Generic.List`1[System.Object]. Path ''.", traceWriter.TraceRecords[0].Message);
-        Assert.AreEqual("Writing type name '" + ReflectionUtils.GetTypeName(typeof(List<object>), 0, DefaultSerializationBinder.Instance) + "' for System.Collections.Generic.List`1[System.Object]. Path ''.", traceWriter.TraceRecords[1].Message);
-        Assert.AreEqual("Started serializing System.Collections.Generic.Dictionary`2[System.String,System.String]. Path '$values'.", traceWriter.TraceRecords[2].Message);
-        Assert.AreEqual("Writing type name '" + ReflectionUtils.GetTypeName(typeof(Dictionary<string, string>), 0, DefaultSerializationBinder.Instance) + "' for System.Collections.Generic.Dictionary`2[System.String,System.String]. Path '$values[0]'.", traceWriter.TraceRecords[3].Message);
-        Assert.AreEqual("Finished serializing System.Collections.Generic.Dictionary`2[System.String,System.String]. Path '$values[0]'.", traceWriter.TraceRecords[4].Message);
-        Assert.AreEqual("Started serializing Argon.Tests.TestObjects.VersionOld. Path '$values[0]'.", traceWriter.TraceRecords[5].Message);
-        Assert.AreEqual("Writing type name '" + ReflectionUtils.GetTypeName(typeof(VersionOld), 0, DefaultSerializationBinder.Instance) + "' for Argon.Tests.TestObjects.VersionOld. Path '$values[1]'.", traceWriter.TraceRecords[6].Message);
-        Assert.AreEqual("Finished serializing Argon.Tests.TestObjects.VersionOld. Path '$values[1]'.", traceWriter.TraceRecords[7].Message);
-        Assert.AreEqual("Finished serializing System.Collections.Generic.List`1[System.Object]. Path ''.", traceWriter.TraceRecords[8].Message);
+        Assert.Equal("Started serializing System.Collections.Generic.List`1[System.Object]. Path ''.", traceWriter.TraceRecords[0].Message);
+        Assert.Equal("Writing type name '" + ReflectionUtils.GetTypeName(typeof(List<object>), 0, DefaultSerializationBinder.Instance) + "' for System.Collections.Generic.List`1[System.Object]. Path ''.", traceWriter.TraceRecords[1].Message);
+        Assert.Equal("Started serializing System.Collections.Generic.Dictionary`2[System.String,System.String]. Path '$values'.", traceWriter.TraceRecords[2].Message);
+        Assert.Equal("Writing type name '" + ReflectionUtils.GetTypeName(typeof(Dictionary<string, string>), 0, DefaultSerializationBinder.Instance) + "' for System.Collections.Generic.Dictionary`2[System.String,System.String]. Path '$values[0]'.", traceWriter.TraceRecords[3].Message);
+        Assert.Equal("Finished serializing System.Collections.Generic.Dictionary`2[System.String,System.String]. Path '$values[0]'.", traceWriter.TraceRecords[4].Message);
+        Assert.Equal("Started serializing Argon.Tests.TestObjects.VersionOld. Path '$values[0]'.", traceWriter.TraceRecords[5].Message);
+        Assert.Equal("Writing type name '" + ReflectionUtils.GetTypeName(typeof(VersionOld), 0, DefaultSerializationBinder.Instance) + "' for Argon.Tests.TestObjects.VersionOld. Path '$values[1]'.", traceWriter.TraceRecords[6].Message);
+        Assert.Equal("Finished serializing Argon.Tests.TestObjects.VersionOld. Path '$values[1]'.", traceWriter.TraceRecords[7].Message);
+        Assert.Equal("Finished serializing System.Collections.Generic.List`1[System.Object]. Path ''.", traceWriter.TraceRecords[8].Message);
     }
 
     [Fact]
@@ -766,10 +763,10 @@ Argon Error: 0 : Error!
             TraceWriter = traceWriter
         });
 
-        Assert.AreEqual("Started serializing System.Collections.Generic.List`1[System.DateTime]. Path ''.", traceWriter.TraceRecords[0].Message);
-        Assert.AreEqual("Started serializing System.DateTime with converter Argon.Converters.JavaScriptDateTimeConverter. Path ''.", traceWriter.TraceRecords[1].Message);
-        Assert.AreEqual("Finished serializing System.DateTime with converter Argon.Converters.JavaScriptDateTimeConverter. Path '[0]'.", traceWriter.TraceRecords[2].Message);
-        Assert.AreEqual("Finished serializing System.Collections.Generic.List`1[System.DateTime]. Path ''.", traceWriter.TraceRecords[3].Message);
+        Assert.Equal("Started serializing System.Collections.Generic.List`1[System.DateTime]. Path ''.", traceWriter.TraceRecords[0].Message);
+        Assert.Equal("Started serializing System.DateTime with converter Argon.Converters.JavaScriptDateTimeConverter. Path ''.", traceWriter.TraceRecords[1].Message);
+        Assert.Equal("Finished serializing System.DateTime with converter Argon.Converters.JavaScriptDateTimeConverter. Path '[0]'.", traceWriter.TraceRecords[2].Message);
+        Assert.Equal("Finished serializing System.Collections.Generic.List`1[System.DateTime]. Path ''.", traceWriter.TraceRecords[3].Message);
     }
 
     [Fact]
@@ -791,10 +788,10 @@ Argon Error: 0 : Error!
                 TraceWriter = traceWriter
             });
 
-        Assert.AreEqual("Started deserializing System.Collections.Generic.List`1[System.DateTime]. Path '', line 1, position 1.", traceWriter.TraceRecords[0].Message);
-        Assert.AreEqual("Started deserializing System.DateTime with converter Argon.Converters.JavaScriptDateTimeConverter. Path '[0]', line 1, position 10.", traceWriter.TraceRecords[1].Message);
-        Assert.AreEqual("Finished deserializing System.DateTime with converter Argon.Converters.JavaScriptDateTimeConverter. Path '[0]', line 1, position 23.", traceWriter.TraceRecords[2].Message);
-        Assert.AreEqual("Finished deserializing System.Collections.Generic.List`1[System.DateTime]. Path '', line 1, position 24.", traceWriter.TraceRecords[3].Message);
+        Assert.Equal("Started deserializing System.Collections.Generic.List`1[System.DateTime]. Path '', line 1, position 1.", traceWriter.TraceRecords[0].Message);
+        Assert.Equal("Started deserializing System.DateTime with converter Argon.Converters.JavaScriptDateTimeConverter. Path '[0]', line 1, position 10.", traceWriter.TraceRecords[1].Message);
+        Assert.Equal("Finished deserializing System.DateTime with converter Argon.Converters.JavaScriptDateTimeConverter. Path '[0]', line 1, position 23.", traceWriter.TraceRecords[2].Message);
+        Assert.Equal("Finished deserializing System.Collections.Generic.List`1[System.DateTime]. Path '', line 1, position 24.", traceWriter.TraceRecords[3].Message);
     }
 
     [Fact]
@@ -831,16 +828,16 @@ Argon Error: 0 : Error!
             TraceWriter = traceWriter
         });
 
-        Assert.AreEqual("Resolved type 'System.Collections.Generic.List`1[[System.Object, mscorlib]], mscorlib' to System.Collections.Generic.List`1[System.Object]. Path '$type', line 2, position 83.", traceWriter.TraceRecords[0].Message);
-        Assert.AreEqual("Started deserializing System.Collections.Generic.List`1[System.Object]. Path '$values', line 3, position 14.", traceWriter.TraceRecords[1].Message);
-        Assert.AreEqual("Resolved type 'System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.String, mscorlib]], mscorlib' to System.Collections.Generic.Dictionary`2[System.String,System.String]. Path '$values[0].$type', line 5, position 119.", traceWriter.TraceRecords[2].Message);
-        Assert.AreEqual("Started deserializing System.Collections.Generic.Dictionary`2[System.String,System.String]. Path '$values[0].key!', line 6, position 13.", traceWriter.TraceRecords[3].Message);
-        Assert.IsTrue(traceWriter.TraceRecords[4].Message.StartsWith("Finished deserializing System.Collections.Generic.Dictionary`2[System.String,System.String]. Path '$values[0]'"));
-        Assert.AreEqual("Resolved type 'Argon.Tests.TestObjects.VersionOld, Tests' to Argon.Tests.TestObjects.VersionOld. Path '$values[1].$type', line 9, position 58.", traceWriter.TraceRecords[5].Message);
-        Assert.AreEqual("Deserializing Argon.Tests.TestObjects.VersionOld using creator with parameters: Major, Minor, Build, Revision. Path '$values[1].Major', line 10, position 14.", traceWriter.TraceRecords[6].Message);
-        Assert.IsTrue(traceWriter.TraceRecords[7].Message.StartsWith("Started deserializing Argon.Tests.TestObjects.VersionOld. Path '$values[1]'"));
-        Assert.IsTrue(traceWriter.TraceRecords[8].Message.StartsWith("Finished deserializing Argon.Tests.TestObjects.VersionOld. Path '$values[1]'"));
-        Assert.IsTrue(traceWriter.TraceRecords[9].Message.StartsWith("Finished deserializing System.Collections.Generic.List`1[System.Object]. Path '$values'"));
+        Assert.Equal("Resolved type 'System.Collections.Generic.List`1[[System.Object, mscorlib]], mscorlib' to System.Collections.Generic.List`1[System.Object]. Path '$type', line 2, position 83.", traceWriter.TraceRecords[0].Message);
+        Assert.Equal("Started deserializing System.Collections.Generic.List`1[System.Object]. Path '$values', line 3, position 14.", traceWriter.TraceRecords[1].Message);
+        Assert.Equal("Resolved type 'System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.String, mscorlib]], mscorlib' to System.Collections.Generic.Dictionary`2[System.String,System.String]. Path '$values[0].$type', line 5, position 119.", traceWriter.TraceRecords[2].Message);
+        Assert.Equal("Started deserializing System.Collections.Generic.Dictionary`2[System.String,System.String]. Path '$values[0].key!', line 6, position 13.", traceWriter.TraceRecords[3].Message);
+        Assert.True(traceWriter.TraceRecords[4].Message.StartsWith("Finished deserializing System.Collections.Generic.Dictionary`2[System.String,System.String]. Path '$values[0]'"));
+        Assert.Equal("Resolved type 'Argon.Tests.TestObjects.VersionOld, Tests' to Argon.Tests.TestObjects.VersionOld. Path '$values[1].$type', line 9, position 58.", traceWriter.TraceRecords[5].Message);
+        Assert.Equal("Deserializing Argon.Tests.TestObjects.VersionOld using creator with parameters: Major, Minor, Build, Revision. Path '$values[1].Major', line 10, position 14.", traceWriter.TraceRecords[6].Message);
+        Assert.True(traceWriter.TraceRecords[7].Message.StartsWith("Started deserializing Argon.Tests.TestObjects.VersionOld. Path '$values[1]'"));
+        Assert.True(traceWriter.TraceRecords[8].Message.StartsWith("Finished deserializing Argon.Tests.TestObjects.VersionOld. Path '$values[1]'"));
+        Assert.True(traceWriter.TraceRecords[9].Message.StartsWith("Finished deserializing System.Collections.Generic.List`1[System.Object]. Path '$values'"));
     }
 
     [Fact]
@@ -851,7 +848,7 @@ Argon Error: 0 : Error!
             LevelFilter = TraceLevel.Verbose
         };
 
-        ExceptionAssert.Throws<SerializationException>(() =>
+        XUnitAssert.Throws<SerializationException>(() =>
             {
                 JsonConvert.DeserializeObject<Exception>(
                     "{}",
@@ -863,16 +860,16 @@ Argon Error: 0 : Error!
             "Member 'ClassName' was not found.",
             "Member 'Message' was not found.");
 
-        Assert.IsTrue(traceWriter.TraceRecords[0].Message.StartsWith("Deserializing System.Exception using ISerializable constructor. Path ''"));
-        Assert.AreEqual(TraceLevel.Info, traceWriter.TraceRecords[0].Level);
+        Assert.True(traceWriter.TraceRecords[0].Message.StartsWith("Deserializing System.Exception using ISerializable constructor. Path ''"));
+        Assert.Equal(TraceLevel.Info, traceWriter.TraceRecords[0].Level);
 
 #if !NETSTANDARD2_0
-            Assert.AreEqual("Error deserializing System.Exception. Member 'ClassName' was not found. Path '', line 1, position 2.", traceWriter.TraceRecords[1].Message);
+            Assert.Equal("Error deserializing System.Exception. Member 'ClassName' was not found. Path '', line 1, position 2.", traceWriter.TraceRecords[1].Message);
 #else
-        Assert.AreEqual("Error deserializing System.Exception. Member 'Message' was not found. Path '', line 1, position 2.", traceWriter.TraceRecords[1].Message);
+        Assert.Equal("Error deserializing System.Exception. Member 'Message' was not found. Path '', line 1, position 2.", traceWriter.TraceRecords[1].Message);
 #endif
 
-        Assert.AreEqual(TraceLevel.Error, traceWriter.TraceRecords[1].Level);
+        Assert.Equal(TraceLevel.Error, traceWriter.TraceRecords[1].Level);
     }
 
     [Fact]
@@ -890,9 +887,9 @@ Argon Error: 0 : Error!
                 TraceWriter = traceWriter
             });
 
-        Assert.AreEqual("Started deserializing Argon.Tests.TestObjects.Organization.Person. Path 'MissingMemberProperty', line 1, position 25.", traceWriter.TraceRecords[0].Message);
-        Assert.AreEqual("Could not find member 'MissingMemberProperty' on Argon.Tests.TestObjects.Organization.Person. Path 'MissingMemberProperty', line 1, position 25.", traceWriter.TraceRecords[1].Message);
-        Assert.IsTrue(traceWriter.TraceRecords[2].Message.StartsWith("Finished deserializing Argon.Tests.TestObjects.Organization.Person. Path ''"));
+        Assert.Equal("Started deserializing Argon.Tests.TestObjects.Organization.Person. Path 'MissingMemberProperty', line 1, position 25.", traceWriter.TraceRecords[0].Message);
+        Assert.Equal("Could not find member 'MissingMemberProperty' on Argon.Tests.TestObjects.Organization.Person. Path 'MissingMemberProperty', line 1, position 25.", traceWriter.TraceRecords[1].Message);
+        Assert.True(traceWriter.TraceRecords[2].Message.StartsWith("Finished deserializing Argon.Tests.TestObjects.Organization.Person. Path ''"));
     }
 
     [Fact]
@@ -918,10 +915,10 @@ Argon Error: 0 : Error!
             TraceWriter = traceWriter
         });
 
-        Assert.AreEqual("Deserializing Argon.Tests.TestObjects.VersionOld using creator with parameters: Major, Minor, Build, Revision. Path 'Major', line 2, position 10.", traceWriter.TraceRecords[0].Message);
-        Assert.AreEqual("Could not find member 'MissingMemberProperty' on Argon.Tests.TestObjects.VersionOld. Path 'MissingMemberProperty', line 8, position 31.", traceWriter.TraceRecords[1].Message);
-        Assert.IsTrue(traceWriter.TraceRecords[2].Message.StartsWith("Started deserializing Argon.Tests.TestObjects.VersionOld. Path ''"));
-        Assert.IsTrue(traceWriter.TraceRecords[3].Message.StartsWith("Finished deserializing Argon.Tests.TestObjects.VersionOld. Path ''"));
+        Assert.Equal("Deserializing Argon.Tests.TestObjects.VersionOld using creator with parameters: Major, Minor, Build, Revision. Path 'Major', line 2, position 10.", traceWriter.TraceRecords[0].Message);
+        Assert.Equal("Could not find member 'MissingMemberProperty' on Argon.Tests.TestObjects.VersionOld. Path 'MissingMemberProperty', line 8, position 31.", traceWriter.TraceRecords[1].Message);
+        Assert.True(traceWriter.TraceRecords[2].Message.StartsWith("Started deserializing Argon.Tests.TestObjects.VersionOld. Path ''"));
+        Assert.True(traceWriter.TraceRecords[3].Message.StartsWith("Finished deserializing Argon.Tests.TestObjects.VersionOld. Path ''"));
     }
 
     [Fact]
@@ -939,10 +936,10 @@ Argon Error: 0 : Error!
             TraceWriter = traceWriter
         });
 
-        Assert.IsNotNull(c);
-        Assert.AreEqual(1, c.Name);
+        Assert.NotNull(c);
+        Assert.Equal(1, c.Name);
 
-        Assert.AreEqual("Deserializing Argon.Tests.TestObjects.PublicParameterizedConstructorWithPropertyNameConflictWithAttribute using creator with parameters: name. Path 'name', line 1, position 6.", traceWriter.TraceRecords[0].Message);
+        Assert.Equal("Deserializing Argon.Tests.TestObjects.PublicParameterizedConstructorWithPropertyNameConflictWithAttribute using creator with parameters: name. Path 'name', line 1, position 6.", traceWriter.TraceRecords[0].Message);
     }
 
     [Fact]
@@ -962,8 +959,8 @@ Argon Error: 0 : Error!
 
         JsonConvert.SerializeObject(c, new JsonSerializerSettings { TraceWriter = traceWriter });
 
-        Assert.AreEqual("ShouldSerialize result for property 'Name' on Argon.Tests.Serialization.ShouldSerializeTestClass: True. Path ''.", traceWriter.TraceRecords[1].Message);
-        Assert.AreEqual(TraceLevel.Verbose, traceWriter.TraceRecords[1].Level);
+        Assert.Equal("ShouldSerialize result for property 'Name' on Argon.Tests.Serialization.ShouldSerializeTestClass: True. Path ''.", traceWriter.TraceRecords[1].Message);
+        Assert.Equal(TraceLevel.Verbose, traceWriter.TraceRecords[1].Level);
 
         traceWriter = new InMemoryTraceWriter
         {
@@ -974,8 +971,8 @@ Argon Error: 0 : Error!
 
         JsonConvert.SerializeObject(c, new JsonSerializerSettings { TraceWriter = traceWriter });
 
-        Assert.AreEqual("ShouldSerialize result for property 'Name' on Argon.Tests.Serialization.ShouldSerializeTestClass: False. Path ''.", traceWriter.TraceRecords[1].Message);
-        Assert.AreEqual(TraceLevel.Verbose, traceWriter.TraceRecords[1].Level);
+        Assert.Equal("ShouldSerialize result for property 'Name' on Argon.Tests.Serialization.ShouldSerializeTestClass: False. Path ''.", traceWriter.TraceRecords[1].Message);
+        Assert.Equal(TraceLevel.Verbose, traceWriter.TraceRecords[1].Level);
     }
 
     [Fact]
@@ -995,14 +992,14 @@ Argon Error: 0 : Error!
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented, new JsonSerializerSettings { TraceWriter = traceWriter });
 
-        Assert.AreEqual("Started serializing Argon.Tests.Serialization.SpecifiedTestClass. Path ''.", traceWriter.TraceRecords[0].Message);
-        Assert.AreEqual("IsSpecified result for property 'Name' on Argon.Tests.Serialization.SpecifiedTestClass: False. Path ''.", traceWriter.TraceRecords[1].Message);
-        Assert.AreEqual("IsSpecified result for property 'Weight' on Argon.Tests.Serialization.SpecifiedTestClass: False. Path 'Age'.", traceWriter.TraceRecords[2].Message);
-        Assert.AreEqual("IsSpecified result for property 'Height' on Argon.Tests.Serialization.SpecifiedTestClass: False. Path 'Age'.", traceWriter.TraceRecords[3].Message);
-        Assert.AreEqual("IsSpecified result for property 'FavoriteNumber' on Argon.Tests.Serialization.SpecifiedTestClass: False. Path 'Age'.", traceWriter.TraceRecords[4].Message);
-        Assert.AreEqual("Finished serializing Argon.Tests.Serialization.SpecifiedTestClass. Path ''.", traceWriter.TraceRecords[5].Message);
+        Assert.Equal("Started serializing Argon.Tests.Serialization.SpecifiedTestClass. Path ''.", traceWriter.TraceRecords[0].Message);
+        Assert.Equal("IsSpecified result for property 'Name' on Argon.Tests.Serialization.SpecifiedTestClass: False. Path ''.", traceWriter.TraceRecords[1].Message);
+        Assert.Equal("IsSpecified result for property 'Weight' on Argon.Tests.Serialization.SpecifiedTestClass: False. Path 'Age'.", traceWriter.TraceRecords[2].Message);
+        Assert.Equal("IsSpecified result for property 'Height' on Argon.Tests.Serialization.SpecifiedTestClass: False. Path 'Age'.", traceWriter.TraceRecords[3].Message);
+        Assert.Equal("IsSpecified result for property 'FavoriteNumber' on Argon.Tests.Serialization.SpecifiedTestClass: False. Path 'Age'.", traceWriter.TraceRecords[4].Message);
+        Assert.Equal("Finished serializing Argon.Tests.Serialization.SpecifiedTestClass. Path ''.", traceWriter.TraceRecords[5].Message);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Age"": 27
 }", json);
 
@@ -1013,15 +1010,15 @@ Argon Error: 0 : Error!
 
         var deserialized = JsonConvert.DeserializeObject<SpecifiedTestClass>(json, new JsonSerializerSettings { TraceWriter = traceWriter });
 
-        Assert.AreEqual("Started deserializing Argon.Tests.Serialization.SpecifiedTestClass. Path 'Age', line 2, position 8.", traceWriter.TraceRecords[0].Message);
-        Assert.IsTrue(traceWriter.TraceRecords[1].Message.StartsWith("Finished deserializing Argon.Tests.Serialization.SpecifiedTestClass. Path ''"));
+        Assert.Equal("Started deserializing Argon.Tests.Serialization.SpecifiedTestClass. Path 'Age', line 2, position 8.", traceWriter.TraceRecords[0].Message);
+        Assert.True(traceWriter.TraceRecords[1].Message.StartsWith("Finished deserializing Argon.Tests.Serialization.SpecifiedTestClass. Path ''"));
 
-        Assert.IsNull(deserialized.Name);
-        Assert.IsFalse(deserialized.NameSpecified);
-        Assert.IsFalse(deserialized.WeightSpecified);
-        Assert.IsFalse(deserialized.HeightSpecified);
-        Assert.IsFalse(deserialized.FavoriteNumberSpecified);
-        Assert.AreEqual(27, deserialized.Age);
+        Assert.Null(deserialized.Name);
+        Assert.False(deserialized.NameSpecified);
+        Assert.False(deserialized.WeightSpecified);
+        Assert.False(deserialized.HeightSpecified);
+        Assert.False(deserialized.FavoriteNumberSpecified);
+        Assert.Equal(27, deserialized.Age);
 
         c.NameSpecified = true;
         c.WeightSpecified = true;
@@ -1029,7 +1026,7 @@ Argon Error: 0 : Error!
         c.FavoriteNumber = 23;
         json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""James"",
   ""Age"": 27,
   ""Weight"": 0,
@@ -1044,19 +1041,19 @@ Argon Error: 0 : Error!
 
         deserialized = JsonConvert.DeserializeObject<SpecifiedTestClass>(json, new JsonSerializerSettings { TraceWriter = traceWriter });
 
-        Assert.AreEqual("Started deserializing Argon.Tests.Serialization.SpecifiedTestClass. Path 'Name', line 2, position 9.", traceWriter.TraceRecords[0].Message);
-        Assert.AreEqual("IsSpecified for property 'Name' on Argon.Tests.Serialization.SpecifiedTestClass set to true. Path 'Name', line 2, position 17.", traceWriter.TraceRecords[1].Message);
-        Assert.AreEqual("IsSpecified for property 'Weight' on Argon.Tests.Serialization.SpecifiedTestClass set to true. Path 'Weight', line 4, position 13.", traceWriter.TraceRecords[2].Message);
-        Assert.AreEqual("IsSpecified for property 'Height' on Argon.Tests.Serialization.SpecifiedTestClass set to true. Path 'Height', line 5, position 13.", traceWriter.TraceRecords[3].Message);
-        Assert.IsTrue(traceWriter.TraceRecords[4].Message.StartsWith("Finished deserializing Argon.Tests.Serialization.SpecifiedTestClass. Path ''"));
+        Assert.Equal("Started deserializing Argon.Tests.Serialization.SpecifiedTestClass. Path 'Name', line 2, position 9.", traceWriter.TraceRecords[0].Message);
+        Assert.Equal("IsSpecified for property 'Name' on Argon.Tests.Serialization.SpecifiedTestClass set to true. Path 'Name', line 2, position 17.", traceWriter.TraceRecords[1].Message);
+        Assert.Equal("IsSpecified for property 'Weight' on Argon.Tests.Serialization.SpecifiedTestClass set to true. Path 'Weight', line 4, position 13.", traceWriter.TraceRecords[2].Message);
+        Assert.Equal("IsSpecified for property 'Height' on Argon.Tests.Serialization.SpecifiedTestClass set to true. Path 'Height', line 5, position 13.", traceWriter.TraceRecords[3].Message);
+        Assert.True(traceWriter.TraceRecords[4].Message.StartsWith("Finished deserializing Argon.Tests.Serialization.SpecifiedTestClass. Path ''"));
 
-        Assert.AreEqual("James", deserialized.Name);
-        Assert.IsTrue(deserialized.NameSpecified);
-        Assert.IsTrue(deserialized.WeightSpecified);
-        Assert.IsTrue(deserialized.HeightSpecified);
-        Assert.IsTrue(deserialized.FavoriteNumberSpecified);
-        Assert.AreEqual(27, deserialized.Age);
-        Assert.AreEqual(23, deserialized.FavoriteNumber);
+        Assert.Equal("James", deserialized.Name);
+        Assert.True(deserialized.NameSpecified);
+        Assert.True(deserialized.WeightSpecified);
+        Assert.True(deserialized.HeightSpecified);
+        Assert.True(deserialized.FavoriteNumberSpecified);
+        Assert.Equal(27, deserialized.Age);
+        Assert.Equal(23, deserialized.FavoriteNumber);
     }
 
     [Fact]
@@ -1077,7 +1074,7 @@ Argon Error: 0 : Error!
   ""Prop1"": 1
 }";
 
-        StringAssert.AreEqual("Serialized JSON: " + Environment.NewLine + json, traceWriter.GetSerializedJsonMessage());
+        XUnitAssert.AreEqualNormalized("Serialized JSON: " + Environment.NewLine + json, traceWriter.GetSerializedJsonMessage());
     }
 
     [Fact]
@@ -1098,7 +1095,7 @@ Argon Error: 0 : Error!
   ""Prop1"": 1
 }";
 
-        StringAssert.AreEqual("Serialized JSON: " + Environment.NewLine + json, traceWriter.GetSerializedJsonMessage());
+        XUnitAssert.AreEqualNormalized("Serialized JSON: " + Environment.NewLine + json, traceWriter.GetSerializedJsonMessage());
     }
 
     [Fact]
@@ -1217,7 +1214,7 @@ Argon Error: 0 : Error!
   ]
 }";
 
-        StringAssert.AreEqual("Serialized JSON: " + Environment.NewLine + json, traceWriter.GetSerializedJsonMessage());
+        XUnitAssert.AreEqualNormalized("Serialized JSON: " + Environment.NewLine + json, traceWriter.GetSerializedJsonMessage());
     }
 
     [Fact]
@@ -1248,89 +1245,89 @@ Argon Error: 0 : Error!
         var traceReader = new TraceJsonReader(w);
 
         traceReader.Read();
-        Assert.AreEqual(JsonToken.StartObject, traceReader.TokenType);
+        Assert.Equal(JsonToken.StartObject, traceReader.TokenType);
 
         traceReader.Read();
-        Assert.AreEqual(JsonToken.PropertyName, traceReader.TokenType);
-        Assert.AreEqual("Array", traceReader.Value);
+        Assert.Equal(JsonToken.PropertyName, traceReader.TokenType);
+        Assert.Equal("Array", traceReader.Value);
 
         traceReader.Read();
-        Assert.AreEqual(JsonToken.StartArray, traceReader.TokenType);
-        Assert.AreEqual(null, traceReader.Value);
+        Assert.Equal(JsonToken.StartArray, traceReader.TokenType);
+        Assert.Equal(null, traceReader.Value);
 
         traceReader.ReadAsString();
-        Assert.AreEqual(JsonToken.String, traceReader.TokenType);
-        Assert.AreEqual('"', traceReader.QuoteChar);
-        Assert.AreEqual("String!", traceReader.Value);
+        Assert.Equal(JsonToken.String, traceReader.TokenType);
+        Assert.Equal('"', traceReader.QuoteChar);
+        Assert.Equal("String!", traceReader.Value);
 
         // for great code coverage justice!
         traceReader.QuoteChar = '\'';
-        Assert.AreEqual('\'', traceReader.QuoteChar);
+        Assert.Equal('\'', traceReader.QuoteChar);
 
         traceReader.ReadAsString();
-        Assert.AreEqual(JsonToken.String, traceReader.TokenType);
-        Assert.AreEqual("2000-12-12T12:12:12Z", traceReader.Value);
+        Assert.Equal(JsonToken.String, traceReader.TokenType);
+        Assert.Equal("2000-12-12T12:12:12Z", traceReader.Value);
 
         traceReader.ReadAsDateTime();
-        Assert.AreEqual(JsonToken.Date, traceReader.TokenType);
-        Assert.AreEqual(new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc), traceReader.Value);
+        Assert.Equal(JsonToken.Date, traceReader.TokenType);
+        Assert.Equal(new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc), traceReader.Value);
 
         traceReader.ReadAsDateTimeOffset();
-        Assert.AreEqual(JsonToken.Date, traceReader.TokenType);
-        Assert.AreEqual(new DateTimeOffset(2000, 12, 12, 12, 12, 12, TimeSpan.Zero), traceReader.Value);
+        Assert.Equal(JsonToken.Date, traceReader.TokenType);
+        Assert.Equal(new DateTimeOffset(2000, 12, 12, 12, 12, 12, TimeSpan.Zero), traceReader.Value);
 
         traceReader.ReadAsBytes();
-        Assert.AreEqual(JsonToken.Bytes, traceReader.TokenType);
-        CollectionAssert.AreEqual(Encoding.UTF8.GetBytes("String!"), (byte[])traceReader.Value);
+        Assert.Equal(JsonToken.Bytes, traceReader.TokenType);
+        Assert.Equal(Encoding.UTF8.GetBytes("String!"), (byte[])traceReader.Value);
 
         traceReader.ReadAsInt32();
-        Assert.AreEqual(JsonToken.Integer, traceReader.TokenType);
-        Assert.AreEqual(1, traceReader.Value);
+        Assert.Equal(JsonToken.Integer, traceReader.TokenType);
+        Assert.Equal(1, traceReader.Value);
 
         traceReader.ReadAsDecimal();
-        Assert.AreEqual(JsonToken.Float, traceReader.TokenType);
-        Assert.AreEqual(1.1m, traceReader.Value);
+        Assert.Equal(JsonToken.Float, traceReader.TokenType);
+        Assert.Equal(1.1m, traceReader.Value);
 
         traceReader.ReadAsDouble();
-        Assert.AreEqual(JsonToken.Float, traceReader.TokenType);
-        Assert.AreEqual(1.2d, traceReader.Value);
+        Assert.Equal(JsonToken.Float, traceReader.TokenType);
+        Assert.Equal(1.2d, traceReader.Value);
 
         traceReader.Read();
-        Assert.AreEqual(JsonToken.Integer, traceReader.TokenType);
-        Assert.AreEqual(typeof(BigInteger), traceReader.ValueType);
-        Assert.AreEqual(BigInteger.Parse("9999999990000000000000000000000000000000000"), traceReader.Value);
+        Assert.Equal(JsonToken.Integer, traceReader.TokenType);
+        Assert.Equal(typeof(BigInteger), traceReader.ValueType);
+        Assert.Equal(BigInteger.Parse("9999999990000000000000000000000000000000000"), traceReader.Value);
 
         traceReader.Read();
-        Assert.AreEqual(JsonToken.Null, traceReader.TokenType);
+        Assert.Equal(JsonToken.Null, traceReader.TokenType);
 
         traceReader.Read();
-        Assert.AreEqual(JsonToken.Undefined, traceReader.TokenType);
+        Assert.Equal(JsonToken.Undefined, traceReader.TokenType);
 
         traceReader.Read();
-        Assert.AreEqual(JsonToken.StartConstructor, traceReader.TokenType);
+        Assert.Equal(JsonToken.StartConstructor, traceReader.TokenType);
 
         traceReader.Read();
-        Assert.AreEqual(JsonToken.Integer, traceReader.TokenType);
-        Assert.AreEqual(1L, traceReader.Value);
+        Assert.Equal(JsonToken.Integer, traceReader.TokenType);
+        Assert.Equal(1L, traceReader.Value);
 
         traceReader.Read();
-        Assert.AreEqual(JsonToken.EndConstructor, traceReader.TokenType);
+        Assert.Equal(JsonToken.EndConstructor, traceReader.TokenType);
 
         traceReader.Read();
-        Assert.AreEqual(JsonToken.Comment, traceReader.TokenType);
-        Assert.AreEqual("A comment", traceReader.Value);
+        Assert.Equal(JsonToken.Comment, traceReader.TokenType);
+        Assert.Equal("A comment", traceReader.Value);
 
         traceReader.Read();
-        Assert.AreEqual(JsonToken.EndArray, traceReader.TokenType);
+        Assert.Equal(JsonToken.EndArray, traceReader.TokenType);
 
         traceReader.Read();
-        Assert.AreEqual(JsonToken.EndObject, traceReader.TokenType);
+        Assert.Equal(JsonToken.EndObject, traceReader.TokenType);
 
-        Assert.IsFalse(traceReader.Read());
+        Assert.False(traceReader.Read());
 
         traceReader.Close();
 
-        StringAssert.AreEqual("Deserialized JSON: " + Environment.NewLine + json, traceReader.GetDeserializedJsonMessage());
+        XUnitAssert.AreEqualNormalized("Deserialized JSON: " + Environment.NewLine + json, traceReader.GetDeserializedJsonMessage());
     }
 }
 

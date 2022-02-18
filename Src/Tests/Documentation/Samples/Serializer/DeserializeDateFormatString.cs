@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class DeserializeDateFormatString : TestFixtureBase
 {
     [Fact]
@@ -56,8 +53,8 @@ public class DeserializeDateFormatString : TestFixtureBase
         // Wednesday, 10 February 2010
         #endregion
 
-        Assert.AreEqual(new DateTime(2009, 12, 7, 0, 0, 0, DateTimeKind.Utc), dateList[0]);
-        Assert.AreEqual(new DateTime(2010, 1, 1, 0, 0, 0, DateTimeKind.Utc), dateList[1]);
-        Assert.AreEqual(new DateTime(2010, 2, 10, 0, 0, 0, DateTimeKind.Utc), dateList[2]);
+        Assert.Equal(new DateTime(2009, 12, 7, 0, 0, 0, DateTimeKind.Utc), dateList[0]);
+        Assert.Equal(new DateTime(2010, 1, 1, 0, 0, 0, DateTimeKind.Utc), dateList[1]);
+        Assert.Equal(new DateTime(2010, 2, 10, 0, 0, 0, DateTimeKind.Utc), dateList[2]);
     }
 }

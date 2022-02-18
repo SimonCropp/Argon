@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue2450
 {
     [Fact]
@@ -38,10 +35,10 @@ public class Issue2450
         var resolver = new DefaultContractResolver();
 
         var contract = resolver.ResolveContract(typeof(Dict));
-        Assert.IsTrue(contract is JsonDictionaryContract);
+        Assert.True(contract is JsonDictionaryContract);
 
         contract = resolver.ResolveContract(typeof(Dict?));
-        Assert.IsTrue(contract is JsonDictionaryContract);
+        Assert.True(contract is JsonDictionaryContract);
     }
 
     [Fact]
@@ -54,7 +51,7 @@ public class Issue2450
         });
 
         var json = JsonConvert.SerializeObject(d);
-        Assert.AreEqual(@"{""prop1"":1,""prop2"":2}", json);
+        Assert.Equal(@"{""prop1"":1,""prop2"":2}", json);
     }
 
     [Fact]
@@ -63,8 +60,8 @@ public class Issue2450
         var json = @"{""prop1"":1,""prop2"":2}";
 
         var d = JsonConvert.DeserializeObject<Dict?>(json);
-        Assert.AreEqual((Int64)1, d.Value["prop1"]);
-        Assert.AreEqual((Int64)2, d.Value["prop2"]);
+        Assert.Equal((Int64)1, d.Value["prop1"]);
+        Assert.Equal((Int64)2, d.Value["prop2"]);
     }
 
     public struct Dict : IReadOnlyDictionary<string, object>

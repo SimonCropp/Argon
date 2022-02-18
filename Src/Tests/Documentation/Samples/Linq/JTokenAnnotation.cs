@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Linq;
 
-[TestFixture]
 public class JTokenAnnotation : TestFixtureBase
 {
     [Fact]
@@ -54,7 +51,7 @@ public class JTokenAnnotation : TestFixtureBase
         // employer
         #endregion
 
-        Assert.AreEqual(true, changedProperties.Contains("age"));
-        Assert.AreEqual(true, changedProperties.Contains("employer"));
+        XUnitAssert.True(changedProperties.Contains("age"));
+        XUnitAssert.True(changedProperties.Contains("employer"));
     }
 }

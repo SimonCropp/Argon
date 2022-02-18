@@ -24,8 +24,6 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 using Argon.Tests.Serialization;
 
 namespace Argon.Tests.Documentation;
@@ -61,7 +59,6 @@ public static class LogManager
     }
 }
 
-[TestFixture]
 public class TraceWriterTests : TestFixtureBase
 {
     #region CustomTraceWriterExample
@@ -143,7 +140,7 @@ public class TraceWriterTests : TestFixtureBase
 
         var memoryTraceWriter = (MemoryTraceWriter)traceWriter;
 
-        Assert.AreEqual(876, memoryTraceWriter.ToString().Length);
-        Assert.AreEqual(7, memoryTraceWriter.GetTraceMessages().Count());
+        Assert.Equal(876, memoryTraceWriter.ToString().Length);
+        Assert.Equal(7, memoryTraceWriter.GetTraceMessages().Count());
     }
 }

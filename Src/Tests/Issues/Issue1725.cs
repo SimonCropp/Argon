@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue1725 : TestFixtureBase
 {
     [Fact]
@@ -39,7 +36,7 @@ public class Issue1725 : TestFixtureBase
         var json = JsonConvert.SerializeObject(p1);
 
         var p2 = JsonConvert.DeserializeObject<InPerson>(json);
-        Assert.AreEqual("some name", p2.Name);
+        Assert.Equal("some name", p2.Name);
     }
 
     [Fact]
@@ -50,7 +47,7 @@ public class Issue1725 : TestFixtureBase
         var json = JsonConvert.SerializeObject(p1);
 
         var p2 = JsonConvert.DeserializeObject<RefPerson>(json);
-        Assert.AreEqual("some name", p2.Name);
+        Assert.Equal("some name", p2.Name);
     }
 
     [Fact]
@@ -60,7 +57,7 @@ public class Issue1725 : TestFixtureBase
         var json = JsonConvert.SerializeObject(p1);
 
         var p2 = JsonConvert.DeserializeObject<InNullablePerson>(json);
-        Assert.AreEqual(1, p2.Age);
+        Assert.Equal(1, p2.Age);
     }
 
     [Fact]
@@ -71,7 +68,7 @@ public class Issue1725 : TestFixtureBase
         var json = JsonConvert.SerializeObject(p1);
 
         var p2 = JsonConvert.DeserializeObject<RefNullablePerson>(json);
-        Assert.AreEqual(1, p2.Age);
+        Assert.Equal(1, p2.Age);
     }
 
     public class InPerson

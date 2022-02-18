@@ -24,20 +24,17 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue2176
 {
     [Fact]
     public void Test()
     {
         var o = JsonConvert.DeserializeObject<Dummy>(Json);
-        Assert.AreEqual(0, o.P0);
-        Assert.AreEqual(256, o.P256);
+        Assert.Equal(0, o.P0);
+        Assert.Equal(256, o.P256);
     }
 
     public class Dummy

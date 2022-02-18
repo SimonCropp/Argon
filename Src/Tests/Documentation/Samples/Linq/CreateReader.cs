@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Linq;
 
-[TestFixture]
 public class CreateReader : TestFixtureBase
 {
     [Fact]
@@ -74,6 +71,6 @@ public class CreateReader : TestFixtureBase
         // EndObject
         #endregion
 
-        Assert.IsFalse(reader.Read());
+        Assert.False(reader.Read());
     }
 }

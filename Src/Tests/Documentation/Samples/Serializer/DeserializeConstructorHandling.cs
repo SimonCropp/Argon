@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class DeserializeConstructorHandling : TestFixtureBase
 {
     #region Types
@@ -79,6 +76,6 @@ public class DeserializeConstructorHandling : TestFixtureBase
         // http://www.google.com
         #endregion
 
-        Assert.AreEqual("http://www.google.com", website.Url);
+        Assert.Equal("http://www.google.com", website.Url);
     }
 }

@@ -1,6 +1,4 @@
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Utilities;
 
@@ -48,75 +46,74 @@ public class InTestClass
     }
 }
 
-[TestFixture]
 public class LateboundReflectionDelegateFactoryTests : TestFixtureBase
 {
     [Fact]
     public void ConstructorWithInString()
     {
-        var constructor = TestReflectionUtils.GetConstructors(typeof(InTestClass)).Single(c => c.GetParameters().Count() == 1);
+        var constructor = typeof(InTestClass).GetConstructors().Single(c => c.GetParameters().Count() == 1);
 
         var creator = LateBoundReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
         var args = new object[] { "Value" };
         var o = (InTestClass)creator(args);
-        Assert.IsNotNull(o);
-        Assert.AreEqual("Value", o.Value);
+        Assert.NotNull(o);
+        Assert.Equal("Value", o.Value);
     }
 
     [Fact]
     public void ConstructorWithInStringAndBool()
     {
-        var constructor = TestReflectionUtils.GetConstructors(typeof(InTestClass)).Single(c => c.GetParameters().Count() == 2);
+        var constructor = typeof(InTestClass).GetConstructors().Single(c => c.GetParameters().Count() == 2);
 
         var creator = LateBoundReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
         var args = new object[] { "Value", true };
         var o = (InTestClass)creator(args);
-        Assert.IsNotNull(o);
-        Assert.AreEqual("Value", o.Value);
-        Assert.AreEqual(true, o.B1);
+        Assert.NotNull(o);
+        Assert.Equal("Value", o.Value);
+        XUnitAssert.True(o.B1);
     }
 
     [Fact]
     public void ConstructorWithRefString()
     {
-        var constructor = TestReflectionUtils.GetConstructors(typeof(OutAndRefTestClass)).Single(c => c.GetParameters().Count() == 1);
+        var constructor = typeof(OutAndRefTestClass).GetConstructors().Single(c => c.GetParameters().Count() == 1);
 
         var creator = LateBoundReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
         var args = new object[] { "Input" };
         var o = (OutAndRefTestClass)creator(args);
-        Assert.IsNotNull(o);
-        Assert.AreEqual("Input", o.Input);
+        Assert.NotNull(o);
+        Assert.Equal("Input", o.Input);
     }
 
     [Fact]
     public void ConstructorWithRefStringAndOutBool()
     {
-        var constructor = TestReflectionUtils.GetConstructors(typeof(OutAndRefTestClass)).Single(c => c.GetParameters().Count() == 2);
+        var constructor = typeof(OutAndRefTestClass).GetConstructors().Single(c => c.GetParameters().Count() == 2);
 
         var creator = LateBoundReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
         var args = new object[] { "Input", null };
         var o = (OutAndRefTestClass)creator(args);
-        Assert.IsNotNull(o);
-        Assert.AreEqual("Input", o.Input);
+        Assert.NotNull(o);
+        Assert.Equal("Input", o.Input);
     }
 
     [Fact]
     public void ConstructorWithRefStringAndRefBoolAndRefBool()
     {
-        var constructor = TestReflectionUtils.GetConstructors(typeof(OutAndRefTestClass)).Single(c => c.GetParameters().Count() == 3);
+        var constructor = typeof(OutAndRefTestClass).GetConstructors().Single(c => c.GetParameters().Count() == 3);
 
         var creator = LateBoundReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
         var args = new object[] { "Input", true, null };
         var o = (OutAndRefTestClass)creator(args);
-        Assert.IsNotNull(o);
-        Assert.AreEqual("Input", o.Input);
-        Assert.AreEqual(true, o.B1);
-        Assert.AreEqual(false, o.B2);
+        Assert.NotNull(o);
+        Assert.Equal("Input", o.Input);
+        XUnitAssert.True(o.B1);
+        XUnitAssert.False(o.B2);
     }
 }
 

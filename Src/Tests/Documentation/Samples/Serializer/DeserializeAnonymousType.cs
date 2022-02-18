@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class DeserializeAnonymousType : TestFixtureBase
 {
     [Fact]
@@ -51,6 +48,6 @@ public class DeserializeAnonymousType : TestFixtureBase
         // Mike
         #endregion
 
-        Assert.AreEqual("Mike", customer2.Name);
+        Assert.Equal("Mike", customer2.Name);
     }
 }

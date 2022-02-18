@@ -26,12 +26,9 @@
 using System.Dynamic;
 using System.Runtime.Serialization.Formatters;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Serialization;
 
-[TestFixture]
 public class DynamicTests : TestFixtureBase
 {
     [Fact]
@@ -59,12 +56,12 @@ public class DynamicTests : TestFixtureBase
             values.Add(memberName, value);
         }
 
-        Assert.AreEqual(d.Int, values["Int"]);
-        Assert.AreEqual(d.Decimal, values["Decimal"]);
-        Assert.AreEqual(d.ChildObject, values["ChildObject"]);
+        Assert.Equal(d.Int, values["Int"]);
+        Assert.Equal(d.Decimal, values["Decimal"]);
+        Assert.Equal(d.ChildObject, values["ChildObject"]);
 
         var json = JsonConvert.SerializeObject(dynamicObject, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Explicit"": true,
   ""Decimal"": 99.9,
   ""Int"": 1,
@@ -75,14 +72,14 @@ public class DynamicTests : TestFixtureBase
 }", json);
 
         var newDynamicObject = JsonConvert.DeserializeObject<TestDynamicObject>(json);
-        Assert.AreEqual(true, newDynamicObject.Explicit);
+        XUnitAssert.True(newDynamicObject.Explicit);
 
         d = newDynamicObject;
 
-        Assert.AreEqual(99.9, d.Decimal);
-        Assert.AreEqual(1, d.Int);
-        Assert.AreEqual(dynamicObject.ChildObject.Integer, d.ChildObject.Integer);
-        Assert.AreEqual(dynamicObject.ChildObject.Text, d.ChildObject.Text);
+        Assert.Equal(99.9, d.Decimal);
+        Assert.Equal(1, d.Int);
+        Assert.Equal(dynamicObject.ChildObject.Integer, d.ChildObject.Integer);
+        Assert.Equal(dynamicObject.ChildObject.Text, d.ChildObject.Text);
     }
 
     [Fact]
@@ -108,7 +105,7 @@ public class DynamicTests : TestFixtureBase
         var dynamicChildObjectTypeName = ReflectionUtils.GetTypeName(typeof(DynamicChildObject), TypeNameAssemblyFormatHandling.Full, null);
         var expandoObjectTypeName = ReflectionUtils.GetTypeName(typeof(ExpandoObject), TypeNameAssemblyFormatHandling.Full, null);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$type"": """ + expandoObjectTypeName + @""",
   ""Text"": ""Text!"",
   ""Integer"": 2147483647,
@@ -127,19 +124,19 @@ public class DynamicTests : TestFixtureBase
 #pragma warning restore 618
         });
 
-        CustomAssert.IsInstanceOfType(typeof(ExpandoObject), n);
-        Assert.AreEqual("Text!", n.Text);
-        Assert.AreEqual(int.MaxValue, n.Integer);
+        Assert.IsType(typeof(ExpandoObject), n);
+        Assert.Equal("Text!", n.Text);
+        Assert.Equal(int.MaxValue, n.Integer);
 
-        CustomAssert.IsInstanceOfType(typeof(DynamicChildObject), n.DynamicChildObject);
-        Assert.AreEqual("Child text!", n.DynamicChildObject.Text);
-        Assert.AreEqual(int.MinValue, n.DynamicChildObject.Integer);
+        Assert.IsType(typeof(DynamicChildObject), n.DynamicChildObject);
+        Assert.Equal("Child text!", n.DynamicChildObject.Text);
+        Assert.Equal(int.MinValue, n.DynamicChildObject.Integer);
     }
 
     [Fact]
     public void NoPublicDefaultConstructor()
     {
-        ExceptionAssert.Throws<JsonSerializationException>(() =>
+        XUnitAssert.Throws<JsonSerializationException>(() =>
         {
             var settings = new JsonSerializerSettings
             {
@@ -236,7 +233,7 @@ public class DynamicTests : TestFixtureBase
 
         var foo = JsonConvert.DeserializeObject<DictionaryDynamicObject>(json, settings);
 
-        Assert.AreEqual(false, foo.Values["retweeted"]);
+        XUnitAssert.False(foo.Values["retweeted"]);
     }
 
     [Fact]
@@ -253,7 +250,7 @@ public class DynamicTests : TestFixtureBase
             NullValueHandling = NullValueHandling.Ignore,
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Explicit"": false,
   ""Text"": ""Text!"",
   ""Int"": 2147483647
@@ -274,7 +271,7 @@ public class DynamicTests : TestFixtureBase
             NullValueHandling = NullValueHandling.Include,
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Explicit"": false,
   ""Text"": ""Text!"",
   ""DynamicChildObject"": null,
@@ -299,7 +296,7 @@ public class DynamicTests : TestFixtureBase
             DefaultValueHandling = DefaultValueHandling.Ignore,
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Text"": ""Text!"",
   ""Int"": 2147483647
 }", json);

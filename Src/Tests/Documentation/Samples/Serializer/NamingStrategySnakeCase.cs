@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class NamingStrategySnakeCase : TestFixtureBase
 {
     #region Types
@@ -68,7 +65,7 @@ public class NamingStrategySnakeCase : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""user_name"": ""jamesn"",
   ""enabled"": true
 }", json);

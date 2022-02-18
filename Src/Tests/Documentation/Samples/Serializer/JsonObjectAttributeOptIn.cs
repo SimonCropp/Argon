@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class JsonObjectAttributeOptIn : TestFixtureBase
 {
     #region Types
@@ -68,7 +65,7 @@ public class JsonObjectAttributeOptIn : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""ImportantLegalDocuments.docx"",
   ""Size"": 51200
 }", json);

@@ -25,12 +25,9 @@
 
 using System.Xml;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Xml;
 
-[TestFixture]
 public class ConvertXmlToJsonForceArray : TestFixtureBase
 {
     [Fact]
@@ -82,6 +79,6 @@ public class ConvertXmlToJsonForceArray : TestFixtureBase
         // }
         #endregion
 
-        Assert.AreEqual(@"{""person"":{""@id"":""1"",""name"":""Alan"",""url"":""http://www.google.com"",""role"":[""Admin""]}}", json);
+        Assert.Equal(@"{""person"":{""@id"":""1"",""name"":""Alan"",""url"":""http://www.google.com"",""role"":[""Admin""]}}", json);
     }
 }

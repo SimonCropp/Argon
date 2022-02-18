@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.JsonPath;
 
-[TestFixture]
 public class QueryJsonSelectTokenEscaped : TestFixtureBase
 {
     [Fact]
@@ -56,9 +53,9 @@ public class QueryJsonSelectTokenEscaped : TestFixtureBase
         // Make-Believe
         #endregion
 
-        Assert.AreEqual("Taito", spaceInvaders);
-        Assert.AreEqual("id", doom3);
-        Assert.AreEqual("Atari", yarsRevenge);
-        Assert.AreEqual("Make-Believe", governmentIntelligence);
+        Assert.Equal("Taito", spaceInvaders);
+        Assert.Equal("id", doom3);
+        Assert.Equal("Atari", yarsRevenge);
+        Assert.Equal("Make-Believe", governmentIntelligence);
     }
 }

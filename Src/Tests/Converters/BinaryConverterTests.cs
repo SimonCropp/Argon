@@ -28,12 +28,9 @@ using System.Data.Linq;
 #endif
 using System.Data.SqlTypes;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Converters;
 
-[TestFixture]
 public class BinaryConverterTests : TestFixtureBase
 {
     static readonly byte[] TestData = Encoding.UTF8.GetBytes("This is some test data!!!");
@@ -55,8 +52,8 @@ public class BinaryConverterTests : TestFixtureBase
 
         var binaryClass = JsonConvert.DeserializeObject<BinaryClass>(json, new BinaryConverter());
 
-        Assert.AreEqual(new Binary(TestData), binaryClass.Binary);
-        Assert.AreEqual(null, binaryClass.NullBinary);
+        Assert.Equal(new Binary(TestData), binaryClass.Binary);
+        Assert.Equal(null, binaryClass.NullBinary);
     }
 
     [Fact]
@@ -69,8 +66,8 @@ public class BinaryConverterTests : TestFixtureBase
 
         var binaryClass = JsonConvert.DeserializeObject<BinaryClass>(json, new BinaryConverter());
 
-        Assert.AreEqual(new byte[] { 0, 1, 2, 3 }, binaryClass.Binary.ToArray());
-        Assert.AreEqual(null, binaryClass.NullBinary);
+        Assert.Equal(new byte[] { 0, 1, 2, 3 }, binaryClass.Binary.ToArray());
+        Assert.Equal(null, binaryClass.NullBinary);
     }
 
     public class BinaryClass
@@ -90,7 +87,7 @@ public class BinaryConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(binaryClass, Formatting.Indented, new BinaryConverter());
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Binary"": ""VGhpcyBpcyBzb21lIHRlc3QgZGF0YSEhIQ=="",
   ""NullBinary"": null
 }", json);
@@ -108,7 +105,7 @@ public class BinaryConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(byteArrayClass, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""ByteArray"": ""VGhpcyBpcyBzb21lIHRlc3QgZGF0YSEhIQ=="",
   ""NullByteArray"": null
 }", json);
@@ -133,7 +130,7 @@ public class BinaryConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(sqlBinaryClass, Formatting.Indented, new BinaryConverter());
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""SqlBinary"": ""VGhpcyBpcyBzb21lIHRlc3QgZGF0YSEhIQ=="",
   ""NullableSqlBinary1"": ""VGhpcyBpcyBzb21lIHRlc3QgZGF0YSEhIQ=="",
   ""NullableSqlBinary2"": null
@@ -151,9 +148,9 @@ public class BinaryConverterTests : TestFixtureBase
 
         var sqlBinaryClass = JsonConvert.DeserializeObject<SqlBinaryClass>(json, new BinaryConverter());
 
-        Assert.AreEqual(new SqlBinary(TestData), sqlBinaryClass.SqlBinary);
-        Assert.AreEqual(new SqlBinary(TestData), sqlBinaryClass.NullableSqlBinary1);
-        Assert.AreEqual(null, sqlBinaryClass.NullableSqlBinary2);
+        Assert.Equal(new SqlBinary(TestData), sqlBinaryClass.SqlBinary);
+        Assert.Equal(new SqlBinary(TestData), sqlBinaryClass.NullableSqlBinary1);
+        Assert.Equal(null, sqlBinaryClass.NullableSqlBinary2);
     }
 
     [Fact]
@@ -166,8 +163,8 @@ public class BinaryConverterTests : TestFixtureBase
 
         var byteArrayClass = JsonConvert.DeserializeObject<ByteArrayClass>(json);
 
-        CollectionAssert.AreEquivalent(TestData, byteArrayClass.ByteArray);
-        Assert.AreEqual(null, byteArrayClass.NullByteArray);
+        Assert.Equal(TestData, byteArrayClass.ByteArray);
+        Assert.Equal(null, byteArrayClass.NullByteArray);
     }
 
     [Fact]
@@ -179,8 +176,8 @@ public class BinaryConverterTests : TestFixtureBase
 }";
 
         var c = JsonConvert.DeserializeObject<ByteArrayClass>(json);
-        Assert.IsNotNull(c.ByteArray);
-        Assert.AreEqual(4, c.ByteArray.Length);
-        CollectionAssert.AreEquivalent(new byte[] { 0, 1, 2, 3 }, c.ByteArray);
+        Assert.NotNull(c.ByteArray);
+        Assert.Equal(4, c.ByteArray.Length);
+        Assert.Equal(new byte[] { 0, 1, 2, 3 }, c.ByteArray);
     }
 }

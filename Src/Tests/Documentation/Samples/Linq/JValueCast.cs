@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Linq;
 
-[TestFixture]
 public class JValueCast : TestFixtureBase
 {
     [Fact]
@@ -78,6 +75,6 @@ public class JValueCast : TestFixtureBase
         // {null}
         #endregion
 
-        Assert.AreEqual("01/21/2013 00:00:00", s);
+        Assert.Equal("01/21/2013 00:00:00", s);
     }
 }

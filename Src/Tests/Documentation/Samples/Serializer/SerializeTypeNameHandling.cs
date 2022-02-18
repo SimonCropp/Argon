@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class SerializeTypeNameHandling : TestFixtureBase
 {
     #region Types
@@ -115,6 +112,6 @@ public class SerializeTypeNameHandling : TestFixtureBase
         // Hotel
         #endregion
 
-        Assert.AreEqual("Hotel", newStockholder.Businesses[0].GetType().Name);
+        Assert.Equal("Hotel", newStockholder.Businesses[0].GetType().Name);
     }
 }

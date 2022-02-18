@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Linq;
 
-[TestFixture]
 public class QueryJsonLinq : TestFixtureBase
 {
     [Fact]
@@ -93,6 +90,6 @@ public class QueryJsonLinq : TestFixtureBase
         //CodePlex - Count: 1
         #endregion
 
-        Assert.AreEqual(3, categories.Count());
+        Assert.Equal(3, categories.Count());
     }
 }

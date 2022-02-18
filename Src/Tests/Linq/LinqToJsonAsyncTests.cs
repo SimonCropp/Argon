@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Linq;
 
-[TestFixture]
 public class LinqToJsonAsyncTests : TestFixtureBase
 {
     [Fact]
@@ -48,9 +45,9 @@ public class LinqToJsonAsyncTests : TestFixtureBase
             CommentHandling = CommentHandling.Load
         });
 
-        Assert.AreEqual(4, a.Count);
-        Assert.AreEqual(JTokenType.Comment, a[0].Type);
-        Assert.AreEqual(" hi", ((JValue)a[0]).Value);
+        Assert.Equal(4, a.Count);
+        Assert.Equal(JTokenType.Comment, a[0].Type);
+        Assert.Equal(" hi", ((JValue)a[0]).Value);
     }
 
     [Fact]
@@ -66,9 +63,9 @@ public class LinqToJsonAsyncTests : TestFixtureBase
         var jsonReader = new JsonTextReader(textReader);
         var a = (JArray)await JToken.ReadFromAsync(jsonReader);
 
-        Assert.AreEqual(3, a.Count);
-        Assert.AreEqual(JTokenType.Integer, a[0].Type);
-        Assert.AreEqual(1L, ((JValue)a[0]).Value);
+        Assert.Equal(3, a.Count);
+        Assert.Equal(JTokenType.Integer, a[0].Type);
+        Assert.Equal(1L, ((JValue)a[0]).Value);
     }
 
     [Fact]
@@ -88,12 +85,12 @@ public class LinqToJsonAsyncTests : TestFixtureBase
             CommentHandling = CommentHandling.Load
         });
 
-        Assert.AreEqual(JTokenType.Comment, v.Type);
+        Assert.Equal(JTokenType.Comment, v.Type);
 
         IJsonLineInfo lineInfo = v;
-        Assert.AreEqual(true, lineInfo.HasLineInfo());
-        Assert.AreEqual(2, lineInfo.LineNumber);
-        Assert.AreEqual(5, lineInfo.LinePosition);
+        XUnitAssert.True(lineInfo.HasLineInfo());
+        Assert.Equal(2, lineInfo.LineNumber);
+        Assert.Equal(5, lineInfo.LinePosition);
     }
 
     [Fact]
@@ -113,12 +110,12 @@ public class LinqToJsonAsyncTests : TestFixtureBase
             CommentHandling = CommentHandling.Ignore
         });
 
-        Assert.AreEqual(JTokenType.Array, a.Type);
+        Assert.Equal(JTokenType.Array, a.Type);
 
         IJsonLineInfo lineInfo = a;
-        Assert.AreEqual(true, lineInfo.HasLineInfo());
-        Assert.AreEqual(3, lineInfo.LineNumber);
-        Assert.AreEqual(1, lineInfo.LinePosition);
+        XUnitAssert.True(lineInfo.HasLineInfo());
+        Assert.Equal(3, lineInfo.LineNumber);
+        Assert.Equal(1, lineInfo.LinePosition);
     }
 
     [Fact]
@@ -135,12 +132,12 @@ undefined
         var jsonReader = new JsonTextReader(textReader);
         var v = (JValue)await JToken.ReadFromAsync(jsonReader);
 
-        Assert.AreEqual(JTokenType.Undefined, v.Type);
+        Assert.Equal(JTokenType.Undefined, v.Type);
 
         IJsonLineInfo lineInfo = v;
-        Assert.AreEqual(true, lineInfo.HasLineInfo());
-        Assert.AreEqual(2, lineInfo.LineNumber);
-        Assert.AreEqual(9, lineInfo.LinePosition);
+        XUnitAssert.True(lineInfo.HasLineInfo());
+        Assert.Equal(2, lineInfo.LineNumber);
+        Assert.Equal(9, lineInfo.LinePosition);
     }
 
     [Fact]
@@ -152,6 +149,6 @@ undefined
         await jsonReader.ReadAsync();
         await jsonReader.ReadAsync();
 
-        await ExceptionAssert.ThrowsAsync<JsonReaderException>(async () => await JToken.ReadFromAsync(jsonReader), @"Error reading JToken from JsonReader. Unexpected token: EndArray. Path '', line 1, position 2.");
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () => await JToken.ReadFromAsync(jsonReader), @"Error reading JToken from JsonReader. Unexpected token: EndArray. Path '', line 1, position 2.");
     }
 }

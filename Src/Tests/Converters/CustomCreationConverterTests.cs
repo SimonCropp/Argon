@@ -26,12 +26,9 @@
 using Argon.Tests.TestObjects;
 using Argon.Tests.TestObjects.Organization;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Converters;
 
-[TestFixture]
 public class CustomCreationConverterTests : TestFixtureBase
 {
     [Fact]
@@ -78,13 +75,13 @@ public class CustomCreationConverterTests : TestFixtureBase
 
         var person = people[0];
 
-        Assert.AreEqual("Employee", person.GetType().Name);
+        Assert.Equal("Employee", person.GetType().Name);
 
-        Assert.AreEqual("Maurice", person.FirstName);
+        Assert.Equal("Maurice", person.FirstName);
 
         var employee = (Employee)person;
 
-        Assert.AreEqual("Support", employee.JobTitle);
+        Assert.Equal("Support", employee.JobTitle);
     }
 
     public class MyClass
@@ -124,10 +121,10 @@ public class CustomCreationConverterTests : TestFixtureBase
 }
 ";
         var myClass = JsonConvert.DeserializeObject<MyClass>(json);
-        Assert.IsNotNull(myClass);
-        Assert.AreEqual("A value", myClass.Value);
-        Assert.IsNotNull(myClass.Thing);
-        Assert.AreEqual(123, myClass.Thing.Number);
+        Assert.NotNull(myClass);
+        Assert.Equal("A value", myClass.Value);
+        Assert.NotNull(myClass.Thing);
+        Assert.Equal(123, myClass.Thing.Number);
     }
 
     [Fact]
@@ -141,7 +138,7 @@ public class CustomCreationConverterTests : TestFixtureBase
         var json = JsonConvert.SerializeObject(myClass); // <-- Exception here
 
         const string expected = @"{""Value"":""Foo"",""Thing"":{""Number"":456}}";
-        Assert.AreEqual(expected, json);
+        Assert.Equal(expected, json);
     }
 
     internal interface IRange<T>
@@ -197,7 +194,7 @@ public class CustomCreationConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(initial, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Id"": ""00000001-0002-0003-0405-060708090a0b"",
   ""Year"": 2010,
   ""Company"": ""Company!"",
@@ -215,13 +212,13 @@ public class CustomCreationConverterTests : TestFixtureBase
         var deserialized = JsonConvert.DeserializeObject<NullInterfaceTestClass>(
             json, new IntRangeConverter(), new DecimalRangeConverter());
 
-        Assert.AreEqual("Company!", deserialized.Company);
-        Assert.AreEqual(new Guid(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11), deserialized.Id);
-        Assert.AreEqual(0, deserialized.DecimalRange.First);
-        Assert.AreEqual(1, deserialized.DecimalRange.Last);
-        Assert.AreEqual(int.MinValue, deserialized.IntRange.First);
-        Assert.AreEqual(int.MaxValue, deserialized.IntRange.Last);
-        Assert.AreEqual(null, deserialized.NullDecimalRange);
-        Assert.AreEqual(2010, deserialized.Year);
+        Assert.Equal("Company!", deserialized.Company);
+        Assert.Equal(new Guid(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11), deserialized.Id);
+        Assert.Equal(0, deserialized.DecimalRange.First);
+        Assert.Equal(1, deserialized.DecimalRange.Last);
+        Assert.Equal(int.MinValue, deserialized.IntRange.First);
+        Assert.Equal(int.MaxValue, deserialized.IntRange.Last);
+        Assert.Equal(null, deserialized.NullDecimalRange);
+        Assert.Equal(2010, deserialized.Year);
     }
 }

@@ -25,12 +25,9 @@
 
 using Argon.Tests.TestObjects;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Serialization;
 
-[TestFixture]
 public class DateTimeZoneHandlingTests : TestFixtureBase
 {
     [Fact]
@@ -58,10 +55,10 @@ public class DateTimeZoneHandlingTests : TestFixtureBase
 
         var c4 = JsonConvert.DeserializeObject<DateTimeWrapper>(json);
 
-        Assert.AreEqual(DateTimeKind.Utc, c1.Value.Kind);
-        Assert.AreEqual(DateTimeKind.Local, c2.Value.Kind);
-        Assert.AreEqual(DateTimeKind.Unspecified, c3.Value.Kind);
-        Assert.AreEqual(DateTimeKind.Unspecified, c4.Value.Kind);
+        Assert.Equal(DateTimeKind.Utc, c1.Value.Kind);
+        Assert.Equal(DateTimeKind.Local, c2.Value.Kind);
+        Assert.Equal(DateTimeKind.Unspecified, c3.Value.Kind);
+        Assert.Equal(DateTimeKind.Unspecified, c4.Value.Kind);
     }
 
     [Fact]
@@ -91,9 +88,9 @@ public class DateTimeZoneHandlingTests : TestFixtureBase
 
         var c4 = jo.ToObject<DateTimeWrapper>();
 
-        Assert.AreEqual(DateTimeKind.Utc, c1.Value.Kind);
-        Assert.AreEqual(DateTimeKind.Local, c2.Value.Kind);
-        Assert.AreEqual(DateTimeKind.Unspecified, c3.Value.Kind);
-        Assert.AreEqual(DateTimeKind.Unspecified, c4.Value.Kind);
+        Assert.Equal(DateTimeKind.Utc, c1.Value.Kind);
+        Assert.Equal(DateTimeKind.Local, c2.Value.Kind);
+        Assert.Equal(DateTimeKind.Unspecified, c3.Value.Kind);
+        Assert.Equal(DateTimeKind.Unspecified, c4.Value.Kind);
     }
 }

@@ -25,12 +25,9 @@
 
 using System.Web;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Linq;
 
-[TestFixture]
 public class DeserializeWithLinq : TestFixtureBase
 {
     #region Types
@@ -77,7 +74,7 @@ public class DeserializeWithLinq : TestFixtureBase
         // <p>Content!</p>
         #endregion
 
-        StringAssert.AreEqual(@"<h3>Title!</h3>
+        XUnitAssert.AreEqualNormalized(@"<h3>Title!</h3>
 <p>Content!</p>", blogPosts[0].Body);
     }
 }

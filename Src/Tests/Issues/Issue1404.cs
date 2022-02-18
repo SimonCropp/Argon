@@ -25,12 +25,9 @@
 
 #if NETSTANDARD2_0
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue1404 : TestFixtureBase
 {
     [Fact]
@@ -38,13 +35,13 @@ public class Issue1404 : TestFixtureBase
     {
         var t = typeof(FileSystemInfo);
 
-        Assert.IsTrue(t.ImplementInterface(typeof(ISerializable)));
+        Assert.True(t.ImplementInterface(typeof(ISerializable)));
 
         var resolver = new DefaultContractResolver();
 
         var contract = resolver.ResolveContract(t);
 
-        Assert.AreEqual(JsonContractType.Object, contract.ContractType);
+        Assert.Equal(JsonContractType.Object, contract.ContractType);
     }
 }
 #endif

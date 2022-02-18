@@ -25,13 +25,10 @@
 
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 using System.Collections.Immutable;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class SerializeImmutableCollections : TestFixtureBase
 {
     [Fact]
@@ -53,7 +50,7 @@ public class SerializeImmutableCollections : TestFixtureBase
         // ]
         #endregion
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   ""One"",
   ""II"",
   ""3""

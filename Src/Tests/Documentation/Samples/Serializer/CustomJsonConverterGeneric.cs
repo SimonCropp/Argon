@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class CustomJsonConverterGeneric : TestFixtureBase
 {
     #region Types
@@ -79,6 +76,6 @@ public class CustomJsonConverterGeneric : TestFixtureBase
         // 10.0.4
         #endregion
 
-        Assert.AreEqual("10.0.4", p2.Version.ToString());
+        Assert.Equal("10.0.4", p2.Version.ToString());
     }
 }

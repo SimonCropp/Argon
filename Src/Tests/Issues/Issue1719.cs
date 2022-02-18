@@ -25,12 +25,9 @@
 
 using System.ComponentModel;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue1719 : TestFixtureBase
 {
     [Fact]
@@ -41,7 +38,7 @@ public class Issue1719 : TestFixtureBase
             NullValueHandling = NullValueHandling.Ignore,
         });
 
-        Assert.IsNull(a.PropertyBag);
+        Assert.Null(a.PropertyBag);
     }
 
     [Fact]
@@ -52,7 +49,7 @@ public class Issue1719 : TestFixtureBase
             NullValueHandling = NullValueHandling.Ignore,
         });
 
-        Assert.IsNull(a.PropertyBag);
+        Assert.Null(a.PropertyBag);
     }
 
     [Fact]
@@ -63,7 +60,7 @@ public class Issue1719 : TestFixtureBase
             DefaultValueHandling = DefaultValueHandling.Ignore,
         });
 
-        Assert.IsNull(a.PropertyBag);
+        Assert.Null(a.PropertyBag);
     }
 
     class ExtensionDataTestClass

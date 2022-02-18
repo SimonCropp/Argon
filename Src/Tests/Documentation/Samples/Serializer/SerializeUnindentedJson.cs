@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class SerializeUnindentedJson : TestFixtureBase
 {
     #region Types
@@ -64,6 +61,6 @@ public class SerializeUnindentedJson : TestFixtureBase
         Console.WriteLine(json);
         #endregion
 
-        Assert.AreEqual(@"{""Email"":""james@example.com"",""Active"":true,""CreatedDate"":""2013-01-20T00:00:00Z"",""Roles"":[""User"",""Admin""]}", json);
+        Assert.Equal(@"{""Email"":""james@example.com"",""Active"":true,""CreatedDate"":""2013-01-20T00:00:00Z"",""Roles"":[""User"",""Admin""]}", json);
     }
 }

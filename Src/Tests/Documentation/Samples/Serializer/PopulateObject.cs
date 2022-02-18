@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class PopulateObject : TestFixtureBase
 {
     #region Types
@@ -77,6 +74,6 @@ public class PopulateObject : TestFixtureBase
         // User, Admin, Expired
         #endregion
 
-        Assert.AreEqual("User, Admin, Expired", string.Join(", ", account.Roles.ToArray()));
+        Assert.Equal("User, Admin, Expired", string.Join(", ", account.Roles.ToArray()));
     }
 }

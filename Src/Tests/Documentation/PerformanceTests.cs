@@ -24,8 +24,6 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation;
 
@@ -87,7 +85,6 @@ public class PersonConverter : JsonConverter
     }
 }
 
-[TestFixture]
 public class PerformanceTests : TestFixtureBase
 {
     static class AppSettings

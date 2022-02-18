@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class NamingStrategySkipSpecifiedNames : TestFixtureBase
 {
     #region Types
@@ -75,7 +72,7 @@ public class NamingStrategySkipSpecifiedNames : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""firstName"": ""John"",
   ""lastName"": ""Smith"",
   ""UPN"": ""john.smith@acme.com""

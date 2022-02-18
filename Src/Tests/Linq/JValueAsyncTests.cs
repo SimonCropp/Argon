@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Linq;
 
-[TestFixture]
 public class JValueAsyncTests : TestFixtureBase
 {
     [Fact]
@@ -41,8 +38,8 @@ public class JValueAsyncTests : TestFixtureBase
                 FloatParseHandling = FloatParseHandling.Decimal
             });
 
-        Assert.AreEqual(9.9m, v.Value);
-        Assert.AreEqual(typeof(decimal), v.Value.GetType());
+        Assert.Equal(9.9m, v.Value);
+        Assert.Equal(typeof(decimal), v.Value.GetType());
     }
 
     public class Rate
@@ -66,12 +63,12 @@ public class JValueAsyncTests : TestFixtureBase
             var obj = await JObject.LoadAsync(jsonReader);
             var d = (JValue)obj["d"];
 
-            CustomAssert.IsInstanceOfType(typeof(DateTimeOffset), d.Value);
+            Assert.IsType(typeof(DateTimeOffset), d.Value);
             var offset = ((DateTimeOffset)d.Value).Offset;
-            Assert.AreEqual(TimeSpan.FromHours(1), offset);
+            Assert.Equal(TimeSpan.FromHours(1), offset);
 
             var dateTimeOffset = (DateTimeOffset)d;
-            Assert.AreEqual(TimeSpan.FromHours(1), dateTimeOffset.Offset);
+            Assert.Equal(TimeSpan.FromHours(1), dateTimeOffset.Offset);
         }
     }
 
@@ -82,12 +79,12 @@ public class JValueAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader("'2013-08-14T04:38:31.000+1230'"));
         reader.DateParseHandling = DateParseHandling.DateTimeOffset;
         var date = (JValue)await JToken.ReadFromAsync(reader);
-        Assert.AreEqual(expectedDate, date.Value);
+        Assert.Equal(expectedDate, date.Value);
 
         var expectedDate2 = new DateTimeOffset(2013, 08, 14, 4, 38, 31, TimeSpan.FromHours(12));
         var reader2 = new JsonTextReader(new StringReader("'2013-08-14T04:38:31.000+12'"));
         reader2.DateParseHandling = DateParseHandling.DateTimeOffset;
         var date2 = (JValue)await JToken.ReadFromAsync(reader2);
-        Assert.AreEqual(expectedDate2, date2.Value);
+        Assert.Equal(expectedDate2, date2.Value);
     }
 }

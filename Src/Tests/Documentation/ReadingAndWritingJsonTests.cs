@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation;
 
-[TestFixture]
 public class ReadingAndWritingJsonTests : TestFixtureBase
 {
     [Fact]
@@ -131,6 +128,6 @@ public class ReadingAndWritingJsonTests : TestFixtureBase
         // John Smith
         #endregion
 
-        Assert.AreEqual("John Smith", p.Name);
+        Assert.Equal("John Smith", p.Name);
     }
 }

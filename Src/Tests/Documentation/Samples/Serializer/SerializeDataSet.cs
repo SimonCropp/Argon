@@ -26,12 +26,9 @@
 
 using System.Data;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class SerializeDataSet : TestFixtureBase
 {
     [Fact]
@@ -75,7 +72,7 @@ public class SerializeDataSet : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Table1"": [
     {
       ""id"": 0,

@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.JsonPath;
 
-[TestFixture]
 public class StrictEqualsQuery : TestFixtureBase
 {
     [Fact]
@@ -57,6 +54,6 @@ public class StrictEqualsQuery : TestFixtureBase
         // Valid JSON
         #endregion
 
-        Assert.AreEqual(1, strictResults.Count);
+        Assert.Equal(1, strictResults.Count);
     }
 }

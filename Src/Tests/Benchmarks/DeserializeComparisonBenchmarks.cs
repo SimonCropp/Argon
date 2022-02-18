@@ -36,8 +36,8 @@ namespace Argon.Tests.Benchmarks;
 
 public class DeserializeComparisonBenchmarks
 {
-    static readonly byte[] BinaryFormatterData = TestFixtureBase.HexToBytes(BenchmarkConstants.BinaryFormatterHex);
-    static readonly byte[] BsonData = TestFixtureBase.HexToBytes(BenchmarkConstants.BsonHex);
+    static readonly byte[] BinaryFormatterData = BenchmarkConstants.BinaryFormatterHex.HexToBytes();
+    static readonly byte[] BsonData = BenchmarkConstants.BsonHex.HexToBytes();
 
     [Benchmark]
     public TestClass DataContractSerializer()

@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class SerializeWithJsonConverters : TestFixtureBase
 {
     [Fact]
@@ -60,6 +57,6 @@ public class SerializeWithJsonConverters : TestFixtureBase
         // CurrentCulture, Ordinal
         #endregion
 
-        Assert.AreEqual("CurrentCulture, Ordinal", string.Join(", ", newStringComparsions.Select(c => c.ToString()).ToArray()));
+        Assert.Equal("CurrentCulture, Ordinal", string.Join(", ", newStringComparsions.Select(c => c.ToString()).ToArray()));
     }
 }

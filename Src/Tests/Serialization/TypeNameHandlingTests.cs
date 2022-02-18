@@ -29,13 +29,10 @@ using System.Runtime.Serialization.Formatters;
 using Argon.Tests.TestObjects;
 using Argon.Tests.TestObjects.Organization;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 using System.Net;
 
 namespace Argon.Tests.Serialization;
 
-[TestFixture]
 public class TypeNameHandlingTests : TestFixtureBase
 {
     [Fact]
@@ -94,7 +91,7 @@ public class TypeNameHandlingTests : TestFixtureBase
   }
 }";
 
-        StringAssert.AreEqual(expectedJson, json);
+        XUnitAssert.AreEqualNormalized(expectedJson, json);
     }
 
 
@@ -143,19 +140,19 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Objects
         });
 
-        Assert.AreEqual(1, value.Array2D[0, 0]);
-        Assert.AreEqual(2, value.Array2D[0, 1]);
-        Assert.AreEqual(2, value.Array2D[1, 0]);
-        Assert.AreEqual(4, value.Array2D[1, 1]);
-        Assert.AreEqual(3, value.Array2D[2, 0]);
-        Assert.AreEqual(6, value.Array2D[2, 1]);
+        Assert.Equal(1, value.Array2D[0, 0]);
+        Assert.Equal(2, value.Array2D[0, 1]);
+        Assert.Equal(2, value.Array2D[1, 0]);
+        Assert.Equal(4, value.Array2D[1, 1]);
+        Assert.Equal(3, value.Array2D[2, 0]);
+        Assert.Equal(6, value.Array2D[2, 1]);
 
-        Assert.AreEqual(1, value.Array3D[0, 0, 0]);
-        Assert.AreEqual(2, value.Array3D[0, 0, 1]);
-        Assert.AreEqual(3, value.Array3D[0, 0, 2]);
-        Assert.AreEqual(4, value.Array3D[0, 1, 0]);
-        Assert.AreEqual(5, value.Array3D[0, 1, 1]);
-        Assert.AreEqual(6, value.Array3D[0, 1, 2]);
+        Assert.Equal(1, value.Array3D[0, 0, 0]);
+        Assert.Equal(2, value.Array3D[0, 0, 1]);
+        Assert.Equal(3, value.Array3D[0, 0, 2]);
+        Assert.Equal(4, value.Array3D[0, 1, 0]);
+        Assert.Equal(5, value.Array3D[0, 1, 1]);
+        Assert.Equal(6, value.Array3D[0, 1, 2]);
     }
 
     [Fact]
@@ -173,7 +170,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Objects
         });
 
-        CollectionAssert.AreEquivalent(Convert.FromBase64String("cGFzc3dvcmQ="), value.EncryptedPassword);
+        Assert.Equal(Convert.FromBase64String("cGFzc3dvcmQ="), value.EncryptedPassword);
     }
 
     [Fact]
@@ -188,7 +185,7 @@ public class TypeNameHandlingTests : TestFixtureBase
   }
 }";
 
-        ExceptionAssert.Throws<JsonReaderException>(() =>
+        XUnitAssert.Throws<JsonReaderException>(() =>
         {
             JsonConvert.DeserializeObject<HasByteArray>(json, new JsonSerializerSettings
             {
@@ -213,8 +210,8 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Objects
         });
 
-        Assert.IsNotNull(value.EncryptedPassword);
-        CollectionAssert.AreEquivalent(Convert.FromBase64String("cGFzc3dvcmQ="), value.EncryptedPassword);
+        Assert.NotNull(value.EncryptedPassword);
+        Assert.Equal(Convert.FromBase64String("cGFzc3dvcmQ="), value.EncryptedPassword);
     }
 
     [Fact]
@@ -229,7 +226,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.All
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$type"": """ + tupleRef + @""",
   ""Item1"": 1,
   ""Item2"": 2,
@@ -241,9 +238,9 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.All
         });
 
-        Assert.AreEqual(1, t2.Item1);
-        Assert.AreEqual(2, t2.Item2);
-        Assert.AreEqual("string", t2.Item3);
+        Assert.Equal(1, t2.Item1);
+        Assert.Equal(2, t2.Item2);
+        Assert.Equal("string", t2.Item3);
     }
 
     public class KnownAutoTypes
@@ -282,7 +279,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Auto
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Collection"": [
     ""Collection value!""
   ],
@@ -320,7 +317,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Auto
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""movie"": {
     ""$type"": ""Argon.Tests.TestObjects.Movie, Tests"",
     ""Name"": ""Die Hard"",
@@ -346,7 +343,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Auto
         });
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""Key"": ""movie"",
     ""Value"": {
@@ -371,7 +368,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             sb.Append(@"{""$value"":");
         }
 
-        ExceptionAssert.Throws<JsonSerializationException>(() =>
+        XUnitAssert.Throws<JsonSerializationException>(() =>
         {
             var reader = new JsonTextReader(new StringReader(sb.ToString()));
             var ser = new JsonSerializer
@@ -393,7 +390,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         serializer.Serialize(new JsonTextWriter(sw) { Formatting = Formatting.Indented }, new WagePerson(), typeof(Person));
         var result = sw.ToString();
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$type"": ""Argon.Tests.TestObjects.Organization.WagePerson, Tests"",
   ""HourlyWage"": 0.0,
   ""Name"": null,
@@ -401,12 +398,12 @@ public class TypeNameHandlingTests : TestFixtureBase
   ""LastModified"": ""0001-01-01T00:00:00""
 }", result);
 
-        Assert.IsTrue(result.Contains("WagePerson"));
+        Assert.True(result.Contains("WagePerson"));
         using (var rd = new JsonTextReader(new StringReader(result)))
         {
             var person = serializer.Deserialize<Person>(rd);
 
-            CustomAssert.IsInstanceOfType(typeof(WagePerson), person);
+            Assert.IsType(typeof(WagePerson), person);
         }
     }
 
@@ -418,7 +415,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Auto
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$type"": ""Argon.Tests.TestObjects.Organization.WagePerson, Tests"",
   ""HourlyWage"": 0.0,
   ""Name"": null,
@@ -435,7 +432,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Auto
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$type"": ""Argon.Tests.TestObjects.Organization.WagePerson, Tests"",
   ""HourlyWage"": 0.0,
   ""Name"": null,
@@ -452,7 +449,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Auto
         });
 
-        StringAssert.AreEqual(@"{""$type"":""Argon.Tests.TestObjects.Organization.WagePerson, Tests"",""HourlyWage"":0.0,""Name"":null,""BirthDate"":""0001-01-01T00:00:00"",""LastModified"":""0001-01-01T00:00:00""}", json);
+        XUnitAssert.AreEqualNormalized(@"{""$type"":""Argon.Tests.TestObjects.Organization.WagePerson, Tests"",""HourlyWage"":0.0,""Name"":null,""BirthDate"":""0001-01-01T00:00:00"",""LastModified"":""0001-01-01T00:00:00""}", json);
     }
 
     public class Wrapper
@@ -481,7 +478,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Auto
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Array"": [
     {
       ""$id"": ""1"",
@@ -499,8 +496,8 @@ public class TypeNameHandlingTests : TestFixtureBase
 }", json);
 
         var w2 = JsonConvert.DeserializeObject<Wrapper>(json);
-        CustomAssert.IsInstanceOfType(typeof(List<EmployeeReference>), w2.Array);
-        CustomAssert.IsInstanceOfType(typeof(Dictionary<string, EmployeeReference>), w2.Dictionary);
+        Assert.IsType(typeof(List<EmployeeReference>), w2.Array);
+        Assert.IsType(typeof(Dictionary<string, EmployeeReference>), w2.Dictionary);
     }
 
     [Fact]
@@ -515,7 +512,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Objects
         });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$id"": ""1"",
   ""$type"": """ + employeeRef + @""",
   ""Name"": null,
@@ -540,8 +537,8 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Objects
         });
 
-        CustomAssert.IsInstanceOfType(typeof(EmployeeReference), employee);
-        Assert.AreEqual("Name!", ((EmployeeReference)employee).Name);
+        Assert.IsType(typeof(EmployeeReference), employee);
+        Assert.Equal("Name!", ((EmployeeReference)employee).Name);
     }
 
     [Fact]
@@ -559,7 +556,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Objects
         });
 
-        CustomAssert.IsInstanceOfType(typeof(Cookie), cookie);
+        Assert.IsType(typeof(Cookie), cookie);
     }
 
     [Fact]
@@ -593,7 +590,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 #pragma warning restore 618
         });
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""$id"": ""1"",
     ""$type"": """ + employeeRef + @""",
@@ -652,20 +649,20 @@ public class TypeNameHandlingTests : TestFixtureBase
 #pragma warning restore 618
         });
 
-        Assert.AreEqual(4, values.Count);
+        Assert.Equal(4, values.Count);
 
         var e = (EmployeeReference)values[0];
         var p = (Person)values[1];
 
-        Assert.AreEqual("Bob", e.Name);
-        Assert.AreEqual("Frank", e.Manager.Name);
+        Assert.Equal("Bob", e.Name);
+        Assert.Equal("Frank", e.Manager.Name);
 
-        Assert.AreEqual(null, p.Name);
-        Assert.AreEqual(new DateTime(2000, 12, 30, 0, 0, 0, DateTimeKind.Utc), p.BirthDate);
-        Assert.AreEqual(new DateTime(2000, 12, 30, 0, 0, 0, DateTimeKind.Utc), p.LastModified);
+        Assert.Equal(null, p.Name);
+        Assert.Equal(new DateTime(2000, 12, 30, 0, 0, 0, DateTimeKind.Utc), p.BirthDate);
+        Assert.Equal(new DateTime(2000, 12, 30, 0, 0, 0, DateTimeKind.Utc), p.LastModified);
 
-        Assert.AreEqual("String!", values[2]);
-        Assert.AreEqual((long)int.MinValue, values[3]);
+        Assert.Equal("String!", values[2]);
+        Assert.Equal((long)int.MinValue, values[3]);
     }
 
     [Fact]
@@ -693,7 +690,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         }
         catch (JsonSerializationException ex)
         {
-            Assert.IsTrue(ex.Message.StartsWith(@"Type specified in JSON '" + employeeRef + @"' is not compatible with '" + personRef + @"'."));
+            Assert.True(ex.Message.StartsWith(@"Type specified in JSON '" + employeeRef + @"' is not compatible with '" + personRef + @"'."));
         }
     }
 
@@ -711,7 +708,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var o = (JObject)JsonConvert.DeserializeObject(json);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""Name!"",
   ""Manager"": null
 }", o.ToString());
@@ -727,7 +724,7 @@ public class TypeNameHandlingTests : TestFixtureBase
   ""Manager"": null
 }";
 
-        ExceptionAssert.Throws<JsonSerializationException>(() =>
+        XUnitAssert.Throws<JsonSerializationException>(() =>
         {
             JsonConvert.DeserializeObject(json, null, new JsonSerializerSettings
             {
@@ -786,12 +783,12 @@ public class TypeNameHandlingTests : TestFixtureBase
 #pragma warning restore 618
         });
 
-        CustomAssert.IsInstanceOfType(typeof(SendHttpRequest), message);
+        Assert.IsType(typeof(SendHttpRequest), message);
 
         var request = (SendHttpRequest)message;
-        Assert.AreEqual("xyz", request.CorrelationId);
-        Assert.AreEqual(2, request.RequestData.Count);
-        Assert.AreEqual("siedemnaście", request.RequestData["Id"]);
+        Assert.Equal("xyz", request.CorrelationId);
+        Assert.Equal(2, request.RequestData.Count);
+        Assert.Equal("siedemnaście", request.RequestData["Id"]);
     }
 
     [Fact]
@@ -816,7 +813,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 #pragma warning restore 618
             });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$type"": """ + containerTypeName + @""",
   ""In"": {
     ""$type"": """ + productListTypeName + @""",
@@ -853,7 +850,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(typeNameProperty, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""Name!"",
   ""Value"": {
     ""$type"": """ + typeNamePropertyRef + @""",
@@ -863,12 +860,12 @@ public class TypeNameHandlingTests : TestFixtureBase
 }", json);
 
         var deserialized = JsonConvert.DeserializeObject<TypeNameProperty>(json);
-        Assert.AreEqual("Name!", deserialized.Name);
-        CustomAssert.IsInstanceOfType(typeof(TypeNameProperty), deserialized.Value);
+        Assert.Equal("Name!", deserialized.Name);
+        Assert.IsType(typeof(TypeNameProperty), deserialized.Value);
 
         var nested = (TypeNameProperty)deserialized.Value;
-        Assert.AreEqual("Nested!", nested.Name);
-        Assert.AreEqual(null, nested.Value);
+        Assert.Equal("Nested!", nested.Name);
+        Assert.Equal(null, nested.Value);
     }
 
     [Fact]
@@ -884,7 +881,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(typeNameProperty, Formatting.Indented);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""Name!"",
   ""Value"": {
     ""$type"": """ + listRef + @""",
@@ -899,16 +896,16 @@ public class TypeNameHandlingTests : TestFixtureBase
 }", json);
 
         var deserialized = JsonConvert.DeserializeObject<TypeNameProperty>(json);
-        Assert.AreEqual("Name!", deserialized.Name);
-        CustomAssert.IsInstanceOfType(typeof(List<int>), deserialized.Value);
+        Assert.Equal("Name!", deserialized.Name);
+        Assert.IsType(typeof(List<int>), deserialized.Value);
 
         var nested = (List<int>)deserialized.Value;
-        Assert.AreEqual(5, nested.Count);
-        Assert.AreEqual(1, nested[0]);
-        Assert.AreEqual(2, nested[1]);
-        Assert.AreEqual(3, nested[2]);
-        Assert.AreEqual(4, nested[3]);
-        Assert.AreEqual(5, nested[4]);
+        Assert.Equal(5, nested.Count);
+        Assert.Equal(1, nested[0]);
+        Assert.Equal(2, nested[1]);
+        Assert.Equal(3, nested[2]);
+        Assert.Equal(4, nested[3]);
+        Assert.Equal(5, nested[4]);
     }
 
     [Fact]
@@ -928,11 +925,11 @@ public class TypeNameHandlingTests : TestFixtureBase
 #pragma warning restore CS0618 // Type or member is obsolete
         });
 
-        CustomAssert.IsInstanceOfType(typeof(Person), p);
+        Assert.IsType(typeof(Person), p);
 
         var person = (Person)p;
 
-        Assert.AreEqual("Name!", person.Name);
+        Assert.Equal("Name!", person.Name);
     }
 
     public class CustomSerializationBinder : SerializationBinder
@@ -983,7 +980,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         //  }
         //]
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""$type"": ""Customer"",
     ""Name"": ""Caroline Customer""
@@ -1004,13 +1001,13 @@ public class TypeNameHandlingTests : TestFixtureBase
 #pragma warning restore CS0618 // Type or member is obsolete
         });
 
-        CustomAssert.IsInstanceOfType(typeof(Customer), newValues[0]);
+        Assert.IsType(typeof(Customer), newValues[0]);
         var customer = (Customer)newValues[0];
-        Assert.AreEqual("Caroline Customer", customer.Name);
+        Assert.Equal("Caroline Customer", customer.Name);
 
-        CustomAssert.IsInstanceOfType(typeof(Purchase), newValues[1]);
+        Assert.IsType(typeof(Purchase), newValues[1]);
         var purchase = (Purchase)newValues[1];
-        Assert.AreEqual("Elbow Grease", purchase.ProductName);
+        Assert.Equal("Elbow Grease", purchase.ProductName);
     }
 
     public class TypeNameSerializationBinder : SerializationBinder
@@ -1074,7 +1071,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         //  }
         //]
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""$type"": ""Customer"",
     ""Name"": ""Caroline Customer""
@@ -1093,13 +1090,13 @@ public class TypeNameHandlingTests : TestFixtureBase
             SerializationBinder = new NewTypeNameSerializationBinder("Argon.Tests.Serialization.{0}, Tests")
         });
 
-        CustomAssert.IsInstanceOfType(typeof(Customer), newValues[0]);
+        Assert.IsType(typeof(Customer), newValues[0]);
         var customer = (Customer)newValues[0];
-        Assert.AreEqual("Caroline Customer", customer.Name);
+        Assert.Equal("Caroline Customer", customer.Name);
 
-        CustomAssert.IsInstanceOfType(typeof(Purchase), newValues[1]);
+        Assert.IsType(typeof(Purchase), newValues[1]);
         var purchase = (Purchase)newValues[1];
-        Assert.AreEqual("Elbow Grease", purchase.ProductName);
+        Assert.Equal("Elbow Grease", purchase.ProductName);
     }
 
     public class NewTypeNameSerializationBinder : ISerializationBinder
@@ -1175,7 +1172,7 @@ public class TypeNameHandlingTests : TestFixtureBase
   }
 }";
 
-        StringAssert.AreEqual(expected, json);
+        XUnitAssert.AreEqualNormalized(expected, json);
 
         var sr = new StringReader(json);
 
@@ -1190,16 +1187,16 @@ public class TypeNameHandlingTests : TestFixtureBase
             anotherTestObject = deserializingTester.Deserialize<HolderClass>(jsonReader);
         }
 
-        Assert.IsNotNull(anotherTestObject);
-        CustomAssert.IsInstanceOfType(typeof(ContentSubClass), anotherTestObject.TestMember);
-        CustomAssert.IsInstanceOfType(typeof(Dictionary<int, IList<ContentBaseClass>>), anotherTestObject.AnotherTestMember);
-        Assert.AreEqual(1, anotherTestObject.AnotherTestMember.Count);
+        Assert.NotNull(anotherTestObject);
+        Assert.IsType(typeof(ContentSubClass), anotherTestObject.TestMember);
+        Assert.IsType(typeof(Dictionary<int, IList<ContentBaseClass>>), anotherTestObject.AnotherTestMember);
+        Assert.Equal(1, anotherTestObject.AnotherTestMember.Count);
 
         var list = anotherTestObject.AnotherTestMember[1];
 
-        CustomAssert.IsInstanceOfType(typeof(List<ContentBaseClass>), list);
-        Assert.AreEqual(1, list.Count);
-        CustomAssert.IsInstanceOfType(typeof(ContentSubClass), list[0]);
+        Assert.IsType(typeof(List<ContentBaseClass>), list);
+        Assert.Equal(1, list.Count);
+        Assert.IsType(typeof(ContentSubClass), list[0]);
     }
 
     [Fact]
@@ -1265,7 +1262,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         var urlStatusTypeName = ReflectionUtils.GetTypeName(typeof(UrlStatus), TypeNameAssemblyFormatHandling.Simple, null);
         var listTypeName = ReflectionUtils.GetTypeName(typeof(List<UrlStatus>), TypeNameAssemblyFormatHandling.Simple, null);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$type"": """ + dictionaryTypeName + @""",
   ""First"": {
     ""$type"": """ + urlStatusTypeName + @""",
@@ -1302,14 +1299,14 @@ public class TypeNameHandlingTests : TestFixtureBase
 #pragma warning restore 618
         });
 
-        CustomAssert.IsInstanceOfType(typeof(Dictionary<string, object>), c);
+        Assert.IsType(typeof(Dictionary<string, object>), c);
 
         var newCollection = (Dictionary<string, object>)c;
-        Assert.AreEqual(3, newCollection.Count);
-        Assert.AreEqual(@"http://www.bing.com", ((UrlStatus)newCollection["First"]).Url);
+        Assert.Equal(3, newCollection.Count);
+        Assert.Equal(@"http://www.bing.com", ((UrlStatus)newCollection["First"]).Url);
 
         var statues = (List<UrlStatus>)newCollection["List"];
-        Assert.AreEqual(2, statues.Count);
+        Assert.Equal(2, statues.Count);
     }
 
     [Fact]
@@ -1321,7 +1318,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(products, Formatting.Indented, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All });
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$type"": """ + productClassRef + @""",
   ""$values"": []
 }", json);
@@ -1411,7 +1408,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         var objectArrayRef = ReflectionUtils.GetTypeName(typeof(object[]), TypeNameAssemblyFormatHandling.Simple, null);
         var byteArrayRef = ReflectionUtils.GetTypeName(typeof(byte[]), TypeNameAssemblyFormatHandling.Simple, null);
 
-        StringAssert.AreEqual(output, @"{
+        XUnitAssert.AreEqualNormalized(output, @"{
   ""$type"": """ + carClassRef + @""",
   ""Year"": ""2000-10-05T01:01:01Z"",
   ""Objects"": {
@@ -1427,12 +1424,12 @@ public class TypeNameHandlingTests : TestFixtureBase
 }");
         var obj = JsonConvert.DeserializeObject<Car>(output, jsonSettings);
 
-        Assert.IsNotNull(obj);
+        Assert.NotNull(obj);
 
-        Assert.IsTrue(obj.Objects[0] is byte[]);
+        Assert.True(obj.Objects[0] is byte[]);
 
         var d = (byte[])obj.Objects[0];
-        CollectionAssert.AreEquivalent(data, d);
+        Assert.Equal(data, d);
     }
 
     [Fact]
@@ -1478,7 +1475,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         var f = serializer.Deserialize<SerializableWrapper>(new JsonTextReader(new StringReader(writer.ToString())));
 
         //Check Round Trip
-        Assert.AreEqual(e, f, "Objects should be equal after round trip json serialization");
+        Assert.Equal(e, f);
     }
 
     [Fact]
@@ -1505,7 +1502,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var o = JObject.Parse(json);
 
-        Assert.AreEqual(":::MESSAGE:::, AssemblyName", (string)o["$type"]);
+        Assert.Equal(":::MESSAGE:::, AssemblyName", (string)o["$type"]);
     }
 
     public class MetroBinder : SerializationBinder
@@ -1537,7 +1534,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   1,
   2,
   3
@@ -1562,7 +1559,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""$type"": ""Argon.Tests.TestObjects.TestComponentSimple, Tests"",
     ""MyProperty"": 0
@@ -1580,12 +1577,12 @@ public class TypeNameHandlingTests : TestFixtureBase
 ]", json);
 
         var l2 = JsonConvert.DeserializeObject<TypeNameList<object>>(json);
-        Assert.AreEqual(4, l2.Count);
+        Assert.Equal(4, l2.Count);
 
-        CustomAssert.IsInstanceOfType(typeof(TestComponentSimple), l2[0]);
-        CustomAssert.IsInstanceOfType(typeof(Employee), l2[1]);
-        CustomAssert.IsInstanceOfType(typeof(string), l2[2]);
-        CustomAssert.IsInstanceOfType(typeof(long), l2[3]);
+        Assert.IsType(typeof(TestComponentSimple), l2[0]);
+        Assert.IsType(typeof(Employee), l2[1]);
+        Assert.IsType(typeof(string), l2[2]);
+        Assert.IsType(typeof(long), l2[3]);
     }
 
     [Fact]
@@ -1599,7 +1596,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""First"": {
     ""$type"": ""Argon.Tests.TestObjects.TestComponentSimple, Tests"",
     ""MyProperty"": 1
@@ -1609,12 +1606,12 @@ public class TypeNameHandlingTests : TestFixtureBase
 }", json);
 
         var l2 = JsonConvert.DeserializeObject<TypeNameDictionary<object>>(json);
-        Assert.AreEqual(3, l2.Count);
+        Assert.Equal(3, l2.Count);
 
-        CustomAssert.IsInstanceOfType(typeof(TestComponentSimple), l2["First"]);
-        Assert.AreEqual(1, ((TestComponentSimple)l2["First"]).MyProperty);
-        CustomAssert.IsInstanceOfType(typeof(string), l2["Second"]);
-        CustomAssert.IsInstanceOfType(typeof(long), l2["Third"]);
+        Assert.IsType(typeof(TestComponentSimple), l2["First"]);
+        Assert.Equal(1, ((TestComponentSimple)l2["First"]).MyProperty);
+        Assert.IsType(typeof(string), l2["Second"]);
+        Assert.IsType(typeof(long), l2["Third"]);
     }
 
     [Fact]
@@ -1642,16 +1639,16 @@ public class TypeNameHandlingTests : TestFixtureBase
   ""String"": ""String!"",
   ""Integer"": 2147483647
 }";
-        StringAssert.AreEqual(expected, json);
+        XUnitAssert.AreEqualNormalized(expected, json);
 
         var o2 = JsonConvert.DeserializeObject<TypeNameObject>(json);
-        Assert.IsNotNull(o2);
+        Assert.NotNull(o2);
 
-        CustomAssert.IsInstanceOfType(typeof(TestComponentSimple), o2.Object1);
-        Assert.AreEqual(1, ((TestComponentSimple)o2.Object1).MyProperty);
-        CustomAssert.IsInstanceOfType(typeof(long), o2.Object2);
-        CustomAssert.IsInstanceOfType(typeof(JObject), o2.ObjectNotHandled);
-        StringAssert.AreEqual(@"{
+        Assert.IsType(typeof(TestComponentSimple), o2.Object1);
+        Assert.Equal(1, ((TestComponentSimple)o2.Object1).MyProperty);
+        Assert.IsType(typeof(long), o2.Object2);
+        Assert.IsType(typeof(JObject), o2.ObjectNotHandled);
+        XUnitAssert.AreEqualNormalized(@"{
   ""MyProperty"": 2147483647
 }", o2.ObjectNotHandled.ToString());
     }
@@ -1670,7 +1667,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(c1, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Data"": [
     1,
     ""two"",
@@ -1682,13 +1679,13 @@ public class TypeNameHandlingTests : TestFixtureBase
 }", json);
 
         var c2 = JsonConvert.DeserializeObject<PropertyItemTypeNameHandling>(json);
-        Assert.AreEqual(3, c2.Data.Count);
+        Assert.Equal(3, c2.Data.Count);
 
-        CustomAssert.IsInstanceOfType(typeof(long), c2.Data[0]);
-        CustomAssert.IsInstanceOfType(typeof(string), c2.Data[1]);
-        CustomAssert.IsInstanceOfType(typeof(TestComponentSimple), c2.Data[2]);
+        Assert.IsType(typeof(long), c2.Data[0]);
+        Assert.IsType(typeof(string), c2.Data[1]);
+        Assert.IsType(typeof(TestComponentSimple), c2.Data[2]);
         var c = (TestComponentSimple)c2.Data[2];
-        Assert.AreEqual(1, c.MyProperty);
+        Assert.Equal(1, c.MyProperty);
     }
 
     [Fact]
@@ -1713,7 +1710,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var listTypeName = ReflectionUtils.GetTypeName(typeof(List<object>), TypeNameAssemblyFormatHandling.Simple, null);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Data"": [
     {
       ""$type"": ""Argon.Tests.TestObjects.TestComponentSimple, Tests"",
@@ -1731,12 +1728,12 @@ public class TypeNameHandlingTests : TestFixtureBase
 }", json);
 
         var c2 = JsonConvert.DeserializeObject<PropertyItemTypeNameHandling>(json);
-        Assert.AreEqual(2, c2.Data.Count);
+        Assert.Equal(2, c2.Data.Count);
 
-        CustomAssert.IsInstanceOfType(typeof(TestComponentSimple), c2.Data[0]);
-        CustomAssert.IsInstanceOfType(typeof(List<object>), c2.Data[1]);
+        Assert.IsType(typeof(TestComponentSimple), c2.Data[0]);
+        Assert.IsType(typeof(List<object>), c2.Data[1]);
         var c = (List<object>)c2.Data[1];
-        CustomAssert.IsInstanceOfType(typeof(JArray), c[0]);
+        Assert.IsType(typeof(JArray), c[0]);
 
         json = @"{
   ""Data"": [
@@ -1757,14 +1754,14 @@ public class TypeNameHandlingTests : TestFixtureBase
 }";
 
         c2 = JsonConvert.DeserializeObject<PropertyItemTypeNameHandling>(json);
-        Assert.AreEqual(2, c2.Data.Count);
+        Assert.Equal(2, c2.Data.Count);
 
-        CustomAssert.IsInstanceOfType(typeof(TestComponentSimple), c2.Data[0]);
-        CustomAssert.IsInstanceOfType(typeof(List<object>), c2.Data[1]);
+        Assert.IsType(typeof(TestComponentSimple), c2.Data[0]);
+        Assert.IsType(typeof(List<object>), c2.Data[1]);
         c = (List<object>)c2.Data[1];
-        CustomAssert.IsInstanceOfType(typeof(JObject), c[0]);
+        Assert.IsType(typeof(JObject), c[0]);
         var o = (JObject)c[0];
-        Assert.AreEqual(1, (int)o["MyProperty"]);
+        Assert.Equal(1, (int)o["MyProperty"]);
     }
 
     [Fact]
@@ -1795,7 +1792,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var dictionaryTypeName = ReflectionUtils.GetTypeName(typeof(Dictionary<string, object>), TypeNameAssemblyFormatHandling.Simple, null);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Data"": {
     ""one"": {
       ""$type"": ""Argon.Tests.TestObjects.TestComponentSimple, Tests"",
@@ -1811,12 +1808,12 @@ public class TypeNameHandlingTests : TestFixtureBase
 }", json);
 
         var c2 = JsonConvert.DeserializeObject<PropertyItemTypeNameHandlingDictionary>(json);
-        Assert.AreEqual(2, c2.Data.Count);
+        Assert.Equal(2, c2.Data.Count);
 
-        CustomAssert.IsInstanceOfType(typeof(TestComponentSimple), c2.Data["one"]);
-        CustomAssert.IsInstanceOfType(typeof(Dictionary<string, object>), c2.Data["two"]);
+        Assert.IsType(typeof(TestComponentSimple), c2.Data["one"]);
+        Assert.IsType(typeof(Dictionary<string, object>), c2.Data["two"]);
         var c = (Dictionary<string, object>)c2.Data["two"];
-        CustomAssert.IsInstanceOfType(typeof(JObject), c["one"]);
+        Assert.IsType(typeof(JObject), c["one"]);
 
         json = @"{
   ""Data"": {
@@ -1835,15 +1832,15 @@ public class TypeNameHandlingTests : TestFixtureBase
 }";
 
         c2 = JsonConvert.DeserializeObject<PropertyItemTypeNameHandlingDictionary>(json);
-        Assert.AreEqual(2, c2.Data.Count);
+        Assert.Equal(2, c2.Data.Count);
 
-        CustomAssert.IsInstanceOfType(typeof(TestComponentSimple), c2.Data["one"]);
-        CustomAssert.IsInstanceOfType(typeof(Dictionary<string, object>), c2.Data["two"]);
+        Assert.IsType(typeof(TestComponentSimple), c2.Data["one"]);
+        Assert.IsType(typeof(Dictionary<string, object>), c2.Data["two"]);
         c = (Dictionary<string, object>)c2.Data["two"];
-        CustomAssert.IsInstanceOfType(typeof(JObject), c["one"]);
+        Assert.IsType(typeof(JObject), c["one"]);
 
         var o = (JObject)c["one"];
-        Assert.AreEqual(1, (int)o["MyProperty"]);
+        Assert.Equal(1, (int)o["MyProperty"]);
     }
 
     [Fact]
@@ -1873,7 +1870,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var listTypeName = ReflectionUtils.GetTypeName(typeof(List<object>), TypeNameAssemblyFormatHandling.Simple, null);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Data"": {
     ""Prop1"": {
       ""$type"": """ + listTypeName + @""",
@@ -1893,17 +1890,17 @@ public class TypeNameHandlingTests : TestFixtureBase
 }", json);
 
         var o2 = JsonConvert.DeserializeObject<PropertyItemTypeNameHandlingObject>(json);
-        Assert.IsNotNull(o2);
-        Assert.IsNotNull(o2.Data);
+        Assert.NotNull(o2);
+        Assert.NotNull(o2.Data);
 
-        CustomAssert.IsInstanceOfType(typeof(List<object>), o2.Data.Prop1);
-        CustomAssert.IsInstanceOfType(typeof(TestComponentSimple), o2.Data.Prop2);
-        CustomAssert.IsInstanceOfType(typeof(long), o2.Data.Prop3);
-        CustomAssert.IsInstanceOfType(typeof(JObject), o2.Data.Prop4);
+        Assert.IsType(typeof(List<object>), o2.Data.Prop1);
+        Assert.IsType(typeof(TestComponentSimple), o2.Data.Prop2);
+        Assert.IsType(typeof(long), o2.Data.Prop3);
+        Assert.IsType(typeof(JObject), o2.Data.Prop4);
 
         var o = (List<object>)o2.Data.Prop1;
         var j = (JObject)o[0];
-        Assert.AreEqual(1, (int)j["MyProperty"]);
+        Assert.Equal(1, (int)j["MyProperty"]);
     }
 
     [Fact]
@@ -1928,7 +1925,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         d1.Data = (DynamicDictionary)data;
 
         var json = JsonConvert.SerializeObject(d1, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Data"": {
     ""one"": {
       ""$type"": ""Argon.Tests.TestObjects.TestComponentSimple, Tests"",
@@ -1944,16 +1941,16 @@ public class TypeNameHandlingTests : TestFixtureBase
 }", json);
 
         var d2 = JsonConvert.DeserializeObject<PropertyItemTypeNameHandlingDynamic>(json);
-        Assert.IsNotNull(d2);
-        Assert.IsNotNull(d2.Data);
+        Assert.NotNull(d2);
+        Assert.NotNull(d2.Data);
 
         dynamic data3 = d2.Data;
         var c = (TestComponentSimple)data3.one;
-        Assert.AreEqual(1, c.MyProperty);
+        Assert.Equal(1, c.MyProperty);
 
         var data4 = data3.two;
         var o = (JObject)data4.one;
-        Assert.AreEqual(2, (int)o["MyProperty"]);
+        Assert.Equal(2, (int)o["MyProperty"]);
 
         json = @"{
   ""Data"": {
@@ -1975,7 +1972,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         data3 = d2.Data;
         data4 = data3.two;
         o = (JObject)data4.one;
-        Assert.AreEqual(2, (int)o["MyProperty"]);
+        Assert.Equal(2, (int)o["MyProperty"]);
     }
 
     [Fact]
@@ -1995,14 +1992,14 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var dictionaryTypeName = ReflectionUtils.GetTypeName(typeof(Dictionary<string, Guid>), TypeNameAssemblyFormatHandling.Simple, null);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""$type"": """ + dictionaryTypeName + @""",
   ""k1"": ""a6e986df-fc2c-4906-a1ef-9492388f7833""
 }", serializedString);
 
         var deserializedObject = (Dictionary<string, Guid>)JsonConvert.DeserializeObject(serializedString, jsonSerializerSettings);
 
-        Assert.AreEqual(someValue, deserializedObject[contextKey]);
+        Assert.Equal(someValue, deserializedObject[contextKey]);
     }
 
     [Fact]
@@ -2028,7 +2025,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(p, settings);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""c"": {
     ""$type"": ""Argon.Tests.Serialization.MyChild, Tests"",
     ""p"": ""string!""
@@ -2036,8 +2033,8 @@ public class TypeNameHandlingTests : TestFixtureBase
 }", json);
 
         var p2 = JsonConvert.DeserializeObject<MyParent>(json, settings);
-        CustomAssert.IsInstanceOfType(typeof(MyChild), p2.Child);
-        Assert.AreEqual("string!", ((MyChild)p2.Child).MyProperty);
+        Assert.IsType(typeof(MyChild), p2.Child);
+        Assert.Equal("string!", ((MyChild)p2.Child).MyProperty);
     }
 
     [Fact]
@@ -2063,7 +2060,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(p, settings);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""c"": {
     ""$type"": ""Argon.Tests.Serialization.MyChildList, Tests"",
     ""$values"": [
@@ -2073,9 +2070,9 @@ public class TypeNameHandlingTests : TestFixtureBase
 }", json);
 
         var p2 = JsonConvert.DeserializeObject<MyParent>(json, settings);
-        CustomAssert.IsInstanceOfType(typeof(MyChildList), p2.Child);
-        Assert.AreEqual(1, ((MyChildList)p2.Child).Count);
-        Assert.AreEqual("string!", ((MyChildList)p2.Child)[0]);
+        Assert.IsType(typeof(MyChildList), p2.Child);
+        Assert.Equal(1, ((MyChildList)p2.Child).Count);
+        Assert.Equal("string!", ((MyChildList)p2.Child)[0]);
     }
 
     [Fact]
@@ -2103,7 +2100,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(pp, settings);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""ParentProp"": {
     ""c"": {
       ""$type"": ""Argon.Tests.Serialization.MyChild, Tests"",
@@ -2114,8 +2111,8 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var pp2 = JsonConvert.DeserializeObject<ParentParent>(json, settings);
         var p2 = pp2.ParentProp;
-        CustomAssert.IsInstanceOfType(typeof(MyChild), p2.Child);
-        Assert.AreEqual("string!", ((MyChild)p2.Child).MyProperty);
+        Assert.IsType(typeof(MyChild), p2.Child);
+        Assert.Equal("string!", ((MyChild)p2.Child).MyProperty);
     }
 
     [Fact]
@@ -2144,9 +2141,9 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var strings = output.SelectMany(s => s).ToList();
 
-        Assert.AreEqual(9, strings.Count);
-        Assert.AreEqual("One", strings[0]);
-        Assert.AreEqual("Nine", strings[8]);
+        Assert.Equal(9, strings.Count);
+        Assert.Equal("One", strings[0]);
+        Assert.Equal("Nine", strings[8]);
     }
 
     [Fact]
@@ -2172,7 +2169,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         });
 
         var item = (ReportItemKeys)g.ItemIdentifier;
-        Assert.AreEqual(1UL, item.WantedUnitID);
+        Assert.Equal(1UL, item.WantedUnitID);
     }
 
     [Fact]
@@ -2184,7 +2181,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var listTypeName = ReflectionUtils.GetTypeName(typeof(List<MyInterfaceImplementationType>), TypeNameAssemblyFormatHandling.Simple, null);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Rows"": {
     ""key"": {
       ""$type"": """ + listTypeName + @""",
@@ -2199,7 +2196,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var deserialized = JsonConvert.DeserializeObject<DataType>(serialized);
 
-        Assert.AreEqual("property", deserialized.Rows["key"].First().SomeProperty);
+        Assert.Equal("property", deserialized.Rows["key"].First().SomeProperty);
     }
 
 #if !NET5_0_OR_GREATER
@@ -2223,7 +2220,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
             var obtainedDictionary = (Dictionary<int, HashSet<string>>)JsonConvert.DeserializeObject(obtainedJson, serializerSettings);
 
-            Assert.IsNotNull(obtainedDictionary);
+            Assert.NotNull(obtainedDictionary);
         }
 
         [Fact]
@@ -2246,7 +2243,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
             var obtainedDictionary = (Dictionary<int, HashSet<string>>)JsonConvert.DeserializeObject(obtainedJson, serializerSettings);
 
-            Assert.IsNotNull(obtainedDictionary);
+            Assert.NotNull(obtainedDictionary);
         }
 
         [Fact]
@@ -2262,7 +2259,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
             var json = JsonConvert.SerializeObject(objWithMessage, serializerSettings);
 
-            StringAssert.AreEqual(@"{
+            XUnitAssert.AreEqualNormalized(@"{
   ""Message"": {
     ""Value"": ""Hello!""
   }
@@ -2285,7 +2282,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 }";
             var objWithMessage = JsonConvert.DeserializeObject<ObjectWithOptionalMessage>(json, serializerSettings);
 
-            StringAssert.AreEqual("Hello!", objWithMessage.Message.Value.Value);
+            XUnitAssert.AreEqualNormalized("Hello!", objWithMessage.Message.Value.Value);
         }
 #endif
 
@@ -2294,17 +2291,17 @@ public class TypeNameHandlingTests : TestFixtureBase
     {
         var serializer = JsonSerializer.Create();
 #pragma warning disable CS0618
-        Assert.AreNotEqual(null, serializer.Binder);
-        Assert.IsInstanceOf(typeof(DefaultSerializationBinder), serializer.Binder);
+        Assert.NotEqual(null, serializer.Binder);
+        Assert.IsType(typeof(DefaultSerializationBinder), serializer.Binder);
 #pragma warning restore CS0618 // Type or member is obsolete
-        Assert.IsInstanceOf(typeof(DefaultSerializationBinder), serializer.SerializationBinder);
+        Assert.IsType(typeof(DefaultSerializationBinder), serializer.SerializationBinder);
     }
 
     [Fact]
     public void ObsoleteBinderThrowsIfISerializationBinderSet()
     {
         var serializer = JsonSerializer.Create(new JsonSerializerSettings { SerializationBinder = new FancyBinder() });
-        ExceptionAssert.Throws<InvalidOperationException>(() =>
+        XUnitAssert.Throws<InvalidOperationException>(() =>
         {
 #pragma warning disable CS0618 // Type or member is obsolete
             var serializationBinder = serializer.Binder;
@@ -2312,7 +2309,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             serializationBinder.ToString();
         }, "Cannot get SerializationBinder because an ISerializationBinder was previously set.");
 
-        Assert.IsInstanceOf(typeof(FancyBinder), serializer.SerializationBinder);
+        Assert.IsType(typeof(FancyBinder), serializer.SerializationBinder);
     }
 
     [Fact]
@@ -2320,13 +2317,13 @@ public class TypeNameHandlingTests : TestFixtureBase
     {
 #pragma warning disable CS0618 // Type or member is obsolete
         var serializer = JsonSerializer.Create(new JsonSerializerSettings { Binder = new OldBinder() });
-        Assert.IsInstanceOf(typeof(OldBinder), serializer.Binder);
+        Assert.IsType(typeof(OldBinder), serializer.Binder);
 #pragma warning restore CS0618 // Type or member is obsolete
 
         var binder = serializer.SerializationBinder;
 
-        Assert.IsInstanceOf(typeof(SerializationBinderAdapter), binder);
-        Assert.AreEqual(typeof(string), binder.BindToType(null, null));
+        Assert.IsType(typeof(SerializationBinderAdapter), binder);
+        Assert.Equal(typeof(string), binder.BindToType(null, null));
     }
 
     public class FancyBinder : ISerializationBinder

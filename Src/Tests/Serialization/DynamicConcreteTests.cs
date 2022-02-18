@@ -26,265 +26,263 @@
 #if !NET5_0_OR_GREATER
 using System.Reflection.Emit;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
-namespace Argon.Tests.Serialization
+namespace Argon.Tests.Serialization;
+
+public class DynamicConcreteTests : TestFixtureBase
 {
-    [TestFixture]
-    public class DynamicConcreteTests : TestFixtureBase
+    public class DynamicConcreteContractResolver : DefaultContractResolver
     {
-        public class DynamicConcreteContractResolver : DefaultContractResolver
+        protected override JsonContract CreateContract(Type objectType)
         {
-            protected override JsonContract CreateContract(Type objectType)
+            var contract = base.CreateContract(objectType);
+
+            // create a dynamic mock object for interfaces or abstract classes
+            if (contract.CreatedType.IsInterface || contract.CreatedType.IsAbstract)
             {
-                var contract = base.CreateContract(objectType);
-
-                // create a dynamic mock object for interfaces or abstract classes
-                if (contract.CreatedType.IsInterface || contract.CreatedType.IsAbstract)
-                {
-                    contract.DefaultCreator = () => DynamicConcrete.GetInstanceFor(contract.CreatedType);
-                }
-
-                return contract;
+                contract.DefaultCreator = () => DynamicConcrete.GetInstanceFor(contract.CreatedType);
             }
-        }
 
-        [Fact]
-        public void UseDynamicConcreteIfTargetObjectTypeIsAnInterfaceWithNoBackingClass()
-        {
-            var json = @"{Name:""Name!""}";
-
-            var c = JsonConvert.DeserializeObject<IInterfaceWithNoConcrete>(json, new JsonSerializerSettings
-            {
-                ContractResolver = new DynamicConcreteContractResolver()
-            });
-
-            Assert.AreEqual("Name!", c.Name);
-        }
-
-        [Fact]
-        public void UseDynamicConcreteIfTargetObjectTypeIsAnAbstractClassWithNoConcrete()
-        {
-            var json = @"{Name:""Name!"", Game:""Same""}";
-
-            var c = JsonConvert.DeserializeObject<AbstractWithNoConcrete>(json, new JsonSerializerSettings
-            {
-                ContractResolver = new DynamicConcreteContractResolver()
-            });
-
-            Assert.AreEqual("Name!", c.Name);
-            Assert.AreEqual("Same", c.Game);
-        }
-
-        [Fact]
-        public void AnyMethodsExposedByDynamicConcreteAreHarmless()
-        {
-            var json = @"{Name:""Name!""}";
-
-            var c = JsonConvert.DeserializeObject<IInterfaceWithNoConcrete>(json, new JsonSerializerSettings
-            {
-                ContractResolver = new DynamicConcreteContractResolver()
-            });
-
-            c.FuncWithRefType(10, null);
-            c.FuncWithValType_1();
-            c.FuncWithValType_2();
+            return contract;
         }
     }
 
-    public abstract class AbstractWithNoConcrete
+    [Fact]
+    public void UseDynamicConcreteIfTargetObjectTypeIsAnInterfaceWithNoBackingClass()
     {
-        public string Name { get; set; }
-        public abstract string Game { get; set; }
+        var json = @"{Name:""Name!""}";
+
+        var c = JsonConvert.DeserializeObject<IInterfaceWithNoConcrete>(json, new JsonSerializerSettings
+        {
+            ContractResolver = new DynamicConcreteContractResolver()
+        });
+
+        Assert.Equal("Name!", c.Name);
     }
 
-    public interface IInterfaceWithNoConcrete
+    [Fact]
+    public void UseDynamicConcreteIfTargetObjectTypeIsAnAbstractClassWithNoConcrete()
     {
-        string Name { get; set; }
-        object FuncWithRefType(int a, object b);
-        int FuncWithValType_1();
-        bool FuncWithValType_2();
+        var json = @"{Name:""Name!"", Game:""Same""}";
+
+        var c = JsonConvert.DeserializeObject<AbstractWithNoConcrete>(json, new JsonSerializerSettings
+        {
+            ContractResolver = new DynamicConcreteContractResolver()
+        });
+
+        Assert.Equal("Name!", c.Name);
+        Assert.Equal("Same", c.Game);
     }
+
+    [Fact]
+    public void AnyMethodsExposedByDynamicConcreteAreHarmless()
+    {
+        var json = @"{Name:""Name!""}";
+
+        var c = JsonConvert.DeserializeObject<IInterfaceWithNoConcrete>(json, new JsonSerializerSettings
+        {
+            ContractResolver = new DynamicConcreteContractResolver()
+        });
+
+        c.FuncWithRefType(10, null);
+        c.FuncWithValType_1();
+        c.FuncWithValType_2();
+    }
+}
+
+public abstract class AbstractWithNoConcrete
+{
+    public string Name { get; set; }
+    public abstract string Game { get; set; }
+}
+
+public interface IInterfaceWithNoConcrete
+{
+    string Name { get; set; }
+    object FuncWithRefType(int a, object b);
+    int FuncWithValType_1();
+    bool FuncWithValType_2();
+}
+
+/// <summary>
+/// Creates run-time backing types for abstract classes and interfaces
+/// </summary>
+public static class DynamicConcrete
+{
+    /// <summary>
+    /// Get an empty instance of a dynamic proxy for type T.
+    /// All public fields are writable and all properties have both getters and setters.
+    /// </summary>
+    public static T GetInstanceFor<T>()
+    {
+        return (T) GetInstanceFor(typeof(T));
+    }
+
+    static readonly ModuleBuilder ModuleBuilder;
+    static readonly AssemblyBuilder DynamicAssembly;
 
     /// <summary>
-    /// Creates run-time backing types for abstract classes and interfaces
+    /// Get an empty instance of a dynamic proxy for the given type.
+    /// All public fields are writable and all properties have both getters and setters.
     /// </summary>
-    public static class DynamicConcrete
+    public static object GetInstanceFor(Type targetType)
     {
-        /// <summary>
-        /// Get an empty instance of a dynamic proxy for type T.
-        /// All public fields are writable and all properties have both getters and setters.
-        /// </summary>
-        public static T GetInstanceFor<T>()
+        lock (DynamicAssembly)
         {
-            return (T)GetInstanceFor(typeof(T));
+            var constructedType = DynamicAssembly.GetType(ProxyName(targetType)) ?? GetConstructedType(targetType);
+            var instance = Activator.CreateInstance(constructedType);
+            return instance;
+        }
+    }
+
+    static string ProxyName(Type targetType)
+    {
+        return targetType.Name + "Proxy";
+    }
+
+    static DynamicConcrete()
+    {
+        var assemblyName = new AssemblyName("DynImpl");
+        DynamicAssembly = AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.RunAndSave);
+        ModuleBuilder = DynamicAssembly.DefineDynamicModule("DynImplModule");
+    }
+
+    static Type GetConstructedType(Type targetType)
+    {
+        var typeBuilder = ModuleBuilder.DefineType(targetType.Name + "Proxy", TypeAttributes.Public);
+
+        var ctorBuilder = typeBuilder.DefineConstructor(
+            MethodAttributes.Public,
+            CallingConventions.Standard,
+            new Type[] { });
+        var ilGenerator = ctorBuilder.GetILGenerator();
+        ilGenerator.Emit(OpCodes.Ret);
+
+        IncludeType(targetType, typeBuilder);
+
+        foreach (var face in targetType.GetInterfaces())
+        {
+            IncludeType(face, typeBuilder);
         }
 
-        static readonly ModuleBuilder ModuleBuilder;
-        static readonly AssemblyBuilder DynamicAssembly;
+        return typeBuilder.CreateType();
+    }
 
-        /// <summary>
-        /// Get an empty instance of a dynamic proxy for the given type.
-        /// All public fields are writable and all properties have both getters and setters.
-        /// </summary>
-        public static object GetInstanceFor(Type targetType)
+    static void IncludeType(Type typeOfT, TypeBuilder typeBuilder)
+    {
+        var methodInfos = typeOfT.GetMethods();
+        foreach (var methodInfo in methodInfos)
         {
-            lock (DynamicAssembly)
+            if (methodInfo.Name.StartsWith("set_"))
             {
-                var constructedType = DynamicAssembly.GetType(ProxyName(targetType)) ?? GetConstructedType(targetType);
-                var instance = Activator.CreateInstance(constructedType);
-                return instance;
-            }
-        }
-
-        static string ProxyName(Type targetType)
-        {
-            return targetType.Name + "Proxy";
-        }
-
-        static DynamicConcrete()
-        {
-            var assemblyName = new AssemblyName("DynImpl");
-            DynamicAssembly = AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.RunAndSave);
-            ModuleBuilder = DynamicAssembly.DefineDynamicModule("DynImplModule");
-        }
-
-        static Type GetConstructedType(Type targetType)
-        {
-            var typeBuilder = ModuleBuilder.DefineType(targetType.Name + "Proxy", TypeAttributes.Public);
-
-            var ctorBuilder = typeBuilder.DefineConstructor(
-                MethodAttributes.Public,
-                CallingConventions.Standard,
-                new Type[] { });
-            var ilGenerator = ctorBuilder.GetILGenerator();
-            ilGenerator.Emit(OpCodes.Ret);
-
-            IncludeType(targetType, typeBuilder);
-
-            foreach (var face in targetType.GetInterfaces())
-            {
-                IncludeType(face, typeBuilder);
+                continue; // we always add a set for a get.
             }
 
-            return typeBuilder.CreateType();
-        }
-
-        static void IncludeType(Type typeOfT, TypeBuilder typeBuilder)
-        {
-            var methodInfos = typeOfT.GetMethods();
-            foreach (var methodInfo in methodInfos)
+            if (methodInfo.Name.StartsWith("get_"))
             {
-                if (methodInfo.Name.StartsWith("set_"))
-                {
-                    continue; // we always add a set for a get.
-                }
-
-                if (methodInfo.Name.StartsWith("get_"))
-                {
-                    BindProperty(typeBuilder, methodInfo);
-                }
-                else
-                {
-                    if (methodInfo.IsAbstract)
-                    {
-                        BindMethod(typeBuilder, methodInfo);
-                    }
-                }
-            }
-
-            if (typeOfT.IsInterface)
-            {
-                typeBuilder.AddInterfaceImplementation(typeOfT);
-            }
-            else if (typeOfT.IsAbstract)
-            {
-                typeBuilder.SetParent(typeOfT);
-            }
-        }
-
-        static void BindMethod(TypeBuilder typeBuilder, MethodInfo methodInfo)
-        {
-            var args = methodInfo.GetParameters().Select(p => p.ParameterType).ToArray();
-            var methodBuilder = typeBuilder.DefineMethod(
-                methodInfo.Name,
-                MethodAttributes.Public | MethodAttributes.Virtual,
-                CallingConventions.HasThis,
-                methodInfo.ReturnType,
-                args
-                );
-
-            var methodILGen = methodBuilder.GetILGenerator();
-            if (methodInfo.ReturnType == typeof(void))
-            {
-                methodILGen.Emit(OpCodes.Ret);
+                BindProperty(typeBuilder, methodInfo);
             }
             else
             {
-                if (methodInfo.ReturnType.IsPrimitive)
+                if (methodInfo.IsAbstract)
                 {
-                    methodILGen.Emit(OpCodes.Ldc_I4_0);
+                    BindMethod(typeBuilder, methodInfo);
                 }
-                else if (methodInfo.ReturnType.IsValueType || methodInfo.ReturnType.IsEnum)
-                {
-                    var getMethod = typeof(Activator).GetMethod("CreateInstance",
-                        new[] { typeof(Type) });
-                    var lb = methodILGen.DeclareLocal(methodInfo.ReturnType);
-                    if (lb.LocalType != null)
-                    {
-                        methodILGen.Emit(OpCodes.Ldtoken, lb.LocalType);
-                        methodILGen.Emit(OpCodes.Call, typeof(Type).GetMethod("GetTypeFromHandle"));
-                        methodILGen.Emit(OpCodes.Callvirt, getMethod);
-                        methodILGen.Emit(OpCodes.Unbox_Any, lb.LocalType);
-                    }
-                }
-                else
-                {
-                    methodILGen.Emit(OpCodes.Ldnull);
-                }
-                methodILGen.Emit(OpCodes.Ret);
             }
-            typeBuilder.DefineMethodOverride(methodBuilder, methodInfo);
         }
 
-        /// <summary>
-        /// Bind a new property into a type builder with getters and setters.
-        /// </summary>
-        public static void BindProperty(TypeBuilder typeBuilder, MethodInfo methodInfo)
+        if (typeOfT.IsInterface)
         {
-            // Backing Field
-            var propertyName = methodInfo.Name.Replace("get_", "");
-            var propertyType = methodInfo.ReturnType;
-            var backingField = typeBuilder.DefineField("_" + propertyName, propertyType, FieldAttributes.Private);
-
-            //Getter
-            var backingGet = typeBuilder.DefineMethod("get_" + propertyName, MethodAttributes.Public |
-                                                                             MethodAttributes.SpecialName | MethodAttributes.Virtual |
-                                                                             MethodAttributes.HideBySig, propertyType, Type.EmptyTypes);
-            var getIl = backingGet.GetILGenerator();
-
-            getIl.Emit(OpCodes.Ldarg_0);
-            getIl.Emit(OpCodes.Ldfld, backingField);
-            getIl.Emit(OpCodes.Ret);
-
-            //Setter
-            var backingSet = typeBuilder.DefineMethod("set_" + propertyName, MethodAttributes.Public |
-                                                                             MethodAttributes.SpecialName | MethodAttributes.Virtual |
-                                                                             MethodAttributes.HideBySig, null, new[] { propertyType });
-
-            var setIl = backingSet.GetILGenerator();
-
-            setIl.Emit(OpCodes.Ldarg_0);
-            setIl.Emit(OpCodes.Ldarg_1);
-            setIl.Emit(OpCodes.Stfld, backingField);
-            setIl.Emit(OpCodes.Ret);
-
-            // Property
-            var propertyBuilder = typeBuilder.DefineProperty(propertyName, PropertyAttributes.None, propertyType, null);
-            propertyBuilder.SetGetMethod(backingGet);
-            propertyBuilder.SetSetMethod(backingSet);
+            typeBuilder.AddInterfaceImplementation(typeOfT);
         }
+        else if (typeOfT.IsAbstract)
+        {
+            typeBuilder.SetParent(typeOfT);
+        }
+    }
+
+    static void BindMethod(TypeBuilder typeBuilder, MethodInfo methodInfo)
+    {
+        var args = methodInfo.GetParameters().Select(p => p.ParameterType).ToArray();
+        var methodBuilder = typeBuilder.DefineMethod(
+            methodInfo.Name,
+            MethodAttributes.Public | MethodAttributes.Virtual,
+            CallingConventions.HasThis,
+            methodInfo.ReturnType,
+            args
+        );
+
+        var methodILGen = methodBuilder.GetILGenerator();
+        if (methodInfo.ReturnType == typeof(void))
+        {
+            methodILGen.Emit(OpCodes.Ret);
+        }
+        else
+        {
+            if (methodInfo.ReturnType.IsPrimitive)
+            {
+                methodILGen.Emit(OpCodes.Ldc_I4_0);
+            }
+            else if (methodInfo.ReturnType.IsValueType || methodInfo.ReturnType.IsEnum)
+            {
+                var getMethod = typeof(Activator).GetMethod("CreateInstance",
+                    new[] {typeof(Type)});
+                var lb = methodILGen.DeclareLocal(methodInfo.ReturnType);
+                if (lb.LocalType != null)
+                {
+                    methodILGen.Emit(OpCodes.Ldtoken, lb.LocalType);
+                    methodILGen.Emit(OpCodes.Call, typeof(Type).GetMethod("GetTypeFromHandle"));
+                    methodILGen.Emit(OpCodes.Callvirt, getMethod);
+                    methodILGen.Emit(OpCodes.Unbox_Any, lb.LocalType);
+                }
+            }
+            else
+            {
+                methodILGen.Emit(OpCodes.Ldnull);
+            }
+
+            methodILGen.Emit(OpCodes.Ret);
+        }
+
+        typeBuilder.DefineMethodOverride(methodBuilder, methodInfo);
+    }
+
+    /// <summary>
+    /// Bind a new property into a type builder with getters and setters.
+    /// </summary>
+    public static void BindProperty(TypeBuilder typeBuilder, MethodInfo methodInfo)
+    {
+        // Backing Field
+        var propertyName = methodInfo.Name.Replace("get_", "");
+        var propertyType = methodInfo.ReturnType;
+        var backingField = typeBuilder.DefineField("_" + propertyName, propertyType, FieldAttributes.Private);
+
+        //Getter
+        var backingGet = typeBuilder.DefineMethod("get_" + propertyName, MethodAttributes.Public |
+                                                                         MethodAttributes.SpecialName | MethodAttributes.Virtual |
+                                                                         MethodAttributes.HideBySig, propertyType, Type.EmptyTypes);
+        var getIl = backingGet.GetILGenerator();
+
+        getIl.Emit(OpCodes.Ldarg_0);
+        getIl.Emit(OpCodes.Ldfld, backingField);
+        getIl.Emit(OpCodes.Ret);
+
+        //Setter
+        var backingSet = typeBuilder.DefineMethod("set_" + propertyName, MethodAttributes.Public |
+                                                                         MethodAttributes.SpecialName | MethodAttributes.Virtual |
+                                                                         MethodAttributes.HideBySig, null, new[] {propertyType});
+
+        var setIl = backingSet.GetILGenerator();
+
+        setIl.Emit(OpCodes.Ldarg_0);
+        setIl.Emit(OpCodes.Ldarg_1);
+        setIl.Emit(OpCodes.Stfld, backingField);
+        setIl.Emit(OpCodes.Ret);
+
+        // Property
+        var propertyBuilder = typeBuilder.DefineProperty(propertyName, PropertyAttributes.None, propertyType, null);
+        propertyBuilder.SetGetMethod(backingGet);
+        propertyBuilder.SetSetMethod(backingSet);
     }
 }
 

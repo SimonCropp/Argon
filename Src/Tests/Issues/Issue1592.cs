@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue1592 : TestFixtureBase
 {
     [Fact]
@@ -46,7 +43,7 @@ public class Issue1592 : TestFixtureBase
         reader.Read();
         reader.Read();
 
-        Assert.AreEqual("testing", reader.Value);
-        Assert.AreEqual("['test customer\\'s']", reader.Path);
+        Assert.Equal("testing", reader.Value);
+        Assert.Equal("['test customer\\'s']", reader.Path);
     }
 }

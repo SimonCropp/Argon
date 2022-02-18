@@ -25,8 +25,6 @@
 
 using System.Xml;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Json;
 
@@ -259,7 +257,6 @@ public class XmlJsonReader : JsonReader
 }
 #endregion
 
-[TestFixture]
 public class CustomJsonReader : TestFixtureBase
 {
     [Fact]
@@ -329,170 +326,170 @@ public class CustomJsonReader : TestFixtureBase
         using (var xmlReader = XmlReader.Create(new StringReader(xml), new XmlReaderSettings { IgnoreWhitespace = true }))
         using (var reader = new XmlJsonReader(xmlReader))
         {
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.StartObject, reader.TokenType);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-            Assert.AreEqual("Null", reader.Value);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+            Assert.Equal("Null", reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.Null, reader.TokenType);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.Null, reader.TokenType);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-            Assert.AreEqual("String", reader.Value);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+            Assert.Equal("String", reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.String, reader.TokenType);
-            Assert.AreEqual("This is a string!", reader.Value);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.String, reader.TokenType);
+            Assert.Equal("This is a string!", reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-            Assert.AreEqual("Char", reader.Value);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+            Assert.Equal("Char", reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.String, reader.TokenType);
-            Assert.AreEqual("!", reader.Value);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.String, reader.TokenType);
+            Assert.Equal("!", reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-            Assert.AreEqual("Integer", reader.Value);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+            Assert.Equal("Integer", reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.Integer, reader.TokenType);
-            Assert.AreEqual(123L, reader.Value);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.Integer, reader.TokenType);
+            Assert.Equal(123L, reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-            Assert.AreEqual("DateTime", reader.Value);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+            Assert.Equal("DateTime", reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.Date, reader.TokenType);
-            Assert.AreEqual(DateTime.Parse("2001-02-22T20:59:59Z"), reader.Value);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.Date, reader.TokenType);
+            Assert.Equal(DateTime.Parse("2001-02-22T20:59:59Z"), reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-            Assert.AreEqual("DateTimeOffset", reader.Value);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+            Assert.Equal("DateTimeOffset", reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.Date, reader.TokenType);
-            Assert.AreEqual(DateTime.Parse("2001-02-22T20:59:59+12:00"), reader.Value);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.Date, reader.TokenType);
+            Assert.Equal(DateTime.Parse("2001-02-22T20:59:59+12:00"), reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-            Assert.AreEqual("Float", reader.Value);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+            Assert.Equal("Float", reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.Float, reader.TokenType);
-            Assert.AreEqual(1.1d, reader.Value);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.Float, reader.TokenType);
+            Assert.Equal(1.1d, reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-            Assert.AreEqual("Double", reader.Value);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+            Assert.Equal("Double", reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.Float, reader.TokenType);
-            Assert.AreEqual(3.14d, reader.Value);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.Float, reader.TokenType);
+            Assert.Equal(3.14d, reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-            Assert.AreEqual("Decimal", reader.Value);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+            Assert.Equal("Decimal", reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.Float, reader.TokenType);
-            Assert.AreEqual(19.95d, reader.Value);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.Float, reader.TokenType);
+            Assert.Equal(19.95d, reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-            Assert.AreEqual("Guid", reader.Value);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+            Assert.Equal("Guid", reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.String, reader.TokenType);
-            Assert.AreEqual("d66eab59-3715-4b35-9e06-fa61c1216eaa", reader.Value);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.String, reader.TokenType);
+            Assert.Equal("d66eab59-3715-4b35-9e06-fa61c1216eaa", reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-            Assert.AreEqual("Uri", reader.Value);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+            Assert.Equal("Uri", reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.String, reader.TokenType);
-            Assert.AreEqual("http://james.newtonking.com", reader.Value);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.String, reader.TokenType);
+            Assert.Equal("http://james.newtonking.com", reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-            Assert.AreEqual("Array", reader.Value);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+            Assert.Equal("Array", reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.StartArray, reader.TokenType);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.StartArray, reader.TokenType);
 
-            Assert.AreEqual(1, reader.ReadAsInt32());
-            Assert.AreEqual(JsonToken.Integer, reader.TokenType);
-            Assert.AreEqual(1L, reader.Value);
+            Assert.Equal(1, reader.ReadAsInt32());
+            Assert.Equal(JsonToken.Integer, reader.TokenType);
+            Assert.Equal(1L, reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.Bytes, reader.TokenType);
-            Assert.AreEqual(Encoding.UTF8.GetBytes("Hello world!"), reader.Value);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.Bytes, reader.TokenType);
+            Assert.Equal(Encoding.UTF8.GetBytes("Hello world!"), reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.Boolean, reader.TokenType);
-            Assert.AreEqual(true, reader.Value);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.Boolean, reader.TokenType);
+            XUnitAssert.True(reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.EndArray, reader.TokenType);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.EndArray, reader.TokenType);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-            Assert.AreEqual("Object", reader.Value);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+            Assert.Equal("Object", reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.StartObject, reader.TokenType);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.StartObject, reader.TokenType);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-            Assert.AreEqual("String", reader.Value);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+            Assert.Equal("String", reader.Value);
 
-            Assert.AreEqual("This is a string!", reader.ReadAsString());
-            Assert.AreEqual(JsonToken.String, reader.TokenType);
-            Assert.AreEqual("This is a string!", reader.Value);
+            Assert.Equal("This is a string!", reader.ReadAsString());
+            Assert.Equal(JsonToken.String, reader.TokenType);
+            Assert.Equal("This is a string!", reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-            Assert.AreEqual("Null", reader.Value);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+            Assert.Equal("Null", reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.Null, reader.TokenType);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.Null, reader.TokenType);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.EndObject, reader.TokenType);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.PropertyName, reader.TokenType);
-            Assert.AreEqual("Constructor", reader.Value);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.PropertyName, reader.TokenType);
+            Assert.Equal("Constructor", reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.StartConstructor, reader.TokenType);
-            Assert.AreEqual("Date", reader.Value);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.StartConstructor, reader.TokenType);
+            Assert.Equal("Date", reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.Integer, reader.TokenType);
-            Assert.AreEqual(2000L, reader.Value);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.Integer, reader.TokenType);
+            Assert.Equal(2000L, reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.Integer, reader.TokenType);
-            Assert.AreEqual(12L, reader.Value);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.Integer, reader.TokenType);
+            Assert.Equal(12L, reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.Integer, reader.TokenType);
-            Assert.AreEqual(30L, reader.Value);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.Integer, reader.TokenType);
+            Assert.Equal(30L, reader.Value);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.EndConstructor, reader.TokenType);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.EndConstructor, reader.TokenType);
 
-            Assert.IsTrue(reader.Read());
-            Assert.AreEqual(JsonToken.EndObject, reader.TokenType);
+            Assert.True(reader.Read());
+            Assert.Equal(JsonToken.EndObject, reader.TokenType);
 
-            Assert.IsFalse(reader.Read());
+            Assert.False(reader.Read());
         }
     }
 }

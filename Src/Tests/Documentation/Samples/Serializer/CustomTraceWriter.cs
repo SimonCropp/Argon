@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class CustomTraceWriter : TestFixtureBase
 {
     #region Types
@@ -99,7 +96,7 @@ public class CustomTraceWriter : TestFixtureBase
         // ]
         #endregion
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   ""New Zealand"",
   ""Australia"",
   ""Denmark"",

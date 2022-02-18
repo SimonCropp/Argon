@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue2082
 {
     [Fact]
@@ -47,7 +44,7 @@ public class Issue2082
             Converters = new[] { new StringEnumConverter { NamingStrategy = namingStrategy } }
         });
 
-        Assert.AreEqual(@"{""value"":""UPPER_CASE_NAME""}", json);
+        Assert.Equal(@"{""value"":""UPPER_CASE_NAME""}", json);
     }
         
     public class TestClass

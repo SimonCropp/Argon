@@ -25,15 +25,12 @@
 
 using System.ComponentModel;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 using Argon.Tests.TestObjects;
 using ErrorEventArgs = Argon.Serialization.ErrorEventArgs;
 using OriginalStreamWriter = System.IO.StreamWriter;
 
 namespace Argon.Tests.Documentation;
 
-[TestFixture]
 public class SerializationTests : TestFixtureBase
 {
     public class StreamWriter : OriginalStreamWriter
@@ -52,7 +49,7 @@ public class SerializationTests : TestFixtureBase
             Name = "Apple",
             ExpiryDate = new DateTime(2008, 12, 28),
             Price = 3.99M,
-            Sizes = new string[] { "Small", "Medium", "Large" }
+            Sizes = new[] { "Small", "Medium", "Large" }
         };
 
         var output = JsonConvert.SerializeObject(product);
@@ -70,7 +67,7 @@ public class SerializationTests : TestFixtureBase
         var deserializedProduct = JsonConvert.DeserializeObject<Product>(output);
         #endregion
 
-        Assert.AreEqual("Apple", deserializedProduct.Name);
+        Assert.Equal("Apple", deserializedProduct.Name);
     }
 
     [Fact]
@@ -212,7 +209,7 @@ public class SerializationTests : TestFixtureBase
         // This value was set after deserialization.
         #endregion
 
-        Assert.AreEqual(11, obj.Member1);
+        Assert.Equal(11, obj.Member1);
     }
 
     [Fact]
@@ -250,7 +247,7 @@ public class SerializationTests : TestFixtureBase
         // Cannot convert null value to System.DateTime.
         #endregion
 
-        Assert.AreEqual(new DateTime(2009, 9, 9, 0, 0, 0, DateTimeKind.Utc), c[0]);
+        Assert.Equal(new DateTime(2009, 9, 9, 0, 0, 0, DateTimeKind.Utc), c[0]);
     }
 
     [Fact]
@@ -325,7 +322,7 @@ public class SerializationTests : TestFixtureBase
         //}
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""George Michael Bluth"",
   ""Age"": 16,
   ""Title"": ""Mister Manager""
@@ -364,7 +361,7 @@ public class SerializationTests : TestFixtureBase
         //]
         #endregion
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""Name"": ""James"",
     ""BirthDate"": ""1980-12-23T00:00:00Z"",
@@ -421,11 +418,11 @@ public class SerializationTests : TestFixtureBase
         Console.WriteLine(p2.Name);
         // James
 
-        var equal = Object.ReferenceEquals(p1, p2);
+        var equal = ReferenceEquals(p1, p2);
         // true
         #endregion
 
-        Assert.AreEqual(true, equal);
+        XUnitAssert.True(equal);
     }
 
     #region PreservingObjectReferencesAttribute
@@ -518,7 +515,7 @@ public class SerializationTests : TestFixtureBase
         // Support
         #endregion
 
-        Assert.AreEqual("Support", employee.JobTitle);
+        Assert.Equal("Support", employee.JobTitle);
     }
 
     [Fact]
@@ -552,7 +549,7 @@ public class SerializationTests : TestFixtureBase
         //}
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""name"": ""Widget"",
   ""expiryDate"": ""2010-12-20T18:01:00Z"",
   ""price"": 9.99,
@@ -604,7 +601,7 @@ public class SerializationTests : TestFixtureBase
         //]
         #endregion
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   {
     ""Name"": ""Product 1"",
     ""ExpiryDate"": ""2000-12-29T00:00:00Z"",
@@ -650,7 +647,7 @@ public class SerializationTests : TestFixtureBase
         // Product 1
         #endregion
 
-        Assert.AreEqual("Product 1", p1.Name);
+        Assert.Equal("Product 1", p1.Name);
     }
 
     [Fact]
@@ -668,7 +665,7 @@ public class SerializationTests : TestFixtureBase
         // value1
         #endregion
 
-        Assert.AreEqual("value1", values["key1"]);
+        Assert.Equal("value1", values["key1"]);
     }
 
     #region SerializingDatesInJson
@@ -781,7 +778,7 @@ public class SerializationTests : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""Bad Boys III"",
   ""Description"": ""It's no Bad Boys"",
   ""Classification"": null,
@@ -790,7 +787,7 @@ public class SerializationTests : TestFixtureBase
   ""ReleaseCountries"": null
 }", included);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""Bad Boys III"",
   ""Description"": ""It's no Bad Boys""
 }", ignored);
@@ -853,7 +850,7 @@ public class SerializationTests : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Company"": ""Acme Ltd."",
   ""Amount"": 50.0,
   ""Paid"": false,
@@ -862,7 +859,7 @@ public class SerializationTests : TestFixtureBase
   ""FollowUpEmailAddress"": """"
 }", included);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Company"": ""Acme Ltd."",
   ""Amount"": 50.0
 }", ignored);
@@ -931,13 +928,13 @@ public class SerializationTests : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""AuthorName"": ""Brandon Sanderson"",
   ""AuthorAge"": 34,
   ""AuthorCountry"": ""United States of America""
 }", startingWithA);
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""BookName"": ""The Gathering Storm"",
   ""BookPrice"": 16.19
 }", startingWithB);
@@ -1031,13 +1028,13 @@ public class SerializationTests : TestFixtureBase
         // Url = http://www.imdb.com/name/nm0385296/
         #endregion
 
-        Assert.AreEqual("<b>Paris Hilton</b> - Wikipedia, the free encyclopedia", searchResults[0].Title);
+        Assert.Equal("<b>Paris Hilton</b> - Wikipedia, the free encyclopedia", searchResults[0].Title);
     }
 
     [Fact]
     public void SerializeMultidimensionalArrayExample()
     {
-        var famousCouples = new string[,]
+        var famousCouples = new[,]
         {
             { "Adam", "Eve" },
             { "Bonnie", "Clyde" },
@@ -1058,6 +1055,6 @@ public class SerializationTests : TestFixtureBase
         Console.WriteLine(deserialized[3, 0] + ", " + deserialized[3, 1]);
         // Han, Leia
 
-        Assert.AreEqual("Han", deserialized[3, 0]);
+        Assert.Equal("Han", deserialized[3, 0]);
     }
 }

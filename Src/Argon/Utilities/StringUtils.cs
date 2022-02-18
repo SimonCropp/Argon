@@ -38,22 +38,22 @@ static class StringUtils
 
     public static string FormatWith(this string format, IFormatProvider provider, object? arg0)
     {
-        return format.FormatWith(provider, new object?[] { arg0 });
+        return format.FormatWith(provider, new[] { arg0 });
     }
 
     public static string FormatWith(this string format, IFormatProvider provider, object? arg0, object? arg1)
     {
-        return format.FormatWith(provider, new object?[] { arg0, arg1 });
+        return format.FormatWith(provider, new[] { arg0, arg1 });
     }
 
     public static string FormatWith(this string format, IFormatProvider provider, object? arg0, object? arg1, object? arg2)
     {
-        return format.FormatWith(provider, new object?[] { arg0, arg1, arg2 });
+        return format.FormatWith(provider, new[] { arg0, arg1, arg2 });
     }
 
     public static string FormatWith(this string format, IFormatProvider provider, object? arg0, object? arg1, object? arg2, object? arg3)
     {
-        return format.FormatWith(provider, new object?[] { arg0, arg1, arg2, arg3 });
+        return format.FormatWith(provider, new[] { arg0, arg1, arg2, arg3 });
     }
 
     static string FormatWith(this string format, IFormatProvider provider, params object?[] args)
@@ -139,7 +139,7 @@ static class StringUtils
 
     public static string ToCamelCase(string s)
     {
-        if (StringUtils.IsNullOrEmpty(s) || !char.IsUpper(s[0]))
+        if (IsNullOrEmpty(s) || !char.IsUpper(s[0]))
         {
             return s;
         }
@@ -198,7 +198,7 @@ static class StringUtils
 
     static string ToSeparatedCase(string s, char separator)
     {
-        if (StringUtils.IsNullOrEmpty(s))
+        if (IsNullOrEmpty(s))
         {
             return s;
         }

@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class SerializeContractResolver : TestFixtureBase
 {
     #region Types
@@ -65,7 +62,7 @@ public class SerializeContractResolver : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""firstName"": ""Sarah"",
   ""lastName"": ""Security"",
   ""fullName"": ""Sarah Security""

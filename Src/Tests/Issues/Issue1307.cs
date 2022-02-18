@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue1307 : TestFixtureBase
 {
     public class MyOtherClass
@@ -98,6 +95,6 @@ public class Issue1307 : TestFixtureBase
 }";
 
         var c = JsonConvert.DeserializeObject<MyOtherClass>(json);
-        Assert.AreEqual(3, c.InstanceOfMyClass.Dummy.Length);
+        Assert.Equal(3, c.InstanceOfMyClass.Dummy.Length);
     }
 }

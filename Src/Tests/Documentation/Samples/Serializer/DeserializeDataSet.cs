@@ -26,12 +26,9 @@
 
 using System.Data;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class DeserializeDataSet : TestFixtureBase
 {
     [Fact]
@@ -66,6 +63,6 @@ public class DeserializeDataSet : TestFixtureBase
         // 1 - item 1
         #endregion
 
-        Assert.AreEqual(2, dataTable.Rows.Count);
+        Assert.Equal(2, dataTable.Rows.Count);
     }
 }

@@ -24,82 +24,79 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 using Argon.Tests.TestObjects;
 using Argon.Tests.TestObjects.Organization;
 
 namespace Argon.Tests.Utilities;
 
-[TestFixture]
 public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
 {
     [Fact]
     public void ConstructorWithInString()
     {
-        var constructor = TestReflectionUtils.GetConstructors(typeof(InTestClass)).Single(c => c.GetParameters().Count() == 1);
+        var constructor = typeof(InTestClass).GetConstructors().Single(c => c.GetParameters().Count() == 1);
 
         var creator = ExpressionReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
         var args = new object[] { "Value" };
         var o = (InTestClass)creator(args);
-        Assert.IsNotNull(o);
-        Assert.AreEqual("Value", o.Value);
+        Assert.NotNull(o);
+        Assert.Equal("Value", o.Value);
     }
 
     [Fact]
     public void ConstructorWithInStringAndBool()
     {
-        var constructor = TestReflectionUtils.GetConstructors(typeof(InTestClass)).Single(c => c.GetParameters().Count() == 2);
+        var constructor = typeof(InTestClass).GetConstructors().Single(c => c.GetParameters().Count() == 2);
 
         var creator = ExpressionReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
         var args = new object[] { "Value", true };
         var o = (InTestClass)creator(args);
-        Assert.IsNotNull(o);
-        Assert.AreEqual("Value", o.Value);
-        Assert.AreEqual(true, o.B1);
+        Assert.NotNull(o);
+        Assert.Equal("Value", o.Value);
+        XUnitAssert.True(o.B1);
     }
 
     [Fact]
     public void ConstructorWithRefString()
     {
-        var constructor = TestReflectionUtils.GetConstructors(typeof(OutAndRefTestClass)).Single(c => c.GetParameters().Count() == 1);
+        var constructor = typeof(OutAndRefTestClass).GetConstructors().Single(c => c.GetParameters().Count() == 1);
 
         var creator = ExpressionReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
         var args = new object[] { "Input" };
         var o = (OutAndRefTestClass)creator(args);
-        Assert.IsNotNull(o);
-        Assert.AreEqual("Input", o.Input);
+        Assert.NotNull(o);
+        Assert.Equal("Input", o.Input);
     }
 
     [Fact]
     public void ConstructorWithRefStringAndOutBool()
     {
-        var constructor = TestReflectionUtils.GetConstructors(typeof(OutAndRefTestClass)).Single(c => c.GetParameters().Count() == 2);
+        var constructor = typeof(OutAndRefTestClass).GetConstructors().Single(c => c.GetParameters().Count() == 2);
 
         var creator = ExpressionReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
         var args = new object[] { "Input", null };
         var o = (OutAndRefTestClass)creator(args);
-        Assert.IsNotNull(o);
-        Assert.AreEqual("Input", o.Input);
+        Assert.NotNull(o);
+        Assert.Equal("Input", o.Input);
     }
 
     [Fact]
     public void ConstructorWithRefStringAndRefBoolAndRefBool()
     {
-        var constructor = TestReflectionUtils.GetConstructors(typeof(OutAndRefTestClass)).Single(c => c.GetParameters().Count() == 3);
+        var constructor = typeof(OutAndRefTestClass).GetConstructors().Single(c => c.GetParameters().Count() == 3);
 
         var creator = ExpressionReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
         var args = new object[] { "Input", true, null };
         var o = (OutAndRefTestClass)creator(args);
-        Assert.IsNotNull(o);
-        Assert.AreEqual("Input", o.Input);
-        Assert.AreEqual(true, o.B1);
-        Assert.AreEqual(false, o.B2);
+        Assert.NotNull(o);
+        Assert.Equal("Input", o.Input);
+        XUnitAssert.True(o.B1);
+        XUnitAssert.False(o.B2);
     }
 
     [Fact]
@@ -108,7 +105,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
         var create = ExpressionReflectionDelegateFactory.Instance.CreateDefaultConstructor<object>(typeof(Movie));
 
         var m = (Movie)create();
-        Assert.IsNotNull(m);
+        Assert.NotNull(m);
     }
 
     [Fact]
@@ -117,13 +114,13 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
         var create = ExpressionReflectionDelegateFactory.Instance.CreateDefaultConstructor<object>(typeof(StructTest));
 
         var m = (StructTest)create();
-        Assert.IsNotNull(m);
+        Assert.NotNull(m);
     }
 
     [Fact]
     public void DefaultConstructor_Abstract()
     {
-        ExceptionAssert.Throws<Exception>(
+        XUnitAssert.Throws<Exception>(
             () =>
             {
                 var create = ExpressionReflectionDelegateFactory.Instance.CreateDefaultConstructor<object>(typeof(Type));
@@ -139,19 +136,19 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void CreatePropertySetter()
     {
-        var setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(TestReflectionUtils.GetProperty(typeof(Movie), "Name"));
+        var setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(typeof(Movie).GetProperty("Name"));
 
         var m = new Movie();
 
         setter(m, "OH HAI!");
 
-        Assert.AreEqual("OH HAI!", m.Name);
+        Assert.Equal("OH HAI!", m.Name);
     }
 
     [Fact]
     public void CreatePropertyGetter()
     {
-        var getter = ExpressionReflectionDelegateFactory.Instance.CreateGet<object>(TestReflectionUtils.GetProperty(typeof(Movie), "Name"));
+        var getter = ExpressionReflectionDelegateFactory.Instance.CreateGet<object>(typeof(Movie).GetProperty("Name"));
 
         var m = new Movie
         {
@@ -160,22 +157,22 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
 
         var value = getter(m);
 
-        Assert.AreEqual("OH HAI!", value);
+        Assert.Equal("OH HAI!", value);
     }
 
     [Fact]
     public void CreateMethodCall()
     {
-        var method = ExpressionReflectionDelegateFactory.Instance.CreateMethodCall<object>(TestReflectionUtils.GetMethod(typeof(Movie), "ToString"));
+        var method = ExpressionReflectionDelegateFactory.Instance.CreateMethodCall<object>(typeof(Movie).GetMethod("ToString"));
 
         var m = new Movie();
         var result = method(m);
-        Assert.AreEqual("Argon.Tests.TestObjects.Movie", result);
+        Assert.Equal("Argon.Tests.TestObjects.Movie", result);
 
-        method = ExpressionReflectionDelegateFactory.Instance.CreateMethodCall<object>(TestReflectionUtils.GetMethod(typeof(Movie), "Equals"));
+        method = ExpressionReflectionDelegateFactory.Instance.CreateMethodCall<object>(typeof(Movie).GetMethod("Equals"));
 
         result = method(m, m);
-        Assert.AreEqual(true, result);
+        XUnitAssert.True(result);
     }
 
     [Fact]
@@ -185,7 +182,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
 
         var result = method(null);
 
-        Assert.IsTrue(result is Movie);
+        Assert.True(result is Movie);
     }
 
     public static class StaticTestClass
@@ -200,29 +197,29 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
         StaticTestClass.StringField = "Field!";
         StaticTestClass.StringProperty = "Property!";
 
-        var getter = ExpressionReflectionDelegateFactory.Instance.CreateGet<object>(TestReflectionUtils.GetProperty(typeof(StaticTestClass), "StringProperty"));
+        var getter = ExpressionReflectionDelegateFactory.Instance.CreateGet<object>(typeof(StaticTestClass).GetProperty("StringProperty"));
 
         var v = getter(null);
-        Assert.AreEqual(StaticTestClass.StringProperty, v);
+        Assert.Equal(StaticTestClass.StringProperty, v);
 
-        getter = ExpressionReflectionDelegateFactory.Instance.CreateGet<object>(TestReflectionUtils.GetField(typeof(StaticTestClass), "StringField"));
+        getter = ExpressionReflectionDelegateFactory.Instance.CreateGet<object>(typeof(StaticTestClass).GetField("StringField"));
 
         v = getter(null);
-        Assert.AreEqual(StaticTestClass.StringField, v);
+        Assert.Equal(StaticTestClass.StringField, v);
     }
 
     [Fact]
     public void SetStatic()
     {
-        var setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(TestReflectionUtils.GetProperty(typeof(StaticTestClass), "StringProperty"));
+        var setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(typeof(StaticTestClass).GetProperty("StringProperty"));
 
         setter(null, "New property!");
-        Assert.AreEqual("New property!", StaticTestClass.StringProperty);
+        Assert.Equal("New property!", StaticTestClass.StringProperty);
 
-        setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(TestReflectionUtils.GetField(typeof(StaticTestClass), "StringField"));
+        setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(typeof(StaticTestClass).GetField("StringField"));
 
         setter(null, "New field!");
-        Assert.AreEqual("New field!", StaticTestClass.StringField);
+        Assert.Equal("New field!", StaticTestClass.StringField);
     }
 
     public class FieldsTestClass
@@ -242,15 +239,15 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
             StringField = "String!"
         };
 
-        var getter = ExpressionReflectionDelegateFactory.Instance.CreateGet<object>(TestReflectionUtils.GetField(typeof(FieldsTestClass), "StringField"));
+        var getter = ExpressionReflectionDelegateFactory.Instance.CreateGet<object>(typeof(FieldsTestClass).GetField("StringField"));
 
         var value = getter(c);
-        Assert.AreEqual("String!", value);
+        Assert.Equal("String!", value);
 
-        getter = ExpressionReflectionDelegateFactory.Instance.CreateGet<object>(TestReflectionUtils.GetField(typeof(FieldsTestClass), "BoolField"));
+        getter = ExpressionReflectionDelegateFactory.Instance.CreateGet<object>(typeof(FieldsTestClass).GetField("BoolField"));
 
         value = getter(c);
-        Assert.AreEqual(true, value);
+        XUnitAssert.True(value);
     }
 
     [Fact]
@@ -258,10 +255,10 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
     {
         var c = new FieldsTestClass();
 
-        var setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(TestReflectionUtils.GetField(typeof(FieldsTestClass), "IntReadOnlyField"));
+        var setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(typeof(FieldsTestClass).GetField("IntReadOnlyField"));
 
         setter(c, int.MinValue);
-        Assert.AreEqual(int.MinValue, c.IntReadOnlyField);
+        Assert.Equal(int.MinValue, c.IntReadOnlyField);
     }
 
     [Fact]
@@ -269,15 +266,15 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
     {
         var c = new FieldsTestClass();
 
-        var setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(TestReflectionUtils.GetField(typeof(FieldsTestClass), "StringField"));
+        var setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(typeof(FieldsTestClass).GetField("StringField"));
 
         setter(c, "String!");
-        Assert.AreEqual("String!", c.StringField);
+        Assert.Equal("String!", c.StringField);
 
-        setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(TestReflectionUtils.GetField(typeof(FieldsTestClass), "BoolField"));
+        setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(typeof(FieldsTestClass).GetField("BoolField"));
 
         setter(c, true);
-        Assert.AreEqual(true, c.BoolField);
+        XUnitAssert.True(c.BoolField);
     }
 
     [Fact]
@@ -285,21 +282,21 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
     {
         object structTest = new StructTest();
 
-        var setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(TestReflectionUtils.GetProperty(typeof(StructTest), "StringProperty"));
+        var setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(typeof(StructTest).GetProperty("StringProperty"));
 
         setter(structTest, "Hi1");
-        Assert.AreEqual("Hi1", ((StructTest)structTest).StringProperty);
+        Assert.Equal("Hi1", ((StructTest)structTest).StringProperty);
 
-        setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(TestReflectionUtils.GetField(typeof(StructTest), "StringField"));
+        setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(typeof(StructTest).GetField("StringField"));
 
         setter(structTest, "Hi2");
-        Assert.AreEqual("Hi2", ((StructTest)structTest).StringField);
+        Assert.Equal("Hi2", ((StructTest)structTest).StringField);
     }
 
     [Fact]
     public void CreateGetWithBadObjectTarget()
     {
-        ExceptionAssert.Throws<InvalidCastException>(
+        XUnitAssert.Throws<InvalidCastException>(
             () =>
             {
                 var p = new Person
@@ -307,7 +304,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
                     Name = "Hi"
                 };
 
-                var setter = ExpressionReflectionDelegateFactory.Instance.CreateGet<object>(TestReflectionUtils.GetProperty(typeof(Movie), "Name"));
+                var setter = ExpressionReflectionDelegateFactory.Instance.CreateGet<object>(typeof(Movie).GetProperty("Name"));
 
                 setter(p);
             },
@@ -321,21 +318,21 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void CreateSetWithBadObjectTarget()
     {
-        ExceptionAssert.Throws<InvalidCastException>(
+        XUnitAssert.Throws<InvalidCastException>(
             () =>
             {
                 var p = new Person();
                 var m = new Movie();
 
-                var setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(TestReflectionUtils.GetProperty(typeof(Movie), "Name"));
+                var setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(typeof(Movie).GetProperty("Name"));
 
                 setter(m, "Hi");
 
-                Assert.AreEqual(m.Name, "Hi");
+                Assert.Equal(m.Name, "Hi");
 
                 setter(p, "Hi");
 
-                Assert.AreEqual(p.Name, "Hi");
+                Assert.Equal(p.Name, "Hi");
             },
             new[]
             {
@@ -347,12 +344,12 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void CreateSetWithBadObjectValue()
     {
-        ExceptionAssert.Throws<InvalidCastException>(
+        XUnitAssert.Throws<InvalidCastException>(
             () =>
             {
                 var m = new Movie();
 
-                var setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(TestReflectionUtils.GetProperty(typeof(Movie), "Name"));
+                var setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(typeof(Movie).GetProperty("Name"));
 
                 setter(m, new Version("1.1.1.1"));
             }, new[]
@@ -367,15 +364,15 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
     {
         var castMethodInfo = typeof(DictionaryKey).GetMethod("op_Implicit", new[] { typeof(string) });
 
-        Assert.IsNotNull(castMethodInfo);
+        Assert.NotNull(castMethodInfo);
 
         var call = ExpressionReflectionDelegateFactory.Instance.CreateMethodCall<object>(castMethodInfo);
 
         var result = call(null, "First!");
-        Assert.IsNotNull(result);
+        Assert.NotNull(result);
 
         var key = (DictionaryKey)result;
-        Assert.AreEqual("First!", key.Value);
+        Assert.Equal("First!", key.Value);
     }
 
     [Fact]
@@ -383,11 +380,11 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
     {
         var creator1 = ExpressionReflectionDelegateFactory.Instance.CreateDefaultConstructor<object>(typeof(MyStruct));
         var myStruct1 = (MyStruct)creator1.Invoke();
-        Assert.AreEqual(0, myStruct1.IntProperty);
+        Assert.Equal(0, myStruct1.IntProperty);
 
         var creator2 = ExpressionReflectionDelegateFactory.Instance.CreateDefaultConstructor<MyStruct>(typeof(MyStruct));
         var myStruct2 = creator2.Invoke();
-        Assert.AreEqual(0, myStruct2.IntProperty);
+        Assert.Equal(0, myStruct2.IntProperty);
     }
 
     public struct TestStruct
@@ -410,14 +407,14 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
     {
         var methodInfo = typeof(ExpressionReflectionDelegateFactoryTests).GetMethod(nameof(StructMethod), new[] { typeof(TestStruct) });
 
-        Assert.IsNotNull(methodInfo);
+        Assert.NotNull(methodInfo);
 
         var call = ExpressionReflectionDelegateFactory.Instance.CreateMethodCall<object>(methodInfo);
 
         var result = call(null, new TestStruct(123));
-        Assert.IsNotNull(result);
+        Assert.NotNull(result);
 
         var s = (TestStruct)result;
-        Assert.AreEqual(246, s.Value);
+        Assert.Equal(246, s.Value);
     }
 }

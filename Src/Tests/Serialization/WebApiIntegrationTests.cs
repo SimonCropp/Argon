@@ -24,13 +24,10 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 using System.Runtime.Serialization.Json;
 
 namespace Argon.Tests.Serialization;
 
-[TestFixture]
 public class WebApiIntegrationTests : TestFixtureBase
 {
     [Fact]
@@ -53,7 +50,7 @@ public class WebApiIntegrationTests : TestFixtureBase
             var dtJson = Encoding.UTF8.GetString(ms.ToArray());
             var dtExpected = @"{""internalField"":""internal"",""privateField"":""private"",""protectedField"":""protected"",""protectedInternalField"":""protected internal"",""publicField"":""public""}";
 
-            Assert.AreEqual(dtExpected, dtJson);
+            Assert.Equal(dtExpected, dtJson);
 #endif
 
         var expected = "{\"publicField\":\"public\",\"internalField\":\"internal\",\"protectedInternalField\":\"protected internal\",\"protectedField\":\"protected\",\"privateField\":\"private\"}";
@@ -65,7 +62,7 @@ public class WebApiIntegrationTests : TestFixtureBase
             }
         });
 
-        Assert.AreEqual(expected, json);
+        Assert.Equal(expected, json);
     }
 
     [Fact]
@@ -83,7 +80,7 @@ public class WebApiIntegrationTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(serializableType);
 
-        Assert.AreEqual(@"{""inheritedTypeField"":""inherited"",""publicField"":""public"",""PublicProperty"":""private""}", json);
+        Assert.Equal(@"{""inheritedTypeField"":""inherited"",""publicField"":""public"",""PublicProperty"":""private""}", json);
     }
 }
 

@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class SerializationCallbackAttributes : TestFixtureBase
 {
     #region Types
@@ -128,6 +125,6 @@ public class SerializationCallbackAttributes : TestFixtureBase
         // This value was set after deserialization.
         #endregion
 
-        Assert.AreEqual("This value was set after deserialization.", obj.Member4);
+        Assert.Equal("This value was set after deserialization.", obj.Member4);
     }
 }

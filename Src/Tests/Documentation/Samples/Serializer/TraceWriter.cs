@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class TraceWriter : TestFixtureBase
 {
     #region Types
@@ -69,6 +66,6 @@ public class TraceWriter : TestFixtureBase
         // }
         #endregion
 
-        Assert.AreEqual(4, traceWriter.GetTraceMessages().Count());
+        Assert.Equal(4, traceWriter.GetTraceMessages().Count());
     }
 }

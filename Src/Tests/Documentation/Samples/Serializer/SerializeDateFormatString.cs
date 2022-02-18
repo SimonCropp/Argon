@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class SerializeDateFormatString : TestFixtureBase
 {
     [Fact]
@@ -57,7 +54,7 @@ public class SerializeDateFormatString : TestFixtureBase
         // ]            
         #endregion
 
-        StringAssert.AreEqual(@"[
+        XUnitAssert.AreEqualNormalized(@"[
   ""7 December, 2009"",
   ""1 January, 2010"",
   ""10 February, 2010""

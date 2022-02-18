@@ -25,8 +25,6 @@
 
 using System.Xml;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Json;
 
@@ -308,7 +306,6 @@ public class XmlJsonWriter : JsonWriter
 }
 #endregion
 
-[TestFixture]
 public class CustomJsonWriter : TestFixtureBase
 {
     [Fact]

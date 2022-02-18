@@ -25,57 +25,54 @@
 
 using System.Runtime.Serialization.Formatters.Binary;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests;
 
-[TestFixture]
 public class ExceptionTests : TestFixtureBase
 {
     [Fact]
     public void JsonSerializationException()
     {
         var exception = new JsonSerializationException();
-        Assert.AreEqual("Exception of type 'Argon.JsonSerializationException' was thrown.", exception.Message);
+        Assert.Equal("Exception of type 'Argon.JsonSerializationException' was thrown.", exception.Message);
 
         exception = new JsonSerializationException("Message!");
-        Assert.AreEqual("Message!", exception.Message);
-        Assert.AreEqual(null, exception.InnerException);
+        Assert.Equal("Message!", exception.Message);
+        Assert.Equal(null, exception.InnerException);
 
         exception = new JsonSerializationException("Message!", new Exception("Inner!"));
-        Assert.AreEqual("Message!", exception.Message);
-        Assert.AreEqual("Inner!", exception.InnerException.Message);
+        Assert.Equal("Message!", exception.Message);
+        Assert.Equal("Inner!", exception.InnerException.Message);
     }
 
     [Fact]
     public void JsonWriterException()
     {
         var exception = new JsonWriterException();
-        Assert.AreEqual("Exception of type 'Argon.JsonWriterException' was thrown.", exception.Message);
+        Assert.Equal("Exception of type 'Argon.JsonWriterException' was thrown.", exception.Message);
 
         exception = new JsonWriterException("Message!");
-        Assert.AreEqual("Message!", exception.Message);
-        Assert.AreEqual(null, exception.InnerException);
+        Assert.Equal("Message!", exception.Message);
+        Assert.Equal(null, exception.InnerException);
 
         exception = new JsonWriterException("Message!", new Exception("Inner!"));
-        Assert.AreEqual("Message!", exception.Message);
-        Assert.AreEqual("Inner!", exception.InnerException.Message);
+        Assert.Equal("Message!", exception.Message);
+        Assert.Equal("Inner!", exception.InnerException.Message);
     }
 
     [Fact]
     public void JsonReaderException()
     {
         var exception = new JsonReaderException();
-        Assert.AreEqual("Exception of type 'Argon.JsonReaderException' was thrown.", exception.Message);
+        Assert.Equal("Exception of type 'Argon.JsonReaderException' was thrown.", exception.Message);
 
         exception = new JsonReaderException("Message!");
-        Assert.AreEqual("Message!", exception.Message);
-        Assert.AreEqual(null, exception.InnerException);
+        Assert.Equal("Message!", exception.Message);
+        Assert.Equal(null, exception.InnerException);
 
         exception = new JsonReaderException("Message!", new Exception("Inner!"));
-        Assert.AreEqual("Message!", exception.Message);
-        Assert.AreEqual("Inner!", exception.InnerException.Message);
+        Assert.Equal("Message!", exception.Message);
+        Assert.Equal("Inner!", exception.InnerException.Message);
     }
 
 #pragma warning disable 618
@@ -83,15 +80,15 @@ public class ExceptionTests : TestFixtureBase
     public void JsonSchemaException()
     {
         var exception = new JsonSchemaException();
-        Assert.AreEqual("Exception of type 'Argon.Schema.JsonSchemaException' was thrown.", exception.Message);
+        Assert.Equal("Exception of type 'Argon.Schema.JsonSchemaException' was thrown.", exception.Message);
 
         exception = new JsonSchemaException("Message!");
-        Assert.AreEqual("Message!", exception.Message);
-        Assert.AreEqual(null, exception.InnerException);
+        Assert.Equal("Message!", exception.Message);
+        Assert.Equal(null, exception.InnerException);
 
         exception = new JsonSchemaException("Message!", new Exception("Inner!"));
-        Assert.AreEqual("Message!", exception.Message);
-        Assert.AreEqual("Inner!", exception.InnerException.Message);
+        Assert.Equal("Message!", exception.Message);
+        Assert.Equal("Inner!", exception.InnerException.Message);
     }
 #pragma warning restore 618
 

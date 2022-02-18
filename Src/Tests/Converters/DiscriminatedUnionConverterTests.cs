@@ -27,12 +27,9 @@ using Microsoft.FSharp.Reflection;
 using Argon.Tests.TestObjects.GeometricForms;
 using Argon.Tests.TestObjects.Money;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Converters;
 
-[TestFixture]
 public class DiscriminatedUnionConverterTests : TestFixtureBase
 {
     public class DoubleDoubleConverter : JsonConverter
@@ -62,15 +59,15 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
     {
         var json = JsonConvert.SerializeObject(Shape.NewRectangle(10.0, 5.0), new DoubleDoubleConverter());
 
-        Assert.AreEqual(@"{""Case"":""Rectangle"",""Fields"":[20.0,10.0]}", json);
+        Assert.Equal(@"{""Case"":""Rectangle"",""Fields"":[20.0,10.0]}", json);
 
         var c = JsonConvert.DeserializeObject<Shape>(json, new DoubleDoubleConverter());
-        Assert.AreEqual(true, c.IsRectangle);
+        XUnitAssert.True(c.IsRectangle);
 
         var r = (Shape.Rectangle)c;
 
-        Assert.AreEqual(5.0, r.length);
-        Assert.AreEqual(10.0, r.width);
+        Assert.Equal(5.0, r.length);
+        Assert.Equal(10.0, r.width);
     }
 
     [Fact]
@@ -78,7 +75,7 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
     {
         var json = JsonConvert.SerializeObject(Currency.AUD);
 
-        Assert.AreEqual(@"{""Case"":""AUD""}", json);
+        Assert.Equal(@"{""Case"":""AUD""}", json);
     }
 
     [Fact]
@@ -136,32 +133,32 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
     {
         var json = JsonConvert.SerializeObject(Shape.NewRectangle(10.0, 5.0));
 
-        Assert.AreEqual(@"{""Case"":""Rectangle"",""Fields"":[10.0,5.0]}", json);
+        Assert.Equal(@"{""Case"":""Rectangle"",""Fields"":[10.0,5.0]}", json);
     }
 
     [Fact]
     public void DeserializeBasicUnion()
     {
         var c = JsonConvert.DeserializeObject<Currency>(@"{""Case"":""AUD""}");
-        Assert.AreEqual(Currency.AUD, c);
+        Assert.Equal(Currency.AUD, c);
 
         c = JsonConvert.DeserializeObject<Currency>(@"{""Case"":""EUR""}");
-        Assert.AreEqual(Currency.EUR, c);
+        Assert.Equal(Currency.EUR, c);
 
         c = JsonConvert.DeserializeObject<Currency>(@"null");
-        Assert.AreEqual(null, c);
+        Assert.Equal(null, c);
     }
 
     [Fact]
     public void DeserializeUnionWithFields()
     {
         var c = JsonConvert.DeserializeObject<Shape>(@"{""Case"":""Rectangle"",""Fields"":[10.0,5.0]}");
-        Assert.AreEqual(true, c.IsRectangle);
+        XUnitAssert.True(c.IsRectangle);
 
         var r = (Shape.Rectangle)c;
 
-        Assert.AreEqual(5.0, r.length);
-        Assert.AreEqual(10.0, r.width);
+        Assert.Equal(5.0, r.length);
+        Assert.Equal(10.0, r.width);
     }
 
     public class Union
@@ -219,8 +216,8 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
 
         var fields = caseInfo.FieldReader.Invoke(value);
 
-        Assert.AreEqual(10d, fields[0]);
-        Assert.AreEqual(5d, fields[1]);
+        Assert.Equal(10d, fields[0]);
+        Assert.Equal(5d, fields[1]);
     }
 
     [Fact]
@@ -235,45 +232,45 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
             10.0, 5.0
         });
 
-        Assert.AreEqual("Argon.Tests.TestObjects.GeometricForms.Shape+Rectangle", value.ToString());
-        Assert.AreEqual(10, value.width);
-        Assert.AreEqual(5, value.length);
+        Assert.Equal("Argon.Tests.TestObjects.GeometricForms.Shape+Rectangle", value.ToString());
+        Assert.Equal(10, value.width);
+        Assert.Equal(5, value.length);
     }
 
     [Fact]
     public void DeserializeBasicUnion_NoMatch()
     {
-        ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<Currency>(@"{""Case"":""abcdefg"",""Fields"":[]}"), "No union type found with the name 'abcdefg'. Path 'Case', line 1, position 17.");
+        XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<Currency>(@"{""Case"":""abcdefg"",""Fields"":[]}"), "No union type found with the name 'abcdefg'. Path 'Case', line 1, position 17.");
     }
 
     [Fact]
     public void DeserializeBasicUnion_MismatchedFieldCount()
     {
-        ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<Currency>(@"{""Case"":""AUD"",""Fields"":[1]}"), "The number of field values does not match the number of properties defined by union 'AUD'. Path '', line 1, position 27.");
+        XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<Currency>(@"{""Case"":""AUD"",""Fields"":[1]}"), "The number of field values does not match the number of properties defined by union 'AUD'. Path '', line 1, position 27.");
     }
 
     [Fact]
     public void DeserializeBasicUnion_NoCaseName()
     {
-        ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<Currency>(@"{""Fields"":[1]}"), "No 'Case' property with union name found. Path '', line 1, position 14.");
+        XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<Currency>(@"{""Fields"":[1]}"), "No 'Case' property with union name found. Path '', line 1, position 14.");
     }
 
     [Fact]
     public void DeserializeBasicUnion_UnexpectedEnd()
     {
-        ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<Currency>(@"{""Case"":"), "Unexpected end when reading JSON. Path 'Case', line 1, position 8.");
+        XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<Currency>(@"{""Case"":"), "Unexpected end when reading JSON. Path 'Case', line 1, position 8.");
     }
 
     [Fact]
     public void DeserializeBasicUnion_FieldsObject()
     {
-        ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<Currency>(@"{""Case"":""AUD"",""Fields"":{}}"), "Union fields must been an array. Path 'Fields', line 1, position 24.");
+        XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<Currency>(@"{""Case"":""AUD"",""Fields"":{}}"), "Union fields must been an array. Path 'Fields', line 1, position 24.");
     }
 
     [Fact]
     public void DeserializeBasicUnion_UnexpectedProperty()
     {
-        ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<Currency>(@"{""Case123"":""AUD""}"), "Unexpected property 'Case123' found when reading union. Path 'Case123', line 1, position 11.");
+        XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<Currency>(@"{""Case123"":""AUD""}"), "Unexpected property 'Case123' found when reading union. Path 'Case123', line 1, position 11.");
     }
 
     [Fact]
@@ -285,14 +282,14 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.All
         });
 
-        Assert.AreEqual(@"{""Case"":""Rectangle"",""Fields"":[10.0,5.0]}", json);
+        Assert.Equal(@"{""Case"":""Rectangle"",""Fields"":[10.0,5.0]}", json);
 
         var c = JsonConvert.DeserializeObject<Shape>(json);
-        Assert.AreEqual(true, c.IsRectangle);
+        XUnitAssert.True(c.IsRectangle);
 
         var r = (Shape.Rectangle)c;
 
-        Assert.AreEqual(5.0, r.length);
-        Assert.AreEqual(10.0, r.width);
+        Assert.Equal(5.0, r.length);
+        Assert.Equal(10.0, r.width);
     }
 }

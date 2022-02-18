@@ -23,51 +23,48 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests;
 
-[TestFixture]
 public class JsonArrayAttributeTests : TestFixtureBase
 {
     [Fact]
     public void IsReferenceTest()
     {
         var attribute = new JsonPropertyAttribute();
-        Assert.AreEqual(null, attribute._isReference);
-        Assert.AreEqual(false, attribute.IsReference);
+        Assert.Equal(null, attribute._isReference);
+        XUnitAssert.False(attribute.IsReference);
 
         attribute.IsReference = false;
-        Assert.AreEqual(false, attribute._isReference);
-        Assert.AreEqual(false, attribute.IsReference);
+        XUnitAssert.False(attribute._isReference);
+        XUnitAssert.False(attribute.IsReference);
 
         attribute.IsReference = true;
-        Assert.AreEqual(true, attribute._isReference);
-        Assert.AreEqual(true, attribute.IsReference);
+        XUnitAssert.True(attribute._isReference);
+        XUnitAssert.True(attribute.IsReference);
     }
 
     [Fact]
     public void NullValueHandlingTest()
     {
         var attribute = new JsonPropertyAttribute();
-        Assert.AreEqual(null, attribute._nullValueHandling);
-        Assert.AreEqual(NullValueHandling.Include, attribute.NullValueHandling);
+        Assert.Equal(null, attribute._nullValueHandling);
+        Assert.Equal(NullValueHandling.Include, attribute.NullValueHandling);
 
         attribute.NullValueHandling = NullValueHandling.Ignore;
-        Assert.AreEqual(NullValueHandling.Ignore, attribute._nullValueHandling);
-        Assert.AreEqual(NullValueHandling.Ignore, attribute.NullValueHandling);
+        Assert.Equal(NullValueHandling.Ignore, attribute._nullValueHandling);
+        Assert.Equal(NullValueHandling.Ignore, attribute.NullValueHandling);
     }
 
     [Fact]
     public void DefaultValueHandlingTest()
     {
         var attribute = new JsonPropertyAttribute();
-        Assert.AreEqual(null, attribute._defaultValueHandling);
-        Assert.AreEqual(DefaultValueHandling.Include, attribute.DefaultValueHandling);
+        Assert.Equal(null, attribute._defaultValueHandling);
+        Assert.Equal(DefaultValueHandling.Include, attribute.DefaultValueHandling);
 
         attribute.DefaultValueHandling = DefaultValueHandling.Ignore;
-        Assert.AreEqual(DefaultValueHandling.Ignore, attribute._defaultValueHandling);
-        Assert.AreEqual(DefaultValueHandling.Ignore, attribute.DefaultValueHandling);
+        Assert.Equal(DefaultValueHandling.Ignore, attribute._defaultValueHandling);
+        Assert.Equal(DefaultValueHandling.Ignore, attribute.DefaultValueHandling);
     }
 }

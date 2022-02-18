@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class NamingStrategySkipDictionaryKeys : TestFixtureBase
 {
     #region Types
@@ -83,7 +80,7 @@ public class NamingStrategySkipDictionaryKeys : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""date"": ""2016-06-27T00:00:00Z"",
   ""game"": ""Donkey Kong"",
   ""userPoints"": {

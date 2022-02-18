@@ -24,12 +24,9 @@
 #endregion
 
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 
-[TestFixture]
 public class JsonPropertyPropertyLevelSetting : TestFixtureBase
 {
     #region Types
@@ -62,7 +59,7 @@ public class JsonPropertyPropertyLevelSetting : TestFixtureBase
         // }
         #endregion
 
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""Red October"",
   ""Class"": ""Typhoon""
 }", json);

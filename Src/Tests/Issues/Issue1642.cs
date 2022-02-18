@@ -26,12 +26,9 @@
 #if !NET5_0_OR_GREATER
 using System.Reflection.Emit;
 using Xunit;
-using Test = Xunit.FactAttribute;
-using Assert = Argon.Tests.XUnitAssert;
 
 namespace Argon.Tests.Issues;
 
-[TestFixture]
 public class Issue1642 : TestFixtureBase
 {
     [Fact]
@@ -56,7 +53,7 @@ public class Issue1642 : TestFixtureBase
         var o = Activator.CreateInstance(enumType);
 
         var json = JsonConvert.SerializeObject(o, new JsonSerializerSettings { Converters = { new StringEnumConverter() } });
-        Assert.AreEqual(@"""TestValue""", json);
+        Assert.Equal(@"""TestValue""", json);
     }
 
 }
