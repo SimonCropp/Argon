@@ -35,7 +35,7 @@ public class Issue1541 : TestFixtureBase
     {
         var fileInfo = new FileInfo("large.json");
 
-        ExceptionAssert.Throws<JsonSerializationException>(
+        XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.SerializeObject(fileInfo.Directory),
             "Unable to serialize instance of 'System.IO.DirectoryInfo'.");
     }
@@ -45,7 +45,7 @@ public class Issue1541 : TestFixtureBase
     {
         var fileInfo = new FileInfo("large.json");
 
-        ExceptionAssert.Throws<JsonSerializationException>(
+        XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.SerializeObject(fileInfo),
             "Unable to serialize instance of 'System.IO.FileInfo'.");
     }
@@ -55,7 +55,7 @@ public class Issue1541 : TestFixtureBase
     {
         var drive = DriveInfo.GetDrives()[0];
 
-        ExceptionAssert.Throws<JsonSerializationException>(
+        XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.SerializeObject(drive),
             "Unable to serialize instance of 'System.IO.DriveInfo'.");
     }

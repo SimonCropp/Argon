@@ -4059,7 +4059,7 @@ Path '', line 1, position 1.");
     {
         try
         {
-            ExceptionAssert.Throws<JsonSerializationException>(() =>
+            XUnitAssert.Throws<JsonSerializationException>(() =>
                 {
                     JsonTypeReflector.SetFullyTrusted(false);
 
@@ -4079,7 +4079,7 @@ Path '', line 1, position 1.");
     {
         try
         {
-            ExceptionAssert.Throws<JsonSerializationException>(() =>
+            XUnitAssert.Throws<JsonSerializationException>(() =>
                 {
                     JsonTypeReflector.SetFullyTrusted(false);
                     var value = new ISerializableTestObject("string!", 0, default(DateTimeOffset), null);
@@ -4112,7 +4112,7 @@ Path '', line 1, position 1.");
         var o = new ISerializableTestObject("String!", int.MinValue, dateTimeOffset, person);
 
         var json = JsonConvert.SerializeObject(o, Formatting.Indented);
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""stringValue"": ""String!"",
   ""intValue"": -2147483648,
   ""dateTimeOffsetValue"": """ + dateTimeOffsetText + @""",
@@ -4166,7 +4166,7 @@ Path '', line 1, position 1.");
         {
             DateFormatHandling = DateFormatHandling.MicrosoftDateFormat
         });
-        StringAssert.AreEqual(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   ""stringValue"": ""String!"",
   ""intValue"": -2147483648,
   ""dateTimeOffsetValue"": """ + dateTimeOffsetText + @""",
@@ -6735,7 +6735,7 @@ This is just junk, though.";
             var json = JsonConvert.SerializeObject(tuple);
             Xunit.Assert.Equal(@"{""m_Item1"":500}", json);
 
-            ExceptionAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<MyTuplePartial<int>>(json), "Unable to find a constructor to use for type Argon.Tests.TestObjects.MyTuplePartial`1[System.Int32]. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'm_Item1', line 1, position 11.");
+            XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<MyTuplePartial<int>>(json), "Unable to find a constructor to use for type Argon.Tests.TestObjects.MyTuplePartial`1[System.Int32]. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'm_Item1', line 1, position 11.");
         }
         finally
         {
