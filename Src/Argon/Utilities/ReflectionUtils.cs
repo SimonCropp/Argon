@@ -355,7 +355,7 @@ static class ReflectionUtils
                 throw new Exception("Type {0} is not a dictionary.".FormatWith(CultureInfo.InvariantCulture, dictionaryType));
             }
 
-            Type[] dictionaryGenericArguments = genericDictionaryType!.GetGenericArguments();
+            var dictionaryGenericArguments = genericDictionaryType!.GetGenericArguments();
 
             keyType = dictionaryGenericArguments[0];
             valueType = dictionaryGenericArguments[1];
@@ -586,7 +586,7 @@ static class ReflectionUtils
         // update: I think this is fixed in .NET 3.5 SP1 - leave this in for now...
         var distinctMembers = new List<MemberInfo>(targetMembers.Count);
 
-        foreach (IGrouping<string, MemberInfo> groupedMember in targetMembers.GroupBy(m => m.Name))
+        foreach (var groupedMember in targetMembers.GroupBy(m => m.Name))
         {
             var count = groupedMember.Count();
 
@@ -649,7 +649,7 @@ static class ReflectionUtils
         {
             return false;
         }
-        MemberInfo[] members = genericTypeDefinition.GetMember(propertyInfo.Name, bindingAttr);
+        var members = genericTypeDefinition.GetMember(propertyInfo.Name, bindingAttr);
         if (members.Length == 0)
         {
             return false;
@@ -776,7 +776,7 @@ static class ReflectionUtils
             case MemberTypes.Property:
                 var propertyInfo = (PropertyInfo)memberInfo;
 
-                Type[] types = propertyInfo.GetIndexParameters().Select(p => p.ParameterType).ToArray();
+                var types = propertyInfo.GetIndexParameters().Select(p => p.ParameterType).ToArray();
 
                 return targetType.GetProperty(propertyInfo.Name, bindingAttr, null, propertyInfo.PropertyType, types, null);
             default:
@@ -808,7 +808,7 @@ static class ReflectionUtils
             while ((targetType = targetType.BaseType) != null)
             {
                 // filter out protected fields
-                IEnumerable<FieldInfo> childPrivateFields =
+                var childPrivateFields =
                     targetType.GetFields(nonPublicBindingAttr).Where(f => f.IsPrivate);
 
                 initialFields.AddRange(childPrivateFields);
@@ -922,15 +922,13 @@ static class ReflectionUtils
 
     public static bool IsMethodOverridden(Type currentType, Type methodDeclaringType, string method)
     {
-        var isMethodOverriden = currentType.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+        return currentType.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
             .Any(info =>
                 info.Name == method &&
                 // check that the method overrides the original on DynamicObjectProxy
                 info.DeclaringType != methodDeclaringType
                 && info.GetBaseDefinition().DeclaringType == methodDeclaringType
             );
-
-        return isMethodOverriden;
     }
 
     public static object? GetDefaultValue(Type type)

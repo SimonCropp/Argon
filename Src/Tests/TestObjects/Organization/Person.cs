@@ -23,13 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.ComponentModel;
-
 namespace Argon.Tests.TestObjects.Organization;
 
 [JsonObject(Id = "Person", Title = "Title!", Description = "JsonObjectAttribute description!", MemberSerialization = MemberSerialization.OptIn)]
 #if !NET5_0_OR_GREATER
-    [Description("DescriptionAttribute description!")]
+[System.ComponentModel.Description("DescriptionAttribute description!")]
 #endif
 public class Person
 {

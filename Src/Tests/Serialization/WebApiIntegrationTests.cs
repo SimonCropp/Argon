@@ -23,8 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Xunit;
+#if !NET5_0_OR_GREATER
 using System.Runtime.Serialization.Json;
+#endif
+using Xunit;
 
 namespace Argon.Tests.Serialization;
 
@@ -43,14 +45,14 @@ public class WebApiIntegrationTests : TestFixtureBase
         };
 
 #if !NET5_0_OR_GREATER
-            var ms = new MemoryStream();
-            var dataContractJsonSerializer = new DataContractJsonSerializer(typeof(SerializableType));
-            dataContractJsonSerializer.WriteObject(ms, serializableType);
+        var ms = new MemoryStream();
+        var dataContractJsonSerializer = new DataContractJsonSerializer(typeof(SerializableType));
+        dataContractJsonSerializer.WriteObject(ms, serializableType);
 
-            var dtJson = Encoding.UTF8.GetString(ms.ToArray());
-            var dtExpected = @"{""internalField"":""internal"",""privateField"":""private"",""protectedField"":""protected"",""protectedInternalField"":""protected internal"",""publicField"":""public""}";
+        var dtJson = Encoding.UTF8.GetString(ms.ToArray());
+        var dtExpected = @"{""internalField"":""internal"",""privateField"":""private"",""protectedField"":""protected"",""protectedInternalField"":""protected internal"",""publicField"":""public""}";
 
-            Assert.Equal(dtExpected, dtJson);
+        Assert.Equal(dtExpected, dtJson);
 #endif
 
         var expected = "{\"publicField\":\"public\",\"internalField\":\"internal\",\"protectedInternalField\":\"protected internal\",\"protectedField\":\"protected\",\"privateField\":\"private\"}";

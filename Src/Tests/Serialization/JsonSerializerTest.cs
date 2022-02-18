@@ -6691,7 +6691,7 @@ This is just junk, though.";
 
         MyTuple<int> obj = null;
 
-        Action doStuff = () => { obj = JsonConvert.DeserializeObject<MyTuple<int>>(json); };
+        var doStuff = () => { obj = JsonConvert.DeserializeObject<MyTuple<int>>(json); };
 
         doStuff();
         Assert.Equal(500, obj.Item1);

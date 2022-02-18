@@ -23,19 +23,21 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
+#if !NET5_0_OR_GREATER
+
 using System.ComponentModel.DataAnnotations;
 
 namespace Argon.Tests.TestObjects;
-#if !NET5_0_OR_GREATER
-    [MetadataType(typeof(CustomerValidation))]
-    public partial class CustomerWithMetadataType
-    {
-        public Guid UpdatedBy_Id { get; set; }
 
-        public class CustomerValidation
-        {
-            [JsonIgnore]
-            public Guid UpdatedBy_Id { get; set; }
-        }
+[MetadataType(typeof(CustomerValidation))]
+public partial class CustomerWithMetadataType
+{
+    public Guid UpdatedBy_Id { get; set; }
+
+    public class CustomerValidation
+    {
+        [JsonIgnore]
+        public Guid UpdatedBy_Id { get; set; }
     }
+}
 #endif

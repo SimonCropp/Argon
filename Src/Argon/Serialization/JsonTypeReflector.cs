@@ -72,7 +72,6 @@ static class JsonTypeReflector
             {
                 return typeConverter.CanConvertTo(typeof(string));
             }
-
         }
 
         return false;
