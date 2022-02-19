@@ -3322,9 +3322,11 @@ public class XmlNodeConverterTest : TestFixtureBase
         var json = new StringBuilder(1024);
 
         using (var stringWriter = new StringWriter(json, CultureInfo.InvariantCulture))
-        using (var jsonWriter = new JsonTextWriter(stringWriter))
+        using (var jsonWriter = new JsonTextWriter(stringWriter)
+               {
+                   Formatting = Formatting.None
+               })
         {
-            jsonWriter.Formatting = Formatting.None;
             serializer.Serialize(jsonWriter, model);
 
             Assert.Equal(@"{""Document"":{""Value"":{""@foo"":""bar"",""#text"":""2001-01-01T11:11:11""}}}", json.ToString());

@@ -5367,7 +5367,7 @@ Path '', line 1, position 1.");
 
         byte[] objectBytes;
         using (var stream = new MemoryStream())
-        using (JsonWriter jsonWriter = new JsonTextWriter(new StreamWriter(stream)))
+        using (var jsonWriter = new JsonTextWriter(new StreamWriter(stream)))
         {
             serializer.Serialize(jsonWriter, test);
             jsonWriter.Flush();

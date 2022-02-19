@@ -1137,9 +1137,11 @@ public class TypeNameHandlingTests : TestFixtureBase
         };
 
         var stringWriter = new StringWriter();
-        using (var jsonWriter = new JsonTextWriter(stringWriter))
+        using (var jsonWriter = new JsonTextWriter(stringWriter)
+               {
+                   Formatting = Formatting.Indented
+               })
         {
-            jsonWriter.Formatting = Formatting.Indented;
             serializingTester.TypeNameHandling = TypeNameHandling.Auto;
             serializingTester.Serialize(jsonWriter, testObject);
         }

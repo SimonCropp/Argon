@@ -556,7 +556,7 @@ public class MiscAsyncTests : TestFixtureBase
         var stringBuilder = new StringBuilder();
         var stringWriter = new StringWriter(stringBuilder);
 
-        using (JsonWriter jsonWriter = new JsonTextWriter(stringWriter)
+        using (var jsonWriter = new JsonTextWriter(stringWriter)
                {
                    Formatting = Formatting.Indented
                })
@@ -602,7 +602,7 @@ public class MiscAsyncTests : TestFixtureBase
         stringBuilder = new StringBuilder();
         stringWriter = new StringWriter(stringBuilder);
 
-        using (JsonWriter jsonWriter = new JsonTextWriter(stringWriter)
+        using (var jsonWriter = new JsonTextWriter(stringWriter)
                {
                    Formatting = Formatting.Indented
                })

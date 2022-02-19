@@ -621,10 +621,11 @@ public static class JsonConvert
     {
         var stringBuilder = new StringBuilder(256);
         var stringWriter = new StringWriter(stringBuilder, CultureInfo.InvariantCulture);
-        using (var jsonWriter = new JsonTextWriter(stringWriter))
+        using (var jsonWriter = new JsonTextWriter(stringWriter)
+               {
+                   Formatting = jsonSerializer.Formatting
+               })
         {
-            jsonWriter.Formatting = jsonSerializer.Formatting;
-
             jsonSerializer.Serialize(jsonWriter, value, type);
         }
 

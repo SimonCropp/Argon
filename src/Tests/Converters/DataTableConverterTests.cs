@@ -72,8 +72,10 @@ public class DataTableConverterTests : TestFixtureBase
         dt.Rows.Add(types.Select(_ => (object)null).ToArray());
 
         var stringWriter = new StringWriter();
-        var jsonWriter = new JsonTextWriter(stringWriter);
-        jsonWriter.Formatting = Formatting.Indented;
+        var jsonWriter = new JsonTextWriter(stringWriter)
+        {
+            Formatting = Formatting.Indented
+        };
 
         var converter = new DataTableConverter();
         converter.WriteJson(jsonWriter, dt, new JsonSerializer());
@@ -116,8 +118,10 @@ public class DataTableConverterTests : TestFixtureBase
         dt.Rows.Add(types.Select(t => t.Value).ToArray());
 
         var stringWriter = new StringWriter();
-        var jsonWriter = new JsonTextWriter(stringWriter);
-        jsonWriter.Formatting = Formatting.Indented;
+        var jsonWriter = new JsonTextWriter(stringWriter)
+        {
+            Formatting = Formatting.Indented
+        };
 
         var converter = new DataTableConverter();
         converter.WriteJson(jsonWriter, dt, new JsonSerializer());

@@ -395,8 +395,10 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     public string ToString(Formatting formatting, params JsonConverter[] converters)
     {
         using var stringWriter = new StringWriter(CultureInfo.InvariantCulture);
-        var jsonTextWriter = new JsonTextWriter(stringWriter);
-        jsonTextWriter.Formatting = formatting;
+        var jsonTextWriter = new JsonTextWriter(stringWriter)
+        {
+            Formatting = formatting
+        };
 
         WriteTo(jsonTextWriter, converters);
 

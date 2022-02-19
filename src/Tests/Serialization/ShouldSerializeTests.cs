@@ -120,9 +120,11 @@ public class ShouldSerializeTests : TestFixtureBase
 
         var stringBuilder = new StringBuilder(256);
         var stringWriter = new StringWriter(stringBuilder, CultureInfo.InvariantCulture);
-        using (var jsonWriter = new JsonTextWriter(stringWriter))
+        using (var jsonWriter = new JsonTextWriter(stringWriter)
+               {
+                   Formatting = Formatting.None
+               })
         {
-            jsonWriter.Formatting = Formatting.None;
             jsonSerializer.Serialize(jsonWriter, f, typeof(Foo2));
         }
 
