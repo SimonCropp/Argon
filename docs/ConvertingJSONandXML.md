@@ -38,18 +38,12 @@ More about using LINQ to JSON with LINQ <link xlink:href="QueryingLINQtoJSON">he
     <section>
       <title>SerializeXmlNode</title>
       <content>
-   
-       <para>The JsonConvert has two helper methods for converting between JSON and XML. The first is
-       `Argon.JsonConvert.SerializeXmlNode`.
-       This method takes an XmlNode and serializes it to JSON text.
+
+The JsonConvert has two helper methods for converting between JSON and XML. The first is `Argon.JsonConvert.SerializeXmlNode`. This method takes an XmlNode and serializes it to JSON text.
 
 <code lang="cs" source="..\Src\Tests\Documentation\ConvertingJsonAndXmlTests.cs" region="SerializeXmlNode" title="Converting XML to JSON with SerializeXmlNode" />
 
-       <para>Because multiple nodes with the same name at the same level are grouped together into an array,
-       the conversion process can produce different JSON depending on the number of nodes. For example, if some
-       XML for a user has a single `<Role>` node, then that role will be text against
-       a JSON `"Role"` property, but if the user has multiple `&lt;Role&gt;`
-       nodes, then the role values will be placed in a JSON array.
+Because multiple nodes with the same name at the same level are grouped together into an array, the conversion process can produce different JSON depending on the number of nodes. For example, if some XML for a user has a single `<Role>` node, then that role will be text against a JSON `"Role"` property, but if the user has multiple `<Role>` nodes, then the role values will be placed in a JSON array.
        
        <para>To fix this situation a custom XML attribute can be added to force a JSON array to be created.
 

@@ -1,23 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="SerializationGuide" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+
 The Json.NET serializer can serialize a wide variety of .NET objects. This guide looks at how it works, first at a high level and then in more detail.
 
 
+## Summary
 
-    <section address="Summary">
-      <title>Summary</title>
-      <content>
+At a high level, the Json.NET serializer will convert primitive .NET values into primitive JSON values, will convert .NET arrays and collections to JSON arrays, and will convert everything else to JSON objects.
 
-        <para>At a high level, the Json.NET serializer will convert primitive .NET values into primitive JSON values,
-        will convert .NET arrays and collections to JSON arrays, and will convert everything else to JSON objects.
-        <para>Json.NET will throw an error if it encounters incorrect JSON when deserializing a value. For example, if
-        the serializer encounters a JSON property with an array of values and the type of matching .NET property is not
-        a collection, then an error will be thrown, and vice-versa.
-      </content>
-    </section>
-    <section address="ComplexTypes">
-      <title>Complex Types</title>
+Json.NET will throw an error if it encounters incorrect JSON when deserializing a value. For example, if
+the serializer encounters a JSON property with an array of values and the type of matching .NET property is not a collection, then an error will be thrown, and vice-versa.
+
+
+## Complex Types
+
 <content>
 <table>
   <tableHeader>
@@ -27,11 +21,11 @@ The Json.NET serializer can serialize a wide variety of .NET objects. This guide
     </row>
   </tableHeader>
   <row>
-    <entry><para><legacyBold>IList, IEnumerable, IList&lt;T&gt;, Array</legacyBold></para></entry>
+    <entry><para><legacyBold>IList, IEnumerable, IList<T>, Array</legacyBold></para></entry>
     <entry><para>Array (properties on the collection will not be serialized)</para></entry>
   </row>
   <row>
-    <entry><para><legacyBold>IDictionary, IDictionary&lt;TKey, TValue&gt;</legacyBold></para></entry>
+    <entry><para><legacyBold>IDictionary, IDictionary<TKey, TValue></legacyBold></para></entry>
     <entry><para>Object (dictionary name/values only, properties on the dictionary will not be serialized)</para></entry>
   </row>
   <row>
@@ -155,8 +149,8 @@ The Json.NET serializer can serialize a wide variety of .NET objects. This guide
         <para>Note that if TypeNameHandling or PreserveReferencesHandling has been enabled for JSON arrays on the serializer,
         then JSON arrays are wrapped in a containing object. The object will have the type name/reference properties and a
         $values property, which will have the collection data.
-        <para>When deserializing, if a member is typed as the interface IList&lt;T&gt;, then it will be deserialized as a
-        List&lt;T&gt;.
+        <para>When deserializing, if a member is typed as the interface IList<T>, then it will be deserialized as a
+        List<T>.
         <para>You can read more about serializing collections here: <link xlink:href="SerializingCollections" /></para>
       </content>
     </section>   
@@ -176,8 +170,8 @@ The Json.NET serializer can serialize a wide variety of .NET objects. This guide
         support converting a custom string back again when deserializing a dictionary.
         <para>JsonDictionaryAttribute has options on it to customize the JsonConverter, type name handling, and reference
         handling that are applied to collection items.
-        <para>When deserializing, if a member is typed as the interface IDictionary&lt;TKey, TValue&gt; then it will be
-        deserialized as a Dictionary&lt;TKey, TValue&gt;.
+        <para>When deserializing, if a member is typed as the interface IDictionary<TKey, TValue> then it will be
+        deserialized as a Dictionary<TKey, TValue>.
         <para>You can read more about serializing collections here: <link xlink:href="SerializingCollections" /></para>
       </content>
     </section>

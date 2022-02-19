@@ -2,7 +2,7 @@
 <topic id="QueryingLINQtoJSON" revisionNumber="1">
   <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">LINQ to JSON provides methods for getting data from its objects. The index methods on JObject/JArray supports quickly get data by its property name
       on an object or index in a collection, while `Argon.Linq.JToken.Children` allows the retrieval of ranges
-      of data as `IEnumerable&lt;JToken&gt;` to then query using LINQ.
+      of data as `IEnumerable<JToken>` to then query using LINQ.
 
 
     
@@ -24,7 +24,7 @@
       <content>
         <para>JObject/JArray can also be queried using LINQ. `Argon.Linq.JToken.Children`
         returns the children values of a JObject/JArray
-		as an `IEnumerable&lt;JToken&gt;` that can then be queried with the standard Where/OrderBy/Select LINQ operators.
+		as an `IEnumerable<JToken>` that can then be queried with the standard Where/OrderBy/Select LINQ operators.
         
 <alert class="note">
         <para>`Argon.Linq.JToken.Children` returns all the children of a token. If it is a
