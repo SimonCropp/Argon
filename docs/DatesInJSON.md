@@ -16,31 +16,16 @@ DateTimes in JSON are hard.
 <linkText>ISO 8601 standard</linkText>
 <linkUri>http://en.wikipedia.org/wiki/ISO_8601</linkUri>
 </externalLink>: `"2012-03-19T07:22Z"`.
-        <para>Before Json.NET 4.5 dates were written using the Microsoft
-        format: `"\/Date(1198908717056)\/"`. To use this format, or
-        to maintain compatibility with Microsoft JSON serializers or
-        older versions of Json.NET, then change the
-        `Argon.DateFormatHandling`
-        setting to MicrosoftDateFormat.
-        <para>The `Argon.DateTimeZoneHandling` setting can be
-        used to convert a DateTime's `System.DateTimeKind` when serializing. For example set
-        DateTimeZoneHandling to Utc to serialize all DateTimes as UTC dates. Note that this setting does not effect DateTimeOffsets.
-        <para>If dates don't follow the ISO 8601 standard, then the DateFormatString setting can be used to customize the format of
-        	date strings that are read and written using .NET's <externalLink>
-<linkText>custom date and time format syntax</linkText>
-<linkUri>https://msdn.microsoft.com/en-us/library/8kb3ddd4.aspx</linkUri>
-</externalLink>.
-      </content>
-    </section>
-    <section address="DateTimeJsonConverters">
-      <title>DateTime JsonConverters</title>
-      <content>
 
-        <para>With no standard for dates in JSON, the number of possible
-        different formats when interoping with other systems is endless.
-        Fortunately Json.NET has a solution to deal with reading and writing
-        custom dates: JsonConverters. A JsonConverter is used to override how a
-        type is serialized.
+Before Json.NET 4.5 dates were written using the Microsoft format: `"\/Date(1198908717056)\/"`. To use this format, or to maintain compatibility with Microsoft JSON serializers or older versions of Json.NET, then change the `Argon.DateFormatHandling` setting to MicrosoftDateFormat.
+
+The `Argon.DateTimeZoneHandling` setting can be used to convert a DateTime's `System.DateTimeKind` when serializing. For example set DateTimeZoneHandling to Utc to serialize all DateTimes as UTC dates. Note that this setting does not effect DateTimeOffsets.
+        
+If dates don't follow the ISO 8601 standard, then the DateFormatString setting can be used to customize the format of date strings that are read and written using .NET's [custom date and time format syntax](https://msdn.microsoft.com/en-us/library/8kb3ddd4.aspx)
+
+## DateTime JsonConverters
+
+With no standard for dates in JSON, the number of possible different formats when interoping with other systems is endless. Fortunately Json.NET has a solution to deal with reading and writing custom dates: JsonConverters. A JsonConverter is used to override how a type is serialized.
         
 <code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="SerializingDatesInJson" title="DateTime JsonConverters Example" />        
         

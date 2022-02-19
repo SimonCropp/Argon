@@ -22,12 +22,8 @@
     <section address="CamelCasePropertyNamesContractResolver">
       <title>CamelCasePropertyNamesContractResolver</title>
       <content>
-        <para>`Argon.Serialization.CamelCasePropertyNamesContractResolver`
-        inherits from DefaultContractResolver and overrides the JSON
-        property name to be written in <externalLink>
-<linkText>camelcase</linkText>
-<linkUri>http://en.wikipedia.org/wiki/CamelCase</linkUri>
-</externalLink>.
+
+`Argon.Serialization.CamelCasePropertyNamesContractResolver` inherits from DefaultContractResolver and overrides the JSON property name to be written in [camelcase](http://en.wikipedia.org/wiki/CamelCase).
 
 <code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="ContractResolver" title="ContractResolver" />
       </content>
