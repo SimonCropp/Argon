@@ -348,10 +348,11 @@ public class JsonTextWriterTest : TestFixtureBase
         var stringBuilder = new StringBuilder();
         var stringWriter = new StringWriter(stringBuilder);
 
-        using (var jsonWriter = new JsonTextWriter(stringWriter))
+        using (var jsonWriter = new JsonTextWriter(stringWriter)
+               {
+                   Formatting = Formatting.Indented
+               })
         {
-            jsonWriter.Formatting = Formatting.Indented;
-
             jsonWriter.WriteStartObject();
             jsonWriter.WritePropertyName("CPU");
             jsonWriter.WriteValue("Intel");
@@ -388,10 +389,11 @@ public class JsonTextWriterTest : TestFixtureBase
         var stringBuilder = new StringBuilder();
         var stringWriter = new StringWriter(stringBuilder);
 
-        using (var jsonWriter = new JsonTextWriter(stringWriter))
+        using (var jsonWriter = new JsonTextWriter(stringWriter)
+               {
+                   Formatting = Formatting.Indented
+               })
         {
-            jsonWriter.Formatting = Formatting.Indented;
-
             jsonWriter.WriteStartObject();
             jsonWriter.WritePropertyName("CPU");
             jsonWriter.WriteValue("Intel");
@@ -999,11 +1001,12 @@ Parameter name: value", "Value cannot be null. (Parameter 'value')");
         var stringBuilder = new StringBuilder();
         var stringWriter = new StringWriter(stringBuilder);
 
-        using (var jsonWriter = new JsonTextWriter(stringWriter))
+        using (var jsonWriter = new JsonTextWriter(stringWriter)
+               {
+                   Formatting = Formatting.Indented,
+            FloatFormatHandling = FloatFormatHandling.Symbol
+               })
         {
-            jsonWriter.Formatting = Formatting.Indented;
-            jsonWriter.FloatFormatHandling = FloatFormatHandling.Symbol;
-
             Assert.Equal(Formatting.Indented, jsonWriter.Formatting);
 
             jsonWriter.Indentation = 5;
@@ -1049,11 +1052,11 @@ _____'propertyName': NaN,
         var text = "Hello world.";
         var data = Encoding.UTF8.GetBytes(text);
 
-        using (var jsonWriter = new JsonTextWriter(stringWriter))
+        using (var jsonWriter = new JsonTextWriter(stringWriter)
+               {
+                   Formatting = Formatting.Indented
+               })
         {
-            jsonWriter.Formatting = Formatting.Indented;
-            Assert.Equal(Formatting.Indented, jsonWriter.Formatting);
-
             jsonWriter.WriteValue(data);
         }
 
@@ -1076,11 +1079,11 @@ _____'propertyName': NaN,
         var text = "Hello world.";
         var data = Encoding.UTF8.GetBytes(text);
 
-        using (var jsonWriter = new JsonTextWriter(stringWriter))
+        using (var jsonWriter = new JsonTextWriter(stringWriter)
+               {
+                   Formatting = Formatting.Indented
+               })
         {
-            jsonWriter.Formatting = Formatting.Indented;
-            Assert.Equal(Formatting.Indented, jsonWriter.Formatting);
-
             jsonWriter.WriteStartArray();
             jsonWriter.WriteValue(data);
             jsonWriter.WriteValue(data);
@@ -1111,10 +1114,11 @@ _____'propertyName': NaN,
         var text = "Hello world.";
         var data = Encoding.UTF8.GetBytes(text);
 
-        using (var jsonWriter = new JsonTextWriter(stringWriter))
+        using (var jsonWriter = new JsonTextWriter(stringWriter)
+               {
+                   Formatting = Formatting.Indented
+               })
         {
-            jsonWriter.Formatting = Formatting.Indented;
-
             jsonWriter.WriteStartArray();
             Assert.Equal("", jsonWriter.Path);
             jsonWriter.WriteStartObject();
@@ -1408,11 +1412,13 @@ _____'propertyName': NaN,
         };
 
         var stringWriter = new StringWriter();
-        var jsonWriter = new JsonTextWriter(stringWriter);
-        jsonWriter.Formatting = Formatting.Indented;
-        jsonWriter.DateFormatString = "yyyy tt";
-        jsonWriter.Culture = culture;
-        jsonWriter.QuoteChar = '\'';
+        var jsonWriter = new JsonTextWriter(stringWriter)
+        {
+            Formatting = Formatting.Indented,
+            DateFormatString = "yyyy tt",
+            Culture = culture,
+            QuoteChar = '\''
+        };
 
         jsonWriter.WriteStartArray();
 
@@ -1755,7 +1761,7 @@ public class UnmanagedResourceFakingJsonWriter : JsonWriter
 
     public static void CreateAndDispose()
     {
-        ((IDisposable)new UnmanagedResourceFakingJsonWriter()).Dispose();
+        ((IDisposable) new UnmanagedResourceFakingJsonWriter()).Dispose();
     }
 
     public UnmanagedResourceFakingJsonWriter()
