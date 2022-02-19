@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <topic id="Performance" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>Out of the box Json.NET is faster than DataContractJsonSerializer and JavaScriptSerializer.
-      Here are some tips to make it go even faster.</para>
-      <autoOutline lead="none" excludeRelatedTopics="true" />
-    </introduction>
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">Out of the box Json.NET is faster than DataContractJsonSerializer and JavaScriptSerializer.
+      Here are some tips to make it go even faster.
+
+
     <section address="ReuseContractResolver">
       <title>Reuse Contract Resolver</title>
       <content>
-        <para>The <codeEntityReference>T:Argon.Serialization.IContractResolver</codeEntityReference> resolves .NET types to contracts that are used during serialization inside JsonSerializer.
+        <para>The `Argon.Serialization.IContractResolver` resolves .NET types to contracts that are used during serialization inside JsonSerializer.
         Creating a contract involves inspecting a type with slow reflection, so contracts are typically
-        cached by implementations of IContractResolver like <codeEntityReference>T:Argon.Serialization.DefaultContractResolver</codeEntityReference>.</para>
+        cached by implementations of IContractResolver like `Argon.Serialization.DefaultContractResolver`.
         <para>To avoid the overhead of recreating contracts every time a JsonSerializer is used create the contract resolver once and reuse it.
         Note that if not using a contract resolver then a shared internal instance is automatically used when serializing and deserializing.
         </para>
@@ -27,7 +25,6 @@
         amount of time the .NET framework spends performing <externalLink>
 <linkText>garbage collection</linkText>
 <linkUri>http://msdn.microsoft.com/en-us/library/ms973837.aspx</linkUri>
-<linkTarget>_blank</linkTarget>
 </externalLink>.
         Allocating too many objects or allocating very large objects can slow down or even
         halt an application while garbage collection is in progress.
@@ -38,8 +35,7 @@
         documents greater than 85kb in size to avoid the JSON string ending up in the <externalLink>
 <linkText>large object heap</linkText>
 <linkUri>http://msdn.microsoft.com/en-us/magazine/cc534993.aspx</linkUri>
-<linkTarget>_blank</linkTarget>
-</externalLink>.</para>
+</externalLink>.
 
 <code lang="cs" source="..\Src\Tests\Documentation\PerformanceTests.cs" region="DeserializeString" title="Deserialize String" />
 <code lang="cs" source="..\Src\Tests\Documentation\PerformanceTests.cs" region="DeserializeStream" title="Deserialize Stream" />
@@ -49,28 +45,28 @@
     <section address="JsonConverters">
       <title>JsonConverters</title>
       <content>
-        <para>Passing a <codeEntityReference>T:Argon.JsonConverter</codeEntityReference> to SerializeObject or DeserializeObject provides a way to completely
+        <para>Passing a `Argon.JsonConverter` to SerializeObject or DeserializeObject provides a way to completely
         change how an object is serialized. There is, however, a small amount of overhead; the CanConvert method is called for every
-        value to check whether serialization should be handled by that JsonConverter.</para>
+        value to check whether serialization should be handled by that JsonConverter.
         <para>There are a couple of ways to continue to use JsonConverters without any overhead. The simplest way
-        is to specify the JsonConverter using the <codeEntityReference>T:Argon.JsonConverterAttribute</codeEntityReference>. This attribute tells the serializer
-        to always use that converter when serializing and deserializing the type, without the check.</para>
+        is to specify the JsonConverter using the `Argon.JsonConverterAttribute`. This attribute tells the serializer
+        to always use that converter when serializing and deserializing the type, without the check.
 
 <code lang="cs" source="..\Src\Tests\Documentation\PerformanceTests.cs" region="JsonConverterAttribute" title="Use JsonConverter with JsonConverterAttribute" />
 
         <para>If the class to convert isn't owned and is it nor possible to use an attribute, a JsonConverter can still be used by
-        creating a <codeEntityReference>T:Argon.Serialization.IContractResolver</codeEntityReference>.</para>
+        creating a `Argon.Serialization.IContractResolver`.
         
 <code lang="cs" source="..\Src\Tests\Documentation\PerformanceTests.cs" region="JsonConverterContractResolver" title="Use JsonConverter with IContractResolver" />
 
-        <para>The IContractResolver in the example above will set all DateTimes to use the JavaScriptDateConverter.</para>        
+        <para>The IContractResolver in the example above will set all DateTimes to use the JavaScriptDateConverter.        
       </content>
     </section>
     <section address="ManuallySerialize">
       <title>Manually Serialize</title>
       <content>
         <para>The absolute fastest way to read and write JSON is to use JsonTextReader/JsonTextWriter directly to manually serialize types.
-        Using a reader or writer directly skips any of the overhead from a serializer, such as reflection.</para>
+        Using a reader or writer directly skips any of the overhead from a serializer, such as reflection.
         
 <code lang="cs" source="..\Src\Tests\Documentation\PerformanceTests.cs" region="ReaderWriter" title="Manually serialize using JsonTextWriter" />
 
@@ -90,12 +86,11 @@
         
       </content>
     </section>
-    <relatedTopics>
-      <codeEntityReference>T:Argon.JsonSerializer</codeEntityReference>
-      <codeEntityReference>T:Argon.JsonConverter</codeEntityReference>
-      <codeEntityReference>T:Argon.JsonConverterAttribute</codeEntityReference>
-      <codeEntityReference>T:Argon.JsonTextWriter</codeEntityReference>
-      <codeEntityReference>T:Argon.JsonTextReader</codeEntityReference>
-    </relatedTopics>
-  </developerConceptualDocument>
-</topic>
+
+
+## Related Topics
+      `Argon.JsonSerializer`
+      `Argon.JsonConverter`
+      `Argon.JsonConverterAttribute`
+      `Argon.JsonTextWriter`
+      `Argon.JsonTextReader`

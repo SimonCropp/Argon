@@ -1,16 +1,51 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="NamingStrategySkipSpecifiedNames" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample configures a <codeEntityReference>T:Argon.Serialization.CamelCaseNamingStrategy</codeEntityReference>
-      to not camel case properties that already have a name specified with an attribute.</para>
-    </introduction>
-    <section>
-      <title>Sample</title>
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\NamingStrategySkipSpecifiedNames.cs" region="Types" title="Types" />
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\NamingStrategySkipSpecifiedNames.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
-  </developerConceptualDocument>
-</topic>
+# Configure NamingStrategy property name serialization
+
+This sample configures a `Argon.Serialization.CamelCaseNamingStrategy` to not camel case properties that already have a name specified with an attribute.
+
+<!-- snippet: NamingStrategySkipSpecifiedNamesTypes -->
+<a id='snippet-namingstrategyskipspecifiednamestypes'></a>
+```cs
+public class User
+{
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    [JsonProperty(PropertyName = "UPN")]
+    public string Upn { get; set; }
+}
+```
+<sup><a href='/Src/Tests/Documentation/Samples/Serializer/NamingStrategySkipSpecifiedNames.cs#L32-L40' title='Snippet source file'>snippet source</a> | <a href='#snippet-namingstrategyskipspecifiednamestypes' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+<!-- snippet: NamingStrategySkipSpecifiedNamesUsage -->
+<a id='snippet-namingstrategyskipspecifiednamesusage'></a>
+```cs
+var user = new User
+{
+    FirstName = "John",
+    LastName = "Smith",
+    Upn = "john.smith@acme.com"
+};
+
+var contractResolver = new DefaultContractResolver
+{
+    NamingStrategy = new CamelCaseNamingStrategy
+    {
+        OverrideSpecifiedNames = false
+    }
+};
+
+var json = JsonConvert.SerializeObject(user, new JsonSerializerSettings
+{
+    ContractResolver = contractResolver,
+    Formatting = Formatting.Indented
+});
+
+Console.WriteLine(json);
+// {
+//   "firstName": "John",
+//   "lastName": "Smith",
+//   "UPN": "john.smith@acme.com"
+// }
+```
+<sup><a href='/Src/Tests/Documentation/Samples/Serializer/NamingStrategySkipSpecifiedNames.cs#L45-L73' title='Snippet source file'>snippet source</a> | <a href='#snippet-namingstrategyskipspecifiednamesusage' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

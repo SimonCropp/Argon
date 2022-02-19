@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <topic id="Samples" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>Over 100 code samples covering Json.NET's most commonly used functionality.</para>
-    </introduction>
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">Over 100 code samples covering Json.NET's most commonly used functionality.
+
     <section>
       <title>Samples</title>
       <content>
@@ -21,7 +19,7 @@
         <linkUri>https://www.newtonsoft.com/jsonschema</linkUri>
         <linkTarget>_blank</linkTarget>
       </externalLink>
-      for more details.</para>
+      for more details.
     </listItem>
     <listItem>
         <para><legacyBold>Converting XML</legacyBold> - Converting JSON to XML and XML to JSON</para>
@@ -36,5 +34,3 @@
 
       </content>
     </section>
-  </developerConceptualDocument>
-</topic>

@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <topic id="ReadMultipleContentWithJsonReader" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample sets <codeEntityReference>P:Argon.JsonReader.SupportMultipleContent</codeEntityReference>
-      to true so that multiple JSON fragments can be read from a <codeEntityReference>T:System.IO.Stream</codeEntityReference> or
-      <codeEntityReference>T:System.IO.TextReader</codeEntityReference>.</para>
-    </introduction>
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample sets `Argon.JsonReader.SupportMultipleContent`
+      to true so that multiple JSON fragments can be read from a `System.IO.Stream` or
+      `System.IO.TextReader`.
+
     <section>
-      <title>Sample</title>
+
       <content>
         <code lang="cs" source="..\Src\Tests\Documentation\Samples\Json\ReadMultipleContentWithJsonReader.cs" region="Types" title="Types" />
         <code lang="cs" source="..\Src\Tests\Documentation\Samples\Json\ReadMultipleContentWithJsonReader.cs" region="Usage" title="Usage" />
       </content>
     </section>
-  </developerConceptualDocument>
-</topic>

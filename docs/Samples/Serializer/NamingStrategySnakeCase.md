@@ -1,16 +1,44 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="NamingStrategySnakeCase" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample uses a <codeEntityReference>T:Argon.Serialization.SnakeCaseNamingStrategy</codeEntityReference>
-      specified using a contract resolver to snake case serialized property names.</para>
-    </introduction>
-    <section>
-      <title>Sample</title>
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\NamingStrategySnakeCase.cs" region="Types" title="Types" />
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\NamingStrategySnakeCase.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
-  </developerConceptualDocument>
-</topic>
+# Snake case property names
+
+This sample uses a `Argon.Serialization.SnakeCaseNamingStrategy` specified using a contract resolver to snake case serialized property names.
+
+<!-- snippet: NamingStrategySnakeCaseTypes -->
+<a id='snippet-namingstrategysnakecasetypes'></a>
+```cs
+public class User
+{
+    public string UserName { get; set; }
+    public bool Enabled { get; set; }
+}
+```
+<sup><a href='/Src/Tests/Documentation/Samples/Serializer/NamingStrategySnakeCase.cs#L32-L38' title='Snippet source file'>snippet source</a> | <a href='#snippet-namingstrategysnakecasetypes' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+<!-- snippet: NamingStrategySnakeCaseUsage -->
+<a id='snippet-namingstrategysnakecaseusage'></a>
+```cs
+var user1 = new User
+{
+    UserName = "jamesn",
+    Enabled = true
+};
+
+var contractResolver = new DefaultContractResolver
+{
+    NamingStrategy = new SnakeCaseNamingStrategy()
+};
+
+var json = JsonConvert.SerializeObject(user1, new JsonSerializerSettings
+{
+    ContractResolver = contractResolver,
+    Formatting = Formatting.Indented
+});
+
+Console.WriteLine(json);
+// {
+//   "user_name": "jamesn",
+//   "enabled": true
+// }
+```
+<sup><a href='/Src/Tests/Documentation/Samples/Serializer/NamingStrategySnakeCase.cs#L43-L66' title='Snippet source file'>snippet source</a> | <a href='#snippet-namingstrategysnakecaseusage' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

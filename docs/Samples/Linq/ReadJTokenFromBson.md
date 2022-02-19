@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <topic id="ReadJTokenFromBson" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample reads a <codeEntityReference>T:Argon.Linq.JObject</codeEntityReference>
-      from BSON using <codeEntityReference>T:Argon.Bson.BsonReader</codeEntityReference>.</para>
-    </introduction>
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample reads a `Argon.Linq.JObject`
+      from BSON using `Argon.Bson.BsonReader`.
+
     <section>
-      <title>Sample</title>
+
       <content>
         <code lang="cs" source="..\Src\Tests\Documentation\Samples\Linq\ReadJTokenFromBson.cs" region="Usage" title="Usage" />
       </content>
     </section>
-  </developerConceptualDocument>
-</topic>

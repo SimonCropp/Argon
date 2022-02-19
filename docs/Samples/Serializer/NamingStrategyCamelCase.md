@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <topic id="NamingStrategyCamelCase" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample uses a <codeEntityReference>T:Argon.Serialization.CamelCaseNamingStrategy</codeEntityReference>
-      specified using a contract resolver to camel case serialized property names.</para>
-    </introduction>
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample uses a `Argon.Serialization.CamelCaseNamingStrategy`
+      specified using a contract resolver to camel case serialized property names.
+
     <section>
-      <title>Sample</title>
+
       <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\NamingStrategyCamelCase.cs" region="Types" title="Types" />
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\NamingStrategyCamelCase.cs" region="Usage" title="Usage" />
+        <code NamingStrategyCamelCase.cs" region="Types" title="Types" />
+        <code NamingStrategyCamelCase.cs" region="Usage" title="Usage" />
       </content>
     </section>
-  </developerConceptualDocument>
-</topic>

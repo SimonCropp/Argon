@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <topic id="ErrorHandlingEvent" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample uses the <codeEntityReference>P:Argon.JsonSerializerSettings.Error</codeEntityReference> event
-      to ignore the exceptions thrown from the invalid date strings.</para>
-    </introduction>
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample uses the `Argon.JsonSerializerSettings.Error` event
+      to ignore the exceptions thrown from the invalid date strings.
+
     <section>
-      <title>Sample</title>
+
       <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\ErrorHandlingEvent.cs" region="Usage" title="Usage" />
+        <code ErrorHandlingEvent.cs" region="Usage" title="Usage" />
       </content>
     </section>
-  </developerConceptualDocument>
-</topic>

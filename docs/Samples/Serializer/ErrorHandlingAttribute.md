@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <topic id="ErrorHandlingAttribute" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample uses <codeEntityReference>T:Argon.Serialization.OnErrorAttribute</codeEntityReference> to ignore the exception thrown setting the Roles property.</para>
-    </introduction>
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample uses `Argon.Serialization.OnErrorAttribute` to ignore the exception thrown setting the Roles property.
+
     <section>
-      <title>Sample</title>
+
       <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\ErrorHandlingAttribute.cs" region="Types" title="Types" />
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\ErrorHandlingAttribute.cs" region="Usage" title="Usage" />
+        <code ErrorHandlingAttribute.cs" region="Types" title="Types" />
+        <code ErrorHandlingAttribute.cs" region="Usage" title="Usage" />
       </content>
     </section>
-  </developerConceptualDocument>
-</topic>

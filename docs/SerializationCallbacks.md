@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <topic id="SerializationCallbacks" revisionNumber="1">
   <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!--
-    <summary>
-      <para>Optional summary abstract</para>
-    </summary>
-    -->
+
     <introduction>
-      <!-- Uncomment this to generate an outline of the section and sub-section
-           titles.  Specify a numeric value as the inner text to limit it to
-           a specific number of sub-topics when creating the outline.  Specify
-           zero (0) to limit it to top-level sections only.  -->
-      <!-- <autoOutline /> -->
-      <para>Json.NET supports serialization callback methods. A callback can be used to manipulate an object before and after its serialization and deserialization by the JsonSerializer.</para>
+
+
+      <para>Json.NET supports serialization callback methods. A callback can be used to manipulate an object before and after its serialization and deserialization by the JsonSerializer.
 
 <list class="bullet">
   <listItem><para><legacyBold>OnSerializing</legacyBold></para></listItem>
@@ -23,21 +16,18 @@
 <para>
 To tell the serializer which methods should be called during the object's
 serialization lifecycle, decorate a method with the appropriate attribute
-(<codeEntityReference>T:System.Runtime.Serialization.OnSerializingAttribute</codeEntityReference>,
-<codeEntityReference>T:System.Runtime.Serialization.OnSerializedAttribute</codeEntityReference>,
-<codeEntityReference>T:System.Runtime.Serialization.OnDeserializingAttribute</codeEntityReference>,
-<codeEntityReference>T:System.Runtime.Serialization.OnDeserializedAttribute</codeEntityReference>).
+(`System.Runtime.Serialization.OnSerializingAttribute`,
+`System.Runtime.Serialization.OnSerializedAttribute`,
+`System.Runtime.Serialization.OnDeserializingAttribute`,
+`System.Runtime.Serialization.OnDeserializedAttribute`).
 </para>
-    </introduction>
+
     
-    <!-- Add one or more top-level section elements.  These are collapsible.
-         If using <autoOutline />, add an address attribute to identify it
-         and specify a title so that it can be jumped to with a hyperlink. -->
+
     <section>
       <title>Example</title>
       <content>
-        <!-- Uncomment this to create a sub-section outline
-        <autoOutline /> -->
+
         <para>Example object with serialization callback methods:</para>
 
 <code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="SerializationCallbacksObject" title="Serialization Callback Attributes" />
@@ -48,11 +38,10 @@ serialization lifecycle, decorate a method with the appropriate attribute
 
       </content>
     </section>
-    <relatedTopics>
-      <codeEntityReference>T:System.Runtime.Serialization.OnSerializingAttribute</codeEntityReference>
-      <codeEntityReference>T:System.Runtime.Serialization.OnSerializedAttribute</codeEntityReference>
-      <codeEntityReference>T:System.Runtime.Serialization.OnDeserializingAttribute</codeEntityReference>
-      <codeEntityReference>T:System.Runtime.Serialization.OnDeserializedAttribute</codeEntityReference>
-    </relatedTopics>
-  </developerConceptualDocument>
-</topic>
+
+
+## Related Topics
+      `System.Runtime.Serialization.OnSerializingAttribute`
+      `System.Runtime.Serialization.OnSerializedAttribute`
+      `System.Runtime.Serialization.OnDeserializingAttribute`
+      `System.Runtime.Serialization.OnDeserializedAttribute`

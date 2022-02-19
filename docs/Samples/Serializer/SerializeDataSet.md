@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <topic id="SerializeDataSet" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample serializes a <codeEntityReference>T:System.Data.DataSet</codeEntityReference> to JSON.</para>
-    </introduction>
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample serializes a `System.Data.DataSet` to JSON.
+
     <section>
-      <title>Sample</title>
+
       <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\SerializeDataSet.cs" region="Usage" title="Usage" />
+        <code SerializeDataSet.cs" region="Usage" title="Usage" />
       </content>
     </section>
-  </developerConceptualDocument>
-</topic>

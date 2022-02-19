@@ -1,16 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="SerializeTypeNameHandling" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample uses the <codeEntityReference>T:Argon.TypeNameHandling</codeEntityReference>
-      setting to include type information when serializing JSON and read type information so that the correct types are created when deserializing JSON.</para>
-    </introduction>
-    <section>
-      <title>Sample</title>
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\SerializeTypeNameHandling.cs" region="Types" title="Types" />
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\SerializeTypeNameHandling.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
-  </developerConceptualDocument>
-</topic>
+# TypeNameHandling setting
+
+This sample uses the `Argon.TypeNameHandling` setting to include type information when serializing JSON and read type information so that the correct types are created when deserializing JSON.
+
+snippet: SerializeTypeNameHandlingTypes
+
+snippet: SerializeTypeNameHandlingUsage

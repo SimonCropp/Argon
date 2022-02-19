@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <topic id="DefaultValueHandlingIgnore" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample uses the <codeEntityReference>T:Argon.DefaultValueHandling</codeEntityReference> setting to
-      not serialize properties with a default value.</para>
-    </introduction>
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample uses the `Argon.DefaultValueHandling` setting to
+      not serialize properties with a default value.
+
     <section>
-      <title>Sample</title>
+
       <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\DefaultValueHandlingIgnore.cs" region="Types" title="Types" />
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\DefaultValueHandlingIgnore.cs" region="Usage" title="Usage" />
+        <code DefaultValueHandlingIgnore.cs" region="Types" title="Types" />
+        <code DefaultValueHandlingIgnore.cs" region="Usage" title="Usage" />
       </content>
     </section>
-  </developerConceptualDocument>
-</topic>

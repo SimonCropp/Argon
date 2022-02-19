@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <topic id="CustomJsonConverter" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample creates a custom <codeEntityReference>T:Argon.JsonConverter</codeEntityReference>
-      that overrides serialization to add a keys property.</para>
-    </introduction>
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample creates a custom `Argon.JsonConverter`
+      that overrides serialization to add a keys property.
+
     <section>
-      <title>Sample</title>
+
       <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\CustomJsonConverter.cs" region="Types" title="Types" />
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\CustomJsonConverter.cs" region="Usage" title="Usage" />
+        <code CustomJsonConverter.cs" region="Types" title="Types" />
+        <code CustomJsonConverter.cs" region="Usage" title="Usage" />
       </content>
     </section>
-  </developerConceptualDocument>
-</topic>

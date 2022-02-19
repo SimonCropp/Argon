@@ -1,18 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="QueryJsonSelectTokenJsonPath" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample loads JSON and then queries values from it using <codeEntityReference>M:Argon.Linq.JToken.SelectToken(System.String)</codeEntityReference> with a <externalLink>
-<linkText>JSONPath</linkText>
-<linkUri>http://stackoverflow.com/tags/jsonpath</linkUri>
-<linkTarget>_blank</linkTarget>
-</externalLink> query.</para>
-    </introduction>
-    <section>
-      <title>Sample</title>
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\JsonPath\QueryJsonSelectTokenJsonPath.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
-  </developerConceptualDocument>
-</topic>
+# Querying JSON with complex JSON Path
+
+This sample loads JSON and then queries values from it using `Argon.Linq.JToken.SelectToken(System.String)` with a [JSONPath](http://stackoverflow.com/tags/jsonpath) query.
+
+snippet: QueryJsonSelectTokenJsonPath

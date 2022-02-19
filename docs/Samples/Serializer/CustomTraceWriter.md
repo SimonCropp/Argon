@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <topic id="CustomTraceWriter" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample creates a custom <codeEntityReference>T:Argon.Serialization.ITraceWriter</codeEntityReference>
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample creates a custom `Argon.Serialization.ITraceWriter`
       that writes to 
       <externalLink>
         <linkText>NLog</linkText>
         <linkUri>http://nlog-project.org/</linkUri>
         <linkTarget>_blank</linkTarget>
-      </externalLink>.</para>
-    </introduction>
+      </externalLink>.
+
     <section>
-      <title>Sample</title>
+
       <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\CustomTraceWriter.cs" region="Types" title="Types" />
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\CustomTraceWriter.cs" region="Usage" title="Usage" />
+        <code CustomTraceWriter.cs" region="Types" title="Types" />
+        <code CustomTraceWriter.cs" region="Usage" title="Usage" />
       </content>
     </section>
-  </developerConceptualDocument>
-</topic>

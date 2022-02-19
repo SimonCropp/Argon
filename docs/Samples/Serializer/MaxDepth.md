@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <topic id="MaxDepth" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample uses the <codeEntityReference>P:Argon.JsonSerializerSettings.MaxDepth</codeEntityReference> setting to constrain JSON
-      to a maximum depth when deserializing.</para>
-    </introduction>
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample uses the `Argon.JsonSerializerSettings.MaxDepth` setting to constrain JSON
+      to a maximum depth when deserializing.
+
     <section>
-      <title>Sample</title>
+
       <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\MaxDepth.cs" region="Usage" title="Usage" />
+        <code MaxDepth.cs" region="Usage" title="Usage" />
       </content>
     </section>
-  </developerConceptualDocument>
-</topic>

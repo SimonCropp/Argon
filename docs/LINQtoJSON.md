@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <topic id="LINQtoJSON" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>LINQ to JSON is an API for working with JSON objects.
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">LINQ to JSON is an API for working with JSON objects.
       It has been designed with LINQ in mind to enable quick querying
       and creation of JSON objects. LINQ to JSON sits under the
-      <codeEntityReference>N:Argon.Linq</codeEntityReference>
-      namespace.</para>
+      `Argon.Linq`
+      namespace.
 <code lang="cs" source="..\Src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonBasic" title="Using LINQ for JSON" />
-    </introduction>
+
 <section>
  <title>Topics</title>
 <content>
@@ -29,10 +27,9 @@
 </list>
 </content>
 </section>
-    <relatedTopics>
-      <codeEntityReference>T:Argon.Linq.JObject</codeEntityReference>
-      <codeEntityReference>T:Argon.Linq.JArray</codeEntityReference>
-      <codeEntityReference>T:Argon.Linq.JValue</codeEntityReference>
-    </relatedTopics>
-  </developerConceptualDocument>
-</topic>
+
+
+## Related Topics
+      `Argon.Linq.JObject`
+      `Argon.Linq.JArray`
+      `Argon.Linq.JValue`

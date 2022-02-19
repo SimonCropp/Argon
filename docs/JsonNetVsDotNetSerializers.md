@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <topic id="JsonNetVsDotNetSerializers" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>Json.NET offers many features not found in the JavaScriptSerializer and DataContractSerializer that come with .NET.</para>
-      <autoOutline lead="none" excludeRelatedTopics="true" />
-    </introduction>
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">Json.NET offers many features not found in the JavaScriptSerializer and DataContractSerializer that come with .NET.
+
+
     <section address="FeatureComparison">
       <title>Feature Comparison</title>
       <content>
@@ -499,5 +497,3 @@
         
       </content>
     </section>
-  </developerConceptualDocument>
-</topic>

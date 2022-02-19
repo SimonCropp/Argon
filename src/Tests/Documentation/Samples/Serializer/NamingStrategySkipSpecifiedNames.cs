@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class NamingStrategySkipSpecifiedNames : TestFixtureBase
 {
-    #region Types
+    #region NamingStrategySkipSpecifiedNamesTypes
     public class User
     {
         public string FirstName { get; set; }
@@ -42,7 +42,7 @@ public class NamingStrategySkipSpecifiedNames : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region NamingStrategySkipSpecifiedNamesUsage
         var user = new User
         {
             FirstName = "John",

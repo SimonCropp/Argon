@@ -1,16 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="TraceWriter" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample uses an <codeEntityReference>T:Argon.Serialization.ITraceWriter</codeEntityReference>
-      to log debug information from serialization.</para>
-    </introduction>
-    <section>
-      <title>Sample</title>
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\TraceWriter.cs" region="Types" title="Types" />
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\TraceWriter.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
-  </developerConceptualDocument>
-</topic>
+# TraceWriter setting
+
+This sample uses an `Argon.Serialization.ITraceWriter` to log debug information from serialization.
+
+snippet: TraceWriterTypes
+
+snippet: TraceWriterUsage

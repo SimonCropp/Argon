@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <topic id="JsonPropertyItemLevelSetting" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample uses <codeEntityReference>T:Argon.JsonPropertyAttribute</codeEntityReference>
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample uses `Argon.JsonPropertyAttribute`
       to change how the property value's items are serialized,
       e.g. setting ItemIsReference to true on a property with a collection will serialize all the collection's items
-      with reference tracking enabled.</para>
-    </introduction>
+      with reference tracking enabled.
+
     <section>
-      <title>Sample</title>
+
       <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\JsonPropertyItemLevelSetting.cs" region="Types" title="Types" />
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\JsonPropertyItemLevelSetting.cs" region="Usage" title="Usage" />
+        <code JsonPropertyItemLevelSetting.cs" region="Types" title="Types" />
+        <code JsonPropertyItemLevelSetting.cs" region="Usage" title="Usage" />
       </content>
     </section>
-  </developerConceptualDocument>
-</topic>

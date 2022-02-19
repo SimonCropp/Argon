@@ -1,40 +1,27 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="SerializationTracing" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>The Json.NET serializer supports logging and debugging using the
-      <codeEntityReference>T:Argon.Serialization.ITraceWriter</codeEntityReference> interface.
-      By assigning a trace writer you can capture serialization messages and errors and debug what happens inside the
-      Json.NET serializer when serializing and deserializing JSON.</para>
-      <autoOutline lead="none" excludeRelatedTopics="true" />
-    </introduction>
-    <section address="ITraceWriter">
-      <title>ITraceWriter</title>
-      <content>
-        <para>A trace writer can be assigned using properties on JsonSerializerSettings or JsonSerializer.</para>
+# Debugging with Serialization Tracing
 
-<code lang="cs" source="..\Src\Tests\Documentation\TraceWriterTests.cs" region="MemoryTraceWriterExample" title="Debugging serialization using MemoryTraceWriter" />
-        
-        <para>Json.NET has two implementations of ITraceWriter: <codeEntityReference>T:Argon.Serialization.MemoryTraceWriter</codeEntityReference>,
-        which keeps messages in memory for simple debugging, like the example
-        above, and <codeEntityReference>T:Argon.Serialization.DiagnosticsTraceWriter</codeEntityReference>, which writes messages to any
-        System.Diagnostics.TraceListeners your application is using.</para>
-      </content>
-    </section>
-    <section address="CustomITraceWriter">
-      <title>Custom ITraceWriter</title>
-      <content>
-        <para>To write messages using your existing logging framework, just implement a custom version of ITraceWriter.</para>
+The Json.NET serializer supports logging and debugging using the `Argon.Serialization.ITraceWriter` interface. By assigning a trace writer you can capture serialization messages and errors and debug what happens inside the Json.NET serializer when serializing and deserializing JSON.
 
-<code lang="cs" source="..\Src\Tests\Documentation\TraceWriterTests.cs" region="CustomTraceWriterExample" title="Custom NLog TraceWriter" />
-        
-      </content>
-    </section>
-    <relatedTopics>
-      <codeEntityReference>T:Argon.JsonSerializer</codeEntityReference>
-      <codeEntityReference>T:Argon.Serialization.ITraceWriter</codeEntityReference>
-      <codeEntityReference>T:Argon.Serialization.MemoryTraceWriter</codeEntityReference>
-      <codeEntityReference>T:Argon.Serialization.DiagnosticsTraceWriter</codeEntityReference>
-    </relatedTopics>
-  </developerConceptualDocument>
-</topic>
+
+## ITraceWriter
+
+A trace writer can be assigned using properties on JsonSerializerSettings or JsonSerializer.
+
+snippet: MemoryTraceWriterExample
+
+Json.NET has two implementations of ITraceWriter: `Argon.Serialization.MemoryTraceWriter`, which keeps messages in memory for simple debugging, like the example above, and `Argon.Serialization.DiagnosticsTraceWriter`, which writes messages to any System.Diagnostics.TraceListeners your application is using.
+
+
+## Custom ITraceWriter
+
+To write messages using your existing logging framework, just implement a custom version of ITraceWriter.
+
+snippet: CustomTraceWriterExample
+
+
+## Related Topics
+
+ * `Argon.JsonSerializer`
+ * `Argon.Serialization.ITraceWriter`
+ * `Argon.Serialization.MemoryTraceWriter`
+ * `Argon.Serialization.DiagnosticsTraceWriter`

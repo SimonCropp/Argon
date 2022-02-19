@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <topic id="JsonPropertyRequired" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample uses <codeEntityReference>T:Argon.JsonPropertyAttribute</codeEntityReference>
-      to set <codeEntityReference>T:Argon.Required</codeEntityReference> which is used during deserialization
-      to validate the presence of required JSON properties.</para>
-    </introduction>
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample uses `Argon.JsonPropertyAttribute`
+      to set `Argon.Required` which is used during deserialization
+      to validate the presence of required JSON properties.
+
     <section>
-      <title>Sample</title>
+
       <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\JsonPropertyRequired.cs" region="Types" title="Types" />
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\JsonPropertyRequired.cs" region="Usage" title="Usage" />
+        <code JsonPropertyRequired.cs" region="Types" title="Types" />
+        <code JsonPropertyRequired.cs" region="Usage" title="Usage" />
       </content>
     </section>
-  </developerConceptualDocument>
-</topic>

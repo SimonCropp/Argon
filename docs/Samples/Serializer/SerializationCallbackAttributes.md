@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <topic id="SerializationCallbackAttributes" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample uses serialization callback attributes 
-(<codeEntityReference>T:System.Runtime.Serialization.OnSerializingAttribute</codeEntityReference>,
-<codeEntityReference>T:System.Runtime.Serialization.OnSerializedAttribute</codeEntityReference>,
-<codeEntityReference>T:System.Runtime.Serialization.OnDeserializingAttribute</codeEntityReference>,
-<codeEntityReference>T:System.Runtime.Serialization.OnDeserializedAttribute</codeEntityReference>)
-      to manipulate an object before and after its serialization and deserialization.</para>
-    </introduction>
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample uses serialization callback attributes 
+(`System.Runtime.Serialization.OnSerializingAttribute`,
+`System.Runtime.Serialization.OnSerializedAttribute`,
+`System.Runtime.Serialization.OnDeserializingAttribute`,
+`System.Runtime.Serialization.OnDeserializedAttribute`)
+      to manipulate an object before and after its serialization and deserialization.
+
     <section>
-      <title>Sample</title>
+
       <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\SerializationCallbackAttributes.cs" region="Types" title="Types" />
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\SerializationCallbackAttributes.cs" region="Usage" title="Usage" />
+        <code SerializationCallbackAttributes.cs" region="Types" title="Types" />
+        <code SerializationCallbackAttributes.cs" region="Usage" title="Usage" />
       </content>
     </section>
-  </developerConceptualDocument>
-</topic>

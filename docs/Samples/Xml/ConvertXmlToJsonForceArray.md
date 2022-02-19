@@ -1,15 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="ConvertXmlToJsonForceArray" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample reads the <codeInline>json:Array=&quot;true&quot;</codeInline> attribute in the XML and places its value in an array
-      when converting the XML to JSON.</para>
-    </introduction>
+# Convert XML to JSON and force array
+
+This sample reads the `json:Array=&quot;true&quot;` attribute in the XML and places its value in an array
+      when converting the XML to JSON.
+
     <section>
-      <title>Sample</title>
+
       <content>
         <code lang="cs" source="..\Src\Tests\Documentation\Samples\Xml\ConvertXmlToJsonForceArray.cs" region="Usage" title="Usage" />
       </content>
     </section>
-  </developerConceptualDocument>
-</topic>

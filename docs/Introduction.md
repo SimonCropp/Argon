@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <topic id="Introduction" revisionNumber="1">
   <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!--
-    <summary>
-      <para>Optional summary abstract</para>
-    </summary>
-    -->
-    <introduction>
-      <para>Json.NET is a popular high-performance JSON framework for .NET</para>
-    </introduction>
-    <!-- Optional procedures followed by optional code example but must have
-         at least one procedure or code example -->
+Json.NET is a popular high-performance JSON framework for .NET</para>
+
+
 <section>
  <title>Benefits and Features</title>
 <content>
@@ -40,11 +33,11 @@
     </listItem>
 
 </list>
-<para>The JSON serializer in Json.NET is a good choice when the JSON is reading or writing maps closely to a .NET class.</para>
+<para>The JSON serializer in Json.NET is a good choice when the JSON is reading or writing maps closely to a .NET class.
 <para>LINQ to JSON is good for situations when only interested in
 getting values from JSON, and don't have a class to serialize or deserialize to, 
 or the JSON is radically different from the class and need to manually read 
-and write from the objects.</para>
+and write from the objects.
 </content>
 </section>
 
@@ -64,11 +57,11 @@ and write from the objects.</para>
  <title>History</title>
  <content><para>Json.NET grew out of projects I was working on in late 2005 involving JavaScript,
             AJAX, and .NET. At the time there were no libraries for working with JavaScript in
-            .NET, so I made my own.</para>
+            .NET, so I made my own.
  <para>Starting out as a couple of static methods for escaping JavaScript strings, Json.NET
             evolved as features were added. To add support for reading JSON a major refactor
             was required, and Json.NET was split into the three major classes it still uses
-            today: JsonReader, JsonWriter and JsonSerializer.</para>
+            today: JsonReader, JsonWriter and JsonSerializer.
  <para>Json.NET was first released in June 2006. Since then Json.NET has been downloaded
             hundreds of thousands of times by developers from around the world. It is used in many major open
             source projects, including: <externalLink>
@@ -92,15 +85,13 @@ and write from the objects.</para>
                 <linkUri>http://www.asp.net</linkUri>
                 <linkTarget>_blank</linkTarget>
             </externalLink>,
-            Microsoft's web app and service framework.</para>
+            Microsoft's web app and service framework.
 </content>
 </section>
 
-    <relatedTopics>
+
+
+## Related Topics
        <link xlink:href="SerializingJSON" />
        <link xlink:href="LINQtoJSON" />
        <link xlink:href="Samples" />
-    </relatedTopics>
-
-  </developerConceptualDocument>
-</topic>

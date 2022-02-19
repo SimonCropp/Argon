@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <topic id="DeserializeCustomCreationConverter" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample creates a class that inherits from <codeEntityReference>T:Argon.Converters.CustomCreationConverter`1</codeEntityReference>
-      that instantiates Employee instances for the Person type.</para>
-    </introduction>
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample creates a class that inherits from `Argon.Converters.CustomCreationConverter`1`
+      that instantiates Employee instances for the Person type.
+
     <section>
-      <title>Sample</title>
+
       <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\DeserializeCustomCreationConverter.cs" region="Types" title="Types" />
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\DeserializeCustomCreationConverter.cs" region="Usage" title="Usage" />
+        <code DeserializeCustomCreationConverter.cs" region="Types" title="Types" />
+        <code DeserializeCustomCreationConverter.cs" region="Usage" title="Usage" />
       </content>
     </section>
-  </developerConceptualDocument>
-</topic>

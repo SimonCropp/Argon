@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <topic id="ParsingLINQtoJSON" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>LINQ to JSON has methods available for parsing JSON from a string or loading JSON directly from a file.</para>
-      <autoOutline lead="none" excludeRelatedTopics="true" />
-    </introduction>
-    
-    <section address="ParsingJSON">
-      <title>Parsing JSON text</title>
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">LINQ to JSON has methods available for parsing JSON from a string or loading JSON directly from a file.
+
+
+## Parsing JSON text
       <content>
         <para>JSON values can be read from a string using 
-        <codeEntityReference>M:Argon.Linq.JToken.Parse(System.String)</codeEntityReference>.</para>
+        `Argon.Linq.JToken.Parse(System.String)`.
 
 <code lang="cs" source="..\Src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParse" title="Parsing a JSON Object from text" />
 <code lang="cs" source="..\Src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParseArray" title="Parsing a JSON Array from text" />
@@ -20,15 +16,14 @@
     <section address="LoadingJSON">
       <title>Loading JSON from a file</title>
       <content>
-        <para>JSON can also be loaded directly from a file using <codeEntityReference>M:Argon.Linq.JToken.ReadFrom(Argon.JsonReader)</codeEntityReference>.</para>
+        <para>JSON can also be loaded directly from a file using `Argon.Linq.JToken.ReadFrom(Argon.JsonReader)`.
 <code lang="cs" source="..\Src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonReadObject" title="Reading JSON from a file" />
       </content>
     </section>
-    <relatedTopics>
+
+
+## Related Topics
       <link xlink:href="LINQtoJSON" />
       
-      <codeEntityReference>M:Argon.Linq.JToken.Parse(System.String)</codeEntityReference>
-      <codeEntityReference>M:Argon.Linq.JToken.ReadFrom(Argon.JsonReader)</codeEntityReference>
-    </relatedTopics>
-  </developerConceptualDocument>
-</topic>
+      `Argon.Linq.JToken.Parse(System.String)`
+      `Argon.Linq.JToken.ReadFrom(Argon.JsonReader)`

@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class SerializeUnindentedJson : TestFixtureBase
 {
-    #region Types
+    #region SerializeUnindentedJsonTypes
     public class Account
     {
         public string Email { get; set; }
@@ -42,7 +42,7 @@ public class SerializeUnindentedJson : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region SerializeUnindentedJsonUsage
         var account = new Account
         {
             Email = "james@example.com",
