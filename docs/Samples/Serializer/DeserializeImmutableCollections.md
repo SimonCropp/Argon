@@ -21,5 +21,5 @@ foreach (var s in l)
 // II
 // 3
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeImmutableCollections.cs#L36-L52' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeimmutablecollections' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/Samples/Serializer/DeserializeImmutableCollections.cs#L36-L52' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeimmutablecollections' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

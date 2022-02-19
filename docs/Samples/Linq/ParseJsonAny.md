@@ -25,5 +25,5 @@ var t4 = JToken.Parse(@"'A string!'");
 Console.WriteLine(t4.Type);
 // String
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/ParseJsonAny.cs#L35-L55' title='Snippet source file'>snippet source</a> | <a href='#snippet-parsejsonany' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/Samples/Linq/ParseJsonAny.cs#L35-L55' title='Snippet source file'>snippet source</a> | <a href='#snippet-parsejsonany' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

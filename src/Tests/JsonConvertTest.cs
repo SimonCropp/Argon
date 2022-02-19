@@ -319,33 +319,33 @@ public class JsonConvertTest : TestFixtureBase
 
             IList<int> l = new List<int> { 1, 2, 3 };
 
-            var sw = new StringWriter();
+            var stringWriter = new StringWriter();
             var serializer = JsonSerializer.CreateDefault();
-            serializer.Serialize(sw, l);
+            serializer.Serialize(stringWriter, l);
 
             XUnitAssert.AreEqualNormalized(@"[
   1,
   2,
   3
-]", sw.ToString());
+]", stringWriter.ToString());
 
-            sw = new StringWriter();
+            stringWriter = new StringWriter();
             serializer.Formatting = Formatting.None;
-            serializer.Serialize(sw, l);
+            serializer.Serialize(stringWriter, l);
 
-            Assert.Equal(@"[1,2,3]", sw.ToString());
+            Assert.Equal(@"[1,2,3]", stringWriter.ToString());
 
-            sw = new StringWriter();
+            stringWriter = new StringWriter();
             serializer = new JsonSerializer();
-            serializer.Serialize(sw, l);
+            serializer.Serialize(stringWriter, l);
 
-            Assert.Equal(@"[1,2,3]", sw.ToString());
+            Assert.Equal(@"[1,2,3]", stringWriter.ToString());
 
-            sw = new StringWriter();
+            stringWriter = new StringWriter();
             serializer = JsonSerializer.Create();
-            serializer.Serialize(sw, l);
+            serializer.Serialize(stringWriter, l);
 
-            Assert.Equal(@"[1,2,3]", sw.ToString());
+            Assert.Equal(@"[1,2,3]", stringWriter.ToString());
         }
         finally
         {

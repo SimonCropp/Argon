@@ -53,7 +53,7 @@ IList<string> categoriesText = categories.Select(c => (string)c).ToList();
 // Json.NET
 // CodePlex
 ```
-<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L241-L284' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonsimplequerying' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/LinqToJsonTests.cs#L241-L284' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonsimplequerying' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -94,7 +94,7 @@ foreach (var c in categories)
 //LINQ - Count: 1
 //CodePlex - Count: 1
 ```
-<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L318-L346' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonquerying' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/LinqToJsonTests.cs#L318-L346' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonquerying' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 LINQ to JSON can also be used to manually convert JSON to a .NET object.
@@ -116,7 +116,7 @@ public class ShortieException
     public string ErrorMessage { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L352-L366' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsondeserializeobject' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/LinqToJsonTests.cs#L352-L366' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsondeserializeobject' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Manually serializing and deserializing between .NET objects is useful when working with JSON that doesn't closely match the .NET objects.
@@ -154,7 +154,7 @@ Console.WriteLine(shortie.Original);
 Console.WriteLine(shortie.Error.ErrorMessage);
 // No action taken
 ```
-<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L371-L401' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsondeserializeexample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/LinqToJsonTests.cs#L371-L401' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsondeserializeexample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

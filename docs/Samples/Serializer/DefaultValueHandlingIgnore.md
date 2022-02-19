@@ -13,7 +13,7 @@ public class Person
     public decimal? Salary { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DefaultValueHandlingIgnore.cs#L32-L40' title='Snippet source file'>snippet source</a> | <a href='#snippet-defaultvaluehandlingignoretypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/Samples/Serializer/DefaultValueHandlingIgnore.cs#L32-L40' title='Snippet source file'>snippet source</a> | <a href='#snippet-defaultvaluehandlingignoretypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DefaultValueHandlingIgnoreUsage -->
@@ -39,5 +39,5 @@ var jsonIgnoreDefaultValues = JsonConvert.SerializeObject(person, Formatting.Ind
 Console.WriteLine(jsonIgnoreDefaultValues);
 // {}
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DefaultValueHandlingIgnore.cs#L45-L65' title='Snippet source file'>snippet source</a> | <a href='#snippet-defaultvaluehandlingignoreusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/Samples/Serializer/DefaultValueHandlingIgnore.cs#L45-L65' title='Snippet source file'>snippet source</a> | <a href='#snippet-defaultvaluehandlingignoreusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

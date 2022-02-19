@@ -67,8 +67,8 @@ static class StringUtils
 
     public static StringWriter CreateStringWriter(int capacity)
     {
-        var sb = new StringBuilder(capacity);
-        return new StringWriter(sb, CultureInfo.InvariantCulture);
+        var stringBuilder = new StringBuilder(capacity);
+        return new StringWriter(stringBuilder, CultureInfo.InvariantCulture);
     }
 
     public static void ToCharAsUnicode(char c, char[] buffer)
@@ -170,7 +170,7 @@ static class StringUtils
             return s;
         }
 
-        var sb = new StringBuilder();
+        var stringBuilder = new StringBuilder();
         var state = SeparatedCaseState.Start;
 
         for (var i = 0; i < s.Length; i++)
@@ -193,39 +193,39 @@ static class StringUtils
                             var nextChar = s[i + 1];
                             if (!char.IsUpper(nextChar) && nextChar != separator)
                             {
-                                sb.Append(separator);
+                                stringBuilder.Append(separator);
                             }
                         }
                         break;
                     case SeparatedCaseState.Lower:
                     case SeparatedCaseState.NewWord:
-                        sb.Append(separator);
+                        stringBuilder.Append(separator);
                         break;
                 }
 
                 var c = char.ToLower(s[i], CultureInfo.InvariantCulture);
-                sb.Append(c);
+                stringBuilder.Append(c);
 
                 state = SeparatedCaseState.Upper;
             }
             else if (s[i] == separator)
             {
-                sb.Append(separator);
+                stringBuilder.Append(separator);
                 state = SeparatedCaseState.Start;
             }
             else
             {
                 if (state == SeparatedCaseState.NewWord)
                 {
-                    sb.Append(separator);
+                    stringBuilder.Append(separator);
                 }
 
-                sb.Append(s[i]);
+                stringBuilder.Append(s[i]);
                 state = SeparatedCaseState.Lower;
             }
         }
 
-        return sb.ToString();
+        return stringBuilder.ToString();
     }
 
     public static bool IsHighSurrogate(char c)

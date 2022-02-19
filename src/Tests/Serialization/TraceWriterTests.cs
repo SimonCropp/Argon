@@ -143,8 +143,8 @@ Argon Error: 0 : Error!
     [Fact]
     public void WriteNullObject()
     {
-        var sw = new StringWriter();
-        var traceJsonWriter = new TraceJsonWriter(new JsonTextWriter(sw));
+        var stringWriter = new StringWriter();
+        var traceJsonWriter = new TraceJsonWriter(new JsonTextWriter(stringWriter));
         traceJsonWriter.WriteStartArray();
         traceJsonWriter.WriteValue((object)null);
         traceJsonWriter.WriteEndArray();
@@ -1367,13 +1367,13 @@ public class InMemoryTraceWriter : ITraceWriter
 
     public override string ToString()
     {
-        var sb = new StringBuilder();
+        var stringBuilder = new StringBuilder();
         foreach (var traceRecord in TraceRecords)
         {
-            sb.AppendLine(traceRecord.Message);
+            stringBuilder.AppendLine(traceRecord.Message);
         }
 
-        return sb.ToString();
+        return stringBuilder.ToString();
     }
 }
 

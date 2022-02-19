@@ -18,5 +18,5 @@ Console.WriteLine(htmlAttributes["href"]);
 Console.WriteLine(htmlAttributes["target"]);
 // _blank
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeDictionary.cs#L35-L48' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializedictionary' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/Samples/Serializer/DeserializeDictionary.cs#L35-L48' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializedictionary' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

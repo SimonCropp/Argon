@@ -19,7 +19,7 @@ public class File
     public int Size { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DataContractAndDataMember.cs#L32-L46' title='Snippet source file'>snippet source</a> | <a href='#snippet-datacontractanddatamembertypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/Samples/Serializer/DataContractAndDataMember.cs#L32-L46' title='Snippet source file'>snippet source</a> | <a href='#snippet-datacontractanddatamembertypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DataContractAndDataMemberUsage -->
@@ -40,5 +40,5 @@ Console.WriteLine(json);
 //   "Size": 51200
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DataContractAndDataMember.cs#L51-L66' title='Snippet source file'>snippet source</a> | <a href='#snippet-datacontractanddatamemberusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/Samples/Serializer/DataContractAndDataMember.cs#L51-L66' title='Snippet source file'>snippet source</a> | <a href='#snippet-datacontractanddatamemberusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -19,5 +19,5 @@ Console.WriteLine(u.Value.GetType().Name);
 Console.WriteLine(u.Value);
 // http://www.google.com/
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/JValueValue.cs#L35-L49' title='Snippet source file'>snippet source</a> | <a href='#snippet-jvaluevalue' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/Samples/Linq/JValueValue.cs#L35-L49' title='Snippet source file'>snippet source</a> | <a href='#snippet-jvaluevalue' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

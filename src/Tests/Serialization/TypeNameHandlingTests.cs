@@ -362,15 +362,15 @@ public class TypeNameHandlingTests : TestFixtureBase
     [Fact]
     public void NestedValueObjects()
     {
-        var sb = new StringBuilder();
+        var stringBuilder = new StringBuilder();
         for (var i = 0; i < 3; i++)
         {
-            sb.Append(@"{""$value"":");
+            stringBuilder.Append(@"{""$value"":");
         }
 
         XUnitAssert.Throws<JsonSerializationException>(() =>
         {
-            var reader = new JsonTextReader(new StringReader(sb.ToString()));
+            var reader = new JsonTextReader(new StringReader(stringBuilder.ToString()));
             var ser = new JsonSerializer
             {
                 MetadataPropertyHandling = MetadataPropertyHandling.Default

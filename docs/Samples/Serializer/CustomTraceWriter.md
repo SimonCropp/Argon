@@ -44,7 +44,7 @@ public class NLogTraceWriter : ITraceWriter
     }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/CustomTraceWriter.cs#L32-L71' title='Snippet source file'>snippet source</a> | <a href='#snippet-customtracewritertypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/Samples/Serializer/CustomTraceWriter.cs#L32-L71' title='Snippet source file'>snippet source</a> | <a href='#snippet-customtracewritertypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: CustomTraceWriterUsage -->
@@ -71,5 +71,5 @@ Console.WriteLine(json);
 //   "China"
 // ]
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/CustomTraceWriter.cs#L76-L97' title='Snippet source file'>snippet source</a> | <a href='#snippet-customtracewriterusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/Samples/Serializer/CustomTraceWriter.cs#L76-L97' title='Snippet source file'>snippet source</a> | <a href='#snippet-customtracewriterusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

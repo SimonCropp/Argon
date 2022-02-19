@@ -37,14 +37,14 @@ public class MemoryTraceWriter : ITraceWriter
     /// <param name="ex">The trace exception. This parameter is optional.</param>
     public void Trace(TraceLevel level, string message, Exception? ex)
     {
-        var sb = new StringBuilder();
-        sb.Append(DateTime.Now.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff", CultureInfo.InvariantCulture));
-        sb.Append(" ");
-        sb.Append(level.ToString("g"));
-        sb.Append(" ");
-        sb.Append(message);
+        var stringBuilder = new StringBuilder();
+        stringBuilder.Append(DateTime.Now.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff", CultureInfo.InvariantCulture));
+        stringBuilder.Append(" ");
+        stringBuilder.Append(level.ToString("g"));
+        stringBuilder.Append(" ");
+        stringBuilder.Append(message);
 
-        var s = sb.ToString();
+        var s = stringBuilder.ToString();
 
         lock (_lock)
         {
@@ -76,18 +76,18 @@ public class MemoryTraceWriter : ITraceWriter
     {
         lock (_lock)
         {
-            var sb = new StringBuilder();
+            var stringBuilder = new StringBuilder();
             foreach (var traceMessage in _traceMessages)
             {
-                if (sb.Length > 0)
+                if (stringBuilder.Length > 0)
                 {
-                    sb.AppendLine();
+                    stringBuilder.AppendLine();
                 }
 
-                sb.Append(traceMessage);
+                stringBuilder.Append(traceMessage);
             }
 
-            return sb.ToString();
+            return stringBuilder.ToString();
         }
     }
 }

@@ -33,5 +33,5 @@ var json = o1.ToString();
 //   ]
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/MergeJson.cs#L35-L63' title='Snippet source file'>snippet source</a> | <a href='#snippet-mergejson' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/Samples/Linq/MergeJson.cs#L35-L63' title='Snippet source file'>snippet source</a> | <a href='#snippet-mergejson' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

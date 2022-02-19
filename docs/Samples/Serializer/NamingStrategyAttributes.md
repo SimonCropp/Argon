@@ -14,7 +14,7 @@ public class User
     public int SnakeRating { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/NamingStrategyAttributes.cs#L32-L41' title='Snippet source file'>snippet source</a> | <a href='#snippet-namingstrategyattributestypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/Samples/Serializer/NamingStrategyAttributes.cs#L32-L41' title='Snippet source file'>snippet source</a> | <a href='#snippet-namingstrategyattributestypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: NamingStrategyAttributesUsage -->
@@ -36,5 +36,5 @@ Console.WriteLine(json);
 //   "snake_rating": 10
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/NamingStrategyAttributes.cs#L46-L62' title='Snippet source file'>snippet source</a> | <a href='#snippet-namingstrategyattributesusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/Samples/Serializer/NamingStrategyAttributes.cs#L46-L62' title='Snippet source file'>snippet source</a> | <a href='#snippet-namingstrategyattributesusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

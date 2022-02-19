@@ -24,5 +24,5 @@ foreach (var dateTime in dateList)
 // Friday, 01 January 2010
 // Wednesday, 10 February 2010
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeDateFormatString.cs#L35-L54' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializedateformatstring' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/Samples/Serializer/DeserializeDateFormatString.cs#L35-L54' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializedateformatstring' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -35,5 +35,5 @@ var c = JsonConvert.DeserializeObject<List<DateTime>>(@"[
 // Unexpected token parsing date. Expected String, got StartArray.
 // Cannot convert null value to System.DateTime.
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/ErrorHandlingEvent.cs#L36-L66' title='Snippet source file'>snippet source</a> | <a href='#snippet-errorhandlingeventusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/Samples/Serializer/ErrorHandlingEvent.cs#L36-L66' title='Snippet source file'>snippet source</a> | <a href='#snippet-errorhandlingeventusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
