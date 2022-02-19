@@ -84,11 +84,11 @@ public class XUnitAssert
                 }
             }
 
-            throw new Exception($"Unexpected exception message.{Environment.NewLine}Expected one of: {string.Join(Environment.NewLine, possibleMessages)}{Environment.NewLine}Got: {ex.Message}{Environment.NewLine}{Environment.NewLine}{ex}");
+            throw new($"Unexpected exception message.{Environment.NewLine}Expected one of: {string.Join(Environment.NewLine, possibleMessages)}{Environment.NewLine}Got: {ex.Message}{Environment.NewLine}{Environment.NewLine}{ex}");
         }
         catch (Exception ex)
         {
-            throw new Exception($"Exception of type {typeof(TException).Name} expected; got exception of type {ex.GetType().Name}.", ex);
+            throw new($"Exception of type {typeof(TException).Name} expected; got exception of type {ex.GetType().Name}.", ex);
         }
     }
 
@@ -116,11 +116,11 @@ public class XUnitAssert
                 }
             }
 
-            throw new Exception($"Unexpected exception message.{Environment.NewLine}Expected one of: {string.Join(Environment.NewLine, possibleMessages)}{Environment.NewLine}Got: {ex.Message}{Environment.NewLine}{Environment.NewLine}{ex}");
+            throw new($"Unexpected exception message.{Environment.NewLine}Expected one of: {string.Join(Environment.NewLine, possibleMessages)}{Environment.NewLine}Got: {ex.Message}{Environment.NewLine}{Environment.NewLine}{ex}");
         }
         catch (Exception ex)
         {
-            throw new Exception($"Exception of type {typeof(TException).Name} expected; got exception of type {ex.GetType().Name}.", ex);
+            throw new($"Exception of type {typeof(TException).Name} expected; got exception of type {ex.GetType().Name}.", ex);
         }
     }
 }

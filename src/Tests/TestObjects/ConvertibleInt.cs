@@ -106,7 +106,7 @@ public struct ConvertibleInt : IConvertible
             return _value;
         }
 
-        throw new Exception($"Type not supported: {conversionType.FullName}");
+        throw new($"Type not supported: {conversionType.FullName}");
     }
 
     public ushort ToUInt16(IFormatProvider provider)

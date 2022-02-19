@@ -31,7 +31,7 @@ public class IgnoredPropertiesContractResolver : DefaultContractResolver
     {
         if (type == typeof(Version))
         {
-            throw new Exception("Error!");
+            throw new("Error!");
         }
 
         return base.ResolveContract(type);

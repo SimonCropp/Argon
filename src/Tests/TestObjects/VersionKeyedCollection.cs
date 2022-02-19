@@ -55,7 +55,7 @@ public class VersionKeyedCollection : KeyedCollection<string, Person>, IEnumerab
         {
             if (i % 2 == 0)
             {
-                throw new Exception($"Index even: {i}");
+                throw new($"Index even: {i}");
             }
 
             yield return this[i];

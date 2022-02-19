@@ -53,7 +53,7 @@ public class Issue1798
 
         try
         {
-            throw new Exception();
+            throw new();
         }
         catch (Exception ex)
         {

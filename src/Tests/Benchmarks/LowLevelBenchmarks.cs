@@ -70,7 +70,7 @@ public class LowLevelBenchmarks
 
     object Dummy(string arg)
     {
-        throw new Exception("Should never get here.");
+        throw new("Should never get here.");
     }
 
     [Benchmark]

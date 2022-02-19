@@ -40,7 +40,7 @@ public class ListErrorObject
                 return _throwError;
             }
 
-            throw new Exception("ListErrorObject.ThrowError get error!");
+            throw new("ListErrorObject.ThrowError get error!");
         }
         set
         {
@@ -50,7 +50,7 @@ public class ListErrorObject
                 return;
             }
 
-            throw new Exception("ListErrorObject.ThrowError set error!");
+            throw new("ListErrorObject.ThrowError set error!");
         }
     }
 

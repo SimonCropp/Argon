@@ -1484,7 +1484,7 @@ _____'propertyName': NaN,
 
             if (newText != oldText)
             {
-                throw new Exception($"Difference for char '{c}' (value {(int) c}). Old text: {oldText}, New text: {newText}");
+                throw new($"Difference for char '{c}' (value {(int) c}). Old text: {oldText}, New text: {newText}");
             }
 
             c++;

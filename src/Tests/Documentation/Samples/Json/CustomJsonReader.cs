@@ -63,7 +63,7 @@ public class XmlJsonReader : JsonReader
                     var typeName = _reader.GetAttribute("type");
                     if (typeName == null)
                     {
-                        throw new Exception("No type specified.");
+                        throw new("No type specified.");
                     }
 
                     _valueType = (JTokenType)Enum.Parse(typeof(JTokenType), typeName, true);
@@ -184,7 +184,7 @@ public class XmlJsonReader : JsonReader
                 var constructorName = _reader.GetAttribute("name");
                 if (constructorName == null)
                 {
-                    throw new Exception("No constructor name specified.");
+                    throw new("No constructor name specified.");
                 }
 
                 SetToken(JsonToken.StartConstructor, constructorName);

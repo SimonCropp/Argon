@@ -5250,7 +5250,7 @@ Path '', line 1, position 1.");
         var classWithException = new ClassWithException();
         try
         {
-            throw new Exception("Test Exception");
+            throw new("Test Exception");
         }
         catch (Exception ex)
         {

@@ -331,7 +331,7 @@ static class ReflectionUtils
         {
             if (genericListType!.IsGenericTypeDefinition)
             {
-                throw new Exception($"Type {type} is not a collection.");
+                throw new($"Type {type} is not a collection.");
             }
 
             return genericListType!.GetGenericArguments()[0];
@@ -341,7 +341,7 @@ static class ReflectionUtils
             return null;
         }
 
-        throw new Exception($"Type {type} is not a collection.");
+        throw new($"Type {type} is not a collection.");
     }
 
     public static void GetDictionaryKeyValueTypes(Type dictionaryType, out Type? keyType, out Type? valueType)
@@ -352,7 +352,7 @@ static class ReflectionUtils
         {
             if (genericDictionaryType!.IsGenericTypeDefinition)
             {
-                throw new Exception($"Type {dictionaryType} is not a dictionary.");
+                throw new($"Type {dictionaryType} is not a dictionary.");
             }
 
             var dictionaryGenericArguments = genericDictionaryType!.GetGenericArguments();
@@ -368,7 +368,7 @@ static class ReflectionUtils
             return;
         }
 
-        throw new Exception($"Type {dictionaryType} is not a dictionary.");
+        throw new($"Type {dictionaryType} is not a dictionary.");
     }
 
     /// <summary>

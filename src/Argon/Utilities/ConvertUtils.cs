@@ -330,7 +330,7 @@ static class ConvertUtils
             case ConvertResult.Success:
                 return value!;
             case ConvertResult.CannotConvertNull:
-                throw new Exception($"Can not convert null {initialValue.GetType()} into non-nullable {targetType}.");
+                throw new($"Can not convert null {initialValue.GetType()} into non-nullable {targetType}.");
             case ConvertResult.NotInstantiableType:
                 throw new ArgumentException($"Target type {targetType} is not a value type or a non-abstract class.", nameof(targetType));
             case ConvertResult.NoValidConversion:

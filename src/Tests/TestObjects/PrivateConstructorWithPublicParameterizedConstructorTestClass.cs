@@ -37,6 +37,6 @@ public class PrivateConstructorWithPublicParameterizedConstructorTestClass
 
     public PrivateConstructorWithPublicParameterizedConstructorTestClass(string dummy)
     {
-        throw new Exception("Should never get here.");
+        throw new("Should never get here.");
     }
 }

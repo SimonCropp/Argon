@@ -283,7 +283,7 @@ static class CollectionUtils
         var currentValuesLength = list.Count;
         if (currentValuesLength != dimensionLength)
         {
-            throw new Exception("Cannot deserialize non-cubical array as multidimensional array.");
+            throw new("Cannot deserialize non-cubical array as multidimensional array.");
         }
 
         var newIndices = new int[dimension + 1];

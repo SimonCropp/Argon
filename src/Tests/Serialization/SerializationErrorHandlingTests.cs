@@ -851,7 +851,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
                 catch (Exception ex)
                 {
                     // If we get an error wrap it in something less scary.
-                    throw new Exception("An error occurred.", ex);
+                    throw new("An error occurred.", ex);
                 }
             }
 
@@ -868,7 +868,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
                 catch (Exception ex)
                 {
                     // If we get an error wrap it in something less scary.
-                    throw new Exception("An error occurred.", ex);
+                    throw new("An error occurred.", ex);
                 }
             }
         }
@@ -1076,7 +1076,7 @@ public class ThrowingReader : TextReader
         _position += charsRead;
         if (_position > 65536)
         {
-            throw new Exception("too far");
+            throw new("too far");
         }
         Array.Copy(temp, index, buffer, index, charsRead);
         return charsRead;

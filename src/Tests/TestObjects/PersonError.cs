@@ -38,7 +38,7 @@ public class PersonError
         {
             if (_roles == null)
             {
-                throw new Exception("Roles not loaded!");
+                throw new("Roles not loaded!");
             }
 
             return _roles;

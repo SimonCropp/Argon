@@ -40,7 +40,7 @@ public class ToggleReaderError : TextReader
     {
         if (Error)
         {
-            throw new Exception("Read error");
+            throw new("Read error");
         }
 
         return _inner.Read(buffer, index, 1);

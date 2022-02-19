@@ -49,8 +49,8 @@ public class SerializationEventTestObject
     // Getting or setting this field will throw an error.
     public string Member6
     {
-        get => throw new Exception("Member5 get error!");
-        set => throw new Exception("Member5 set error!");
+        get => throw new("Member5 get error!");
+        set => throw new("Member5 set error!");
     }
 
     public SerializationEventTestObject()

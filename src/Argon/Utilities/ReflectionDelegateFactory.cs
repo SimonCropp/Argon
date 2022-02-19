@@ -45,7 +45,7 @@ internal abstract class ReflectionDelegateFactory
             return CreateGet<T>(fieldInfo);
         }
 
-        throw new Exception($"Could not create getter for {memberInfo}.");
+        throw new($"Could not create getter for {memberInfo}.");
     }
 
     public Action<T, object?> CreateSet<T>(MemberInfo memberInfo)
@@ -60,7 +60,7 @@ internal abstract class ReflectionDelegateFactory
             return CreateSet<T>(fieldInfo);
         }
 
-        throw new Exception($"Could not create setter for {memberInfo}.");
+        throw new($"Could not create setter for {memberInfo}.");
     }
 
     public abstract MethodCall<T, object?> CreateMethodCall<T>(MethodBase method);
