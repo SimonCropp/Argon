@@ -42,27 +42,27 @@ public class JsonTextWriterTest : TestFixtureBase
 
         for (var i = 0; i < 1000; i++)
         {
-            var sw = new StringWriter(CultureInfo.InvariantCulture);
+            var stringWriter = new StringWriter(CultureInfo.InvariantCulture);
 
-            using (var writer = new JsonTextWriter(sw))
+            using (var jsonWriter = new JsonTextWriter(stringWriter))
             {
-                writer.ArrayPool = arrayPool;
+                jsonWriter.ArrayPool = arrayPool;
 
-                writer.WriteStartObject();
+                jsonWriter.WriteStartObject();
 
-                writer.WritePropertyName("Prop1");
-                writer.WriteValue(new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc));
+                jsonWriter.WritePropertyName("Prop1");
+                jsonWriter.WriteValue(new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc));
 
-                writer.WritePropertyName("Prop2");
-                writer.WriteValue(longString);
+                jsonWriter.WritePropertyName("Prop2");
+                jsonWriter.WriteValue(longString);
 
-                writer.WritePropertyName("Prop3");
-                writer.WriteValue(longEscapedString);
+                jsonWriter.WritePropertyName("Prop3");
+                jsonWriter.WriteValue(longEscapedString);
 
-                writer.WritePropertyName("Prop4");
-                writer.WriteValue(longerEscapedString);
+                jsonWriter.WritePropertyName("Prop4");
+                jsonWriter.WriteValue(longerEscapedString);
 
-                writer.WriteEndObject();
+                jsonWriter.WriteEndObject();
             }
 
             if ((i + 1) % 100 == 0)
