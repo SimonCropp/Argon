@@ -934,10 +934,7 @@ static class ConvertUtils
                     }
                     else
                     {
-                        if (!digit29.HasValue)
-                        {
-                            digit29 = c;
-                        }
+                        digit29 ??= c;
                         ++exponentFromMantissa;
                     }
                     break;

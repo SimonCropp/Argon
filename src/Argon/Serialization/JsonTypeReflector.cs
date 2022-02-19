@@ -270,10 +270,7 @@ static class JsonTypeReflector
             {
                 const string metadataClassTypeName = "MetadataClassType";
 
-                if (_metadataTypeAttributeReflectionObject == null)
-                {
-                    _metadataTypeAttributeReflectionObject = ReflectionObject.Create(attributeType, metadataClassTypeName);
-                }
+                _metadataTypeAttributeReflectionObject ??= ReflectionObject.Create(attributeType, metadataClassTypeName);
 
                 return (Type?)_metadataTypeAttributeReflectionObject.GetValue(attribute, metadataClassTypeName);
             }

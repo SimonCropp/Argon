@@ -74,10 +74,7 @@ public class BinaryConverter : JsonConverter
 
     static void EnsureReflectionObject(Type t)
     {
-        if (_reflectionObject == null)
-        {
-            _reflectionObject = ReflectionObject.Create(t, t.GetConstructor(new[] { typeof(byte[]) }), BinaryToArrayName);
-        }
+        _reflectionObject ??= ReflectionObject.Create(t, t.GetConstructor(new[] {typeof(byte[])}), BinaryToArrayName);
     }
 
     /// <summary>
@@ -171,15 +168,8 @@ public class BinaryConverter : JsonConverter
     /// </returns>
     public override bool CanConvert(Type objectType)
     {
-        if (objectType.FullName == BinaryTypeName)
-        {
-            return true;
-        }
-        if (objectType == typeof(SqlBinary) || objectType == typeof(SqlBinary?))
-        {
-            return true;
-        }
-
-        return false;
+        return objectType.FullName == BinaryTypeName ||
+               objectType == typeof(SqlBinary) ||
+               objectType == typeof(SqlBinary?);
     }
 }

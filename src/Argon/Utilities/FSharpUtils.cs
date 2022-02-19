@@ -111,10 +111,7 @@ class FSharpUtils
         {
             lock (Lock)
             {
-                if (_instance == null)
-                {
-                    _instance = new FSharpUtils(fsharpCoreAssembly);
-                }
+                _instance ??= new FSharpUtils(fsharpCoreAssembly);
             }
         }
     }

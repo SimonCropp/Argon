@@ -98,10 +98,7 @@ class JPropertyKeyedCollection : Collection<JToken>
 
     void EnsureDictionary()
     {
-        if (_dictionary == null)
-        {
-            _dictionary = new Dictionary<string, JToken>(Comparer);
-        }
+        _dictionary ??= new Dictionary<string, JToken>(Comparer);
     }
 
     string GetKeyForItem(JToken item)

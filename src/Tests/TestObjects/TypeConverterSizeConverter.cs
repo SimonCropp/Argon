@@ -51,6 +51,7 @@ public class TypeConverterSizeConverter : TypeConverter
         {
             return null;
         }
+        //TODO: debug this
         if (culture == null)
         {
             culture = CultureInfo.CurrentCulture;
@@ -81,10 +82,7 @@ public class TypeConverterSizeConverter : TypeConverter
             if (destinationType == typeof(string))
             {
                 var size = (TypeConverterSize)value;
-                if (culture == null)
-                {
-                    culture = CultureInfo.CurrentCulture;
-                }
+                culture ??= CultureInfo.CurrentCulture;
                 var converter = TypeDescriptor.GetConverter(typeof(int));
                 var strArray = new string[2];
                 var num = 0;

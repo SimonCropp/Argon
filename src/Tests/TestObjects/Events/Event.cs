@@ -69,10 +69,7 @@ public sealed class Event
         }
         //This call only works at top level for now.
         //If _stackTrace = Nothing Then _stackTrace = Environment.StackTrace
-        if (_sublocation == null)
-        {
-            _sublocation = GetCurrentSubLocation();
-        }
+        _sublocation = GetCurrentSubLocation();
     }
 
     public Event(string sublocation, int userId, EventType type, string summary, string details, string stackTrace, string tag)
@@ -91,10 +88,7 @@ public sealed class Event
             _userId = GetCurrentUserId();
         }
         //If _stackTrace = Nothing Then _stackTrace = Environment.StackTrace
-        if (_sublocation == null)
-        {
-            _sublocation = GetCurrentSubLocation();
-        }
+        _sublocation ??= GetCurrentSubLocation();
     }
 
     public override string ToString()

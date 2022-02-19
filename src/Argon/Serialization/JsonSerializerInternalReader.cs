@@ -1059,10 +1059,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
         var tokenType = reader.TokenType;
 
-        if (property.PropertyContract == null)
-        {
-            property.PropertyContract = GetContractSafe(property.PropertyType);
-        }
+        property.PropertyContract ??= GetContractSafe(property.PropertyType);
 
         var objectCreationHandling =
             property.ObjectCreationHandling.GetValueOrDefault(Serializer._objectCreationHandling);
@@ -1320,15 +1317,9 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
         var initialDepth = reader.Depth;
 
-        if (contract.KeyContract == null)
-        {
-            contract.KeyContract = GetContractSafe(contract.DictionaryKeyType);
-        }
+        contract.KeyContract ??= GetContractSafe(contract.DictionaryKeyType);
 
-        if (contract.ItemContract == null)
-        {
-            contract.ItemContract = GetContractSafe(contract.DictionaryValueType);
-        }
+        contract.ItemContract ??= GetContractSafe(contract.DictionaryValueType);
 
         var dictionaryValueConverter = contract.ItemConverter ?? GetConverter(contract.ItemContract, null, contract, containerProperty);
         var keyTypeCode = contract.KeyContract is JsonPrimitiveContract keyContract ? keyContract.TypeCode : PrimitiveTypeCode.Empty;
@@ -1599,10 +1590,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
         var initialDepth = reader.Depth;
 
-        if (contract.ItemContract == null)
-        {
-            contract.ItemContract = GetContractSafe(contract.CollectionItemType);
-        }
+        contract.ItemContract ??= GetContractSafe(contract.CollectionItemType);
 
         var collectionItemConverter = GetConverter(contract.ItemContract, null, contract, containerProperty);
 
@@ -1819,10 +1807,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
                         if (property is {Writable: true, Ignored: false})
                         {
-                            if (property.PropertyContract == null)
-                            {
-                                property.PropertyContract = GetContractSafe(property.PropertyType);
-                            }
+                            property.PropertyContract ??= GetContractSafe(property.PropertyType);
 
                             var propertyConverter = GetConverter(property.PropertyContract, property.Converter, null, null);
 
@@ -1974,10 +1959,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 {
                     if (context.Presence is PropertyPresence.None or PropertyPresence.Null)
                     {
-                        if (constructorProperty.PropertyContract == null)
-                        {
-                            constructorProperty.PropertyContract = GetContractSafe(constructorProperty.PropertyType);
-                        }
+                        constructorProperty.PropertyContract ??= GetContractSafe(constructorProperty.PropertyType);
 
                         if (HasFlag(constructorProperty.DefaultValueHandling.GetValueOrDefault(Serializer._defaultValueHandling), DefaultValueHandling.Populate))
                         {
@@ -2166,10 +2148,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     {
                         if (!property.Ignored)
                         {
-                            if (property.PropertyContract == null)
-                            {
-                                property.PropertyContract = GetContractSafe(property.PropertyType);
-                            }
+                            property.PropertyContract ??= GetContractSafe(property.PropertyType);
 
                             var propertyConverter = GetConverter(property.PropertyContract, property.Converter, contract, containerProperty);
 
@@ -2347,10 +2326,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                         }
                         else
                         {
-                            if (property.PropertyContract == null)
-                            {
-                                property.PropertyContract = GetContractSafe(property.PropertyType);
-                            }
+                            property.PropertyContract ??= GetContractSafe(property.PropertyType);
 
                             var propertyConverter = GetConverter(property.PropertyContract, property.Converter, contract, member);
 
@@ -2499,10 +2475,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
                         if (setDefaultValue && !property.Ignored)
                         {
-                            if (property.PropertyContract == null)
-                            {
-                                property.PropertyContract = GetContractSafe(property.PropertyType);
-                            }
+                            property.PropertyContract ??= GetContractSafe(property.PropertyType);
 
                             if (HasFlag(property.DefaultValueHandling.GetValueOrDefault(Serializer._defaultValueHandling), DefaultValueHandling.Populate) && property.Writable)
                             {

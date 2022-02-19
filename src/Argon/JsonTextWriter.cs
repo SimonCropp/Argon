@@ -762,11 +762,8 @@ public partial class JsonTextWriter : JsonWriter
 
     void EnsureWriteBuffer()
     {
-        if (_writeBuffer == null)
-        {
-            // maximum buffer sized used when writing iso date
-            _writeBuffer = BufferUtils.RentBuffer(_arrayPool, 35);
-        }
+        // maximum buffer sized used when writing iso date
+        _writeBuffer ??= BufferUtils.RentBuffer(_arrayPool, 35);
     }
 
     void WriteIntegerValue(long value)

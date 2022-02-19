@@ -1012,10 +1012,7 @@ public class XmlNodeConverter : JsonConverter
         {
             if (parent.NodeType == XmlNodeType.Element)
             {
-                if (parentElements == null)
-                {
-                    parentElements = new List<IXmlNode>();
-                }
+                parentElements ??= new List<IXmlNode>();
 
                 parentElements.Add(parent);
             }
@@ -1835,10 +1832,7 @@ public class XmlNodeConverter : JsonConverter
                         switch (firstChar)
                         {
                             case '@':
-                                if (attributeNameValues == null)
-                                {
-                                    attributeNameValues = new Dictionary<string, string?>();
-                                }
+                                attributeNameValues ??= new Dictionary<string, string?>();
 
                                 attributeName = attributeName.Substring(1);
                                 reader.ReadAndAssert();
@@ -1863,10 +1857,7 @@ public class XmlNodeConverter : JsonConverter
                                         var jsonPrefix = manager.LookupPrefix(JsonNamespaceUri);
                                         if (jsonPrefix == null)
                                         {
-                                            if (attributeNameValues == null)
-                                            {
-                                                attributeNameValues = new Dictionary<string, string?>();
-                                            }
+                                            attributeNameValues ??= new Dictionary<string, string?>();
 
                                             // ensure that the prefix used is free
                                             int? i = null;
@@ -1895,10 +1886,7 @@ public class XmlNodeConverter : JsonConverter
                                             throw JsonSerializationException.Create(reader, $"Unexpected JsonToken: {reader.TokenType}");
                                         }
 
-                                        if (attributeNameValues == null)
-                                        {
-                                            attributeNameValues = new Dictionary<string, string?>();
-                                        }
+                                        attributeNameValues ??= new Dictionary<string, string?>();
 
                                         attributeValue = reader.Value?.ToString();
                                         attributeNameValues.Add($"{jsonPrefix}:{attributeName}", attributeValue);

@@ -504,10 +504,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
     {
         if (!property.Ignored && property.Readable && ShouldSerialize(writer, property, value) && IsSpecified(writer, property, value))
         {
-            if (property.PropertyContract == null)
-            {
-                property.PropertyContract = Serializer._contractResolver.ResolveContract(property.PropertyType!);
-            }
+            property.PropertyContract ??= Serializer._contractResolver.ResolveContract(property.PropertyType!);
 
             memberValue = property.ValueProvider!.GetValue(value);
             memberContract = property.PropertyContract.IsSealed ? property.PropertyContract : GetContractSafe(memberValue);
@@ -813,10 +810,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             writer.WritePropertyName(JsonTypeReflector.ArrayValuesPropertyName, false);
         }
 
-        if (contract.ItemContract == null)
-        {
-            contract.ItemContract = Serializer._contractResolver.ResolveContract(contract.CollectionItemType ?? typeof(object));
-        }
+        contract.ItemContract ??= Serializer._contractResolver.ResolveContract(contract.CollectionItemType ?? typeof(object));
 
         return writeMetadataObject;
     }
@@ -1015,15 +1009,9 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
         WriteObjectStart(writer, underlyingDictionary, contract, member, collectionContract, containerProperty);
 
-        if (contract.ItemContract == null)
-        {
-            contract.ItemContract = Serializer._contractResolver.ResolveContract(contract.DictionaryValueType ?? typeof(object));
-        }
+        contract.ItemContract ??= Serializer._contractResolver.ResolveContract(contract.DictionaryValueType ?? typeof(object));
 
-        if (contract.KeyContract == null)
-        {
-            contract.KeyContract = Serializer._contractResolver.ResolveContract(contract.DictionaryKeyType ?? typeof(object));
-        }
+        contract.KeyContract ??= Serializer._contractResolver.ResolveContract(contract.DictionaryKeyType ?? typeof(object));
 
         var initialDepth = writer.Top;
 

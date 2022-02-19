@@ -55,10 +55,7 @@ public class DynamicValueProvider : IValueProvider
     {
         try
         {
-            if (_setter == null)
-            {
-                _setter = DynamicReflectionDelegateFactory.Instance.CreateSet<object>(_memberInfo);
-            }
+            _setter ??= DynamicReflectionDelegateFactory.Instance.CreateSet<object>(_memberInfo);
 
 #if DEBUG
             // dynamic method doesn't check whether the type is 'legal' to set
@@ -93,10 +90,7 @@ public class DynamicValueProvider : IValueProvider
     {
         try
         {
-            if (_getter == null)
-            {
-                _getter = DynamicReflectionDelegateFactory.Instance.CreateGet<object>(_memberInfo);
-            }
+            _getter ??= DynamicReflectionDelegateFactory.Instance.CreateGet<object>(_memberInfo);
 
             return _getter(target);
         }

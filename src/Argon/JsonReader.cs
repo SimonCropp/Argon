@@ -324,10 +324,7 @@ public abstract partial class JsonReader : IDisposable
         }
         else
         {
-            if (_stack == null)
-            {
-                _stack = new List<JsonPosition>();
-            }
+            _stack ??= new List<JsonPosition>();
 
             _stack.Add(_currentPosition);
             _currentPosition = new JsonPosition(value);

@@ -74,10 +74,7 @@ struct JsonPosition
                 {
                     sb.Append(@"['");
 
-                    if (writer == null)
-                    {
-                        writer = new StringWriter(sb);
-                    }
+                    writer ??= new StringWriter(sb);
 
                     JavaScriptUtils.WriteEscapedJavaScriptString(writer, propertyName, '\'', false, JavaScriptUtils.SingleQuoteCharEscapeFlags, StringEscapeHandling.Default, null, ref buffer);
 

@@ -344,10 +344,7 @@ public abstract partial class JsonWriter : IDisposable
     {
         if (_currentPosition.Type != JsonContainerType.None)
         {
-            if (_stack == null)
-            {
-                _stack = new List<JsonPosition>();
-            }
+            _stack ??= new List<JsonPosition>();
 
             _stack.Add(_currentPosition);
         }

@@ -1522,10 +1522,7 @@ _____'propertyName': NaN,
                     default:
                         if (c <= '\u001f')
                         {
-                            if (unicodeBuffer == null)
-                            {
-                                unicodeBuffer = new char[6];
-                            }
+                            unicodeBuffer ??= new char[6];
 
                             StringUtils.ToCharAsUnicode(c, unicodeBuffer);
 
@@ -1546,10 +1543,7 @@ _____'propertyName': NaN,
 
                 if (i > lastWritePosition)
                 {
-                    if (chars == null)
-                    {
-                        chars = s.ToCharArray();
-                    }
+                    chars ??= s.ToCharArray();
 
                     // write unchanged chars before writing escaped text
                     writer.Write(chars, lastWritePosition, i - lastWritePosition);
@@ -1573,10 +1567,7 @@ _____'propertyName': NaN,
             }
             else
             {
-                if (chars == null)
-                {
-                    chars = s.ToCharArray();
-                }
+                chars ??= s.ToCharArray();
 
                 // write remaining text
                 writer.Write(chars, lastWritePosition, s.Length - lastWritePosition);

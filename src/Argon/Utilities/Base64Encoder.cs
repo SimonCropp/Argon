@@ -100,10 +100,7 @@ class Base64Encoder
         if (leftOverBytesCount > 0)
         {
             count -= leftOverBytesCount;
-            if (_leftOverBytes == null)
-            {
-                _leftOverBytes = new byte[3];
-            }
+            _leftOverBytes ??= new byte[3];
 
             for (var i = 0; i < leftOverBytesCount; i++)
             {

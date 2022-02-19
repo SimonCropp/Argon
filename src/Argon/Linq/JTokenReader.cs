@@ -312,10 +312,7 @@ public class JTokenReader : JsonReader, IJsonLineInfo
         {
             var path = base.Path;
 
-            if (_initialPath == null)
-            {
-                _initialPath = _root.Path;
-            }
+            _initialPath ??= _root.Path;
 
             if (!StringUtils.IsNullOrEmpty(_initialPath))
             {

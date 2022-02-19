@@ -301,10 +301,7 @@ class JPath
                     throw new JsonException("Array index expected.");
                 }
 
-                if (indexes == null)
-                {
-                    indexes = new List<int>();
-                }
+                indexes ??= new List<int>();
 
                 var indexer = _expression.Substring(start, length);
                 indexes.Add(Convert.ToInt32(indexer, CultureInfo.InvariantCulture));
@@ -530,10 +527,7 @@ class JPath
 
                     parentExpression = andExpression;
 
-                    if (rootExpression == null)
-                    {
-                        rootExpression = parentExpression;
-                    }
+                    rootExpression ??= parentExpression;
                 }
 
                 parentExpression.Expressions.Add(booleanExpression);
@@ -553,10 +547,7 @@ class JPath
 
                     parentExpression = orExpression;
 
-                    if (rootExpression == null)
-                    {
-                        rootExpression = parentExpression;
-                    }
+                    rootExpression ??= parentExpression;
                 }
 
                 parentExpression.Expressions.Add(booleanExpression);
@@ -843,10 +834,7 @@ class JPath
                 _currentIndex++;
                 EatWhitespace();
 
-                if (fields == null)
-                {
-                    fields = new List<string>();
-                }
+                fields ??= new List<string>();
 
                 fields.Add(field);
             }

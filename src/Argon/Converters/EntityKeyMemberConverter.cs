@@ -135,10 +135,7 @@ public class EntityKeyMemberConverter : JsonConverter
 
     static void EnsureReflectionObject(Type objectType)
     {
-        if (_reflectionObject == null)
-        {
-            _reflectionObject = ReflectionObject.Create(objectType, KeyPropertyName, ValuePropertyName);
-        }
+        _reflectionObject ??= ReflectionObject.Create(objectType, KeyPropertyName, ValuePropertyName);
     }
 
     /// <summary>

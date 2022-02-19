@@ -631,10 +631,7 @@ public class DataTableConverterTests : TestFixtureBase
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            if (existingValue == null)
-            {
-                existingValue = CreateTable();
-            }
+            existingValue ??= CreateTable();
 
             serializer.Error += OnError;
             try

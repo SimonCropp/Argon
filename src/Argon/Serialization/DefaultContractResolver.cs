@@ -300,10 +300,7 @@ public class DefaultContractResolver : IContractResolver
             }
         }
 
-        if (extensionDataNameResolver == null)
-        {
-            extensionDataNameResolver = ResolveExtensionDataName;
-        }
+        extensionDataNameResolver ??= ResolveExtensionDataName;
 
         contract.ExtensionDataNameResolver = extensionDataNameResolver;
 
@@ -534,7 +531,7 @@ public class DefaultContractResolver : IContractResolver
 
     ConstructorInfo? GetAttributeConstructor(Type objectType)
     {
-        IEnumerator<ConstructorInfo> en = objectType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Where(c => c.IsDefined(typeof(JsonConstructorAttribute), true)).GetEnumerator();
+        var en = objectType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Where(c => c.IsDefined(typeof(JsonConstructorAttribute), true)).GetEnumerator();
 
         if (en.MoveNext())
         {
@@ -565,7 +562,7 @@ public class DefaultContractResolver : IContractResolver
             var constructor = en.Current;
             if (!en.MoveNext())
             {
-                ParameterInfo[] parameters = constructor.GetParameters();
+                var parameters = constructor.GetParameters();
                 if (parameters.Length > 0)
                 {
                     foreach (var parameterInfo in parameters)
@@ -587,7 +584,7 @@ public class DefaultContractResolver : IContractResolver
 
     ConstructorInfo? GetParameterizedConstructor(Type objectType)
     {
-        ConstructorInfo[] constructors = objectType.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
+        var constructors = objectType.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
         if (constructors.Length == 1)
         {
             return constructors[0];
@@ -603,7 +600,7 @@ public class DefaultContractResolver : IContractResolver
     /// <returns>Properties for the given <see cref="ConstructorInfo"/>.</returns>
     protected virtual IList<JsonProperty> CreateConstructorParameters(ConstructorInfo constructor, JsonPropertyCollection memberProperties)
     {
-        ParameterInfo[] constructorParameters = constructor.GetParameters();
+        var constructorParameters = constructor.GetParameters();
 
         var parameterCollection = new JsonPropertyCollection(constructor.DeclaringType);
 
@@ -808,7 +805,7 @@ public class DefaultContractResolver : IContractResolver
                 }
 
                 Type? prevAttributeType = null;
-                ParameterInfo[] parameters = method.GetParameters();
+                var parameters = method.GetParameters();
 
                 if (!skipSerializing && IsValidCallback(method, parameters, typeof(OnSerializingAttribute), currentOnSerializing, ref prevAttributeType))
                 {
@@ -936,7 +933,7 @@ public class DefaultContractResolver : IContractResolver
 
         if (overrideConstructor != null)
         {
-            ParameterInfo[] parameters = overrideConstructor.GetParameters();
+            var parameters = overrideConstructor.GetParameters();
             var expectedParameterType = contract.DictionaryKeyType != null && contract.DictionaryValueType != null
                 ? typeof(IEnumerable<>).MakeGenericType(typeof(KeyValuePair<,>).MakeGenericType(contract.DictionaryKeyType, contract.DictionaryValueType))
                 : typeof(IDictionary);
@@ -974,7 +971,7 @@ public class DefaultContractResolver : IContractResolver
 
         if (overrideConstructor != null)
         {
-            ParameterInfo[] parameters = overrideConstructor.GetParameters();
+            var parameters = overrideConstructor.GetParameters();
             var expectedParameterType = contract.CollectionItemType != null
                 ? typeof(IEnumerable<>).MakeGenericType(contract.CollectionItemType)
                 : typeof(IEnumerable);
@@ -1219,14 +1216,14 @@ public class DefaultContractResolver : IContractResolver
 
         if (attributeType == typeof(OnErrorAttribute))
         {
-            if (parameters == null || parameters.Length != 2 || parameters[0].ParameterType != typeof(StreamingContext) || parameters[1].ParameterType != typeof(ErrorContext))
+            if (parameters is not {Length: 2} || parameters[0].ParameterType != typeof(StreamingContext) || parameters[1].ParameterType != typeof(ErrorContext))
             {
                 throw new JsonException($"Serialization Error Callback '{method}' in type '{GetClrTypeFullName(method.DeclaringType)}' must have two parameters of type '{typeof(StreamingContext)}' and '{typeof(ErrorContext)}'.");
             }
         }
         else
         {
-            if (parameters == null || parameters.Length != 1 || parameters[0].ParameterType != typeof(StreamingContext))
+            if (parameters is not {Length: 1} || parameters[0].ParameterType != typeof(StreamingContext))
             {
                 throw new JsonException($"Serialization Callback '{method}' in type '{GetClrTypeFullName(method.DeclaringType)}' must have a single parameter of type '{typeof(StreamingContext)}'.");
             }
@@ -1281,8 +1278,7 @@ public class DefaultContractResolver : IContractResolver
             }
         }
 
-        IList<JsonProperty> orderedProperties = properties.OrderBy(p => p.Order ?? -1).ToList();
-        return orderedProperties;
+        return properties.OrderBy(p => p.Order ?? -1).ToList();
     }
 
     internal virtual DefaultJsonNameTable GetNameTable()

@@ -144,10 +144,7 @@ static class CollectionUtils
     // this is here because LINQ Bridge doesn't support Contains with IEqualityComparer<T>
     public static bool ContainsValue<TSource>(this IEnumerable<TSource> source, TSource value, IEqualityComparer<TSource> comparer)
     {
-        if (comparer == null)
-        {
-            comparer = EqualityComparer<TSource>.Default;
-        }
+        comparer ??= EqualityComparer<TSource>.Default;
 
         if (source == null)
         {

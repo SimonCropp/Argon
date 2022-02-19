@@ -87,10 +87,7 @@ internal abstract class JsonSerializerInternalBase
 
     ErrorContext GetErrorContext(object? currentObject, object? member, string path, Exception error)
     {
-        if (_currentErrorContext == null)
-        {
-            _currentErrorContext = new ErrorContext(currentObject, member, path, error);
-        }
+        _currentErrorContext ??= new ErrorContext(currentObject, member, path, error);
 
         if (_currentErrorContext.Error != error)
         {
