@@ -32,7 +32,7 @@ public class MergeJson : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region MergeJson
         var o1 = JObject.Parse(@"{
               'FirstName': 'John',
               'LastName': 'Smith',

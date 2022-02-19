@@ -32,7 +32,7 @@ public class ParseJsonArray : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region ParseJsonArray
         var json = @"[
               'Small',
               'Medium',

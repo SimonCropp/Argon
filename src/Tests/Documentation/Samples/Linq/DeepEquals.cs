@@ -32,7 +32,7 @@ public class DeepEquals : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region DeepEquals
         var s1 = new JValue("A string");
         var s2 = new JValue("A string");
         var s3 = new JValue("A STRING");

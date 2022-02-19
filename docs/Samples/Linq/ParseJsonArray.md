@@ -1,11 +1,24 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="ParseJsonArray" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample parses a JSON array using
-      <codeEntityReference qualifyHint="true">M:Argon.Linq.JArray.Parse(System.String)`.
+# Parse JSON using JArray.Parse
 
-    <section>
+This sample parses a JSON array using `Argon.Linq.JArray.Parse(System.String)`.
 
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Linq\ParseJsonArray.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
+<!-- snippet: ParseJsonArray -->
+<a id='snippet-parsejsonarray'></a>
+```cs
+var json = @"[
+      'Small',
+      'Medium',
+      'Large'
+    ]";
+
+var a = JArray.Parse(json);
+
+Console.WriteLine(a.ToString());
+// [
+//   "Small",
+//   "Medium",
+//   "Large"
+// ]
+```
+<sup><a href='/src/Tests/Documentation/Samples/Linq/ParseJsonArray.cs#L35-L50' title='Snippet source file'>snippet source</a> | <a href='#snippet-parsejsonarray' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

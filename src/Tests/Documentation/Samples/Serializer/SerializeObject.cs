@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class SerializeObject : TestFixtureBase
 {
-    #region Types
+    #region SerializeObjectTypes
     public class Account
     {
         public string Email { get; set; }
@@ -42,7 +42,7 @@ public class SerializeObject : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region SerializeObjectUsage
         var account = new Account
         {
             Email = "james@example.com",

@@ -1,10 +1,40 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="ConvertJsonToXml" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample converts JSON to XML.
+# Convert JSON to XML
 
-    <section>
+This sample converts JSON to XML.
 
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Xml\ConvertJsonToXml.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
+<!-- snippet: ConvertJsonToXml -->
+<a id='snippet-convertjsontoxml'></a>
+```cs
+var json = @"{
+      '@Id': 1,
+      'Email': 'james@example.com',
+      'Active': true,
+      'CreatedDate': '2013-01-20T00:00:00Z',
+      'Roles': [
+        'User',
+        'Admin'
+      ],
+      'Team': {
+        '@Id': 2,
+        'Name': 'Software Developers',
+        'Description': 'Creators of fine software products and services.'
+      }
+    }";
+
+XNode node = JsonConvert.DeserializeXNode(json, "Root");
+
+Console.WriteLine(node.ToString());
+// <Root Id="1">
+//   <Email>james@example.com</Email>
+//   <Active>true</Active>
+//   <CreatedDate>2013-01-20T00:00:00Z</CreatedDate>
+//   <Roles>User</Roles>
+//   <Roles>Admin</Roles>
+//   <Team Id="2">
+//     <Name>Software Developers</Name>
+//     <Description>Creators of fine software products and services.</Description>
+//   </Team>
+// </Root>
+```
+<sup><a href='/src/Tests/Documentation/Samples/Xml/ConvertJsonToXml.cs#L36-L69' title='Snippet source file'>snippet source</a> | <a href='#snippet-convertjsontoxml' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

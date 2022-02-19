@@ -32,7 +32,7 @@ public class WriteToJsonFile : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region WriteToJsonFile
         var videogameRatings = new JObject(
             new JProperty("Halo", 9),
             new JProperty("Starcraft", 9),

@@ -1,12 +1,38 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="JsonPropertyName" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample uses `Argon.JsonPropertyAttribute`
-      to change the names of properties when they are serialized to JSON.
+# JsonPropertyAttribute name
 
-    <section>
+This sample uses `Argon.JsonPropertyAttribute` to change the names of properties when they are serialized to JSON.
 
-      <content>
-        <code JsonPropertyName.cs" region="Types" title="Types" />
-        <code JsonPropertyName.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
+<!-- snippet: JsonPropertyNameTypes -->
+<a id='snippet-jsonpropertynametypes'></a>
+```cs
+public class Videogame
+{
+    [JsonProperty("name")]
+    public string Name { get; set; }
+
+    [JsonProperty("release_date")]
+    public DateTime ReleaseDate { get; set; }
+}
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonPropertyName.cs#L32-L41' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertynametypes' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+<!-- snippet: JsonPropertyNameUsage -->
+<a id='snippet-jsonpropertynameusage'></a>
+```cs
+var starcraft = new Videogame
+{
+    Name = "Starcraft",
+    ReleaseDate = new DateTime(1998, 1, 1)
+};
+
+var json = JsonConvert.SerializeObject(starcraft, Formatting.Indented);
+
+Console.WriteLine(json);
+// {
+//   "name": "Starcraft",
+//   "release_date": "1998-01-01T00:00:00"
+// }
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonPropertyName.cs#L46-L60' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertynameusage' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

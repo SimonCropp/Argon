@@ -32,7 +32,7 @@ public class CreateJsonManually : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region CreateJsonManually
         var array = new JArray
         {
             "Manual text",

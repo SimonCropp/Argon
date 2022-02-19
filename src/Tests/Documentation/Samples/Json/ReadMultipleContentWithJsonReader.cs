@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Json;
 
 public class ReadMultipleContentWithJsonReader : TestFixtureBase
 {
-    #region Types
+    #region ReadMultipleContentWithJsonReaderTypes
     public class Role
     {
         public string Name { get; set; }
@@ -39,7 +39,7 @@ public class ReadMultipleContentWithJsonReader : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region ReadMultipleContentWithJsonReaderUsage
         var json = @"{ 'name': 'Admin' }{ 'name': 'Publisher' }";
 
         IList<Role> roles = new List<Role>();

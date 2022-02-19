@@ -1,11 +1,46 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="CreateReader" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample creates a `Argon.Linq.JTokenReader`
-      from a `Argon.Linq.JToken`.
+# Create JTokenReader from JToken
 
-    <section>
+This sample creates a `Argon.Linq.JTokenReader` from a `Argon.Linq.JToken`.
 
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Linq\CreateReader.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
+<!-- snippet: CreateReader -->
+<a id='snippet-createreader'></a>
+```cs
+var o = new JObject
+{
+    { "Cpu", "Intel" },
+    { "Memory", 32 },
+    {
+        "Drives", new JArray
+        {
+            "DVD",
+            "SSD"
+        }
+    }
+};
+
+var reader = o.CreateReader();
+while (reader.Read())
+{
+    Console.Write(reader.TokenType);
+    if (reader.Value != null)
+    {
+        Console.Write($" - {reader.Value}");
+    }
+
+    Console.WriteLine();
+}
+
+// StartObject
+// PropertyName - Cpu
+// String - Intel
+// PropertyName - Memory
+// Integer - 32
+// PropertyName - Drives
+// StartArray
+// String - DVD
+// String - SSD
+// EndArray
+// EndObject
+```
+<sup><a href='/src/Tests/Documentation/Samples/Linq/CreateReader.cs#L35-L72' title='Snippet source file'>snippet source</a> | <a href='#snippet-createreader' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

@@ -1,13 +1,42 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="JsonConstructorAttribute" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample uses the
-      `Argon.JsonConstructorAttribute`
-      to specify that a constructor should be used to create a class during deserialization.
+# JsonConstructorAttribute
 
-    <section>
+This sample uses the `Argon.JsonConstructorAttribute` to specify that a constructor should be used to create a class during deserialization.
 
-      <content>
-        <code JsonConstructorAttribute.cs" region="Types" title="Types" />
-        <code JsonConstructorAttribute.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
+<!-- snippet: JsonConstructorAttributeTypes -->
+<a id='snippet-jsonconstructorattributetypes'></a>
+```cs
+public class User
+{
+    public string UserName { get; private set; }
+    public bool Enabled { get; private set; }
+
+    public User()
+    {
+    }
+
+    [JsonConstructor]
+    public User(string userName, bool enabled)
+    {
+        UserName = userName;
+        Enabled = enabled;
+    }
+}
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonConstructorAttribute.cs#L33-L50' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconstructorattributetypes' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+<!-- snippet: JsonConstructorAttributeUsage -->
+<a id='snippet-jsonconstructorattributeusage'></a>
+```cs
+var json = @"{
+      ""UserName"": ""domain\\username"",
+      ""Enabled"": true
+    }";
+
+var user = JsonConvert.DeserializeObject<User>(json);
+
+Console.WriteLine(user.UserName);
+// domain\username
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonConstructorAttribute.cs#L55-L65' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconstructorattributeusage' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

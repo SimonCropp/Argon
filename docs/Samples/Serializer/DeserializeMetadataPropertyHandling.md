@@ -1,11 +1,27 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="DeserializeMetadataPropertyHandling" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample deserializes JSON with `Argon.MetadataPropertyHandling`
-      set to ReadAhead so that metadata properties do not need to be at the start of an object.
+# MetadataPropertyHandling setting
 
-    <section>
+This sample deserializes JSON with `Argon.MetadataPropertyHandling` set to ReadAhead so that metadata properties do not need to be at the start of an object.
 
-      <content>
-        <code DeserializeMetadataPropertyHandling.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
+<!-- snippet: DeserializeMetadataPropertyHandling -->
+<a id='snippet-deserializemetadatapropertyhandling'></a>
+```cs
+var json = @"{
+      'Name': 'James',
+      'Password': 'Password1',
+      '$type': 'MyNamespace.User, MyAssembly'
+    }";
+
+var o = JsonConvert.DeserializeObject(json, new JsonSerializerSettings
+{
+    TypeNameHandling = TypeNameHandling.All,
+    // $type no longer needs to be first
+    MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
+});
+
+var u = (User)o;
+
+Console.WriteLine(u.Name);
+// James
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeMetadataPropertyHandling.cs#L38-L56' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializemetadatapropertyhandling' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

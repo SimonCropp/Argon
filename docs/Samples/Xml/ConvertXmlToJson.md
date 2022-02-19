@@ -1,10 +1,48 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="ConvertXmlToJson" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample converts XML to JSON.
+# Convert XML to JSON
 
-    <section>
+This sample converts XML to JSON.
 
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Xml\ConvertXmlToJson.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
+<!-- snippet: ConvertXmlToJson -->
+<a id='snippet-convertxmltojson'></a>
+```cs
+var xml = @"<?xml version='1.0' standalone='no'?>
+    <root>
+      <person id='1'>
+      <name>Alan</name>
+      <url>http://www.google.com</url>
+      </person>
+      <person id='2'>
+      <name>Louis</name>
+      <url>http://www.yahoo.com</url>
+      </person>
+    </root>";
+
+var doc = new XmlDocument();
+doc.LoadXml(xml);
+
+var json = JsonConvert.SerializeXmlNode(doc);
+
+Console.WriteLine(json);
+// {
+//   "?xml": {
+//     "@version": "1.0",
+//     "@standalone": "no"
+//   },
+//   "root": {
+//     "person": [
+//       {
+//         "@id": "1",
+//         "name": "Alan",
+//         "url": "http://www.google.com"
+//       },
+//       {
+//         "@id": "2",
+//         "name": "Louis",
+//         "url": "http://www.yahoo.com"
+//       }
+//     ]
+//   }
+// }
+```
+<sup><a href='/src/Tests/Documentation/Samples/Xml/ConvertXmlToJson.cs#L36-L75' title='Snippet source file'>snippet source</a> | <a href='#snippet-convertxmltojson' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

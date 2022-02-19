@@ -1,12 +1,55 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="DeserializeCustomCreationConverter" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample creates a class that inherits from `Argon.Converters.CustomCreationConverter`1`
-      that instantiates Employee instances for the Person type.
+# Deserialize with CustomCreationConverter
 
-    <section>
+This sample creates a class that inherits from `Argon.Converters.CustomCreationConverter`
+ that instantiates Employee instances for the Person type.
 
-      <content>
-        <code DeserializeCustomCreationConverter.cs" region="Types" title="Types" />
-        <code DeserializeCustomCreationConverter.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
+<!-- snippet: DeserializeCustomCreationConverterTypes -->
+<a id='snippet-deserializecustomcreationconvertertypes'></a>
+```cs
+public class Person
+{
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public DateTime BirthDate { get; set; }
+}
+
+public class Employee : Person
+{
+    public string Department { get; set; }
+    public string JobTitle { get; set; }
+}
+
+public class PersonConverter : CustomCreationConverter<Person>
+{
+    public override Person Create(Type objectType)
+    {
+        return new Employee();
+    }
+}
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeCustomCreationConverter.cs#L32-L53' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializecustomcreationconvertertypes' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+<!-- snippet: DeserializeCustomCreationConverterUsage -->
+<a id='snippet-deserializecustomcreationconverterusage'></a>
+```cs
+var json = @"{
+      'Department': 'Furniture',
+      'JobTitle': 'Carpenter',
+      'FirstName': 'John',
+      'LastName': 'Joinery',
+      'BirthDate': '1983-02-02T00:00:00'
+    }";
+
+var person = JsonConvert.DeserializeObject<Person>(json, new PersonConverter());
+
+Console.WriteLine(person.GetType().Name);
+// Employee
+
+var employee = (Employee)person;
+
+Console.WriteLine(employee.JobTitle);
+// Carpenter
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeCustomCreationConverter.cs#L58-L76' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializecustomcreationconverterusage' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

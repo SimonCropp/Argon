@@ -1,11 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="DeserializeWithJsonSerializerFromFile" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample deserializes JSON retrieved from a file.
+# Deserialize JSON from a file
 
-    <section>
+This sample deserializes JSON retrieved from a file.
 
-      <content>
-        <code DeserializeWithJsonSerializerFromFile.cs" region="Types" title="Types" />
-        <code DeserializeWithJsonSerializerFromFile.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
+<!-- snippet: DeserializeWithJsonSerializerFromFileTypes -->
+<a id='snippet-deserializewithjsonserializerfromfiletypes'></a>
+```cs
+public class Movie
+{
+    public string Name { get; set; }
+    public int Year { get; set; }
+}
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeWithJsonSerializerFromFile.cs#L32-L38' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializewithjsonserializerfromfiletypes' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+<!-- snippet: DeserializeWithJsonSerializerFromFileUsage -->
+<a id='snippet-deserializewithjsonserializerfromfileusage'></a>
+```cs
+// read file into a string and deserialize JSON to a type
+var movie1 = JsonConvert.DeserializeObject<Movie>(File.ReadAllText(@"c:\movie.json"));
+
+// deserialize JSON directly from a file
+using (var file = File.OpenText(@"c:\movie.json"))
+{
+    var serializer = new JsonSerializer();
+    var movie2 = (Movie)serializer.Deserialize(file, typeof(Movie));
+}
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeWithJsonSerializerFromFile.cs#L43-L53' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializewithjsonserializerfromfileusage' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

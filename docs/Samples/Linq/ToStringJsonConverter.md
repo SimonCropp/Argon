@@ -1,11 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="ToStringJsonConverter" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample uses a `Argon.JsonConverter`
-      to customize converting LINQ to JSON objects to JSON.
+# Using JToken.ToString with JsonConverter
 
-    <section>
+This sample uses a `Argon.JsonConverter` to customize converting LINQ to JSON objects to JSON.
 
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Linq\ToStringJsonConverter.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
+<!-- snippet: ToStringJsonConverter -->
+<a id='snippet-tostringjsonconverter'></a>
+```cs
+var o = JObject.Parse(@"{'string1':'value','integer2':99,'datetime3':'2000-05-23T00:00:00'}");
+
+Console.WriteLine(o.ToString(Formatting.None, new JavaScriptDateTimeConverter()));
+// {"string1":"value","integer2":99,"datetime3":new Date(959032800000)}
+```
+<sup><a href='/src/Tests/Documentation/Samples/Linq/ToStringJsonConverter.cs#L35-L40' title='Snippet source file'>snippet source</a> | <a href='#snippet-tostringjsonconverter' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

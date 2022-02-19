@@ -1,14 +1,56 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="JsonConverterAttributeClass" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample uses the
-      `Argon.JsonConverterAttribute`
-      to specify that a `Argon.JsonConverter`
-      should be used when serializing and deserializing a class.
+# JsonConverterAttribute on a class
 
-    <section>
+This sample uses the `Argon.JsonConverterAttribute` to specify that a `Argon.JsonConverter` should be used when serializing and deserializing a class.
 
-      <content>
-        <code JsonConverterAttributeClass.cs" region="Types" title="Types" />
-        <code JsonConverterAttributeClass.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
+<!-- snippet: JsonConverterAttributeClassTypes -->
+<a id='snippet-jsonconverterattributeclasstypes'></a>
+```cs
+public class UserConverter : JsonConverter
+{
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+    {
+        var user = (User)value;
+
+        writer.WriteValue(user.UserName);
+    }
+
+    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    {
+        var user = new User
+        {
+            UserName = (string)reader.Value
+        };
+
+        return user;
+    }
+
+    public override bool CanConvert(Type objectType)
+    {
+        return objectType == typeof(User);
+    }
+}
+
+[JsonConverter(typeof(UserConverter))]
+public class User
+{
+    public string UserName { get; set; }
+}
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonConverterAttributeClass.cs#L32-L63' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconverterattributeclasstypes' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+<!-- snippet: JsonConverterAttributeClassUsage -->
+<a id='snippet-jsonconverterattributeclassusage'></a>
+```cs
+var user = new User
+{
+    UserName = @"domain\username"
+};
+
+var json = JsonConvert.SerializeObject(user, Formatting.Indented);
+
+Console.WriteLine(json);
+// "domain\\username"
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonConverterAttributeClass.cs#L68-L78' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconverterattributeclassusage' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

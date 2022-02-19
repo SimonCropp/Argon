@@ -1,12 +1,59 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="NamingStrategySkipDictionaryKeys" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample configures a `Argon.Serialization.CamelCaseNamingStrategy`
-      to not camel case dictionary keys.
+# Configure CamelCaseNamingStrategy
 
-    <section>
+This sample configures a `Argon.Serialization.CamelCaseNamingStrategy` to not camel case dictionary keys.
 
-      <content>
-        <code NamingStrategySkipDictionaryKeys.cs" region="Types" title="Types" />
-        <code NamingStrategySkipDictionaryKeys.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
+<!-- snippet: NamingStrategySkipDictionaryKeysTypes -->
+<a id='snippet-namingstrategyskipdictionarykeystypes'></a>
+```cs
+public class DailyHighScores
+{
+    public DateTime Date { get; set; }
+    public string Game { get; set; }
+    public Dictionary<string, int> UserPoints { get; set; }
+}
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/NamingStrategySkipDictionaryKeys.cs#L32-L39' title='Snippet source file'>snippet source</a> | <a href='#snippet-namingstrategyskipdictionarykeystypes' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+<!-- snippet: NamingStrategySkipDictionaryKeysUsage -->
+<a id='snippet-namingstrategyskipdictionarykeysusage'></a>
+```cs
+var dailyHighScores = new DailyHighScores
+{
+    Date = new DateTime(2016, 6, 27, 0, 0, 0, DateTimeKind.Utc),
+    Game = "Donkey Kong",
+    UserPoints = new Dictionary<string, int>
+    {
+        ["JamesNK"] = 9001,
+        ["JoC"] = 1337,
+        ["JessicaN"] = 1000
+    }
+};
+
+var contractResolver = new DefaultContractResolver
+{
+    NamingStrategy = new CamelCaseNamingStrategy
+    {
+        ProcessDictionaryKeys = false
+    }
+};
+
+var json = JsonConvert.SerializeObject(dailyHighScores, new JsonSerializerSettings
+{
+    ContractResolver = contractResolver,
+    Formatting = Formatting.Indented
+});
+
+Console.WriteLine(json);
+// {
+//   "date": "2016-06-27T00:00:00Z",
+//   "game": "Donkey Kong",
+//   "userPoints": {
+//     "JamesNK": 9001,
+//     "JoC": 1337,
+//     "JessicaN": 1000
+//   }
+// }
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/NamingStrategySkipDictionaryKeys.cs#L44-L81' title='Snippet source file'>snippet source</a> | <a href='#snippet-namingstrategyskipdictionarykeysusage' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

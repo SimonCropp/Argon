@@ -1,10 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="DeserializeCollection" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample deserializes JSON into a collection.
+# Deserialize a Collection
 
-    <section>
+This sample deserializes JSON into a collection.
 
-      <content>
-        <code DeserializeCollection.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
+<!-- snippet: DeserializeCollection -->
+<a id='snippet-deserializecollection'></a>
+```cs
+var json = @"['Starcraft','Halo','Legend of Zelda']";
+
+var videogames = JsonConvert.DeserializeObject<List<string>>(json);
+
+Console.WriteLine(string.Join(", ", videogames.ToArray()));
+// Starcraft, Halo, Legend of Zelda
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeCollection.cs#L35-L42' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializecollection' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

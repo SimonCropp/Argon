@@ -1,12 +1,41 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="SerializeContractResolver" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample uses a custom `Argon.Serialization.IContractResolver`
-      to modify how objects are serialized.
+# Custom IContractResolver
 
-    <section>
+This sample uses a custom `Argon.Serialization.IContractResolver` to modify how objects are serialized.
 
-      <content>
-        <code SerializeContractResolver.cs" region="Types" title="Types" />
-        <code SerializeContractResolver.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
+<!-- snippet: SerializeContractResolverTypes -->
+<a id='snippet-serializecontractresolvertypes'></a>
+```cs
+public class Person
+{
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+
+    public string FullName => $"{FirstName} {LastName}";
+}
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeContractResolver.cs#L32-L40' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializecontractresolvertypes' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+<!-- snippet: SerializeContractResolverUsage -->
+<a id='snippet-serializecontractresolverusage'></a>
+```cs
+var person = new Person
+{
+    FirstName = "Sarah",
+    LastName = "Security"
+};
+
+var json = JsonConvert.SerializeObject(person, Formatting.Indented, new JsonSerializerSettings
+{
+    ContractResolver = new CamelCasePropertyNamesContractResolver()
+});
+
+Console.WriteLine(json);
+// {
+//   "firstName": "Sarah",
+//   "lastName": "Security",
+//   "fullName": "Sarah Security"
+// }
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeContractResolver.cs#L45-L63' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializecontractresolverusage' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

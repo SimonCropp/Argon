@@ -32,7 +32,7 @@ public class SerializeDateFormatHandling : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region SerializeDateFormatHandling
         var mayanEndOfTheWorld = new DateTime(2012, 12, 21);
 
         var jsonIsoDate = JsonConvert.SerializeObject(mayanEndOfTheWorld);

@@ -32,7 +32,7 @@ public class ToObjectType : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region ToObjectType
         var v1 = new JValue(true);
 
         var b = (bool)v1.ToObject(typeof(bool));

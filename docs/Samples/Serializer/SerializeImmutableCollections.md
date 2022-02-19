@@ -1,10 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="SerializeImmutableCollections" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample serializes an immutable collection into JSON.
+# Serialize an immutable collection
 
-    <section>
+This sample serializes an immutable collection into JSON.
 
-      <content>
-        <code SerializeImmutableCollections.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
+<!-- snippet: SerializeImmutableCollections -->
+<a id='snippet-serializeimmutablecollections'></a>
+```cs
+var l = ImmutableList.CreateRange(new List<string>
+{
+    "One",
+    "II",
+    "3"
+});
+
+var json = JsonConvert.SerializeObject(l, Formatting.Indented);
+// [
+//   "One",
+//   "II",
+//   "3"
+// ]
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeImmutableCollections.cs#L37-L51' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeimmutablecollections' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

@@ -1,15 +1,44 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="DataContractAndDataMember" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample shows how .NET Framework attributes such as
-      `System.Runtime.Serialization.DataContractAttribute`,
-      `System.Runtime.Serialization.DataMemberAttribute` and
-      `System.NonSerializedAttribute`
-      can be used with Json.NET instead of Json.NET's own attributes.
+# DataContract and DataMember Attributes
 
-    <section>
+This sample shows how .NET Framework attributes such as `DataContractAttribute`, `DataMemberAttribute` and `NonSerializedAttribute` can be used with Json.NET instead of Json.NET's own attributes.
 
-      <content>
-        <code DataContractAndDataMember.cs" region="Types" title="Types" />
-        <code DataContractAndDataMember.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
+<!-- snippet: DataContractAndDataMemberTypes -->
+<a id='snippet-datacontractanddatamembertypes'></a>
+```cs
+[DataContract]
+public class File
+{
+    // excluded from serialization
+    // does not have DataMemberAttribute
+    public Guid Id { get; set; }
+
+    [DataMember]
+    public string Name { get; set; }
+
+    [DataMember]
+    public int Size { get; set; }
+}
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DataContractAndDataMember.cs#L32-L46' title='Snippet source file'>snippet source</a> | <a href='#snippet-datacontractanddatamembertypes' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+<!-- snippet: DataContractAndDataMemberUsage -->
+<a id='snippet-datacontractanddatamemberusage'></a>
+```cs
+var file = new File
+{
+    Id = Guid.NewGuid(),
+    Name = "ImportantLegalDocuments.docx",
+    Size = 50 * 1024
+};
+
+var json = JsonConvert.SerializeObject(file, Formatting.Indented);
+
+Console.WriteLine(json);
+// {
+//   "Name": "ImportantLegalDocuments.docx",
+//   "Size": 51200
+// }
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DataContractAndDataMember.cs#L51-L66' title='Snippet source file'>snippet source</a> | <a href='#snippet-datacontractanddatamemberusage' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

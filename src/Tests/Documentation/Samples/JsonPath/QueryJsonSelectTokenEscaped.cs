@@ -32,7 +32,7 @@ public class QueryJsonSelectTokenEscaped : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region QueryJsonSelectTokenEscaped
         var o = JObject.Parse(@"{
               'Space Invaders': 'Taito',
               'Doom ]|[': 'id',

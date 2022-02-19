@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class NullValueHandlingIgnore : TestFixtureBase
 {
-    #region Types
+    #region NullValueHandlingIgnoreTypes
     public class Person
     {
         public string Name { get; set; }
@@ -42,7 +42,7 @@ public class NullValueHandlingIgnore : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region NullValueHandlingIgnoreUsage
         var person = new Person
         {
             Name = "Nigal Newborn",

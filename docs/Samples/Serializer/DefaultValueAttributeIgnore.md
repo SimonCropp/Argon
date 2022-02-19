@@ -1,13 +1,43 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="DefaultValueAttributeIgnore" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample uses the `System.ComponentModel.DefaultValueAttribute`
-      to override the default value for a property and exclude it from serialization using
-      `Argon.DefaultValueHandling`.
+# DefaultValueAttribute
 
-    <section>
+This sample uses the `System.ComponentModel.DefaultValueAttribute` to override the default value for a property and exclude it from serialization using `Argon.DefaultValueHandling`.
 
-      <content>
-        <code DefaultValueAttributeIgnore.cs" region="Types" title="Types" />
-        <code DefaultValueAttributeIgnore.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
+<!-- snippet: DefaultValueAttributeIgnoreTypes -->
+<a id='snippet-defaultvalueattributeignoretypes'></a>
+```cs
+public class Customer
+{
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+
+    [DefaultValue(" ")]
+    public string FullName => $"{FirstName} {LastName}";
+}
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DefaultValueAttributeIgnore.cs#L33-L42' title='Snippet source file'>snippet source</a> | <a href='#snippet-defaultvalueattributeignoretypes' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+<!-- snippet: DefaultValueAttributeIgnoreUsage -->
+<a id='snippet-defaultvalueattributeignoreusage'></a>
+```cs
+var customer = new Customer();
+
+var jsonIncludeDefaultValues = JsonConvert.SerializeObject(customer, Formatting.Indented);
+
+Console.WriteLine(jsonIncludeDefaultValues);
+// {
+//   "FirstName": null,
+//   "LastName": null,
+//   "FullName": " "
+// }
+
+var jsonIgnoreDefaultValues = JsonConvert.SerializeObject(customer, Formatting.Indented, new JsonSerializerSettings
+{
+    DefaultValueHandling = DefaultValueHandling.Ignore
+});
+
+Console.WriteLine(jsonIgnoreDefaultValues);
+// {}
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DefaultValueAttributeIgnore.cs#L47-L66' title='Snippet source file'>snippet source</a> | <a href='#snippet-defaultvalueattributeignoreusage' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

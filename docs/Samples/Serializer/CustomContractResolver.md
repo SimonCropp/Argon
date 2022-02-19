@@ -1,12 +1,32 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="CustomContractResolver" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample creates a custom `Argon.Serialization.IContractResolver`
-      that only serializes a type's properties that begin with a specified character.
+# Custom IContractResolver
 
-    <section>
+This sample creates a custom `Argon.Serialization.IContractResolver` that only serializes a type's properties that begin with a specified character.
 
-      <content>
-        <code CustomContractResolver.cs" region="Types" title="Types" />
-        <code CustomContractResolver.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
+<!-- snippet: CustomContractResolverUsage -->
+<a id='snippet-customcontractresolverusage'></a>
+```cs
+var person = new Person
+{
+    FirstName = "Dennis",
+    LastName = "Deepwater-Diver"
+};
+
+var startingWithF = JsonConvert.SerializeObject(person, Formatting.Indented,
+    new JsonSerializerSettings { ContractResolver = new DynamicContractResolver('F') });
+
+Console.WriteLine(startingWithF);
+// {
+//   "FirstName": "Dennis",
+//   "FullName": "Dennis Deepwater-Diver"
+// }
+
+var startingWithL = JsonConvert.SerializeObject(person, Formatting.Indented,
+    new JsonSerializerSettings { ContractResolver = new DynamicContractResolver('L') });
+
+Console.WriteLine(startingWithL);
+// {
+//   "LastName": "Deepwater-Diver"
+// }
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/CustomContractResolver.cs#L66-L89' title='Snippet source file'>snippet source</a> | <a href='#snippet-customcontractresolverusage' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

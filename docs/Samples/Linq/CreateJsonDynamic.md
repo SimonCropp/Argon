@@ -1,12 +1,30 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="CreateJsonDynamic" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample creates `Argon.Linq.JObject`
-      and `Argon.Linq.JArray` instances using
-      the C# dynamic functionality.
+# Create JSON with dynamic
 
-    <section>
+This sample creates `Argon.Linq.JObject` and `Argon.Linq.JArray` instances using the C# dynamic functionality.
 
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Linq\CreateJsonDynamic.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
+<!-- snippet: CreateJsonDynamic -->
+<a id='snippet-createjsondynamic'></a>
+```cs
+dynamic product = new JObject();
+product.ProductName = "Elbow Grease";
+product.Enabled = true;
+product.Price = 4.90m;
+product.StockCount = 9000;
+product.StockValue = 44100;
+product.Tags = new JArray("Real", "OnSale");
+
+Console.WriteLine(product.ToString());
+// {
+//   "ProductName": "Elbow Grease",
+//   "Enabled": true,
+//   "Price": 4.90,
+//   "StockCount": 9000,
+//   "StockValue": 44100,
+//   "Tags": [
+//     "Real",
+//     "OnSale"
+//   ]
+// }
+```
+<sup><a href='/src/Tests/Documentation/Samples/Linq/CreateJsonDynamic.cs#L36-L59' title='Snippet source file'>snippet source</a> | <a href='#snippet-createjsondynamic' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

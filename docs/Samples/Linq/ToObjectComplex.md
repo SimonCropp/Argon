@@ -1,11 +1,32 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="ToObjectComplex" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample converts LINQ to JSON objects to .NET types using
-      `Argon.Linq.JToken.ToObject``1`.
+# Convert JSON to a Type
 
-    <section>
+This sample converts LINQ to JSON objects to .NET types using `Argon.Linq.JToken.ToObject<T>`.
 
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Linq\ToObjectComplex.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
+<!-- snippet: ToObjectComplex -->
+<a id='snippet-toobjectcomplex'></a>
+```cs
+var json = @"{
+      'd': [
+        {
+          'Name': 'John Smith'
+        },
+        {
+          'Name': 'Mike Smith'
+        }
+      ]
+    }";
+
+var o = JObject.Parse(json);
+
+var a = (JArray)o["d"];
+
+var person = a.ToObject<IList<Person>>();
+
+Console.WriteLine(person[0].Name);
+// John Smith
+
+Console.WriteLine(person[1].Name);
+// Mike Smith
+```
+<sup><a href='/src/Tests/Documentation/Samples/Linq/ToObjectComplex.cs#L42-L65' title='Snippet source file'>snippet source</a> | <a href='#snippet-toobjectcomplex' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

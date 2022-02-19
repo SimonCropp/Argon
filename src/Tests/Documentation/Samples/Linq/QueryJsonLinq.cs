@@ -32,7 +32,7 @@ public class QueryJsonLinq : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region QueryJsonLinq
         var json = @"{
               'channel': {
                 'title': 'James Newton-King',

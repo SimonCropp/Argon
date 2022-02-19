@@ -32,7 +32,7 @@ public class DeserializeDictionary : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region DeserializeDictionary
         var json = @"{
               'href': '/account/login.aspx',
               'target': '_blank'

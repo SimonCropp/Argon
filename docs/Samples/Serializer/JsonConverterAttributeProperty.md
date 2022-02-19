@@ -1,14 +1,44 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="JsonConverterAttributeProperty" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample uses the
-      `Argon.JsonConverterAttribute`
-      to specify that a `Argon.JsonConverter`
-      should be used when serializing and deserializing a property.
+# JsonConverterAttribute on a property
 
-    <section>
+This sample uses the `Argon.JsonConverterAttribute` to specify that a `Argon.JsonConverter` should be used when serializing and deserializing a property.
 
-      <content>
-        <code JsonConverterAttributeProperty.cs" region="Types" title="Types" />
-        <code JsonConverterAttributeProperty.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
+<!-- snippet: JsonConverterAttributePropertyTypes -->
+<a id='snippet-jsonconverterattributepropertytypes'></a>
+```cs
+public enum UserStatus
+{
+    NotConfirmed,
+    Active,
+    Deleted
+}
+
+public class User
+{
+    public string UserName { get; set; }
+
+    [JsonConverter(typeof(StringEnumConverter))]
+    public UserStatus Status { get; set; }
+}
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonConverterAttributeProperty.cs#L32-L47' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconverterattributepropertytypes' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+<!-- snippet: JsonConverterAttributePropertyUsage -->
+<a id='snippet-jsonconverterattributepropertyusage'></a>
+```cs
+var user = new User
+{
+    UserName = @"domain\username",
+    Status = UserStatus.Deleted
+};
+
+var json = JsonConvert.SerializeObject(user, Formatting.Indented);
+
+Console.WriteLine(json);
+// {
+//   "UserName": "domain\\username",
+//   "Status": "Deleted"
+// }
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonConverterAttributeProperty.cs#L52-L66' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconverterattributepropertyusage' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

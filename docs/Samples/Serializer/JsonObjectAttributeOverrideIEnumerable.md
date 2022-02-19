@@ -1,13 +1,58 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="JsonObjectAttributeOverrideIEnumerable" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample uses `Argon.JsonObjectAttribute`
-      to serialize a class that implements `System.Collections.Generic.IEnumerable`1` as
-      a JSON object instead of a JSON array.
+# JsonObjectAttribute force object serialization
 
-    <section>
+This sample uses `Argon.JsonObjectAttribute` to serialize a class that implements `System.Collections.Generic.IEnumerable<T>` as a JSON object instead of a JSON array.
 
-      <content>
-        <code JsonObjectAttributeOverrideIEnumerable.cs" region="Types" title="Types" />
-        <code JsonObjectAttributeOverrideIEnumerable.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
+<!-- snippet: JsonObjectAttributeOverrideIEnumerableTypes -->
+<a id='snippet-jsonobjectattributeoverrideienumerabletypes'></a>
+```cs
+[JsonObject]
+public class Directory : IEnumerable<string>
+{
+    public string Name { get; set; }
+    public IList<string> Files { get; set; }
+
+    public Directory()
+    {
+        Files = new List<string>();
+    }
+
+    public IEnumerator<string> GetEnumerator()
+    {
+        return Files.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+}
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonObjectAttributeOverrideIEnumerable.cs#L32-L54' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonobjectattributeoverrideienumerabletypes' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+<!-- snippet: JsonObjectAttributeOverrideIEnumerableUsage -->
+<a id='snippet-jsonobjectattributeoverrideienumerableusage'></a>
+```cs
+var directory = new Directory
+{
+    Name = "My Documents",
+    Files =
+    {
+        "ImportantLegalDocuments.docx",
+        "WiseFinancalAdvice.xlsx"
+    }
+};
+
+var json = JsonConvert.SerializeObject(directory, Formatting.Indented);
+
+Console.WriteLine(json);
+// {
+//   "Name": "My Documents",
+//   "Files": [
+//     "ImportantLegalDocuments.docx",
+//     "WiseFinancalAdvice.xlsx"
+//   ]
+// }
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonObjectAttributeOverrideIEnumerable.cs#L59-L80' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonobjectattributeoverrideienumerableusage' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

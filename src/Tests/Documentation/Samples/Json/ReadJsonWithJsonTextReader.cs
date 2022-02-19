@@ -32,7 +32,7 @@ public class ReadJsonWithJsonTextReader : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region ReadJsonWithJsonTextReader
         var json = @"{
                'CPU': 'Intel',
                'PSU': '500W',

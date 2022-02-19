@@ -32,7 +32,7 @@ public class CreateJsonCollectionInitializer : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region CreateJsonCollectionInitializer
         var o = new JObject
         {
             { "Cpu", "Intel" },

@@ -32,7 +32,7 @@ public class SerializeDateFormatString : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region SerializeDateFormatString
         IList<DateTime> dateList = new List<DateTime>
         {
             new(2009, 12, 7, 23, 10, 0, DateTimeKind.Utc),

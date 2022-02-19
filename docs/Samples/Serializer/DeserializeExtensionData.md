@@ -1,11 +1,60 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="DeserializeExtensionData" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample deserializes JSON to an object with extension data.
+## Deserialize ExtensionData
 
-    <section>
+This sample deserializes JSON to an object with extension data.
 
-      <content>
-        <code DeserializeExtensionData.cs" region="Types" title="Types" />
-        <code DeserializeExtensionData.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
+<!-- snippet: DeserializeExtensionDataTypes -->
+<a id='snippet-deserializeextensiondatatypes'></a>
+```cs
+public class DirectoryAccount
+{
+    // normal deserialization
+    public string DisplayName { get; set; }
+
+    // these properties are set in OnDeserialized
+    public string UserName { get; set; }
+    public string Domain { get; set; }
+
+    [JsonExtensionData]
+    IDictionary<string, JToken> _additionalData;
+
+    [OnDeserialized]
+    void OnDeserialized(StreamingContext context)
+    {
+        // SAMAccountName is not deserialized to any property
+        // and so it is added to the extension data dictionary
+        var samAccountName = (string)_additionalData["SAMAccountName"];
+
+        Domain = samAccountName.Split('\\')[0];
+        UserName = samAccountName.Split('\\')[1];
+    }
+
+    public DirectoryAccount()
+    {
+        _additionalData = new Dictionary<string, JToken>();
+    }
+}
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeExtensionData.cs#L32-L61' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeextensiondatatypes' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+<!-- snippet: DeserializeExtensionDataUsage -->
+<a id='snippet-deserializeextensiondatausage'></a>
+```cs
+var json = @"{
+      'DisplayName': 'John Smith',
+      'SAMAccountName': 'contoso\\johns'
+    }";
+
+var account = JsonConvert.DeserializeObject<DirectoryAccount>(json);
+
+Console.WriteLine(account.DisplayName);
+// John Smith
+
+Console.WriteLine(account.Domain);
+// contoso
+
+Console.WriteLine(account.UserName);
+// johns
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeExtensionData.cs#L66-L82' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeextensiondatausage' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

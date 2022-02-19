@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class SerializeDateTimeZoneHandling : TestFixtureBase
 {
-    #region Types
+    #region SerializeDateTimeZoneHandlingTypes
     public class Flight
     {
         public string Destination { get; set; }
@@ -43,7 +43,7 @@ public class SerializeDateTimeZoneHandling : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region SerializeDateTimeZoneHandlingUsage
         var flight = new Flight
         {
             Destination = "Dubai",

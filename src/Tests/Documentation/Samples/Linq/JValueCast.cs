@@ -32,7 +32,7 @@ public class JValueCast : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region JValueCast
         var v1 = new JValue("1");
         var i = (int)v1;
 

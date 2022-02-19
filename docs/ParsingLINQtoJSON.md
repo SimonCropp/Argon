@@ -1,29 +1,62 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="ParsingLINQtoJSON" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">LINQ to JSON has methods available for parsing JSON from a string or loading JSON directly from a file.
+# Parsing JSON
+
+LINQ to JSON has methods available for parsing JSON from a string or loading JSON directly from a file.
 
 
 ## Parsing JSON text
-      <content>
-        <para>JSON values can be read from a string using 
-        `Argon.Linq.JToken.Parse(System.String)`.
 
-<code lang="cs" source="..\Src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParse" title="Parsing a JSON Object from text" />
-<code lang="cs" source="..\Src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParseArray" title="Parsing a JSON Array from text" />
-      </content>
-    </section>
-    
-    <section address="LoadingJSON">
-      <title>Loading JSON from a file</title>
-      <content>
-        <para>JSON can also be loaded directly from a file using `Argon.Linq.JToken.ReadFrom(Argon.JsonReader)`.
-<code lang="cs" source="..\Src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonReadObject" title="Reading JSON from a file" />
-      </content>
-    </section>
+JSON values can be read from a string using `Argon.Linq.JToken.Parse(System.String)`.
+
+<!-- snippet: LinqToJsonCreateParse -->
+<a id='snippet-linqtojsoncreateparse'></a>
+```cs
+var json = @"{
+      CPU: 'Intel',
+      Drives: [
+        'DVD read/writer',
+        '500 gigabyte hard drive'
+      ]
+    }";
+
+var o = JObject.Parse(json);
+```
+<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L199-L209' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsoncreateparse' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+<!-- snippet: LinqToJsonCreateParseArray -->
+<a id='snippet-linqtojsoncreateparsearray'></a>
+```cs
+var json = @"[
+      'Small',
+      'Medium',
+      'Large'
+    ]";
+
+var a = JArray.Parse(json);
+```
+<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L215-L223' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsoncreateparsearray' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+
+## Loading JSON from a file
+
+JSON can also be loaded directly from a file using `Argon.Linq.JToken.ReadFrom(Argon.JsonReader)`.
+
+<!-- snippet: LinqToJsonReadObject -->
+<a id='snippet-linqtojsonreadobject'></a>
+```cs
+using (var reader = File.OpenText(@"c:\person.json"))
+{
+    var o = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
+    // do stuff
+}
+```
+<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L229-L235' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonreadobject' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
 
 
 ## Related Topics
-      <link xlink:href="LINQtoJSON" />
-      
-      `Argon.Linq.JToken.Parse(System.String)`
-      `Argon.Linq.JToken.ReadFrom(Argon.JsonReader)`
+
+ * LINQtoJSON
+ * `Argon.Linq.JToken.Parse(System.String)`
+ * `Argon.Linq.JToken.ReadFrom(Argon.JsonReader)`

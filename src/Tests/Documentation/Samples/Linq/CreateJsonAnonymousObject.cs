@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Linq;
 
 public class CreateJsonAnonymousObject : TestFixtureBase
 {
-    #region Types
+    #region CreateJsonAnonymousObjectTypes
     public class Post
     {
         public string Title { get; set; }
@@ -42,7 +42,7 @@ public class CreateJsonAnonymousObject : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region CreateJsonAnonymousObjectUsage
         var posts = new List<Post>
         {
             new()

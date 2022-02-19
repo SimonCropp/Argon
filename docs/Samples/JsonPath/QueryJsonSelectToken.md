@@ -1,10 +1,55 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="QueryJsonSelectToken" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample loads JSON and then queries values from it using `Argon.Linq.JToken.SelectToken(System.String)`.
+# Querying JSON with SelectToken
 
-    <section>
+This sample loads JSON and then queries values from it using `Argon.Linq.JToken.SelectToken(System.String)`.
 
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\JsonPath\QueryJsonSelectToken.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
+<!-- snippet: QueryJsonSelectToken -->
+<a id='snippet-queryjsonselecttoken'></a>
+```cs
+var o = JObject.Parse(@"{
+      'Stores': [
+        'Lambton Quay',
+        'Willis Street'
+      ],
+      'Manufacturers': [
+        {
+          'Name': 'Acme Co',
+          'Products': [
+            {
+              'Name': 'Anvil',
+              'Price': 50
+            }
+          ]
+        },
+        {
+          'Name': 'Contoso',
+          'Products': [
+            {
+              'Name': 'Elbow Grease',
+              'Price': 99.95
+            },
+            {
+              'Name': 'Headlight Fluid',
+              'Price': 4
+            }
+          ]
+        }
+      ]
+    }");
+
+var name = (string) o.SelectToken("Manufacturers[0].Name");
+
+Console.WriteLine(name);
+// Acme Co
+
+var productPrice = (decimal) o.SelectToken("Manufacturers[0].Products[0].Price");
+
+Console.WriteLine(productPrice);
+// 50
+
+var productName = (string) o.SelectToken("Manufacturers[1].Products[0].Name");
+
+Console.WriteLine(productName);
+// Elbow Grease
+```
+<sup><a href='/src/Tests/Documentation/Samples/JsonPath/QueryJsonSelectToken.cs#L35-L83' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonselecttoken' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

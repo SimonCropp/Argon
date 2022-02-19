@@ -1,12 +1,38 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="JsonPropertyPropertyLevelSetting" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample uses `Argon.JsonPropertyAttribute`
-      to change how the property value is serialized.
+# JsonPropertyAttribute property setting
 
-    <section>
+This sample uses `Argon.JsonPropertyAttribute` to change how the property value is serialized.
 
-      <content>
-        <code JsonPropertyPropertyLevelSetting.cs" region="Types" title="Types" />
-        <code JsonPropertyPropertyLevelSetting.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
+<!-- snippet: JsonPropertyPropertyLevelSettingTypes -->
+<a id='snippet-jsonpropertypropertylevelsettingtypes'></a>
+```cs
+public class Vessel
+{
+    public string Name { get; set; }
+    public string Class { get; set; }
+
+    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+    public DateTime? LaunchDate { get; set; }
+}
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonPropertyPropertyLevelSetting.cs#L32-L41' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertypropertylevelsettingtypes' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+<!-- snippet: JsonPropertyPropertyLevelSettingUsage -->
+<a id='snippet-jsonpropertypropertylevelsettingusage'></a>
+```cs
+var vessel = new Vessel
+{
+    Name = "Red October",
+    Class = "Typhoon"
+};
+
+var json = JsonConvert.SerializeObject(vessel, Formatting.Indented);
+
+Console.WriteLine(json);
+// {
+//   "Name": "Red October",
+//   "Class": "Typhoon"
+// }
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonPropertyPropertyLevelSetting.cs#L46-L60' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertypropertylevelsettingusage' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

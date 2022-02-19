@@ -1,12 +1,36 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="PropertyJsonIgnore" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample uses the `Argon.JsonIgnoreAttribute`
-      to exclude a property from serialization.
+# JsonIgnoreAttribute
 
-    <section>
+This sample uses the `Argon.JsonIgnoreAttribute` to exclude a property from serialization.
 
-      <content>
-        <code PropertyJsonIgnore.cs" region="Types" title="Types" />
-        <code PropertyJsonIgnore.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
+<!-- snippet: PropertyJsonIgnoreTypes -->
+<a id='snippet-propertyjsonignoretypes'></a>
+```cs
+public class Account
+{
+    public string FullName { get; set; }
+    public string EmailAddress { get; set; }
+
+    [JsonIgnore]
+    public string PasswordHash { get; set; }
+}
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/PropertyJsonIgnore.cs#L32-L41' title='Snippet source file'>snippet source</a> | <a href='#snippet-propertyjsonignoretypes' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+<!-- snippet: PropertyJsonIgnoreUsage -->
+<a id='snippet-propertyjsonignoreusage'></a>
+```cs
+var account = new Account
+{
+    FullName = "Joe User",
+    EmailAddress = "joe@example.com",
+    PasswordHash = "VHdlZXQgJ1F1aWNrc2lsdmVyJyB0byBASmFtZXNOSw=="
+};
+
+var json = JsonConvert.SerializeObject(account);
+
+Console.WriteLine(json);
+// {"FullName":"Joe User","EmailAddress":"joe@example.com"}
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/PropertyJsonIgnore.cs#L46-L58' title='Snippet source file'>snippet source</a> | <a href='#snippet-propertyjsonignoreusage' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

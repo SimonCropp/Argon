@@ -1,12 +1,40 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="DeserializeMissingMemberHandling" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">This sample attempts to deserialize JSON with `Argon.MissingMemberHandling`
-      set to error and a JSON property that doesn't match to a member, causing an exception.
+# MissingMemberHandling setting
 
-    <section>
+This sample attempts to deserialize JSON with `Argon.MissingMemberHandling` set to error and a JSON property that doesn't match to a member, causing an exception.
 
-      <content>
-        <code DeserializeMissingMemberHandling.cs" region="Types" title="Types" />
-        <code DeserializeMissingMemberHandling.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
+<!-- snippet: DeserializeMissingMemberHandlingTypes -->
+<a id='snippet-deserializemissingmemberhandlingtypes'></a>
+```cs
+public class Account
+{
+    public string FullName { get; set; }
+    public bool Deleted { get; set; }
+}
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeMissingMemberHandling.cs#L32-L38' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializemissingmemberhandlingtypes' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+<!-- snippet: DeserializeMissingMemberHandlingUsage -->
+<a id='snippet-deserializemissingmemberhandlingusage'></a>
+```cs
+var json = @"{
+      'FullName': 'Dan Deleted',
+      'Deleted': true,
+      'DeletedDate': '2013-01-20T00:00:00'
+    }";
+
+try
+{
+    JsonConvert.DeserializeObject<Account>(json, new JsonSerializerSettings
+    {
+        MissingMemberHandling = MissingMemberHandling.Error
+    });
+}
+catch (JsonSerializationException ex)
+{
+    Console.WriteLine(ex.Message);
+    // Could not find member 'DeletedDate' on object of type 'Account'. Path 'DeletedDate', line 4, position 23.
+}
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeMissingMemberHandling.cs#L43-L62' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializemissingmemberhandlingusage' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

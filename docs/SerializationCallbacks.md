@@ -1,47 +1,118 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="SerializationCallbacks" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+# Serialization callbacks
 
-    <introduction>
+A callback can be used to manipulate an object before and after its serialization and deserialization by the JsonSerializer.
 
+ * OnSerializing
+ * OnSerialized
+ * OnDeserializing
+ * OnDeserialized
 
-      <para>Json.NET supports serialization callback methods. A callback can be used to manipulate an object before and after its serialization and deserialization by the JsonSerializer.
-
-<list class="bullet">
-  <listItem><para><legacyBold>OnSerializing</legacyBold></para></listItem>
-  <listItem><para><legacyBold>OnSerialized</legacyBold></para></listItem>
-  <listItem><para><legacyBold>OnDeserializing</legacyBold></para></listItem>
-  <listItem><para><legacyBold>OnDeserialized</legacyBold></para></listItem>
-</list>
-<para>
-To tell the serializer which methods should be called during the object's
-serialization lifecycle, decorate a method with the appropriate attribute
-(`System.Runtime.Serialization.OnSerializingAttribute`,
-`System.Runtime.Serialization.OnSerializedAttribute`,
-`System.Runtime.Serialization.OnDeserializingAttribute`,
-`System.Runtime.Serialization.OnDeserializedAttribute`).
-</para>
-
-    
-
-    <section>
-      <title>Example</title>
-      <content>
-
-        <para>Example object with serialization callback methods:</para>
-
-<code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="SerializationCallbacksObject" title="Serialization Callback Attributes" />
-
-        <para>The example object being serialized and deserialized by Json.NET:</para>
-
-<code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="SerializationCallbacksExample" title="Serialization Callback Example" />
-
-      </content>
-    </section>
+To tell the serializer which methods should be called during the object's serialization lifecycle, decorate a method with the appropriate attribute (`OnSerializingAttribute`, `OnSerializedAttribute`, `OnDeserializingAttribute`, `OnDeserializedAttribute`).
 
 
-## Related Topics
-      `System.Runtime.Serialization.OnSerializingAttribute`
-      `System.Runtime.Serialization.OnSerializedAttribute`
-      `System.Runtime.Serialization.OnDeserializingAttribute`
-      `System.Runtime.Serialization.OnDeserializedAttribute`
+## Example
+
+Example object with serialization callback methods:</para>
+
+<!-- snippet: SerializationCallbacksObject -->
+<a id='snippet-serializationcallbacksobject'></a>
+```cs
+public class SerializationEventTestObject
+{
+    // 2222
+    // This member is serialized and deserialized with no change.
+    public int Member1 { get; set; }
+
+    // The value of this field is set and reset during and
+    // after serialization.
+    public string Member2 { get; set; }
+
+    // This field is not serialized. The OnDeserializedAttribute
+    // is used to set the member value after serialization.
+    [JsonIgnore]
+    public string Member3 { get; set; }
+
+    // This field is set to null, but populated after deserialization.
+    public string Member4 { get; set; }
+
+    public SerializationEventTestObject()
+    {
+        Member1 = 11;
+        Member2 = "Hello World!";
+        Member3 = "This is a nonserialized value";
+        Member4 = null;
+    }
+
+    [OnSerializing]
+    internal void OnSerializingMethod(StreamingContext context)
+    {
+        Member2 = "This value went into the data file during serialization.";
+    }
+
+    [OnSerialized]
+    internal void OnSerializedMethod(StreamingContext context)
+    {
+        Member2 = "This value was reset after serialization.";
+    }
+
+    [OnDeserializing]
+    internal void OnDeserializingMethod(StreamingContext context)
+    {
+        Member3 = "This value was set during deserialization";
+    }
+
+    [OnDeserialized]
+    internal void OnDeserializedMethod(StreamingContext context)
+    {
+        Member4 = "This value was set after deserialization.";
+    }
+}
+```
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L116-L167' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbacksobject' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+The example object being serialized and deserialized by Json.NET:</para>
+
+<!-- snippet: SerializationCallbacksExample -->
+<a id='snippet-serializationcallbacksexample'></a>
+```cs
+var obj = new SerializationEventTestObject();
+
+Console.WriteLine(obj.Member1);
+// 11
+Console.WriteLine(obj.Member2);
+// Hello World!
+Console.WriteLine(obj.Member3);
+// This is a nonserialized value
+Console.WriteLine(obj.Member4);
+// null
+
+var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
+// {
+//   "Member1": 11,
+//   "Member2": "This value went into the data file during serialization.",
+//   "Member4": null
+// }
+
+Console.WriteLine(obj.Member1);
+// 11
+Console.WriteLine(obj.Member2);
+// This value was reset after serialization.
+Console.WriteLine(obj.Member3);
+// This is a nonserialized value
+Console.WriteLine(obj.Member4);
+// null
+
+obj = JsonConvert.DeserializeObject<SerializationEventTestObject>(json);
+
+Console.WriteLine(obj.Member1);
+// 11
+Console.WriteLine(obj.Member2);
+// This value went into the data file during serialization.
+Console.WriteLine(obj.Member3);
+// This value was set during deserialization
+Console.WriteLine(obj.Member4);
+// This value was set after deserialization.
+```
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L172-L210' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbacksexample' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

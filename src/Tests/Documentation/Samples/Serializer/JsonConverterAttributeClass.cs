@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class JsonConverterAttributeClass : TestFixtureBase
 {
-    #region Types
+    #region JsonConverterAttributeClassTypes
     public class UserConverter : JsonConverter
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
@@ -65,7 +65,7 @@ public class JsonConverterAttributeClass : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region JsonConverterAttributeClassUsage
         var user = new User
         {
             UserName = @"domain\username"

@@ -1,35 +1,42 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="LINQtoJSON" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">LINQ to JSON is an API for working with JSON objects.
-      It has been designed with LINQ in mind to enable quick querying
-      and creation of JSON objects. LINQ to JSON sits under the
-      `Argon.Linq`
-      namespace.
-<code lang="cs" source="..\Src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonBasic" title="Using LINQ for JSON" />
+# LINQ to JSON
 
-<section>
- <title>Topics</title>
-<content>
-      <para>Select a topic below for more information:</para>
-<list class="bullet">
-   <listItem>
-     <para><link xlink:href="ParsingLINQtoJSON" /></para>
-   </listItem>
-   <listItem>
-     <para><link xlink:href="CreatingLINQtoJSON" /></para>
-   </listItem>
-   <listItem>
-     <para><link xlink:href="QueryingLINQtoJSON" /></para>
-   </listItem>
-   <listItem>
-     <para><link xlink:href="SelectToken" /></para>
-   </listItem>
-</list>
-</content>
-</section>
+LINQ to JSON is an API for working with JSON objects. It has been designed with LINQ in mind to enable quick querying and creation of JSON objects. LINQ to JSON sits under the `Argon.Linq` namespace.
+
+<!-- snippet: LinqToJsonBasic -->
+<a id='snippet-linqtojsonbasic'></a>
+```cs
+var o = JObject.Parse(@"{
+      'CPU': 'Intel',
+      'Drives': [
+        'DVD read/writer',
+        '500 gigabyte hard drive'
+      ]
+    }");
+
+var cpu = (string)o["CPU"];
+// Intel
+
+var firstDrive = (string)o["Drives"][0];
+// DVD read/writer
+
+IList<string> allDrives = o["Drives"].Select(t => (string)t).ToList();
+// DVD read/writer
+// 500 gigabyte hard drive
+```
+<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L57-L75' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonbasic' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+
+## Topics
+
+ * [ParsingLINQtoJSON]
+ * [CreatingLINQtoJSON]
+ * [QueryingLINQtoJSON]
+ * [SelectToken]
 
 
 ## Related Topics
-      `Argon.Linq.JObject`
-      `Argon.Linq.JArray`
-      `Argon.Linq.JValue`
+
+ * `Argon.Linq.JObject`
+ * `Argon.Linq.JArray`
+ * `Argon.Linq.JValue`

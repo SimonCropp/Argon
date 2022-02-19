@@ -1,11 +1,53 @@
 # Convert XML to JSON and force array
 
-This sample reads the `json:Array=&quot;true&quot;` attribute in the XML and places its value in an array
-      when converting the XML to JSON.
+This sample reads the `json:Array='true'` attribute in the XML and places its value in an array when converting the XML to JSON.
 
-    <section>
+<!-- snippet: ConvertXmlToJsonForceArray -->
+<a id='snippet-convertxmltojsonforcearray'></a>
+```cs
+var xml = @"<person id='1'>
+      <name>Alan</name>
+      <url>http://www.google.com</url>
+      <role>Admin1</role>
+    </person>";
 
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Xml\ConvertXmlToJsonForceArray.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
+var doc = new XmlDocument();
+doc.LoadXml(xml);
+
+var json = JsonConvert.SerializeXmlNode(doc);
+
+Console.WriteLine(json);
+// {
+//   "person": {
+//     "@id": "1",
+//     "name": "Alan",
+//     "url": "http://www.google.com",
+//     "role": "Admin1"
+//   }
+// }
+
+xml = @"<person xmlns:json='http://james.newtonking.com/projects/json' id='1'>
+      <name>Alan</name>
+      <url>http://www.google.com</url>
+      <role json:Array='true'>Admin</role>
+    </person>";
+
+doc = new XmlDocument();
+doc.LoadXml(xml);
+
+json = JsonConvert.SerializeXmlNode(doc);
+
+Console.WriteLine(json);
+// {
+//   "person": {
+//     "@id": "1",
+//     "name": "Alan",
+//     "url": "http://www.google.com",
+//     "role": [
+//       "Admin"
+//     ]
+//   }
+// }
+```
+<sup><a href='/src/Tests/Documentation/Samples/Xml/ConvertXmlToJsonForceArray.cs#L36-L80' title='Snippet source file'>snippet source</a> | <a href='#snippet-convertxmltojsonforcearray' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
