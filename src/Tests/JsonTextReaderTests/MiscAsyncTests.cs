@@ -281,11 +281,9 @@ public class MiscAsyncTests : TestFixtureBase
 }
 ";
 
-        using (JsonReader jsonReader = new JsonTextReader(new StringReader(input)))
+        using JsonReader jsonReader = new JsonTextReader(new StringReader(input));
+        while (await jsonReader.ReadAsync())
         {
-            while (await jsonReader.ReadAsync())
-            {
-            }
         }
     }
 
@@ -300,122 +298,120 @@ public class MiscAsyncTests : TestFixtureBase
 
         var sr = new StringReader(input);
 
-        using (JsonReader reader = new JsonTextReader(sr))
-        {
-            Assert.Equal(0, reader.Depth);
+        using JsonReader reader = new JsonTextReader(sr);
+        Assert.Equal(0, reader.Depth);
 
-            await reader.ReadAsync();
-            Assert.Equal(reader.TokenType, JsonToken.StartObject);
-            Assert.Equal(0, reader.Depth);
-            Assert.Equal("", reader.Path);
+        await reader.ReadAsync();
+        Assert.Equal(reader.TokenType, JsonToken.StartObject);
+        Assert.Equal(0, reader.Depth);
+        Assert.Equal("", reader.Path);
 
-            await reader.ReadAsync();
-            Assert.Equal(reader.TokenType, JsonToken.PropertyName);
-            Assert.Equal(1, reader.Depth);
-            Assert.Equal("value", reader.Path);
+        await reader.ReadAsync();
+        Assert.Equal(reader.TokenType, JsonToken.PropertyName);
+        Assert.Equal(1, reader.Depth);
+        Assert.Equal("value", reader.Path);
 
-            await reader.ReadAsync();
-            Assert.Equal(reader.TokenType, JsonToken.String);
-            Assert.Equal(reader.Value, @"Purple");
-            Assert.Equal(reader.QuoteChar, '\'');
-            Assert.Equal(1, reader.Depth);
-            Assert.Equal("value", reader.Path);
+        await reader.ReadAsync();
+        Assert.Equal(reader.TokenType, JsonToken.String);
+        Assert.Equal(reader.Value, @"Purple");
+        Assert.Equal(reader.QuoteChar, '\'');
+        Assert.Equal(1, reader.Depth);
+        Assert.Equal("value", reader.Path);
 
-            await reader.ReadAsync();
-            Assert.Equal(reader.TokenType, JsonToken.PropertyName);
-            Assert.Equal(1, reader.Depth);
-            Assert.Equal("array", reader.Path);
+        await reader.ReadAsync();
+        Assert.Equal(reader.TokenType, JsonToken.PropertyName);
+        Assert.Equal(1, reader.Depth);
+        Assert.Equal("array", reader.Path);
 
-            await reader.ReadAsync();
-            Assert.Equal(reader.TokenType, JsonToken.StartArray);
-            Assert.Equal(1, reader.Depth);
-            Assert.Equal("array", reader.Path);
+        await reader.ReadAsync();
+        Assert.Equal(reader.TokenType, JsonToken.StartArray);
+        Assert.Equal(1, reader.Depth);
+        Assert.Equal("array", reader.Path);
 
-            await reader.ReadAsync();
-            Assert.Equal(reader.TokenType, JsonToken.Integer);
-            Assert.Equal(1L, reader.Value);
-            Assert.Equal(2, reader.Depth);
-            Assert.Equal("array[0]", reader.Path);
+        await reader.ReadAsync();
+        Assert.Equal(reader.TokenType, JsonToken.Integer);
+        Assert.Equal(1L, reader.Value);
+        Assert.Equal(2, reader.Depth);
+        Assert.Equal("array[0]", reader.Path);
 
-            await reader.ReadAsync();
-            Assert.Equal(reader.TokenType, JsonToken.Integer);
-            Assert.Equal(2L, reader.Value);
-            Assert.Equal(2, reader.Depth);
-            Assert.Equal("array[1]", reader.Path);
+        await reader.ReadAsync();
+        Assert.Equal(reader.TokenType, JsonToken.Integer);
+        Assert.Equal(2L, reader.Value);
+        Assert.Equal(2, reader.Depth);
+        Assert.Equal("array[1]", reader.Path);
 
-            await reader.ReadAsync();
-            Assert.Equal(reader.TokenType, JsonToken.StartConstructor);
-            Assert.Equal("Date", reader.Value);
-            Assert.Equal(2, reader.Depth);
-            Assert.Equal("array[2]", reader.Path);
+        await reader.ReadAsync();
+        Assert.Equal(reader.TokenType, JsonToken.StartConstructor);
+        Assert.Equal("Date", reader.Value);
+        Assert.Equal(2, reader.Depth);
+        Assert.Equal("array[2]", reader.Path);
 
-            await reader.ReadAsync();
-            Assert.Equal(reader.TokenType, JsonToken.Integer);
-            Assert.Equal(1L, reader.Value);
-            Assert.Equal(3, reader.Depth);
-            Assert.Equal("array[2][0]", reader.Path);
+        await reader.ReadAsync();
+        Assert.Equal(reader.TokenType, JsonToken.Integer);
+        Assert.Equal(1L, reader.Value);
+        Assert.Equal(3, reader.Depth);
+        Assert.Equal("array[2][0]", reader.Path);
 
-            await reader.ReadAsync();
-            Assert.Equal(reader.TokenType, JsonToken.EndConstructor);
-            Assert.Equal(null, reader.Value);
-            Assert.Equal(2, reader.Depth);
-            Assert.Equal("array[2]", reader.Path);
+        await reader.ReadAsync();
+        Assert.Equal(reader.TokenType, JsonToken.EndConstructor);
+        Assert.Equal(null, reader.Value);
+        Assert.Equal(2, reader.Depth);
+        Assert.Equal("array[2]", reader.Path);
 
-            await reader.ReadAsync();
-            Assert.Equal(reader.TokenType, JsonToken.EndArray);
-            Assert.Equal(1, reader.Depth);
-            Assert.Equal("array", reader.Path);
+        await reader.ReadAsync();
+        Assert.Equal(reader.TokenType, JsonToken.EndArray);
+        Assert.Equal(1, reader.Depth);
+        Assert.Equal("array", reader.Path);
 
-            await reader.ReadAsync();
-            Assert.Equal(reader.TokenType, JsonToken.PropertyName);
-            Assert.Equal(1, reader.Depth);
-            Assert.Equal("subobject", reader.Path);
+        await reader.ReadAsync();
+        Assert.Equal(reader.TokenType, JsonToken.PropertyName);
+        Assert.Equal(1, reader.Depth);
+        Assert.Equal("subobject", reader.Path);
 
-            await reader.ReadAsync();
-            Assert.Equal(reader.TokenType, JsonToken.StartObject);
-            Assert.Equal(1, reader.Depth);
-            Assert.Equal("subobject", reader.Path);
+        await reader.ReadAsync();
+        Assert.Equal(reader.TokenType, JsonToken.StartObject);
+        Assert.Equal(1, reader.Depth);
+        Assert.Equal("subobject", reader.Path);
 
-            await reader.ReadAsync();
-            Assert.Equal(reader.TokenType, JsonToken.PropertyName);
-            Assert.Equal(2, reader.Depth);
-            Assert.Equal("subobject.prop", reader.Path);
+        await reader.ReadAsync();
+        Assert.Equal(reader.TokenType, JsonToken.PropertyName);
+        Assert.Equal(2, reader.Depth);
+        Assert.Equal("subobject.prop", reader.Path);
 
-            await reader.ReadAsync();
-            Assert.Equal(reader.TokenType, JsonToken.Integer);
-            Assert.Equal(2, reader.Depth);
-            Assert.Equal("subobject.prop", reader.Path);
+        await reader.ReadAsync();
+        Assert.Equal(reader.TokenType, JsonToken.Integer);
+        Assert.Equal(2, reader.Depth);
+        Assert.Equal("subobject.prop", reader.Path);
 
-            await reader.ReadAsync();
-            Assert.Equal(reader.TokenType, JsonToken.PropertyName);
-            Assert.Equal(2, reader.Depth);
-            Assert.Equal("subobject.proparray", reader.Path);
+        await reader.ReadAsync();
+        Assert.Equal(reader.TokenType, JsonToken.PropertyName);
+        Assert.Equal(2, reader.Depth);
+        Assert.Equal("subobject.proparray", reader.Path);
 
-            await reader.ReadAsync();
-            Assert.Equal(reader.TokenType, JsonToken.StartArray);
-            Assert.Equal(2, reader.Depth);
-            Assert.Equal("subobject.proparray", reader.Path);
+        await reader.ReadAsync();
+        Assert.Equal(reader.TokenType, JsonToken.StartArray);
+        Assert.Equal(2, reader.Depth);
+        Assert.Equal("subobject.proparray", reader.Path);
 
-            await reader.ReadAsync();
-            Assert.Equal(reader.TokenType, JsonToken.Integer);
-            Assert.Equal(3, reader.Depth);
-            Assert.Equal("subobject.proparray[0]", reader.Path);
+        await reader.ReadAsync();
+        Assert.Equal(reader.TokenType, JsonToken.Integer);
+        Assert.Equal(3, reader.Depth);
+        Assert.Equal("subobject.proparray[0]", reader.Path);
 
-            await reader.ReadAsync();
-            Assert.Equal(reader.TokenType, JsonToken.EndArray);
-            Assert.Equal(2, reader.Depth);
-            Assert.Equal("subobject.proparray", reader.Path);
+        await reader.ReadAsync();
+        Assert.Equal(reader.TokenType, JsonToken.EndArray);
+        Assert.Equal(2, reader.Depth);
+        Assert.Equal("subobject.proparray", reader.Path);
 
-            await reader.ReadAsync();
-            Assert.Equal(reader.TokenType, JsonToken.EndObject);
-            Assert.Equal(1, reader.Depth);
-            Assert.Equal("subobject", reader.Path);
+        await reader.ReadAsync();
+        Assert.Equal(reader.TokenType, JsonToken.EndObject);
+        Assert.Equal(1, reader.Depth);
+        Assert.Equal("subobject", reader.Path);
 
-            await reader.ReadAsync();
-            Assert.Equal(reader.TokenType, JsonToken.EndObject);
-            Assert.Equal(0, reader.Depth);
-            Assert.Equal("", reader.Path);
-        }
+        await reader.ReadAsync();
+        Assert.Equal(reader.TokenType, JsonToken.EndObject);
+        Assert.Equal(0, reader.Depth);
+        Assert.Equal("", reader.Path);
     }
 
     [Fact]
@@ -557,10 +553,10 @@ public class MiscAsyncTests : TestFixtureBase
     [Fact]
     public async Task WriteReadWriteAsync()
     {
-        var sb = new StringBuilder();
-        var sw = new StringWriter(sb);
+        var stringBuilder = new StringBuilder();
+        var stringWriter = new StringWriter(stringBuilder);
 
-        using (JsonWriter jsonWriter = new JsonTextWriter(sw)
+        using (JsonWriter jsonWriter = new JsonTextWriter(stringWriter)
                {
                    Formatting = Formatting.Indented
                })
@@ -597,16 +593,16 @@ public class MiscAsyncTests : TestFixtureBase
             await jsonWriter.WriteEndArrayAsync();
         }
 
-        var json = sb.ToString();
+        var json = stringBuilder.ToString();
 
         var serializer = new JsonSerializer();
 
         var jsonObject = serializer.Deserialize(new JsonTextReader(new StringReader(json)));
 
-        sb = new StringBuilder();
-        sw = new StringWriter(sb);
+        stringBuilder = new StringBuilder();
+        stringWriter = new StringWriter(stringBuilder);
 
-        using (JsonWriter jsonWriter = new JsonTextWriter(sw)
+        using (JsonWriter jsonWriter = new JsonTextWriter(stringWriter)
                {
                    Formatting = Formatting.Indented
                })
@@ -614,7 +610,7 @@ public class MiscAsyncTests : TestFixtureBase
             serializer.Serialize(jsonWriter, jsonObject);
         }
 
-        Assert.Equal(json, sb.ToString());
+        Assert.Equal(json, stringBuilder.ToString());
     }
 
     [Fact]
@@ -942,15 +938,15 @@ null//comment
     [Fact]
     public async Task WriteReadBoundaryDecimalsAsync()
     {
-        var sw = new StringWriter();
-        var writer = new JsonTextWriter(sw);
+        var stringWriter = new StringWriter();
+        var jsonTextWriter = new JsonTextWriter(stringWriter);
 
-        await writer.WriteStartArrayAsync();
-        await writer.WriteValueAsync(decimal.MaxValue);
-        await writer.WriteValueAsync(decimal.MinValue);
-        await writer.WriteEndArrayAsync();
+        await jsonTextWriter.WriteStartArrayAsync();
+        await jsonTextWriter.WriteValueAsync(decimal.MaxValue);
+        await jsonTextWriter.WriteValueAsync(decimal.MinValue);
+        await jsonTextWriter.WriteEndArrayAsync();
 
-        var json = sw.ToString();
+        var json = stringWriter.ToString();
 
         var sr = new StringReader(json);
         var reader = new JsonTextReader(sr);

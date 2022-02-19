@@ -34,25 +34,25 @@ public class JsonTextWriterBenchmarks
     [Benchmark]
     public string SerializeUnicodeChars()
     {
-        var sw = new StringWriter();
-        var jsonTextWriter = new JsonTextWriter(sw);
+        var stringWriter = new StringWriter();
+        var jsonTextWriter = new JsonTextWriter(stringWriter);
         jsonTextWriter.WriteValue(UnicodeCharsString);
         jsonTextWriter.Flush();
 
-        return sw.ToString();
+        return stringWriter.ToString();
     }
 
     [Benchmark]
     public string SerializeIntegers()
     {
-        var sw = new StringWriter();
-        var jsonTextWriter = new JsonTextWriter(sw);
+        var stringWriter = new StringWriter();
+        var jsonTextWriter = new JsonTextWriter(stringWriter);
         for (var i = 0; i < 10000; i++)
         {
             jsonTextWriter.WriteValue(i);
         }
         jsonTextWriter.Flush();
 
-        return sw.ToString();
+        return stringWriter.ToString();
     }
 }

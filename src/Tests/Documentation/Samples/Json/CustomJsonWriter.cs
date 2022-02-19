@@ -324,9 +324,9 @@ public class CustomJsonWriter : TestFixtureBase
             }
         };
 
-        var sw = new StringWriter();
+        var stringWriter = new StringWriter();
 
-        using (var xmlWriter = XmlWriter.Create(sw, new XmlWriterSettings { OmitXmlDeclaration = true }))
+        using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings { OmitXmlDeclaration = true }))
         using (var writer = new XmlJsonWriter(xmlWriter))
         {
             writer.Formatting = Formatting.Indented;
@@ -335,7 +335,7 @@ public class CustomJsonWriter : TestFixtureBase
             serializer.Serialize(writer, user);
         }
 
-        Console.WriteLine(sw.ToString());
+        Console.WriteLine(stringWriter.ToString());
         //<Root type="Object">
         //  <Name type="String">James</Name>
         //  <Age type="Integer">30</Age>
@@ -347,9 +347,9 @@ public class CustomJsonWriter : TestFixtureBase
         //</Root>
         #endregion
 
-        sw = new StringWriter();
+        stringWriter = new StringWriter();
 
-        using (var xmlWriter = XmlWriter.Create(sw, new XmlWriterSettings { OmitXmlDeclaration = true }))
+        using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings { OmitXmlDeclaration = true }))
         using (var writer = new XmlJsonWriter(xmlWriter))
         {
             writer.Formatting = Formatting.Indented;
@@ -416,7 +416,7 @@ public class CustomJsonWriter : TestFixtureBase
             writer.Flush();
         }
 
-        Console.WriteLine(sw.ToString());
+        Console.WriteLine(stringWriter.ToString());
 
         //<Root type="Object">
         //  <Null type="Null" />

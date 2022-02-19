@@ -42,13 +42,11 @@ public class SerializeBenchmarks
     [Benchmark]
     public void SerializeLargeJsonFile()
     {
-        using (var file = System.IO.File.CreateText("largewrite.json"))
+        using var file = System.IO.File.CreateText("largewrite.json");
+        var serializer = new JsonSerializer
         {
-            var serializer = new JsonSerializer
-            {
-                Formatting = Formatting.Indented
-            };
-            serializer.Serialize(file, LargeCollection);
-        }
+            Formatting = Formatting.Indented
+        };
+        serializer.Serialize(file, LargeCollection);
     }
 }

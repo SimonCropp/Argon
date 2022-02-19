@@ -313,12 +313,10 @@ public class JsonTextWriterTest : TestFixtureBase
         XUnitAssert.Throws<JsonWriterException>(() =>
         {
             var sw = new StringWriter();
-            using (var jsonWriter = new JsonTextWriter(sw))
-            {
-                jsonWriter.WriteStartArray();
-                jsonWriter.WriteValue(new Version(1, 1, 1, 1));
-                jsonWriter.WriteEndArray();
-            }
+            using var jsonWriter = new JsonTextWriter(sw);
+            jsonWriter.WriteStartArray();
+            jsonWriter.WriteValue(new Version(1, 1, 1, 1));
+            jsonWriter.WriteEndArray();
         }, @"Unsupported type: System.Version. Use the JsonSerializer class to get the object's JSON representation. Path ''.");
     }
 
@@ -481,41 +479,39 @@ public class JsonTextWriterTest : TestFixtureBase
         var sb = new StringBuilder();
         var sw = new StringWriter(sb);
 
-        using (JsonWriter jsonWriter = new JsonTextWriter(sw))
-        {
-            Assert.Equal(WriteState.Start, jsonWriter.WriteState);
+        using JsonWriter jsonWriter = new JsonTextWriter(sw);
+        Assert.Equal(WriteState.Start, jsonWriter.WriteState);
 
-            jsonWriter.WriteStartObject();
-            Assert.Equal(WriteState.Object, jsonWriter.WriteState);
-            Assert.Equal("", jsonWriter.Path);
+        jsonWriter.WriteStartObject();
+        Assert.Equal(WriteState.Object, jsonWriter.WriteState);
+        Assert.Equal("", jsonWriter.Path);
 
-            jsonWriter.WritePropertyName("CPU");
-            Assert.Equal(WriteState.Property, jsonWriter.WriteState);
-            Assert.Equal("CPU", jsonWriter.Path);
+        jsonWriter.WritePropertyName("CPU");
+        Assert.Equal(WriteState.Property, jsonWriter.WriteState);
+        Assert.Equal("CPU", jsonWriter.Path);
 
-            jsonWriter.WriteValue("Intel");
-            Assert.Equal(WriteState.Object, jsonWriter.WriteState);
-            Assert.Equal("CPU", jsonWriter.Path);
+        jsonWriter.WriteValue("Intel");
+        Assert.Equal(WriteState.Object, jsonWriter.WriteState);
+        Assert.Equal("CPU", jsonWriter.Path);
 
-            jsonWriter.WritePropertyName("Drives");
-            Assert.Equal(WriteState.Property, jsonWriter.WriteState);
-            Assert.Equal("Drives", jsonWriter.Path);
+        jsonWriter.WritePropertyName("Drives");
+        Assert.Equal(WriteState.Property, jsonWriter.WriteState);
+        Assert.Equal("Drives", jsonWriter.Path);
 
-            jsonWriter.WriteStartArray();
-            Assert.Equal(WriteState.Array, jsonWriter.WriteState);
+        jsonWriter.WriteStartArray();
+        Assert.Equal(WriteState.Array, jsonWriter.WriteState);
 
-            jsonWriter.WriteValue("DVD read/writer");
-            Assert.Equal(WriteState.Array, jsonWriter.WriteState);
-            Assert.Equal("Drives[0]", jsonWriter.Path);
+        jsonWriter.WriteValue("DVD read/writer");
+        Assert.Equal(WriteState.Array, jsonWriter.WriteState);
+        Assert.Equal("Drives[0]", jsonWriter.Path);
 
-            jsonWriter.WriteEnd();
-            Assert.Equal(WriteState.Object, jsonWriter.WriteState);
-            Assert.Equal("Drives", jsonWriter.Path);
+        jsonWriter.WriteEnd();
+        Assert.Equal(WriteState.Object, jsonWriter.WriteState);
+        Assert.Equal("Drives", jsonWriter.Path);
 
-            jsonWriter.WriteEndObject();
-            Assert.Equal(WriteState.Start, jsonWriter.WriteState);
-            Assert.Equal("", jsonWriter.Path);
-        }
+        jsonWriter.WriteEndObject();
+        Assert.Equal(WriteState.Start, jsonWriter.WriteState);
+        Assert.Equal("", jsonWriter.Path);
     }
 
     [Fact]
@@ -928,38 +924,32 @@ public class JsonTextWriterTest : TestFixtureBase
         var sb = new StringBuilder();
         var sw = new StringWriter(sb);
 
-        using (JsonWriter jsonWriter = new JsonTextWriter(sw))
-        {
-            jsonWriter.WriteToken(JsonToken.StartArray);
+        using JsonWriter jsonWriter = new JsonTextWriter(sw);
+        jsonWriter.WriteToken(JsonToken.StartArray);
 
-            XUnitAssert.Throws<FormatException>(() => { jsonWriter.WriteToken(JsonToken.Integer, "three"); }, "Input string was not in a correct format.");
+        XUnitAssert.Throws<FormatException>(() => { jsonWriter.WriteToken(JsonToken.Integer, "three"); }, "Input string was not in a correct format.");
 
-            XUnitAssert.Throws<ArgumentNullException>(() => { jsonWriter.WriteToken(JsonToken.Integer); }, @"Value cannot be null.
+        XUnitAssert.Throws<ArgumentNullException>(() => { jsonWriter.WriteToken(JsonToken.Integer); }, @"Value cannot be null.
 Parameter name: value", "Value cannot be null. (Parameter 'value')");
-        }
     }
 
     [Fact]
     public void WriteTokenNullCheck()
     {
-        using (JsonWriter jsonWriter = new JsonTextWriter(new StringWriter()))
-        {
-            XUnitAssert.Throws<ArgumentNullException>(() => { jsonWriter.WriteToken(null); });
-            XUnitAssert.Throws<ArgumentNullException>(() => { jsonWriter.WriteToken(null, true); });
-        }
+        using JsonWriter jsonWriter = new JsonTextWriter(new StringWriter());
+        XUnitAssert.Throws<ArgumentNullException>(() => { jsonWriter.WriteToken(null); });
+        XUnitAssert.Throws<ArgumentNullException>(() => { jsonWriter.WriteToken(null, true); });
     }
 
     [Fact]
     public void TokenTypeOutOfRange()
     {
-        using (JsonWriter jsonWriter = new JsonTextWriter(new StringWriter()))
-        {
-            var ex = XUnitAssert.Throws<ArgumentOutOfRangeException>(() => jsonWriter.WriteToken((JsonToken)int.MinValue));
-            Assert.Equal("token", ex.ParamName);
+        using JsonWriter jsonWriter = new JsonTextWriter(new StringWriter());
+        var ex = XUnitAssert.Throws<ArgumentOutOfRangeException>(() => jsonWriter.WriteToken((JsonToken)int.MinValue));
+        Assert.Equal("token", ex.ParamName);
 
-            ex = XUnitAssert.Throws<ArgumentOutOfRangeException>(() => jsonWriter.WriteToken((JsonToken)int.MinValue, "test"));
-            Assert.Equal("token", ex.ParamName);
-        }
+        ex = XUnitAssert.Throws<ArgumentOutOfRangeException>(() => jsonWriter.WriteToken((JsonToken)int.MinValue, "test"));
+        Assert.Equal("token", ex.ParamName);
     }
 
     [Fact]
@@ -970,15 +960,13 @@ Parameter name: value", "Value cannot be null. (Parameter 'value')");
             var sb = new StringBuilder();
             var sw = new StringWriter(sb);
 
-            using (JsonWriter jsonWriter = new JsonTextWriter(sw))
-            {
-                jsonWriter.WriteStartArray();
+            using JsonWriter jsonWriter = new JsonTextWriter(sw);
+            jsonWriter.WriteStartArray();
 
-                jsonWriter.WriteValue(0.0);
+            jsonWriter.WriteValue(0.0);
 
-                jsonWriter.WriteEndArray();
-                jsonWriter.WriteEndArray();
-            }
+            jsonWriter.WriteEndArray();
+            jsonWriter.WriteEndArray();
         }, "No token to close. Path ''.");
     }
 
@@ -990,11 +978,9 @@ Parameter name: value", "Value cannot be null. (Parameter 'value')");
             var sb = new StringBuilder();
             var sw = new StringWriter(sb);
 
-            using (var jsonWriter = new JsonTextWriter(sw))
-            {
-                jsonWriter.Formatting = Formatting.Indented;
-                jsonWriter.QuoteChar = '*';
-            }
+            using var jsonWriter = new JsonTextWriter(sw);
+            jsonWriter.Formatting = Formatting.Indented;
+            jsonWriter.QuoteChar = '*';
         }, @"Invalid JavaScript string quote character. Valid quote characters are ' and "".");
     }
 
@@ -1613,18 +1599,16 @@ _____'propertyName': NaN,
             Formatting = Formatting.Indented,
         };
         var serializer = JsonSerializer.Create(jsonSerializerSettings);
-        using (var stringWriter = new StringWriter())
+        using var stringWriter = new StringWriter();
+        using (var writer = new JsonTextWriter(stringWriter) { QuoteName = false })
         {
-            using (var writer = new JsonTextWriter(stringWriter) { QuoteName = false })
-            {
-                serializer.Serialize(writer, d);
-                writer.Close();
-            }
+            serializer.Serialize(writer, d);
+            writer.Close();
+        }
 
-            XUnitAssert.AreEqualNormalized(@"{
+        XUnitAssert.AreEqualNormalized(@"{
   a: 1
 }", stringWriter.ToString());
-        }
     }
 
     [Fact]

@@ -49,12 +49,10 @@ public class DeserializeBenchmarks
     [Benchmark]
     public IList<RootObject> DeserializeLargeJsonFile()
     {
-        using (var jsonFile = System.IO.File.OpenText("large.json"))
-        using (var jsonTextReader = new JsonTextReader(jsonFile))
-        {
-            var serializer = new JsonSerializer();
-            return serializer.Deserialize<IList<RootObject>>(jsonTextReader);
-        }
+        using var jsonFile = System.IO.File.OpenText("large.json");
+        using var jsonTextReader = new JsonTextReader(jsonFile);
+        var serializer = new JsonSerializer();
+        return serializer.Deserialize<IList<RootObject>>(jsonTextReader);
     }
 
     [Benchmark]

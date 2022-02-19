@@ -167,16 +167,15 @@ public class PerformanceTests : TestFixtureBase
         #region DeserializeStream
         var client = new HttpClient();
 
-        using (var s = client.GetStreamAsync("http://www.test.com/large.json").Result)
-        using (var sr = new StreamReader(s))
-        using (JsonReader reader = new JsonTextReader(sr))
-        {
-            var serializer = new JsonSerializer();
+        using var s = client.GetStreamAsync("http://www.test.com/large.json").Result;
+        using var sr = new StreamReader(s);
+        using JsonReader reader = new JsonTextReader(sr);
+        var serializer = new JsonSerializer();
 
-            // read the json from a stream
-            // json size doesn't matter because only a small piece is read at a time from the HTTP request
-            var p = serializer.Deserialize<Person>(reader);
-        }
+        // read the json from a stream
+        // json size doesn't matter because only a small piece is read at a time from the HTTP request
+        var p = serializer.Deserialize<Person>(reader);
+
         #endregion
     }
 }
@@ -186,8 +185,8 @@ public static class PersonWriter
     #region ReaderWriter
     public static string ToJson(this Person p)
     {
-        var sw = new StringWriter();
-        var writer = new JsonTextWriter(sw);
+        var stringWriter = new StringWriter();
+        var writer = new JsonTextWriter(stringWriter);
 
         // {
         writer.WriteStartObject();
@@ -208,7 +207,7 @@ public static class PersonWriter
         // }
         writer.WriteEndObject();
 
-        return sw.ToString();
+        return stringWriter.ToString();
     }
     #endregion
 

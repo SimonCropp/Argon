@@ -295,49 +295,47 @@ public class ReadTests : TestFixtureBase
         var comma = Encoding.ASCII.GetBytes(@",").First();
         var closingBracket = Encoding.ASCII.GetBytes(@"]").First();
 
-        using (var ms = new MemoryStream())
+        using var ms = new MemoryStream();
+        ms.WriteByte(openingBracket);
+        for (var i = 0; i < nrItems; i++)
         {
-            ms.WriteByte(openingBracket);
-            for (var i = 0; i < nrItems; i++)
+            ms.WriteByte(apostrophe);
+
+            for (var j = 0; j <= length; j++)
             {
-                ms.WriteByte(apostrophe);
-
-                for (var j = 0; j <= length; j++)
-                {
-                    var current = Convert.ToByte(j % 10 + 48);
-                    ms.WriteByte(current);
-                }
-
-                ms.WriteByte(apostrophe);
-                if (i < nrItems - 1)
-                {
-                    ms.WriteByte(comma);
-                }
+                var current = Convert.ToByte(j % 10 + 48);
+                ms.WriteByte(current);
             }
 
-            ms.WriteByte(closingBracket);
-            ms.Seek(0, SeekOrigin.Begin);
-
-            var reader = new JsonTextReader(new StreamReader(ms));
-            reader.LargeBufferLength = largeBufferLength;
-
-            Xunit.Assert.True(reader.Read());
-            Xunit.Assert.Equal(JsonToken.StartArray, reader.TokenType);
-
-            Xunit.Assert.True(reader.Read());
-            Xunit.Assert.Equal(JsonToken.String, reader.TokenType);
-            Xunit.Assert.Equal(largeBufferLength, reader.CharBuffer.Length);
-
-            Xunit.Assert.True(reader.Read());
-            Xunit.Assert.Equal(JsonToken.String, reader.TokenType);
-            // buffer has been shifted before reading the second string
-            Xunit.Assert.Equal(largeBufferLength, reader.CharBuffer.Length);
-
-            Xunit.Assert.True(reader.Read());
-            Xunit.Assert.Equal(JsonToken.EndArray, reader.TokenType);
-
-            Xunit.Assert.False(reader.Read());
+            ms.WriteByte(apostrophe);
+            if (i < nrItems - 1)
+            {
+                ms.WriteByte(comma);
+            }
         }
+
+        ms.WriteByte(closingBracket);
+        ms.Seek(0, SeekOrigin.Begin);
+
+        var reader = new JsonTextReader(new StreamReader(ms));
+        reader.LargeBufferLength = largeBufferLength;
+
+        Xunit.Assert.True(reader.Read());
+        Xunit.Assert.Equal(JsonToken.StartArray, reader.TokenType);
+
+        Xunit.Assert.True(reader.Read());
+        Xunit.Assert.Equal(JsonToken.String, reader.TokenType);
+        Xunit.Assert.Equal(largeBufferLength, reader.CharBuffer.Length);
+
+        Xunit.Assert.True(reader.Read());
+        Xunit.Assert.Equal(JsonToken.String, reader.TokenType);
+        // buffer has been shifted before reading the second string
+        Xunit.Assert.Equal(largeBufferLength, reader.CharBuffer.Length);
+
+        Xunit.Assert.True(reader.Read());
+        Xunit.Assert.Equal(JsonToken.EndArray, reader.TokenType);
+
+        Xunit.Assert.False(reader.Read());
     }
 #endif
 
@@ -1307,70 +1305,68 @@ third line", jsonTextReader.Value);
 
         var sr = new StringReader(input);
 
-        using (var jsonReader = new JsonTextReader(sr))
-        {
+        using var jsonReader = new JsonTextReader(sr);
 #if DEBUG
-            jsonReader.CharBuffer = new char[5];
+        jsonReader.CharBuffer = new char[5];
 #endif
 
-            Assert.Equal(jsonReader.TokenType, JsonToken.None);
-            Assert.Equal(0, jsonReader.LineNumber);
-            Assert.Equal(0, jsonReader.LinePosition);
+        Assert.Equal(jsonReader.TokenType, JsonToken.None);
+        Assert.Equal(0, jsonReader.LineNumber);
+        Assert.Equal(0, jsonReader.LinePosition);
 
-            jsonReader.Read();
-            Assert.Equal(jsonReader.TokenType, JsonToken.StartObject);
-            Assert.Equal(1, jsonReader.LineNumber);
-            Assert.Equal(1, jsonReader.LinePosition);
+        jsonReader.Read();
+        Assert.Equal(jsonReader.TokenType, JsonToken.StartObject);
+        Assert.Equal(1, jsonReader.LineNumber);
+        Assert.Equal(1, jsonReader.LinePosition);
 
-            jsonReader.Read();
-            Assert.Equal(jsonReader.TokenType, JsonToken.PropertyName);
-            Assert.Equal(jsonReader.Value, "CPU");
-            Assert.Equal(2, jsonReader.LineNumber);
-            Assert.Equal(6, jsonReader.LinePosition);
+        jsonReader.Read();
+        Assert.Equal(jsonReader.TokenType, JsonToken.PropertyName);
+        Assert.Equal(jsonReader.Value, "CPU");
+        Assert.Equal(2, jsonReader.LineNumber);
+        Assert.Equal(6, jsonReader.LinePosition);
 
-            jsonReader.Read();
-            Assert.Equal(JsonToken.String, jsonReader.TokenType);
-            Assert.Equal("Intel", jsonReader.Value);
-            Assert.Equal(2, jsonReader.LineNumber);
-            Assert.Equal(14, jsonReader.LinePosition);
+        jsonReader.Read();
+        Assert.Equal(JsonToken.String, jsonReader.TokenType);
+        Assert.Equal("Intel", jsonReader.Value);
+        Assert.Equal(2, jsonReader.LineNumber);
+        Assert.Equal(14, jsonReader.LinePosition);
 
-            jsonReader.Read();
-            Assert.Equal(jsonReader.TokenType, JsonToken.PropertyName);
-            Assert.Equal(jsonReader.Value, "Drives");
-            Assert.Equal(3, jsonReader.LineNumber);
-            Assert.Equal(9, jsonReader.LinePosition);
+        jsonReader.Read();
+        Assert.Equal(jsonReader.TokenType, JsonToken.PropertyName);
+        Assert.Equal(jsonReader.Value, "Drives");
+        Assert.Equal(3, jsonReader.LineNumber);
+        Assert.Equal(9, jsonReader.LinePosition);
 
-            jsonReader.Read();
-            Assert.Equal(jsonReader.TokenType, JsonToken.StartArray);
-            Assert.Equal(3, jsonReader.LineNumber);
-            Assert.Equal(11, jsonReader.LinePosition);
+        jsonReader.Read();
+        Assert.Equal(jsonReader.TokenType, JsonToken.StartArray);
+        Assert.Equal(3, jsonReader.LineNumber);
+        Assert.Equal(11, jsonReader.LinePosition);
 
-            jsonReader.Read();
-            Assert.Equal(jsonReader.TokenType, JsonToken.String);
-            Assert.Equal(jsonReader.Value, "DVD read/writer");
-            Assert.Equal(jsonReader.QuoteChar, '\'');
-            Assert.Equal(4, jsonReader.LineNumber);
-            Assert.Equal(21, jsonReader.LinePosition);
+        jsonReader.Read();
+        Assert.Equal(jsonReader.TokenType, JsonToken.String);
+        Assert.Equal(jsonReader.Value, "DVD read/writer");
+        Assert.Equal(jsonReader.QuoteChar, '\'');
+        Assert.Equal(4, jsonReader.LineNumber);
+        Assert.Equal(21, jsonReader.LinePosition);
 
-            jsonReader.Read();
-            Assert.Equal(jsonReader.TokenType, JsonToken.String);
-            Assert.Equal(jsonReader.Value, "500 gigabyte hard drive");
-            Assert.Equal(jsonReader.QuoteChar, '"');
-            Assert.Equal(5, jsonReader.LineNumber);
-            Assert.Equal(29, jsonReader.LinePosition);
+        jsonReader.Read();
+        Assert.Equal(jsonReader.TokenType, JsonToken.String);
+        Assert.Equal(jsonReader.Value, "500 gigabyte hard drive");
+        Assert.Equal(jsonReader.QuoteChar, '"');
+        Assert.Equal(5, jsonReader.LineNumber);
+        Assert.Equal(29, jsonReader.LinePosition);
 
-            jsonReader.Read();
-            Assert.Equal(jsonReader.TokenType, JsonToken.EndArray);
-            Assert.Equal(6, jsonReader.LineNumber);
-            Assert.Equal(3, jsonReader.LinePosition);
+        jsonReader.Read();
+        Assert.Equal(jsonReader.TokenType, JsonToken.EndArray);
+        Assert.Equal(6, jsonReader.LineNumber);
+        Assert.Equal(3, jsonReader.LinePosition);
 
-            jsonReader.Read();
-            Assert.Equal(jsonReader.TokenType, JsonToken.EndObject);
-            Assert.Equal(7, jsonReader.LineNumber);
-            Assert.Equal(1, jsonReader.LinePosition);
+        jsonReader.Read();
+        Assert.Equal(jsonReader.TokenType, JsonToken.EndObject);
+        Assert.Equal(7, jsonReader.LineNumber);
+        Assert.Equal(1, jsonReader.LinePosition);
 
-            Assert.False(jsonReader.Read());
-        }
+        Assert.False(jsonReader.Read());
     }
 
     [Fact]
@@ -1387,16 +1383,16 @@ third line", jsonTextReader.Value);
     public void ReadLongJsonArray()
     {
         var valueCount = 10000;
-        var sw = new StringWriter();
-        var writer = new JsonTextWriter(sw);
-        writer.WriteStartArray();
+        var stringWriter = new StringWriter();
+        var jsonTextWriter = new JsonTextWriter(stringWriter);
+        jsonTextWriter.WriteStartArray();
         for (var i = 0; i < valueCount; i++)
         {
-            writer.WriteValue(i);
+            jsonTextWriter.WriteValue(i);
         }
-        writer.WriteEndArray();
+        jsonTextWriter.WriteEndArray();
 
-        var json = sw.ToString();
+        var json = stringWriter.ToString();
 
         var reader = new JsonTextReader(new StringReader(json));
         Assert.True(reader.Read());
@@ -1590,28 +1586,26 @@ third line", jsonTextReader.Value);
 
         var sr = new StringReader(input);
 
-        using (JsonReader jsonReader = new JsonTextReader(sr))
-        {
-            Assert.Equal(0, jsonReader.Depth);
+        using JsonReader jsonReader = new JsonTextReader(sr);
+        Assert.Equal(0, jsonReader.Depth);
 
-            jsonReader.Read();
-            Assert.Equal(JsonToken.StartObject, jsonReader.TokenType);
-            Assert.Equal(0, jsonReader.Depth);
+        jsonReader.Read();
+        Assert.Equal(JsonToken.StartObject, jsonReader.TokenType);
+        Assert.Equal(0, jsonReader.Depth);
 
-            jsonReader.Read();
-            Assert.Equal(JsonToken.PropertyName, jsonReader.TokenType);
-            Assert.Equal(1, jsonReader.Depth);
+        jsonReader.Read();
+        Assert.Equal(JsonToken.PropertyName, jsonReader.TokenType);
+        Assert.Equal(1, jsonReader.Depth);
 
-            jsonReader.Read();
-            Assert.Equal(jsonReader.TokenType, JsonToken.String);
-            Assert.Equal("Purple\r \n monkey's:\tdishwasher", jsonReader.Value);
-            Assert.Equal('\'', jsonReader.QuoteChar);
-            Assert.Equal(1, jsonReader.Depth);
+        jsonReader.Read();
+        Assert.Equal(jsonReader.TokenType, JsonToken.String);
+        Assert.Equal("Purple\r \n monkey's:\tdishwasher", jsonReader.Value);
+        Assert.Equal('\'', jsonReader.QuoteChar);
+        Assert.Equal(1, jsonReader.Depth);
 
-            jsonReader.Read();
-            Assert.Equal(JsonToken.EndObject, jsonReader.TokenType);
-            Assert.Equal(0, jsonReader.Depth);
-        }
+        jsonReader.Read();
+        Assert.Equal(JsonToken.EndObject, jsonReader.TokenType);
+        Assert.Equal(0, jsonReader.Depth);
     }
 
     [Fact]

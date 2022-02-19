@@ -158,17 +158,15 @@ public partial class JArray : JContainer, IList<JToken>
     /// </example>
     public new static JArray Parse(string json, JsonLoadSettings? settings)
     {
-        using (JsonReader reader = new JsonTextReader(new StringReader(json)))
+        using JsonReader reader = new JsonTextReader(new StringReader(json));
+        var a = Load(reader, settings);
+
+        while (reader.Read())
         {
-            var a = Load(reader, settings);
-
-            while (reader.Read())
-            {
-                // Any content encountered here other than a comment will throw in the reader.
-            }
-
-            return a;
+            // Any content encountered here other than a comment will throw in the reader.
         }
+
+        return a;
     }
 
     /// <summary>

@@ -83,12 +83,11 @@ public class SerializationTests : TestFixtureBase
         serializer.Converters.Add(new JavaScriptDateTimeConverter());
         serializer.NullValueHandling = NullValueHandling.Ignore;
 
-        using (var sw = new StreamWriter(@"c:\json.txt"))
-        using (JsonWriter writer = new JsonTextWriter(sw))
-        {
-            serializer.Serialize(writer, product);
-            // {"ExpiryDate":new Date(1230375600000),"Price":0}
-        }
+        using var streamWriter = new StreamWriter(@"c:\json.txt");
+        using JsonWriter writer = new JsonTextWriter(streamWriter);
+        serializer.Serialize(writer, product);
+        // {"ExpiryDate":new Date(1230375600000),"Price":0}
+
         #endregion
     }
 

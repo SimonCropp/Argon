@@ -1861,14 +1861,14 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         };
 
-        var sw = new StringWriter();
+        var stringWriter = new StringWriter();
 
-        jsonSerializer.Serialize(sw, collection);
+        jsonSerializer.Serialize(stringWriter, collection);
 
         Assert.Equal(@"[{""Name"":""Test1"",""ExpiryDate"":""2000-01-01T00:00:00Z"",""Price"":0.0,""Sizes"":null},{""Name"":""Test2"",""ExpiryDate"":""2000-01-01T00:00:00Z"",""Price"":0.0,""Sizes"":null},{""Name"":""Test3"",""ExpiryDate"":""2000-01-01T00:00:00Z"",""Price"":0.0,""Sizes"":null}]",
-            sw.GetStringBuilder().ToString());
+            stringWriter.GetStringBuilder().ToString());
 
-        var collectionNew = (ProductCollection)jsonSerializer.Deserialize(new JsonTextReader(new StringReader(sw.GetStringBuilder().ToString())), typeof(ProductCollection));
+        var collectionNew = (ProductCollection)jsonSerializer.Deserialize(new JsonTextReader(new StringReader(stringWriter.GetStringBuilder().ToString())), typeof(ProductCollection));
 
         Assert.Equal(collection, collectionNew);
     }

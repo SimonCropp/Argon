@@ -118,15 +118,15 @@ public class ShouldSerializeTests : TestFixtureBase
         var traceWriter = new MemoryTraceWriter();
         jsonSerializer.TraceWriter = traceWriter;
 
-        var sb = new StringBuilder(256);
-        var sw = new StringWriter(sb, CultureInfo.InvariantCulture);
-        using (var jsonWriter = new JsonTextWriter(sw))
+        var stringBuilder = new StringBuilder(256);
+        var stringWriter = new StringWriter(stringBuilder, CultureInfo.InvariantCulture);
+        using (var jsonWriter = new JsonTextWriter(stringWriter))
         {
             jsonWriter.Formatting = Formatting.None;
             jsonSerializer.Serialize(jsonWriter, f, typeof(Foo2));
         }
 
-        return sw.ToString();
+        return stringWriter.ToString();
     }
 
     [Fact]

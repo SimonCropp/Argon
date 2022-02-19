@@ -99,36 +99,34 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void DontCloseInputOnDeserializeError()
     {
-        using (var s = System.IO.File.OpenRead("large.json"))
+        using var s = System.IO.File.OpenRead("large.json");
+        try
         {
-            try
+            using (var reader = new JsonTextReader(new StreamReader(s)))
             {
-                using (var reader = new JsonTextReader(new StreamReader(s)))
+                reader.SupportMultipleContent = true;
+                reader.CloseInput = false;
+
+                // read into array
+                reader.Read();
+
+                var ser = new JsonSerializer
                 {
-                    reader.SupportMultipleContent = true;
-                    reader.CloseInput = false;
+                    CheckAdditionalContent = false
+                };
 
-                    // read into array
-                    reader.Read();
-
-                    var ser = new JsonSerializer
-                    {
-                        CheckAdditionalContent = false
-                    };
-
-                    ser.Deserialize<IList<ErroringClass>>(reader);
-                }
-
-                XUnitAssert.Fail();
+                ser.Deserialize<IList<ErroringClass>>(reader);
             }
-            catch (Exception)
-            {
-                Assert.True(s.Position > 0);
 
-                s.Seek(0, SeekOrigin.Begin);
+            XUnitAssert.Fail();
+        }
+        catch (Exception)
+        {
+            Assert.True(s.Position > 0);
 
-                Assert.Equal(0, s.Position);
-            }
+            s.Seek(0, SeekOrigin.Begin);
+
+            Assert.Equal(0, s.Position);
         }
     }
 
@@ -5326,15 +5324,13 @@ Path '', line 1, position 1.");
 
         var json = JObject.FromObject(o);
 
-        using (var sw = new StringWriter())
-        using (var jw = new JsonTextWriter(sw))
-        {
-            jw.WriteToken(json.CreateReader());
-            jw.Flush();
+        using var stringWriter = new StringWriter();
+        using var jsonTextWriter = new JsonTextWriter(stringWriter);
+        jsonTextWriter.WriteToken(json.CreateReader());
+        jsonTextWriter.Flush();
 
-            var result = sw.ToString();
-            Assert.Equal(@"{""p"":1}", result);
-        }
+        var result = stringWriter.ToString();
+        Assert.Equal(@"{""p"":1}", result);
     }
 
     [Fact]
@@ -6842,8 +6838,8 @@ This is just junk, though.";
             new DateTimeOffset(2000, 12, 12, 12, 12, 12, TimeSpan.FromHours(1))
         };
 
-        var sw = new StringWriter();
-        var jsonWriter = new JsonTextWriter(sw);
+        var stringWriter = new StringWriter();
+        var jsonWriter = new JsonTextWriter(stringWriter);
 
         var serializer = JsonSerializer.Create(new JsonSerializerSettings
         {
@@ -6857,7 +6853,7 @@ This is just junk, though.";
         Assert.Equal(CultureInfo.InvariantCulture, jsonWriter.Culture);
         Assert.Equal(Formatting.None, jsonWriter.Formatting);
 
-        var json = sw.ToString();
+        var json = stringWriter.ToString();
 
         XUnitAssert.AreEqualNormalized(@"[
   ""2000 p.m."",
@@ -6880,8 +6876,8 @@ This is just junk, though.";
     [Fact]
     public void JsonSerializerStringEscapeHandling()
     {
-        var sw = new StringWriter();
-        var jsonWriter = new JsonTextWriter(sw);
+        var stringWriter = new StringWriter();
+        var jsonWriter = new JsonTextWriter(stringWriter);
 
         var serializer = JsonSerializer.Create(new JsonSerializerSettings
         {
@@ -6892,7 +6888,7 @@ This is just junk, though.";
 
         Assert.Equal(StringEscapeHandling.Default, jsonWriter.StringEscapeHandling);
 
-        var json = sw.ToString();
+        var json = stringWriter.ToString();
 
         XUnitAssert.AreEqualNormalized(@"{
   ""html"": ""\u003chtml\u003e\u003c/html\u003e""

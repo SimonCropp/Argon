@@ -1090,17 +1090,17 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                     var dt = DateTimeUtils.EnsureDateTime((DateTime)name, writer.DateTimeZoneHandling);
 
                     escape = false;
-                    var sw = new StringWriter(CultureInfo.InvariantCulture);
-                    DateTimeUtils.WriteDateTimeString(sw, dt, writer.DateFormatHandling, writer.DateFormatString, writer.Culture);
-                    return sw.ToString();
+                    var stringWriter = new StringWriter(CultureInfo.InvariantCulture);
+                    DateTimeUtils.WriteDateTimeString(stringWriter, dt, writer.DateFormatHandling, writer.DateFormatString, writer.Culture);
+                    return stringWriter.ToString();
                 }
                 case PrimitiveTypeCode.DateTimeOffset:
                 case PrimitiveTypeCode.DateTimeOffsetNullable:
                 {
                     escape = false;
-                    var sw = new StringWriter(CultureInfo.InvariantCulture);
-                    DateTimeUtils.WriteDateTimeOffsetString(sw, (DateTimeOffset)name, writer.DateFormatHandling, writer.DateFormatString, writer.Culture);
-                    return sw.ToString();
+                    var stringWriter = new StringWriter(CultureInfo.InvariantCulture);
+                    DateTimeUtils.WriteDateTimeOffsetString(stringWriter, (DateTimeOffset)name, writer.DateFormatHandling, writer.DateFormatString, writer.Culture);
+                    return stringWriter.ToString();
                 }
                 case PrimitiveTypeCode.Double:
                 case PrimitiveTypeCode.DoubleNullable:

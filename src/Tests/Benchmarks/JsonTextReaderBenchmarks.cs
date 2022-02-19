@@ -39,25 +39,21 @@ public class JsonTextReaderBenchmarks
     [Benchmark]
     public void ReadLargeJson()
     {
-        using (var fs = System.IO.File.OpenText("large.json"))
-        using (var jsonTextReader = new JsonTextReader(fs))
+        using var fileStream = System.IO.File.OpenText("large.json");
+        using var jsonTextReader = new JsonTextReader(fileStream);
+        while (jsonTextReader.Read())
         {
-            while (jsonTextReader.Read())
-            {
-            }
         }
     }
 
     [Benchmark]
     public void ReadAsDecimal()
     {
-        using (var jsonTextReader = new JsonTextReader(new StringReader(FloatArrayJson)))
-        {
-            jsonTextReader.Read();
+        using var jsonTextReader = new JsonTextReader(new StringReader(FloatArrayJson));
+        jsonTextReader.Read();
 
-            while (jsonTextReader.ReadAsDecimal() != null)
-            {
-            }
+        while (jsonTextReader.ReadAsDecimal() != null)
+        {
         }
     }
 }

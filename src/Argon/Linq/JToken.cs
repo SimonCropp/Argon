@@ -394,15 +394,13 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <returns>The JSON for this token using the given formatting and converters.</returns>
     public string ToString(Formatting formatting, params JsonConverter[] converters)
     {
-        using (var sw = new StringWriter(CultureInfo.InvariantCulture))
-        {
-            var jw = new JsonTextWriter(sw);
-            jw.Formatting = formatting;
+        using var stringWriter = new StringWriter(CultureInfo.InvariantCulture);
+        var jsonTextWriter = new JsonTextWriter(stringWriter);
+        jsonTextWriter.Formatting = formatting;
 
-            WriteTo(jw, converters);
+        WriteTo(jsonTextWriter, converters);
 
-            return sw.ToString();
-        }
+        return stringWriter.ToString();
     }
 
     static JValue? EnsureValue(JToken value)
@@ -1778,11 +1776,9 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         ValidationUtils.ArgumentNotNull(jsonSerializer, nameof(jsonSerializer));
 
         JToken token;
-        using (var jsonWriter = new JTokenWriter())
-        {
-            jsonSerializer.Serialize(jsonWriter, o);
-            token = jsonWriter.Token!;
-        }
+        using var jsonWriter = new JTokenWriter();
+        jsonSerializer.Serialize(jsonWriter, o);
+        token = jsonWriter.Token!;
 
         return token;
     }
@@ -1957,17 +1953,15 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     {
         ValidationUtils.ArgumentNotNull(jsonSerializer, nameof(jsonSerializer));
 
-        using (var jsonReader = new JTokenReader(this))
+        using var jsonReader = new JTokenReader(this);
+        // Hacky fix to ensure the serializer settings are set onto the new reader.
+        // This is required because the serializer won't update settings when used inside of a converter.
+        if (jsonSerializer is JsonSerializerProxy proxy)
         {
-            // Hacky fix to ensure the serializer settings are set onto the new reader.
-            // This is required because the serializer won't update settings when used inside of a converter.
-            if (jsonSerializer is JsonSerializerProxy proxy)
-            {
-                proxy._serializer.SetupReader(jsonReader, out _, out _, out _, out _, out _, out _);
-            }
-
-            return jsonSerializer.Deserialize(jsonReader, objectType);
+            proxy._serializer.SetupReader(jsonReader, out _, out _, out _, out _, out _, out _);
         }
+
+        return jsonSerializer.Deserialize(jsonReader, objectType);
     }
 
     /// <summary>
@@ -2077,17 +2071,15 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <returns>A <see cref="JToken"/> populated from the string that contains JSON.</returns>
     public static JToken Parse(string json, JsonLoadSettings? settings)
     {
-        using (JsonReader reader = new JsonTextReader(new StringReader(json)))
+        using JsonReader reader = new JsonTextReader(new StringReader(json));
+        var t = Load(reader, settings);
+
+        while (reader.Read())
         {
-            var t = Load(reader, settings);
-
-            while (reader.Read())
-            {
-                // Any content encountered here other than a comment will throw in the reader.
-            }
-
-            return t;
+            // Any content encountered here other than a comment will throw in the reader.
         }
+
+        return t;
     }
 
     /// <summary>

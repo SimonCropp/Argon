@@ -386,9 +386,9 @@ public class TypeNameHandlingTests : TestFixtureBase
         {
             TypeNameHandling = TypeNameHandling.Auto
         };
-        var sw = new StringWriter();
-        serializer.Serialize(new JsonTextWriter(sw) { Formatting = Formatting.Indented }, new WagePerson(), typeof(Person));
-        var result = sw.ToString();
+        var stringWriter = new StringWriter();
+        serializer.Serialize(new JsonTextWriter(stringWriter) { Formatting = Formatting.Indented }, new WagePerson(), typeof(Person));
+        var result = stringWriter.ToString();
 
         XUnitAssert.AreEqualNormalized(@"{
   ""$type"": ""Argon.Tests.TestObjects.Organization.WagePerson, Tests"",
@@ -399,12 +399,10 @@ public class TypeNameHandlingTests : TestFixtureBase
 }", result);
 
         Assert.True(result.Contains("WagePerson"));
-        using (var rd = new JsonTextReader(new StringReader(result)))
-        {
-            var person = serializer.Deserialize<Person>(rd);
+        using var rd = new JsonTextReader(new StringReader(result));
+        var person = serializer.Deserialize<Person>(rd);
 
-            Assert.IsType(typeof(WagePerson), person);
-        }
+        Assert.IsType(typeof(WagePerson), person);
     }
 
     [Fact]
@@ -1138,15 +1136,15 @@ public class TypeNameHandlingTests : TestFixtureBase
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         };
 
-        var sw = new StringWriter();
-        using (var jsonWriter = new JsonTextWriter(sw))
+        var stringWriter = new StringWriter();
+        using (var jsonWriter = new JsonTextWriter(stringWriter))
         {
             jsonWriter.Formatting = Formatting.Indented;
             serializingTester.TypeNameHandling = TypeNameHandling.Auto;
             serializingTester.Serialize(jsonWriter, testObject);
         }
 
-        var json = sw.ToString();
+        var json = stringWriter.ToString();
 
         var contentSubClassRef = ReflectionUtils.GetTypeName(typeof(ContentSubClass), TypeNameAssemblyFormatHandling.Simple, null);
         var dictionaryRef = ReflectionUtils.GetTypeName(typeof(Dictionary<int, IList<ContentBaseClass>>), TypeNameAssemblyFormatHandling.Simple, null);

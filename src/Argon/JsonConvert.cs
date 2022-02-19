@@ -101,13 +101,11 @@ public static class JsonConvert
     {
         var updatedDateTime = DateTimeUtils.EnsureDateTime(value, timeZoneHandling);
 
-        using (var writer = StringUtils.CreateStringWriter(64))
-        {
-            writer.Write('"');
-            DateTimeUtils.WriteDateTimeString(writer, updatedDateTime, format, null, CultureInfo.InvariantCulture);
-            writer.Write('"');
-            return writer.ToString();
-        }
+        using var writer = StringUtils.CreateStringWriter(64);
+        writer.Write('"');
+        DateTimeUtils.WriteDateTimeString(writer, updatedDateTime, format, null, CultureInfo.InvariantCulture);
+        writer.Write('"');
+        return writer.ToString();
     }
 
     /// <summary>
@@ -128,13 +126,11 @@ public static class JsonConvert
     /// <returns>A JSON string representation of the <see cref="DateTimeOffset"/>.</returns>
     public static string ToString(DateTimeOffset value, DateFormatHandling format)
     {
-        using (var writer = StringUtils.CreateStringWriter(64))
-        {
-            writer.Write('"');
-            DateTimeUtils.WriteDateTimeOffsetString(writer, value, format, null, CultureInfo.InvariantCulture);
-            writer.Write('"');
-            return writer.ToString();
-        }
+        using var writer = StringUtils.CreateStringWriter(64);
+        writer.Write('"');
+        DateTimeUtils.WriteDateTimeOffsetString(writer, value, format, null, CultureInfo.InvariantCulture);
+        writer.Write('"');
+        return writer.ToString();
     }
 
     /// <summary>
@@ -623,16 +619,16 @@ public static class JsonConvert
 
     static string SerializeObjectInternal(object? value, Type? type, JsonSerializer jsonSerializer)
     {
-        var sb = new StringBuilder(256);
-        var sw = new StringWriter(sb, CultureInfo.InvariantCulture);
-        using (var jsonWriter = new JsonTextWriter(sw))
+        var stringBuilder = new StringBuilder(256);
+        var stringWriter = new StringWriter(stringBuilder, CultureInfo.InvariantCulture);
+        using (var jsonWriter = new JsonTextWriter(stringWriter))
         {
             jsonWriter.Formatting = jsonSerializer.Formatting;
 
             jsonSerializer.Serialize(jsonWriter, value, type);
         }
 
-        return sw.ToString();
+        return stringWriter.ToString();
     }
     #endregion
 
@@ -793,10 +789,8 @@ public static class JsonConvert
             jsonSerializer.CheckAdditionalContent = true;
         }
 
-        using (var reader = new JsonTextReader(new StringReader(value)))
-        {
-            return jsonSerializer.Deserialize(reader, type);
-        }
+        using var reader = new JsonTextReader(new StringReader(value));
+        return jsonSerializer.Deserialize(reader, type);
     }
     #endregion
 
@@ -825,18 +819,16 @@ public static class JsonConvert
     {
         var jsonSerializer = JsonSerializer.CreateDefault(settings);
 
-        using (JsonReader jsonReader = new JsonTextReader(new StringReader(value)))
-        {
-            jsonSerializer.Populate(jsonReader, target);
+        using JsonReader jsonReader = new JsonTextReader(new StringReader(value));
+        jsonSerializer.Populate(jsonReader, target);
 
-            if (settings is {CheckAdditionalContent: true})
+        if (settings is {CheckAdditionalContent: true})
+        {
+            while (jsonReader.Read())
             {
-                while (jsonReader.Read())
+                if (jsonReader.TokenType != JsonToken.Comment)
                 {
-                    if (jsonReader.TokenType != JsonToken.Comment)
-                    {
-                        throw JsonSerializationException.Create(jsonReader, "Additional text found in JSON string after finishing deserializing object.");
-                    }
+                    throw JsonSerializationException.Create(jsonReader, "Additional text found in JSON string after finishing deserializing object.");
                 }
             }
         }

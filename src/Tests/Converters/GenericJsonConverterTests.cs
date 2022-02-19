@@ -45,32 +45,32 @@ public class GenericJsonConverterTests : TestFixtureBase
     [Fact]
     public void WriteJsonObject()
     {
-        var sw = new StringWriter();
-        var jsonWriter = new JsonTextWriter(sw);
+        var stringWriter = new StringWriter();
+        var jsonWriter = new JsonTextWriter(stringWriter);
 
         var converter = new TestGenericConverter();
         converter.WriteJson(jsonWriter, (object)"String!", null);
 
-        Assert.Equal(@"""String!""", sw.ToString());
+        Assert.Equal(@"""String!""", stringWriter.ToString());
     }
 
     [Fact]
     public void WriteJsonGeneric()
     {
-        var sw = new StringWriter();
-        var jsonWriter = new JsonTextWriter(sw);
+        var stringWriter = new StringWriter();
+        var jsonWriter = new JsonTextWriter(stringWriter);
 
         var converter = new TestGenericConverter();
         converter.WriteJson(jsonWriter, "String!", null);
 
-        Assert.Equal(@"""String!""", sw.ToString());
+        Assert.Equal(@"""String!""", stringWriter.ToString());
     }
 
     [Fact]
     public void WriteJsonBadType()
     {
-        var sw = new StringWriter();
-        var jsonWriter = new JsonTextWriter(sw);
+        var stringWriter = new StringWriter();
+        var jsonWriter = new JsonTextWriter(stringWriter);
 
         var converter = new TestGenericConverter();
 

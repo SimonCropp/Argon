@@ -1018,12 +1018,12 @@ keyword such as type of business.""
 
         var serializer = new JsonSerializer();
         serializer.Converters.Add(new JavaScriptDateTimeConverter());
-        var sw = new StringWriter();
-        JsonWriter writer = new JsonTextWriter(sw);
+        var stringWriter = new StringWriter();
+        JsonWriter writer = new JsonTextWriter(stringWriter);
         writer.Formatting = Formatting.Indented;
         serializer.Serialize(writer, o);
 
-        var json = sw.ToString();
+        var json = stringWriter.ToString();
 
         XUnitAssert.AreEqualNormalized(@"{
   ""Test1"": new Date(

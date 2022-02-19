@@ -222,26 +222,24 @@ public class FloatAsyncTests : TestFixtureBase
 
         var sr = new StringReader(input);
 
-        using (JsonReader jsonReader = new JsonTextReader(sr))
-        {
-            await jsonReader.ReadAsync();
-            Assert.Equal(jsonReader.TokenType, JsonToken.StartArray);
+        using JsonReader jsonReader = new JsonTextReader(sr);
+        await jsonReader.ReadAsync();
+        Assert.Equal(jsonReader.TokenType, JsonToken.StartArray);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(jsonReader.TokenType, JsonToken.Float);
-            Assert.Equal(jsonReader.Value, double.NaN);
+        await jsonReader.ReadAsync();
+        Assert.Equal(jsonReader.TokenType, JsonToken.Float);
+        Assert.Equal(jsonReader.Value, double.NaN);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(jsonReader.TokenType, JsonToken.Float);
-            Assert.Equal(jsonReader.Value, double.PositiveInfinity);
+        await jsonReader.ReadAsync();
+        Assert.Equal(jsonReader.TokenType, JsonToken.Float);
+        Assert.Equal(jsonReader.Value, double.PositiveInfinity);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(jsonReader.TokenType, JsonToken.Float);
-            Assert.Equal(jsonReader.Value, double.NegativeInfinity);
+        await jsonReader.ReadAsync();
+        Assert.Equal(jsonReader.TokenType, JsonToken.Float);
+        Assert.Equal(jsonReader.Value, double.NegativeInfinity);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(jsonReader.TokenType, JsonToken.EndArray);
-        }
+        await jsonReader.ReadAsync();
+        Assert.Equal(jsonReader.TokenType, JsonToken.EndArray);
     }
 
     [Fact]
@@ -250,85 +248,83 @@ public class FloatAsyncTests : TestFixtureBase
         var json =
             @"[0.0,0.0,0.1,1.0,1.000001,1E-06,4.94065645841247E-324,Infinity,-Infinity,NaN,1.7976931348623157E+308,-1.7976931348623157E+308,Infinity,-Infinity,NaN,0e-10,0.25e-5,0.3e10]";
 
-        using (JsonReader jsonReader = new JsonTextReader(new StringReader(json)))
-        {
-            await jsonReader.ReadAsync();
-            Assert.Equal(JsonToken.StartArray, jsonReader.TokenType);
+        using JsonReader jsonReader = new JsonTextReader(new StringReader(json));
+        await jsonReader.ReadAsync();
+        Assert.Equal(JsonToken.StartArray, jsonReader.TokenType);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(JsonToken.Float, jsonReader.TokenType);
-            Assert.Equal(0.0, jsonReader.Value);
+        await jsonReader.ReadAsync();
+        Assert.Equal(JsonToken.Float, jsonReader.TokenType);
+        Assert.Equal(0.0, jsonReader.Value);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(JsonToken.Float, jsonReader.TokenType);
-            Assert.Equal(0.0, jsonReader.Value);
+        await jsonReader.ReadAsync();
+        Assert.Equal(JsonToken.Float, jsonReader.TokenType);
+        Assert.Equal(0.0, jsonReader.Value);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(JsonToken.Float, jsonReader.TokenType);
-            Assert.Equal(0.1, jsonReader.Value);
+        await jsonReader.ReadAsync();
+        Assert.Equal(JsonToken.Float, jsonReader.TokenType);
+        Assert.Equal(0.1, jsonReader.Value);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(JsonToken.Float, jsonReader.TokenType);
-            Assert.Equal(1.0, jsonReader.Value);
+        await jsonReader.ReadAsync();
+        Assert.Equal(JsonToken.Float, jsonReader.TokenType);
+        Assert.Equal(1.0, jsonReader.Value);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(JsonToken.Float, jsonReader.TokenType);
-            Assert.Equal(1.000001, jsonReader.Value);
+        await jsonReader.ReadAsync();
+        Assert.Equal(JsonToken.Float, jsonReader.TokenType);
+        Assert.Equal(1.000001, jsonReader.Value);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(JsonToken.Float, jsonReader.TokenType);
-            Assert.Equal(1E-06, jsonReader.Value);
+        await jsonReader.ReadAsync();
+        Assert.Equal(JsonToken.Float, jsonReader.TokenType);
+        Assert.Equal(1E-06, jsonReader.Value);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(JsonToken.Float, jsonReader.TokenType);
-            Assert.Equal(4.94065645841247E-324, jsonReader.Value);
+        await jsonReader.ReadAsync();
+        Assert.Equal(JsonToken.Float, jsonReader.TokenType);
+        Assert.Equal(4.94065645841247E-324, jsonReader.Value);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(JsonToken.Float, jsonReader.TokenType);
-            Assert.Equal(double.PositiveInfinity, jsonReader.Value);
+        await jsonReader.ReadAsync();
+        Assert.Equal(JsonToken.Float, jsonReader.TokenType);
+        Assert.Equal(double.PositiveInfinity, jsonReader.Value);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(JsonToken.Float, jsonReader.TokenType);
-            Assert.Equal(double.NegativeInfinity, jsonReader.Value);
+        await jsonReader.ReadAsync();
+        Assert.Equal(JsonToken.Float, jsonReader.TokenType);
+        Assert.Equal(double.NegativeInfinity, jsonReader.Value);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(JsonToken.Float, jsonReader.TokenType);
-            Assert.Equal(double.NaN, jsonReader.Value);
+        await jsonReader.ReadAsync();
+        Assert.Equal(JsonToken.Float, jsonReader.TokenType);
+        Assert.Equal(double.NaN, jsonReader.Value);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(JsonToken.Float, jsonReader.TokenType);
-            Assert.Equal(double.MaxValue, jsonReader.Value);
+        await jsonReader.ReadAsync();
+        Assert.Equal(JsonToken.Float, jsonReader.TokenType);
+        Assert.Equal(double.MaxValue, jsonReader.Value);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(JsonToken.Float, jsonReader.TokenType);
-            Assert.Equal(double.MinValue, jsonReader.Value);
+        await jsonReader.ReadAsync();
+        Assert.Equal(JsonToken.Float, jsonReader.TokenType);
+        Assert.Equal(double.MinValue, jsonReader.Value);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(JsonToken.Float, jsonReader.TokenType);
-            Assert.Equal(double.PositiveInfinity, jsonReader.Value);
+        await jsonReader.ReadAsync();
+        Assert.Equal(JsonToken.Float, jsonReader.TokenType);
+        Assert.Equal(double.PositiveInfinity, jsonReader.Value);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(JsonToken.Float, jsonReader.TokenType);
-            Assert.Equal(double.NegativeInfinity, jsonReader.Value);
+        await jsonReader.ReadAsync();
+        Assert.Equal(JsonToken.Float, jsonReader.TokenType);
+        Assert.Equal(double.NegativeInfinity, jsonReader.Value);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(JsonToken.Float, jsonReader.TokenType);
-            Assert.Equal(double.NaN, jsonReader.Value);
+        await jsonReader.ReadAsync();
+        Assert.Equal(JsonToken.Float, jsonReader.TokenType);
+        Assert.Equal(double.NaN, jsonReader.Value);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(JsonToken.Float, jsonReader.TokenType);
-            Assert.Equal(0d, jsonReader.Value);
+        await jsonReader.ReadAsync();
+        Assert.Equal(JsonToken.Float, jsonReader.TokenType);
+        Assert.Equal(0d, jsonReader.Value);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(JsonToken.Float, jsonReader.TokenType);
-            Assert.Equal(0.0000025d, jsonReader.Value);
+        await jsonReader.ReadAsync();
+        Assert.Equal(JsonToken.Float, jsonReader.TokenType);
+        Assert.Equal(0.0000025d, jsonReader.Value);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(JsonToken.Float, jsonReader.TokenType);
-            Assert.Equal(3000000000d, jsonReader.Value);
+        await jsonReader.ReadAsync();
+        Assert.Equal(JsonToken.Float, jsonReader.TokenType);
+        Assert.Equal(3000000000d, jsonReader.Value);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(JsonToken.EndArray, jsonReader.TokenType);
-        }
+        await jsonReader.ReadAsync();
+        Assert.Equal(JsonToken.EndArray, jsonReader.TokenType);
     }
 }

@@ -1070,10 +1070,10 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 
         var ms = new MemoryStream();
 
-        using (var sw = new StreamWriter(ms))
-        using (var writer = new JsonTextWriter(sw) { Formatting = Formatting.Indented })
+        using (var streamWriter = new StreamWriter(ms))
+        using (var jsonTextWriter = new JsonTextWriter(streamWriter) { Formatting = Formatting.Indented })
         {
-            ser.Serialize(writer, myClasses1);
+            ser.Serialize(jsonTextWriter, myClasses1);
         }
 
         var data = ms.ToArray();

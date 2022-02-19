@@ -82,8 +82,8 @@ public class DynamicTests : TestFixtureBase
 
         IDictionary<string, int> counts = new Dictionary<string, int>();
 
-        var sw = new Stopwatch();
-        sw.Start();
+        var stopwatch = new Stopwatch();
+        stopwatch.Start();
 
         var count = 0;
         foreach (var o in d)
@@ -102,7 +102,7 @@ public class DynamicTests : TestFixtureBase
             count++;
         }
 
-        Console.WriteLine($"Time (secs): {sw.Elapsed.TotalSeconds}");
+        Console.WriteLine($"Time (secs): {stopwatch.Elapsed.TotalSeconds}");
     }
 
     [Fact]

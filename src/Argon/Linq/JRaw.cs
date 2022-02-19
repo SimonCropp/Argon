@@ -55,13 +55,11 @@ public partial class JRaw : JValue
     /// <returns>An instance of <see cref="JRaw"/> with the content of the reader's current token.</returns>
     public static JRaw Create(JsonReader reader)
     {
-        using (var sw = new StringWriter(CultureInfo.InvariantCulture))
-        using (var jsonWriter = new JsonTextWriter(sw))
-        {
-            jsonWriter.WriteToken(reader);
+        using var stringWriter = new StringWriter(CultureInfo.InvariantCulture);
+        using var jsonWriter = new JsonTextWriter(stringWriter);
+        jsonWriter.WriteToken(reader);
 
-            return new JRaw(sw.ToString());
-        }
+        return new JRaw(stringWriter.ToString());
     }
 
     internal override JToken CloneToken()

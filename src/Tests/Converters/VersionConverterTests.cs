@@ -85,13 +85,13 @@ public class VersionConverterTests : TestFixtureBase
     [Fact]
     public void WriteJsonNull()
     {
-        var sw = new StringWriter();
-        var jsonWriter = new JsonTextWriter(sw);
+        var stringWriter = new StringWriter();
+        var jsonWriter = new JsonTextWriter(stringWriter);
 
         var converter = new VersionConverter();
         converter.WriteJson(jsonWriter, null, null);
 
-        XUnitAssert.AreEqualNormalized(@"null", sw.ToString());
+        XUnitAssert.AreEqualNormalized(@"null", stringWriter.ToString());
     }
 
     [Fact]

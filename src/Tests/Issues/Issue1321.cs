@@ -139,8 +139,8 @@ public class Issue1321 : TestFixtureBase
     [Fact]
     public void Test5()
     {
-        var sw = new StringWriter();
-        var writer = new JsonTextWriter(sw);
+        var stringWriter = new StringWriter();
+        var writer = new JsonTextWriter(stringWriter);
         writer.WriteStartArray();
 
         var reader = new JsonTextReader(new StringReader(@"[[""1"","));
@@ -156,8 +156,8 @@ public class Issue1321 : TestFixtureBase
     [Fact]
     public async Task Test5_Async()
     {
-        var sw = new StringWriter();
-        var writer = new JsonTextWriter(sw);
+        var stringWriter = new StringWriter();
+        var writer = new JsonTextWriter(stringWriter);
         writer.WriteStartArray();
 
         var reader = new JsonTextReader(new StringReader(@"[[""1"","));

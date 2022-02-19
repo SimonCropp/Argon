@@ -365,38 +365,38 @@ public class JsonConvertTest : TestFixtureBase
 
             IList<int> l = new List<int> { 1, 2, 3 };
 
-            var sw = new StringWriter();
+            var stringWriter = new StringWriter();
             var serializer = JsonSerializer.CreateDefault(new JsonSerializerSettings
             {
                 Converters = { new IntConverter() }
             });
-            serializer.Serialize(sw, l);
+            serializer.Serialize(stringWriter, l);
 
             XUnitAssert.AreEqualNormalized(@"[
   2,
   4,
   6
-]", sw.ToString());
+]", stringWriter.ToString());
 
-            sw = new StringWriter();
+            stringWriter = new StringWriter();
             serializer.Converters.Clear();
-            serializer.Serialize(sw, l);
+            serializer.Serialize(stringWriter, l);
 
             XUnitAssert.AreEqualNormalized(@"[
   1,
   2,
   3
-]", sw.ToString());
+]", stringWriter.ToString());
 
-            sw = new StringWriter();
+            stringWriter = new StringWriter();
             serializer = JsonSerializer.Create(new JsonSerializerSettings { Formatting = Formatting.Indented });
-            serializer.Serialize(sw, l);
+            serializer.Serialize(stringWriter, l);
 
             XUnitAssert.AreEqualNormalized(@"[
   1,
   2,
   3
-]", sw.ToString());
+]", stringWriter.ToString());
         }
         finally
         {
@@ -979,12 +979,12 @@ public class JsonConvertTest : TestFixtureBase
 
     public static string Write(object value, JsonConverter converter)
     {
-        var sw = new StringWriter();
-        var writer = new JsonTextWriter(sw);
+        var stringWriter = new StringWriter();
+        var writer = new JsonTextWriter(stringWriter);
         converter.WriteJson(writer, value, null);
 
         writer.Flush();
-        return sw.ToString();
+        return stringWriter.ToString();
     }
 
     public static T Read<T>(string text, JsonConverter converter)
@@ -1056,13 +1056,13 @@ public class JsonConvertTest : TestFixtureBase
         var dt = new DateTimeOffset(2000, 12, 31, 20, 59, 59, new TimeSpan(0, 11, 33, 0, 0));
         dt = dt.AddTicks(9999999);
 
-        var sw = new StringWriter();
-        var writer = new JsonTextWriter(sw);
+        var stringWriter = new StringWriter();
+        var writer = new JsonTextWriter(stringWriter);
 
         writer.WriteValue(dt);
         writer.Flush();
 
-        Assert.Equal(@"""2000-12-31T20:59:59.9999999+11:33""", sw.ToString());
+        Assert.Equal(@"""2000-12-31T20:59:59.9999999+11:33""", stringWriter.ToString());
     }
 
     [Fact]
@@ -1071,8 +1071,8 @@ public class JsonConvertTest : TestFixtureBase
         var dt = new DateTime(2000, 12, 31, 20, 59, 59, DateTimeKind.Local);
         dt = dt.AddTicks(9999999);
 
-        var sw = new StringWriter();
-        var writer = new JsonTextWriter(sw);
+        var stringWriter = new StringWriter();
+        var writer = new JsonTextWriter(stringWriter);
 
         writer.WriteValue(dt);
         writer.Flush();
@@ -1083,8 +1083,8 @@ public class JsonConvertTest : TestFixtureBase
     {
         var dt = DateTime.MaxValue;
 
-        var sw = new StringWriter();
-        var writer = new JsonTextWriter(sw)
+        var stringWriter = new StringWriter();
+        var writer = new JsonTextWriter(stringWriter)
         {
             DateFormatHandling = DateFormatHandling.MicrosoftDateFormat
         };

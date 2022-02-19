@@ -438,21 +438,19 @@ public class JValueTests : TestFixtureBase
     {
         var json = @"{ d: ""\/Date(0+0100)\/"" }";
 
-        using (var stringReader = new StringReader(json))
-        using (var jsonReader = new JsonTextReader(stringReader))
-        {
-            jsonReader.DateParseHandling = DateParseHandling.DateTimeOffset;
+        using var stringReader = new StringReader(json);
+        using var jsonReader = new JsonTextReader(stringReader);
+        jsonReader.DateParseHandling = DateParseHandling.DateTimeOffset;
 
-            var obj = JObject.Load(jsonReader);
-            var d = (JValue)obj["d"];
+        var obj = JObject.Load(jsonReader);
+        var d = (JValue)obj["d"];
 
-            Assert.IsType(typeof(DateTimeOffset), d.Value);
-            var offset = ((DateTimeOffset)d.Value).Offset;
-            Assert.Equal(TimeSpan.FromHours(1), offset);
+        Assert.IsType(typeof(DateTimeOffset), d.Value);
+        var offset = ((DateTimeOffset)d.Value).Offset;
+        Assert.Equal(TimeSpan.FromHours(1), offset);
 
-            var dateTimeOffset = (DateTimeOffset)d;
-            Assert.Equal(TimeSpan.FromHours(1), dateTimeOffset.Offset);
-        }
+        var dateTimeOffset = (DateTimeOffset)d;
+        Assert.Equal(TimeSpan.FromHours(1), dateTimeOffset.Offset);
     }
 
     [Fact]

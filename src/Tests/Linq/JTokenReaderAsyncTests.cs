@@ -188,92 +188,90 @@ public class JTokenReaderAsyncTests : TestFixtureBase
 
         var o = JObject.Parse(input);
 
-        using (var jsonReader = new JTokenReader(o))
-        {
-            IJsonLineInfo lineInfo = jsonReader;
+        using var jsonReader = new JTokenReader(o);
+        IJsonLineInfo lineInfo = jsonReader;
 
-            Assert.Equal(jsonReader.TokenType, JsonToken.None);
-            Assert.Equal(0, lineInfo.LineNumber);
-            Assert.Equal(0, lineInfo.LinePosition);
-            XUnitAssert.False(lineInfo.HasLineInfo());
-            Assert.Equal(null, jsonReader.CurrentToken);
+        Assert.Equal(jsonReader.TokenType, JsonToken.None);
+        Assert.Equal(0, lineInfo.LineNumber);
+        Assert.Equal(0, lineInfo.LinePosition);
+        XUnitAssert.False(lineInfo.HasLineInfo());
+        Assert.Equal(null, jsonReader.CurrentToken);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(jsonReader.TokenType, JsonToken.StartObject);
-            Assert.Equal(1, lineInfo.LineNumber);
-            Assert.Equal(1, lineInfo.LinePosition);
-            XUnitAssert.True(lineInfo.HasLineInfo());
-            Assert.Equal(o, jsonReader.CurrentToken);
+        await jsonReader.ReadAsync();
+        Assert.Equal(jsonReader.TokenType, JsonToken.StartObject);
+        Assert.Equal(1, lineInfo.LineNumber);
+        Assert.Equal(1, lineInfo.LinePosition);
+        XUnitAssert.True(lineInfo.HasLineInfo());
+        Assert.Equal(o, jsonReader.CurrentToken);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(jsonReader.TokenType, JsonToken.PropertyName);
-            Assert.Equal(jsonReader.Value, "CPU");
-            Assert.Equal(2, lineInfo.LineNumber);
-            Assert.Equal(6, lineInfo.LinePosition);
-            XUnitAssert.True(lineInfo.HasLineInfo());
-            Assert.Equal(o.Property("CPU"), jsonReader.CurrentToken);
+        await jsonReader.ReadAsync();
+        Assert.Equal(jsonReader.TokenType, JsonToken.PropertyName);
+        Assert.Equal(jsonReader.Value, "CPU");
+        Assert.Equal(2, lineInfo.LineNumber);
+        Assert.Equal(6, lineInfo.LinePosition);
+        XUnitAssert.True(lineInfo.HasLineInfo());
+        Assert.Equal(o.Property("CPU"), jsonReader.CurrentToken);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(jsonReader.TokenType, JsonToken.String);
-            Assert.Equal(jsonReader.Value, "Intel");
-            Assert.Equal(2, lineInfo.LineNumber);
-            Assert.Equal(14, lineInfo.LinePosition);
-            XUnitAssert.True(lineInfo.HasLineInfo());
-            Assert.Equal(o.Property("CPU").Value, jsonReader.CurrentToken);
+        await jsonReader.ReadAsync();
+        Assert.Equal(jsonReader.TokenType, JsonToken.String);
+        Assert.Equal(jsonReader.Value, "Intel");
+        Assert.Equal(2, lineInfo.LineNumber);
+        Assert.Equal(14, lineInfo.LinePosition);
+        XUnitAssert.True(lineInfo.HasLineInfo());
+        Assert.Equal(o.Property("CPU").Value, jsonReader.CurrentToken);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(jsonReader.TokenType, JsonToken.PropertyName);
-            Assert.Equal(jsonReader.Value, "Drives");
-            Assert.Equal(3, lineInfo.LineNumber);
-            Assert.Equal(9, lineInfo.LinePosition);
-            XUnitAssert.True(lineInfo.HasLineInfo());
-            Assert.Equal(o.Property("Drives"), jsonReader.CurrentToken);
+        await jsonReader.ReadAsync();
+        Assert.Equal(jsonReader.TokenType, JsonToken.PropertyName);
+        Assert.Equal(jsonReader.Value, "Drives");
+        Assert.Equal(3, lineInfo.LineNumber);
+        Assert.Equal(9, lineInfo.LinePosition);
+        XUnitAssert.True(lineInfo.HasLineInfo());
+        Assert.Equal(o.Property("Drives"), jsonReader.CurrentToken);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(jsonReader.TokenType, JsonToken.StartArray);
-            Assert.Equal(3, lineInfo.LineNumber);
-            Assert.Equal(11, lineInfo.LinePosition);
-            XUnitAssert.True(lineInfo.HasLineInfo());
-            Assert.Equal(o.Property("Drives").Value, jsonReader.CurrentToken);
+        await jsonReader.ReadAsync();
+        Assert.Equal(jsonReader.TokenType, JsonToken.StartArray);
+        Assert.Equal(3, lineInfo.LineNumber);
+        Assert.Equal(11, lineInfo.LinePosition);
+        XUnitAssert.True(lineInfo.HasLineInfo());
+        Assert.Equal(o.Property("Drives").Value, jsonReader.CurrentToken);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(jsonReader.TokenType, JsonToken.String);
-            Assert.Equal(jsonReader.Value, "DVD read/writer");
-            Assert.Equal(4, lineInfo.LineNumber);
-            Assert.Equal(21, lineInfo.LinePosition);
-            XUnitAssert.True(lineInfo.HasLineInfo());
-            Assert.Equal(o["Drives"][0], jsonReader.CurrentToken);
+        await jsonReader.ReadAsync();
+        Assert.Equal(jsonReader.TokenType, JsonToken.String);
+        Assert.Equal(jsonReader.Value, "DVD read/writer");
+        Assert.Equal(4, lineInfo.LineNumber);
+        Assert.Equal(21, lineInfo.LinePosition);
+        XUnitAssert.True(lineInfo.HasLineInfo());
+        Assert.Equal(o["Drives"][0], jsonReader.CurrentToken);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(jsonReader.TokenType, JsonToken.String);
-            Assert.Equal(jsonReader.Value, "500 gigabyte hard drive");
-            Assert.Equal(5, lineInfo.LineNumber);
-            Assert.Equal(29, lineInfo.LinePosition);
-            XUnitAssert.True(lineInfo.HasLineInfo());
-            Assert.Equal(o["Drives"][1], jsonReader.CurrentToken);
+        await jsonReader.ReadAsync();
+        Assert.Equal(jsonReader.TokenType, JsonToken.String);
+        Assert.Equal(jsonReader.Value, "500 gigabyte hard drive");
+        Assert.Equal(5, lineInfo.LineNumber);
+        Assert.Equal(29, lineInfo.LinePosition);
+        XUnitAssert.True(lineInfo.HasLineInfo());
+        Assert.Equal(o["Drives"][1], jsonReader.CurrentToken);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(jsonReader.TokenType, JsonToken.EndArray);
-            Assert.Equal(3, lineInfo.LineNumber);
-            Assert.Equal(11, lineInfo.LinePosition);
-            XUnitAssert.True(lineInfo.HasLineInfo());
-            Assert.Equal(o["Drives"], jsonReader.CurrentToken);
+        await jsonReader.ReadAsync();
+        Assert.Equal(jsonReader.TokenType, JsonToken.EndArray);
+        Assert.Equal(3, lineInfo.LineNumber);
+        Assert.Equal(11, lineInfo.LinePosition);
+        XUnitAssert.True(lineInfo.HasLineInfo());
+        Assert.Equal(o["Drives"], jsonReader.CurrentToken);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(jsonReader.TokenType, JsonToken.EndObject);
-            Assert.Equal(1, lineInfo.LineNumber);
-            Assert.Equal(1, lineInfo.LinePosition);
-            XUnitAssert.True(lineInfo.HasLineInfo());
-            Assert.Equal(o, jsonReader.CurrentToken);
+        await jsonReader.ReadAsync();
+        Assert.Equal(jsonReader.TokenType, JsonToken.EndObject);
+        Assert.Equal(1, lineInfo.LineNumber);
+        Assert.Equal(1, lineInfo.LinePosition);
+        XUnitAssert.True(lineInfo.HasLineInfo());
+        Assert.Equal(o, jsonReader.CurrentToken);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(jsonReader.TokenType, JsonToken.None);
-            Assert.Equal(null, jsonReader.CurrentToken);
+        await jsonReader.ReadAsync();
+        Assert.Equal(jsonReader.TokenType, JsonToken.None);
+        Assert.Equal(null, jsonReader.CurrentToken);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(jsonReader.TokenType, JsonToken.None);
-            Assert.Equal(null, jsonReader.CurrentToken);
-        }
+        await jsonReader.ReadAsync();
+        Assert.Equal(jsonReader.TokenType, JsonToken.None);
+        Assert.Equal(null, jsonReader.CurrentToken);
     }
 
     [Fact]
@@ -286,24 +284,22 @@ public class JTokenReaderAsyncTests : TestFixtureBase
                 new JProperty("Test1", data)
             );
 
-        using (var jsonReader = new JTokenReader(o))
-        {
-            await jsonReader.ReadAsync();
-            Assert.Equal(JsonToken.StartObject, jsonReader.TokenType);
+        using var jsonReader = new JTokenReader(o);
+        await jsonReader.ReadAsync();
+        Assert.Equal(JsonToken.StartObject, jsonReader.TokenType);
 
-            await jsonReader.ReadAsync();
-            Assert.Equal(JsonToken.PropertyName, jsonReader.TokenType);
-            Assert.Equal("Test1", jsonReader.Value);
+        await jsonReader.ReadAsync();
+        Assert.Equal(JsonToken.PropertyName, jsonReader.TokenType);
+        Assert.Equal("Test1", jsonReader.Value);
 
-            var readBytes = await jsonReader.ReadAsBytesAsync();
-            Assert.Equal(data, readBytes);
+        var readBytes = await jsonReader.ReadAsBytesAsync();
+        Assert.Equal(data, readBytes);
 
-            Assert.True(await jsonReader.ReadAsync());
-            Assert.Equal(JsonToken.EndObject, jsonReader.TokenType);
+        Assert.True(await jsonReader.ReadAsync());
+        Assert.Equal(JsonToken.EndObject, jsonReader.TokenType);
 
-            Assert.False(await jsonReader.ReadAsync());
-            Assert.Equal(JsonToken.None, jsonReader.TokenType);
-        }
+        Assert.False(await jsonReader.ReadAsync());
+        Assert.Equal(JsonToken.None, jsonReader.TokenType);
     }
 
     [Fact]
@@ -316,17 +312,15 @@ public class JTokenReaderAsyncTests : TestFixtureBase
                     new JProperty("Test1", 1)
                 );
 
-            using (var jsonReader = new JTokenReader(o))
-            {
-                await jsonReader.ReadAsync();
-                Assert.Equal(JsonToken.StartObject, jsonReader.TokenType);
+            using var jsonReader = new JTokenReader(o);
+            await jsonReader.ReadAsync();
+            Assert.Equal(JsonToken.StartObject, jsonReader.TokenType);
 
-                await jsonReader.ReadAsync();
-                Assert.Equal(JsonToken.PropertyName, jsonReader.TokenType);
-                Assert.Equal("Test1", jsonReader.Value);
+            await jsonReader.ReadAsync();
+            Assert.Equal(JsonToken.PropertyName, jsonReader.TokenType);
+            Assert.Equal("Test1", jsonReader.Value);
 
-                await jsonReader.ReadAsBytesAsync();
-            }
+            await jsonReader.ReadAsBytesAsync();
         }, "Error reading bytes. Unexpected token: Integer. Path 'Test1'.");
     }
 

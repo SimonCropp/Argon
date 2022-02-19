@@ -33,10 +33,10 @@ public class WriteJsonWithJsonTextWriter : TestFixtureBase
     public void Example()
     {
         #region Usage
-        var sb = new StringBuilder();
-        var sw = new StringWriter(sb);
+        var stringBuilder = new StringBuilder();
+        var stringWriter = new StringWriter(stringBuilder);
 
-        using (JsonWriter writer = new JsonTextWriter(sw))
+        using (JsonWriter writer = new JsonTextWriter(stringWriter))
         {
             writer.Formatting = Formatting.Indented;
 
@@ -55,7 +55,7 @@ public class WriteJsonWithJsonTextWriter : TestFixtureBase
             writer.WriteEndObject();
         }
 
-        Console.WriteLine(sb.ToString());
+        Console.WriteLine(stringBuilder.ToString());
         // {
         //   "CPU": "Intel",
         //   "PSU": "500W",
@@ -77,6 +77,6 @@ public class WriteJsonWithJsonTextWriter : TestFixtureBase
     ""500 gigabyte hard drive"",
     ""200 gigabyte hard drive""
   ]
-}", sb.ToString());
+}", stringBuilder.ToString());
     }
 }

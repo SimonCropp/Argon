@@ -106,25 +106,23 @@ class BooleanQueryExpression : QueryExpression
             return GetResult(root, t, Left).Any();
         }
 
-        using (var leftResults = GetResult(root, t, Left).GetEnumerator())
+        using var leftResults = GetResult(root, t, Left).GetEnumerator();
+        if (leftResults.MoveNext())
         {
-            if (leftResults.MoveNext())
-            {
-                var rightResultsEn = GetResult(root, t, Right);
-                var rightResults = rightResultsEn as ICollection<JToken> ?? rightResultsEn.ToList();
+            var rightResultsEn = GetResult(root, t, Right);
+            var rightResults = rightResultsEn as ICollection<JToken> ?? rightResultsEn.ToList();
 
-                do
+            do
+            {
+                var leftResult = leftResults.Current;
+                foreach (var rightResult in rightResults)
                 {
-                    var leftResult = leftResults.Current;
-                    foreach (var rightResult in rightResults)
+                    if (MatchTokens(leftResult, rightResult, settings))
                     {
-                        if (MatchTokens(leftResult, rightResult, settings))
-                        {
-                            return true;
-                        }
+                        return true;
                     }
-                } while (leftResults.MoveNext());
-            }
+                }
+            } while (leftResults.MoveNext());
         }
 
         return false;

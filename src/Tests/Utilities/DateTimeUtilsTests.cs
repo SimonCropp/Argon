@@ -43,9 +43,9 @@ public class DateTimeUtilsTests : TestFixtureBase
 
     static void RoundtripDateIso(DateTime value)
     {
-        var sw = new StringWriter();
-        DateTimeUtils.WriteDateTimeString(sw, value, DateFormatHandling.IsoDateFormat, null, CultureInfo.InvariantCulture);
-        var minDateText = sw.ToString();
+        var stringWriter = new StringWriter();
+        DateTimeUtils.WriteDateTimeString(stringWriter, value, DateFormatHandling.IsoDateFormat, null, CultureInfo.InvariantCulture);
+        var minDateText = stringWriter.ToString();
 
         DateTimeUtils.TryParseDateTimeIso(CreateStringReference(minDateText), DateTimeZoneHandling.RoundtripKind, out var parsedDt);
 

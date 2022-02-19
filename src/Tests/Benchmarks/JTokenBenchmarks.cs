@@ -48,15 +48,15 @@ public class JTokenBenchmarks
     [Benchmark]
     public void TokenWriteTo()
     {
-        var sw = new StringWriter();
-        JObjectSample.WriteTo(new JsonTextWriter(sw));
+        var stringWriter = new StringWriter();
+        JObjectSample.WriteTo(new JsonTextWriter(stringWriter));
     }
 
     [Benchmark]
     public Task TokenWriteToAsync()
     {
-        var sw = new StringWriter();
-        return JObjectSample.WriteToAsync(new JsonTextWriter(sw));
+        var stringWriter = new StringWriter();
+        return JObjectSample.WriteToAsync(new JsonTextWriter(stringWriter));
     }
 
     [Benchmark]

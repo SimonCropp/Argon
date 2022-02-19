@@ -84,10 +84,8 @@ public class SerializeComparisonBenchmarks
 
         ms.Seek(0, SeekOrigin.Begin);
 
-        using (var sr = new StreamReader(ms))
-        {
-            return sr.ReadToEnd();
-        }
+        using var sr = new StreamReader(ms);
+        return sr.ReadToEnd();
     }
     static readonly byte[] Buffer = new byte[4096];
 
@@ -136,10 +134,8 @@ public class SerializeComparisonBenchmarks
 
         ms.Seek(0, SeekOrigin.Begin);
 
-        using (var sr = new StreamReader(ms))
-        {
-            return sr.ReadToEnd();
-        }
+        using var sr = new StreamReader(ms);
+        return sr.ReadToEnd();
     }
 
     [Benchmark]
@@ -188,8 +184,8 @@ public class SerializeComparisonBenchmarks
     #region SerializeJsonNetManual
     static string SerializeJsonNetManual(TestClass c)
     {
-        var sw = new StringWriter();
-        var writer = new JsonTextWriter(sw);
+        var stringWriter = new StringWriter();
+        var writer = new JsonTextWriter(stringWriter);
         writer.WriteStartObject();
         writer.WritePropertyName("strings");
         writer.WriteStartArray();
@@ -238,7 +234,7 @@ public class SerializeComparisonBenchmarks
         writer.WriteEndObject();
 
         writer.Flush();
-        return sw.ToString();
+        return stringWriter.ToString();
     }
     #endregion
 
@@ -256,8 +252,8 @@ public class SerializeComparisonBenchmarks
 
     static async Task<string> SerializeJsonNetManualAsync(TestClass c, Formatting formatting)
     {
-        var sw = new StringWriter();
-        var writer = new JsonTextWriter(sw);
+        var stringWriter = new StringWriter();
+        var writer = new JsonTextWriter(stringWriter);
         writer.Formatting = formatting;
 
         await writer.WriteStartObjectAsync();
@@ -308,6 +304,6 @@ public class SerializeComparisonBenchmarks
         await writer.WriteEndObjectAsync();
 
         await writer.FlushAsync();
-        return sw.ToString();
+        return stringWriter.ToString();
     }
 }
