@@ -1,14 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="QueryJsonSelectTokenEscaped" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample loads JSON with properties that need to be escaped when queried with <codeEntityReference>M:Argon.Linq.JToken.SelectToken(System.String)</codeEntityReference>.</para>
-    </introduction>
-    <section>
-      <title>Sample</title>
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\JsonPath\QueryJsonSelectTokenEscaped.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
-  </developerConceptualDocument>
-</topic>
+# Querying JSON with JSON Path and escaped properties
+
+This sample loads JSON with properties that need to be escaped when queried with `Argon.Linq.JToken.SelectToken(System.String)`.
+
+<!-- snippet: QueryJsonSelectTokenEscaped -->
+<a id='snippet-queryjsonselecttokenescaped'></a>
+```cs
+var o = JObject.Parse(@"{
+      'Space Invaders': 'Taito',
+      'Doom ]|[': 'id',
+      ""Yar's Revenge"": 'Atari',
+      'Government ""Intelligence""': 'Make-Believe'
+    }");
+
+var spaceInvaders = (string)o.SelectToken("['Space Invaders']");
+// Taito
+
+var doom3 = (string)o.SelectToken("['Doom ]|[']");
+// id
+
+var yarsRevenge = (string)o.SelectToken("['Yar\\'s Revenge']");
+// Atari
+
+var governmentIntelligence = (string)o.SelectToken("['Government \"Intelligence\"']");
+// Make-Believe
+```
+<sup><a href='/src/Tests/Documentation/Samples/JsonPath/QueryJsonSelectTokenEscaped.cs#L35-L54' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonselecttokenescaped' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

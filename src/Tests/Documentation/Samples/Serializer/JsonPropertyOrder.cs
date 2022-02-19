@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class JsonPropertyOrder : TestFixtureBase
 {
-    #region Types
+    #region JsonPropertyOrderTypes
     public class Account
     {
         public string EmailAddress { get; set; }
@@ -53,7 +53,7 @@ public class JsonPropertyOrder : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region JsonPropertyOrderUsage
         var account = new Account
         {
             FullName = "Aaron Account",

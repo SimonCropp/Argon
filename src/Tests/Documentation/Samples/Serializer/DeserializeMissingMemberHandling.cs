@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class DeserializeMissingMemberHandling : TestFixtureBase
 {
-    #region Types
+    #region DeserializeMissingMemberHandlingTypes
     public class Account
     {
         public string FullName { get; set; }
@@ -40,7 +40,7 @@ public class DeserializeMissingMemberHandling : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region DeserializeMissingMemberHandlingUsage
         var json = @"{
               'FullName': 'Dan Deleted',
               'Deleted': true,

@@ -1,14 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="DeserializeAnonymousType" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample deserializes JSON into an anonymous type.</para>
-    </introduction>
-    <section>
-      <title>Sample</title>
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\DeserializeAnonymousType.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
-  </developerConceptualDocument>
-</topic>
+# Deserialize an Anonymous Type
+
+This sample deserializes JSON into an anonymous type.
+
+<!-- snippet: DeserializeAnonymousType -->
+<a id='snippet-deserializeanonymoustype'></a>
+```cs
+var definition = new { Name = "" };
+
+var json1 = @"{'Name':'James'}";
+var customer1 = JsonConvert.DeserializeAnonymousType(json1, definition);
+
+Console.WriteLine(customer1.Name);
+// James
+
+var json2 = @"{'Name':'Mike'}";
+var customer2 = JsonConvert.DeserializeAnonymousType(json2, definition);
+
+Console.WriteLine(customer2.Name);
+// Mike
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeAnonymousType.cs#L35-L49' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeanonymoustype' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

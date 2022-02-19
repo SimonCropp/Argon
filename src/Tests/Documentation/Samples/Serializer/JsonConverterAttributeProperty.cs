@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class JsonConverterAttributeProperty : TestFixtureBase
 {
-    #region Types
+    #region JsonConverterAttributePropertyTypes
     public enum UserStatus
     {
         NotConfirmed,
@@ -49,7 +49,7 @@ public class JsonConverterAttributeProperty : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region JsonConverterAttributePropertyUsage
         var user = new User
         {
             UserName = @"domain\username",

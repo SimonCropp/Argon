@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Linq;
 
 public class FromObject : TestFixtureBase
 {
-    #region Types
+    #region FromObjectTypes
     public class Computer
     {
         public string Cpu { get; set; }
@@ -41,7 +41,7 @@ public class FromObject : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region FromObjectUsage
         var i = (JValue)JToken.FromObject(12345);
 
         Console.WriteLine(i.Type);

@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class NamingStrategyAttributes : TestFixtureBase
 {
-    #region Types
+    #region NamingStrategyAttributesTypes
     [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
     public class User
     {
@@ -43,7 +43,7 @@ public class NamingStrategyAttributes : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region NamingStrategyAttributesUsage
         var user = new User
         {
             FirstName = "Tom",

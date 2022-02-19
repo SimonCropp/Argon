@@ -32,7 +32,7 @@ public class SerializeWithJsonConverters : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region SerializeWithJsonConvertersUsage
         var stringComparisons = new List<StringComparison>
         {
             StringComparison.CurrentCulture,

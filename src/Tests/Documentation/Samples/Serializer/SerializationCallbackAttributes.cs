@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class SerializationCallbackAttributes : TestFixtureBase
 {
-    #region Types
+    #region SerializationCallbackAttributesTypes
     public class SerializationEventTestObject
     {
         // 2222
@@ -85,7 +85,7 @@ public class SerializationCallbackAttributes : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region SerializationCallbackAttributesUsage
         var obj = new SerializationEventTestObject();
 
         Console.WriteLine(obj.Member1);

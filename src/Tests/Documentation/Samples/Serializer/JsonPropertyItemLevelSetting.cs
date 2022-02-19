@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class JsonPropertyItemLevelSetting : TestFixtureBase
 {
-    #region Types
+    #region JsonPropertyItemLevelSettingTypes
     public class Business
     {
         public string Name { get; set; }
@@ -50,7 +50,7 @@ public class JsonPropertyItemLevelSetting : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region JsonPropertyItemLevelSettingUsage
         var manager = new Employee
         {
             Name = "George-Michael"

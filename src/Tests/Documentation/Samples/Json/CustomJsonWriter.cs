@@ -28,7 +28,7 @@ using Xunit;
 
 namespace Argon.Tests.Documentation.Samples.Json;
 
-#region Types
+#region CustomJsonWriterTypes
 public class XmlJsonWriter : JsonWriter
 {
     readonly XmlWriter _writer;
@@ -311,7 +311,7 @@ public class CustomJsonWriter : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region CustomJsonWriterUsage
         var user = new
         {
             Name = "James",

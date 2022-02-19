@@ -1,14 +1,26 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="JTokenAnnotation" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample uses annotations with LINQ to JSON objects.</para>
-    </introduction>
-    <section>
-      <title>Sample</title>
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Linq\JTokenAnnotation.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
-  </developerConceptualDocument>
-</topic>
+# Using LINQ to JSON Annotations
+
+This sample uses annotations with LINQ to JSON objects.
+
+<!-- snippet: JTokenAnnotation -->
+<a id='snippet-jtokenannotation'></a>
+```cs
+var o = JObject.Parse(@"{
+      'name': 'Bill G',
+      'age': 58,
+      'country': 'United States',
+      'employer': 'Microsoft'
+    }");
+
+o.AddAnnotation(new HashSet<string>());
+o.PropertyChanged += (_, args) => o.Annotation<HashSet<string>>().Add(args.PropertyName);
+
+o["age"] = 59;
+o["employer"] = "Bill & Melinda Gates Foundation";
+
+var changedProperties = o.Annotation<HashSet<string>>();
+// age
+// employer
+```
+<sup><a href='/src/Tests/Documentation/Samples/Linq/JTokenAnnotation.cs#L35-L52' title='Snippet source file'>snippet source</a> | <a href='#snippet-jtokenannotation' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

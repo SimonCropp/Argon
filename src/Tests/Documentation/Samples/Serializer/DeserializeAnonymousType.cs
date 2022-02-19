@@ -32,7 +32,7 @@ public class DeserializeAnonymousType : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region DeserializeAnonymousType
         var definition = new { Name = "" };
 
         var json1 = @"{'Name':'James'}";

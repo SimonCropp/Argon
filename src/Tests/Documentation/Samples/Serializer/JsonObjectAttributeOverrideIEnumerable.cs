@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class JsonObjectAttributeOverrideIEnumerable : TestFixtureBase
 {
-    #region Types
+    #region JsonObjectAttributeOverrideIEnumerableTypes
     [JsonObject]
     public class Directory : IEnumerable<string>
     {
@@ -56,7 +56,7 @@ public class JsonObjectAttributeOverrideIEnumerable : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region JsonObjectAttributeOverrideIEnumerableUsage
         var directory = new Directory
         {
             Name = "My Documents",

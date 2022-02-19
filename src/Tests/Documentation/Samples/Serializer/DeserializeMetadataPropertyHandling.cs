@@ -35,7 +35,7 @@ public class DeserializeMetadataPropertyHandling : TestFixtureBase
     {
         try
         {
-            #region Usage
+            #region DeserializeMetadataPropertyHandling
             var json = @"{
                   'Name': 'James',
                   'Password': 'Password1',

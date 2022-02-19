@@ -30,7 +30,7 @@ namespace Argon.Tests.Documentation.Samples.Linq;
 
 public class DeserializeWithLinq : TestFixtureBase
 {
-    #region Types
+    #region DeserializeWithLinqTypes
     public class BlogPost
     {
         public string Title { get; set; }
@@ -44,7 +44,7 @@ public class DeserializeWithLinq : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region DeserializeWithLinqUsage
         var json = @"[
               {
                 'Title': 'Json.NET is awesome!',

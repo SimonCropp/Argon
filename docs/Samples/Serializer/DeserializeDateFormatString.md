@@ -1,15 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="DeserializeDateFormatString" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample uses the DateFormatString
-      setting to control how <codeEntityReference>T:System.DateTime</codeEntityReference> and <codeEntityReference>T:System.DateTimeOffset</codeEntityReference> are deserialized.</para>
-    </introduction>
-    <section>
-      <title>Sample</title>
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\DeserializeDateFormatString.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
-  </developerConceptualDocument>
-</topic>
+## Serialize DateFormatString
+
+This sample uses the DateFormatString setting to control how `DateTime` and `DateTimeOffset` are deserialized.
+
+<!-- snippet: DeserializeDateFormatString -->
+<a id='snippet-deserializedateformatstring'></a>
+```cs
+var json = @"[
+      '7 December, 2009',
+      '1 January, 2010',
+      '10 February, 2010'
+    ]";
+
+var dateList = JsonConvert.DeserializeObject<IList<DateTime>>(json, new JsonSerializerSettings
+{
+    DateFormatString = "d MMMM, yyyy"
+});
+
+foreach (var dateTime in dateList)
+{
+    Console.WriteLine(dateTime.ToLongDateString());
+}
+// Monday, 07 December 2009
+// Friday, 01 January 2010
+// Wednesday, 10 February 2010
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeDateFormatString.cs#L35-L54' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializedateformatstring' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

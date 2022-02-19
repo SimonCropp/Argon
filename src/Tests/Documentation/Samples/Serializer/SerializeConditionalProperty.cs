@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class SerializeConditionalProperty : TestFixtureBase
 {
-    #region Types
+    #region SerializeConditionalPropertyTypes
     public class Employee
     {
         public string Name { get; set; }
@@ -46,7 +46,7 @@ public class SerializeConditionalProperty : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region SerializeConditionalPropertyUsage
         var joe = new Employee
         {
             Name = "Joe Employee"

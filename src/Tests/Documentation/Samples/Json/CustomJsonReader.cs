@@ -28,7 +28,7 @@ using Xunit;
 
 namespace Argon.Tests.Documentation.Samples.Json;
 
-#region Types
+#region CustomJsonReaderTypes
 public class XmlJsonReader : JsonReader
 {
     readonly Stack<JTokenType> _stateStack;
@@ -262,7 +262,7 @@ public class CustomJsonReader : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region CustomJsonReaderUsage
         var xml = @"<Root type=""Object"">
               <Null type=""Null"" />
               <String type=""String"">This is a string!</String>

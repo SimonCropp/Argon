@@ -1,15 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="ParseJsonAny" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample parses JSON using
-      <codeEntityReference qualifyHint="true">M:Argon.Linq.JToken.Parse(System.String)</codeEntityReference>.</para>
-    </introduction>
-    <section>
-      <title>Sample</title>
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Linq\ParseJsonAny.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
-  </developerConceptualDocument>
-</topic>
+# Parse JSON using JToken.Parse
+
+This sample parses JSON using `Argon.Linq.JToken.Parse(System.String)`.
+
+<!-- snippet: ParseJsonAny -->
+<a id='snippet-parsejsonany'></a>
+```cs
+var t1 = JToken.Parse("{}");
+
+Console.WriteLine(t1.Type);
+// Object
+
+var t2 = JToken.Parse("[]");
+
+Console.WriteLine(t2.Type);
+// Array
+
+var t3 = JToken.Parse("null");
+
+Console.WriteLine(t3.Type);
+// Null
+
+var t4 = JToken.Parse(@"'A string!'");
+
+Console.WriteLine(t4.Type);
+// String
+```
+<sup><a href='/src/Tests/Documentation/Samples/Linq/ParseJsonAny.cs#L35-L55' title='Snippet source file'>snippet source</a> | <a href='#snippet-parsejsonany' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

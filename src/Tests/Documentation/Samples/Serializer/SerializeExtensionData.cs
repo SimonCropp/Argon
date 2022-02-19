@@ -31,7 +31,7 @@ public class SerializeExtensionData : TestFixtureBase
 {
 #pragma warning disable 169
 
-    #region Types
+    #region SerializeExtensionDataTypes
     public class CustomerInvoice
     {
         // we're only modifing the tax rate
@@ -48,7 +48,7 @@ public class SerializeExtensionData : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region SerializeExtensionDataUsage
         var json = @"{
               'HourlyRate': 150,
               'Hours': 40,

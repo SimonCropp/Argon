@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class SerializeContractResolver : TestFixtureBase
 {
-    #region Types
+    #region SerializeContractResolverTypes
     public class Person
     {
         public string FirstName { get; set; }
@@ -42,7 +42,7 @@ public class SerializeContractResolver : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region SerializeContractResolverUsage
         var person = new Person
         {
             FirstName = "Sarah",

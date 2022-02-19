@@ -32,7 +32,7 @@ public class ErrorWhenNoMatchQuery : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region ErrorWhenNoMatchQuery
         var items = JArray.Parse(@"[
               {
                 'Name': 'John Doe',

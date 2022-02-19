@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class SerializeTypeNameHandling : TestFixtureBase
 {
-    #region Types
+    #region SerializeTypeNameHandlingTypes
     public abstract class Business
     {
         public string Name { get; set; }
@@ -50,7 +50,7 @@ public class SerializeTypeNameHandling : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region SerializeTypeNameHandlingUsage
         var stockholder = new Stockholder
         {
             FullName = "Steve Stockholder",

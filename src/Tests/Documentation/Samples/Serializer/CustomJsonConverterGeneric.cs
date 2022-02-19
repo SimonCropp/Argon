@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class CustomJsonConverterGeneric : TestFixtureBase
 {
-    #region Types
+    #region CustomJsonConverterGenericTypes
     public class VersionConverter : JsonConverter<Version>
     {
         public override void WriteJson(JsonWriter writer, Version value, JsonSerializer serializer)
@@ -55,7 +55,7 @@ public class CustomJsonConverterGeneric : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region CustomJsonConverterGenericUsage
         var p1 = new NuGetPackage
         {
             PackageId = "Argon",

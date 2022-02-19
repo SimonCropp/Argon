@@ -32,7 +32,7 @@ public class QueryJsonSelectToken : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region QueryJsonSelectToken
 
         var o = JObject.Parse(@"{
               'Stores': [

@@ -33,7 +33,7 @@ public class ConvertXmlToJson : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region ConvertXmlToJson
         var xml = @"<?xml version='1.0' standalone='no'?>
             <root>
               <person id='1'>

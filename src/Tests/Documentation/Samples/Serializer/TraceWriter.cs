@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class TraceWriter : TestFixtureBase
 {
-    #region Types
+    #region TraceWriterTypes
     public class Account
     {
         public string FullName { get; set; }
@@ -40,7 +40,7 @@ public class TraceWriter : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region TraceWriterUsage
         var json = @"{
               'FullName': 'Dan Deleted',
               'Deleted': true,

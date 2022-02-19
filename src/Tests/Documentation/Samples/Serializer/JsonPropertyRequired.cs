@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class JsonPropertyRequired : TestFixtureBase
 {
-    #region Types
+    #region JsonPropertyRequiredTypes
     public class Videogame
     {
         [JsonProperty(Required = Required.Always)]
@@ -43,7 +43,7 @@ public class JsonPropertyRequired : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region JsonPropertyRequiredUsage
         var json = @"{
               'Name': 'Starcraft III',
               'ReleaseDate': null

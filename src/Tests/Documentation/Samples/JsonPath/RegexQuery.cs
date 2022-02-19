@@ -32,7 +32,7 @@ public class RegexQuery : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region RegexQuery
         var array = JArray.Parse(@"[
               {
                 'PackageId': 'Argon',

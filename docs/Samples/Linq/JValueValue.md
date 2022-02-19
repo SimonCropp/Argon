@@ -1,15 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="JValueValue" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample gets <codeEntityReference>T:Argon.Linq.JValue</codeEntityReference>
-      internal values using <codeEntityReference>P:Argon.Linq.JValue.Value</codeEntityReference>.</para>
-    </introduction>
-    <section>
-      <title>Sample</title>
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Linq\JValueValue.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
-  </developerConceptualDocument>
-</topic>
+# Using JValue.Value
+
+This sample gets `Argon.Linq.JValue` internal values using `Argon.Linq.JValue.Value`.
+
+<!-- snippet: JValueValue -->
+<a id='snippet-jvaluevalue'></a>
+```cs
+var s = new JValue("A string value");
+
+Console.WriteLine(s.Value.GetType().Name);
+// String
+Console.WriteLine(s.Value);
+// A string value
+
+var u = new JValue(new Uri("http://www.google.com/"));
+
+Console.WriteLine(u.Value.GetType().Name);
+// Uri
+Console.WriteLine(u.Value);
+// http://www.google.com/
+```
+<sup><a href='/src/Tests/Documentation/Samples/Linq/JValueValue.cs#L35-L49' title='Snippet source file'>snippet source</a> | <a href='#snippet-jvaluevalue' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

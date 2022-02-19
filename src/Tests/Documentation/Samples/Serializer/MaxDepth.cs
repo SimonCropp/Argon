@@ -32,7 +32,7 @@ public class MaxDepth : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region MaxDepth
         var json = @"[
               [
                 [

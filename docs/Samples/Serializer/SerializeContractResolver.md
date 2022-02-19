@@ -1,16 +1,41 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="SerializeContractResolver" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample uses a custom <codeEntityReference>T:Argon.Serialization.IContractResolver</codeEntityReference>
-      to modify how objects are serialized.</para>
-    </introduction>
-    <section>
-      <title>Sample</title>
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\SerializeContractResolver.cs" region="Types" title="Types" />
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\SerializeContractResolver.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
-  </developerConceptualDocument>
-</topic>
+# Custom IContractResolver
+
+This sample uses a custom `Argon.Serialization.IContractResolver` to modify how objects are serialized.
+
+<!-- snippet: SerializeContractResolverTypes -->
+<a id='snippet-serializecontractresolvertypes'></a>
+```cs
+public class Person
+{
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+
+    public string FullName => $"{FirstName} {LastName}";
+}
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeContractResolver.cs#L32-L40' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializecontractresolvertypes' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+<!-- snippet: SerializeContractResolverUsage -->
+<a id='snippet-serializecontractresolverusage'></a>
+```cs
+var person = new Person
+{
+    FirstName = "Sarah",
+    LastName = "Security"
+};
+
+var json = JsonConvert.SerializeObject(person, Formatting.Indented, new JsonSerializerSettings
+{
+    ContractResolver = new CamelCasePropertyNamesContractResolver()
+});
+
+Console.WriteLine(json);
+// {
+//   "firstName": "Sarah",
+//   "lastName": "Security",
+//   "fullName": "Sarah Security"
+// }
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeContractResolver.cs#L45-L63' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializecontractresolverusage' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

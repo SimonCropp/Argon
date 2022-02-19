@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class SerializeWithJsonSerializerToFile : TestFixtureBase
 {
-    #region Types
+    #region SerializeWithJsonSerializerToFileTypes
     public class Movie
     {
         public string Name { get; set; }
@@ -40,7 +40,7 @@ public class SerializeWithJsonSerializerToFile : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region SerializeWithJsonSerializerToFileUsage
         var movie = new Movie
         {
             Name = "Bad Boys",

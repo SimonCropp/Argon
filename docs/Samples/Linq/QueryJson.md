@@ -1,16 +1,62 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="QueryJson" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample loads JSON and then queries values from it using
-      <codeEntityReference>P:Argon.Linq.JToken.Item(System.Object)</codeEntityReference>
-      indexer and then casts the returned tokens to .NET values.</para>
-    </introduction>
-    <section>
-      <title>Sample</title>
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Linq\QueryJson.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
-  </developerConceptualDocument>
-</topic>
+# Querying JSON with complex JSON Path
+
+This sample loads JSON and then queries values from it using `Argon.Linq.JToken.Item(System.Object)` indexer and then casts the returned tokens to .NET values.
+
+<!-- snippet: QueryJson -->
+<a id='snippet-queryjson'></a>
+```cs
+var json = @"{
+      'channel': {
+        'title': 'James Newton-King',
+        'link': 'http://james.newtonking.com',
+        'description': 'James Newton-King\'s blog.',
+        'item': [
+          {
+            'title': 'Json.NET 1.3 + New license + Now on CodePlex',
+            'description': 'Announcing the release of Json.NET 1.3, the MIT license and the source on CodePlex',
+            'link': 'http://james.newtonking.com/projects/json-net.aspx',
+            'category': [
+              'Json.NET',
+              'CodePlex'
+            ]
+          },
+          {
+            'title': 'LINQ to JSON beta',
+            'description': 'Announcing LINQ to JSON',
+            'link': 'http://james.newtonking.com/projects/json-net.aspx',
+            'category': [
+              'Json.NET',
+              'LINQ'
+            ]
+          }
+        ]
+      }
+    }";
+
+var rss = JObject.Parse(json);
+
+var rssTitle = (string) rss["channel"]["title"];
+
+Console.WriteLine(rssTitle);
+// James Newton-King
+
+var itemTitle = (string) rss["channel"]["item"][0]["title"];
+
+Console.WriteLine(itemTitle);
+// Json.NET 1.3 + New license + Now on CodePlex
+
+var categories = (JArray) rss["channel"]["item"][0]["category"];
+
+Console.WriteLine(categories);
+// [
+//   "Json.NET",
+//   "CodePlex"
+// ]
+
+var categoriesText = categories.Select(c => (string) c).ToArray();
+
+Console.WriteLine(string.Join(", ", categoriesText));
+// Json.NET, CodePlex
+```
+<sup><a href='/src/Tests/Documentation/Samples/Linq/QueryJson.cs#L35-L90' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjson' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

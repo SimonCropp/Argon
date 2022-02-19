@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class NamingStrategySnakeCase : TestFixtureBase
 {
-    #region Types
+    #region NamingStrategySnakeCaseTypes
     public class User
     {
         public string UserName { get; set; }
@@ -40,7 +40,7 @@ public class NamingStrategySnakeCase : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region NamingStrategySnakeCaseUsage
         var user1 = new User
         {
             UserName = "jamesn",

@@ -32,7 +32,7 @@ public class CreateJsonJTokenWriter : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region CreateJsonJTokenWriter
         var writer = new JTokenWriter();
         writer.WriteStartObject();
         writer.WritePropertyName("name1");

@@ -1,16 +1,67 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="FromObject" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample converts .NET values to LINQ to JSON using
-      <codeEntityReference qualifyHint="true">M:Argon.Linq.JToken.FromObject(System.Object)</codeEntityReference>.</para>
-    </introduction>
-    <section>
-      <title>Sample</title>
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Linq\FromObject.cs" region="Types" title="Types" />
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Linq\FromObject.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
-  </developerConceptualDocument>
-</topic>
+# Create JSON from an Object
+
+This sample converts .NET values to LINQ to JSON using `Argon.Linq.JToken.FromObject(System.Object)`.
+
+<!-- snippet: FromObjectTypes -->
+<a id='snippet-fromobjecttypes'></a>
+```cs
+public class Computer
+{
+    public string Cpu { get; set; }
+    public int Memory { get; set; }
+    public IList<string> Drives { get; set; }
+}
+```
+<sup><a href='/src/Tests/Documentation/Samples/Linq/FromObject.cs#L32-L39' title='Snippet source file'>snippet source</a> | <a href='#snippet-fromobjecttypes' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+<!-- snippet: FromObjectUsage -->
+<a id='snippet-fromobjectusage'></a>
+```cs
+var i = (JValue)JToken.FromObject(12345);
+
+Console.WriteLine(i.Type);
+// Integer
+Console.WriteLine(i.ToString());
+// 12345
+
+var s = (JValue)JToken.FromObject("A string");
+
+Console.WriteLine(s.Type);
+// String
+Console.WriteLine(s.ToString());
+// A string
+
+var computer = new Computer
+{
+    Cpu = "Intel",
+    Memory = 32,
+    Drives = new List<string>
+    {
+        "DVD",
+        "SSD"
+    }
+};
+
+var o = (JObject)JToken.FromObject(computer);
+
+Console.WriteLine(o.ToString());
+// {
+//   "Cpu": "Intel",
+//   "Memory": 32,
+//   "Drives": [
+//     "DVD",
+//     "SSD"
+//   ]
+// }
+
+var a = (JArray)JToken.FromObject(computer.Drives);
+
+Console.WriteLine(a.ToString());
+// [
+//   "DVD",
+//   "SSD"
+// ]
+```
+<sup><a href='/src/Tests/Documentation/Samples/Linq/FromObject.cs#L44-L89' title='Snippet source file'>snippet source</a> | <a href='#snippet-fromobjectusage' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

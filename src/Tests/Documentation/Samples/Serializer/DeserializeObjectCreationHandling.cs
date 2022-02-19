@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class DeserializeObjectCreationHandling : TestFixtureBase
 {
-    #region Types
+    #region DeserializeObjectCreationHandlingTypes
     public class UserViewModel
     {
         public string Name { get; set; }
@@ -50,7 +50,7 @@ public class DeserializeObjectCreationHandling : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region DeserializeObjectCreationHandlingUsage
         var json = @"{
               'Name': 'James',
               'Offices': [

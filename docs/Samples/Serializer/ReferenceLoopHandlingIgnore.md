@@ -1,16 +1,39 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="ReferenceLoopHandlingIgnore" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample sets <codeEntityReference>T:Argon.ReferenceLoopHandling</codeEntityReference>
-      to Ignore so that looping values are excluded from serialization instead of throwing an exception.</para>
-    </introduction>
-    <section>
-      <title>Sample</title>
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\ReferenceLoopHandlingIgnore.cs" region="Types" title="Types" />
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\ReferenceLoopHandlingIgnore.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
-  </developerConceptualDocument>
-</topic>
+# ReferenceLoopHandling setting
+
+This sample sets `Argon.ReferenceLoopHandling` to Ignore so that looping values are excluded from serialization instead of throwing an exception.
+
+<!-- snippet: ReferenceLoopHandlingIgnoreTypes -->
+<a id='snippet-referenceloophandlingignoretypes'></a>
+```cs
+public class Employee
+{
+    public string Name { get; set; }
+    public Employee Manager { get; set; }
+}
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/ReferenceLoopHandlingIgnore.cs#L32-L38' title='Snippet source file'>snippet source</a> | <a href='#snippet-referenceloophandlingignoretypes' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+<!-- snippet: ReferenceLoopHandlingIgnoreUsage -->
+<a id='snippet-referenceloophandlingignoreusage'></a>
+```cs
+var joe = new Employee { Name = "Joe User" };
+var mike = new Employee { Name = "Mike Manager" };
+joe.Manager = mike;
+mike.Manager = mike;
+
+var json = JsonConvert.SerializeObject(joe, Formatting.Indented, new JsonSerializerSettings
+{
+    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+});
+
+Console.WriteLine(json);
+// {
+//   "Name": "Joe User",
+//   "Manager": {
+//     "Name": "Mike Manager"
+//   }
+// }
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/ReferenceLoopHandlingIgnore.cs#L43-L61' title='Snippet source file'>snippet source</a> | <a href='#snippet-referenceloophandlingignoreusage' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

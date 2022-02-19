@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class CustomJsonConverter : TestFixtureBase
 {
-    #region Types
+    #region CustomJsonConverterTypes
     public class KeysJsonConverter : JsonConverter
     {
         readonly Type[] _types;
@@ -82,7 +82,7 @@ public class CustomJsonConverter : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region CustomJsonConverterUsage
         var employee = new Employee
         {
             FirstName = "James",

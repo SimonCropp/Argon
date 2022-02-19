@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class NamingStrategySkipDictionaryKeys : TestFixtureBase
 {
-    #region Types
+    #region NamingStrategySkipDictionaryKeysTypes
     public class DailyHighScores
     {
         public DateTime Date { get; set; }
@@ -41,7 +41,7 @@ public class NamingStrategySkipDictionaryKeys : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region NamingStrategySkipDictionaryKeysUsage
         var dailyHighScores = new DailyHighScores
         {
             Date = new DateTime(2016, 6, 27, 0, 0, 0, DateTimeKind.Utc),

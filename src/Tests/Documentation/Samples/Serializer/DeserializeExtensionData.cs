@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class DeserializeExtensionData : TestFixtureBase
 {
-    #region Types
+    #region DeserializeExtensionDataTypes
     public class DirectoryAccount
     {
         // normal deserialization
@@ -63,7 +63,7 @@ public class DeserializeExtensionData : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region DeserializeExtensionDataUsage
         var json = @"{
               'DisplayName': 'John Smith',
               'SAMAccountName': 'contoso\\johns'

@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-
 using Xunit;
 using System.Collections.Immutable;
 
@@ -34,7 +33,7 @@ public class DeserializeImmutableCollections : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region DeserializeImmutableCollections
         var json = @"[
               'One',
               'II',

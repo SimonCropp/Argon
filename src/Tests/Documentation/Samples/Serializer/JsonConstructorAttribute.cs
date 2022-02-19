@@ -30,7 +30,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class JsonConstructorAttribute : TestFixtureBase
 {
-    #region Types
+    #region JsonConstructorAttributeTypes
     public class User
     {
         public string UserName { get; private set; }
@@ -52,7 +52,7 @@ public class JsonConstructorAttribute : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region JsonConstructorAttributeUsage
         var json = @"{
               ""UserName"": ""domain\\username"",
               ""Enabled"": true

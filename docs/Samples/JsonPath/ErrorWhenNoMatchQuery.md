@@ -1,14 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="ErrorWhenNoMatchQuery" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample loads JSON and then queries values from it using <codeEntityReference>Overload:Argon.Linq.JToken.SelectToken</codeEntityReference>. An error is thrown when part of the JSON path is not found.</para>
-    </introduction>
-    <section>
-      <title>Sample</title>
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\JsonPath\ErrorWhenNoMatchQuery.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
-  </developerConceptualDocument>
-</topic>
+# Querying JSON with complex JSON Path
+
+This sample loads JSON and then queries values from it using `Argon.Linq.JToken.SelectToken`. An error is thrown when part of the JSON path is not found.
+
+<!-- snippet: ErrorWhenNoMatchQuery -->
+<a id='snippet-errorwhennomatchquery'></a>
+```cs
+var items = JArray.Parse(@"[
+      {
+        'Name': 'John Doe',
+      },
+      {
+        'Name': 'Jane Doe',
+      }
+    ]");
+
+// A true value for errorWhenNoMatch will result in an error if the queried value is missing
+string result;
+try
+{
+    result = (string)items.SelectToken(@"$.[3]['Name']", errorWhenNoMatch: true);
+}
+catch (JsonException)
+{
+    result = "Unable to find result in JSON.";
+}
+```
+<sup><a href='/src/Tests/Documentation/Samples/JsonPath/ErrorWhenNoMatchQuery.cs#L35-L55' title='Snippet source file'>snippet source</a> | <a href='#snippet-errorwhennomatchquery' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

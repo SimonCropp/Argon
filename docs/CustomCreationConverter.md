@@ -1,27 +1,77 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="CustomCreationConverter" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!--
-    <summary>
-      <para>Optional summary abstract</para>
-    </summary>
-    -->
-    <introduction>
-      <para>The <codeEntityReference>T:Argon.Converters.CustomCreationConverter`1</codeEntityReference>
-      is a JsonConverter that provides a way
-      to customize how an object is created during JSON deserialization. Once
-      the object has been created it will then have values populated onto it by
-      the serializer.</para>
-    </introduction>
-    <section>
-      <title>Example</title>
-      <content>
-<code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="CustomCreationConverterObject" title="CustomCreationConverter" />
-<code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="CustomCreationConverterExample" title="CustomCreationConverter Example" />
-      </content>
-    </section>
-    <relatedTopics>
-      <codeEntityReference>T:Argon.Converters.CustomCreationConverter`1</codeEntityReference>
-    </relatedTopics>
-  </developerConceptualDocument>
-</topic>
+# CustomCreationConverter
+
+The `Argon.Converters.CustomCreationConverter<T>` is a JsonConverter that provides a way to customize how an object is created during JSON deserialization. Once the object has been created it will then have values populated onto it by the serializer.
+
+<!-- snippet: CustomCreationConverterObject -->
+<a id='snippet-customcreationconverterobject'></a>
+```cs
+public interface IPerson
+{
+    string FirstName { get; set; }
+    string LastName { get; set; }
+    DateTime BirthDate { get; set; }
+}
+
+public class Employee : IPerson
+{
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public DateTime BirthDate { get; set; }
+
+    public string Department { get; set; }
+    public string JobTitle { get; set; }
+}
+
+public class PersonConverter : CustomCreationConverter<IPerson>
+{
+    public override IPerson Create(Type objectType)
+    {
+        return new Employee();
+    }
+}
+```
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L437-L462' title='Snippet source file'>snippet source</a> | <a href='#snippet-customcreationconverterobject' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+<!-- snippet: CustomCreationConverterExample -->
+<a id='snippet-customcreationconverterexample'></a>
+```cs
+//[
+//  {
+//    "FirstName": "Maurice",
+//    "LastName": "Moss",
+//    "BirthDate": "1981-03-08T00:00Z",
+//    "Department": "IT",
+//    "JobTitle": "Support"
+//  },
+//  {
+//    "FirstName": "Jen",
+//    "LastName": "Barber",
+//    "BirthDate": "1985-12-10T00:00Z",
+//    "Department": "IT",
+//    "JobTitle": "Manager"
+//  }
+//]
+
+var people = JsonConvert.DeserializeObject<List<IPerson>>(json, new PersonConverter());
+
+var person = people[0];
+
+Console.WriteLine(person.GetType());
+// Argon.Tests.Employee
+
+Console.WriteLine(person.FirstName);
+// Maurice
+
+var employee = (Employee)person;
+
+Console.WriteLine(employee.JobTitle);
+// Support
+```
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L484-L516' title='Snippet source file'>snippet source</a> | <a href='#snippet-customcreationconverterexample' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+
+## Related Topics
+
+ * `Argon.Converters.CustomCreationConverter<T>`

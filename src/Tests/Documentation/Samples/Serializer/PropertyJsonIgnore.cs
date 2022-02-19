@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class PropertyJsonIgnore : TestFixtureBase
 {
-    #region Types
+    #region PropertyJsonIgnoreTypes
     public class Account
     {
         public string FullName { get; set; }
@@ -43,7 +43,7 @@ public class PropertyJsonIgnore : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region PropertyJsonIgnoreUsage
         var account = new Account
         {
             FullName = "Joe User",

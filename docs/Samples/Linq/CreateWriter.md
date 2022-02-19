@@ -1,15 +1,32 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="CreateWriter" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample creates a <codeEntityReference>T:Argon.Linq.JTokenWriter</codeEntityReference>
-      from a <codeEntityReference>T:Argon.Linq.JToken</codeEntityReference>.</para>
-    </introduction>
-    <section>
-      <title>Sample</title>
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Linq\CreateWriter.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
-  </developerConceptualDocument>
-</topic>
+# Creates JTokenWriter JToken
+
+This sample creates a `Argon.Linq.JTokenWriter` from a `Argon.Linq.JToken`.
+
+<!-- snippet: CreateWriter -->
+<a id='snippet-createwriter'></a>
+```cs
+var o = new JObject
+{
+    { "name1", "value1" },
+    { "name2", "value2" }
+};
+
+var writer = o.CreateWriter();
+writer.WritePropertyName("name3");
+writer.WriteStartArray();
+writer.WriteValue(1);
+writer.WriteValue(2);
+writer.WriteEndArray();
+
+Console.WriteLine(o.ToString());
+// {
+//   "name1": "value1",
+//   "name2": "value2",
+//   "name3": [
+//     1,
+//     2
+//   ]
+// }
+```
+<sup><a href='/src/Tests/Documentation/Samples/Linq/CreateWriter.cs#L35-L58' title='Snippet source file'>snippet source</a> | <a href='#snippet-createwriter' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

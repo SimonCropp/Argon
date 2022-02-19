@@ -37,7 +37,7 @@ public class DefaultSettings : TestFixtureBase
 
         try
         {
-            #region Usage
+            #region DefaultSettingsUsage
             // settings will automatically be used by JsonConvert.SerializeObject/DeserializeObject
             JsonConvert.DefaultSettings = () => new JsonSerializerSettings
             {

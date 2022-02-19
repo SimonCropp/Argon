@@ -1,14 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="DeserializeImmutableCollections" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample deserializes JSON into an immutable collection.</para>
-    </introduction>
-    <section>
-      <title>Sample</title>
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\DeserializeImmutableCollections.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
-  </developerConceptualDocument>
-</topic>
+# Deserialize an immutable collection
+
+This sample deserializes JSON into an immutable collection.
+
+<!-- snippet: DeserializeImmutableCollections -->
+<a id='snippet-deserializeimmutablecollections'></a>
+```cs
+var json = @"[
+      'One',
+      'II',
+      '3'
+    ]";
+
+var l = JsonConvert.DeserializeObject<ImmutableList<string>>(json);
+
+foreach (var s in l)
+{
+    Console.WriteLine(s);
+}
+// One
+// II
+// 3
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeImmutableCollections.cs#L36-L52' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeimmutablecollections' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

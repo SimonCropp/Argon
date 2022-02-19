@@ -1,16 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="SerializeRawJson" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample uses <codeEntityReference>T:Argon.Linq.JRaw</codeEntityReference>
-      properties to serialize JSON with raw content.</para>
-    </introduction>
-    <section>
-      <title>Sample</title>
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\SerializeRawJson.cs" region="Types" title="Types" />
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\SerializeRawJson.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
-  </developerConceptualDocument>
-</topic>
+# Serialize Raw JSON value
+
+This sample uses `Argon.Linq.JRaw` properties to serialize JSON with raw content.
+
+<!-- snippet: SerializeRawJsonTypes -->
+<a id='snippet-serializerawjsontypes'></a>
+```cs
+public class JavaScriptSettings
+{
+    public JRaw OnLoadFunction { get; set; }
+    public JRaw OnUnloadFunction { get; set; }
+}
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeRawJson.cs#L32-L38' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializerawjsontypes' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+<!-- snippet: SerializeRawJsonUsage -->
+<a id='snippet-serializerawjsonusage'></a>
+```cs
+var settings = new JavaScriptSettings
+{
+    OnLoadFunction = new JRaw("OnLoad"),
+    OnUnloadFunction = new JRaw("function(e) { alert(e); }")
+};
+
+var json = JsonConvert.SerializeObject(settings, Formatting.Indented);
+
+Console.WriteLine(json);
+// {
+//   "OnLoadFunction": OnLoad,
+//   "OnUnloadFunction": function(e) { alert(e); }
+// }
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeRawJson.cs#L43-L57' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializerawjsonusage' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

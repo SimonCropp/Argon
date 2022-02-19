@@ -1,16 +1,32 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="CreateJsonCollectionInitializer" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample creates <codeEntityReference>T:Argon.Linq.JObject</codeEntityReference>
-      and <codeEntityReference>T:Argon.Linq.JArray</codeEntityReference> instances using
-      the C# collection initializer syntax.</para>
-    </introduction>
-    <section>
-      <title>Sample</title>
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Linq\CreateJsonCollectionInitializer.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
-  </developerConceptualDocument>
-</topic>
+# Create JSON using Collection Initializers
+
+This sample creates `Argon.Linq.JObject` and `Argon.Linq.JArray` instances using the C# collection initializer syntax.
+
+<!-- snippet: CreateJsonCollectionInitializer -->
+<a id='snippet-createjsoncollectioninitializer'></a>
+```cs
+var o = new JObject
+{
+    { "Cpu", "Intel" },
+    { "Memory", 32 },
+    {
+        "Drives", new JArray
+        {
+            "DVD",
+            "SSD"
+        }
+    }
+};
+
+Console.WriteLine(o.ToString());
+// {
+//   "Cpu": "Intel",
+//   "Memory": 32,
+//   "Drives": [
+//     "DVD",
+//     "SSD"
+//   ]
+// }
+```
+<sup><a href='/src/Tests/Documentation/Samples/Linq/CreateJsonCollectionInitializer.cs#L35-L58' title='Snippet source file'>snippet source</a> | <a href='#snippet-createjsoncollectioninitializer' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

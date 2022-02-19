@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class JsonPropertyPropertyLevelSetting : TestFixtureBase
 {
-    #region Types
+    #region JsonPropertyPropertyLevelSettingTypes
     public class Vessel
     {
         public string Name { get; set; }
@@ -43,7 +43,7 @@ public class JsonPropertyPropertyLevelSetting : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region JsonPropertyPropertyLevelSettingUsage
         var vessel = new Vessel
         {
             Name = "Red October",

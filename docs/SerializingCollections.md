@@ -1,63 +1,111 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="SerializingCollections" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!--
-    <summary>
-      <para>Optional summary abstract</para>
-    </summary>
-    -->
-    <introduction>
-      <!-- Uncomment this to generate an outline of the section and sub-section
-           titles.  Specify a numeric value as the inner text to limit it to
-           a specific number of sub-topics when creating the outline.  Specify
-           zero (0) to limit it to top-level sections only.  -->
-      <!-- <autoOutline /> -->
-      <para>Json.NET has excellent support for serializing and deserializing
-      collections of objects.</para>
-      <autoOutline lead="none" excludeRelatedTopics="true" />
-    </introduction>
-    <!-- Add one or more top-level section elements.  These are collapsible.
-         If using <autoOutline />, add an address attribute to identify it
-         and specify a title so that it can be jumped to with a hyperlink. -->
-    <section address="SerializingCollections">
-      <title>Serializing Collections</title>
-      <content>
-        <!-- Uncomment this to create a sub-section outline
-        <autoOutline /> -->
-        <para>To serialize a collection - a generic list, array, dictionary, or
-        your own custom collection - simply call the serializer with the object
-        you want to get JSON for. Json.NET will serialize the collection and all
-        of the values it contains.</para>
+## Serializing Collections
 
-<code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="SerializingCollectionsSerializing" title="Serializing Collections" />
-      </content>
-    </section>
-    <section address="DeserializingCollections">
-      <title>Deserializing Collections</title>
-      <content>
-        <!-- Uncomment this to create a sub-section outline
-        <autoOutline /> -->
-        <para>To deserialize JSON into a .NET collection, just specify the collection
-        type you want to deserialize to. Json.NET supports a wide range of collection
-        types.</para>
-<code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="SerializingCollectionsDeserializing" title="Deserializing Collections" />
-      </content>
-    </section>
-    <section address="DeserializingDictionaries">
-      <title>Deserializing Dictionaries</title>
-      <content>
-        <!-- Uncomment this to create a sub-section outline
-        <autoOutline /> -->
-        <para>Using Json.NET you can also deserialize a JSON object into a .NET
-        generic dictionary. The JSON object's property names and values will be
-        added to the dictionary.</para>
-<code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="SerializingCollectionsDeserializingDictionaries" title="Deserializing Dictionaries" />
-      </content>
-    </section>
-    <relatedTopics>
-      <link xlink:href="SerializationGuide" />
-      <codeEntityReference>T:Argon.JsonConvert</codeEntityReference>
-      <codeEntityReference>T:Argon.JsonSerializer</codeEntityReference>
-    </relatedTopics>
-  </developerConceptualDocument>
-</topic>
+
+## Serializing Collections
+
+To serialize a collection - a generic list, array, dictionary, or your own custom collection - simply call the serializer with the object you want to get JSON for. Json.NET will serialize the collection and all of the values it contains.
+
+<!-- snippet: SerializingCollectionsSerializing -->
+<a id='snippet-serializingcollectionsserializing'></a>
+```cs
+var p1 = new Product
+{
+    Name = "Product 1",
+    Price = 99.95m,
+    ExpiryDate = new DateTime(2000, 12, 29, 0, 0, 0, DateTimeKind.Utc),
+};
+var p2 = new Product
+{
+    Name = "Product 2",
+    Price = 12.50m,
+    ExpiryDate = new DateTime(2009, 7, 31, 0, 0, 0, DateTimeKind.Utc),
+};
+
+var products = new List<Product>
+{
+    p1,
+    p2
+};
+
+var json = JsonConvert.SerializeObject(products, Formatting.Indented);
+//[
+//  {
+//    "Name": "Product 1",
+//    "ExpiryDate": "2000-12-29T00:00:00Z",
+//    "Price": 99.95,
+//    "Sizes": null
+//  },
+//  {
+//    "Name": "Product 2",
+//    "ExpiryDate": "2009-07-31T00:00:00Z",
+//    "Price": 12.50,
+//    "Sizes": null
+//  }
+//]
+```
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L567-L602' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializingcollectionsserializing' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+
+## Deserializing Collections
+
+To deserialize JSON into a .NET collection, just specify the collection type you want to deserialize to. Json.NET supports a wide range of collection types.
+
+<!-- snippet: SerializingCollectionsDeserializing -->
+<a id='snippet-serializingcollectionsdeserializing'></a>
+```cs
+var json = @"[
+      {
+        'Name': 'Product 1',
+        'ExpiryDate': '2000-12-29T00:00Z',
+        'Price': 99.95,
+        'Sizes': null
+      },
+      {
+        'Name': 'Product 2',
+        'ExpiryDate': '2009-07-31T00:00Z',
+        'Price': 12.50,
+        'Sizes': null
+      }
+    ]";
+
+var products = JsonConvert.DeserializeObject<List<Product>>(json);
+
+Console.WriteLine(products.Count);
+// 2
+
+var p1 = products[0];
+
+Console.WriteLine(p1.Name);
+// Product 1
+```
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L623-L648' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializingcollectionsdeserializing' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+
+## Deserializing Dictionaries
+
+Using Json.NET you can also deserialize a JSON object into a .NET generic dictionary. The JSON object's property names and values will be added to the dictionary.
+
+<!-- snippet: SerializingCollectionsDeserializingDictionaries -->
+<a id='snippet-serializingcollectionsdeserializingdictionaries'></a>
+```cs
+var json = @"{""key1"":""value1"",""key2"":""value2""}";
+
+var values = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+
+Console.WriteLine(values.Count);
+// 2
+
+Console.WriteLine(values["key1"]);
+// value1
+```
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L656-L666' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializingcollectionsdeserializingdictionaries' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+
+## Related Topics
+
+ * SerializationGuide
+ * `Argon.JsonConvert`
+ * `Argon.JsonSerializer`

@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class SerializeSerializationBinder : TestFixtureBase
 {
-    #region Types
+    #region SerializeSerializationBinderTypes
     public class KnownTypesBinder : ISerializationBinder
     {
         public IList<Type> KnownTypes { get; set; }
@@ -56,7 +56,7 @@ public class SerializeSerializationBinder : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region SerializeSerializationBinderUsage
         var knownTypesBinder = new KnownTypesBinder
         {
             KnownTypes = new List<Type> { typeof(Car) }

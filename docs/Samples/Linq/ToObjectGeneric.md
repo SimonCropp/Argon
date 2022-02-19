@@ -1,15 +1,26 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="ToObjectGeneric" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample converts LINQ to JSON objects to .NET types using
-      <codeEntityReference>M:Argon.Linq.JToken.ToObject``1</codeEntityReference>.</para>
-    </introduction>
-    <section>
-      <title>Sample</title>
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Linq\ToObjectGeneric.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
-  </developerConceptualDocument>
-</topic>
+# LINQ to JSON with JToken.ToObject
+
+This sample converts LINQ to JSON objects to .NET types using `Argon.Linq.JToken.ToObject<T>`.
+
+<!-- snippet: ToObjectGeneric -->
+<a id='snippet-toobjectgeneric'></a>
+```cs
+var v1 = new JValue(true);
+
+var b = v1.ToObject<bool>();
+
+Console.WriteLine(b);
+// true
+
+var i = v1.ToObject<int>();
+
+Console.WriteLine(i);
+// 1
+
+var s = v1.ToObject<string>();
+
+Console.WriteLine(s);
+// "True"
+```
+<sup><a href='/src/Tests/Documentation/Samples/Linq/ToObjectGeneric.cs#L35-L52' title='Snippet source file'>snippet source</a> | <a href='#snippet-toobjectgeneric' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

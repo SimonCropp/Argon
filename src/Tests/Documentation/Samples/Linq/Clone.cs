@@ -32,7 +32,7 @@ public class Clone : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region Clone
         var o1 = new JObject
         {
             { "String", "A string!" },
