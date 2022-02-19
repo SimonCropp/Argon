@@ -33,7 +33,7 @@ public class PosDoubleConverter : JsonConverter
 
         if (p != null)
         {
-            writer.WriteRawValue(String.Format(CultureInfo.InvariantCulture, "new PosD({0},{1})", p.X, p.Y));
+            writer.WriteRawValue($"new PosD({p.X},{p.Y})");
         }
         else
         {

@@ -173,11 +173,7 @@ public struct Ratio : IConvertible, IFormattable, ISerializable
     {
         if (!TryParse(input, formatProvider, out var result))
         {
-            throw new FormatException(
-                string.Format(
-                    CultureInfo.InvariantCulture,
-                    "Text '{0}' is invalid text representation of ratio",
-                    input));
+            throw new FormatException($"Text '{input}' is invalid text representation of ratio");
         }
         return result;
     }

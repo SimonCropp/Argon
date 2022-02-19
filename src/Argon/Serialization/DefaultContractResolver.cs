@@ -1204,7 +1204,7 @@ public class DefaultContractResolver : IContractResolver
 
         if (prevAttributeType != null)
         {
-            throw new JsonException(string.Format("Invalid Callback. Method '{3}' in type '{2}' has both '{0}' and '{1}'.", prevAttributeType, attributeType, GetClrTypeFullName(method.DeclaringType), method));
+            throw new JsonException($"Invalid Callback. Method '{method}' in type '{GetClrTypeFullName(method.DeclaringType)}' has both '{prevAttributeType}' and '{attributeType}'.");
         }
 
         if (method.IsVirtual)
@@ -1214,21 +1214,21 @@ public class DefaultContractResolver : IContractResolver
 
         if (method.ReturnType != typeof(void))
         {
-            throw new JsonException(string.Format("Serialization Callback '{1}' in type '{0}' must return void.", GetClrTypeFullName(method.DeclaringType), method));
+            throw new JsonException($"Serialization Callback '{method}' in type '{GetClrTypeFullName(method.DeclaringType)}' must return void.");
         }
 
         if (attributeType == typeof(OnErrorAttribute))
         {
             if (parameters == null || parameters.Length != 2 || parameters[0].ParameterType != typeof(StreamingContext) || parameters[1].ParameterType != typeof(ErrorContext))
             {
-                throw new JsonException(string.Format("Serialization Error Callback '{1}' in type '{0}' must have two parameters of type '{2}' and '{3}'.", GetClrTypeFullName(method.DeclaringType), method, typeof(StreamingContext), typeof(ErrorContext)));
+                throw new JsonException($"Serialization Error Callback '{method}' in type '{GetClrTypeFullName(method.DeclaringType)}' must have two parameters of type '{typeof(StreamingContext)}' and '{typeof(ErrorContext)}'.");
             }
         }
         else
         {
             if (parameters == null || parameters.Length != 1 || parameters[0].ParameterType != typeof(StreamingContext))
             {
-                throw new JsonException(string.Format("Serialization Callback '{1}' in type '{0}' must have a single parameter of type '{2}'.", GetClrTypeFullName(method.DeclaringType), method, typeof(StreamingContext)));
+                throw new JsonException($"Serialization Callback '{method}' in type '{GetClrTypeFullName(method.DeclaringType)}' must have a single parameter of type '{typeof(StreamingContext)}'.");
             }
         }
 
