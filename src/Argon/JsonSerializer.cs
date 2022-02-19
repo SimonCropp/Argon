@@ -1060,7 +1060,7 @@ public class JsonSerializer
         SerializeInternal(jsonWriter, value, null);
     }
 
-    TraceJsonReader CreateTraceJsonReader(JsonReader reader)
+    static TraceJsonReader CreateTraceJsonReader(JsonReader reader)
     {
         var traceReader = new TraceJsonReader(reader);
         if (reader.TokenType != JsonToken.None)

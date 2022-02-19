@@ -190,7 +190,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return InternalSerializer;
     }
 
-    JToken? CreateJToken(JsonReader reader, JsonContract? contract)
+    static JToken? CreateJToken(JsonReader reader, JsonContract? contract)
     {
         ValidationUtils.ArgumentNotNull(reader, nameof(reader));
 
@@ -890,13 +890,13 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return value;
     }
 
-    bool HasNoDefinedType(JsonContract? contract)
+    static bool HasNoDefinedType(JsonContract? contract)
     {
         return contract == null || contract.UnderlyingType == typeof(object) || contract.ContractType == JsonContractType.Linq
                || contract.UnderlyingType == typeof(IDynamicMetaObjectProvider);
     }
 
-    object? EnsureType(JsonReader reader, object? value, CultureInfo culture, JsonContract? contract, Type? targetType)
+    static object? EnsureType(JsonReader reader, object? value, CultureInfo culture, JsonContract? contract, Type? targetType)
     {
         if (targetType == null)
         {
@@ -1141,7 +1141,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
     }
 
-    bool HasFlag(DefaultValueHandling value, DefaultValueHandling flag)
+    static bool HasFlag(DefaultValueHandling value, DefaultValueHandling flag)
     {
         return (value & flag) == flag;
     }
@@ -2509,7 +2509,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
     }
 
-    void SetPropertyPresence(JsonReader reader, JsonProperty property, Dictionary<JsonProperty, PropertyPresence>? requiredProperties)
+    static void SetPropertyPresence(JsonReader reader, JsonProperty property, Dictionary<JsonProperty, PropertyPresence>? requiredProperties)
     {
         if (property != null && requiredProperties != null)
         {

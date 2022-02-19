@@ -106,7 +106,7 @@ public class Issue1734
 </ns3:Test_Service>", IndentXml(xmlDoc.OuterXml));
   }
 
-  private string IndentXml(string xml)
+  static string IndentXml(string xml)
   {
     var reader = XmlReader.Create(new StringReader(xml));
 
@@ -201,7 +201,7 @@ public class Issue1734
 </ns3:Test_Service>", xml);
   }
 
-  private const string JsonWithoutNamespace = @"{
+  const string JsonWithoutNamespace = @"{
   ""Test_Service"": {
     ""fname"": ""mark"",
     ""lname"": ""joye"",
@@ -247,7 +247,7 @@ public class Issue1734
   }
 }";
 
-  private const string JsonWithNamespace = @"{
+  const string JsonWithNamespace = @"{
   ""ns3:Test_Service"": {
     ""@xmlns:ns3"": ""http://www.CCKS.org/XRT/Form"",
     ""ns3:fname"": ""mark"",

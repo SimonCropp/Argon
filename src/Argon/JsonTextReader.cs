@@ -1598,7 +1598,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         return true;
     }
 
-    bool ValidIdentifierChar(char value)
+    static bool ValidIdentifierChar(char value)
     {
         return char.IsLetterOrDigit(value) || value is '_' or '$';
     }

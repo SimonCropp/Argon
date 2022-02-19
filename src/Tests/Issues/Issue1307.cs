@@ -42,7 +42,7 @@ public class Issue1307 : TestFixtureBase
 
     internal class MyJsonConverter : JsonConverter
     {
-        static private readonly JsonLoadSettings _jsonLoadSettings = new() { CommentHandling = CommentHandling.Ignore };
+        static readonly JsonLoadSettings _jsonLoadSettings = new() { CommentHandling = CommentHandling.Ignore };
 
         public override bool CanConvert(Type objectType)
         {

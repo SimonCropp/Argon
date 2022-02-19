@@ -281,7 +281,7 @@ public class DataSetConverterTests : TestFixtureBase
         Assert.Equal(1, ds.Tables[1].Rows.Count);
     }
 
-    DataTable CreateDataTable(string dataTableName, int rows)
+    static DataTable CreateDataTable(string dataTableName, int rows)
     {
         // create a new DataTable.
         var myTable = new DataTable(dataTableName);

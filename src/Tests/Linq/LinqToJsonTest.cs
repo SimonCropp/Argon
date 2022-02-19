@@ -403,7 +403,7 @@ undefined
         EscapedPathAssert("this.has.dots", "['this.has.dots']");
     }
 
-    void EscapedPathAssert(string propertyName, string expectedPath)
+    static void EscapedPathAssert(string propertyName, string expectedPath)
     {
         var v1 = int.MaxValue;
         var value = new JValue(v1);
@@ -762,7 +762,7 @@ keyword such as type of business.""
         public IList<string> Categories { get; set; }
     }
 
-    List<Post> GetPosts()
+    static List<Post> GetPosts()
     {
         return new List<Post>
         {

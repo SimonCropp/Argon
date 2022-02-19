@@ -292,7 +292,7 @@ namespace Argon.Tests.LinqToSql
 			}
 		}
 		
-		private void attach_PersonRoles(PersonRole entity)
+		void attach_PersonRoles(PersonRole entity)
 		{
 			this.SendPropertyChanging();
 			entity.Person = this;
@@ -406,13 +406,13 @@ namespace Argon.Tests.LinqToSql
 			}
 		}
 		
-		private void attach_PersonRoles(PersonRole entity)
+		void attach_PersonRoles(PersonRole entity)
 		{
 			this.SendPropertyChanging();
 			entity.Role = this;
 		}
 		
-		private void detach_PersonRoles(PersonRole entity)
+		void detach_PersonRoles(PersonRole entity)
 		{
 			this.SendPropertyChanging();
 			entity.Role = null;
@@ -712,13 +712,13 @@ namespace Argon.Tests.LinqToSql
 			}
 		}
 		
-		private void attach_Persons(Person entity)
+		void attach_Persons(Person entity)
 		{
 			this.SendPropertyChanging();
 			entity.Department = this;
 		}
 		
-		private void detach_Persons(Person entity)
+		void detach_Persons(Person entity)
 		{
 			this.SendPropertyChanging();
 			entity.Department = null;

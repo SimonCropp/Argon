@@ -870,7 +870,7 @@ public class JsonConvertTest : TestFixtureBase
         public string MsDateUtc { get; set; }
     }
 
-    DateTimeResult TestDateTime<T>(string name, T value)
+    static DateTimeResult TestDateTime<T>(string name, T value)
     {
         Console.WriteLine(name);
 

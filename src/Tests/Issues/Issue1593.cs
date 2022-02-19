@@ -52,7 +52,7 @@ public class Issue1593 : TestFixtureBase
         public int Specific { get; set; }
     }
 
-    BaseModel CreateModel()
+    static BaseModel CreateModel()
     {
         var model = new SpecificModel();
         var extra = model.Extra as IDictionary<string, object>;

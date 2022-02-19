@@ -83,7 +83,7 @@ public class TraceWriterTests : TestFixtureBase
             Logger.Log(logEvent);
         }
 
-        LogLevel GetLogLevel(TraceLevel level)
+        static LogLevel GetLogLevel(TraceLevel level)
         {
             switch (level)
             {

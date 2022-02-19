@@ -86,7 +86,7 @@ public class Issue1837
 
     // a bunch of convenience methods for the test belwo
     // these make sure the comparator returns false for all do not wants
-    void AssertNone(Comparator comparator, JValue token, params JValue[][] doNotWant)
+    static void AssertNone(Comparator comparator, JValue token, params JValue[][] doNotWant)
     {
         foreach (var group in doNotWant)
         {
@@ -94,7 +94,7 @@ public class Issue1837
         }
     }
 
-    void AssertNone(Comparator comparator, JValue token, params JValue[] doNotWant)
+    static void AssertNone(Comparator comparator, JValue token, params JValue[] doNotWant)
     {
         foreach (var item in doNotWant)
         {
@@ -111,7 +111,7 @@ public class Issue1837
         }
     }
 
-    void AssertAll(Comparator comparator, JValue token, params JValue[] want)
+    static void AssertAll(Comparator comparator, JValue token, params JValue[] want)
     {
         foreach (var item in want)
         {

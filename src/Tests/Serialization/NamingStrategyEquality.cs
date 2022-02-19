@@ -118,7 +118,7 @@ public class NamingStrategyEquality: TestFixtureBase
         Assert.False(s1.GetHashCode() == s2.GetHashCode());
     }
 
-    void CheckInequality<T>(bool overrideSpecifiedNames, bool processDictionaryKeys, bool processExtensionDataNames)
+    static void CheckInequality<T>(bool overrideSpecifiedNames, bool processDictionaryKeys, bool processExtensionDataNames)
         where T : NamingStrategy, new()
     {
         var s1 = new T

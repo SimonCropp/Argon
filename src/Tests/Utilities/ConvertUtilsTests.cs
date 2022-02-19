@@ -150,7 +150,7 @@ public class ConvertUtilsTests : TestFixtureBase
         }
 #endif
 
-    void AssertDecimalTryParse(string s, ParseResult expectedResult, decimal? expectedValue)
+    static void AssertDecimalTryParse(string s, ParseResult expectedResult, decimal? expectedValue)
     {
         var c = s.ToCharArray();
         var result = ConvertUtils.DecimalTryParse(c, 0, c.Length, out var d);
@@ -371,7 +371,7 @@ public class ConvertUtilsTests : TestFixtureBase
         Assert.False(ConvertUtils.TryHexTextToInt("000G".ToCharArray(), 0, 4, out value));
     }
 
-    void HexParseSame(string text)
+    static void HexParseSame(string text)
     {
         var v1 = int.Parse(text, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
 

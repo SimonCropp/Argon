@@ -989,7 +989,7 @@ public class XmlNodeConverter : JsonConverter
         }
     }
 
-    IXmlNode WrapXml(object value)
+    static IXmlNode WrapXml(object value)
     {
         if (value is XObject xObject)
         {
@@ -1003,7 +1003,7 @@ public class XmlNodeConverter : JsonConverter
         throw new ArgumentException("Value must be an XML object.", nameof(value));
     }
 
-    void PushParentNamespaces(IXmlNode node, XmlNamespaceManager manager)
+    static void PushParentNamespaces(IXmlNode node, XmlNamespaceManager manager)
     {
         List<IXmlNode>? parentElements = null;
 
@@ -1036,7 +1036,7 @@ public class XmlNodeConverter : JsonConverter
         }
     }
 
-    string ResolveFullName(IXmlNode node, XmlNamespaceManager manager)
+    static string ResolveFullName(IXmlNode node, XmlNamespaceManager manager)
     {
         var prefix = node.NamespaceUri == null || (node.LocalName == "xmlns" && node.NamespaceUri == "http://www.w3.org/2000/xmlns/")
             ? null
@@ -1050,7 +1050,7 @@ public class XmlNodeConverter : JsonConverter
         return $"{prefix}:{XmlConvert.DecodeName(node.LocalName)}";
     }
 
-    string GetPropertyName(IXmlNode node, XmlNamespaceManager manager)
+    static string GetPropertyName(IXmlNode node, XmlNamespaceManager manager)
     {
         switch (node.NodeType)
         {
@@ -1093,7 +1093,7 @@ public class XmlNodeConverter : JsonConverter
         }
     }
 
-    bool IsArray(IXmlNode node)
+    static bool IsArray(IXmlNode node)
     {
         foreach (var attribute in node.Attributes)
         {
@@ -1778,7 +1778,7 @@ public class XmlNodeConverter : JsonConverter
         }
     }
 
-    void AddJsonArrayAttribute(IXmlElement element, IXmlDocument document)
+    static void AddJsonArrayAttribute(IXmlElement element, IXmlDocument document)
     {
         element.SetAttributeNode(document.CreateAttribute("json:Array", JsonNamespaceUri, "true"));
 
@@ -1792,7 +1792,7 @@ public class XmlNodeConverter : JsonConverter
         }
     }
 
-    bool ShouldReadInto(JsonReader reader)
+    static bool ShouldReadInto(JsonReader reader)
     {
         // a string token means the element only has a single text child
         switch (reader.TokenType)
@@ -1811,7 +1811,7 @@ public class XmlNodeConverter : JsonConverter
         return true;
     }
 
-    Dictionary<string, string?>? ReadAttributeElements(JsonReader reader, XmlNamespaceManager manager)
+    static Dictionary<string, string?>? ReadAttributeElements(JsonReader reader, XmlNamespaceManager manager)
     {
         Dictionary<string, string?>? attributeNameValues = null;
         var finished = false;
@@ -1919,7 +1919,7 @@ public class XmlNodeConverter : JsonConverter
         return attributeNameValues;
     }
 
-    void CreateInstruction(JsonReader reader, IXmlDocument document, IXmlNode currentNode, string propertyName)
+    static void CreateInstruction(JsonReader reader, IXmlDocument document, IXmlNode currentNode, string propertyName)
     {
         if (propertyName == DeclarationName)
         {
@@ -1957,7 +1957,7 @@ public class XmlNodeConverter : JsonConverter
         }
     }
 
-    void CreateDocumentType(JsonReader reader, IXmlDocument document, IXmlNode currentNode)
+    static void CreateDocumentType(JsonReader reader, IXmlDocument document, IXmlNode currentNode)
     {
         string? name = null;
         string? publicId = null;
@@ -2073,7 +2073,7 @@ public class XmlNodeConverter : JsonConverter
     /// <param name="attributeName">Attribute name to test.</param>
     /// <param name="prefix">The attribute name prefix if it has one, otherwise an empty string.</param>
     /// <returns><c>true</c> if attribute name is for a namespace attribute, otherwise <c>false</c>.</returns>
-    bool IsNamespaceAttribute(string attributeName, [NotNullWhen(true)]out string? prefix)
+    static bool IsNamespaceAttribute(string attributeName, [NotNullWhen(true)]out string? prefix)
     {
         if (attributeName.StartsWith("xmlns", StringComparison.Ordinal))
         {
@@ -2092,7 +2092,7 @@ public class XmlNodeConverter : JsonConverter
         return false;
     }
 
-    bool ValueAttributes(List<IXmlNode> c)
+    static bool ValueAttributes(List<IXmlNode> c)
     {
         foreach (var xmlNode in c)
         {
@@ -2135,13 +2135,13 @@ public class XmlNodeConverter : JsonConverter
     }
 
     [MethodImpl(MethodImplOptions.NoInlining)]
-    bool IsXObject(Type valueType)
+    static bool IsXObject(Type valueType)
     {
         return typeof(XObject).IsAssignableFrom(valueType);
     }
 
     [MethodImpl(MethodImplOptions.NoInlining)]
-    bool IsXmlNode(Type valueType)
+    static bool IsXmlNode(Type valueType)
     {
         return typeof(XmlNode).IsAssignableFrom(valueType);
     }

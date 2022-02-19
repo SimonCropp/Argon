@@ -111,7 +111,7 @@ public class ShouldSerializeTests : TestFixtureBase
         XUnitAssert.True(setFoo.myBar.ShouldSerializemyBazCalled);
     }
 
-    string Serialize(Foo2 f)
+    static string Serialize(Foo2 f)
     {
         //Code copied from JsonConvert.SerializeObject(), with addition of trace writing
         var jsonSerializer = JsonSerializer.CreateDefault();

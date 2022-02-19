@@ -54,7 +54,7 @@ public class RegexConverter : JsonConverter
         WriteJson(writer, regex, serializer);
     }
 
-    void WriteJson(JsonWriter writer, Regex regex, JsonSerializer serializer)
+    static void WriteJson(JsonWriter writer, Regex regex, JsonSerializer serializer)
     {
         var resolver = serializer.ContractResolver as DefaultContractResolver;
 
@@ -89,7 +89,7 @@ public class RegexConverter : JsonConverter
         throw JsonSerializationException.Create(reader, "Unexpected token when reading Regex.");
     }
 
-    object ReadRegexString(JsonReader reader)
+    static object ReadRegexString(JsonReader reader)
     {
         var regexText = (string)reader.Value!;
 
@@ -111,7 +111,7 @@ public class RegexConverter : JsonConverter
         throw JsonSerializationException.Create(reader, "Regex pattern must be enclosed by slashes.");
     }
 
-    Regex ReadRegexObject(JsonReader reader, JsonSerializer serializer)
+    static Regex ReadRegexObject(JsonReader reader, JsonSerializer serializer)
     {
         string? pattern = null;
         RegexOptions? options = null;
@@ -169,7 +169,7 @@ public class RegexConverter : JsonConverter
     }
 
     [MethodImpl(MethodImplOptions.NoInlining)]
-    bool IsRegex(Type objectType)
+    static bool IsRegex(Type objectType)
     {
         return objectType == typeof(Regex);
     }

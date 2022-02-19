@@ -55,7 +55,7 @@ public class DynamicTests : TestFixtureBase
         }
     }
 
-    void UpdateValueCount(IDictionary<string, int> counts, dynamic d)
+    static void UpdateValueCount(IDictionary<string, int> counts, dynamic d)
     {
         string s = d.ToString();
 

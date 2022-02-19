@@ -86,7 +86,7 @@ class ReflectionObject
 
         foreach (var memberName in memberNames)
         {
-            MemberInfo[] members = t.GetMember(memberName, BindingFlags.Instance | BindingFlags.Public);
+            var members = t.GetMember(memberName, BindingFlags.Instance | BindingFlags.Public);
             if (members.Length != 1)
             {
                 throw new ArgumentException($"Expected a single member with the name '{memberName}'.");
@@ -114,7 +114,7 @@ class ReflectionObject
                     var method = (MethodInfo)member;
                     if (method.IsPublic)
                     {
-                        ParameterInfo[] parameters = method.GetParameters();
+                        var parameters = method.GetParameters();
                         if (parameters.Length == 0 && method.ReturnType != typeof(void))
                         {
                             var call = delegateFactory.CreateMethodCall<object>(method);

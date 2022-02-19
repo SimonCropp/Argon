@@ -287,7 +287,7 @@ public class AnnotationsTests : TestFixtureBase
         Assert.Equal(0, o2.Annotations<Version>().Count());
     }
 
-    void AssertCloneCopy<T>(JToken t, T annotation) where T : class
+    static void AssertCloneCopy<T>(JToken t, T annotation) where T : class
     {
         Assert.Equal(annotation, t.DeepClone().Annotation<T>());
     }

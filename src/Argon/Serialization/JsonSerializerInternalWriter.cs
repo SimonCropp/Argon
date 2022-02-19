@@ -193,7 +193,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         }
     }
 
-    bool? ResolveIsReference(JsonContract contract, JsonProperty? property, JsonContainerContract? collectionContract, JsonProperty? containerProperty)
+    static bool? ResolveIsReference(JsonContract contract, JsonProperty? property, JsonContainerContract? collectionContract, JsonProperty? containerProperty)
     {
         bool? isReference = null;
 
@@ -564,7 +564,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         }
     }
 
-    bool HasCreatorParameter(JsonContainerContract? contract, JsonProperty property)
+    static bool HasCreatorParameter(JsonContainerContract? contract, JsonProperty property)
     {
         if (!(contract is JsonObjectContract objectContract))
         {
@@ -600,17 +600,17 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         writer.WriteValue(typeName);
     }
 
-    bool HasFlag(DefaultValueHandling value, DefaultValueHandling flag)
+    static bool HasFlag(DefaultValueHandling value, DefaultValueHandling flag)
     {
         return (value & flag) == flag;
     }
 
-    bool HasFlag(PreserveReferencesHandling value, PreserveReferencesHandling flag)
+    static bool HasFlag(PreserveReferencesHandling value, PreserveReferencesHandling flag)
     {
         return (value & flag) == flag;
     }
 
-    bool HasFlag(TypeNameHandling value, TypeNameHandling flag)
+    static bool HasFlag(TypeNameHandling value, TypeNameHandling flag)
     {
         return (value & flag) == flag;
     }
@@ -1077,7 +1077,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 #pragma warning restore CS8600, CS8602, CS8604
     }
 
-    string GetPropertyName(JsonWriter writer, object name, JsonContract contract, out bool escape)
+    static string GetPropertyName(JsonWriter writer, object name, JsonContract contract, out bool escape)
     {
         if (contract.ContractType == JsonContractType.Primitive)
         {

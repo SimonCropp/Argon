@@ -40,7 +40,7 @@ class Base64Encoder
         _writer = writer;
     }
 
-    void ValidateEncode(byte[] buffer, int index, int count)
+    static void ValidateEncode(byte[] buffer, int index, int count)
     {
         if (buffer == null)
         {

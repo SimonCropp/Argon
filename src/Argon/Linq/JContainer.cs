@@ -957,7 +957,7 @@ public abstract partial class JContainer : JToken, IList<JToken>
     }
     #endregion
 
-    JToken? EnsureValue(object value)
+    static JToken? EnsureValue(object value)
     {
         if (value == null)
         {

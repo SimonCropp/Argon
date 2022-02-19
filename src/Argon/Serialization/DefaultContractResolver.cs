@@ -256,7 +256,7 @@ public class DefaultContractResolver : IContractResolver
         return serializableMembers;
     }
 
-    bool ShouldSerializeEntityMember(MemberInfo memberInfo)
+    static bool ShouldSerializeEntityMember(MemberInfo memberInfo)
     {
         if (memberInfo is PropertyInfo propertyInfo)
         {
@@ -366,7 +366,7 @@ public class DefaultContractResolver : IContractResolver
         throw new JsonSerializationException($"Unable to serialize instance of '{o.GetType()}'.");
     }
 
-    MemberInfo GetExtensionDataMemberForType(Type type)
+    static MemberInfo GetExtensionDataMemberForType(Type type)
     {
         var members = GetClassHierarchyForType(type).SelectMany(baseType =>
         {
@@ -529,7 +529,7 @@ public class DefaultContractResolver : IContractResolver
         }
     }
 
-    ConstructorInfo? GetAttributeConstructor(Type objectType)
+    static ConstructorInfo? GetAttributeConstructor(Type objectType)
     {
         var en = objectType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Where(c => c.IsDefined(typeof(JsonConstructorAttribute), true)).GetEnumerator();
 
@@ -553,7 +553,7 @@ public class DefaultContractResolver : IContractResolver
         return null;
     }
 
-    ConstructorInfo? GetImmutableConstructor(Type objectType, JsonPropertyCollection memberProperties)
+    static ConstructorInfo? GetImmutableConstructor(Type objectType, JsonPropertyCollection memberProperties)
     {
         IEnumerable<ConstructorInfo> constructors = objectType.GetConstructors();
         var en = constructors.GetEnumerator();
@@ -582,7 +582,7 @@ public class DefaultContractResolver : IContractResolver
         return null;
     }
 
-    ConstructorInfo? GetParameterizedConstructor(Type objectType)
+    static ConstructorInfo? GetParameterizedConstructor(Type objectType)
     {
         var constructors = objectType.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
         if (constructors.Length == 1)
@@ -629,7 +629,7 @@ public class DefaultContractResolver : IContractResolver
         return parameterCollection;
     }
 
-    JsonProperty? MatchProperty(JsonPropertyCollection properties, string name, Type type)
+    static JsonProperty? MatchProperty(JsonPropertyCollection properties, string name, Type type)
     {
         // it is possible to generate a member with a null name using Reflection.Emit
         // protect against an ArgumentNullException from GetClosestMatchProperty by testing for null here
@@ -700,7 +700,7 @@ public class DefaultContractResolver : IContractResolver
         return JsonTypeReflector.GetJsonConverter(objectType);
     }
 
-    Func<object> GetDefaultCreator(Type createdType)
+    static Func<object> GetDefaultCreator(Type createdType)
     {
         return JsonTypeReflector.ReflectionDelegateFactory.CreateDefaultConstructor<object>(createdType);
     }
@@ -739,7 +739,7 @@ public class DefaultContractResolver : IContractResolver
         ResolveCallbackMethods(contract, contract.NonNullableUnderlyingType);
     }
 
-    void ResolveCallbackMethods(JsonContract contract, Type t)
+    static void ResolveCallbackMethods(JsonContract contract, Type t)
     {
         GetCallbackMethodsForType(
             t,
@@ -775,7 +775,7 @@ public class DefaultContractResolver : IContractResolver
         }
     }
 
-    void GetCallbackMethodsForType(Type type, out List<SerializationCallback>? onSerializing, out List<SerializationCallback>? onSerialized, out List<SerializationCallback>? onDeserializing, out List<SerializationCallback>? onDeserialized, out List<SerializationErrorCallback>? onError)
+    static void GetCallbackMethodsForType(Type type, out List<SerializationCallback>? onSerializing, out List<SerializationCallback>? onSerialized, out List<SerializationCallback>? onDeserializing, out List<SerializationCallback>? onDeserialized, out List<SerializationErrorCallback>? onError)
     {
         onSerializing = null;
         onSerialized = null;
@@ -892,7 +892,7 @@ public class DefaultContractResolver : IContractResolver
         return false;
     }
 
-    List<Type> GetClassHierarchyForType(Type type)
+    static List<Type> GetClassHierarchyForType(Type type)
     {
         var ret = new List<Type>();
 
@@ -1507,7 +1507,7 @@ public class DefaultContractResolver : IContractResolver
         }
     }
 
-    Predicate<object>? CreateShouldSerializeTest(MemberInfo member)
+    static Predicate<object>? CreateShouldSerializeTest(MemberInfo member)
     {
         var shouldSerializeMethod = member.DeclaringType.GetMethod(JsonTypeReflector.ShouldSerializePrefix + member.Name, Type.EmptyTypes);
 
@@ -1522,7 +1522,7 @@ public class DefaultContractResolver : IContractResolver
         return o => (bool)shouldSerializeCall(o)!;
     }
 
-    void SetIsSpecifiedActions(JsonProperty property, MemberInfo member, bool allowNonPublicAccess)
+    static void SetIsSpecifiedActions(JsonProperty property, MemberInfo member, bool allowNonPublicAccess)
     {
         MemberInfo? specifiedMember = member.DeclaringType.GetProperty(member.Name + JsonTypeReflector.SpecifiedPostfix, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
         if (specifiedMember == null)

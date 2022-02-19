@@ -34,7 +34,7 @@ namespace Argon.Tests.Converters;
 
 public class XmlNodeConverterTest : TestFixtureBase
 {
-    private string SerializeXmlNode(XmlNode node)
+    static string SerializeXmlNode(XmlNode node)
     {
         var json = JsonConvert.SerializeXmlNode(node, Formatting.Indented);
 
@@ -62,12 +62,12 @@ public class XmlNodeConverterTest : TestFixtureBase
         return json;
     }
 
-    private XmlNode DeserializeXmlNode(string json)
+    static XmlNode DeserializeXmlNode(string json)
     {
         return DeserializeXmlNode(json, null);
     }
 
-    private XmlNode DeserializeXmlNode(string json, string deserializeRootElementName)
+    static XmlNode DeserializeXmlNode(string json, string deserializeRootElementName)
     {
         var reader = new JsonTextReader(new StringReader(json));
         reader.Read();
@@ -96,7 +96,7 @@ public class XmlNodeConverterTest : TestFixtureBase
         return node;
     }
 
-    private string IndentXml(string xml)
+    static string IndentXml(string xml)
     {
         var reader = XmlReader.Create(new StringReader(xml));
 
@@ -1227,7 +1227,7 @@ public class XmlNodeConverterTest : TestFixtureBase
         XUnitAssert.AreEqualNormalized(expected, formattedXml);
     }
 
-    private string GetIndentedInnerXml(XmlNode node)
+    static string GetIndentedInnerXml(XmlNode node)
     {
         var settings = new XmlWriterSettings
         {
@@ -2476,7 +2476,7 @@ public class XmlNodeConverterTest : TestFixtureBase
         }
     }
 
-    private static void JsonBodyToSoapXml(Stream json, Stream xml)
+    static void JsonBodyToSoapXml(Stream json, Stream xml)
     {
         var settings = new JsonSerializerSettings();
         settings.Converters.Add(new XmlNodeConverter());

@@ -75,7 +75,7 @@ public class SerializeComparisonBenchmarks
         return SerializeDataContract(TestClass);
     }
 
-    string SerializeDataContract(object value)
+    static string SerializeDataContract(object value)
     {
         var dataContractSerializer = new DataContractSerializer(value.GetType());
 
@@ -98,7 +98,7 @@ public class SerializeComparisonBenchmarks
         return SerializeBinaryFormatter(TestClass);
     }
 
-    byte[] SerializeBinaryFormatter(object value)
+    static byte[] SerializeBinaryFormatter(object value)
     {
         var ms = new MemoryStream(Buffer);
         var formatter = new BinaryFormatter();
@@ -113,7 +113,7 @@ public class SerializeComparisonBenchmarks
         return SerializeWebExtensions(TestClass);
     }
 
-    string SerializeWebExtensions(object value)
+    static string SerializeWebExtensions(object value)
     {
         var ser = new JavaScriptSerializer();
 
@@ -155,7 +155,8 @@ public class SerializeComparisonBenchmarks
     }
 
     #region SerializeJsonNetManual
-    string SerializeJsonNetLinq(TestClass c)
+
+    static string SerializeJsonNetLinq(TestClass c)
     {
         var o = new JObject(
             new JProperty("strings", new JArray(c.strings)),
@@ -185,7 +186,7 @@ public class SerializeComparisonBenchmarks
     }
 
     #region SerializeJsonNetManual
-    string SerializeJsonNetManual(TestClass c)
+    static string SerializeJsonNetManual(TestClass c)
     {
         var sw = new StringWriter();
         var writer = new JsonTextWriter(sw);
@@ -253,7 +254,7 @@ public class SerializeComparisonBenchmarks
         return SerializeJsonNetManualAsync(TestClass, Formatting.Indented);
     }
 
-    async Task<string> SerializeJsonNetManualAsync(TestClass c, Formatting formatting)
+    static async Task<string> SerializeJsonNetManualAsync(TestClass c, Formatting formatting)
     {
         var sw = new StringWriter();
         var writer = new JsonTextWriter(sw);

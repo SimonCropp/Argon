@@ -39,7 +39,7 @@ public class CreateJsonDeclaratively : TestFixtureBase
     }
     #endregion
 
-    List<Post> GetPosts()
+    static List<Post> GetPosts()
     {
         return new List<Post>
         {

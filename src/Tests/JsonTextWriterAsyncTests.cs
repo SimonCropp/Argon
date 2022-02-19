@@ -78,7 +78,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             return DoDelay(base.WriteLineAsync(value));
         }
 
-        async Task DoDelay(Task t)
+        static async Task DoDelay(Task t)
         {
             await Task.Delay(TimeSpan.FromSeconds(0.01));
             await t;

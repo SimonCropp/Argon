@@ -68,7 +68,7 @@ public class LowLevelBenchmarks
         ConcurrentDictionary.GetOrAdd("1", Dummy);
     }
 
-    object Dummy(string arg)
+    static object Dummy(string arg)
     {
         throw new("Should never get here.");
     }

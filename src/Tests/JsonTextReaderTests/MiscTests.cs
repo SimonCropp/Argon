@@ -247,7 +247,7 @@ public class MiscTests : TestFixtureBase
         Assert.Equal("ABC \b\ufffd", ReadString("ABC \\b\\ud800"));
     }
 
-    string ReadString(string input)
+    static string ReadString(string input)
     {
         var ms = new MemoryStream(Encoding.UTF8.GetBytes($@"""{input}"""));
 

@@ -215,7 +215,7 @@ static class JsonTypeReflector
             {
                 if (parameters != null)
                 {
-                    Type[] paramTypes = parameters.Select(param =>
+                    var paramTypes = parameters.Select(param =>
                     {
                         if (param == null)
                         {

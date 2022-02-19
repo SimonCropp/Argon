@@ -1455,7 +1455,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         TestJsonSerializationRoundTrip(w, TypeNameHandling.Objects);
     }
 
-    void TestJsonSerializationRoundTrip(SerializableWrapper e, TypeNameHandling flag)
+    static void TestJsonSerializationRoundTrip(SerializableWrapper e, TypeNameHandling flag)
     {
         var writer = new StringWriter();
 

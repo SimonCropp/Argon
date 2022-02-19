@@ -645,14 +645,14 @@ public abstract partial class JsonWriter : IDisposable
         }
     }
 
-    bool IsWriteTokenIncomplete(JsonReader reader, bool writeChildren, int initialDepth)
+    static bool IsWriteTokenIncomplete(JsonReader reader, bool writeChildren, int initialDepth)
     {
         var finalDepth = CalculateWriteTokenFinalDepth(reader);
         return initialDepth < finalDepth ||
                (writeChildren && initialDepth == finalDepth && JsonTokenUtils.IsStartToken(reader.TokenType));
     }
 
-    int CalculateWriteTokenInitialDepth(JsonReader reader)
+    static int CalculateWriteTokenInitialDepth(JsonReader reader)
     {
         var type = reader.TokenType;
         if (type == JsonToken.None)
@@ -663,7 +663,7 @@ public abstract partial class JsonWriter : IDisposable
         return JsonTokenUtils.IsStartToken(type) ? reader.Depth : reader.Depth + 1;
     }
 
-    int CalculateWriteTokenFinalDepth(JsonReader reader)
+    static int CalculateWriteTokenFinalDepth(JsonReader reader)
     {
         var type = reader.TokenType;
         if (type == JsonToken.None)

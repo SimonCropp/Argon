@@ -39,7 +39,7 @@ class JsonFormatterConverter : IFormatterConverter
         _member = member;
     }
 
-    T GetTokenValue<T>(object value)
+    static T GetTokenValue<T>(object value)
     {
         ValidationUtils.ArgumentNotNull(value, nameof(value));
 

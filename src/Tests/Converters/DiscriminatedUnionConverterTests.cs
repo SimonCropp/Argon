@@ -176,7 +176,7 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
         public Converter<object[], object> Constructor;
     }
 
-    Union CreateUnion(Type t)
+    static Union CreateUnion(Type t)
     {
         var u = new Union
         {

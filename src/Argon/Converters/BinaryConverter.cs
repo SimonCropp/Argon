@@ -55,7 +55,7 @@ public class BinaryConverter : JsonConverter
         writer.WriteValue(data);
     }
 
-    byte[] GetByteArray(object value)
+    static byte[] GetByteArray(object value)
     {
         if (value.GetType().FullName == BinaryTypeName)
         {
@@ -135,7 +135,7 @@ public class BinaryConverter : JsonConverter
         throw JsonSerializationException.Create(reader, $"Unexpected object type when writing binary: {objectType}");
     }
 
-    byte[] ReadByteArray(JsonReader reader)
+    static byte[] ReadByteArray(JsonReader reader)
     {
         var byteList = new List<byte>();
 

@@ -118,7 +118,7 @@ public class DateTimeUtilsTests : TestFixtureBase
         AssertNewDateTimeParseEqual("9999-12-31T23:59:59.9999999-11:30", DateTime.MaxValue); // DateTime.TryParse fails instead of returning MaxDate in some timezones
     }
 
-    void AssertNewDateTimeParseEqual(string text, object oldDate)
+    static void AssertNewDateTimeParseEqual(string text, object oldDate)
     {
         if (TryParseDateIso(text, DateParseHandling.DateTime, DateTimeZoneHandling.RoundtripKind, out var oldDt))
         {
@@ -137,7 +137,7 @@ public class DateTimeUtilsTests : TestFixtureBase
         }
     }
 
-    void AssertNewDateTimeParseEqual(string text)
+    static void AssertNewDateTimeParseEqual(string text)
     {
         //Console.WriteLine("Parsing date text: " + text);
 
@@ -189,7 +189,7 @@ public class DateTimeUtilsTests : TestFixtureBase
         AssertNewDateTimeOffsetParseEqual("9999-12-31T23:59:59.9999999-13:30");
     }
 
-    void AssertNewDateTimeOffsetParseEqual(string text)
+    static void AssertNewDateTimeOffsetParseEqual(string text)
     {
         object newDt = null;
 

@@ -129,7 +129,7 @@ public class JTokenReader : JsonReader, IJsonLineInfo
         return false;
     }
 
-    JsonToken? GetEndToken(JContainer c)
+    static JsonToken? GetEndToken(JContainer c)
     {
         switch (c.Type)
         {
@@ -249,7 +249,7 @@ public class JTokenReader : JsonReader, IJsonLineInfo
         }
     }
 
-    string? SafeToString(object? value)
+    static string? SafeToString(object? value)
     {
         return value?.ToString();
     }

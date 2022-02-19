@@ -101,7 +101,7 @@ class JPropertyKeyedCollection : Collection<JToken>
         _dictionary ??= new Dictionary<string, JToken>(Comparer);
     }
 
-    string GetKeyForItem(JToken item)
+    static string GetKeyForItem(JToken item)
     {
         return ((JProperty)item).Name;
     }

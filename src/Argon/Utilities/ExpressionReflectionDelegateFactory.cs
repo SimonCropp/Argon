@@ -78,9 +78,9 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
         }
     }
 
-    Expression BuildMethodCall(MethodBase method, Type type, ParameterExpression? targetParameterExpression, ParameterExpression argsParameterExpression)
+    static Expression BuildMethodCall(MethodBase method, Type type, ParameterExpression? targetParameterExpression, ParameterExpression argsParameterExpression)
     {
-        ParameterInfo[] parametersInfo = method.GetParameters();
+        var parametersInfo = method.GetParameters();
 
         Expression[] argsExpression;
         IList<ByRefParameter> refParameterMap;
@@ -346,7 +346,7 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
         return compiled;
     }
 
-    Expression EnsureCastExpression(Expression expression, Type targetType, bool allowWidening = false)
+    static Expression EnsureCastExpression(Expression expression, Type targetType, bool allowWidening = false)
     {
         var expressionType = expression.Type;
 

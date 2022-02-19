@@ -29,7 +29,7 @@ class DefaultReferenceResolver : IReferenceResolver
 {
     int _referenceCount;
 
-    BidirectionalDictionary<string, object> GetMappings(object context)
+    static BidirectionalDictionary<string, object> GetMappings(object context)
     {
         if (!(context is JsonSerializerInternalBase internalSerializer))
         {

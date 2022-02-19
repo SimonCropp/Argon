@@ -84,7 +84,7 @@ class BooleanQueryExpression : QueryExpression
         Right = right;
     }
 
-    IEnumerable<JToken> GetResult(JToken root, JToken t, object? o)
+    static IEnumerable<JToken> GetResult(JToken root, JToken t, object? o)
     {
         if (o is JToken resultToken)
         {

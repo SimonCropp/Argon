@@ -1600,7 +1600,7 @@ public class JsonSerializerTest : TestFixtureBase
 }", json);
     }
 
-    string AssertSerializeDeserializeEqual(object o)
+    static string AssertSerializeDeserializeEqual(object o)
     {
         var ms = new MemoryStream();
         var s = new DataContractJsonSerializer(o.GetType());
@@ -6274,7 +6274,7 @@ Path '', line 1, position 1.");
         Assert.Equal(0, objDeserialized.Age);
     }
 
-    string Serialize<T>(T obj)
+    static string Serialize<T>(T obj)
         where T : class
     {
         var stringWriter = new StringWriter();
@@ -6290,7 +6290,7 @@ Path '', line 1, position 1.");
         return stringWriter.ToString();
     }
 
-    T Deserialize<T>(string json)
+    static T Deserialize<T>(string json)
         where T : class
     {
         var jsonReader = new JsonTextReader(new StringReader(json));

@@ -17,7 +17,7 @@ public class DiagnosticsTraceWriter : ITraceWriter
     /// </value>
     public TraceLevel LevelFilter { get; set; }
 
-    TraceEventType GetTraceEventType(TraceLevel level)
+    static TraceEventType GetTraceEventType(TraceLevel level)
     {
         switch (level)
         {

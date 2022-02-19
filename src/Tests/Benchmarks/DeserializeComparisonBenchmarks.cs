@@ -44,7 +44,7 @@ public class DeserializeComparisonBenchmarks
         return DeserializeDataContract<TestClass>(BenchmarkConstants.XmlText);
     }
 
-    T DeserializeDataContract<T>(string xml)
+    static T DeserializeDataContract<T>(string xml)
     {
         var serializer = new DataContractSerializer(typeof(T));
         var ms = new MemoryStream(Encoding.UTF8.GetBytes(xml));
@@ -52,7 +52,7 @@ public class DeserializeComparisonBenchmarks
         return (T)serializer.ReadObject(ms);
     }
 
-    T DeserializeDataContractJson<T>(string json)
+    static T DeserializeDataContractJson<T>(string json)
     {
         var dataContractSerializer = new DataContractJsonSerializer(typeof(T));
         var ms = new MemoryStream(Encoding.UTF8.GetBytes(json));
@@ -67,7 +67,7 @@ public class DeserializeComparisonBenchmarks
             return DeserializeBinaryFormatter<TestClass>(BinaryFormatterData);
         }
 
-        T DeserializeBinaryFormatter<T>(byte[] bytes)
+        static T DeserializeBinaryFormatter<T>(byte[] bytes)
         {
             var formatter = new BinaryFormatter();
             return (T)formatter.Deserialize(new MemoryStream(bytes));
@@ -112,7 +112,7 @@ public class DeserializeComparisonBenchmarks
     }
 
     #region DeserializeJsonNetManual
-    TestClass DeserializeJsonNetManual(string json)
+    static TestClass DeserializeJsonNetManual(string json)
     {
         var c = new TestClass();
 
@@ -213,7 +213,7 @@ public class DeserializeComparisonBenchmarks
         return DeserializeJsonNetManualAsync(BenchmarkConstants.JsonIndentedText);
     }
 
-    async Task<TestClass> DeserializeJsonNetManualAsync(string json)
+    static async Task<TestClass> DeserializeJsonNetManualAsync(string json)
     {
         var c = new TestClass();
 

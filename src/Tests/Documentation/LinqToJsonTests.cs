@@ -102,7 +102,7 @@ public class LinqToJsonTests : TestFixtureBase
         public IList<string> Categories { get; set; }
     }
 
-    List<Post> GetPosts()
+    static List<Post> GetPosts()
     {
         return new List<Post>();
     }

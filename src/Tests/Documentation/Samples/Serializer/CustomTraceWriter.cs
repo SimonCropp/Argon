@@ -51,7 +51,7 @@ public class CustomTraceWriter : TestFixtureBase
             Logger.Log(logEvent);
         }
 
-        LogLevel GetLogLevel(TraceLevel level)
+        static LogLevel GetLogLevel(TraceLevel level)
         {
             switch (level)
             {

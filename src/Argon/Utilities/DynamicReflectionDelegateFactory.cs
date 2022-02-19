@@ -59,9 +59,9 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
         return (MethodCall<T, object?>)dynamicMethod.CreateDelegate(typeof(MethodCall<T, object?>));
     }
 
-    void GenerateCreateMethodCallIL(MethodBase method, ILGenerator generator, int argsIndex)
+    static void GenerateCreateMethodCallIL(MethodBase method, ILGenerator generator, int argsIndex)
     {
-        ParameterInfo[] args = method.GetParameters();
+        var args = method.GetParameters();
 
         var argsOk = generator.DefineLabel();
 
@@ -243,7 +243,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
         return (Func<T>)dynamicMethod.CreateDelegate(typeof(Func<T>));
     }
 
-    void GenerateCreateDefaultConstructorIL(Type type, ILGenerator generator, Type delegateType)
+    static void GenerateCreateDefaultConstructorIL(Type type, ILGenerator generator, Type delegateType)
     {
         if (type.IsValueType)
         {
@@ -282,7 +282,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
         return (Func<T, object?>)dynamicMethod.CreateDelegate(typeof(Func<T, object?>));
     }
 
-    void GenerateCreateGetPropertyIL(PropertyInfo propertyInfo, ILGenerator generator)
+    static void GenerateCreateGetPropertyIL(PropertyInfo propertyInfo, ILGenerator generator)
     {
         var getMethod = propertyInfo.GetGetMethod(true);
         if (getMethod == null)
@@ -317,7 +317,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
         return (Func<T, object?>)dynamicMethod.CreateDelegate(typeof(Func<T, object?>));
     }
 
-    void GenerateCreateGetFieldIL(FieldInfo fieldInfo, ILGenerator generator)
+    static void GenerateCreateGetFieldIL(FieldInfo fieldInfo, ILGenerator generator)
     {
         if (!fieldInfo.IsStatic)
         {

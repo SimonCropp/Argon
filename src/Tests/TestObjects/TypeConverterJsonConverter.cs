@@ -29,7 +29,7 @@ namespace Argon.Tests.TestObjects;
 
 class TypeConverterJsonConverter : JsonConverter
 {
-    TypeConverter GetConverter(Type type)
+    static TypeConverter GetConverter(Type type)
     {
         var converters = ReflectionUtils.GetAttributes(type, typeof(TypeConverterAttribute), true).Union(
             from t in type.GetInterfaces()

@@ -79,7 +79,7 @@ public class Issue1798
         Assert.IsType(typeof(JsonISerializableContract), o);
     }
 
-    void AssertNoTargetSite(string json)
+    static void AssertNoTargetSite(string json)
     {
         var o = JObject.Parse(json);
 
