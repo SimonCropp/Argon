@@ -522,7 +522,7 @@ class JPath
                     throw CreateUnexpectedCharacterException();
                 }
 
-                if (parentExpression == null || parentExpression.Operator != QueryOperator.And)
+                if (parentExpression is not {Operator: QueryOperator.And})
                 {
                     var andExpression = new CompositeExpression(QueryOperator.And);
 
@@ -545,7 +545,7 @@ class JPath
                     throw CreateUnexpectedCharacterException();
                 }
 
-                if (parentExpression == null || parentExpression.Operator != QueryOperator.Or)
+                if (parentExpression is not {Operator: QueryOperator.Or})
                 {
                     var orExpression = new CompositeExpression(QueryOperator.Or);
 
