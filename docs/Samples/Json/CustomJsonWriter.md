@@ -299,9 +299,9 @@ var user = new
     }
 };
 
-var sw = new StringWriter();
+var stringWriter = new StringWriter();
 
-using (var xmlWriter = XmlWriter.Create(sw, new XmlWriterSettings { OmitXmlDeclaration = true }))
+using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings { OmitXmlDeclaration = true }))
 using (var writer = new XmlJsonWriter(xmlWriter))
 {
     writer.Formatting = Formatting.Indented;
@@ -310,7 +310,7 @@ using (var writer = new XmlJsonWriter(xmlWriter))
     serializer.Serialize(writer, user);
 }
 
-Console.WriteLine(sw.ToString());
+Console.WriteLine(stringWriter.ToString());
 //<Root type="Object">
 //  <Name type="String">James</Name>
 //  <Age type="Integer">30</Age>

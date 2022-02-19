@@ -27,11 +27,9 @@ var movie = new Movie
 File.WriteAllText(@"c:\movie.json", JsonConvert.SerializeObject(movie));
 
 // serialize JSON directly to a file
-using (var file = File.CreateText(@"c:\movie.json"))
-{
-    var serializer = new JsonSerializer();
-    serializer.Serialize(file, movie);
-}
+using var file = File.CreateText(@"c:\movie.json");
+var serializer = new JsonSerializer();
+serializer.Serialize(file, movie);
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeWithJsonSerializerToFile.cs#L43-L59' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializewithjsonserializertofileusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeWithJsonSerializerToFile.cs#L43-L58' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializewithjsonserializertofileusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

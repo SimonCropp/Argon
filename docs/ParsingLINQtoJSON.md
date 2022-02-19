@@ -45,11 +45,9 @@ JSON can also be loaded directly from a file using `Argon.Linq.JToken.ReadFrom(A
 <!-- snippet: LinqToJsonReadObject -->
 <a id='snippet-linqtojsonreadobject'></a>
 ```cs
-using (var reader = File.OpenText(@"c:\person.json"))
-{
-    var o = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
-    // do stuff
-}
+using var reader = File.OpenText(@"c:\person.json");
+var o = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
+// do stuff
 ```
 <sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L229-L235' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonreadobject' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

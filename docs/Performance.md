@@ -63,18 +63,16 @@ var p = JsonConvert.DeserializeObject<Person>(json);
 ```cs
 var client = new HttpClient();
 
-using (var s = client.GetStreamAsync("http://www.test.com/large.json").Result)
-using (var sr = new StreamReader(s))
-using (JsonReader reader = new JsonTextReader(sr))
-{
-    var serializer = new JsonSerializer();
+using var s = client.GetStreamAsync("http://www.test.com/large.json").Result;
+using var sr = new StreamReader(s);
+using JsonReader reader = new JsonTextReader(sr);
+var serializer = new JsonSerializer();
 
-    // read the json from a stream
-    // json size doesn't matter because only a small piece is read at a time from the HTTP request
-    var p = serializer.Deserialize<Person>(reader);
-}
+// read the json from a stream
+// json size doesn't matter because only a small piece is read at a time from the HTTP request
+var p = serializer.Deserialize<Person>(reader);
 ```
-<sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L167-L180' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializestream' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L167-L179' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializestream' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -139,8 +137,8 @@ The absolute fastest way to read and write JSON is to use JsonTextReader/JsonTex
 ```cs
 public static string ToJson(this Person p)
 {
-    var sw = new StringWriter();
-    var writer = new JsonTextWriter(sw);
+    var stringWriter = new StringWriter();
+    var writer = new JsonTextWriter(stringWriter);
 
     // {
     writer.WriteStartObject();
@@ -161,10 +159,10 @@ public static string ToJson(this Person p)
     // }
     writer.WriteEndObject();
 
-    return sw.ToString();
+    return stringWriter.ToString();
 }
 ```
-<sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L186-L213' title='Snippet source file'>snippet source</a> | <a href='#snippet-readerwriter' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L185-L212' title='Snippet source file'>snippet source</a> | <a href='#snippet-readerwriter' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 If performance is important, then this is the best choice. More about using JsonReader/JsonWriter here: [ReadingWritingJSON]

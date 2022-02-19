@@ -42,7 +42,7 @@ var c = JsonConvert.DeserializeObject<List<DateTime>>(@"[
 // Unexpected token parsing date. Expected String, got StartArray.
 // Cannot convert null value to System.DateTime.
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L218-L248' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationerrorhandling' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L217-L247' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationerrorhandling' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 In this example we are deserializing a JSON array to a collection of DateTimes. On the JsonSerializerSettings a handler has been assigned to the `Error` event which will log the error message and mark the error as handled.
@@ -66,7 +66,7 @@ serializer.Error += delegate(object _, ErrorEventArgs args)
     }
 };
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L256-L268' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationerrorhandlingwithparent' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L255-L267' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationerrorhandlingwithparent' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 If you aren't immediately handling an error and only want to perform an action against it once, then you can check to see whether the `Argon.Serialization.ErrorEventArgs`'s CurrentObject is equal to the OriginalObject. OriginalObject is the object that threw the error and CurrentObject is the object that the event is being raised against. They will only equal the first time the event is raised against the OriginalObject.
@@ -108,7 +108,7 @@ public class PersonError
     }
 }
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L271-L301' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationerrorhandlingattributeobject' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L270-L300' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationerrorhandlingattributeobject' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 In this example accessing the Roles property will throw an exception when no roles have been set. The HandleError method will set the error when serializing Roles as handled and allow the continued serializing the class.
@@ -133,7 +133,7 @@ Console.WriteLine(json);
 //  "Title": "Mister Manager"
 //}
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L306-L323' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationerrorhandlingattributeexample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L305-L322' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationerrorhandlingattributeexample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

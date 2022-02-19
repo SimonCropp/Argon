@@ -12,27 +12,25 @@ To quickly work with JSON, either the serializer - [SerializingJSON] - or using 
 <!-- snippet: ReadingAndWritingJsonText -->
 <a id='snippet-readingandwritingjsontext'></a>
 ```cs
-var sb = new StringBuilder();
-var sw = new StringWriter(sb);
+var stringBuilder = new StringBuilder();
+var stringWriter = new StringWriter(stringBuilder);
 
-using (JsonWriter writer = new JsonTextWriter(sw))
-{
-    writer.Formatting = Formatting.Indented;
+using JsonWriter writer = new JsonTextWriter(stringWriter);
+writer.Formatting = Formatting.Indented;
 
-    writer.WriteStartObject();
-    writer.WritePropertyName("CPU");
-    writer.WriteValue("Intel");
-    writer.WritePropertyName("PSU");
-    writer.WriteValue("500W");
-    writer.WritePropertyName("Drives");
-    writer.WriteStartArray();
-    writer.WriteValue("DVD read/writer");
-    writer.WriteComment("(broken)");
-    writer.WriteValue("500 gigabyte hard drive");
-    writer.WriteValue("200 gigabyte hard drive");
-    writer.WriteEnd();
-    writer.WriteEndObject();
-}
+writer.WriteStartObject();
+writer.WritePropertyName("CPU");
+writer.WriteValue("Intel");
+writer.WritePropertyName("PSU");
+writer.WriteValue("500W");
+writer.WritePropertyName("Drives");
+writer.WriteStartArray();
+writer.WriteValue("DVD read/writer");
+writer.WriteComment("(broken)");
+writer.WriteValue("500 gigabyte hard drive");
+writer.WriteValue("200 gigabyte hard drive");
+writer.WriteEnd();
+writer.WriteEndObject();
 
 // {
 //   "CPU": "Intel",
@@ -45,7 +43,7 @@ using (JsonWriter writer = new JsonTextWriter(sw))
 //   ]
 // }
 ```
-<sup><a href='/src/Tests/Documentation/ReadingAndWritingJsonTests.cs#L35-L68' title='Snippet source file'>snippet source</a> | <a href='#snippet-readingandwritingjsontext' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/ReadingAndWritingJsonTests.cs#L35-L66' title='Snippet source file'>snippet source</a> | <a href='#snippet-readingandwritingjsontext' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 JsonTextReader has settings on it for reading different date formats, time zones, and the cultures when reading text values.
@@ -91,7 +89,7 @@ while (reader.Read())
 // Token: EndArray
 // Token: EndObject
 ```
-<sup><a href='/src/Tests/Documentation/ReadingAndWritingJsonTests.cs#L74-L112' title='Snippet source file'>snippet source</a> | <a href='#snippet-readingjsontext' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/ReadingAndWritingJsonTests.cs#L72-L110' title='Snippet source file'>snippet source</a> | <a href='#snippet-readingjsontext' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -113,7 +111,7 @@ var p = (Person)serializer.Deserialize(new JTokenReader(o), typeof(Person));
 Console.WriteLine(p.Name);
 // John Smith
 ```
-<sup><a href='/src/Tests/Documentation/ReadingAndWritingJsonTests.cs#L118-L129' title='Snippet source file'>snippet source</a> | <a href='#snippet-readingandwritingjsonlinq' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/ReadingAndWritingJsonTests.cs#L116-L127' title='Snippet source file'>snippet source</a> | <a href='#snippet-readingandwritingjsonlinq' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
