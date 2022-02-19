@@ -1,58 +1,127 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="ReadingWritingJSON" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>To manually read and write JSON, Json.NET provides the
-      <codeEntityReference>T:Argon.JsonReader</codeEntityReference>
-      and 
-      <codeEntityReference>T:Argon.JsonWriter</codeEntityReference> classes.</para>
-      <autoOutline lead="none" excludeRelatedTopics="true" />
+# Basic Reading and Writing JSON
 
-    </introduction>
-    <section address="TextReaderWriter">
-      <title>JsonTextReader and JsonTextWriter</title>
-      <content>
-      
-<alert class="note">
-  <para>JsonReader and JsonWriter are low-level classes and are primarily for internal use by Json.NET.
-    To quickly work with JSON, either the serializer - <link xlink:href="SerializingJSON" /> - or using <link xlink:href="LINQtoJSON" /> is recommended.
-   </para>
-</alert>
+To manually read and write JSON, Json.NET provides the `Argon.JsonReader` and `Argon.JsonWriter` classes.
 
-        <para><codeEntityReference>T:Argon.JsonTextReader</codeEntityReference>
-        and <codeEntityReference>T:Argon.JsonTextWriter</codeEntityReference>
-        are used to read and write JSON text.
-        The JsonTextWriter has settings on it to control how JSON is formatted
-        when it is written. These options include formatting, indentation character, indent
-        count, and quote character.</para>
 
-<code lang="cs" source="..\Src\Tests\Documentation\ReadingAndWritingJsonTests.cs" region="ReadingAndWritingJsonText" title="Writing JSON with JsonTextWriter" />
+## JsonTextReader and JsonTextWriter
 
-        <para>JsonTextReader has settings on it for reading different date formats, time zones, and
-        the cultures when reading text values.</para>
-<code lang="cs" source="..\Src\Tests\Documentation\ReadingAndWritingJsonTests.cs" region="ReadingJsonText" title="Reading JSON with JsonTextReader" />
-      </content>
-    </section>
-    <section address="JTokenReaderWriter">
-      <title>JTokenReader and JTokenWriter</title>
-      <content>
-        <para><codeEntityReference>T:Argon.Linq.JTokenReader</codeEntityReference>
-        and <codeEntityReference>T:Argon.Linq.JTokenWriter</codeEntityReference>
-        read and write LINQ to JSON objects. They are located in the
-        <codeEntityReference>N:Argon.Linq</codeEntityReference>
-        namespace. These objects support the use LINQ to JSON objects with objects that
-        read and write JSON, such as the JsonSerializer. For example to deserialize
-        from a LINQ to JSON object into a regular .NET object and vice versa.</para>
-<code lang="cs" source="..\Src\Tests\Documentation\ReadingAndWritingJsonTests.cs" region="ReadingAndWritingJsonLinq" title="Deserializing with JTokenReader" />
-      </content>
-    </section>
-    <relatedTopics>
-      <codeEntityReference>T:Argon.JsonReader</codeEntityReference>
-      <codeEntityReference>T:Argon.JsonWriter</codeEntityReference>
-      <codeEntityReference>T:Argon.Linq.JTokenReader</codeEntityReference>
-      <codeEntityReference>T:Argon.Linq.JTokenWriter</codeEntityReference>
-      <codeEntityReference>T:Argon.Bson.BsonReader</codeEntityReference>
-      <codeEntityReference>T:Argon.Bson.BsonWriter</codeEntityReference>
-    </relatedTopics>
-  </developerConceptualDocument>
-</topic>
+To quickly work with JSON, either the serializer - [SerializingJSON] - or using [LINQtoJSON] is recommended.
+
+`Argon.JsonTextReader` and `Argon.JsonTextWriter` are used to read and write JSON text. The JsonTextWriter has settings on it to control how JSON is formatted when it is written. These options include formatting, indentation character, indent count, and quote character.
+
+<!-- snippet: ReadingAndWritingJsonText -->
+<a id='snippet-readingandwritingjsontext'></a>
+```cs
+var sb = new StringBuilder();
+var sw = new StringWriter(sb);
+
+using (JsonWriter writer = new JsonTextWriter(sw))
+{
+    writer.Formatting = Formatting.Indented;
+
+    writer.WriteStartObject();
+    writer.WritePropertyName("CPU");
+    writer.WriteValue("Intel");
+    writer.WritePropertyName("PSU");
+    writer.WriteValue("500W");
+    writer.WritePropertyName("Drives");
+    writer.WriteStartArray();
+    writer.WriteValue("DVD read/writer");
+    writer.WriteComment("(broken)");
+    writer.WriteValue("500 gigabyte hard drive");
+    writer.WriteValue("200 gigabyte hard drive");
+    writer.WriteEnd();
+    writer.WriteEndObject();
+}
+
+// {
+//   "CPU": "Intel",
+//   "PSU": "500W",
+//   "Drives": [
+//     "DVD read/writer"
+//     /*(broken)*/,
+//     "500 gigabyte hard drive",
+//     "200 gigabyte hard drive"
+//   ]
+// }
+```
+<sup><a href='/src/Tests/Documentation/ReadingAndWritingJsonTests.cs#L35-L68' title='Snippet source file'>snippet source</a> | <a href='#snippet-readingandwritingjsontext' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+JsonTextReader has settings on it for reading different date formats, time zones, and the cultures when reading text values.
+
+<!-- snippet: ReadingJsonText -->
+<a id='snippet-readingjsontext'></a>
+```cs
+var json = @"{
+       'CPU': 'Intel',
+       'PSU': '500W',
+       'Drives': [
+         'DVD read/writer'
+         /*(broken)*/,
+         '500 gigabyte hard drive',
+         '200 gigabyte hard drive'
+       ]
+    }";
+
+var reader = new JsonTextReader(new StringReader(json));
+while (reader.Read())
+{
+    if (reader.Value != null)
+    {
+        Console.WriteLine("Token: {0}, Value: {1}", reader.TokenType, reader.Value);
+    }
+    else
+    {
+        Console.WriteLine("Token: {0}", reader.TokenType);
+    }
+}
+
+// Token: StartObject
+// Token: PropertyName, Value: CPU
+// Token: String, Value: Intel
+// Token: PropertyName, Value: PSU
+// Token: String, Value: 500W
+// Token: PropertyName, Value: Drives
+// Token: StartArray
+// Token: String, Value: DVD read/writer
+// Token: Comment, Value: (broken)
+// Token: String, Value: 500 gigabyte hard drive
+// Token: String, Value: 200 gigabyte hard drive
+// Token: EndArray
+// Token: EndObject
+```
+<sup><a href='/src/Tests/Documentation/ReadingAndWritingJsonTests.cs#L74-L112' title='Snippet source file'>snippet source</a> | <a href='#snippet-readingjsontext' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+
+## JTokenReader and JTokenWriter</title>
+
+`Argon.Linq.JTokenReader` and `Argon.Linq.JTokenWriter` read and write LINQ to JSON objects. They are located in the `Argon.Linq` namespace. These objects support the use LINQ to JSON objects with objects that read and write JSON, such as the JsonSerializer. For example to deserialize from a LINQ to JSON object into a regular .NET object and vice versa.
+
+<!-- snippet: ReadingAndWritingJsonLinq -->
+<a id='snippet-readingandwritingjsonlinq'></a>
+```cs
+var o = new JObject(
+    new JProperty("Name", "John Smith"),
+    new JProperty("BirthDate", new DateTime(1983, 3, 20))
+);
+
+var serializer = new JsonSerializer();
+var p = (Person)serializer.Deserialize(new JTokenReader(o), typeof(Person));
+
+Console.WriteLine(p.Name);
+// John Smith
+```
+<sup><a href='/src/Tests/Documentation/ReadingAndWritingJsonTests.cs#L118-L129' title='Snippet source file'>snippet source</a> | <a href='#snippet-readingandwritingjsonlinq' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+
+## Related Topics
+
+ * `Argon.JsonReader`
+ * `Argon.JsonWriter`
+ * `Argon.Linq.JTokenReader`
+ * `Argon.Linq.JTokenWriter`
+ * `Argon.Bson.BsonReader`
+ * `Argon.Bson.BsonWriter`

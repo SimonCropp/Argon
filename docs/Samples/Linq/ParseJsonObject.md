@@ -1,15 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="ParseJsonObject" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample parses a JSON object using
-      <codeEntityReference qualifyHint="true">M:Argon.Linq.JObject.Parse(System.String)</codeEntityReference>.</para>
-    </introduction>
-    <section>
-      <title>Sample</title>
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Linq\ParseJsonObject.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
-  </developerConceptualDocument>
-</topic>
+# Parsing JSON Object using JObject.Parse
+
+This sample parses a JSON object using `Argon.Linq.JObject.Parse(System.String)`.
+
+<!-- snippet: ParseJsonObject -->
+<a id='snippet-parsejsonobject'></a>
+```cs
+var json = @"{
+      CPU: 'Intel',
+      Drives: [
+        'DVD read/writer',
+        '500 gigabyte hard drive'
+      ]
+    }";
+
+var o = JObject.Parse(json);
+
+Console.WriteLine(o.ToString());
+// {
+//   "CPU": "Intel",
+//   "Drives": [
+//     "DVD read/writer",
+//     "500 gigabyte hard drive"
+//   ]
+// }
+```
+<sup><a href='/src/Tests/Documentation/Samples/Linq/ParseJsonObject.cs#L35-L54' title='Snippet source file'>snippet source</a> | <a href='#snippet-parsejsonobject' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

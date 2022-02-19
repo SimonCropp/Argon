@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class ErrorHandlingAttribute : TestFixtureBase
 {
-    #region Types
+    #region ErrorHandlingAttributeTypes
     public class Employee
     {
         List<string> _roles;
@@ -64,7 +64,7 @@ public class ErrorHandlingAttribute : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region ErrorHandlingAttributeUsage
         var person = new Employee
         {
             Name = "George Michael Bluth",

@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class JsonObjectAttributeOptIn : TestFixtureBase
 {
-    #region Types
+    #region JsonObjectAttributeOptInTypes
     [JsonObject(MemberSerialization.OptIn)]
     public class File
     {
@@ -48,7 +48,7 @@ public class JsonObjectAttributeOptIn : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region JsonObjectAttributeOptInUsage
         var file = new File
         {
             Id = Guid.NewGuid(),

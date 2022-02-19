@@ -1,16 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="CreateJsonJTokenWriter" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample creates <codeEntityReference>T:Argon.Linq.JObject</codeEntityReference>
-      and <codeEntityReference>T:Argon.Linq.JArray</codeEntityReference> instances using
-      a <codeEntityReference>T:Argon.Linq.JTokenWriter</codeEntityReference>.</para>
-    </introduction>
-    <section>
-      <title>Sample</title>
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Linq\CreateJsonJTokenWriter.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
-  </developerConceptualDocument>
-</topic>
+# Create JSON with JTokenWriter
+
+This sample creates `Argon.Linq.JObject` and `Argon.Linq.JArray` instances using a `Argon.Linq.JTokenWriter`.
+
+<!-- snippet: CreateJsonJTokenWriter -->
+<a id='snippet-createjsonjtokenwriter'></a>
+```cs
+var writer = new JTokenWriter();
+writer.WriteStartObject();
+writer.WritePropertyName("name1");
+writer.WriteValue("value1");
+writer.WritePropertyName("name2");
+writer.WriteStartArray();
+writer.WriteValue(1);
+writer.WriteValue(2);
+writer.WriteEndArray();
+writer.WriteEndObject();
+
+var o = (JObject)writer.Token;
+
+Console.WriteLine(o.ToString());
+// {
+//   "name1": "value1",
+//   "name2": [
+//     1,
+//     2
+//   ]
+// }
+```
+<sup><a href='/src/Tests/Documentation/Samples/Linq/CreateJsonJTokenWriter.cs#L35-L57' title='Snippet source file'>snippet source</a> | <a href='#snippet-createjsonjtokenwriter' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

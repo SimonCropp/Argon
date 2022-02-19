@@ -1,15 +1,53 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="PopulateObject" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample populates an existing object instance with values from JSON.</para>
-    </introduction>
-    <section>
-      <title>Sample</title>
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\PopulateObject.cs" region="Types" title="Types" />
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\PopulateObject.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
-  </developerConceptualDocument>
-</topic>
+# Populate an Object
+
+This sample populates an existing object instance with values from JSON.
+
+<!-- snippet: PopulateObjectTypes -->
+<a id='snippet-populateobjecttypes'></a>
+```cs
+public class Account
+{
+    public string Email { get; set; }
+    public bool Active { get; set; }
+    public DateTime CreatedDate { get; set; }
+    public List<string> Roles { get; set; }
+}
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/PopulateObject.cs#L32-L40' title='Snippet source file'>snippet source</a> | <a href='#snippet-populateobjecttypes' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+<!-- snippet: PopulateObjectUsage -->
+<a id='snippet-populateobjectusage'></a>
+```cs
+var account = new Account
+{
+    Email = "james@example.com",
+    Active = true,
+    CreatedDate = new DateTime(2013, 1, 20, 0, 0, 0, DateTimeKind.Utc),
+    Roles = new List<string>
+    {
+        "User",
+        "Admin"
+    }
+};
+
+var json = @"{
+      'Active': false,
+      'Roles': [
+        'Expired'
+      ]
+    }";
+
+JsonConvert.PopulateObject(json, account);
+
+Console.WriteLine(account.Email);
+// james@example.com
+
+Console.WriteLine(account.Active);
+// false
+
+Console.WriteLine(string.Join(", ", account.Roles.ToArray()));
+// User, Admin, Expired
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/PopulateObject.cs#L45-L75' title='Snippet source file'>snippet source</a> | <a href='#snippet-populateobjectusage' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

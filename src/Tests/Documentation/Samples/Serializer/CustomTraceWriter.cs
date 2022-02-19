@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class CustomTraceWriter : TestFixtureBase
 {
-    #region Types
+    #region CustomTraceWriterTypes
     public class NLogTraceWriter : ITraceWriter
     {
         static readonly Logger Logger = LogManager.GetLogger("NLogTraceWriter");
@@ -73,7 +73,7 @@ public class CustomTraceWriter : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region CustomTraceWriterUsage
         IList<string> countries = new List<string>
         {
             "New Zealand",

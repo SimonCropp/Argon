@@ -33,7 +33,7 @@ public class ConvertXmlToJsonForceArray : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region ConvertXmlToJsonForceArray
         var xml = @"<person id='1'>
               <name>Alan</name>
               <url>http://www.google.com</url>

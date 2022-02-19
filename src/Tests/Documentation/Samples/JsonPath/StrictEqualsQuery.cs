@@ -32,7 +32,7 @@ public class StrictEqualsQuery : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region StrictEqualsQueryUsage
         var items = JArray.Parse(@"[
               {
                 'Name': 'Valid JSON',

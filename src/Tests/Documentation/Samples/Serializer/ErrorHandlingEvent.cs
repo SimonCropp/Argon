@@ -33,7 +33,7 @@ public class ErrorHandlingEvent : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region ErrorHandlingEventUsage
         var errors = new List<string>();
 
         var c = JsonConvert.DeserializeObject<List<DateTime>>(@"[

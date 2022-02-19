@@ -1,17 +1,37 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="JsonPropertyRequired" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample uses <codeEntityReference>T:Argon.JsonPropertyAttribute</codeEntityReference>
-      to set <codeEntityReference>T:Argon.Required</codeEntityReference> which is used during deserialization
-      to validate the presence of required JSON properties.</para>
-    </introduction>
-    <section>
-      <title>Sample</title>
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\JsonPropertyRequired.cs" region="Types" title="Types" />
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\JsonPropertyRequired.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
-  </developerConceptualDocument>
-</topic>
+# JsonPropertyAttribute required
+
+This sample uses `Argon.JsonPropertyAttribute` to set `Argon.Required` which is used during deserialization to validate the presence of required JSON properties.
+
+<!-- snippet: JsonPropertyRequiredTypes -->
+<a id='snippet-jsonpropertyrequiredtypes'></a>
+```cs
+public class Videogame
+{
+    [JsonProperty(Required = Required.Always)]
+    public string Name { get; set; }
+
+    [JsonProperty(Required = Required.AllowNull)]
+    public DateTime? ReleaseDate { get; set; }
+}
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonPropertyRequired.cs#L32-L41' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertyrequiredtypes' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+<!-- snippet: JsonPropertyRequiredUsage -->
+<a id='snippet-jsonpropertyrequiredusage'></a>
+```cs
+var json = @"{
+      'Name': 'Starcraft III',
+      'ReleaseDate': null
+    }";
+
+var starcraft = JsonConvert.DeserializeObject<Videogame>(json);
+
+Console.WriteLine(starcraft.Name);
+// Starcraft III
+
+Console.WriteLine(starcraft.ReleaseDate);
+// null
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonPropertyRequired.cs#L46-L59' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertyrequiredusage' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

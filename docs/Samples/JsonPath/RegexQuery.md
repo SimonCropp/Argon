@@ -1,14 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="RegexQuery" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample loads JSON and then queries values from it using <codeEntityReference>M:Argon.Linq.JToken.SelectToken(System.String)</codeEntityReference> with a regex JSON Path.</para>
-    </introduction>
-    <section>
-      <title>Sample</title>
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\JsonPath\RegexQuery.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
-  </developerConceptualDocument>
-</topic>
+# Load and query JSON with JToken.SelectToken
+
+This sample loads JSON and then queries values from it using `Argon.Linq.JToken.SelectToken(System.String)` with a regex JSON Path.
+
+<!-- snippet: RegexQuery -->
+<a id='snippet-regexquery'></a>
+```cs
+var array = JArray.Parse(@"[
+      {
+        'PackageId': 'Argon',
+        'Version': '11.0.1',
+        'ReleaseDate': '2018-02-17T00:00:00'
+      },
+      {
+        'PackageId': 'NUnit',
+        'Version': '3.9.0',
+        'ReleaseDate': '2017-11-10T00:00:00'
+      }
+    ]");
+
+// Find packages
+var packages = array.SelectTokens(@"$.[?(@.PackageId =~ /^Argon/)]").ToList();
+
+foreach (var item in packages)
+{
+    Console.WriteLine((string) item["PackageId"]);
+}
+// Argon
+```
+<sup><a href='/src/Tests/Documentation/Samples/JsonPath/RegexQuery.cs#L35-L57' title='Snippet source file'>snippet source</a> | <a href='#snippet-regexquery' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

@@ -32,7 +32,7 @@ public class JObjectProperties : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region JObjectProperties
         var o = new JObject
         {
             { "name1", "value1" },

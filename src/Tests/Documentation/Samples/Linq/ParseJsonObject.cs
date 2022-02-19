@@ -32,7 +32,7 @@ public class ParseJsonObject : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region ParseJsonObject
         var json = @"{
               CPU: 'Intel',
               Drives: [

@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class DefaultValueHandlingIgnore : TestFixtureBase
 {
-    #region Types
+    #region DefaultValueHandlingIgnoreTypes
     public class Person
     {
         public string Name { get; set; }
@@ -42,7 +42,7 @@ public class DefaultValueHandlingIgnore : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region DefaultValueHandlingIgnoreUsage
         var person = new Person();
 
         var jsonIncludeDefaultValues = JsonConvert.SerializeObject(person, Formatting.Indented);

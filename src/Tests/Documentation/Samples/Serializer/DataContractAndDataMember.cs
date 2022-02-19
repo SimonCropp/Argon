@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class DataContractAndDataMember : TestFixtureBase
 {
-    #region Types
+    #region DataContractAndDataMemberTypes
     [DataContract]
     public class File
     {
@@ -48,7 +48,7 @@ public class DataContractAndDataMember : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region DataContractAndDataMemberUsage
         var file = new File
         {
             Id = Guid.NewGuid(),

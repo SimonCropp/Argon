@@ -1,14 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="ReadJson" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample reads JSON from a file into a <codeEntityReference>T:Argon.Linq.JObject</codeEntityReference>.</para>
-    </introduction>
-    <section>
-      <title>Sample</title>
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Linq\ReadJson.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
-  </developerConceptualDocument>
-</topic>
+# Read JSON from a file using JObject
+
+This sample reads JSON from a file into a `Argon.Linq.JObject`.
+
+<!-- snippet: ReadJson -->
+<a id='snippet-readjson'></a>
+```cs
+var o1 = JObject.Parse(File.ReadAllText(@"c:\videogames.json"));
+
+// read JSON directly from a file
+using (var file = File.OpenText(@"c:\videogames.json"))
+using (var reader = new JsonTextReader(file))
+{
+    var o2 = (JObject)JToken.ReadFrom(reader);
+}
+```
+<sup><a href='/src/Tests/Documentation/Samples/Linq/ReadJson.cs#L35-L44' title='Snippet source file'>snippet source</a> | <a href='#snippet-readjson' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

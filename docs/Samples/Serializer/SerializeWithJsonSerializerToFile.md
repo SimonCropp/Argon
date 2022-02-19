@@ -1,15 +1,37 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="SerializeWithJsonSerializerToFile" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample serializes JSON to a file.</para>
-    </introduction>
-    <section>
-      <title>Sample</title>
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\SerializeWithJsonSerializerToFile.cs" region="Types" title="Types" />
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\SerializeWithJsonSerializerToFile.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
-  </developerConceptualDocument>
-</topic>
+# Serialize JSON to a file
+
+This sample serializes JSON to a file.
+
+<!-- snippet: SerializeWithJsonSerializerToFileTypes -->
+<a id='snippet-serializewithjsonserializertofiletypes'></a>
+```cs
+public class Movie
+{
+    public string Name { get; set; }
+    public int Year { get; set; }
+}
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeWithJsonSerializerToFile.cs#L32-L38' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializewithjsonserializertofiletypes' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+<!-- snippet: SerializeWithJsonSerializerToFileUsage -->
+<a id='snippet-serializewithjsonserializertofileusage'></a>
+```cs
+var movie = new Movie
+{
+    Name = "Bad Boys",
+    Year = 1995
+};
+
+// serialize JSON to a string and then write string to a file
+File.WriteAllText(@"c:\movie.json", JsonConvert.SerializeObject(movie));
+
+// serialize JSON directly to a file
+using (var file = File.CreateText(@"c:\movie.json"))
+{
+    var serializer = new JsonSerializer();
+    serializer.Serialize(file, movie);
+}
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeWithJsonSerializerToFile.cs#L43-L59' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializewithjsonserializertofileusage' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

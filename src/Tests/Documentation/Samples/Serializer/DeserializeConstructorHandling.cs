@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class DeserializeConstructorHandling : TestFixtureBase
 {
-    #region Types
+    #region DeserializeConstructorHandlingTypes
     public class Website
     {
         public string Url { get; set; }
@@ -53,7 +53,7 @@ public class DeserializeConstructorHandling : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region DeserializeConstructorHandlingUsage
         var json = @"{'Url':'http://www.google.com'}";
 
         try

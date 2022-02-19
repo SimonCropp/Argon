@@ -32,7 +32,7 @@ public class DeserializeCollection : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region DeserializeCollection
         var json = @"['Starcraft','Halo','Legend of Zelda']";
 
         var videogames = JsonConvert.DeserializeObject<List<string>>(json);

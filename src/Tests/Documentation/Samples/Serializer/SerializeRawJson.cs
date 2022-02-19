@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class SerializeRawJson : TestFixtureBase
 {
-    #region Types
+    #region SerializeRawJsonTypes
     public class JavaScriptSettings
     {
         public JRaw OnLoadFunction { get; set; }
@@ -40,7 +40,7 @@ public class SerializeRawJson : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region SerializeRawJsonUsage
         var settings = new JavaScriptSettings
         {
             OnLoadFunction = new JRaw("OnLoad"),

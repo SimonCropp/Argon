@@ -33,7 +33,7 @@ public class CreateJsonDynamic : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region CreateJsonDynamic
 
         dynamic product = new JObject();
         product.ProductName = "Elbow Grease";

@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class DeserializeCustomCreationConverter : TestFixtureBase
 {
-    #region Types
+    #region DeserializeCustomCreationConverterTypes
     public class Person
     {
         public string FirstName { get; set; }
@@ -55,7 +55,7 @@ public class DeserializeCustomCreationConverter : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region DeserializeCustomCreationConverterUsage
         var json = @"{
               'Department': 'Furniture',
               'JobTitle': 'Carpenter',

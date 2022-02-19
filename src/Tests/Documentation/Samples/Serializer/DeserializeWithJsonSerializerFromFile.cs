@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class DeserializeWithJsonSerializerFromFile : TestFixtureBase
 {
-    #region Types
+    #region DeserializeWithJsonSerializerFromFileTypes
     public class Movie
     {
         public string Name { get; set; }
@@ -40,7 +40,7 @@ public class DeserializeWithJsonSerializerFromFile : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region DeserializeWithJsonSerializerFromFileUsage
         // read file into a string and deserialize JSON to a type
         var movie1 = JsonConvert.DeserializeObject<Movie>(File.ReadAllText(@"c:\movie.json"));
 

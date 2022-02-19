@@ -32,7 +32,7 @@ public class SerializeCollection : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region SerializeCollection
         var videogames = new List<string>
         {
             "Starcraft",

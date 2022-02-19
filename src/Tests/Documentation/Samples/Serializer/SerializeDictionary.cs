@@ -32,7 +32,7 @@ public class SerializeDictionary : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region SerializeDictionary
         var points = new Dictionary<string, int>
         {
             { "James", 9001 },

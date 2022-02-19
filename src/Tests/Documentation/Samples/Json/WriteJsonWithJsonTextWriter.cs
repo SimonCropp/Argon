@@ -32,7 +32,8 @@ public class WriteJsonWithJsonTextWriter : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+
+        #region WriteJsonWithJsonTextWriter
         var stringBuilder = new StringBuilder();
         var stringWriter = new StringWriter(stringBuilder);
 

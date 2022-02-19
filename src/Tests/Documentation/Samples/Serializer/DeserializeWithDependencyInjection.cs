@@ -34,7 +34,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class DeserializeWithDependencyInjection : TestFixtureBase
 {
-    #region Types
+    #region DeserializeWithDependencyInjectionTypes
     public class AutofacContractResolver : DefaultContractResolver
     {
         readonly IContainer _container;
@@ -95,7 +95,7 @@ public class DeserializeWithDependencyInjection : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region DeserializeWithDependencyInjectionUsage
         var builder = new ContainerBuilder();
         builder.RegisterType<TaskRepository>().As<ITaskRepository>();
         builder.RegisterType<TaskController>();

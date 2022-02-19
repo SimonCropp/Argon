@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class ReferenceLoopHandlingIgnore : TestFixtureBase
 {
-    #region Types
+    #region ReferenceLoopHandlingIgnoreTypes
     public class Employee
     {
         public string Name { get; set; }
@@ -40,7 +40,7 @@ public class ReferenceLoopHandlingIgnore : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region ReferenceLoopHandlingIgnoreUsage
         var joe = new Employee { Name = "Joe User" };
         var mike = new Employee { Name = "Mike Manager" };
         joe.Manager = mike;

@@ -1,15 +1,32 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="SerializeWithJsonConverters" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample uses a <codeEntityReference>T:Argon.JsonConverter</codeEntityReference>
-      to customize how JSON is serialized.</para>
-    </introduction>
-    <section>
-      <title>Sample</title>
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\SerializeWithJsonConverters.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
-  </developerConceptualDocument>
-</topic>
+# Serialize with JsonConverters
+
+This sample uses a `Argon.JsonConverter` to customize how JSON is serialized.
+
+<!-- snippet: SerializeWithJsonConvertersUsage -->
+<a id='snippet-serializewithjsonconvertersusage'></a>
+```cs
+var stringComparisons = new List<StringComparison>
+{
+    StringComparison.CurrentCulture,
+    StringComparison.Ordinal
+};
+
+var jsonWithoutConverter = JsonConvert.SerializeObject(stringComparisons);
+
+Console.WriteLine(jsonWithoutConverter);
+// [0,4]
+
+var jsonWithConverter = JsonConvert.SerializeObject(stringComparisons, new StringEnumConverter());
+
+Console.WriteLine(jsonWithConverter);
+// ["CurrentCulture","Ordinal"]
+
+var newStringComparsions = JsonConvert.DeserializeObject<List<StringComparison>>(
+    jsonWithConverter,
+    new StringEnumConverter());
+
+Console.WriteLine(string.Join(", ", newStringComparsions.Select(c => c.ToString()).ToArray()));
+// CurrentCulture, Ordinal
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeWithJsonConverters.cs#L35-L58' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializewithjsonconvertersusage' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

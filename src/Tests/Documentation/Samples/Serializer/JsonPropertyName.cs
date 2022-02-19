@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class JsonPropertyName : TestFixtureBase
 {
-    #region Types
+    #region JsonPropertyNameTypes
     public class Videogame
     {
         [JsonProperty("name")]
@@ -43,7 +43,7 @@ public class JsonPropertyName : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region JsonPropertyNameUsage
         var starcraft = new Videogame
         {
             Name = "Starcraft",

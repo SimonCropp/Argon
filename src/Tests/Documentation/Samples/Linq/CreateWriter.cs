@@ -32,7 +32,7 @@ public class CreateWriter : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region CreateWriter
         var o = new JObject
         {
             { "name1", "value1" },

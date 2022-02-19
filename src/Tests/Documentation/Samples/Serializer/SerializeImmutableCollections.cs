@@ -34,7 +34,7 @@ public class SerializeImmutableCollections : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region SerializeImmutableCollections
         var l = ImmutableList.CreateRange(new List<string>
         {
             "One",

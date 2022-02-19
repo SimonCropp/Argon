@@ -33,7 +33,7 @@ public class QueryJsonDynamic : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region QueryJsonDynamic
         var json = @"[
           {
             'Title': 'Json.NET is awesome!',

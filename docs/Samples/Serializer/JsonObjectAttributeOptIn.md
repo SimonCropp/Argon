@@ -1,19 +1,44 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="JsonObjectAttributeOptIn" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample uses
-      <codeEntityReference>T:Argon.JsonObjectAttribute</codeEntityReference>
-      and <codeEntityReference>T:Argon.MemberSerialization</codeEntityReference> to specify that 
-      only properties that have been explicitly specified with <codeEntityReference>T:Argon.JsonPropertyAttribute</codeEntityReference>
-      should be serialized.</para>
-    </introduction>
-    <section>
-      <title>Sample</title>
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\JsonObjectAttributeOptIn.cs" region="Types" title="Types" />
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Serializer\JsonObjectAttributeOptIn.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
-  </developerConceptualDocument>
-</topic>
+## JsonObjectAttribute opt-in serialization
+
+This sample uses `Argon.JsonObjectAttribute` and `Argon.MemberSerialization` to specify that only properties that have been explicitly specified with `Argon.JsonPropertyAttribute` should be serialized.
+
+<!-- snippet: JsonObjectAttributeOptInTypes -->
+<a id='snippet-jsonobjectattributeoptintypes'></a>
+```cs
+[JsonObject(MemberSerialization.OptIn)]
+public class File
+{
+    // excluded from serialization
+    // does not have JsonPropertyAttribute
+    public Guid Id { get; set; }
+
+    [JsonProperty]
+    public string Name { get; set; }
+
+    [JsonProperty]
+    public int Size { get; set; }
+}
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonObjectAttributeOptIn.cs#L32-L46' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonobjectattributeoptintypes' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+<!-- snippet: JsonObjectAttributeOptInUsage -->
+<a id='snippet-jsonobjectattributeoptinusage'></a>
+```cs
+var file = new File
+{
+    Id = Guid.NewGuid(),
+    Name = "ImportantLegalDocuments.docx",
+    Size = 50 * 1024
+};
+
+var json = JsonConvert.SerializeObject(file, Formatting.Indented);
+
+Console.WriteLine(json);
+// {
+//   "Name": "ImportantLegalDocuments.docx",
+//   "Size": 51200
+// }
+```
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonObjectAttributeOptIn.cs#L51-L66' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonobjectattributeoptinusage' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

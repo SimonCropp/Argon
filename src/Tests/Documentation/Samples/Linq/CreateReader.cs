@@ -32,7 +32,7 @@ public class CreateReader : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region CreateReader
         var o = new JObject
         {
             { "Cpu", "Intel" },

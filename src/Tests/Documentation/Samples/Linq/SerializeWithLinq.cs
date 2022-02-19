@@ -30,7 +30,7 @@ namespace Argon.Tests.Documentation.Samples.Linq;
 
 public class SerializeWithLinq : TestFixtureBase
 {
-    #region Types
+    #region SerializeWithLinqTypes
     public class BlogPost
     {
         public string Title { get; set; }
@@ -44,7 +44,7 @@ public class SerializeWithLinq : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region SerializeWithLinqUsage
         IList<BlogPost> blogPosts = new List<BlogPost>
         {
             new()

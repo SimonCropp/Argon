@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class PreserveReferencesHandlingObject : TestFixtureBase
 {
-    #region Types
+    #region PreserveReferencesHandlingObjectTypes
     public class Directory
     {
         public string Name { get; set; }
@@ -47,7 +47,7 @@ public class PreserveReferencesHandlingObject : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region PreserveReferencesHandlingObjectUsage
         var root = new Directory { Name = "Root" };
         var documents = new Directory { Name = "My Documents", Parent = root };
 

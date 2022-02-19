@@ -1,42 +1,100 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="ConditionalProperties" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>Json.NET has the ability to conditionally serialize properties by placing a ShouldSerialize method on a class.
-      This functionality is similar to the <externalLink>
-<linkText>XmlSerializer ShouldSerialize feature</linkText>
-<linkUri>http://msdn.microsoft.com/en-us/library/53b8022e.aspx</linkUri>
-<linkTarget>_blank</linkTarget>
-</externalLink>.</para>
-      <autoOutline lead="none" excludeRelatedTopics="true" />
-    </introduction>
-    <section address="ShouldSerialize">
-      <title>ShouldSerialize</title>
-      <content>
-        <para>To conditionally serialize a property, add a method that returns boolean with the same name as the property and then prefix the method name
-        with ShouldSerialize. The result of the method determines whether the property is serialized. If the method returns true then the
-        property will be serialized, if it returns false then the property will be skipped.</para>
+# Conditional Property Serialization
 
-<code lang="cs" source="..\Src\Tests\Documentation\ConditionalPropertiesTests.cs" region="EmployeeShouldSerializeExample" title="Employee class with a ShouldSerialize method" />
-<code lang="cs" source="..\Src\Tests\Documentation\ConditionalPropertiesTests.cs" region="ShouldSerializeClassTest" title="ShouldSerialize output" />
-        
-      </content>
-    </section>
-    <section address="IContractResolver">
-      <title>IContractResolver</title>
-      <content>
-        <para>ShouldSerialize can also be set using an <codeEntityReference>T:Argon.Serialization.IContractResolver</codeEntityReference>.
-        Conditionally serializing a property using an IContractResolver is useful avoid placing a ShouldSerialize method on a class
-        or are unable to.</para>
+Json.NET has the ability to conditionally serialize properties by placing a ShouldSerialize method on a class. This functionality is similar to the [XmlSerializer ShouldSerialize feature](http://msdn.microsoft.com/en-us/library/53b8022e.aspx).
 
-<code lang="cs" source="..\Src\Tests\Documentation\ConditionalPropertiesTests.cs" region="ShouldSerializeContractResolver" title="Conditional properties with IContractResolver" />
-        
-      </content>
-    </section>
-    <relatedTopics>
-      <codeEntityReference>T:Argon.JsonSerializer</codeEntityReference>
-      <codeEntityReference>T:Argon.Serialization.IContractResolver</codeEntityReference>
-      <codeEntityReference>P:Argon.Serialization.JsonProperty.ShouldSerialize</codeEntityReference>
-    </relatedTopics>
-  </developerConceptualDocument>
-</topic>
+
+## ShouldSerialize
+
+To conditionally serialize a property, add a method that returns boolean with the same name as the property and then prefix the method name with ShouldSerialize. The result of the method determines whether the property is serialized. If the method returns true then the property will be serialized, if it returns false then the property will be skipped.
+
+<!-- snippet: EmployeeShouldSerializeExample -->
+<a id='snippet-employeeshouldserializeexample'></a>
+```cs
+public class Employee
+{
+    public string Name { get; set; }
+    public Employee Manager { get; set; }
+
+    public bool ShouldSerializeManager()
+    {
+        // don't serialize the Manager property if an employee is their own manager
+        return Manager != this;
+    }
+}
+```
+<sup><a href='/src/Tests/Documentation/ConditionalPropertiesTests.cs#L62-L74' title='Snippet source file'>snippet source</a> | <a href='#snippet-employeeshouldserializeexample' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+<!-- snippet: ShouldSerializeClassTest -->
+<a id='snippet-shouldserializeclasstest'></a>
+```cs
+var joe = new Employee
+{
+    Name = "Joe Employee"
+};
+var mike = new Employee
+{
+    Name = "Mike Manager"
+};
+
+joe.Manager = mike;
+
+// mike is his own manager
+// ShouldSerialize will skip this property
+mike.Manager = mike;
+
+var json = JsonConvert.SerializeObject(new[] { joe, mike }, Formatting.Indented);
+// [
+//   {
+//     "Name": "Joe Employee",
+//     "Manager": {
+//       "Name": "Mike Manager"
+//     }
+//   },
+//   {
+//     "Name": "Mike Manager"
+//   }
+// ]
+```
+<sup><a href='/src/Tests/Documentation/ConditionalPropertiesTests.cs#L79-L107' title='Snippet source file'>snippet source</a> | <a href='#snippet-shouldserializeclasstest' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+
+## IContractResolver
+
+ShouldSerialize can also be set using an `Argon.Serialization.IContractResolver`. Conditionally serializing a property using an IContractResolver is useful avoid placing a ShouldSerialize method on a class or are unable to.
+
+<!-- snippet: ShouldSerializeContractResolver -->
+<a id='snippet-shouldserializecontractresolver'></a>
+```cs
+public class ShouldSerializeContractResolver : DefaultContractResolver
+{
+    public new static readonly ShouldSerializeContractResolver Instance = new();
+
+    protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
+    {
+        var property = base.CreateProperty(member, memberSerialization);
+
+        if (property.DeclaringType == typeof(Employee) && property.PropertyName == "Manager")
+        {
+            property.ShouldSerialize =
+                instance =>
+                {
+                    var e = (Employee)instance;
+                    return e.Manager != e;
+                };
+        }
+
+        return property;
+    }
+}
+```
+<sup><a href='/src/Tests/Documentation/ConditionalPropertiesTests.cs#L36-L58' title='Snippet source file'>snippet source</a> | <a href='#snippet-shouldserializecontractresolver' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+
+## Related Topics
+
+ * `Argon.JsonSerializer`
+ * `Argon.Serialization.IContractResolver`
+ * `Argon.Serialization.JsonProperty.ShouldSerialize`

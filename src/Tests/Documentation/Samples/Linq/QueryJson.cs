@@ -32,7 +32,7 @@ public class QueryJson : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region QueryJson
 
         var json = @"{
               'channel': {

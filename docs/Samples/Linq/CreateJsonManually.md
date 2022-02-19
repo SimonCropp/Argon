@@ -1,16 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?>
-<topic id="CreateJsonManually" revisionNumber="1">
-  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <introduction>
-      <para>This sample creates <codeEntityReference>T:Argon.Linq.JObject</codeEntityReference>
-      and <codeEntityReference>T:Argon.Linq.JArray</codeEntityReference> instances one at a time
-      programatically.</para>
-    </introduction>
-    <section>
-      <title>Sample</title>
-      <content>
-        <code lang="cs" source="..\Src\Tests\Documentation\Samples\Linq\CreateJsonManually.cs" region="Usage" title="Usage" />
-      </content>
-    </section>
-  </developerConceptualDocument>
-</topic>
+# Create JObject and JArray programatically
+
+This sample creates `Argon.Linq.JObject` and `Argon.Linq.JArray` instances one at a time programatically.
+
+<!-- snippet: CreateJsonManually -->
+<a id='snippet-createjsonmanually'></a>
+```cs
+var array = new JArray
+{
+    "Manual text",
+    new DateTime(2000, 5, 23)
+};
+
+var o = new JObject
+{
+    ["MyArray"] = array
+};
+
+var json = o.ToString();
+// {
+//   "MyArray": [
+//     "Manual text",
+//     "2000-05-23T00:00:00"
+//   ]
+// }
+```
+<sup><a href='/src/Tests/Documentation/Samples/Linq/CreateJsonManually.cs#L35-L54' title='Snippet source file'>snippet source</a> | <a href='#snippet-createjsonmanually' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->

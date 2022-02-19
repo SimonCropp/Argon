@@ -29,7 +29,7 @@ namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class CustomContractResolver : TestFixtureBase
 {
-    #region Types
+    #region CustomContractResolverTypes
     public class DynamicContractResolver : DefaultContractResolver
     {
         readonly char _startingWithChar;
@@ -63,7 +63,7 @@ public class CustomContractResolver : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region Usage
+        #region CustomContractResolverUsage
         var person = new Person
         {
             FirstName = "Dennis",
