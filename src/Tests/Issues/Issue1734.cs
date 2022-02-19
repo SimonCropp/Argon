@@ -30,12 +30,12 @@ namespace Argon.Tests.Issues;
 
 public class Issue1734
 {
-  [Fact]
-  public void Test_XmlNode()
-  {
-    var xmlDoc = JsonConvert.DeserializeXmlNode(JsonWithoutNamespace, "", true);
+    [Fact]
+    public void Test_XmlNode()
+    {
+        var xmlDoc = JsonConvert.DeserializeXmlNode(JsonWithoutNamespace, "", true);
 
-    XUnitAssert.AreEqualNormalized(@"<Test_Service>
+        XUnitAssert.AreEqualNormalized(@"<Test_Service>
   <fname>mark</fname>
   <lname>joye</lname>
   <CarCompany>saab</CarCompany>
@@ -69,9 +69,9 @@ public class Issue1734
   </collections>
 </Test_Service>", IndentXml(xmlDoc.OuterXml));
 
-    xmlDoc = JsonConvert.DeserializeXmlNode(JsonWithNamespace, "", true);
+        xmlDoc = JsonConvert.DeserializeXmlNode(JsonWithNamespace, "", true);
 
-    XUnitAssert.AreEqualNormalized(@"<ns3:Test_Service xmlns:ns3=""http://www.CCKS.org/XRT/Form"">
+        XUnitAssert.AreEqualNormalized(@"<ns3:Test_Service xmlns:ns3=""http://www.CCKS.org/XRT/Form"">
   <ns3:fname>mark</ns3:fname>
   <ns3:lname>joye</ns3:lname>
   <ns3:CarCompany>saab</ns3:CarCompany>
@@ -104,32 +104,32 @@ public class Issue1734
     </ns3:contactdetails>
   </ns3:collections>
 </ns3:Test_Service>", IndentXml(xmlDoc.OuterXml));
-  }
-
-  static string IndentXml(string xml)
-  {
-    var reader = XmlReader.Create(new StringReader(xml));
-
-    var sw = new StringWriter();
-    var writer = XmlWriter.Create(sw, new XmlWriterSettings { Indent = true, OmitXmlDeclaration = true });
-
-    while (reader.Read())
-    {
-      writer.WriteNode(reader, false);
     }
 
-    writer.Flush();
+    static string IndentXml(string xml)
+    {
+        var reader = XmlReader.Create(new StringReader(xml));
 
-    return sw.ToString();
-  }
+        var sw = new StringWriter();
+        var writer = XmlWriter.Create(sw, new XmlWriterSettings {Indent = true, OmitXmlDeclaration = true});
 
-  [Fact]
-  public void Test_XNode()
-  {
-    var xmlDoc = JsonConvert.DeserializeXNode(JsonWithoutNamespace, "", true);
+        while (reader.Read())
+        {
+            writer.WriteNode(reader, false);
+        }
 
-    var xml = xmlDoc.ToString();
-    XUnitAssert.AreEqualNormalized(@"<Test_Service>
+        writer.Flush();
+
+        return sw.ToString();
+    }
+
+    [Fact]
+    public void Test_XNode()
+    {
+        var xmlDoc = JsonConvert.DeserializeXNode(JsonWithoutNamespace, "", true);
+
+        var xml = xmlDoc.ToString();
+        XUnitAssert.AreEqualNormalized(@"<Test_Service>
   <fname>mark</fname>
   <lname>joye</lname>
   <CarCompany>saab</CarCompany>
@@ -163,10 +163,10 @@ public class Issue1734
   </collections>
 </Test_Service>", xml);
 
-    xmlDoc = JsonConvert.DeserializeXNode(JsonWithNamespace, "", true);
+        xmlDoc = JsonConvert.DeserializeXNode(JsonWithNamespace, "", true);
 
-    xml = xmlDoc.ToString();
-    XUnitAssert.AreEqualNormalized(@"<ns3:Test_Service xmlns:ns3=""http://www.CCKS.org/XRT/Form"">
+        xml = xmlDoc.ToString();
+        XUnitAssert.AreEqualNormalized(@"<ns3:Test_Service xmlns:ns3=""http://www.CCKS.org/XRT/Form"">
   <ns3:fname>mark</ns3:fname>
   <ns3:lname>joye</ns3:lname>
   <ns3:CarCompany>saab</ns3:CarCompany>
@@ -199,9 +199,9 @@ public class Issue1734
     </ns3:contactdetails>
   </ns3:collections>
 </ns3:Test_Service>", xml);
-  }
+    }
 
-  const string JsonWithoutNamespace = @"{
+    const string JsonWithoutNamespace = @"{
   ""Test_Service"": {
     ""fname"": ""mark"",
     ""lname"": ""joye"",
@@ -247,7 +247,7 @@ public class Issue1734
   }
 }";
 
-  const string JsonWithNamespace = @"{
+    const string JsonWithNamespace = @"{
   ""ns3:Test_Service"": {
     ""@xmlns:ns3"": ""http://www.CCKS.org/XRT/Form"",
     ""ns3:fname"": ""mark"",
