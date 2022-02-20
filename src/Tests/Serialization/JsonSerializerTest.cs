@@ -1104,11 +1104,6 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.Equal(ReferenceLoopHandling.Ignore, settings.ReferenceLoopHandling);
 
         var referenceResolver = new IdReferenceResolver();
-#pragma warning disable 618
-        settings.ReferenceResolver = referenceResolver;
-        Assert.Equal(referenceResolver, settings.ReferenceResolver);
-#pragma warning restore 618
-        Assert.Equal(referenceResolver, settings.ReferenceResolverProvider());
 
         settings.ReferenceResolverProvider = () => referenceResolver;
         Assert.Equal(referenceResolver, settings.ReferenceResolverProvider());
@@ -7149,9 +7144,7 @@ This is just junk, though.";
 
         var json = JsonConvert.SerializeObject(people, new JsonSerializerSettings
         {
-#pragma warning disable 618
-            ReferenceResolver = new IdReferenceResolver(),
-#pragma warning restore 618
+            ReferenceResolverProvider = () => new IdReferenceResolver(),
             PreserveReferencesHandling = PreserveReferencesHandling.Objects,
             Formatting = Formatting.Indented
         });
@@ -7200,9 +7193,7 @@ This is just junk, though.";
 
         var json = JsonConvert.SerializeObject(people, new JsonSerializerSettings
         {
-#pragma warning disable 618
-            ReferenceResolver = null,
-#pragma warning restore 618
+            ReferenceResolverProvider = null,
             PreserveReferencesHandling = PreserveReferencesHandling.Objects,
             Formatting = Formatting.Indented
         });
@@ -7279,9 +7270,7 @@ This is just junk, though.";
 
         var people = JsonConvert.DeserializeObject<IList<PersonReference>>(json, new JsonSerializerSettings
         {
-#pragma warning disable 618
-            ReferenceResolver = new IdReferenceResolver(),
-#pragma warning restore 618
+            ReferenceResolverProvider = () => new IdReferenceResolver(),
             PreserveReferencesHandling = PreserveReferencesHandling.Objects,
             Formatting = Formatting.Indented
         });
