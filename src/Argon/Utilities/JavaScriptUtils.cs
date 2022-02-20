@@ -554,7 +554,7 @@ internal static class JavaScriptUtils
 
         if (!TryGetDateConstructorValue(reader, out var t1, out errorMessage) || t1 == null)
         {
-            errorMessage = errorMessage ?? "Date constructor has no arguments.";
+            errorMessage ??= "Date constructor has no arguments.";
             return false;
         }
         if (!TryGetDateConstructorValue(reader, out var t2, out errorMessage))

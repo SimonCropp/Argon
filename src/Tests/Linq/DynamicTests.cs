@@ -834,9 +834,9 @@ public class DynamicTests : TestFixtureBase
         // All Elbow Grease must go sale!
         // 50% off price
 
-        product.Price = product.Price / 2;
+        product.Price /= 2;
         product.StockValue = product.StockCount * product.Price;
-        product.ProductName = product.ProductName + " (SALE)";
+        product.ProductName += " (SALE)";
 
         string json = product.ToString();
         // {

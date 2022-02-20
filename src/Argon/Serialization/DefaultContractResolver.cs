@@ -655,20 +655,20 @@ public class DefaultContractResolver : IContractResolver
         if (matchingMemberProperty != null)
         {
             property.PropertyName = property.PropertyName != parameterInfo.Name ? property.PropertyName : matchingMemberProperty.PropertyName;
-            property.Converter = property.Converter ?? matchingMemberProperty.Converter;
+            property.Converter ??= matchingMemberProperty.Converter;
 
             if (!property._hasExplicitDefaultValue && matchingMemberProperty._hasExplicitDefaultValue)
             {
                 property.DefaultValue = matchingMemberProperty.DefaultValue;
             }
 
-            property._required = property._required ?? matchingMemberProperty._required;
-            property.IsReference = property.IsReference ?? matchingMemberProperty.IsReference;
-            property.NullValueHandling = property.NullValueHandling ?? matchingMemberProperty.NullValueHandling;
-            property.DefaultValueHandling = property.DefaultValueHandling ?? matchingMemberProperty.DefaultValueHandling;
-            property.ReferenceLoopHandling = property.ReferenceLoopHandling ?? matchingMemberProperty.ReferenceLoopHandling;
-            property.ObjectCreationHandling = property.ObjectCreationHandling ?? matchingMemberProperty.ObjectCreationHandling;
-            property.TypeNameHandling = property.TypeNameHandling ?? matchingMemberProperty.TypeNameHandling;
+            property._required ??= matchingMemberProperty._required;
+            property.IsReference ??= matchingMemberProperty.IsReference;
+            property.NullValueHandling ??= matchingMemberProperty.NullValueHandling;
+            property.DefaultValueHandling ??= matchingMemberProperty.DefaultValueHandling;
+            property.ReferenceLoopHandling ??= matchingMemberProperty.ReferenceLoopHandling;
+            property.ObjectCreationHandling ??= matchingMemberProperty.ObjectCreationHandling;
+            property.TypeNameHandling ??= matchingMemberProperty.TypeNameHandling;
         }
 
         return property;
@@ -793,31 +793,31 @@ public class DefaultContractResolver : IContractResolver
 
                 if (!skipSerializing && IsValidCallback(method, parameters, typeof(OnSerializingAttribute), currentOnSerializing, ref prevAttributeType))
                 {
-                    onSerializing = onSerializing ?? new List<SerializationCallback>();
+                    onSerializing ??= new List<SerializationCallback>();
                     onSerializing.Add(JsonContract.CreateSerializationCallback(method));
                     currentOnSerializing = method;
                 }
                 if (IsValidCallback(method, parameters, typeof(OnSerializedAttribute), currentOnSerialized, ref prevAttributeType))
                 {
-                    onSerialized = onSerialized ?? new List<SerializationCallback>();
+                    onSerialized ??= new List<SerializationCallback>();
                     onSerialized.Add(JsonContract.CreateSerializationCallback(method));
                     currentOnSerialized = method;
                 }
                 if (IsValidCallback(method, parameters, typeof(OnDeserializingAttribute), currentOnDeserializing, ref prevAttributeType))
                 {
-                    onDeserializing = onDeserializing ?? new List<SerializationCallback>();
+                    onDeserializing ??= new List<SerializationCallback>();
                     onDeserializing.Add(JsonContract.CreateSerializationCallback(method));
                     currentOnDeserializing = method;
                 }
                 if (!skipDeserialized && IsValidCallback(method, parameters, typeof(OnDeserializedAttribute), currentOnDeserialized, ref prevAttributeType))
                 {
-                    onDeserialized = onDeserialized ?? new List<SerializationCallback>();
+                    onDeserialized ??= new List<SerializationCallback>();
                     onDeserialized.Add(JsonContract.CreateSerializationCallback(method));
                     currentOnDeserialized = method;
                 }
                 if (IsValidCallback(method, parameters, typeof(OnErrorAttribute), currentOnError, ref prevAttributeType))
                 {
-                    onError = onError ?? new List<SerializationErrorCallback>();
+                    onError ??= new List<SerializationErrorCallback>();
                     onError.Add(JsonContract.CreateSerializationErrorCallback(method));
                     currentOnError = method;
                 }
