@@ -183,18 +183,6 @@ public class JsonSerializerSettings
 
     /// <summary>
     /// Gets or sets how a type name assembly is written and resolved by the serializer.
-    /// The default value is <see cref="FormatterAssemblyStyle.Simple" />.
-    /// </summary>
-    /// <value>The type name assembly format.</value>
-    [Obsolete("TypeNameAssemblyFormat is obsolete. Use TypeNameAssemblyFormatHandling instead.")]
-    public FormatterAssemblyStyle TypeNameAssemblyFormat
-    {
-        get => (FormatterAssemblyStyle)TypeNameAssemblyFormatHandling;
-        set => TypeNameAssemblyFormatHandling = (TypeNameAssemblyFormatHandling)value;
-    }
-
-    /// <summary>
-    /// Gets or sets how a type name assembly is written and resolved by the serializer.
     /// The default value is <see cref="Argon.TypeNameAssemblyFormatHandling.Simple" />.
     /// </summary>
     /// <value>The type name assembly format.</value>

@@ -1009,17 +1009,8 @@ public class JsonSerializerTest : TestFixtureBase
         serializer.TraceWriter = traceWriter;
         Assert.Equal(traceWriter, serializer.TraceWriter);
 
-#pragma warning disable 618
-        serializer.TypeNameAssemblyFormat = FormatterAssemblyStyle.Full;
-        Assert.Equal(FormatterAssemblyStyle.Full, serializer.TypeNameAssemblyFormat);
-#pragma warning restore 618
-
-        Assert.Equal(TypeNameAssemblyFormatHandling.Full, serializer.TypeNameAssemblyFormatHandling);
-
         serializer.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple;
-#pragma warning disable 618
-        Assert.Equal(FormatterAssemblyStyle.Simple, serializer.TypeNameAssemblyFormat);
-#pragma warning restore 618
+        Assert.Equal(TypeNameAssemblyFormatHandling.Simple, serializer.TypeNameAssemblyFormatHandling);
 
         serializer.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full;
         Assert.Equal(TypeNameAssemblyFormatHandling.Full, serializer.TypeNameAssemblyFormatHandling);
@@ -1115,17 +1106,8 @@ public class JsonSerializerTest : TestFixtureBase
         settings.TraceWriter = traceWriter;
         Assert.Equal(traceWriter, settings.TraceWriter);
 
-#pragma warning disable 618
-        settings.TypeNameAssemblyFormat = FormatterAssemblyStyle.Full;
-        Assert.Equal(FormatterAssemblyStyle.Full, settings.TypeNameAssemblyFormat);
-#pragma warning restore 618
-
-        Assert.Equal(TypeNameAssemblyFormatHandling.Full, settings.TypeNameAssemblyFormatHandling);
-
         settings.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple;
-#pragma warning disable 618
-        Assert.Equal(FormatterAssemblyStyle.Simple, settings.TypeNameAssemblyFormat);
-#pragma warning restore 618
+        Assert.Equal(TypeNameAssemblyFormatHandling.Simple, settings.TypeNameAssemblyFormatHandling);
 
         settings.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full;
         Assert.Equal(TypeNameAssemblyFormatHandling.Full, settings.TypeNameAssemblyFormatHandling);
@@ -1223,17 +1205,8 @@ public class JsonSerializerTest : TestFixtureBase
         serializerProxy.TraceWriter = traceWriter;
         Assert.Equal(traceWriter, serializerProxy.TraceWriter);
 
-#pragma warning disable 618
-        serializerProxy.TypeNameAssemblyFormat = FormatterAssemblyStyle.Full;
-        Assert.Equal(FormatterAssemblyStyle.Full, serializerProxy.TypeNameAssemblyFormat);
-#pragma warning restore 618
-
-        Assert.Equal(TypeNameAssemblyFormatHandling.Full, serializerProxy.TypeNameAssemblyFormatHandling);
-
         serializerProxy.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple;
-#pragma warning disable 618
-        Assert.Equal(FormatterAssemblyStyle.Simple, serializerProxy.TypeNameAssemblyFormat);
-#pragma warning restore 618
+        Assert.Equal(TypeNameAssemblyFormatHandling.Simple, serializerProxy.TypeNameAssemblyFormatHandling);
 
         serializerProxy.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full;
         Assert.Equal(TypeNameAssemblyFormatHandling.Full, serializerProxy.TypeNameAssemblyFormatHandling);

@@ -97,9 +97,7 @@ public class DynamicTests : TestFixtureBase
         string json = JsonConvert.SerializeObject(o, Formatting.Indented, new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.All,
-#pragma warning disable 618
-            TypeNameAssemblyFormat = FormatterAssemblyStyle.Full
-#pragma warning restore 618
+            TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full
         });
 
         var dynamicChildObjectTypeName = ReflectionUtils.GetTypeName(typeof(DynamicChildObject), TypeNameAssemblyFormatHandling.Full, null);
@@ -119,9 +117,7 @@ public class DynamicTests : TestFixtureBase
         dynamic n = JsonConvert.DeserializeObject(json, null, new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.All,
-#pragma warning disable 618
-            TypeNameAssemblyFormat = FormatterAssemblyStyle.Full
-#pragma warning restore 618
+            TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full
         });
 
         Assert.IsType(typeof(ExpandoObject), n);
