@@ -426,7 +426,10 @@ public class DataSetConverterTests : TestFixtureBase
             Table = CreateDataTable("LoneTable", 2),
             After = "After"
         };
-        var settings = new JsonSerializerSettings();
+        var settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented
+        };
         settings.Converters.Add(new DataSetConverter());
         settings.Converters.Add(new DataSetConverter());
         settings.Converters.Add(new IsoDateTimeConverter());
@@ -519,7 +522,13 @@ public class DataSetConverterTests : TestFixtureBase
 
         table.Rows.Add(row);
 
-        var json1 = JsonConvert.SerializeObject(ds1, Formatting.Indented);
+        var settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented
+        };
+        settings.Converters.Add(new DataSetConverter());
+        settings.Converters.Add(new DataTableConverter());
+        var json1 = JsonConvert.SerializeObject(ds1, settings);
 
         XUnitAssert.AreEqualNormalized(@"{
   ""Customers"": [
