@@ -14,24 +14,24 @@ public class AutofacContractResolver : DefaultContractResolver
         _container = container;
     }
 
-    protected override JsonObjectContract CreateObjectContract(Type objectType)
+    protected override JsonObjectContract CreateObjectContract(Type type)
     {
         // use Autofac to create types that have been registered with it
-        if (_container.IsRegistered(objectType))
+        if (_container.IsRegistered(type))
         {
-            var contract = ResolveContact(objectType);
-            contract.DefaultCreator = () => _container.Resolve(objectType);
+            var contract = ResolveContact(type);
+            contract.DefaultCreator = () => _container.Resolve(type);
 
             return contract;
         }
 
-        return base.CreateObjectContract(objectType);
+        return base.CreateObjectContract(type);
     }
 
-    JsonObjectContract ResolveContact(Type objectType)
+    JsonObjectContract ResolveContact(Type type)
     {
         // attempt to create the contact from the resolved type
-        if (_container.ComponentRegistry.TryGetRegistration(new TypedService(objectType), out var registration))
+        if (_container.ComponentRegistry.TryGetRegistration(new TypedService(type), out var registration))
         {
             var viewType = (registration.Activator as ReflectionActivator)?.LimitType;
             if (viewType != null)
@@ -41,7 +41,7 @@ public class AutofacContractResolver : DefaultContractResolver
         }
 
         // fall back to using the registered type
-        return base.CreateObjectContract(objectType);
+        return base.CreateObjectContract(type);
     }
 }
 

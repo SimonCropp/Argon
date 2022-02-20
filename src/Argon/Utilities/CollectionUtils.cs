@@ -293,10 +293,8 @@ static class CollectionUtils
             {
                 return currentList[index];
             }
-            else
-            {
-                currentList = (IList)currentList[index];
-            }
+
+            currentList = (IList)currentList[index];
         }
         return currentList;
     }

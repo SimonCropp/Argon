@@ -46,12 +46,12 @@ public class ConverterContractResolver : DefaultContractResolver
 {
     public new static readonly ConverterContractResolver Instance = new();
 
-    protected override JsonContract CreateContract(Type objectType)
+    protected override JsonContract CreateContract(Type type)
     {
-        var contract = base.CreateContract(objectType);
+        var contract = base.CreateContract(type);
 
         // this will only be called once and then cached
-        if (objectType == typeof(DateTime) || objectType == typeof(DateTimeOffset))
+        if (type == typeof(DateTime) || type == typeof(DateTimeOffset))
         {
             contract.Converter = new JavaScriptDateTimeConverter();
         }
@@ -67,7 +67,7 @@ public class PersonConverter : JsonConverter
     {
     }
 
-    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
     {
         var o = (JObject)JToken.ReadFrom(reader);
 
@@ -79,9 +79,9 @@ public class PersonConverter : JsonConverter
         return p;
     }
 
-    public override bool CanConvert(Type objectType)
+    public override bool CanConvert(Type type)
     {
-        return objectType == typeof(Person);
+        return type == typeof(Person);
     }
 }
 

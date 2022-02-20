@@ -389,7 +389,8 @@ static class ConvertUtils
                     value = Enum.Parse(targetType, initialValue.ToString(), true);
                     return ConvertResult.Success;
                 }
-                else if (IsInteger(initialValue))
+
+                if (IsInteger(initialValue))
                 {
                     value = Enum.ToObject(targetType, initialValue);
                     return ConvertResult.Success;

@@ -56,46 +56,42 @@ public class VersionConverter : JsonConverter
     /// Reads the JSON representation of the object.
     /// </summary>
     /// <param name="reader">The <see cref="JsonReader"/> to read from.</param>
-    /// <param name="objectType">Type of the object.</param>
+    /// <param name="type">Type of the object.</param>
     /// <param name="existingValue">The existing property value of the JSON that is being converted.</param>
     /// <param name="serializer">The calling serializer.</param>
     /// <returns>The object value.</returns>
-    public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+    public override object? ReadJson(JsonReader reader, Type type, object? existingValue, JsonSerializer serializer)
     {
         if (reader.TokenType == JsonToken.Null)
         {
             return null;
         }
-        else
+
+        if (reader.TokenType == JsonToken.String)
         {
-            if (reader.TokenType == JsonToken.String)
+            try
             {
-                try
-                {
-                    var v = new Version((string)reader.Value!);
-                    return v;
-                }
-                catch (Exception ex)
-                {
-                    throw JsonSerializationException.Create(reader, $"Error parsing version string: {reader.Value}", ex);
-                }
+                var v = new Version((string)reader.Value!);
+                return v;
             }
-            else
+            catch (Exception ex)
             {
-                throw JsonSerializationException.Create(reader, $"Unexpected token or value when parsing version. Token: {reader.TokenType}, Value: {reader.Value}");
+                throw JsonSerializationException.Create(reader, $"Error parsing version string: {reader.Value}", ex);
             }
         }
+
+        throw JsonSerializationException.Create(reader, $"Unexpected token or value when parsing version. Token: {reader.TokenType}, Value: {reader.Value}");
     }
 
     /// <summary>
     /// Determines whether this instance can convert the specified object type.
     /// </summary>
-    /// <param name="objectType">Type of the object.</param>
+    /// <param name="type">Type of the object.</param>
     /// <returns>
     /// 	<c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
     /// </returns>
-    public override bool CanConvert(Type objectType)
+    public override bool CanConvert(Type type)
     {
-        return objectType == typeof(Version);
+        return type == typeof(Version);
     }
 }

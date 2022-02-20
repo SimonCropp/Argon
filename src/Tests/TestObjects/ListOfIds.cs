@@ -39,7 +39,7 @@ public class ListOfIds<T> : JsonConverter where T : Bar, new()
         writer.WriteEndArray();
     }
 
-    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
     {
         IList<T> list = new List<T>();
 
@@ -59,8 +59,8 @@ public class ListOfIds<T> : JsonConverter where T : Bar, new()
         return list;
     }
 
-    public override bool CanConvert(Type objectType)
+    public override bool CanConvert(Type type)
     {
-        return typeof(IList<T>).IsAssignableFrom(objectType);
+        return typeof(IList<T>).IsAssignableFrom(type);
     }
 }

@@ -20,7 +20,8 @@ abstract class PathFilter
 
             return a[index];
         }
-        else if (t is JConstructor c)
+
+        if (t is JConstructor c)
         {
             if (c.Count <= index)
             {
@@ -34,15 +35,13 @@ abstract class PathFilter
 
             return c[index];
         }
-        else
-        {
-            if (settings?.ErrorWhenNoMatch ?? false)
-            {
-                throw new JsonException($"Index {index} not valid on {t.GetType().Name}.");
-            }
 
-            return null;
+        if (settings?.ErrorWhenNoMatch ?? false)
+        {
+            throw new JsonException($"Index {index} not valid on {t.GetType().Name}.");
         }
+
+        return null;
     }
 
     protected static JToken? GetNextScanValue(JToken originalParent, JToken? container, JToken? value)

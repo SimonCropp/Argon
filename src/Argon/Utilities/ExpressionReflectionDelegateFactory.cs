@@ -202,7 +202,7 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
         }
     }
 
-    public override Func<T, object?> CreateGet<T>(PropertyInfo propertyInfo)
+    public override Func<T, object?> CreateGet<T>(PropertyInfo property)
     {
         var instanceType = typeof(T);
         var resultType = typeof(object);
@@ -210,7 +210,7 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
         var parameterExpression = Expression.Parameter(instanceType, "instance");
         Expression resultExpression;
 
-        var getMethod = propertyInfo.GetMethod;
+        var getMethod = property.GetMethod;
         if (getMethod == null)
         {
             throw new ArgumentException("Property does not have a getter.");
@@ -218,13 +218,13 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
 
         if (getMethod.IsStatic)
         {
-            resultExpression = Expression.MakeMemberAccess(null, propertyInfo);
+            resultExpression = Expression.MakeMemberAccess(null, property);
         }
         else
         {
-            var readParameter = EnsureCastExpression(parameterExpression, propertyInfo.DeclaringType);
+            var readParameter = EnsureCastExpression(parameterExpression, property.DeclaringType);
 
-            resultExpression = Expression.MakeMemberAccess(readParameter, propertyInfo);
+            resultExpression = Expression.MakeMemberAccess(readParameter, property);
         }
 
         resultExpression = EnsureCastExpression(resultExpression, resultType);
@@ -235,20 +235,20 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
         return compiled;
     }
 
-    public override Func<T, object?> CreateGet<T>(FieldInfo fieldInfo)
+    public override Func<T, object?> CreateGet<T>(FieldInfo field)
     {
         var sourceParameter = Expression.Parameter(typeof(T), "source");
 
         Expression fieldExpression;
-        if (fieldInfo.IsStatic)
+        if (field.IsStatic)
         {
-            fieldExpression = Expression.Field(null, fieldInfo);
+            fieldExpression = Expression.Field(null, field);
         }
         else
         {
-            var sourceExpression = EnsureCastExpression(sourceParameter, fieldInfo.DeclaringType);
+            var sourceExpression = EnsureCastExpression(sourceParameter, field.DeclaringType);
 
-            fieldExpression = Expression.Field(sourceExpression, fieldInfo);
+            fieldExpression = Expression.Field(sourceExpression, field);
         }
 
         fieldExpression = EnsureCastExpression(fieldExpression, typeof(object));
@@ -257,28 +257,28 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
         return compiled;
     }
 
-    public override Action<T, object?> CreateSet<T>(FieldInfo fieldInfo)
+    public override Action<T, object?> CreateSet<T>(FieldInfo field)
     {
         // use reflection for structs
         // expression doesn't correctly set value
-        if (fieldInfo.DeclaringType.IsValueType || fieldInfo.IsInitOnly)
+        if (field.DeclaringType.IsValueType || field.IsInitOnly)
         {
-            return LateBoundReflectionDelegateFactory.Instance.CreateSet<T>(fieldInfo);
+            return LateBoundReflectionDelegateFactory.Instance.CreateSet<T>(field);
         }
 
         var sourceParameterExpression = Expression.Parameter(typeof(T), "source");
         var valueParameterExpression = Expression.Parameter(typeof(object), "value");
 
         Expression fieldExpression;
-        if (fieldInfo.IsStatic)
+        if (field.IsStatic)
         {
-            fieldExpression = Expression.Field(null, fieldInfo);
+            fieldExpression = Expression.Field(null, field);
         }
         else
         {
-            var sourceExpression = EnsureCastExpression(sourceParameterExpression, fieldInfo.DeclaringType);
+            var sourceExpression = EnsureCastExpression(sourceParameterExpression, field.DeclaringType);
 
-            fieldExpression = Expression.Field(sourceExpression, fieldInfo);
+            fieldExpression = Expression.Field(sourceExpression, field);
         }
 
         var valueExpression = EnsureCastExpression(valueParameterExpression, fieldExpression.Type);
@@ -291,13 +291,13 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
         return compiled;
     }
 
-    public override Action<T, object?> CreateSet<T>(PropertyInfo propertyInfo)
+    public override Action<T, object?> CreateSet<T>(PropertyInfo property)
     {
         // use reflection for structs
         // expression doesn't correctly set value
-        if (propertyInfo.DeclaringType.IsValueType)
+        if (property.DeclaringType.IsValueType)
         {
-            return LateBoundReflectionDelegateFactory.Instance.CreateSet<T>(propertyInfo);
+            return LateBoundReflectionDelegateFactory.Instance.CreateSet<T>(property);
         }
 
         var instanceType = typeof(T);
@@ -306,9 +306,9 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
         var instanceParameter = Expression.Parameter(instanceType, "instance");
 
         var valueParameter = Expression.Parameter(valueType, "value");
-        var readValueParameter = EnsureCastExpression(valueParameter, propertyInfo.PropertyType);
+        var readValueParameter = EnsureCastExpression(valueParameter, property.PropertyType);
 
-        var setMethod = propertyInfo.SetMethod;
+        var setMethod = property.SetMethod;
         if (setMethod == null)
         {
             throw new ArgumentException("Property does not have a setter.");
@@ -321,7 +321,7 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
         }
         else
         {
-            var readInstanceParameter = EnsureCastExpression(instanceParameter, propertyInfo.DeclaringType);
+            var readInstanceParameter = EnsureCastExpression(instanceParameter, property.DeclaringType);
 
             setExpression = Expression.Call(readInstanceParameter, setMethod, readValueParameter);
         }

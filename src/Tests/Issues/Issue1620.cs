@@ -67,14 +67,14 @@ public class Issue1620 : TestFixtureBase
             writer.WriteValue("foo");
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
             return new Foo();
         }
 
-        public override bool CanConvert(Type objectType)
+        public override bool CanConvert(Type type)
         {
-            return typeof(IFoo).GetTypeInfo().IsAssignableFrom(objectType);
+            return typeof(IFoo).GetTypeInfo().IsAssignableFrom(type);
         }
     }
 }

@@ -42,20 +42,20 @@ public abstract class JsonConverter
     /// Reads the JSON representation of the object.
     /// </summary>
     /// <param name="reader">The <see cref="JsonReader"/> to read from.</param>
-    /// <param name="objectType">Type of the object.</param>
+    /// <param name="type">Type of the object.</param>
     /// <param name="existingValue">The existing value of object being read.</param>
     /// <param name="serializer">The calling serializer.</param>
     /// <returns>The object value.</returns>
-    public abstract object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer);
+    public abstract object? ReadJson(JsonReader reader, Type type, object? existingValue, JsonSerializer serializer);
 
     /// <summary>
     /// Determines whether this instance can convert the specified object type.
     /// </summary>
-    /// <param name="objectType">Type of the object.</param>
+    /// <param name="type">Type of the object.</param>
     /// <returns>
     /// 	<c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
     /// </returns>
-    public abstract bool CanConvert(Type objectType);
+    public abstract bool CanConvert(Type type);
 
     /// <summary>
     /// Gets a value indicating whether this <see cref="JsonConverter"/> can read JSON.
@@ -103,40 +103,40 @@ public abstract class JsonConverter<T> : JsonConverter
     /// Reads the JSON representation of the object.
     /// </summary>
     /// <param name="reader">The <see cref="JsonReader"/> to read from.</param>
-    /// <param name="objectType">Type of the object.</param>
+    /// <param name="type">Type of the object.</param>
     /// <param name="existingValue">The existing value of object being read.</param>
     /// <param name="serializer">The calling serializer.</param>
     /// <returns>The object value.</returns>
-    public sealed override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+    public sealed override object? ReadJson(JsonReader reader, Type type, object? existingValue, JsonSerializer serializer)
     {
         var existingIsNull = existingValue == null;
         if (!(existingIsNull || existingValue is T))
         {
             throw new JsonSerializationException($"Converter cannot read JSON with the specified existing value. {typeof(T)} is required.");
         }
-        return ReadJson(reader, objectType, existingIsNull ? default : (T?)existingValue, !existingIsNull, serializer);
+        return ReadJson(reader, type, existingIsNull ? default : (T?)existingValue, !existingIsNull, serializer);
     }
 
     /// <summary>
     /// Reads the JSON representation of the object.
     /// </summary>
     /// <param name="reader">The <see cref="JsonReader"/> to read from.</param>
-    /// <param name="objectType">Type of the object.</param>
+    /// <param name="type">Type of the object.</param>
     /// <param name="existingValue">The existing value of object being read. If there is no existing value then <c>null</c> will be used.</param>
     /// <param name="hasExistingValue">The existing value has a value.</param>
     /// <param name="serializer">The calling serializer.</param>
     /// <returns>The object value.</returns>
-    public abstract T? ReadJson(JsonReader reader, Type objectType, T? existingValue, bool hasExistingValue, JsonSerializer serializer);
+    public abstract T? ReadJson(JsonReader reader, Type type, T? existingValue, bool hasExistingValue, JsonSerializer serializer);
 
     /// <summary>
     /// Determines whether this instance can convert the specified object type.
     /// </summary>
-    /// <param name="objectType">Type of the object.</param>
+    /// <param name="type">Type of the object.</param>
     /// <returns>
     /// 	<c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
     /// </returns>
-    public sealed override bool CanConvert(Type objectType)
+    public sealed override bool CanConvert(Type type)
     {
-        return typeof(T).IsAssignableFrom(objectType);
+        return typeof(T).IsAssignableFrom(type);
     }
 }

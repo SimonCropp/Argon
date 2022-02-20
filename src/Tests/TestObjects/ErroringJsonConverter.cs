@@ -36,12 +36,12 @@ public class ErroringJsonConverter : JsonConverter
         throw new NotImplementedException();
     }
 
-    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
     {
         throw new NotImplementedException();
     }
 
-    public override bool CanConvert(Type objectType)
+    public override bool CanConvert(Type type)
     {
         throw new NotImplementedException();
     }

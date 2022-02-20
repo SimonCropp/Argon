@@ -604,11 +604,9 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             {
                                 return ParseNumberNegativeInfinity(readType);
                             }
-                            else
-                            {
-                                ParseNumber(readType);
-                                return Value;
-                            }
+
+                            ParseNumber(readType);
+                            return Value;
                         case '.':
                         case '0':
                         case '1':
@@ -912,11 +910,9 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             {
                                 return ParseNumberNegativeInfinity(readType);
                             }
-                            else
-                            {
-                                ParseNumber(readType);
-                                return Value;
-                            }
+
+                            ParseNumber(readType);
+                            return Value;
                         case '.':
                         case '0':
                         case '1':
@@ -1292,15 +1288,11 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 CharPos += 4;
                 return hexChar;
             }
-            else
-            {
-                throw JsonReaderException.Create(this, $@"Invalid Unicode escape sequence: \u{new string(CharBuffer, CharPos, 4)}.");
-            }
+
+            throw JsonReaderException.Create(this, $@"Invalid Unicode escape sequence: \u{new string(CharBuffer, CharPos, 4)}.");
         }
-        else
-        {
-            throw JsonReaderException.Create(this, "Unexpected end while parsing Unicode escape sequence.");
-        }
+
+        throw JsonReaderException.Create(this, "Unexpected end while parsing Unicode escape sequence.");
     }
 
     char ParseUnicode()

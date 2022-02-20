@@ -81,17 +81,17 @@ public class BinaryConverter : JsonConverter
     /// Reads the JSON representation of the object.
     /// </summary>
     /// <param name="reader">The <see cref="JsonReader"/> to read from.</param>
-    /// <param name="objectType">Type of the object.</param>
+    /// <param name="type">Type of the object.</param>
     /// <param name="existingValue">The existing value of object being read.</param>
     /// <param name="serializer">The calling serializer.</param>
     /// <returns>The object value.</returns>
-    public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+    public override object? ReadJson(JsonReader reader, Type type, object? existingValue, JsonSerializer serializer)
     {
         if (reader.TokenType == JsonToken.Null)
         {
-            if (!ReflectionUtils.IsNullable(objectType))
+            if (!ReflectionUtils.IsNullable(type))
             {
-                throw JsonSerializationException.Create(reader, $"Cannot convert null value to {objectType}.");
+                throw JsonSerializationException.Create(reader, $"Cannot convert null value to {type}.");
             }
 
             return null;
@@ -115,9 +115,9 @@ public class BinaryConverter : JsonConverter
             throw JsonSerializationException.Create(reader, $"Unexpected token parsing binary. Expected String or StartArray, got {reader.TokenType}.");
         }
 
-        var t = ReflectionUtils.IsNullableType(objectType)
-            ? Nullable.GetUnderlyingType(objectType)
-            : objectType;
+        var t = ReflectionUtils.IsNullableType(type)
+            ? Nullable.GetUnderlyingType(type)
+            : type;
 
         if (t.FullName == BinaryTypeName)
         {
@@ -132,7 +132,7 @@ public class BinaryConverter : JsonConverter
             return new SqlBinary(data);
         }
 
-        throw JsonSerializationException.Create(reader, $"Unexpected object type when writing binary: {objectType}");
+        throw JsonSerializationException.Create(reader, $"Unexpected object type when writing binary: {type}");
     }
 
     static byte[] ReadByteArray(JsonReader reader)
@@ -162,14 +162,14 @@ public class BinaryConverter : JsonConverter
     /// <summary>
     /// Determines whether this instance can convert the specified object type.
     /// </summary>
-    /// <param name="objectType">Type of the object.</param>
+    /// <param name="type">Type of the object.</param>
     /// <returns>
     /// 	<c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
     /// </returns>
-    public override bool CanConvert(Type objectType)
+    public override bool CanConvert(Type type)
     {
-        return objectType.FullName == BinaryTypeName ||
-               objectType == typeof(SqlBinary) ||
-               objectType == typeof(SqlBinary?);
+        return type.FullName == BinaryTypeName ||
+               type == typeof(SqlBinary) ||
+               type == typeof(SqlBinary?);
     }
 }

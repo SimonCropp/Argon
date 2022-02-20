@@ -783,12 +783,12 @@ public class JsonSerializer
     /// into an instance of the specified type.
     /// </summary>
     /// <param name="reader">The <see cref="TextReader"/> containing the object.</param>
-    /// <param name="objectType">The <see cref="Type"/> of object being deserialized.</param>
-    /// <returns>The instance of <paramref name="objectType"/> being deserialized.</returns>
+    /// <param name="type">The <see cref="Type"/> of object being deserialized.</param>
+    /// <returns>The instance of <paramref name="type"/> being deserialized.</returns>
     [DebuggerStepThrough]
-    public object? Deserialize(TextReader reader, Type objectType)
+    public object? Deserialize(TextReader reader, Type type)
     {
-        return Deserialize(new JsonTextReader(reader), objectType);
+        return Deserialize(new JsonTextReader(reader), type);
     }
 
     /// <summary>
@@ -809,15 +809,15 @@ public class JsonSerializer
     /// into an instance of the specified type.
     /// </summary>
     /// <param name="reader">The <see cref="JsonReader"/> containing the object.</param>
-    /// <param name="objectType">The <see cref="Type"/> of object being deserialized.</param>
-    /// <returns>The instance of <paramref name="objectType"/> being deserialized.</returns>
+    /// <param name="type">The <see cref="Type"/> of object being deserialized.</param>
+    /// <returns>The instance of <paramref name="type"/> being deserialized.</returns>
     [DebuggerStepThrough]
-    public object? Deserialize(JsonReader reader, Type? objectType)
+    public object? Deserialize(JsonReader reader, Type? type)
     {
-        return DeserializeInternal(reader, objectType);
+        return DeserializeInternal(reader, type);
     }
 
-    internal virtual object? DeserializeInternal(JsonReader reader, Type? objectType)
+    internal virtual object? DeserializeInternal(JsonReader reader, Type? type)
     {
         SetupReader(
             reader,
@@ -833,7 +833,7 @@ public class JsonSerializer
             : null;
 
         var serializerReader = new JsonSerializerInternalReader(this);
-        var value = serializerReader.Deserialize(traceJsonReader ?? reader, objectType, CheckAdditionalContent);
+        var value = serializerReader.Deserialize(traceJsonReader ?? reader, type, CheckAdditionalContent);
 
         if (traceJsonReader != null)
         {
@@ -967,14 +967,14 @@ public class JsonSerializer
     /// </summary>
     /// <param name="jsonWriter">The <see cref="JsonWriter"/> used to write the JSON structure.</param>
     /// <param name="value">The <see cref="Object"/> to serialize.</param>
-    /// <param name="objectType">
+    /// <param name="type">
     /// The type of the value being serialized.
     /// This parameter is used when <see cref="JsonSerializer.TypeNameHandling"/> is <see cref="Argon.TypeNameHandling.Auto"/> to write out the type name if the type of the value does not match.
     /// Specifying the type is optional.
     /// </param>
-    public void Serialize(JsonWriter jsonWriter, object? value, Type? objectType)
+    public void Serialize(JsonWriter jsonWriter, object? value, Type? type)
     {
-        SerializeInternal(jsonWriter, value, objectType);
+        SerializeInternal(jsonWriter, value, type);
     }
 
     /// <summary>
@@ -983,14 +983,14 @@ public class JsonSerializer
     /// </summary>
     /// <param name="textWriter">The <see cref="TextWriter"/> used to write the JSON structure.</param>
     /// <param name="value">The <see cref="Object"/> to serialize.</param>
-    /// <param name="objectType">
+    /// <param name="type">
     /// The type of the value being serialized.
     /// This parameter is used when <see cref="TypeNameHandling"/> is Auto to write out the type name if the type of the value does not match.
     /// Specifying the type is optional.
     /// </param>
-    public void Serialize(TextWriter textWriter, object? value, Type objectType)
+    public void Serialize(TextWriter textWriter, object? value, Type type)
     {
-        Serialize(new JsonTextWriter(textWriter), value, objectType);
+        Serialize(new JsonTextWriter(textWriter), value, type);
     }
 
     /// <summary>
@@ -1015,7 +1015,7 @@ public class JsonSerializer
         return traceReader;
     }
 
-    internal virtual void SerializeInternal(JsonWriter jsonWriter, object? value, Type? objectType)
+    internal virtual void SerializeInternal(JsonWriter jsonWriter, object? value, Type? type)
     {
         // set serialization options onto writer
         Formatting? previousFormatting = null;
@@ -1072,7 +1072,7 @@ public class JsonSerializer
             : null;
 
         var serializerWriter = new JsonSerializerInternalWriter(this);
-        serializerWriter.Serialize(traceJsonWriter ?? jsonWriter, value, objectType);
+        serializerWriter.Serialize(traceJsonWriter ?? jsonWriter, value, type);
 
         if (traceJsonWriter != null)
         {
@@ -1125,7 +1125,7 @@ public class JsonSerializer
         return GetMatchingConverter(_converters, type);
     }
 
-    internal static JsonConverter? GetMatchingConverter(IList<JsonConverter>? converters, Type objectType)
+    internal static JsonConverter? GetMatchingConverter(IList<JsonConverter>? converters, Type type)
     {
         if (converters != null)
         {
@@ -1133,7 +1133,7 @@ public class JsonSerializer
             {
                 var converter = converters[i];
 
-                if (converter.CanConvert(objectType))
+                if (converter.CanConvert(type))
                 {
                     return converter;
                 }

@@ -211,14 +211,13 @@ class JPath
         {
             return ParseQuotedField(indexerCloseChar, scan);
         }
-        else if (_expression[_currentIndex] == '?')
+
+        if (_expression[_currentIndex] == '?')
         {
             return ParseQuery(indexerCloseChar, scan);
         }
-        else
-        {
-            return ParseArrayIndexer(indexerCloseChar);
-        }
+
+        return ParseArrayIndexer(indexerCloseChar);
     }
 
     PathFilter ParseArrayIndexer(char indexerCloseChar)
@@ -259,7 +258,8 @@ class JPath
                     indexes.Add(index);
                     return new ArrayMultipleIndexFilter(indexes);
                 }
-                else if (colonCount > 0)
+
+                if (colonCount > 0)
                 {
                     if (length > 0)
                     {
@@ -291,7 +291,8 @@ class JPath
                     return new ArrayIndexFilter { Index = index };
                 }
             }
-            else if (currentCharacter == ',')
+
+            if (currentCharacter == ',')
             {
                 var length = (end ?? _currentIndex) - start;
 
@@ -415,10 +416,8 @@ class JPath
         {
             return new QueryScanFilter(expression);
         }
-        else
-        {
-            return new QueryFilter(expression);
-        }
+
+        return new QueryFilter(expression);
     }
 
     bool TryParseExpression(out List<PathFilter>? expressionPath)
@@ -564,10 +563,11 @@ class JPath
             value = ReadQuotedString();
             return true;
         }
-        else if (char.IsDigit(currentChar) || currentChar == '-')
+
+        if (char.IsDigit(currentChar) || currentChar == '-')
         {
-            var sb = new StringBuilder();
-            sb.Append(currentChar);
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append(currentChar);
 
             _currentIndex++;
             while (_currentIndex < _expression.Length)
@@ -575,7 +575,7 @@ class JPath
                 currentChar = _expression[_currentIndex];
                 if (currentChar is ' ' or ')')
                 {
-                    var numberText = sb.ToString();
+                    var numberText = stringBuilder.ToString();
 
                     if (numberText.IndexOfAny(FloatCharacters) != -1)
                     {
@@ -590,11 +590,9 @@ class JPath
                         return result;
                     }
                 }
-                else
-                {
-                    sb.Append(currentChar);
-                    _currentIndex++;
-                }
+
+                stringBuilder.Append(currentChar);
+                _currentIndex++;
             }
         }
         else if (currentChar == 't')

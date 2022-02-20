@@ -36,7 +36,7 @@ public class MetroStringConverter : JsonConverter
 #endif
     }
 
-    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
     {
         var s = (string)reader.Value;
         if (s == null)
@@ -51,8 +51,8 @@ public class MetroStringConverter : JsonConverter
 #endif
     }
 
-    public override bool CanConvert(Type objectType)
+    public override bool CanConvert(Type type)
     {
-        return objectType == typeof(string);
+        return type == typeof(string);
     }
 }

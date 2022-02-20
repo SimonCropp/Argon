@@ -44,12 +44,12 @@ public class Issue1307 : TestFixtureBase
     {
         static readonly JsonLoadSettings _jsonLoadSettings = new() { CommentHandling = CommentHandling.Ignore };
 
-        public override bool CanConvert(Type objectType)
+        public override bool CanConvert(Type type)
         {
-            return typeof(MyClass2).Equals(objectType);
+            return typeof(MyClass2).Equals(type);
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
             var token = JToken.Load(reader, _jsonLoadSettings);
 
@@ -57,7 +57,8 @@ public class Issue1307 : TestFixtureBase
             {
                 return token.ToObject<MyClass2>();
             }
-            else if (token.Type == JTokenType.Array)
+
+            if (token.Type == JTokenType.Array)
             {
                 var result = new MyClass2
                 {
@@ -65,7 +66,8 @@ public class Issue1307 : TestFixtureBase
                 };
                 return result;
             }
-            else if (token.Type == JTokenType.Comment)
+
+            if (token.Type == JTokenType.Comment)
             {
                 throw new InvalidProgramException();
             }

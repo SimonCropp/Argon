@@ -374,7 +374,7 @@ public class DataTableConverterTests : TestFixtureBase
             writer.WriteValue(d.TableName);
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
             //reader.Read();
             var d = new DataTable((string)reader.Value);
@@ -382,9 +382,9 @@ public class DataTableConverterTests : TestFixtureBase
             return d;
         }
 
-        public override bool CanConvert(Type objectType)
+        public override bool CanConvert(Type type)
         {
-            return objectType == typeof(DataTable);
+            return type == typeof(DataTable);
         }
     }
 
@@ -631,21 +631,20 @@ public class DataTableConverterTests : TestFixtureBase
 
     internal class SqlDateTimeConverter : JsonConverter
     {
-        public override bool CanConvert(Type objectType)
+        public override bool CanConvert(Type type)
         {
-            return typeof(System.Data.SqlTypes.SqlDateTime).IsAssignableFrom(objectType);
+            return typeof(System.Data.SqlTypes.SqlDateTime).IsAssignableFrom(type);
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
-            if (reader.Value == null || reader.Value == DBNull.Value)
+            if (reader.Value == null ||
+                reader.Value == DBNull.Value)
             {
                 return System.Data.SqlTypes.SqlDateTime.Null;
             }
-            else
-            {
-                return new System.Data.SqlTypes.SqlDateTime((DateTime)serializer.Deserialize(reader));
-            }
+
+            return new System.Data.SqlTypes.SqlDateTime((DateTime)serializer.Deserialize(reader));
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
@@ -684,14 +683,14 @@ public class DataTableConverterTests : TestFixtureBase
             return table;
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
             existingValue ??= CreateTable();
 
             serializer.Error += OnError;
             try
             {
-                return base.ReadJson(reader, objectType, existingValue, serializer);
+                return base.ReadJson(reader, type, existingValue, serializer);
             }
             finally
             {

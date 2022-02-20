@@ -48,12 +48,12 @@ public class Issue1619 : TestFixtureBase
 
     public class DirectoryInfoJsonConverter : JsonConverter
     {
-        public override bool CanConvert(Type objectType)
+        public override bool CanConvert(Type type)
         {
-            return objectType == typeof(DirectoryInfo);
+            return type == typeof(DirectoryInfo);
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
             if (reader.Value is string s)
             {

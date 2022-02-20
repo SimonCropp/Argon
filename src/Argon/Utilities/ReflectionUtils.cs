@@ -434,14 +434,14 @@ static class ReflectionUtils
         switch (member.MemberType)
         {
             case MemberTypes.Field:
-                var fieldInfo = (FieldInfo)member;
+                var field = (FieldInfo)member;
 
-                return nonPublic || fieldInfo.IsPublic;
+                return nonPublic || field.IsPublic;
 
             case MemberTypes.Property:
-                var propertyInfo = (PropertyInfo)member;
+                var property = (PropertyInfo)member;
 
-                if (!propertyInfo.CanRead)
+                if (!property.CanRead)
                 {
                     return false;
                 }
@@ -449,7 +449,7 @@ static class ReflectionUtils
                 {
                     return true;
                 }
-                return propertyInfo.GetGetMethod(nonPublic) != null;
+                return property.GetGetMethod(nonPublic) != null;
             default:
                 return false;
         }
@@ -469,21 +469,21 @@ static class ReflectionUtils
         switch (member.MemberType)
         {
             case MemberTypes.Field:
-                var fieldInfo = (FieldInfo)member;
+                var field = (FieldInfo)member;
 
-                if (fieldInfo.IsLiteral)
+                if (field.IsLiteral)
                 {
                     return false;
                 }
-                if (fieldInfo.IsInitOnly && !canSetReadOnly)
+                if (field.IsInitOnly && !canSetReadOnly)
                 {
                     return false;
                 }
-                return nonPublic || fieldInfo.IsPublic;
+                return nonPublic || field.IsPublic;
             case MemberTypes.Property:
-                var propertyInfo = (PropertyInfo)member;
+                var property = (PropertyInfo)member;
 
-                if (!propertyInfo.CanWrite)
+                if (!property.CanWrite)
                 {
                     return false;
                 }
@@ -491,7 +491,7 @@ static class ReflectionUtils
                 {
                     return true;
                 }
-                return propertyInfo.GetSetMethod(nonPublic) != null;
+                return property.GetSetMethod(nonPublic) != null;
             default:
                 return false;
         }
@@ -521,25 +521,25 @@ static class ReflectionUtils
             else
             {
                 var resolvedMembers = new List<MemberInfo>();
-                foreach (var memberInfo in groupedMember)
+                foreach (var member in groupedMember)
                 {
                     // this is a bit hacky
                     // if the hiding property is hiding a base property and it is virtual
                     // then this ensures the derived property gets used
                     if (resolvedMembers.Count == 0)
                     {
-                        resolvedMembers.Add(memberInfo);
+                        resolvedMembers.Add(member);
                     }
-                    else if (!IsOverridenGenericMember(memberInfo, bindingAttr) || memberInfo.Name == "Item")
+                    else if (!IsOverridenGenericMember(member, bindingAttr) || member.Name == "Item")
                     {
                         // two members with the same name were declared on a type
                         // this can be done via IL emit, e.g. Moq
-                        if (resolvedMembers.Any(m => m.DeclaringType == memberInfo.DeclaringType))
+                        if (resolvedMembers.Any(m => m.DeclaringType == member.DeclaringType))
                         {
                             continue;
                         }
 
-                        resolvedMembers.Add(memberInfo);
+                        resolvedMembers.Add(member);
                     }
                 }
 
@@ -550,20 +550,20 @@ static class ReflectionUtils
         return distinctMembers;
     }
 
-    static bool IsOverridenGenericMember(MemberInfo memberInfo, BindingFlags bindingAttr)
+    static bool IsOverridenGenericMember(MemberInfo member, BindingFlags bindingAttr)
     {
-        if (memberInfo.MemberType != MemberTypes.Property)
+        if (member.MemberType != MemberTypes.Property)
         {
             return false;
         }
 
-        var propertyInfo = (PropertyInfo)memberInfo;
-        if (!IsVirtual(propertyInfo))
+        var property = (PropertyInfo)member;
+        if (!IsVirtual(property))
         {
             return false;
         }
 
-        var declaringType = propertyInfo.DeclaringType;
+        var declaringType = property.DeclaringType;
         if (!declaringType.IsGenericType)
         {
             return false;
@@ -573,7 +573,7 @@ static class ReflectionUtils
         {
             return false;
         }
-        var members = genericTypeDefinition.GetMember(propertyInfo.Name, bindingAttr);
+        var members = genericTypeDefinition.GetMember(property.Name, bindingAttr);
         if (members.Length == 0)
         {
             return false;
@@ -684,31 +684,31 @@ static class ReflectionUtils
         return null;
     }
 
-    public static MemberInfo GetMemberInfoFromType(Type targetType, MemberInfo memberInfo)
+    public static MemberInfo GetMemberInfoFromType(Type targetType, MemberInfo member)
     {
         const BindingFlags bindingAttr = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
 
-        switch (memberInfo.MemberType)
+        switch (member.MemberType)
         {
             case MemberTypes.Property:
-                var propertyInfo = (PropertyInfo)memberInfo;
+                var property = (PropertyInfo)member;
 
-                var types = propertyInfo.GetIndexParameters().Select(p => p.ParameterType).ToArray();
+                var types = property.GetIndexParameters().Select(p => p.ParameterType).ToArray();
 
-                return targetType.GetProperty(propertyInfo.Name, bindingAttr, null, propertyInfo.PropertyType, types, null);
+                return targetType.GetProperty(property.Name, bindingAttr, null, property.PropertyType, types, null);
             default:
-                return targetType.GetMember(memberInfo.Name, memberInfo.MemberType, bindingAttr).SingleOrDefault();
+                return targetType.GetMember(member.Name, member.MemberType, bindingAttr).SingleOrDefault();
         }
     }
 
     public static IEnumerable<FieldInfo> GetFields(Type targetType, BindingFlags bindingAttr)
     {
-        var fieldInfos = new List<MemberInfo>(targetType.GetFields(bindingAttr));
+        var fields = new List<MemberInfo>(targetType.GetFields(bindingAttr));
         // Type.GetFields doesn't return inherited private fields
         // manually find private fields from base class
-        GetChildPrivateFields(fieldInfos, targetType, bindingAttr);
+        GetChildPrivateFields(fields, targetType, bindingAttr);
 
-        return fieldInfos.Cast<FieldInfo>();
+        return fields.Cast<FieldInfo>();
     }
 
     static void GetChildPrivateFields(IList<MemberInfo> initialFields, Type targetType, BindingFlags bindingAttr)
@@ -733,31 +733,31 @@ static class ReflectionUtils
 
     public static IEnumerable<PropertyInfo> GetProperties(Type targetType, BindingFlags bindingAttr)
     {
-        var propertyInfos = new List<PropertyInfo>(targetType.GetProperties(bindingAttr));
+        var propertys = new List<PropertyInfo>(targetType.GetProperties(bindingAttr));
 
         // GetProperties on an interface doesn't return properties from its interfaces
         if (targetType.IsInterface)
         {
             foreach (var i in targetType.GetInterfaces())
             {
-                propertyInfos.AddRange(i.GetProperties(bindingAttr));
+                propertys.AddRange(i.GetProperties(bindingAttr));
             }
         }
 
-        GetChildPrivateProperties(propertyInfos, targetType, bindingAttr);
+        GetChildPrivateProperties(propertys, targetType, bindingAttr);
 
         // a base class private getter/setter will be inaccessible unless the property was gotten from the base class
-        for (var i = 0; i < propertyInfos.Count; i++)
+        for (var i = 0; i < propertys.Count; i++)
         {
-            var member = propertyInfos[i];
+            var member = propertys[i];
             if (member.DeclaringType != targetType)
             {
                 var declaredMember = (PropertyInfo)GetMemberInfoFromType(member.DeclaringType, member);
-                propertyInfos[i] = declaredMember;
+                propertys[i] = declaredMember;
             }
         }
 
-        return propertyInfos;
+        return propertys;
     }
 
     static BindingFlags RemoveFlag(this BindingFlags bindingAttr, BindingFlags flag)
@@ -776,9 +776,9 @@ static class ReflectionUtils
 
         while ((targetType = targetType.BaseType) != null)
         {
-            foreach (var propertyInfo in targetType.GetProperties(bindingAttr))
+            foreach (var property in targetType.GetProperties(bindingAttr))
             {
-                var subTypeProperty = propertyInfo;
+                var subTypeProperty = property;
 
                 if (subTypeProperty.IsVirtual())
                 {

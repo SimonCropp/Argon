@@ -729,14 +729,14 @@ public class JValueTests : TestFixtureBase
             throw new NotSupportedException();
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
             return $"{reader.Value}!";
         }
 
-        public override bool CanConvert(Type objectType)
+        public override bool CanConvert(Type type)
         {
-            return objectType == typeof(string);
+            return type == typeof(string);
         }
 
         public override bool CanWrite => false;

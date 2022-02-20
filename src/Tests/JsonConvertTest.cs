@@ -149,7 +149,7 @@ public class JsonConvertTest : TestFixtureBase
             throw new NotImplementedException();
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
             reader.Read();
             reader.Read();
@@ -169,9 +169,9 @@ public class JsonConvertTest : TestFixtureBase
             return o;
         }
 
-        public override bool CanConvert(Type objectType)
+        public override bool CanConvert(Type type)
         {
-            return objectType == typeof(NameTableTestClass);
+            return type == typeof(NameTableTestClass);
         }
     }
 
@@ -416,14 +416,14 @@ public class JsonConvertTest : TestFixtureBase
             writer.WriteValue(i * 2);
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
             throw new NotImplementedException();
         }
 
-        public override bool CanConvert(Type objectType)
+        public override bool CanConvert(Type type)
         {
-            return objectType == typeof(int);
+            return type == typeof(int);
         }
     }
 
@@ -1201,14 +1201,14 @@ public class JsonConvertTest : TestFixtureBase
             writer.WriteValue(ClobberValueString + "-" + ClobberValueInt.ToString() + "-" + value.ToString());
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
             throw new NotImplementedException();
         }
 
-        public override bool CanConvert(Type objectType)
+        public override bool CanConvert(Type type)
         {
-            return objectType == typeof(string);
+            return type == typeof(string);
         }
     }
 
@@ -1303,14 +1303,14 @@ public class JsonConvertTest : TestFixtureBase
             writer.WriteValue(_type);
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
             throw new NotImplementedException();
         }
 
-        public override bool CanConvert(Type objectType)
+        public override bool CanConvert(Type type)
         {
-            return objectType == typeof(int);
+            return type == typeof(int);
         }
 
     }
@@ -1585,12 +1585,12 @@ public class JsonConvertTest : TestFixtureBase
 
         public override bool CanRead => false;
 
-        public override bool CanConvert(Type objectType)
+        public override bool CanConvert(Type type)
         {
-            return objectType == typeof(double);
+            return type == typeof(double);
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
             throw new NotImplementedException();
         }
@@ -1723,11 +1723,11 @@ public class JsonConvertTest : TestFixtureBase
     {
         public sealed class Converter : JsonConverter
         {
-            public override bool CanConvert(Type objectType)
-                => objectType == typeof(Foo);
+            public override bool CanConvert(Type type)
+                => type == typeof(Foo);
 
             public override object ReadJson
-                (JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+                (JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
             {
                 reader.Skip();
                 return new EnumerableWithConverter();

@@ -74,15 +74,15 @@ public class KeyValuePairConverter : JsonConverter
     /// Reads the JSON representation of the object.
     /// </summary>
     /// <param name="reader">The <see cref="JsonReader"/> to read from.</param>
-    /// <param name="objectType">Type of the object.</param>
+    /// <param name="type">Type of the object.</param>
     /// <param name="existingValue">The existing value of object being read.</param>
     /// <param name="serializer">The calling serializer.</param>
     /// <returns>The object value.</returns>
-    public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+    public override object? ReadJson(JsonReader reader, Type type, object? existingValue, JsonSerializer serializer)
     {
         if (reader.TokenType == JsonToken.Null)
         {
-            if (!ReflectionUtils.IsNullableType(objectType))
+            if (!ReflectionUtils.IsNullableType(type))
             {
                 throw JsonSerializationException.Create(reader, "Cannot convert null value to KeyValuePair.");
             }
@@ -95,9 +95,9 @@ public class KeyValuePairConverter : JsonConverter
 
         reader.ReadAndAssert();
 
-        var t = ReflectionUtils.IsNullableType(objectType)
-            ? Nullable.GetUnderlyingType(objectType)
-            : objectType;
+        var t = ReflectionUtils.IsNullableType(type)
+            ? Nullable.GetUnderlyingType(type)
+            : type;
 
         var reflectionObject = ReflectionObjectPerType.Get(t);
         var keyContract = serializer.ContractResolver.ResolveContract(reflectionObject.GetType(KeyName));
@@ -132,15 +132,15 @@ public class KeyValuePairConverter : JsonConverter
     /// <summary>
     /// Determines whether this instance can convert the specified object type.
     /// </summary>
-    /// <param name="objectType">Type of the object.</param>
+    /// <param name="type">Type of the object.</param>
     /// <returns>
     /// 	<c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
     /// </returns>
-    public override bool CanConvert(Type objectType)
+    public override bool CanConvert(Type type)
     {
-        var t = ReflectionUtils.IsNullableType(objectType)
-            ? Nullable.GetUnderlyingType(objectType)
-            : objectType;
+        var t = ReflectionUtils.IsNullableType(type)
+            ? Nullable.GetUnderlyingType(type)
+            : type;
 
         if (t.IsValueType && t.IsGenericType)
         {

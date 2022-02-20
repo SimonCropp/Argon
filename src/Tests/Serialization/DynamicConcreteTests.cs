@@ -33,9 +33,9 @@ public class DynamicConcreteTests : TestFixtureBase
 {
     public class DynamicConcreteContractResolver : DefaultContractResolver
     {
-        protected override JsonContract CreateContract(Type objectType)
+        protected override JsonContract CreateContract(Type type)
         {
-            var contract = base.CreateContract(objectType);
+            var contract = base.CreateContract(type);
 
             // create a dynamic mock object for interfaces or abstract classes
             if (contract.CreatedType.IsInterface || contract.CreatedType.IsAbstract)

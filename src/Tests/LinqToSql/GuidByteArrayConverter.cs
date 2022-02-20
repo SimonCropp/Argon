@@ -35,16 +35,16 @@ public class GuidByteArrayConverter : JsonConverter
         writer.WriteValue(Convert.ToBase64String(guid.ToByteArray()));
     }
 
-    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
     {
         var encodedData = (string)reader.Value;
         var data = Convert.FromBase64String(encodedData);
         return new Guid(data);
     }
 
-    public override bool CanConvert(Type objectType)
+    public override bool CanConvert(Type type)
     {
-        return objectType == typeof(Guid);
+        return type == typeof(Guid);
     }
 }
 

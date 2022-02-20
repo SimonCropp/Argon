@@ -58,12 +58,12 @@ public class ConverterContractResolver : DefaultContractResolver
 {
     public new static readonly ConverterContractResolver Instance = new();
 
-    protected override JsonContract CreateContract(Type objectType)
+    protected override JsonContract CreateContract(Type type)
     {
-        var contract = base.CreateContract(objectType);
+        var contract = base.CreateContract(type);
 
         // this will only be called once and then cached
-        if (objectType == typeof(DateTime) || objectType == typeof(DateTimeOffset))
+        if (type == typeof(DateTime) || type == typeof(DateTimeOffset))
         {
             contract.Converter = new JavaScriptDateTimeConverter();
         }

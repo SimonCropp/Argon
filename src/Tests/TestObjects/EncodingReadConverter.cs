@@ -27,12 +27,12 @@ namespace Argon.Tests.TestObjects;
 
 public class EncodingReadConverter : JsonConverter
 {
-    public override bool CanConvert(Type objectType)
+    public override bool CanConvert(Type type)
     {
-        return typeof(Encoding).IsAssignableFrom(objectType);
+        return typeof(Encoding).IsAssignableFrom(type);
     }
 
-    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
     {
         var encodingName = serializer.Deserialize<string>(reader);
         if (encodingName == null)

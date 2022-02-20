@@ -27,12 +27,12 @@ namespace Argon.Tests.TestObjects;
 
 public class MailAddressReadConverter : JsonConverter
 {
-    public override bool CanConvert(Type objectType)
+    public override bool CanConvert(Type type)
     {
-        return objectType == typeof(System.Net.Mail.MailAddress);
+        return type == typeof(System.Net.Mail.MailAddress);
     }
 
-    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
     {
         var messageJObject = serializer.Deserialize<JObject>(reader);
         if (messageJObject == null)

@@ -835,12 +835,12 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     {
         public class SomethingConverter : JsonConverter
         {
-            public override bool CanConvert(Type objectType)
+            public override bool CanConvert(Type type)
             {
                 return true;
             }
 
-            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+            public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
             {
                 try
                 {
@@ -891,12 +891,12 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     {
         public class SomethingElseConverter : JsonConverter
         {
-            public override bool CanConvert(Type objectType)
+            public override bool CanConvert(Type type)
             {
                 return true;
             }
 
-            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+            public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
             {
                 throw new NotImplementedException();
             }

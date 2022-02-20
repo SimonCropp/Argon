@@ -60,7 +60,7 @@ static class JsonTypeReflector
     {
         typeConverter = TypeDescriptor.GetConverter(type);
 
-        // use the objectType's TypeConverter if it has one and can convert to a string
+        // use the type's TypeConverter if it has one and can convert to a string
         if (typeConverter != null)
         {
             var converterType = typeConverter.GetType();
@@ -96,28 +96,28 @@ static class JsonTypeReflector
         return null;
     }
 
-    public static DataMemberAttribute? GetDataMemberAttribute(MemberInfo memberInfo)
+    public static DataMemberAttribute? GetDataMemberAttribute(MemberInfo member)
     {
         // DataMemberAttribute does not have inheritance
 
         // can't override a field
-        if (memberInfo.MemberType == MemberTypes.Field)
+        if (member.MemberType == MemberTypes.Field)
         {
-            return CachedAttributeGetter<DataMemberAttribute>.GetAttribute(memberInfo);
+            return CachedAttributeGetter<DataMemberAttribute>.GetAttribute(member);
         }
 
         // search property and then search base properties if nothing is returned and the property is virtual
-        var propertyInfo = (PropertyInfo)memberInfo;
-        var result = CachedAttributeGetter<DataMemberAttribute>.GetAttribute(propertyInfo);
+        var property = (PropertyInfo)member;
+        var result = CachedAttributeGetter<DataMemberAttribute>.GetAttribute(property);
         if (result == null)
         {
-            if (propertyInfo.IsVirtual())
+            if (property.IsVirtual())
             {
-                var currentType = propertyInfo.DeclaringType;
+                var currentType = property.DeclaringType;
 
                 while (result == null && currentType != null)
                 {
-                    var baseProperty = (PropertyInfo)ReflectionUtils.GetMemberInfoFromType(currentType, propertyInfo);
+                    var baseProperty = (PropertyInfo)ReflectionUtils.GetMemberInfoFromType(currentType, property);
                     if (baseProperty != null && baseProperty.IsVirtual())
                     {
                         result = CachedAttributeGetter<DataMemberAttribute>.GetAttribute(baseProperty);
@@ -131,21 +131,21 @@ static class JsonTypeReflector
         return result;
     }
 
-    public static MemberSerialization GetObjectMemberSerialization(Type objectType, bool ignoreSerializableAttribute)
+    public static MemberSerialization GetObjectMemberSerialization(Type type, bool ignoreSerializableAttribute)
     {
-        var objectAttribute = GetCachedAttribute<JsonObjectAttribute>(objectType);
+        var objectAttribute = GetCachedAttribute<JsonObjectAttribute>(type);
         if (objectAttribute != null)
         {
             return objectAttribute.MemberSerialization;
         }
 
-        var dataContractAttribute = GetDataContractAttribute(objectType);
+        var dataContractAttribute = GetDataContractAttribute(type);
         if (dataContractAttribute != null)
         {
             return MemberSerialization.OptIn;
         }
 
-        if (!ignoreSerializableAttribute && IsSerializable(objectType))
+        if (!ignoreSerializableAttribute && IsSerializable(type))
         {
             return MemberSerialization.Fields;
         }
@@ -231,10 +231,8 @@ static class JsonTypeReflector
                         var parameterizedConstructor = ReflectionDelegateFactory.CreateParameterizedConstructor(parameterizedConstructorInfo);
                         return parameterizedConstructor(parameters);
                     }
-                    else
-                    {
-                        throw new JsonException($"No matching parameterized constructor found for '{type}'.");
-                    }
+
+                    throw new JsonException($"No matching parameterized constructor found for '{type}'.");
                 }
 
                 if (defaultConstructor == null)
@@ -311,14 +309,14 @@ static class JsonTypeReflector
         return null;
     }
 
-    static T? GetAttribute<T>(MemberInfo memberInfo) where T : Attribute
+    static T? GetAttribute<T>(MemberInfo member) where T : Attribute
     {
         T? attribute;
 
-        var metadataType = GetAssociatedMetadataType(memberInfo.DeclaringType);
+        var metadataType = GetAssociatedMetadataType(member.DeclaringType);
         if (metadataType != null)
         {
-            var metadataTypeMemberInfo = ReflectionUtils.GetMemberInfoFromType(metadataType, memberInfo);
+            var metadataTypeMemberInfo = ReflectionUtils.GetMemberInfoFromType(metadataType, member);
 
             if (metadataTypeMemberInfo != null)
             {
@@ -330,17 +328,17 @@ static class JsonTypeReflector
             }
         }
 
-        attribute = ReflectionUtils.GetAttribute<T>(memberInfo, true);
+        attribute = ReflectionUtils.GetAttribute<T>(member, true);
         if (attribute != null)
         {
             return attribute;
         }
 
-        if (memberInfo.DeclaringType != null)
+        if (member.DeclaringType != null)
         {
-            foreach (var typeInterface in memberInfo.DeclaringType.GetInterfaces())
+            foreach (var typeInterface in member.DeclaringType.GetInterfaces())
             {
-                var interfaceTypeMemberInfo = ReflectionUtils.GetMemberInfoFromType(typeInterface, memberInfo);
+                var interfaceTypeMemberInfo = ReflectionUtils.GetMemberInfoFromType(typeInterface, member);
 
                 if (interfaceTypeMemberInfo != null)
                 {
@@ -375,9 +373,9 @@ static class JsonTypeReflector
             return GetAttribute<T>(type);
         }
 
-        if (provider is MemberInfo memberInfo)
+        if (provider is MemberInfo member)
         {
-            return GetAttribute<T>(memberInfo);
+            return GetAttribute<T>(member);
         }
 
         return ReflectionUtils.GetAttribute<T>(provider, true);

@@ -252,10 +252,8 @@ public abstract partial class JsonReader : IDisposable
             {
                 return depth;
             }
-            else
-            {
-                return depth + 1;
-            }
+
+            return depth + 1;
         }
     }
 
@@ -434,11 +432,9 @@ public abstract partial class JsonReader : IDisposable
             SetToken(JsonToken.Integer, i, false);
             return i;
         }
-        else
-        {
-            SetToken(JsonToken.String, s, false);
-            throw JsonReaderException.Create(this, $"Could not convert string to integer: {s}.");
-        }
+
+        SetToken(JsonToken.String, s, false);
+        throw JsonReaderException.Create(this, $"Could not convert string to integer: {s}.");
     }
 
     /// <summary>
@@ -643,11 +639,9 @@ public abstract partial class JsonReader : IDisposable
             SetToken(JsonToken.Float, d, false);
             return d;
         }
-        else
-        {
-            SetToken(JsonToken.String, s, false);
-            throw JsonReaderException.Create(this, $"Could not convert string to double: {s}.");
-        }
+
+        SetToken(JsonToken.String, s, false);
+        throw JsonReaderException.Create(this, $"Could not convert string to double: {s}.");
     }
 
     /// <summary>
@@ -700,11 +694,9 @@ public abstract partial class JsonReader : IDisposable
             SetToken(JsonToken.Boolean, b, false);
             return b;
         }
-        else
-        {
-            SetToken(JsonToken.String, s, false);
-            throw JsonReaderException.Create(this, $"Could not convert string to boolean: {s}.");
-        }
+
+        SetToken(JsonToken.String, s, false);
+        throw JsonReaderException.Create(this, $"Could not convert string to boolean: {s}.");
     }
 
     /// <summary>
@@ -768,17 +760,16 @@ public abstract partial class JsonReader : IDisposable
             SetToken(JsonToken.Float, d, false);
             return d;
         }
-        else if (ConvertUtils.DecimalTryParse(s.ToCharArray(), 0, s.Length, out d) == ParseResult.Success)
+
+        if (ConvertUtils.DecimalTryParse(s.ToCharArray(), 0, s.Length, out d) == ParseResult.Success)
         {
             // This is to handle strings like "96.014e-05" that are not supported by traditional decimal.TryParse
             SetToken(JsonToken.Float, d, false);
             return d;
         }
-        else
-        {
-            SetToken(JsonToken.String, s, false);
-            throw JsonReaderException.Create(this, $"Could not convert string to decimal: {s}.");
-        }
+
+        SetToken(JsonToken.String, s, false);
+        throw JsonReaderException.Create(this, $"Could not convert string to decimal: {s}.");
     }
 
     /// <summary>

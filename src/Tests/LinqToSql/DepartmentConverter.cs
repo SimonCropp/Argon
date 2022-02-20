@@ -41,7 +41,7 @@ public class DepartmentConverter : JsonConverter
         o.WriteTo(writer);
     }
 
-    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
     {
         var o = JObject.Load(reader);
 
@@ -54,9 +54,9 @@ public class DepartmentConverter : JsonConverter
         return department;
     }
 
-    public override bool CanConvert(Type objectType)
+    public override bool CanConvert(Type type)
     {
-        return objectType == typeof(Department);
+        return type == typeof(Department);
     }
 }
 

@@ -63,23 +63,23 @@ class LateBoundReflectionDelegateFactory : ReflectionDelegateFactory
         return () => (T)constructorInfo.Invoke(null);
     }
 
-    public override Func<T, object?> CreateGet<T>(PropertyInfo propertyInfo)
+    public override Func<T, object?> CreateGet<T>(PropertyInfo property)
     {
-        return o => propertyInfo.GetValue(o, null);
+        return o => property.GetValue(o, null);
     }
 
-    public override Func<T, object?> CreateGet<T>(FieldInfo fieldInfo)
+    public override Func<T, object?> CreateGet<T>(FieldInfo field)
     {
-        return o => fieldInfo.GetValue(o);
+        return o => field.GetValue(o);
     }
 
-    public override Action<T, object?> CreateSet<T>(FieldInfo fieldInfo)
+    public override Action<T, object?> CreateSet<T>(FieldInfo field)
     {
-        return (o, v) => fieldInfo.SetValue(o, v);
+        return (o, v) => field.SetValue(o, v);
     }
 
-    public override Action<T, object?> CreateSet<T>(PropertyInfo propertyInfo)
+    public override Action<T, object?> CreateSet<T>(PropertyInfo property)
     {
-        return (o, v) => propertyInfo.SetValue(o, v, null);
+        return (o, v) => property.SetValue(o, v, null);
     }
 }

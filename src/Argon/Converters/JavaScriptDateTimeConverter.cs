@@ -64,17 +64,17 @@ public class JavaScriptDateTimeConverter : DateTimeConverterBase
     /// Reads the JSON representation of the object.
     /// </summary>
     /// <param name="reader">The <see cref="JsonReader"/> to read from.</param>
-    /// <param name="objectType">Type of the object.</param>
+    /// <param name="type">Type of the object.</param>
     /// <param name="existingValue">The existing property value of the JSON that is being converted.</param>
     /// <param name="serializer">The calling serializer.</param>
     /// <returns>The object value.</returns>
-    public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+    public override object? ReadJson(JsonReader reader, Type type, object? existingValue, JsonSerializer serializer)
     {
         if (reader.TokenType == JsonToken.Null)
         {
-            if (!ReflectionUtils.IsNullable(objectType))
+            if (!ReflectionUtils.IsNullable(type))
             {
-                throw JsonSerializationException.Create(reader, $"Cannot convert null value to {objectType}.");
+                throw JsonSerializationException.Create(reader, $"Cannot convert null value to {type}.");
             }
 
             return null;
@@ -90,9 +90,9 @@ public class JavaScriptDateTimeConverter : DateTimeConverterBase
             throw JsonSerializationException.Create(reader, errorMessage);
         }
 
-        var t = ReflectionUtils.IsNullableType(objectType)
-            ? Nullable.GetUnderlyingType(objectType)
-            : objectType;
+        var t = ReflectionUtils.IsNullableType(type)
+            ? Nullable.GetUnderlyingType(type)
+            : type;
         if (t == typeof(DateTimeOffset))
         {
             return new DateTimeOffset(d);

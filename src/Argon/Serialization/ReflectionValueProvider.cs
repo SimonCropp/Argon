@@ -30,15 +30,15 @@ namespace Argon.Serialization;
 /// </summary>
 public class ReflectionValueProvider : IValueProvider
 {
-    readonly MemberInfo _memberInfo;
+    readonly MemberInfo _member;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ReflectionValueProvider"/> class.
     /// </summary>
-    /// <param name="memberInfo">The member info.</param>
-    public ReflectionValueProvider(MemberInfo memberInfo)
+    /// <param name="member">The member info.</param>
+    public ReflectionValueProvider(MemberInfo member)
     {
-        _memberInfo = memberInfo;
+        _member = member;
     }
 
     /// <summary>
@@ -50,11 +50,11 @@ public class ReflectionValueProvider : IValueProvider
     {
         try
         {
-            ReflectionUtils.SetMemberValue(_memberInfo, target, value);
+            ReflectionUtils.SetMemberValue(_member, target, value);
         }
         catch (Exception ex)
         {
-            throw new JsonSerializationException($"Error setting value to '{_memberInfo.Name}' on '{target.GetType()}'.", ex);
+            throw new JsonSerializationException($"Error setting value to '{_member.Name}' on '{target.GetType()}'.", ex);
         }
     }
 
@@ -68,16 +68,16 @@ public class ReflectionValueProvider : IValueProvider
         try
         {
             // https://github.com/dotnet/corefx/issues/26053
-            if (_memberInfo is PropertyInfo propertyInfo && propertyInfo.PropertyType.IsByRef)
+            if (_member is PropertyInfo property && property.PropertyType.IsByRef)
             {
-                throw new InvalidOperationException($"Could not create getter for {propertyInfo}. ByRef return values are not supported.");
+                throw new InvalidOperationException($"Could not create getter for {property}. ByRef return values are not supported.");
             }
 
-            return ReflectionUtils.GetMemberValue(_memberInfo, target);
+            return ReflectionUtils.GetMemberValue(_member, target);
         }
         catch (Exception ex)
         {
-            throw new JsonSerializationException($"Error getting value from '{_memberInfo.Name}' on '{target.GetType()}'.", ex);
+            throw new JsonSerializationException($"Error getting value from '{_member.Name}' on '{target.GetType()}'.", ex);
         }
     }
 }

@@ -288,13 +288,13 @@ public class DateIntConverter : JsonConverter
         }
     }
 
-    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
     {
         return new DateTime(Convert.ToInt64(reader.Value), DateTimeKind.Utc);
     }
 
-    public override bool CanConvert(Type objectType)
+    public override bool CanConvert(Type type)
     {
-        return objectType == typeof(DateTime) || objectType == typeof(DateTime?);
+        return type == typeof(DateTime) || type == typeof(DateTime?);
     }
 }

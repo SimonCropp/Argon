@@ -51,12 +51,12 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 
     public class ListConverter : JsonConverter
     {
-        public override bool CanConvert(Type objectType)
+        public override bool CanConvert(Type type)
         {
             return true;
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
             return new ContentA { B = serializer.Deserialize<ContentB>(reader) }; // Construct my data back.
         }
@@ -495,26 +495,24 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
             me.WriteTo(writer);
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
             var o = JObject.Load(reader);
             var id = (string)o["$id"];
-            if (id != null)
+            if (id == null)
             {
-                var circularReferenceClass = new CircularReferenceClass();
-                serializer.Populate(o.CreateReader(), circularReferenceClass);
-                return circularReferenceClass;
-            }
-            else
-            {
-                var reference = (string)o["$ref"];
+                var reference = (string) o["$ref"];
                 return serializer.ReferenceResolver.ResolveReference(serializer, reference);
             }
+
+            var circularReferenceClass = new CircularReferenceClass();
+            serializer.Populate(o.CreateReader(), circularReferenceClass);
+            return circularReferenceClass;
         }
 
-        public override bool CanConvert(Type objectType)
+        public override bool CanConvert(Type type)
         {
-            return objectType == typeof(CircularReferenceClass);
+            return type == typeof(CircularReferenceClass);
         }
     }
 

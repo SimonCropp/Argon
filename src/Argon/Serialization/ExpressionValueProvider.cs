@@ -30,17 +30,17 @@ namespace Argon.Serialization;
 /// </summary>
 public class ExpressionValueProvider : IValueProvider
 {
-    readonly MemberInfo _memberInfo;
+    readonly MemberInfo _member;
     Func<object, object?>? _getter;
     Action<object, object?>? _setter;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ExpressionValueProvider"/> class.
     /// </summary>
-    /// <param name="memberInfo">The member info.</param>
-    public ExpressionValueProvider(MemberInfo memberInfo)
+    /// <param name="member">The member info.</param>
+    public ExpressionValueProvider(MemberInfo member)
     {
-        _memberInfo = memberInfo;
+        _member = member;
     }
 
     /// <summary>
@@ -52,21 +52,21 @@ public class ExpressionValueProvider : IValueProvider
     {
         try
         {
-            _setter ??= ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(_memberInfo);
+            _setter ??= ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(_member);
 
 #if DEBUG
             // dynamic method doesn't check whether the type is 'legal' to set
             // add this check for unit tests
             if (value == null)
             {
-                if (!ReflectionUtils.IsNullable(ReflectionUtils.GetMemberUnderlyingType(_memberInfo)))
+                if (!ReflectionUtils.IsNullable(ReflectionUtils.GetMemberUnderlyingType(_member)))
                 {
-                    throw new JsonSerializationException($"Incompatible value. Cannot set {_memberInfo} to null.");
+                    throw new JsonSerializationException($"Incompatible value. Cannot set {_member} to null.");
                 }
             }
-            else if (!ReflectionUtils.GetMemberUnderlyingType(_memberInfo).IsInstanceOfType(value))
+            else if (!ReflectionUtils.GetMemberUnderlyingType(_member).IsInstanceOfType(value))
             {
-                throw new JsonSerializationException($"Incompatible value. Cannot set {_memberInfo} to type {value.GetType()}.");
+                throw new JsonSerializationException($"Incompatible value. Cannot set {_member} to type {value.GetType()}.");
             }
 #endif
 
@@ -74,7 +74,7 @@ public class ExpressionValueProvider : IValueProvider
         }
         catch (Exception ex)
         {
-            throw new JsonSerializationException($"Error setting value to '{_memberInfo.Name}' on '{target.GetType()}'.", ex);
+            throw new JsonSerializationException($"Error setting value to '{_member.Name}' on '{target.GetType()}'.", ex);
         }
     }
 
@@ -87,13 +87,13 @@ public class ExpressionValueProvider : IValueProvider
     {
         try
         {
-            _getter ??= ExpressionReflectionDelegateFactory.Instance.CreateGet<object>(_memberInfo);
+            _getter ??= ExpressionReflectionDelegateFactory.Instance.CreateGet<object>(_member);
 
             return _getter(target);
         }
         catch (Exception ex)
         {
-            throw new JsonSerializationException($"Error getting value from '{_memberInfo.Name}' on '{target.GetType()}'.", ex);
+            throw new JsonSerializationException($"Error getting value from '{_member.Name}' on '{target.GetType()}'.", ex);
         }
     }
 }

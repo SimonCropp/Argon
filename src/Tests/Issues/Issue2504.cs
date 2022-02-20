@@ -81,12 +81,12 @@ public class Issue2504 : TestFixtureBase
 
     class TestConverter : JsonConverter
     {
-        public override bool CanConvert(Type objectType)
+        public override bool CanConvert(Type type)
         {
-            return objectType == typeof(TestObject);
+            return type == typeof(TestObject);
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
             var token = JToken.Load(reader);
 

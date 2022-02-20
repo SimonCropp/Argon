@@ -561,7 +561,8 @@ internal static class JavaScriptUtils
         {
             return false;
         }
-        else if (t2 != null)
+
+        if (t2 != null)
         {
             // Only create a list when there is more than one argument
             var dateArgs = new List<long>
@@ -575,7 +576,8 @@ internal static class JavaScriptUtils
                 {
                     return false;
                 }
-                else if (integer != null)
+
+                if (integer != null)
                 {
                     dateArgs.Add(integer.Value);
                 }

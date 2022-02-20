@@ -27,9 +27,9 @@ namespace Argon.Tests.TestObjects;
 
 public class WidgetIdJsonConverter : JsonConverter
 {
-    public override bool CanConvert(Type objectType)
+    public override bool CanConvert(Type type)
     {
-        return objectType == typeof(WidgetId1) || objectType == typeof(WidgetId1?);
+        return type == typeof(WidgetId1) || type == typeof(WidgetId1?);
     }
 
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
@@ -38,7 +38,7 @@ public class WidgetIdJsonConverter : JsonConverter
         writer.WriteValue(id.Value.ToString());
     }
 
-    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
     {
         if (reader.TokenType == JsonToken.Null)
         {

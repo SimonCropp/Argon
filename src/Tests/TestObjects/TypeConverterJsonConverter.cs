@@ -54,14 +54,14 @@ class TypeConverterJsonConverter : JsonConverter
         writer.WriteValue(text);
     }
 
-    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
     {
-        var converter = GetConverter(objectType);
+        var converter = GetConverter(type);
         return converter.ConvertFromInvariantString(reader.Value.ToString());
     }
 
-    public override bool CanConvert(Type objectType)
+    public override bool CanConvert(Type type)
     {
-        return GetConverter(objectType) != null;
+        return GetConverter(type) != null;
     }
 }

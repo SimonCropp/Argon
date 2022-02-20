@@ -290,13 +290,12 @@ public static class Extensions
         {
             return null!;
         }
-        else if (source is IJEnumerable<T> customEnumerable)
+
+        if (source is IJEnumerable<T> customEnumerable)
         {
             return customEnumerable;
         }
-        else
-        {
-            return new JEnumerable<T>(source);
-        }
+
+        return new JEnumerable<T>(source);
     }
 }

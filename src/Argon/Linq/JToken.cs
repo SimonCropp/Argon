@@ -1814,13 +1814,13 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Creates an instance of the specified .NET type from the <see cref="JToken"/>.
     /// </summary>
-    /// <param name="objectType">The object type that the token will be deserialized to.</param>
+    /// <param name="type">The object type that the token will be deserialized to.</param>
     /// <returns>The new object created from the JSON value.</returns>
-    public object? ToObject(Type objectType)
+    public object? ToObject(Type type)
     {
         if (JsonConvert.DefaultSettings == null)
         {
-            var typeCode = ConvertUtils.GetTypeCode(objectType, out var isEnum);
+            var typeCode = ConvertUtils.GetTypeCode(type, out var isEnum);
 
             if (isEnum)
             {
@@ -1829,18 +1829,18 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
                     try
                     {
                         // use serializer so JsonConverter(typeof(StringEnumConverter)) + EnumMemberAttributes are respected
-                        return ToObject(objectType, JsonSerializer.CreateDefault());
+                        return ToObject(type, JsonSerializer.CreateDefault());
                     }
                     catch (Exception ex)
                     {
-                        var enumType = objectType.IsEnum ? objectType : Nullable.GetUnderlyingType(objectType);
+                        var enumType = type.IsEnum ? type : Nullable.GetUnderlyingType(type);
                         throw new ArgumentException($"Could not convert '{(string?) this}' to {enumType.Name}.", ex);
                     }
                 }
 
                 if (Type == JTokenType.Integer)
                 {
-                    var enumType = objectType.IsEnum ? objectType : Nullable.GetUnderlyingType(objectType);
+                    var enumType = type.IsEnum ? type : Nullable.GetUnderlyingType(type);
                     return Enum.ToObject(enumType, ((JValue)this).Value);
                 }
             }
@@ -1926,7 +1926,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             }
         }
 
-        return ToObject(objectType, JsonSerializer.CreateDefault());
+        return ToObject(type, JsonSerializer.CreateDefault());
     }
 
     /// <summary>
@@ -1943,10 +1943,10 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Creates an instance of the specified .NET type from the <see cref="JToken"/> using the specified <see cref="JsonSerializer"/>.
     /// </summary>
-    /// <param name="objectType">The object type that the token will be deserialized to.</param>
+    /// <param name="type">The object type that the token will be deserialized to.</param>
     /// <param name="jsonSerializer">The <see cref="JsonSerializer"/> that will be used when creating the object.</param>
     /// <returns>The new object created from the JSON value.</returns>
-    public object? ToObject(Type? objectType, JsonSerializer jsonSerializer)
+    public object? ToObject(Type? type, JsonSerializer jsonSerializer)
     {
         using var jsonReader = new JTokenReader(this);
         // Hacky fix to ensure the serializer settings are set onto the new reader.
@@ -1956,7 +1956,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             proxy._serializer.SetupReader(jsonReader, out _, out _, out _, out _, out _, out _);
         }
 
-        return jsonSerializer.Deserialize(jsonReader, objectType);
+        return jsonSerializer.Deserialize(jsonReader, type);
     }
 
     /// <summary>

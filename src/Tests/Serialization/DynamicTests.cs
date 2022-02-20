@@ -338,10 +338,8 @@ public class TestDynamicObject : DynamicObject
             result = new Dictionary<string, object>(_members);
             return true;
         }
-        else
-        {
-            return base.TryConvert(binder, out result);
-        }
+
+        return base.TryConvert(binder, out result);
     }
 
     public override bool TryDeleteMember(DeleteMemberBinder binder)

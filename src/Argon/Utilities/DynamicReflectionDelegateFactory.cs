@@ -272,119 +272,119 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
         generator.Return();
     }
 
-    public override Func<T, object?> CreateGet<T>(PropertyInfo propertyInfo)
+    public override Func<T, object?> CreateGet<T>(PropertyInfo property)
     {
-        var dynamicMethod = CreateDynamicMethod($"Get{propertyInfo.Name}", typeof(object), new[] { typeof(T) }, propertyInfo.DeclaringType);
+        var dynamicMethod = CreateDynamicMethod($"Get{property.Name}", typeof(object), new[] { typeof(T) }, property.DeclaringType);
         var generator = dynamicMethod.GetILGenerator();
 
-        GenerateCreateGetPropertyIL(propertyInfo, generator);
+        GenerateCreateGetPropertyIL(property, generator);
 
         return (Func<T, object?>)dynamicMethod.CreateDelegate(typeof(Func<T, object?>));
     }
 
-    static void GenerateCreateGetPropertyIL(PropertyInfo propertyInfo, ILGenerator generator)
+    static void GenerateCreateGetPropertyIL(PropertyInfo property, ILGenerator generator)
     {
-        var getMethod = propertyInfo.GetMethod;
+        var getMethod = property.GetMethod;
         if (getMethod == null)
         {
-            throw new ArgumentException($"Property '{propertyInfo.Name}' does not have a getter.");
+            throw new ArgumentException($"Property '{property.Name}' does not have a getter.");
         }
 
         if (!getMethod.IsStatic)
         {
-            generator.PushInstance(propertyInfo.DeclaringType);
+            generator.PushInstance(property.DeclaringType);
         }
 
         generator.CallMethod(getMethod);
-        generator.BoxIfNeeded(propertyInfo.PropertyType);
+        generator.BoxIfNeeded(property.PropertyType);
         generator.Return();
     }
 
-    public override Func<T, object?> CreateGet<T>(FieldInfo fieldInfo)
+    public override Func<T, object?> CreateGet<T>(FieldInfo field)
     {
-        if (fieldInfo.IsLiteral)
+        if (field.IsLiteral)
         {
-            var constantValue = fieldInfo.GetValue(null);
+            var constantValue = field.GetValue(null);
             Func<T, object?> getter = _ => constantValue;
             return getter;
         }
 
-        var dynamicMethod = CreateDynamicMethod($"Get{fieldInfo.Name}", typeof(T), new[] { typeof(object) }, fieldInfo.DeclaringType);
+        var dynamicMethod = CreateDynamicMethod($"Get{field.Name}", typeof(T), new[] { typeof(object) }, field.DeclaringType);
         var generator = dynamicMethod.GetILGenerator();
 
-        GenerateCreateGetFieldIL(fieldInfo, generator);
+        GenerateCreateGetFieldIL(field, generator);
 
         return (Func<T, object?>)dynamicMethod.CreateDelegate(typeof(Func<T, object?>));
     }
 
-    static void GenerateCreateGetFieldIL(FieldInfo fieldInfo, ILGenerator generator)
+    static void GenerateCreateGetFieldIL(FieldInfo field, ILGenerator generator)
     {
-        if (fieldInfo.IsStatic)
+        if (field.IsStatic)
         {
-            generator.Emit(OpCodes.Ldsfld, fieldInfo);
+            generator.Emit(OpCodes.Ldsfld, field);
         }
         else
         {
-            generator.PushInstance(fieldInfo.DeclaringType);
-            generator.Emit(OpCodes.Ldfld, fieldInfo);
+            generator.PushInstance(field.DeclaringType);
+            generator.Emit(OpCodes.Ldfld, field);
         }
 
-        generator.BoxIfNeeded(fieldInfo.FieldType);
+        generator.BoxIfNeeded(field.FieldType);
         generator.Return();
     }
 
-    public override Action<T, object?> CreateSet<T>(FieldInfo fieldInfo)
+    public override Action<T, object?> CreateSet<T>(FieldInfo field)
     {
-        var dynamicMethod = CreateDynamicMethod($"Set{fieldInfo.Name}", null, new[] { typeof(T), typeof(object) }, fieldInfo.DeclaringType);
+        var dynamicMethod = CreateDynamicMethod($"Set{field.Name}", null, new[] { typeof(T), typeof(object) }, field.DeclaringType);
         var generator = dynamicMethod.GetILGenerator();
 
-        GenerateCreateSetFieldIL(fieldInfo, generator);
+        GenerateCreateSetFieldIL(field, generator);
 
         return (Action<T, object?>)dynamicMethod.CreateDelegate(typeof(Action<T, object?>));
     }
 
-    internal static void GenerateCreateSetFieldIL(FieldInfo fieldInfo, ILGenerator generator)
+    internal static void GenerateCreateSetFieldIL(FieldInfo field, ILGenerator generator)
     {
-        if (!fieldInfo.IsStatic)
+        if (!field.IsStatic)
         {
-            generator.PushInstance(fieldInfo.DeclaringType);
+            generator.PushInstance(field.DeclaringType);
         }
 
         generator.Emit(OpCodes.Ldarg_1);
-        generator.UnboxIfNeeded(fieldInfo.FieldType);
+        generator.UnboxIfNeeded(field.FieldType);
 
-        if (fieldInfo.IsStatic)
+        if (field.IsStatic)
         {
-            generator.Emit(OpCodes.Stsfld, fieldInfo);
+            generator.Emit(OpCodes.Stsfld, field);
         }
         else
         {
-            generator.Emit(OpCodes.Stfld, fieldInfo);
+            generator.Emit(OpCodes.Stfld, field);
         }
 
         generator.Return();
     }
 
-    public override Action<T, object?> CreateSet<T>(PropertyInfo propertyInfo)
+    public override Action<T, object?> CreateSet<T>(PropertyInfo property)
     {
-        var dynamicMethod = CreateDynamicMethod($"Set{propertyInfo.Name}", null, new[] { typeof(T), typeof(object) }, propertyInfo.DeclaringType);
+        var dynamicMethod = CreateDynamicMethod($"Set{property.Name}", null, new[] { typeof(T), typeof(object) }, property.DeclaringType);
         var generator = dynamicMethod.GetILGenerator();
 
-        GenerateCreateSetPropertyIL(propertyInfo, generator);
+        GenerateCreateSetPropertyIL(property, generator);
 
         return (Action<T, object?>)dynamicMethod.CreateDelegate(typeof(Action<T, object>));
     }
 
-    internal static void GenerateCreateSetPropertyIL(PropertyInfo propertyInfo, ILGenerator generator)
+    internal static void GenerateCreateSetPropertyIL(PropertyInfo property, ILGenerator generator)
     {
-        var setMethod = propertyInfo.SetMethod;
+        var setMethod = property.SetMethod;
         if (!setMethod.IsStatic)
         {
-            generator.PushInstance(propertyInfo.DeclaringType);
+            generator.PushInstance(property.DeclaringType);
         }
 
         generator.Emit(OpCodes.Ldarg_1);
-        generator.UnboxIfNeeded(propertyInfo.PropertyType);
+        generator.UnboxIfNeeded(property.PropertyType);
         generator.CallMethod(setMethod);
         generator.Return();
     }

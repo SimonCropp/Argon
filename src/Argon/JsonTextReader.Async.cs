@@ -1191,11 +1191,9 @@ public partial class JsonTextReader
                             {
                                 return ParseNumberNegativeInfinity(readType);
                             }
-                            else
-                            {
-                                await ParseNumberAsync(readType, cancellationToken).ConfigureAwait(false);
-                                return Value;
-                            }
+
+                            await ParseNumberAsync(readType, cancellationToken).ConfigureAwait(false);
+                            return Value;
                         case '.':
                         case '0':
                         case '1':
@@ -1334,11 +1332,9 @@ public partial class JsonTextReader
                             {
                                 return await ParseNumberNegativeInfinityAsync(readType, cancellationToken).ConfigureAwait(false);
                             }
-                            else
-                            {
-                                await ParseNumberAsync(readType, cancellationToken).ConfigureAwait(false);
-                                return Value;
-                            }
+
+                            await ParseNumberAsync(readType, cancellationToken).ConfigureAwait(false);
+                            return Value;
                         case '.':
                         case '0':
                         case '1':

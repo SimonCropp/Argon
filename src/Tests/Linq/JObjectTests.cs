@@ -2028,14 +2028,14 @@ Parameter name: arrayIndex",
             }
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
             throw new NotSupportedException("This custom converter only supportes serialization and not deserialization.");
         }
 
         public override bool CanRead => false;
 
-        public override bool CanConvert(Type objectType)
+        public override bool CanConvert(Type type)
         {
             return true;
         }

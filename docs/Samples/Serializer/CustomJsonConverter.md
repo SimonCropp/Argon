@@ -33,16 +33,16 @@ public class KeysJsonConverter : JsonConverter
         }
     }
 
-    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
     {
         throw new NotImplementedException("Unnecessary because CanRead is false. The type will skip the converter.");
     }
 
     public override bool CanRead => false;
 
-    public override bool CanConvert(Type objectType)
+    public override bool CanConvert(Type type)
     {
-        return _types.Any(t => t == objectType);
+        return _types.Any(t => t == type);
     }
 }
 

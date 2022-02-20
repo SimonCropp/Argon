@@ -111,23 +111,23 @@ public class LineInfoConverter : JsonConverter
         throw new NotImplementedException("Converter is not writable. Method should not be invoked");
     }
 
-    public override bool CanConvert(Type objectType)
+    public override bool CanConvert(Type type)
     {
 #if NET5_0_OR_GREATER
-            return typeof(JsonLineInfo).GetTypeInfo().IsAssignableFrom(objectType.GetTypeInfo());
+            return typeof(JsonLineInfo).GetTypeInfo().IsAssignableFrom(type.GetTypeInfo());
 #else
-        return typeof(JsonLineInfo).IsAssignableFrom(objectType);
+        return typeof(JsonLineInfo).IsAssignableFrom(type);
 #endif
     }
 
-    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
     {
         if (reader.TokenType == JsonToken.Null)
         {
             return null;
         }
 
-        var lineInfoObject = Activator.CreateInstance(objectType) as JsonLineInfo;
+        var lineInfoObject = Activator.CreateInstance(type) as JsonLineInfo;
         serializer.Populate(reader, lineInfoObject);
 
         var jsonLineInfo = reader as IJsonLineInfo;

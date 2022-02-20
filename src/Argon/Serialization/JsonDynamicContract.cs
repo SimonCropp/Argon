@@ -87,11 +87,9 @@ public class JsonDynamicContract : JsonContainerContract
             value = null;
             return false;
         }
-        else
-        {
-            value = result;
-            return true;
-        }
+
+        value = result;
+        return true;
     }
 
     internal bool TrySetMember(IDynamicMetaObjectProvider dynamicProvider, string name, object? value)

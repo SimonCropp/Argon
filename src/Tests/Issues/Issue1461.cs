@@ -74,9 +74,9 @@ public class Issue1461 : TestFixtureBase
 
     class IdJsonConverter : JsonConverter
     {
-        public override bool CanConvert(Type objectType) => typeof(Id) == objectType;
+        public override bool CanConvert(Type type) => typeof(Id) == type;
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
             if (reader.TokenType == JsonToken.Integer)
                 return new Id((long)reader.Value);

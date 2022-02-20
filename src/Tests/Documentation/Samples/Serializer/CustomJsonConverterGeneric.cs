@@ -37,7 +37,7 @@ public class CustomJsonConverterGeneric : TestFixtureBase
             writer.WriteValue(value.ToString());
         }
 
-        public override Version ReadJson(JsonReader reader, Type objectType, Version existingValue, bool hasExistingValue, JsonSerializer serializer)
+        public override Version ReadJson(JsonReader reader, Type type, Version existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
             var s = (string)reader.Value;
 

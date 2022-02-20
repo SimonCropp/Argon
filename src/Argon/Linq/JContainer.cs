@@ -621,12 +621,10 @@ public abstract partial class JContainer : JToken, IList<JToken>
 
             return true;
         }
-        else
-        {
-            var item = CreateFromContent(content);
 
-            return InsertItem(index, item, skipParentCheck);
-        }
+        var item = CreateFromContent(content);
+
+        return InsertItem(index, item, skipParentCheck);
     }
 
     internal static JToken CreateFromContent(object? content)
@@ -858,7 +856,8 @@ public abstract partial class JContainer : JToken, IList<JToken>
             {
                 return null;
             }
-            else if (duplicatePropertyNameHandling == DuplicatePropertyNameHandling.Error)
+
+            if (duplicatePropertyNameHandling == DuplicatePropertyNameHandling.Error)
             {
                 throw JsonReaderException.Create(r, $"Property with the name '{propertyName}' already exists in the current JSON object.");
             }

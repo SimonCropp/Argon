@@ -67,11 +67,11 @@ public class DataSetConverter : JsonConverter
     /// Reads the JSON representation of the object.
     /// </summary>
     /// <param name="reader">The <see cref="JsonReader"/> to read from.</param>
-    /// <param name="objectType">Type of the object.</param>
+    /// <param name="type">Type of the object.</param>
     /// <param name="existingValue">The existing value of object being read.</param>
     /// <param name="serializer">The calling serializer.</param>
     /// <returns>The object value.</returns>
-    public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+    public override object? ReadJson(JsonReader reader, Type type, object? existingValue, JsonSerializer serializer)
     {
         if (reader.TokenType == JsonToken.Null)
         {
@@ -79,9 +79,9 @@ public class DataSetConverter : JsonConverter
         }
 
         // handle typed datasets
-        var ds = objectType == typeof(DataSet)
+        var ds = type == typeof(DataSet)
             ? new DataSet()
-            : (DataSet)Activator.CreateInstance(objectType);
+            : (DataSet)Activator.CreateInstance(type);
 
         var converter = new DataTableConverter();
 

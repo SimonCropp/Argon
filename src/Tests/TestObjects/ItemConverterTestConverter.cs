@@ -32,12 +32,12 @@ public class ItemConverterTestConverter : JsonConverter
         writer.WriteValue("X");
     }
 
-    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
     {
         return "X";
     }
 
-    public override bool CanConvert(Type objectType)
+    public override bool CanConvert(Type type)
     {
         return true;
     }

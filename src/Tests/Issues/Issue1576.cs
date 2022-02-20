@@ -89,17 +89,17 @@ public class Issue1576 : TestFixtureBase
             throw new NotSupportedException();
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
             var token = JToken.Load(reader);
             if (token.Type == JTokenType.Array)
             {
-                return token.ToObject(objectType, serializer);
+                return token.ToObject(type, serializer);
             }
 
             var array = new JArray {token};
 
-            var list = array.ToObject(objectType, serializer) as IEnumerable;
+            var list = array.ToObject(type, serializer) as IEnumerable;
             var existing = existingValue as IList;
 
             if (list != null && existing != null)
@@ -113,9 +113,9 @@ public class Issue1576 : TestFixtureBase
             return list;
         }
 
-        public override bool CanConvert(Type objectType)
+        public override bool CanConvert(Type type)
         {
-            return typeof(ICollection).IsAssignableFrom(objectType);
+            return typeof(ICollection).IsAssignableFrom(type);
         }
     }
 

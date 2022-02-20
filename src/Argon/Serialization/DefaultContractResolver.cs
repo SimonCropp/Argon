@@ -141,7 +141,8 @@ public class DefaultContractResolver : IContractResolver
 
             return !ReflectionUtils.IsByRefLikeType(property.PropertyType);
         }
-        else if (member is FieldInfo field)
+
+        if (member is FieldInfo field)
         {
             return !ReflectionUtils.IsByRefLikeType(field.FieldType);
         }
@@ -152,27 +153,27 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Gets the serializable members for the type.
     /// </summary>
-    /// <param name="objectType">The type to get serializable members for.</param>
+    /// <param name="type">The type to get serializable members for.</param>
     /// <returns>The serializable members for the type.</returns>
-    protected virtual List<MemberInfo> GetSerializableMembers(Type objectType)
+    protected virtual List<MemberInfo> GetSerializableMembers(Type type)
     {
         var ignoreSerializableAttribute = IgnoreSerializableAttribute;
 
-        var memberSerialization = JsonTypeReflector.GetObjectMemberSerialization(objectType, ignoreSerializableAttribute);
+        var memberSerialization = JsonTypeReflector.GetObjectMemberSerialization(type, ignoreSerializableAttribute);
 
         // Exclude index properties
         // Do not filter ByRef types here because accessing FieldType/PropertyType can trigger additional assembly loads
-        var allMembers = ReflectionUtils.GetFieldsAndProperties(objectType, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
+        var allMembers = ReflectionUtils.GetFieldsAndProperties(type, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
             .Where(m => m is not PropertyInfo p || !ReflectionUtils.IsIndexedProperty(p));
 
         var serializableMembers = new List<MemberInfo>();
 
         if (memberSerialization != MemberSerialization.Fields)
         {
-            var dataContractAttribute = JsonTypeReflector.GetDataContractAttribute(objectType);
+            var dataContractAttribute = JsonTypeReflector.GetDataContractAttribute(type);
 
             // Exclude index properties and ByRef types
-            var defaultMembers = ReflectionUtils.GetFieldsAndProperties(objectType,BindingFlags.Instance | BindingFlags.Public)
+            var defaultMembers = ReflectionUtils.GetFieldsAndProperties(type,BindingFlags.Instance | BindingFlags.Public)
                 .Where(FilterMembers).ToList();
 
             foreach (var member in allMembers)
@@ -211,7 +212,7 @@ public class DefaultContractResolver : IContractResolver
 
             // don't include TargetSite on non-serializable exceptions
             // MemberBase is problematic to serialize. Large, self referencing instances, etc
-            if (typeof(Exception).IsAssignableFrom(objectType))
+            if (typeof(Exception).IsAssignableFrom(type))
             {
                 serializableMembers = serializableMembers.Where(m => !string.Equals(m.Name, "TargetSite", StringComparison.Ordinal)).ToList();
             }
@@ -234,11 +235,11 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Creates a <see cref="JsonObjectContract"/> for the given type.
     /// </summary>
-    /// <param name="objectType">Type of the object.</param>
+    /// <param name="type">Type of the object.</param>
     /// <returns>A <see cref="JsonObjectContract"/> for the given type.</returns>
-    protected virtual JsonObjectContract CreateObjectContract(Type objectType)
+    protected virtual JsonObjectContract CreateObjectContract(Type type)
     {
-        var contract = new JsonObjectContract(objectType);
+        var contract = new JsonObjectContract(type);
         InitializeContract(contract);
 
         var ignoreSerializableAttribute = IgnoreSerializableAttribute;
@@ -315,7 +316,7 @@ public class DefaultContractResolver : IContractResolver
 
         // serializing DirectoryInfo without ISerializable will stackoverflow
         // https://github.com/JamesNK/Newtonsoft.Json/issues/1541
-        if (Array.IndexOf(BlacklistedTypeNames, objectType.FullName) != -1)
+        if (Array.IndexOf(BlacklistedTypeNames, type.FullName) != -1)
         {
             contract.OnSerializingCallbacks.Add(ThrowUnableToSerializeError);
         }
@@ -490,9 +491,9 @@ public class DefaultContractResolver : IContractResolver
         }
     }
 
-    static ConstructorInfo? GetAttributeConstructor(Type objectType)
+    static ConstructorInfo? GetAttributeConstructor(Type type)
     {
-        var en = objectType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Where(c => c.IsDefined(typeof(JsonConstructorAttribute), true)).GetEnumerator();
+        var en = type.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Where(c => c.IsDefined(typeof(JsonConstructorAttribute), true)).GetEnumerator();
 
         if (en.MoveNext())
         {
@@ -506,17 +507,17 @@ public class DefaultContractResolver : IContractResolver
         }
 
         // little hack to get Version objects to deserialize correctly
-        if (objectType == typeof(Version))
+        if (type == typeof(Version))
         {
-            return objectType.GetConstructor(new[] { typeof(int), typeof(int), typeof(int), typeof(int) });
+            return type.GetConstructor(new[] { typeof(int), typeof(int), typeof(int), typeof(int) });
         }
 
         return null;
     }
 
-    static ConstructorInfo? GetImmutableConstructor(Type objectType, JsonPropertyCollection memberProperties)
+    static ConstructorInfo? GetImmutableConstructor(Type type, JsonPropertyCollection memberProperties)
     {
-        IEnumerable<ConstructorInfo> constructors = objectType.GetConstructors();
+        IEnumerable<ConstructorInfo> constructors = type.GetConstructors();
         var en = constructors.GetEnumerator();
         if (en.MoveNext())
         {
@@ -545,9 +546,9 @@ public class DefaultContractResolver : IContractResolver
         return null;
     }
 
-    static ConstructorInfo? GetParameterizedConstructor(Type objectType)
+    static ConstructorInfo? GetParameterizedConstructor(Type type)
     {
-        var constructors = objectType.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
+        var constructors = type.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
         if (constructors.Length == 1)
         {
             return constructors[0];
@@ -656,11 +657,11 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Resolves the default <see cref="JsonConverter" /> for the contract.
     /// </summary>
-    /// <param name="objectType">Type of the object.</param>
+    /// <param name="type">Type of the object.</param>
     /// <returns>The contract's default <see cref="JsonConverter" />.</returns>
-    protected virtual JsonConverter? ResolveContractConverter(Type objectType)
+    protected virtual JsonConverter? ResolveContractConverter(Type type)
     {
-        return JsonTypeReflector.GetJsonConverter(objectType);
+        return JsonTypeReflector.GetJsonConverter(type);
     }
 
     static Func<object> GetDefaultCreator(Type createdType)
@@ -868,14 +869,14 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Creates a <see cref="JsonDictionaryContract"/> for the given type.
     /// </summary>
-    /// <param name="objectType">Type of the object.</param>
+    /// <param name="type">Type of the object.</param>
     /// <returns>A <see cref="JsonDictionaryContract"/> for the given type.</returns>
-    protected virtual JsonDictionaryContract CreateDictionaryContract(Type objectType)
+    protected virtual JsonDictionaryContract CreateDictionaryContract(Type type)
     {
-        var contract = new JsonDictionaryContract(objectType);
+        var contract = new JsonDictionaryContract(type);
         InitializeContract(contract);
 
-        var containerAttribute = JsonTypeReflector.GetAttribute<JsonContainerAttribute>(objectType);
+        var containerAttribute = JsonTypeReflector.GetAttribute<JsonContainerAttribute>(type);
         if (containerAttribute?.NamingStrategyType != null)
         {
             var namingStrategy = JsonTypeReflector.GetContainerNamingStrategy(containerAttribute)!;
@@ -917,11 +918,11 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Creates a <see cref="JsonArrayContract"/> for the given type.
     /// </summary>
-    /// <param name="objectType">Type of the object.</param>
+    /// <param name="type">Type of the object.</param>
     /// <returns>A <see cref="JsonArrayContract"/> for the given type.</returns>
-    protected virtual JsonArrayContract CreateArrayContract(Type objectType)
+    protected virtual JsonArrayContract CreateArrayContract(Type type)
     {
-        var contract = new JsonArrayContract(objectType);
+        var contract = new JsonArrayContract(type);
         InitializeContract(contract);
 
         var overrideConstructor = GetAttributeConstructor(contract.NonNullableUnderlyingType);
@@ -955,11 +956,11 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Creates a <see cref="JsonPrimitiveContract"/> for the given type.
     /// </summary>
-    /// <param name="objectType">Type of the object.</param>
+    /// <param name="type">Type of the object.</param>
     /// <returns>A <see cref="JsonPrimitiveContract"/> for the given type.</returns>
-    protected virtual JsonPrimitiveContract CreatePrimitiveContract(Type objectType)
+    protected virtual JsonPrimitiveContract CreatePrimitiveContract(Type type)
     {
-        var contract = new JsonPrimitiveContract(objectType);
+        var contract = new JsonPrimitiveContract(type);
         InitializeContract(contract);
 
         return contract;
@@ -968,11 +969,11 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Creates a <see cref="JsonLinqContract"/> for the given type.
     /// </summary>
-    /// <param name="objectType">Type of the object.</param>
+    /// <param name="type">Type of the object.</param>
     /// <returns>A <see cref="JsonLinqContract"/> for the given type.</returns>
-    protected virtual JsonLinqContract CreateLinqContract(Type objectType)
+    protected virtual JsonLinqContract CreateLinqContract(Type type)
     {
-        var contract = new JsonLinqContract(objectType);
+        var contract = new JsonLinqContract(type);
         InitializeContract(contract);
 
         return contract;
@@ -981,11 +982,11 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Creates a <see cref="JsonISerializableContract"/> for the given type.
     /// </summary>
-    /// <param name="objectType">Type of the object.</param>
+    /// <param name="type">Type of the object.</param>
     /// <returns>A <see cref="JsonISerializableContract"/> for the given type.</returns>
-    protected virtual JsonISerializableContract CreateISerializableContract(Type objectType)
+    protected virtual JsonISerializableContract CreateISerializableContract(Type type)
     {
-        var contract = new JsonISerializableContract(objectType);
+        var contract = new JsonISerializableContract(type);
         InitializeContract(contract);
 
         if (contract.IsInstantiable)
@@ -1005,14 +1006,14 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Creates a <see cref="JsonDynamicContract"/> for the given type.
     /// </summary>
-    /// <param name="objectType">Type of the object.</param>
+    /// <param name="type">Type of the object.</param>
     /// <returns>A <see cref="JsonDynamicContract"/> for the given type.</returns>
-    protected virtual JsonDynamicContract CreateDynamicContract(Type objectType)
+    protected virtual JsonDynamicContract CreateDynamicContract(Type type)
     {
-        var contract = new JsonDynamicContract(objectType);
+        var contract = new JsonDynamicContract(type);
         InitializeContract(contract);
 
-        var containerAttribute = JsonTypeReflector.GetAttribute<JsonContainerAttribute>(objectType);
+        var containerAttribute = JsonTypeReflector.GetAttribute<JsonContainerAttribute>(type);
         if (containerAttribute?.NamingStrategyType != null)
         {
             var namingStrategy = JsonTypeReflector.GetContainerNamingStrategy(containerAttribute)!;
@@ -1023,7 +1024,7 @@ public class DefaultContractResolver : IContractResolver
             contract.PropertyNameResolver = ResolveDictionaryKey;
         }
 
-        contract.Properties.AddRange(CreateProperties(objectType, MemberSerialization.OptOut));
+        contract.Properties.AddRange(CreateProperties(type, MemberSerialization.OptOut));
 
         return contract;
     }
@@ -1031,11 +1032,11 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Creates a <see cref="JsonStringContract"/> for the given type.
     /// </summary>
-    /// <param name="objectType">Type of the object.</param>
+    /// <param name="type">Type of the object.</param>
     /// <returns>A <see cref="JsonStringContract"/> for the given type.</returns>
-    protected virtual JsonStringContract CreateStringContract(Type objectType)
+    protected virtual JsonStringContract CreateStringContract(Type type)
     {
-        var contract = new JsonStringContract(objectType);
+        var contract = new JsonStringContract(type);
         InitializeContract(contract);
 
         return contract;
@@ -1044,15 +1045,15 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Determines which contract type is created for the given type.
     /// </summary>
-    /// <param name="objectType">Type of the object.</param>
+    /// <param name="type">Type of the object.</param>
     /// <returns>A <see cref="JsonContract"/> for the given type.</returns>
-    protected virtual JsonContract CreateContract(Type objectType)
+    protected virtual JsonContract CreateContract(Type type)
     {
-        var t = ReflectionUtils.EnsureNotByRefType(objectType);
+        var t = ReflectionUtils.EnsureNotByRefType(type);
 
         if (IsJsonPrimitiveType(t))
         {
-            return CreatePrimitiveContract(objectType);
+            return CreatePrimitiveContract(type);
         }
 
         t = ReflectionUtils.EnsureNotNullableType(t);
@@ -1060,47 +1061,47 @@ public class DefaultContractResolver : IContractResolver
 
         if (containerAttribute is JsonObjectAttribute)
         {
-            return CreateObjectContract(objectType);
+            return CreateObjectContract(type);
         }
 
         if (containerAttribute is JsonArrayAttribute)
         {
-            return CreateArrayContract(objectType);
+            return CreateArrayContract(type);
         }
 
         if (containerAttribute is JsonDictionaryAttribute)
         {
-            return CreateDictionaryContract(objectType);
+            return CreateDictionaryContract(type);
         }
 
         if (t == typeof(JToken) || t.IsSubclassOf(typeof(JToken)))
         {
-            return CreateLinqContract(objectType);
+            return CreateLinqContract(type);
         }
 
         if (CollectionUtils.IsDictionaryType(t))
         {
-            return CreateDictionaryContract(objectType);
+            return CreateDictionaryContract(type);
         }
 
         if (typeof(IEnumerable).IsAssignableFrom(t))
         {
-            return CreateArrayContract(objectType);
+            return CreateArrayContract(type);
         }
 
         if (CanConvertToString(t))
         {
-            return CreateStringContract(objectType);
+            return CreateStringContract(type);
         }
 
         if (!IgnoreSerializableInterface && typeof(ISerializable).IsAssignableFrom(t) && JsonTypeReflector.IsSerializable(t))
         {
-            return CreateISerializableContract(objectType);
+            return CreateISerializableContract(type);
         }
 
         if (typeof(IDynamicMetaObjectProvider).IsAssignableFrom(t))
         {
-            return CreateDynamicContract(objectType);
+            return CreateDynamicContract(type);
         }
         // tested last because it is not possible to automatically deserialize custom IConvertible types
         if (IsIConvertible(t))
@@ -1108,7 +1109,7 @@ public class DefaultContractResolver : IContractResolver
             return CreatePrimitiveContract(t);
         }
 
-        return CreateObjectContract(objectType);
+        return CreateObjectContract(type);
     }
 
     internal static bool IsJsonPrimitiveType(Type t)
@@ -1307,12 +1308,12 @@ public class DefaultContractResolver : IContractResolver
     {
         var dataContractAttribute = JsonTypeReflector.GetDataContractAttribute(declaringType);
 
-        var memberInfo = attributeProvider as MemberInfo;
+        var member = attributeProvider as MemberInfo;
 
         DataMemberAttribute? dataMemberAttribute;
-        if (dataContractAttribute != null && memberInfo != null)
+        if (dataContractAttribute != null && member != null)
         {
-            dataMemberAttribute = JsonTypeReflector.GetDataMemberAttribute(memberInfo);
+            dataMemberAttribute = JsonTypeReflector.GetDataMemberAttribute(member);
         }
         else
         {

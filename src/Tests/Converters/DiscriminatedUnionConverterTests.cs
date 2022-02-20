@@ -41,16 +41,16 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
             writer.WriteValue(d * 2);
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
             var d = (double)reader.Value;
 
             return d / 2;
         }
 
-        public override bool CanConvert(Type objectType)
+        public override bool CanConvert(Type type)
         {
-            return objectType == typeof(double);
+            return type == typeof(double);
         }
     }
 

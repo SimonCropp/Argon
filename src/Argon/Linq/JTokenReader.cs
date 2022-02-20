@@ -78,10 +78,8 @@ public class JTokenReader : JsonReader, IJsonLineInfo
             {
                 return ReadInto(container);
             }
-            else
-            {
-                return ReadOver(CurrentToken);
-            }
+
+            return ReadOver(CurrentToken);
         }
 
         // The current value could already be the root value if it is a comment
@@ -112,12 +110,10 @@ public class JTokenReader : JsonReader, IJsonLineInfo
 
             return SetEnd(t.Parent);
         }
-        else
-        {
-            CurrentToken = next;
-            SetToken(CurrentToken);
-            return true;
-        }
+
+        CurrentToken = next;
+        SetToken(CurrentToken);
+        return true;
     }
 
     bool ReadToEnd()
@@ -151,29 +147,25 @@ public class JTokenReader : JsonReader, IJsonLineInfo
         {
             return SetEnd(c);
         }
-        else
-        {
-            SetToken(firstChild);
-            CurrentToken = firstChild;
-            _parent = c;
-            return true;
-        }
+
+        SetToken(firstChild);
+        CurrentToken = firstChild;
+        _parent = c;
+        return true;
     }
 
     bool SetEnd(JContainer c)
     {
         var endToken = GetEndToken(c);
-        if (endToken != null)
-        {
-            SetToken(endToken.GetValueOrDefault());
-            CurrentToken = c;
-            _parent = c;
-            return true;
-        }
-        else
+        if (endToken == null)
         {
             return ReadOver(c);
         }
+
+        SetToken(endToken.GetValueOrDefault());
+        CurrentToken = c;
+        _parent = c;
+        return true;
     }
 
     void SetToken(JToken token)

@@ -205,14 +205,12 @@ class JsonSerializerProxy : JsonSerializer
 
     internal JsonSerializerInternalBase GetInternalSerializer()
     {
-        if (_serializerReader != null)
-        {
-            return _serializerReader;
-        }
-        else
+        if (_serializerReader == null)
         {
             return _serializerWriter!;
         }
+        
+        return _serializerReader;
     }
 
     public JsonSerializerProxy(JsonSerializerInternalReader serializerReader)
@@ -227,14 +225,14 @@ class JsonSerializerProxy : JsonSerializer
         _serializer = serializerWriter.Serializer;
     }
 
-    internal override object? DeserializeInternal(JsonReader reader, Type? objectType)
+    internal override object? DeserializeInternal(JsonReader reader, Type? type)
     {
         if (_serializerReader == null)
         {
-            return _serializer.Deserialize(reader, objectType);
+            return _serializer.Deserialize(reader, type);
         }
         
-        return _serializerReader.Deserialize(reader, objectType, false);
+        return _serializerReader.Deserialize(reader, type, false);
     }
 
     internal override void PopulateInternal(JsonReader reader, object target)

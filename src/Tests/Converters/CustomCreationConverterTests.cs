@@ -104,7 +104,7 @@ public class CustomCreationConverterTests : TestFixtureBase
 
     public class MyThingConverter : CustomCreationConverter<IThing>
     {
-        public override IThing Create(Type objectType)
+        public override IThing Create(Type type)
         {
             return new MyThing();
         }
@@ -165,7 +165,7 @@ public class CustomCreationConverterTests : TestFixtureBase
 
     internal class DecimalRangeConverter : CustomCreationConverter<IRange<decimal>>
     {
-        public override IRange<decimal> Create(Type objectType)
+        public override IRange<decimal> Create(Type type)
         {
             return new Range<decimal>();
         }
@@ -173,7 +173,7 @@ public class CustomCreationConverterTests : TestFixtureBase
 
     internal class IntRangeConverter : CustomCreationConverter<IRange<int>>
     {
-        public override IRange<int> Create(Type objectType)
+        public override IRange<int> Create(Type type)
         {
             return new Range<int>();
         }

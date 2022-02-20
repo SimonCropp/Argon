@@ -212,7 +212,8 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
         {
             return 0m.CompareTo(Math.Abs(d1 - Math.Truncate(d1)));
         }
-        else if (i2 is double or float)
+
+        if (i2 is double or float)
         {
             var d = Convert.ToDouble(i2, CultureInfo.InvariantCulture);
             return 0d.CompareTo(Math.Abs(d - Math.Truncate(d)));
@@ -252,14 +253,12 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                 {
                     return Convert.ToDecimal(objA, CultureInfo.InvariantCulture).CompareTo(Convert.ToDecimal(objB, CultureInfo.InvariantCulture));
                 }
-                else if (objA is float || objB is float || objA is double || objB is double)
+
+                if (objA is float || objB is float || objA is double || objB is double)
                 {
                     return CompareFloat(objA, objB);
                 }
-                else
-                {
-                    return Convert.ToInt64(objA, CultureInfo.InvariantCulture).CompareTo(Convert.ToInt64(objB, CultureInfo.InvariantCulture));
-                }
+                return Convert.ToInt64(objA, CultureInfo.InvariantCulture).CompareTo(Convert.ToInt64(objB, CultureInfo.InvariantCulture));
             }
             case JTokenType.Float:
             {
@@ -566,55 +565,62 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
         {
             return JTokenType.Null;
         }
-        else if (value == DBNull.Value)
+
+        if (value == DBNull.Value)
         {
             return JTokenType.Null;
         }
-        else if (value is string)
+
+        if (value is string)
         {
             return GetStringValueType(current);
         }
-        else if (value is long or int or short or sbyte or ulong or uint or ushort or byte)
+
+        if (value is long or int or short or sbyte or ulong or uint or ushort or byte)
         {
             return JTokenType.Integer;
         }
-        else if (value is Enum)
+
+        if (value is Enum)
         {
             return JTokenType.Integer;
         }
-        else if (value is BigInteger)
+
+        if (value is BigInteger)
         {
             return JTokenType.Integer;
         }
-        else if (value is double or float or decimal)
+
+        if (value is double or float or decimal)
         {
             return JTokenType.Float;
         }
-        else if (value is DateTime)
+
+        if (value is DateTime)
         {
             return JTokenType.Date;
         }
-        else if (value is DateTimeOffset)
+        if (value is DateTimeOffset)
         {
             return JTokenType.Date;
         }
-        else if (value is byte[])
+        if (value is byte[])
         {
             return JTokenType.Bytes;
         }
-        else if (value is bool)
+        if (value is bool)
         {
             return JTokenType.Boolean;
         }
-        else if (value is Guid)
+        if (value is Guid)
         {
             return JTokenType.Guid;
         }
-        else if (value is Uri)
+        if (value is Uri)
         {
             return JTokenType.Uri;
         }
-        else if (value is TimeSpan)
+        if (value is TimeSpan)
         {
             return JTokenType.TimeSpan;
         }
@@ -893,10 +899,8 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
         {
             return formattable.ToString(format, formatProvider);
         }
-        else
-        {
-            return _value.ToString();
-        }
+
+        return _value.ToString();
     }
 
     /// <summary>

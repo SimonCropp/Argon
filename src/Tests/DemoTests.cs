@@ -105,13 +105,13 @@ public class DemoTests : TestFixtureBase
             writer.WriteValue($"#{hexString}");
         }
 
-        //public override object ReadJson(JsonReader reader, Type objectType,
+        //public override object ReadJson(JsonReader reader, Type type,
         //    object existingValue, JsonSerializer serializer)
         //{
         //    throw new NotImplementedException();
         //}
 
-        public override object ReadJson(JsonReader reader, Type objectType,
+        public override object ReadJson(JsonReader reader, Type type,
             object existingValue, JsonSerializer serializer)
         {
             // get hex string
@@ -127,9 +127,9 @@ public class DemoTests : TestFixtureBase
             };
         }
 
-        public override bool CanConvert(Type objectType)
+        public override bool CanConvert(Type type)
         {
-            return objectType == typeof(HtmlColor);
+            return type == typeof(HtmlColor);
         }
     }
 

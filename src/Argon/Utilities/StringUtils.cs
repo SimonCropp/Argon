@@ -97,12 +97,10 @@ static class StringUtils
         {
             return caseInsensitiveResults.SingleOrDefault();
         }
-        else
-        {
-            // multiple results returned. now filter using case sensitivity
-            var caseSensitiveResults = source.Where(s => string.Equals(valueSelector(s), testValue, StringComparison.Ordinal));
-            return caseSensitiveResults.SingleOrDefault();
-        }
+
+        // multiple results returned. now filter using case sensitivity
+        var caseSensitiveResults = source.Where(s => string.Equals(valueSelector(s), testValue, StringComparison.Ordinal));
+        return caseSensitiveResults.SingleOrDefault();
     }
 
     public static string ToCamelCase(string s)

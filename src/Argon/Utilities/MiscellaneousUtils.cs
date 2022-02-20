@@ -52,14 +52,13 @@ static class MiscellaneousUtils
             {
                 return Convert.ToDecimal(objA, CultureInfo.CurrentCulture).Equals(Convert.ToDecimal(objB, CultureInfo.CurrentCulture));
             }
-            else if (objA is double or float or decimal && objB is double or float or decimal)
+
+            if (objA is double or float or decimal && objB is double or float or decimal)
             {
                 return MathUtils.ApproxEquals(Convert.ToDouble(objA, CultureInfo.CurrentCulture), Convert.ToDouble(objB, CultureInfo.CurrentCulture));
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
 
         return objA.Equals(objB);

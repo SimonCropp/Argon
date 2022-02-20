@@ -21,7 +21,7 @@ public class Employee : Person
 
 public class PersonConverter : CustomCreationConverter<Person>
 {
-    public override Person Create(Type objectType)
+    public override Person Create(Type type)
     {
         return new Employee();
     }

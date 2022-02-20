@@ -38,14 +38,14 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
     {
     }
 
-    public void Serialize(JsonWriter jsonWriter, object? value, Type? objectType)
+    public void Serialize(JsonWriter jsonWriter, object? value, Type? type)
     {
         if (jsonWriter == null)
         {
             throw new ArgumentNullException(nameof(jsonWriter));
         }
 
-        _rootType = objectType;
+        _rootType = type;
         _rootLevel = _serializeStack.Count + 1;
 
         var contract = GetContractSafe(value);
@@ -1122,16 +1122,15 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 }
             }
         }
-        else if (TryConvertToString(name, name.GetType(), out var propertyName))
+
+        if (TryConvertToString(name, name.GetType(), out var propertyName))
         {
             escape = true;
             return propertyName;
         }
-        else
-        {
-            escape = true;
-            return name.ToString();
-        }
+
+        escape = true;
+        return name.ToString();
     }
 
     void HandleError(JsonWriter writer, int initialDepth)

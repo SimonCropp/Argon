@@ -67,18 +67,18 @@ public class UnixDateTimeConverter : DateTimeConverterBase
     /// Reads the JSON representation of the object.
     /// </summary>
     /// <param name="reader">The <see cref="JsonReader"/> to read from.</param>
-    /// <param name="objectType">Type of the object.</param>
+    /// <param name="type">Type of the object.</param>
     /// <param name="existingValue">The existing property value of the JSON that is being converted.</param>
     /// <param name="serializer">The calling serializer.</param>
     /// <returns>The object value.</returns>
-    public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+    public override object? ReadJson(JsonReader reader, Type type, object? existingValue, JsonSerializer serializer)
     {
-        var nullable = ReflectionUtils.IsNullable(objectType);
+        var nullable = ReflectionUtils.IsNullable(type);
         if (reader.TokenType == JsonToken.Null)
         {
             if (!nullable)
             {
-                throw JsonSerializationException.Create(reader, $"Cannot convert null value to {objectType}.");
+                throw JsonSerializationException.Create(reader, $"Cannot convert null value to {type}.");
             }
 
             return null;
@@ -94,7 +94,7 @@ public class UnixDateTimeConverter : DateTimeConverterBase
         {
             if (!long.TryParse((string)reader.Value!, out seconds))
             {
-                throw JsonSerializationException.Create(reader, $"Cannot convert invalid value to {objectType}.");
+                throw JsonSerializationException.Create(reader, $"Cannot convert invalid value to {type}.");
             }
         }
         else
@@ -107,8 +107,8 @@ public class UnixDateTimeConverter : DateTimeConverterBase
             var d = UnixEpoch.AddSeconds(seconds);
 
             var t = nullable
-                ? Nullable.GetUnderlyingType(objectType)
-                : objectType;
+                ? Nullable.GetUnderlyingType(type)
+                : type;
             if (t == typeof(DateTimeOffset))
             {
                 return new DateTimeOffset(d, TimeSpan.Zero);
@@ -116,6 +116,6 @@ public class UnixDateTimeConverter : DateTimeConverterBase
             return d;
         }
 
-        throw JsonSerializationException.Create(reader, $"Cannot convert value that is before Unix epoch of 00:00:00 UTC on 1 January 1970 to {objectType}.");
+        throw JsonSerializationException.Create(reader, $"Cannot convert value that is before Unix epoch of 00:00:00 UTC on 1 January 1970 to {type}.");
     }
 }

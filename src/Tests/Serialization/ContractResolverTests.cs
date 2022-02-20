@@ -74,14 +74,14 @@ public class Book
 
 public class IPersonContractResolver : DefaultContractResolver
 {
-    protected override JsonContract CreateContract(Type objectType)
+    protected override JsonContract CreateContract(Type type)
     {
-        if (objectType == typeof(Employee))
+        if (type == typeof(Employee))
         {
-            objectType = typeof(IPerson);
+            type = typeof(IPerson);
         }
 
-        return base.CreateContract(objectType);
+        return base.CreateContract(type);
     }
 }
 
@@ -617,9 +617,9 @@ public class ContractResolverTests : TestFixtureBase
 //
 //     public class IncludeCompilerGeneratedResolver : DefaultContractResolver
 //     {
-//         protected override List<MemberInfo> GetSerializableMembers(Type objectType)
+//         protected override List<MemberInfo> GetSerializableMembers(Type type)
 //         {
-//             var serializableMembers = ReflectionUtils.GetFieldsAndProperties(objectType, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public).ToList();
+//             var serializableMembers = ReflectionUtils.GetFieldsAndProperties(type, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public).ToList();
 //             return serializableMembers;
 //         }
 //     }

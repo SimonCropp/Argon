@@ -46,18 +46,18 @@ public abstract class CustomCreationConverter<T> : JsonConverter
     /// Reads the JSON representation of the object.
     /// </summary>
     /// <param name="reader">The <see cref="JsonReader"/> to read from.</param>
-    /// <param name="objectType">Type of the object.</param>
+    /// <param name="type">Type of the object.</param>
     /// <param name="existingValue">The existing value of object being read.</param>
     /// <param name="serializer">The calling serializer.</param>
     /// <returns>The object value.</returns>
-    public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+    public override object? ReadJson(JsonReader reader, Type type, object? existingValue, JsonSerializer serializer)
     {
         if (reader.TokenType == JsonToken.Null)
         {
             return null;
         }
 
-        var value = Create(objectType);
+        var value = Create(type);
         if (value == null)
         {
             throw new JsonSerializationException("No object created.");
@@ -70,20 +70,20 @@ public abstract class CustomCreationConverter<T> : JsonConverter
     /// <summary>
     /// Creates an object which will then be populated by the serializer.
     /// </summary>
-    /// <param name="objectType">Type of the object.</param>
+    /// <param name="type">Type of the object.</param>
     /// <returns>The created object.</returns>
-    public abstract T Create(Type objectType);
+    public abstract T Create(Type type);
 
     /// <summary>
     /// Determines whether this instance can convert the specified object type.
     /// </summary>
-    /// <param name="objectType">Type of the object.</param>
+    /// <param name="type">Type of the object.</param>
     /// <returns>
     /// 	<c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
     /// </returns>
-    public override bool CanConvert(Type objectType)
+    public override bool CanConvert(Type type)
     {
-        return typeof(T).IsAssignableFrom(objectType);
+        return typeof(T).IsAssignableFrom(type);
     }
 
     /// <summary>

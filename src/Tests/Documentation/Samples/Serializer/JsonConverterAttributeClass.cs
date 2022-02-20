@@ -39,7 +39,7 @@ public class JsonConverterAttributeClass : TestFixtureBase
             writer.WriteValue(user.UserName);
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
             var user = new User
             {
@@ -49,9 +49,9 @@ public class JsonConverterAttributeClass : TestFixtureBase
             return user;
         }
 
-        public override bool CanConvert(Type objectType)
+        public override bool CanConvert(Type type)
         {
-            return objectType == typeof(User);
+            return type == typeof(User);
         }
     }
 

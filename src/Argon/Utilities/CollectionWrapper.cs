@@ -129,17 +129,15 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
         {
             return _genericCollection.Remove(item);
         }
-        else
+
+        var contains = _list!.Contains(item);
+
+        if (contains)
         {
-            var contains = _list!.Contains(item);
-
-            if (contains)
-            {
-                _list!.Remove(item);
-            }
-
-            return contains;
+            _list!.Remove(item);
         }
+
+        return contains;
     }
 
     public virtual IEnumerator<T> GetEnumerator()

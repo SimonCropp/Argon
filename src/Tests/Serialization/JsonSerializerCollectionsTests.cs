@@ -2637,7 +2637,7 @@ public class StringListAppenderConverter : JsonConverter
         writer.WriteValue(value);
     }
 
-    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
     {
         var existingStrings = (List<string>)existingValue;
         var newStrings = new List<string>(existingStrings);
@@ -2655,9 +2655,9 @@ public class StringListAppenderConverter : JsonConverter
         return newStrings;
     }
 
-    public override bool CanConvert(Type objectType)
+    public override bool CanConvert(Type type)
     {
-        return objectType == typeof(List<string>);
+        return type == typeof(List<string>);
     }
 }
 
@@ -2668,7 +2668,7 @@ public class StringAppenderConverter : JsonConverter
         writer.WriteValue(value);
     }
 
-    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
     {
         var existingString = (string)existingValue;
         var newString = existingString + (string)reader.Value;
@@ -2676,8 +2676,8 @@ public class StringAppenderConverter : JsonConverter
         return newString;
     }
 
-    public override bool CanConvert(Type objectType)
+    public override bool CanConvert(Type type)
     {
-        return objectType == typeof(string);
+        return type == typeof(string);
     }
 }

@@ -36,7 +36,7 @@ public class GenericJsonConverterTests : TestFixtureBase
             writer.WriteValue(value);
         }
 
-        public override string ReadJson(JsonReader reader, Type objectType, string existingValue, bool hasExistingValue, JsonSerializer serializer)
+        public override string ReadJson(JsonReader reader, Type type, string existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
             return (string)reader.Value + existingValue;
         }

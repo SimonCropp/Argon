@@ -42,9 +42,9 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
     public void Populate(JsonReader reader, object target)
     {
-        var objectType = target.GetType();
+        var type = target.GetType();
 
-        var contract = Serializer._contractResolver.ResolveContract(objectType);
+        var contract = Serializer._contractResolver.ResolveContract(type);
 
         if (!reader.MoveToContent())
         {
@@ -61,7 +61,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             }
             else
             {
-                throw JsonSerializationException.Create(reader, $"Cannot populate JSON array onto type '{objectType}'.");
+                throw JsonSerializationException.Create(reader, $"Cannot populate JSON array onto type '{type}'.");
             }
         }
         else if (reader.TokenType == JsonToken.StartObject)
@@ -89,7 +89,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             }
             else
             {
-                throw JsonSerializationException.Create(reader, $"Cannot populate JSON object onto type '{objectType}'.");
+                throw JsonSerializationException.Create(reader, $"Cannot populate JSON object onto type '{type}'.");
             }
         }
         else
@@ -113,14 +113,14 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return Serializer._contractResolver.ResolveContract(type);
     }
 
-    public object? Deserialize(JsonReader reader, Type? objectType, bool checkAdditionalContent)
+    public object? Deserialize(JsonReader reader, Type? type, bool checkAdditionalContent)
     {
         if (reader == null)
         {
             throw new ArgumentNullException(nameof(reader));
         }
 
-        var contract = GetContractSafe(objectType);
+        var contract = GetContractSafe(type);
 
         try
         {
@@ -140,11 +140,11 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
             if (converter is {CanRead: true})
             {
-                deserializedValue = DeserializeConvertable(converter, reader, objectType!, null);
+                deserializedValue = DeserializeConvertable(converter, reader, type!, null);
             }
             else
             {
-                deserializedValue = CreateValueInternal(reader, objectType, contract, null, null, null, null);
+                deserializedValue = CreateValueInternal(reader, type, contract, null, null, null, null);
             }
 
             if (checkAdditionalContent)
@@ -167,14 +167,12 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 HandleError(reader, false, 0);
                 return null;
             }
-            else
-            {
-                // clear context in case serializer is being used inside a converter
-                // if the converter wraps the error then not clearing the context will cause this error:
-                // "Current error context error is different to requested error."
-                ClearErrorContext();
-                throw;
-            }
+
+            // clear context in case serializer is being used inside a converter
+            // if the converter wraps the error then not clearing the context will cause this error:
+            // "Current error context error is different to requested error."
+            ClearErrorContext();
+            throw;
         }
     }
 
@@ -259,7 +257,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         throw JsonSerializationException.Create(reader, "Unexpected end when deserializing object.");
     }
 
-    object? CreateValueInternal(JsonReader reader, Type? objectType, JsonContract? contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerMember, object? existingValue)
+    object? CreateValueInternal(JsonReader reader, Type? type, JsonContract? contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerMember, object? existingValue)
     {
         if (contract is {ContractType: JsonContractType.Linq})
         {
@@ -271,45 +269,45 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             switch (reader.TokenType)
             {
                 // populate a typed object or generic dictionary/array
-                // depending upon whether an objectType was supplied
+                // depending upon whether an type was supplied
                 case JsonToken.StartObject:
-                    return CreateObject(reader, objectType, contract, member, containerContract, containerMember, existingValue);
+                    return CreateObject(reader, type, contract, member, containerContract, containerMember, existingValue);
                 case JsonToken.StartArray:
-                    return CreateList(reader, objectType, contract, member, existingValue, null);
+                    return CreateList(reader, type, contract, member, existingValue, null);
                 case JsonToken.Integer:
                 case JsonToken.Float:
                 case JsonToken.Boolean:
                 case JsonToken.Date:
                 case JsonToken.Bytes:
-                    return EnsureType(reader, reader.Value, CultureInfo.InvariantCulture, contract, objectType);
+                    return EnsureType(reader, reader.Value, CultureInfo.InvariantCulture, contract, type);
                 case JsonToken.String:
                     var s = (string)reader.Value!;
 
                     // string that needs to be returned as a byte array should be base 64 decoded
-                    if (objectType == typeof(byte[]))
+                    if (type == typeof(byte[]))
                     {
                         return Convert.FromBase64String(s);
                     }
 
                     // convert empty string to null automatically for nullable types
-                    if (CoerceEmptyStringToNull(objectType, contract, s))
+                    if (CoerceEmptyStringToNull(type, contract, s))
                     {
                         return null;
                     }
 
-                    return EnsureType(reader, s, CultureInfo.InvariantCulture, contract, objectType);
+                    return EnsureType(reader, s, CultureInfo.InvariantCulture, contract, type);
                 case JsonToken.StartConstructor:
                     var constructorName = reader.Value!.ToString();
 
-                    return EnsureType(reader, constructorName, CultureInfo.InvariantCulture, contract, objectType);
+                    return EnsureType(reader, constructorName, CultureInfo.InvariantCulture, contract, type);
                 case JsonToken.Null:
                 case JsonToken.Undefined:
-                    if (objectType == typeof(DBNull))
+                    if (type == typeof(DBNull))
                     {
                         return DBNull.Value;
                     }
 
-                    return EnsureType(reader, reader.Value, CultureInfo.InvariantCulture, contract, objectType);
+                    return EnsureType(reader, reader.Value, CultureInfo.InvariantCulture, contract, type);
                 case JsonToken.Raw:
                     return new JRaw((string?)reader.Value);
                 case JsonToken.Comment:
@@ -323,9 +321,9 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         throw JsonSerializationException.Create(reader, "Unexpected end when deserializing object.");
     }
 
-    static bool CoerceEmptyStringToNull(Type? objectType, JsonContract? contract, string s)
+    static bool CoerceEmptyStringToNull(Type? type, JsonContract? contract, string s)
     {
-        return StringUtils.IsNullOrEmpty(s) && objectType != null && objectType != typeof(string) && objectType != typeof(object) && contract is {IsNullable: true};
+        return StringUtils.IsNullOrEmpty(s) && type != null && type != typeof(string) && type != typeof(object) && contract is {IsNullable: true};
     }
 
     internal string GetExpectedDescription(JsonContract contract)
@@ -385,10 +383,10 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return converter;
     }
 
-    object? CreateObject(JsonReader reader, Type? objectType, JsonContract? contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerMember, object? existingValue)
+    object? CreateObject(JsonReader reader, Type? type, JsonContract? contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerMember, object? existingValue)
     {
         string? id;
-        var resolvedObjectType = objectType;
+        var resolvedObjectType = type;
 
         if (Serializer.MetadataPropertyHandling == MetadataPropertyHandling.Ignore)
         {
@@ -445,7 +443,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 var objectContract = (JsonObjectContract)contract;
                 object targetObject;
                 // check that if type name handling is being used that the existing value is compatible with the specified type
-                if (existingValue != null && (resolvedObjectType == objectType || resolvedObjectType.IsInstanceOfType(existingValue)))
+                if (existingValue != null && (resolvedObjectType == type || resolvedObjectType.IsInstanceOfType(existingValue)))
                 {
                     targetObject = existingValue;
                 }
@@ -526,7 +524,8 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
                         return creator(dictionary);
                     }
-                    else if (dictionary is IWrappedDictionary wrappedDictionary)
+
+                    if (dictionary is IWrappedDictionary wrappedDictionary)
                     {
                         return wrappedDictionary.UnderlyingDictionary;
                     }
@@ -554,7 +553,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         throw JsonSerializationException.Create(reader, message);
     }
 
-    bool ReadMetadataPropertiesToken(JTokenReader reader, ref Type? objectType, ref JsonContract? contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerMember, object? existingValue, out object? newValue, out string? id)
+    bool ReadMetadataPropertiesToken(JTokenReader reader, ref Type? type, ref JsonContract? contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerMember, object? existingValue, out object? newValue, out string? id)
     {
         id = null;
         newValue = null;
@@ -599,7 +598,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 var qualifiedTypeName = (string?)typeToken;
                 var typeTokenReader = typeToken.CreateReader();
                 typeTokenReader.ReadAndAssert();
-                ResolveTypeName(typeTokenReader, ref objectType, ref contract, member, containerContract, containerMember, qualifiedTypeName!);
+                ResolveTypeName(typeTokenReader, ref type, ref contract, member, containerContract, containerMember, qualifiedTypeName!);
 
                 var valueToken = current[JsonTypeReflector.ValuePropertyName];
                 if (valueToken != null)
@@ -630,7 +629,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             {
                 var listReader = valuesToken.CreateReader();
                 listReader.ReadAndAssert();
-                newValue = CreateList(listReader, objectType, contract, member, existingValue, id);
+                newValue = CreateList(listReader, type, contract, member, existingValue, id);
 
                 reader.Skip();
                 return true;
@@ -641,7 +640,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return false;
     }
 
-    bool ReadMetadataProperties(JsonReader reader, ref Type? objectType, ref JsonContract? contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerMember, object? existingValue, out object? newValue, out string? id)
+    bool ReadMetadataProperties(JsonReader reader, ref Type? type, ref JsonContract? contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerMember, object? existingValue, out object? newValue, out string? id)
     {
         id = null;
         newValue = null;
@@ -688,17 +687,15 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
                             return true;
                         }
-                        else
-                        {
-                            metadataProperty = true;
-                        }
+
+                        metadataProperty = true;
                     }
                     else if (string.Equals(propertyName, JsonTypeReflector.TypePropertyName, StringComparison.Ordinal))
                     {
                         reader.ReadAndAssert();
                         var qualifiedTypeName = reader.Value!.ToString();
 
-                        ResolveTypeName(reader, ref objectType, ref contract, member, containerContract, containerMember, qualifiedTypeName);
+                        ResolveTypeName(reader, ref type, ref contract, member, containerContract, containerMember, qualifiedTypeName);
 
                         reader.ReadAndAssert();
 
@@ -716,7 +713,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     else if (string.Equals(propertyName, JsonTypeReflector.ArrayValuesPropertyName, StringComparison.Ordinal))
                     {
                         reader.ReadAndAssert();
-                        var list = CreateList(reader, objectType, contract, member, existingValue, id);
+                        var list = CreateList(reader, type, contract, member, existingValue, id);
                         reader.ReadAndAssert();
                         newValue = list;
                         return true;
@@ -731,7 +728,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return false;
     }
 
-    void ResolveTypeName(JsonReader reader, ref Type? objectType, ref JsonContract? contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerMember, string qualifiedTypeName)
+    void ResolveTypeName(JsonReader reader, ref Type? type, ref JsonContract? contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerMember, string qualifiedTypeName)
     {
         var resolvedTypeNameHandling =
             member?.TypeNameHandling
@@ -763,29 +760,29 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Resolved type '{qualifiedTypeName}' to {specifiedType}."), null);
             }
 
-            if (objectType != null
-                && objectType != typeof(IDynamicMetaObjectProvider)
-                && !objectType.IsAssignableFrom(specifiedType))
+            if (type != null
+                && type != typeof(IDynamicMetaObjectProvider)
+                && !type.IsAssignableFrom(specifiedType))
             {
-                throw JsonSerializationException.Create(reader, $"Type specified in JSON '{specifiedType.AssemblyQualifiedName}' is not compatible with '{objectType.AssemblyQualifiedName}'.");
+                throw JsonSerializationException.Create(reader, $"Type specified in JSON '{specifiedType.AssemblyQualifiedName}' is not compatible with '{type.AssemblyQualifiedName}'.");
             }
 
-            objectType = specifiedType;
+            type = specifiedType;
             contract = GetContract(specifiedType);
         }
     }
 
-    JsonArrayContract EnsureArrayContract(JsonReader reader, Type objectType, JsonContract contract)
+    JsonArrayContract EnsureArrayContract(JsonReader reader, Type type, JsonContract contract)
     {
         if (contract == null)
         {
-            throw JsonSerializationException.Create(reader, $"Could not resolve type '{objectType}' to a JsonContract.");
+            throw JsonSerializationException.Create(reader, $"Could not resolve type '{type}' to a JsonContract.");
         }
 
         if (contract is not JsonArrayContract arrayContract)
         {
             var message = $@"Cannot deserialize the current JSON array (e.g. [1,2,3]) into type '{{0}}' because the type requires a {{1}} to deserialize correctly.{Environment.NewLine}To fix this error either change the JSON to a {{1}} or change the deserialized type to an array or a type that implements a collection interface (e.g. ICollection, IList) like List<T> that can be deserialized from a JSON array. JsonArrayAttribute can also be added to the type to force it to deserialize from a JSON array.{Environment.NewLine}";
-            message = string.Format(message, objectType, GetExpectedDescription(contract));
+            message = string.Format(message, type, GetExpectedDescription(contract));
 
             throw JsonSerializationException.Create(reader, message);
         }
@@ -793,7 +790,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return arrayContract;
     }
 
-    object? CreateList(JsonReader reader, Type? objectType, JsonContract? contract, JsonProperty? member, object? existingValue, string? id)
+    object? CreateList(JsonReader reader, Type? type, JsonContract? contract, JsonProperty? member, object? existingValue, string? id)
     {
         object? value;
 
@@ -802,10 +799,10 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             return CreateJToken(reader, contract);
         }
 
-        MiscellaneousUtils.Assert(objectType != null);
+        MiscellaneousUtils.Assert(type != null);
         MiscellaneousUtils.Assert(contract != null);
 
-        var arrayContract = EnsureArrayContract(reader, objectType, contract);
+        var arrayContract = EnsureArrayContract(reader, type, contract);
 
         if (existingValue == null)
         {
@@ -1165,20 +1162,19 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 createdFromNonDefaultCreator = true;
                 return contract.CreateTemporaryCollection();
             }
-            else
+
+            var list = contract.OverrideCreator();
+
+            if (contract.ShouldCreateWrapper)
             {
-                var list = contract.OverrideCreator();
-
-                if (contract.ShouldCreateWrapper)
-                {
-                    list = contract.CreateWrapper(list);
-                }
-
-                createdFromNonDefaultCreator = false;
-                return (IList)list;
+                list = contract.CreateWrapper(list);
             }
+
+            createdFromNonDefaultCreator = false;
+            return (IList)list;
         }
-        else if (contract.IsReadOnlyOrFixedSize)
+
+        if (contract.IsReadOnlyOrFixedSize)
         {
             createdFromNonDefaultCreator = true;
             var list = contract.CreateTemporaryCollection();
@@ -1190,7 +1186,8 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
             return list;
         }
-        else if (contract.DefaultCreator != null && (!contract.DefaultCreatorNonPublic || Serializer._constructorHandling == ConstructorHandling.AllowNonPublicDefaultConstructor))
+
+        if (contract.DefaultCreator != null && (!contract.DefaultCreatorNonPublic || Serializer._constructorHandling == ConstructorHandling.AllowNonPublicDefaultConstructor))
         {
             var list = contract.DefaultCreator();
 
@@ -1202,20 +1199,19 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             createdFromNonDefaultCreator = false;
             return (IList)list;
         }
-        else if (contract.HasParameterizedCreatorInternal)
+
+        if (contract.HasParameterizedCreatorInternal)
         {
             createdFromNonDefaultCreator = true;
             return contract.CreateTemporaryCollection();
         }
-        else
-        {
-            if (!contract.IsInstantiable)
-            {
-                throw JsonSerializationException.Create(reader, $"Could not create an instance of type {contract.UnderlyingType}. Type is an interface or abstract class and cannot be instantiated.");
-            }
 
+        if (contract.IsInstantiable)
+        {
             throw JsonSerializationException.Create(reader, $"Unable to find a constructor to use for type {contract.UnderlyingType}.");
         }
+        
+        throw JsonSerializationException.Create(reader, $"Could not create an instance of type {contract.UnderlyingType}. Type is an interface or abstract class and cannot be instantiated.");
     }
 
     IDictionary CreateNewDictionary(JsonReader reader, JsonDictionaryContract contract, out bool createdFromNonDefaultCreator)
@@ -1227,18 +1223,18 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 createdFromNonDefaultCreator = true;
                 return contract.CreateTemporaryDictionary();
             }
-            else
-            {
-                createdFromNonDefaultCreator = false;
-                return (IDictionary)contract.OverrideCreator();
-            }
+
+            createdFromNonDefaultCreator = false;
+            return (IDictionary)contract.OverrideCreator();
         }
-        else if (contract.IsReadOnlyOrFixedSize)
+
+        if (contract.IsReadOnlyOrFixedSize)
         {
             createdFromNonDefaultCreator = true;
             return contract.CreateTemporaryDictionary();
         }
-        else if (contract.DefaultCreator != null && (!contract.DefaultCreatorNonPublic || Serializer._constructorHandling == ConstructorHandling.AllowNonPublicDefaultConstructor))
+
+        if (contract.DefaultCreator != null && (!contract.DefaultCreatorNonPublic || Serializer._constructorHandling == ConstructorHandling.AllowNonPublicDefaultConstructor))
         {
             var dictionary = contract.DefaultCreator();
 
@@ -1250,20 +1246,19 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             createdFromNonDefaultCreator = false;
             return (IDictionary)dictionary;
         }
-        else if (contract.HasParameterizedCreatorInternal)
+
+        if (contract.HasParameterizedCreatorInternal)
         {
             createdFromNonDefaultCreator = true;
             return contract.CreateTemporaryDictionary();
         }
-        else
-        {
-            if (!contract.IsInstantiable)
-            {
-                throw JsonSerializationException.Create(reader, $"Could not create an instance of type {contract.UnderlyingType}. Type is an interface or abstract class and cannot be instantiated.");
-            }
 
+        if (contract.IsInstantiable)
+        {
             throw JsonSerializationException.Create(reader, $"Unable to find a default constructor to use for type {contract.UnderlyingType}.");
         }
+        
+        throw JsonSerializationException.Create(reader, $"Could not create an instance of type {contract.UnderlyingType}. Type is an interface or abstract class and cannot be instantiated.");
     }
 
     void OnDeserializing(JsonReader reader, JsonContract contract, object value)
@@ -1651,12 +1646,12 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
     object CreateISerializable(JsonReader reader, JsonISerializableContract contract, JsonProperty? member, string? id)
     {
-        var objectType = contract.UnderlyingType;
+        var type = contract.UnderlyingType;
 
         if (!JsonTypeReflector.FullyTrusted)
         {
             var message = $@"Type '{{0}}' implements ISerializable but cannot be deserialized using the ISerializable interface because the current application is not fully trusted and ISerializable can expose secure data.{Environment.NewLine}To fix this error either change the environment to be fully trusted, change the application to not deserialize the type, add JsonObjectAttribute to the type or change the JsonSerializer setting ContractResolver to use a new DefaultContractResolver with IgnoreSerializableInterface set to true.{Environment.NewLine}";
-            message = string.Format(message, objectType);
+            message = string.Format(message, type);
 
             throw JsonSerializationException.Create(reader, message);
         }
@@ -1703,7 +1698,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
         if (contract.ISerializableCreator == null)
         {
-            throw JsonSerializationException.Create(reader, $"ISerializable type '{objectType}' does not have a valid constructor. To correctly implement ISerializable a constructor that takes SerializationInfo and StreamingContext parameters should be present.");
+            throw JsonSerializationException.Create(reader, $"ISerializable type '{type}' does not have a valid constructor. To correctly implement ISerializable a constructor that takes SerializationInfo and StreamingContext parameters should be present.");
         }
 
         var createdObject = contract.ISerializableCreator(serializationInfo, Serializer._context);
@@ -1868,7 +1863,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         // only need to keep a track of properties' presence if they are required or a value should be defaulted if missing
         var trackPresence = contract.HasRequiredOrDefaultValueProperties || HasFlag(Serializer._defaultValueHandling, DefaultValueHandling.Populate);
 
-        var objectType = contract.UnderlyingType;
+        var type = contract.UnderlyingType;
 
         if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
         {
@@ -1876,7 +1871,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Deserializing {contract.UnderlyingType} using creator with parameters: {parameters}."), null);
         }
 
-        var propertyContexts = ResolvePropertyAndCreatorValues(contract, containerProperty, reader, objectType);
+        var propertyContexts = ResolvePropertyAndCreatorValues(contract, containerProperty, reader, type);
         if (trackPresence)
         {
             foreach (var property in contract.Properties)
@@ -2088,24 +2083,24 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return createdObject;
     }
 
-    object? DeserializeConvertable(JsonConverter converter, JsonReader reader, Type objectType, object? existingValue)
+    object? DeserializeConvertable(JsonConverter converter, JsonReader reader, Type type, object? existingValue)
     {
         if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
         {
-            TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Started deserializing {objectType} with converter {converter.GetType()}."), null);
+            TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Started deserializing {type} with converter {converter.GetType()}."), null);
         }
 
-        var value = converter.ReadJson(reader, objectType, existingValue, GetInternalSerializer());
+        var value = converter.ReadJson(reader, type, existingValue, GetInternalSerializer());
 
         if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
         {
-            TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Finished deserializing {objectType} with converter {converter.GetType()}."), null);
+            TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Finished deserializing {type} with converter {converter.GetType()}."), null);
         }
 
         return value;
     }
 
-    List<CreatorPropertyContext> ResolvePropertyAndCreatorValues(JsonObjectContract contract, JsonProperty? containerProperty, JsonReader reader, Type objectType)
+    List<CreatorPropertyContext> ResolvePropertyAndCreatorValues(JsonObjectContract contract, JsonProperty? containerProperty, JsonReader reader, Type type)
     {
         var propertyValues = new List<CreatorPropertyContext>();
         var exit = false;
@@ -2163,7 +2158,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
                         if ((contract.MissingMemberHandling ?? Serializer._missingMemberHandling) == MissingMemberHandling.Error)
                         {
-                            throw JsonSerializationException.Create(reader, $"Could not find member '{memberName}' on object of type '{objectType.Name}'");
+                            throw JsonSerializationException.Create(reader, $"Could not find member '{memberName}' on object of type '{type.Name}'");
                         }
                     }
 
