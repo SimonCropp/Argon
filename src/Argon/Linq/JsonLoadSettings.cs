@@ -21,7 +21,7 @@ public class JsonLoadSettings
 
     /// <summary>
     /// Gets or sets how JSON comments are handled when loading JSON.
-    /// The default value is <see cref="CommentHandling.Ignore" />.
+    /// The default value is <see cref="Argon.Linq.CommentHandling.Ignore" />.
     /// </summary>
     /// <value>The JSON comment handling.</value>
     public CommentHandling CommentHandling
@@ -40,7 +40,7 @@ public class JsonLoadSettings
 
     /// <summary>
     /// Gets or sets how JSON line info is handled when loading JSON.
-    /// The default value is <see cref="LineInfoHandling.Load" />.
+    /// The default value is <see cref="Argon.Linq.LineInfoHandling.Load" />.
     /// </summary>
     /// <value>The JSON line info handling.</value>
     public LineInfoHandling LineInfoHandling
@@ -59,7 +59,7 @@ public class JsonLoadSettings
 
     /// <summary>
     /// Gets or sets how duplicate property names in JSON objects are handled when loading JSON.
-    /// The default value is <see cref="DuplicatePropertyNameHandling.Replace" />.
+    /// The default value is <see cref="Argon.Linq.DuplicatePropertyNameHandling.Replace" />.
     /// </summary>
     /// <value>The JSON duplicate property name handling.</value>
     public DuplicatePropertyNameHandling DuplicatePropertyNameHandling
