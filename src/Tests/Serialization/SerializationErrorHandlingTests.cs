@@ -813,7 +813,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var s = new JsonSerializer();
 
         XUnitAssert.Throws<JsonReaderException>(
-            () => { var obj = s.Deserialize<ErrorTestObject>(jReader); },
+            () => s.Deserialize<ErrorTestObject>(jReader),
             @"Unterminated string. Expected delimiter: "". Path '', line 1, position 3.");
     }
 

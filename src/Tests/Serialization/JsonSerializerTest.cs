@@ -925,26 +925,14 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var serializer = new JsonSerializer();
 
-#pragma warning disable CS0618 // Type or member is obsolete
-        Assert.NotNull(serializer.Binder);
-#pragma warning restore CS0618 // Type or member is obsolete
         Assert.NotNull(serializer.SerializationBinder);
 
         var customBinder = new DefaultSerializationBinder();
-#pragma warning disable CS0618 // Type or member is obsolete
-        serializer.Binder = customBinder;
-        Assert.Equal(customBinder, serializer.Binder);
-#pragma warning restore CS0618 // Type or member is obsolete
 
         Assert.IsType(typeof(DefaultSerializationBinder), serializer.SerializationBinder);
 
         serializer.SerializationBinder = customBinder;
         Assert.Equal(customBinder, serializer.SerializationBinder);
-
-#pragma warning disable CS0618 // Type or member is obsolete
-        // can still fetch because DefaultSerializationBinder inherits from SerializationBinder
-        Assert.Equal(customBinder, serializer.Binder);
-#pragma warning restore CS0618 // Type or member is obsolete
 
         serializer.CheckAdditionalContent = true;
         XUnitAssert.True(serializer.CheckAdditionalContent);
@@ -1161,27 +1149,14 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var serializerProxy = new JsonSerializerProxy(new JsonSerializerInternalReader(new JsonSerializer()));
 
-#pragma warning disable CS0618 // Type or member is obsolete
-        Assert.NotNull(serializerProxy.Binder);
-#pragma warning restore CS0618 // Type or member is obsolete
         Assert.NotNull(serializerProxy.SerializationBinder);
 
         var customBinder = new DefaultSerializationBinder();
-#pragma warning disable CS0618 // Type or member is obsolete
-        serializerProxy.Binder = customBinder;
-        Assert.Equal(customBinder, serializerProxy.Binder);
-#pragma warning restore CS0618 // Type or member is obsolete
 
         Assert.IsType(typeof(DefaultSerializationBinder), serializerProxy.SerializationBinder);
 
         serializerProxy.SerializationBinder = customBinder;
         Assert.Equal(customBinder, serializerProxy.SerializationBinder);
-
-#pragma warning disable CS0618 // Type or member is obsolete
-        // can still fetch because DefaultSerializationBinder inherits from SerializationBinder
-        Assert.Equal(customBinder, serializerProxy.Binder);
-#pragma warning restore CS0618 // Type or member is obsolete
-
 
         serializerProxy.CheckAdditionalContent = true;
         XUnitAssert.True(serializerProxy.CheckAdditionalContent);
