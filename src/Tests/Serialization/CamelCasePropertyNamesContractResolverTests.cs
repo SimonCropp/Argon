@@ -112,40 +112,6 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
         var json = o.ToString();
     }
 
-#pragma warning disable 618
-    [Fact]
-    public void MemberSearchFlags()
-    {
-        var privateMembersClass = new PrivateMembersClass("PrivateString!", "InternalString!");
-
-        var json = JsonConvert.SerializeObject(privateMembersClass, Formatting.Indented, new JsonSerializerSettings
-        {
-            ContractResolver = new CamelCasePropertyNamesContractResolver { DefaultMembersSearchFlags = BindingFlags.NonPublic | BindingFlags.Instance }
-        });
-
-        XUnitAssert.AreEqualNormalized(@"{
-  ""_privateString"": ""PrivateString!"",
-  ""i"": 0,
-  ""_internalString"": ""InternalString!""
-}", json);
-
-        var deserializedPrivateMembersClass = JsonConvert.DeserializeObject<PrivateMembersClass>(@"{
-  ""_privateString"": ""Private!"",
-  ""i"": -2,
-  ""_internalString"": ""Internal!""
-}", new JsonSerializerSettings
-        {
-            ContractResolver = new CamelCasePropertyNamesContractResolver { DefaultMembersSearchFlags = BindingFlags.NonPublic | BindingFlags.Instance }
-        });
-
-        Assert.Equal("Private!", ReflectionUtils.GetMemberValue(typeof(PrivateMembersClass).GetField("_privateString", BindingFlags.Instance | BindingFlags.NonPublic), deserializedPrivateMembersClass));
-        Assert.Equal("Internal!", ReflectionUtils.GetMemberValue(typeof(PrivateMembersClass).GetField("_internalString", BindingFlags.Instance | BindingFlags.NonPublic), deserializedPrivateMembersClass));
-
-        // readonly
-        Assert.Equal(0, ReflectionUtils.GetMemberValue(typeof(PrivateMembersClass).GetField("i", BindingFlags.Instance | BindingFlags.NonPublic), deserializedPrivateMembersClass));
-    }
-#pragma warning restore 618
-
     [Fact]
     public void BlogPostExample()
     {
