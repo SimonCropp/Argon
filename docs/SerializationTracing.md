@@ -41,7 +41,7 @@ Console.WriteLine(traceWriter);
 //   ]
 // }
 ```
-<sup><a href='/src/Tests/Documentation/TraceWriterTests.cs#L108-L139' title='Snippet source file'>snippet source</a> | <a href='#snippet-memorytracewriterexample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/TraceWriterTests.cs#L108-L139' title='Snippet source file'>snippet source</a> | <a href='#snippet-memorytracewriterexample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Json.NET has two implementations of ITraceWriter: `Argon.Serialization.MemoryTraceWriter`, which keeps messages in memory for simple debugging, like the example above, and `Argon.Serialization.DiagnosticsTraceWriter`, which writes messages to any System.Diagnostics.TraceListeners your application is using.
@@ -93,7 +93,7 @@ public class NLogTraceWriter : ITraceWriter
     }
 }
 ```
-<sup><a href='/src/Tests/Documentation/TraceWriterTests.cs#L64-L103' title='Snippet source file'>snippet source</a> | <a href='#snippet-customtracewriterexample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/TraceWriterTests.cs#L64-L103' title='Snippet source file'>snippet source</a> | <a href='#snippet-customtracewriterexample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

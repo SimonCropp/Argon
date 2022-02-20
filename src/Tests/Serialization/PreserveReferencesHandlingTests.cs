@@ -280,7 +280,9 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         circularList.Add(new CircularList { null });
         circularList.Add(new CircularList { new() { circularList } });
 
-        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.SerializeObject(circularList, Formatting.Indented); }, $"Self referencing loop detected with type '{classRef}'. Path '[2][0]'.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.SerializeObject(circularList, Formatting.Indented),
+            $"Self referencing loop detected with type '{classRef}'. Path '[2][0]'.");
     }
 
     [Fact]
@@ -433,7 +435,9 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         circularDictionary.Add("other", new CircularDictionary { { "blah", null } });
         circularDictionary.Add("self", circularDictionary);
 
-        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.SerializeObject(circularDictionary, Formatting.Indented); }, $@"Self referencing loop detected with type '{classRef}'. Path ''.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.SerializeObject(circularDictionary, Formatting.Indented),
+            $@"Self referencing loop detected with type '{classRef}'. Path ''.");
     }
 
     [Fact]
@@ -1038,7 +1042,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 
         user1.Friend = user2;
 
-        var serializerSettings = new JsonSerializerSettings
+        var settings = new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.All,
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
@@ -1046,9 +1050,9 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
             PreserveReferencesHandling = PreserveReferencesHandling.Objects
         };
 
-        var json = JsonConvert.SerializeObject(user1, Formatting.Indented, serializerSettings);
+        var json = JsonConvert.SerializeObject(user1, Formatting.Indented, settings);
 
-        var deserializedUser = JsonConvert.DeserializeObject<User>(json, serializerSettings);
+        var deserializedUser = JsonConvert.DeserializeObject<User>(json, settings);
         Assert.NotNull(deserializedUser);
     }
 
@@ -1063,20 +1067,20 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
             c
         };
 
-        var ser = new JsonSerializer
+        var serializer = new JsonSerializer
         {
             PreserveReferencesHandling = PreserveReferencesHandling.All
         };
 
-        var ms = new MemoryStream();
+        var memoryStream = new MemoryStream();
 
-        using (var sw = new StreamWriter(ms))
-        using (var writer = new JsonTextWriter(sw) { Formatting = Formatting.Indented })
+        using (var streamWriter = new StreamWriter(memoryStream))
+        using (var jsonWriter = new JsonTextWriter(streamWriter) { Formatting = Formatting.Indented })
         {
-            ser.Serialize(writer, myClasses1);
+            serializer.Serialize(jsonWriter, myClasses1);
         }
 
-        var data = ms.ToArray();
+        var data = memoryStream.ToArray();
         var json = Encoding.UTF8.GetString(data, 0, data.Length);
 
         XUnitAssert.AreEqualNormalized(@"{
@@ -1093,13 +1097,13 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
   ]
 }", json);
 
-        ms = new MemoryStream(data);
+        memoryStream = new MemoryStream(data);
         IList<MyClass> myClasses2;
 
-        using (var sr = new StreamReader(ms))
+        using (var sr = new StreamReader(memoryStream))
         using (var reader = new JsonTextReader(sr))
         {
-            myClasses2 = ser.Deserialize<IList<MyClass>>(reader);
+            myClasses2 = serializer.Deserialize<IList<MyClass>>(reader);
         }
 
         Assert.Equal(2, myClasses2.Count);
@@ -1305,10 +1309,14 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
   }
 }";
 
-        XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<PropertyItemIsReferenceObject>(json, new JsonSerializerSettings
+        var settings = new JsonSerializerSettings
         {
             MetadataPropertyHandling = MetadataPropertyHandling.Default
-        }), "Error reading object reference '1'. Path 'Data.Prop2.MyProperty', line 9, position 19.");
+        };
+
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<PropertyItemIsReferenceObject>(json, settings),
+            "Error reading object reference '1'. Path 'Data.Prop2.MyProperty', line 9, position 19.");
     }
 }
 

@@ -33,7 +33,7 @@ static class EnumUtils
     static EnumInfo InitializeValuesAndNames(StructMultiKey<Type, NamingStrategy?> key)
     {
         var enumType = key.Value1;
-        string[] names = Enum.GetNames(enumType);
+        var names = Enum.GetNames(enumType);
         var resolvedNames = new string[names.Length];
         var values = new ulong[names.Length];
 
@@ -136,7 +136,7 @@ static class EnumUtils
         var values = entry.Values;
 
         var index = values.Length - 1;
-        var sb = new StringBuilder();
+        var stringBuilder = new StringBuilder();
         var firstTime = true;
         var saveResult = result;
 
@@ -155,11 +155,11 @@ static class EnumUtils
                 result -= values[index];
                 if (!firstTime)
                 {
-                    sb.Insert(0, EnumSeparatorString);
+                    stringBuilder.Insert(0, EnumSeparatorString);
                 }
 
                 var resolvedName = resolvedNames[index];
-                sb.Insert(0, resolvedName);
+                stringBuilder.Insert(0, resolvedName);
                 firstTime = false;
             }
 
@@ -186,7 +186,7 @@ static class EnumUtils
         }
         else
         {
-            returnString = sb.ToString(); // Return the string representation
+            returnString = stringBuilder.ToString(); // Return the string representation
         }
 
         return returnString;

@@ -431,17 +431,15 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     /// </example>
     public new static JObject Parse(string json, JsonLoadSettings? settings)
     {
-        using (JsonReader reader = new JsonTextReader(new StringReader(json)))
+        using JsonReader reader = new JsonTextReader(new StringReader(json));
+        var o = Load(reader, settings);
+
+        while (reader.Read())
         {
-            var o = Load(reader, settings);
-
-            while (reader.Read())
-            {
-                // Any content encountered here other than a comment will throw in the reader.
-            }
-
-            return o;
+            // Any content encountered here other than a comment will throw in the reader.
         }
+
+        return o;
     }
 
     /// <summary>

@@ -82,25 +82,29 @@ public class JsonConvertTest : TestFixtureBase
     [Fact]
     public void PopulateObjectWithNoContent()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() =>
-        {
-            var json = @"";
+        XUnitAssert.Throws<JsonSerializationException>(
+            () =>
+            {
+                var json = @"";
 
-            var o = new PopulateTestObject();
-            JsonConvert.PopulateObject(json, o);
-        }, "No JSON content found. Path '', line 0, position 0.");
+                var o = new PopulateTestObject();
+                JsonConvert.PopulateObject(json, o);
+            },
+            "No JSON content found. Path '', line 0, position 0.");
     }
 
     [Fact]
     public void PopulateObjectWithOnlyComment()
     {
-        var ex = XUnitAssert.Throws<JsonSerializationException>(() =>
-        {
-            var json = @"// file header";
+        var ex = XUnitAssert.Throws<JsonSerializationException>(
+            () =>
+            {
+                var json = @"// file header";
 
-            var o = new PopulateTestObject();
-            JsonConvert.PopulateObject(json, o);
-        }, "No JSON content found. Path '', line 1, position 14.");
+                var o = new PopulateTestObject();
+                JsonConvert.PopulateObject(json, o);
+            },
+            "No JSON content found. Path '', line 1, position 14.");
 
         Assert.Equal(1, ex.LineNumber);
         Assert.Equal(14, ex.LinePosition);
@@ -319,33 +323,33 @@ public class JsonConvertTest : TestFixtureBase
 
             IList<int> l = new List<int> { 1, 2, 3 };
 
-            var sw = new StringWriter();
+            var stringWriter = new StringWriter();
             var serializer = JsonSerializer.CreateDefault();
-            serializer.Serialize(sw, l);
+            serializer.Serialize(stringWriter, l);
 
             XUnitAssert.AreEqualNormalized(@"[
   1,
   2,
   3
-]", sw.ToString());
+]", stringWriter.ToString());
 
-            sw = new StringWriter();
+            stringWriter = new StringWriter();
             serializer.Formatting = Formatting.None;
-            serializer.Serialize(sw, l);
+            serializer.Serialize(stringWriter, l);
 
-            Assert.Equal(@"[1,2,3]", sw.ToString());
+            Assert.Equal(@"[1,2,3]", stringWriter.ToString());
 
-            sw = new StringWriter();
+            stringWriter = new StringWriter();
             serializer = new JsonSerializer();
-            serializer.Serialize(sw, l);
+            serializer.Serialize(stringWriter, l);
 
-            Assert.Equal(@"[1,2,3]", sw.ToString());
+            Assert.Equal(@"[1,2,3]", stringWriter.ToString());
 
-            sw = new StringWriter();
+            stringWriter = new StringWriter();
             serializer = JsonSerializer.Create();
-            serializer.Serialize(sw, l);
+            serializer.Serialize(stringWriter, l);
 
-            Assert.Equal(@"[1,2,3]", sw.ToString());
+            Assert.Equal(@"[1,2,3]", stringWriter.ToString());
         }
         finally
         {
@@ -365,38 +369,38 @@ public class JsonConvertTest : TestFixtureBase
 
             IList<int> l = new List<int> { 1, 2, 3 };
 
-            var sw = new StringWriter();
+            var stringWriter = new StringWriter();
             var serializer = JsonSerializer.CreateDefault(new JsonSerializerSettings
             {
                 Converters = { new IntConverter() }
             });
-            serializer.Serialize(sw, l);
+            serializer.Serialize(stringWriter, l);
 
             XUnitAssert.AreEqualNormalized(@"[
   2,
   4,
   6
-]", sw.ToString());
+]", stringWriter.ToString());
 
-            sw = new StringWriter();
+            stringWriter = new StringWriter();
             serializer.Converters.Clear();
-            serializer.Serialize(sw, l);
+            serializer.Serialize(stringWriter, l);
 
             XUnitAssert.AreEqualNormalized(@"[
   1,
   2,
   3
-]", sw.ToString());
+]", stringWriter.ToString());
 
-            sw = new StringWriter();
+            stringWriter = new StringWriter();
             serializer = JsonSerializer.Create(new JsonSerializerSettings { Formatting = Formatting.Indented });
-            serializer.Serialize(sw, l);
+            serializer.Serialize(stringWriter, l);
 
             XUnitAssert.AreEqualNormalized(@"[
   1,
   2,
   3
-]", sw.ToString());
+]", stringWriter.ToString());
         }
         finally
         {
@@ -533,7 +537,9 @@ public class JsonConvertTest : TestFixtureBase
     [Fact]
     public void ToStringInvalid()
     {
-        XUnitAssert.Throws<ArgumentException>(() => { JsonConvert.ToString(new Version(1, 0)); }, "Unsupported type: System.Version. Use the JsonSerializer class to get the object's JSON representation.");
+        XUnitAssert.Throws<ArgumentException>(
+            () => JsonConvert.ToString(new Version(1, 0)),
+            "Unsupported type: System.Version. Use the JsonSerializer class to get the object's JSON representation.");
     }
 
     [Fact]
@@ -620,17 +626,19 @@ public class JsonConvertTest : TestFixtureBase
     [Fact]
     public void TestInvalidStrings()
     {
-        XUnitAssert.Throws<JsonReaderException>(() =>
-        {
-            var orig = @"this is a string ""that has quotes"" ";
+        XUnitAssert.Throws<JsonReaderException>(
+            () =>
+            {
+                var orig = @"this is a string ""that has quotes"" ";
 
-            var serialized = JsonConvert.SerializeObject(orig);
+                var serialized = JsonConvert.SerializeObject(orig);
 
-            // *** Make string invalid by stripping \" \"
-            serialized = serialized.Replace(@"\""", "\"");
+                // *** Make string invalid by stripping \" \"
+                serialized = serialized.Replace(@"\""", "\"");
 
-            JsonConvert.DeserializeObject<string>(serialized);
-        }, "Additional text encountered after finished reading JSON content: t. Path '', line 1, position 19.");
+                JsonConvert.DeserializeObject<string>(serialized);
+            },
+            "Additional text encountered after finished reading JSON content: t. Path '', line 1, position 19.");
     }
 
     [Fact]
@@ -979,12 +987,12 @@ public class JsonConvertTest : TestFixtureBase
 
     public static string Write(object value, JsonConverter converter)
     {
-        var sw = new StringWriter();
-        var writer = new JsonTextWriter(sw);
-        converter.WriteJson(writer, value, null);
+        var stringWriter = new StringWriter();
+        var jsonWriter = new JsonTextWriter(stringWriter);
+        converter.WriteJson(jsonWriter, value, null);
 
-        writer.Flush();
-        return sw.ToString();
+        jsonWriter.Flush();
+        return stringWriter.ToString();
     }
 
     public static T Read<T>(string text, JsonConverter converter)
@@ -1056,13 +1064,13 @@ public class JsonConvertTest : TestFixtureBase
         var dt = new DateTimeOffset(2000, 12, 31, 20, 59, 59, new TimeSpan(0, 11, 33, 0, 0));
         dt = dt.AddTicks(9999999);
 
-        var sw = new StringWriter();
-        var writer = new JsonTextWriter(sw);
+        var stringWriter = new StringWriter();
+        var jsonWriter = new JsonTextWriter(stringWriter);
 
-        writer.WriteValue(dt);
-        writer.Flush();
+        jsonWriter.WriteValue(dt);
+        jsonWriter.Flush();
 
-        Assert.Equal(@"""2000-12-31T20:59:59.9999999+11:33""", sw.ToString());
+        Assert.Equal(@"""2000-12-31T20:59:59.9999999+11:33""", stringWriter.ToString());
     }
 
     [Fact]
@@ -1071,11 +1079,11 @@ public class JsonConvertTest : TestFixtureBase
         var dt = new DateTime(2000, 12, 31, 20, 59, 59, DateTimeKind.Local);
         dt = dt.AddTicks(9999999);
 
-        var sw = new StringWriter();
-        var writer = new JsonTextWriter(sw);
+        var stringWriter = new StringWriter();
+        var jsonWriter = new JsonTextWriter(stringWriter);
 
-        writer.WriteValue(dt);
-        writer.Flush();
+        jsonWriter.WriteValue(dt);
+        jsonWriter.Flush();
     }
 
     [Fact]
@@ -1083,8 +1091,8 @@ public class JsonConvertTest : TestFixtureBase
     {
         var dt = DateTime.MaxValue;
 
-        var sw = new StringWriter();
-        var writer = new JsonTextWriter(sw)
+        var stringWriter = new StringWriter();
+        var writer = new JsonTextWriter(stringWriter)
         {
             DateFormatHandling = DateFormatHandling.MicrosoftDateFormat
         };
@@ -1102,7 +1110,9 @@ public class JsonConvertTest : TestFixtureBase
         Assert.Equal(typeof(BigInteger), v.Value.GetType());
         Assert.Equal(BigInteger.Parse(new String('9', 380)), (BigInteger)v.Value);
 
-        XUnitAssert.Throws<JsonReaderException>(() => JObject.Parse(@"{""biginteger"":" + new String('9', 381) + "}"), "JSON integer " + new String('9', 381) + " is too large to parse. Path 'biginteger', line 1, position 395.");
+        XUnitAssert.Throws<JsonReaderException>(
+            () => JObject.Parse(@"{""biginteger"":" + new String('9', 381) + "}"),
+            $"JSON integer {new String('9', 381)} is too large to parse. Path 'biginteger', line 1, position 395.");
     }
 
     [Fact]
@@ -1207,7 +1217,7 @@ public class JsonConvertTest : TestFixtureBase
     {
         var value = new IncorrectJsonConvertParameters { One = "Boom" };
 
-        XUnitAssert.Throws<JsonException>(() => { JsonConvert.SerializeObject(value); });
+        XUnitAssert.Throws<JsonException>(() => JsonConvert.SerializeObject(value));
     }
 
     public class IncorrectJsonConvertParameters

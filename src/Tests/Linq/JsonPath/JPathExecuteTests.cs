@@ -548,7 +548,9 @@ public class JPathExecuteTests : TestFixtureBase
         var o = new JObject(
             new JProperty("Blah", 1));
 
-        XUnitAssert.Throws<JsonException>(() => { o.SelectToken("[1]", true); }, @"Index 1 not valid on JObject.");
+        XUnitAssert.Throws<JsonException>(
+            () => o.SelectToken("[1]", true),
+            @"Index 1 not valid on JObject.");
     }
 
     [Fact]
@@ -557,7 +559,9 @@ public class JPathExecuteTests : TestFixtureBase
         var o = new JObject(
             new JProperty("Blah", 1));
 
-        XUnitAssert.Throws<JsonException>(() => { o.SelectToken("[*]", true); }, @"Index * not valid on JObject.");
+        XUnitAssert.Throws<JsonException>(
+            () => o.SelectToken("[*]", true),
+            @"Index * not valid on JObject.");
     }
 
     [Fact]
@@ -566,7 +570,9 @@ public class JPathExecuteTests : TestFixtureBase
         var o = new JObject(
             new JProperty("Blah", 1));
 
-        XUnitAssert.Throws<JsonException>(() => { o.SelectToken("[:]", true); }, @"Array slice is not valid on JObject.");
+        XUnitAssert.Throws<JsonException>(
+            () => o.SelectToken("[:]", true),
+            @"Array slice is not valid on JObject.");
     }
 
     [Fact]
@@ -583,7 +589,9 @@ public class JPathExecuteTests : TestFixtureBase
     {
         var a = new JArray(1, 2, 3, 4, 5);
 
-        XUnitAssert.Throws<JsonException>(() => { a.SelectToken("[0, 1]"); }, @"Path returned multiple tokens.");
+        XUnitAssert.Throws<JsonException>(
+            () => a.SelectToken("[0, 1]"),
+            @"Path returned multiple tokens.");
     }
 
     [Fact]
@@ -591,7 +599,9 @@ public class JPathExecuteTests : TestFixtureBase
     {
         var a = new JArray(1, 2, 3, 4, 5);
 
-        XUnitAssert.Throws<JsonException>(() => { a.SelectToken("BlahBlah", true); }, @"Property 'BlahBlah' not valid on JArray.");
+        XUnitAssert.Throws<JsonException>(
+            () => a.SelectToken("BlahBlah", true),
+            @"Property 'BlahBlah' not valid on JArray.");
     }
 
     [Fact]
@@ -599,7 +609,9 @@ public class JPathExecuteTests : TestFixtureBase
     {
         var a = new JArray(1, 2, 3, 4, 5);
 
-        XUnitAssert.Throws<JsonException>(() => { a.SelectToken("[9,10]", true); }, @"Index 9 outside the bounds of JArray.");
+        XUnitAssert.Throws<JsonException>(
+            () => a.SelectToken("[9,10]", true),
+            @"Index 9 outside the bounds of JArray.");
     }
 
     [Fact]
@@ -607,7 +619,9 @@ public class JPathExecuteTests : TestFixtureBase
     {
         var c = new JConstructor("Blah");
 
-        XUnitAssert.Throws<JsonException>(() => { c.SelectToken("[1]", true); }, @"Index 1 outside the bounds of JConstructor.");
+        XUnitAssert.Throws<JsonException>(
+            () => c.SelectToken("[1]", true),
+                @"Index 1 outside the bounds of JConstructor.");
     }
 
     [Fact]
@@ -624,7 +638,9 @@ public class JPathExecuteTests : TestFixtureBase
         var o = new JObject(
             new JProperty("Blah", 1));
 
-        XUnitAssert.Throws<JsonException>(() => { o.SelectToken("Missing", true); }, "Property 'Missing' does not exist on JObject.");
+        XUnitAssert.Throws<JsonException>(
+            () => o.SelectToken("Missing", true),
+            "Property 'Missing' does not exist on JObject.");
     }
 
     [Fact]
@@ -643,7 +659,9 @@ public class JPathExecuteTests : TestFixtureBase
         var o = new JObject(
             new JProperty("Blah", 1));
 
-        XUnitAssert.Throws<JsonException>(() => { o.SelectToken("['Missing','Missing2']", true); }, "Property 'Missing' does not exist on JObject.");
+        XUnitAssert.Throws<JsonException>(
+            () => o.SelectToken("['Missing','Missing2']", true),
+            "Property 'Missing' does not exist on JObject.");
     }
 
     [Fact]
@@ -651,7 +669,9 @@ public class JPathExecuteTests : TestFixtureBase
     {
         var a = new JArray(1, 2, 3, 4, 5);
 
-        XUnitAssert.Throws<JsonException>(() => { a.SelectToken("['Missing','Missing2']", true); }, "Properties 'Missing', 'Missing2' not valid on JArray.");
+        XUnitAssert.Throws<JsonException>(
+            () => a.SelectToken("['Missing','Missing2']", true),
+            "Properties 'Missing', 'Missing2' not valid on JArray.");
     }
 
     [Fact]
@@ -659,15 +679,23 @@ public class JPathExecuteTests : TestFixtureBase
     {
         var a = new JArray(1, 2, 3, 4, 5);
 
-        XUnitAssert.Throws<JsonException>(() => { a.SelectToken("[99:]", true); }, "Array slice of 99 to * returned no results.");
+        XUnitAssert.Throws<JsonException>(
+            () => a.SelectToken("[99:]", true),
+            "Array slice of 99 to * returned no results.");
 
-        XUnitAssert.Throws<JsonException>(() => { a.SelectToken("[1:-19]", true); }, "Array slice of 1 to -19 returned no results.");
+        XUnitAssert.Throws<JsonException>(
+            () => a.SelectToken("[1:-19]", true),
+            "Array slice of 1 to -19 returned no results.");
 
-        XUnitAssert.Throws<JsonException>(() => { a.SelectToken("[:-19]", true); }, "Array slice of * to -19 returned no results.");
+        XUnitAssert.Throws<JsonException>(
+            () => a.SelectToken("[:-19]", true),
+            "Array slice of * to -19 returned no results.");
 
         a = new JArray();
 
-        XUnitAssert.Throws<JsonException>(() => { a.SelectToken("[:]", true); }, "Array slice of * to * returned no results.");
+        XUnitAssert.Throws<JsonException>(
+            () => a.SelectToken("[:]", true),
+            "Array slice of * to * returned no results.");
     }
 
     [Fact]
@@ -684,7 +712,9 @@ public class JPathExecuteTests : TestFixtureBase
     {
         var a = new JArray(1, 2, 3, 4, 5);
 
-        XUnitAssert.Throws<JsonException>(() => { a.SelectToken("[1000].Ha", true); }, "Index 1000 outside the bounds of JArray.");
+        XUnitAssert.Throws<JsonException>(
+            () => a.SelectToken("[1000].Ha", true),
+            "Index 1000 outside the bounds of JArray.");
     }
 
     [Fact]

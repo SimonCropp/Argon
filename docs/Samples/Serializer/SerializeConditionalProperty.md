@@ -17,7 +17,7 @@ public class Employee
     }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeConditionalProperty.cs#L32-L44' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeconditionalpropertytypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/Samples/Serializer/SerializeConditionalProperty.cs#L32-L44' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeconditionalpropertytypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: SerializeConditionalPropertyUsage -->
@@ -53,5 +53,5 @@ Console.WriteLine(json);
 //   }
 // ]
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeConditionalProperty.cs#L49-L79' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeconditionalpropertyusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/Samples/Serializer/SerializeConditionalProperty.cs#L49-L79' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeconditionalpropertyusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

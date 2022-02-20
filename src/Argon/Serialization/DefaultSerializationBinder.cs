@@ -62,7 +62,7 @@ public class DefaultSerializationBinder :
             if (assembly == null)
             {
                 // will find assemblies loaded with Assembly.LoadFile outside of the main directory
-                Assembly[] loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies();
+                var loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies();
                 foreach (var a in loadedAssemblies)
                 {
                     // check for both full name or partial name match

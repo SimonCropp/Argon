@@ -634,7 +634,7 @@ class JPath
 
     string ReadQuotedString()
     {
-        var sb = new StringBuilder();
+        var stringBuilder = new StringBuilder();
 
         _currentIndex++;
         while (_currentIndex < _expression.Length)
@@ -673,19 +673,19 @@ class JPath
                         throw new JsonException($@"Unknown escape character: \{currentChar}");
                 }
 
-                sb.Append(resolvedChar);
+                stringBuilder.Append(resolvedChar);
 
                 _currentIndex++;
             }
             else if (currentChar == '\'')
             {
                 _currentIndex++;
-                return sb.ToString();
+                return stringBuilder.ToString();
             }
             else
             {
                 _currentIndex++;
-                sb.Append(currentChar);
+                stringBuilder.Append(currentChar);
             }
         }
 

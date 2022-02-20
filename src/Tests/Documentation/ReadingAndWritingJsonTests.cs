@@ -33,27 +33,25 @@ public class ReadingAndWritingJsonTests : TestFixtureBase
     public void ReadingAndWritingJsonText()
     {
         #region ReadingAndWritingJsonText
-        var sb = new StringBuilder();
-        var sw = new StringWriter(sb);
+        var stringBuilder = new StringBuilder();
+        var stringWriter = new StringWriter(stringBuilder);
 
-        using (JsonWriter writer = new JsonTextWriter(sw))
-        {
-            writer.Formatting = Formatting.Indented;
+        using var jsonWriter = new JsonTextWriter(stringWriter);
+        jsonWriter.Formatting = Formatting.Indented;
 
-            writer.WriteStartObject();
-            writer.WritePropertyName("CPU");
-            writer.WriteValue("Intel");
-            writer.WritePropertyName("PSU");
-            writer.WriteValue("500W");
-            writer.WritePropertyName("Drives");
-            writer.WriteStartArray();
-            writer.WriteValue("DVD read/writer");
-            writer.WriteComment("(broken)");
-            writer.WriteValue("500 gigabyte hard drive");
-            writer.WriteValue("200 gigabyte hard drive");
-            writer.WriteEnd();
-            writer.WriteEndObject();
-        }
+        jsonWriter.WriteStartObject();
+        jsonWriter.WritePropertyName("CPU");
+        jsonWriter.WriteValue("Intel");
+        jsonWriter.WritePropertyName("PSU");
+        jsonWriter.WriteValue("500W");
+        jsonWriter.WritePropertyName("Drives");
+        jsonWriter.WriteStartArray();
+        jsonWriter.WriteValue("DVD read/writer");
+        jsonWriter.WriteComment("(broken)");
+        jsonWriter.WriteValue("500 gigabyte hard drive");
+        jsonWriter.WriteValue("200 gigabyte hard drive");
+        jsonWriter.WriteEnd();
+        jsonWriter.WriteEndObject();
 
         // {
         //   "CPU": "Intel",

@@ -362,20 +362,20 @@ public class TypeNameHandlingTests : TestFixtureBase
     [Fact]
     public void NestedValueObjects()
     {
-        var sb = new StringBuilder();
+        var stringBuilder = new StringBuilder();
         for (var i = 0; i < 3; i++)
         {
-            sb.Append(@"{""$value"":");
+            stringBuilder.Append(@"{""$value"":");
         }
 
         XUnitAssert.Throws<JsonSerializationException>(() =>
         {
-            var reader = new JsonTextReader(new StringReader(sb.ToString()));
-            var ser = new JsonSerializer
+            var reader = new JsonTextReader(new StringReader(stringBuilder.ToString()));
+            var serializer = new JsonSerializer
             {
                 MetadataPropertyHandling = MetadataPropertyHandling.Default
             };
-            ser.Deserialize<sbyte>(reader);
+            serializer.Deserialize<sbyte>(reader);
         }, "Unexpected token when deserializing primitive value: StartObject. Path '$value', line 1, position 11.");
     }
 
@@ -386,9 +386,9 @@ public class TypeNameHandlingTests : TestFixtureBase
         {
             TypeNameHandling = TypeNameHandling.Auto
         };
-        var sw = new StringWriter();
-        serializer.Serialize(new JsonTextWriter(sw) { Formatting = Formatting.Indented }, new WagePerson(), typeof(Person));
-        var result = sw.ToString();
+        var stringWriter = new StringWriter();
+        serializer.Serialize(new JsonTextWriter(stringWriter) { Formatting = Formatting.Indented }, new WagePerson(), typeof(Person));
+        var result = stringWriter.ToString();
 
         XUnitAssert.AreEqualNormalized(@"{
   ""$type"": ""Argon.Tests.TestObjects.Organization.WagePerson, Tests"",
@@ -399,12 +399,10 @@ public class TypeNameHandlingTests : TestFixtureBase
 }", result);
 
         Assert.True(result.Contains("WagePerson"));
-        using (var rd = new JsonTextReader(new StringReader(result)))
-        {
-            var person = serializer.Deserialize<Person>(rd);
+        using var rd = new JsonTextReader(new StringReader(result));
+        var person = serializer.Deserialize<Person>(rd);
 
-            Assert.IsType(typeof(WagePerson), person);
-        }
+        Assert.IsType(typeof(WagePerson), person);
     }
 
     [Fact]
@@ -1138,15 +1136,17 @@ public class TypeNameHandlingTests : TestFixtureBase
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         };
 
-        var sw = new StringWriter();
-        using (var jsonWriter = new JsonTextWriter(sw))
+        var stringWriter = new StringWriter();
+        using (var jsonWriter = new JsonTextWriter(stringWriter)
+               {
+                   Formatting = Formatting.Indented
+               })
         {
-            jsonWriter.Formatting = Formatting.Indented;
             serializingTester.TypeNameHandling = TypeNameHandling.Auto;
             serializingTester.Serialize(jsonWriter, testObject);
         }
 
-        var json = sw.ToString();
+        var json = stringWriter.ToString();
 
         var contentSubClassRef = ReflectionUtils.GetTypeName(typeof(ContentSubClass), TypeNameAssemblyFormatHandling.Simple, null);
         var dictionaryRef = ReflectionUtils.GetTypeName(typeof(Dictionary<int, IList<ContentBaseClass>>), TypeNameAssemblyFormatHandling.Simple, null);
@@ -1396,13 +1396,13 @@ public class TypeNameHandlingTests : TestFixtureBase
         var data = new byte[] { 75, 65, 82, 73, 82, 65 };
         testerObject.Objects = new object[] { data, "prueba" };
 
-        var jsonSettings = new JsonSerializerSettings
+        var settings = new JsonSerializerSettings
         {
             NullValueHandling = NullValueHandling.Ignore,
             TypeNameHandling = TypeNameHandling.All
         };
 
-        var output = JsonConvert.SerializeObject(testerObject, Formatting.Indented, jsonSettings);
+        var output = JsonConvert.SerializeObject(testerObject, Formatting.Indented, settings);
 
         var carClassRef = ReflectionUtils.GetTypeName(typeof(Car), TypeNameAssemblyFormatHandling.Simple, null);
         var objectArrayRef = ReflectionUtils.GetTypeName(typeof(object[]), TypeNameAssemblyFormatHandling.Simple, null);
@@ -1422,7 +1422,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     ]
   }}
 }}");
-        var obj = JsonConvert.DeserializeObject<Car>(output, jsonSettings);
+        var obj = JsonConvert.DeserializeObject<Car>(output, settings);
 
         Assert.NotNull(obj);
 
@@ -1983,12 +1983,12 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var inputContext = new Dictionary<string, Guid> {{contextKey, someValue}};
 
-        var jsonSerializerSettings = new JsonSerializerSettings
+        var settings = new JsonSerializerSettings
         {
             Formatting = Formatting.Indented,
             TypeNameHandling = TypeNameHandling.All
         };
-        var serializedString = JsonConvert.SerializeObject(inputContext, jsonSerializerSettings);
+        var serializedString = JsonConvert.SerializeObject(inputContext, settings);
 
         var dictionaryTypeName = ReflectionUtils.GetTypeName(typeof(Dictionary<string, Guid>), TypeNameAssemblyFormatHandling.Simple, null);
 
@@ -1997,7 +1997,7 @@ public class TypeNameHandlingTests : TestFixtureBase
   ""k1"": ""a6e986df-fc2c-4906-a1ef-9492388f7833""
 }}", serializedString);
 
-        var deserializedObject = (Dictionary<string, Guid>)JsonConvert.DeserializeObject(serializedString, jsonSerializerSettings);
+        var deserializedObject = (Dictionary<string, Guid>)JsonConvert.DeserializeObject(serializedString, settings);
 
         Assert.Equal(someValue, deserializedObject[contextKey]);
     }
@@ -2203,7 +2203,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         [Fact]
         public void DeserializeComplexGenericDictionary_Simple()
         {
-            var serializerSettings = new JsonSerializerSettings
+            var settings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.All,
 #pragma warning disable 618
@@ -2216,9 +2216,9 @@ public class TypeNameHandlingTests : TestFixtureBase
                 { 1, new HashSet<string>(new[] { "test" }) },
             };
 
-            var obtainedJson = JsonConvert.SerializeObject(dictionary, serializerSettings);
+            var obtainedJson = JsonConvert.SerializeObject(dictionary, settings);
 
-            var obtainedDictionary = (Dictionary<int, HashSet<string>>)JsonConvert.DeserializeObject(obtainedJson, serializerSettings);
+            var obtainedDictionary = (Dictionary<int, HashSet<string>>)JsonConvert.DeserializeObject(obtainedJson, settings);
 
             Assert.NotNull(obtainedDictionary);
         }
@@ -2226,7 +2226,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         [Fact]
         public void DeserializeComplexGenericDictionary_Full()
         {
-            var serializerSettings = new JsonSerializerSettings
+            var settings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.All,
 #pragma warning disable 618
@@ -2239,9 +2239,9 @@ public class TypeNameHandlingTests : TestFixtureBase
                 { 1, new HashSet<string>(new[] { "test" }) },
             };
 
-            var obtainedJson = JsonConvert.SerializeObject(dictionary, serializerSettings);
+            var obtainedJson = JsonConvert.SerializeObject(dictionary, settings);
 
-            var obtainedDictionary = (Dictionary<int, HashSet<string>>)JsonConvert.DeserializeObject(obtainedJson, serializerSettings);
+            var obtainedDictionary = (Dictionary<int, HashSet<string>>)JsonConvert.DeserializeObject(obtainedJson, settings);
 
             Assert.NotNull(obtainedDictionary);
         }
@@ -2249,7 +2249,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         [Fact]
         public void SerializeNullableStructProperty_Auto()
         {
-            var serializerSettings = new JsonSerializerSettings
+            var settings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto,
                 Formatting = Formatting.Indented
@@ -2257,7 +2257,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
             var objWithMessage = new ObjectWithOptionalMessage(new Message2("Hello!"));
 
-            var json = JsonConvert.SerializeObject(objWithMessage, serializerSettings);
+            var json = JsonConvert.SerializeObject(objWithMessage, settings);
 
             XUnitAssert.AreEqualNormalized(@"{
   ""Message"": {
@@ -2269,7 +2269,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         [Fact]
         public void DeserializeNullableStructProperty_Auto()
         {
-            var serializerSettings = new JsonSerializerSettings
+            var settings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto,
                 Formatting = Formatting.Indented
@@ -2280,7 +2280,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     ""Value"": ""Hello!""
   }
 }";
-            var objWithMessage = JsonConvert.DeserializeObject<ObjectWithOptionalMessage>(json, serializerSettings);
+            var objWithMessage = JsonConvert.DeserializeObject<ObjectWithOptionalMessage>(json, settings);
 
             XUnitAssert.AreEqualNormalized("Hello!", objWithMessage.Message.Value.Value);
         }

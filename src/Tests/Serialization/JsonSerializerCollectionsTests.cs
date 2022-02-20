@@ -636,7 +636,9 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
   ""3""
 ]";
 
-        XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<EnumerableClassFailure<string>>(json), "Cannot create and populate list type Argon.Tests.Serialization.JsonSerializerCollectionsTests+EnumerableClassFailure`1[System.String]. Path '', line 1, position 1.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<EnumerableClassFailure<string>>(json),
+            "Cannot create and populate list type Argon.Tests.Serialization.JsonSerializerCollectionsTests+EnumerableClassFailure`1[System.String]. Path '', line 1, position 1.");
     }
 
     public class PrivateDefaultCtorList<T> : List<T>
@@ -649,12 +651,15 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializePrivateListCtor()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<PrivateDefaultCtorList<int>>("[1,2]"), "Unable to find a constructor to use for type Argon.Tests.Serialization.JsonSerializerCollectionsTests+PrivateDefaultCtorList`1[System.Int32]. Path '', line 1, position 1.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<PrivateDefaultCtorList<int>>("[1,2]"),
+            "Unable to find a constructor to use for type Argon.Tests.Serialization.JsonSerializerCollectionsTests+PrivateDefaultCtorList`1[System.Int32]. Path '', line 1, position 1.");
 
-        var list = JsonConvert.DeserializeObject<PrivateDefaultCtorList<int>>("[1,2]", new JsonSerializerSettings
-        {
-            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
-        });
+        var list = JsonConvert.DeserializeObject<PrivateDefaultCtorList<int>>("[1,2]",
+            new JsonSerializerSettings
+            {
+                ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
+            });
 
         Assert.Equal(2, list.Count);
     }
@@ -1121,7 +1126,9 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         var json = @"[ null ]";
 
-        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<IList<KeyValuePair<string, IList<string>>>>(json); }, "Cannot convert null value to KeyValuePair. Path '[0]', line 1, position 6.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<IList<KeyValuePair<string, IList<string>>>>(json),
+            "Cannot convert null value to KeyValuePair. Path '[0]', line 1, position 6.");
     }
 
     public class PopulateReadOnlyTestClass
@@ -1441,7 +1448,9 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         var json = @"{""Before"":""Before!"",""Coordinates"":[[1,1],[1,2,3],[2,1],[2,2]],""After"":""After!""}";
 
-        XUnitAssert.Throws<Exception>(() => JsonConvert.DeserializeObject<Array2D>(json), "Cannot deserialize non-cubical array as multidimensional array.");
+        XUnitAssert.Throws<Exception>(
+            () => JsonConvert.DeserializeObject<Array2D>(json),
+            "Cannot deserialize non-cubical array as multidimensional array.");
     }
 
     [Fact]
@@ -1449,7 +1458,9 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         var json = @"{""Before"":""Before!"",""Coordinates"":[[1,1],[1],[2,1],[2,2]],""After"":""After!""}";
 
-        XUnitAssert.Throws<Exception>(() => JsonConvert.DeserializeObject<Array2D>(json), "Cannot deserialize non-cubical array as multidimensional array.");
+        XUnitAssert.Throws<Exception>(
+            () => JsonConvert.DeserializeObject<Array2D>(json),
+            "Cannot deserialize non-cubical array as multidimensional array.");
     }
 
     [Fact]
@@ -1477,7 +1488,9 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         var json = @"{""Before"":""Before!"",""Coordinates"":[[[1,1,1],[1,1,2,1]],[[1,2,1],[1,2,2]],[[2,1,1],[2,1,2]],[[2,2,1],[2,2,2]]],""After"":""After!""}";
 
-        XUnitAssert.Throws<Exception>(() => JsonConvert.DeserializeObject<Array3D>(json), "Cannot deserialize non-cubical array as multidimensional array.");
+        XUnitAssert.Throws<Exception>(
+            () => JsonConvert.DeserializeObject<Array3D>(json),
+            "Cannot deserialize non-cubical array as multidimensional array.");
     }
 
     [Fact]
@@ -1485,7 +1498,9 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         var json = @"{""Before"":""Before!"",""Coordinates"":[[[1,1,1],[1,1,2]],[[1,2,1],[1,2,2]],[[2,1,1],[2,1,2]],[[2,2,1],{}]],""After"":""After!""}";
 
-        XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<Array3D>(json), "Unexpected token when deserializing multidimensional array: StartObject. Path 'Coordinates[3][1]', line 1, position 99.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<Array3D>(json),
+            "Unexpected token when deserializing multidimensional array: StartObject. Path 'Coordinates[3][1]', line 1, position 99.");
     }
 
     [Fact]
@@ -1493,7 +1508,9 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         var json = @"{""Before"":""Before!"",""Coordinates"":[[[1,1,1],[1,1]],[[1,2,1],[1,2,2]],[[2,1,1],[2,1,2]],[[2,2,1],[2,2,2]]],""After"":""After!""}";
 
-        XUnitAssert.Throws<Exception>(() => JsonConvert.DeserializeObject<Array3D>(json), "Cannot deserialize non-cubical array as multidimensional array.");
+        XUnitAssert.Throws<Exception>(
+            () => JsonConvert.DeserializeObject<Array3D>(json),
+            "Cannot deserialize non-cubical array as multidimensional array.");
     }
 
     [Fact]
@@ -1861,14 +1878,14 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         };
 
-        var sw = new StringWriter();
+        var stringWriter = new StringWriter();
 
-        jsonSerializer.Serialize(sw, collection);
+        jsonSerializer.Serialize(stringWriter, collection);
 
         Assert.Equal(@"[{""Name"":""Test1"",""ExpiryDate"":""2000-01-01T00:00:00Z"",""Price"":0.0,""Sizes"":null},{""Name"":""Test2"",""ExpiryDate"":""2000-01-01T00:00:00Z"",""Price"":0.0,""Sizes"":null},{""Name"":""Test3"",""ExpiryDate"":""2000-01-01T00:00:00Z"",""Price"":0.0,""Sizes"":null}]",
-            sw.GetStringBuilder().ToString());
+            stringWriter.GetStringBuilder().ToString());
 
-        var collectionNew = (ProductCollection)jsonSerializer.Deserialize(new JsonTextReader(new StringReader(sw.GetStringBuilder().ToString())), typeof(ProductCollection));
+        var collectionNew = (ProductCollection)jsonSerializer.Deserialize(new JsonTextReader(new StringReader(stringWriter.GetStringBuilder().ToString())), typeof(ProductCollection));
 
         Assert.Equal(collection, collectionNew);
     }
@@ -2035,7 +2052,10 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         var externalJson = @"{""$type"":""System.Collections.Hashtable, mscorlib"",""testkey"":""""}";
 
-        var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+        var settings = new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.All
+        };
 
         JsonConvert.SerializeObject(new Hashtable { { "testkey", "" } }, settings);
         var deserializeTest2 = JsonConvert.DeserializeObject<Hashtable>(externalJson, settings);

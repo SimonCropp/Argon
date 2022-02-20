@@ -230,41 +230,39 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         ValidationUtils.ArgumentNotNull(reader, nameof(reader));
 
         // this is needed because we've already read inside the object, looking for metadata properties
-        using (var writer = new JTokenWriter())
+        using var writer = new JTokenWriter();
+        writer.WriteStartObject();
+
+        do
         {
-            writer.WriteStartObject();
-
-            do
+            if (reader.TokenType == JsonToken.PropertyName)
             {
-                if (reader.TokenType == JsonToken.PropertyName)
+                var propertyName = (string)reader.Value!;
+                if (!reader.ReadAndMoveToContent())
                 {
-                    var propertyName = (string)reader.Value!;
-                    if (!reader.ReadAndMoveToContent())
-                    {
-                        break;
-                    }
-
-                    if (CheckPropertyName(reader, propertyName))
-                    {
-                        continue;
-                    }
-
-                    writer.WritePropertyName(propertyName);
-                    writer.WriteToken(reader, true, true, false);
+                    break;
                 }
-                else if (reader.TokenType == JsonToken.Comment)
+
+                if (CheckPropertyName(reader, propertyName))
                 {
-                    // eat
+                    continue;
                 }
-                else
-                {
-                    writer.WriteEndObject();
-                    return writer.Token!;
-                }
-            } while (reader.Read());
 
-            throw JsonSerializationException.Create(reader, "Unexpected end when deserializing object.");
-        }
+                writer.WritePropertyName(propertyName);
+                writer.WriteToken(reader, true, true, false);
+            }
+            else if (reader.TokenType == JsonToken.Comment)
+            {
+                // eat
+            }
+            else
+            {
+                writer.WriteEndObject();
+                return writer.Token!;
+            }
+        } while (reader.Read());
+
+        throw JsonSerializationException.Create(reader, "Unexpected end when deserializing object.");
     }
 
     object? CreateValueInternal(JsonReader reader, Type? objectType, JsonContract? contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerMember, object? existingValue)

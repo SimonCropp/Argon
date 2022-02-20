@@ -110,8 +110,8 @@ public class Issue1734
     {
         var reader = XmlReader.Create(new StringReader(xml));
 
-        var sw = new StringWriter();
-        var writer = XmlWriter.Create(sw, new XmlWriterSettings {Indent = true, OmitXmlDeclaration = true});
+        var stringWriter = new StringWriter();
+        var writer = XmlWriter.Create(stringWriter, new XmlWriterSettings {Indent = true, OmitXmlDeclaration = true});
 
         while (reader.Read())
         {
@@ -120,7 +120,7 @@ public class Issue1734
 
         writer.Flush();
 
-        return sw.ToString();
+        return stringWriter.ToString();
     }
 
     [Fact]

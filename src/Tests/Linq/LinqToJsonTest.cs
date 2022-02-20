@@ -347,7 +347,9 @@ undefined
         jsonReader.Read();
         jsonReader.Read();
 
-        XUnitAssert.Throws<JsonReaderException>(() => JToken.ReadFrom(jsonReader), @"Error reading JToken from JsonReader. Unexpected token: EndArray. Path '', line 1, position 2.");
+        XUnitAssert.Throws<JsonReaderException>(
+            () => JToken.ReadFrom(jsonReader),
+            @"Error reading JToken from JsonReader. Unexpected token: EndArray. Path '', line 1, position 2.");
     }
 
     [Fact]
@@ -1018,12 +1020,12 @@ keyword such as type of business.""
 
         var serializer = new JsonSerializer();
         serializer.Converters.Add(new JavaScriptDateTimeConverter());
-        var sw = new StringWriter();
-        JsonWriter writer = new JsonTextWriter(sw);
-        writer.Formatting = Formatting.Indented;
-        serializer.Serialize(writer, o);
+        var stringWriter = new StringWriter();
+        JsonWriter jsonWriter = new JsonTextWriter(stringWriter);
+        jsonWriter.Formatting = Formatting.Indented;
+        serializer.Serialize(jsonWriter, o);
 
-        var json = sw.ToString();
+        var json = stringWriter.ToString();
 
         XUnitAssert.AreEqualNormalized(@"{
   ""Test1"": new Date(

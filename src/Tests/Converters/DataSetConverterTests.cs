@@ -34,7 +34,9 @@ public class DataSetConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeInvalidDataTable()
     {
-        var ex = XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<DataSet>("{\"pending_count\":23,\"completed_count\":45}"), "Unexpected JSON token when reading DataTable. Expected StartArray, got Integer. Path 'pending_count', line 1, position 19.");
+        var ex = XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<DataSet>("{\"pending_count\":23,\"completed_count\":45}"),
+            "Unexpected JSON token when reading DataTable. Expected StartArray, got Integer. Path 'pending_count', line 1, position 19.");
 
         Assert.Equal(1, ex.LineNumber);
         Assert.Equal(19, ex.LinePosition);
@@ -104,13 +106,13 @@ public class DataSetConverterTests : TestFixtureBase
     [Fact]
     public void WriteJsonNull()
     {
-        var sw = new StringWriter();
-        var jsonWriter = new JsonTextWriter(sw);
+        var stringWriter = new StringWriter();
+        var jsonWriter = new JsonTextWriter(stringWriter);
 
         var converter = new DataSetConverter();
         converter.WriteJson(jsonWriter, null, null);
 
-        XUnitAssert.AreEqualNormalized(@"null", sw.ToString());
+        XUnitAssert.AreEqualNormalized(@"null", stringWriter.ToString());
     }
 
     [Fact]

@@ -5,10 +5,10 @@ This sample writes JSON using the `Argon.JsonTextWriter`.
 <!-- snippet: WriteJsonWithJsonTextWriter -->
 <a id='snippet-writejsonwithjsontextwriter'></a>
 ```cs
-var sb = new StringBuilder();
-var sw = new StringWriter(sb);
+var stringBuilder = new StringBuilder();
+var stringWriter = new StringWriter(stringBuilder);
 
-using (JsonWriter writer = new JsonTextWriter(sw))
+using (JsonWriter writer = new JsonTextWriter(stringWriter))
 {
     writer.Formatting = Formatting.Indented;
 
@@ -27,7 +27,7 @@ using (JsonWriter writer = new JsonTextWriter(sw))
     writer.WriteEndObject();
 }
 
-Console.WriteLine(sb.ToString());
+Console.WriteLine(stringBuilder.ToString());
 // {
 //   "CPU": "Intel",
 //   "PSU": "500W",
@@ -39,5 +39,5 @@ Console.WriteLine(sb.ToString());
 //   ]
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Json/WriteJsonWithJsonTextWriter.cs#L35-L69' title='Snippet source file'>snippet source</a> | <a href='#snippet-writejsonwithjsontextwriter' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/Samples/Json/WriteJsonWithJsonTextWriter.cs#L36-L70' title='Snippet source file'>snippet source</a> | <a href='#snippet-writejsonwithjsontextwriter' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

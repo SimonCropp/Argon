@@ -84,10 +84,8 @@ public class SerializeComparisonBenchmarks
 
         ms.Seek(0, SeekOrigin.Begin);
 
-        using (var sr = new StreamReader(ms))
-        {
-            return sr.ReadToEnd();
-        }
+        using var sr = new StreamReader(ms);
+        return sr.ReadToEnd();
     }
     static readonly byte[] Buffer = new byte[4096];
 
@@ -136,10 +134,8 @@ public class SerializeComparisonBenchmarks
 
         ms.Seek(0, SeekOrigin.Begin);
 
-        using (var sr = new StreamReader(ms))
-        {
-            return sr.ReadToEnd();
-        }
+        using var sr = new StreamReader(ms);
+        return sr.ReadToEnd();
     }
 
     [Benchmark]
@@ -188,57 +184,57 @@ public class SerializeComparisonBenchmarks
     #region SerializeJsonNetManual
     static string SerializeJsonNetManual(TestClass c)
     {
-        var sw = new StringWriter();
-        var writer = new JsonTextWriter(sw);
-        writer.WriteStartObject();
-        writer.WritePropertyName("strings");
-        writer.WriteStartArray();
+        var stringWriter = new StringWriter();
+        var jsonWriter = new JsonTextWriter(stringWriter);
+        jsonWriter.WriteStartObject();
+        jsonWriter.WritePropertyName("strings");
+        jsonWriter.WriteStartArray();
         foreach (var s in c.strings)
         {
-            writer.WriteValue(s);
+            jsonWriter.WriteValue(s);
         }
-        writer.WriteEndArray();
-        writer.WritePropertyName("dictionary");
-        writer.WriteStartObject();
+        jsonWriter.WriteEndArray();
+        jsonWriter.WritePropertyName("dictionary");
+        jsonWriter.WriteStartObject();
         foreach (var keyValuePair in c.dictionary)
         {
-            writer.WritePropertyName(keyValuePair.Key);
-            writer.WriteValue(keyValuePair.Value);
+            jsonWriter.WritePropertyName(keyValuePair.Key);
+            jsonWriter.WriteValue(keyValuePair.Value);
         }
-        writer.WriteEndObject();
-        writer.WritePropertyName("Name");
-        writer.WriteValue(c.Name);
-        writer.WritePropertyName("Now");
-        writer.WriteValue(c.Now);
-        writer.WritePropertyName("BigNumber");
-        writer.WriteValue(c.BigNumber);
-        writer.WritePropertyName("Address1");
-        writer.WriteStartObject();
-        writer.WritePropertyName("Street");
-        writer.WriteValue(c.BigNumber);
-        writer.WritePropertyName("Street");
-        writer.WriteValue(c.BigNumber);
-        writer.WritePropertyName("Street");
-        writer.WriteValue(c.BigNumber);
-        writer.WriteEndObject();
-        writer.WritePropertyName("Addresses");
-        writer.WriteStartArray();
+        jsonWriter.WriteEndObject();
+        jsonWriter.WritePropertyName("Name");
+        jsonWriter.WriteValue(c.Name);
+        jsonWriter.WritePropertyName("Now");
+        jsonWriter.WriteValue(c.Now);
+        jsonWriter.WritePropertyName("BigNumber");
+        jsonWriter.WriteValue(c.BigNumber);
+        jsonWriter.WritePropertyName("Address1");
+        jsonWriter.WriteStartObject();
+        jsonWriter.WritePropertyName("Street");
+        jsonWriter.WriteValue(c.BigNumber);
+        jsonWriter.WritePropertyName("Street");
+        jsonWriter.WriteValue(c.BigNumber);
+        jsonWriter.WritePropertyName("Street");
+        jsonWriter.WriteValue(c.BigNumber);
+        jsonWriter.WriteEndObject();
+        jsonWriter.WritePropertyName("Addresses");
+        jsonWriter.WriteStartArray();
         foreach (var address in c.Addresses)
         {
-            writer.WriteStartObject();
-            writer.WritePropertyName("Street");
-            writer.WriteValue(address.Street);
-            writer.WritePropertyName("Phone");
-            writer.WriteValue(address.Phone);
-            writer.WritePropertyName("Entered");
-            writer.WriteValue(address.Entered);
-            writer.WriteEndObject();
+            jsonWriter.WriteStartObject();
+            jsonWriter.WritePropertyName("Street");
+            jsonWriter.WriteValue(address.Street);
+            jsonWriter.WritePropertyName("Phone");
+            jsonWriter.WriteValue(address.Phone);
+            jsonWriter.WritePropertyName("Entered");
+            jsonWriter.WriteValue(address.Entered);
+            jsonWriter.WriteEndObject();
         }
-        writer.WriteEndArray();
-        writer.WriteEndObject();
+        jsonWriter.WriteEndArray();
+        jsonWriter.WriteEndObject();
 
-        writer.Flush();
-        return sw.ToString();
+        jsonWriter.Flush();
+        return stringWriter.ToString();
     }
     #endregion
 
@@ -256,58 +252,58 @@ public class SerializeComparisonBenchmarks
 
     static async Task<string> SerializeJsonNetManualAsync(TestClass c, Formatting formatting)
     {
-        var sw = new StringWriter();
-        var writer = new JsonTextWriter(sw);
-        writer.Formatting = formatting;
+        var stringWriter = new StringWriter();
+        var jsonWriter = new JsonTextWriter(stringWriter);
+        jsonWriter.Formatting = formatting;
 
-        await writer.WriteStartObjectAsync();
-        await writer.WritePropertyNameAsync("strings");
-        await writer.WriteStartArrayAsync();
+        await jsonWriter.WriteStartObjectAsync();
+        await jsonWriter.WritePropertyNameAsync("strings");
+        await jsonWriter.WriteStartArrayAsync();
         foreach (var s in c.strings)
         {
-            await writer.WriteValueAsync(s);
+            await jsonWriter.WriteValueAsync(s);
         }
-        await writer.WriteEndArrayAsync();
-        await writer.WritePropertyNameAsync("dictionary");
-        await writer.WriteStartObjectAsync();
+        await jsonWriter.WriteEndArrayAsync();
+        await jsonWriter.WritePropertyNameAsync("dictionary");
+        await jsonWriter.WriteStartObjectAsync();
         foreach (var keyValuePair in c.dictionary)
         {
-            await writer.WritePropertyNameAsync(keyValuePair.Key);
-            await writer.WriteValueAsync(keyValuePair.Value);
+            await jsonWriter.WritePropertyNameAsync(keyValuePair.Key);
+            await jsonWriter.WriteValueAsync(keyValuePair.Value);
         }
-        await writer.WriteEndObjectAsync();
-        await writer.WritePropertyNameAsync("Name");
-        await writer.WriteValueAsync(c.Name);
-        await writer.WritePropertyNameAsync("Now");
-        await writer.WriteValueAsync(c.Now);
-        await writer.WritePropertyNameAsync("BigNumber");
-        await writer.WriteValueAsync(c.BigNumber);
-        await writer.WritePropertyNameAsync("Address1");
-        await writer.WriteStartObjectAsync();
-        await writer.WritePropertyNameAsync("Street");
-        await writer.WriteValueAsync(c.BigNumber);
-        await writer.WritePropertyNameAsync("Street");
-        await writer.WriteValueAsync(c.BigNumber);
-        await writer.WritePropertyNameAsync("Street");
-        await writer.WriteValueAsync(c.BigNumber);
-        await writer.WriteEndObjectAsync();
-        await writer.WritePropertyNameAsync("Addresses");
-        await writer.WriteStartArrayAsync();
+        await jsonWriter.WriteEndObjectAsync();
+        await jsonWriter.WritePropertyNameAsync("Name");
+        await jsonWriter.WriteValueAsync(c.Name);
+        await jsonWriter.WritePropertyNameAsync("Now");
+        await jsonWriter.WriteValueAsync(c.Now);
+        await jsonWriter.WritePropertyNameAsync("BigNumber");
+        await jsonWriter.WriteValueAsync(c.BigNumber);
+        await jsonWriter.WritePropertyNameAsync("Address1");
+        await jsonWriter.WriteStartObjectAsync();
+        await jsonWriter.WritePropertyNameAsync("Street");
+        await jsonWriter.WriteValueAsync(c.BigNumber);
+        await jsonWriter.WritePropertyNameAsync("Street");
+        await jsonWriter.WriteValueAsync(c.BigNumber);
+        await jsonWriter.WritePropertyNameAsync("Street");
+        await jsonWriter.WriteValueAsync(c.BigNumber);
+        await jsonWriter.WriteEndObjectAsync();
+        await jsonWriter.WritePropertyNameAsync("Addresses");
+        await jsonWriter.WriteStartArrayAsync();
         foreach (var address in c.Addresses)
         {
-            await writer.WriteStartObjectAsync();
-            await writer.WritePropertyNameAsync("Street");
-            await writer.WriteValueAsync(address.Street);
-            await writer.WritePropertyNameAsync("Phone");
-            await writer.WriteValueAsync(address.Phone);
-            await writer.WritePropertyNameAsync("Entered");
-            await writer.WriteValueAsync(address.Entered);
-            await writer.WriteEndObjectAsync();
+            await jsonWriter.WriteStartObjectAsync();
+            await jsonWriter.WritePropertyNameAsync("Street");
+            await jsonWriter.WriteValueAsync(address.Street);
+            await jsonWriter.WritePropertyNameAsync("Phone");
+            await jsonWriter.WriteValueAsync(address.Phone);
+            await jsonWriter.WritePropertyNameAsync("Entered");
+            await jsonWriter.WriteValueAsync(address.Entered);
+            await jsonWriter.WriteEndObjectAsync();
         }
-        await writer.WriteEndArrayAsync();
-        await writer.WriteEndObjectAsync();
+        await jsonWriter.WriteEndArrayAsync();
+        await jsonWriter.WriteEndObjectAsync();
 
-        await writer.FlushAsync();
-        return sw.ToString();
+        await jsonWriter.FlushAsync();
+        return stringWriter.ToString();
     }
 }

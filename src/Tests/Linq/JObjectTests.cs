@@ -191,14 +191,16 @@ public class JObjectTests : TestFixtureBase
     [Fact]
     public void DuplicatePropertyNameShouldThrow()
     {
-        XUnitAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(
+            () =>
         {
             var o = new JObject
             {
                 {"PropertyNameValue", null},
                 {"PropertyNameValue", null}
             };
-        }, "Can not add property PropertyNameValue to Argon.Linq.JObject. Property with the same name already exists on object.");
+        },
+            "Can not add property PropertyNameValue to Argon.Linq.JObject. Property with the same name already exists on object.");
     }
 
     [Fact]
@@ -325,7 +327,8 @@ Parameter name: propertyName",
     [Fact]
     public void GenericCollectionCopyToNullArrayShouldThrow()
     {
-        XUnitAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(
+            () =>
             {
                 var o = new JObject();
                 ((ICollection<KeyValuePair<string, JToken>>) o).CopyTo(null, 0);
@@ -351,17 +354,20 @@ Parameter name: arrayIndex",
     [Fact]
     public void GenericCollectionCopyToArrayIndexEqualGreaterToArrayLengthShouldThrow()
     {
-        XUnitAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(
+            () =>
         {
             var o = new JObject();
             ((ICollection<KeyValuePair<string, JToken>>) o).CopyTo(new KeyValuePair<string, JToken>[1], 1);
-        }, @"arrayIndex is equal to or greater than the length of array.");
+        },
+            @"arrayIndex is equal to or greater than the length of array.");
     }
 
     [Fact]
     public void GenericCollectionCopyToInsufficientArrayCapacity()
     {
-        XUnitAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(
+            () =>
         {
             var o = new JObject
             {
@@ -371,7 +377,8 @@ Parameter name: arrayIndex",
             };
 
             ((ICollection<KeyValuePair<string, JToken>>) o).CopyTo(new KeyValuePair<string, JToken>[3], 1);
-        }, @"The number of elements in the source JObject is greater than the available space from arrayIndex to the end of the destination array.");
+        }, 
+            @"The number of elements in the source JObject is greater than the available space from arrayIndex to the end of the destination array.");
     }
 
     [Fact]
@@ -896,33 +903,38 @@ Parameter name: arrayIndex",
     [Fact]
     public void IListAddBadToken()
     {
-        XUnitAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(
+            () =>
         {
             var p1 = new JProperty("Test1", 1);
             var p2 = new JProperty("Test2", "Two");
             IList l = new JObject(p1, p2);
 
             l.Add(new JValue("Bad!"));
-        }, "Can not add Argon.Linq.JValue to Argon.Linq.JObject.");
+        }, 
+            "Can not add Argon.Linq.JValue to Argon.Linq.JObject.");
     }
 
     [Fact]
     public void IListAddBadValue()
     {
-        XUnitAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(
+            () =>
         {
             var p1 = new JProperty("Test1", 1);
             var p2 = new JProperty("Test2", "Two");
             IList l = new JObject(p1, p2);
 
             l.Add("Bad!");
-        }, "Argument is not a JToken.");
+        },
+            "Argument is not a JToken.");
     }
 
     [Fact]
     public void IListAddPropertyWithExistingName()
     {
-        XUnitAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(
+            () =>
         {
             var p1 = new JProperty("Test1", 1);
             var p2 = new JProperty("Test2", "Two");
@@ -931,7 +943,8 @@ Parameter name: arrayIndex",
             var p3 = new JProperty("Test2", "II");
 
             l.Add(p3);
-        }, "Can not add property Test2 to Argon.Linq.JObject. Property with the same name already exists on object.");
+        }, 
+            "Can not add property Test2 to Argon.Linq.JObject. Property with the same name already exists on object.");
     }
 
     [Fact]
@@ -1024,7 +1037,8 @@ Parameter name: arrayIndex",
     [Fact]
     public void IListSetItemAlreadyExists()
     {
-        XUnitAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(
+            () =>
         {
             var p1 = new JProperty("Test1", 1);
             var p2 = new JProperty("Test2", "Two");
@@ -1034,20 +1048,23 @@ Parameter name: arrayIndex",
 
             l[0] = p3;
             l[1] = p3;
-        }, "Can not add property Test3 to Argon.Linq.JObject. Property with the same name already exists on object.");
+        }, 
+            "Can not add property Test3 to Argon.Linq.JObject. Property with the same name already exists on object.");
     }
 
     [Fact]
     public void IListSetItemInvalid()
     {
-        XUnitAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(
+            () =>
         {
             var p1 = new JProperty("Test1", 1);
             var p2 = new JProperty("Test2", "Two");
             IList l = new JObject(p1, p2);
 
             l[0] = new JValue(true);
-        }, @"Can not add Argon.Linq.JValue to Argon.Linq.JObject.");
+        }, 
+            @"Can not add Argon.Linq.JValue to Argon.Linq.JObject.");
     }
 
     [Fact]
@@ -1136,20 +1153,23 @@ Parameter name: arrayIndex",
     [Fact]
     public void GenericListJTokenAddBadToken()
     {
-        XUnitAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(
+            () =>
         {
             var p1 = new JProperty("Test1", 1);
             var p2 = new JProperty("Test2", "Two");
             IList<JToken> l = new JObject(p1, p2);
 
             l.Add(new JValue("Bad!"));
-        }, "Can not add Argon.Linq.JValue to Argon.Linq.JObject.");
+        },
+            "Can not add Argon.Linq.JValue to Argon.Linq.JObject.");
     }
 
     [Fact]
     public void GenericListJTokenAddBadValue()
     {
-        XUnitAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(
+            () =>
         {
             var p1 = new JProperty("Test1", 1);
             var p2 = new JProperty("Test2", "Two");
@@ -1157,13 +1177,15 @@ Parameter name: arrayIndex",
 
             // string is implicitly converted to JValue
             l.Add("Bad!");
-        }, "Can not add Argon.Linq.JValue to Argon.Linq.JObject.");
+        }, 
+            "Can not add Argon.Linq.JValue to Argon.Linq.JObject.");
     }
 
     [Fact]
     public void GenericListJTokenAddPropertyWithExistingName()
     {
-        XUnitAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(
+            () =>
         {
             var p1 = new JProperty("Test1", 1);
             var p2 = new JProperty("Test2", "Two");
@@ -1172,7 +1194,8 @@ Parameter name: arrayIndex",
             var p3 = new JProperty("Test2", "II");
 
             l.Add(p3);
-        }, "Can not add property Test2 to Argon.Linq.JObject. Property with the same name already exists on object.");
+        }, 
+            "Can not add property Test2 to Argon.Linq.JObject. Property with the same name already exists on object.");
     }
 
     [Fact]
@@ -1258,7 +1281,8 @@ Parameter name: arrayIndex",
     [Fact]
     public void GenericListJTokenSetItemAlreadyExists()
     {
-        XUnitAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(
+            () =>
         {
             var p1 = new JProperty("Test1", 1);
             var p2 = new JProperty("Test2", "Two");
@@ -1268,7 +1292,8 @@ Parameter name: arrayIndex",
 
             l[0] = p3;
             l[1] = p3;
-        }, "Can not add property Test3 to Argon.Linq.JObject. Property with the same name already exists on object.");
+        },
+            "Can not add property Test3 to Argon.Linq.JObject. Property with the same name already exists on object.");
     }
 
     [Fact]
@@ -1559,13 +1584,15 @@ Parameter name: arrayIndex",
     [Fact]
     public void SetValueWithInvalidPropertyName()
     {
-        XUnitAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(
+            () =>
         {
             var o = new JObject
             {
                 [0] = new JValue(3)
             };
-        }, "Set JObject values with invalid key value: 0. Object property name expected.");
+        }, 
+            "Set JObject values with invalid key value: 0. Object property name expected.");
     }
 
     [Fact]
@@ -1666,7 +1693,8 @@ Parameter name: arrayIndex",
     [Fact]
     public void InvalidValueCastExceptionMessage()
     {
-        XUnitAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(
+            () =>
         {
             var json = @"{
   ""responseData"": {}, 
@@ -1677,13 +1705,15 @@ Parameter name: arrayIndex",
             var o = JObject.Parse(json);
 
             var name = (string) o["responseData"];
-        }, "Can not convert Object to String.");
+        },
+            "Can not convert Object to String.");
     }
 
     [Fact]
     public void InvalidPropertyValueCastExceptionMessage()
     {
-        XUnitAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(
+            () =>
         {
             var json = @"{
   ""responseData"": {}, 
@@ -1694,13 +1724,16 @@ Parameter name: arrayIndex",
             var o = JObject.Parse(json);
 
             var name = (string) o.Property("responseData");
-        }, "Can not convert Object to String.");
+        }, 
+            "Can not convert Object to String.");
     }
 
     [Fact]
     public void ParseIncomplete()
     {
-        XUnitAssert.Throws<Exception>(() => { JObject.Parse("{ foo:"); }, "Unexpected end of content while loading JObject. Path 'foo', line 1, position 6.");
+        XUnitAssert.Throws<Exception>(
+            () => JObject.Parse("{ foo:"),
+            "Unexpected end of content while loading JObject. Path 'foo', line 1, position 6.");
     }
 
     [Fact]
@@ -1717,7 +1750,7 @@ Parameter name: arrayIndex",
   }
 }";
 
-        JsonReader reader = new JsonTextReader(new StringReader(jsonText));
+        var reader = new JsonTextReader(new StringReader(jsonText));
         reader.Read();
         reader.Read();
         reader.Read();
@@ -1744,7 +1777,7 @@ Parameter name: arrayIndex",
     {
       ""code"":0";
 
-            JsonReader reader = new JsonTextReader(new StringReader(jsonText));
+            var reader = new JsonTextReader(new StringReader(jsonText));
             reader.Read();
             reader.Read();
             reader.Read();
@@ -1831,9 +1864,10 @@ Parameter name: arrayIndex",
     [Fact]
     public void ParseAdditionalContent()
     {
-        XUnitAssert.Throws<JsonReaderException>(() =>
-        {
-            var json = @"{
+        XUnitAssert.Throws<JsonReaderException>(
+            () =>
+            {
+                var json = @"{
 ""Name"": ""Apple"",
 ""Expiry"": new Date(1230422400000),
 ""Price"": 3.99,
@@ -1844,8 +1878,9 @@ Parameter name: arrayIndex",
 ]
 }, 987987";
 
-            var o = JObject.Parse(json);
-        }, "Additional text encountered after finished reading JSON content: ,. Path '', line 10, position 1.");
+                var o = JObject.Parse(json);
+            },
+            "Additional text encountered after finished reading JSON content: ,. Path '', line 10, position 1.");
     }
 
     [Fact]
@@ -2071,7 +2106,8 @@ Parameter name: arrayIndex",
 //Another comment.
 []";
 
-        XUnitAssert.Throws<JsonReaderException>(() => JObject.Parse(json),
+        XUnitAssert.Throws<JsonReaderException>(
+            () => JObject.Parse(json),
             "Additional text encountered after finished reading JSON content: [. Path '', line 3, position 0.");
     }
 

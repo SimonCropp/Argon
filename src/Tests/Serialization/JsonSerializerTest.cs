@@ -99,36 +99,34 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void DontCloseInputOnDeserializeError()
     {
-        using (var s = System.IO.File.OpenRead("large.json"))
+        using var s = System.IO.File.OpenRead("large.json");
+        try
         {
-            try
+            using (var reader = new JsonTextReader(new StreamReader(s)))
             {
-                using (var reader = new JsonTextReader(new StreamReader(s)))
+                reader.SupportMultipleContent = true;
+                reader.CloseInput = false;
+
+                // read into array
+                reader.Read();
+
+                var ser = new JsonSerializer
                 {
-                    reader.SupportMultipleContent = true;
-                    reader.CloseInput = false;
+                    CheckAdditionalContent = false
+                };
 
-                    // read into array
-                    reader.Read();
-
-                    var ser = new JsonSerializer
-                    {
-                        CheckAdditionalContent = false
-                    };
-
-                    ser.Deserialize<IList<ErroringClass>>(reader);
-                }
-
-                XUnitAssert.Fail();
+                ser.Deserialize<IList<ErroringClass>>(reader);
             }
-            catch (Exception)
-            {
-                Assert.True(s.Position > 0);
 
-                s.Seek(0, SeekOrigin.Begin);
+            XUnitAssert.Fail();
+        }
+        catch (Exception)
+        {
+            Assert.True(s.Position > 0);
 
-                Assert.Equal(0, s.Position);
-            }
+            s.Seek(0, SeekOrigin.Begin);
+
+            Assert.Equal(0, s.Position);
         }
     }
 
@@ -320,13 +318,17 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void CoercedEmptyStringWithRequired()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<Binding>("{requiredProperty:''}"); }, "Required property 'RequiredProperty' expects a value but got null. Path '', line 1, position 21.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<Binding>("{requiredProperty:''}"),
+            "Required property 'RequiredProperty' expects a value but got null. Path '', line 1, position 21.");
     }
 
     [Fact]
     public void CoercedEmptyStringWithRequired_DisallowNull()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<Binding_DisallowNull>("{requiredProperty:''}"); }, "Required property 'RequiredProperty' expects a non-null value. Path '', line 1, position 21.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<Binding_DisallowNull>("{requiredProperty:''}"),
+            "Required property 'RequiredProperty' expects a non-null value. Path '', line 1, position 21.");
     }
 
     [Fact]
@@ -339,7 +341,9 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void CoercedEmptyStringWithRequiredConstructor()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<FooRequired>("{Bars:''}"); }, "Required property 'Bars' expects a value but got null. Path '', line 1, position 9.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<FooRequired>("{Bars:''}"),
+            "Required property 'Bars' expects a value but got null. Path '', line 1, position 9.");
     }
 
     [Fact]
@@ -353,7 +357,9 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void Serialize_Required_DisallowedNull()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.SerializeObject(new Binding_DisallowNull()); }, "Cannot write a null value for property 'RequiredProperty'. Property requires a non-null value. Path ''.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.SerializeObject(new Binding_DisallowNull()),
+            "Cannot write a null value for property 'RequiredProperty'. Property requires a non-null value. Path ''.");
     }
 
     [Fact]
@@ -369,7 +375,9 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void Serialize_ItemRequired_DisallowedNull()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.SerializeObject(new DictionaryWithNoNull()); }, "Cannot write a null value for property 'Name'. Property requires a non-null value. Path ''.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.SerializeObject(new DictionaryWithNoNull()),
+            "Cannot write a null value for property 'Name'. Property requires a non-null value. Path ''.");
     }
 
     [Fact]
@@ -863,7 +871,9 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var json = "['1.2.3.4444444444444444444444']";
 
-        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<List<Version>>(json); }, @"Error converting value ""1.2.3.4444444444444444444444"" to type 'System.Version'. Path '[0]', line 1, position 31.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<List<Version>>(json),
+            @"Error converting value ""1.2.3.4444444444444444444444"" to type 'System.Version'. Path '[0]', line 1, position 31.");
     }
 
     [Fact]
@@ -1460,7 +1470,10 @@ public class JsonSerializerTest : TestFixtureBase
             dictStore.Add(new DictionaryKeyCast(i.ToString(CultureInfo.InvariantCulture), i), i);
         }
 
-        var settings = new JsonSerializerSettings {Formatting = Formatting.Indented};
+        var settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented
+        };
         var jsonSerializer = JsonSerializer.Create(settings);
         var ms = new MemoryStream();
 
@@ -1936,7 +1949,9 @@ keyword such as type of business.""
     [Fact]
     public void BadJsonPropertyClassSerialize()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.SerializeObject(new BadJsonPropertyClass()); }, @"A member with the name 'pie' already exists on 'Argon.Tests.TestObjects.BadJsonPropertyClass'. Use the JsonPropertyAttribute to specify another name.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.SerializeObject(new BadJsonPropertyClass()),
+            @"A member with the name 'pie' already exists on 'Argon.Tests.TestObjects.BadJsonPropertyClass'. Use the JsonPropertyAttribute to specify another name.");
     }
 
     [Fact]
@@ -1944,7 +1959,9 @@ keyword such as type of business.""
     {
         var json = @"[""vvv\jvvv""]";
 
-        XUnitAssert.Throws<JsonReaderException>(() => { JsonConvert.DeserializeObject<List<string>>(json); }, @"Bad JSON escape sequence: \j. Path '', line 1, position 7.");
+        XUnitAssert.Throws<JsonReaderException>(
+            () => JsonConvert.DeserializeObject<List<string>>(json),
+            @"Bad JSON escape sequence: \j. Path '', line 1, position 7.");
     }
 
     [Fact]
@@ -2272,7 +2289,10 @@ keyword such as type of business.""
     {
         var obj = new {Formatting = "test"};
 
-        var settings = new JsonSerializerSettings {Formatting = Formatting.Indented};
+        var settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented
+        };
         var indented = JsonConvert.SerializeObject(obj, settings);
 
         var none = JsonConvert.SerializeObject(obj, Formatting.None, settings);
@@ -3349,7 +3369,9 @@ keyword such as type of business.""
     {
         var json = @"{""sublocation"":""AlertEmailSender.Program.Main"",""userId"":0,""type"":0,""summary"":""Loading settings variables"",""details"":null,""stackTrace"":""   at System.Environment.GetStackTrace(Exception e, Boolean needFileInfo)\r\n   at System.Environment.get_StackTrace()\r\n   at mr.Logging.Event..ctor(String summary) in C:\\Projects\\MRUtils\\Logging\\Event.vb:line 71\r\n   at AlertEmailSender.Program.Main(String[] args) in C:\\Projects\\AlertEmailSender\\AlertEmailSender\\Program.cs:line 25"",""tag"":null,""time"":""\/Date(1249591032026-0400)\/""}";
 
-        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<Event>(json); }, @"Unable to find a constructor to use for type Argon.Tests.TestObjects.Events.Event. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'sublocation', line 1, position 15.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<Event>(json),
+            @"Unable to find a constructor to use for type Argon.Tests.TestObjects.Events.Event. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'sublocation', line 1, position 15.");
     }
 
     [Fact]
@@ -3388,7 +3410,9 @@ keyword such as type of business.""
     {
         var json = @"[]";
 
-        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<Person>(json); }, @"Cannot deserialize the current JSON array (e.g. [1,2,3]) into type 'Argon.Tests.TestObjects.Organization.Person' because the type requires a JSON object (e.g. {""name"":""value""}) to deserialize correctly.
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<Person>(json),
+            @"Cannot deserialize the current JSON array (e.g. [1,2,3]) into type 'Argon.Tests.TestObjects.Organization.Person' because the type requires a JSON object (e.g. {""name"":""value""}) to deserialize correctly.
 To fix this error either change the JSON to a JSON object (e.g. {""name"":""value""}) or change the deserialized type to an array or a type that implements a collection interface (e.g. ICollection, IList) like List<T> that can be deserialized from a JSON array. JsonArrayAttribute can also be added to the type to force it to deserialize from a JSON array.
 Path '', line 1, position 1.");
     }
@@ -3398,7 +3422,9 @@ Path '', line 1, position 1.");
     {
         var json = @"[]";
 
-        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<Dictionary<string, string>>(json); }, @"Cannot deserialize the current JSON array (e.g. [1,2,3]) into type 'System.Collections.Generic.Dictionary`2[System.String,System.String]' because the type requires a JSON object (e.g. {""name"":""value""}) to deserialize correctly.
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<Dictionary<string, string>>(json),
+            @"Cannot deserialize the current JSON array (e.g. [1,2,3]) into type 'System.Collections.Generic.Dictionary`2[System.String,System.String]' because the type requires a JSON object (e.g. {""name"":""value""}) to deserialize correctly.
 To fix this error either change the JSON to a JSON object (e.g. {""name"":""value""}) or change the deserialized type to an array or a type that implements a collection interface (e.g. ICollection, IList) like List<T> that can be deserialized from a JSON array. JsonArrayAttribute can also be added to the type to force it to deserialize from a JSON array.
 Path '', line 1, position 1.");
     }
@@ -3408,7 +3434,9 @@ Path '', line 1, position 1.");
     {
         var json = @"[]";
 
-        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<Exception>(json); }, @"Cannot deserialize the current JSON array (e.g. [1,2,3]) into type 'System.Exception' because the type requires a JSON object (e.g. {""name"":""value""}) to deserialize correctly.
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<Exception>(json),
+            @"Cannot deserialize the current JSON array (e.g. [1,2,3]) into type 'System.Exception' because the type requires a JSON object (e.g. {""name"":""value""}) to deserialize correctly.
 To fix this error either change the JSON to a JSON object (e.g. {""name"":""value""}) or change the deserialized type to an array or a type that implements a collection interface (e.g. ICollection, IList) like List<T> that can be deserialized from a JSON array. JsonArrayAttribute can also be added to the type to force it to deserialize from a JSON array.
 Path '', line 1, position 1.");
     }
@@ -3419,7 +3447,7 @@ Path '', line 1, position 1.");
         var json = @"[]";
 
         XUnitAssert.Throws<JsonReaderException>(
-            () => { JsonConvert.DeserializeObject<double>(json); },
+            () => JsonConvert.DeserializeObject<double>(json),
             @"Unexpected character encountered while parsing value: [. Path '', line 1, position 1.");
     }
 
@@ -3429,7 +3457,7 @@ Path '', line 1, position 1.");
         var json = @"[]";
 
         XUnitAssert.Throws<JsonSerializationException>(
-            () => { JsonConvert.DeserializeObject<DynamicDictionary>(json); },
+            () => JsonConvert.DeserializeObject<DynamicDictionary>(json),
             @"Cannot deserialize the current JSON array (e.g. [1,2,3]) into type 'Argon.Tests.Linq.DynamicDictionary' because the type requires a JSON object (e.g. {""name"":""value""}) to deserialize correctly.
 To fix this error either change the JSON to a JSON object (e.g. {""name"":""value""}) or change the deserialized type to an array or a type that implements a collection interface (e.g. ICollection, IList) like List<T> that can be deserialized from a JSON array. JsonArrayAttribute can also be added to the type to force it to deserialize from a JSON array.
 Path '', line 1, position 1.");
@@ -3441,7 +3469,7 @@ Path '', line 1, position 1.");
         var json = @"[]";
 
         XUnitAssert.Throws<JsonSerializationException>(
-            () => { JsonConvert.DeserializeObject<JObject>(json); },
+            () => JsonConvert.DeserializeObject<JObject>(json),
             "Deserialized JSON type 'Argon.Linq.JArray' is not compatible with expected type 'Argon.Linq.JObject'. Path '', line 1, position 2.");
     }
 
@@ -3450,7 +3478,9 @@ Path '', line 1, position 1.");
     {
         var json = @"new Constructor(123)";
 
-        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<Person>(json); }, @"Error converting value ""Constructor"" to type 'Argon.Tests.TestObjects.Organization.Person'. Path '', line 1, position 16.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<Person>(json),
+            @"Error converting value ""Constructor"" to type 'Argon.Tests.TestObjects.Organization.Person'. Path '', line 1, position 16.");
     }
 
     [Fact]
@@ -3458,7 +3488,9 @@ Path '', line 1, position 1.");
     {
         var json = @"[new Constructor(123)]";
 
-        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<List<Person>>(json); }, @"Error converting value ""Constructor"" to type 'Argon.Tests.TestObjects.Organization.Person'. Path '[0]', line 1, position 17.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<List<Person>>(json),
+            @"Error converting value ""Constructor"" to type 'Argon.Tests.TestObjects.Organization.Person'. Path '[0]', line 1, position 17.");
     }
 
     [Fact]
@@ -3482,7 +3514,9 @@ Path '', line 1, position 1.");
     {
         var json = @"[]";
 
-        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.PopulateObject(json, new Person()); }, @"Cannot populate JSON array onto type 'Argon.Tests.TestObjects.Organization.Person'. Path '', line 1, position 1.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.PopulateObject(json, new Person()),
+                @"Cannot populate JSON array onto type 'Argon.Tests.TestObjects.Organization.Person'. Path '', line 1, position 1.");
     }
 
     [Fact]
@@ -3490,7 +3524,9 @@ Path '', line 1, position 1.");
     {
         var json = @"{}";
 
-        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.PopulateObject(json, new List<Person>()); }, @"Cannot populate JSON object onto type 'System.Collections.Generic.List`1[Argon.Tests.TestObjects.Organization.Person]'. Path '', line 1, position 2.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.PopulateObject(json, new List<Person>()),
+            @"Cannot populate JSON object onto type 'System.Collections.Generic.List`1[Argon.Tests.TestObjects.Organization.Person]'. Path '', line 1, position 2.");
     }
 
     [Fact]
@@ -3880,11 +3916,13 @@ Path '', line 1, position 1.");
     {
         var json = "{'$id':'1',key1:'value1',key2:'value2',key3:'value3'}";
 
-        XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<DictionaryWithNoDefaultConstructor>(json, new JsonSerializerSettings
-        {
-            PreserveReferencesHandling = PreserveReferencesHandling.All,
-            MetadataPropertyHandling = MetadataPropertyHandling.Default
-        }), "Cannot preserve reference to readonly dictionary, or dictionary created from a non-default constructor: Argon.Tests.TestObjects.DictionaryWithNoDefaultConstructor. Path 'key1', line 1, position 16.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<DictionaryWithNoDefaultConstructor>(json, new JsonSerializerSettings
+            {
+                PreserveReferencesHandling = PreserveReferencesHandling.All,
+                MetadataPropertyHandling = MetadataPropertyHandling.Default
+            }),
+            "Cannot preserve reference to readonly dictionary, or dictionary created from a non-default constructor: Argon.Tests.TestObjects.DictionaryWithNoDefaultConstructor. Path 'key1', line 1, position 16.");
     }
 
     [Fact]
@@ -4392,7 +4430,9 @@ Path '', line 1, position 1.");
 
         var json = JsonConvert.SerializeObject(child, Formatting.Indented);
 
-        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<Dictionary<string, object>>(json); }, "Additional content found in JSON reference object. A JSON reference object should only have a $ref property. Path 'Father.$id', line 6, position 10.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<Dictionary<string, object>>(json),
+            "Additional content found in JSON reference object. A JSON reference object should only have a $ref property. Path 'Father.$id', line 6, position 10.");
     }
 
     [Fact]
@@ -4608,7 +4648,9 @@ Path '', line 1, position 1.");
         }
         else
         {
-            XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<StringDictionaryTestClass>(json); }, $"Cannot create and populate list type {classRef}. Path 'StringDictionaryProperty', line 2, position 31.");
+            XUnitAssert.Throws<JsonSerializationException>(
+                () => JsonConvert.DeserializeObject<StringDictionaryTestClass>(json),
+                $"Cannot create and populate list type {classRef}. Path 'StringDictionaryProperty', line 2, position 31.");
         }
     }
 
@@ -4967,7 +5009,9 @@ Path '', line 1, position 1.");
     [Fact]
     public void DeserializeNullDateTimeValueTest()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject("null", typeof(DateTime)); }, "Error converting value {null} to type 'System.DateTime'. Path '', line 1, position 4.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject("null", typeof(DateTime)),
+            "Error converting value {null} to type 'System.DateTime'. Path '', line 1, position 4.");
     }
 
     [Fact]
@@ -5326,15 +5370,13 @@ Path '', line 1, position 1.");
 
         var json = JObject.FromObject(o);
 
-        using (var sw = new StringWriter())
-        using (var jw = new JsonTextWriter(sw))
-        {
-            jw.WriteToken(json.CreateReader());
-            jw.Flush();
+        using var stringWriter = new StringWriter();
+        using var jsonWriter = new JsonTextWriter(stringWriter);
+        jsonWriter.WriteToken(json.CreateReader());
+        jsonWriter.Flush();
 
-            var result = sw.ToString();
-            Assert.Equal(@"{""p"":1}", result);
-        }
+        var result = stringWriter.ToString();
+        Assert.Equal(@"{""p"":1}", result);
     }
 
     [Fact]
@@ -5371,7 +5413,7 @@ Path '', line 1, position 1.");
 
         byte[] objectBytes;
         using (var stream = new MemoryStream())
-        using (JsonWriter jsonWriter = new JsonTextWriter(new StreamWriter(stream)))
+        using (var jsonWriter = new JsonTextWriter(new StreamWriter(stream)))
         {
             serializer.Serialize(jsonWriter, test);
             jsonWriter.Flush();
@@ -5592,7 +5634,9 @@ Path '', line 1, position 1.");
   ""NullableInteger2"": null
 }";
 
-        XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<ConvertableIntTestClass>(json), "Error converting value 1 to type 'Argon.Tests.TestObjects.ConvertibleInt'. Path 'Integer', line 2, position 14.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<ConvertableIntTestClass>(json),
+            "Error converting value 1 to type 'Argon.Tests.TestObjects.ConvertibleInt'. Path 'Integer', line 2, position 14.");
     }
 
     [Fact]
@@ -5796,19 +5840,25 @@ Path '', line 1, position 1.");
     [Fact]
     public void DeserializeDoubleFromEmptyString()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<double>(""); }, "No JSON content found and type 'System.Double' is not nullable. Path '', line 0, position 0.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<double>(""),
+            "No JSON content found and type 'System.Double' is not nullable. Path '', line 0, position 0.");
     }
 
     [Fact]
     public void DeserializeEnumFromEmptyString()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<StringComparison>(""); }, "No JSON content found and type 'System.StringComparison' is not nullable. Path '', line 0, position 0.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<StringComparison>(""),
+            "No JSON content found and type 'System.StringComparison' is not nullable. Path '', line 0, position 0.");
     }
 
     [Fact]
     public void DeserializeInt32FromEmptyString()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<int>(""); }, "No JSON content found and type 'System.Int32' is not nullable. Path '', line 0, position 0.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<int>(""),
+            "No JSON content found and type 'System.Int32' is not nullable. Path '', line 0, position 0.");
     }
 
     [Fact]
@@ -5822,7 +5872,7 @@ Path '', line 1, position 1.");
     public void DeserializeDoubleFromNullString()
     {
         XUnitAssert.Throws<ArgumentNullException>(
-            () => { JsonConvert.DeserializeObject<double>(null); },
+            () => JsonConvert.DeserializeObject<double>(null),
             new[]
             {
                 $"Value cannot be null.{Environment.NewLine}Parameter name: value",
@@ -5835,7 +5885,7 @@ Path '', line 1, position 1.");
     public void DeserializeFromNullString()
     {
         XUnitAssert.Throws<ArgumentNullException>(
-            () => { JsonConvert.DeserializeObject(null); },
+            () => JsonConvert.DeserializeObject(null),
             new[]
             {
                 $"Value cannot be null.{Environment.NewLine}Parameter name: value",
@@ -6407,7 +6457,9 @@ Path '', line 1, position 1.");
 
         settings.CheckAdditionalContent = true;
         s = JsonSerializer.Create(settings);
-        XUnitAssert.Throws<JsonReaderException>(() => { s.Deserialize<Dictionary<string, int>>(new JsonTextReader(new StringReader(json))); }, "Additional text encountered after finished reading JSON content: {. Path '', line 1, position 7.");
+        XUnitAssert.Throws<JsonReaderException>(
+            () => s.Deserialize<Dictionary<string, int>>(new JsonTextReader(new StringReader(json))),
+            "Additional text encountered after finished reading JSON content: {. Path '', line 1, position 7.");
     }
 
     [Fact]
@@ -6415,7 +6467,10 @@ Path '', line 1, position 1.");
     {
         var json = "{one:1} // This is just a comment";
 
-        var settings = new JsonSerializerSettings {CheckAdditionalContent = true};
+        var settings = new JsonSerializerSettings
+        {
+            CheckAdditionalContent = true
+        };
         var s = JsonSerializer.Create(settings);
         IDictionary<string, int> o = s.Deserialize<Dictionary<string, int>>(new JsonTextReader(new StringReader(json)));
 
@@ -6433,7 +6488,10 @@ lines.*/
 
 // This is just another comment.";
 
-        var settings = new JsonSerializerSettings {CheckAdditionalContent = true};
+        var settings = new JsonSerializerSettings
+        {
+            CheckAdditionalContent = true
+        };
         var s = JsonSerializer.Create(settings);
         IDictionary<string, int> o = s.Deserialize<Dictionary<string, int>>(new JsonTextReader(new StringReader(json)));
 
@@ -6452,9 +6510,14 @@ lines.*/
 // This is just another comment. But here comes an empty object.
 {}";
 
-        var settings = new JsonSerializerSettings {CheckAdditionalContent = true};
+        var settings = new JsonSerializerSettings
+        {
+            CheckAdditionalContent = true
+        };
         var s = JsonSerializer.Create(settings);
-        XUnitAssert.Throws<JsonReaderException>(() => { s.Deserialize<Dictionary<string, int>>(new JsonTextReader(new StringReader(json))); }, "Additional text encountered after finished reading JSON content: {. Path '', line 7, position 0.");
+        XUnitAssert.Throws<JsonReaderException>(
+            () => s.Deserialize<Dictionary<string, int>>(new JsonTextReader(new StringReader(json))), 
+            "Additional text encountered after finished reading JSON content: {. Path '', line 7, position 0.");
     }
 
 #if !NET5_0_OR_GREATER
@@ -6558,7 +6621,8 @@ This is just junk, though.";
         reader.Read();
         reader.Read();
 
-        XUnitAssert.Throws<JsonSerializationException>(() => serializer.Deserialize(reader, typeof(ItemConverterTestClass)),
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => serializer.Deserialize(reader, typeof(ItemConverterTestClass)),
             "Additional text found in JSON string after finishing deserializing object. Path '[1]', line 3, position 2.");
     }
 
@@ -6703,7 +6767,9 @@ This is just junk, though.";
             var json = JsonConvert.SerializeObject(tuple);
             Xunit.Assert.Equal(@"{""m_Item1"":500}", json);
 
-            XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<MyTuplePartial<int>>(json), "Unable to find a constructor to use for type Argon.Tests.TestObjects.MyTuplePartial`1[System.Int32]. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'm_Item1', line 1, position 11.");
+            XUnitAssert.Throws<JsonSerializationException>(
+                () => JsonConvert.DeserializeObject<MyTuplePartial<int>>(json),
+                "Unable to find a constructor to use for type Argon.Tests.TestObjects.MyTuplePartial`1[System.Int32]. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'm_Item1', line 1, position 11.");
         }
         finally
         {
@@ -6737,9 +6803,14 @@ This is just junk, though.";
     {
         var content = @"{""startDateTime"":""2012-07-19T14:30:00+09:30""}";
 
-        var jsonSerializerSettings = new JsonSerializerSettings {DateFormatHandling = DateFormatHandling.IsoDateFormat, DateParseHandling = DateParseHandling.DateTimeOffset, DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind};
+        var settings = new JsonSerializerSettings
+        {
+            DateFormatHandling = DateFormatHandling.IsoDateFormat, 
+            DateParseHandling = DateParseHandling.DateTimeOffset,
+            DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind
+        };
 
-        var obj = (JObject) JsonConvert.DeserializeObject(content, jsonSerializerSettings);
+        var obj = (JObject) JsonConvert.DeserializeObject(content, settings);
 
         var dateTimeOffset = (DateTimeOffset) ((JValue) obj["startDateTime"]).Value;
 
@@ -6842,8 +6913,8 @@ This is just junk, though.";
             new DateTimeOffset(2000, 12, 12, 12, 12, 12, TimeSpan.FromHours(1))
         };
 
-        var sw = new StringWriter();
-        var jsonWriter = new JsonTextWriter(sw);
+        var stringWriter = new StringWriter();
+        var jsonWriter = new JsonTextWriter(stringWriter);
 
         var serializer = JsonSerializer.Create(new JsonSerializerSettings
         {
@@ -6857,7 +6928,7 @@ This is just junk, though.";
         Assert.Equal(CultureInfo.InvariantCulture, jsonWriter.Culture);
         Assert.Equal(Formatting.None, jsonWriter.Formatting);
 
-        var json = sw.ToString();
+        var json = stringWriter.ToString();
 
         XUnitAssert.AreEqualNormalized(@"[
   ""2000 p.m."",
@@ -6880,8 +6951,8 @@ This is just junk, though.";
     [Fact]
     public void JsonSerializerStringEscapeHandling()
     {
-        var sw = new StringWriter();
-        var jsonWriter = new JsonTextWriter(sw);
+        var stringWriter = new StringWriter();
+        var jsonWriter = new JsonTextWriter(stringWriter);
 
         var serializer = JsonSerializer.Create(new JsonSerializerSettings
         {
@@ -6892,7 +6963,7 @@ This is just junk, though.";
 
         Assert.Equal(StringEscapeHandling.Default, jsonWriter.StringEscapeHandling);
 
-        var json = sw.ToString();
+        var json = stringWriter.ToString();
 
         XUnitAssert.AreEqualNormalized(@"{
   ""html"": ""\u003chtml\u003e\u003c/html\u003e""
@@ -6902,13 +6973,17 @@ This is just junk, though.";
     [Fact]
     public void NoConstructorReadOnlyCollectionTest()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<NoConstructorReadOnlyCollection<int>>("[1]"), "Cannot deserialize readonly or fixed size list: Argon.Tests.TestObjects.NoConstructorReadOnlyCollection`1[System.Int32]. Path '', line 1, position 1.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<NoConstructorReadOnlyCollection<int>>("[1]"), 
+            "Cannot deserialize readonly or fixed size list: Argon.Tests.TestObjects.NoConstructorReadOnlyCollection`1[System.Int32]. Path '', line 1, position 1.");
     }
 
     [Fact]
     public void NoConstructorReadOnlyDictionaryTest()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<NoConstructorReadOnlyDictionary<int, int>>("{'1':1}"), "Cannot deserialize readonly or fixed size dictionary: Argon.Tests.TestObjects.NoConstructorReadOnlyDictionary`2[System.Int32,System.Int32]. Path '1', line 1, position 5.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<NoConstructorReadOnlyDictionary<int, int>>("{'1':1}"),
+            "Cannot deserialize readonly or fixed size dictionary: Argon.Tests.TestObjects.NoConstructorReadOnlyDictionary`2[System.Int32,System.Int32]. Path '1', line 1, position 5.");
     }
 
     [Fact]
@@ -6920,7 +6995,9 @@ This is just junk, though.";
 
         Assert.Equal(BigInteger.Parse("999999999999999999999999999999999999999999999999"), l[0]);
 
-        XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<IList<long>>(json), "Error converting value 999999999999999999999999999999999999999999999999 to type 'System.Int64'. Path '[0]', line 1, position 49.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<IList<long>>(json),
+            "Error converting value 999999999999999999999999999999999999999999999999 to type 'System.Int64'. Path '[0]', line 1, position 49.");
     }
 
     [Fact]
@@ -7635,10 +7712,10 @@ This is just junk, though.";
     {
         var original = new DerivedConstructorType("Base", "Derived");
 
-        var serializerSettings = new JsonSerializerSettings();
-        var jsonCopy = JsonConvert.SerializeObject(original, serializerSettings);
+        var settings = new JsonSerializerSettings();
+        var jsonCopy = JsonConvert.SerializeObject(original, settings);
 
-        var clonedObject = JsonConvert.DeserializeObject<DerivedConstructorType>(jsonCopy, serializerSettings);
+        var clonedObject = JsonConvert.DeserializeObject<DerivedConstructorType>(jsonCopy, settings);
 
         Assert.Equal("Base", clonedObject.BaseProperty);
         Assert.Equal("Derived", clonedObject.DerivedProperty);
@@ -7647,13 +7724,17 @@ This is just junk, though.";
     [Fact]
     public void ErrorCreatingJsonConverter()
     {
-        XUnitAssert.Throws<JsonException>(() => JsonConvert.SerializeObject(new ErroringTestClass()), "Error creating 'Argon.Tests.TestObjects.ErroringJsonConverter'.");
+        XUnitAssert.Throws<JsonException>(
+            () => JsonConvert.SerializeObject(new ErroringTestClass()),
+            "Error creating 'Argon.Tests.TestObjects.ErroringJsonConverter'.");
     }
 
     [Fact]
     public void DeserializeInvalidOctalRootError()
     {
-        XUnitAssert.Throws<JsonReaderException>(() => JsonConvert.DeserializeObject<string>("020474068"), "Input string '020474068' is not a valid number. Path '', line 1, position 9.");
+        XUnitAssert.Throws<JsonReaderException>(
+            () => JsonConvert.DeserializeObject<string>("020474068"),
+            "Input string '020474068' is not a valid number. Path '', line 1, position 9.");
     }
 
     [Fact]
@@ -7742,7 +7823,9 @@ This is just junk, though.";
     {
         var s = @"{""text"":""s"",""cursorPosition"":189,""dataSource"":""json_northwind"",";
 
-        XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<CompletionDataRequest>(s), "Unexpected end when deserializing object. Path 'dataSource', line 1, position 63.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<CompletionDataRequest>(s),
+            "Unexpected end when deserializing object. Path 'dataSource', line 1, position 63.");
     }
 
     [Fact]

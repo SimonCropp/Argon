@@ -126,7 +126,8 @@ Parameter name: array",
     {
         var j = new JArray();
 
-        XUnitAssert.Throws<ArgumentOutOfRangeException>(() => { ((ICollection<JToken>)j).CopyTo(new JToken[1], -1); },
+        XUnitAssert.Throws<ArgumentOutOfRangeException>(
+            () => ((ICollection<JToken>)j).CopyTo(new JToken[1], -1),
             @"arrayIndex is less than 0.
 Parameter name: arrayIndex",
             "arrayIndex is less than 0. (Parameter 'arrayIndex')");
@@ -137,7 +138,9 @@ Parameter name: arrayIndex",
     {
         var j = new JArray();
 
-        XUnitAssert.Throws<ArgumentException>(() => { ((ICollection<JToken>)j).CopyTo(new JToken[1], 1); }, @"arrayIndex is equal to or greater than the length of array.");
+        XUnitAssert.Throws<ArgumentException>(
+            () => ((ICollection<JToken>)j).CopyTo(new JToken[1], 1),
+            @"arrayIndex is equal to or greater than the length of array.");
     }
 
     [Fact]
@@ -150,7 +153,9 @@ Parameter name: arrayIndex",
             new JValue(3)
         };
 
-        XUnitAssert.Throws<ArgumentException>(() => { ((ICollection<JToken>)j).CopyTo(new JToken[3], 1); }, @"The number of elements in the source JObject is greater than the available space from arrayIndex to the end of the destination array.");
+        XUnitAssert.Throws<ArgumentException>(
+            () => ((ICollection<JToken>)j).CopyTo(new JToken[3], 1),
+            @"The number of elements in the source JObject is greater than the available space from arrayIndex to the end of the destination array.");
     }
 
     [Fact]
@@ -226,7 +231,7 @@ Parameter name: arrayIndex",
         var j = new JArray();
 
         XUnitAssert.Throws<ArgumentOutOfRangeException>(
-            () => { j.RemoveAt(0); },
+            () => j.RemoveAt(0),
             @"Index is equal to or greater than Count.
 Parameter name: index",
             "Index is equal to or greater than Count. (Parameter 'index')");
@@ -238,7 +243,7 @@ Parameter name: index",
         var j = new JArray();
 
         XUnitAssert.Throws<ArgumentOutOfRangeException>(
-            () => { j.RemoveAt(-1); },
+            () => j.RemoveAt(-1),
             @"Index is less than 0.
 Parameter name: index",
             "Index is less than 0. (Parameter 'index')");
@@ -322,7 +327,7 @@ Parameter name: index",
         var j = new JArray();
 
         XUnitAssert.Throws<ArgumentOutOfRangeException>(
-            () => { j.Insert(-1, new JValue(1)); },
+            () => j.Insert(-1, new JValue(1)),
             @"Index was out of range. Must be non-negative and less than the size of the collection.
 Parameter name: index",
             "Index was out of range. Must be non-negative and less than the size of the collection. (Parameter 'index')");
@@ -334,7 +339,7 @@ Parameter name: index",
         var j = new JArray();
 
         XUnitAssert.Throws<ArgumentOutOfRangeException>(
-            () => { j.Insert(2, new JValue(1)); },
+            () => j.Insert(2, new JValue(1)),
             @"Index must be within the bounds of the List.
 Parameter name: index",
             "Index must be within the bounds of the List. (Parameter 'index')");
@@ -368,7 +373,9 @@ Parameter name: index",
     {
         var json = @"{""prop"":""value""}";
 
-        XUnitAssert.Throws<JsonReaderException>(() => { JArray.Parse(json); }, "Error reading JArray from JsonReader. Current JsonReader item is not an array: StartObject. Path '', line 1, position 1.");
+        XUnitAssert.Throws<JsonReaderException>(
+            () => JArray.Parse(json),
+            "Error reading JArray from JsonReader. Current JsonReader item is not an array: StartObject. Path '', line 1, position 1.");
     }
 
     public class ListItemFields
@@ -468,13 +475,15 @@ Parameter name: index",
     [Fact]
     public void SetValueWithInvalidIndex()
     {
-        XUnitAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(
+            () =>
         {
             var a = new JArray
             {
                 ["badvalue"] = new JValue(3)
             };
-        }, @"Set JArray values with invalid key value: ""badvalue"". Int32 array index expected.");
+        },
+            @"Set JArray values with invalid key value: ""badvalue"". Int32 array index expected.");
     }
 
     [Fact]
@@ -507,7 +516,9 @@ Parameter name: index",
     [Fact]
     public void ParseIncomplete()
     {
-        XUnitAssert.Throws<JsonReaderException>(() => { JArray.Parse("[1"); }, "Unexpected end of content while loading JArray. Path '[0]', line 1, position 2.");
+        XUnitAssert.Throws<JsonReaderException>(
+            () => JArray.Parse("[1"), 
+            "Unexpected end of content while loading JArray. Path '[0]', line 1, position 2.");
     }
 
     [Fact]
@@ -531,7 +542,9 @@ Parameter name: index",
 ""Large""
 ], 987987";
 
-        XUnitAssert.Throws<JsonReaderException>(() => { JArray.Parse(json); }, "Additional text encountered after finished reading JSON content: ,. Path '', line 5, position 1.");
+        XUnitAssert.Throws<JsonReaderException>(
+            () => JArray.Parse(json), 
+            "Additional text encountered after finished reading JSON content: ,. Path '', line 5, position 1.");
     }
 
     [Fact]
@@ -605,7 +618,8 @@ Parameter name: index",
 //Another comment.
 []";
 
-        XUnitAssert.Throws<JsonReaderException>(() => JArray.Parse(json),
+        XUnitAssert.Throws<JsonReaderException>(
+            () => JArray.Parse(json),
             "Additional text encountered after finished reading JSON content: [. Path '', line 3, position 0.");
     }
 

@@ -305,12 +305,10 @@ internal static class JavaScriptUtils
     {
         var charEscapeFlags = GetCharEscapeFlags(stringEscapeHandling, delimiter);
 
-        using (var w = StringUtils.CreateStringWriter(value?.Length ?? 16))
-        {
-            char[]? buffer = null;
-            WriteEscapedJavaScriptString(w, value, delimiter, appendDelimiters, charEscapeFlags, stringEscapeHandling, null, ref buffer);
-            return w.ToString();
-        }
+        using var w = StringUtils.CreateStringWriter(value?.Length ?? 16);
+        char[]? buffer = null;
+        WriteEscapedJavaScriptString(w, value, delimiter, appendDelimiters, charEscapeFlags, stringEscapeHandling, null, ref buffer);
+        return w.ToString();
     }
 
     static int FirstCharToEscape(string s, bool[] charEscapeFlags, StringEscapeHandling stringEscapeHandling)

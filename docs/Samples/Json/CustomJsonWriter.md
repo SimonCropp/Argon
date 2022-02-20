@@ -281,7 +281,7 @@ public class XmlJsonWriter : JsonWriter
     }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Json/CustomJsonWriter.cs#L31-L307' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonwritertypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/Samples/Json/CustomJsonWriter.cs#L31-L307' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonwritertypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: CustomJsonWriterUsage -->
@@ -299,9 +299,9 @@ var user = new
     }
 };
 
-var sw = new StringWriter();
+var stringWriter = new StringWriter();
 
-using (var xmlWriter = XmlWriter.Create(sw, new XmlWriterSettings { OmitXmlDeclaration = true }))
+using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings { OmitXmlDeclaration = true }))
 using (var writer = new XmlJsonWriter(xmlWriter))
 {
     writer.Formatting = Formatting.Indented;
@@ -310,7 +310,7 @@ using (var writer = new XmlJsonWriter(xmlWriter))
     serializer.Serialize(writer, user);
 }
 
-Console.WriteLine(sw.ToString());
+Console.WriteLine(stringWriter.ToString());
 //<Root type="Object">
 //  <Name type="String">James</Name>
 //  <Age type="Integer">30</Age>
@@ -321,5 +321,5 @@ Console.WriteLine(sw.ToString());
 //  </Roles>
 //</Root>
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Json/CustomJsonWriter.cs#L314-L348' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonwriterusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/Samples/Json/CustomJsonWriter.cs#L314-L348' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonwriterusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

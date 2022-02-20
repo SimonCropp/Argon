@@ -119,22 +119,22 @@ struct JsonPosition
             capacity += currentPosition.GetValueOrDefault().CalculateLength();
         }
 
-        var sb = new StringBuilder(capacity);
+        var stringBuilder = new StringBuilder(capacity);
         StringWriter? writer = null;
         char[]? buffer = null;
         if (positions != null)
         {
             foreach (var state in positions)
             {
-                state.WriteTo(sb, ref writer, ref buffer);
+                state.WriteTo(stringBuilder, ref writer, ref buffer);
             }
         }
         if (currentPosition != null)
         {
-            currentPosition.GetValueOrDefault().WriteTo(sb, ref writer, ref buffer);
+            currentPosition.GetValueOrDefault().WriteTo(stringBuilder, ref writer, ref buffer);
         }
 
-        return sb.ToString();
+        return stringBuilder.ToString();
     }
 
     internal static string FormatMessage(IJsonLineInfo? lineInfo, string path, string message)

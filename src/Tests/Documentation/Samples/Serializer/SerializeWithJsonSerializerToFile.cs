@@ -51,11 +51,10 @@ public class SerializeWithJsonSerializerToFile : TestFixtureBase
         File.WriteAllText(@"c:\movie.json", JsonConvert.SerializeObject(movie));
 
         // serialize JSON directly to a file
-        using (var file = File.CreateText(@"c:\movie.json"))
-        {
-            var serializer = new JsonSerializer();
-            serializer.Serialize(file, movie);
-        }
+        using var file = File.CreateText(@"c:\movie.json");
+        var serializer = new JsonSerializer();
+        serializer.Serialize(file, movie);
+
         #endregion
     }
 

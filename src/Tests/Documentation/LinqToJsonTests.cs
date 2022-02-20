@@ -227,11 +227,11 @@ public class LinqToJsonTests : TestFixtureBase
     public void LinqToJsonReadObject()
     {
         #region LinqToJsonReadObject
-        using (var reader = File.OpenText(@"c:\person.json"))
-        {
-            var o = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
-            // do stuff
-        }
+
+        using var reader = File.OpenText(@"c:\person.json");
+        var o = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
+        // do stuff
+
         #endregion
     }
 

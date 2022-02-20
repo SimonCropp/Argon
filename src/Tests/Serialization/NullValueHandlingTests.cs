@@ -68,12 +68,12 @@ public class NullValueHandlingTests : TestFixtureBase
             NullValueHandling = NullValueHandling.Ignore
         };
 
-        var sw = new StringWriter();
-        jsonSerializer.Serialize(sw, s1);
+        var stringWriter = new StringWriter();
+        jsonSerializer.Serialize(stringWriter, s1);
 
         //JsonConvert.ConvertDateTimeToJavaScriptTicks(s1.Establised.DateTime)
 
-        Assert.Equal(@"{""Color"":4,""Establised"":""2010-01-22T01:01:01Z"",""Width"":1.1,""Employees"":999,""RoomsPerFloor"":[1,2,3,4,5,6,7,8,9],""Open"":false,""Symbol"":""@"",""Mottos"":[""Hello World"",""öäüÖÄÜ\\'{new Date(12345);}[222]_µ@²³~"",null,"" ""],""Cost"":100980.1,""Escape"":""\r\n\t\f\b?{\\r\\n\""'"",""product"":[{""Name"":""Rocket"",""ExpiryDate"":""2000-02-02T23:01:30Z"",""Price"":0.0},{""Name"":""Alien"",""ExpiryDate"":""2000-01-01T00:00:00Z"",""Price"":0.0}]}", sw.GetStringBuilder().ToString());
+        Assert.Equal(@"{""Color"":4,""Establised"":""2010-01-22T01:01:01Z"",""Width"":1.1,""Employees"":999,""RoomsPerFloor"":[1,2,3,4,5,6,7,8,9],""Open"":false,""Symbol"":""@"",""Mottos"":[""Hello World"",""öäüÖÄÜ\\'{new Date(12345);}[222]_µ@²³~"",null,"" ""],""Cost"":100980.1,""Escape"":""\r\n\t\f\b?{\\r\\n\""'"",""product"":[{""Name"":""Rocket"",""ExpiryDate"":""2000-02-02T23:01:30Z"",""Price"":0.0},{""Name"":""Alien"",""ExpiryDate"":""2000-01-01T00:00:00Z"",""Price"":0.0}]}", stringWriter.GetStringBuilder().ToString());
 
         var s2 = (Store)jsonSerializer.Deserialize(new JsonTextReader(new StringReader("{}")), typeof(Store));
         Assert.Equal("\r\n\t\f\b?{\\r\\n\"\'", s2.Escape);

@@ -41,11 +41,10 @@ public class WriteToJsonFile : TestFixtureBase
         File.WriteAllText(@"c:\videogames.json", videogameRatings.ToString());
 
         // write JSON directly to a file
-        using (var file = File.CreateText(@"c:\videogames.json"))
-        using (var writer = new JsonTextWriter(file))
-        {
-            videogameRatings.WriteTo(writer);
-        }
+        using var file = File.CreateText(@"c:\videogames.json");
+        using var writer = new JsonTextWriter(file);
+        videogameRatings.WriteTo(writer);
+
         #endregion
     }
 

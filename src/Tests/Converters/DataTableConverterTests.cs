@@ -71,9 +71,11 @@ public class DataTableConverterTests : TestFixtureBase
 
         dt.Rows.Add(types.Select(_ => (object)null).ToArray());
 
-        var sw = new StringWriter();
-        var jsonWriter = new JsonTextWriter(sw);
-        jsonWriter.Formatting = Formatting.Indented;
+        var stringWriter = new StringWriter();
+        var jsonWriter = new JsonTextWriter(stringWriter)
+        {
+            Formatting = Formatting.Indented
+        };
 
         var converter = new DataTableConverter();
         converter.WriteJson(jsonWriter, dt, new JsonSerializer());
@@ -89,7 +91,7 @@ public class DataTableConverterTests : TestFixtureBase
     ""Guid"": null,
     ""BigInteger"": null
   }
-]", sw.ToString());
+]", stringWriter.ToString());
     }
 
     [Fact]
@@ -115,9 +117,11 @@ public class DataTableConverterTests : TestFixtureBase
 
         dt.Rows.Add(types.Select(t => t.Value).ToArray());
 
-        var sw = new StringWriter();
-        var jsonWriter = new JsonTextWriter(sw);
-        jsonWriter.Formatting = Formatting.Indented;
+        var stringWriter = new StringWriter();
+        var jsonWriter = new JsonTextWriter(stringWriter)
+        {
+            Formatting = Formatting.Indented
+        };
 
         var converter = new DataTableConverter();
         converter.WriteJson(jsonWriter, dt, new JsonSerializer());
@@ -139,19 +143,19 @@ public class DataTableConverterTests : TestFixtureBase
     ""Guid"": ""00000001-0002-0003-0405-060708090a0b"",
     ""BigInteger"": 10000000000000000000000000000000000
   }}
-]", sw.ToString());
+]", stringWriter.ToString());
     }
 
     [Fact]
     public void WriteJsonNull()
     {
-        var sw = new StringWriter();
-        var jsonWriter = new JsonTextWriter(sw);
+        var stringWriter = new StringWriter();
+        var jsonWriter = new JsonTextWriter(stringWriter);
 
         var converter = new DataTableConverter();
         converter.WriteJson(jsonWriter, null, null);
 
-        XUnitAssert.AreEqualNormalized(@"null", sw.ToString());
+        XUnitAssert.AreEqualNormalized(@"null", stringWriter.ToString());
     }
 
     [Fact]

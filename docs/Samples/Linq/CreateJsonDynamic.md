@@ -26,5 +26,5 @@ Console.WriteLine(product.ToString());
 //   ]
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/CreateJsonDynamic.cs#L36-L59' title='Snippet source file'>snippet source</a> | <a href='#snippet-createjsondynamic' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/Samples/Linq/CreateJsonDynamic.cs#L36-L59' title='Snippet source file'>snippet source</a> | <a href='#snippet-createjsondynamic' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

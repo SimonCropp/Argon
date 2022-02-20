@@ -289,16 +289,18 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
     [Fact]
     public void Deserialize_NotAllowIntegerValuesFromAttribute()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() =>
-        {
-            var e = JsonConvert.DeserializeObject<NotAllowIntegerValuesEnum>(@"""9""");
-        });
+        XUnitAssert.Throws<JsonSerializationException>(
+            () =>
+            {
+                var e = JsonConvert.DeserializeObject<NotAllowIntegerValuesEnum>(@"""9""");
+            });
     }
 
     [Fact]
     public void CannotPassNullArgumentToConverter()
     {
-        var ex = XUnitAssert.Throws<JsonException>(() =>
+        var ex = XUnitAssert.Throws<JsonException>(
+            () =>
         {
             JsonConvert.DeserializeObject<NullArgumentInAttribute>(@"""9""");
         });
@@ -316,15 +318,17 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
     [Fact]
     public void NamedEnumDuplicateTest()
     {
-        XUnitAssert.Throws<Exception>(() =>
-        {
-            var c = new EnumContainer<NamedEnumDuplicate>
+        XUnitAssert.Throws<Exception>(
+            () =>
             {
-                Enum = NamedEnumDuplicate.First
-            };
+                var c = new EnumContainer<NamedEnumDuplicate>
+                {
+                    Enum = NamedEnumDuplicate.First
+                };
 
-            JsonConvert.SerializeObject(c, Formatting.Indented, new StringEnumConverter());
-        }, "Enum name 'Third' already exists on enum 'NamedEnumDuplicate'.");
+                JsonConvert.SerializeObject(c, Formatting.Indented, new StringEnumConverter());
+            },
+            "Enum name 'Third' already exists on enum 'NamedEnumDuplicate'.");
     }
 
     [Fact]
@@ -645,12 +649,14 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
     {
         var json = "{ \"Value\" : \"Three\" }";
 
-        XUnitAssert.Throws<JsonSerializationException>(() =>
-        {
-            var serializer = new JsonSerializer();
-            serializer.Converters.Add(new StringEnumConverter());
-            serializer.Deserialize<Bucket>(new JsonTextReader(new StringReader(json)));
-        }, @"Error converting value ""Three"" to type 'Argon.Tests.Converters.StringEnumConverterTests+MyEnum'. Path 'Value', line 1, position 19.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () =>
+            {
+                var serializer = new JsonSerializer();
+                serializer.Converters.Add(new StringEnumConverter());
+                serializer.Deserialize<Bucket>(new JsonTextReader(new StringReader(json)));
+            },
+            @"Error converting value ""Three"" to type 'Argon.Tests.Converters.StringEnumConverterTests+MyEnum'. Path 'Value', line 1, position 19.");
     }
 
     public class Bucket
@@ -781,24 +787,26 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
         var ms = new MemoryStream();
         var s = new DataContractSerializer(typeof(DuplicateEnumNameTestClass));
 
-        XUnitAssert.Throws<InvalidDataContractException>(() =>
-        {
-            s.WriteObject(ms, new DuplicateEnumNameTestClass
+        XUnitAssert.Throws<InvalidDataContractException>(
+            () =>
             {
-                Value = DuplicateNameEnum.foo_bar,
-                Value2 = DuplicateNameEnum2.foo_bar_NOT_USED
-            });
+                s.WriteObject(ms, new DuplicateEnumNameTestClass
+                {
+                    Value = DuplicateNameEnum.foo_bar,
+                    Value2 = DuplicateNameEnum2.foo_bar_NOT_USED
+                });
 
-            var xml = @"<DuplicateEnumNameTestClass xmlns=""http://schemas.datacontract.org/2004/07/Argon.Tests.Converters"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance"">
+                var xml = @"<DuplicateEnumNameTestClass xmlns=""http://schemas.datacontract.org/2004/07/Argon.Tests.Converters"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance"">
     <Value>foo_bar</Value>
     <Value2>foo_bar</Value2>
 </DuplicateEnumNameTestClass>";
 
-            var o = (DuplicateEnumNameTestClass)s.ReadObject(new MemoryStream(Encoding.UTF8.GetBytes(xml)));
+                var o = (DuplicateEnumNameTestClass) s.ReadObject(new MemoryStream(Encoding.UTF8.GetBytes(xml)));
 
-            Assert.Equal(DuplicateNameEnum.foo_bar, o.Value);
-            Assert.Equal(DuplicateNameEnum2.FooBar, o.Value2);
-        }, "Type 'Argon.Tests.Converters.DuplicateNameEnum' contains two members 'foo_bar' 'and 'FooBar' with the same name 'foo_bar'. Multiple members with the same name in one type are not supported. Consider changing one of the member names using EnumMemberAttribute attribute.");
+                Assert.Equal(DuplicateNameEnum.foo_bar, o.Value);
+                Assert.Equal(DuplicateNameEnum2.FooBar, o.Value2);
+            },
+            "Type 'Argon.Tests.Converters.DuplicateNameEnum' contains two members 'foo_bar' 'and 'FooBar' with the same name 'foo_bar'. Multiple members with the same name in one type are not supported. Consider changing one of the member names using EnumMemberAttribute attribute.");
     }
 
     [Fact]
@@ -848,10 +856,12 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
     [Fact]
     public void AllowIntegerValueAndStringNumber()
     {
-        var ex = XUnitAssert.Throws<JsonSerializationException>(() =>
+        var converter = new StringEnumConverter
         {
-            JsonConvert.DeserializeObject<StoreColor>("\"1\"", new StringEnumConverter { AllowIntegerValues = false });
-        });
+            AllowIntegerValues = false
+        };
+        var ex = XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<StoreColor>("\"1\"", converter));
 
         Assert.Equal("Integer string '1' is not allowed.", ex.InnerException.Message);
     }
@@ -859,10 +869,12 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
     [Fact]
     public void AllowIntegerValueAndNegativeStringNumber()
     {
-        var ex = XUnitAssert.Throws<JsonSerializationException>(() =>
+        var converter = new StringEnumConverter
         {
-            JsonConvert.DeserializeObject<StoreColor>("\"-1\"", new StringEnumConverter { AllowIntegerValues = false });
-        });
+            AllowIntegerValues = false
+        };
+        var ex = XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<StoreColor>("\"-1\"", converter));
 
         Assert.Equal("Integer string '-1' is not allowed.", ex.InnerException.Message);
     }
@@ -870,10 +882,12 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
     [Fact]
     public void AllowIntegerValueAndPositiveStringNumber()
     {
-        var ex = XUnitAssert.Throws<JsonSerializationException>(() =>
+        var converter = new StringEnumConverter
         {
-            JsonConvert.DeserializeObject<StoreColor>("\"+1\"", new StringEnumConverter { AllowIntegerValues = false });
-        });
+            AllowIntegerValues = false
+        };
+        var ex = XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<StoreColor>("\"+1\"", converter));
 
         Assert.Equal("Integer string '+1' is not allowed.", ex.InnerException.Message);
     }
@@ -881,10 +895,12 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
     [Fact]
     public void AllowIntegerValueAndDash()
     {
-        var ex = XUnitAssert.Throws<JsonSerializationException>(() =>
+        var converter = new StringEnumConverter
         {
-            JsonConvert.DeserializeObject<StoreColor>("\"-\"", new StringEnumConverter { AllowIntegerValues = false });
-        });
+            AllowIntegerValues = false
+        };
+        var ex = XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<StoreColor>("\"-\"", converter));
 
         Assert.Equal("Requested value '-' was not found.", ex.InnerException.Message);
     }
@@ -892,10 +908,10 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
     [Fact]
     public void AllowIntegerValueAndNonNamedValue()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() =>
-        {
-            JsonConvert.SerializeObject((StoreColor)999, new StringEnumConverter { AllowIntegerValues = false });
-        }, "Integer value 999 is not allowed. Path ''.");
+        var converter = new StringEnumConverter {AllowIntegerValues = false};
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.SerializeObject((StoreColor) 999, converter),
+            "Integer value 999 is not allowed. Path ''.");
     }
 
     public enum EnumWithDifferentCases

@@ -76,94 +76,90 @@ public class JTokenWriterTest : TestFixtureBase
     [Fact]
     public void State()
     {
-        using (JsonWriter jsonWriter = new JTokenWriter())
-        {
-            Assert.Equal(WriteState.Start, jsonWriter.WriteState);
+        using JsonWriter jsonWriter = new JTokenWriter();
+        Assert.Equal(WriteState.Start, jsonWriter.WriteState);
 
-            jsonWriter.WriteStartObject();
-            Assert.Equal(WriteState.Object, jsonWriter.WriteState);
+        jsonWriter.WriteStartObject();
+        Assert.Equal(WriteState.Object, jsonWriter.WriteState);
 
-            jsonWriter.WritePropertyName("CPU");
-            Assert.Equal(WriteState.Property, jsonWriter.WriteState);
+        jsonWriter.WritePropertyName("CPU");
+        Assert.Equal(WriteState.Property, jsonWriter.WriteState);
 
-            jsonWriter.WriteValue("Intel");
-            Assert.Equal(WriteState.Object, jsonWriter.WriteState);
+        jsonWriter.WriteValue("Intel");
+        Assert.Equal(WriteState.Object, jsonWriter.WriteState);
 
-            jsonWriter.WritePropertyName("Drives");
-            Assert.Equal(WriteState.Property, jsonWriter.WriteState);
+        jsonWriter.WritePropertyName("Drives");
+        Assert.Equal(WriteState.Property, jsonWriter.WriteState);
 
-            jsonWriter.WriteStartArray();
-            Assert.Equal(WriteState.Array, jsonWriter.WriteState);
+        jsonWriter.WriteStartArray();
+        Assert.Equal(WriteState.Array, jsonWriter.WriteState);
 
-            jsonWriter.WriteValue("DVD read/writer");
-            Assert.Equal(WriteState.Array, jsonWriter.WriteState);
+        jsonWriter.WriteValue("DVD read/writer");
+        Assert.Equal(WriteState.Array, jsonWriter.WriteState);
 
-            jsonWriter.WriteValue(new BigInteger(123));
-            Assert.Equal(WriteState.Array, jsonWriter.WriteState);
+        jsonWriter.WriteValue(new BigInteger(123));
+        Assert.Equal(WriteState.Array, jsonWriter.WriteState);
 
-            jsonWriter.WriteValue(new byte[0]);
-            Assert.Equal(WriteState.Array, jsonWriter.WriteState);
+        jsonWriter.WriteValue(new byte[0]);
+        Assert.Equal(WriteState.Array, jsonWriter.WriteState);
 
-            jsonWriter.WriteEnd();
-            Assert.Equal(WriteState.Object, jsonWriter.WriteState);
+        jsonWriter.WriteEnd();
+        Assert.Equal(WriteState.Object, jsonWriter.WriteState);
 
-            jsonWriter.WriteEndObject();
-            Assert.Equal(WriteState.Start, jsonWriter.WriteState);
-        }
+        jsonWriter.WriteEndObject();
+        Assert.Equal(WriteState.Start, jsonWriter.WriteState);
     }
 
     [Fact]
     public void CurrentToken()
     {
-        using (var jsonWriter = new JTokenWriter())
-        {
-            Assert.Equal(WriteState.Start, jsonWriter.WriteState);
-            Assert.Equal(null, jsonWriter.CurrentToken);
+        using var jsonWriter = new JTokenWriter();
+        Assert.Equal(WriteState.Start, jsonWriter.WriteState);
+        Assert.Equal(null, jsonWriter.CurrentToken);
 
-            jsonWriter.WriteStartObject();
-            Assert.Equal(WriteState.Object, jsonWriter.WriteState);
-            Assert.Equal(jsonWriter.Token, jsonWriter.CurrentToken);
+        jsonWriter.WriteStartObject();
+        Assert.Equal(WriteState.Object, jsonWriter.WriteState);
+        Assert.Equal(jsonWriter.Token, jsonWriter.CurrentToken);
 
-            var o = (JObject)jsonWriter.Token;
+        var o = (JObject)jsonWriter.Token;
 
-            jsonWriter.WritePropertyName("CPU");
-            Assert.Equal(WriteState.Property, jsonWriter.WriteState);
-            Assert.Equal(o.Property("CPU"), jsonWriter.CurrentToken);
+        jsonWriter.WritePropertyName("CPU");
+        Assert.Equal(WriteState.Property, jsonWriter.WriteState);
+        Assert.Equal(o.Property("CPU"), jsonWriter.CurrentToken);
 
-            jsonWriter.WriteValue("Intel");
-            Assert.Equal(WriteState.Object, jsonWriter.WriteState);
-            Assert.Equal(o["CPU"], jsonWriter.CurrentToken);
+        jsonWriter.WriteValue("Intel");
+        Assert.Equal(WriteState.Object, jsonWriter.WriteState);
+        Assert.Equal(o["CPU"], jsonWriter.CurrentToken);
 
-            jsonWriter.WritePropertyName("Drives");
-            Assert.Equal(WriteState.Property, jsonWriter.WriteState);
-            Assert.Equal(o.Property("Drives"), jsonWriter.CurrentToken);
+        jsonWriter.WritePropertyName("Drives");
+        Assert.Equal(WriteState.Property, jsonWriter.WriteState);
+        Assert.Equal(o.Property("Drives"), jsonWriter.CurrentToken);
 
-            jsonWriter.WriteStartArray();
-            Assert.Equal(WriteState.Array, jsonWriter.WriteState);
-            Assert.Equal(o["Drives"], jsonWriter.CurrentToken);
+        jsonWriter.WriteStartArray();
+        Assert.Equal(WriteState.Array, jsonWriter.WriteState);
+        Assert.Equal(o["Drives"], jsonWriter.CurrentToken);
 
-            var a = (JArray)jsonWriter.CurrentToken;
+        var a = (JArray)jsonWriter.CurrentToken;
 
-            jsonWriter.WriteValue("DVD read/writer");
-            Assert.Equal(WriteState.Array, jsonWriter.WriteState);
-            Assert.Equal(a[a.Count - 1], jsonWriter.CurrentToken);
+        jsonWriter.WriteValue("DVD read/writer");
+        Assert.Equal(WriteState.Array, jsonWriter.WriteState);
+        Assert.Equal(a[a.Count - 1], jsonWriter.CurrentToken);
 
-            jsonWriter.WriteValue(new BigInteger(123));
-            Assert.Equal(WriteState.Array, jsonWriter.WriteState);
-            Assert.Equal(a[a.Count - 1], jsonWriter.CurrentToken);
+        jsonWriter.WriteValue(new BigInteger(123));
+        Assert.Equal(WriteState.Array, jsonWriter.WriteState);
+        Assert.Equal(a[a.Count - 1], jsonWriter.CurrentToken);
 
-            jsonWriter.WriteValue(new byte[0]);
-            Assert.Equal(WriteState.Array, jsonWriter.WriteState);
-            Assert.Equal(a[a.Count - 1], jsonWriter.CurrentToken);
+        jsonWriter.WriteValue(new byte[0]);
+        Assert.Equal(WriteState.Array, jsonWriter.WriteState);
+        Assert.Equal(a[a.Count - 1], jsonWriter.CurrentToken);
 
-            jsonWriter.WriteEnd();
-            Assert.Equal(WriteState.Object, jsonWriter.WriteState);
-            Assert.Equal(a, jsonWriter.CurrentToken);
+        jsonWriter.WriteEnd();
+        Assert.Equal(WriteState.Object, jsonWriter.WriteState);
+        Assert.Equal(a, jsonWriter.CurrentToken);
 
-            jsonWriter.WriteEndObject();
-            Assert.Equal(WriteState.Start, jsonWriter.WriteState);
-            Assert.Equal(o, jsonWriter.CurrentToken);
-        }
+        jsonWriter.WriteEndObject();
+        Assert.Equal(WriteState.Start, jsonWriter.WriteState);
+        Assert.Equal(o, jsonWriter.CurrentToken);
     }
 
     [Fact]

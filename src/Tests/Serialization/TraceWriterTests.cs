@@ -97,8 +97,8 @@ public class TraceWriterTests : TestFixtureBase
     [Fact]
     public void DiagnosticsTraceWriterTest()
     {
-        var sw = new StringWriter();
-        var listener = new TextWriterTraceListener(sw);
+        var stringWriter = new StringWriter();
+        var listener = new TextWriterTraceListener(stringWriter);
 
         try
         {
@@ -116,7 +116,7 @@ public class TraceWriterTests : TestFixtureBase
 Argon Information: 0 : Info!
 Argon Warning: 0 : Warning!
 Argon Error: 0 : Error!
-", sw.ToString());
+", stringWriter.ToString());
         }
         finally
         {
@@ -128,8 +128,8 @@ Argon Error: 0 : Error!
     [Fact]
     public void WriteNullableByte()
     {
-        var sw = new StringWriter();
-        var traceJsonWriter = new TraceJsonWriter(new JsonTextWriter(sw));
+        var stringWriter = new StringWriter();
+        var traceJsonWriter = new TraceJsonWriter(new JsonTextWriter(stringWriter));
         traceJsonWriter.WriteStartArray();
         traceJsonWriter.WriteValue((byte?)null);
         traceJsonWriter.WriteEndArray();
@@ -143,8 +143,8 @@ Argon Error: 0 : Error!
     [Fact]
     public void WriteNullObject()
     {
-        var sw = new StringWriter();
-        var traceJsonWriter = new TraceJsonWriter(new JsonTextWriter(sw));
+        var stringWriter = new StringWriter();
+        var traceJsonWriter = new TraceJsonWriter(new JsonTextWriter(stringWriter));
         traceJsonWriter.WriteStartArray();
         traceJsonWriter.WriteValue((object)null);
         traceJsonWriter.WriteEndArray();
@@ -158,8 +158,8 @@ Argon Error: 0 : Error!
     [Fact]
     public void WriteNullString()
     {
-        var sw = new StringWriter();
-        var traceJsonWriter = new TraceJsonWriter(new JsonTextWriter(sw));
+        var stringWriter = new StringWriter();
+        var traceJsonWriter = new TraceJsonWriter(new JsonTextWriter(stringWriter));
         traceJsonWriter.WriteStartArray();
         traceJsonWriter.WriteValue((string)null);
         traceJsonWriter.WriteEndArray();
@@ -173,8 +173,8 @@ Argon Error: 0 : Error!
     [Fact]
     public void WriteNullUri()
     {
-        var sw = new StringWriter();
-        var traceJsonWriter = new TraceJsonWriter(new JsonTextWriter(sw));
+        var stringWriter = new StringWriter();
+        var traceJsonWriter = new TraceJsonWriter(new JsonTextWriter(stringWriter));
         traceJsonWriter.WriteStartArray();
         traceJsonWriter.WriteValue((Uri)null);
         traceJsonWriter.WriteEndArray();
@@ -188,8 +188,8 @@ Argon Error: 0 : Error!
     [Fact]
     public void WriteNullByteArray()
     {
-        var sw = new StringWriter();
-        var traceJsonWriter = new TraceJsonWriter(new JsonTextWriter(sw));
+        var stringWriter = new StringWriter();
+        var traceJsonWriter = new TraceJsonWriter(new JsonTextWriter(stringWriter));
         traceJsonWriter.WriteStartArray();
         traceJsonWriter.WriteValue((byte[])null);
         traceJsonWriter.WriteEndArray();
@@ -1059,8 +1059,8 @@ Argon Error: 0 : Error!
     [Fact]
     public void TraceJsonWriterTest_WriteObjectInObject()
     {
-        var sw = new StringWriter(CultureInfo.InvariantCulture);
-        var w = new JsonTextWriter(sw);
+        var stringWriter = new StringWriter(CultureInfo.InvariantCulture);
+        var w = new JsonTextWriter(stringWriter);
         var traceWriter = new TraceJsonWriter(w);
 
         traceWriter.WriteStartObject();
@@ -1080,8 +1080,8 @@ Argon Error: 0 : Error!
     [Fact]
     public async Task TraceJsonWriterTest_WriteObjectInObjectAsync()
     {
-        var sw = new StringWriter(CultureInfo.InvariantCulture);
-        var w = new JsonTextWriter(sw);
+        var stringWriter = new StringWriter(CultureInfo.InvariantCulture);
+        var w = new JsonTextWriter(stringWriter);
         var traceWriter = new TraceJsonWriter(w);
 
         await traceWriter.WriteStartObjectAsync();
@@ -1101,8 +1101,8 @@ Argon Error: 0 : Error!
     [Fact]
     public void TraceJsonWriterTest()
     {
-        var sw = new StringWriter(CultureInfo.InvariantCulture);
-        var w = new JsonTextWriter(sw);
+        var stringWriter = new StringWriter(CultureInfo.InvariantCulture);
+        var w = new JsonTextWriter(stringWriter);
         var traceWriter = new TraceJsonWriter(w);
 
         traceWriter.WriteStartObject();
@@ -1240,8 +1240,8 @@ Argon Error: 0 : Error!
   ]
 }";
 
-        var sw = new StringReader(json);
-        var w = new JsonTextReader(sw);
+        var stringReader = new StringReader(json);
+        var w = new JsonTextReader(stringReader);
         var traceReader = new TraceJsonReader(w);
 
         traceReader.Read();
@@ -1367,13 +1367,13 @@ public class InMemoryTraceWriter : ITraceWriter
 
     public override string ToString()
     {
-        var sb = new StringBuilder();
+        var stringBuilder = new StringBuilder();
         foreach (var traceRecord in TraceRecords)
         {
-            sb.AppendLine(traceRecord.Message);
+            stringBuilder.AppendLine(traceRecord.Message);
         }
 
-        return sb.ToString();
+        return stringBuilder.ToString();
     }
 }
 

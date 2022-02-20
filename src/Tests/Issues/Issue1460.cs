@@ -32,20 +32,20 @@ public class Issue1460 : TestFixtureBase
     [Fact]
     public void Test()
     {
-        var sw = new StringWriter();
-        var writer = new JsonTextWriter(sw);
-        JsonWriter.WriteValue(writer, PrimitiveTypeCode.Object, null);
+        var stringWriter = new StringWriter();
+        var jsonWriter = new JsonTextWriter(stringWriter);
+        JsonWriter.WriteValue(jsonWriter, PrimitiveTypeCode.Object, null);
 
-        Assert.Equal("null", sw.ToString());
+        Assert.Equal("null", stringWriter.ToString());
     }
 
     [Fact]
     public async Task TestAsync()
     {
-        var sw = new StringWriter();
-        var writer = new JsonTextWriter(sw);
-        await JsonWriter.WriteValueAsync(writer, PrimitiveTypeCode.Object, null, CancellationToken.None);
+        var stringWriter = new StringWriter();
+        var jsonWriter = new JsonTextWriter(stringWriter);
+        await JsonWriter.WriteValueAsync(jsonWriter, PrimitiveTypeCode.Object, null, CancellationToken.None);
 
-        Assert.Equal("null", sw.ToString());
+        Assert.Equal("null", stringWriter.ToString());
     }
 }

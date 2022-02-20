@@ -45,39 +45,38 @@ public class GenericJsonConverterTests : TestFixtureBase
     [Fact]
     public void WriteJsonObject()
     {
-        var sw = new StringWriter();
-        var jsonWriter = new JsonTextWriter(sw);
+        var stringWriter = new StringWriter();
+        var jsonWriter = new JsonTextWriter(stringWriter);
 
         var converter = new TestGenericConverter();
         converter.WriteJson(jsonWriter, (object)"String!", null);
 
-        Assert.Equal(@"""String!""", sw.ToString());
+        Assert.Equal(@"""String!""", stringWriter.ToString());
     }
 
     [Fact]
     public void WriteJsonGeneric()
     {
-        var sw = new StringWriter();
-        var jsonWriter = new JsonTextWriter(sw);
+        var stringWriter = new StringWriter();
+        var jsonWriter = new JsonTextWriter(stringWriter);
 
         var converter = new TestGenericConverter();
         converter.WriteJson(jsonWriter, "String!", null);
 
-        Assert.Equal(@"""String!""", sw.ToString());
+        Assert.Equal(@"""String!""", stringWriter.ToString());
     }
 
     [Fact]
     public void WriteJsonBadType()
     {
-        var sw = new StringWriter();
-        var jsonWriter = new JsonTextWriter(sw);
+        var stringWriter = new StringWriter();
+        var jsonWriter = new JsonTextWriter(stringWriter);
 
         var converter = new TestGenericConverter();
 
-        XUnitAssert.Throws<JsonSerializationException>(() =>
-        {
-            converter.WriteJson(jsonWriter, 123, null);
-        }, "Converter cannot write specified value to JSON. System.String is required.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => converter.WriteJson(jsonWriter, 123, null),
+            "Converter cannot write specified value to JSON. System.String is required.");
     }
 
     [Fact]
@@ -128,9 +127,8 @@ public class GenericJsonConverterTests : TestFixtureBase
 
         var converter = new TestGenericConverter();
 
-        XUnitAssert.Throws<JsonSerializationException>(() =>
-        {
-            converter.ReadJson(jsonReader, typeof(string), 12345, null);
-        }, "Converter cannot read JSON with the specified existing value. System.String is required.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => converter.ReadJson(jsonReader, typeof(string), 12345, null),
+            "Converter cannot read JSON with the specified existing value. System.String is required.");
     }
 }

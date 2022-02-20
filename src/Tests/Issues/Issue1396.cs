@@ -32,13 +32,11 @@ public class Issue1396 : TestFixtureBase
     [Fact]
     public void Test()
     {
-        using (var stringReader = new StringReader(","))
-        using (var jsonReader = new JsonTextReader(stringReader))
-        {
-            jsonReader.SupportMultipleContent = true;
-            Assert.True(jsonReader.Read());
-            Assert.Equal(JsonToken.Undefined, jsonReader.TokenType);
-            Assert.False(jsonReader.Read());
-        }
+        using var stringReader = new StringReader(",");
+        using var jsonReader = new JsonTextReader(stringReader);
+        jsonReader.SupportMultipleContent = true;
+        Assert.True(jsonReader.Read());
+        Assert.Equal(JsonToken.Undefined, jsonReader.TokenType);
+        Assert.False(jsonReader.Read());
     }
 }

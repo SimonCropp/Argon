@@ -43,7 +43,7 @@ public class Issue1682 : TestFixtureBase
     public void Test_Deserialize()
     {
         XUnitAssert.Throws<JsonSerializationException>(
-            () => { JsonConvert.DeserializeObject<BaseSerializable>("{}"); },
+            () => JsonConvert.DeserializeObject<BaseSerializable>("{}"),
             "Could not create an instance of type Argon.Tests.Issues.Issue1682+BaseSerializable. Type is an interface or abstract class and cannot be instantiated. Path '', line 1, position 2.");
     }
 

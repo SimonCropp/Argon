@@ -24,5 +24,5 @@ var json = o.ToString();
 //   ]
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/CreateJsonManually.cs#L35-L54' title='Snippet source file'>snippet source</a> | <a href='#snippet-createjsonmanually' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/Samples/Linq/CreateJsonManually.cs#L35-L54' title='Snippet source file'>snippet source</a> | <a href='#snippet-createjsonmanually' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
