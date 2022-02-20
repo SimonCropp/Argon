@@ -36,7 +36,10 @@ public class DataTableConverterTests : TestFixtureBase
     {
         var jsonString2 = @"[{""col1"": []}]";
 
-        var dt = JsonConvert.DeserializeObject<DataTable>(jsonString2);
+        var settings = new JsonSerializerSettings();
+        settings.Converters.Add(new DataSetConverter());
+        settings.Converters.Add(new DataTableConverter());
+        var dt = JsonConvert.DeserializeObject<DataTable>(jsonString2, settings);
 
         Assert.Equal(1, dt.Columns.Count);
         Assert.Equal(typeof(string[]), dt.Columns["col1"].DataType);
@@ -190,6 +193,9 @@ public class DataTableConverterTests : TestFixtureBase
   }
 ]";
 
+        var settings = new JsonSerializerSettings();
+        settings.Converters.Add(new DataSetConverter());
+        settings.Converters.Add(new DataTableConverter());
         var deserializedDataTable = JsonConvert.DeserializeObject<DataTable>(json);
         Assert.NotNull(deserializedDataTable);
 
@@ -522,10 +528,16 @@ public class DataTableConverterTests : TestFixtureBase
     [Fact]
     public void SerializedTypedDataTable()
     {
+        var settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented
+        };
+        settings.Converters.Add(new DataSetConverter());
+        settings.Converters.Add(new DataTableConverter());
         var dt = new CustomerDataSet.CustomersDataTable();
         dt.AddCustomersRow("432");
 
-        var json = JsonConvert.SerializeObject(dt, Formatting.Indented);
+        var json = JsonConvert.SerializeObject(dt, settings);
 
         XUnitAssert.AreEqualNormalized(@"[
   {
@@ -543,7 +555,10 @@ public class DataTableConverterTests : TestFixtureBase
   }
 ]";
 
-        var dt = JsonConvert.DeserializeObject<CustomerDataSet.CustomersDataTable>(json);
+        var settings = new JsonSerializerSettings();
+        settings.Converters.Add(new DataSetConverter());
+        settings.Converters.Add(new DataTableConverter());
+        var dt = JsonConvert.DeserializeObject<CustomerDataSet.CustomersDataTable>(json, settings);
 
         Assert.Equal("432", dt[0].CustomerID);
     }
@@ -597,7 +612,10 @@ public class DataTableConverterTests : TestFixtureBase
   ]
 }";
 
-        var settings = new JsonSerializerSettings();
+        var settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented
+        };
         settings.Converters.Add(new DataSetConverter());
         settings.Converters.Add(new DataTableConverter());
         settings.Converters.Add(new SqlDateTimeConverter());

@@ -54,7 +54,10 @@ public class SerializeDataSet : TestFixtureBase
         }
 
         dataSet.AcceptChanges();
-        var settings = new JsonSerializerSettings();
+        var settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented
+        };
         settings.Converters.Add(new DataSetConverter());
         settings.Converters.Add(new DataTableConverter());
         var json = JsonConvert.SerializeObject(dataSet, settings);

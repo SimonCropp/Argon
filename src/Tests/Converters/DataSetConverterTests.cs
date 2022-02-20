@@ -175,8 +175,17 @@ public class DataSetConverterTests : TestFixtureBase
         var ds = new DataSet();
         ds.Tables.Add(CreateDataTable("FirstTable", 2));
         ds.Tables.Add(CreateDataTable("SecondTable", 1));
+        
+        var settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented
+        };
+        settings.Converters.Add(new DataSetConverter());
+        settings.Converters.Add(new DataTableConverter());
+        settings.Converters.Add(new IsoDateTimeConverter());
 
-        var json = JsonConvert.SerializeObject(ds, Formatting.Indented, new IsoDateTimeConverter());
+
+        var json = JsonConvert.SerializeObject(ds, settings);
         // {
         //   "FirstTable": [
         //     {
@@ -207,14 +216,6 @@ public class DataSetConverterTests : TestFixtureBase
         //     }
         //   ]
         // }
-
-        var settings = new JsonSerializerSettings
-        {
-            Formatting = Formatting.Indented
-        };
-        settings.Converters.Add(new DataSetConverter());
-        settings.Converters.Add(new DataTableConverter());
-        settings.Converters.Add(new IsoDateTimeConverter());
 
         var deserializedDs = JsonConvert.DeserializeObject<DataSet>(json, settings);
 
@@ -431,7 +432,7 @@ public class DataSetConverterTests : TestFixtureBase
             Formatting = Formatting.Indented
         };
         settings.Converters.Add(new DataSetConverter());
-        settings.Converters.Add(new DataSetConverter());
+        settings.Converters.Add(new DataTableConverter());
         settings.Converters.Add(new IsoDateTimeConverter());
 
         var json = JsonConvert.SerializeObject(c, settings);
@@ -505,7 +506,13 @@ public class DataSetConverterTests : TestFixtureBase
         var ds = new CustomerDataSet();
         ds.Customers.AddCustomersRow("234");
 
-        var json = JsonConvert.SerializeObject(ds, Formatting.Indented);
+        var settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented
+        };
+        settings.Converters.Add(new DataSetConverter());
+        settings.Converters.Add(new DataSetConverter());
+        var json = JsonConvert.SerializeObject(ds, settings);
 
         XUnitAssert.AreEqualNormalized(@"{
   ""Customers"": [
@@ -522,12 +529,6 @@ public class DataSetConverterTests : TestFixtureBase
 
         table.Rows.Add(row);
 
-        var settings = new JsonSerializerSettings
-        {
-            Formatting = Formatting.Indented
-        };
-        settings.Converters.Add(new DataSetConverter());
-        settings.Converters.Add(new DataTableConverter());
         var json1 = JsonConvert.SerializeObject(ds1, settings);
 
         XUnitAssert.AreEqualNormalized(@"{

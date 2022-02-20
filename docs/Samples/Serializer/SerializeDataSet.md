@@ -24,7 +24,10 @@ for (var i = 0; i < 2; i++)
 }
 
 dataSet.AcceptChanges();
-var settings = new JsonSerializerSettings();
+var settings = new JsonSerializerSettings
+{
+    Formatting = Formatting.Indented
+};
 settings.Converters.Add(new DataSetConverter());
 settings.Converters.Add(new DataTableConverter());
 var json = JsonConvert.SerializeObject(dataSet, settings);
@@ -43,5 +46,5 @@ Console.WriteLine(json);
 //   ]
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeDataSet.cs#L37-L75' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializedataset' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeDataSet.cs#L37-L78' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializedataset' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
