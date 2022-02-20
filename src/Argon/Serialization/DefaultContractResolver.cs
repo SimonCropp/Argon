@@ -209,11 +209,6 @@ public class DefaultContractResolver : IContractResolver
                 }
             }
 
-            // don't include EntityKey on entities objects... this is a bit hacky
-            if (objectType.AssignableToTypeName("System.Data.Objects.DataClasses.EntityObject", false, out _))
-            {
-                serializableMembers = serializableMembers.Where(ShouldSerializeEntityMember).ToList();
-            }
             // don't include TargetSite on non-serializable exceptions
             // MemberBase is problematic to serialize. Large, self referencing instances, etc
             if (typeof(Exception).IsAssignableFrom(objectType))
@@ -234,19 +229,6 @@ public class DefaultContractResolver : IContractResolver
         }
 
         return serializableMembers;
-    }
-
-    static bool ShouldSerializeEntityMember(MemberInfo memberInfo)
-    {
-        if (memberInfo is PropertyInfo propertyInfo)
-        {
-            if (propertyInfo.PropertyType.IsGenericType && propertyInfo.PropertyType.GetGenericTypeDefinition().FullName == "System.Data.Objects.DataClasses.EntityReference`1")
-            {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     /// <summary>
