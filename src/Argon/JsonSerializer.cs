@@ -1127,10 +1127,6 @@ public class JsonSerializer
 
     internal static JsonConverter? GetMatchingConverter(IList<JsonConverter>? converters, Type objectType)
     {
-#if DEBUG
-        ValidationUtils.ArgumentNotNull(objectType, nameof(objectType));
-#endif
-
         if (converters != null)
         {
             for (var i = 0; i < converters.Count; i++)
