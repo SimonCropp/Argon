@@ -13,7 +13,7 @@ public class Account
     public IList<string> Roles { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeUnindentedJson.cs#L32-L40' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeunindentedjsontypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/Samples/Serializer/SerializeUnindentedJson.cs#L32-L40' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeunindentedjsontypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: SerializeUnindentedJsonUsage -->
@@ -36,5 +36,5 @@ var json = JsonConvert.SerializeObject(account);
 
 Console.WriteLine(json);
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeUnindentedJson.cs#L45-L62' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeunindentedjsonusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/Samples/Serializer/SerializeUnindentedJson.cs#L45-L62' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeunindentedjsonusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

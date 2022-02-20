@@ -27,7 +27,7 @@ public class PersonConverter : CustomCreationConverter<Person>
     }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeCustomCreationConverter.cs#L32-L53' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializecustomcreationconvertertypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/Samples/Serializer/DeserializeCustomCreationConverter.cs#L32-L53' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializecustomcreationconvertertypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DeserializeCustomCreationConverterUsage -->
@@ -51,5 +51,5 @@ var employee = (Employee)person;
 Console.WriteLine(employee.JobTitle);
 // Carpenter
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeCustomCreationConverter.cs#L58-L76' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializecustomcreationconverterusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/Samples/Serializer/DeserializeCustomCreationConverter.cs#L58-L76' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializecustomcreationconverterusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

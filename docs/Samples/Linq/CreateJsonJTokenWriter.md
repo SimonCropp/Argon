@@ -27,5 +27,5 @@ Console.WriteLine(o.ToString());
 //   ]
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/CreateJsonJTokenWriter.cs#L35-L57' title='Snippet source file'>snippet source</a> | <a href='#snippet-createjsonjtokenwriter' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/Samples/Linq/CreateJsonJTokenWriter.cs#L35-L57' title='Snippet source file'>snippet source</a> | <a href='#snippet-createjsonjtokenwriter' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -822,7 +822,7 @@ public class ReadTests : TestFixtureBase
         Assert.True(reader.Read());
 
         XUnitAssert.Throws<JsonReaderException>(
-            () => { reader.ReadAsDouble(); },
+            () => reader.ReadAsDouble(),
             "Could not convert string to double: Trump. Path '[0]', line 1, position 8.");
 
         Assert.Equal(1d, reader.ReadAsDouble());
@@ -853,7 +853,7 @@ public class ReadTests : TestFixtureBase
         Assert.True(reader.Read());
 
         XUnitAssert.Throws<JsonReaderException>(
-            () => { reader.Read(); },
+            () => reader.Read(),
             "Error parsing boolean value. Path 'Test1', line 1, position 14.");
 
         Assert.True(reader.Read());

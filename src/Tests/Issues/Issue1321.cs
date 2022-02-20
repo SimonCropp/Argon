@@ -52,7 +52,7 @@ public class Issue1321 : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(@"[""1"","));
 
         XUnitAssert.Throws<JsonWriterException>(
-            () => { writer.WriteToken(reader); },
+            () => writer.WriteToken(reader),
             "Unexpected end when reading token. Path ''.");
     }
 
@@ -79,7 +79,7 @@ public class Issue1321 : TestFixtureBase
         reader.Read();
 
         XUnitAssert.Throws<JsonWriterException>(
-            () => { writer.WriteToken(reader); },
+            () => writer.WriteToken(reader),
             "Unexpected end when reading token. Path ''.");
     }
 
@@ -108,7 +108,7 @@ public class Issue1321 : TestFixtureBase
         reader.Read();
 
         XUnitAssert.Throws<JsonWriterException>(
-            () => { writer.WriteToken(reader); },
+            () => writer.WriteToken(reader),
             "Unexpected end when reading token. Path ''.");
     }
 
@@ -138,7 +138,7 @@ public class Issue1321 : TestFixtureBase
         reader.Read();
 
         XUnitAssert.Throws<JsonWriterException>(
-            () => { jsonWriter.WriteToken(reader); },
+            () => jsonWriter.WriteToken(reader),
             "Unexpected end when reading token. Path '[0]'.");
     }
 

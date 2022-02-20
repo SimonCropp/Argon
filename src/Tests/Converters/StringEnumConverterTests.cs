@@ -856,8 +856,12 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
     [Fact]
     public void AllowIntegerValueAndStringNumber()
     {
+        var converter = new StringEnumConverter
+        {
+            AllowIntegerValues = false
+        };
         var ex = XUnitAssert.Throws<JsonSerializationException>(
-            () => { JsonConvert.DeserializeObject<StoreColor>("\"1\"", new StringEnumConverter {AllowIntegerValues = false}); });
+            () => JsonConvert.DeserializeObject<StoreColor>("\"1\"", converter));
 
         Assert.Equal("Integer string '1' is not allowed.", ex.InnerException.Message);
     }
@@ -865,8 +869,12 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
     [Fact]
     public void AllowIntegerValueAndNegativeStringNumber()
     {
+        var converter = new StringEnumConverter
+        {
+            AllowIntegerValues = false
+        };
         var ex = XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<StoreColor>("\"-1\"", new StringEnumConverter { AllowIntegerValues = false }));
+            () => JsonConvert.DeserializeObject<StoreColor>("\"-1\"", converter));
 
         Assert.Equal("Integer string '-1' is not allowed.", ex.InnerException.Message);
     }
@@ -874,8 +882,12 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
     [Fact]
     public void AllowIntegerValueAndPositiveStringNumber()
     {
+        var converter = new StringEnumConverter
+        {
+            AllowIntegerValues = false
+        };
         var ex = XUnitAssert.Throws<JsonSerializationException>(
-            () => { JsonConvert.DeserializeObject<StoreColor>("\"+1\"", new StringEnumConverter {AllowIntegerValues = false}); });
+            () => JsonConvert.DeserializeObject<StoreColor>("\"+1\"", converter));
 
         Assert.Equal("Integer string '+1' is not allowed.", ex.InnerException.Message);
     }
@@ -883,8 +895,12 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
     [Fact]
     public void AllowIntegerValueAndDash()
     {
+        var converter = new StringEnumConverter
+        {
+            AllowIntegerValues = false
+        };
         var ex = XUnitAssert.Throws<JsonSerializationException>(
-            () => { JsonConvert.DeserializeObject<StoreColor>("\"-\"", new StringEnumConverter {AllowIntegerValues = false}); });
+            () => JsonConvert.DeserializeObject<StoreColor>("\"-\"", converter));
 
         Assert.Equal("Requested value '-' was not found.", ex.InnerException.Message);
     }
@@ -892,8 +908,9 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
     [Fact]
     public void AllowIntegerValueAndNonNamedValue()
     {
+        var converter = new StringEnumConverter {AllowIntegerValues = false};
         XUnitAssert.Throws<JsonSerializationException>(
-            () => { JsonConvert.SerializeObject((StoreColor) 999, new StringEnumConverter {AllowIntegerValues = false}); },
+            () => JsonConvert.SerializeObject((StoreColor) 999, converter),
             "Integer value 999 is not allowed. Path ''.");
     }
 

@@ -946,8 +946,8 @@ public class JsonTextWriterTest : TestFixtureBase
             "Input string was not in a correct format.");
 
         XUnitAssert.Throws<ArgumentNullException>(
-            () => { jsonWriter.WriteToken(JsonToken.Integer); }
-            , @"Value cannot be null.
+            () => jsonWriter.WriteToken(JsonToken.Integer),
+            @"Value cannot be null.
 Parameter name: value", "Value cannot be null. (Parameter 'value')");
     }
 
@@ -955,8 +955,8 @@ Parameter name: value", "Value cannot be null. (Parameter 'value')");
     public void WriteTokenNullCheck()
     {
         using var jsonWriter = new JsonTextWriter(new StringWriter());
-        XUnitAssert.Throws<ArgumentNullException>(() => { jsonWriter.WriteToken(null); });
-        XUnitAssert.Throws<ArgumentNullException>(() => { jsonWriter.WriteToken(null, true); });
+        XUnitAssert.Throws<ArgumentNullException>(() => jsonWriter.WriteToken(null));
+        XUnitAssert.Throws<ArgumentNullException>(() => jsonWriter.WriteToken(null, true));
     }
 
     [Fact]

@@ -538,7 +538,7 @@ public class JsonConvertTest : TestFixtureBase
     public void ToStringInvalid()
     {
         XUnitAssert.Throws<ArgumentException>(
-            () => { JsonConvert.ToString(new Version(1, 0)); },
+            () => JsonConvert.ToString(new Version(1, 0)),
             "Unsupported type: System.Version. Use the JsonSerializer class to get the object's JSON representation.");
     }
 

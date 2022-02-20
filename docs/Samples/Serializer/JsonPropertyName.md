@@ -14,7 +14,7 @@ public class Videogame
     public DateTime ReleaseDate { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonPropertyName.cs#L32-L41' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertynametypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/Samples/Serializer/JsonPropertyName.cs#L32-L41' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertynametypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: JsonPropertyNameUsage -->
@@ -34,5 +34,5 @@ Console.WriteLine(json);
 //   "release_date": "1998-01-01T00:00:00"
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonPropertyName.cs#L46-L60' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertynameusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/Samples/Serializer/JsonPropertyName.cs#L46-L60' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertynameusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

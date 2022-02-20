@@ -11,7 +11,7 @@ public class Account
     public bool Deleted { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeMissingMemberHandling.cs#L32-L38' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializemissingmemberhandlingtypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/Samples/Serializer/DeserializeMissingMemberHandling.cs#L32-L38' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializemissingmemberhandlingtypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DeserializeMissingMemberHandlingUsage -->
@@ -36,5 +36,5 @@ catch (JsonSerializationException ex)
     // Could not find member 'DeletedDate' on object of type 'Account'. Path 'DeletedDate', line 4, position 23.
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeMissingMemberHandling.cs#L43-L62' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializemissingmemberhandlingusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/Src/Tests/Documentation/Samples/Serializer/DeserializeMissingMemberHandling.cs#L43-L62' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializemissingmemberhandlingusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

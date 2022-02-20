@@ -3447,7 +3447,7 @@ Path '', line 1, position 1.");
         var json = @"[]";
 
         XUnitAssert.Throws<JsonReaderException>(
-            () => { JsonConvert.DeserializeObject<double>(json); },
+            () => JsonConvert.DeserializeObject<double>(json),
             @"Unexpected character encountered while parsing value: [. Path '', line 1, position 1.");
     }
 
@@ -3457,7 +3457,7 @@ Path '', line 1, position 1.");
         var json = @"[]";
 
         XUnitAssert.Throws<JsonSerializationException>(
-            () => { JsonConvert.DeserializeObject<DynamicDictionary>(json); },
+            () => JsonConvert.DeserializeObject<DynamicDictionary>(json),
             @"Cannot deserialize the current JSON array (e.g. [1,2,3]) into type 'Argon.Tests.Linq.DynamicDictionary' because the type requires a JSON object (e.g. {""name"":""value""}) to deserialize correctly.
 To fix this error either change the JSON to a JSON object (e.g. {""name"":""value""}) or change the deserialized type to an array or a type that implements a collection interface (e.g. ICollection, IList) like List<T> that can be deserialized from a JSON array. JsonArrayAttribute can also be added to the type to force it to deserialize from a JSON array.
 Path '', line 1, position 1.");
@@ -3469,7 +3469,7 @@ Path '', line 1, position 1.");
         var json = @"[]";
 
         XUnitAssert.Throws<JsonSerializationException>(
-            () => { JsonConvert.DeserializeObject<JObject>(json); },
+            () => JsonConvert.DeserializeObject<JObject>(json),
             "Deserialized JSON type 'Argon.Linq.JArray' is not compatible with expected type 'Argon.Linq.JObject'. Path '', line 1, position 2.");
     }
 
@@ -5872,7 +5872,7 @@ Path '', line 1, position 1.");
     public void DeserializeDoubleFromNullString()
     {
         XUnitAssert.Throws<ArgumentNullException>(
-            () => { JsonConvert.DeserializeObject<double>(null); },
+            () => JsonConvert.DeserializeObject<double>(null),
             new[]
             {
                 $"Value cannot be null.{Environment.NewLine}Parameter name: value",
@@ -5885,7 +5885,7 @@ Path '', line 1, position 1.");
     public void DeserializeFromNullString()
     {
         XUnitAssert.Throws<ArgumentNullException>(
-            () => { JsonConvert.DeserializeObject(null); },
+            () => JsonConvert.DeserializeObject(null),
             new[]
             {
                 $"Value cannot be null.{Environment.NewLine}Parameter name: value",
@@ -6516,7 +6516,7 @@ lines.*/
         };
         var s = JsonSerializer.Create(settings);
         XUnitAssert.Throws<JsonReaderException>(
-            () => { s.Deserialize<Dictionary<string, int>>(new JsonTextReader(new StringReader(json))); }, 
+            () => s.Deserialize<Dictionary<string, int>>(new JsonTextReader(new StringReader(json))), 
             "Additional text encountered after finished reading JSON content: {. Path '', line 7, position 0.");
     }
 

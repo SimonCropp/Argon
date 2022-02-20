@@ -747,7 +747,7 @@ public class JTokenReaderTest : TestFixtureBase
         var reader = new JTokenReader(a);
 
         XUnitAssert.Throws<JsonReaderException>(
-            () => { reader.ReadAsDouble(); },
+            () => reader.ReadAsDouble(),
             "Error reading double. Unexpected token: StartArray. Path ''.");
     }
 
@@ -792,7 +792,7 @@ public class JTokenReaderTest : TestFixtureBase
         var reader = new JTokenReader(a);
 
         XUnitAssert.Throws<JsonReaderException>(
-            () => { reader.ReadAsDateTimeOffset(); },
+            () => reader.ReadAsDateTimeOffset(),
             "Error reading date. Unexpected token: StartArray. Path ''.");
     }
 

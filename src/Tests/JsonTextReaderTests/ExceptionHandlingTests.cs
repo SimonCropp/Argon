@@ -360,7 +360,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     public void NullTextReader()
     {
         XUnitAssert.Throws<ArgumentNullException>(
-            () => { new JsonTextReader(null); },
+            () => new JsonTextReader(null),
             new[]
             {
                 $"Value cannot be null.{Environment.NewLine}Parameter name: reader",
@@ -453,7 +453,7 @@ public class ExceptionHandlingTests : TestFixtureBase
         Assert.Equal(5, reader.LineNumber);
 
         XUnitAssert.Throws<JsonReaderException>(
-            () => { reader.Read(); },
+            () => reader.Read(),
             "Additional text encountered after finished reading JSON content: c. Path '', line 5, position 1.");
     }
 

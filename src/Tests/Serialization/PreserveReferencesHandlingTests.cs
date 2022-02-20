@@ -281,7 +281,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         circularList.Add(new CircularList { new() { circularList } });
 
         XUnitAssert.Throws<JsonSerializationException>(
-            () => { JsonConvert.SerializeObject(circularList, Formatting.Indented); },
+            () => JsonConvert.SerializeObject(circularList, Formatting.Indented),
             $"Self referencing loop detected with type '{classRef}'. Path '[2][0]'.");
     }
 

@@ -1127,7 +1127,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         var json = @"[ null ]";
 
         XUnitAssert.Throws<JsonSerializationException>(
-            () => { JsonConvert.DeserializeObject<IList<KeyValuePair<string, IList<string>>>>(json); },
+            () => JsonConvert.DeserializeObject<IList<KeyValuePair<string, IList<string>>>>(json),
             "Cannot convert null value to KeyValuePair. Path '[0]', line 1, position 6.");
     }
 

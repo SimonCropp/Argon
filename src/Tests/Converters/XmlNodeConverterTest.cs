@@ -786,7 +786,7 @@ public class XmlNodeConverterTest : TestFixtureBase
     }
 }";
         XUnitAssert.Throws<JsonSerializationException>(
-            () => { JsonConvert.DeserializeXmlNode(json); },
+            () => JsonConvert.DeserializeXmlNode(json),
             "JSON root object has multiple properties. The root object must have a single property in order to create a valid XML document. Consider specifying a DeserializeRootElementName. Path 'Email', line 3, position 13.");
     }
 
@@ -1509,7 +1509,7 @@ public class XmlNodeConverterTest : TestFixtureBase
         var json = @"{""count"": 773840,""photos"": null}";
 
         XUnitAssert.Throws<JsonSerializationException>(
-            () => { JsonConvert.DeserializeXmlNode(json); },
+            () => JsonConvert.DeserializeXmlNode(json),
             "JSON root object has multiple properties. The root object must have a single property in order to create a valid XML document. Consider specifying a DeserializeRootElementName. Path 'photos', line 1, position 26.");
     }
 
@@ -1519,7 +1519,7 @@ public class XmlNodeConverterTest : TestFixtureBase
         var json = @"{""count"": 773840,""photos"": null}";
 
         XUnitAssert.Throws<JsonSerializationException>(
-            () => { JsonConvert.DeserializeXNode(json); },
+            () => JsonConvert.DeserializeXNode(json),
             "JSON root object has multiple properties. The root object must have a single property in order to create a valid XML document. Consider specifying a DeserializeRootElementName. Path 'photos', line 1, position 26.");
     }
 
@@ -2033,7 +2033,7 @@ public class XmlNodeConverterTest : TestFixtureBase
 }";
 
         XUnitAssert.Throws<JsonSerializationException>(
-            () => { JsonConvert.DeserializeXmlNode(json, "root"); },
+            () => JsonConvert.DeserializeXmlNode(json, "root"),
             "Unexpected JsonToken: StartArray. Path '$id', line 2, position 10.");
     }
 
@@ -2161,7 +2161,7 @@ public class XmlNodeConverterTest : TestFixtureBase
 }";
 
         XUnitAssert.Throws<JsonSerializationException>(
-            () => { DeserializeXmlNode(json); },
+            () => DeserializeXmlNode(json),
             "XmlNodeConverter cannot convert JSON with an empty property name to XML. Path '8452309520V2.', line 3, position 9.");
     }
 

@@ -1732,7 +1732,7 @@ Parameter name: arrayIndex",
     public void ParseIncomplete()
     {
         XUnitAssert.Throws<Exception>(
-            () => { JObject.Parse("{ foo:"); },
+            () => JObject.Parse("{ foo:"),
             "Unexpected end of content while loading JObject. Path 'foo', line 1, position 6.");
     }
 

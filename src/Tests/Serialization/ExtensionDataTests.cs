@@ -993,7 +993,7 @@ public class ExtensionDataTests : TestFixtureBase
     public void SerializeExtensionData_NoGetter()
     {
         XUnitAssert.Throws<JsonException>(
-            () => { JsonConvert.SerializeObject(new DocNoGetter()); },
+            () => JsonConvert.SerializeObject(new DocNoGetter()),
             "Invalid extension data attribute on 'Argon.Tests.Serialization.ExtensionDataTests+DocNoGetter'. Member 'Content' must have a getter.");
     }
 
