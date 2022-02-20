@@ -360,9 +360,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
         var values = (List<object>)JsonConvert.DeserializeObject(json, typeof(List<object>), new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.Objects,
-#pragma warning disable 618
-            TypeNameAssemblyFormat = FormatterAssemblyStyle.Full,
-#pragma warning restore 618
+            TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full,
             MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
         });
 

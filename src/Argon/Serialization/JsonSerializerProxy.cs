@@ -113,13 +113,6 @@ class JsonSerializerProxy : JsonSerializer
         set => _serializer.MetadataPropertyHandling = value;
     }
 
-    [Obsolete("TypeNameAssemblyFormat is obsolete. Use TypeNameAssemblyFormatHandling instead.")]
-    public override FormatterAssemblyStyle TypeNameAssemblyFormat
-    {
-        get => _serializer.TypeNameAssemblyFormat;
-        set => _serializer.TypeNameAssemblyFormat = value;
-    }
-
     public override TypeNameAssemblyFormatHandling TypeNameAssemblyFormatHandling
     {
         get => _serializer.TypeNameAssemblyFormatHandling;

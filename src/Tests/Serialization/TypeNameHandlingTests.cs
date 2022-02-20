@@ -583,9 +583,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         var json = JsonConvert.SerializeObject(values, Formatting.Indented, new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.Objects,
-#pragma warning disable 618
-            TypeNameAssemblyFormat = FormatterAssemblyStyle.Full
-#pragma warning restore 618
+            TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full
         });
 
         XUnitAssert.AreEqualNormalized($@"[
@@ -642,9 +640,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         var values = (List<object>)JsonConvert.DeserializeObject(json, typeof(List<object>), new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.Objects,
-#pragma warning disable 618
-            TypeNameAssemblyFormat = FormatterAssemblyStyle.Full
-#pragma warning restore 618
+            TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full
         });
 
         Assert.Equal(4, values.Count);
@@ -681,9 +677,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             JsonConvert.DeserializeObject(json, typeof(Person), new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Objects,
-#pragma warning disable 618
-                TypeNameAssemblyFormat = FormatterAssemblyStyle.Full
-#pragma warning restore 618
+                TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full
             });
         }
         catch (JsonSerializationException ex)
@@ -776,9 +770,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         var message = JsonConvert.DeserializeObject<ICorrelatedMessage>(json, new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.Objects,
-#pragma warning disable 618
-            TypeNameAssemblyFormat = FormatterAssemblyStyle.Full
-#pragma warning restore 618
+            TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full
         });
 
         Assert.IsType(typeof(SendHttpRequest), message);
@@ -806,9 +798,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             {
                 NullValueHandling = NullValueHandling.Ignore,
                 TypeNameHandling = TypeNameHandling.All,
-#pragma warning disable 618
-                TypeNameAssemblyFormat = FormatterAssemblyStyle.Full
-#pragma warning restore 618
+                TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full
             });
 
         XUnitAssert.AreEqualNormalized($@"{{
@@ -1256,9 +1246,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         var json = JsonConvert.SerializeObject(collection, Formatting.Indented, new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.All,
-#pragma warning disable 618
-            TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
-#pragma warning restore 618
+            TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple
         });
 
         var dictionaryTypeName = ReflectionUtils.GetTypeName(typeof(Dictionary<string, object>), TypeNameAssemblyFormatHandling.Simple, null);
@@ -1297,9 +1285,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         var c = JsonConvert.DeserializeObject(json, new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.All,
-#pragma warning disable 618
-            TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
-#pragma warning restore 618
+            TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple
         });
 
         Assert.IsType(typeof(Dictionary<string, object>), c);
@@ -1493,10 +1479,8 @@ public class TypeNameHandlingTests : TestFixtureBase
         var json = JsonConvert.SerializeObject(message, Formatting.Indented, new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.All,
-#pragma warning disable CS0618 // Type or member is obsolete
-            TypeNameAssemblyFormat = FormatterAssemblyStyle.Full,
+            TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full,
             SerializationBinder = new MetroBinder(),
-#pragma warning restore CS0618 // Type or member is obsolete
             ContractResolver = new DefaultContractResolver
             {
                 IgnoreSerializableAttribute = true
@@ -2133,9 +2117,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.All,
-#pragma warning disable 618
-                TypeNameAssemblyFormat = FormatterAssemblyStyle.Full // TypeNameHandling.Auto will work
-#pragma warning restore 618
+                TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full
             });
 
         var output = JsonConvert.DeserializeObject<List<Stack<string>>>(serialized,
@@ -2209,9 +2191,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             var settings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.All,
-#pragma warning disable 618
-                TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
-#pragma warning restore 618
+                TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple
             };
 
             var dictionary = new Dictionary<int, HashSet<string>>
@@ -2232,9 +2212,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             var settings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.All,
-#pragma warning disable 618
-                TypeNameAssemblyFormat = FormatterAssemblyStyle.Full
-#pragma warning restore 618
+                TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full
             };
 
             var dictionary = new Dictionary<int, HashSet<string>>
