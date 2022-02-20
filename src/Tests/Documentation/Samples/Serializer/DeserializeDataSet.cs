@@ -48,7 +48,10 @@ public class DeserializeDataSet : TestFixtureBase
               ]
             }";
 
-        var dataSet = JsonConvert.DeserializeObject<DataSet>(json);
+        var settings = new JsonSerializerSettings();
+        settings.Converters.Add(new DataSetConverter());
+        settings.Converters.Add(new DataTableConverter());
+        var dataSet = JsonConvert.DeserializeObject<DataSet>(json,settings);
 
         var dataTable = dataSet.Tables["Table1"];
 
