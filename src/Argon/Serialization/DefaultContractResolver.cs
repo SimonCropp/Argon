@@ -169,7 +169,7 @@ public class DefaultContractResolver : IContractResolver
         // Exclude index properties
         // Do not filter ByRef types here because accessing FieldType/PropertyType can trigger additional assembly loads
         var allMembers = ReflectionUtils.GetFieldsAndProperties(objectType, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
-            .Where(m => m is PropertyInfo p ? !ReflectionUtils.IsIndexedProperty(p) : true);
+            .Where(m => m is not PropertyInfo p || !ReflectionUtils.IsIndexedProperty(p));
 
         var serializableMembers = new List<MemberInfo>();
 
