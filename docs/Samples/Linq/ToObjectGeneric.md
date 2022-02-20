@@ -22,5 +22,5 @@ var s = v1.ToObject<string>();
 Console.WriteLine(s);
 // "True"
 ```
-<sup><a href='/Src/Tests/Documentation/Samples/Linq/ToObjectGeneric.cs#L35-L52' title='Snippet source file'>snippet source</a> | <a href='#snippet-toobjectgeneric' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/ToObjectGeneric.cs#L35-L52' title='Snippet source file'>snippet source</a> | <a href='#snippet-toobjectgeneric' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

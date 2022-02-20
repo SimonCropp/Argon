@@ -49,7 +49,7 @@ public class ConvertXmlToJson : TestFixtureBase
         var doc = new XmlDocument();
         doc.LoadXml(xml);
 
-        var json = JsonConvert.SerializeXmlNode(doc);
+        var json = JsonXmlConvert.SerializeXmlNode(doc);
 
         Console.WriteLine(json);
         // {

@@ -30,6 +30,7 @@
     <None Include="PoisonText.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <ProjectReference Include="..\Argon.Xml\Argon.Xml.csproj" />
     <ProjectReference Include="..\Argon\Argon.csproj" />
   </ItemGroup>
   

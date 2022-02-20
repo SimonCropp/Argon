@@ -52,5 +52,5 @@ var totalPrice = o["Manufacturers"].Sum(m => (decimal) m.SelectToken("Products[0
 Console.WriteLine(totalPrice);
 // 149.95
 ```
-<sup><a href='/Src/Tests/Documentation/Samples/JsonPath/QueryJsonSelectTokenWithLinq.cs#L35-L84' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonselecttokenwithlinq' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/JsonPath/QueryJsonSelectTokenWithLinq.cs#L35-L84' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonselecttokenwithlinq' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

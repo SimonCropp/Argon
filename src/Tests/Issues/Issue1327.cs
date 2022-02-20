@@ -66,8 +66,9 @@ public class Issue1327 : TestFixtureBase
   ""Name"": ""Kumar"",
   ""IdNumber"": 990268
 }";
-
-        var p = JsonConvert.DeserializeObject<PersonWithXmlNode>(json);
+        var settings = new JsonSerializerSettings();
+        settings.Converters.Add(new XmlNodeConverter());
+        var p = JsonConvert.DeserializeObject<PersonWithXmlNode>(json, settings);
 
         Assert.Equal("Kumar", p.Name);
         Assert.Equal("vinoth", p.TestXml.SelectSingleNode("//name").InnerText);
@@ -105,7 +106,9 @@ public class Issue1327 : TestFixtureBase
   ""IdNumber"": 990268
 }";
 
-        var p = JsonConvert.DeserializeObject<PersonWithXObject>(json);
+        var settings = new JsonSerializerSettings();
+        settings.Converters.Add(new XmlNodeConverter());
+        var p = JsonConvert.DeserializeObject<PersonWithXObject>(json, settings);
 
         Assert.Equal("Kumar", p.Name);
         Assert.Equal("vinoth", (string) ((XDocument) p.TestXml1).Root.Element("order").Element("name"));

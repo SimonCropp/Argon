@@ -24,7 +24,7 @@ public class Account
     public string FullName { get; set; }
 }
 ```
-<sup><a href='/Src/Tests/Documentation/Samples/Serializer/JsonPropertyOrder.cs#L32-L51' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertyordertypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonPropertyOrder.cs#L32-L51' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertyordertypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: JsonPropertyOrderUsage -->
@@ -52,5 +52,5 @@ Console.WriteLine(json);
 //   "DeletedDate": "2013-01-25T00:00:00"
 // }
 ```
-<sup><a href='/Src/Tests/Documentation/Samples/Serializer/JsonPropertyOrder.cs#L56-L78' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertyorderusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonPropertyOrder.cs#L56-L78' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertyorderusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

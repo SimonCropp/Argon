@@ -4293,7 +4293,13 @@ Path '', line 1, position 1.");
             Element = XElement.Parse(@"<fifth xmlns:json=""http://json.org"" json:Awesome=""true"">element</fifth>")
         };
 
-        var json = JsonConvert.SerializeObject(testObject, Formatting.Indented);
+        var settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented, 
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        };
+        settings.Converters.Add(new XmlNodeConverter());
+        var json = JsonConvert.SerializeObject(testObject, settings);
         var expected = @"{
   ""Document"": {
     ""root"": ""hehe, root""
@@ -4308,7 +4314,7 @@ Path '', line 1, position 1.");
 }";
         XUnitAssert.AreEqualNormalized(expected, json);
 
-        var newTestObject = JsonConvert.DeserializeObject<XNodeTestObject>(json);
+        var newTestObject = JsonConvert.DeserializeObject<XNodeTestObject>(json, settings);
         Assert.Equal(testObject.Document.ToString(), newTestObject.Document.ToString());
         Assert.Equal(testObject.Element.ToString(), newTestObject.Element.ToString());
 
@@ -4323,7 +4329,12 @@ Path '', line 1, position 1.");
         document.LoadXml("<root>hehe, root</root>");
         testObject.Document = document;
 
-        var json = JsonConvert.SerializeObject(testObject, Formatting.Indented);
+        var settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented
+        };
+        settings.Converters.Add(new XmlNodeConverter());
+        var json = JsonConvert.SerializeObject(testObject, settings);
         var expected = @"{
   ""Document"": {
     ""root"": ""hehe, root""
@@ -4331,7 +4342,7 @@ Path '', line 1, position 1.");
 }";
         XUnitAssert.AreEqualNormalized(expected, json);
 
-        var newTestObject = JsonConvert.DeserializeObject<XmlNodeTestObject>(json);
+        var newTestObject = JsonConvert.DeserializeObject<XmlNodeTestObject>(json, settings);
         Assert.Equal(testObject.Document.InnerXml, newTestObject.Document.InnerXml);
     }
 

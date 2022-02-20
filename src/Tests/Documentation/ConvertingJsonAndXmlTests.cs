@@ -49,7 +49,7 @@ public class ConvertingJsonAndXmlTests : TestFixtureBase
     var doc = new XmlDocument();
     doc.LoadXml(xml);
 
-    var jsonText = JsonConvert.SerializeXmlNode(doc);
+    var jsonText = JsonXmlConvert.SerializeXmlNode(doc);
     //{
     //  "?xml": {
     //    "@version": "1.0",
@@ -98,7 +98,7 @@ public class ConvertingJsonAndXmlTests : TestFixtureBase
               }
             }";
 
-    var doc = JsonConvert.DeserializeXmlNode(json);
+    var doc = JsonXmlConvert.DeserializeXmlNode(json);
     // <?xml version="1.0" standalone="no"?>
     // <root>
     //   <person id="1">
@@ -126,7 +126,7 @@ public class ConvertingJsonAndXmlTests : TestFixtureBase
     var doc = new XmlDocument();
     doc.LoadXml(xml);
 
-    var json = JsonConvert.SerializeXmlNode(doc);
+    var json = JsonXmlConvert.SerializeXmlNode(doc);
     //{
     //  "person": {
     //    "@id": "1",
@@ -145,7 +145,7 @@ public class ConvertingJsonAndXmlTests : TestFixtureBase
     doc = new XmlDocument();
     doc.LoadXml(xml);
 
-    json = JsonConvert.SerializeXmlNode(doc);
+    json = JsonXmlConvert.SerializeXmlNode(doc);
     //{
     //  "person": {
     //    "@id": "1",

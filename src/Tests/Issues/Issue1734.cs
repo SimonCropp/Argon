@@ -33,7 +33,7 @@ public class Issue1734
     [Fact]
     public void Test_XmlNode()
     {
-        var xmlDoc = JsonConvert.DeserializeXmlNode(JsonWithoutNamespace, "", true);
+        var xmlDoc = JsonXmlConvert.DeserializeXmlNode(JsonWithoutNamespace, "", true);
 
         XUnitAssert.AreEqualNormalized(@"<Test_Service>
   <fname>mark</fname>
@@ -69,7 +69,7 @@ public class Issue1734
   </collections>
 </Test_Service>", IndentXml(xmlDoc.OuterXml));
 
-        xmlDoc = JsonConvert.DeserializeXmlNode(JsonWithNamespace, "", true);
+        xmlDoc = JsonXmlConvert.DeserializeXmlNode(JsonWithNamespace, "", true);
 
         XUnitAssert.AreEqualNormalized(@"<ns3:Test_Service xmlns:ns3=""http://www.CCKS.org/XRT/Form"">
   <ns3:fname>mark</ns3:fname>
@@ -126,7 +126,7 @@ public class Issue1734
     [Fact]
     public void Test_XNode()
     {
-        var xmlDoc = JsonConvert.DeserializeXNode(JsonWithoutNamespace, "", true);
+        var xmlDoc = JsonXmlConvert.DeserializeXNode(JsonWithoutNamespace, "", true);
 
         var xml = xmlDoc.ToString();
         XUnitAssert.AreEqualNormalized(@"<Test_Service>
@@ -163,7 +163,7 @@ public class Issue1734
   </collections>
 </Test_Service>", xml);
 
-        xmlDoc = JsonConvert.DeserializeXNode(JsonWithNamespace, "", true);
+        xmlDoc = JsonXmlConvert.DeserializeXNode(JsonWithNamespace, "", true);
 
         xml = xmlDoc.ToString();
         XUnitAssert.AreEqualNormalized(@"<ns3:Test_Service xmlns:ns3=""http://www.CCKS.org/XRT/Form"">

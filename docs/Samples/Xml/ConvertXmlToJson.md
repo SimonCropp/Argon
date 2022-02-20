@@ -20,7 +20,7 @@ var xml = @"<?xml version='1.0' standalone='no'?>
 var doc = new XmlDocument();
 doc.LoadXml(xml);
 
-var json = JsonConvert.SerializeXmlNode(doc);
+var json = JsonXmlConvert.SerializeXmlNode(doc);
 
 Console.WriteLine(json);
 // {
@@ -44,5 +44,5 @@ Console.WriteLine(json);
 //   }
 // }
 ```
-<sup><a href='/Src/Tests/Documentation/Samples/Xml/ConvertXmlToJson.cs#L36-L75' title='Snippet source file'>snippet source</a> | <a href='#snippet-convertxmltojson' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Xml/ConvertXmlToJson.cs#L36-L75' title='Snippet source file'>snippet source</a> | <a href='#snippet-convertxmltojson' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

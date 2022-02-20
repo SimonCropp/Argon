@@ -20,7 +20,7 @@ public class User
     public UserStatus Status { get; set; }
 }
 ```
-<sup><a href='/Src/Tests/Documentation/Samples/Serializer/JsonConverterAttributeProperty.cs#L32-L47' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconverterattributepropertytypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonConverterAttributeProperty.cs#L32-L47' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconverterattributepropertytypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: JsonConverterAttributePropertyUsage -->
@@ -40,5 +40,5 @@ Console.WriteLine(json);
 //   "Status": "Deleted"
 // }
 ```
-<sup><a href='/Src/Tests/Documentation/Samples/Serializer/JsonConverterAttributeProperty.cs#L52-L66' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconverterattributepropertyusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonConverterAttributeProperty.cs#L52-L66' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconverterattributepropertyusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

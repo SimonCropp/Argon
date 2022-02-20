@@ -43,7 +43,7 @@ var xml = @"<?xml version='1.0' standalone='no'?>
 var doc = new XmlDocument();
 doc.LoadXml(xml);
 
-var jsonText = JsonConvert.SerializeXmlNode(doc);
+var jsonText = JsonXmlConvert.SerializeXmlNode(doc);
 //{
 //  "?xml": {
 //    "@version": "1.0",
@@ -65,7 +65,7 @@ var jsonText = JsonConvert.SerializeXmlNode(doc);
 //  }
 //}
 ```
-<sup><a href='/Src/Tests/Documentation/ConvertingJsonAndXmlTests.cs#L36-L73' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializexmlnode' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/ConvertingJsonAndXmlTests.cs#L36-L73' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializexmlnode' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Because multiple nodes with the same name at the same level are grouped together into an array, the conversion process can produce different JSON depending on the number of nodes. For example, if some XML for a user has a single `<Role>` node, then that role will be text against a JSON `"Role"` property, but if the user has multiple `<Role>` nodes, then the role values will be placed in a JSON array.
@@ -84,7 +84,7 @@ var xml = @"<person id='1'>
 var doc = new XmlDocument();
 doc.LoadXml(xml);
 
-var json = JsonConvert.SerializeXmlNode(doc);
+var json = JsonXmlConvert.SerializeXmlNode(doc);
 //{
 //  "person": {
 //    "@id": "1",
@@ -103,7 +103,7 @@ xml = @"<person xmlns:json='http://james.newtonking.com/projects/json' id='1'>
 doc = new XmlDocument();
 doc.LoadXml(xml);
 
-json = JsonConvert.SerializeXmlNode(doc);
+json = JsonXmlConvert.SerializeXmlNode(doc);
 //{
 //  "person": {
 //    "@id": "1",
@@ -115,7 +115,7 @@ json = JsonConvert.SerializeXmlNode(doc);
 //  }
 //}
 ```
-<sup><a href='/Src/Tests/Documentation/ConvertingJsonAndXmlTests.cs#L119-L159' title='Snippet source file'>snippet source</a> | <a href='#snippet-forcejsonarray' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/ConvertingJsonAndXmlTests.cs#L119-L159' title='Snippet source file'>snippet source</a> | <a href='#snippet-forcejsonarray' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -149,7 +149,7 @@ var json = @"{
           }
         }";
 
-var doc = JsonConvert.DeserializeXmlNode(json);
+var doc = JsonXmlConvert.DeserializeXmlNode(json);
 // <?xml version="1.0" standalone="no"?>
 // <root>
 //   <person id="1">
@@ -162,7 +162,7 @@ var doc = JsonConvert.DeserializeXmlNode(json);
 //   </person>
 // </root>
 ```
-<sup><a href='/Src/Tests/Documentation/ConvertingJsonAndXmlTests.cs#L79-L113' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializexmlnode' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/ConvertingJsonAndXmlTests.cs#L79-L113' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializexmlnode' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

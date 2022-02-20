@@ -47,7 +47,6 @@ public class DefaultContractResolver : IContractResolver
     {
         new EntityKeyMemberConverter(),
         new ExpandoObjectConverter(),
-        new XmlNodeConverter(),
         new BinaryConverter(),
         new DataSetConverter(),
         new DataTableConverter(),

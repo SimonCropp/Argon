@@ -20,5 +20,5 @@ var jsonMsDate = JsonConvert.SerializeObject(mayanEndOfTheWorld, new JsonSeriali
 Console.WriteLine(jsonMsDate);
 // "\/Date(1356044400000+0100)\/"
 ```
-<sup><a href='/Src/Tests/Documentation/Samples/Serializer/SerializeDateFormatHandling.cs#L35-L50' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializedateformathandling' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeDateFormatHandling.cs#L35-L50' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializedateformathandling' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

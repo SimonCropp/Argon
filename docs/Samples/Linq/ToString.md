@@ -20,5 +20,5 @@ Console.WriteLine(o.ToString(Formatting.None));
 Console.WriteLine(o.ToString(Formatting.None, new JavaScriptDateTimeConverter()));
 // {"string1":"value","integer2":99,"datetime3":new Date(959032800000)}
 ```
-<sup><a href='/Src/Tests/Documentation/Samples/Linq/ToString.cs#L35-L50' title='Snippet source file'>snippet source</a> | <a href='#snippet-tostring' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/ToString.cs#L35-L50' title='Snippet source file'>snippet source</a> | <a href='#snippet-tostring' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
