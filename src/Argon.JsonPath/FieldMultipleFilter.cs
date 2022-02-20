@@ -1,5 +1,3 @@
-using Argon;
-
 class FieldMultipleFilter : PathFilter
 {
     internal List<string> Names;

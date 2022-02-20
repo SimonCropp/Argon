@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Argon;
-
 static class ReflectionUtils
 {
     public static bool IsVirtual(this PropertyInfo property)

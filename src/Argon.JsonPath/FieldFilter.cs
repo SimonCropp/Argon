@@ -1,5 +1,3 @@
-using Argon;
-
 class FieldFilter : PathFilter
 {
     internal string? Name;

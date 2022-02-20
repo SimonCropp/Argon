@@ -24,7 +24,6 @@
 #endregion
 
 using System.Dynamic;
-using Argon;
 
 class JsonSerializerInternalReader : JsonSerializerInternalBase
 {

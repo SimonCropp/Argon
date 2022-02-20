@@ -24,7 +24,6 @@
 #endregion
 
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization.Formatters;
 #if !NET5_0_OR_GREATER
 using System.Web.Script.Serialization;
 #endif

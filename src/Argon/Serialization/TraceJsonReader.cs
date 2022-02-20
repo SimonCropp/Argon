@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Argon;
-
 class TraceJsonReader : JsonReader, IJsonLineInfo
 {
     readonly JsonReader _innerReader;

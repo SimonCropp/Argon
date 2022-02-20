@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Argon;
-
 class JPath
 {
     static readonly char[] FloatCharacters = {'.', 'E', 'e'};

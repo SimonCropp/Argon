@@ -24,7 +24,6 @@
 #endregion
 
 using System.Dynamic;
-using System.Runtime.Serialization.Formatters;
 using Xunit;
 
 namespace Argon.Tests.Serialization;

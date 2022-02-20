@@ -1,5 +1,3 @@
-using Argon;
-
 abstract class PathFilter
 {
     public abstract IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings settings);
