@@ -27,48 +27,36 @@ using Argon;
 
 static class ReflectionUtils
 {
-    public static bool IsVirtual(this PropertyInfo propertyInfo)
+    public static bool IsVirtual(this PropertyInfo property)
     {
-        var m = propertyInfo.GetMethod;
-        if (m != null && m.IsVirtual)
-        {
-            return true;
-        }
-
-        m = propertyInfo.SetMethod;
-        if (m != null && m.IsVirtual)
-        {
-            return true;
-        }
-
-        return false;
+        return property.Method() is {IsVirtual: true};
     }
 
-    public static MethodInfo? GetBaseDefinition(this PropertyInfo propertyInfo)
+    public static MethodInfo? Method(this PropertyInfo property)
     {
-        var m = propertyInfo.GetMethod;
+        var m = property.GetMethod;
         if (m != null)
         {
-            return m.GetBaseDefinition();
+            return m;
         }
 
-        return propertyInfo.SetMethod?.GetBaseDefinition();
+        m = property.SetMethod;
+        if (m != null)
+        {
+            return m;
+        }
+
+        return null;
+    }
+
+    static MethodInfo? GetBaseDefinition(this PropertyInfo property)
+    {
+        return property.Method()?.GetBaseDefinition();
     }
 
     public static bool IsPublic(PropertyInfo property)
     {
-        var getMethod = property.GetMethod;
-        if (getMethod != null && getMethod.IsPublic)
-        {
-            return true;
-        }
-        var setMethod = property.SetMethod;
-        if (setMethod != null && setMethod.IsPublic)
-        {
-            return true;
-        }
-
-        return false;
+        return property.Method() is {IsPublic: true};
     }
 
     public static Type? GetObjectType(object? v)
@@ -80,26 +68,23 @@ static class ReflectionUtils
     {
         var fullyQualifiedTypeName = GetFullyQualifiedTypeName(t, binder);
 
-        switch (assemblyFormat)
+        return assemblyFormat switch
         {
-            case TypeNameAssemblyFormatHandling.Simple:
-                return RemoveAssemblyDetails(fullyQualifiedTypeName);
-            case TypeNameAssemblyFormatHandling.Full:
-                return fullyQualifiedTypeName;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
+            TypeNameAssemblyFormatHandling.Simple => RemoveAssemblyDetails(fullyQualifiedTypeName),
+            TypeNameAssemblyFormatHandling.Full => fullyQualifiedTypeName,
+            _ => throw new ArgumentOutOfRangeException()
+        };
     }
 
     static string GetFullyQualifiedTypeName(Type t, ISerializationBinder? binder)
     {
-        if (binder != null)
+        if (binder == null)
         {
-            binder.BindToName(t, out var assemblyName, out var typeName);
-            return typeName + (assemblyName == null ? "" : $", {assemblyName}");
+            return t.AssemblyQualifiedName;
         }
-
-        return t.AssemblyQualifiedName;
+        
+        binder.BindToName(t, out var assemblyName, out var typeName);
+        return typeName + (assemblyName == null ? "" : $", {assemblyName}");
     }
 
     static string RemoveAssemblyDetails(string fullyQualifiedTypeName)
@@ -175,7 +160,7 @@ static class ReflectionUtils
         var bindingFlags = BindingFlags.Instance | BindingFlags.Public;
         if (nonPublic)
         {
-            bindingFlags = bindingFlags | BindingFlags.NonPublic;
+            bindingFlags |= BindingFlags.NonPublic;
         }
 
         return t.GetConstructors(bindingFlags).SingleOrDefault(c => !c.GetParameters().Any());
@@ -183,12 +168,7 @@ static class ReflectionUtils
 
     public static bool IsNullable(Type t)
     {
-        if (t.IsValueType)
-        {
-            return IsNullableType(t);
-        }
-
-        return true;
+        return !t.IsValueType || IsNullableType(t);
     }
 
     public static bool IsNullableType(Type t)
@@ -198,16 +178,22 @@ static class ReflectionUtils
 
     public static Type EnsureNotNullableType(Type t)
     {
-        return IsNullableType(t)
-            ? Nullable.GetUnderlyingType(t)
-            : t;
+        if (IsNullableType(t))
+        {
+            return Nullable.GetUnderlyingType(t);
+        }
+
+        return t;
     }
 
     public static Type EnsureNotByRefType(Type t)
     {
-        return t.IsByRef && t.HasElementType
-            ? t.GetElementType()
-            : t;
+        if (t.IsByRef && t.HasElementType)
+        {
+            return t.GetElementType();
+        }
+
+        return t;
     }
 
     public static bool IsGenericDefinition(Type type, Type genericInterfaceDefinition)
@@ -267,34 +253,22 @@ static class ReflectionUtils
 
     public static bool InheritsGenericDefinition(Type type, Type genericClassDefinition)
     {
-        return InheritsGenericDefinition(type, genericClassDefinition, out _);
-    }
-
-    public static bool InheritsGenericDefinition(Type type, Type genericClassDefinition, out Type? implementingType)
-    {
         if (!genericClassDefinition.IsClass || !genericClassDefinition.IsGenericTypeDefinition)
         {
             throw new ArgumentNullException($"'{genericClassDefinition}' is not a generic class definition.");
         }
 
-        return InheritsGenericDefinitionInternal(type, genericClassDefinition, out implementingType);
-    }
-
-    static bool InheritsGenericDefinitionInternal(Type currentType, Type genericClassDefinition, out Type? implementingType)
-    {
         do
         {
-            if (currentType.IsGenericType && genericClassDefinition == currentType.GetGenericTypeDefinition())
+            if (type.IsGenericType && genericClassDefinition == type.GetGenericTypeDefinition())
             {
-                implementingType = currentType;
                 return true;
             }
 
-            currentType = currentType.BaseType;
+            type = type.BaseType;
         }
-        while (currentType != null);
+        while (type != null);
 
-        implementingType = null;
         return false;
     }
 
@@ -358,19 +332,14 @@ static class ReflectionUtils
     /// <returns>The underlying type of the member.</returns>
     public static Type GetMemberUnderlyingType(MemberInfo member)
     {
-        switch (member.MemberType)
+        return member.MemberType switch
         {
-            case MemberTypes.Field:
-                return ((FieldInfo)member).FieldType;
-            case MemberTypes.Property:
-                return ((PropertyInfo)member).PropertyType;
-            case MemberTypes.Event:
-                return ((EventInfo)member).EventHandlerType;
-            case MemberTypes.Method:
-                return ((MethodInfo)member).ReturnType;
-            default:
-                throw new ArgumentException("MemberInfo must be of type FieldInfo, PropertyInfo, EventInfo or MethodInfo", nameof(member));
-        }
+            MemberTypes.Field => ((FieldInfo) member).FieldType,
+            MemberTypes.Property => ((PropertyInfo) member).PropertyType,
+            MemberTypes.Event => ((EventInfo) member).EventHandlerType,
+            MemberTypes.Method => ((MethodInfo) member).ReturnType,
+            _ => throw new ArgumentException("MemberInfo must be of type FieldInfo, PropertyInfo, EventInfo or MethodInfo", nameof(member))
+        };
     }
 
     public static bool IsByRefLikeType(Type type)
@@ -467,15 +436,8 @@ static class ReflectionUtils
             case MemberTypes.Field:
                 var fieldInfo = (FieldInfo)member;
 
-                if (nonPublic)
-                {
-                    return true;
-                }
-                else if (fieldInfo.IsPublic)
-                {
-                    return true;
-                }
-                return false;
+                return nonPublic || fieldInfo.IsPublic;
+
             case MemberTypes.Property:
                 var propertyInfo = (PropertyInfo)member;
 
@@ -517,15 +479,7 @@ static class ReflectionUtils
                 {
                     return false;
                 }
-                if (nonPublic)
-                {
-                    return true;
-                }
-                if (fieldInfo.IsPublic)
-                {
-                    return true;
-                }
-                return false;
+                return nonPublic || fieldInfo.IsPublic;
             case MemberTypes.Property:
                 var propertyInfo = (PropertyInfo)member;
 
@@ -625,12 +579,7 @@ static class ReflectionUtils
             return false;
         }
         var memberUnderlyingType = GetMemberUnderlyingType(members[0]);
-        if (!memberUnderlyingType.IsGenericParameter)
-        {
-            return false;
-        }
-
-        return true;
+        return memberUnderlyingType.IsGenericParameter;
     }
 
     public static T? GetAttribute<T>(object attributeProvider) where T : Attribute
