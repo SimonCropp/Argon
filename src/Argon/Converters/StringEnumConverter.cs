@@ -87,19 +87,6 @@ public class StringEnumConverter : JsonConverter
     /// <summary>
     /// Initializes a new instance of the <see cref="StringEnumConverter"/> class.
     /// </summary>
-    /// <param name="camelCaseText"><c>true</c> if the written enum text will be camel case; otherwise, <c>false</c>.</param>
-    [Obsolete("StringEnumConverter(bool) is obsolete. Create a converter with StringEnumConverter(NamingStrategy, bool) instead.")]
-    public StringEnumConverter(bool camelCaseText)
-    {
-        if (camelCaseText)
-        {
-            NamingStrategy = new CamelCaseNamingStrategy();
-        }
-    }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="StringEnumConverter"/> class.
-    /// </summary>
     /// <param name="namingStrategy">The naming strategy used to resolve how enum text is written.</param>
     /// <param name="allowIntegerValues"><c>true</c> if integers are allowed when serializing and deserializing; otherwise, <c>false</c>.</param>
     public StringEnumConverter(NamingStrategy namingStrategy, bool allowIntegerValues = true)

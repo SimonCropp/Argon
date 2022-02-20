@@ -209,18 +209,6 @@ public class StringEnumConverterTests : TestFixtureBase
     }
 
     [Fact]
-    public void StringEnumConverter_CamelCaseTextCtor()
-    {
-#pragma warning disable CS0618 // Type or member is obsolete
-        var converter = new StringEnumConverter(true);
-#pragma warning restore CS0618 // Type or member is obsolete
-
-        Assert.NotNull(converter.NamingStrategy);
-        Assert.Equal(typeof(CamelCaseNamingStrategy), converter.NamingStrategy.GetType());
-        XUnitAssert.True(converter.AllowIntegerValues);
-    }
-
-    [Fact]
     public void StringEnumConverter_NamingStrategyTypeCtor()
     {
         var converter = new StringEnumConverter(typeof(CamelCaseNamingStrategy), new object[] { true, true, true }, false);
