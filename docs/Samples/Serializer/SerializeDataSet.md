@@ -41,5 +41,5 @@ Console.WriteLine(json);
 //   ]
 // }
 ```
-<sup><a href='/Src/Tests/Documentation/Samples/Serializer/SerializeDataSet.cs#L37-L73' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializedataset' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeDataSet.cs#L37-L73' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializedataset' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

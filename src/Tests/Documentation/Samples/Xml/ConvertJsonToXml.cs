@@ -26,6 +26,7 @@
 using System.Xml.Linq;
 using Xunit;
 
+
 namespace Argon.Tests.Documentation.Samples.Xml;
 
 public class ConvertJsonToXml : TestFixtureBase
@@ -51,7 +52,7 @@ public class ConvertJsonToXml : TestFixtureBase
               }
             }";
 
-        XNode node = JsonConvert.DeserializeXNode(json, "Root");
+        XNode node = JsonXmlConvert.DeserializeXNode(json, "Root");
 
         Console.WriteLine(node.ToString());
         // <Root Id="1">

@@ -43,7 +43,7 @@ public class ConvertXmlToJsonForceArray : TestFixtureBase
         var doc = new XmlDocument();
         doc.LoadXml(xml);
 
-        var json = JsonConvert.SerializeXmlNode(doc);
+        var json = JsonXmlConvert.SerializeXmlNode(doc);
 
         Console.WriteLine(json);
         // {
@@ -64,7 +64,7 @@ public class ConvertXmlToJsonForceArray : TestFixtureBase
         doc = new XmlDocument();
         doc.LoadXml(xml);
 
-        json = JsonConvert.SerializeXmlNode(doc);
+        json = JsonXmlConvert.SerializeXmlNode(doc);
 
         Console.WriteLine(json);
         // {

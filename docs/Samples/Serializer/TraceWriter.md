@@ -11,7 +11,7 @@ public class Account
     public bool Deleted { get; set; }
 }
 ```
-<sup><a href='/Src/Tests/Documentation/Samples/Serializer/TraceWriter.cs#L32-L38' title='Snippet source file'>snippet source</a> | <a href='#snippet-tracewritertypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/TraceWriter.cs#L32-L38' title='Snippet source file'>snippet source</a> | <a href='#snippet-tracewritertypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: TraceWriterUsage -->
@@ -41,5 +41,5 @@ Console.WriteLine(traceWriter.ToString());
 //   "DeletedDate": "2013-01-20T00:00:00"
 // }
 ```
-<sup><a href='/Src/Tests/Documentation/Samples/Serializer/TraceWriter.cs#L43-L67' title='Snippet source file'>snippet source</a> | <a href='#snippet-tracewriterusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/TraceWriter.cs#L43-L67' title='Snippet source file'>snippet source</a> | <a href='#snippet-tracewriterusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

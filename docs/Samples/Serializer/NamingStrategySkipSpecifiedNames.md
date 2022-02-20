@@ -13,7 +13,7 @@ public class User
     public string Upn { get; set; }
 }
 ```
-<sup><a href='/Src/Tests/Documentation/Samples/Serializer/NamingStrategySkipSpecifiedNames.cs#L32-L40' title='Snippet source file'>snippet source</a> | <a href='#snippet-namingstrategyskipspecifiednamestypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/NamingStrategySkipSpecifiedNames.cs#L32-L40' title='Snippet source file'>snippet source</a> | <a href='#snippet-namingstrategyskipspecifiednamestypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: NamingStrategySkipSpecifiedNamesUsage -->
@@ -47,5 +47,5 @@ Console.WriteLine(json);
 //   "UPN": "john.smith@acme.com"
 // }
 ```
-<sup><a href='/Src/Tests/Documentation/Samples/Serializer/NamingStrategySkipSpecifiedNames.cs#L45-L73' title='Snippet source file'>snippet source</a> | <a href='#snippet-namingstrategyskipspecifiednamesusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/NamingStrategySkipSpecifiedNames.cs#L45-L73' title='Snippet source file'>snippet source</a> | <a href='#snippet-namingstrategyskipspecifiednamesusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

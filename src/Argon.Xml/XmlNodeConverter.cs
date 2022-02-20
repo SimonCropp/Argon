@@ -2087,7 +2087,8 @@ public class XmlNodeConverter : JsonConverter
                 prefix = string.Empty;
                 return true;
             }
-            else if (attributeName[5] == ':')
+
+            if (attributeName[5] == ':')
             {
                 prefix = attributeName.Substring(6, attributeName.Length - 6);
                 return true;

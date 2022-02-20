@@ -40,7 +40,7 @@ public class XmlNodeConverterBenchmarks
             doc.Load(file);
         }
 
-        JsonConvert.SerializeXmlNode(doc);
+        JsonXmlConvert.SerializeXmlNode(doc);
     }
 
     [Benchmark]
@@ -52,6 +52,6 @@ public class XmlNodeConverterBenchmarks
             doc = XDocument.Load(file);
         }
 
-        JsonConvert.SerializeXNode(doc);
+        JsonXmlConvert.SerializeXNode(doc);
     }
 }

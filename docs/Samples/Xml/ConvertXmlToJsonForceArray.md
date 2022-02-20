@@ -14,7 +14,7 @@ var xml = @"<person id='1'>
 var doc = new XmlDocument();
 doc.LoadXml(xml);
 
-var json = JsonConvert.SerializeXmlNode(doc);
+var json = JsonXmlConvert.SerializeXmlNode(doc);
 
 Console.WriteLine(json);
 // {
@@ -35,7 +35,7 @@ xml = @"<person xmlns:json='http://james.newtonking.com/projects/json' id='1'>
 doc = new XmlDocument();
 doc.LoadXml(xml);
 
-json = JsonConvert.SerializeXmlNode(doc);
+json = JsonXmlConvert.SerializeXmlNode(doc);
 
 Console.WriteLine(json);
 // {
@@ -49,5 +49,5 @@ Console.WriteLine(json);
 //   }
 // }
 ```
-<sup><a href='/Src/Tests/Documentation/Samples/Xml/ConvertXmlToJsonForceArray.cs#L36-L80' title='Snippet source file'>snippet source</a> | <a href='#snippet-convertxmltojsonforcearray' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Xml/ConvertXmlToJsonForceArray.cs#L36-L80' title='Snippet source file'>snippet source</a> | <a href='#snippet-convertxmltojsonforcearray' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
