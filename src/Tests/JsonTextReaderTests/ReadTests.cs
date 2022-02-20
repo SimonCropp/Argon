@@ -523,7 +523,9 @@ public class ReadTests : TestFixtureBase
         Assert.True(reader.Read());
         Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
-        XUnitAssert.Throws<JsonReaderException>(() => { reader.ReadAsDateTimeOffset(); }, "Could not convert string to DateTimeOffset: blablahbla. Path 'Offset', line 1, position 22.");
+        XUnitAssert.Throws<JsonReaderException>(
+            () => reader.ReadAsDateTimeOffset(),
+            "Could not convert string to DateTimeOffset: blablahbla. Path 'Offset', line 1, position 22.");
     }
 
     [Fact]
@@ -674,7 +676,9 @@ public class ReadTests : TestFixtureBase
         Assert.True(reader.Read());
         Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
-        XUnitAssert.Throws<JsonReaderException>(() => { reader.ReadAsInt32(); }, "Input string '1.1' is not a valid integer. Path 'Name', line 1, position 12.");
+        XUnitAssert.Throws<JsonReaderException>(
+            () => reader.ReadAsInt32(),
+            "Input string '1.1' is not a valid integer. Path 'Name', line 1, position 12.");
     }
 
     [Fact]
@@ -866,7 +870,7 @@ public class ReadTests : TestFixtureBase
         Assert.True(reader.Read());
 
         XUnitAssert.Throws<JsonReaderException>(
-            () => { reader.ReadAsString(); },
+            () => reader.ReadAsString(),
             "Unexpected character encountered while parsing value: 1. Path 'Test1', line 1, position 14.");
 
         Assert.True(reader.Read());

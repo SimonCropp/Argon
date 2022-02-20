@@ -310,14 +310,16 @@ public class JsonTextWriterTest : TestFixtureBase
     [Fact]
     public void WriteValueObjectWithUnsupportedValue()
     {
-        XUnitAssert.Throws<JsonWriterException>(() =>
-        {
-            var stringWriter = new StringWriter();
-            using var jsonWriter = new JsonTextWriter(stringWriter);
-            jsonWriter.WriteStartArray();
-            jsonWriter.WriteValue(new Version(1, 1, 1, 1));
-            jsonWriter.WriteEndArray();
-        }, @"Unsupported type: System.Version. Use the JsonSerializer class to get the object's JSON representation. Path ''.");
+        XUnitAssert.Throws<JsonWriterException>(
+            () =>
+            {
+                var stringWriter = new StringWriter();
+                using var jsonWriter = new JsonTextWriter(stringWriter);
+                jsonWriter.WriteStartArray();
+                jsonWriter.WriteValue(new Version(1, 1, 1, 1));
+                jsonWriter.WriteEndArray();
+            },
+            @"Unsupported type: System.Version. Use the JsonSerializer class to get the object's JSON representation. Path ''.");
     }
 
     [Fact]
@@ -939,9 +941,13 @@ public class JsonTextWriterTest : TestFixtureBase
         using var jsonWriter = new JsonTextWriter(stringWriter);
         jsonWriter.WriteToken(JsonToken.StartArray);
 
-        XUnitAssert.Throws<FormatException>(() => { jsonWriter.WriteToken(JsonToken.Integer, "three"); }, "Input string was not in a correct format.");
+        XUnitAssert.Throws<FormatException>(
+            () => jsonWriter.WriteToken(JsonToken.Integer, "three"),
+            "Input string was not in a correct format.");
 
-        XUnitAssert.Throws<ArgumentNullException>(() => { jsonWriter.WriteToken(JsonToken.Integer); }, @"Value cannot be null.
+        XUnitAssert.Throws<ArgumentNullException>(
+            () => { jsonWriter.WriteToken(JsonToken.Integer); }
+            , @"Value cannot be null.
 Parameter name: value", "Value cannot be null. (Parameter 'value')");
     }
 
@@ -967,32 +973,36 @@ Parameter name: value", "Value cannot be null. (Parameter 'value')");
     [Fact]
     public void BadWriteEndArray()
     {
-        XUnitAssert.Throws<JsonWriterException>(() =>
-        {
-            var stringBuilder = new StringBuilder();
-            var stringWriter = new StringWriter(stringBuilder);
+        XUnitAssert.Throws<JsonWriterException>(
+            () =>
+            {
+                var stringBuilder = new StringBuilder();
+                var stringWriter = new StringWriter(stringBuilder);
 
-            using var jsonWriter = new JsonTextWriter(stringWriter);
-            jsonWriter.WriteStartArray();
+                using var jsonWriter = new JsonTextWriter(stringWriter);
+                jsonWriter.WriteStartArray();
 
-            jsonWriter.WriteValue(0.0);
+                jsonWriter.WriteValue(0.0);
 
-            jsonWriter.WriteEndArray();
-            jsonWriter.WriteEndArray();
-        }, "No token to close. Path ''.");
+                jsonWriter.WriteEndArray();
+                jsonWriter.WriteEndArray();
+            },
+            "No token to close. Path ''.");
     }
 
     [Fact]
     public void InvalidQuoteChar()
     {
-        XUnitAssert.Throws<ArgumentException>(() =>
-        {
-            var stringBuilder = new StringBuilder();
-            var stringWriter = new StringWriter(stringBuilder);
+        XUnitAssert.Throws<ArgumentException>(
+            () =>
+            {
+                var stringBuilder = new StringBuilder();
+                var stringWriter = new StringWriter(stringBuilder);
 
-            using var jsonWriter = new JsonTextWriter(stringWriter);
-            jsonWriter.QuoteChar = '*';
-        }, @"Invalid JavaScript string quote character. Valid quote characters are ' and "".");
+                using var jsonWriter = new JsonTextWriter(stringWriter);
+                jsonWriter.QuoteChar = '*';
+            },
+            @"Invalid JavaScript string quote character. Valid quote characters are ' and "".");
     }
 
     [Fact]
@@ -1616,13 +1626,16 @@ _____'propertyName': NaN,
         {
             { "a", 1 },
         };
-        var jsonSerializerSettings = new JsonSerializerSettings
+        var settings = new JsonSerializerSettings
         {
             Formatting = Formatting.Indented,
         };
-        var serializer = JsonSerializer.Create(jsonSerializerSettings);
+        var serializer = JsonSerializer.Create(settings);
         using var stringWriter = new StringWriter();
-        using (var writer = new JsonTextWriter(stringWriter) { QuoteName = false })
+        using (var writer = new JsonTextWriter(stringWriter)
+               {
+                   QuoteName = false
+               })
         {
             serializer.Serialize(writer, d);
             writer.Close();

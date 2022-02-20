@@ -43,12 +43,12 @@ public class JConstructorTests : TestFixtureBase
     [Fact]
     public void CreateWithMultiValue()
     {
-        var constructor = new JConstructor("Test", new List<int> { 1, 2, 3 });
+        var constructor = new JConstructor("Test", new List<int> {1, 2, 3});
         Assert.Equal("Test", constructor.Name);
         Assert.Equal(3, constructor.Children().Count());
-        Assert.Equal(1, (int)constructor.Children().ElementAt(0));
-        Assert.Equal(2, (int)constructor.Children().ElementAt(1));
-        Assert.Equal(3, (int)constructor.Children().ElementAt(2));
+        Assert.Equal(1, (int) constructor.Children().ElementAt(0));
+        Assert.Equal(2, (int) constructor.Children().ElementAt(1));
+        Assert.Equal(3, (int) constructor.Children().ElementAt(2));
     }
 
     [Fact]
@@ -59,7 +59,7 @@ public class JConstructorTests : TestFixtureBase
         var i = 1;
         foreach (var token in c)
         {
-            Assert.Equal(i, (int)token);
+            Assert.Equal(i, (int) token);
             i++;
         }
     }
@@ -67,13 +67,15 @@ public class JConstructorTests : TestFixtureBase
     [Fact]
     public void SetValueWithInvalidIndex()
     {
-        XUnitAssert.Throws<ArgumentException>(() =>
-        {
-            var c = new JConstructor
+        XUnitAssert.Throws<ArgumentException>(
+            () =>
             {
-                ["badvalue"] = new JValue(3)
-            };
-        }, @"Set JConstructor values with invalid key value: ""badvalue"". Argument position index expected.");
+                var c = new JConstructor
+                {
+                    ["badvalue"] = new JValue(3)
+                };
+            },
+            @"Set JConstructor values with invalid key value: ""badvalue"". Argument position index expected.");
     }
 
     [Fact]
@@ -88,6 +90,6 @@ public class JConstructorTests : TestFixtureBase
         c.Add(null);
         c[key] = new JValue(3);
 
-        Assert.Equal(3, (int)c[key]);
+        Assert.Equal(3, (int) c[key]);
     }
 }

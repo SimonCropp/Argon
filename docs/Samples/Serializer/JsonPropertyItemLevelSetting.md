@@ -21,7 +21,7 @@ public class Employee
     public Employee Manager { get; set; }
 }
 ```
-<sup><a href='/Src/Tests/Documentation/Samples/Serializer/JsonPropertyItemLevelSetting.cs#L32-L48' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertyitemlevelsettingtypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonPropertyItemLevelSetting.cs#L32-L48' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertyitemlevelsettingtypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: JsonPropertyItemLevelSettingUsage -->
@@ -68,5 +68,5 @@ Console.WriteLine(json);
 //   ]
 // }
 ```
-<sup><a href='/Src/Tests/Documentation/Samples/Serializer/JsonPropertyItemLevelSetting.cs#L53-L94' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertyitemlevelsettingusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonPropertyItemLevelSetting.cs#L53-L94' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertyitemlevelsettingusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -132,7 +132,16 @@ public class MissingMemberHandlingTests : TestFixtureBase
     {
         var json = @"{""Missing"":1}";
 
-        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<DoubleClass>(json, new JsonSerializerSettings { MissingMemberHandling = MissingMemberHandling.Error }); }, "Could not find member 'Missing' on object of type 'DoubleClass'. Path 'Missing', line 1, position 11.");
+        var settings = new JsonSerializerSettings
+        {
+            MissingMemberHandling = MissingMemberHandling.Error
+        };
+        XUnitAssert.Throws<JsonSerializationException>(
+            () =>
+            {
+                JsonConvert.DeserializeObject<DoubleClass>(json, settings);
+            },
+            "Could not find member 'Missing' on object of type 'DoubleClass'. Path 'Missing', line 1, position 11.");
     }
 
     [Fact]
@@ -151,7 +160,9 @@ public class MissingMemberHandlingTests : TestFixtureBase
     {
         var json = @"{""Missing"":1}";
 
-        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<NameWithMissingError>(json); }, "Could not find member 'Missing' on object of type 'NameWithMissingError'. Path 'Missing', line 1, position 11.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<NameWithMissingError>(json),
+            "Could not find member 'Missing' on object of type 'NameWithMissingError'. Path 'Missing', line 1, position 11.");
     }
 
     [JsonObject(MissingMemberHandling = MissingMemberHandling.Error)]

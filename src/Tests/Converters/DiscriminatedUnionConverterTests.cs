@@ -240,37 +240,49 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeBasicUnion_NoMatch()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<Currency>(@"{""Case"":""abcdefg"",""Fields"":[]}"), "No union type found with the name 'abcdefg'. Path 'Case', line 1, position 17.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<Currency>(@"{""Case"":""abcdefg"",""Fields"":[]}"), 
+            "No union type found with the name 'abcdefg'. Path 'Case', line 1, position 17.");
     }
 
     [Fact]
     public void DeserializeBasicUnion_MismatchedFieldCount()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<Currency>(@"{""Case"":""AUD"",""Fields"":[1]}"), "The number of field values does not match the number of properties defined by union 'AUD'. Path '', line 1, position 27.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<Currency>(@"{""Case"":""AUD"",""Fields"":[1]}"), 
+            "The number of field values does not match the number of properties defined by union 'AUD'. Path '', line 1, position 27.");
     }
 
     [Fact]
     public void DeserializeBasicUnion_NoCaseName()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<Currency>(@"{""Fields"":[1]}"), "No 'Case' property with union name found. Path '', line 1, position 14.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<Currency>(@"{""Fields"":[1]}"),
+            "No 'Case' property with union name found. Path '', line 1, position 14.");
     }
 
     [Fact]
     public void DeserializeBasicUnion_UnexpectedEnd()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<Currency>(@"{""Case"":"), "Unexpected end when reading JSON. Path 'Case', line 1, position 8.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<Currency>(@"{""Case"":"),
+            "Unexpected end when reading JSON. Path 'Case', line 1, position 8.");
     }
 
     [Fact]
     public void DeserializeBasicUnion_FieldsObject()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<Currency>(@"{""Case"":""AUD"",""Fields"":{}}"), "Union fields must been an array. Path 'Fields', line 1, position 24.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<Currency>(@"{""Case"":""AUD"",""Fields"":{}}"),
+            "Union fields must been an array. Path 'Fields', line 1, position 24.");
     }
 
     [Fact]
     public void DeserializeBasicUnion_UnexpectedProperty()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<Currency>(@"{""Case123"":""AUD""}"), "Unexpected property 'Case123' found when reading union. Path 'Case123', line 1, position 11.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<Currency>(@"{""Case123"":""AUD""}"), 
+            "Unexpected property 'Case123' found when reading union. Path 'Case123', line 1, position 11.");
     }
 
     [Fact]

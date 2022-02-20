@@ -56,10 +56,9 @@ public class Issue2444
         Assert.Equal("b", c1.Dict[MyEnum.TextValue]);
 
         // Non-dictionary values should still error
-        XUnitAssert.Throws<JsonSerializationException>(() =>
-        {
-            JsonConvert.DeserializeObject<List<MyEnum>>(@"[""text_value""]", settings);
-        }, @"Error converting value ""text_value"" to type 'Argon.Tests.Issues.Issue2444+MyEnum'. Path '[0]', line 1, position 13.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => { JsonConvert.DeserializeObject<List<MyEnum>>(@"[""text_value""]", settings); },
+            @"Error converting value ""text_value"" to type 'Argon.Tests.Issues.Issue2444+MyEnum'. Path '[0]', line 1, position 13.");
     }
 
     public enum MyEnum

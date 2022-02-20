@@ -21,7 +21,7 @@ public class UserViewModel
     }
 }
 ```
-<sup><a href='/Src/Tests/Documentation/Samples/Serializer/DeserializeObjectCreationHandling.cs#L32-L48' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeobjectcreationhandlingtypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeObjectCreationHandling.cs#L32-L48' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeobjectcreationhandlingtypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DeserializeObjectCreationHandlingUsage -->
@@ -62,5 +62,5 @@ foreach (var office in model2.Offices)
 // Wellington
 // Christchurch
 ```
-<sup><a href='/Src/Tests/Documentation/Samples/Serializer/DeserializeObjectCreationHandling.cs#L53-L88' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeobjectcreationhandlingusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeObjectCreationHandling.cs#L53-L88' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeobjectcreationhandlingusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

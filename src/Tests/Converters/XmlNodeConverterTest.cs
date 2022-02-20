@@ -478,9 +478,12 @@ public class XmlNodeConverterTest : TestFixtureBase
         };
 
         var xmlNodeConverter = new XmlNodeConverter {DeserializeRootElementName = "object"};
-        var jsonSerializerSettings = new JsonSerializerSettings {Converters = new JsonConverter[] {xmlNodeConverter}};
-        var jsonSerializer = JsonSerializer.CreateDefault(jsonSerializerSettings);
-        var d = json.ToObject<XDocument>(jsonSerializer);
+        var settings = new JsonSerializerSettings
+        {
+            Converters = new JsonConverter[] {xmlNodeConverter}
+        };
+        var serializer = JsonSerializer.CreateDefault(settings);
+        var d = json.ToObject<XDocument>(serializer);
 
         XUnitAssert.AreEqualNormalized(@"<object>
   <Prop1 />
@@ -1347,10 +1350,12 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void NoRootObject()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() =>
+      XUnitAssert.Throws<JsonSerializationException>(
+        () =>
         {
-            var newDoc = JsonConvert.DeserializeXmlNode(@"[1]");
-        }, "XmlNodeConverter can only convert JSON that begins with an object. Path '', line 1, position 1.");
+          var newDoc = JsonConvert.DeserializeXmlNode(@"[1]");
+        },
+        "XmlNodeConverter can only convert JSON that begins with an object. Path '', line 1, position 1.");
     }
 
     [Fact]

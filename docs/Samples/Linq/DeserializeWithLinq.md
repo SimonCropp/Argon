@@ -14,7 +14,7 @@ public class BlogPost
     public DateTime PostedDate { get; set; }
 }
 ```
-<sup><a href='/Src/Tests/Documentation/Samples/Linq/DeserializeWithLinq.cs#L33-L42' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializewithlinqtypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/DeserializeWithLinq.cs#L33-L42' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializewithlinqtypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DeserializeWithLinqUsage -->
@@ -48,5 +48,5 @@ Console.WriteLine(blogPosts[0].Body);
 // <h3>Title!</h3>
 // <p>Content!</p>
 ```
-<sup><a href='/Src/Tests/Documentation/Samples/Linq/DeserializeWithLinq.cs#L47-L75' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializewithlinqusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/DeserializeWithLinq.cs#L47-L75' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializewithlinqusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

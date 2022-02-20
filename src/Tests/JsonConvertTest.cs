@@ -82,25 +82,29 @@ public class JsonConvertTest : TestFixtureBase
     [Fact]
     public void PopulateObjectWithNoContent()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() =>
-        {
-            var json = @"";
+        XUnitAssert.Throws<JsonSerializationException>(
+            () =>
+            {
+                var json = @"";
 
-            var o = new PopulateTestObject();
-            JsonConvert.PopulateObject(json, o);
-        }, "No JSON content found. Path '', line 0, position 0.");
+                var o = new PopulateTestObject();
+                JsonConvert.PopulateObject(json, o);
+            },
+            "No JSON content found. Path '', line 0, position 0.");
     }
 
     [Fact]
     public void PopulateObjectWithOnlyComment()
     {
-        var ex = XUnitAssert.Throws<JsonSerializationException>(() =>
-        {
-            var json = @"// file header";
+        var ex = XUnitAssert.Throws<JsonSerializationException>(
+            () =>
+            {
+                var json = @"// file header";
 
-            var o = new PopulateTestObject();
-            JsonConvert.PopulateObject(json, o);
-        }, "No JSON content found. Path '', line 1, position 14.");
+                var o = new PopulateTestObject();
+                JsonConvert.PopulateObject(json, o);
+            },
+            "No JSON content found. Path '', line 1, position 14.");
 
         Assert.Equal(1, ex.LineNumber);
         Assert.Equal(14, ex.LinePosition);
@@ -533,7 +537,9 @@ public class JsonConvertTest : TestFixtureBase
     [Fact]
     public void ToStringInvalid()
     {
-        XUnitAssert.Throws<ArgumentException>(() => { JsonConvert.ToString(new Version(1, 0)); }, "Unsupported type: System.Version. Use the JsonSerializer class to get the object's JSON representation.");
+        XUnitAssert.Throws<ArgumentException>(
+            () => { JsonConvert.ToString(new Version(1, 0)); },
+            "Unsupported type: System.Version. Use the JsonSerializer class to get the object's JSON representation.");
     }
 
     [Fact]
@@ -620,17 +626,19 @@ public class JsonConvertTest : TestFixtureBase
     [Fact]
     public void TestInvalidStrings()
     {
-        XUnitAssert.Throws<JsonReaderException>(() =>
-        {
-            var orig = @"this is a string ""that has quotes"" ";
+        XUnitAssert.Throws<JsonReaderException>(
+            () =>
+            {
+                var orig = @"this is a string ""that has quotes"" ";
 
-            var serialized = JsonConvert.SerializeObject(orig);
+                var serialized = JsonConvert.SerializeObject(orig);
 
-            // *** Make string invalid by stripping \" \"
-            serialized = serialized.Replace(@"\""", "\"");
+                // *** Make string invalid by stripping \" \"
+                serialized = serialized.Replace(@"\""", "\"");
 
-            JsonConvert.DeserializeObject<string>(serialized);
-        }, "Additional text encountered after finished reading JSON content: t. Path '', line 1, position 19.");
+                JsonConvert.DeserializeObject<string>(serialized);
+            },
+            "Additional text encountered after finished reading JSON content: t. Path '', line 1, position 19.");
     }
 
     [Fact]
@@ -1102,7 +1110,9 @@ public class JsonConvertTest : TestFixtureBase
         Assert.Equal(typeof(BigInteger), v.Value.GetType());
         Assert.Equal(BigInteger.Parse(new String('9', 380)), (BigInteger)v.Value);
 
-        XUnitAssert.Throws<JsonReaderException>(() => JObject.Parse(@"{""biginteger"":" + new String('9', 381) + "}"), "JSON integer " + new String('9', 381) + " is too large to parse. Path 'biginteger', line 1, position 395.");
+        XUnitAssert.Throws<JsonReaderException>(
+            () => JObject.Parse(@"{""biginteger"":" + new String('9', 381) + "}"),
+            $"JSON integer {new String('9', 381)} is too large to parse. Path 'biginteger', line 1, position 395.");
     }
 
     [Fact]
@@ -1207,7 +1217,7 @@ public class JsonConvertTest : TestFixtureBase
     {
         var value = new IncorrectJsonConvertParameters { One = "Boom" };
 
-        XUnitAssert.Throws<JsonException>(() => { JsonConvert.SerializeObject(value); });
+        XUnitAssert.Throws<JsonException>(() => JsonConvert.SerializeObject(value));
     }
 
     public class IncorrectJsonConvertParameters

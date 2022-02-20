@@ -347,7 +347,9 @@ undefined
         jsonReader.Read();
         jsonReader.Read();
 
-        XUnitAssert.Throws<JsonReaderException>(() => JToken.ReadFrom(jsonReader), @"Error reading JToken from JsonReader. Unexpected token: EndArray. Path '', line 1, position 2.");
+        XUnitAssert.Throws<JsonReaderException>(
+            () => JToken.ReadFrom(jsonReader),
+            @"Error reading JToken from JsonReader. Unexpected token: EndArray. Path '', line 1, position 2.");
     }
 
     [Fact]

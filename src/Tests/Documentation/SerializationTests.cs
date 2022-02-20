@@ -687,11 +687,11 @@ public class SerializationTests : TestFixtureBase
         var isoJson = JsonConvert.SerializeObject(entry);
         // {"Details":"Application started.","LogDate":"2009-02-15T00:00:00Z"}
 
-        var microsoftDateFormatSettings = new JsonSerializerSettings
+        var settings = new JsonSerializerSettings
         {
             DateFormatHandling = DateFormatHandling.MicrosoftDateFormat
         };
-        var microsoftJson = JsonConvert.SerializeObject(entry, microsoftDateFormatSettings);
+        var microsoftJson = JsonConvert.SerializeObject(entry, settings);
         // {"Details":"Application started.","LogDate":"\/Date(1234656000000)\/"}
 
         var javascriptJson = JsonConvert.SerializeObject(entry, new JavaScriptDateTimeConverter());

@@ -1650,13 +1650,16 @@ _____'propertyName': NaN,
         {
             { "a", 1 },
         };
-        var jsonSerializerSettings = new JsonSerializerSettings
+        var settings = new JsonSerializerSettings
         {
             Formatting = Formatting.Indented,
         };
-        var serializer = JsonSerializer.Create(jsonSerializerSettings);
+        var serializer = JsonSerializer.Create(settings);
         using var stringWriter = new StringWriter();
-        using (var writer = new JsonTextWriter(stringWriter) { QuoteName = false })
+        using (var writer = new JsonTextWriter(stringWriter)
+               {
+                   QuoteName = false
+               })
         {
             serializer.Serialize(writer, d);
             await writer.CloseAsync();

@@ -106,20 +106,20 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
 
         var inputContext = new Dictionary<string, Guid> {{contextKey, someValue}};
 
-        var jsonSerializerSettings = new JsonSerializerSettings
+        var settings = new JsonSerializerSettings
         {
             Formatting = Formatting.Indented,
             TypeNameHandling = TypeNameHandling.All,
             MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
         };
-        var serializedString = JsonConvert.SerializeObject(inputContext, jsonSerializerSettings);
+        var serializedString = JsonConvert.SerializeObject(inputContext, settings);
 
         XUnitAssert.AreEqualNormalized($@"{{
   ""$type"": ""{ReflectionUtils.GetTypeName(typeof(Dictionary<string, Guid>), 0, DefaultSerializationBinder.Instance)}"",
   ""k1"": ""5dd2dba0-20c0-49f8-a054-1fa3b0a8d774""
 }}", serializedString);
 
-        var deserializedObject = (Dictionary<string, Guid>)JsonConvert.DeserializeObject(serializedString, jsonSerializerSettings);
+        var deserializedObject = (Dictionary<string, Guid>)JsonConvert.DeserializeObject(serializedString, settings);
 
         Assert.Equal(someValue, deserializedObject[contextKey]);
     }

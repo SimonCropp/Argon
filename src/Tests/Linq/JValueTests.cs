@@ -326,21 +326,25 @@ public class JValueTests : TestFixtureBase
     [Fact]
     public void SetValue()
     {
-        XUnitAssert.Throws<InvalidOperationException>(() =>
-        {
-            JToken t = new JValue(5L);
-            t[0] = new JValue(3);
-        }, "Cannot set child value on Argon.Linq.JValue.");
+        XUnitAssert.Throws<InvalidOperationException>(
+            () =>
+            {
+                JToken t = new JValue(5L);
+                t[0] = new JValue(3);
+            },
+            "Cannot set child value on Argon.Linq.JValue.");
     }
 
     [Fact]
     public void CastNullValueToNonNullable()
     {
-        XUnitAssert.Throws<ArgumentException>(() =>
-        {
-            var v = JValue.CreateNull();
-            var i = (int)v;
-        }, "Can not convert Null to Int32.");
+        XUnitAssert.Throws<ArgumentException>(
+            () =>
+            {
+                var v = JValue.CreateNull();
+                var i = (int) v;
+            },
+            "Can not convert Null to Int32.");
     }
 
     [Fact]
@@ -458,8 +462,13 @@ public class JValueTests : TestFixtureBase
     {
         var content = @"{""startDateTime"":""2012-07-19T14:30:00+09:30""}";
 
-        var jsonSerializerSettings = new JsonSerializerSettings { DateFormatHandling = DateFormatHandling.IsoDateFormat, DateParseHandling = DateParseHandling.DateTimeOffset, DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind };
-        var obj = (JObject)JsonConvert.DeserializeObject(content, jsonSerializerSettings);
+        var settings = new JsonSerializerSettings
+        {
+            DateFormatHandling = DateFormatHandling.IsoDateFormat,
+            DateParseHandling = DateParseHandling.DateTimeOffset,
+            DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind
+        };
+        var obj = (JObject)JsonConvert.DeserializeObject(content, settings);
 
         object startDateTime = obj["startDateTime"];
 
@@ -758,39 +767,41 @@ public class JValueTests : TestFixtureBase
         Assert.Equal(StringComparison.Ordinal, e);
 
         dynamic d = new JValue(StringComparison.CurrentCultureIgnoreCase);
-        var e2 = (StringComparison)d;
+        var e2 = (StringComparison) d;
         Assert.Equal(StringComparison.CurrentCultureIgnoreCase, e2);
 
         string s1 = d.ToString();
         Assert.Equal("CurrentCultureIgnoreCase", s1);
 
-        var s2 = (string)d;
+        var s2 = (string) d;
         Assert.Equal("CurrentCultureIgnoreCase", s2);
 
         d = new JValue("OrdinalIgnoreCase");
-        var e3 = (StringComparison)d;
+        var e3 = (StringComparison) d;
         Assert.Equal(StringComparison.OrdinalIgnoreCase, e3);
 
         v = new JValue("ORDINAL");
         d = v;
-        var e4 = (StringComparison)d;
+        var e4 = (StringComparison) d;
         Assert.Equal(StringComparison.Ordinal, e4);
 
         var e5 = v.ToObject<StringComparison>();
         Assert.Equal(StringComparison.Ordinal, e5);
 
-        v = new JValue((int)StringComparison.OrdinalIgnoreCase);
+        v = new JValue((int) StringComparison.OrdinalIgnoreCase);
         Assert.Equal(JTokenType.Integer, v.Type);
         var e6 = v.ToObject<StringComparison>();
         Assert.Equal(StringComparison.OrdinalIgnoreCase, e6);
 
         // does not support EnumMember. breaking change to add
-        XUnitAssert.Throws<ArgumentException>(() =>
-        {
-            d = new JValue("value_a");
-            var e7 = (EnumA)d;
-            Assert.Equal(EnumA.ValueA, e7);
-        }, "Requested value 'value_a' was not found.");
+        XUnitAssert.Throws<ArgumentException>(
+            () =>
+            {
+                d = new JValue("value_a");
+                var e7 = (EnumA) d;
+                Assert.Equal(EnumA.ValueA, e7);
+            },
+            "Requested value 'value_a' was not found.");
     }
 
     public enum EnumA

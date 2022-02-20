@@ -178,23 +178,28 @@ public class ContractResolverTests : TestFixtureBase
     public void AbstractTestClass()
     {
         var resolver = new DefaultContractResolver();
-        var contract = (JsonObjectContract)resolver.ResolveContract(typeof(AbstractTestClass));
+        var contract = (JsonObjectContract) resolver.ResolveContract(typeof(AbstractTestClass));
 
         Assert.False(contract.IsInstantiable);
         Assert.Null(contract.DefaultCreator);
         Assert.Null(contract.OverrideCreator);
 
-        XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<AbstractTestClass>(@"{Value:'Value!'}", new JsonSerializerSettings
-        {
-            ContractResolver = resolver
-        }), "Could not create an instance of type Argon.Tests.TestObjects.AbstractTestClass. Type is an interface or abstract class and cannot be instantiated. Path 'Value', line 1, position 7.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<AbstractTestClass>(@"{Value:'Value!'}",
+                new JsonSerializerSettings
+                {
+                    ContractResolver = resolver
+                }),
+            "Could not create an instance of type Argon.Tests.TestObjects.AbstractTestClass. Type is an interface or abstract class and cannot be instantiated. Path 'Value', line 1, position 7.");
 
         contract.DefaultCreator = () => new AbstractImplementationTestClass();
 
-        var o = JsonConvert.DeserializeObject<AbstractTestClass>(@"{Value:'Value!'}", new JsonSerializerSettings
-        {
-            ContractResolver = resolver
-        });
+        var o = JsonConvert.DeserializeObject<AbstractTestClass>(
+            @"{Value:'Value!'}",
+            new JsonSerializerSettings
+            {
+                ContractResolver = resolver
+            });
 
         Assert.Equal("Value!", o.Value);
     }
@@ -209,14 +214,18 @@ public class ContractResolverTests : TestFixtureBase
         Assert.Null(contract.DefaultCreator);
         Assert.False(contract.HasParameterizedCreatorInternal);
 
-        XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<AbstractListTestClass<int>>(@"[1,2]", new JsonSerializerSettings
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<AbstractListTestClass<int>>(@"[1,2]",
+                new JsonSerializerSettings
         {
             ContractResolver = resolver
-        }), "Could not create an instance of type Argon.Tests.TestObjects.AbstractListTestClass`1[System.Int32]. Type is an interface or abstract class and cannot be instantiated. Path '', line 1, position 1.");
+        }), 
+            "Could not create an instance of type Argon.Tests.TestObjects.AbstractListTestClass`1[System.Int32]. Type is an interface or abstract class and cannot be instantiated. Path '', line 1, position 1.");
 
         contract.DefaultCreator = () => new AbstractImplementationListTestClass<int>();
 
-        var l = JsonConvert.DeserializeObject<AbstractListTestClass<int>>(@"[1,2]", new JsonSerializerSettings
+        var l = JsonConvert.DeserializeObject<AbstractListTestClass<int>>(@"[1,2]",
+            new JsonSerializerSettings
         {
             ContractResolver = resolver
         });
@@ -234,17 +243,19 @@ public class ContractResolverTests : TestFixtureBase
     public void ListInterfaceDefaultCreator()
     {
         var resolver = new DefaultContractResolver();
-        var contract = (JsonArrayContract)resolver.ResolveContract(typeof(IList<int>));
+        var contract = (JsonArrayContract) resolver.ResolveContract(typeof(IList<int>));
 
         Assert.True(contract.IsInstantiable);
         Assert.NotNull(contract.DefaultCreator);
 
         contract.DefaultCreator = () => new CustomList<int>();
 
-        var l = JsonConvert.DeserializeObject<IList<int>>(@"[1,2,3]", new JsonSerializerSettings
-        {
-            ContractResolver = resolver
-        });
+        var l = JsonConvert.DeserializeObject<IList<int>>(
+            @"[1,2,3]",
+            new JsonSerializerSettings
+            {
+                ContractResolver = resolver
+            });
 
         Assert.Equal(typeof(CustomList<int>), l.GetType());
         Assert.Equal(3, l.Count);
@@ -283,23 +294,28 @@ public class ContractResolverTests : TestFixtureBase
     public void AbstractDictionaryTestClass()
     {
         var resolver = new DefaultContractResolver();
-        var contract = (JsonDictionaryContract)resolver.ResolveContract(typeof(AbstractDictionaryTestClass<string, int>));
+        var contract = (JsonDictionaryContract) resolver.ResolveContract(typeof(AbstractDictionaryTestClass<string, int>));
 
         Assert.False(contract.IsInstantiable);
         Assert.Null(contract.DefaultCreator);
         Assert.False(contract.HasParameterizedCreatorInternal);
 
-        XUnitAssert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<AbstractDictionaryTestClass<string, int>>(@"{key1:1,key2:2}", new JsonSerializerSettings
-        {
-            ContractResolver = resolver
-        }), "Could not create an instance of type Argon.Tests.TestObjects.AbstractDictionaryTestClass`2[System.String,System.Int32]. Type is an interface or abstract class and cannot be instantiated. Path 'key1', line 1, position 6.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<AbstractDictionaryTestClass<string, int>>(@"{key1:1,key2:2}",
+                new JsonSerializerSettings
+                {
+                    ContractResolver = resolver
+                }),
+            "Could not create an instance of type Argon.Tests.TestObjects.AbstractDictionaryTestClass`2[System.String,System.Int32]. Type is an interface or abstract class and cannot be instantiated. Path 'key1', line 1, position 6.");
 
         contract.DefaultCreator = () => new AbstractImplementationDictionaryTestClass<string, int>();
 
-        var d = JsonConvert.DeserializeObject<AbstractDictionaryTestClass<string, int>>(@"{key1:1,key2:2}", new JsonSerializerSettings
-        {
-            ContractResolver = resolver
-        });
+        var d = JsonConvert.DeserializeObject<AbstractDictionaryTestClass<string, int>>(
+            @"{key1:1,key2:2}",
+            new JsonSerializerSettings
+            {
+                ContractResolver = resolver
+            });
 
         Assert.Equal(2, d.Count);
         Assert.Equal(1, d["key1"]);

@@ -74,10 +74,9 @@ public class GenericJsonConverterTests : TestFixtureBase
 
         var converter = new TestGenericConverter();
 
-        XUnitAssert.Throws<JsonSerializationException>(() =>
-        {
-            converter.WriteJson(jsonWriter, 123, null);
-        }, "Converter cannot write specified value to JSON. System.String is required.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => { converter.WriteJson(jsonWriter, 123, null); },
+            "Converter cannot write specified value to JSON. System.String is required.");
     }
 
     [Fact]
@@ -128,9 +127,8 @@ public class GenericJsonConverterTests : TestFixtureBase
 
         var converter = new TestGenericConverter();
 
-        XUnitAssert.Throws<JsonSerializationException>(() =>
-        {
-            converter.ReadJson(jsonReader, typeof(string), 12345, null);
-        }, "Converter cannot read JSON with the specified existing value. System.String is required.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => { converter.ReadJson(jsonReader, typeof(string), 12345, null); },
+            "Converter cannot read JSON with the specified existing value. System.String is required.");
     }
 }

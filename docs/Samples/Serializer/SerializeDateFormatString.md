@@ -25,5 +25,5 @@ Console.WriteLine(json);
 //   "10 February, 2010"
 // ]
 ```
-<sup><a href='/Src/Tests/Documentation/Samples/Serializer/SerializeDateFormatString.cs#L35-L55' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializedateformatstring' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeDateFormatString.cs#L35-L55' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializedateformatstring' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
