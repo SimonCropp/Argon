@@ -116,14 +116,6 @@ public class StringEnumConverterTests : TestFixtureBase
         public NegativeFlagsEnum Value2 { get; set; }
     }
 
-    [JsonConverter(typeof(StringEnumConverter), true)]
-    public enum CamelCaseEnumObsolete
-    {
-        This,
-        Is,
-        CamelCase
-    }
-
     [JsonConverter(typeof(StringEnumConverter), typeof(CamelCaseNamingStrategy))]
     public enum CamelCaseEnumNew
     {
@@ -162,50 +154,13 @@ public class StringEnumConverterTests : TestFixtureBase
     }
 
     [Fact]
-    public void Serialize_CamelCaseFromAttribute_Obsolete()
-    {
-        var json = JsonConvert.SerializeObject(CamelCaseEnumObsolete.CamelCase);
-        Assert.Equal(@"""camelCase""", json);
-    }
-
-    [Fact]
     public void NamingStrategyAndCamelCaseText()
     {
         var converter = new StringEnumConverter();
         Assert.Null(converter.NamingStrategy);
-
-#pragma warning disable CS0618 // Type or member is obsolete
-        converter.CamelCaseText = true;
-#pragma warning restore CS0618 // Type or member is obsolete
+        converter.NamingStrategy = new CamelCaseNamingStrategy();
         Assert.NotNull(converter.NamingStrategy);
         Assert.Equal(typeof(CamelCaseNamingStrategy), converter.NamingStrategy.GetType());
-
-        var camelCaseInstance = converter.NamingStrategy;
-#pragma warning disable CS0618 // Type or member is obsolete
-        converter.CamelCaseText = true;
-#pragma warning restore CS0618 // Type or member is obsolete
-        Assert.Equal(camelCaseInstance, converter.NamingStrategy);
-
-        converter.NamingStrategy = null;
-#pragma warning disable CS0618 // Type or member is obsolete
-        Assert.False(converter.CamelCaseText);
-#pragma warning restore CS0618 // Type or member is obsolete
-
-        converter.NamingStrategy = new CamelCaseNamingStrategy();
-#pragma warning disable CS0618 // Type or member is obsolete
-        Assert.True(converter.CamelCaseText);
-#pragma warning restore CS0618 // Type or member is obsolete
-
-        converter.NamingStrategy = new SnakeCaseNamingStrategy();
-#pragma warning disable CS0618 // Type or member is obsolete
-        Assert.False(converter.CamelCaseText);
-#pragma warning restore CS0618 // Type or member is obsolete
-
-#pragma warning disable CS0618 // Type or member is obsolete
-        converter.CamelCaseText = false;
-#pragma warning restore CS0618 // Type or member is obsolete
-        Assert.NotNull(converter.NamingStrategy);
-        Assert.Equal(typeof(SnakeCaseNamingStrategy), converter.NamingStrategy.GetType());
     }
 
     [Fact]
@@ -237,13 +192,6 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
             () => new StringEnumConverter(null, new object[] { true, true, true }, false),
             @"Value cannot be null.
 Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingStrategyType')");
-    }
-
-    [Fact]
-    public void Deserialize_CamelCaseFromAttribute_Obsolete()
-    {
-        var e = JsonConvert.DeserializeObject<CamelCaseEnumObsolete>(@"""camelCase""");
-        Assert.Equal(CamelCaseEnumObsolete.CamelCase, e);
     }
 
     [Fact]
@@ -431,9 +379,7 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
             NullableStoreColor2 = null
         };
 
-#pragma warning disable CS0618 // Type or member is obsolete
-        var json = JsonConvert.SerializeObject(enumClass, Formatting.Indented, new StringEnumConverter { CamelCaseText = true });
-#pragma warning restore CS0618 // Type or member is obsolete
+        var json = JsonConvert.SerializeObject(enumClass, Formatting.Indented, new StringEnumConverter { NamingStrategy = new CamelCaseNamingStrategy() });
 
         XUnitAssert.AreEqualNormalized(@"{
   ""StoreColor"": ""red"",
@@ -598,9 +544,7 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
             Enum = FlagsTestEnum.First | FlagsTestEnum.Second
         };
 
-#pragma warning disable CS0618 // Type or member is obsolete
-        var json = JsonConvert.SerializeObject(c, Formatting.Indented, new StringEnumConverter { CamelCaseText = true });
-#pragma warning restore CS0618 // Type or member is obsolete
+        var json = JsonConvert.SerializeObject(c, Formatting.Indented, new StringEnumConverter { NamingStrategy = new CamelCaseNamingStrategy()  });
         XUnitAssert.AreEqualNormalized(@"{
   ""Enum"": ""first, second""
 }", json);
@@ -613,9 +557,7 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
   ""Enum"": ""first, second""
 }";
 
-#pragma warning disable CS0618 // Type or member is obsolete
-        var c = JsonConvert.DeserializeObject<EnumContainer<FlagsTestEnum>>(json, new StringEnumConverter { CamelCaseText = true });
-#pragma warning restore CS0618 // Type or member is obsolete
+        var c = JsonConvert.DeserializeObject<EnumContainer<FlagsTestEnum>>(json, new StringEnumConverter { NamingStrategy = new CamelCaseNamingStrategy()  });
         Assert.Equal(FlagsTestEnum.First | FlagsTestEnum.Second, c.Enum);
     }
 
@@ -694,9 +636,7 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
                 (Foo)int.MaxValue
             };
 
-#pragma warning disable CS0618 // Type or member is obsolete
-        var json1 = JsonConvert.SerializeObject(lfoo, Formatting.Indented, new StringEnumConverter { CamelCaseText = true });
-#pragma warning restore CS0618 // Type or member is obsolete
+        var json1 = JsonConvert.SerializeObject(lfoo, Formatting.Indented, new StringEnumConverter { NamingStrategy = new CamelCaseNamingStrategy()  });
 
         XUnitAssert.AreEqualNormalized(@"[
   ""Bat, baz"",
@@ -719,9 +659,7 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
 
         var lbar = new List<Bar> { Bar.FooBar, Bar.Bat, Bar.SerializeAsBaz };
 
-#pragma warning disable CS0618 // Type or member is obsolete
-        var json2 = JsonConvert.SerializeObject(lbar, Formatting.Indented, new StringEnumConverter { CamelCaseText = true });
-#pragma warning restore CS0618 // Type or member is obsolete
+        var json2 = JsonConvert.SerializeObject(lbar, Formatting.Indented, new StringEnumConverter { NamingStrategy = new CamelCaseNamingStrategy() });
 
         XUnitAssert.AreEqualNormalized(@"[
   ""foo_bar"",

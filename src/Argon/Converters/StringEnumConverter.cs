@@ -33,38 +33,6 @@ namespace Argon.Converters;
 public class StringEnumConverter : JsonConverter
 {
     /// <summary>
-    /// Gets or sets a value indicating whether the written enum text should be camel case.
-    /// The default value is <c>false</c>.
-    /// </summary>
-    /// <value><c>true</c> if the written enum text will be camel case; otherwise, <c>false</c>.</value>
-    [Obsolete("StringEnumConverter.CamelCaseText is obsolete. Set StringEnumConverter.NamingStrategy with CamelCaseNamingStrategy instead.")]
-    public bool CamelCaseText
-    {
-        get => NamingStrategy is CamelCaseNamingStrategy ? true : false;
-        set
-        {
-            if (value)
-            {
-                if (NamingStrategy is CamelCaseNamingStrategy)
-                {
-                    return;
-                }
-
-                NamingStrategy = new CamelCaseNamingStrategy();
-            }
-            else
-            {
-                if (!(NamingStrategy is CamelCaseNamingStrategy))
-                {
-                    return;
-                }
-
-                NamingStrategy = null;
-            }
-        }
-    }
-
-    /// <summary>
     /// Gets or sets the naming strategy used to resolve how enum text is written.
     /// </summary>
     /// <value>The naming strategy used to resolve how enum text is written.</value>
