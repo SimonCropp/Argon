@@ -67,7 +67,7 @@ public class DynamicValueProvider : IValueProvider
                     throw new JsonSerializationException($"Incompatible value. Cannot set {_memberInfo} to null.");
                 }
             }
-            else if (!ReflectionUtils.GetMemberUnderlyingType(_memberInfo).IsAssignableFrom(value.GetType()))
+            else if (!ReflectionUtils.GetMemberUnderlyingType(_memberInfo).IsInstanceOfType(value))
             {
                 throw new JsonSerializationException($"Incompatible value. Cannot set {_memberInfo} to type {value.GetType()}.");
             }

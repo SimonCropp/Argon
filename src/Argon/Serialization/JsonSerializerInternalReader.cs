@@ -216,7 +216,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
         if (contract != null && token != null)
         {
-            if (!contract.UnderlyingType.IsAssignableFrom(token.GetType()))
+            if (!contract.UnderlyingType.IsInstanceOfType(token))
             {
                 throw JsonSerializationException.Create(reader, $"Deserialized JSON type '{token.GetType().FullName}' is not compatible with expected type '{contract.UnderlyingType.FullName}'.");
             }
@@ -451,7 +451,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 var objectContract = (JsonObjectContract)contract;
                 object targetObject;
                 // check that if type name handling is being used that the existing value is compatible with the specified type
-                if (existingValue != null && (resolvedObjectType == objectType || resolvedObjectType.IsAssignableFrom(existingValue.GetType())))
+                if (existingValue != null && (resolvedObjectType == objectType || resolvedObjectType.IsInstanceOfType(existingValue)))
                 {
                     targetObject = existingValue;
                 }
