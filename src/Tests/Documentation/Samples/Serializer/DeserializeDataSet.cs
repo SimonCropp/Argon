@@ -25,6 +25,7 @@
 
 
 using System.Data;
+using Argon.DataSetConverters;
 using Xunit;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
@@ -49,8 +50,8 @@ public class DeserializeDataSet : TestFixtureBase
             }";
 
         var settings = new JsonSerializerSettings();
-        settings.Converters.Add(new DataSetConverter());
-        settings.Converters.Add(new DataTableConverter());
+
+        settings.AddDataSetConverters();
         var dataSet = JsonConvert.DeserializeObject<DataSet>(json,settings);
 
         var dataTable = dataSet.Tables["Table1"];

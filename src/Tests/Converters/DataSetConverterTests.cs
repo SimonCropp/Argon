@@ -26,6 +26,7 @@
 using Xunit;
 using Argon.Tests.TestObjects;
 using System.Data;
+using Argon.DataSetConverters;
 
 namespace Argon.Tests.Converters;
 
@@ -35,8 +36,8 @@ public class DataSetConverterTests : TestFixtureBase
     public void DeserializeInvalidDataTable()
     {
         var settings = new JsonSerializerSettings();
-        settings.Converters.Add(new DataSetConverter());
-        settings.Converters.Add(new DataTableConverter());
+
+        settings.AddDataSetConverters();
         var ex = XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<DataSet>("{\"pending_count\":23,\"completed_count\":45}", settings),
             "Unexpected JSON token when reading DataTable. Expected StartArray, got Integer. Path 'pending_count', line 1, position 19.");
@@ -73,8 +74,8 @@ public class DataSetConverterTests : TestFixtureBase
         {
             Formatting = Formatting.Indented
         };
-        settings.Converters.Add(new DataSetConverter());
-        settings.Converters.Add(new DataTableConverter());
+
+        settings.AddDataSetConverters();
         var json = JsonConvert.SerializeObject(dataSet, settings);
 
         XUnitAssert.AreEqualNormalized(@"{
@@ -162,8 +163,8 @@ public class DataSetConverterTests : TestFixtureBase
 }";
 
         var settings = new JsonSerializerSettings();
-        settings.Converters.Add(new DataSetConverter());
-        settings.Converters.Add(new DataTableConverter());
+
+        settings.AddDataSetConverters();
         var ds = JsonConvert.DeserializeObject<DataSet>(json, settings);
 
         XUnitAssert.True(ds.Tables.Contains("TableName"));
@@ -180,8 +181,8 @@ public class DataSetConverterTests : TestFixtureBase
         {
             Formatting = Formatting.Indented
         };
-        settings.Converters.Add(new DataSetConverter());
-        settings.Converters.Add(new DataTableConverter());
+
+        settings.AddDataSetConverters();
         settings.Converters.Add(new IsoDateTimeConverter());
 
 
@@ -280,8 +281,8 @@ public class DataSetConverterTests : TestFixtureBase
 }";
 
         var settings = new JsonSerializerSettings();
-        settings.Converters.Add(new DataSetConverter());
-        settings.Converters.Add(new DataTableConverter());
+
+        settings.AddDataSetConverters();
         var ds = JsonConvert.DeserializeObject<DataSet>(json, settings);
         Assert.NotNull(ds);
 
@@ -375,8 +376,8 @@ public class DataSetConverterTests : TestFixtureBase
             Formatting = Formatting.Indented,
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         };
-        settings.Converters.Add(new DataSetConverter());
-        settings.Converters.Add(new DataSetConverter());
+
+        settings.AddDataSetConverters();
         settings.Converters.Add(new IsoDateTimeConverter());
         var json = JsonConvert.SerializeObject(ds, settings);
 
@@ -431,8 +432,8 @@ public class DataSetConverterTests : TestFixtureBase
         {
             Formatting = Formatting.Indented
         };
-        settings.Converters.Add(new DataSetConverter());
-        settings.Converters.Add(new DataTableConverter());
+
+        settings.AddDataSetConverters();
         settings.Converters.Add(new IsoDateTimeConverter());
 
         var json = JsonConvert.SerializeObject(c, settings);
@@ -510,8 +511,8 @@ public class DataSetConverterTests : TestFixtureBase
         {
             Formatting = Formatting.Indented
         };
-        settings.Converters.Add(new DataSetConverter());
-        settings.Converters.Add(new DataSetConverter());
+
+        settings.AddDataSetConverters();
         var json = JsonConvert.SerializeObject(ds, settings);
 
         XUnitAssert.AreEqualNormalized(@"{
@@ -544,8 +545,8 @@ public class DataSetConverterTests : TestFixtureBase
     public void DeserializedTypedDataSet()
     {       
         var settings = new JsonSerializerSettings();
-        settings.Converters.Add(new DataSetConverter());
-        settings.Converters.Add(new DataTableConverter());
+
+        settings.AddDataSetConverters();
 
         var json = @"{
   ""Customers"": [

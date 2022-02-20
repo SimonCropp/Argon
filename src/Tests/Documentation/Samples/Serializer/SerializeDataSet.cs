@@ -25,6 +25,7 @@
 
 
 using System.Data;
+using Argon.DataSetConverters;
 using Xunit;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
@@ -58,8 +59,8 @@ public class SerializeDataSet : TestFixtureBase
         {
             Formatting = Formatting.Indented
         };
-        settings.Converters.Add(new DataSetConverter());
-        settings.Converters.Add(new DataTableConverter());
+
+        settings.AddDataSetConverters();
         var json = JsonConvert.SerializeObject(dataSet, settings);
 
         Console.WriteLine(json);
