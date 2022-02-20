@@ -116,14 +116,6 @@ public class StringEnumConverterTests : TestFixtureBase
         public NegativeFlagsEnum Value2 { get; set; }
     }
 
-    [JsonConverter(typeof(StringEnumConverter), true)]
-    public enum CamelCaseEnumObsolete
-    {
-        This,
-        Is,
-        CamelCase
-    }
-
     [JsonConverter(typeof(StringEnumConverter), typeof(CamelCaseNamingStrategy))]
     public enum CamelCaseEnumNew
     {
@@ -162,18 +154,11 @@ public class StringEnumConverterTests : TestFixtureBase
     }
 
     [Fact]
-    public void Serialize_CamelCaseFromAttribute_Obsolete()
-    {
-        var json = JsonConvert.SerializeObject(CamelCaseEnumObsolete.CamelCase);
-        Assert.Equal(@"""camelCase""", json);
-    }
-
-    [Fact]
     public void NamingStrategyAndCamelCaseText()
     {
         var converter = new StringEnumConverter();
         Assert.Null(converter.NamingStrategy);
-
+        converter.NamingStrategy = new CamelCaseNamingStrategy();
         Assert.NotNull(converter.NamingStrategy);
         Assert.Equal(typeof(CamelCaseNamingStrategy), converter.NamingStrategy.GetType());
     }
@@ -207,13 +192,6 @@ Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingSt
             () => new StringEnumConverter(null, new object[] { true, true, true }, false),
             @"Value cannot be null.
 Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingStrategyType')");
-    }
-
-    [Fact]
-    public void Deserialize_CamelCaseFromAttribute_Obsolete()
-    {
-        var e = JsonConvert.DeserializeObject<CamelCaseEnumObsolete>(@"""camelCase""");
-        Assert.Equal(CamelCaseEnumObsolete.CamelCase, e);
     }
 
     [Fact]
