@@ -265,13 +265,8 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             return false;
         }
 
-        if (HasFlag(property.DefaultValueHandling.GetValueOrDefault(Serializer._defaultValueHandling), DefaultValueHandling.Ignore)
-            && MiscellaneousUtils.ValueEquals(memberValue, property.GetResolvedDefaultValue()))
-        {
-            return false;
-        }
-
-        return true;
+        return !HasFlag(property.DefaultValueHandling.GetValueOrDefault(Serializer._defaultValueHandling), DefaultValueHandling.Ignore) ||
+               !MiscellaneousUtils.ValueEquals(memberValue, property.GetResolvedDefaultValue());
     }
 
     bool CheckForCircularReference(JsonWriter writer, object? value, JsonProperty? property, JsonContract? contract, JsonContainerContract? containerContract, JsonProperty? containerProperty)
@@ -947,13 +942,8 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             return false;
         }
 
-        if (HasFlag(Serializer._defaultValueHandling, DefaultValueHandling.Ignore) &&
-            (memberValue == null || MiscellaneousUtils.ValueEquals(memberValue, ReflectionUtils.GetDefaultValue(memberValue.GetType()))))
-        {
-            return false;
-        }
-
-        return true;
+        return !HasFlag(Serializer._defaultValueHandling, DefaultValueHandling.Ignore) || 
+               (memberValue != null && !MiscellaneousUtils.ValueEquals(memberValue, ReflectionUtils.GetDefaultValue(memberValue.GetType())));
     }
 
     bool ShouldWriteType(TypeNameHandling typeNameHandlingFlag, JsonContract contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerProperty)

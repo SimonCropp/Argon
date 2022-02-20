@@ -2047,9 +2047,7 @@ public class CustomAsyncJsonTextWriter : CustomJsonTextWriter
         {
             return _writer.WriteAsync("}}}");
         }
-        else
-        {
-            return base.WriteEndAsync(token, cancellationToken);
-        }
+
+        return base.WriteEndAsync(token, cancellationToken);
     }
 }

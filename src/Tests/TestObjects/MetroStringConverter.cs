@@ -45,7 +45,7 @@ public class MetroStringConverter : JsonConverter
         }
 
 #if !NET5_0_OR_GREATER
-            return s.ToLower(CultureInfo.InvariantCulture).Trim(new[] { ':' });
+        return s.ToLower(CultureInfo.InvariantCulture).Trim(new[] { ':' });
 #else
         return s.ToLower().Trim(new[] { ':' });
 #endif

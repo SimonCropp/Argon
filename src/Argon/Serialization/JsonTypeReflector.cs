@@ -445,12 +445,12 @@ static class JsonTypeReflector
         get
         {
 #if !NETSTANDARD2_0
-                if (DynamicCodeGeneration)
-                {
-                    return DynamicReflectionDelegateFactory.Instance;
-                }
+            if (DynamicCodeGeneration)
+            {
+                return DynamicReflectionDelegateFactory.Instance;
+            }
 
-                return LateBoundReflectionDelegateFactory.Instance;
+            return LateBoundReflectionDelegateFactory.Instance;
 #else
             return ExpressionReflectionDelegateFactory.Instance;
 #endif

@@ -599,10 +599,8 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
             {
                 return _dictionary.IsSynchronized;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
     }
 

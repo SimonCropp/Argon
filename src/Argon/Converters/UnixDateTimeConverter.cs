@@ -115,9 +115,7 @@ public class UnixDateTimeConverter : DateTimeConverterBase
             }
             return d;
         }
-        else
-        {
-            throw JsonSerializationException.Create(reader, $"Cannot convert value that is before Unix epoch of 00:00:00 UTC on 1 January 1970 to {objectType}.");
-        }
+
+        throw JsonSerializationException.Create(reader, $"Cannot convert value that is before Unix epoch of 00:00:00 UTC on 1 January 1970 to {objectType}.");
     }
 }

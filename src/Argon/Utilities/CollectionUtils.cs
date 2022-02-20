@@ -66,20 +66,9 @@ static class CollectionUtils
 
     public static bool IsDictionaryType(Type type)
     {
-        if (typeof(IDictionary).IsAssignableFrom(type))
-        {
-            return true;
-        }
-        if (ReflectionUtils.ImplementsGenericDefinition(type, typeof(IDictionary<,>)))
-        {
-            return true;
-        }
-        if (ReflectionUtils.ImplementsGenericDefinition(type, typeof(IReadOnlyDictionary<,>)))
-        {
-            return true;
-        }
-
-        return false;
+        return typeof(IDictionary).IsAssignableFrom(type) ||
+               ReflectionUtils.ImplementsGenericDefinition(type, typeof(IDictionary<,>)) ||
+               ReflectionUtils.ImplementsGenericDefinition(type, typeof(IReadOnlyDictionary<,>));
     }
 
     public static ConstructorInfo? ResolveEnumerableCollectionConstructor(Type collectionType, Type collectionItemType)

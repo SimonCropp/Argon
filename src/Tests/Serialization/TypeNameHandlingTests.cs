@@ -2469,10 +2469,8 @@ public class Example
         {
             return Name.Equals(((IExample)obj).Name);
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
     }
 
     public override int GetHashCode()

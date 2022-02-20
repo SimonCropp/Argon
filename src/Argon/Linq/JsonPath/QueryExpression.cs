@@ -297,11 +297,7 @@ class BooleanQueryExpression : QueryExpression
         }
 
         // we handle floats and integers the exact same way, so they are pseudo equivalent
-        if (value.Type != queryValue.Type)
-        {
-            return false;
-        }
-
-        return value.Equals(queryValue);
+        return value.Type == queryValue.Type &&
+               value.Equals(queryValue);
     }
 }

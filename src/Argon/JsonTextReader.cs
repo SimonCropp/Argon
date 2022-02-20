@@ -335,12 +335,8 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
     bool EnsureChars(int relativePosition, bool append)
     {
-        if (CharPos + relativePosition >= _charsUsed)
-        {
-            return ReadChars(relativePosition, append);
-        }
-
-        return true;
+        return CharPos + relativePosition < _charsUsed ||
+               ReadChars(relativePosition, append);
     }
 
     bool ReadChars(int relativePosition, bool append)
@@ -369,11 +365,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             totalCharsRead += charsRead;
         } while (totalCharsRead < charsRequired);
 
-        if (totalCharsRead < charsRequired)
-        {
-            return false;
-        }
-        return true;
+        return totalCharsRead >= charsRequired;
     }
 
     /// <summary>

@@ -81,10 +81,8 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
         {
             return _genericCollection.Contains(item);
         }
-        else
-        {
-            return _list!.Contains(item);
-        }
+
+        return _list!.Contains(item);
     }
 
     public virtual void CopyTo(T[] array, int arrayIndex)
@@ -107,10 +105,8 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
             {
                 return _genericCollection.Count;
             }
-            else
-            {
-                return _list!.Count;
-            }
+
+            return _list!.Count;
         }
     }
 
@@ -122,10 +118,8 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
             {
                 return _genericCollection.IsReadOnly;
             }
-            else
-            {
-                return _list!.IsReadOnly;
-            }
+
+            return _list!.IsReadOnly;
         }
     }
 
@@ -168,12 +162,8 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
 
     bool IList.Contains(object value)
     {
-        if (IsCompatibleObject(value))
-        {
-            return Contains((T)value);
-        }
-
-        return false;
+        return IsCompatibleObject(value) &&
+               Contains((T)value);
     }
 
     int IList.IndexOf(object value)
@@ -221,10 +211,8 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
                 // ICollection<T> only has IsReadOnly
                 return _genericCollection.IsReadOnly;
             }
-            else
-            {
-                return _list!.IsFixedSize;
-            }
+
+            return _list!.IsFixedSize;
         }
     }
 

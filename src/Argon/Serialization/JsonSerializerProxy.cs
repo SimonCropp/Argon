@@ -229,26 +229,23 @@ class JsonSerializerProxy : JsonSerializer
 
     internal override object? DeserializeInternal(JsonReader reader, Type? objectType)
     {
-        if (_serializerReader != null)
-        {
-            return _serializerReader.Deserialize(reader, objectType, false);
-        }
-        else
+        if (_serializerReader == null)
         {
             return _serializer.Deserialize(reader, objectType);
         }
+        
+        return _serializerReader.Deserialize(reader, objectType, false);
     }
 
     internal override void PopulateInternal(JsonReader reader, object target)
     {
-        if (_serializerReader != null)
-        {
-            _serializerReader.Populate(reader, target);
-        }
-        else
+        if (_serializerReader == null)
         {
             _serializer.Populate(reader, target);
+            return;
         }
+
+        _serializerReader.Populate(reader, target);
     }
 
     internal override void SerializeInternal(JsonWriter jsonWriter, object? value, Type? rootType)

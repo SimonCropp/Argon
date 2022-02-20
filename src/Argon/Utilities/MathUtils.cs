@@ -68,47 +68,45 @@ static class MathUtils
 
             return 10;
         }
-        else
-        {
-            if (i < 100000000000)
-            {
-                return 11;
-            }
-            if (i < 1000000000000)
-            {
-                return 12;
-            }
-            if (i < 10000000000000)
-            {
-                return 13;
-            }
-            if (i < 100000000000000)
-            {
-                return 14;
-            }
-            if (i < 1000000000000000)
-            {
-                return 15;
-            }
-            if (i < 10000000000000000)
-            {
-                return 16;
-            }
-            if (i < 100000000000000000)
-            {
-                return 17;
-            }
-            if (i < 1000000000000000000)
-            {
-                return 18;
-            }
-            if (i < 10000000000000000000)
-            {
-                return 19;
-            }
 
-            return 20;
+        if (i < 100000000000)
+        {
+            return 11;
         }
+        if (i < 1000000000000)
+        {
+            return 12;
+        }
+        if (i < 10000000000000)
+        {
+            return 13;
+        }
+        if (i < 100000000000000)
+        {
+            return 14;
+        }
+        if (i < 1000000000000000)
+        {
+            return 15;
+        }
+        if (i < 10000000000000000)
+        {
+            return 16;
+        }
+        if (i < 100000000000000000)
+        {
+            return 17;
+        }
+        if (i < 1000000000000000000)
+        {
+            return 18;
+        }
+        if (i < 10000000000000000000)
+        {
+            return 19;
+        }
+
+        return 20;
     }
 
     public static char IntToHex(int n)

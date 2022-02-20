@@ -185,12 +185,8 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
         {
             return false;
         }
-        if (other == this)
-        {
-            return true;
-        }
-
-        return ValuesEquals(this, other);
+        return other == this ||
+               ValuesEquals(this, other);
     }
 
     /// <summary>
@@ -797,12 +793,8 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <param name="other">An object to compare with this object.</param>
     public bool Equals(JValue? other)
     {
-        if (other == null)
-        {
-            return false;
-        }
-
-        return ValuesEquals(this, other);
+        return other != null &&
+               ValuesEquals(this, other);
     }
 
     /// <summary>

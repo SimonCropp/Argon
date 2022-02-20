@@ -976,12 +976,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         {
             // Don't set extension data if the value was ignored
             // e.g. a null with NullValueHandling should not go in ExtensionData
-            if (ignoredValue)
-            {
-                return true;
-            }
-
-            return false;
+            return ignoredValue;
         }
 
         object? value;
@@ -1152,12 +1147,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             return false;
         }
 
-        if (!property.Writable)
-        {
-            return false;
-        }
-
-        return true;
+        return property.Writable;
     }
 
     IList CreateNewList(JsonReader reader, JsonArrayContract contract, out bool createdFromNonDefaultCreator)

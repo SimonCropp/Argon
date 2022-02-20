@@ -1061,10 +1061,8 @@ public class XmlNodeConverter : JsonConverter
                 {
                     return $"${node.LocalName}";
                 }
-                else
-                {
-                    return $"@{ResolveFullName(node, manager)}";
-                }
+
+                return $"@{ResolveFullName(node, manager)}";
             case XmlNodeType.CDATA:
                 return CDataName;
             case XmlNodeType.Comment:
@@ -1074,10 +1072,8 @@ public class XmlNodeConverter : JsonConverter
                 {
                     return $"${node.LocalName}";
                 }
-                else
-                {
-                    return ResolveFullName(node, manager);
-                }
+
+                return ResolveFullName(node, manager);
             case XmlNodeType.ProcessingInstruction:
                 return $"?{ResolveFullName(node, manager)}";
             case XmlNodeType.DocumentType:

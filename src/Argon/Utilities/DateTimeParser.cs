@@ -89,21 +89,22 @@ struct DateTimeParser
         _text = text;
         _end = startIndex + length;
 
-        if (ParseDate(startIndex) && ParseChar(Lzyyyy_MM_dd + startIndex, 'T') && ParseTimeAndZoneAndWhitespace(Lzyyyy_MM_ddT + startIndex))
-        {
-            return true;
-        }
-
-        return false;
+        return ParseDate(startIndex) &&
+               ParseChar(Lzyyyy_MM_dd + startIndex, 'T') &&
+               ParseTimeAndZoneAndWhitespace(Lzyyyy_MM_ddT + startIndex);
     }
 
     bool ParseDate(int start)
     {
-        return Parse4Digit(start, out Year)
-               && 1 <= Year
-               && ParseChar(start + Lzyyyy, '-')
-               && Parse2Digit(start + Lzyyyy_, out Month)
-               && Month is >= 1 and <= 12 && ParseChar(start + Lzyyyy_MM, '-') && Parse2Digit(start + Lzyyyy_MM_, out Day) && 1 <= Day && Day <= DateTime.DaysInMonth(Year, Month);
+        return Parse4Digit(start, out Year) &&
+               1 <= Year &&
+               ParseChar(start + Lzyyyy, '-') &&
+               Parse2Digit(start + Lzyyyy_, out Month) &&
+               Month is >= 1 and <= 12 &&
+               ParseChar(start + Lzyyyy_MM, '-') &&
+               Parse2Digit(start + Lzyyyy_MM_, out Day) &&
+               1 <= Day &&
+               Day <= DateTime.DaysInMonth(Year, Month);
     }
 
     bool ParseTimeAndZoneAndWhitespace(int start)

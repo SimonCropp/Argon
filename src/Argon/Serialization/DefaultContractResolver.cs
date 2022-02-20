@@ -853,12 +853,9 @@ public class DefaultContractResolver : IContractResolver
             return true;
         }
 
-        if (t.Name is FSharpUtils.FSharpSetTypeName or FSharpUtils.FSharpMapTypeName)
-        {
-            return true;
-        }
-
-        return false;
+        return t.Name is
+            FSharpUtils.FSharpSetTypeName or
+            FSharpUtils.FSharpMapTypeName;
     }
 
     static bool ShouldSkipSerializing(Type t)
@@ -868,12 +865,9 @@ public class DefaultContractResolver : IContractResolver
             return true;
         }
 
-        if (t.Name is FSharpUtils.FSharpSetTypeName or FSharpUtils.FSharpMapTypeName)
-        {
-            return true;
-        }
-
-        return false;
+        return t.Name is
+            FSharpUtils.FSharpSetTypeName or
+            FSharpUtils.FSharpMapTypeName;
     }
 
     static List<Type> GetClassHierarchyForType(Type type)
@@ -1163,12 +1157,8 @@ public class DefaultContractResolver : IContractResolver
             return true;
         }
 
-        if (type == typeof(Type) || type.IsSubclassOf(typeof(Type)))
-        {
-            return true;
-        }
-
-        return false;
+        return type == typeof(Type) ||
+               type.IsSubclassOf(typeof(Type));
     }
 
     static bool IsValidCallback(MethodInfo method, ParameterInfo[] parameters, Type attributeType, MethodInfo? currentCallback, ref Type? prevAttributeType)
