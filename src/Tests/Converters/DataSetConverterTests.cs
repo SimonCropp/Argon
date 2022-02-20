@@ -26,6 +26,7 @@
 using Xunit;
 using Argon.Tests.TestObjects;
 using System.Data;
+using Argon.DataSetConverters;
 
 namespace Argon.Tests.Converters;
 
@@ -34,8 +35,11 @@ public class DataSetConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeInvalidDataTable()
     {
+        var settings = new JsonSerializerSettings();
+
+        settings.AddDataSetConverters();
         var ex = XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<DataSet>("{\"pending_count\":23,\"completed_count\":45}"),
+            () => JsonConvert.DeserializeObject<DataSet>("{\"pending_count\":23,\"completed_count\":45}", settings),
             "Unexpected JSON token when reading DataTable. Expected StartArray, got Integer. Path 'pending_count', line 1, position 19.");
 
         Assert.Equal(1, ex.LineNumber);
@@ -66,7 +70,13 @@ public class DataSetConverterTests : TestFixtureBase
 
         dataSet.AcceptChanges();
 
-        var json = JsonConvert.SerializeObject(dataSet, Formatting.Indented);
+        var settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented
+        };
+
+        settings.AddDataSetConverters();
+        var json = JsonConvert.SerializeObject(dataSet, settings);
 
         XUnitAssert.AreEqualNormalized(@"{
   ""Table1"": [
@@ -81,7 +91,7 @@ public class DataSetConverterTests : TestFixtureBase
   ]
 }", json);
 
-        var deserializedDataSet = JsonConvert.DeserializeObject<DataSet>(json);
+        var deserializedDataSet = JsonConvert.DeserializeObject<DataSet>(json, settings);
         Assert.NotNull(deserializedDataSet);
 
         Assert.Equal(1, deserializedDataSet.Tables.Count);
@@ -152,7 +162,10 @@ public class DataSetConverterTests : TestFixtureBase
   ""TableName"": null
 }";
 
-        var ds = JsonConvert.DeserializeObject<DataSet>(json);
+        var settings = new JsonSerializerSettings();
+
+        settings.AddDataSetConverters();
+        var ds = JsonConvert.DeserializeObject<DataSet>(json, settings);
 
         XUnitAssert.True(ds.Tables.Contains("TableName"));
     }
@@ -163,8 +176,17 @@ public class DataSetConverterTests : TestFixtureBase
         var ds = new DataSet();
         ds.Tables.Add(CreateDataTable("FirstTable", 2));
         ds.Tables.Add(CreateDataTable("SecondTable", 1));
+        
+        var settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented
+        };
 
-        var json = JsonConvert.SerializeObject(ds, Formatting.Indented, new IsoDateTimeConverter());
+        settings.AddDataSetConverters();
+        settings.Converters.Add(new IsoDateTimeConverter());
+
+
+        var json = JsonConvert.SerializeObject(ds, settings);
         // {
         //   "FirstTable": [
         //     {
@@ -196,7 +218,7 @@ public class DataSetConverterTests : TestFixtureBase
         //   ]
         // }
 
-        var deserializedDs = JsonConvert.DeserializeObject<DataSet>(json, new IsoDateTimeConverter());
+        var deserializedDs = JsonConvert.DeserializeObject<DataSet>(json, settings);
 
         XUnitAssert.AreEqualNormalized(@"{
   ""FirstTable"": [
@@ -258,7 +280,10 @@ public class DataSetConverterTests : TestFixtureBase
   ]
 }";
 
-        var ds = JsonConvert.DeserializeObject<DataSet>(json);
+        var settings = new JsonSerializerSettings();
+
+        settings.AddDataSetConverters();
+        var ds = JsonConvert.DeserializeObject<DataSet>(json, settings);
         Assert.NotNull(ds);
 
         Assert.Equal(2, ds.Tables.Count);
@@ -346,10 +371,15 @@ public class DataSetConverterTests : TestFixtureBase
         ds.Tables.Add(CreateDataTable("FirstTable", 2));
         ds.Tables.Add(CreateDataTable("SecondTable", 1));
 
-        var json = JsonConvert.SerializeObject(ds, Formatting.Indented, new JsonSerializerSettings
+        var settings = new JsonSerializerSettings
         {
+            Formatting = Formatting.Indented,
             ContractResolver = new CamelCasePropertyNamesContractResolver()
-        });
+        };
+
+        settings.AddDataSetConverters();
+        settings.Converters.Add(new IsoDateTimeConverter());
+        var json = JsonConvert.SerializeObject(ds, settings);
 
         XUnitAssert.AreEqualNormalized(@"{
   ""firstTable"": [
@@ -398,8 +428,15 @@ public class DataSetConverterTests : TestFixtureBase
             Table = CreateDataTable("LoneTable", 2),
             After = "After"
         };
+        var settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented
+        };
 
-        var json = JsonConvert.SerializeObject(c, Formatting.Indented, new IsoDateTimeConverter());
+        settings.AddDataSetConverters();
+        settings.Converters.Add(new IsoDateTimeConverter());
+
+        var json = JsonConvert.SerializeObject(c, settings);
 
         XUnitAssert.AreEqualNormalized(@"{
   ""Before"": ""Before"",
@@ -454,8 +491,8 @@ public class DataSetConverterTests : TestFixtureBase
   ],
   ""After"": ""After""
 }", json);
-
-        var c2 = JsonConvert.DeserializeObject<DataSetAndTableTestClass>(json, new IsoDateTimeConverter());
+   
+        var c2 = JsonConvert.DeserializeObject<DataSetAndTableTestClass>(json, settings);
 
         Assert.Equal(c.Before, c2.Before);
         Assert.Equal(c.Set.Tables.Count, c2.Set.Tables.Count);
@@ -470,7 +507,13 @@ public class DataSetConverterTests : TestFixtureBase
         var ds = new CustomerDataSet();
         ds.Customers.AddCustomersRow("234");
 
-        var json = JsonConvert.SerializeObject(ds, Formatting.Indented);
+        var settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented
+        };
+
+        settings.AddDataSetConverters();
+        var json = JsonConvert.SerializeObject(ds, settings);
 
         XUnitAssert.AreEqualNormalized(@"{
   ""Customers"": [
@@ -487,7 +530,7 @@ public class DataSetConverterTests : TestFixtureBase
 
         table.Rows.Add(row);
 
-        var json1 = JsonConvert.SerializeObject(ds1, Formatting.Indented);
+        var json1 = JsonConvert.SerializeObject(ds1, settings);
 
         XUnitAssert.AreEqualNormalized(@"{
   ""Customers"": [
@@ -500,7 +543,11 @@ public class DataSetConverterTests : TestFixtureBase
 
     [Fact]
     public void DeserializedTypedDataSet()
-    {
+    {       
+        var settings = new JsonSerializerSettings();
+
+        settings.AddDataSetConverters();
+
         var json = @"{
   ""Customers"": [
     {
@@ -509,7 +556,7 @@ public class DataSetConverterTests : TestFixtureBase
   ]
 }";
 
-        var ds = JsonConvert.DeserializeObject<CustomerDataSet>(json);
+        var ds = JsonConvert.DeserializeObject<CustomerDataSet>(json, settings);
 
         Assert.Equal("234", ds.Customers[0].CustomerID);
     }

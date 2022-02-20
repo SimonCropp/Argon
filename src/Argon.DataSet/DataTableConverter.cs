@@ -25,7 +25,7 @@
 
 using System.Data;
 
-namespace Argon.Converters;
+namespace Argon.DataSetConverters;
 
 /// <summary>
 /// Converts a <see cref="DataTable"/> to and from JSON.
