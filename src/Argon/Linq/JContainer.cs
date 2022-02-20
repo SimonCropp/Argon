@@ -287,7 +287,7 @@ public abstract partial class JContainer : JToken, IList<JToken>
 
     internal bool IsMultiContent([NotNullWhen(true)]object? content)
     {
-        return content is IEnumerable && !(content is string) && !(content is JToken) && !(content is byte[]);
+        return content is IEnumerable && content is not string && content is not JToken && content is not byte[];
     }
 
     internal JToken EnsureParentToken(JToken? item, bool skipParentCheck)

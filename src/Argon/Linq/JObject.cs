@@ -790,7 +790,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
         public override bool TrySetMember(JObject instance, SetMemberBinder binder, object value)
         {
             // this can throw an error if value isn't a valid for a JValue
-            if (!(value is JToken v))
+            if (value is not JToken v)
             {
                 v = new JValue(value);
             }

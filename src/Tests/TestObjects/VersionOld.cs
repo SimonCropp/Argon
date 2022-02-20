@@ -105,7 +105,7 @@ public sealed class VersionOld : IComparable, IComparable<VersionOld>, IEquatabl
     public bool Equals(VersionOld obj)
     {
         return ReferenceEquals(obj, this) ||
-               (!(obj is null) &&
+               (obj is not null &&
                 _Major == obj._Major &&
                 _Minor == obj._Minor &&
                 _Build == obj._Build &&

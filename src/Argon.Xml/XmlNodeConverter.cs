@@ -1169,7 +1169,7 @@ public class XmlNodeConverter : JsonConverter
                     {
                         if (nodesGroupedByName.TryGetValue(currentNodeName, out var value))
                         {
-                            if (!(value is List<IXmlNode> nodes))
+                            if (value is not List<IXmlNode> nodes)
                             {
                                 nodes = new List<IXmlNode> {(IXmlNode) value!};
                                 nodesGroupedByName[currentNodeName] = nodes;

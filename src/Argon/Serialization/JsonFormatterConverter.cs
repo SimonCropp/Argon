@@ -44,7 +44,7 @@ class JsonFormatterConverter : IFormatterConverter
 
     public object? Convert(object value, Type type)
     {
-        if (!(value is JToken token))
+        if (value is not JToken token)
         {
             throw new ArgumentException("Value is not a JToken.", nameof(value));
         }

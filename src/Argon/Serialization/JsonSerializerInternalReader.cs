@@ -398,7 +398,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
         else if (Serializer.MetadataPropertyHandling == MetadataPropertyHandling.ReadAhead)
         {
-            if (!(reader is JTokenReader tokenReader))
+            if (reader is not JTokenReader tokenReader)
             {
                 var t = JToken.ReadFrom(reader);
                 tokenReader = (JTokenReader)t.CreateReader();
@@ -535,7 +535,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 }
                 else
                 {
-                    targetDictionary = PopulateDictionary(dictionaryContract.ShouldCreateWrapper || !(existingValue is IDictionary) ? dictionaryContract.CreateWrapper(existingValue) : (IDictionary)existingValue, reader, dictionaryContract, member, id);
+                    targetDictionary = PopulateDictionary(dictionaryContract.ShouldCreateWrapper || existingValue is not IDictionary ? dictionaryContract.CreateWrapper(existingValue) : (IDictionary)existingValue, reader, dictionaryContract, member, id);
                 }
 
                 return targetDictionary;
@@ -782,7 +782,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             throw JsonSerializationException.Create(reader, $"Could not resolve type '{objectType}' to a JsonContract.");
         }
 
-        if (!(contract is JsonArrayContract arrayContract))
+        if (contract is not JsonArrayContract arrayContract)
         {
             var message = $@"Cannot deserialize the current JSON array (e.g. [1,2,3]) into type '{{0}}' because the type requires a {{1}} to deserialize correctly.{Environment.NewLine}To fix this error either change the JSON to a {{1}} or change the deserialized type to an array or a type that implements a collection interface (e.g. ICollection, IList) like List<T> that can be deserialized from a JSON array. JsonArrayAttribute can also be added to the type to force it to deserialize from a JSON array.{Environment.NewLine}";
             message = string.Format(message, objectType, GetExpectedDescription(contract));
@@ -876,7 +876,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 throw JsonSerializationException.Create(reader, $"Cannot populate list type {contract.CreatedType}.");
             }
 
-            value = PopulateList(arrayContract.ShouldCreateWrapper || !(existingValue is IList list) ? arrayContract.CreateWrapper(existingValue) : list, reader, arrayContract, member, id);
+            value = PopulateList(arrayContract.ShouldCreateWrapper || existingValue is not IList list ? arrayContract.CreateWrapper(existingValue) : list, reader, arrayContract, member, id);
         }
 
         return value;

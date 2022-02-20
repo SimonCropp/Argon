@@ -1624,7 +1624,7 @@ public abstract partial class JsonWriter
             case JsonToken.StartConstructor:
                 return InternalWriteStartAsync(token, JsonContainerType.Constructor, cancellationToken);
             case JsonToken.PropertyName:
-                if (!(value is string s))
+                if (value is not string s)
                 {
                     throw new ArgumentException("A name is required when setting property name state.", nameof(value));
                 }

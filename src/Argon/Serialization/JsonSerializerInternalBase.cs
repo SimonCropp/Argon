@@ -123,7 +123,7 @@ internal abstract class JsonSerializerInternalBase
             message += $". {ex.Message}";
 
             // add line information to non-json.net exception message
-            if (!(ex is JsonException))
+            if (ex is not JsonException)
             {
                 message = JsonPosition.FormatMessage(lineInfo, path, message);
             }

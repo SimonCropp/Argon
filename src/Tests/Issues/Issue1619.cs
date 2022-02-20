@@ -65,7 +65,7 @@ public class Issue1619 : TestFixtureBase
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            if (!(value is DirectoryInfo directoryInfo))
+            if (value is not DirectoryInfo directoryInfo)
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
