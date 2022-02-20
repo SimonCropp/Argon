@@ -177,24 +177,6 @@ public class StringEnumConverterTests : TestFixtureBase
     }
 
     [Fact]
-    public void StringEnumConverter_NamingStrategyTypeCtor_Null()
-    {
-        XUnitAssert.Throws<ArgumentNullException>(
-            () => new StringEnumConverter(null),
-            @"Value cannot be null.
-Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingStrategyType')");
-    }
-
-    [Fact]
-    public void StringEnumConverter_NamingStrategyTypeWithArgsCtor_Null()
-    {
-        XUnitAssert.Throws<ArgumentNullException>(
-            () => new StringEnumConverter(null, new object[] { true, true, true }, false),
-            @"Value cannot be null.
-Parameter name: namingStrategyType", "Value cannot be null. (Parameter 'namingStrategyType')");
-    }
-
-    [Fact]
     public void Serialize_CamelCaseFromAttribute()
     {
         var json = JsonConvert.SerializeObject(CamelCaseEnumNew.CamelCase);

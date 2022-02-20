@@ -274,15 +274,6 @@ public class JObjectTests : TestFixtureBase
 
         contains = o.ContainsKey("does not exist");
         XUnitAssert.False(contains);
-
-        XUnitAssert.Throws<ArgumentNullException>(() =>
-            {
-                contains = o.ContainsKey(null);
-                XUnitAssert.False(contains);
-            },
-            @"Value cannot be null.
-Parameter name: propertyName",
-            "Value cannot be null. (Parameter 'propertyName')");
     }
 
     [Fact]

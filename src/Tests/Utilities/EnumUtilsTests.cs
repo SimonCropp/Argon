@@ -142,8 +142,6 @@ public class EnumUtilsTests : TestFixtureBase
     public static IEnumerable<object[]> Parse_Invalid_TestData()
     {
         // SimpleEnum
-        yield return new object[] { null, "", typeof(ArgumentNullException) };
-        yield return new object[] { typeof(SimpleEnum), null, typeof(ArgumentNullException) };
         yield return new object[] { typeof(object), "", typeof(ArgumentException) };
         yield return new object[] { typeof(SimpleEnum), "", typeof(ArgumentException) };
         yield return new object[] { typeof(SimpleEnum), "    \t", typeof(ArgumentException) };

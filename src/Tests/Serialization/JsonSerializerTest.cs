@@ -5818,32 +5818,6 @@ Path '', line 1, position 1.");
     }
 
     [Fact]
-    public void DeserializeDoubleFromNullString()
-    {
-        XUnitAssert.Throws<ArgumentNullException>(
-            () => JsonConvert.DeserializeObject<double>(null),
-            new[]
-            {
-                $"Value cannot be null.{Environment.NewLine}Parameter name: value",
-                $"Argument cannot be null.{Environment.NewLine}Parameter name: value", // mono
-                "Value cannot be null. (Parameter 'value')"
-            });
-    }
-
-    [Fact]
-    public void DeserializeFromNullString()
-    {
-        XUnitAssert.Throws<ArgumentNullException>(
-            () => JsonConvert.DeserializeObject(null),
-            new[]
-            {
-                $"Value cannot be null.{Environment.NewLine}Parameter name: value",
-                $"Argument cannot be null.{Environment.NewLine}Parameter name: value", // mono
-                "Value cannot be null. (Parameter 'value')"
-            });
-    }
-
-    [Fact]
     public void DeserializeIsoDatesWithIsoConverter()
     {
         var jsonIsoText =
