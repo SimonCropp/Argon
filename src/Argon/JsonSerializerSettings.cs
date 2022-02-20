@@ -257,30 +257,6 @@ public class JsonSerializerSettings
     public ITraceWriter? TraceWriter { get; set; }
 
     /// <summary>
-    /// Gets or sets the <see cref="SerializationBinder"/> used by the serializer when resolving type names.
-    /// </summary>
-    /// <value>The binder.</value>
-    [Obsolete("Binder is obsolete. Use SerializationBinder instead.")]
-    public SerializationBinder? Binder
-    {
-        get
-        {
-            if (SerializationBinder == null)
-            {
-                return null;
-            }
-
-            if (SerializationBinder is SerializationBinderAdapter adapter)
-            {
-                return adapter.SerializationBinder;
-            }
-
-            throw new InvalidOperationException("Cannot get SerializationBinder because an ISerializationBinder was previously set.");
-        }
-        set => SerializationBinder = value == null ? null : new SerializationBinderAdapter(value);
-    }
-
-    /// <summary>
     /// Gets or sets the <see cref="ISerializationBinder"/> used by the serializer when resolving type names.
     /// </summary>
     /// <value>The binder.</value>

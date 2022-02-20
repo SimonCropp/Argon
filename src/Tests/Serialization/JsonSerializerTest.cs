@@ -1033,16 +1033,11 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var settings = new JsonSerializerSettings();
 
-#pragma warning disable CS0618 // Type or member is obsolete
-        Assert.Null(settings.Binder);
-#pragma warning restore CS0618 // Type or member is obsolete
         Assert.Null(settings.SerializationBinder);
 
         var customBinder = new DefaultSerializationBinder();
-#pragma warning disable CS0618 // Type or member is obsolete
-        settings.Binder = customBinder;
-        Assert.Equal(customBinder, settings.Binder);
-#pragma warning restore CS0618 // Type or member is obsolete
+        settings.SerializationBinder = customBinder;
+        Assert.Equal(customBinder, settings.SerializationBinder);
 
         settings.CheckAdditionalContent = true;
         XUnitAssert.True(settings.CheckAdditionalContent);

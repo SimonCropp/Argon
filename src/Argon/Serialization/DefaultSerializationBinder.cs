@@ -29,9 +29,6 @@ namespace Argon.Serialization;
 /// The default serialization binder used when resolving and loading classes from type names.
 /// </summary>
 public class DefaultSerializationBinder :
-#pragma warning disable 618
-    SerializationBinder,
-#pragma warning restore 618
     ISerializationBinder
 {
     internal static readonly DefaultSerializationBinder Instance = new();
@@ -169,7 +166,7 @@ public class DefaultSerializationBinder :
     /// <returns>
     /// The type of the object the formatter creates a new instance of.
     /// </returns>
-    public override Type BindToType(string? assemblyName, string typeName)
+    public Type BindToType(string? assemblyName, string typeName)
     {
         return GetTypeByName(new StructMultiKey<string?, string>(assemblyName, typeName));
     }
@@ -180,7 +177,7 @@ public class DefaultSerializationBinder :
     /// <param name="serializedType">The type of the object the formatter creates a new instance of.</param>
     /// <param name="assemblyName">Specifies the <see cref="Assembly"/> name of the serialized object.</param>
     /// <param name="typeName">Specifies the <see cref="System.Type"/> name of the serialized object.</param>
-    public override void BindToName(Type serializedType, out string? assemblyName, out string? typeName)
+    public void BindToName(Type serializedType, out string? assemblyName, out string? typeName)
     {
         assemblyName = serializedType.Assembly.FullName;
         typeName = serializedType.FullName;
