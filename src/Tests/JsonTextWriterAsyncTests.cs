@@ -356,8 +356,8 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
     public async Task WriteIConvertableAsync()
     {
         var stringWriter = new StringWriter();
-        var writer = new JsonTextWriter(stringWriter);
-        await writer.WriteValueAsync(new ConvertibleInt(1));
+        var jsonWriter = new JsonTextWriter(stringWriter);
+        await jsonWriter.WriteValueAsync(new ConvertibleInt(1));
 
         Assert.Equal("1", stringWriter.ToString());
     }

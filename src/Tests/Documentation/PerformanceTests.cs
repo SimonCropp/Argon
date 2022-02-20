@@ -186,26 +186,26 @@ public static class PersonWriter
     public static string ToJson(this Person p)
     {
         var stringWriter = new StringWriter();
-        var writer = new JsonTextWriter(stringWriter);
+        var jsonWriter = new JsonTextWriter(stringWriter);
 
         // {
-        writer.WriteStartObject();
+        jsonWriter.WriteStartObject();
 
         // "name" : "Jerry"
-        writer.WritePropertyName("name");
-        writer.WriteValue(p.Name);
+        jsonWriter.WritePropertyName("name");
+        jsonWriter.WriteValue(p.Name);
 
         // "likes": ["Comedy", "Superman"]
-        writer.WritePropertyName("likes");
-        writer.WriteStartArray();
+        jsonWriter.WritePropertyName("likes");
+        jsonWriter.WriteStartArray();
         foreach (var like in p.Likes)
         {
-            writer.WriteValue(like);
+            jsonWriter.WriteValue(like);
         }
-        writer.WriteEndArray();
+        jsonWriter.WriteEndArray();
 
         // }
-        writer.WriteEndObject();
+        jsonWriter.WriteEndObject();
 
         return stringWriter.ToString();
     }

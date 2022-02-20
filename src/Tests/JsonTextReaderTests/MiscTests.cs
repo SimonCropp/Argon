@@ -959,12 +959,12 @@ null//comment
     public void WriteReadBoundaryDecimals()
     {
         var stringWriter = new StringWriter();
-        var jsonTextWriter = new JsonTextWriter(stringWriter);
+        var jsonWriter = new JsonTextWriter(stringWriter);
 
-        jsonTextWriter.WriteStartArray();
-        jsonTextWriter.WriteValue(decimal.MaxValue);
-        jsonTextWriter.WriteValue(decimal.MinValue);
-        jsonTextWriter.WriteEndArray();
+        jsonWriter.WriteStartArray();
+        jsonWriter.WriteValue(decimal.MaxValue);
+        jsonWriter.WriteValue(decimal.MinValue);
+        jsonWriter.WriteEndArray();
 
         var json = stringWriter.ToString();
 

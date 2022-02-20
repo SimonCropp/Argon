@@ -1393,14 +1393,14 @@ third line", jsonTextReader.Value);
     {
         var valueCount = 10000;
         var stringWriter = new StringWriter();
-        var jsonTextWriter = new JsonTextWriter(stringWriter);
-        jsonTextWriter.WriteStartArray();
+        var jsonWriter = new JsonTextWriter(stringWriter);
+        jsonWriter.WriteStartArray();
         for (var i = 0; i < valueCount; i++)
         {
-            jsonTextWriter.WriteValue(i);
+            jsonWriter.WriteValue(i);
         }
 
-        jsonTextWriter.WriteEndArray();
+        jsonWriter.WriteEndArray();
 
         var json = stringWriter.ToString();
 

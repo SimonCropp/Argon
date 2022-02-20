@@ -5325,9 +5325,9 @@ Path '', line 1, position 1.");
         var json = JObject.FromObject(o);
 
         using var stringWriter = new StringWriter();
-        using var jsonTextWriter = new JsonTextWriter(stringWriter);
-        jsonTextWriter.WriteToken(json.CreateReader());
-        jsonTextWriter.Flush();
+        using var jsonWriter = new JsonTextWriter(stringWriter);
+        jsonWriter.WriteToken(json.CreateReader());
+        jsonWriter.Flush();
 
         var result = stringWriter.ToString();
         Assert.Equal(@"{""p"":1}", result);

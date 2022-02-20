@@ -939,12 +939,12 @@ null//comment
     public async Task WriteReadBoundaryDecimalsAsync()
     {
         var stringWriter = new StringWriter();
-        var jsonTextWriter = new JsonTextWriter(stringWriter);
+        var jsonWriter = new JsonTextWriter(stringWriter);
 
-        await jsonTextWriter.WriteStartArrayAsync();
-        await jsonTextWriter.WriteValueAsync(decimal.MaxValue);
-        await jsonTextWriter.WriteValueAsync(decimal.MinValue);
-        await jsonTextWriter.WriteEndArrayAsync();
+        await jsonWriter.WriteStartArrayAsync();
+        await jsonWriter.WriteValueAsync(decimal.MaxValue);
+        await jsonWriter.WriteValueAsync(decimal.MinValue);
+        await jsonWriter.WriteEndArrayAsync();
 
         var json = stringWriter.ToString();
 

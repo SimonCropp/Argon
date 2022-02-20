@@ -33,8 +33,8 @@ public class Issue1460 : TestFixtureBase
     public void Test()
     {
         var stringWriter = new StringWriter();
-        var writer = new JsonTextWriter(stringWriter);
-        JsonWriter.WriteValue(writer, PrimitiveTypeCode.Object, null);
+        var jsonWriter = new JsonTextWriter(stringWriter);
+        JsonWriter.WriteValue(jsonWriter, PrimitiveTypeCode.Object, null);
 
         Assert.Equal("null", stringWriter.ToString());
     }
@@ -43,8 +43,8 @@ public class Issue1460 : TestFixtureBase
     public async Task TestAsync()
     {
         var stringWriter = new StringWriter();
-        var writer = new JsonTextWriter(stringWriter);
-        await JsonWriter.WriteValueAsync(writer, PrimitiveTypeCode.Object, null, CancellationToken.None);
+        var jsonWriter = new JsonTextWriter(stringWriter);
+        await JsonWriter.WriteValueAsync(jsonWriter, PrimitiveTypeCode.Object, null, CancellationToken.None);
 
         Assert.Equal("null", stringWriter.ToString());
     }

@@ -699,7 +699,7 @@ static class ReflectionUtils
         switch (provider)
         {
             case Type t:
-                object[] array = attributeType != null ? t.GetCustomAttributes(attributeType, inherit) : t.GetCustomAttributes(inherit);
+                var array = attributeType != null ? t.GetCustomAttributes(attributeType, inherit) : t.GetCustomAttributes(inherit);
                 var attributes = array.Cast<Attribute>().ToArray();
                 return attributes;
             case Assembly a:
@@ -712,7 +712,7 @@ static class ReflectionUtils
                 return attributeType != null ? Attribute.GetCustomAttributes(p, attributeType, inherit) : Attribute.GetCustomAttributes(p, inherit);
             default:
                 var customAttributeProvider = (ICustomAttributeProvider)attributeProvider;
-                object[] result = attributeType != null ? customAttributeProvider.GetCustomAttributes(attributeType, inherit) : customAttributeProvider.GetCustomAttributes(inherit);
+                var result = attributeType != null ? customAttributeProvider.GetCustomAttributes(attributeType, inherit) : customAttributeProvider.GetCustomAttributes(inherit);
 
                 return (Attribute[])result;
         }

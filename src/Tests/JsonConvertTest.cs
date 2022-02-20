@@ -980,10 +980,10 @@ public class JsonConvertTest : TestFixtureBase
     public static string Write(object value, JsonConverter converter)
     {
         var stringWriter = new StringWriter();
-        var writer = new JsonTextWriter(stringWriter);
-        converter.WriteJson(writer, value, null);
+        var jsonWriter = new JsonTextWriter(stringWriter);
+        converter.WriteJson(jsonWriter, value, null);
 
-        writer.Flush();
+        jsonWriter.Flush();
         return stringWriter.ToString();
     }
 
@@ -1057,10 +1057,10 @@ public class JsonConvertTest : TestFixtureBase
         dt = dt.AddTicks(9999999);
 
         var stringWriter = new StringWriter();
-        var writer = new JsonTextWriter(stringWriter);
+        var jsonWriter = new JsonTextWriter(stringWriter);
 
-        writer.WriteValue(dt);
-        writer.Flush();
+        jsonWriter.WriteValue(dt);
+        jsonWriter.Flush();
 
         Assert.Equal(@"""2000-12-31T20:59:59.9999999+11:33""", stringWriter.ToString());
     }
@@ -1072,10 +1072,10 @@ public class JsonConvertTest : TestFixtureBase
         dt = dt.AddTicks(9999999);
 
         var stringWriter = new StringWriter();
-        var writer = new JsonTextWriter(stringWriter);
+        var jsonWriter = new JsonTextWriter(stringWriter);
 
-        writer.WriteValue(dt);
-        writer.Flush();
+        jsonWriter.WriteValue(dt);
+        jsonWriter.Flush();
     }
 
     [Fact]

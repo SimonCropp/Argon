@@ -33,7 +33,7 @@ static class EnumUtils
     static EnumInfo InitializeValuesAndNames(StructMultiKey<Type, NamingStrategy?> key)
     {
         var enumType = key.Value1;
-        string[] names = Enum.GetNames(enumType);
+        var names = Enum.GetNames(enumType);
         var resolvedNames = new string[names.Length];
         var values = new ulong[names.Length];
 

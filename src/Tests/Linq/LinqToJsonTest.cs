@@ -1019,9 +1019,9 @@ keyword such as type of business.""
         var serializer = new JsonSerializer();
         serializer.Converters.Add(new JavaScriptDateTimeConverter());
         var stringWriter = new StringWriter();
-        JsonWriter writer = new JsonTextWriter(stringWriter);
-        writer.Formatting = Formatting.Indented;
-        serializer.Serialize(writer, o);
+        JsonWriter jsonWriter = new JsonTextWriter(stringWriter);
+        jsonWriter.Formatting = Formatting.Indented;
+        serializer.Serialize(jsonWriter, o);
 
         var json = stringWriter.ToString();
 
