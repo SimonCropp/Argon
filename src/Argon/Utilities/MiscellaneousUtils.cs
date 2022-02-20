@@ -25,8 +25,6 @@
 
 using System.Text.RegularExpressions;
 
-delegate T Creator<T>();
-
 static class MiscellaneousUtils
 {
     [Conditional("DEBUG")]

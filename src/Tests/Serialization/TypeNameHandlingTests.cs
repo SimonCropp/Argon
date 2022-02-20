@@ -2289,16 +2289,6 @@ public class TypeNameHandlingTests : TestFixtureBase
             return null;
         }
     }
-
-#pragma warning disable CS0618 // Type or member is obsolete
-    public class OldBinder : SerializationBinder
-    {
-        public override Type BindToType(string assemblyName, string typeName)
-        {
-            return typeof(string);
-        }
-    }
-#pragma warning restore CS0618 // Type or member is obsolete
 }
 
 public struct Message2
