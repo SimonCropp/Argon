@@ -572,61 +572,58 @@ public class ContractResolverTests : TestFixtureBase
 }", startingWithB);
     }
 
-#pragma warning disable 618
-    [Fact]
-    public void SerializeCompilerGeneratedMembers()
-    {
-        var structTest = new StructTest
-        {
-            IntField = 1,
-            IntProperty = 2,
-            StringField = "Field",
-            StringProperty = "Property"
-        };
-
-        var skipCompilerGeneratedResolver = new DefaultContractResolver();
-
-        var skipCompilerGeneratedJson = JsonConvert.SerializeObject(structTest, Formatting.Indented,
-            new JsonSerializerSettings { ContractResolver = skipCompilerGeneratedResolver });
-
-        XUnitAssert.AreEqualNormalized(@"{
-  ""StringField"": ""Field"",
-  ""IntField"": 1,
-  ""StringProperty"": ""Property"",
-  ""IntProperty"": 2
-}", skipCompilerGeneratedJson);
-
-        var includeCompilerGeneratedResolver = new IncludeCompilerGeneratedResolver
-        {
-            SerializeCompilerGeneratedMembers = true
-        };
-
-        var includeCompilerGeneratedJson = JsonConvert.SerializeObject(structTest, Formatting.Indented,
-            new JsonSerializerSettings
-            {
-                ContractResolver = includeCompilerGeneratedResolver
-            });
-
-        var o = JObject.Parse(includeCompilerGeneratedJson);
-
-        Console.WriteLine(includeCompilerGeneratedJson);
-
-        Assert.Equal("Property", (string)o["<StringProperty>k__BackingField"]);
-        Assert.Equal(2, (int)o["<IntProperty>k__BackingField"]);
-    }
-
-    public class IncludeCompilerGeneratedResolver : DefaultContractResolver
-    {
-        protected override List<MemberInfo> GetSerializableMembers(Type objectType)
-        {
-            var members = base.GetSerializableMembers(objectType);
-            var compilerGenerated = objectType.GetMembers(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public).Where(x=>x.Name.StartsWith('<'));
-            members.AddRange(compilerGenerated);
-            return members;
-        }
-    }
-#pragma warning restore 618
-
+    //TODO:
+//     [Fact]
+//     public void SerializeCompilerGeneratedMembers()
+//     {
+//         var structTest = new StructTest
+//         {
+//             IntField = 1,
+//             IntProperty = 2,
+//             StringField = "Field",
+//             StringProperty = "Property"
+//         };
+//
+//         var skipCompilerGeneratedResolver = new DefaultContractResolver();
+//
+//         var skipCompilerGeneratedJson = JsonConvert.SerializeObject(structTest, Formatting.Indented,
+//             new JsonSerializerSettings { ContractResolver = skipCompilerGeneratedResolver });
+//
+//         XUnitAssert.AreEqualNormalized(@"{
+//   ""StringField"": ""Field"",
+//   ""IntField"": 1,
+//   ""StringProperty"": ""Property"",
+//   ""IntProperty"": 2
+// }", skipCompilerGeneratedJson);
+//
+//         var includeCompilerGeneratedResolver = new IncludeCompilerGeneratedResolver
+//         {
+//             SerializeCompilerGeneratedMembers = true
+//         };
+//
+//         var includeCompilerGeneratedJson = JsonConvert.SerializeObject(structTest, Formatting.Indented,
+//             new JsonSerializerSettings
+//             {
+//                 ContractResolver = includeCompilerGeneratedResolver
+//             });
+//
+//         var o = JObject.Parse(includeCompilerGeneratedJson);
+//
+//         Console.WriteLine(includeCompilerGeneratedJson);
+//
+//         Assert.Equal("Property", (string)o["<StringProperty>k__BackingField"]);
+//         Assert.Equal(2, (int)o["<IntProperty>k__BackingField"]);
+//     }
+//
+//     public class IncludeCompilerGeneratedResolver : DefaultContractResolver
+//     {
+//         protected override List<MemberInfo> GetSerializableMembers(Type objectType)
+//         {
+//             var serializableMembers = ReflectionUtils.GetFieldsAndProperties(objectType, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public).ToList();
+//             return serializableMembers;
+//         }
+//     }
+    
     public class ClassWithExtensionData
     {
         [JsonExtensionData]
