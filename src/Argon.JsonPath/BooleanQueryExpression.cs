@@ -21,13 +21,13 @@ class BooleanQueryExpression : QueryExpression
 
         if (o is List<PathFilter> pathFilters)
         {
-            return JPath.Evaluate(pathFilters, root, t, null);
+            return JPath.Evaluate(pathFilters, root, t, JTokenExtensions.DefaultSettings);
         }
 
         return CollectionUtils.ArrayEmpty<JToken>();
     }
 
-    public override bool IsMatch(JToken root, JToken t, JsonSelectSettings? settings)
+    public override bool IsMatch(JToken root, JToken t, JsonSelectSettings settings)
     {
         if (Operator == QueryOperator.Exists)
         {
@@ -56,7 +56,7 @@ class BooleanQueryExpression : QueryExpression
         return false;
     }
 
-    bool MatchTokens(JToken leftResult, JToken rightResult, JsonSelectSettings? settings)
+    bool MatchTokens(JToken leftResult, JToken rightResult, JsonSelectSettings settings)
     {
         if (leftResult is JValue leftValue && rightResult is JValue rightValue)
         {
@@ -135,7 +135,7 @@ class BooleanQueryExpression : QueryExpression
         return false;
     }
 
-    static bool RegexEquals(JValue input, JValue pattern, JsonSelectSettings? settings)
+    static bool RegexEquals(JValue input, JValue pattern, JsonSelectSettings settings)
     {
         if (input.Type != JTokenType.String || pattern.Type != JTokenType.String)
         {
@@ -148,7 +148,7 @@ class BooleanQueryExpression : QueryExpression
         var patternText = regexText.Substring(1, patternOptionDelimiterIndex - 1);
         var optionsText = regexText.Substring(patternOptionDelimiterIndex + 1);
 
-        var timeout = settings?.RegexMatchTimeout ?? Regex.InfiniteMatchTimeout;
+        var timeout = settings.RegexMatchTimeout ?? Regex.InfiniteMatchTimeout;
         return Regex.IsMatch((string)input.Value!, patternText, MiscellaneousUtils.GetRegexOptions(optionsText), timeout);
     }
 

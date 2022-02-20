@@ -7,7 +7,7 @@ class ScanFilter : PathFilter
         Name = name;
     }
 
-    public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings? settings)
+    public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings settings)
     {
         foreach (var c in current)
         {

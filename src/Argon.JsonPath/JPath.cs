@@ -852,12 +852,12 @@ class JPath
         }
     }
 
-    internal IEnumerable<JToken> Evaluate(JToken root, JToken t, JsonSelectSettings? settings)
+    internal IEnumerable<JToken> Evaluate(JToken root, JToken t, JsonSelectSettings settings)
     {
         return Evaluate(Filters, root, t, settings);
     }
 
-    internal static IEnumerable<JToken> Evaluate(List<PathFilter> filters, JToken root, JToken t, JsonSelectSettings? settings)
+    internal static IEnumerable<JToken> Evaluate(List<PathFilter> filters, JToken root, JToken t, JsonSelectSettings settings)
     {
         IEnumerable<JToken> current = new[] { t };
         foreach (var filter in filters)

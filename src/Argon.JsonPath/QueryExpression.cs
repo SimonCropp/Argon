@@ -10,8 +10,8 @@
     // For unit tests
     public bool IsMatch(JToken root, JToken t)
     {
-        return IsMatch(root, t, null);
+        return IsMatch(root, t, JTokenExtensions.DefaultSettings);
     }
 
-    public abstract bool IsMatch(JToken root, JToken t, JsonSelectSettings? settings);
+    public abstract bool IsMatch(JToken root, JToken t, JsonSelectSettings settings);
 }

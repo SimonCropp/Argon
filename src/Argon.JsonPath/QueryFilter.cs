@@ -7,7 +7,7 @@ class QueryFilter : PathFilter
         Expression = expression;
     }
 
-    public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings? settings)
+    public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings settings)
     {
         foreach (var t in current)
         {

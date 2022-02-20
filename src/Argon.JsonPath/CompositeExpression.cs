@@ -7,7 +7,7 @@
         Expressions = new List<QueryExpression>();
     }
 
-    public override bool IsMatch(JToken root, JToken t, JsonSelectSettings? settings)
+    public override bool IsMatch(JToken root, JToken t, JsonSelectSettings settings)
     {
         switch (Operator)
         {
