@@ -33,8 +33,6 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
 
     public override ObjectConstructor<object> CreateParameterizedConstructor(MethodBase method)
     {
-        ValidationUtils.ArgumentNotNull(method, nameof(method));
-
         var type = typeof(object);
 
         var argsParameterExpression = Expression.Parameter(typeof(object[]), "args");
@@ -49,8 +47,6 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
 
     public override MethodCall<T, object?> CreateMethodCall<T>(MethodBase method)
     {
-        ValidationUtils.ArgumentNotNull(method, nameof(method));
-
         var type = typeof(object);
 
         var targetParameterExpression = Expression.Parameter(type, "target");
@@ -179,8 +175,6 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
 
     public override Func<T> CreateDefaultConstructor<T>(Type type)
     {
-        ValidationUtils.ArgumentNotNull(type, "type");
-
         // avoid error from expressions compiler because of abstract class
         if (type.IsAbstract)
         {
@@ -210,8 +204,6 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
 
     public override Func<T, object?> CreateGet<T>(PropertyInfo propertyInfo)
     {
-        ValidationUtils.ArgumentNotNull(propertyInfo, nameof(propertyInfo));
-
         var instanceType = typeof(T);
         var resultType = typeof(object);
 
@@ -245,8 +237,6 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
 
     public override Func<T, object?> CreateGet<T>(FieldInfo fieldInfo)
     {
-        ValidationUtils.ArgumentNotNull(fieldInfo, nameof(fieldInfo));
-
         var sourceParameter = Expression.Parameter(typeof(T), "source");
 
         Expression fieldExpression;
@@ -269,8 +259,6 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
 
     public override Action<T, object?> CreateSet<T>(FieldInfo fieldInfo)
     {
-        ValidationUtils.ArgumentNotNull(fieldInfo, nameof(fieldInfo));
-
         // use reflection for structs
         // expression doesn't correctly set value
         if (fieldInfo.DeclaringType.IsValueType || fieldInfo.IsInitOnly)
@@ -305,8 +293,6 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
 
     public override Action<T, object?> CreateSet<T>(PropertyInfo propertyInfo)
     {
-        ValidationUtils.ArgumentNotNull(propertyInfo, nameof(propertyInfo));
-
         // use reflection for structs
         // expression doesn't correctly set value
         if (propertyInfo.DeclaringType.IsValueType)

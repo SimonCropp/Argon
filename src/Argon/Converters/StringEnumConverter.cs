@@ -69,8 +69,6 @@ public class StringEnumConverter : JsonConverter
     /// <param name="namingStrategyType">The <see cref="System.Type"/> of the <see cref="Argon.Serialization.NamingStrategy"/> used to write enum text.</param>
     public StringEnumConverter(Type namingStrategyType)
     {
-        ValidationUtils.ArgumentNotNull(namingStrategyType, nameof(namingStrategyType));
-
         NamingStrategy = JsonTypeReflector.CreateNamingStrategyInstance(namingStrategyType, null);
     }
 
@@ -86,8 +84,6 @@ public class StringEnumConverter : JsonConverter
     /// </param>
     public StringEnumConverter(Type namingStrategyType, object[] namingStrategyParameters)
     {
-        ValidationUtils.ArgumentNotNull(namingStrategyType, nameof(namingStrategyType));
-
         NamingStrategy = JsonTypeReflector.CreateNamingStrategyInstance(namingStrategyType, namingStrategyParameters);
     }
 
@@ -104,8 +100,6 @@ public class StringEnumConverter : JsonConverter
     /// <param name="allowIntegerValues"><c>true</c> if integers are allowed when serializing and deserializing; otherwise, <c>false</c>.</param>
     public StringEnumConverter(Type namingStrategyType, object[] namingStrategyParameters, bool allowIntegerValues)
     {
-        ValidationUtils.ArgumentNotNull(namingStrategyType, nameof(namingStrategyType));
-
         NamingStrategy = JsonTypeReflector.CreateNamingStrategyInstance(namingStrategyType, namingStrategyParameters);
         AllowIntegerValues = allowIntegerValues;
     }

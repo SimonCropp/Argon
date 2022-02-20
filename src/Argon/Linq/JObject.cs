@@ -125,8 +125,6 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
 
     internal override void ValidateToken(JToken o, JToken? existing)
     {
-        ValidationUtils.ArgumentNotNull(o, nameof(o));
-
         if (o.Type != JTokenType.Property)
         {
             throw new ArgumentException($"Can not add {o.GetType()} to {GetType()}.");
@@ -301,8 +299,6 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     {
         get
         {
-            ValidationUtils.ArgumentNotNull(key, nameof(key));
-
             if (key is not string propertyName)
             {
                 throw new ArgumentException($"Accessed JObject values with invalid key value: {MiscellaneousUtils.ToString(key)}. Object property name expected.");
@@ -312,8 +308,6 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
         }
         set
         {
-            ValidationUtils.ArgumentNotNull(key, nameof(key));
-
             if (key is not string propertyName)
             {
                 throw new ArgumentException($"Set JObject values with invalid key value: {MiscellaneousUtils.ToString(key)}. Object property name expected.");
@@ -331,8 +325,6 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     {
         get
         {
-            ValidationUtils.ArgumentNotNull(propertyName, nameof(propertyName));
-
             var property = Property(propertyName, StringComparison.Ordinal);
 
             return property?.Value;
@@ -378,8 +370,6 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     /// </exception>
     public new static JObject Load(JsonReader reader, JsonLoadSettings? settings)
     {
-        ValidationUtils.ArgumentNotNull(reader, nameof(reader));
-
         if (reader.TokenType == JsonToken.None)
         {
             if (!reader.Read())
@@ -554,8 +544,6 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     /// <returns><c>true</c> if the JSON object has the specified property name; otherwise, <c>false</c>.</returns>
     public bool ContainsKey(string propertyName)
     {
-        ValidationUtils.ArgumentNotNull(propertyName, nameof(propertyName));
-
         return _properties.Contains(propertyName);
     }
 

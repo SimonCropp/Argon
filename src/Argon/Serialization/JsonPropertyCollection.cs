@@ -42,7 +42,6 @@ public class JsonPropertyCollection : KeyedCollection<string, JsonProperty>
     public JsonPropertyCollection(Type type)
         : base(StringComparer.Ordinal)
     {
-        ValidationUtils.ArgumentNotNull(type, "type");
         _type = type;
 
         // foreach over List<T> to avoid boxing the Enumerator

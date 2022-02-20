@@ -780,8 +780,6 @@ public static class JsonConvert
     /// <returns>The deserialized object from the JSON string.</returns>
     public static object? DeserializeObject(string value, Type? type, JsonSerializerSettings? settings)
     {
-        ValidationUtils.ArgumentNotNull(value, nameof(value));
-
         var jsonSerializer = JsonSerializer.CreateDefault(settings);
 
         // by default DeserializeObject should check for additional content

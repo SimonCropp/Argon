@@ -104,7 +104,6 @@ public abstract class JsonContract
         get => _createdType;
         set
         {
-            ValidationUtils.ArgumentNotNull(value, nameof(value));
             _createdType = value;
 
             IsSealed = _createdType.IsSealed;
@@ -230,8 +229,6 @@ public abstract class JsonContract
 
     internal JsonContract(Type underlyingType)
     {
-        ValidationUtils.ArgumentNotNull(underlyingType, nameof(underlyingType));
-
         UnderlyingType = underlyingType;
 
         // resolve ByRef types

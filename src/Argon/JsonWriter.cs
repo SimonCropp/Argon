@@ -484,8 +484,6 @@ public abstract partial class JsonWriter : IDisposable
     /// <param name="writeChildren">A flag indicating whether the current token's children should be written.</param>
     public void WriteToken(JsonReader reader, bool writeChildren)
     {
-        ValidationUtils.ArgumentNotNull(reader, nameof(reader));
-
         WriteToken(reader, writeChildren, true, true);
     }
 
@@ -512,18 +510,15 @@ public abstract partial class JsonWriter : IDisposable
                 WriteStartArray();
                 break;
             case JsonToken.StartConstructor:
-                ValidationUtils.ArgumentNotNull(value, nameof(value));
-                WriteStartConstructor(value.ToString());
+                WriteStartConstructor(value!.ToString());
                 break;
             case JsonToken.PropertyName:
-                ValidationUtils.ArgumentNotNull(value, nameof(value));
-                WritePropertyName(value.ToString());
+                WritePropertyName(value!.ToString());
                 break;
             case JsonToken.Comment:
                 WriteComment(value?.ToString());
                 break;
             case JsonToken.Integer:
-                ValidationUtils.ArgumentNotNull(value, nameof(value));
                 if (value is BigInteger integer)
                 {
                     WriteValue(integer);
@@ -534,7 +529,6 @@ public abstract partial class JsonWriter : IDisposable
                 }
                 break;
             case JsonToken.Float:
-                ValidationUtils.ArgumentNotNull(value, nameof(value));
                 if (value is decimal decimalValue)
                 {
                     WriteValue(decimalValue);
@@ -558,7 +552,6 @@ public abstract partial class JsonWriter : IDisposable
                 WriteValue(value?.ToString());
                 break;
             case JsonToken.Boolean:
-                ValidationUtils.ArgumentNotNull(value, nameof(value));
                 WriteValue(Convert.ToBoolean(value, CultureInfo.InvariantCulture));
                 break;
             case JsonToken.Null:
@@ -577,7 +570,6 @@ public abstract partial class JsonWriter : IDisposable
                 WriteEndConstructor();
                 break;
             case JsonToken.Date:
-                ValidationUtils.ArgumentNotNull(value, nameof(value));
                 if (value is DateTimeOffset dt)
                 {
                     WriteValue(dt);
@@ -591,7 +583,6 @@ public abstract partial class JsonWriter : IDisposable
                 WriteRawValue(value?.ToString());
                 break;
             case JsonToken.Bytes:
-                ValidationUtils.ArgumentNotNull(value, nameof(value));
                 if (value is Guid guid)
                 {
                     WriteValue(guid);

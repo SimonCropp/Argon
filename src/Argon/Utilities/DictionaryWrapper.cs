@@ -38,22 +38,16 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
 
     public DictionaryWrapper(IDictionary dictionary)
     {
-        ValidationUtils.ArgumentNotNull(dictionary, nameof(dictionary));
-
         _dictionary = dictionary;
     }
 
     public DictionaryWrapper(IDictionary<TKey, TValue> dictionary)
     {
-        ValidationUtils.ArgumentNotNull(dictionary, nameof(dictionary));
-
         _genericDictionary = dictionary;
     }
 
     public DictionaryWrapper(IReadOnlyDictionary<TKey, TValue> dictionary)
     {
-        ValidationUtils.ArgumentNotNull(dictionary, nameof(dictionary));
-
         _readOnlyDictionary = dictionary;
     }
 
@@ -454,7 +448,6 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
 
         public DictionaryEnumerator(IEnumerator<KeyValuePair<TEnumeratorKey, TEnumeratorValue>> e)
         {
-            ValidationUtils.ArgumentNotNull(e, nameof(e));
             _e = e;
         }
 

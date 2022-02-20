@@ -217,16 +217,12 @@ class JsonSerializerProxy : JsonSerializer
 
     public JsonSerializerProxy(JsonSerializerInternalReader serializerReader)
     {
-        ValidationUtils.ArgumentNotNull(serializerReader, nameof(serializerReader));
-
         _serializerReader = serializerReader;
         _serializer = serializerReader.Serializer;
     }
 
     public JsonSerializerProxy(JsonSerializerInternalWriter serializerWriter)
     {
-        ValidationUtils.ArgumentNotNull(serializerWriter, nameof(serializerWriter));
-
         _serializerWriter = serializerWriter;
         _serializer = serializerWriter.Serializer;
     }

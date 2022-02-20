@@ -29,8 +29,6 @@ static class ReflectionUtils
 {
     public static bool IsVirtual(this PropertyInfo propertyInfo)
     {
-        ValidationUtils.ArgumentNotNull(propertyInfo, nameof(propertyInfo));
-
         var m = propertyInfo.GetGetMethod(true);
         if (m != null && m.IsVirtual)
         {
@@ -48,8 +46,6 @@ static class ReflectionUtils
 
     public static MethodInfo? GetBaseDefinition(this PropertyInfo propertyInfo)
     {
-        ValidationUtils.ArgumentNotNull(propertyInfo, nameof(propertyInfo));
-
         var m = propertyInfo.GetGetMethod(true);
         if (m != null)
         {
@@ -161,8 +157,6 @@ static class ReflectionUtils
 
     public static bool HasDefaultConstructor(Type t, bool nonPublic)
     {
-        ValidationUtils.ArgumentNotNull(t, nameof(t));
-
         if (t.IsValueType)
         {
             return true;
@@ -189,8 +183,6 @@ static class ReflectionUtils
 
     public static bool IsNullable(Type t)
     {
-        ValidationUtils.ArgumentNotNull(t, nameof(t));
-
         if (t.IsValueType)
         {
             return IsNullableType(t);
@@ -201,8 +193,6 @@ static class ReflectionUtils
 
     public static bool IsNullableType(Type t)
     {
-        ValidationUtils.ArgumentNotNull(t, nameof(t));
-
         return t.IsGenericType && t.GetGenericTypeDefinition() == typeof(Nullable<>);
     }
 
@@ -238,9 +228,6 @@ static class ReflectionUtils
 
     public static bool ImplementsGenericDefinition(Type type, Type genericInterfaceDefinition, [NotNullWhen(true)]out Type? implementingType)
     {
-        ValidationUtils.ArgumentNotNull(type, nameof(type));
-        ValidationUtils.ArgumentNotNull(genericInterfaceDefinition, nameof(genericInterfaceDefinition));
-
         if (!genericInterfaceDefinition.IsInterface || !genericInterfaceDefinition.IsGenericTypeDefinition)
         {
             throw new ArgumentNullException($"'{genericInterfaceDefinition}' is not a generic interface definition.");
@@ -285,9 +272,6 @@ static class ReflectionUtils
 
     public static bool InheritsGenericDefinition(Type type, Type genericClassDefinition, out Type? implementingType)
     {
-        ValidationUtils.ArgumentNotNull(type, nameof(type));
-        ValidationUtils.ArgumentNotNull(genericClassDefinition, nameof(genericClassDefinition));
-
         if (!genericClassDefinition.IsClass || !genericClassDefinition.IsGenericTypeDefinition)
         {
             throw new ArgumentNullException($"'{genericClassDefinition}' is not a generic class definition.");
@@ -321,8 +305,6 @@ static class ReflectionUtils
     /// <returns>The type of the typed collection's items.</returns>
     public static Type? GetCollectionItemType(Type type)
     {
-        ValidationUtils.ArgumentNotNull(type, nameof(type));
-
         if (type.IsArray)
         {
             return type.GetElementType();
@@ -346,8 +328,6 @@ static class ReflectionUtils
 
     public static void GetDictionaryKeyValueTypes(Type dictionaryType, out Type? keyType, out Type? valueType)
     {
-        ValidationUtils.ArgumentNotNull(dictionaryType, nameof(dictionaryType));
-
         if (ImplementsGenericDefinition(dictionaryType, typeof(IDictionary<,>), out var genericDictionaryType))
         {
             if (genericDictionaryType!.IsGenericTypeDefinition)
@@ -378,8 +358,6 @@ static class ReflectionUtils
     /// <returns>The underlying type of the member.</returns>
     public static Type GetMemberUnderlyingType(MemberInfo member)
     {
-        ValidationUtils.ArgumentNotNull(member, nameof(member));
-
         switch (member.MemberType)
         {
             case MemberTypes.Field:
@@ -424,8 +402,6 @@ static class ReflectionUtils
     /// </returns>
     public static bool IsIndexedProperty(PropertyInfo property)
     {
-        ValidationUtils.ArgumentNotNull(property, nameof(property));
-
         return property.GetIndexParameters().Length > 0;
     }
 
@@ -437,9 +413,6 @@ static class ReflectionUtils
     /// <returns>The member's value on the object.</returns>
     public static object GetMemberValue(MemberInfo member, object target)
     {
-        ValidationUtils.ArgumentNotNull(member, nameof(member));
-        ValidationUtils.ArgumentNotNull(target, nameof(target));
-
         switch (member.MemberType)
         {
             case MemberTypes.Field:
@@ -466,9 +439,6 @@ static class ReflectionUtils
     /// <param name="value">The value.</param>
     public static void SetMemberValue(MemberInfo member, object target, object? value)
     {
-        ValidationUtils.ArgumentNotNull(member, nameof(member));
-        ValidationUtils.ArgumentNotNull(target, nameof(target));
-
         switch (member.MemberType)
         {
             case MemberTypes.Field:
@@ -689,8 +659,6 @@ static class ReflectionUtils
 
     public static Attribute[] GetAttributes(object attributeProvider, Type? attributeType, bool inherit)
     {
-        ValidationUtils.ArgumentNotNull(attributeProvider, nameof(attributeProvider));
-
         var provider = attributeProvider;
 
         // http://hyperthink.net/blog/getcustomattributes-gotcha/
@@ -786,8 +754,6 @@ static class ReflectionUtils
 
     public static IEnumerable<FieldInfo> GetFields(Type targetType, BindingFlags bindingAttr)
     {
-        ValidationUtils.ArgumentNotNull(targetType, nameof(targetType));
-
         var fieldInfos = new List<MemberInfo>(targetType.GetFields(bindingAttr));
         // Type.GetFields doesn't return inherited private fields
         // manually find private fields from base class
@@ -818,8 +784,6 @@ static class ReflectionUtils
 
     public static IEnumerable<PropertyInfo> GetProperties(Type targetType, BindingFlags bindingAttr)
     {
-        ValidationUtils.ArgumentNotNull(targetType, nameof(targetType));
-
         var propertyInfos = new List<PropertyInfo>(targetType.GetProperties(bindingAttr));
 
         // GetProperties on an interface doesn't return properties from its interfaces

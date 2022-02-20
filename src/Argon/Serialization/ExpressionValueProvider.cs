@@ -40,7 +40,6 @@ public class ExpressionValueProvider : IValueProvider
     /// <param name="memberInfo">The member info.</param>
     public ExpressionValueProvider(MemberInfo memberInfo)
     {
-        ValidationUtils.ArgumentNotNull(memberInfo, nameof(memberInfo));
         _memberInfo = memberInfo;
     }
 

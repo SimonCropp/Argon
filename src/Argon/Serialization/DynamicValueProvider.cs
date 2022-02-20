@@ -42,7 +42,6 @@ public class DynamicValueProvider : IValueProvider
     /// <param name="memberInfo">The member info.</param>
     public DynamicValueProvider(MemberInfo memberInfo)
     {
-        ValidationUtils.ArgumentNotNull(memberInfo, nameof(memberInfo));
         _memberInfo = memberInfo;
     }
 

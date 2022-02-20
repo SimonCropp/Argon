@@ -424,8 +424,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
 
     static string GetType(JToken token)
     {
-        ValidationUtils.ArgumentNotNull(token, nameof(token));
-
         if (token is JProperty p)
         {
             token = p.Value;
@@ -1774,9 +1772,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
 
     internal static JToken FromObjectInternal(object o, JsonSerializer jsonSerializer)
     {
-        ValidationUtils.ArgumentNotNull(o, nameof(o));
-        ValidationUtils.ArgumentNotNull(jsonSerializer, nameof(jsonSerializer));
-
         JToken token;
         using var jsonWriter = new JTokenWriter();
         jsonSerializer.Serialize(jsonWriter, o);
@@ -1953,8 +1948,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <returns>The new object created from the JSON value.</returns>
     public object? ToObject(Type? objectType, JsonSerializer jsonSerializer)
     {
-        ValidationUtils.ArgumentNotNull(jsonSerializer, nameof(jsonSerializer));
-
         using var jsonReader = new JTokenReader(this);
         // Hacky fix to ensure the serializer settings are set onto the new reader.
         // This is required because the serializer won't update settings when used inside of a converter.
@@ -1993,8 +1986,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// </returns>
     public static JToken ReadFrom(JsonReader reader, JsonLoadSettings? settings)
     {
-        ValidationUtils.ArgumentNotNull(reader, nameof(reader));
-
         bool hasContent;
         if (reader.TokenType == JsonToken.None)
         {

@@ -631,8 +631,6 @@ public abstract partial class JsonWriter
     /// classes can override this behaviour for true asynchronicity.</remarks>
     public Task WriteTokenAsync(JsonReader reader, bool writeChildren, CancellationToken cancellationToken = default)
     {
-        ValidationUtils.ArgumentNotNull(reader, nameof(reader));
-
         return WriteTokenAsync(reader, writeChildren, true, true, cancellationToken);
     }
 
@@ -679,20 +677,15 @@ public abstract partial class JsonWriter
             case JsonToken.StartArray:
                 return WriteStartArrayAsync(cancellationToken);
             case JsonToken.StartConstructor:
-                ValidationUtils.ArgumentNotNull(value, nameof(value));
-                return WriteStartConstructorAsync(value.ToString(), cancellationToken);
+                return WriteStartConstructorAsync(value!.ToString(), cancellationToken);
             case JsonToken.PropertyName:
-                ValidationUtils.ArgumentNotNull(value, nameof(value));
-                return WritePropertyNameAsync(value.ToString(), cancellationToken);
+                return WritePropertyNameAsync(value!.ToString(), cancellationToken);
             case JsonToken.Comment:
                 return WriteCommentAsync(value?.ToString(), cancellationToken);
             case JsonToken.Integer:
-                ValidationUtils.ArgumentNotNull(value, nameof(value));
-                return
-                    value is BigInteger integer ? WriteValueAsync(integer, cancellationToken) :
+                return value is BigInteger integer ? WriteValueAsync(integer, cancellationToken) :
                         WriteValueAsync(Convert.ToInt64(value, CultureInfo.InvariantCulture), cancellationToken);
             case JsonToken.Float:
-                ValidationUtils.ArgumentNotNull(value, nameof(value));
                 if (value is decimal dec)
                 {
                     return WriteValueAsync(dec, cancellationToken);
@@ -710,10 +703,8 @@ public abstract partial class JsonWriter
 
                 return WriteValueAsync(Convert.ToDouble(value, CultureInfo.InvariantCulture), cancellationToken);
             case JsonToken.String:
-                ValidationUtils.ArgumentNotNull(value, nameof(value));
-                return WriteValueAsync(value.ToString(), cancellationToken);
+                return WriteValueAsync(value!.ToString(), cancellationToken);
             case JsonToken.Boolean:
-                ValidationUtils.ArgumentNotNull(value, nameof(value));
                 return WriteValueAsync(Convert.ToBoolean(value, CultureInfo.InvariantCulture), cancellationToken);
             case JsonToken.Null:
                 return WriteNullAsync(cancellationToken);
@@ -726,7 +717,6 @@ public abstract partial class JsonWriter
             case JsonToken.EndConstructor:
                 return WriteEndConstructorAsync(cancellationToken);
             case JsonToken.Date:
-                ValidationUtils.ArgumentNotNull(value, nameof(value));
                 if (value is DateTimeOffset offset)
                 {
                     return WriteValueAsync(offset, cancellationToken);
@@ -736,7 +726,6 @@ public abstract partial class JsonWriter
             case JsonToken.Raw:
                 return WriteRawValueAsync(value?.ToString(), cancellationToken);
             case JsonToken.Bytes:
-                ValidationUtils.ArgumentNotNull(value, nameof(value));
                 if (value is Guid guid)
                 {
                     return WriteValueAsync(guid, cancellationToken);

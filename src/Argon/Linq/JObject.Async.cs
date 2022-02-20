@@ -91,8 +91,6 @@ public partial class JObject
     /// property returns a <see cref="JObject"/> that contains the JSON that was read from the specified <see cref="JsonReader"/>.</returns>
     public new static async Task<JObject> LoadAsync(JsonReader reader, JsonLoadSettings? settings, CancellationToken cancellationToken = default)
     {
-        ValidationUtils.ArgumentNotNull(reader, nameof(reader));
-
         if (reader.TokenType == JsonToken.None)
         {
             if (!await reader.ReadAsync(cancellationToken).ConfigureAwait(false))

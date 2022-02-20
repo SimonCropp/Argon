@@ -36,7 +36,6 @@ class JPath
 
     public JPath(string expression)
     {
-        ValidationUtils.ArgumentNotNull(expression, nameof(expression));
         _expression = expression;
         Filters = new List<PathFilter>();
 

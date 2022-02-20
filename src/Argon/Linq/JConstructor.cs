@@ -167,8 +167,6 @@ public partial class JConstructor : JContainer
     {
         get
         {
-            ValidationUtils.ArgumentNotNull(key, nameof(key));
-
             if (key is not int i)
             {
                 throw new ArgumentException($"Accessed JConstructor values with invalid key value: {MiscellaneousUtils.ToString(key)}. Argument position index expected.");
@@ -178,8 +176,6 @@ public partial class JConstructor : JContainer
         }
         set
         {
-            ValidationUtils.ArgumentNotNull(key, nameof(key));
-
             if (key is not int i)
             {
                 throw new ArgumentException($"Set JConstructor values with invalid key value: {MiscellaneousUtils.ToString(key)}. Argument position index expected.");

@@ -78,8 +78,6 @@ public class JsonDynamicContract : JsonContainerContract
 
     internal bool TryGetMember(IDynamicMetaObjectProvider dynamicProvider, string name, out object? value)
     {
-        ValidationUtils.ArgumentNotNull(dynamicProvider, nameof(dynamicProvider));
-
         var callSite = _callSiteGetters.Get(name);
 
         var result = callSite.Target(callSite, dynamicProvider);
@@ -98,8 +96,6 @@ public class JsonDynamicContract : JsonContainerContract
 
     internal bool TrySetMember(IDynamicMetaObjectProvider dynamicProvider, string name, object? value)
     {
-        ValidationUtils.ArgumentNotNull(dynamicProvider, nameof(dynamicProvider));
-
         var callSite = _callSiteSetters.Get(name);
 
         var result = callSite.Target(callSite, dynamicProvider, value);

@@ -44,8 +44,6 @@ public readonly struct JEnumerable<T> : IJEnumerable<T>, IEquatable<JEnumerable<
     /// <param name="enumerable">The enumerable.</param>
     public JEnumerable(IEnumerable<T> enumerable)
     {
-        ValidationUtils.ArgumentNotNull(enumerable, nameof(enumerable));
-
         _enumerable = enumerable;
     }
 

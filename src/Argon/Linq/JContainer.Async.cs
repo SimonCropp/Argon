@@ -29,7 +29,6 @@ public abstract partial class JContainer
 {
     internal async Task ReadTokenFromAsync(JsonReader reader, JsonLoadSettings? options, CancellationToken cancellationToken = default)
     {
-        ValidationUtils.ArgumentNotNull(reader, nameof(reader));
         var startDepth = reader.Depth;
 
         if (!await reader.ReadAsync(cancellationToken).ConfigureAwait(false))

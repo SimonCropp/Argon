@@ -38,8 +38,6 @@ public static class Extensions
     /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="JToken"/> that contains the ancestors of every token in the source collection.</returns>
     public static IJEnumerable<JToken> Ancestors<T>(this IEnumerable<T> source) where T : JToken
     {
-        ValidationUtils.ArgumentNotNull(source, nameof(source));
-
         return source.SelectMany(j => j.Ancestors()).AsJEnumerable();
     }
 
@@ -51,8 +49,6 @@ public static class Extensions
     /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="JToken"/> that contains every token in the source collection, the ancestors of every token in the source collection.</returns>
     public static IJEnumerable<JToken> AncestorsAndSelf<T>(this IEnumerable<T> source) where T : JToken
     {
-        ValidationUtils.ArgumentNotNull(source, nameof(source));
-
         return source.SelectMany(j => j.AncestorsAndSelf()).AsJEnumerable();
     }
 
@@ -64,8 +60,6 @@ public static class Extensions
     /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="JToken"/> that contains the descendants of every token in the source collection.</returns>
     public static IJEnumerable<JToken> Descendants<T>(this IEnumerable<T> source) where T : JContainer
     {
-        ValidationUtils.ArgumentNotNull(source, nameof(source));
-
         return source.SelectMany(j => j.Descendants()).AsJEnumerable();
     }
 
@@ -77,8 +71,6 @@ public static class Extensions
     /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="JToken"/> that contains every token in the source collection, and the descendants of every token in the source collection.</returns>
     public static IJEnumerable<JToken> DescendantsAndSelf<T>(this IEnumerable<T> source) where T : JContainer
     {
-        ValidationUtils.ArgumentNotNull(source, nameof(source));
-
         return source.SelectMany(j => j.DescendantsAndSelf()).AsJEnumerable();
     }
 
@@ -89,8 +81,6 @@ public static class Extensions
     /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="JProperty"/> that contains the properties of every object in the source collection.</returns>
     public static IJEnumerable<JProperty> Properties(this IEnumerable<JObject> source)
     {
-        ValidationUtils.ArgumentNotNull(source, nameof(source));
-
         return source.SelectMany(d => d.Properties()).AsJEnumerable();
     }
 
@@ -158,8 +148,6 @@ public static class Extensions
     /// <returns>A converted value.</returns>
     public static U? Value<T, U>(this IEnumerable<T> value) where T : JToken
     {
-        ValidationUtils.ArgumentNotNull(value, nameof(value));
-
         if (value is not JToken token)
         {
             throw new ArgumentException("Source value must be a JToken.");
@@ -170,8 +158,6 @@ public static class Extensions
 
     internal static IEnumerable<U?> Values<T, U>(this IEnumerable<T> source, object? key) where T : JToken
     {
-        ValidationUtils.ArgumentNotNull(source, nameof(source));
-
         if (key == null)
         {
             foreach (var token in source)
@@ -225,15 +211,11 @@ public static class Extensions
     /// <returns>An <see cref="IEnumerable{T}"/> that contains the converted values of every token in the source collection.</returns>
     public static IEnumerable<U?> Children<T, U>(this IEnumerable<T> source) where T : JToken
     {
-        ValidationUtils.ArgumentNotNull(source, nameof(source));
-
         return source.SelectMany(c => c.Children()).Convert<JToken, U>();
     }
 
     internal static IEnumerable<U?> Convert<T, U>(this IEnumerable<T> source) where T : JToken
     {
-        ValidationUtils.ArgumentNotNull(source, nameof(source));
-
         foreach (var token in source)
         {
             yield return Convert<JToken, U>(token);

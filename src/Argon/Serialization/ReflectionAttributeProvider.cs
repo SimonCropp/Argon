@@ -38,7 +38,6 @@ public class ReflectionAttributeProvider : IAttributeProvider
     /// <param name="attributeProvider">The instance to get attributes for. This parameter should be a <see cref="System.Type"/>, <see cref="MemberInfo"/>, <see cref="ParameterInfo"/> or <see cref="Assembly"/>.</param>
     public ReflectionAttributeProvider(object attributeProvider)
     {
-        ValidationUtils.ArgumentNotNull(attributeProvider, nameof(attributeProvider));
         _attributeProvider = attributeProvider;
     }
 

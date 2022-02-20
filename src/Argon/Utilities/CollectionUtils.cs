@@ -66,8 +66,6 @@ static class CollectionUtils
 
     public static bool IsDictionaryType(Type type)
     {
-        ValidationUtils.ArgumentNotNull(type, nameof(type));
-
         if (typeof(IDictionary).IsAssignableFrom(type))
         {
             return true;

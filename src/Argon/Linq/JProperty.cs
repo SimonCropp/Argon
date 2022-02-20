@@ -288,8 +288,6 @@ public partial class JProperty : JContainer
     internal JProperty(string name)
     {
         // called from JTokenWriter
-        ValidationUtils.ArgumentNotNull(name, nameof(name));
-
         Name = name;
     }
 
@@ -310,8 +308,6 @@ public partial class JProperty : JContainer
     /// <param name="content">The property content.</param>
     public JProperty(string name, object? content)
     {
-        ValidationUtils.ArgumentNotNull(name, nameof(name));
-
         Name = name;
 
         Value = IsMultiContent(content)

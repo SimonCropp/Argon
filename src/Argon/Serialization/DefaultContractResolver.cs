@@ -130,8 +130,6 @@ public class DefaultContractResolver : IContractResolver
     /// <returns>The contract for a given type.</returns>
     public virtual JsonContract ResolveContract(Type type)
     {
-        ValidationUtils.ArgumentNotNull(type, nameof(type));
-
         return _contractCache.Get(type);
     }
 
@@ -496,7 +494,6 @@ public class DefaultContractResolver : IContractResolver
 
         public EnumerableDictionaryWrapper(IEnumerable<KeyValuePair<TEnumeratorKey, TEnumeratorValue>> e)
         {
-            ValidationUtils.ArgumentNotNull(e, nameof(e));
             _e = e;
         }
 

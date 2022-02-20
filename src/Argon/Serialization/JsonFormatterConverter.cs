@@ -31,9 +31,6 @@ class JsonFormatterConverter : IFormatterConverter
 
     public JsonFormatterConverter(JsonSerializerInternalReader reader, JsonISerializableContract contract, JsonProperty? member)
     {
-        ValidationUtils.ArgumentNotNull(reader, nameof(reader));
-        ValidationUtils.ArgumentNotNull(contract, nameof(contract));
-
         _reader = reader;
         _contract = contract;
         _member = member;
@@ -41,16 +38,12 @@ class JsonFormatterConverter : IFormatterConverter
 
     static T GetTokenValue<T>(object value)
     {
-        ValidationUtils.ArgumentNotNull(value, nameof(value));
-
         var v = (JValue)value;
         return (T)System.Convert.ChangeType(v.Value, typeof(T), CultureInfo.InvariantCulture);
     }
 
     public object? Convert(object value, Type type)
     {
-        ValidationUtils.ArgumentNotNull(value, nameof(value));
-
         if (!(value is JToken token))
         {
             throw new ArgumentException("Value is not a JToken.", nameof(value));
@@ -61,8 +54,6 @@ class JsonFormatterConverter : IFormatterConverter
 
     public object Convert(object value, TypeCode typeCode)
     {
-        ValidationUtils.ArgumentNotNull(value, nameof(value));
-
         var resolvedValue = value is JValue v ? v.Value : value;
 
         return System.Convert.ChangeType(resolvedValue, typeCode, CultureInfo.InvariantCulture);

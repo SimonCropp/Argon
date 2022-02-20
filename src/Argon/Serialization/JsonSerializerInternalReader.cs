@@ -42,8 +42,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
     public void Populate(JsonReader reader, object target)
     {
-        ValidationUtils.ArgumentNotNull(target, nameof(target));
-
         var objectType = target.GetType();
 
         var contract = Serializer._contractResolver.ResolveContract(objectType);
@@ -192,8 +190,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
     static JToken? CreateJToken(JsonReader reader, JsonContract? contract)
     {
-        ValidationUtils.ArgumentNotNull(reader, nameof(reader));
-
         if (contract != null)
         {
             if (contract.UnderlyingType == typeof(JRaw))
@@ -227,8 +223,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
     JToken CreateJObject(JsonReader reader)
     {
-        ValidationUtils.ArgumentNotNull(reader, nameof(reader));
-
         // this is needed because we've already read inside the object, looking for metadata properties
         using var writer = new JTokenWriter();
         writer.WriteStartObject();
@@ -1881,8 +1875,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
     object CreateObjectUsingCreatorWithParameters(JsonReader reader, JsonObjectContract contract, JsonProperty? containerProperty, ObjectConstructor<object> creator, string? id)
     {
-        ValidationUtils.ArgumentNotNull(creator, nameof(creator));
-
         // only need to keep a track of properties' presence if they are required or a value should be defaulted if missing
         var trackPresence = contract.HasRequiredOrDefaultValueProperties || HasFlag(Serializer._defaultValueHandling, DefaultValueHandling.Populate);
 

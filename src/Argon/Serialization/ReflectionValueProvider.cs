@@ -38,7 +38,6 @@ public class ReflectionValueProvider : IValueProvider
     /// <param name="memberInfo">The member info.</param>
     public ReflectionValueProvider(MemberInfo memberInfo)
     {
-        ValidationUtils.ArgumentNotNull(memberInfo, nameof(memberInfo));
         _memberInfo = memberInfo;
     }
 

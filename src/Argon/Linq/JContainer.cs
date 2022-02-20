@@ -83,8 +83,6 @@ public abstract partial class JContainer : JToken, IList<JToken>
     internal JContainer(JContainer other)
         : this()
     {
-        ValidationUtils.ArgumentNotNull(other, nameof(other));
-
         var i = 0;
         foreach (var child in other)
         {
@@ -574,8 +572,6 @@ public abstract partial class JContainer : JToken, IList<JToken>
 
     internal virtual void ValidateToken(JToken o, JToken? existing)
     {
-        ValidationUtils.ArgumentNotNull(o, nameof(o));
-
         if (o.Type == JTokenType.Property)
         {
             throw new ArgumentException($"Can not add {o.GetType()} to {GetType()}.");
@@ -738,7 +734,6 @@ public abstract partial class JContainer : JToken, IList<JToken>
 
     internal void ReadContentFrom(JsonReader r, JsonLoadSettings? settings)
     {
-        ValidationUtils.ArgumentNotNull(r, nameof(r));
         var lineInfo = r as IJsonLineInfo;
 
         var parent = this;

@@ -63,8 +63,6 @@ public partial class JTokenWriter : JsonWriter
     /// <param name="container">The container being written to.</param>
     public JTokenWriter(JContainer container)
     {
-        ValidationUtils.ArgumentNotNull(container, nameof(container));
-
         _token = container;
         _parent = container;
     }

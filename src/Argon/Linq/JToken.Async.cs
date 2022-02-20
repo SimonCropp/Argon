@@ -83,8 +83,6 @@ public abstract partial class JToken
     /// </returns>
     public static async Task<JToken> ReadFromAsync(JsonReader reader, JsonLoadSettings? settings, CancellationToken cancellationToken = default)
     {
-        ValidationUtils.ArgumentNotNull(reader, nameof(reader));
-
         if (reader.TokenType == JsonToken.None)
         {
             if (!await (settings is {CommentHandling: CommentHandling.Ignore} ? reader.ReadAndMoveToContentAsync(cancellationToken) : reader.ReadAsync(cancellationToken)).ConfigureAwait(false))

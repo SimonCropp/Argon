@@ -743,9 +743,6 @@ public class JsonSerializer
 
     internal virtual void PopulateInternal(JsonReader reader, object target)
     {
-        ValidationUtils.ArgumentNotNull(reader, nameof(reader));
-        ValidationUtils.ArgumentNotNull(target, nameof(target));
-
         SetupReader(
             reader,
             out var previousCulture,
@@ -822,8 +819,6 @@ public class JsonSerializer
 
     internal virtual object? DeserializeInternal(JsonReader reader, Type? objectType)
     {
-        ValidationUtils.ArgumentNotNull(reader, nameof(reader));
-
         SetupReader(
             reader,
             out var previousCulture,
@@ -1022,8 +1017,6 @@ public class JsonSerializer
 
     internal virtual void SerializeInternal(JsonWriter jsonWriter, object? value, Type? objectType)
     {
-        ValidationUtils.ArgumentNotNull(jsonWriter, nameof(jsonWriter));
-
         // set serialization options onto writer
         Formatting? previousFormatting = null;
         if (_formatting != null && jsonWriter.Formatting != _formatting)

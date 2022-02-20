@@ -36,8 +36,6 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
 
     public CollectionWrapper(IList list)
     {
-        ValidationUtils.ArgumentNotNull(list, nameof(list));
-
         if (list is ICollection<T> collection)
         {
             _genericCollection = collection;
@@ -50,8 +48,6 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
 
     public CollectionWrapper(ICollection<T> list)
     {
-        ValidationUtils.ArgumentNotNull(list, nameof(list));
-
         _genericCollection = list;
     }
 

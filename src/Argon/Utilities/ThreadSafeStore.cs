@@ -30,8 +30,6 @@ class ThreadSafeStore<TKey, TValue>
 
     public ThreadSafeStore(Func<TKey, TValue> creator)
     {
-        ValidationUtils.ArgumentNotNull(creator, nameof(creator));
-
         _creator = creator;
         _concurrentStore = new ConcurrentDictionary<TKey, TValue>();
     }

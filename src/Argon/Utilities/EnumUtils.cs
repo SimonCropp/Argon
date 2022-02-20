@@ -230,9 +230,6 @@ static class EnumUtils
 
     public static object ParseEnum(Type enumType, NamingStrategy? namingStrategy, string value, bool disallowNumber)
     {
-        ValidationUtils.ArgumentNotNull(enumType, nameof(enumType));
-        ValidationUtils.ArgumentNotNull(value, nameof(value));
-
         if (!enumType.IsEnum)
         {
             throw new ArgumentException("Type provided must be an Enum.", nameof(enumType));
