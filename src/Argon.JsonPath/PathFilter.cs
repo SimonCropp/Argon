@@ -2,15 +2,15 @@ using Argon;
 
 abstract class PathFilter
 {
-    public abstract IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings? settings);
+    public abstract IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings settings);
 
-    protected static JToken? GetTokenIndex(JToken t, JsonSelectSettings? settings, int index)
+    protected static JToken? GetTokenIndex(JToken t, JsonSelectSettings settings, int index)
     {
         if (t is JArray a)
         {
             if (a.Count <= index)
             {
-                if (settings?.ErrorWhenNoMatch ?? false)
+                if (settings.ErrorWhenNoMatch)
                 {
                     throw new JsonException($"Index {index} outside the bounds of JArray.");
                 }
@@ -25,7 +25,7 @@ abstract class PathFilter
         {
             if (c.Count <= index)
             {
-                if (settings?.ErrorWhenNoMatch ?? false)
+                if (settings.ErrorWhenNoMatch)
                 {
                     throw new JsonException($"Index {index} outside the bounds of JConstructor.");
                 }
@@ -36,7 +36,7 @@ abstract class PathFilter
             return c[index];
         }
 
-        if (settings?.ErrorWhenNoMatch ?? false)
+        if (settings.ErrorWhenNoMatch)
         {
             throw new JsonException($"Index {index} not valid on {t.GetType().Name}.");
         }

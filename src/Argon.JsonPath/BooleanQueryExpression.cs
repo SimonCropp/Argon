@@ -1,78 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using Argon;
 
-enum QueryOperator
-{
-    None = 0,
-    Equals = 1,
-    NotEquals = 2,
-    Exists = 3,
-    LessThan = 4,
-    LessThanOrEquals = 5,
-    GreaterThan = 6,
-    GreaterThanOrEquals = 7,
-    And = 8,
-    Or = 9,
-    RegexEquals = 10,
-    StrictEquals = 11,
-    StrictNotEquals = 12
-}
-
-abstract class QueryExpression
-{
-    internal QueryOperator Operator;
-
-    public QueryExpression(QueryOperator @operator)
-    {
-        Operator = @operator;
-    }
-
-    // For unit tests
-    public bool IsMatch(JToken root, JToken t)
-    {
-        return IsMatch(root, t, null);
-    }
-
-    public abstract bool IsMatch(JToken root, JToken t, JsonSelectSettings? settings);
-}
-
-class CompositeExpression : QueryExpression
-{
-    public List<QueryExpression> Expressions { get; set; }
-
-    public CompositeExpression(QueryOperator @operator) : base(@operator)
-    {
-        Expressions = new List<QueryExpression>();
-    }
-
-    public override bool IsMatch(JToken root, JToken t, JsonSelectSettings? settings)
-    {
-        switch (Operator)
-        {
-            case QueryOperator.And:
-                foreach (var e in Expressions)
-                {
-                    if (!e.IsMatch(root, t, settings))
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            case QueryOperator.Or:
-                foreach (var e in Expressions)
-                {
-                    if (e.IsMatch(root, t, settings))
-                    {
-                        return true;
-                    }
-                }
-                return false;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
-    }
-}
-
 class BooleanQueryExpression : QueryExpression
 {
     public readonly object Left;
@@ -93,13 +21,13 @@ class BooleanQueryExpression : QueryExpression
 
         if (o is List<PathFilter> pathFilters)
         {
-            return JPath.Evaluate(pathFilters, root, t, null);
+            return JPath.Evaluate(pathFilters, root, t, JTokenExtensions.DefaultSettings);
         }
 
         return CollectionUtils.ArrayEmpty<JToken>();
     }
 
-    public override bool IsMatch(JToken root, JToken t, JsonSelectSettings? settings)
+    public override bool IsMatch(JToken root, JToken t, JsonSelectSettings settings)
     {
         if (Operator == QueryOperator.Exists)
         {
@@ -128,7 +56,7 @@ class BooleanQueryExpression : QueryExpression
         return false;
     }
 
-    bool MatchTokens(JToken leftResult, JToken rightResult, JsonSelectSettings? settings)
+    bool MatchTokens(JToken leftResult, JToken rightResult, JsonSelectSettings settings)
     {
         if (leftResult is JValue leftValue && rightResult is JValue rightValue)
         {
@@ -207,7 +135,7 @@ class BooleanQueryExpression : QueryExpression
         return false;
     }
 
-    static bool RegexEquals(JValue input, JValue pattern, JsonSelectSettings? settings)
+    static bool RegexEquals(JValue input, JValue pattern, JsonSelectSettings settings)
     {
         if (input.Type != JTokenType.String || pattern.Type != JTokenType.String)
         {
@@ -220,7 +148,7 @@ class BooleanQueryExpression : QueryExpression
         var patternText = regexText.Substring(1, patternOptionDelimiterIndex - 1);
         var optionsText = regexText.Substring(patternOptionDelimiterIndex + 1);
 
-        var timeout = settings?.RegexMatchTimeout ?? Regex.InfiniteMatchTimeout;
+        var timeout = settings.RegexMatchTimeout ?? Regex.InfiniteMatchTimeout;
         return Regex.IsMatch((string)input.Value!, patternText, MiscellaneousUtils.GetRegexOptions(optionsText), timeout);
     }
 

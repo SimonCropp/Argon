@@ -29,6 +29,7 @@
     <None Include="PoisonText.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <ProjectReference Include="..\Argon.JsonPath\Argon.JsonPath.csproj" />
     <ProjectReference Include="..\Argon.Xml\Argon.Xml.csproj" />
     <ProjectReference Include="..\Argon.DataSet\Argon.DataSet.csproj" />
     <ProjectReference Include="..\Argon\Argon.csproj" />
