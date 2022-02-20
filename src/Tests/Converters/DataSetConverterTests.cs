@@ -90,7 +90,7 @@ public class DataSetConverterTests : TestFixtureBase
   ]
 }", json);
 
-        var deserializedDataSet = JsonConvert.DeserializeObject<DataSet>(json);
+        var deserializedDataSet = JsonConvert.DeserializeObject<DataSet>(json, settings);
         Assert.NotNull(deserializedDataSet);
 
         Assert.Equal(1, deserializedDataSet.Tables.Count);
@@ -161,7 +161,10 @@ public class DataSetConverterTests : TestFixtureBase
   ""TableName"": null
 }";
 
-        var ds = JsonConvert.DeserializeObject<DataSet>(json);
+        var settings = new JsonSerializerSettings();
+        settings.Converters.Add(new DataSetConverter());
+        settings.Converters.Add(new DataTableConverter());
+        var ds = JsonConvert.DeserializeObject<DataSet>(json, settings);
 
         XUnitAssert.True(ds.Tables.Contains("TableName"));
     }
@@ -205,7 +208,15 @@ public class DataSetConverterTests : TestFixtureBase
         //   ]
         // }
 
-        var deserializedDs = JsonConvert.DeserializeObject<DataSet>(json, new IsoDateTimeConverter());
+        var settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented
+        };
+        settings.Converters.Add(new DataSetConverter());
+        settings.Converters.Add(new DataTableConverter());
+        settings.Converters.Add(new IsoDateTimeConverter());
+
+        var deserializedDs = JsonConvert.DeserializeObject<DataSet>(json, settings);
 
         XUnitAssert.AreEqualNormalized(@"{
   ""FirstTable"": [
