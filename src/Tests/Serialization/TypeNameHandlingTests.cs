@@ -918,9 +918,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         var p = JsonConvert.DeserializeObject(json, null, new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.Objects,
-#pragma warning disable CS0618 // Type or member is obsolete
-            Binder = new CustomSerializationBinder()
-#pragma warning restore CS0618 // Type or member is obsolete
+            SerializationBinder = new CustomSerializationBinder()
         });
 
         Assert.IsType(typeof(Person), p);
@@ -930,11 +928,17 @@ public class TypeNameHandlingTests : TestFixtureBase
         Assert.Equal("Name!", person.Name);
     }
 
-    public class CustomSerializationBinder : SerializationBinder
+    public class CustomSerializationBinder : ISerializationBinder
     {
-        public override Type BindToType(string assemblyName, string typeName)
+        public Type BindToType(string assemblyName, string typeName)
         {
             return typeof(Person);
+        }
+
+        public void BindToName(Type serializedType, out string assemblyName, out string typeName)
+        {
+            assemblyName = null;
+            typeName = serializedType.Name;
         }
     }
 
@@ -957,13 +961,12 @@ public class TypeNameHandlingTests : TestFixtureBase
             }
         };
 
-        var json = JsonConvert.SerializeObject(values, Formatting.Indented, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Auto,
-#pragma warning disable CS0618 // Type or member is obsolete
-            Binder = binder
-#pragma warning restore CS0618 // Type or member is obsolete
-        });
+        var json = JsonConvert.SerializeObject(values, Formatting.Indented,
+            new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto,
+                SerializationBinder = binder
+            });
 
         //[
         //  {
@@ -991,24 +994,24 @@ public class TypeNameHandlingTests : TestFixtureBase
   }
 ]", json);
 
-        var newValues = JsonConvert.DeserializeObject<IList<object>>(json, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Auto,
-#pragma warning disable CS0618 // Type or member is obsolete
-            Binder = new TypeNameSerializationBinder("Argon.Tests.Serialization.{0}, Tests")
-#pragma warning restore CS0618 // Type or member is obsolete
-        });
+        var newValues = JsonConvert.DeserializeObject<IList<object>>(
+            json,
+            new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto,
+                SerializationBinder = new TypeNameSerializationBinder("Argon.Tests.Serialization.{0}, Tests")
+            });
 
         Assert.IsType(typeof(Customer), newValues[0]);
-        var customer = (Customer)newValues[0];
+        var customer = (Customer) newValues[0];
         Assert.Equal("Caroline Customer", customer.Name);
 
         Assert.IsType(typeof(Purchase), newValues[1]);
-        var purchase = (Purchase)newValues[1];
+        var purchase = (Purchase) newValues[1];
         Assert.Equal("Elbow Grease", purchase.ProductName);
     }
 
-    public class TypeNameSerializationBinder : SerializationBinder
+    public class TypeNameSerializationBinder : ISerializationBinder
     {
         public string TypeFormat { get; private set; }
 
@@ -1017,17 +1020,17 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeFormat = typeFormat;
         }
 
-        public override void BindToName(Type serializedType, out string assemblyName, out string typeName)
-        {
-            assemblyName = null;
-            typeName = serializedType.Name;
-        }
-
-        public override Type BindToType(string assemblyName, string typeName)
+        public Type BindToType(string assemblyName, string typeName)
         {
             var resolvedTypeName = string.Format(TypeFormat, typeName);
 
             return Type.GetType(resolvedTypeName, true);
+        }
+
+        public void BindToName(Type serializedType, out string assemblyName, out string typeName)
+        {
+            assemblyName = null;
+            typeName = serializedType.Name;
         }
     }
 
@@ -1492,7 +1495,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.All,
 #pragma warning disable CS0618 // Type or member is obsolete
             TypeNameAssemblyFormat = FormatterAssemblyStyle.Full,
-            Binder = new MetroBinder(),
+            SerializationBinder = new MetroBinder(),
 #pragma warning restore CS0618 // Type or member is obsolete
             ContractResolver = new DefaultContractResolver
             {
@@ -1505,18 +1508,18 @@ public class TypeNameHandlingTests : TestFixtureBase
         Assert.Equal(":::MESSAGE:::, AssemblyName", (string)o["$type"]);
     }
 
-    public class MetroBinder : SerializationBinder
+    class MetroBinder : ISerializationBinder
     {
-        public override Type BindToType(string assemblyName, string typeName)
+        public Type BindToType(string assemblyName, string typeName)
         {
             return null;
         }
 
-        public override void BindToName(Type serializedType, out string assemblyName, out string typeName)
+        public void BindToName(Type serializedType, out string assemblyName, out string typeName)
         {
             assemblyName = "AssemblyName";
 #if !NET5_0_OR_GREATER
-                typeName = $":::{serializedType.Name.ToUpper(CultureInfo.InvariantCulture)}:::";
+            typeName = $":::{serializedType.Name.ToUpper(CultureInfo.InvariantCulture)}:::";
 #else
             typeName = $":::{serializedType.Name.ToUpper()}:::";
 #endif
