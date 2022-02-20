@@ -154,23 +154,19 @@ public class IsoDateTimeConverter : DateTimeConverterBase
 
         if (t == typeof(DateTimeOffset))
         {
-            if (!StringUtils.IsNullOrEmpty(_dateTimeFormat))
-            {
-                return DateTimeOffset.ParseExact(dateText, _dateTimeFormat, Culture, DateTimeStyles);
-            }
-            else
+            if (StringUtils.IsNullOrEmpty(_dateTimeFormat))
             {
                 return DateTimeOffset.Parse(dateText, Culture, DateTimeStyles);
             }
+
+            return DateTimeOffset.ParseExact(dateText, _dateTimeFormat, Culture, DateTimeStyles);
         }
 
-        if (!StringUtils.IsNullOrEmpty(_dateTimeFormat))
-        {
-            return DateTime.ParseExact(dateText, _dateTimeFormat, Culture, DateTimeStyles);
-        }
-        else
+        if (StringUtils.IsNullOrEmpty(_dateTimeFormat))
         {
             return DateTime.Parse(dateText, Culture, DateTimeStyles);
         }
+
+        return DateTime.ParseExact(dateText, _dateTimeFormat, Culture, DateTimeStyles);
     }
 }

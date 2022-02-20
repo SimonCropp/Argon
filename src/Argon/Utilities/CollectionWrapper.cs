@@ -293,12 +293,8 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
 
     static bool IsCompatibleObject(object value)
     {
-        if (!(value is T) && (value != null || (typeof(T).IsValueType && !ReflectionUtils.IsNullableType(typeof(T)))))
-        {
-            return false;
-        }
-
-        return true;
+        return value is T ||
+               (value == null && (!typeof(T).IsValueType || ReflectionUtils.IsNullableType(typeof(T))));
     }
 
     public object UnderlyingCollection => (object)_genericCollection! ?? _list!;

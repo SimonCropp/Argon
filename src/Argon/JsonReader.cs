@@ -1223,14 +1223,14 @@ public abstract partial class JsonReader : IDisposable
         JsonToken t;
         do
         {
-            if (!Read())
+            if (Read())
             {
-                SetToken(JsonToken.None);
-                return JsonToken.None;
+                t = TokenType;
             }
             else
             {
-                t = TokenType;
+                SetToken(JsonToken.None);
+                return JsonToken.None;
             }
         } while (t == JsonToken.Comment);
 

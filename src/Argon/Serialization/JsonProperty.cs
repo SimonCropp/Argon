@@ -142,12 +142,12 @@ public class JsonProperty
     {
         get
         {
-            if (!_hasExplicitDefaultValue)
+            if (_hasExplicitDefaultValue)
             {
-                return null;
+                return _defaultValue;
             }
-
-            return _defaultValue;
+            
+            return null;
         }
         set
         {

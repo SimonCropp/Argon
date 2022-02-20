@@ -1592,13 +1592,13 @@ _____'propertyName': NaN,
                 }
 
                 lastWritePosition = i + 1;
-                if (!string.Equals(escapedValue, EscapedUnicodeText))
+                if (string.Equals(escapedValue, EscapedUnicodeText))
                 {
-                    writer.Write(escapedValue);
+                    writer.Write(unicodeBuffer);
                 }
                 else
                 {
-                    writer.Write(unicodeBuffer);
+                    writer.Write(escapedValue);
                 }
             }
 

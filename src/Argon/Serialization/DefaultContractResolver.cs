@@ -546,22 +546,24 @@ public class DefaultContractResolver : IContractResolver
         if (en.MoveNext())
         {
             var constructor = en.Current;
-            if (!en.MoveNext())
+            if (en.MoveNext())
             {
-                var parameters = constructor.GetParameters();
-                if (parameters.Length > 0)
+                return null;
+            }
+            
+            var parameters = constructor.GetParameters();
+            if (parameters.Length > 0)
+            {
+                foreach (var parameterInfo in parameters)
                 {
-                    foreach (var parameterInfo in parameters)
+                    var memberProperty = MatchProperty(memberProperties, parameterInfo.Name, parameterInfo.ParameterType);
+                    if (memberProperty == null || memberProperty.Writable)
                     {
-                        var memberProperty = MatchProperty(memberProperties, parameterInfo.Name, parameterInfo.ParameterType);
-                        if (memberProperty == null || memberProperty.Writable)
-                        {
-                            return null;
-                        }
+                        return null;
                     }
-
-                    return constructor;
                 }
+
+                return constructor;
             }
         }
 

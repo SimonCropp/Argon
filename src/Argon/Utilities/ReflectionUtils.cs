@@ -867,7 +867,21 @@ static class ReflectionUtils
             {
                 var subTypeProperty = propertyInfo;
 
-                if (!subTypeProperty.IsVirtual())
+                if (subTypeProperty.IsVirtual())
+                {
+                    var subTypePropertyDeclaringType = subTypeProperty.GetBaseDefinition()?.DeclaringType ?? subTypeProperty.DeclaringType;
+
+                    var index = initialProperties.IndexOf(p => p.Name == subTypeProperty.Name
+                                                               && p.IsVirtual()
+                                                               && (p.GetBaseDefinition()?.DeclaringType ?? p.DeclaringType).IsAssignableFrom(subTypePropertyDeclaringType));
+
+                    // don't add a virtual property that has an override
+                    if (index == -1)
+                    {
+                        initialProperties.Add(subTypeProperty);
+                    }
+                }
+                else
                 {
                     if (!IsPublic(subTypeProperty))
                     {
@@ -900,20 +914,6 @@ static class ReflectionUtils
                         {
                             initialProperties.Add(subTypeProperty);
                         }
-                    }
-                }
-                else
-                {
-                    var subTypePropertyDeclaringType = subTypeProperty.GetBaseDefinition()?.DeclaringType ?? subTypeProperty.DeclaringType;
-
-                    var index = initialProperties.IndexOf(p => p.Name == subTypeProperty.Name
-                                                               && p.IsVirtual()
-                                                               && (p.GetBaseDefinition()?.DeclaringType ?? p.DeclaringType).IsAssignableFrom(subTypePropertyDeclaringType));
-
-                    // don't add a virtual property that has an override
-                    if (index == -1)
-                    {
-                        initialProperties.Add(subTypeProperty);
                     }
                 }
             }

@@ -87,7 +87,7 @@ public class DataTableConverter : JsonConverter
             return null;
         }
 
-        if (!(existingValue is DataTable dt))
+        if (existingValue is not DataTable dt)
         {
             // handle typed datasets
             dt = objectType == typeof(DataTable)

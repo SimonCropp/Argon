@@ -72,12 +72,12 @@ public abstract class NamingStrategy
     /// <returns>The serialized extension data name.</returns>
     public virtual string GetExtensionDataName(string name)
     {
-        if (!ProcessExtensionDataNames)
+        if (ProcessExtensionDataNames)
         {
-            return name;
+            return ResolvePropertyName(name);
         }
-
-        return ResolvePropertyName(name);
+        
+        return name;
     }
 
     /// <summary>
@@ -87,12 +87,12 @@ public abstract class NamingStrategy
     /// <returns>The serialized dictionary key.</returns>
     public virtual string GetDictionaryKey(string key)
     {
-        if (!ProcessDictionaryKeys)
+        if (ProcessDictionaryKeys)
         {
-            return key;
+            return ResolvePropertyName(key);
         }
-
-        return ResolvePropertyName(key);
+        
+        return key;
     }
 
     /// <summary>

@@ -224,7 +224,7 @@ public partial class JArray : JContainer, IList<JToken>
         {
             ValidationUtils.ArgumentNotNull(key, nameof(key));
 
-            if (!(key is int))
+            if (key is not int)
             {
                 throw new ArgumentException($"Accessed JArray values with invalid key value: {MiscellaneousUtils.ToString(key)}. Int32 array index expected.");
             }
@@ -235,7 +235,7 @@ public partial class JArray : JContainer, IList<JToken>
         {
             ValidationUtils.ArgumentNotNull(key, nameof(key));
 
-            if (!(key is int))
+            if (key is not int)
             {
                 throw new ArgumentException($"Set JArray values with invalid key value: {MiscellaneousUtils.ToString(key)}. Int32 array index expected.");
             }

@@ -52,16 +52,16 @@ public class DiagnosticsTraceWriter : ITraceWriter
 
         foreach (TraceListener listener in DiagnosticsTrace.Listeners)
         {
-            if (!listener.IsThreadSafe)
+            if (listener.IsThreadSafe)
+            {
+                listener.TraceEvent(eventCache, "Argon", traceEventType, 0, message);
+            }
+            else
             {
                 lock (listener)
                 {
                     listener.TraceEvent(eventCache, "Argon", traceEventType, 0, message);
                 }
-            }
-            else
-            {
-                listener.TraceEvent(eventCache, "Argon", traceEventType, 0, message);
             }
 
             if (DiagnosticsTrace.AutoFlush)

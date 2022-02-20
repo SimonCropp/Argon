@@ -160,7 +160,7 @@ public static class Extensions
     {
         ValidationUtils.ArgumentNotNull(value, nameof(value));
 
-        if (!(value is JToken token))
+        if (value is not JToken token)
         {
             throw new ArgumentException("Source value must be a JToken.");
         }
@@ -255,34 +255,32 @@ public static class Extensions
         {
             return castValue;
         }
-        else
+
+        if (token is not JValue value)
         {
-            if (!(token is JValue value))
-            {
-                throw new InvalidCastException($"Cannot cast {token.GetType()} to {typeof(T)}.");
-            }
-
-            if (value.Value is U u)
-            {
-                return u;
-            }
-
-            var targetType = typeof(U);
-
-            if (ReflectionUtils.IsNullableType(targetType))
-            {
-                if (value.Value == null)
-                {
-#pragma warning disable CS8653 // A default expression introduces a null value for a type parameter.
-                    return default;
-#pragma warning restore CS8653 // A default expression introduces a null value for a type parameter.
-                }
-
-                targetType = Nullable.GetUnderlyingType(targetType);
-            }
-
-            return (U)System.Convert.ChangeType(value.Value, targetType, CultureInfo.InvariantCulture);
+            throw new InvalidCastException($"Cannot cast {token.GetType()} to {typeof(T)}.");
         }
+
+        if (value.Value is U u)
+        {
+            return u;
+        }
+
+        var targetType = typeof(U);
+
+        if (ReflectionUtils.IsNullableType(targetType))
+        {
+            if (value.Value == null)
+            {
+#pragma warning disable CS8653 // A default expression introduces a null value for a type parameter.
+                return default;
+#pragma warning restore CS8653 // A default expression introduces a null value for a type parameter.
+            }
+
+            targetType = Nullable.GetUnderlyingType(targetType);
+        }
+
+        return (U)System.Convert.ChangeType(value.Value, targetType, CultureInfo.InvariantCulture);
     }
 
     //TODO

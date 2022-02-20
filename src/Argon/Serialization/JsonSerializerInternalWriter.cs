@@ -162,14 +162,15 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 break;
             case JsonContractType.Array:
                 var arrayContract = (JsonArrayContract)valueContract;
-                if (!arrayContract.IsMultidimensionalArray)
+                if (arrayContract.IsMultidimensionalArray)
                 {
-                    SerializeList(writer, (IEnumerable)value, arrayContract, member, containerContract, containerProperty);
+                    SerializeMultidimensionalArray(writer, (Array) value, arrayContract, member, containerContract, containerProperty);
                 }
                 else
                 {
-                    SerializeMultidimensionalArray(writer, (Array)value, arrayContract, member, containerContract, containerProperty);
+                    SerializeList(writer, (IEnumerable) value, arrayContract, member, containerContract, containerProperty);
                 }
+
                 break;
             case JsonContractType.Primitive:
                 SerializePrimitive(writer, value, (JsonPrimitiveContract)valueContract, member, containerContract, containerProperty);
@@ -566,12 +567,12 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
     static bool HasCreatorParameter(JsonContainerContract? contract, JsonProperty property)
     {
-        if (!(contract is JsonObjectContract objectContract))
+        if (contract is JsonObjectContract objectContract)
         {
-            return false;
+            return objectContract.CreatorParameters.Contains(property.PropertyName!);
         }
-
-        return objectContract.CreatorParameters.Contains(property.PropertyName!);
+        
+        return false;
     }
 
     void WriteReferenceIdProperty(JsonWriter writer, Type type, object value)

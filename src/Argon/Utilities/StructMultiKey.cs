@@ -41,12 +41,12 @@ readonly struct StructMultiKey<T1, T2> : IEquatable<StructMultiKey<T1, T2>>
 
     public override bool Equals(object obj)
     {
-        if (!(obj is StructMultiKey<T1, T2> key))
+        if (obj is StructMultiKey<T1, T2> key)
         {
-            return false;
+            return Equals(key);
         }
-
-        return Equals(key);
+        
+        return false;
     }
 
     public bool Equals(StructMultiKey<T1, T2> other)

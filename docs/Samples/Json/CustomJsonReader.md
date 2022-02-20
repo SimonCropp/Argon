@@ -173,62 +173,62 @@ public class XmlJsonReader : JsonReader
 
     public override int? ReadAsInt32()
     {
-        if (!Read())
+        if (Read())
         {
-            return null;
+            return Value != null ? Convert.ToInt32(Value) : null;
         }
-
-        return Value != null ? Convert.ToInt32(Value) : null;
+        
+        return null;
     }
 
     public override string ReadAsString()
     {
-        if (!Read())
+        if (Read())
         {
-            return null;
+            return (string) Value;
         }
-
-        return (string)Value;
+        
+        return null;
     }
 
     public override byte[] ReadAsBytes()
     {
-        if (!Read())
+        if (Read())
         {
-            return null;
+            return (byte[]) Value;
         }
-
-        return (byte[])Value;
+        
+        return null;
     }
 
     public override decimal? ReadAsDecimal()
     {
-        if (!Read())
+        if (Read())
         {
-            return null;
+            return Value != null ? Convert.ToDecimal(Value) : null;
         }
-
-        return Value != null ? Convert.ToDecimal(Value) : null;
+        
+        return null;
     }
 
     public override DateTime? ReadAsDateTime()
     {
-        if (!Read())
+        if (Read())
         {
-            return null;
+            return Value != null ? Convert.ToDateTime(Value) : null;
         }
-
-        return Value != null ? Convert.ToDateTime(Value) : null;
+        
+        return null;
     }
 
     public override DateTimeOffset? ReadAsDateTimeOffset()
     {
-        if (!Read())
+        if (Read())
         {
-            return null;
+            return Value != null ? Convert.ToDateTime(Value) : null;
         }
-
-        return Value != null ? Convert.ToDateTime(Value) : null;
+        
+        return null;
     }
 }
 ```

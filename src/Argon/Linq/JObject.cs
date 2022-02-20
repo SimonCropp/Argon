@@ -94,7 +94,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
 
     internal override bool DeepEquals(JToken node)
     {
-        if (!(node is JObject t))
+        if (node is not JObject t)
         {
             return false;
         }
@@ -152,7 +152,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
 
     internal override void MergeItem(object content, JsonMergeSettings? settings)
     {
-        if (!(content is JObject o))
+        if (content is not JObject o)
         {
             return;
         }
@@ -164,19 +164,22 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
             if (existingProperty == null)
             {
                 Add(contentItem.Key, contentItem.Value);
+                continue;
             }
-            else if (contentItem.Value != null)
+
+            if (contentItem.Value != null)
             {
-                if (!(existingProperty.Value is JContainer existingContainer) || existingContainer.Type != contentItem.Value.Type)
+                if (existingProperty.Value is JContainer existingContainer &&
+                    existingContainer.Type == contentItem.Value.Type)
+                {
+                    existingContainer.Merge(contentItem.Value, settings);
+                }
+                else
                 {
                     if (!IsNull(contentItem.Value) || settings?.MergeNullValueHandling == MergeNullValueHandling.Merge)
                     {
                         existingProperty.Value = contentItem.Value;
                     }
-                }
-                else
-                {
-                    existingContainer.Merge(contentItem.Value, settings);
                 }
             }
         }
@@ -300,7 +303,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
         {
             ValidationUtils.ArgumentNotNull(key, nameof(key));
 
-            if (!(key is string propertyName))
+            if (key is not string propertyName)
             {
                 throw new ArgumentException($"Accessed JObject values with invalid key value: {MiscellaneousUtils.ToString(key)}. Object property name expected.");
             }
@@ -311,7 +314,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
         {
             ValidationUtils.ArgumentNotNull(key, nameof(key));
 
-            if (!(key is string propertyName))
+            if (key is not string propertyName)
             {
                 throw new ArgumentException($"Set JObject values with invalid key value: {MiscellaneousUtils.ToString(key)}. Object property name expected.");
             }

@@ -181,7 +181,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
 
     internal override bool DeepEquals(JToken node)
     {
-        if (!(node is JValue other))
+        if (node is not JValue other)
         {
             return false;
         }
@@ -312,7 +312,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                 else
                 {
                     var offsetA = (DateTimeOffset)objA;
-                    if (!(objB is DateTimeOffset offsetB))
+                    if (objB is not DateTimeOffset offsetB)
                     {
                         offsetB = new DateTimeOffset(Convert.ToDateTime(objB, CultureInfo.InvariantCulture));
                     }
@@ -320,7 +320,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                     return offsetA.CompareTo(offsetB);
                 }
             case JTokenType.Bytes:
-                if (!(objB is byte[] bytesB))
+                if (objB is not byte[] bytesB)
                 {
                     throw new ArgumentException("Object must be of type byte[].");
                 }
@@ -330,7 +330,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
 
                 return MiscellaneousUtils.ByteArrayCompare(bytesA!, bytesB);
             case JTokenType.Guid:
-                if (!(objB is Guid))
+                if (objB is not Guid)
                 {
                     throw new ArgumentException("Object must be of type Guid.");
                 }
@@ -350,7 +350,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
 
                 return Comparer<string>.Default.Compare(uri1.ToString(), uri2.ToString());
             case JTokenType.TimeSpan:
-                if (!(objB is TimeSpan))
+                if (objB is not TimeSpan)
                 {
                     throw new ArgumentException("Object must be of type TimeSpan.");
                 }

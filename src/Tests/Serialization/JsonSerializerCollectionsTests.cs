@@ -2393,13 +2393,13 @@ public class CASResponce
                 {
                     foreach (var xPersonValue in eduPers.Elements())
                     {
-                        if (!eduPerson.ContainsKey(xPersonValue.Name.LocalName))
+                        if (eduPerson.ContainsKey(xPersonValue.Name.LocalName))
                         {
-                            eduPerson.Add(xPersonValue.Name.LocalName, xPersonValue.Value);
+                            eduPerson[xPersonValue.Name.LocalName] = $"{eduPerson[xPersonValue.Name.LocalName]};{xPersonValue.Value}";
                         }
                         else
                         {
-                            eduPerson[xPersonValue.Name.LocalName] = $"{eduPerson[xPersonValue.Name.LocalName]};{xPersonValue.Value}";
+                            eduPerson.Add(xPersonValue.Name.LocalName, xPersonValue.Value);
                         }
                     }
                 }

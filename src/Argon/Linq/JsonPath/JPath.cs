@@ -412,13 +412,13 @@ class JPath
             throw new JsonException($"Unexpected character while parsing path indexer: {_expression[_currentIndex]}");
         }
 
-        if (!scan)
+        if (scan)
         {
-            return new QueryFilter(expression);
+            return new QueryScanFilter(expression);
         }
         else
         {
-            return new QueryScanFilter(expression);
+            return new QueryFilter(expression);
         }
     }
 

@@ -50,7 +50,7 @@ public partial class JConstructor : JContainer
 
     internal override void MergeItem(object content, JsonMergeSettings? settings)
     {
-        if (!(content is JConstructor c))
+        if (content is not JConstructor c)
         {
             return;
         }
@@ -169,7 +169,7 @@ public partial class JConstructor : JContainer
         {
             ValidationUtils.ArgumentNotNull(key, nameof(key));
 
-            if (!(key is int i))
+            if (key is not int i)
             {
                 throw new ArgumentException($"Accessed JConstructor values with invalid key value: {MiscellaneousUtils.ToString(key)}. Argument position index expected.");
             }
@@ -180,7 +180,7 @@ public partial class JConstructor : JContainer
         {
             ValidationUtils.ArgumentNotNull(key, nameof(key));
 
-            if (!(key is int i))
+            if (key is not int i)
             {
                 throw new ArgumentException($"Set JConstructor values with invalid key value: {MiscellaneousUtils.ToString(key)}. Argument position index expected.");
             }

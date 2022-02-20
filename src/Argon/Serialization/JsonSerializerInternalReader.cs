@@ -840,13 +840,13 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 }
             }
 
-            if (!arrayContract.IsMultidimensionalArray)
+            if (arrayContract.IsMultidimensionalArray)
             {
-                PopulateList(list, reader, arrayContract, member, id);
+                PopulateMultidimensionalArray(list, reader, arrayContract, member, id);
             }
             else
             {
-                PopulateMultidimensionalArray(list, reader, arrayContract, member, id);
+                PopulateList(list, reader, arrayContract, member, id);
             }
 
             if (createdFromNonDefaultCreator)

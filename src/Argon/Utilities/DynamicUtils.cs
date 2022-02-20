@@ -45,22 +45,23 @@ static class DynamicUtils
 
         static void Init()
         {
-            if (!_init)
+            if (_init)
             {
-                var binderType = Type.GetType(BinderTypeName, false);
-                if (binderType == null)
-                {
-                    throw new InvalidOperationException($"Could not resolve type '{BinderTypeName}'. You may need to add a reference to Microsoft.CSharp.dll to work with dynamic types.");
-                }
-
-                // None
-                _getCSharpArgumentInfoArray = CreateSharpArgumentInfoArray(0);
-                // None, Constant | UseCompileTimeType
-                _setCSharpArgumentInfoArray = CreateSharpArgumentInfoArray(0, 3);
-                CreateMemberCalls();
-
-                _init = true;
+                return;
             }
+            var binderType = Type.GetType(BinderTypeName, false);
+            if (binderType == null)
+            {
+                throw new InvalidOperationException($"Could not resolve type '{BinderTypeName}'. You may need to add a reference to Microsoft.CSharp.dll to work with dynamic types.");
+            }
+
+            // None
+            _getCSharpArgumentInfoArray = CreateSharpArgumentInfoArray(0);
+            // None, Constant | UseCompileTimeType
+            _setCSharpArgumentInfoArray = CreateSharpArgumentInfoArray(0, 3);
+            CreateMemberCalls();
+
+            _init = true;
         }
 
         static object CreateSharpArgumentInfoArray(params int[] values)

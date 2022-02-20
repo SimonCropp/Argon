@@ -319,14 +319,14 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
 
     static void GenerateCreateGetFieldIL(FieldInfo fieldInfo, ILGenerator generator)
     {
-        if (!fieldInfo.IsStatic)
+        if (fieldInfo.IsStatic)
         {
-            generator.PushInstance(fieldInfo.DeclaringType);
-            generator.Emit(OpCodes.Ldfld, fieldInfo);
+            generator.Emit(OpCodes.Ldsfld, fieldInfo);
         }
         else
         {
-            generator.Emit(OpCodes.Ldsfld, fieldInfo);
+            generator.PushInstance(fieldInfo.DeclaringType);
+            generator.Emit(OpCodes.Ldfld, fieldInfo);
         }
 
         generator.BoxIfNeeded(fieldInfo.FieldType);
@@ -353,13 +353,13 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
         generator.Emit(OpCodes.Ldarg_1);
         generator.UnboxIfNeeded(fieldInfo.FieldType);
 
-        if (!fieldInfo.IsStatic)
+        if (fieldInfo.IsStatic)
         {
-            generator.Emit(OpCodes.Stfld, fieldInfo);
+            generator.Emit(OpCodes.Stsfld, fieldInfo);
         }
         else
         {
-            generator.Emit(OpCodes.Stsfld, fieldInfo);
+            generator.Emit(OpCodes.Stfld, fieldInfo);
         }
 
         generator.Return();

@@ -110,24 +110,22 @@ static class EnumUtils
         var enumInfo = ValuesAndNamesPerEnum.Get(new StructMultiKey<Type, NamingStrategy?>(enumType, namingStrategy));
         var v = ToUInt64(value);
 
-        if (!enumInfo.IsFlags)
-        {
-            var index = Array.BinarySearch(enumInfo.Values, v);
-            if (index >= 0)
-            {
-                name = enumInfo.ResolvedNames[index];
-                return true;
-            }
-
-            // is number value
-            name = null;
-            return false;
-        }
-        else // These are flags OR'ed together (We treat everything as unsigned types)
+        if (enumInfo.IsFlags)
         {
             name = InternalFlagsFormat(enumInfo, v);
             return name != null;
         }
+
+        var index = Array.BinarySearch(enumInfo.Values, v);
+        if (index >= 0)
+        {
+            name = enumInfo.ResolvedNames[index];
+            return true;
+        }
+
+        // is number value
+        name = null;
+        return false;
     }
 
     static string? InternalFlagsFormat(EnumInfo entry, ulong result)

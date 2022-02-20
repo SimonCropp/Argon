@@ -84,15 +84,15 @@ public class JsonDynamicContract : JsonContainerContract
 
         var result = callSite.Target(callSite, dynamicProvider);
 
-        if (!ReferenceEquals(result, NoThrowExpressionVisitor.ErrorResult))
-        {
-            value = result;
-            return true;
-        }
-        else
+        if (ReferenceEquals(result, NoThrowExpressionVisitor.ErrorResult))
         {
             value = null;
             return false;
+        }
+        else
+        {
+            value = result;
+            return true;
         }
     }
 

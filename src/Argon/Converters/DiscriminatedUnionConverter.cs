@@ -265,11 +265,11 @@ public class DiscriminatedUnionConverter : JsonConverter
             }
         }
 
-        if (!isFSharpType)
+        if (isFSharpType)
         {
-            return false;
+            return (bool) FSharpUtils.Instance.IsUnion(null, objectType, null);
         }
-
-        return (bool)FSharpUtils.Instance.IsUnion(null, objectType, null);
+        
+        return false;
     }
 }

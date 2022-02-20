@@ -1063,7 +1063,7 @@ public abstract partial class JContainer : JToken, IList<JToken>
             throw new JsonException($"Could not determine new value to add to '{GetType()}'.");
         }
 
-        if (!(args.NewObject is JToken newItem))
+        if (args.NewObject is not JToken newItem)
         {
             throw new JsonException($"New item to be added to collection must be compatible with {typeof(JToken)}.");
         }

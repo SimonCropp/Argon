@@ -267,13 +267,13 @@ internal static class JavaScriptUtils
                     }
 
                     lastWritePosition = i + 1;
-                    if (!isEscapedUnicodeText)
+                    if (isEscapedUnicodeText)
                     {
-                        writer.Write(escapedValue);
+                        writer.Write(writeBuffer, 0, UnicodeTextLength);
                     }
                     else
                     {
-                        writer.Write(writeBuffer, 0, UnicodeTextLength);
+                        writer.Write(escapedValue);
                     }
                 }
 
@@ -520,14 +520,14 @@ internal static class JavaScriptUtils
             }
 
             lastWritePosition = i + 1;
-            if (!isEscapedUnicodeText)
-            {
-                await writer.WriteAsync(escapedValue!, cancellationToken).ConfigureAwait(false);
-            }
-            else
+            if (isEscapedUnicodeText)
             {
                 await writer.WriteAsync(writeBuffer, 0, UnicodeTextLength, cancellationToken).ConfigureAwait(false);
                 isEscapedUnicodeText = false;
+            }
+            else
+            {
+                await writer.WriteAsync(escapedValue!, cancellationToken).ConfigureAwait(false);
             }
         }
 

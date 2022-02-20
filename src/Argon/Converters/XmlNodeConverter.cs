@@ -218,17 +218,17 @@ class XmlNodeWrapper : IXmlNode
             // cache results to prevent multiple reads which kills perf in large documents
             if (_childNodes == null)
             {
-                if (!_node.HasChildNodes)
-                {
-                    _childNodes = XmlNodeConverter.EmptyChildNodes;
-                }
-                else
+                if (_node.HasChildNodes)
                 {
                     _childNodes = new List<IXmlNode>(_node.ChildNodes.Count);
                     foreach (XmlNode childNode in _node.ChildNodes)
                     {
                         _childNodes.Add(WrapNode(childNode));
                     }
+                }
+                else
+                {
+                    _childNodes = XmlNodeConverter.EmptyChildNodes;
                 }
             }
 
@@ -261,17 +261,17 @@ class XmlNodeWrapper : IXmlNode
             // cache results to prevent multiple reads which kills perf in large documents
             if (_attributes == null)
             {
-                if (!HasAttributes)
-                {
-                    _attributes = XmlNodeConverter.EmptyChildNodes;
-                }
-                else
+                if (HasAttributes)
                 {
                     _attributes = new List<IXmlNode>(_node.Attributes.Count);
                     foreach (XmlAttribute attribute in _node.Attributes)
                     {
                         _attributes.Add(WrapNode(attribute));
                     }
+                }
+                else
+                {
+                    _attributes = XmlNodeConverter.EmptyChildNodes;
                 }
             }
 
@@ -651,17 +651,17 @@ class XContainerWrapper : XObjectWrapper
             // cache results to prevent multiple reads which kills perf in large documents
             if (_childNodes == null)
             {
-                if (!HasChildNodes)
-                {
-                    _childNodes = XmlNodeConverter.EmptyChildNodes;
-                }
-                else
+                if (HasChildNodes)
                 {
                     _childNodes = new List<IXmlNode>();
                     foreach (var node in Container.Nodes())
                     {
                         _childNodes.Add(WrapNode(node));
                     }
+                }
+                else
+                {
+                    _childNodes = XmlNodeConverter.EmptyChildNodes;
                 }
             }
 
@@ -832,11 +832,7 @@ class XElementWrapper : XContainerWrapper, IXmlElement
             // cache results to prevent multiple reads which kills perf in large documents
             if (_attributes == null)
             {
-                if (!Element.HasAttributes && !HasImplicitNamespaceAttribute(NamespaceUri!))
-                {
-                    _attributes = XmlNodeConverter.EmptyChildNodes;
-                }
-                else
+                if (Element.HasAttributes || HasImplicitNamespaceAttribute(NamespaceUri!))
                 {
                     _attributes = new List<IXmlNode>();
                     foreach (var attribute in Element.Attributes())
@@ -852,6 +848,10 @@ class XElementWrapper : XContainerWrapper, IXmlElement
                         _attributes.Insert(0, new XAttributeWrapper(new XAttribute("xmlns", namespaceUri)));
                     }
                 }
+                else
+                {
+                    _attributes = XmlNodeConverter.EmptyChildNodes;
+                }
             }
 
             return _attributes;
@@ -860,27 +860,29 @@ class XElementWrapper : XContainerWrapper, IXmlElement
 
     bool HasImplicitNamespaceAttribute(string namespaceUri)
     {
-        if (!StringUtils.IsNullOrEmpty(namespaceUri) && namespaceUri != ParentNode?.NamespaceUri)
+        if (StringUtils.IsNullOrEmpty(namespaceUri) ||
+            namespaceUri == ParentNode?.NamespaceUri)
         {
-            if (StringUtils.IsNullOrEmpty(GetPrefixOfNamespace(namespaceUri)))
-            {
-                var namespaceDeclared = false;
+            return false;
+        }
+        if (StringUtils.IsNullOrEmpty(GetPrefixOfNamespace(namespaceUri)))
+        {
+            var namespaceDeclared = false;
 
-                if (Element.HasAttributes)
+            if (Element.HasAttributes)
+            {
+                foreach (var attribute in Element.Attributes())
                 {
-                    foreach (var attribute in Element.Attributes())
+                    if (attribute.Name.LocalName == "xmlns" && StringUtils.IsNullOrEmpty(attribute.Name.NamespaceName) && attribute.Value == namespaceUri)
                     {
-                        if (attribute.Name.LocalName == "xmlns" && StringUtils.IsNullOrEmpty(attribute.Name.NamespaceName) && attribute.Value == namespaceUri)
-                        {
-                            namespaceDeclared = true;
-                        }
+                        namespaceDeclared = true;
                     }
                 }
+            }
 
-                if (!namespaceDeclared)
-                {
-                    return true;
-                }
+            if (!namespaceDeclared)
+            {
+                return true;
             }
         }
 
@@ -1169,19 +1171,19 @@ public class XmlNodeConverter : JsonConverter
                     }
                     else
                     {
-                        if (!nodesGroupedByName.TryGetValue(currentNodeName, out var value))
-                        {
-                            nodesGroupedByName.Add(currentNodeName, childNode);
-                        }
-                        else
+                        if (nodesGroupedByName.TryGetValue(currentNodeName, out var value))
                         {
                             if (!(value is List<IXmlNode> nodes))
                             {
-                                nodes = new List<IXmlNode> {(IXmlNode)value!};
+                                nodes = new List<IXmlNode> {(IXmlNode) value!};
                                 nodesGroupedByName[currentNodeName] = nodes;
                             }
 
                             nodes.Add(childNode);
+                        }
+                        else
+                        {
+                            nodesGroupedByName.Add(currentNodeName, childNode);
                         }
                     }
                 }
@@ -1215,11 +1217,7 @@ public class XmlNodeConverter : JsonConverter
     {
         var writeArray = groupedNodes.Count != 1 || IsArray(groupedNodes[0]);
 
-        if (!writeArray)
-        {
-            SerializeNode(writer, groupedNodes[0], manager, writePropertyName);
-        }
-        else
+        if (writeArray)
         {
             if (writePropertyName)
             {
@@ -1235,17 +1233,17 @@ public class XmlNodeConverter : JsonConverter
 
             writer.WriteEndArray();
         }
+        else
+        {
+            SerializeNode(writer, groupedNodes[0], manager, writePropertyName);
+        }
     }
 
     void WriteGroupedNodes(JsonWriter writer, XmlNamespaceManager manager, bool writePropertyName, IXmlNode node, string elementNames)
     {
         var writeArray = IsArray(node);
 
-        if (!writeArray)
-        {
-            SerializeNode(writer, node, manager, writePropertyName);
-        }
-        else
+        if (writeArray)
         {
             if (writePropertyName)
             {
@@ -1257,6 +1255,10 @@ public class XmlNodeConverter : JsonConverter
             SerializeNode(writer, node, manager, false);
 
             writer.WriteEndArray();
+        }
+        else
+        {
+            SerializeNode(writer, node, manager, writePropertyName);
         }
     }
 
@@ -1501,14 +1503,14 @@ public class XmlNodeConverter : JsonConverter
             throw JsonSerializationException.Create(reader, $"Unexpected type when converting XML: {objectType}");
         }
 
-        if (!StringUtils.IsNullOrEmpty(DeserializeRootElementName))
-        {
-            ReadElement(reader, document, rootNode, DeserializeRootElementName, manager);
-        }
-        else
+        if (StringUtils.IsNullOrEmpty(DeserializeRootElementName))
         {
             reader.ReadAndAssert();
             DeserializeNode(reader, document, manager, rootNode);
+        }
+        else
+        {
+            ReadElement(reader, document, rootNode, DeserializeRootElementName, manager);
         }
 
         if (objectType == typeof(XElement))
@@ -1551,7 +1553,8 @@ public class XmlNodeConverter : JsonConverter
                         CreateInstruction(reader, document, currentNode, propertyName);
                         return;
                     }
-                    else if (string.Equals(propertyName, "!DOCTYPE", StringComparison.OrdinalIgnoreCase))
+
+                    if (string.Equals(propertyName, "!DOCTYPE", StringComparison.OrdinalIgnoreCase))
                     {
                         CreateDocumentType(reader, document, currentNode);
                         return;
@@ -1582,7 +1585,14 @@ public class XmlNodeConverter : JsonConverter
         Dictionary<string, string?>? attributeNameValues = null;
         string? elementPrefix = null;
 
-        if (!EncodeSpecialCharacters)
+        if (EncodeSpecialCharacters)
+        {
+            if (ShouldReadInto(reader))
+            {
+                reader.ReadAndAssert();
+            }
+        }
+        else
         {
             attributeNameValues = ShouldReadInto(reader)
                 ? ReadAttributeElements(reader, manager)
@@ -1616,13 +1626,6 @@ public class XmlNodeConverter : JsonConverter
                         AddAttribute(reader, document, currentNode, propertyName, attributeName, manager, attributePrefix);
                         return;
                 }
-            }
-        }
-        else
-        {
-            if (ShouldReadInto(reader))
-            {
-                reader.ReadAndAssert();
             }
         }
 
@@ -1824,86 +1827,88 @@ public class XmlNodeConverter : JsonConverter
                 case JsonToken.PropertyName:
                     var attributeName = reader.Value!.ToString();
 
-                    if (!StringUtils.IsNullOrEmpty(attributeName))
-                    {
-                        var firstChar = attributeName[0];
-                        string? attributeValue;
-
-                        switch (firstChar)
-                        {
-                            case '@':
-                                attributeNameValues ??= new Dictionary<string, string?>();
-
-                                attributeName = attributeName.Substring(1);
-                                reader.ReadAndAssert();
-                                attributeValue = ConvertTokenToXmlValue(reader);
-                                attributeNameValues.Add(attributeName, attributeValue);
-
-                                if (IsNamespaceAttribute(attributeName, out var namespacePrefix))
-                                {
-                                    manager.AddNamespace(namespacePrefix, attributeValue);
-                                }
-                                break;
-                            case '$':
-                                switch (attributeName)
-                                {
-                                    case JsonTypeReflector.ArrayValuesPropertyName:
-                                    case JsonTypeReflector.IdPropertyName:
-                                    case JsonTypeReflector.RefPropertyName:
-                                    case JsonTypeReflector.TypePropertyName:
-                                    case JsonTypeReflector.ValuePropertyName:
-                                        // check that JsonNamespaceUri is in scope
-                                        // if it isn't then add it to document and namespace manager
-                                        var jsonPrefix = manager.LookupPrefix(JsonNamespaceUri);
-                                        if (jsonPrefix == null)
-                                        {
-                                            attributeNameValues ??= new Dictionary<string, string?>();
-
-                                            // ensure that the prefix used is free
-                                            int? i = null;
-                                            while (manager.LookupNamespace($"json{i}") != null)
-                                            {
-                                                i = i.GetValueOrDefault() + 1;
-                                            }
-                                            jsonPrefix = $"json{i}";
-
-                                            attributeNameValues.Add($"xmlns:{jsonPrefix}", JsonNamespaceUri);
-                                            manager.AddNamespace(jsonPrefix, JsonNamespaceUri);
-                                        }
-
-                                        // special case $values, it will have a non-primitive value
-                                        if (attributeName == JsonTypeReflector.ArrayValuesPropertyName)
-                                        {
-                                            finished = true;
-                                            break;
-                                        }
-
-                                        attributeName = attributeName.Substring(1);
-                                        reader.ReadAndAssert();
-
-                                        if (!JsonTokenUtils.IsPrimitiveToken(reader.TokenType))
-                                        {
-                                            throw JsonSerializationException.Create(reader, $"Unexpected JsonToken: {reader.TokenType}");
-                                        }
-
-                                        attributeNameValues ??= new Dictionary<string, string?>();
-
-                                        attributeValue = reader.Value?.ToString();
-                                        attributeNameValues.Add($"{jsonPrefix}:{attributeName}", attributeValue);
-                                        break;
-                                    default:
-                                        finished = true;
-                                        break;
-                                }
-                                break;
-                            default:
-                                finished = true;
-                                break;
-                        }
-                    }
-                    else
+                    if (StringUtils.IsNullOrEmpty(attributeName))
                     {
                         finished = true;
+                        continue;
+                    }
+
+                    var firstChar = attributeName[0];
+                    string? attributeValue;
+
+                    switch (firstChar)
+                    {
+                        case '@':
+                            attributeNameValues ??= new Dictionary<string, string?>();
+
+                            attributeName = attributeName.Substring(1);
+                            reader.ReadAndAssert();
+                            attributeValue = ConvertTokenToXmlValue(reader);
+                            attributeNameValues.Add(attributeName, attributeValue);
+
+                            if (IsNamespaceAttribute(attributeName, out var namespacePrefix))
+                            {
+                                manager.AddNamespace(namespacePrefix, attributeValue);
+                            }
+
+                            break;
+                        case '$':
+                            switch (attributeName)
+                            {
+                                case JsonTypeReflector.ArrayValuesPropertyName:
+                                case JsonTypeReflector.IdPropertyName:
+                                case JsonTypeReflector.RefPropertyName:
+                                case JsonTypeReflector.TypePropertyName:
+                                case JsonTypeReflector.ValuePropertyName:
+                                    // check that JsonNamespaceUri is in scope
+                                    // if it isn't then add it to document and namespace manager
+                                    var jsonPrefix = manager.LookupPrefix(JsonNamespaceUri);
+                                    if (jsonPrefix == null)
+                                    {
+                                        attributeNameValues ??= new Dictionary<string, string?>();
+
+                                        // ensure that the prefix used is free
+                                        int? i = null;
+                                        while (manager.LookupNamespace($"json{i}") != null)
+                                        {
+                                            i = i.GetValueOrDefault() + 1;
+                                        }
+
+                                        jsonPrefix = $"json{i}";
+
+                                        attributeNameValues.Add($"xmlns:{jsonPrefix}", JsonNamespaceUri);
+                                        manager.AddNamespace(jsonPrefix, JsonNamespaceUri);
+                                    }
+
+                                    // special case $values, it will have a non-primitive value
+                                    if (attributeName == JsonTypeReflector.ArrayValuesPropertyName)
+                                    {
+                                        finished = true;
+                                        break;
+                                    }
+
+                                    attributeName = attributeName.Substring(1);
+                                    reader.ReadAndAssert();
+
+                                    if (!JsonTokenUtils.IsPrimitiveToken(reader.TokenType))
+                                    {
+                                        throw JsonSerializationException.Create(reader, $"Unexpected JsonToken: {reader.TokenType}");
+                                    }
+
+                                    attributeNameValues ??= new Dictionary<string, string?>();
+
+                                    attributeValue = reader.Value?.ToString();
+                                    attributeNameValues.Add($"{jsonPrefix}:{attributeName}", attributeValue);
+                                    break;
+                                default:
+                                    finished = true;
+                                    break;
+                            }
+
+                            break;
+                        default:
+                            finished = true;
+                            break;
                     }
 
                     break;

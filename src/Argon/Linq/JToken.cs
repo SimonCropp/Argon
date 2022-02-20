@@ -2332,23 +2332,25 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         }
         else
         {
-            if (!(_annotations is object[] annotations))
-            {
-                _annotations = new[] { _annotations, annotation };
-            }
-            else
+            if (_annotations is object[] annotations)
             {
                 var index = 0;
                 while (index < annotations.Length && annotations[index] != null)
                 {
                     index++;
                 }
+
                 if (index == annotations.Length)
                 {
                     Array.Resize(ref annotations, index * 2);
                     _annotations = annotations;
                 }
+
                 annotations[index] = annotation;
+            }
+            else
+            {
+                _annotations = new[] {_annotations, annotation};
             }
         }
     }
@@ -2362,7 +2364,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     {
         if (_annotations != null)
         {
-            if (!(_annotations is object[] annotations))
+            if (_annotations is not object[] annotations)
             {
                 return _annotations as T;
             }
@@ -2398,14 +2400,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
 
         if (_annotations != null)
         {
-            if (!(_annotations is object[] annotations))
-            {
-                if (type.IsInstanceOfType(_annotations))
-                {
-                    return _annotations;
-                }
-            }
-            else
+            if (_annotations is object[] annotations)
             {
                 for (var i = 0; i < annotations.Length; i++)
                 {
@@ -2419,6 +2414,13 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
                     {
                         return o;
                     }
+                }
+            }
+            else
+            {
+                if (type.IsInstanceOfType(_annotations))
+                {
+                    return _annotations;
                 }
             }
         }
@@ -2456,7 +2458,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             yield break;
         }
 
-        if (!(_annotations is T annotation))
+        if (_annotations is not T annotation)
         {
             yield break;
         }
@@ -2515,14 +2517,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     {
         if (_annotations != null)
         {
-            if (!(_annotations is object?[] annotations))
-            {
-                if (_annotations is T)
-                {
-                    _annotations = null;
-                }
-            }
-            else
+            if (_annotations is object?[] annotations)
             {
                 var index = 0;
                 var keepCount = 0;
@@ -2534,7 +2529,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
                         break;
                     }
 
-                    if (!(obj2 is T))
+                    if (obj2 is not T)
                     {
                         annotations[keepCount++] = obj2;
                     }
@@ -2550,6 +2545,13 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
                     }
                 }
                 else
+                {
+                    _annotations = null;
+                }
+            }
+            else
+            {
+                if (_annotations is T)
                 {
                     _annotations = null;
                 }
@@ -2570,14 +2572,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
 
         if (_annotations != null)
         {
-            if (!(_annotations is object?[] annotations))
-            {
-                if (type.IsInstanceOfType(_annotations))
-                {
-                    _annotations = null;
-                }
-            }
-            else
+            if (_annotations is object?[] annotations)
             {
                 var index = 0;
                 var keepCount = 0;
@@ -2605,6 +2600,13 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
                     }
                 }
                 else
+                {
+                    _annotations = null;
+                }
+            }
+            else
+            {
+                if (type.IsInstanceOfType(_annotations))
                 {
                     _annotations = null;
                 }
