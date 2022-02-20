@@ -23,9 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Utilities;
-
-internal abstract class ReflectionDelegateFactory
+abstract class ReflectionDelegateFactory
 {
     public Func<T, object?> CreateGet<T>(MemberInfo member)
     {

@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Serialization;
+namespace Argon;
 
 /// <summary>
 /// Maps a JSON property to a .NET member or constructor parameter.

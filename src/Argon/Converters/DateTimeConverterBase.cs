@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Converters;
+namespace Argon;
 
 /// <summary>
 /// Provides a base class for converting a <see cref="DateTime"/> to and from JSON.

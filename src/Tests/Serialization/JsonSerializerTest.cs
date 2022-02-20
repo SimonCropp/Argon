@@ -5991,7 +5991,7 @@ Path '', line 1, position 1.");
         var json = "{}";
         IList<string> errors = new List<string>();
 
-        EventHandler<Argon.Serialization.ErrorEventArgs> error = (_, e) =>
+        EventHandler<Argon.ErrorEventArgs> error = (_, e) =>
         {
             errors.Add(e.ErrorContext.Error.Message);
             e.ErrorContext.Handled = true;
@@ -6016,7 +6016,7 @@ Path '', line 1, position 1.");
         var json = "{'NonAttributeProperty':null,'UnsetProperty':null,'AllowNullProperty':null,'AlwaysProperty':null}";
         IList<string> errors = new List<string>();
 
-        EventHandler<Argon.Serialization.ErrorEventArgs> error = (_, e) =>
+        EventHandler<Argon.ErrorEventArgs> error = (_, e) =>
         {
             errors.Add(e.ErrorContext.Error.Message);
             e.ErrorContext.Handled = true;
@@ -6039,17 +6039,19 @@ Path '', line 1, position 1.");
     {
         IList<string> errors = new List<string>();
 
-        EventHandler<Argon.Serialization.ErrorEventArgs> error = (_, e) =>
+        EventHandler<ErrorEventArgs> error = (_, e) =>
         {
             errors.Add(e.ErrorContext.Error.Message);
             e.ErrorContext.Handled = true;
         };
 
-        var json = JsonConvert.SerializeObject(new RequiredObject(), new JsonSerializerSettings
-        {
-            Error = error,
-            Formatting = Formatting.Indented
-        });
+        var json = JsonConvert.SerializeObject(
+            new RequiredObject(),
+            new JsonSerializerSettings
+            {
+                Error = error,
+                Formatting = Formatting.Indented
+            });
 
         XUnitAssert.AreEqualNormalized(@"{
   ""DefaultProperty"": null,

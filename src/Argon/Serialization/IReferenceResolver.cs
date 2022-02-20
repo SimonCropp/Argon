@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Serialization;
+namespace Argon;
 
 /// <summary>
 /// Used to resolve references when serializing and deserializing JSON by the <see cref="JsonSerializer"/>.

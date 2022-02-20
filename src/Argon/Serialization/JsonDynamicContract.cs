@@ -25,7 +25,7 @@
 
 using System.Dynamic;
 
-namespace Argon.Serialization;
+namespace Argon;
 
 /// <summary>
 /// Contract details for a <see cref="Type"/> used by the <see cref="JsonSerializer"/>.

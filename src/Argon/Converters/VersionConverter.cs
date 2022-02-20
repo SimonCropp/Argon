@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Converters;
+namespace Argon;
 
 /// <summary>
 /// Converts a <see cref="Version"/> to and from a string (e.g. <c>"1.2.3.4"</c>).

@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Serialization;
+namespace Argon;
 
 /// <summary>
 /// Contract details for a <see cref="Type"/> used by the <see cref="JsonSerializer"/>.

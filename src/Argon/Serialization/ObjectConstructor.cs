@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Serialization;
+namespace Argon;
 
 /// <summary>
 /// Represents a method that constructs an object.

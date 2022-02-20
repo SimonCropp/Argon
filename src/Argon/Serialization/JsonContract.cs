@@ -23,49 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Serialization;
-
-internal enum JsonContractType
-{
-    None = 0,
-    Object = 1,
-    Array = 2,
-    Primitive = 3,
-    String = 4,
-    Dictionary = 5,
-    Dynamic = 6,
-    Serializable = 7,
-    Linq = 8
-}
-
-/// <summary>
-/// Handles <see cref="JsonSerializer"/> serialization callback events.
-/// </summary>
-/// <param name="o">The object that raised the callback event.</param>
-/// <param name="context">The streaming context.</param>
-public delegate void SerializationCallback(object o, StreamingContext context);
-
-/// <summary>
-/// Handles <see cref="JsonSerializer"/> serialization error callback events.
-/// </summary>
-/// <param name="o">The object that raised the callback event.</param>
-/// <param name="context">The streaming context.</param>
-/// <param name="errorContext">The error context.</param>
-public delegate void SerializationErrorCallback(object o, StreamingContext context, ErrorContext errorContext);
-
-/// <summary>
-/// Sets extension data for an object during deserialization.
-/// </summary>
-/// <param name="o">The object to set extension data on.</param>
-/// <param name="key">The extension data key.</param>
-/// <param name="value">The extension data value.</param>
-public delegate void ExtensionDataSetter(object o, string key, object? value);
-
-/// <summary>
-/// Gets extension data for an object during serialization.
-/// </summary>
-/// <param name="o">The object to set extension data on.</param>
-public delegate IEnumerable<KeyValuePair<object, object>>? ExtensionDataGetter(object o);
+namespace Argon;
 
 /// <summary>
 /// Contract details for a <see cref="System.Type"/> used by the <see cref="JsonSerializer"/>.

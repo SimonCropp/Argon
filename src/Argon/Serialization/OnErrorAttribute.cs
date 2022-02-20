@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Serialization;
+namespace Argon;
 
 /// <summary>
 /// When applied to a method, specifies that the method is called when an error occurs serializing an object.

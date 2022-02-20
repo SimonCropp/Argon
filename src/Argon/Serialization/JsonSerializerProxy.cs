@@ -25,7 +25,7 @@
 
 using System.Runtime.Serialization.Formatters;
 
-namespace Argon.Serialization;
+namespace Argon;
 
 class JsonSerializerProxy : JsonSerializer
 {

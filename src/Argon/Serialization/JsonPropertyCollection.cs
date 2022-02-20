@@ -25,7 +25,7 @@
 
 using System.Collections.ObjectModel;
 
-namespace Argon.Serialization;
+namespace Argon;
 
 /// <summary>
 /// A collection of <see cref="JsonProperty"/> objects.

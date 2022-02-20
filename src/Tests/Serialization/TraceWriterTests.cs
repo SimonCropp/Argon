@@ -265,8 +265,8 @@ Argon Error: 0 : Error!
             new JsonSerializerSettings { TraceWriter = traceWriter, Converters = { new JavaScriptDateTimeConverter() } });
 
         // 2012-11-11T12:08:42.761 Info Started serializing Argon.Tests.Serialization.Staff. Path ''.
-        // 2012-11-11T12:08:42.785 Info Started serializing System.DateTime with converter Argon.Converters.JavaScriptDateTimeConverter. Path 'StartDate'.
-        // 2012-11-11T12:08:42.791 Info Finished serializing System.DateTime with converter Argon.Converters.JavaScriptDateTimeConverter. Path 'StartDate'.
+        // 2012-11-11T12:08:42.785 Info Started serializing System.DateTime with converter Argon.JavaScriptDateTimeConverter. Path 'StartDate'.
+        // 2012-11-11T12:08:42.791 Info Finished serializing System.DateTime with converter Argon.JavaScriptDateTimeConverter. Path 'StartDate'.
         // 2012-11-11T12:08:42.797 Info Started serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
         // 2012-11-11T12:08:42.798 Info Finished serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
         // 2012-11-11T12:08:42.799 Info Finished serializing Argon.Tests.Serialization.Staff. Path ''.
@@ -326,7 +326,7 @@ Argon Error: 0 : Error!
             });
 
         // 2012-11-11T12:08:42.761 Info Started serializing Argon.Tests.Serialization.Staff. Path ''.
-        // 2012-11-11T12:08:42.785 Info Started serializing System.DateTime with converter Argon.Converters.JavaScriptDateTimeConverter. Path 'StartDate'.
+        // 2012-11-11T12:08:42.785 Info Started serializing System.DateTime with converter Argon.JavaScriptDateTimeConverter. Path 'StartDate'.
         // 2012-11-11T12:08:42.791 Info Finished serializing System.DateTime with converter Argon.Tests.TestObjects.Converters.JavaScriptDateTimeConverter. Path 'StartDate'.
         // 2012-11-11T12:08:42.797 Info Started serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
         // 2012-11-11T12:08:42.798 Info Finished serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
@@ -764,8 +764,8 @@ Argon Error: 0 : Error!
         });
 
         Assert.Equal("Started serializing System.Collections.Generic.List`1[System.DateTime]. Path ''.", traceWriter.TraceRecords[0].Message);
-        Assert.Equal("Started serializing System.DateTime with converter Argon.Converters.JavaScriptDateTimeConverter. Path ''.", traceWriter.TraceRecords[1].Message);
-        Assert.Equal("Finished serializing System.DateTime with converter Argon.Converters.JavaScriptDateTimeConverter. Path '[0]'.", traceWriter.TraceRecords[2].Message);
+        Assert.Equal("Started serializing System.DateTime with converter Argon.JavaScriptDateTimeConverter. Path ''.", traceWriter.TraceRecords[1].Message);
+        Assert.Equal("Finished serializing System.DateTime with converter Argon.JavaScriptDateTimeConverter. Path '[0]'.", traceWriter.TraceRecords[2].Message);
         Assert.Equal("Finished serializing System.Collections.Generic.List`1[System.DateTime]. Path ''.", traceWriter.TraceRecords[3].Message);
     }
 
@@ -789,8 +789,8 @@ Argon Error: 0 : Error!
             });
 
         Assert.Equal("Started deserializing System.Collections.Generic.List`1[System.DateTime]. Path '', line 1, position 1.", traceWriter.TraceRecords[0].Message);
-        Assert.Equal("Started deserializing System.DateTime with converter Argon.Converters.JavaScriptDateTimeConverter. Path '[0]', line 1, position 10.", traceWriter.TraceRecords[1].Message);
-        Assert.Equal("Finished deserializing System.DateTime with converter Argon.Converters.JavaScriptDateTimeConverter. Path '[0]', line 1, position 23.", traceWriter.TraceRecords[2].Message);
+        Assert.Equal("Started deserializing System.DateTime with converter Argon.JavaScriptDateTimeConverter. Path '[0]', line 1, position 10.", traceWriter.TraceRecords[1].Message);
+        Assert.Equal("Finished deserializing System.DateTime with converter Argon.JavaScriptDateTimeConverter. Path '[0]', line 1, position 23.", traceWriter.TraceRecords[2].Message);
         Assert.Equal("Finished deserializing System.Collections.Generic.List`1[System.DateTime]. Path '', line 1, position 24.", traceWriter.TraceRecords[3].Message);
     }
 

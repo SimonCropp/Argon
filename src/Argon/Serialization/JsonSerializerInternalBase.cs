@@ -23,9 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Serialization;
+using ErrorEventArgs = Argon.ErrorEventArgs;
 
-internal abstract class JsonSerializerInternalBase
+abstract class JsonSerializerInternalBase
 {
     class ReferenceEqualsEqualityComparer : IEqualityComparer<object>
     {

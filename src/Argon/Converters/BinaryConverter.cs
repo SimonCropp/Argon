@@ -25,7 +25,7 @@
 
 using System.Data.SqlTypes;
 
-namespace Argon.Converters;
+namespace Argon;
 
 /// <summary>
 /// Converts a binary value to and from a base 64 string value.

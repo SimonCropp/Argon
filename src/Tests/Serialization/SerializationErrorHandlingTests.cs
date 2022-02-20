@@ -25,7 +25,6 @@
 
 using Argon.Tests.TestObjects;
 using Xunit;
-using ErrorEventArgs = Argon.Serialization.ErrorEventArgs;
 
 namespace Argon.Tests.Serialization;
 

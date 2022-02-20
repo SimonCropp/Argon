@@ -23,11 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-interface IWrappedCollection : IList
-{
-    object UnderlyingCollection { get; }
-}
-
 class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
 {
     readonly IList? _list;

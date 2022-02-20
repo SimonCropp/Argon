@@ -1,4 +1,4 @@
-﻿namespace Argon.Serialization;
+﻿namespace Argon;
 
 /// <summary>
 /// Represents a trace writer that writes to memory. When the trace message limit is

@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
     <LangVersion>10.0</LangVersion>
-    <Version>0.1.0-beta.1</Version>
+    <Version>0.1.0-beta.2</Version>
     <Copyright>Copyright © James Newton-King 2008, Copyright © Simon Cropp 2022</Copyright>
     <PackageTags>Json</PackageTags>
     <Description>Json serialization library. Hard fork of Json.net.</Description>
@@ -9,9 +9,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Using Include="System.Globalization" />
-    <Using Include="Argon.Serialization" />
-    <Using Include="Argon.Converters" />
-    <Using Include="Argon.Utilities" />
+    <Using Include="Argon" />
     <Using Include="System.Runtime.Serialization" />
     <Using Include="Argon.Linq" />
     <Using Include="System.Numerics" />

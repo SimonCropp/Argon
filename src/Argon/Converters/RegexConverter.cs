@@ -25,7 +25,7 @@
 
 using System.Text.RegularExpressions;
 
-namespace Argon.Converters;
+namespace Argon;
 
 /// <summary>
 /// Converts a <see cref="Regex"/> to and from JSON.

@@ -25,7 +25,7 @@
 
 using System.Collections.ObjectModel;
 
-namespace Argon.Serialization;
+namespace Argon;
 
 /// <summary>
 /// Contract details for a <see cref="System.Type"/> used by the <see cref="JsonSerializer"/>.

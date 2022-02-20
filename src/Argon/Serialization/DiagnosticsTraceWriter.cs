@@ -1,6 +1,6 @@
 ﻿using DiagnosticsTrace = System.Diagnostics.Trace;
 
-namespace Argon.Serialization;
+namespace Argon;
 
 /// <summary>
 /// Represents a trace writer that writes to the application's <see cref="TraceListener"/> instances.

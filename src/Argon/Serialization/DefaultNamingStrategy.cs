@@ -1,4 +1,4 @@
-﻿namespace Argon.Serialization;
+﻿namespace Argon;
 
 /// <summary>
 /// The default naming strategy. Property names and dictionary keys are unchanged.

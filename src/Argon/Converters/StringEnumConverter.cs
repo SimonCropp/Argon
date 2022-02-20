@@ -25,7 +25,7 @@
 
 #endregion
 
-namespace Argon.Converters;
+namespace Argon;
 
 /// <summary>
 /// Converts an <see cref="Enum"/> to and from its name string value.
@@ -66,7 +66,7 @@ public class StringEnumConverter : JsonConverter
     /// <summary>
     /// Initializes a new instance of the <see cref="StringEnumConverter"/> class.
     /// </summary>
-    /// <param name="namingStrategyType">The <see cref="System.Type"/> of the <see cref="Argon.Serialization.NamingStrategy"/> used to write enum text.</param>
+    /// <param name="namingStrategyType">The <see cref="System.Type"/> of the <see cref="Argon.NamingStrategy"/> used to write enum text.</param>
     public StringEnumConverter(Type namingStrategyType)
     {
         NamingStrategy = JsonTypeReflector.CreateNamingStrategyInstance(namingStrategyType, null);
@@ -75,11 +75,11 @@ public class StringEnumConverter : JsonConverter
     /// <summary>
     /// Initializes a new instance of the <see cref="StringEnumConverter"/> class.
     /// </summary>
-    /// <param name="namingStrategyType">The <see cref="System.Type"/> of the <see cref="Argon.Serialization.NamingStrategy"/> used to write enum text.</param>
+    /// <param name="namingStrategyType">The <see cref="System.Type"/> of the <see cref="Argon.NamingStrategy"/> used to write enum text.</param>
     /// <param name="namingStrategyParameters">
-    /// The parameter list to use when constructing the <see cref="Argon.Serialization.NamingStrategy"/> described by <paramref name="namingStrategyType"/>.
+    /// The parameter list to use when constructing the <see cref="Argon.NamingStrategy"/> described by <paramref name="namingStrategyType"/>.
     /// If <c>null</c>, the default constructor is used.
-    /// When non-<c>null</c>, there must be a constructor defined in the <see cref="Argon.Serialization.NamingStrategy"/> that exactly matches the number,
+    /// When non-<c>null</c>, there must be a constructor defined in the <see cref="Argon.NamingStrategy"/> that exactly matches the number,
     /// order, and type of these parameters.
     /// </param>
     public StringEnumConverter(Type namingStrategyType, object[] namingStrategyParameters)
@@ -90,11 +90,11 @@ public class StringEnumConverter : JsonConverter
     /// <summary>
     /// Initializes a new instance of the <see cref="StringEnumConverter"/> class.
     /// </summary>
-    /// <param name="namingStrategyType">The <see cref="System.Type"/> of the <see cref="Argon.Serialization.NamingStrategy"/> used to write enum text.</param>
+    /// <param name="namingStrategyType">The <see cref="System.Type"/> of the <see cref="Argon.NamingStrategy"/> used to write enum text.</param>
     /// <param name="namingStrategyParameters">
-    /// The parameter list to use when constructing the <see cref="Argon.Serialization.NamingStrategy"/> described by <paramref name="namingStrategyType"/>.
+    /// The parameter list to use when constructing the <see cref="Argon.NamingStrategy"/> described by <paramref name="namingStrategyType"/>.
     /// If <c>null</c>, the default constructor is used.
-    /// When non-<c>null</c>, there must be a constructor defined in the <see cref="Argon.Serialization.NamingStrategy"/> that exactly matches the number,
+    /// When non-<c>null</c>, there must be a constructor defined in the <see cref="Argon.NamingStrategy"/> that exactly matches the number,
     /// order, and type of these parameters.
     /// </param>
     /// <param name="allowIntegerValues"><c>true</c> if integers are allowed when serializing and deserializing; otherwise, <c>false</c>.</param>

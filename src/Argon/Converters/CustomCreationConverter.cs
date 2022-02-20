@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Converters;
+namespace Argon;
 
 /// <summary>
 /// Creates a custom object.

@@ -23,12 +23,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Utilities;
+using Argon;
 
 /// <summary>
 /// Builds a string. Unlike <see cref="System.Text.StringBuilder"/> this class lets you reuse its internal buffer.
 /// </summary>
-internal struct StringBuffer
+struct StringBuffer
 {
     public int Position { get; set; }
 

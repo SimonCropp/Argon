@@ -25,7 +25,7 @@
 
 #if !NETSTANDARD2_0
 
-namespace Argon.Serialization;
+namespace Argon;
 
 /// <summary>
 /// Get and set values for a <see cref="MemberInfo"/> using dynamic methods.

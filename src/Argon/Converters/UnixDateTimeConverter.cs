@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Converters;
+namespace Argon;
 
 /// <summary>
 /// Converts a <see cref="DateTime"/> to and from Unix epoch time

@@ -23,14 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-enum ParserTimeZone
-{
-    Unspecified = 0,
-    Utc = 1,
-    LocalWestOfUtc = 2,
-    LocalEastOfUtc = 3
-}
-
 struct DateTimeParser
 {
     static DateTimeParser()

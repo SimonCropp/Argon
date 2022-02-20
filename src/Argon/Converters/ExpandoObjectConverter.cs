@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-
 using System.Dynamic;
 
-namespace Argon.Converters;
+namespace Argon;
 
 /// <summary>
 /// Converts an <see cref="ExpandoObject"/> to and from JSON.

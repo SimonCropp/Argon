@@ -24,7 +24,6 @@
 #endregion
 
 using Xunit;
-using ErrorEventArgs = Argon.Serialization.ErrorEventArgs;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 

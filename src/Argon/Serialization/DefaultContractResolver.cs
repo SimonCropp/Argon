@@ -26,7 +26,7 @@
 using System.ComponentModel;
 using System.Dynamic;
 
-namespace Argon.Serialization;
+namespace Argon;
 
 /// <summary>
 /// Used by <see cref="JsonSerializer"/> to resolve a <see cref="JsonContract"/> for a given <see cref="System.Type"/>.

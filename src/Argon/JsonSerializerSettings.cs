@@ -23,9 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.Runtime.Serialization.Formatters;
-using ErrorEventArgs = Argon.Serialization.ErrorEventArgs;
-
 namespace Argon;
 
 /// <summary>
