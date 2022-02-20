@@ -584,10 +584,7 @@ public class ContractResolverTests : TestFixtureBase
             StringProperty = "Property"
         };
 
-        var skipCompilerGeneratedResolver = new DefaultContractResolver
-        {
-            DefaultMembersSearchFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public
-        };
+        var skipCompilerGeneratedResolver = new DefaultContractResolver();
 
         var skipCompilerGeneratedJson = JsonConvert.SerializeObject(structTest, Formatting.Indented,
             new JsonSerializerSettings { ContractResolver = skipCompilerGeneratedResolver });
@@ -599,14 +596,16 @@ public class ContractResolverTests : TestFixtureBase
   ""IntProperty"": 2
 }", skipCompilerGeneratedJson);
 
-        var includeCompilerGeneratedResolver = new DefaultContractResolver
+        var includeCompilerGeneratedResolver = new IncludeCompilerGeneratedResolver
         {
-            DefaultMembersSearchFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public,
             SerializeCompilerGeneratedMembers = true
         };
 
         var includeCompilerGeneratedJson = JsonConvert.SerializeObject(structTest, Formatting.Indented,
-            new JsonSerializerSettings { ContractResolver = includeCompilerGeneratedResolver });
+            new JsonSerializerSettings
+            {
+                ContractResolver = includeCompilerGeneratedResolver
+            });
 
         var o = JObject.Parse(includeCompilerGeneratedJson);
 
@@ -614,6 +613,17 @@ public class ContractResolverTests : TestFixtureBase
 
         Assert.Equal("Property", (string)o["<StringProperty>k__BackingField"]);
         Assert.Equal(2, (int)o["<IntProperty>k__BackingField"]);
+    }
+
+    public class IncludeCompilerGeneratedResolver : DefaultContractResolver
+    {
+        protected override List<MemberInfo> GetSerializableMembers(Type objectType)
+        {
+            var members = base.GetSerializableMembers(objectType);
+            var compilerGenerated = objectType.GetMembers(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public).Where(x=>x.Name.StartsWith('<'));
+            members.AddRange(compilerGenerated);
+            return members;
+        }
     }
 #pragma warning restore 618
 

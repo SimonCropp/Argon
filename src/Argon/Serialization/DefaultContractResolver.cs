@@ -70,13 +70,6 @@ public class DefaultContractResolver : IContractResolver
     public bool DynamicCodeGeneration => JsonTypeReflector.DynamicCodeGeneration;
 
     /// <summary>
-    /// Gets or sets the default members search flags.
-    /// </summary>
-    /// <value>The default members search flags.</value>
-    [Obsolete("DefaultMembersSearchFlags is obsolete. To modify the members serialized inherit from DefaultContractResolver and override the GetSerializableMembers method instead.")]
-    public BindingFlags DefaultMembersSearchFlags { get; set; }
-
-    /// <summary>
     /// Gets or sets a value indicating whether compiler generated members should be serialized.
     /// </summary>
     /// <value>
@@ -128,11 +121,6 @@ public class DefaultContractResolver : IContractResolver
     public DefaultContractResolver()
     {
         IgnoreSerializableAttribute = true;
-
-#pragma warning disable 618
-        DefaultMembersSearchFlags = BindingFlags.Instance | BindingFlags.Public;
-#pragma warning restore 618
-
         _contractCache = new ThreadSafeStore<Type, JsonContract>(CreateContract);
     }
 
@@ -179,7 +167,7 @@ public class DefaultContractResolver : IContractResolver
         var memberSerialization = JsonTypeReflector.GetObjectMemberSerialization(objectType, ignoreSerializableAttribute);
 
         // Exclude index properties
-        // Do not filter ByRef types here because accessing FieldType/PropertyType can trigger additonal assembly loads
+        // Do not filter ByRef types here because accessing FieldType/PropertyType can trigger additional assembly loads
         var allMembers = ReflectionUtils.GetFieldsAndProperties(objectType, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
             .Where(m => m is PropertyInfo p ? !ReflectionUtils.IsIndexedProperty(p) : true);
 
@@ -189,11 +177,9 @@ public class DefaultContractResolver : IContractResolver
         {
             var dataContractAttribute = JsonTypeReflector.GetDataContractAttribute(objectType);
 
-#pragma warning disable 618
             // Exclude index properties and ByRef types
-            var defaultMembers = ReflectionUtils.GetFieldsAndProperties(objectType, DefaultMembersSearchFlags)
+            var defaultMembers = ReflectionUtils.GetFieldsAndProperties(objectType,BindingFlags.Instance | BindingFlags.Public)
                 .Where(FilterMembers).ToList();
-#pragma warning restore 618
 
             foreach (var member in allMembers)
             {
@@ -1491,12 +1477,6 @@ public class DefaultContractResolver : IContractResolver
         }
 
         allowNonPublicAccess = false;
-#pragma warning disable 618
-        if ((DefaultMembersSearchFlags & BindingFlags.NonPublic) == BindingFlags.NonPublic)
-        {
-            allowNonPublicAccess = true;
-        }
-#pragma warning restore 618
         if (hasMemberAttribute)
         {
             allowNonPublicAccess = true;
