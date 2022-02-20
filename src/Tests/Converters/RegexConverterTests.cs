@@ -67,9 +67,7 @@ public class RegexConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(regex, Formatting.Indented, new JsonSerializerSettings
         {
-#pragma warning disable CS0618 // Type or member is obsolete
-            Converters = { new RegexConverter(), new StringEnumConverter { CamelCaseText = true } },
-#pragma warning restore CS0618 // Type or member is obsolete
+            Converters = { new RegexConverter(), new StringEnumConverter { NamingStrategy = new CamelCaseNamingStrategy() } },
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         });
 
