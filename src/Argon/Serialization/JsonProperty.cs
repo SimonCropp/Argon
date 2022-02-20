@@ -111,17 +111,6 @@ public class JsonProperty
     public JsonConverter? Converter { get; set; }
 
     /// <summary>
-    /// Gets or sets the member converter.
-    /// </summary>
-    /// <value>The member converter.</value>
-    [Obsolete("MemberConverter is obsolete. Use Converter instead.")]
-    public JsonConverter? MemberConverter
-    {
-        get => Converter;
-        set => Converter = value;
-    }
-
-    /// <summary>
     /// Gets or sets a value indicating whether this <see cref="JsonProperty"/> is ignored.
     /// </summary>
     /// <value><c>true</c> if ignored; otherwise, <c>false</c>.</value>
