@@ -5,13 +5,11 @@
 /// </summary>
 public static class JTokenExtensions
 {
-
     /// <summary>
     /// Selects a <see cref="JToken"/> using a JSONPath expression. Selects the token that matches the object path.
     /// </summary>
-    /// <param name="path">
-    /// A <see cref="String"/> that contains a JSONPath expression.
-    /// </param>
+    /// <param name="token">The <see cref="JToken"/> to search.</param>
+    /// <param name="path">A <see cref="String"/> that contains a JSONPath expression.</param>
     /// <returns>A <see cref="JToken"/>, or <c>null</c>.</returns>
     public static JToken? SelectToken(this JToken token, string path)
     {
