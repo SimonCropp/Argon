@@ -284,7 +284,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
 
     static void GenerateCreateGetPropertyIL(PropertyInfo propertyInfo, ILGenerator generator)
     {
-        var getMethod = propertyInfo.GetGetMethod(true);
+        var getMethod = propertyInfo.GetMethod;
         if (getMethod == null)
         {
             throw new ArgumentException($"Property '{propertyInfo.Name}' does not have a getter.");
@@ -377,7 +377,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
 
     internal static void GenerateCreateSetPropertyIL(PropertyInfo propertyInfo, ILGenerator generator)
     {
-        var setMethod = propertyInfo.GetSetMethod(true);
+        var setMethod = propertyInfo.SetMethod;
         if (!setMethod.IsStatic)
         {
             generator.PushInstance(propertyInfo.DeclaringType);

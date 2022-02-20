@@ -210,7 +210,7 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
         var parameterExpression = Expression.Parameter(instanceType, "instance");
         Expression resultExpression;
 
-        var getMethod = propertyInfo.GetGetMethod(true);
+        var getMethod = propertyInfo.GetMethod;
         if (getMethod == null)
         {
             throw new ArgumentException("Property does not have a getter.");
@@ -308,7 +308,7 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
         var valueParameter = Expression.Parameter(valueType, "value");
         var readValueParameter = EnsureCastExpression(valueParameter, propertyInfo.PropertyType);
 
-        var setMethod = propertyInfo.GetSetMethod(true);
+        var setMethod = propertyInfo.SetMethod;
         if (setMethod == null)
         {
             throw new ArgumentException("Property does not have a setter.");

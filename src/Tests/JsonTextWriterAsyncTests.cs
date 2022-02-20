@@ -1084,17 +1084,6 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         await jsonWriter.WriteTokenAsync(JsonToken.StartArray);
 
         await XUnitAssert.ThrowsAsync<FormatException>(async () => { await jsonWriter.WriteTokenAsync(JsonToken.Integer, "three"); }, "Input string was not in a correct format.");
-
-        await XUnitAssert.ThrowsAsync<ArgumentNullException>(async () => { await jsonWriter.WriteTokenAsync(JsonToken.Integer); }, @"Value cannot be null.
-Parameter name: value", "Value cannot be null. (Parameter 'value')");
-    }
-
-    [Fact]
-    public async Task WriteTokenNullCheckAsync()
-    {
-        using var jsonWriter = new JsonTextWriter(new StringWriter());
-        await XUnitAssert.ThrowsAsync<ArgumentNullException>(async () => { await jsonWriter.WriteTokenAsync(null); });
-        await XUnitAssert.ThrowsAsync<ArgumentNullException>(async () => { await jsonWriter.WriteTokenAsync(null, true); });
     }
 
     [Fact]

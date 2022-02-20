@@ -29,13 +29,13 @@ static class ReflectionUtils
 {
     public static bool IsVirtual(this PropertyInfo propertyInfo)
     {
-        var m = propertyInfo.GetGetMethod(true);
+        var m = propertyInfo.GetMethod;
         if (m != null && m.IsVirtual)
         {
             return true;
         }
 
-        m = propertyInfo.GetSetMethod(true);
+        m = propertyInfo.SetMethod;
         if (m != null && m.IsVirtual)
         {
             return true;
@@ -46,23 +46,23 @@ static class ReflectionUtils
 
     public static MethodInfo? GetBaseDefinition(this PropertyInfo propertyInfo)
     {
-        var m = propertyInfo.GetGetMethod(true);
+        var m = propertyInfo.GetMethod;
         if (m != null)
         {
             return m.GetBaseDefinition();
         }
 
-        return propertyInfo.GetSetMethod(true)?.GetBaseDefinition();
+        return propertyInfo.SetMethod?.GetBaseDefinition();
     }
 
     public static bool IsPublic(PropertyInfo property)
     {
-        var getMethod = property.GetGetMethod();
+        var getMethod = property.GetMethod;
         if (getMethod != null && getMethod.IsPublic)
         {
             return true;
         }
-        var setMethod = property.GetSetMethod();
+        var setMethod = property.SetMethod;
         if (setMethod != null && setMethod.IsPublic)
         {
             return true;
@@ -811,7 +811,7 @@ static class ReflectionUtils
         return propertyInfos;
     }
 
-    public static BindingFlags RemoveFlag(this BindingFlags bindingAttr, BindingFlags flag)
+    static BindingFlags RemoveFlag(this BindingFlags bindingAttr, BindingFlags flag)
     {
         return (bindingAttr & flag) == flag
             ? bindingAttr ^ flag
