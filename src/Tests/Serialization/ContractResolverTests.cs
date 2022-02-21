@@ -27,8 +27,6 @@ using System.ComponentModel;
 using TestObjects;
 using System.Text.RegularExpressions;
 
-namespace Argon.Tests.Serialization;
-
 public class DynamicContractResolver : DefaultContractResolver
 {
     readonly char _startingWithChar;
@@ -116,7 +114,7 @@ public class ContractResolverTests : TestFixtureBase
         {
             IgnoreSerializableAttribute = false
         };
-        var contract = (JsonObjectContract)contractResolver.ResolveContract(typeof(AnswerFilterModel));
+        var contract = (JsonObjectContract) contractResolver.ResolveContract(typeof(AnswerFilterModel));
 
         Assert.Equal(MemberSerialization.Fields, contract.MemberSerialization);
     }
@@ -146,7 +144,7 @@ public class ContractResolverTests : TestFixtureBase
 
         p.PropertyType = typeof(CompareOptions);
 
-        Assert.Equal(CompareOptions.None, (CompareOptions)p.GetResolvedDefaultValue());
+        Assert.Equal(CompareOptions.None, (CompareOptions) p.GetResolvedDefaultValue());
         Assert.Equal(null, p.DefaultValue);
     }
 
@@ -154,7 +152,7 @@ public class ContractResolverTests : TestFixtureBase
     public void ListInterface()
     {
         var resolver = new DefaultContractResolver();
-        var contract = (JsonArrayContract)resolver.ResolveContract(typeof(IList<int>));
+        var contract = (JsonArrayContract) resolver.ResolveContract(typeof(IList<int>));
 
         Assert.True(contract.IsInstantiable);
         Assert.Equal(typeof(List<int>), contract.CreatedType);
@@ -165,7 +163,7 @@ public class ContractResolverTests : TestFixtureBase
     public void PropertyAttributeProvider()
     {
         var resolver = new DefaultContractResolver();
-        var contract = (JsonObjectContract)resolver.ResolveContract(typeof(Invoice));
+        var contract = (JsonObjectContract) resolver.ResolveContract(typeof(Invoice));
 
         var property = contract.Properties["FollowUpDays"];
         Assert.Equal(1, property.AttributeProvider.GetAttributes(false).Count);
@@ -206,7 +204,7 @@ public class ContractResolverTests : TestFixtureBase
     public void AbstractListTestClass()
     {
         var resolver = new DefaultContractResolver();
-        var contract = (JsonArrayContract)resolver.ResolveContract(typeof(AbstractListTestClass<int>));
+        var contract = (JsonArrayContract) resolver.ResolveContract(typeof(AbstractListTestClass<int>));
 
         Assert.False(contract.IsInstantiable);
         Assert.Null(contract.DefaultCreator);
@@ -215,18 +213,18 @@ public class ContractResolverTests : TestFixtureBase
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<AbstractListTestClass<int>>(@"[1,2]",
                 new JsonSerializerSettings
-        {
-            ContractResolver = resolver
-        }), 
+                {
+                    ContractResolver = resolver
+                }),
             "Could not create an instance of type TestObjects.AbstractListTestClass`1[System.Int32]. Type is an interface or abstract class and cannot be instantiated. Path '', line 1, position 1.");
 
         contract.DefaultCreator = () => new AbstractImplementationListTestClass<int>();
 
         var l = JsonConvert.DeserializeObject<AbstractListTestClass<int>>(@"[1,2]",
             new JsonSerializerSettings
-        {
-            ContractResolver = resolver
-        });
+            {
+                ContractResolver = resolver
+            });
 
         Assert.Equal(2, l.Count);
         Assert.Equal(1, l[0]);
@@ -270,7 +268,7 @@ public class ContractResolverTests : TestFixtureBase
     public void DictionaryInterfaceDefaultCreator()
     {
         var resolver = new DefaultContractResolver();
-        var contract = (JsonDictionaryContract)resolver.ResolveContract(typeof(IDictionary<string, int>));
+        var contract = (JsonDictionaryContract) resolver.ResolveContract(typeof(IDictionary<string, int>));
 
         Assert.True(contract.IsInstantiable);
         Assert.NotNull(contract.DefaultCreator);
@@ -375,61 +373,61 @@ public class ContractResolverTests : TestFixtureBase
     [Fact]
     public void CalculatingPropertyNameEscapedSkipping()
     {
-        var p = new JsonProperty { PropertyName = "abc" };
+        var p = new JsonProperty {PropertyName = "abc"};
         Assert.True(p._skipPropertyNameEscape);
 
-        p = new JsonProperty { PropertyName = "123" };
+        p = new JsonProperty {PropertyName = "123"};
         Assert.True(p._skipPropertyNameEscape);
 
-        p = new JsonProperty { PropertyName = "._-" };
+        p = new JsonProperty {PropertyName = "._-"};
         Assert.True(p._skipPropertyNameEscape);
 
-        p = new JsonProperty { PropertyName = "!@#" };
+        p = new JsonProperty {PropertyName = "!@#"};
         Assert.True(p._skipPropertyNameEscape);
 
-        p = new JsonProperty { PropertyName = "$%^" };
+        p = new JsonProperty {PropertyName = "$%^"};
         Assert.True(p._skipPropertyNameEscape);
 
-        p = new JsonProperty { PropertyName = "?*(" };
+        p = new JsonProperty {PropertyName = "?*("};
         Assert.True(p._skipPropertyNameEscape);
 
-        p = new JsonProperty { PropertyName = ")_+" };
+        p = new JsonProperty {PropertyName = ")_+"};
         Assert.True(p._skipPropertyNameEscape);
 
-        p = new JsonProperty { PropertyName = "=:," };
+        p = new JsonProperty {PropertyName = "=:,"};
         Assert.True(p._skipPropertyNameEscape);
 
-        p = new JsonProperty { PropertyName = null };
+        p = new JsonProperty {PropertyName = null};
         Assert.True(p._skipPropertyNameEscape);
 
-        p = new JsonProperty { PropertyName = "&" };
+        p = new JsonProperty {PropertyName = "&"};
         Assert.False(p._skipPropertyNameEscape);
 
-        p = new JsonProperty { PropertyName = "<" };
+        p = new JsonProperty {PropertyName = "<"};
         Assert.False(p._skipPropertyNameEscape);
 
-        p = new JsonProperty { PropertyName = ">" };
+        p = new JsonProperty {PropertyName = ">"};
         Assert.False(p._skipPropertyNameEscape);
 
-        p = new JsonProperty { PropertyName = "'" };
+        p = new JsonProperty {PropertyName = "'"};
         Assert.False(p._skipPropertyNameEscape);
 
-        p = new JsonProperty { PropertyName = @"""" };
+        p = new JsonProperty {PropertyName = @""""};
         Assert.False(p._skipPropertyNameEscape);
 
-        p = new JsonProperty { PropertyName = Environment.NewLine };
+        p = new JsonProperty {PropertyName = Environment.NewLine};
         Assert.False(p._skipPropertyNameEscape);
 
-        p = new JsonProperty { PropertyName = "\0" };
+        p = new JsonProperty {PropertyName = "\0"};
         Assert.False(p._skipPropertyNameEscape);
 
-        p = new JsonProperty { PropertyName = "\n" };
+        p = new JsonProperty {PropertyName = "\n"};
         Assert.False(p._skipPropertyNameEscape);
 
-        p = new JsonProperty { PropertyName = "\v" };
+        p = new JsonProperty {PropertyName = "\v"};
         Assert.False(p._skipPropertyNameEscape);
 
-        p = new JsonProperty { PropertyName = "\u00B9" };
+        p = new JsonProperty {PropertyName = "\u00B9"};
         Assert.False(p._skipPropertyNameEscape);
     }
 
@@ -437,7 +435,7 @@ public class ContractResolverTests : TestFixtureBase
     public void DeserializeDataMemberClassWithNoDataContract()
     {
         var resolver = new DefaultContractResolver();
-        var contract = (JsonObjectContract)resolver.ResolveContract(typeof(AddressWithDataMember));
+        var contract = (JsonObjectContract) resolver.ResolveContract(typeof(AddressWithDataMember));
 
         Assert.Equal("AddressLine1", contract.Properties[0].PropertyName);
     }
@@ -446,7 +444,7 @@ public class ContractResolverTests : TestFixtureBase
     public void ResolveProperties_IgnoreStatic()
     {
         var resolver = new DefaultContractResolver();
-        var contract = (JsonObjectContract)resolver.ResolveContract(typeof(NumberFormatInfo));
+        var contract = (JsonObjectContract) resolver.ResolveContract(typeof(NumberFormatInfo));
 
         Assert.False(contract.Properties.Any(c => c.PropertyName == "InvariantInfo"));
     }
@@ -455,7 +453,7 @@ public class ContractResolverTests : TestFixtureBase
     public void ParameterizedCreator()
     {
         var resolver = new DefaultContractResolver();
-        var contract = (JsonObjectContract)resolver.ResolveContract(typeof(PublicParameterizedConstructorWithPropertyNameConflictWithAttribute));
+        var contract = (JsonObjectContract) resolver.ResolveContract(typeof(PublicParameterizedConstructorWithPropertyNameConflictWithAttribute));
 
         Assert.Null(contract.DefaultCreator);
         Assert.NotNull(contract.ParameterizedCreator);
@@ -470,7 +468,7 @@ public class ContractResolverTests : TestFixtureBase
     public void OverrideCreator()
     {
         var resolver = new DefaultContractResolver();
-        var contract = (JsonObjectContract)resolver.ResolveContract(typeof(MultipleParametrizedConstructorsJsonConstructor));
+        var contract = (JsonObjectContract) resolver.ResolveContract(typeof(MultipleParametrizedConstructorsJsonConstructor));
 
         Assert.Null(contract.DefaultCreator);
         Assert.NotNull(contract.OverrideCreator);
@@ -486,14 +484,14 @@ public class ContractResolverTests : TestFixtureBase
     public void CustomOverrideCreator()
     {
         var resolver = new DefaultContractResolver();
-        var contract = (JsonObjectContract)resolver.ResolveContract(typeof(MultipleParametrizedConstructorsJsonConstructor));
+        var contract = (JsonObjectContract) resolver.ResolveContract(typeof(MultipleParametrizedConstructorsJsonConstructor));
 
         var ensureCustomCreatorCalled = false;
 
         contract.OverrideCreator = args =>
         {
             ensureCustomCreatorCalled = true;
-            return new MultipleParametrizedConstructorsJsonConstructor((string)args[0], (int)args[1]);
+            return new MultipleParametrizedConstructorsJsonConstructor((string) args[0], (int) args[1]);
         };
         Assert.NotNull(contract.OverrideCreator);
 
@@ -520,13 +518,13 @@ public class ContractResolverTests : TestFixtureBase
         };
 
         var iPersonJson = JsonConvert.SerializeObject(employee, Formatting.Indented,
-            new JsonSerializerSettings { ContractResolver = new IPersonContractResolver() });
+            new JsonSerializerSettings {ContractResolver = new IPersonContractResolver()});
 
         var o = JObject.Parse(iPersonJson);
 
-        Assert.Equal("Maurice", (string)o["FirstName"]);
-        Assert.Equal("Moss", (string)o["LastName"]);
-        Assert.Equal(new DateTime(1977, 12, 30, 1, 1, 1, DateTimeKind.Utc), (DateTime)o["BirthDate"]);
+        Assert.Equal("Maurice", (string) o["FirstName"]);
+        Assert.Equal("Moss", (string) o["LastName"]);
+        Assert.Equal(new DateTime(1977, 12, 30, 1, 1, 1, DateTimeKind.Utc), (DateTime) o["BirthDate"]);
     }
 
     [Fact]
@@ -542,7 +540,7 @@ public class ContractResolverTests : TestFixtureBase
         };
 
         var startingWithA = JsonConvert.SerializeObject(book, Formatting.Indented,
-            new JsonSerializerSettings { ContractResolver = new DynamicContractResolver('A') });
+            new JsonSerializerSettings {ContractResolver = new DynamicContractResolver('A')});
 
         // {
         //   "AuthorName": "Brandon Sanderson",
@@ -551,7 +549,7 @@ public class ContractResolverTests : TestFixtureBase
         // }
 
         var startingWithB = JsonConvert.SerializeObject(book, Formatting.Indented,
-            new JsonSerializerSettings { ContractResolver = new DynamicContractResolver('B') });
+            new JsonSerializerSettings {ContractResolver = new DynamicContractResolver('B')});
 
         // {
         //   "BookName": "The Gathering Storm",
@@ -621,24 +619,23 @@ public class ContractResolverTests : TestFixtureBase
 //             return serializableMembers;
 //         }
 //     }
-    
+
     public class ClassWithExtensionData
     {
-        [JsonExtensionData]
-        public IDictionary<string, object> Data { get; set; }
+        [JsonExtensionData] public IDictionary<string, object> Data { get; set; }
     }
 
     [Fact]
     public void ExtensionDataGetterCanBeIteratedMultipleTimes()
     {
         var resolver = new DefaultContractResolver();
-        var contract = (JsonObjectContract)resolver.ResolveContract(typeof(ClassWithExtensionData));
+        var contract = (JsonObjectContract) resolver.ResolveContract(typeof(ClassWithExtensionData));
 
         var myClass = new ClassWithExtensionData
         {
             Data = new Dictionary<string, object>
             {
-                { "SomeField", "Field" },
+                {"SomeField", "Field"},
             }
         };
 
@@ -672,7 +669,7 @@ public class ContractResolverTests : TestFixtureBase
             IgnoreShouldSerializeMembers = true
         };
 
-        var contract = (JsonObjectContract)resolver.ResolveContract(typeof(ClassWithShouldSerialize));
+        var contract = (JsonObjectContract) resolver.ResolveContract(typeof(ClassWithShouldSerialize));
 
         var property1 = contract.Properties["Prop1"];
         Assert.Equal(null, property1.ShouldSerialize);
@@ -686,7 +683,7 @@ public class ContractResolverTests : TestFixtureBase
     {
         var resolver = new DefaultContractResolver();
 
-        var contract = (JsonObjectContract)resolver.ResolveContract(typeof(ClassWithShouldSerialize));
+        var contract = (JsonObjectContract) resolver.ResolveContract(typeof(ClassWithShouldSerialize));
 
         var property1 = contract.Properties["Prop1"];
         Assert.NotEqual(null, property1.ShouldSerialize);
@@ -697,16 +694,11 @@ public class ContractResolverTests : TestFixtureBase
 
     public class ClassWithIsSpecified
     {
-        [JsonProperty]
-        public string Prop1 { get; set; }
-        [JsonProperty]
-        public string Prop2 { get; set; }
-        [JsonProperty]
-        public string Prop3 { get; set; }
-        [JsonProperty]
-        public string Prop4 { get; set; }
-        [JsonProperty]
-        public string Prop5 { get; set; }
+        [JsonProperty] public string Prop1 { get; set; }
+        [JsonProperty] public string Prop2 { get; set; }
+        [JsonProperty] public string Prop3 { get; set; }
+        [JsonProperty] public string Prop4 { get; set; }
+        [JsonProperty] public string Prop5 { get; set; }
 
         public bool Prop1Specified;
         public bool Prop2Specified { get; set; }
@@ -725,7 +717,7 @@ public class ContractResolverTests : TestFixtureBase
     {
         var resolver = new DefaultContractResolver();
 
-        var c = (JsonDictionaryContract)resolver.ResolveContract(typeof(IDictionary));
+        var c = (JsonDictionaryContract) resolver.ResolveContract(typeof(IDictionary));
 
         Assert.Null(c.DictionaryKeyType);
         Assert.Null(c.DictionaryValueType);
@@ -739,7 +731,7 @@ public class ContractResolverTests : TestFixtureBase
             IgnoreIsSpecifiedMembers = true
         };
 
-        var contract = (JsonObjectContract)resolver.ResolveContract(typeof(ClassWithIsSpecified));
+        var contract = (JsonObjectContract) resolver.ResolveContract(typeof(ClassWithIsSpecified));
 
         var property1 = contract.Properties["Prop1"];
         Assert.Equal(null, property1.GetIsSpecified);
@@ -767,7 +759,7 @@ public class ContractResolverTests : TestFixtureBase
     {
         var resolver = new DefaultContractResolver();
 
-        var contract = (JsonObjectContract)resolver.ResolveContract(typeof(ClassWithIsSpecified));
+        var contract = (JsonObjectContract) resolver.ResolveContract(typeof(ClassWithIsSpecified));
 
         var property1 = contract.Properties["Prop1"];
         Assert.NotEqual(null, property1.GetIsSpecified);
@@ -795,7 +787,7 @@ public class ContractResolverTests : TestFixtureBase
     {
         var resolver = new DefaultContractResolver();
 
-        var contract = (JsonObjectContract)resolver.ResolveContract(typeof(RequiredPropertyTestClass));
+        var contract = (JsonObjectContract) resolver.ResolveContract(typeof(RequiredPropertyTestClass));
 
         var property1 = contract.Properties["Name"];
 
@@ -808,7 +800,7 @@ public class ContractResolverTests : TestFixtureBase
     {
         var resolver = new DefaultContractResolver();
 
-        var contract = (JsonObjectContract)resolver.ResolveContract(typeof(RequiredObject));
+        var contract = (JsonObjectContract) resolver.ResolveContract(typeof(RequiredObject));
 
         var unset = contract.Properties["UnsetProperty"];
 
@@ -826,7 +818,7 @@ public class ContractResolverTests : TestFixtureBase
     {
         var resolver = new DefaultContractResolver();
 
-        var contract = (JsonObjectContract)resolver.ResolveContract(typeof(object));
+        var contract = (JsonObjectContract) resolver.ResolveContract(typeof(object));
 
         Assert.Null(contract.InternalConverter);
     }
