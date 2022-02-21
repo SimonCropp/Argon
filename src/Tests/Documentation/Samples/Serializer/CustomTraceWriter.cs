@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.Documentation.Samples.Serializer;
+using Argon.Tests.Documentation;
 
 public class CustomTraceWriter : TestFixtureBase
 {

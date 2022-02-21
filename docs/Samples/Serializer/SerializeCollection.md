@@ -17,5 +17,5 @@ var json = JsonConvert.SerializeObject(videogames);
 Console.WriteLine(json);
 // ["Starcraft","Halo","Legend of Zelda"]
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeCollection.cs#L33-L45' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializecollection' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeCollection.cs#L31-L43' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializecollection' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

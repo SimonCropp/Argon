@@ -25,8 +25,6 @@
 
 using System.ComponentModel;
 
-namespace Argon.Tests.Documentation.Samples.Serializer;
-
 public class DefaultValueAttributeIgnore : TestFixtureBase
 {
     #region DefaultValueAttributeIgnoreTypes

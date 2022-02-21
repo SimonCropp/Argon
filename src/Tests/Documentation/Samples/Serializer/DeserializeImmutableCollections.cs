@@ -25,8 +25,6 @@
 
 using System.Collections.Immutable;
 
-namespace Argon.Tests.Documentation.Samples.Serializer;
-
 public class DeserializeImmutableCollections : TestFixtureBase
 {
     [Fact]

@@ -25,8 +25,6 @@
 
 using User = Argon.Tests.Serialization.MetadataPropertyHandlingTests.User;
 
-namespace Argon.Tests.Documentation.Samples.Serializer;
-
 public class DeserializeMetadataPropertyHandling : TestFixtureBase
 {
     [Fact]

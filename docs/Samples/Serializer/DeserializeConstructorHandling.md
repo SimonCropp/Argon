@@ -24,7 +24,7 @@ public class Website
     }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeConstructorHandling.cs#L30-L49' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeconstructorhandlingtypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeConstructorHandling.cs#L28-L47' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeconstructorhandlingtypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DeserializeConstructorHandlingUsage -->
@@ -51,5 +51,5 @@ var website = JsonConvert.DeserializeObject<Website>(json, new JsonSerializerSet
 Console.WriteLine(website.Url);
 // http://www.google.com
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeConstructorHandling.cs#L54-L75' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeconstructorhandlingusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeConstructorHandling.cs#L52-L73' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeconstructorhandlingusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

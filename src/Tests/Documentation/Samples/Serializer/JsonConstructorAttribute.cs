@@ -25,8 +25,6 @@
 
 using JsonConstructor = Argon.JsonConstructorAttribute;
 
-namespace Argon.Tests.Documentation.Samples.Serializer;
-
 public class JsonConstructorAttribute : TestFixtureBase
 {
     #region JsonConstructorAttributeTypes

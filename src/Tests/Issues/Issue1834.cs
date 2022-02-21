@@ -48,7 +48,7 @@ public class Issue1834 : TestFixtureBase
         [JsonExtensionData]
         public IDictionary<string, JToken> ExtensionData;
 
-        [JsonConstructor]
+        [Argon.JsonConstructor]
         ItemWithJsonConstructor(string foo)
         {
             Foo = foo;
@@ -63,7 +63,7 @@ public class Issue1834 : TestFixtureBase
         [JsonExtensionData]
         public IDictionary<string, JToken> ExtensionData;
 
-        [JsonConstructor]
+        [Argon.JsonConstructor]
         ItemWithJsonConstructorAndDefaultValue(string foo)
         {
             Foo = foo;

@@ -26,7 +26,7 @@ public class NuGetPackage
     public Version Version { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/CustomJsonConverterGeneric.cs#L30-L51' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonconvertergenerictypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/CustomJsonConverterGeneric.cs#L28-L49' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonconvertergenerictypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: CustomJsonConverterGenericUsage -->
@@ -51,5 +51,5 @@ var p2 = JsonConvert.DeserializeObject<NuGetPackage>(json, new VersionConverter(
 Console.WriteLine(p2.Version.ToString());
 // 10.0.4
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/CustomJsonConverterGeneric.cs#L56-L75' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonconvertergenericusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/CustomJsonConverterGeneric.cs#L54-L73' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonconvertergenericusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

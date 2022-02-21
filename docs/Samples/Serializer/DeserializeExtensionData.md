@@ -34,7 +34,7 @@ public class DirectoryAccount
     }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeExtensionData.cs#L30-L59' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeextensiondatatypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeExtensionData.cs#L28-L57' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeextensiondatatypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DeserializeExtensionDataUsage -->
@@ -56,5 +56,5 @@ Console.WriteLine(account.Domain);
 Console.WriteLine(account.UserName);
 // johns
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeExtensionData.cs#L64-L80' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeextensiondatausage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeExtensionData.cs#L62-L78' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeextensiondatausage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
