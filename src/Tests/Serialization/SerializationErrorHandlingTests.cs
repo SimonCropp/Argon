@@ -54,7 +54,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     {
         var errors = new List<Exception>();
 
-        var a2 = (JObject)JsonConvert.DeserializeObject(@"{""$type"":""<Namespace>.JsonTest+MyTest2, <Assembly>""}", new JsonSerializerSettings
+        var a2 = (JObject) JsonConvert.DeserializeObject(@"{""$type"":""<Namespace>.JsonTest+MyTest2, <Assembly>""}", new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.Auto,
             Error = (_, e) =>
@@ -74,15 +74,18 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         public ITest MyTest { get; set; }
     }
 
-    public interface ITest { }
-    public class MyTest : ITest { }
+    public interface ITest
+    {
+    }
+
+    public class MyTest : ITest
+    {
+    }
 
     public class MyClass1
     {
-        [JsonProperty("myint")]
-        public int MyInt { get; set; }
-        [JsonProperty("Mybool")]
-        public bool Mybool { get; set; }
+        [JsonProperty("myint")] public int MyInt { get; set; }
+        [JsonProperty("Mybool")] public bool Mybool { get; set; }
     }
 
     [Fact]
@@ -92,7 +95,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var json = "{\"myint\":3554860000,\"Mybool\":false}";
         var i = JsonConvert.DeserializeObject<MyClass1>(json, new JsonSerializerSettings
         {
-            Error = delegate (object _, ErrorEventArgs args)
+            Error = delegate(object _, ErrorEventArgs args)
             {
                 errors.Add(args.ErrorContext.Error.Message);
                 args.ErrorContext.Handled = true;
@@ -336,7 +339,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
                 errors.Add($"{args.ErrorContext.Path} - {args.ErrorContext.Member} - {args.ErrorContext.Error.Message}");
                 args.ErrorContext.Handled = true;
             },
-            Converters = { new IsoDateTimeConverter() }
+            Converters = {new IsoDateTimeConverter()}
         });
         var c = serializer.Deserialize<List<DateTime>>(new JsonTextReader(new StringReader(@"[
         ""2009-09-09T00:00:00Z"",
@@ -538,7 +541,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             errors.Add(e.ErrorContext.Path);
         };
 
-        serializer.Deserialize<Nest>(new JsonTextReader(new StringReader(json)) { MaxDepth = 3 });
+        serializer.Deserialize<Nest>(new JsonTextReader(new StringReader(json)) {MaxDepth = 3});
 
         Assert.Equal(1, errors.Count);
         Assert.Equal("A.A.A", errors[0]);
@@ -592,8 +595,8 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         Assert.Equal(1, errors.Count);
         Assert.Equal("Unexpected character encountered while parsing value: x. Path '[0]', line 1, position 4.", errors[0]);
 
-        Assert.Equal(1, ((int[])o).Length);
-        Assert.Equal(0, ((int[])o)[0]);
+        Assert.Equal(1, ((int[]) o).Length);
+        Assert.Equal(0, ((int[]) o)[0]);
     }
 
     [Fact]
@@ -618,8 +621,8 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         Assert.Equal(1, errors.Count);
         Assert.Equal("Error reading integer. Unexpected token: Boolean. Path '[1]'.", errors[0]);
 
-        Assert.Equal(1, ((int[])o).Length);
-        Assert.Equal(0, ((int[])o)[0]);
+        Assert.Equal(1, ((int[]) o).Length);
+        Assert.Equal(0, ((int[]) o)[0]);
     }
 
     [Fact]
@@ -659,7 +662,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         const string input = "{\"events\":[{\"code\":64411},{\"code\":64411,\"prio";
 
         const int maxDepth = 256;
-        using (var jsonTextReader = new JsonTextReader(new StringReader(input)) { MaxDepth = maxDepth })
+        using (var jsonTextReader = new JsonTextReader(new StringReader(input)) {MaxDepth = maxDepth})
         {
             var jsonSerializer = JsonSerializer.Create(new JsonSerializerSettings
             {
@@ -693,9 +696,9 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         const string input = "{\"events\":{\"code\":64411},\"events2\":{\"code\":64412,";
 
         const int maxDepth = 256;
-        using (var jsonTextReader = new JsonTextReader(new StringReader(input)) { MaxDepth = maxDepth })
+        using (var jsonTextReader = new JsonTextReader(new StringReader(input)) {MaxDepth = maxDepth})
         {
-            var jsonSerializer = JsonSerializer.Create(new JsonSerializerSettings { MaxDepth = maxDepth, MetadataPropertyHandling = MetadataPropertyHandling.Default });
+            var jsonSerializer = JsonSerializer.Create(new JsonSerializerSettings {MaxDepth = maxDepth, MetadataPropertyHandling = MetadataPropertyHandling.Default});
             jsonSerializer.Error += (_, e) =>
             {
                 errors.Add(e.ErrorContext.Error.Message);
@@ -757,9 +760,9 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
         var data = new List<ErrorPerson2>
         {
-            new() { FirstName = "Scott", LastName = "Hanselman" },
-            new() { FirstName = "Scott", LastName = "Hunter" },
-            new() { FirstName = "Scott", LastName = "Guthrie" },
+            new() {FirstName = "Scott", LastName = "Hanselman"},
+            new() {FirstName = "Scott", LastName = "Hunter"},
+            new() {FirstName = "Scott", LastName = "Guthrie"},
         };
 
         var dictionary = data.GroupBy(person => person.FirstName).ToDictionary(group => @group.Key, group => @group.Cast<IErrorPerson2>());
@@ -775,10 +778,10 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
         var data = new List<ErrorPerson2>
         {
-            new() { FirstName = "Scott", LastName = "Hanselman" },
-            new() { FirstName = "Scott", LastName = "Hunter" },
-            new() { FirstName = "Scott", LastName = "Guthrie" },
-            new() { FirstName = "James", LastName = "Newton-King" },
+            new() {FirstName = "Scott", LastName = "Hanselman"},
+            new() {FirstName = "Scott", LastName = "Hunter"},
+            new() {FirstName = "Scott", LastName = "Guthrie"},
+            new() {FirstName = "James", LastName = "Newton-King"},
         };
 
         var dictionary = data.GroupBy(person => person.FirstName).ToDictionary(group => @group.Key, group => @group.Cast<IErrorPerson2>());
@@ -859,7 +862,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             {
                 try
                 {
-                    var s = (Something)value;
+                    var s = (Something) value;
 
                     // Do own stuff.
                     // Then call serialise for inner object.
@@ -1031,112 +1034,114 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         public DateTime DateTime1 { get; set; }
         public string String4 { get; set; }
     }
-}
 
-interface IErrorPerson2
-{
-}
-
-class ErrorPerson2 //:IPerson - oops! Forgot to implement the person interface
-{
-    public string LastName { get; set; }
-    public string FirstName { get; set; }
-}
-
-public class ThrowingReader : TextReader
-{
-    int _position = 0;
-    static string element = "{\"FirstName\":\"Din\",\"LastName\":\"Rav\",\"Item\":{\"ItemName\":\"temp\"}}";
-    bool _firstRead = true;
-    bool _readComma = false;
-
-    public ThrowingReader()
+    interface IErrorPerson2
     {
     }
 
-    public override int Read(char[] buffer, int index, int count)
+    class ErrorPerson2 //:IPerson - oops! Forgot to implement the person interface
     {
-        var temp = new char[buffer.Length];
-        var charsRead = 0;
-        if (_firstRead)
+        public string LastName { get; set; }
+        public string FirstName { get; set; }
+    }
+
+    public class ThrowingReader : TextReader
+    {
+        int _position = 0;
+        static string element = "{\"FirstName\":\"Din\",\"LastName\":\"Rav\",\"Item\":{\"ItemName\":\"temp\"}}";
+        bool _firstRead = true;
+        bool _readComma = false;
+
+        public ThrowingReader()
         {
-            charsRead = new StringReader("[").Read(temp, index, count);
-            _firstRead = false;
         }
-        else
+
+        public override int Read(char[] buffer, int index, int count)
         {
-            if (_readComma)
+            var temp = new char[buffer.Length];
+            var charsRead = 0;
+            if (_firstRead)
             {
-                charsRead = new StringReader(",").Read(temp, index, count);
-                _readComma = false;
+                charsRead = new StringReader("[").Read(temp, index, count);
+                _firstRead = false;
             }
             else
             {
-                charsRead = new StringReader(element).Read(temp, index, count);
-                _readComma = true;
+                if (_readComma)
+                {
+                    charsRead = new StringReader(",").Read(temp, index, count);
+                    _readComma = false;
+                }
+                else
+                {
+                    charsRead = new StringReader(element).Read(temp, index, count);
+                    _readComma = true;
+                }
             }
-        }
 
-        _position += charsRead;
-        if (_position > 65536)
+            _position += charsRead;
+            if (_position > 65536)
+            {
+                throw new("too far");
+            }
+
+            Array.Copy(temp, index, buffer, index, charsRead);
+            return charsRead;
+        }
+    }
+
+    public class ErrorPerson
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public ErrorItem Item { get; set; }
+    }
+
+    public class ErrorItem
+    {
+        public string ItemName { get; set; }
+    }
+
+    [JsonObject]
+    public class MyTypeWithRequiredMembers
+    {
+        [JsonProperty(Required = Required.AllowNull)]
+        public string Required1;
+
+        [JsonProperty(Required = Required.AllowNull)]
+        public string Required2;
+    }
+
+    public class LogMessage
+    {
+        public string DeviceId { get; set; }
+        public IList<LogEvent> Events { get; set; }
+    }
+
+    public class LogEvent
+    {
+        public string Code { get; set; }
+        public int Priority { get; set; }
+    }
+
+
+    public class ErrorTestObject
+    {
+        [OnError]
+        internal void OnError(StreamingContext context, ErrorContext errorContext)
         {
-            throw new("too far");
         }
-        Array.Copy(temp, index, buffer, index, charsRead);
-        return charsRead;
     }
-}
 
-public class ErrorPerson
-{
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public ErrorItem Item { get; set; }
-}
-
-public class ErrorItem
-{
-    public string ItemName { get; set; }
-}
-
-[JsonObject]
-public class MyTypeWithRequiredMembers
-{
-    [JsonProperty(Required = Required.AllowNull)]
-    public string Required1;
-
-    [JsonProperty(Required = Required.AllowNull)]
-    public string Required2;
-}
-
-public class LogMessage
-{
-    public string DeviceId { get; set; }
-    public IList<LogEvent> Events { get; set; }
-}
-
-public class LogEvent
-{
-    public string Code { get; set; }
-    public int Priority { get; set; }
-}
-
-public class ErrorTestObject
-{
-    [OnError]
-    internal void OnError(StreamingContext context, ErrorContext errorContext)
+    /// <summary>
+    /// A dictionary that ignores deserialization errors and excludes bad items
+    /// </summary>
+    public class TolerantDictionary<TKey, TValue> : Dictionary<TKey, TValue>
     {
-    }
-}
-
-/// <summary>
-/// A dictionary that ignores deserialization errors and excludes bad items
-/// </summary>
-public class TolerantDictionary<TKey, TValue> : Dictionary<TKey, TValue>
-{
-    [OnError]
-    public void OnDeserializationError(StreamingContext streamingContext, ErrorContext errorContext)
-    {
-        errorContext.Handled = true;
+        [OnError]
+        public void OnDeserializationError(StreamingContext streamingContext, ErrorContext errorContext)
+        {
+            errorContext.Handled = true;
+        }
     }
 }
