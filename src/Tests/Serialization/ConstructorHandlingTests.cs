@@ -26,8 +26,6 @@
 using System.ComponentModel;
 using TestObjects;
 
-namespace Argon.Tests.Serialization;
-
 public class ConstructorHandlingTests : TestFixtureBase
 {
     [Fact]
