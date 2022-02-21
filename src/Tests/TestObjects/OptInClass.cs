@@ -25,29 +25,26 @@
 
 #if !NET5_0_OR_GREATER
 using System.ComponentModel.DataAnnotations;
-#endif
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[MetadataType(typeof(OptInClassMetadata))]
+public class OptInClass
 {
-#if !NET5_0_OR_GREATER
-    [MetadataType(typeof(OptInClassMetadata))]
-    public class OptInClass
+    [DataContract]
+    public class OptInClassMetadata
     {
-        [DataContract]
-        public class OptInClassMetadata
-        {
-            [DataMember]
-            public string Name { get; set; }
-
-            [DataMember]
-            public int Age { get; set; }
-
-            public string NotIncluded { get; set; }
-        }
-
+        [DataMember]
         public string Name { get; set; }
+
+        [DataMember]
         public int Age { get; set; }
+
         public string NotIncluded { get; set; }
     }
-#endif
+
+    public string Name { get; set; }
+    public int Age { get; set; }
+    public string NotIncluded { get; set; }
 }
+#endif

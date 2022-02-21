@@ -25,52 +25,47 @@
 
 #if !NET5_0_OR_GREATER
 using System.ComponentModel.DataAnnotations;
-#endif
 
-namespace Argon.Tests.TestObjects
+namespace Argon.Tests.TestObjects;
+
+[Serializable]
+public partial class FaqItem
 {
-#if !NET5_0_OR_GREATER
-    [Serializable]
-    public partial class FaqItem
+    public FaqItem()
     {
-        public FaqItem()
-        {
-            Sections = new HashSet<FaqSection>();
-        }
-
-        public int FaqId { get; set; }
-        public string Name { get; set; }
-        public bool IsDeleted { get; set; }
-
-        public virtual ICollection<FaqSection> Sections { get; set; }
+        Sections = new HashSet<FaqSection>();
     }
 
-    [MetadataType(typeof(FaqItemMetadata))]
-    partial class FaqItem
-    {
-        [JsonProperty("FullSectionsProp")]
-        public ICollection<FaqSection> FullSections => Sections;
-    }
+    public int FaqId { get; set; }
+    public string Name { get; set; }
+    public bool IsDeleted { get; set; }
 
-    public class FaqItemMetadata
-    {
-        [JsonIgnore]
-        public virtual ICollection<FaqSection> Sections { get; set; }
-    }
-
-    public class FaqSection
-    {
-    }
-
-    public class FaqItemProxy : FaqItem
-    {
-        public bool IsProxy { get; set; }
-
-        public override ICollection<FaqSection> Sections
-        {
-            get => base.Sections;
-            set => base.Sections = value;
-        }
-    }
-#endif
+    public virtual ICollection<FaqSection> Sections { get; set; }
 }
+
+[MetadataType(typeof(FaqItemMetadata))]
+partial class FaqItem
+{
+    [JsonProperty("FullSectionsProp")] public ICollection<FaqSection> FullSections => Sections;
+}
+
+public class FaqItemMetadata
+{
+    [JsonIgnore] public virtual ICollection<FaqSection> Sections { get; set; }
+}
+
+public class FaqSection
+{
+}
+
+public class FaqItemProxy : FaqItem
+{
+    public bool IsProxy { get; set; }
+
+    public override ICollection<FaqSection> Sections
+    {
+        get => base.Sections;
+        set => base.Sections = value;
+    }
+}
+#endif
