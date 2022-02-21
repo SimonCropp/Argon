@@ -711,7 +711,7 @@ public class StringEnumConverterTests : TestFixtureBase
                 Assert.Equal(DuplicateNameEnum.foo_bar, o.Value);
                 Assert.Equal(DuplicateNameEnum2.FooBar, o.Value2);
             },
-            "Type 'Argon.Tests.Converters.DuplicateNameEnum' contains two members 'foo_bar' 'and 'FooBar' with the same name 'foo_bar'. Multiple members with the same name in one type are not supported. Consider changing one of the member names using EnumMemberAttribute attribute.");
+            "Type 'DuplicateNameEnum' contains two members 'foo_bar' 'and 'FooBar' with the same name 'foo_bar'. Multiple members with the same name in one type are not supported. Consider changing one of the member names using EnumMemberAttribute attribute.");
     }
 
     [Fact]
