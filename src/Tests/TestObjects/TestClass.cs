@@ -25,7 +25,6 @@
 
 namespace TestObjects;
 
-[Serializable]
 [DataContract]
 public class TestClass
 {

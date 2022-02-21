@@ -25,7 +25,6 @@
 
 namespace TestObjects;
 
-[Serializable]
 public class PersonSerializable
 {
     public PersonSerializable()
