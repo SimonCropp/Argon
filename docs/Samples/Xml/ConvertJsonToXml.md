@@ -36,5 +36,5 @@ Console.WriteLine(node.ToString());
 //   </Team>
 // </Root>
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Xml/ConvertJsonToXml.cs#L35-L68' title='Snippet source file'>snippet source</a> | <a href='#snippet-convertjsontoxml' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Xml/ConvertJsonToXml.cs#L33-L66' title='Snippet source file'>snippet source</a> | <a href='#snippet-convertjsontoxml' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

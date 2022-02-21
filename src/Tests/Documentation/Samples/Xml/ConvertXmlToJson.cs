@@ -25,8 +25,6 @@
 
 using System.Xml;
 
-namespace Argon.Tests.Documentation.Samples.Xml;
-
 public class ConvertXmlToJson : TestFixtureBase
 {
     [Fact]

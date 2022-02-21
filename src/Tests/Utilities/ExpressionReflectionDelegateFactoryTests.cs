@@ -25,8 +25,7 @@
 
 using Argon.Tests.TestObjects;
 using Argon.Tests.TestObjects.Organization;
-
-namespace Argon.Tests.Utilities;
+using Argon.Tests.Utilities;
 
 public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
 {

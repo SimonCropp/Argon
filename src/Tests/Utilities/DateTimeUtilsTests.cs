@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.Utilities;
-
 public class DateTimeUtilsTests : TestFixtureBase
 {
     [Fact]

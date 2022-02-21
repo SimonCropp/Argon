@@ -25,8 +25,6 @@
 
 using TestCaseSource = Xunit.MemberDataAttribute;
 
-namespace Argon.Tests.Utilities;
-
 public class EnumUtilsTests : TestFixtureBase
 {
     [Theory]
