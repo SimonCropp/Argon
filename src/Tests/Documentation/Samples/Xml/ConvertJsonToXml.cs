@@ -25,7 +25,6 @@
 
 using System.Xml.Linq;
 
-
 namespace Argon.Tests.Documentation.Samples.Xml;
 
 public class ConvertJsonToXml : TestFixtureBase

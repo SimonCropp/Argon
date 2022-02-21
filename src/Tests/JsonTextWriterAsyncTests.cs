@@ -1937,7 +1937,6 @@ null//comment
         await XUnitAssert.ThrowsAsync<InvalidOperationException>(async () => await writer.WritePropertyNameAsync("aa"));
     }
 
-
     [Fact]
     public async Task FailureOnStartWriteObject()
     {

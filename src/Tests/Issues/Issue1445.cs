@@ -25,8 +25,6 @@
 
 using System.Data;
 
-namespace Argon.Tests.Issues;
-
 public class Issue1445 : TestFixtureBase
 {
     [Fact]

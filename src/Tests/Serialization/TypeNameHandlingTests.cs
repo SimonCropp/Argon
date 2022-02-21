@@ -92,7 +92,6 @@ public class TypeNameHandlingTests : TestFixtureBase
         XUnitAssert.AreEqualNormalized(expectedJson, json);
     }
 
-
     [Fact]
     public void DeserializeMultidimensionalByteArrayWithTypeName()
     {

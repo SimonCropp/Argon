@@ -28,7 +28,6 @@ using Argon.Tests.TestObjects.Organization;
 
 // ReSharper disable UseObjectOrCollectionInitializer
 
-
 namespace Argon.Tests.Serialization;
 
 public class PreserveReferencesHandlingTests : TestFixtureBase

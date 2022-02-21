@@ -58,7 +58,6 @@ public class XUnitAssert
         return s;
     }
 
-
     public static TException Throws<TException>(Action action, params string[] possibleMessages)
         where TException : Exception
     {

@@ -1229,7 +1229,6 @@ public class JsonConvertTest : TestFixtureBase
         public string One { get; set; }
     }
 
-
     public class OverloadsJsonConverterer : JsonConverter
     {
         readonly string _type;
@@ -1532,7 +1531,6 @@ public class JsonConvertTest : TestFixtureBase
 
     //    Assert.AreEqual("{\"Overload\":\"IList<string>\"}", json);
     //}
-
 
     [Fact]
     public void CustomDoubleRounding()

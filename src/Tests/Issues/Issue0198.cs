@@ -25,8 +25,6 @@
 
 using Argon.Tests.TestObjects;
 
-namespace Argon.Tests.Issues;
-
 public class Issue0198 : TestFixtureBase
 {
     [Fact]

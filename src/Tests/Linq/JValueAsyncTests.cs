@@ -47,7 +47,6 @@ public class JValueAsyncTests : TestFixtureBase
 
     readonly Rate _rate = new() { Compoundings = 12.166666666666666666666666667m };
 
-
     [Fact]
     public async Task ParseAndConvertDateTimeOffsetAsync()
     {

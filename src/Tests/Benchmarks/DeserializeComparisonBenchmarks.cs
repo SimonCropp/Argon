@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-
 #if (!NET5_0_OR_GREATER)
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Web.Script.Serialization;

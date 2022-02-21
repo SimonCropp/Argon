@@ -25,8 +25,6 @@
 
 #if NET5_0_OR_GREATER
 
-namespace Argon.Tests.Issues;
-
 public class Issue1541 : TestFixtureBase
 {
     [Fact]

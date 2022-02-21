@@ -25,8 +25,6 @@
 
 using System.Dynamic;
 
-namespace Argon.Tests.Issues;
-
 public class Issue1593 : TestFixtureBase
 {
     [Fact]

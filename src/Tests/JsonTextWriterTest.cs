@@ -99,7 +99,6 @@ public class JsonTextWriterTest : TestFixtureBase
                 writer.WriteValue("Error!");
             }
 
-
             XUnitAssert.Fail();
         }
         catch

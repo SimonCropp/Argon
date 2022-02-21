@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-
 using System.Collections.Immutable;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;

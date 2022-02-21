@@ -25,8 +25,6 @@
 
 using System.Collections.Immutable;
 
-namespace Argon.Tests.Issues;
-
 public class Issue1984
 {
     [Fact]

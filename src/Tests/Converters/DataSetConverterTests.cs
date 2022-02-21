@@ -184,7 +184,6 @@ public class DataSetConverterTests : TestFixtureBase
         settings.AddDataSetConverters();
         settings.Converters.Add(new IsoDateTimeConverter());
 
-
         var json = JsonConvert.SerializeObject(ds, settings);
         // {
         //   "FirstTable": [

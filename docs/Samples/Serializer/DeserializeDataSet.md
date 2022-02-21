@@ -35,5 +35,5 @@ foreach (DataRow row in dataTable.Rows)
 // 0 - item 0
 // 1 - item 1
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeDataSet.cs#L37-L67' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializedataset' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeDataSet.cs#L36-L66' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializedataset' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.Issues;
-
 public class Issue2444
 {
     [Fact]
@@ -56,7 +54,7 @@ public class Issue2444
         // Non-dictionary values should still error
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<List<MyEnum>>(@"[""text_value""]", settings),
-            @"Error converting value ""text_value"" to type 'Argon.Tests.Issues.Issue2444+MyEnum'. Path '[0]', line 1, position 13.");
+            @"Error converting value ""text_value"" to type 'Issue2444+MyEnum'. Path '[0]', line 1, position 13.");
     }
 
     public enum MyEnum

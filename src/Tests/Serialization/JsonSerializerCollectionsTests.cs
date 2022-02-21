@@ -2266,7 +2266,6 @@ public class CASResponce
     //  </cas:authenticationSuccess>
     //</cas:serviceResponse>
 
-
     //WAYF
     //<cas:serviceResponse xmlns:cas="http://www.yale.edu/tp/cas">
     //  <cas:authenticationSuccess>
@@ -2298,14 +2297,12 @@ public class CASResponce
     // </cas:authenticationSuccess>
     //</cas:serviceResponse>
 
-
     public enum ssoLanguage
     {
         Unknown,
         Danish,
         English
     }
-
 
     public CASResponce(string xmlResponce)
     {
@@ -2358,7 +2355,6 @@ public class CASResponce
             Language = ssoLanguage.Unknown;
         }
     }
-
 
 
 

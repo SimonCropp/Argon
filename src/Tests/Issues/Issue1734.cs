@@ -25,8 +25,6 @@
 
 using System.Xml;
 
-namespace Argon.Tests.Issues;
-
 public class Issue1734
 {
     [Fact]

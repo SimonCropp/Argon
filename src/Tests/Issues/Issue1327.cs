@@ -26,8 +26,6 @@
 using System.Xml;
 using System.Xml.Linq;
 
-namespace Argon.Tests.Issues;
-
 public class Issue1327 : TestFixtureBase
 {
     public class PersonWithXmlNode
