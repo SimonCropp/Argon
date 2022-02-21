@@ -26,7 +26,7 @@
 #if !NET5_0_OR_GREATER
 using System.ComponentModel.DataAnnotations;
 
-namespace Argon.Tests.TestObjects;
+namespace TestObjects;
 
 [Serializable]
 public partial class FaqItem

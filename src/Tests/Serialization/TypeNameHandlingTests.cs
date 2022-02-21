@@ -707,7 +707,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     {
         var json = @"{
   ""$id"": ""1"",
-  ""$type"": ""Argon.Tests.TestObjects.Employee"",
+  ""$type"": ""TestObjects.Employee"",
   ""Name"": ""Name!"",
   ""Manager"": null
 }";
@@ -718,7 +718,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             {
                 TypeNameHandling = TypeNameHandling.Objects
             });
-        }, "Type specified in JSON 'Argon.Tests.TestObjects.Employee' was not resolved. Path '$type', line 3, position 45.");
+        }, "Type specified in JSON 'TestObjects.Employee' was not resolved. Path '$type', line 3, position 45.");
     }
 
     public interface ICorrelatedMessage
@@ -897,7 +897,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     {
         var json = @"{
   ""$id"": ""1"",
-  ""$type"": ""Argon.Tests.TestObjects.Employee"",
+  ""$type"": ""TestObjects.Employee"",
   ""Name"": ""Name!""
 }";
 

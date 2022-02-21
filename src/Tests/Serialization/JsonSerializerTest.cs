@@ -27,7 +27,6 @@ using System.ComponentModel.DataAnnotations;
 #if !NET5_0_OR_GREATER
 using System.Web.Script.Serialization;
 using System.Drawing;
-using Argon.Tests.TestObjects;
 #endif
 using System.Text.RegularExpressions;
 using System.Xml;

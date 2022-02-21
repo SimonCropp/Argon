@@ -26,7 +26,7 @@
 #if !NET5_0_OR_GREATER
 using System.ComponentModel.DataAnnotations;
 
-namespace Argon.Tests.TestObjects;
+namespace TestObjects;
 
 [MetadataType(typeof(OptInClassMetadata))]
 public class OptInClass
