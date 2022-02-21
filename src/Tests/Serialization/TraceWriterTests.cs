@@ -1,5 +1,5 @@
 ﻿using Argon.Tests.TestObjects;
-using Argon.Tests.TestObjects.Organization;
+using TestObjects;
 
 // ReSharper disable UseObjectOrCollectionInitializer
 
@@ -886,9 +886,9 @@ Argon Error: 0 : Error!
                 TraceWriter = traceWriter
             });
 
-        Assert.Equal("Started deserializing Argon.Tests.TestObjects.Organization.Person. Path 'MissingMemberProperty', line 1, position 25.", traceWriter.TraceRecords[0].Message);
-        Assert.Equal("Could not find member 'MissingMemberProperty' on Argon.Tests.TestObjects.Organization.Person. Path 'MissingMemberProperty', line 1, position 25.", traceWriter.TraceRecords[1].Message);
-        Assert.True(traceWriter.TraceRecords[2].Message.StartsWith("Finished deserializing Argon.Tests.TestObjects.Organization.Person. Path ''"));
+        Assert.Equal("Started deserializing TestObjects.Person. Path 'MissingMemberProperty', line 1, position 25.", traceWriter.TraceRecords[0].Message);
+        Assert.Equal("Could not find member 'MissingMemberProperty' on TestObjects.Person. Path 'MissingMemberProperty', line 1, position 25.", traceWriter.TraceRecords[1].Message);
+        Assert.True(traceWriter.TraceRecords[2].Message.StartsWith("Finished deserializing TestObjects.Person. Path ''"));
     }
 
     [Fact]

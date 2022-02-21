@@ -27,7 +27,7 @@ using System.Collections.Specialized;
 using System.Collections.ObjectModel;
 using Argon.Tests.TestObjects;
 using Argon.Tests.TestObjects.Events;
-using Argon.Tests.TestObjects.Organization;
+using TestObjects;
 using System.Xml.Linq;
 
 namespace Argon.Tests.Serialization;

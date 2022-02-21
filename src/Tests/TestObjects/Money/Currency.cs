@@ -25,7 +25,7 @@
 
 using Microsoft.FSharp.Core;
 
-namespace Argon.Tests.TestObjects.Money;
+namespace TestObjects;
 
 [Serializable, DebuggerDisplay("{__DebugDisplay(),nq}"), CompilationMapping(SourceConstructFlags.SumType)]
 public class Currency

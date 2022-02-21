@@ -530,7 +530,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     public void ErrorHandlingAndAvoidingRecursiveDepthError()
     {
         var json = "{'A':{'A':{'A':{'A':{'A':{}}}}}}";
-        var serializer = new JsonSerializer { };
+        var serializer = new JsonSerializer();
         IList<string> errors = new List<string>();
         serializer.Error += (_, e) =>
         {
@@ -909,7 +909,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     [Fact]
     public void DeserializeWrappingErrorsAndErrorHandling()
     {
-        var serialiser = JsonSerializer.Create(new JsonSerializerSettings { });
+        var serialiser = JsonSerializer.Create(new JsonSerializerSettings());
 
         var foo = "{ something: { rootSomethingElse { somethingElse: 0 } } }";
         var reader = new StringReader(foo);
@@ -922,7 +922,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     [Fact]
     public void SerializeWrappingErrorsAndErrorHandling()
     {
-        var serialiser = JsonSerializer.Create(new JsonSerializerSettings { });
+        var serialiser = JsonSerializer.Create(new JsonSerializerSettings());
 
         var s = new Something
         {

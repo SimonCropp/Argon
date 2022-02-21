@@ -154,7 +154,7 @@ public class DefaultValueHandlingTests : TestFixtureBase
 
         var included = JsonConvert.SerializeObject(invoice,
             Formatting.Indented,
-            new JsonSerializerSettings { });
+            new JsonSerializerSettings());
 
         XUnitAssert.AreEqualNormalized(@"{
   ""Company"": ""Acme Ltd."",

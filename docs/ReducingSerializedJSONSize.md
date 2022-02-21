@@ -89,7 +89,7 @@ var movie = new Movie
 
 var included = JsonConvert.SerializeObject(movie,
     Formatting.Indented,
-    new JsonSerializerSettings { });
+    new JsonSerializerSettings());
 
 // {
 //   "Name": "Bad Boys III",
@@ -160,7 +160,7 @@ var invoice = new Invoice
 
 var included = JsonConvert.SerializeObject(invoice,
     Formatting.Indented,
-    new JsonSerializerSettings { });
+    new JsonSerializerSettings());
 
 // {
 //   "Company": "Acme Ltd.",

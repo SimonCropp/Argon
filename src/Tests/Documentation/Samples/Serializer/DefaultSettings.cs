@@ -23,9 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Staff = Argon.Tests.TestObjects.Organization.Employee;
-
-
+using Staff = TestObjects.Employee;
 
 public class DefaultSettings : TestFixtureBase
 {

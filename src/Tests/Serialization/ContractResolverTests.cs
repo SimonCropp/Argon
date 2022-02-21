@@ -25,7 +25,7 @@
 
 using System.ComponentModel;
 using Argon.Tests.TestObjects;
-using Argon.Tests.TestObjects.Organization;
+using TestObjects;
 using System.Text.RegularExpressions;
 
 namespace Argon.Tests.Serialization;

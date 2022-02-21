@@ -25,7 +25,7 @@
 
 #if !NET5_0_OR_GREATER
 using Argon.Tests.TestObjects;
-using Argon.Tests.TestObjects.Organization;
+using TestObjects;
 
 namespace Argon.Tests.Utilities;
 
@@ -113,7 +113,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
             var setter = DynamicReflectionDelegateFactory.Instance.CreateGet<object>(typeof(Movie).GetProperty("Name"));
 
             setter(p);
-        }, "Unable to cast object of type 'Argon.Tests.TestObjects.Organization.Person' to type 'Argon.Tests.TestObjects.Movie'.");
+        }, "Unable to cast object of type 'TestObjects.Person' to type 'TestObjects.Movie'.");
     }
 
     [Fact]
@@ -133,7 +133,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
             setter(p, "Hi");
 
             Assert.Equal(p.Name, "Hi");
-        }, "Unable to cast object of type 'Argon.Tests.TestObjects.Organization.Person' to type 'Argon.Tests.TestObjects.Movie'.");
+        }, "Unable to cast object of type 'TestObjects.Person' to type 'TestObjects.Movie'.");
     }
 
     [Fact]

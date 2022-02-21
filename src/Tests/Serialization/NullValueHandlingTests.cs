@@ -24,6 +24,7 @@
 #endregion
 
 using Argon.Tests.TestObjects;
+using TestObjects;
 
 namespace Argon.Tests.Serialization;
 
@@ -95,7 +96,7 @@ public class NullValueHandlingTests : TestFixtureBase
 
         var included = JsonConvert.SerializeObject(movie,
             Formatting.Indented,
-            new JsonSerializerSettings { });
+            new JsonSerializerSettings());
 
         // {
         //   "Name": "Bad Boys III",

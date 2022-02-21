@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects.Organization;
+namespace TestObjects;
 
 public class Manager : Employee
 {

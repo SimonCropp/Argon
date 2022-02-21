@@ -24,7 +24,7 @@
 #endregion
 
 using System.Collections.ObjectModel;
-using Argon.Tests.TestObjects.Organization;
+using TestObjects;
 
 namespace Argon.Tests.TestObjects;
 

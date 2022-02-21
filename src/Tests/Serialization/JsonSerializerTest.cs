@@ -26,6 +26,7 @@
 using System.ComponentModel.DataAnnotations;
 #if !NET5_0_OR_GREATER
 using System.Web.Script.Serialization;
+using System.Drawing;
 #endif
 using System.Text.RegularExpressions;
 using System.Xml;
@@ -35,14 +36,10 @@ using Argon.Tests.Linq;
 using Argon.Tests.TestObjects;
 using Argon.Tests.TestObjects.Events;
 using Argon.Tests.TestObjects.GeoCoding;
-using Argon.Tests.TestObjects.Organization;
+using TestObjects;
 using System.Xml.Linq;
 using System.Collections.Specialized;
 using System.Dynamic;
-#if !NET5_0_OR_GREATER
-using System.Drawing;
-
-#endif
 
 namespace Argon.Tests.Serialization;
 
@@ -3348,7 +3345,7 @@ keyword such as type of business.""
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<Person>(json),
-            @"Cannot deserialize the current JSON array (e.g. [1,2,3]) into type 'Argon.Tests.TestObjects.Organization.Person' because the type requires a JSON object (e.g. {""name"":""value""}) to deserialize correctly.
+            @"Cannot deserialize the current JSON array (e.g. [1,2,3]) into type 'TestObjects.Person' because the type requires a JSON object (e.g. {""name"":""value""}) to deserialize correctly.
 To fix this error either change the JSON to a JSON object (e.g. {""name"":""value""}) or change the deserialized type to an array or a type that implements a collection interface (e.g. ICollection, IList) like List<T> that can be deserialized from a JSON array. JsonArrayAttribute can also be added to the type to force it to deserialize from a JSON array.
 Path '', line 1, position 1.");
     }
@@ -3416,7 +3413,7 @@ Path '', line 1, position 1.");
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<Person>(json),
-            @"Error converting value ""Constructor"" to type 'Argon.Tests.TestObjects.Organization.Person'. Path '', line 1, position 16.");
+            @"Error converting value ""Constructor"" to type 'TestObjects.Person'. Path '', line 1, position 16.");
     }
 
     [Fact]
@@ -3426,7 +3423,7 @@ Path '', line 1, position 1.");
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<List<Person>>(json),
-            @"Error converting value ""Constructor"" to type 'Argon.Tests.TestObjects.Organization.Person'. Path '[0]', line 1, position 17.");
+            @"Error converting value ""Constructor"" to type 'TestObjects.Person'. Path '[0]', line 1, position 17.");
     }
 
     [Fact]
@@ -3441,7 +3438,7 @@ Path '', line 1, position 1.");
         }
         catch (JsonSerializationException ex)
         {
-            Assert.True(ex.Message.StartsWith($@"Cannot deserialize the current JSON object (e.g. {{""name"":""value""}}) into type 'System.Collections.Generic.List`1[Argon.Tests.TestObjects.Organization.Person]' because the type requires a JSON array (e.g. [1,2,3]) to deserialize correctly.{Environment.NewLine}To fix this error either change the JSON to a JSON array (e.g. [1,2,3]) or change the deserialized type so that it is a normal .NET type (e.g. not a primitive type like integer, not a collection type like an array or List<T>) that can be deserialized from a JSON object. JsonObjectAttribute can also be added to the type to force it to deserialize from a JSON object.{Environment.NewLine}Path ''"));
+            Assert.True(ex.Message.StartsWith($@"Cannot deserialize the current JSON object (e.g. {{""name"":""value""}}) into type 'System.Collections.Generic.List`1[TestObjects.Person]' because the type requires a JSON array (e.g. [1,2,3]) to deserialize correctly.{Environment.NewLine}To fix this error either change the JSON to a JSON array (e.g. [1,2,3]) or change the deserialized type so that it is a normal .NET type (e.g. not a primitive type like integer, not a collection type like an array or List<T>) that can be deserialized from a JSON object. JsonObjectAttribute can also be added to the type to force it to deserialize from a JSON object.{Environment.NewLine}Path ''"));
         }
     }
 
@@ -3452,7 +3449,7 @@ Path '', line 1, position 1.");
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.PopulateObject(json, new Person()),
-                @"Cannot populate JSON array onto type 'Argon.Tests.TestObjects.Organization.Person'. Path '', line 1, position 1.");
+                @"Cannot populate JSON array onto type 'TestObjects.Person'. Path '', line 1, position 1.");
     }
 
     [Fact]
@@ -3462,7 +3459,7 @@ Path '', line 1, position 1.");
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.PopulateObject(json, new List<Person>()),
-            @"Cannot populate JSON object onto type 'System.Collections.Generic.List`1[Argon.Tests.TestObjects.Organization.Person]'. Path '', line 1, position 2.");
+            @"Cannot populate JSON object onto type 'System.Collections.Generic.List`1[TestObjects.Person]'. Path '', line 1, position 2.");
     }
 
     [Fact]
@@ -3642,8 +3639,8 @@ Path '', line 1, position 1.");
         var json = JsonConvert.SerializeObject(dictionary, Formatting.Indented);
 
         XUnitAssert.AreEqualNormalized(@"{
-  ""Argon.Tests.TestObjects.Organization.Person"": 1,
-  ""Argon.Tests.TestObjects.Organization.Person"": 2
+  ""TestObjects.Person"": 1,
+  ""TestObjects.Person"": 2
 }", json);
     }
 
@@ -3654,8 +3651,8 @@ Path '', line 1, position 1.");
         {
             var json =
                 @"{
-  ""Argon.Tests.TestObjects.Organization.Person"": 1,
-  ""Argon.Tests.TestObjects.Organization.Person"": 2
+  ""TestObjects.Person"": 1,
+  ""TestObjects.Person"": 2
 }";
 
             JsonConvert.DeserializeObject<Dictionary<Person, int>>(json);
@@ -3663,7 +3660,7 @@ Path '', line 1, position 1.");
         }
         catch (JsonSerializationException ex)
         {
-            Assert.True(ex.Message.StartsWith("Could not convert string 'Argon.Tests.TestObjects.Organization.Person' to dictionary key type 'Argon.Tests.TestObjects.Organization.Person'. Create a TypeConverter to convert from the string to the key type object. Path '['Argon.Tests.TestObjects.Organization.Person']'"));
+            Assert.True(ex.Message.StartsWith("Could not convert string 'TestObjects.Person' to dictionary key type 'TestObjects.Person'. Create a TypeConverter to convert from the string to the key type object. Path '['TestObjects.Person']'"));
         }
     }
 

@@ -26,7 +26,7 @@
 using System.Collections.ObjectModel;
 using Argon.Tests.Linq;
 using Argon.Tests.TestObjects;
-using Argon.Tests.TestObjects.Organization;
+using TestObjects;
 using System.Net;
 
 namespace Argon.Tests.Serialization;
@@ -316,7 +316,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         XUnitAssert.AreEqualNormalized(@"{
   ""movie"": {
-    ""$type"": ""Argon.Tests.TestObjects.Movie, Tests"",
+    ""$type"": ""TestObjects.Movie, Tests"",
     ""Name"": ""Die Hard"",
     ""Description"": null,
     ""Classification"": null,
@@ -344,7 +344,7 @@ public class TypeNameHandlingTests : TestFixtureBase
   {
     ""Key"": ""movie"",
     ""Value"": {
-      ""$type"": ""Argon.Tests.TestObjects.Movie, Tests"",
+      ""$type"": ""TestObjects.Movie, Tests"",
       ""Name"": ""Die Hard"",
       ""Description"": null,
       ""Classification"": null,
@@ -388,7 +388,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         var result = stringWriter.ToString();
 
         XUnitAssert.AreEqualNormalized(@"{
-  ""$type"": ""Argon.Tests.TestObjects.Organization.WagePerson, Tests"",
+  ""$type"": ""TestObjects.WagePerson, Tests"",
   ""HourlyWage"": 0.0,
   ""Name"": null,
   ""BirthDate"": ""0001-01-01T00:00:00"",
@@ -411,7 +411,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         });
 
         XUnitAssert.AreEqualNormalized(@"{
-  ""$type"": ""Argon.Tests.TestObjects.Organization.WagePerson, Tests"",
+  ""$type"": ""TestObjects.WagePerson, Tests"",
   ""HourlyWage"": 0.0,
   ""Name"": null,
   ""BirthDate"": ""0001-01-01T00:00:00"",
@@ -428,7 +428,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         });
 
         XUnitAssert.AreEqualNormalized(@"{
-  ""$type"": ""Argon.Tests.TestObjects.Organization.WagePerson, Tests"",
+  ""$type"": ""TestObjects.WagePerson, Tests"",
   ""HourlyWage"": 0.0,
   ""Name"": null,
   ""BirthDate"": ""0001-01-01T00:00:00"",
@@ -444,7 +444,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Auto
         });
 
-        XUnitAssert.AreEqualNormalized(@"{""$type"":""Argon.Tests.TestObjects.Organization.WagePerson, Tests"",""HourlyWage"":0.0,""Name"":null,""BirthDate"":""0001-01-01T00:00:00"",""LastModified"":""0001-01-01T00:00:00""}", json);
+        XUnitAssert.AreEqualNormalized(@"{""$type"":""TestObjects.WagePerson, Tests"",""HourlyWage"":0.0,""Name"":null,""BirthDate"":""0001-01-01T00:00:00"",""LastModified"":""0001-01-01T00:00:00""}", json);
     }
 
     public class Wrapper
@@ -1549,7 +1549,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     ""MyProperty"": 0
   },
   {
-    ""$type"": ""Argon.Tests.TestObjects.Organization.Employee, Tests"",
+    ""$type"": ""TestObjects.Employee, Tests"",
     ""FirstName"": null,
     ""LastName"": null,
     ""BirthDate"": ""2000-12-12T12:12:12Z"",

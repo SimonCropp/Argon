@@ -24,7 +24,7 @@
 #endregion
 
 using Argon.Tests.TestObjects;
-using Argon.Tests.TestObjects.Organization;
+using TestObjects;
 
 namespace Argon.Tests.Serialization;
 
@@ -743,7 +743,7 @@ public class ExtensionDataTests : TestFixtureBase
   ""Name"": ""Name!"",
   ""Test"": 1,
   ""Self"": {
-    ""$type"": ""Argon.Tests.TestObjects.Organization.WagePerson, Tests"",
+    ""$type"": ""TestObjects.WagePerson, Tests"",
     ""HourlyWage"": 2.0,
     ""Name"": null,
     ""BirthDate"": ""0001-01-01T00:00:00"",
@@ -764,14 +764,14 @@ public class ExtensionDataTests : TestFixtureBase
     }
 
     [Fact]
-    public void DeserializePublicExtensionDataTypeNamdHandlingNonDefaultConstructor()
+    public void DeserializePublicExtensionDataTypeNameHandlingNonDefaultConstructor()
     {
         var json = @"{
   ""$id"": ""1"",
   ""Name"": ""Name!"",
   ""Test"": 1,
   ""Self"": {
-    ""$type"": ""Argon.Tests.TestObjects.Organization.WagePerson, Tests"",
+    ""$type"": ""TestObjects.WagePerson, Tests"",
     ""HourlyWage"": 2.0,
     ""Name"": null,
     ""BirthDate"": ""0001-01-01T00:00:00"",
@@ -818,7 +818,7 @@ public class ExtensionDataTests : TestFixtureBase
   ""$type"": ""Argon.Tests.Serialization.ExtensionDataTests+PublicExtensionDataAttributeTestClass, Tests"",
   ""Name"": ""Name!"",
   ""Test"": {
-    ""$type"": ""Argon.Tests.TestObjects.Organization.WagePerson, Tests"",
+    ""$type"": ""TestObjects.WagePerson, Tests"",
     ""HourlyWage"": 2.1,
     ""Name"": null,
     ""BirthDate"": ""0001-01-01T00:00:00"",

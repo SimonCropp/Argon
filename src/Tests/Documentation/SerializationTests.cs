@@ -754,7 +754,7 @@ public class SerializationTests : TestFixtureBase
 
         var included = JsonConvert.SerializeObject(movie,
             Formatting.Indented,
-            new JsonSerializerSettings { });
+            new JsonSerializerSettings());
 
         // {
         //   "Name": "Bad Boys III",
@@ -826,7 +826,7 @@ public class SerializationTests : TestFixtureBase
 
         var included = JsonConvert.SerializeObject(invoice,
             Formatting.Indented,
-            new JsonSerializerSettings { });
+            new JsonSerializerSettings());
 
         // {
         //   "Company": "Acme Ltd.",

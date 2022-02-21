@@ -26,7 +26,7 @@
 using Autofac;
 using Autofac.Core;
 using Autofac.Core.Activators.Reflection;
-using Argon.Tests.TestObjects.Organization;
+using TestObjects;
 
 namespace Argon.Tests.Serialization;
 
