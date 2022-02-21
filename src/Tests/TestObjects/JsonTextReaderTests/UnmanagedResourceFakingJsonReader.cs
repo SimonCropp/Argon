@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects.JsonTextReaderTests;
-
 public class UnmanagedResourceFakingJsonReader : JsonReader
 {
     public static int DisposalCalls;

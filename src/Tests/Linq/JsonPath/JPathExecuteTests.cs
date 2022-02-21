@@ -26,8 +26,6 @@
 using System.Text.RegularExpressions;
 using TestCaseSource = Xunit.MemberDataAttribute;
 
-namespace Argon.Tests.Linq.JsonPath;
-
 public class JPathExecuteTests : TestFixtureBase
 {
     [Fact]

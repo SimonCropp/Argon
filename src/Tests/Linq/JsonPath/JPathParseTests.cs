@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.Linq.JsonPath;
-
 public class JPathParseTests : TestFixtureBase
 {
     [Fact]

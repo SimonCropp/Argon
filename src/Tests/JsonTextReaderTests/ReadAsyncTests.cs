@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Argon.Tests.TestObjects.JsonTextReaderTests;
-
 namespace Argon.Tests.JsonTextReaderTests;
 
 public class ReadAsyncTests : TestFixtureBase

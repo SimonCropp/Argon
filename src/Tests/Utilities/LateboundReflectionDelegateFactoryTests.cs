@@ -1,5 +1,3 @@
-namespace Argon.Tests.Utilities;
-
 public class OutAndRefTestClass
 {
     public string Input { get; set; }
