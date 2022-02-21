@@ -25,8 +25,6 @@
 
 using System.Dynamic;
 
-namespace Argon.Tests.Serialization;
-
 public class DynamicTests : TestFixtureBase
 {
     [Fact]
@@ -355,12 +353,11 @@ public class TestDynamicObject : DynamicObject
         _members[binder.Name] = value;
         return true;
     }
-}
-
 public class ErrorSettingDynamicObject : DynamicObject
 {
     public override bool TrySetMember(SetMemberBinder binder, object value)
     {
         return false;
     }
+}
 }

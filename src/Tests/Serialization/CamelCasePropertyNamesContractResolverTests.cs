@@ -25,8 +25,6 @@
 
 using TestObjects;
 
-namespace Argon.Tests.Serialization;
-
 public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
 {
     [Fact]
@@ -154,7 +152,7 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
     [Fact]
     public void DynamicCamelCasePropertyNames()
     {
-        dynamic o = new TestDynamicObject();
+        dynamic o = new SnakeCaseNamingStrategyTests.TestDynamicObject();
         o.Text = "Text!";
         o.Integer = int.MaxValue;
 

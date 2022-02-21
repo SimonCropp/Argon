@@ -25,8 +25,6 @@
 
 using TestObjects;
 
-namespace Argon.Tests.Serialization;
-
 public class PopulateTests : TestFixtureBase
 {
     [Fact]

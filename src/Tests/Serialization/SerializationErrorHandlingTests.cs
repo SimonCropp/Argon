@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Argon.Tests.Serialization;
 using TestObjects;
 using ErrorEventArgs = Argon.ErrorEventArgs;
 

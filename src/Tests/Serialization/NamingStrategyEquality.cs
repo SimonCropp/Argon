@@ -23,9 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.Serialization;
-
-public class NamingStrategyEquality: TestFixtureBase
+public class NamingStrategyEquality : TestFixtureBase
 {
     [Fact]
     public void CamelCaseNamingStrategyEquality()

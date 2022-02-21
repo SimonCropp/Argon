@@ -3390,9 +3390,31 @@ Path '', line 1, position 1.");
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<DynamicDictionary>(json),
-            @"Cannot deserialize the current JSON array (e.g. [1,2,3]) into type 'DynamicDictionary' because the type requires a JSON object (e.g. {""name"":""value""}) to deserialize correctly.
+            @"Cannot deserialize the current JSON array (e.g. [1,2,3]) into type 'JsonSerializerTest+DynamicDictionary' because the type requires a JSON object (e.g. {""name"":""value""}) to deserialize correctly.
 To fix this error either change the JSON to a JSON object (e.g. {""name"":""value""}) or change the deserialized type to an array or a type that implements a collection interface (e.g. ICollection, IList) like List<T> that can be deserialized from a JSON array. JsonArrayAttribute can also be added to the type to force it to deserialize from a JSON array.
 Path '', line 1, position 1.");
+    }
+
+    public class DynamicDictionary : DynamicObject
+    {
+        readonly IDictionary<string, object> _values = new Dictionary<string, object>();
+
+        public override IEnumerable<string> GetDynamicMemberNames()
+        {
+            return _values.Keys;
+        }
+
+        public override bool TryGetMember(GetMemberBinder binder, out object result)
+        {
+            result = _values[binder.Name];
+            return true;
+        }
+
+        public override bool TrySetMember(SetMemberBinder binder, object value)
+        {
+            _values[binder.Name] = value;
+            return true;
+        }
     }
 
     [Fact]

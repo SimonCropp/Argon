@@ -24,6 +24,7 @@
 #endregion
 
 using System.Collections.ObjectModel;
+using System.Dynamic;
 using TestObjects;
 using System.Net;
 
@@ -37,8 +38,8 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var o = new HasMultidimensionalByteArray
         {
-            Array2D = new byte[,] { { 1, 2 }, { 2, 4 }, { 3, 6 } },
-            Array3D = new byte[,,] { { { 1, 2, 3}, { 4, 5, 6 } } }
+            Array2D = new byte[,] {{1, 2}, {2, 4}, {3, 6}},
+            Array3D = new byte[,,] {{{1, 2, 3}, {4, 5, 6}}}
         };
 
         var json = JsonConvert.SerializeObject(o, new JsonSerializerSettings
@@ -226,7 +227,7 @@ public class TypeNameHandlingTests : TestFixtureBase
   ""Item3"": ""string""
 }}", json);
 
-        var t2 = (ValueTuple<int, int, string>)JsonConvert.DeserializeObject(json, new JsonSerializerSettings
+        var t2 = (ValueTuple<int, int, string>) JsonConvert.DeserializeObject(json, new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.All
         });
@@ -252,18 +253,18 @@ public class TypeNameHandlingTests : TestFixtureBase
     {
         var c = new KnownAutoTypes
         {
-            Collection = new List<string> { "Collection value!" },
-            List = new List<string> { "List value!" },
+            Collection = new List<string> {"Collection value!"},
+            List = new List<string> {"List value!"},
             Dictionary = new Dictionary<string, string>
             {
-                { "Dictionary key!", "Dictionary value!" }
+                {"Dictionary key!", "Dictionary value!"}
             },
-            ReadOnlyCollection = new ReadOnlyCollection<string>(new[] { "Read Only Collection value!" }),
-            ReadOnlyList = new ReadOnlyCollection<string>(new[] { "Read Only List value!" }),
-            Set = new HashSet<string> { "Set value!" },
+            ReadOnlyCollection = new ReadOnlyCollection<string>(new[] {"Read Only Collection value!"}),
+            ReadOnlyList = new ReadOnlyCollection<string>(new[] {"Read Only List value!"}),
+            Set = new HashSet<string> {"Set value!"},
             ReadOnlyDictionary = new ReadOnlyDictionary<string, string>(new Dictionary<string, string>
             {
-                { "Read Only Dictionary key!", "Read Only Dictionary value!" }
+                {"Read Only Dictionary key!", "Read Only Dictionary value!"}
             })
         };
 
@@ -302,7 +303,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     {
         var dic = new Dictionary<string, object>
         {
-            { "movie", new Movie { Name = "Die Hard" } }
+            {"movie", new Movie {Name = "Die Hard"}}
         };
 
         var json = JsonConvert.SerializeObject(dic, Formatting.Indented, new JsonSerializerSettings
@@ -328,7 +329,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     {
         var dic = new List<KeyValuePair<string, object>>
         {
-            new("movie", new Movie { Name = "Die Hard" })
+            new("movie", new Movie {Name = "Die Hard"})
         };
 
         var json = JsonConvert.SerializeObject(dic, Formatting.Indented, new JsonSerializerSettings
@@ -380,7 +381,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Auto
         };
         var stringWriter = new StringWriter();
-        serializer.Serialize(new JsonTextWriter(stringWriter) { Formatting = Formatting.Indented }, new WagePerson(), typeof(Person));
+        serializer.Serialize(new JsonTextWriter(stringWriter) {Formatting = Formatting.Indented}, new WagePerson(), typeof(Person));
         var result = stringWriter.ToString();
 
         XUnitAssert.AreEqualNormalized(@"{
@@ -460,7 +461,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             },
             Dictionary = new Dictionary<string, EmployeeReference>
             {
-                { "First", new EmployeeReference() }
+                {"First", new EmployeeReference()}
             }
         };
 
@@ -529,7 +530,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         });
 
         Assert.IsType(typeof(EmployeeReference), employee);
-        Assert.Equal("Name!", ((EmployeeReference)employee).Name);
+        Assert.Equal("Name!", ((EmployeeReference) employee).Name);
     }
 
     [Fact]
@@ -561,7 +562,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             new EmployeeReference
             {
                 Name = "Bob",
-                Manager = new EmployeeReference { Name = "Frank" }
+                Manager = new EmployeeReference {Name = "Frank"}
             },
             new Person
             {
@@ -630,7 +631,7 @@ public class TypeNameHandlingTests : TestFixtureBase
   -2147483648
 ]";
 
-        var values = (List<object>)JsonConvert.DeserializeObject(json, typeof(List<object>), new JsonSerializerSettings
+        var values = (List<object>) JsonConvert.DeserializeObject(json, typeof(List<object>), new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.Objects,
             TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full
@@ -638,8 +639,8 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         Assert.Equal(4, values.Count);
 
-        var e = (EmployeeReference)values[0];
-        var p = (Person)values[1];
+        var e = (EmployeeReference) values[0];
+        var p = (Person) values[1];
 
         Assert.Equal("Bob", e.Name);
         Assert.Equal("Frank", e.Manager.Name);
@@ -649,7 +650,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         Assert.Equal(new DateTime(2000, 12, 30, 0, 0, 0, DateTimeKind.Utc), p.LastModified);
 
         Assert.Equal("String!", values[2]);
-        Assert.Equal((long)int.MinValue, values[3]);
+        Assert.Equal((long) int.MinValue, values[3]);
     }
 
     [Fact]
@@ -691,7 +692,7 @@ public class TypeNameHandlingTests : TestFixtureBase
   ""Manager"": null
 }}";
 
-        var o = (JObject)JsonConvert.DeserializeObject(json);
+        var o = (JObject) JsonConvert.DeserializeObject(json);
 
         XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""Name!"",
@@ -768,7 +769,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         Assert.IsType(typeof(SendHttpRequest), message);
 
-        var request = (SendHttpRequest)message;
+        var request = (SendHttpRequest) message;
         Assert.Equal("xyz", request.CorrelationId);
         Assert.Equal(2, request.RequestData.Count);
         Assert.Equal("siedemnaście", request.RequestData["Id"]);
@@ -844,7 +845,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         Assert.Equal("Name!", deserialized.Name);
         Assert.IsType(typeof(TypeNameProperty), deserialized.Value);
 
-        var nested = (TypeNameProperty)deserialized.Value;
+        var nested = (TypeNameProperty) deserialized.Value;
         Assert.Equal("Nested!", nested.Name);
         Assert.Equal(null, nested.Value);
     }
@@ -857,7 +858,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         var typeNameProperty = new TypeNameProperty
         {
             Name = "Name!",
-            Value = new List<int> { 1, 2, 3, 4, 5 }
+            Value = new List<int> {1, 2, 3, 4, 5}
         };
 
         var json = JsonConvert.SerializeObject(typeNameProperty, Formatting.Indented);
@@ -880,7 +881,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         Assert.Equal("Name!", deserialized.Name);
         Assert.IsType(typeof(List<int>), deserialized.Value);
 
-        var nested = (List<int>)deserialized.Value;
+        var nested = (List<int>) deserialized.Value;
         Assert.Equal(5, nested.Count);
         Assert.Equal(1, nested[0]);
         Assert.Equal(2, nested[1]);
@@ -906,7 +907,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         Assert.IsType(typeof(Person), p);
 
-        var person = (Person)p;
+        var person = (Person) p;
 
         Assert.Equal("Name!", person.Name);
     }
@@ -1075,11 +1076,11 @@ public class TypeNameHandlingTests : TestFixtureBase
         });
 
         Assert.IsType(typeof(Customer), newValues[0]);
-        var customer = (Customer)newValues[0];
+        var customer = (Customer) newValues[0];
         Assert.Equal("Caroline Customer", customer.Name);
 
         Assert.IsType(typeof(Purchase), newValues[1]);
-        var purchase = (Purchase)newValues[1];
+        var purchase = (Purchase) newValues[1];
         Assert.Equal("Elbow Grease", purchase.ProductName);
     }
 
@@ -1210,7 +1211,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var deserialized = JsonConvert.DeserializeObject<Message>(json);
 
-        var searchDetails = (SearchDetails)deserialized.Body;
+        var searchDetails = (SearchDetails) deserialized.Body;
         // Json.NET
     }
 
@@ -1225,13 +1226,13 @@ public class TypeNameHandlingTests : TestFixtureBase
     {
         var collection = new Dictionary<string, object>
         {
-            { "First", new UrlStatus { Status = 404, Url = @"http://www.bing.com" } },
-            { "Second", new UrlStatus { Status = 400, Url = @"http://www.google.com" } },
+            {"First", new UrlStatus {Status = 404, Url = @"http://www.bing.com"}},
+            {"Second", new UrlStatus {Status = 400, Url = @"http://www.google.com"}},
             {
                 "List", new List<UrlStatus>
                 {
-                    new() { Status = 300, Url = @"http://www.yahoo.com" },
-                    new() { Status = 200, Url = @"http://www.askjeeves.com" }
+                    new() {Status = 300, Url = @"http://www.yahoo.com"},
+                    new() {Status = 200, Url = @"http://www.askjeeves.com"}
                 }
             }
         };
@@ -1283,11 +1284,11 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         Assert.IsType(typeof(Dictionary<string, object>), c);
 
-        var newCollection = (Dictionary<string, object>)c;
+        var newCollection = (Dictionary<string, object>) c;
         Assert.Equal(3, newCollection.Count);
-        Assert.Equal(@"http://www.bing.com", ((UrlStatus)newCollection["First"]).Url);
+        Assert.Equal(@"http://www.bing.com", ((UrlStatus) newCollection["First"]).Url);
 
-        var statues = (List<UrlStatus>)newCollection["List"];
+        var statues = (List<UrlStatus>) newCollection["List"];
         Assert.Equal(2, statues.Count);
     }
 
@@ -1298,7 +1299,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var products = new CustomEnumerable<Product>();
 
-        var json = JsonConvert.SerializeObject(products, Formatting.Indented, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All });
+        var json = JsonConvert.SerializeObject(products, Formatting.Indented, new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.All});
 
         XUnitAssert.AreEqualNormalized($@"{{
   ""$type"": ""{productClassRef}"",
@@ -1336,6 +1337,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             {
                 yield break;
             }
+
             yield return value;
 
             var nextInLine = next;
@@ -1345,6 +1347,7 @@ public class TypeNameHandlingTests : TestFixtureBase
                 {
                     yield return nextInLine.value;
                 }
+
                 nextInLine = nextInLine.next;
             }
         }
@@ -1364,8 +1367,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         public object[] Objects { get; set; }
 
         // ignored
-        [JsonIgnore]
-        public DateTime LastModified { get; set; }
+        [JsonIgnore] public DateTime LastModified { get; set; }
     }
 
     [Fact]
@@ -1375,8 +1377,8 @@ public class TypeNameHandlingTests : TestFixtureBase
         {
             Year = new DateTime(2000, 10, 5, 1, 1, 1, DateTimeKind.Utc)
         };
-        var data = new byte[] { 75, 65, 82, 73, 82, 65 };
-        testerObject.Objects = new object[] { data, "prueba" };
+        var data = new byte[] {75, 65, 82, 73, 82, 65};
+        testerObject.Objects = new object[] {data, "prueba"};
 
         var settings = new JsonSerializerSettings
         {
@@ -1410,7 +1412,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         Assert.True(obj.Objects[0] is byte[]);
 
-        var d = (byte[])obj.Objects[0];
+        var d = (byte[]) obj.Objects[0];
         Assert.Equal(data, d);
     }
 
@@ -1482,7 +1484,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var o = JObject.Parse(json);
 
-        Assert.Equal(":::MESSAGE:::, AssemblyName", (string)o["$type"]);
+        Assert.Equal(":::MESSAGE:::, AssemblyName", (string) o["$type"]);
     }
 
     class MetroBinder : ISerializationBinder
@@ -1589,7 +1591,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         Assert.Equal(3, l2.Count);
 
         Assert.IsType(typeof(TestComponentSimple), l2["First"]);
-        Assert.Equal(1, ((TestComponentSimple)l2["First"]).MyProperty);
+        Assert.Equal(1, ((TestComponentSimple) l2["First"]).MyProperty);
         Assert.IsType(typeof(string), l2["Second"]);
         Assert.IsType(typeof(long), l2["Third"]);
     }
@@ -1599,9 +1601,9 @@ public class TypeNameHandlingTests : TestFixtureBase
     {
         var o1 = new TypeNameObject
         {
-            Object1 = new TestComponentSimple { MyProperty = 1 },
+            Object1 = new TestComponentSimple {MyProperty = 1},
             Object2 = 123,
-            ObjectNotHandled = new TestComponentSimple { MyProperty = int.MaxValue },
+            ObjectNotHandled = new TestComponentSimple {MyProperty = int.MaxValue},
             String = "String!",
             Integer = int.MaxValue
         };
@@ -1625,7 +1627,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         Assert.NotNull(o2);
 
         Assert.IsType(typeof(TestComponentSimple), o2.Object1);
-        Assert.Equal(1, ((TestComponentSimple)o2.Object1).MyProperty);
+        Assert.Equal(1, ((TestComponentSimple) o2.Object1).MyProperty);
         Assert.IsType(typeof(long), o2.Object2);
         Assert.IsType(typeof(JObject), o2.ObjectNotHandled);
         XUnitAssert.AreEqualNormalized(@"{
@@ -1642,7 +1644,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             {
                 1,
                 "two",
-                new TestComponentSimple { MyProperty = 1 }
+                new TestComponentSimple {MyProperty = 1}
             }
         };
 
@@ -1664,7 +1666,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         Assert.IsType(typeof(long), c2.Data[0]);
         Assert.IsType(typeof(string), c2.Data[1]);
         Assert.IsType(typeof(TestComponentSimple), c2.Data[2]);
-        var c = (TestComponentSimple)c2.Data[2];
+        var c = (TestComponentSimple) c2.Data[2];
         Assert.Equal(1, c.MyProperty);
     }
 
@@ -1675,7 +1677,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         {
             Data = new List<object>
             {
-                new TestComponentSimple { MyProperty = 1 },
+                new TestComponentSimple {MyProperty = 1},
                 new List<object>
                 {
                     new List<object>
@@ -1712,7 +1714,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         Assert.IsType(typeof(TestComponentSimple), c2.Data[0]);
         Assert.IsType(typeof(List<object>), c2.Data[1]);
-        var c = (List<object>)c2.Data[1];
+        var c = (List<object>) c2.Data[1];
         Assert.IsType(typeof(JArray), c[0]);
 
         json = $@"{{
@@ -1738,10 +1740,10 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         Assert.IsType(typeof(TestComponentSimple), c2.Data[0]);
         Assert.IsType(typeof(List<object>), c2.Data[1]);
-        c = (List<object>)c2.Data[1];
+        c = (List<object>) c2.Data[1];
         Assert.IsType(typeof(JObject), c[0]);
-        var o = (JObject)c[0];
-        Assert.Equal(1, (int)o["MyProperty"]);
+        var o = (JObject) c[0];
+        Assert.Equal(1, (int) o["MyProperty"]);
     }
 
     [Fact]
@@ -1752,7 +1754,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             Data = new Dictionary<string, object>
             {
                 {
-                    "one", new TestComponentSimple { MyProperty = 1 }
+                    "one", new TestComponentSimple {MyProperty = 1}
                 },
                 {
                     "two", new Dictionary<string, object>
@@ -1760,7 +1762,7 @@ public class TypeNameHandlingTests : TestFixtureBase
                         {
                             "one", new Dictionary<string, object>
                             {
-                                { "one", 1 }
+                                {"one", 1}
                             }
                         }
                     }
@@ -1792,7 +1794,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         Assert.IsType(typeof(TestComponentSimple), c2.Data["one"]);
         Assert.IsType(typeof(Dictionary<string, object>), c2.Data["two"]);
-        var c = (Dictionary<string, object>)c2.Data["two"];
+        var c = (Dictionary<string, object>) c2.Data["two"];
         Assert.IsType(typeof(JObject), c["one"]);
 
         json = $@"{{
@@ -1816,11 +1818,11 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         Assert.IsType(typeof(TestComponentSimple), c2.Data["one"]);
         Assert.IsType(typeof(Dictionary<string, object>), c2.Data["two"]);
-        c = (Dictionary<string, object>)c2.Data["two"];
+        c = (Dictionary<string, object>) c2.Data["two"];
         Assert.IsType(typeof(JObject), c["one"]);
 
-        var o = (JObject)c["one"];
-        Assert.Equal(1, (int)o["MyProperty"]);
+        var o = (JObject) c["one"];
+        Assert.Equal(1, (int) o["MyProperty"]);
     }
 
     [Fact]
@@ -1878,9 +1880,9 @@ public class TypeNameHandlingTests : TestFixtureBase
         Assert.IsType(typeof(long), o2.Data.Prop3);
         Assert.IsType(typeof(JObject), o2.Data.Prop4);
 
-        var o = (List<object>)o2.Data.Prop1;
-        var j = (JObject)o[0];
-        Assert.Equal(1, (int)j["MyProperty"]);
+        var o = (List<object>) o2.Data.Prop1;
+        var j = (JObject) o[0];
+        Assert.Equal(1, (int) j["MyProperty"]);
     }
 
     [Fact]
@@ -1902,7 +1904,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         data.two = data2;
 
-        d1.Data = (DynamicDictionary)data;
+        d1.Data = (DynamicDictionary) data;
 
         var json = JsonConvert.SerializeObject(d1, Formatting.Indented);
         XUnitAssert.AreEqualNormalized(@"{
@@ -1912,7 +1914,7 @@ public class TypeNameHandlingTests : TestFixtureBase
       ""MyProperty"": 1
     },
     ""two"": {
-      ""$type"": ""DynamicDictionary, Tests"",
+      ""$type"": ""TypeNameHandlingTests+DynamicDictionary, Tests"",
       ""one"": {
         ""MyProperty"": 2
       }
@@ -1925,12 +1927,12 @@ public class TypeNameHandlingTests : TestFixtureBase
         Assert.NotNull(d2.Data);
 
         dynamic data3 = d2.Data;
-        var c = (TestComponentSimple)data3.one;
+        var c = (TestComponentSimple) data3.one;
         Assert.Equal(1, c.MyProperty);
 
         var data4 = data3.two;
-        var o = (JObject)data4.one;
-        Assert.Equal(2, (int)o["MyProperty"]);
+        var o = (JObject) data4.one;
+        Assert.Equal(2, (int) o["MyProperty"]);
 
         json = @"{
   ""Data"": {
@@ -1939,7 +1941,7 @@ public class TypeNameHandlingTests : TestFixtureBase
       ""MyProperty"": 1
     },
     ""two"": {
-      ""$type"": ""DynamicDictionary, Tests"",
+      ""$type"": ""TypeNameHandlingTests+DynamicDictionary, Tests"",
       ""one"": {
         ""$type"": ""TestObjects.TestComponentSimple, Tests"",
         ""MyProperty"": 2
@@ -1951,8 +1953,30 @@ public class TypeNameHandlingTests : TestFixtureBase
         d2 = JsonConvert.DeserializeObject<PropertyItemTypeNameHandlingDynamic>(json);
         data3 = d2.Data;
         data4 = data3.two;
-        o = (JObject)data4.one;
-        Assert.Equal(2, (int)o["MyProperty"]);
+        o = (JObject) data4.one;
+        Assert.Equal(2, (int) o["MyProperty"]);
+    }
+
+    public class DynamicDictionary : DynamicObject
+    {
+        readonly IDictionary<string, object> _values = new Dictionary<string, object>();
+
+        public override IEnumerable<string> GetDynamicMemberNames()
+        {
+            return _values.Keys;
+        }
+
+        public override bool TryGetMember(GetMemberBinder binder, out object result)
+        {
+            result = _values[binder.Name];
+            return true;
+        }
+
+        public override bool TrySetMember(SetMemberBinder binder, object value)
+        {
+            _values[binder.Name] = value;
+            return true;
+        }
     }
 
     [Fact]
@@ -1977,7 +2001,7 @@ public class TypeNameHandlingTests : TestFixtureBase
   ""k1"": ""a6e986df-fc2c-4906-a1ef-9492388f7833""
 }}", serializedString);
 
-        var deserializedObject = (Dictionary<string, Guid>)JsonConvert.DeserializeObject(serializedString, settings);
+        var deserializedObject = (Dictionary<string, Guid>) JsonConvert.DeserializeObject(serializedString, settings);
 
         Assert.Equal(someValue, deserializedObject[contextKey]);
     }
@@ -2014,7 +2038,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var p2 = JsonConvert.DeserializeObject<MyParent>(json, settings);
         Assert.IsType(typeof(MyChild), p2.Child);
-        Assert.Equal("string!", ((MyChild)p2.Child).MyProperty);
+        Assert.Equal("string!", ((MyChild) p2.Child).MyProperty);
     }
 
     [Fact]
@@ -2051,8 +2075,8 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var p2 = JsonConvert.DeserializeObject<MyParent>(json, settings);
         Assert.IsType(typeof(MyChildList), p2.Child);
-        Assert.Equal(1, ((MyChildList)p2.Child).Count);
-        Assert.Equal("string!", ((MyChildList)p2.Child)[0]);
+        Assert.Equal(1, ((MyChildList) p2.Child).Count);
+        Assert.Equal("string!", ((MyChildList) p2.Child)[0]);
     }
 
     [Fact]
@@ -2092,7 +2116,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         var pp2 = JsonConvert.DeserializeObject<ParentParent>(json, settings);
         var p2 = pp2.ParentProp;
         Assert.IsType(typeof(MyChild), p2.Child);
-        Assert.Equal("string!", ((MyChild)p2.Child).MyProperty);
+        Assert.Equal("string!", ((MyChild) p2.Child).MyProperty);
     }
 
     [Fact]
@@ -2102,7 +2126,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         {
             new(new List<string> {"One", "Two", "Three"}),
             new(new List<string> {"Four", "Five", "Six"}),
-            new(new List<string> { "Seven", "Eight", "Nine" })
+            new(new List<string> {"Seven", "Eight", "Nine"})
         };
 
         var serialized = JsonConvert.SerializeObject(input,
@@ -2114,7 +2138,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             });
 
         var output = JsonConvert.DeserializeObject<List<Stack<string>>>(serialized,
-            new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All }
+            new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.All}
         );
 
         var strings = output.SelectMany(s => s).ToList();
@@ -2146,7 +2170,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Objects
         });
 
-        var item = (ReportItemKeys)g.ItemIdentifier;
+        var item = (ReportItemKeys) g.ItemIdentifier;
         Assert.Equal(1UL, item.WantedUnitID);
     }
 
@@ -2154,7 +2178,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     public void GenericItemTypeCollection()
     {
         var data = new DataType();
-        data.Rows.Add("key", new List<MyInterfaceImplementationType> { new() { SomeProperty = "property" } });
+        data.Rows.Add("key", new List<MyInterfaceImplementationType> {new() {SomeProperty = "property"}});
         var serialized = JsonConvert.SerializeObject(data, Formatting.Indented);
 
         var listTypeName = ReflectionUtils.GetTypeName(typeof(List<MyInterfaceImplementationType>), TypeNameAssemblyFormatHandling.Simple, null);
@@ -2341,7 +2365,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         public MyParent(SerializationInfo info, StreamingContext context)
         {
-            Child = (ISomeBase)info.GetValue("c", typeof(ISomeBase));
+            Child = (ISomeBase) info.GetValue("c", typeof(ISomeBase));
         }
 
         public MyParent()
@@ -2356,8 +2380,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
     public class MyChild : ISomeBase
     {
-        [JsonProperty("p")]
-        public String MyProperty { get; internal set; }
+        [JsonProperty("p")] public String MyProperty { get; internal set; }
     }
 
     public class MyChildList : List<string>, ISomeBase
@@ -2454,13 +2477,15 @@ public class TypeNameHandlingTests : TestFixtureBase
             {
                 return false;
             }
+
             if (ReferenceEquals(this, obj))
             {
                 return true;
             }
+
             if (obj is IExample)
             {
-                return Name.Equals(((IExample)obj).Name);
+                return Name.Equals(((IExample) obj).Name);
             }
 
             return false;
@@ -2535,8 +2560,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     [DataContract]
     public class GroupingInfo
     {
-        [DataMember]
-        public ApplicationItemKeys ItemIdentifier { get; set; }
+        [DataMember] public ApplicationItemKeys ItemIdentifier { get; set; }
 
         public GroupingInfo()
         {
@@ -2547,11 +2571,9 @@ public class TypeNameHandlingTests : TestFixtureBase
     [DataContract]
     public class ApplicationItemKeys
     {
-        [DataMember]
-        public int ID { get; set; }
+        [DataMember] public int ID { get; set; }
 
-        [DataMember]
-        public string Name { get; set; }
+        [DataMember] public string Name { get; set; }
     }
 
     [DataContract]
