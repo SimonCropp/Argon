@@ -36,7 +36,6 @@ using System.Runtime.Serialization.Json;
 using Argon.Tests.Linq;
 using TestObjects;
 using Argon.Tests.TestObjects.Events;
-using Argon.Tests.TestObjects.GeoCoding;
 using System.Xml.Linq;
 using System.Collections.Specialized;
 using System.Dynamic;
