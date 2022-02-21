@@ -23,13 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Argon.Tests.TestObjects;
-using Argon.Tests.TestObjects.Organization;
-using Xunit;
+using TestObjects;
+
 // ReSharper disable UseObjectOrCollectionInitializer
-
-
-namespace Argon.Tests.Serialization;
 
 public class PreserveReferencesHandlingTests : TestFixtureBase
 {
@@ -105,14 +101,14 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 
         XUnitAssert.AreEqualNormalized($@"{{
   ""$id"": ""1"",
-  ""$type"": ""Argon.Tests.Serialization.PreserveReferencesHandlingTests+Container, Tests"",
+  ""$type"": ""PreserveReferencesHandlingTests+Container, Tests"",
   ""ListA"": {{
     ""$id"": ""2"",
     ""$type"": ""{ReflectionUtils.GetTypeName(typeof(List<ContentA>), 0, DefaultSerializationBinder.Instance)}"",
     ""$values"": [
       {{
         ""$id"": ""3"",
-        ""$type"": ""Argon.Tests.Serialization.PreserveReferencesHandlingTests+ContentB, Tests"",
+        ""$type"": ""PreserveReferencesHandlingTests+ContentB, Tests"",
         ""SomeValue"": true
       }}
     ]

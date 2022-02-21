@@ -24,9 +24,6 @@
 #endregion
 
 using BenchmarkDotNet.Running;
-using Argon.Tests.Benchmarks;
-
-namespace Argon.TestConsole;
 
 public class Program
 {

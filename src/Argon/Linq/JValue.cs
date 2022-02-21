@@ -326,13 +326,12 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
 
                 return MiscellaneousUtils.ByteArrayCompare(bytesA!, bytesB);
             case JTokenType.Guid:
-                if (objB is not Guid)
+                if (objB is not Guid guid2)
                 {
                     throw new ArgumentException("Object must be of type Guid.");
                 }
 
                 var guid1 = (Guid)objA;
-                var guid2 = (Guid)objB;
 
                 return guid1.CompareTo(guid2);
             case JTokenType.Uri:
@@ -346,15 +345,14 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
 
                 return Comparer<string>.Default.Compare(uri1.ToString(), uri2.ToString());
             case JTokenType.TimeSpan:
-                if (objB is not TimeSpan)
+                if (objB is not TimeSpan timeSpan)
                 {
                     throw new ArgumentException("Object must be of type TimeSpan.");
                 }
 
                 var ts1 = (TimeSpan)objA;
-                var ts2 = (TimeSpan)objB;
 
-                return ts1.CompareTo(ts2);
+                return ts1.CompareTo(timeSpan);
             default:
                 throw MiscellaneousUtils.CreateArgumentOutOfRangeException(nameof(valueType), valueType, $"Unexpected value type: {valueType}");
         }

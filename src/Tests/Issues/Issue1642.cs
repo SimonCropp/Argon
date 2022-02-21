@@ -25,9 +25,6 @@
 
 #if !NET5_0_OR_GREATER
 using System.Reflection.Emit;
-using Xunit;
-
-namespace Argon.Tests.Issues;
 
 public class Issue1642 : TestFixtureBase
 {

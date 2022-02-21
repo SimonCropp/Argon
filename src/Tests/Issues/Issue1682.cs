@@ -23,10 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Xunit;
-
-namespace Argon.Tests.Issues;
-
 public class Issue1682 : TestFixtureBase
 {
     [Fact]
@@ -44,7 +40,7 @@ public class Issue1682 : TestFixtureBase
     {
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<BaseSerializable>("{}"),
-            "Could not create an instance of type Argon.Tests.Issues.Issue1682+BaseSerializable. Type is an interface or abstract class and cannot be instantiated. Path '', line 1, position 2.");
+            "Could not create an instance of type Issue1682+BaseSerializable. Type is an interface or abstract class and cannot be instantiated. Path '', line 1, position 2.");
     }
 
     public class ClassWithSerializableProperty

@@ -27,10 +27,7 @@ using System.ComponentModel;
 #if !NET5_0_OR_GREATER
 using System.Runtime.Serialization.Json;
 #endif
-using Argon.Tests.TestObjects;
-using Xunit;
-
-namespace Argon.Tests.Serialization;
+using TestObjects;
 
 public class DefaultValueHandlingTests : TestFixtureBase
 {
@@ -155,7 +152,7 @@ public class DefaultValueHandlingTests : TestFixtureBase
 
         var included = JsonConvert.SerializeObject(invoice,
             Formatting.Indented,
-            new JsonSerializerSettings { });
+            new JsonSerializerSettings());
 
         XUnitAssert.AreEqualNormalized(@"{
   ""Company"": ""Acme Ltd."",
@@ -451,7 +448,7 @@ public class DefaultValueHandlingTests : TestFixtureBase
             ExportFormat = exportFormat;
         }
 
-        [JsonConstructor]
+        [Argon.JsonConstructor]
         FieldExportFormat(string format, ExportFormat? exportFormat)
         {
             if (exportFormat.HasValue)
@@ -478,152 +475,151 @@ public class DefaultValueHandlingTests : TestFixtureBase
         Assert.Equal(ExportFormat.Default, o.ExportFormat);
         Assert.Equal(null, o.Format);
     }
-}
-
-[DataContract]
-public class TestClass
-{
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-    [DataMember(EmitDefaultValue = false)]
-    [DefaultValue("fff")]
-    public string Field1 { set; get; }
-}
-
-public class DefaultValueHandlingDeserialize
-{
-    public string Derp { get; set; }
-}
-
-public class DefaultValueHandlingDeserializeHolder
-{
-    public DefaultValueHandlingDeserializeHolder()
+    [DataContract]
+    public class TestClass
     {
-        ClassValue = new DefaultValueHandlingDeserialize
-        {
-            Derp = "Derp!"
-        };
-        IntValue1 = int.MaxValue;
-        IntValue2 = int.MinValue;
-        IntValue3 = int.MaxValue;
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [DataMember(EmitDefaultValue = false)]
+        [DefaultValue("fff")]
+        public string Field1 { set; get; }
     }
 
-    [DefaultValue(1)]
-    public int IntValue1 { get; set; }
-
-    public int IntValue2 { get; set; }
-
-    [DefaultValue(null)]
-    public int IntValue3 { get; set; }
-
-    public DefaultValueHandlingDeserialize ClassValue { get; set; }
-}
-
-public class DefaultValueHandlingDeserializePopulate
-{
-    public DefaultValueHandlingDeserializePopulate()
+    public class DefaultValueHandlingDeserialize
     {
-        ClassValue = new DefaultValueHandlingDeserialize
-        {
-            Derp = "Derp!"
-        };
-        IntValue1 = int.MaxValue;
-        IntValue2 = int.MinValue;
+        public string Derp { get; set; }
     }
 
-    [DefaultValue(1)]
-    public int IntValue1 { get; set; }
+    public class DefaultValueHandlingDeserializeHolder
+    {
+        public DefaultValueHandlingDeserializeHolder()
+        {
+            ClassValue = new DefaultValueHandlingDeserialize
+            {
+                Derp = "Derp!"
+            };
+            IntValue1 = int.MaxValue;
+            IntValue2 = int.MinValue;
+            IntValue3 = int.MaxValue;
+        }
 
-    public int IntValue2 { get; set; }
-    public DefaultValueHandlingDeserialize ClassValue { get; set; }
-}
+        [DefaultValue(1)]
+        public int IntValue1 { get; set; }
 
-public struct DefaultStruct
-{
-    public string Default { get; set; }
-}
+        public int IntValue2 { get; set; }
 
-public class DefaultValueHandlingPropertyClass
-{
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public int IntIgnore { get; set; }
+        [DefaultValue(null)]
+        public int IntValue3 { get; set; }
 
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
-    public int IntInclude { get; set; }
+        public DefaultValueHandlingDeserialize ClassValue { get; set; }
+    }
 
-    [JsonProperty]
-    public int IntDefault { get; set; }
-}
+    public class DefaultValueHandlingDeserializePopulate
+    {
+        public DefaultValueHandlingDeserializePopulate()
+        {
+            ClassValue = new DefaultValueHandlingDeserialize
+            {
+                Derp = "Derp!"
+            };
+            IntValue1 = int.MaxValue;
+            IntValue2 = int.MinValue;
+        }
 
-[DataContract]
-public class EmitDefaultValueClass
-{
-    [DataMember(EmitDefaultValue = false)]
-    public Guid Guid { get; set; }
+        [DefaultValue(1)]
+        public int IntValue1 { get; set; }
 
-    [DataMember(EmitDefaultValue = false)]
-    public TimeSpan TimeSpan { get; set; }
+        public int IntValue2 { get; set; }
+        public DefaultValueHandlingDeserialize ClassValue { get; set; }
+    }
 
-    [DataMember(EmitDefaultValue = false)]
-    public DateTime DateTime { get; set; }
+    public struct DefaultStruct
+    {
+        public string Default { get; set; }
+    }
 
-    [DataMember(EmitDefaultValue = false)]
-    public DateTimeOffset DateTimeOffset { get; set; }
+    public class DefaultValueHandlingPropertyClass
+    {
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int IntIgnore { get; set; }
 
-    [DataMember(EmitDefaultValue = false)]
-    public decimal Decimal { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
+        public int IntInclude { get; set; }
 
-    [DataMember(EmitDefaultValue = false)]
-    public int Integer { get; set; }
+        [JsonProperty]
+        public int IntDefault { get; set; }
+    }
 
-    [DataMember(EmitDefaultValue = false)]
-    public double Double { get; set; }
+    [DataContract]
+    public class EmitDefaultValueClass
+    {
+        [DataMember(EmitDefaultValue = false)]
+        public Guid Guid { get; set; }
 
-    [DataMember(EmitDefaultValue = false)]
-    public bool Boolean { get; set; }
+        [DataMember(EmitDefaultValue = false)]
+        public TimeSpan TimeSpan { get; set; }
 
-    [DataMember(EmitDefaultValue = false)]
-    public DefaultStruct Struct { get; set; }
+        [DataMember(EmitDefaultValue = false)]
+        public DateTime DateTime { get; set; }
 
-    [DataMember(EmitDefaultValue = false)]
-    public StringComparison Enum { get; set; }
+        [DataMember(EmitDefaultValue = false)]
+        public DateTimeOffset DateTimeOffset { get; set; }
 
-    [DataMember(EmitDefaultValue = false)]
-    public Guid? NullableGuid { get; set; }
+        [DataMember(EmitDefaultValue = false)]
+        public decimal Decimal { get; set; }
 
-    [DataMember(EmitDefaultValue = false)]
-    public TimeSpan? NullableTimeSpan { get; set; }
+        [DataMember(EmitDefaultValue = false)]
+        public int Integer { get; set; }
 
-    [DataMember(EmitDefaultValue = false)]
-    public DateTime? NullableDateTime { get; set; }
+        [DataMember(EmitDefaultValue = false)]
+        public double Double { get; set; }
 
-    [DataMember(EmitDefaultValue = false)]
-    public DateTimeOffset? NullableDateTimeOffset { get; set; }
+        [DataMember(EmitDefaultValue = false)]
+        public bool Boolean { get; set; }
 
-    [DataMember(EmitDefaultValue = false)]
-    public decimal? NullableDecimal { get; set; }
+        [DataMember(EmitDefaultValue = false)]
+        public DefaultStruct Struct { get; set; }
 
-    [DataMember(EmitDefaultValue = false)]
-    public int? NullableInteger { get; set; }
+        [DataMember(EmitDefaultValue = false)]
+        public StringComparison Enum { get; set; }
 
-    [DataMember(EmitDefaultValue = false)]
-    public double? NullableDouble { get; set; }
+        [DataMember(EmitDefaultValue = false)]
+        public Guid? NullableGuid { get; set; }
 
-    [DataMember(EmitDefaultValue = false)]
-    public bool? NullableBoolean { get; set; }
+        [DataMember(EmitDefaultValue = false)]
+        public TimeSpan? NullableTimeSpan { get; set; }
 
-    [DataMember(EmitDefaultValue = false)]
-    public DefaultStruct? NullableStruct { get; set; }
+        [DataMember(EmitDefaultValue = false)]
+        public DateTime? NullableDateTime { get; set; }
 
-    [DataMember(EmitDefaultValue = false)]
-    public StringComparison? NullableEnum { get; set; }
+        [DataMember(EmitDefaultValue = false)]
+        public DateTimeOffset? NullableDateTimeOffset { get; set; }
 
-    [DataMember(EmitDefaultValue = false)]
-    public object Object { get; set; }
-}
+        [DataMember(EmitDefaultValue = false)]
+        public decimal? NullableDecimal { get; set; }
 
-public enum ExportFormat
-{
-    Default = 0,
-    Currency,
-    Integer
+        [DataMember(EmitDefaultValue = false)]
+        public int? NullableInteger { get; set; }
+
+        [DataMember(EmitDefaultValue = false)]
+        public double? NullableDouble { get; set; }
+
+        [DataMember(EmitDefaultValue = false)]
+        public bool? NullableBoolean { get; set; }
+
+        [DataMember(EmitDefaultValue = false)]
+        public DefaultStruct? NullableStruct { get; set; }
+
+        [DataMember(EmitDefaultValue = false)]
+        public StringComparison? NullableEnum { get; set; }
+
+        [DataMember(EmitDefaultValue = false)]
+        public object Object { get; set; }
+    }
+
+    public enum ExportFormat
+    {
+        Default = 0,
+        Currency,
+        Integer
+    }
 }

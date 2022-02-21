@@ -24,9 +24,7 @@
 #endregion
 
 using BenchmarkDotNet.Attributes;
-using Argon.Tests.TestObjects;
-
-namespace Argon.Tests.Benchmarks;
+using TestObjects;
 
 public class DeserializeBenchmarks
 {
@@ -35,7 +33,7 @@ public class DeserializeBenchmarks
 
     static DeserializeBenchmarks()
     {
-        LargeJsonText = System.IO.File.ReadAllText("large.json");
+        LargeJsonText = File.ReadAllText("large.json");
 
         FloatArrayJson = new JArray(Enumerable.Range(0, 5000).Select(i => i * 1.1m)).ToString(Formatting.None);
     }
@@ -49,7 +47,7 @@ public class DeserializeBenchmarks
     [Benchmark]
     public IList<RootObject> DeserializeLargeJsonFile()
     {
-        using var jsonFile = System.IO.File.OpenText("large.json");
+        using var jsonFile = File.OpenText("large.json");
         using var jsonTextReader = new JsonTextReader(jsonFile);
         var serializer = new JsonSerializer();
         return serializer.Deserialize<IList<RootObject>>(jsonTextReader);

@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects;
+namespace TestObjects;
 
 [JsonConverter(typeof(ErroringJsonConverter))]
 public class ErroringTestClass

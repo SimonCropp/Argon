@@ -23,10 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Xunit;
-
-namespace Argon.Tests.Linq.ComponentModel;
-
 public class JPropertyDescriptorTests : TestFixtureBase
 {
     [Fact]

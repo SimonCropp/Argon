@@ -23,12 +23,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-
 using System.Data;
 using Argon.DataSetConverters;
-using Xunit;
-
-namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class DeserializeDataSet : TestFixtureBase
 {

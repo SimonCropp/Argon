@@ -25,11 +25,8 @@
 
 using System.Collections.ObjectModel;
 using System.Xml;
-using Argon.Tests.TestObjects;
-using Argon.Tests.TestObjects.Organization;
-using Xunit;
-
-namespace Argon.Tests;
+using TestObjects;
+using Formatting = Argon.Formatting;
 
 public class JsonConvertTest : TestFixtureBase
 {
@@ -42,7 +39,7 @@ public class JsonConvertTest : TestFixtureBase
         var value = nonAsciiChar + @"\" + escapableNonQuoteAsciiChar;
 
         var convertedValue = JsonConvert.ToString((object)value);
-        Assert.Equal(@"""" + nonAsciiChar + @"\\\u0000""", convertedValue);
+        Assert.Equal($@"""{nonAsciiChar}\\\u0000""", convertedValue);
     }
 
     public class PopulateTestObject
@@ -982,7 +979,7 @@ public class JsonConvertTest : TestFixtureBase
 
     public static long GetTicks(object value)
     {
-        return value is DateTime ? ((DateTime)value).Ticks : ((DateTimeOffset)value).Ticks;
+        return value is DateTime time ? time.Ticks : ((DateTimeOffset)value).Ticks;
     }
 
     public static string Write(object value, JsonConverter converter)
@@ -1229,7 +1226,6 @@ public class JsonConvertTest : TestFixtureBase
         [JsonConverter(typeof(ClobberingJsonConverter), "Uno", "Blammo")]
         public string One { get; set; }
     }
-
 
     public class OverloadsJsonConverterer : JsonConverter
     {
@@ -1534,7 +1530,6 @@ public class JsonConvertTest : TestFixtureBase
     //    Assert.AreEqual("{\"Overload\":\"IList<string>\"}", json);
     //}
 
-
     [Fact]
     public void CustomDoubleRounding()
     {
@@ -1662,7 +1657,7 @@ public class JsonConvertTest : TestFixtureBase
         [JsonProperty("foo")]
         public IReadOnlyDictionary<string, string> Foo { get; } = new ReadOnlyDictionary<string, string>(new Dictionary<string, string>());
 
-        [JsonConstructor]
+        [Argon.JsonConstructor]
         public HasReadOnlyDictionary([JsonProperty("bar")] int bar)
         {
 
@@ -1674,7 +1669,7 @@ public class JsonConvertTest : TestFixtureBase
         [JsonProperty("foo")]
         public EnumerableWithConverter Foo { get; } = new();
 
-        [JsonConstructor]
+        [Argon.JsonConstructor]
         public HasReadOnlyEnumerableObject([JsonProperty("bar")] int bar)
         {
 
@@ -1686,7 +1681,7 @@ public class JsonConvertTest : TestFixtureBase
         [JsonProperty("foo")]
         public EnumerableWithConverter Foo { get; } = new();
 
-        [JsonConstructor]
+        [Argon.JsonConstructor]
         public HasReadOnlyEnumerableObjectAndDefaultConstructor()
         {
 
@@ -1695,14 +1690,13 @@ public class JsonConvertTest : TestFixtureBase
 
     public sealed class AcceptsEnumerableObjectToConstructor
     {
-        [JsonConstructor]
+        [Argon.JsonConstructor]
         public AcceptsEnumerableObjectToConstructor
         (
             [JsonProperty("foo")] EnumerableWithConverter foo,
             [JsonProperty("bar")] int bar
         )
         {
-
         }
     }
 
@@ -1711,10 +1705,9 @@ public class JsonConvertTest : TestFixtureBase
         [JsonProperty("foo")]
         public EnumerableWithConverter Foo { get; set; } = new();
 
-        [JsonConstructor]
+        [Argon.JsonConstructor]
         public HasEnumerableObject([JsonProperty("bar")] int bar)
         {
-
         }
     }
 

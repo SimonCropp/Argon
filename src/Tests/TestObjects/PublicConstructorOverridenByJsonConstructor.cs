@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects;
+namespace TestObjects;
 
 public class PublicConstructorOverridenByJsonConstructor
 {
@@ -35,7 +35,7 @@ public class PublicConstructorOverridenByJsonConstructor
         Constructor = "NonPublic";
     }
 
-    [JsonConstructor]
+    [Argon.JsonConstructor]
     public PublicConstructorOverridenByJsonConstructor(string value)
     {
         Value = value;

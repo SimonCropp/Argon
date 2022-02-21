@@ -23,14 +23,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Argon.Tests.Serialization;
-using Argon.Tests.TestObjects;
-using Xunit;
+using TestObjects;
 using System.Xml;
 using System.Xml.Linq;
-// ReSharper disable UseObjectOrCollectionInitializer
+using Formatting = Argon.Formatting;
 
-namespace Argon.Tests.Converters;
+// ReSharper disable UseObjectOrCollectionInitializer
 
 public class XmlNodeConverterTest : TestFixtureBase
 {
@@ -44,9 +42,8 @@ public class XmlNodeConverterTest : TestFixtureBase
         {
             xNode = XDocument.Load(reader);
         }
-        else if (node is XmlAttribute)
+        else if (node is XmlAttribute attribute)
         {
-            var attribute = (XmlAttribute) node;
             xNode = new XAttribute(XName.Get(attribute.LocalName, attribute.NamespaceURI), attribute.Value);
         }
         else

@@ -1,5 +1,3 @@
-using Argon;
-
 class ArrayIndexFilter : PathFilter
 {
     public int? Index { get; set; }

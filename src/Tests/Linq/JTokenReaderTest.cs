@@ -23,11 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Xunit;
-using Argon.Tests.Serialization;
-using Argon.Tests.TestObjects;
-
-namespace Argon.Tests.Linq;
+using TestObjects;
 
 public class JTokenReaderTest : TestFixtureBase
 {
@@ -66,6 +62,15 @@ public class JTokenReaderTest : TestFixtureBase
 
             serializer.Deserialize<TraceTestObject>(json.CreateReader());
         }, "Could not convert string to integer: two. Path 'IntList[1]', line 1, position 20.");
+    }
+
+    public class TraceTestObject
+    {
+        public IList<int> IntList { get; set; }
+        public string[] StringArray { get; set; }
+        public VersionOld Version { get; set; }
+        public IDictionary<string, string> StringDictionary { get; set; }
+        public double Double { get; set; }
     }
 
     [Fact]

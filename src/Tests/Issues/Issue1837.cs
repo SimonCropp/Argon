@@ -23,10 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Xunit;
-
-namespace Argon.Tests.Issues;
-
 /// <summary>
 /// Here's where we test the sandbox for needles and broken glass
 /// </summary>

@@ -24,9 +24,6 @@
 #endregion
 
 #if NET5_0_OR_GREATER
-using Xunit;
-
-namespace Argon.Tests.Issues;
 
 public class Issue1757 : TestFixtureBase
 {
@@ -52,22 +49,22 @@ public class Issue1757 : TestFixtureBase
     {
         public Span<int> this[int i]
         {
-            get => default(Span<int>);
+            get => default;
             set => DoNothing(value);
         }
         public static Span<int> Space
         {
-            get => default(Span<int>);
+            get => default;
             set => DoNothing(value);
         }
         public Span<int> Room
         {
-            get => default(Span<int>);
+            get => default;
             set => DoNothing(value);
         }
         public MyByRefLikeType RefLike
         {
-            get => default(MyByRefLikeType);
+            get => default;
             set { }
         }
         static void DoNothing(Span<int> param)

@@ -1,9 +1,4 @@
-﻿using Xunit;
-using TestAttribute = Xunit.FactAttribute;
-
-namespace Argon.Tests.Linq;
-
-public class AnnotationsTests : TestFixtureBase
+﻿public class AnnotationsTests : TestFixtureBase
 {
     [Fact]
     public void AddAnnotation()

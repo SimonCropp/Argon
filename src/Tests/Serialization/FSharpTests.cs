@@ -23,10 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Xunit;
 using Microsoft.FSharp.Collections;
-
-namespace Argon.Tests.Serialization;
 
 public class FSharpTests : TestFixtureBase
 {

@@ -11,7 +11,7 @@ public class JavaScriptSettings
     public JRaw OnUnloadFunction { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeRawJson.cs#L32-L38' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializerawjsontypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeRawJson.cs#L28-L34' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializerawjsontypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: SerializeRawJsonUsage -->
@@ -31,5 +31,5 @@ Console.WriteLine(json);
 //   "OnUnloadFunction": function(e) { alert(e); }
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeRawJson.cs#L43-L57' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializerawjsonusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeRawJson.cs#L39-L53' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializerawjsonusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

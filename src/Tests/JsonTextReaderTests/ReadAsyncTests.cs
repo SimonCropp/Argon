@@ -23,11 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Xunit;
-using Argon.Tests.TestObjects.JsonTextReaderTests;
-
-namespace Argon.Tests.JsonTextReaderTests;
-
 public class ReadAsyncTests : TestFixtureBase
 {
     [Fact]
@@ -320,22 +315,22 @@ public class ReadAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StreamReader(ms));
         reader.LargeBufferLength = largeBufferLength;
 
-        Xunit.Assert.True(await reader.ReadAsync());
-        Xunit.Assert.Equal(JsonToken.StartArray, reader.TokenType);
+        Assert.True(await reader.ReadAsync());
+        Assert.Equal(JsonToken.StartArray, reader.TokenType);
 
-        Xunit.Assert.True(await reader.ReadAsync());
-        Xunit.Assert.Equal(JsonToken.String, reader.TokenType);
-        Xunit.Assert.Equal(largeBufferLength, reader.CharBuffer.Length);
+        Assert.True(await reader.ReadAsync());
+        Assert.Equal(JsonToken.String, reader.TokenType);
+        Assert.Equal(largeBufferLength, reader.CharBuffer.Length);
 
-        Xunit.Assert.True(await reader.ReadAsync());
-        Xunit.Assert.Equal(JsonToken.String, reader.TokenType);
+        Assert.True(await reader.ReadAsync());
+        Assert.Equal(JsonToken.String, reader.TokenType);
         // buffer has been shifted before reading the second string
-        Xunit.Assert.Equal(largeBufferLength, reader.CharBuffer.Length);
+        Assert.Equal(largeBufferLength, reader.CharBuffer.Length);
 
-        Xunit.Assert.True(await reader.ReadAsync());
-        Xunit.Assert.Equal(JsonToken.EndArray, reader.TokenType);
+        Assert.True(await reader.ReadAsync());
+        Assert.Equal(JsonToken.EndArray, reader.TokenType);
 
-        Xunit.Assert.False(await reader.ReadAsync());
+        Assert.False(await reader.ReadAsync());
     }
 #endif
 

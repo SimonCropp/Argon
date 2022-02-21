@@ -25,9 +25,6 @@
 
 using System.Xml;
 using System.Xml.Linq;
-using Xunit;
-
-namespace Argon.Tests.Issues;
 
 public class Issue1327 : TestFixtureBase
 {

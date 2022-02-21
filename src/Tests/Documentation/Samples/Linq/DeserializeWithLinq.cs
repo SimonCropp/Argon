@@ -24,9 +24,6 @@
 #endregion
 
 using System.Web;
-using Xunit;
-
-namespace Argon.Tests.Documentation.Samples.Linq;
 
 public class DeserializeWithLinq : TestFixtureBase
 {

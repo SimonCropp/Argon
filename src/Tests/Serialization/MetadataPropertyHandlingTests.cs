@@ -23,12 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.Runtime.Serialization.Formatters;
-using Argon.Tests.TestObjects;
-using Argon.Tests.TestObjects.Organization;
-using Xunit;
-
-namespace Argon.Tests.Serialization;
+using TestObjects;
 
 public class MetadataPropertyHandlingTests : TestFixtureBase
 {
@@ -43,7 +38,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
         var json = @"{
 	            'Name': 'James',
 	            'Password': 'Password1',
-	            '$type': 'Argon.Tests.Serialization.MetadataPropertyHandlingTests+User, Tests'
+	            '$type': 'MetadataPropertyHandlingTests+User, Tests'
             }";
 
         var o = JsonConvert.DeserializeObject(json, new JsonSerializerSettings
@@ -211,19 +206,19 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
     {
         var json = @"{
   ""$id"": ""1"",
-  ""$type"": ""Argon.Tests.TestObjects.Employee"",
+  ""$type"": ""TestObjects.Employee"",
   ""Name"": ""Name!"",
   ""Manager"": null
 }";
 
-        XUnitAssert.Throws<JsonSerializationException>(() =>
+        var settings = new JsonSerializerSettings
         {
-            JsonConvert.DeserializeObject(json, null, new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Objects,
-                MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
-            });
-        }, "Type specified in JSON 'Argon.Tests.TestObjects.Employee' was not resolved. Path '$type', line 3, position 45.");
+            TypeNameHandling = TypeNameHandling.Objects,
+            MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
+        };
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject(json, null, settings),
+            "Type specified in JSON 'TestObjects.Employee' was not resolved. Path '$type', line 3, position 33.");
     }
 
     [Fact]
@@ -544,7 +539,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
   ""Payload1"": 1,
   ""Payload2"": {'prop1':1,'prop2':[2]},
   ""Payload3"": [1],
-  ""$type"": ""Argon.Tests.Serialization.MetadataPropertyHandlingTests+ItemWithJTokens, Tests""
+  ""$type"": ""MetadataPropertyHandlingTests+ItemWithJTokens, Tests""
 }",
             new JsonSerializerSettings
             {

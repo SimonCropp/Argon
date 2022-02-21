@@ -23,10 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Xunit;
-
-namespace Argon.Tests.Issues;
-
 public class Issue1552 : TestFixtureBase
 {
     [Fact]
@@ -37,7 +33,7 @@ public class Issue1552 : TestFixtureBase
 
         var ex = XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.SerializeObject(c),
-            "Error getting value from 'RefField' on 'Argon.Tests.Issues.RefAndRefReadonlyTestClass'.");
+            "Error getting value from 'RefField' on 'RefAndRefReadonlyTestClass'.");
 
         Assert.Equal("Could not create getter for Int32& RefField. ByRef return values are not supported.", ex.InnerException.Message);
     }

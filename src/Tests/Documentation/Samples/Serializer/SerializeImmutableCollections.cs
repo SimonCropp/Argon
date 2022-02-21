@@ -23,11 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-
-using Xunit;
 using System.Collections.Immutable;
-
-namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class SerializeImmutableCollections : TestFixtureBase
 {

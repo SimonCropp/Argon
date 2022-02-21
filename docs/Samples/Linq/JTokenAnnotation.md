@@ -22,5 +22,5 @@ var changedProperties = o.Annotation<HashSet<string>>();
 // age
 // employer
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/JTokenAnnotation.cs#L35-L52' title='Snippet source file'>snippet source</a> | <a href='#snippet-jtokenannotation' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/JTokenAnnotation.cs#L33-L50' title='Snippet source file'>snippet source</a> | <a href='#snippet-jtokenannotation' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

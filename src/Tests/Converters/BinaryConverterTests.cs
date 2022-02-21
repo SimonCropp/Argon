@@ -27,9 +27,6 @@
 using System.Data.Linq;
 #endif
 using System.Data.SqlTypes;
-using Xunit;
-
-namespace Argon.Tests.Converters;
 
 public class BinaryConverterTests : TestFixtureBase
 {

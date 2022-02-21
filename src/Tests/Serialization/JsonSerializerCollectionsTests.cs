@@ -25,13 +25,8 @@
 
 using System.Collections.Specialized;
 using System.Collections.ObjectModel;
-using Argon.Tests.TestObjects;
-using Argon.Tests.TestObjects.Events;
-using Argon.Tests.TestObjects.Organization;
-using Xunit;
+using TestObjects;
 using System.Xml.Linq;
-
-namespace Argon.Tests.Serialization;
 
 public class JsonSerializerCollectionsTests : TestFixtureBase
 {
@@ -130,7 +125,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void DoubleKey_WholeValue()
     {
-        var dictionary = new Dictionary<double, int> { { 1d, 1 } };
+        var dictionary = new Dictionary<double, int> {{1d, 1}};
         var output = JsonConvert.SerializeObject(dictionary);
         Assert.Equal(@"{""1"":1}", output);
 
@@ -141,7 +136,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void DoubleKey_MaxValue()
     {
-        var dictionary = new Dictionary<double, int> { { double.MaxValue, 1 } };
+        var dictionary = new Dictionary<double, int> {{double.MaxValue, 1}};
         var output = JsonConvert.SerializeObject(dictionary);
         Assert.Equal(@"{""1.7976931348623157E+308"":1}", output);
 
@@ -152,7 +147,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void FloatKey_MaxValue()
     {
-        var dictionary = new Dictionary<float, int> { { float.MaxValue, 1 } };
+        var dictionary = new Dictionary<float, int> {{float.MaxValue, 1}};
         var output = JsonConvert.SerializeObject(dictionary);
 #if !(NET5_0_OR_GREATER)
         Assert.Equal(@"{""3.40282347E+38"":1}", output);
@@ -173,7 +168,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             _bars = new List<int>();
         }
 
-        [JsonConstructor]
+        [Argon.JsonConstructor]
         TestCollectionPrivateParameterized(IEnumerable<int> bars)
         {
             _bars = new List<int>(bars);
@@ -211,7 +206,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
     public class TestCollectionPrivate : List<int>
     {
-        [JsonConstructor]
+        [Argon.JsonConstructor]
         TestCollectionPrivate()
         {
         }
@@ -242,7 +237,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
     public class TestCollectionMultipleParameters : List<int>
     {
-        [JsonConstructor]
+        [Argon.JsonConstructor]
         public TestCollectionMultipleParameters(string s1, string s2)
         {
         }
@@ -253,12 +248,12 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         XUnitAssert.Throws<JsonException>(
             () => JsonConvert.SerializeObject(new TestCollectionMultipleParameters(null, null)),
-            "Constructor for 'Argon.Tests.Serialization.JsonSerializerCollectionsTests+TestCollectionMultipleParameters' must have no parameters or a single parameter that implements 'System.Collections.Generic.IEnumerable`1[System.Int32]'.");
+            "Constructor for 'JsonSerializerCollectionsTests+TestCollectionMultipleParameters' must have no parameters or a single parameter that implements 'System.Collections.Generic.IEnumerable`1[System.Int32]'.");
     }
 
     public class TestCollectionBadIEnumerableParameter : List<int>
     {
-        [JsonConstructor]
+        [Argon.JsonConstructor]
         public TestCollectionBadIEnumerableParameter(List<string> l)
         {
         }
@@ -269,12 +264,12 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         XUnitAssert.Throws<JsonException>(
             () => JsonConvert.SerializeObject(new TestCollectionBadIEnumerableParameter(null)),
-            "Constructor for 'Argon.Tests.Serialization.JsonSerializerCollectionsTests+TestCollectionBadIEnumerableParameter' must have no parameters or a single parameter that implements 'System.Collections.Generic.IEnumerable`1[System.Int32]'.");
+            "Constructor for 'JsonSerializerCollectionsTests+TestCollectionBadIEnumerableParameter' must have no parameters or a single parameter that implements 'System.Collections.Generic.IEnumerable`1[System.Int32]'.");
     }
 
     public class TestCollectionNonGeneric : ArrayList
     {
-        [JsonConstructor]
+        [Argon.JsonConstructor]
         public TestCollectionNonGeneric(IEnumerable l)
             : base(l.Cast<object>().ToList())
         {
@@ -299,7 +294,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         {
         }
 
-        [JsonConstructor]
+        [Argon.JsonConstructor]
         TestDictionaryPrivateParameterized(IEnumerable<KeyValuePair<string, int>> bars)
             : base(bars.ToDictionary(k => k.Key, k => k.Value))
         {
@@ -326,7 +321,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
     public class TestDictionaryPrivate : Dictionary<string, int>
     {
-        [JsonConstructor]
+        [Argon.JsonConstructor]
         TestDictionaryPrivate()
         {
         }
@@ -355,7 +350,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
     public class TestDictionaryMultipleParameters : Dictionary<string, int>
     {
-        [JsonConstructor]
+        [Argon.JsonConstructor]
         public TestDictionaryMultipleParameters(string s1, string s2)
         {
         }
@@ -366,12 +361,12 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         XUnitAssert.Throws<JsonException>(
             () => JsonConvert.SerializeObject(new TestDictionaryMultipleParameters(null, null)),
-            "Constructor for 'Argon.Tests.Serialization.JsonSerializerCollectionsTests+TestDictionaryMultipleParameters' must have no parameters or a single parameter that implements 'System.Collections.Generic.IEnumerable`1[System.Collections.Generic.KeyValuePair`2[System.String,System.Int32]]'.");
+            "Constructor for 'JsonSerializerCollectionsTests+TestDictionaryMultipleParameters' must have no parameters or a single parameter that implements 'System.Collections.Generic.IEnumerable`1[System.Collections.Generic.KeyValuePair`2[System.String,System.Int32]]'.");
     }
 
     public class TestDictionaryBadIEnumerableParameter : Dictionary<string, int>
     {
-        [JsonConstructor]
+        [Argon.JsonConstructor]
         public TestDictionaryBadIEnumerableParameter(Dictionary<string, string> l)
         {
         }
@@ -382,12 +377,12 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         XUnitAssert.Throws<JsonException>(
             () => JsonConvert.SerializeObject(new TestDictionaryBadIEnumerableParameter(null)),
-            "Constructor for 'Argon.Tests.Serialization.JsonSerializerCollectionsTests+TestDictionaryBadIEnumerableParameter' must have no parameters or a single parameter that implements 'System.Collections.Generic.IEnumerable`1[System.Collections.Generic.KeyValuePair`2[System.String,System.Int32]]'.");
+            "Constructor for 'JsonSerializerCollectionsTests+TestDictionaryBadIEnumerableParameter' must have no parameters or a single parameter that implements 'System.Collections.Generic.IEnumerable`1[System.Collections.Generic.KeyValuePair`2[System.String,System.Int32]]'.");
     }
 
     public class TestDictionaryNonGeneric : Hashtable
     {
-        [JsonConstructor]
+        [Argon.JsonConstructor]
         public TestDictionaryNonGeneric(IDictionary d)
             : base(d)
         {
@@ -429,7 +424,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         [OnDeserialized]
         internal void OnDeserializedMethod(StreamingContext context)
         {
-            ((IDictionary)this).Add("key2", new List<SomeObject>
+            ((IDictionary) this).Add("key2", new List<SomeObject>
             {
                 new()
                 {
@@ -471,11 +466,11 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void NonZeroBasedArray()
     {
-        var onebasedArray = Array.CreateInstance(typeof(string), new[] { 3 }, new[] { 2 });
+        var onebasedArray = Array.CreateInstance(typeof(string), new[] {3}, new[] {2});
 
         for (var i = onebasedArray.GetLowerBound(0); i <= onebasedArray.GetUpperBound(0); i++)
         {
-            onebasedArray.SetValue(i.ToString(CultureInfo.InvariantCulture), new[] { i, });
+            onebasedArray.SetValue(i.ToString(CultureInfo.InvariantCulture), new[] {i,});
         }
 
         var output = JsonConvert.SerializeObject(onebasedArray, Formatting.Indented);
@@ -491,14 +486,14 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     public void NonZeroBasedMultiArray()
     {
         // lets create a two dimensional array, each rank is 1-based of with a capacity of 4.
-        var onebasedArray = Array.CreateInstance(typeof(string), new[] { 3, 3 }, new[] { 1, 2 });
+        var onebasedArray = Array.CreateInstance(typeof(string), new[] {3, 3}, new[] {1, 2});
 
         // Iterate of the array elements and assign a random double
         for (var i = onebasedArray.GetLowerBound(0); i <= onebasedArray.GetUpperBound(0); i++)
         {
             for (var j = onebasedArray.GetLowerBound(1); j <= onebasedArray.GetUpperBound(1); j++)
             {
-                onebasedArray.SetValue($"{i}_{j}", new[] { i, j });
+                onebasedArray.SetValue($"{i}_{j}", new[] {i, j});
             }
         }
 
@@ -529,9 +524,9 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         object[,] myOtherArray =
         {
-            { new KeyValuePair<string, double>("my value", 0.8), "foobar" },
-            { true, 0.4d },
-            { 0.05f, 6 }
+            {new KeyValuePair<string, double>("my value", 0.8), "foobar"},
+            {true, 0.4d},
+            {0.05f, 6}
         };
 
         var myOtherArrayAsString = JsonConvert.SerializeObject(myOtherArray, Formatting.Indented);
@@ -560,7 +555,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             }");
 
         var myOtherResult = JsonConvert.DeserializeObject<object[,]>(myOtherArrayAsString);
-        Assert.True(JToken.DeepEquals(o, (JToken)myOtherResult[0, 0]));
+        Assert.True(JToken.DeepEquals(o, (JToken) myOtherResult[0, 0]));
         Assert.Equal("foobar", myOtherResult[0, 1]);
 
         XUnitAssert.True(myOtherResult[1, 0]);
@@ -638,7 +633,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<EnumerableClassFailure<string>>(json),
-            "Cannot create and populate list type Argon.Tests.Serialization.JsonSerializerCollectionsTests+EnumerableClassFailure`1[System.String]. Path '', line 1, position 1.");
+            "Cannot create and populate list type JsonSerializerCollectionsTests+EnumerableClassFailure`1[System.String]. Path '', line 1, position 1.");
     }
 
     public class PrivateDefaultCtorList<T> : List<T>
@@ -653,7 +648,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<PrivateDefaultCtorList<int>>("[1,2]"),
-            "Unable to find a constructor to use for type Argon.Tests.Serialization.JsonSerializerCollectionsTests+PrivateDefaultCtorList`1[System.Int32]. Path '', line 1, position 1.");
+            "Unable to find a constructor to use for type JsonSerializerCollectionsTests+PrivateDefaultCtorList`1[System.Int32]. Path '', line 1, position 1.");
 
         var list = JsonConvert.DeserializeObject<PrivateDefaultCtorList<int>>("[1,2]",
             new JsonSerializerSettings
@@ -811,8 +806,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         IDictionary<string, int> d = new Dictionary<string, int>
         {
-            { "one", 1 },
-            { "two", 2 }
+            {"one", 1},
+            {"two", 2}
         };
 
         var dic = new CustomReadOnlyDictionary<string, int>(d);
@@ -984,12 +979,12 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         var p = new Movie
         {
-            ReleaseCountries = new List<string> { "Existing" }
+            ReleaseCountries = new List<string> {"Existing"}
         };
 
         JsonConvert.PopulateObject("{'ReleaseCountries':['Appended']}", p, new JsonSerializerSettings
         {
-            Converters = new List<JsonConverter> { new StringListAppenderConverter() }
+            Converters = new List<JsonConverter> {new StringListAppenderConverter()}
         });
 
         Assert.Equal(2, p.ReleaseCountries.Count);
@@ -1007,7 +1002,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         JsonConvert.PopulateObject("{'Name':'Appended'}", p, new JsonSerializerSettings
         {
-            Converters = new List<JsonConverter> { new StringAppenderConverter() }
+            Converters = new List<JsonConverter> {new StringAppenderConverter()}
         });
 
         Assert.Equal("Existing,Appended", p.Name);
@@ -1033,9 +1028,9 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         IDictionary<string, int?> v1 = new Dictionary<string, int?>
         {
-            { "First", 1 },
-            { "Second", null },
-            { "Third", 3 }
+            {"First", 1},
+            {"Second", null},
+            {"Third", 3}
         };
 
         var json = JsonConvert.SerializeObject(v1, Formatting.Indented);
@@ -1058,7 +1053,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         IDictionary<string, Component> components = new Dictionary<string, Component>
         {
-            { "Key!", new Component() }
+            {"Key!", new Component()}
         };
         var go = new GameObject
         {
@@ -1150,20 +1145,20 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         public PopulateReadOnlyTestClass()
         {
-            NonReadOnlyList = new List<int> { 1 };
-            NonReadOnlyDictionary = new Dictionary<string, int> { { "first", 2 } };
+            NonReadOnlyList = new List<int> {1};
+            NonReadOnlyDictionary = new Dictionary<string, int> {{"first", 2}};
 
-            Array = new[] { 3 };
+            Array = new[] {3};
 
-            List = new ReadOnlyCollection<int>(new[] { 4 });
-            Dictionary = new ReadOnlyDictionary<string, int>(new Dictionary<string, int> { { "first", 5 } });
+            List = new ReadOnlyCollection<int>(new[] {4});
+            Dictionary = new ReadOnlyDictionary<string, int>(new Dictionary<string, int> {{"first", 5}});
 
-            IReadOnlyCollection = new ReadOnlyCollection<int>(new[] { 6 });
-            ReadOnlyCollection = new ReadOnlyCollection<int>(new[] { 7 });
-            IReadOnlyList = new ReadOnlyCollection<int>(new[] { 8 });
+            IReadOnlyCollection = new ReadOnlyCollection<int>(new[] {6});
+            ReadOnlyCollection = new ReadOnlyCollection<int>(new[] {7});
+            IReadOnlyList = new ReadOnlyCollection<int>(new[] {8});
 
-            IReadOnlyDictionary = new ReadOnlyDictionary<string, int>(new Dictionary<string, int> { { "first", 9 } });
-            ReadOnlyDictionary = new ReadOnlyDictionary<string, int>(new Dictionary<string, int> { { "first", 10 } });
+            IReadOnlyDictionary = new ReadOnlyDictionary<string, int>(new Dictionary<string, int> {{"first", 9}});
+            ReadOnlyDictionary = new ReadOnlyDictionary<string, int>(new Dictionary<string, int> {{"first", 10}});
         }
     }
 
@@ -1264,7 +1259,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         {
             Before = "Before!",
             After = "After!",
-            Coordinates = new[,] { { 1, 1 }, { 1, 2 }, { 2, 1 }, { 2, 2 } }
+            Coordinates = new[,] {{1, 1}, {1, 2}, {2, 1}, {2, 2}}
         };
 
         var json = JsonConvert.SerializeObject(aa);
@@ -1279,7 +1274,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         {
             Before = "Before!",
             After = "After!",
-            Coordinates = new[,,] { { { 1, 1, 1 }, { 1, 1, 2 } }, { { 1, 2, 1 }, { 1, 2, 2 } }, { { 2, 1, 1 }, { 2, 1, 2 } }, { { 2, 2, 1 }, { 2, 2, 2 } } }
+            Coordinates = new[,,] {{{1, 1, 1}, {1, 1, 2}}, {{1, 2, 1}, {1, 2, 2}}, {{2, 1, 1}, {2, 1, 2}}, {{2, 2, 1}, {2, 2, 2}}}
         };
 
         var json = JsonConvert.SerializeObject(aa);
@@ -1294,7 +1289,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         {
             Before = "Before!",
             After = "After!",
-            Coordinates = new[,,] { { { 1, 1, 1 }, { 1, 1, 2 } }, { { 1, 2, 1 }, { 1, 2, 2 } }, { { 2, 1, 1 }, { 2, 1, 2 } }, { { 2, 2, 1 }, { 2, 2, 2 } } }
+            Coordinates = new[,,] {{{1, 1, 1}, {1, 1, 2}}, {{1, 2, 1}, {1, 2, 2}}, {{2, 1, 1}, {2, 1, 2}}, {{2, 2, 1}, {2, 2, 2}}}
         };
 
         var json = JsonConvert.SerializeObject(aa, Formatting.Indented);
@@ -1603,7 +1598,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         {
             EventName = "EventName!"
         };
-        var array1 = new[,] { { e1, e1 }, { e1, e1 } };
+        var array1 = new[,] {{e1, e1}, {e1, e1}};
         IList<Event1[,]> values1 = new List<Event1[,]>
         {
             array1,
@@ -1657,7 +1652,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         {
             EventName = "EventName!"
         };
-        var array1 = new[,] { { e1, e1 }, { e1, e1 } };
+        var array1 = new[,] {{e1, e1}, {e1, e1}};
         IList<Event1[,]> values1 = new List<Event1[,]>
         {
             array1,
@@ -1674,17 +1669,17 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
   ""$type"": ""{ReflectionUtils.GetTypeName(typeof(List<Event1[,]>), 0, DefaultSerializationBinder.Instance)}"",
   ""$values"": [
     {{
-      ""$type"": ""Argon.Tests.TestObjects.Events.Event1[,], Tests"",
+      ""$type"": ""TestObjects.Event1[,], Tests"",
       ""$values"": [
         [
           {{
-            ""$type"": ""Argon.Tests.TestObjects.Events.Event1, Tests"",
+            ""$type"": ""TestObjects.Event1, Tests"",
             ""EventName"": ""EventName!"",
             ""Venue"": null,
             ""Performances"": null
           }},
           {{
-            ""$type"": ""Argon.Tests.TestObjects.Events.Event1, Tests"",
+            ""$type"": ""TestObjects.Event1, Tests"",
             ""EventName"": ""EventName!"",
             ""Venue"": null,
             ""Performances"": null
@@ -1692,13 +1687,13 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         ],
         [
           {{
-            ""$type"": ""Argon.Tests.TestObjects.Events.Event1, Tests"",
+            ""$type"": ""TestObjects.Event1, Tests"",
             ""EventName"": ""EventName!"",
             ""Venue"": null,
             ""Performances"": null
           }},
           {{
-            ""$type"": ""Argon.Tests.TestObjects.Events.Event1, Tests"",
+            ""$type"": ""TestObjects.Event1, Tests"",
             ""EventName"": ""EventName!"",
             ""Venue"": null,
             ""Performances"": null
@@ -1707,17 +1702,17 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
       ]
     }},
     {{
-      ""$type"": ""Argon.Tests.TestObjects.Events.Event1[,], Tests"",
+      ""$type"": ""TestObjects.Event1[,], Tests"",
       ""$values"": [
         [
           {{
-            ""$type"": ""Argon.Tests.TestObjects.Events.Event1, Tests"",
+            ""$type"": ""TestObjects.Event1, Tests"",
             ""EventName"": ""EventName!"",
             ""Venue"": null,
             ""Performances"": null
           }},
           {{
-            ""$type"": ""Argon.Tests.TestObjects.Events.Event1, Tests"",
+            ""$type"": ""TestObjects.Event1, Tests"",
             ""EventName"": ""EventName!"",
             ""Venue"": null,
             ""Performances"": null
@@ -1725,13 +1720,13 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         ],
         [
           {{
-            ""$type"": ""Argon.Tests.TestObjects.Events.Event1, Tests"",
+            ""$type"": ""TestObjects.Event1, Tests"",
             ""EventName"": ""EventName!"",
             ""Venue"": null,
             ""Performances"": null
           }},
           {{
-            ""$type"": ""Argon.Tests.TestObjects.Events.Event1, Tests"",
+            ""$type"": ""TestObjects.Event1, Tests"",
             ""EventName"": ""EventName!"",
             ""Venue"": null,
             ""Performances"": null
@@ -1742,7 +1737,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
   ]
 }}", json);
 
-        var values2 = (IList<Event1[,]>)JsonConvert.DeserializeObject(json, new JsonSerializerSettings
+        var values2 = (IList<Event1[,]>) JsonConvert.DeserializeObject(json, new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.All
         });
@@ -1777,10 +1772,10 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         Assert.Equal(3, o.Data.Length);
         Assert.Equal("dashboard", o.Data[0]);
         Assert.IsType(typeof(JArray), o.Data[1]);
-        Assert.Equal(4, ((JArray)o.Data[1]).Count);
+        Assert.Equal(4, ((JArray) o.Data[1]).Count);
         Assert.IsType(typeof(JObject), o.Data[2]);
-        Assert.Equal(1, ((JObject)o.Data[2]).Count);
-        Assert.Equal(1, (int)((JObject)o.Data[2])["one"]);
+        Assert.Equal(1, ((JObject) o.Data[2]).Count);
+        Assert.Equal(1, (int) ((JObject) o.Data[2])["one"]);
     }
 
     [Fact]
@@ -1790,8 +1785,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         var o = JsonConvert.DeserializeObject<ArrayList>(jsonText);
 
         Assert.Equal(4, o.Count);
-        Assert.Equal(3, ((JArray)o[2]).Count);
-        Assert.Equal(0, ((JObject)o[3]).Count);
+        Assert.Equal(3, ((JArray) o[2]).Count);
+        Assert.Equal(0, ((JObject) o[3]).Count);
     }
 
     [Fact]
@@ -1836,7 +1831,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         {
             const string propertyValue = "value";
 
-            var list = new List<ITestInterface> { new TestClass { Property = propertyValue } };
+            var list = new List<ITestInterface> {new TestClass {Property = propertyValue}};
 
             var json = JsonConvert.SerializeObject(list);
 
@@ -1868,9 +1863,9 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         var collection = new ProductCollection
         {
-            new() { Name = "Test1" },
-            new() { Name = "Test2" },
-            new() { Name = "Test3" }
+            new() {Name = "Test1"},
+            new() {Name = "Test2"},
+            new() {Name = "Test3"}
         };
 
         var jsonSerializer = new JsonSerializer
@@ -1885,7 +1880,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         Assert.Equal(@"[{""Name"":""Test1"",""ExpiryDate"":""2000-01-01T00:00:00Z"",""Price"":0.0,""Sizes"":null},{""Name"":""Test2"",""ExpiryDate"":""2000-01-01T00:00:00Z"",""Price"":0.0,""Sizes"":null},{""Name"":""Test3"",""ExpiryDate"":""2000-01-01T00:00:00Z"",""Price"":0.0,""Sizes"":null}]",
             stringWriter.GetStringBuilder().ToString());
 
-        var collectionNew = (ProductCollection)jsonSerializer.Deserialize(new JsonTextReader(new StringReader(stringWriter.GetStringBuilder().ToString())), typeof(ProductCollection));
+        var collectionNew = (ProductCollection) jsonSerializer.Deserialize(new JsonTextReader(new StringReader(stringWriter.GetStringBuilder().ToString())), typeof(ProductCollection));
 
         Assert.Equal(collection, collectionNew);
     }
@@ -1894,21 +1889,21 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     public void GenericCollectionInheritance()
     {
         var foo1 = new GenericClass<GenericItem<string>, string>();
-        foo1.Items.Add(new GenericItem<string> { Value = "Hello" });
+        foo1.Items.Add(new GenericItem<string> {Value = "Hello"});
 
-        var json = JsonConvert.SerializeObject(new { selectList = foo1 });
+        var json = JsonConvert.SerializeObject(new {selectList = foo1});
         Assert.Equal(@"{""selectList"":[{""Value"":""Hello""}]}", json);
 
         var foo2 = new GenericClass<NonGenericItem, string>();
-        foo2.Items.Add(new NonGenericItem { Value = "Hello" });
+        foo2.Items.Add(new NonGenericItem {Value = "Hello"});
 
-        json = JsonConvert.SerializeObject(new { selectList = foo2 });
+        json = JsonConvert.SerializeObject(new {selectList = foo2});
         Assert.Equal(@"{""selectList"":[{""Value"":""Hello""}]}", json);
 
         var foo3 = new NonGenericClass();
-        foo3.Items.Add(new NonGenericItem { Value = "Hello" });
+        foo3.Items.Add(new NonGenericItem {Value = "Hello"});
 
-        json = JsonConvert.SerializeObject(new { selectList = foo3 });
+        json = JsonConvert.SerializeObject(new {selectList = foo3});
         Assert.Equal(@"{""selectList"":[{""Value"":""Hello""}]}", json);
     }
 
@@ -1935,7 +1930,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void ReadOnlyCollectionSerialize()
     {
-        var r1 = new ReadOnlyCollection<int>(new[] { 0, 1, 2, 3, 4 });
+        var r1 = new ReadOnlyCollection<int>(new[] {0, 1, 2, 3, 4});
 
         var jsonText = JsonConvert.SerializeObject(r1);
 
@@ -2027,7 +2022,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     }
 
     [Fact]
-    public void ReadOnlyIntegerList()
+    public void ReadOnlyIntegerListTest()
     {
         var l = new ReadOnlyIntegerList(new List<int>
         {
@@ -2057,7 +2052,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.All
         };
 
-        JsonConvert.SerializeObject(new Hashtable { { "testkey", "" } }, settings);
+        JsonConvert.SerializeObject(new Hashtable {{"testkey", ""}}, settings);
         var deserializeTest2 = JsonConvert.DeserializeObject<Hashtable>(externalJson, settings);
 
         Assert.Equal(deserializeTest2["testkey"], "");
@@ -2066,13 +2061,10 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializeCollectionWithConstructorArrayArgument()
     {
-        var v = new ReadOnlyCollectionWithArrayArgument<double>(new[] { -0.014147478859765236, -0.011419606805541858, -0.010038461483676238 });
+        var v = new ReadOnlyCollectionWithArrayArgument<double>(new[] {-0.014147478859765236, -0.011419606805541858, -0.010038461483676238});
         var json = JsonConvert.SerializeObject(v);
 
-        XUnitAssert.Throws<JsonSerializationException>(() =>
-        {
-            JsonConvert.DeserializeObject<ReadOnlyCollectionWithArrayArgument<double>>(json);
-        }, "Unable to find a constructor to use for type Argon.Tests.Serialization.ReadOnlyCollectionWithArrayArgument`1[System.Double]. Path '', line 1, position 1.");
+        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<ReadOnlyCollectionWithArrayArgument<double>>(json); }, "Unable to find a constructor to use for type JsonSerializerCollectionsTests+ReadOnlyCollectionWithArrayArgument`1[System.Double]. Path '', line 1, position 1.");
     }
 
     [Fact]
@@ -2163,7 +2155,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         List<string> _storage;
 
-        [JsonConstructor]
+        [Argon.JsonConstructor]
         MyClass()
         {
             _storage = new List<string>();
@@ -2177,507 +2169,504 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         //Below is generated by VS to implement IList<string>
         public string this[int index]
         {
-            get => ((IList<string>)_storage)[index];
+            get => ((IList<string>) _storage)[index];
 
-            set => ((IList<string>)_storage)[index] = value;
+            set => ((IList<string>) _storage)[index] = value;
         }
 
-        public int Count => ((IList<string>)_storage).Count;
+        public int Count => ((IList<string>) _storage).Count;
 
-        public bool IsReadOnly => ((IList<string>)_storage).IsReadOnly;
+        public bool IsReadOnly => ((IList<string>) _storage).IsReadOnly;
 
         public void Add(string item)
         {
-            ((IList<string>)_storage).Add(item);
+            ((IList<string>) _storage).Add(item);
         }
 
         public void Clear()
         {
-            ((IList<string>)_storage).Clear();
+            ((IList<string>) _storage).Clear();
         }
 
         public bool Contains(string item)
         {
-            return ((IList<string>)_storage).Contains(item);
+            return ((IList<string>) _storage).Contains(item);
         }
 
         public void CopyTo(string[] array, int arrayIndex)
         {
-            ((IList<string>)_storage).CopyTo(array, arrayIndex);
+            ((IList<string>) _storage).CopyTo(array, arrayIndex);
         }
 
         public IEnumerator<string> GetEnumerator()
         {
-            return ((IList<string>)_storage).GetEnumerator();
+            return ((IList<string>) _storage).GetEnumerator();
         }
 
         public int IndexOf(string item)
         {
-            return ((IList<string>)_storage).IndexOf(item);
+            return ((IList<string>) _storage).IndexOf(item);
         }
 
         public void Insert(int index, string item)
         {
-            ((IList<string>)_storage).Insert(index, item);
+            ((IList<string>) _storage).Insert(index, item);
         }
 
         public bool Remove(string item)
         {
-            return ((IList<string>)_storage).Remove(item);
+            return ((IList<string>) _storage).Remove(item);
         }
 
         public void RemoveAt(int index)
         {
-            ((IList<string>)_storage).RemoveAt(index);
+            ((IList<string>) _storage).RemoveAt(index);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IList<string>)_storage).GetEnumerator();
+            return ((IList<string>) _storage).GetEnumerator();
         }
     }
-}
-
-public class CASResponce
-{
-    //<?xml version='1.0' encoding='iso-8859-1' ?>
-    //<cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>
-    //    <cas:authenticationSuccess>
-    //        <cas:user>and</cas:user>
-    //        <norEduPerson>
-    //            <groups>IT-service-OD,USR-IT-service,IT-service-udvikling</groups>
-    //            <domain>adm</domain>
-    //            <mail>and@sdu.dk</mail>
-    //            <sn>And</sn>
-    //            <gn>Anders</gn>
-    //            <cn>Anders And</cn>
-    //            <eo>QQT3tKSKjCxQSGsDiR8HTP9L5VsojBvOYyjOu8pwLMA=</eo>
-    //            <guid>DE423352CC763649B8F2ECF1DA304750</guid>
-    //            <language>da</language>
-    //        </norEduPerson>
-    //    </cas:authenticationSuccess>
-    //</cas:serviceResponse>
-
-    // NemID
-    //<cas:serviceResponse xmlns:cas="http://www.yale.edu/tp/cas">
-    //  <cas:authenticationSuccess>
-    //      <cas:user>
-    //          2903851921
-    //      </cas:user>
-    //  </cas:authenticationSuccess>
-    //</cas:serviceResponse>
 
 
-    //WAYF
-    //<cas:serviceResponse xmlns:cas="http://www.yale.edu/tp/cas">
-    //  <cas:authenticationSuccess>
-    //     <cas:user>
-    //          jj@testidp.wayf.dk
-    //     </cas:user>
-    //  <norEduPerson>
-    //     <sn>Jensen</sn>
-    //     <gn>Jens</gn>
-    //     <cn>Jens farmer</cn>
-    //      <eduPersonPrincipalName>jj @testidp.wayf.dk</eduPersonPrincipalName>
-    //        <mail>jens.jensen @institution.dk</mail>
-    //        <organizationName>Institution</organizationName>
-    //        <eduPersonAssurance>2</eduPersonAssurance>
-    //        <schacPersonalUniqueID>urn:mace:terena.org:schac:personalUniqueID:dk:CPR:0708741234</schacPersonalUniqueID>
-    //        <eduPersonScopedAffiliation>student @course1.testidp.wayf.dk</eduPersonScopedAffiliation>
-    //        <eduPersonScopedAffiliation>staff @course1.testidp.wayf.dk</eduPersonScopedAffiliation>
-    //        <eduPersonScopedAffiliation>staff @course1.testidp.wsayf.dk</eduPersonScopedAffiliation>
-    //        <preferredLanguage>en</preferredLanguage>
-    //        <eduPersonEntitlement>test</eduPersonEntitlement>
-    //        <eduPersonPrimaryAffiliation>student</eduPersonPrimaryAffiliation>
-    //        <schacCountryOfCitizenship>DK</schacCountryOfCitizenship>
-    //        <eduPersonTargetedID>WAYF-DK-7a86d1c3b69a9639d7650b64f2eb773bd21a8c6d</eduPersonTargetedID>
-    //        <schacHomeOrganization>testidp.wayf.dk</schacHomeOrganization>
-    //        <givenName>Jens</givenName>
-    //      <o>Institution</o>
-    //     <idp>https://testbridge.wayf.dk</idp>
-    //  </norEduPerson>
-    // </cas:authenticationSuccess>
-    //</cas:serviceResponse>
-
-
-    public enum ssoLanguage
+    public class CASResponce
     {
-        Unknown,
-        Danish,
-        English
-    }
+        //<?xml version='1.0' encoding='iso-8859-1' ?>
+        //<cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>
+        //    <cas:authenticationSuccess>
+        //        <cas:user>and</cas:user>
+        //        <norEduPerson>
+        //            <groups>IT-service-OD,USR-IT-service,IT-service-udvikling</groups>
+        //            <domain>adm</domain>
+        //            <mail>and@sdu.dk</mail>
+        //            <sn>And</sn>
+        //            <gn>Anders</gn>
+        //            <cn>Anders And</cn>
+        //            <eo>QQT3tKSKjCxQSGsDiR8HTP9L5VsojBvOYyjOu8pwLMA=</eo>
+        //            <guid>DE423352CC763649B8F2ECF1DA304750</guid>
+        //            <language>da</language>
+        //        </norEduPerson>
+        //    </cas:authenticationSuccess>
+        //</cas:serviceResponse>
 
+        // NemID
+        //<cas:serviceResponse xmlns:cas="http://www.yale.edu/tp/cas">
+        //  <cas:authenticationSuccess>
+        //      <cas:user>
+        //          2903851921
+        //      </cas:user>
+        //  </cas:authenticationSuccess>
+        //</cas:serviceResponse>
 
-    public CASResponce(string xmlResponce)
-    {
-        Domain = "";
-        Mail = "";
-        Surname = "";
-        Givenname = "";
-        CommonName = "";
+        //WAYF
+        //<cas:serviceResponse xmlns:cas="http://www.yale.edu/tp/cas">
+        //  <cas:authenticationSuccess>
+        //     <cas:user>
+        //          jj@testidp.wayf.dk
+        //     </cas:user>
+        //  <norEduPerson>
+        //     <sn>Jensen</sn>
+        //     <gn>Jens</gn>
+        //     <cn>Jens farmer</cn>
+        //      <eduPersonPrincipalName>jj @testidp.wayf.dk</eduPersonPrincipalName>
+        //        <mail>jens.jensen @institution.dk</mail>
+        //        <organizationName>Institution</organizationName>
+        //        <eduPersonAssurance>2</eduPersonAssurance>
+        //        <schacPersonalUniqueID>urn:mace:terena.org:schac:personalUniqueID:dk:CPR:0708741234</schacPersonalUniqueID>
+        //        <eduPersonScopedAffiliation>student @course1.testidp.wayf.dk</eduPersonScopedAffiliation>
+        //        <eduPersonScopedAffiliation>staff @course1.testidp.wayf.dk</eduPersonScopedAffiliation>
+        //        <eduPersonScopedAffiliation>staff @course1.testidp.wsayf.dk</eduPersonScopedAffiliation>
+        //        <preferredLanguage>en</preferredLanguage>
+        //        <eduPersonEntitlement>test</eduPersonEntitlement>
+        //        <eduPersonPrimaryAffiliation>student</eduPersonPrimaryAffiliation>
+        //        <schacCountryOfCitizenship>DK</schacCountryOfCitizenship>
+        //        <eduPersonTargetedID>WAYF-DK-7a86d1c3b69a9639d7650b64f2eb773bd21a8c6d</eduPersonTargetedID>
+        //        <schacHomeOrganization>testidp.wayf.dk</schacHomeOrganization>
+        //        <givenName>Jens</givenName>
+        //      <o>Institution</o>
+        //     <idp>https://testbridge.wayf.dk</idp>
+        //  </norEduPerson>
+        // </cas:authenticationSuccess>
+        //</cas:serviceResponse>
 
-        ParseReplyXML(xmlResponce);
-        ExtractGroups();
-        ExtractLanguage();
-    }
-
-    void ExtractGroups()
-    {
-        Groups = new List<string>();
-        if (Person.ContainsKey("groups"))
+        public enum ssoLanguage
         {
-            var groupsString = Person["groups"];
-            var stringList = groupsString.Split(',');
+            Unknown,
+            Danish,
+            English
+        }
 
-            foreach (var group in stringList)
+        public CASResponce(string xmlResponce)
+        {
+            Domain = "";
+            Mail = "";
+            Surname = "";
+            Givenname = "";
+            CommonName = "";
+
+            ParseReplyXML(xmlResponce);
+            ExtractGroups();
+            ExtractLanguage();
+        }
+
+        void ExtractGroups()
+        {
+            Groups = new List<string>();
+            if (Person.ContainsKey("groups"))
             {
-                Groups.Add(group);
-            }
-        }
+                var groupsString = Person["groups"];
+                var stringList = groupsString.Split(',');
 
-    }
-
-    void ExtractLanguage()
-    {
-        if (Person.ContainsKey("language"))
-        {
-            switch (Person["language"].Trim())
-            {
-                case "da":
-                    Language = ssoLanguage.Danish;
-                    break;
-                case "en":
-                    Language = ssoLanguage.English;
-                    break;
-                default:
-                    Language = ssoLanguage.Unknown;
-                    break;
-            }
-        }
-        else
-        {
-            Language = ssoLanguage.Unknown;
-        }
-    }
-
-
-
-
-    void ParseReplyXML(string xmlString)
-    {
-        try
-        {
-            var xDoc = XDocument.Parse(xmlString);
-
-            var root = xDoc.Root;
-
-            var ns = "http://www.yale.edu/tp/cas";
-
-            var auth = root.Element(XName.Get("authenticationSuccess", ns));
-
-            if (auth == null)
-                auth = root.Element(XName.Get("authenticationFailure", ns));
-
-            var xNodeUser = auth.Element(XName.Get("user", ns));
-
-            var eduPers = auth.Element(XName.Get("norEduPerson", ""));
-
-            var casUser = "";
-            var eduPerson = new Dictionary<string, string>();
-
-            if (xNodeUser != null)
-            {
-                casUser = xNodeUser.Value;
-
-                if (eduPers != null)
+                foreach (var group in stringList)
                 {
-                    foreach (var xPersonValue in eduPers.Elements())
-                    {
-                        if (eduPerson.ContainsKey(xPersonValue.Name.LocalName))
-                        {
-                            eduPerson[xPersonValue.Name.LocalName] = $"{eduPerson[xPersonValue.Name.LocalName]};{xPersonValue.Value}";
-                        }
-                        else
-                        {
-                            eduPerson.Add(xPersonValue.Name.LocalName, xPersonValue.Value);
-                        }
-                    }
+                    Groups.Add(group);
                 }
             }
 
-            if (casUser.Trim() != "")
+        }
+
+        void ExtractLanguage()
+        {
+            if (Person.ContainsKey("language"))
             {
-                user = casUser;
+                switch (Person["language"].Trim())
+                {
+                    case "da":
+                        Language = ssoLanguage.Danish;
+                        break;
+                    case "en":
+                        Language = ssoLanguage.English;
+                        break;
+                    default:
+                        Language = ssoLanguage.Unknown;
+                        break;
+                }
             }
-
-            if (eduPerson.ContainsKey("domain"))
-                Domain = eduPerson["domain"];
-            if (eduPerson.ContainsKey("organizationName"))
-                OrganizationName = eduPerson["organizationName"];
-            if (eduPerson.ContainsKey("mail"))
-                Mail = eduPerson["mail"];
-            if (eduPerson.ContainsKey("sn"))
-                Surname = eduPerson["sn"];
-            if (eduPerson.ContainsKey("gn"))
-                Givenname = eduPerson["gn"];
-            if (eduPerson.ContainsKey("cn"))
-                CommonName = eduPerson["cn"];
-
-            Person = eduPerson;
-            XMLResponce = xmlString;
-        }
-        catch
-        {
-            user = "";
-
-        }
-    }
-
-    /// <summary>
-    /// Fast felt der altid findes.
-    /// </summary>
-    public string user { get; private set; }
-
-    /// <summary>
-    /// Person type som dictionary indeholdende de ekstra informationer returneret ved login.
-    /// </summary>
-    public Dictionary<string, string> Person { get; private set; }
-
-    /// <summary>
-    /// Den oprindelige xml returneret fra CAS.
-    /// </summary>
-    public string XMLResponce { get; private set; }
-
-    /// <summary>
-    /// Det sprog der benyttes i SSO. Muligheder er da eller en.
-    /// </summary>
-    public ssoLanguage Language { get; private set; }
-
-    /// <summary>
-    /// Liste af grupper som man er medlem af. Kun udvalgt iblandt dem der blev puttet ind i systemet.
-    /// </summary>
-    public List<string> Groups { get; private set; }
-
-    public string Domain { get; private set; }
-
-    public string Mail { get; private set; }
-
-    public string Surname { get; private set; }
-
-    public string Givenname { get; private set; }
-
-    public string CommonName { get; private set; }
-
-    public string OrganizationName { get; private set; }
-
-}
-
-public class ReadOnlyCollectionWithArrayArgument<T> : IList<T>
-{
-    readonly IList<T> _values;
-
-    public ReadOnlyCollectionWithArrayArgument(T[] args)
-    {
-        _values = args ?? (IList<T>)new List<T>();
-    }
-
-    public IEnumerator<T> GetEnumerator()
-    {
-        return _values.GetEnumerator();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return _values.GetEnumerator();
-    }
-
-    public void Add(T item)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Clear()
-    {
-        throw new NotImplementedException();
-    }
-
-    public bool Contains(T item)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void CopyTo(T[] array, int arrayIndex)
-    {
-        throw new NotImplementedException();
-    }
-
-    public bool Remove(T item)
-    {
-        throw new NotImplementedException();
-    }
-
-    public int Count { get; }
-    public bool IsReadOnly { get; }
-    public int IndexOf(T item)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Insert(int index, T item)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void RemoveAt(int index)
-    {
-        throw new NotImplementedException();
-    }
-
-    public T this[int index]
-    {
-        get => throw new NotImplementedException();
-        set => throw new NotImplementedException();
-    }
-}
-
-public class ReadOnlyIntegerList : IReadOnlyCollection<int>
-{
-    readonly List<int> _list;
-
-    public ReadOnlyIntegerList(List<int> l)
-    {
-        _list = l;
-    }
-
-    public int Count => _list.Count;
-
-    public IEnumerator<int> GetEnumerator()
-    {
-        return _list.GetEnumerator();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-}
-
-public class Array2D
-{
-    public string Before { get; set; }
-    public int[,] Coordinates { get; set; }
-    public string After { get; set; }
-}
-
-public class Array3D
-{
-    public string Before { get; set; }
-    public int[,,] Coordinates { get; set; }
-    public string After { get; set; }
-}
-
-public class Array3DWithConverter
-{
-    public string Before { get; set; }
-
-    [JsonProperty(ItemConverterType = typeof(IntToFloatConverter))]
-    public int[,,] Coordinates { get; set; }
-
-    public string After { get; set; }
-}
-
-public class GenericItem<T>
-{
-    public T Value { get; set; }
-}
-
-public class NonGenericItem : GenericItem<string>
-{
-}
-
-public class GenericClass<T, TValue> : IEnumerable<T>
-    where T : GenericItem<TValue>, new()
-{
-    public IList<T> Items { get; set; }
-
-    public GenericClass()
-    {
-        Items = new List<T>();
-    }
-
-    public IEnumerator<T> GetEnumerator()
-    {
-        if (Items != null)
-        {
-            foreach (var item in Items)
+            else
             {
-                yield return item;
+                Language = ssoLanguage.Unknown;
             }
         }
-        else
+
+
+        void ParseReplyXML(string xmlString)
         {
-            yield break;
+            try
+            {
+                var xDoc = XDocument.Parse(xmlString);
+
+                var root = xDoc.Root;
+
+                var ns = "http://www.yale.edu/tp/cas";
+
+                var auth = root.Element(XName.Get("authenticationSuccess", ns));
+
+                if (auth == null)
+                    auth = root.Element(XName.Get("authenticationFailure", ns));
+
+                var xNodeUser = auth.Element(XName.Get("user", ns));
+
+                var eduPers = auth.Element(XName.Get("norEduPerson", ""));
+
+                var casUser = "";
+                var eduPerson = new Dictionary<string, string>();
+
+                if (xNodeUser != null)
+                {
+                    casUser = xNodeUser.Value;
+
+                    if (eduPers != null)
+                    {
+                        foreach (var xPersonValue in eduPers.Elements())
+                        {
+                            if (eduPerson.ContainsKey(xPersonValue.Name.LocalName))
+                            {
+                                eduPerson[xPersonValue.Name.LocalName] = $"{eduPerson[xPersonValue.Name.LocalName]};{xPersonValue.Value}";
+                            }
+                            else
+                            {
+                                eduPerson.Add(xPersonValue.Name.LocalName, xPersonValue.Value);
+                            }
+                        }
+                    }
+                }
+
+                if (casUser.Trim() != "")
+                {
+                    user = casUser;
+                }
+
+                if (eduPerson.ContainsKey("domain"))
+                    Domain = eduPerson["domain"];
+                if (eduPerson.ContainsKey("organizationName"))
+                    OrganizationName = eduPerson["organizationName"];
+                if (eduPerson.ContainsKey("mail"))
+                    Mail = eduPerson["mail"];
+                if (eduPerson.ContainsKey("sn"))
+                    Surname = eduPerson["sn"];
+                if (eduPerson.ContainsKey("gn"))
+                    Givenname = eduPerson["gn"];
+                if (eduPerson.ContainsKey("cn"))
+                    CommonName = eduPerson["cn"];
+
+                Person = eduPerson;
+                XMLResponce = xmlString;
+            }
+            catch
+            {
+                user = "";
+
+            }
+        }
+
+        /// <summary>
+        /// Fast felt der altid findes.
+        /// </summary>
+        public string user { get; private set; }
+
+        /// <summary>
+        /// Person type som dictionary indeholdende de ekstra informationer returneret ved login.
+        /// </summary>
+        public Dictionary<string, string> Person { get; private set; }
+
+        /// <summary>
+        /// Den oprindelige xml returneret fra CAS.
+        /// </summary>
+        public string XMLResponce { get; private set; }
+
+        /// <summary>
+        /// Det sprog der benyttes i SSO. Muligheder er da eller en.
+        /// </summary>
+        public ssoLanguage Language { get; private set; }
+
+        /// <summary>
+        /// Liste af grupper som man er medlem af. Kun udvalgt iblandt dem der blev puttet ind i systemet.
+        /// </summary>
+        public List<string> Groups { get; private set; }
+
+        public string Domain { get; private set; }
+
+        public string Mail { get; private set; }
+
+        public string Surname { get; private set; }
+
+        public string Givenname { get; private set; }
+
+        public string CommonName { get; private set; }
+
+        public string OrganizationName { get; private set; }
+
+    }
+
+    public class ReadOnlyCollectionWithArrayArgument<T> : IList<T>
+    {
+        readonly IList<T> _values;
+
+        public ReadOnlyCollectionWithArrayArgument(T[] args)
+        {
+            _values = args ?? (IList<T>) new List<T>();
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return _values.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return _values.GetEnumerator();
+        }
+
+        public void Add(T item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Clear()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Contains(T item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CopyTo(T[] array, int arrayIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Remove(T item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Count { get; }
+        public bool IsReadOnly { get; }
+
+        public int IndexOf(T item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Insert(int index, T item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveAt(int index)
+        {
+            throw new NotImplementedException();
+        }
+
+        public T this[int index]
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
         }
     }
 
-    IEnumerator IEnumerable.GetEnumerator()
+    public class ReadOnlyIntegerList : IReadOnlyCollection<int>
     {
-        return GetEnumerator();
-    }
-}
+        readonly List<int> _list;
 
-public class NonGenericClass : GenericClass<GenericItem<string>, string>
-{
-}
-
-public class StringListAppenderConverter : JsonConverter
-{
-    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-    {
-        writer.WriteValue(value);
-    }
-
-    public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
-    {
-        var existingStrings = (List<string>)existingValue;
-        var newStrings = new List<string>(existingStrings);
-
-        reader.Read();
-
-        while (reader.TokenType != JsonToken.EndArray)
+        public ReadOnlyIntegerList(List<int> l)
         {
-            var s = (string)reader.Value;
-            newStrings.Add(s);
+            _list = l;
+        }
+
+        public int Count => _list.Count;
+
+        public IEnumerator<int> GetEnumerator()
+        {
+            return _list.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+    }
+
+    public class Array2D
+    {
+        public string Before { get; set; }
+        public int[,] Coordinates { get; set; }
+        public string After { get; set; }
+    }
+
+    public class Array3D
+    {
+        public string Before { get; set; }
+        public int[,,] Coordinates { get; set; }
+        public string After { get; set; }
+    }
+
+    public class Array3DWithConverter
+    {
+        public string Before { get; set; }
+
+        [JsonProperty(ItemConverterType = typeof(IntToFloatConverter))]
+        public int[,,] Coordinates { get; set; }
+
+        public string After { get; set; }
+    }
+
+    public class GenericItem<T>
+    {
+        public T Value { get; set; }
+    }
+
+    public class NonGenericItem : GenericItem<string>
+    {
+    }
+
+    public class GenericClass<T, TValue> : IEnumerable<T>
+        where T : GenericItem<TValue>, new()
+    {
+        public IList<T> Items { get; set; }
+
+        public GenericClass()
+        {
+            Items = new List<T>();
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            if (Items != null)
+            {
+                foreach (var item in Items)
+                {
+                    yield return item;
+                }
+            }
+            else
+            {
+                yield break;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+    }
+
+    public class NonGenericClass : GenericClass<GenericItem<string>, string>
+    {
+    }
+
+    public class StringListAppenderConverter : JsonConverter
+    {
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            writer.WriteValue(value);
+        }
+
+        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
+        {
+            var existingStrings = (List<string>) existingValue;
+            var newStrings = new List<string>(existingStrings);
 
             reader.Read();
+
+            while (reader.TokenType != JsonToken.EndArray)
+            {
+                var s = (string) reader.Value;
+                newStrings.Add(s);
+
+                reader.Read();
+            }
+
+            return newStrings;
         }
 
-        return newStrings;
+        public override bool CanConvert(Type type)
+        {
+            return type == typeof(List<string>);
+        }
     }
 
-    public override bool CanConvert(Type type)
+    public class StringAppenderConverter : JsonConverter
     {
-        return type == typeof(List<string>);
-    }
-}
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            writer.WriteValue(value);
+        }
 
-public class StringAppenderConverter : JsonConverter
-{
-    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-    {
-        writer.WriteValue(value);
-    }
+        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
+        {
+            var existingString = (string) existingValue;
+            var newString = existingString + (string) reader.Value;
 
-    public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
-    {
-        var existingString = (string)existingValue;
-        var newString = existingString + (string)reader.Value;
+            return newString;
+        }
 
-        return newString;
-    }
-
-    public override bool CanConvert(Type type)
-    {
-        return type == typeof(string);
+        public override bool CanConvert(Type type)
+        {
+            return type == typeof(string);
+        }
     }
 }

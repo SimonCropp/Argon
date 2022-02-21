@@ -24,9 +24,6 @@
 #endregion
 
 using System.Xml;
-using Xunit;
-
-namespace Argon.Tests.Documentation.Samples.Xml;
 
 public class ConvertXmlToJsonForceArray : TestFixtureBase
 {

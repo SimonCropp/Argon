@@ -24,7 +24,6 @@
 #endregion
 
 using System.Dynamic;
-using Argon;
 
 class JsonSerializerInternalReader : JsonSerializerInternalBase
 {
@@ -534,7 +533,16 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 }
                 else
                 {
-                    targetDictionary = PopulateDictionary(dictionaryContract.ShouldCreateWrapper || existingValue is not IDictionary ? dictionaryContract.CreateWrapper(existingValue) : (IDictionary)existingValue, reader, dictionaryContract, member, id);
+                    IDictionary dictionary;
+                    if (dictionaryContract.ShouldCreateWrapper || existingValue is not IDictionary value)
+                    {
+                        dictionary = dictionaryContract.CreateWrapper(existingValue);
+                    }
+                    else
+                    {
+                        dictionary = value;
+                    }
+                    targetDictionary = PopulateDictionary(dictionary, reader, dictionaryContract, member, id);
                 }
 
                 return targetDictionary;

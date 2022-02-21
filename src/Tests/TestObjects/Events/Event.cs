@@ -23,15 +23,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects.Events;
+namespace TestObjects;
 
 public sealed class Event
 {
     /// <summary>
     /// If no current user is specified, returns Nothing (0 from VB)
     /// </summary>
-    /// <returns></returns>
-    /// <remarks></remarks>
     static int GetCurrentUserId()
     {
         return 0;
@@ -42,8 +40,6 @@ public sealed class Event
     /// NOTE: You MUST call this from the top level entry point. Otherwise,
     /// the stack trace will be buried in Logger itself.
     /// </summary>
-    /// <returns></returns>
-    /// <remarks></remarks>
     static string GetCurrentSubLocation()
     {
         return "";

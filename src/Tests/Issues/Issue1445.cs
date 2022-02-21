@@ -24,9 +24,6 @@
 #endregion
 
 using System.Data;
-using Xunit;
-
-namespace Argon.Tests.Issues;
 
 public class Issue1445 : TestFixtureBase
 {

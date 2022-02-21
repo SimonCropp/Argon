@@ -23,11 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Xunit;
-
-namespace Argon.Tests.Serialization;
-
-public class NamingStrategyEquality: TestFixtureBase
+public class NamingStrategyEquality : TestFixtureBase
 {
     [Fact]
     public void CamelCaseNamingStrategyEquality()

@@ -24,9 +24,6 @@
 #endregion
 
 using System.Xml;
-using Xunit;
-
-namespace Argon.Tests.Issues;
 
 public class Issue1734
 {

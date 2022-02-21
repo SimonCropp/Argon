@@ -23,10 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Argon.Tests.TestObjects;
-using Xunit;
-
-namespace Argon.Tests.Serialization;
+using TestObjects;
 
 public class MissingMemberHandlingTests : TestFixtureBase
 {

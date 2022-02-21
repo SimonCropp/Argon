@@ -23,12 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Xunit;
 using System.Dynamic;
 
 // ReSharper disable UseObjectOrCollectionInitializer
-
-namespace Argon.Tests.Serialization;
 
 public class ReferenceLoopHandlingTests : TestFixtureBase
 {
@@ -115,7 +112,7 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
         {
             Text = "Text!"
         };
-        c.SetData(new List<PropertyItemReferenceLoopHandling> { c });
+        c.SetData(new List<PropertyItemReferenceLoopHandling> {c});
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
@@ -181,7 +178,7 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.SerializeObject(main, settings),
-            "Self referencing loop detected with type 'Argon.Tests.Serialization.ReferenceLoopHandlingTests+MainClass'. Path 'Child'.");
+            "Self referencing loop detected with type 'ReferenceLoopHandlingTests+MainClass'. Path 'Child'.");
     }
 
     [Fact]
@@ -197,7 +194,7 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
         main.Child = child;
 
         var settings =
-            new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            new JsonSerializerSettings {ReferenceLoopHandling = ReferenceLoopHandling.Ignore};
 
         var c = JsonConvert.SerializeObject(main, settings);
         Assert.Equal(@"{""Child"":{""Name"":""Child1""}}", c);
@@ -240,8 +237,8 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
         var settings = new JsonSerializerSettings();
 
         XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.SerializeObject(parent, settings), 
-            "Self referencing loop detected with type 'Argon.Tests.Serialization.ReferenceLoopHandlingTests+DictionaryDynamicObject'. Path 'child'.");
+            () => JsonConvert.SerializeObject(parent, settings),
+            "Self referencing loop detected with type 'ReferenceLoopHandlingTests+DictionaryDynamicObject'. Path 'child'.");
     }
 
     [Fact]
@@ -278,7 +275,7 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.SerializeObject(account),
-            "Self referencing loop detected for property 'Manager' with type 'Argon.Tests.Serialization.AccountWithEquals'. Path ''.");
+            "Self referencing loop detected for property 'Manager' with type 'ReferenceLoopHandlingTests+AccountWithEquals'. Path ''.");
 
         var json = JsonConvert.SerializeObject(account, new JsonSerializerSettings
         {
@@ -294,111 +291,113 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
   }
 }", json);
     }
-}
 
-public class ReferenceEqualsEqualityComparer : IEqualityComparer
-{
-    bool IEqualityComparer.Equals(object x, object y)
+
+    public class ReferenceEqualsEqualityComparer : IEqualityComparer
     {
-        return ReferenceEquals(x, y);
-    }
-
-    int IEqualityComparer.GetHashCode(object obj)
-    {
-        // put objects in a bucket based on their reference
-        return RuntimeHelpers.GetHashCode(obj);
-    }
-}
-
-public class AccountWithEquals
-{
-    public string Name { get; set; }
-    public AccountWithEquals Manager { get; set; }
-
-    public override bool Equals(object obj)
-    {
-        var a = obj as AccountWithEquals;
-        if (a == null)
+        bool IEqualityComparer.Equals(object x, object y)
         {
-            return false;
+            return ReferenceEquals(x, y);
         }
 
-        return Name == a.Name;
-    }
-
-    public override int GetHashCode()
-    {
-        if (Name == null)
+        int IEqualityComparer.GetHashCode(object obj)
         {
-            return 0;
+            // put objects in a bucket based on their reference
+            return RuntimeHelpers.GetHashCode(obj);
         }
-
-        return Name.GetHashCode();
     }
-}
 
-public class PropertyItemReferenceLoopHandling
-{
-    IList<PropertyItemReferenceLoopHandling> _data;
-    int _accessCount;
-
-    public string Text { get; set; }
-
-    [JsonProperty(ItemReferenceLoopHandling = ReferenceLoopHandling.Serialize)]
-    public IList<PropertyItemReferenceLoopHandling> Data
+    public class AccountWithEquals
     {
-        get
+        public string Name { get; set; }
+        public AccountWithEquals Manager { get; set; }
+
+        public override bool Equals(object obj)
         {
-            if (_accessCount >= 3)
+            var a = obj as AccountWithEquals;
+            if (a == null)
             {
+                return false;
+            }
+
+            return Name == a.Name;
+        }
+
+        public override int GetHashCode()
+        {
+            if (Name == null)
+            {
+                return 0;
+            }
+
+            return Name.GetHashCode();
+        }
+    }
+
+    public class PropertyItemReferenceLoopHandling
+    {
+        IList<PropertyItemReferenceLoopHandling> _data;
+        int _accessCount;
+
+        public string Text { get; set; }
+
+        [JsonProperty(ItemReferenceLoopHandling = ReferenceLoopHandling.Serialize)]
+        public IList<PropertyItemReferenceLoopHandling> Data
+        {
+            get
+            {
+                if (_accessCount >= 3)
+                {
+                    return null;
+                }
+
+                _accessCount++;
+                return new List<PropertyItemReferenceLoopHandling>(_data);
+            }
+        }
+
+        public void SetData(IList<PropertyItemReferenceLoopHandling> data)
+        {
+            _data = data;
+        }
+    }
+
+    [JsonArray(ItemReferenceLoopHandling = ReferenceLoopHandling.Ignore)]
+    public class ReferenceLoopHandlingList : List<ReferenceLoopHandlingList>
+    {
+    }
+
+    [JsonDictionary(ItemReferenceLoopHandling = ReferenceLoopHandling.Ignore)]
+    public class ReferenceLoopHandlingDictionary : Dictionary<string, ReferenceLoopHandlingDictionary>
+    {
+    }
+
+    [JsonObject(ItemReferenceLoopHandling = ReferenceLoopHandling.Ignore)]
+    public class ReferenceLoopHandlingObjectContainerAttribute
+    {
+        public ReferenceLoopHandlingObjectContainerAttribute Value { get; set; }
+    }
+
+    [JsonObject(ItemReferenceLoopHandling = ReferenceLoopHandling.Ignore)]
+    public class ReferenceLoopHandlingObjectContainerAttributeWithPropertyOverride
+    {
+        ReferenceLoopHandlingObjectContainerAttributeWithPropertyOverride _value;
+        int _getCount;
+
+        [JsonProperty(ReferenceLoopHandling = ReferenceLoopHandling.Serialize)]
+        public ReferenceLoopHandlingObjectContainerAttributeWithPropertyOverride Value
+        {
+            get
+            {
+                if (_getCount < 5)
+                {
+                    _getCount++;
+                    return _value;
+                }
+
                 return null;
             }
-
-            _accessCount++;
-            return new List<PropertyItemReferenceLoopHandling>(_data);
+            set => _value = value;
         }
-    }
-
-    public void SetData(IList<PropertyItemReferenceLoopHandling> data)
-    {
-        _data = data;
-    }
-}
-
-[JsonArray(ItemReferenceLoopHandling = ReferenceLoopHandling.Ignore)]
-public class ReferenceLoopHandlingList : List<ReferenceLoopHandlingList>
-{
-}
-
-[JsonDictionary(ItemReferenceLoopHandling = ReferenceLoopHandling.Ignore)]
-public class ReferenceLoopHandlingDictionary : Dictionary<string, ReferenceLoopHandlingDictionary>
-{
-}
-
-[JsonObject(ItemReferenceLoopHandling = ReferenceLoopHandling.Ignore)]
-public class ReferenceLoopHandlingObjectContainerAttribute
-{
-    public ReferenceLoopHandlingObjectContainerAttribute Value { get; set; }
-}
-
-[JsonObject(ItemReferenceLoopHandling = ReferenceLoopHandling.Ignore)]
-public class ReferenceLoopHandlingObjectContainerAttributeWithPropertyOverride
-{
-    ReferenceLoopHandlingObjectContainerAttributeWithPropertyOverride _value;
-    int _getCount;
-
-    [JsonProperty(ReferenceLoopHandling = ReferenceLoopHandling.Serialize)]
-    public ReferenceLoopHandlingObjectContainerAttributeWithPropertyOverride Value
-    {
-        get
-        {
-            if (_getCount < 5)
-            {
-                _getCount++;
-                return _value;
-            }
-            return null;
-        }
-        set => _value = value;
     }
 }

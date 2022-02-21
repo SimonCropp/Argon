@@ -2210,15 +2210,15 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             throw JsonReaderException.Create(this, "Unexpected end while parsing comment.");
         }
 
-        bool singlelineComment;
+        bool singleLineComment;
 
         if (CharBuffer[CharPos] == '*')
         {
-            singlelineComment = false;
+            singleLineComment = false;
         }
         else if (CharBuffer[CharPos] == '/')
         {
-            singlelineComment = true;
+            singleLineComment = true;
         }
         else
         {
@@ -2238,7 +2238,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     {
                         if (ReadData(true) == 0)
                         {
-                            if (!singlelineComment)
+                            if (!singleLineComment)
                             {
                                 throw JsonReaderException.Create(this, "Unexpected end while parsing comment.");
                             }
@@ -2255,7 +2255,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 case '*':
                     CharPos++;
 
-                    if (!singlelineComment)
+                    if (!singleLineComment)
                     {
                         if (EnsureChars(0, true))
                         {
@@ -2270,7 +2270,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     }
                     break;
                 case StringUtils.CarriageReturn:
-                    if (singlelineComment)
+                    if (singleLineComment)
                     {
                         EndComment(setToken, initialPosition, CharPos);
                         return;
@@ -2278,7 +2278,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     ProcessCarriageReturn(true);
                     break;
                 case StringUtils.LineFeed:
-                    if (singlelineComment)
+                    if (singleLineComment)
                     {
                         EndComment(setToken, initialPosition, CharPos);
                         return;

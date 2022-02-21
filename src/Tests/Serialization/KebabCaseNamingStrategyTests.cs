@@ -23,11 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Xunit;
-using Argon.Tests.TestObjects;
-using Argon.Tests.TestObjects.Organization;
-
-namespace Argon.Tests.Serialization;
+using TestObjects;
 
 public class KebabCaseNamingStrategyTests : TestFixtureBase
 {
@@ -155,7 +151,7 @@ public class KebabCaseNamingStrategyTests : TestFixtureBase
     [Fact]
     public void DynamicKebabCasePropertyNames()
     {
-        dynamic o = new TestDynamicObject();
+        dynamic o = new SnakeCaseNamingStrategyTests.TestDynamicObject();
         o.Text = "Text!";
         o.Integer = int.MaxValue;
 

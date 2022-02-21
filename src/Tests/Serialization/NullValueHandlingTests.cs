@@ -23,10 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Argon.Tests.TestObjects;
-using Xunit;
-
-namespace Argon.Tests.Serialization;
+using TestObjects;
 
 public class NullValueHandlingTests : TestFixtureBase
 {
@@ -96,7 +93,7 @@ public class NullValueHandlingTests : TestFixtureBase
 
         var included = JsonConvert.SerializeObject(movie,
             Formatting.Indented,
-            new JsonSerializerSettings { });
+            new JsonSerializerSettings());
 
         // {
         //   "Name": "Bad Boys III",

@@ -24,10 +24,7 @@
 #endregion
 
 using System.ComponentModel;
-using Argon.Tests.TestObjects;
-using Xunit;
-
-namespace Argon.Tests.Serialization;
+using TestObjects;
 
 public class ConstructorHandlingTests : TestFixtureBase
 {

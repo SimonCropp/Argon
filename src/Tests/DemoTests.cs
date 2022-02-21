@@ -26,9 +26,6 @@
 using System.Buffers;
 using System.Data;
 using Argon.DataSetConverters;
-using Xunit;
-
-namespace Argon.Tests;
 
 public class DemoTests : TestFixtureBase
 {
@@ -361,16 +358,16 @@ public class DemoTests : TestFixtureBase
 
         XUnitAssert.AreEqualNormalized(@"{
   ""$id"": ""1"",
-  ""$type"": ""Argon.Tests.DemoTests+Manager, Tests"",
+  ""$type"": ""DemoTests+Manager, Tests"",
   ""Reportees"": [
     {
       ""$id"": ""2"",
-      ""$type"": ""Argon.Tests.DemoTests+Employee, Tests"",
+      ""$type"": ""DemoTests+Employee, Tests"",
       ""Name"": ""Arnie Admin""
     },
     {
       ""$id"": ""3"",
-      ""$type"": ""Argon.Tests.DemoTests+Manager, Tests"",
+      ""$type"": ""DemoTests+Manager, Tests"",
       ""Reportees"": [
         {
           ""$ref"": ""2""
@@ -388,16 +385,16 @@ public class DemoTests : TestFixtureBase
     {
         var json = @"{
   '$id': '1',
-  '$type': 'Argon.Tests.DemoTests+Manager, Tests',
+  '$type': 'DemoTests+Manager, Tests',
   'Reportees': [
     {
       '$id': '2',
-      '$type': 'Argon.Tests.DemoTests+Employee, Tests',
+      '$type': 'DemoTests+Employee, Tests',
       'Name': 'Arnie Admin'
     },
     {
       '$id': '3',
-      '$type': 'Argon.Tests.DemoTests+Manager, Tests',
+      '$type': 'DemoTests+Manager, Tests',
       'Reportees': [
         {
           '$ref': '2'

@@ -23,13 +23,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Xunit;
-using User = Argon.Tests.Serialization.MetadataPropertyHandlingTests.User;
-
-namespace Argon.Tests.Documentation.Samples.Serializer;
-
 public class DeserializeMetadataPropertyHandling : TestFixtureBase
 {
+    public class User
+    {
+        public string Name { get; set; }
+    }
+
     [Fact]
     public void Example()
     {

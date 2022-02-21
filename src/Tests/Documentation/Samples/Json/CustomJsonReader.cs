@@ -24,9 +24,6 @@
 #endregion
 
 using System.Xml;
-using Xunit;
-
-namespace Argon.Tests.Documentation.Samples.Json;
 
 #region CustomJsonReaderTypes
 public class XmlJsonReader : JsonReader

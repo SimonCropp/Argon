@@ -24,9 +24,6 @@
 #endregion
 
 using System.ComponentModel;
-using Xunit;
-
-namespace Argon.Tests.Serialization;
 
 public class ReflectionAttributeProviderTests : TestFixtureBase
 {

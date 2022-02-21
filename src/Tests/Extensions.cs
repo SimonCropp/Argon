@@ -1,6 +1,4 @@
-﻿using Argon;
-
-public static class Extensions
+﻿public static class Extensions
 {
     public static string GetOffset(this DateTime d, DateFormatHandling dateFormatHandling)
     {

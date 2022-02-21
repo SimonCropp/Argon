@@ -44,5 +44,5 @@ Console.WriteLine(rss.ToString());
 //   }
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/ModifyJson.cs#L35-L76' title='Snippet source file'>snippet source</a> | <a href='#snippet-modifyjson' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/ModifyJson.cs#L33-L74' title='Snippet source file'>snippet source</a> | <a href='#snippet-modifyjson' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

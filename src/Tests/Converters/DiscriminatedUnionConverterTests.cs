@@ -24,11 +24,7 @@
 #endregion
 
 using Microsoft.FSharp.Reflection;
-using Argon.Tests.TestObjects.GeometricForms;
-using Argon.Tests.TestObjects.Money;
-using Xunit;
-
-namespace Argon.Tests.Converters;
+using TestObjects;
 
 public class DiscriminatedUnionConverterTests : TestFixtureBase
 {
@@ -232,7 +228,7 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
             10.0, 5.0
         });
 
-        Assert.Equal("Argon.Tests.TestObjects.GeometricForms.Shape+Rectangle", value.ToString());
+        Assert.Equal("TestObjects.Shape+Rectangle", value.ToString());
         Assert.Equal(10, value.width);
         Assert.Equal(5, value.length);
     }

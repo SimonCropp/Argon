@@ -24,11 +24,8 @@
 #endregion
 
 using System.ComponentModel;
-using Xunit;
 
 // ReSharper disable UseObjectOrCollectionInitializer
-
-namespace Argon.Tests.Linq;
 
 public class JArrayTests : TestFixtureBase
 {

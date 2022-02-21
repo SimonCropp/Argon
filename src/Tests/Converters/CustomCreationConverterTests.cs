@@ -23,11 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Argon.Tests.TestObjects;
-using Argon.Tests.TestObjects.Organization;
-using Xunit;
-
-namespace Argon.Tests.Converters;
+using TestObjects;
 
 public class CustomCreationConverterTests : TestFixtureBase
 {

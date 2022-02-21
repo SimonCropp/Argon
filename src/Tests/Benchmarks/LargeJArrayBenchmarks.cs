@@ -25,8 +25,6 @@
 
 using BenchmarkDotNet.Attributes;
 
-namespace Argon.Tests.Benchmarks;
-
 public class LargeJArrayBenchmarks
 {
     JArray _largeJArraySample;

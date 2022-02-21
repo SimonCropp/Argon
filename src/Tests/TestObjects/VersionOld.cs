@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects;
+namespace TestObjects;
 
 [Serializable]
 public sealed class VersionOld : IComparable, IComparable<VersionOld>, IEquatable<VersionOld>
@@ -34,7 +34,7 @@ public sealed class VersionOld : IComparable, IComparable<VersionOld>, IEquatabl
     readonly int _Build = -1; // Do not rename (binary serialization)
     readonly int _Revision = -1; // Do not rename (binary serialization)
 
-    [JsonConstructor]
+    [Argon.JsonConstructor]
     public VersionOld(int major, int minor, int build, int revision)
     {
         _Major = major;

@@ -23,10 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Xunit;
-
-namespace Argon.Tests.Issues;
-
 public class Issue1834 : TestFixtureBase
 {
     [Fact]
@@ -52,7 +48,7 @@ public class Issue1834 : TestFixtureBase
         [JsonExtensionData]
         public IDictionary<string, JToken> ExtensionData;
 
-        [JsonConstructor]
+        [Argon.JsonConstructor]
         ItemWithJsonConstructor(string foo)
         {
             Foo = foo;
@@ -67,7 +63,7 @@ public class Issue1834 : TestFixtureBase
         [JsonExtensionData]
         public IDictionary<string, JToken> ExtensionData;
 
-        [JsonConstructor]
+        [Argon.JsonConstructor]
         ItemWithJsonConstructorAndDefaultValue(string foo)
         {
             Foo = foo;

@@ -23,11 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Argon.Tests.TestObjects;
-using Argon.Tests.TestObjects.Organization;
-using Xunit;
-
-namespace Argon.Tests.Serialization;
+using TestObjects;
 
 public class PopulateTests : TestFixtureBase
 {

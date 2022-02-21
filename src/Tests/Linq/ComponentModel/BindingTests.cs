@@ -24,10 +24,8 @@
 #endregion
 
 #if !NET5_0_OR_GREATER
-using Xunit;
 using System.Web.UI;
 
-namespace Argon.Tests.Linq.ComponentModel;
 
 public class BindingTests : TestFixtureBase
 {

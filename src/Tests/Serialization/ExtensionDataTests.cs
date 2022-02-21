@@ -23,11 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Argon.Tests.TestObjects;
-using Argon.Tests.TestObjects.Organization;
-using Xunit;
-
-namespace Argon.Tests.Serialization;
+using TestObjects;
 
 public class ExtensionDataTests : TestFixtureBase
 {
@@ -744,7 +740,7 @@ public class ExtensionDataTests : TestFixtureBase
   ""Name"": ""Name!"",
   ""Test"": 1,
   ""Self"": {
-    ""$type"": ""Argon.Tests.TestObjects.Organization.WagePerson, Tests"",
+    ""$type"": ""TestObjects.WagePerson, Tests"",
     ""HourlyWage"": 2.0,
     ""Name"": null,
     ""BirthDate"": ""0001-01-01T00:00:00"",
@@ -765,14 +761,14 @@ public class ExtensionDataTests : TestFixtureBase
     }
 
     [Fact]
-    public void DeserializePublicExtensionDataTypeNamdHandlingNonDefaultConstructor()
+    public void DeserializePublicExtensionDataTypeNameHandlingNonDefaultConstructor()
     {
         var json = @"{
   ""$id"": ""1"",
   ""Name"": ""Name!"",
   ""Test"": 1,
   ""Self"": {
-    ""$type"": ""Argon.Tests.TestObjects.Organization.WagePerson, Tests"",
+    ""$type"": ""TestObjects.WagePerson, Tests"",
     ""HourlyWage"": 2.0,
     ""Name"": null,
     ""BirthDate"": ""0001-01-01T00:00:00"",
@@ -816,10 +812,10 @@ public class ExtensionDataTests : TestFixtureBase
         });
 
         XUnitAssert.AreEqualNormalized(@"{
-  ""$type"": ""Argon.Tests.Serialization.ExtensionDataTests+PublicExtensionDataAttributeTestClass, Tests"",
+  ""$type"": ""ExtensionDataTests+PublicExtensionDataAttributeTestClass, Tests"",
   ""Name"": ""Name!"",
   ""Test"": {
-    ""$type"": ""Argon.Tests.TestObjects.Organization.WagePerson, Tests"",
+    ""$type"": ""TestObjects.WagePerson, Tests"",
     ""HourlyWage"": 2.1,
     ""Name"": null,
     ""BirthDate"": ""0001-01-01T00:00:00"",
@@ -975,7 +971,7 @@ public class ExtensionDataTests : TestFixtureBase
         }
         catch (JsonSerializationException ex)
         {
-            Assert.Equal("Error setting value in extension data for type 'Argon.Tests.Serialization.ExtensionDataTests+DocNoSetter'. Path 'Property1', line 1, position 39.", ex.Message);
+            Assert.Equal("Error setting value in extension data for type 'ExtensionDataTests+DocNoSetter'. Path 'Property1', line 1, position 39.", ex.Message);
             Assert.Equal("Cannot set value onto extension data member 'Content'. The extension data collection is null and it cannot be set.", ex.InnerException.Message);
         }
     }
@@ -994,7 +990,7 @@ public class ExtensionDataTests : TestFixtureBase
     {
         XUnitAssert.Throws<JsonException>(
             () => JsonConvert.SerializeObject(new DocNoGetter()),
-            "Invalid extension data attribute on 'Argon.Tests.Serialization.ExtensionDataTests+DocNoGetter'. Member 'Content' must have a getter.");
+            "Invalid extension data attribute on 'ExtensionDataTests+DocNoGetter'. Member 'Content' must have a getter.");
     }
 
     public class Item

@@ -27,7 +27,7 @@ public class Directory : IEnumerable<string>
     }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonObjectAttributeOverrideIEnumerable.cs#L32-L54' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonobjectattributeoverrideienumerabletypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonObjectAttributeOverrideIEnumerable.cs#L28-L50' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonobjectattributeoverrideienumerabletypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: JsonObjectAttributeOverrideIEnumerableUsage -->
@@ -54,5 +54,5 @@ Console.WriteLine(json);
 //   ]
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonObjectAttributeOverrideIEnumerable.cs#L59-L80' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonobjectattributeoverrideienumerableusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonObjectAttributeOverrideIEnumerable.cs#L55-L76' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonobjectattributeoverrideienumerableusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

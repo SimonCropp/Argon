@@ -25,7 +25,7 @@
 
 using System.Xml.Linq;
 
-namespace Argon.Tests.TestObjects;
+namespace TestObjects;
 
 public class XNodeTestObject
 {

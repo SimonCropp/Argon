@@ -23,11 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Xunit;
-using Argon.Tests.TestObjects;
-using Argon.Tests.TestObjects.Organization;
-
-namespace Argon.Tests.Serialization;
+using TestObjects;
 
 public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
 {
@@ -156,7 +152,7 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
     [Fact]
     public void DynamicCamelCasePropertyNames()
     {
-        dynamic o = new TestDynamicObject();
+        dynamic o = new SnakeCaseNamingStrategyTests.TestDynamicObject();
         o.Text = "Text!";
         o.Integer = int.MaxValue;
 

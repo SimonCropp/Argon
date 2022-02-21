@@ -25,7 +25,7 @@
 
 using System.Collections.ObjectModel;
 
-namespace Argon.Tests.TestObjects;
+namespace TestObjects;
 
 public class NoConstructorReadOnlyCollection<T> : ReadOnlyCollection<T>
 {

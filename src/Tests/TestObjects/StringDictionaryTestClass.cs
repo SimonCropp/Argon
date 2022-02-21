@@ -25,7 +25,7 @@
 
 using System.Collections.Specialized;
 
-namespace Argon.Tests.TestObjects;
+namespace TestObjects;
 
 public class StringDictionaryTestClass
 {

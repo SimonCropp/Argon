@@ -24,9 +24,6 @@
 #endregion
 
 using System.ComponentModel;
-using Xunit;
-
-namespace Argon.Tests.Linq;
 
 public class JPropertyTests : TestFixtureBase
 {

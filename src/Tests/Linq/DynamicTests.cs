@@ -24,11 +24,9 @@
 #endregion
 
 using System.Dynamic;
-using Xunit;
 
-namespace Argon.Tests.Linq;
 
-public class DynamicTests : TestFixtureBase
+public class LinqDynamicTests : TestFixtureBase
 {
     [Fact]
     public void AccessPropertyValue()
@@ -73,7 +71,7 @@ public class DynamicTests : TestFixtureBase
     {
         dynamic d;
 
-        using (var jsonFile = System.IO.File.OpenText("large.json"))
+        using (var jsonFile = File.OpenText("large.json"))
         using (var jsonTextReader = new JsonTextReader(jsonFile))
         {
             var serializer = new JsonSerializer();
@@ -96,7 +94,7 @@ public class DynamicTests : TestFixtureBase
             foreach (var friend in o.friends)
             {
                 UpdateValueCount(counts, friend.id);
-                UpdateValueCount(counts, ((string)friend.name).Split(' ')[0]);
+                UpdateValueCount(counts, ((string) friend.name).Split(' ')[0]);
             }
 
             count++;
@@ -116,7 +114,7 @@ public class DynamicTests : TestFixtureBase
         d.First = "A value!";
 
         Assert.Equal(new JValue("A value!"), d.First);
-        Assert.Equal("A value!", (string)d.First);
+        Assert.Equal("A value!", (string) d.First);
 
         d.First = null;
         Assert.Equal(JTokenType.Null, d.First.Type);
@@ -163,13 +161,13 @@ public class DynamicTests : TestFixtureBase
         foreach (JProperty value in d)
         {
             Assert.Equal("ChildValue", value.Name);
-            Assert.Equal("blah blah", (string)value.Value);
+            Assert.Equal("blah blah", (string) value.Value);
         }
 
         foreach (var value in d)
         {
             Assert.Equal("ChildValue", value.Name);
-            Assert.Equal("blah blah", (string)value.Value);
+            Assert.Equal("blah blah", (string) value.Value);
         }
     }
 
@@ -194,7 +192,7 @@ public class DynamicTests : TestFixtureBase
         {
             dynamic d = new JObject();
 
-            d.First = new[] { "One", "II", "3" };
+            d.First = new[] {"One", "II", "3"};
         }, "Could not determine JSON object type for type System.String[].");
     }
 
@@ -214,7 +212,7 @@ public class DynamicTests : TestFixtureBase
         Assert.Null(d["Count"]);
 
         Assert.True(d.TryGetValue("ChildValue", out JToken v));
-        Assert.Equal("blah blah", (string)v);
+        Assert.Equal("blah blah", (string) v);
     }
 
     [Fact]
@@ -339,30 +337,31 @@ public class DynamicTests : TestFixtureBase
         dynamic d = o;
 
         #region Add
+
         var r = d.String + " LAMO!";
-        Assert.Equal("A string lol! LAMO!", (string)r);
+        Assert.Equal("A string lol! LAMO!", (string) r);
         r += " gg";
-        Assert.Equal("A string lol! LAMO! gg", (string)r);
+        Assert.Equal("A string lol! LAMO! gg", (string) r);
 
         r = d.String + null;
-        Assert.Equal("A string lol!", (string)r);
+        Assert.Equal("A string lol!", (string) r);
         r += null;
-        Assert.Equal("A string lol!", (string)r);
+        Assert.Equal("A string lol!", (string) r);
 
         r = d.Integer + 1;
-        Assert.Equal(2, (int)r);
+        Assert.Equal(2, (int) r);
         r += 2;
-        Assert.Equal(4, (int)r);
+        Assert.Equal(4, (int) r);
 
         r = d.Integer + 1.1;
-        Assert.Equal(2.1, (double)r);
+        Assert.Equal(2.1, (double) r);
         r += 2;
-        Assert.Equal(4.1, (double)r);
+        Assert.Equal(4.1, (double) r);
 
         r = d.Integer + 1.1d;
-        Assert.Equal(2.1m, (decimal)r);
+        Assert.Equal(2.1m, (decimal) r);
         r += 2;
-        Assert.Equal(4.1m, (decimal)r);
+        Assert.Equal(4.1m, (decimal) r);
 
         r = d.Integer + null;
         Assert.Equal(null, r.Value);
@@ -370,19 +369,19 @@ public class DynamicTests : TestFixtureBase
         Assert.Equal(null, r.Value);
 
         r = d.Float + 1;
-        Assert.Equal(2.1d, (double)r);
+        Assert.Equal(2.1d, (double) r);
         r += 2;
-        Assert.Equal(4.1d, (double)r);
+        Assert.Equal(4.1d, (double) r);
 
         r = d.Float + 1.1;
-        Assert.Equal(2.2d, (double)r);
+        Assert.Equal(2.2d, (double) r);
         r += 2;
-        Assert.Equal(4.2d, (double)r);
+        Assert.Equal(4.2d, (double) r);
 
         r = d.Float + 1.1d;
-        Assert.Equal(2.2m, (decimal)r);
+        Assert.Equal(2.2m, (decimal) r);
         r += 2;
-        Assert.Equal(4.2m, (decimal)r);
+        Assert.Equal(4.2m, (decimal) r);
 
         r = d.Float + null;
         Assert.Equal(null, r.Value);
@@ -390,19 +389,19 @@ public class DynamicTests : TestFixtureBase
         Assert.Equal(null, r.Value);
 
         r = d.Decimal + 1;
-        Assert.Equal(2.1m, (decimal)r);
+        Assert.Equal(2.1m, (decimal) r);
         r += 2;
-        Assert.Equal(4.1m, (decimal)r);
+        Assert.Equal(4.1m, (decimal) r);
 
         r = d.Decimal + 1.1;
-        Assert.Equal(2.2m, (decimal)r);
+        Assert.Equal(2.2m, (decimal) r);
         r += 2;
-        Assert.Equal(4.2m, (decimal)r);
+        Assert.Equal(4.2m, (decimal) r);
 
         r = d.Decimal + 1.1d;
-        Assert.Equal(2.2m, (decimal)r);
+        Assert.Equal(2.2m, (decimal) r);
         r += 2;
-        Assert.Equal(4.2m, (decimal)r);
+        Assert.Equal(4.2m, (decimal) r);
 
         r = d.Decimal + null;
         Assert.Equal(null, r.Value);
@@ -415,31 +414,33 @@ public class DynamicTests : TestFixtureBase
         Assert.Equal(null, r.Value);
 
         r = d.BigInteger + 1;
-        Assert.Equal(101, (int)r);
+        Assert.Equal(101, (int) r);
         r += 2;
-        Assert.Equal(103, (int)r);
+        Assert.Equal(103, (int) r);
 
         r = d.BigInteger + 1.1d;
-        Assert.Equal(101m, (decimal)r);
+        Assert.Equal(101m, (decimal) r);
         r += 2;
-        Assert.Equal(103m, (decimal)r);
+        Assert.Equal(103m, (decimal) r);
+
         #endregion
 
         #region Subtract
+
         r = d.Integer - 1;
-        Assert.Equal(0, (int)r);
+        Assert.Equal(0, (int) r);
         r -= 2;
-        Assert.Equal(-2, (int)r);
+        Assert.Equal(-2, (int) r);
 
         r = d.Integer - 1.1;
-        XUnitAssert.AreEqual(-0.1d, (double)r, 0.00001);
+        XUnitAssert.AreEqual(-0.1d, (double) r, 0.00001);
         r -= 2;
-        Assert.Equal(-2.1d, (double)r);
+        Assert.Equal(-2.1d, (double) r);
 
         r = d.Integer - 1.1d;
-        Assert.Equal(-0.1m, (decimal)r);
+        Assert.Equal(-0.1m, (decimal) r);
         r -= 2;
-        Assert.Equal(-2.1m, (decimal)r);
+        Assert.Equal(-2.1m, (decimal) r);
 
         r = d.Integer - null;
         Assert.Equal(null, r.Value);
@@ -447,19 +448,19 @@ public class DynamicTests : TestFixtureBase
         Assert.Equal(null, r.Value);
 
         r = d.Float - 1;
-        XUnitAssert.AreEqual(0.1d, (double)r, 0.00001);
+        XUnitAssert.AreEqual(0.1d, (double) r, 0.00001);
         r -= 2;
-        Assert.Equal(-1.9d, (double)r);
+        Assert.Equal(-1.9d, (double) r);
 
         r = d.Float - 1.1;
-        Assert.Equal(0d, (double)r);
+        Assert.Equal(0d, (double) r);
         r -= 2;
-        Assert.Equal(-2d, (double)r);
+        Assert.Equal(-2d, (double) r);
 
         r = d.Float - 1.1d;
-        Assert.Equal(0m, (decimal)r);
+        Assert.Equal(0m, (decimal) r);
         r -= 2;
-        Assert.Equal(-2m, (decimal)r);
+        Assert.Equal(-2m, (decimal) r);
 
         r = d.Float - null;
         Assert.Equal(null, r.Value);
@@ -467,19 +468,19 @@ public class DynamicTests : TestFixtureBase
         Assert.Equal(null, r.Value);
 
         r = d.Decimal - 1;
-        Assert.Equal(0.1m, (decimal)r);
+        Assert.Equal(0.1m, (decimal) r);
         r -= 2;
-        Assert.Equal(-1.9m, (decimal)r);
+        Assert.Equal(-1.9m, (decimal) r);
 
         r = d.Decimal - 1.1;
-        Assert.Equal(0m, (decimal)r);
+        Assert.Equal(0m, (decimal) r);
         r -= 2;
-        Assert.Equal(-2m, (decimal)r);
+        Assert.Equal(-2m, (decimal) r);
 
         r = d.Decimal - 1.1d;
-        Assert.Equal(0m, (decimal)r);
+        Assert.Equal(0m, (decimal) r);
         r -= 2;
-        Assert.Equal(-2m, (decimal)r);
+        Assert.Equal(-2m, (decimal) r);
 
         r = d.Decimal - null;
         Assert.Equal(null, r.Value);
@@ -492,26 +493,28 @@ public class DynamicTests : TestFixtureBase
         Assert.Equal(null, r.Value);
 
         r = d.BigInteger - 1.1d;
-        Assert.Equal(99m, (decimal)r);
+        Assert.Equal(99m, (decimal) r);
         r -= 2;
-        Assert.Equal(97m, (decimal)r);
+        Assert.Equal(97m, (decimal) r);
+
         #endregion
 
         #region Multiply
+
         r = d.Integer * 1;
-        Assert.Equal(1, (int)r);
+        Assert.Equal(1, (int) r);
         r *= 2;
-        Assert.Equal(2, (int)r);
+        Assert.Equal(2, (int) r);
 
         r = d.Integer * 1.1;
-        Assert.Equal(1.1d, (double)r);
+        Assert.Equal(1.1d, (double) r);
         r *= 2;
-        Assert.Equal(2.2d, (double)r);
+        Assert.Equal(2.2d, (double) r);
 
         r = d.Integer * 1.1d;
-        Assert.Equal(1.1m, (decimal)r);
+        Assert.Equal(1.1m, (decimal) r);
         r *= 2;
-        Assert.Equal(2.2m, (decimal)r);
+        Assert.Equal(2.2m, (decimal) r);
 
         r = d.Integer * null;
         Assert.Equal(null, r.Value);
@@ -519,19 +522,19 @@ public class DynamicTests : TestFixtureBase
         Assert.Equal(null, r.Value);
 
         r = d.Float * 1;
-        Assert.Equal(1.1d, (double)r);
+        Assert.Equal(1.1d, (double) r);
         r *= 2;
-        Assert.Equal(2.2d, (double)r);
+        Assert.Equal(2.2d, (double) r);
 
         r = d.Float * 1.1;
-        XUnitAssert.AreEqual(1.21d, (double)r, 0.00001);
+        XUnitAssert.AreEqual(1.21d, (double) r, 0.00001);
         r *= 2;
-        XUnitAssert.AreEqual(2.42d, (double)r, 0.00001);
+        XUnitAssert.AreEqual(2.42d, (double) r, 0.00001);
 
         r = d.Float * 1.1d;
-        Assert.Equal(1.21m, (decimal)r);
+        Assert.Equal(1.21m, (decimal) r);
         r *= 2;
-        Assert.Equal(2.42m, (decimal)r);
+        Assert.Equal(2.42m, (decimal) r);
 
         r = d.Float * null;
         Assert.Equal(null, r.Value);
@@ -539,19 +542,19 @@ public class DynamicTests : TestFixtureBase
         Assert.Equal(null, r.Value);
 
         r = d.Decimal * 1;
-        Assert.Equal(1.1m, (decimal)r);
+        Assert.Equal(1.1m, (decimal) r);
         r *= 2;
-        Assert.Equal(2.2m, (decimal)r);
+        Assert.Equal(2.2m, (decimal) r);
 
         r = d.Decimal * 1.1;
-        Assert.Equal(1.21m, (decimal)r);
+        Assert.Equal(1.21m, (decimal) r);
         r *= 2;
-        Assert.Equal(2.42m, (decimal)r);
+        Assert.Equal(2.42m, (decimal) r);
 
         r = d.Decimal * 1.1d;
-        Assert.Equal(1.21m, (decimal)r);
+        Assert.Equal(1.21m, (decimal) r);
         r *= 2;
-        Assert.Equal(2.42m, (decimal)r);
+        Assert.Equal(2.42m, (decimal) r);
 
         r = d.Decimal * null;
         Assert.Equal(null, r.Value);
@@ -559,31 +562,33 @@ public class DynamicTests : TestFixtureBase
         Assert.Equal(null, r.Value);
 
         r = d.BigInteger * 1.1d;
-        Assert.Equal(100m, (decimal)r);
+        Assert.Equal(100m, (decimal) r);
         r *= 2;
-        Assert.Equal(200m, (decimal)r);
+        Assert.Equal(200m, (decimal) r);
 
         r = d.BigInteger * null;
         Assert.Equal(null, r.Value);
         r *= 2;
         Assert.Equal(null, r.Value);
+
         #endregion
 
         #region Divide
+
         r = d.Integer / 1;
-        Assert.Equal(1, (int)r);
+        Assert.Equal(1, (int) r);
         r /= 2;
-        Assert.Equal(0, (int)r);
+        Assert.Equal(0, (int) r);
 
         r = d.Integer / 1.1;
-        Assert.Equal(0.9090909090909091d, (double)r);
+        Assert.Equal(0.9090909090909091d, (double) r);
         r /= 2;
-        XUnitAssert.AreEqual(0.454545454545455d, (double)r, 0.00001);
+        XUnitAssert.AreEqual(0.454545454545455d, (double) r, 0.00001);
 
         r = d.Integer / 1.1d;
-        Assert.Equal(0.909090909090909m, (decimal)r);
+        Assert.Equal(0.909090909090909m, (decimal) r);
         r /= 2;
-        Assert.Equal(0.454545454545454m, (decimal)r);
+        Assert.Equal(0.454545454545454m, (decimal) r);
 
         r = d.Integer / null;
         Assert.Equal(null, r.Value);
@@ -591,19 +596,19 @@ public class DynamicTests : TestFixtureBase
         Assert.Equal(null, r.Value);
 
         r = d.Float / 1;
-        Assert.Equal(1.1d, (double)r);
+        Assert.Equal(1.1d, (double) r);
         r /= 2;
-        Assert.Equal(0.55d, (double)r);
+        Assert.Equal(0.55d, (double) r);
 
         r = d.Float / 1.1;
-        XUnitAssert.AreEqual(1d, (double)r, 0.00001);
+        XUnitAssert.AreEqual(1d, (double) r, 0.00001);
         r /= 2;
-        XUnitAssert.AreEqual(0.5d, (double)r, 0.00001);
+        XUnitAssert.AreEqual(0.5d, (double) r, 0.00001);
 
         r = d.Float / 1.1d;
-        Assert.Equal(1m, (decimal)r);
+        Assert.Equal(1m, (decimal) r);
         r /= 2;
-        Assert.Equal(0.5m, (decimal)r);
+        Assert.Equal(0.5m, (decimal) r);
 
         r = d.Float / null;
         Assert.Equal(null, r.Value);
@@ -611,19 +616,19 @@ public class DynamicTests : TestFixtureBase
         Assert.Equal(null, r.Value);
 
         r = d.Decimal / 1;
-        Assert.Equal(1.1m, (decimal)r);
+        Assert.Equal(1.1m, (decimal) r);
         r /= 2;
-        Assert.Equal(0.55m, (decimal)r);
+        Assert.Equal(0.55m, (decimal) r);
 
         r = d.Decimal / 1.1;
-        Assert.Equal(1m, (decimal)r);
+        Assert.Equal(1m, (decimal) r);
         r /= 2;
-        Assert.Equal(0.5m, (decimal)r);
+        Assert.Equal(0.5m, (decimal) r);
 
         r = d.Decimal / 1.1d;
-        Assert.Equal(1m, (decimal)r);
+        Assert.Equal(1m, (decimal) r);
         r /= 2;
-        Assert.Equal(0.5m, (decimal)r);
+        Assert.Equal(0.5m, (decimal) r);
 
         r = d.Decimal / null;
         Assert.Equal(null, r.Value);
@@ -631,14 +636,15 @@ public class DynamicTests : TestFixtureBase
         Assert.Equal(null, r.Value);
 
         r = d.BigInteger / 1.1d;
-        Assert.Equal(100m, (decimal)r);
+        Assert.Equal(100m, (decimal) r);
         r /= 2;
-        Assert.Equal(50m, (decimal)r);
+        Assert.Equal(50m, (decimal) r);
 
         r = d.BigInteger / null;
         Assert.Equal(null, r.Value);
         r /= 2;
         Assert.Equal(null, r.Value);
+
         #endregion
     }
 
@@ -739,7 +745,7 @@ public class DynamicTests : TestFixtureBase
         AssertValueConverted<string>(1, "1");
         AssertValueConverted<uint>(uint.MinValue);
         AssertValueConverted<uint?>(uint.MinValue);
-        AssertValueConverted<uint?>("1", (uint)1);
+        AssertValueConverted<uint?>("1", (uint) 1);
         AssertValueConverted<ulong>(ulong.MaxValue);
         AssertValueConverted<ulong?>(ulong.MaxValue);
         AssertValueConverted<ushort>(ushort.MinValue);
@@ -778,7 +784,7 @@ public class DynamicTests : TestFixtureBase
 
         value.Name = "Arine Admin";
         value.Enabled = true;
-        value.Roles = new[] { "Admin", "User" };
+        value.Roles = new[] {"Admin", "User"};
 
         string json = JsonConvert.SerializeObject(value, Formatting.Indented);
         // {
@@ -803,16 +809,16 @@ public class DynamicTests : TestFixtureBase
         {
             ["Name"] = "Arnie Admin",
             ["Enabled"] = true,
-            ["Roles"] = new JArray(new[] { "Admin", "User" })
+            ["Roles"] = new JArray(new[] {"Admin", "User"})
         };
 
-        var oldRole = (string)oldAndBusted["Roles"][0];
+        var oldRole = (string) oldAndBusted["Roles"][0];
         // Admin
 
         dynamic newHotness = new JObject();
         newHotness.Name = "Arnie Admin";
         newHotness.Enabled = true;
-        newHotness.Roles = new JArray(new[] { "Admin", "User" });
+        newHotness.Roles = new JArray(new[] {"Admin", "User"});
 
         string newRole = newHotness.Roles[0];
         // Admin
@@ -860,72 +866,75 @@ public class DynamicTests : TestFixtureBase
     public void DynamicAccess_ToJToken_ShouldNotFail()
     {
         var g = Guid.NewGuid();
-        dynamic json = JObject.FromObject(new { uid = g });
+        dynamic json = JObject.FromObject(new {uid = g});
         JToken token = json.uid;
 
-        Assert.Equal(g, ((JValue)token).Value);
+        Assert.Equal(g, ((JValue) token).Value);
     }
 
     [Fact]
     public void DynamicAccess_ToJTokenExplicit_ShouldNotFail()
     {
         var g = Guid.NewGuid();
-        dynamic json = JObject.FromObject(new { uid = g });
-        var token = (JToken)json.uid;
+        dynamic json = JObject.FromObject(new {uid = g});
+        var token = (JToken) json.uid;
 
-        Assert.Equal(g, ((JValue)token).Value);
+        Assert.Equal(g, ((JValue) token).Value);
     }
 
     [Fact]
     public void DynamicAccess_ToJTokenSafeCast_ShouldNotFail()
     {
         var g = Guid.NewGuid();
-        dynamic json = JObject.FromObject(new { uid = g });
+        dynamic json = JObject.FromObject(new {uid = g});
         var token = json.uid as JToken;
 
-        Assert.Equal(g, ((JValue)token).Value);
+        Assert.Equal(g, ((JValue) token).Value);
     }
 
     [Fact]
     public void IndexAccess_ToJToken_ShouldNotFail()
     {
         var g = Guid.NewGuid();
-        var json = JObject.FromObject(new { uid = g });
+        var json = JObject.FromObject(new {uid = g});
         var token = json["uid"];
 
-        Assert.Equal(g, ((JValue)token).Value);
+        Assert.Equal(g, ((JValue) token).Value);
     }
 
     [Fact]
     public void DynamicAccess_ToJToken_ShouldFail()
     {
         var g = Guid.NewGuid();
-        dynamic json = JObject.FromObject(new { uid = g });
+        dynamic json = JObject.FromObject(new {uid = g});
 
         XUnitAssert.Throws<InvalidOperationException>(
-            () => { JObject token = json.uid; },
+            () =>
+            {
+                JObject token = json.uid;
+            },
             "Can not convert from System.Guid to Argon.Linq.JObject.");
     }
-}
 
-public class DynamicDictionary : DynamicObject
-{
-    readonly IDictionary<string, object> _values = new Dictionary<string, object>();
-
-    public override IEnumerable<string> GetDynamicMemberNames()
+    public class DynamicDictionary : DynamicObject
     {
-        return _values.Keys;
-    }
+        readonly IDictionary<string, object> _values = new Dictionary<string, object>();
 
-    public override bool TryGetMember(GetMemberBinder binder, out object result)
-    {
-        result = _values[binder.Name];
-        return true;
-    }
+        public override IEnumerable<string> GetDynamicMemberNames()
+        {
+            return _values.Keys;
+        }
 
-    public override bool TrySetMember(SetMemberBinder binder, object value)
-    {
-        _values[binder.Name] = value;
-        return true;
+        public override bool TryGetMember(GetMemberBinder binder, out object result)
+        {
+            result = _values[binder.Name];
+            return true;
+        }
+
+        public override bool TrySetMember(SetMemberBinder binder, object value)
+        {
+            _values[binder.Name] = value;
+            return true;
+        }
     }
 }

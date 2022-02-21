@@ -24,9 +24,6 @@
 #endregion
 
 using System.Collections.Immutable;
-using Xunit;
-
-namespace Argon.Tests.Issues;
 
 public class Issue1512 : TestFixtureBase
 {

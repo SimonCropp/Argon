@@ -25,7 +25,6 @@
 
 using System.Xml;
 using System.Xml.Linq;
-using Argon;
 
 /// <summary>
 /// Converts XML to and from JSON.

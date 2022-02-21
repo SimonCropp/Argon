@@ -23,10 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Xunit;
 using JsonConstructor = Argon.JsonConstructorAttribute;
-
-namespace Argon.Tests.Documentation.Samples.Serializer;
 
 public class JsonConstructorAttribute : TestFixtureBase
 {

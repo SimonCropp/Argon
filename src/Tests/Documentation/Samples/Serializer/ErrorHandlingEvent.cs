@@ -23,9 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Xunit;
-
-namespace Argon.Tests.Documentation.Samples.Serializer;
+using ErrorEventArgs = Argon.ErrorEventArgs;
 
 public class ErrorHandlingEvent : TestFixtureBase
 {

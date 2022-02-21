@@ -23,11 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Xunit;
-using Argon.Tests.TestObjects;
-using Argon.Tests.TestObjects.Organization;
-
-namespace Argon.Tests.Utilities;
+using TestObjects;
 
 public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
 {
@@ -167,7 +163,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
 
         var m = new Movie();
         var result = method(m);
-        Assert.Equal("Argon.Tests.TestObjects.Movie", result);
+        Assert.Equal("TestObjects.Movie", result);
 
         method = ExpressionReflectionDelegateFactory.Instance.CreateMethodCall<object>(typeof(Movie).GetMethod("Equals"));
 
@@ -310,7 +306,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
             },
             new[]
             {
-                "Unable to cast object of type 'Argon.Tests.TestObjects.Organization.Person' to type 'Argon.Tests.TestObjects.Movie'.",
+                "Unable to cast object of type 'TestObjects.Person' to type 'TestObjects.Movie'.",
                 "Cannot cast from source type to destination type." // mono
             });
     }
@@ -336,7 +332,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
             },
             new[]
             {
-                "Unable to cast object of type 'Argon.Tests.TestObjects.Organization.Person' to type 'Argon.Tests.TestObjects.Movie'.",
+                "Unable to cast object of type 'TestObjects.Person' to type 'TestObjects.Movie'.",
                 "Cannot cast from source type to destination type." // mono
             });
     }

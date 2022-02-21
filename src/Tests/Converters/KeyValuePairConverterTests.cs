@@ -1,8 +1,4 @@
-﻿using Xunit;
-
-namespace Argon.Tests.Converters;
-
-public class KeyValuePairConverterTests : TestFixtureBase
+﻿public class KeyValuePairConverterTests : TestFixtureBase
 {
     [Fact]
     public void SerializeUsingInternalConverter()

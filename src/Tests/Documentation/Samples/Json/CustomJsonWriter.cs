@@ -24,9 +24,8 @@
 #endregion
 
 using System.Xml;
-using Xunit;
 
-namespace Argon.Tests.Documentation.Samples.Json;
+namespace Argon;
 
 #region CustomJsonWriterTypes
 public class XmlJsonWriter : JsonWriter

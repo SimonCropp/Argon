@@ -24,5 +24,5 @@ var yarsRevenge = (string)o.SelectToken("['Yar\\'s Revenge']");
 var governmentIntelligence = (string)o.SelectToken("['Government \"Intelligence\"']");
 // Make-Believe
 ```
-<sup><a href='/src/Tests/Documentation/Samples/JsonPath/QueryJsonSelectTokenEscaped.cs#L35-L54' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonselecttokenescaped' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/JsonPath/QueryJsonSelectTokenEscaped.cs#L31-L50' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonselecttokenescaped' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -23,12 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Xunit;
-using Argon.Tests.TestObjects;
+using TestObjects;
 using System.Data;
 using Argon.DataSetConverters;
-
-namespace Argon.Tests.Converters;
 
 public class DataSetConverterTests : TestFixtureBase
 {
@@ -184,7 +181,6 @@ public class DataSetConverterTests : TestFixtureBase
 
         settings.AddDataSetConverters();
         settings.Converters.Add(new IsoDateTimeConverter());
-
 
         var json = JsonConvert.SerializeObject(ds, settings);
         // {

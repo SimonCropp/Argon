@@ -27,15 +27,13 @@ using System.Xml;
 using System.Xml.Linq;
 using BenchmarkDotNet.Attributes;
 
-namespace Argon.Tests.Benchmarks;
-
 public class XmlNodeConverterBenchmarks
 {
     [Benchmark]
     public void ConvertXmlNode()
     {
         var doc = new XmlDocument();
-        using (var file = System.IO.File.OpenRead("large_sample.xml"))
+        using (var file = File.OpenRead("large_sample.xml"))
         {
             doc.Load(file);
         }
@@ -47,7 +45,7 @@ public class XmlNodeConverterBenchmarks
     public void ConvertXNode()
     {
         XDocument doc;
-        using (var file = System.IO.File.OpenRead("large_sample.xml"))
+        using (var file = File.OpenRead("large_sample.xml"))
         {
             doc = XDocument.Load(file);
         }

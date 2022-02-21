@@ -24,10 +24,6 @@
 #endregion
 
 using System.Dynamic;
-using System.Runtime.Serialization.Formatters;
-using Xunit;
-
-namespace Argon.Tests.Serialization;
 
 public class DynamicTests : TestFixtureBase
 {
@@ -357,12 +353,11 @@ public class TestDynamicObject : DynamicObject
         _members[binder.Name] = value;
         return true;
     }
-}
-
 public class ErrorSettingDynamicObject : DynamicObject
 {
     public override bool TrySetMember(SetMemberBinder binder, object value)
     {
         return false;
     }
+}
 }

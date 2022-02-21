@@ -37,5 +37,4 @@ public partial class Department
     }
 }
 
-
 #endif

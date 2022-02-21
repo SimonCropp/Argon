@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Argon;
-
 class TraceJsonWriter : JsonWriter
 {
     readonly JsonWriter _innerWriter;

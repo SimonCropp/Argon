@@ -23,12 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Xunit;
 using System.Data;
 using Argon.DataSetConverters;
-using Argon.Tests.TestObjects;
-
-namespace Argon.Tests.Converters;
+using TestObjects;
 
 public class DataTableConverterTests : TestFixtureBase
 {

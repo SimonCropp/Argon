@@ -23,10 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Xunit;
-
-namespace Argon.Tests.JsonTextReaderTests;
-
 public class FloatTests : TestFixtureBase
 {
     [Fact]

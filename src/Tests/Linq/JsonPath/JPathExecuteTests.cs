@@ -24,11 +24,7 @@
 #endregion
 
 using System.Text.RegularExpressions;
-
-using Xunit;
 using TestCaseSource = Xunit.MemberDataAttribute;
-
-namespace Argon.Tests.Linq.JsonPath;
 
 public class JPathExecuteTests : TestFixtureBase
 {

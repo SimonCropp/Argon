@@ -23,16 +23,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-
 #if (!NET5_0_OR_GREATER)
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Web.Script.Serialization;
 #endif
 using System.Runtime.Serialization.Json;
 using BenchmarkDotNet.Attributes;
-using Argon.Tests.TestObjects;
-
-namespace Argon.Tests.Benchmarks;
+using TestObjects;
 
 public class DeserializeComparisonBenchmarks
 {

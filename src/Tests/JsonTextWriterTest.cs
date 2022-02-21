@@ -23,9 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Xunit;
-using Argon.Tests.TestObjects;
-using Argon.Tests.TestObjects.JsonTextReaderTests;
+using TestObjects;
 
 namespace Argon.Tests;
 
@@ -99,7 +97,6 @@ public class JsonTextWriterTest : TestFixtureBase
 
                 writer.WriteValue("Error!");
             }
-
 
             XUnitAssert.Fail();
         }

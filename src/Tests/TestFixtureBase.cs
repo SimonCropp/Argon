@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Argon;
-
 public abstract class TestFixtureBase
 {
     protected TestFixtureBase()

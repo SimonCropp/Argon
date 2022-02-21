@@ -1,6 +1,4 @@
-﻿using Argon;
-
-/// <summary>
+﻿/// <summary>
 /// Extensions to <see cref="JToken"/>.
 /// </summary>
 public static class JTokenExtensions

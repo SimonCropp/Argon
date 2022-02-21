@@ -23,11 +23,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Xunit;
-using Argon.Tests.TestObjects;
-using Argon.Tests.TestObjects.Organization;
-
-namespace Argon.Tests.Serialization;
+using System.Dynamic;
+using TestObjects;
 
 public class SnakeCaseNamingStrategyTests : TestFixtureBase
 {
@@ -182,6 +179,65 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
 }", json);
     }
 
+    public class DynamicChildObject
+    {
+        public string Text { get; set; }
+        public int Integer { get; set; }
+    }
+
+    public class TestDynamicObject : DynamicObject
+    {
+        readonly Dictionary<string, object> _members;
+
+        public int Int;
+
+        [JsonProperty]
+        public bool Explicit;
+
+        public DynamicChildObject ChildObject { get; set; }
+
+        internal Dictionary<string, object> Members => _members;
+
+        public TestDynamicObject()
+        {
+            _members = new Dictionary<string, object>();
+        }
+
+        public override IEnumerable<string> GetDynamicMemberNames()
+        {
+            return _members.Keys.Union(new[] { "Int", "ChildObject" });
+        }
+
+        public override bool TryConvert(ConvertBinder binder, out object result)
+        {
+            var targetType = binder.Type;
+
+            if (targetType == typeof(IDictionary<string, object>) ||
+                targetType == typeof(IDictionary))
+            {
+                result = new Dictionary<string, object>(_members);
+                return true;
+            }
+
+            return base.TryConvert(binder, out result);
+        }
+
+        public override bool TryDeleteMember(DeleteMemberBinder binder)
+        {
+            return _members.Remove(binder.Name);
+        }
+
+        public override bool TryGetMember(GetMemberBinder binder, out object result)
+        {
+            return _members.TryGetValue(binder.Name, out result);
+        }
+
+        public override bool TrySetMember(SetMemberBinder binder, object value)
+        {
+            _members[binder.Name] = value;
+            return true;
+        }
+    }
     [Fact]
     public void DictionarySnakeCasePropertyNames_Disabled()
     {

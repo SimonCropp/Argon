@@ -24,29 +24,21 @@
 #endregion
 
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization.Formatters;
 #if !NET5_0_OR_GREATER
 using System.Web.Script.Serialization;
+using System.Drawing;
 #endif
 using System.Text.RegularExpressions;
-using Xunit;
 using System.Xml;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization.Json;
-using Argon.Tests.Linq;
-using Argon.Tests.TestObjects;
-using Argon.Tests.TestObjects.Events;
-using Argon.Tests.TestObjects.GeoCoding;
-using Argon.Tests.TestObjects.Organization;
+using TestObjects;
 using System.Xml.Linq;
 using System.Collections.Specialized;
 using System.Dynamic;
-#if !NET5_0_OR_GREATER
-using System.Drawing;
-
-#endif
-
-namespace Argon.Tests.Serialization;
+using Formatting = Argon.Formatting;
+using JsonConstructor = Argon.JsonConstructorAttribute;
+using ErrorEventArgs = Argon.ErrorEventArgs;
 
 public class JsonSerializerTest : TestFixtureBase
 {
@@ -99,7 +91,7 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void DontCloseInputOnDeserializeError()
     {
-        using var s = System.IO.File.OpenRead("large.json");
+        using var s = File.OpenRead("large.json");
         try
         {
             using (var reader = new JsonTextReader(new StreamReader(s)))
@@ -558,10 +550,12 @@ public class JsonSerializerTest : TestFixtureBase
   ""Name"": ""Name!""
 }";
 
-        var c2 = JsonConvert.DeserializeObject<IgnoredPropertiesTestClass>(deserializeJson, new JsonSerializerSettings
-        {
-            ContractResolver = new IgnoredPropertiesContractResolver()
-        });
+        var c2 = JsonConvert.DeserializeObject<IgnoredPropertiesTestClass>(
+            deserializeJson,
+            new JsonSerializerSettings
+            {
+                ContractResolver = new IgnoredPropertiesContractResolver()
+            });
 
         Assert.Equal("Name!", c2.Name);
     }
@@ -1889,7 +1883,7 @@ keyword such as type of business.""
     {
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.SerializeObject(new BadJsonPropertyClass()),
-            @"A member with the name 'pie' already exists on 'Argon.Tests.TestObjects.BadJsonPropertyClass'. Use the JsonPropertyAttribute to specify another name.");
+            @"A member with the name 'pie' already exists on 'TestObjects.BadJsonPropertyClass'. Use the JsonPropertyAttribute to specify another name.");
     }
 
     [Fact]
@@ -2149,7 +2143,7 @@ keyword such as type of business.""
         var json = JsonConvert.SerializeObject(new ConverableMembers(), Formatting.Indented);
 
 #if (NET5_0_OR_GREATER)
-            var expected = @"{
+        var expected = @"{
   ""String"": ""string"",
   ""Int32"": 2147483647,
   ""UInt32"": 4294967295,
@@ -2466,7 +2460,7 @@ keyword such as type of business.""
         {
             var c = new IncompatibleJsonAttributeClass();
             JsonConvert.SerializeObject(c);
-        }, "Unexpected value when converting date. Expected DateTime or DateTimeOffset, got Argon.Tests.TestObjects.IncompatibleJsonAttributeClass.");
+        }, "Unexpected value when converting date. Expected DateTime or DateTimeOffset, got TestObjects.IncompatibleJsonAttributeClass.");
     }
 
     [Fact]
@@ -2760,7 +2754,7 @@ keyword such as type of business.""
         XUnitAssert.Throws<JsonSerializationException>(() =>
         {
             var testFromDe = (InterfacePropertyTestClass) JsonConvert.DeserializeObject(strFromTest, typeof(InterfacePropertyTestClass));
-        }, @"Could not create an instance of type Argon.Tests.TestObjects.ICo. Type is an interface or abstract class and cannot be instantiated. Path 'co.Name', line 1, position 14.");
+        }, @"Could not create an instance of type TestObjects.ICo. Type is an interface or abstract class and cannot be instantiated. Path 'co.Name', line 1, position 14.");
     }
 
     Person GetPerson()
@@ -3309,7 +3303,7 @@ keyword such as type of business.""
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<Event>(json),
-            @"Unable to find a constructor to use for type Argon.Tests.TestObjects.Events.Event. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'sublocation', line 1, position 15.");
+            @"Unable to find a constructor to use for type TestObjects.Event. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'sublocation', line 1, position 15.");
     }
 
     [Fact]
@@ -3350,7 +3344,7 @@ keyword such as type of business.""
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<Person>(json),
-            @"Cannot deserialize the current JSON array (e.g. [1,2,3]) into type 'Argon.Tests.TestObjects.Organization.Person' because the type requires a JSON object (e.g. {""name"":""value""}) to deserialize correctly.
+            @"Cannot deserialize the current JSON array (e.g. [1,2,3]) into type 'TestObjects.Person' because the type requires a JSON object (e.g. {""name"":""value""}) to deserialize correctly.
 To fix this error either change the JSON to a JSON object (e.g. {""name"":""value""}) or change the deserialized type to an array or a type that implements a collection interface (e.g. ICollection, IList) like List<T> that can be deserialized from a JSON array. JsonArrayAttribute can also be added to the type to force it to deserialize from a JSON array.
 Path '', line 1, position 1.");
     }
@@ -3396,9 +3390,31 @@ Path '', line 1, position 1.");
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<DynamicDictionary>(json),
-            @"Cannot deserialize the current JSON array (e.g. [1,2,3]) into type 'Argon.Tests.Linq.DynamicDictionary' because the type requires a JSON object (e.g. {""name"":""value""}) to deserialize correctly.
+            @"Cannot deserialize the current JSON array (e.g. [1,2,3]) into type 'JsonSerializerTest+DynamicDictionary' because the type requires a JSON object (e.g. {""name"":""value""}) to deserialize correctly.
 To fix this error either change the JSON to a JSON object (e.g. {""name"":""value""}) or change the deserialized type to an array or a type that implements a collection interface (e.g. ICollection, IList) like List<T> that can be deserialized from a JSON array. JsonArrayAttribute can also be added to the type to force it to deserialize from a JSON array.
 Path '', line 1, position 1.");
+    }
+
+    public class DynamicDictionary : DynamicObject
+    {
+        readonly IDictionary<string, object> _values = new Dictionary<string, object>();
+
+        public override IEnumerable<string> GetDynamicMemberNames()
+        {
+            return _values.Keys;
+        }
+
+        public override bool TryGetMember(GetMemberBinder binder, out object result)
+        {
+            result = _values[binder.Name];
+            return true;
+        }
+
+        public override bool TrySetMember(SetMemberBinder binder, object value)
+        {
+            _values[binder.Name] = value;
+            return true;
+        }
     }
 
     [Fact]
@@ -3418,7 +3434,7 @@ Path '', line 1, position 1.");
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<Person>(json),
-            @"Error converting value ""Constructor"" to type 'Argon.Tests.TestObjects.Organization.Person'. Path '', line 1, position 16.");
+            @"Error converting value ""Constructor"" to type 'TestObjects.Person'. Path '', line 1, position 16.");
     }
 
     [Fact]
@@ -3428,7 +3444,7 @@ Path '', line 1, position 1.");
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<List<Person>>(json),
-            @"Error converting value ""Constructor"" to type 'Argon.Tests.TestObjects.Organization.Person'. Path '[0]', line 1, position 17.");
+            @"Error converting value ""Constructor"" to type 'TestObjects.Person'. Path '[0]', line 1, position 17.");
     }
 
     [Fact]
@@ -3443,7 +3459,7 @@ Path '', line 1, position 1.");
         }
         catch (JsonSerializationException ex)
         {
-            Assert.True(ex.Message.StartsWith($@"Cannot deserialize the current JSON object (e.g. {{""name"":""value""}}) into type 'System.Collections.Generic.List`1[Argon.Tests.TestObjects.Organization.Person]' because the type requires a JSON array (e.g. [1,2,3]) to deserialize correctly.{Environment.NewLine}To fix this error either change the JSON to a JSON array (e.g. [1,2,3]) or change the deserialized type so that it is a normal .NET type (e.g. not a primitive type like integer, not a collection type like an array or List<T>) that can be deserialized from a JSON object. JsonObjectAttribute can also be added to the type to force it to deserialize from a JSON object.{Environment.NewLine}Path ''"));
+            Assert.True(ex.Message.StartsWith($@"Cannot deserialize the current JSON object (e.g. {{""name"":""value""}}) into type 'System.Collections.Generic.List`1[TestObjects.Person]' because the type requires a JSON array (e.g. [1,2,3]) to deserialize correctly.{Environment.NewLine}To fix this error either change the JSON to a JSON array (e.g. [1,2,3]) or change the deserialized type so that it is a normal .NET type (e.g. not a primitive type like integer, not a collection type like an array or List<T>) that can be deserialized from a JSON object. JsonObjectAttribute can also be added to the type to force it to deserialize from a JSON object.{Environment.NewLine}Path ''"));
         }
     }
 
@@ -3454,7 +3470,7 @@ Path '', line 1, position 1.");
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.PopulateObject(json, new Person()),
-                @"Cannot populate JSON array onto type 'Argon.Tests.TestObjects.Organization.Person'. Path '', line 1, position 1.");
+            @"Cannot populate JSON array onto type 'TestObjects.Person'. Path '', line 1, position 1.");
     }
 
     [Fact]
@@ -3464,7 +3480,7 @@ Path '', line 1, position 1.");
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.PopulateObject(json, new List<Person>()),
-            @"Cannot populate JSON object onto type 'System.Collections.Generic.List`1[Argon.Tests.TestObjects.Organization.Person]'. Path '', line 1, position 2.");
+            @"Cannot populate JSON object onto type 'System.Collections.Generic.List`1[TestObjects.Person]'. Path '', line 1, position 2.");
     }
 
     [Fact]
@@ -3644,8 +3660,8 @@ Path '', line 1, position 1.");
         var json = JsonConvert.SerializeObject(dictionary, Formatting.Indented);
 
         XUnitAssert.AreEqualNormalized(@"{
-  ""Argon.Tests.TestObjects.Organization.Person"": 1,
-  ""Argon.Tests.TestObjects.Organization.Person"": 2
+  ""TestObjects.Person"": 1,
+  ""TestObjects.Person"": 2
 }", json);
     }
 
@@ -3656,8 +3672,8 @@ Path '', line 1, position 1.");
         {
             var json =
                 @"{
-  ""Argon.Tests.TestObjects.Organization.Person"": 1,
-  ""Argon.Tests.TestObjects.Organization.Person"": 2
+  ""TestObjects.Person"": 1,
+  ""TestObjects.Person"": 2
 }";
 
             JsonConvert.DeserializeObject<Dictionary<Person, int>>(json);
@@ -3665,7 +3681,7 @@ Path '', line 1, position 1.");
         }
         catch (JsonSerializationException ex)
         {
-            Assert.True(ex.Message.StartsWith("Could not convert string 'Argon.Tests.TestObjects.Organization.Person' to dictionary key type 'Argon.Tests.TestObjects.Organization.Person'. Create a TypeConverter to convert from the string to the key type object. Path '['Argon.Tests.TestObjects.Organization.Person']'"));
+            Assert.True(ex.Message.StartsWith("Could not convert string 'TestObjects.Person' to dictionary key type 'TestObjects.Person'. Create a TypeConverter to convert from the string to the key type object. Path '['TestObjects.Person']'"));
         }
     }
 
@@ -3860,7 +3876,7 @@ Path '', line 1, position 1.");
                 PreserveReferencesHandling = PreserveReferencesHandling.All,
                 MetadataPropertyHandling = MetadataPropertyHandling.Default
             }),
-            "Cannot preserve reference to readonly dictionary, or dictionary created from a non-default constructor: Argon.Tests.TestObjects.DictionaryWithNoDefaultConstructor. Path 'key1', line 1, position 16.");
+            "Cannot preserve reference to readonly dictionary, or dictionary created from a non-default constructor: TestObjects.DictionaryWithNoDefaultConstructor. Path 'key1', line 1, position 16.");
     }
 
     [Fact]
@@ -4009,7 +4025,7 @@ Path '', line 1, position 1.");
                 }
             });
 
-            Xunit.Assert.Equal("{}", json);
+            Assert.Equal("{}", json);
 
             value = JsonConvert.DeserializeObject<ISerializableTestObject>("{booleanValue:true}", new JsonSerializerSettings
             {
@@ -4019,7 +4035,7 @@ Path '', line 1, position 1.");
                 }
             });
 
-            Xunit.Assert.NotNull(value);
+            Assert.NotNull(value);
             XUnitAssert.False(value._booleanValue);
         }
         finally
@@ -4034,11 +4050,11 @@ Path '', line 1, position 1.");
         try
         {
             XUnitAssert.Throws<JsonSerializationException>(() =>
-                {
-                    JsonTypeReflector.SetFullyTrusted(false);
+            {
+                JsonTypeReflector.SetFullyTrusted(false);
 
-                    JsonConvert.DeserializeObject<ISerializableTestObject>("{booleanValue:true}");
-                }, $@"Type 'Argon.Tests.TestObjects.ISerializableTestObject' implements ISerializable but cannot be deserialized using the ISerializable interface because the current application is not fully trusted and ISerializable can expose secure data.{Environment.NewLine}To fix this error either change the environment to be fully trusted, change the application to not deserialize the type, add JsonObjectAttribute to the type or change the JsonSerializer setting ContractResolver to use a new DefaultContractResolver with IgnoreSerializableInterface set to true.{Environment.NewLine}Path 'booleanValue', line 1, position 14.");
+                JsonConvert.DeserializeObject<ISerializableTestObject>("{booleanValue:true}");
+            }, $@"Type 'TestObjects.ISerializableTestObject' implements ISerializable but cannot be deserialized using the ISerializable interface because the current application is not fully trusted and ISerializable can expose secure data.{Environment.NewLine}To fix this error either change the environment to be fully trusted, change the application to not deserialize the type, add JsonObjectAttribute to the type or change the JsonSerializer setting ContractResolver to use a new DefaultContractResolver with IgnoreSerializableInterface set to true.{Environment.NewLine}Path 'booleanValue', line 1, position 14.");
         }
         finally
         {
@@ -4052,12 +4068,12 @@ Path '', line 1, position 1.");
         try
         {
             XUnitAssert.Throws<JsonSerializationException>(() =>
-                {
-                    JsonTypeReflector.SetFullyTrusted(false);
-                    var value = new ISerializableTestObject("string!", 0, default(DateTimeOffset), null);
+            {
+                JsonTypeReflector.SetFullyTrusted(false);
+                var value = new ISerializableTestObject("string!", 0, default(DateTimeOffset), null);
 
-                    JsonConvert.SerializeObject(value);
-                }, $@"Type 'Argon.Tests.TestObjects.ISerializableTestObject' implements ISerializable but cannot be serialized using the ISerializable interface because the current application is not fully trusted and ISerializable can expose secure data.{Environment.NewLine}To fix this error either change the environment to be fully trusted, change the application to not deserialize the type, add JsonObjectAttribute to the type or change the JsonSerializer setting ContractResolver to use a new DefaultContractResolver with IgnoreSerializableInterface set to true.{Environment.NewLine}Path ''.");
+                JsonConvert.SerializeObject(value);
+            }, $@"Type 'TestObjects.ISerializableTestObject' implements ISerializable but cannot be serialized using the ISerializable interface because the current application is not fully trusted and ISerializable can expose secure data.{Environment.NewLine}To fix this error either change the environment to be fully trusted, change the application to not deserialize the type, add JsonObjectAttribute to the type or change the JsonSerializer setting ContractResolver to use a new DefaultContractResolver with IgnoreSerializableInterface set to true.{Environment.NewLine}Path ''.");
         }
         finally
         {
@@ -4108,12 +4124,12 @@ Path '', line 1, position 1.");
 }}", json);
 
         var o2 = JsonConvert.DeserializeObject<ISerializableTestObject>(json);
-        Xunit.Assert.Equal("String!", o2._stringValue);
-        Xunit.Assert.Equal(int.MinValue, o2._intValue);
-        Xunit.Assert.Equal(dateTimeOffset, o2._dateTimeOffsetValue);
-        Xunit.Assert.Equal("Name!", o2._personValue.Name);
-        Xunit.Assert.Equal(null, o2._nullPersonValue);
-        Xunit.Assert.Equal(null, o2._nullableInt);
+        Assert.Equal("String!", o2._stringValue);
+        Assert.Equal(int.MinValue, o2._intValue);
+        Assert.Equal(dateTimeOffset, o2._dateTimeOffsetValue);
+        Assert.Equal("Name!", o2._personValue.Name);
+        Assert.Equal(null, o2._nullPersonValue);
+        Assert.Equal(null, o2._nullableInt);
     }
 
     [Fact]
@@ -4162,12 +4178,12 @@ Path '', line 1, position 1.");
 }}", json);
 
         var o2 = JsonConvert.DeserializeObject<ISerializableTestObject>(json);
-        Xunit.Assert.Equal("String!", o2._stringValue);
-        Xunit.Assert.Equal(int.MinValue, o2._intValue);
-        Xunit.Assert.Equal(dateTimeOffset, o2._dateTimeOffsetValue);
-        Xunit.Assert.Equal("Name!", o2._personValue.Name);
-        Xunit.Assert.Equal(null, o2._nullPersonValue);
-        Xunit.Assert.Equal(null, o2._nullableInt);
+        Assert.Equal("String!", o2._stringValue);
+        Assert.Equal(int.MinValue, o2._intValue);
+        Assert.Equal(dateTimeOffset, o2._dateTimeOffsetValue);
+        Assert.Equal("Name!", o2._personValue.Name);
+        Assert.Equal(null, o2._nullPersonValue);
+        Assert.Equal(null, o2._nullableInt);
     }
 #endif
 
@@ -4295,7 +4311,7 @@ Path '', line 1, position 1.");
 
         var settings = new JsonSerializerSettings
         {
-            Formatting = Formatting.Indented, 
+            Formatting = Formatting.Indented,
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         };
         settings.Converters.Add(new XmlNodeConverter());
@@ -5057,7 +5073,7 @@ Path '', line 1, position 1.");
 
         var xml = Encoding.UTF8.GetString(ms.ToArray(), 0, Convert.ToInt32(ms.Length));
 
-        Assert.Equal(@"<ChildDataContract xmlns=""http://schemas.datacontract.org/2004/07/Argon.Tests.TestObjects"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""><nonVirtualMember>NonVirtualMember!</nonVirtualMember><virtualMember>VirtualMember!</virtualMember><NewMember i:nil=""true""/></ChildDataContract>", xml);
+        Assert.Equal(@"<ChildDataContract xmlns=""http://schemas.datacontract.org/2004/07/TestObjects"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""><nonVirtualMember>NonVirtualMember!</nonVirtualMember><virtualMember>VirtualMember!</virtualMember><NewMember i:nil=""true""/></ChildDataContract>", xml);
     }
 
     [Fact]
@@ -5585,7 +5601,7 @@ Path '', line 1, position 1.");
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<ConvertableIntTestClass>(json),
-            "Error converting value 1 to type 'Argon.Tests.TestObjects.ConvertibleInt'. Path 'Integer', line 2, position 14.");
+            "Error converting value 1 to type 'TestObjects.ConvertibleInt'. Path 'Integer', line 2, position 14.");
     }
 
     [Fact]
@@ -5991,7 +6007,7 @@ Path '', line 1, position 1.");
         var json = "{}";
         IList<string> errors = new List<string>();
 
-        EventHandler<Argon.ErrorEventArgs> error = (_, e) =>
+        EventHandler<ErrorEventArgs> error = (_, e) =>
         {
             errors.Add(e.ErrorContext.Error.Message);
             e.ErrorContext.Handled = true;
@@ -6016,7 +6032,7 @@ Path '', line 1, position 1.");
         var json = "{'NonAttributeProperty':null,'UnsetProperty':null,'AllowNullProperty':null,'AlwaysProperty':null}";
         IList<string> errors = new List<string>();
 
-        EventHandler<Argon.ErrorEventArgs> error = (_, e) =>
+        EventHandler<ErrorEventArgs> error = (_, e) =>
         {
             errors.Add(e.ErrorContext.Error.Message);
             e.ErrorContext.Handled = true;
@@ -6441,7 +6457,7 @@ lines.*/
         };
         var s = JsonSerializer.Create(settings);
         XUnitAssert.Throws<JsonReaderException>(
-            () => s.Deserialize<Dictionary<string, int>>(new JsonTextReader(new StringReader(json))), 
+            () => s.Deserialize<Dictionary<string, int>>(new JsonTextReader(new StringReader(json))),
             "Additional text encountered after finished reading JSON content: {. Path '', line 7, position 0.");
     }
 
@@ -6690,11 +6706,11 @@ This is just junk, though.";
 
             var tuple = new MyTuplePartial<int>(500);
             var json = JsonConvert.SerializeObject(tuple);
-            Xunit.Assert.Equal(@"{""m_Item1"":500}", json);
+            Assert.Equal(@"{""m_Item1"":500}", json);
 
             XUnitAssert.Throws<JsonSerializationException>(
                 () => JsonConvert.DeserializeObject<MyTuplePartial<int>>(json),
-                "Unable to find a constructor to use for type Argon.Tests.TestObjects.MyTuplePartial`1[System.Int32]. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'm_Item1', line 1, position 11.");
+                "Unable to find a constructor to use for type TestObjects.MyTuplePartial`1[System.Int32]. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'm_Item1', line 1, position 11.");
         }
         finally
         {
@@ -6730,7 +6746,7 @@ This is just junk, though.";
 
         var settings = new JsonSerializerSettings
         {
-            DateFormatHandling = DateFormatHandling.IsoDateFormat, 
+            DateFormatHandling = DateFormatHandling.IsoDateFormat,
             DateParseHandling = DateParseHandling.DateTimeOffset,
             DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind
         };
@@ -6899,8 +6915,8 @@ This is just junk, though.";
     public void NoConstructorReadOnlyCollectionTest()
     {
         XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<NoConstructorReadOnlyCollection<int>>("[1]"), 
-            "Cannot deserialize readonly or fixed size list: Argon.Tests.TestObjects.NoConstructorReadOnlyCollection`1[System.Int32]. Path '', line 1, position 1.");
+            () => JsonConvert.DeserializeObject<NoConstructorReadOnlyCollection<int>>("[1]"),
+            "Cannot deserialize readonly or fixed size list: TestObjects.NoConstructorReadOnlyCollection`1[System.Int32]. Path '', line 1, position 1.");
     }
 
     [Fact]
@@ -6908,7 +6924,7 @@ This is just junk, though.";
     {
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<NoConstructorReadOnlyDictionary<int, int>>("{'1':1}"),
-            "Cannot deserialize readonly or fixed size dictionary: Argon.Tests.TestObjects.NoConstructorReadOnlyDictionary`2[System.Int32,System.Int32]. Path '1', line 1, position 5.");
+            "Cannot deserialize readonly or fixed size dictionary: TestObjects.NoConstructorReadOnlyDictionary`2[System.Int32,System.Int32]. Path '1', line 1, position 5.");
     }
 
     [Fact]
@@ -7645,7 +7661,7 @@ This is just junk, though.";
     {
         XUnitAssert.Throws<JsonException>(
             () => JsonConvert.SerializeObject(new ErroringTestClass()),
-            "Error creating 'Argon.Tests.TestObjects.ErroringJsonConverter'.");
+            "Error creating 'TestObjects.ErroringJsonConverter'.");
     }
 
     [Fact]

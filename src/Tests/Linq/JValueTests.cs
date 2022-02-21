@@ -23,10 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Argon.Tests.TestObjects;
-using Xunit;
-
-namespace Argon.Tests.Linq;
+using TestObjects;
 
 public class JValueTests : TestFixtureBase
 {
@@ -85,12 +82,9 @@ public class JValueTests : TestFixtureBase
     {
         try
         {
-            JsonConvert.DefaultSettings = () =>
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
             {
-                return new JsonSerializerSettings
-                {
-                    Converters = { new MetroStringConverter() }
-                };
+                Converters = { new MetroStringConverter() }
             };
 
             var v = new JValue(":::STRING:::");

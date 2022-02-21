@@ -27,7 +27,7 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace Argon.Tests.TestObjects;
+namespace TestObjects;
 
 [MetadataType(typeof(CustomerValidation))]
 public partial class CustomerWithMetadataType

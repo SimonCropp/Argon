@@ -25,9 +25,6 @@
 
 using Moq;
 using BindingFlags = System.Reflection.BindingFlags;
-using Xunit;
-
-namespace Argon.Tests.Issues;
 
 public class Issue1620 : TestFixtureBase
 {

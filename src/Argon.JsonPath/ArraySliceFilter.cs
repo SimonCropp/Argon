@@ -1,5 +1,3 @@
-using Argon;
-
 class ArraySliceFilter : PathFilter
 {
     public int? Start { get; set; }

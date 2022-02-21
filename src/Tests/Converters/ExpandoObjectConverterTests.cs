@@ -24,9 +24,6 @@
 #endregion
 
 using System.Dynamic;
-using Xunit;
-
-namespace Argon.Tests.Converters;
 
 public class ExpandoObjectConverterTests : TestFixtureBase
 {

@@ -24,8 +24,7 @@
 #endregion
 
 using System.ComponentModel;
-using Xunit;
-using Argon.Tests.TestObjects;
+using TestObjects;
 using OriginalStreamWriter = System.IO.StreamWriter;
 
 namespace Argon.Tests.Documentation;
@@ -755,7 +754,7 @@ public class SerializationTests : TestFixtureBase
 
         var included = JsonConvert.SerializeObject(movie,
             Formatting.Indented,
-            new JsonSerializerSettings { });
+            new JsonSerializerSettings());
 
         // {
         //   "Name": "Bad Boys III",
@@ -827,7 +826,7 @@ public class SerializationTests : TestFixtureBase
 
         var included = JsonConvert.SerializeObject(invoice,
             Formatting.Indented,
-            new JsonSerializerSettings { });
+            new JsonSerializerSettings());
 
         // {
         //   "Company": "Acme Ltd.",
