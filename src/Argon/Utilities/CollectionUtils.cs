@@ -211,9 +211,7 @@ static class CollectionUtils
         var j = list.Count - 1;
         while (i < j)
         {
-            var temp = list[i];
-            list[i] = list[j];
-            list[j] = temp;
+            (list[i], list[j]) = (list[j], list[i]);
             i++;
             j--;
         }
