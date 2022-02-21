@@ -27,8 +27,6 @@ using Argon.Tests.TestObjects;
 using System.Data;
 using Argon.DataSetConverters;
 
-namespace Argon.Tests.Converters;
-
 public class DataSetConverterTests : TestFixtureBase
 {
     [Fact]

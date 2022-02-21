@@ -25,8 +25,6 @@
 
 using Argon.Tests.TestObjects;
 
-namespace Argon.Tests.Converters;
-
 public class JavaScriptDateTimeConverterTests : TestFixtureBase
 {
     [Fact]

@@ -26,8 +26,6 @@
 using Argon.Tests.TestObjects;
 using Argon.Tests.TestObjects.Organization;
 
-namespace Argon.Tests.Converters;
-
 public class CustomCreationConverterTests : TestFixtureBase
 {
     [Fact]
