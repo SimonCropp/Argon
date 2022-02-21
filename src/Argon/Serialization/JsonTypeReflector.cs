@@ -123,7 +123,7 @@ static class JsonTypeReflector
         return result;
     }
 
-    public static MemberSerialization GetObjectMemberSerialization(Type type, bool ignoreSerializableAttribute)
+    public static MemberSerialization GetObjectMemberSerialization(Type type)
     {
         var objectAttribute = GetCachedAttribute<JsonObjectAttribute>(type);
         if (objectAttribute != null)
@@ -135,11 +135,6 @@ static class JsonTypeReflector
         if (dataContractAttribute != null)
         {
             return MemberSerialization.OptIn;
-        }
-
-        if (!ignoreSerializableAttribute && IsSerializable(type))
-        {
-            return MemberSerialization.Fields;
         }
 
         // the default
@@ -344,18 +339,6 @@ static class JsonTypeReflector
         }
 
         return null;
-    }
-
-    public static bool IsNonSerializable(object provider)
-    {
-        // no inheritance
-        return ReflectionUtils.GetAttribute<NonSerializedAttribute>(provider, false) != null;
-    }
-
-    public static bool IsSerializable(object provider)
-    {
-        // no inheritance
-        return ReflectionUtils.GetAttribute<SerializableAttribute>(provider, false) != null;
     }
 
     public static T? GetAttribute<T>(object provider) where T : Attribute

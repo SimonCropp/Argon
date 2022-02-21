@@ -45,7 +45,6 @@ public enum MemberSerialization
 
     /// <summary>
     /// All public and private fields are serialized. Members can be excluded using <see cref="JsonIgnoreAttribute"/> or <see cref="NonSerializedAttribute"/>.
-    /// This member serialization mode can also be set by marking the class with <see cref="SerializableAttribute"/>
     /// and setting IgnoreSerializableAttribute on <see cref="DefaultContractResolver"/> to <c>false</c>.
     /// </summary>
     Fields = 2

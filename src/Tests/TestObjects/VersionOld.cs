@@ -25,7 +25,6 @@
 
 namespace TestObjects;
 
-[Serializable]
 public sealed class VersionOld : IComparable, IComparable<VersionOld>, IEquatable<VersionOld>
 {
     // AssemblyName depends on the order staying the same

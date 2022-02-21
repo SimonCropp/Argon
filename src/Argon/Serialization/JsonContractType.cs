@@ -7,6 +7,5 @@
     String = 4,
     Dictionary = 5,
     Dynamic = 6,
-    Serializable = 7,
-    Linq = 8
+    Linq = 7
 }

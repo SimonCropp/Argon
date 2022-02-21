@@ -90,36 +90,6 @@ public class AddressWithDataMember
 public class ContractResolverTests : TestFixtureBase
 {
     [Fact]
-    public void ResolveSerializableContract()
-    {
-        var contractResolver = new DefaultContractResolver();
-        var contract = contractResolver.ResolveContract(typeof(ISerializableTestObject));
-
-        Assert.Equal(JsonContractType.Serializable, contract.ContractType);
-    }
-
-    [Fact]
-    public void ResolveSerializableWithoutAttributeContract()
-    {
-        var contractResolver = new DefaultContractResolver();
-        var contract = contractResolver.ResolveContract(typeof(ISerializableWithoutAttributeTestObject));
-
-        Assert.Equal(JsonContractType.Object, contract.ContractType);
-    }
-
-    [Fact]
-    public void ResolveObjectContractWithFieldsSerialization()
-    {
-        var contractResolver = new DefaultContractResolver
-        {
-            IgnoreSerializableAttribute = false
-        };
-        var contract = (JsonObjectContract) contractResolver.ResolveContract(typeof(AnswerFilterModel));
-
-        Assert.Equal(MemberSerialization.Fields, contract.MemberSerialization);
-    }
-
-    [Fact]
     public void JsonPropertyDefaultValue()
     {
         var p = new JsonProperty();

@@ -43,8 +43,6 @@ class XmlNodeWrapper : IXmlNode
         }
     }
 
-    protected virtual bool HasChildNodes => _node.HasChildNodes;
-
     internal static IXmlNode WrapNode(XmlNode node)
     {
         switch (node.NodeType)

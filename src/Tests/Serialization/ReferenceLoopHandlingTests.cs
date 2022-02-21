@@ -137,69 +137,6 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
 }", json);
     }
 
-    [Serializable]
-    public class MainClass : ISerializable
-    {
-        public ChildClass Child { get; set; }
-
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("Child", Child);
-        }
-    }
-
-    [Serializable]
-    public class ChildClass : ISerializable
-    {
-        public string Name { get; set; }
-        public MainClass Parent { get; set; }
-
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("Parent", Parent);
-            info.AddValue("Name", Name);
-        }
-    }
-
-    [Fact]
-    public void ErrorISerializableCyclicReferenceLoop()
-    {
-        var main = new MainClass();
-        var child = new ChildClass
-        {
-            Name = "Child1",
-            Parent = main // Obvious Circular Reference
-        };
-
-        main.Child = child;
-
-        var settings =
-            new JsonSerializerSettings();
-
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.SerializeObject(main, settings),
-            "Self referencing loop detected with type 'ReferenceLoopHandlingTests+MainClass'. Path 'Child'.");
-    }
-
-    [Fact]
-    public void IgnoreISerializableCyclicReferenceLoop()
-    {
-        var main = new MainClass();
-        var child = new ChildClass
-        {
-            Name = "Child1",
-            Parent = main // Obvious Circular Reference
-        };
-
-        main.Child = child;
-
-        var settings =
-            new JsonSerializerSettings {ReferenceLoopHandling = ReferenceLoopHandling.Ignore};
-
-        var c = JsonConvert.SerializeObject(main, settings);
-        Assert.Equal(@"{""Child"":{""Name"":""Child1""}}", c);
-    }
-
     public class DictionaryDynamicObject : DynamicObject
     {
         public IDictionary<string, object> Values { get; private set; }
