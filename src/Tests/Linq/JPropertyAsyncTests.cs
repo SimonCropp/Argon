@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.Linq;
 
 public class JPropertyAsyncTests : TestFixtureBase
 {

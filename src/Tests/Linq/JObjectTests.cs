@@ -27,7 +27,6 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using TestObjects;
 
-namespace Argon.Tests.Linq;
 
 public class JObjectTests : TestFixtureBase
 {

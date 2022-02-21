@@ -25,7 +25,6 @@
 
 using System.Dynamic;
 
-namespace Argon.Tests.Linq;
 
 public class DynamicTests : TestFixtureBase
 {

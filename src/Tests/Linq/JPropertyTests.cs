@@ -25,8 +25,6 @@
 
 using System.ComponentModel;
 
-namespace Argon.Tests.Linq;
-
 public class JPropertyTests : TestFixtureBase
 {
     [Fact]

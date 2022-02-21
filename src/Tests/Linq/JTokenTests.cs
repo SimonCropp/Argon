@@ -25,7 +25,6 @@
 
 using TestCase = Xunit.InlineDataAttribute;
 
-namespace Argon.Tests.Linq;
 
 public class JTokenTests : TestFixtureBase
 {

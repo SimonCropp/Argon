@@ -24,7 +24,6 @@
 #endregion
 
 using System.Collections.ObjectModel;
-using Argon.Tests.Linq;
 using TestObjects;
 using System.Net;
 
@@ -1915,7 +1914,7 @@ public class TypeNameHandlingTests : TestFixtureBase
       ""MyProperty"": 1
     },
     ""two"": {
-      ""$type"": ""Argon.Tests.Linq.DynamicDictionary, Tests"",
+      ""$type"": ""DynamicDictionary, Tests"",
       ""one"": {
         ""MyProperty"": 2
       }
@@ -1942,7 +1941,7 @@ public class TypeNameHandlingTests : TestFixtureBase
       ""MyProperty"": 1
     },
     ""two"": {
-      ""$type"": ""Argon.Tests.Linq.DynamicDictionary, Tests"",
+      ""$type"": ""DynamicDictionary, Tests"",
       ""one"": {
         ""$type"": ""TestObjects.TestComponentSimple, Tests"",
         ""MyProperty"": 2
