@@ -26,8 +26,7 @@
 using System.Collections.ObjectModel;
 using System.Xml;
 using TestObjects;
-
-namespace Argon.Tests;
+using Formatting = Argon.Formatting;
 
 public class JsonConvertTest : TestFixtureBase
 {
@@ -40,7 +39,7 @@ public class JsonConvertTest : TestFixtureBase
         var value = nonAsciiChar + @"\" + escapableNonQuoteAsciiChar;
 
         var convertedValue = JsonConvert.ToString((object)value);
-        Assert.Equal(@"""" + nonAsciiChar + @"\\\u0000""", convertedValue);
+        Assert.Equal($@"""{nonAsciiChar}\\\u0000""", convertedValue);
     }
 
     public class PopulateTestObject
@@ -1658,7 +1657,7 @@ public class JsonConvertTest : TestFixtureBase
         [JsonProperty("foo")]
         public IReadOnlyDictionary<string, string> Foo { get; } = new ReadOnlyDictionary<string, string>(new Dictionary<string, string>());
 
-        [JsonConstructor]
+        [Argon.JsonConstructor]
         public HasReadOnlyDictionary([JsonProperty("bar")] int bar)
         {
 
@@ -1670,7 +1669,7 @@ public class JsonConvertTest : TestFixtureBase
         [JsonProperty("foo")]
         public EnumerableWithConverter Foo { get; } = new();
 
-        [JsonConstructor]
+        [Argon.JsonConstructor]
         public HasReadOnlyEnumerableObject([JsonProperty("bar")] int bar)
         {
 
@@ -1682,7 +1681,7 @@ public class JsonConvertTest : TestFixtureBase
         [JsonProperty("foo")]
         public EnumerableWithConverter Foo { get; } = new();
 
-        [JsonConstructor]
+        [Argon.JsonConstructor]
         public HasReadOnlyEnumerableObjectAndDefaultConstructor()
         {
 
@@ -1691,14 +1690,13 @@ public class JsonConvertTest : TestFixtureBase
 
     public sealed class AcceptsEnumerableObjectToConstructor
     {
-        [JsonConstructor]
+        [Argon.JsonConstructor]
         public AcceptsEnumerableObjectToConstructor
         (
             [JsonProperty("foo")] EnumerableWithConverter foo,
             [JsonProperty("bar")] int bar
         )
         {
-
         }
     }
 
@@ -1707,10 +1705,9 @@ public class JsonConvertTest : TestFixtureBase
         [JsonProperty("foo")]
         public EnumerableWithConverter Foo { get; set; } = new();
 
-        [JsonConstructor]
+        [Argon.JsonConstructor]
         public HasEnumerableObject([JsonProperty("bar")] int bar)
         {
-
         }
     }
 
