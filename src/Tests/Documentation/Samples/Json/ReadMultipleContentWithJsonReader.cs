@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.Documentation.Samples.Json;
-
 public class ReadMultipleContentWithJsonReader : TestFixtureBase
 {
     #region ReadMultipleContentWithJsonReaderTypes

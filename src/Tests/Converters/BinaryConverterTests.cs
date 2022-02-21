@@ -28,8 +28,6 @@ using System.Data.Linq;
 #endif
 using System.Data.SqlTypes;
 
-namespace Argon.Tests.Converters;
-
 public class BinaryConverterTests : TestFixtureBase
 {
     static readonly byte[] TestData = Encoding.UTF8.GetBytes("This is some test data!!!");
