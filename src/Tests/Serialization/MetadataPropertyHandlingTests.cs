@@ -25,8 +25,6 @@
 
 using TestObjects;
 
-namespace Argon.Tests.Serialization;
-
 public class MetadataPropertyHandlingTests : TestFixtureBase
 {
     public class User
@@ -40,7 +38,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
         var json = @"{
 	            'Name': 'James',
 	            'Password': 'Password1',
-	            '$type': 'Argon.Tests.Serialization.MetadataPropertyHandlingTests+User, Tests'
+	            '$type': 'MetadataPropertyHandlingTests+User, Tests'
             }";
 
         var o = JsonConvert.DeserializeObject(json, new JsonSerializerSettings
@@ -541,7 +539,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
   ""Payload1"": 1,
   ""Payload2"": {'prop1':1,'prop2':[2]},
   ""Payload3"": [1],
-  ""$type"": ""Argon.Tests.Serialization.MetadataPropertyHandlingTests+ItemWithJTokens, Tests""
+  ""$type"": ""MetadataPropertyHandlingTests+ItemWithJTokens, Tests""
 }",
             new JsonSerializerSettings
             {
