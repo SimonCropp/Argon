@@ -41,10 +41,12 @@ public class DependencyInjectionTests : TestFixtureBase
 
         var resolver = new AutofacContractResolver(container);
 
-        var user = JsonConvert.DeserializeObject<User>("{'company':{'company_name':'Company name!'}}", new JsonSerializerSettings
-        {
-            ContractResolver = resolver
-        });
+        var user = JsonConvert.DeserializeObject<User>(
+            "{'company':{'company_name':'Company name!'}}",
+            new JsonSerializerSettings
+            {
+                ContractResolver = resolver
+            });
 
         Assert.Equal("Company name!", user.Company.CompanyName);
     }
@@ -67,14 +69,16 @@ public class DependencyInjectionTests : TestFixtureBase
 
         var contractResolver = new AutofacContractResolver(container);
 
-        var controller = JsonConvert.DeserializeObject<TaskController>(@"{
+        var controller = JsonConvert.DeserializeObject<TaskController>(
+            @"{
                 'Logger': {
                     'Level':'Debug'
                 }
-            }", new JsonSerializerSettings
-        {
-            ContractResolver = contractResolver
-        });
+            }",
+            new JsonSerializerSettings
+            {
+                ContractResolver = contractResolver
+            });
 
         Assert.NotNull(controller);
         Assert.NotNull(controller.Logger);
@@ -107,7 +111,8 @@ public class DependencyInjectionTests : TestFixtureBase
 
         var contractResolver = new AutofacContractResolver(container);
 
-        var o = JsonConvert.DeserializeObject<HasSettableProperty>(@"{
+        var o = JsonConvert.DeserializeObject<HasSettableProperty>(
+            @"{
                 'Logger': {
                     'Level': 'Debug'
                 },
@@ -126,10 +131,11 @@ public class DependencyInjectionTests : TestFixtureBase
                 'Person': {
                     'Name': 'Name3!'
                 }
-            }", new JsonSerializerSettings
-        {
-            ContractResolver = contractResolver
-        });
+            }",
+            new JsonSerializerSettings
+            {
+                ContractResolver = contractResolver
+            });
 
         Assert.NotNull(o);
         Assert.NotNull(o.Logger);
@@ -220,11 +226,9 @@ public class DependencyInjectionTests : TestFixtureBase
     [DataContract]
     public class User
     {
-        [DataMember(Name = "first_name")]
-        public string FirstName { get; set; }
+        [DataMember(Name = "first_name")] public string FirstName { get; set; }
 
-        [DataMember(Name = "company")]
-        public ICompany Company { get; set; }
+        [DataMember(Name = "company")] public ICompany Company { get; set; }
     }
 
     public interface ICompany
@@ -235,8 +239,7 @@ public class DependencyInjectionTests : TestFixtureBase
     [DataContract]
     public class Company : ICompany
     {
-        [DataMember(Name = "company_name")]
-        public string CompanyName { get; set; }
+        [DataMember(Name = "company_name")] public string CompanyName { get; set; }
     }
 
     public class AutofacContractResolver : DefaultContractResolver
@@ -278,5 +281,4 @@ public class DependencyInjectionTests : TestFixtureBase
             return base.CreateObjectContract(type);
         }
     }
-
 }

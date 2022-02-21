@@ -83,50 +83,50 @@ public class WebApiIntegrationTests : TestFixtureBase
 
         Assert.Equal(@"{""inheritedTypeField"":""inherited"",""publicField"":""public"",""PublicProperty"":""private""}", json);
     }
-}
 
-public class InheritedType : SerializableType
-{
-    public string inheritedTypeField;
-
-    public InheritedType(string protectedFieldValue) : base(protectedFieldValue)
+    public class InheritedType : SerializableType
     {
-    }
-}
+        public string inheritedTypeField;
 
-[Serializable]
-public class SerializableType : IEquatable<SerializableType>
-{
-    public SerializableType(string protectedFieldValue)
-    {
-        protectedField = protectedFieldValue;
+        public InheritedType(string protectedFieldValue) : base(protectedFieldValue)
+        {
+        }
     }
 
-    public string publicField;
-    internal string internalField;
-    protected internal string protectedInternalField;
-    protected string protectedField;
-    string privateField;
-
-    public string PublicProperty
+    [Serializable]
+    public class SerializableType : IEquatable<SerializableType>
     {
-        get => privateField;
-        set => privateField = value;
-    }
+        public SerializableType(string protectedFieldValue)
+        {
+            protectedField = protectedFieldValue;
+        }
+
+        public string publicField;
+        internal string internalField;
+        protected internal string protectedInternalField;
+        protected string protectedField;
+        string privateField;
+
+        public string PublicProperty
+        {
+            get => privateField;
+            set => privateField = value;
+        }
 
 #if !NET5_0_OR_GREATER
         [NonSerialized]
 #else
-    [JsonIgnore]
+        [JsonIgnore]
 #endif
-    public string nonSerializedField;
+        public string nonSerializedField;
 
-    public bool Equals(SerializableType other)
-    {
-        return publicField == other.publicField &&
-               internalField == other.internalField &&
-               protectedInternalField == other.protectedInternalField &&
-               protectedField == other.protectedField &&
-               privateField == other.privateField;
+        public bool Equals(SerializableType other)
+        {
+            return publicField == other.publicField &&
+                   internalField == other.internalField &&
+                   protectedInternalField == other.protectedInternalField &&
+                   protectedField == other.protectedField &&
+                   privateField == other.privateField;
+        }
     }
 }
