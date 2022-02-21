@@ -25,8 +25,6 @@
 
 using TestObjects;
 
-namespace Argon.Tests.Serialization;
-
 public class ExtensionDataTests : TestFixtureBase
 {
     public class CustomDictionary : IDictionary<string, object>
@@ -814,7 +812,7 @@ public class ExtensionDataTests : TestFixtureBase
         });
 
         XUnitAssert.AreEqualNormalized(@"{
-  ""$type"": ""Argon.Tests.Serialization.ExtensionDataTests+PublicExtensionDataAttributeTestClass, Tests"",
+  ""$type"": ""ExtensionDataTests+PublicExtensionDataAttributeTestClass, Tests"",
   ""Name"": ""Name!"",
   ""Test"": {
     ""$type"": ""TestObjects.WagePerson, Tests"",
@@ -973,7 +971,7 @@ public class ExtensionDataTests : TestFixtureBase
         }
         catch (JsonSerializationException ex)
         {
-            Assert.Equal("Error setting value in extension data for type 'Argon.Tests.Serialization.ExtensionDataTests+DocNoSetter'. Path 'Property1', line 1, position 39.", ex.Message);
+            Assert.Equal("Error setting value in extension data for type 'ExtensionDataTests+DocNoSetter'. Path 'Property1', line 1, position 39.", ex.Message);
             Assert.Equal("Cannot set value onto extension data member 'Content'. The extension data collection is null and it cannot be set.", ex.InnerException.Message);
         }
     }
@@ -992,7 +990,7 @@ public class ExtensionDataTests : TestFixtureBase
     {
         XUnitAssert.Throws<JsonException>(
             () => JsonConvert.SerializeObject(new DocNoGetter()),
-            "Invalid extension data attribute on 'Argon.Tests.Serialization.ExtensionDataTests+DocNoGetter'. Member 'Content' must have a getter.");
+            "Invalid extension data attribute on 'ExtensionDataTests+DocNoGetter'. Member 'Content' must have a getter.");
     }
 
     public class Item
