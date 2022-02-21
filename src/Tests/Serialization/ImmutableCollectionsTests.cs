@@ -24,7 +24,6 @@
 #endregion
 
 using System.Collections.Immutable;
-using Xunit;
 
 namespace Argon.Tests.Serialization;
 

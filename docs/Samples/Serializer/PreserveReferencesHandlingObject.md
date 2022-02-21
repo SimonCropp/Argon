@@ -18,7 +18,7 @@ public class File
     public Directory Parent { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/PreserveReferencesHandlingObject.cs#L32-L45' title='Snippet source file'>snippet source</a> | <a href='#snippet-preservereferenceshandlingobjecttypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/PreserveReferencesHandlingObject.cs#L30-L43' title='Snippet source file'>snippet source</a> | <a href='#snippet-preservereferenceshandlingobjecttypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: PreserveReferencesHandlingObjectUsage -->
@@ -96,5 +96,5 @@ Console.WriteLine(preserveReferenacesObjects);
 //   ]
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/PreserveReferencesHandlingObject.cs#L50-L122' title='Snippet source file'>snippet source</a> | <a href='#snippet-preservereferenceshandlingobjectusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/PreserveReferencesHandlingObject.cs#L48-L120' title='Snippet source file'>snippet source</a> | <a href='#snippet-preservereferenceshandlingobjectusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

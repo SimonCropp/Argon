@@ -27,7 +27,6 @@ using System.Collections.ObjectModel;
 using System.Xml;
 using Argon.Tests.TestObjects;
 using Argon.Tests.TestObjects.Organization;
-using Xunit;
 
 namespace Argon.Tests;
 

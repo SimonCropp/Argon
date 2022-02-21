@@ -14,7 +14,7 @@ public class Vessel
     public DateTime? LaunchDate { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonPropertyPropertyLevelSetting.cs#L32-L41' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertypropertylevelsettingtypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonPropertyPropertyLevelSetting.cs#L30-L39' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertypropertylevelsettingtypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: JsonPropertyPropertyLevelSettingUsage -->
@@ -34,5 +34,5 @@ Console.WriteLine(json);
 //   "Class": "Typhoon"
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonPropertyPropertyLevelSetting.cs#L46-L60' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertypropertylevelsettingusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonPropertyPropertyLevelSetting.cs#L44-L58' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertypropertylevelsettingusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

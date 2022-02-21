@@ -25,7 +25,6 @@
 
 using Argon.Tests.TestObjects;
 using Argon.Tests.TestObjects.Organization;
-using Xunit;
 
 namespace Argon.Tests.Serialization;
 

@@ -12,5 +12,5 @@ using var file = File.OpenText(@"c:\videogames.json");
 using var reader = new JsonTextReader(file);
 var o2 = (JObject)JToken.ReadFrom(reader);
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/ReadJson.cs#L35-L43' title='Snippet source file'>snippet source</a> | <a href='#snippet-readjson' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/ReadJson.cs#L33-L41' title='Snippet source file'>snippet source</a> | <a href='#snippet-readjson' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

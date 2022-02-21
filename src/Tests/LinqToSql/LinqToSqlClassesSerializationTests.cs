@@ -24,7 +24,6 @@
 #endregion
 
 #if !NET5_0_OR_GREATER
-using Xunit;
 using System.Data.Linq.Mapping;
 
 namespace Argon.Tests.LinqToSql;

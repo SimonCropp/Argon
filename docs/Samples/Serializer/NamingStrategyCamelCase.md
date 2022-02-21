@@ -11,7 +11,7 @@ public class User
     public bool Enabled { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/NamingStrategyCamelCase.cs#L32-L38' title='Snippet source file'>snippet source</a> | <a href='#snippet-namingstrategycamelcasetypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/NamingStrategyCamelCase.cs#L30-L36' title='Snippet source file'>snippet source</a> | <a href='#snippet-namingstrategycamelcasetypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: NamingStrategyCamelCaseUsage -->
@@ -40,5 +40,5 @@ Console.WriteLine(json);
 //   "enabled": true
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/NamingStrategyCamelCase.cs#L43-L66' title='Snippet source file'>snippet source</a> | <a href='#snippet-namingstrategycamelcaseusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/NamingStrategyCamelCase.cs#L41-L64' title='Snippet source file'>snippet source</a> | <a href='#snippet-namingstrategycamelcaseusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

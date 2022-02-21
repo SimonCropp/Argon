@@ -21,5 +21,5 @@ Console.WriteLine(json);
 //   "Jess": 11926
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeDictionary.cs#L35-L51' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializedictionary' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeDictionary.cs#L33-L49' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializedictionary' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

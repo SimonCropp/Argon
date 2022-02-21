@@ -14,7 +14,7 @@ public class BlogPost
     public DateTime PostedDate { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/SerializeWithLinq.cs#L33-L42' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializewithlinqtypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/SerializeWithLinq.cs#L32-L41' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializewithlinqtypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: SerializeWithLinqUsage -->
@@ -61,5 +61,5 @@ Console.WriteLine(blogPostsArray.ToString());
 //   }
 // ]
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/SerializeWithLinq.cs#L47-L88' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializewithlinqusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/SerializeWithLinq.cs#L46-L87' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializewithlinqusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

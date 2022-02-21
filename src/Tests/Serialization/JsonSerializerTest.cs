@@ -28,7 +28,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Web.Script.Serialization;
 #endif
 using System.Text.RegularExpressions;
-using Xunit;
 using System.Xml;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization.Json;

@@ -24,7 +24,6 @@
 #endregion
 
 using System.Dynamic;
-using Xunit;
 
 namespace Argon.Tests.Linq;
 

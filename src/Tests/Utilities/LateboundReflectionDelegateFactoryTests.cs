@@ -1,5 +1,3 @@
-using Xunit;
-
 namespace Argon.Tests.Utilities;
 
 public class OutAndRefTestClass

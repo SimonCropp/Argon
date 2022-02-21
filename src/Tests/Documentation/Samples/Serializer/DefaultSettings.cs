@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Xunit;
 using Staff = Argon.Tests.TestObjects.Organization.Employee;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;

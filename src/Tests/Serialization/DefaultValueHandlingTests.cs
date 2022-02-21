@@ -28,7 +28,6 @@ using System.ComponentModel;
 using System.Runtime.Serialization.Json;
 #endif
 using Argon.Tests.TestObjects;
-using Xunit;
 
 namespace Argon.Tests.Serialization;
 

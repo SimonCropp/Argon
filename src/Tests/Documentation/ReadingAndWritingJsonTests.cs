@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Xunit;
-
 namespace Argon.Tests.Documentation;
 
 public class ReadingAndWritingJsonTests : TestFixtureBase

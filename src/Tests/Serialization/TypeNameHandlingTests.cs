@@ -27,7 +27,6 @@ using System.Collections.ObjectModel;
 using Argon.Tests.Linq;
 using Argon.Tests.TestObjects;
 using Argon.Tests.TestObjects.Organization;
-using Xunit;
 using System.Net;
 
 namespace Argon.Tests.Serialization;

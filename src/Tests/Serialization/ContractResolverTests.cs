@@ -24,7 +24,6 @@
 #endregion
 
 using System.ComponentModel;
-using Xunit;
 using Argon.Tests.TestObjects;
 using Argon.Tests.TestObjects.Organization;
 using System.Text.RegularExpressions;

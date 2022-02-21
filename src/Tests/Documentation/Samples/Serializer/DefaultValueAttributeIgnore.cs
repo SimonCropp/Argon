@@ -24,7 +24,6 @@
 #endregion
 
 using System.ComponentModel;
-using Xunit;
 
 namespace Argon.Tests.Documentation.Samples.Serializer;
 

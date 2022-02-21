@@ -1,5 +1,4 @@
-﻿using Xunit;
-using TestAttribute = Xunit.FactAttribute;
+﻿using TestAttribute = Xunit.FactAttribute;
 
 namespace Argon.Tests.Linq;
 

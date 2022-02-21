@@ -24,7 +24,6 @@
 #endregion
 
 using Argon.Tests.TestObjects.JsonTextReaderTests;
-using Xunit;
 using Argon.Tests.TestObjects;
 
 namespace Argon.Tests;

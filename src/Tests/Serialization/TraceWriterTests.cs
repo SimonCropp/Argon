@@ -1,5 +1,4 @@
-﻿using Xunit;
-using Argon.Tests.TestObjects;
+﻿using Argon.Tests.TestObjects;
 using Argon.Tests.TestObjects.Organization;
 
 // ReSharper disable UseObjectOrCollectionInitializer

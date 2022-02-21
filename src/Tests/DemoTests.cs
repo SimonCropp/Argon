@@ -26,7 +26,6 @@
 using System.Buffers;
 using System.Data;
 using Argon.DataSetConverters;
-using Xunit;
 
 namespace Argon.Tests;
 

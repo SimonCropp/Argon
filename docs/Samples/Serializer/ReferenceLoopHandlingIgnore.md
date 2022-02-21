@@ -11,7 +11,7 @@ public class Employee
     public Employee Manager { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/ReferenceLoopHandlingIgnore.cs#L32-L38' title='Snippet source file'>snippet source</a> | <a href='#snippet-referenceloophandlingignoretypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/ReferenceLoopHandlingIgnore.cs#L30-L36' title='Snippet source file'>snippet source</a> | <a href='#snippet-referenceloophandlingignoretypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: ReferenceLoopHandlingIgnoreUsage -->
@@ -35,5 +35,5 @@ Console.WriteLine(json);
 //   }
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/ReferenceLoopHandlingIgnore.cs#L43-L61' title='Snippet source file'>snippet source</a> | <a href='#snippet-referenceloophandlingignoreusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/ReferenceLoopHandlingIgnore.cs#L41-L59' title='Snippet source file'>snippet source</a> | <a href='#snippet-referenceloophandlingignoreusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

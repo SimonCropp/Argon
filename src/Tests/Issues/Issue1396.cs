@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Xunit;
-
 namespace Argon.Tests.Issues;
 
 public class Issue1396 : TestFixtureBase

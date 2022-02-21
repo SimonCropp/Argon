@@ -24,7 +24,6 @@
 #endregion
 
 using System.ComponentModel;
-using Xunit;
 using Argon.Tests.TestObjects;
 using OriginalStreamWriter = System.IO.StreamWriter;
 

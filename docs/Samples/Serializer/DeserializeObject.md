@@ -13,7 +13,7 @@ public class Account
     public IList<string> Roles { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeObject.cs#L32-L40' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeobjecttypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeObject.cs#L30-L38' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeobjecttypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DeserializeObjectUsage -->
@@ -34,5 +34,5 @@ var account = JsonConvert.DeserializeObject<Account>(json);
 Console.WriteLine(account.Email);
 // james@example.com
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeObject.cs#L45-L60' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeobjectusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeObject.cs#L43-L58' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeobjectusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

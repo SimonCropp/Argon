@@ -42,5 +42,5 @@ while (reader.Read())
 // EndArray
 // EndObject
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/CreateReader.cs#L35-L72' title='Snippet source file'>snippet source</a> | <a href='#snippet-createreader' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/CreateReader.cs#L33-L70' title='Snippet source file'>snippet source</a> | <a href='#snippet-createreader' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

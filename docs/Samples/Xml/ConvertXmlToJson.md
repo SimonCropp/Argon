@@ -44,5 +44,5 @@ Console.WriteLine(json);
 //   }
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Xml/ConvertXmlToJson.cs#L36-L75' title='Snippet source file'>snippet source</a> | <a href='#snippet-convertxmltojson' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Xml/ConvertXmlToJson.cs#L35-L74' title='Snippet source file'>snippet source</a> | <a href='#snippet-convertxmltojson' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

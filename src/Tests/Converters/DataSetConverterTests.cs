@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Xunit;
 using Argon.Tests.TestObjects;
 using System.Data;
 using Argon.DataSetConverters;

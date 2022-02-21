@@ -28,5 +28,5 @@ var newStringComparsions = JsonConvert.DeserializeObject<List<StringComparison>>
 Console.WriteLine(string.Join(", ", newStringComparsions.Select(c => c.ToString()).ToArray()));
 // CurrentCulture, Ordinal
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeWithJsonConverters.cs#L35-L58' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializewithjsonconvertersusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeWithJsonConverters.cs#L33-L56' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializewithjsonconvertersusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

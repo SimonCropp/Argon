@@ -28,5 +28,5 @@ Console.WriteLine(startingWithL);
 //   "LastName": "Deepwater-Diver"
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/CustomContractResolver.cs#L66-L89' title='Snippet source file'>snippet source</a> | <a href='#snippet-customcontractresolverusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/CustomContractResolver.cs#L64-L87' title='Snippet source file'>snippet source</a> | <a href='#snippet-customcontractresolverusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

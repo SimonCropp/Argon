@@ -26,7 +26,6 @@
 #if !NET5_0_OR_GREATER
 using System.Runtime.Serialization.Json;
 #endif
-using Xunit;
 
 namespace Argon.Tests.Serialization;
 

@@ -28,5 +28,5 @@ Console.WriteLine(o.ToString());
 //   ]
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/CreateWriter.cs#L35-L58' title='Snippet source file'>snippet source</a> | <a href='#snippet-createwriter' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/CreateWriter.cs#L33-L56' title='Snippet source file'>snippet source</a> | <a href='#snippet-createwriter' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

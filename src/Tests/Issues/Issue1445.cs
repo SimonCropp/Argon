@@ -24,7 +24,6 @@
 #endregion
 
 using System.Data;
-using Xunit;
 
 namespace Argon.Tests.Issues;
 

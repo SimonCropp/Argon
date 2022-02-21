@@ -36,7 +36,7 @@ public class Employee
     }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/ErrorHandlingAttribute.cs#L32-L62' title='Snippet source file'>snippet source</a> | <a href='#snippet-errorhandlingattributetypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/ErrorHandlingAttribute.cs#L30-L60' title='Snippet source file'>snippet source</a> | <a href='#snippet-errorhandlingattributetypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: ErrorHandlingAttributeUsage -->
@@ -59,5 +59,5 @@ Console.WriteLine(json);
 //   "Title": "Mister Manager"
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/ErrorHandlingAttribute.cs#L67-L84' title='Snippet source file'>snippet source</a> | <a href='#snippet-errorhandlingattributeusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/ErrorHandlingAttribute.cs#L65-L82' title='Snippet source file'>snippet source</a> | <a href='#snippet-errorhandlingattributeusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -25,7 +25,6 @@
 
 using System.ComponentModel;
 using Argon.Tests.TestObjects;
-using Xunit;
 
 namespace Argon.Tests.Serialization;
 

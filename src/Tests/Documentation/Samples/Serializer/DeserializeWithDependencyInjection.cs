@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Xunit;
 using Autofac;
 using Autofac.Core;
 using Autofac.Core.Activators.Reflection;

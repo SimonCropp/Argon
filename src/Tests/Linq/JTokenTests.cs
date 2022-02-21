@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Xunit;
 using TestCase = Xunit.InlineDataAttribute;
 
 namespace Argon.Tests.Linq;

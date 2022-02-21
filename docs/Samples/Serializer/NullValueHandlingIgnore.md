@@ -13,7 +13,7 @@ public class Person
     public decimal? Salary { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/NullValueHandlingIgnore.cs#L32-L40' title='Snippet source file'>snippet source</a> | <a href='#snippet-nullvaluehandlingignoretypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/NullValueHandlingIgnore.cs#L30-L38' title='Snippet source file'>snippet source</a> | <a href='#snippet-nullvaluehandlingignoretypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: NullValueHandlingIgnoreUsage -->
@@ -46,5 +46,5 @@ Console.WriteLine(jsonIgnoreNullValues);
 //   "Age": 1
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/NullValueHandlingIgnore.cs#L45-L72' title='Snippet source file'>snippet source</a> | <a href='#snippet-nullvaluehandlingignoreusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/NullValueHandlingIgnore.cs#L43-L70' title='Snippet source file'>snippet source</a> | <a href='#snippet-nullvaluehandlingignoreusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

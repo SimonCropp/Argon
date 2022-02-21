@@ -23,7 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Xunit;
 using System.Dynamic;
 
 // ReSharper disable UseObjectOrCollectionInitializer

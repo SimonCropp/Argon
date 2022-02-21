@@ -1,6 +1,4 @@
-﻿using Xunit;
-
-namespace Argon.Tests.Converters;
+﻿namespace Argon.Tests.Converters;
 
 public class KeyValuePairConverterTests : TestFixtureBase
 {

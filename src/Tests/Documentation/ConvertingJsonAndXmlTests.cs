@@ -24,7 +24,6 @@
 #endregion
 
 using System.Xml;
-using Xunit;
 
 namespace Argon.Tests.Documentation;
 
