@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.Runtime.Serialization.Formatters.Binary;
-
 namespace Argon.Tests;
 
 public class ExceptionTests : TestFixtureBase
@@ -32,10 +30,7 @@ public class ExceptionTests : TestFixtureBase
     [Fact]
     public void JsonSerializationException()
     {
-        var exception = new JsonSerializationException();
-        Assert.Equal("Exception of type 'Argon.JsonSerializationException' was thrown.", exception.Message);
-
-        exception = new JsonSerializationException("Message!");
+        var exception = new JsonSerializationException("Message!");
         Assert.Equal("Message!", exception.Message);
         Assert.Equal(null, exception.InnerException);
 
@@ -47,14 +42,7 @@ public class ExceptionTests : TestFixtureBase
     [Fact]
     public void JsonWriterException()
     {
-        var exception = new JsonWriterException();
-        Assert.Equal("Exception of type 'Argon.JsonWriterException' was thrown.", exception.Message);
-
-        exception = new JsonWriterException("Message!");
-        Assert.Equal("Message!", exception.Message);
-        Assert.Equal(null, exception.InnerException);
-
-        exception = new JsonWriterException("Message!", new Exception("Inner!"));
+        var exception = new JsonWriterException("Message!", new Exception("Inner!"));
         Assert.Equal("Message!", exception.Message);
         Assert.Equal("Inner!", exception.InnerException.Message);
     }
@@ -62,26 +50,8 @@ public class ExceptionTests : TestFixtureBase
     [Fact]
     public void JsonReaderException()
     {
-        var exception = new JsonReaderException();
-        Assert.Equal("Exception of type 'Argon.JsonReaderException' was thrown.", exception.Message);
-
-        exception = new JsonReaderException("Message!");
-        Assert.Equal("Message!", exception.Message);
-        Assert.Equal(null, exception.InnerException);
-
-        exception = new JsonReaderException("Message!", new Exception("Inner!"));
+        var exception = new JsonReaderException("Message!", new Exception("Inner!"));
         Assert.Equal("Message!", exception.Message);
         Assert.Equal("Inner!", exception.InnerException.Message);
-    }
-
-    [Fact]
-    public void BinarySerializeException()
-    {
-        var exception = new JsonReaderException("message!");
-        using var memoryStream = new MemoryStream();
-        var binaryFormatter = new BinaryFormatter();
-#pragma warning disable SYSLIB0011 // Type or member is obsolete
-        binaryFormatter.Serialize(memoryStream, exception);
-#pragma warning restore SYSLIB0011 // Type or member is obsolete
     }
 }
