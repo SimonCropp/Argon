@@ -315,22 +315,22 @@ public class ReadTests : TestFixtureBase
         var reader = new JsonTextReader(new StreamReader(ms));
         reader.LargeBufferLength = largeBufferLength;
 
-        Xunit.Assert.True(reader.Read());
-        Xunit.Assert.Equal(JsonToken.StartArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.StartArray, reader.TokenType);
 
-        Xunit.Assert.True(reader.Read());
-        Xunit.Assert.Equal(JsonToken.String, reader.TokenType);
-        Xunit.Assert.Equal(largeBufferLength, reader.CharBuffer.Length);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.String, reader.TokenType);
+        Assert.Equal(largeBufferLength, reader.CharBuffer.Length);
 
-        Xunit.Assert.True(reader.Read());
-        Xunit.Assert.Equal(JsonToken.String, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.String, reader.TokenType);
         // buffer has been shifted before reading the second string
-        Xunit.Assert.Equal(largeBufferLength, reader.CharBuffer.Length);
+        Assert.Equal(largeBufferLength, reader.CharBuffer.Length);
 
-        Xunit.Assert.True(reader.Read());
-        Xunit.Assert.Equal(JsonToken.EndArray, reader.TokenType);
+        Assert.True(reader.Read());
+        Assert.Equal(JsonToken.EndArray, reader.TokenType);
 
-        Xunit.Assert.False(reader.Read());
+        Assert.False(reader.Read());
     }
 #endif
 

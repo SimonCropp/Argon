@@ -29,7 +29,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: Xunit.CollectionBehavior(DisableTestParallelization = true)]
+[assembly: CollectionBehavior(DisableTestParallelization = true)]
 
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

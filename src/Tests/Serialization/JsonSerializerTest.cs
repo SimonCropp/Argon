@@ -91,7 +91,7 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void DontCloseInputOnDeserializeError()
     {
-        using var s = System.IO.File.OpenRead("large.json");
+        using var s = File.OpenRead("large.json");
         try
         {
             using (var reader = new JsonTextReader(new StreamReader(s)))
@@ -4025,7 +4025,7 @@ Path '', line 1, position 1.");
                 }
             });
 
-            Xunit.Assert.Equal("{}", json);
+            Assert.Equal("{}", json);
 
             value = JsonConvert.DeserializeObject<ISerializableTestObject>("{booleanValue:true}", new JsonSerializerSettings
             {
@@ -4035,7 +4035,7 @@ Path '', line 1, position 1.");
                 }
             });
 
-            Xunit.Assert.NotNull(value);
+            Assert.NotNull(value);
             XUnitAssert.False(value._booleanValue);
         }
         finally
@@ -4124,12 +4124,12 @@ Path '', line 1, position 1.");
 }}", json);
 
         var o2 = JsonConvert.DeserializeObject<ISerializableTestObject>(json);
-        Xunit.Assert.Equal("String!", o2._stringValue);
-        Xunit.Assert.Equal(int.MinValue, o2._intValue);
-        Xunit.Assert.Equal(dateTimeOffset, o2._dateTimeOffsetValue);
-        Xunit.Assert.Equal("Name!", o2._personValue.Name);
-        Xunit.Assert.Equal(null, o2._nullPersonValue);
-        Xunit.Assert.Equal(null, o2._nullableInt);
+        Assert.Equal("String!", o2._stringValue);
+        Assert.Equal(int.MinValue, o2._intValue);
+        Assert.Equal(dateTimeOffset, o2._dateTimeOffsetValue);
+        Assert.Equal("Name!", o2._personValue.Name);
+        Assert.Equal(null, o2._nullPersonValue);
+        Assert.Equal(null, o2._nullableInt);
     }
 
     [Fact]
@@ -4178,12 +4178,12 @@ Path '', line 1, position 1.");
 }}", json);
 
         var o2 = JsonConvert.DeserializeObject<ISerializableTestObject>(json);
-        Xunit.Assert.Equal("String!", o2._stringValue);
-        Xunit.Assert.Equal(int.MinValue, o2._intValue);
-        Xunit.Assert.Equal(dateTimeOffset, o2._dateTimeOffsetValue);
-        Xunit.Assert.Equal("Name!", o2._personValue.Name);
-        Xunit.Assert.Equal(null, o2._nullPersonValue);
-        Xunit.Assert.Equal(null, o2._nullableInt);
+        Assert.Equal("String!", o2._stringValue);
+        Assert.Equal(int.MinValue, o2._intValue);
+        Assert.Equal(dateTimeOffset, o2._dateTimeOffsetValue);
+        Assert.Equal("Name!", o2._personValue.Name);
+        Assert.Equal(null, o2._nullPersonValue);
+        Assert.Equal(null, o2._nullableInt);
     }
 #endif
 
@@ -6007,7 +6007,7 @@ Path '', line 1, position 1.");
         var json = "{}";
         IList<string> errors = new List<string>();
 
-        EventHandler<Argon.ErrorEventArgs> error = (_, e) =>
+        EventHandler<ErrorEventArgs> error = (_, e) =>
         {
             errors.Add(e.ErrorContext.Error.Message);
             e.ErrorContext.Handled = true;
@@ -6032,7 +6032,7 @@ Path '', line 1, position 1.");
         var json = "{'NonAttributeProperty':null,'UnsetProperty':null,'AllowNullProperty':null,'AlwaysProperty':null}";
         IList<string> errors = new List<string>();
 
-        EventHandler<Argon.ErrorEventArgs> error = (_, e) =>
+        EventHandler<ErrorEventArgs> error = (_, e) =>
         {
             errors.Add(e.ErrorContext.Error.Message);
             e.ErrorContext.Handled = true;
@@ -6706,7 +6706,7 @@ This is just junk, though.";
 
             var tuple = new MyTuplePartial<int>(500);
             var json = JsonConvert.SerializeObject(tuple);
-            Xunit.Assert.Equal(@"{""m_Item1"":500}", json);
+            Assert.Equal(@"{""m_Item1"":500}", json);
 
             XUnitAssert.Throws<JsonSerializationException>(
                 () => JsonConvert.DeserializeObject<MyTuplePartial<int>>(json),

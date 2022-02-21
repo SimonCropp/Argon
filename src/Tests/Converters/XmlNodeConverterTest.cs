@@ -42,9 +42,8 @@ public class XmlNodeConverterTest : TestFixtureBase
         {
             xNode = XDocument.Load(reader);
         }
-        else if (node is XmlAttribute)
+        else if (node is XmlAttribute attribute)
         {
-            var attribute = (XmlAttribute) node;
             xNode = new XAttribute(XName.Get(attribute.LocalName, attribute.NamespaceURI), attribute.Value);
         }
         else

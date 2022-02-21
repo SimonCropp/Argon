@@ -1454,7 +1454,7 @@ keyword such as type of business.""
 
         dic3.Add("dic3", dic3);
 
-        var json = SerializeWithNoRedundentIdProperties(dic1);
+        var json = SerializeWithNoRedundantIdProperties(dic1);
 
         XUnitAssert.AreEqualNormalized(@"{
   ""$id"": ""1"",
@@ -1480,7 +1480,7 @@ keyword such as type of business.""
 }", json);
     }
 
-    static string SerializeWithNoRedundentIdProperties(object o)
+    static string SerializeWithNoRedundantIdProperties(object o)
     {
         var writer = new JTokenWriter();
         var serializer = JsonSerializer.Create(new JsonSerializerSettings
@@ -1492,17 +1492,15 @@ keyword such as type of business.""
 
         var t = writer.Token;
 
-        if (t is JContainer)
+        if (t is JContainer container)
         {
-            var c = t as JContainer;
-
             // find all the $id properties in the JSON
-            IList<JProperty> ids = c.Descendants().OfType<JProperty>().Where(d => d.Name == "$id").ToList();
+            IList<JProperty> ids = container.Descendants().OfType<JProperty>().Where(d => d.Name == "$id").ToList();
 
             if (ids.Count > 0)
             {
                 // find all the $ref properties in the JSON
-                IList<JProperty> refs = c.Descendants().OfType<JProperty>().Where(d => d.Name == "$ref").ToList();
+                IList<JProperty> refs = container.Descendants().OfType<JProperty>().Where(d => d.Name == "$ref").ToList();
 
                 foreach (var idProperty in ids)
                 {
@@ -1518,8 +1516,7 @@ keyword such as type of business.""
             }
         }
 
-        var json = t.ToString();
-        return json;
+        return t.ToString();
     }
 
     [Fact]

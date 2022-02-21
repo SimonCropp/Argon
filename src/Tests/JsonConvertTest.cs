@@ -979,7 +979,7 @@ public class JsonConvertTest : TestFixtureBase
 
     public static long GetTicks(object value)
     {
-        return value is DateTime ? ((DateTime)value).Ticks : ((DateTimeOffset)value).Ticks;
+        return value is DateTime time ? time.Ticks : ((DateTimeOffset)value).Ticks;
     }
 
     public static string Write(object value, JsonConverter converter)

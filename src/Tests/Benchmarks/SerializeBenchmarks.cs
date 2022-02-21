@@ -32,7 +32,7 @@ public class SerializeBenchmarks
 
     static SerializeBenchmarks()
     {
-        var json = System.IO.File.ReadAllText("large.json");
+        var json = File.ReadAllText("large.json");
 
         LargeCollection = JsonConvert.DeserializeObject<IList<RootObject>>(json);
     }
@@ -40,7 +40,7 @@ public class SerializeBenchmarks
     [Benchmark]
     public void SerializeLargeJsonFile()
     {
-        using var file = System.IO.File.CreateText("largewrite.json");
+        using var file = File.CreateText("largewrite.json");
         var serializer = new JsonSerializer
         {
             Formatting = Formatting.Indented

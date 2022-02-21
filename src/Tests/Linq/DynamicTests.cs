@@ -71,7 +71,7 @@ public class LinqDynamicTests : TestFixtureBase
     {
         dynamic d;
 
-        using (var jsonFile = System.IO.File.OpenText("large.json"))
+        using (var jsonFile = File.OpenText("large.json"))
         using (var jsonTextReader = new JsonTextReader(jsonFile))
         {
             var serializer = new JsonSerializer();

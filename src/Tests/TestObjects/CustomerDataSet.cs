@@ -23,6 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
+// ReSharper disable RedundantNameQualifier
 namespace TestObjects;
 
 /// <summary>

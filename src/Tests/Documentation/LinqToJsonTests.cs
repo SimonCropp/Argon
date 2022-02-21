@@ -25,28 +25,6 @@
 
 namespace Argon.Tests.Documentation;
 
-public static class File
-{
-    public static StreamReader OpenText(string path)
-    {
-        return new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes("{}")));
-    }
-
-    public static StreamWriter CreateText(string path)
-    {
-        return new StreamWriter(new MemoryStream());
-    }
-
-    public static void WriteAllText(string path, string contents)
-    {
-    }
-
-    public static string ReadAllText(string path)
-    {
-        return null;
-    }
-}
-
 public class LinqToJsonTests : TestFixtureBase
 {
     [Fact]
@@ -219,6 +197,14 @@ public class LinqToJsonTests : TestFixtureBase
 
         var a = JArray.Parse(json);
         #endregion
+    }
+
+    public static class File
+    {
+        public static StreamReader OpenText(string path)
+        {
+            return new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes("{}")));
+        }
     }
 
     [Fact]

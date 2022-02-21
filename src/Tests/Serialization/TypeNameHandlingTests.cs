@@ -2483,9 +2483,9 @@ public class TypeNameHandlingTests : TestFixtureBase
                 return true;
             }
 
-            if (obj is IExample)
+            if (obj is IExample example)
             {
-                return Name.Equals(((IExample) obj).Name);
+                return Name.Equals(example.Name);
             }
 
             return false;

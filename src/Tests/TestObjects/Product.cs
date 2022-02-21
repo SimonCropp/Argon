@@ -34,11 +34,9 @@ public class Product
 
     public override bool Equals(object obj)
     {
-        if (obj is Product)
+        if (obj is Product product)
         {
-            var p = (Product)obj;
-
-            return p.Name == Name && p.ExpiryDate == ExpiryDate && p.Price == Price;
+            return product.Name == Name && product.ExpiryDate == ExpiryDate && product.Price == Price;
         }
 
         return base.Equals(obj);

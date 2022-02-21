@@ -77,11 +77,10 @@ public class TypeConverterSizeConverter : TypeConverter
         {
             throw new ArgumentNullException("destinationType");
         }
-        if (value is TypeConverterSize)
+        if (value is TypeConverterSize size)
         {
             if (destinationType == typeof(string))
             {
-                var size = (TypeConverterSize)value;
                 culture ??= CultureInfo.CurrentCulture;
                 var converter = TypeDescriptor.GetConverter(typeof(int));
                 var strArray = new string[2];

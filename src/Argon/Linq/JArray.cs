@@ -222,21 +222,21 @@ public partial class JArray : JContainer, IList<JToken>
     {
         get
         {
-            if (key is not int)
+            if (key is not int i)
             {
                 throw new ArgumentException($"Accessed JArray values with invalid key value: {MiscellaneousUtils.ToString(key)}. Int32 array index expected.");
             }
 
-            return GetItem((int)key);
+            return GetItem(i);
         }
         set
         {
-            if (key is not int)
+            if (key is not int i)
             {
                 throw new ArgumentException($"Set JArray values with invalid key value: {MiscellaneousUtils.ToString(key)}. Int32 array index expected.");
             }
 
-            SetItem((int)key, value);
+            SetItem(i, value);
         }
     }
 
