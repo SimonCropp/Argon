@@ -57,15 +57,6 @@ public class DefaultContractResolver : IContractResolver
     readonly ThreadSafeStore<Type, JsonContract> _contractCache;
 
     /// <summary>
-    /// Gets a value indicating whether members are being get and set using dynamic code generation.
-    /// This value is determined by the runtime permissions available.
-    /// </summary>
-    /// <value>
-    /// 	<c>true</c> if using dynamic code generation; otherwise, <c>false</c>.
-    /// </value>
-    public bool DynamicCodeGeneration => JsonTypeReflector.DynamicCodeGeneration;
-
-    /// <summary>
     /// Gets or sets a value indicating whether compiler generated members should be serialized.
     /// </summary>
     /// <value>
@@ -280,11 +271,7 @@ public class DefaultContractResolver : IContractResolver
             else if (contract.MemberSerialization == MemberSerialization.Fields)
             {
                 // mimic DataContractSerializer behaviour when populating fields by overriding default creator to create an uninitialized object
-                // note that this is only possible when the application is fully trusted so fall back to using the default constructor (if available) in partial trust
-                if (JsonTypeReflector.FullyTrusted)
-                {
-                    contract.DefaultCreator = contract.GetUninitializedObject;
-                }
+                contract.DefaultCreator = contract.GetUninitializedObject;
             }
             else if (contract.DefaultCreator == null || contract.DefaultCreatorNonPublic)
             {
@@ -1250,12 +1237,7 @@ public class DefaultContractResolver : IContractResolver
         // warning - this method use to cause errors with Intellitrace. Retest in VS Ultimate after changes
 
 #if !(NETSTANDARD2_0)
-        if (DynamicCodeGeneration)
-        {
-            return new DynamicValueProvider(member);
-        }
-
-        return new ReflectionValueProvider(member);
+        return new DynamicValueProvider(member);
 #else
         return new ExpressionValueProvider(member);
 #endif

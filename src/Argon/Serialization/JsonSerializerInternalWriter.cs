@@ -24,7 +24,6 @@
 #endregion
 
 using System.Dynamic;
-using System.Security;
 
 class JsonSerializerInternalWriter : JsonSerializerInternalBase
 {
@@ -810,17 +809,8 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         return writeMetadataObject;
     }
 
-    [SecuritySafeCritical]
     void SerializeISerializable(JsonWriter writer, ISerializable value, JsonISerializableContract contract, JsonProperty? member, JsonContainerContract? collectionContract, JsonProperty? containerProperty)
     {
-        if (!JsonTypeReflector.FullyTrusted)
-        {
-            var message = $@"Type '{{0}}' implements ISerializable but cannot be serialized using the ISerializable interface because the current application is not fully trusted and ISerializable can expose secure data.{Environment.NewLine}To fix this error either change the environment to be fully trusted, change the application to not deserialize the type, add JsonObjectAttribute to the type or change the JsonSerializer setting ContractResolver to use a new DefaultContractResolver with IgnoreSerializableInterface set to true.{Environment.NewLine}";
-            message = string.Format(message, value.GetType());
-
-            throw JsonSerializationException.Create(null, writer.ContainerPath, message, null);
-        }
-
         OnSerializing(writer, contract, value);
         _serializeStack.Add(value);
 

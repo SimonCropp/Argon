@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.Security;
-
 namespace Argon;
 
 /// <summary>
@@ -164,15 +162,8 @@ public class JsonObjectContract : JsonContainerContract
         Properties = new JsonPropertyCollection(UnderlyingType);
     }
 
-    [SecuritySafeCritical]
     internal object GetUninitializedObject()
     {
-        // we should never get here if the environment is not fully trusted, check just in case
-        if (!JsonTypeReflector.FullyTrusted)
-        {
-            throw new JsonException($"Insufficient permissions. Creating an uninitialized '{NonNullableUnderlyingType}' type requires full trust.");
-        }
-
         return FormatterServices.GetUninitializedObject(NonNullableUnderlyingType);
     }
 }

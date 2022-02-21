@@ -1656,14 +1656,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
     {
         var type = contract.UnderlyingType;
 
-        if (!JsonTypeReflector.FullyTrusted)
-        {
-            var message = $@"Type '{{0}}' implements ISerializable but cannot be deserialized using the ISerializable interface because the current application is not fully trusted and ISerializable can expose secure data.{Environment.NewLine}To fix this error either change the environment to be fully trusted, change the application to not deserialize the type, add JsonObjectAttribute to the type or change the JsonSerializer setting ContractResolver to use a new DefaultContractResolver with IgnoreSerializableInterface set to true.{Environment.NewLine}";
-            message = string.Format(message, type);
-
-            throw JsonSerializationException.Create(reader, message);
-        }
-
         if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
         {
             TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Deserializing {contract.UnderlyingType} using ISerializable constructor."), null);

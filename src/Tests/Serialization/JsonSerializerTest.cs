@@ -4009,77 +4009,6 @@ Path '', line 1, position 1.");
     }
 
 #if DEBUG
-    [Fact]
-    public void SerializeISerializableInPartialTrustWithIgnoreInterface()
-    {
-        try
-        {
-            JsonTypeReflector.SetFullyTrusted(false);
-            var value = new ISerializableTestObject("string!", 0, default(DateTimeOffset), null);
-
-            var json = JsonConvert.SerializeObject(value, new JsonSerializerSettings
-            {
-                ContractResolver = new DefaultContractResolver
-                {
-                    IgnoreSerializableInterface = true
-                }
-            });
-
-            Assert.Equal("{}", json);
-
-            value = JsonConvert.DeserializeObject<ISerializableTestObject>("{booleanValue:true}", new JsonSerializerSettings
-            {
-                ContractResolver = new DefaultContractResolver
-                {
-                    IgnoreSerializableInterface = true
-                }
-            });
-
-            Assert.NotNull(value);
-            XUnitAssert.False(value._booleanValue);
-        }
-        finally
-        {
-            JsonTypeReflector.SetFullyTrusted(null);
-        }
-    }
-
-    [Fact]
-    public void SerializeISerializableInPartialTrust()
-    {
-        try
-        {
-            XUnitAssert.Throws<JsonSerializationException>(() =>
-            {
-                JsonTypeReflector.SetFullyTrusted(false);
-
-                JsonConvert.DeserializeObject<ISerializableTestObject>("{booleanValue:true}");
-            }, $@"Type 'TestObjects.ISerializableTestObject' implements ISerializable but cannot be deserialized using the ISerializable interface because the current application is not fully trusted and ISerializable can expose secure data.{Environment.NewLine}To fix this error either change the environment to be fully trusted, change the application to not deserialize the type, add JsonObjectAttribute to the type or change the JsonSerializer setting ContractResolver to use a new DefaultContractResolver with IgnoreSerializableInterface set to true.{Environment.NewLine}Path 'booleanValue', line 1, position 14.");
-        }
-        finally
-        {
-            JsonTypeReflector.SetFullyTrusted(null);
-        }
-    }
-
-    [Fact]
-    public void DeserializeISerializableInPartialTrust()
-    {
-        try
-        {
-            XUnitAssert.Throws<JsonSerializationException>(() =>
-            {
-                JsonTypeReflector.SetFullyTrusted(false);
-                var value = new ISerializableTestObject("string!", 0, default(DateTimeOffset), null);
-
-                JsonConvert.SerializeObject(value);
-            }, $@"Type 'TestObjects.ISerializableTestObject' implements ISerializable but cannot be serialized using the ISerializable interface because the current application is not fully trusted and ISerializable can expose secure data.{Environment.NewLine}To fix this error either change the environment to be fully trusted, change the application to not deserialize the type, add JsonObjectAttribute to the type or change the JsonSerializer setting ContractResolver to use a new DefaultContractResolver with IgnoreSerializableInterface set to true.{Environment.NewLine}Path ''.");
-        }
-        finally
-        {
-            JsonTypeReflector.SetFullyTrusted(null);
-        }
-    }
 
     [Fact]
     public void SerializeISerializableTestObject_IsoDate()
@@ -5433,44 +5362,7 @@ Path '', line 1, position 1.");
         Assert.Equal(-2, StaticTestClass.y);
         Assert.Equal(-3, StaticTestClass.z);
     }
-
-    [Fact]
-    public void SerializeStaticReflection()
-    {
-        var contractResolver = new ReflectionContractResolver();
-
-        var c = new StaticTestClass
-        {
-            x = int.MaxValue
-        };
-        StaticTestClass.y = 2;
-        StaticTestClass.z = 3;
-        var json = JsonConvert.SerializeObject(c, Formatting.Indented, new JsonSerializerSettings
-        {
-            ContractResolver = contractResolver
-        });
-
-        XUnitAssert.AreEqualNormalized(@"{
-  ""x"": 2147483647,
-  ""y"": 2,
-  ""z"": 3
-}", json);
-
-        var c2 = JsonConvert.DeserializeObject<StaticTestClass>(@"{
-  ""x"": -1,
-  ""y"": -2,
-  ""z"": -3
-}",
-            new JsonSerializerSettings
-            {
-                ContractResolver = contractResolver
-            });
-
-        Assert.Equal(-1, c2.x);
-        Assert.Equal(-2, StaticTestClass.y);
-        Assert.Equal(-3, StaticTestClass.z);
-    }
-
+    
     [Fact]
     public void DeserializeDecimalsWithCulture()
     {
@@ -6695,29 +6587,6 @@ This is just junk, though.";
         doStuff();
         Assert.Equal(500, obj.Item1);
     }
-
-#if DEBUG
-    [Fact]
-    public void SerializeCustomTupleWithSerializableAttributeInPartialTrust()
-    {
-        try
-        {
-            JsonTypeReflector.SetFullyTrusted(false);
-
-            var tuple = new MyTuplePartial<int>(500);
-            var json = JsonConvert.SerializeObject(tuple);
-            Assert.Equal(@"{""m_Item1"":500}", json);
-
-            XUnitAssert.Throws<JsonSerializationException>(
-                () => JsonConvert.DeserializeObject<MyTuplePartial<int>>(json),
-                "Unable to find a constructor to use for type TestObjects.MyTuplePartial`1[System.Int32]. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'm_Item1', line 1, position 11.");
-        }
-        finally
-        {
-            JsonTypeReflector.SetFullyTrusted(true);
-        }
-    }
-#endif
 
     [Fact]
     public void SerializeTupleWithSerializableAttribute()
