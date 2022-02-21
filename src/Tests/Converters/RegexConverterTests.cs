@@ -25,8 +25,6 @@
 
 using System.Text.RegularExpressions;
 
-namespace Argon.Tests.Converters;
-
 public class RegexConverterTests : TestFixtureBase
 {
     public class RegexTestClass

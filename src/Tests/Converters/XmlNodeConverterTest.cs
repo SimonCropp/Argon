@@ -27,9 +27,9 @@ using Argon.Tests.Serialization;
 using Argon.Tests.TestObjects;
 using System.Xml;
 using System.Xml.Linq;
-// ReSharper disable UseObjectOrCollectionInitializer
+using Formatting = Argon.Formatting;
 
-namespace Argon.Tests.Converters;
+// ReSharper disable UseObjectOrCollectionInitializer
 
 public class XmlNodeConverterTest : TestFixtureBase
 {
