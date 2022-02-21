@@ -30,137 +30,6 @@ using TestObjects;
 
 namespace Argon.Tests.Serialization;
 
-public interface IBase
-{
-    DateTime CreatedOn { get; set; }
-}
-
-public interface ITaskRepository : IBase
-{
-    string ConnectionString { get; set; }
-}
-
-public interface ILogger
-{
-    DateTime DateTime { get; }
-    string Level { get; set; }
-}
-
-public class Base : IBase
-{
-    public DateTime CreatedOn { get; set; }
-}
-
-public class TaskRepository : Base, ITaskRepository
-{
-    public string ConnectionString { get; set; }
-}
-
-public class LogManager : ILogger
-{
-    readonly DateTime _dt;
-
-    public LogManager(DateTime dt)
-    {
-        _dt = dt;
-    }
-
-    public DateTime DateTime => _dt;
-
-    public string Level { get; set; }
-}
-
-public class TaskController
-{
-    readonly ITaskRepository _repository;
-    readonly ILogger _logger;
-
-    public TaskController(ITaskRepository repository, ILogger logger)
-    {
-        _repository = repository;
-        _logger = logger;
-    }
-
-    public ITaskRepository Repository => _repository;
-
-    public ILogger Logger => _logger;
-}
-
-public class HasSettableProperty
-{
-    public ILogger Logger { get; set; }
-    public ITaskRepository Repository { get; set; }
-    public IList<Person> People { get; set; }
-    public Person Person { get; set; }
-
-    public HasSettableProperty(ILogger logger)
-    {
-        Logger = logger;
-    }
-}
-
-[DataContract]
-public class User
-{
-    [DataMember(Name = "first_name")]
-    public string FirstName { get; set; }
-
-    [DataMember(Name = "company")]
-    public ICompany Company { get; set; }
-}
-
-public interface ICompany
-{
-    string CompanyName { get; set; }
-}
-
-[DataContract]
-public class Company : ICompany
-{
-    [DataMember(Name = "company_name")]
-    public string CompanyName { get; set; }
-}
-
-public class AutofacContractResolver : DefaultContractResolver
-{
-    readonly IContainer _container;
-
-    public AutofacContractResolver(IContainer container)
-    {
-        _container = container;
-    }
-
-    protected override JsonObjectContract CreateObjectContract(Type type)
-    {
-        // use Autofac to create types that have been registered with it
-        if (_container.IsRegistered(type))
-        {
-            var contract = ResolveContact(type);
-            contract.DefaultCreator = () => _container.Resolve(type);
-
-            return contract;
-        }
-
-        return base.CreateObjectContract(type);
-    }
-
-    JsonObjectContract ResolveContact(Type type)
-    {
-        // attempt to create the contact from the resolved type
-        if (_container.ComponentRegistry.TryGetRegistration(new TypedService(type), out var registration))
-        {
-            var viewType = (registration.Activator as ReflectionActivator)?.LimitType;
-            if (viewType != null)
-            {
-                return base.CreateObjectContract(viewType);
-            }
-        }
-
-        // fall back to using the registered type
-        return base.CreateObjectContract(type);
-    }
-}
-
 public class DependencyInjectionTests : TestFixtureBase
 {
     [Fact]
@@ -277,4 +146,137 @@ public class DependencyInjectionTests : TestFixtureBase
         Assert.Equal("Name2!", o.People[1].Name);
         Assert.Equal("Name3!", o.Person.Name);
     }
+
+
+    public interface IBase
+    {
+        DateTime CreatedOn { get; set; }
+    }
+
+    public interface ITaskRepository : IBase
+    {
+        string ConnectionString { get; set; }
+    }
+
+    public interface ILogger
+    {
+        DateTime DateTime { get; }
+        string Level { get; set; }
+    }
+
+    public class Base : IBase
+    {
+        public DateTime CreatedOn { get; set; }
+    }
+
+    public class TaskRepository : Base, ITaskRepository
+    {
+        public string ConnectionString { get; set; }
+    }
+
+    public class LogManager : ILogger
+    {
+        readonly DateTime _dt;
+
+        public LogManager(DateTime dt)
+        {
+            _dt = dt;
+        }
+
+        public DateTime DateTime => _dt;
+
+        public string Level { get; set; }
+    }
+
+    public class TaskController
+    {
+        readonly ITaskRepository _repository;
+        readonly ILogger _logger;
+
+        public TaskController(ITaskRepository repository, ILogger logger)
+        {
+            _repository = repository;
+            _logger = logger;
+        }
+
+        public ITaskRepository Repository => _repository;
+
+        public ILogger Logger => _logger;
+    }
+
+    public class HasSettableProperty
+    {
+        public ILogger Logger { get; set; }
+        public ITaskRepository Repository { get; set; }
+        public IList<Person> People { get; set; }
+        public Person Person { get; set; }
+
+        public HasSettableProperty(ILogger logger)
+        {
+            Logger = logger;
+        }
+    }
+
+    [DataContract]
+    public class User
+    {
+        [DataMember(Name = "first_name")]
+        public string FirstName { get; set; }
+
+        [DataMember(Name = "company")]
+        public ICompany Company { get; set; }
+    }
+
+    public interface ICompany
+    {
+        string CompanyName { get; set; }
+    }
+
+    [DataContract]
+    public class Company : ICompany
+    {
+        [DataMember(Name = "company_name")]
+        public string CompanyName { get; set; }
+    }
+
+    public class AutofacContractResolver : DefaultContractResolver
+    {
+        readonly IContainer _container;
+
+        public AutofacContractResolver(IContainer container)
+        {
+            _container = container;
+        }
+
+        protected override JsonObjectContract CreateObjectContract(Type type)
+        {
+            // use Autofac to create types that have been registered with it
+            if (_container.IsRegistered(type))
+            {
+                var contract = ResolveContact(type);
+                contract.DefaultCreator = () => _container.Resolve(type);
+
+                return contract;
+            }
+
+            return base.CreateObjectContract(type);
+        }
+
+        JsonObjectContract ResolveContact(Type type)
+        {
+            // attempt to create the contact from the resolved type
+            if (_container.ComponentRegistry.TryGetRegistration(new TypedService(type), out var registration))
+            {
+                var viewType = (registration.Activator as ReflectionActivator)?.LimitType;
+                if (viewType != null)
+                {
+                    return base.CreateObjectContract(viewType);
+                }
+            }
+
+            // fall back to using the registered type
+            return base.CreateObjectContract(type);
+        }
+    }
+
 }

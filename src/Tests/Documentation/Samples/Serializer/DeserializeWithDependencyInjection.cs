@@ -26,8 +26,6 @@
 using Autofac;
 using Autofac.Core;
 using Autofac.Core.Activators.Reflection;
-using Argon.Tests.Serialization;
-using LogService = Argon.Tests.Serialization.LogManager;
 
 public class DeserializeWithDependencyInjection : TestFixtureBase
 {
@@ -96,7 +94,7 @@ public class DeserializeWithDependencyInjection : TestFixtureBase
         var builder = new ContainerBuilder();
         builder.RegisterType<TaskRepository>().As<ITaskRepository>();
         builder.RegisterType<TaskController>();
-        builder.Register(_ => new LogService(new DateTime(2000, 12, 12))).As<ILogger>();
+        builder.Register(_ => new LogManager(new DateTime(2000, 12, 12))).As<ILogger>();
 
         var container = builder.Build();
 
@@ -123,5 +121,67 @@ public class DeserializeWithDependencyInjection : TestFixtureBase
 
         Assert.Equal(new DateTime(2000, 12, 12), controller.Logger.DateTime);
         Assert.Equal("Debug", controller.Logger.Level);
+    }
+
+    public interface IBase
+    {
+        DateTime CreatedOn { get; set; }
+    }
+
+    public interface ITaskRepository : IBase
+    {
+        string ConnectionString { get; set; }
+    }
+
+    public interface ILogger
+    {
+        DateTime DateTime { get; }
+        string Level { get; set; }
+    }
+
+    public class Base : IBase
+    {
+        public DateTime CreatedOn { get; set; }
+    }
+
+    public class TaskRepository : Base, ITaskRepository
+    {
+        public string ConnectionString { get; set; }
+    }
+
+    public class LogManager : ILogger
+    {
+        readonly DateTime _dt;
+
+        public LogManager(DateTime dt)
+        {
+            _dt = dt;
+        }
+
+        public DateTime DateTime => _dt;
+
+        public string Level { get; set; }
+    }
+
+    [DataContract]
+    public class User
+    {
+        [DataMember(Name = "first_name")]
+        public string FirstName { get; set; }
+
+        [DataMember(Name = "company")]
+        public ICompany Company { get; set; }
+    }
+
+    public interface ICompany
+    {
+        string CompanyName { get; set; }
+    }
+
+    [DataContract]
+    public class Company : ICompany
+    {
+        [DataMember(Name = "company_name")]
+        public string CompanyName { get; set; }
     }
 }

@@ -61,7 +61,7 @@ public class TaskController
     public ILogger Logger => _logger;
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeWithDependencyInjection.cs#L34-L90' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializewithdependencyinjectiontypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeWithDependencyInjection.cs#L32-L88' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializewithdependencyinjectiontypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DeserializeWithDependencyInjectionUsage -->
@@ -70,7 +70,7 @@ public class TaskController
 var builder = new ContainerBuilder();
 builder.RegisterType<TaskRepository>().As<ITaskRepository>();
 builder.RegisterType<TaskController>();
-builder.Register(_ => new LogService(new DateTime(2000, 12, 12))).As<ILogger>();
+builder.Register(_ => new LogManager(new DateTime(2000, 12, 12))).As<ILogger>();
 
 var container = builder.Build();
 
@@ -91,5 +91,5 @@ var controller = JsonConvert.DeserializeObject<TaskController>(json, new JsonSer
 Console.WriteLine(controller.Repository.GetType().Name);
 // TaskRepository
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeWithDependencyInjection.cs#L95-L119' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializewithdependencyinjectionusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeWithDependencyInjection.cs#L93-L117' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializewithdependencyinjectionusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
