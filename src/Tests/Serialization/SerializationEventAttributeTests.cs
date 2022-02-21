@@ -25,14 +25,12 @@
 
 using TestObjects;
 
-namespace Argon.Tests.Serialization;
-
 public class SerializationEventAttributeTests : TestFixtureBase
 {
     [Fact]
     public void ObjectEvents()
     {
-        var objs = new[] { new SerializationEventTestObject(), new DerivedSerializationEventTestObject() };
+        var objs = new[] {new SerializationEventTestObject(), new DerivedSerializationEventTestObject()};
 
         foreach (var current in objs)
         {
@@ -66,7 +64,7 @@ public class SerializationEventAttributeTests : TestFixtureBase
 }");
             o["Member6"] = "Dummy text for error";
 
-            obj = (SerializationEventTestObject)JsonConvert.DeserializeObject(o.ToString(), obj.GetType());
+            obj = (SerializationEventTestObject) JsonConvert.DeserializeObject(o.ToString(), obj.GetType());
 
             Assert.Equal(11, obj.Member1);
             Assert.Equal("This value went into the data file during serialization.", obj.Member2);
@@ -157,10 +155,10 @@ public class SerializationEventAttributeTests : TestFixtureBase
     {
         var obj = new SerializationEventTestDictionary
         {
-            { 1.1m, "first" },
-            { 2.222222222m, "second" },
-            { int.MaxValue, "third" },
-            { Convert.ToDecimal(Math.PI), "fourth" }
+            {1.1m, "first"},
+            {2.222222222m, "second"},
+            {int.MaxValue, "third"},
+            {Convert.ToDecimal(Math.PI), "fourth"}
         };
 
         Assert.Equal(11, obj.Member1);
@@ -361,11 +359,11 @@ OnSerialized_Derived_Derived", string.Join(Environment.NewLine, e.ToArray()));
     [Fact]
     public void DerivedDerivedSerializationEvents_DataContractSerializer()
     {
-        var xml = @"<DerivedDerivedSerializationEventOrderTestObject xmlns=""http://schemas.datacontract.org/2004/07/Argon.Tests.Serialization"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""/>";
+        var xml = @"<SerializationEventAttributeTests.DerivedDerivedSerializationEventOrderTestObject xmlns=""http://schemas.datacontract.org/2004/07/"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""/>";
 
         var ss = new DataContractSerializer(typeof(DerivedDerivedSerializationEventOrderTestObject));
 
-        var c = (DerivedDerivedSerializationEventOrderTestObject)ss.ReadObject(new MemoryStream(Encoding.UTF8.GetBytes(xml)));
+        var c = (DerivedDerivedSerializationEventOrderTestObject) ss.ReadObject(new MemoryStream(Encoding.UTF8.GetBytes(xml)));
 
         var ms = new MemoryStream();
         ss.WriteObject(ms, c);
@@ -400,129 +398,129 @@ OnSerialized_Derived_Derived", string.Join(Environment.NewLine, e.ToArray()));
 
         XUnitAssert.Throws<JsonException>(
             () => JsonConvert.SerializeObject(d, Formatting.Indented),
-            "Serialization Callback 'Void Deserialized()' in type 'Argon.Tests.Serialization.Contract' must have a single parameter of type 'System.Runtime.Serialization.StreamingContext'.");
-    }
-}
-
-public class SerializationEventOrderTestObject
-{
-    protected IList<string> Events { get; private set; }
-
-    public SerializationEventOrderTestObject()
-    {
-        Events = new List<string>();
+            "Serialization Callback 'Void Deserialized()' in type 'SerializationEventAttributeTests+Contract' must have a single parameter of type 'System.Runtime.Serialization.StreamingContext'.");
     }
 
-    public IList<string> GetEvents()
+    public class SerializationEventOrderTestObject
     {
-        return Events;
+        protected IList<string> Events { get; private set; }
+
+        public SerializationEventOrderTestObject()
+        {
+            Events = new List<string>();
+        }
+
+        public IList<string> GetEvents()
+        {
+            return Events;
+        }
+
+        [OnSerializing]
+        internal void OnSerializingMethod(StreamingContext context)
+        {
+            Events.Add("OnSerializing");
+        }
+
+        [OnSerialized]
+        internal void OnSerializedMethod(StreamingContext context)
+        {
+            Events.Add("OnSerialized");
+        }
+
+        [OnDeserializing]
+        internal void OnDeserializingMethod(StreamingContext context)
+        {
+            Events.Add("OnDeserializing");
+        }
+
+        [OnDeserialized]
+        internal void OnDeserializedMethod(StreamingContext context)
+        {
+            Events.Add("OnDeserialized");
+        }
     }
 
-    [OnSerializing]
-    internal void OnSerializingMethod(StreamingContext context)
+    public class DerivedSerializationEventOrderTestObject : SerializationEventOrderTestObject
     {
-        Events.Add("OnSerializing");
+        [OnSerializing]
+        internal new void OnSerializingMethod(StreamingContext context)
+        {
+            Events.Add("OnSerializing_Derived");
+        }
+
+        [OnSerialized]
+        internal new void OnSerializedMethod(StreamingContext context)
+        {
+            Events.Add("OnSerialized_Derived");
+        }
+
+        [OnDeserializing]
+        internal new void OnDeserializingMethod(StreamingContext context)
+        {
+            Events.Add("OnDeserializing_Derived");
+        }
+
+        [OnDeserialized]
+        internal new void OnDeserializedMethod(StreamingContext context)
+        {
+            Events.Add("OnDeserialized_Derived");
+        }
     }
 
-    [OnSerialized]
-    internal void OnSerializedMethod(StreamingContext context)
+    public class DerivedDerivedSerializationEventOrderTestObject : DerivedSerializationEventOrderTestObject
     {
-        Events.Add("OnSerialized");
+        [OnSerializing]
+        internal new void OnSerializingMethod(StreamingContext context)
+        {
+            Events.Add("OnSerializing_Derived_Derived");
+        }
+
+        [OnSerialized]
+        internal new void OnSerializedMethod(StreamingContext context)
+        {
+            Events.Add("OnSerialized_Derived_Derived");
+        }
+
+        [OnDeserializing]
+        internal new void OnDeserializingMethod(StreamingContext context)
+        {
+            Events.Add("OnDeserializing_Derived_Derived");
+        }
+
+        [OnDeserialized]
+        internal new void OnDeserializedMethod(StreamingContext context)
+        {
+            Events.Add("OnDeserialized_Derived_Derived");
+        }
     }
 
-    [OnDeserializing]
-    internal void OnDeserializingMethod(StreamingContext context)
+    public class ExportPostData
     {
-        Events.Add("OnDeserializing");
+        public Contract contract { get; set; }
+        public bool includeSubItems { get; set; }
+        public string user { get; set; }
+        public string[] projects { get; set; }
     }
 
-    [OnDeserialized]
-    internal void OnDeserializedMethod(StreamingContext context)
+    public class Contract
     {
-        Events.Add("OnDeserialized");
-    }
-}
+        public string _id { get; set; }
+        public string contractName { get; set; }
+        public string contractNumber { get; set; }
+        public string updatedBy { get; set; }
+        public DateTime updated_at { get; set; }
 
-public class DerivedSerializationEventOrderTestObject : SerializationEventOrderTestObject
-{
-    [OnSerializing]
-    internal new void OnSerializingMethod(StreamingContext context)
-    {
-        Events.Add("OnSerializing_Derived");
-    }
+        bool _onDeserializedCalled;
 
-    [OnSerialized]
-    internal new void OnSerializedMethod(StreamingContext context)
-    {
-        Events.Add("OnSerialized_Derived");
-    }
+        public bool GetOnDeserializedCalled()
+        {
+            return _onDeserializedCalled;
+        }
 
-    [OnDeserializing]
-    internal new void OnDeserializingMethod(StreamingContext context)
-    {
-        Events.Add("OnDeserializing_Derived");
-    }
-
-    [OnDeserialized]
-    internal new void OnDeserializedMethod(StreamingContext context)
-    {
-        Events.Add("OnDeserialized_Derived");
-    }
-}
-
-public class DerivedDerivedSerializationEventOrderTestObject : DerivedSerializationEventOrderTestObject
-{
-    [OnSerializing]
-    internal new void OnSerializingMethod(StreamingContext context)
-    {
-        Events.Add("OnSerializing_Derived_Derived");
-    }
-
-    [OnSerialized]
-    internal new void OnSerializedMethod(StreamingContext context)
-    {
-        Events.Add("OnSerialized_Derived_Derived");
-    }
-
-    [OnDeserializing]
-    internal new void OnDeserializingMethod(StreamingContext context)
-    {
-        Events.Add("OnDeserializing_Derived_Derived");
-    }
-
-    [OnDeserialized]
-    internal new void OnDeserializedMethod(StreamingContext context)
-    {
-        Events.Add("OnDeserialized_Derived_Derived");
-    }
-}
-
-public class ExportPostData
-{
-    public Contract contract { get; set; }
-    public bool includeSubItems { get; set; }
-    public string user { get; set; }
-    public string[] projects { get; set; }
-}
-
-public class Contract
-{
-    public string _id { get; set; }
-    public string contractName { get; set; }
-    public string contractNumber { get; set; }
-    public string updatedBy { get; set; }
-    public DateTime updated_at { get; set; }
-
-    bool _onDeserializedCalled;
-
-    public bool GetOnDeserializedCalled()
-    {
-        return _onDeserializedCalled;
-    }
-
-    [OnDeserialized]
-    internal void Deserialized()
-    {
-        _onDeserializedCalled = true;
+        [OnDeserialized]
+        internal void Deserialized()
+        {
+            _onDeserializedCalled = true;
+        }
     }
 }
