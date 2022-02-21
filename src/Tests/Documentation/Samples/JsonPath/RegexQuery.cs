@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.Documentation.Samples.JsonPath;
-
 public class RegexQuery : TestFixtureBase
 {
     [Fact]
