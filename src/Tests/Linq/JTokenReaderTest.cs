@@ -24,7 +24,7 @@
 #endregion
 
 using Argon.Tests.Serialization;
-using Argon.Tests.TestObjects;
+using TestObjects;
 
 namespace Argon.Tests.Linq;
 

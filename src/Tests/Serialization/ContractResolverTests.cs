@@ -24,7 +24,6 @@
 #endregion
 
 using System.ComponentModel;
-using Argon.Tests.TestObjects;
 using TestObjects;
 using System.Text.RegularExpressions;
 
@@ -189,7 +188,7 @@ public class ContractResolverTests : TestFixtureBase
                 {
                     ContractResolver = resolver
                 }),
-            "Could not create an instance of type Argon.Tests.TestObjects.AbstractTestClass. Type is an interface or abstract class and cannot be instantiated. Path 'Value', line 1, position 7.");
+            "Could not create an instance of type TestObjects.AbstractTestClass. Type is an interface or abstract class and cannot be instantiated. Path 'Value', line 1, position 7.");
 
         contract.DefaultCreator = () => new AbstractImplementationTestClass();
 
@@ -219,7 +218,7 @@ public class ContractResolverTests : TestFixtureBase
         {
             ContractResolver = resolver
         }), 
-            "Could not create an instance of type Argon.Tests.TestObjects.AbstractListTestClass`1[System.Int32]. Type is an interface or abstract class and cannot be instantiated. Path '', line 1, position 1.");
+            "Could not create an instance of type TestObjects.AbstractListTestClass`1[System.Int32]. Type is an interface or abstract class and cannot be instantiated. Path '', line 1, position 1.");
 
         contract.DefaultCreator = () => new AbstractImplementationListTestClass<int>();
 
@@ -305,7 +304,7 @@ public class ContractResolverTests : TestFixtureBase
                 {
                     ContractResolver = resolver
                 }),
-            "Could not create an instance of type Argon.Tests.TestObjects.AbstractDictionaryTestClass`2[System.String,System.Int32]. Type is an interface or abstract class and cannot be instantiated. Path 'key1', line 1, position 6.");
+            "Could not create an instance of type TestObjects.AbstractDictionaryTestClass`2[System.String,System.Int32]. Type is an interface or abstract class and cannot be instantiated. Path 'key1', line 1, position 6.");
 
         contract.DefaultCreator = () => new AbstractImplementationDictionaryTestClass<string, int>();
 

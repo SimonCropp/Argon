@@ -25,7 +25,7 @@
 
 using System.Xml;
 
-namespace Argon.Tests.TestObjects;
+namespace TestObjects;
 
 public class XmlNodeTestObject
 {

@@ -24,9 +24,8 @@
 #endregion
 
 using System.Collections.ObjectModel;
-using TestObjects;
 
-namespace Argon.Tests.TestObjects;
+namespace TestObjects;
 
 public class VersionKeyedCollection : KeyedCollection<string, Person>, IEnumerable<Person>
 {

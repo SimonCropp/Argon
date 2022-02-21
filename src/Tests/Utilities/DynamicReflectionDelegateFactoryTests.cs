@@ -24,7 +24,6 @@
 #endregion
 
 #if !NET5_0_OR_GREATER
-using Argon.Tests.TestObjects;
 using TestObjects;
 
 namespace Argon.Tests.Utilities;

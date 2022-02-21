@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects;
+namespace TestObjects;
 
 /// <summary>
 ///Represents a strongly typed in-memory cache of data.

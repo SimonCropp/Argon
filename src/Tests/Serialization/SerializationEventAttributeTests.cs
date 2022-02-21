@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Argon.Tests.TestObjects;
+using TestObjects;
 
 namespace Argon.Tests.Serialization;
 
@@ -212,7 +212,7 @@ public class SerializationEventAttributeTests : TestFixtureBase
         Assert.Equal("This value was reset after serialization.", obj.Member2);
         Assert.Equal("This is a nonserialized value", obj.Member3);
         Assert.Equal(null, obj.Member4);
-        Assert.Equal("Error message for member Member6 = Error getting value from 'Member6' on 'Argon.Tests.TestObjects.SerializationEventTestObject'.", obj.Member5);
+        Assert.Equal("Error message for member Member6 = Error getting value from 'Member6' on 'TestObjects.SerializationEventTestObject'.", obj.Member5);
 
         obj = JsonConvert.DeserializeObject<SerializationEventTestObject>(json);
 

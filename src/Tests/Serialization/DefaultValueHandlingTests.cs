@@ -27,7 +27,7 @@ using System.ComponentModel;
 #if !NET5_0_OR_GREATER
 using System.Runtime.Serialization.Json;
 #endif
-using Argon.Tests.TestObjects;
+using TestObjects;
 
 namespace Argon.Tests.Serialization;
 

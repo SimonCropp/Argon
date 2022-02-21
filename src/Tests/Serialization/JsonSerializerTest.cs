@@ -27,16 +27,16 @@ using System.ComponentModel.DataAnnotations;
 #if !NET5_0_OR_GREATER
 using System.Web.Script.Serialization;
 using System.Drawing;
+using Argon.Tests.TestObjects;
 #endif
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization.Json;
 using Argon.Tests.Linq;
-using Argon.Tests.TestObjects;
+using TestObjects;
 using Argon.Tests.TestObjects.Events;
 using Argon.Tests.TestObjects.GeoCoding;
-using TestObjects;
 using System.Xml.Linq;
 using System.Collections.Specialized;
 using System.Dynamic;
@@ -1884,7 +1884,7 @@ keyword such as type of business.""
     {
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.SerializeObject(new BadJsonPropertyClass()),
-            @"A member with the name 'pie' already exists on 'Argon.Tests.TestObjects.BadJsonPropertyClass'. Use the JsonPropertyAttribute to specify another name.");
+            @"A member with the name 'pie' already exists on 'TestObjects.BadJsonPropertyClass'. Use the JsonPropertyAttribute to specify another name.");
     }
 
     [Fact]
@@ -2461,7 +2461,7 @@ keyword such as type of business.""
         {
             var c = new IncompatibleJsonAttributeClass();
             JsonConvert.SerializeObject(c);
-        }, "Unexpected value when converting date. Expected DateTime or DateTimeOffset, got Argon.Tests.TestObjects.IncompatibleJsonAttributeClass.");
+        }, "Unexpected value when converting date. Expected DateTime or DateTimeOffset, got TestObjects.IncompatibleJsonAttributeClass.");
     }
 
     [Fact]
@@ -2755,7 +2755,7 @@ keyword such as type of business.""
         XUnitAssert.Throws<JsonSerializationException>(() =>
         {
             var testFromDe = (InterfacePropertyTestClass) JsonConvert.DeserializeObject(strFromTest, typeof(InterfacePropertyTestClass));
-        }, @"Could not create an instance of type Argon.Tests.TestObjects.ICo. Type is an interface or abstract class and cannot be instantiated. Path 'co.Name', line 1, position 14.");
+        }, @"Could not create an instance of type TestObjects.ICo. Type is an interface or abstract class and cannot be instantiated. Path 'co.Name', line 1, position 14.");
     }
 
     Person GetPerson()
@@ -3855,7 +3855,7 @@ Path '', line 1, position 1.");
                 PreserveReferencesHandling = PreserveReferencesHandling.All,
                 MetadataPropertyHandling = MetadataPropertyHandling.Default
             }),
-            "Cannot preserve reference to readonly dictionary, or dictionary created from a non-default constructor: Argon.Tests.TestObjects.DictionaryWithNoDefaultConstructor. Path 'key1', line 1, position 16.");
+            "Cannot preserve reference to readonly dictionary, or dictionary created from a non-default constructor: TestObjects.DictionaryWithNoDefaultConstructor. Path 'key1', line 1, position 16.");
     }
 
     [Fact]
@@ -4033,7 +4033,7 @@ Path '', line 1, position 1.");
                     JsonTypeReflector.SetFullyTrusted(false);
 
                     JsonConvert.DeserializeObject<ISerializableTestObject>("{booleanValue:true}");
-                }, $@"Type 'Argon.Tests.TestObjects.ISerializableTestObject' implements ISerializable but cannot be deserialized using the ISerializable interface because the current application is not fully trusted and ISerializable can expose secure data.{Environment.NewLine}To fix this error either change the environment to be fully trusted, change the application to not deserialize the type, add JsonObjectAttribute to the type or change the JsonSerializer setting ContractResolver to use a new DefaultContractResolver with IgnoreSerializableInterface set to true.{Environment.NewLine}Path 'booleanValue', line 1, position 14.");
+                }, $@"Type 'TestObjects.ISerializableTestObject' implements ISerializable but cannot be deserialized using the ISerializable interface because the current application is not fully trusted and ISerializable can expose secure data.{Environment.NewLine}To fix this error either change the environment to be fully trusted, change the application to not deserialize the type, add JsonObjectAttribute to the type or change the JsonSerializer setting ContractResolver to use a new DefaultContractResolver with IgnoreSerializableInterface set to true.{Environment.NewLine}Path 'booleanValue', line 1, position 14.");
         }
         finally
         {
@@ -4052,7 +4052,7 @@ Path '', line 1, position 1.");
                     var value = new ISerializableTestObject("string!", 0, default(DateTimeOffset), null);
 
                     JsonConvert.SerializeObject(value);
-                }, $@"Type 'Argon.Tests.TestObjects.ISerializableTestObject' implements ISerializable but cannot be serialized using the ISerializable interface because the current application is not fully trusted and ISerializable can expose secure data.{Environment.NewLine}To fix this error either change the environment to be fully trusted, change the application to not deserialize the type, add JsonObjectAttribute to the type or change the JsonSerializer setting ContractResolver to use a new DefaultContractResolver with IgnoreSerializableInterface set to true.{Environment.NewLine}Path ''.");
+                }, $@"Type 'TestObjects.ISerializableTestObject' implements ISerializable but cannot be serialized using the ISerializable interface because the current application is not fully trusted and ISerializable can expose secure data.{Environment.NewLine}To fix this error either change the environment to be fully trusted, change the application to not deserialize the type, add JsonObjectAttribute to the type or change the JsonSerializer setting ContractResolver to use a new DefaultContractResolver with IgnoreSerializableInterface set to true.{Environment.NewLine}Path ''.");
         }
         finally
         {
@@ -5052,7 +5052,7 @@ Path '', line 1, position 1.");
 
         var xml = Encoding.UTF8.GetString(ms.ToArray(), 0, Convert.ToInt32(ms.Length));
 
-        Assert.Equal(@"<ChildDataContract xmlns=""http://schemas.datacontract.org/2004/07/Argon.Tests.TestObjects"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""><nonVirtualMember>NonVirtualMember!</nonVirtualMember><virtualMember>VirtualMember!</virtualMember><NewMember i:nil=""true""/></ChildDataContract>", xml);
+        Assert.Equal(@"<ChildDataContract xmlns=""http://schemas.datacontract.org/2004/07/TestObjects"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""><nonVirtualMember>NonVirtualMember!</nonVirtualMember><virtualMember>VirtualMember!</virtualMember><NewMember i:nil=""true""/></ChildDataContract>", xml);
     }
 
     [Fact]
@@ -5580,7 +5580,7 @@ Path '', line 1, position 1.");
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<ConvertableIntTestClass>(json),
-            "Error converting value 1 to type 'Argon.Tests.TestObjects.ConvertibleInt'. Path 'Integer', line 2, position 14.");
+            "Error converting value 1 to type 'TestObjects.ConvertibleInt'. Path 'Integer', line 2, position 14.");
     }
 
     [Fact]
@@ -6689,7 +6689,7 @@ This is just junk, though.";
 
             XUnitAssert.Throws<JsonSerializationException>(
                 () => JsonConvert.DeserializeObject<MyTuplePartial<int>>(json),
-                "Unable to find a constructor to use for type Argon.Tests.TestObjects.MyTuplePartial`1[System.Int32]. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'm_Item1', line 1, position 11.");
+                "Unable to find a constructor to use for type TestObjects.MyTuplePartial`1[System.Int32]. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'm_Item1', line 1, position 11.");
         }
         finally
         {
@@ -6895,7 +6895,7 @@ This is just junk, though.";
     {
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<NoConstructorReadOnlyCollection<int>>("[1]"), 
-            "Cannot deserialize readonly or fixed size list: Argon.Tests.TestObjects.NoConstructorReadOnlyCollection`1[System.Int32]. Path '', line 1, position 1.");
+            "Cannot deserialize readonly or fixed size list: TestObjects.NoConstructorReadOnlyCollection`1[System.Int32]. Path '', line 1, position 1.");
     }
 
     [Fact]
@@ -6903,7 +6903,7 @@ This is just junk, though.";
     {
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<NoConstructorReadOnlyDictionary<int, int>>("{'1':1}"),
-            "Cannot deserialize readonly or fixed size dictionary: Argon.Tests.TestObjects.NoConstructorReadOnlyDictionary`2[System.Int32,System.Int32]. Path '1', line 1, position 5.");
+            "Cannot deserialize readonly or fixed size dictionary: TestObjects.NoConstructorReadOnlyDictionary`2[System.Int32,System.Int32]. Path '1', line 1, position 5.");
     }
 
     [Fact]
@@ -7640,7 +7640,7 @@ This is just junk, though.";
     {
         XUnitAssert.Throws<JsonException>(
             () => JsonConvert.SerializeObject(new ErroringTestClass()),
-            "Error creating 'Argon.Tests.TestObjects.ErroringJsonConverter'.");
+            "Error creating 'TestObjects.ErroringJsonConverter'.");
     }
 
     [Fact]

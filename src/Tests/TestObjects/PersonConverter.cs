@@ -23,9 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using TestObjects;
-
-namespace Argon.Tests.TestObjects;
+namespace TestObjects;
 
 public class PersonConverter : CustomCreationConverter<IPerson>
 {

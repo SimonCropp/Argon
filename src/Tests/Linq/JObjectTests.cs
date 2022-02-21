@@ -25,7 +25,6 @@
 
 using System.Collections.Specialized;
 using System.ComponentModel;
-using Argon.Tests.TestObjects;
 using TestObjects;
 
 namespace Argon.Tests.Linq;

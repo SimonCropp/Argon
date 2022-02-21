@@ -29,7 +29,7 @@ using System.Web.Script.Serialization;
 #endif
 using System.Runtime.Serialization.Json;
 using BenchmarkDotNet.Attributes;
-using Argon.Tests.TestObjects;
+using TestObjects;
 
 public class DeserializeComparisonBenchmarks
 {

@@ -25,7 +25,6 @@
 
 using System.Collections.ObjectModel;
 using Argon.Tests.Linq;
-using Argon.Tests.TestObjects;
 using TestObjects;
 using System.Net;
 
@@ -52,7 +51,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         });
 
         var expectedJson = $@"{{
-  ""$type"": ""Argon.Tests.TestObjects.HasMultidimensionalByteArray, Tests"",
+  ""$type"": ""TestObjects.HasMultidimensionalByteArray, Tests"",
   ""Array2D"": {{
     ""$type"": ""{array2dRef}"",
     ""$values"": [
@@ -96,7 +95,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     public void DeserializeMultidimensionalByteArrayWithTypeName()
     {
         var json = @"{
-  ""$type"": ""Argon.Tests.TestObjects.HasMultidimensionalByteArray, Tests"",
+  ""$type"": ""TestObjects.HasMultidimensionalByteArray, Tests"",
   ""Array2D"": {
     ""$type"": ""System.Byte[,], mscorlib"",
     ""$values"": [
@@ -156,7 +155,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     public void DeserializeByteArrayWithTypeName()
     {
         var json = @"{
-  ""$type"": ""Argon.Tests.TestObjects.HasByteArray, Tests"",
+  ""$type"": ""TestObjects.HasByteArray, Tests"",
   ""EncryptedPassword"": {
     ""$type"": ""System.Byte[], mscorlib"",
     ""$value"": ""cGFzc3dvcmQ=""
@@ -174,7 +173,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     public void DeserializeByteArrayWithTypeName_BadAdditionalContent()
     {
         var json = @"{
-  ""$type"": ""Argon.Tests.TestObjects.HasByteArray, Tests"",
+  ""$type"": ""TestObjects.HasByteArray, Tests"",
   ""EncryptedPassword"": {
     ""$type"": ""System.Byte[], mscorlib"",
     ""$value"": ""cGFzc3dvcmQ="",
@@ -195,7 +194,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     public void DeserializeByteArrayWithTypeName_ExtraProperty()
     {
         var json = @"{
-  ""$type"": ""Argon.Tests.TestObjects.HasByteArray, Tests"",
+  ""$type"": ""TestObjects.HasByteArray, Tests"",
   ""EncryptedPassword"": {
     ""$type"": ""System.Byte[], mscorlib"",
     ""$value"": ""cGFzc3dvcmQ=""
@@ -1545,7 +1544,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
         XUnitAssert.AreEqualNormalized(@"[
   {
-    ""$type"": ""Argon.Tests.TestObjects.TestComponentSimple, Tests"",
+    ""$type"": ""TestObjects.TestComponentSimple, Tests"",
     ""MyProperty"": 0
   },
   {
@@ -1582,7 +1581,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
         XUnitAssert.AreEqualNormalized(@"{
   ""First"": {
-    ""$type"": ""Argon.Tests.TestObjects.TestComponentSimple, Tests"",
+    ""$type"": ""TestObjects.TestComponentSimple, Tests"",
     ""MyProperty"": 1
   },
   ""Second"": ""String!"",
@@ -1613,7 +1612,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         var json = JsonConvert.SerializeObject(o1, Formatting.Indented);
         var expected = @"{
   ""Object1"": {
-    ""$type"": ""Argon.Tests.TestObjects.TestComponentSimple, Tests"",
+    ""$type"": ""TestObjects.TestComponentSimple, Tests"",
     ""MyProperty"": 1
   },
   ""Object2"": 123,
@@ -1656,7 +1655,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     1,
     ""two"",
     {
-      ""$type"": ""Argon.Tests.TestObjects.TestComponentSimple, Tests"",
+      ""$type"": ""TestObjects.TestComponentSimple, Tests"",
       ""MyProperty"": 1
     }
   ]
@@ -1697,7 +1696,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         XUnitAssert.AreEqualNormalized($@"{{
   ""Data"": [
     {{
-      ""$type"": ""Argon.Tests.TestObjects.TestComponentSimple, Tests"",
+      ""$type"": ""TestObjects.TestComponentSimple, Tests"",
       ""MyProperty"": 1
     }},
     {{
@@ -1722,14 +1721,14 @@ public class TypeNameHandlingTests : TestFixtureBase
         json = $@"{{
   ""Data"": [
     {{
-      ""$type"": ""Argon.Tests.TestObjects.TestComponentSimple, Tests"",
+      ""$type"": ""TestObjects.TestComponentSimple, Tests"",
       ""MyProperty"": 1
     }},
     {{
       ""$type"": ""{listTypeName}"",
       ""$values"": [
         {{
-          ""$type"": ""Argon.Tests.TestObjects.TestComponentSimple, Tests"",
+          ""$type"": ""TestObjects.TestComponentSimple, Tests"",
           ""MyProperty"": 1
         }}
       ]
@@ -1779,7 +1778,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         XUnitAssert.AreEqualNormalized($@"{{
   ""Data"": {{
     ""one"": {{
-      ""$type"": ""Argon.Tests.TestObjects.TestComponentSimple, Tests"",
+      ""$type"": ""TestObjects.TestComponentSimple, Tests"",
       ""MyProperty"": 1
     }},
     ""two"": {{
@@ -1802,13 +1801,13 @@ public class TypeNameHandlingTests : TestFixtureBase
         json = $@"{{
   ""Data"": {{
     ""one"": {{
-      ""$type"": ""Argon.Tests.TestObjects.TestComponentSimple, Tests"",
+      ""$type"": ""TestObjects.TestComponentSimple, Tests"",
       ""MyProperty"": 1
     }},
     ""two"": {{
       ""$type"": ""{dictionaryTypeName}"",
       ""one"": {{
-        ""$type"": ""Argon.Tests.TestObjects.TestComponentSimple, Tests"",
+        ""$type"": ""TestObjects.TestComponentSimple, Tests"",
         ""MyProperty"": 1
       }}
     }}
@@ -1865,7 +1864,7 @@ public class TypeNameHandlingTests : TestFixtureBase
       ]
     }},
     ""Prop2"": {{
-      ""$type"": ""Argon.Tests.TestObjects.TestComponentSimple, Tests"",
+      ""$type"": ""TestObjects.TestComponentSimple, Tests"",
       ""MyProperty"": 1
     }},
     ""Prop3"": 3,
@@ -1912,7 +1911,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         XUnitAssert.AreEqualNormalized(@"{
   ""Data"": {
     ""one"": {
-      ""$type"": ""Argon.Tests.TestObjects.TestComponentSimple, Tests"",
+      ""$type"": ""TestObjects.TestComponentSimple, Tests"",
       ""MyProperty"": 1
     },
     ""two"": {
@@ -1939,13 +1938,13 @@ public class TypeNameHandlingTests : TestFixtureBase
         json = @"{
   ""Data"": {
     ""one"": {
-      ""$type"": ""Argon.Tests.TestObjects.TestComponentSimple, Tests"",
+      ""$type"": ""TestObjects.TestComponentSimple, Tests"",
       ""MyProperty"": 1
     },
     ""two"": {
       ""$type"": ""Argon.Tests.Linq.DynamicDictionary, Tests"",
       ""one"": {
-        ""$type"": ""Argon.Tests.TestObjects.TestComponentSimple, Tests"",
+        ""$type"": ""TestObjects.TestComponentSimple, Tests"",
         ""MyProperty"": 2
       }
     }

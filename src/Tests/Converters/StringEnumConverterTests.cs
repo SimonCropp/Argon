@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Argon.Tests.TestObjects;
+using TestObjects;
 
 public class StringEnumConverterTests : TestFixtureBase
 {

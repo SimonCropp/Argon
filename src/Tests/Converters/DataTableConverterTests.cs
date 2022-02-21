@@ -26,6 +26,7 @@
 using System.Data;
 using Argon.DataSetConverters;
 using Argon.Tests.TestObjects;
+using TestObjects;
 
 public class DataTableConverterTests : TestFixtureBase
 {

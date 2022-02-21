@@ -1,5 +1,4 @@
-﻿using Argon.Tests.TestObjects;
-using TestObjects;
+﻿using TestObjects;
 
 // ReSharper disable UseObjectOrCollectionInitializer
 
@@ -461,8 +460,8 @@ Argon Error: 0 : Error!
         Assert.Equal("Finished serializing System.Collections.Generic.List`1[System.Int32]. Path 'IntList'.", traceWriter.TraceRecords[2].Message);
         Assert.Equal("Started serializing System.String[]. Path 'StringArray'.", traceWriter.TraceRecords[3].Message);
         Assert.Equal("Finished serializing System.String[]. Path 'StringArray'.", traceWriter.TraceRecords[4].Message);
-        Assert.Equal("Started serializing Argon.Tests.TestObjects.VersionOld. Path 'Version'.", traceWriter.TraceRecords[5].Message);
-        Assert.Equal("Finished serializing Argon.Tests.TestObjects.VersionOld. Path 'Version'.", traceWriter.TraceRecords[6].Message);
+        Assert.Equal("Started serializing TestObjects.VersionOld. Path 'Version'.", traceWriter.TraceRecords[5].Message);
+        Assert.Equal("Finished serializing TestObjects.VersionOld. Path 'Version'.", traceWriter.TraceRecords[6].Message);
         Assert.Equal("Started serializing System.Collections.Generic.Dictionary`2[System.String,System.String]. Path 'StringDictionary'.", traceWriter.TraceRecords[7].Message);
         Assert.Equal("Finished serializing System.Collections.Generic.Dictionary`2[System.String,System.String]. Path 'StringDictionary'.", traceWriter.TraceRecords[8].Message);
         Assert.Equal("Finished serializing Argon.Tests.Serialization.TraceTestObject. Path ''.", traceWriter.TraceRecords[9].Message);
@@ -520,9 +519,9 @@ Argon Error: 0 : Error!
         Assert.True(traceWriter.TraceRecords[2].Message.StartsWith("Finished deserializing System.Collections.Generic.IList`1[System.Int32]. Path 'IntList'"));
         Assert.Equal("Started deserializing System.String[]. Path 'StringArray', line 6, position 18.", traceWriter.TraceRecords[3].Message);
         Assert.True(traceWriter.TraceRecords[4].Message.StartsWith("Finished deserializing System.String[]. Path 'StringArray'"));
-        Assert.Equal("Deserializing Argon.Tests.TestObjects.VersionOld using creator with parameters: Major, Minor, Build, Revision. Path 'Version.Major', line 11, position 12.", traceWriter.TraceRecords[5].Message);
-        Assert.True(traceWriter.TraceRecords[6].Message.StartsWith("Started deserializing Argon.Tests.TestObjects.VersionOld. Path 'Version'"));
-        Assert.True(traceWriter.TraceRecords[7].Message.StartsWith("Finished deserializing Argon.Tests.TestObjects.VersionOld. Path 'Version'"));
+        Assert.Equal("Deserializing TestObjects.VersionOld using creator with parameters: Major, Minor, Build, Revision. Path 'Version.Major', line 11, position 12.", traceWriter.TraceRecords[5].Message);
+        Assert.True(traceWriter.TraceRecords[6].Message.StartsWith("Started deserializing TestObjects.VersionOld. Path 'Version'"));
+        Assert.True(traceWriter.TraceRecords[7].Message.StartsWith("Finished deserializing TestObjects.VersionOld. Path 'Version'"));
         Assert.Equal("Started deserializing System.Collections.Generic.IDictionary`2[System.String,System.String]. Path 'StringDictionary.1', line 19, position 8.", traceWriter.TraceRecords[8].Message);
         Assert.True(traceWriter.TraceRecords[9].Message.StartsWith("Finished deserializing System.Collections.Generic.IDictionary`2[System.String,System.String]. Path 'StringDictionary'"));
         Assert.True(traceWriter.TraceRecords[10].Message.StartsWith("Finished deserializing Argon.Tests.Serialization.TraceTestObject. Path ''"));
@@ -583,9 +582,9 @@ Argon Error: 0 : Error!
         Assert.True(traceWriter.TraceRecords[2].Message.StartsWith("Finished deserializing System.Collections.Generic.IList`1[System.Int32]. Path 'IntList'"));
         Assert.Equal("Started deserializing System.String[]. Path 'StringArray', line 6, position 18.", traceWriter.TraceRecords[3].Message);
         Assert.True(traceWriter.TraceRecords[4].Message.StartsWith("Finished deserializing System.String[]. Path 'StringArray'"));
-        Assert.Equal("Deserializing Argon.Tests.TestObjects.VersionOld using creator with parameters: Major, Minor, Build, Revision. Path 'Version.Major', line 11, position 12.", traceWriter.TraceRecords[5].Message);
-        Assert.True(traceWriter.TraceRecords[6].Message.StartsWith("Started deserializing Argon.Tests.TestObjects.VersionOld. Path 'Version'"));
-        Assert.True(traceWriter.TraceRecords[7].Message.StartsWith("Finished deserializing Argon.Tests.TestObjects.VersionOld. Path 'Version'"));
+        Assert.Equal("Deserializing TestObjects.VersionOld using creator with parameters: Major, Minor, Build, Revision. Path 'Version.Major', line 11, position 12.", traceWriter.TraceRecords[5].Message);
+        Assert.True(traceWriter.TraceRecords[6].Message.StartsWith("Started deserializing TestObjects.VersionOld. Path 'Version'"));
+        Assert.True(traceWriter.TraceRecords[7].Message.StartsWith("Finished deserializing TestObjects.VersionOld. Path 'Version'"));
         Assert.Equal("Started deserializing System.Collections.Generic.IDictionary`2[System.String,System.String]. Path 'StringDictionary.1', line 19, position 8.", traceWriter.TraceRecords[8].Message);
         Assert.True(traceWriter.TraceRecords[9].Message.StartsWith("Finished deserializing System.Collections.Generic.IDictionary`2[System.String,System.String]. Path 'StringDictionary'"));
         Assert.True(traceWriter.TraceRecords[10].Message.StartsWith("Finished deserializing Argon.Tests.Serialization.TraceTestObject. Path ''"));
@@ -737,9 +736,9 @@ Argon Error: 0 : Error!
         Assert.Equal("Started serializing System.Collections.Generic.Dictionary`2[System.String,System.String]. Path '$values'.", traceWriter.TraceRecords[2].Message);
         Assert.Equal($"Writing type name '{ReflectionUtils.GetTypeName(typeof(Dictionary<string, string>), 0, DefaultSerializationBinder.Instance)}' for System.Collections.Generic.Dictionary`2[System.String,System.String]. Path '$values[0]'.", traceWriter.TraceRecords[3].Message);
         Assert.Equal("Finished serializing System.Collections.Generic.Dictionary`2[System.String,System.String]. Path '$values[0]'.", traceWriter.TraceRecords[4].Message);
-        Assert.Equal("Started serializing Argon.Tests.TestObjects.VersionOld. Path '$values[0]'.", traceWriter.TraceRecords[5].Message);
-        Assert.Equal($"Writing type name '{ReflectionUtils.GetTypeName(typeof(VersionOld), 0, DefaultSerializationBinder.Instance)}' for Argon.Tests.TestObjects.VersionOld. Path '$values[1]'.", traceWriter.TraceRecords[6].Message);
-        Assert.Equal("Finished serializing Argon.Tests.TestObjects.VersionOld. Path '$values[1]'.", traceWriter.TraceRecords[7].Message);
+        Assert.Equal("Started serializing TestObjects.VersionOld. Path '$values[0]'.", traceWriter.TraceRecords[5].Message);
+        Assert.Equal($"Writing type name '{ReflectionUtils.GetTypeName(typeof(VersionOld), 0, DefaultSerializationBinder.Instance)}' for TestObjects.VersionOld. Path '$values[1]'.", traceWriter.TraceRecords[6].Message);
+        Assert.Equal("Finished serializing TestObjects.VersionOld. Path '$values[1]'.", traceWriter.TraceRecords[7].Message);
         Assert.Equal("Finished serializing System.Collections.Generic.List`1[System.Object]. Path ''.", traceWriter.TraceRecords[8].Message);
     }
 
@@ -809,7 +808,7 @@ Argon Error: 0 : Error!
       ""key!"": ""value!""
     },
     {
-      ""$type"": ""Argon.Tests.TestObjects.VersionOld, Tests"",
+      ""$type"": ""TestObjects.VersionOld, Tests"",
       ""Major"": 1,
       ""Minor"": 2,
       ""Build"": 3,
@@ -832,10 +831,10 @@ Argon Error: 0 : Error!
         Assert.Equal("Resolved type 'System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.String, mscorlib]], mscorlib' to System.Collections.Generic.Dictionary`2[System.String,System.String]. Path '$values[0].$type', line 5, position 119.", traceWriter.TraceRecords[2].Message);
         Assert.Equal("Started deserializing System.Collections.Generic.Dictionary`2[System.String,System.String]. Path '$values[0].key!', line 6, position 13.", traceWriter.TraceRecords[3].Message);
         Assert.True(traceWriter.TraceRecords[4].Message.StartsWith("Finished deserializing System.Collections.Generic.Dictionary`2[System.String,System.String]. Path '$values[0]'"));
-        Assert.Equal("Resolved type 'Argon.Tests.TestObjects.VersionOld, Tests' to Argon.Tests.TestObjects.VersionOld. Path '$values[1].$type', line 9, position 58.", traceWriter.TraceRecords[5].Message);
-        Assert.Equal("Deserializing Argon.Tests.TestObjects.VersionOld using creator with parameters: Major, Minor, Build, Revision. Path '$values[1].Major', line 10, position 14.", traceWriter.TraceRecords[6].Message);
-        Assert.True(traceWriter.TraceRecords[7].Message.StartsWith("Started deserializing Argon.Tests.TestObjects.VersionOld. Path '$values[1]'"));
-        Assert.True(traceWriter.TraceRecords[8].Message.StartsWith("Finished deserializing Argon.Tests.TestObjects.VersionOld. Path '$values[1]'"));
+        Assert.Equal("Resolved type 'TestObjects.VersionOld, Tests' to TestObjects.VersionOld. Path '$values[1].$type', line 9, position 46.", traceWriter.TraceRecords[5].Message);
+        Assert.Equal("Deserializing TestObjects.VersionOld using creator with parameters: Major, Minor, Build, Revision. Path '$values[1].Major', line 10, position 14.", traceWriter.TraceRecords[6].Message);
+        Assert.True(traceWriter.TraceRecords[7].Message.StartsWith("Started deserializing TestObjects.VersionOld. Path '$values[1]'"));
+        Assert.True(traceWriter.TraceRecords[8].Message.StartsWith("Finished deserializing TestObjects.VersionOld. Path '$values[1]'"));
         Assert.True(traceWriter.TraceRecords[9].Message.StartsWith("Finished deserializing System.Collections.Generic.List`1[System.Object]. Path '$values'"));
     }
 
@@ -914,10 +913,10 @@ Argon Error: 0 : Error!
             TraceWriter = traceWriter
         });
 
-        Assert.Equal("Deserializing Argon.Tests.TestObjects.VersionOld using creator with parameters: Major, Minor, Build, Revision. Path 'Major', line 2, position 10.", traceWriter.TraceRecords[0].Message);
-        Assert.Equal("Could not find member 'MissingMemberProperty' on Argon.Tests.TestObjects.VersionOld. Path 'MissingMemberProperty', line 8, position 31.", traceWriter.TraceRecords[1].Message);
-        Assert.True(traceWriter.TraceRecords[2].Message.StartsWith("Started deserializing Argon.Tests.TestObjects.VersionOld. Path ''"));
-        Assert.True(traceWriter.TraceRecords[3].Message.StartsWith("Finished deserializing Argon.Tests.TestObjects.VersionOld. Path ''"));
+        Assert.Equal("Deserializing TestObjects.VersionOld using creator with parameters: Major, Minor, Build, Revision. Path 'Major', line 2, position 10.", traceWriter.TraceRecords[0].Message);
+        Assert.Equal("Could not find member 'MissingMemberProperty' on TestObjects.VersionOld. Path 'MissingMemberProperty', line 8, position 31.", traceWriter.TraceRecords[1].Message);
+        Assert.True(traceWriter.TraceRecords[2].Message.StartsWith("Started deserializing TestObjects.VersionOld. Path ''"));
+        Assert.True(traceWriter.TraceRecords[3].Message.StartsWith("Finished deserializing TestObjects.VersionOld. Path ''"));
     }
 
     [Fact]
@@ -938,7 +937,7 @@ Argon Error: 0 : Error!
         Assert.NotNull(c);
         Assert.Equal(1, c.Name);
 
-        Assert.Equal("Deserializing Argon.Tests.TestObjects.PublicParameterizedConstructorWithPropertyNameConflictWithAttribute using creator with parameters: name. Path 'name', line 1, position 6.", traceWriter.TraceRecords[0].Message);
+        Assert.Equal("Deserializing TestObjects.PublicParameterizedConstructorWithPropertyNameConflictWithAttribute using creator with parameters: name. Path 'name', line 1, position 6.", traceWriter.TraceRecords[0].Message);
     }
 
     [Fact]

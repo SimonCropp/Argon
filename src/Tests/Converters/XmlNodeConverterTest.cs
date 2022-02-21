@@ -24,7 +24,7 @@
 #endregion
 
 using Argon.Tests.Serialization;
-using Argon.Tests.TestObjects;
+using TestObjects;
 using System.Xml;
 using System.Xml.Linq;
 using Formatting = Argon.Formatting;

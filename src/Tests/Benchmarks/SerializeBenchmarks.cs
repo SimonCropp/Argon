@@ -24,7 +24,7 @@
 #endregion
 
 using BenchmarkDotNet.Attributes;
-using Argon.Tests.TestObjects;
+using TestObjects;
 
 public class SerializeBenchmarks
 {

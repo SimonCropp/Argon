@@ -25,7 +25,6 @@
 
 using System.Collections.ObjectModel;
 using System.Xml;
-using Argon.Tests.TestObjects;
 using TestObjects;
 
 namespace Argon.Tests;
