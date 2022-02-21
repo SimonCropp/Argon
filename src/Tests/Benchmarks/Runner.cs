@@ -23,15 +23,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.Benchmarks;
-
 public class Runner : TestFixtureBase
 {
 #if false
-        [Fact]
-        public void RunBenchmarks()
-        {
-            new BenchmarkSwitcher(typeof(Runner).GetTypeInfo().Assembly).Run(new []{ "*" });
-        }
+    [Fact]
+    public void RunBenchmarks()
+    {
+        new BenchmarkSwitcher(typeof(Runner).GetTypeInfo().Assembly).Run(new []{ "*" });
+    }
 #endif
 }

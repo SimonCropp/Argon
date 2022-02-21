@@ -25,8 +25,6 @@
 
 using BenchmarkDotNet.Attributes;
 
-namespace Argon.Tests.Benchmarks;
-
 public class JsonTextWriterBenchmarks
 {
     static readonly string UnicodeCharsString = new('\0', 30);

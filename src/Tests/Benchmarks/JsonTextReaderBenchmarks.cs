@@ -25,8 +25,6 @@
 
 using BenchmarkDotNet.Attributes;
 
-namespace Argon.Tests.Benchmarks;
-
 public class JsonTextReaderBenchmarks
 {
     static readonly string FloatArrayJson;

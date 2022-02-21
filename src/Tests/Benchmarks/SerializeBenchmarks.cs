@@ -26,8 +26,6 @@
 using BenchmarkDotNet.Attributes;
 using Argon.Tests.TestObjects;
 
-namespace Argon.Tests.Benchmarks;
-
 public class SerializeBenchmarks
 {
     static readonly IList<RootObject> LargeCollection;

@@ -27,8 +27,6 @@ using BenchmarkDotNet.Attributes;
 using MemberTypes = System.Reflection.MemberTypes;
 using BindingFlags = System.Reflection.BindingFlags;
 
-namespace Argon.Tests.Benchmarks;
-
 public class LowLevelBenchmarks
 {
     const string FloatText = "123.123";

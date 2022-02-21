@@ -25,8 +25,6 @@
 
 using BenchmarkDotNet.Attributes;
 
-namespace Argon.Tests.Benchmarks;
-
 public class JTokenBenchmarks
 {
     static readonly JObject JObjectSample = JObject.Parse(BenchmarkConstants.JsonText);

@@ -31,8 +31,6 @@ using System.Runtime.Serialization.Json;
 using BenchmarkDotNet.Attributes;
 using Argon.Tests.TestObjects;
 
-namespace Argon.Tests.Benchmarks;
-
 public class SerializeComparisonBenchmarks
 {
     static readonly TestClass TestClass = CreateSerializationObject();
