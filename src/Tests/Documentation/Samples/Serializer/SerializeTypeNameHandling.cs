@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.Documentation.Samples.Serializer;
-
 public class SerializeTypeNameHandling : TestFixtureBase
 {
     #region SerializeTypeNameHandlingTypes

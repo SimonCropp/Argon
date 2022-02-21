@@ -29,8 +29,6 @@ using Autofac.Core.Activators.Reflection;
 using Argon.Tests.Serialization;
 using LogService = Argon.Tests.Serialization.LogManager;
 
-namespace Argon.Tests.Documentation.Samples.Serializer;
-
 public class DeserializeWithDependencyInjection : TestFixtureBase
 {
     #region DeserializeWithDependencyInjectionTypes

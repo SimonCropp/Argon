@@ -11,7 +11,7 @@ public class Movie
     public int Year { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeWithJsonSerializerToFile.cs#L30-L36' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializewithjsonserializertofiletypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeWithJsonSerializerToFile.cs#L28-L34' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializewithjsonserializertofiletypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: SerializeWithJsonSerializerToFileUsage -->
@@ -31,5 +31,5 @@ using var file = File.CreateText(@"c:\movie.json");
 var serializer = new JsonSerializer();
 serializer.Serialize(file, movie);
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeWithJsonSerializerToFile.cs#L41-L56' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializewithjsonserializertofileusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeWithJsonSerializerToFile.cs#L39-L54' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializewithjsonserializertofileusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

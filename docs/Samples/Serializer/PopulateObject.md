@@ -13,7 +13,7 @@ public class Account
     public List<string> Roles { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/PopulateObject.cs#L30-L38' title='Snippet source file'>snippet source</a> | <a href='#snippet-populateobjecttypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/PopulateObject.cs#L28-L36' title='Snippet source file'>snippet source</a> | <a href='#snippet-populateobjecttypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: PopulateObjectUsage -->
@@ -49,5 +49,5 @@ Console.WriteLine(account.Active);
 Console.WriteLine(string.Join(", ", account.Roles.ToArray()));
 // User, Admin, Expired
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/PopulateObject.cs#L43-L73' title='Snippet source file'>snippet source</a> | <a href='#snippet-populateobjectusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/PopulateObject.cs#L41-L71' title='Snippet source file'>snippet source</a> | <a href='#snippet-populateobjectusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

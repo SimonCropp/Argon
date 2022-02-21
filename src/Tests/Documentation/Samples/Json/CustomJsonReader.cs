@@ -25,7 +25,6 @@
 
 using System.Xml;
 
-
 #region CustomJsonReaderTypes
 public class XmlJsonReader : JsonReader
 {

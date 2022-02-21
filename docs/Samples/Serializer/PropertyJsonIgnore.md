@@ -14,7 +14,7 @@ public class Account
     public string PasswordHash { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/PropertyJsonIgnore.cs#L30-L39' title='Snippet source file'>snippet source</a> | <a href='#snippet-propertyjsonignoretypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/PropertyJsonIgnore.cs#L28-L37' title='Snippet source file'>snippet source</a> | <a href='#snippet-propertyjsonignoretypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: PropertyJsonIgnoreUsage -->
@@ -32,5 +32,5 @@ var json = JsonConvert.SerializeObject(account);
 Console.WriteLine(json);
 // {"FullName":"Joe User","EmailAddress":"joe@example.com"}
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/PropertyJsonIgnore.cs#L44-L56' title='Snippet source file'>snippet source</a> | <a href='#snippet-propertyjsonignoreusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/PropertyJsonIgnore.cs#L42-L54' title='Snippet source file'>snippet source</a> | <a href='#snippet-propertyjsonignoreusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

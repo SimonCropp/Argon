@@ -26,8 +26,6 @@
 using System.Data;
 using Argon.DataSetConverters;
 
-namespace Argon.Tests.Documentation.Samples.Serializer;
-
 public class SerializeDataSet : TestFixtureBase
 {
     [Fact]

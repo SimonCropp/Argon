@@ -21,7 +21,7 @@ public class Stockholder
     public IList<Business> Businesses { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeTypeNameHandling.cs#L30-L46' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializetypenamehandlingtypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeTypeNameHandling.cs#L28-L44' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializetypenamehandlingtypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: SerializeTypeNameHandlingUsage -->
@@ -87,5 +87,5 @@ var newStockholder = JsonConvert.DeserializeObject<Stockholder>(jsonTypeNameAuto
 Console.WriteLine(newStockholder.Businesses[0].GetType().Name);
 // Hotel
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeTypeNameHandling.cs#L51-L111' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializetypenamehandlingusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeTypeNameHandling.cs#L49-L109' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializetypenamehandlingusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -19,5 +19,5 @@ var json = JsonConvert.SerializeObject(l, Formatting.Indented);
 //   "3"
 // ]
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeImmutableCollections.cs#L35-L49' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeimmutablecollections' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeImmutableCollections.cs#L33-L47' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeimmutablecollections' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
