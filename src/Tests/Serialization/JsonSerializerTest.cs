@@ -36,8 +36,9 @@ using TestObjects;
 using System.Xml.Linq;
 using System.Collections.Specialized;
 using System.Dynamic;
-
-namespace Argon.Tests.Serialization;
+using Formatting = Argon.Formatting;
+using JsonConstructor = Argon.JsonConstructorAttribute;
+using ErrorEventArgs = Argon.ErrorEventArgs;
 
 public class JsonSerializerTest : TestFixtureBase
 {
@@ -549,10 +550,12 @@ public class JsonSerializerTest : TestFixtureBase
   ""Name"": ""Name!""
 }";
 
-        var c2 = JsonConvert.DeserializeObject<IgnoredPropertiesTestClass>(deserializeJson, new JsonSerializerSettings
-        {
-            ContractResolver = new IgnoredPropertiesContractResolver()
-        });
+        var c2 = JsonConvert.DeserializeObject<IgnoredPropertiesTestClass>(
+            deserializeJson,
+            new JsonSerializerSettings
+            {
+                ContractResolver = new IgnoredPropertiesContractResolver()
+            });
 
         Assert.Equal("Name!", c2.Name);
     }
@@ -2140,7 +2143,7 @@ keyword such as type of business.""
         var json = JsonConvert.SerializeObject(new ConverableMembers(), Formatting.Indented);
 
 #if (NET5_0_OR_GREATER)
-            var expected = @"{
+        var expected = @"{
   ""String"": ""string"",
   ""Int32"": 2147483647,
   ""UInt32"": 4294967295,
@@ -3445,7 +3448,7 @@ Path '', line 1, position 1.");
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.PopulateObject(json, new Person()),
-                @"Cannot populate JSON array onto type 'TestObjects.Person'. Path '', line 1, position 1.");
+            @"Cannot populate JSON array onto type 'TestObjects.Person'. Path '', line 1, position 1.");
     }
 
     [Fact]
@@ -4025,11 +4028,11 @@ Path '', line 1, position 1.");
         try
         {
             XUnitAssert.Throws<JsonSerializationException>(() =>
-                {
-                    JsonTypeReflector.SetFullyTrusted(false);
+            {
+                JsonTypeReflector.SetFullyTrusted(false);
 
-                    JsonConvert.DeserializeObject<ISerializableTestObject>("{booleanValue:true}");
-                }, $@"Type 'TestObjects.ISerializableTestObject' implements ISerializable but cannot be deserialized using the ISerializable interface because the current application is not fully trusted and ISerializable can expose secure data.{Environment.NewLine}To fix this error either change the environment to be fully trusted, change the application to not deserialize the type, add JsonObjectAttribute to the type or change the JsonSerializer setting ContractResolver to use a new DefaultContractResolver with IgnoreSerializableInterface set to true.{Environment.NewLine}Path 'booleanValue', line 1, position 14.");
+                JsonConvert.DeserializeObject<ISerializableTestObject>("{booleanValue:true}");
+            }, $@"Type 'TestObjects.ISerializableTestObject' implements ISerializable but cannot be deserialized using the ISerializable interface because the current application is not fully trusted and ISerializable can expose secure data.{Environment.NewLine}To fix this error either change the environment to be fully trusted, change the application to not deserialize the type, add JsonObjectAttribute to the type or change the JsonSerializer setting ContractResolver to use a new DefaultContractResolver with IgnoreSerializableInterface set to true.{Environment.NewLine}Path 'booleanValue', line 1, position 14.");
         }
         finally
         {
@@ -4043,12 +4046,12 @@ Path '', line 1, position 1.");
         try
         {
             XUnitAssert.Throws<JsonSerializationException>(() =>
-                {
-                    JsonTypeReflector.SetFullyTrusted(false);
-                    var value = new ISerializableTestObject("string!", 0, default(DateTimeOffset), null);
+            {
+                JsonTypeReflector.SetFullyTrusted(false);
+                var value = new ISerializableTestObject("string!", 0, default(DateTimeOffset), null);
 
-                    JsonConvert.SerializeObject(value);
-                }, $@"Type 'TestObjects.ISerializableTestObject' implements ISerializable but cannot be serialized using the ISerializable interface because the current application is not fully trusted and ISerializable can expose secure data.{Environment.NewLine}To fix this error either change the environment to be fully trusted, change the application to not deserialize the type, add JsonObjectAttribute to the type or change the JsonSerializer setting ContractResolver to use a new DefaultContractResolver with IgnoreSerializableInterface set to true.{Environment.NewLine}Path ''.");
+                JsonConvert.SerializeObject(value);
+            }, $@"Type 'TestObjects.ISerializableTestObject' implements ISerializable but cannot be serialized using the ISerializable interface because the current application is not fully trusted and ISerializable can expose secure data.{Environment.NewLine}To fix this error either change the environment to be fully trusted, change the application to not deserialize the type, add JsonObjectAttribute to the type or change the JsonSerializer setting ContractResolver to use a new DefaultContractResolver with IgnoreSerializableInterface set to true.{Environment.NewLine}Path ''.");
         }
         finally
         {
@@ -4286,7 +4289,7 @@ Path '', line 1, position 1.");
 
         var settings = new JsonSerializerSettings
         {
-            Formatting = Formatting.Indented, 
+            Formatting = Formatting.Indented,
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         };
         settings.Converters.Add(new XmlNodeConverter());
@@ -6432,7 +6435,7 @@ lines.*/
         };
         var s = JsonSerializer.Create(settings);
         XUnitAssert.Throws<JsonReaderException>(
-            () => s.Deserialize<Dictionary<string, int>>(new JsonTextReader(new StringReader(json))), 
+            () => s.Deserialize<Dictionary<string, int>>(new JsonTextReader(new StringReader(json))),
             "Additional text encountered after finished reading JSON content: {. Path '', line 7, position 0.");
     }
 
@@ -6721,7 +6724,7 @@ This is just junk, though.";
 
         var settings = new JsonSerializerSettings
         {
-            DateFormatHandling = DateFormatHandling.IsoDateFormat, 
+            DateFormatHandling = DateFormatHandling.IsoDateFormat,
             DateParseHandling = DateParseHandling.DateTimeOffset,
             DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind
         };
@@ -6890,7 +6893,7 @@ This is just junk, though.";
     public void NoConstructorReadOnlyCollectionTest()
     {
         XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<NoConstructorReadOnlyCollection<int>>("[1]"), 
+            () => JsonConvert.DeserializeObject<NoConstructorReadOnlyCollection<int>>("[1]"),
             "Cannot deserialize readonly or fixed size list: TestObjects.NoConstructorReadOnlyCollection`1[System.Int32]. Path '', line 1, position 1.");
     }
 
