@@ -23,9 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
+using Argon.Tests.Serialization;
 using TestObjects;
-
-namespace Argon.Tests.Serialization;
+using ErrorEventArgs = Argon.ErrorEventArgs;
 
 public class SerializationErrorHandlingTests : TestFixtureBase
 {
@@ -730,15 +730,17 @@ public class SerializationErrorHandlingTests : TestFixtureBase
   ""ChildObject"": {
     ""Integer"": 123";
 
-        var newDynamicObject = JsonConvert.DeserializeObject<TestDynamicObject>(json, new JsonSerializerSettings
-        {
-            Error = (_, e) =>
+        var newDynamicObject = JsonConvert.DeserializeObject<TestDynamicObject>(
+            json,
+            new JsonSerializerSettings
             {
-                errors.Add(e.ErrorContext.Error.Message);
-                e.ErrorContext.Handled = true;
-            },
-            MetadataPropertyHandling = MetadataPropertyHandling.Default
-        });
+                Error = (_, e) =>
+                {
+                    errors.Add(e.ErrorContext.Error.Message);
+                    e.ErrorContext.Handled = true;
+                },
+                MetadataPropertyHandling = MetadataPropertyHandling.Default
+            });
         XUnitAssert.True(newDynamicObject.Explicit);
 
         dynamic d = newDynamicObject;

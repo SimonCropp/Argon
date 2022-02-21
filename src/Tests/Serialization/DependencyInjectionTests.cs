@@ -28,8 +28,6 @@ using Autofac.Core;
 using Autofac.Core.Activators.Reflection;
 using TestObjects;
 
-namespace Argon.Tests.Serialization;
-
 public class DependencyInjectionTests : TestFixtureBase
 {
     [Fact]

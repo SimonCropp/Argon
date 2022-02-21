@@ -25,8 +25,6 @@
 
 using System.ComponentModel;
 
-namespace Argon.Tests.Serialization;
-
 public class ReflectionAttributeProviderTests : TestFixtureBase
 {
     public class ReflectionTestObject

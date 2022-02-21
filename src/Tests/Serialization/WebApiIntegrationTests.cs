@@ -27,8 +27,6 @@
 using System.Runtime.Serialization.Json;
 #endif
 
-namespace Argon.Tests.Serialization;
-
 public class WebApiIntegrationTests : TestFixtureBase
 {
     [Fact]

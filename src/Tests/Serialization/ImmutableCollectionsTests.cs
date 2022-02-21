@@ -25,8 +25,6 @@
 
 using System.Collections.Immutable;
 
-namespace Argon.Tests.Serialization;
-
 public class ImmutableCollectionsTests : TestFixtureBase
 {
     #region List
