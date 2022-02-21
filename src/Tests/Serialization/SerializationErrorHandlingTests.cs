@@ -533,7 +533,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     {
         var json = "{'A':{'A':{'A':{'A':{'A':{}}}}}}";
         var serializer = new JsonSerializer();
-        IList<string> errors = new List<string>();
+        var errors = new List<string>();
         serializer.Error += (_, e) =>
         {
             e.ErrorContext.Handled = true;
@@ -554,7 +554,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     [Fact]
     public void InfiniteErrorHandlingLoopFromInputError()
     {
-        IList<string> errors = new List<string>();
+        var errors = new List<string>();
 
         var serializer = new JsonSerializer();
         serializer.Error += (_, e) =>
@@ -575,7 +575,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     [Fact]
     public void ArrayHandling()
     {
-        IList<string> errors = new List<string>();
+        var errors = new List<string>();
 
         var o = JsonConvert.DeserializeObject(
             "[0,x]",
@@ -601,7 +601,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     [Fact]
     public void ArrayHandling_JTokenReader()
     {
-        IList<string> errors = new List<string>();
+        var errors = new List<string>();
 
         var reader = new JTokenReader(new JArray(0, true));
 
@@ -627,7 +627,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     [Fact]
     public void ArrayHandlingInObject()
     {
-        IList<string> errors = new List<string>();
+        var errors = new List<string>();
 
         var o = JsonConvert.DeserializeObject<Dictionary<string, int[]>>(
             "{'badarray':[0,x,2],'goodarray':[0,1,2]}",
@@ -656,7 +656,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     [Fact]
     public void ErrorHandlingEndOfContent()
     {
-        IList<string> errors = new List<string>();
+        var errors = new List<string>();
 
         const string input = "{\"events\":[{\"code\":64411},{\"code\":64411,\"prio";
 
@@ -690,7 +690,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     [Fact]
     public void ErrorHandlingEndOfContentDictionary()
     {
-        IList<string> errors = new List<string>();
+        var errors = new List<string>();
 
         const string input = "{\"events\":{\"code\":64411},\"events2\":{\"code\":64412,";
 
@@ -720,7 +720,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     [Fact]
     public void ErrorHandlingEndOfContentDynamic()
     {
-        IList<string> errors = new List<string>();
+        var errors = new List<string>();
 
         var json = @"{
   ""Explicit"": true,
@@ -972,7 +972,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     [Fact]
     public void IntegerToLarge_ReadNextValue()
     {
-        IList<string> errorMessages = new List<string>();
+        var errorMessages = new List<string>();
 
         JsonReader reader = new JsonTextReader(new StringReader(@"{
   ""string1"": ""blah"",

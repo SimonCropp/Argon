@@ -224,9 +224,11 @@ internal sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
         //
         var result = Expression.Parameter(typeof(object), null);
 
-        IList<Expression> callArgs = new List<Expression>();
-        callArgs.Add(Expression.Convert(Expression, typeof(T)));
-        callArgs.Add(Constant(binder));
+        var callArgs = new List<Expression>
+        {
+            Expression.Convert(Expression, typeof(T)),
+            Constant(binder)
+        };
         callArgs.AddRange(args);
         callArgs.Add(result);
 
@@ -288,11 +290,13 @@ internal sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
         //
         var result = Expression.Parameter(typeof(object), null);
 
-        IList<Expression> callArgs = new List<Expression>();
-        callArgs.Add(Expression.Convert(Expression, typeof(T)));
-        callArgs.Add(Constant(binder));
+        var callArgs = new List<Expression>
+        {
+            Expression.Convert(Expression, typeof(T)),
+            Constant(binder)
+        };
         callArgs.AddRange(args);
-        callArgs[callArgs.Count - 1] = Expression.Assign(result, callArgs[callArgs.Count - 1]);
+        callArgs[^1] = Expression.Assign(result, callArgs[^1]);
 
         return new DynamicMetaObject(
             Expression.Block(
@@ -325,9 +329,11 @@ internal sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
         //
         var fallbackResult = fallback(null);
 
-        IList<Expression> callArgs = new List<Expression>();
-        callArgs.Add(Expression.Convert(Expression, typeof(T)));
-        callArgs.Add(Constant(binder));
+        var callArgs = new List<Expression>
+        {
+            Expression.Convert(Expression, typeof(T)),
+            Constant(binder)
+        };
         callArgs.AddRange(args);
 
         //

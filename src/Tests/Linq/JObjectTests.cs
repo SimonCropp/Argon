@@ -1925,10 +1925,10 @@ Parameter name: arrayIndex",
     public void ToListOnEmptyObject()
     {
         var o = JObject.Parse(@"{}");
-        IList<JToken> l1 = o.ToList<JToken>();
+        var l1 = o.ToList<JToken>();
         Assert.Equal(0, l1.Count);
 
-        IList<KeyValuePair<string, JToken>> l2 = o.ToList<KeyValuePair<string, JToken>>();
+        var l2 = o.ToList<KeyValuePair<string, JToken>>();
         Assert.Equal(0, l2.Count);
 
         o = JObject.Parse(@"{'hi':null}");

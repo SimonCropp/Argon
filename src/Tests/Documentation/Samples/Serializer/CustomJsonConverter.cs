@@ -46,7 +46,7 @@ public class CustomJsonConverter : TestFixtureBase
             else
             {
                 var o = (JObject)t;
-                IList<string> propertyNames = o.Properties().Select(p => p.Name).ToList();
+                var propertyNames = o.Properties().Select(p => p.Name).ToList();
 
                 o.AddFirst(new JProperty("Keys", new JArray(propertyNames)));
 

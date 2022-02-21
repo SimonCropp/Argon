@@ -626,7 +626,7 @@ public class StringEnumConverterTests : TestFixtureBase
   2147483647
 ]", json1);
 
-        IList<Foo> foos = JsonConvert.DeserializeObject<List<Foo>>(json1);
+        var foos = JsonConvert.DeserializeObject<List<Foo>>(json1);
 
         Assert.Equal(6, foos.Count);
         Assert.Equal(Foo.Bat | Foo.SerializeAsBaz, foos[0]);
@@ -646,7 +646,7 @@ public class StringEnumConverterTests : TestFixtureBase
   ""baz""
 ]", json2);
 
-        IList<Bar> bars = JsonConvert.DeserializeObject<List<Bar>>(json2);
+        var bars = JsonConvert.DeserializeObject<List<Bar>>(json2);
 
         Assert.Equal(3, bars.Count);
         Assert.Equal(Bar.FooBar, bars[0]);

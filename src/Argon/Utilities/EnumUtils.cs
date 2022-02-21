@@ -78,7 +78,7 @@ static class EnumUtils
 
         var num = ToUInt64(value);
         var enumNameValues = GetEnumValuesAndNames(enumType);
-        IList<T> selectedFlagsValues = new List<T>();
+        var selectedFlagsValues = new List<T>();
 
         for (var i = 0; i < enumNameValues.Values.Length; i++)
         {

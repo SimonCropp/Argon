@@ -35,7 +35,7 @@ var json = @"[
 
 var blogPostArray = JArray.Parse(json);
 
-IList<BlogPost> blogPosts = blogPostArray.Select(p => new BlogPost
+var blogPosts = blogPostArray.Select(p => new BlogPost
 {
     Title = (string)p["Title"],
     AuthorName = (string)p["Author"]["Name"],

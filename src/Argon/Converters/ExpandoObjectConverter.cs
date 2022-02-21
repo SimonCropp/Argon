@@ -81,7 +81,7 @@ public class ExpandoObjectConverter : JsonConverter
 
     object ReadList(JsonReader reader)
     {
-        IList<object?> list = new List<object?>();
+        var list = new List<object?>();
 
         while (reader.Read())
         {

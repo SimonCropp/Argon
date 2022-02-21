@@ -382,7 +382,7 @@ public class JPathExecuteTests : TestFixtureBase
     ]
 }";
         var jToken = JObject.Parse(json);
-        IList<JToken> tokens = jToken.SelectTokens("$..en-US").ToList();
+        var tokens = jToken.SelectTokens("$..en-US").ToList();
 
         Assert.Equal(3, tokens.Count);
         Assert.Equal("Add", (string)tokens[0]);
@@ -400,7 +400,7 @@ public class JPathExecuteTests : TestFixtureBase
 
         var o = JObject.Parse(json);
 
-        IList<JToken> results = o.SelectTokens("$..test").ToList();
+        var results = o.SelectTokens("$..test").ToList();
 
         Assert.Equal(1, results.Count);
         Assert.Equal("no one will find me", (string)results[0]);
@@ -499,7 +499,7 @@ public class JPathExecuteTests : TestFixtureBase
             new JProperty("Blah", 1),
             new JProperty("Blah2", 2));
 
-        IList<JToken> t = o.SelectTokens("$.*").ToList();
+        var t = o.SelectTokens("$.*").ToList();
         Assert.NotNull(t);
         Assert.Equal(2, t.Count);
         Assert.Equal(1, (int)t[0]);
@@ -729,7 +729,7 @@ public class JPathExecuteTests : TestFixtureBase
     {
         var a = new JArray(1, 2, 3, 4, 5, 6, 7, 8, 9);
 
-        IList<JToken> t = a.SelectTokens("[-3:]").ToList();
+        var t = a.SelectTokens("[-3:]").ToList();
         Assert.Equal(3, t.Count);
         Assert.Equal(7, (int)t[0]);
         Assert.Equal(8, (int)t[1]);
@@ -805,7 +805,7 @@ public class JPathExecuteTests : TestFixtureBase
         var o2 = new JObject { { "Name", 2 } };
         var a = new JArray(o1, o2);
 
-        IList<JToken> t = a.SelectTokens("$..Name").ToList();
+        var t = a.SelectTokens("$..Name").ToList();
         Assert.NotNull(t);
         Assert.Equal(2, t.Count);
         Assert.Equal(1, (int)t[0]);
@@ -819,7 +819,7 @@ public class JPathExecuteTests : TestFixtureBase
         var o2 = new JObject { { "Name", 2 } };
         var a = new JArray(o1, o2);
 
-        IList<JToken> t = a.SelectTokens("$..*").ToList();
+        var t = a.SelectTokens("$..*").ToList();
         Assert.NotNull(t);
         Assert.Equal(5, t.Count);
         Assert.True(JToken.DeepEquals(a, t[0]));
@@ -837,7 +837,7 @@ public class JPathExecuteTests : TestFixtureBase
         var o3 = new JObject { { "Name", new JObject { { "Name", new JArray(3) } } } };
         var a = new JArray(o1, o2, o3);
 
-        IList<JToken> t = a.SelectTokens("$..Name").ToList();
+        var t = a.SelectTokens("$..Name").ToList();
         Assert.NotNull(t);
         Assert.Equal(4, t.Count);
         Assert.Equal(1, (int)t[0]);
@@ -854,7 +854,7 @@ public class JPathExecuteTests : TestFixtureBase
         var o3 = new JObject { { "Name", new JObject { { "Name", new JArray(3) } } } };
         var a = new JArray(o1, o2, o3);
 
-        IList<JToken> t = a.SelectTokens("$..*").ToList();
+        var t = a.SelectTokens("$..*").ToList();
         Assert.NotNull(t);
         Assert.Equal(9, t.Count);
 
@@ -898,7 +898,7 @@ public class JPathExecuteTests : TestFixtureBase
     {
         var a = new JArray(new JObject(new JProperty("hi", "ho")), new JObject(new JProperty("hi2", "ha")));
 
-        IList<JToken> t = a.SelectTokens("[ ?( @.hi ) ]").ToList();
+        var t = a.SelectTokens("[ ?( @.hi ) ]").ToList();
         Assert.NotNull(t);
         Assert.Equal(1, t.Count);
         Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", "ho")), t[0]));
@@ -911,7 +911,7 @@ public class JPathExecuteTests : TestFixtureBase
             new JObject(new JProperty("hi", "ho")),
             new JObject(new JProperty("hi", "ha")));
 
-        IList<JToken> t = a.SelectTokens("[ ?( @.['hi'] == 'ha' ) ]").ToList();
+        var t = a.SelectTokens("[ ?( @.['hi'] == 'ha' ) ]").ToList();
         Assert.NotNull(t);
         Assert.Equal(1, t.Count);
         Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", "ha")), t[0]));
@@ -924,7 +924,7 @@ public class JPathExecuteTests : TestFixtureBase
             new JArray(new JObject(new JProperty("hi", "ho"))),
             new JArray(new JObject(new JProperty("hi", "ha"))));
 
-        IList<JToken> t = a.SelectTokens("[ ?( @..hi <> 'ha' ) ]").ToList();
+        var t = a.SelectTokens("[ ?( @..hi <> 'ha' ) ]").ToList();
         Assert.NotNull(t);
         Assert.Equal(1, t.Count);
         Assert.True(JToken.DeepEquals(new JArray(new JObject(new JProperty("hi", "ho"))), t[0]));
@@ -935,7 +935,7 @@ public class JPathExecuteTests : TestFixtureBase
     {
         var a = new JArray(1, 2, 3);
 
-        IList<JToken> t = a.SelectTokens("[ ?( @ > 1 ) ]").ToList();
+        var t = a.SelectTokens("[ ?( @ > 1 ) ]").ToList();
         Assert.NotNull(t);
         Assert.Equal(2, t.Count);
         Assert.Equal(2, (int)t[0]);
@@ -950,7 +950,7 @@ public class JPathExecuteTests : TestFixtureBase
         // json path does item based evaluation - http://www.sitepen.com/blog/2008/03/17/jsonpath-support/
         // first query resolves array to ints
         // int has no children to query
-        IList<JToken> t = a.SelectTokens("[?(@ <> 1)][?(@ <> 4)][?(@ < 7)]").ToList();
+        var t = a.SelectTokens("[?(@ <> 1)][?(@ <> 4)][?(@ < 7)]").ToList();
         Assert.NotNull(t);
         Assert.Equal(0, t.Count);
     }
@@ -963,7 +963,7 @@ public class JPathExecuteTests : TestFixtureBase
             new JObject(new JProperty("hi", 2)),
             new JObject(new JProperty("hi", 3)));
 
-        IList<JToken> t = a.SelectTokens("[ ?( @.hi > 1 ) ]").ToList();
+        var t = a.SelectTokens("[ ?( @.hi > 1 ) ]").ToList();
         Assert.NotNull(t);
         Assert.Equal(2, t.Count);
         Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 2)), t[0]));
@@ -978,7 +978,7 @@ public class JPathExecuteTests : TestFixtureBase
             new JObject(new JProperty("hi", 2)),
             new JObject(new JProperty("hi", 3)));
 
-        IList<JToken> t = a.SelectTokens("[ ?( 1 < @.hi ) ]").ToList();
+        var t = a.SelectTokens("[ ?( 1 < @.hi ) ]").ToList();
         Assert.NotNull(t);
         Assert.Equal(2, t.Count);
         Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 2)), t[0]));
@@ -993,7 +993,7 @@ public class JPathExecuteTests : TestFixtureBase
             new JObject(new JProperty("hi", new BigInteger(2))),
             new JObject(new JProperty("hi", new BigInteger(3))));
 
-        IList<JToken> t = a.SelectTokens("[ ?( @.hi > 1 ) ]").ToList();
+        var t = a.SelectTokens("[ ?( @.hi > 1 ) ]").ToList();
         Assert.NotNull(t);
         Assert.Equal(2, t.Count);
         Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 2)), t[0]));
@@ -1009,7 +1009,7 @@ public class JPathExecuteTests : TestFixtureBase
             new JObject(new JProperty("hi", 2.0)),
             new JObject(new JProperty("hi", 3)));
 
-        IList<JToken> t = a.SelectTokens("[ ?( @.hi >= 1 ) ]").ToList();
+        var t = a.SelectTokens("[ ?( @.hi >= 1 ) ]").ToList();
         Assert.NotNull(t);
         Assert.Equal(4, t.Count);
         Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 1)), t[0]));
@@ -1036,7 +1036,7 @@ public class JPathExecuteTests : TestFixtureBase
                     new JObject(new JProperty("name", "Nick Cage")))))
         );
 
-        IList<JToken> t = a.SelectTokens("[?(@.cast[?(@.name=='Will Smith')])].name").ToList();
+        var t = a.SelectTokens("[?(@.cast[?(@.name=='Will Smith')])].name").ToList();
         Assert.NotNull(t);
         Assert.Equal(2, t.Count);
         Assert.Equal("Bad Boys", (string)t[0]);
@@ -1179,7 +1179,7 @@ public class JPathExecuteTests : TestFixtureBase
     ]
 }");
 
-        IList<JToken> tokens = o.SelectTokens("$..*[?(@.text)]").ToList();
+        var tokens = o.SelectTokens("$..*[?(@.text)]").ToList();
         var i = 0;
         Assert.Equal("Sort system", (string)tokens[i++]["text"]);
         Assert.Equal("TSP-1", (string)tokens[i++]["text"]);
@@ -1193,7 +1193,7 @@ public class JPathExecuteTests : TestFixtureBase
     [Fact]
     public void QueryAgainstNonStringValues()
     {
-        IList<object> values = new List<object>
+        var values = new List<object>
         {
             "ff2dc672-6e15-4aa2-afb0-18f4f69596ad",
             new Guid("ff2dc672-6e15-4aa2-afb0-18f4f69596ad"),
@@ -1217,7 +1217,7 @@ public class JPathExecuteTests : TestFixtureBase
             )
         );
 
-        IList<JToken> t = o.SelectTokens("$.prop[?(@.childProp =='ff2dc672-6e15-4aa2-afb0-18f4f69596ad')]").ToList();
+        var t = o.SelectTokens("$.prop[?(@.childProp =='ff2dc672-6e15-4aa2-afb0-18f4f69596ad')]").ToList();
         Assert.Equal(2, t.Count);
 
         t = o.SelectTokens("$.prop[?(@.childProp =='http://localhost')]").ToList();
@@ -1283,11 +1283,11 @@ public class JPathExecuteTests : TestFixtureBase
         Assert.Equal(50m, productPrice);
         Assert.Equal("Elbow Grease", productName);
 
-        IList<string> storeNames = o.SelectToken("Stores").Select(s => (string)s).ToList();
+        var storeNames = o.SelectToken("Stores").Select(s => (string)s).ToList();
         // Lambton Quay
         // Willis Street
 
-        IList<string> firstProductNames = o["Manufacturers"].Select(m => (string)m.SelectToken("Products[1].Name")).ToList();
+        var firstProductNames = o["Manufacturers"].Select(m => (string)m.SelectToken("Products[1].Name")).ToList();
         // null
         // Headlight Fluid
 

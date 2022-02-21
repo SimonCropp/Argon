@@ -37,7 +37,7 @@ public class KeyValuePairConverter : JsonConverter
 
     static ReflectionObject InitializeReflectionObject(Type t)
     {
-        IList<Type> genericArguments = t.GetGenericArguments();
+        var genericArguments = t.GetGenericArguments();
         var keyType = genericArguments[0];
         var valueType = genericArguments[1];
 

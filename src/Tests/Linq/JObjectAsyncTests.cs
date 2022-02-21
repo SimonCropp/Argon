@@ -32,7 +32,7 @@ public class JObjectAsyncTests : TestFixtureBase
     {
         var json = @"{ 'name': 'Admin' }{ 'name': 'Publisher' }";
 
-        IList<JObject> roles = new List<JObject>();
+        var roles = new List<JObject>();
 
         var reader = new JsonTextReader(new StringReader(json));
         reader.SupportMultipleContent = true;

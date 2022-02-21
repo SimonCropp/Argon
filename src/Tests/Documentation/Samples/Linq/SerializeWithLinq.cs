@@ -44,7 +44,7 @@ public class SerializeWithLinq : TestFixtureBase
     public void Example()
     {
         #region SerializeWithLinqUsage
-        IList<BlogPost> blogPosts = new List<BlogPost>
+        var blogPosts = new List<BlogPost>
         {
             new()
             {

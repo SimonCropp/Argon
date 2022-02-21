@@ -155,7 +155,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         {
             PropertyName = "value?"
         };
-        IList<string> l = new List<string>
+        var l = new List<string>
         {
             "value!"
         };
@@ -1055,7 +1055,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     {
         var c = new MyClass();
 
-        IList<MyClass> myClasses1 = new List<MyClass>
+        var myClasses1 = new List<MyClass>
         {
             c,
             c

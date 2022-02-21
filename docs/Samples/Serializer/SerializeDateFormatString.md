@@ -5,7 +5,7 @@ This sample uses the DateFormatString setting to control how `System.DateTime` a
 <!-- snippet: SerializeDateFormatString -->
 <a id='snippet-serializedateformatstring'></a>
 ```cs
-IList<DateTime> dateList = new List<DateTime>
+var dateList = new List<DateTime>
 {
     new(2009, 12, 7, 23, 10, 0, DateTimeKind.Utc),
     new(2010, 1, 1, 9, 0, 0, DateTimeKind.Utc),

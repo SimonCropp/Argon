@@ -50,7 +50,7 @@ public class NLogTraceWriter : ITraceWriter
 <!-- snippet: CustomTraceWriterUsage -->
 <a id='snippet-customtracewriterusage'></a>
 ```cs
-IList<string> countries = new List<string>
+var countries = new List<string>
 {
     "New Zealand",
     "Australia",

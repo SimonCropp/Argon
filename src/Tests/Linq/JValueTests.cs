@@ -366,7 +366,7 @@ public class JValueTests : TestFixtureBase
             new JProperty("Decimal", new JValue(1.1m))
         );
 
-        IList<object> orderedValues = o.Values().Cast<JValue>().OrderBy(v => v).Select(v => v.Value).ToList();
+        var orderedValues = o.Values().Cast<JValue>().OrderBy(v => v).Select(v => v.Value).ToList();
 
         Assert.Equal(1L, orderedValues[0]);
         Assert.Equal(1.1m, orderedValues[1]);

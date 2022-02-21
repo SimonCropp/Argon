@@ -133,7 +133,7 @@ public class DemoTests : TestFixtureBase
     [Fact]
     public void SerializationGuide()
     {
-        IList<string> roles = new List<string>
+        var roles = new List<string>
         {
             "User",
             "Admin"
@@ -145,7 +145,7 @@ public class DemoTests : TestFixtureBase
         //   "Admin"
         // ]
 
-        IDictionary<DateTime, int> dailyRegistrations = new Dictionary<DateTime, int>
+        var dailyRegistrations = new Dictionary<DateTime, int>
         {
             { new DateTime(2014, 6, 1), 23 },
             { new DateTime(2014, 6, 2), 50 }
@@ -169,7 +169,7 @@ public class DemoTests : TestFixtureBase
     [Fact]
     public void SerializationBasics()
     {
-        IList<string> roles = new List<string>
+        var roles = new List<string>
         {
             "User",
             "Admin"

@@ -931,7 +931,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     {
         var binder = new TypeNameSerializationBinder("Argon.Tests.Serialization.{0}, Tests");
 
-        IList<object> values = new List<object>
+        var values = new List<object>
         {
             new Customer
             {
@@ -1023,7 +1023,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     {
         var binder = new NewTypeNameSerializationBinder("Argon.Tests.Serialization.{0}, Tests");
 
-        IList<object> values = new List<object>
+        var values = new List<object>
         {
             new Customer
             {

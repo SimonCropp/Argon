@@ -78,7 +78,7 @@ public class LinqDynamicTests : TestFixtureBase
             d = serializer.Deserialize(jsonTextReader);
         }
 
-        IDictionary<string, int> counts = new Dictionary<string, int>();
+        var counts = new Dictionary<string, int>();
 
         var stopwatch = new Stopwatch();
         stopwatch.Start();

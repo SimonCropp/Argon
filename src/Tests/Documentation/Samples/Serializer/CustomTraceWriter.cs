@@ -72,7 +72,7 @@ public class CustomTraceWriter : TestFixtureBase
     public void Example()
     {
         #region CustomTraceWriterUsage
-        IList<string> countries = new List<string>
+        var countries = new List<string>
         {
             "New Zealand",
             "Australia",

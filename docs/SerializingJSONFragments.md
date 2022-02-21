@@ -75,10 +75,10 @@ var googleSearchText = @"{
 var googleSearch = JObject.Parse(googleSearchText);
 
 // get JSON result objects into a list
-IList<JToken> results = googleSearch["responseData"]["results"].Children().ToList();
+var results = googleSearch["responseData"]["results"].Children().ToList();
 
 // serialize JSON results into .NET objects
-IList<SearchResult> searchResults = new List<SearchResult>();
+var searchResults = new List<SearchResult>();
 foreach (var result in results)
 {
     // JToken.ToObject is a helper method that uses JsonSerializer internally

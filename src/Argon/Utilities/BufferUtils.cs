@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright (c) 2007 James Newton-King
 //
 // Permission is hereby granted, free of charge, to any person
@@ -23,37 +23,36 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-public class SerializeDateFormatString : TestFixtureBase
+static class BufferUtils
 {
-    [Fact]
-    public void Example()
+    public static char[] RentBuffer(IArrayPool<char>? bufferPool, int minSize)
     {
-        #region SerializeDateFormatString
-        var dateList = new List<DateTime>
+        if (bufferPool == null)
         {
-            new(2009, 12, 7, 23, 10, 0, DateTimeKind.Utc),
-            new(2010, 1, 1, 9, 0, 0, DateTimeKind.Utc),
-            new(2010, 2, 10, 10, 0, 0, DateTimeKind.Utc)
-        };
+            return new char[minSize];
+        }
 
-        var json = JsonConvert.SerializeObject(dateList, new JsonSerializerSettings
+        var buffer = bufferPool.Rent(minSize);
+        return buffer;
+    }
+
+    public static void ReturnBuffer(IArrayPool<char>? bufferPool, char[]? buffer)
+    {
+        bufferPool?.Return(buffer);
+    }
+
+    public static char[] EnsureBufferSize(IArrayPool<char>? bufferPool, int size, char[]? buffer)
+    {
+        if (bufferPool == null)
         {
-            DateFormatString = "d MMMM, yyyy",
-            Formatting = Formatting.Indented
-        });
+            return new char[size];
+        }
 
-        Console.WriteLine(json);
-        // [
-        //   "7 December, 2009",
-        //   "1 January, 2010",
-        //   "10 February, 2010"
-        // ]
-        #endregion
+        if (buffer != null)
+        {
+            bufferPool.Return(buffer);
+        }
 
-        XUnitAssert.AreEqualNormalized(@"[
-  ""7 December, 2009"",
-  ""1 January, 2010"",
-  ""10 February, 2010""
-]", json);
+        return bufferPool.Rent(size);
     }
 }

@@ -18,7 +18,7 @@ public class Role
 ```cs
 var json = @"{ 'name': 'Admin' }{ 'name': 'Publisher' }";
 
-IList<Role> roles = new List<Role>();
+var roles = new List<Role>();
 
 var reader = new JsonTextReader(new StringReader(json));
 reader.SupportMultipleContent = true;

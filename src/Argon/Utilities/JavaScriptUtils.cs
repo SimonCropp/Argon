@@ -23,41 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-static class BufferUtils
-{
-    public static char[] RentBuffer(IArrayPool<char>? bufferPool, int minSize)
-    {
-        if (bufferPool == null)
-        {
-            return new char[minSize];
-        }
-
-        var buffer = bufferPool.Rent(minSize);
-        return buffer;
-    }
-
-    public static void ReturnBuffer(IArrayPool<char>? bufferPool, char[]? buffer)
-    {
-        bufferPool?.Return(buffer);
-    }
-
-    public static char[] EnsureBufferSize(IArrayPool<char>? bufferPool, int size, char[]? buffer)
-    {
-        if (bufferPool == null)
-        {
-            return new char[size];
-        }
-
-        if (buffer != null)
-        {
-            bufferPool.Return(buffer);
-        }
-
-        return bufferPool.Rent(size);
-    }
-}
-
-internal static class JavaScriptUtils
+static class JavaScriptUtils
 {
     internal static readonly bool[] SingleQuoteCharEscapeFlags = new bool[128];
     internal static readonly bool[] DoubleQuoteCharEscapeFlags = new bool[128];
@@ -67,7 +33,7 @@ internal static class JavaScriptUtils
 
     static JavaScriptUtils()
     {
-        IList<char> escapeChars = new List<char>
+        var escapeChars = new List<char>
         {
             '\n', '\r', '\t', '\\', '\f', '\b',
         };
@@ -206,7 +172,7 @@ internal static class JavaScriptUtils
                                 }
                                 else if (c == '"' && stringEscapeHandling != StringEscapeHandling.EscapeHtml)
                                 {
-                                    escapedValue = @"\""";
+                                    escapedValue = "\\\"";
                                 }
                                 else
                                 {

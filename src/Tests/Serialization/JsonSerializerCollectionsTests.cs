@@ -804,7 +804,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void SerializeCustomReadOnlyDictionary()
     {
-        IDictionary<string, int> d = new Dictionary<string, int>
+        var d = new Dictionary<string, int>
         {
             {"one", 1},
             {"two", 2}
@@ -844,7 +844,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void SerializeCustomReadOnlyCollection()
     {
-        IList<int> l = new List<int>
+        var l = new List<int>
         {
             1,
             2,
@@ -1026,7 +1026,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void NullableValueGenericDictionary()
     {
-        IDictionary<string, int?> v1 = new Dictionary<string, int?>
+        var v1 = new Dictionary<string, int?>
         {
             {"First", 1},
             {"Second", null},
@@ -1051,7 +1051,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializeConcurrentDictionary()
     {
-        IDictionary<string, Component> components = new Dictionary<string, Component>
+        var components = new Dictionary<string, Component>
         {
             {"Key!", new Component()}
         };
@@ -1599,7 +1599,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             EventName = "EventName!"
         };
         var array1 = new[,] {{e1, e1}, {e1, e1}};
-        IList<Event1[,]> values1 = new List<Event1[,]>
+        var values1 = new List<Event1[,]>
         {
             array1,
             array1
@@ -1653,7 +1653,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             EventName = "EventName!"
         };
         var array1 = new[,] {{e1, e1}, {e1, e1}};
-        IList<Event1[,]> values1 = new List<Event1[,]>
+        var values1 = new List<Event1[,]>
         {
             array1,
             array1

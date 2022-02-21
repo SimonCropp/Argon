@@ -19,7 +19,7 @@ var cpu = (string)o["CPU"];
 var firstDrive = (string)o["Drives"][0];
 // DVD read/writer
 
-IList<string> allDrives = o["Drives"].Select(t => (string)t).ToList();
+var allDrives = o["Drives"].Select(t => (string)t).ToList();
 // DVD read/writer
 // 500 gigabyte hard drive
 ```

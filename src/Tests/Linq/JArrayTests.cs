@@ -550,7 +550,7 @@ Parameter name: index",
         var json = @"{""decks"":[]}";
 
         var decks = (JArray)JObject.Parse(json)["decks"];
-        IList<JToken> l = decks.ToList();
+        var l = decks.ToList();
         Assert.Equal(0, l.Count);
 
         json = @"{""decks"":[1]}";

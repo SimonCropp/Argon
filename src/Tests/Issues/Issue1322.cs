@@ -28,7 +28,7 @@ public class Issue1322 : TestFixtureBase
     [Fact]
     public void Test()
     {
-        IList<KeyValuePair<string, string>> values = new List<KeyValuePair<string, string>>
+        var values = new List<KeyValuePair<string, string>>
         {
             new("123", "2017-05-19T11:00:59")
         };

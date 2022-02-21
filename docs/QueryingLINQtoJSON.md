@@ -49,7 +49,7 @@ var itemTitle = (string)rss["channel"]["item"][0]["title"];
 var categories = (JArray)rss["channel"]["item"][0]["categories"];
 // ["Json.NET", "CodePlex"]
 
-IList<string> categoriesText = categories.Select(c => (string)c).ToList();
+var categoriesText = categories.Select(c => (string)c).ToList();
 // Json.NET
 // CodePlex
 ```

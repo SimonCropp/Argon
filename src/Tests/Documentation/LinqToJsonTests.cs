@@ -45,7 +45,7 @@ public class LinqToJsonTests : TestFixtureBase
         var firstDrive = (string)o["Drives"][0];
         // DVD read/writer
 
-        IList<string> allDrives = o["Drives"].Select(t => (string)t).ToList();
+        var allDrives = o["Drives"].Select(t => (string)t).ToList();
         // DVD read/writer
         // 500 gigabyte hard drive
         #endregion
@@ -262,7 +262,7 @@ public class LinqToJsonTests : TestFixtureBase
         var categories = (JArray)rss["channel"]["item"][0]["categories"];
         // ["Json.NET", "CodePlex"]
 
-        IList<string> categoriesText = categories.Select(c => (string)c).ToList();
+        var categoriesText = categories.Select(c => (string)c).ToList();
         // Json.NET
         // CodePlex
         #endregion
@@ -514,11 +514,11 @@ public class LinqToJsonTests : TestFixtureBase
             }");
 
         #region SelectTokenLinq
-        IList<string> storeNames = o.SelectToken("Stores").Select(s => (string)s).ToList();
+        var storeNames = o.SelectToken("Stores").Select(s => (string)s).ToList();
         // Lambton Quay
         // Willis Street
 
-        IList<string> firstProductNames = o["Manufacturers"].Select(m => (string)m.SelectToken("Products[1].Name")).ToList();
+        var firstProductNames = o["Manufacturers"].Select(m => (string)m.SelectToken("Products[1].Name")).ToList();
         // null
         // Headlight Fluid
 

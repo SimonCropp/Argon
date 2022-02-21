@@ -749,7 +749,7 @@ public class JsonSerializerTest : TestFixtureBase
             DateParseHandling = DateParseHandling.DateTimeOffset
         };
 
-        IList<object> l = new List<object>();
+        var l = new List<object>();
         serializer.Populate(reader, l);
 
         Assert.Equal(typeof(DateTimeOffset), l[0].GetType());
@@ -3743,10 +3743,10 @@ Path '', line 1, position 1.");
         var googleSearch = JObject.Parse(googleSearchText);
 
         // get JSON result objects into a list
-        IList<JToken> results = googleSearch["responseData"]["results"].Children().ToList();
+        var results = googleSearch["responseData"]["results"].Children().ToList();
 
         // serialize JSON results into .NET objects
-        IList<SearchResult> searchResults = new List<SearchResult>();
+        var searchResults = new List<SearchResult>();
         foreach (var result in results)
         {
             var searchResult = JsonConvert.DeserializeObject<SearchResult>(result.ToString());
@@ -5500,7 +5500,7 @@ Path '', line 1, position 1.");
     [Fact]
     public void ReadForTypeHackFixDecimal()
     {
-        IList<decimal> d1 = new List<decimal> {1.1m};
+        var d1 = new List<decimal> {1.1m};
 
         var json = JsonConvert.SerializeObject(d1);
 
@@ -5513,7 +5513,7 @@ Path '', line 1, position 1.");
     [Fact]
     public void ReadForTypeHackFixDateTimeOffset()
     {
-        IList<DateTimeOffset?> d1 = new List<DateTimeOffset?> {null};
+        var d1 = new List<DateTimeOffset?> {null};
 
         var json = JsonConvert.SerializeObject(d1);
 
@@ -5526,7 +5526,7 @@ Path '', line 1, position 1.");
     [Fact]
     public void ReadForTypeHackFixByteArray()
     {
-        IList<byte[]> d1 = new List<byte[]> {null};
+        var d1 = new List<byte[]> {null};
 
         var json = JsonConvert.SerializeObject(d1);
 
@@ -5978,7 +5978,7 @@ Path '', line 1, position 1.");
     [Fact]
     public void MultipleItems()
     {
-        IList<MultipleItemsClass> values = new List<MultipleItemsClass>();
+        var values = new List<MultipleItemsClass>();
 
         var reader = new JsonTextReader(new StringReader(@"{ ""name"": ""bar"" }{ ""name"": ""baz"" }"));
         reader.SupportMultipleContent = true;
@@ -6005,7 +6005,7 @@ Path '', line 1, position 1.");
     public void ObjectRequiredDeserializeMissing()
     {
         var json = "{}";
-        IList<string> errors = new List<string>();
+        var errors = new List<string>();
 
         EventHandler<ErrorEventArgs> error = (_, e) =>
         {
@@ -6030,7 +6030,7 @@ Path '', line 1, position 1.");
     public void ObjectRequiredDeserializeNull()
     {
         var json = "{'NonAttributeProperty':null,'UnsetProperty':null,'AllowNullProperty':null,'AlwaysProperty':null}";
-        IList<string> errors = new List<string>();
+        var errors = new List<string>();
 
         EventHandler<ErrorEventArgs> error = (_, e) =>
         {
@@ -6053,7 +6053,7 @@ Path '', line 1, position 1.");
     [Fact]
     public void ObjectRequiredSerialize()
     {
-        IList<string> errors = new List<string>();
+        var errors = new List<string>();
 
         EventHandler<ErrorEventArgs> error = (_, e) =>
         {
@@ -6123,7 +6123,7 @@ Path '', line 1, position 1.");
     [Fact]
     public void DateTimeDictionaryKey_DateTimeOffset_Iso()
     {
-        IDictionary<DateTimeOffset, int> dic1 = new Dictionary<DateTimeOffset, int>
+        var dic1 = new Dictionary<DateTimeOffset, int>
         {
             {new DateTimeOffset(2000, 12, 12, 12, 12, 12, TimeSpan.Zero), 1},
             {new DateTimeOffset(2013, 12, 12, 12, 12, 12, TimeSpan.Zero), 2}
@@ -6146,7 +6146,7 @@ Path '', line 1, position 1.");
     [Fact]
     public void DateTimeDictionaryKey_DateTimeOffset_MS()
     {
-        IDictionary<DateTimeOffset?, int> dic1 = new Dictionary<DateTimeOffset?, int>
+        var dic1 = new Dictionary<DateTimeOffset?, int>
         {
             {new DateTimeOffset(2000, 12, 12, 12, 12, 12, TimeSpan.Zero), 1},
             {new DateTimeOffset(2013, 12, 12, 12, 12, 12, TimeSpan.Zero), 2}
@@ -6172,7 +6172,7 @@ Path '', line 1, position 1.");
     [Fact]
     public void DateTimeDictionaryKey_DateTime_Iso()
     {
-        IDictionary<DateTime, int> dic1 = new Dictionary<DateTime, int>
+        var dic1 = new Dictionary<DateTime, int>
         {
             {new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc), 1},
             {new DateTime(2013, 12, 12, 12, 12, 12, DateTimeKind.Utc), 2}
@@ -6195,7 +6195,7 @@ Path '', line 1, position 1.");
     [Fact]
     public void DateTimeDictionaryKey_DateTime_Iso_Local()
     {
-        IDictionary<DateTime, int> dic1 = new Dictionary<DateTime, int>
+        var dic1 = new Dictionary<DateTime, int>
         {
             {new DateTime(2020, 12, 12, 12, 12, 12, DateTimeKind.Utc), 1},
             {new DateTime(2023, 12, 12, 12, 12, 12, DateTimeKind.Utc), 2}
@@ -6223,7 +6223,7 @@ Path '', line 1, position 1.");
     [Fact]
     public void DateTimeDictionaryKey_DateTime_MS()
     {
-        IDictionary<DateTime, int> dic1 = new Dictionary<DateTime, int>
+        var dic1 = new Dictionary<DateTime, int>
         {
             {new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc), 1},
             {new DateTime(2013, 12, 12, 12, 12, 12, DateTimeKind.Utc), 2}
@@ -6391,7 +6391,7 @@ Path '', line 1, position 1.");
 
         var settings = new JsonSerializerSettings();
         var s = JsonSerializer.Create(settings);
-        IDictionary<string, int> o = s.Deserialize<Dictionary<string, int>>(new JsonTextReader(new StringReader(json)));
+        var o = s.Deserialize<Dictionary<string, int>>(new JsonTextReader(new StringReader(json)));
 
         Assert.NotNull(o);
         Assert.Equal(1, o["one"]);
@@ -6413,7 +6413,7 @@ Path '', line 1, position 1.");
             CheckAdditionalContent = true
         };
         var s = JsonSerializer.Create(settings);
-        IDictionary<string, int> o = s.Deserialize<Dictionary<string, int>>(new JsonTextReader(new StringReader(json)));
+        var o = s.Deserialize<Dictionary<string, int>>(new JsonTextReader(new StringReader(json)));
 
         Assert.NotNull(o);
         Assert.Equal(1, o["one"]);
@@ -6434,7 +6434,7 @@ lines.*/
             CheckAdditionalContent = true
         };
         var s = JsonSerializer.Create(settings);
-        IDictionary<string, int> o = s.Deserialize<Dictionary<string, int>>(new JsonTextReader(new StringReader(json)));
+        var o = s.Deserialize<Dictionary<string, int>>(new JsonTextReader(new StringReader(json)));
 
         Assert.NotNull(o);
         Assert.Equal(1, o["one"]);
@@ -6623,7 +6623,7 @@ This is just junk, though.";
     [Fact]
     public void SerializeFloatingPointHandling()
     {
-        IList<double> d = new List<double> {1.1, double.NaN, double.PositiveInfinity};
+        var d = new List<double> {1.1, double.NaN, double.PositiveInfinity};
 
         var json = JsonConvert.SerializeObject(d);
         // [1.1,"NaN","Infinity"]
@@ -6798,7 +6798,7 @@ This is just junk, though.";
             }
         };
 
-        IList<object> dates = new List<object>
+        var dates = new List<object>
         {
             new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc),
             new DateTimeOffset(2000, 12, 12, 12, 12, 12, TimeSpan.FromHours(1))
@@ -6819,7 +6819,7 @@ This is just junk, though.";
     [Fact]
     public void DateFormatStringForInternetExplorer()
     {
-        IList<object> dates = new List<object>
+        var dates = new List<object>
         {
             new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc),
             new DateTimeOffset(2000, 12, 12, 12, 12, 12, TimeSpan.FromHours(1))
@@ -6848,7 +6848,7 @@ This is just junk, though.";
             }
         };
 
-        IList<object> dates = new List<object>
+        var dates = new List<object>
         {
             new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc),
             new DateTimeOffset(2000, 12, 12, 12, 12, 12, TimeSpan.FromHours(1))
@@ -6986,7 +6986,7 @@ This is just junk, though.";
     [Fact]
     public void DefaultDateStringFormatVsUnsetDateStringFormat()
     {
-        IDictionary<string, object> dates = new Dictionary<string, object>
+        var dates = new Dictionary<string, object>
         {
             {"DateTime-Unspecified", new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Unspecified)},
             {"DateTime-Utc", new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc)},
@@ -7112,7 +7112,7 @@ This is just junk, though.";
         john.Spouse = jane;
         jane.Spouse = john;
 
-        IList<PersonReference> people = new List<PersonReference>
+        var people = new List<PersonReference>
         {
             john,
             jane
@@ -7161,7 +7161,7 @@ This is just junk, though.";
         john.Spouse = jane;
         jane.Spouse = john;
 
-        IList<PersonReference> people = new List<PersonReference>
+        var people = new List<PersonReference>
         {
             john,
             jane

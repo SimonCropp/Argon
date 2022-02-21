@@ -333,7 +333,7 @@ public class DefaultContractResolver : IContractResolver
     {
         var members = GetClassHierarchyForType(type).SelectMany(baseType =>
         {
-            IList<MemberInfo> m = new List<MemberInfo>();
+            var m = new List<MemberInfo>();
             m.AddRange(baseType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly));
             m.AddRange(baseType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly));
 

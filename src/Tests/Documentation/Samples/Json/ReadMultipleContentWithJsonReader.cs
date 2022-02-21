@@ -38,7 +38,7 @@ public class ReadMultipleContentWithJsonReader : TestFixtureBase
         #region ReadMultipleContentWithJsonReaderUsage
         var json = @"{ 'name': 'Admin' }{ 'name': 'Publisher' }";
 
-        IList<Role> roles = new List<Role>();
+        var roles = new List<Role>();
 
         var reader = new JsonTextReader(new StringReader(json));
         reader.SupportMultipleContent = true;

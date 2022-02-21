@@ -20,7 +20,7 @@ public class BlogPost
 <!-- snippet: SerializeWithLinqUsage -->
 <a id='snippet-serializewithlinqusage'></a>
 ```cs
-IList<BlogPost> blogPosts = new List<BlogPost>
+var blogPosts = new List<BlogPost>
 {
     new()
     {

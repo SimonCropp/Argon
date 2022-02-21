@@ -8,7 +8,7 @@
 
         Assert.Equal(typeof(KeyValuePairConverter), contract.InternalConverter.GetType());
 
-        IList<KeyValuePair<string, int>> values = new List<KeyValuePair<string, int>>
+        var values = new List<KeyValuePair<string, int>>
         {
             new("123", 123),
             new("456", 456)

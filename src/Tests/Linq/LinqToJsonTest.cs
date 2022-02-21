@@ -483,7 +483,7 @@ undefined
       }";
 
         var o = JObject.Parse(json);
-        IList<JProperty> properties = o.Properties().ToList();
+        var properties = o.Properties().ToList();
 
         Assert.Equal("CPU", properties[0].Name);
         Assert.Equal("Intel", (string)properties[0].Value);
@@ -838,12 +838,12 @@ keyword such as type of business.""
             .Single(p => (string)p["Title"] == "JSON Serializer Basics");
         // JSON Serializer Basics
 
-        IList<JToken> since2012 = posts
+        var since2012 = posts
             .Where(p => (DateTime)p["Date"] > new DateTime(2012, 1, 1)).ToList();
         // JSON Serializer Basics
         // Querying LINQ to JSON
 
-        IList<JToken> linqToJson = posts
+        var linqToJson = posts
             .Where(p => p["Categories"].Any(c => (string)c == "LINQ to JSON")).ToList();
         // Querying LINQ to JSON
 
@@ -1374,15 +1374,17 @@ keyword such as type of business.""
     {
         dynamic name = new JValue("Matthew Doig");
 
-        IDictionary<string, string> users = new Dictionary<string, string>();
+        var users = new Dictionary<string, string>();
 
-        // unfortunatly there doesn't appear to be a way around this
-        XUnitAssert.Throws<Microsoft.CSharp.RuntimeBinder.RuntimeBinderException>(() =>
-        {
-            users.Add("name2", name);
+        // unfortunately there doesn't appear to be a way around this
+        XUnitAssert.Throws<Microsoft.CSharp.RuntimeBinder.RuntimeBinderException>(
+            () =>
+            {
+                users.Add("name2", name);
 
-            Assert.Equal(users["name2"], "Matthew Doig");
-        }, "The best overloaded method match for 'System.Collections.Generic.IDictionary<string,string>.Add(string, string)' has some invalid arguments");
+                Assert.Equal(users["name2"], "Matthew Doig");
+            },
+            "The best overloaded method match for 'System.Collections.Generic.Dictionary<string,string>.Add(string, string)' has some invalid arguments");
     }
 
     [JsonConverter(typeof(StringEnumConverter))]
@@ -1495,12 +1497,12 @@ keyword such as type of business.""
         if (t is JContainer container)
         {
             // find all the $id properties in the JSON
-            IList<JProperty> ids = container.Descendants().OfType<JProperty>().Where(d => d.Name == "$id").ToList();
+            var ids = container.Descendants().OfType<JProperty>().Where(d => d.Name == "$id").ToList();
 
             if (ids.Count > 0)
             {
                 // find all the $ref properties in the JSON
-                IList<JProperty> refs = container.Descendants().OfType<JProperty>().Where(d => d.Name == "$ref").ToList();
+                var refs = container.Descendants().OfType<JProperty>().Where(d => d.Name == "$ref").ToList();
 
                 foreach (var idProperty in ids)
                 {

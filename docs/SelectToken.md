@@ -122,11 +122,11 @@ SelectToken can be used in combination with standard LINQ methods.
 <!-- snippet: SelectTokenLinq -->
 <a id='snippet-selecttokenlinq'></a>
 ```cs
-IList<string> storeNames = o.SelectToken("Stores").Select(s => (string)s).ToList();
+var storeNames = o.SelectToken("Stores").Select(s => (string)s).ToList();
 // Lambton Quay
 // Willis Street
 
-IList<string> firstProductNames = o["Manufacturers"].Select(m => (string)m.SelectToken("Products[1].Name")).ToList();
+var firstProductNames = o["Manufacturers"].Select(m => (string)m.SelectToken("Products[1].Name")).ToList();
 // null
 // Headlight Fluid
 

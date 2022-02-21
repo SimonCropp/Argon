@@ -8,7 +8,7 @@ public class TraceWriterTests : TestFixtureBase
     public void DeserializedJsonWithAlreadyReadReader()
     {
         var json = @"{ 'name': 'Admin' }{ 'name': 'Publisher' }";
-        IList<RoleTrace> roles = new List<RoleTrace>();
+        var roles = new List<RoleTrace>();
         var reader = new JsonTextReader(new StringReader(json));
         reader.SupportMultipleContent = true;
         var traceWriter = new InMemoryTraceWriter();
@@ -46,7 +46,7 @@ public class TraceWriterTests : TestFixtureBase
     public async Task DeserializedJsonWithAlreadyReadReader_Async()
     {
         var json = @"{ 'name': 'Admin' }{ 'name': 'Publisher' }";
-        IList<RoleTrace> roles = new List<RoleTrace>();
+        var roles = new List<RoleTrace>();
         var reader = new JsonTextReader(new StringReader(json));
         reader.SupportMultipleContent = true;
         var traceWriter = new InMemoryTraceWriter();
@@ -350,7 +350,7 @@ Argon Error: 0 : Error!
             traceWriter.Trace(TraceLevel.Verbose, (i + 1).ToString(CultureInfo.InvariantCulture), null);
         }
 
-        IList<string> traceMessages = traceWriter.GetTraceMessages().ToList();
+        var traceMessages = traceWriter.GetTraceMessages().ToList();
 
         Assert.Equal(1000, traceMessages.Count);
 
@@ -378,7 +378,7 @@ Argon Error: 0 : Error!
 
         await Task.WhenAll(tasks);
 
-        IList<string> traceMessages = traceWriter.GetTraceMessages().ToList();
+        var traceMessages = traceWriter.GetTraceMessages().ToList();
 
         Assert.Equal(1000, traceMessages.Count);
     }
@@ -711,7 +711,7 @@ Argon Error: 0 : Error!
             LevelFilter = TraceLevel.Verbose
         };
 
-        IList<object> l = new List<object>
+        var l = new List<object>
         {
             new Dictionary<string, string> {{"key!", "value!"}},
             new VersionOld(1, 2, 3, 4)
@@ -742,16 +742,17 @@ Argon Error: 0 : Error!
             LevelFilter = TraceLevel.Verbose
         };
 
-        IList<DateTime> d = new List<DateTime>
+        var d = new List<DateTime>
         {
             new(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc)
         };
 
-        var json = JsonConvert.SerializeObject(d, Formatting.Indented, new JsonSerializerSettings
-        {
-            Converters = {new JavaScriptDateTimeConverter()},
-            TraceWriter = traceWriter
-        });
+        JsonConvert.SerializeObject(d, Formatting.Indented,
+            new JsonSerializerSettings
+            {
+                Converters = {new JavaScriptDateTimeConverter()},
+                TraceWriter = traceWriter
+            });
 
         Assert.Equal("Started serializing System.Collections.Generic.List`1[System.DateTime]. Path ''.", traceWriter.TraceRecords[0].Message);
         Assert.Equal("Started serializing System.DateTime with converter Argon.JavaScriptDateTimeConverter. Path ''.", traceWriter.TraceRecords[1].Message);

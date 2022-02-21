@@ -181,7 +181,7 @@ public class MissingMemberHandlingTests : TestFixtureBase
     [Fact]
     public void MissingMemberHandling_RootObject()
     {
-        IList<string> errors = new List<string>();
+        var errors = new List<string>();
 
         var settings = new JsonSerializerSettings
         {
@@ -207,7 +207,7 @@ public class MissingMemberHandlingTests : TestFixtureBase
     [Fact]
     public void MissingMemberHandling_InnerObject()
     {
-        IList<string> errors = new List<string>();
+        var errors = new List<string>();
 
         var settings = new JsonSerializerSettings
         {

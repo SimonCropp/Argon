@@ -41,7 +41,7 @@ public class ListOfIds<T> : JsonConverter where T : Bar, new()
 
     public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
     {
-        IList<T> list = new List<T>();
+        var list = new List<T>();
 
         reader.Read();
         while (reader.TokenType != JsonToken.EndArray)

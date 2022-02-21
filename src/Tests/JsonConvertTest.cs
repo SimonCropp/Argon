@@ -318,7 +318,7 @@ public class JsonConvertTest : TestFixtureBase
                 Formatting = Formatting.Indented
             };
 
-            IList<int> l = new List<int> { 1, 2, 3 };
+            var l = new List<int> { 1, 2, 3 };
 
             var stringWriter = new StringWriter();
             var serializer = JsonSerializer.CreateDefault();
@@ -364,7 +364,7 @@ public class JsonConvertTest : TestFixtureBase
                 Formatting = Formatting.Indented
             };
 
-            IList<int> l = new List<int> { 1, 2, 3 };
+            var l = new List<int> { 1, 2, 3 };
 
             var stringWriter = new StringWriter();
             var serializer = JsonSerializer.CreateDefault(new JsonSerializerSettings

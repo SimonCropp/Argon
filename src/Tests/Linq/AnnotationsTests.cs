@@ -67,7 +67,7 @@
         o.AddAnnotation("A string 2!");
         o.AddAnnotation("A string 3!");
 
-        IList<string> l = o.Annotations<string>().ToList();
+        var l = o.Annotations<string>().ToList();
 
         Assert.Equal(3, l.Count);
         Assert.Equal("A string!", l[0]);
@@ -91,7 +91,7 @@
         o.AddAnnotation("A string 3!");
         o.AddAnnotation(new Uri("http://www.google.com/"));
 
-        IList<object> l = o.Annotations<object>().ToList();
+        var l = o.Annotations<object>().ToList();
 
         Assert.Equal(4, l.Count);
         Assert.Equal("A string!", l[0]);

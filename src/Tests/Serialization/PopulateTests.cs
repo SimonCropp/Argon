@@ -40,7 +40,7 @@ public class PopulateTests : TestFixtureBase
     [Fact]
     public void PopulateArray()
     {
-        IList<Person> people = new List<Person>
+        var people = new List<Person>
         {
             new() { Name = "Initial" }
         };

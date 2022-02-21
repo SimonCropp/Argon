@@ -85,9 +85,9 @@ static class CollectionUtils
 
         foreach (var constructor in collectionType.GetConstructors(BindingFlags.Public | BindingFlags.Instance))
         {
-            IList<ParameterInfo> parameters = constructor.GetParameters();
+            var parameters = constructor.GetParameters();
 
-            if (parameters.Count == 1)
+            if (parameters.Length == 1)
             {
                 var parameterType = parameters[0].ParameterType;
 
@@ -221,7 +221,7 @@ static class CollectionUtils
 
     static IList<int> GetDimensions(IList values, int dimensionsCount)
     {
-        IList<int> dimensions = new List<int>();
+        var dimensions = new List<int>();
 
         var currentArray = values;
         while (true)
