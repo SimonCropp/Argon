@@ -112,57 +112,6 @@ static class CollectionUtils
         return match;
     }
 
-    public static bool AddDistinct<T>(this IList<T> list, T value)
-    {
-        return list.AddDistinct(value, EqualityComparer<T>.Default);
-    }
-
-    public static bool AddDistinct<T>(this IList<T> list, T value, IEqualityComparer<T> comparer)
-    {
-        if (list.ContainsValue(value, comparer))
-        {
-            return false;
-        }
-
-        list.Add(value);
-        return true;
-    }
-
-    // this is here because LINQ Bridge doesn't support Contains with IEqualityComparer<T>
-    public static bool ContainsValue<TSource>(this IEnumerable<TSource> source, TSource value, IEqualityComparer<TSource> comparer)
-    {
-        comparer ??= EqualityComparer<TSource>.Default;
-
-        if (source == null)
-        {
-            throw new ArgumentNullException(nameof(source));
-        }
-
-        foreach (var local in source)
-        {
-            if (comparer.Equals(local, value))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public static bool AddRangeDistinct<T>(this IList<T> list, IEnumerable<T> values, IEqualityComparer<T> comparer)
-    {
-        var allAdded = true;
-        foreach (var value in values)
-        {
-            if (!list.AddDistinct(value, comparer))
-            {
-                allAdded = false;
-            }
-        }
-
-        return allAdded;
-    }
-
     public static int IndexOf<T>(this IEnumerable<T> collection, Func<T, bool> predicate)
     {
         var index = 0;
