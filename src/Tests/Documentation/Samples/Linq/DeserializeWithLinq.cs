@@ -25,8 +25,6 @@
 
 using System.Web;
 
-namespace Argon.Tests.Documentation.Samples.Linq;
-
 public class DeserializeWithLinq : TestFixtureBase
 {
     #region DeserializeWithLinqTypes

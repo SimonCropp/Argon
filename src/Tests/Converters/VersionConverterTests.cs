@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.Converters;
-
 public class VersionClass
 {
     public VersionClass(string version1, string version2)

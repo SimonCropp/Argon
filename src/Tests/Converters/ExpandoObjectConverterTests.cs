@@ -25,8 +25,6 @@
 
 using System.Dynamic;
 
-namespace Argon.Tests.Converters;
-
 public class ExpandoObjectConverterTests : TestFixtureBase
 {
     public class ExpandoContainer

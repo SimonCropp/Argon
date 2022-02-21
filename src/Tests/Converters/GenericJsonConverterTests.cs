@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.Converters;
-
 public class GenericJsonConverterTests : TestFixtureBase
 {
     public class TestGenericConverter : JsonConverter<string>

@@ -25,7 +25,6 @@
 
 using System.Xml;
 
-namespace Argon.Tests.Documentation.Samples.Json;
 
 #region CustomJsonReaderTypes
 public class XmlJsonReader : JsonReader
