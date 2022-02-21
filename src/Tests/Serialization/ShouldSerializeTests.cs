@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.Serialization;
-
 public class ShouldSerializeTests : TestFixtureBase
 {
     public class A
@@ -65,7 +63,7 @@ public class ShouldSerializeTests : TestFixtureBase
                         name = Guid.NewGuid().ToString(),
                         myFrob = new Frob1[]
                         {
-                            new() { name = Guid.NewGuid().ToString() }
+                            new() {name = Guid.NewGuid().ToString()}
                         }
                     },
                     new()
@@ -73,7 +71,7 @@ public class ShouldSerializeTests : TestFixtureBase
                         name = Guid.NewGuid().ToString(),
                         myFrob = new Frob1[]
                         {
-                            new() { name = Guid.NewGuid().ToString() }
+                            new() {name = Guid.NewGuid().ToString()}
                         }
                     },
                     new()
@@ -81,7 +79,7 @@ public class ShouldSerializeTests : TestFixtureBase
                         name = Guid.NewGuid().ToString(),
                         myFrob = new Frob1[]
                         {
-                            new() { name = Guid.NewGuid().ToString() }
+                            new() {name = Guid.NewGuid().ToString()}
                         }
                     },
                 }
@@ -172,7 +170,7 @@ public class ShouldSerializeTests : TestFixtureBase
         joe.Manager = mike;
         mike.Manager = mike;
 
-        var json = JsonConvert.SerializeObject(new[] { joe, mike }, Formatting.Indented);
+        var json = JsonConvert.SerializeObject(new[] {joe, mike}, Formatting.Indented);
         // [
         //   {
         //     "Name": "Joe Employee",
@@ -291,6 +289,7 @@ public class ShouldSerializeTests : TestFixtureBase
         // This field shouldn't be serialized
         // if it is uninitialized.
         public string FirstOrder;
+
         // Use the XmlIgnoreAttribute to ignore the
         // special field named "FirstOrderSpecified".
         [System.Xml.Serialization.XmlIgnoreAttribute]
@@ -302,8 +301,7 @@ public class ShouldSerializeTests : TestFixtureBase
         public string Name { get; set; }
         public int NumberOfChildren { get; set; }
 
-        [JsonIgnore]
-        public bool NumberOfChildrenSpecified { get; set; }
+        [JsonIgnore] public bool NumberOfChildrenSpecified { get; set; }
     }
 
     [Fact]
@@ -323,7 +321,7 @@ public class ShouldSerializeTests : TestFixtureBase
             NumberOfChildrenSpecified = false
         };
 
-        var json = JsonConvert.SerializeObject(new[] { joe, martha }, Formatting.Indented);
+        var json = JsonConvert.SerializeObject(new[] {joe, martha}, Formatting.Indented);
         //[
         //  {
         //    "Name": "Joe Family Details",
@@ -409,7 +407,7 @@ public class ShouldSerializeTests : TestFixtureBase
         XUnitAssert.True(c.HasName);
         Assert.Equal("Name!", c.Name);
 
-        Assert.True(traceWriter.GetTraceMessages().Any(m => m.EndsWith("Verbose ShouldDeserialize result for property 'Name' on Argon.Tests.Serialization.ShouldDeserializeTestClass: True. Path 'Name'.")));
+        Assert.True(traceWriter.GetTraceMessages().Any(m => m.EndsWith("Verbose ShouldDeserialize result for property 'Name' on ShouldSerializeTests+ShouldDeserializeTestClass: True. Path 'Name'.")));
     }
 
     [Fact]
@@ -425,11 +423,11 @@ public class ShouldSerializeTests : TestFixtureBase
         });
 
         Assert.Equal(1, c.ExtensionData.Count);
-        Assert.Equal("Name!", (string)c.ExtensionData["Name"]);
+        Assert.Equal("Name!", (string) c.ExtensionData["Name"]);
         XUnitAssert.False(c.HasName);
         Assert.Equal(null, c.Name);
 
-        Assert.True(traceWriter.GetTraceMessages().Any(m => m.EndsWith("Verbose ShouldDeserialize result for property 'Name' on Argon.Tests.Serialization.ShouldDeserializeTestClass: False. Path 'Name'.")));
+        Assert.True(traceWriter.GetTraceMessages().Any(m => m.EndsWith("Verbose ShouldDeserialize result for property 'Name' on ShouldSerializeTests+ShouldDeserializeTestClass: False. Path 'Name'.")));
     }
 
     public class Employee
@@ -452,196 +450,192 @@ public class ShouldSerializeTests : TestFixtureBase
             return false;
         }
     }
-}
 
-public class ShouldSerializeTestClass
-{
-    internal bool _shouldSerializeName;
 
-    public string Name { get; set; }
-    public int Age { get; set; }
-
-    public void ShouldSerializeAge()
+    public class ShouldSerializeTestClass
     {
-        // dummy. should never be used because it doesn't return bool
-    }
+        internal bool _shouldSerializeName;
 
-    public bool ShouldSerializeName()
-    {
-        return _shouldSerializeName;
-    }
-}
+        public string Name { get; set; }
+        public int Age { get; set; }
 
-public class SpecifiedTestClass
-{
-    bool _nameSpecified;
-
-    public string Name { get; set; }
-    public int Age { get; set; }
-    public int Weight { get; set; }
-    public int Height { get; set; }
-    public int FavoriteNumber { get; set; }
-
-    // dummy. should never be used because it isn't of type bool
-    [JsonIgnore]
-    public long AgeSpecified { get; set; }
-
-    [JsonIgnore]
-    public bool NameSpecified
-    {
-        get => _nameSpecified;
-        set => _nameSpecified = value;
-    }
-
-    [JsonIgnore]
-    public bool WeightSpecified;
-
-    [JsonIgnore]
-    [System.Xml.Serialization.XmlIgnoreAttribute]
-    public bool HeightSpecified;
-
-    [JsonIgnore]
-    public bool FavoriteNumberSpecified =>
-        // get only example
-        FavoriteNumber != 0;
-}
-
-public class Foo2
-{
-    Bar2 myBarField;
-
-    public Bar2 myBar
-    {
-        get => myBarField;
-        set => myBarField = value;
-    }
-
-    string nameField;
-
-    public string name
-    {
-        get => nameField;
-        set => nameField = value;
-    }
-
-    public virtual bool ShouldSerializemyBar()
-    {
-        return myBar != null;
-    }
-
-    public virtual bool ShouldSerializename()
-    {
-        return name != null;
-    }
-}
-
-public class Bar2
-{
-    [JsonIgnore]
-    public bool ShouldSerializemyBazCalled { get; set; }
-
-    Baz1[] myBazField;
-
-    public Baz1[] myBaz
-    {
-        get => myBazField;
-        set => myBazField = value;
-    }
-
-    string nameField;
-
-    public string name
-    {
-        get => nameField;
-        set => nameField = value;
-    }
-
-    public virtual bool ShouldSerializemyBaz()
-    {
-        ShouldSerializemyBazCalled = true;
-        return myBaz != null;
-    }
-
-    public virtual bool ShouldSerializename()
-    {
-        return name != null;
-    }
-}
-
-public class Baz1
-{
-    Frob1[] myFrobField;
-
-    public Frob1[] myFrob
-    {
-        get => myFrobField;
-        set => myFrobField = value;
-    }
-
-    string nameField;
-
-    public string name
-    {
-        get => nameField;
-        set => nameField = value;
-    }
-
-    public virtual bool ShouldSerializename()
-    {
-        return name != null;
-    }
-
-    public virtual bool ShouldSerializemyFrob()
-    {
-        return myFrob != null;
-    }
-}
-
-public class Frob1
-{
-    string nameField;
-
-    public string name
-    {
-        get => nameField;
-        set => nameField = value;
-    }
-
-    public virtual bool ShouldSerializename()
-    {
-        return name != null;
-    }
-}
-
-public class ShouldDeserializeContractResolver : DefaultContractResolver
-{
-    public static new readonly ShouldDeserializeContractResolver Instance = new();
-
-    protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
-    {
-        var property = base.CreateProperty(member, memberSerialization);
-
-        var shouldDeserializeMethodInfo = member.DeclaringType.GetMethod($"ShouldDeserialize{member.Name}");
-
-        if (shouldDeserializeMethodInfo != null)
+        public void ShouldSerializeAge()
         {
-            property.ShouldDeserialize = o => { return (bool)shouldDeserializeMethodInfo.Invoke(o, null); };
+            // dummy. should never be used because it doesn't return bool
         }
 
-        return property;
+        public bool ShouldSerializeName()
+        {
+            return _shouldSerializeName;
+        }
     }
-}
 
-public class ShouldDeserializeTestClass
-{
-    [JsonExtensionData]
-    public IDictionary<string, JToken> ExtensionData { get; set; }
-
-    public bool HasName { get; set; }
-    public string Name { get; set; }
-
-    public bool ShouldDeserializeName()
+    public class SpecifiedTestClass
     {
-        return HasName;
+        bool _nameSpecified;
+
+        public string Name { get; set; }
+        public int Age { get; set; }
+        public int Weight { get; set; }
+        public int Height { get; set; }
+        public int FavoriteNumber { get; set; }
+
+        // dummy. should never be used because it isn't of type bool
+        [JsonIgnore] public long AgeSpecified { get; set; }
+
+        [JsonIgnore]
+        public bool NameSpecified
+        {
+            get => _nameSpecified;
+            set => _nameSpecified = value;
+        }
+
+        [JsonIgnore] public bool WeightSpecified;
+
+        [JsonIgnore] [System.Xml.Serialization.XmlIgnoreAttribute]
+        public bool HeightSpecified;
+
+        [JsonIgnore]
+        public bool FavoriteNumberSpecified =>
+            // get only example
+            FavoriteNumber != 0;
+    }
+
+    public class Foo2
+    {
+        Bar2 myBarField;
+
+        public Bar2 myBar
+        {
+            get => myBarField;
+            set => myBarField = value;
+        }
+
+        string nameField;
+
+        public string name
+        {
+            get => nameField;
+            set => nameField = value;
+        }
+
+        public virtual bool ShouldSerializemyBar()
+        {
+            return myBar != null;
+        }
+
+        public virtual bool ShouldSerializename()
+        {
+            return name != null;
+        }
+    }
+
+    public class Bar2
+    {
+        [JsonIgnore] public bool ShouldSerializemyBazCalled { get; set; }
+
+        Baz1[] myBazField;
+
+        public Baz1[] myBaz
+        {
+            get => myBazField;
+            set => myBazField = value;
+        }
+
+        string nameField;
+
+        public string name
+        {
+            get => nameField;
+            set => nameField = value;
+        }
+
+        public virtual bool ShouldSerializemyBaz()
+        {
+            ShouldSerializemyBazCalled = true;
+            return myBaz != null;
+        }
+
+        public virtual bool ShouldSerializename()
+        {
+            return name != null;
+        }
+    }
+
+    public class Baz1
+    {
+        Frob1[] myFrobField;
+
+        public Frob1[] myFrob
+        {
+            get => myFrobField;
+            set => myFrobField = value;
+        }
+
+        string nameField;
+
+        public string name
+        {
+            get => nameField;
+            set => nameField = value;
+        }
+
+        public virtual bool ShouldSerializename()
+        {
+            return name != null;
+        }
+
+        public virtual bool ShouldSerializemyFrob()
+        {
+            return myFrob != null;
+        }
+    }
+
+    public class Frob1
+    {
+        string nameField;
+
+        public string name
+        {
+            get => nameField;
+            set => nameField = value;
+        }
+
+        public virtual bool ShouldSerializename()
+        {
+            return name != null;
+        }
+    }
+
+    public class ShouldDeserializeContractResolver : DefaultContractResolver
+    {
+        public static new readonly ShouldDeserializeContractResolver Instance = new();
+
+        protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
+        {
+            var property = base.CreateProperty(member, memberSerialization);
+
+            var shouldDeserializeMethodInfo = member.DeclaringType.GetMethod($"ShouldDeserialize{member.Name}");
+
+            if (shouldDeserializeMethodInfo != null)
+            {
+                property.ShouldDeserialize = o => (bool) shouldDeserializeMethodInfo.Invoke(o, null);
+            }
+
+            return property;
+        }
+    }
+
+    public class ShouldDeserializeTestClass
+    {
+        [JsonExtensionData] public IDictionary<string, JToken> ExtensionData { get; set; }
+
+        public bool HasName { get; set; }
+        public string Name { get; set; }
+
+        public bool ShouldDeserializeName()
+        {
+            return HasName;
+        }
     }
 }

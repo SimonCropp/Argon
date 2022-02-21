@@ -82,12 +82,9 @@ public class JValueTests : TestFixtureBase
     {
         try
         {
-            JsonConvert.DefaultSettings = () =>
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
             {
-                return new JsonSerializerSettings
-                {
-                    Converters = { new MetroStringConverter() }
-                };
+                Converters = { new MetroStringConverter() }
             };
 
             var v = new JValue(":::STRING:::");

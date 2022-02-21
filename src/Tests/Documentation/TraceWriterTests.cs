@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using Argon.Tests.Serialization;
-
 namespace Argon.Tests.Documentation;
 
 public class LogEventInfo
@@ -101,6 +99,14 @@ public class TraceWriterTests : TestFixtureBase
     }
     #endregion
 
+
+    public class Staff
+    {
+        public string Name { get; set; }
+        public DateTime StartDate { get; set; }
+        public IList<string> Roles { get; set; }
+    }
+
     [Fact]
     public void MemoryTraceWriterTest()
     {
@@ -139,7 +145,7 @@ public class TraceWriterTests : TestFixtureBase
 
         var memoryTraceWriter = (MemoryTraceWriter)traceWriter;
 
-        Assert.Equal(854, memoryTraceWriter.ToString().Length);
+        Assert.Equal(888, memoryTraceWriter.ToString().Length);
         Assert.Equal(7, memoryTraceWriter.GetTraceMessages().Count());
     }
 }
