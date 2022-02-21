@@ -30,7 +30,7 @@ public class MetroStringConverter : JsonConverter
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
 #if !NET5_0_OR_GREATER
-            writer.WriteValue($":::{value.ToString().ToUpper(CultureInfo.InvariantCulture)}:::");
+        writer.WriteValue($":::{value.ToString().ToUpper(CultureInfo.InvariantCulture)}:::");
 #else
         writer.WriteValue($":::{value.ToString().ToUpper()}:::");
 #endif
@@ -45,9 +45,9 @@ public class MetroStringConverter : JsonConverter
         }
 
 #if !NET5_0_OR_GREATER
-        return s.ToLower(CultureInfo.InvariantCulture).Trim(new[] { ':' });
+        return s.ToLower(CultureInfo.InvariantCulture).Trim(':');
 #else
-        return s.ToLower().Trim(new[] { ':' });
+        return s.ToLower().Trim(':');
 #endif
     }
 

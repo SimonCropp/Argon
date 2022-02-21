@@ -355,13 +355,9 @@ public class ExceptionHandlingTests : TestFixtureBase
     public void NullTextReader()
     {
         XUnitAssert.Throws<ArgumentNullException>(
-            () => new JsonTextReader(null),
-            new[]
-            {
-                $"Value cannot be null.{Environment.NewLine}Parameter name: reader",
-                $"Argument cannot be null.{Environment.NewLine}Parameter name: reader", // Mono
-                "Value cannot be null. (Parameter 'reader')"
-            });
+            () => new JsonTextReader(null), 
+            $"Value cannot be null.{Environment.NewLine}Parameter name: reader", 
+            $"Argument cannot be null.{Environment.NewLine}Parameter name: reader", "Value cannot be null. (Parameter 'reader')");
     }
 
     [Fact]

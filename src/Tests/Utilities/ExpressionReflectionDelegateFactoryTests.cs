@@ -120,13 +120,11 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
             () =>
             {
                 var create = ExpressionReflectionDelegateFactory.Instance.CreateDefaultConstructor<object>(typeof(Type));
-
                 create();
-            }, new[]
-            {
-                "Cannot create an abstract class.",
-                "Cannot create an abstract class 'System.Type'." // mono
-            });
+            }, 
+            "Cannot create an abstract class.",
+            "Cannot create an abstract class 'System.Type'.",
+            "Cannot dynamically create an instance of type 'System.Type'. Reason: Cannot create an abstract class.");
     }
 
     [Fact]
@@ -303,12 +301,9 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
                 var setter = ExpressionReflectionDelegateFactory.Instance.CreateGet<object>(typeof(Movie).GetProperty("Name"));
 
                 setter(p);
-            },
-            new[]
-            {
-                "Unable to cast object of type 'TestObjects.Person' to type 'TestObjects.Movie'.",
-                "Cannot cast from source type to destination type." // mono
-            });
+            }, 
+            "Unable to cast object of type 'TestObjects.Person' to type 'TestObjects.Movie'.",
+            "Cannot cast from source type to destination type.");
     }
 
     [Fact]
@@ -329,12 +324,9 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
                 setter(p, "Hi");
 
                 Assert.Equal(p.Name, "Hi");
-            },
-            new[]
-            {
-                "Unable to cast object of type 'TestObjects.Person' to type 'TestObjects.Movie'.",
-                "Cannot cast from source type to destination type." // mono
-            });
+            }, 
+            "Unable to cast object of type 'TestObjects.Person' to type 'TestObjects.Movie'.", 
+            "Cannot cast from source type to destination type.");
     }
 
     [Fact]
@@ -348,11 +340,9 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
                 var setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(typeof(Movie).GetProperty("Name"));
 
                 setter(m, new Version("1.1.1.1"));
-            }, new[]
-            {
-                "Unable to cast object of type 'System.Version' to type 'System.String'.",
-                "Cannot cast from source type to destination type." //mono
-            });
+            }, 
+            "Unable to cast object of type 'System.Version' to type 'System.String'.",
+            "Cannot cast from source type to destination type.");
     }
 
     [Fact]

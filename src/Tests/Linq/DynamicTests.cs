@@ -809,7 +809,7 @@ public class LinqDynamicTests : TestFixtureBase
         {
             ["Name"] = "Arnie Admin",
             ["Enabled"] = true,
-            ["Roles"] = new JArray(new[] {"Admin", "User"})
+            ["Roles"] = new JArray("Admin", "User")
         };
 
         var oldRole = (string) oldAndBusted["Roles"][0];
@@ -818,7 +818,7 @@ public class LinqDynamicTests : TestFixtureBase
         dynamic newHotness = new JObject();
         newHotness.Name = "Arnie Admin";
         newHotness.Enabled = true;
-        newHotness.Roles = new JArray(new[] {"Admin", "User"});
+        newHotness.Roles = new JArray("Admin", "User");
 
         string newRole = newHotness.Roles[0];
         // Admin
