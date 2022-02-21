@@ -35,7 +35,6 @@ using System.Collections.ObjectModel;
 using System.Runtime.Serialization.Json;
 using Argon.Tests.Linq;
 using TestObjects;
-using Argon.Tests.TestObjects.Events;
 using System.Xml.Linq;
 using System.Collections.Specialized;
 using System.Dynamic;
@@ -3303,7 +3302,7 @@ keyword such as type of business.""
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<Event>(json),
-            @"Unable to find a constructor to use for type Argon.Tests.TestObjects.Events.Event. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'sublocation', line 1, position 15.");
+            @"Unable to find a constructor to use for type TestObjects.Event. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'sublocation', line 1, position 15.");
     }
 
     [Fact]

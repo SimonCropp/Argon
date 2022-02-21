@@ -26,7 +26,6 @@
 using System.Collections.Specialized;
 using System.Collections.ObjectModel;
 using TestObjects;
-using Argon.Tests.TestObjects.Events;
 using System.Xml.Linq;
 
 namespace Argon.Tests.Serialization;
@@ -1672,17 +1671,17 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
   ""$type"": ""{ReflectionUtils.GetTypeName(typeof(List<Event1[,]>), 0, DefaultSerializationBinder.Instance)}"",
   ""$values"": [
     {{
-      ""$type"": ""Argon.Tests.TestObjects.Events.Event1[,], Tests"",
+      ""$type"": ""TestObjects.Event1[,], Tests"",
       ""$values"": [
         [
           {{
-            ""$type"": ""Argon.Tests.TestObjects.Events.Event1, Tests"",
+            ""$type"": ""TestObjects.Event1, Tests"",
             ""EventName"": ""EventName!"",
             ""Venue"": null,
             ""Performances"": null
           }},
           {{
-            ""$type"": ""Argon.Tests.TestObjects.Events.Event1, Tests"",
+            ""$type"": ""TestObjects.Event1, Tests"",
             ""EventName"": ""EventName!"",
             ""Venue"": null,
             ""Performances"": null
@@ -1690,13 +1689,13 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         ],
         [
           {{
-            ""$type"": ""Argon.Tests.TestObjects.Events.Event1, Tests"",
+            ""$type"": ""TestObjects.Event1, Tests"",
             ""EventName"": ""EventName!"",
             ""Venue"": null,
             ""Performances"": null
           }},
           {{
-            ""$type"": ""Argon.Tests.TestObjects.Events.Event1, Tests"",
+            ""$type"": ""TestObjects.Event1, Tests"",
             ""EventName"": ""EventName!"",
             ""Venue"": null,
             ""Performances"": null
@@ -1705,17 +1704,17 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
       ]
     }},
     {{
-      ""$type"": ""Argon.Tests.TestObjects.Events.Event1[,], Tests"",
+      ""$type"": ""TestObjects.Event1[,], Tests"",
       ""$values"": [
         [
           {{
-            ""$type"": ""Argon.Tests.TestObjects.Events.Event1, Tests"",
+            ""$type"": ""TestObjects.Event1, Tests"",
             ""EventName"": ""EventName!"",
             ""Venue"": null,
             ""Performances"": null
           }},
           {{
-            ""$type"": ""Argon.Tests.TestObjects.Events.Event1, Tests"",
+            ""$type"": ""TestObjects.Event1, Tests"",
             ""EventName"": ""EventName!"",
             ""Venue"": null,
             ""Performances"": null
@@ -1723,13 +1722,13 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         ],
         [
           {{
-            ""$type"": ""Argon.Tests.TestObjects.Events.Event1, Tests"",
+            ""$type"": ""TestObjects.Event1, Tests"",
             ""EventName"": ""EventName!"",
             ""Venue"": null,
             ""Performances"": null
           }},
           {{
-            ""$type"": ""Argon.Tests.TestObjects.Events.Event1, Tests"",
+            ""$type"": ""TestObjects.Event1, Tests"",
             ""EventName"": ""EventName!"",
             ""Venue"": null,
             ""Performances"": null

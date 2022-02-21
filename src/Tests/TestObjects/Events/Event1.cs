@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon.Tests.TestObjects.Events;
+namespace TestObjects;
 
 public class Event1
 {
