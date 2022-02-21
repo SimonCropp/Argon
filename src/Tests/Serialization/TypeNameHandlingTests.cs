@@ -27,8 +27,6 @@ using System.Collections.ObjectModel;
 using TestObjects;
 using System.Net;
 
-namespace Argon.Tests.Serialization;
-
 public class TypeNameHandlingTests : TestFixtureBase
 {
     [Fact]
@@ -984,7 +982,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto,
-                SerializationBinder = new TypeNameSerializationBinder("Argon.Tests.Serialization.{0}, Tests")
+                SerializationBinder = new TypeNameSerializationBinder("TypeNameHandlingTests+{0}, Tests")
             });
 
         Assert.IsType(typeof(Customer), newValues[0]);
@@ -1073,7 +1071,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         var newValues = JsonConvert.DeserializeObject<IList<object>>(json, new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.Auto,
-            SerializationBinder = new NewTypeNameSerializationBinder("Argon.Tests.Serialization.{0}, Tests")
+            SerializationBinder = new NewTypeNameSerializationBinder("TypeNameHandlingTests+{0}, Tests")
         });
 
         Assert.IsType(typeof(Customer), newValues[0]);
@@ -1568,7 +1566,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     }
 
     [Fact]
-    public void TypeNameDictionary()
+    public void TypeNameDictionaryTest()
     {
         var l = new TypeNameDictionary<object>
         {
@@ -1636,7 +1634,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     }
 
     [Fact]
-    public void PropertyItemTypeNameHandling()
+    public void PropertyItemTypeNameHandlingTest()
     {
         var c1 = new PropertyItemTypeNameHandling
         {
@@ -1826,7 +1824,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     }
 
     [Fact]
-    public void PropertyItemTypeNameHandlingObject()
+    public void PropertyItemTypeNameHandlingObjectTest()
     {
         var o1 = new PropertyItemTypeNameHandlingObject
         {
@@ -1886,7 +1884,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     }
 
     [Fact]
-    public void PropertyItemTypeNameHandlingDynamic()
+    public void PropertyItemTypeNameHandlingDynamicTest()
     {
         var d1 = new PropertyItemTypeNameHandlingDynamic();
 
@@ -2009,7 +2007,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         XUnitAssert.AreEqualNormalized(@"{
   ""c"": {
-    ""$type"": ""Argon.Tests.Serialization.MyChild, Tests"",
+    ""$type"": ""TypeNameHandlingTests+MyChild, Tests"",
     ""p"": ""string!""
   }
 }", json);
@@ -2044,7 +2042,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         XUnitAssert.AreEqualNormalized(@"{
   ""c"": {
-    ""$type"": ""Argon.Tests.Serialization.MyChildList, Tests"",
+    ""$type"": ""TypeNameHandlingTests+MyChildList, Tests"",
     ""$values"": [
       ""string!""
     ]
@@ -2085,7 +2083,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         XUnitAssert.AreEqualNormalized(@"{
   ""ParentProp"": {
     ""c"": {
-      ""$type"": ""Argon.Tests.Serialization.MyChild, Tests"",
+      ""$type"": ""TypeNameHandlingTests+MyChild, Tests"",
       ""p"": ""string!""
     }
   }
@@ -2131,7 +2129,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     {
         var json = @"{
     ""itemIdentifier"": {
-        ""$type"": ""Argon.Tests.Serialization.ReportItemKeys, Tests"",
+        ""$type"": ""TypeNameHandlingTests+ReportItemKeys, Tests"",
         ""dataType"": 0,
         ""wantedUnitID"": 1,
         ""application"": 3,
@@ -2284,287 +2282,288 @@ public class TypeNameHandlingTests : TestFixtureBase
             return null;
         }
     }
-}
 
-public struct Message2
-{
-    public string Value { get; }
 
-    [JsonConstructor]
-    public Message2(string value)
+    public struct Message2
     {
-        if (value == null) throw new ArgumentNullException(nameof(value));
+        public string Value { get; }
 
-        Value = value;
-    }
-}
-
-public class ObjectWithOptionalMessage
-{
-    public Message2? Message { get; }
-
-    public ObjectWithOptionalMessage(Message2? message)
-    {
-        Message = message;
-    }
-}
-
-public class DataType
-{
-    public DataType()
-    {
-        Rows = new Dictionary<string, IEnumerable<IMyInterfaceType>>();
-    }
-
-    [JsonProperty(ItemTypeNameHandling = TypeNameHandling.Auto, TypeNameHandling = TypeNameHandling.Auto)]
-    public Dictionary<string, IEnumerable<IMyInterfaceType>> Rows { get; private set; }
-}
-
-public interface IMyInterfaceType
-{
-    string SomeProperty { get; set; }
-}
-
-public class MyInterfaceImplementationType : IMyInterfaceType
-{
-    public string SomeProperty { get; set; }
-}
-
-public class ParentParent
-{
-    [JsonProperty(ItemTypeNameHandling = TypeNameHandling.Auto)]
-    public MyParent ParentProp { get; set; }
-}
-
-[Serializable]
-public class MyParent : ISerializable
-{
-    public ISomeBase Child { get; internal set; }
-
-    public MyParent(SerializationInfo info, StreamingContext context)
-    {
-        Child = (ISomeBase)info.GetValue("c", typeof(ISomeBase));
-    }
-
-    public MyParent()
-    {
-    }
-
-    void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
-    {
-        info.AddValue("c", Child);
-    }
-}
-
-public class MyChild : ISomeBase
-{
-    [JsonProperty("p")]
-    public String MyProperty { get; internal set; }
-}
-
-public class MyChildList : List<string>, ISomeBase
-{
-}
-
-public interface ISomeBase
-{
-}
-
-public class Message
-{
-    public string Address { get; set; }
-
-    [JsonProperty(TypeNameHandling = TypeNameHandling.All)]
-    public object Body { get; set; }
-}
-
-public class SearchDetails
-{
-    public string Query { get; set; }
-    public string Language { get; set; }
-}
-
-public class Customer
-{
-    public string Name { get; set; }
-}
-
-public class Purchase
-{
-    public string ProductName { get; set; }
-    public decimal Price { get; set; }
-    public int Quantity { get; set; }
-}
-
-public class SerializableWrapper
-{
-    public object Content { get; set; }
-
-    public override bool Equals(object obj)
-    {
-        var w = obj as SerializableWrapper;
-
-        if (w == null)
+        [Argon.JsonConstructor]
+        public Message2(string value)
         {
+            if (value == null) throw new ArgumentNullException(nameof(value));
+
+            Value = value;
+        }
+    }
+
+    public class ObjectWithOptionalMessage
+    {
+        public Message2? Message { get; }
+
+        public ObjectWithOptionalMessage(Message2? message)
+        {
+            Message = message;
+        }
+    }
+
+    public class DataType
+    {
+        public DataType()
+        {
+            Rows = new Dictionary<string, IEnumerable<IMyInterfaceType>>();
+        }
+
+        [JsonProperty(ItemTypeNameHandling = TypeNameHandling.Auto, TypeNameHandling = TypeNameHandling.Auto)]
+        public Dictionary<string, IEnumerable<IMyInterfaceType>> Rows { get; private set; }
+    }
+
+    public interface IMyInterfaceType
+    {
+        string SomeProperty { get; set; }
+    }
+
+    public class MyInterfaceImplementationType : IMyInterfaceType
+    {
+        public string SomeProperty { get; set; }
+    }
+
+    public class ParentParent
+    {
+        [JsonProperty(ItemTypeNameHandling = TypeNameHandling.Auto)]
+        public MyParent ParentProp { get; set; }
+    }
+
+    [Serializable]
+    public class MyParent : ISerializable
+    {
+        public ISomeBase Child { get; internal set; }
+
+        public MyParent(SerializationInfo info, StreamingContext context)
+        {
+            Child = (ISomeBase)info.GetValue("c", typeof(ISomeBase));
+        }
+
+        public MyParent()
+        {
+        }
+
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("c", Child);
+        }
+    }
+
+    public class MyChild : ISomeBase
+    {
+        [JsonProperty("p")]
+        public String MyProperty { get; internal set; }
+    }
+
+    public class MyChildList : List<string>, ISomeBase
+    {
+    }
+
+    public interface ISomeBase
+    {
+    }
+
+    public class Message
+    {
+        public string Address { get; set; }
+
+        [JsonProperty(TypeNameHandling = TypeNameHandling.All)]
+        public object Body { get; set; }
+    }
+
+    public class SearchDetails
+    {
+        public string Query { get; set; }
+        public string Language { get; set; }
+    }
+
+    public class Customer
+    {
+        public string Name { get; set; }
+    }
+
+    public class Purchase
+    {
+        public string ProductName { get; set; }
+        public decimal Price { get; set; }
+        public int Quantity { get; set; }
+    }
+
+    public class SerializableWrapper
+    {
+        public object Content { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var w = obj as SerializableWrapper;
+
+            if (w == null)
+            {
+                return false;
+            }
+
+            return Equals(w.Content, Content);
+        }
+
+        public override int GetHashCode()
+        {
+            if (Content == null)
+            {
+                return 0;
+            }
+
+            return Content.GetHashCode();
+        }
+    }
+
+    public interface IExample
+        : ISerializable
+    {
+        String Name { get; }
+    }
+
+    [Serializable]
+    public class Example
+        : IExample
+    {
+        public Example(String name)
+        {
+            Name = name;
+        }
+
+        protected Example(SerializationInfo info, StreamingContext context)
+        {
+            Name = info.GetString("name");
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("name", Name);
+        }
+
+        public String Name { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+            if (obj is IExample)
+            {
+                return Name.Equals(((IExample)obj).Name);
+            }
+
             return false;
         }
 
-        return Equals(w.Content, Content);
-    }
-
-    public override int GetHashCode()
-    {
-        if (Content == null)
+        public override int GetHashCode()
         {
-            return 0;
+            if (Name == null)
+            {
+                return 0;
+            }
+
+            return Name.GetHashCode();
         }
-
-        return Content.GetHashCode();
-    }
-}
-
-public interface IExample
-    : ISerializable
-{
-    String Name { get; }
-}
-
-[Serializable]
-public class Example
-    : IExample
-{
-    public Example(String name)
-    {
-        Name = name;
     }
 
-    protected Example(SerializationInfo info, StreamingContext context)
+    public class PropertyItemTypeNameHandlingObject
     {
-        Name = info.GetString("name");
+        [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
+        public TypeNameHandlingTestObject Data { get; set; }
     }
 
-    public void GetObjectData(SerializationInfo info, StreamingContext context)
+    public class PropertyItemTypeNameHandlingDynamic
     {
-        info.AddValue("name", Name);
+        [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
+        public DynamicDictionary Data { get; set; }
     }
 
-    public String Name { get; set; }
-
-    public override bool Equals(object obj)
+    public class TypeNameHandlingTestObject
     {
-        if (obj == null)
+        public object Prop1 { get; set; }
+        public object Prop2 { get; set; }
+        public object Prop3 { get; set; }
+        public object Prop4 { get; set; }
+    }
+
+    public class PropertyItemTypeNameHandlingDictionary
+    {
+        [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
+        public IDictionary<string, object> Data { get; set; }
+    }
+
+    public class PropertyItemTypeNameHandling
+    {
+        [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
+        public IList<object> Data { get; set; }
+    }
+
+    [JsonArray(ItemTypeNameHandling = TypeNameHandling.All)]
+    public class TypeNameList<T> : List<T>
+    {
+    }
+
+    [JsonDictionary(ItemTypeNameHandling = TypeNameHandling.All)]
+    public class TypeNameDictionary<T> : Dictionary<string, T>
+    {
+    }
+
+    [JsonObject(ItemTypeNameHandling = TypeNameHandling.All)]
+    public class TypeNameObject
+    {
+        public object Object1 { get; set; }
+        public object Object2 { get; set; }
+
+        [JsonProperty(TypeNameHandling = TypeNameHandling.None)]
+        public object ObjectNotHandled { get; set; }
+
+        public string String { get; set; }
+        public int Integer { get; set; }
+    }
+
+    [DataContract]
+    public class GroupingInfo
+    {
+        [DataMember]
+        public ApplicationItemKeys ItemIdentifier { get; set; }
+
+        public GroupingInfo()
         {
-            return false;
+            ItemIdentifier = new ApplicationItemKeys();
         }
-        if (ReferenceEquals(this, obj))
-        {
-            return true;
-        }
-        if (obj is IExample)
-        {
-            return Name.Equals(((IExample)obj).Name);
-        }
-
-        return false;
     }
 
-    public override int GetHashCode()
+    [DataContract]
+    public class ApplicationItemKeys
     {
-        if (Name == null)
+        [DataMember]
+        public int ID { get; set; }
+
+        [DataMember]
+        public string Name { get; set; }
+    }
+
+    [DataContract]
+    public class ReportItemKeys : ApplicationItemKeys
+    {
+        protected ulong _wantedUnit;
+
+        [DataMember]
+        public ulong WantedUnitID
         {
-            return 0;
+            get => _wantedUnit;
+            set => _wantedUnit = value;
         }
-
-        return Name.GetHashCode();
-    }
-}
-
-public class PropertyItemTypeNameHandlingObject
-{
-    [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
-    public TypeNameHandlingTestObject Data { get; set; }
-}
-
-public class PropertyItemTypeNameHandlingDynamic
-{
-    [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
-    public DynamicDictionary Data { get; set; }
-}
-
-public class TypeNameHandlingTestObject
-{
-    public object Prop1 { get; set; }
-    public object Prop2 { get; set; }
-    public object Prop3 { get; set; }
-    public object Prop4 { get; set; }
-}
-
-public class PropertyItemTypeNameHandlingDictionary
-{
-    [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
-    public IDictionary<string, object> Data { get; set; }
-}
-
-public class PropertyItemTypeNameHandling
-{
-    [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
-    public IList<object> Data { get; set; }
-}
-
-[JsonArray(ItemTypeNameHandling = TypeNameHandling.All)]
-public class TypeNameList<T> : List<T>
-{
-}
-
-[JsonDictionary(ItemTypeNameHandling = TypeNameHandling.All)]
-public class TypeNameDictionary<T> : Dictionary<string, T>
-{
-}
-
-[JsonObject(ItemTypeNameHandling = TypeNameHandling.All)]
-public class TypeNameObject
-{
-    public object Object1 { get; set; }
-    public object Object2 { get; set; }
-
-    [JsonProperty(TypeNameHandling = TypeNameHandling.None)]
-    public object ObjectNotHandled { get; set; }
-
-    public string String { get; set; }
-    public int Integer { get; set; }
-}
-
-[DataContract]
-public class GroupingInfo
-{
-    [DataMember]
-    public ApplicationItemKeys ItemIdentifier { get; set; }
-
-    public GroupingInfo()
-    {
-        ItemIdentifier = new ApplicationItemKeys();
-    }
-}
-
-[DataContract]
-public class ApplicationItemKeys
-{
-    [DataMember]
-    public int ID { get; set; }
-
-    [DataMember]
-    public string Name { get; set; }
-}
-
-[DataContract]
-public class ReportItemKeys : ApplicationItemKeys
-{
-    protected ulong _wantedUnit;
-
-    [DataMember]
-    public ulong WantedUnitID
-    {
-        get => _wantedUnit;
-        set => _wantedUnit = value;
     }
 }
