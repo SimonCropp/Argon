@@ -24,16 +24,9 @@
 #endregion
 
 using System.ComponentModel;
-using System.Security;
-#if !NETSTANDARD2_0
-using System.Security.Permissions;
-#endif
 
 static class JsonTypeReflector
 {
-    static bool? _dynamicCodeGeneration;
-    static bool? _fullyTrusted;
-
     public const string IdPropertyName = "$id";
     public const string RefPropertyName = "$ref";
     public const string TypePropertyName = "$type";
@@ -380,74 +373,12 @@ static class JsonTypeReflector
         return ReflectionUtils.GetAttribute<T>(provider, true);
     }
 
-#if DEBUG
-    internal static void SetFullyTrusted(bool? fullyTrusted)
-    {
-        _fullyTrusted = fullyTrusted;
-    }
-
-    internal static void SetDynamicCodeGeneration(bool dynamicCodeGeneration)
-    {
-        _dynamicCodeGeneration = dynamicCodeGeneration;
-    }
-#endif
-
-    public static bool DynamicCodeGeneration
-    {
-        [SecuritySafeCritical]
-        get
-        {
-            if (_dynamicCodeGeneration == null)
-            {
-#if !NETSTANDARD2_0
-                    try
-                    {
-                        new ReflectionPermission(ReflectionPermissionFlag.MemberAccess).Demand();
-                        new ReflectionPermission(ReflectionPermissionFlag.RestrictedMemberAccess).Demand();
-                        new SecurityPermission(SecurityPermissionFlag.SkipVerification).Demand();
-                        new SecurityPermission(SecurityPermissionFlag.UnmanagedCode).Demand();
-                        new SecurityPermission(PermissionState.Unrestricted).Demand();
-                        _dynamicCodeGeneration = true;
-                    }
-                    catch (Exception)
-                    {
-                        _dynamicCodeGeneration = false;
-                    }
-#else
-                _dynamicCodeGeneration = false;
-#endif
-            }
-
-            return _dynamicCodeGeneration.GetValueOrDefault();
-        }
-    }
-
-    public static bool FullyTrusted
-    {
-        get
-        {
-            if (_fullyTrusted == null)
-            {
-                var appDomain = AppDomain.CurrentDomain;
-
-                _fullyTrusted = appDomain.IsHomogenous && appDomain.IsFullyTrusted;
-            }
-
-            return _fullyTrusted.GetValueOrDefault();
-        }
-    }
-
     public static ReflectionDelegateFactory ReflectionDelegateFactory
     {
         get
         {
 #if !NETSTANDARD2_0
-            if (DynamicCodeGeneration)
-            {
-                return DynamicReflectionDelegateFactory.Instance;
-            }
-
-            return LateBoundReflectionDelegateFactory.Instance;
+            return DynamicReflectionDelegateFactory.Instance;
 #else
             return ExpressionReflectionDelegateFactory.Instance;
 #endif
