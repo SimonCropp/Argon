@@ -27,8 +27,6 @@ using System.ComponentModel;
 
 // ReSharper disable UseObjectOrCollectionInitializer
 
-namespace Argon.Tests.Linq;
-
 public class JArrayTests : TestFixtureBase
 {
     [Fact]

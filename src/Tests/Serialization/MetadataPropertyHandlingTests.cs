@@ -213,14 +213,14 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
   ""Manager"": null
 }";
 
-        XUnitAssert.Throws<JsonSerializationException>(() =>
+        var settings = new JsonSerializerSettings
         {
-            JsonConvert.DeserializeObject(json, null, new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Objects,
-                MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
-            });
-        }, "Type specified in JSON 'TestObjects.Employee' was not resolved. Path '$type', line 3, position 45.");
+            TypeNameHandling = TypeNameHandling.Objects,
+            MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
+        };
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject(json, null, settings),
+            "Type specified in JSON 'TestObjects.Employee' was not resolved. Path '$type', line 3, position 33.");
     }
 
     [Fact]

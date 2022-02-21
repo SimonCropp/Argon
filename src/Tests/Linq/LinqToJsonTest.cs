@@ -25,8 +25,6 @@
 
 using TestObjects;
 
-namespace Argon.Tests.Linq;
-
 public class LinqToJsonTest : TestFixtureBase
 {
     [Fact]

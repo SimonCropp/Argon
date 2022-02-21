@@ -712,13 +712,13 @@ public class TypeNameHandlingTests : TestFixtureBase
   ""Manager"": null
 }";
 
-        XUnitAssert.Throws<JsonSerializationException>(() =>
+        var settings = new JsonSerializerSettings
         {
-            JsonConvert.DeserializeObject(json, null, new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Objects
-            });
-        }, "Type specified in JSON 'TestObjects.Employee' was not resolved. Path '$type', line 3, position 45.");
+            TypeNameHandling = TypeNameHandling.Objects
+        };
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject(json, null, settings),
+            "Type specified in JSON 'TestObjects.Employee' was not resolved. Path '$type', line 3, position 33.");
     }
 
     public interface ICorrelatedMessage

@@ -26,8 +26,6 @@
 #if !NET5_0_OR_GREATER
 using TestObjects;
 
-namespace Argon.Tests.Utilities;
-
 public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
 {
     [Fact]

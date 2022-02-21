@@ -26,8 +26,6 @@
 using Argon.Tests.Serialization;
 using TestObjects;
 
-namespace Argon.Tests.Linq;
-
 public class JTokenReaderTest : TestFixtureBase
 {
     [Fact]
