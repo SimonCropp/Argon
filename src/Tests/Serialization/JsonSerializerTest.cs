@@ -1210,85 +1210,6 @@ public class JsonSerializerTest : TestFixtureBase
     }
 
     [Fact]
-    public void DeserializeISerializableIConvertible()
-    {
-        var ratio = new Ratio(2, 1);
-        var json = JsonConvert.SerializeObject(ratio);
-
-        Assert.Equal(@"{""n"":2,""d"":1}", json);
-
-        var ratio2 = JsonConvert.DeserializeObject<Ratio>(json);
-
-        Assert.Equal(ratio.Denominator, ratio2.Denominator);
-        Assert.Equal(ratio.Numerator, ratio2.Numerator);
-    }
-
-    [Fact]
-    public void PreserveReferencesCallbackTest()
-    {
-        var p1 = new PersonReference
-        {
-            Name = "John Smith"
-        };
-        var p2 = new PersonReference
-        {
-            Name = "Mary Sue",
-        };
-
-        p1.Spouse = p2;
-        p2.Spouse = p1;
-
-        var obj = new PreserveReferencesCallbackTestObject("string!", 42, p1, p2, p1);
-        obj._parent = obj;
-
-        var settings = new JsonSerializerSettings
-        {
-            PreserveReferencesHandling = PreserveReferencesHandling.All,
-            Formatting = Formatting.Indented
-        };
-
-        var json = JsonConvert.SerializeObject(obj, settings);
-
-        XUnitAssert.AreEqualNormalized(json, @"{
-  ""$id"": ""1"",
-  ""stringValue"": ""string!"",
-  ""intValue"": 42,
-  ""person1"": {
-    ""$id"": ""2"",
-    ""Name"": ""John Smith"",
-    ""Spouse"": {
-      ""$id"": ""3"",
-      ""Name"": ""Mary Sue"",
-      ""Spouse"": {
-        ""$ref"": ""2""
-      }
-    }
-  },
-  ""person2"": {
-    ""$ref"": ""3""
-  },
-  ""person3"": {
-    ""$ref"": ""2""
-  },
-  ""parent"": {
-    ""$ref"": ""1""
-  }
-}");
-
-        var obj2 = JsonConvert.DeserializeObject<PreserveReferencesCallbackTestObject>(json);
-
-        Assert.Equal(obj._stringValue, obj2._stringValue);
-        Assert.Equal(obj._intValue, obj2._intValue);
-        Assert.Equal(obj._person1.Name, obj2._person1.Name);
-        Assert.Equal(obj._person2.Name, obj2._person2.Name);
-        Assert.Equal(obj._person3.Name, obj2._person3.Name);
-        Assert.Equal(obj2._person1, obj2._person3);
-        Assert.Equal(obj2._person1.Spouse, obj2._person2);
-        Assert.Equal(obj2._person2.Spouse, obj2._person1);
-        Assert.Equal(obj2._parent, obj2);
-    }
-
-    [Fact]
     public void DeserializeLargeFloat()
     {
         var o = JsonConvert.DeserializeObject("100000000000000000000000000000000000000.0");
@@ -3499,10 +3420,7 @@ Path '', line 1, position 1.");
         {
             JsonConvert.SerializeObject(new MemoryStream(), new JsonSerializerSettings
             {
-                ContractResolver = new DefaultContractResolver
-                {
-                    IgnoreSerializableAttribute = true
-                }
+                ContractResolver = new DefaultContractResolver()
             });
         }, @"Error getting value from 'ReadTimeout' on 'System.IO.MemoryStream'.");
     }
@@ -3514,10 +3432,7 @@ Path '', line 1, position 1.");
         {
             JsonConvert.DeserializeObject<MemoryStream>("{ReadTimeout:0}", new JsonSerializerSettings
             {
-                ContractResolver = new DefaultContractResolver
-                {
-                    IgnoreSerializableAttribute = true
-                }
+                ContractResolver = new DefaultContractResolver()
             });
         }, @"Error setting value to 'ReadTimeout' on 'System.IO.MemoryStream'.");
     }
@@ -3529,10 +3444,7 @@ Path '', line 1, position 1.");
         {
             JsonConvert.DeserializeObject<MemoryStream>("{ReadTimeout:''}", new JsonSerializerSettings
             {
-                ContractResolver = new DefaultContractResolver
-                {
-                    IgnoreSerializableAttribute = true
-                }
+                ContractResolver = new DefaultContractResolver()
             });
         }, @"Error converting value {null} to type 'System.Int32'. Path 'ReadTimeout', line 1, position 15.");
     }
@@ -3544,10 +3456,7 @@ Path '', line 1, position 1.");
         {
             JsonConvert.DeserializeObject<MemoryStream>("{ReadTimeout:null}", new JsonSerializerSettings
             {
-                ContractResolver = new DefaultContractResolver
-                {
-                    IgnoreSerializableAttribute = true
-                }
+                ContractResolver = new DefaultContractResolver()
             });
         }, @"Error converting value {null} to type 'System.Int32'. Path 'ReadTimeout', line 1, position 17.");
     }
@@ -4008,113 +3917,6 @@ Path '', line 1, position 1.");
         Assert.Equal("value", newModelStateDictionary["key"]);
     }
 
-#if DEBUG
-
-    [Fact]
-    public void SerializeISerializableTestObject_IsoDate()
-    {
-        var person = new Person
-        {
-            BirthDate = new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc)
-        };
-        person.LastModified = person.BirthDate;
-        person.Department = "Department!";
-        person.Name = "Name!";
-
-        var dateTimeOffset = new DateTimeOffset(2000, 12, 20, 22, 59, 59, TimeSpan.FromHours(2));
-        var dateTimeOffsetText = @"2000-12-20T22:59:59+02:00";
-
-        var o = new ISerializableTestObject("String!", int.MinValue, dateTimeOffset, person);
-
-        var json = JsonConvert.SerializeObject(o, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized($@"{{
-  ""stringValue"": ""String!"",
-  ""intValue"": -2147483648,
-  ""dateTimeOffsetValue"": ""{dateTimeOffsetText}"",
-  ""personValue"": {{
-    ""Name"": ""Name!"",
-    ""BirthDate"": ""2000-01-01T01:01:01Z"",
-    ""LastModified"": ""2000-01-01T01:01:01Z""
-  }},
-  ""nullPersonValue"": null,
-  ""nullableInt"": null,
-  ""booleanValue"": false,
-  ""byteValue"": 0,
-  ""charValue"": ""\u0000"",
-  ""dateTimeValue"": ""0001-01-01T00:00:00Z"",
-  ""decimalValue"": 0.0,
-  ""shortValue"": 0,
-  ""longValue"": 0,
-  ""sbyteValue"": 0,
-  ""floatValue"": 0.0,
-  ""ushortValue"": 0,
-  ""uintValue"": 0,
-  ""ulongValue"": 0
-}}", json);
-
-        var o2 = JsonConvert.DeserializeObject<ISerializableTestObject>(json);
-        Assert.Equal("String!", o2._stringValue);
-        Assert.Equal(int.MinValue, o2._intValue);
-        Assert.Equal(dateTimeOffset, o2._dateTimeOffsetValue);
-        Assert.Equal("Name!", o2._personValue.Name);
-        Assert.Equal(null, o2._nullPersonValue);
-        Assert.Equal(null, o2._nullableInt);
-    }
-
-    [Fact]
-    public void SerializeISerializableTestObject_MsAjax()
-    {
-        var person = new Person
-        {
-            BirthDate = new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc)
-        };
-        person.LastModified = person.BirthDate;
-        person.Department = "Department!";
-        person.Name = "Name!";
-
-        var dateTimeOffset = new DateTimeOffset(2000, 12, 20, 22, 59, 59, TimeSpan.FromHours(2));
-        var dateTimeOffsetText = @"\/Date(977345999000+0200)\/";
-
-        var o = new ISerializableTestObject("String!", int.MinValue, dateTimeOffset, person);
-
-        var json = JsonConvert.SerializeObject(o, Formatting.Indented, new JsonSerializerSettings
-        {
-            DateFormatHandling = DateFormatHandling.MicrosoftDateFormat
-        });
-        XUnitAssert.AreEqualNormalized($@"{{
-  ""stringValue"": ""String!"",
-  ""intValue"": -2147483648,
-  ""dateTimeOffsetValue"": ""{dateTimeOffsetText}"",
-  ""personValue"": {{
-    ""Name"": ""Name!"",
-    ""BirthDate"": ""\/Date(946688461000)\/"",
-    ""LastModified"": ""\/Date(946688461000)\/""
-  }},
-  ""nullPersonValue"": null,
-  ""nullableInt"": null,
-  ""booleanValue"": false,
-  ""byteValue"": 0,
-  ""charValue"": ""\u0000"",
-  ""dateTimeValue"": ""\/Date(-62135596800000)\/"",
-  ""decimalValue"": 0.0,
-  ""shortValue"": 0,
-  ""longValue"": 0,
-  ""sbyteValue"": 0,
-  ""floatValue"": 0.0,
-  ""ushortValue"": 0,
-  ""uintValue"": 0,
-  ""ulongValue"": 0
-}}", json);
-
-        var o2 = JsonConvert.DeserializeObject<ISerializableTestObject>(json);
-        Assert.Equal("String!", o2._stringValue);
-        Assert.Equal(int.MinValue, o2._intValue);
-        Assert.Equal(dateTimeOffset, o2._dateTimeOffsetValue);
-        Assert.Equal("Name!", o2._personValue.Name);
-        Assert.Equal(null, o2._nullPersonValue);
-        Assert.Equal(null, o2._nullableInt);
-    }
-#endif
 
     [Fact]
     public void DeserializeUsingNonDefaultConstructorWithLeftOverValues()
@@ -4756,44 +4558,6 @@ Path '', line 1, position 1.");
 
         Assert.Equal(((PrivateSetterDerived) meh).IDoWork, "woo");
         Assert.Equal(meh.IDontWork, "meh");
-    }
-
-    [Fact]
-    public void DeserializeNullableStruct()
-    {
-        var nullableStructPropertyClass = new NullableStructPropertyClass
-        {
-            Foo1 = new StructISerializable {Name = "foo 1"},
-            Foo2 = new StructISerializable {Name = "foo 2"}
-        };
-        var barWithNull = new NullableStructPropertyClass
-        {
-            Foo1 = new StructISerializable {Name = "foo 1"},
-            Foo2 = null
-        };
-
-        //throws error on deserialization because bar1.Foo2 is of type Foo?
-        var s = JsonConvert.SerializeObject(nullableStructPropertyClass);
-        var deserialized = deserialize(s);
-        Assert.Equal(deserialized.Foo1.Name, "foo 1");
-        Assert.Equal(deserialized.Foo2.Value.Name, "foo 2");
-
-        //no error Foo2 is null
-        s = JsonConvert.SerializeObject(barWithNull);
-        deserialized = deserialize(s);
-        Assert.Equal(deserialized.Foo1.Name, "foo 1");
-        Assert.Equal(deserialized.Foo2, null);
-    }
-
-    static NullableStructPropertyClass deserialize(string serStr)
-    {
-        return JsonConvert.DeserializeObject<NullableStructPropertyClass>(
-            serStr,
-            new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore,
-                MissingMemberHandling = MissingMemberHandling.Ignore
-            });
     }
 
     [Fact]
@@ -6146,49 +5910,6 @@ Path '', line 1, position 1.");
     }
 
     [Fact]
-    public void SerializeAndDeserializeWithAttributes()
-    {
-        var testObj = new PersonSerializable {Name = "John Doe", Age = 28};
-
-        var json = Serialize(testObj);
-        var objDeserialized = Deserialize<PersonSerializable>(json);
-
-        Assert.Equal(testObj.Name, objDeserialized.Name);
-        Assert.Equal(0, objDeserialized.Age);
-    }
-
-    static string Serialize<T>(T obj)
-        where T : class
-    {
-        var stringWriter = new StringWriter();
-        var serializer = new JsonSerializer
-        {
-            ContractResolver = new DefaultContractResolver
-            {
-                IgnoreSerializableAttribute = false
-            }
-        };
-        serializer.Serialize(stringWriter, obj);
-
-        return stringWriter.ToString();
-    }
-
-    static T Deserialize<T>(string json)
-        where T : class
-    {
-        var jsonReader = new JsonTextReader(new StringReader(json));
-        var serializer = new JsonSerializer
-        {
-            ContractResolver = new DefaultContractResolver
-            {
-                IgnoreSerializableAttribute = false
-            }
-        };
-
-        return serializer.Deserialize(jsonReader, typeof(T)) as T;
-    }
-
-    [Fact]
     public void PropertyItemConverter()
     {
         var e = new Event1
@@ -6352,44 +6073,6 @@ lines.*/
             () => s.Deserialize<Dictionary<string, int>>(new JsonTextReader(new StringReader(json))),
             "Additional text encountered after finished reading JSON content: {. Path '', line 7, position 0.");
     }
-
-#if !NET5_0_OR_GREATER
-    [Fact]
-    public void DeserializeException()
-    {
-        var json = @"{ ""ClassName"" : ""System.InvalidOperationException"",
-  ""Data"" : null,
-  ""ExceptionMethod"" : ""8\nLogin\nAppBiz, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null\nMyApp.LoginBiz\nMyApp.User Login()"",
-  ""HResult"" : -2146233079,
-  ""HelpURL"" : null,
-  ""InnerException"" : { ""ClassName"" : ""System.Exception"",
-      ""Data"" : null,
-      ""ExceptionMethod"" : null,
-      ""HResult"" : -2146233088,
-      ""HelpURL"" : null,
-      ""InnerException"" : null,
-      ""Message"" : ""Inner exception..."",
-      ""RemoteStackIndex"" : 0,
-      ""RemoteStackTraceString"" : null,
-      ""Source"" : null,
-      ""StackTraceString"" : null,
-      ""WatsonBuckets"" : null
-    },
-  ""Message"" : ""Outter exception..."",
-  ""RemoteStackIndex"" : 0,
-  ""RemoteStackTraceString"" : null,
-  ""Source"" : ""AppBiz"",
-  ""StackTraceString"" : "" at MyApp.LoginBiz.Login() in C:\\MyApp\\LoginBiz.cs:line 44\r\n at MyApp.LoginSvc.Login() in C:\\MyApp\\LoginSvc.cs:line 71\r\n at SyncInvokeLogin(Object , Object[] , Object[] )\r\n at System.ServiceModel.Dispatcher.SyncMethodInvoker.Invoke(Object instance, Object[] inputs, Object[]& outputs)\r\n at System.ServiceModel.Dispatcher.DispatchOperationRuntime.InvokeBegin(MessageRpc& rpc)\r\n at System.ServiceModel.Dispatcher.ImmutableDispatchRuntime.ProcessMessage5(MessageRpc& rpc)\r\n at System.ServiceModel.Dispatcher.ImmutableDispatchRuntime.ProcessMessage41(MessageRpc& rpc)\r\n at System.ServiceModel.Dispatcher.ImmutableDispatchRuntime.ProcessMessage4(MessageRpc& rpc)\r\n at System.ServiceModel.Dispatcher.ImmutableDispatchRuntime.ProcessMessage31(MessageRpc& rpc)\r\n at System.ServiceModel.Dispatcher.ImmutableDispatchRuntime.ProcessMessage3(MessageRpc& rpc)\r\n at System.ServiceModel.Dispatcher.ImmutableDispatchRuntime.ProcessMessage2(MessageRpc& rpc)\r\n at System.ServiceModel.Dispatcher.ImmutableDispatchRuntime.ProcessMessage11(MessageRpc& rpc)\r\n at System.ServiceModel.Dispatcher.ImmutableDispatchRuntime.ProcessMessage1(MessageRpc& rpc)\r\n at System.ServiceModel.Dispatcher.MessageRpc.Process(Boolean isOperationContextSet)"",
-  ""WatsonBuckets"" : null
-}";
-
-        var exception = JsonConvert.DeserializeObject<InvalidOperationException>(json);
-        Assert.NotNull(exception);
-        Assert.IsType(typeof(InvalidOperationException), exception);
-
-        Assert.Equal("Outter exception...", exception.Message);
-    }
-#endif
 
     [Fact]
     public void AdditionalContentAfterFinish()
@@ -6585,26 +6268,6 @@ This is just junk, though.";
         var doStuff = () => { obj = JsonConvert.DeserializeObject<MyTuple<int>>(json); };
 
         doStuff();
-        Assert.Equal(500, obj.Item1);
-    }
-
-    [Fact]
-    public void SerializeTupleWithSerializableAttribute()
-    {
-        var tuple = Tuple.Create(500);
-
-        var contractResolver = new SerializableContractResolver();
-
-        var json = JsonConvert.SerializeObject(tuple, new JsonSerializerSettings
-        {
-            ContractResolver = contractResolver
-        });
-        Assert.Equal(@"{""m_Item1"":500}", json);
-
-        var obj = JsonConvert.DeserializeObject<Tuple<int>>(json, new JsonSerializerSettings
-        {
-            ContractResolver = contractResolver
-        });
         Assert.Equal(500, obj.Item1);
     }
 
@@ -6811,28 +6474,6 @@ This is just junk, though.";
     }
 
     [Fact]
-    public void SerializeStructWithSerializableAndDataContract()
-    {
-        var p = new Pair<string, int>("One", 2);
-
-        var json = JsonConvert.SerializeObject(p);
-
-        Assert.Equal(@"{""First"":""One"",""Second"":2}", json);
-
-        var r = new DefaultContractResolver
-        {
-            IgnoreSerializableAttribute = false
-        };
-
-        json = JsonConvert.SerializeObject(p, new JsonSerializerSettings
-        {
-            ContractResolver = r
-        });
-
-        Assert.Equal(@"{""First"":""One"",""Second"":2}", json);
-    }
-
-    [Fact]
     public void ReadStringFloatingPointSymbols()
     {
         var json = @"[
@@ -6919,28 +6560,6 @@ This is just junk, though.";
         var d = serialiser.Deserialize<decimal?>(reader);
 
         Assert.Equal(1234567890.123456m, d);
-    }
-
-    [Fact]
-    public void DontSerializeStaticFields()
-    {
-        var json =
-            JsonConvert.SerializeObject(new AnswerFilterModel(), Formatting.Indented, new JsonSerializerSettings
-            {
-                ContractResolver = new DefaultContractResolver
-                {
-                    IgnoreSerializableAttribute = false
-                }
-            });
-
-        XUnitAssert.AreEqualNormalized(@"{
-  ""<Active>k__BackingField"": false,
-  ""<Ja>k__BackingField"": false,
-  ""<Handlungsbedarf>k__BackingField"": false,
-  ""<Beratungsbedarf>k__BackingField"": false,
-  ""<Unzutreffend>k__BackingField"": false,
-  ""<Unbeantwortet>k__BackingField"": false
-}", json);
     }
 
     [Fact]

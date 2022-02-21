@@ -183,9 +183,6 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             case JsonContractType.Dynamic:
                 SerializeDynamic(writer, (IDynamicMetaObjectProvider)value, (JsonDynamicContract)valueContract, member, containerContract, containerProperty);
                 break;
-            case JsonContractType.Serializable:
-                SerializeISerializable(writer, (ISerializable)value, (JsonISerializableContract)valueContract, member, containerContract, containerProperty);
-                break;
             case JsonContractType.Linq:
                 ((JToken)value).WriteTo(writer, Serializer.Converters.ToArray());
                 break;
@@ -564,7 +561,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         {
             return objectContract.CreatorParameters.Contains(property.PropertyName!);
         }
-        
+
         return false;
     }
 
@@ -809,38 +806,6 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         return writeMetadataObject;
     }
 
-    void SerializeISerializable(JsonWriter writer, ISerializable value, JsonISerializableContract contract, JsonProperty? member, JsonContainerContract? collectionContract, JsonProperty? containerProperty)
-    {
-        OnSerializing(writer, contract, value);
-        _serializeStack.Add(value);
-
-        WriteObjectStart(writer, value, contract, member, collectionContract, containerProperty);
-
-        var serializationInfo = new SerializationInfo(contract.UnderlyingType, new FormatterConverter());
-        value.GetObjectData(serializationInfo, Serializer._context);
-
-        foreach (var serializationEntry in serializationInfo)
-        {
-            var valueContract = GetContractSafe(serializationEntry.Value);
-
-            if (ShouldWriteReference(serializationEntry.Value, null, valueContract, contract, member))
-            {
-                writer.WritePropertyName(serializationEntry.Name);
-                WriteReference(writer, serializationEntry.Value);
-            }
-            else if (CheckForCircularReference(writer, serializationEntry.Value, null, valueContract, contract, member))
-            {
-                writer.WritePropertyName(serializationEntry.Name);
-                SerializeValue(writer, serializationEntry.Value, valueContract, null, contract, member);
-            }
-        }
-
-        writer.WriteEndObject();
-
-        _serializeStack.RemoveAt(_serializeStack.Count - 1);
-        OnSerialized(writer, contract, value);
-    }
-
     void SerializeDynamic(JsonWriter writer, IDynamicMetaObjectProvider value, JsonDynamicContract contract, JsonProperty? member, JsonContainerContract? collectionContract, JsonProperty? containerProperty)
     {
         OnSerializing(writer, contract, value);
@@ -931,7 +896,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             return false;
         }
 
-        return !HasFlag(Serializer._defaultValueHandling, DefaultValueHandling.Ignore) || 
+        return !HasFlag(Serializer._defaultValueHandling, DefaultValueHandling.Ignore) ||
                (memberValue != null && !MiscellaneousUtils.ValueEquals(memberValue, ReflectionUtils.GetDefaultValue(memberValue.GetType())));
     }
 

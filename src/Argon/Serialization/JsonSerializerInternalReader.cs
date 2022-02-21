@@ -331,7 +331,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         {
             case JsonContractType.Object:
             case JsonContractType.Dictionary:
-            case JsonContractType.Serializable:
             case JsonContractType.Dynamic:
                 return @"JSON object (e.g. {""name"":""value""})";
             case JsonContractType.Array:
@@ -550,9 +549,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             case JsonContractType.Dynamic:
                 var dynamicContract = (JsonDynamicContract)contract;
                 return CreateDynamic(reader, dynamicContract, member, id);
-            case JsonContractType.Serializable:
-                var serializableContract = (JsonISerializableContract)contract;
-                return CreateISerializable(reader, serializableContract, member, id);
         }
 
         var message = $@"Cannot deserialize the current JSON object (e.g. {{{{""name"":""value""}}}}) into type '{{0}}' because the type requires a {{1}} to deserialize correctly.{Environment.NewLine}To fix this error either change the JSON to a {{1}} or change the deserialized type so that it is a normal .NET type (e.g. not a primitive type like integer, not a collection type like an array or List<T>) that can be deserialized from a JSON object. JsonObjectAttribute can also be added to the type to force it to deserialize from a JSON object.{Environment.NewLine}";
@@ -1218,7 +1214,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         {
             throw JsonSerializationException.Create(reader, $"Unable to find a constructor to use for type {contract.UnderlyingType}.");
         }
-        
+
         throw JsonSerializationException.Create(reader, $"Could not create an instance of type {contract.UnderlyingType}. Type is an interface or abstract class and cannot be instantiated.");
     }
 
@@ -1265,7 +1261,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         {
             throw JsonSerializationException.Create(reader, $"Unable to find a default constructor to use for type {contract.UnderlyingType}.");
         }
-        
+
         throw JsonSerializationException.Create(reader, $"Could not create an instance of type {contract.UnderlyingType}. Type is an interface or abstract class and cannot be instantiated.");
     }
 
@@ -1650,90 +1646,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         OnDeserialized(reader, contract, underlyingList);
         return underlyingList;
 #pragma warning restore CS8600, CS8602, CS8603, CS8604
-    }
-
-    object CreateISerializable(JsonReader reader, JsonISerializableContract contract, JsonProperty? member, string? id)
-    {
-        var type = contract.UnderlyingType;
-
-        if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
-        {
-            TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Deserializing {contract.UnderlyingType} using ISerializable constructor."), null);
-        }
-
-        var serializationInfo = new SerializationInfo(contract.UnderlyingType, new JsonFormatterConverter(this, contract, member));
-
-        var finished = false;
-        do
-        {
-            switch (reader.TokenType)
-            {
-                case JsonToken.PropertyName:
-                    var memberName = reader.Value!.ToString();
-                    if (!reader.Read())
-                    {
-                        throw JsonSerializationException.Create(reader, $"Unexpected end when setting {memberName}'s value.");
-                    }
-                    serializationInfo.AddValue(memberName, JToken.ReadFrom(reader));
-                    break;
-                case JsonToken.Comment:
-                    break;
-                case JsonToken.EndObject:
-                    finished = true;
-                    break;
-                default:
-                    throw JsonSerializationException.Create(reader, $"Unexpected token when deserializing object: {reader.TokenType}");
-            }
-        } while (!finished && reader.Read());
-
-        if (!finished)
-        {
-            ThrowUnexpectedEndException(reader, contract, serializationInfo, "Unexpected end when deserializing object.");
-        }
-
-        if (!contract.IsInstantiable)
-        {
-            throw JsonSerializationException.Create(reader, $"Could not create an instance of type {contract.UnderlyingType}. Type is an interface or abstract class and cannot be instantiated.");
-        }
-
-        if (contract.ISerializableCreator == null)
-        {
-            throw JsonSerializationException.Create(reader, $"ISerializable type '{type}' does not have a valid constructor. To correctly implement ISerializable a constructor that takes SerializationInfo and StreamingContext parameters should be present.");
-        }
-
-        var createdObject = contract.ISerializableCreator(serializationInfo, Serializer._context);
-
-        if (id != null)
-        {
-            AddReference(reader, id, createdObject);
-        }
-
-        // these are together because OnDeserializing takes an object but for an ISerializable the object is fully created in the constructor
-        OnDeserializing(reader, contract, createdObject);
-        OnDeserialized(reader, contract, createdObject);
-
-        return createdObject;
-    }
-
-    internal object? CreateISerializableItem(JToken token, Type type, JsonISerializableContract contract, JsonProperty? member)
-    {
-        var itemContract = GetContractSafe(type);
-        var itemConverter = GetConverter(itemContract, null, contract, member);
-
-        var tokenReader = token.CreateReader();
-        tokenReader.ReadAndAssert(); // Move to first token
-
-        object? result;
-        if (itemConverter is {CanRead: true})
-        {
-            result = DeserializeConvertable(itemConverter, tokenReader, type, null);
-        }
-        else
-        {
-            result = CreateValueInternal(tokenReader, type, itemContract, null, contract, member, null);
-        }
-
-        return result;
     }
 
     object CreateDynamic(JsonReader reader, JsonDynamicContract contract, JsonProperty? member, string? id)

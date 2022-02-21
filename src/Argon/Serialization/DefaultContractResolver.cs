@@ -65,22 +65,6 @@ public class DefaultContractResolver : IContractResolver
     public bool SerializeCompilerGeneratedMembers { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether to ignore the <see cref="ISerializable"/> interface when serializing and deserializing types.
-    /// </summary>
-    /// <value>
-    /// 	<c>true</c> if the <see cref="ISerializable"/> interface will be ignored when serializing and deserializing types; otherwise, <c>false</c>.
-    /// </value>
-    public bool IgnoreSerializableInterface { get; set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether to ignore the <see cref="SerializableAttribute"/> attribute when serializing and deserializing types.
-    /// </summary>
-    /// <value>
-    /// 	<c>true</c> if the <see cref="SerializableAttribute"/> attribute will be ignored when serializing and deserializing types; otherwise, <c>false</c>.
-    /// </value>
-    public bool IgnoreSerializableAttribute { get; set; }
-
-    /// <summary>
     /// Gets or sets a value indicating whether to ignore IsSpecified members when serializing and deserializing types.
     /// </summary>
     /// <value>
@@ -107,7 +91,6 @@ public class DefaultContractResolver : IContractResolver
     /// </summary>
     public DefaultContractResolver()
     {
-        IgnoreSerializableAttribute = true;
         _contractCache = new ThreadSafeStore<Type, JsonContract>(CreateContract);
     }
 
@@ -148,9 +131,7 @@ public class DefaultContractResolver : IContractResolver
     /// <returns>The serializable members for the type.</returns>
     protected virtual List<MemberInfo> GetSerializableMembers(Type type)
     {
-        var ignoreSerializableAttribute = IgnoreSerializableAttribute;
-
-        var memberSerialization = JsonTypeReflector.GetObjectMemberSerialization(type, ignoreSerializableAttribute);
+        var memberSerialization = JsonTypeReflector.GetObjectMemberSerialization(type);
 
         // Exclude index properties
         // Do not filter ByRef types here because accessing FieldType/PropertyType can trigger additional assembly loads
@@ -233,9 +214,7 @@ public class DefaultContractResolver : IContractResolver
         var contract = new JsonObjectContract(type);
         InitializeContract(contract);
 
-        var ignoreSerializableAttribute = IgnoreSerializableAttribute;
-
-        contract.MemberSerialization = JsonTypeReflector.GetObjectMemberSerialization(contract.NonNullableUnderlyingType, ignoreSerializableAttribute);
+        contract.MemberSerialization = JsonTypeReflector.GetObjectMemberSerialization(contract.NonNullableUnderlyingType);
         contract.Properties.AddRange(CreateProperties(contract.NonNullableUnderlyingType, contract.MemberSerialization));
 
         Func<string, string>? extensionDataNameResolver = null;
@@ -967,30 +946,6 @@ public class DefaultContractResolver : IContractResolver
     }
 
     /// <summary>
-    /// Creates a <see cref="JsonISerializableContract"/> for the given type.
-    /// </summary>
-    /// <param name="type">Type of the object.</param>
-    /// <returns>A <see cref="JsonISerializableContract"/> for the given type.</returns>
-    protected virtual JsonISerializableContract CreateISerializableContract(Type type)
-    {
-        var contract = new JsonISerializableContract(type);
-        InitializeContract(contract);
-
-        if (contract.IsInstantiable)
-        {
-            var constructorInfo = contract.NonNullableUnderlyingType.GetConstructor(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, null, new[] {typeof(SerializationInfo), typeof(StreamingContext)}, null);
-            if (constructorInfo != null)
-            {
-                var creator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(constructorInfo);
-
-                contract.ISerializableCreator = creator;
-            }
-        }
-
-        return contract;
-    }
-
-    /// <summary>
     /// Creates a <see cref="JsonDynamicContract"/> for the given type.
     /// </summary>
     /// <param name="type">Type of the object.</param>
@@ -1079,11 +1034,6 @@ public class DefaultContractResolver : IContractResolver
         if (CanConvertToString(t))
         {
             return CreateStringContract(type);
-        }
-
-        if (!IgnoreSerializableInterface && typeof(ISerializable).IsAssignableFrom(t) && JsonTypeReflector.IsSerializable(t))
-        {
-            return CreateISerializableContract(type);
         }
 
         if (typeof(IDynamicMetaObjectProvider).IsAssignableFrom(t))
@@ -1399,9 +1349,7 @@ public class DefaultContractResolver : IContractResolver
         var hasJsonIgnoreAttribute =
                 JsonTypeReflector.GetAttribute<JsonIgnoreAttribute>(attributeProvider) != null
                 // automatically ignore extension data dictionary property if it is public
-                || JsonTypeReflector.GetAttribute<JsonExtensionDataAttribute>(attributeProvider) != null
-                || JsonTypeReflector.IsNonSerializable(attributeProvider)
-            ;
+                || JsonTypeReflector.GetAttribute<JsonExtensionDataAttribute>(attributeProvider) != null;
 
         if (memberSerialization != MemberSerialization.OptIn)
         {

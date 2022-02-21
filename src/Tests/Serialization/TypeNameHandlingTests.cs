@@ -1417,52 +1417,6 @@ public class TypeNameHandlingTests : TestFixtureBase
     }
 
     [Fact]
-    public void ISerializableTypeNameHandlingTest()
-    {
-        //Create an instance of our example type
-        IExample e = new Example("Rob");
-
-        var w = new SerializableWrapper
-        {
-            Content = e
-        };
-
-        //Test Binary Serialization Round Trip
-        //This will work find because the Binary Formatter serializes type names
-        //this.TestBinarySerializationRoundTrip(e);
-
-        //Test Json Serialization
-        //This fails because the JsonSerializer doesn't serialize type names correctly for ISerializable objects
-        //Type Names should be serialized for All, Auto and Object modes
-        TestJsonSerializationRoundTrip(w, TypeNameHandling.All);
-        TestJsonSerializationRoundTrip(w, TypeNameHandling.Auto);
-        TestJsonSerializationRoundTrip(w, TypeNameHandling.Objects);
-    }
-
-    static void TestJsonSerializationRoundTrip(SerializableWrapper e, TypeNameHandling flag)
-    {
-        var writer = new StringWriter();
-
-        //Create our serializer and set Type Name Handling appropriately
-        var serializer = new JsonSerializer
-        {
-            TypeNameHandling = flag
-        };
-
-        //Do the actual serialization and dump to Console for inspection
-        serializer.Serialize(new JsonTextWriter(writer), e);
-
-        //Now try to deserialize
-        //Json.Net will cause an error here as it will try and instantiate
-        //the interface directly because it failed to respect the
-        //TypeNameHandling property on serialization
-        var f = serializer.Deserialize<SerializableWrapper>(new JsonTextReader(new StringReader(writer.ToString())));
-
-        //Check Round Trip
-        Assert.Equal(e, f);
-    }
-
-    [Fact]
     public void SerializationBinderWithFullName()
     {
         var message = new Message
@@ -1476,10 +1430,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.All,
             TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full,
             SerializationBinder = new MetroBinder(),
-            ContractResolver = new DefaultContractResolver
-            {
-                IgnoreSerializableAttribute = true
-            }
+            ContractResolver = new DefaultContractResolver()
         });
 
         var o = JObject.Parse(json);
@@ -2007,119 +1958,6 @@ public class TypeNameHandlingTests : TestFixtureBase
     }
 
     [Fact]
-    public void TypeNameHandlingWithISerializableValues()
-    {
-        var p = new MyParent
-        {
-            Child = new MyChild
-            {
-                MyProperty = "string!"
-            }
-        };
-
-        var settings = new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Auto,
-            DateFormatHandling = DateFormatHandling.IsoDateFormat,
-            MissingMemberHandling = MissingMemberHandling.Ignore,
-            DefaultValueHandling = DefaultValueHandling.Ignore,
-            NullValueHandling = NullValueHandling.Ignore,
-            Formatting = Formatting.Indented
-        };
-
-        var json = JsonConvert.SerializeObject(p, settings);
-
-        XUnitAssert.AreEqualNormalized(@"{
-  ""c"": {
-    ""$type"": ""TypeNameHandlingTests+MyChild, Tests"",
-    ""p"": ""string!""
-  }
-}", json);
-
-        var p2 = JsonConvert.DeserializeObject<MyParent>(json, settings);
-        Assert.IsType(typeof(MyChild), p2.Child);
-        Assert.Equal("string!", ((MyChild) p2.Child).MyProperty);
-    }
-
-    [Fact]
-    public void TypeNameHandlingWithISerializableValuesAndArray()
-    {
-        var p = new MyParent
-        {
-            Child = new MyChildList
-            {
-                "string!"
-            }
-        };
-
-        var settings = new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Auto,
-            DateFormatHandling = DateFormatHandling.IsoDateFormat,
-            MissingMemberHandling = MissingMemberHandling.Ignore,
-            DefaultValueHandling = DefaultValueHandling.Ignore,
-            NullValueHandling = NullValueHandling.Ignore,
-            Formatting = Formatting.Indented
-        };
-
-        var json = JsonConvert.SerializeObject(p, settings);
-
-        XUnitAssert.AreEqualNormalized(@"{
-  ""c"": {
-    ""$type"": ""TypeNameHandlingTests+MyChildList, Tests"",
-    ""$values"": [
-      ""string!""
-    ]
-  }
-}", json);
-
-        var p2 = JsonConvert.DeserializeObject<MyParent>(json, settings);
-        Assert.IsType(typeof(MyChildList), p2.Child);
-        Assert.Equal(1, ((MyChildList) p2.Child).Count);
-        Assert.Equal("string!", ((MyChildList) p2.Child)[0]);
-    }
-
-    [Fact]
-    public void ParentTypeNameHandlingWithISerializableValues()
-    {
-        var pp = new ParentParent
-        {
-            ParentProp = new MyParent
-            {
-                Child = new MyChild
-                {
-                    MyProperty = "string!"
-                }
-            }
-        };
-
-        var settings = new JsonSerializerSettings
-        {
-            DateFormatHandling = DateFormatHandling.IsoDateFormat,
-            MissingMemberHandling = MissingMemberHandling.Ignore,
-            DefaultValueHandling = DefaultValueHandling.Ignore,
-            NullValueHandling = NullValueHandling.Ignore,
-            Formatting = Formatting.Indented
-        };
-
-        var json = JsonConvert.SerializeObject(pp, settings);
-
-        XUnitAssert.AreEqualNormalized(@"{
-  ""ParentProp"": {
-    ""c"": {
-      ""$type"": ""TypeNameHandlingTests+MyChild, Tests"",
-      ""p"": ""string!""
-    }
-  }
-}", json);
-
-        var pp2 = JsonConvert.DeserializeObject<ParentParent>(json, settings);
-        var p2 = pp2.ParentProp;
-        Assert.IsType(typeof(MyChild), p2.Child);
-        Assert.Equal("string!", ((MyChild) p2.Child).MyProperty);
-    }
-
-    [Fact]
     public void ListOfStackWithFullAssemblyName()
     {
         var input = new List<Stack<string>>
@@ -2352,32 +2190,6 @@ public class TypeNameHandlingTests : TestFixtureBase
         public string SomeProperty { get; set; }
     }
 
-    public class ParentParent
-    {
-        [JsonProperty(ItemTypeNameHandling = TypeNameHandling.Auto)]
-        public MyParent ParentProp { get; set; }
-    }
-
-    [Serializable]
-    public class MyParent : ISerializable
-    {
-        public ISomeBase Child { get; internal set; }
-
-        public MyParent(SerializationInfo info, StreamingContext context)
-        {
-            Child = (ISomeBase) info.GetValue("c", typeof(ISomeBase));
-        }
-
-        public MyParent()
-        {
-        }
-
-        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("c", Child);
-        }
-    }
-
     public class MyChild : ISomeBase
     {
         [JsonProperty("p")] public String MyProperty { get; internal set; }
@@ -2441,64 +2253,6 @@ public class TypeNameHandlingTests : TestFixtureBase
             }
 
             return Content.GetHashCode();
-        }
-    }
-
-    public interface IExample
-        : ISerializable
-    {
-        String Name { get; }
-    }
-
-    [Serializable]
-    public class Example
-        : IExample
-    {
-        public Example(String name)
-        {
-            Name = name;
-        }
-
-        protected Example(SerializationInfo info, StreamingContext context)
-        {
-            Name = info.GetString("name");
-        }
-
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("name", Name);
-        }
-
-        public String Name { get; set; }
-
-        public override bool Equals(object obj)
-        {
-            if (obj == null)
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(this, obj))
-            {
-                return true;
-            }
-
-            if (obj is IExample example)
-            {
-                return Name.Equals(example.Name);
-            }
-
-            return false;
-        }
-
-        public override int GetHashCode()
-        {
-            if (Name == null)
-            {
-                return 0;
-            }
-
-            return Name.GetHashCode();
         }
     }
 
